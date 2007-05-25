@@ -13,7 +13,7 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 --%>
-<%@ include file="/jsp/core/tldHeader.jsp"%>
+<%@ include file="/jsp/kfs/kfsTldHeader.jsp"%>
 
 <kul:documentPage showDocumentInfo="true"
 	documentTypeName="KualiBudgetDocument"
@@ -27,7 +27,7 @@
 	<kra-b:budgetTemplate />
 
 	<div id="globalbuttons" class="globalbuttons"><html:image
-		src="images/buttonsmall_template.gif" styleClass="globalbuttons"
+		src="${ConfigProperties.kr.externalizable.images.url}buttonsmall_template.gif" styleClass="globalbuttons"
 		property="methodToCall.doTemplate" alt="Copy current document" /></div>
 
 </kul:documentPage>

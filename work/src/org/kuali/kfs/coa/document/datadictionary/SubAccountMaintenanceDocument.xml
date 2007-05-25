@@ -36,8 +36,8 @@
         <documentTypeName>KualiSubAccountMaintenanceDocument</documentTypeName>
         <documentTypeCode>SACC</documentTypeCode>
 
-		<webScriptFile>dwr/interface/AccountService.js</webScriptFile>
-		<webScriptFile>scripts/chart/subAccountDocument.js</webScriptFile>
+		<webScriptFile>../dwr/interface/AccountService.js</webScriptFile>
+		<webScriptFile>../scripts/chart/subAccountDocument.js</webScriptFile>
 
         <label>Sub-Account Maintenance Document</label>
         <shortLabel>SubAccountMainDoc</shortLabel>

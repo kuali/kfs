@@ -155,7 +155,7 @@ public class KualiBalanceInquiryReportMenuAction extends KualiAction {
         // determine what the action path is
         String actionPath = StringUtils.substringBetween(fullParameter, KFSConstants.METHOD_TO_CALL_PARM4_LEFT_DEL, KFSConstants.METHOD_TO_CALL_PARM4_RIGHT_DEL);
         if (StringUtils.isBlank(actionPath)) {
-            throw new IllegalStateException("The \"actionPath\" attribute is an expected parameter for the <kul:balanceInquiryLookup> tag - it " + "should never be blank.");
+            throw new IllegalStateException("The \"actionPath\" attribute is an expected parameter for the <gl:balanceInquiryLookup> tag - it " + "should never be blank.");
         }
 
         // now add required parameters

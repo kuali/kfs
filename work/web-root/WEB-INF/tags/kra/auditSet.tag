@@ -13,8 +13,7 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 --%>
-<%@ taglib prefix="c" uri="/tlds/c.tld" %>
-<%@ taglib tagdir="/WEB-INF/tags/kra" prefix="kra" %>
+<%@ include file="/jsp/kfs/kfsTldHeader.jsp"%>
 
 <%@ attribute name="title" required="true" %>
 <%@ attribute name="soft" required="true" %>

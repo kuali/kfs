@@ -13,13 +13,7 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 --%>
-<%@ taglib prefix="c" uri="/tlds/c.tld"%>
-<%@ taglib uri="/tlds/struts-html.tld" prefix="html"%>
-<%@ taglib uri="/tlds/struts-logic.tld" prefix="logic"%>
-<%@ taglib tagdir="/WEB-INF/tags" prefix="kul"%>
-<%@ taglib tagdir="/WEB-INF/tags/dd" prefix="dd"%>
-<%@ taglib tagdir="/WEB-INF/tags/kra" prefix="kra"%>
-<%@ taglib uri="/tlds/fmt.tld" prefix="fmt"%>
+<%@ include file="/jsp/kfs/kfsTldHeader.jsp"%>
 
 <c:set var="KraConstants" value="${KraConstants}" />
 <c:set var="showCostShareIndirect" value="${KualiForm.document.budget.institutionCostShareIndicator && KualiForm.document.budget.indirectCost.budgetIndirectCostCostShareIndicator}"/>

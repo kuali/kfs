@@ -14,7 +14,7 @@
  limitations under the License.
 --%>
 
-<%@ include file="/jsp/core/tldHeader.jsp"%>
+<%@ include file="/jsp/kfs/kfsTldHeader.jsp"%>
 
 <kul:documentPage showDocumentInfo="true"
     documentTypeName="KualiSalaryExpenseTransferDocument"
@@ -38,7 +38,7 @@
                     forceRequired="true"
                     />
                 <td>
-                        <kul:employee userIdFieldName="emplid" 
+                        <ld:employee userIdFieldName="emplid" 
                                   userNameFieldName="user.personName" 
                                   fieldConversions="personPayrollIdentifier:emplid"
                                   lookupParameters="emplid:personPayrollIdentifier,universityFiscalYear:universityFiscalYear"
@@ -51,7 +51,7 @@
                                     attributeName="${field.fieldHelpName}"
                                     altText="${field.fieldHelpSummary}" />      
                             </jsp:attribute>
-                        </kul:employee>
+                        </ld:employee>
  
                 </td>
               </tr>
@@ -102,9 +102,9 @@
             forcedReadOnlyFields="${KualiForm.forcedReadOnlyFields}"
             accountingLineAttributes="${accountingLineAttributesMap}">
             <jsp:attribute name="importRowOverride">
-                <html:image property="methodToCall.copyAllAccountingLines" src="images/tinybutton-copyall.gif" title="Copy all Source Accounting Lines" alt="Copy all Source Lines" styleClass="tinybutton"/>
+                <html:image property="methodToCall.copyAllAccountingLines" src="${ConfigProperties.externalizable.images.url}tinybutton-copyall.gif" title="Copy all Source Accounting Lines" alt="Copy all Source Lines" styleClass="tinybutton"/>
                 Import from Labor Ledger
-                <kul:balanceInquiryLookup
+                <gl:balanceInquiryLookup
                     boClassName="org.kuali.module.labor.bo.LedgerBalance"
                     actionPath="glBalanceInquiryLookup.do"
                     lookupParameters="emplid:emplid,financialBalanceTypeCode:financialBalanceTypeCode,'S':laborObject.financialObjectFringeOrSalaryCode"
@@ -112,7 +112,7 @@
             </jsp:attribute>
             <jsp:attribute name="customActions">
                 <c:set var="copyMethod" value="copyAccountingLine.line${accountingLineIndexVar}" scope="request" />
-                <html:image property="methodToCall.${copyMethod}.anchoraccounting${actionInfixVar}Anchor" src="images/tinybutton-copy2.gif" title="Copy an Accounting Line" alt="Copy an Accounting Line" styleClass="tinybutton"/>
+                <html:image property="methodToCall.${copyMethod}.anchoraccounting${actionInfixVar}Anchor" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-copy2.gif" title="Copy an Accounting Line" alt="Copy an Accounting Line" styleClass="tinybutton"/>
             </jsp:attribute>
         </ld:importedAccountingLineGroup>
 

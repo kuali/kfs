@@ -13,12 +13,7 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 --%>
-<%@ taglib prefix="c" uri="/tlds/c.tld"%>
-<%@ taglib prefix="fn" uri="/tlds/fn.tld"%>
-<%@ taglib prefix="kul" tagdir="/WEB-INF/tags"%>
-<%@ taglib prefix="fin" tagdir="/WEB-INF/tags/fin"%>
-<%@ taglib prefix="purap" tagdir="/WEB-INF/tags/purap"%>
-<%@ taglib uri="/tlds/struts-html.tld" prefix="html"%>
+<%@ include file="/jsp/kfs/kfsTldHeader.jsp"%>
 
 <%@ attribute name="itemsAttributes" required="true" type="java.util.Map" description="A parameter to specify an data dictionary entry for items to get cams fields."%>
 <%@ attribute name="camsAttributes" required="true" type="java.util.Map" description="A parameter to specify an data dictionary entry for a sub-classed cams data."%>
@@ -47,10 +42,10 @@
         <td colspan="4" class="subhead">
             <span class="subhead-left">CAMS Detail
                 <c:if test="${isOpen == 'true' || isOpen == 'TRUE'}">
-                    <html:image property="methodToCall.toggleTab.tab${currentTabIndex}" src="images/tinybutton-hide.gif" alt="hide" title="toggle" styleClass="tinybutton" styleId="tab-${currentTabIndex}-imageToggle" onclick="javascript: return toggleTab(document, ${currentTabIndex}); " />
+                    <html:image property="methodToCall.toggleTab.tab${currentTabIndex}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-hide.gif" alt="hide" title="toggle" styleClass="tinybutton" styleId="tab-${currentTabIndex}-imageToggle" onclick="javascript: return toggleTab(document, ${currentTabIndex}); " />
                 </c:if>
                 <c:if test="${isOpen != 'true' && isOpen != 'TRUE'}">
-                    <html:image property="methodToCall.toggleTab.tab${currentTabIndex}" src="images/tinybutton-show.gif" alt="show" title="toggle" styleClass="tinybutton" styleId="tab-${currentTabIndex}-imageToggle" onclick="javascript: return toggleTab(document, ${currentTabIndex}); " />
+                    <html:image property="methodToCall.toggleTab.tab${currentTabIndex}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-show.gif" alt="show" title="toggle" styleClass="tinybutton" styleId="tab-${currentTabIndex}-imageToggle" onclick="javascript: return toggleTab(document, ${currentTabIndex}); " />
                 </c:if>
             </span>
         </td>
@@ -71,7 +66,7 @@
         </th>
         <td align=left valign=middle class="datacell">
             <!-- kul:htmlControlAttribute attributeEntry="${camsAttributes.addCapitalAssetNumber}" property="document.addCapitalAssetNumber" readOnly="${not (fullEntryMode or amendmentEntry)}" / -->&nbsp;
-            <html:image property="methodToCall.addAsset" src="images/tinybutton-add1.gif" alt="Insert an Asset" title="Add an Asset" styleClass="tinybutton" />
+            <html:image property="methodToCall.addAsset" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-add1.gif" alt="Insert an Asset" title="Add an Asset" styleClass="tinybutton" />
         </td>
     </tr>
 
@@ -89,7 +84,7 @@
             <!-- TODO add logic to loop through assets on item -->
             <!-- for:each -->
                 <!-- kul:htmlControlAttribute attributeEntry="${camsAttributes.addCapitalAssetNumber}" property="document.addCapitalAssetNumber" readOnly="${not (fullEntryMode or amendmentEntry)}" / -->&nbsp;
-                <html:image property="methodToCall.deleteAsset" src="images/tinybutton-delete1.gif" alt="Remove an Asset" title="Delete an Asset" styleClass="tinybutton" />
+                <html:image property="methodToCall.deleteAsset" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-delete1.gif" alt="Remove an Asset" title="Delete an Asset" styleClass="tinybutton" />
             <!-- /for:each -->
         </td>
     </tr>

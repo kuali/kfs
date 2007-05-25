@@ -13,12 +13,7 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 --%>
-<%@ taglib prefix="c" uri="/tlds/c.tld" %>
-<%@ taglib prefix="fn" uri="/tlds/fn.tld" %>
-<%@ taglib prefix="html" uri="/tlds/struts-html.tld" %>
-<%@ taglib prefix="kul" tagdir="/WEB-INF/tags" %>
-<%@ taglib prefix="bc" tagdir="/WEB-INF/tags/bc" %>
-<%@ taglib prefix="bean" uri="/tlds/struts-bean.tld" %>
+<%@ include file="/jsp/kfs/kfsTldHeader.jsp"%>
 
 <%@ attribute name="dataCellCssClass" required="true"
               description="The name of the CSS class for this data cell." %>

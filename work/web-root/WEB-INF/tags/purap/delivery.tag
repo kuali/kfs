@@ -13,12 +13,7 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 --%>
-<%@ taglib prefix="c" uri="/tlds/c.tld"%>
-<%@ taglib prefix="fn" uri="/tlds/fn.tld"%>
-<%@ taglib uri="/tlds/struts-html.tld" prefix="html"%>
-<%@ taglib uri="/tlds/struts-logic.tld" prefix="logic"%>
-<%@ taglib tagdir="/WEB-INF/tags" prefix="kul"%>
-<%@ taglib tagdir="/WEB-INF/tags/dd" prefix="dd"%>
+<%@ include file="/jsp/kfs/kfsTldHeader.jsp"%>
 
 <%@ attribute name="documentAttributes" required="true" type="java.util.Map"
               description="The DataDictionary entry containing attributes for this row's fields." %>
@@ -89,7 +84,7 @@
                     <kul:htmlControlAttribute attributeEntry="${documentAttributes.deliveryBuildingOther}" 
                     	property="document.deliveryBuildingOther"  readOnly="${not (fullEntryMode or amendmentEntry)}"/>&nbsp;
                     <c:if test="${(fullEntryMode or amendmentEntry)}">
-                    	<html:image property="methodToCall.refreshDeliveryBuilding" src="images/buttonsmall_refresh.gif" alt="refresh" styleClass="tinybutton"/>
+                    	<html:image property="methodToCall.refreshDeliveryBuilding" src="${ConfigProperties.kr.externalizable.images.url}buttonsmall_refresh.gif" alt="refresh" styleClass="tinybutton"/>
                     </c:if>
                 </td>
                 <th align=right valign=middle class="bord-l-b">

@@ -13,12 +13,8 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 --%>
-
+<%@ include file="/jsp/kfs/kfsTldHeader.jsp"%>
 <%@ include file="/jsp/modules/financial/customActionsInterface.jsp"%>
-<%@ taglib prefix="c" uri="/tlds/c.tld" %>
-<%@ taglib prefix="html" uri="/tlds/struts-html.tld" %>
-<%@ taglib prefix="bean" uri="/tlds/struts-bean.tld" %>
-<%@ taglib prefix="fin" tagdir="/WEB-INF/tags/fin" %>
 
 <%@ attribute name="dataCellCssClass" required="true" description="The name of the CSS class for this data cell. This is used to distinguish the look of the add row from the already-added rows." %>
 <%@ attribute name="actionGroup" required="true" description="The name of the group of action buttons to be displayed; valid values are newLine, newGroupLine, and existingLine." %>
@@ -41,7 +37,7 @@
         </c:if>
 
         <td class="${dataCellCssClass}" rowspan="${rowspan}" nowrap><div align="center">
-            <html:image property="methodToCall.${insertMethod}.anchoraccounting${actionInfix}Anchor" src="images/tinybutton-add1.gif" title="Add an Accounting Line" alt="Add an Accounting Line" styleClass="tinybutton"/>
+            <html:image property="methodToCall.${insertMethod}.anchoraccounting${actionInfix}Anchor" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-add1.gif" title="Add an Accounting Line" alt="Add an Accounting Line" styleClass="tinybutton"/>
             <fin:accountingLineDataCellDetail/></div>
         </td>
     </c:when>
@@ -62,13 +58,13 @@
                 <%-- persist accountingLineDecorator --%>
                 <html:hidden name="KualiForm" property="${decorator}.revertible" />
 
-                <html:image property="methodToCall.${deleteMethod}.anchoraccounting${actionInfix}Anchor" src="images/tinybutton-delete1.gif" title="Delete Accounting Line ${accountingLineIndex+1}" alt="Delete Accounting Line ${accountingLineIndex+1}" styleClass="tinybutton"/>
+                <html:image property="methodToCall.${deleteMethod}.anchoraccounting${actionInfix}Anchor" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-delete1.gif" title="Delete Accounting Line ${accountingLineIndex+1}" alt="Delete Accounting Line ${accountingLineIndex+1}" styleClass="tinybutton"/>
                 <c:if test="${revertible}">
                     <br>
-                    <html:image property="methodToCall.${revertMethod}.anchoraccounting${actionInfix}${actionGroup}LineAnchor${0 + accountingLineIndex}" src="images/tinybutton-revert1.gif" title="Revert Accounting Line ${accountingLineIndex+1}" alt="Revert Accounting Line ${accountingLineIndex+1}" styleClass="tinybutton"/>
+                    <html:image property="methodToCall.${revertMethod}.anchoraccounting${actionInfix}${actionGroup}LineAnchor${0 + accountingLineIndex}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-revert1.gif" title="Revert Accounting Line ${accountingLineIndex+1}" alt="Revert Accounting Line ${accountingLineIndex+1}" styleClass="tinybutton"/>
                 </c:if>
                 <br>
-                <html:image property="methodToCall.${balanceInquiryMethod}.anchoraccounting${actionInfix}${actionGroup}LineAnchor${0 + accountingLineIndex}" src="images/tinybutton-balinquiry.gif" title="Balance Inquiry For Line ${accountingLineIndex+1}" alt="Balance Inquiry For Line ${accountingLineIndex+1}" styleClass="tinybutton" />
+                <html:image property="methodToCall.${balanceInquiryMethod}.anchoraccounting${actionInfix}${actionGroup}LineAnchor${0 + accountingLineIndex}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-balinquiry.gif" title="Balance Inquiry For Line ${accountingLineIndex+1}" alt="Balance Inquiry For Line ${accountingLineIndex+1}" styleClass="tinybutton" />
             </div>
         </td>
     </c:when>

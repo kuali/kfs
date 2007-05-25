@@ -13,12 +13,7 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 --%>
-<%@ taglib prefix="c" uri="/tlds/c.tld"%>
-<%@ taglib prefix="fn" uri="/tlds/fn.tld"%>
-<%@ taglib uri="/tlds/struts-html.tld" prefix="html"%>
-<%@ taglib uri="/tlds/struts-logic.tld" prefix="logic"%>
-<%@ taglib tagdir="/WEB-INF/tags" prefix="kul"%>
-<%@ taglib tagdir="/WEB-INF/tags/dd" prefix="dd"%>
+<%@ include file="/jsp/kfs/kfsTldHeader.jsp"%>
 
 <%@ attribute name="documentAttributes" required="true" type="java.util.Map"
               description="The DataDictionary entry containing attributes for this row's fields." %>
@@ -73,9 +68,9 @@
                 </tr>
                 <tr>
                     <th align=left valign=top class="datacell" colspan=8>
-                        <input type="image" name="methodToCall.selectAllForRetransmit" src="images/buttonsmall_selectall.gif" alt="Select all items." hspace=4 align=absmiddle>
+                        <input type="image" name="methodToCall.selectAllForRetransmit" src="${ConfigProperties.kr.externalizable.images.url}buttonsmall_selectall.gif" alt="Select all items." hspace=4 align=absmiddle>
 		  		        &nbsp;&nbsp;
-                        <input type="image" name="methodToCall.deselectAllForRetransmit" src="images/buttonsmall_deselect.gif" alt="Deselect all items." hspace=4 align=absmiddle>
+                        <input type="image" name="methodToCall.deselectAllForRetransmit" src="${ConfigProperties.kr.externalizable.images.url}buttonsmall_deselect.gif" alt="Deselect all items." hspace=4 align=absmiddle>
                     </th>
                 </tr>
                 <tr>
@@ -91,7 +86,7 @@
                 <logic:iterate indexId="ctr" name="KualiForm" property="document.items" id="itemLine">
                     <c:if test="${ (itemLine.itemType.itemTypeAboveTheLineIndicator) }" >
 
-                    			<tr>
+                        <tr>
 			
 				<kul:htmlAttributeHeaderCell scope="row">
                     <html:hidden property="document.item[${ctr}].documentNumber" />
@@ -109,8 +104,8 @@
  				<td class="datacell"><kul:htmlControlAttribute readOnly="true" attributeEntry="${itemAttributes.itemDescription}" property="document.item[${ctr}].itemDescription" /></td>
  				<td class="datacell"><kul:htmlControlAttribute readOnly="true" attributeEntry="${itemAttributes.itemUnitPrice}" property="document.item[${ctr}].itemUnitPrice" /></td>
  				<td class="datacell"><kul:htmlControlAttribute readOnly="true" attributeEntry="${itemAttributes.extendedPrice}" property="document.item[${ctr}].extendedPrice" /></td>
-			</tr>
-			</c:if>
+                        </tr>
+                    </c:if>
                 </logic:iterate>
             </tbody>
         </table>

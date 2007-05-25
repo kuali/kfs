@@ -13,7 +13,7 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 --%>
-<%@ include file="/jsp/core/tldHeader.jsp"%>
+<%@ include file="/jsp/kfs/kfsTldHeader.jsp"%>
 
 <c:set var="rawDepositTypeCode" value="${KualiForm.depositTypeCode}" />
 <c:set var="docTitle"
@@ -152,7 +152,7 @@ function checkAllOrNone() {
 					<tr>
 						<td colspan="9"
 							style="background-color: gray; border-bottom: 1px solid gray; padding: 0px"><img
-							src="images/pixel_clear.gif" alt="" width="1" height="1" /></td>
+							src="${ConfigProperties.kr.externalizable.images.url}pixel_clear.gif" alt="" width="1" height="1" /></td>
 					</tr>
 
 					<tr>
@@ -253,7 +253,7 @@ function checkAllOrNone() {
 				<tr>
 					<td colspan="9"
 						style="background-color: gray; border-bottom: 1px solid gray; padding: 0px"><img
-						src="images/pixel_clear.gif" alt="" width="1" height="1" /></td>
+						src="${ConfigProperties.kr.externalizable.images.url}pixel_clear.gif" alt="" width="1" height="1" /></td>
 				</tr>
 
 			</table>
@@ -263,11 +263,11 @@ function checkAllOrNone() {
 
 			<div id="globalbuttons" class="globalbuttons"><html:image
 				property="methodToCall.createDeposit"
-				src="images/buttonsmall_create.gif" alt="create" title="create"
+				src="${ConfigProperties.kr.externalizable.images.url}buttonsmall_create.gif" alt="create" title="create"
 				styleClass="tinybutton" /> <html:image
-				property="methodToCall.refresh" src="images/buttonsmall_refresh.gif"
+				property="methodToCall.refresh" src="${ConfigProperties.kr.externalizable.images.url}buttonsmall_refresh.gif"
 				alt="refresh" title="refresh" styleClass="tinybutton" /> <html:image
-				property="methodToCall.cancel" src="images/buttonsmall_cancel.gif"
+				property="methodToCall.cancel" src="${ConfigProperties.kr.externalizable.images.url}buttonsmall_cancel.gif"
 				alt="cancel" title="cancel" styleClass="tinybutton" /></div>
 		</kul:tab>
 	</c:if>
@@ -288,9 +288,9 @@ function checkAllOrNone() {
 		</table>
 
 		<div id="globalbuttons" class="globalbuttons"><html:image
-			property="methodToCall.refresh" src="images/buttonsmall_refresh.gif"
+			property="methodToCall.refresh" src="${ConfigProperties.kr.externalizable.images.url}buttonsmall_refresh.gif"
 			alt="refresh" title="refresh" styleClass="tinybutton" /> <html:image
-			property="methodToCall.cancel" src="images/buttonsmall_cancel.gif"
+			property="methodToCall.cancel" src="${ConfigProperties.kr.externalizable.images.url}buttonsmall_cancel.gif"
 			alt="cancel" title="cancel" styleClass="tinybutton" /></div>
 	</c:if>
 </kul:page>

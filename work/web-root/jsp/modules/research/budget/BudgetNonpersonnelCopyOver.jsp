@@ -13,7 +13,7 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 --%>
-<%@ include file="/jsp/core/tldHeader.jsp"%>
+<%@ include file="/jsp/kfs/kfsTldHeader.jsp"%>
 
 <kul:documentPage showDocumentInfo="true"
 	documentTypeName="KualiBudgetDocument"
@@ -30,9 +30,9 @@
 	<kra-b:budgetNonpersonnelCopyOver />
 
 	<div id="globalbuttons" class="globalbuttons" align="center"><c:if test="${!KualiForm.editingMode['viewOnly']}"><html:image
-		src="images/buttonsmall_return.gif" styleClass="globalbuttons"
+		src="${ConfigProperties.kr.externalizable.images.url}buttonsmall_return.gif" styleClass="globalbuttons"
 		property="methodToCall.returnNonpersonnel" alt="return" /></c:if> <html:image
-		src="images/buttonsmall_cancel.gif" styleClass="globalbuttons"
+		src="${ConfigProperties.kr.externalizable.images.url}buttonsmall_cancel.gif" styleClass="globalbuttons"
 		property="methodToCall.cancel" alt="cancel" /></div>
 
 </kul:documentPage>

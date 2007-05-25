@@ -13,10 +13,7 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 --%>
-<%@ taglib prefix="kul" tagdir="/WEB-INF/tags" %>
-<%@ taglib prefix="c" uri="/tlds/c.tld" %>
-<%@ taglib prefix="html" uri="/tlds/struts-html.tld" %>
-<%@ taglib uri="/tlds/fmt.tld" prefix="fmt" %>
+<%@ include file="/jsp/kfs/kfsTldHeader.jsp"%>
 
 <%@ attribute name="property" required="true"
               description="the fully qualified name of the property being displayed by this cell.

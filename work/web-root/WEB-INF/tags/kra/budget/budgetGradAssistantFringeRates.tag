@@ -13,15 +13,7 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 --%>
-<%@ taglib prefix="c" uri="/tlds/c.tld" %>
-<%@ taglib uri="/tlds/struts-html.tld" prefix="html" %>
-<%@ taglib uri="/tlds/struts-logic.tld" prefix="logic" %>
-<%@ taglib uri="/tlds/struts-bean.tld" prefix="bean" %>
-<%@ taglib uri="/tlds/fmt.tld" prefix="fmt" %>
-<%@ taglib tagdir="/WEB-INF/tags" prefix="kul" %>
-<%@ taglib tagdir="/WEB-INF/tags/dd" prefix="dd" %>
-<%@ taglib tagdir="/WEB-INF/tags/kra" prefix="kra" %>
-<%@ taglib tagdir="/WEB-INF/tags/kra/budget" prefix="kra-b" %>
+<%@ include file="/jsp/kfs/kfsTldHeader.jsp"%>
 
 <c:set var="budgetAttributes" value="${DataDictionary.Budget.attributes}" />
 <c:set var="budgetGraduateFringeRateAttributes" value="${DataDictionary.BudgetGraduateAssistantRate.attributes}" />
@@ -91,7 +83,7 @@
   <c:if test="${not viewOnly}">
   <tr align="left">
     <th height="22">&nbsp;</th>
-    <th height="22" colspan="2"><div align="center"><html:image property="methodToCall.copySystemGraduateAssistantLines.anchor${currentTabIndex}" styleClass="tinybutton" src="images/tinybutton-copsysrates.gif" alt="copy system rate"/></div></th>
+    <th height="22" colspan="2"><div align="center"><html:image property="methodToCall.copySystemGraduateAssistantLines.anchor${currentTabIndex}" styleClass="tinybutton" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-copsysrates.gif" alt="copy system rate"/></div></th>
   </tr>
   </c:if>
 </table>

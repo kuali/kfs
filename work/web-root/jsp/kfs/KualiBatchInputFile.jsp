@@ -13,7 +13,7 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 --%>
-<%@ include file="/jsp/core/tldHeader.jsp"%>
+<%@ include file="/jsp/kfs/kfsTldHeader.jsp"%>
 
 <kul:page showDocumentInfo="false"
 	headerTitle="Batch File Upload" docTitle="" renderMultipart="true"
@@ -23,8 +23,8 @@
     <c:set var="batchUploadAttributes" value="${DataDictionary.BatchUpload.attributes}" />
 
 	<strong><h2>	
-	  <bean:message key="${KualiForm.titleKey}"/> <a href="static/help/BatchFileFormats.pdf" tabindex="${KualiForm.nextArbitrarilyHighIndex}" target="helpWindow"  title="[Help]Upload">
-	                                        <img src="images/my_cp_inf.gif" alt="[Help]Upload" hspace=5 border=0  align="middle"></a>
+	  <bean:message key="${KualiForm.titleKey}"/> <a href="${ConfigProperties.externalizable.help.url}BatchFileFormats.pdf" tabindex="${KualiForm.nextArbitrarilyHighIndex}" target="helpWindow"  title="[Help]Upload">
+	                                        <img src="${ConfigProperties.kr.externalizable.images.url}my_cp_inf.gif" alt="[Help]Upload" hspace=5 border=0  align="middle"></a>
 	  </h2></strong>
 	</br>
 	
@@ -53,7 +53,7 @@
               </div>
                 <span class="fineprint"></span> </td>
               <td class="infoline"><div align="center">
-              		<html:image src="images/tinybutton-add1.gif" styleClass="globalbuttons" property="methodToCall.save" title="Upload Batch File" alt="Upload Batch File" />
+              		<html:image src="${ConfigProperties.kr.externalizable.images.url}tinybutton-add1.gif" styleClass="globalbuttons" property="methodToCall.save" title="Upload Batch File" alt="Upload Batch File" />
               </td>
             </tr>
          </table>
@@ -73,8 +73,8 @@
                    <html:optionsCollection property="userFiles" label="label" value="key"/>
                 </html:select>
                </label></td><td class="infoline"><div align="center">
-                <html:image src="images/tinybutton-download.gif" styleClass="globalbuttons" property="methodToCall.download" title="Download Batch File" alt="Download Batch File" onclick="excludeSubmitRestriction=true;"/>
-                <html:image src="images/tinybutton-delete1.gif" styleClass="globalbuttons" property="methodToCall.delete" title="Delete Batch File" alt="Delete Batch File" />
+                <html:image src="${ConfigProperties.kr.externalizable.images.url}tinybutton-download.gif" styleClass="globalbuttons" property="methodToCall.download" title="Download Batch File" alt="Download Batch File" onclick="excludeSubmitRestriction=true;"/>
+                <html:image src="${ConfigProperties.kr.externalizable.images.url}tinybutton-delete1.gif" styleClass="globalbuttons" property="methodToCall.delete" title="Delete Batch File" alt="Delete Batch File" />
               </div></td>
             </tr>
           </table>

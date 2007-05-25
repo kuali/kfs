@@ -36,12 +36,12 @@
         <documentTypeName>KualiResearchAdminPostAwardMaintenanceDocument</documentTypeName>
         <documentTypeCode>AWRD</documentTypeCode>
 		
-        <webScriptFile>dwr/interface/AccountService.js</webScriptFile>
-        <webScriptFile>dwr/interface/AgencyService.js</webScriptFile>
-        <webScriptFile>dwr/interface/OrganizationService.js</webScriptFile>
-        <webScriptFile>dwr/interface/ProjectDirectorService.js</webScriptFile>
-        <webScriptFile>dwr/interface/SubcontractorService.js</webScriptFile>
-		<webScriptFile>scripts/cg/proposalDocument.js</webScriptFile>
+        <webScriptFile>../dwr/interface/AccountService.js</webScriptFile>
+        <webScriptFile>../dwr/interface/AgencyService.js</webScriptFile>
+        <webScriptFile>../dwr/interface/OrganizationService.js</webScriptFile>
+        <webScriptFile>../dwr/interface/ProjectDirectorService.js</webScriptFile>
+        <webScriptFile>../dwr/interface/SubcontractorService.js</webScriptFile>
+		<webScriptFile>../scripts/cg/proposalDocument.js</webScriptFile>
 
         <label>Award Maintenance Document</label>
         <shortLabel>AwardMaintDoc</shortLabel>

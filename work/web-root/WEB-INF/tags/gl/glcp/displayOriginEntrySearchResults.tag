@@ -1,12 +1,4 @@
-<%@ taglib prefix="c" uri="/tlds/c.tld"%>
-<%@ taglib prefix="fn" uri="/tlds/fn.tld"%>
-<%@ taglib uri="/tlds/struts-html.tld" prefix="html"%>
-<%@ taglib uri="/tlds/struts-logic.tld" prefix="logic"%>
-<%@ taglib tagdir="/WEB-INF/tags" prefix="kul"%>
-<%@ taglib uri="/tlds/struts-html-el.tld" prefix="html-el"%>
-<%@ taglib uri="/tlds/displaytag.tld" prefix="display"%>
-<%@ taglib uri="/tlds/struts-bean-el.tld" prefix="bean-el"%>
-<%@ taglib tagdir="/WEB-INF/tags/gl/glcp" prefix="glcp"%>
+<%@ include file="/jsp/kfs/kfsTldHeader.jsp"%>
 
 <%@ attribute name="originEntries" required="true" type="java.util.List" description="The list of OriginEntries that we'll iterate to display." %>
 
@@ -41,7 +33,7 @@
                 <c:forEach items="${KualiForm.tableRenderColumnMetadata}" var="column" varStatus="columnLoopStatus">
                     <th class="sortable">
                         <c:if test="${column.sortable}">
-                            <input name="methodToCall.sort.<c:out value="${columnLoopStatus.index}"/>.anchor${currentTabIndex}.x" type="image" src="images/sort.gif" alt="Sort column ${column.columnTitle}" valign="bottom" title="Sort column ${column.columnTitle}">
+                            <input name="methodToCall.sort.<c:out value="${columnLoopStatus.index}"/>.anchor${currentTabIndex}.x" type="image" src="${ConfigProperties.kr.externalizable.images.url}sort.gif" alt="Sort column ${column.columnTitle}" valign="bottom" title="Sort column ${column.columnTitle}">
                         </c:if>
                         <c:if test="${!column.sortable}">
                             &nbsp;
@@ -60,8 +52,8 @@
                 <tr class="${rowclass}">
                     <c:if test="${KualiForm.editableFlag == true and KualiForm.editMethod == 'M'}">
                         <td>
-                            <html:image property="methodToCall.editManualEntry.entryId${originEntry.entryId}.anchor${currentTabIndex}" src="images/tinybutton-edit1.gif" styleClass="tinybutton" alt="edit" />
-                            <html:image property="methodToCall.deleteManualEntry.entryId${originEntry.entryId}.anchor${currentTabIndex}" src="images/tinybutton-delete1.gif" styleClass="tinybutton" alt="delete" />
+                            <html:image property="methodToCall.editManualEntry.entryId${originEntry.entryId}.anchor${currentTabIndex}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-edit1.gif" styleClass="tinybutton" alt="edit" />
+                            <html:image property="methodToCall.deleteManualEntry.entryId${originEntry.entryId}.anchor${currentTabIndex}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-delete1.gif" styleClass="tinybutton" alt="delete" />
                         </td>
                     </c:if>
                     <td class="infocell"><c:out value="${originEntry.universityFiscalYear}" />&nbsp;</td>

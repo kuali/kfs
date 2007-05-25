@@ -13,8 +13,7 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 --%>
-<%@ taglib uri="/tlds/struts-html.tld" prefix="html" %>
-<%@ taglib tagdir="/WEB-INF/tags" prefix="kul" %>
+<%@ include file="/jsp/kfs/kfsTldHeader.jsp"%>
 
 <div align="right">
 	<kul:help documentTypeName="${DataDictionary.KualiBudgetDocument.documentTypeName}" pageName="${KraConstants.TEMPLATE_HEADER_TAB}" altText="page help"/>
@@ -23,8 +22,8 @@
 <table width="100%" border="0" cellpadding="0" cellspacing="0" class="t3" summary="">
 	<tbody>
 		<tr>
-			<td><img src="images/pixel_clear.gif" alt="" width="12" height="12" class="tl3"></td>
-			<td align="right"><img src="images/pixel_clear.gif" alt="" width="12" height="12" class="tr3"></td>
+			<td><img src="${ConfigProperties.kr.externalizable.images.url}pixel_clear.gif" alt="" width="12" height="12" class="tl3"></td>
+			<td align="right"><img src="${ConfigProperties.kr.externalizable.images.url}pixel_clear.gif" alt="" width="12" height="12" class="tr3"></td>
 		</tr>
 	</tbody>
 </table>
@@ -56,12 +55,12 @@
 	</div>
 	<table width="100%" border="0" cellpadding="0" cellspacing="0" class="b3" summary="">
 		<tr>
-			<td align="left" class="footer"><img src="images/pixel_clear.gif" alt="" width="12" height="14" class="bl3"></td>
-			<td align="right" class="footer-right"><img src="images/pixel_clear.gif" alt="" width="12" height="14" class="br3"></td>
+			<td align="left" class="footer"><img src="${ConfigProperties.kr.externalizable.images.url}pixel_clear.gif" alt="" width="12" height="14" class="bl3"></td>
+			<td align="right" class="footer-right"><img src="${ConfigProperties.kr.externalizable.images.url}pixel_clear.gif" alt="" width="12" height="14" class="br3"></td>
 		</tr>
 	</table>
 </div>
 
 <div id="globalbuttons" class="globalbuttons">
-	<html:image src="images/buttonsmall_template.gif" styleClass="globalbuttons" property="methodToCall.doTemplate" alt="Copy current document" />
+	<html:image src="${ConfigProperties.kr.externalizable.images.url}buttonsmall_template.gif" styleClass="globalbuttons" property="methodToCall.doTemplate" alt="Copy current document" />
 </div>

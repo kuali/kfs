@@ -13,11 +13,7 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 --%>
-<%@ taglib prefix="c" uri="/tlds/c.tld" %>
-<%@ taglib tagdir="/WEB-INF/tags" prefix="kul" %>
-<%@ taglib uri="/tlds/fmt.tld" prefix="fmt" %>
-<%@ taglib uri="/tlds/struts-html.tld" prefix="html"%>
-<%@ taglib tagdir="/WEB-INF/tags/bc" prefix="bc"%>
+<%@ include file="/jsp/kfs/kfsTldHeader.jsp"%>
 
 <c:if test="${!accountingLineScriptsLoaded}">
 	<script type='text/javascript' src="dwr/interface/ChartService.js"></script>
@@ -483,7 +479,7 @@
                 horizontal="true" />
             <td class="infoline" nowrap>
                 <div align="center"><span class=nobord">
-                <html:image property="methodToCall.insertBCAFLine.anchorsalarynewLineLineAnchor" src="images/tinybutton-add1.gif" title="Add a Salary Setting Line" alt="Add a Salary Setting Line" styleClass="tinybutton"/>
+                <html:image property="methodToCall.insertBCAFLine.anchorsalarynewLineLineAnchor" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-add1.gif" title="Add a Salary Setting Line" alt="Add a Salary Setting Line" styleClass="tinybutton"/>
                 </span></div>
             </td>
 
@@ -821,16 +817,16 @@
                 horizontal="true" />
             <td class="datacell" nowrap>
                 <div align="center"><span class=nobord">
-                  <html:image property="methodToCall.performReasonAnnotation.line${status.index}.anchorsalaryexistingLineLineAnchor${status.index}" src="images/tinybutton-reason.gif" title="Reason Annotation for Salary Setting Line ${status.index}" alt="Reason Annotation for Salary Setting Line ${status.index}" styleClass="tinybutton" />
+                  <html:image property="methodToCall.performReasonAnnotation.line${status.index}.anchorsalaryexistingLineLineAnchor${status.index}" src="${ConfigProperties.externalizable.images.url}tinybutton-reason.gif" title="Reason Annotation for Salary Setting Line ${status.index}" alt="Reason Annotation for Salary Setting Line ${status.index}" styleClass="tinybutton" />
                   <br>
                   <c:if test="${item.emplid ne Constants.BudgetConstructionConstants.VACANT_EMPLID}">
                     <c:if test="${!readOnly}">
-                        <html:image property="methodToCall.performVacateSalarySettingLine.line${status.index}.anchorsalaryexistingLineLineAnchor${status.index}" src="images/tinybutton-vacate.gif" title="Vacate Salary Setting Line ${status.index}" alt="Vacate Salary Setting Line ${status.index}" styleClass="tinybutton" />
+                        <html:image property="methodToCall.performVacateSalarySettingLine.line${status.index}.anchorsalaryexistingLineLineAnchor${status.index}" src="${ConfigProperties.externalizable.images.url}tinybutton-vacate.gif" title="Vacate Salary Setting Line ${status.index}" alt="Vacate Salary Setting Line ${status.index}" styleClass="tinybutton" />
                         <br>
                     </c:if>
                   </c:if>
                   <c:if test="${!empty item.bcnCalculatedSalaryFoundationTracker && !readOnly}">
-                    <html:image property="methodToCall.performPercentAdjustmentSalarySettingLine.line${status.index}.anchorsalaryexistingLineLineAnchor${status.index}" src="images/tinybutton-percentincdec.gif" title="Percent Adjustment For Line ${status.index}" alt="Percent Adjustment For Line ${status.index}" styleClass="tinybutton" />
+                    <html:image property="methodToCall.performPercentAdjustmentSalarySettingLine.line${status.index}.anchorsalaryexistingLineLineAnchor${status.index}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-percentincdec.gif" title="Percent Adjustment For Line ${status.index}" alt="Percent Adjustment For Line ${status.index}" styleClass="tinybutton" />
                   </c:if>
                 </span></div>
             </td>

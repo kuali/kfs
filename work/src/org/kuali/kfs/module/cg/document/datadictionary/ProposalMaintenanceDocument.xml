@@ -36,11 +36,11 @@
         <documentTypeName>KualiProposalMaintenanceDocument</documentTypeName>
         <documentTypeCode>PRPL</documentTypeCode>
 
-        <webScriptFile>dwr/interface/AgencyService.js</webScriptFile>
-        <webScriptFile>dwr/interface/OrganizationService.js</webScriptFile>
-        <webScriptFile>dwr/interface/ProjectDirectorService.js</webScriptFile>
-        <webScriptFile>dwr/interface/SubcontractorService.js</webScriptFile>
-        <webScriptFile>scripts/cg/proposalDocument.js</webScriptFile>
+        <webScriptFile>../dwr/interface/AgencyService.js</webScriptFile>
+        <webScriptFile>../dwr/interface/OrganizationService.js</webScriptFile>
+        <webScriptFile>../dwr/interface/ProjectDirectorService.js</webScriptFile>
+        <webScriptFile>../dwr/interface/SubcontractorService.js</webScriptFile>
+        <webScriptFile>../scripts/cg/proposalDocument.js</webScriptFile>
 
         <label>Proposal Maintenance Document</label>
         <shortLabel>PrpslMaintDoc</shortLabel>

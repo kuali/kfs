@@ -13,7 +13,7 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 --%>
-<%@ include file="/jsp/core/tldHeader.jsp"%>
+<%@ include file="/jsp/kfs/kfsTldHeader.jsp"%>
 
 <kul:documentPage showDocumentInfo="true"
 	documentTypeName="KualiRoutingFormDocument"
@@ -38,8 +38,8 @@
 	<kra-rf:routingFormProjectDetailsOtherProjectDetails editingMode="${KualiForm.editingMode}" />
   <table class="b3" summary="" border="0" cellpadding="0" cellspacing="0" width="100%">
           <tbody><tr>
-            <td class="footer" align="left"><img src="images/pixel_clear.gif" alt="" class="bl3" height="14" width="12"></td>
-            <td class="footer-right" align="right"><img src="images/pixel_clear.gif" alt="" class="br3" height="14" width="12"></td>
+            <td class="footer" align="left"><img src="${ConfigProperties.kr.externalizable.images.url}pixel_clear.gif" alt="" class="bl3" height="14" width="12"></td>
+            <td class="footer-right" align="right"><img src="${ConfigProperties.kr.externalizable.images.url}pixel_clear.gif" alt="" class="br3" height="14" width="12"></td>
 
           </tr>
         </tbody></table>

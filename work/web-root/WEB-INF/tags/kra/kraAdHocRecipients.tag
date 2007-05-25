@@ -13,10 +13,7 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 --%>
-<%@ taglib prefix="c" uri="/tlds/c.tld" %>
-<%@ taglib uri="/tlds/struts-html.tld" prefix="html" %>
-<%@ taglib uri="/tlds/struts-logic.tld" prefix="logic" %>
-<%@ taglib tagdir="/WEB-INF/tags" prefix="kul" %>
+<%@ include file="/jsp/kfs/kfsTldHeader.jsp"%>
 
 <%@ attribute name="adhocType" required="true" %>
 <%@ attribute name="adhocLabel" required="true" %>
@@ -120,7 +117,7 @@
 						</td>
 						<c:if test="${not displayReadOnly}">
                     		<td class="infoline" ><div align=center>
-                        		<html:image property="methodToCall.insertAdHocRoutePerson" src="images/tinybutton-add1.gif" alt="Insert Additional Ad Hoc Person" styleClass="tinybutton"/></div>
+                        		<html:image property="methodToCall.insertAdHocRoutePerson" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-add1.gif" alt="Insert Additional Ad Hoc Person" styleClass="tinybutton"/></div>
                     		</td>
                     	</c:if>
                 	</tr>
@@ -162,7 +159,7 @@
 						</td>
 						<c:if test="${not displayReadOnly}">
 		                    <td class="datacell center"><div align=center>
-                            	<html:image property="methodToCall.delete.line${status.index}" src="images/tinybutton-delete1.gif" alt="delete" styleClass="tinybutton"/></div>
+                            	<html:image property="methodToCall.delete.line${status.index}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-delete1.gif" alt="delete" styleClass="tinybutton"/></div>
 	                    	</td>
 	                    </c:if>
 	                  </tr>
@@ -244,7 +241,7 @@
 					</td>
 					<td class="infoline">
 						<div align=center>
-							<html:image property="methodToCall.addOrg" src="images/tinybutton-add1.gif" styleClass="tinybutton" />
+							<html:image property="methodToCall.addOrg" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-add1.gif" styleClass="tinybutton" />
 						</div>
 					</td>
 				</tr>
@@ -281,7 +278,7 @@
 						<c:if test="${not displayReadOnly}">
 						<td>
 							<div align="center">
-								<html:image property="methodToCall.deleteOrg.line${status.index}" src="images/tinybutton-delete1.gif" styleClass="tinybutton" alt="delete" disabled="${displayReadOnly}"/>
+								<html:image property="methodToCall.deleteOrg.line${status.index}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-delete1.gif" styleClass="tinybutton" alt="delete" disabled="${displayReadOnly}"/>
 							</div>
 						</td>
 						</c:if>
@@ -359,7 +356,7 @@
 						</td>
 						<c:if test="${not displayReadOnly}">
                     		<td class="infoline"><div align=center>
-                        		<html:image property="methodToCall.insertAdHocRouteWorkgroup" src="images/tinybutton-add1.gif" alt="Insert Additional Ad Hoc Workgroup" styleClass="tinybutton"/></div>
+                        		<html:image property="methodToCall.insertAdHocRouteWorkgroup" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-add1.gif" alt="Insert Additional Ad Hoc Workgroup" styleClass="tinybutton"/></div>
                     		</td>
                     	</c:if>
                 	</tr>
@@ -395,7 +392,7 @@
 						</td>
 						<c:if test="${not displayReadOnly}">
 		                    <td class="datacell center"><div align=center>
-                            	<html:image property="methodToCall.deleteWorkgroup.line${status.index}" src="images/tinybutton-delete1.gif" alt="delete" styleClass="tinybutton"/></div>
+                            	<html:image property="methodToCall.deleteWorkgroup.line${status.index}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-delete1.gif" alt="delete" styleClass="tinybutton"/></div>
 	                    	</td>
 	                    </c:if>
 	                  </tr>

@@ -13,7 +13,7 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 --%>
-<%@ include file="/jsp/core/tldHeader.jsp"%>
+<%@ include file="/jsp/kfs/kfsTldHeader.jsp"%>
 
 <c:set var="universalUser" value="${DataDictionary.UniversalUser.attributes}" />
 <c:set var="routingFormPersonnel" value="${DataDictionary.RoutingFormPersonnel.attributes}" />
@@ -69,7 +69,7 @@
       <div class="tab-container" align="center">
         <div class="h2-container">
           <h2><span class="subhead-left">${personName}</span></h2>
-          <span class="subhead-right"> <span class="subhead"><a href="asdf.html"><img src="images/my_cp_inf.gif" alt="help" width="15" height="14" border="0" align="absmiddle"></a></span> </span>
+          <span class="subhead-right"> <span class="subhead"><a href="asdf.html"><img src="${ConfigProperties.kr.externalizable.images.url}my_cp_inf.gif" alt="help" width="15" height="14" border="0" align="absmiddle"></a></span> </span>
         </div>
         <table cellpadding=0 cellspacing="0" class="datatable">
           <tr class="datatable">
@@ -148,8 +148,8 @@
     <c:otherwise>
       <table width="100%" border="0" cellpadding="0" cellspacing="0" class="b3" summary="">
         <tr>
-          <td align="left" class="footer"><img src="images/pixel_clear.gif" alt="" width="12" height="14" class="bl3"></td>
-          <td align="right" class="footer-right"><img src="images/pixel_clear.gif" alt="" width="12" height="14" class="br3"></td>
+          <td align="left" class="footer"><img src="${ConfigProperties.kr.externalizable.images.url}pixel_clear.gif" alt="" width="12" height="14" class="bl3"></td>
+          <td align="right" class="footer-right"><img src="${ConfigProperties.kr.externalizable.images.url}pixel_clear.gif" alt="" width="12" height="14" class="br3"></td>
         </tr>
       </table>
     </c:otherwise>

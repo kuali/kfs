@@ -37,8 +37,8 @@
         <documentTypeName>KualiOrganizationMaintenanceDocument</documentTypeName>
         <documentTypeCode>ORGN</documentTypeCode>
 
-		<webScriptFile>dwr/interface/PostalZipCodeService.js</webScriptFile>
-		<webScriptFile>scripts/chart/organizationDocument.js</webScriptFile>
+		<webScriptFile>../dwr/interface/PostalZipCodeService.js</webScriptFile>
+		<webScriptFile>../scripts/chart/organizationDocument.js</webScriptFile>
 		
         <label>Organization Maintenance Document</label>
         <shortLabel>OrgMainDoc</shortLabel>

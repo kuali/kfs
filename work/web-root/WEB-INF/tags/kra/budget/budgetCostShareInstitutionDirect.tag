@@ -13,13 +13,7 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 --%>
-<%@ taglib prefix="c" uri="/tlds/c.tld"%>
-<%@ taglib uri="/tlds/struts-html.tld" prefix="html"%>
-<%@ taglib uri="/tlds/struts-logic.tld" prefix="logic"%>
-<%@ taglib uri="/tlds/fmt.tld" prefix="fmt"%>
-<%@ taglib tagdir="/WEB-INF/tags" prefix="kul"%>
-<%@ taglib tagdir="/WEB-INF/tags/dd" prefix="dd"%>
-<%@ taglib tagdir="/WEB-INF/tags/kra" prefix="kra"%>
+<%@ include file="/jsp/kfs/kfsTldHeader.jsp"%>
 
 <c:set var="institutionCostSharePersonnelAttributes" value="${DataDictionary.InstitutionCostSharePersonnel.attributes}" />
 <c:set var="budgetInstitutionCostShareAttributes" value="${DataDictionary.BudgetInstitutionCostShare.attributes}" />
@@ -120,7 +114,7 @@
 					<c:if test="${!viewOnly}">
 					<td rowspan="${institutionDirectColumns}" class="datacell">
 						<div align="center">
-							<html:image property="methodToCall.recalculate.anchor${currentTabIndex}" src="images/tinybutton-recalculate.gif" styleClass="tinybutton" alt="recalculate" />
+							<html:image property="methodToCall.recalculate.anchor${currentTabIndex}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-recalculate.gif" styleClass="tinybutton" alt="recalculate" />
 						</div>
 					</td>
 					</c:if>
@@ -308,7 +302,7 @@
 					</td>
 					<td rowspan="${institutionDirectColumns}" class="infoline">
 						<div align="center">
-							<html:image property="methodToCall.insertInstitutionCostShareDirect.anchor${currentTabIndex}" src="images/tinybutton-add1.gif" styleClass="tinybutton" alt="add" />
+							<html:image property="methodToCall.insertInstitutionCostShareDirect.anchor${currentTabIndex}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-add1.gif" styleClass="tinybutton" alt="add" />
 						</div>
 					</td>
 				</tr>
@@ -379,7 +373,7 @@
 						<c:if test="${!viewOnly}">
 						<td rowspan="${institutionDirectColumns}" class="datacell">
 							<div align="center">
-								<html:image property="methodToCall.deleteInstitutionCostShareDirect.line${rowctr}.anchor${currentTabIndex}" src="images/tinybutton-delete1.gif" styleClass="tinybutton" alt="delete" />
+								<html:image property="methodToCall.deleteInstitutionCostShareDirect.line${rowctr}.anchor${currentTabIndex}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-delete1.gif" styleClass="tinybutton" alt="delete" />
 							</div>
 						</td>
 						</c:if>

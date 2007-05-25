@@ -14,7 +14,7 @@
  limitations under the License.
 --%>
 <!-- BEGIN budgetPersonnel.jsp -->
-<%@ include file="/jsp/core/tldHeader.jsp"%>
+<%@ include file="/jsp/kfs/kfsTldHeader.jsp"%>
 
 <c:set var="viewOnly" value="${KualiForm.editingMode['viewOnly']}" />
 
@@ -42,7 +42,7 @@
 	<kra-b:budgetPersonnel />
 
   <c:if test="${! viewOnly}">
-  	<c:set var="extraButtonSource" value="images/buttonsmall_deletesel.gif"/>
+  	<c:set var="extraButtonSource" value="${ConfigProperties.kr.externalizable.images.url}buttonsmall_deletesel.gif"/>
   	<c:set var="extraButtonProperty" value="methodToCall.deletePersonnel"/>
   	<c:set var="extraButtonAlt" value="delete"/>
   </c:if>  

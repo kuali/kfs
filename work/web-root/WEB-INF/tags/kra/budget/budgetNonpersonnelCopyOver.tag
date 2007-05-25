@@ -13,15 +13,7 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 --%>
-<%@ taglib prefix="c" uri="/tlds/c.tld" %>
-<%@ taglib uri="/tlds/struts-html.tld" prefix="html" %>
-<%@ taglib uri="/tlds/struts-logic.tld" prefix="logic" %>
-<%@ taglib uri="/tlds/fmt.tld" prefix="fmt" %>
-
-<%@ taglib tagdir="/WEB-INF/tags" prefix="kul" %>
-<%@ taglib tagdir="/WEB-INF/tags/dd" prefix="dd" %>
-<%@ taglib tagdir="/WEB-INF/tags/kra" prefix="kra" %>
-<%@ taglib tagdir="/WEB-INF/tags/kra/budget" prefix="kra-b" %>
+<%@ include file="/jsp/kfs/kfsTldHeader.jsp"%>
 
 <c:set var="KraConstants" value="${KraConstants}" />
 
@@ -112,8 +104,8 @@
         <div class="annotate">
           <table class="annotate-top" cellpadding="0" cellspacing="0" width="100%">
             <tbody><tr>
-              <td class="annotate-t"><img src="images/annotate-tl1.gif" alt="" class="annotate-t" align="middle" height="24" width="12">Select View:</td>
-              <td class="annotate-t"><div align="right"><img src="images/annotate-tr1.gif" alt="" align="middle" height="24" width="12"></div></td>
+              <td class="annotate-t"><img src="${ConfigProperties.kr.externalizable.images.url}annotate-tl1.gif" alt="" class="annotate-t" align="middle" height="24" width="12">Select View:</td>
+              <td class="annotate-t"><div align="right"><img src="${ConfigProperties.kr.externalizable.images.url}annotate-tr1.gif" alt="" align="middle" height="24" width="12"></div></td>
             </tr>
           </tbody></table>
           <div class="annotate-container"> <kul:htmlAttributeLabel attributeEntry="${DataDictionary.BudgetTask.attributes.budgetTaskName}" skipHelpUrl="true" readOnly="true" />
@@ -134,11 +126,11 @@
               <html:options collection="budgetNonpersonnelCategories" property="code" labelProperty="name"/>
             </html:select>
 
-&nbsp; &nbsp;<html:image property="methodToCall.update" src="images/tinybutton-updateview.gif" align="middle" styleClass="tinybutton" alt="update"/></div>
+&nbsp; &nbsp;<html:image property="methodToCall.update" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-updateview.gif" align="middle" styleClass="tinybutton" alt="update"/></div>
           <table width="100%" cellpadding="0"  cellspacing="0" class="annotate-top">
             <tr>
-              <td class="annotate-b"><img src="images/annotate-bl1.gif" alt="" width=12 height=24></td>
-              <td class="annotate-b"><div align="right"><img src="images/annotate-br1.gif" alt="" width=12 height=24></div></td>
+              <td class="annotate-b"><img src="${ConfigProperties.kr.externalizable.images.url}annotate-bl1.gif" alt="" width=12 height=24></td>
+              <td class="annotate-b"><div align="right"><img src="${ConfigProperties.kr.externalizable.images.url}annotate-br1.gif" alt="" width=12 height=24></div></td>
             </tr>
           </table>
         </div>
@@ -192,8 +184,8 @@
   
         <table width="100%" border="0" cellpadding="0" cellspacing="0" class="b3" summary="">
           <tr>
-            <td align="left" class="footer"><img src="images/pixel_clear.gif" alt="" width="12" height="14" class="bl3"></td>
-            <td align="right" class="footer-right"><img src="images/pixel_clear.gif" alt="" width="12" height="14" class="br3"></td>
+            <td align="left" class="footer"><img src="${ConfigProperties.kr.externalizable.images.url}pixel_clear.gif" alt="" width="12" height="14" class="bl3"></td>
+            <td align="right" class="footer-right"><img src="${ConfigProperties.kr.externalizable.images.url}pixel_clear.gif" alt="" width="12" height="14" class="br3"></td>
           </tr>
         </table>
     </div>

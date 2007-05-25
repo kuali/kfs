@@ -13,15 +13,7 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 --%>
-<%@ taglib prefix="c" uri="/tlds/c.tld" %>
-<%@ taglib uri="/tlds/struts-html.tld" prefix="html" %>
-<%@ taglib uri="/tlds/struts-logic.tld" prefix="logic" %>
-<%@ taglib uri="/tlds/fmt.tld" prefix="fmt" %>
-<%@ taglib uri="/tlds/fn.tld" prefix="fn" %>
-
-<%@ taglib tagdir="/WEB-INF/tags" prefix="kul" %>
-<%@ taglib tagdir="/WEB-INF/tags/dd" prefix="dd" %>
-<%@ taglib tagdir="/WEB-INF/tags/kra" prefix="kra" %>
+<%@ include file="/jsp/kfs/kfsTldHeader.jsp"%>
 
 <%@ attribute name="editingMode" required="true" description="used to decide editability of overview fields" type="java.util.Map"%>
 <c:set var="readOnly" value="${empty editingMode['fullEntry']}" />
@@ -59,7 +51,7 @@
                   <kul:htmlControlAttribute property="newRoutingFormOrganization.organizationCode" attributeEntry="${routingFormOrganizationAttributes.organizationCode}" />
                   <kul:lookup boClassName="org.kuali.module.chart.bo.Org" lookupParameters="newRoutingFormOrganization.organizationCode:organizationCode,newRoutingFormOrganization.chartOfAccountsCode:chartOfAccountsCode" fieldConversions="organizationCode:newRoutingFormOrganization.organizationCode,chartOfAccountsCode:newRoutingFormOrganization.chartOfAccountsCode" tabindexOverride="5100" anchor="${currentTabIndex}" />
                 </div></td>
-                <td class="infoline"><div align=center><html:image property="methodToCall.insertRoutingFormOrganization.anchor${currentTabIndex}" styleClass="tinybutton" src="images/tinybutton-add1.gif" alt="add other organization" /></div></td>
+                <td class="infoline"><div align=center><html:image property="methodToCall.insertRoutingFormOrganization.anchor${currentTabIndex}" styleClass="tinybutton" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-add1.gif" alt="add other organization" /></div></td>
               </tr>
               
               <c:forEach items="${KualiForm.document.routingFormOrganizations}" var="routingFormOrganization" varStatus="status">
@@ -83,7 +75,7 @@
                     </div>
                   </td>
                   <td class="neutral">
-                    <div align="center"><html:image property="methodToCall.deleteRoutingFormOrganization.line${status.index}.anchor${currentTabIndex}" styleClass="tinybutton" src="images/tinybutton-delete1.gif" alt="delete institution cost share" /></div>
+                    <div align="center"><html:image property="methodToCall.deleteRoutingFormOrganization.line${status.index}.anchor${currentTabIndex}" styleClass="tinybutton" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-delete1.gif" alt="delete institution cost share" /></div>
                   </td>
                 </tr>
               </c:forEach>

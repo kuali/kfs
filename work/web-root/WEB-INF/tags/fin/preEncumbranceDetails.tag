@@ -13,8 +13,8 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 --%>
-<%@ taglib prefix="c" uri="/tlds/c.tld" %>
-<%@ taglib prefix="kul" tagdir="/WEB-INF/tags" %>
+<%@ include file="/jsp/kfs/kfsTldHeader.jsp"%>
+
 <%@ attribute name="editingMode" required="true" description="used to decide editability of overview fields" type="java.util.Map"%>
 <c:set var="readOnly" value="${empty editingMode['fullEntry']}" />
 <kul:tab

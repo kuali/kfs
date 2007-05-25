@@ -13,11 +13,7 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 --%>
-<%@ taglib prefix="c" uri="/tlds/c.tld" %>
-<%@ taglib prefix="fn" uri="/tlds/fn.tld" %>
-<%@ taglib prefix="kul" tagdir="/WEB-INF/tags" %>
-<%@ taglib prefix="fin" tagdir="/WEB-INF/tags/fin" %>
-<%@ taglib uri="/tlds/struts-html.tld" prefix="html" %>
+<%@ include file="/jsp/kfs/kfsTldHeader.jsp"%>
 
 <%@ attribute name="optionalFields" required="false"
               description="A comma separated list of names of accounting line fields

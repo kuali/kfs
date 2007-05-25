@@ -13,7 +13,7 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 --%>
-<%@ include file="/jsp/core/tldHeader.jsp"%>
+<%@ include file="/jsp/kfs/kfsTldHeader.jsp"%>
 
 <kul:documentPage showDocumentInfo="true"
 	documentTypeName="KualiBudgetDocument"
@@ -31,7 +31,7 @@
 
         <div id="globalbuttons" class="globalbuttons">
           <c:if test="${KualiForm.documentActionFlags.canRoute}">
-	          <html:image src="images/buttonsmall_complete.gif" styleClass="globalbuttons" property="methodToCall.route" alt="Complete Budget" />
+	          <html:image src="${ConfigProperties.kr.externalizable.images.url}buttonsmall_complete.gif" styleClass="globalbuttons" property="methodToCall.route" alt="Complete Budget" />
 	        </c:if>
         </div>
 

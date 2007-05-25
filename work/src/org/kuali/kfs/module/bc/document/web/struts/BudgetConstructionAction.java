@@ -156,7 +156,9 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
         String subAccountNumber = budgetConstructionForm.getSubAccountNumber();
         Integer universityFiscalYear = budgetConstructionForm.getUniversityFiscalYear();
 
-        bcHeaderDao = new BudgetConstructionDaoOjb();
+        // TODO abyrne changed from direct construction to gettting the dao from spring, so the datasource is initialized
+        // still need to fix: should not be referencing DAO from action - should go through service
+        bcHeaderDao = (BudgetConstructionDaoOjb)SpringServiceLocator.getBeanFactory().getBean("budgetConstructionDao");
         BudgetConstructionHeader budgetConstructionHeader = bcHeaderDao.getByCandidateKey(chartOfAccountsCode, accountNumber, subAccountNumber, universityFiscalYear);
         
         //TODO need to check for existence and throw error

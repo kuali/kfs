@@ -13,11 +13,8 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 --%>
-<%@ taglib prefix="c" uri="/tlds/c.tld" %>
-<%@ taglib uri="/tlds/struts-html.tld" prefix="html" %>
-<%@ taglib uri="/tlds/struts-logic.tld" prefix="logic" %>
-<%@ taglib tagdir="/WEB-INF/tags" prefix="kul" %>
-<%@ taglib tagdir="/WEB-INF/tags" prefix="ld" %>
+<%@ include file="/jsp/kfs/kfsTldHeader.jsp"%>
+
 <kul:tab tabTitle="Labor Ledger Pending Entries" defaultOpen="false" tabErrorKey="${Constants.LABOR_LEDGER_PENDING_ENTRIES_TAB_ERRORS}">
 <div class="tab-container" align=center>
 		<div class="h2-container">

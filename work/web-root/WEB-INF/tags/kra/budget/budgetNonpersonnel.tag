@@ -13,16 +13,7 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 --%>
-<%@ taglib prefix="c" uri="/tlds/c.tld" %>
-<%@ taglib uri="/tlds/struts-bean.tld" prefix="bean" %>
-<%@ taglib uri="/tlds/struts-html.tld" prefix="html" %>
-<%@ taglib uri="/tlds/struts-logic.tld" prefix="logic" %>
-<%@ taglib uri="/tlds/fmt.tld" prefix="fmt" %>
-
-<%@ taglib tagdir="/WEB-INF/tags" prefix="kul" %>
-<%@ taglib tagdir="/WEB-INF/tags/dd" prefix="dd" %>
-<%@ taglib tagdir="/WEB-INF/tags/kra" prefix="kra" %>
-<%@ taglib tagdir="/WEB-INF/tags/kra/budget" prefix="kra-b" %>
+<%@ include file="/jsp/kfs/kfsTldHeader.jsp"%>
 
 <c:set var="viewOnly" value="${KualiForm.editingMode['viewOnly']}" />
 
@@ -127,7 +118,7 @@
                           <c:if test="${empty KualiForm.newNonpersonnelList[i].subcontractorNumber}">(select)</c:if>
                           <html:hidden property="newNonpersonnel[${i}].subcontractorNumber" />
                           <html:hidden property="newNonpersonnel[${i}].budgetNonpersonnelDescription" write="true" />
-                          <kul:lookup boClassName="org.kuali.module.cg.bo.Subcontractor" fieldConversions="subcontractorNumber:newNonpersonnel[${i}].subcontractorNumber,subcontractorName:newNonpersonnel[${i}].budgetNonpersonnelDescription" extraButtonSource="images/buttonsmall_namelater.gif" extraButtonParams="&newNonpersonnel[${i}].subcontractorNumber=484&newNonpersonnel[${i}].budgetNonpersonnelDescription=TO BE NAMED" anchor="${currentTabIndex}"/>
+                          <kul:lookup boClassName="org.kuali.module.cg.bo.Subcontractor" fieldConversions="subcontractorNumber:newNonpersonnel[${i}].subcontractorNumber,subcontractorName:newNonpersonnel[${i}].budgetNonpersonnelDescription" extraButtonSource="${ConfigProperties.kr.externalizable.images.url}buttonsmall_namelater.gif" extraButtonParams="&newNonpersonnel[${i}].subcontractorNumber=484&newNonpersonnel[${i}].budgetNonpersonnelDescription=TO BE NAMED" anchor="${currentTabIndex}"/>
                         </c:otherwise>
                       </c:choose>
                     </div>
@@ -147,7 +138,7 @@
                   <td class="infoline" align="right">
                     <div align="center"><kul:htmlControlAttribute property="newNonpersonnel[${i}].budgetThirdPartyCostShareAmount" attributeEntry="${budgetNonpersonnel.budgetThirdPartyCostShareAmount}" disabled="${! KualiForm.document.budget.budgetThirdPartyCostShareIndicator}" styleClass="amount" />
                     </div></td>
-                  <td class="infoline"><div align="center"><html:image property="methodToCall.insertNonpersonnelLine.anchor${currentTabIndex}.line${i}" src="images/tinybutton-add1.gif" styleClass="tinybutton" alt="add nonpersonnel line"/></div></td>
+                  <td class="infoline"><div align="center"><html:image property="methodToCall.insertNonpersonnelLine.anchor${currentTabIndex}.line${i}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-add1.gif" styleClass="tinybutton" alt="add nonpersonnel line"/></div></td>
                 </tr>
                 </c:if>
                 
@@ -238,7 +229,7 @@
                             </div></td>
                           <c:if test="${! viewOnly }">
                             <td class="datacell-nowrap" align="center">
-                              <div align="center"><html:image property="methodToCall.deleteNonpersonnel.anchor${currentTabIndex}.line${ctr}" src="images/tinybutton-delete1.gif" styleClass="tinybutton" alt="delete"/>
+                              <div align="center"><html:image property="methodToCall.deleteNonpersonnel.anchor${currentTabIndex}.line${ctr}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-delete1.gif" styleClass="tinybutton" alt="delete"/>
 		                        </div></td>
 		                      </c:if>
 		                </tr>
@@ -255,7 +246,7 @@
                   <c:if test="${! viewOnly }"><td class="infoline">&nbsp;</td></c:if>
                 </tr>
                 <tr>
-                  <td height="30" colspan="7" class="infoline" ><div align="right"> </div><div align="center"><html:image property="methodToCall.nonpersonnelCopyOver.code${nonpersonnelCategory.code}." src="images/tinybutton-viewperalloc.gif" styleClass="tinybutton" /><c:if test="${! viewOnly }">&nbsp; <html:image property="methodToCall.recalculate.anchor${currentTabIndex}" src="images/tinybutton-recalculate.gif" styleClass="tinybutton" /></c:if></div></td>
+                  <td height="30" colspan="7" class="infoline" ><div align="right"> </div><div align="center"><html:image property="methodToCall.nonpersonnelCopyOver.code${nonpersonnelCategory.code}." src="${ConfigProperties.kr.externalizable.images.url}tinybutton-viewperalloc.gif" styleClass="tinybutton" /><c:if test="${! viewOnly }">&nbsp; <html:image property="methodToCall.recalculate.anchor${currentTabIndex}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-recalculate.gif" styleClass="tinybutton" /></c:if></div></td>
                 </tr>
               </tbody></table>
             </div>
@@ -263,8 +254,8 @@
   </logic:iterate>
         <table width="100%" border="0" cellpadding="0" cellspacing="0" class="b3" summary="">
           <tr>
-            <td align="left" class="footer"><img src="images/pixel_clear.gif" alt="" width="12" height="14" class="bl3"></td>
-            <td align="right" class="footer-right"><img src="images/pixel_clear.gif" alt="" width="12" height="14" class="br3"></td>
+            <td align="left" class="footer"><img src="${ConfigProperties.kr.externalizable.images.url}pixel_clear.gif" alt="" width="12" height="14" class="bl3"></td>
+            <td align="right" class="footer-right"><img src="${ConfigProperties.kr.externalizable.images.url}pixel_clear.gif" alt="" width="12" height="14" class="br3"></td>
           </tr>
         </table>
   

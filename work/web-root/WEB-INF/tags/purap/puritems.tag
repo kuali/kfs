@@ -13,14 +13,7 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 --%>
-<%@ taglib prefix="c" uri="/tlds/c.tld"%>
-<%@ taglib prefix="fn" uri="/tlds/fn.tld"%>
-<%@ taglib uri="/tlds/struts-html.tld" prefix="html"%>
-<%@ taglib uri="/tlds/struts-logic.tld" prefix="logic"%>
-<%@ taglib tagdir="/WEB-INF/tags" prefix="kul"%>
-<%@ taglib tagdir="/WEB-INF/tags/dd" prefix="dd"%>
-<%@ taglib tagdir="/WEB-INF/tags/fin" prefix="fin"%>
-<%@ taglib tagdir="/WEB-INF/tags/purap" prefix="purap"%>
+<%@ include file="/jsp/kfs/kfsTldHeader.jsp"%>
 
 <%@ attribute name="displayRequisitionFields" required="false"
 	description="Boolean to indicate if REQ specific fields should be displayed"%>
@@ -112,7 +105,7 @@
 					property="newPurchasingItemLine.itemAssignedToTradeInIndicator" /></div></td -->
 				<td class="infoline">
 				<div align="center"><html:image
-					property="methodToCall.addItem" src="images/tinybutton-add1.gif"
+					property="methodToCall.addItem" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-add1.gif"
 					alt="Insert an Item" title="Add an Item" styleClass="tinybutton" />
 				</div>
 				</td>
@@ -197,14 +190,14 @@
 					Item ${ctr+1} <c:if test="${isOpen == 'true' || isOpen == 'TRUE'}">
 						<html:image
 							property="methodToCall.toggleTab.tab${currentTabIndex}"
-							src="images/tinybutton-hide.gif" alt="hide" title="toggle"
+							src="${ConfigProperties.kr.externalizable.images.url}tinybutton-hide.gif" alt="hide" title="toggle"
 							styleClass="tinybutton"
 							styleId="tab-${currentTabIndex}-imageToggle"
 							onclick="javascript: return toggleTab(document, ${currentTabIndex}); " />
 					</c:if> <c:if test="${isOpen != 'true' && isOpen != 'TRUE'}">
 						<html:image
 							property="methodToCall.toggleTab.tab${currentTabIndex}"
-							src="images/tinybutton-show.gif" alt="show" title="toggle"
+							src="${ConfigProperties.kr.externalizable.images.url}tinybutton-show.gif" alt="show" title="toggle"
 							styleClass="tinybutton"
 							styleId="tab-${currentTabIndex}-imageToggle"
 							onclick="javascript: return toggleTab(document, ${currentTabIndex}); " />
@@ -231,10 +224,10 @@
 						property="document.item[${ctr}].itemLineNumber" /></b>&nbsp; <c:if
 						test="${(fullEntryMode or amendmentEntry)}">
 						<html:image property="methodToCall.editItem"
-							src="images/purap-up.gif" alt="Move Item Up" title="Move Item Up"
+							src="${ConfigProperties.externalizable.images.url}purap-up.gif" alt="Move Item Up" title="Move Item Up"
 							styleClass="tinybutton" />
 						<html:image property="methodToCall.editItem"
-							src="images/purap-down.gif" alt="Move Item Down"
+							src="${ConfigProperties.externalizable.images.url}purap-down.gif" alt="Move Item Down"
 							title="Move Item Down" styleClass="tinybutton" />
 					</c:if></td>
 					<td class="infoline"><kul:htmlControlAttribute
@@ -287,7 +280,7 @@
 						<td class="infoline">
 						<div align="center"><html:image
 							property="methodToCall.deleteItem.line${ctr}"
-							src="images/tinybutton-delete1.gif" alt="Delete Item ${ctr+1}"
+							src="${ConfigProperties.kr.externalizable.images.url}tinybutton-delete1.gif" alt="Delete Item ${ctr+1}"
 							title="Delete Item ${ctr+1}" styleClass="tinybutton" /></div>
 						</td>
 					</c:if>
@@ -295,7 +288,7 @@
 						<td class="infoline">
 						<div align="center"><html:image
 							property="methodToCall.inactivateItem.line${ctr}"
-							src="images/tinybutton-inactivate.gif"
+							src="${ConfigProperties.kr.externalizable.images.url}tinybutton-inactivate.gif"
 							alt="Inactivate Item ${ctr+1}" title="Inactivate Item ${ctr+1}"
 							styleClass="tinybutton" /></div>
 						</td>

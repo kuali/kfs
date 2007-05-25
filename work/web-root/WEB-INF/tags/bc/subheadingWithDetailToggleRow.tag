@@ -13,9 +13,8 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 --%>
-<%@ taglib prefix="c" uri="/tlds/c.tld" %>
-<%@ taglib prefix="html" uri="/tlds/struts-html.tld" %>
-<%@ taglib prefix="kul" tagdir="/WEB-INF/tags" %>
+<%@ include file="/jsp/kfs/kfsTldHeader.jsp"%>
+
 <%@ attribute name="columnCount" required="true"
     description="Total number of columns in the accounting lines table,
     to be spanned by this row." %>
@@ -28,7 +27,7 @@
       <html:hidden name="KualiForm" property="hideDetails"/>
       <c:if test="${!empty KualiForm.hideDetails}">
         <c:set var="toggle" value="${KualiForm.hideDetails ? 'show' : 'hide'}"/>
-        <html:image property="methodToCall.${toggle}Details" src="images/det-${toggle}.gif"
+        <html:image property="methodToCall.${toggle}Details" src="${ConfigProperties.kr.externalizable.images.url}det-${toggle}.gif"
                     alt="${toggle} transaction details" title="${toggle} transaction details" styleClass="tinybutton"/>
       </c:if>
     </span>

@@ -13,7 +13,7 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 --%>
-<%@ include file="/jsp/core/tldHeader.jsp"%>
+<%@ include file="/jsp/kfs/kfsTldHeader.jsp"%>
 
 <kul:page docTitle="Cash Management status" showDocumentInfo="false"
 	headerTitle="Cash Management status" transactionalDocument="false"
@@ -35,9 +35,9 @@
 	<br>
 
 	<div id="globalbuttons" class="globalbuttons"><html:image
-		src="images/buttonsmall_returnToIndex.gif" styleClass="globalbuttons"
+		src="${ConfigProperties.kr.externalizable.images.url}buttonsmall_returnToIndex.gif" styleClass="globalbuttons"
 		property="methodToCall.returnToIndex" alt="Return to Index" title="Return to Index" />
-	&nbsp;&nbsp; <html:image src="images/buttonsmall_openExisting.gif"
+	&nbsp;&nbsp; <html:image src="${ConfigProperties.kr.externalizable.images.url}buttonsmall_openExisting.gif"
 		styleClass="globalbuttons" property="methodToCall.openExisting"
 		alt="Open Existing Cash Management Document" title="Open Existing Cash Management Document" /></div>
 

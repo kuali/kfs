@@ -13,8 +13,7 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 --%>
-<%@ include file="/jsp/core/tldHeader.jsp"%>
-<%@ taglib tagdir="/WEB-INF/tags/dv" prefix="dv"%>
+<%@ include file="/jsp/kfs/kfsTldHeader.jsp"%>
 
 <kul:page showDocumentInfo="false" headerTitle="Travel Per Diem Links"
 	docTitle="Travel Per Diem Links" transactionalDocument="false"

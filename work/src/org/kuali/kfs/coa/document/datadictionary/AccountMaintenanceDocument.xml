@@ -36,8 +36,8 @@
         <documentTypeName>KualiAccountMaintenanceDocument</documentTypeName>
         <documentTypeCode>ACCT</documentTypeCode>
 
-		<webScriptFile>dwr/interface/SubFundGroupService.js</webScriptFile>
-		<webScriptFile>scripts/chart/accountDocument.js</webScriptFile>
+		<webScriptFile>../dwr/interface/SubFundGroupService.js</webScriptFile>
+		<webScriptFile>../scripts/chart/accountDocument.js</webScriptFile>
 
         <label>Account Maintenance Document</label>
         <shortLabel>AcctMaintDoc</shortLabel>

@@ -18,7 +18,7 @@
 The first row is for adding a new accounting line (if not read-only).
 It's followed by 0 or more rows for the accounting lines that have already been added." %>
 
-<%@ include file="/jsp/core/tldHeader.jsp"%>
+<%@ include file="/jsp/kfs/kfsTldHeader.jsp"%>
 
 <%@ attribute name="isSource" required="true"
               description="Boolean whether this group is of source or target lines." %>

@@ -13,15 +13,7 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 --%>
-<%@ taglib prefix="c" uri="/tlds/c.tld" %>
-<%@ taglib uri="/tlds/struts-html.tld" prefix="html" %>
-<%@ taglib uri="/tlds/struts-logic.tld" prefix="logic" %>
-<%@ taglib uri="/tlds/fmt.tld" prefix="fmt" %>
-
-<%@ taglib tagdir="/WEB-INF/tags" prefix="kul" %>
-<%@ taglib tagdir="/WEB-INF/tags/kra" prefix="kra" %>
-<%@ taglib tagdir="/WEB-INF/tags/kra/budget" prefix="kra-b" %>
-<%@ taglib tagdir="/WEB-INF/tags/dd" prefix="dd" %>
+<%@ include file="/jsp/kfs/kfsTldHeader.jsp"%>
 
   <c:set var="budgetAttributes" value="${DataDictionary.Budget.attributes}" />
   <c:set var="budgetPeriodAttributes" value="${DataDictionary.BudgetPeriod.attributes}" />
@@ -68,8 +60,8 @@
  		
         <table width="100%" border="0" cellpadding="0" cellspacing="0" class="b3" summary="">
           <tr>
-            <td align="left" class="footer"><img src="images/pixel_clear.gif" alt="" width="12" height="14" class="bl3"></td>
-            <td align="right" class="footer-right"><img src="images/pixel_clear.gif" alt="" width="12" height="14" class="br3"></td>
+            <td align="left" class="footer"><img src="${ConfigProperties.kr.externalizable.images.url}pixel_clear.gif" alt="" width="12" height="14" class="bl3"></td>
+            <td align="right" class="footer-right"><img src="${ConfigProperties.kr.externalizable.images.url}pixel_clear.gif" alt="" width="12" height="14" class="br3"></td>
           </tr>
         </table>
         </div>

@@ -13,12 +13,7 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 --%>
-<%@ taglib prefix="c" uri="/tlds/c.tld"%>
-<%@ taglib prefix="fn" uri="/tlds/fn.tld"%>
-<%@ taglib uri="/tlds/struts-html.tld" prefix="html"%>
-<%@ taglib uri="/tlds/struts-logic.tld" prefix="logic"%>
-<%@ taglib tagdir="/WEB-INF/tags" prefix="kul"%>
-<%@ taglib tagdir="/WEB-INF/tags/dd" prefix="dd"%>
+<%@ include file="/jsp/kfs/kfsTldHeader.jsp"%>
 
 <%@ attribute name="documentAttributes" required="true" type="java.util.Map"
               description="The DataDictionary entry containing attributes for this row's fields." %>
@@ -46,7 +41,7 @@
                         <kul:lookup boClassName="org.kuali.module.purap.bo.VendorStipulation" fieldConversions="vendorStipulationDescription:document.vendorStipulationDescription" /></div>
                     </td>
                     <td class="infoline">
-                		<div align="center"><html:image property="methodToCall.addStipulation" src="images/tinybutton-add1.gif" alt="Insert a Stipulation" title="Add a Stipulation" styleClass="tinybutton"/></div>
+                		<div align="center"><html:image property="methodToCall.addStipulation" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-add1.gif" alt="Insert a Stipulation" title="Add a Stipulation" styleClass="tinybutton"/></div>
     				</td>
                 </tr>
             </c:if>
@@ -66,7 +61,7 @@
                             <html:hidden property="document.purchaseOrderVendorStipulation[${ctr}].purchaseOrderIdentifier" />
                             <html:hidden property="document.purchaseOrderVendorStipulation[${ctr}].versionNumber" />
 		                </td>
-		                <td class="infoline"><div align="center"><html:image property="methodToCall.deleteStipulation.line${ctr}" src="images/tinybutton-delete1.gif" alt="Delete Stipulation ${ctr+1}" title="Delete Stipulation ${ctr+1}" styleClass="tinybutton"/></div></td>
+		                <td class="infoline"><div align="center"><html:image property="methodToCall.deleteStipulation.line${ctr}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-delete1.gif" alt="Delete Stipulation ${ctr+1}" title="Delete Stipulation ${ctr+1}" styleClass="tinybutton"/></div></td>
 		            </tr>
 	        	</logic:iterate>
 	        </logic:notEmpty>

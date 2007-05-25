@@ -36,8 +36,8 @@
         <documentTypeName>KualiObjectConsMaintenanceDocument</documentTypeName>
         <documentTypeCode>OBJC</documentTypeCode>
         
-        <webScriptFile>dwr/interface/ObjectCodeService.js</webScriptFile>
-        <webScriptFile>scripts/chart/objConsDocument.js</webScriptFile>
+        <webScriptFile>../dwr/interface/ObjectCodeService.js</webScriptFile>
+        <webScriptFile>../scripts/chart/objConsDocument.js</webScriptFile>
         
         <label>Object Consolidation Maintenance Document</label>
         <shortLabel>ObjConsMaintDoc</shortLabel>

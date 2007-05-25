@@ -17,13 +17,7 @@
 <!DOCTYPE struts-config PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 1.1//EN" "http://jakarta.apache.org/struts/dtds/struts-config_1_1.dtd">
 <struts-config>
     <form-beans>
-        <!--  Core Bean Definitions -->
-        <form-bean name="QuestionPromptForm" type="org.kuali.core.web.struts.form.QuestionPromptForm" />
-        <form-bean name="LookupForm" type="org.kuali.core.web.struts.form.LookupForm" />
-		<form-bean name="MultipleValueLookupForm" type="org.kuali.core.web.struts.form.MultipleValueLookupForm" />
-        <form-bean name="InquiryForm" type="org.kuali.core.web.struts.form.InquiryForm" />
-        <form-bean name="KualiMaintenanceForm" type="org.kuali.kfs.web.struts.form.KfsMaintenanceForm" />
-        <form-bean name="KualiHelpForm" type="org.kuali.core.web.struts.form.KualiHelpForm" />
+        <!--  Rice Bean Definitions : This is a bean declared in Rice, but is needed throughout this config -->
         <form-bean name="KualiForm" type="org.kuali.core.web.struts.form.KualiForm" />
 
         <!--  KFS Core Bean Definitions -->
@@ -92,16 +86,16 @@
     </form-beans>
 
     <global-exceptions>
+        <exception type="org.kuali.module.financial.exceptions.CashDrawerStateException" key="unused" path="/cashManagementStatus.do" />
         <exception type="org.kuali.core.exceptions.AuthorizationException" key="meaningless" path="/authorizationException.do" />
         <exception type="org.kuali.core.exceptions.DocumentInitiationAuthorizationException" key="meaningless" path="/initiationAuthorizationException.do" />
-        <exception type="org.kuali.module.financial.exceptions.CashDrawerStateException" key="unused" path="/cashManagementStatus.do" />
-        <exception type="org.kuali.core.exceptions.UnknownDocumentIdException" key="error.document.noLongerExistsInKuali" path="/jsp/core/Exception.jsp" />
-        <exception type="org.kuali.core.exceptions.FileUploadLimitExceededException" key="error.document.attachmentMaximumFileSizeExceeded" path="/jsp/core/Exception.jsp" />
+        <exception type="org.kuali.core.exceptions.UnknownDocumentIdException" key="error.document.noLongerExistsInKuali" path="/kr/WEB-INF/jsp/core/Exception.jsp" />
+        <exception type="org.kuali.core.exceptions.FileUploadLimitExceededException" key="error.document.attachmentMaximumFileSizeExceeded" path="/kr/WEB-INF/jsp/core/Exception.jsp" />
     </global-exceptions>
 
 
     <global-forwards>
-        <forward name="error" path="/jsp/core/KualiError.jsp" />
+        <forward name="error" path="/kr/WEB-INF/jsp/core/KualiError.jsp" />
         <forward name="save" path="/index.jsp" redirect="true" />
         <forward name="cancel" path="/index.jsp" redirect="true" />
         <forward name="close" path="/index.jsp" redirect="true" />
@@ -109,6 +103,19 @@
     </global-forwards>
 
     <action-mappings>
+
+		<!-- Rice Pass-through Actions : These delegate to the Rice (kr) struts module -->
+        <action path="/Exception" type="org.kuali.core.web.struts.action.KualiExceptionAction">
+            <forward name="basic" path="/kr/Exception.do" />
+        </action>
+        <action path="/authorizationException" type="org.kuali.core.web.struts.action.KualiAuthorizationExceptionAction">
+            <forward name="basic" path="/kr/authorizationException.do" />
+        </action> 
+        <action path="/initiationAuthorizationException" type="org.kuali.core.web.struts.action.KualiDocumentInitiationAuthorizationExceptionAction">
+            <forward name="basic" path="/kr/initiationAuthorizationException.do" />
+        </action>
+		<!-- End Rice Pass-through Actions -->
+                            
         <!--  Core Action Mappings -->
         <action path="/portal" name="KualiForm" type="org.kuali.core.web.struts.action.KualiSimpleAction">
             <forward name="basic" path="/portal.jsp" />
@@ -118,61 +125,14 @@
             <forward name="basic" path="/portal.jsp" />
         </action>
 
-        <action path="/Exception" name="KualiForm" type="org.kuali.core.web.struts.action.KualiExceptionAction">
-            <forward name="basic" path="/jsp/core/Exception.jsp" />
-        </action>
-
-        <action path="/jstlTest" name="KualiForm" type="org.kuali.core.web.struts.action.KualiSimpleAction">
-            <forward name="basic" path="/jsp/core/jstlTest.jsp" />
-        </action>
-
-        <action path="/authorizationException" name="KualiForm" type="org.kuali.core.web.struts.action.KualiAuthorizationExceptionAction">
-            <forward name="basic" path="/jsp/core/authorizationException.jsp" />
-        </action>
-        
-        <action path="/initiationAuthorizationException" name="KualiForm" type="org.kuali.core.web.struts.action.KualiDocumentInitiationAuthorizationExceptionAction">
-            <forward name="basic" path="/jsp/core/authorizationException.jsp" />
-        </action>
-
-        <action path="/questionPrompt" name="QuestionPromptForm" scope="request" parameter="methodToCall" type="org.kuali.core.web.struts.action.QuestionPromptAction">
-            <forward name="basic" path="/jsp/core/KualiQuestion.jsp" />
-        </action>
-
-        <action path="/lookup" name="LookupForm" scope="request" attribute="KualiForm" parameter="methodToCall" type="org.kuali.core.web.struts.action.KualiLookupAction">
-            <set-property property="cancellable" value="true" />
-            <forward name="basic" path="/jsp/core/KualiLookup.jsp" />
-        </action>
-
-        <action path="/multipleValueLookup" name="MultipleValueLookupForm" scope="request" attribute="KualiForm" parameter="methodToCall" type="org.kuali.core.web.struts.action.KualiMultipleValueLookupAction">
-            <set-property property="cancellable" value="true" />
-            <forward name="basic" path="/jsp/core/KualiMultipleValueLookup.jsp" />
-        </action>
-
-        <action path="/inquiry" name="InquiryForm" scope="request" attribute="KualiForm" parameter="methodToCall" type="org.kuali.core.web.struts.action.KualiInquiryAction">
-            <set-property property="cancellable" value="true" />
-            <forward name="basic" path="/jsp/core/KualiInquiry.jsp" />
-        </action>
-
-        <action path="/maintenance" name="KualiMaintenanceForm" scope="request" attribute="KualiForm" 
-        parameter="methodToCall" type="org.kuali.core.web.struts.action.KualiMaintenanceDocumentAction" 
-        validate="false" input="/jsp/kfs/KfsMaintenanceDocument.jsp">
-            <set-property property="cancellable" value="true" />
-            <forward name="basic" path="/jsp/kfs/KfsMaintenanceDocument.jsp" />
-        </action>
- 
         <action path="/balanceInquiryReportMenu" name="KualiBalanceInquiryReportMenuForm" scope="request" attribute="KualiForm" parameter="methodToCall" type="org.kuali.kfs.web.struts.action.KualiBalanceInquiryReportMenuAction">
             <set-property property="cancellable" value="true" />
-            <forward name="basic" path="/jsp/core/KualiBalanceInquiryReportMenu.jsp" />
-        </action>
-
-        <action path="/help" name="KualiHelpForm" scope="request" attribute="KualiForm" parameter="methodToCall" type="org.kuali.core.web.struts.action.KualiHelpAction">
-            <set-property property="cancellable" value="true" />
-            <forward name="basic" path="/jsp/core/KualiHelp.jsp" />
+            <forward name="basic" path="/jsp/modules/generalLedger/KualiBalanceInquiryReportMenu.jsp" />
         </action>
 
         <action path="/dvPerDiem" name="DisbursementVoucherForm" scope="request" attribute="KualiForm" parameter="methodToCall" type="org.kuali.core.web.struts.action.KualiHelpAction">
             <set-property property="cancellable" value="true" />
-            <forward name="basic" path="/jsp/core/KualiHelp.jsp" />
+            <forward name="basic" path="/kr/WEB-INF/jsp/core/KualiHelp.jsp" />
             <forward name="dvPerDiemLinks" path="/jsp/modules/financial/DisbursementVoucherTravelPerDiemLinks.jsp" />
         </action>
 

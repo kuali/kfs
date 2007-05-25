@@ -13,7 +13,7 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 --%>
-<%@ include file="/jsp/core/tldHeader.jsp"%>
+<%@ include file="/jsp/kfs/kfsTldHeader.jsp"%>
 <kul:documentPage showDocumentInfo="true"
 	documentTypeName="KualiProcurementCardDocument"
 	htmlFormAction="financialProcurementCard" renderMultipart="true"
@@ -57,7 +57,7 @@
 		editingMode="${KualiForm.editingMode}"
 		editableAccounts="${KualiForm.editableAccounts}" />
 
-	<kul:generalLedgerPendingEntries />
+	<gl:generalLedgerPendingEntries />
 
 	<kul:notes />
 

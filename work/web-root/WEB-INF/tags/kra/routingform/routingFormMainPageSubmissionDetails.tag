@@ -13,7 +13,7 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 --%>
-<%@ include file="/jsp/core/tldHeader.jsp"%>
+<%@ include file="/jsp/kfs/kfsTldHeader.jsp"%>
 
 <c:set var="routingFormAttributes" value="${DataDictionary.KualiRoutingFormDocument.attributes}" />
 <c:set var="routingFormBudgetAttributes" value="${DataDictionary.RoutingFormBudget.attributes}" />
@@ -215,7 +215,7 @@
 		                </div></td>
 		                <td class="nobord"> <div align="center">
 					    	<c:if test="${!viewOnly && fn:length(KualiForm.document.routingFormKeywords) != 0}">
-						    	<html:image property="methodToCall.deleteAllRoutingFormKeyword.anchor${currentTabIndex}" styleClass="tinybutton" src="images/tinybutton-deleteall.gif" alt="delete all routing form keywords"/>
+						    	<html:image property="methodToCall.deleteAllRoutingFormKeyword.anchor${currentTabIndex}" styleClass="tinybutton" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-deleteall.gif" alt="delete all routing form keywords"/>
 		                	</c:if>
 		                </div></td>
 		              </tr>   
@@ -229,7 +229,7 @@
 		                </div></td>
 		                <td class="nobord"><div align="center">
 		                  <c:if test="${!viewOnly}">
-		                    <html:image property="methodToCall.deleteRoutingFormKeyword.line${status.index}.anchor${currentTabIndex}" styleClass="tinybutton" src="images/tinybutton-delete1.gif" alt="delete routing form keyword"/>
+		                    <html:image property="methodToCall.deleteRoutingFormKeyword.line${status.index}.anchor${currentTabIndex}" styleClass="tinybutton" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-delete1.gif" alt="delete routing form keyword"/>
 		                  </c:if>
 		                </div></td>
 		              </tr>   

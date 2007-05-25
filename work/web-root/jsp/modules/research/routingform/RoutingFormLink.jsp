@@ -13,7 +13,7 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 --%>
-<%@ include file="/jsp/core/tldHeader.jsp"%>
+<%@ include file="/jsp/kfs/kfsTldHeader.jsp"%>
 
 <c:set var="routingFormDocumentAttributes" value="${DataDictionary.KualiRoutingFormDocument.attributes}" />
 <c:set var="routingFormBudgetAttributes" value="${DataDictionary.RoutingFormBudget.attributes}" />
@@ -48,10 +48,10 @@
               <tr>
                 <th>&nbsp;</th>
                 <td colspan="3" align=left valign=middle nowrap >
-                  <html:image property="methodToCall.loadBudget.anchor${currentTabIndex}" styleClass="tinybutton" src="images/tinybutton-loadbud.gif" alt="load budget"/>
+                  <html:image property="methodToCall.loadBudget.anchor${currentTabIndex}" styleClass="tinybutton" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-loadbud.gif" alt="load budget"/>
                   &nbsp;
                   <c:if test="${not empty KualiForm.periodBudgetOverviewFormHelpers}">
-                    <html:image property="methodToCall.deleteBudget.anchor${currentTabIndex}" styleClass="tinybutton" src="images/tinybutton-delbudlink.gif" alt="delete budget link"/>
+                    <html:image property="methodToCall.deleteBudget.anchor${currentTabIndex}" styleClass="tinybutton" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-delbudlink.gif" alt="delete budget link"/>
                   </c:if>
                 </td>
               </tr>
@@ -160,7 +160,7 @@
                     <tr>
                       <td colspan="74" class="infoline" height="30">
                       <div align="center">
-                        <html:image property="methodToCall.linkBudget.anchor${currentTabIndex}" styleClass="tinybutton" src="images/tinybutton-linkselperiods.gif" alt="link selected periods"/>
+                        <html:image property="methodToCall.linkBudget.anchor${currentTabIndex}" styleClass="tinybutton" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-linkselperiods.gif" alt="link selected periods"/>
                       </div></td>
                     </tr>
                   </table>
@@ -172,8 +172,8 @@
 
   <table width="100%" border="0" cellpadding="0" cellspacing="0" class="b3" summary="">
     <tr>
-      <td align="left" class="footer"><img src="images/pixel_clear.gif" alt="" width="12" height="14" class="bl3"></td>
-      <td align="right" class="footer-right"><img src="images/pixel_clear.gif" alt="" width="12" height="14" class="br3"></td>
+      <td align="left" class="footer"><img src="${ConfigProperties.kr.externalizable.images.url}pixel_clear.gif" alt="" width="12" height="14" class="bl3"></td>
+      <td align="right" class="footer-right"><img src="${ConfigProperties.kr.externalizable.images.url}pixel_clear.gif" alt="" width="12" height="14" class="br3"></td>
     </tr>
   </table>  
   

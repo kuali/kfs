@@ -14,7 +14,7 @@
  limitations under the License.
 --%>
 
-<%@ include file="/jsp/core/tldHeader.jsp"%>
+<%@ include file="/jsp/kfs/kfsTldHeader.jsp"%>
 <kul:documentPage showDocumentInfo="true"
 	documentTypeName="KualiBenefitExpenseTransferDocument"
 	htmlFormAction="laborBenefitExpenseTransfer" renderMultipart="true"
@@ -27,7 +27,7 @@
 		optionalFields="positionNumber,payrollEndDateFiscalYear,payrollEndDateFiscalPeriodCode,payrollTotalHours"
 		forcedReadOnlyFields="${KualiForm.forcedReadOnlyFields}"/>
 	<ld:laborLedgerPendingEntries />
-	<kul:generalLedgerPendingEntries />
+	<gl:generalLedgerPendingEntries />
 	<kul:notes />
 	<kul:adHocRecipients />
 	<kul:routeLog />

@@ -13,15 +13,7 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 --%>
-<%@ taglib prefix="c" uri="/tlds/c.tld" %>
-<%@ taglib uri="/tlds/struts-html.tld" prefix="html" %>
-<%@ taglib uri="/tlds/struts-logic.tld" prefix="logic" %>
-<%@ taglib uri="/tlds/fmt.tld" prefix="fmt" %>
-
-<%@ taglib tagdir="/WEB-INF/tags" prefix="kul" %>
-<%@ taglib tagdir="/WEB-INF/tags/dd" prefix="dd" %>
-<%@ taglib tagdir="/WEB-INF/tags/kra" prefix="kra" %>
-<%@ taglib tagdir="/WEB-INF/tags/kra/budget" prefix="kra-b" %>
+<%@ include file="/jsp/kfs/kfsTldHeader.jsp"%>
 
 <div align="right">
 	<kul:help documentTypeName="${DataDictionary.KualiBudgetDocument.documentTypeName}" pageName="${KraConstants.OVERVIEW_HEADER_TAB}" altText="page help"/>
@@ -34,8 +26,8 @@
 
             <tbody>
               <tr>
-                <td><img src="images/pixel_clear.gif" alt="" class="tl3" height="12" width="12"></td>
-                <td align="right"><img src="images/pixel_clear.gif" alt="" class="tr3" height="12" width="12"></td>
+                <td><img src="${ConfigProperties.kr.externalizable.images.url}pixel_clear.gif" alt="" class="tl3" height="12" width="12"></td>
+                <td align="right"><img src="${ConfigProperties.kr.externalizable.images.url}pixel_clear.gif" alt="" class="tr3" height="12" width="12"></td>
               </tr>
             </tbody>
           </table>
@@ -44,7 +36,7 @@
             <table class="datatable" cellpadding="0" cellspacing="0">
 
               <tbody><tr>
-                <td colspan="4" class="subhead"><span class="subhead-left">Personnel Expenses&nbsp;<html:image src="images/edit.gif" styleClass="tinybutton" property="methodToCall.headerTab.headerDispatch.overview.navigateTo.personnel" alt="Personnel"/></span> </td>
+                <td colspan="4" class="subhead"><span class="subhead-left">Personnel Expenses&nbsp;<html:image src="${ConfigProperties.kr.externalizable.images.url}edit.gif" styleClass="tinybutton" property="methodToCall.headerTab.headerDispatch.overview.navigateTo.personnel" alt="Personnel"/></span> </td>
                 <td colspan="2" class="subhead style1"><div align="center"><span class="subhead-right"><span class="nowrap"><strong> Amount Requested</strong></span></span> </div></td>
                 <td colspan="2" class="subhead"><div align="center"><span class="subhead-right"><span class="nowrap"><strong> Institution CS</strong><br><c:if test="${!KualiForm.document.budget.institutionCostShareIndicator}">Cost Share is set to No</c:if></span></span> </div></td>
                 <td class="subhead"><div align="center"><span class="subhead-right"><span class="nowrap"><strong> 3rd Party CS</strong><br><c:if test="${!KualiForm.document.budget.budgetThirdPartyCostShareIndicator}">Cost Share is set to No</c:if></span> </span></div></td>
@@ -138,7 +130,7 @@
                 <td class="infoline" align="right"><div align="right"><b>--</b> </div></td>
               </tr>
               <tr>
-                <td colspan="4" class="subhead"><span class="subhead-left">Non-Personnel Expenses&nbsp;<html:image src="images/edit.gif" styleClass="tinybutton" property="methodToCall.headerTab.headerDispatch.overview.navigateTo.nonpersonnel" alt="Nonpersonnel"/></span> </td>
+                <td colspan="4" class="subhead"><span class="subhead-left">Non-Personnel Expenses&nbsp;<html:image src="${ConfigProperties.kr.externalizable.images.url}edit.gif" styleClass="tinybutton" property="methodToCall.headerTab.headerDispatch.overview.navigateTo.nonpersonnel" alt="Nonpersonnel"/></span> </td>
                 <td colspan="2" class="subhead style1"><div align="center"><span class="subhead-right"><span class="nowrap"><strong> Amount Requested</strong></span></span> </div></td>
                 <td colspan="2" class="subhead"><div align="center"><span class="subhead-right"><span class="nowrap"><strong> Institution CS</strong><br><c:if test="${!KualiForm.document.budget.institutionCostShareIndicator}">Cost Share is set to No</c:if></span></span> </div></td>
                 <td class="subhead"><div align="center"><span class="subhead-right"><span class="nowrap"><strong> 3rd Party CS</strong><br><c:if test="${!KualiForm.document.budget.budgetThirdPartyCostShareIndicator}">Cost Share is set to No</c:if></span> </span></div></td>
@@ -240,8 +232,8 @@
           </div>
           <table width="100%" border="0" cellpadding="0" cellspacing="0" class="b3" summary="">
           <tr>
-            <td align="left" class="footer"><img src="images/pixel_clear.gif" alt="" width="12" height="14" class="bl3"></td>
-            <td align="right" class="footer-right"><img src="images/pixel_clear.gif" alt="" width="12" height="14" class="br3"></td>
+            <td align="left" class="footer"><img src="${ConfigProperties.kr.externalizable.images.url}pixel_clear.gif" alt="" width="12" height="14" class="bl3"></td>
+            <td align="right" class="footer-right"><img src="${ConfigProperties.kr.externalizable.images.url}pixel_clear.gif" alt="" width="12" height="14" class="br3"></td>
           </tr>
         </table>
         </div>

@@ -13,8 +13,7 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 --%>
-<%@ include file="/jsp/core/tldHeader.jsp"%>
-<%@ taglib tagdir="/WEB-INF/tags/purap" prefix="purap"%>
+<%@ include file="/jsp/kfs/kfsTldHeader.jsp"%>
 
 <kul:documentPage showDocumentInfo="true"
     documentTypeName="KualiPurchaseOrderDocument"

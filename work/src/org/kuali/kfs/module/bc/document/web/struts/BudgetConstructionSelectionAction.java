@@ -36,10 +36,10 @@ import org.kuali.core.web.struts.action.KualiAction;
 import org.kuali.core.web.struts.form.KualiForm;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSKeyConstants;
+import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.budget.BCConstants;
 import org.kuali.module.budget.bo.BudgetConstructionHeader;
 import org.kuali.module.budget.dao.ojb.BudgetConstructionDaoOjb;
-import org.kuali.module.budget.document.authorization.BudgetConstructionDocumentAuthorizer;
 import org.kuali.module.budget.web.struts.form.BudgetConstructionSelectionForm;
 import org.kuali.rice.KNSServiceLocator;
 
@@ -117,15 +117,17 @@ public class BudgetConstructionSelectionAction extends KualiAction {
         } else {
             subAccountNumber = bcHeader.getSubAccountNumber();
         }
-
-        bcHeaderDao = new BudgetConstructionDaoOjb();
+        // TODO abyrne changed from direct construction to gettting the dao from spring, so the datasource is initialized
+        // still need to fix: should not be referencing DAO from action - should go through service
+        bcHeaderDao = (BudgetConstructionDaoOjb)SpringServiceLocator.getBeanFactory().getBean("budgetConstructionDao");
         BudgetConstructionHeader tHeader = bcHeaderDao.getByCandidateKey(chartOfAccountsCode, accountNumber, subAccountNumber, universityFiscalYear);
         if (tHeader == null){
             //error ERROR_EXISTENCE
             GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_MESSAGES,KFSKeyConstants.ERROR_EXISTENCE, "BC Document");
             return mapping.findForward(KFSConstants.MAPPING_BASIC);
         } else {
-            String basePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath();
+            // TODO abyrne changed this to reference config property, but not sure where this is being used
+            String basePath = SpringServiceLocator.getKualiConfigurationService().getPropertyString(KFSConstants.APPLICATION_URL_KEY);
 
             Properties parameters = new Properties();
             parameters.put(KFSConstants.DISPATCH_REQUEST_PARAMETER, BCConstants.BC_DOCUMENT_METHOD);

@@ -13,7 +13,7 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 --%>
-<%@ include file="../core/tldHeader.jsp"%>
+<%@ include file="/jsp/kfs/kfsTldHeader.jsp"%>
 <style type="text/css">
 	TABLE.positioningTable {
 		border: 0!important;
@@ -72,7 +72,7 @@
 									<td>Start Date/Time: </td>
 									<td>
 										<input type="text" name="startTime" id="startTime" value="" />
-										<img src="images/cal.gif" id="startTime_datepicker" style="cursor: pointer;" alt="Date selector" title="Date selector" onmouseover="this.style.background='#F00';" onmouseout="this.style.background='#FFF';" />    
+										<img src="${ConfigProperties.kr.externalizable.images.url}cal.gif" id="startTime_datepicker" style="cursor: pointer;" alt="Date selector" title="Date selector" onmouseover="this.style.background='#F00';" onmouseout="this.style.background='#FFF';" />    
 										(format: mm/dd/yy hh:mm)
 									</td>
 								</tr>

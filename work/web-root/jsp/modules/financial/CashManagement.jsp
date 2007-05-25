@@ -13,7 +13,7 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 --%>
-<%@ include file="/jsp/core/tldHeader.jsp"%>
+<%@ include file="/jsp/kfs/kfsTldHeader.jsp"%>
 
 <%--
   HACK: CashManagementDocument isn't a transactionalDocument, but its XML file claims that it is,
@@ -37,7 +37,7 @@
     </c:if>
 
     <c:if test="${KualiForm.document.bankCashOffsetEnabled}" >
-        <kul:generalLedgerPendingEntries />
+        <gl:generalLedgerPendingEntries />
     </c:if>
     <kul:notes/>
     <kul:adHocRecipients />

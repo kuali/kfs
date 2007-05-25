@@ -437,9 +437,6 @@
 				<fileset dir="${test.source.directory}"> 
 					<include name="${tests.includes}" />	
 					<exclude name="**/TransactionalDocumentRuleTest.java" />
-					<exclude name="**/datadictionary/*.java" />
-					<exclude name="**/datadictionary/exporter/*.java" />
-					<exclude name="**/DataDictionaryServiceImplTest.java" />
 					<exclude name="**/${test.spring.shutdown}.java" />
 				</fileset>
 			</batchtest>
@@ -513,21 +510,93 @@
 		</copy>
 		<delete dir="${database.workflow.directory}" failonerror="false" />
 		<copy todir="${database.workflow.directory}">
-			<fileset dir="${workflow.project.directory}/conf" includes="ddl/**/**" />
+			<fileset dir="${workflow.project.directory}/${workflow.ddl.directory}" includes="**/**" />
 		</copy>
 	</target>
 	
-	<target name="unzip-rice-web-content" depends="init-project-properties">
-		<unzip src="${work.directory}/rice-web-content/sampleapp-0.9-SNAPSHOT.war" dest="${work.directory}/web-root" overwrite="true">
+	<!-- = = = = = = = = = = = = = = = = =
+          macrodef: maven          
+         = = = = = = = = = = = = = = = = = -->
+    <macrodef name="maven">
+        <attribute name="goals" />
+        <attribute name="project" default="rice" />
+        <attribute name="offline" default="true" />
+        <attribute name="mavenHome" />
+        <sequential>
+        	<condition property="maven.options" value="--offline">
+        		<equals arg1="@{offline}" arg2="true" casesensitive="false" trim="true"/>
+        	</condition >
+            <java classname="org.codehaus.classworlds.Launcher" dir="${@{project}.project.directory}" fork="true" >
+            	<arg line="${maven.options} @{goals}"/>
+            	<sysproperty key="classworlds.conf" value="@{mavenHome}/bin/m2.conf"/>
+            	<sysproperty key="maven.home" value="@{mavenHome}"/>
+            	<sysproperty key="maven.test.skip" value="true"/>
+            	<classpath>
+            		<fileset dir="@{mavenHome}/boot">
+    					<include name="classworlds-*.jar"/>
+					</fileset>
+            	</classpath>
+            </java>
+        </sequential>
+    </macrodef>
+
+	<target name="update-rice-jar" depends="init-project-properties">
+		<!-- build the rice jar and war files -->
+		<maven goals="package" mavenhome="${maven.home.directory}" />
+		<!-- copy main JAR file to lib directory -->
+		<copy file="${rice.project.directory}/kns/target/kns-${rice.version}.jar" todir="${lib.directory}" overwrite="true" />
+	</target>
+
+	<target name="update-rice-web" depends="init-project-properties">
+		<!-- copy the central web content from rice into KFS -->
+		<delete>
+			<fileset dir="${work.directory}/web-root/kr">
+				<include name="**/*.*" />
+			</fileset>
+		</delete>
+		<delete>
+			<fileset dir="${work.directory}/web-root/WEB-INF/tags/kr">
+				<include name="**/*.tag" />
+			</fileset>
+		</delete>
+		<unzip src="${rice.project.directory}/sampleapp/target/sampleapp-${rice.version}.war" dest="${work.directory}/web-root" overwrite="true">
 		    <patternset>
-		        <include name="css/*.css" />
-		    	<include name="images/*" />
-		    	<include name="scripts/*.js" />
-		    	<include name="jsp/core/*.jsp" />		    	
-		    	<include name="WEB-INF/tags/**/*.tag" />
+		    	<include name="kr/**/**" />		    	
+		    	<include name="WEB-INF/tags/kr/**/*.tag" />
 		    </patternset>
 		</unzip>
 	</target>
+	
+	<target name="update-rice-misc" depends="init-project-properties">
+		<!-- copy licenses -->
+		<!--
+		<copy todir="${licenses.directory}/rice">
+			<fileset dir="${rice.project.directory}/${licenses.directory}" />
+		</copy>
+		-->
+		<!-- copy DDL files -->
+		<delete dir="${database.rice.directory}" failonerror="false" />
+		<copy todir="${database.rice.directory}">
+			<fileset dir="${rice.project.directory}/${rice.ddl.directory}" includes="**/**" />
+		</copy>
+	</target>
+
+	<target name="update-rice-javadoc" depends="init-project-properties">
+		<!-- generate the javadoc and copy to kuali-dependencies -->
+		<maven goals="javadoc:jar" mavenhome="${maven.home.directory}" />
+		<copy todir="${dependencies.project.directory}" file="${rice.project.directory}/kns/target/kns-${rice.version}-javadoc.jar" overwrite="true" />
+	</target>
+
+	<target name="update-rice-src" depends="init-project-properties">
+		<!-- TODO: jar the source and place in kuali_dependencies -->
+		<jar destfile="${dependencies.project.directory}/kns-${rice.version}-src.jar">
+			<fileset dir="${rice.project.directory}/kns/src/main/java">
+				<include name="**/**"/>
+			</fileset>
+		</jar>
+	</target>
+
+	<target name="update-rice" depends="init-project-properties,update-rice-jar,update-rice-web,update-rice-misc" />		
 	
 	<target name="help" description="Describe public targets">
 		<echo>--- OVERVIEW ---

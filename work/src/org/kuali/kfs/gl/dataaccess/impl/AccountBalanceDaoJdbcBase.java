@@ -15,7 +15,7 @@
  */
 package org.kuali.module.gl.dao.jdbc;
 
-import org.kuali.kfs.dao.jdbc.PlatformAwareDaoBaseJdbc;
+import org.kuali.core.dao.jdbc.PlatformAwareDaoBaseJdbc;
 import org.kuali.kfs.service.OptionsService;
 import org.kuali.module.financial.service.UniversityDateService;
 

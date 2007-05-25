@@ -13,7 +13,7 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 --%>
-<%@ include file="/jsp/core/tldHeader.jsp"%>
+<%@ include file="/jsp/kfs/kfsTldHeader.jsp"%>
 
 <kul:documentPage showDocumentInfo="true"
 	documentTypeName="KualiYearEndGeneralErrorCorrectionDocument"
@@ -29,7 +29,7 @@
 		extraSourceRowFields="referenceOriginCode,referenceNumber,financialDocumentLineDescription"
 		extraTargetRowFields="referenceOriginCode,referenceNumber,financialDocumentLineDescription" />
 
-	<kul:generalLedgerPendingEntries />
+	<gl:generalLedgerPendingEntries />
 
 	<kul:notes />
 

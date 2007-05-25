@@ -13,8 +13,8 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 --%>
-<%@ taglib prefix="c" uri="/tlds/c.tld" %>
-<%@ taglib prefix="html" uri="/tlds/struts-html.tld" %>
+<%@ include file="/jsp/kfs/kfsTldHeader.jsp"%>
+
 <%@ attribute name="columnCount" required="true"
     description="The total number of columns of this row." %>
 <%@ attribute name="isSource" required="true"
@@ -55,23 +55,23 @@
                   }
                   document.write(
                     '<a id="${showLink}" href="#" onclick="${showImport}();return false;">' +
-                      '<img src="images/tinybutton-importlines.gif" title="import file" alt="import file"' +
+                      '<img src="${ConfigProperties.kr.externalizable.images.url}tinybutton-importlines.gif" title="import file" alt="import file"' +
                       '     width=72 height=15 border=0 align="middle" class="det-button">' +
                     '<\/a>' +
                     '<div id="${uploadDiv}" style="display:none;" >' +
-                      '<a href="${KualiForm.accountingLineImportInstructionsUrl}" target="helpWindow"><img src="images/my_cp_inf.gif" alt="${altText}" hspace=5 border=0  align="middle"><\/a>&nbsp;' +
+                      '<a href="${KualiForm.accountingLineImportInstructionsUrl}" target="helpWindow"><img src="${ConfigProperties.kr.externalizable.images.url}my_cp_inf.gif" alt="${altText}" hspace=5 border=0  align="middle"><\/a>&nbsp;' +
                       '<html:file size="30" property="${file}" />' +
-                      '<html:image property="methodToCall.${uploadLines}" src="images/tinybutton-add1.gif"
+                      '<html:image property="methodToCall.${uploadLines}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-add1.gif"
                                     styleClass="tinybutton" alt="insert ${sourceOrTarget} accounting lines" title="insert ${sourceOrTarget} accounting lines" />' +
-                      '<html:image property="methodToCall.cancel" src="images/tinybutton-cancelimport.gif"
+                      '<html:image property="methodToCall.cancel" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-cancelimport.gif"
                                     styleClass="tinybutton" alt="cancel insert" title="cancel insert" onclick="${hideImport}();return false;" />' +
                     '<\/div>');
                 //-->
             </SCRIPT>
             <NOSCRIPT>
-                Import lines <a href="${KualiForm.accountingLineImportInstructionsUrl}" />" target="helpWindow"><img src="images/my_cp_inf.gif" title="${altText}" alt="${altText}" hspace=5 border=0  align="middle"></a>&nbsp;
+                Import lines <a href="${KualiForm.accountingLineImportInstructionsUrl}" />" target="helpWindow"><img src="${ConfigProperties.kr.externalizable.images.url}my_cp_inf.gif" title="${altText}" alt="${altText}" hspace=5 border=0  align="middle"></a>&nbsp;
                 <html:file size="30" property="${file}" style="font:10px;height:16px;"/>
-                <html:image property="methodToCall.${uploadLines}" src="images/tinybutton-add1.gif"
+                <html:image property="methodToCall.${uploadLines}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-add1.gif"
                             alt="insert ${sourceOrTarget} accounting lines" title="insert ${sourceOrTarget} accounting lines"/>
             </NOSCRIPT>
         </td>

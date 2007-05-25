@@ -13,17 +13,14 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 --%>
-<%@ taglib prefix="c" uri="/tlds/c.tld" %>
-<%@ taglib uri="/tlds/struts-html.tld" prefix="html" %>
-<%@ taglib uri="/tlds/struts-logic.tld" prefix="logic" %>
-<%@ taglib uri="/tlds/struts-bean.tld" prefix="bean" %>
-<%@ taglib tagdir="/WEB-INF/tags/portal" prefix="portal" %>
+<%@ include file="/jsp/kfs/kfsTldHeader.jsp"%>
 
 <%@ attribute name="channelTitle" required="true" %>
 <%@ attribute name="channelUrl" required="true" %>
 <%@ attribute name="selectedTab" required="true" %>
 
-      <portal:immutableBar />
+
+ <portal:immutableBar />
 
  <table width="100%"  cellspacing="0" cellpadding="0" id="iframe_portlet_container_table">
     <tr valign="top" bgcolor="#FFFFFF">

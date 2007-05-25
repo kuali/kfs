@@ -13,7 +13,7 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 --%>
-<%@ include file="/jsp/core/tldHeader.jsp"%>
+<%@ include file="/jsp/kfs/kfsTldHeader.jsp"%>
 
 <c:if test="${!accountingLineScriptsLoaded}">
 	<script type='text/javascript' src="dwr/interface/ChartService.js"></script>
@@ -78,8 +78,8 @@
     	<tr>
             <td class="grid" colspan="4">
             <div align="center">
-              <html:image property="methodToCall.performMyAccounts.anchoraccountControlsAnchor" src="images/buttonsmall_myaccounts.gif" title="Find My Budgeted Accounts" alt="Find My Budgeted Accounts" styleClass="tinybutton"/>&nbsp;&nbsp;&nbsp;
-              <html:image property="methodToCall.performMyOrganization.anchoraccountControlsAnchor" src="images/buttonsmall_myorganization.gif" title="Find My Organization Budgeted Accounts" alt="Find My Organization Budgeted Accounts" styleClass="tinybutton"/>
+              <html:image property="methodToCall.performMyAccounts.anchoraccountControlsAnchor" src="${ConfigProperties.externalizable.images.url}buttonsmall_myaccounts.gif" title="Find My Budgeted Accounts" alt="Find My Budgeted Accounts" styleClass="tinybutton"/>&nbsp;&nbsp;&nbsp;
+              <html:image property="methodToCall.performMyOrganization.anchoraccountControlsAnchor" src="${ConfigProperties.externalizable.images.url}buttonsmall_myorganization.gif" title="Find My Organization Budgeted Accounts" alt="Find My Organization Budgeted Accounts" styleClass="tinybutton"/>
             </div>
 		    </td>
             <td class="grid" colspan="3">
@@ -149,7 +149,7 @@
                 anchor="budgetConstructionHeaderSubAccountAnchor" />
             <td class="grid" nowrap colspan="2">
             <div align="center">
-                <html:image property="methodToCall.performBCDocumentOpen.anchorbudgetConstructionHeaderAnchor" src="images/tinybutton-loaddoc.gif" title="Load Budget Construction Document" alt="Load Budget Construction Document" styleClass="tinybutton" />
+                <html:image property="methodToCall.performBCDocumentOpen.anchorbudgetConstructionHeaderAnchor" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-loaddoc.gif" title="Load Budget Construction Document" alt="Load Budget Construction Document" styleClass="tinybutton" />
             </div>
             </td>
 	    </tr>
@@ -248,7 +248,6 @@
 			    	<html:hidden write="true" property="${orgPropString}.reportsToOrganizationCode" />
 				</kul:inquiry>&nbsp;
 	      	</kul:htmlControlAttribute>
-            </c:if>&nbsp;
             </td>
             <td class="grid" valign="center" rowspan="1" colspan="3">
             <c:if test="${showTheDetail}" >
@@ -359,22 +358,22 @@
     	<tr>
             <td class="grid" colspan="4">
             <div align="center">
-              <html:image property="methodToCall.performOrgSalarySetting.anchororgControlsAnchor" src="images/buttonsmall_orgsalsetting.gif" title="Organization Salary Setting" alt="Organization Salary Setting" styleClass="tinybutton"/>&nbsp;&nbsp;&nbsp;
-              <html:image property="methodToCall.performReportDump.anchororgControlsAnchor" src="images/buttonsmall_orgreportdump.gif" title="Organization Report/Dump" alt="Organization Report/Dump" styleClass="tinybutton"/>&nbsp;&nbsp;&nbsp;
-              <html:image property="methodToCall.performRequestImport.anchororgControlsAnchor" src="images/buttonsmall_reqimport.gif" title="Organization Request Import" alt="Organization Request Import" styleClass="tinybutton" />
+              <html:image property="methodToCall.performOrgSalarySetting.anchororgControlsAnchor" src="${ConfigProperties.externalizable.images.url}buttonsmall_orgsalsetting.gif" title="Organization Salary Setting" alt="Organization Salary Setting" styleClass="tinybutton"/>&nbsp;&nbsp;&nbsp;
+              <html:image property="methodToCall.performReportDump.anchororgControlsAnchor" src="${ConfigProperties.externalizable.images.url}buttonsmall_orgreportdump.gif" title="Organization Report/Dump" alt="Organization Report/Dump" styleClass="tinybutton"/>&nbsp;&nbsp;&nbsp;
+              <html:image property="methodToCall.performRequestImport.anchororgControlsAnchor" src="${ConfigProperties.externalizable.images.url}buttonsmall_reqimport.gif" title="Organization Request Import" alt="Organization Request Import" styleClass="tinybutton" />
             </div>
 		    </td>
             <td class="grid" colspan="3">
             <div align="center">
-              <html:image property="methodToCall.performOrgPullup.anchororgControlsAnchor" src="images/buttonsmall_orgpullup.gif" title="Organization Pull Up" alt="Organization Pull Up" styleClass="tinybutton"/>&nbsp;&nbsp;&nbsp;
-              <html:image property="methodToCall.performOrgPushdown.anchororgControlsAnchor" src="images/buttonsmall_orgpushdown.gif" title="Organization Push Down" alt="Organization Push Down" styleClass="tinybutton" />
+              <html:image property="methodToCall.performOrgPullup.anchororgControlsAnchor" src="${ConfigProperties.externalizable.images.url}buttonsmall_orgpullup.gif" title="Organization Pull Up" alt="Organization Pull Up" styleClass="tinybutton"/>&nbsp;&nbsp;&nbsp;
+              <html:image property="methodToCall.performOrgPushdown.anchororgControlsAnchor" src="${ConfigProperties.externalizable.images.url}buttonsmall_orgpushdown.gif" title="Organization Push Down" alt="Organization Push Down" styleClass="tinybutton" />
             </div>
 		    </td>
 		</tr>
 	</table>
 
     <div id="globalbuttons" class="globalbuttons">
-        <html:image src="images/buttonsmall_close.gif" styleClass="globalbuttons" property="methodToCall.returnToCaller" title="close" alt="close"/>
+        <html:image src="${ConfigProperties.kr.externalizable.images.url}buttonsmall_close.gif" styleClass="globalbuttons" property="methodToCall.returnToCaller" title="close" alt="close"/>
     </div>
 
 <%-- Need these here to override and initialize vars used by objectinfo.js to BC specific --%>

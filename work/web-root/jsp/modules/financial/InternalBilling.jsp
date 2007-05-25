@@ -13,7 +13,7 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 --%>
-<%@ include file="/jsp/core/tldHeader.jsp"%>
+<%@ include file="/jsp/kfs/kfsTldHeader.jsp"%>
 
 <kul:documentPage showDocumentInfo="true"
 	htmlFormAction="financialInternalBilling"
@@ -26,8 +26,8 @@
 	<kul:documentOverview editingMode="${KualiForm.editingMode}" />
 	<fin:accountingLines editingMode="${KualiForm.editingMode}"
 		editableAccounts="${KualiForm.editableAccounts}" />
-	<kul:items editingMode="${KualiForm.editingMode}" />
-	<kul:generalLedgerPendingEntries />
+	<fin:items editingMode="${KualiForm.editingMode}" />
+	<gl:generalLedgerPendingEntries />
 	<kul:notes />
 	<kul:adHocRecipients />
 	<kul:routeLog />

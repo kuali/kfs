@@ -77,7 +77,7 @@
 		</property>
 	</bean>
 	
-	<bean id="platformAwareDaoJdbc" class="org.kuali.kfs.dao.jdbc.PlatformAwareDaoBaseJdbc" abstract="true">
+	<bean id="platformAwareDaoJdbc" class="org.kuali.core.dao.jdbc.PlatformAwareDaoBaseJdbc" abstract="true">
 		<property name="dataSource" ref="dataSource" />	
 	</bean>
 	

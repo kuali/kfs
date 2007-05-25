@@ -14,7 +14,7 @@
  limitations under the License.
 --%>
 
-<%@ include file="/jsp/core/tldHeader.jsp"%>
+<%@ include file="/jsp/kfs/kfsTldHeader.jsp"%>
 
 <c:set var="routingFormResearchRiskStudyAttributes" value="${DataDictionary.RoutingFormResearchRiskStudy.attributes}" />
 <c:set var="routingFormResearchRiskAttributes" value="${DataDictionary.RoutingFormResearchRisk.attributes}"/>
@@ -111,7 +111,7 @@
                     			<kul:htmlControlAttribute property="document.routingFormResearchRisk[${researchRiskStatus.index}].newResearchRiskStudy.researchRiskExemptionNumber" attributeEntry="${routingFormResearchRiskStudyAttributes.researchRiskExemptionNumber}" />                
                 			</div>
                 		</td>
-                		<td class="infoline"><div align=center><html:image property="methodToCall.insertRoutingFormResearchRiskStudy.anchor${currentTabIndex}.line${researchRiskStatus.index}" styleClass="tinybutton" src="images/tinybutton-add1.gif" alt="add research risk"/></div></td>
+                		<td class="infoline"><div align=center><html:image property="methodToCall.insertRoutingFormResearchRiskStudy.anchor${currentTabIndex}.line${researchRiskStatus.index}" styleClass="tinybutton" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-add1.gif" alt="add research risk"/></div></td>
               		</tr>
               		
               		<c:forEach items="${researchRisk.researchRiskStudies}" var="study" varStatus="studyStatus">
@@ -148,7 +148,7 @@
                 				</div>
                 			</td>
                 			<td class="infoline">
-                				<div align=center><html:image property="methodToCall.deleteRoutingFormResearchRiskStudy.tab${currentTabIndex}.line${studyStatus.index}.anchor${currentTabIndex}" styleClass="tinybutton" src="images/tinybutton-delete1.gif" alt="delete research risk"/></div>
+                				<div align=center><html:image property="methodToCall.deleteRoutingFormResearchRiskStudy.tab${currentTabIndex}.line${studyStatus.index}.anchor${currentTabIndex}" styleClass="tinybutton" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-delete1.gif" alt="delete research risk"/></div>
                 				<html:hidden property="document.routingFormResearchRisk[${researchRiskStatus.index}].researchRiskStudy[${studyStatus.index}].documentNumber"/>
                 				<html:hidden property="document.routingFormResearchRisk[${researchRiskStatus.index}].researchRiskStudy[${studyStatus.index}].researchRiskTypeCode"/>
                 				<html:hidden property="document.routingFormResearchRisk[${researchRiskStatus.index}].researchRiskStudy[${studyStatus.index}].routingFormResearchRiskStudySequenceNumber"/>
@@ -222,7 +222,7 @@
                     			<kul:htmlControlAttribute property="document.routingFormResearchRisk[${researchRiskStatus.index}].newResearchRiskStudy.researchRiskStudyExpirationDate" attributeEntry="${routingFormResearchRiskStudyAttributes.researchRiskStudyExpirationDate}" datePicker="true" />
                 			</div>
                 		</td>
-                		<td class="infoline"><div align=center><html:image property="methodToCall.insertRoutingFormResearchRiskStudy.anchor${currentTabIndex}.line${researchRiskStatus.index}" styleClass="tinybutton" src="images/tinybutton-add1.gif" alt="add research risk"/></div></td>
+                		<td class="infoline"><div align=center><html:image property="methodToCall.insertRoutingFormResearchRiskStudy.anchor${currentTabIndex}.line${researchRiskStatus.index}" styleClass="tinybutton" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-add1.gif" alt="add research risk"/></div></td>
               		</tr>
               		
               		<c:forEach items="${researchRisk.researchRiskStudies}" var="study" varStatus="studyStatus">
@@ -249,7 +249,7 @@
                 				</div>
                 			</td>
                 			<td class="infoline">
-                				<div align=center><html:image property="methodToCall.deleteRoutingFormResearchRiskStudy.tab${currentTabIndex}.line${studyStatus.index}.anchor${currentTabIndex}" styleClass="tinybutton" src="images/tinybutton-delete1.gif" alt="delete research risk"/></div>
+                				<div align=center><html:image property="methodToCall.deleteRoutingFormResearchRiskStudy.tab${currentTabIndex}.line${studyStatus.index}.anchor${currentTabIndex}" styleClass="tinybutton" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-delete1.gif" alt="delete research risk"/></div>
                 				<html:hidden property="document.routingFormResearchRisk[${researchRiskStatus.index}].researchRiskStudy[${studyStatus.index}].documentNumber"/>
                 				<html:hidden property="document.routingFormResearchRisk[${researchRiskStatus.index}].researchRiskStudy[${studyStatus.index}].researchRiskTypeCode"/>
                 				<html:hidden property="document.routingFormResearchRisk[${researchRiskStatus.index}].researchRiskStudy[${studyStatus.index}].routingFormResearchRiskStudySequenceNumber"/>
@@ -286,8 +286,8 @@
   </c:forEach>
   <table width="100%" border="0" cellpadding="0" cellspacing="0" class="b3" summary="">
 	<tr>
-		<td align="left" class="footer"><img src="images/pixel_clear.gif" alt="" width="12" height="14" class="bl3"></td>
-		<td align="right" class="footer-right"><img src="images/pixel_clear.gif" alt="" width="12" height="14" class="br3"></td>
+		<td align="left" class="footer"><img src="${ConfigProperties.kr.externalizable.images.url}pixel_clear.gif" alt="" width="12" height="14" class="bl3"></td>
+		<td align="right" class="footer-right"><img src="${ConfigProperties.kr.externalizable.images.url}pixel_clear.gif" alt="" width="12" height="14" class="br3"></td>
     </tr>
   </table>
 </div>

@@ -13,10 +13,8 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 --%>
-<%@ taglib prefix="c" uri="/tlds/c.tld"%>
-<%@ taglib prefix="fn" uri="/tlds/fn.tld"%>
-<%@ taglib uri="/tlds/struts-html.tld" prefix="html"%>
-<%@ taglib uri="/tlds/struts-bean.tld" prefix="bean"%>
+<%@ include file="/jsp/kfs/kfsTldHeader.jsp"%>
+
 <%@ attribute name="cluster" required="false"%>
 <%@ attribute name="keyMatch" required="false"%>
 <%@ attribute name="isLink" required="true"%>
@@ -40,7 +38,7 @@
 							<tr>
 								<td>&nbsp;</td>
 								<td width="94%">${errorText}</td>
-								<td width="5%"><div align="center"><html:image src="images/tinybutton-fix.gif" property="methodToCall.${audit.link}.x"/></div></td>
+								<td width="5%"><div align="center"><html:image src="${ConfigProperties.kr.externalizable.images.url}tinybutton-fix.gif" property="methodToCall.${audit.link}.x"/></div></td>
 							</tr>
 						</c:when>
 						<c:otherwise><li>${errorText}</li></c:otherwise>

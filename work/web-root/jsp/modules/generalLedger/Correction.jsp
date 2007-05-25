@@ -13,8 +13,7 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 --%>
-<%@ include file="/jsp/core/tldHeader.jsp" %>
-<%@ taglib tagdir="/WEB-INF/tags/gl/glcp" prefix="glcp"%>
+<%@ include file="/jsp/kfs/kfsTldHeader.jsp" %>
 
 <kul:page showDocumentInfo="true" docTitle="${KualiForm.docTitle}"
 	htmlFormAction="${KualiForm.htmlFormAction}" transactionalDocument="false"
@@ -156,7 +155,7 @@
                   <html:optionsCollection property="actionFormUtilMap.getOptionsMap~org|kuali|module|gl|web|optionfinder|CorrectionEditMethodValuesFinder" label="label" value="key"/>
                 </html:select>
                 <html:hidden property="previousEditMethod"/>
-                <html:image property="methodToCall.selectSystemEditMethod.anchor${currentTabIndex}" src="images/tinybutton-select.gif" styleClass="tinybutton" alt="Select System and Edit Method" title="Select System and Edit Method"/>
+                <html:image property="methodToCall.selectSystemEditMethod.anchor${currentTabIndex}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-select.gif" styleClass="tinybutton" alt="Select System and Edit Method" title="Select System and Edit Method"/>
               </center>
             </td>
           </tr>
@@ -211,12 +210,12 @@
                   <html:hidden property="previousInputGroupId"/>
                   <br/><br/>
                   <c:if test="${KualiForm.editMethod eq 'R'}">
-                    <html:image property="methodToCall.confirmDeleteDocument.anchor${currentTabIndex}" src="images/tinybutton-remgrpproc.gif" styleClass="tinybutton" alt="deleteDocument" title="Remove Group From Processing" />
+                    <html:image property="methodToCall.confirmDeleteDocument.anchor${currentTabIndex}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-remgrpproc.gif" styleClass="tinybutton" alt="deleteDocument" title="Remove Group From Processing" />
                   </c:if>
                   <c:if test="${KualiForm.editMethod eq 'M' or KualiForm.editMethod eq 'C'}">
-                    <html:image property="methodToCall.loadGroup.anchor${currentTabIndex}" src="images/tinybutton-loadgroup.gif" styleClass="tinybutton" alt="ShowAllEntries" title="Show All Entries"/>
+                    <html:image property="methodToCall.loadGroup.anchor${currentTabIndex}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-loadgroup.gif" styleClass="tinybutton" alt="ShowAllEntries" title="Show All Entries"/>
                   </c:if>
-                  <html:image property="methodToCall.saveToDesktop.anchor${currentTabIndex}" src="images/tinybutton-cpygrpdesk.gif" styleClass="tinybutton" alt="saveToDeskTop" title="Save To Desktop" onclick="excludeSubmitRestriction=true" />
+                  <html:image property="methodToCall.saveToDesktop.anchor${currentTabIndex}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-cpygrpdesk.gif" styleClass="tinybutton" alt="saveToDeskTop" title="Save To Desktop" onclick="excludeSubmitRestriction=true" />
                 </center> 
               </td>
             </tr>
@@ -235,7 +234,7 @@
               <td class="bord-l-b" style="padding: 4px;">
                 <html:hidden property="document.correctionInputGroupId"/>
                 <html:file size="30" property="sourceFile" />
-                <html:image property="methodToCall.uploadFile.anchor${currentTabIndex}" src="images/tinybutton-loaddoc.gif" styleClass="tinybutton" alt="uploadFile" title="upload file"/>
+                <html:image property="methodToCall.uploadFile.anchor${currentTabIndex}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-loaddoc.gif" styleClass="tinybutton" alt="uploadFile" title="upload file"/>
               </td>
             </tr>
           </table>
@@ -312,14 +311,14 @@
                       <tr class="odd">
                         <c:choose>
                           <c:when test="${KualiForm.entryForManualEdit.entryId == 0}">
-                            <td><html:image property="methodToCall.addManualEntry.anchor${currentTabIndex}" src="images/tinybutton-add1.gif" styleClass="tinybutton" alt="edit"/></td>
+                            <td><html:image property="methodToCall.addManualEntry.anchor${currentTabIndex}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-add1.gif" styleClass="tinybutton" alt="edit"/></td>
                           </c:when>
                           <c:otherwise>
                             <td>
                               <html:hidden property="entryForManualEdit.versionNumber"/>
                               <html:hidden property="entryForManualEdit.entryId"/>
                               <html:hidden property="entryForManualEdit.entryGroupId"/>
-                              <html:image property="methodToCall.saveManualEntry.anchor${currentTabIndex}" src="images/tinybutton-edit1.gif" styleClass="tinybutton" alt="edit"/>
+                              <html:image property="methodToCall.saveManualEntry.anchor${currentTabIndex}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-edit1.gif" styleClass="tinybutton" alt="edit"/>
                             </td>
                           </c:otherwise>
                         </c:choose>
@@ -357,7 +356,7 @@
             <c:if test="${KualiForm.manualEditFlag == true}" >
               <td>
                 <STRONG> Do you want to edit this document? </STRONG>
-                <html:image property="methodToCall.manualEdit.anchor${currentTabIndex}" src="images/tinybutton-edit1.gif" styleClass="tinybutton" alt="show edit" />
+                <html:image property="methodToCall.manualEdit.anchor${currentTabIndex}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-edit1.gif" styleClass="tinybutton" alt="show edit" />
               </td>
             </c:if>
           </table>
@@ -391,11 +390,11 @@
                     <center>
                       <c:if test="${KualiForm.showOutputFlag == true}">
                         <strong>Show Input Group</strong>
-                        <html:image property="methodToCall.showOutputGroup.anchor${currentTabIndex - 1}" src="images/tinybutton-show.gif" styleClass="tinybutton" alt="show Input Group" />
+                        <html:image property="methodToCall.showOutputGroup.anchor${currentTabIndex - 1}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-show.gif" styleClass="tinybutton" alt="show Input Group" />
                       </c:if>
                       <c:if test="${KualiForm.showOutputFlag == false}">
                         <strong>Show Output Group</strong>
-                        <html:image property="methodToCall.showOutputGroup.anchor${currentTabIndex - 1}" src="images/tinybutton-show.gif" styleClass="tinybutton" alt="show Output Group" />
+                        <html:image property="methodToCall.showOutputGroup.anchor${currentTabIndex - 1}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-show.gif" styleClass="tinybutton" alt="show Output Group" />
                       </c:if>
                     </center>
                   </td>
@@ -436,7 +435,7 @@
                   <html:hidden property="correctionDocument.correctionChangeGroupItem[${group.correctionChangeGroupLineNumber}].correctionCriteriaNextLineNumber"/>
                   <html:hidden property="correctionDocument.correctionChangeGroupItem[${group.correctionChangeGroupLineNumber}].correctionChangeNextLineNumber"/>
                   <strong>Group:</strong>
-                  <html:image property="methodToCall.removeCorrectionGroup.group${group.correctionChangeGroupLineNumber}.anchor${currentTabIndex}" src="images/tinybutton-delete1.gif" styleClass="tinybutton" alt="delete correction group" />
+                  <html:image property="methodToCall.removeCorrectionGroup.group${group.correctionChangeGroupLineNumber}.anchor${currentTabIndex}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-delete1.gif" styleClass="tinybutton" alt="delete correction group" />
                 </td>
               </tr>
               <tr style="border-bottom: 1px solid #333;"> 
@@ -452,7 +451,7 @@
                   </html:select>
                   Value:
                   <html:text property="groupsItem[${group.correctionChangeGroupLineNumber}].correctionCriteria.correctionFieldValue"/>
-                  <html:image property="methodToCall.addCorrectionCriteria.criteria${group.correctionChangeGroupLineNumber}.anchor${currentTabIndex}" src="images/tinybutton-add1.gif" styleClass="tinybutton" alt="Add Search Criteria" /><br>
+                  <html:image property="methodToCall.addCorrectionCriteria.criteria${group.correctionChangeGroupLineNumber}.anchor${currentTabIndex}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-add1.gif" styleClass="tinybutton" alt="Add Search Criteria" /><br>
                   <c:forEach items="${group.correctionCriteria}" var="criteria" varStatus="cc">
                     Field:
                     <html:hidden property="correctionDocument.correctionChangeGroupItem[${group.correctionChangeGroupLineNumber}].correctionCriteriaItem[${criteria.correctionCriteriaLineNumber}].versionNumber"/>
@@ -467,7 +466,7 @@
                     </html:select>
                     Value:
                     <html:text property="correctionDocument.correctionChangeGroupItem[${group.correctionChangeGroupLineNumber}].correctionCriteriaItem[${criteria.correctionCriteriaLineNumber}].correctionFieldValue"/>
-                    <html:image property="methodToCall.removeCorrectionCriteria.criteria${group.correctionChangeGroupLineNumber}-${criteria.correctionCriteriaLineNumber}.anchor${currentTabIndex}" src="images/tinybutton-delete1.gif" styleClass="tinybutton" alt="delete search criterion" />
+                    <html:image property="methodToCall.removeCorrectionCriteria.criteria${group.correctionChangeGroupLineNumber}-${criteria.correctionCriteriaLineNumber}.anchor${currentTabIndex}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-delete1.gif" styleClass="tinybutton" alt="delete search criterion" />
                     <br>
                   </c:forEach>
                 </td>
@@ -479,7 +478,7 @@
                   </html:select>
                   Replacement Value:
                   <html:text property="groupsItem[${group.correctionChangeGroupLineNumber}].correctionChange.correctionFieldValue"/>
-                  <html:image property="methodToCall.addCorrectionChange.change${group.correctionChangeGroupLineNumber}.anchor${currentTabIndex}" src="images/tinybutton-add1.gif" alt="add replacement specification" styleClass="tinybutton" /> <br>
+                  <html:image property="methodToCall.addCorrectionChange.change${group.correctionChangeGroupLineNumber}.anchor${currentTabIndex}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-add1.gif" alt="add replacement specification" styleClass="tinybutton" /> <br>
                   <c:forEach items="${group.correctionChange}" var="change">
                     Field:
                     <html:hidden property="correctionDocument.correctionChangeGroupItem[${group.correctionChangeGroupLineNumber}].correctionChangeItem[${change.correctionChangeLineNumber}].versionNumber"/>
@@ -490,7 +489,7 @@
                     </html:select>
                     Replacement Value:
                     <html:text property="correctionDocument.correctionChangeGroupItem[${group.correctionChangeGroupLineNumber}].correctionChangeItem[${change.correctionChangeLineNumber}].correctionFieldValue"/>
-                    <html:image property="methodToCall.removeCorrectionChange.change${group.correctionChangeGroupLineNumber}-${change.correctionChangeLineNumber}.anchor${currentTabIndex}" src="images/tinybutton-delete1.gif" alt="delete search specification" styleClass="tinybutton" />
+                    <html:image property="methodToCall.removeCorrectionChange.change${group.correctionChangeGroupLineNumber}-${change.correctionChangeLineNumber}.anchor${currentTabIndex}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-delete1.gif" alt="delete search specification" styleClass="tinybutton" />
                     <br>
                   </c:forEach>
                 </td>
@@ -500,7 +499,7 @@
               <td colspan="2" align="left" class="bord-l-b" style="padding: 4px; vertical-align: top;"> 
                 <center>
                   <STRONG>Add Groups </STRONG>
-                  <html:image property="methodToCall.addCorrectionGroup.anchor${currentTabIndex}" src="images/tinybutton-add1.gif" alt="add correction group" styleClass="tinybutton" />
+                  <html:image property="methodToCall.addCorrectionGroup.anchor${currentTabIndex}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-add1.gif" alt="add correction group" styleClass="tinybutton" />
                 </center>
               </td>
             </tr>
@@ -538,7 +537,7 @@
                     </html:select>
                     Value:
                     <html:text property="correctionDocument.correctionChangeGroupItem[${group.correctionChangeGroupLineNumber}].correctionCriteriaItem[${criteria.correctionCriteriaLineNumber}].correctionFieldValue"/>
-                    <html:image property="methodToCall.removeCorrectionCriteria.criteria${group.correctionChangeGroupLineNumber}-${criteria.correctionCriteriaLineNumber}.anchor${currentTabIndex}" src="images/tinybutton-delete1.gif" styleClass="tinybutton" alt="Remove Search Criteria" />
+                    <html:image property="methodToCall.removeCorrectionCriteria.criteria${group.correctionChangeGroupLineNumber}-${criteria.correctionCriteriaLineNumber}.anchor${currentTabIndex}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-delete1.gif" styleClass="tinybutton" alt="Remove Search Criteria" />
                     <br>
                   </c:forEach>
                   Field:
@@ -552,7 +551,7 @@
                   </html:select>
                   Value:
                   <html:text property="groupsItem[${group.correctionChangeGroupLineNumber}].correctionCriteria.correctionFieldValue"/>
-                  <html:image property="methodToCall.addCorrectionCriteria.criteria${group.correctionChangeGroupLineNumber}.anchor${currentTabIndex}" src="images/tinybutton-add1.gif" styleClass="tinybutton" alt="Add Search Criteria" />
+                  <html:image property="methodToCall.addCorrectionCriteria.criteria${group.correctionChangeGroupLineNumber}.anchor${currentTabIndex}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-add1.gif" styleClass="tinybutton" alt="Add Search Criteria" />
                 </c:forEach>
               </td>
             </tr>
@@ -561,11 +560,11 @@
                 <center>
                   <c:if test="${KualiForm.showOutputFlag == true}">
                     <strong>Show All Entries</strong>
-                    <html:image property="methodToCall.searchCancelForManualEdit.anchor${currentTabIndex - 3}" src="images/tinybutton-show.gif" styleClass="tinybutton" alt="Show Matching Entries" />
+                    <html:image property="methodToCall.searchCancelForManualEdit.anchor${currentTabIndex - 3}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-show.gif" styleClass="tinybutton" alt="Show Matching Entries" />
                   </c:if>
                   <c:if test="${KualiForm.showOutputFlag == false}">
                     <strong>Show Matching Entries</strong>
-                    <html:image property="methodToCall.searchForManualEdit.anchor${currentTabIndex - 3}" src="images/tinybutton-show.gif" styleClass="tinybutton" alt="Show All Entries" />
+                    <html:image property="methodToCall.searchForManualEdit.anchor${currentTabIndex - 3}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-show.gif" styleClass="tinybutton" alt="Show All Entries" />
                   </c:if>
                 </center>
               </td>

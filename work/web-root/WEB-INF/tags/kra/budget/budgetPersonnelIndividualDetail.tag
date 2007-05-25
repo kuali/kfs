@@ -13,16 +13,7 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 --%>
-<%@ taglib prefix="c" uri="/tlds/c.tld" %>
-<%@ taglib uri="/tlds/struts-html.tld" prefix="html" %>
-<%@ taglib uri="/tlds/struts-logic.tld" prefix="logic" %>
-<%@ taglib uri="/tlds/fmt.tld" prefix="fmt" %>
-<%@ taglib uri="/tlds/fn.tld" prefix="fn" %>
-
-<%@ taglib tagdir="/WEB-INF/tags" prefix="kul" %>
-<%@ taglib tagdir="/WEB-INF/tags/dd" prefix="dd" %>
-<%@ taglib tagdir="/WEB-INF/tags/kra" prefix="kra" %>
-<%@ taglib tagdir="/WEB-INF/tags/kra/budget" prefix="kra-b" %>
+<%@ include file="/jsp/kfs/kfsTldHeader.jsp"%>
 
 <%@ attribute name="person" required="true" type="org.kuali.module.kra.budget.bo.BudgetUser"%>
 <%@ attribute name="firstInList" required="true" %>
@@ -178,7 +169,7 @@
                           <html:hidden property="document.budget.personFromList[${listIndex}].previousAppointmentTypeCode" value="${KualiForm.document.budget.personnel[listIndex].appointmentTypeCode}" />
                           <html:hidden property="document.budget.personFromList[${listIndex}].secondaryAppointmentTypeCode" />
                           <html:hidden property="document.budget.personFromList[${listIndex}].previousSecondaryAppointmentTypeCode" value="${KualiForm.document.budget.personnel[listIndex].secondaryAppointmentTypeCode}" />
-                          <html:image src="images/tinybutton-updateview.gif" styleClass="tinybutton" property="methodToCall.updateView.anchor${currentTabIndex}" alt="update view"/>
+                          <html:image src="${ConfigProperties.kr.externalizable.images.url}tinybutton-updateview.gif" styleClass="tinybutton" property="methodToCall.updateView.anchor${currentTabIndex}" alt="update view"/>
                         </c:if>
                       </span>
                     </td>
@@ -229,14 +220,14 @@
 		                    <html:options collection="budgetTasks" property="budgetTaskSequenceNumber" labelProperty="budgetTaskName"/>
 		                  </html:select>
 		                  <html:hidden property="document.budget.personFromList[${listIndex}].previousTaskNumber" value="${KualiForm.document.budget.personnel[listIndex].currentTaskNumber}" />
-		                  <html:image src="images/tinybutton-updateview.gif" styleClass="tinybutton" property="methodToCall.updateView.anchor${currentTabIndex}" alt="update view"/> </span></td>
+		                  <html:image src="${ConfigProperties.kr.externalizable.images.url}tinybutton-updateview.gif" styleClass="tinybutton" property="methodToCall.updateView.anchor${currentTabIndex}" alt="update view"/> </span></td>
 		              </tr>
 
                  <kra-b:budgetPersonnelIndividualGrid person="${person}" personListIndex="${listIndex}" />
                   
                  <c:if test="${! viewOnly }">
                    <tr>
-                     <th colspan="14" class="bord-l-b"><html:image src="images/tinybutton-calccomp.gif" styleClass="tinybutton" property="methodToCall.calculateCompensation.anchor${currentTabIndex}" alt="calculateCompensation"/></th>
+                     <th colspan="14" class="bord-l-b"><html:image src="${ConfigProperties.kr.externalizable.images.url}tinybutton-calccomp.gif" styleClass="tinybutton" property="methodToCall.calculateCompensation.anchor${currentTabIndex}" alt="calculateCompensation"/></th>
                    </tr>
                  </c:if>
                </tbody>

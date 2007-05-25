@@ -13,13 +13,8 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 --%>
-<%@ include file="/jsp/core/tldHeader.jsp"%>
-<%@ taglib prefix="c" uri="/tlds/c.tld"%>
-<%@ taglib uri="/tlds/struts-html.tld" prefix="html"%>
-<%@ taglib uri="/tlds/struts-logic.tld" prefix="logic"%>
-<%@ taglib tagdir="/WEB-INF/tags" prefix="kul"%>
-<%@ taglib tagdir="/WEB-INF/tags/cr" prefix="cr"%>
-<%@ taglib tagdir="/WEB-INF/tags/dd" prefix="dd"%>
+<%@ include file="/jsp/kfs/kfsTldHeader.jsp"%>
+
 <c:set var="displayHidden" value="false" />
 <c:set var="checkDetailMode" value="${KualiForm.checkEntryDetailMode}" />
 <c:set var="cashReceiptAttributes"
@@ -91,7 +86,7 @@
 							<html:optionsCollection property="checkEntryModes" label="label"
 								value="value" />
 						</html:select>
-						<noscript><html:image src="images/tinybutton-select.gif"
+						<noscript><html:image src="${ConfigProperties.kr.externalizable.images.url}tinybutton-select.gif"
 							styleClass="tinybutton" alt="change check entry mode" title="change check entry mode" /></noscript>
 						</td>
 					</c:if>
@@ -132,7 +127,7 @@
 					</th>
 					<td width="35%" align="left" valign="middle">$${KualiForm.document.currencyFormattedSumTotalAmount}&nbsp;&nbsp;&nbsp;
 					<c:if test="${!readOnly}">
-						<html:image src="images/tinybutton-recalculate.gif"
+						<html:image src="${ConfigProperties.kr.externalizable.images.url}tinybutton-recalculate.gif"
 							styleClass="tinybutton" alt="recalculate total" title="recalculate total" />
 					</c:if> <c:if test="${readOnly}"> &nbsp; </c:if></td>
 				</tr>
@@ -148,7 +143,7 @@
 		editableAccounts="${KualiForm.editableAccounts}"
 		sourceAccountingLinesOnly="true"
 		extraSourceRowFields="financialDocumentLineDescription" />
-	<kul:generalLedgerPendingEntries />
+	<gl:generalLedgerPendingEntries />
 	<kul:notes />
 	<kul:adHocRecipients />
 	<kul:routeLog />

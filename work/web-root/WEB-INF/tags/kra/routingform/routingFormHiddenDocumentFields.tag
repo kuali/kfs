@@ -13,7 +13,7 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 --%>
-<%@ include file="/jsp/core/tldHeader.jsp" %>
+<%@ include file="/jsp/kfs/kfsTldHeader.jsp" %>
 <%@ attribute name="includeDocumenHeaderIdFields" required="false" %>
 <%@ attribute name="includeRoutingFormMainPage" required="false" %>
 

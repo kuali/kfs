@@ -138,7 +138,7 @@ public class KualiBatchJobModifyAction extends KualiAction {
         job.runJob( startStep, endStep, startTime, emailAddress );
         
         // redirect to display form to prevent re-execution of the job by mistake
-        return new ActionForward( "/batchModify.do?methodToCall=start&name=" + UrlFactory.encode( job.getName() ) + "&group=" + UrlFactory.encode( job.getGroup() ), true );
+        return getForward(job);
     }
 
     public ActionForward stopJob(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -148,7 +148,7 @@ public class KualiBatchJobModifyAction extends KualiAction {
 
         job.interrupt();        
         
-        return new ActionForward( "/batchModify.do?methodToCall=start&name=" + UrlFactory.encode( job.getName() ) + "&group=" + UrlFactory.encode( job.getGroup() ), true );
+        return getForward(job);
     }
     
 
@@ -159,7 +159,7 @@ public class KualiBatchJobModifyAction extends KualiAction {
 
         job.schedule();
         
-        return new ActionForward( "/batchModify.do?methodToCall=start&name=" + UrlFactory.encode( job.getName() ) + "&group=" + UrlFactory.encode( job.getGroup() ), true );
+        return getForward(job);
     }
 
     public ActionForward unschedule(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -172,6 +172,10 @@ public class KualiBatchJobModifyAction extends KualiAction {
         // move to the unscheduled job object since the scheduled one has been removed
         job = getSchedulerService().getJob( SchedulerService.UNSCHEDULED_GROUP, job.getName() );
         
-        return new ActionForward( "/batchModify.do?methodToCall=start&name=" + UrlFactory.encode( job.getName() ) + "&group=" + UrlFactory.encode( job.getGroup() ), true );
+        return getForward(job);
+    }
+    
+    private ActionForward getForward(BatchJobStatus job) {
+        return new ActionForward(SpringServiceLocator.getKualiConfigurationService().getPropertyString(KFSConstants.APPLICATION_URL_KEY) + "/batchModify.do?methodToCall=start&name=" + UrlFactory.encode( job.getName() ) + "&group=" + UrlFactory.encode( job.getGroup() ), true );
     }
 }

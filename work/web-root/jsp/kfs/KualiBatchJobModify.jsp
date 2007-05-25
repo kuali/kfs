@@ -28,7 +28,7 @@
 		padding : 0!important;
  	}
 </style>
-<c:set var="lookupReturnLink" value="<a href=\"lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.batch.BatchJobStatus&docFormKey=88888888&returnLocation=portal.do&hideReturnLink=true&conversionFields=name:name,group:group\">Return to Lookup</a>" />
+<c:set var="lookupReturnLink" value="<a href=\"kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.batch.BatchJobStatus&docFormKey=88888888&returnLocation=portal.do&hideReturnLink=true&conversionFields=name:name,group:group\">Return to Lookup</a>" />
 <kul:page showDocumentInfo="false"
 	headerTitle="Modify Batch Job" docTitle="Modify Batch Job"
 	transactionalDocument="false" htmlFormAction="batchModify"

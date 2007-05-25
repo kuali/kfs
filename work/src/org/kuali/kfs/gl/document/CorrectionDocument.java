@@ -186,7 +186,7 @@ public class CorrectionDocument extends TransactionalDocumentBase {
             LOG.error("Null routing level");
         }
         else if(WORKGROUP_APPROVAL_ROUTE_LEVEL.equals(routeLevel)) {
-            String correctionType = getDocumentNumber();
+            String correctionType = getCorrectionTypeCode();
             if (CorrectionDocumentService.CORRECTION_TYPE_MANUAL.equals(correctionType) || CorrectionDocumentService.CORRECTION_TYPE_CRITERIA.equals(correctionType)){
                 String docId = getDocumentHeader().getDocumentNumber();
                 // this code is performed asynchronously

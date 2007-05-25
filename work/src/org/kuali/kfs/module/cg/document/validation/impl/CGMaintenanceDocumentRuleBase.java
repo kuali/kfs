@@ -39,6 +39,7 @@ public class CGMaintenanceDocumentRuleBase extends MaintenanceDocumentRuleBase {
     private static final String PROJECT_DIRECTOR_DECEASED = "D";
     private static final String[] PROJECT_DIRECTOR_INVALID_STATUSES = {PROJECT_DIRECTOR_DECEASED};
     
+    private static final String AGENCY_TYPE_CODE_FEDERAL = "F";
     
     /**
      * checks to see if the end date is after the begine date
@@ -139,6 +140,32 @@ public class CGMaintenanceDocumentRuleBase extends MaintenanceDocumentRuleBase {
             putFieldError(agencyPropertyName, KFSKeyConstants.ERROR_AGENCY_EQUALS_FEDERAL_PASS_THROUGH_AGENCY);
             putFieldError(fedPassThroughAgencyPropertyName, KFSKeyConstants.ERROR_FEDERAL_PASS_THROUGH_AGENCY_EQUALS_AGENCY);
             success = false;
+        }
+        return success;
+    }
+
+    /**
+     * checks if the required federal pass through fields are filled in if the federal pass through indicator is yes
+     *
+     * @return
+     */
+    protected boolean checkFederalPassThrough(boolean federalPassThroughIndicator, Agency primaryAgency, String federalPassThroughAgencyNumber, Class propertyClass, String federalPassThroughIndicatorFieldName) {
+        boolean success = true;
+        if (federalPassThroughIndicator) {
+
+            String indicatorLabel = SpringServiceLocator.getDataDictionaryService().getAttributeErrorLabel(propertyClass, federalPassThroughIndicatorFieldName);
+            if (StringUtils.isBlank(federalPassThroughAgencyNumber)) {
+                String agencyLabel = SpringServiceLocator.getDataDictionaryService().getAttributeErrorLabel(propertyClass, KFSPropertyConstants.FEDERAL_PASS_THROUGH_AGENCY_NUMBER);
+                putFieldError(KFSPropertyConstants.FEDERAL_PASS_THROUGH_AGENCY_NUMBER, KFSKeyConstants.ERROR_AWARD_FEDERAL_PASS_THROUGH_INDICATOR_DEPENDENCY_REQUIRED, new String[] { agencyLabel, indicatorLabel });
+                success = false;
+            }
+            else {
+                if(ObjectUtils.isNotNull(primaryAgency) && AGENCY_TYPE_CODE_FEDERAL.equalsIgnoreCase(primaryAgency.getAgencyTypeCode())) {
+                    String agencyLabel = SpringServiceLocator.getDataDictionaryService().getAttributeErrorLabel(propertyClass, KFSPropertyConstants.AGENCY_NUMBER);
+                    putFieldError(KFSPropertyConstants.AGENCY_NUMBER, KFSKeyConstants.ERROR_AGENCY_FEDERAL_AND_FEDERAL_PASS_THROUGH_INDICATOR_CHECKED, new String[] { primaryAgency.getAgencyNumber(), AGENCY_TYPE_CODE_FEDERAL});
+                    success = false;
+                }
+            }
         }
         return success;
     }

@@ -142,6 +142,7 @@ public class KFSPropertyConstants extends PropertyConstants {
     public static final String AWARD_BEGINNING_DATE = "awardBeginningDate";
     public static final String AWARD_ENDING_DATE = "awardEndingDate";
     public static final String AWARD_ENTRY_DATE = "awardEntryDate";
+    public static final String AWARD_FEDERAL_PASS_THROUGH_INDICATOR = "awardFederalPassThroughIndicator";
     public static final String AWARD_INDR_COST_RCVY_ENTRY_NBR = "awardIndrCostRcvyEntryNbr";
     public static final String AWARD_INDR_COST_RCVY_RATE_PCT = "awardIndrCostRcvyRatePct";
     public static final String AWARD_ORGRANIZATIONS = "awardOrganizations";
@@ -959,6 +960,7 @@ public class KFSPropertyConstants extends PropertyConstants {
     public static final String PROJECT_MANAGER_UNIVERSAL_ID = "projectManagerUniversalId";
     public static final String PROPOSAL = "proposal";
     public static final String PROPOSAL_ENDING_DATE = "proposalEndingDate";
+    public static final String PROPOSAL_FEDERAL_PASS_THROUGH_INDICATOR = "proposalFederalPassThroughIndicator";
     public static final String PROPOSAL_NUMBER = "proposalNumber";
     public static final String PROPOSAL_ORGANIZATIONS = "proposalOrganizations";
     public static final String PROPOSAL_PROJECT_DIRECTORS = "proposalProjectDirectors";

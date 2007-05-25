@@ -107,7 +107,7 @@
                 <gl:balanceInquiryLookup
                     boClassName="org.kuali.module.labor.bo.LedgerBalance"
                     actionPath="glBalanceInquiryLookup.do"
-                    lookupParameters="emplid:emplid,financialBalanceTypeCode:financialBalanceTypeCode,'S':laborObject.financialObjectFringeOrSalaryCode"
+                    lookupParameters="emplid:emplid,financialBalanceTypeCode:financialBalanceTypeCode,laborObject.financialObjectFringeOrSalaryCode:'S'"
                     hideReturnLink="false" />
             </jsp:attribute>
             <jsp:attribute name="customActions">

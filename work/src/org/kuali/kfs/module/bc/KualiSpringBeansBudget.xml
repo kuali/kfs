@@ -56,6 +56,12 @@
 	<bean id="budgetUserService" class="org.kuali.module.budget.service.impl.BudgetUserServiceImpl" parent="kualiModuleUserServiceBase">
 	</bean>
 
+	<bean id="budgetDocumentService" class="org.kuali.module.budget.service.impl.BudgetDocumentServiceImpl">
+		<property name="budgetConstructionDao">
+			<ref bean="budgetConstructionDao" />
+		</property>
+	</bean>
+
 	<bean id="lockService" class="org.kuali.module.budget.service.impl.LockServiceImpl">
 		<property name="budgetConstructionDao">
 			<ref bean="budgetConstructionDao" />

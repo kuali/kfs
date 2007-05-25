@@ -32,16 +32,30 @@
     <html:hidden property="document.purchaseOrderCurrentIndicator" />
     <html:hidden property="document.pendingActionIndicator" />
 
-    <kul:documentOverview editingMode="${KualiForm.editingMode}"
-        includePostingYear="true"
-        postingYearAttributes="${DataDictionary.KualiPurchaseOrderDocument.attributes}" >
+    <c:if test="${empty KualiForm.editingMode['amendmentEntry']}">
+        <kul:documentOverview editingMode="${KualiForm.editingMode}"
+            includePostingYear="true"
+            postingYearAttributes="${DataDictionary.KualiPurchaseOrderDocument.attributes}" >
 
-        <purap:purapDocumentDetail
-            documentAttributes="${DataDictionary.KualiPurchaseOrderDocument.attributes}"
-            purchaseOrder="true"
-            detailSectionLabel="Purchase Order Detail" />
-    </kul:documentOverview>
+            <purap:purapDocumentDetail
+                documentAttributes="${DataDictionary.KualiPurchaseOrderDocument.attributes}"
+                purchaseOrder="true"
+                detailSectionLabel="Purchase Order Detail" />
+        </kul:documentOverview>
+    </c:if>
+    <!--  TODO maybe we ought to rename the accountingLineEditingMode to something more generic -->
+    <c:if test="${! empty KualiForm.editingMode['amendmentEntry']}">
+        <kul:documentOverview editingMode="${KualiForm.accountingLineEditingMode}"
+            includePostingYear="true"
+            postingYearAttributes="${DataDictionary.KualiPurchaseOrderDocument.attributes}" >
 
+            <purap:purapDocumentDetail
+                documentAttributes="${DataDictionary.KualiPurchaseOrderDocument.attributes}"
+                purchaseOrder="true"
+                detailSectionLabel="Purchase Order Detail" />
+        </kul:documentOverview>
+    </c:if>
+    
     <c:if test="${KualiForm.editingMode['displayRetransmitTab']}" >
         <purap:purchaseOrderRetransmit 
             documentAttributes="${DataDictionary.KualiPurchaseOrderDocument.attributes}"

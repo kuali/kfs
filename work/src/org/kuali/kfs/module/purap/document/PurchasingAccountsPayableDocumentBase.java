@@ -22,11 +22,17 @@ import java.util.List;
 
 import org.apache.ojb.broker.util.collections.ManageableArrayList;
 import org.kuali.core.bo.Note;
+import org.kuali.core.bo.user.AuthenticationUserId;
+import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.document.AmountTotaling;
+import org.kuali.core.exceptions.UserNotFoundException;
 import org.kuali.core.service.NoteService;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.util.TypedArrayList;
+import org.kuali.core.workflow.DocumentInitiator;
+import org.kuali.core.workflow.KualiDocumentXmlMaterializer;
+import org.kuali.core.workflow.KualiTransactionalDocumentInformation;
 import org.kuali.kfs.bo.Country;
 import org.kuali.kfs.bo.SourceAccountingLine;
 import org.kuali.kfs.document.AccountingDocumentBase;
@@ -40,6 +46,7 @@ import org.kuali.module.purap.bo.Status;
 import org.kuali.module.purap.bo.StatusHistory;
 import org.kuali.module.vendor.bo.VendorAddress;
 import org.kuali.module.vendor.bo.VendorDetail;
+import org.kuali.rice.KNSServiceLocator;
 
 /**
  * Purchasing-Accounts Payable Document Base
@@ -548,6 +555,10 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
     public Country getVendorCountry() {
         return vendorCountry;
     }
-
-        
+    
+    protected boolean documentWillStopInRouteNode(String routeNodeName) {
+        populateDocumentForRouting();
+        return false;
+//        return KNSServiceLocator.getWorkflowInfoService().routeNodeHasApproverActionRequest(this.getDocumentHeader().getWorkflowDocument().getDocumentType(), getDocumentHeader().getWorkflowDocument().getApplicationContent(), routeNodeName);
+    }
 }

@@ -44,8 +44,7 @@
 <kul:page showDocumentInfo="false"
 	htmlFormAction="budgetBudgetConstructionSelection" renderMultipart="true"
 	docTitle="Budget Construction Selection"
-    transactionalDocument="false"
-	>
+    transactionalDocument="false">
 
 <%--	<kul:hiddenDocumentFields /> --%>
 
@@ -248,6 +247,7 @@
 			    	<html:hidden write="true" property="${orgPropString}.reportsToOrganizationCode" />
 				</kul:inquiry>&nbsp;
 	      	</kul:htmlControlAttribute>
+            </c:if>&nbsp;
             </td>
             <td class="grid" valign="center" rowspan="1" colspan="3">
             <c:if test="${showTheDetail}" >

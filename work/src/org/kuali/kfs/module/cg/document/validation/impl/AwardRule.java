@@ -118,17 +118,14 @@ public class AwardRule extends CGMaintenanceDocumentRuleBase {
      */
     private boolean checkFederalPassThrough() {
         boolean success = true;
+        success = super.checkFederalPassThrough(newAwardCopy.getFederalPassThroughIndicator(), newAwardCopy.getAgency(), newAwardCopy.getFederalPassThroughAgencyNumber(), Award.class, KFSPropertyConstants.FEDERAL_PASS_THROUGH_INDICATOR);
+        
         if (newAwardCopy.getFederalPassThroughIndicator()) {
 
             String indicatorLabel = SpringServiceLocator.getDataDictionaryService().getAttributeErrorLabel(Award.class, KFSPropertyConstants.FEDERAL_PASS_THROUGH_INDICATOR);
             if (null == newAwardCopy.getFederalPassThroughFundedAmount()) {
                 String amountLabel = SpringServiceLocator.getDataDictionaryService().getAttributeErrorLabel(Award.class, KFSPropertyConstants.FEDERAL_PASS_THROUGH_FUNDED_AMOUNT);
                 putFieldError(KFSPropertyConstants.FEDERAL_PASS_THROUGH_FUNDED_AMOUNT, KFSKeyConstants.ERROR_AWARD_FEDERAL_PASS_THROUGH_INDICATOR_DEPENDENCY_REQUIRED, new String[] { amountLabel, indicatorLabel });
-                success = false;
-            }
-            if (StringUtils.isBlank(newAwardCopy.getFederalPassThroughAgencyNumber())) {
-                String agencyLabel = SpringServiceLocator.getDataDictionaryService().getAttributeErrorLabel(Award.class, KFSPropertyConstants.FEDERAL_PASS_THROUGH_AGENCY_NUMBER);
-                putFieldError(KFSPropertyConstants.FEDERAL_PASS_THROUGH_AGENCY_NUMBER, KFSKeyConstants.ERROR_AWARD_FEDERAL_PASS_THROUGH_INDICATOR_DEPENDENCY_REQUIRED, new String[] { agencyLabel, indicatorLabel });
                 success = false;
             }
             String grantDescCode = newAwardCopy.getGrantDescription().getGrantDescriptionCode();

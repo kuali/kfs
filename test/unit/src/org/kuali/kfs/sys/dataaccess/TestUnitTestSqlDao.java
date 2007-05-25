@@ -20,8 +20,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import org.kuali.core.util.UnitTestSqlDao;
 import org.kuali.kfs.util.SpringServiceLocator;
-import org.kuali.module.gl.dao.UnitTestSqlDao;
 import org.kuali.test.KualiTestBase;
 
 public class TestUnitTestSqlDao extends KualiTestBase {

@@ -17,8 +17,8 @@ package org.kuali.module.gl.service;
 
 import java.util.List;
 
+import org.kuali.core.util.UnitTestSqlDao;
 import org.kuali.kfs.util.SpringServiceLocator;
-import org.kuali.module.gl.dao.UnitTestSqlDao;
 import org.kuali.test.KualiTestBase;
 import org.kuali.test.WithTestSpringContext;
 import org.springframework.beans.factory.BeanFactory;

@@ -959,8 +959,6 @@
 
 	<bean id="glReversalDao" parent="platformAwareDao" class="org.kuali.module.gl.dao.ojb.ReversalDaoOjb" />
 
-	<bean id="glUnitTestSqlDao" parent="platformAwareDao" class="org.kuali.module.gl.dao.ojb.UnitTestSqlDaoOjb" />
-
 	<bean id="glSufficientFundRebuildDao" parent="platformAwareDao" class="org.kuali.module.gl.dao.ojb.SufficientFundRebuildDaoOjb" />
 
 	<bean id="glInterDepartmentalBillingDao" parent="platformAwareDao" class="org.kuali.module.gl.dao.ojb.InterDepartmentalBillingDaoOjb" />

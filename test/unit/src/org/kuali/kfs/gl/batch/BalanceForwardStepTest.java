@@ -30,12 +30,10 @@ import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.gl.OriginEntryTestBase;
 import org.kuali.module.gl.bo.OriginEntry;
 import org.kuali.module.gl.bo.OriginEntryGroup;
-import org.kuali.module.gl.dao.UnitTestSqlDao;
 import org.kuali.module.gl.service.OriginEntryGroupService;
 import org.kuali.module.gl.service.OriginEntryService;
 import org.kuali.module.gl.util.GeneralLedgerTestHelper;
 import org.kuali.test.WithTestSpringContext;
-import org.kuali.test.suite.RelatesTo;
 
 /**
  * IF THIS TEST FAILS, READ https://test.kuali.org/jira/browse/KULRNE-34 regarding reference numbers

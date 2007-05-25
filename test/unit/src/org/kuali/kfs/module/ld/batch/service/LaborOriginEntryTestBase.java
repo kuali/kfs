@@ -69,7 +69,7 @@ public class LaborOriginEntryTestBase extends KualiTestBase {
 
         // Other objects needed for the tests
         persistenceService = (PersistenceService) beanFactory.getBean("persistenceService");
-        unitTestSqlDao = (UnitTestSqlDao) beanFactory.getBean("glUnitTestSqlDao");
+        unitTestSqlDao = (UnitTestSqlDao) beanFactory.getBean("unitTestSqlDao");
         laborOriginEntryService = (LaborOriginEntryService) beanFactory.getBean("laborOriginEntryService");
 
         originEntryDao = (OriginEntryDao) beanFactory.getBean("glOriginEntryDao");

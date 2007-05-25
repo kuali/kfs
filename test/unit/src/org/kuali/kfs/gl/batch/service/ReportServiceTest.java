@@ -41,7 +41,7 @@ public class ReportServiceTest extends KualiTestBase {
         
         nightlyOutService = SpringServiceLocator.getNightlyOutService();
         reportService = (ReportService) beanFactory.getBean("glReportService");
-        unitTestSqlDao = (UnitTestSqlDao) beanFactory.getBean("glUnitTestSqlDao");
+        unitTestSqlDao = (UnitTestSqlDao) beanFactory.getBean("unitTestSqlDao");
     }
     
     /**

@@ -53,7 +53,7 @@ public class SufficientFundsRebuilderServiceTest extends KualiTestBase {
         sufficientFundRebuildDao = (SufficientFundRebuildDao) beanFactory.getBean("glSufficientFundRebuildDao");
         sufficientFundBalancesDao = (SufficientFundBalancesDao) beanFactory.getBean("glSufficientFundBalancesDao");
         persistenceService = (PersistenceService) beanFactory.getBean("persistenceService");
-        unitTestSqlDao = (UnitTestSqlDao) beanFactory.getBean("glUnitTestSqlDao");
+        unitTestSqlDao = (UnitTestSqlDao) beanFactory.getBean("unitTestSqlDao");
     }
 
     // testAddedSFBLRecords

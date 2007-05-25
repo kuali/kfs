@@ -37,7 +37,7 @@ public class TestUnitTestSqlDao extends KualiTestBase {
     protected void setUp() throws Exception {
         super.setUp();
 
-        unitTestSqlDao = (UnitTestSqlDao) SpringServiceLocator.getBeanFactory().getBean("glUnitTestSqlDao");
+        unitTestSqlDao = (UnitTestSqlDao) SpringServiceLocator.getBeanFactory().getBean("unitTestSqlDao");
     }
 
     public void testSelect() throws Exception {

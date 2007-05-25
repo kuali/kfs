@@ -66,7 +66,7 @@ public class BalanceServiceTest extends KualiTestBase {
     @Override
     protected void setUp() throws Exception {
         super.setUp();
-        unitTestSqlDao = (UnitTestSqlDao) getBeanFactory().getBean("glUnitTestSqlDao");
+        unitTestSqlDao = (UnitTestSqlDao) getBeanFactory().getBean("unitTestSqlDao");
         Integer fiscalYear = SpringServiceLocator.getUniversityDateService().getCurrentFiscalYear();
 
         if (runOnce) {

@@ -318,4 +318,6 @@
 	
 	<bean id="batchInputFileService" class="org.kuali.kfs.service.impl.BatchInputFileServiceImpl" />
 	
+	<!--  todo this should not be in a prod spring file -->
+	<bean id="unitTestSqlDao" parent="platformAwareDao" class="org.kuali.core.util.UnitTestSqlDaoOjb" />
 </beans>

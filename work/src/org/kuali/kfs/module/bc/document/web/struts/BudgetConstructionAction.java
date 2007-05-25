@@ -150,17 +150,14 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
     private void loadDocument(BudgetConstructionForm budgetConstructionForm) throws WorkflowException {
 
         // use the passed url autoloaded parms to get the record from DB 
-        BudgetConstructionDaoOjb bcHeaderDao;
+//        BudgetConstructionDaoOjb bcHeaderDao;
         String chartOfAccountsCode = budgetConstructionForm.getChartOfAccountsCode();
         String accountNumber = budgetConstructionForm.getAccountNumber();
         String subAccountNumber = budgetConstructionForm.getSubAccountNumber();
         Integer universityFiscalYear = budgetConstructionForm.getUniversityFiscalYear();
 
-        // TODO abyrne changed from direct construction to gettting the dao from spring, so the datasource is initialized
-        // still need to fix: should not be referencing DAO from action - should go through service
-        bcHeaderDao = (BudgetConstructionDaoOjb)SpringServiceLocator.getBeanFactory().getBean("budgetConstructionDao");
-        BudgetConstructionHeader budgetConstructionHeader = bcHeaderDao.getByCandidateKey(chartOfAccountsCode, accountNumber, subAccountNumber, universityFiscalYear);
-        
+        BudgetConstructionHeader budgetConstructionHeader = (BudgetConstructionHeader) SpringServiceLocator.getBudgetDocumentService().getByCandidateKey(chartOfAccountsCode, accountNumber, subAccountNumber, universityFiscalYear);
+
         //TODO need to check for existence and throw error
         //BC doc select will create any missing bc doc and its account hierarchy before calling this
         //for now we assume the doc exists

@@ -107,7 +107,6 @@ public class BudgetConstructionSelectionAction extends KualiAction {
         BudgetConstructionSelectionForm budgetConstructionSelectionForm = (BudgetConstructionSelectionForm) form;
         BudgetConstructionHeader bcHeader = budgetConstructionSelectionForm.getBudgetConstructionHeader();
 
-        BudgetConstructionDaoOjb bcHeaderDao;
         Integer universityFiscalYear = bcHeader.getUniversityFiscalYear();
         String chartOfAccountsCode = bcHeader.getChartOfAccountsCode();
         String accountNumber = bcHeader.getAccountNumber() ;
@@ -117,10 +116,8 @@ public class BudgetConstructionSelectionAction extends KualiAction {
         } else {
             subAccountNumber = bcHeader.getSubAccountNumber();
         }
-        // TODO abyrne changed from direct construction to gettting the dao from spring, so the datasource is initialized
-        // still need to fix: should not be referencing DAO from action - should go through service
-        bcHeaderDao = (BudgetConstructionDaoOjb)SpringServiceLocator.getBeanFactory().getBean("budgetConstructionDao");
-        BudgetConstructionHeader tHeader = bcHeaderDao.getByCandidateKey(chartOfAccountsCode, accountNumber, subAccountNumber, universityFiscalYear);
+
+        BudgetConstructionHeader tHeader = (BudgetConstructionHeader) SpringServiceLocator.getBudgetDocumentService().getByCandidateKey(chartOfAccountsCode, accountNumber, subAccountNumber, universityFiscalYear);
         if (tHeader == null){
             //error ERROR_EXISTENCE
             GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_MESSAGES,KFSKeyConstants.ERROR_EXISTENCE, "BC Document");

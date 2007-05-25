@@ -15,6 +15,8 @@
  */
 package org.kuali.module.purap.rules;
 
+import java.util.List;
+
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.exceptions.UserNotFoundException;
 import org.kuali.core.service.UniversalUserService;
@@ -22,8 +24,11 @@ import org.kuali.core.util.GlobalVariables;
 import org.kuali.kfs.KFSKeyConstants;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.purap.PurapConstants;
+import org.kuali.module.purap.PurapKeyConstants;
 import org.kuali.module.purap.PurapParameterConstants;
 import org.kuali.module.purap.PurapPropertyConstants;
+import org.kuali.module.purap.bo.PurchaseOrderItem;
+import org.kuali.module.purap.bo.PurchasingApItem;
 import org.kuali.module.purap.document.PurchasingAccountsPayableDocument;
 
 
@@ -47,7 +52,21 @@ public class PurchaseOrderAmendmentDocumentRule extends PurchaseOrderDocumentRul
         catch (UserNotFoundException ue) {
             valid = false;
         }
+        valid &= validateContainsAtLeastOneActiveItem(purapDocument);
         return valid;
+    }
+    
+    private boolean validateContainsAtLeastOneActiveItem(PurchasingAccountsPayableDocument purapDocument) {
+        List<PurchasingApItem> items = purapDocument.getItems();
+        for (PurchasingApItem item : items) {
+            if (((PurchaseOrderItem)item).isItemActiveIndicator() && (!((PurchaseOrderItem)item).isEmpty() && item.getItemType().isItemTypeAboveTheLineIndicator())) {
+                return true;
+            }
+        }
+        String documentType = SpringServiceLocator.getDataDictionaryService().getDataDictionary().getDocumentEntry(purapDocument.getDocumentHeader().getWorkflowDocument().getDocumentType()).getLabel();
+        
+        GlobalVariables.getErrorMap().putError("newPurchasingItemLine", PurapKeyConstants.ERROR_ITEM_REQUIRED, documentType);
+        return false;
     }
 
 }

@@ -24,16 +24,16 @@
 	description="The DataDictionary entry containing attributes for this row's fields."%>
 <%@ attribute name="camsAttributes" required="true" type="java.util.Map"
 	description="The DataDictionary entry containing attributes for this row's fields."%>
-
+	
 <c:set var="amendmentEntry"
 	value="${(not empty KualiForm.editingMode['amendmentEntry'])}" />
 
 <kul:tab tabTitle="Items" defaultOpen="false"
 	tabErrorKey="${PurapConstants.ITEM_TAB_ERRORS}">
-	<div class="tab-container" align=center><!--  if (fullEntryMode or amendmentEntry), then display the addLine -->
+	<div class="tab-container" align=center><!--  if (fullEntryMode or (amendmentEntry and itemLine.itemActiveIndicator)), then display the addLine -->
 	<table cellpadding="0" cellspacing="0" class="datatable"
 		summary="Items Section">
-		<c:if test="${(fullEntryMode or amendmentEntry)}">
+		<c:if test="${(fullEntryMode or (amendmentEntry and itemLine.itemActiveIndicator))}">
 			<tr>
 				<td colspan="10" class="subhead"><span class="subhead-left">Add
 				Item</span></td>
@@ -111,7 +111,7 @@
 				</td>
 			</tr>
 		</c:if>
-		<!-- End of if (fullEntryMode or amendmentEntry), then display the addLine -->
+		<!-- End of if (fullEntryMode or (amendmentEntry and itemLine.itemActiveIndicator)), then display the addLine -->
 
 
 		<tr>
@@ -222,7 +222,7 @@
 						property="document.item[${ctr}].itemType.itemTypeAboveTheLineIndicator" />
 					&nbsp;<b><html:hidden write="true"
 						property="document.item[${ctr}].itemLineNumber" /></b>&nbsp; <c:if
-						test="${(fullEntryMode or amendmentEntry)}">
+						test="${(fullEntryMode or (amendmentEntry and itemLine.itemActiveIndicator))}">
 						<html:image property="methodToCall.editItem"
 							src="${ConfigProperties.externalizable.images.url}purap-up.gif" alt="Move Item Up" title="Move Item Up"
 							styleClass="tinybutton" />
@@ -233,28 +233,29 @@
 					<td class="infoline"><kul:htmlControlAttribute
 						attributeEntry="${itemAttributes.itemTypeCode}"
 						property="document.item[${ctr}].itemTypeCode"
-						readOnly="${not (fullEntryMode or amendmentEntry)}" /></td>
+						readOnly="${not (fullEntryMode or (amendmentEntry and itemLine.itemActiveIndicator))}" /></td>
+						
 					<td class="infoline"><kul:htmlControlAttribute
 						attributeEntry="${itemAttributes.itemQuantity}"
 						property="document.item[${ctr}].itemQuantity"
-						readOnly="${not (fullEntryMode or amendmentEntry)}" /></td>
+						readOnly="${not (fullEntryMode or (amendmentEntry and itemLine.itemActiveIndicator))}" /></td>
 					<td class="infoline"><kul:htmlControlAttribute
 						attributeEntry="${itemAttributes.itemUnitOfMeasureCode}"
 						property="document.item[${ctr}].itemUnitOfMeasureCode"
-						readOnly="${not (fullEntryMode or amendmentEntry)}" /></td>
+						readOnly="${not (fullEntryMode or (amendmentEntry and itemLine.itemActiveIndicator))}" /></td>
 					<td class="infoline"><kul:htmlControlAttribute
 						attributeEntry="${itemAttributes.itemCatalogNumber}"
 						property="document.item[${ctr}].itemCatalogNumber"
-						readOnly="${not (fullEntryMode or amendmentEntry)}" /></td>
+						readOnly="${not (fullEntryMode or (amendmentEntry and itemLine.itemActiveIndicator))}" /></td>
 					<td class="infoline"><kul:htmlControlAttribute
 						attributeEntry="${itemAttributes.itemDescription}"
 						property="document.item[${ctr}].itemDescription"
-						readOnly="${not (fullEntryMode or amendmentEntry)}" /></td>
+						readOnly="${not (fullEntryMode or (amendmentEntry and itemLine.itemActiveIndicator))}" /></td>
 					<td class="infoline">
 					<div align="right"><kul:htmlControlAttribute
 						attributeEntry="${itemAttributes.itemUnitPrice}"
 						property="document.item[${ctr}].itemUnitPrice"
-						readOnly="${not (fullEntryMode or amendmentEntry)}" /></div>
+						readOnly="${not (fullEntryMode or (amendmentEntry and itemLine.itemActiveIndicator))}" /></div>
 					</td>
 					<td class="infoline">
 					<div align="right"><kul:htmlControlAttribute
@@ -267,13 +268,13 @@
 						<div align="center"><kul:htmlControlAttribute
 							attributeEntry="${itemAttributes.itemRestrictedIndicator}"
 							property="newPurchasingItemLine.itemRestrictedIndicator"
-							readOnly="${not (fullEntryMode or amendmentEntry)}" /></div>
+							readOnly="${not (fullEntryMode or (amendmentEntry and itemLine.itemActiveIndicator))}" /></div>
 						</td>
 					</c:if>
 					<!-- TODO: PHASE 2B -->
 					<!-- td class="infoline">
                             <div align="center">
-                                <kul:htmlControlAttribute attributeEntry="${itemAttributes.itemAssignedToTradeInIndicator}" property="newPurchasingItemLine.itemAssignedToTradeInIndicator" readOnly="${not (fullEntryMode or amendmentEntry)}" />
+                                <kul:htmlControlAttribute attributeEntry="${itemAttributes.itemAssignedToTradeInIndicator}" property="newPurchasingItemLine.itemAssignedToTradeInIndicator" readOnly="${not (fullEntryMode or (amendmentEntry and itemLine.itemActiveIndicator))}" />
                             </div>
                         </td -->
 					<c:if test="${fullEntryMode}">
@@ -284,7 +285,7 @@
 							title="Delete Item ${ctr+1}" styleClass="tinybutton" /></div>
 						</td>
 					</c:if>
-					<c:if test="${amendmentEntry}">
+					<c:if test="${(amendmentEntry and itemLine.itemActiveIndicator)}">
 						<td class="infoline">
 						<div align="center"><html:image
 							property="methodToCall.inactivateItem.line${ctr}"
@@ -293,7 +294,12 @@
 							styleClass="tinybutton" /></div>
 						</td>
 					</c:if>
-					<c:if test="${(not (fullEntryMode or amendmentEntry))}">
+					<c:if test="${(amendmentEntry and ! itemLine.itemActiveIndicator)}">
+						<td class="infoline">
+						<div align="center">Inactive</div>
+						</td>
+					</c:if>
+					<c:if test="${(not (fullEntryMode or (amendmentEntry and itemLine.itemActiveIndicator)))}">
 						<td class="infoline">
 						<div align="center">&nbsp;</div>
 						</td>

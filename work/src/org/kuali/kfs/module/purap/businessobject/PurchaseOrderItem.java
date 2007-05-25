@@ -95,7 +95,10 @@ public class PurchaseOrderItem extends PurchasingItemBase {
             }
             this.setSourceAccountingLines(accounts);
         }
-        
+        //By default, set the item active indicator to true. 
+        //In amendment, the user can set it to false when they click on 
+        //the inactivate button.
+        this.setItemActiveIndicator(true);
     }    
         
     /**

@@ -51,8 +51,10 @@ import org.kuali.module.purap.bo.PurchaseOrderItem;
 import org.kuali.module.purap.bo.PurchaseOrderVendorQuote;
 import org.kuali.module.purap.bo.PurchaseOrderVendorStipulation;
 import org.kuali.module.purap.document.PurchaseOrderDocument;
+import org.kuali.module.purap.document.PurchasingDocument;
 import org.kuali.module.purap.question.SingleConfirmationQuestion;
 import org.kuali.module.purap.web.struts.form.PurchaseOrderForm;
+import org.kuali.module.purap.web.struts.form.PurchasingFormBase;
 import org.kuali.module.vendor.bo.VendorDetail;
 import org.kuali.rice.KNSServiceLocator;
 
@@ -91,6 +93,25 @@ public class PurchaseOrderAction extends PurchasingActionBase {
         return super.refresh(mapping, form, request, response);
     }
 
+    /**
+     * Inactivate an item from the po document.
+     * 
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return ActionForward
+     * @throws Exception
+     */
+    public ActionForward inactivateItem(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        PurchasingFormBase purchasingForm = (PurchasingFormBase) form;
+
+        PurchaseOrderDocument purDocument = (PurchaseOrderDocument) purchasingForm.getDocument();
+        PurchaseOrderItem item = (PurchaseOrderItem)purDocument.getItem(getSelectedLine(request));
+        item.setItemActiveIndicator(false);
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
+    }
+    
     public ActionForward viewRelatedDocuments(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         LOG.debug("viewRelatedDocuments() enter action");
 

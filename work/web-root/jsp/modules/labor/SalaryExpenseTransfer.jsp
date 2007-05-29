@@ -73,7 +73,7 @@
       <c:set var="accountingLineIndexVar" value="" scope="request"/>
 	<fin:accountingLines editingMode="${KualiForm.editingMode}"
 		editableAccounts="${KualiForm.editableAccounts}" inherit="false"
-		optionalFields="positionNumber,payrollEndDateFiscalYear,payrollEndDateFiscalPeriodCode,payrollTotalHours:'S':fiscalObjectFringeOrSalaryCode">
+		optionalFields="positionNumber,payrollEndDateFiscalYear,payrollEndDateFiscalPeriodCode,payrollTotalHours">
 
       <jsp:attribute name="groupsOverride">
       <table width="100%" border="0" cellpadding="0" cellspacing="0" class="datatable">
@@ -103,7 +103,7 @@
                 <gl:balanceInquiryLookup
                     boClassName="org.kuali.module.labor.bo.LedgerBalance"
                     actionPath="glBalanceInquiryLookup.do"
-                    lookupParameters="emplid:emplid,financialBalanceTypeCode:financialBalanceTypeCode"
+                    lookupParameters="emplid:emplid,financialBalanceTypeCode:financialBalanceTypeCode,'S':fiscalObjectFringeOrSalaryCode"
                     hideReturnLink="false" />
             </jsp:attribute>
             <jsp:attribute name="customActions">

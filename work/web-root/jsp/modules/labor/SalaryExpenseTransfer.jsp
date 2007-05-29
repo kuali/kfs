@@ -63,10 +63,6 @@
                     />
                 <td>${KualiForm.universityFiscalYear}&nbsp;</td>
               </tr>
-              <tr>
-                <td>Financial Object Fringe or Salary Code</td>
-                <td>${KualiForm.financialObjectFringeOrSalaryCode}&nbsp;</td>
-              </tr>
             </table>
                 <p>
         </div>
@@ -77,7 +73,7 @@
       <c:set var="accountingLineIndexVar" value="" scope="request"/>
 	<fin:accountingLines editingMode="${KualiForm.editingMode}"
 		editableAccounts="${KualiForm.editableAccounts}" inherit="false"
-		optionalFields="positionNumber,payrollEndDateFiscalYear,payrollEndDateFiscalPeriodCode,payrollTotalHours">
+		optionalFields="positionNumber,payrollEndDateFiscalYear,payrollEndDateFiscalPeriodCode,payrollTotalHours:'S':fiscalObjectFringeOrSalaryCode">
 
       <jsp:attribute name="groupsOverride">
       <table width="100%" border="0" cellpadding="0" cellspacing="0" class="datatable">

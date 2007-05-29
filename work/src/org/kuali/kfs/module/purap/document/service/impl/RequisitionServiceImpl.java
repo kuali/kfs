@@ -91,28 +91,25 @@ public class RequisitionServiceImpl implements RequisitionService {
 //
     
     public boolean isAutomaticPurchaseOrderAllowed(RequisitionDocument requisition) {
-      LOG.debug("isAutomaticPurchaseOrderAllowed() started");
-      
-      /*
-       * The private checkAutomaticPurchaseOrderRules method contains rules to check 
-       * if a requisition can become an APO (Automatic Purchase Order).  The method 
-       * returns a string containing the reason why this method should return false.  
-       * Save the reason as a note on the requisition.
-       */
-      String note = checkAutomaticPurchaseOrderRules(requisition);
-      if (StringUtils.isNotEmpty(note)) {
-        note = "Requisition did not become an APO because: " + note;
-// TODO create new note on REQ with "note" that contains reason REQ didn't become an APO
-//        DocumentNote docNote = new DocumentNote(docHeaderId, note, u);
-//        //This has to changed because I'm changing requisitionService.saveRequisitionDocumentNote KULAPP 1293
-//        //requisitionService.saveRequisitionDocumentNote(r.getId(), docNote, u);
-//        requisitionService.saveRequisitionDocumentNote(docNote);
-        LOG.debug("isAutomaticPurchaseOrderAllowed() return false; " + note);
-        return false;
-      }
+        LOG.debug("isAutomaticPurchaseOrderAllowed() started");
 
-      LOG.debug("isAutomaticPurchaseOrderAllowed() You made it!  Your REQ can become an APO; return true.");
-      return true;
+        /*
+         * The private checkAutomaticPurchaseOrderRules method contains rules to check if a requisition can become an APO (Automatic
+         * Purchase Order). The method returns a string containing the reason why this method should return false. Save the reason
+         * as a note on the requisition.
+         */
+        String note = checkAutomaticPurchaseOrderRules(requisition);
+        if (StringUtils.isNotEmpty(note)) {
+            note = "Requisition did not become an APO because: " + note;
+            // TODO create new note on REQ with "note" that contains reason REQ didn't become an APO
+            // DocumentNote docNote = new DocumentNote(docHeaderId, note, u);
+            // requisitionService.saveRequisitionDocumentNote(docNote);
+            LOG.debug("isAutomaticPurchaseOrderAllowed() return false; " + note);
+            return false;
+        }
+
+        LOG.debug("isAutomaticPurchaseOrderAllowed() You made it!  Your REQ can become an APO; return true.");
+        return true;
     }
     
     private String checkAutomaticPurchaseOrderRules(RequisitionDocument requisition) {

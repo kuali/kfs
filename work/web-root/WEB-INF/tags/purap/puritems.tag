@@ -24,7 +24,7 @@
 	description="The DataDictionary entry containing attributes for this row's fields."%>
 <%@ attribute name="camsAttributes" required="true" type="java.util.Map"
 	description="The DataDictionary entry containing attributes for this row's fields."%>
-	
+
 <c:set var="amendmentEntry"
 	value="${(not empty KualiForm.editingMode['amendmentEntry'])}" />
 
@@ -33,7 +33,8 @@
 	<div class="tab-container" align=center><!--  if (fullEntryMode or (amendmentEntry and itemLine.itemActiveIndicator)), then display the addLine -->
 	<table cellpadding="0" cellspacing="0" class="datatable"
 		summary="Items Section">
-		<c:if test="${(fullEntryMode or (amendmentEntry and itemLine.itemActiveIndicator))}">
+		<c:if
+			test="${(fullEntryMode or (amendmentEntry and itemLine.itemActiveIndicator))}">
 			<tr>
 				<td colspan="10" class="subhead"><span class="subhead-left">Add
 				Item</span></td>
@@ -105,7 +106,8 @@
 					property="newPurchasingItemLine.itemAssignedToTradeInIndicator" /></div></td -->
 				<td class="infoline">
 				<div align="center"><html:image
-					property="methodToCall.addItem" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-add1.gif"
+					property="methodToCall.addItem"
+					src="${ConfigProperties.kr.externalizable.images.url}tinybutton-add1.gif"
 					alt="Insert an Item" title="Add an Item" styleClass="tinybutton" />
 				</div>
 				</td>
@@ -190,15 +192,15 @@
 					Item ${ctr+1} <c:if test="${isOpen == 'true' || isOpen == 'TRUE'}">
 						<html:image
 							property="methodToCall.toggleTab.tab${currentTabIndex}"
-							src="${ConfigProperties.kr.externalizable.images.url}tinybutton-hide.gif" alt="hide" title="toggle"
-							styleClass="tinybutton"
+							src="${ConfigProperties.kr.externalizable.images.url}tinybutton-hide.gif"
+							alt="hide" title="toggle" styleClass="tinybutton"
 							styleId="tab-${currentTabIndex}-imageToggle"
 							onclick="javascript: return toggleTab(document, ${currentTabIndex}); " />
 					</c:if> <c:if test="${isOpen != 'true' && isOpen != 'TRUE'}">
 						<html:image
 							property="methodToCall.toggleTab.tab${currentTabIndex}"
-							src="${ConfigProperties.kr.externalizable.images.url}tinybutton-show.gif" alt="show" title="toggle"
-							styleClass="tinybutton"
+							src="${ConfigProperties.kr.externalizable.images.url}tinybutton-show.gif"
+							alt="show" title="toggle" styleClass="tinybutton"
 							styleId="tab-${currentTabIndex}-imageToggle"
 							onclick="javascript: return toggleTab(document, ${currentTabIndex}); " />
 					</c:if></td>
@@ -216,7 +218,11 @@
 						property="document.item[${ctr}].itemTypeCode" /> <html:hidden
 						property="document.item[${ctr}].itemType.itemTypeCode" /> <html:hidden
 						property="document.item[${ctr}].itemType.itemTypeDescription" />
-					<html:hidden property="document.item[${ctr}].itemType.active" /> <html:hidden
+					<c:if
+						test="${KualiForm.document.documentHeader.workflowDocument.documentType == 'KualiPurchaseOrderDocument'}">
+						<html:hidden property="document.item[${ctr}].itemActiveIndicator" />
+					</c:if> <html:hidden property="document.item[${ctr}].itemType.active" />
+					<html:hidden
 						property="document.item[${ctr}].itemType.quantityBasedGeneralLedgerIndicator" />
 					<html:hidden
 						property="document.item[${ctr}].itemType.itemTypeAboveTheLineIndicator" />
@@ -224,17 +230,18 @@
 						property="document.item[${ctr}].itemLineNumber" /></b>&nbsp; <c:if
 						test="${(fullEntryMode or (amendmentEntry and itemLine.itemActiveIndicator))}">
 						<html:image property="methodToCall.editItem"
-							src="${ConfigProperties.externalizable.images.url}purap-up.gif" alt="Move Item Up" title="Move Item Up"
-							styleClass="tinybutton" />
+							src="${ConfigProperties.externalizable.images.url}purap-up.gif"
+							alt="Move Item Up" title="Move Item Up" styleClass="tinybutton" />
 						<html:image property="methodToCall.editItem"
-							src="${ConfigProperties.externalizable.images.url}purap-down.gif" alt="Move Item Down"
-							title="Move Item Down" styleClass="tinybutton" />
+							src="${ConfigProperties.externalizable.images.url}purap-down.gif"
+							alt="Move Item Down" title="Move Item Down"
+							styleClass="tinybutton" />
 					</c:if></td>
 					<td class="infoline"><kul:htmlControlAttribute
 						attributeEntry="${itemAttributes.itemTypeCode}"
 						property="document.item[${ctr}].itemTypeCode"
 						readOnly="${not (fullEntryMode or (amendmentEntry and itemLine.itemActiveIndicator))}" /></td>
-						
+
 					<td class="infoline"><kul:htmlControlAttribute
 						attributeEntry="${itemAttributes.itemQuantity}"
 						property="document.item[${ctr}].itemQuantity"
@@ -281,8 +288,9 @@
 						<td class="infoline">
 						<div align="center"><html:image
 							property="methodToCall.deleteItem.line${ctr}"
-							src="${ConfigProperties.kr.externalizable.images.url}tinybutton-delete1.gif" alt="Delete Item ${ctr+1}"
-							title="Delete Item ${ctr+1}" styleClass="tinybutton" /></div>
+							src="${ConfigProperties.kr.externalizable.images.url}tinybutton-delete1.gif"
+							alt="Delete Item ${ctr+1}" title="Delete Item ${ctr+1}"
+							styleClass="tinybutton" /></div>
 						</td>
 					</c:if>
 					<c:if test="${(amendmentEntry and itemLine.itemActiveIndicator)}">
@@ -299,7 +307,8 @@
 						<div align="center">Inactive</div>
 						</td>
 					</c:if>
-					<c:if test="${(not (fullEntryMode or (amendmentEntry and itemLine.itemActiveIndicator)))}">
+					<c:if
+						test="${(not (fullEntryMode or (amendmentEntry and itemLine.itemActiveIndicator)))}">
 						<td class="infoline">
 						<div align="center">&nbsp;</div>
 						</td>
@@ -307,7 +316,8 @@
 				</tr>
 
 				<c:if test="${amendmentEntry}">
-					<purap:puraccountingLineCams editingMode="${KualiForm.accountingLineEditingMode}"
+					<purap:puraccountingLineCams
+						editingMode="${KualiForm.accountingLineEditingMode}"
 						editableAccounts="${KualiForm.editableAccounts}"
 						sourceAccountingLinesOnly="true"
 						optionalFields="accountLinePercent"

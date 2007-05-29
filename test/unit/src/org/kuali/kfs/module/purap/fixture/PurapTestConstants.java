@@ -17,15 +17,11 @@ package org.kuali.module.purap.fixtures;
 
 import java.sql.Date;
 
+import org.kuali.core.util.KualiDecimal;
+import org.kuali.module.purap.bo.PurchaseOrderAccount;
+import org.kuali.module.purap.bo.PurchaseOrderItem;
 import org.kuali.module.purap.document.PurchaseOrderDocument;
 import org.kuali.module.purap.document.RequisitionDocument;
-import org.kuali.module.vendor.bo.VendorAddress;
-import org.kuali.module.vendor.bo.VendorContract;
-import org.kuali.module.vendor.bo.VendorDetail;
-import org.kuali.module.vendor.bo.VendorHeader;
-import org.kuali.module.vendor.bo.VendorShippingSpecialCondition;
-import org.kuali.module.vendor.bo.VendorSupplierDiversity;
-import org.kuali.module.vendor.service.PhoneNumberService;
 
 class PurapTestConstants {
        
@@ -45,4 +41,19 @@ class PurapTestConstants {
         static final String VARV = "VARV";
     }
     
+    static class AmountsLimits {
+        static final KualiDecimal LARGE_NEGATIVE_AMOUNT = new KualiDecimal(-1024);
+        static final KualiDecimal SMALL_NEGATIVE_AMOUNT = new KualiDecimal(-32);
+        static final KualiDecimal ZERO = new KualiDecimal(0);
+        static final KualiDecimal SMALL_POSITIVE_AMOUNT = new KualiDecimal(32);
+        static final KualiDecimal LARGE_POSITIVE_AMOUNT = new KualiDecimal(1024);
+    }
+    
+    static class ItemsAccounts {
+        static PurchaseOrderItem PO_ITEM = new PurchaseOrderItem();
+        static final String ITEM_DESC = "Test item description";
+        static final String ITEM_UOM = "EACH";
+        static PurchaseOrderAccount PO_ACCOUNT =  new PurchaseOrderAccount();
+        static final String ACCOUNT_NUMBER = "9999999";
+    }
 }

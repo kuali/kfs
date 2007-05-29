@@ -89,7 +89,7 @@ public class PurchaseOrderDocumentRule extends PurchasingDocumentRuleBase {
      * @param item
      * @return
      */
-    private boolean validateEmptyItemWithAccounts(PurchaseOrderItem item, String identifierString) {
+    boolean validateEmptyItemWithAccounts(PurchaseOrderItem item, String identifierString) {
         boolean valid = true;
         if (item.getItemTypeCode().equals(PurapConstants.ItemTypeCodes.ITEM_TYPE_ITEM_CODE) && item.isItemDetailEmpty() && !item.isAccountListEmpty()) {
             valid = false;
@@ -104,7 +104,7 @@ public class PurchaseOrderDocumentRule extends PurchasingDocumentRuleBase {
      * @param item
      * @return
      */
-    private boolean validateItemWithoutAccounts(PurchaseOrderItem item, String identifierString) {
+    boolean validateItemWithoutAccounts(PurchaseOrderItem item, String identifierString) {
         boolean valid = true;
         if (ObjectUtils.isNotNull(item.getItemUnitPrice()) && (new KualiDecimal(item.getItemUnitPrice())).isNonZero() && item.isAccountListEmpty()) {
             valid = false;
@@ -120,7 +120,7 @@ public class PurchaseOrderDocumentRule extends PurchasingDocumentRuleBase {
      * @param item
      * @return
      */
-    private boolean validateItemUnitOfMeasure(PurchaseOrderItem item, String identifierString) {
+    boolean validateItemUnitOfMeasure(PurchaseOrderItem item, String identifierString) {
         boolean valid = true;
         if (item.getItemTypeCode().equals(ItemTypeCodes.ITEM_TYPE_ITEM_CODE) && StringUtils.isEmpty(item.getItemUnitOfMeasureCode())) {
             valid = false;
@@ -235,6 +235,7 @@ public class PurchaseOrderDocumentRule extends PurchasingDocumentRuleBase {
     public boolean validateTotalDollarAmountIsLessThanPurchaseOrderTotalLimit(PurchasingDocument purDocument) {
         boolean valid = true;
         if (ObjectUtils.isNotNull(purDocument.getPurchaseOrderTotalLimit()) && ObjectUtils.isNotNull(((AmountTotaling) purDocument).getTotalDollarAmount())) {
+            KualiDecimal totalAmount = ((AmountTotaling) purDocument).getTotalDollarAmount();
             if (((AmountTotaling) purDocument).getTotalDollarAmount().isGreaterThan(purDocument.getPurchaseOrderTotalLimit())) {
                 valid &= false;
                 GlobalVariables.getErrorMap().putError(PurapPropertyConstants.PURCHASE_ORDER_TOTAL_LIMIT, PurapKeyConstants.REQ_TOTAL_GREATER_THAN_PO_TOTAL_LIMIT);                            

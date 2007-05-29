@@ -103,7 +103,9 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
         //do more analysis and make better
         KualiDecimal total = new KualiDecimal(BigDecimal.ZERO);
         for (PurchasingApItem item : items) {
-            KualiDecimal itemTotal = (item.getExtendedPrice()==null)?KualiDecimal.ZERO:item.getExtendedPrice();
+            KualiDecimal extendedPrice = item.getExtendedPrice();
+            KualiDecimal itemTotal = (extendedPrice != null)?extendedPrice:KualiDecimal.ZERO;
+            //KualiDecimal itemTotal = (item.getExtendedPrice()==null)?KualiDecimal.ZERO:item.getExtendedPrice();
             total = total.add(itemTotal);
         }
         return total;

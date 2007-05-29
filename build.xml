@@ -190,6 +190,8 @@
 			<filter token="encrypt-attributes-properties-file" value="${encrypt.attributes.properties.file}" />
 			<filter token="data-export-zip-file" value="${data.export.zip.file}" />
 			<filter token="test-spring-beans-import" value="${test.spring.beans.import}" />
+			<filter token="dev.mode" value="${dev.mode}" />
+			<filter token="message.persistence" value="${message.persistence}" />
 		</filterset>
 	</target>
 	

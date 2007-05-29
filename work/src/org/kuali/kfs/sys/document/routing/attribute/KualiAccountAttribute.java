@@ -461,7 +461,7 @@ public class KualiAccountAttribute implements RoleAttribute, WorkflowAttribute {
         String supervisorProperty = "accountsSupervisorySystemsIdentifier";
         // Account Maintenance Document - route to Account Supervisor of account on new maintainable
         if (docTypeName.equals(KualiWorkflowUtils.ACCOUNT_DOC_TYPE)) {
-            accountXPaths.add(KualiWorkflowUtils.xstreamSafeXPath(KualiWorkflowUtils.NEW_MAINTAINABLE_PREFIX));
+            accountXPaths.add(KualiWorkflowUtils.xstreamSafeXPath(KualiWorkflowUtils.NEW_MAINTAINABLE_PREFIX_NTS));
         }
         // Sub Object Code Change Document - route to Account Supervisor of accounts on AccountChangeDetails
         else if (docTypeName.equals(KualiWorkflowUtils.SUB_OBJECT_CODE_CHANGE_DOC_TYPE)) {

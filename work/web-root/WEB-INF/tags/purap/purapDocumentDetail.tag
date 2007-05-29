@@ -44,7 +44,7 @@
         </th>
         <td align=left valign=middle class="datacell">
             <kul:htmlControlAttribute
-                property="document.fundingSourceCode"
+                property="document.fundingSource.fundingSourceDescription"
                 attributeEntry="${documentAttributes.fundingSourceCode}"
                 readOnly="true"/>
         </td>

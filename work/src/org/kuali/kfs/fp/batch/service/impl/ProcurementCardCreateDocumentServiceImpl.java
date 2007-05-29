@@ -127,12 +127,7 @@ public class ProcurementCardCreateDocumentServiceImpl implements ProcurementCard
                 documentService.prepareWorkflowDocument(pcardDocument);
             
                 // calling workflow service to bypass business rule checks
-                if (!pcardDocument.getDocumentHeader().getWorkflowDocument().stateIsEnroute()) {
-                    workflowDocumentService.route(pcardDocument.getDocumentHeader().getWorkflowDocument(), "", null);
-            }
-                else {
-                    LOG.warn("Document " + pcardDocument.getDocumentHeader().getDocumentNumber() + " is already ENROUTE. Route status out of sync with FP_DOC_HEADER_T");
-                }
+                workflowDocumentService.route(pcardDocument.getDocumentHeader().getWorkflowDocument(), "", null);
             }
             catch (WorkflowException e) {
                 LOG.error("Error routing document # " + pcardDocument.getDocumentHeader().getDocumentNumber() + " " + e.getMessage());

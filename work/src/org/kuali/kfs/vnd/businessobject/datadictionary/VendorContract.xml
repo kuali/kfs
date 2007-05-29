@@ -75,22 +75,12 @@
             </lookupFields>
 
             <resultFields>
-                <field attributeName="contractManagerCode" />
-                <field attributeName="organizationAutomaticPurchaseOrderLimit" />
-                <field attributeName="purchaseOrderCostSourceCode" />
-                <field attributeName="vendorB2bIndicator" />
-                <field attributeName="vendorCampusCode" />
-                <field attributeName="vendorContractBeginningDate" />
+                <field attributeName="vendorDetail.vendorName" />
                 <field attributeName="vendorContractDescription" />
-                <field attributeName="vendorContractEndDate" />
-                <field attributeName="vendorContractExtensionDate" />
-                <field attributeName="vendorContractGeneratedIdentifier" />
-                <field attributeName="vendorContractName" />
-                <field attributeName="vendorDetailAssignedIdentifier" />
-                <field attributeName="vendorHeaderGeneratedIdentifier" />
-                <field attributeName="vendorPaymentTermsCode" />
-                <field attributeName="vendorShippingPaymentTermsCode" />
-                <field attributeName="vendorShippingTitleCode" />
+                <field attributeName="vendorB2bIndicator" />
+                <field attributeName="organizationAutomaticPurchaseOrderLimit" />
+                <field attributeName="vendorDetail.vendorHeader.vendorSupplierDiversities" />
+                <field attributeName="purchaseOrderCostSourceCode" />
             </resultFields>
         </lookup>
 
@@ -113,8 +103,8 @@
 			</attribute>
 
             <attribute name="vendorContractDescription" forceUppercase="false">
-                <label>Short Description</label>
-                <shortLabel>Short Description</shortLabel>
+                <label>Description</label>
+                <shortLabel>Description</shortLabel>
 
                 <maxLength>60</maxLength>
                 <validationPattern><anyCharacter allowWhitespace="true" /></validationPattern>
@@ -225,6 +215,9 @@
                 <description>The Purchasing and Accounts Payable Document Number</description>
 			</attribute>
 			
+			<attributeReference name="vendorDetail.vendorName" sourceClassName="org.kuali.module.vendor.bo.VendorDetail" sourceAttributeName="vendorName"/>
+			<attributeReference name="vendorDetail.vendorHeader.vendorSupplierDiversities.vendorSupplierDiversityCode" sourceClassName="org.kuali.module.vendor.bo.VendorSupplierDiversity" sourceAttributeName="vendorSupplierDiversityCode"/> 
+			
 			<attributeReference name="newCollectionRecord" 
                                 sourceClassName="org.kuali.core.bo.AttributeReferenceDummy"
                                 sourceAttributeName="newCollectionRecord" />
@@ -234,5 +227,16 @@
             <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
 
         </attributes>
+        
+        <collections>
+            <collection name="vendorDetail.vendorHeader.vendorSupplierDiversities">
+                <label>Supplier Diversities</label>
+                <shortLabel>Supplier Diversities</shortLabel>
+                <summary>
+                    <![CDATA[&nbsp;]]>
+                </summary>
+                <description>Vendor Supplier Diversities</description>
+            </collection>   
+        </collections>
     </businessObject>
 </dictionaryEntry>

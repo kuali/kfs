@@ -21,6 +21,7 @@ import org.kuali.core.service.PersistenceService;
 import org.kuali.module.gl.OriginEntryTestBase;
 import org.kuali.module.gl.bo.OriginEntrySource;
 import org.kuali.test.WithTestSpringContext;
+import org.kuali.test.suite.RelatesTo;
 
 @WithTestSpringContext
 public class ScrubberServiceTest extends OriginEntryTestBase {
@@ -1574,6 +1575,7 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
         assertOriginEntries(4, outputTransactions);
     }
 
+    @RelatesTo(RelatesTo.JiraIssue.KULRNE4797)
     public void testInactiveObjectCode() throws Exception {
         String[] inputTransactions = { "2007BL2231411-----2001---ACEX07INV EUINACTOBJ      00000BALDWIN WALLACE COLLEGE                           3375.00C2006-01-05          ----------                                                                               ", "2007BL2231411-----8000---ACAS07INV EUINACTOBJ      00000TP Generated Offset                               3375.00D2006-01-05          ----------                                                                               " };
 

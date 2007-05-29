@@ -77,7 +77,7 @@ public class RoutingFormAuditRule {
         }
         
         if (!valid) {
-            auditErrors.add(new AuditError("document.budget.audit.modular.consortium", KraKeyConstants.AUDIT_OTHER_PROJECT_DETAILS_NOT_SELECTED, "projectdetails.anchor1"));
+            auditErrors.add(new AuditError("document.projectDetails.otherProjectDetailsQuestions", KraKeyConstants.AUDIT_OTHER_PROJECT_DETAILS_NOT_SELECTED, "projectdetails.anchor1"));
             GlobalVariables.getAuditErrorMap().put("projectDetailsAuditErrors", new AuditCluster("Project Details", auditErrors));
         }
         

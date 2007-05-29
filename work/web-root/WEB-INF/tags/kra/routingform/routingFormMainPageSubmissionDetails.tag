@@ -32,6 +32,7 @@
             </div>
             <table cellpadding="0" cellspacing="0" summary="view/edit document overview information">
 
+			  <%-- Grants.gov %>
               <tr>
                 <td colspan=4 class="tab-subhead"><span class="left"><kul:htmlAttributeLabel attributeEntry="${routingFormAttributes.submissionTypeCode}" skipHelpUrl="true" noColon="true"/></span> </td>
               </tr>
@@ -63,10 +64,11 @@
 	              </c:forEach>
                 </td>
               </tr>
+              --%>
+              
               <tr>
                 <td colspan=4 class="tab-subhead"><kul:htmlAttributeLabel attributeEntry="${routingFormProjectTypeAttributes.projectTypeCode}" skipHelpUrl="true" noColon="true"/></td>
               </tr>
-
               <tr>
                 <th align=right valign=middle>Type:</th>
                 <td colspan="3" align=left valign=middle >
@@ -104,6 +106,8 @@
                 	<kul:htmlControlAttribute property="document.institutionAccountNumber" attributeEntry="${routingFormAttributes.institutionAccountNumber}" readOnly="${viewOnly}"/>
                 </td>
               </tr>
+              
+              <%-- Grants.gov %>
               <tr>
 
                 <th align=right valign=middle><kul:htmlAttributeLabel attributeEntry="${routingFormAttributes.federalIdentifier}" skipHelpUrl="true" /></th>
@@ -115,8 +119,9 @@
                 	<kul:htmlControlAttribute property="document.grantsGovernmentConfirmationNumber" attributeEntry="${routingFormAttributes.grantsGovernmentConfirmationNumber}" readOnly="${viewOnly}"/>
                 </td>
               </tr>
+              --%>
+              
               <tr>
-
                 <th align=right valign=middle><kul:htmlAttributeLabel attributeEntry="${routingFormAttributes.grantNumber}" skipHelpUrl="true" /></th>
                 <td align=left valign=middle >
                 	<kul:htmlControlAttribute property="document.grantNumber" attributeEntry="${routingFormAttributes.grantNumber}" readOnly="${viewOnly}"/>

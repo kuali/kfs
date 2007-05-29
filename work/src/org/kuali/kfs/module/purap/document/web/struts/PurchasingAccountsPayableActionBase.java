@@ -43,6 +43,7 @@ public class PurchasingAccountsPayableActionBase extends KualiAccountingDocument
     public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         
         ActionForward superForward = super.save(mapping, form, request, response);
+        ((KualiAccountingDocumentFormBase) form).getDocument().refreshNonUpdateableReferences();
         ActionForward forward = refreshAccountSummary(mapping, form, request, response);
         return superForward;
     }

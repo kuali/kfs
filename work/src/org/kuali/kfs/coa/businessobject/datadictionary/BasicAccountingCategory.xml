@@ -69,7 +69,7 @@
                 <shortLabel>Description</shortLabel>
 
                 <maxLength>40</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
+                <validationPattern><anyCharacter allowWhitespace="true" /></validationPattern>
 
                 <control>
                     <text size="42" />
@@ -84,7 +84,7 @@
                 <shortLabel>ShortName</shortLabel>
 
                 <maxLength>12</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
+                <validationPattern><anyCharacter allowWhitespace="true"/></validationPattern>
 
                 <control>
                     <text size="14" />

@@ -245,7 +245,7 @@ public class BudgetAction extends ResearchDocumentActionBase {
         BudgetForm budgetForm = (BudgetForm) form;
         Budget budget = budgetForm.getBudgetDocument().getBudget();
         
-        // Shouldn't be necessary but was added to fix KULERA-945: "Navigating from Nonpersonnel to Modular may cause exception"
+        // TODO Shouldn't be necessary but was added to fix KULERA-945: "Navigating from Nonpersonnel to Modular may cause exception"
         for(BudgetNonpersonnel budgetNonpersonnel : budget.getNonpersonnelItems()) {
             budgetNonpersonnel.refreshReferenceObject("nonpersonnelObjectCode");
         }

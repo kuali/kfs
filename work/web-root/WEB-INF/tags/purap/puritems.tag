@@ -15,22 +15,16 @@
 --%>
 <%@ include file="/jsp/kfs/kfsTldHeader.jsp"%>
 
-<%@ attribute name="displayRequisitionFields" required="false"
-	description="Boolean to indicate if REQ specific fields should be displayed"%>
-<%@ attribute name="itemAttributes" required="true" type="java.util.Map"
-	description="The DataDictionary entry containing attributes for this row's fields."%>
-<%@ attribute name="accountingLineAttributes" required="true"
-	type="java.util.Map"
-	description="The DataDictionary entry containing attributes for this row's fields."%>
-<%@ attribute name="camsAttributes" required="true" type="java.util.Map"
-	description="The DataDictionary entry containing attributes for this row's fields."%>
+<%@ attribute name="displayRequisitionFields" required="false" description="Boolean to indicate if REQ specific fields should be displayed"%>
+<%@ attribute name="itemAttributes" required="true" type="java.util.Map" description="The DataDictionary entry containing attributes for this row's fields."%>
+<%@ attribute name="accountingLineAttributes" required="true" type="java.util.Map" description="The DataDictionary entry containing attributes for this row's fields."%>
+<%@ attribute name="camsAttributes" required="true" type="java.util.Map" description="The DataDictionary entry containing attributes for this row's fields."%>
 
-<c:set var="amendmentEntry"
-	value="${(not empty KualiForm.editingMode['amendmentEntry'])}" />
+<c:set var="amendmentEntry"	value="${(not empty KualiForm.editingMode['amendmentEntry'])}" />
 
-<kul:tab tabTitle="Items" defaultOpen="false"
-	tabErrorKey="${PurapConstants.ITEM_TAB_ERRORS}">
-	<div class="tab-container" align=center><!--  if (fullEntryMode or (amendmentEntry and itemLine.itemActiveIndicator)), then display the addLine -->
+<kul:tab tabTitle="Items" defaultOpen="false" tabErrorKey="${PurapConstants.ITEM_TAB_ERRORS}">
+	<div class="tab-container" align=center>
+    <!--  if (fullEntryMode or (amendmentEntry and itemLine.itemActiveIndicator)), then display the addLine -->
 	<table cellpadding="0" cellspacing="0" class="datatable" summary="Items Section">
 		<c:if test="${(fullEntryMode or (amendmentEntry and itemLine.itemActiveIndicator))}">
 			<tr>
@@ -118,25 +112,16 @@
 
 		<c:if test="${fn:length(KualiForm.document.items) > fn:length(KualiForm.document.belowTheLineTypes)}">
 			<tr>
-				<kul:htmlAttributeHeaderCell
-					attributeEntry="${itemAttributes.itemLineNumber}" />
-				<kul:htmlAttributeHeaderCell
-					attributeEntry="${itemAttributes.itemTypeCode}" />
-				<kul:htmlAttributeHeaderCell
-					attributeEntry="${itemAttributes.itemQuantity}" />
-				<kul:htmlAttributeHeaderCell
-					attributeEntry="${itemAttributes.itemUnitOfMeasureCode}" />
-				<kul:htmlAttributeHeaderCell
-					attributeEntry="${itemAttributes.itemCatalogNumber}" />
-				<kul:htmlAttributeHeaderCell
-					attributeEntry="${itemAttributes.itemDescription}" />
-				<kul:htmlAttributeHeaderCell
-					attributeEntry="${itemAttributes.itemUnitPrice}" />
-				<kul:htmlAttributeHeaderCell
-					attributeEntry="${itemAttributes.extendedPrice}" />
+				<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemLineNumber}" />
+				<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemTypeCode}" />
+				<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemQuantity}" />
+				<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemUnitOfMeasureCode}" />
+				<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemCatalogNumber}" />
+				<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemDescription}" />
+				<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemUnitPrice}" />
+				<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.extendedPrice}" />
 				<c:if test="${displayRequisitionFields}">
-					<kul:htmlAttributeHeaderCell
-						attributeEntry="${itemAttributes.itemRestrictedIndicator}" />
+					<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemRestrictedIndicator}" />
 				</c:if>
 				<!--  kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemAssignedToTradeInIndicator}" / -->
 				<!-- TODO: PHASE 2B -->
@@ -152,10 +137,8 @@
 
 		<logic:iterate indexId="ctr" name="KualiForm" property="document.items" id="itemLine">
 			<c:if test="${itemLine.itemType.itemTypeAboveTheLineIndicator == true}">
-				<c:set var="currentTabIndex" value="${KualiForm.currentTabIndex}"
-					scope="request" />
-				<c:set var="topLevelTabIndex" value="${KualiForm.currentTabIndex}"
-					scope="request" />
+				<c:set var="currentTabIndex" value="${KualiForm.currentTabIndex}" scope="request" />
+				<c:set var="topLevelTabIndex" value="${KualiForm.currentTabIndex}" scope="request" />
 				<c:set var="currentTab" value="${KualiForm.tabStateJstl}" />
 
 				<%-- default to closed --%>
@@ -210,10 +193,7 @@
 					    <html:hidden property="document.item[${ctr}].itemType.active" />
 					    <html:hidden property="document.item[${ctr}].itemType.quantityBasedGeneralLedgerIndicator" />
 					    <html:hidden property="document.item[${ctr}].itemType.itemTypeAboveTheLineIndicator" />
-					    &nbsp;
-					    <b>
-					        <html:hidden write="true" property="document.item[${ctr}].itemLineNumber" />
-					    </b>&nbsp; 
+					    &nbsp;<b><html:hidden write="true" property="document.item[${ctr}].itemLineNumber" /></b>&nbsp; 
 					    <c:if test="${(fullEntryMode or (amendmentEntry and itemLine.itemActiveIndicator))}">
 						    <html:image property="methodToCall.editItem"
 							    src="${ConfigProperties.externalizable.images.url}purap-up.gif"
@@ -310,16 +290,17 @@
 					</c:if>
 					<c:if test="${(amendmentEntry and ! itemLine.itemActiveIndicator)}">
 						<td class="infoline">
-						<div align="center">Inactive</div>
+						    <div align="center">Inactive</div>
 						</td>
 					</c:if>
 					<c:if test="${(not (fullEntryMode or (amendmentEntry and itemLine.itemActiveIndicator)))}">
 						<td class="infoline">
-						<div align="center">&nbsp;</div>
+						    <div align="center">&nbsp;</div>
 						</td>
 					</c:if>
 				</tr>
 
+<!-- TODO PHASE 2b: Remove "suppressCams" and "overrideTitle" attributes -->
 				<c:if test="${amendmentEntry}">
 					<purap:puraccountingLineCams
 						editingMode="${KualiForm.accountingLineEditingMode}"
@@ -331,7 +312,8 @@
 						accountPrefix="document.item[${ctr}]." hideTotalLine="true"
 						hideFields="amount" accountingAddLineIndex="${ctr}"
 						itemsAttributes="${itemAttributes}"
-						camsAttributes="${camsAttributes}" ctr="${ctr}" />
+						camsAttributes="${camsAttributes}" ctr="${ctr}"
+                        suppressCams="true" overrideTitle="Item Accounting Lines" />
 				</c:if>
 				<c:if test="${! amendmentEntry }">
 					<purap:puraccountingLineCams editingMode="${KualiForm.editingMode}"
@@ -343,7 +325,8 @@
 						accountPrefix="document.item[${ctr}]." hideTotalLine="true"
 						hideFields="amount" accountingAddLineIndex="${ctr}"
 						itemsAttributes="${itemAttributes}"
-						camsAttributes="${camsAttributes}" ctr="${ctr}" />
+						camsAttributes="${camsAttributes}" ctr="${ctr}"
+                        suppressCams="true" overrideTitle="Item Accounting Lines" />
 				</c:if>
 
 				<c:if test="${isOpen != 'true' && isOpen != 'TRUE'}">
@@ -365,8 +348,10 @@
 		</tr>
 
 		<tr>
-			<td colspan="10" class="subhead"><span class="subhead-left">Totals</span>
-			<span class="subhead-right">&nbsp;</span></td>
+			<td colspan="10" class="subhead">
+                <span class="subhead-left">Totals</span>
+                <span class="subhead-right">&nbsp;</span>
+            </td>
 		</tr>
 
 		<tr>
@@ -386,8 +371,7 @@
 			<th align=right width='75%' colspan=7 scope="row">
 			    <c:if test="${displayRequisitionFields}">
 				    <div align="right">
-				        <kul:htmlAttributeLabel
-					        attributeEntry="${DataDictionary.KualiRequisitionDocument.attributes.organizationAutomaticPurchaseOrderLimit}" />
+				        <kul:htmlAttributeLabel attributeEntry="${DataDictionary.KualiRequisitionDocument.attributes.organizationAutomaticPurchaseOrderLimit}" />
 					</div>
 			    </c:if> 
 			    <c:if test="${!displayRequisitionFields}"> 

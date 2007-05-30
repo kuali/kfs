@@ -32,8 +32,10 @@ import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.bo.PurchaseOrderItem;
+import org.kuali.module.purap.bo.PurchaseOrderQuoteListVendor;
 import org.kuali.module.purap.bo.PurchaseOrderStatusHistory;
 import org.kuali.module.purap.bo.PurchaseOrderVendorChoice;
+import org.kuali.module.purap.bo.PurchaseOrderVendorQuote;
 import org.kuali.module.purap.bo.PurchaseOrderVendorStipulation;
 import org.kuali.module.purap.bo.PurchaseOrderView;
 import org.kuali.module.purap.bo.PurchasingApItem;
@@ -83,6 +85,7 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase implements Cop
     
     //COLLECTIONS
     private List<PurchaseOrderVendorStipulation> purchaseOrderVendorStipulations;
+    private List<PurchaseOrderVendorQuote> purchaseOrderVendorQuotes;
 
     // NOT PERSISTED IN DB
     private String alternateVendorNumber;
@@ -102,6 +105,7 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase implements Cop
 	public PurchaseOrderDocument() {
         super();
         this.purchaseOrderVendorStipulations = new TypedArrayList( PurchaseOrderVendorStipulation.class );
+        this.purchaseOrderVendorQuotes = new TypedArrayList( PurchaseOrderVendorQuote.class );
     }
 
     /**
@@ -199,13 +203,6 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase implements Cop
         super.refreshAllReferences();
     }
     
-    /**
-     * Perform logic needed to initiate PO Document
-     */
-    public void initiateDocument() {
-
-    }
-
     public PurchaseOrderVendorStipulation getPurchaseOrderVendorStipulation(int index) {
         while (getPurchaseOrderVendorStipulations().size() <= index) {
             getPurchaseOrderVendorStipulations().add(new PurchaseOrderVendorStipulation());
@@ -459,6 +456,20 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase implements Cop
         this.purchaseOrderVendorStipulations = purchaseOrderVendorStipulations;
     }
 
+    public List<PurchaseOrderVendorQuote> getPurchaseOrderVendorQuotes() {
+        return purchaseOrderVendorQuotes;
+    }
+
+    public void setVendorQuotes(List<PurchaseOrderVendorQuote> vendorQuotes) {
+        this.purchaseOrderVendorQuotes = vendorQuotes;
+    }
+
+    public PurchaseOrderVendorQuote getPurchaseOrderVendorQuote(int index) {
+        while (getPurchaseOrderVendorQuotes().size() <= index) {
+            getPurchaseOrderVendorQuotes().add(new PurchaseOrderVendorQuote());
+        }
+        return (PurchaseOrderVendorQuote)purchaseOrderVendorQuotes.get(index);
+    }
 
     public void setStatusChange(String statusChange) {
         this.statusChange = statusChange;

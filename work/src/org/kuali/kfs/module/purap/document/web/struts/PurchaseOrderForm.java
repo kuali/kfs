@@ -27,6 +27,7 @@ import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.bo.PurchaseOrderAccount;
 import org.kuali.module.purap.bo.PurchaseOrderItem;
+import org.kuali.module.purap.bo.PurchaseOrderVendorQuote;
 import org.kuali.module.purap.bo.PurchaseOrderVendorStipulation;
 import org.kuali.module.purap.bo.PurchasingApItem;
 import org.kuali.module.purap.document.PurchaseOrderDocument;
@@ -37,7 +38,8 @@ import org.kuali.module.purap.document.PurchaseOrderDocument;
 public class PurchaseOrderForm extends PurchasingFormBase {
 
     private PurchaseOrderVendorStipulation newPurchaseOrderVendorStipulationLine;
-
+    private PurchaseOrderVendorQuote newPurchaseOrderVendorQuote;
+    
     // Retransmit.
     private String[] retransmitItemsSelected = {};
     private String retransmitTransmissionMethod;
@@ -55,19 +57,20 @@ public class PurchaseOrderForm extends PurchasingFormBase {
         setDocument(new PurchaseOrderDocument());
         this.setNewPurchasingItemLine(setupNewPurchasingItemLine());
         setNewPurchaseOrderVendorStipulationLine(new PurchaseOrderVendorStipulation());
+        setNewPurchaseOrderVendorQuote(new PurchaseOrderVendorQuote());
         this.accountingLineEditingMode = new HashMap();
         this.accountingLineEditingMode.put(AuthorizationConstants.EditMode.FULL_ENTRY, "TRUE");
     }
 
     /**
-     * @return Returns the internalBillingDocument.
+     * @return Returns the PurchaseOrderDocument.
      */
     public PurchaseOrderDocument getPurchaseOrderDocument() {
         return (PurchaseOrderDocument) getDocument();
     }
 
     /**
-     * @param internalBillingDocument The internalBillingDocument to set.
+     * @param purchaseOrderDocument The PurchaseOrderDocument to set.
      */
     public void setPurchaseOrderDocument(PurchaseOrderDocument purchaseOrderDocument) {
         setDocument(purchaseOrderDocument);
@@ -130,6 +133,14 @@ public class PurchaseOrderForm extends PurchasingFormBase {
 
     public void setNewPurchaseOrderVendorStipulationLine(PurchaseOrderVendorStipulation newPurchaseOrderVendorStipulationLine) {
         this.newPurchaseOrderVendorStipulationLine = newPurchaseOrderVendorStipulationLine;
+    }
+
+    public PurchaseOrderVendorQuote getNewPurchaseOrderVendorQuote() {
+        return newPurchaseOrderVendorQuote;
+    }
+
+    public void setNewPurchaseOrderVendorQuote(PurchaseOrderVendorQuote newPurchaseOrderVendorQuote) {
+        this.newPurchaseOrderVendorQuote = newPurchaseOrderVendorQuote;
     }
 
     public void addButtons() {

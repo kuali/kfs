@@ -30,13 +30,9 @@ import org.apache.struts.action.ActionMapping;
 import org.apache.struts.action.ActionMessage;
 import org.apache.struts.action.ActionMessages;
 import org.kuali.Constants;
-import org.kuali.KeyConstants;
-import org.kuali.core.authorization.AuthorizationConstants;
 import org.kuali.core.bo.Note;
-import org.kuali.core.document.Document;
 import org.kuali.core.question.ConfirmationQuestion;
 import org.kuali.core.service.BusinessObjectService;
-import org.kuali.core.service.DocumentService;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.web.struts.form.KualiDocumentFormBase;
@@ -56,7 +52,6 @@ import org.kuali.module.purap.question.SingleConfirmationQuestion;
 import org.kuali.module.purap.web.struts.form.PurchaseOrderForm;
 import org.kuali.module.purap.web.struts.form.PurchasingFormBase;
 import org.kuali.module.vendor.bo.VendorDetail;
-import org.kuali.rice.KNSServiceLocator;
 
 /**
  * This class handles specific Actions requests for the Requisition.
@@ -679,6 +674,75 @@ public class PurchaseOrderAction extends PurchasingActionBase {
     }
     */
     
+    /**
+     * Delete a stipulation from the document.
+     * 
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return ActionForward
+     * @throws Exception
+     */
+    public ActionForward initiateQuote(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        PurchaseOrderForm poForm = (PurchaseOrderForm) form;
+        PurchaseOrderDocument document = (PurchaseOrderDocument) poForm.getDocument();
+        document.setStatusCode(PurapConstants.PurchaseOrderStatuses.QUOTE);
+        Date expDate = SpringServiceLocator.getDateTimeService().getCurrentSqlDate();
+        expDate.setTime(expDate.getTime() + (10 * 24 * 60 * 60 * 1000)); //add 10 days - need to move this into a DB setting
+        document.setPurchaseOrderQuoteDueDate(expDate);
+        document.getPurchaseOrderVendorQuotes().clear();
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
+    }
+
+    public ActionForward printQuoteList(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        PurchaseOrderForm poForm = (PurchaseOrderForm) form;
+        PurchaseOrderDocument document = (PurchaseOrderDocument) poForm.getDocument();
+//        SpringServiceLocator.getPrintService().generatePurchaseOrderQuotePdf(po, povq, byteArrayOutputStream, environment)
+        document.setStatusCode(PurapConstants.PurchaseOrderStatuses.CANCELLED);
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
+    }
+
+    public ActionForward addVendor(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        PurchaseOrderForm poForm = (PurchaseOrderForm) form;
+        PurchaseOrderDocument document = (PurchaseOrderDocument) poForm.getDocument();
+        document.getPurchaseOrderVendorQuotes().add(poForm.getNewPurchaseOrderVendorQuote());
+        poForm.setNewPurchaseOrderVendorQuote(new PurchaseOrderVendorQuote());
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
+    }
+
+    public ActionForward deleteVendor(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        PurchaseOrderForm poForm = (PurchaseOrderForm) form;
+        PurchaseOrderDocument document = (PurchaseOrderDocument) poForm.getDocument();
+        document.getPurchaseOrderVendorQuotes().remove(getSelectedLine(request));
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
+    }
+
+    public ActionForward completeQuote(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        PurchaseOrderForm poForm = (PurchaseOrderForm) form;
+        PurchaseOrderDocument document = (PurchaseOrderDocument) poForm.getDocument();
+        document.setStatusCode(PurapConstants.PurchaseOrderStatuses.IN_PROCESS);
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
+    }
+
+    public ActionForward cancelQuote(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        PurchaseOrderForm poForm = (PurchaseOrderForm) form;
+        PurchaseOrderDocument document = (PurchaseOrderDocument) poForm.getDocument();
+
+        for (PurchaseOrderVendorQuote quotedVendors : document.getPurchaseOrderVendorQuotes()) {
+            if (quotedVendors.getPurchaseOrderQuoteTransmitDate() != null) {
+                GlobalVariables.getErrorMap().putError(PurapPropertyConstants.QUOTE_TRANSMITTED, PurapKeyConstants.ERROR_STIPULATION_DESCRIPTION);
+                return mapping.findForward(KFSConstants.MAPPING_BASIC);
+            }
+        }
+
+        // TODO: AAP - need to add step here to get quote cancel reason!
+        document.getPurchaseOrderVendorQuotes().clear();
+        document.setPurchaseOrderQuoteVendorNoteText(null);
+        document.setStatusCode(PurapConstants.PurchaseOrderStatuses.IN_PROCESS);
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
+    }
+
     @Override
     public ActionForward cancel(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         Object question = request.getParameter(Constants.QUESTION_INST_ATTRIBUTE_NAME);

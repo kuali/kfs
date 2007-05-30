@@ -42,6 +42,7 @@ public class PurapKeyConstants {
     public static final String ERROR_REQ_COPY_EXPIRED_CONTRACT = "error.requisition.copy.expired.contract";
     public static final String ERROR_REQ_COPY_INACTIVE_VENDOR = "error.requisition.copy.inactive.vendor";
     public static final String ERROR_STIPULATION_DESCRIPTION = "error.purchaseOrder.stipulationDescriptionEmpty";
+    public static final String ERROR_QUOTE_TRANSMITTED = "error.purchaseOrder.quote.transmitted";
 
     //Purchase Order  
     public static final String PURCHASE_ORDER_QUESTION_DOCUMENT = "purchaseOrder.question.text";

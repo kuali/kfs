@@ -606,6 +606,7 @@
     <reference-descriptor name="contractManager" class-ref="org.kuali.module.vendor.bo.ContractManager" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="contractManagerCode" />
     </reference-descriptor>
+    
     <!-- SPECIFIC TO PO DOCUMENT -->
 	<reference-descriptor name="purchaseOrderVendorChoice" class-ref="org.kuali.module.purap.bo.PurchaseOrderVendorChoice" auto-retrieve="true" auto-update="none" auto-delete="none">
 		<foreignkey field-ref="purchaseOrderVendorChoiceCode" />
@@ -631,6 +632,13 @@
         <fk-pointing-to-this-class column="FDOC_NBR"/>
         <fk-pointing-to-element-class column="PO_STAT_HIST_ID"/> 
     </collection-descriptor> 
+	<collection-descriptor name="purchaseOrderVendorQuotes"
+			collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList"
+	        element-class-ref="org.kuali.module.purap.bo.PurchaseOrderVendorQuote"
+	        auto-retrieve="true" auto-update="true" auto-delete="object">
+		<inverse-foreignkey field-ref="documentNumber"/>
+		<orderby name="vendorName" sort="ASC"/>
+	</collection-descriptor>
 
     <!-- reference-descriptor name="purchaseOrder" class-ref="org.kuali.module.purap.bo.PurchaseOrderRestrictedMaterialStatusHistory" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="purchaseOrderIdentifier" />

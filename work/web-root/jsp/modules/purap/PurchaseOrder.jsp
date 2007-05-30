@@ -90,9 +90,12 @@
     <purap:accountsummary
     	documentAttributes="${DataDictionary.SourceAccountingLine.attributes}" />  
 
+    <purap:quotes
+        documentAttributes="${DataDictionary.KualiPurchaseOrderDocument.attributes}"
+        vendorQuoteAttributes="${DataDictionary.PurchaseOrderVendorQuote.attributes}" /> 
+
     <purap:relatedDocuments
-            documentAttributes="${DataDictionary.RelatedDocuments.attributes}"
-            />
+            documentAttributes="${DataDictionary.RelatedDocuments.attributes}" />
 
     <purap:statushistory 
         documentAttributes="${DataDictionary.PurchaseOrderStatusHistory.attributes}">

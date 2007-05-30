@@ -235,15 +235,15 @@
 </attribute>
 
 <attributeReference name="deliveryRequiredDate" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericDate">
-    <label>Delivery Required Date</label>
-    <shortLabel>Required Date</shortLabel>
+    <label>Date Required</label>
+    <shortLabel>Date Required</shortLabel>
     <summary>deliveryRequiredDate</summary>
     <description>deliveryRequiredDate description...</description>
 </attributeReference>
 
 
 <attributeReference name="deliveryRequiredDateReasonCode" sourceClassName="org.kuali.module.purap.bo.DeliveryRequiredDateReason" sourceAttributeName="deliveryRequiredDateReasonCode">
-    <label>Required Date Reason</label>
+    <label>Date Required Reason</label>
     <shortLabel>Date Reason</shortLabel>
     <summary>deliveryRequiredDateReasonCode</summary>
     <description>deliveryRequiredDateReasonCode description...</description>

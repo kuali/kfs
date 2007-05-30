@@ -67,8 +67,8 @@
                 <validationPattern><anyCharacter /></validationPattern>
 
                 <control>
-                    <text size="6" />
-                </control>
+        			<select valuesFinderClass="org.kuali.module.purap.lookup.keyvalues.DateRequiredReasonValuesFinder"/>
+    			</control>
 
                 <summary>deliveryRequiredDateReasonCode</summary>
                 <description>deliveryRequiredDateReasonCode description...</description>

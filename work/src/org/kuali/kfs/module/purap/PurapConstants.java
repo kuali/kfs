@@ -35,13 +35,13 @@ public class PurapConstants {
         // Global
         public static final String DOC_ADHOC_NODE_NAME = "Adhoc Routing";
 
-        public static class AssignContractManagerDocument {
-        public static final String ASSIGN_CONTRACT_DOC_ERROR_COMPLETING_POST_PROCESSING = "Unable to save the contract manager for the following Requisitions: ";
+       public static class AssignContractManagerDocument {
+            public static final String ASSIGN_CONTRACT_DOC_ERROR_COMPLETING_POST_PROCESSING = "Unable to save the contract manager for the following Requisitions: ";
         }
 
         public static class RequisitionDocument {
-        public static final String SEPARATION_OF_DUTIES_DOLLAR_AMOUNT = PURAP_PARAM_PREFIX + "SEPARATION_OF_DUTIES_DOLLAR_AMOUNT";
-
+            public static final String SEPARATION_OF_DUTIES_DOLLAR_AMOUNT = PURAP_PARAM_PREFIX + "SEPARATION_OF_DUTIES_DOLLAR_AMOUNT";
+            
             // Workgroups
             public static final String SEPARATION_OF_DUTIES_WORKGROUP_NAME = PURAP_PARAM_PREFIX + "WORKGROUP.SEPARATION_OF_DUTIES";
         }
@@ -56,7 +56,7 @@ public class PurapConstants {
             public static final String PURCHASE_ORDER_VENDOR_NRA_WORKGROUP_NAME = PURAP_PARAM_PREFIX + "PO_NRA_VENDOR_REVIEWERS";
             // TODO delyea - add this workgroup
             public static final String PURCHASE_ORDER_VENDOR_NRA_EMPLOYEE_WORKGROUP_NAME = PURAP_PARAM_PREFIX + "PO_NRA_EMPLOYEE_VENDOR_REVIEWERS";
-            
+
         }
 
         public static class PaymentRequestDocument {
@@ -67,7 +67,12 @@ public class PurapConstants {
             public static final String PAYMENT_REQUEST_VENDOR_NRA_WORKGROUP_NAME = PURAP_PARAM_PREFIX + "PREQ_NRA_VENDOR_REVIEWERS";
             // TODO delyea - add this workgroup
             public static final String PAYMENT_REQUEST_VENDOR_NRA_EMPLOYEE_WORKGROUP_NAME = PURAP_PARAM_PREFIX + "PREQ_NRA_EMPLOYEE_VENDOR_REVIEWERS";
+        }
     }
+
+    public static class QuoteTypes {
+        public static final String COMPETITIVE = "COMP";
+        public static final String PRICE_CONFIRMATION = "CONF";
     }
 
     public static class Workgroups {
@@ -83,7 +88,7 @@ public class PurapConstants {
     public static final String REMOVE_ACCOUNTS_QUESTION = "RemoveAccounts";
     public static final String QUESTION_ROUTE_DOCUMENT_TO_COMPLETE = "Completing this document will remove it from your Action List.<br/><br/>  Are you sure you want to continue?";
     public static final String QUESTION_REMOVE_ACCOUNTS = "question.document.purap.removeAccounts";
-    
+
     // Delivery Tag
     public static final String DELIVERY_BUILDING_OTHER = "Other";
     public static final String DELIVERY_BUILDING_OTHER_CODE = "OTH";
@@ -154,6 +159,9 @@ public class PurapConstants {
     public static final String ACCOUNT_SUMMARY_TAB_ERRORS = "document.accountSummary*";
     public static final String ACCOUNT_DISTRIBUTION_ERROR_KEY = "accountDistribution";
 
+    // PO/Quotes Tab Constants
+    public static final String QUOTE_TAB_ERRORS = "document.quote*,quote*";
+
     // Assign Contract Manager Tab Errors
     public static final String ASSIGN_CONTRACT_MANAGER_TAB_ERRORS = "document.unassignedRequisition*";
 
@@ -209,7 +217,7 @@ public class PurapConstants {
     public static int DOLLAR_AMOUNT_MIN_SCALE = 2;
     public static int UNIT_PRICE_MAX_SCALE = 4;
     public static int PREQ_DESC_LENGTH = 500;
-    
+
     public static class PurchaseOrderDocTypes {
         public static String PURCHASE_ORDER_REOPEN_DOCUMENT = "KualiPurchaseOrderReopenDocument";
         public static String PURCHASE_ORDER_CLOSE_DOCUMENT = "KualiPurchaseOrderCloseDocument";
@@ -264,7 +272,7 @@ public class PurapConstants {
         public static String AMENDMENT_PO_QUESTION = "AmendmentPO";
         public static String CONFIRM_AMENDMENT_QUESTION = "ConfirmAmendment";
         public static String AMENDMENT_NOTE_PREFIX = "Note entered while amending a Purchase Order : ";
-        
+
         public static String SINGLE_CONFIRMATION_QUESTION = "singleConfirmationQuestion";
     }
 
@@ -300,11 +308,11 @@ public class PurapConstants {
     public static class PREQDocumentsStrings {
         public static String DUPLICATE_INVOICE_QUESTION = "PREQDuplicateInvoice";
     }
-    
+
     private static HashMap<String, String> itemTypes()
     {
-        HashMap<String,String> map; 
-        map =  new HashMap<String,String>();
+        HashMap<String, String> map;
+        map = new HashMap<String, String>();
         map.put("RequisitionDocument", "Kuali.FinancialTransactionProcessing.RequisitionDocument");
         map.put("PurchaseOrderDocument", "Kuali.FinancialTransactionProcessing.PurchaseOrderDocument");
         map.put("PaymentRequestDocument", "Kuali.FinancialTransactionProcessing.PaymentRequestDocument");
@@ -315,19 +323,19 @@ public class PurapConstants {
     }
     public final static HashMap<String,String> ITEM_TYPE_SYSTEM_PARAMETERS_SECURITY_MAP =
                         itemTypes();
-    
+
     public static final String BELOW_THE_LINES_PARAMETER = "BELOW_THE_LINE_ITEMS";
     public static final String ITEM_ALLOWS_ZERO = "ALLOWS_ZERO";
     public static final String ITEM_ALLOWS_POSITIVE = "ALLOWS_POSITIVE";
     public static final String ITEM_ALLOWS_NEGATIVE = "ALLOWS_NEGATIVE";
     public static final String ITEM_REQUIRES_USER_ENTERED_DESCRIPTION = "REQUIRES_USER_ENTERED_DESCRIPTION";
-    
+
     public static class ItemFields {
         public static final String QUANTITY = "Quantity";
         public static final String UNIT_OF_MEASURE = "Unit of Measure";
         public static final String DESCRIPTION = "Description";
         public static final String UNIT_COST = "Unit Cost";
-	}
+    }
     
     public static class CreditMemoStatuses {
         public static String INITIATE = "INIT";

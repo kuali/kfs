@@ -57,6 +57,7 @@
                         </td>
                     </c:if>
                     <td class="infocell"><c:out value="${laborOriginEntry.universityFiscalYear}" />&nbsp;</td>
+                    <td class="infocell"><c:out value="${laborOriginEntry.universityFiscalYear}" />&nbsp;</td>
                     <td class="infocell"><c:out value="${laborOriginEntry.chartOfAccountsCode}" />&nbsp;</td>
                     <td class="infocell"><c:out value="${laborOriginEntry.accountNumber}" />&nbsp;</td>
                     <td class="infocell"><c:out value="${laborOriginEntry.subAccountNumber}" />&nbsp;</td>
@@ -69,19 +70,39 @@
                     <td class="infocell"><c:out value="${laborOriginEntry.financialSystemOriginationCode}" />&nbsp;</td>
                     <td class="infocell"><c:out value="${laborOriginEntry.documentNumber}" />&nbsp;</td>
                     <td class="infocell"><c:out value="${laborOriginEntry.transactionLedgerEntrySequenceNumber}" />&nbsp;</td>
+					<td class="infocell"><c:out value="${laborOriginEntry.positionNumber}" />&nbsp;</td>
+                    <td class="infocell"><c:out value="${laborOriginEntry.projectCode}" />&nbsp;</td>
                     <td class="infocell"><c:out value="${laborOriginEntry.transactionLedgerEntryDescription}" />&nbsp;</td>
                     <td class="infocell"><c:out value="${laborOriginEntry.transactionLedgerEntryAmount}" />&nbsp;</td>
                     <td class="infocell"><c:out value="${laborOriginEntry.transactionDebitCreditCode}" />&nbsp;</td>
                     <td class="infocell"><c:out value="${laborOriginEntry.transactionDate}" />&nbsp;</td>
                     <td class="infocell"><c:out value="${laborOriginEntry.organizationDocumentNumber}" />&nbsp;</td>
-                    <td class="infocell"><c:out value="${laborOriginEntry.projectCode}" />&nbsp;</td>
                     <td class="infocell"><c:out value="${laborOriginEntry.organizationReferenceId}" />&nbsp;</td>
                     <td class="infocell"><c:out value="${laborOriginEntry.referenceFinancialDocumentTypeCode}" />&nbsp;</td>
                     <td class="infocell"><c:out value="${laborOriginEntry.referenceFinancialSystemOriginationCode}" />&nbsp;</td>
                     <td class="infocell"><c:out value="${laborOriginEntry.referenceFinancialDocumentNumber}" />&nbsp;</td>
                     <td class="infocell"><c:out value="${laborOriginEntry.financialDocumentReversalDate}" />&nbsp;</td>
                     <td class="infocell"><c:out value="${laborOriginEntry.transactionEncumbranceUpdateCode}" />&nbsp;</td>
-                </tr>
+					<td class="infocell"><c:out value="${laborOriginEntry.transactionPostingDate}" />&nbsp;</td>
+					<td class="infocell"><c:out value="${laborOriginEntry.payPeriodEndDate}" />&nbsp;</td>
+					<td class="infocell"><c:out value="${laborOriginEntry.transactionTotalHours}" />&nbsp;</td>
+					<td class="infocell"><c:out value="${laborOriginEntry.payrollEndDateFiscalYear}" />&nbsp;</td>
+					<td class="infocell"><c:out value="${laborOriginEntry.payrollEndDateFiscalPeriodCode}" />&nbsp;</td>
+					<td class="infocell"><c:out value="${laborOriginEntry.emplid}" />&nbsp;</td>
+					<td class="infocell"><c:out value="${laborOriginEntry.employeeRecord}" />&nbsp;</td>
+					<td class="infocell"><c:out value="${laborOriginEntry.earnCode}" />&nbsp;</td>
+					<td class="infocell"><c:out value="${laborOriginEntry.payGroup}" />&nbsp;</td>
+					<td class="infocell"><c:out value="${laborOriginEntry.salaryAdministrationPlan}" />&nbsp;</td>
+					<td class="infocell"><c:out value="${laborOriginEntry.grade}" />&nbsp;</td>
+					<td class="infocell"><c:out value="${laborOriginEntry.runIdentifier}" />&nbsp;</td>
+					<td class="infocell"><c:out value="${laborOriginEntry.laborLedgerOriginalChartOfAccountsCode}" />&nbsp;</td>
+					<td class="infocell"><c:out value="${laborOriginEntry.laborLedgerOriginalAccountNumber}" />&nbsp;</td>
+					<td class="infocell"><c:out value="${laborOriginEntry.laborLedgerOriginalSubAccountNumber}" />&nbsp;</td>
+					<td class="infocell"><c:out value="${laborOriginEntry.laborLedgerOriginalFinancialObjectCode}" />&nbsp;</td>
+					<td class="infocell"><c:out value="${laborOriginEntry.laborLedgerOriginalFinancialSubObjectCode}" />&nbsp;</td>
+					<td class="infocell"><c:out value="${laborOriginEntry.hrmsCompany}" />&nbsp;</td>
+					<td class="infocell"><c:out value="${laborOriginEntry.setid}" />&nbsp;</td>
+				</tr>
             </c:forEach>
         <tbody>
     </table>

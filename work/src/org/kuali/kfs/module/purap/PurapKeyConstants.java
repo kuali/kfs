@@ -95,7 +95,7 @@ public class PurapKeyConstants {
     public static final String ERROR_ITEM_EMPTY="errors.item.empty";
     public static final String ERROR_ITEM_ACCOUNTING_NOT_ALLOWED="errors.item.accounting.notallowed";
     public static final String ERROR_ITEM_ACCOUNTING_INCOMPLETE="errors.item.accounting.incomplete";
-    public static final String WARNING_PURCHASE_ORDER_EXCEEDING_TOTAL_LIMIT="warning.purchaseorder.exceedingTotalLimit";
+    public static final String ERROR_PURCHASE_ORDER_EXCEEDING_TOTAL_LIMIT="errors.purchaseorder.exceedingTotalLimit";
     public static final String ERROR_ITEM_REQUIRED="errors.item.required";
     public static final String ERROR_ITEM_UNIT_OF_MEASURE_REQUIRED="errors.item.unitOfMeasure.required";
     public static final String ERROR_ITEM_TRADEIN_DISCOUNT_COEXISTENCE="errors.purchaseOrderItems.TradeInAndDiscountCoexistence";

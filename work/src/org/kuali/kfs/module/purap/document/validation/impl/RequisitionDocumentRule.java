@@ -104,7 +104,7 @@ public class RequisitionDocumentRule extends PurchasingDocumentRuleBase {
         if (ObjectUtils.isNotNull(purDocument.getPurchaseOrderTotalLimit()) && ObjectUtils.isNotNull(((AmountTotaling) purDocument).getTotalDollarAmount())) {
             if (((AmountTotaling) purDocument).getTotalDollarAmount().isGreaterThan(purDocument.getPurchaseOrderTotalLimit())) {
                 valid &= false;
-                GlobalVariables.getMessageList().add(PurapKeyConstants.WARNING_PURCHASE_ORDER_EXCEEDING_TOTAL_LIMIT);                
+                GlobalVariables.getErrorMap().putError(PurapPropertyConstants.PURCHASE_ORDER_TOTAL_LIMIT, PurapKeyConstants.ERROR_PURCHASE_ORDER_EXCEEDING_TOTAL_LIMIT);                
             }
         }
         return valid;

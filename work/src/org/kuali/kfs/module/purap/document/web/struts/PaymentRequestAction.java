@@ -134,8 +134,10 @@ public class PaymentRequestAction extends AccountsPayableActionBase {
         }
         
         //If the list of closed/expired accounts is not empty add a warning and  add a note for the close / epired accounts which get replaced
-        HashMap<String, String> expiredOrClosedAccounts = paymentRequestService.ExpiredOrClosedAccountsList(paymentRequestDocument);
- 
+//        HashMap<String, String> expiredOrClosedAccounts = paymentRequestService.ExpiredOrClosedAccountsList(paymentRequestDocument);
+        //TODO: Chris finish above method for now just set to empty
+        HashMap<String, String> expiredOrClosedAccounts = new HashMap<String,String>();
+        
         if (!expiredOrClosedAccounts.isEmpty()){
             GlobalVariables.getMessageList().add(PurapKeyConstants.MESSAGE_CLOSED_OR_EXPIRED_ACCOUNTS_REPLACED);
             paymentRequestService.addContinuationAccountsNote(paymentRequestDocument, expiredOrClosedAccounts);

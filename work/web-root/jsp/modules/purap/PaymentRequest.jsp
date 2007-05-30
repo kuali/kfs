@@ -73,14 +73,18 @@
 	
 	    <kul:routeLog />
 	</c:if>
-	
-	<purap:accountsummary
-    	documentAttributes="${DataDictionary.SourceAccountingLine.attributes}" />
-	
-    <purap:relatedDocuments
-           documentAttributes="${DataDictionary.RelatedDocuments.attributes}"
-           />
 
+	<c:if test="${not KualiForm.editingMode['displayInitTab']}" >	
+		<purap:accountsummary
+    		documentAttributes="${DataDictionary.SourceAccountingLine.attributes}" />
+	</c:if>
+	
+	<c:if test="${not KualiForm.editingMode['displayInitTab']}" >
+		<purap:relatedDocuments
+        	documentAttributes="${DataDictionary.RelatedDocuments.attributes}"
+           	/>
+	</c:if>
+	
     <kul:panelFooter />
     <c:if test="${KualiForm.editingMode['displayInitTab']}">
  		<c:set var="extraButtons" value="${KualiForm.extraButtons}" />

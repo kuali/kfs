@@ -71,6 +71,10 @@ public class PurchaseOrderItem extends PurchasingItemBase {
 
         this.setCapitalAssetTransactionTypeCode(ri.getCapitalAssetTransactionTypeCode());
         this.setItemTypeCode(ri.getItemTypeCode());
+        
+        //to get around a null pointer error in ItemTypeCode
+        //TODO: remove this after the new base copy is implemented here
+        this.refreshNonUpdateableReferences();
 
         /* TODO: Uncomment these when we're ready with item capital asset in Kuali
         if (ri.getItemCapitalAssetNumbers() != null) {

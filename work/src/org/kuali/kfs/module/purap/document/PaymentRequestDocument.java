@@ -20,6 +20,7 @@ import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.core.bo.Note;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.util.GlobalVariables;
@@ -30,6 +31,8 @@ import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.bo.PaymentRequestItem;
 import org.kuali.module.purap.bo.PaymentRequestStatusHistory;
 import org.kuali.module.purap.bo.PaymentRequestView;
+import org.kuali.module.purap.bo.PurchaseOrderItem;
+import org.kuali.module.purap.bo.PurchasingApItem;
 import org.kuali.module.vendor.bo.PaymentTermType;
 import org.kuali.module.vendor.bo.ShippingPaymentTerms;
 
@@ -619,24 +622,17 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
           this.setVendorPaymentTerms(po.getVendorPaymentTerms());
         }
 
+        for (PurchaseOrderItem poi : (List<PurchaseOrderItem>)po.getItems()) {
+//TODO: check w/ Cathy about item active stuff, doesn't seem to be working
+//            if(poi.isItemActiveIndicator()) {
+                //FIXME: Chris do we still need to truncate the description if not lets get rid of this
+                poi.setItemDescription(StringUtils.substring(poi.getItemDescription(), PurapConstants.PREQ_DESC_LENGTH));
+                this.getItems().add(new PaymentRequestItem(poi,this));
+                
+//            }
+        }
+        //TODO: add missing below the line
         
-        /*
-        items.clear();
-        if (po.getItems() != null) {
-          for (Iterator i = po.getItems().iterator(); i.hasNext(); ) {
-            //Jira kulapp 1258: only save the first 500 characters of the description to the item
-            PurchaseOrderItem poi = (PurchaseOrderItem) i.next();
-            //Jira kulapp 1383, we should only copy the active po items.
-            if (poi.getActive().booleanValue()) {
-              String desc = poi.getDescription();
-              if (desc != null &&(desc.length() > 500)) {
-                poi.setDescription(desc.substring(0, 500));
-              }
-              items.add(new PaymentRequestItem(this, poi));
-            }//end of if (poi.getActive()..      
-          }//end of for (Iterator i = po.getItems()...
-        }//end of if (po.getItems() != null) 
-        */
         this.refreshAllReferences();
     }
     

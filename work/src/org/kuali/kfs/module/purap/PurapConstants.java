@@ -15,9 +15,11 @@
  */
 package org.kuali.module.purap;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
-import org.kuali.module.purap.document.RequisitionDocument;
+import org.kuali.Constants;
 
 /**
  * Holds constants for PURAP.
@@ -206,7 +208,8 @@ public class PurapConstants {
     // Item constants
     public static int DOLLAR_AMOUNT_MIN_SCALE = 2;
     public static int UNIT_PRICE_MAX_SCALE = 4;
-
+    public static int PREQ_DESC_LENGTH = 500;
+    
     public static class PurchaseOrderDocTypes {
         public static String PURCHASE_ORDER_REOPEN_DOCUMENT = "KualiPurchaseOrderReopenDocument";
         public static String PURCHASE_ORDER_CLOSE_DOCUMENT = "KualiPurchaseOrderCloseDocument";
@@ -332,4 +335,28 @@ public class PurapConstants {
         public static String CANCELLED_POST_APPROVE = "CANC";
         public static String CANCELLED_IN_PROCESS = "VOID";
     }
+    
+    private static HashMap<String,String> uncopyableFields() {
+        HashMap<String,String> fields = new HashMap<String,String>();
+        fields.put(Constants.VERSION_NUMBER, "");
+        return fields;
+    }
+    /*
+     * Fields that shouldn't be copied by our reflective copy method.
+     * This should only contain fields that are known throughout objects not
+     * item/doc specific ones
+     */
+    public final static HashMap<String,String> KNOWN_UNCOPYABLE_FIELDS = uncopyableFields();
+    private static HashMap<String,String> uncopyableItemFields() {
+        HashMap<String,String> fields = new HashMap<String,String>();
+        fields.put(PurapPropertyConstants.ITEM_IDENTIFIER, "");
+        fields.put(PurapPropertyConstants.ACCOUNTS, "");
+        return fields;
+    }
+    /*
+     * Fields that shouldn't be copied by our reflective copy method.
+     * This should only contain fields that are known throughout objects not
+     * item/doc specific ones
+     */
+    public final static HashMap<String,String> ITEM_UNCOPYABLE_FIELDS = uncopyableItemFields();
 }

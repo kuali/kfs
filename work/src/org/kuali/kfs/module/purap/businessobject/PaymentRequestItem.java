@@ -17,11 +17,13 @@
 package org.kuali.module.purap.bo;
 
 import java.math.BigDecimal;
-import java.util.LinkedHashMap;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.document.PaymentRequestDocument;
+import org.kuali.module.purap.util.PurApObjectUtils;
 
 /**
  * 
@@ -44,6 +46,27 @@ public class PaymentRequestItem extends AccountsPayableItemBase {
 
 	}
 
+    /**
+     * po constructor.
+     */
+    public PaymentRequestItem(PurchaseOrderItem poi,PaymentRequestDocument preq) {
+        //copy base attributes w/ extra array of fields not to be copied
+        PurApObjectUtils.populateFromBaseClass(PurApItemBase.class, poi, this, PurapConstants.ITEM_UNCOPYABLE_FIELDS);
+        
+        //set up accounts
+        List accounts = new ArrayList();
+        for (PurApAccountingLine account : poi.getSourceAccountingLines()) {
+            PurchaseOrderAccount poa = (PurchaseOrderAccount)account;
+            accounts.add(new PaymentRequestAccount(this,poa));
+        }
+        this.setSourceAccountingLines(accounts);
+                
+        //copy custom
+        this.purchaseOrderItemUnitPrice = poi.getItemUnitPrice();
+        this.purchaseOrderCommodityCode = poi.getPurchaseOrderCommodityCd();
+        //set doc fields
+        this.paymentRequest = preq;
+    }
 
 
 	/**

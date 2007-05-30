@@ -15,8 +15,10 @@
  */
 package org.kuali.module.cg.rules;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.ArrayList;
+import java.util.Map;
+import java.util.HashMap;
 
 import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase;
@@ -24,6 +26,7 @@ import org.kuali.core.service.BusinessObjectService;
 import org.kuali.kfs.KFSKeyConstants;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.cg.bo.Agency;
+import org.kuali.module.cg.bo.AgencyType;
 import org.apache.log4j.Logger;
 
 public class AgencyRule extends MaintenanceDocumentRuleBase {
@@ -67,9 +70,22 @@ public class AgencyRule extends MaintenanceDocumentRuleBase {
         boolean success = super.processCustomSaveDocumentBusinessRules(document);
         
         success &= checkAgencyReportsTo(document);
+        success &= validateAgencyType(document);
         
         LOG.info("Leaving AgencyRule.processCustomSaveDocumentBusinessRules");
         return success;
+    }
+
+    private boolean validateAgencyType(MaintenanceDocument document) {
+        String agencyType = newAgency.getAgencyTypeCode();
+        Map params = new HashMap();
+        params.put("code", agencyType);
+        Object o = businessObjectService.findByPrimaryKey(AgencyType.class, params);
+        if(null == o) {
+            putFieldError("agencyTypeCode", KFSKeyConstants.ERROR_AGENCY_TYPE_NOT_FOUND, agencyType);
+            return false;
+        }
+        return false;
     }
 
     private boolean checkAgencyReportsTo(MaintenanceDocument document) {

@@ -645,6 +645,7 @@ public class KFSKeyConstants extends KeyConstants {
 
     // Contracts and Grants Maintenance error messages
     public static final String ERROR_AGENCY_NOT_FOUND = "error.cg.agencyNotFound";
+    public static final String ERROR_AGENCY_TYPE_NOT_FOUND = "error.cg.agencyTypeNotFound";
     public static final String ERROR_AGENCY_INACTIVE = "error.cg.agenyInactive";
     public static final String ERROR_AGENCY_CIRCULAR_REPORTING = "error.cg.agencyCircularReporting";
     public static final String ERROR_AGENCY_REPORTS_TO_SELF = "error.cg.agencyReportsToSelf";

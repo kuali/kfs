@@ -728,6 +728,7 @@ public class KFSKeyConstants extends KeyConstants {
         public static final String ERROR_DOCUMENT_CREDIT_CARD_RECEIPT_TOTAL_INVALID = "error.document.creditCardReceipt.creditCardReceiptTotalInvalid";
         public static final String ERROR_DOCUMENT_CREDIT_CARD_RECEIPT_REQ_NUMBER_RECEIPTS_NOT_MET = "error.document.creditCardReceipt.requiredNumberOfCreditCardReceiptsNotMet";
         public static final String ERROR_DOCUMENT_CREDIT_CARD_RECEIPT_OUT_OF_BALANCE = "error.document.creditCardReceipt.balance";
+        public static final String ERROR_DOCUMENT_CREDIT_CARD_BANK_MUST_EXIST_WHEN_FLEXIBLE = "error.document.creditCardReceipt.bankMustExistWhenFlexible";
 
         public static final String DESCRIPTION_GLPE_BANK_OFFSET = "description.glpe.bankOffset.creditCardReceipt";
     }

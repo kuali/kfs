@@ -286,9 +286,17 @@
               </c:choose>
             </tr>
             <tr>
-              <td>
-                <glcp:displayOriginEntrySearchResults originEntries="${KualiForm.displayEntries}"/>
-              </td>
+            	<c:choose>
+	            	<c:when test="${KualiForm.documentType == 'LLCP'}" >
+		              <td>
+    		          	<displayLaborOriginEntrySearchResults laborOriginEntries="${KualiForm.displayEntries}"/>
+        		      </td>
+            		<otherwise>  
+		              <td>
+    		            <glcp:displayOriginEntrySearchResults originEntries="${KualiForm.displayEntries}"/>
+        	 	      </td>
+	        	    </otherwise>
+	        	</c:choose>    
             </tr>
             <c:if test="${KualiForm.editMethod == 'M' and KualiForm.editableFlag == true}">
               <tr>
@@ -322,32 +330,48 @@
                             </td>
                           </c:otherwise>
                         </c:choose>
-                        <td><html:text property="entryUniversityFiscalYear" size="5"/></td>
-                        <td><html:text property="entryForManualEdit.chartOfAccountsCode" size="5"/></td>
-                        <td><html:text property="entryForManualEdit.accountNumber" size="7"/></td>
-                        <td><html:text property="entryForManualEdit.subAccountNumber" size="7"/></td>
-                        <td><html:text property="entryForManualEdit.financialObjectCode" size="5"/></td>
-                        <td><html:text property="entryForManualEdit.financialSubObjectCode" size="6"/></td>
-                        <td><html:text property="entryForManualEdit.financialBalanceTypeCode" size="8"/></td>
-                        <td><html:text property="entryForManualEdit.financialObjectTypeCode" size="6"/></td>
-                        <td><html:text property="entryForManualEdit.universityFiscalPeriodCode" size="6"/></td>
-                        <td><html:text property="entryForManualEdit.financialDocumentTypeCode" size="10"/></td>
-                        <td><html:text property="entryForManualEdit.financialSystemOriginationCode" size="6"/></td>
-                        <td><html:text property="entryForManualEdit.documentNumber" size="14"/></td>
-                        <td><html:text property="entryTransactionLedgerEntrySequenceNumber" size="9"/></td>
-                        <td><html:text property="entryForManualEdit.transactionLedgerEntryDescription" size="11"/></td>
-                        <td><html:text property="entryTransactionLedgerEntryAmount" size="7"/></td>
-                        <td><html:text property="entryForManualEdit.transactionDebitCreditCode" size="9"/></td>
-                        <td><html:text property="entryTransactionDate" size="12"/></td>
-                        <td><html:text property="entryForManualEdit.organizationDocumentNumber" size="12"/></td>
-                        <td><html:text property="entryForManualEdit.projectCode" size="7"/></td>
-                        <td><html:text property="entryForManualEdit.organizationReferenceId" size="13"/></td>
-                        <td><html:text property="entryForManualEdit.referenceFinancialDocumentTypeCode" size="10"/></td>
-                        <td><html:text property="entryForManualEdit.referenceFinancialSystemOriginationCode" size="10"/></td>
-                        <td><html:text property="entryForManualEdit.referenceFinancialDocumentNumber" size="9"/></td>
-                        <td><html:text property="entryFinancialDocumentReversalDate" size="8"/></td>
-                        <td><html:text property="entryForManualEdit.transactionEncumbranceUpdateCode" size="13"/></td>
-                      </tr>
+                        
+                        <c:choose>
+						  <c:when test="${KualiForm.documentType == 'LLCP'}" >
+							<td><html:text property="entryUniversityFiscalYear" size="5"/></td>
+	                        <td><html:text property="entryForManualEdit.chartOfAccountsCode" size="5"/></td>
+    	                    <td><html:text property="entryForManualEdit.accountNumber" size="7"/></td>
+        	                <td><html:text property="entryForManualEdit.subAccountNumber" size="7"/></td>
+            	            <td><html:text property="entryForManualEdit.financialObjectCode" size="5"/></td>
+                	        <td><html:text property="entryForManualEdit.financialSubObjectCode" size="6"/></td>
+                    	    <td><html:text property="entryForManualEdit.financialBalanceTypeCode" size="8"/></td>
+	                        <td><html:text property="entryForManualEdit.financialObjectTypeCode" size="6"/></td>
+    	 				  </c:when>
+						  <c:otherwise>
+			            	<td><html:text property="entryUniversityFiscalYear" size="5"/></td>
+	                        <td><html:text property="entryForManualEdit.chartOfAccountsCode" size="5"/></td>
+    	                    <td><html:text property="entryForManualEdit.accountNumber" size="7"/></td>
+        	                <td><html:text property="entryForManualEdit.subAccountNumber" size="7"/></td>
+            	            <td><html:text property="entryForManualEdit.financialObjectCode" size="5"/></td>
+                	        <td><html:text property="entryForManualEdit.financialSubObjectCode" size="6"/></td>
+                    	    <td><html:text property="entryForManualEdit.financialBalanceTypeCode" size="8"/></td>
+	                        <td><html:text property="entryForManualEdit.financialObjectTypeCode" size="6"/></td>
+    	                    <td><html:text property="entryForManualEdit.universityFiscalPeriodCode" size="6"/></td>
+        	                <td><html:text property="entryForManualEdit.financialDocumentTypeCode" size="10"/></td>
+                	        <td><html:text property="entryForManualEdit.financialSystemOriginationCode" size="6"/></td>
+            	            <td><html:text property="entryForManualEdit.documentNumber" size="14"/></td>
+    	                    <td><html:text property="entryTransactionLedgerEntrySequenceNumber" size="9"/></td>
+	                        <td><html:text property="entryForManualEdit.transactionLedgerEntryDescription" size="11"/></td>
+        	                <td><html:text property="entryTransactionLedgerEntryAmount" size="7"/></td>
+            	            <td><html:text property="entryForManualEdit.transactionDebitCreditCode" size="9"/></td>
+                	        <td><html:text property="entryTransactionDate" size="12"/></td>
+                    	    <td><html:text property="entryForManualEdit.organizationDocumentNumber" size="12"/></td>
+	                        <td><html:text property="entryForManualEdit.projectCode" size="7"/></td>
+    	                    <td><html:text property="entryForManualEdit.organizationReferenceId" size="13"/></td>
+        	                <td><html:text property="entryForManualEdit.referenceFinancialDocumentTypeCode" size="10"/></td>
+            	            <td><html:text property="entryForManualEdit.referenceFinancialSystemOriginationCode" size="10"/></td>
+                	        <td><html:text property="entryForManualEdit.referenceFinancialDocumentNumber" size="9"/></td>
+                    	    <td><html:text property="entryFinancialDocumentReversalDate" size="8"/></td>
+                        	<td><html:text property="entryForManualEdit.transactionEncumbranceUpdateCode" size="13"/></td>
+                          </c:otherwise>	
+                        </c:choose>	
+                  
+                      	</tr>
                     </tbody>
                   </table>
                 </td>
@@ -677,9 +701,17 @@
             <td align="left" valign="middle" class="subhead"><span class="subhead-left">Search Results - Output Group</span></td>
           </tr>
           <tr>
-            <td>
-              <glcp:displayOriginEntrySearchResults originEntries="${KualiForm.displayEntries}"/>
-            </td>
+         	 <c:choose>
+	         	<c:when test="${KualiForm.documentType == 'LLCP'}" >
+		    	    <td>
+    		    	   	<displayLaborOriginEntrySearchResults laborOriginEntries="${KualiForm.displayEntries}"/>
+        		    </td>
+            	<otherwise>  
+		    	    <td>
+    		    	    <glcp:displayOriginEntrySearchResults originEntries="${KualiForm.displayEntries}"/>
+        	 	    </td>
+	         	</otherwise>
+	      	 </c:choose> 
           </tr>
         </table>
       </c:if>

@@ -79,6 +79,7 @@
         <form-bean name="RequisitionForm" type="org.kuali.module.purap.web.struts.form.RequisitionForm" />
         <form-bean name="PurchaseOrderForm" type="org.kuali.module.purap.web.struts.form.PurchaseOrderForm" />
         <form-bean name="PaymentRequestForm" type="org.kuali.module.purap.web.struts.form.PaymentRequestForm" />
+        <form-bean name="CreditMemoForm" type="org.kuali.module.purap.web.struts.form.CreditMemoForm" />
 
         <!-- CG Module Bean Definitions -->
         <form-bean name="CloseForm" type="org.kuali.module.cg.web.struts.form.CloseForm" />

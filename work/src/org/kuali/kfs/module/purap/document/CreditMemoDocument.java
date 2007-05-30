@@ -20,7 +20,10 @@ import java.sql.Date;
 import java.sql.Timestamp;
 
 import org.kuali.core.bo.Note;
+import org.kuali.core.bo.user.UniversalUser;
+import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.bo.CreditMemoItem;
 import org.kuali.module.purap.bo.CreditMemoStatusHistory;
 
@@ -64,7 +67,18 @@ public class CreditMemoDocument extends AccountsPayableDocumentBase {
      * Perform logic needed to initiate CM Document
      */
     public void initiateDocument() {
-
+        LOG.debug("initiateDocument() started");
+        this.setStatusCode( PurapConstants.CreditMemoStatuses.INITIATE );
+  
+        //TODO: Change this one:
+        this.setAccountsPayableProcessorIdentifier("TBD");
+        UniversalUser currentUser = (UniversalUser)GlobalVariables.getUserSession().getUniversalUser();
+        this.setAccountsPayableProcessorIdentifier(currentUser.getPersonUniversalIdentifier());
+        // paymentRequest.setProcessedCampusCode(u.getCampusCd());
+        //paymentRequest.setAccountsPayableProcessorId(u.getId());
+        //this.setStatusCode( PurapConstants.PaymentRequestStatuses.IN_PROCESS )
+       // this.setInitialized(true);
+   //     this.refreshAllReferences();
     }
 
     /**

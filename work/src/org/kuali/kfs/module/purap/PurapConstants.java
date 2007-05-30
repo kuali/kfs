@@ -34,12 +34,12 @@ public class PurapConstants {
         public static final String DOC_ADHOC_NODE_NAME = "Adhoc Routing";
 
         public static class AssignContractManagerDocument {
-            public static final String ASSIGN_CONTRACT_DOC_ERROR_COMPLETING_POST_PROCESSING = "Unable to save the contract manager for the following Requisitions: ";
+        public static final String ASSIGN_CONTRACT_DOC_ERROR_COMPLETING_POST_PROCESSING = "Unable to save the contract manager for the following Requisitions: ";
         }
 
         public static class RequisitionDocument {
-            public static final String SEPARATION_OF_DUTIES_DOLLAR_AMOUNT = PURAP_PARAM_PREFIX + "SEPARATION_OF_DUTIES_DOLLAR_AMOUNT";
-            
+        public static final String SEPARATION_OF_DUTIES_DOLLAR_AMOUNT = PURAP_PARAM_PREFIX + "SEPARATION_OF_DUTIES_DOLLAR_AMOUNT";
+
             // Workgroups
             public static final String SEPARATION_OF_DUTIES_WORKGROUP_NAME = PURAP_PARAM_PREFIX + "WORKGROUP.SEPARATION_OF_DUTIES";
         }
@@ -65,7 +65,7 @@ public class PurapConstants {
             public static final String PAYMENT_REQUEST_VENDOR_NRA_WORKGROUP_NAME = PURAP_PARAM_PREFIX + "PREQ_NRA_VENDOR_REVIEWERS";
             // TODO delyea - add this workgroup
             public static final String PAYMENT_REQUEST_VENDOR_NRA_EMPLOYEE_WORKGROUP_NAME = PURAP_PARAM_PREFIX + "PREQ_NRA_EMPLOYEE_VENDOR_REVIEWERS";
-        }
+    }
     }
 
     public static class Workgroups {
@@ -318,11 +318,18 @@ public class PurapConstants {
     public static final String ITEM_ALLOWS_POSITIVE = "ALLOWS_POSITIVE";
     public static final String ITEM_ALLOWS_NEGATIVE = "ALLOWS_NEGATIVE";
     public static final String ITEM_REQUIRES_USER_ENTERED_DESCRIPTION = "REQUIRES_USER_ENTERED_DESCRIPTION";
-
+    
     public static class ItemFields {
         public static final String QUANTITY = "Quantity";
         public static final String UNIT_OF_MEASURE = "Unit of Measure";
         public static final String DESCRIPTION = "Description";
         public static final String UNIT_COST = "Unit Cost";
+	}
+    
+    public static class CreditMemoStatuses {
+        public static String INITIATE = "INIT";
+        public static String IN_PROCESS = "INPR";
+        public static String CANCELLED_POST_APPROVE = "CANC";
+        public static String CANCELLED_IN_PROCESS = "VOID";
     }
 }

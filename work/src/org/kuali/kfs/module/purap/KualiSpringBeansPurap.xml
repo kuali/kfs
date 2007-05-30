@@ -134,7 +134,49 @@
         </property>	        
     
     </bean>
-
+	
+	<bean id="creditMemoDao" parent="platformAwareDao" class="org.kuali.module.purap.dao.ojb.CreditMemoDaoOjb" />
+	
+	<bean id="creditMemoService" class="org.kuali.module.purap.service.impl.CreditMemoServiceImpl">
+    	<property name="businessObjectService">
+			<ref bean="businessObjectService" />
+		</property>
+		<property name="dateTimeService">
+			<ref bean="dateTimeService" />
+		</property>
+		<property name="creditMemoDao">
+			<ref bean="creditMemoDao" />
+		</property>
+        <property name="vendorService">
+            <ref bean="vendorService" />
+        </property>
+        <property name="purchaseOrderService">
+            <ref bean="purchaseOrderService" />
+        </property>
+        <property name="documentService">
+			<ref bean="documentService" />
+		</property>
+        <property name="generalLedgerService">
+            <ref bean="generalLedgerService" />
+        </property>
+        <property name="purapService">
+            <ref bean="purapService" />
+        </property>
+        <property name="noteService">
+            <ref bean="noteService" />
+        </property>
+        <property name="workflowDocumentService">
+            <ref bean="workflowDocumentService" />
+        </property>
+        <property name="kualiConfigurationService">
+            <ref bean="kualiConfigurationService" />
+        </property>	        
+        <property name="kualiRuleService">
+            <ref bean="kualiRuleService" />
+        </property>	        
+    
+    </bean>
+	
 	<bean id="printService" class="org.kuali.module.purap.service.impl.PrintServiceImpl">
 		<property name="businessObjectService">
 			<ref bean="businessObjectService" />

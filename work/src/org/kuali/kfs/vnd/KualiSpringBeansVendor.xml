@@ -142,6 +142,12 @@
         <property name="lookupDao">
             <ref bean="lookupDao" />
         </property>
+        <property name="vendorService">
+            <ref bean="vendorService" />
+        </property>
+        <property name="dateTimeService">
+            <ref bean="dateTimeService" />
+        </property>                
         <property name="businessObjectMetaDataService">
             <ref bean="businessObjectMetaDataService" />
         </property>

@@ -10,7 +10,7 @@
 	<target name="echo-properties" depends="init-filter-sets" description="Print all build properties that have been set">
 		<echoproperties />
 	</target>
-	
+
 	<target name="clean" depends="clean-project,clean-local,clean-workflow-local" description="Remove all build output" />
 
 	<target name="init-user-properties">
@@ -31,7 +31,7 @@
 		</condition>
 		<echo message="Loaded properties in ./build.properties and set dependent properties" />
 	</target>
-	
+
 	<target name="init-logic-based-properties" depends="init-project-properties">
 		<tstamp>
 			<format property="project.cvs.tag" pattern="MM/dd/yyyy hh:mm aa" />
@@ -139,7 +139,7 @@
 	<target name="init-filter-sets" depends="init-institution-default-properties">
 		<filterset id="general.filterset">
 			<filter token="settings-root-directory" value="${settings.root.directory}" />
-			<filter token="security-root-directory" value="${security.root.directory}" />			
+			<filter token="security-root-directory" value="${security.root.directory}" />
 			<filter token="log4j-settings-file" value="${settings.directory}/${log4j.settings.file}" />
 			<filter token="security-directory" value="${security.directory}" />
 			<filter token="settings-directory" value="${settings.directory}" />
@@ -194,7 +194,7 @@
 			<filter token="message.persistence" value="${message.persistence}" />
 		</filterset>
 	</target>
-	
+
 	<target name="init-make-references" depends="init-filter-sets">
 		<path id="compile.source.classpath">
 			<fileset dir="${appserver.lib.dir}" includes="*.jar" />
@@ -216,17 +216,17 @@
 	</target>
 
 	<target name="init-source-only-package">
-		<property name="package.type" value="source" />	
+		<property name="package.type" value="source" />
 	</target>
 
 	<target name="init-binary-only-package">
 		<property name="package.type" value="binary" />
 	</target>
-	
+
 	<target name="init-binary-and-source-package">
 		<property name="package.type" value="both" />
 	</target>
-			
+
 	<target name="init-package-directories" depends="init-project-properties">
 		<delete dir="${packaging.contents.directory}" />
 		<mkdir dir="${packaging.contents.directory}" />
@@ -295,15 +295,15 @@
 		</delete>
 		<delete dir="${workflow.embedded.webapp.directory}" failonerror="false"/>
 	</target>
-	
+
 	<target name="filter-project-log4j" unless="use.p6spy.local" depends="init-filter-sets">
 		<copy file="${build.appserver.directory}/${log4j.library}" todir="${lib.directory}"/>
 	</target>
-	
+
 	<target name="filter-project-p6spy" if="use.p6spy.local" depends="filter-project-log4j">
 		<copy file="${build.appserver.directory}/${log4j.library}" todir="${appserver.lib.dir}"/>
 	</target>
-	
+
 	<target name="filter-project" depends="filter-project-p6spy">
 		<mkdir dir="${metainf.directory}" />
 		<copy file="${build.tokenized.resources.directory}/${tomcat.context.file}" todir="${metainf.directory}" overwrite="true">
@@ -345,7 +345,7 @@
 			<filterset refid="general.filterset" />
 		</copy>
 	</target>
-	
+
 	<target name="filter-workflow-local" depends="init-filter-sets">
 		<copy todir="${appserver.classes.dir}" overwrite="true">
 			<fileset dir="${build.workflow.appserver.directory}" includes="${workflow.appserver.classes.list}" />
@@ -384,7 +384,7 @@
 			<fileset dir="${test.source.directory}">
 				<patternset refid="non.java.resources" />
 				<include name="**/*.txt" />
-			</fileset>  
+			</fileset>
 		</copy>
 		<copy todir="${test.classes.directory}">
 			<fileset dir="${source.directory}">
@@ -392,19 +392,19 @@
 			</fileset>
 		</copy>
 	</target>
-	
+
 	<target name="make-zips" depends="filter-local,filter-workflow-local">
 		<zip destfile="settings.zip" basedir="${settings.directory}" />
 		<zip destfile="security.zip" basedir="${security.directory}" />
 		<zip destfile="skel.zip" basedir="${static.directory}" />
 	</target>
-	
+
 	<target name="make-source-only-package" depends="init-package-directories">
 		<copy todir="${packaging.distribution.directory}" includeemptydirs="false">
 			<fileset dir="${basedir}" excludes="**/*.class,${packaged.build.properties.files}" />
 		</copy>
 	</target>
-	
+
 	<target name="make-javadoc" depends="init-project-properties">
 		<mkdir dir="${packaging.javadoc.directory}"/>
 	    <javadoc destdir="${packaging.javadoc.directory}" packagenames="org.*" locale="en" useexternalfile="yes" maxmemory="512M">
@@ -422,23 +422,23 @@
 			<fileset dir="${basedir}" includes="*.*,licenses/**/*,build/**/*" excludes="${packaged.build.properties.files}" />
 		</copy>
 	</target>
-	
+
 	<target name="make-binary-and-source-package" depends="make-source-only-package,make-binary-only-package" />
-	
+
 	<!-- please be careful if you muck with these settings - you can seriously hose the continuous integration process -->
 	<target name="test">
 		<mkdir dir="${test.temp.directory}" />
 		<mkdir dir="${test.xml.results.directory}" />
 		<junit showoutput="true" fork="true" forkmode="once" failureproperty="tests.failed" errorproperty="tests.errored" tempdir="${test.temp.directory}" maxmemory="512M">
-			<jvmarg value="-Dorg.kuali.test.KualiTestBase.skipOpenOrInProgressOrReopenedJiraIssues"/> 
+			<jvmarg value="-Dorg.kuali.test.KualiTestBase.skipOpenOrInProgressOrReopenedJiraIssues"/>
 			<classpath>
 				<path refid="compile.tests.classpath" />
 				<pathelement location="${test.classes.directory}" />
 			</classpath>
 			<formatter type="xml" />
 			<batchtest todir="${test.xml.results.directory}">
-				<fileset dir="${test.source.directory}"> 
-					<include name="${tests.includes}" />	
+				<fileset dir="${test.source.directory}">
+					<include name="${tests.includes}" />
 					<exclude name="**/TransactionalDocumentRuleTest.java" />
 					<exclude name="**/${test.spring.shutdown}.java" />
 				</fileset>
@@ -454,7 +454,7 @@
 		</junitreport>
 		<echo message="Generated test results: ${test.html.results.directory}/index.html" />
 	</target>
-	
+
 	<target name="dist" depends="make-source">
 		<unzip dest="${war.directory}" src="${build.workflow.appserver.directory}/workflow-embedded-content.zip"/>
 		<copy todir="${war.directory}">
@@ -480,11 +480,11 @@
 	</target>
 
 	<target name="dist-source-only-package" depends="init-source-only-package,make-source-only-package,dist-package"/>
-		
+
 	<target name="dist-binary-only-package" depends="init-binary-only-package,make-binary-only-package,dist-package"/>
-	
+
 	<target name="dist-binary-and-source-package" depends="init-binary-and-source-package,make-binary-and-source-package,dist-package" />
-		
+
 	<target name="continuous-integration" depends="use-test-spring-beans,clean,make-tests,test">
 		<fail if="tests.failed" message="Tests failed" />
 	</target>
@@ -507,7 +507,7 @@
 		<ant dir="${workflow.project.directory}" target="dist-client-not-iu" inheritall="false">
 			<propertyset refid="${workflow.application}-properties" />
 		</ant>
-		<copy file="${workflow.project.directory}/dist/workflow-client-${workflow.version}.jar" todir="${lib.directory}" overwrite="true" />
+		<copy file="${workflow.project.directory}/dist/kew-${workflow.version}.jar" todir="${lib.directory}" overwrite="true" />
 		<copy todir="${licenses.directory}/kew">
 			<fileset dir="${workflow.project.directory}/${licenses.directory}" />
 		</copy>
@@ -516,9 +516,9 @@
 			<fileset dir="${workflow.project.directory}/${workflow.ddl.directory}" includes="**/**" />
 		</copy>
 	</target>
-	
+
 	<!-- = = = = = = = = = = = = = = = = =
-          macrodef: maven          
+          macrodef: maven
          = = = = = = = = = = = = = = = = = -->
     <macrodef name="maven">
         <attribute name="goals" />
@@ -564,12 +564,12 @@
 		</delete>
 		<unzip src="${rice.project.directory}/sampleapp/target/sampleapp-${rice.version}.war" dest="${work.directory}/web-root" overwrite="true">
 		    <patternset>
-		    	<include name="kr/**/**" />		    	
+		    	<include name="kr/**/**" />
 		    	<include name="WEB-INF/tags/kr/**/*.tag" />
 		    </patternset>
 		</unzip>
 	</target>
-	
+
 	<target name="update-rice-misc" depends="init-project-properties">
 		<!-- copy licenses -->
 		<!--
@@ -599,17 +599,17 @@
 		</jar>
 	</target>
 
-	<target name="update-rice" depends="init-project-properties,update-rice-jar,update-rice-web,update-rice-misc" />		
-	
+	<target name="update-rice" depends="init-project-properties,update-rice-jar,update-rice-web,update-rice-misc" />
+
 	<target name="help" description="Describe public targets">
 		<echo>--- OVERVIEW ---
-			 
+
 	the following configuration files are involved in the build process
 			- build.xml
 			- build.properties
 			- build/*
 			- ${user.home}\${ant.project.name}-build.properties
-			
+
 	you should start using this build script as follows
 			- copy build/configurationFiles/userHomeDirectory/${ant.project.name}-build.properties to ${user.home}
 			- obtain the values for ${datasource.username}, ${datasource.password}, ${webservices.keystore.password}
@@ -623,28 +623,28 @@
 			- click the "Run/Stop/Restart MyEclipse Application Servers" button in the "Java (default)" perspective in
 			eclipse to start tomcat
 			- launch a browser and access http://localhost:8080/kuali-dev
-			
-	you can override the default log4j settings for your local deployments by copying 
+
+	you can override the default log4j settings for your local deployments by copying
 		build/configurationFiles/externalConfigDirectory/settings/${log4j.settings.file} to
 			${user.home}/${log4j.settings.file} and modifying as desired.  you will also need to run the dist-local target
 			for this change to take effect.
-			
+
 			if you would like to suggest a configuration change, enter a Jira issue in the KULCFG project with the details
-			
+
 			--- TARGETS ---
 
 			dist-local: prepares tokenized resources and local configuration files and deploys tomcat context file on development workstation
 			- this target should be run each time you update the project, change property values in ${user.home}\${ant.project.name}-build.properties,
 			or make a change that you want to apply to the application workflow plugin
 			- tomcat should not be running when you are executing this target
-			
+
 			test-local: runs all project tests and generates results
              - criteria for running dist-local must be met before running this target
 			- you can customize the set of tests that run by modifying the value of tests.includes in ${user.home}\${ant.project.name}-build.propertie
 			- tomcat should not be running when you execute this target
-			
+
 			echo-properties: executes ant echoproperties task, thereby printing out all the properties that have been set
-			
+
 			clean: removes all build output
 		</echo>
 	</target>

@@ -98,7 +98,7 @@
     
 	<bean id="fiscalYearStartDate"
 	      class="org.springframework.beans.factory.config.FieldRetrievingFactoryBean">
-	      <property name="staticField"><value>org.kuali.module.budget.service.impl.DateMakerServiceImpl.START_JULY</value>
+	      <property name="staticField"><value>org.kuali.module.budget.dao.ojb.FiscalYearMakersDaoOjb.START_JULY</value>
 	      </property>
 	</bean>
 	
@@ -106,9 +106,6 @@
     <bean id="dateMakerService" class="org.kuali.module.budget.service.impl.DateMakerServiceImpl">
         <property name="fiscalYearMakersDao">
             <ref bean="fiscalYearMakersDao" />
-        </property>
-        <property name="fiscalYearStartDate">
-            <ref bean="fiscalYearStartDate" />
         </property>
    </bean>
 
@@ -118,6 +115,9 @@
         </property>
         <property name="dateTimeService">
             <ref bean="dateTimeService" />
+        </property>
+        <property name="fiscalYearStartDate">
+            <ref bean="fiscalYearStartDate" />
         </property>
         <property name="makerObjectsList">
           <map>
@@ -150,6 +150,9 @@
             </entry>
             <entry key="org.kuali.module.chart.bo.AccountingPeriod">
               <value>org.kuali.module.chart.bo.AccountingPeriod</value>
+            </entry>    
+            <entry key="org.kuali.module.gl.bo.UniversityDate">
+              <value>org.kuali.module.gl.bo.UniversityDate</value>
             </entry>    
           </map>
         </property>  
@@ -195,6 +198,11 @@
               </list>
             </entry>
             <entry key="org.kuali.module.chart.bo.AccountingPeriod">
+              <list>
+                <value>org.kuali.kfs.bo.Options</value>
+              </list>
+            </entry>
+            <entry key="org.kuali.module.gl.bo.UniversityDate">
               <list>
                 <value>org.kuali.kfs.bo.Options</value>
               </list>

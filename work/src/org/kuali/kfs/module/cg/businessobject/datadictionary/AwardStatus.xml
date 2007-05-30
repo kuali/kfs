@@ -43,7 +43,7 @@
             </defaultSort>
 
             <lookupFields>
-                <lookupField attributeName="awardStatusCodeDropDown" required="false" />
+                <lookupField attributeName="awardStatusCode" required="false" />
                 <lookupField attributeName="awardStatusDescription" required="false" />
                 <lookupField attributeName="rowActiveIndicator" required="false" />
             </lookupFields>

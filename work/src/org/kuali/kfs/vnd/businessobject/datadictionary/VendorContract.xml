@@ -45,6 +45,8 @@
         </inquiry>
 
         <lookup>
+            <lookupableID>vendorContractLookupable</lookupableID>
+            
             <title>Vendor Contract Lookup</title>
 
             <instructions>Lookup a Vendor Contract</instructions>

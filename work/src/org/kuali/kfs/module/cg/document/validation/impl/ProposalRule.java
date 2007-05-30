@@ -27,23 +27,27 @@ import org.kuali.module.cg.bo.ProposalOrganization;
 import org.kuali.module.cg.bo.ProposalProjectDirector;
 import org.kuali.module.cg.bo.ProjectDirector;
 import org.apache.commons.lang.StringUtils;
+import org.apache.log4j.Logger;
 
 /**
  * Rules for the Proposal maintenance document.
  */
 public class ProposalRule extends CGMaintenanceDocumentRuleBase {
+    protected static Logger LOG = org.apache.log4j.Logger.getLogger(ProposalRule.class);
 
-    // private Proposal oldProposalCopy;
     private Proposal newProposalCopy;
 
     @Override
     protected boolean processCustomSaveDocumentBusinessRules(MaintenanceDocument documentCopy) {
+        LOG.info("Entering ProposalRule.processCustomSaveDocumentBusinessRules");
         processCustomRouteDocumentBusinessRules(documentCopy); // chain call but ignore success
+        LOG.info("Leaving ProposalRule.processCustomSaveDocumentBusinessRules");
         return true; // save despite error messages
     }
 
     @Override
     protected boolean processCustomRouteDocumentBusinessRules(MaintenanceDocument documentCopy) {
+        LOG.info("Entering ProposalRule.processCustomRouteDocumentBusinessRules");
         boolean success = true;
         success &= checkEndAfterBegin(newProposalCopy.getProposalBeginningDate(), newProposalCopy.getProposalEndingDate(), KFSPropertyConstants.PROPOSAL_ENDING_DATE);
         success &= checkPrimary(newProposalCopy.getProposalOrganizations(), ProposalOrganization.class, KFSPropertyConstants.PROPOSAL_ORGANIZATIONS, Proposal.class);
@@ -52,6 +56,7 @@ public class ProposalRule extends CGMaintenanceDocumentRuleBase {
         success &= checkProjectDirectorsStatuses(newProposalCopy.getProposalProjectDirectors(), ProposalProjectDirector.class, KFSPropertyConstants.PROPOSAL_PROJECT_DIRECTORS);
         success &= checkFederalPassThrough(newProposalCopy.getProposalFederalPassThroughIndicator(), newProposalCopy.getAgency(), newProposalCopy.getFederalPassThroughAgencyNumber(), Proposal.class, KFSPropertyConstants.PROPOSAL_FEDERAL_PASS_THROUGH_INDICATOR);
         success &= checkAgencyNotEqualToFederalPassThroughAgency(newProposalCopy.getAgency(), newProposalCopy.getFederalPassThroughAgency(), KFSPropertyConstants.AGENCY_NUMBER, KFSPropertyConstants.FEDERAL_PASS_THROUGH_AGENCY_NUMBER);
+        LOG.info("Leaving ProposalRule.processCustomRouteDocumentBusinessRules");
         return success;
     }
 

@@ -289,13 +289,14 @@
             	<c:choose>
 	            	<c:when test="${KualiForm.documentType == 'LLCP'}" >
 		              <td>
-    		          	<displayLaborOriginEntrySearchResults laborOriginEntries="${KualiForm.displayEntries}"/>
+    		          	<ld:displayLaborOriginEntrySearchResults laborOriginEntries="${KualiForm.displayEntries}"/>
         		      </td>
-            		<otherwise>  
+        		    </c:when>
+            		<c:otherwise>  
 		              <td>
     		            <glcp:displayOriginEntrySearchResults originEntries="${KualiForm.displayEntries}"/>
         	 	      </td>
-	        	    </otherwise>
+	        	    </c:otherwise>
 	        	</c:choose>    
             </tr>
             <c:if test="${KualiForm.editMethod == 'M' and KualiForm.editableFlag == true}">
@@ -704,13 +705,14 @@
          	 <c:choose>
 	         	<c:when test="${KualiForm.documentType == 'LLCP'}" >
 		    	    <td>
-    		    	   	<displayLaborOriginEntrySearchResults laborOriginEntries="${KualiForm.displayEntries}"/>
+    		    	   	<ld:displayLaborOriginEntrySearchResults laborOriginEntries="${KualiForm.displayEntries}"/>
         		    </td>
-            	<otherwise>  
+        		</c:when>
+            	<c:otherwise>  
 		    	    <td>
     		    	    <glcp:displayOriginEntrySearchResults originEntries="${KualiForm.displayEntries}"/>
         	 	    </td>
-	         	</otherwise>
+	         	</c:otherwise>
 	      	 </c:choose> 
           </tr>
         </table>

@@ -62,7 +62,6 @@ public class PurchaseOrderItem extends PurchasingItemBase {
         this.setItemDescription(ri.getItemDescription());
         this.setItemCapitalAssetNoteText(ri.getItemCapitalAssetNoteText());
         this.setItemUnitPrice(ri.getItemUnitPrice());
-        this.setRequisitionLineIdentifier(ri.getRequisitionLineIdentifier());
         this.setItemAuxiliaryPartIdentifier(ri.getItemAuxiliaryPartIdentifier());
         this.setItemAssignedToTradeInIndicator(ri.getItemAssignedToTradeInIndicator());
         

@@ -27,7 +27,6 @@ public abstract class PurchasingItemBase extends PurApItemBase implements Purcha
                    StringUtils.isNotEmpty(getItemCatalogNumber()) ||
                    StringUtils.isNotEmpty(getItemDescription()) ||
                    StringUtils.isNotEmpty(getItemCapitalAssetNoteText()) ||
-                   StringUtils.isNotEmpty(getRequisitionLineIdentifier()) ||
                    StringUtils.isNotEmpty(getItemAuxiliaryPartIdentifier()) ||
                    ObjectUtils.isNotNull(getItemQuantity()) ||
                    (ObjectUtils.isNotNull(getItemUnitPrice()) && (getItemUnitPrice().compareTo(new BigDecimal("0")) != 0)) ||

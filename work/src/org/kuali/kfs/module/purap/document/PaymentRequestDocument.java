@@ -631,7 +631,8 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
                 
 //            }
         }
-        //TODO: add missing below the line
+        //add missing below the line
+        SpringServiceLocator.getPurapService().addBelowLineItems(this);
         
         this.refreshAllReferences();
     }

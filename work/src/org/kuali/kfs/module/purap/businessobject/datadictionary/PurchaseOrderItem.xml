@@ -54,7 +54,6 @@
 						<field attributeName="itemUnitPrice" />
 						<field attributeName="purchaseOrderCommodityCd" />
 						<field attributeName="itemIdentifier" />
-						<field attributeName="requisitionLineIdentifier" />
 					</inquiryFields>
 				</inquirySection>
 			</inquirySections>
@@ -94,7 +93,6 @@
 				<lookupField attributeName="itemUnitPrice" required="false" />
 				<lookupField attributeName="purchaseOrderCommodityCd" required="false" />
 				<lookupField attributeName="itemIdentifier" required="false" />
-				<lookupField attributeName="requisitionLineIdentifier" required="false" />
 			</lookupFields>
 
 			<resultFields>
@@ -120,7 +118,6 @@
 				<field attributeName="itemUnitPrice" />
 				<field attributeName="purchaseOrderCommodityCd" />
 				<field attributeName="itemIdentifier" />
-				<field attributeName="requisitionLineIdentifier" />
 			</resultFields>
 		</lookup>
 

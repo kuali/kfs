@@ -81,7 +81,6 @@
 	<field-descriptor name="itemUnitPrice" column="ITM_UNIT_PRC" jdbc-type="DECIMAL"/>
 	<field-descriptor name="itemOutstandingEncumberedQuantity" column="ITM_OSTND_ENC_QTY" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
 	<field-descriptor name="itemOutstandingEncumbranceAmount" column="ITM_OSTND_ENC_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
-	<field-descriptor name="requisitionLineIdentifier" column="REQS_LN_ID" jdbc-type="VARCHAR"/>
 	<field-descriptor name="itemAuxiliaryPartIdentifier" column="ITM_AUX_PART_ID" jdbc-type="VARCHAR"/>
 	<field-descriptor name="itemActiveIndicator" column="ITM_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
 	<field-descriptor name="purchaseOrderCommodityCd" column="PO_CMDTY_CD" jdbc-type="VARCHAR"/>
@@ -190,7 +189,6 @@
 	<field-descriptor name="itemUnitPrice" column="ITM_UNIT_PRC" jdbc-type="DECIMAL"/>
 	<field-descriptor name="itemRestrictedIndicator" column="ITM_RSTRC_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
 	<field-descriptor name="itemTypeCode" column="ITM_TYP_CD" jdbc-type="VARCHAR" index="true"/>
-	<field-descriptor name="requisitionLineIdentifier" column="REQS_LN_ID" jdbc-type="VARCHAR"/>
 	<field-descriptor name="itemAuxiliaryPartIdentifier" column="ITM_AUX_PART_ID" jdbc-type="VARCHAR"/>
 	<field-descriptor name="externalOrganizationB2bProductReferenceNumber" column="EXT_ORG_B2B_PROD_REF_NBR" jdbc-type="VARCHAR"/>
 	<field-descriptor name="externalOrganizationB2bProductTypeName" column="EXT_ORG_B2B_PROD_TYP_NM" jdbc-type="VARCHAR"/>

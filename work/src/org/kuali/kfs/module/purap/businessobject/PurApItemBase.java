@@ -39,7 +39,6 @@ public abstract class PurApItemBase extends PersistableBusinessObjectBase implem
 	private String itemCapitalAssetNoteText;
 	private BigDecimal itemUnitPrice;
 	private String itemTypeCode;
-	private String requisitionLineIdentifier;
 	private String itemAuxiliaryPartIdentifier;
 	private String externalOrganizationB2bProductReferenceNumber;
 	private String externalOrganizationB2bProductTypeName;
@@ -257,28 +256,6 @@ public abstract class PurApItemBase extends PersistableBusinessObjectBase implem
 	public void setItemTypeCode(String itemTypeCode) {
 		this.itemTypeCode = itemTypeCode;
 	}
-
-
-	/**
-	 * Gets the requisitionLineIdentifier attribute.
-	 * 
-	 * @return Returns the requisitionLineIdentifier
-	 * 
-	 */
-	public String getRequisitionLineIdentifier() { 
-		return requisitionLineIdentifier;
-	}
-
-	/**
-	 * Sets the LineIdentifier attribute.
-	 * 
-	 * @param LineIdentifier The LineIdentifier to set.
-	 * 
-	 */
-	public void setRequisitionLineIdentifier(String requisitionLineIdentifier) {
-		this.requisitionLineIdentifier = requisitionLineIdentifier;
-	}
-
 
 	/**
 	 * Gets the itemAuxiliaryPartIdentifier attribute.

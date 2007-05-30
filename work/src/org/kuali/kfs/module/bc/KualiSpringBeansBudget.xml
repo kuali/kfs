@@ -161,6 +161,7 @@
             <entry key="org.kuali.module.chart.bo.OrganizationReversionDetail">
               <list>
                 <value>org.kuali.kfs.bo.Options</value>
+                <value>org.kuali.module.chart.bo.ObjectCode</value>
                 <value>org.kuali.module.chart.bo.OrganizationReversion</value>
               </list>
             </entry>
@@ -208,6 +209,12 @@
               </list>
             </entry>
           </map>
+        </property>
+        <property name="laggingCopyCycle">
+          <set>
+            <value>"org.kuali.module.chart.bo.OrganizationReversion"</value>
+            <value>"org.kuali.module.chart.bo.OrganizationReversionDetail"</value>
+          </set>
         </property>
     </bean>
 

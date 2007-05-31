@@ -30,8 +30,7 @@
             <h2>Credit Memo Init</h2>
         </div>
         
-        <table cellpadding="0" cellspacing="0" class="datatable" summary="Credit Memo Init Section">
-
+        <table cellpadding="0" cellspacing="0" class="datatable" summary="Credit Memo Init Section" >
             <tr>
                 <th align=right valign=middle class="bord-l-b">
                    <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.creditMemoNumber}" /></div>
@@ -60,6 +59,7 @@
                 <td align=left valign=middle class="datacell">
                    <kul:htmlControlAttribute attributeEntry="${documentAttributes.purchaseOrderIdentifier}" property="document.purchaseOrderIdentifier"  />
                 </td>
+            </tr>    
             <tr>
                 <th align=right valign=middle class="bord-l-b">
                    <div align="right"><kul:htmlAttributeLabel  attributeEntry="${documentAttributes.creditMemoAmount}" /></div>
@@ -67,7 +67,7 @@
                 <td align=left valign=middle class="datacell">
                    <kul:htmlControlAttribute attributeEntry="${documentAttributes.creditMemoAmount}" property="document.creditMemoAmount"  />
                 </td>
-                <<th align=right valign=middle class="bord-l-b">
+                <th align=right valign=middle class="bord-l-b">
                    <div align="right"><kul:htmlAttributeLabel  attributeEntry="${documentAttributes.vendorNumber}" /></div>
                 </th>
                 <td align=left valign=middle class="datacell">

@@ -22,7 +22,6 @@ import java.util.Collection;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.KeyConstants;
 import org.kuali.core.bo.Note;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.rule.event.RouteDocumentEvent;
@@ -53,6 +52,7 @@ import org.kuali.module.purap.PurapConstants.VendorChoice;
 import org.kuali.module.purap.bo.PurchaseOrderItem;
 import org.kuali.module.purap.dao.PurchaseOrderDao;
 import org.kuali.module.purap.document.PurchaseOrderDocument;
+import org.kuali.module.purap.document.PurchasingDocumentBase;
 import org.kuali.module.purap.document.RequisitionDocument;
 import org.kuali.module.purap.service.GeneralLedgerService;
 import org.kuali.module.purap.service.PrintService;
@@ -223,10 +223,10 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
         return poDocument;
     }
 
-    public KualiDecimal getInternalPurchasingDollarLimit(PurchaseOrderDocument po, String chartCode, String orgCode) {
-        if ((po.getVendorContract() != null) && (po.getContractManager() != null)) {
-            KualiDecimal contractDollarLimit = vendorService.getApoLimitFromContract(po.getVendorContract().getVendorContractGeneratedIdentifier(), chartCode, orgCode);
-            KualiDecimal contractManagerLimit = po.getContractManager().getContractManagerDelegationDollarLimit();
+    public KualiDecimal getInternalPurchasingDollarLimit(PurchasingDocumentBase document, String chartCode, String orgCode) {
+        if ((document.getVendorContract() != null) && (document.getContractManager() != null)) {
+            KualiDecimal contractDollarLimit = vendorService.getApoLimitFromContract(document.getVendorContract().getVendorContractGeneratedIdentifier(), chartCode, orgCode);
+            KualiDecimal contractManagerLimit = document.getContractManager().getContractManagerDelegationDollarLimit();
             if ((contractDollarLimit != null) && (contractManagerLimit != null)) {
                 if (contractDollarLimit.compareTo(contractManagerLimit) > 0) {
                     return contractDollarLimit;
@@ -240,14 +240,14 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
                 return contractManagerLimit;
             }
         }
-        else if ((po.getVendorContract() == null) && (po.getContractManager() != null)) {
-            return po.getContractManager().getContractManagerDelegationDollarLimit();
+        else if ((document.getVendorContract() == null) && (document.getContractManager() != null)) {
+            return document.getContractManager().getContractManagerDelegationDollarLimit();
         }
-        else if ((po.getVendorContract() != null) && (po.getContractManager() == null)) {
-            return purapService.getApoLimit(po.getVendorContract().getVendorContractGeneratedIdentifier(), chartCode, orgCode);
+        else if ((document.getVendorContract() != null) && (document.getContractManager() == null)) {
+            return purapService.getApoLimit(document.getVendorContract().getVendorContractGeneratedIdentifier(), chartCode, orgCode);
         }
         else {
-            String errorMsg = "No internal purchase order dollar limit found for purchase order '" + po.getPurapDocumentIdentifier() + "'.";
+            String errorMsg = "No internal purchase order dollar limit found for purchase order '" + document.getPurapDocumentIdentifier() + "'.";
             LOG.warn(errorMsg);
             return null;
         }

@@ -23,6 +23,7 @@ import org.kuali.core.bo.Note;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.web.struts.form.KualiDocumentFormBase;
 import org.kuali.module.purap.document.PurchaseOrderDocument;
+import org.kuali.module.purap.document.PurchasingDocumentBase;
 import org.kuali.module.purap.document.RequisitionDocument;
 
 
@@ -36,7 +37,7 @@ public interface PurchaseOrderService {
     
     public boolean updateFlagsAndRoute(KualiDocumentFormBase kualiDocumentFormBase, String docType, String annotation, List adhocRoutingRecipients);
     //public boolean routePurchaseOrderAmendmentDocument(KualiDocumentFormBase kualiDocumentFormBase, String annotation, List adhocRoutingRecipients);
-    public KualiDecimal getInternalPurchasingDollarLimit(PurchaseOrderDocument po, String chartCode, String orgCode);
+    public KualiDecimal getInternalPurchasingDollarLimit(PurchasingDocumentBase po, String chartCode, String orgCode);
     public boolean firstPurchaseOrderTransmitViaPrint (KualiDocumentFormBase kualiDocumentFormBase, String docType, String annotation, List adhocRoutingRecipients,
         ByteArrayOutputStream baosPDF,  String environment);
     public boolean printPurchaseOrderPDF (PurchaseOrderDocument po, String docType, String annotation, List adhocRoutingRecipients,

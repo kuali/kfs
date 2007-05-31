@@ -33,7 +33,7 @@ import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.PurapParameterConstants;
-import org.kuali.module.purap.document.PurchaseOrderDocument;
+import org.kuali.module.purap.document.PurchasingDocumentBase;
 import org.kuali.workflow.KualiWorkflowUtils;
 
 import edu.iu.uis.eden.Id;
@@ -42,7 +42,6 @@ import edu.iu.uis.eden.exception.EdenUserNotFoundException;
 import edu.iu.uis.eden.routetemplate.ResolvedQualifiedRole;
 import edu.iu.uis.eden.routetemplate.Role;
 import edu.iu.uis.eden.routetemplate.UnqualifiedRoleAttribute;
-import edu.iu.uis.eden.routetemplate.xmlrouting.XPathHelper;
 import edu.iu.uis.eden.workgroup.GroupNameId;
 
 /**
@@ -86,39 +85,38 @@ public class KualiInternalPurchasingRoleAttribute extends UnqualifiedRoleAttribu
      */
     @Override
     public ResolvedQualifiedRole resolveRole(RouteContext routeContext, String roleName) throws EdenUserNotFoundException {
-        // TODO delyea - TESTING - delete the return below to fire the rule
-        return new ResolvedQualifiedRole(INTERNAL_PURCHASING_ROLE_KEY, new ArrayList());
-
         //Select the class attribute of the document element to determine the doc type
-//        XPath xpath = XPathHelper.newXPath();
-//        String docType = "";
-//        String xPathExpression = "";
-//        try {
-//            xPathExpression = KualiWorkflowUtils.xstreamSafeXPath(KualiWorkflowUtils.XSTREAM_MATCH_ANYWHERE_PREFIX + "document/attribute::class");
-//            docType = (String) xpath.evaluate(xPathExpression, routeContext.getDocumentContent().getDocContent(), XPathConstants.STRING);
-//            xPathExpression = KualiWorkflowUtils.xstreamSafeXPath(KualiWorkflowUtils.XSTREAM_MATCH_ANYWHERE_PREFIX + "documentHeader/documentNumber");
-//            String documentNumber = (String) xpath.evaluate(xPathExpression, routeContext.getDocumentContent().getDocContent(), XPathConstants.STRING);
-//            Map queryMap = new HashMap();
-//            queryMap.put(KFSPropertyConstants.DOCUMENT_NUMBER, documentNumber);
-//            PurchaseOrderDocument poDocument = (PurchaseOrderDocument)SpringServiceLocator.getBusinessObjectService().findByPrimaryKey(Class.forName(docType), queryMap);
-//            KualiDecimal internalPurchasingLimit = SpringServiceLocator.getPurchaseOrderService().getInternalPurchasingDollarLimit(poDocument, poDocument.getChartOfAccountsCode(), poDocument.getOrganizationCode());
-//
-//            if ( (ObjectUtils.isNull(internalPurchasingLimit)) || (internalPurchasingLimit.compareTo(KualiWorkflowUtils.getFinancialDocumentTotalAmount(routeContext)) < 0) ) {
-//                KualiConfigurationService configService = SpringServiceLocator.getKualiConfigurationService();
-//                String workgroupName = configService.getApplicationParameterValue(PurapParameterConstants.PURAP_ADMIN_GROUP, PurapConstants.WorkflowConstants.PurchaseOrderDocument.INTERNAL_PURCHASING_WORKGROUP_NAME);
-//                return new ResolvedQualifiedRole(INTERNAL_PURCHASING_ROLE_LABEL, Arrays.asList(new Id[] { new GroupNameId(workgroupName) }));
-//            }
-//            return null;
-//        }
-//        catch (XPathExpressionException xe) {
-//            String errorMsg = "Error executing XPath expression - '" + xPathExpression + "'";
-//            LOG.error(errorMsg);
-//            throw new RuntimeException (errorMsg,xe);
-//        }
-//        catch (ClassNotFoundException cnfe) {
-//            String errorMsg = "Error trying to find document class '" + docType + "'";
-//            LOG.error(errorMsg);
-//            throw new RuntimeException (errorMsg,cnfe);
-//        }
+        XPath xpath = KualiWorkflowUtils.getXPath(routeContext.getDocumentContent().getDocument());
+        String docType = "";
+        String xPathExpression = "";
+        String documentContent = "";
+        try {
+            documentContent = routeContext.getDocumentContent().getDocContent();
+            xPathExpression = KualiWorkflowUtils.xstreamSafeXPath(KualiWorkflowUtils.XSTREAM_MATCH_ANYWHERE_PREFIX + "document/@class");
+            docType = (String) xpath.evaluate(xPathExpression, documentContent, XPathConstants.STRING);
+            String documentNumber = KualiWorkflowUtils.getDocumentHeaderDocumentNumber(routeContext);
+            Map queryMap = new HashMap();
+            queryMap.put(KFSPropertyConstants.DOCUMENT_NUMBER, documentNumber);
+            PurchasingDocumentBase document = (PurchasingDocumentBase)SpringServiceLocator.getBusinessObjectService().findByPrimaryKey(Class.forName(docType), queryMap);
+            document.refreshAllReferences();
+            KualiDecimal internalPurchasingLimit = SpringServiceLocator.getPurchaseOrderService().getInternalPurchasingDollarLimit(document, document.getChartOfAccountsCode(), document.getOrganizationCode());
+
+            if ( (ObjectUtils.isNull(internalPurchasingLimit)) || (internalPurchasingLimit.compareTo(KualiWorkflowUtils.getFinancialDocumentTotalAmount(routeContext)) < 0) ) {
+                KualiConfigurationService configService = SpringServiceLocator.getKualiConfigurationService();
+                String workgroupName = configService.getApplicationParameterValue(PurapParameterConstants.PURAP_ADMIN_GROUP, PurapConstants.WorkflowConstants.PurchaseOrderDocument.INTERNAL_PURCHASING_WORKGROUP_NAME);
+                return new ResolvedQualifiedRole(INTERNAL_PURCHASING_ROLE_LABEL, Arrays.asList(new Id[] { new GroupNameId(workgroupName) }));
+            }
+            return null;
+        }
+        catch (XPathExpressionException xe) {
+            String errorMsg = "Error executing XPath expression - '" + xPathExpression + "'";
+            LOG.error(errorMsg);
+            throw new RuntimeException (errorMsg,xe);
+        }
+        catch (ClassNotFoundException cnfe) {
+            String errorMsg = "Error trying to find document class '" + docType + "'";
+            LOG.error(errorMsg);
+            throw new RuntimeException (errorMsg,cnfe);
+        }
     }
 }

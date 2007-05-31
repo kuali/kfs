@@ -268,7 +268,7 @@ public class KualiWorkflowUtils extends WorkflowUtils {
      * @return The string value of the xpath.evaluate().
      */
     public static final String xstreamSafeEval(XPath xpath, String xpathExpression, Object item) {
-        String xstreamSafeXPath = new StringBuilder(XSTREAM_SAFE_PREFIX).append(xpathExpression).append(XSTREAM_SAFE_SUFFIX).toString();
+        String xstreamSafeXPath = xstreamSafeXPath(xpathExpression);
         String evalResult = "";
         try {
             evalResult = xpath.evaluate(xstreamSafeXPath, item);

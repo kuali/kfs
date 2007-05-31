@@ -47,6 +47,7 @@
         </lockingKeys>
 
 		<defaultExistenceChecks>
+			<reference attributeName="campus" attributeToHighlightOnFail="campusCode" />
 			<reference attributeName="buildingAddressZip" attributeToHighlightOnFail="buildingAddressZipCode" />
 		</defaultExistenceChecks>
 

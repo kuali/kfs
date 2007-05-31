@@ -104,13 +104,13 @@ public class KualiSeparationOfDutiesRoleAttribute extends UnqualifiedRoleAttribu
         }
         // if document has been approved or completed by more than one person... no need for separation of duties
         if (documentReviewers.size() > 1) {
-            return new ResolvedQualifiedRole(SEPARATION_OF_DUTIES_ROLE_LABEL, new ArrayList());
+            return null;
         }
         KualiConfigurationService configService = SpringServiceLocator.getKualiConfigurationService();
         KualiDecimal maxAllowedAmount = new KualiDecimal(configService.getApplicationParameterValue(PurapParameterConstants.PURAP_ADMIN_GROUP,PurapConstants.WorkflowConstants.RequisitionDocument.SEPARATION_OF_DUTIES_DOLLAR_AMOUNT));
         // if app param amount is greater than or equal to documentTotalAmount... no need for separation of duties
         if (maxAllowedAmount.compareTo(KualiWorkflowUtils.getFinancialDocumentTotalAmount(routeContext)) >= 0) {
-            return new ResolvedQualifiedRole(SEPARATION_OF_DUTIES_ROLE_LABEL, new ArrayList());
+            return null;
         }
         String workgroupName = configService.getApplicationParameterValue(PurapParameterConstants.PURAP_ADMIN_GROUP,PurapConstants.WorkflowConstants.RequisitionDocument.SEPARATION_OF_DUTIES_WORKGROUP_NAME);
         return new ResolvedQualifiedRole(SEPARATION_OF_DUTIES_ROLE_LABEL, Arrays.asList(new Id[] {new GroupNameId(workgroupName)}));

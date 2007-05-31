@@ -16,17 +16,10 @@
 
 package org.kuali.module.purap.bo;
 
-import java.math.BigDecimal;
 import java.util.LinkedHashMap;
 
-import org.apache.commons.lang.builder.EqualsBuilder;
-import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.kfs.bo.AccountingLine;
-import org.kuali.module.chart.bo.Account;
-import org.kuali.module.chart.bo.Chart;
-import org.kuali.module.chart.bo.SubAccount;
-import org.kuali.module.purap.PurapConstants;
+import org.kuali.kfs.bo.AccountingLineBase;
 import org.kuali.module.purap.util.PurApObjectUtils;
 
 /**
@@ -51,7 +44,7 @@ public class PaymentRequestAccount extends PurApAccountingLineBase {
      */
     public PaymentRequestAccount(PaymentRequestItem item, PurchaseOrderAccount poa) {
 //      copy base attributes
-        PurApObjectUtils.populateFromBaseClass(AccountingLine.class, poa, this);
+        PurApObjectUtils.populateFromBaseClass(AccountingLineBase.class, poa, this);
         //copy percent
         this.setAccountLinePercent(poa.getAccountLinePercent());
         setPaymentRequestItem(item);

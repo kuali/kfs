@@ -21,15 +21,17 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Logger;
 
-import org.kuali.Constants;
 import org.kuali.core.bo.BusinessObject;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.web.format.FormatException;
 import org.kuali.module.purap.PurapConstants;
+import org.kuali.module.purap.document.PurchaseOrderDocument;
 
 public class PurApObjectUtils {
-    
+    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PurApObjectUtils.class);
+
     /**
      * 
      * This method copies based on a class template it does not copy fields in Known Uncopyable Fields
@@ -49,21 +51,11 @@ public class PurApObjectUtils {
                 try {
                     ObjectUtils.setObjectProperty(target, fieldName, ObjectUtils.getPropertyValue(src, fieldName));
                 }
-                catch (FormatException e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
-                }
-                catch (IllegalAccessException e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
-                }
-                catch (InvocationTargetException e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
-                }
-                catch (NoSuchMethodException e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
+                catch (Exception e) {
+                    //purposefully skip for now 
+                    //(I wish objectUtils getPropertyValue threw named errors instead of runtime) so I could
+                    //selectively skip
+                    LOG.debug("couldn't set field "+fieldName);
                 }
             }
         }

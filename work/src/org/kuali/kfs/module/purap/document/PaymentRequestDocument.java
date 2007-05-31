@@ -625,10 +625,7 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
         for (PurchaseOrderItem poi : (List<PurchaseOrderItem>)po.getItems()) {
 //TODO: check w/ Cathy about item active stuff, doesn't seem to be working
 //            if(poi.isItemActiveIndicator()) {
-                //FIXME: Chris do we still need to truncate the description if not lets get rid of this
-                poi.setItemDescription(StringUtils.substring(poi.getItemDescription(), PurapConstants.PREQ_DESC_LENGTH));
-                this.getItems().add(new PaymentRequestItem(poi,this));
-                
+                this.getItems().add(new PaymentRequestItem(poi,this));                
 //            }
         }
         //add missing below the line

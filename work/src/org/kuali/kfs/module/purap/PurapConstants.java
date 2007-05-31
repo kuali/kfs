@@ -41,31 +41,23 @@ public class PurapConstants {
 
         public static class RequisitionDocument {
             public static final String SEPARATION_OF_DUTIES_DOLLAR_AMOUNT = PURAP_PARAM_PREFIX + "SEPARATION_OF_DUTIES_DOLLAR_AMOUNT";
-            
+
             // Workgroups
             public static final String SEPARATION_OF_DUTIES_WORKGROUP_NAME = PURAP_PARAM_PREFIX + "WORKGROUP.SEPARATION_OF_DUTIES";
         }
 
         public static class PurchaseOrderDocument {
             // Workgroups
-            // TODO delyea - add this workgroup
             public static final String INTERNAL_PURCHASING_WORKGROUP_NAME = PURAP_PARAM_PREFIX + "INTERNAL_PURCHASING_REVIEWERS";
-            // TODO delyea - add this workgroup
             public static final String PURCHASE_ORDER_VENDOR_EMPLOYEE_WORKGROUP_NAME = PURAP_PARAM_PREFIX + "PO_EMPLOYEE_VENDOR_REVIEWERS";
-            // TODO delyea - add this workgroup
             public static final String PURCHASE_ORDER_VENDOR_NRA_WORKGROUP_NAME = PURAP_PARAM_PREFIX + "PO_NRA_VENDOR_REVIEWERS";
-            // TODO delyea - add this workgroup
             public static final String PURCHASE_ORDER_VENDOR_NRA_EMPLOYEE_WORKGROUP_NAME = PURAP_PARAM_PREFIX + "PO_NRA_EMPLOYEE_VENDOR_REVIEWERS";
-
         }
 
         public static class PaymentRequestDocument {
             // Workgroups
-            // TODO delyea - add this workgroup
             public static final String PAYMENT_REQUEST_VENDOR_EMPLOYEE_WORKGROUP_NAME = PURAP_PARAM_PREFIX + "PREQ_EMPLOYEE_VENDOR_REVIEWERS";
-            // TODO delyea - add this workgroup
             public static final String PAYMENT_REQUEST_VENDOR_NRA_WORKGROUP_NAME = PURAP_PARAM_PREFIX + "PREQ_NRA_VENDOR_REVIEWERS";
-            // TODO delyea - add this workgroup
             public static final String PAYMENT_REQUEST_VENDOR_NRA_EMPLOYEE_WORKGROUP_NAME = PURAP_PARAM_PREFIX + "PREQ_NRA_EMPLOYEE_VENDOR_REVIEWERS";
         }
     }

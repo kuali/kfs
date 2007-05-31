@@ -53,7 +53,7 @@
         <defaultExistenceChecks>
             <reference attributeName="account" attributeToHighlightOnFail="accountNumber" />
             <reference attributeName="accountDelegate" attributeToHighlightOnFail="accountDelegate.personUserIdentifier" />
-            <reference attributeName="documentType" attributeToHighlightOnFail="financialDocumentTypeCode" activeIndicatorAttributeName="finDocumentTypeActiveIndicator" />
+            <reference attributeName="documentType" attributeToHighlightOnFail="financialDocumentTypeCode" />
         </defaultExistenceChecks>
 
         <maintainableSections>

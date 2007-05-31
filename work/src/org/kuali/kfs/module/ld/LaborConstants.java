@@ -178,4 +178,5 @@ public class LaborConstants {
     }
     
     public static final String LONG_ROW_TABLE_INRUIRY_ACTION = "laborLongRowTableInquiry.do";
+    public static final String LABOR_USER_SERVICE_NAME = "laborUserService";
 }

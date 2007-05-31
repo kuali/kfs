@@ -22,15 +22,17 @@ import java.util.GregorianCalendar;
 import java.util.Iterator;
 
 import org.apache.log4j.Logger;
+import org.springframework.transaction.annotation.Transactional;
+
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.batch.AbstractStep;
 import org.kuali.module.gl.dao.CorrectionDocumentDao;
 import org.kuali.module.gl.document.CorrectionDocument;
 import org.kuali.module.gl.service.CorrectionDocumentService;
 import org.kuali.workflow.KualiWorkflowUtils;
-
 import edu.iu.uis.eden.exception.WorkflowException;
 
+@Transactional
 public class PurgeCorrectionProcessFilesStep extends AbstractStep {
     private static Logger LOG = Logger.getLogger(PurgeCorrectionProcessFilesStep.class);
     private CorrectionDocumentDao correctionDocumentDao;

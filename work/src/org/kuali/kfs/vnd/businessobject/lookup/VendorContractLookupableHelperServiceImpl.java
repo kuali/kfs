@@ -21,6 +21,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.transaction.annotation.Transactional;
+
 import org.apache.ojb.broker.query.Criteria;
 import org.kuali.core.bo.PersistableBusinessObject;
 import org.kuali.core.dao.LookupDao;
@@ -34,6 +36,7 @@ import org.kuali.module.chart.bo.ChartUser;
 import org.kuali.module.vendor.bo.VendorContract;
 import org.kuali.module.vendor.service.VendorService;
 
+@Transactional
 public class VendorContractLookupableHelperServiceImpl extends AbstractLookupableHelperServiceImpl {
     private LookupDao lookupDao;
     private DateTimeService dateTimeService;

@@ -105,10 +105,10 @@ public class GenesisTest {
       // update current positions
       //  genesisTestService.testPositionBuild(2007);
       LOG.warn("\nstarting fiscalYearMakers\n");
-      dateMakerTestService.fiscalYearMakers(2010,true);
+      //dateMakerTestService.fiscalYearMakers(2010,true);
       //dateMakerTestService.fiscalYearMakers(2009,false);
       //dateMakerTestService.fymkOrderProblem(2009,false);
-      //dateMakerTestService.testRoutine(); 
+      dateMakerTestService.testRoutine(); 
       LOG.warn("\nfiscalYearMakers finished\n");
       // create the proxy BC headers
       /*

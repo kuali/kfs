@@ -212,8 +212,8 @@
         </property>
         <property name="laggingCopyCycle">
           <set>
-            <value>"org.kuali.module.chart.bo.OrganizationReversion"</value>
-            <value>"org.kuali.module.chart.bo.OrganizationReversionDetail"</value>
+            <value>org.kuali.module.chart.bo.OrganizationReversion</value>
+            <value>org.kuali.module.chart.bo.OrganizationReversionDetail</value>
           </set>
         </property>
     </bean>

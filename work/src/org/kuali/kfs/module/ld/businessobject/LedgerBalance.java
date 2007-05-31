@@ -16,6 +16,8 @@
 
 package org.kuali.module.labor.bo;
 
+import static org.kuali.module.labor.LaborConstants.LABOR_USER_SERVICE_NAME;
+
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.LinkedHashMap;
@@ -110,15 +112,17 @@ public class LedgerBalance extends Balance {
      * @param emplid The emplid to set.
      */
     public void setEmplid(String emplid) {
+        this.emplid = emplid;
+
+        // Try to find a ledger person for this emplid if one exists
         try {
-            setLedgerPerson(((LaborUserService) SpringServiceLocator.getService("laborUserService"))
+            setLedgerPerson(((LaborUserService) SpringServiceLocator.getService(LABOR_USER_SERVICE_NAME))
                             .getLaborUserByPersonPayrollIdentifier(emplid).getUniversalUser());
             this.emplid = emplid;
         }
         catch (UserNotFoundException unfe) {
             // The user is not valid. We don't have a user
             setLedgerPerson(null);
-            this.emplid = null;
         }
     }
 

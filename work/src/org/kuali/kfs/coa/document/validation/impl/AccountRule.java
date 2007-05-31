@@ -690,8 +690,6 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
         // Certain C&G fields are required if the Account belongs to the CG Fund Group
         if (ObjectUtils.isNotNull(newAccount.getSubFundGroup())) {
             if (SpringServiceLocator.getSubFundGroupService().isForContractsAndGrants(newAccount.getSubFundGroup())) {
-                result &= checkEmptyBOField("contractControlFinCoaCode", newAccount.getContractControlFinCoaCode(), replaceTokens(KFSKeyConstants.ERROR_DOCUMENT_ACCMAINT_CONTRACT_CONTROL_COA_CANNOT_BE_EMPTY));
-                result &= checkEmptyBOField("contractControlAccountNumber", newAccount.getContractControlAccountNumber(), replaceTokens(KFSKeyConstants.ERROR_DOCUMENT_ACCMAINT_CONTRACT_CONTROL_ACCT_CANNOT_BE_EMPTY));
                 result &= checkEmptyBOField("acctIndirectCostRcvyTypeCd", newAccount.getAcctIndirectCostRcvyTypeCd(), replaceTokens(KFSKeyConstants.ERROR_DOCUMENT_ACCMAINT_ICR_TYPE_CODE_CANNOT_BE_EMPTY));
                 result &= checkEmptyBOField("financialIcrSeriesIdentifier", newAccount.getFinancialIcrSeriesIdentifier(), replaceTokens(KFSKeyConstants.ERROR_DOCUMENT_ACCMAINT_ICR_SERIES_IDENTIFIER_CANNOT_BE_EMPTY));
                 
@@ -707,17 +705,13 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
                 
                 result &= checkEmptyBOField("indirectCostRcvyFinCoaCode", newAccount.getIndirectCostRcvyFinCoaCode(), replaceTokens(KFSKeyConstants.ERROR_DOCUMENT_ACCMAINT_ICR_CHART_CODE_CANNOT_BE_EMPTY));
                 result &= checkEmptyBOField("indirectCostRecoveryAcctNbr", newAccount.getIndirectCostRecoveryAcctNbr(), replaceTokens(KFSKeyConstants.ERROR_DOCUMENT_ACCMAINT_ICR_ACCOUNT_CANNOT_BE_EMPTY));
-                result &= checkEmptyBOField("accountCfdaNumber", newAccount.getAccountCfdaNumber(), replaceTokens(KFSKeyConstants.ERROR_DOCUMENT_ACCMAINT_CG_FEDERAL_ASSISTANCE_NUMBER_CANNOT_BE_EMPTY));
                 result &= checkContractControlAccountNumberRequired(newAccount);
             } else {
                 // this is not a C&G fund group.  So users should not fill in any fields in the C&G tab.
-                result &= checkCGFieldNotFilledIn(newAccount, "contractControlFinCoaCode");
-                result &= checkCGFieldNotFilledIn(newAccount, "contractControlAccountNumber");
                 result &= checkCGFieldNotFilledIn(newAccount, "acctIndirectCostRcvyTypeCd");
                 result &= checkCGFieldNotFilledIn(newAccount, "financialIcrSeriesIdentifier");
                 result &= checkCGFieldNotFilledIn(newAccount, "indirectCostRcvyFinCoaCode");
                 result &= checkCGFieldNotFilledIn(newAccount, "indirectCostRecoveryAcctNbr");
-                result &= checkCGFieldNotFilledIn(newAccount, "accountCfdaNumber");
             }
         }
         return result;

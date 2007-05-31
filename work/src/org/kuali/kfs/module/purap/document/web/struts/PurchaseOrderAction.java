@@ -81,6 +81,18 @@ public class PurchaseOrderAction extends PurchasingActionBase {
             document.templateAlternateVendor(refreshVendorDetail);
         }
 
+        // Handling lookups for quote vendor search that is specific to Purchase Order
+        if (request.getParameter("document.newQuoteVendorHeaderGeneratedIdentifier") != null && request.getParameter("document.newQuoteVendorDetailAssignedIdentifier") != null) {
+            // retrieve this vendor from DB and add it to the end of the list
+            VendorDetail newVendor = SpringServiceLocator.getVendorService().getVendorDetail(document.getNewQuoteVendorHeaderGeneratedIdentifier(), document.getNewQuoteVendorDetailAssignedIdentifier());
+            PurchaseOrderVendorQuote newPOVendorQuote = new PurchaseOrderVendorQuote();
+            newPOVendorQuote.setVendorName(newVendor.getVendorName());
+            newPOVendorQuote.setVendorHeaderGeneratedIdentifier(newVendor.getVendorHeaderGeneratedIdentifier());
+            newPOVendorQuote.setVendorDetailAssignedIdentifier(newVendor.getVendorDetailAssignedIdentifier());
+            newPOVendorQuote.setVendorName(newVendor.getVendorName());
+            document.getPurchaseOrderVendorQuotes().add(newPOVendorQuote);
+        }
+
         String newStipulation = request.getParameter("document.vendorStipulationDescription");
         if (StringUtils.isNotEmpty(newStipulation)) {
             poForm.getNewPurchaseOrderVendorStipulationLine().setVendorStipulationDescription(newStipulation);
@@ -700,6 +712,13 @@ public class PurchaseOrderAction extends PurchasingActionBase {
         PurchaseOrderDocument document = (PurchaseOrderDocument) poForm.getDocument();
 //        SpringServiceLocator.getPrintService().generatePurchaseOrderQuotePdf(po, povq, byteArrayOutputStream, environment)
         document.setStatusCode(PurapConstants.PurchaseOrderStatuses.CANCELLED);
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
+    }
+
+    public ActionForward selectQuoteList(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        PurchaseOrderForm poForm = (PurchaseOrderForm) form;
+        PurchaseOrderDocument document = (PurchaseOrderDocument) poForm.getDocument();
+
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 

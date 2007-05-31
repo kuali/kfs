@@ -67,6 +67,29 @@ public class PurapConstants {
         public static final String PRICE_CONFIRMATION = "CONF";
     }
 
+    public static class QuoteTransmitTypes {
+        public static final String PRINT = "PRINT";
+        public static final String FAX = "FAX";
+    }
+
+    public static class QuoteStatusCode {
+        public static final String DELV = "DELV";
+        public static final String FUIP = "FUIP";
+        public static final String IIQ = "IIQ";
+        public static final String LEXP = "LEXP";
+        public static final String MULT = "MULT";
+        public static final String NORS = "NORS";
+        public static final String PTFE = "PTFE";
+        public static final String RECV = "RECV";
+        public static final String RIR = "RIR";
+        public static final String RECL = "RECL";
+        public static final String RNLB = "RNLB";
+        public static final String RNLN = "RNLN";
+        public static final String NOBD = "NOBD";
+        public static final String SQNA = "SQNA";
+        public static final String TINC = "TINC";
+    }
+
     public static class Workgroups {
         public static final String WORKGROUP_ACCOUNTS_PAYABLE = "PURAP.WORKGROUP.ACCOUNTS_PAYABLE";
         public static final String WORKGROUP_PURCHASING = "PURAP.WORKGROUP.PURCHASING";

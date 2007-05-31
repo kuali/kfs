@@ -66,9 +66,20 @@
              </td>
         </tr>
 
-        <tr>
-             <td colspan="5">&nbsp;</td>
-        </tr>
+		<tr>
+			<td colspan="5" class="subhead">
+				<span class="subhead-left">Vendor Information</span>
+				<span class="subhead-right">
+					<html:image
+	property="methodToCall.selectQuoteList"
+	src="${ConfigProperties.externalizable.images.url}tinybutton-selquolist.gif"
+	alt="select quote list" title="select quote list"
+	styleClass="tinybutton" />
+					<input type="image" name="methodToCall.performLookup.(!!org.kuali.module.vendor.bo.VendorDetail!!).(((vendorHeaderGeneratedIdentifier:document.newQuoteVendorHeaderGeneratedIdentifier,vendorDetailAssignedIdentifier:document.newQuoteVendorDetailAssignedIdentifier)))"
+					   src="${ConfigProperties.externalizable.images.url}tinybutton-searchvend.gif" border="0" class="tinybutton" valign="middle" alt="Search for a Vendor" title="Search for a Vendor" />
+				</span>
+			</td>
+		</tr>
 
         <tr>
 			<td colspan="5" class="subhead">
@@ -88,7 +99,7 @@
             <td align=left valign=middle class="datacell">
                 <kul:htmlControlAttribute attributeEntry="${vendorQuoteAttributes.vendorHeaderGeneratedIdentifier}" property="newPurchaseOrderVendorQuote.vendorHeaderGeneratedIdentifier" />
             </td>
-            <td rowspan="9"><html:image
+            <td rowspan="8"><html:image
 	property="methodToCall.addVendor"
 	src="${ConfigProperties.externalizable.images.url}tinybutton-addvendor.gif"
 	alt="add vendor" title="add vendor"
@@ -142,12 +153,7 @@
             <td align=left valign=middle class="datacell">
                 <kul:htmlControlAttribute attributeEntry="${vendorQuoteAttributes.vendorPostalCode}" property="newPurchaseOrderVendorQuote.vendorPostalCode" />
             </td>
-            <th align=right valign=middle class="bord-l-b">
-                <div align="right"><kul:htmlAttributeLabel attributeEntry="${vendorQuoteAttributes.purchaseOrderQuoteTransmitTypeCode}" />
-            </th>
-            <td align=left valign=middle class="datacell">
-                <kul:htmlControlAttribute attributeEntry="${vendorQuoteAttributes.purchaseOrderQuoteTransmitTypeCode}" property="newPurchaseOrderVendorQuote.purchaseOrderQuoteTransmitTypeCode" />
-            </td>
+            <td colspan="2">&nbsp;</td>
         </tr>
         <tr>
             <th align=right valign=middle class="bord-l-b">
@@ -156,12 +162,7 @@
             <td align=left valign=middle class="datacell">
                 <kul:htmlControlAttribute attributeEntry="${vendorQuoteAttributes.vendorAttentionName}" property="newPurchaseOrderVendorQuote.vendorAttentionName" />
             </td>
-            <th align=right valign=middle class="bord-l-b">
-                <div align="right"><kul:htmlAttributeLabel attributeEntry="${vendorQuoteAttributes.purchaseOrderQuoteTransmitDate}" />
-            </th>
-            <td align=left valign=middle class="datacell">
-                <kul:htmlControlAttribute attributeEntry="${vendorQuoteAttributes.purchaseOrderQuoteTransmitDate}" property="newPurchaseOrderVendorQuote.purchaseOrderQuoteTransmitDate" />
-            </td>
+            <td colspan="2">&nbsp;</td>
         </tr>
         <tr>
             <th align=right valign=middle class="bord-l-b">
@@ -186,25 +187,12 @@
                 <kul:htmlControlAttribute attributeEntry="${vendorQuoteAttributes.purchaseOrderQuoteRankNumber}" property="newPurchaseOrderVendorQuote.purchaseOrderQuoteRankNumber" />
             </td>
         </tr>
-        <tr>
-            <th align=right valign=middle class="bord-l-b">
-                Award:
-            </th>
-            <td align=left valign=middle class="datacell">
-				&nbsp;
-            </td>
-            <th align=right valign=middle class="bord-l-b">
-                <div align="right"><kul:htmlAttributeLabel attributeEntry="${vendorQuoteAttributes.purchaseOrderQuoteAwardDate}" />
-            </th>
-            <td align=left valign=middle class="datacell">
-                <kul:htmlControlAttribute attributeEntry="${vendorQuoteAttributes.purchaseOrderQuoteAwardDate}" property="newPurchaseOrderVendorQuote.purchaseOrderQuoteAwardDate" />
-            </td>
-        </tr>
 
 		<logic:iterate indexId="ctr" name="KualiForm" property="document.purchaseOrderVendorQuotes" id="quoteLine">
 		    <purap:quoteVendor
 		        documentAttributes="${DataDictionary.KualiPurchaseOrderDocument.attributes}"
 		        vendorQuoteAttributes="${DataDictionary.PurchaseOrderVendorQuote.attributes}"
+		        sysVendor="${not empty quoteLine.vendorHeaderGeneratedIdentifier}"
 		        ctr="${ctr}" /> 
 		</logic:iterate>
 

@@ -76,6 +76,8 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase implements Cop
     private Integer purchaseOrderPreviousIdentifier;
     private Integer alternateVendorHeaderGeneratedIdentifier;
     private Integer alternateVendorDetailAssignedIdentifier;
+    private Integer newQuoteVendorHeaderGeneratedIdentifier;
+    private Integer newQuoteVendorDetailAssignedIdentifier;
     private String alternateVendorName;
     private String statusChange;
     private String statusChangeNote;
@@ -665,6 +667,22 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase implements Cop
         // TODO Auto-generated method stub
         return PurchaseOrderItem.class;
 }
+
+    public Integer getNewQuoteVendorDetailAssignedIdentifier() {
+        return newQuoteVendorDetailAssignedIdentifier;
+    }
+
+    public void setNewQuoteVendorDetailAssignedIdentifier(Integer newQuoteVendorDetailAssignedIdentifier) {
+        this.newQuoteVendorDetailAssignedIdentifier = newQuoteVendorDetailAssignedIdentifier;
+    }
+
+    public Integer getNewQuoteVendorHeaderGeneratedIdentifier() {
+        return newQuoteVendorHeaderGeneratedIdentifier;
+    }
+
+    public void setNewQuoteVendorHeaderGeneratedIdentifier(Integer newQuoteVendorHeaderGeneratedIdentifier) {
+        this.newQuoteVendorHeaderGeneratedIdentifier = newQuoteVendorHeaderGeneratedIdentifier;
+    }
 
     /**
      * @see org.kuali.module.purap.document.PurchasingAccountsPayableDocumentBase#getSourceAccountingLineClass()

@@ -106,41 +106,43 @@
         <attributes>
 
              <attribute name="purchaseOrderQuoteAwardDate" forceUppercase="true">
-                <label>Purchase Order Quote Award Date</label>
+                <label>Award Date</label>
                 <shortLabel>Date</shortLabel>
 
-                <maxLength>7</maxLength>
+                <maxLength>10</maxLength>
                 <validationPattern><date /></validationPattern>
 
                 <control>
-                    <text size="9" />
+                    <text size="11" />
                 </control>
 
                 <summary>purchaseOrderQuoteAwardDate</summary>
                 <description>purchaseOrderQuoteAwardDate description...</description>
+                <formatterClass>org.kuali.core.web.format.DateFormatter</formatterClass>
 			</attribute>
 
             <attribute name="purchaseOrderQuotePriceExpirationDate" forceUppercase="true">
-                <label>Purchase Order Quote Price Expiration Date</label>
+                <label>Pricing Expiration Date</label>
                 <shortLabel>Date</shortLabel>
 
-                <maxLength>7</maxLength>
+                <maxLength>10</maxLength>
                 <validationPattern><date /></validationPattern>
 
                 <control>
-                    <text size="9" />
+                    <text size="11" />
                 </control>
 
                 <summary>purchaseOrderQuotePriceExpirationDate</summary>
                 <description>purchaseOrderQuotePriceExpirationDate description...</description>
+                <formatterClass>org.kuali.core.web.format.DateFormatter</formatterClass>
 			</attribute>
 
             <attribute name="purchaseOrderQuoteRankNumber" forceUppercase="true">
-                <label>Purchase Order Quote Rank Number</label>
+                <label>Rank</label>
                 <shortLabel>Number</shortLabel>
 
                 <maxLength>3</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
+                <validationPattern><numeric /></validationPattern>
 
                 <control>
                     <text size="5" />
@@ -151,14 +153,14 @@
 			</attribute>
 
             <attribute name="purchaseOrderQuoteStatusCode" forceUppercase="true">
-                <label>Purchase Order Quote Status Code</label>
+                <label>Quote Status</label>
                 <shortLabel>Code</shortLabel>
 
                 <maxLength>4</maxLength>
                 <validationPattern><anyCharacter /></validationPattern>
 
                 <control>
-                    <text size="6" />
+                    <select valuesFinderClass="org.kuali.module.purap.lookup.keyvalues.PurchaseOrderVendorQuoteStatusCodeValuesFinder" />
                 </control>
 
                 <summary>purchaseOrderQuoteStatusCode</summary>
@@ -166,7 +168,7 @@
 			</attribute>
 
             <attribute name="purchaseOrderQuoteTransmitDate" forceUppercase="true">
-                <label>Purchase Order Quote Transmit Date</label>
+                <label>Transmit Date</label>
                 <shortLabel>Date</shortLabel>
 
                 <maxLength>7</maxLength>
@@ -181,14 +183,14 @@
 			</attribute>
 
             <attribute name="purchaseOrderQuoteTransmitTypeCode" forceUppercase="true">
-                <label>Purchase Order Quote Transmit Type Code</label>
+                <label>Transmit</label>
                 <shortLabel>Code</shortLabel>
 
                 <maxLength>50</maxLength>
                 <validationPattern><anyCharacter /></validationPattern>
 
                 <control>
-                    <text size="52" />
+                    <select valuesFinderClass="org.kuali.module.purap.lookup.keyvalues.PurchaseOrderVendorQuoteTransmitTypeValuesFinder" />
                 </control>
 
                 <summary>purchaseOrderQuoteTransmitTypeCode</summary>
@@ -211,7 +213,7 @@
 			</attribute>
 
             <attribute name="vendorAttentionName" forceUppercase="true">
-                <label>Vendor Attention Name</label>
+                <label>Attention</label>
                 <shortLabel>Name</shortLabel>
 
                 <maxLength>45</maxLength>
@@ -226,7 +228,7 @@
 			</attribute>
 
             <attribute name="vendorCityName" forceUppercase="true">
-                <label>Vendor City Name</label>
+                <label>City</label>
                 <shortLabel>Name</shortLabel>
 
                 <maxLength>45</maxLength>
@@ -256,11 +258,11 @@
 			</attribute>
 
             <attribute name="vendorEmailAddress" forceUppercase="true">
-                <label>Vendor Email Address</label>
+                <label>Email Address</label>
                 <shortLabel>Address</shortLabel>
 
                 <maxLength>100</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
+                <validationPattern><emailAddress /></validationPattern>
 
                 <control>
                     <text size="102" />
@@ -271,7 +273,7 @@
 			</attribute>
 
             <attribute name="vendorFaxNumber" forceUppercase="true">
-                <label>Vendor Fax Number</label>
+                <label>Fax Number</label>
                 <shortLabel>Number</shortLabel>
 
                 <maxLength>45</maxLength>
@@ -286,7 +288,7 @@
 			</attribute>
 
             <attribute name="vendorHeaderGeneratedIdentifier" forceUppercase="true">
-                <label>Vendor Header Generated Identifier</label>
+                <label>Vendor #</label>
                 <shortLabel>Identifier</shortLabel>
 
                 <maxLength>10</maxLength>
@@ -301,7 +303,7 @@
 			</attribute>
 
             <attribute name="vendorLine1Address" forceUppercase="true">
-                <label>Vendor Line1 Address</label>
+                <label>Address 1</label>
                 <shortLabel>Address</shortLabel>
 
                 <maxLength>45</maxLength>
@@ -316,7 +318,7 @@
 			</attribute>
 
             <attribute name="vendorLine2Address" forceUppercase="true">
-                <label>Vendor Line2 Address</label>
+                <label>Address 2</label>
                 <shortLabel>Address</shortLabel>
 
                 <maxLength>45</maxLength>
@@ -331,7 +333,7 @@
 			</attribute>
 
             <attribute name="vendorName" forceUppercase="true">
-                <label>Vendor Name</label>
+                <label>Name</label>
                 <shortLabel>Name</shortLabel>
 
                 <maxLength>45</maxLength>
@@ -346,7 +348,7 @@
 			</attribute>
 
             <attribute name="vendorPhoneNumber" forceUppercase="true">
-                <label>Vendor Phone Number</label>
+                <label>Phone Number</label>
                 <shortLabel>Number</shortLabel>
 
                 <maxLength>45</maxLength>
@@ -360,35 +362,17 @@
                 <description>vendorPhoneNumber description...</description>
 			</attribute>
 
-            <attribute name="vendorPostalCode" forceUppercase="true">
-                <label>Vendor Postal Code</label>
-                <shortLabel>Code</shortLabel>
-
-                <maxLength>20</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="22" />
-                </control>
-
-                <summary>vendorPostalCode</summary>
-                <description>vendorPostalCode description...</description>
-			</attribute>
-
-            <attribute name="vendorStateCode" forceUppercase="true">
-                <label>Vendor State Code</label>
-                <shortLabel>Code</shortLabel>
-
-                <maxLength>2</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="4" />
-                </control>
-
-                <summary>vendorStateCode</summary>
-                <description>vendorStateCode description...</description>
-			</attribute>
+			<attributeReference name="vendorStateCode" 
+				sourceClassName="org.kuali.module.vendor.bo.VendorAttributeReferenceDummy" 
+				sourceAttributeName="stateCode">
+				<description>State and Postal Code are required fields when United States is selected as the country.</description>
+			</attributeReference>
+			
+			<attributeReference name="vendorPostalCode" 
+				sourceClassName="org.kuali.module.vendor.bo.VendorAttributeReferenceDummy" 
+				sourceAttributeName="zipCode" >
+				<description>State and Postal Code are required fields when United States is selected as the country.</description>
+			</attributeReference>
 
             <attribute name="versionNumber" forceUppercase="true">
                 <label>Version Number</label>

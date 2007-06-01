@@ -75,27 +75,29 @@ public class BenefitExpenseTransferDocumentRule extends LaborExpenseTransferDocu
      */
     @Override
     protected boolean processCustomAddAccountingLineBusinessRules(AccountingDocument accountingDocument, AccountingLine accountingLine) {
+        LOG.info("started processCustomAddAccountingLineBusinessRules");
+        
         // benefit transfers cannot be made between two different fringe benefit labor object codes.
         if (!this.hasSameFringeBenefitObjectCodes(accountingDocument, accountingLine)) {
-            reportError(KFSPropertyConstants.ACCOUNT, KFSKeyConstants.Labor.DISTINCT_OBJECT_CODE_ERROR);
+            reportError(KFSPropertyConstants.FINANCIAL_OBJECT_CODE, KFSKeyConstants.Labor.DISTINCT_OBJECT_CODE_ERROR);
             return false;
         }
 
         // only fringe benefit labor object codes are allowed on the befefit expense transfer document
         if (!this.isFringeBenefitObjectCode(accountingLine)) {
-            reportError(KFSPropertyConstants.ACCOUNT, KFSKeyConstants.Labor.INVALID_FRINGE_OBJECT_CODE_ERROR, accountingLine.getAccountNumber());
+            reportError(KFSPropertyConstants.FINANCIAL_OBJECT_CODE, KFSKeyConstants.Labor.INVALID_FRINGE_OBJECT_CODE_ERROR, accountingLine.getAccountNumber());
             return false;
         }
 
         // validate the accounting year
         if (!this.isValidPayFiscalYear(accountingLine)) {
-            reportError(KFSPropertyConstants.ACCOUNT, KFSKeyConstants.Labor.INVALID_PAY_YEAR);
+            reportError(KFSPropertyConstants.PAYROLL_END_DATE_FISCAL_YEAR, KFSKeyConstants.Labor.INVALID_PAY_YEAR);
             return false;
         }
 
         // validate the accounting period code
         if (!this.isValidPayFiscalPeriod(accountingLine)) {
-            reportError(KFSPropertyConstants.ACCOUNT, KFSKeyConstants.Labor.INVALID_PAY_PERIOD_CODE);
+            reportError(KFSPropertyConstants.PAYROLL_END_DATE_FISCAL_PERIOD_CODE, KFSKeyConstants.Labor.INVALID_PAY_PERIOD_CODE);
             return false;
         }
 
@@ -107,12 +109,14 @@ public class BenefitExpenseTransferDocumentRule extends LaborExpenseTransferDocu
      */
     @Override
     protected boolean processCustomRouteDocumentBusinessRules(Document document) {
-        boolean isValid = super.processCustomRouteDocumentBusinessRules(document);
+        LOG.info("started processCustomRouteDocumentBusinessRules");      
 
         BenefitExpenseTransferDocument benefitExpenseTransferDocument = (BenefitExpenseTransferDocument) document;
         List sourceLines = new ArrayList(benefitExpenseTransferDocument.getSourceAccountingLines());
         List targetLines = new ArrayList(benefitExpenseTransferDocument.getTargetAccountingLines());
-
+        
+        boolean isValid = super.processCustomRouteDocumentBusinessRules(document);
+        
         // check to ensure totals of accounting lines in source and target sections match
         isValid = isValid && isAccountingLineTotalsMatch(sourceLines, targetLines);
 
@@ -128,21 +132,21 @@ public class BenefitExpenseTransferDocumentRule extends LaborExpenseTransferDocu
         // benefit transfers cannot be made between two different fringe benefit labor object codes.
         boolean hasSameFringeBenefitObjectCodes = this.hasSameFringeBenefitObjectCodes(benefitExpenseTransferDocument);
         if (!hasSameFringeBenefitObjectCodes) {
-            reportError(KFSPropertyConstants.ACCOUNT, KFSKeyConstants.Labor.DISTINCT_OBJECT_CODE_ERROR);
+            reportError(KFSPropertyConstants.FINANCIAL_OBJECT_CODE, KFSKeyConstants.Labor.DISTINCT_OBJECT_CODE_ERROR);
             isValid = false;
         }
         
         // only allow a transfer of benefit dollars up to the amount that already exist in the labor ledger detail for a given pay period
         boolean isValidTransferAmount = this.isValidTransferAmount(benefitExpenseTransferDocument);
         if(!isValidTransferAmount){
-            reportError(KFSPropertyConstants.ACCOUNT, KFSKeyConstants.Labor.DISTINCT_OBJECT_CODE_ERROR);
+            reportError(KFSPropertyConstants.AMOUNT, KFSKeyConstants.Labor.ERROR_TRANSFER_AMOUNT_EXCEED_MAXIMUM);
             isValid = false;            
         }
         
         // allow a negative amount to be moved from one account to another but do not allow a negative amount to be created when the balance is positive
         boolean canNegtiveAmountBeTransferred = canNegtiveAmountBeTransferred(benefitExpenseTransferDocument);
         if(!canNegtiveAmountBeTransferred){
-            reportError(KFSPropertyConstants.ACCOUNT, KFSKeyConstants.Labor.DISTINCT_OBJECT_CODE_ERROR);
+            reportError(KFSPropertyConstants.AMOUNT, KFSKeyConstants.Labor.ERROR_CANNOT_TRANSFER_NEGATIVE_AMOUNT);
             isValid = false;            
         }
 
@@ -173,7 +177,6 @@ public class BenefitExpenseTransferDocumentRule extends LaborExpenseTransferDocu
         PendingLedgerEntry a21RevEntry = (PendingLedgerEntry) ObjectUtils.deepCopy(defaultEntry);
         success &= processA21RevLaborLedgerPendingEntry(accountingDocument, sequenceHelper, accountingLine, a21RevEntry);
 
-        LOG.info("completed processGenerateLaborLedgerPendingEntries");
         return success;
     }
 

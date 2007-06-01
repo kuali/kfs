@@ -30,6 +30,7 @@ import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.exceptions.AuthorizationException;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.core.util.KualiInteger;
 import org.kuali.core.web.struts.form.KualiForm;
 import org.kuali.module.budget.BCConstants;
 import org.kuali.module.budget.bo.BudgetConstructionPosition;
@@ -458,7 +459,7 @@ public class PositionSalarySettingForm extends KualiForm {
         line.setPositionNumber(bcPosn.getPositionNumber());
         line.setAppointmentFundingDeleteIndicator(false);
         line.setAppointmentFundingMonth(bcPosn.getIuNormalWorkMonths());
-        line.setAppointmentRequestedAmount(new KualiDecimal(0));
+        line.setAppointmentRequestedAmount(new KualiInteger(0));
         line.setAppointmentRequestedFteQuantity(new BigDecimal(0).setScale(5,BigDecimal.ROUND_HALF_EVEN));
         line.setAppointmentRequestedTimePercent(new BigDecimal(0).setScale(2,BigDecimal.ROUND_HALF_EVEN));
         line.setAppointmentRequestedPayRate(new BigDecimal(0).setScale(2,BigDecimal.ROUND_HALF_EVEN));

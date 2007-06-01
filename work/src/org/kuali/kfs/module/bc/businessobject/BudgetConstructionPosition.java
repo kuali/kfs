@@ -27,6 +27,7 @@ import java.util.Map;
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.core.util.KualiInteger;
 import org.kuali.core.util.TypedArrayList;
 import org.kuali.kfs.bo.Options;
 import org.kuali.kfs.util.SpringServiceLocator;
@@ -75,11 +76,11 @@ public class BudgetConstructionPosition extends PersistableBusinessObjectBase {
     private BigDecimal bcafAppointmentRequestedCsfTimePercentTotal;
     private BigDecimal bcafAppointmentRequestedCsfStandardHoursTotal;
     private BigDecimal bcafAppointmentRequestedCsfFteQuantityTotal;
-    private KualiDecimal bcafAppointmentRequestedAmountTotal;
+    private KualiInteger bcafAppointmentRequestedAmountTotal;
     private BigDecimal bcafAppointmentRequestedTimePercentTotal;
     private BigDecimal bcafAppointmentRequestedStandardHoursTotal;
     private BigDecimal bcafAppointmentRequestedFteQuantityTotal;
-    private KualiDecimal bcsfCsfAmountTotal;
+    private KualiInteger bcsfCsfAmountTotal;
     private BigDecimal bcsfCsfTimePercentTotal;
     private BigDecimal bcsfCsfStandardHoursTotal;
     private BigDecimal bcsfCsfFullTimeEmploymentQuantityTotal;
@@ -105,11 +106,11 @@ public class BudgetConstructionPosition extends PersistableBusinessObjectBase {
         bcafAppointmentRequestedCsfTimePercentTotal = new BigDecimal(0).setScale(5,BigDecimal.ROUND_HALF_UP);
         bcafAppointmentRequestedCsfStandardHoursTotal = new BigDecimal(0).setScale(2,BigDecimal.ROUND_HALF_UP);
         bcafAppointmentRequestedCsfFteQuantityTotal = new BigDecimal(0).setScale(2,BigDecimal.ROUND_HALF_UP);
-        bcafAppointmentRequestedAmountTotal = new KualiDecimal(0);
+        bcafAppointmentRequestedAmountTotal = new KualiInteger(0);
         bcafAppointmentRequestedTimePercentTotal = new BigDecimal(0).setScale(5,BigDecimal.ROUND_HALF_UP);
         bcafAppointmentRequestedStandardHoursTotal = new BigDecimal(0).setScale(2,BigDecimal.ROUND_HALF_UP);
         bcafAppointmentRequestedFteQuantityTotal = new BigDecimal(0).setScale(2,BigDecimal.ROUND_HALF_UP);
-        bcsfCsfAmountTotal = new KualiDecimal(0);
+        bcsfCsfAmountTotal = new KualiInteger(0);
         bcsfCsfTimePercentTotal = new BigDecimal(0).setScale(5,BigDecimal.ROUND_HALF_UP);
         bcsfCsfStandardHoursTotal = new BigDecimal(0).setScale(2,BigDecimal.ROUND_HALF_UP);
         bcsfCsfFullTimeEmploymentQuantityTotal = new BigDecimal(0).setScale(2,BigDecimal.ROUND_HALF_UP);
@@ -757,7 +758,7 @@ public class BudgetConstructionPosition extends PersistableBusinessObjectBase {
      * Gets the bcafAppointmentRequestedAmountTotal attribute. 
      * @return Returns the bcafAppointmentRequestedAmountTotal.
      */
-    public KualiDecimal getBcafAppointmentRequestedAmountTotal() {
+    public KualiInteger getBcafAppointmentRequestedAmountTotal() {
         return bcafAppointmentRequestedAmountTotal;
     }
 
@@ -765,7 +766,7 @@ public class BudgetConstructionPosition extends PersistableBusinessObjectBase {
      * Sets the bcafAppointmentRequestedAmountTotal attribute value.
      * @param bcafAppointmentRequestedAmountTotal The bcafAppointmentRequestedAmountTotal to set.
      */
-    public void setBcafAppointmentRequestedAmountTotal(KualiDecimal bcafAppointmentRequestedAmountTotal) {
+    public void setBcafAppointmentRequestedAmountTotal(KualiInteger bcafAppointmentRequestedAmountTotal) {
         this.bcafAppointmentRequestedAmountTotal = bcafAppointmentRequestedAmountTotal;
     }
 
@@ -887,7 +888,7 @@ public class BudgetConstructionPosition extends PersistableBusinessObjectBase {
      * Gets the bcsfCsfAmountTotal attribute. 
      * @return Returns the bcsfCsfAmountTotal.
      */
-    public KualiDecimal getBcsfCsfAmountTotal() {
+    public KualiInteger getBcsfCsfAmountTotal() {
         return bcsfCsfAmountTotal;
     }
 
@@ -895,7 +896,7 @@ public class BudgetConstructionPosition extends PersistableBusinessObjectBase {
      * Sets the bcsfCsfAmountTotal attribute value.
      * @param bcsfCsfAmountTotal The bcsfCsfAmountTotal to set.
      */
-    public void setBcsfCsfAmountTotal(KualiDecimal bcsfCsfAmountTotal) {
+    public void setBcsfCsfAmountTotal(KualiInteger bcsfCsfAmountTotal) {
         this.bcsfCsfAmountTotal = bcsfCsfAmountTotal;
     }
 

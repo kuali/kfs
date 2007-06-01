@@ -20,7 +20,7 @@ import java.math.BigDecimal;
 import java.util.LinkedHashMap;
 
 import org.kuali.core.bo.PersistableBusinessObjectBase;
-import org.kuali.core.util.KualiDecimal;
+import org.kuali.core.util.KualiInteger;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.Chart;
 import org.kuali.module.chart.bo.ObjectCode;
@@ -40,7 +40,7 @@ public class BudgetConstructionCalculatedSalaryFoundationTracker extends Persist
 	private String financialSubObjectCode;
 	private String positionNumber;
 	private String emplid;
-	private KualiDecimal csfAmount;
+	private KualiInteger csfAmount;
 	private BigDecimal csfFullTimeEmploymentQuantity;
 	private BigDecimal csfTimePercent;
 	private String csfFundingStatusCode;
@@ -233,7 +233,7 @@ public class BudgetConstructionCalculatedSalaryFoundationTracker extends Persist
 	 * @return Returns the csfAmount
 	 * 
 	 */
-	public KualiDecimal getCsfAmount() { 
+	public KualiInteger getCsfAmount() { 
 		return csfAmount;
 	}
 
@@ -243,7 +243,7 @@ public class BudgetConstructionCalculatedSalaryFoundationTracker extends Persist
 	 * @param csfAmount The csfAmount to set.
 	 * 
 	 */
-	public void setCsfAmount(KualiDecimal csfAmount) {
+	public void setCsfAmount(KualiInteger csfAmount) {
 		this.csfAmount = csfAmount;
 	}
 

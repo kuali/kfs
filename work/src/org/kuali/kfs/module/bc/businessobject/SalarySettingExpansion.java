@@ -17,8 +17,6 @@
 package org.kuali.module.budget.bo;
 
 import java.math.BigDecimal;
-import java.math.BigInteger;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -26,6 +24,7 @@ import java.util.Map;
 
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.core.util.KualiInteger;
 import org.kuali.core.util.TypedArrayList;
 import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.module.chart.bo.Account;
@@ -35,7 +34,6 @@ import org.kuali.module.chart.bo.ObjectType;
 import org.kuali.module.chart.bo.SubAccount;
 import org.kuali.module.chart.bo.SubObjCd;
 import org.kuali.module.chart.bo.codes.BalanceTyp;
-import org.kuali.module.gl.bo.Balance;
 import org.kuali.module.labor.bo.LaborObject;
 import org.kuali.module.labor.bo.PositionObjectBenefit;
 import org.kuali.rice.KNSServiceLocator;
@@ -60,9 +58,9 @@ public class SalarySettingExpansion extends PersistableBusinessObjectBase {
     private KualiDecimal financialBeginningBalanceLineAmount;
     
     // Total Fields - First Total Line
-    private KualiDecimal csfAmountTotal;
+    private KualiInteger csfAmountTotal;
     private BigDecimal csfFullTimeEmploymentQuantityTotal;
-    private KualiDecimal appointmentRequestedAmountTotal;
+    private KualiInteger appointmentRequestedAmountTotal;
     private BigDecimal appointmentRequestedFteQuantityTotal;
     private KualiDecimal percentChangeTotal;
      
@@ -100,9 +98,9 @@ public class SalarySettingExpansion extends PersistableBusinessObjectBase {
      */
     public void zeroTotals() {
 
-        csfAmountTotal = new KualiDecimal(0);
+        csfAmountTotal = new KualiInteger(0);
         csfFullTimeEmploymentQuantityTotal = new BigDecimal(0).setScale(5,BigDecimal.ROUND_HALF_EVEN);
-        appointmentRequestedAmountTotal = new KualiDecimal(0.00);
+        appointmentRequestedAmountTotal = new KualiInteger(0);
         appointmentRequestedFteQuantityTotal = new BigDecimal(0).setScale(5,BigDecimal.ROUND_HALF_EVEN);
         percentChangeTotal = new KualiDecimal(0.00);
     }
@@ -514,7 +512,7 @@ public class SalarySettingExpansion extends PersistableBusinessObjectBase {
      * Gets the appointmentRequestedAmountTotal attribute. 
      * @return Returns the appointmentRequestedAmountTotal.
      */
-    public KualiDecimal getAppointmentRequestedAmountTotal() {
+    public KualiInteger getAppointmentRequestedAmountTotal() {
         return appointmentRequestedAmountTotal;
     }
 
@@ -522,7 +520,7 @@ public class SalarySettingExpansion extends PersistableBusinessObjectBase {
      * Sets the appointmentRequestedAmountTotal attribute value.
      * @param appointmentRequestedAmountTotal The appointmentRequestedAmountTotal to set.
      */
-    public void setAppointmentRequestedAmountTotal(KualiDecimal appointmentRequestedAmountTotal) {
+    public void setAppointmentRequestedAmountTotal(KualiInteger appointmentRequestedAmountTotal) {
         this.appointmentRequestedAmountTotal = appointmentRequestedAmountTotal;
     }
 
@@ -546,7 +544,7 @@ public class SalarySettingExpansion extends PersistableBusinessObjectBase {
      * Gets the csfAmountTotal attribute. 
      * @return Returns the csfAmountTotal.
      */
-    public KualiDecimal getCsfAmountTotal() {
+    public KualiInteger getCsfAmountTotal() {
         return csfAmountTotal;
     }
 
@@ -554,7 +552,7 @@ public class SalarySettingExpansion extends PersistableBusinessObjectBase {
      * Sets the csfAmountTotal attribute value.
      * @param csfAmountTotal The csfAmountTotal to set.
      */
-    public void setCsfAmountTotal(KualiDecimal csfAmountTotal) {
+    public void setCsfAmountTotal(KualiInteger csfAmountTotal) {
         this.csfAmountTotal = csfAmountTotal;
     }
 

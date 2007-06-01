@@ -875,7 +875,7 @@
 	<field-descriptor name="emplid" column="EMPLID" jdbc-type="VARCHAR" primarykey="true" index="true"/>
 	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
-	<field-descriptor name="csfAmount" column="POS_CSF_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
+	<field-descriptor name="csfAmount" column="POS_CSF_AMT" jdbc-type="BIGINT" conversion="org.kuali.core.util.OjbKualiIntegerFieldConversion"/>
 	<field-descriptor name="csfFullTimeEmploymentQuantity" column="POS_CSF_FTE_QTY" jdbc-type="DECIMAL"/>
 	<field-descriptor name="csfTimePercent" column="POS_CSF_TM_PCT" jdbc-type="DECIMAL"/>
 	<field-descriptor name="csfFundingStatusCode" column="POS_CSF_FNDSTAT_CD" jdbc-type="VARCHAR"/>
@@ -932,7 +932,7 @@
 	<field-descriptor name="appointmentRequestedCsfTimePercent" column="APPT_RQCSF_TM_PCT" jdbc-type="DECIMAL"/>
 	<field-descriptor name="appointmentTotalIntendedAmount" column="APPT_TOT_INTND_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
 	<field-descriptor name="appointmentTotalIntendedFteQuantity" column="APPT_TOTINTFTE_QTY" jdbc-type="DECIMAL"/>
-	<field-descriptor name="appointmentRequestedAmount" column="APPT_RQST_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
+	<field-descriptor name="appointmentRequestedAmount" column="APPT_RQST_AMT" jdbc-type="BIGINT" conversion="org.kuali.core.util.OjbKualiIntegerFieldConversion"/>
 	<field-descriptor name="appointmentRequestedTimePercent" column="APPT_RQST_TM_PCT" jdbc-type="DECIMAL"/>
 	<field-descriptor name="appointmentRequestedFteQuantity" column="APPT_RQST_FTE_QTY" jdbc-type="DECIMAL"/>
 	<field-descriptor name="appointmentRequestedPayRate" column="APPT_RQST_PAY_RT" jdbc-type="DECIMAL"/>

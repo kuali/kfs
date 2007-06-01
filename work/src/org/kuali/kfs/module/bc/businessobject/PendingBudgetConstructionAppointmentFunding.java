@@ -25,7 +25,7 @@ import java.util.Map;
 
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.kfs.KFSPropertyConstants;
+import org.kuali.core.util.KualiInteger;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.Chart;
 import org.kuali.module.chart.bo.ObjectCode;
@@ -51,7 +51,7 @@ public class PendingBudgetConstructionAppointmentFunding extends PersistableBusi
 	private BigDecimal appointmentRequestedCsfTimePercent;
 	private KualiDecimal appointmentTotalIntendedAmount;
 	private BigDecimal appointmentTotalIntendedFteQuantity;
-	private KualiDecimal appointmentRequestedAmount;
+	private KualiInteger appointmentRequestedAmount;
 	private BigDecimal appointmentRequestedTimePercent;
 	private BigDecimal appointmentRequestedFteQuantity;
 	private BigDecimal appointmentRequestedPayRate;
@@ -420,7 +420,7 @@ public class PendingBudgetConstructionAppointmentFunding extends PersistableBusi
 	 * @return Returns the appointmentRequestedAmount
 	 * 
 	 */
-	public KualiDecimal getAppointmentRequestedAmount() { 
+	public KualiInteger getAppointmentRequestedAmount() { 
 		return appointmentRequestedAmount;
 	}
 
@@ -430,7 +430,7 @@ public class PendingBudgetConstructionAppointmentFunding extends PersistableBusi
 	 * @param appointmentRequestedAmount The appointmentRequestedAmount to set.
 	 * 
 	 */
-	public void setAppointmentRequestedAmount(KualiDecimal appointmentRequestedAmount) {
+	public void setAppointmentRequestedAmount(KualiInteger appointmentRequestedAmount) {
 		this.appointmentRequestedAmount = appointmentRequestedAmount;
 	}
 

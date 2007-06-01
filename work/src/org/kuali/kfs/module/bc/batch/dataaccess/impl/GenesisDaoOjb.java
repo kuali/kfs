@@ -16,6 +16,7 @@
 package org.kuali.module.budget.dao.ojb;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -35,6 +36,7 @@ import org.kuali.core.dao.ojb.PlatformAwareDaoBaseOjb;
 import org.kuali.core.service.DateTimeService;
 import org.kuali.core.service.DocumentService;
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.core.util.KualiInteger;
 import org.kuali.core.workflow.service.WorkflowDocumentService;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSPropertyConstants;
@@ -3156,7 +3158,12 @@ public class GenesisDaoOjb extends PlatformAwareDaoBaseOjb
       BudgetConstructionCalculatedSalaryFoundationTracker nowBCSF =
           bCSF.get(csfKey);
       // first round the amount to whole dollars
-      KualiDecimal roundedAmount = csf.getCsfAmount().setScale(0);
+      // KualiDecimal roundedAmount = csf.getCsfAmount().setScale(0);
+      // this is after the change to KualiInteger from KualiDecimal in the BCSF table
+      // (June 1, 2007)
+      KualiInteger roundedAmount = 
+            new KualiInteger(csf.getCsfAmount(),
+                             RoundingMode.valueOf(KualiInteger.ROUND_BEHAVIOR));
       nowBCSF.setCsfAmount(nowBCSF.getCsfAmount().add(roundedAmount));
       // increase the percent time (maximum of 100)
       BigDecimal pctTime = nowBCSF.getCsfTimePercent();
@@ -3194,7 +3201,12 @@ public class GenesisDaoOjb extends PlatformAwareDaoBaseOjb
       BudgetConstructionCalculatedSalaryFoundationTracker nowBCSF =
           bCSF.get(csfKey);
       // first round the amount to whole dollars
-      KualiDecimal roundedAmount = csf.getCsfAmount().setScale(0);
+      // KualiDecimal roundedAmount = csf.getCsfAmount().setScale(0);
+      // this is after the change to KualiInteger from KualiDecimal in the BCSF table
+      // (June 1, 2007)
+      KualiInteger roundedAmount = 
+            new KualiInteger(csf.getCsfAmount(),
+                             RoundingMode.valueOf(KualiInteger.ROUND_BEHAVIOR));
       nowBCSF.setCsfAmount(nowBCSF.getCsfAmount().add(roundedAmount));
       // increase the percent time (maximum of 100)
       BigDecimal pctTime = nowBCSF.getCsfTimePercent();
@@ -3256,16 +3268,18 @@ public class GenesisDaoOjb extends PlatformAwareDaoBaseOjb
        // would have to round by position. 
        if (!vacantLine)
        {
-           csfBC.setCsfAmount(csf.getCsfAmount());
+          // changed BO type from KualiDecimal to KualiInteger (June 1, 2007) 
+          // csfBC.setCsfAmount(csf.getCsfAmount());
            bCSF.put(csfKey,csfBC);
            // now we have to round and save the rounding error
            roundMechanism rX = keysNeedingRounding.get(csf.getEmplid());
-           rX.addNewBCSF(csfBC);
+           rX.addNewBCSF(csfBC,csf.getCsfAmount());
        }
        else
        {
            // for vacant lines, we have to round to whole dollars
-           csfBC.setCsfAmount(csf.getCsfAmount().setScale(0));
+           csfBC.setCsfAmount(new KualiInteger(csf.getCsfAmount(),
+                                  RoundingMode.valueOf(KualiInteger.ROUND_BEHAVIOR)));
            bCSF.put(csfKey,csfBC);
        }
     }
@@ -3298,16 +3312,16 @@ public class GenesisDaoOjb extends PlatformAwareDaoBaseOjb
        // would have to round by position, and positions can be shared. 
        if (!vacantLine)
        {
-           csfBC.setCsfAmount(csf.getCsfAmount());
            bCSF.put(csfKey,csfBC);
            // now we have to round and save the rounding error
            roundMechanism rX = keysNeedingRounding.get(csf.getEmplid());
-           rX.addNewBCSF(csfBC);
+           rX.addNewBCSF(csfBC,csf.getCsfAmount());
        }
        else
        {
            // for vacant lines, we have to round to whole dollars
-           csfBC.setCsfAmount(csf.getCsfAmount().setScale(0));
+           csfBC.setCsfAmount(new KualiInteger(csf.getCsfAmount(),
+                   RoundingMode.valueOf(KualiInteger.ROUND_BEHAVIOR)));
            bCSF.put(csfKey,csfBC);
        }
     }
@@ -3955,7 +3969,7 @@ public class GenesisDaoOjb extends PlatformAwareDaoBaseOjb
 //     decide whether the current appointment funding row, missing from BCSF, has
 //     been entered by a user or is due to a CSF row that has since gone away
     String notOnLeave  = new String(BudgetConstructionConstants.NO_LEAVE_INDICATED);
-    KualiDecimal rqstAmount = new KualiDecimal(0);
+    KualiInteger rqstAmount = new KualiInteger(0);
     BigDecimal pctTime = new BigDecimal(0);
     BigDecimal FTE     = new BigDecimal(0);
     private void 
@@ -4062,18 +4076,21 @@ public class GenesisDaoOjb extends PlatformAwareDaoBaseOjb
      candidateBCSFRows =
      new ArrayList<BudgetConstructionCalculatedSalaryFoundationTracker>(10);
 
-    public void addNewBCSF(BudgetConstructionCalculatedSalaryFoundationTracker bCSF)
+    public void addNewBCSF(BudgetConstructionCalculatedSalaryFoundationTracker bCSF,
+                           KualiDecimal amountFromCSFToSet)
     {
-       //  we round by converting by dividing by 100, subtracting the remainder from
-       //  the original value, then saving the remainder as the difference
-       KualiDecimal penniesFromCSFAmount =
-           bCSF.getCsfAmount().multiply(shavePennies);
-       penniesFromCSFAmount = penniesFromCSFAmount.mod(shavePennies);
-       penniesFromCSFAmount = penniesFromCSFAmount.divide(shavePennies);
-       KualiDecimal wholeDollarsCSFAmount = 
-           bCSF.getCsfAmount().subtract(penniesFromCSFAmount);
-       //  store the whole dollar amount
+       // lop off the pennies--go down to the nearest whole dollar 
+       KualiInteger wholeDollarsCSFAmount =
+           new KualiInteger(amountFromCSFToSet,
+                            RoundingMode.FLOOR);
+       // store the whole dollar amount in the budget construction CSF object
        bCSF.setCsfAmount(wholeDollarsCSFAmount);
+       // find the pennies that were shaved off
+       KualiDecimal penniesFromCSFAmount = amountFromCSFToSet;
+       // BigDecimal values are immutable.  So, we have to reset the pointer 
+       // after the subtract
+       penniesFromCSFAmount =
+       penniesFromCSFAmount.subtract(wholeDollarsCSFAmount.kualiDecimalValue());
        //  just round negative amounts and return
        //  this is only a safety measure.  negative salaries are illegal in 
        //  budget construction 
@@ -4085,7 +4102,8 @@ public class GenesisDaoOjb extends PlatformAwareDaoBaseOjb
        // (KualiDecimal values are immutable, so we need to redirect the diffAmount
        //  pointer to a new one.)
        diffAmount = diffAmount.add(penniesFromCSFAmount);
-       // store the truncated amount
+       // store the budget construction CSF row with the truncated amount for
+       // possible adjustment later
        candidateBCSFRows.add(bCSF);
     }
 
@@ -4134,8 +4152,8 @@ public class GenesisDaoOjb extends PlatformAwareDaoBaseOjb
           // LOG.info(String.format("\n       before %f",
           //         rCSF.getCsfAmount().floatValue()));
            // @@TODO: end test code 
-           KualiDecimal fixBCSFAmount = rCSF.getCsfAmount();
-           rCSF.setCsfAmount(fixBCSFAmount.add(adjustAmount));
+           KualiInteger fixBCSFAmount = rCSF.getCsfAmount();
+           rCSF.setCsfAmount(fixBCSFAmount.add(new KualiInteger(adjustAmount.intValue())));
            diffAmount = diffAmount.subtract(adjustAmount);   
            // @@TODO: test code
            //LOG.info(String.format("\n       after %f",

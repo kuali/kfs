@@ -770,4 +770,10 @@ public class RoutingFormPersonnel extends PersistableBusinessObjectBase {
        return PERSON_ROLE_CODE_PD.equals(this.getPersonRoleCode());
     }
     
+    public boolean isContactPerson() {
+        KualiConfigurationService kualiConfigurationService = SpringServiceLocator.getKualiConfigurationService();
+        final String PERSON_ROLE_CODE_CP = kualiConfigurationService.getApplicationParameterValue(KraConstants.KRA_DEVELOPMENT_GROUP, "KraRoutingFormPersonRoleCodeContactPerson");
+         
+        return PERSON_ROLE_CODE_CP.equals(this.getPersonRoleCode());
+     }
 }

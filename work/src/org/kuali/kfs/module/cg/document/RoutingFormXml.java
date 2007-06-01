@@ -21,14 +21,17 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 import org.apache.commons.lang.ObjectUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.bo.Note;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.exceptions.UserNotFoundException;
+import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.service.UniversalUserService;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.chart.bo.ChartUser;
@@ -52,10 +55,10 @@ import org.kuali.module.kra.routingform.document.RoutingFormDocument;
 import org.kuali.module.kra.routingform.lookup.keyvalues.RoutingFormApprovalStatusValuesFinder;
 import org.kuali.module.kra.routingform.lookup.keyvalues.RoutingFormStudyReviewCodeValuesFinder;
 import org.kuali.module.kra.routingform.service.RoutingFormMainPageService;
-import org.kuali.workflow.KualiWorkflowUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
+import edu.iu.uis.eden.EdenConstants;
 import edu.iu.uis.eden.clientapp.WorkflowInfo;
 import edu.iu.uis.eden.clientapp.vo.ActionRequestVO;
 import edu.iu.uis.eden.clientapp.vo.ActionTakenVO;
@@ -176,6 +179,9 @@ public class RoutingFormXml {
     private static Element createPrinciplesElement(RoutingFormDocument routingFormDocument, Document xmlDoc) {
         Element principlesElement = xmlDoc.createElement("PRINCIPLES");
         
+        KualiConfigurationService kualiConfigurationService = SpringServiceLocator.getKualiConfigurationService();
+        final String PERSON_ROLE_CODE_COPD = kualiConfigurationService.getApplicationParameterValue(KraConstants.KRA_DEVELOPMENT_GROUP, "KraRoutingFormPersonRoleCodeCoProjectDirector");
+        
         RoutingFormMainPageService routingFormMainPageService = SpringServiceLocator.getRoutingFormMainPageService();
         List<RoutingFormPersonnel> routingFormPersonnel = routingFormDocument.getRoutingFormPersonnel();
         RoutingFormPersonnel projectDirector = routingFormMainPageService.getProjectDirector(routingFormPersonnel);
@@ -213,13 +219,32 @@ public class RoutingFormXml {
         }
         principlesElement.appendChild(projectDirectorElement);
         
-        // TODO contact person
+        Element coPdsElement = xmlDoc.createElement("CO-PROJECT_DIRECTORS");
+        for(RoutingFormPersonnel person : routingFormDocument.getRoutingFormPersonnel()) {
+            if(PERSON_ROLE_CODE_COPD.equals(person.getPersonRoleCode())) {
+                Element coPdElement = xmlDoc.createElement("CO-PROJECT_DIRECTOR");
+                
+                coPdElement.setAttribute("FIRST_NAME", ObjectUtils.toString(person.getUser().getPersonFirstName()));
+                coPdElement.setAttribute("LAST_NAME", ObjectUtils.toString(person.getUser().getPersonLastName()));
+                coPdElement.setAttribute("CHART", ObjectUtils.toString(person.getChartOfAccountsCode()));
+                coPdElement.setAttribute("ORG", ObjectUtils.toString(person.getOrganizationCode()));
+                coPdElement.setAttribute("PERCENT_CREDIT", ObjectUtils.toString(person.getPersonCreditPercent()));
+                
+                coPdsElement.appendChild(coPdElement);
+            }
+        }
+        principlesElement.appendChild(coPdsElement);
+        
+        RoutingFormPersonnel contactPerson = routingFormMainPageService.getContactPerson(routingFormPersonnel);
+        
         Element contactPersonElement = xmlDoc.createElement("CONTACT_PERSON");
-        contactPersonElement.setAttribute("FIRST_NAME", "TODO");
-        contactPersonElement.setAttribute("LAST_NAME", "TODO");
-        contactPersonElement.setAttribute("EMAIL", "TODO");
-        contactPersonElement.setAttribute("PHONE_NUMBER", "TODO");
-        contactPersonElement.setAttribute("FAX_NUMBER", "TODO");
+        if(contactPerson != null) {
+            contactPersonElement.setAttribute("FIRST_NAME", ObjectUtils.toString(contactPerson.getUser().getPersonFirstName()));
+            contactPersonElement.setAttribute("LAST_NAME", ObjectUtils.toString(contactPerson.getUser().getPersonLastName()));
+            contactPersonElement.setAttribute("EMAIL", ObjectUtils.toString(contactPerson.getPersonEmailAddress()));
+            contactPersonElement.setAttribute("PHONE_NUMBER", ObjectUtils.toString(contactPerson.getPersonPhoneNumber()));
+            contactPersonElement.setAttribute("FAX_NUMBER", ObjectUtils.toString(contactPerson.getPersonFaxNumber()));
+        }
         principlesElement.appendChild(contactPersonElement);
         
         Element fellowDescriptionElement = xmlDoc.createElement("FELLOW");
@@ -511,10 +536,10 @@ public class RoutingFormXml {
             
             for(RoutingFormPersonnel routingFormPerson : routingFormDocument.getRoutingFormPersonnel()) {
                 Element percentCreditDescription = xmlDoc.createElement("PERCENT_CREDIT");
-                percentCreditDescription.setAttribute("NAME", routingFormPerson.getUser().getPersonName());
-                percentCreditDescription.setAttribute("ROLE", routingFormPerson.getPersonRoleText());
-                percentCreditDescription.setAttribute("CHART", routingFormPerson.getChartOfAccountsCode());
-                percentCreditDescription.setAttribute("ORG", routingFormPerson.getOrganizationCode());
+                percentCreditDescription.setAttribute("NAME", ObjectUtils.toString(routingFormPerson.getUser().getPersonName()));
+                percentCreditDescription.setAttribute("ROLE", ObjectUtils.toString(routingFormPerson.getPersonRoleText()));
+                percentCreditDescription.setAttribute("CHART", ObjectUtils.toString(routingFormPerson.getChartOfAccountsCode()));
+                percentCreditDescription.setAttribute("ORG", ObjectUtils.toString(routingFormPerson.getOrganizationCode()));
                 percentCreditDescription.setAttribute("CREDIT", ObjectUtils.toString(routingFormPerson.getPersonCreditPercent()));
                 percentCreditDescription.setAttribute("FA", ObjectUtils.toString(routingFormPerson.getPersonFinancialAidPercent()));
                 projectDetailElement.appendChild(percentCreditDescription);
@@ -522,10 +547,10 @@ public class RoutingFormXml {
     
             for(RoutingFormOrganizationCreditPercent routingFormOrganizationCreditPercent : routingFormDocument.getRoutingFormOrganizationCreditPercents()) {
                 Element percentCreditDescription = xmlDoc.createElement("PERCENT_CREDIT");
-                percentCreditDescription.setAttribute("NAME", routingFormOrganizationCreditPercent.getOrganization().getOrganizationName());
-                percentCreditDescription.setAttribute("ROLE", routingFormOrganizationCreditPercent.getOrganizationCreditRoleText());
-                percentCreditDescription.setAttribute("CHART", routingFormOrganizationCreditPercent.getChartOfAccountsCode());
-                percentCreditDescription.setAttribute("ORG", routingFormOrganizationCreditPercent.getOrganizationCode());
+                percentCreditDescription.setAttribute("NAME", ObjectUtils.toString(routingFormOrganizationCreditPercent.getOrganization().getOrganizationName()));
+                percentCreditDescription.setAttribute("ROLE", ObjectUtils.toString(routingFormOrganizationCreditPercent.getOrganizationCreditRoleText()));
+                percentCreditDescription.setAttribute("CHART", ObjectUtils.toString(routingFormOrganizationCreditPercent.getChartOfAccountsCode()));
+                percentCreditDescription.setAttribute("ORG", ObjectUtils.toString(routingFormOrganizationCreditPercent.getOrganizationCode()));
                 percentCreditDescription.setAttribute("CREDIT", ObjectUtils.toString(routingFormOrganizationCreditPercent.getOrganizationCreditPercent()));
                 percentCreditDescription.setAttribute("FA", ObjectUtils.toString(routingFormOrganizationCreditPercent.getOrganizationFinancialAidPercent()));
                 projectDetailElement.appendChild(percentCreditDescription);
@@ -549,29 +574,10 @@ public class RoutingFormXml {
             ReportCriteriaVO criteria = new ReportCriteriaVO();
             criteria.setRouteHeaderId(routingFormDocument.getDocumentHeader().getWorkflowDocument().getRouteHeaderId());
             WorkflowInfo info = new WorkflowInfo();
-            
-            DateFormat dateFormat = new SimpleDateFormat(KraConstants.LONG_TIMESTAMP_FORMAT);
             DocumentDetailVO detail = info.routingReport(criteria);
-            ActionTakenVO[] actionTakenVO = detail.getActionsTaken();
-            ActionRequestVO[] actionRequestVO = detail.getActionRequests();
             
-            for(int i = 0 ; i < actionTakenVO.length; i++) {
-                ActionTakenVO actionTaken = actionTakenVO[i];
-                UserVO user = actionTaken.getUserVO();
-                
-                createApproverElement(xmlDoc, approvalsElement, user, "TODO", actionTaken.getActionTaken(), dateFormat.format(actionTaken.getActionDate().getTime()));
-            }
-            
-            for(int i = 0 ; i < actionRequestVO.length; i++) {
-                ActionRequestVO actionRequest = actionRequestVO[i];
-                UserVO user = actionRequest.getUserVO();
-                
-                // actionRequestVO[i].getChildrenRequests() retrieves delegates but we don't display them
-
-                // TODO PD and ADHOC user object is always null
-                if (user != null) {
-                    createApproverElement(xmlDoc, approvalsElement, user, actionRequest.getNodeName(), actionRequest.getActionRequested(), "");
-                }
+            for(ActionRequestVO actionRequest : detail.getActionRequests()) {
+                actionRequestTraversal(xmlDoc, approvalsElement, actionRequest);
             }
         } catch (WorkflowException e) {
             throw new RuntimeException("Exception generating routing report: " + e);
@@ -581,15 +587,51 @@ public class RoutingFormXml {
     }
 
     /**
-     * Helper method for createApprovalsElement to avoid duplicating code for actions taken and action requests.
+     * Traversal of ActionRequestVO. This is useful because an ActionRequest may be for a user, role or a
+     * workgroup. We want to be able to handle all of them.
+     * @param xmlDoc
+     * @param approvalsElement
+     * @param actionRequest
+     */
+    private static void actionRequestTraversal(Document xmlDoc, Element approvalsElement, ActionRequestVO actionRequest) {
+        // Note that any actionRequest can have an actionTaken item. But currently our output only shows users
+        // and not workgroups / roles. That's why the code drills down to the user level.
+        if(EdenConstants.ACTION_REQUEST_USER_RECIPIENT_CD.equals(actionRequest.getRecipientTypeCd())) {
+            // Base case
+            if (actionRequest.getActionTaken() == null) {
+                // Action not taken yet, leave date empty
+                UserVO user = actionRequest.getUserVO();
+                String actionName = ObjectUtils.toString(EdenConstants.ACTION_REQUEST_CD.get(actionRequest.getActionRequested()));
+                createApproverElement(xmlDoc, approvalsElement, user, actionRequest.getNodeName(), actionName, "");
+            } else if (actionRequest.getUserVO().getEmplId().equals(actionRequest.getActionTaken().getUserVO().getEmplId())) {
+                // Action was taken, show date
+                DateFormat dateFormat = new SimpleDateFormat(KraConstants.LONG_TIMESTAMP_FORMAT);
+                ActionTakenVO actionTaken = actionRequest.getActionTaken();
+                UserVO user = actionTaken.getUserVO();
+                String actionName = ObjectUtils.toString(EdenConstants.ACTION_TAKEN_CD.get(actionTaken.getActionTaken()));
+                createApproverElement(xmlDoc, approvalsElement, user, actionRequest.getNodeName(), actionName, dateFormat.format(actionTaken.getActionDate().getTime()));
+            }
+            // else ignore, it should be an actionRequest for a user whose requests are cleared out. Such as if
+            // multiple requests were pending but one disapproved, then all of the users get disapprovals assigned
+            // with actionTaken pointing to the person that truly disapproved.
+        } else {
+            // Recursion
+            for(ActionRequestVO actionRequestDeep : actionRequest.getChildrenRequests()) {
+                actionRequestTraversal(xmlDoc, approvalsElement, actionRequestDeep);
+            }
+        }
+    }
+    
+    /**
+     * Helper method for actionRequestTraversal to avoid duplicating code for APPROVER node.
      * @param xmlDoc xmlDoc to be used
      * @param approvalsElement parent node to be used
      * @param workflowUser that took the action
      * @param nodeName will be used for the TITLE field
-     * @param action will be used for the ACTION field
+     * @param actionName will be used for the ACTION field
      * @param actionDate will be used for the ACTION_DATE field
      */
-    private static void createApproverElement(Document xmlDoc, Element approvalsElement, UserVO workflowUser, String nodeName, String action, String actionDate) {
+    private static void createApproverElement(Document xmlDoc, Element approvalsElement, UserVO workflowUser, String nodeName, String actionName, String actionDate) {
         Element approverElement = xmlDoc.createElement("APPROVER");
         
         UniversalUser kualiUser;
@@ -602,15 +644,15 @@ public class RoutingFormXml {
             return;
         }
         
-        approverElement.setAttribute("TITLE", nodeName);
-        approverElement.setAttribute("CHART", chartUserService.getDefaultChartOfAccountsCode((ChartUser) kualiUser.getModuleUser(ChartUser.MODULE_ID)));
-        approverElement.setAttribute("ORG", chartUserService.getDefaultOrganizationCode((ChartUser) kualiUser.getModuleUser(ChartUser.MODULE_ID)));
-        approverElement.setAttribute("ACTION", action);
-        approverElement.setAttribute("ACTION_DATE", actionDate);
+        approverElement.setAttribute("TITLE", ObjectUtils.toString(nodeName));
+        approverElement.setAttribute("CHART", ObjectUtils.toString(chartUserService.getDefaultChartOfAccountsCode((ChartUser) kualiUser.getModuleUser(ChartUser.MODULE_ID))));
+        approverElement.setAttribute("ORG", ObjectUtils.toString(chartUserService.getDefaultOrganizationCode((ChartUser) kualiUser.getModuleUser(ChartUser.MODULE_ID))));
+        approverElement.setAttribute("ACTION", ObjectUtils.toString(actionName));
+        approverElement.setAttribute("ACTION_DATE", ObjectUtils.toString(actionDate));
         
         Element nameElement = xmlDoc.createElement("NAME");
-        nameElement.setAttribute("FIRST", workflowUser.getFirstName());
-        nameElement.setAttribute("LAST", workflowUser.getLastName());
+        nameElement.setAttribute("FIRST", ObjectUtils.toString(workflowUser.getFirstName()));
+        nameElement.setAttribute("LAST", ObjectUtils.toString(workflowUser.getLastName()));
         approverElement.appendChild(nameElement);
         
         approvalsElement.appendChild(approverElement);
@@ -654,7 +696,7 @@ public class RoutingFormXml {
             Element commentElement = xmlDoc.createElement("COMMENT");
             
             Element commentatorDescription = xmlDoc.createElement("COMMENTATOR");
-            commentatorDescription.appendChild(xmlDoc.createTextNode(note.getAuthorUniversal().getPersonName()));
+            commentatorDescription.appendChild(xmlDoc.createTextNode(ObjectUtils.toString(note.getAuthorUniversal().getPersonName())));
             commentElement.appendChild(commentatorDescription);
             
             Element commentTimestampDescription = xmlDoc.createElement("COMMENT_TIMESTAMP");
@@ -662,11 +704,11 @@ public class RoutingFormXml {
             commentElement.appendChild(commentTimestampDescription);
             
             Element commentTopicDescription = xmlDoc.createElement("COMMENT_TOPIC");
-            commentTopicDescription.appendChild(xmlDoc.createTextNode(note.getNoteTopicText()));
+            commentTopicDescription.appendChild(xmlDoc.createTextNode(ObjectUtils.toString(note.getNoteTopicText())));
             commentElement.appendChild(commentTopicDescription);
             
             Element commentTextDescription = xmlDoc.createElement("COMMENT_TEXT");
-            commentTextDescription.appendChild(xmlDoc.createTextNode(note.getNoteText()));
+            commentTextDescription.appendChild(xmlDoc.createTextNode(ObjectUtils.toString(note.getNoteText())));
             commentElement.appendChild(commentTextDescription);
             
             commentsElement.appendChild(commentElement);

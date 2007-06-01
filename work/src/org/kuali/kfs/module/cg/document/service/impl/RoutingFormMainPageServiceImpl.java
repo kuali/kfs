@@ -153,6 +153,19 @@ public class RoutingFormMainPageServiceImpl implements RoutingFormMainPageServic
     }
     
     /**
+     * @see org.kuali.module.kra.routingform.service.RoutingFormMainPageService#getContactPerson(java.util.List)
+     */
+    public RoutingFormPersonnel getContactPerson(List<RoutingFormPersonnel> routingFormPersonnel) {
+        for (RoutingFormPersonnel person : routingFormPersonnel) {
+            if (person.isContactPerson()) {
+                return person;
+            }
+        }
+        
+        return null;
+    }
+    
+    /**
      * Setup routing form submission types.
      * @param routingFormDocument
      */

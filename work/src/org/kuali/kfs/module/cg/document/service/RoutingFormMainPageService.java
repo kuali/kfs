@@ -80,4 +80,11 @@ public interface RoutingFormMainPageService {
      * @return
      */
     public RoutingFormPersonnel getProjectDirector(List<RoutingFormPersonnel> routingFormPersonnel);
+    
+    /**
+     * Returns the first contact person found in a list. If none is found it return null;
+     * @param routingFormPersonnel
+     * @return
+     */
+    public RoutingFormPersonnel getContactPerson(List<RoutingFormPersonnel> routingFormPersonnel);
 }

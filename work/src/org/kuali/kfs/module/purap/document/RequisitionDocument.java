@@ -22,14 +22,18 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.core.bo.DocumentHeader;
 import org.kuali.core.bo.Note;
 import org.kuali.core.document.Copyable;
+import org.kuali.core.document.DocumentBase;
 import org.kuali.core.exceptions.ValidationException;
 import org.kuali.core.service.DateTimeService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.workflow.service.KualiWorkflowDocument;
+import org.kuali.kfs.bo.SourceAccountingLine;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.chart.bo.ChartUser;
 import org.kuali.module.purap.PurapConstants;
@@ -593,7 +597,45 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
 //    public Class getSourceAccountingLineClass() {
 //        // TODO Auto-generated method stub
 //        return RequisitionAccount.class;
-//    }   
+//    }
+
+    /**
+     * @see org.kuali.core.document.Document#getDocumentTitle()
+     */
+    @Override
+    public String getDocumentTitle() {
+        String title = "";
+        String specificTitle = SpringServiceLocator.getKualiConfigurationService().getApplicationParameterValue(PurapParameterConstants.PURAP_ADMIN_GROUP,PurapParameterConstants.PURAP_OVERRIDE_REQ_DOC_TITLE);
+        if (StringUtils.equalsIgnoreCase(specificTitle,Boolean.TRUE.toString())) {
+            String docId = this.getPurapDocumentIdentifier().toString();
+            String chartAcct = this.getFirstChartAccount();
+            title = "Requisition: "+docId+" - Account Number: "+chartAcct;
+        }
+        else {
+            title = super.getDocumentTitle();
+        }
+        return title;
+    }
+    
+    /**
+     * This method gives this requisition's Chart/Account of the first accounting line it encounters
+     * in the Summary Accounts.
+     * 
+     * @return  The first Chart and Account, or an empty string if there is none.
+     */
+    private String getFirstChartAccount() {
+        String chartAcct = "";
+        List<SourceAccountingLine> accountLines = this.getSourceAccountingLines();
+        if (ObjectUtils.isNotNull(accountLines)) {
+            for ( SourceAccountingLine accountLine : accountLines ) {
+                if ( ObjectUtils.isNotNull( accountLine ) ) {
+                    chartAcct = accountLine.getChartOfAccountsCode()+"-"+accountLine.getAccountNumber();
+                    break;
+                }
+            }
+        }
+        return chartAcct;
+    }
     
 }
 

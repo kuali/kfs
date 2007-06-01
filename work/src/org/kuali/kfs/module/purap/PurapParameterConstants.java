@@ -22,5 +22,8 @@ public class PurapParameterConstants {
 
     // GROUP NAMES
     public static final String PURAP_ADMIN_GROUP = "PurapAdminGroup";
+    
+    // PARAMETER NAMES
+    public static final String PURAP_OVERRIDE_REQ_DOC_TITLE = "PURAP_OVERRIDE_REQ_DOC_TITLE";
 
 }

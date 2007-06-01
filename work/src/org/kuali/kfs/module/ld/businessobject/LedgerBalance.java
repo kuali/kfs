@@ -111,14 +111,13 @@ public class LedgerBalance extends Balance {
      * Sets the emplid attribute value.
      * @param emplid The emplid to set.
      */
-    public void setEmplid(String emplid) {
+    public void setEmplid(String emplid) {      
         this.emplid = emplid;
 
         // Try to find a ledger person for this emplid if one exists
         try {
             setLedgerPerson(((LaborUserService) SpringServiceLocator.getService(LABOR_USER_SERVICE_NAME))
                             .getLaborUserByPersonPayrollIdentifier(emplid).getUniversalUser());
-            this.emplid = emplid;
         }
         catch (UserNotFoundException unfe) {
             // The user is not valid. We don't have a user

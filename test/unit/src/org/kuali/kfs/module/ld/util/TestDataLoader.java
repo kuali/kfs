@@ -184,7 +184,8 @@ public class TestDataLoader {
     public static void main(String[] args) {
         TestDataLoader testDataLoader = new TestDataLoader();
         for(int i=0; i<1; i++){
-            int numOfData = testDataLoader.loadTransactionIntoPendingEntryTable();
+            //int numOfData = testDataLoader.loadTransactionIntoPendingEntryTable();
+            int numOfData = testDataLoader.loadTransactionIntoOriginEntryTable();
             System.out.println("Number of Data Loaded = " + numOfData);
         }
         //testDataLoader.generateLedgerEntryTestData();

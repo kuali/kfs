@@ -628,7 +628,7 @@ public class LaborExpenseTransferDocumentRules extends AccountingDocumentRuleBas
      * @param sequenceHelper
      * @param originalEntry
      */
-    private void populateDefaultLaborLedgerPendingEntry(LaborLedgerPostingDocument transactionalDocument, AccountingLine accountingLine, PendingLedgerEntry defaultEntry){
+    protected void populateDefaultLaborLedgerPendingEntry(LaborLedgerPostingDocument transactionalDocument, AccountingLine accountingLine, PendingLedgerEntry defaultEntry){
 
         //the same across all types
         ObjectCode objectCode = accountingLine.getObjectCode();

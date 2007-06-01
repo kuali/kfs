@@ -867,6 +867,7 @@ public class KFSKeyConstants extends KeyConstants {
         public static final String ERROR_UNPOSTABLE_BALANCE_TYPE = "error.labor.unpostableBalanceTypeCode";
         public static final String ERROR_UNPOSTABLE_OBJECT_CODE = "error.labor.unpostableObjectCode";
         public static final String ERROR_ZERO_TOTAL_AMOUNT = "error.labor.zeroTotalAmount";
+        public static final String ERROR_ACCOUNT_NOT_ACCEPT_FRINGES = "error.labor.accountNotAcceptFringes";
 
         public static final String ERROR_ACCOUNT_NOT_FOUND = "error.labor.accountNotFound";
         public static final String ERROR_SUB_FUND_GROUP_NOT_FOUND = "error.labor.subFundGroupNotFound";

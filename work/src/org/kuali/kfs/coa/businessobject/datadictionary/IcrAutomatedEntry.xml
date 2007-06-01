@@ -69,7 +69,7 @@
                 <field attributeName="subAccountNumber" />
                 <field attributeName="awardIndrCostRcvyEntryNbr" />
                 <field attributeName="transactionDebitIndicator" />
-                <!--  <field attributeName="awardIndrCostRcvyRatePct" /> -->
+                <field attributeName="awardIndrCostRcvyRatePct" />
             </resultFields>
         </lookup>
 

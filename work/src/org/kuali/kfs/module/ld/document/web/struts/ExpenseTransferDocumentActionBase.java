@@ -89,9 +89,6 @@ public class ExpenseTransferDocumentActionBase extends LaborDocumentActionBase {
         ExpenseTransferDocumentFormBase financialDocumentForm = (ExpenseTransferDocumentFormBase) form;
         TransactionalDocument document = financialDocumentForm.getTransactionalDocument();
 
-        // save in workflow
-        KNSServiceLocator.getDocumentService().saveDocument(document);
-
         String basePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath();
 
         // parse out the important strings from our methodToCall parameter

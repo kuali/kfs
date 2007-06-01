@@ -21,6 +21,8 @@ import java.util.Map;
 
 import org.kuali.kfs.KFSPropertyConstants;
 
+import org.kuali.module.labor.bo.LedgerBalance;
+
 /**
  * This class is the base action form for all expense transfer documents.
  */
@@ -74,7 +76,7 @@ public abstract class ExpenseTransferDocumentFormBase extends LaborDocumentFormB
      * @see MultipleValueLookupBroker#getLookupResultsBOClassName()
      */
     public String getLookupResultsBOClassName() {
-        return lookupResultsBOClassName;
+        return LedgerBalance.class.getName();
     }
 
     /**

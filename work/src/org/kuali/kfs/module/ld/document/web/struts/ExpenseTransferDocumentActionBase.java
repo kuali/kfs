@@ -171,8 +171,7 @@ public class ExpenseTransferDocumentActionBase extends LaborDocumentActionBase {
             String lookupResultsSequenceNumber = expenseTransferDocumentForm.getLookupResultsSequenceNumber();
             if (StringUtils.isNotBlank(lookupResultsSequenceNumber)) {
                 // actually returning from a multiple value lookup
-                String lookupResultsBOClassName = this.getLookupResultsBOClassName(expenseTransferDocumentForm);
-                Class lookupResultsBOClass = Class.forName(lookupResultsBOClassName);
+                Class lookupResultsBOClass = Class.forName(expenseTransferDocumentForm.getLookupResultsBOClassName());
                 
                 rawValues = KNSServiceLocator.getLookupResultsService().retrieveSelectedResultBOs(lookupResultsSequenceNumber, lookupResultsBOClass, GlobalVariables.getUserSession().getUniversalUser().getPersonUniversalIdentifier());
             }

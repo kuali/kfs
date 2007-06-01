@@ -26,7 +26,7 @@
 	<div class="tab-container" align=center>
     <!--  if (fullEntryMode or (amendmentEntry and itemLine.itemActiveIndicator)), then display the addLine -->
 	<table cellpadding="0" cellspacing="0" class="datatable" summary="Items Section">
-		<c:if test="${(fullEntryMode or (amendmentEntry and itemLine.itemActiveIndicator))}">
+		<c:if test="${(fullEntryMode or amendmentEntry)}">
 			<tr>
 				<td colspan="10" class="subhead"><span class="subhead-left">Add Item</span></td>
 			</tr>
@@ -93,7 +93,7 @@
 				</td>
 			</tr>
 		</c:if>
-		<!-- End of if (fullEntryMode or (amendmentEntry and itemLine.itemActiveIndicator)), then display the addLine -->
+		<!-- End of if (fullEntryMode or amendmentEntry), then display the addLine -->
 
 
 		<tr>
@@ -187,7 +187,7 @@
 					    <html:hidden property="document.item[${ctr}].itemTypeCode" /> 
 					    <html:hidden property="document.item[${ctr}].itemType.itemTypeCode" /> 
 					    <html:hidden property="document.item[${ctr}].itemType.itemTypeDescription" />
-					    <c:if test="${KualiForm.document.documentHeader.workflowDocument.documentType == 'KualiPurchaseOrderDocument'}">
+					    <c:if test="${((KualiForm.document.documentHeader.workflowDocument.documentType == 'KualiPurchaseOrderDocument') or (KualiForm.document.documentHeader.workflowDocument.documentType == 'KualiPurchaseOrderAmendmentDocument'))}">
 						    <html:hidden property="document.item[${ctr}].itemActiveIndicator" />
   					    </c:if> 
 					    <html:hidden property="document.item[${ctr}].itemType.active" />

@@ -35,7 +35,7 @@ public class PurchaseOrderItem extends PurchasingItemBase {
     private KualiDecimal itemReturnedTotalQuantity;
     private KualiDecimal itemOutstandingEncumberedQuantity;
     private KualiDecimal itemOutstandingEncumbranceAmount;
-    private boolean itemActiveIndicator;
+    private boolean itemActiveIndicator=true;
     private String purchaseOrderCommodityCd;
 
     private PurchaseOrderDocument purchaseOrder;

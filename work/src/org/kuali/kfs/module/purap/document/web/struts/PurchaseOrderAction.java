@@ -216,6 +216,9 @@ public class PurchaseOrderAction extends PurchasingActionBase {
         }
 
         Note newNote = new Note();
+        if (documentType.equalsIgnoreCase(PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_AMENDMENT_DOCUMENT)) {
+            noteText = noteText + " (Previous Document Id is " + kualiDocumentFormBase.getDocId() + ")";
+        }
         newNote.setNoteText(noteText);
         newNote.setNoteTypeCode("BO");
         kualiDocumentFormBase.setNewNote(newNote);

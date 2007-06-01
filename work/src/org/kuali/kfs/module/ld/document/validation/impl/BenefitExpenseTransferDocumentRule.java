@@ -65,12 +65,7 @@ public class BenefitExpenseTransferDocumentRule extends LaborExpenseTransferDocu
      * @see org.kuali.module.labor.rules.LaborExpenseTransferDocumentRules#processCustomSaveDocumentBusinessRules(org.kuali.core.document.Document)
      */
     @Override
-    protected boolean processCustomSaveDocumentBusinessRules(Document document) {
-        // benefit transfers cannot be made between two different fringe benefit labor object codes.
-        if (!this.hasSameFringeBenefitObjectCodes((AccountingDocument) document)) {
-            reportError(KFSPropertyConstants.ACCOUNT, KFSKeyConstants.Labor.DISTINCT_OBJECT_CODE_ERROR);
-            return false;
-        }
+    protected boolean processCustomSaveDocumentBusinessRules(Document document) {       
         return true;
     }
 
@@ -89,12 +84,6 @@ public class BenefitExpenseTransferDocumentRule extends LaborExpenseTransferDocu
         // only fringe benefit labor object codes are allowed on the befefit expense transfer document
         if (!this.isFringeBenefitObjectCode(accountingLine)) {
             reportError(KFSPropertyConstants.ACCOUNT, KFSKeyConstants.Labor.INVALID_FRINGE_OBJECT_CODE_ERROR, accountingLine.getAccountNumber());
-            return false;
-        }
-
-        // verify if the accounts in target accounting lines accept fringe benefits
-        if (!this.isAccountsAcceptFringeBenefit(accountingDocument)) {
-            reportError(KFSPropertyConstants.ACCOUNT, KFSKeyConstants.Labor.ERROR_ACCOUNT_NOT_ACCEPT_FRINGES);
             return false;
         }
 
@@ -118,18 +107,44 @@ public class BenefitExpenseTransferDocumentRule extends LaborExpenseTransferDocu
      */
     @Override
     protected boolean processCustomRouteDocumentBusinessRules(Document document) {
-
         boolean isValid = super.processCustomRouteDocumentBusinessRules(document);
 
-        BenefitExpenseTransferDocument setDoc = (BenefitExpenseTransferDocument) document;
-        List sourceLines = new ArrayList(setDoc.getSourceAccountingLines());
-        List targetLines = new ArrayList(setDoc.getTargetAccountingLines());
+        BenefitExpenseTransferDocument benefitExpenseTransferDocument = (BenefitExpenseTransferDocument) document;
+        List sourceLines = new ArrayList(benefitExpenseTransferDocument.getSourceAccountingLines());
+        List targetLines = new ArrayList(benefitExpenseTransferDocument.getTargetAccountingLines());
 
         // check to ensure totals of accounting lines in source and target sections match
         isValid = isValid && isAccountingLineTotalsMatch(sourceLines, targetLines);
 
         // check to ensure totals of accounting lines in source and target sections match by pay FY + pay period
         isValid = isValid && isAccountingLineTotalsMatchByPayFYAndPayPeriod(sourceLines, targetLines);
+        
+        // verify if the accounts in target accounting lines accept fringe benefits
+        if (!this.isAccountsAcceptFringeBenefit(benefitExpenseTransferDocument)) {
+            reportError(KFSPropertyConstants.ACCOUNT, KFSKeyConstants.Labor.ERROR_ACCOUNT_NOT_ACCEPT_FRINGES);
+            return false;
+        }
+        
+        // benefit transfers cannot be made between two different fringe benefit labor object codes.
+        boolean hasSameFringeBenefitObjectCodes = this.hasSameFringeBenefitObjectCodes(benefitExpenseTransferDocument);
+        if (!hasSameFringeBenefitObjectCodes) {
+            reportError(KFSPropertyConstants.ACCOUNT, KFSKeyConstants.Labor.DISTINCT_OBJECT_CODE_ERROR);
+            isValid = false;
+        }
+        
+        // only allow a transfer of benefit dollars up to the amount that already exist in the labor ledger detail for a given pay period
+        boolean isValidTransferAmount = this.isValidTransferAmount(benefitExpenseTransferDocument);
+        if(!isValidTransferAmount){
+            reportError(KFSPropertyConstants.ACCOUNT, KFSKeyConstants.Labor.DISTINCT_OBJECT_CODE_ERROR);
+            isValid = false;            
+        }
+        
+        // allow a negative amount to be moved from one account to another but do not allow a negative amount to be created when the balance is positive
+        boolean canNegtiveAmountBeTransferred = canNegtiveAmountBeTransferred(benefitExpenseTransferDocument);
+        if(!canNegtiveAmountBeTransferred){
+            reportError(KFSPropertyConstants.ACCOUNT, KFSKeyConstants.Labor.DISTINCT_OBJECT_CODE_ERROR);
+            isValid = false;            
+        }
 
         return isValid;
     }
@@ -141,18 +156,24 @@ public class BenefitExpenseTransferDocumentRule extends LaborExpenseTransferDocu
     @Override
     public boolean processGenerateLaborLedgerPendingEntries(LaborLedgerPostingDocument accountingDocument, ExpenseTransferAccountingLine accountingLine, GeneralLedgerPendingEntrySequenceHelper sequenceHelper) {
         LOG.info("started processGenerateLaborLedgerPendingEntries");
-        
+
         // setup default values, so they don't have to be set multiple times
         PendingLedgerEntry defaultEntry = new PendingLedgerEntry();
         populateDefaultLaborLedgerPendingEntry(accountingDocument, accountingLine, defaultEntry);
 
-        // Generate orig entry
+        // Generate original entry
         PendingLedgerEntry originalEntry = (PendingLedgerEntry) ObjectUtils.deepCopy(defaultEntry);
         boolean success = processOriginalLaborLedgerPendingEntry(accountingDocument, sequenceHelper, accountingLine, originalEntry);
 
-        System.out.println("completed processGenerateLaborLedgerPendingEntries: " + success + ":" + accountingDocument.getLaborLedgerPendingEntries().size());
-        LOG.info("completed processGenerateLaborLedgerPendingEntries: " + success + ":" + accountingDocument.getLaborLedgerPendingEntries().size());
+        // Generate A21 entry
+        PendingLedgerEntry a21Entry = (PendingLedgerEntry) ObjectUtils.deepCopy(defaultEntry);
+        success &= processA21LaborLedgerPendingEntry(accountingDocument, sequenceHelper, accountingLine, a21Entry);
 
+        // Generate A21 reversal entry
+        PendingLedgerEntry a21RevEntry = (PendingLedgerEntry) ObjectUtils.deepCopy(defaultEntry);
+        success &= processA21RevLaborLedgerPendingEntry(accountingDocument, sequenceHelper, accountingLine, a21RevEntry);
+
+        LOG.info("completed processGenerateLaborLedgerPendingEntries");
         return success;
     }
 
@@ -276,6 +297,26 @@ public class BenefitExpenseTransferDocumentRule extends LaborExpenseTransferDocu
                 return false;
             }
         }
+        return true;
+    }
+    
+    /**
+     * determine whether the amount to be tranferred is only up to the amount in ledger balance for a given pay period
+     * @param accountingDocument the given accounting document
+     * @return true if the amount to be tranferred is only up to the amount in ledger balance for a given pay period; otherwise, false
+     */
+    private boolean isValidTransferAmount(AccountingDocument accountingDocument){
+        // TODO: 
+        return true;
+    }
+    
+    /**
+     * determine whether a negtive amount can be transferred from one account to another
+     * @param accountingDocument the given accounting document
+     * @return true if a negtive amount can be transferred from one account to another; otherwise, false
+     */
+    private boolean canNegtiveAmountBeTransferred(AccountingDocument accountingDocument){
+        // TODO:
         return true;
     }
 }

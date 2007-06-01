@@ -30,14 +30,23 @@ public abstract class LaborExpenseTransferDocumentBase extends LaborLedgerPostin
 
     private String emplid;
 
+    /**
+     * Constructor 
+     */
     public LaborExpenseTransferDocumentBase() {
         super();
     }
     
+    /**
+     * @see org.kuali.module.labor.document.LaborExpenseTransferDocument#getEmplid()
+     */
     public String getEmplid() {
         return emplid;
     }
 
+    /**
+     * @see org.kuali.module.labor.document.LaborExpenseTransferDocument#setEmplid(String)
+     */
     public void setEmplid(String emplid) {
         this.emplid = emplid;
     }

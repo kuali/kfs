@@ -19,8 +19,19 @@ package org.kuali.module.labor.document;
 /**
  * Interface for Expense Transfer Documents
  */
-public interface LaborExpenseTransferDocument extends LaborLedgerPostingDocument {
+public interface LaborExpenseTransferDocument extends LaborLedgerPostingDocument { 
+    /**
+     * Retrieve the document emplid
+     *
+     * @return String
+     */
     public String getEmplid();
+    
+    /**
+     * Assign the document emplid
+     *
+     * @param emplid
+     */
     public void setEmplid(String emplid);
 }
 

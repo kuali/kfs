@@ -42,7 +42,6 @@ public class SalaryExpenseTransferForm extends ExpenseTransferDocumentFormBase {
     private LaborUser user;
     private String balanceTypeCode;
     private Integer fiscalYear;
-    private String financialObjectFringeOrSalaryCode;
 
     /**
      * Constructs a SalaryExpenseTransferForm instance and sets up the appropriately casted document.
@@ -53,7 +52,6 @@ public class SalaryExpenseTransferForm extends ExpenseTransferDocumentFormBase {
         setDocument(new SalaryExpenseTransferDocument());
         setFinancialBalanceTypeCode("AC");
         setUniversityFiscalYear(0);
-        this.setFinancialObjectFringeOrSalaryCode("S");
     }
 
     /**
@@ -156,21 +154,5 @@ public class SalaryExpenseTransferForm extends ExpenseTransferDocumentFormBase {
     @Override
     public void setUniversityFiscalYear(Integer year) {
         fiscalYear = year;
-    }
-
-    /**
-     * Gets the financialObjectFringeOrSalaryCode attribute. 
-     * @return Returns the financialObjectFringeOrSalaryCode.
-     */
-    public String getFinancialObjectFringeOrSalaryCode() {
-        return financialObjectFringeOrSalaryCode;
-    }
-
-    /**
-     * Sets the financialObjectFringeOrSalaryCode attribute value.
-     * @param financialObjectFringeOrSalaryCode The financialObjectFringeOrSalaryCode to set.
-     */
-    public void setFinancialObjectFringeOrSalaryCode(String financialObjectFringeOrSalaryCode) {
-        this.financialObjectFringeOrSalaryCode = financialObjectFringeOrSalaryCode;
     }
 }

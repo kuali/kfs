@@ -70,14 +70,13 @@ public class SalaryExpenseTransferDocumentRule extends LaborExpenseTransferDocum
     public static final String LABOR_LEDGER_ACCOUNT_NUMBER = "9712700";
    
         
+    /**
+     * Constructor
+     */
     public SalaryExpenseTransferDocumentRule() {
         super();        
     }   
-    
-    protected boolean AddAccountingLineBusinessRules(LaborLedgerPostingDocument accountingDocument, AccountingLine accountingLine) {
-        return processCustomAddAccountingLineBusinessRules(accountingDocument, accountingLine);
-    }
-    
+        
     /** 
      * The following criteria will be validated here:
      * Account must be valid.
@@ -108,7 +107,7 @@ public class SalaryExpenseTransferDocumentRule extends LaborExpenseTransferDocum
         
         ErrorMap errorMap = GlobalVariables.getErrorMap();
         Map fieldValues = new HashMap();
-        fieldValues.put("financialObjectCode", accountingLine.getFinancialObjectCode().toString());
+        fieldValues.put(KFSPropertyConstants.FINANCIAL_OBJECT_CODE, accountingLine.getFinancialObjectCode().toString());
         ArrayList laborObjects = (ArrayList) SpringServiceLocator.getBusinessObjectService().findMatching(LaborObject.class, fieldValues);
         if (laborObjects.size() == 0) {
             reportError(KFSPropertyConstants.ACCOUNT, KFSKeyConstants.Labor.LABOR_OBJECT_MISSING_OBJECT_CODE_ERROR, accountingLine.getAccountNumber());
@@ -125,7 +124,7 @@ public class SalaryExpenseTransferDocumentRule extends LaborExpenseTransferDocum
         ExpenseTransferAccountingLine salaryExpenseTransferAccountingLine = (ExpenseTransferAccountingLine)accountingLine;
         // Validate the accounting year
         fieldValues.clear();
-        fieldValues.put("universityFiscalYear", salaryExpenseTransferAccountingLine.getPayrollEndDateFiscalYear());
+        fieldValues.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, salaryExpenseTransferAccountingLine.getPayrollEndDateFiscalYear());
         AccountingPeriod accountingPeriod = new AccountingPeriod();        
         if (SpringServiceLocator.getBusinessObjectService().countMatching(AccountingPeriod.class, fieldValues) == 0) {
             reportError(KFSPropertyConstants.ACCOUNT,KFSKeyConstants.Labor.INVALID_PAY_YEAR, salaryExpenseTransferAccountingLine.getPayrollEndDateFiscalYear().toString());
@@ -134,7 +133,7 @@ public class SalaryExpenseTransferDocumentRule extends LaborExpenseTransferDocum
        
         // Validate the accounting period code
         fieldValues.clear();
-        fieldValues.put("universityFiscalPeriodCode", salaryExpenseTransferAccountingLine.getPayrollEndDateFiscalPeriodCode());
+        fieldValues.put(KFSPropertyConstants.UNIVERSITY_FISCAL_PERIOD_CODE, salaryExpenseTransferAccountingLine.getPayrollEndDateFiscalPeriodCode());
         accountingPeriod = new AccountingPeriod();        
         if (SpringServiceLocator.getBusinessObjectService().countMatching(AccountingPeriod.class, fieldValues) == 0) {
             reportError(KFSPropertyConstants.ACCOUNT,KFSKeyConstants.Labor.INVALID_PAY_PERIOD_CODE, salaryExpenseTransferAccountingLine.getPayrollEndDateFiscalPeriodCode());

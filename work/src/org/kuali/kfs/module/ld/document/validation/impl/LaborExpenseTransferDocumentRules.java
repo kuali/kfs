@@ -55,19 +55,33 @@ import org.kuali.module.labor.document.LaborLedgerPostingDocument;
 import org.kuali.module.labor.document.SalaryExpenseTransferDocument;
 
 /**
- * Business rule(s) applicable to Salary Expense Transfer documents.
+ * Business rule(s) applicable to Labor Expense Transfer documents.
  * 
  * 
  */
 public class LaborExpenseTransferDocumentRules extends AccountingDocumentRuleBase {
 
+    /**
+     * Constructor
+     */
     public LaborExpenseTransferDocumentRules() {
     }   
     
+    /**
+     * Method called upon <code>{@link AddAccountingLineEvent}</code> to determine if the accountingline is valid for addition
+     *
+     * @param accountingDocument
+     * @param accountingLine
+     * @return boolean
+     */
     protected boolean AddAccountingLineBusinessRules(AccountingDocument accountingDocument, AccountingLine accountingLine) {
         return processCustomAddAccountingLineBusinessRules(accountingDocument, accountingLine);
     }
-    
+   
+    /**
+     * @see org.kuali.core.rules.SaveDocumentRule#processCustomSaveDocumentBusinessRules(Document)
+     */
+    @Override
     protected boolean processCustomSaveDocumentBusinessRules(Document document) {
         // Validate that an employee ID is enterred.
         SalaryExpenseTransferDocument salaryExpenseTransferDocument = (SalaryExpenseTransferDocument) document;
@@ -83,10 +97,17 @@ public class LaborExpenseTransferDocumentRules extends AccountingDocumentRuleBas
         return true;
     }
 
-    protected boolean processBenefitClearingLaborLedgerPendingEntry(LaborLedgerPostingDocument accountingDocument, GeneralLedgerPendingEntrySequenceHelper sequenceHelper, AccountingLine accountingLine, PendingLedgerEntry benefitClearingEntry) {        
+    /**
+     * Base rules for the <code>{@link GenerateBenefitClearingLaborLedgerPendingEntriesEvent}</code>. 
+     * 
+     * @param accountingDocument that can post labor ledger pending entries
+     * @param sequenceHelper
+     * @param accountingLine
+     * @param benefitClearingEntry
+     * @return boolean
+     */
+    protected boolean processBenefitClearingLaborLedgerPendingEntry(LaborLedgerPostingDocument accountingDocument, GeneralLedgerPendingEntrySequenceHelper sequenceHelper, AccountingLine accountingLine, PendingLedgerEntry benefitClearingEntry) {
 
-        boolean success = true;
-        
         // populate the entry
         populateBenefitClearingLaborLedgerPendingEntry(accountingDocument, accountingLine, sequenceHelper, benefitClearingEntry);
 
@@ -96,13 +117,29 @@ public class LaborExpenseTransferDocumentRules extends AccountingDocumentRuleBas
         // add the new entry to the document now
         accountingDocument.getLaborLedgerPendingEntries().add(benefitClearingEntry);
 
-        return success;
+        return true;
     }
 
+    /**
+     * Here to develop custom rules for <code>{@link GenerateBenefitClearingLaborLedgerPendingEntriesEvent}</code>. 
+     *
+     * @param accountingDocument that can post labor ledger pending entries
+     * @param sequenceHelper
+     * @param accountingLine
+     * @param benefitClearingEntry
+     * @return boolean
+     */
     protected boolean customizeBenefitClearingLaborLedgerPendingEntry(LaborLedgerPostingDocument accountingDocument, AccountingLine accountingLine, PendingLedgerEntry benefitClearingEntry) {
         return true;
     }
 
+    /**
+     * Populates the benefit clearing entry
+     * @param accountingDocument that can post labor ledger pending entries
+     * @param accountingLine
+     * @param sequenceHelper
+     * @param benefitClearingEntry     
+     */
     protected void populateBenefitClearingLaborLedgerPendingEntry(LaborLedgerPostingDocument accountingDocument, AccountingLine accountingLine, GeneralLedgerPendingEntrySequenceHelper sequenceHelper, PendingLedgerEntry benefitClearingEntry) {        
     }
     
@@ -328,8 +365,6 @@ public class LaborExpenseTransferDocumentRules extends AccountingDocumentRuleBas
      * @return
      */
     public boolean processGenerateLaborLedgerPendingEntries(LaborLedgerPostingDocument accountingDocument, ExpenseTransferAccountingLine accountingLine, GeneralLedgerPendingEntrySequenceHelper sequenceHelper){
-        boolean success = true;
-
         LOG.info("started processGenerateLaborLedgerPendingEntries");
                 
         Collection<PositionObjectBenefit> positionObjectBenefits;
@@ -340,18 +375,18 @@ public class LaborExpenseTransferDocumentRules extends AccountingDocumentRuleBas
 
         //Generate orig entry
         PendingLedgerEntry originalEntry = (PendingLedgerEntry) ObjectUtils.deepCopy(defaultEntry);
-        success &= processOriginalLaborLedgerPendingEntry(accountingDocument, sequenceHelper, accountingLine, originalEntry);
+        processOriginalLaborLedgerPendingEntry(accountingDocument, sequenceHelper, accountingLine, originalEntry);
             
         //if the AL's pay FY and period do not match the University fiscal year and period
         if(!isAccountingLinePayFYPeriodMatchesUniversityPayFYPeriod(accountingDocument, accountingLine)) {    
             //Generate A21
             PendingLedgerEntry a21Entry = (PendingLedgerEntry) ObjectUtils.deepCopy(defaultEntry);
-            success &= processA21LaborLedgerPendingEntry(accountingDocument, sequenceHelper, accountingLine, a21Entry);            
+            processA21LaborLedgerPendingEntry(accountingDocument, sequenceHelper, accountingLine, a21Entry);            
         }
         
         //Generate A21 rev
         PendingLedgerEntry a21RevEntry = (PendingLedgerEntry) ObjectUtils.deepCopy(defaultEntry);
-        success &= processA21RevLaborLedgerPendingEntry(accountingDocument, sequenceHelper, accountingLine, a21RevEntry);
+        processA21RevLaborLedgerPendingEntry(accountingDocument, sequenceHelper, accountingLine, a21RevEntry);
         
         //retrieve the labor object if null
         if( ObjectUtils.isNull(accountingLine.getLaborObject()) ){
@@ -378,18 +413,18 @@ public class LaborExpenseTransferDocumentRules extends AccountingDocumentRuleBas
                 
                 //Generate Benefit
                 PendingLedgerEntry benefitEntry = (PendingLedgerEntry) ObjectUtils.deepCopy(defaultEntry);
-                success &= processBenefitLaborLedgerPendingEntry(accountingDocument, sequenceHelper, accountingLine, benefitEntry, benefitAmount, fringeBenefitObjectCode);                    
+                processBenefitLaborLedgerPendingEntry(accountingDocument, sequenceHelper, accountingLine, benefitEntry, benefitAmount, fringeBenefitObjectCode);                    
                 
                 //if the AL's pay FY and period do not match the University fiscal year and period
                 if(!isAccountingLinePayFYPeriodMatchesUniversityPayFYPeriod(accountingDocument, accountingLine)) {
                     //Generate Benefit A21
                     PendingLedgerEntry benefitA21Entry = (PendingLedgerEntry) ObjectUtils.deepCopy(defaultEntry);
-                    success &= processBenefitA21LaborLedgerPendingEntry(accountingDocument, sequenceHelper, accountingLine, benefitA21Entry, benefitAmount, fringeBenefitObjectCode);                    
+                    processBenefitA21LaborLedgerPendingEntry(accountingDocument, sequenceHelper, accountingLine, benefitA21Entry, benefitAmount, fringeBenefitObjectCode);                    
                 }
                 
                 //Generate Benefit A21 rev
                 PendingLedgerEntry benefitA21RevEntry = (PendingLedgerEntry) ObjectUtils.deepCopy(defaultEntry);
-                success &= processBenefitA21RevLaborLedgerPendingEntry(accountingDocument, sequenceHelper, accountingLine, benefitA21RevEntry, benefitAmount, fringeBenefitObjectCode);                
+                processBenefitA21RevLaborLedgerPendingEntry(accountingDocument, sequenceHelper, accountingLine, benefitA21RevEntry, benefitAmount, fringeBenefitObjectCode);                
             }
             
         }                            
@@ -613,9 +648,16 @@ public class LaborExpenseTransferDocumentRules extends AccountingDocumentRuleBas
                               
     }
 
+    /**
+     * Base functionality for handling the original pending entry
+     *
+     * @param accountingDocument must be able to post labor ledger pending entries
+     * @param sequenceHelper
+     * @param accountingLine
+     * @param originalEntry
+     * @return boolean 
+     */
     protected boolean processOriginalLaborLedgerPendingEntry(LaborLedgerPostingDocument accountingDocument, GeneralLedgerPendingEntrySequenceHelper sequenceHelper, AccountingLine accountingLine, PendingLedgerEntry originalEntry) {        
-        
-        boolean success = true;
         
         // populate the entry
         populateOriginalLaborLedgerPendingEntry(accountingDocument, accountingLine, sequenceHelper, originalEntry);
@@ -626,9 +668,18 @@ public class LaborExpenseTransferDocumentRules extends AccountingDocumentRuleBas
         // add the new entry to the document now
         accountingDocument.getLaborLedgerPendingEntries().add(originalEntry);
 
-        return success;
+        return true;
     }
 
+    /**
+     * Custom functionality for handling the original pending entry
+     *
+     * @param accountingDocument must be able to post labor ledger pending entries
+     * @param sequenceHelper
+     * @param accountingLine
+     * @param originalEntry
+     * @return boolean 
+     */
     protected boolean customizeOriginalLaborLedgerPendingEntry(LaborLedgerPostingDocument accountingDocument, AccountingLine accountingLine, PendingLedgerEntry originalEntry) {
         return true;
     }
@@ -681,11 +732,18 @@ public class LaborExpenseTransferDocumentRules extends AccountingDocumentRuleBas
         // originalEntry.setBudgetYearFundingSourceCode(budgetYearFundingSourceCode);
     }
     
+    /**
+     * Base functionality for handling the A21 pending entry
+     *
+     * @param accountingDocument must be able to post labor ledger pending entries
+     * @param sequenceHelper
+     * @param accountingLine
+     * @param a21
+     * @return boolean 
+     */
     protected boolean processA21LaborLedgerPendingEntry(LaborLedgerPostingDocument accountingDocument, GeneralLedgerPendingEntrySequenceHelper sequenceHelper, 
                                                         ExpenseTransferAccountingLine accountingLine, PendingLedgerEntry a21Entry) {        
 
-        boolean success = true;
-        
         // populate the entry
         populateA21LaborLedgerPendingEntry(accountingDocument, accountingLine, sequenceHelper, a21Entry);
 
@@ -695,14 +753,31 @@ public class LaborExpenseTransferDocumentRules extends AccountingDocumentRuleBas
         // add the new entry to the document now
         accountingDocument.getLaborLedgerPendingEntries().add(a21Entry);
 
-        return success;
+        return true;
     }
 
+    /**
+     * Custom functionality for handling the A21 pending entry
+     *
+     * @param accountingDocument must be able to post labor ledger pending entries
+     * @param sequenceHelper
+     * @param accountingLine
+     * @param a21Entry
+     * @return boolean 
+     */
     protected boolean customizeA21LaborLedgerPendingEntry(LaborLedgerPostingDocument accountingDocument, 
                                                           ExpenseTransferAccountingLine accountingLine, PendingLedgerEntry a21Entry) {
         return true;
     }
 
+    /**
+     * Default population method for the A21 pending entry
+     *
+     * @param accountingDocument must be able to post labor ledger pending entries
+     * @param sequenceHelper
+     * @param accountingLine
+     * @param a21Entry
+     */
     protected void populateA21LaborLedgerPendingEntry(LaborLedgerPostingDocument accountingDocument, 
                                                       ExpenseTransferAccountingLine accountingLine, GeneralLedgerPendingEntrySequenceHelper sequenceHelper, PendingLedgerEntry a21Entry) {        
         a21Entry.setUniversityFiscalYear(null);
@@ -731,10 +806,17 @@ public class LaborExpenseTransferDocumentRules extends AccountingDocumentRuleBas
         a21Entry.setReferenceFinancialDocumentTypeCode(null);
     }
 
+    /**
+     * Base functionality for handling the A21 revision pending entry
+     *
+     * @param accountingDocument must be able to post labor ledger pending entries
+     * @param sequenceHelper
+     * @param accountingLine
+     * @param a21RevEntry
+     * @return boolean 
+     */
     protected boolean processA21RevLaborLedgerPendingEntry(LaborLedgerPostingDocument accountingDocument, GeneralLedgerPendingEntrySequenceHelper sequenceHelper, ExpenseTransferAccountingLine accountingLine, PendingLedgerEntry a21RevEntry) {        
 
-        boolean success = true;
-        
         // populate the entry
         populateA21RevLaborLedgerPendingEntry(accountingDocument, accountingLine, sequenceHelper, a21RevEntry);
 
@@ -744,13 +826,30 @@ public class LaborExpenseTransferDocumentRules extends AccountingDocumentRuleBas
         // add the new entry to the document now
         accountingDocument.getLaborLedgerPendingEntries().add(a21RevEntry);
         
-        return success;
+        return true;
     }
 
+    /**
+     * Custom functionality for handling the A21 revision pending entry
+     *
+     * @param accountingDocument must be able to post labor ledger pending entries
+     * @param sequenceHelper
+     * @param accountingLine
+     * @param a21RevEntry
+     * @return boolean 
+     */
     protected boolean customizeA21RevLaborLedgerPendingEntry(LaborLedgerPostingDocument accountingDocument, ExpenseTransferAccountingLine accountingLine, PendingLedgerEntry a21RevEntry) {
         return true;
     }
 
+    /**
+     * Populates the A21 Revision entry with defaults
+     *
+     * @param accountingDocument must be able to post labor ledger pending entries
+     * @param sequenceHelper
+     * @param accountingLine
+     * @param a21RevEntry
+     */
     protected void populateA21RevLaborLedgerPendingEntry(LaborLedgerPostingDocument accountingDocument, ExpenseTransferAccountingLine accountingLine, GeneralLedgerPendingEntrySequenceHelper sequenceHelper, PendingLedgerEntry a21RevEntry) {
         
         a21RevEntry.setUniversityFiscalYear(accountingLine.getPayrollEndDateFiscalYear());
@@ -779,10 +878,19 @@ public class LaborExpenseTransferDocumentRules extends AccountingDocumentRuleBas
         a21RevEntry.setReferenceFinancialDocumentTypeCode(null);
     }
 
-    protected boolean processBenefitLaborLedgerPendingEntry(LaborLedgerPostingDocument accountingDocument, GeneralLedgerPendingEntrySequenceHelper sequenceHelper, ExpenseTransferAccountingLine accountingLine, PendingLedgerEntry benefitEntry, KualiDecimal benefitAmount, String fringeBenefitObjectCode) {        
+    /**
+     * Base functionality for handling the Benefit pending entry
+     *
+     * @param accountingDocument must be able to post labor ledger pending entries
+     * @param sequenceHelper
+     * @param accountingLine
+     * @param benefitEntry
+     * @param benefitAmount
+     * @param fringeBenefitObjectCode
+     * @return boolean 
+     */
+    protected boolean processBenefitLaborLedgerPendingEntry(LaborLedgerPostingDocument accountingDocument, GeneralLedgerPendingEntrySequenceHelper sequenceHelper, ExpenseTransferAccountingLine accountingLine, PendingLedgerEntry benefitEntry, KualiDecimal benefitAmount, String fringeBenefitObjectCode) {
 
-        boolean success = true;
-        
         // populate the entry
         populateBenefitLaborLedgerPendingEntry(accountingDocument, accountingLine, sequenceHelper, benefitEntry, benefitAmount, fringeBenefitObjectCode);
 
@@ -792,14 +900,35 @@ public class LaborExpenseTransferDocumentRules extends AccountingDocumentRuleBas
         // add the new entry to the document now
         accountingDocument.getLaborLedgerPendingEntries().add(benefitEntry);
 
-        return success;
+        return true;
     }
 
+    /**
+     * Custom functionality for handling the Benefit pending entry
+     *
+     * @param accountingDocument must be able to post labor ledger pending entries
+     * @param sequenceHelper
+     * @param accountingLine
+     * @param benefitEntry
+     * @param benefitAmount
+     * @param fringeBenefitObjectCode
+     * @return boolean 
+     */
     protected boolean customizeBenefitLaborLedgerPendingEntry(LaborLedgerPostingDocument accountingDocument, ExpenseTransferAccountingLine accountingLine, PendingLedgerEntry benefitEntry) {
         return true;
     }
 
-    protected void populateBenefitLaborLedgerPendingEntry(LaborLedgerPostingDocument accountingDocument, ExpenseTransferAccountingLine accountingLine, GeneralLedgerPendingEntrySequenceHelper sequenceHelper, PendingLedgerEntry benefitEntry, KualiDecimal benefitAmount, String fringeBenefitObjectCode) {       
+    /**
+     * Populates the benefit pending entry with default values
+     *
+     * @param accountingDocument must be able to post labor ledger pending entries
+     * @param sequenceHelper
+     * @param accountingLine
+     * @param benefitEntry
+     * @param benefitAmount
+     * @param fringeBenefitObjectCode
+     */
+    protected void populateBenefitLaborLedgerPendingEntry(LaborLedgerPostingDocument accountingDocument, ExpenseTransferAccountingLine accountingLine, GeneralLedgerPendingEntrySequenceHelper sequenceHelper, PendingLedgerEntry benefitEntry, KualiDecimal benefitAmount, String fringeBenefitObjectCode) {
         benefitEntry.setUniversityFiscalYear(null);
         benefitEntry.setUniversityFiscalPeriodCode(null);
         
@@ -831,10 +960,19 @@ public class LaborExpenseTransferDocumentRules extends AccountingDocumentRuleBas
         benefitEntry.setReferenceFinancialDocumentTypeCode(null);        
     }
 
-    protected boolean processBenefitA21LaborLedgerPendingEntry(LaborLedgerPostingDocument accountingDocument, GeneralLedgerPendingEntrySequenceHelper sequenceHelper, ExpenseTransferAccountingLine accountingLine, PendingLedgerEntry benefitA21Entry, KualiDecimal benefitAmount, String fringeBenefitObjectCode) {        
+    /**
+     * Base functionality for handling the Benefit A21 pending entry
+     *
+     * @param accountingDocument must be able to post labor ledger pending entries
+     * @param sequenceHelper
+     * @param accountingLine
+     * @param benefitA21Entry
+     * @param benefitAmount
+     * @param fringeBenefitObjectCode
+     * @return boolean 
+     */
+    protected boolean processBenefitA21LaborLedgerPendingEntry(LaborLedgerPostingDocument accountingDocument, GeneralLedgerPendingEntrySequenceHelper sequenceHelper, ExpenseTransferAccountingLine accountingLine, PendingLedgerEntry benefitA21Entry, KualiDecimal benefitAmount, String fringeBenefitObjectCode) {
 
-        boolean success = true;
-        
         // populate the entry
         populateBenefitA21LaborLedgerPendingEntry(accountingDocument, accountingLine, sequenceHelper, benefitA21Entry, benefitAmount, fringeBenefitObjectCode);
 
@@ -844,13 +982,34 @@ public class LaborExpenseTransferDocumentRules extends AccountingDocumentRuleBas
         // add the new entry to the document now
         accountingDocument.getLaborLedgerPendingEntries().add(benefitA21Entry);
 
-        return success;
+        return true;
     }
 
+    /**
+     * Custom functionality for handling the Benefit A21 pending entry
+     *
+     * @param accountingDocument must be able to post labor ledger pending entries
+     * @param sequenceHelper
+     * @param accountingLine
+     * @param benefitA21Entry
+     * @param benefitAmount
+     * @param fringeBenefitObjectCode
+     * @return boolean 
+     */
     protected boolean customizeBenefitA21LaborLedgerPendingEntry(LaborLedgerPostingDocument accountingDocument, ExpenseTransferAccountingLine accountingLine, PendingLedgerEntry benefitA21Entry) {
         return true;
     }
 
+    /**
+     * Populates the benefit A21 pending entry with default values
+     *
+     * @param accountingDocument must be able to post labor ledger pending entries
+     * @param sequenceHelper
+     * @param accountingLine
+     * @param benefitA21Entry
+     * @param benefitAmount
+     * @param fringeBenefitObjectCode
+     */
     protected void populateBenefitA21LaborLedgerPendingEntry(LaborLedgerPostingDocument accountingDocument, ExpenseTransferAccountingLine accountingLine, GeneralLedgerPendingEntrySequenceHelper sequenceHelper, PendingLedgerEntry benefitA21Entry, KualiDecimal benefitAmount, String fringeBenefitObjectCode) {        
         benefitA21Entry.setUniversityFiscalYear(null);
         benefitA21Entry.setUniversityFiscalPeriodCode(null);
@@ -883,10 +1042,19 @@ public class LaborExpenseTransferDocumentRules extends AccountingDocumentRuleBas
         benefitA21Entry.setReferenceFinancialDocumentTypeCode(null);        
     }
 
+    /**
+     * Base functionality for handling the Benefit A21 rev pending entry
+     *
+     * @param accountingDocument must be able to post labor ledger pending entries
+     * @param sequenceHelper
+     * @param accountingLine
+     * @param benefitA21RevEntry
+     * @param benefitAmount
+     * @param fringeBenefitObjectCode
+     * @return boolean 
+     */
     protected boolean processBenefitA21RevLaborLedgerPendingEntry(LaborLedgerPostingDocument accountingDocument, GeneralLedgerPendingEntrySequenceHelper sequenceHelper, ExpenseTransferAccountingLine accountingLine, PendingLedgerEntry benefitA21RevEntry, KualiDecimal benefitAmount, String fringeBenefitObjectCode) {        
 
-        boolean success = true;
-        
         // populate the entry
         populateBenefitA21RevLaborLedgerPendingEntry(accountingDocument, accountingLine, sequenceHelper, benefitA21RevEntry, benefitAmount, fringeBenefitObjectCode);
 
@@ -896,13 +1064,34 @@ public class LaborExpenseTransferDocumentRules extends AccountingDocumentRuleBas
         // add the new entry to the document now
         accountingDocument.getLaborLedgerPendingEntries().add(benefitA21RevEntry);
 
-        return success;
+        return true;
     }
 
+    /**
+     * Custom functionality for handling the Benefit A21 rev pending entry
+     *
+     * @param accountingDocument must be able to post labor ledger pending entries
+     * @param sequenceHelper
+     * @param accountingLine
+     * @param benefitA21RevEntry
+     * @param benefitAmount
+     * @param fringeBenefitObjectCode
+     * @return boolean 
+     */
     protected boolean customizeBenefitA21RevLaborLedgerPendingEntry(LaborLedgerPostingDocument accountingDocument, ExpenseTransferAccountingLine accountingLine, PendingLedgerEntry benefitA21RevEntry) {
         return true;
     }
 
+    /**
+     * Populates the Benefit A21 Rev Pending Entry with default values
+     *
+     * @param accountingDocument must be able to post labor ledger pending entries
+     * @param sequenceHelper
+     * @param accountingLine
+     * @param benefitA21RevEntry
+     * @param benefitAmount
+     * @param fringeBenefitObjectCode
+     */
     protected void populateBenefitA21RevLaborLedgerPendingEntry(LaborLedgerPostingDocument accountingDocument, ExpenseTransferAccountingLine accountingLine, GeneralLedgerPendingEntrySequenceHelper sequenceHelper, PendingLedgerEntry benefitA21RevEntry, KualiDecimal benefitAmount, String fringeBenefitObjectCode) {        
         ExpenseTransferAccountingLine al = (ExpenseTransferAccountingLine)accountingLine;
 
@@ -937,10 +1126,18 @@ public class LaborExpenseTransferDocumentRules extends AccountingDocumentRuleBas
         benefitA21RevEntry.setReferenceFinancialDocumentTypeCode(null);        
     }
 
+    /**
+     * Base functionality for handling the Benefit Clearing Pending Entry
+     *
+     * @param accountingDocument must be able to post labor ledger pending entries
+     * @param sequenceHelper
+     * @param benefitTypeCode
+     * @param fromAmount
+     * @param toAmount
+     * @return boolean 
+     */
     protected boolean processBenefitClearingLaborLedgerPendingEntry(LaborLedgerPostingDocument accountingDocument, GeneralLedgerPendingEntrySequenceHelper sequenceHelper, String benefitTypeCode, KualiDecimal fromAmount, KualiDecimal toAmount) {        
 
-        boolean success = true;
-        
         PendingLedgerEntry benefitClearingEntry = new PendingLedgerEntry();
         
         // populate the entry
@@ -952,13 +1149,32 @@ public class LaborExpenseTransferDocumentRules extends AccountingDocumentRuleBas
         // add the new entry to the document now
         accountingDocument.getLaborLedgerPendingEntries().add(benefitClearingEntry);
 
-        return success;
+        return true;
     }
 
+    /**
+     * Custom functionality for handling the Benefit Clearing Pending Entry
+     *
+     * @param accountingDocument must be able to post labor ledger pending entries
+     * @param sequenceHelper
+     * @param benefitTypeCode
+     * @param fromAmount
+     * @param toAmount
+     * @return boolean 
+     */
     protected boolean customizeBenefitClearingLaborLedgerPendingEntry(LaborLedgerPostingDocument accountingDocument, PendingLedgerEntry benefitClearingEntry, KualiDecimal fromAmount, KualiDecimal toAmount) {
         return true;
     }
 
+    /**
+     * Populates a Benefit Clearing Pending Entry with default values
+     *
+     * @param accountingDocument must be able to post labor ledger pending entries
+     * @param sequenceHelper
+     * @param benefitTypeCode
+     * @param fromAmount
+     * @param toAmount
+     */
     protected void populateBenefitClearingLaborLedgerPendingEntry(LaborLedgerPostingDocument accountingDocument,  GeneralLedgerPendingEntrySequenceHelper sequenceHelper, PendingLedgerEntry benefitClearingEntry, String benefitTypeCode, KualiDecimal fromAmount, KualiDecimal toAmount) {        
 
         benefitClearingEntry.setUniversityFiscalYear(null);
@@ -1056,6 +1272,12 @@ public class LaborExpenseTransferDocumentRules extends AccountingDocumentRuleBas
     }
     
 
+    /**
+     * Is the accounting line a debit accounting line?
+     *
+     * @param accountingDocument
+     * @param accountingLine
+     */
     public boolean isDebit(AccountingDocument accountingDocument, AccountingLine accountingLine) {
         boolean isDebit = false;
         if (accountingLine.isSourceAccountingLine()) {
@@ -1071,6 +1293,12 @@ public class LaborExpenseTransferDocumentRules extends AccountingDocumentRuleBas
         return isDebit;
     }
 
+    /**
+     * Is the accounting line a credit accounting line?
+     *
+     * @param accountingDocument
+     * @param accountingLine
+     */
     public boolean isCredit(AccountingLine accountingLine, AccountingDocument accountingDocument) {
         return false;
     }

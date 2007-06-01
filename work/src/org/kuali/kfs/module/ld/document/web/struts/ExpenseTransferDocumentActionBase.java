@@ -53,7 +53,7 @@ import org.kuali.module.labor.web.struts.form.SalaryExpenseTransferForm;
 import org.kuali.rice.KNSServiceLocator;
 
 /**
- * This class handles UI actions for all shared methods of financial documents.
+ * This class handles UI actions for all shared methods of expense transfer documents.
  */
 public class ExpenseTransferDocumentActionBase extends LaborDocumentActionBase {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ExpenseTransferDocumentActionBase.class);

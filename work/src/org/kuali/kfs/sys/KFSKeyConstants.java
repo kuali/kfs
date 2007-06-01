@@ -347,6 +347,12 @@ public class KFSKeyConstants extends KeyConstants {
     public static final String ERROR_DOCUMENT_OBJCODE_MUST_BEVALID = "error.document.objectCode.mustBeValid";
     public static final String ERROR_DOCUMENT_OBJCODE_CONSOLIDATION_ERROR = "error.document.objectCode.consolidation";
     public static final String ERROR_DOCUMENT_OBJCODE_LEVEL_ERROR = "error.document.objectCode.level";
+    public static final String ERROR_DOCUMENT_GLOBAL_OBJECTMAINT_INVALID_RPTS_TO_OBJ_CODE = "error.document.objectCodeChangeDetails.invalidReportsToObjectCode";
+    public static final String ERROR_DOCUMENT_GLOBAL_OBJECTMAINT_INVALID_NEXT_YEAR_OBJ_CODE = "error.document.objectCodeChangeDetails.invalidNextYearObjectCode";
+    public static final String ERROR_DOCUMENT_GLOBAL_OBJECTMAINT_INVALID_OBJ_LEVEL = "error.document.objectCodeChangeDetails.invalidObjectLevel";
+    public static final String ERROR_DOCUMENT_GLOBAL_OBJECTMAINT_NO_CHART_FISCAL_YEAR = "error.document.objectCodeChangeDetails.noChartFiscalYear";
+    public static final String ERROR_DOCUMENT_GLOBAL_OBJECTMAINT_FISCAL_YEAR_MUST_EXIST = "error.document.objectCodeChangeDetails.noFiscalYear";
+    public static final String ERROR_DOCUMENT_GLOBAL_OBJECTMAINT_CHART_MUST_EXIST = "error.document.objectCodeChangeDetails.noChart";
 
     // Object Consolidation errors
     public static final String ERROR_DOCUMENT_OBJCONSMAINT_ALREADY_EXISTS_AS_OBJLEVEL = "error.document.objConsMaintenance.alreadyExistsAsObjLevel";

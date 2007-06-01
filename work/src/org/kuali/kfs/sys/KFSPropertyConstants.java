@@ -817,6 +817,7 @@ public class KFSPropertyConstants extends PropertyConstants {
     public static final String NUMBER = "number";
     public static final String OBJECT_CODE = "objectCode";
     public static final String OBJECT_CODE_CURRENT = "objectCodeCurrent";
+    public static final String OBJECT_CODE_CHANGE_DETAILS = "objectCodeChangeDetails";
     public static final String OBJECT_ID = "objectId";
     public static final String OBJECT_TYPE = "objectType";
     public static final String OBJECT_TYPE_CODE = "objectTypeCode";

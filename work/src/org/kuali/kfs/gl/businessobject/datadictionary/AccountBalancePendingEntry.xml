@@ -51,7 +51,6 @@
                 <field attributeName="acctSufficientFundsFinObjCd" />
                 <field attributeName="projectCode" />
                 <field attributeName="transactionEntryProcessedTs" />
-                <field attributeName="budgetYear" />
             </inquiryFields></inquirySection></inquirySections>
         </inquiry>
 
@@ -261,17 +260,6 @@
                 <summary>transactionEntryProcessed</summary>
                 <description>transactionEntryProcessed description...</description>
             </attributeReference>
-
-            <attribute name="budgetYear" forceUppercase="false">
-                <label>Budget Year</label>
-                <shortLabel>Bdgt. Year</shortLabel>
-                <maxLength>4</maxLength>
-                <control>
-                    <text size="6" />
-                </control>
-                <summary>The budget year for this transaction.</summary>
-                <description>This is the budget year associated with this pending ledger entry.</description>
-            </attribute>
 
             <attributeReference name="objectType.finObjectTypeDebitcreditCd" sourceClassName="org.kuali.module.chart.bo.ObjectType" sourceAttributeName="finObjectTypeDebitcreditCd" />
 

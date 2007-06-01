@@ -309,7 +309,6 @@
     <field-descriptor name="balanceTypeCode" column="FIN_BALANCE_TYP_CD" jdbc-type="VARCHAR" />
     <field-descriptor name="objectTypeCode" column="FIN_OBJ_TYP_CD" jdbc-type="VARCHAR" />
     <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
-    <field-descriptor name="budgetYear" column="BDGT_YR" jdbc-type="VARCHAR" />
 
     <reference-descriptor name="chart" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
         <foreignkey field-ref="chartOfAccountsCode" />
@@ -386,7 +385,6 @@
     <field-descriptor name="balanceTypeCode" column="FIN_BALANCE_TYP_CD" jdbc-type="VARCHAR" />
     <field-descriptor name="objectTypeCode" column="FIN_OBJ_TYP_CD" jdbc-type="VARCHAR" />
     <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
-    <field-descriptor name="budgetYear" column="BDGT_YR" jdbc-type="VARCHAR" />
 
     <reference-descriptor name="chart" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
         <foreignkey field-ref="chartOfAccountsCode" />

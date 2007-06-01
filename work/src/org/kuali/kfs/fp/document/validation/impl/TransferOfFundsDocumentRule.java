@@ -131,25 +131,6 @@ public class TransferOfFundsDocumentRule extends AccountingDocumentRuleBase impl
     }
 
     /**
-     * This document specific routing business rule check calls the check that makes sure that the budget year is consistent for all
-     * accounting lines.
-     * 
-     * @see org.kuali.core.rule.DocumentRuleBase#processCustomRouteDocumentBusinessRules(org.kuali.core.document.Document)
-     */
-    @Override
-    protected boolean processCustomRouteDocumentBusinessRules(Document document) {
-        boolean isValid = super.processCustomRouteDocumentBusinessRules(document);
-
-        TransferOfFundsDocument tofDoc = (TransferOfFundsDocument) document;
-
-        if (isValid) {
-            isValid = isAllAccountingLinesMatchingBudgetYear(tofDoc);
-        }
-
-        return isValid;
-    }
-
-    /**
      * This is a helper method that wraps the fund group balancing check. This check can be configured by updating the APC that is
      * associated with this check. See the document's specification for details.
      * 

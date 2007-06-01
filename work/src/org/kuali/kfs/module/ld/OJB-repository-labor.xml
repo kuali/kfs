@@ -1552,7 +1552,6 @@
     <field-descriptor name="balanceTypeCode" column="FIN_BALANCE_TYP_CD" jdbc-type="VARCHAR" />
     <field-descriptor name="objectTypeCode" column="FIN_OBJ_TYP_CD" jdbc-type="VARCHAR" />
     <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
-    <field-descriptor name="budgetYear" column="BDGT_YR" jdbc-type="VARCHAR" />
 
 	<field-descriptor name="positionNumber" column="POSITION_NBR" jdbc-type="VARCHAR"/>
 	<field-descriptor name="payPeriodEndDate" column="PAY_PERIOD_END_DT" jdbc-type="DATE"/>

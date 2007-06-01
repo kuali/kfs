@@ -1555,42 +1555,6 @@ public abstract class AccountingDocumentRuleBase extends GeneralLedgerPostingDoc
     }
 
     /**
-     * helper method that checks if all accounting lines for a given document have the same budget years
-     * 
-     * @param accountingDocument
-     * @return true if all accouting lines have same budget year
-     */
-    public boolean isAllAccountingLinesMatchingBudgetYear(AccountingDocument accountingDocument) {
-        LOG.debug("isAllAccountingLinesMatchingBudgetYear(AccountingDocument) - start");
-
-        boolean isSameBudgetYear = true;
-        String budgetYear = null;
-
-        List tmpAccountingLinesList = new ArrayList();
-        tmpAccountingLinesList.addAll(accountingDocument.getSourceAccountingLines());
-        tmpAccountingLinesList.addAll(accountingDocument.getTargetAccountingLines());
-
-        boolean isFirst = true;
-        // iterate over lines and compare budget years
-        for (Iterator i = tmpAccountingLinesList.iterator(); i.hasNext() && isSameBudgetYear;) {
-            String lineBudgetYear = ((AccountingLine) i.next()).getBudgetYear();
-            if (isFirst) {
-                // initialize budget year
-                budgetYear = lineBudgetYear;
-                isFirst = false;
-            }
-            isSameBudgetYear &= StringUtils.equals(budgetYear, lineBudgetYear);
-        }
-
-        if (!isSameBudgetYear) {
-            reportError(ACCOUNTING_LINE_ERRORS, ERROR_ACCOUNTING_LINES_DIFFERENT_BUDGET_YEAR);
-        }
-
-        LOG.debug("isAllAccountingLinesMatchingBudgetYear(AccountingDocument) - end");
-        return isSameBudgetYear;
-    }
-
-    /**
      * This method will make sure that totals for a specified set of fund groups is valid across the two different accounting line
      * sections.
      * 

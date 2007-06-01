@@ -47,7 +47,6 @@ public abstract class AccountingLineBase extends PersistableBusinessObjectBase i
     private String documentNumber;
     private Integer sequenceNumber; // relative to the grouping of acctng lines
     private Integer postingYear;
-    private String budgetYear;
     private KualiDecimal amount;
     private String referenceOriginCode;
     private String referenceNumber;
@@ -573,20 +572,6 @@ public abstract class AccountingLineBase extends PersistableBusinessObjectBase i
      */
     public void setFinancialDocumentLineDescription(String financialDocumentLineDescription) {
         this.financialDocumentLineDescription = financialDocumentLineDescription;
-    }
-
-    /**
-     * @return Returns the budgetYear.
-     */
-    public String getBudgetYear() {
-        return budgetYear;
-    }
-
-    /**
-     * @param budgetYear The budgetYear to set.
-     */
-    public void setBudgetYear(String budgetYear) {
-        this.budgetYear = budgetYear;
     }
 
     /**

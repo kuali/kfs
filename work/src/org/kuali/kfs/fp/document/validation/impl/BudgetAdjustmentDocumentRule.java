@@ -118,7 +118,6 @@ public class BudgetAdjustmentDocumentRule extends AccountingDocumentRuleBase imp
         BudgetAdjustmentDocument baDocument = (BudgetAdjustmentDocument) document;
 
         if (isValid) {
-            isValid = isValid && isAllAccountingLinesMatchingBudgetYear((AccountingDocument) document);
             isValid = isValid && validateFundGroupAdjustmentRestrictions(baDocument);
         }
 

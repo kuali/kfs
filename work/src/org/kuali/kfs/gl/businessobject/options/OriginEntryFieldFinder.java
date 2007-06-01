@@ -159,8 +159,6 @@ public class OriginEntryFieldFinder extends KeyValuesBase {
             return 10;
         } else if (fieldName.equals("financialDocumentReversalDate")) {
             return 10;
-        } else if (fieldName.equals("budgetYear")) {
-            return 4;
         } else if (fieldName.equals("chartOfAccountsCode")) {
             return 2;
         } else if (fieldName.equals("accountNumber")) {

@@ -33,7 +33,6 @@
 	<html:hidden property="referenceTypeCode" write="false" />
 	<html:hidden property="referenceNumber" write="false" />
 	<html:hidden property="projectCode" write="false" />
-	<html:hidden property="budgetYear" write="false" />
 	<div class="topblurb">
 	<div align="center"><b><font size="+1">Balance Inquiry Report Menu</font></b>
 	<br />

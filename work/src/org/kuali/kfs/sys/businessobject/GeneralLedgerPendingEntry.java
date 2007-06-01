@@ -75,7 +75,6 @@ public class GeneralLedgerPendingEntry extends PersistableBusinessObjectBase imp
     private String acctSufficientFundsFinObjCd;
     private boolean transactionEntryOffsetIndicator;
     private Date transactionEntryProcessedTs;
-    private String budgetYear;
 
     private DocumentType documentType;
     private DocumentHeader documentHeader;
@@ -143,7 +142,6 @@ public class GeneralLedgerPendingEntry extends PersistableBusinessObjectBase imp
         acctSufficientFundsFinObjCd = original.acctSufficientFundsFinObjCd;
         transactionEntryOffsetIndicator = original.transactionEntryOffsetIndicator;
         transactionEntryProcessedTs = original.transactionEntryProcessedTs;
-        budgetYear = original.budgetYear;
     }
 
     public DocumentType getReferenceDocumentType() {
@@ -692,24 +690,6 @@ public class GeneralLedgerPendingEntry extends PersistableBusinessObjectBase imp
      */
     public void setTransactionEntryProcessedTs(Date transactionEntryProcessedTs) {
         this.transactionEntryProcessedTs = transactionEntryProcessedTs;
-    }
-
-    /**
-     * Gets the budgetYear attribute.
-     * 
-     * @return Returns the budgetYear
-     */
-    public String getBudgetYear() {
-        return budgetYear;
-    }
-
-    /**
-     * Sets the budgetYear attribute.
-     * 
-     * @param budgetYear The budgetYear to set.
-     */
-    public void setBudgetYear(String budgetYear) {
-        this.budgetYear = budgetYear;
     }
 
     /**

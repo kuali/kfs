@@ -70,7 +70,6 @@ public class Entry extends PersistableBusinessObjectBase implements Transaction 
     private String transactionEncumbranceUpdateCode;
     private Date transactionPostingDate;
     private Timestamp transactionDateTimeStamp;
-    private String budgetYear;
 
     // bo references
     private Account account;
@@ -635,24 +634,6 @@ public class Entry extends PersistableBusinessObjectBase implements Transaction 
      */
     public void setTransactionDateTimeStamp(Timestamp transactionDateTimeStamp) {
         this.transactionDateTimeStamp = transactionDateTimeStamp;
-    }
-
-    /**
-     * Gets the budgetYear attribute.
-     * 
-     * @return Returns the budgetYear
-     */
-    public String getBudgetYear() {
-        return budgetYear;
-    }
-
-    /**
-     * Sets the budgetYear attribute.
-     * 
-     * @param budgetYear The budgetYear to set.
-     */
-    public void setBudgetYear(String budgetYear) {
-        this.budgetYear = budgetYear;
     }
 
     public Account getAccount() {

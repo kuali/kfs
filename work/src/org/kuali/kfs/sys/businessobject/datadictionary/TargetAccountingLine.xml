@@ -249,26 +249,6 @@
                 <required>false</required>
             </attributeReference>
 
-            <attribute name="budgetYear" forceUppercase="true">
-                <label>Budget Year</label>
-                <shortLabel>Budget Year</shortLabel>
-
-                <maxLength>4</maxLength>
-
-                <validationPattern>
-                    <numeric />
-                </validationPattern>
-                <required>false</required>
-                <control>
-                    <text size="6" />
-                </control>
-
-                <summary>
-                    <![CDATA[&nbsp;]]>
-                </summary>
-                <description>The Budget Year associated with the Account Line. Its calendar span is defined by the implementing institution.</description>
-            </attribute>
-
             <attribute name="accountExpiredOverride">
                 <label>Account Expired Override</label>
                 <shortLabel>Expired Override</shortLabel>

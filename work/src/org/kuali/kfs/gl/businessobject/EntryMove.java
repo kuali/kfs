@@ -59,7 +59,6 @@ public class EntryMove extends PersistableBusinessObjectBase {
     private String transactionEncumbranceUpdateCode;
     private Date transactionPostingDate;
     private Date transactionDateTimeStamp;
-    private String budgetYear;
 
     private ObjectCode financialObject;
     private Account account;
@@ -658,28 +657,6 @@ public class EntryMove extends PersistableBusinessObjectBase {
     public void setTransactionDateTimeStamp(Date transactionDateTimeStamp) {
         this.transactionDateTimeStamp = transactionDateTimeStamp;
     }
-
-
-    /**
-     * Gets the budgetYear attribute.
-     * 
-     * @return Returns the budgetYear
-     * 
-     */
-    public String getBudgetYear() {
-        return budgetYear;
-    }
-
-    /**
-     * Sets the budgetYear attribute.
-     * 
-     * @param budgetYear The budgetYear to set.
-     * 
-     */
-    public void setBudgetYear(String budgetYear) {
-        this.budgetYear = budgetYear;
-    }
-
 
     /**
      * Gets the financialObject attribute.

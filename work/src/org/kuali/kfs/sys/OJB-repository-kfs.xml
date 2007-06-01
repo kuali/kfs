@@ -268,7 +268,6 @@
     <field-descriptor name="balanceTypeCode" column="FIN_BALANCE_TYP_CD" jdbc-type="VARCHAR" />
     <field-descriptor name="objectTypeCode" column="FIN_OBJ_TYP_CD" jdbc-type="VARCHAR" />
     <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
-    <field-descriptor name="budgetYear" column="BDGT_YR" jdbc-type="VARCHAR" />
 
     <reference-descriptor name="chart" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
         <foreignkey field-ref="chartOfAccountsCode" />
@@ -345,7 +344,6 @@
     <field-descriptor name="balanceTypeCode" column="FIN_BALANCE_TYP_CD" jdbc-type="VARCHAR" />
     <field-descriptor name="objectTypeCode" column="FIN_OBJ_TYP_CD" jdbc-type="VARCHAR" />
     <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
-    <field-descriptor name="budgetYear" column="BDGT_YR" jdbc-type="VARCHAR" />
 
     <reference-descriptor name="chart" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
         <foreignkey field-ref="chartOfAccountsCode" />
@@ -429,7 +427,6 @@
     <field-descriptor name="acctSufficientFundsFinObjCd" column="ACCT_SF_FINOBJ_CD" jdbc-type="VARCHAR" index="true" />
     <field-descriptor name="transactionEntryOffsetIndicator" column="TRN_ENTR_OFST_CD" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion" />
     <field-descriptor name="transactionEntryProcessedTs" column="TRNENTR_PROCESS_TM" jdbc-type="DATE" />
-    <field-descriptor name="budgetYear" column="BDGT_YR" jdbc-type="VARCHAR" />
 	
     <reference-descriptor name="accountingPeriod" class-ref="org.kuali.module.chart.bo.AccountingPeriod" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="universityFiscalYear" />

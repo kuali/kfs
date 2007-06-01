@@ -44,7 +44,6 @@
     <field-descriptor name="referenceFinancialDocumentNumber" column="FDOC_REF_NBR" jdbc-type="VARCHAR" />
     <field-descriptor name="financialDocumentReversalDate" column="FDOC_REVERSAL_DT" jdbc-type="DATE" />
     <field-descriptor name="transactionEncumbranceUpdateCode" column="TRN_ENCUM_UPDT_CD" jdbc-type="VARCHAR" />
-    <field-descriptor name="budgetYear" column="BDGT_YR" jdbc-type="VARCHAR" />
     <field-descriptor name="transactionScrubberOffsetGenerationIndicator" column="TRN_SCRBBR_OFST_GEN_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion" />
 
     <reference-descriptor name="group" class-ref="org.kuali.module.gl.bo.OriginEntryGroup" auto-retrieve="true" auto-update="none" auto-delete="none">
@@ -181,7 +180,6 @@
     <field-descriptor name="transactionEncumbranceUpdateCode" column="TRN_ENCUM_UPDT_CD" jdbc-type="VARCHAR" />
     <field-descriptor name="transactionPostingDate" column="TRN_POST_DT" jdbc-type="DATE" />
     <field-descriptor name="transactionDateTimeStamp" column="TIMESTAMP" jdbc-type="TIMESTAMP" index="true" />
-    <field-descriptor name="budgetYear" column="BDGT_YR" jdbc-type="VARCHAR" />
     <reference-descriptor name="account" class-ref="org.kuali.module.chart.bo.Account" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="chartOfAccountsCode" />
         <foreignkey field-ref="accountNumber" />
@@ -757,7 +755,6 @@
     <field-descriptor name="transactionEncumbranceUpdateCode" column="TRN_ENCUM_UPDT_CD" jdbc-type="VARCHAR" />
     <field-descriptor name="transactionPostingDate" column="TRN_POST_DT" jdbc-type="DATE" />
     <field-descriptor name="transactionDateTimeStamp" column="TIMESTAMP" jdbc-type="DATE" />
-    <field-descriptor name="budgetYear" column="BDGT_YR" jdbc-type="VARCHAR" />
     <reference-descriptor name="financialObject" class-ref="org.kuali.module.chart.bo.ObjectCode" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="universityFiscalYear" />
         <foreignkey field-ref="chartOfAccountsCode" />
@@ -805,7 +802,6 @@
     <field-descriptor name="accountSufficientFundsFinancialObjectCode" column="ACCT_SF_FINOBJ_CD" jdbc-type="VARCHAR" />
     <field-descriptor name="transactionEntryOffsetCode" column="TRN_ENTR_OFST_CD" jdbc-type="VARCHAR" />
     <field-descriptor name="transactionEntryProcessedTimestamp" column="TRNENTR_PROCESS_TM" jdbc-type="TIMESTAMP" />
-    <field-descriptor name="budgetYear" column="BDGT_YR" jdbc-type="VARCHAR" />
     <reference-descriptor name="accountSufficientFundsFinancialObject" class-ref="org.kuali.module.chart.bo.ObjectCode" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="universityFiscalYear" />
         <foreignkey field-ref="chartOfAccountsCode" />

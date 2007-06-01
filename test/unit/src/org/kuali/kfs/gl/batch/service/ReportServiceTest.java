@@ -72,43 +72,43 @@ public class ReportServiceTest extends KualiTestBase {
                 + "sub_acct_nbr,fin_object_cd,fin_sub_obj_cd,fin_balance_typ_cd,fin_obj_typ_cd,univ_fiscal_yr,univ_fiscal_prd_cd," 
                 + "trn_ldgr_entr_desc,trn_ldgr_entr_amt,trn_debit_crdt_cd,transaction_dt,fdoc_typ_cd,org_doc_nbr,project_cd," 
                 + "org_reference_id,fdoc_ref_typ_cd,fs_ref_origin_cd,fdoc_ref_nbr,fdoc_reversal_dt,trn_encum_updt_cd,fdoc_approved_cd," 
-                + "acct_sf_finobj_cd,trn_entr_ofst_cd,trnentr_process_tm,bdgt_yr) values ('01','1',1,sys_guid(),1,'BA','123456'," 
-                + "null,'4161',null,'AC','EX',2004,'01','Description',100,'D',sysdate,'JV',11,null,null,null,null,null,null,' ','A','4166',null,null,null)");
+                + "acct_sf_finobj_cd,trn_entr_ofst_cd,trnentr_process_tm) values ('01','1',1,sys_guid(),1,'BA','123456'," 
+                + "null,'4161',null,'AC','EX',2004,'01','Description',100,'D',sysdate,'JV',11,null,null,null,null,null,null,' ','A','4166',null,null)");
         
         unitTestSqlDao.sqlCommand("insert into gl_pending_entry_t (fs_origin_cd,fdoc_nbr,trn_entr_seq_nbr,obj_id,ver_nbr,fin_coa_cd,account_nbr," 
                 + "sub_acct_nbr,fin_object_cd,fin_sub_obj_cd,fin_balance_typ_cd,fin_obj_typ_cd,univ_fiscal_yr,univ_fiscal_prd_cd," 
                 + "trn_ldgr_entr_desc,trn_ldgr_entr_amt,trn_debit_crdt_cd,transaction_dt,fdoc_typ_cd,org_doc_nbr,project_cd," 
                 + "org_reference_id,fdoc_ref_typ_cd,fs_ref_origin_cd,fdoc_ref_nbr,fdoc_reversal_dt,trn_encum_updt_cd,fdoc_approved_cd," 
-                + "acct_sf_finobj_cd,trn_entr_ofst_cd,trnentr_process_tm,bdgt_yr) values ('01','1',2,sys_guid(),1,'BA','123456'," 
-                + "null,'4162',null,'AC','EX',2004,'01','Description',100,'C',sysdate,'JV',12,null,null,null,null,null,null,' ','A','4166',null,null,null)");
+                + "acct_sf_finobj_cd,trn_entr_ofst_cd,trnentr_process_tm) values ('01','1',2,sys_guid(),1,'BA','123456'," 
+                + "null,'4162',null,'AC','EX',2004,'01','Description',100,'C',sysdate,'JV',12,null,null,null,null,null,null,' ','A','4166',null,null)");
         
         unitTestSqlDao.sqlCommand("insert into gl_pending_entry_t (fs_origin_cd,fdoc_nbr,trn_entr_seq_nbr,obj_id,ver_nbr,fin_coa_cd,account_nbr," 
                 + "sub_acct_nbr,fin_object_cd,fin_sub_obj_cd,fin_balance_typ_cd,fin_obj_typ_cd,univ_fiscal_yr,univ_fiscal_prd_cd," 
                 + "trn_ldgr_entr_desc,trn_ldgr_entr_amt,trn_debit_crdt_cd,transaction_dt,fdoc_typ_cd,org_doc_nbr,project_cd," 
                 + "org_reference_id,fdoc_ref_typ_cd,fs_ref_origin_cd,fdoc_ref_nbr,fdoc_reversal_dt,trn_encum_updt_cd,fdoc_approved_cd," 
-                + "acct_sf_finobj_cd,trn_entr_ofst_cd,trnentr_process_tm,bdgt_yr) values ('01','2',3,sys_guid(),1,'BA','223456'," 
-                + "null,'4163',null,'AC','EX',2004,'01','Description',100,'D',sysdate,'JV',13,null,null,null,null,null,null,' ','A','4166',null,null,null)");
+                + "acct_sf_finobj_cd,trn_entr_ofst_cd,trnentr_process_tm) values ('01','2',3,sys_guid(),1,'BA','223456'," 
+                + "null,'4163',null,'AC','EX',2004,'01','Description',100,'D',sysdate,'JV',13,null,null,null,null,null,null,' ','A','4166',null,null)");
         
         unitTestSqlDao.sqlCommand("insert into gl_pending_entry_t (fs_origin_cd,fdoc_nbr,trn_entr_seq_nbr,obj_id,ver_nbr,fin_coa_cd,account_nbr," 
                 + "sub_acct_nbr,fin_object_cd,fin_sub_obj_cd,fin_balance_typ_cd,fin_obj_typ_cd,univ_fiscal_yr,univ_fiscal_prd_cd," 
                 + "trn_ldgr_entr_desc,trn_ldgr_entr_amt,trn_debit_crdt_cd,transaction_dt,fdoc_typ_cd,org_doc_nbr,project_cd," 
                 + "org_reference_id,fdoc_ref_typ_cd,fs_ref_origin_cd,fdoc_ref_nbr,fdoc_reversal_dt,trn_encum_updt_cd,fdoc_approved_cd," 
-                + "acct_sf_finobj_cd,trn_entr_ofst_cd,trnentr_process_tm,bdgt_yr) values ('01','2',4,sys_guid(),1,'BA','223456'," 
-                + "null,'4164',null,'AC','EX',2004,'01','Description',100,'C',sysdate,'JV',14,null,null,null,null,null,null,' ','A','4166',null,null,null)");
+                + "acct_sf_finobj_cd,trn_entr_ofst_cd,trnentr_process_tm) values ('01','2',4,sys_guid(),1,'BA','223456'," 
+                + "null,'4164',null,'AC','EX',2004,'01','Description',100,'C',sysdate,'JV',14,null,null,null,null,null,null,' ','A','4166',null,null)");
         
         unitTestSqlDao.sqlCommand("insert into gl_pending_entry_t (fs_origin_cd,fdoc_nbr,trn_entr_seq_nbr,obj_id,ver_nbr,fin_coa_cd,account_nbr," 
                 + "sub_acct_nbr,fin_object_cd,fin_sub_obj_cd,fin_balance_typ_cd,fin_obj_typ_cd,univ_fiscal_yr,univ_fiscal_prd_cd," 
                 + "trn_ldgr_entr_desc,trn_ldgr_entr_amt,trn_debit_crdt_cd,transaction_dt,fdoc_typ_cd,org_doc_nbr,project_cd," 
                 + "org_reference_id,fdoc_ref_typ_cd,fs_ref_origin_cd,fdoc_ref_nbr,fdoc_reversal_dt,trn_encum_updt_cd,fdoc_approved_cd," 
-                + "acct_sf_finobj_cd,trn_entr_ofst_cd,trnentr_process_tm,bdgt_yr) values ('01','3',5,sys_guid(),1,'BA','323456'," 
-                + "null,'4165',null,'AC','EX',2004,'01','Description',100,'',sysdate,'JV',15,null,null,null,null,null,null,' ','A','4166',null,null,null)");
+                + "acct_sf_finobj_cd,trn_entr_ofst_cd,trnentr_process_tm) values ('01','3',5,sys_guid(),1,'BA','323456'," 
+                + "null,'4165',null,'AC','EX',2004,'01','Description',100,'',sysdate,'JV',15,null,null,null,null,null,null,' ','A','4166',null,null)");
         
         unitTestSqlDao.sqlCommand("insert into gl_pending_entry_t (fs_origin_cd,fdoc_nbr,trn_entr_seq_nbr,obj_id,ver_nbr,fin_coa_cd,account_nbr," 
                 + "sub_acct_nbr,fin_object_cd,fin_sub_obj_cd,fin_balance_typ_cd,fin_obj_typ_cd,univ_fiscal_yr,univ_fiscal_prd_cd," 
                 + "trn_ldgr_entr_desc,trn_ldgr_entr_amt,trn_debit_crdt_cd,transaction_dt,fdoc_typ_cd,org_doc_nbr,project_cd," 
                 + "org_reference_id,fdoc_ref_typ_cd,fs_ref_origin_cd,fdoc_ref_nbr,fdoc_reversal_dt,trn_encum_updt_cd,fdoc_approved_cd," 
-                + "acct_sf_finobj_cd,trn_entr_ofst_cd,trnentr_process_tm,bdgt_yr) values ('01','3',6,sys_guid(),1,'BA','323456'," 
-                + "null,'4166',null,'AC','EX',2004,'01','Description',100,'',sysdate,'JV',16,null,null,null,null,null,null,' ','A','4166',null,null,null)");
+                + "acct_sf_finobj_cd,trn_entr_ofst_cd,trnentr_process_tm) values ('01','3',6,sys_guid(),1,'BA','323456'," 
+                + "null,'4166',null,'AC','EX',2004,'01','Description',100,'',sysdate,'JV',16,null,null,null,null,null,null,' ','A','4166',null,null)");
 
         nightlyOutService.copyApprovedPendingLedgerEntries();
 

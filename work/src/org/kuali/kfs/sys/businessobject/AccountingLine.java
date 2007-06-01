@@ -394,17 +394,6 @@ public interface AccountingLine extends PersistableBusinessObject {
     public boolean isTargetAccountingLine();
 
     /**
-     * @return Returns the budgetYear.
-     */
-    public String getBudgetYear();
-
-    /**
-     * @param budgetYear The budgetYear to set.
-     */
-    public void setBudgetYear(String budgetYear);
-
-
-    /**
      * @param other
      * @return true if this AccountingLine has the same primitive field values as the given one
      */

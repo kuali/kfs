@@ -54,7 +54,6 @@
                 <field attributeName="financialDocumentApprovedCode" />
                 <field attributeName="acctSufficientFundsFinObjCd" />
                 <field attributeName="transactionEntryProcessedTs" />
-                <field attributeName="budgetYear" />
                 <field attributeName="documentHeader.financialDocumentStatusCode" />
             </inquiryFields></inquirySection></inquirySections>
         </inquiry>
@@ -346,17 +345,6 @@
                 <description>transactionEntryProcessed description...</description>
             </attributeReference>
             
-            <attribute name="budgetYear" forceUppercase="false">
-                <label>Budget Year</label>
-                <shortLabel>Bdgt. Year</shortLabel>
-                <maxLength>4</maxLength>
-                <control>
-                    <text size="6" />
-                </control>
-                <summary>The budget year for this transaction.</summary>
-                <description>This is the budget year associated with this pending ledger entry.</description>
-            </attribute>
-                        
             <attribute name="documentHeader.financialDocumentStatusCode" forceUppercase="false">
 				<label>Pending Entry Approved Indicator</label>
                 <shortLabel>Pending Entry Approved Indicator</shortLabel>

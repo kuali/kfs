@@ -75,7 +75,6 @@ public class OriginEntry extends PersistableBusinessObjectBase implements Transa
     protected String transactionLedgerEntryDescription;
     protected String universityFiscalPeriodCode;
     protected Integer universityFiscalYear;
-    private String budgetYear;
     private boolean transactionScrubberOffsetGenerationIndicator;
 
     // bo references
@@ -123,7 +122,6 @@ public class OriginEntry extends PersistableBusinessObjectBase implements Transa
         transactionLedgerEntryDescription = glpe.getTransactionLedgerEntryDescription();
         universityFiscalPeriodCode = glpe.getUniversityFiscalPeriodCode();
         universityFiscalYear = glpe.getUniversityFiscalYear();
-        budgetYear = glpe.getBudgetYear();
     }
 
     /**
@@ -812,14 +810,6 @@ public class OriginEntry extends PersistableBusinessObjectBase implements Transa
 
     public void setReferenceDocumentType(DocumentType referenceDocumentType) {
         this.referenceDocumentType = referenceDocumentType;
-    }
-
-    public String getBudgetYear() {
-        return budgetYear;
-    }
-
-    public void setBudgetYear(String budgetYear) {
-        this.budgetYear = budgetYear;
     }
 
     public boolean isDebit() {

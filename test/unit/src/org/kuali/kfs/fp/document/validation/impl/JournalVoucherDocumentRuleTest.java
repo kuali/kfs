@@ -120,48 +120,6 @@ public class JournalVoucherDocumentRuleTest extends KualiTestBase {
     }
 
 
-    public void testProcessCustomRouteDocumentBusinessRules_accountingLines_notMatching_budgetYear() throws Exception {
-        JournalVoucherDocument document = createDocumentValidForRouting();
-        int budgetYear = 1990;
-        for (ListIterator i = document.getSourceAccountingLines().listIterator(); i.hasNext();) {
-            AccountingLine line = (AccountingLine) i.next();
-            line.setBudgetYear(Integer.toString(budgetYear + i.nextIndex()));
-            i.set(line);
-        }
-        for (ListIterator i = document.getTargetAccountingLines().listIterator(); i.hasNext();) {
-            AccountingLine line = (AccountingLine) i.next();
-            line.setBudgetYear(Integer.toString(budgetYear + 2 + i.nextIndex()));
-            i.set(line);
-        }
-
-        JournalVoucherDocumentRule rule = new JournalVoucherDocumentRule();
-        boolean failedAsExpected = !rule.processCustomRouteDocumentBusinessRules(document);
-
-        assertTrue(failedAsExpected);
-        assertTrue(GlobalVariables.getErrorMap().containsMessageKey(KFSKeyConstants.ERROR_ACCOUNTING_LINES_DIFFERENT_BUDGET_YEAR));
-    }
-
-    public void testProcessCustomRouteDocumentBusinessRules_accountingLines_matching_budgetYear() throws Exception {
-        JournalVoucherDocument document = createDocumentValidForRouting();
-        int budgetYear = 1990;
-        for (ListIterator i = document.getSourceAccountingLines().listIterator(); i.hasNext();) {
-            AccountingLine line = (AccountingLine) i.next();
-            line.setBudgetYear(Integer.toString(budgetYear));
-            i.set(line);
-        }
-        for (ListIterator i = document.getTargetAccountingLines().listIterator(); i.hasNext();) {
-            AccountingLine line = (AccountingLine) i.next();
-            line.setBudgetYear(Integer.toString(budgetYear));
-            i.set(line);
-        }
-
-        JournalVoucherDocumentRule rule = new JournalVoucherDocumentRule();
-        boolean passedAsExpected = rule.processCustomRouteDocumentBusinessRules(document);
-
-        assertTrue(passedAsExpected);
-        assertFalse(GlobalVariables.getErrorMap().containsMessageKey(KFSKeyConstants.ERROR_ACCOUNTING_LINES_DIFFERENT_BUDGET_YEAR));
-    }
-
     public void testIsDebit_debitCode() throws Exception {
         AccountingDocument accountingDocument = IsDebitTestUtils.getDocument(getDocumentService(), JournalVoucherDocument.class);
         AccountingLine accountingLine = (AccountingLine) accountingDocument.getSourceAccountingLineClass().newInstance();

@@ -817,9 +817,6 @@ public class KualiAccountingDocumentActionBase extends KualiTransactionalDocumen
         parameters.put(KFSConstants.DOC_FORM_KEY, callerDocFormKey);
         parameters.put(KFSConstants.BACK_LOCATION, basePath + mapping.getPath() + ".do");
 
-        if (StringUtils.isNotBlank(line.getBudgetYear())) {
-            parameters.put("budgetYear", line.getBudgetYear());
-        }
         if (StringUtils.isNotBlank(line.getReferenceOriginCode())) {
             parameters.put("referenceOriginCode", line.getReferenceOriginCode());
         }

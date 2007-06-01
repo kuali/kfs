@@ -204,7 +204,6 @@ public class PosterServiceTest extends OriginEntryTestBase {
         assertNull("FDOC_REF_NBR wrong", glEntry.get("FDOC_REF_NBR"));
         assertNull("FDOC_REVERSAL_DT wrong", glEntry.get("FDOC_REVERSAL_DT"));
         assertEquals("TRN_ENCUM_UPDT_CD wrong", " ", (String) glEntry.get("TRN_ENCUM_UPDT_CD"));
-        assertNull("BDGT_YR wrong", glEntry.get("BDGT_YR"));
 
         // The 2nd one should have a different sequence number
         glEntry = (Map) glEntries.get(1);

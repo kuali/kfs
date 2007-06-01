@@ -113,8 +113,7 @@ public abstract class ExpenseTransferDocumentFormBase extends LaborDocumentFormB
     /**
      * @see org.kuali.core.web.struts.form.KualiTransactionalDocumentFormBase#getForcedReadOnlyFields()
      */
-    @Override
-    public Map getForcedReadOnlyFields() {
+    public Map getForcedReadOnlySourceFields() {
         Map map = super.getForcedReadOnlyFields();
         map.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, Boolean.TRUE);
         map.put(KFSPropertyConstants.ACCOUNT_NUMBER, Boolean.TRUE);
@@ -125,6 +124,17 @@ public abstract class ExpenseTransferDocumentFormBase extends LaborDocumentFormB
         map.put(KFSPropertyConstants.ORGANIZATION_REFERENCE_ID, Boolean.TRUE);
         map.put(KFSPropertyConstants.POSITION_NUMBER, Boolean.TRUE);
         map.put(KFSPropertyConstants.PAYROLL_END_DATE_FISCAL_PERIOD_CODE, Boolean.TRUE);
+        map.put(KFSPropertyConstants.PAYROLL_END_DATE_FISCAL_YEAR, Boolean.TRUE);
+        return map;
+    }
+
+    /**
+     * @see org.kuali.core.web.struts.form.KualiTransactionalDocumentFormBase#getForcedReadOnlyFields()
+     */
+    public Map getForcedReadOnlyTargetFields() {
+        Map map = super.getForcedReadOnlyFields();
+        map.put(KFSPropertyConstants.PAYROLL_END_DATE_FISCAL_PERIOD_CODE, Boolean.TRUE);
+        map.put(KFSPropertyConstants.PAYROLL_END_DATE_FISCAL_YEAR, Boolean.TRUE);
         return map;
     }
 

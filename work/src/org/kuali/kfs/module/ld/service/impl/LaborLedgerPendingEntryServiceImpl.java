@@ -87,10 +87,10 @@ public class LaborLedgerPendingEntryServiceImpl implements LaborLedgerPendingEnt
         // we must clear them first before creating new ones
         document.getLaborLedgerPendingEntries().clear();
 
-        LOG.info("deleting existing ll pending ledger entries for document " + document.getDocumentNumber());
+        LOG.info("deleting existing labor ledger pending ledger entries for document " + document.getDocumentNumber());
         delete(document.getDocumentNumber());
 
-        LOG.info("generating ll pending ledger entries for document " + document.getDocumentNumber());
+        LOG.info("generating labor ledger pending ledger entries for document " + document.getDocumentNumber());
         GeneralLedgerPendingEntrySequenceHelper sequenceHelper = new GeneralLedgerPendingEntrySequenceHelper();
 
         // process accounting lines, generate labor ledger pending entries
@@ -102,7 +102,7 @@ public class LaborLedgerPendingEntryServiceImpl implements LaborLedgerPendingEnt
         }
 
         List<AccountingLine> targetAccountingLines = getTargetLines(document);
-        if (targetAccountingLines != null) {
+        if (targetAccountingLines != null) {           
             for (AccountingLine line : targetAccountingLines) {
                 success &= processLaborLedgerPendingEntryForAccountingLine(document, sequenceHelper, line);
             }
@@ -110,7 +110,7 @@ public class LaborLedgerPendingEntryServiceImpl implements LaborLedgerPendingEnt
 
         // compare source and target accounting lines, and generate benefit clearing liens as needed
         success &= processGenerateLaborLedgerBenefitClearingEntries(document, sequenceHelper);
-
+        
         return success;
     }
     

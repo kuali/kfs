@@ -58,6 +58,7 @@ public class BenefitExpenseTransferDocumentRule extends LaborExpenseTransferDocu
      * Constructs a BenefitExpenseTransferDocumentRule.java.
      */
     public BenefitExpenseTransferDocumentRule() {
+        super();
     }
 
     /**
@@ -148,7 +149,8 @@ public class BenefitExpenseTransferDocumentRule extends LaborExpenseTransferDocu
         // Generate orig entry
         PendingLedgerEntry originalEntry = (PendingLedgerEntry) ObjectUtils.deepCopy(defaultEntry);
         boolean success = processOriginalLaborLedgerPendingEntry(accountingDocument, sequenceHelper, accountingLine, originalEntry);
-        
+
+        System.out.println("completed processGenerateLaborLedgerPendingEntries: " + success + ":" + accountingDocument.getLaborLedgerPendingEntries().size());
         LOG.info("completed processGenerateLaborLedgerPendingEntries: " + success + ":" + accountingDocument.getLaborLedgerPendingEntries().size());
 
         return success;

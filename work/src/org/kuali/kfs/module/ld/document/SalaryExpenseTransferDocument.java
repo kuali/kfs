@@ -15,13 +15,10 @@
  */
 package org.kuali.module.labor.document;
 
-import org.kuali.core.document.Copyable;
-import org.kuali.core.document.Correctable;
-
 /**
  * Class representing the Salary Expense Transfer Document.
  */
-public class SalaryExpenseTransferDocument extends LaborExpenseTransferDocumentBase implements Copyable, Correctable {
+public class SalaryExpenseTransferDocument extends LaborExpenseTransferDocumentBase{
     /**
      * Initializes the array lists and some basic info.
      */

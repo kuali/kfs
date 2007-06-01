@@ -64,7 +64,7 @@ import org.kuali.module.labor.rule.GenerateLaborLedgerPendingEntriesRule;
  * 
  */
 
-public class SalaryExpenseTransferDocumentRule extends LaborExpenseTransferDocumentRules implements GenerateLaborLedgerPendingEntriesRule<LaborLedgerPostingDocument>, GenerateLaborLedgerBenefitClearingPendingEntriesRule<LaborLedgerPostingDocument>{
+public class SalaryExpenseTransferDocumentRule extends LaborExpenseTransferDocumentRules implements GenerateLaborLedgerBenefitClearingPendingEntriesRule<LaborLedgerPostingDocument>{
 
     // LLPE KFSConstants
     public static final String LABOR_LEDGER_ACCOUNT_NUMBER = "9712700";

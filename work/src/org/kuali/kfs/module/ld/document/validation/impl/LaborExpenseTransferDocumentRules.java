@@ -53,18 +53,20 @@ import org.kuali.module.labor.bo.PendingLedgerEntry;
 import org.kuali.module.labor.bo.PositionObjectBenefit;
 import org.kuali.module.labor.document.LaborLedgerPostingDocument;
 import org.kuali.module.labor.document.SalaryExpenseTransferDocument;
+import org.kuali.module.labor.rule.GenerateLaborLedgerPendingEntriesRule;
 
 /**
  * Business rule(s) applicable to Labor Expense Transfer documents.
  * 
  * 
  */
-public class LaborExpenseTransferDocumentRules extends AccountingDocumentRuleBase {
+public class LaborExpenseTransferDocumentRules extends AccountingDocumentRuleBase implements GenerateLaborLedgerPendingEntriesRule<LaborLedgerPostingDocument>{
 
     /**
      * Constructor
      */
     public LaborExpenseTransferDocumentRules() {
+        super();
     }   
     
     /**

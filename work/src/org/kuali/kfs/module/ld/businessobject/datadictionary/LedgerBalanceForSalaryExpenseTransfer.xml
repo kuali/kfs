@@ -122,7 +122,7 @@
                 <validationPattern><anyCharacter /></validationPattern>
 
                 <control>
-                    <lookupReadonly />
+                    <hidden />
                 </control>
 
                 <summary>financialObjectFringeOrSalaryCode</summary>
@@ -131,7 +131,7 @@
 
             <attributeReference name="emplid" sourceClassName="org.kuali.core.bo.user.UniversalUser" sourceAttributeName="personPayrollIdentifier">
                 <control>
-                    <lookupReadonly/>
+                    <hidden />
                 </control>
             </attributeReference>
 

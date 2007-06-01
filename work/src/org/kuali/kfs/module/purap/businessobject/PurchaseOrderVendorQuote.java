@@ -19,7 +19,9 @@ package org.kuali.module.purap.bo;
 import java.sql.Date;
 import java.util.LinkedHashMap;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.core.bo.PersistableBusinessObjectBase;
+import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.bo.Country;
 import org.kuali.module.purap.document.PurchaseOrderDocument;
 
@@ -146,6 +148,16 @@ public class PurchaseOrderVendorQuote extends PersistableBusinessObjectBase {
 		this.vendorDetailAssignedIdentifier = vendorDetailAssignedIdentifier;
 	}
 
+    public String getVendorNumber() {
+        String vendorNumber = "";
+        if (ObjectUtils.isNotNull(this.vendorHeaderGeneratedIdentifier)) {
+            vendorNumber = this.vendorHeaderGeneratedIdentifier.toString();
+        }
+        if (ObjectUtils.isNotNull(this.vendorDetailAssignedIdentifier)) {
+            vendorNumber += "-" + this.vendorDetailAssignedIdentifier.toString();
+        }
+        return vendorNumber;
+    }
 
 	/**
 	 * Gets the vendorName attribute.

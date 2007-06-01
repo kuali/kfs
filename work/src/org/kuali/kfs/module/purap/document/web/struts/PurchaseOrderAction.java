@@ -37,21 +37,25 @@ import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.web.struts.form.KualiDocumentFormBase;
 import org.kuali.kfs.KFSConstants;
+import org.kuali.kfs.KFSKeyConstants;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.PurapKeyConstants;
 import org.kuali.module.purap.PurapPropertyConstants;
 import org.kuali.module.purap.PurapConstants.PODocumentsStrings;
+import org.kuali.module.purap.PurapConstants.PaymentRequestStatuses;
 import org.kuali.module.purap.PurapConstants.PurchaseOrderDocTypes;
 import org.kuali.module.purap.bo.PurchaseOrderItem;
+import org.kuali.module.purap.bo.PurchaseOrderQuoteList;
+import org.kuali.module.purap.bo.PurchaseOrderVendorChoice;
 import org.kuali.module.purap.bo.PurchaseOrderVendorQuote;
 import org.kuali.module.purap.bo.PurchaseOrderVendorStipulation;
 import org.kuali.module.purap.document.PurchaseOrderDocument;
-import org.kuali.module.purap.document.PurchasingDocument;
 import org.kuali.module.purap.question.SingleConfirmationQuestion;
 import org.kuali.module.purap.web.struts.form.PurchaseOrderForm;
 import org.kuali.module.purap.web.struts.form.PurchasingFormBase;
 import org.kuali.module.vendor.bo.VendorDetail;
+import org.kuali.rice.KNSServiceLocator;
 
 /**
  * This class handles specific Actions requests for the Requisition.
@@ -80,7 +84,18 @@ public class PurchaseOrderAction extends PurchasingActionBase {
             refreshVendorDetail = (VendorDetail) businessObjectService.retrieve(refreshVendorDetail);
             document.templateAlternateVendor(refreshVendorDetail);
         }
-
+        // Handling lookups for quote vendor search that is specific to Purchase Order
+        if (request.getParameter("document.purchaseOrderQuoteListIdentifier") != null) {
+            // do a lookup and add all the vendors!
+            Integer poQuoteListIdentifier = document.getPurchaseOrderQuoteListIdentifier();
+            PurchaseOrderQuoteList poQuoteList = new PurchaseOrderQuoteList();
+            poQuoteList.setPurchaseOrderQuoteListIdentifier(poQuoteListIdentifier);
+            poQuoteList = (PurchaseOrderQuoteList) businessObjectService.retrieve(poQuoteList);
+//            for (PurchaseOrderQuoteList iterable_element : poQuoteList.get) {
+                 //TODO: fill in once service/objects are done
+//            }
+        }
+        
         // Handling lookups for quote vendor search that is specific to Purchase Order
         if (request.getParameter("document.newQuoteVendorHeaderGeneratedIdentifier") != null && request.getParameter("document.newQuoteVendorDetailAssignedIdentifier") != null) {
             // retrieve this vendor from DB and add it to the end of the list
@@ -89,7 +104,14 @@ public class PurchaseOrderAction extends PurchasingActionBase {
             newPOVendorQuote.setVendorName(newVendor.getVendorName());
             newPOVendorQuote.setVendorHeaderGeneratedIdentifier(newVendor.getVendorHeaderGeneratedIdentifier());
             newPOVendorQuote.setVendorDetailAssignedIdentifier(newVendor.getVendorDetailAssignedIdentifier());
-            newPOVendorQuote.setVendorName(newVendor.getVendorName());
+            newPOVendorQuote.setVendorCityName(newVendor.getDefaultAddressCity());
+            newPOVendorQuote.setVendorCountryCode(newVendor.getDefaultAddressCountryCode());
+            newPOVendorQuote.setVendorLine1Address(newVendor.getDefaultAddressLine1());
+            newPOVendorQuote.setVendorLine2Address(newVendor.getDefaultAddressLine2());
+            newPOVendorQuote.setVendorPostalCode(newVendor.getDefaultAddressPostalCode());
+            newPOVendorQuote.setVendorStateCode(newVendor.getDefaultAddressStateCode());
+            newPOVendorQuote.setVendorPhoneNumber(null);
+            newPOVendorQuote.setVendorFaxNumber(null);
             document.getPurchaseOrderVendorQuotes().add(newPOVendorQuote);
         }
 
@@ -718,18 +740,12 @@ public class PurchaseOrderAction extends PurchasingActionBase {
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
-    public ActionForward selectQuoteList(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        PurchaseOrderForm poForm = (PurchaseOrderForm) form;
-        PurchaseOrderDocument document = (PurchaseOrderDocument) poForm.getDocument();
-
-        return mapping.findForward(KFSConstants.MAPPING_BASIC);
-    }
-
     public ActionForward addVendor(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         PurchaseOrderForm poForm = (PurchaseOrderForm) form;
         PurchaseOrderDocument document = (PurchaseOrderDocument) poForm.getDocument();
         document.getPurchaseOrderVendorQuotes().add(poForm.getNewPurchaseOrderVendorQuote());
         poForm.setNewPurchaseOrderVendorQuote(new PurchaseOrderVendorQuote());
+        KNSServiceLocator.getDocumentService().updateDocument(document);
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
@@ -737,13 +753,60 @@ public class PurchaseOrderAction extends PurchasingActionBase {
         PurchaseOrderForm poForm = (PurchaseOrderForm) form;
         PurchaseOrderDocument document = (PurchaseOrderDocument) poForm.getDocument();
         document.getPurchaseOrderVendorQuotes().remove(getSelectedLine(request));
+        KNSServiceLocator.getDocumentService().updateDocument(document);
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
     public ActionForward completeQuote(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         PurchaseOrderForm poForm = (PurchaseOrderForm) form;
         PurchaseOrderDocument document = (PurchaseOrderDocument) poForm.getDocument();
-        document.setStatusCode(PurapConstants.PurchaseOrderStatuses.IN_PROCESS);
+        PurchaseOrderVendorQuote poQuote = new PurchaseOrderVendorQuote();
+        // verify quote status fields
+        if (poForm.getAwardedVendorNumber() == null) {
+            GlobalVariables.getErrorMap().putError(PurapPropertyConstants.VENDOR_QUOTES, PurapKeyConstants.ERROR_PURCHASE_ORDER_QUOTE_NO_VENDOR_AWARDED);
+        }
+        else {
+            poQuote = document.getPurchaseOrderVendorQuote(poForm.getAwardedVendorNumber().intValue());
+        }
+        
+        // use question framework to make sure they REALLY want to complete the quote...
+        String message = SpringServiceLocator.getKualiConfigurationService().getPropertyString(PurapKeyConstants.PURCHASE_ORDER_QUESTION_CONFIRM_AWARD);
+        message = StringUtils.replace(message, "{0}", document.getAwardedVendorQuote().getVendorName());
+        message = StringUtils.replace(message, "{1}", document.getAwardedVendorQuote().getPurchaseOrderQuoteAwardDate().toString());
+        message = StringUtils.replace(message, "{2}", document.getAwardedVendorQuote().getPurchaseOrderQuoteStatusCode());
+        message = StringUtils.replace(message, "{3}", document.getAwardedVendorQuote().getPurchaseOrderQuoteRankNumber());
+
+        Object question = request.getParameter(KFSConstants.QUESTION_INST_ATTRIBUTE_NAME);
+
+        if (question == null) {
+            // ask question if not already asked
+            return performQuestionWithoutInput(mapping, form, request, response, PODocumentsStrings.CONFIRM_AWARD_QUESTION, message, KFSConstants.CONFIRMATION_QUESTION,  PODocumentsStrings.CONFIRM_AWARD_RETURN, "");
+        }
+        else {
+            Object buttonClicked = request.getParameter(KFSConstants.QUESTION_CLICKED_BUTTON);
+            if ((PODocumentsStrings.CONFIRM_AWARD_QUESTION.equals(question)) && ConfirmationQuestion.YES.equals(buttonClicked)) {
+                // set awarded date
+                poQuote.setPurchaseOrderQuoteAwardDate(SpringServiceLocator.getDateTimeService().getCurrentSqlDate());
+
+                // PO vendor information updated with awarded vendor
+                document.setVendorName(poQuote.getVendorName());
+                document.setVendorNumber(poQuote.getVendorNumber());
+                document.setVendorHeaderGeneratedIdentifier(poQuote.getVendorHeaderGeneratedIdentifier());
+                document.setVendorDetailAssignedIdentifier(poQuote.getVendorDetailAssignedIdentifier());
+//                document.setVendorDetail(poQuote.getVendorDetail());
+                document.setVendorLine1Address(poQuote.getVendorLine1Address());
+                document.setVendorLine2Address(poQuote.getVendorLine2Address());
+                document.setVendorCityName(poQuote.getVendorCityName());
+                document.setVendorStateCode(poQuote.getVendorStateCode());
+                document.setVendorCountryCode(poQuote.getVendorCountryCode());
+                document.setVendorPhoneNumber(poQuote.getVendorPhoneNumber());
+                document.setVendorFaxNumber(poQuote.getVendorFaxNumber());
+
+                document.setStatusCode(PurapConstants.PurchaseOrderStatuses.IN_PROCESS);
+                KNSServiceLocator.getDocumentService().updateDocument(document);
+            }
+        }
+
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
@@ -758,10 +821,32 @@ public class PurchaseOrderAction extends PurchasingActionBase {
             }
         }
 
-        // TODO: AAP - need to add step here to get quote cancel reason!
-        document.getPurchaseOrderVendorQuotes().clear();
-        document.setPurchaseOrderQuoteVendorNoteText(null);
-        document.setStatusCode(PurapConstants.PurchaseOrderStatuses.IN_PROCESS);
+        String message = SpringServiceLocator.getKualiConfigurationService().getPropertyString(PurapKeyConstants.PURCHASE_ORDER_QUESTION_CONFIRM_CANCEL_QUOTE);
+        Object question = request.getParameter(KFSConstants.QUESTION_INST_ATTRIBUTE_NAME);
+
+        if (question == null) {
+            // ask question if not already asked
+            return performQuestionWithInput(mapping, form, request, response, PODocumentsStrings.CONFIRM_CANCEL_QUESTION, message, KFSConstants.CONFIRMATION_QUESTION,  PODocumentsStrings.CONFIRM_CANCEL_RETURN, "");
+        }
+        else {
+            Object buttonClicked = request.getParameter(KFSConstants.QUESTION_CLICKED_BUTTON);
+            if ((PODocumentsStrings.CONFIRM_CANCEL_QUESTION.equals(question)) && ConfirmationQuestion.YES.equals(buttonClicked)) {
+                String reason = request.getParameter(KFSConstants.QUESTION_REASON_ATTRIBUTE_NAME);
+
+                if (StringUtils.isEmpty(reason)) {
+                    return performQuestionWithInputAgainBecauseOfErrors(mapping, form, request, response, PODocumentsStrings.CONFIRM_CANCEL_QUESTION, message, KFSConstants.CONFIRMATION_QUESTION,  PODocumentsStrings.CONFIRM_CANCEL_RETURN, "", "", PurapKeyConstants.ERROR_PURCHASE_ORDER_REASON_REQUIRED, KFSConstants.QUESTION_REASON_ATTRIBUTE_NAME, "250");
+                }
+                document.getPurchaseOrderVendorQuotes().clear();
+                Note cancelNote = new Note();
+                cancelNote.setAuthorUniversalIdentifier(GlobalVariables.getUserSession().getUniversalUser().getPersonUniversalIdentifier());
+                String reasonPrefix = SpringServiceLocator.getKualiConfigurationService().getPropertyString(PurapKeyConstants.PURCHASE_ORDER_CANCEL_QUOTE_NOTE_TEXT);
+                cancelNote.setNoteText(reasonPrefix + reason);
+                document.addNote(cancelNote);
+                document.setStatusCode(PurapConstants.PurchaseOrderStatuses.IN_PROCESS);
+                KNSServiceLocator.getDocumentService().updateDocument(document);
+            }
+        }
+
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 

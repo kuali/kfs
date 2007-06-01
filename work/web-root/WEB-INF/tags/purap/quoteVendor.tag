@@ -20,9 +20,10 @@
 <%@ attribute name="vendorQuoteAttributes" required="true" type="java.util.Map"
               description="The DataDictionary entry containing attributes for this row's fields." %>
 <%@ attribute name="ctr" required="true" description="vendor count"%>
-<%@ attribute name="sysVendor" required="false" description="vendor is from system?" %>
+<%@ attribute name="isPurchaseOrderAwarded" required="true" description="has the PO been awarded?" %>
+<%@ attribute name="isSysVendor" required="false" description="vendor is from system?" %>
+<%@ attribute name="isRanked" required="false" description="vendor is ranked?" %>
 
-<c:out value="${sysVendor}" />
         <tr>
 			<td colspan="5" class="subhead">
 				<span class="subhead-left">Vendor ${ctr + 1}</span>
@@ -33,20 +34,23 @@
                 <div align="right"><kul:htmlAttributeLabel attributeEntry="${vendorQuoteAttributes.vendorName}" /></div>
             </th>
             <td align=left valign=middle class="datacell">
-                <kul:htmlControlAttribute readOnly="${sysVendor}" attributeEntry="${vendorQuoteAttributes.vendorName}" property="document.purchaseOrderVendorQuote[${ctr}].vendorName" />
+                <kul:htmlControlAttribute attributeEntry="${vendorQuoteAttributes.vendorName}" property="document.purchaseOrderVendorQuote[${ctr}].vendorName" readOnly="${isPurchaseOrderAwarded || isSysVendor}" />
             </td>
             <th align=right valign=middle class="bord-l-b">
                 <div align="right"><kul:htmlAttributeLabel attributeEntry="${vendorQuoteAttributes.vendorHeaderGeneratedIdentifier}" /></div>
             </th>
             <td align=left valign=middle class="datacell">
-            	<c:if test="${not sysVendor}">N/A</c:if>
-                <kul:htmlControlAttribute readOnly="true" attributeEntry="${vendorQuoteAttributes.vendorHeaderGeneratedIdentifier}" property="document.purchaseOrderVendorQuote[${ctr}].vendorHeaderGeneratedIdentifier" />
+            	<c:if test="${not isSysVendor}">N/A</c:if>
+                <kul:htmlControlAttribute attributeEntry="${vendorQuoteAttributes.vendorHeaderGeneratedIdentifier}" property="document.purchaseOrderVendorQuote[${ctr}].vendorHeaderGeneratedIdentifier" readOnly="true" />
             </td>
-            <td rowspan="9"><html:image
+            <td rowspan="9">
+            	<c:if test="${isPurchaseOrderAwarded}">
+            	<html:image
 	property="methodToCall.deleteVendor.line${ctr}"
 	src="${ConfigProperties.kr.externalizable.images.url}tinybutton-delete1.gif"
 	alt="delete vendor" title="delete vendor"
-	styleClass="tinybutton" />
+	styleClass="tinybutton" />&nbsp;
+				</c:if>
 			</td>
         </tr>
         <tr>
@@ -54,13 +58,13 @@
                 <div align="right"><kul:htmlAttributeLabel attributeEntry="${vendorQuoteAttributes.vendorLine1Address}" /></div>
             </th>
             <td align=left valign=middle class="datacell">
-                <kul:htmlControlAttribute attributeEntry="${vendorQuoteAttributes.vendorLine1Address}" property="document.purchaseOrderVendorQuote[${ctr}].vendorLine1Address" />
+                <kul:htmlControlAttribute attributeEntry="${vendorQuoteAttributes.vendorLine1Address}" property="document.purchaseOrderVendorQuote[${ctr}].vendorLine1Address" readOnly="${isPurchaseOrderAwarded}" />
             </td>
             <th align=right valign=middle class="bord-l-b">
                 <div align="right"><kul:htmlAttributeLabel attributeEntry="${vendorQuoteAttributes.vendorPhoneNumber}" /></div>
             </th>
             <td align=left valign=middle class="datacell">
-                <kul:htmlControlAttribute attributeEntry="${vendorQuoteAttributes.vendorPhoneNumber}" property="document.purchaseOrderVendorQuote[${ctr}].vendorPhoneNumber" />
+                <kul:htmlControlAttribute attributeEntry="${vendorQuoteAttributes.vendorPhoneNumber}" property="document.purchaseOrderVendorQuote[${ctr}].vendorPhoneNumber" readOnly="${isPurchaseOrderAwarded}" />
             </td>
         </tr>
         <tr>
@@ -68,13 +72,13 @@
                 <div align="right"><kul:htmlAttributeLabel attributeEntry="${vendorQuoteAttributes.vendorLine2Address}" /></div>
             </th>
             <td align=left valign=middle class="datacell">
-                <kul:htmlControlAttribute attributeEntry="${vendorQuoteAttributes.vendorLine2Address}" property="document.purchaseOrderVendorQuote[${ctr}].vendorLine2Address" />
+                <kul:htmlControlAttribute attributeEntry="${vendorQuoteAttributes.vendorLine2Address}" property="document.purchaseOrderVendorQuote[${ctr}].vendorLine2Address" readOnly="${isPurchaseOrderAwarded}" />
             </td>
             <th align=right valign=middle class="bord-l-b">
                 <div align="right"><kul:htmlAttributeLabel attributeEntry="${vendorQuoteAttributes.vendorFaxNumber}" /></div>
             </th>
             <td align=left valign=middle class="datacell">
-                <kul:htmlControlAttribute attributeEntry="${vendorQuoteAttributes.vendorFaxNumber}" property="document.purchaseOrderVendorQuote[${ctr}].vendorFaxNumber" />
+                <kul:htmlControlAttribute attributeEntry="${vendorQuoteAttributes.vendorFaxNumber}" property="document.purchaseOrderVendorQuote[${ctr}].vendorFaxNumber" readOnly="${isPurchaseOrderAwarded}" />
             </td>
         </tr>
         <tr>
@@ -84,8 +88,8 @@
                 <kul:htmlAttributeLabel attributeEntry="${vendorQuoteAttributes.vendorStateCode}" /></div>
             </th>
             <td align=left valign=middle class="datacell">
-                <kul:htmlControlAttribute attributeEntry="${vendorQuoteAttributes.vendorCityName}" property="document.purchaseOrderVendorQuote[${ctr}].vendorCityName" />
-                <kul:htmlControlAttribute attributeEntry="${vendorQuoteAttributes.vendorStateCode}" property="document.purchaseOrderVendorQuote[${ctr}].vendorStateCode" />
+                <kul:htmlControlAttribute attributeEntry="${vendorQuoteAttributes.vendorCityName}" property="document.purchaseOrderVendorQuote[${ctr}].vendorCityName" readOnly="${isPurchaseOrderAwarded}" />
+                <kul:htmlControlAttribute attributeEntry="${vendorQuoteAttributes.vendorStateCode}" property="document.purchaseOrderVendorQuote[${ctr}].vendorStateCode" readOnly="${isPurchaseOrderAwarded}" />
             </td>
             <td colspan="2">&nbsp;</td>
         </tr>
@@ -94,18 +98,20 @@
                 <div align="right"><kul:htmlAttributeLabel attributeEntry="${vendorQuoteAttributes.vendorPostalCode}" />
             </th>
             <td align=left valign=middle class="datacell">
-                <kul:htmlControlAttribute attributeEntry="${vendorQuoteAttributes.vendorPostalCode}" property="document.purchaseOrderVendorQuote[${ctr}].vendorPostalCode" />
+                <kul:htmlControlAttribute attributeEntry="${vendorQuoteAttributes.vendorPostalCode}" property="document.purchaseOrderVendorQuote[${ctr}].vendorPostalCode" readOnly="${isPurchaseOrderAwarded}" />
             </td>
             <th align=right valign=middle class="bord-l-b">
                 <div align="right"><kul:htmlAttributeLabel attributeEntry="${vendorQuoteAttributes.purchaseOrderQuoteTransmitTypeCode}" />
             </th>
             <td align=left valign=middle class="datacell">
-                <kul:htmlControlAttribute attributeEntry="${vendorQuoteAttributes.purchaseOrderQuoteTransmitTypeCode}" property="document.purchaseOrderVendorQuote[${ctr}].purchaseOrderQuoteTransmitTypeCode" />
-					<html:image
-	property="methodToCall.transmitQuote.line${ctr}"
-	src="${ConfigProperties.externalizable.images.url}tinybutton-transmit.gif"
-	alt="transmit quote" title="transmit quote"
-	styleClass="tinybutton" />
+                <kul:htmlControlAttribute attributeEntry="${vendorQuoteAttributes.purchaseOrderQuoteTransmitTypeCode}" property="document.purchaseOrderVendorQuote[${ctr}].purchaseOrderQuoteTransmitTypeCode" readOnly="${isPurchaseOrderAwarded}" />
+            	<c:if test="${isPurchaseOrderAwarded}">
+					<html:link property="methodToCall.transmitQuote.line${ctr}" target="_BLANK">
+						<html:img src="${ConfigProperties.externalizable.images.url}tinybutton-transmit.gif"
+							alt="transmit quote" title="transmit quote" 
+							styleClass="tinybutton" />
+					</html:link>
+				</c:if>
             </td>
         </tr>
         <tr>
@@ -113,13 +119,13 @@
                 <div align="right"><kul:htmlAttributeLabel attributeEntry="${vendorQuoteAttributes.vendorAttentionName}" />
             </th>
             <td align=left valign=middle class="datacell">
-                <kul:htmlControlAttribute attributeEntry="${vendorQuoteAttributes.vendorAttentionName}" property="document.purchaseOrderVendorQuote[${ctr}].vendorAttentionName" />
+                <kul:htmlControlAttribute attributeEntry="${vendorQuoteAttributes.vendorAttentionName}" property="document.purchaseOrderVendorQuote[${ctr}].vendorAttentionName" readOnly="${isPurchaseOrderAwarded}" />
             </td>
             <th align=right valign=middle class="bord-l-b">
                 <div align="right"><kul:htmlAttributeLabel attributeEntry="${vendorQuoteAttributes.purchaseOrderQuoteTransmitDate}" />
             </th>
             <td align=left valign=middle class="datacell">
-                <kul:htmlControlAttribute readOnly="true" attributeEntry="${vendorQuoteAttributes.purchaseOrderQuoteTransmitDate}" property="document.purchaseOrderVendorQuote[${ctr}].purchaseOrderQuoteTransmitDate" />
+                <kul:htmlControlAttribute attributeEntry="${vendorQuoteAttributes.purchaseOrderQuoteTransmitDate}" property="document.purchaseOrderVendorQuote[${ctr}].purchaseOrderQuoteTransmitDate" readOnly="true" />
             </td>
         </tr>
         <tr>
@@ -127,7 +133,7 @@
                 <div align="right"><kul:htmlAttributeLabel attributeEntry="${vendorQuoteAttributes.purchaseOrderQuotePriceExpirationDate}" />
             </th>
             <td align=left valign=middle class="datacell">
-                <kul:htmlControlAttribute attributeEntry="${vendorQuoteAttributes.purchaseOrderQuotePriceExpirationDate}" property="document.purchaseOrderVendorQuote[${ctr}].purchaseOrderQuotePriceExpirationDate" />
+                <kul:htmlControlAttribute attributeEntry="${vendorQuoteAttributes.purchaseOrderQuotePriceExpirationDate}" property="document.purchaseOrderVendorQuote[${ctr}].purchaseOrderQuotePriceExpirationDate" readOnly="${isPurchaseOrderAwarded}" />
             </td>
             <td colspan="2">&nbsp;</td>
         </tr>
@@ -136,27 +142,42 @@
                 <div align="right"><kul:htmlAttributeLabel attributeEntry="${vendorQuoteAttributes.purchaseOrderQuoteStatusCode}" />
             </th>
             <td align=left valign=middle class="datacell">
-                <kul:htmlControlAttribute attributeEntry="${vendorQuoteAttributes.purchaseOrderQuoteStatusCode}" property="document.purchaseOrderVendorQuote[${ctr}].purchaseOrderQuoteStatusCode" />
+                <kul:htmlControlAttribute attributeEntry="${vendorQuoteAttributes.purchaseOrderQuoteStatusCode}" property="document.purchaseOrderVendorQuote[${ctr}].purchaseOrderQuoteStatusCode" readOnly="${isPurchaseOrderAwarded}" />
             </td>
             <th align=right valign=middle class="bord-l-b">
                 <div align="right"><kul:htmlAttributeLabel attributeEntry="${vendorQuoteAttributes.purchaseOrderQuoteRankNumber}" />
             </th>
             <td align=left valign=middle class="datacell">
-                <kul:htmlControlAttribute attributeEntry="${vendorQuoteAttributes.purchaseOrderQuoteRankNumber}" property="document.purchaseOrderVendorQuote[${ctr}].purchaseOrderQuoteRankNumber" />
+                <kul:htmlControlAttribute attributeEntry="${vendorQuoteAttributes.purchaseOrderQuoteRankNumber}" property="document.purchaseOrderVendorQuote[${ctr}].purchaseOrderQuoteRankNumber" readOnly="${isPurchaseOrderAwarded}" />
             </td>
         </tr>
         <tr>
             <th align=right valign=middle class="bord-l-b">
-                Award:
-            	<c:if test="${sysVendor && not empty document.purchaseOrderVendorQuote[ctr].purchaseOrderQuoteRankNumber}"><html:radio property="document.dvWireTransfer.disbursementVoucherForeignCurrencyTypeCode" value="${ctr} }"/></c:if>
+            	<c:if test="${isPurchaseOrderAwarded}">
+            		Awarded:
+            	</c:if>
+            	<c:if test="${!isPurchaseOrderAwarded}">
+            		Award:
+            	</c:if>
             </th>
             <td align=left valign=middle class="datacell">
+            	<c:if test="${isSysVendor && isRanked && not isPurchaseOrderAwarded}">
+	            	<html:radio property="awardedVendorNumber" value="${ctr}" />
+            	</c:if>
+            	<c:if test="${isPurchaseOrderAwarded}">
+	           		<c:if test="${empty document.purchaseOrderVendorQuote[ctr].purchaseOrderQuoteAwardDate}">
+	           			No
+	           		</c:if>
+	           		<c:if test="${not empty document.purchaseOrderVendorQuote[ctr].purchaseOrderQuoteAwardDate}">
+	           			Yes
+	           		</c:if>
+            	</c:if>
 				&nbsp;
             </td>
             <th align=right valign=middle class="bord-l-b">
                 <div align="right"><kul:htmlAttributeLabel attributeEntry="${vendorQuoteAttributes.purchaseOrderQuoteAwardDate}" />
             </th>
             <td align=left valign=middle class="datacell">
-                <kul:htmlControlAttribute readOnly="true" attributeEntry="${vendorQuoteAttributes.purchaseOrderQuoteAwardDate}" property="document.purchaseOrderVendorQuote[${ctr}].purchaseOrderQuoteAwardDate" />
+                <kul:htmlControlAttribute attributeEntry="${vendorQuoteAttributes.purchaseOrderQuoteAwardDate}" property="document.purchaseOrderVendorQuote[${ctr}].purchaseOrderQuoteAwardDate" readOnly="true" />
             </td>
         </tr>

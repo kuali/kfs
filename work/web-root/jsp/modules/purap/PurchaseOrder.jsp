@@ -71,11 +71,9 @@
     <purap:stipulationsAndInfo
         documentAttributes="${DataDictionary.KualiPurchaseOrderDocument.attributes}" />
 
-
     <purap:puritems itemAttributes="${DataDictionary.PurchaseOrderItem.attributes}"
         accountingLineAttributes="${DataDictionary.PurchaseOrderAccount.attributes}"
         camsAttributes="${DataDictionary.PurchaseOrderItemCapitalAsset.attributes}" /> 
-
      
     <purap:paymentinfo
         documentAttributes="${DataDictionary.KualiPurchaseOrderDocument.attributes}" 
@@ -92,7 +90,8 @@
 
     <purap:quotes
         documentAttributes="${DataDictionary.KualiPurchaseOrderDocument.attributes}"
-        vendorQuoteAttributes="${DataDictionary.PurchaseOrderVendorQuote.attributes}" /> 
+        vendorQuoteAttributes="${DataDictionary.PurchaseOrderVendorQuote.attributes}"
+        isPurchaseOrderAwarded="${KualiForm.document.purchaseOrderAwarded}" /> 
 
     <purap:relatedDocuments
             documentAttributes="${DataDictionary.RelatedDocuments.attributes}" />

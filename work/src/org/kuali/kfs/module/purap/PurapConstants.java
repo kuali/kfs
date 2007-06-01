@@ -77,7 +77,7 @@ public class PurapConstants {
 
     public static class QuoteTransmitTypes {
         public static final String PRINT = "PRINT";
-        public static final String FAX = "FAX";
+//        public static final String FAX = "FAX";
     }
 
     public static class QuoteStatusCode {
@@ -295,6 +295,12 @@ public class PurapConstants {
         public static String AMENDMENT_PO_QUESTION = "AmendmentPO";
         public static String CONFIRM_AMENDMENT_QUESTION = "ConfirmAmendment";
         public static String AMENDMENT_NOTE_PREFIX = "Note entered while amending a Purchase Order : ";
+
+        public static String CONFIRM_AWARD_QUESTION = "POConfirmAward";
+        public static String CONFIRM_AWARD_RETURN = "completeQuote";
+
+        public static String CONFIRM_CANCEL_QUESTION = "POCancelQuote";
+        public static String CONFIRM_CANCEL_RETURN = "cancelQuote";
 
         public static String SINGLE_CONFIRMATION_QUESTION = "singleConfirmationQuestion";
     }

@@ -39,12 +39,14 @@ public class PurchaseOrderForm extends PurchasingFormBase {
 
     private PurchaseOrderVendorStipulation newPurchaseOrderVendorStipulationLine;
     private PurchaseOrderVendorQuote newPurchaseOrderVendorQuote;
+    private Long awardedVendorNumber;
     
     // Retransmit.
     private String[] retransmitItemsSelected = {};
     private String retransmitTransmissionMethod;
     private String retransmitFaxNumber;
     private String retransmitHeader;
+    
     
     //Need this for amendment for accounting line only
     protected Map accountingLineEditingMode;
@@ -225,5 +227,14 @@ public class PurchaseOrderForm extends PurchasingFormBase {
     public void setAccountingLineEditingMode(Map accountingLineEditingMode) {
         this.accountingLineEditingMode = accountingLineEditingMode;
     }
+
+    public Long getAwardedVendorNumber() {
+        return awardedVendorNumber;
+    }
+
+    public void setAwardedVendorNumber(Long awardedVendorNumber) {
+        this.awardedVendorNumber = awardedVendorNumber;
+    }
+    
     
 }

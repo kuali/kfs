@@ -93,6 +93,7 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase implements Cop
     private String alternateVendorNumber;
     private String purchaseOrderRetransmissionMethodCode;
     private String retransmitHeader;
+    private Integer purchaseOrderQuoteListIdentifier;
     
     // REFERENCE OBJECTS
     private PurchaseOrderVendorChoice purchaseOrderVendorChoice;
@@ -683,7 +684,27 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase implements Cop
     public void setNewQuoteVendorHeaderGeneratedIdentifier(Integer newQuoteVendorHeaderGeneratedIdentifier) {
         this.newQuoteVendorHeaderGeneratedIdentifier = newQuoteVendorHeaderGeneratedIdentifier;
     }
+    
+    public Integer getPurchaseOrderQuoteListIdentifier() {
+        return purchaseOrderQuoteListIdentifier;
+    }
 
+    public void setPurchaseOrderQuoteListIdentifier(Integer purchaseOrderQuoteListIdentifier) {
+        this.purchaseOrderQuoteListIdentifier = purchaseOrderQuoteListIdentifier;
+    }
+
+    public boolean isPurchaseOrderAwarded() {
+        return (getAwardedVendorQuote() != null);
+    }
+
+    public PurchaseOrderVendorQuote getAwardedVendorQuote() {
+        for (PurchaseOrderVendorQuote vendorQuote : purchaseOrderVendorQuotes) {
+            if (vendorQuote.getPurchaseOrderQuoteAwardDate() != null) {
+                return vendorQuote;
+            }
+        }
+        return null;
+    }
     /**
      * @see org.kuali.module.purap.document.PurchasingAccountsPayableDocumentBase#getSourceAccountingLineClass()
      */

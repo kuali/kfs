@@ -19,6 +19,7 @@
               description="The DataDictionary entry containing attributes for this doc's fields." %>
 <%@ attribute name="vendorQuoteAttributes" required="true" type="java.util.Map"
               description="The DataDictionary entry containing attributes for this row's fields." %>
+<%@ attribute name="isPurchaseOrderAwarded" required="true" description="has the PO been awarded?" %>
 
 <c:set var="amendmentEntry"
 	value="${(not empty KualiForm.editingMode['amendmentEntry'])}" />
@@ -30,7 +31,7 @@
 		summary="Items Section">
 		
 		<!-- if status is OPEN or vendor list is not empty -->
-		<c:if test="${KualiForm.document.statusCode eq 'QUOT'}">
+		<c:if test="${KualiForm.document.statusCode eq 'QUOT' || isPurchaseOrderAwarded}">
 		<tr>
 			<td colspan="5" class="subhead">
 				<span class="subhead-left">General Information</span>
@@ -48,13 +49,13 @@
                  <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.purchaseOrderQuoteDueDate}" /></div>
              </th>
              <td align=left valign=middle class="datacell">
-                 <kul:htmlControlAttribute attributeEntry="${documentAttributes.purchaseOrderQuoteDueDate}" property="document.purchaseOrderQuoteDueDate" />
+                 <kul:htmlControlAttribute attributeEntry="${documentAttributes.purchaseOrderQuoteDueDate}" property="document.purchaseOrderQuoteDueDate" readOnly="${isPurchaseOrderAwarded}" />
              </td>
              <th align=right valign=middle class="bord-l-b" rowspan="2">
                  <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.purchaseOrderQuoteVendorNoteText}" /></div>
              </th>
              <td align=left valign=middle class="datacell" rowspan="2" colspan="2">
-                 <kul:htmlControlAttribute attributeEntry="${documentAttributes.purchaseOrderQuoteVendorNoteText}" property="document.purchaseOrderQuoteVendorNoteText" />
+                 <kul:htmlControlAttribute attributeEntry="${documentAttributes.purchaseOrderQuoteVendorNoteText}" property="document.purchaseOrderQuoteVendorNoteText" readOnly="${isPurchaseOrderAwarded}" />
              </td>
         </tr>
         <tr>
@@ -62,25 +63,25 @@
                  <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.purchaseOrderQuoteTypeCode}" /></div>
              </th>
              <td align=left valign=middle class="datacell">
-                 <kul:htmlControlAttribute attributeEntry="${documentAttributes.purchaseOrderQuoteTypeCode}" property="document.purchaseOrderQuoteTypeCode" />
+                 <kul:htmlControlAttribute attributeEntry="${documentAttributes.purchaseOrderQuoteTypeCode}" property="document.purchaseOrderQuoteTypeCode" readOnly="${isPurchaseOrderAwarded}" />
              </td>
         </tr>
 
 		<tr>
 			<td colspan="5" class="subhead">
 				<span class="subhead-left">Vendor Information</span>
-				<span class="subhead-right">
-					<html:image
-	property="methodToCall.selectQuoteList"
-	src="${ConfigProperties.externalizable.images.url}tinybutton-selquolist.gif"
-	alt="select quote list" title="select quote list"
-	styleClass="tinybutton" />
-					<input type="image" name="methodToCall.performLookup.(!!org.kuali.module.vendor.bo.VendorDetail!!).(((vendorHeaderGeneratedIdentifier:document.newQuoteVendorHeaderGeneratedIdentifier,vendorDetailAssignedIdentifier:document.newQuoteVendorDetailAssignedIdentifier)))"
-					   src="${ConfigProperties.externalizable.images.url}tinybutton-searchvend.gif" border="0" class="tinybutton" valign="middle" alt="Search for a Vendor" title="Search for a Vendor" />
-				</span>
+				<c:if test="${isPurchaseOrderAwarded}">
+					<span class="subhead-right">
+						<input type="image" name="methodToCall.performLookup.(!!org.kuali.module.purap.bo.PurchaseOrderQuoteList!!).(((purchaseOrderQuoteListIdentifier:document.purchaseOrderQuoteListIdentifier)))"
+						   src="${ConfigProperties.externalizable.images.url}tinybutton-selquolist.gif" border="0" class="tinybutton" valign="middle" alt="Search for a Vendor" title="Search for a Vendor" />
+						<input type="image" name="methodToCall.performLookup.(!!org.kuali.module.vendor.bo.VendorDetail!!).(((vendorHeaderGeneratedIdentifier:document.newQuoteVendorHeaderGeneratedIdentifier,vendorDetailAssignedIdentifier:document.newQuoteVendorDetailAssignedIdentifier)))"
+						   src="${ConfigProperties.externalizable.images.url}tinybutton-searchvend.gif" border="0" class="tinybutton" valign="middle" alt="Search for a Vendor" title="Search for a Vendor" />
+					</span>
+				</c:if>
 			</td>
 		</tr>
 
+		<c:if test="${!isPurchaseOrderAwarded}">
         <tr>
 			<td colspan="5" class="subhead">
 				<span class="subhead-left">New Vendor</span>
@@ -187,15 +188,19 @@
                 <kul:htmlControlAttribute attributeEntry="${vendorQuoteAttributes.purchaseOrderQuoteRankNumber}" property="newPurchaseOrderVendorQuote.purchaseOrderQuoteRankNumber" />
             </td>
         </tr>
+		</c:if>
 
 		<logic:iterate indexId="ctr" name="KualiForm" property="document.purchaseOrderVendorQuotes" id="quoteLine">
 		    <purap:quoteVendor
 		        documentAttributes="${DataDictionary.KualiPurchaseOrderDocument.attributes}"
 		        vendorQuoteAttributes="${DataDictionary.PurchaseOrderVendorQuote.attributes}"
-		        sysVendor="${not empty quoteLine.vendorHeaderGeneratedIdentifier}"
+		        isSysVendor="${not empty quoteLine.vendorHeaderGeneratedIdentifier}"
+		        isRanked="${not empty quoteLine.purchaseOrderQuoteRankNumber}"
+		        isPurchaseOrderAwarded="${isPurchaseOrderAwarded}"
 		        ctr="${ctr}" /> 
 		</logic:iterate>
 
+		<c:if test="${not isPurchaseOrderAwarded}">
 		<tr>
 			<td colspan="5">
 				<div align="center">
@@ -213,7 +218,9 @@
 			</td>
 		</tr>
 		</c:if>
-		<c:if test="${not (KualiForm.document.statusCode eq 'QUOT')}">
+
+		</c:if>
+		<c:if test="${not (KualiForm.document.statusCode eq 'QUOT') && not isPurchaseOrderAwarded}">
 		<tr>
 			<td colspan="5" class="subhead">
 				<span class="subhead-right">

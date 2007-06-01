@@ -266,13 +266,6 @@ public class TransferOfFundsDocumentRuleTest extends KualiTestBase {
         assertTrue(IsDebitTestUtils.isDebitIllegalStateException(getDocumentTypeService(), getDataDictionaryService(), accountingDocument, accountingLine));
     }
 
-    public void testIsDebit_errorCorrection_source_income_positveAmount() throws Exception {
-        AccountingDocument accountingDocument = IsDebitTestUtils.getErrorCorrectionDocument(getDocumentService(), TransferOfFundsDocument.class);
-        AccountingLine accountingLine = IsDebitTestUtils.getIncomeLine(accountingDocument, SourceAccountingLine.class, POSITIVE);
-
-        assertTrue(IsDebitTestUtils.isDebitIllegalStateException(getDocumentTypeService(), getDataDictionaryService(), accountingDocument, accountingLine));
-    }
-
     public void testIsDebit_errorCorrection_source_income_negativeAmount() throws Exception {
         AccountingDocument accountingDocument = IsDebitTestUtils.getErrorCorrectionDocument(getDocumentService(), TransferOfFundsDocument.class);
         AccountingLine accountingLine = IsDebitTestUtils.getIncomeLine(accountingDocument, SourceAccountingLine.class, NEGATIVE);
@@ -280,33 +273,11 @@ public class TransferOfFundsDocumentRuleTest extends KualiTestBase {
         assertFalse(IsDebitTestUtils.isDebit(getDocumentTypeService(), getDataDictionaryService(), accountingDocument, accountingLine));
     }
 
-    public void testIsDebit_errorCorrection_source_income_zeroAmount() throws Exception {
-
-        AccountingDocument accountingDocument = IsDebitTestUtils.getErrorCorrectionDocument(getDocumentService(), TransferOfFundsDocument.class);
-        AccountingLine accountingLine = IsDebitTestUtils.getIncomeLine(accountingDocument, SourceAccountingLine.class, KualiDecimal.ZERO);
-
-        assertTrue(IsDebitTestUtils.isDebitIllegalStateException(getDocumentTypeService(), getDataDictionaryService(), accountingDocument, accountingLine));
-    }
-
-    public void testIsDebit_errorCorrection_source_expense_positveAmount() throws Exception {
-        AccountingDocument accountingDocument = IsDebitTestUtils.getErrorCorrectionDocument(getDocumentService(), TransferOfFundsDocument.class);
-        AccountingLine accountingLine = IsDebitTestUtils.getExpenseLine(accountingDocument, SourceAccountingLine.class, POSITIVE);
-
-        assertTrue(IsDebitTestUtils.isDebitIllegalStateException(getDocumentTypeService(), getDataDictionaryService(), accountingDocument, accountingLine));
-    }
-
     public void testIsDebit_errorCorrection_source_expense_negativeAmount() throws Exception {
         AccountingDocument accountingDocument = IsDebitTestUtils.getErrorCorrectionDocument(getDocumentService(), TransferOfFundsDocument.class);
         AccountingLine accountingLine = IsDebitTestUtils.getExpenseLine(accountingDocument, SourceAccountingLine.class, NEGATIVE);
 
         assertFalse(IsDebitTestUtils.isDebit(getDocumentTypeService(), getDataDictionaryService(), accountingDocument, accountingLine));
-    }
-
-    public void testIsDebit_errorCorrection_source_expense_zeroAmount() throws Exception {
-        AccountingDocument accountingDocument = IsDebitTestUtils.getErrorCorrectionDocument(getDocumentService(), TransferOfFundsDocument.class);
-        AccountingLine accountingLine = IsDebitTestUtils.getExpenseLine(accountingDocument, SourceAccountingLine.class, KualiDecimal.ZERO);
-
-        assertTrue(IsDebitTestUtils.isDebitIllegalStateException(getDocumentTypeService(), getDataDictionaryService(), accountingDocument, accountingLine));
     }
 
     public void testIsDebit_errorCorrection_source_asset_positveAmount() throws Exception {
@@ -351,13 +322,6 @@ public class TransferOfFundsDocumentRuleTest extends KualiTestBase {
         assertTrue(IsDebitTestUtils.isDebitIllegalStateException(getDocumentTypeService(), getDataDictionaryService(), accountingDocument, accountingLine));
     }
 
-    public void testIsDebit_errorCorrection_target_income_positveAmount() throws Exception {
-        AccountingDocument accountingDocument = IsDebitTestUtils.getErrorCorrectionDocument(getDocumentService(), TransferOfFundsDocument.class);
-        AccountingLine accountingLine = IsDebitTestUtils.getIncomeLine(accountingDocument, TargetAccountingLine.class, POSITIVE);
-
-        assertTrue(IsDebitTestUtils.isDebitIllegalStateException(getDocumentTypeService(), getDataDictionaryService(), accountingDocument, accountingLine));
-    }
-
     public void testIsDebit_errorCorrection_target_income_negativeAmount() throws Exception {
         AccountingDocument accountingDocument = IsDebitTestUtils.getErrorCorrectionDocument(getDocumentService(), TransferOfFundsDocument.class);
         AccountingLine accountingLine = IsDebitTestUtils.getIncomeLine(accountingDocument, TargetAccountingLine.class, NEGATIVE);
@@ -366,33 +330,11 @@ public class TransferOfFundsDocumentRuleTest extends KualiTestBase {
 
     }
 
-    public void testIsDebit_errorCorrection_target_income_zeroAmount() throws Exception {
-
-        AccountingDocument accountingDocument = IsDebitTestUtils.getErrorCorrectionDocument(getDocumentService(), TransferOfFundsDocument.class);
-        AccountingLine accountingLine = IsDebitTestUtils.getIncomeLine(accountingDocument, TargetAccountingLine.class, KualiDecimal.ZERO);
-
-        assertTrue(IsDebitTestUtils.isDebitIllegalStateException(getDocumentTypeService(), getDataDictionaryService(), accountingDocument, accountingLine));
-    }
-
-    public void testIsDebit_errorCorrection_target_expense_positveAmount() throws Exception {
-        AccountingDocument accountingDocument = IsDebitTestUtils.getErrorCorrectionDocument(getDocumentService(), TransferOfFundsDocument.class);
-        AccountingLine accountingLine = IsDebitTestUtils.getExpenseLine(accountingDocument, TargetAccountingLine.class, POSITIVE);
-
-        assertTrue(IsDebitTestUtils.isDebitIllegalStateException(getDocumentTypeService(), getDataDictionaryService(), accountingDocument, accountingLine));
-    }
-
     public void testIsDebit_errorCorrection_target_expense_negativeAmount() throws Exception {
         AccountingDocument accountingDocument = IsDebitTestUtils.getErrorCorrectionDocument(getDocumentService(), TransferOfFundsDocument.class);
         AccountingLine accountingLine = IsDebitTestUtils.getExpenseLine(accountingDocument, TargetAccountingLine.class, NEGATIVE);
 
         assertTrue(IsDebitTestUtils.isDebit(getDocumentTypeService(), getDataDictionaryService(), accountingDocument, accountingLine));
-    }
-
-    public void testIsDebit_errorCorrection_target_expense_zeroAmount() throws Exception {
-        AccountingDocument accountingDocument = IsDebitTestUtils.getErrorCorrectionDocument(getDocumentService(), TransferOfFundsDocument.class);
-        AccountingLine accountingLine = IsDebitTestUtils.getExpenseLine(accountingDocument, TargetAccountingLine.class, KualiDecimal.ZERO);
-
-        assertTrue(IsDebitTestUtils.isDebitIllegalStateException(getDocumentTypeService(), getDataDictionaryService(), accountingDocument, accountingLine));
     }
 
     public void testIsDebit_errorCorrection_target_asset_positveAmount() throws Exception {

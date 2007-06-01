@@ -330,18 +330,6 @@ public class DistributionOfIncomeAndExpenseDocumentRuleTest extends KualiTestBas
     }
 
     /**
-     * tests an <code>IllegalStateException</code> is thrown for a positive income
-     * 
-     * @throws Exception
-     */
-    public void testIsDebit_errorCorrection_source_income_positveAmount() throws Exception {
-        AccountingDocument accountingDocument = IsDebitTestUtils.getErrorCorrectionDocument(getDocumentService(), DistributionOfIncomeAndExpenseDocument.class);
-        AccountingLine accountingLine = IsDebitTestUtils.getIncomeLine(accountingDocument, SourceAccountingLine.class, POSITIVE);
-
-        assertTrue(IsDebitTestUtils.isDebitIllegalStateException(getDocumentTypeService(), getDataDictionaryService(), accountingDocument, accountingLine));
-    }
-
-    /**
      * tests false is returned for a negative income
      * 
      * @throws Exception
@@ -351,31 +339,6 @@ public class DistributionOfIncomeAndExpenseDocumentRuleTest extends KualiTestBas
         AccountingLine accountingLine = IsDebitTestUtils.getIncomeLine(accountingDocument, SourceAccountingLine.class, NEGATIVE);
 
         assertFalse(IsDebitTestUtils.isDebit(getDocumentTypeService(), getDataDictionaryService(), accountingDocument, accountingLine));
-    }
-
-    /**
-     * tests an <code>IllegalStateException</code> is thrown for a zero income
-     * 
-     * @throws Exception
-     */
-    public void testIsDebit_errorCorrection_source_income_zeroAmount() throws Exception {
-
-        AccountingDocument accountingDocument = IsDebitTestUtils.getErrorCorrectionDocument(getDocumentService(), DistributionOfIncomeAndExpenseDocument.class);
-        AccountingLine accountingLine = IsDebitTestUtils.getIncomeLine(accountingDocument, SourceAccountingLine.class, KualiDecimal.ZERO);
-
-        assertTrue(IsDebitTestUtils.isDebitIllegalStateException(getDocumentTypeService(), getDataDictionaryService(), accountingDocument, accountingLine));
-    }
-
-    /**
-     * tests an <code>IllegalStateExcpetion</code> is thrown for positive expense
-     * 
-     * @throws Exception
-     */
-    public void testIsDebit_errorCorrection_source_expense_positveAmount() throws Exception {
-        AccountingDocument accountingDocument = IsDebitTestUtils.getErrorCorrectionDocument(getDocumentService(), DistributionOfIncomeAndExpenseDocument.class);
-        AccountingLine accountingLine = IsDebitTestUtils.getExpenseLine(accountingDocument, SourceAccountingLine.class, POSITIVE);
-
-        assertTrue(IsDebitTestUtils.isDebitIllegalStateException(getDocumentTypeService(), getDataDictionaryService(), accountingDocument, accountingLine));
     }
 
     /**
@@ -391,30 +354,6 @@ public class DistributionOfIncomeAndExpenseDocumentRuleTest extends KualiTestBas
     }
 
     /**
-     * tests an <code>IllegalStateException</code> is thrown for a zero expense
-     * 
-     * @throws Exception
-     */
-    public void testIsDebit_errorCorrection_source_expense_zeroAmount() throws Exception {
-        AccountingDocument accountingDocument = IsDebitTestUtils.getErrorCorrectionDocument(getDocumentService(), DistributionOfIncomeAndExpenseDocument.class);
-        AccountingLine accountingLine = IsDebitTestUtils.getExpenseLine(accountingDocument, SourceAccountingLine.class, KualiDecimal.ZERO);
-
-        assertTrue(IsDebitTestUtils.isDebitIllegalStateException(getDocumentTypeService(), getDataDictionaryService(), accountingDocument, accountingLine));
-    }
-
-    /**
-     * tests an <code>IllegalStateException</code> is thrown for a positive asset
-     * 
-     * @throws Exception
-     */
-    public void testIsDebit_errorCorrection_source_asset_positveAmount() throws Exception {
-        AccountingDocument accountingDocument = IsDebitTestUtils.getErrorCorrectionDocument(getDocumentService(), DistributionOfIncomeAndExpenseDocument.class);
-        AccountingLine accountingLine = IsDebitTestUtils.getAssetLine(accountingDocument, SourceAccountingLine.class, POSITIVE);
-
-        assertTrue(IsDebitTestUtils.isDebitIllegalStateException(getDocumentTypeService(), getDataDictionaryService(), accountingDocument, accountingLine));
-    }
-
-    /**
      * tests true is returned for a negative asset
      * 
      * @throws Exception
@@ -424,30 +363,6 @@ public class DistributionOfIncomeAndExpenseDocumentRuleTest extends KualiTestBas
         AccountingLine accountingLine = IsDebitTestUtils.getAssetLine(accountingDocument, SourceAccountingLine.class, NEGATIVE);
 
         assertTrue(IsDebitTestUtils.isDebit(getDocumentTypeService(), getDataDictionaryService(), accountingDocument, accountingLine));
-    }
-
-    /**
-     * tests an <code>IllegalStateException</code> is thrown for a zero asset
-     * 
-     * @throws Exception
-     */
-    public void testIsDebit_errorCorrection_source_asset_zeroAmount() throws Exception {
-        AccountingDocument accountingDocument = IsDebitTestUtils.getErrorCorrectionDocument(getDocumentService(), DistributionOfIncomeAndExpenseDocument.class);
-        AccountingLine accountingLine = IsDebitTestUtils.getAssetLine(accountingDocument, SourceAccountingLine.class, KualiDecimal.ZERO);
-
-        assertTrue(IsDebitTestUtils.isDebitIllegalStateException(getDocumentTypeService(), getDataDictionaryService(), accountingDocument, accountingLine));
-    }
-
-    /**
-     * tests an <code>IllegalStateException</code> for a positive liability
-     * 
-     * @throws Exception
-     */
-    public void testIsDebit_errorCorrection_source_liability_positveAmount() throws Exception {
-        AccountingDocument accountingDocument = IsDebitTestUtils.getErrorCorrectionDocument(getDocumentService(), DistributionOfIncomeAndExpenseDocument.class);
-        AccountingLine accountingLine = IsDebitTestUtils.getLiabilityLine(accountingDocument, SourceAccountingLine.class, POSITIVE);
-
-        assertTrue(IsDebitTestUtils.isDebitIllegalStateException(getDocumentTypeService(), getDataDictionaryService(), accountingDocument, accountingLine));
     }
 
     /**
@@ -462,29 +377,6 @@ public class DistributionOfIncomeAndExpenseDocumentRuleTest extends KualiTestBas
         assertFalse(IsDebitTestUtils.isDebit(getDocumentTypeService(), getDataDictionaryService(), accountingDocument, accountingLine));
     }
 
-    /**
-     * tests an <code>IllegalStateException</code> is thrown for a zero liability
-     * 
-     * @throws Exception
-     */
-    public void testIsDebit_errorCorrection_source_liability_zeroAmount() throws Exception {
-        AccountingDocument accountingDocument = IsDebitTestUtils.getErrorCorrectionDocument(getDocumentService(), DistributionOfIncomeAndExpenseDocument.class);
-        AccountingLine accountingLine = IsDebitTestUtils.getLiabilityLine(accountingDocument, SourceAccountingLine.class, KualiDecimal.ZERO);
-
-        assertTrue(IsDebitTestUtils.isDebitIllegalStateException(getDocumentTypeService(), getDataDictionaryService(), accountingDocument, accountingLine));
-    }
-
-    /**
-     * tests an <code>IllegalStateException</code> for a positive income
-     * 
-     * @throws Exception
-     */
-    public void testIsDebit_errorCorrection_target_income_positveAmount() throws Exception {
-        AccountingDocument accountingDocument = IsDebitTestUtils.getErrorCorrectionDocument(getDocumentService(), DistributionOfIncomeAndExpenseDocument.class);
-        AccountingLine accountingLine = IsDebitTestUtils.getIncomeLine(accountingDocument, TargetAccountingLine.class, POSITIVE);
-
-        assertTrue(IsDebitTestUtils.isDebitIllegalStateException(getDocumentTypeService(), getDataDictionaryService(), accountingDocument, accountingLine));
-    }
 
     /**
      * tests true is returned for a negative income
@@ -496,31 +388,6 @@ public class DistributionOfIncomeAndExpenseDocumentRuleTest extends KualiTestBas
         AccountingLine accountingLine = IsDebitTestUtils.getIncomeLine(accountingDocument, TargetAccountingLine.class, NEGATIVE);
 
         assertTrue(IsDebitTestUtils.isDebit(getDocumentTypeService(), getDataDictionaryService(), accountingDocument, accountingLine));
-    }
-
-    /**
-     * tests an <code>IllegalStateException</code> is thrown for a zero income
-     * 
-     * @throws Exception
-     */
-    public void testIsDebit_errorCorrection_target_income_zeroAmount() throws Exception {
-
-        AccountingDocument accountingDocument = IsDebitTestUtils.getErrorCorrectionDocument(getDocumentService(), DistributionOfIncomeAndExpenseDocument.class);
-        AccountingLine accountingLine = IsDebitTestUtils.getIncomeLine(accountingDocument, TargetAccountingLine.class, KualiDecimal.ZERO);
-
-        assertTrue(IsDebitTestUtils.isDebitIllegalStateException(getDocumentTypeService(), getDataDictionaryService(), accountingDocument, accountingLine));
-    }
-
-    /**
-     * tests an <code>IllegalStateException</code> is thrown for a positive expense
-     * 
-     * @throws Exception
-     */
-    public void testIsDebit_errorCorrection_target_expense_positveAmount() throws Exception {
-        AccountingDocument accountingDocument = IsDebitTestUtils.getErrorCorrectionDocument(getDocumentService(), DistributionOfIncomeAndExpenseDocument.class);
-        AccountingLine accountingLine = IsDebitTestUtils.getExpenseLine(accountingDocument, TargetAccountingLine.class, POSITIVE);
-
-        assertTrue(IsDebitTestUtils.isDebitIllegalStateException(getDocumentTypeService(), getDataDictionaryService(), accountingDocument, accountingLine));
     }
 
     /**
@@ -536,30 +403,6 @@ public class DistributionOfIncomeAndExpenseDocumentRuleTest extends KualiTestBas
     }
 
     /**
-     * tests an <code>IllegalStateException</code> is thrown for a zero expense
-     * 
-     * @throws Exception
-     */
-    public void testIsDebit_errorCorrection_target_expense_zeroAmount() throws Exception {
-        AccountingDocument accountingDocument = IsDebitTestUtils.getErrorCorrectionDocument(getDocumentService(), DistributionOfIncomeAndExpenseDocument.class);
-        AccountingLine accountingLine = IsDebitTestUtils.getExpenseLine(accountingDocument, TargetAccountingLine.class, KualiDecimal.ZERO);
-
-        assertTrue(IsDebitTestUtils.isDebitIllegalStateException(getDocumentTypeService(), getDataDictionaryService(), accountingDocument, accountingLine));
-    }
-
-    /**
-     * tests an <code>IllegalStateException</code> is thrown for a positive asset
-     * 
-     * @throws Exception
-     */
-    public void testIsDebit_errorCorrection_target_asset_positveAmount() throws Exception {
-        AccountingDocument accountingDocument = IsDebitTestUtils.getErrorCorrectionDocument(getDocumentService(), DistributionOfIncomeAndExpenseDocument.class);
-        AccountingLine accountingLine = IsDebitTestUtils.getAssetLine(accountingDocument, TargetAccountingLine.class, POSITIVE);
-
-        assertTrue(IsDebitTestUtils.isDebitIllegalStateException(getDocumentTypeService(), getDataDictionaryService(), accountingDocument, accountingLine));
-    }
-
-    /**
      * tests false is returned for a negative asset
      * 
      * @throws Exception
@@ -569,30 +412,6 @@ public class DistributionOfIncomeAndExpenseDocumentRuleTest extends KualiTestBas
         AccountingLine accountingLine = IsDebitTestUtils.getAssetLine(accountingDocument, TargetAccountingLine.class, NEGATIVE);
 
         assertFalse(IsDebitTestUtils.isDebit(getDocumentTypeService(), getDataDictionaryService(), accountingDocument, accountingLine));
-    }
-
-    /**
-     * tests an <code>IllegalStateException</code> is thrown for a zero asset
-     * 
-     * @throws Exception
-     */
-    public void testIsDebit_errorCorrection_target_asset_zeroAmount() throws Exception {
-        AccountingDocument accountingDocument = IsDebitTestUtils.getErrorCorrectionDocument(getDocumentService(), DistributionOfIncomeAndExpenseDocument.class);
-        AccountingLine accountingLine = IsDebitTestUtils.getAssetLine(accountingDocument, TargetAccountingLine.class, KualiDecimal.ZERO);
-
-        assertTrue(IsDebitTestUtils.isDebitIllegalStateException(getDocumentTypeService(), getDataDictionaryService(), accountingDocument, accountingLine));
-    }
-
-    /**
-     * tests an <code>IllegalStateException</code> is thrown for a positive liability
-     * 
-     * @throws Exception
-     */
-    public void testIsDebit_errorCorrection_target_liability_positveAmount() throws Exception {
-        AccountingDocument accountingDocument = IsDebitTestUtils.getErrorCorrectionDocument(getDocumentService(), DistributionOfIncomeAndExpenseDocument.class);
-        AccountingLine accountingLine = IsDebitTestUtils.getLiabilityLine(accountingDocument, TargetAccountingLine.class, POSITIVE);
-
-        assertTrue(IsDebitTestUtils.isDebitIllegalStateException(getDocumentTypeService(), getDataDictionaryService(), accountingDocument, accountingLine));
     }
 
     /**
@@ -607,15 +426,4 @@ public class DistributionOfIncomeAndExpenseDocumentRuleTest extends KualiTestBas
         assertTrue(IsDebitTestUtils.isDebit(getDocumentTypeService(), getDataDictionaryService(), accountingDocument, accountingLine));
     }
 
-    /**
-     * tests an <code>IllegalStateException</code> is thrown for a zero liability
-     * 
-     * @throws Exception
-     */
-    public void testIsDebit_errorCorrection_target_liability_zeroAmount() throws Exception {
-        AccountingDocument accountingDocument = IsDebitTestUtils.getErrorCorrectionDocument(getDocumentService(), DistributionOfIncomeAndExpenseDocument.class);
-        AccountingLine accountingLine = IsDebitTestUtils.getLiabilityLine(accountingDocument, TargetAccountingLine.class, KualiDecimal.ZERO);
-
-        assertTrue(IsDebitTestUtils.isDebitIllegalStateException(getDocumentTypeService(), getDataDictionaryService(), accountingDocument, accountingLine));
-    }
 }

@@ -33,12 +33,14 @@ import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.PurapParameterConstants;
+import org.kuali.module.purap.document.PurchasingAccountsPayableDocument;
 import org.kuali.module.purap.document.PurchasingDocumentBase;
 import org.kuali.workflow.KualiWorkflowUtils;
 
 import edu.iu.uis.eden.Id;
 import edu.iu.uis.eden.engine.RouteContext;
 import edu.iu.uis.eden.exception.EdenUserNotFoundException;
+import edu.iu.uis.eden.exception.WorkflowException;
 import edu.iu.uis.eden.routetemplate.ResolvedQualifiedRole;
 import edu.iu.uis.eden.routetemplate.Role;
 import edu.iu.uis.eden.routetemplate.UnqualifiedRoleAttribute;
@@ -85,38 +87,35 @@ public class KualiInternalPurchasingRoleAttribute extends UnqualifiedRoleAttribu
      */
     @Override
     public ResolvedQualifiedRole resolveRole(RouteContext routeContext, String roleName) throws EdenUserNotFoundException {
-        //Select the class attribute of the document element to determine the doc type
-        XPath xpath = KualiWorkflowUtils.getXPath(routeContext.getDocumentContent().getDocument());
-        String docType = "";
-        String xPathExpression = "";
-        String documentContent = "";
+//        XPath xpath = KualiWorkflowUtils.getXPath(routeContext.getDocumentContent().getDocument());
+//        String xPathExpression = "";
+        String documentNumber = null;
         try {
-            documentContent = routeContext.getDocumentContent().getDocContent();
-            xPathExpression = KualiWorkflowUtils.xstreamSafeXPath(KualiWorkflowUtils.XSTREAM_MATCH_ANYWHERE_PREFIX + "document/@class");
-            docType = (String) xpath.evaluate(xPathExpression, documentContent, XPathConstants.STRING);
-            String documentNumber = KualiWorkflowUtils.getDocumentHeaderDocumentNumber(routeContext);
-            Map queryMap = new HashMap();
-            queryMap.put(KFSPropertyConstants.DOCUMENT_NUMBER, documentNumber);
-            PurchasingDocumentBase document = (PurchasingDocumentBase)SpringServiceLocator.getBusinessObjectService().findByPrimaryKey(Class.forName(docType), queryMap);
+            String documentContent = routeContext.getDocumentContent().getDocContent();
+//            // get the class attribute of the document element to determine the doc type
+//            xPathExpression = KualiWorkflowUtils.xstreamSafeXPath(KualiWorkflowUtils.XSTREAM_MATCH_ANYWHERE_PREFIX + "document/@class");
+//            String docType = (String) xpath.evaluate(xPathExpression, documentContent, XPathConstants.STRING);
+            // get the document id number from the routeContext doc content
+            documentNumber = KualiWorkflowUtils.getDocumentHeaderDocumentNumber(routeContext);
+            PurchasingDocumentBase document = (PurchasingDocumentBase)SpringServiceLocator.getDocumentService().getByDocumentHeaderId(documentNumber);
             document.refreshAllReferences();
             KualiDecimal internalPurchasingLimit = SpringServiceLocator.getPurchaseOrderService().getInternalPurchasingDollarLimit(document, document.getChartOfAccountsCode(), document.getOrganizationCode());
 
             if ( (ObjectUtils.isNull(internalPurchasingLimit)) || (internalPurchasingLimit.compareTo(KualiWorkflowUtils.getFinancialDocumentTotalAmount(routeContext)) < 0) ) {
-                KualiConfigurationService configService = SpringServiceLocator.getKualiConfigurationService();
-                String workgroupName = configService.getApplicationParameterValue(PurapParameterConstants.PURAP_ADMIN_GROUP, PurapConstants.WorkflowConstants.PurchaseOrderDocument.INTERNAL_PURCHASING_WORKGROUP_NAME);
+                String workgroupName = SpringServiceLocator.getKualiConfigurationService().getApplicationParameterValue(PurapParameterConstants.PURAP_ADMIN_GROUP, PurapConstants.WorkflowConstants.PurchaseOrderDocument.INTERNAL_PURCHASING_WORKGROUP_NAME);
                 return new ResolvedQualifiedRole(INTERNAL_PURCHASING_ROLE_LABEL, Arrays.asList(new Id[] { new GroupNameId(workgroupName) }));
             }
             return null;
         }
-        catch (XPathExpressionException xe) {
-            String errorMsg = "Error executing XPath expression - '" + xPathExpression + "'";
+//        catch (XPathExpressionException xe) {
+//            String errorMsg = "Error executing XPath expression - '" + xPathExpression + "'";
+//            LOG.error(errorMsg);
+//            throw new RuntimeException (errorMsg,xe);
+//        }
+        catch (WorkflowException we) {
+            String errorMsg = "Error trying to get document using doc id '" + documentNumber + "'";
             LOG.error(errorMsg);
-            throw new RuntimeException (errorMsg,xe);
-        }
-        catch (ClassNotFoundException cnfe) {
-            String errorMsg = "Error trying to find document class '" + docType + "'";
-            LOG.error(errorMsg);
-            throw new RuntimeException (errorMsg,cnfe);
+            throw new RuntimeException (errorMsg,we);
         }
     }
 }

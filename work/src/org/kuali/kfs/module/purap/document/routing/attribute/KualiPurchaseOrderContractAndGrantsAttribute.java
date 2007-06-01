@@ -15,6 +15,7 @@
  */
 package org.kuali.workflow.module.purap.attribute;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -28,10 +29,12 @@ import javax.xml.xpath.XPathExpressionException;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.core.rule.KualiParameterRule;
+import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.chart.bo.Account;
+import org.kuali.module.chart.bo.Chart;
 import org.kuali.module.chart.bo.ObjectCode;
 import org.kuali.workflow.KualiWorkflowUtils;
 import org.w3c.dom.Node;
@@ -52,7 +55,22 @@ import edu.iu.uis.eden.routetemplate.RuleExtensionValue;
 public class KualiPurchaseOrderContractAndGrantsAttribute implements WorkflowAttribute {
     private static Logger LOG = Logger.getLogger(KualiPurchaseOrderContractAndGrantsAttribute.class);
 
+    private static final String REPORT_XML_BASE_TAG_NAME = "report";
+
     public static final String SUB_FUND_GROUP_CODE_KEY = "sub_fund_grp_cd";
+
+    private List ruleRows;
+    private List routingDataRows;
+    /**
+     * Constructs a KualiPurchaseOrderContractAndGrantsAttribute.java.
+     */
+    public KualiPurchaseOrderContractAndGrantsAttribute() {
+        ruleRows = new ArrayList<edu.iu.uis.eden.lookupable.Row>();
+//        ruleRows.add(KualiWorkflowUtils.buildTextRowWithLookup(Chart.class, KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, FIN_COA_CD_KEY));
+        
+        routingDataRows = new ArrayList<edu.iu.uis.eden.lookupable.Row>();
+//        routingDataRows.add(KualiWorkflowUtils.buildTextRowWithLookup(Chart.class, KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, FIN_COA_CD_KEY));
+    }
 
     public String getDocContent() {
         // TODO delyea - Auto-generated method stub
@@ -87,19 +105,15 @@ public class KualiPurchaseOrderContractAndGrantsAttribute implements WorkflowAtt
      * @return
      */
     public boolean isMatch(DocumentContent docContent, List<RuleExtension> ruleExtensions) {
-        if (ruleExtensions.isEmpty()) {
-            // if rule has no extension then it is an auto match rule
-            return true;
-        }
         String ruleSubFundGroupCode = getRuleExtentionValue(SUB_FUND_GROUP_CODE_KEY, ruleExtensions);
         if (StringUtils.isBlank(ruleSubFundGroupCode)) {
             // if rule has an extension but no value then auto match rule
             return true;
         }
         ruleSubFundGroupCode = ruleSubFundGroupCode.toUpperCase();
-        Set<AccountContainer> accounts = populateFromDocContent(docContent);
+        Set<AccountContainer> accountContainers = populateFromDocContent(docContent);
         Map<String,KualiParameterRule> parameterRulesByChart = SpringServiceLocator.getKualiConfigurationService().getRulesByGroup("temp");
-        for (AccountContainer accountContainer : accounts) {
+        for (AccountContainer accountContainer : accountContainers) {
             if (accountContainer.account.isForContractsAndGrants()) {
                 // check the restricted object code in rule table
                 KualiParameterRule rule = parameterRulesByChart.get(accountContainer.account.getChartOfAccountsCode());
@@ -146,24 +160,36 @@ public class KualiPurchaseOrderContractAndGrantsAttribute implements WorkflowAtt
         String currentXPath = null;
         try {
             XPath xpath = KualiWorkflowUtils.getXPath(docContent.getDocument());
-            String chartCode = null;
-            String accountNumber = null;
-            String objectCode = null;
-            String fiscalYear = null;
+            String finChart = null;
+            String finAccount = null;
+            String finObjectCode = null;
+            String finFiscalYear = null;
             currentXPath = new StringBuffer(KualiWorkflowUtils.XSTREAM_SAFE_PREFIX).append(KualiWorkflowUtils.XSTREAM_MATCH_ANYWHERE_PREFIX).append("report").append(KualiWorkflowUtils.XSTREAM_SAFE_SUFFIX).toString();
             boolean isReport = ((Boolean) xpath.evaluate(currentXPath, docContent.getDocument(), XPathConstants.BOOLEAN)).booleanValue();
             if (isReport) {
                 currentXPath = new StringBuffer(KualiWorkflowUtils.XSTREAM_SAFE_PREFIX).append(KualiWorkflowUtils.XSTREAM_MATCH_ANYWHERE_PREFIX).append(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE).append(KualiWorkflowUtils.XSTREAM_SAFE_SUFFIX).toString();
-                chartCode = xpath.evaluate(currentXPath, docContent.getDocument());
+                finChart = xpath.evaluate(currentXPath, docContent.getDocument());
                 currentXPath = new StringBuffer(KualiWorkflowUtils.XSTREAM_SAFE_PREFIX).append(KualiWorkflowUtils.XSTREAM_MATCH_ANYWHERE_PREFIX).append(KFSPropertyConstants.ACCOUNT_NUMBER).append(KualiWorkflowUtils.XSTREAM_SAFE_SUFFIX).toString();
-                accountNumber = xpath.evaluate(currentXPath, docContent.getDocument());
+                finAccount = xpath.evaluate(currentXPath, docContent.getDocument());
                 currentXPath = new StringBuffer(KualiWorkflowUtils.XSTREAM_SAFE_PREFIX).append(KualiWorkflowUtils.XSTREAM_MATCH_ANYWHERE_PREFIX).append(KFSPropertyConstants.FINANCIAL_OBJECT_CODE).append(KualiWorkflowUtils.XSTREAM_SAFE_SUFFIX).toString();
-                objectCode = xpath.evaluate(currentXPath, docContent.getDocument());
+                finObjectCode = xpath.evaluate(currentXPath, docContent.getDocument());
                 currentXPath = new StringBuffer(KualiWorkflowUtils.XSTREAM_SAFE_PREFIX).append(KualiWorkflowUtils.XSTREAM_MATCH_ANYWHERE_PREFIX).append(KFSPropertyConstants.POSTING_YEAR).append(KualiWorkflowUtils.XSTREAM_SAFE_SUFFIX).toString();
-                fiscalYear = xpath.evaluate(currentXPath, docContent.getDocument());
+                finFiscalYear = xpath.evaluate(currentXPath, docContent.getDocument());
             }
-            if (StringUtils.isNotEmpty(chartCode) && StringUtils.isNotEmpty(accountNumber) && StringUtils.isNotEmpty(objectCode) && StringUtils.isNotEmpty(fiscalYear)) {
-                accounts.add(new AccountContainer(getValidAccount(chartCode, accountNumber),getValidObjectCode(fiscalYear, chartCode, objectCode)));
+            if (StringUtils.isNotEmpty(finChart) && StringUtils.isNotEmpty(finAccount) && StringUtils.isNotEmpty(finObjectCode) && StringUtils.isNotEmpty(finFiscalYear)) {
+                Account testAccount = getValidAccount(finChart, finAccount);
+                ObjectCode testObjectCode = getValidObjectCode(finFiscalYear, finChart, finObjectCode);
+                if (ObjectUtils.isNull(testAccount)) {
+                    String errorMsg = "Account not found for values " + finChart + " and " + finAccount;
+                    LOG.error(errorMsg);
+                    throw new RuntimeException(errorMsg);
+                }
+                if (ObjectUtils.isNull(testObjectCode)) {
+                    String errorMsg = "Valid Object Code not found for values " + finFiscalYear + ", " + finChart + ", and " + finObjectCode;
+                    LOG.error(errorMsg);
+                    throw new RuntimeException(errorMsg);
+                }
+                accounts.add(new AccountContainer(testAccount,testObjectCode));
             }
             else {
                 // now look at the global documents
@@ -214,6 +240,25 @@ public class KualiPurchaseOrderContractAndGrantsAttribute implements WorkflowAtt
         catch (XPathExpressionException e) {
             throw new RuntimeException("XPath Exception caught executing expression: " + currentXPath, e);
         }
+    }
+    
+    private AccountContainer getPotentialAccountContainer(String finFiscalYear, String finChart, String finAccount, String finObjectCode) {
+        if (StringUtils.isNotEmpty(finChart) && StringUtils.isNotEmpty(finAccount) && StringUtils.isNotEmpty(finObjectCode) && StringUtils.isNotEmpty(finFiscalYear)) {
+            Account testAccount = getValidAccount(finChart, finAccount);
+            ObjectCode testObjectCode = getValidObjectCode(finFiscalYear, finChart, finObjectCode);
+            if (ObjectUtils.isNull(testAccount)) {
+                String errorMsg = "Account not found for values " + finChart + " and " + finAccount;
+                LOG.error(errorMsg);
+                throw new RuntimeException(errorMsg);
+            }
+            if (ObjectUtils.isNull(testObjectCode)) {
+                String errorMsg = "Valid Object Code not found for values " + finFiscalYear + ", " + finChart + ", and " + finObjectCode;
+                LOG.error(errorMsg);
+                throw new RuntimeException(errorMsg);
+            }
+            return new AccountContainer(testAccount,testObjectCode);
+        }
+        return null;
     }
 
     private static Account getValidAccount(String chartCode, String accountNumber) {

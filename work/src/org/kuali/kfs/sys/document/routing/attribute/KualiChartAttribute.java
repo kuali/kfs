@@ -267,7 +267,7 @@ public class KualiChartAttribute implements RoleAttribute, WorkflowAttribute {
                 // need to work on Chart
                 boolean isReport = ((Boolean) xpath.evaluate("wf:xstreamsafe('//report')", docContent.getDocument(), XPathConstants.BOOLEAN)).booleanValue();
                 if (isReport) {
-                    chartXPaths.add("wf:xstreamsafe('//report/chart')");
+                    chartXPaths.add("wf:xstreamsafe('//report/" + CHART_ATTRIBUTE + "/" + FIN_COA_CD_KEY + "')");
                 } else if (KualiWorkflowUtils.ACCOUNT_DELEGATE_GLOBAL_DOC_TYPE.equals(docTypeName)) {
                     chartXPaths.add(ACCOUNT_CHANGE_DETAIL_XPATH);
                 } else if (KualiWorkflowUtils.ACCOUNT_CHANGE_DOC_TYPE.equals(docTypeName)) {

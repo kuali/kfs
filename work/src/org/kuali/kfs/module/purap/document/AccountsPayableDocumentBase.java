@@ -57,6 +57,10 @@ public abstract class AccountsPayableDocumentBase extends PurchasingAccountsPaya
         this.refreshReferenceObject("purchaseOrderDocument");
     }
 
+    public boolean requiresAccountsPayableReview() {
+        // TODO delyea - IMPLEMENT THIS
+        return true;
+    }
     
     // GETTERS AND SETTERS    
     public Integer getPurchaseOrderIdentifier() {

@@ -49,6 +49,8 @@ import edu.iu.uis.eden.util.Utilities;
 public class KualiPurchaseOrderBudgetAttribute implements WorkflowAttribute {
     private static Logger LOG = Logger.getLogger(KualiPurchaseOrderBudgetAttribute.class);
 
+    private static final String REPORT_XML_BASE_TAG_NAME = "report";
+
     public static final String FIN_COA_CD_KEY = "fin_coa_cd";
 
     private boolean required = false;
@@ -82,7 +84,7 @@ public class KualiPurchaseOrderBudgetAttribute implements WorkflowAttribute {
         if (Utilities.isEmpty(getFinCoaCd())) {
             return "";
         }
-        return new StringBuffer("<report><" + KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE + ">").append(getFinCoaCd()).append("</" + KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE + "></report>").toString();
+        return new StringBuffer("<" + REPORT_XML_BASE_TAG_NAME + "><" + KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE + ">").append(getFinCoaCd()).append("</" + KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE + "></" + REPORT_XML_BASE_TAG_NAME + ">").toString();
     }
 
     /**
@@ -121,24 +123,25 @@ public class KualiPurchaseOrderBudgetAttribute implements WorkflowAttribute {
      */
     public boolean isMatch(DocumentContent docContent, List<RuleExtension> ruleExtensions) {
         String ruleChartCode = getRuleExtentionValue(FIN_COA_CD_KEY, ruleExtensions);
-        if (StringUtils.isBlank(ruleChartCode)) {
-            String errorMsg = "Attempted matching of Rule Extension where " + KualiWorkflowUtils.getBusinessObjectAttributeLabel(Chart.class, KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE) + " is blank";
+        if (StringUtils.isBlank(ruleChartCode) && isRequired()) {
+            String errorMsg = "Attempted matching of Rule Extension where " + KualiWorkflowUtils.getBusinessObjectAttributeLabel(Chart.class, KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE) + " is blank but is required";
             LOG.error(errorMsg);
             throw new RuntimeException(errorMsg);
         }
-        // TODO delyea - TESTING - uncomment this for testing
-//        // if document's fiscal year is less than or equal to the current fiscal year
-//        XPath xPath = KualiWorkflowUtils.getXPath(docContent.getDocument());
-//        String xpathExpression = KualiWorkflowUtils.XSTREAM_MATCH_ANYWHERE_PREFIX + "document/accountingPeriodKey/postingYear";
-//        String documentFiscalYearString = KualiWorkflowUtils.xstreamSafeEval(xPath, xpathExpression, docContent.getDocContent());
-//        if ( SpringServiceLocator.getUniversityDateService().getCurrentFiscalYear().compareTo(Integer.valueOf(documentFiscalYearString)) >= 0 ) {
-//            String documentHeaderId = KualiWorkflowUtils.getDocumentHeaderDocumentNumber(docContent.getDocument());
-//            try {
-//                PurchaseOrderDocument po = (PurchaseOrderDocument) SpringServiceLocator.getDocumentService().getByDocumentHeaderId(documentHeaderId);
-//                List<SourceAccountingLine> summaryAccounts = po.getSummaryAccounts();
-//                // get list of sufficientfundItems
-//                DocumentTypeService docTypeService = SpringServiceLocator.getDocumentTypeService();
-//                String financialDocumentTypeCode = docTypeService.getDocumentTypeCodeByClass(po.getClass());
+        XPath xPath = KualiWorkflowUtils.getXPath(docContent.getDocument());
+        String xpathExpression = KualiWorkflowUtils.XSTREAM_MATCH_ANYWHERE_PREFIX + "document/accountingPeriodKey/postingYear";
+        String documentFiscalYearString = KualiWorkflowUtils.xstreamSafeEval(xPath, xpathExpression, docContent.getDocContent());
+        // if document's fiscal year is less than or equal to the current fiscal year
+        if ( SpringServiceLocator.getUniversityDateService().getCurrentFiscalYear().compareTo(Integer.valueOf(documentFiscalYearString)) >= 0 ) {
+            String documentHeaderId = KualiWorkflowUtils.getDocumentHeaderDocumentNumber(docContent.getDocument());
+            try {
+                PurchaseOrderDocument po = (PurchaseOrderDocument) SpringServiceLocator.getDocumentService().getByDocumentHeaderId(documentHeaderId);
+                List<SourceAccountingLine> summaryAccounts = po.getSummaryAccounts();
+                // get list of sufficientfundItems
+                DocumentTypeService docTypeService = SpringServiceLocator.getDocumentTypeService();
+                String financialDocumentTypeCode = docTypeService.getDocumentTypeCodeByClass(po.getClass());
+                // TODO delyea - TESTING - uncomment this for testing
+                return true;
 //                List<SufficientFundsItem> fundsItems = SpringServiceLocator.getSufficientFundsService().checkSufficientFundsUsingAccounts(summaryAccounts, financialDocumentTypeCode);
 //                if (!fundsItems.isEmpty()) {
 //                    for (SufficientFundsItem fundsItem : fundsItems) {
@@ -148,13 +151,13 @@ public class KualiPurchaseOrderBudgetAttribute implements WorkflowAttribute {
 //                        }
 //                    }
 //                }
-//            }
-//            catch (WorkflowException e) {
-//                String errorMsg = "Error attempted to get document using doc id  " + documentHeaderId;
-//                LOG.error(errorMsg);
-//                throw new RuntimeException(errorMsg);
-//            }
-//        }
+            }
+            catch (WorkflowException e) {
+                String errorMsg = "Error attempted to get document using doc id  " + documentHeaderId;
+                LOG.error(errorMsg);
+                throw new RuntimeException(errorMsg);
+            }
+        }
         return false;
     }
 
@@ -192,7 +195,7 @@ public class KualiPurchaseOrderBudgetAttribute implements WorkflowAttribute {
             errors.add(new WorkflowServiceErrorImpl(label + " is required.", "routetemplate.xmlattribute.error"));
         } else if (StringUtils.isNotBlank(getFinCoaCd())) {
             // not blank so check value for validity
-            Chart chart = getChart(getFinCoaCd());
+            Chart chart = SpringServiceLocator.getChartService().getByPrimaryId(getFinCoaCd());
             if (chart == null) {
                 errors.add(new WorkflowServiceErrorImpl(label + " entered is invalid.","routetemplate.xmlattribute.error"));
             }
@@ -200,10 +203,6 @@ public class KualiPurchaseOrderBudgetAttribute implements WorkflowAttribute {
         return errors;
     }
     
-    private Chart getChart(String finCoaCode) {
-        return SpringServiceLocator.getChartService().getByPrimaryId(finCoaCd);
-    }
-
     /**
      * Gets the required attribute. 
      * @return Returns the required.

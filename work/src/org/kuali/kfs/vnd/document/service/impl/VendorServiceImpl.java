@@ -21,7 +21,11 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
+import org.kuali.Constants;
+import org.kuali.core.bo.user.PersonTaxId;
+import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.document.MaintenanceDocument;
+import org.kuali.core.exceptions.UserNotFoundException;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DocumentService;
 import org.kuali.core.util.KualiDecimal;
@@ -38,6 +42,7 @@ import org.kuali.module.vendor.bo.VendorHeader;
 import org.kuali.module.vendor.dao.VendorDao;
 import org.kuali.module.vendor.service.VendorService;
 import org.kuali.module.vendor.util.VendorRoutingComparable;
+import org.kuali.rice.KNSServiceLocator;
 import org.springframework.transaction.annotation.Transactional;
 
 import edu.iu.uis.eden.exception.WorkflowException;
@@ -274,6 +279,7 @@ public class VendorServiceImpl implements VendorService {
     /**
      * @see org.kuali.module.vendor.service.VendorService#isVendorInstitutionEmployee(java.lang.Integer)
      */
+    // TODO delyea - is this right?  Logic copied from KualiPayeeTaxIdAttribute
     public boolean isVendorInstitutionEmployee(Integer vendorHeaderGeneratedIdentifier) {
         VendorDetail vendorToUse = getParentVendor(vendorHeaderGeneratedIdentifier);
         if (ObjectUtils.isNull(vendorToUse)) {
@@ -282,8 +288,17 @@ public class VendorServiceImpl implements VendorService {
             throw new RuntimeException(errorMsg);
         }
         if (VendorConstants.TAX_TYPE_SSN.equals(vendorToUse.getVendorHeader().getVendorTaxTypeCode())) {
-            // TODO delyea - FINISH THIS - logic for finding out if person is employee
-            return StringUtils.isNotBlank(vendorToUse.getVendorHeader().getVendorTaxNumber());
+            String ssnTaxId = vendorToUse.getVendorHeader().getVendorTaxNumber();
+            if (StringUtils.isNotBlank(ssnTaxId)) {
+                try {
+                    UniversalUser user = SpringServiceLocator.getUniversalUserService().getUniversalUser(new PersonTaxId(ssnTaxId));
+                    return (user.isFaculty() || user.isStaff() || user.isAffiliate()) && !KNSServiceLocator.getKualiConfigurationService().getApplicationParameterRule(Constants.ADMIN_GROUP, Constants.ALLOWED_EMPLOYEE_STATUS_RULE).failsRule(user.getEmployeeStatusCode());
+                }
+                catch (UserNotFoundException e) {
+                    // user is not in the system... assume non-employee
+                    return false;
+                }
+            }
         }
         return false;
     }
@@ -301,7 +316,3 @@ public class VendorServiceImpl implements VendorService {
         return vendorToUse.getVendorHeader().getVendorForeignIndicator();
     }
 }
-
-
-
-

@@ -161,7 +161,7 @@ public class PurchaseOrderForm extends PurchasingFormBase {
 
             ExtraButton retransmitButton = new ExtraButton();
             retransmitButton.setExtraButtonProperty("methodToCall.retransmitPo");
-            retransmitButton.setExtraButtonSource("${externalizable.images.url}buttonsmall_retransmit.gif");
+            retransmitButton.setExtraButtonSource("${kr.externalizable.images.url}buttonsmall_retransmit.gif");
             this.getExtraButtons().add(retransmitButton);
         }
         if (documentType.equals(PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_PRINT_DOCUMENT)) {

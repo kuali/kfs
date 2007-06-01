@@ -463,8 +463,8 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase implements Cop
         return purchaseOrderVendorQuotes;
     }
 
-    public void setVendorQuotes(List<PurchaseOrderVendorQuote> vendorQuotes) {
-        this.purchaseOrderVendorQuotes = vendorQuotes;
+    public void setPurchaseOrderVendorQuotes(List<PurchaseOrderVendorQuote> purchaseOrderVendorQuotes) {
+        this.purchaseOrderVendorQuotes = purchaseOrderVendorQuotes;
     }
 
     public PurchaseOrderVendorQuote getPurchaseOrderVendorQuote(int index) {

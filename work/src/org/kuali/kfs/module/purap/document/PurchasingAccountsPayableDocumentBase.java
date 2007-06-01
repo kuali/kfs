@@ -70,7 +70,7 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
     private Integer accountsPayablePurchasingDocumentLinkIdentifier;
 
     // NOT PERSISTED IN DB
-    private String vendorNumber; 
+    private String vendorNumber;
     private Integer vendorAddressGeneratedIdentifier;
 
     // COMMON ELEMENTS
@@ -90,22 +90,22 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
     private Country vendorCountry;
 
     // STATIC
-    public transient String [] belowTheLineTypes;
-    
+    public transient String[] belowTheLineTypes;
+
     // CONSTRUCTORS
     public PurchasingAccountsPayableDocumentBase() {
         items = new TypedArrayList(getItemClass());
         this.statusHistories = new ManageableArrayList();
     }
-    
+
     public KualiDecimal getTotalDollarAmount() {
-        //TODO: the easy total dollar amount for now (i.e. not taking into account inactive etc
-        //do more analysis and make better
+        // TODO: the easy total dollar amount for now (i.e. not taking into account inactive etc
+        // do more analysis and make better
         KualiDecimal total = new KualiDecimal(BigDecimal.ZERO);
         for (PurchasingApItem item : items) {
             KualiDecimal extendedPrice = item.getExtendedPrice();
-            KualiDecimal itemTotal = (extendedPrice != null)?extendedPrice:KualiDecimal.ZERO;
-            //KualiDecimal itemTotal = (item.getExtendedPrice()==null)?KualiDecimal.ZERO:item.getExtendedPrice();
+            KualiDecimal itemTotal = (extendedPrice != null) ? extendedPrice : KualiDecimal.ZERO;
+            // KualiDecimal itemTotal = (item.getExtendedPrice()==null)?KualiDecimal.ZERO:item.getExtendedPrice();
             total = total.add(itemTotal);
         }
         return total;
@@ -133,30 +133,31 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
         this.setVendorStateCode(vendorAddress.getVendorStateCode());
         this.setVendorPostalCode(vendorAddress.getVendorZipCode());
         this.setVendorCountryCode(vendorAddress.getVendorCountryCode());
-    }    
+    }
 
     /**
      * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
      */
     protected LinkedHashMap toStringMapper() {
-        LinkedHashMap m = new LinkedHashMap();      
+        LinkedHashMap m = new LinkedHashMap();
         m.put("purapDocumentIdentifier", this.purapDocumentIdentifier);
         return m;
     }
-    
+
     /**
      * This method is used to add a note to a Status History.
      * 
      * @param statusHistory
      * @param statusHistoryNote
      */
-    protected void addStatusHistoryNote( StatusHistory statusHistory, Note note ) {
-        if( ObjectUtils.isNotNull( null ) ) {
+    protected void addStatusHistoryNote(StatusHistory statusHistory, Note note) {
+        if (ObjectUtils.isNotNull(null)) {
             NoteService noteService = SpringServiceLocator.getNoteService();
             try {
-                note = noteService.createNote( note, statusHistory );
-                noteService.save( note );
-            } catch( Exception e ) {
+                note = noteService.createNote(note, statusHistory);
+                noteService.save(note);
+            }
+            catch (Exception e) {
                 LOG.error("Unable to create or save status history note " + e.getMessage());
                 throw new RuntimeException("Unable to create or save status history note " + e.getMessage());
             }
@@ -179,9 +180,8 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
      * Gets the vendorHeaderGeneratedIdentifier attribute.
      * 
      * @return Returns the vendorHeaderGeneratedIdentifier
-     * 
      */
-    public Integer getVendorHeaderGeneratedIdentifier() { 
+    public Integer getVendorHeaderGeneratedIdentifier() {
         return vendorHeaderGeneratedIdentifier;
     }
 
@@ -189,7 +189,6 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
      * Sets the vendorHeaderGeneratedIdentifier attribute.
      * 
      * @param vendorHeaderGeneratedIdentifier The vendorHeaderGeneratedIdentifier to set.
-     * 
      */
     public void setVendorHeaderGeneratedIdentifier(Integer vendorHeaderGeneratedIdentifier) {
         this.vendorHeaderGeneratedIdentifier = vendorHeaderGeneratedIdentifier;
@@ -200,9 +199,8 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
      * Gets the vendorDetailAssignedIdentifier attribute.
      * 
      * @return Returns the vendorDetailAssignedIdentifier
-     * 
      */
-    public Integer getVendorDetailAssignedIdentifier() { 
+    public Integer getVendorDetailAssignedIdentifier() {
         return vendorDetailAssignedIdentifier;
     }
 
@@ -210,7 +208,6 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
      * Sets the vendorDetailAssignedIdentifier attribute.
      * 
      * @param vendorDetailAssignedIdentifier The vendorDetailAssignedIdentifier to set.
-     * 
      */
     public void setVendorDetailAssignedIdentifier(Integer vendorDetailAssignedIdentifier) {
         this.vendorDetailAssignedIdentifier = vendorDetailAssignedIdentifier;
@@ -220,9 +217,8 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
      * Gets the vendorCustomerNumber attribute.
      * 
      * @return Returns the vendorCustomerNumber
-     * 
      */
-    public String getVendorCustomerNumber() { 
+    public String getVendorCustomerNumber() {
         return vendorCustomerNumber;
     }
 
@@ -230,7 +226,6 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
      * Sets the vendorCustomerNumber attribute.
      * 
      * @param vendorCustomerNumber The vendorCustomerNumber to set.
-     * 
      */
     public void setVendorCustomerNumber(String vendorCustomerNumber) {
         this.vendorCustomerNumber = vendorCustomerNumber;
@@ -270,13 +265,15 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
 
     public VendorDetail getVendorDetail() {
         return vendorDetail;
-}
+    }
+
     public void setVendorDetail(VendorDetail vendorDetail) {
         this.vendorDetail = vendorDetail;
     }
 
     /**
-     * Gets the items attribute. 
+     * Gets the items attribute.
+     * 
      * @return Returns the items.
      */
     public List getItems() {
@@ -285,6 +282,7 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
 
     /**
      * Sets the items attribute value.
+     * 
      * @param items The items to set.
      */
     public void setItems(List items) {
@@ -292,65 +290,50 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
     }
 
     /*
-    public void addItem(PurchasingApItem item) {
-        int itemLinePosition = items.size();
-        if(item.getItemLineNumber()!=null) {
-            itemLinePosition = item.getItemLineNumber().intValue()-1;
-        }
-       
-        //if the user entered something set line number to that
-//        if(itemLinePosition>0&&itemLinePosition<items.size()) {
-//            itemLinePosition = itemLinePosition - 1;
-//        }
-        else if(itemLinePosition>items.size()) {
-            itemLinePosition=items.size();
-        }
-        
-        items.add(itemLinePosition,item);
-        renumberItems(itemLinePosition);
-    }
-    */
-    
+     * public void addItem(PurchasingApItem item) { int itemLinePosition = items.size(); if(item.getItemLineNumber()!=null) {
+     * itemLinePosition = item.getItemLineNumber().intValue()-1; } //if the user entered something set line number to that //
+     * if(itemLinePosition>0&&itemLinePosition<items.size()) { // itemLinePosition = itemLinePosition - 1; // } else
+     * if(itemLinePosition>items.size()) { itemLinePosition=items.size(); } items.add(itemLinePosition,item);
+     * renumberItems(itemLinePosition); }
+     */
+
     public void addItem(PurchasingApItem item) {
         int itemLinePosition = getItemLinePosition();
-        if(ObjectUtils.isNotNull(item.getItemLineNumber())) {
-            itemLinePosition = item.getItemLineNumber().intValue()-1;
+        if (ObjectUtils.isNotNull(item.getItemLineNumber()) && (item.getItemLineNumber() > 0) && (item.getItemLineNumber() <= itemLinePosition)) {
+            itemLinePosition = item.getItemLineNumber().intValue() - 1;
         }
-        items.add(itemLinePosition,item);
+        items.add(itemLinePosition, item);
         renumberItems(itemLinePosition);
     }
-    
+
     public void deleteItem(int lineNum) {
-        if(items.remove(lineNum)==null) {
-            //throw error here
+        if (items.remove(lineNum) == null) {
+            // throw error here
         }
         renumberItems(lineNum);
     }
-    
+
     public void renumberItems(int start) {
-        for (int i = start; i<items.size(); i++) {
-            PurchasingApItem item = (PurchasingApItem)items.get(i);
-            //only set the item line number for above the line items
+        for (int i = start; i < items.size(); i++) {
+            PurchasingApItem item = (PurchasingApItem) items.get(i);
+            // only set the item line number for above the line items
             item.refreshNonUpdateableReferences();
             if (item.getItemType().isItemTypeAboveTheLineIndicator()) {
-                item.setItemLineNumber(new Integer(i+1));
+                item.setItemLineNumber(new Integer(i + 1));
             }
         }
     }
-    
-    /** 
+
+    /**
+     * This method helps to determine the item line position if the user did not specify the line number on an above the line items
+     * before clicking on the add button. It subtracts the number of the below the line items on the list with the total item list
+     * size.
      * 
-     * This method helps to determine the item line position if the user
-     * did not specify the line number on an above the line items before
-     * clicking on the add button. It subtracts the number of the below
-     * the line items on the list with the total item list size.
-     * 
-     * @return int the item line position of the last(highest) line number of above
-     *         the line items.
+     * @return int the item line position of the last(highest) line number of above the line items.
      */
     private int getItemLinePosition() {
         int belowTheLineCount = 0;
-        for (PurchasingApItem item: items) {
+        for (PurchasingApItem item : items) {
             item.refreshNonUpdateableReferences();
             if (!item.getItemType().isItemTypeAboveTheLineIndicator()) {
                 belowTheLineCount++;
@@ -358,11 +341,11 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
         }
         return items.size() - belowTheLineCount;
     }
-    
+
     public PurchasingApItem getItem(int pos) {
-        //TODO: we probably don't need this because of the TypedArrayList
+        // TODO: we probably don't need this because of the TypedArrayList
         while (getItems().size() <= pos) {
-            
+
             try {
                 getItems().add(getItemClass().newInstance());
             }
@@ -376,9 +359,9 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
                 throw new RuntimeException("Can't instantiate Purchasing Item from base");
             }
         }
-        return (PurchasingApItem)items.get(pos);
+        return (PurchasingApItem) items.get(pos);
     }
-    
+
     public abstract Class getItemClass();
 
     /**
@@ -386,15 +369,15 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
      */
     @Override
     public List getSourceAccountingLines() {
-        //TODO: Chris loop through items and get accounts
+        // TODO: Chris loop through items and get accounts
         TypedArrayList accounts = null;
-        if(items.size()>=1) {
+        if (items.size() >= 1) {
             accounts = new TypedArrayList(getItem(0).getAccountingLineClass());
         }
         for (PurchasingApItem item : items) {
             accounts.addAll(item.getSourceAccountingLines());
         }
-        return (accounts==null)?new ArrayList():accounts;
+        return (accounts == null) ? new ArrayList() : accounts;
     }
 
     public String getVendorCityName() {
@@ -452,7 +435,7 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
     public void setVendorStateCode(String vendorStateCode) {
         this.vendorStateCode = vendorStateCode;
     }
-    
+
     public Integer getVendorAddressGeneratedIdentifier() {
         return vendorAddressGeneratedIdentifier;
     }
@@ -462,7 +445,8 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
     }
 
     /**
-     * Gets the accountsPayablePurchasingDocumentLinkIdentifier attribute. 
+     * Gets the accountsPayablePurchasingDocumentLinkIdentifier attribute.
+     * 
      * @return Returns the accountsPayablePurchasingDocumentLinkIdentifier.
      */
     public Integer getAccountsPayablePurchasingDocumentLinkIdentifier() {
@@ -471,6 +455,7 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
 
     /**
      * Sets the accountsPayablePurchasingDocumentLinkIdentifier attribute value.
+     * 
      * @param accountsPayablePurchasingDocumentLinkIdentifier The accountsPayablePurchasingDocumentLinkIdentifier to set.
      */
     public void setAccountsPayablePurchasingDocumentLinkIdentifier(Integer accountsPayablePurchasingDocumentLinkIdentifier) {
@@ -522,11 +507,12 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
     }
 
     /**
-     * Gets the belowTheLineTypes attribute. 
+     * Gets the belowTheLineTypes attribute.
+     * 
      * @return Returns the belowTheLineTypes.
      */
     public String[] getBelowTheLineTypes() {
-        if(this.belowTheLineTypes==null) {
+        if (this.belowTheLineTypes == null) {
             this.belowTheLineTypes = SpringServiceLocator.getPurapService().getBelowTheLineForDocument(this);
         }
         return belowTheLineTypes;
@@ -535,11 +521,11 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
     /**
      * @see org.kuali.kfs.document.AccountingDocumentBase#getSourceAccountingLineClass()
      */
-//    @Override
-//    public abstract Class getSourceAccountingLineClass();
-
+    // @Override
+    // public abstract Class getSourceAccountingLineClass();
     /**
-     * Gets the summaryAccounts attribute this is used by the summary accounts method 
+     * Gets the summaryAccounts attribute this is used by the summary accounts method
+     * 
      * @return Returns the summaryAccounts.
      */
     public List<SourceAccountingLine> getSummaryAccounts() {
@@ -548,6 +534,7 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
 
     /**
      * Sets the summaryAccounts attribute value.
+     * 
      * @param summaryAccounts The summaryAccounts to set.
      */
     public void setSummaryAccounts(List<SourceAccountingLine> summaryAccounts) {
@@ -557,10 +544,12 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
     public Country getVendorCountry() {
         return vendorCountry;
     }
-    
+
     protected boolean documentWillStopInRouteNode(String routeNodeName) {
         populateDocumentForRouting();
         return false;
-//        return KNSServiceLocator.getWorkflowInfoService().routeNodeHasApproverActionRequest(this.getDocumentHeader().getWorkflowDocument().getDocumentType(), getDocumentHeader().getWorkflowDocument().getApplicationContent(), routeNodeName);
+        // return
+        // KNSServiceLocator.getWorkflowInfoService().routeNodeHasApproverActionRequest(this.getDocumentHeader().getWorkflowDocument().getDocumentType(),
+        // getDocumentHeader().getWorkflowDocument().getApplicationContent(), routeNodeName);
     }
 }

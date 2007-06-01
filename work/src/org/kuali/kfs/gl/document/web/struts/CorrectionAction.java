@@ -101,6 +101,8 @@ public class CorrectionAction extends KualiDocumentActionBase implements KualiTa
     @Override
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         LOG.debug("execute() started");
+        
+        CorrectionForm correctionForm = (CorrectionForm) form;
 
         // Init our services once
         if (originEntryGroupService == null) {
@@ -143,7 +145,13 @@ public class CorrectionAction extends KualiDocumentActionBase implements KualiTa
                         // if sorting, we'll let the action take care of the sorting
                         KualiTableRenderFormMetadata originEntrySearchResultTableMetadata = rForm.getOriginEntrySearchResultTableMetadata();
                         if (originEntrySearchResultTableMetadata.getPreviouslySortedColumnIndex() != -1) {
-                            List<Column> columns = SpringServiceLocator.getCorrectionDocumentService().getTableRenderColumnMetadata(rForm.getDocument().getDocumentNumber());
+                            List<Column> columns;
+                            if (correctionForm.getDocumentType().equals("LLCP")){
+                                columns = SpringServiceLocator.getCorrectionDocumentService().getLaborTableRenderColumnMetadata(rForm.getDocument().getDocumentNumber());
+                            } else {
+                                columns = SpringServiceLocator.getCorrectionDocumentService().getTableRenderColumnMetadata(rForm.getDocument().getDocumentNumber());
+                            }
+                             
                             String propertyToSortName = columns.get(originEntrySearchResultTableMetadata.getPreviouslySortedColumnIndex()).getPropertyName();
                             Comparator valueComparator = columns.get(originEntrySearchResultTableMetadata.getPreviouslySortedColumnIndex()).getValueComparator();
                             sortList(rForm.getDisplayEntries(), propertyToSortName, valueComparator, originEntrySearchResultTableMetadata.isSortDescending());
@@ -1610,7 +1618,13 @@ public class CorrectionAction extends KualiDocumentActionBase implements KualiTa
 
         KualiTableRenderFormMetadata originEntrySearchResultTableMetadata = correctionForm.getOriginEntrySearchResultTableMetadata();
 
-        List<Column> columns = SpringServiceLocator.getCorrectionDocumentService().getTableRenderColumnMetadata(correctionForm.getDocument().getDocumentNumber());
+        List<Column> columns;
+        if (correctionForm.getDocumentType().equals("LLCP")){
+            columns = SpringServiceLocator.getCorrectionDocumentService().getLaborTableRenderColumnMetadata(correctionForm.getDocument().getDocumentNumber());
+        } else {
+            columns = SpringServiceLocator.getCorrectionDocumentService().getTableRenderColumnMetadata(correctionForm.getDocument().getDocumentNumber());
+        }
+        
         String propertyToSortName = columns.get(originEntrySearchResultTableMetadata.getColumnToSortIndex()).getPropertyName();
         Comparator valueComparator = columns.get(originEntrySearchResultTableMetadata.getColumnToSortIndex()).getValueComparator();
         
@@ -1648,7 +1662,13 @@ public class CorrectionAction extends KualiDocumentActionBase implements KualiTa
     private void applyPagingAndSortingFromPreviousPageView(CorrectionForm correctionForm) {
         KualiTableRenderFormMetadata originEntrySearchResultTableMetadata = correctionForm.getOriginEntrySearchResultTableMetadata();
         if (originEntrySearchResultTableMetadata.getPreviouslySortedColumnIndex() != -1) {
-            List<Column> columns = SpringServiceLocator.getCorrectionDocumentService().getTableRenderColumnMetadata(correctionForm.getDocument().getDocumentNumber());
+            
+            List<Column> columns;
+            if (correctionForm.getDocumentType().equals("LLCP")){
+                columns = SpringServiceLocator.getCorrectionDocumentService().getLaborTableRenderColumnMetadata(correctionForm.getDocument().getDocumentNumber());
+            } else {
+                columns = SpringServiceLocator.getCorrectionDocumentService().getTableRenderColumnMetadata(correctionForm.getDocument().getDocumentNumber());
+            }
             String propertyToSortName = columns.get(originEntrySearchResultTableMetadata.getPreviouslySortedColumnIndex()).getPropertyName();
             Comparator valueComparator = columns.get(originEntrySearchResultTableMetadata.getPreviouslySortedColumnIndex()).getValueComparator();
             sortList(correctionForm.getDisplayEntries(), propertyToSortName, valueComparator, originEntrySearchResultTableMetadata.isSortDescending());

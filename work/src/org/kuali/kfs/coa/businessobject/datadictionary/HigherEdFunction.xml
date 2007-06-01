@@ -94,10 +94,10 @@
                 <label>Higher Education Function Code</label>
                 <shortLabel>Higher Education Function Code</shortLabel>
 
-                <maxLength>45</maxLength>
+                <maxLength>47</maxLength>
 
                 <control>
-                    <text size="45" />
+                    <text size="47" />
                 </control>
 
                 <summary>Higher Education Function Code</summary>

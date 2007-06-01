@@ -282,7 +282,7 @@
 						    <div align="center">
 						        <html:image
 							        property="methodToCall.inactivateItem.line${ctr}"
-						    	    src="${ConfigProperties.kr.externalizable.images.url}tinybutton-inactivate.gif"
+						    	    src="${ConfigProperties.externalizable.images.url}tinybutton-inactivate.gif"
 							        alt="Inactivate Item ${ctr+1}" title="Inactivate Item ${ctr+1}"
 							        styleClass="tinybutton" />
 					        </div>

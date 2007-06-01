@@ -474,6 +474,7 @@ public class KFSPropertyConstants extends PropertyConstants {
     public static final String EMPL_ID = "emplId";
     public static final String EMPLID = "emplid";
     public static final String EMPLOYEE = "employee";
+    public static final String EMPLOYEE_RECORD = "employeeRecord";
     public static final String EMPLOYEE_STATUS_CODE = "employeeStatusCode";
     public static final String EMPLOYEE_TYPE_CODE = "employeeTypeCode";
     public static final String ENCUMBRANCE_UPDATE_CODE = "encumbranceUpdateCode";
@@ -482,6 +483,7 @@ public class KFSPropertyConstants extends PropertyConstants {
     public static final String ENDOWMENT_INCOME_ACCT_FIN_COA_CD = "endowmentIncomeAcctFinCoaCd";
     public static final String ENTRY_GROUP_ID = "entryGroupId";
     public static final String ENTRY_ID = "entryId";
+    public static final String EARN_CODE = "earnCode";
     public static final String EXCEPTION_INDICATOR = "exceptionIndicator";
     public static final String EXCEPTION_USER = "exceptionUser";
     public static final String EXP_BDGT_ELIMINATIONS_FIN_OBJ = "expBdgtEliminationsFinObj";
@@ -665,6 +667,7 @@ public class KFSPropertyConstants extends PropertyConstants {
     public static final String GENERIC_FISCAL_YEAR = "genericFiscalYear";
     public static final String GENERIC_SYSTEM_ID = "genericSystemId";
     public static final String GENERIC_TIMESTAMP = "genericTimestamp";
+    public static final String GRADE = "grade";
     public static final String GRADUATE_ASSISTANT_RATE = "graduateAssistantRate";
     public static final String GRADUATE_ASSISTANT_RATES = "graduateAssistantRates";
     public static final String GRANT_DESCRIPTION_CODE = "grantDescriptionCode";
@@ -672,6 +675,7 @@ public class KFSPropertyConstants extends PropertyConstants {
     public static final String GROUPS = "groups";
     public static final String HISTORICAL_FINANCIAL_OBJECT_CODE = "historicalFinancialObjectCode";
     public static final String HISTORICAL_INDICATOR = "historicalIndicator";
+    public static final String HRMS_COMPANY = "hrmsCompany";
     public static final String HRIS_ORGANIZATION = "hrisOrganization";
     public static final String HRIS_ORGANIZATION_CODE = "hrisOrganizationCode";
     public static final String ICR_EXPENSE_FINANCIAL_OBJECT = "icrExpenseFinancialObject";
@@ -745,6 +749,11 @@ public class KFSPropertyConstants extends PropertyConstants {
     // public static final String KUALI_USER_PERSON_UPDATE_ABILITY_CODE = "personUpdateAbilityCode";
     // public static final String KUALI_USER_PERSON_UPDATE_ABILITY_NUMBER = "personUpdateAbilityNumber";
     public static final String KUALI_USER_PERSON_USER_IDENTIFIER = "personUserIdentifier";
+    public static final String LABORLEDGER_ORIGINAL_CHART_OF_ACCOUNTS_CODE = "aborLedgerOriginalChartOfAccountsCode";
+    public static final String LABORLEDGER_ORIGINAL_ACCOUNT_NUMBER = "laborLedgerOriginalAccountNumber";
+    public static final String LABORLEDGER_ORIGINAL_SUB_ACCOUNT_NUMBER = "laborLedgerOriginalSubAccountNumber";
+    public static final String LABORLEDGER_ORIGINAL_FINANCIAL_OBJECT_CODE = "laborLedgerOriginalFinancialObjectCode";
+    public static final String LABORLEDGER_ORIGINAL_FINANCIAL_SUB_OBJECT_CODE = "laborLedgerOriginalFinancialSubObjectCode";
     public static final String LAST_UPDATE = "lastUpdate";
     public static final String LAST_UPDATE_TIMESTAMP = "lastUpdateTimestamp";
     public static final String LINE = "line";
@@ -866,6 +875,8 @@ public class KFSPropertyConstants extends PropertyConstants {
     public static final String ORIGIN_ENTRY_GROUP_ID = "originEntryGroupId";
     public static final String ORIGINATION = "origination";
     public static final String OVERRIDE_CODE = "overrideCode";
+    public static final String PAY_PERIOD_END_DATE = "payPeriodEndDate";
+    public static final String PAY_GROUP = "payGroup";
     public static final String PAYEE = "payee";
     public static final String PAYEE_ACTIVE_CODE = "payeeActiveCode";
     public static final String PAYEE_CITY_NAME = "payeeCityName";
@@ -995,7 +1006,9 @@ public class KFSPropertyConstants extends PropertyConstants {
     public static final String ROUTE_SHEET_TRACK_NUMBER = "routeSheetTrackNumber";
     public static final String ROUTING_FORM_SUBMISSION_DETAILS = "routingFormMainPageSubmissionDetails";
     public static final String RUN_IDENTIFIER = "runIdentifier";
+    public static final String SALARY_ADMINISTRATION_PLAN = "salaryAdministrationPlan";
     public static final String SELECTED_ACCOUNTING_PERIOD = "selectedAccountingPeriod";
+    public static final String SET_ID = "setid";
     public static final String SEQUENCE_ID = "sequenceId";
     public static final String SEQUENCE_NUMBER = "sequenceNumber";
     public static final String SORT_NUMBER = "sortNumber";
@@ -1076,6 +1089,7 @@ public class KFSPropertyConstants extends PropertyConstants {
     public static final String TRANSACTION_LEDGER_ENTRY_AMOUNT = "transactionLedgerEntryAmount";
     public static final String TRANSACTION_LEDGER_ENTRY_DESC = "transactionLedgerEntryDescription";
     public static final String TRANSACTION_POSTING_DATE = "transactionPostingDate";
+    public static final String TRANSACTION_TOTAL_HOURS = "transactionTotalHours";
     public static final String TRN_ENTRY_LEDGER_SEQUENCE_NUMBER = "transactionLedgerEntrySequenceNumber";
     public static final String TRANSMISSION_DATE = "transmissionDate";
     public static final String TWO_DIGIT_TEXT_CODE = "twoDigitTextCode";

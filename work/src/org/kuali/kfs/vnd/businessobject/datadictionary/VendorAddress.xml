@@ -44,6 +44,8 @@
         </inquiry>
 
         <lookup>
+            <lookupableID>vendorAddressLookupable</lookupableID>
+            
             <title>Vendor Address Lookup</title>
 
             <instructions>Lookup an Vendor Address</instructions>

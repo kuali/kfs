@@ -159,6 +159,27 @@
         </property>
     </bean>
     
+    <bean id="vendorAddressLookupableHelperService" class="org.kuali.module.vendor.lookup.VendorAddressLookupableHelperServiceImpl" singleton="false">
+        <property name="persistenceStructureService">
+            <ref bean="persistenceStructureService" />
+        </property>
+        <property name="lookupService">
+            <ref bean="lookupService" />
+        </property>
+        <property name="businessObjectMetaDataService">
+            <ref bean="businessObjectMetaDataService" />
+        </property>
+        <property name="businessObjectDictionaryService">
+            <ref bean="businessObjectDictionaryService" />
+        </property>
+        <property name="dataDictionaryService">
+            <ref bean="dataDictionaryService" />
+        </property>
+        <property name="universalUserService">
+            <ref bean="universalUserService" />
+        </property>
+    </bean>
+    
     <bean id="vendorLookupable" class="org.kuali.core.lookup.KualiLookupableImpl" singleton="false">
         <property name="lookupableHelperService">
             <ref bean="vendorLookupableHelperService" />
@@ -174,6 +195,12 @@
     <bean id="vendorContractLookupable" class="org.kuali.core.lookup.KualiLookupableImpl" singleton="false">
         <property name="lookupableHelperService">
             <ref bean="vendorContractLookupableHelperService" />
+        </property>
+    </bean>
+    
+    <bean id="vendorAddressLookupable" class="org.kuali.core.lookup.KualiLookupableImpl" singleton="false">
+        <property name="lookupableHelperService">
+            <ref bean="vendorAddressLookupableHelperService" />
         </property>
     </bean>
 </beans>

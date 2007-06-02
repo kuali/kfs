@@ -105,12 +105,12 @@
             </th>
             <td align=left valign=middle class="datacell">
                 <kul:htmlControlAttribute attributeEntry="${vendorQuoteAttributes.purchaseOrderQuoteTransmitTypeCode}" property="document.purchaseOrderVendorQuote[${ctr}].purchaseOrderQuoteTransmitTypeCode" readOnly="${isPurchaseOrderAwarded}" />
-            	<c:if test="${isPurchaseOrderAwarded}">
-					<html:link property="methodToCall.transmitQuote.line${ctr}" target="_BLANK">
-						<html:img src="${ConfigProperties.externalizable.images.url}tinybutton-transmit.gif"
-							alt="transmit quote" title="transmit quote" 
-							styleClass="tinybutton" />
-					</html:link>
+            	<c:if test="${!isPurchaseOrderAwarded}">
+					<html:image
+	property="methodToCall.printPo"
+	src="${ConfigProperties.externalizable.images.url}tinybutton-transmit.gif"
+	alt="transmit quote" title="transmit quote" 
+	styleClass="tinybutton" />
 				</c:if>
             </td>
         </tr>

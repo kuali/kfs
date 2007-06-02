@@ -745,7 +745,6 @@ public class PurchaseOrderAction extends PurchasingActionBase {
         PurchaseOrderDocument document = (PurchaseOrderDocument) poForm.getDocument();
         document.getPurchaseOrderVendorQuotes().add(poForm.getNewPurchaseOrderVendorQuote());
         poForm.setNewPurchaseOrderVendorQuote(new PurchaseOrderVendorQuote());
-        KNSServiceLocator.getDocumentService().updateDocument(document);
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
@@ -753,7 +752,6 @@ public class PurchaseOrderAction extends PurchasingActionBase {
         PurchaseOrderForm poForm = (PurchaseOrderForm) form;
         PurchaseOrderDocument document = (PurchaseOrderDocument) poForm.getDocument();
         document.getPurchaseOrderVendorQuotes().remove(getSelectedLine(request));
-        KNSServiceLocator.getDocumentService().updateDocument(document);
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
@@ -764,6 +762,7 @@ public class PurchaseOrderAction extends PurchasingActionBase {
         // verify quote status fields
         if (poForm.getAwardedVendorNumber() == null) {
             GlobalVariables.getErrorMap().putError(PurapPropertyConstants.VENDOR_QUOTES, PurapKeyConstants.ERROR_PURCHASE_ORDER_QUOTE_NO_VENDOR_AWARDED);
+            return mapping.findForward(KFSConstants.MAPPING_BASIC);
         }
         else {
             poQuote = document.getPurchaseOrderVendorQuote(poForm.getAwardedVendorNumber().intValue());
@@ -803,7 +802,6 @@ public class PurchaseOrderAction extends PurchasingActionBase {
                 document.setVendorFaxNumber(poQuote.getVendorFaxNumber());
 
                 document.setStatusCode(PurapConstants.PurchaseOrderStatuses.IN_PROCESS);
-                KNSServiceLocator.getDocumentService().updateDocument(document);
             }
         }
 
@@ -843,7 +841,6 @@ public class PurchaseOrderAction extends PurchasingActionBase {
                 cancelNote.setNoteText(reasonPrefix + reason);
                 document.addNote(cancelNote);
                 document.setStatusCode(PurapConstants.PurchaseOrderStatuses.IN_PROCESS);
-                KNSServiceLocator.getDocumentService().updateDocument(document);
             }
         }
 

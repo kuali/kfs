@@ -70,7 +70,7 @@
 		<tr>
 			<td colspan="5" class="subhead">
 				<span class="subhead-left">Vendor Information</span>
-				<c:if test="${isPurchaseOrderAwarded}">
+				<c:if test="${!isPurchaseOrderAwarded}">
 					<span class="subhead-right">
 						<input type="image" name="methodToCall.performLookup.(!!org.kuali.module.purap.bo.PurchaseOrderQuoteList!!).(((purchaseOrderQuoteListIdentifier:document.purchaseOrderQuoteListIdentifier)))"
 						   src="${ConfigProperties.externalizable.images.url}tinybutton-selquolist.gif" border="0" class="tinybutton" valign="middle" alt="Search for a Vendor" title="Search for a Vendor" />

@@ -309,7 +309,9 @@
                     <thead>
                       <tr>
                         <th>Manual Edit</th>
-			            <c:forEach items="${KualiForm.tableRenderColumnMetadata}" var="column">
+                        
+                        <c:forEach items="${KualiForm.tableRenderColumnMetadata}" var="column">
+                       
 				          <th class="sortable">
 					        <c:out value="${column.columnTitle}"/><c:if test="${empty column.columnTitle}">$nbsp;</c:if>
 				          </th>
@@ -334,7 +336,7 @@
                         
                         <c:choose>
 						  <c:when test="${KualiForm.documentType == 'LLCP'}" >
-							<td><html:text property="entryUniversityFiscalYear" size="5"/></td>
+			            	<td><html:text property="entryUniversityFiscalYear" size="5"/></td>
 	                        <td><html:text property="entryForManualEdit.chartOfAccountsCode" size="5"/></td>
     	                    <td><html:text property="entryForManualEdit.accountNumber" size="7"/></td>
         	                <td><html:text property="entryForManualEdit.subAccountNumber" size="7"/></td>
@@ -342,6 +344,43 @@
                 	        <td><html:text property="entryForManualEdit.financialSubObjectCode" size="6"/></td>
                     	    <td><html:text property="entryForManualEdit.financialBalanceTypeCode" size="8"/></td>
 	                        <td><html:text property="entryForManualEdit.financialObjectTypeCode" size="6"/></td>
+    	                    <td><html:text property="entryForManualEdit.universityFiscalPeriodCode" size="6"/></td>
+        	                <td><html:text property="entryForManualEdit.financialDocumentTypeCode" size="10"/></td>
+                	        <td><html:text property="entryForManualEdit.financialSystemOriginationCode" size="6"/></td>
+            	            <td><html:text property="entryForManualEdit.documentNumber" size="14"/></td>
+    	                    <td><html:text property="entryTransactionLedgerEntrySequenceNumber" size="9"/></td>
+	                        <td><html:text property="entryForManualEdit.positionNumber" size="14"/></td>
+        	                <td><html:text property="entryForManualEdit.projectCode" size="7"/></td>
+	                        <td><html:text property="entryForManualEdit.transactionLedgerEntryDescription" size="11"/></td>
+	                        <td><html:text property="entryTransactionLedgerEntryAmount" size="7"/></td>
+            	            <td><html:text property="entryForManualEdit.transactionDebitCreditCode" size="9"/></td>
+                	        <td><html:text property="entryTransactionDate" size="12"/></td>
+                    	    <td><html:text property="entryForManualEdit.organizationDocumentNumber" size="12"/></td>
+	                        <td><html:text property="entryForManualEdit.organizationReferenceId" size="13"/></td>
+        	                <td><html:text property="entryForManualEdit.referenceFinancialDocumentTypeCode" size="10"/></td>
+            	            <td><html:text property="entryForManualEdit.referenceFinancialSystemOriginationCode" size="10"/></td>
+                	        <td><html:text property="entryForManualEdit.referenceFinancialDocumentNumber" size="9"/></td>
+                    	    <td><html:text property="entryFinancialDocumentReversalDate" size="8"/></td>
+                            <td><html:text property="entryForManualEdit.transactionEncumbranceUpdateCode" size="13"/></td>
+	                        <td><html:text property="entryForManualEdit.transactionPostingDate" size="14"/></td>
+	                        <td><html:text property="entryForManualEdit.payPeriodEndDate" size="14"/></td>
+	                        <td><html:text property="entryForManualEdit.transactionTotalHours" size="14"/></td>
+	                        <td><html:text property="entryForManualEdit.payrollEndDateFiscalYear" size="14"/></td>
+	                        <td><html:text property="entryForManualEdit.payrollEndDateFiscalPeriodCode" size="14"/></td>
+	                        <td><html:text property="entryForManualEdit.emplid" size="14"/></td>
+	                        <td><html:text property="entryForManualEdit.employeeRecord" size="14"/></td>
+	                        <td><html:text property="entryForManualEdit.earnCode" size="14"/></td>
+	                        <td><html:text property="entryForManualEdit.payGroup" size="14"/></td>
+	                        <td><html:text property="entryForManualEdit.salaryAdministrationPlan" size="14"/></td>
+	                        <td><html:text property="entryForManualEdit.grade" size="14"/></td>
+  	                        <td><html:text property="entryForManualEdit.runIdentifier" size="14"/></td>
+ 	                        <td><html:text property="entryForManualEdit.laborLedgerOriginalChartOfAccountsCode" size="14"/></td>
+	                        <td><html:text property="entryForManualEdit.laborLedgerOriginalAccountNumber" size="14"/></td>
+	                        <td><html:text property="entryForManualEdit.laborLedgerOriginalSubAccountNumber" size="14"/></td>
+	                        <td><html:text property="entryForManualEdit.laborLedgerOriginalFinancialObjectCode" size="14"/></td>
+	                        <td><html:text property="entryForManualEdit.laborLedgerOriginalFinancialSubObjectCode" size="14"/></td>
+	                        <td><html:text property="entryForManualEdit.hrmsCompany" size="14"/></td>
+	                        <td><html:text property="entryForManualEdit.setid" size="14"/></td>
     	 				  </c:when>
 						  <c:otherwise>
 			            	<td><html:text property="entryUniversityFiscalYear" size="5"/></td>

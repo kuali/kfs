@@ -98,6 +98,19 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
         this.statusHistories = new ManageableArrayList();
     }
 
+    /**
+     * PURAP documents are all overriding this method to return false because sufficient funds
+     * checking should not be performed on route of any PURAP documents.  Only the Purchase
+     * Order performs a sufficient funds check and it is manually forced during routing.
+     * 
+     * @see org.kuali.kfs.document.GeneralLedgerPostingDocumentBase#documentPerformsSufficientFundsCheck()
+     */
+    @Override
+    public boolean documentPerformsSufficientFundsCheck() {
+        return false;
+    }
+
+    @Override
     public KualiDecimal getTotalDollarAmount() {
         // TODO: the easy total dollar amount for now (i.e. not taking into account inactive etc
         // do more analysis and make better

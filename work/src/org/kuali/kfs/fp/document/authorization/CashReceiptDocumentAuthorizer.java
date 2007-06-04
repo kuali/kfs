@@ -30,6 +30,7 @@ import org.kuali.core.document.authorization.TransactionalDocumentActionFlags;
 import org.kuali.core.exceptions.DocumentTypeAuthorizationException;
 import org.kuali.core.exceptions.GroupNotFoundException;
 import org.kuali.core.util.Timer;
+import org.kuali.kfs.bo.AccountingLine;
 import org.kuali.kfs.document.authorization.AccountingDocumentAuthorizerBase;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.chart.bo.ChartUser;
@@ -98,6 +99,16 @@ public class CashReceiptDocumentAuthorizer extends AccountingDocumentAuthorizerB
      */
     @Override
     public Map getEditableAccounts(TransactionalDocument document, ChartUser user) {
+        return new HashMap();
+    }
+
+    /**
+     * Overrides parent to return an empty Map since FO routing doesn't apply to the CR doc.
+     * 
+     * @see org.kuali.kfs.document.authorization.AccountingDocumentAuthorizerBase#getEditableAccounts(java.util.List, org.kuali.module.chart.bo.ChartUser)
+     */
+    @Override
+    public Map getEditableAccounts(List<AccountingLine> lines, ChartUser user) {
         return new HashMap();
     }
 

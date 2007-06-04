@@ -170,19 +170,11 @@ public class AccountingDocumentAuthorizerBase extends TransactionalDocumentAutho
             Account acct = accountService.getByPrimaryId(acctLine.getChartOfAccountsCode(), acctLine.getAccountNumber());
             if (ObjectUtils.isNotNull(acct)) {
                 if (accountService.hasResponsibilityOnAccount(currentUser.getUniversalUser(), acct)) {
-                    editableAccounts.put(getKeyForMap(acctLine), acct);
+                    editableAccounts.put(acctLine.getAccountKey(), acct);
                 }
             } else {
-                editableAccounts.put(getKeyForMap(acctLine), getKeyForMap(acctLine));
+                editableAccounts.put(acctLine.getAccountKey(), acctLine.getAccountKey());
             }
-        }
-        
-        private String getKeyForMap(AccountingLine acctgLine) {
-            StringBuilder key = new StringBuilder();
-            key.append(acctgLine.getChartOfAccountsCode());
-            key.append(":");
-            key.append(acctgLine.getAccountNumber());
-            return key.toString();
         }
         
     }
@@ -202,6 +194,18 @@ public class AccountingDocumentAuthorizerBase extends TransactionalDocumentAutho
         // for every target accounting line, decide if account should be in map
         CollectionUtils.forAllDo(acctDoc.getTargetAccountingLines(), accountResponsibilityClosure);
 
+        return editableAccounts;
+    }
+    
+    /**
+     * @see org.kuali.kfs.document.authorization.AccountingDocumentAuthorizer#getEditableAccounts(java.util.List, org.kuali.module.chart.bo.ChartUser)
+     */
+    public Map getEditableAccounts(List<AccountingLine> lines, ChartUser user) {
+        Map editableAccounts = new HashMap();
+        AccountResponsibilityClosure accountResponsibilityClosure = new AccountResponsibilityClosure(editableAccounts, user, SpringServiceLocator.getAccountService());
+        
+        CollectionUtils.forAllDo(lines, accountResponsibilityClosure);
+        
         return editableAccounts;
     }
 }

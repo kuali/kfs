@@ -37,6 +37,7 @@ import org.kuali.core.web.format.SimpleBooleanFormatter;
 import org.kuali.core.web.struts.form.KualiTransactionalDocumentFormBase;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSKeyConstants;
+import org.kuali.kfs.bo.AccountingLine;
 import org.kuali.kfs.bo.AccountingLineBase;
 import org.kuali.kfs.bo.AccountingLineOverride;
 import org.kuali.kfs.bo.SourceAccountingLine;
@@ -147,7 +148,7 @@ public class KualiAccountingDocumentFormBase extends KualiTransactionalDocumentF
         setAccountingLineEditableFields(financialDocumentAuthorizer.getAccountingLineEditableFields(financialDocument, kualiUser));
         setDocumentActionFlags(financialDocumentAuthorizer.getDocumentActionFlags(financialDocument, kualiUser));
 
-        setEditableAccounts(financialDocumentAuthorizer.getEditableAccounts(financialDocument, (ChartUser)kualiUser.getModuleUser( ChartUser.MODULE_ID )));
+        setEditableAccounts(financialDocumentAuthorizer.getEditableAccounts(glomBaselineAccountingLines(), (ChartUser)kualiUser.getModuleUser( ChartUser.MODULE_ID )));
     }
 
 
@@ -674,6 +675,35 @@ public class KualiAccountingDocumentFormBase extends KualiTransactionalDocumentF
      */
     public void refreshEditableAccounts() {
         AccountingDocumentAuthorizer authorizer = (AccountingDocumentAuthorizer)SpringServiceLocator.getDocumentAuthorizationService().getDocumentAuthorizer(this.getDocument());
-        this.setEditableAccounts(authorizer.getEditableAccounts((TransactionalDocument)this.getDocument(), (ChartUser)GlobalVariables.getUserSession().getUniversalUser().getModuleUser( ChartUser.MODULE_ID )));
+        this.setEditableAccounts(authorizer.getEditableAccounts(glomBaselineAccountingLines(), (ChartUser)GlobalVariables.getUserSession().getUniversalUser().getModuleUser( ChartUser.MODULE_ID )));
+    }
+    
+    /** 
+     * This method returns a list made up of accounting line from all baseline accounting line sources.
+     * @return a list of accounting lines, made up of all baseline source and baseline target lines.
+     */
+    private List<AccountingLine> glomBaselineAccountingLines() {
+        List<AccountingLine> lines = new ArrayList<AccountingLine>();
+        lines.addAll(harvestAccountingLines(this.getBaselineSourceAccountingLines()));
+        lines.addAll(harvestAccountingLines(this.getBaselineTargetAccountingLines()));
+        return lines;
+    }
+    
+    /**
+     * 
+     * This method takes a generic list, hopefully with some AccountingLine objects in it, and returns a list of AccountingLine objects,
+     * because Java generics are just so wonderful.
+     * 
+     * @param lines a list of objects
+     * @return a list of the accounting lines that were in the lines parameter
+     */
+    private List<AccountingLine> harvestAccountingLines(List lines) {
+        List<AccountingLine> accountingLines = new ArrayList<AccountingLine>();
+        for (Object o: lines) {
+            if (o instanceof AccountingLine) {
+                accountingLines.add((AccountingLine)o);
+            }
+        }
+        return accountingLines;
     }
 }

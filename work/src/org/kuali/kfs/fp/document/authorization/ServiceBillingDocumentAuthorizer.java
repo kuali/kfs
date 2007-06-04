@@ -24,12 +24,14 @@ import org.apache.commons.logging.LogFactory;
 import org.kuali.core.bo.user.KualiGroup;
 
 import org.kuali.core.bo.user.UniversalUser;
+import org.kuali.module.chart.bo.ChartUser;
 import org.kuali.core.document.Document;
 import org.kuali.core.document.TransactionalDocument;
 import org.kuali.core.document.authorization.DocumentActionFlags;
 import org.kuali.core.document.authorization.TransactionalDocumentActionFlags;
 import org.kuali.core.exceptions.DocumentTypeAuthorizationException;
 import org.kuali.core.exceptions.GroupNotFoundException;
+import org.kuali.kfs.bo.AccountingLine;
 import org.kuali.kfs.bo.SourceAccountingLine;
 import org.kuali.kfs.document.authorization.AccountingDocumentAuthorizerBase;
 import org.kuali.kfs.util.SpringServiceLocator;
@@ -60,7 +62,17 @@ public class ServiceBillingDocumentAuthorizer extends AccountingDocumentAuthoriz
      * @see org.kuali.core.authorization.TransactionalDocumentAuthorizer#getEditableAccounts(org.kuali.core.document.TransactionalDocument,
      *      KualiUser)
      */
-    public Map getEditableAccounts(TransactionalDocument document, UniversalUser user) {
+    public Map getEditableAccounts(TransactionalDocument document, ChartUser user) {
+        return new HashMap();
+    }
+
+    /**
+     * Overrides parent to return an empty Map since FO routing doesn't apply to the SB doc.
+     * 
+     * @see org.kuali.kfs.document.authorization.AccountingDocumentAuthorizerBase#getEditableAccounts(java.util.List, org.kuali.module.chart.bo.ChartUser)
+     */
+    @Override
+    public Map getEditableAccounts(List<AccountingLine> lines, ChartUser user) {
         return new HashMap();
     }
 

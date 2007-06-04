@@ -27,6 +27,7 @@ import org.kuali.core.document.TransactionalDocument;
 import org.kuali.core.document.authorization.DocumentActionFlags;
 import org.kuali.core.document.authorization.TransactionalDocumentActionFlags;
 import org.kuali.core.workflow.service.KualiWorkflowDocument;
+import org.kuali.kfs.bo.AccountingLine;
 import org.kuali.kfs.document.authorization.AccountingDocumentAuthorizerBase;
 import org.kuali.module.chart.bo.ChartUser;
 
@@ -98,4 +99,16 @@ public class AdvanceDepositDocumentAuthorizer extends AccountingDocumentAuthoriz
     public Map getEditableAccounts(TransactionalDocument document, ChartUser user) {
         return new HashMap();
     }
+
+    /**
+     * Overrides parent to return an empty Map since FO routing doesn't apply to the AD doc.
+     * 
+     * @see org.kuali.kfs.document.authorization.AccountingDocumentAuthorizerBase#getEditableAccounts(java.util.List, org.kuali.module.chart.bo.ChartUser)
+     */
+    @Override
+    public Map getEditableAccounts(List<AccountingLine> lines, ChartUser user) {
+        return new HashMap();
+    }
+    
+    
 }

@@ -25,6 +25,7 @@ import org.kuali.core.document.Document;
 import org.kuali.core.document.TransactionalDocument;
 import org.kuali.core.document.authorization.DocumentActionFlags;
 import org.kuali.core.document.authorization.TransactionalDocumentActionFlags;
+import org.kuali.kfs.bo.AccountingLine;
 import org.kuali.kfs.document.authorization.AccountingDocumentAuthorizerBase;
 import org.kuali.module.chart.bo.ChartUser;
 
@@ -66,7 +67,18 @@ public class CreditCardReceiptDocumentAuthorizer extends AccountingDocumentAutho
      * @see org.kuali.core.authorization.TransactionalDocumentAuthorizer#getEditableAccounts(org.kuali.core.document.TransactionalDocument,
      *      org.kuali.core.bo.user.KualiUser)
      */
-    public Map getEditableAccounts(TransactionalDocument document, UniversalUser user) {
+    public Map getEditableAccounts(TransactionalDocument document, ChartUser user) {
         return new HashMap();
     }
+
+    /**
+     * Overrides parent to return an empty Map since FO routing doesn't apply to the CCR doc.
+     * 
+     * @see org.kuali.kfs.document.authorization.AccountingDocumentAuthorizerBase#getEditableAccounts(java.util.List, org.kuali.module.chart.bo.ChartUser)
+     */
+    @Override
+    public Map getEditableAccounts(List<AccountingLine> lines, ChartUser user) {
+        return new HashMap();
+    }
+    
 }

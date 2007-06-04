@@ -54,8 +54,12 @@ import org.kuali.module.purap.document.PurchaseOrderDocument;
 import org.kuali.module.purap.question.SingleConfirmationQuestion;
 import org.kuali.module.purap.web.struts.form.PurchaseOrderForm;
 import org.kuali.module.purap.web.struts.form.PurchasingFormBase;
+import org.kuali.module.vendor.bo.VendorAddress;
 import org.kuali.module.vendor.bo.VendorDetail;
+import org.kuali.module.vendor.bo.VendorPhoneNumber;
 import org.kuali.rice.KNSServiceLocator;
+
+import com.ctc.wstx.util.StringUtil;
 
 /**
  * This class handles specific Actions requests for the Requisition.
@@ -84,6 +88,7 @@ public class PurchaseOrderAction extends PurchasingActionBase {
             refreshVendorDetail = (VendorDetail) businessObjectService.retrieve(refreshVendorDetail);
             document.templateAlternateVendor(refreshVendorDetail);
         }
+        
         // Handling lookups for quote vendor search that is specific to Purchase Order
         if (request.getParameter("document.purchaseOrderQuoteListIdentifier") != null) {
             // do a lookup and add all the vendors!
@@ -104,14 +109,34 @@ public class PurchaseOrderAction extends PurchasingActionBase {
             newPOVendorQuote.setVendorName(newVendor.getVendorName());
             newPOVendorQuote.setVendorHeaderGeneratedIdentifier(newVendor.getVendorHeaderGeneratedIdentifier());
             newPOVendorQuote.setVendorDetailAssignedIdentifier(newVendor.getVendorDetailAssignedIdentifier());
-            newPOVendorQuote.setVendorCityName(newVendor.getDefaultAddressCity());
-            newPOVendorQuote.setVendorCountryCode(newVendor.getDefaultAddressCountryCode());
-            newPOVendorQuote.setVendorLine1Address(newVendor.getDefaultAddressLine1());
-            newPOVendorQuote.setVendorLine2Address(newVendor.getDefaultAddressLine2());
-            newPOVendorQuote.setVendorPostalCode(newVendor.getDefaultAddressPostalCode());
-            newPOVendorQuote.setVendorStateCode(newVendor.getDefaultAddressStateCode());
-            newPOVendorQuote.setVendorPhoneNumber(null);
-            newPOVendorQuote.setVendorFaxNumber(null);
+            for (VendorAddress address : newVendor.getVendorAddresses()) {
+                if ("PO".equals(address.getVendorAddressTypeCode())) {
+                    newPOVendorQuote.setVendorCityName(address.getVendorCityName());
+                    newPOVendorQuote.setVendorCountryCode(address.getVendorCountryCode());
+                    newPOVendorQuote.setVendorLine1Address(address.getVendorLine1Address());
+                    newPOVendorQuote.setVendorLine2Address(address.getVendorLine2Address());
+                    newPOVendorQuote.setVendorPostalCode(address.getVendorZipCode());
+                    newPOVendorQuote.setVendorStateCode(address.getVendorStateCode());
+                    break;
+                }
+            }
+
+            String tmpPhoneNumber = null;
+            for (VendorPhoneNumber phone : newVendor.getVendorPhoneNumbers()) {
+                if ("PO".equals(phone.getVendorPhoneTypeCode())) {
+                    newPOVendorQuote.setVendorPhoneNumber(phone.getVendorPhoneNumber());
+                }
+                if ("FX".equals(phone.getVendorPhoneTypeCode())) {
+                    newPOVendorQuote.setVendorFaxNumber(phone.getVendorPhoneNumber());
+                }
+                if ("PH".equals(phone.getVendorPhoneTypeCode())) {
+                    tmpPhoneNumber = phone.getVendorPhoneNumber();
+                }
+            }
+            if (StringUtils.isEmpty(newPOVendorQuote.getVendorPhoneNumber()) && !StringUtils.isEmpty(tmpPhoneNumber)) {
+                newPOVendorQuote.setVendorPhoneNumber(tmpPhoneNumber);
+            }
+
             document.getPurchaseOrderVendorQuotes().add(newPOVendorQuote);
         }
 

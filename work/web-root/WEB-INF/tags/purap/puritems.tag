@@ -316,8 +316,21 @@
 						camsAttributes="${camsAttributes}" ctr="${ctr}"
                         suppressCams="true" overrideTitle="Item Accounting Lines" />
 				</c:if>
-				<c:if test="${(!amendmentEntry or !itemLine.itemActiveIndicator)}">
+				<c:if test="${(amendmentEntry and !itemLine.itemActiveIndicator)}">
 				    <c:set target="${KualiForm.editingMode}" property="viewOnly" value="true" />
+					<purap:puraccountingLineCams editingMode="${KualiForm.editingMode}"
+						editableAccounts="${KualiForm.editableAccounts}"
+						sourceAccountingLinesOnly="true"
+						optionalFields="accountLinePercent"
+						extraHiddenFields=",accountIdentifier,itemIdentifier"
+						accountingLineAttributes="${accountingLineAttributes}"
+						accountPrefix="document.item[${ctr}]." hideTotalLine="true"
+						hideFields="amount" accountingAddLineIndex="${ctr}"
+						itemsAttributes="${itemAttributes}"
+						camsAttributes="${camsAttributes}" ctr="${ctr}"
+                        suppressCams="true" overrideTitle="Item Accounting Lines" />
+				</c:if>
+				<c:if test="${(!amendmentEntry)}">
 					<purap:puraccountingLineCams editingMode="${KualiForm.editingMode}"
 						editableAccounts="${KualiForm.editableAccounts}"
 						sourceAccountingLinesOnly="true"

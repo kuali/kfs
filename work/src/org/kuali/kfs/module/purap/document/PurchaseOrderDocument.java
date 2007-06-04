@@ -16,6 +16,7 @@
 
 package org.kuali.module.purap.document;
 
+import java.math.BigDecimal;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
@@ -32,7 +33,6 @@ import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.bo.PurchaseOrderItem;
-import org.kuali.module.purap.bo.PurchaseOrderQuoteListVendor;
 import org.kuali.module.purap.bo.PurchaseOrderStatusHistory;
 import org.kuali.module.purap.bo.PurchaseOrderVendorChoice;
 import org.kuali.module.purap.bo.PurchaseOrderVendorQuote;
@@ -704,6 +704,20 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase implements Cop
             }
         }
         return null;
+    }
+    
+    @Override
+    public KualiDecimal getTotalDollarAmount() {
+
+        KualiDecimal total = new KualiDecimal(BigDecimal.ZERO);
+        for (Object item : getItems()) {
+            if (((PurchaseOrderItem)item).isItemActiveIndicator()) {
+                KualiDecimal extendedPrice = ((PurchaseOrderItem)item).getExtendedPrice();
+                KualiDecimal itemTotal = (extendedPrice != null) ? extendedPrice : KualiDecimal.ZERO;
+                total = total.add(itemTotal);
+            }
+        }
+        return total;
     }
     /**
      * @see org.kuali.module.purap.document.PurchasingAccountsPayableDocumentBase#getSourceAccountingLineClass()

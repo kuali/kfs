@@ -39,9 +39,12 @@ import org.kuali.module.labor.bo.LaborOriginEntry;
 public class LaborCorrectionForm extends CorrectionForm {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(LaborCorrectionForm.class);
     
+    private LaborOriginEntry laborEntryForManualEdit;
+    
      public LaborCorrectionForm() {
         super();
-        
+        laborEntryForManualEdit = new LaborOriginEntry();
+        laborEntryForManualEdit.setEntryId(0);
         
     }
     public void clearForm() {
@@ -54,5 +57,19 @@ public class LaborCorrectionForm extends CorrectionForm {
         setDocTitle("Labor Ledger Correction Process");
         setHtmlFormAction("laborLedgerCorrection");
     }
+    public LaborOriginEntry getLaborEntryForManualEdit() {
+        return laborEntryForManualEdit;
+    }
+    public void setentryForManualEdit(LaborOriginEntry laborEntryForManualEdit) {
+        this.laborEntryForManualEdit = laborEntryForManualEdit;
+    }
     
+    
+    public void updateEntryForManualEdit() {
+        laborEntryForManualEdit.setFieldValue("universityFiscalYear", getEntryUniversityFiscalYear());
+        laborEntryForManualEdit.setFieldValue("transactionLedgerEntrySequenceNumber",getEntryTransactionLedgerEntrySequenceNumber());
+        laborEntryForManualEdit.setFieldValue("transactionLedgerEntryAmount", getEntryTransactionLedgerEntryAmount());
+        laborEntryForManualEdit.setFieldValue("transactionDate", getEntryTransactionDate());
+        laborEntryForManualEdit.setFieldValue("financialDocumentReversalDate",getEntryFinancialDocumentReversalDate());
+    }
  }

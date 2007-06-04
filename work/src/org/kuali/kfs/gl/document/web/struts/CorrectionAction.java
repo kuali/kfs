@@ -1184,7 +1184,7 @@ public class CorrectionAction extends KualiDocumentActionBase implements KualiTa
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
-    private boolean validOriginEntry(CorrectionForm correctionForm) {
+    protected boolean validOriginEntry(CorrectionForm correctionForm) {
         LOG.debug("validOriginEntry() started");
 
         OriginEntry oe = correctionForm.getEntryForManualEdit();
@@ -1587,7 +1587,7 @@ public class CorrectionAction extends KualiDocumentActionBase implements KualiTa
         }
     }
     
-    private void removeNonMatchingEntries(Collection<OriginEntry> entries, Collection<CorrectionChangeGroup> groups) {
+    protected void removeNonMatchingEntries(Collection<OriginEntry> entries, Collection<CorrectionChangeGroup> groups) {
         Iterator<OriginEntry> oei = entries.iterator();
         while (oei.hasNext()) {
             OriginEntry oe = oei.next();
@@ -1659,7 +1659,7 @@ public class CorrectionAction extends KualiDocumentActionBase implements KualiTa
         }
     }
     
-    private void applyPagingAndSortingFromPreviousPageView(CorrectionForm correctionForm) {
+    protected void applyPagingAndSortingFromPreviousPageView(CorrectionForm correctionForm) {
         KualiTableRenderFormMetadata originEntrySearchResultTableMetadata = correctionForm.getOriginEntrySearchResultTableMetadata();
         if (originEntrySearchResultTableMetadata.getPreviouslySortedColumnIndex() != -1) {
             

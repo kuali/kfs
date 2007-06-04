@@ -20,10 +20,8 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -51,6 +49,7 @@ import org.kuali.module.gl.web.struts.action.CorrectionAction;
 import org.kuali.module.gl.web.struts.form.CorrectionForm;
 import org.kuali.module.labor.bo.LaborOriginEntry;
 import org.kuali.module.labor.service.LaborOriginEntryService;
+import org.kuali.module.labor.web.struts.form.LaborCorrectionForm;
 import org.kuali.rice.KNSServiceLocator;
 
 public class LaborCorrectionAction extends CorrectionAction{
@@ -184,6 +183,91 @@ public class LaborCorrectionAction extends CorrectionAction{
     }
     
     
+    /**
+     * Save a changed row in the group
+     */
+    public ActionForward saveManualEntry(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        LOG.debug("saveManualEdit() started");
+
+        CorrectionForm correctionForm = (CorrectionForm) form;
+        CorrectionDocument document = correctionForm.getCorrectionDocument();
+
+        if (validOriginEntry(correctionForm)) {
+            int entryId = correctionForm.getEntryForManualEdit().getEntryId();
+
+            // Find it and replace it with the one from the edit spot
+            for (Iterator<OriginEntry> iter = correctionForm.getAllEntries().iterator(); iter.hasNext();) {
+                OriginEntry element = iter.next();
+                if (element.getEntryId() == entryId) {
+                    iter.remove();
+                }
+            }
+
+            correctionForm.updateEntryForManualEdit();
+            correctionForm.getAllEntries().add(correctionForm.getEntryForManualEdit());
+
+            // we've modified the list of all entries, so repersist it
+            SpringServiceLocator.getGlCorrectionProcessOriginEntryService().persistAllEntries(correctionForm.getGlcpSearchResultsSequenceNumber(), correctionForm.getAllEntries());
+            correctionForm.setDisplayEntries(new ArrayList<OriginEntry>(correctionForm.getAllEntries()));
+            
+            if (correctionForm.getShowOutputFlag()) {
+                removeNonMatchingEntries(correctionForm.getDisplayEntries(), document.getCorrectionChangeGroup());
+            }
+            
+            // Clear out the additional row
+            correctionForm.clearEntryForManualEdit();
+        }
+
+        // Calculate the debit/credit/row count
+        updateDocumentSummary(document, correctionForm.getAllEntries(), correctionForm.isRestrictedFunctionalityMode());
+
+        // list has changed, we'll need to repage and resort
+        applyPagingAndSortingFromPreviousPageView(correctionForm);
+
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
+    }
+    
+    
+    /**
+     * Add a new row to the group
+     */
+    public ActionForward addManualEntry(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        LOG.debug("addManualEdit() started");
+
+        LaborCorrectionForm laborCorrectionForm = (LaborCorrectionForm) form;
+        CorrectionDocument document = laborCorrectionForm.getCorrectionDocument();
+
+        if (validOriginEntry(laborCorrectionForm)) {
+            laborCorrectionForm.updateEntryForManualEdit();
+
+            // new entryId is always 0, so give it a unique Id, SequenceAccessorService is used.
+            Long newEntryId = SpringServiceLocator.getSequenceAccessorService().getNextAvailableSequenceNumber("GL_ORIGIN_ENTRY_T_SEQ");
+            laborCorrectionForm.getLaborEntryForManualEdit().setEntryId(new Integer(newEntryId.intValue()));
+
+            laborCorrectionForm.getAllEntries().add(laborCorrectionForm.getLaborEntryForManualEdit());
+
+            // Clear out the additional row
+            laborCorrectionForm.clearEntryForManualEdit();
+        }
+
+
+        // Calculate the debit/credit/row count
+        updateDocumentSummary(document, laborCorrectionForm.getAllEntries(), laborCorrectionForm.isRestrictedFunctionalityMode());
+
+        laborCorrectionForm.setShowSummaryOutputFlag(true);
+
+        // we've modified the list of all entries, so repersist it
+        SpringServiceLocator.getGlCorrectionProcessOriginEntryService().persistAllEntries(laborCorrectionForm.getGlcpSearchResultsSequenceNumber(), laborCorrectionForm.getAllEntries());
+        laborCorrectionForm.setDisplayEntries(new ArrayList<OriginEntry>(laborCorrectionForm.getAllEntries()));
+        if (laborCorrectionForm.getShowOutputFlag()) {
+            removeNonMatchingEntries(laborCorrectionForm.getDisplayEntries(), document.getCorrectionChangeGroup());
+        }
+        
+        // list has changed, we'll need to repage and resort
+        applyPagingAndSortingFromPreviousPageView(laborCorrectionForm);
+        
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
+    }
     
     
    /* @Override

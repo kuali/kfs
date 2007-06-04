@@ -45,6 +45,7 @@
     </c:if>
     <!--  TODO maybe we ought to rename the accountingLineEditingMode to something more generic -->
     <c:if test="${! empty KualiForm.editingMode['amendmentEntry']}">
+        <c:set target="${KualiForm.accountingLineEditingMode}" property="fullEntry" value="true" />
         <kul:documentOverview editingMode="${KualiForm.accountingLineEditingMode}"
             includePostingYear="true"
             postingYearAttributes="${DataDictionary.KualiPurchaseOrderDocument.attributes}" >

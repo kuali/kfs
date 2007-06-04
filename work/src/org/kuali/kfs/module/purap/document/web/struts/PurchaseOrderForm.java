@@ -61,7 +61,7 @@ public class PurchaseOrderForm extends PurchasingFormBase {
         setNewPurchaseOrderVendorStipulationLine(new PurchaseOrderVendorStipulation());
         setNewPurchaseOrderVendorQuote(new PurchaseOrderVendorQuote());
         this.accountingLineEditingMode = new HashMap();
-        this.accountingLineEditingMode.put(AuthorizationConstants.EditMode.FULL_ENTRY, "TRUE");
+        
     }
 
     /**

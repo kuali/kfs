@@ -301,7 +301,8 @@
 				</tr>
 
 <!-- TODO PHASE 2b: Remove "suppressCams" and "overrideTitle" attributes -->
-				<c:if test="${amendmentEntry}">
+				<c:if test="${(amendmentEntry and itemLine.itemActiveIndicator)}">
+				    <c:set target="${KualiForm.accountingLineEditingMode}" property="fullEntry" value="true" />
 					<purap:puraccountingLineCams
 						editingMode="${KualiForm.accountingLineEditingMode}"
 						editableAccounts="${KualiForm.editableAccounts}"
@@ -315,7 +316,8 @@
 						camsAttributes="${camsAttributes}" ctr="${ctr}"
                         suppressCams="true" overrideTitle="Item Accounting Lines" />
 				</c:if>
-				<c:if test="${! amendmentEntry }">
+				<c:if test="${(!amendmentEntry or !itemLine.itemActiveIndicator)}">
+				    <c:set target="${KualiForm.editingMode}" property="viewOnly" value="true" />
 					<purap:puraccountingLineCams editingMode="${KualiForm.editingMode}"
 						editableAccounts="${KualiForm.editableAccounts}"
 						sourceAccountingLinesOnly="true"

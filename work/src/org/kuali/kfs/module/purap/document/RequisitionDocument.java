@@ -19,6 +19,7 @@ package org.kuali.module.purap.document;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -26,7 +27,6 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.core.bo.DocumentHeader;
 import org.kuali.core.bo.Note;
 import org.kuali.core.document.Copyable;
-import org.kuali.core.document.DocumentBase;
 import org.kuali.core.exceptions.ValidationException;
 import org.kuali.core.service.DateTimeService;
 import org.kuali.core.util.GlobalVariables;
@@ -40,6 +40,7 @@ import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.PurapKeyConstants;
 import org.kuali.module.purap.PurapParameterConstants;
 import org.kuali.module.purap.bo.BillingAddress;
+import org.kuali.module.purap.bo.RequisitionAccount;
 import org.kuali.module.purap.bo.RequisitionItem;
 import org.kuali.module.purap.bo.RequisitionStatusHistory;
 import org.kuali.module.purap.bo.RequisitionView;
@@ -240,31 +241,18 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
         // Fill the BO Notes with an empty List.
         this.setBoNotes(new ArrayList());
       
-        //TODO WAIT ON ITEM LOGIC (CHRIS AND DAVID SHOULD FIX THIS HERE)
-        //TODO what about id in items?  do we need to null them out?
-
-      //Trade In and Discount Items are only available for B2B. If the Requisition
-      //doesn't currently contain trade in and discount, we should add them in 
-      //here (KULAPP 1715)
-//      if (! EpicConstants.REQ_SOURCE_B2B.equals(req.getSource().getCode())) {
-//        boolean containsFullOrderDiscount = req.containsFullOrderDiscount();
-//        //If the po has not contained full order discount item, create and
-//        //add the full order discount item to it.
-//        if (! containsFullOrderDiscount) {
-//          ItemType iT = (ItemType)(referenceService.getCode("ItemType",EpicConstants.ITEM_TYPE_ORDER_DISCOUNT_CODE));
-//          RequisitionItem discountItem = new RequisitionItem(iT, EpicConstants.ITEM_TYPE_ORDER_DISCOUNT_LINE_NUMBER, req);
-//          newReq.getItems().add(discountItem);
-//        }
-//          
-//        boolean containsTradeIn = req.containsTradeIn();
-//        //If the po has not contained trade in item, create and
-//        //add the trade in item to it.
-//        if (! containsTradeIn) {
-//          ItemType iT = (ItemType)(referenceService.getCode("ItemType",EpicConstants.ITEM_TYPE_TRADE_IN_CODE));
-//          RequisitionItem tradeInItem = new RequisitionItem(iT, EpicConstants.ITEM_TYPE_TRADE_IN_LINE_NUMBER, req);
-//          newReq.getItems().add(tradeInItem);
-//        }
-//      }
+        //TODO is this ok for items and accts?
+        for (Iterator iter = this.getItems().iterator(); iter.hasNext();) {
+            RequisitionItem item = (RequisitionItem) iter.next();
+            item.setPurapDocumentIdentifier(null);
+            item.setItemIdentifier(null);
+            for (Iterator acctIter = item.getSourceAccountingLines().iterator(); acctIter.hasNext();) {
+                RequisitionAccount account = (RequisitionAccount) acctIter.next();
+                account.setAccountIdentifier(null);
+                account.setItemIdentifier(null);
+            }
+        }
+        SpringServiceLocator.getPurapService().addBelowLineItems(this);
 
         this.setOrganizationAutomaticPurchaseOrderLimit(SpringServiceLocator.getPurapService().getApoLimit(this.getVendorContractGeneratedIdentifier(), this.getChartOfAccountsCode(), this.getOrganizationCode()));
       

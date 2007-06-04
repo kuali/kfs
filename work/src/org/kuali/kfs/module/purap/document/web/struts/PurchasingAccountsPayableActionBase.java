@@ -41,7 +41,7 @@ public class PurchasingAccountsPayableActionBase extends KualiAccountingDocument
     
     @Override
     public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        
+
         ActionForward superForward = super.save(mapping, form, request, response);
         ((KualiAccountingDocumentFormBase) form).getDocument().refreshNonUpdateableReferences();
         ActionForward forward = refreshAccountSummary(mapping, form, request, response);
@@ -65,7 +65,7 @@ public class PurchasingAccountsPayableActionBase extends KualiAccountingDocument
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
     
-    private void refreshAccountSummary(PurchasingAccountsPayableDocument document) {
+    public void refreshAccountSummary(PurchasingAccountsPayableDocument document) {
         List<PurchasingApItem> items = document.getItems();
         List<SourceAccountingLine> summaryAccountingLines = SpringServiceLocator.getPurapService().generateSummary(items);
         document.setSummaryAccounts(summaryAccountingLines);

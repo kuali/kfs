@@ -23,6 +23,8 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.core.web.struts.form.KualiDocumentFormBase;
 import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.kfs.web.struts.form.KualiAccountingDocumentFormBase;
+import org.kuali.module.purap.document.PurchasingAccountsPayableDocument;
 import org.kuali.module.purap.document.RequisitionDocument;
 import org.kuali.module.purap.web.struts.form.RequisitionForm;
 
@@ -77,6 +79,14 @@ public class RequisitionAction extends PurchasingActionBase {
         //TODO add code
 
         return mapping.findForward("viewPaymentHistory");
+    }
+
+    @Override
+    public ActionForward route(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        KualiAccountingDocumentFormBase baseForm = (KualiAccountingDocumentFormBase) form;
+        PurchasingAccountsPayableDocument document = (PurchasingAccountsPayableDocument)baseForm.getDocument();
+        refreshAccountSummary(document);
+        return super.route(mapping, form, request, response);
     }
 
 }

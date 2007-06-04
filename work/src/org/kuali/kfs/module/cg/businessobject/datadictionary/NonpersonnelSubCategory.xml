@@ -66,11 +66,11 @@
                 <label>Nonpersonnel Sub Category Code</label>
                 <shortLabel>Code</shortLabel>
 
-                <maxLength>2</maxLength>
+                <maxLength>3</maxLength>
 
 
                 <validationPattern>
-                    <anyCharacter exactLength="2" />
+                    <anyCharacter exactLength="3" />
                 </validationPattern>
                 <required>true</required>
                 <control>

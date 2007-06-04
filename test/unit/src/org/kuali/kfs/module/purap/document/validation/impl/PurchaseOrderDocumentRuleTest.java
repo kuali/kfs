@@ -25,6 +25,7 @@ import org.kuali.module.purap.bo.PurchaseOrderVendorStipulation;
 import org.kuali.module.purap.document.PurchaseOrderDocument;
 import org.kuali.module.purap.fixtures.AmountsLimitsFixture;
 import org.kuali.module.purap.fixtures.ItemAccountsFixture;
+import org.kuali.module.purap.fixtures.ItemTypesFixture;
 import org.kuali.test.WithTestSpringContext;
 
 @WithTestSpringContext(session = KHUNTLEY)
@@ -45,11 +46,60 @@ public class PurchaseOrderDocumentRuleTest extends PurapRuleTestBase {
         super.tearDown();      
     }
     
-    public void testValidateEmptyItemWithAccounts() {
-        PurchaseOrderItem poItem = ItemAccountsFixture.NULL_DESC_NULL_UOM_WTIH_ACCOUNT.populateItem();
+    /*
+     * Tests of validateEmptyItemWithAccounts
+     */
+    public void testValidateEmptyItemWithAccounts_NullItemWithAccount() {
+        PurchaseOrderItem poItem = ItemAccountsFixture.NULL_DESC_NULL_UOM_NULL_PRICE_WTIH_ACCOUNT.populateItem();
         assertFalse(rule.validateEmptyItemWithAccounts(poItem,"Item " + poItem.getItemLineNumber().toString()));
     }
     
+    public void testValidateEmptyItemWithAccounts_EmptyItemWithAccount() {
+        PurchaseOrderItem poItem = ItemAccountsFixture.EMPTY_DESC_EMPTY_UOM_NULL_PRICE_WITH_ACCOUNT.populateItem();
+        assertFalse(rule.validateEmptyItemWithAccounts(poItem,"Item " + poItem.getItemLineNumber().toString()));
+    }
+    
+    public void testValidateEmptyItemWithAccounts_WithItemWithAccount() {
+        PurchaseOrderItem poItem = ItemAccountsFixture.WITH_DESC_WITH_UOM_WITH_PRICE_WITH_ACCOUNT.populateItem();
+        assertTrue(rule.validateEmptyItemWithAccounts(poItem,"Item " + poItem.getItemLineNumber().toString()));
+    }
+    
+    public void testValidateEmptyItemWithAccounts_WithItemWithoutAccount() {
+        PurchaseOrderItem poItem = ItemAccountsFixture.WITH_DESC_WITH_UOM_WITH_PRICE_NULL_ACCOUNT.populateItem();
+        assertTrue(rule.validateEmptyItemWithAccounts(poItem,"Item " + poItem.getItemLineNumber().toString()));
+    }
+    
+    /*
+     * Tests of validateItemWithoutAccounts
+     */
+    public void validateItemWithoutAccounts_WithItemWithAccount() {
+        PurchaseOrderItem poItem = ItemAccountsFixture.WITH_DESC_WITH_UOM_WITH_PRICE_WITH_ACCOUNT.populateItem();
+        assertTrue(rule.validateItemWithoutAccounts(poItem,"Item " + poItem.getItemLineNumber().toString()));
+    }
+    
+    public void validateItemWithoutAccounts_WithItemWithoutAccount() {
+        PurchaseOrderItem poItem = ItemAccountsFixture.WITH_DESC_WITH_UOM_WITH_PRICE_NULL_ACCOUNT.populateItem();
+        assertFalse(rule.validateItemWithoutAccounts(poItem,"Item " + poItem.getItemLineNumber().toString()));
+    }
+    
+    /*
+     * Tests of validateItemUnitOfMeasure
+     */
+    public void validateItemUnitOfMeasure_WithUOM() {
+        PurchaseOrderItem poItem = ItemAccountsFixture.WITH_DESC_WITH_UOM_WITH_PRICE_WITH_ACCOUNT.populateItem();
+        assertTrue(rule.validateItemUnitOfMeasure(poItem,"Item " + poItem.getItemLineNumber().toString()));
+    }
+    
+    public void validateItemUnitOfMeasure_WithoutUOM() {
+        PurchaseOrderItem poItem = ItemAccountsFixture.WITH_DESC_NULL_UOM_WITH_PRICE_WITH_ACCOUNT.populateItem();
+        assertFalse(rule.validateItemUnitOfMeasure(poItem,"Item " + poItem.getItemLineNumber().toString()));
+    }
+    
+    public void validateItemUnitOfMeasure_EmptyUOM() {
+        PurchaseOrderItem poItem = ItemAccountsFixture.WITH_DESC_EMPTY_UOM_WITH_PRICE_WITH_ACCOUNT.populateItem();
+        assertFalse(rule.validateItemUnitOfMeasure(poItem,"Item " + poItem.getItemLineNumber().toString()));
+    }
+        
     /*
      * Tests of validateTotalDollarAmountIsLessThanPurchaseOrderTotalLimit
      */
@@ -67,6 +117,24 @@ public class PurchaseOrderDocumentRuleTest extends PurapRuleTestBase {
         po = AmountsLimitsFixture.LARGE_AMOUNT_SMALL_LIMIT.populatePurchaseOrder();
         assertFalse(rule.validateTotalDollarAmountIsLessThanPurchaseOrderTotalLimit(po));
     }
+    
+    /*
+     * Tests of validateTradeInAndDiscountCoexistence
+     */
+    public void testValidateTradeInAndDiscountCoexistence_WithTradeInWithDiscount() {
+        po = ItemTypesFixture.WITH_TRADEIN_WITH_DISCOUNT.populate();
+        assertFalse(rule.validateTradeInAndDiscountCoexistence(po));
+    }
+    
+    public void testValidateTradeInAndDiscountCoexistence_WithTradeInWithMisc() {
+        po = ItemTypesFixture.WITH_TRADEIN_WITH_MISC.populate();
+        assertTrue(rule.validateTradeInAndDiscountCoexistence(po));
+    }
+    
+    public void testValidateTradeInAndDiscountCoexistence_WithDiscountWithMisc() {
+        po = ItemTypesFixture.WITH_MISC_WITH_DISCOUNT.populate();
+        assertTrue(rule.validateTradeInAndDiscountCoexistence(po));
+    }   
     
     /*
      * Tests of processVendorStipulationValidation

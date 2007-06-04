@@ -36,13 +36,14 @@ public abstract class PurchasingItemBase extends PurApItemBase implements Purcha
     }
 
     public boolean isItemDetailEmpty() {
-        return  ( 
-            (ObjectUtils.isNull(getItemQuantity()) || StringUtils.isEmpty(getItemQuantity().toString())&&
-            StringUtils.isEmpty(getItemUnitOfMeasureCode()) &&
-            StringUtils.isEmpty(getItemCatalogNumber()) &&
-            StringUtils.isEmpty(getItemDescription()) &&
-            (ObjectUtils.isNull(getItemUnitPrice()) || (getItemUnitPrice().compareTo(new BigDecimal("0")) == 0)))) ; 
-      }
+        boolean empty = true;
+        empty &= ObjectUtils.isNull(getItemQuantity()) || StringUtils.isEmpty(getItemQuantity().toString());
+        empty &= StringUtils.isEmpty(getItemUnitOfMeasureCode());
+        empty &= StringUtils.isEmpty(getItemCatalogNumber());
+        empty &= StringUtils.isEmpty(getItemDescription());
+        empty &= ObjectUtils.isNull(getItemUnitPrice()) || (getItemUnitPrice().compareTo(new BigDecimal("0")) == 0);
+        return empty;
+    }
     
     
     public boolean isAccountListEmpty() {

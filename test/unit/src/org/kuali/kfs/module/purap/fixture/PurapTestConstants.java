@@ -15,6 +15,7 @@
  */
 package org.kuali.module.purap.fixtures;
 
+import java.math.BigDecimal;
 import java.sql.Date;
 
 import org.kuali.core.util.KualiDecimal;
@@ -55,5 +56,6 @@ class PurapTestConstants {
         static final String ITEM_UOM = "EACH";
         static PurchaseOrderAccount PO_ACCOUNT =  new PurchaseOrderAccount();
         static final String ACCOUNT_NUMBER = "9999999";
+        static final BigDecimal UNIT_PRICE = new KualiDecimal(32).bigDecimalValue();
     }
 }

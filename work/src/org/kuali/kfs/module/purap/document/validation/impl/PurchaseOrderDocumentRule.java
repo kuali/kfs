@@ -136,7 +136,7 @@ public class PurchaseOrderDocumentRule extends PurchasingDocumentRuleBase {
      * @param purDocument
      * @return
      */
-    private boolean validateTradeInAndDiscountCoexistence(PurchasingDocument purDocument) {
+    boolean validateTradeInAndDiscountCoexistence(PurchasingDocument purDocument) {
         boolean discountExists = false;
         boolean tradeInExists = false;
         

@@ -56,7 +56,7 @@
         <td class="infoline">
           <div align="center">
             <kul:htmlControlAttribute property="newRoutingFormInstitutionCostShare.organizationCode" attributeEntry="${institutionCostShareAttributes.organizationCode}" readOnly="${viewOnly or budgetLinked}"/>
-            <c:if test="${viewOnly or budgetLinked}"> <kul:lookup boClassName="org.kuali.module.chart.bo.Org" lookupParameters="newRoutingFormInstitutionCostShare.organizationCode:organizationCode,newRoutingFormInstitutionCostShare.chartOfAccountsCode:chartOfAccountsCode" fieldConversions="organizationCode:newRoutingFormInstitutionCostShare.organizationCode,chartOfAccountsCode:newRoutingFormInstitutionCostShare.chartOfAccountsCode" tabindexOverride="5100" anchor="${currentTabIndex}" /></c:if>
+            <c:if test="${not viewOnly and not budgetLinked}"> <kul:lookup boClassName="org.kuali.module.chart.bo.Org" lookupParameters="newRoutingFormInstitutionCostShare.organizationCode:organizationCode,newRoutingFormInstitutionCostShare.chartOfAccountsCode:chartOfAccountsCode" fieldConversions="organizationCode:newRoutingFormInstitutionCostShare.organizationCode,chartOfAccountsCode:newRoutingFormInstitutionCostShare.chartOfAccountsCode" tabindexOverride="5100" anchor="${currentTabIndex}" /></c:if>
           </div>
         </td>
         <td class="infoline">

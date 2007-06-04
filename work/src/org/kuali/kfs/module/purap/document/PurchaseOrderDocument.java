@@ -32,6 +32,7 @@ import org.kuali.core.util.TypedArrayList;
 import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.purap.PurapConstants;
+import org.kuali.module.purap.bo.ItemType;
 import org.kuali.module.purap.bo.PurchaseOrderItem;
 import org.kuali.module.purap.bo.PurchaseOrderStatusHistory;
 import org.kuali.module.purap.bo.PurchaseOrderVendorChoice;
@@ -708,17 +709,24 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase implements Cop
     
     @Override
     public KualiDecimal getTotalDollarAmount() {
-
+        //return total without inactive and with below the line
+        return getTotalDollarAmount(false, true);
+    }
+    
+    public KualiDecimal getTotalDollarAmount(boolean includeInactive, boolean includeBelowTheLine) {
         KualiDecimal total = new KualiDecimal(BigDecimal.ZERO);
-        for (Object item : getItems()) {
-            if (((PurchaseOrderItem)item).isItemActiveIndicator()) {
-                KualiDecimal extendedPrice = ((PurchaseOrderItem)item).getExtendedPrice();
+        for (PurchaseOrderItem item : (List<PurchaseOrderItem>)getItems()) {
+            ItemType it = item.getItemType();
+            if((includeBelowTheLine || it.isItemTypeAboveTheLineIndicator()) &&
+               (includeInactive || item.isItemActiveIndicator())) {
+                KualiDecimal extendedPrice = item.getExtendedPrice();
                 KualiDecimal itemTotal = (extendedPrice != null) ? extendedPrice : KualiDecimal.ZERO;
                 total = total.add(itemTotal);
             }
         }
         return total;
     }
+    
     /**
      * @see org.kuali.module.purap.document.PurchasingAccountsPayableDocumentBase#getSourceAccountingLineClass()
      */

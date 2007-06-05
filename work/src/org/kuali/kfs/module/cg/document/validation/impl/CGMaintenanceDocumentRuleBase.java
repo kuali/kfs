@@ -131,7 +131,7 @@ public class CGMaintenanceDocumentRuleBase extends MaintenanceDocumentRuleBase {
      * be the same as the Federal Pass Through Agency for that same document.
      * @param agency
      * @param federalPassThroughAgency
-     * @param propertyName
+     * @param agencyPropertyName
      * @return True if the agencies are not the same, false otherwise.
      */
     protected boolean checkAgencyNotEqualToFederalPassThroughAgency(Agency agency, Agency federalPassThroughAgency, String agencyPropertyName, String fedPassThroughAgencyPropertyName) {

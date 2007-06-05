@@ -35,13 +35,15 @@
             </th>
             <td align=left valign=middle class="datacell">
                 <kul:htmlControlAttribute attributeEntry="${vendorQuoteAttributes.vendorName}" property="document.purchaseOrderVendorQuote[${ctr}].vendorName" readOnly="${isPurchaseOrderAwarded || isSysVendor}" />
+			    <html:hidden property="document.purchaseOrderVendorQuote[${ctr}].documentNumber" />
             </td>
             <th align=right valign=middle class="bord-l-b">
                 <div align="right"><kul:htmlAttributeLabel attributeEntry="${vendorQuoteAttributes.vendorHeaderGeneratedIdentifier}" /></div>
             </th>
             <td align=left valign=middle class="datacell">
             	<c:if test="${not isSysVendor}">N/A</c:if>
-                <kul:htmlControlAttribute attributeEntry="${vendorQuoteAttributes.vendorHeaderGeneratedIdentifier}" property="document.purchaseOrderVendorQuote[${ctr}].vendorHeaderGeneratedIdentifier" readOnly="true" />
+                <kul:htmlControlAttribute attributeEntry="${vendorQuoteAttributes.vendorHeaderGeneratedIdentifier}" property="document.purchaseOrderVendorQuote[${ctr}].vendorHeaderGeneratedIdentifier" readOnly="true" />-
+                <kul:htmlControlAttribute attributeEntry="${vendorQuoteAttributes.vendorHeaderGeneratedIdentifier}" property="document.purchaseOrderVendorQuote[${ctr}].vendorDetailAssignedIdentifier" readOnly="true" />
             </td>
             <td rowspan="9">
             	<c:if test="${isPurchaseOrderAwarded}">
@@ -107,7 +109,7 @@
                 <kul:htmlControlAttribute attributeEntry="${vendorQuoteAttributes.purchaseOrderQuoteTransmitTypeCode}" property="document.purchaseOrderVendorQuote[${ctr}].purchaseOrderQuoteTransmitTypeCode" readOnly="${isPurchaseOrderAwarded}" />
             	<c:if test="${!isPurchaseOrderAwarded}">
 					<html:image
-	property="methodToCall.printPo"
+	property="methodToCall.firstTransmitPo"
 	src="${ConfigProperties.externalizable.images.url}tinybutton-transmit.gif"
 	alt="transmit quote" title="transmit quote" 
 	styleClass="tinybutton" />

@@ -37,17 +37,14 @@ import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.web.struts.form.KualiDocumentFormBase;
 import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.KFSKeyConstants;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.PurapKeyConstants;
 import org.kuali.module.purap.PurapPropertyConstants;
 import org.kuali.module.purap.PurapConstants.PODocumentsStrings;
-import org.kuali.module.purap.PurapConstants.PaymentRequestStatuses;
 import org.kuali.module.purap.PurapConstants.PurchaseOrderDocTypes;
 import org.kuali.module.purap.bo.PurchaseOrderItem;
 import org.kuali.module.purap.bo.PurchaseOrderQuoteList;
-import org.kuali.module.purap.bo.PurchaseOrderVendorChoice;
 import org.kuali.module.purap.bo.PurchaseOrderVendorQuote;
 import org.kuali.module.purap.bo.PurchaseOrderVendorStipulation;
 import org.kuali.module.purap.document.PurchaseOrderDocument;
@@ -57,9 +54,6 @@ import org.kuali.module.purap.web.struts.form.PurchasingFormBase;
 import org.kuali.module.vendor.bo.VendorAddress;
 import org.kuali.module.vendor.bo.VendorDetail;
 import org.kuali.module.vendor.bo.VendorPhoneNumber;
-import org.kuali.rice.KNSServiceLocator;
-
-import com.ctc.wstx.util.StringUtil;
 
 /**
  * This class handles specific Actions requests for the Requisition.
@@ -109,6 +103,7 @@ public class PurchaseOrderAction extends PurchasingActionBase {
             newPOVendorQuote.setVendorName(newVendor.getVendorName());
             newPOVendorQuote.setVendorHeaderGeneratedIdentifier(newVendor.getVendorHeaderGeneratedIdentifier());
             newPOVendorQuote.setVendorDetailAssignedIdentifier(newVendor.getVendorDetailAssignedIdentifier());
+            newPOVendorQuote.setDocumentNumber(document.getDocumentNumber());
             for (VendorAddress address : newVendor.getVendorAddresses()) {
                 if ("PO".equals(address.getVendorAddressTypeCode())) {
                     newPOVendorQuote.setVendorCityName(address.getVendorCityName());
@@ -768,6 +763,7 @@ public class PurchaseOrderAction extends PurchasingActionBase {
     public ActionForward addVendor(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         PurchaseOrderForm poForm = (PurchaseOrderForm) form;
         PurchaseOrderDocument document = (PurchaseOrderDocument) poForm.getDocument();
+        poForm.getNewPurchaseOrderVendorQuote().setDocumentNumber(document.getDocumentNumber());
         document.getPurchaseOrderVendorQuotes().add(poForm.getNewPurchaseOrderVendorQuote());
         poForm.setNewPurchaseOrderVendorQuote(new PurchaseOrderVendorQuote());
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
@@ -792,13 +788,13 @@ public class PurchaseOrderAction extends PurchasingActionBase {
         else {
             poQuote = document.getPurchaseOrderVendorQuote(poForm.getAwardedVendorNumber().intValue());
         }
-        
+
         // use question framework to make sure they REALLY want to complete the quote...
         String message = SpringServiceLocator.getKualiConfigurationService().getPropertyString(PurapKeyConstants.PURCHASE_ORDER_QUESTION_CONFIRM_AWARD);
-        message = StringUtils.replace(message, "{0}", document.getAwardedVendorQuote().getVendorName());
-        message = StringUtils.replace(message, "{1}", document.getAwardedVendorQuote().getPurchaseOrderQuoteAwardDate().toString());
-        message = StringUtils.replace(message, "{2}", document.getAwardedVendorQuote().getPurchaseOrderQuoteStatusCode());
-        message = StringUtils.replace(message, "{3}", document.getAwardedVendorQuote().getPurchaseOrderQuoteRankNumber());
+        message = StringUtils.replace(message, "{0}", poQuote.getVendorName());
+        message = StringUtils.replace(message, "{1}", poQuote.getPurchaseOrderQuoteAwardDate().toString());
+        message = StringUtils.replace(message, "{2}", poQuote.getPurchaseOrderQuoteStatusCode());
+        message = StringUtils.replace(message, "{3}", poQuote.getPurchaseOrderQuoteRankNumber());
 
         Object question = request.getParameter(KFSConstants.QUESTION_INST_ATTRIBUTE_NAME);
 

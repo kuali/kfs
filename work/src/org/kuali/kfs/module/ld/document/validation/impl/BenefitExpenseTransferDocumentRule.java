@@ -15,17 +15,11 @@
  */
 package org.kuali.module.labor.rules;
 
-import static org.kuali.kfs.KFSConstants.AMOUNT_PROPERTY_NAME;
-import static org.kuali.kfs.KFSConstants.ZERO;
-import static org.kuali.kfs.KFSKeyConstants.ERROR_INVALID_NEGATIVE_AMOUNT_NON_CORRECTION;
 import static org.kuali.kfs.KFSKeyConstants.ERROR_ZERO_AMOUNT;
 
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -33,7 +27,6 @@ import java.util.Set;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.document.Document;
 import org.kuali.core.service.BusinessObjectService;
-import org.kuali.core.util.ErrorMap;
 import org.kuali.core.util.GeneralLedgerPendingEntrySequenceHelper;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
@@ -48,16 +41,13 @@ import org.kuali.module.chart.bo.AccountingPeriod;
 import org.kuali.module.labor.LaborConstants;
 import org.kuali.module.labor.bo.ExpenseTransferAccountingLine;
 import org.kuali.module.labor.bo.ExpenseTransferSourceAccountingLine;
-import org.kuali.module.labor.bo.ExpenseTransferTargetAccountingLine;
 import org.kuali.module.labor.bo.LaborObject;
 import org.kuali.module.labor.bo.LedgerBalance;
 import org.kuali.module.labor.bo.PendingLedgerEntry;
-import org.kuali.module.labor.bo.PositionObjectBenefit;
 import org.kuali.module.labor.document.BenefitExpenseTransferDocument;
 import org.kuali.module.labor.document.LaborLedgerPostingDocument;
-import org.kuali.module.labor.document.SalaryExpenseTransferDocument;
 import org.kuali.module.labor.util.ObjectUtil;
-import org.kuali.module.labor.web.struts.action.ExpenseTransferDocumentActionBase;
+import org.kuali.rice.KNSServiceLocator;
 
 /**
  * Business rule(s) applicable to Benefit Expense Transfer documents.
@@ -65,7 +55,7 @@ import org.kuali.module.labor.web.struts.action.ExpenseTransferDocumentActionBas
 public class BenefitExpenseTransferDocumentRule extends LaborExpenseTransferDocumentRules {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(BenefitExpenseTransferDocumentRule.class);
     
-    private BusinessObjectService businessObjectService = SpringServiceLocator.getBusinessObjectService();
+    private BusinessObjectService businessObjectService = KNSServiceLocator.getBusinessObjectService();
 
     /**
      * Constructs a BenefitExpenseTransferDocumentRule.java.
@@ -389,8 +379,14 @@ public class BenefitExpenseTransferDocumentRule extends LaborExpenseTransferDocu
         return true;
     }
     
+    /**
+     * get the amount for a given period from a ledger balance that has the given values for specified fileds
+     * @param fieldValues the given fields and their values
+     * @param periodCode the given period
+     * @return the amount for a given period from the qualified ledger balance
+     */
     private KualiDecimal getBalanceAmount(Map<String, Object> fieldValues, String periodCode){
-        List<LedgerBalance> ledgerBalances = (List<LedgerBalance>) SpringServiceLocator.getBusinessObjectService().findMatching(LedgerBalance.class, fieldValues);
+        List<LedgerBalance> ledgerBalances = (List<LedgerBalance>) KNSServiceLocator.getBusinessObjectService().findMatching(LedgerBalance.class, fieldValues);
         
         if(!ledgerBalances.isEmpty() && periodCode != null){
             return ledgerBalances.get(0).getAmount(periodCode);
@@ -398,6 +394,12 @@ public class BenefitExpenseTransferDocumentRule extends LaborExpenseTransferDocu
         return KualiDecimal.ZERO;
     }
 
+    /**
+     * group the accounting lines by the specified key fields
+     * @param accountingLines the given accounting lines that are stored in a list
+     * @param clazz the class type of given accounting lines
+     * @return the accounting line groups
+     */
     private Map<String, ExpenseTransferAccountingLine> getAccountingLineGroupMap(List<ExpenseTransferAccountingLine> accountingLines, Class clazz) {
         Map<String, ExpenseTransferAccountingLine> accountingLineGroupMap = new HashMap<String, ExpenseTransferAccountingLine>();
 
@@ -449,6 +451,11 @@ public class BenefitExpenseTransferDocumentRule extends LaborExpenseTransferDocu
         return defaultKey;
     }
 
+    /**
+     * build the field-value maps throught the given accouting line
+     * @param accountingLine the given accounting line
+     * @return the field-value maps built from the given accouting line
+     */
     private Map<String, Object> buildFieldValueMap(ExpenseTransferAccountingLine accountingLine) {
         Map<String, Object> fieldValues = new HashMap<String, Object>();
 

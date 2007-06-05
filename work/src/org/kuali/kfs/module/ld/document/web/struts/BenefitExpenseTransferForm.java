@@ -22,10 +22,7 @@ import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.module.labor.document.BenefitExpenseTransferDocument;
 
 /**
- * This class is the form class for the Benefit Expense Transfer document. This method extends the parent
- * KualiTransactionalDocumentFormBase class which contains all of the common form methods and form attributes needed by the Benefit
- * Expense Transfer document. It adds a new method which is a convenience method for getting at the Benefit Expense Transfer
- * document easier.
+ * This class is the form class for the Benefit Expense Transfer document.
  */
 public class BenefitExpenseTransferForm extends ExpenseTransferDocumentFormBase {
     private Integer universityFiscalYear;

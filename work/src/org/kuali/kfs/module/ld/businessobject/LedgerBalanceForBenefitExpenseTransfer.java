@@ -16,7 +16,7 @@
 package org.kuali.module.labor.bo;
 
 
-public class LedgerBalanceForBenefitExpenseTransfer extends LedgerBalance{
+public class LedgerBalanceForBenefitExpenseTransfer extends LedgerBalance {
 
     /**
      * Constructs a LedgerBalanceForBenefitExpenseTransfer.java.

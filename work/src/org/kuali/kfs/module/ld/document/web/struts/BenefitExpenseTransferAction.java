@@ -19,9 +19,7 @@ import org.kuali.module.labor.bo.LedgerBalance;
 import org.kuali.module.labor.web.struts.form.ExpenseTransferDocumentFormBase;
 
 /**
- * This class extends the parent KualiTransactionalDocumentActionBase class, which contains all common action methods. Since the SEP
- * follows the basic transactional document pattern, there are no specific actions that it has to implement; however, this empty
- * class is necessary for integrating into the framework.
+ * This class is the action class for the Benefit Expense Transfer document.
  */
 public class BenefitExpenseTransferAction extends ExpenseTransferDocumentActionBase {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(BenefitExpenseTransferAction.class);

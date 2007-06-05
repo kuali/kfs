@@ -184,9 +184,10 @@
 					<td class="infoline" nowrap="nowrap">
 					    <html:hidden property="document.item[${ctr}].itemIdentifier" /> 
 					    <html:hidden property="document.item[${ctr}].versionNumber" /> 
-					    <html:hidden property="document.item[${ctr}].itemTypeCode" /> 
+						<%-- make sure itemTypeCode changes are populated in case refresh behind the scenes doesn't occur --%>					    
 					    <html:hidden property="document.item[${ctr}].itemType.itemTypeCode" /> 
 					    <html:hidden property="document.item[${ctr}].itemType.itemTypeDescription" />
+
 					    <c:if test="${((KualiForm.document.documentHeader.workflowDocument.documentType == 'KualiPurchaseOrderDocument') or (KualiForm.document.documentHeader.workflowDocument.documentType == 'KualiPurchaseOrderAmendmentDocument'))}">
 						    <html:hidden property="document.item[${ctr}].itemActiveIndicator" />
   					    </c:if> 

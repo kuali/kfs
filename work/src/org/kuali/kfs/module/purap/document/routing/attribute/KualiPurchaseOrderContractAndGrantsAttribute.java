@@ -16,6 +16,8 @@
 package org.kuali.workflow.module.purap.attribute;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -28,18 +30,24 @@ import javax.xml.xpath.XPathExpressionException;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
+import org.kuali.core.lookup.LookupUtils;
 import org.kuali.core.rule.KualiParameterRule;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSPropertyConstants;
+import org.kuali.kfs.bo.Options;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.Chart;
 import org.kuali.module.chart.bo.ObjectCode;
+import org.kuali.module.chart.bo.SubFundGroup;
+import org.kuali.module.purap.PurapConstants;
 import org.kuali.workflow.KualiWorkflowUtils;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
+import edu.iu.uis.eden.EdenConstants;
+import edu.iu.uis.eden.WorkflowServiceErrorImpl;
 import edu.iu.uis.eden.lookupable.Row;
 import edu.iu.uis.eden.plugin.attributes.WorkflowAttribute;
 import edu.iu.uis.eden.routeheader.DocumentContent;
@@ -57,46 +65,81 @@ public class KualiPurchaseOrderContractAndGrantsAttribute implements WorkflowAtt
 
     private static final String REPORT_XML_BASE_TAG_NAME = "report";
 
-    public static final String SUB_FUND_GROUP_CODE_KEY = "sub_fund_grp_cd";
+    private static final String SUB_FUND_GROUP_CODE_KEY = "sub_fund_grp_cd";
+    private static final String UNIVERSITY_FISCAL_YEAR_KEY = "univ_fiscal_year";
+    private static final String CHART_CODE_KEY = "fin_coa_cd";
+    private static final String ACCOUNT_NUMBER_KEY = "account_number";
+    private static final String OBJECT_CODE_KEY = "object_code";
 
     private List ruleRows;
     private List routingDataRows;
+    private boolean required = false;
+    private String fiscalYear;
+    private String chartCode;
+    private String accountNumber;
+    private String objectCode;
+    // following attribute only used for rule rows
+    private String subFundGroupCode;
+
     /**
      * Constructs a KualiPurchaseOrderContractAndGrantsAttribute.java.
      */
     public KualiPurchaseOrderContractAndGrantsAttribute() {
         ruleRows = new ArrayList<edu.iu.uis.eden.lookupable.Row>();
-//        ruleRows.add(KualiWorkflowUtils.buildTextRowWithLookup(Chart.class, KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, FIN_COA_CD_KEY));
+        ruleRows.add(KualiWorkflowUtils.buildTextRowWithLookup(SubFundGroup.class, KFSPropertyConstants.SUB_FUND_GROUP_CODE, SUB_FUND_GROUP_CODE_KEY));
         
         routingDataRows = new ArrayList<edu.iu.uis.eden.lookupable.Row>();
-//        routingDataRows.add(KualiWorkflowUtils.buildTextRowWithLookup(Chart.class, KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, FIN_COA_CD_KEY));
+        routingDataRows.add(KualiWorkflowUtils.buildTextRowWithLookup(Options.class, KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, UNIVERSITY_FISCAL_YEAR_KEY));
+        routingDataRows.add(KualiWorkflowUtils.buildTextRowWithLookup(Chart.class, KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, CHART_CODE_KEY));
+        routingDataRows.add(KualiWorkflowUtils.buildTextRowWithLookup(Account.class, KFSPropertyConstants.ACCOUNT_NUMBER, ACCOUNT_NUMBER_KEY));
+        routingDataRows.add(KualiWorkflowUtils.buildTextRowWithLookup(ObjectCode.class, KFSPropertyConstants.FINANCIAL_OBJECT_CODE, OBJECT_CODE_KEY));
     }
 
+    /**
+     * @see edu.iu.uis.eden.plugin.attributes.WorkflowAttribute#getDocContent()
+     */
     public String getDocContent() {
-        // TODO delyea - Auto-generated method stub
-        return null;
+        if ( (StringUtils.isBlank(getFiscalYear())) && (StringUtils.isBlank(getChartCode())) && (StringUtils.isBlank(getAccountNumber())) && (StringUtils.isBlank(getObjectCode())) ) {
+            return "";
+        } // attributeContent
+        StringBuffer returnValue = new StringBuffer("<" + REPORT_XML_BASE_TAG_NAME + ">");
+        returnValue.append("<" + KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR + ">").append(getFiscalYear()).append("</" + KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR + ">");
+        returnValue.append("<" + KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE + ">").append(getChartCode()).append("</" + KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE + ">");
+        returnValue.append("<" + KFSPropertyConstants.ACCOUNT_NUMBER + ">").append(getAccountNumber()).append("</" + KFSPropertyConstants.ACCOUNT_NUMBER + ">");
+        returnValue.append("<" + KFSPropertyConstants.FINANCIAL_OBJECT_CODE + ">").append(getObjectCode()).append("</" + KFSPropertyConstants.FINANCIAL_OBJECT_CODE + ">");
+        return returnValue.append("</" + REPORT_XML_BASE_TAG_NAME + ">").toString();
     }
 
+    /**
+     * @see edu.iu.uis.eden.plugin.attributes.WorkflowAttribute#getRoutingDataRows()
+     */
     public List<Row> getRoutingDataRows() {
-        // TODO delyea - Auto-generated method stub
-        return null;
+        return routingDataRows;
     }
 
+    /**
+     * @see edu.iu.uis.eden.plugin.attributes.WorkflowAttribute#getRuleExtensionValues()
+     */
     public List<RuleExtensionValue> getRuleExtensionValues() {
-        // TODO delyea - Auto-generated method stub
-        return null;
+        List extensions = new ArrayList();
+        if (StringUtils.isNotBlank(getSubFundGroupCode())) {
+            extensions.add(new RuleExtensionValue(SUB_FUND_GROUP_CODE_KEY, getSubFundGroupCode()));
+        }
+        return extensions;
     }
 
+    /**
+     * @see edu.iu.uis.eden.plugin.attributes.WorkflowAttribute#getRuleRows()
+     */
     public List<Row> getRuleRows() {
-        // TODO delyea - Auto-generated method stub
-        return null;
+        return ruleRows;
     }
 
     /**
      * This method returns true if all the following conditions are met:
      * <ol>
      *   <li>Account is marked as a 'Contract and Grants' account (see {@link org.kuali.module.chart.bo.Account#isForContractsAndGrants()})
-     *   <li>Account has a Contract and Grants Restricted Object Code (see TODO delyea - add class here)
+     *   <li>Account has a Contract and Grants Restricted Object Code as defined in the system business rules
      *   <li>Account has Sub Fund Group Code matching rule value
      * </ol>
      * 
@@ -105,32 +148,45 @@ public class KualiPurchaseOrderContractAndGrantsAttribute implements WorkflowAtt
      * @return
      */
     public boolean isMatch(DocumentContent docContent, List<RuleExtension> ruleExtensions) {
+        boolean alwaysMatches = false;
         String ruleSubFundGroupCode = getRuleExtentionValue(SUB_FUND_GROUP_CODE_KEY, ruleExtensions);
-        if (StringUtils.isBlank(ruleSubFundGroupCode)) {
-            // if rule has an extension but no value then auto match rule
-            return true;
+        if ( (StringUtils.isBlank(ruleSubFundGroupCode)) || (KFSConstants.WILDCARD_CHARACTER.equalsIgnoreCase(ruleSubFundGroupCode)) ) {
+            // if rule extension is blank or the Wildcard character... always match this rule if criteria is true
+            alwaysMatches = true;
         }
-        ruleSubFundGroupCode = ruleSubFundGroupCode.toUpperCase();
+        ruleSubFundGroupCode = LookupUtils.forceUppercase(SubFundGroup.class, KFSPropertyConstants.SUB_FUND_GROUP_CODE, ruleSubFundGroupCode);
         Set<AccountContainer> accountContainers = populateFromDocContent(docContent);
-        Map<String,KualiParameterRule> parameterRulesByChart = SpringServiceLocator.getKualiConfigurationService().getRulesByGroup("temp");
+        Map<String,KualiParameterRule> parameterRulesByChart = SpringServiceLocator.getKualiConfigurationService().getRulesByGroup(PurapConstants.WorkflowConstants.PurchaseOrderDocument.CG_RESTRICTED_OBJECT_CODE_RULE_GROUP_NAME);
         for (AccountContainer accountContainer : accountContainers) {
+            // check to see if account is a C&G account
             if (accountContainer.account.isForContractsAndGrants()) {
-                // check the restricted object code in rule table
+                // check the restricted object code in rule table (object codes listed in the table should route via this attribute)
                 KualiParameterRule rule = parameterRulesByChart.get(accountContainer.account.getChartOfAccountsCode());
                 if ( (rule != null) && (rule.failsRule(accountContainer.objectCode.getFinancialObjectCode())) ) {
+                    if (StringUtils.isBlank(accountContainer.account.getSubFundGroupCode())) {
+                        // TODO delyea - USER QUESTION - what to do when account is C&G but has no sub fund group code?
+                        // sub fund is blank
+                        String errorMsg = "SubFund not found for account '" + accountContainer.account.getChartOfAccountsCode() + "-" + accountContainer.account.getAccountNumber() + "'";
+                        LOG.error(errorMsg);
+                        throw new RuntimeException(errorMsg);
+                    }
+                    // if alwaysMatches is true then we return here
+                    if (alwaysMatches) { return true; }
                     // rule fails (since rules are denoted as 'denied' this means the object code is in the rule parameter text)
                     int indexOfWildcard = ruleSubFundGroupCode.indexOf(KFSConstants.WILDCARD_CHARACTER);
                     if (indexOfWildcard != -1) {
                         // found a wildcard character
                         String prefix = ruleSubFundGroupCode.substring(0, indexOfWildcard);
                         String suffix = ruleSubFundGroupCode.substring(indexOfWildcard + 1);
-                        if (((prefix.length() == 0) && (accountContainer.account.getSubFundGroup().getSubFundGroupCode().endsWith(suffix))) || ((suffix.length() == 0) && (accountContainer.account.getSubFundGroup().getSubFundGroupCode().startsWith(prefix))) || ((prefix.length() != 0) && (suffix.length() != 0) && (accountContainer.account.getSubFundGroup().getSubFundGroupCode().startsWith(prefix)) && (accountContainer.account.getSubFundGroup().getSubFundGroupCode().endsWith(suffix)))) {
+                        if ( ((prefix.length() == 0) && (accountContainer.account.getSubFundGroupCode().endsWith(suffix))) || 
+                             ((suffix.length() == 0) && (accountContainer.account.getSubFundGroupCode().startsWith(prefix))) || 
+                             ((prefix.length() != 0) && (suffix.length() != 0) && (accountContainer.account.getSubFundGroupCode().startsWith(prefix)) && (accountContainer.account.getSubFundGroupCode().endsWith(suffix))) ) {
                             return true;
                         }
                     }
                     else {
                         // no valid wildcard character found
-                        if (accountContainer.account.getSubFundGroup().getSubFundGroupCode().equals(ruleSubFundGroupCode)) {
+                        if (accountContainer.account.getSubFundGroupCode().equals(ruleSubFundGroupCode)) {
                             return true;
                         }
                     }
@@ -164,7 +220,7 @@ public class KualiPurchaseOrderContractAndGrantsAttribute implements WorkflowAtt
             String finAccount = null;
             String finObjectCode = null;
             String finFiscalYear = null;
-            currentXPath = new StringBuffer(KualiWorkflowUtils.XSTREAM_SAFE_PREFIX).append(KualiWorkflowUtils.XSTREAM_MATCH_ANYWHERE_PREFIX).append("report").append(KualiWorkflowUtils.XSTREAM_SAFE_SUFFIX).toString();
+            currentXPath = new StringBuffer(KualiWorkflowUtils.XSTREAM_SAFE_PREFIX).append(KualiWorkflowUtils.XSTREAM_MATCH_ANYWHERE_PREFIX).append(EdenConstants.ATTRIBUTE_CONTENT_ELEMENT + "/" + REPORT_XML_BASE_TAG_NAME).append(KualiWorkflowUtils.XSTREAM_SAFE_SUFFIX).toString();
             boolean isReport = ((Boolean) xpath.evaluate(currentXPath, docContent.getDocument(), XPathConstants.BOOLEAN)).booleanValue();
             if (isReport) {
                 currentXPath = new StringBuffer(KualiWorkflowUtils.XSTREAM_SAFE_PREFIX).append(KualiWorkflowUtils.XSTREAM_MATCH_ANYWHERE_PREFIX).append(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE).append(KualiWorkflowUtils.XSTREAM_SAFE_SUFFIX).toString();
@@ -173,24 +229,28 @@ public class KualiPurchaseOrderContractAndGrantsAttribute implements WorkflowAtt
                 finAccount = xpath.evaluate(currentXPath, docContent.getDocument());
                 currentXPath = new StringBuffer(KualiWorkflowUtils.XSTREAM_SAFE_PREFIX).append(KualiWorkflowUtils.XSTREAM_MATCH_ANYWHERE_PREFIX).append(KFSPropertyConstants.FINANCIAL_OBJECT_CODE).append(KualiWorkflowUtils.XSTREAM_SAFE_SUFFIX).toString();
                 finObjectCode = xpath.evaluate(currentXPath, docContent.getDocument());
-                currentXPath = new StringBuffer(KualiWorkflowUtils.XSTREAM_SAFE_PREFIX).append(KualiWorkflowUtils.XSTREAM_MATCH_ANYWHERE_PREFIX).append(KFSPropertyConstants.POSTING_YEAR).append(KualiWorkflowUtils.XSTREAM_SAFE_SUFFIX).toString();
+                currentXPath = new StringBuffer(KualiWorkflowUtils.XSTREAM_SAFE_PREFIX).append(KualiWorkflowUtils.XSTREAM_MATCH_ANYWHERE_PREFIX).append(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR).append(KualiWorkflowUtils.XSTREAM_SAFE_SUFFIX).toString();
                 finFiscalYear = xpath.evaluate(currentXPath, docContent.getDocument());
-            }
-            if (StringUtils.isNotEmpty(finChart) && StringUtils.isNotEmpty(finAccount) && StringUtils.isNotEmpty(finObjectCode) && StringUtils.isNotEmpty(finFiscalYear)) {
-                Account testAccount = getValidAccount(finChart, finAccount);
-                ObjectCode testObjectCode = getValidObjectCode(finFiscalYear, finChart, finObjectCode);
-                if (ObjectUtils.isNull(testAccount)) {
-                    String errorMsg = "Account not found for values " + finChart + " and " + finAccount;
-                    LOG.error(errorMsg);
-                    throw new RuntimeException(errorMsg);
+                AccountContainer ac = getValidAccountContainer(finFiscalYear, finChart, finAccount, finObjectCode);
+                if (ObjectUtils.isNotNull(ac)) {
+                    accounts.add(ac);
                 }
-                if (ObjectUtils.isNull(testObjectCode)) {
-                    String errorMsg = "Valid Object Code not found for values " + finFiscalYear + ", " + finChart + ", and " + finObjectCode;
-                    LOG.error(errorMsg);
-                    throw new RuntimeException(errorMsg);
-                }
-                accounts.add(new AccountContainer(testAccount,testObjectCode));
             }
+//            if (StringUtils.isNotEmpty(finChart) && StringUtils.isNotEmpty(finAccount) && StringUtils.isNotEmpty(finObjectCode) && StringUtils.isNotEmpty(finFiscalYear)) {
+//                Account testAccount = getValidAccount(finChart, finAccount);
+//                ObjectCode testObjectCode = getValidObjectCode(finFiscalYear, finChart, finObjectCode);
+//                if (ObjectUtils.isNull(testAccount)) {
+//                    String errorMsg = "Account not found for values " + finChart + " and " + finAccount;
+//                    LOG.error(errorMsg);
+//                    throw new RuntimeException(errorMsg);
+//                }
+//                if (ObjectUtils.isNull(testObjectCode)) {
+//                    String errorMsg = "Valid Object Code not found for values " + finFiscalYear + ", " + finChart + ", and " + finObjectCode;
+//                    LOG.error(errorMsg);
+//                    throw new RuntimeException(errorMsg);
+//                }
+//                accounts.add(new AccountContainer(testAccount,testObjectCode));
+//            }
             else {
                 // now look at the global documents
                 String docTypeName = docContent.getRouteContext().getDocument().getDocumentType().getName();
@@ -224,15 +284,16 @@ public class KualiPurchaseOrderContractAndGrantsAttribute implements WorkflowAtt
 //                    accountingLineNode = (Node) xpath.evaluate(currentXPath, accountingLineNode, XPathConstants.NODE);
 //                }
                 currentXPath = KualiWorkflowUtils.XSTREAM_MATCH_RELATIVE_PREFIX + KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE;
-                String chartCode = xpath.evaluate(currentXPath, accountingLineNode);
+                String finChart = xpath.evaluate(currentXPath, accountingLineNode);
                 currentXPath = KualiWorkflowUtils.XSTREAM_MATCH_RELATIVE_PREFIX + KFSPropertyConstants.ACCOUNT_NUMBER;
-                String accountNumber = xpath.evaluate(currentXPath, accountingLineNode);
+                String finAccount = xpath.evaluate(currentXPath, accountingLineNode);
                 currentXPath = KualiWorkflowUtils.XSTREAM_MATCH_RELATIVE_PREFIX + KFSPropertyConstants.FINANCIAL_OBJECT_CODE;
-                String objectCode = xpath.evaluate(currentXPath, accountingLineNode);
+                String finObjectCode = xpath.evaluate(currentXPath, accountingLineNode);
                 currentXPath = KualiWorkflowUtils.XSTREAM_MATCH_RELATIVE_PREFIX + KFSPropertyConstants.POSTING_YEAR;
-                String fiscalYear = xpath.evaluate(currentXPath, accountingLineNode);
-                if (StringUtils.isNotBlank(chartCode) && StringUtils.isNotBlank(accountNumber) && StringUtils.isNotBlank(objectCode)) {
-                    accountContainers.add(new AccountContainer(getValidAccount(chartCode, accountNumber),getValidObjectCode(fiscalYear, chartCode, objectCode)));
+                String finFiscalYear = xpath.evaluate(currentXPath, accountingLineNode);
+                AccountContainer ac = getValidAccountContainer(finFiscalYear, finChart, finAccount, finObjectCode);
+                if (ObjectUtils.isNotNull(ac)) {
+                    accountContainers.add(ac);
                 }
             }
             return accountContainers;
@@ -242,65 +303,191 @@ public class KualiPurchaseOrderContractAndGrantsAttribute implements WorkflowAtt
         }
     }
     
+    private AccountContainer getValidAccountContainer(String finFiscalYear, String finChart, String finAccount, String finObjectCode) {
+        AccountContainer ac = getPotentialAccountContainer(finFiscalYear, finChart, finAccount, finObjectCode);
+        if (ObjectUtils.isNotNull(ac)) {
+            String fiscalYearLabel = KualiWorkflowUtils.getBusinessObjectAttributeLabel(Options.class, KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR);
+            String chartCodeLabel = KualiWorkflowUtils.getBusinessObjectAttributeLabel(Chart.class, KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE);
+            String accountNumberLabel = KualiWorkflowUtils.getBusinessObjectAttributeLabel(Account.class, KFSPropertyConstants.ACCOUNT_NUMBER);
+            String objectCodeLabel = KualiWorkflowUtils.getBusinessObjectAttributeLabel(ObjectCode.class, KFSPropertyConstants.FINANCIAL_OBJECT_CODE);
+            if (ObjectUtils.isNull(ac.account)) {
+                String errorMsg = "Valid Account not found for values " + chartCodeLabel + ": " + finChart + " and " + accountNumberLabel + ":" + finAccount;
+                LOG.error(errorMsg);
+                throw new RuntimeException(errorMsg);
+            }
+            if (ObjectUtils.isNull(ac.objectCode)) {
+                String errorMsg = "Valid Object Code not found for values " + fiscalYearLabel + ": " + finFiscalYear + ", " + chartCodeLabel + ": " + finChart + ", and " + objectCodeLabel + ": " + finObjectCode;
+                LOG.error(errorMsg);
+                throw new RuntimeException(errorMsg);
+            }
+        }
+        return ac;
+    }
+    
+    /**
+     * @param finFiscalYear  - university fiscal year value
+     * @param finChart  - chart code value
+     * @param finAccount  - account number value
+     * @param finObjectCode  - object code value
+     * @return null if one of the variables required is missing or the AccountContainer object holding the potentially valid Account object and the potentially valid Object Code
+     * object.  One or both may or may not be null themselves.
+     */
     private AccountContainer getPotentialAccountContainer(String finFiscalYear, String finChart, String finAccount, String finObjectCode) {
         if (StringUtils.isNotEmpty(finChart) && StringUtils.isNotEmpty(finAccount) && StringUtils.isNotEmpty(finObjectCode) && StringUtils.isNotEmpty(finFiscalYear)) {
-            Account testAccount = getValidAccount(finChart, finAccount);
-            ObjectCode testObjectCode = getValidObjectCode(finFiscalYear, finChart, finObjectCode);
-            if (ObjectUtils.isNull(testAccount)) {
-                String errorMsg = "Account not found for values " + finChart + " and " + finAccount;
-                LOG.error(errorMsg);
-                throw new RuntimeException(errorMsg);
-            }
-            if (ObjectUtils.isNull(testObjectCode)) {
-                String errorMsg = "Valid Object Code not found for values " + finFiscalYear + ", " + finChart + ", and " + finObjectCode;
-                LOG.error(errorMsg);
-                throw new RuntimeException(errorMsg);
-            }
+            Account testAccount = SpringServiceLocator.getAccountService().getByPrimaryIdWithCaching(finChart, finAccount);
+            ObjectCode testObjectCode = SpringServiceLocator.getObjectCodeService().getByPrimaryId(Integer.valueOf(finFiscalYear), finChart, finObjectCode);
             return new AccountContainer(testAccount,testObjectCode);
         }
         return null;
     }
 
-    private static Account getValidAccount(String chartCode, String accountNumber) {
-        Account account = SpringServiceLocator.getAccountService().getByPrimaryIdWithCaching(chartCode, accountNumber);
-        if (account == null) {
-            String errorMsg = "Account (chartCode: " + chartCode + "  accountNumber: " + accountNumber + ") declared on the document cannot be found in the system, routing cannot continue.";
-            LOG.error(errorMsg);
-            throw new RuntimeException(errorMsg);
-        }
-        return account;
-    }
-
-    private static ObjectCode getValidObjectCode(String fiscalYear, String chartCode, String objectCode) {
-        ObjectCode financialObjectCode = SpringServiceLocator.getObjectCodeService().getByPrimaryId(Integer.valueOf(fiscalYear), chartCode, objectCode);
-        if (financialObjectCode == null) {
-            String errorMsg = "Object Code (fiscalYear: " + fiscalYear + "  chartCode: " + chartCode + "  objectCode: " + objectCode + ") declared on the document cannot be found in the system, routing cannot continue.";
-            LOG.error(errorMsg);
-            throw new RuntimeException(errorMsg);
-        }
-        return financialObjectCode;
-    }
-
-    public boolean isRequired() {
-        // TODO delyea - Auto-generated method stub
-        return false;
-    }
-
-    public void setRequired(boolean required) {
-        // TODO delyea - Auto-generated method stub
-
-    }
-
     public List validateRoutingData(Map paramMap) {
-        // TODO delyea - Auto-generated method stub
-        return null;
+        List errors = new ArrayList();
+        String fiscalYearLabel = KualiWorkflowUtils.getBusinessObjectAttributeLabel(Options.class, KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR);
+        setFiscalYear(LookupUtils.forceUppercase(Options.class, KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, (String) paramMap.get(UNIVERSITY_FISCAL_YEAR_KEY)));
+        String chartCodeLabel = KualiWorkflowUtils.getBusinessObjectAttributeLabel(Chart.class, KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE);
+        setChartCode(LookupUtils.forceUppercase(Chart.class, KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, (String) paramMap.get(CHART_CODE_KEY)));
+        String accountNumberLabel = KualiWorkflowUtils.getBusinessObjectAttributeLabel(Account.class, KFSPropertyConstants.ACCOUNT_NUMBER);
+        setAccountNumber(LookupUtils.forceUppercase(Account.class, KFSPropertyConstants.ACCOUNT_NUMBER, (String) paramMap.get(ACCOUNT_NUMBER_KEY)));
+        String objectCodeLabel = KualiWorkflowUtils.getBusinessObjectAttributeLabel(ObjectCode.class, KFSPropertyConstants.FINANCIAL_OBJECT_CODE);
+        setObjectCode(LookupUtils.forceUppercase(ObjectCode.class, KFSPropertyConstants.FINANCIAL_OBJECT_CODE, (String) paramMap.get(OBJECT_CODE_KEY)));
+        AccountContainer ac = getPotentialAccountContainer(getFiscalYear(), getChartCode(), getAccountNumber(), getObjectCode());
+        if (ObjectUtils.isNotNull(ac)) {
+            if (ObjectUtils.isNull(ac.account)) {
+                String errorMessage = "Valid Account not found for values " + chartCodeLabel + ": " + getChartCode() + " and " + accountNumberLabel + ":" + getAccountNumber();
+                errors.add(new WorkflowServiceErrorImpl(errorMessage, "routetemplate.xmlattribute.error", errorMessage));
+            }
+            if (ObjectUtils.isNull(ac.objectCode)) {
+                String errorMessage = "Valid Object Code not found for values " + fiscalYearLabel + ": " + getFiscalYear() + ", " + chartCodeLabel + ": " + getChartCode() + ", and " + objectCodeLabel + ": " + getObjectCode();
+                errors.add(new WorkflowServiceErrorImpl(errorMessage, "routetemplate.xmlattribute.error", errorMessage));
+            }
+        } else {
+            // if the account container is null then we are missing at least one value to use in the lookups
+            String errorMessage = "All values must be entered in order to continue";
+            errors.add(new WorkflowServiceErrorImpl(errorMessage, "routetemplate.xmlattribute.error", errorMessage));
+        }
+        return errors;
     }
 
     public List validateRuleData(Map paramMap) {
-        // TODO delyea - Auto-generated method stub
-        return null;
+        List errors = new ArrayList();
+        setSubFundGroupCode(LookupUtils.forceUppercase(SubFundGroup.class, KFSPropertyConstants.SUB_FUND_GROUP_CODE, (String) paramMap.get(SUB_FUND_GROUP_CODE_KEY)));
+        if (isRequired() && StringUtils.isBlank(getSubFundGroupCode())) {
+            // value is required but is also blank
+            String errorMessage = KualiWorkflowUtils.getBusinessObjectAttributeLabel(SubFundGroup.class, KFSPropertyConstants.SUB_FUND_GROUP_CODE) + " is required";
+            errors.add(new WorkflowServiceErrorImpl(errorMessage, "routetemplate.xmlattribute.error", errorMessage));
+        } else if (isRequired() && StringUtils.isNotBlank(getSubFundGroupCode()) && KFSConstants.WILDCARD_CHARACTER.equalsIgnoreCase(getSubFundGroupCode())) {
+            // value is required but entered value is the wildcard character
+            setSubFundGroupCode(null);
+        } else if (StringUtils.isNotBlank(getSubFundGroupCode())) {
+            // value is not blank so check value for validity of value
+            Map formProps = new HashMap();
+            formProps.put(KFSPropertyConstants.SUB_FUND_GROUP_CODE, getSubFundGroupCode());
+            Collection subFundGroups = SpringServiceLocator.getLookupService().findCollectionBySearchUnbounded(SubFundGroup.class, formProps);
+            if (subFundGroups.isEmpty()) {
+                String errorMessage = KualiWorkflowUtils.getBusinessObjectAttributeLabel(SubFundGroup.class, KFSPropertyConstants.SUB_FUND_GROUP_CODE) + " value does not correspond to any valid entries in the system";
+                errors.add(new WorkflowServiceErrorImpl(errorMessage, "routetemplate.xmlattribute.error", errorMessage));
+            }
+        }
+        return errors;
     }
     
+    /**
+     * Gets the accountNumber attribute. 
+     * @return Returns the accountNumber.
+     */
+    public String getAccountNumber() {
+        return accountNumber;
+    }
+
+    /**
+     * Sets the accountNumber attribute value.
+     * @param accountNumber The accountNumber to set.
+     */
+    public void setAccountNumber(String accountNumber) {
+        this.accountNumber = accountNumber;
+    }
+
+    /**
+     * Gets the chartCode attribute. 
+     * @return Returns the chartCode.
+     */
+    public String getChartCode() {
+        return chartCode;
+    }
+
+    /**
+     * Sets the chartCode attribute value.
+     * @param chartCode The chartCode to set.
+     */
+    public void setChartCode(String chartCode) {
+        this.chartCode = chartCode;
+    }
+
+    /**
+     * Gets the fiscalYear attribute. 
+     * @return Returns the fiscalYear.
+     */
+    public String getFiscalYear() {
+        return fiscalYear;
+    }
+
+    /**
+     * Sets the fiscalYear attribute value.
+     * @param fiscalYear The fiscalYear to set.
+     */
+    public void setFiscalYear(String fiscalYear) {
+        this.fiscalYear = fiscalYear;
+    }
+
+    /**
+     * Gets the objectCode attribute. 
+     * @return Returns the objectCode.
+     */
+    public String getObjectCode() {
+        return objectCode;
+    }
+
+    /**
+     * Sets the objectCode attribute value.
+     * @param objectCode The objectCode to set.
+     */
+    public void setObjectCode(String objectCode) {
+        this.objectCode = objectCode;
+    }
+
+    /**
+     * Gets the required attribute. 
+     * @return Returns the required.
+     */
+    public boolean isRequired() {
+        return required;
+    }
+
+    /**
+     * Sets the required attribute value.
+     * @param required The required to set.
+     */
+    public void setRequired(boolean required) {
+        this.required = required;
+    }
+
+    /**
+     * Gets the subFundGroupCode attribute. 
+     * @return Returns the subFundGroupCode.
+     */
+    public String getSubFundGroupCode() {
+        return subFundGroupCode;
+    }
+
+    /**
+     * Sets the subFundGroupCode attribute value.
+     * @param subFundGroupCode The subFundGroupCode to set.
+     */
+    public void setSubFundGroupCode(String subFundGroupCode) {
+        this.subFundGroupCode = subFundGroupCode;
+    }
+
     private static class AccountContainer {
         public Account account;
         public ObjectCode objectCode;

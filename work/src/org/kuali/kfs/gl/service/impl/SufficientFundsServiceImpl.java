@@ -26,7 +26,6 @@ import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.bo.AccountingLine;
 import org.kuali.kfs.bo.Options;
 import org.kuali.kfs.document.GeneralLedgerPostingDocument;
 import org.kuali.kfs.service.GeneralLedgerPendingEntryService;
@@ -164,55 +163,6 @@ public class SufficientFundsServiceImpl implements SufficientFundsService, Suffi
             if (items.containsKey(sfi.getKey())) {
                 SufficientFundsItem item = (SufficientFundsItem) items.get(sfi.getKey());
                 item.add(tran);
-            }
-            else {
-                items.put(sfi.getKey(), sfi);
-            }
-        }
-
-        return new ArrayList<SufficientFundsItem>(items.values());
-    }
-
-    public List<SufficientFundsItem> checkSufficientFundsUsingAccounts(List<? extends AccountingLine> accountLines,String financialDocumentTypeCode) {
-        LOG.debug("checkSufficientFunds() started");
-
-        for (AccountingLine a : accountLines) {
-            a.refreshNonUpdateableReferences();
-        }
-        
-        List<SufficientFundsItem> summaryItems = summarizeAccountsUsingPostingYear(accountLines,financialDocumentTypeCode);
-        for (Iterator iter = summaryItems.iterator(); iter.hasNext();) {
-            SufficientFundsItem item = (SufficientFundsItem) iter.next();
-            LOG.error("checkSufficientFunds() " + item.toString());
-            if (hasSufficientFundsOnItem(item)) {
-                iter.remove();
-            }
-        }
-
-        return summaryItems;
-    }
-
-    private List<SufficientFundsItem> summarizeAccountsUsingPostingYear(List<? extends AccountingLine> accountLines, String financialDocumentTypeCode) {
-        Map<String, SufficientFundsItem> items = new HashMap<String, SufficientFundsItem>();
-
-        Options currentYear = optionsService.getCurrentYearOptions();
-
-        for (Iterator iter = accountLines.iterator(); iter.hasNext();) {
-            AccountingLine account = (AccountingLine) iter.next();
-
-            Options year = optionsService.getOptions(account.getPostingYear());
-            if (year == null) {
-                year = currentYear;
-            }
-            if (ObjectUtils.isNull(account.getAccount())) {
-                throw new IllegalArgumentException("Invalid account: " + account.getChartOfAccountsCode() + "-" + account.getAccountNumber());
-            }
-            SufficientFundsItem sfi = new SufficientFundsItem(year, account, getSufficientFundsObjectCode(account.getObjectCode(), account.getAccount().getAccountSufficientFundsCode()));
-            sfi.setDocumentTypeCode(financialDocumentTypeCode);
-
-            if (items.containsKey(sfi.getKey())) {
-                SufficientFundsItem item = (SufficientFundsItem) items.get(sfi.getKey());
-                item.add(account);
             }
             else {
                 items.put(sfi.getKey(), sfi);

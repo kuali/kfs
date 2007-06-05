@@ -70,6 +70,8 @@ public class KualiOrgReviewAttribute implements WorkflowAttribute, MassRuleAttri
 
     private static Logger LOG = Logger.getLogger(KualiOrgReviewAttribute.class);
 
+    private static final String REPORT_XML_BASE_TAG_NAME = "report";
+
     public static final String FIN_COA_CD_KEY = "fin_coa_cd";
 
     public static final String ORG_CD_KEY = "org_cd";
@@ -260,7 +262,7 @@ public class KualiOrgReviewAttribute implements WorkflowAttribute, MassRuleAttri
         if (Utilities.isEmpty(getFinCoaCd()) || Utilities.isEmpty(getOrgCd())) {
             return "";
         }
-        return new StringBuffer("<report><chart>").append(getFinCoaCd()).append("</chart><org>").append(getOrgCd()).append("</org><totalDollarAmount>").append(getTotalDollarAmount()).append("</totalDollarAmount><overrideCode>").append(getOverrideCd()).append("</overrideCode></report>").toString();
+        return new StringBuffer("<" + REPORT_XML_BASE_TAG_NAME + "><chart>").append(getFinCoaCd()).append("</chart><org>").append(getOrgCd()).append("</org><totalDollarAmount>").append(getTotalDollarAmount()).append("</totalDollarAmount><overrideCode>").append(getOverrideCd()).append("</overrideCode></" + REPORT_XML_BASE_TAG_NAME + ">").toString();
     }
 
     public String getAttributeLabel() {
@@ -414,7 +416,8 @@ public class KualiOrgReviewAttribute implements WorkflowAttribute, MassRuleAttri
             try {
                 String chart = null;
                 String org = null;
-                boolean isReport = ((Boolean) xpath.evaluate(new StringBuffer(KualiWorkflowUtils.XSTREAM_SAFE_PREFIX).append(KualiWorkflowUtils.XSTREAM_MATCH_ANYWHERE_PREFIX).append("report").append(KualiWorkflowUtils.XSTREAM_SAFE_SUFFIX).toString(), docContent.getDocument(), XPathConstants.BOOLEAN)).booleanValue();
+                // TODO delyea - fix report xpath expression problem
+                boolean isReport = ((Boolean) xpath.evaluate(new StringBuffer(KualiWorkflowUtils.XSTREAM_SAFE_PREFIX).append(KualiWorkflowUtils.XSTREAM_MATCH_ANYWHERE_PREFIX).append(REPORT_XML_BASE_TAG_NAME).append(KualiWorkflowUtils.XSTREAM_SAFE_SUFFIX).toString(), docContent.getDocument(), XPathConstants.BOOLEAN)).booleanValue();
                 if (isReport) {
                     chart = xpath.evaluate(new StringBuffer(KualiWorkflowUtils.XSTREAM_SAFE_PREFIX).append(KualiWorkflowUtils.XSTREAM_MATCH_ANYWHERE_PREFIX).append("chart").append(KualiWorkflowUtils.XSTREAM_SAFE_SUFFIX).toString(), docContent.getDocument());
                     org = xpath.evaluate(new StringBuffer(KualiWorkflowUtils.XSTREAM_SAFE_PREFIX).append(KualiWorkflowUtils.XSTREAM_MATCH_ANYWHERE_PREFIX).append("org").append(KualiWorkflowUtils.XSTREAM_SAFE_SUFFIX).toString(), docContent.getDocument());
@@ -538,7 +541,8 @@ public class KualiOrgReviewAttribute implements WorkflowAttribute, MassRuleAttri
     private String getOverrideCd(DocumentType docType, DocumentContent docContent) {
         try {
             XPath xpath = KualiWorkflowUtils.getXPath(docContent.getDocument());
-            boolean isReport = ((Boolean) xpath.evaluate(new StringBuffer(KualiWorkflowUtils.XSTREAM_SAFE_PREFIX).append(KualiWorkflowUtils.XSTREAM_MATCH_ANYWHERE_PREFIX).append("report").append(KualiWorkflowUtils.XSTREAM_SAFE_SUFFIX).toString(), docContent.getDocument(), XPathConstants.BOOLEAN)).booleanValue();
+            // TODO delyea - fix report xpath expression problem
+            boolean isReport = ((Boolean) xpath.evaluate(new StringBuffer(KualiWorkflowUtils.XSTREAM_SAFE_PREFIX).append(KualiWorkflowUtils.XSTREAM_MATCH_ANYWHERE_PREFIX).append(REPORT_XML_BASE_TAG_NAME).append(KualiWorkflowUtils.XSTREAM_SAFE_SUFFIX).toString(), docContent.getDocument(), XPathConstants.BOOLEAN)).booleanValue();
             if (isReport) {
                 return xpath.evaluate(new StringBuffer(KualiWorkflowUtils.XSTREAM_SAFE_PREFIX).append(KualiWorkflowUtils.XSTREAM_MATCH_ANYWHERE_PREFIX).append("report/overrideCode").append(KualiWorkflowUtils.XSTREAM_SAFE_SUFFIX).toString(), docContent.getDocument());
             }
@@ -582,7 +586,8 @@ public class KualiOrgReviewAttribute implements WorkflowAttribute, MassRuleAttri
     private Float getAmount(DocumentType docType, DocumentContent docContent) {
         try {
             XPath xpath = KualiWorkflowUtils.getXPath(docContent.getDocument());
-            boolean isReport = ((Boolean) xpath.evaluate(new StringBuffer(KualiWorkflowUtils.XSTREAM_SAFE_PREFIX).append(KualiWorkflowUtils.XSTREAM_MATCH_ANYWHERE_PREFIX).append("report").append(KualiWorkflowUtils.XSTREAM_SAFE_SUFFIX).toString(), docContent.getDocument(), XPathConstants.BOOLEAN)).booleanValue();
+            // TODO delyea - fix report xpath expression problem
+            boolean isReport = ((Boolean) xpath.evaluate(new StringBuffer(KualiWorkflowUtils.XSTREAM_SAFE_PREFIX).append(KualiWorkflowUtils.XSTREAM_MATCH_ANYWHERE_PREFIX).append(REPORT_XML_BASE_TAG_NAME).append(KualiWorkflowUtils.XSTREAM_SAFE_SUFFIX).toString(), docContent.getDocument(), XPathConstants.BOOLEAN)).booleanValue();
             if (isReport) {
                 String floatVal = xpath.evaluate(new StringBuffer(KualiWorkflowUtils.XSTREAM_SAFE_PREFIX).append(KualiWorkflowUtils.XSTREAM_MATCH_ANYWHERE_PREFIX).append("report/totalDollarAmount").append(KualiWorkflowUtils.XSTREAM_SAFE_SUFFIX).toString(), docContent.getDocument());
                 if (StringUtils.isNumeric(floatVal) && StringUtils.isNotEmpty(floatVal)) {

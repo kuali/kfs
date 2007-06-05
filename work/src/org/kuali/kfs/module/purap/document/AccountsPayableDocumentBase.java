@@ -57,8 +57,8 @@ public abstract class AccountsPayableDocumentBase extends PurchasingAccountsPaya
         this.refreshReferenceObject("purchaseOrderDocument");
     }
 
-    public boolean requiresAccountsPayableReview() {
-        // TODO delyea - IMPLEMENT THIS
+    public boolean requiresAccountsPayableReviewRouting() {
+        // TODO PURAP/delyea - IMPLEMENT THIS
         return true;
     }
     

@@ -47,6 +47,7 @@ public class PurapConstants {
         }
 
         public static class PurchaseOrderDocument {
+            public static final String CG_RESTRICTED_OBJECT_CODE_RULE_GROUP_NAME = "PurAp.CG_Restricted_Object_Codes";
             // Workgroups
             public static final String INTERNAL_PURCHASING_WORKGROUP_NAME = PURAP_PARAM_PREFIX + "INTERNAL_PURCHASING_REVIEWERS";
             public static final String VENDOR_EMPLOYEE_WORKGROUP_NAME = PURAP_PARAM_PREFIX + "PO_EMPLOYEE_VENDOR_REVIEWERS";
@@ -59,13 +60,11 @@ public class PurapConstants {
             public static final String VENDOR_EMPLOYEE_WORKGROUP_NAME = PURAP_PARAM_PREFIX + "PREQ_EMPLOYEE_VENDOR_REVIEWERS";
             public static final String VENDOR_NRA_WORKGROUP_NAME = PURAP_PARAM_PREFIX + "PREQ_NRA_VENDOR_REVIEWERS";
             public static final String VENDOR_NRA_EMPLOYEE_WORKGROUP_NAME = PURAP_PARAM_PREFIX + "PREQ_NRA_EMPLOYEE_VENDOR_REVIEWERS";
-            // TODO delyea - add this to DEV and MDS
             public static final String ACCOUNTS_PAYABLE_REVIEWER_WORKGROUP_NAME = PURAP_PARAM_PREFIX + "PREQ_AP_REVIEWERS";
         }
 
         public static class CreditMemoDocument {
             // Workgroups
-            // TODO delyea - add this to DEV and MDS
             public static final String ACCOUNTS_PAYABLE_REVIEWER_WORKGROUP_NAME = PURAP_PARAM_PREFIX + "CM_AP_REVIEWERS";
         }
     }

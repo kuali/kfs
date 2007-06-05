@@ -135,60 +135,58 @@ public class KualiPurchaseOrderBudgetAttribute implements WorkflowAttribute {
         boolean alwaysRoutes = false;
         String documentHeaderId = null;
         String currentXpathExpression = null;
-        // TODO delyea - TESTING - DELETE BELOW
-//        try {
-//            // TODO delyea - fix report xpath expression problem
-//            currentXpathExpression = KualiWorkflowUtils.xstreamSafeXPath(KualiWorkflowUtils.XSTREAM_MATCH_ANYWHERE_PREFIX + REPORT_XML_BASE_TAG_NAME);
-//            String ruleChartCode = getRuleExtentionValue(FIN_COA_CD_KEY, ruleExtensions);
-//            if ( (StringUtils.isBlank(ruleChartCode)) || (KFSConstants.WILDCARD_CHARACTER.equalsIgnoreCase(ruleChartCode)) ) {
-//                // if rule extension is blank or the Wildcard character... always match this rule if criteria is true
-//                alwaysRoutes = true;
-////                String errorMsg = "Attempted matching of Rule Extension where " + KualiWorkflowUtils.getBusinessObjectAttributeLabel(Chart.class, KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE) + " is blank but is required";
-////                LOG.error(errorMsg);
-////                throw new RuntimeException(errorMsg);
-//            }
-//            boolean isReport = ((Boolean) KualiWorkflowUtils.getXPath(docContent.getDocument()).evaluate(currentXpathExpression, docContent.getDocument(), XPathConstants.BOOLEAN)).booleanValue();
-//            XPath xPath = KualiWorkflowUtils.getXPath(docContent.getDocument());
-//            if (isReport) {
-//                currentXpathExpression = KualiWorkflowUtils.XSTREAM_MATCH_ANYWHERE_PREFIX + REPORT_XML_BASE_TAG_NAME + "/" + KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR;
-//            } else {
-//                currentXpathExpression = KualiWorkflowUtils.XSTREAM_MATCH_ANYWHERE_PREFIX + "document/accountingPeriodKey/postingYear";
-//            }
-//            String documentFiscalYearString = KualiWorkflowUtils.xstreamSafeEval(xPath, currentXpathExpression, docContent.getDocContent());
-//            // if document's fiscal year is less than or equal to the current fiscal year
-//            if ( SpringServiceLocator.getUniversityDateService().getCurrentFiscalYear().compareTo(Integer.valueOf(documentFiscalYearString)) >= 0 ) {
-//                if (alwaysRoutes) { return true; }
-//                documentHeaderId = KualiWorkflowUtils.getDocumentHeaderDocumentNumber(docContent.getDocument());
-//                PurchaseOrderDocument po = (PurchaseOrderDocument) SpringServiceLocator.getDocumentService().getByDocumentHeaderId(documentHeaderId);
-//                List<SourceAccountingLine> summaryAccounts = po.getSummaryAccounts();
-//                DocumentTypeService docTypeService = SpringServiceLocator.getDocumentTypeService();
-//                String financialDocumentTypeCode = docTypeService.getDocumentTypeCodeByClass(po.getClass());
-//                // get list of sufficientfundItems
-//                List<SufficientFundsItem> fundsItems = SpringServiceLocator.getSufficientFundsService().checkSufficientFunds(po.getPendingLedgerEntriesForSufficientFundsChecking());
-//                if (isReport) {
-//                    currentXpathExpression = KualiWorkflowUtils.XSTREAM_MATCH_ANYWHERE_PREFIX + REPORT_XML_BASE_TAG_NAME + "/" + KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE;
-//                    return ruleChartCode.equalsIgnoreCase(KualiWorkflowUtils.xstreamSafeEval(xPath, currentXpathExpression, docContent.getDocContent()));
-//                }
-//                else if (!fundsItems.isEmpty()) {
-//                    for (SufficientFundsItem fundsItem : fundsItems) {
-//                        if (ruleChartCode.equalsIgnoreCase(fundsItem.getAccount().getChartOfAccountsCode())) {
-//                            LOG.debug("Chart code of rule extension matches chart code of at least one Sufficient Funds Item");
-//                            return true;
-//                        }
-//                    }
-//                }
-//            }
-//        }
-//        catch (WorkflowException we) {
-//            String errorMsg = "Error attempted to get document using doc id  " + documentHeaderId;
-//            LOG.error(errorMsg,we);
-//            throw new RuntimeException(errorMsg,we);
-//        }
-//        catch (XPathExpressionException xee) {
-//            String errorMsg = "Error trying to use xpath expression " + currentXpathExpression;
-//            LOG.error(errorMsg,xee);
-//            throw new RuntimeException(errorMsg,xee);
-//        }
+        try {
+            // TODO delyea - fix report xpath expression problem
+            String ruleChartCode = getRuleExtentionValue(FIN_COA_CD_KEY, ruleExtensions);
+            if ( (StringUtils.isBlank(ruleChartCode)) || (KFSConstants.WILDCARD_CHARACTER.equalsIgnoreCase(ruleChartCode)) ) {
+                // if rule extension is blank or the Wildcard character... always match this rule if criteria is true
+                alwaysRoutes = true;
+//                String errorMsg = "Attempted matching of Rule Extension where " + KualiWorkflowUtils.getBusinessObjectAttributeLabel(Chart.class, KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE) + " is blank but is required";
+//                LOG.error(errorMsg);
+//                throw new RuntimeException(errorMsg);
+            }
+            XPath xPath = KualiWorkflowUtils.getXPath(docContent.getDocument());
+            currentXpathExpression = KualiWorkflowUtils.xstreamSafeXPath(KualiWorkflowUtils.XSTREAM_MATCH_ANYWHERE_PREFIX + REPORT_XML_BASE_TAG_NAME);
+            boolean isReport = ((Boolean)xPath.evaluate(currentXpathExpression, docContent.getDocument(), XPathConstants.BOOLEAN)).booleanValue();
+            if (isReport) {
+                currentXpathExpression = KualiWorkflowUtils.XSTREAM_MATCH_ANYWHERE_PREFIX + REPORT_XML_BASE_TAG_NAME + "/" + KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR;
+            } else {
+                currentXpathExpression = KualiWorkflowUtils.XSTREAM_MATCH_ANYWHERE_PREFIX + "document/postingYear";
+            }
+            String documentFiscalYearString = KualiWorkflowUtils.xstreamSafeEval(xPath, currentXpathExpression, docContent.getDocContent());
+            // if document's fiscal year is less than or equal to the current fiscal year
+            if ( SpringServiceLocator.getUniversityDateService().getCurrentFiscalYear().compareTo(Integer.valueOf(documentFiscalYearString)) >= 0 ) {
+                if (alwaysRoutes) { return true; }
+                if (isReport) {
+                    currentXpathExpression = KualiWorkflowUtils.XSTREAM_MATCH_ANYWHERE_PREFIX + REPORT_XML_BASE_TAG_NAME + "/" + KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE;
+                    return ruleChartCode.equalsIgnoreCase(KualiWorkflowUtils.xstreamSafeEval(xPath, currentXpathExpression, docContent.getDocContent()));
+                } else {
+                    documentHeaderId = KualiWorkflowUtils.getDocumentHeaderDocumentNumber(docContent.getDocument());
+                    PurchaseOrderDocument po = (PurchaseOrderDocument) SpringServiceLocator.getDocumentService().getByDocumentHeaderId(documentHeaderId);
+                    List<SourceAccountingLine> summaryAccounts = po.getSummaryAccounts();
+                    DocumentTypeService docTypeService = SpringServiceLocator.getDocumentTypeService();
+                    String financialDocumentTypeCode = docTypeService.getDocumentTypeCodeByClass(po.getClass());
+                    // get list of sufficientfundItems
+                    List<SufficientFundsItem> fundsItems = SpringServiceLocator.getSufficientFundsService().checkSufficientFunds(po.getPendingLedgerEntriesForSufficientFundsChecking());
+                    for (SufficientFundsItem fundsItem : fundsItems) {
+                        if (ruleChartCode.equalsIgnoreCase(fundsItem.getAccount().getChartOfAccountsCode())) {
+                            LOG.debug("Chart code of rule extension matches chart code of at least one Sufficient Funds Item");
+                            return true;
+                        }
+                    }
+                }
+            }
+        }
+        catch (WorkflowException we) {
+            String errorMsg = "Error attempted to get document using doc id  " + documentHeaderId;
+            LOG.error(errorMsg,we);
+            throw new RuntimeException(errorMsg,we);
+        }
+        catch (XPathExpressionException xee) {
+            String errorMsg = "Error trying to use xpath expression " + currentXpathExpression;
+            LOG.error(errorMsg,xee);
+            throw new RuntimeException(errorMsg,xee);
+        }
         return false;
     }
 
@@ -216,22 +214,26 @@ public class KualiPurchaseOrderBudgetAttribute implements WorkflowAttribute {
         setFinCoaCd(LookupUtils.forceUppercase(Chart.class, KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, (String) paramMap.get(FIN_COA_CD_KEY)));
         String label = KualiWorkflowUtils.getBusinessObjectAttributeLabel(Chart.class, KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE);
         if (StringUtils.isBlank(getFinCoaCd())) {
-            errors.add(new WorkflowServiceErrorImpl(label + " is required.", "routetemplate.xmlattribute.error"));
+            String errorMessage = label + " is required";
+            errors.add(new WorkflowServiceErrorImpl(errorMessage, "routetemplate.xmlattribute.error", errorMessage));
         } else {
             // not blank so check value for validity
             Chart chart = SpringServiceLocator.getChartService().getByPrimaryId(getFinCoaCd());
             if (chart == null) {
-                errors.add(new WorkflowServiceErrorImpl(label + " entered is invalid.","routetemplate.xmlattribute.error"));
+                String errorMessage = label + " entered is invalid";
+                errors.add(new WorkflowServiceErrorImpl(errorMessage, "routetemplate.xmlattribute.error", errorMessage));
             }
         }
         label = KualiWorkflowUtils.getBusinessObjectAttributeLabel(Options.class, KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR);
         if (StringUtils.isBlank(getFiscalYear())) {
-            errors.add(new WorkflowServiceErrorImpl(label + " is required.", "routetemplate.xmlattribute.error"));
+            String errorMessage = label + " is required";
+            errors.add(new WorkflowServiceErrorImpl(errorMessage, "routetemplate.xmlattribute.error", errorMessage));
         } else {
             // not blank so check value for validity
             Options options = SpringServiceLocator.getOptionsService().getOptions(Integer.valueOf(getFiscalYear()));
             if (options == null) {
-                errors.add(new WorkflowServiceErrorImpl(label + " entered is invalid.","routetemplate.xmlattribute.error"));
+                String errorMessage = label + " entered is invalid";
+                errors.add(new WorkflowServiceErrorImpl(errorMessage, "routetemplate.xmlattribute.error", errorMessage));
             }
         }
         return errors;
@@ -246,12 +248,14 @@ public class KualiPurchaseOrderBudgetAttribute implements WorkflowAttribute {
         String label = KualiWorkflowUtils.getBusinessObjectAttributeLabel(Chart.class, KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE);
         if (isRequired() && StringUtils.isBlank(getFinCoaCd())) {
             // value is blank but required
-            errors.add(new WorkflowServiceErrorImpl(label + " is required.", "routetemplate.xmlattribute.error"));
+            String errorMessage = label + " is required";
+            errors.add(new WorkflowServiceErrorImpl(errorMessage, "routetemplate.xmlattribute.error", errorMessage));
         } else if (StringUtils.isNotBlank(getFinCoaCd())) {
             // not blank so check value for validity
             Chart chart = SpringServiceLocator.getChartService().getByPrimaryId(getFinCoaCd());
             if (chart == null) {
-                errors.add(new WorkflowServiceErrorImpl(label + " entered is invalid.","routetemplate.xmlattribute.error"));
+                String errorMessage = label + " entered is invalid";
+                errors.add(new WorkflowServiceErrorImpl(errorMessage, "routetemplate.xmlattribute.error", errorMessage));
             }
         }
         return errors;

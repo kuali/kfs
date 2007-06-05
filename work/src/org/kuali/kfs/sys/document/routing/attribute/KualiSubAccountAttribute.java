@@ -81,11 +81,8 @@ public class KualiSubAccountAttribute implements WorkflowAttribute, MassRuleAttr
     private static final String REPORT_XML_BASE_TAG_NAME = "report";
 
     private String finCoaCd;
-
     private String accountNbr;
-    
     private String subAccountNbr;
-    
     private String orgCd;
 
     private boolean required;
@@ -337,6 +334,7 @@ public class KualiSubAccountAttribute implements WorkflowAttribute, MassRuleAttr
                 String account = null;
                 String org = null;
                 String subAccount = null;
+                // TODO delyea - fix report xpath expression problem
                 boolean isReport = ((Boolean) xpath.evaluate(new StringBuffer(KualiWorkflowUtils.XSTREAM_SAFE_PREFIX).append(KualiWorkflowUtils.XSTREAM_MATCH_ANYWHERE_PREFIX).append(REPORT_XML_BASE_TAG_NAME).append(KualiWorkflowUtils.XSTREAM_SAFE_SUFFIX).toString(), docContent.getDocument(), XPathConstants.BOOLEAN)).booleanValue();
                 if (isReport) {
                     account = xpath.evaluate(new StringBuffer(KualiWorkflowUtils.XSTREAM_SAFE_PREFIX).append(KualiWorkflowUtils.XSTREAM_MATCH_ANYWHERE_PREFIX).append(KFSPropertyConstants.ACCOUNT_NUMBER).append(KualiWorkflowUtils.XSTREAM_SAFE_SUFFIX).toString(), docContent.getDocument());

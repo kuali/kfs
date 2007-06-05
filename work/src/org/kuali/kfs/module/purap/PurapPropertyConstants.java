@@ -21,6 +21,8 @@ package org.kuali.module.purap;
  */
 public class PurapPropertyConstants {
     
+    public static final String VENDOR_HEADER_GENERATED_ID = "vendorHeaderGeneratedIdentifier";
+    
     // ITEM
     public static final String ITEM_IDENTIFIER = "itemIdentifier";
     public static final String ACCOUNTS = "sourceAccountingLines";

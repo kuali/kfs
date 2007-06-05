@@ -71,6 +71,8 @@ public class KualiAccountAttribute implements RoleAttribute, WorkflowAttribute {
 
     private static Logger LOG = Logger.getLogger(KualiAccountAttribute.class);
 
+    private static final String REPORT_XML_BASE_TAG_NAME = "report";
+
     private static final String FIN_COA_CD_KEY = "fin_coa_cd";
 
     private static final String ACCOUNT_NBR_KEY = "account_nbr";
@@ -215,7 +217,7 @@ public class KualiAccountAttribute implements RoleAttribute, WorkflowAttribute {
         if (Utilities.isEmpty(getFinCoaCd()) || Utilities.isEmpty(getAccountNbr())) {
             return "";
         }
-        return new StringBuffer("<report><chart>").append(getFinCoaCd()).append("</chart><accountNumber>").append(getAccountNbr()).append("</accountNumber><totalDollarAmount>").append(getTotalDollarAmount()).append("</totalDollarAmount></report>").toString();
+        return new StringBuffer("<" + REPORT_XML_BASE_TAG_NAME + "><chart>").append(getFinCoaCd()).append("</chart><accountNumber>").append(getAccountNbr()).append("</accountNumber><totalDollarAmount>").append(getTotalDollarAmount()).append("</totalDollarAmount></" + REPORT_XML_BASE_TAG_NAME + ">").toString();
     }
 
     public String getAttributeLabel() {
@@ -365,10 +367,11 @@ public class KualiAccountAttribute implements RoleAttribute, WorkflowAttribute {
             String docTypeName = docContent.getRouteContext().getDocument().getDocumentType().getName();
             if (FISCAL_OFFICER_ROLE_KEY.equals(roleName) || FISCAL_OFFICER_PRIMARY_DELEGATE_ROLE_KEY.equals(roleName) || FISCAL_OFFICER_SECONDARY_DELEGATE_ROLE_KEY.equals(roleName)) {
                 Set fiscalOfficers = new HashSet();
-                if (((Boolean) xpath.evaluate(KualiWorkflowUtils.xstreamSafeXPath("//report"), docContent.getDocument(), XPathConstants.BOOLEAN)).booleanValue()) {
-                    String chart = xpath.evaluate(KualiWorkflowUtils.xstreamSafeXPath("//report/chart"), docContent.getDocument());
-                    String accountNumber = xpath.evaluate(KualiWorkflowUtils.xstreamSafeXPath("//report/accountNumber"), docContent.getDocument());
-                    String totalDollarAmount = xpath.evaluate(KualiWorkflowUtils.xstreamSafeXPath("//report/totalDollarAmount"), docContent.getDocument());
+                // TODO delyea - fix report xpath expressions problem
+                if (((Boolean) xpath.evaluate(KualiWorkflowUtils.xstreamSafeXPath(KualiWorkflowUtils.XSTREAM_MATCH_ANYWHERE_PREFIX + REPORT_XML_BASE_TAG_NAME), docContent.getDocument(), XPathConstants.BOOLEAN)).booleanValue()) {
+                    String chart = xpath.evaluate(KualiWorkflowUtils.xstreamSafeXPath(KualiWorkflowUtils.XSTREAM_MATCH_ANYWHERE_PREFIX + REPORT_XML_BASE_TAG_NAME + "/chart"), docContent.getDocument());
+                    String accountNumber = xpath.evaluate(KualiWorkflowUtils.xstreamSafeXPath(KualiWorkflowUtils.XSTREAM_MATCH_ANYWHERE_PREFIX + REPORT_XML_BASE_TAG_NAME + "/accountNumber"), docContent.getDocument());
+                    String totalDollarAmount = xpath.evaluate(KualiWorkflowUtils.xstreamSafeXPath(KualiWorkflowUtils.XSTREAM_MATCH_ANYWHERE_PREFIX + REPORT_XML_BASE_TAG_NAME + "/totalDollarAmount"), docContent.getDocument());
                     FiscalOfficerRole role = new FiscalOfficerRole(roleName);
                     role.chart = chart;
                     role.accountNumber = accountNumber;

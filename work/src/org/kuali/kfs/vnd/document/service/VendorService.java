@@ -144,7 +144,7 @@ public interface VendorService {
      * is an employee of the institution.  The vendor must have a valid tax id and it must be of type SSN (see  
      * {@link org.kuali.module.vendor.VendorConstants#TAX_TYPE_SSN}).
      * 
-     * TODO - delyea - documentation
+     * TODO delyea - documentation
      * 
      * @param vendorHeaderGeneratedIdentifier       The Header Id in Integer form
      * @return true if the vendor identified by the <code>vendorHeaderGeneratedIdentifier</code> given is an employee of 
@@ -160,5 +160,5 @@ public interface VendorService {
      * @return true if the vendor identified by the <code>vendorHeaderGeneratedIdentifier</code> given is valid and is marked
      * as a foreign vendor
      */
-    public boolean isVendorNonResidentAlien(Integer vendorHeaderGeneratedIdentifier);
+    public boolean isVendorForeign(Integer vendorHeaderGeneratedIdentifier);
 }

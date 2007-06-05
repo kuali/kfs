@@ -306,7 +306,7 @@ public class VendorServiceImpl implements VendorService {
     /**
      * @see org.kuali.module.vendor.service.VendorService#isVendorNonResidentAlien(java.lang.Integer)
      */
-    public boolean isVendorNonResidentAlien(Integer vendorHeaderGeneratedIdentifier) {
+    public boolean isVendorForeign(Integer vendorHeaderGeneratedIdentifier) {
         VendorDetail vendorToUse = getParentVendor(vendorHeaderGeneratedIdentifier);
         if (ObjectUtils.isNull(vendorToUse)) {
             String errorMsg = "Vendor with header generated id '" + vendorHeaderGeneratedIdentifier + "' cannot be found in the system";

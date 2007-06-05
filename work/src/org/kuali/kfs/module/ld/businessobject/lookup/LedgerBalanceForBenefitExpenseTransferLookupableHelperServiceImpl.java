@@ -15,51 +15,22 @@
  */
 package org.kuali.module.labor.web.lookupable;
 
-import java.beans.PropertyDescriptor;
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.beanutils.PropertyUtils;
-import org.apache.commons.lang.StringUtils;
-import org.kuali.Constants;
 import org.kuali.core.bo.BusinessObject;
-import org.kuali.core.bo.PersistableBusinessObject;
-import org.kuali.core.bo.user.UniversalUser;
-import org.kuali.core.datadictionary.mask.Mask;
 import org.kuali.core.lookup.AbstractLookupableHelperServiceImpl;
 import org.kuali.core.lookup.CollectionIncomplete;
-import org.kuali.core.lookup.KualiLookupableHelperServiceImpl;
-import org.kuali.core.lookup.LookupUtils;
 import org.kuali.core.util.BeanPropertyComparator;
-import org.kuali.core.util.KualiDecimal;
-import org.kuali.core.util.FieldUtils;
-import org.kuali.core.util.GlobalVariables;
-import org.kuali.core.util.ObjectUtils;
-import org.kuali.core.util.UrlFactory;
-import org.kuali.core.web.comparator.CellComparatorHelper;
-import org.kuali.core.web.format.BooleanFormatter;
-import org.kuali.core.web.format.Formatter;
-import org.kuali.core.web.struts.form.LookupForm;
-import org.kuali.core.web.ui.Column;
-import org.kuali.core.web.ui.ResultRow;
-import org.kuali.core.web.ui.Row;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.bo.Options;
 import org.kuali.kfs.service.OptionsService;
-import org.kuali.module.gl.bo.TransientBalanceInquiryAttributes;
-import org.kuali.module.gl.util.OJBUtility;
-import org.kuali.module.gl.web.Constant;
 import org.kuali.module.labor.LaborConstants;
 import org.kuali.module.labor.bo.LedgerBalance;
-import org.kuali.module.labor.service.LaborLedgerBalanceService;
 import org.kuali.module.labor.web.inquirable.LedgerBalanceInquirableImpl;
 import org.springframework.transaction.annotation.Transactional;
-import org.kuali.rice.KNSServiceLocator;
 
 @Transactional
 public class LedgerBalanceForBenefitExpenseTransferLookupableHelperServiceImpl extends AbstractLookupableHelperServiceImpl {
@@ -102,7 +73,7 @@ public class LedgerBalanceForBenefitExpenseTransferLookupableHelperServiceImpl e
         CollectionIncomplete cashBalancesResults = new CollectionIncomplete(cashBalances, (long)cashBalances.size());
         CollectionIncomplete effortBalancesResults = new CollectionIncomplete(effortBalances, (long)effortBalances.size());
         
-        List searchResults = (List)cashBalancesResults;
+        List searchResults = cashBalancesResults;
         searchResults.addAll(effortBalancesResults);
         
         // sort list if default sort column given

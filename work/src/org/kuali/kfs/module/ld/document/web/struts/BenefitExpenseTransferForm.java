@@ -15,7 +15,10 @@
  */
 package org.kuali.module.labor.web.struts.form;
 
+import java.util.Map;
+
 import org.kuali.core.bo.user.UniversalUser;
+import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.module.labor.document.BenefitExpenseTransferDocument;
 
 /**
@@ -29,6 +32,7 @@ public class BenefitExpenseTransferForm extends ExpenseTransferDocumentFormBase 
     private String chartOfAccountsCode;
     private String accountNumber;
     private String subAccountNumber;
+    private String emplid;
 
     /**
      * Constructs a BenefitExpenseTransferForm instance and sets up the appropriately casted document.
@@ -117,5 +121,33 @@ public class BenefitExpenseTransferForm extends ExpenseTransferDocumentFormBase 
     @Override
     public void setUniversityFiscalYear(Integer universityFiscalYear) {
         this.universityFiscalYear = universityFiscalYear;
+    }
+
+    /**
+     * Gets the emplid attribute. 
+     * @return Returns the emplid.
+     */
+    public String getEmplid() {
+        return emplid;
+    }
+
+    /**
+     * Sets the emplid attribute value.
+     * @param emplid The emplid to set.
+     */
+    public void setEmplid(String emplid) {
+        this.emplid = emplid;
+    }
+    
+    /**
+     * @see org.kuali.core.web.struts.form.KualiTransactionalDocumentFormBase#getForcedReadOnlyFields()
+     */
+    @Override
+    public Map getForcedReadOnlyTargetFields() {
+        Map map = this.getForcedReadOnlySourceFields();
+        map.remove(KFSPropertyConstants.ACCOUNT_NUMBER);
+        map.remove(KFSPropertyConstants.SUB_ACCOUNT_NUMBER);
+        map.remove(KFSPropertyConstants.AMOUNT);
+        return map;
     }
 }

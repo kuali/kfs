@@ -299,15 +299,19 @@ public class ExpenseTransferDocumentActionBase extends LaborDocumentActionBase {
     private void buildAccountingLineFromLedgerBalance(LedgerBalance bo, ExpenseTransferAccountingLine line, KualiDecimal amount, String periodCode) {
         line.setChartOfAccountsCode(bo.getChartOfAccountsCode());
         line.setAccountNumber(bo.getAccountNumber());
-        if (!bo.getSubAccountNumber().startsWith("-")) {
+        
+        if (!KFSConstants.DASHES_SUB_ACCOUNT_NUMBER.equals(bo.getSubAccountNumber())) { 
             line.setSubAccountNumber(bo.getSubAccountNumber());
         }
+        
         line.setPostingYear(bo.getUniversityFiscalYear());
         line.setPayrollEndDateFiscalYear(bo.getUniversityFiscalYear());
         line.setFinancialObjectCode(bo.getFinancialObjectCode());
-        if (!bo.getFinancialSubObjectCode().startsWith("-")) {
+        
+        if (!KFSConstants.DASHES_SUB_OBJECT_CODE.equals(bo.getFinancialSubObjectCode())) { 
             line.setFinancialSubObjectCode(bo.getFinancialSubObjectCode());
         }
+        
         line.setBalanceTypeCode(bo.getFinancialBalanceTypeCode());
         line.setPositionNumber(bo.getPositionNumber());
         line.setAmount(amount);

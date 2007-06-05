@@ -604,6 +604,7 @@ public class KFSPropertyConstants extends PropertyConstants {
     public static final String FINANCIAL_OBJECT_CODE = "financialObjectCode";
     public static final String FINANCIAL_OBJECT_CODE_NAME = "financialObjectCodeName";
     public static final String FINANCIAL_OBJECT_CODE_SHORT_NAME = "financialObjectCodeShortName";
+    public static final String FINANCIAL_OBJECT_FRINGE_OR_SALARY_CODE = "financialObjectFringeOrSalaryCode";
     public static final String FINANCIAL_OBJECT_LEVEL = "financialObjectLevel";
     public static final String FINANCIAL_OBJECT_LEVEL_ACTIVE_INDICATOR = "financialObjectLevelActiveIndicator";
     public static final String FINANCIAL_OBJECT_LEVEL_CODE = "financialObjectLevelCode";
@@ -749,6 +750,7 @@ public class KFSPropertyConstants extends PropertyConstants {
     // public static final String KUALI_USER_PERSON_UPDATE_ABILITY_CODE = "personUpdateAbilityCode";
     // public static final String KUALI_USER_PERSON_UPDATE_ABILITY_NUMBER = "personUpdateAbilityNumber";
     public static final String KUALI_USER_PERSON_USER_IDENTIFIER = "personUserIdentifier";
+    public static final String LABOR_OBJECT = "laborObject";
     public static final String LABORLEDGER_ORIGINAL_CHART_OF_ACCOUNTS_CODE = "aborLedgerOriginalChartOfAccountsCode";
     public static final String LABORLEDGER_ORIGINAL_ACCOUNT_NUMBER = "laborLedgerOriginalAccountNumber";
     public static final String LABORLEDGER_ORIGINAL_SUB_ACCOUNT_NUMBER = "laborLedgerOriginalSubAccountNumber";

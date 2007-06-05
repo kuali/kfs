@@ -364,8 +364,10 @@ public class LaborOriginEntryServiceImpl implements LaborOriginEntryService {
     public Collection<LaborOriginEntry> getConsolidatedEntryCollectionByGroup(OriginEntryGroup group) {
         Collection<LaborOriginEntry> entryCollection = new ArrayList<LaborOriginEntry>();
         LaborLedgerUnitOfWork laborLedgerUnitOfWork = new LaborLedgerUnitOfWork();
-
+        
+        // the following iterator has been sorted
         Iterator<Object[]> consolidatedEntries = laborOriginEntryDao.getConsolidatedEntriesByGroup(group);
+        
         while (consolidatedEntries.hasNext()) {
             LaborOriginEntry laborOriginEntry = new LaborOriginEntry();
             Object[] oneEntry = consolidatedEntries.next();

@@ -90,8 +90,6 @@
 						<img src='<c:out value="${KualiForm.extraButtonSource}" />'
 							class="tinybutton" border="0" /></a>
 					</c:if>
-						<input type="image" src="${ConfigProperties.kr.externalizable.images.url}buttonsmall_retnovalue.gif" class="tinybutton" name="methodToCall.prepareToReturnNone.x" alt="Return no results" title="Return no results"/>
-						<input type="image" src="${ConfigProperties.kr.externalizable.images.url}buttonsmall_retselected.gif" class="tinybutton" name="methodToCall.prepareToReturnSelectedResults.x" alt="Return selected results" title="Return selected results"/>
 					</td>
 				</tr>
 			</table>

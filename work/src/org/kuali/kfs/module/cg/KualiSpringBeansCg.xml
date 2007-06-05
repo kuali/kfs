@@ -108,6 +108,14 @@
 		</property>
 	</bean>
 
+    <bean id="awardLookupableHelperService" class="org.kuali.module.cg.lookup.AwardLookupableHelperServiceImpl" singleton="false" parent="kualiLookupableHelperService" />
+
+    <bean id="awardLookupable" class="org.kuali.core.lookup.KualiLookupableImpl" singleton="false">
+        <property name="lookupableHelperService">
+            <ref bean="awardLookupableHelperService" />
+        </property>
+    </bean>
+
     <bean id="projectDirectorService" class="org.kuali.module.cg.service.impl.ProjectDirectorServiceImpl">
         <property name="universalUserService">
             <ref bean="universalUserService" />

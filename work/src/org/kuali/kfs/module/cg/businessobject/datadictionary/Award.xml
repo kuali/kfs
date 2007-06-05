@@ -125,6 +125,7 @@
         </inquiry>
 
         <lookup>
+            <lookupableID>awardLookupable</lookupableID>
             <title>Award Lookup</title>
 
             <instructions>Look up an Award</instructions>

@@ -56,8 +56,8 @@
         </inquiry>
 
         <lookup>
-        	<lookupableID>laborLedgerBalanceLookupable</lookupableID>	        
-            <title>Ledger Balance Lookup</title>
+        	<lookupableID>laborLedgerBalanceForBenefitExpenseTransferLookupable</lookupableID>	        
+            <title>Ledger Balance Lookup for Benefit Expense Transfer Document</title>
 
             <instructions>Look up a Ledger Balance</instructions>
 
@@ -74,10 +74,9 @@
                     <defaultValueFinderClass>org.kuali.kfs.lookup.valuefinder.FiscalYearFinder</defaultValueFinderClass>
                 </lookupField>
                 <lookupField attributeName="chartOfAccountsCode" />
-                <lookupField attributeName="accountNumber" />
+                <lookupField attributeName="accountNumber" required="true"/>
                 <lookupField attributeName="subAccountNumber" />
-                <lookupField attributeName="financialObjectCode" />
-                <lookupField attributeName="financialSubObjectCode" />
+                <lookupField attributeName="emplid" />
 			</lookupFields>
 
             <resultFields>

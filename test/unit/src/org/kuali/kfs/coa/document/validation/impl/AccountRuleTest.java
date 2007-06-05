@@ -1107,14 +1107,11 @@ private void disableBeginBalanceLoadInd(){
         // run the rule
         result = rule.checkCgRequiredFields(newAccount);
         assertEquals("Rule should return false with missing fields.", false, result);
-        assertGlobalErrorMapSize(7);
-        assertFieldErrorExists("contractControlFinCoaCode", KFSKeyConstants.ERROR_REQUIRED);
-        assertFieldErrorExists("contractControlAccountNumber", KFSKeyConstants.ERROR_REQUIRED);
+        assertGlobalErrorMapSize(4);
         assertFieldErrorExists("acctIndirectCostRcvyTypeCd", KFSKeyConstants.ERROR_REQUIRED);
         assertFieldErrorExists("financialIcrSeriesIdentifier", KFSKeyConstants.ERROR_REQUIRED);
         assertFieldErrorExists("indirectCostRcvyFinCoaCode", KFSKeyConstants.ERROR_REQUIRED);
         assertFieldErrorExists("indirectCostRecoveryAcctNbr", KFSKeyConstants.ERROR_REQUIRED);
-        assertFieldErrorExists("accountCfdaNumber", KFSKeyConstants.ERROR_REQUIRED);
 
     }
 
@@ -1186,13 +1183,10 @@ private void disableBeginBalanceLoadInd(){
 
         // run the rule
         result = rule.checkCgRequiredFields(newAccount);
-        assertFieldErrorExists("contractControlFinCoaCode", KFSKeyConstants.ERROR_DOCUMENT_ACCMAINT_CG_FIELDS_FILLED_FOR_NON_CG_ACCOUNT);
-        assertFieldErrorExists("contractControlAccountNumber", KFSKeyConstants.ERROR_DOCUMENT_ACCMAINT_CG_FIELDS_FILLED_FOR_NON_CG_ACCOUNT);
         assertFieldErrorExists("acctIndirectCostRcvyTypeCd", KFSKeyConstants.ERROR_DOCUMENT_ACCMAINT_CG_FIELDS_FILLED_FOR_NON_CG_ACCOUNT);
         assertFieldErrorExists("financialIcrSeriesIdentifier", KFSKeyConstants.ERROR_DOCUMENT_ACCMAINT_CG_FIELDS_FILLED_FOR_NON_CG_ACCOUNT);
         assertFieldErrorExists("indirectCostRcvyFinCoaCode", KFSKeyConstants.ERROR_DOCUMENT_ACCMAINT_CG_FIELDS_FILLED_FOR_NON_CG_ACCOUNT);
         assertFieldErrorExists("indirectCostRecoveryAcctNbr", KFSKeyConstants.ERROR_DOCUMENT_ACCMAINT_CG_FIELDS_FILLED_FOR_NON_CG_ACCOUNT);
-        assertFieldErrorExists("accountCfdaNumber", KFSKeyConstants.ERROR_DOCUMENT_ACCMAINT_CG_FIELDS_FILLED_FOR_NON_CG_ACCOUNT);
         assertFalse("We do not have a C&G sub fund group, but we have all the fields filled; the rule run result should be false",result);
     }
     

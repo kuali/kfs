@@ -1706,6 +1706,7 @@
     <field-descriptor name="approvalToThisAmount" column="FDOC_APRV_TO_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion" />
     <field-descriptor name="accountDelegatePrimaryRoutingIndicator" column="ACCT_DLGT_PRMRT_CD" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion" />
     <field-descriptor name="accountDelegateStartDate" column="ACCT_DLGT_START_DT" jdbc-type="DATE" />
+  	<field-descriptor name="active" column="ROW_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion" />
     <reference-descriptor name="chartOfAccounts" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="chartOfAccountsCode" />
     </reference-descriptor>

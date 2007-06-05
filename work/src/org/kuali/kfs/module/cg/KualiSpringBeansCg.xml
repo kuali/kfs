@@ -140,6 +140,15 @@
         <property name="cfdaService">
             <ref bean="cfdaService" />
         </property>
+        <property name="kualiGroupService">
+            <ref bean="kualiGroupService" />
+        </property>
+        <property name="universalUserService">
+            <ref bean="universalUserService" />
+        </property>
+        <property name="mailService">
+            <ref bean="mailService" />
+        </property>
     </bean>
 
     <bean id="closeBatchStep" class="org.kuali.module.cg.batch.CloseBatchStep">

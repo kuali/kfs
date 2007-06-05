@@ -225,28 +225,20 @@ public class OriginEntryGroupServiceImpl implements OriginEntryGroupService {
         LOG.debug("getAllOriginEntryGroup() started");
         Map criteria = new HashMap();
 
-        Collection c = originEntryGroupDao.getMatchingGroups(criteria);
+        Collection<OriginEntryGroup> c = originEntryGroupDao.getMatchingGroups(criteria);
 
         // Get the row counts for each group
-        Iterator i = originEntryDao.getGroupCounts();
-        while (i.hasNext()) {
-            Object[] rowCount = (Object[]) i.next();
-            int id = ((BigDecimal) rowCount[0]).intValue();
-            int count = ((BigDecimal) rowCount[1]).intValue();
 
-            // Find the correct group to add the count
-            for (Iterator iter = c.iterator(); iter.hasNext();) {
-                OriginEntryGroup group = (OriginEntryGroup) iter.next();
-                if (group.getId().intValue() == id) {
-                    group.setRows(new Integer(count));
-                }
+        for (OriginEntryGroup group: c){
+            
+            if (group.getSourceCode().startsWith("L")){
+                group.setRows(laborOriginEntryDao.getGroupCount(group.getId()));    
+            } else {
+                group.setRows(originEntryDao.getGroupCount(group.getId()));
             }
+            
         }
-
-        for (Iterator iter = c.iterator(); iter.hasNext();) {
-            OriginEntryGroup element = (OriginEntryGroup) iter.next();
-        }
-        return c;
+          return c;
     }
 
 

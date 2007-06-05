@@ -162,46 +162,55 @@ public class PurchaseOrderForm extends PurchasingFormBase {
             ExtraButton retransmitButton = new ExtraButton();
             retransmitButton.setExtraButtonProperty("methodToCall.retransmitPo");
             retransmitButton.setExtraButtonSource("${kr.externalizable.images.url}buttonsmall_retransmit.gif");
+            retransmitButton.setExtraButtonAltText("Retransmit");
             this.getExtraButtons().add(retransmitButton);
         }
         if (documentType.equals(PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_PRINT_DOCUMENT)) {
             ExtraButton printButton = new ExtraButton();
             printButton.setExtraButtonProperty("methodToCall.printPo");
             printButton.setExtraButtonSource("${externalizable.images.url}buttonsmall_print.gif");
+            printButton.setExtraButtonAltText("Print");
             this.getExtraButtons().add(printButton);
             ExtraButton paymentHoldButton = new ExtraButton();
             paymentHoldButton.setExtraButtonProperty("methodToCall.paymentHoldPo");
             paymentHoldButton.setExtraButtonSource("${externalizable.images.url}buttonsmall_paymenthold.gif");
+            paymentHoldButton.setExtraButtonAltText("Payment Hold");
             this.getExtraButtons().add(paymentHoldButton);
         }
         if (purchaseOrder.getStatusCode().equals(PurapConstants.PurchaseOrderStatuses.CLOSED) && purchaseOrder.isPurchaseOrderCurrentIndicator() && !purchaseOrder.isPendingActionIndicator()) {
             ExtraButton reopenButton = new ExtraButton();
             reopenButton.setExtraButtonProperty("methodToCall.reopenPo");
             reopenButton.setExtraButtonSource("${externalizable.images.url}buttonsmall_openorder.gif");
+            reopenButton.setExtraButtonAltText("Reopen");
             this.getExtraButtons().add(reopenButton);
         }
         if (purchaseOrder.getStatusCode().equals(PurapConstants.PurchaseOrderStatuses.OPEN) && purchaseOrder.isPurchaseOrderCurrentIndicator() && !purchaseOrder.isPendingActionIndicator()) {
             ExtraButton closeButton = new ExtraButton();
             closeButton.setExtraButtonProperty("methodToCall.closePo");
             closeButton.setExtraButtonSource("${externalizable.images.url}buttonsmall_closeorder.gif");
+            closeButton.setExtraButtonAltText("Close PO");
             this.getExtraButtons().add(closeButton);
             ExtraButton voidButton = new ExtraButton();
             voidButton.setExtraButtonProperty("methodToCall.voidPo");
             voidButton.setExtraButtonSource("${externalizable.images.url}buttonsmall_voidorder.gif");
+            voidButton.setExtraButtonAltText("Void PO");
             this.getExtraButtons().add(voidButton);
             ExtraButton paymentHoldButton = new ExtraButton();
             paymentHoldButton.setExtraButtonProperty("methodToCall.paymentHoldPo");
             paymentHoldButton.setExtraButtonSource("${externalizable.images.url}buttonsmall_paymenthold.gif");
+            paymentHoldButton.setExtraButtonAltText("Payment Hold");
             this.getExtraButtons().add(paymentHoldButton);
             ExtraButton amendButton = new ExtraButton();
             amendButton.setExtraButtonProperty("methodToCall.amendPo");
             amendButton.setExtraButtonSource("${externalizable.images.url}buttonsmall_amend.gif");
+            amendButton.setExtraButtonAltText("Amend");
             this.getExtraButtons().add(amendButton);
         }
         if (purchaseOrder.getStatusCode().equals(PurapConstants.PurchaseOrderStatuses.PAYMENT_HOLD) && purchaseOrder.isPurchaseOrderCurrentIndicator() && !purchaseOrder.isPendingActionIndicator()) {
             ExtraButton removeHoldButton = new ExtraButton();
             removeHoldButton.setExtraButtonProperty("methodToCall.removeHoldPo");
             removeHoldButton.setExtraButtonSource("${externalizable.images.url}buttonsmall_removehold.gif");
+            removeHoldButton.setExtraButtonAltText("Remove Hold");
             this.getExtraButtons().add(removeHoldButton);
         }
 

@@ -106,4 +106,7 @@ public class PurapKeyConstants {
     public static final String ERROR_ITEM_TRADEIN_DISCOUNT_COEXISTENCE="errors.purchaseOrderItems.TradeInAndDiscountCoexistence";
     public static final String ERROR_ITEM_BELOW_THE_LINE="errors.item.belowTheLine";
     public static final String ERROR_ITEM_QUANTITY_NOT_ALLOWED="errors.item.quantity.isNotAllowed";
+    public static final String ERROR_ITEM_AMND_NULL="errors.item.amnd.null";
+    public static final String ERROR_ITEM_AMND_INVALID="errors.item.amnd.invalid";
+    public static final String ERROR_ITEM_AMND_INVALID_AMT="errors.item.amnd.invalidAmt";
 }

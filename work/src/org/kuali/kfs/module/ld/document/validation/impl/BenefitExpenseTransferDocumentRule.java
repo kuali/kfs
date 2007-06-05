@@ -15,8 +15,6 @@
  */
 package org.kuali.module.labor.rules;
 
-import static org.kuali.kfs.KFSKeyConstants.ERROR_ZERO_AMOUNT;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -128,14 +126,14 @@ public class BenefitExpenseTransferDocumentRule extends LaborExpenseTransferDocu
 
         // verify if the accounts in target accounting lines accept fringe benefits
         if (!this.isAccountsAcceptFringeBenefit(benefitExpenseTransferDocument)) {
-            reportError(KFSPropertyConstants.ACCOUNT, KFSKeyConstants.Labor.ERROR_ACCOUNT_NOT_ACCEPT_FRINGES);
+            reportError(KFSPropertyConstants.SOURCE_ACCOUNTING_LINES, KFSKeyConstants.Labor.ERROR_ACCOUNT_NOT_ACCEPT_FRINGES);
             return false;
         }
 
         // benefit transfers cannot be made between two different fringe benefit labor object codes.
         boolean hasSameFringeBenefitObjectCodes = this.hasSameFringeBenefitObjectCodes(benefitExpenseTransferDocument);
         if (!hasSameFringeBenefitObjectCodes) {
-            reportError(KFSPropertyConstants.FINANCIAL_OBJECT_CODE, KFSKeyConstants.Labor.DISTINCT_OBJECT_CODE_ERROR);
+            reportError(KFSPropertyConstants.SOURCE_ACCOUNTING_LINES, KFSKeyConstants.Labor.DISTINCT_OBJECT_CODE_ERROR);
             isValid = false;
         }
 
@@ -144,7 +142,7 @@ public class BenefitExpenseTransferDocumentRule extends LaborExpenseTransferDocu
         Map<String, ExpenseTransferAccountingLine> accountingLineGroupMap = this.getAccountingLineGroupMap(sourceLines, ExpenseTransferSourceAccountingLine.class);
         boolean isValidTransferAmount = this.isValidTransferAmount(accountingLineGroupMap);
         if (!isValidTransferAmount) {
-            reportError(KFSPropertyConstants.AMOUNT, KFSKeyConstants.Labor.ERROR_TRANSFER_AMOUNT_EXCEED_MAXIMUM);
+            reportError(KFSPropertyConstants.SOURCE_ACCOUNTING_LINES, KFSKeyConstants.Labor.ERROR_TRANSFER_AMOUNT_EXCEED_MAXIMUM);
             isValid = false;
         }
 
@@ -152,7 +150,7 @@ public class BenefitExpenseTransferDocumentRule extends LaborExpenseTransferDocu
         // balance is positive
         boolean canNegtiveAmountBeTransferred = canNegtiveAmountBeTransferred(accountingLineGroupMap);
         if (!canNegtiveAmountBeTransferred) {
-            reportError(KFSPropertyConstants.AMOUNT, KFSKeyConstants.Labor.ERROR_CANNOT_TRANSFER_NEGATIVE_AMOUNT);
+            reportError(KFSPropertyConstants.SOURCE_ACCOUNTING_LINES, KFSKeyConstants.Labor.ERROR_CANNOT_TRANSFER_NEGATIVE_AMOUNT);
             isValid = false;
         }
 
@@ -199,7 +197,7 @@ public class BenefitExpenseTransferDocumentRule extends LaborExpenseTransferDocu
         // Check for zero amount, or negative on original (non-correction) document; no sign check for documents that are
         // corrections to previous documents
         if (amount.isZero()) {
-            GlobalVariables.getErrorMap().putError(KFSPropertyConstants.AMOUNT, ERROR_ZERO_AMOUNT, "an accounting line");
+            GlobalVariables.getErrorMap().putError(KFSPropertyConstants.AMOUNT, KFSKeyConstants.ERROR_ZERO_AMOUNT, "an accounting line");
             LOG.info("failing isAmountValid - zero check");
             return false;
         }

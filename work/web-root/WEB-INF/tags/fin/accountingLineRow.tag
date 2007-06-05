@@ -298,14 +298,24 @@
 	</c:if>
 
 	<c:if test="${!readOnly}">
-		<fin:accountingLineActionDataCell
-			dataCellCssClass="${dataCellCssClass}" actionGroup="${actionGroup}"
-			actionInfix="${actionInfix}"
-			accountingAddLineIndex="${accountingAddLineIndex}"
-			accountingLineIndex="${accountingLineIndex}"
-			decorator="${decorator}" 
-            customActions="${customActions}"
-			rowspan="${rowspan}"/>
+		<c:choose>
+			<c:when test="${empty extraRowFields && (numOfOptionalFields == 0 || !isOptionalFieldsInNewRow)}">
+				<fin:accountingLineActionDataCell
+					dataCellCssClass="${dataCellCssClass}" actionGroup="${actionGroup}"
+					actionInfix="${actionInfix}"
+					accountingAddLineIndex="${accountingAddLineIndex}"
+					accountingLineIndex="${accountingLineIndex}"
+					decorator="${decorator}" 
+            			customActions="${customActions}"
+					rowspan="${rowspan}"/>
+			</c:when>
+			<c:otherwise>
+				<td style="border-bottom-style: none" rowspan="${rowspan - 1}">
+					<%-- No CSS class or bottom border so this cell looks like the start of one that spans two rows. --%>
+					&nbsp; <%-- This nbsp makes Firefox draw the left border of this cell. --%>
+				</td>
+			</c:otherwise>
+		</c:choose>
 	</c:if>
 </tr>
 
@@ -349,6 +359,15 @@
 					</c:otherwise>
 				</c:choose>
 			</c:forTokens>
+			<c:if test="${currentRowCount == (numOfNewRows - 1)}">
+				<fin:accountingLineActionDataCell
+					dataCellCssClass="${dataCellCssClass}" actionGroup="${actionGroup}"
+					actionInfix="${actionInfix}"
+					accountingAddLineIndex="${accountingAddLineIndex}"
+					accountingLineIndex="${accountingLineIndex}"
+					decorator="${decorator}" 
+            			customActions="${customActions}" />
+			</c:if>
 		</tr>
 	</c:forEach>
 </c:if>
@@ -429,7 +448,7 @@
 				</tr>
 			</table>
 		</td>
-		<!-- Assert rowCount == 2.  Browser skips 2-row amount columns here.
+		<%-- Assert rowCount == 2.  Browser skips 2-row amount columns here. --%>
 		<c:if test="${!readOnly}">
 			<%-- Action buttons go on the second row here, if any, to get the right default tab navigation. --%>
 			<fin:accountingLineActionDataCell
@@ -440,6 +459,6 @@
 				decorator="${decorator}"
 				rowspan="${rowspan}"
 				/>
-		</c:if> -->
+		</c:if>
 	</tr>
 </c:if>

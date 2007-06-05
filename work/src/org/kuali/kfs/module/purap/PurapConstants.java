@@ -110,6 +110,9 @@ public class PurapConstants {
     public static final String REMOVE_ACCOUNTS_QUESTION = "RemoveAccounts";
     public static final String QUESTION_ROUTE_DOCUMENT_TO_COMPLETE = "Completing this document will remove it from your Action List.<br/><br/>  Are you sure you want to continue?";
     public static final String QUESTION_REMOVE_ACCOUNTS = "question.document.purap.removeAccounts";
+    
+    public static final String REQ_REASON_NOT_APO = "Requisition did not become an APO because: ";
+    public static final String REQ_UNABLE_TO_CREATE_NOTE = "Unable to create a note on this document.";
 
     // Delivery Tag
     public static final String DELIVERY_BUILDING_OTHER = "Other";

@@ -18,8 +18,10 @@ package org.kuali.module.purap.service.impl;
 import java.util.Calendar;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.core.bo.Note;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DateTimeService;
+import org.kuali.core.service.DocumentService;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.module.purap.PurapConstants;
@@ -38,9 +40,11 @@ public class RequisitionServiceImpl implements RequisitionService {
 
     private BusinessObjectService businessObjectService;
     private DateTimeService dateTimeService;
+    private DocumentService documentService;
+    private PurapService purapService;
     private RequisitionDao requisitionDao;
     private VendorService vendorService;
-    private PurapService purapService;
+    
 
     public void save(RequisitionDocument requisitionDocument) {
         requisitionDao.save(requisitionDocument);
@@ -100,10 +104,14 @@ public class RequisitionServiceImpl implements RequisitionService {
          */
         String note = checkAutomaticPurchaseOrderRules(requisition);
         if (StringUtils.isNotEmpty(note)) {
-            note = "Requisition did not become an APO because: " + note;
-            // TODO create new note on REQ with "note" that contains reason REQ didn't become an APO
-            // DocumentNote docNote = new DocumentNote(docHeaderId, note, u);
-            // requisitionService.saveRequisitionDocumentNote(docNote);
+            note = PurapConstants.REQ_REASON_NOT_APO+note;
+            try {
+                Note apoNote = documentService.createNoteFromDocument(requisition,note);
+                documentService.addNoteToDocument(requisition,apoNote);
+            }
+            catch (Exception e) {
+                throw new RuntimeException(PurapConstants.REQ_UNABLE_TO_CREATE_NOTE+" "+e);
+            }
             LOG.debug("isAutomaticPurchaseOrderAllowed() return false; " + note);
             return false;
         }
@@ -111,7 +119,7 @@ public class RequisitionServiceImpl implements RequisitionService {
         LOG.debug("isAutomaticPurchaseOrderAllowed() You made it!  Your REQ can become an APO; return true.");
         return true;
     }
-    
+       
     private String checkAutomaticPurchaseOrderRules(RequisitionDocument requisition) {
         String requisitionSource = requisition.getRequisitionSourceCode();
         KualiDecimal reqTotal = requisition.getTotalDollarAmount();
@@ -240,6 +248,10 @@ public class RequisitionServiceImpl implements RequisitionService {
 
     public void setDateTimeService(DateTimeService dateTimeService) {
         this.dateTimeService = dateTimeService;    
+    }
+    
+    public void setDocumentService(DocumentService documentService) {
+        this.documentService = documentService;
     }
 
     public void setRequisitionDao(RequisitionDao requisitionDao) {

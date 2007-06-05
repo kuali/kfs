@@ -64,6 +64,9 @@
 		<property name="dateTimeService">
 			<ref bean="dateTimeService" />
 		</property>
+		<property name="documentService">
+			<ref bean="documentService" />
+		</property>
 		<property name="requisitionDao">
 			<ref bean="requisitionDao" />
 		</property>

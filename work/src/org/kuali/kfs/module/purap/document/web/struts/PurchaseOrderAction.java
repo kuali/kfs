@@ -82,7 +82,6 @@ public class PurchaseOrderAction extends PurchasingActionBase {
             refreshVendorDetail = (VendorDetail) businessObjectService.retrieve(refreshVendorDetail);
             document.templateAlternateVendor(refreshVendorDetail);
         }
-        
         // Handling lookups for quote vendor search that is specific to Purchase Order
         if (request.getParameter("document.purchaseOrderQuoteListIdentifier") != null) {
             // do a lookup and add all the vendors!
@@ -262,7 +261,7 @@ public class PurchaseOrderAction extends PurchasingActionBase {
             noteText = noteText + " (Previous Document Id is " + kualiDocumentFormBase.getDocId() + ")";
         }
         newNote.setNoteText(noteText);
-        newNote.setNoteTypeCode("BO");
+        newNote.setNoteTypeCode(KFSConstants.NoteTypeEnum.BUSINESS_OBJECT_NOTE_TYPE.toString());
         kualiDocumentFormBase.setNewNote(newNote);
         insertBONote(mapping, form, request, response);
 
@@ -788,7 +787,7 @@ public class PurchaseOrderAction extends PurchasingActionBase {
         else {
             poQuote = document.getPurchaseOrderVendorQuote(poForm.getAwardedVendorNumber().intValue());
         }
-
+        
         // use question framework to make sure they REALLY want to complete the quote...
         String message = SpringServiceLocator.getKualiConfigurationService().getPropertyString(PurapKeyConstants.PURCHASE_ORDER_QUESTION_CONFIRM_AWARD);
         message = StringUtils.replace(message, "{0}", poQuote.getVendorName());

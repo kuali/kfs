@@ -252,7 +252,7 @@
             </lookupFields>
 
             <resultFields>
-                <field attributeName="vendorName" />
+                <field attributeName="altVendorName" />
                 <field attributeName="vendorAliases" />
             	<field attributeName="vendorNumber" />
             	<field attributeName="activeIndicator" />
@@ -338,6 +338,21 @@
                 </control>
 
                 <summary>vendorName</summary>
+                <description>Only one format may be used for vendor name. Enter either the Vendor Name OR the Vendor First and Last Name.</description>
+			</attribute>
+
+            <attribute name="altVendorName" forceUppercase="true">
+                <label>Corporate > Division Name</label>
+                <shortLabel>Corporate > Division Name</shortLabel>
+
+                <maxLength>45</maxLength>
+                <validationPattern><anyCharacter allowWhitespace="true"/></validationPattern>
+
+                <control>
+                    <text size="45" />
+                </control>
+
+                <summary>Corporate > Division Name</summary>
                 <description>Only one format may be used for vendor name. Enter either the Vendor Name OR the Vendor First and Last Name.</description>
 			</attribute>
 

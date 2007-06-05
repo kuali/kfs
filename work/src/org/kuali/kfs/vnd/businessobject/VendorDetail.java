@@ -41,7 +41,7 @@ public class VendorDetail extends PersistableBusinessObjectBase implements Vendo
 	private Integer vendorDetailAssignedIdentifier;
     private String vendorNumber; //not persisted in the db
 	private boolean vendorParentIndicator;
-	private String vendorName;
+    private String vendorName;
     private String vendorFirstName;  //not persisted in the db
     private String vendorLastName;   //not persisted in the db
     private String vendorStateForLookup;  //not persisted in the db
@@ -294,25 +294,46 @@ public class VendorDetail extends PersistableBusinessObjectBase implements Vendo
 	}
 
 
-	/**
-	 * Gets the vendorName attribute.
-	 * 
-	 * @return Returns the vendorName
-	 * 
-	 */
-	public String getVendorName() { 
-		return vendorName;
-	}
+    /**
+     * Gets the vendorName attribute.
+     * 
+     * @return Returns the vendorName
+     * 
+     */
+    public String getVendorName() { 
+        return vendorName;
+    }
 
-	/**
-	 * Sets the vendorName attribute.
-	 * 
-	 * @param vendorName The vendorName to set.
-	 * 
-	 */
-	public void setVendorName(String vendorName) {
-		this.vendorName = vendorName;
-	}
+    /**
+     * Sets the altVendorName attribute.
+     * 
+     * @param altVendorName The altVendorName to set.
+     * 
+     */
+    public void setAltVendorName(String altVendorName) {
+        this.vendorName = altVendorName;
+    }
+
+
+    /**
+     * Gets the altVendorName attribute.
+     * 
+     * @return Returns the altVendorName
+     * 
+     */
+    public String getAltVendorName() { 
+        return vendorName;
+    }
+
+    /**
+     * Sets the vendorName attribute.
+     * 
+     * @param vendorName The vendorName to set.
+     * 
+     */
+    public void setVendorName(String vendorName) {
+        this.vendorName = vendorName;
+    }
 
 
 	/**

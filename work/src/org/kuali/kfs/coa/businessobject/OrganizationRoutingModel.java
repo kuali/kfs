@@ -20,6 +20,7 @@ import java.sql.Date;
 import java.util.LinkedHashMap;
 
 import org.kuali.core.bo.DocumentType;
+import org.kuali.core.bo.Inactivateable;
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.util.KualiDecimal;
@@ -28,7 +29,7 @@ import org.kuali.kfs.util.SpringServiceLocator;
 /**
  * 
  */
-public class OrganizationRoutingModel extends PersistableBusinessObjectBase {
+public class OrganizationRoutingModel extends PersistableBusinessObjectBase implements Inactivateable {
 
     private String chartOfAccountsCode;
     private String organizationCode;

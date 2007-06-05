@@ -63,7 +63,7 @@ public class VendorLookupableHelperServiceImpl extends AbstractLookupableHelperS
     }
 
     /**
-     * @see org.kuali.core.lookup.KualiLookupableImpl#getMaintenanceUrl(org.kuali.core.bo.BusinessObject, java.lang.String) 
+     * @see AbstractLookupableHelperServiceImpl#getMaintenanceUrl(BusinessObject, String) 
      * 
      * This method is used by getActionUrls to print the url on the Vendor Lookup page for the links to edit a Vendor or to create a
      * new division. We won't provide a link to copy a vendor because we decided it wouldn't make sense to copy a vendor. We

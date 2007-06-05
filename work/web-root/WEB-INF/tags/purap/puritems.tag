@@ -208,7 +208,7 @@
 					    <kul:htmlControlAttribute
 						    attributeEntry="${itemAttributes.itemTypeCode}"
 						    property="document.item[${ctr}].itemTypeCode"
-						    readOnly="${not (fullEntryMode or (amendmentEntry and itemLine.itemActiveIndicator))}" />
+						    readOnly="${not (fullEntryMode or (amendmentEntry and itemLine.versionNumber == null))}" />
 					</td>
 
 					<td class="infoline">

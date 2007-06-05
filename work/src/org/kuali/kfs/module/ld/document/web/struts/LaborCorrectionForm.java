@@ -52,6 +52,24 @@ public class LaborCorrectionForm extends CorrectionForm {
         
     }
     
+    
+    
+    @Override
+    public void clearEntryForManualEdit() {
+        LaborOriginEntry loe = new LaborOriginEntry();
+        loe.setEntryId(0);
+        loe.setSubAccountNumber("");
+        loe.setFinancialSubObjectCode("");
+        loe.setProjectCode("");
+        setEntryFinancialDocumentReversalDate("");
+        setEntryTransactionDate("");
+        setEntryTransactionLedgerEntryAmount("");
+        setEntryTransactionLedgerEntrySequenceNumber("");
+        setEntryUniversityFiscalYear("");
+        setLaborEntryForManualEdit(loe);
+        
+        
+    }
     public void setDocType(){
         setDocumentType("LLCP");
         setDocTitle("Labor Ledger Correction Process");
@@ -60,7 +78,7 @@ public class LaborCorrectionForm extends CorrectionForm {
     public LaborOriginEntry getLaborEntryForManualEdit() {
         return laborEntryForManualEdit;
     }
-    public void setentryForManualEdit(LaborOriginEntry laborEntryForManualEdit) {
+    public void setLaborEntryForManualEdit(LaborOriginEntry laborEntryForManualEdit) {
         this.laborEntryForManualEdit = laborEntryForManualEdit;
     }
     

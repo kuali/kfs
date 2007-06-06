@@ -76,12 +76,14 @@ public class LedgerBalanceLookupableHelperServiceTest extends KualiTestBase {
 
         LedgerBalance ledgerBalance = new LedgerBalance();
         ledgerBalance.setUniversityFiscalYear(2004);
-        ledgerBalance.setEmplid("1000000005");
+        ledgerBalance.setEmplid("0000001265");
         ledgerBalance.setBalanceTypeCode("AC");
         ledgerBalance.setChartOfAccountsCode("BL");
 
         // test the search results before the specified entry is inserted into the database
         Map fieldValues = buildFieldValues(ledgerBalance, this.getLookupFields(false));
+        System.out.println("fieldValues: " + fieldValues);
+        
         List searchResults = lookupableHelperService.getSearchResults(fieldValues);
 
         if (searchResults != null) {
@@ -136,6 +138,8 @@ public class LedgerBalanceLookupableHelperServiceTest extends KualiTestBase {
             ObjectUtil.populateBusinessObject(inputData, properties, propertyKey, documentFieldNames, deliminator);
             inputDataList.add(inputData);
         }
+        
+        System.out.println("inputDataList: " + inputDataList);
         
         String testTarget = "getLedgerBalance.";
         this.ledgerBalanceNumberOfTestData = Integer.valueOf(properties.getProperty(testTarget + "numOfData"));

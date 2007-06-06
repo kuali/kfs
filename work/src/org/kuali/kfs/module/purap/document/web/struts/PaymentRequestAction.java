@@ -16,30 +16,40 @@
 package org.kuali.module.purap.web.struts.action;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.Constants;
+import org.kuali.core.bo.Note;
 import org.kuali.core.question.ConfirmationQuestion;
 import org.kuali.core.rule.event.SaveDocumentEvent;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.GlobalVariables;
+import org.kuali.core.util.TypedArrayList;
 import org.kuali.core.web.struts.form.KualiDocumentFormBase;
+import org.kuali.core.web.ui.ExtraButton;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.purap.PurapAuthorizationConstants;
 import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.PurapPropertyConstants;
 import org.kuali.module.purap.PurapKeyConstants;
+import org.kuali.module.purap.PurapConstants.PODocumentsStrings;
+import org.kuali.module.purap.PurapConstants.PREQDocumentsStrings;
+import org.kuali.module.purap.PurapConstants.PurchaseOrderDocTypes;
 import org.kuali.module.purap.document.PaymentRequestDocument;
 import org.kuali.module.purap.document.PurchaseOrderDocument;
 import org.kuali.module.purap.question.SingleConfirmationQuestion;
 import org.kuali.module.purap.service.PaymentRequestService;
 import org.kuali.module.purap.web.struts.form.PaymentRequestForm;
+import org.kuali.rice.KNSServiceLocator;
 
 import edu.iu.uis.eden.exception.WorkflowException;
 
@@ -142,9 +152,7 @@ public class PaymentRequestAction extends AccountsPayableActionBase {
             GlobalVariables.getMessageList().add(PurapKeyConstants.MESSAGE_CLOSED_OR_EXPIRED_ACCOUNTS_REPLACED);
             paymentRequestService.addContinuationAccountsNote(paymentRequestDocument, expiredOrClosedAccounts);
         }
-        
-        
-        
+                
         return super.refresh(mapping, form, request, response);
         //return mapping.findForward(KFSConstants.MAPPING_PORTAL);
   
@@ -160,6 +168,141 @@ public class PaymentRequestAction extends AccountsPayableActionBase {
         return super.refresh(mapping, form, request, response);
         //return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
+
+    /**
+     * The execute method is being overriden to reevaluate on each call 
+     * which extra buttons to display.
+     * 
+     * @see org.apache.struts.action.Action#execute(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     */
+    @Override
+    public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+                                       
+        ActionForward action = super.execute(mapping, form, request, response);
+                
+        //generate the extra buttons
+        PaymentRequestForm preqForm = (PaymentRequestForm) form;
+        preqForm.showButtons();
+        
+        return action;
+    }
+    
+    /**
+     * This action puts a payment on hold, prompting for a reason before hand.
+     * This stops further approvals or routing.
+     * 
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    public ActionForward addHoldOnPayment(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {    
+        LOG.debug("addHoldOnPayment() method");
+
+        String operation = "Hold ";
+        return askHoldQuestion(mapping, form, request, response, PREQDocumentsStrings.HOLD_PREQ_QUESTION, PREQDocumentsStrings.CONFIRM_HOLD_QUESTION, PurapConstants.PAYMENT_REQUEST_DOCUMENT, PREQDocumentsStrings.HOLD_NOTE_PREFIX, PurapKeyConstants.PAYMENT_REQUEST_MESSAGE_HOLD_DOCUMENT, operation);
+    }
+    
+    /**
+     * This action removes a hold on the PREQ.
+     * 
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    public ActionForward removeHoldFromPayment(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        
+        LOG.debug("removeHoldFromPayment() method");
+
+        PaymentRequestForm preqForm = (PaymentRequestForm) form;
+        PaymentRequestDocument document = (PaymentRequestDocument) preqForm.getDocument();
+
+        SpringServiceLocator.getPaymentRequestService().removeHoldOnPaymentRequest(document);
+        
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
+    }
+
+    /**
+     * This method prompts for a reason to hold a preq.
+     * 
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @param questionType
+     * @param confirmType
+     * @param noteTextIntro
+     * @param messageType
+     * @param notePrefixType
+     * @param mappingType
+     * @return
+     * @throws Exception
+     */
+    private ActionForward askHoldQuestion(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response, String questionType, String confirmType, String documentType, String notePrefix, String messageType, String operation) throws Exception {
+
+        LOG.debug("askHoldQuestion started.");
+        KualiDocumentFormBase kualiDocumentFormBase = (KualiDocumentFormBase) form;
+        PaymentRequestDocument preqDocument = (PaymentRequestDocument) kualiDocumentFormBase.getDocument();
+        Object question = request.getParameter(KFSConstants.QUESTION_INST_ATTRIBUTE_NAME);
+        String reason = request.getParameter(KFSConstants.QUESTION_REASON_ATTRIBUTE_NAME);
+        String noteText = "";
+
+        KualiConfigurationService kualiConfiguration = SpringServiceLocator.getKualiConfigurationService();
+
+        // Start in logic for confirming the close.
+        if (question == null) {
+            String key = kualiConfiguration.getPropertyString(PurapKeyConstants.PAYMENT_REQUEST_QUESTION_DOCUMENT);
+            String message = StringUtils.replace(key, "{0}", operation);
+
+            // Ask question if not already asked.
+            return this.performQuestionWithInput(mapping, form, request, response, questionType, message, KFSConstants.CONFIRMATION_QUESTION, questionType, "");
+        }
+        else {
+            Object buttonClicked = request.getParameter(KFSConstants.QUESTION_CLICKED_BUTTON);
+            if (question.equals(questionType) && buttonClicked.equals(ConfirmationQuestion.NO)) {
+                // If 'No' is the button clicked, just reload the doc
+                return mapping.findForward(KFSConstants.MAPPING_BASIC);
+            }
+            else if (question.equals(confirmType) && buttonClicked.equals(SingleConfirmationQuestion.OK)) {
+                // This is the case when the user clicks on "OK" in the end.
+                // After we inform the user that the close has been rerouted, we'll redirect to the portal page.
+                return mapping.findForward(KFSConstants.MAPPING_PORTAL);
+            }
+            else {
+                // Have to check length on value entered.
+                String introNoteMessage = notePrefix + KFSConstants.BLANK_SPACE;
+
+                // Build out full message.
+                noteText = introNoteMessage + reason;
+                int noteTextLength = noteText.length();
+
+                // Get note text max length from DD.
+                int noteTextMaxLength = SpringServiceLocator.getDataDictionaryService().getAttributeMaxLength(Note.class, KFSConstants.NOTE_TEXT_PROPERTY_NAME).intValue();
+
+                if (StringUtils.isBlank(reason) || (noteTextLength > noteTextMaxLength)) {
+                    // Figure out exact number of characters that the user can enter.
+                    int reasonLimit = noteTextMaxLength - noteTextLength;
+
+                    if (reason == null) {
+                        // Prevent a NPE by setting the reason to a blank string.
+                        reason = "";
+                    }
+                    return this.performQuestionWithInputAgainBecauseOfErrors(mapping, form, request, response, questionType, kualiConfiguration.getPropertyString(PurapKeyConstants.PAYMENT_REQUEST_QUESTION_DOCUMENT), KFSConstants.CONFIRMATION_QUESTION, questionType, "", reason, PurapKeyConstants.ERROR_PAYMENT_REQUEST_REASON_REQUIRED, KFSConstants.QUESTION_REASON_ATTRIBUTE_NAME, new Integer(reasonLimit).toString());
+                }
+            }
+        }
+        
+        //set the hold indicator on the preq
+        SpringServiceLocator.getPaymentRequestService().addHoldOnPaymentRequest(preqDocument, noteText);
+        
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
+    }
+
     /**
      * @see org.kuali.core.web.struts.action.KualiDocumentActionBase#save(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */

@@ -440,6 +440,120 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
         document.addNote(note);
     }
 
+    /**
+     * This method marks a payment request on hold.
+     * 
+     * @see org.kuali.module.purap.service.PaymentRequestService#addHoldOnPaymentRequest(org.kuali.module.purap.document.PaymentRequestDocument, java.lang.String)
+     */
+    public void addHoldOnPaymentRequest(PaymentRequestDocument document, String note) throws Exception{        
+        //save the note
+        Note noteObj = documentService.createNoteFromDocument(document, note);
+        documentService.addNoteToDocument(document, noteObj);
+        noteService.save(noteObj);
+        
+        //retrieve and save with hold indicator set to true
+        PaymentRequestDocument preqDoc = paymentRequestDao.getPaymentRequestById(document.getPurapDocumentIdentifier());        
+        preqDoc.setHoldIndicator(true);
+        preqDoc.setAccountsPayableHoldIdentifier( GlobalVariables.getUserSession().getUniversalUser().getPersonUniversalIdentifier() );
+        paymentRequestDao.save(preqDoc);
+        
+        //must also save it on the incoming document
+        document.setHoldIndicator(true);
+        document.setAccountsPayableHoldIdentifier( GlobalVariables.getUserSession().getUniversalUser().getPersonUniversalIdentifier() );
+    }
+    
+    /**
+     * This method removes a hold on a payment request.
+     * 
+     * @see org.kuali.module.purap.service.PaymentRequestService#removeHoldOnPaymentRequest(org.kuali.module.purap.document.PaymentRequestDocument)
+     */
+    public void removeHoldOnPaymentRequest(PaymentRequestDocument document){
+        //retrieve and save with hold indicator set to false
+        PaymentRequestDocument preqDoc = paymentRequestDao.getPaymentRequestById(document.getPurapDocumentIdentifier());                    
+        preqDoc.setHoldIndicator(false);
+        preqDoc.setAccountsPayableHoldIdentifier(null);
+        paymentRequestDao.save(preqDoc);
+
+        //must also save it on the incoming document
+        document.setHoldIndicator(false);
+        document.setAccountsPayableHoldIdentifier(null);
+    }   
+
+
+    /**
+     * This method determines if this document may be placed on hold
+     * 
+     * @see org.kuali.module.purap.service.PaymentRequestService#isPaymentRequestHoldable(org.kuali.module.purap.document.PaymentRequestDocument)
+     */
+    public boolean isPaymentRequestHoldable(PaymentRequestDocument document){
+        boolean holdable = false;
+        String statusCode = document.getStatusCode();
+        
+        /* The document is not already on hold,
+         * The document has not been extracted,
+         * The document is out for approval,
+         * The document is one of a set of specific PREQ status codes
+         */
+        if( document.isHoldIndicator() == false &&
+            document.getExtractedDate() == null &&
+            document.getDocumentHeader().hasWorkflowDocument() &&
+            ( document.getDocumentHeader().getWorkflowDocument().stateIsEnroute() && 
+              document.getDocumentHeader().getWorkflowDocument().isApprovalRequested() ) &&
+            ( PurapConstants.PaymentRequestStatuses.AP_APPROVED.equals(statusCode) ||
+              PurapConstants.PaymentRequestStatuses.AWAITING_SUB_ACCT_MGR_APPROVAL.equals(statusCode) ||
+              PurapConstants.PaymentRequestStatuses.AWAITING_FISCAL_APPROVAL.equals(statusCode) ||
+              PurapConstants.PaymentRequestStatuses.DEPARTMENT_APPROVED.equals(statusCode) ||
+              PurapConstants.PaymentRequestStatuses.AUTO_APPROVED.equals(statusCode) ) ){
+            
+            holdable = true;
+        }
+        
+        return holdable;
+    }
+    
+    /**
+     * This method determines if a user has permission to put a PREQ on hold
+     * 
+     * @see org.kuali.module.purap.service.PaymentRequestService#canHoldPaymentRequest(org.kuali.module.purap.document.PaymentRequestDocument, org.kuali.core.bo.user.UniversalUser)
+     */
+    public boolean canHoldPaymentRequest(PaymentRequestDocument document, UniversalUser user){
+        boolean canHold = false;
+        
+        
+        /* The user is an approver of the document,
+         * The user is a member of the Accounts Payable group
+         */
+        if( document.isHoldIndicator() == false &&
+             (document.getDocumentHeader().hasWorkflowDocument() &&
+             ( document.getDocumentHeader().getWorkflowDocument().stateIsEnroute() && 
+               document.getDocumentHeader().getWorkflowDocument().isApprovalRequested() ) ) ||
+            ( user.isMember("KUALI_PURAP_ACCOUNTS_PAYABLE") && user.isSupervisorUser() == false) ){
+            
+            canHold = true;
+        }
+        
+        return canHold;
+    }
+    
+    /**
+     * This method determines if a user has permission to remove a hold on a PREQ
+     * 
+     * @see org.kuali.module.purap.service.PaymentRequestService#canRemoveHoldPaymentRequest(org.kuali.module.purap.document.PaymentRequestDocument, org.kuali.core.bo.user.UniversalUser)
+     */
+    public boolean canRemoveHoldPaymentRequest(PaymentRequestDocument document, UniversalUser user){
+        boolean canRemoveHold = false;
+        
+        /* The user is the person who put the preq on hold
+         * The user is a member of the AP Supervisor group
+         */
+        if( document.isHoldIndicator() &&
+            ( user.getPersonUniversalIdentifier().equals( document.getAccountsPayableHoldIdentifier() ) ||
+             (user.isMember("KUALI_PURAP_ACCOUNTS_PAYABLE") && user.isSupervisorUser() == true) ) ){
+            
+            canRemoveHold = true;
+        }
+        return canRemoveHold;
+    }
     /*
      public PaymentRequestInitializationValidationErrors verifyPreqInitialization(
      Integer purchaseOrderId, String invoiceNumber, BigDecimal invoiceAmount, Timestamp invoiceDate,

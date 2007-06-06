@@ -18,6 +18,11 @@ package org.kuali.module.purap.document;
 import java.sql.Date;
 
 import org.kuali.core.bo.Campus;
+import org.kuali.core.bo.user.UniversalUser;
+import org.kuali.core.exceptions.UserNotFoundException;
+import org.kuali.core.util.ObjectUtils;
+import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.module.labor.service.LaborUserService;
 
 
 /**
@@ -151,4 +156,17 @@ public abstract class AccountsPayableDocumentBase extends PurchasingAccountsPaya
         return purchaseOrderDocument;
     }
 
+    //Helper methods
+    public String getAccountsPayableHoldPersonName(){
+        String personName = null;
+        try {
+            UniversalUser user = SpringServiceLocator.getUniversalUserService().getUniversalUser(getAccountsPayableHoldIdentifier());
+            personName = user.getPersonName();
+        }
+        catch (UserNotFoundException unfe) {
+            personName = "";
+        }
+        
+        return personName;
+    }
 }

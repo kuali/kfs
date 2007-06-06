@@ -43,6 +43,11 @@
     
     <!-- TODO move this to where? -->
     <!-- html:hidden property="document.requisitionIdentifier" / -->
+
+	<!--  Display hold message if payment is on hold -->
+	<c:if test="${KualiForm.paymentRequestDocument.holdIndicator}">	
+		<h3>This Payment Request has been Held by <c:out value="${KualiForm.paymentRequestDocument.accountsPayableHoldPersonName}"/></h3>		
+	</c:if>
 	
 	<c:if test="${not KualiForm.editingMode['displayInitTab']}" >
 	    <kul:documentOverview editingMode="${KualiForm.editingMode}"
@@ -64,11 +69,9 @@
 	
 		<purap:paymentRequestInvoiceInfo documentAttributes="${DataDictionary.KualiPaymentRequestDocument.attributes}"
 	 		 displayPaymentRequestInvoiceInfoFields="true" />        
-	
-	   
+		   
 	    < kul:notes notesBo="${KualiForm.document.documentBusinessObject.boNotes}" noteType="${Constants.NoteTypeEnum.BUSINESS_OBJECT_NOTE_TYPE}" /> 
-	    
-	
+	    	
 	    < kul:adHocRecipients />
 	
 	    <kul:routeLog />
@@ -86,9 +89,7 @@
 	</c:if>
 	
     <kul:panelFooter />
-    <c:if test="${KualiForm.editingMode['displayInitTab']}">
- 		<c:set var="extraButtons" value="${KualiForm.extraButtons}" />
- 	</c:if>
+	<c:set var="extraButtons" value="${KualiForm.extraButtons}" />
   	<kul:documentControls 
         transactionalDocument="true"  
         extraButtons="${extraButtons}"  

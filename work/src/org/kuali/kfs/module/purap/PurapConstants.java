@@ -255,6 +255,8 @@ public class PurapConstants {
         public static String PURCHASE_ORDER_AMENDMENT_DOCUMENT = "KualiPurchaseOrderAmendmentDocument";
     }
 
+    public static String PAYMENT_REQUEST_DOCUMENT = "KualiPaymentRequestDocument";
+    
     private static HashMap<String, String> purchaseOrderDocTypes() {
         HashMap<String, String> mapSLF;
         mapSLF = new HashMap<String, String>();
@@ -312,6 +314,11 @@ public class PurapConstants {
         public static String IN_PROCESS = "INPR";
         public static String CANCELLED_POST_APPROVE = "CANC";
         public static String CANCELLED_IN_PROCESS = "VOID";
+        public static String AP_APPROVED = "APAD";
+        public static String AWAITING_SUB_ACCT_MGR_APPROVAL = "ASAA";
+        public static String AWAITING_FISCAL_APPROVAL = "AFOA";
+        public static String DEPARTMENT_APPROVED = "DPTA";
+        public static String AUTO_APPROVED = "AUTO";        
         /*
          * Modify as required: public static String CANCELLED = "CANC"; public static String CLOSED = "CLOS"; public static String
          * AWAIT_CONTENT_APRVL = "ACNT"; public static String AWAIT_SUB_ACCT_APRVL = "ASUB"; public static String AWAIT_FISCAL_APRVL =
@@ -338,6 +345,9 @@ public class PurapConstants {
 
     public static class PREQDocumentsStrings {
         public static String DUPLICATE_INVOICE_QUESTION = "PREQDuplicateInvoice";
+        public static String HOLD_PREQ_QUESTION = "HoldPREQ";
+        public static String CONFIRM_HOLD_QUESTION = "ConfirmHold";
+        public static String HOLD_NOTE_PREFIX = "Note entered while placing Payment Request on hold : ";
     }
 
     private static HashMap<String, String> itemTypes()

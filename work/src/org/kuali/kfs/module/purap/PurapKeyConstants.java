@@ -90,6 +90,10 @@ public class PurapKeyConstants {
     
     public static final String MESSAGE_CLOSED_OR_EXPIRED_ACCOUNTS_REPLACED="message.closed.or.expired.accounts.replaced";
     
+    public static final String PAYMENT_REQUEST_QUESTION_DOCUMENT = "paymentRequest.question.text";
+    public static final String PAYMENT_REQUEST_MESSAGE_HOLD_DOCUMENT="paymentRequest.message.hold.text";
+    public static final String ERROR_PAYMENT_REQUEST_REASON_REQUIRED = "error.paymentRequest.reasonRequired";
+    
     //Item
     public static final String ERROR_ITEM_AMOUNT_BELOW_ZERO="errors.item.amount.belowZero";
     public static final String ERROR_ITEM_AMOUNT_NOT_BELOW_ZERO="errors.item.amount.notBelowZero";

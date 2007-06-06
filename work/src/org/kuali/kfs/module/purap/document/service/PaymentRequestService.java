@@ -20,6 +20,7 @@ import java.sql.Date;
 import java.util.HashMap;
 import java.util.List;
 
+import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DateTimeService;
 import org.kuali.core.service.DocumentService;
@@ -67,6 +68,15 @@ public interface PaymentRequestService {
     
     public void addContinuationAccountsNote(PaymentRequestDocument document, HashMap<String, String> accounts);
     
+    public void addHoldOnPaymentRequest(PaymentRequestDocument document, String note) throws Exception;
+    
+    public boolean isPaymentRequestHoldable(PaymentRequestDocument document);
+    
+    public boolean canHoldPaymentRequest(PaymentRequestDocument document, UniversalUser user);
+    
+    public boolean canRemoveHoldPaymentRequest(PaymentRequestDocument document, UniversalUser user);
+    
+    public void removeHoldOnPaymentRequest(PaymentRequestDocument document);
     
     /* Start Paste from EPIC */
      

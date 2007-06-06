@@ -25,5 +25,6 @@ public class PurapParameterConstants {
     
     // PARAMETER NAMES
     public static final String PURAP_OVERRIDE_REQ_DOC_TITLE = "PURAP_OVERRIDE_REQ_DOC_TITLE";
+    public static final String PURAP_OVERRIDE_ASSIGN_CONTRACT_MGR_DOC_TITLE = "PURAP.OVERRIDE_ASSIGN_CONTRACT_MGR_DOC_TITLE";
 
 }

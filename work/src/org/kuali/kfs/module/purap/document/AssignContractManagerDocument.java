@@ -23,12 +23,14 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.core.document.TransactionalDocumentBase;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.workflow.service.KualiWorkflowDocument;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.purap.PurapConstants;
+import org.kuali.module.purap.PurapParameterConstants;
 import org.kuali.module.purap.PurapPropertyConstants;
 import org.kuali.module.purap.bo.AssignContractManagerDetail;
 
@@ -154,6 +156,22 @@ public class AssignContractManagerDocument extends TransactionalDocumentBase {
         else {
             return nodeNames[0];
         }
+    }
+    
+    /**
+     * @see org.kuali.core.document.Document#getDocumentTitle()
+     */
+    @Override
+    public String getDocumentTitle() {
+        String title = "";
+        String specificTitle = SpringServiceLocator.getKualiConfigurationService().getApplicationParameterValue(PurapParameterConstants.PURAP_ADMIN_GROUP,PurapParameterConstants.PURAP_OVERRIDE_ASSIGN_CONTRACT_MGR_DOC_TITLE);
+        if (StringUtils.equalsIgnoreCase(specificTitle,Boolean.TRUE.toString())) {
+            title = PurapConstants.WorkflowConstants.AssignContractManagerDocument.WORKFLOW_DOCUMENT_TITLE;
+        }
+        else {
+            title = super.getDocumentTitle();
+        }
+        return title;
     }
 
     public List getAssignContractManagerDetails() {

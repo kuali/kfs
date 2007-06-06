@@ -35,7 +35,8 @@ public class PurapConstants {
         // Global
         public static final String DOC_ADHOC_NODE_NAME = "Adhoc Routing";
 
-       public static class AssignContractManagerDocument {
+        public static class AssignContractManagerDocument {
+            public static final String WORKFLOW_DOCUMENT_TITLE = "Contract Manager Assignment";
             public static final String ASSIGN_CONTRACT_DOC_ERROR_COMPLETING_POST_PROCESSING = "Unable to save the contract manager for the following Requisitions: ";
         }
 

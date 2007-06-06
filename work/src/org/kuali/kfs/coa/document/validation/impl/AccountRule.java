@@ -678,8 +678,11 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
         if(incomeStreamAccountIsValid) {
             result = true;
         } else {
-            result = newAccount.getAccountNumber().equals(newAccount.getIncomeStreamAccountNumber());
-            result &= newAccount.getChartOfAccountsCode().equals(newAccount.getIncomeStreamFinancialCoaCode());
+            result = null != newAccount.getAccountNumber() && null != newAccount.getIncomeStreamAccountNumber();
+            if(result) {
+                result &= newAccount.getAccountNumber().equals(newAccount.getIncomeStreamAccountNumber());
+                result &= newAccount.getChartOfAccountsCode().equals(newAccount.getIncomeStreamFinancialCoaCode());
+            }
         }
 
         return result;

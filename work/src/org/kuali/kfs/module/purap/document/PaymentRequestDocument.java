@@ -16,11 +16,11 @@
 
 package org.kuali.module.purap.document;
 
+import java.math.BigDecimal;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.commons.lang.StringUtils;
 import org.kuali.core.bo.Note;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.util.GlobalVariables;
@@ -28,11 +28,11 @@ import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.purap.PurapConstants;
+import org.kuali.module.purap.bo.ItemType;
 import org.kuali.module.purap.bo.PaymentRequestItem;
 import org.kuali.module.purap.bo.PaymentRequestStatusHistory;
 import org.kuali.module.purap.bo.PaymentRequestView;
 import org.kuali.module.purap.bo.PurchaseOrderItem;
-import org.kuali.module.purap.bo.PurchasingApItem;
 import org.kuali.module.vendor.bo.PaymentTermType;
 import org.kuali.module.vendor.bo.ShippingPaymentTerms;
 
@@ -66,11 +66,11 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
     private Integer alternateVendorDetailAssignedIdentifier;
     private boolean continuationAccountIndicator;
     private String purchaseOrderNotes;
-    private Date purchaseOrderEndDate;
 
     // NOT PERSISTED IN DB
     private String recurringPaymentTypeCode;
     private String vendorShippingTitleCode;
+    private String purchaseOrderEndDate;
     
     // REFERENCE OBJECTS
     private PaymentTermType vendorPaymentTerms;
@@ -550,6 +550,22 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
     }
     
     /**
+     * Gets the purchaseOrderEndDate attribute. 
+     * @return Returns the purchaseOrderEndDate.
+     */
+    public String getPurchaseOrderEndDate() {
+        return purchaseOrderEndDate;
+    }
+
+    /**
+     * Sets the purchaseOrderEndDate attribute value.
+     * @param purchaseOrderEndDate The purchaseOrderEndDate to set.
+     */
+    public void setPurchaseOrderEndDate(String purchaseOrderEndDate) {
+        this.purchaseOrderEndDate = purchaseOrderEndDate;
+    }
+
+    /**
      * @see org.kuali.module.purap.document.PurchasingAccountsPayableDocument#addToStatusHistories(java.lang.String, java.lang.String)
      */
     public void addToStatusHistories( String oldStatus, String newStatus, Note statusHistoryNote ) {
@@ -623,10 +639,10 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
         }
 
         for (PurchaseOrderItem poi : (List<PurchaseOrderItem>)po.getItems()) {
-//TODO: check w/ Cathy about item active stuff, doesn't seem to be working
-//            if(poi.isItemActiveIndicator()) {
+            //TODO: still needs to be tested bu this should work now
+            if(poi.isItemActiveIndicator()) {
                 this.getItems().add(new PaymentRequestItem(poi,this));                
-//            }
+            }
         }
         //add missing below the line
         SpringServiceLocator.getPurapService().addBelowLineItems(this);
@@ -691,15 +707,6 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
         return null;
     }
     
-    /**
-     * Gets the purchaseOrderEndDate attribute. 
-     * @return Returns the purchaseOrderEndDate.
-     */
-
-    public Date getPurchaseOrderEndDate() {
-        return purchaseOrderEndDate;
-    }
-
     public String getRecurringPaymentTypeCode() {
         return recurringPaymentTypeCode;
     }
@@ -708,11 +715,73 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
         this.recurringPaymentTypeCode = recurringPaymentTypeCode;
     }
 
-    public void setPurchaseOrderEndDate(Date purchaseOrderEndDate) {
-        this.purchaseOrderEndDate = purchaseOrderEndDate;
+    /**
+     * Get the total encumbered amount from the purchase order excluding 
+     * below the line
+     * @return Total cost excluding below the line
+     */
+    public KualiDecimal getItemTotalPoEncumbranceAmount() {
+      //get total from po excluding below the line and inactive
+      return this.getPurchaseOrderDocument().getTotalDollarAmount(false, false);
+    }    
+    
+    public KualiDecimal getItemTotalPoEncumbranceAmountRelieved() {
+        return getItemTotalPoEncumbranceAmountRelieved(false);
     }
-
-
+    /**
+     * 
+     * This method is just a stub for now
+     * @return
+     */
+    public KualiDecimal getItemTotalPoEncumbranceAmountRelieved(boolean includeBelowTheLine) {
+        
+        KualiDecimal total = KualiDecimal.ZERO;
+        
+        for (PaymentRequestItem item : (List<PaymentRequestItem>)getItems()) {
+            ItemType it = item.getItemType();
+            if(includeBelowTheLine || it.isItemTypeAboveTheLineIndicator()) {
+                total = total.add(item.getPurchaseOrderItemEncumbranceRelievedAmount());
+            }
+        }
+        return total;
+    }
+    
+    /**
+     * 
+     * Get the total for just the line items
+     * @return the line item total
+     */
+    public KualiDecimal getLineItemTotal() {
+        return this.getTotalDollarAmountAboveLineItems();
+    }
+    
+    
+    /**
+     * 
+     * This method gets the grand total
+     * @return
+     */    
+    public KualiDecimal getGrandTotal() {
+        return this.getTotalDollarAmount();
+    }
+    
+    /**
+     * The total that was paid on the po excluding below the line
+     * @return total paid
+     * 
+     */
+    public KualiDecimal getItemTotalPoPaidAmount() {
+        KualiDecimal total = KualiDecimal.ZERO;
+        for (PaymentRequestItem item : (List<PaymentRequestItem>)getItems()) {
+            ItemType iT = item.getItemType();
+            if(iT.isItemTypeAboveTheLineIndicator()) {
+                KualiDecimal itemPaid = item.getPurchaseOrderItemPaidAmount();
+                total=total.add(itemPaid);
+            }
+        }
+        return total;
+    }
+    
     /**
      * @see org.kuali.module.purap.document.PurchasingAccountsPayableDocumentBase#getSourceAccountingLineClass()
      */

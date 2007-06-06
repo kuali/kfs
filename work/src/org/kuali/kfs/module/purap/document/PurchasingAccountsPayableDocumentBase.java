@@ -20,24 +20,20 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
+import org.apache.commons.lang.ArrayUtils;
 import org.apache.ojb.broker.util.collections.ManageableArrayList;
 import org.kuali.core.bo.Note;
-import org.kuali.core.bo.user.AuthenticationUserId;
-import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.document.AmountTotaling;
-import org.kuali.core.exceptions.UserNotFoundException;
 import org.kuali.core.service.NoteService;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.util.TypedArrayList;
-import org.kuali.core.workflow.DocumentInitiator;
-import org.kuali.core.workflow.KualiDocumentXmlMaterializer;
-import org.kuali.core.workflow.KualiTransactionalDocumentInformation;
 import org.kuali.kfs.bo.Country;
 import org.kuali.kfs.bo.SourceAccountingLine;
 import org.kuali.kfs.document.AccountingDocumentBase;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.purap.bo.CreditMemoView;
+import org.kuali.module.purap.bo.ItemType;
 import org.kuali.module.purap.bo.PaymentRequestView;
 import org.kuali.module.purap.bo.PurchaseOrderView;
 import org.kuali.module.purap.bo.PurchasingApItem;
@@ -46,7 +42,6 @@ import org.kuali.module.purap.bo.Status;
 import org.kuali.module.purap.bo.StatusHistory;
 import org.kuali.module.vendor.bo.VendorAddress;
 import org.kuali.module.vendor.bo.VendorDetail;
-import org.kuali.rice.KNSServiceLocator;
 
 /**
  * Purchasing-Accounts Payable Document Base
@@ -112,18 +107,43 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
 
     @Override
     public KualiDecimal getTotalDollarAmount() {
-        // TODO: the easy total dollar amount for now (i.e. not taking into account inactive etc
-        // do more analysis and make better
+        return getTotalDollarAmountAllItems();
+    }
+
+    public KualiDecimal getTotalDollarAmountAllItems() {
+        return getTotalDollarAmountAllItems(null);
+    }
+    
+    public KualiDecimal getTotalDollarAmountAllItems(String[] excludedTypes) {
+        return getTotalDollarAmountWithExclusions(excludedTypes,true);
+    }
+
+    public KualiDecimal getTotalDollarAmountAboveLineItems() {
+        return getTotalDollarAmountAllItems(null);
+    }
+    
+    public KualiDecimal getTotalDollarAmountAboveLineItems(String[] excludedTypes) {
+        return getTotalDollarAmountWithExclusions(excludedTypes,false);
+    }
+    
+    public KualiDecimal getTotalDollarAmountWithExclusions(String[] excludedTypes, boolean includeBelowTheLine) {
+        if(excludedTypes==null) {
+            excludedTypes=new String[]{};
+        }
+
         KualiDecimal total = new KualiDecimal(BigDecimal.ZERO);
-        for (PurchasingApItem item : items) {
-            KualiDecimal extendedPrice = item.getExtendedPrice();
-            KualiDecimal itemTotal = (extendedPrice != null) ? extendedPrice : KualiDecimal.ZERO;
-            // KualiDecimal itemTotal = (item.getExtendedPrice()==null)?KualiDecimal.ZERO:item.getExtendedPrice();
-            total = total.add(itemTotal);
+        for (PurchasingApItem item : (List<PurchasingApItem>)getItems()) {
+            ItemType it = item.getItemType();
+            if((includeBelowTheLine || it.isItemTypeAboveTheLineIndicator()) && 
+                    !ArrayUtils.contains(excludedTypes,it.getItemTypeCode())) {
+                KualiDecimal extendedPrice = item.getExtendedPrice();
+                KualiDecimal itemTotal = (extendedPrice != null) ? extendedPrice : KualiDecimal.ZERO;
+                total = total.add(itemTotal);
+            }
         }
         return total;
     }
-
+    
     /**
      * Retrieve all references common to purchasing and ap
      */

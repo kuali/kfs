@@ -23,15 +23,23 @@ import java.util.List;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.document.PaymentRequestDocument;
+import org.kuali.module.purap.document.PurchaseOrderDocument;
+import org.kuali.module.purap.exceptions.PurError;
 import org.kuali.module.purap.util.PurApObjectUtils;
+import org.apache.commons.lang.StringUtils;
+
 
 /**
  * 
  */
 public class PaymentRequestItem extends AccountsPayableItemBase {
     
-	private KualiDecimal itemInvoicedQuantity;
-	private BigDecimal purchaseOrderItemUnitPrice;
+    //note: the qty from PurApItemBase is invoiceQty
+    
+    //  TODO: we should get rid of this and use regular qty from the super
+    private KualiDecimal itemInvoicedQuantity;
+	
+    private BigDecimal purchaseOrderItemUnitPrice;
 	private KualiDecimal itemExtendedPrice;
 	private String purchaseOrderCommodityCode;
     private KualiDecimal itemOutstandingInvoiceQuantity;
@@ -39,6 +47,9 @@ public class PaymentRequestItem extends AccountsPayableItemBase {
     
     private PaymentRequestDocument paymentRequest;
 
+    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PaymentRequestItem.class);
+
+    
 	/**
 	 * Default constructor.
 	 */
@@ -68,7 +79,98 @@ public class PaymentRequestItem extends AccountsPayableItemBase {
         this.paymentRequest = preq;
     }
 
+    public PurchaseOrderItem getPurchaseOrderItem() {
+        if (paymentRequest != null) {
+          PurchaseOrderDocument po = paymentRequest.getPurchaseOrderDocument();
+          PurchaseOrderItem poi = (PurchaseOrderItem)po.getItem(this.getItemLineNumber().intValue());
+          if (poi != null) {
+            return poi;
+          } else {
+            LOG.warn("getPurchaseOrderItem() Returning null because PurchaseOrderItem object for line number" + getItemLineNumber() + " is null");
+            return null;
+          }
+        } else {
+          LOG.error("getPurchaseOrderItem() Returning null because paymentRequest object is null");
+          throw new PurError("Payment Request Object in Purchase Order item line number " + getItemLineNumber() + " is null");
+        }
+      }
+    
+    public KualiDecimal getPoOutstandingAmount() {
+        PurchaseOrderItem poi = getPurchaseOrderItem();
+        return this.getPoOutstandingAmount(poi);
+    }
 
+    private KualiDecimal getPoOutstandingAmount(PurchaseOrderItem poi) {
+        if ( poi == null ) {
+          return KualiDecimal.ZERO;
+        } else {
+          return poi.getItemOutstandingEncumbranceAmount();
+        }
+    }
+    
+    public KualiDecimal getPoOriginalAmount() {
+        PurchaseOrderItem poi = getPurchaseOrderItem();
+        if ( poi == null ) {
+          return null;
+        } else {
+          return poi.getExtendedPrice();
+        }    
+      }
+
+    public KualiDecimal getPoOutstandingQuantity() {
+        PurchaseOrderItem poi = getPurchaseOrderItem();
+        if ( poi == null ) {
+          return null;
+        } else {
+          return getPoOutstandingQuantity(poi);
+        }
+    }
+    
+    public KualiDecimal getPoOutstandingQuantity(PurchaseOrderItem poi) {
+        if(poi == null) {
+            return KualiDecimal.ZERO;
+        } else {
+            KualiDecimal outstandingQuantity = (poi.getItemQuantity()!=null)?poi.getItemQuantity():KualiDecimal.ZERO;
+            KualiDecimal invoicedQuantity = (poi.getItemInvoicedTotalQuantity()!=null)?poi.getItemInvoicedTotalQuantity():KualiDecimal.ZERO;
+            return outstandingQuantity.subtract(invoicedQuantity);
+        }
+    }
+
+    public KualiDecimal getPurchaseOrderItemPaidAmount() {
+        PurchaseOrderItem poi = this.getPurchaseOrderItem();
+        if((poi==null)||(poi.isItemActiveIndicator())){
+            return KualiDecimal.ZERO;
+        }
+        return poi.getItemInvoicedTotalAmount();
+    }
+    
+    
+    public KualiDecimal getPurchaseOrderItemEncumbranceRelievedAmount() {
+        //get po item
+        PurchaseOrderItem poi = getPurchaseOrderItem();
+        //check that it is active else return zero
+        if(poi==null || poi.isItemActiveIndicator()) {
+            return KualiDecimal.ZERO;
+        }
+        //setup outstanding amount and get totalEncumberance from poi.getExtendedCost()
+        KualiDecimal outstandingAmount = KualiDecimal.ZERO;
+        KualiDecimal totalEncumberance = poi.getExtendedPrice();
+        
+        ItemType iT = poi.getItemType();
+        //if service add the po outstanding amount to outstandingamount 
+        if(StringUtils.equals(iT.getItemTypeCode(),PurapConstants.ItemTypeCodes.ITEM_TYPE_SERVICE_CODE)) {
+            outstandingAmount.add(poi.getItemOutstandingEncumbranceAmount());
+        } else {
+            //else add outstanding quantity * unitprice
+            BigDecimal qty = new BigDecimal(this.getPoOutstandingQuantity(poi).toString());
+            outstandingAmount = outstandingAmount.add(new KualiDecimal(poi.getItemUnitPrice().multiply(qty)));
+        }
+        
+        
+        //return the total encumberance subtracted by the outstandingamount from above
+        return totalEncumberance.subtract(outstandingAmount);
+    }
+      
 	/**
 	 * Gets the itemInvoicedQuantity attribute.
 	 * 

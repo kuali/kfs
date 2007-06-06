@@ -15,6 +15,9 @@
  */
 package org.kuali.module.labor.rules;
 
+import static org.kuali.kfs.bo.AccountingLineOverride.CODE.EXPIRED_ACCOUNT_AND_NON_FRINGE_ACCOUNT_USED;
+import static org.kuali.kfs.bo.AccountingLineOverride.CODE.NON_FRINGE_ACCOUNT_USED;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -34,7 +37,6 @@ import org.kuali.kfs.KFSKeyConstants;
 import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.bo.AccountingLine;
 import org.kuali.kfs.document.AccountingDocument;
-import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.chart.bo.AccountingPeriod;
 import org.kuali.module.labor.LaborConstants;
 import org.kuali.module.labor.bo.ExpenseTransferAccountingLine;
@@ -52,7 +54,7 @@ import org.kuali.rice.KNSServiceLocator;
  */
 public class BenefitExpenseTransferDocumentRule extends LaborExpenseTransferDocumentRules {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(BenefitExpenseTransferDocumentRule.class);
-    
+
     private BusinessObjectService businessObjectService = KNSServiceLocator.getBusinessObjectService();
 
     /**
@@ -194,11 +196,9 @@ public class BenefitExpenseTransferDocumentRule extends LaborExpenseTransferDocu
 
         KualiDecimal amount = accountingLine.getAmount();
 
-        // Check for zero amount, or negative on original (non-correction) document; no sign check for documents that are
-        // corrections to previous documents
+        // Check for zero amount
         if (amount.isZero()) {
-            GlobalVariables.getErrorMap().putError(KFSPropertyConstants.AMOUNT, KFSKeyConstants.ERROR_ZERO_AMOUNT, "an accounting line");
-            LOG.info("failing isAmountValid - zero check");
+            reportError(KFSPropertyConstants.AMOUNT, KFSKeyConstants.ERROR_ZERO_AMOUNT, "an accounting line");
             return false;
         }
         return true;
@@ -321,7 +321,13 @@ public class BenefitExpenseTransferDocumentRule extends LaborExpenseTransferDocu
 
         for (AccountingLine accountingLine : accountingLines) {
             if (!accountingLine.getAccount().isAccountsFringesBnftIndicator()) {
-                return false;
+                String overrideCode = accountingLine.getOverrideCode();
+                boolean canNonFringeAccountUsed = NON_FRINGE_ACCOUNT_USED.equals(overrideCode);
+                canNonFringeAccountUsed = canNonFringeAccountUsed || EXPIRED_ACCOUNT_AND_NON_FRINGE_ACCOUNT_USED.equals(overrideCode);
+
+                if (!canNonFringeAccountUsed) {
+                    return false;
+                }
             }
         }
         return true;
@@ -334,7 +340,7 @@ public class BenefitExpenseTransferDocumentRule extends LaborExpenseTransferDocu
      * @return true if the amount to be tranferred is only up to the amount in ledger balance for a given pay period; otherwise,
      *         false
      */
-    private boolean isValidTransferAmount(Map<String, ? extends ExpenseTransferAccountingLine> accountingLineGroupMap) {
+    private boolean isValidTransferAmount(Map<String, ExpenseTransferAccountingLine> accountingLineGroupMap) {
         for (String key : accountingLineGroupMap.keySet()) {
             ExpenseTransferAccountingLine accountingLine = accountingLineGroupMap.get(key);
             Map<String, Object> fieldValues = this.buildFieldValueMap(accountingLine);
@@ -346,7 +352,7 @@ public class BenefitExpenseTransferDocumentRule extends LaborExpenseTransferDocu
             if (balanceAmount.abs().isLessThan(transferAmount.abs())) {
                 return false;
             }
-                       
+
             // a positive amount cannot be transferred if the balance amount is negative
             if (balanceAmount.isNegative() && transferAmount.isPositive()) {
                 return false;
@@ -376,17 +382,18 @@ public class BenefitExpenseTransferDocumentRule extends LaborExpenseTransferDocu
         }
         return true;
     }
-    
+
     /**
      * get the amount for a given period from a ledger balance that has the given values for specified fileds
+     * 
      * @param fieldValues the given fields and their values
      * @param periodCode the given period
      * @return the amount for a given period from the qualified ledger balance
      */
-    private KualiDecimal getBalanceAmount(Map<String, Object> fieldValues, String periodCode){
+    private KualiDecimal getBalanceAmount(Map<String, Object> fieldValues, String periodCode) {
         List<LedgerBalance> ledgerBalances = (List<LedgerBalance>) KNSServiceLocator.getBusinessObjectService().findMatching(LedgerBalance.class, fieldValues);
-        
-        if(!ledgerBalances.isEmpty() && periodCode != null){
+
+        if (!ledgerBalances.isEmpty() && periodCode != null) {
             return ledgerBalances.get(0).getAmount(periodCode);
         }
         return KualiDecimal.ZERO;
@@ -394,6 +401,7 @@ public class BenefitExpenseTransferDocumentRule extends LaborExpenseTransferDocu
 
     /**
      * group the accounting lines by the specified key fields
+     * 
      * @param accountingLines the given accounting lines that are stored in a list
      * @param clazz the class type of given accounting lines
      * @return the accounting line groups
@@ -451,6 +459,7 @@ public class BenefitExpenseTransferDocumentRule extends LaborExpenseTransferDocu
 
     /**
      * build the field-value maps throught the given accouting line
+     * 
      * @param accountingLine the given accounting line
      * @return the field-value maps built from the given accouting line
      */
@@ -460,14 +469,14 @@ public class BenefitExpenseTransferDocumentRule extends LaborExpenseTransferDocu
         fieldValues.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, accountingLine.getPostingYear());
         fieldValues.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, accountingLine.getChartOfAccountsCode());
         fieldValues.put(KFSPropertyConstants.ACCOUNT_NUMBER, accountingLine.getAccountNumber());
-        
+
         String subAccountNumber = accountingLine.getSubAccountNumber();
         subAccountNumber = StringUtils.isBlank(subAccountNumber) ? KFSConstants.DASHES_SUB_ACCOUNT_NUMBER : subAccountNumber;
         fieldValues.put(KFSPropertyConstants.SUB_ACCOUNT_NUMBER, subAccountNumber);
 
         fieldValues.put(KFSPropertyConstants.FINANCIAL_BALANCE_TYPE_CODE, accountingLine.getBalanceTypeCode());
         fieldValues.put(KFSPropertyConstants.FINANCIAL_OBJECT_CODE, accountingLine.getFinancialObjectCode());
-        
+
         String subObjectCode = accountingLine.getFinancialSubObjectCode();
         subObjectCode = StringUtils.isBlank(subObjectCode) ? KFSConstants.DASHES_SUB_OBJECT_CODE : subObjectCode;
         fieldValues.put(KFSPropertyConstants.FINANCIAL_SUB_OBJECT_CODE, subObjectCode);

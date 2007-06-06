@@ -97,8 +97,6 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
      * It also calls the BusinessObjectBase.refresh(), which will attempt to load all sub-objects from the DB by their primary keys,
      * if available.
      * 
-     * @param document - the maintenanceDocument being evaluated
-     * 
      */
     public void setupConvenienceObjects() {
 
@@ -484,11 +482,10 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
      * This method checks to see if the user passed in is of the type requested.
      * 
      * If so, it returns true. If not, it returns false, and adds an error to the GlobalErrors.
-     * 
+     *
+     * @param propertyName -
      * @param user - UniversalUser to be tested
-     * @param employeeType - String value expected for Employee Type
-     * @param userRoleDescription - User Role being tested, to be passed into an error message
-     * 
+     *
      * @return true if user is of the requested employee type, false if not, true if the user object is null
      * 
      */
@@ -664,20 +661,25 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
         }
 
         // make sure both coaCode and accountNumber are filled out
-        result &= checkEmptyBOField("incomeStreamAccountNumber", newAccount.getIncomeStreamAccountNumber(), replaceTokens(KFSKeyConstants.ERROR_DOCUMENT_ACCMAINT_INCOME_STREAM_ACCT_NBR_CANNOT_BE_EMPTY));
-        result &= checkEmptyBOField("incomeStreamFinancialCoaCode", newAccount.getIncomeStreamFinancialCoaCode(), replaceTokens(KFSKeyConstants.ERROR_DOCUMENT_ACCMAINT_INCOME_STREAM_ACCT_COA_CANNOT_BE_EMPTY));
+        boolean incomeStreamAccountIsValid = checkEmptyBOField("incomeStreamAccountNumber", newAccount.getIncomeStreamAccountNumber(), replaceTokens(KFSKeyConstants.ERROR_DOCUMENT_ACCMAINT_INCOME_STREAM_ACCT_NBR_CANNOT_BE_EMPTY));
+        incomeStreamAccountIsValid &= checkEmptyBOField("incomeStreamFinancialCoaCode", newAccount.getIncomeStreamFinancialCoaCode(), replaceTokens(KFSKeyConstants.ERROR_DOCUMENT_ACCMAINT_INCOME_STREAM_ACCT_COA_CANNOT_BE_EMPTY));
 
         // if both fields arent present, then we're done
-        if (result == false) {
-            return result;
+        if (incomeStreamAccountIsValid) {
+            // do an existence/active test
+            DictionaryValidationService dvService = super.getDictionaryValidationService();
+            boolean referenceExists = dvService.validateReferenceExists(newAccount, "incomeStreamAccount");
+            if (!referenceExists) {
+                putFieldError("incomeStreamAccountNumber", KFSKeyConstants.ERROR_EXISTENCE, "Income Stream Account: " + newAccount.getIncomeStreamFinancialCoaCode() + "-" + newAccount.getIncomeStreamAccountNumber());
+                incomeStreamAccountIsValid = false;
+            }
         }
 
-        // do an existence/active test
-        DictionaryValidationService dvService = super.getDictionaryValidationService();
-        boolean referenceExists = dvService.validateReferenceExists(newAccount, "incomeStreamAccount");
-        if (!referenceExists) {
-            putFieldError("incomeStreamAccountNumber", KFSKeyConstants.ERROR_EXISTENCE, "Income Stream Account: " + newAccount.getIncomeStreamFinancialCoaCode() + "-" + newAccount.getIncomeStreamAccountNumber());
-            result &= false;
+        if(incomeStreamAccountIsValid) {
+            result = true;
+        } else {
+            result = newAccount.getAccountNumber().equals(newAccount.getIncomeStreamAccountNumber());
+            result &= newAccount.getChartOfAccountsCode().equals(newAccount.getIncomeStreamFinancialCoaCode());
         }
 
         return result;

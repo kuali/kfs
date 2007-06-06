@@ -896,6 +896,7 @@ public class KFSConstants extends Constants {
         public final static String BUDGET_CONSTRUCTION_DOCUMENT_DESCRIPTION =
                                    "Budget Construction";
         public final static String BUDGET_CONSTRUCTION_DOCUMENT_INITIAL_STATUS = "$";
+        private static final String ORG_REVIEW_RULE_TEMPLATE = "KualiOrgReviewTemplate";
         
         /*  codes used in the Calculated Salary Foundation (CSF) */
         public final static String VACANT_CSF_LINE = "V";

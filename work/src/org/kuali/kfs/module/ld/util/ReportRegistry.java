@@ -24,18 +24,18 @@ import org.kuali.rice.KNSServiceLocator;
  * and title.
  */
 public enum ReportRegistry {
-    LABOR_POSTER_INPUT("poster_main_ledger", "Main Poster Input Transactions"),
-    LABOR_POSTER_STATISTICS("poster_main", "Poster Report"),    
-    LABOR_POSTER_ERROR("poster_main_error_list", "Main Poster Error Transaction Listing"),
-    LABOR_POSTER_OUTPUT("poster_output", "Poster Output Summary"),
-    LABOR_POSTER_OUTPUT_BY_SINGLE_GROUP("poster_output_single_group", "Poster Output Summary"),
-    LABOR_POSTER_GL_SUMMARY("poster_gl_summary", "Poster Labor General Ledger Summary"),
+    LABOR_POSTER_INPUT("labor_poster_main_ledger", "Main Poster Input Transactions"),
+    LABOR_POSTER_STATISTICS("labor_poster_main", "Poster Report"),    
+    LABOR_POSTER_ERROR("labor_poster_main_error_list", "Main Poster Error Transaction Listing"),
+    LABOR_POSTER_OUTPUT("labor_poster_output", "Poster Output Summary"),
+    LABOR_POSTER_OUTPUT_BY_SINGLE_GROUP("labor_poster_output_single_group", "Poster Output Summary"),
+    LABOR_POSTER_GL_SUMMARY("labor_poster_gl_summary", "Poster Labor General Ledger Summary"),
     
-    LABOR_YEAR_END_OUTPUT("year_end_output", "Year-End Output Summary"),
-    LABOR_YEAR_END_STATISTICS("year_end_main", "Ledger Report"),
+    LABOR_YEAR_END_OUTPUT("labor_year_end_output", "Year-End Output Summary"),
+    LABOR_YEAR_END_STATISTICS("labor_year_end_main", "Ledger Report"),
     
-    LABOR_PENDING_ENTRY_REPORT("pending_entry_report", "Pending Ledger Entry Report"),
-    LABOR_PENDING_ENTRY_SUMMARY("pending_entry_summary", "Pending Ledger Entry Summary"),
+    LABOR_PENDING_ENTRY_REPORT("labor_pending_entry_report", "Pending Ledger Entry Report"),
+    LABOR_PENDING_ENTRY_SUMMARY("labor_pending_entry_summary", "Pending Ledger Entry Summary"),
     
     PAYROLL_ACCRUAL_REPORT("payroll_accrual_report", "Payroll Accrual Entry Report"),
     PAYROLL_ACCRUAL_STATISTICS("payroll_accrual_summary", "Payroll Accrual Summary Report");

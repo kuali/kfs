@@ -1,12 +1,12 @@
 /*
  * Copyright 2007 The Kuali Foundation.
- * 
+ *
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl1.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -96,7 +96,7 @@ public class KualiCGAttribute implements RoleAttribute, WorkflowAttribute {
         return new StringBuffer(getNullSafeValue(role.roleName)).append(ROLE_STRING_DELIMITER).append(getNullSafeValue(role.chart)).append(ROLE_STRING_DELIMITER).append(getNullSafeValue(role.accountNumber)).append(ROLE_STRING_DELIMITER).append(getNullSafeValue(role.routingWorkgroupName)).toString();
     }
 
-    
+
     public List validateRoutingData(Map paramMap) {
         List errors = new ArrayList();
         this.finCoaCd = LookupUtils.forceUppercase(Account.class, "chartOfAccountsCode", (String) paramMap.get(FIN_COA_CD_KEY));
@@ -209,7 +209,7 @@ public class KualiCGAttribute implements RoleAttribute, WorkflowAttribute {
         // if we dont have an ID, but we do have a chart/account, then hit Kuali to retrieve current FO
 
         if (StringUtils.isNotBlank(role.chart) && StringUtils.isNotBlank(role.accountNumber)) {
-            routingWorkgroupName = SpringServiceLocator.getAwardService().getAwardWorgroupForAccount(role.chart, role.accountNumber);
+            routingWorkgroupName = SpringServiceLocator.getAwardService().getAwardWorkgroupForAccount(role.chart, role.accountNumber);
 
         }
 

@@ -265,13 +265,19 @@ public class BenefitExpenseTransferDocumentRule extends LaborExpenseTransferDocu
      * @return true if the given accounting line has already been in the given document; otherwise, false
      */
     private boolean isDuplicateSourceAccountingLine(AccountingDocument accountingDocument, AccountingLine accountingLine) {
+        // only check source accounting lines
+        if(!(accountingLine instanceof ExpenseTransferSourceAccountingLine)){
+            return false;
+        }
+        
         BenefitExpenseTransferDocument benefitExpenseTransferDocument = (BenefitExpenseTransferDocument) accountingDocument;
-        List<AccountingLine> sourceAccountingLines = benefitExpenseTransferDocument.getSourceAccountingLines();
-
+        List<AccountingLine> sourceAccountingLines = benefitExpenseTransferDocument.getSourceAccountingLines();               
+        List<String> key = defaultKeyOfExpenseTransferAccountingLine();
+        
         int counter = 0;
         for (AccountingLine sourceAccountingLine : sourceAccountingLines) {
-            boolean isExisting = ObjectUtil.compareObject(accountingLine, sourceAccountingLine, defaultKeyOfExpenseTransferAccountingLine());
-            counter = isExisting ? counter : counter + 1;
+            boolean isExisting = ObjectUtil.compareObject(accountingLine, sourceAccountingLine, key);
+            counter = isExisting ? counter + 1 : counter;
 
             if (counter > 1) {
                 return true;
@@ -469,7 +475,7 @@ public class BenefitExpenseTransferDocumentRule extends LaborExpenseTransferDocu
     private List<String> defaultKeyOfExpenseTransferAccountingLine() {
         List<String> defaultKey = new ArrayList<String>();
 
-        defaultKey.add(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR);
+        defaultKey.add(KFSPropertyConstants.POSTING_YEAR);
         defaultKey.add(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE);
         defaultKey.add(KFSPropertyConstants.ACCOUNT_NUMBER);
         defaultKey.add(KFSPropertyConstants.SUB_ACCOUNT_NUMBER);
@@ -481,6 +487,7 @@ public class BenefitExpenseTransferDocumentRule extends LaborExpenseTransferDocu
         defaultKey.add(KFSPropertyConstants.EMPLID);
         defaultKey.add(KFSPropertyConstants.POSITION_NUMBER);
 
+        defaultKey.add(KFSPropertyConstants.PAYROLL_END_DATE_FISCAL_YEAR);
         defaultKey.add(KFSPropertyConstants.PAYROLL_END_DATE_FISCAL_PERIOD_CODE);
 
         return defaultKey;

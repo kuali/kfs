@@ -20,7 +20,6 @@ import static org.kuali.Constants.MULTIPLE_VALUE;
 import java.util.Map;
 
 import org.kuali.kfs.KFSPropertyConstants;
-
 import org.kuali.module.labor.bo.LedgerBalance;
 
 /**
@@ -102,12 +101,14 @@ public abstract class ExpenseTransferDocumentFormBase extends LaborDocumentFormB
 
     /**
      * Get the universityFiscalYear attribute.
+     * 
      * @return the universityFiscalYear
      */
     public abstract Integer getUniversityFiscalYear();
 
     /**
      * Set the universityFiscalYear attribute
+     * 
      * @param universityFiscalYear the universityFiscalYear to set
      */
     public abstract void setUniversityFiscalYear(Integer universityFiscalYear);

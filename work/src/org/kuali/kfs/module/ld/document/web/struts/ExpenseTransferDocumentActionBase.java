@@ -40,16 +40,13 @@ import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.UrlFactory;
 import org.kuali.core.web.struts.form.KualiForm;
 import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.document.AccountingDocument;
 import org.kuali.kfs.rule.event.AddAccountingLineEvent;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.labor.bo.ExpenseTransferAccountingLine;
 import org.kuali.module.labor.bo.LedgerBalance;
 import org.kuali.module.labor.document.LaborExpenseTransferDocumentBase;
-import org.kuali.module.labor.document.SalaryExpenseTransferDocument;
 import org.kuali.module.labor.rules.event.EmployeeIdChangedEvent;
 import org.kuali.module.labor.web.struts.form.ExpenseTransferDocumentFormBase;
-import org.kuali.module.labor.web.struts.form.SalaryExpenseTransferForm;
 import org.kuali.rice.KNSServiceLocator;
 
 /**
@@ -58,23 +55,23 @@ import org.kuali.rice.KNSServiceLocator;
 public class ExpenseTransferDocumentActionBase extends LaborDocumentActionBase {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ExpenseTransferDocumentActionBase.class);
 
-    private static final Map<String, String> periodCodeMapping = new HashMap<String,String>();
+    private static final Map<String, String> periodCodeMapping = new HashMap<String, String>();
     static {
-        periodCodeMapping.put("01","month1AccountLineAmount");
-        periodCodeMapping.put("02","month2AccountLineAmount");
-        periodCodeMapping.put("03","month3AccountLineAmount");
-        periodCodeMapping.put("04","month4AccountLineAmount");
-        periodCodeMapping.put("05","month5AccountLineAmount");
-        periodCodeMapping.put("06","month6AccountLineAmount");
-        periodCodeMapping.put("07","month7AccountLineAmount");
-        periodCodeMapping.put("08","month8AccountLineAmount");
-        periodCodeMapping.put("09","month9AccountLineAmount");
-        periodCodeMapping.put("10","month10AccountLineAmount");
-        periodCodeMapping.put("11","month11AccountLineAmount");
-        periodCodeMapping.put("12","month12AccountLineAmount");
-        periodCodeMapping.put("13","month13AccountLineAmount");
+        periodCodeMapping.put("01", "month1AccountLineAmount");
+        periodCodeMapping.put("02", "month2AccountLineAmount");
+        periodCodeMapping.put("03", "month3AccountLineAmount");
+        periodCodeMapping.put("04", "month4AccountLineAmount");
+        periodCodeMapping.put("05", "month5AccountLineAmount");
+        periodCodeMapping.put("06", "month6AccountLineAmount");
+        periodCodeMapping.put("07", "month7AccountLineAmount");
+        periodCodeMapping.put("08", "month8AccountLineAmount");
+        periodCodeMapping.put("09", "month9AccountLineAmount");
+        periodCodeMapping.put("10", "month10AccountLineAmount");
+        periodCodeMapping.put("11", "month11AccountLineAmount");
+        periodCodeMapping.put("12", "month12AccountLineAmount");
+        periodCodeMapping.put("13", "month13AccountLineAmount");
     }
-    
+
     /**
      * Takes care of storing the action form in the user session and forwarding to the balance inquiry lookup action.
      * 
@@ -156,7 +153,8 @@ public class ExpenseTransferDocumentActionBase extends LaborDocumentActionBase {
     }
 
     /**
-     * @see org.kuali.core.web.struts.action.KualiDocumentActionBase#refresh(ActionMapping, ActionForm, HttpServletRequest, HttpServletResponse)
+     * @see org.kuali.core.web.struts.action.KualiDocumentActionBase#refresh(ActionMapping, ActionForm, HttpServletRequest,
+     *      HttpServletResponse)
      */
     @Override
     public ActionForward refresh(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -165,33 +163,38 @@ public class ExpenseTransferDocumentActionBase extends LaborDocumentActionBase {
         // Needed to be executed for each accounting line that may have been added.
         boolean rulePassed = runRule(new EmployeeIdChangedEvent(expenseTransferDocumentForm.getDocument()));
         Map<String, String> requestParams = (Map<String, String>) request.getParameterMap();
-        
+
         Collection<PersistableBusinessObject> rawValues = null;
         if (StringUtils.equals(Constants.MULTIPLE_VALUE, expenseTransferDocumentForm.getRefreshCaller())) {
             String lookupResultsSequenceNumber = expenseTransferDocumentForm.getLookupResultsSequenceNumber();
             if (StringUtils.isNotBlank(lookupResultsSequenceNumber)) {
                 // actually returning from a multiple value lookup
                 Class lookupResultsBOClass = Class.forName(expenseTransferDocumentForm.getLookupResultsBOClassName());
-                
+
                 rawValues = KNSServiceLocator.getLookupResultsService().retrieveSelectedResultBOs(lookupResultsSequenceNumber, lookupResultsBOClass, GlobalVariables.getUserSession().getUniversalUser().getPersonUniversalIdentifier());
             }
         }
-        
+
         if (rawValues != null) {
+            boolean isFirstBalance = true;
             for (PersistableBusinessObject bo : rawValues) {
-                expenseTransferDocumentForm.setUniversityFiscalYear(((LedgerBalance) bo).getUniversityFiscalYear());
-                
+
+                // reset the form with the first leadge balance
+                if (isFirstBalance) {
+                    resetLookupFields(expenseTransferDocumentForm, (LedgerBalance) bo);
+                    isFirstBalance = false;
+                }
+
                 for (String periodCode : periodCodeMapping.keySet()) {
                     ExpenseTransferAccountingLine line = (ExpenseTransferAccountingLine) expenseTransferDocumentForm.getFinancialDocument().getSourceAccountingLineClass().newInstance();
                     try {
                         KualiDecimal lineAmount = (KualiDecimal) getProperty(bo, periodCodeMapping.get(periodCode));
                         if (Constants.ZERO.compareTo(lineAmount) != 0) {
-                            buildAccountingLineFromLedgerBalance((LedgerBalance) bo, line, 
-                                                                 (KualiDecimal) getProperty(bo, periodCodeMapping.get(periodCode)), periodCode);
+                            buildAccountingLineFromLedgerBalance((LedgerBalance) bo, line, (KualiDecimal) getProperty(bo, periodCodeMapping.get(periodCode)), periodCode);
                             SpringServiceLocator.getPersistenceService().retrieveNonKeyFields(line);
                             insertAccountingLine(true, expenseTransferDocumentForm, line);
                         }
-                    } 
+                    }
                     catch (Exception e) {
                         // IllegalAccessException thrown by getProperty() call
                         // No way to recover gracefully, so throw it back as a RuntimeException
@@ -205,7 +208,8 @@ public class ExpenseTransferDocumentActionBase extends LaborDocumentActionBase {
     }
 
     /**
-     * @see org.kuali.core.web.struts.action.KualiDocumentActionBase#refresh(ActionMapping, ActionForm, HttpServletRequest, HttpServletResponse)
+     * @see org.kuali.core.web.struts.action.KualiDocumentActionBase#refresh(ActionMapping, ActionForm, HttpServletRequest,
+     *      HttpServletResponse)
      */
     public ActionForward copyAllAccountingLines(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ExpenseTransferDocumentFormBase financialDocumentForm = (ExpenseTransferDocumentFormBase) form;
@@ -214,7 +218,7 @@ public class ExpenseTransferDocumentActionBase extends LaborDocumentActionBase {
             copyAccountingLine((ExpenseTransferAccountingLine) line, to);
 
             boolean rulePassed = runRule(new AddAccountingLineEvent(KFSConstants.NEW_TARGET_ACCT_LINE_PROPERTY_NAME, financialDocumentForm.getDocument(), to));
-            
+
             // if the rule evaluation passed, let's add it
             if (rulePassed) {
                 // add accountingLine
@@ -224,28 +228,29 @@ public class ExpenseTransferDocumentActionBase extends LaborDocumentActionBase {
         }
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
-    
+
     /**
      * delete all accounting lines
      */
     public ActionForward deleteAllAccountingLines(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ExpenseTransferDocumentFormBase financialDocumentForm = (ExpenseTransferDocumentFormBase) form;
         boolean success = false;
-        
+
         List sourceAccountingLines = financialDocumentForm.getFinancialDocument().getSourceAccountingLines();
-        if(sourceAccountingLines != null){
+        if (sourceAccountingLines != null) {
             success = sourceAccountingLines.removeAll(sourceAccountingLines);
         }
 
         List targetAccountingLines = financialDocumentForm.getFinancialDocument().getTargetAccountingLines();
-        if(success && targetAccountingLines != null){
+        if (success && targetAccountingLines != null) {
             success = targetAccountingLines.removeAll(targetAccountingLines);
         }
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
     /**
-     * @see org.kuali.core.web.struts.action.KualiDocumentActionBase#refresh(ActionMapping, ActionForm, HttpServletRequest, HttpServletResponse)
+     * @see org.kuali.core.web.struts.action.KualiDocumentActionBase#refresh(ActionMapping, ActionForm, HttpServletRequest,
+     *      HttpServletResponse)
      */
     public ActionForward copyAccountingLine(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ExpenseTransferDocumentFormBase financialDocumentForm = (ExpenseTransferDocumentFormBase) form;
@@ -258,20 +263,30 @@ public class ExpenseTransferDocumentActionBase extends LaborDocumentActionBase {
         copyAccountingLine((ExpenseTransferAccountingLine) financialDocument.getSourceAccountingLine(index), line);
 
         boolean rulePassed = runRule(new AddAccountingLineEvent(KFSConstants.NEW_TARGET_ACCT_LINE_PROPERTY_NAME, financialDocumentForm.getDocument(), line));
-        
+
         // if the rule evaluation passed, let's add it
         if (rulePassed) {
             // add accountingLine
             SpringServiceLocator.getPersistenceService().retrieveNonKeyFields(line);
             insertAccountingLine(false, financialDocumentForm, line);
         }
-        
+
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
     /**
+     * reset the looup fields in the given expense transfer form with the given ledger balance
+     * 
+     * @param expenseTransferDocumentForm the given expense transfer form
+     * @param the given ledger balance
+     */
+    protected void resetLookupFields(ExpenseTransferDocumentFormBase expenseTransferDocumentForm, LedgerBalance balance) {
+        expenseTransferDocumentForm.setUniversityFiscalYear(balance.getUniversityFiscalYear());
+    }
+
+    /**
      * Copies content from one accounting line to the other. Ignores Source or Target information.
-     *
+     * 
      * @param source line to copy from
      * @param target new line to copy data to
      */
@@ -289,39 +304,39 @@ public class ExpenseTransferDocumentActionBase extends LaborDocumentActionBase {
         target.setEmplid(source.getEmplid());
         target.setPayrollEndDateFiscalPeriodCode(source.getPayrollEndDateFiscalPeriodCode());
     }
-    
+
     /**
      * Translates <code>{@link LedgerBalance}</code> data into an <code>{@link ExpenseTransferAccountingLine}</code>
-     *
+     * 
      * @param bo <code>{@link LedgerBalance}</code> instance
      * @param line <code>{@link ExpenseTransferAccountingLine}</code> to copy data to
      */
     private void buildAccountingLineFromLedgerBalance(LedgerBalance bo, ExpenseTransferAccountingLine line, KualiDecimal amount, String periodCode) {
         line.setChartOfAccountsCode(bo.getChartOfAccountsCode());
         line.setAccountNumber(bo.getAccountNumber());
-        
-        if (!KFSConstants.DASHES_SUB_ACCOUNT_NUMBER.equals(bo.getSubAccountNumber())) { 
+
+        if (!KFSConstants.DASHES_SUB_ACCOUNT_NUMBER.equals(bo.getSubAccountNumber())) {
             line.setSubAccountNumber(bo.getSubAccountNumber());
         }
-        
+
         line.setPostingYear(bo.getUniversityFiscalYear());
         line.setPayrollEndDateFiscalYear(bo.getUniversityFiscalYear());
         line.setFinancialObjectCode(bo.getFinancialObjectCode());
-        
-        if (!KFSConstants.DASHES_SUB_OBJECT_CODE.equals(bo.getFinancialSubObjectCode())) { 
+
+        if (!KFSConstants.DASHES_SUB_OBJECT_CODE.equals(bo.getFinancialSubObjectCode())) {
             line.setFinancialSubObjectCode(bo.getFinancialSubObjectCode());
         }
-        
+
         line.setBalanceTypeCode(bo.getFinancialBalanceTypeCode());
         line.setPositionNumber(bo.getPositionNumber());
         line.setAmount(amount);
         line.setEmplid(bo.getEmplid());
         line.setPayrollEndDateFiscalPeriodCode(periodCode);
     }
-        
+
     /**
      * Executes for the given event. This is more of a convenience method.
-     *
+     * 
      * @param event to run the rules for
      */
     private boolean runRule(KualiDocumentEventBase event) {
@@ -329,14 +344,15 @@ public class ExpenseTransferDocumentActionBase extends LaborDocumentActionBase {
 
         boolean rulePassed = SpringServiceLocator.getKualiRuleService().applyRules(event);
         return rulePassed;
-    }  
-    
+    }
+
     /**
      * Get the BO class name of the set of lookup results
+     * 
      * @param expenseTransferDocumentForm the Struts form for expense transfer document
      * @return the BO class name of the set of lookup results
      */
-    protected String getLookupResultsBOClassName(ExpenseTransferDocumentFormBase expenseTransferDocumentForm){
+    protected String getLookupResultsBOClassName(ExpenseTransferDocumentFormBase expenseTransferDocumentForm) {
         return expenseTransferDocumentForm.getLookupResultsBOClassName();
     }
 }

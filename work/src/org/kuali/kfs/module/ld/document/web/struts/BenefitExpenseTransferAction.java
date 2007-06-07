@@ -16,6 +16,8 @@
 package org.kuali.module.labor.web.struts.action;
 
 import org.kuali.module.labor.bo.LedgerBalance;
+import org.kuali.module.labor.util.ObjectUtil;
+import org.kuali.module.labor.web.struts.form.BenefitExpenseTransferForm;
 import org.kuali.module.labor.web.struts.form.ExpenseTransferDocumentFormBase;
 
 /**
@@ -30,5 +32,15 @@ public class BenefitExpenseTransferAction extends ExpenseTransferDocumentActionB
     @Override
     protected String getLookupResultsBOClassName(ExpenseTransferDocumentFormBase expenseTransferDocumentForm) {
         return LedgerBalance.class.getName();
+    }
+
+    /**
+     * @see org.kuali.module.labor.web.struts.action.ExpenseTransferDocumentActionBase#resetLookupFields(org.kuali.module.labor.web.struts.form.ExpenseTransferDocumentFormBase,
+     *      org.kuali.module.labor.bo.LedgerBalance)
+     */
+    @Override
+    protected void resetLookupFields(ExpenseTransferDocumentFormBase expenseTransferDocumentForm, LedgerBalance balance) {
+        BenefitExpenseTransferForm benefitExpenseTransferForm = (BenefitExpenseTransferForm) expenseTransferDocumentForm;
+        ObjectUtil.buildObject(benefitExpenseTransferForm, balance);
     }
 }

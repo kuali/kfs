@@ -258,7 +258,7 @@ public class KFSConstants extends Constants {
     public static final String PROJECT_CODE_PROPERTY_NAME = "projectCode";
 
     public static final String INQUIRABLE_ATTRIBUTE_NAME = "kualiInquirable";
-    public static final String INQUIRY_ACTION = "inquiry.do";
+    public static final String INQUIRY_ACTION = "kr/inquiry.do";
     public static final String INQUIRY_IMPL_ATTRIBUTE_NAME = "inquirableImplServiceName";
     public static final String JOURNAL_VOUCHER_CHANGE_BALANCE_TYPE_QUESTION = "JournalVoucherChangeBalanceTypeQuestion";
     public static final String JOURNAL_VOUCHER_ROUTE_OUT_OF_BALANCE_DOCUMENT_QUESTION = "JournalVoucherRouteOutOfBalanceDocumentQuestion";
@@ -268,7 +268,7 @@ public class KFSConstants extends Constants {
     public static final String VOUCHER_LINE_HELPER_CREDIT_PROPERTY_NAME = ".credit";
     public static final String VOUCHER_LINE_HELPER_DEBIT_PROPERTY_NAME = ".debit";
     public static final String KUALI_WORKFLOW_APPLICATION_CODE = "kuali";
-    public static final String LOOKUP_ACTION = "lookup.do";
+    public static final String LOOKUP_ACTION = "kr/lookup.do";
     public static final String MULTIPLE_VALUE_LOOKUP_ACTION = "multipleValueLookup.do";
     public static final String LOOKUP_RESULTS_SEQUENCE_NUMBER = "lookupResultsSequenceNumber";
     public static final String LOOKUP_RESULTS_BO_CLASS_NAME = "lookupResultsBOClassName";

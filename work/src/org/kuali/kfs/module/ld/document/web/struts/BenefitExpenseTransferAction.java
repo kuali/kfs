@@ -21,7 +21,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.kuali.Constants;
+import org.kuali.kfs.KFSConstants;
 import org.kuali.module.labor.LaborConstants;
 import org.kuali.module.labor.bo.LedgerBalance;
 import org.kuali.module.labor.util.ObjectUtil;
@@ -58,7 +58,7 @@ public class BenefitExpenseTransferAction extends ExpenseTransferDocumentActionB
     @Override
     public ActionForward performLookup(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         String path = super.performLookup(mapping, form, request, response).getPath();
-        path = path.replaceFirst("kr/" + Constants.LOOKUP_ACTION, LaborConstants.LONG_ROW_TABLE_INRUIRY_ACTION);
+        path = path.replaceFirst(KFSConstants.LOOKUP_ACTION, LaborConstants.LONG_ROW_TABLE_INRUIRY_ACTION);
         return new ActionForward(path, true);
     }
 }

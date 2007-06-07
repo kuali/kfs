@@ -15,20 +15,13 @@
  */
 package org.kuali.module.labor.web.struts.action;
 
-import java.util.Properties;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.kuali.Constants;
-import org.kuali.core.util.GlobalVariables;
-import org.kuali.core.util.UrlFactory;
 import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.bo.AccountingLine;
 import org.kuali.module.labor.LaborConstants;
 
 /**
@@ -44,7 +37,7 @@ public class JournalVoucherAction extends org.kuali.module.financial.web.struts.
     @Override
     public ActionForward performLookup(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         String path = super.performLookup(mapping, form, request, response).getPath();
-        path = path.replaceFirst("kr/" + Constants.LOOKUP_ACTION, LaborConstants.LONG_ROW_TABLE_INRUIRY_ACTION);
+        path = path.replaceFirst(KFSConstants.LOOKUP_ACTION, LaborConstants.LONG_ROW_TABLE_INRUIRY_ACTION);
         return new ActionForward(path, true);
     }
 }

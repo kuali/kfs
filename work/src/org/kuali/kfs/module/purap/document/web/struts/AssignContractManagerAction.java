@@ -17,6 +17,7 @@ package org.kuali.module.purap.web.struts.action;
 
 import org.kuali.core.web.struts.action.KualiTransactionalDocumentActionBase;
 import org.kuali.core.web.struts.form.KualiDocumentFormBase;
+import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.document.AssignContractManagerDocument;
 
 import edu.iu.uis.eden.exception.WorkflowException;
@@ -36,7 +37,8 @@ public class AssignContractManagerAction extends KualiTransactionalDocumentActio
     @Override
     protected void createDocument(KualiDocumentFormBase kualiDocumentFormBase) throws WorkflowException {
         super.createDocument(kualiDocumentFormBase);
-        ((AssignContractManagerDocument) kualiDocumentFormBase.getDocument()).populateDocumentWithRequisitions();
+        AssignContractManagerDocument acmDocument = (AssignContractManagerDocument) kualiDocumentFormBase.getDocument();
+        acmDocument.getDocumentHeader().setFinancialDocumentDescription(PurapConstants.ASSIGN_CONTRACT_MANAGER_DEFAULT_DESC);
+        acmDocument.populateDocumentWithRequisitions();
     }
-
 }

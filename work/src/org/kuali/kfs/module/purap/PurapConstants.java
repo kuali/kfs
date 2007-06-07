@@ -188,7 +188,8 @@ public class PurapConstants {
     // PO/Quotes Tab Constants
     public static final String QUOTE_TAB_ERRORS = "document.quote*,quote*";
 
-    // Assign Contract Manager Tab Errors
+    // Assign Contract Manager
+    public static final String ASSIGN_CONTRACT_MANAGER_DEFAULT_DESC = "Contract Manager Assigned";
     public static final String ASSIGN_CONTRACT_MANAGER_TAB_ERRORS = "document.unassignedRequisition*";
 
     public static class PurchaseOrderStatuses {

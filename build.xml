@@ -21,6 +21,13 @@
 				<equals arg1="${use.p6spy}" arg2="true" />
 			</and>
 		</condition>
+		<!-- todo: remove dev.mode and message.persistence - fix for workflow bug introduced with the 2.4 upgrade -->
+		<condition property="dev.mode" value="true">
+			<equals arg1="${is.local.build}" arg2="true" />
+		</condition>
+		<condition property="message.persistence" value="synchronous">
+			<equals arg1="${is.local.build}" arg2="true" />
+		</condition>
 		<echo message="Loaded properties in ${user.home}/${ant.project.name}-build.properties" />
 	</target>
 

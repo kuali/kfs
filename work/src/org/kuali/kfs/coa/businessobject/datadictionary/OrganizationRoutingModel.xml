@@ -129,6 +129,15 @@
                 <description>approvalToThisAmount description...</description>
             </attribute>
             
+            <attributeReference name="active" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericBoolean">
+                <label>Active</label>
+                <shortLabel>Act.</shortLabel>
+                <summary>Account Delegate Model Active Indicator</summary>
+                <description>
+                    <![CDATA[&nbsp;]]>
+                </description>
+            </attributeReference>
+            
             <attributeReference name="newCollectionRecord" 
                                 sourceClassName="org.kuali.core.bo.AttributeReferenceDummy"
                                 sourceAttributeName="newCollectionRecord" />

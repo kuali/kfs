@@ -263,6 +263,7 @@ public class KFSKeyConstants extends KeyConstants {
     public static final String ERROR_DOCUMENT_GLOBAL_ACCOUNT_ONE_CHART_ONLY = "error.document.accountChangeDetails.onlyOneChartAllowed";
     public static final String ERROR_DOCUMENT_GLOBAL_ACCOUNT_ONE_CHART_ONLY_ADDNEW = "error.document.accountChangeDetails.onlyOneChartAllowedOnAddNew";
     public static final String ERROR_DOCUMENT_DELEGATE_CHANGE_NO_DELEGATE = "error.document.delegateChange.noDelegate";
+    public static final String ERROR_DOCUMENT_DELEGATE_CHANGE_NO_ACTIVE_DELEGATE = "error.document.delegateChange.noActiveDelegate";
     public static final String ERROR_DOCUMENT_DELEGATE_CHANGE_ACCT_DOESNT_EXIST = "error.document.delegateChange.acctDoesntExist";
     public static final String ERROR_DOCUMENT_DELEGATE_CHANGE_SAVE_AND_LOAD = "error.document.delegateChange.saveAndLoad";
     public static final String ERROR_DOCUMENT_DELEGATE_CHANGE_SAVE_SUCCESS = "error.document.delegateChange.saveSuccess";

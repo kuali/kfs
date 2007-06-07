@@ -102,11 +102,17 @@ public class OrganizationRoutingModelRule extends MaintenanceDocumentRuleBase {
     protected boolean checkSimpleRules(OrganizationRoutingModelName globalDelegateTemplate) {
         boolean success = true;
         
+        success &= checkModelNameHasAtLeastOneModel(globalDelegateTemplate);
+        if (success) {
+            // if there's not any models, why check to see that any are active?
+            success &= checkModelNameHasAtLeastOneActiveModel(globalDelegateTemplate);
+        }
+        
         int line = 0;
         for (OrganizationRoutingModel delegateModel: globalDelegateTemplate.getOrganizationRoutingModel()) {
-            GlobalVariables.getErrorMap().addToErrorPath(MAINTAINABLE_ERROR_PATH+"organizationRoutingModel["+line+"].");
+            GlobalVariables.getErrorMap().addToErrorPath(MAINTAINABLE_ERROR_PATH+".organizationRoutingModel["+line+"].");
             success &= checkSimpleRulesForOrganizationRoutingModel(globalDelegateTemplate, delegateModel);
-            GlobalVariables.getErrorMap().addToErrorPath(MAINTAINABLE_ERROR_PATH+"organizationRoutingModel["+line+"].");
+            GlobalVariables.getErrorMap().addToErrorPath(MAINTAINABLE_ERROR_PATH+".organizationRoutingModel["+line+"].");
             line++;
         }
         return success;
@@ -130,11 +136,44 @@ public class OrganizationRoutingModelRule extends MaintenanceDocumentRuleBase {
         return success;
     }
     
+    /**
+     * This method makes certain that the collection of account delegates in the "model"
+     * has at least one account delegate template in it.
+     * 
+     * @param globalDelegateTemplate the account delegate model to check
+     * @return true if account delegate model has at least one account delegate template in it
+     */
     protected boolean checkModelNameHasAtLeastOneModel(OrganizationRoutingModelName globalDelegateTemplate) {
         boolean success = true;
         if (globalDelegateTemplate.getOrganizationRoutingModel().size() == 0) {
             success = false;
-            GlobalVariables.getErrorMap().putError("financialDocumentTypeCode", KFSKeyConstants.ERROR_DOCUMENT_DELEGATE_CHANGE_NO_DELEGATE, new String[0]);
+            GlobalVariables.getErrorMap().putError(KFSConstants.MAINTENANCE_NEW_MAINTAINABLE+"add.organizationRoutingModel.financialDocumentTypeCode", KFSKeyConstants.ERROR_DOCUMENT_DELEGATE_CHANGE_NO_DELEGATE, new String[0]);
+        }
+        return success;
+    }
+    
+    /**
+     * This method checks that the account delegate model has at least one active "model" within it.
+     * @param globalDelegateTemplate the account delegate model to check
+     * @return true if account delegate model has at least one active model in it.
+     */
+    protected boolean checkModelNameHasAtLeastOneActiveModel(OrganizationRoutingModelName globalDelegateTemplate) {
+        boolean success = true;
+        int activeModelCount = 0;
+        
+        for (OrganizationRoutingModel mdl: globalDelegateTemplate.getOrganizationRoutingModel()) {
+            if (mdl.isActive()) {
+                activeModelCount++;
+            }
+        }
+        
+        if (activeModelCount == 0) {
+            success = false;
+            if (globalDelegateTemplate.getOrganizationRoutingModel().size() == 0) {
+                GlobalVariables.getErrorMap().putError(KFSConstants.MAINTENANCE_NEW_MAINTAINABLE+"add.organizationRoutingModel.active", KFSKeyConstants.ERROR_DOCUMENT_DELEGATE_CHANGE_NO_ACTIVE_DELEGATE, new String[0]);
+            } else {
+                GlobalVariables.getErrorMap().putError(KFSConstants.MAINTENANCE_NEW_MAINTAINABLE+"organizationRoutingModel[0].active", KFSKeyConstants.ERROR_DOCUMENT_DELEGATE_CHANGE_NO_ACTIVE_DELEGATE, new String[0]);
+            }
         }
         return success;
     }

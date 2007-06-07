@@ -27,7 +27,6 @@ public class OrganizationRoutingModelPreRules extends MaintenancePreRulesBase {
     protected boolean doCustomPreRules(MaintenanceDocument maintDoc) {
         OrganizationRoutingModelName model = (OrganizationRoutingModelName)maintDoc.getNewMaintainableObject().getBusinessObject();
         copyKeyAttributesToModelDetail(model);
-        setUnconditionalDefaults(model);
         return true;
     }
     
@@ -39,15 +38,4 @@ public class OrganizationRoutingModelPreRules extends MaintenancePreRulesBase {
         }
     }
     
-    protected void setUnconditionalDefaults(OrganizationRoutingModelName model) {
-        for (OrganizationRoutingModel modelDelegate: model.getOrganizationRoutingModel()) {
-            if (ObjectUtils.isNull(modelDelegate.getApprovalFromThisAmount())) {
-                modelDelegate.setApprovalFromThisAmount(new KualiDecimal(0));
-            }
-            
-            if (ObjectUtils.isNull(modelDelegate.getApprovalFromThisAmount())) {
-                modelDelegate.setApprovalToThisAmount(new KualiDecimal(0));
-            }
-        }
-    }
 }

@@ -14,6 +14,7 @@
 	<classpathentry kind="lib" path="work/web-root/WEB-INF/lib/taglibs-jstl-1.1.2.jar"/>
 	<classpathentry kind="lib" path="work/web-root/WEB-INF/lib/saaj-1.2.jar"/>
 	<classpathentry kind="lib" path="work/web-root/WEB-INF/lib/taglibs-standard-1.1.2.jar"/>
+	<classpathentry kind="lib" path="work/web-root/WEB-INF/lib/xstream-1.1.1.jar"/>
 	<classpathentry kind="lib" path="work/web-root/WEB-INF/lib/cglib-2.1.jar"/>
 	<classpathentry kind="lib" path="work/web-root/WEB-INF/lib/asm-1.5.3-ojb-1.0.4.jar"/>
 	<classpathentry kind="lib" path="work/web-root/WEB-INF/lib/commons-lang-2.2.jar"/>
@@ -91,6 +92,5 @@
 	<classpathentry kind="lib" path="work/web-root/WEB-INF/lib/commons-httpclient-3.0.1.jar"/>
 	<classpathentry kind="lib" path="work/web-root/WEB-INF/lib/oscache-2.3.2.jar"/>
 	<classpathentry kind="lib" path="work/web-root/WEB-INF/lib/jdom-1.0.jar"/>
-	<classpathentry kind="lib" path="work/web-root/WEB-INF/lib/xstream-1.2.1.jar"/>
 	<classpathentry kind="output" path="work/web-root/WEB-INF/classes"/>
 </classpath>

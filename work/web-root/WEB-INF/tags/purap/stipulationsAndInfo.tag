@@ -58,7 +58,7 @@
                             <html:hidden property="document.purchaseOrderVendorStipulation[${ctr}].vendorStipulationCreateDate" />
                             <html:hidden property="document.purchaseOrderVendorStipulation[${ctr}].vendorStipulationAuthorEmployeeIdentifier" />
                             <html:hidden property="document.purchaseOrderVendorStipulation[${ctr}].purchaseOrderVendorStipulationIdentifier" />
-                            <html:hidden property="document.purchaseOrderVendorStipulation[${ctr}].purchaseOrderIdentifier" />
+                            <html:hidden property="document.purchaseOrderVendorStipulation[${ctr}].documentNumber" />
                             <html:hidden property="document.purchaseOrderVendorStipulation[${ctr}].versionNumber" />
 		                </td>
 		                <td class="infoline"><div align="center"><html:image property="methodToCall.deleteStipulation.line${ctr}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-delete1.gif" alt="Delete Stipulation ${ctr+1}" title="Delete Stipulation ${ctr+1}" styleClass="tinybutton"/></div></td>

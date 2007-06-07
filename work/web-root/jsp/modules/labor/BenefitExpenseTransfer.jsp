@@ -100,7 +100,8 @@
 						attributeEntry="${balanceInquiryAttributes.emplid}"
 						property="emplid" readOnly="${readOnly}" /> <kul:lookup
 						boClassName="org.kuali.core.bo.user.UniversalUser"
-						lookupParameters="emplid:personPayrollIdentifier,universityFiscalYear:universityFiscalYear"
+						fieldConversions="personPayrollIdentifier:emplid"
+						lookupParameters="emplid:personPayrollIdentifier"
 						fieldLabel="${balanceInquiryAttributes.personPayrollIdentifier.label}" /></td>
 	            </tr>
 	

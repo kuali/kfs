@@ -49,6 +49,7 @@
 		<property name="jobNames">
 			<list>
 				<value>glClearPendingEntriesForCancelledOrDisapprovedDocumentsJob</value>
+				<value>glOriginEntryEnterpriseFeederJob</value>
 				<value>glCollectorJob</value>
 				<value>glNightlyOutJob</value>
 				<value>glScrubberJob</value>
@@ -1080,6 +1081,7 @@
 		</property>
 		<property name="dependencies">
 			<map>
+				<entry key="glOriginEntryEnterpriseFeederJob" value="hardDependency"/>
 				<entry key="glCollectorJob" value="hardDependency" />
 				<entry key="glNightlyOutJob" value="hardDependency" />
 			</map>
@@ -1497,6 +1499,14 @@
 		</property>
 		<property name="reconciliationService">
 			<ref bean="glReconciliationService"/>
+		</property>
+	</bean>
+	
+	<bean id="glOriginEntryEnterpriseFeederJob" parent="scheduledJobDescriptor">
+		<property name="steps">
+			<list>
+				<ref bean="glOriginEntryEnterpriseFeederStep" />
+			</list>
 		</property>
 	</bean>
 	

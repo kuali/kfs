@@ -21,6 +21,10 @@
 <%@ attribute name="lookupParameters" required="false" %>
 <%@ attribute name="hideReturnLink" required="false" %>
 <%@ attribute name="tabindexOverride" required="false" %>
+<%@ attribute name="image" required="false"%>
+
+<c:set var="imageName" value="${empty image ? 'searchicon.gif' : image}"/>
+
 <c:choose>
   <c:when test="${!empty tabindexOverride}">
     <c:set var="tabindex" value="${tabindexOverride}"/>
@@ -30,4 +34,4 @@
   </c:otherwise>
 </c:choose>
 <input type="image" tabindex="${tabindex}" name="methodToCall.performBalanceInquiryLookup.(!!${boClassName}!!).(((${fieldConversions}))).((#${lookupParameters}#)).((<${hideReturnLink}>)).(([${actionPath}]))"
-   src="${ConfigProperties.kr.externalizable.images.url}searchicon.gif" alt="search" title="search" border="0" class="tinybutton" valign="middle"/>
+   src="${ConfigProperties.kr.externalizable.images.url}${imageName}" alt="search" title="search" border="0" class="tinybutton" valign="middle"/>

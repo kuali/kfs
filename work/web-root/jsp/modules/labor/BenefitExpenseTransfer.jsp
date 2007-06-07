@@ -104,6 +104,17 @@
 						lookupParameters="emplid:personPayrollIdentifier"
 						fieldLabel="${balanceInquiryAttributes.personPayrollIdentifier.label}" /></td>
 	            </tr>
+	            
+	            <tr>
+	            	<td height="30" class="infoline">&nbsp;</td>
+	            	<td height="30" class="infoline">
+	                <gl:balanceInquiryLookup
+							boClassName="org.kuali.module.labor.bo.LedgerBalanceForBenefitExpenseTransfer"
+							actionPath="glBalanceInquiryLookup.do"
+							lookupParameters="universityFiscalYear:universityFiscalYear,accountNumber:accountNumber,subAccountNumber:subAccountNumber,chartOfAccountsCode:chartOfAccountsCode,emplid:emplid"
+							hideReturnLink="false" image="buttonsmall_search.gif"/>
+					</td>
+				</tr>
 	
 			</table>
 			</div>
@@ -146,14 +157,7 @@
 							src="${ConfigProperties.kr.externalizable.images.url}tinybutton-deleteall.gif"
 							title="Delete all Source Accounting Lines"
 							alt="Delete all Source Lines" styleClass="tinybutton" />
-                
-                Import from Labor Ledger
-	                <gl:balanceInquiryLookup
-							boClassName="org.kuali.module.labor.bo.LedgerBalanceForBenefitExpenseTransfer"
-							actionPath="glBalanceInquiryLookup.do"
-							lookupParameters="universityFiscalYear:universityFiscalYear,accountNumber:accountNumber,subAccountNumber:subAccountNumber,chartOfAccountsCode:chartOfAccountsCode,emplid:emplid"
-							hideReturnLink="false" />
-					</jsp:attribute>
+                    </jsp:attribute>
 					<jsp:attribute name="customActions">
 						<c:set var="copyMethod"
 							value="copyAccountingLine.line${accountingLineIndexVar}"

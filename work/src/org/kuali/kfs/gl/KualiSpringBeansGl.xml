@@ -1450,4 +1450,68 @@
 	       <ref bean="glCollectorService"/>
 	    </property>
 	</bean>
+
+	<bean id="enterpriseFeederFileSetType" class="org.kuali.module.gl.batch.enterprisefeeder.EnterpriseFeederFileSetType">
+		
+	</bean>	
+	<bean id="glReconciliationParserService" class="org.kuali.module.gl.service.impl.ReconciliationParserServiceImpl">
+	</bean>
+	
+	<bean id="glReconciliationDao" parent="platformAwareDao" class="org.kuali.module.gl.dao.ojb.ReconciliationDaoOjb">
+	</bean>
+	
+	<bean id="glReconciliationService" class="org.kuali.module.gl.service.impl.ReconciliationServiceImpl">
+		<property name="reconciliationDao">
+			<ref bean="glReconciliationDao"/>
+		</property>
+		<property name="originEntryClass">
+			<bean class="java.lang.Class" factory-method="forName">
+  				<constructor-arg value="org.kuali.module.gl.bo.OriginEntry"/>
+   			</bean>
+		</property>
+	</bean>
+	
+	<bean id="glOriginEntryEnterpriseFeederService" class="org.kuali.module.gl.service.impl.FileEnterpriseFeederServiceImpl">
+		<property name="dateTimeService">
+			<ref bean="dateTimeService"/>
+		</property>
+		<property name="originEntryGroupService">
+			<ref bean="glOriginEntryGroupService"/>
+		</property>
+		<property name="fileEnterpriseFeederHelperService">
+			<ref bean="glOriginEntryEnterpriseFeederHelperService"/>
+		</property>
+		<property name="enterpriseFeederNotificationService">
+			<ref bean="glOriginEntryEnterpriseFeederNotificationService"/>
+		</property>
+		<property name="directoryName" value="${staging.directory}/ENTP"/>
+		<property name="reconciliationTableId" value="gl_entry_t"/>
+	</bean>
+
+	<bean id="glOriginEntryEnterpriseFeederHelperService" class="org.kuali.module.gl.service.impl.FileEnterpriseFeederHelperServiceImpl">
+		<property name="originEntryService">
+			<ref bean="glOriginEntryService"/>
+		</property>
+		<property name="reconciliationParserService">
+			<ref bean="glReconciliationParserService"/>
+		</property>
+		<property name="reconciliationService">
+			<ref bean="glReconciliationService"/>
+		</property>
+	</bean>
+	
+	<bean id="glOriginEntryEnterpriseFeederStep" class="org.kuali.module.gl.batch.FeederStep">
+		<property name="enterpriseFeederService">
+			<ref bean="glOriginEntryEnterpriseFeederService" />
+		</property>
+	</bean>
+	
+	<bean id="glOriginEntryEnterpriseFeederNotificationService" class="org.kuali.module.gl.service.impl.EnterpriseFeederNotificationServiceImpl">
+		<property name="kualiConfigurationService">
+			<ref bean="kualiConfigurationService"/>
+		</property>
+		<property name="mailService">
+			<ref bean="mailService"/>
+		</property>
+	</bean>
 </beans>

@@ -15,7 +15,6 @@
  */
 package org.kuali.kfs.batch;
 
-import java.io.File;
 
 import org.kuali.core.bo.user.UniversalUser;
 
@@ -23,7 +22,7 @@ import org.kuali.core.bo.user.UniversalUser;
  * Declares methods that must be implemented for batch input file type classes, which provides functionaliy needed to manage files
  * of a certain batch type.
  */
-public interface BatchInputFileType {
+public interface BatchInputFileType extends BatchInputType {
     
     /**
      * Returns the unique identifier (Spring bean id) for the batch input type.
@@ -36,11 +35,6 @@ public interface BatchInputFileType {
     public String getDirectoryPath();
     
     /**
-     * Returns the system parameter name that specifies the workgroup for the input type.
-     */
-    public String getWorkgroupParameterName();
-
-    /**
      * Constructs a file name using the name given by the user and file contents if necessary. Returned name should not contain file
      * extension.
      * 
@@ -50,15 +44,6 @@ public interface BatchInputFileType {
      */
     public String getFileName(UniversalUser user, Object parsedFileContents, String fileUserIdentifer);
     
-    /**
-     * Checks fine grained security on the individual file.
-     *  
-     * @param user - user who is requesting the file
-     * @param batchFile - File object
-     * @return true if user has permissions, false otherwise
-     */
-    public boolean checkAuthorization(UniversalUser user, File batchFile);
-
     /**
      * Returns file extension for the batch input type.
      */
@@ -76,11 +61,6 @@ public interface BatchInputFileType {
      * Returns the name with path for the digestor rules file that tells the digestor how to parse files of this type.
      */
     public String getDigestorRulesFileName();
-    
-    /**
-     * Returns the key for the application constants message to display as the title for the upload screen.
-     */
-    public String getTitleKey();
     
     /**
      * Returns the schema classpath location for this batch type.

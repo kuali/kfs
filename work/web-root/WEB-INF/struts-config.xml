@@ -23,7 +23,8 @@
         <!--  KFS Core Bean Definitions -->
         <form-bean name="KualiBalanceInquiryReportMenuForm" type="org.kuali.kfs.web.struts.form.KualiBalanceInquiryReportMenuForm" />
         <form-bean name="KualiBatchInputFileForm" type="org.kuali.kfs.web.struts.form.KualiBatchInputFileForm" />
-
+        <form-bean name="KualiBatchInputFileSetForm" type="org.kuali.kfs.web.struts.form.KualiBatchInputFileSetForm" />
+        
         <!--  Financial Module Bean Definitions -->
         <form-bean name="DepositWizardForm" type="org.kuali.module.financial.web.struts.form.DepositWizardForm" />
         <form-bean name="CashReceiptForm" type="org.kuali.module.financial.web.struts.form.CashReceiptForm" />
@@ -261,6 +262,11 @@
         <action path="/batchUpload" name="KualiBatchInputFileForm" scope="request" attribute="KualiForm" parameter="methodToCall" type="org.kuali.kfs.web.struts.action.KualiBatchInputFileAction">
             <set-property property="cancellable" value="true" />
             <forward name="basic" path="/jsp/kfs/KualiBatchInputFile.jsp" />
+        </action>
+        
+        <action path="/batchUploadFileSet" name="KualiBatchInputFileSetForm" scope="request" attribute="KualiForm" parameter="methodToCall" type="org.kuali.kfs.web.struts.action.KualiBatchInputFileSetAction">
+            <set-property property="cancellable" value="true" />
+            <forward name="basic" path="/jsp/kfs/KualiBatchInputFileSet.jsp" />
         </action>
         
     </action-mappings>

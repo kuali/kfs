@@ -694,6 +694,7 @@ public class KFSConstants extends Constants {
         public static final String GENERAL_LEDGER_CORRECTION_PROCESS = "Kuali.FinancialTransactionProcessing.GeneralLedgerCorrectionProcessDocument";
         public static final String BATCH_UPLOAD_SECURITY_GROUP_NAME = "Kuali.Batch.BatchInputFileUpload";
         public static final String COLLECTOR_SECURITY_GROUP_NAME = "Kuali.GeneralLedger.Collector";
+        public static final String ENTERPRSISE_FEEDER_SECURITY_GROUP_NAME = "Kuali.GeneralLedger.EnterpriseFeeder";
     }
 
     public static class SystemGroupParameterNames {
@@ -724,6 +725,7 @@ public class KFSConstants extends Constants {
         public static final String ACTIVE_INPUT_TYPES_PARAMETER_NAME = "ACTIVE_INPUT_TYPES";
         public static final String PCDO_FILE_TYPE_WORKGROUP_PARAMAETER_NAME = PCDO_FILE_TYPE_INDENTIFIER + ".WORKGROUP";
         public static final String COLLECTOR_FILE_TYPE_WORKGROUP_PARAMAETER_NAME = COLLECTOR_FILE_TYPE_INDENTIFIER + ".WORKGROUP";
+        public static final String ENTERPRISE_FEEDER_FILE_SET_TYPE_WORKGROUP_PARAMAETER_NAME = ENTERPRISE_FEEDER_FILE_SET_TYPE_INDENTIFIER + ".WORKGROUP";
         
         public static final String COLLECTOR_EMAIL_FROM_PARAMETER_NAME = "EmailFrom";
         public static final String COLLECTOR_EMAIL_SUBJECT_PARAMETER_NAME = "SubjectLine";
@@ -750,6 +752,10 @@ public class KFSConstants extends Constants {
     public static class GeneralLedgerCorrectionProcessApplicationParameterKeys {
         public static final String RECORD_COUNT_FUNCTIONALITY_LIMIT = "RECORD_COUNT_FUNCTIONALITY_LIMIT";
         public static final String RECORDS_PER_PAGE = "RECORDS_PER_PAGE";
+    }
+
+    public static class EnterpriseFeederApplicationParameterKeys {
+        public static final String TO_ADDRESS = "ToAddress";
     }
 
     public static class ParameterValues {
@@ -945,4 +951,9 @@ public class KFSConstants extends Constants {
     
     public static final String PCDO_FILE_TYPE_INDENTIFIER = "procurementCardInputFileType";
     public static final String COLLECTOR_FILE_TYPE_INDENTIFIER = "collectorInputFileType";
+    public static final String ENTERPRISE_FEEDER_FILE_SET_TYPE_INDENTIFIER = "enterpriseFeederFileSetType";
+    
+    // next 3 variables for the enterprise feeder batch upload
+    public static final String DATA_FILE_TYPE = "DATA";
+    public static final String RECON_FILE_TYPE = "RECON";
 }

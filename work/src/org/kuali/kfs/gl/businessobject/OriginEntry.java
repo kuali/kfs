@@ -329,7 +329,7 @@ public class OriginEntry extends PersistableBusinessObjectBase implements Transa
         setTransactionEncumbranceUpdateCode(line.substring(182, 183));
     }
 
-    private static String SPACES = "                                                                                                              ";
+    private static String SPACES = "                                                                                                                                                                                       ";
 
     protected String getField(int size, String value) {
         if (value == null) {

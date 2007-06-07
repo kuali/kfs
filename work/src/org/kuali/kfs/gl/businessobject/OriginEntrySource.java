@@ -42,7 +42,9 @@ public class OriginEntrySource extends KualiCodeBase {
     public static final String YEAR_END_CLOSE_NOMINAL_BALANCES = "YECN";
     public static final String YEAR_END_ENCUMBRANCE_CLOSING = "YEEC";
     public static final String YEAR_END_ORG_REVERSION = "YEOR";
-        
+
+    public static final String ENTERPRISE_FEED = "ENTP";
+    
     // Origin entry source codes that are used by Labor Distribution
     public static final String LABOR_MAIN_POSTER_ERROR = "LMPE";
     public static final String LABOR_MAIN_POSTER_VALID = "LMPV";    

@@ -29,7 +29,6 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.core.document.Document;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.util.GeneralLedgerPendingEntrySequenceHelper;
-import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.KFSConstants;
@@ -65,7 +64,7 @@ public class BenefitExpenseTransferDocumentRule extends LaborExpenseTransferDocu
     }
 
     /**
-     * @see org.kuali.core.rules.SaveDocumentRule#processCustomSaveDocumentBusinessRules(Document)
+     * @see org.kuali.module.labor.rules.LaborExpenseTransferDocumentRules#processCustomSaveDocumentBusinessRules(org.kuali.core.document.Document)
      */
     @Override
     protected boolean processCustomSaveDocumentBusinessRules(Document document) {
@@ -73,8 +72,8 @@ public class BenefitExpenseTransferDocumentRule extends LaborExpenseTransferDocu
     }
 
     /**
-     * @see org.kuali.module.financial.rules.TransactionalDocumentRuleBase#processCustomAddAccountingLineBusinessRules(org.kuali.core.document.TransactionalDocument,
-     *      org.kuali.core.bo.AccountingLine)
+     * @see org.kuali.kfs.rules.AccountingDocumentRuleBase#processCustomAddAccountingLineBusinessRules(org.kuali.kfs.document.AccountingDocument,
+     *      org.kuali.kfs.bo.AccountingLine)
      */
     @Override
     protected boolean processCustomAddAccountingLineBusinessRules(AccountingDocument accountingDocument, AccountingLine accountingLine) {
@@ -103,12 +102,19 @@ public class BenefitExpenseTransferDocumentRule extends LaborExpenseTransferDocu
             reportError(KFSPropertyConstants.PAYROLL_END_DATE_FISCAL_PERIOD_CODE, KFSKeyConstants.Labor.INVALID_PAY_PERIOD_CODE);
             return false;
         }
+        
+        // TODO: this is a temporary place for the rule 
+        // not allow the duplicate source accounting line in the document  
+        if (this.isDuplicateSourceAccountingLine(accountingDocument, accountingLine)) {
+            reportError(KFSPropertyConstants.SOURCE_ACCOUNTING_LINES, KFSKeyConstants.Labor.ERROR_DUPLICATE_SOURCE_ACCOUNTING_LINE);
+            return false;
+        }
 
         return true;
     }
 
     /**
-     * @see org.kuali.core.rule.DocumentRuleBase#processCustomRouteDocumentBusinessRules(org.kuali.core.document.Document)
+     * @see org.kuali.kfs.rules.AccountingDocumentRuleBase#processCustomRouteDocumentBusinessRules(org.kuali.core.document.Document)
      */
     @Override
     protected boolean processCustomRouteDocumentBusinessRules(Document document) {
@@ -249,6 +255,29 @@ public class BenefitExpenseTransferDocumentRule extends LaborExpenseTransferDocu
         }
 
         return objectCodesFromSourceLine.contains(accountingLine.getFinancialObjectCode());
+    }
+
+    /**
+     * determine whether the given accounting line has already been in the given document
+     * 
+     * @param accountingDocument the given document
+     * @param accountingLine the given accounting line
+     * @return true if the given accounting line has already been in the given document; otherwise, false
+     */
+    private boolean isDuplicateSourceAccountingLine(AccountingDocument accountingDocument, AccountingLine accountingLine) {
+        BenefitExpenseTransferDocument benefitExpenseTransferDocument = (BenefitExpenseTransferDocument) accountingDocument;
+        List<AccountingLine> sourceAccountingLines = benefitExpenseTransferDocument.getSourceAccountingLines();
+
+        int counter = 0;
+        for (AccountingLine sourceAccountingLine : sourceAccountingLines) {
+            boolean isExisting = ObjectUtil.compareObject(accountingLine, sourceAccountingLine, defaultKeyOfExpenseTransferAccountingLine());
+            counter = isExisting ? counter : counter + 1;
+
+            if (counter > 1) {
+                return true;
+            }
+        }
+        return false;
     }
 
     /**

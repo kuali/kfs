@@ -89,7 +89,7 @@
                 <field attributeName="financialBalanceTypeCode" />
                 <field attributeName="positionNumber" />
                 <field attributeName="financialObjectTypeCode" />
-                <field attributeName="ledgerPerson.personName" />
+                <field attributeName="emplid" />
 
                 <field attributeName="financialBeginningBalanceLineAmount" />                            
                 <field attributeName="contractsGrantsBeginningBalanceAmount" />                

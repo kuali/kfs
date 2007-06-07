@@ -15,18 +15,23 @@
 --%>
 <%@ include file="/jsp/kfs/kfsTldHeader.jsp"%>
 
+<%@ attribute name="overrideTitle" required="false"
+	description="The title to be used for this section." %>
 <%@ attribute name="itemAttributes" required="true" type="java.util.Map"
 	description="The DataDictionary entry containing attributes for this row's fields."%>
 <%@ attribute name="accountingLineAttributes" required="true"
 	type="java.util.Map"
 	description="The DataDictionary entry containing attributes for this row's fields."%>
 
+<c:if test="${empty overrideTitle}">
+	<c:set var="overrideTitle" value="Misc Items"/>
+</c:if>
+
 <c:set var="amendmentEntry"
 	value="${(!empty KualiForm.editingMode['amendmentEntry'])}" />
 
 <tr>
-	<td colspan="10" class="subhead"><span class="subhead-left">Misc
-	Items</span></td>
+	<td colspan="10" class="subhead"><span class="subhead-left"><c:out value="${overrideTitle}" /></span></td>
 </tr>
 <tr>
 	<kul:htmlAttributeHeaderCell colspan="5"

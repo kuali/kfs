@@ -112,7 +112,7 @@
 
 			<attributeReference name="itemInvoicedQuantity" sourceClassName="org.kuali.module.purap.bo.PurApAttributeReferenceDummy" sourceAttributeName="genericItemQuantity">
 				<label>Item Invoiced Quantity</label>
-				<shortLabel>Invoiced Quantity</shortLabel>
+				<shortLabel>Qty Invoiced</shortLabel>
 				<summary>itemInvoicedQuantity</summary>
 				<description>itemInvoicedQuantity description...</description>
 			</attributeReference>
@@ -143,7 +143,7 @@
 
 			<attributeReference name="itemOutstandingInvoiceQuantity" sourceClassName="org.kuali.module.purap.bo.PurApAttributeReferenceDummy" sourceAttributeName="genericItemQuantity">
 				<label>Item Outstanding Invoice Quantity</label>
-				<shortLabel>Outstanding Invoiced Quantity</shortLabel>
+				<shortLabel>Open Qty</shortLabel>
 				<summary>itemOutstandingInvoiceQuantity</summary>
 				<description>itemOutstandingInvoiceQuantity description...</description>
 			</attributeReference>
@@ -153,6 +153,20 @@
 				<shortLabel>Outstanding Invoice Amount</shortLabel>
 				<summary>itemOutstandingInvoiceAmount</summary>
 				<description>itemOutstandingInvoiceAmount description...</description>
+			</attributeReference>
+
+			<attributeReference name="poOutstandingQuantity" sourceClassName="org.kuali.module.purap.bo.PurApAttributeReferenceDummy" sourceAttributeName="genericItemQuantity">
+				<label>Item Open Quantity</label>
+				<shortLabel>Open Qty</shortLabel>
+				<summary>itemOpenQuantity</summary>
+				<description>itemOpenQuantity description...</description>
+			</attributeReference>
+
+			<attributeReference name="itemQuantity" sourceClassName="org.kuali.module.purap.bo.PurApAttributeReferenceDummy" sourceAttributeName="genericItemQuantity">
+				<label>Quantity Invoiced</label>
+				<shortLabel>Qty Invoiced</shortLabel>
+				<summary>QuantityInvoiced</summary>
+				<description>QuantityInvoiced description...</description>
 			</attributeReference>
 
 		</attributes>

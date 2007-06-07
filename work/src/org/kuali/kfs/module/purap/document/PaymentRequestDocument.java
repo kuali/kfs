@@ -781,7 +781,31 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
         }
         return total;
     }
-    
+
+    /** 
+     * This method is here due to a setter requirement by the htmlControlAttribute
+     * @param amount
+     */
+    public void setItemTotalPoPaidAmount(KualiDecimal amount){
+        //do nothing
+    }
+
+    /** 
+     * This method is here due to a setter requirement by the htmlControlAttribute
+     * @param amount
+     */
+    public void setItemTotalPoEncumbranceAmount(KualiDecimal amount) {
+        //do nothing
+    }    
+
+    /** 
+     * This method is here due to a setter requirement by the htmlControlAttribute
+     * @param amount
+     */
+    public void setItemTotalPoEncumbranceAmountRelieved(KualiDecimal amount) {
+        //do nothing
+    }
+
     /**
      * @see org.kuali.module.purap.document.PurchasingAccountsPayableDocumentBase#getSourceAccountingLineClass()
      */

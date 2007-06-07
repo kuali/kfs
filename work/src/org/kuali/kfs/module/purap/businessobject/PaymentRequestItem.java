@@ -125,6 +125,14 @@ public class PaymentRequestItem extends AccountsPayableItemBase {
           return getPoOutstandingQuantity(poi);
         }
     }
+
+    /** 
+     * This method is here due to a setter requirement by the htmlControlAttribute
+     * @param amount
+     */
+    public void setPoOutstandingQuantity(KualiDecimal qty){
+        //do nothing
+    }
     
     public KualiDecimal getPoOutstandingQuantity(PurchaseOrderItem poi) {
         if(poi == null) {

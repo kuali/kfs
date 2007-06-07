@@ -102,8 +102,7 @@ public class BenefitExpenseTransferDocumentRule extends LaborExpenseTransferDocu
             reportError(KFSPropertyConstants.PAYROLL_END_DATE_FISCAL_PERIOD_CODE, KFSKeyConstants.Labor.INVALID_PAY_PERIOD_CODE);
             return false;
         }
-        
-        // TODO: this is a temporary place for the rule 
+         
         // not allow the duplicate source accounting line in the document  
         if (this.isDuplicateSourceAccountingLine(accountingDocument, accountingLine)) {
             reportError(KFSPropertyConstants.SOURCE_ACCOUNTING_LINES, KFSKeyConstants.Labor.ERROR_DUPLICATE_SOURCE_ACCOUNTING_LINE);

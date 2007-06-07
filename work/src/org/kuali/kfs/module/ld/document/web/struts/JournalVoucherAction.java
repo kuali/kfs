@@ -44,7 +44,7 @@ public class JournalVoucherAction extends org.kuali.module.financial.web.struts.
     @Override
     public ActionForward performLookup(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         String path = super.performLookup(mapping, form, request, response).getPath();
-        path = path.replaceFirst(Constants.LOOKUP_ACTION, LaborConstants.LONG_ROW_TABLE_INRUIRY_ACTION);
+        path = path.replaceFirst("kr/" + Constants.LOOKUP_ACTION, LaborConstants.LONG_ROW_TABLE_INRUIRY_ACTION);
         return new ActionForward(path, true);
     }
 }

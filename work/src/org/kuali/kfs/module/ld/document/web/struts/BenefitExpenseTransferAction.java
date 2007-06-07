@@ -15,6 +15,14 @@
  */
 package org.kuali.module.labor.web.struts.action;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.apache.struts.action.ActionForm;
+import org.apache.struts.action.ActionForward;
+import org.apache.struts.action.ActionMapping;
+import org.kuali.Constants;
+import org.kuali.module.labor.LaborConstants;
 import org.kuali.module.labor.bo.LedgerBalance;
 import org.kuali.module.labor.util.ObjectUtil;
 import org.kuali.module.labor.web.struts.form.BenefitExpenseTransferForm;
@@ -42,5 +50,15 @@ public class BenefitExpenseTransferAction extends ExpenseTransferDocumentActionB
     protected void resetLookupFields(ExpenseTransferDocumentFormBase expenseTransferDocumentForm, LedgerBalance balance) {
         BenefitExpenseTransferForm benefitExpenseTransferForm = (BenefitExpenseTransferForm) expenseTransferDocumentForm;
         ObjectUtil.buildObject(benefitExpenseTransferForm, balance);
+    }
+    
+    /**
+     * @see org.kuali.core.web.struts.action.KualiAction#performLookup(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     */
+    @Override
+    public ActionForward performLookup(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        String path = super.performLookup(mapping, form, request, response).getPath();
+        path = path.replaceFirst("kr/" + Constants.LOOKUP_ACTION, LaborConstants.LONG_ROW_TABLE_INRUIRY_ACTION);
+        return new ActionForward(path, true);
     }
 }

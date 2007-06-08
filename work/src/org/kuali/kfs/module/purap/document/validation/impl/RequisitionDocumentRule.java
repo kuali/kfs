@@ -15,19 +15,28 @@
  */
 package org.kuali.module.purap.rules;
 
+import java.util.Arrays;
+import java.util.List;
+
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.datadictionary.validation.fieldlevel.ZipcodeValidationPattern;
 import org.kuali.core.document.AmountTotaling;
 import org.kuali.core.util.ErrorMap;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.ObjectUtils;
+import org.kuali.core.workflow.service.KualiWorkflowDocument;
 import org.kuali.kfs.KFSConstants;
+import org.kuali.kfs.bo.AccountingLine;
+import org.kuali.kfs.document.AccountingDocument;
 import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.PurapKeyConstants;
 import org.kuali.module.purap.PurapPropertyConstants;
 import org.kuali.module.purap.document.PurchasingAccountsPayableDocument;
 import org.kuali.module.purap.document.PurchasingDocument;
 import org.kuali.module.purap.document.RequisitionDocument;
+import org.kuali.workflow.KualiWorkflowUtils.RouteLevelNames;
+
+import edu.iu.uis.eden.exception.WorkflowException;
 
 public class RequisitionDocumentRule extends PurchasingDocumentRuleBase {
    
@@ -109,4 +118,36 @@ public class RequisitionDocumentRule extends PurchasingDocumentRuleBase {
         }
         return valid;
     }
+
+    @Override
+    protected boolean checkAccountingLineAccountAccessibility(AccountingDocument financialDocument, AccountingLine accountingLine, AccountingLineAction action) {
+        KualiWorkflowDocument workflowDocument = financialDocument.getDocumentHeader().getWorkflowDocument();
+        List currentRouteLevels = getCurrentRouteLevels(workflowDocument);
+
+        if (currentRouteLevels.contains(RouteLevelNames.REQUISITION_CONTENT_REVIEW) && workflowDocument.isApprovalRequested()) {
+            // DO NOTHING: do not check that user owns acct lines; at this level, approvers can edit all detail on REQ
+            return true;
+        }
+        
+        else {
+            return super.checkAccountingLineAccountAccessibility(financialDocument, accountingLine, action);
+        }
+    }
+    
+    /**
+     * A helper method for determining the route levels for a given document.
+     * 
+     * @param workflowDocument
+     * @return List
+     */
+    protected static List getCurrentRouteLevels(KualiWorkflowDocument workflowDocument) {
+        try {
+            return Arrays.asList(workflowDocument.getNodeNames());
+        }
+        catch (WorkflowException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+
 }

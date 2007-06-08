@@ -62,6 +62,7 @@ public class KualiAccountingDocumentFormBase extends KualiTransactionalDocumentF
 
     private Map editableAccounts;
     private Map accountingLineEditableFields;
+    private Map forcedLookupOptionalFields;
 
     // TODO: FormFile isn't Serializable, so mark these fields need as transient or create a Serializable subclass of FormFile
     protected FormFile sourceFile;
@@ -86,6 +87,7 @@ public class KualiAccountingDocumentFormBase extends KualiTransactionalDocumentF
         editableAccounts = new HashMap();
         accountingLineEditableFields = new HashMap();
         forcedReadOnlyFields = new HashMap();
+        forcedLookupOptionalFields = new HashMap();
 
         // initialize accountingLine lists
         baselineSourceAccountingLines = new ArrayList();
@@ -705,5 +707,25 @@ public class KualiAccountingDocumentFormBase extends KualiTransactionalDocumentF
             }
         }
         return accountingLines;
+    }
+
+    /**
+     * A <code>{@link Map}</code> of names of optional accounting line fields
+     * that require a quickfinder.
+     * 
+     * @return a Map of fields
+     */
+    public void setForcedLookupOptionalFields(Map fieldMap) {
+        forcedLookupOptionalFields = fieldMap;
+    }
+
+    /**
+     * A <code>{@link Map}</code> of names of optional accounting line fields
+     * that require a quickfinder.
+     * 
+     * @return a Map of fields
+     */
+    public Map getForcedLookupOptionalFields() {
+        return forcedLookupOptionalFields;
     }
 }

@@ -109,6 +109,9 @@
 <%@ attribute name="accountingLineValuesMap" required="true"
 	type="java.util.Map"
 	description="map of the accounting line primitive fields and values"%>
+<%@ attribute name="LookupOptionalFields" required="false"
+              description="A comma separated list of names of optional accounting line fields
+              that require a quickfinder." %>
 <%@ attribute name="forcedReadOnlyFields" required="false"
 	type="java.util.Map"
 	description="foces the object code to become a read only field regardless of document state"%>
@@ -243,11 +246,27 @@
 	
 	<c:if test="${not isOptionalFieldsInNewRow}">
 		<c:forTokens items="${optionalFields}" delims=" ," var="currentField">
-			<fin:accountingLineDataCell dataCellCssClass="${dataCellCssClass}"
-				accountingLine="${accountingLine}"
-				baselineAccountingLine="${baselineAccountingLine}"
-				field="${currentField}" attributes="${accountingLineAttributes}"
-				readOnly="${readOnly||!(empty forcedReadOnlyFields[currentField])}" displayHidden="${displayHidden}" />
+            <c:choose>
+                <c:when test="${not empty KualiForm.forcedLookupOptionalFields[currentField]}">
+                    <c:set var="key" value="${fn:split(KualiForm.forcedLookupOptionalFields[currentField], &quot;,&quot;)[0]}"/>
+                    <c:set var="boClassSimpleName" value="${fn:split(KualiForm.forcedLookupOptionalFields[currentField], &quot;,&quot;)[1]}"/>
+                    
+ 			        <fin:accountingLineDataCell dataCellCssClass="${dataCellCssClass}"
+				        accountingLine="${accountingLine}"
+				        baselineAccountingLine="${baselineAccountingLine}"
+                        boClassSimpleName="${boClassSimpleName}"
+				        field="${currentField}" attributes="${accountingLineAttributes}"
+                        lookupUnkeyedFieldConversions="${currentField}:${accountingLine}.${key}"
+				        readOnly="${readOnly||!(empty forcedReadOnlyFields[currentField])}" displayHidden="${displayHidden}" />
+                </c:when>
+                <c:otherwise>
+ 			        <fin:accountingLineDataCell dataCellCssClass="${dataCellCssClass}"
+				        accountingLine="${accountingLine}"
+				        baselineAccountingLine="${baselineAccountingLine}"
+				        field="${currentField}" attributes="${accountingLineAttributes}"
+				        readOnly="${readOnly||!(empty forcedReadOnlyFields[currentField])}" displayHidden="${displayHidden}" />
+                </c:otherwise>
+            </c:choose>
 		</c:forTokens>
 	</c:if>
 

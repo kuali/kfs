@@ -38,6 +38,7 @@ import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.web.struts.form.KualiDocumentFormBase;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.module.purap.PurapAuthorizationConstants;
 import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.PurapKeyConstants;
 import org.kuali.module.purap.PurapPropertyConstants;
@@ -529,6 +530,7 @@ public class PurchaseOrderAction extends PurchasingActionBase {
             boolean success;
             if (po.isPendingActionIndicator()) {
                 success = false;
+                GlobalVariables.getErrorMap().putError(PurapPropertyConstants.PURCHASE_ORDER_IDENTIFIER, PurapKeyConstants.ERROR_PURCHASE_ORDER_IS_PENDING);
             }
             else {
                 success = SpringServiceLocator.getPurchaseOrderService().updateFlagsAndRoute(kualiDocumentFormBase, documentType, kualiDocumentFormBase.getAnnotation(), combineAdHocRecipients(kualiDocumentFormBase));
@@ -538,6 +540,7 @@ public class PurchaseOrderAction extends PurchasingActionBase {
             }
             else {
                 ((PurchaseOrderForm) kualiDocumentFormBase).addButtons();
+                //kualiDocumentFormBase.getEditingMode().remove(PurapAuthorizationConstants.PurchaseOrderEditMode.DISPLAY_RETRANSMIT_TAB);
                 return mapping.findForward(KFSConstants.MAPPING_BASIC);
             }
         }

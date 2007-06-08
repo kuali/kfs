@@ -54,7 +54,7 @@ public class NightlyOutServiceImpl implements NightlyOutService {
     public void deleteCopiedPendingLedgerEntries() {
         LOG.debug("deleteCopiedPendingLedgerEntries() started");
 
-        generalLedgerPendingEntryService.deleteByFinancialDocumentApprovedCode(KFSConstants.DV_PAYMENT_REASON_NONEMPLOYEE_HONORARIUM);
+        generalLedgerPendingEntryService.deleteByFinancialDocumentApprovedCode(KFSConstants.PENDING_ENTRY_APPROVED_STATUS_CODE.PROCESSED);
     }
 
     /**
@@ -77,7 +77,7 @@ public class NightlyOutServiceImpl implements NightlyOutService {
             saveAsOriginEntry(pendingEntry, group);
 
             // update the pending entry to indicate it has been copied
-            pendingEntry.setFinancialDocumentApprovedCode("X");
+            pendingEntry.setFinancialDocumentApprovedCode(KFSConstants.PENDING_ENTRY_APPROVED_STATUS_CODE.PROCESSED);
             pendingEntry.setTransactionDate(today);
             generalLedgerPendingEntryService.save(pendingEntry);
         }

@@ -273,7 +273,7 @@ public class GeneralLedgerPendingEntryDaoOjb extends PlatformAwareDaoBaseOjb imp
 
         // only process the document for which document status code is A (approved)
         Criteria criteria = new Criteria();
-        this.addStatusCode(criteria, true);
+        criteria.addEqualTo("financialDocumentApprovedCode", KFSConstants.PENDING_ENTRY_APPROVED_STATUS_CODE.APPROVED);
 
         QueryByCriteria query = QueryFactory.newQuery(this.getEntryClass(), criteria);
         return getPersistenceBrokerTemplate().getIteratorByQuery(query);
@@ -520,7 +520,7 @@ public class GeneralLedgerPendingEntryDaoOjb extends PlatformAwareDaoBaseOjb imp
             criteria.addIn("documentHeader.financialDocumentStatusCode", this.buildApprovalCodeList());
         }
         criteria.addNotIn("documentHeader.financialDocumentStatusCode", this.buildExcludedStatusCodeList());
-        criteria.addNotEqualTo("financialDocumentApprovedCode", "X");
+        criteria.addNotEqualTo("financialDocumentApprovedCode", KFSConstants.PENDING_ENTRY_APPROVED_STATUS_CODE.PROCESSED);
     }
 
     /**

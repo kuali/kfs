@@ -18,6 +18,7 @@ package org.kuali.module.gl.service;
 import java.util.Iterator;
 
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
 import org.kuali.kfs.service.GeneralLedgerPendingEntryService;
 import org.kuali.kfs.util.SpringServiceLocator;
@@ -109,6 +110,7 @@ public class GeneralLedgerPendingEntryServiceTest extends KualiTestBase {
         generalLedgerPendingEntry.setTransactionDate(new java.sql.Date(SpringServiceLocator.getDateTimeService().getCurrentDate().getTime()));
         generalLedgerPendingEntry.setFinancialDocumentTypeCode("12");
         generalLedgerPendingEntry.setTransactionLedgerEntrySequenceNumber(new Integer(1));
+        generalLedgerPendingEntry.setFinancialDocumentApprovedCode(KFSConstants.PENDING_ENTRY_APPROVED_STATUS_CODE.APPROVED);
         return generalLedgerPendingEntry;
     }
 }

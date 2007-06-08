@@ -354,14 +354,9 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
     public boolean updateFlagsAndRoute(KualiDocumentFormBase kualiDocumentFormBase, String docType, String annotation, List adhocRoutingRecipients) {
         try {
             PurchaseOrderDocument po = SpringServiceLocator.getPurchaseOrderService().getPurchaseOrderByDocumentNumber(kualiDocumentFormBase.getDocument().getDocumentNumber());
-            // If this is amendment, we can't set pending to true because amendment
-            // are not automatically routed (it's routed by the user after the user
-            // is done changing the information on the po and click on the submit
-            // button.
 
-            //if (!docType.equals(PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_AMENDMENT_DOCUMENT)) {
-                po.setPendingActionIndicator(true);
-            //}
+            po.setPendingActionIndicator(true);
+
             save(po);
 
             // call toCopy to give us a new documentHeader

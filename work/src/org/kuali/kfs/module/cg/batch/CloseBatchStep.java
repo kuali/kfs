@@ -19,20 +19,29 @@ import org.kuali.kfs.batch.AbstractStep;
 import org.kuali.module.cg.service.CloseService;
 
 /**
- * Created by ...
- * User: Laran Evans <lc278@cornell.edu>
- * Date: Apr 6, 2007
- * Time: 12:58:58 PM
+ * This class...
+ * 
+ * @author Laran Evans <lc278@cornell.edu>
+ * @since Apr 6, 2007 12:58:58 PM
  */
 public class CloseBatchStep extends AbstractStep {
 
     private CloseService closeService;
 
+    /**
+     * 
+     * @see org.kuali.kfs.batch.Step#execute()
+     */
     public boolean execute() {
         closeService.close();
         return true;
     }
 
+    /**
+     * 
+     * This method is a simple setter used to assign a value to local attribute.
+     * @param closeService The value to be used to assign to the local attribute <code>closeService</code>.
+     */
     public void setCloseService(org.kuali.module.cg.service.CloseService closeService) {
         this.closeService = closeService;
     }

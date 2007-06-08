@@ -18,8 +18,6 @@ package org.kuali.module.purap.web.struts.form;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.kfs.bo.SourceAccountingLine;
-import org.kuali.kfs.web.struts.form.KualiAccountingDocumentFormBase;
 import org.kuali.module.purap.bo.PurApAccountingLine;
 import org.kuali.module.purap.bo.PurApAccountingLineBase;
 import org.kuali.module.purap.bo.PurchasingApItem;
@@ -27,7 +25,7 @@ import org.kuali.module.purap.bo.PurchasingApItem;
 /**
  * This class is the form class for the Purchasing documents.
  */
-public class PurchasingFormBase extends KualiAccountingDocumentFormBase {
+public class PurchasingFormBase extends PurchasingAccountsPayableFormBase {
     
     private Boolean notOtherDeliveryBuilding = true;
     private Boolean hideDistributeAccounts = true;

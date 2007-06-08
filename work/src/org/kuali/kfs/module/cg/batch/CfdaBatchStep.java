@@ -33,9 +33,10 @@ import java.io.IOException;
 import java.util.List;
 
 /**
- * User: Laran Evans <lc278@cornell.edu>
- * Date: May 8, 2007
- * Time: 5:42:16 PM
+ * This class...
+ * 
+ * @author Laran Evans <lc278@cornell.edu>
+ * @since May 8, 2007 5:42:16 PM
  */
 public class CfdaBatchStep extends AbstractStep {
 
@@ -46,7 +47,12 @@ public class CfdaBatchStep extends AbstractStep {
     private MailService mailService;
     private KualiGroupService kualiGroupService;
     private UniversalUserService universalUserService;
-
+    
+    /**
+     * This method implements an interface method and performs specific cfda related methods to carry out a batch step action.  
+     * 
+     * @see org.kuali.kfs.batch.Step#execute()
+     */
     public boolean execute() throws InterruptedException {
         MailMessage message = new MailMessage();
 
@@ -105,19 +111,41 @@ public class CfdaBatchStep extends AbstractStep {
             LOG.warn("The email address for one or more of the members of the " + MAIL_RECIPIENTS_GROUP_NAME + " workgroup is invalid.", iae);
             return true;
         }
-
         return true;
     }
 
+    /**
+     * 
+     * This method is a simple setter used to set the local cfdaService attribute to the value provided.
+     * @param cfdaService The service to be assigned.
+     */
     public void setCfdaService(CfdaService cfdaService) {
         this.cfdaService = cfdaService;
     }
+    
+    /**
+     * 
+     * This method is a simple setter used to set the local mailService attribute to the value provided.
+     * @param mailService The service to be assigned.
+     */
     public void setMailService(MailService mailService) {
         this.mailService = mailService;
     }
+    
+    /**
+     * 
+     * This method is a simple setter used to set the local kualiGroupService attribute to the value provided.
+     * @param kualiGroupService The service to be assigned.
+     */
     public void setKualiGroupService(KualiGroupService kualiGroupService) {
         this.kualiGroupService = kualiGroupService;
     }
+
+    /**
+     * 
+     * This method is a simple setter used to set the local universalUserService attribute to the value provided.
+     * @param universalUserService The service to be assigned.
+     */
     public void setUniversalUserService(UniversalUserService universalUserService) {
         this.universalUserService = universalUserService;
     }

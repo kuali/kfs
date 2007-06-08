@@ -177,13 +177,19 @@
                     <td align=left valign=middle class="datacell">
                         <kul:htmlControlAttribute attributeEntry="${documentAttributes.noteLine1Text}" property="document.noteLine1Text" readOnly="${not (fullEntryMode or amendmentEntry)}" />
                     </td>
-                </c:if>                                                 
-                <th align=right valign=middle class="bord-l-b">
-                    <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.vendorPaymentTermsCode}" /></div>
-                </th>
-                <td align=left valign=middle class="datacell">
-                    <kul:htmlControlAttribute attributeEntry="${documentAttributes.vendorPaymentTermsCode}" property="document.vendorPaymentTermsCode" readOnly="${not (fullEntryMode or amendmentEntry) or displayRequisitionFields}" />
-                </td>
+                </c:if>
+                <c:if test="${not displayCreditMemoFields}">                                                 
+	                <th align=right valign=middle class="bord-l-b">
+	                    <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.vendorPaymentTermsCode}" /></div>
+	                </th>
+	                <td align=left valign=middle class="datacell">
+	                    <kul:htmlControlAttribute attributeEntry="${documentAttributes.vendorPaymentTermsCode}" property="document.vendorPaymentTermsCode" readOnly="${not (fullEntryMode or amendmentEntry) or displayRequisitionFields}" />
+	                </td>
+				</c:if>	
+				<c:if test="${displayCreditMemoFields}">
+                    <th align=right valign=middle class="bord-l-b">&nbsp;</th>
+                    <td align=left valign=middle class="datacell">&nbsp;</td>
+                </c:if>                    
             </tr> 
 
             <tr>
@@ -193,12 +199,18 @@
                         <kul:htmlControlAttribute attributeEntry="${documentAttributes.noteLine2Text}" property="document.noteLine2Text" readOnly="${not (fullEntryMode or amendmentEntry)}" />
                     </td>
                 </c:if>                                                 
-                <th align=right valign=middle class="bord-l-b">
-                    <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.vendorShippingTitleCode}" /></div>
-                </th>
-                <td align=left valign=middle class="datacell">
-                    <kul:htmlControlAttribute attributeEntry="${documentAttributes.vendorShippingTitleCode}" property="document.vendorShippingTitleCode" readOnly="${not (fullEntryMode or amendmentEntry) or not displayPurchaseOrderFields}" />
-                </td>
+                <c:if test="${not displayCreditMemoFields}">
+	                <th align=right valign=middle class="bord-l-b">
+	                    <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.vendorShippingTitleCode}" /></div>
+	                </th>
+	                <td align=left valign=middle class="datacell">
+	                    <kul:htmlControlAttribute attributeEntry="${documentAttributes.vendorShippingTitleCode}" property="document.vendorShippingTitleCode" readOnly="${not (fullEntryMode or amendmentEntry) or not displayPurchaseOrderFields}" />
+	                </td>
+                </c:if>
+                <c:if test="${displayCreditMemoFields}">
+                    <th align=right valign=middle class="bord-l-b">&nbsp;</th>
+                    <td align=left valign=middle class="datacell">&nbsp;</td>
+                </c:if>    
             </tr> 
 
             <tr>
@@ -207,13 +219,19 @@
                     <td align=left valign=middle class="datacell">
                         <kul:htmlControlAttribute attributeEntry="${documentAttributes.noteLine3Text}" property="document.noteLine3Text" readOnly="${not (fullEntryMode or amendmentEntry)}" />
                     </td>
-                </c:if>                                                 
-                <th align=right valign=middle class="bord-l-b">
-                    <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.vendorShippingPaymentTermsCode}" /></div>
-                </th>
-                <td align=left valign=middle class="datacell">
-                    <kul:htmlControlAttribute attributeEntry="${documentAttributes.vendorShippingPaymentTermsCode}" property="document.vendorShippingPaymentTermsCode" readOnly="${not (fullEntryMode or amendmentEntry) or displayRequisitionFields}" />
-                </td>
+                </c:if> 
+                <c:if test="${not displayCreditMemoFields}">                                                
+	                <th align=right valign=middle class="bord-l-b">
+	                    <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.vendorShippingPaymentTermsCode}" /></div>
+	                </th>
+	                <td align=left valign=middle class="datacell">
+	                    <kul:htmlControlAttribute attributeEntry="${documentAttributes.vendorShippingPaymentTermsCode}" property="document.vendorShippingPaymentTermsCode" readOnly="${not (fullEntryMode or amendmentEntry) or displayRequisitionFields}" />
+	                </td>
+				</c:if>
+				<c:if test="${displayCreditMemoFields}">
+                    <th align=right valign=middle class="bord-l-b">&nbsp;</th>
+                    <td align=left valign=middle class="datacell">&nbsp;</td>
+                </c:if>    	                
             </tr> 
 
             <c:if test="${displayRequisitionFields or displayPurchaseOrderFields}">
@@ -266,7 +284,7 @@
                 </tr>
             </c:if>
 
-            <c:if test="${displayPaymentRequestFields or displayCreditMemoFields}">
+            <c:if test="${displayPaymentRequestFields}">
                 <tr>
                     <th align=right valign=middle class="bord-l-b" rowspan="3">
                         <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.specialHandlingInstructionLine1Text}" /></div>

@@ -56,4 +56,7 @@ public class PurapPropertyConstants {
     
     // Quote Language
     public static final String PURCHASE_ORDER_QUOTE_LANGUAGE_ID = "purchaseOrderQuoteLanguageIdentifier";
+    
+    // Credit Memo
+    public static final String CREDIT_MEMO_INIT_REQUIRED_FIELDS = "document.purchaseOrderIdentifier";
 }

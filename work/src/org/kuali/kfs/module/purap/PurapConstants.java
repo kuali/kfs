@@ -387,6 +387,12 @@ public class PurapConstants {
         public static String CANCELLED_IN_PROCESS = "VOID";
     }
     
+    public static class CreditMemoTypes{
+        public static final String TYPE_VENDOR = "Vendor";
+        public static final String TYPE_PO = "PO";
+        public static final String TYPE_PREQ = "PREQ";
+    }
+    
     private static HashMap<String,String> uncopyableFields() {
         HashMap<String,String> fields = new HashMap<String,String>();
         fields.put(Constants.VERSION_NUMBER, "");

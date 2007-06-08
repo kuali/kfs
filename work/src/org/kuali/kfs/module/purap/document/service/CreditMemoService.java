@@ -15,7 +15,7 @@
  */
 package org.kuali.module.purap.service;
 
-import java.util.Collection;
+import java.util.HashMap;
 
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DateTimeService;
@@ -51,6 +51,8 @@ public interface CreditMemoService {
     
     public void setPurchaseOrderService(PurchaseOrderService purchaseOrderService);
     
+    public HashMap<String, String> creditMemoDuplicateMessages(CreditMemoDocument document);
+    
     
 /*
     public void save(PaymentRequestDocument paymentRequestDocument);
@@ -61,7 +63,7 @@ public interface CreditMemoService {
     
     public boolean isInvoiceDateAfterToday(Date invoiceDate);
     
-    public HashMap<String, String> paymentRequestDuplicateMessages(PaymentRequestDocument document);
+    
     
     public HashMap<String, String> ExpiredOrClosedAccountsList(PaymentRequestDocument document);
     

@@ -39,7 +39,7 @@
                    <kul:htmlControlAttribute attributeEntry="${documentAttributes.creditMemoNumber}" property="document.creditMemoNumber" />
                 </td>
                 <th align=right valign=middle class="bord-l-b">
-                   <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.paymentRequestIdentifier}" /></div>
+                   <div align="right">**<kul:htmlAttributeLabel attributeEntry="${documentAttributes.paymentRequestIdentifier}" /></div>
                 </th>
                 <td align=left valign=middle class="datacell">
                    <kul:htmlControlAttribute attributeEntry="${documentAttributes.paymentRequestIdentifier}" property="document.paymentRequestIdentifier"
@@ -54,7 +54,7 @@
                    <kul:htmlControlAttribute attributeEntry="${documentAttributes.creditMemoDate}" property="document.creditMemoDate" datePicker="true" />
                 </td>
                 <th align=right valign=middle class="bord-l-b">
-                   <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.purchaseOrderIdentifier}" /></div>
+                   <div align="right">**<kul:htmlAttributeLabel attributeEntry="${documentAttributes.purchaseOrderIdentifier}" /></div>
                 </th>
                 <td align=left valign=middle class="datacell">
                    <kul:htmlControlAttribute attributeEntry="${documentAttributes.purchaseOrderIdentifier}" property="document.purchaseOrderIdentifier"  />
@@ -68,7 +68,7 @@
                    <kul:htmlControlAttribute attributeEntry="${documentAttributes.creditMemoAmount}" property="document.creditMemoAmount"  />
                 </td>
                 <th align=right valign=middle class="bord-l-b">
-                   <div align="right"><kul:htmlAttributeLabel  attributeEntry="${documentAttributes.vendorNumber}" /></div>
+                   <div align="right">**<kul:htmlAttributeLabel  attributeEntry="${documentAttributes.vendorNumber}" /></div>
                 </th>
                 <td align=left valign=middle class="datacell">
                    <kul:htmlControlAttribute attributeEntry="${documentAttributes.vendorNumber}" property="document.vendorNumber"  />

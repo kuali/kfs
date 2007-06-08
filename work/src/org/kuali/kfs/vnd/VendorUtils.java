@@ -65,4 +65,70 @@ public class VendorUtils {
         int[] positions = {position};
         return assembleWithPosition(full,collections,positions);
     }
+    
+    /**
+     * 
+     * This method returns the headerId portion from a composite vendor number.
+     * 
+     * @param vendorNumber - composite vendor number (detail and header)
+     * @return returns the headerId number
+     * 
+     */
+    public static Integer getVendorHeaderId(String vendorNumber) {
+      
+      //    validate the vendorNumber passed in
+      if ( ! VendorUtils.validVendorNumberFormat(vendorNumber) ) {
+        return null;
+      }
+
+      //    return the headerId, everything before the dash (-)
+      String[] vendorNumberParts = vendorNumber.split("-");
+      return new Integer(Integer.parseInt(vendorNumberParts[0]));
+    }
+
+    /**
+     * 
+     * This method returns the detailId portion from a composite vendor number.
+     * 
+     * @param vendorNumber - composite vendor number (detail and header)
+     * @return returns the detailId number
+     * 
+     */
+    public static Integer getVendorDetailId(String vendorNumber) {
+
+      if ( ! VendorUtils.validVendorNumberFormat(vendorNumber) ) {
+        return null;
+      }
+
+      //    return the headerId, everything before the dash (-)
+      String[] vendorNumberParts = vendorNumber.split("-");
+      return new Integer(Integer.parseInt(vendorNumberParts[1]));
+    }
+    
+    /**
+     * 
+     * This method accepts a vendorNumber string, and evaluates it to make sure 
+     * it is of the correct format.
+     * 
+     * This method does not test whether the given vendor number exists in the 
+     * database, rather it just tests that the format is correct.
+     * 
+     * @param vendorNumber - String representing the vendor number
+     * @return - returns an empty string on success, or an error message on a failure
+     * 
+     */
+    public static boolean validVendorNumberFormat(String vendorNumber) {
+  
+      //    disallow null string
+      if (vendorNumber == null) {
+        return false;
+      }
+
+      //    validate the overall format:  numbers - numbers
+      if (!vendorNumber.matches("\\d+-\\d+")) {
+        return false;
+      }
+          
+      return true;
+    }
 }

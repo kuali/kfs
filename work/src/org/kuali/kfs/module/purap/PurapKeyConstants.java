@@ -113,4 +113,7 @@ public class PurapKeyConstants {
     public static final String ERROR_ITEM_AMND_NULL="errors.item.amnd.null";
     public static final String ERROR_ITEM_AMND_INVALID="errors.item.amnd.invalid";
     public static final String ERROR_ITEM_AMND_INVALID_AMT="errors.item.amnd.invalidAmt";
+    
+    //Credit Memo
+    public static final String ERROR_CREDIT_MEMO_REQUIRED_FIELDS="errors.credit.memo.required.fields";
 }

@@ -18,14 +18,19 @@ package org.kuali.module.purap.document;
 
 import java.sql.Date;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 
 import org.kuali.core.bo.Note;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.purap.PurapConstants;
+import org.kuali.module.purap.PurapConstants.CreditMemoTypes;
 import org.kuali.module.purap.bo.CreditMemoItem;
 import org.kuali.module.purap.bo.CreditMemoStatusHistory;
+
+
 
 
 /**
@@ -40,7 +45,12 @@ public class CreditMemoDocument extends AccountsPayableDocumentBase {
     private KualiDecimal creditMemoAmount;
     private Timestamp creditMemoPaidTimestamp;
     private String itemMiscellaneousCreditDescription;
+    private String purchaseOrderNotes;
+    private Date purchaseOrderEndDate;
     
+    private String creditMemoType; /* not persisted */
+    
+    private PurchaseOrderDocument purchaseOrder;
     private PaymentRequestDocument paymentRequest;
 
     /**
@@ -253,6 +263,91 @@ public class CreditMemoDocument extends AccountsPayableDocumentBase {
     public PaymentRequestDocument getPaymentRequest() { 
         return paymentRequest;
     }
+    
+    /**
+     * Gets the purchaseOrder attribute. 
+     * @return Returns the purchaseOrder.
+     */
+    public PurchaseOrderDocument getPurchaseOrder() {
+        return purchaseOrder;
+    }
 
+    /**
+     * Sets the purchaseOrder attribute value.
+     * @param purchaseOrder The purchaseOrder to set.
+     */
+    public void setPurchaseOrder(PurchaseOrderDocument purchaseOrder) {
+        this.purchaseOrder = purchaseOrder;
+    }
+    
+    /**
+     * Gets the purchaseOrderNotes attribute. 
+     * @return Returns the purchaseOrderNotes.
+     */
+    public String getPurchaseOrderNotes() {
+        ArrayList poNotes = SpringServiceLocator.getNoteService().getByRemoteObjectId((this.getPurchaseOrderIdentifier()).toString());
+
+        if (poNotes.size() > 0) {
+            return "Yes";
+        }
+        return "No";
+    }
+
+    /**
+     * Sets the purchaseOrderNotes attribute value.
+     * 
+     * @param purchaseOrderNotes The purchaseOrderNotes to set.
+     */
+    public void setPurchaseOrderNotes(String purchaseOrderNotes) {
+        this.purchaseOrderNotes = purchaseOrderNotes;
+    }
+
+    /**
+     * Gets the purchaseOrderEndDate attribute. 
+     * @return Returns the purchaseOrderEndDate.
+     */
+    public Date getPurchaseOrderEndDate() {
+        return purchaseOrderEndDate;
+    }
+
+    /**
+     * Sets the purchaseOrderEndDate attribute value.
+     * @param purchaseOrderEndDate The purchaseOrderEndDate to set.
+     */
+    public void setPurchaseOrderEndDate(Date purchaseOrderEndDate) {
+        this.purchaseOrderEndDate = purchaseOrderEndDate;
+    }
+
+    /**
+     * This returns the type of the Credit Memo that was selected on the
+     * init screen.  It is based on them entering the Vendor, PO or PREQ #.
+     * 
+     * @return Vendor, PO or PREQ
+     */
+    public String getCreditMemoType() {
+        if ( this.getPaymentRequestIdentifier() != null ) {
+          return CreditMemoTypes.TYPE_PREQ;
+        } else if ( this.getPurchaseOrderIdentifier() != null ) {
+          return CreditMemoTypes.TYPE_PO;
+        } else {
+          return CreditMemoTypes.TYPE_VENDOR;
+        }
+      }
+
+    /**
+     * Sets the creditMemoType attribute value.
+     * @param creditMemoType The creditMemoType to set.
+     */
+    public void setCreditMemoType(String creditMemoType) {
+        this.creditMemoType = creditMemoType;
+    }
+
+    /**
+     * Sets the paymentRequest attribute value.
+     * @param paymentRequest The paymentRequest to set.
+     */
+    public void setPaymentRequest(PaymentRequestDocument paymentRequest) {
+        this.paymentRequest = paymentRequest;
+    }
 
 }

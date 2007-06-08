@@ -15,11 +15,11 @@
  */
 package org.kuali.module.purap.dao;
 
-import java.math.BigDecimal;
-import java.sql.Timestamp;
+import java.sql.Date;
 import java.util.Collection;
 import java.util.List;
 
+import org.kuali.core.util.KualiDecimal;
 import org.kuali.module.purap.bo.CreditMemoStatusHistory;
 import org.kuali.module.purap.document.CreditMemoDocument;
 
@@ -27,8 +27,8 @@ public interface CreditMemoDao {
         public static boolean RETRIEVE_ALL_REFERENCES_YES = true;
         public static boolean RETRIEVE_ALL_REFERENCES_NO = false;
         
- //       public CreditMemoDocument getCreditMemoById(Integer id);
-     //   public CreditMemoDocument save(CreditMemoDocument cm,User user,boolean retrieveAllReferences);
+        public CreditMemoDocument getCreditMemoById(Integer id);
+     ///   public CreditMemoDocument save(CreditMemoDocument cm,User user,boolean retrieveAllReferences);
         
         /**
          * 
@@ -42,8 +42,8 @@ public interface CreditMemoDao {
          * @param creditMemoNumber - the vendor-supplied creditMemoNumber
          * @return boolean - true if a match exists in the db, false if not
          */
- //       public boolean duplicateExists(Integer vendorNumberHeaderId, Integer vendorNumberDetailId, 
- //                                         String creditMemoNumber);
+        public boolean duplicateExists(Integer vendorNumberHeaderId, Integer vendorNumberDetailId, 
+                                          String creditMemoNumber);
         
         /**
          * 
@@ -57,8 +57,8 @@ public interface CreditMemoDao {
          * @param creditMemoNumber - the vendor-supplied creditMemoNumber
          * @return boolean - true if a match exists in the db, false if not
          */
- //       public boolean duplicateExists(Integer vendorNumberHeaderId, Integer vendorNumberDetailId, 
-   //             Timestamp date, BigDecimal amount);
+        public boolean duplicateExists(Integer vendorNumberHeaderId, Integer vendorNumberDetailId, 
+                Date date, KualiDecimal amount);
         
         /**
          * Retreives a list of Credit Memos with the given Req Id.
@@ -66,7 +66,7 @@ public interface CreditMemoDao {
          * @param requisitionID
          * @return List of Credit Memos.
          */
- //       public List getCreditMemosByRequisitionId(Integer requisitionID);
+        public List getCreditMemosByRequisitionId(Integer requisitionID);
         
         /**
          * Retreives a list of Credit Memos with the given PO Id.
@@ -74,7 +74,7 @@ public interface CreditMemoDao {
          * @param poID
          * @return List of Credit Memos.
          */
- //      public List getCreditMemosByPOId(Integer poID);
+       public List getCreditMemosByPOId(Integer poID);
         
         /**
          * Retreives a list of Credit Memos with the given PO Id.
@@ -82,11 +82,11 @@ public interface CreditMemoDao {
          * @param poID
          * @return List of Credit Memos.
          */
- //       public List getCreditMemosByPOId(Integer poID, Integer returnListMax);
+        public List getCreditMemosByPOId(Integer poID, Integer returnListMax);
         
- //       public List getAllCMsByPOIdAndStatus(Integer purchaseOrderID,Collection statusCodes);
+        public List getAllCMsByPOIdAndStatus(Integer purchaseOrderID,Collection statusCodes);
 
-//        public CreditMemoStatusHistory saveCreditMemoStatusHistory(CreditMemoStatusHistory cmsh);
+       public CreditMemoStatusHistory saveCreditMemoStatusHistory(CreditMemoStatusHistory cmsh);
 
         /**
          * Get all the credit memos for a set of statuses
@@ -94,7 +94,7 @@ public interface CreditMemoDao {
          * @param statuses
          * @return
          */
- //       public Collection getByStatuses(String statuses[]);
+        public Collection getByStatuses(String statuses[]);
       /**
        * @param docId
        * @return

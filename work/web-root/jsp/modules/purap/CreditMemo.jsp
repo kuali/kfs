@@ -52,18 +52,18 @@
     
     <c:if test="${KualiForm.editingMode['displayInitTab']}" > 
     	<purap:creditMemoInit documentAttributes="${DataDictionary.KualiCreditMemoDocument.attributes}"
-	 		 displayCreditMemoInitFields="true" />
+	 		 displayCreditMemoInitFields="true" /> 
 	</c:if>
 	
-	<c:if test="${not KualiForm.editingMode['displayInitTab']}" >
-		<!-- purap:vendor
+	<!--  c:if test="${not KualiForm.editingMode['displayInitTab']}" -->
+		<purap:vendor
 	        documentAttributes="${DataDictionary.KualiCreditMemoDocument.attributes}" 
-	        displayPurchaseOrderFields="false" displayCreditMemoFields="true"/ -->
+	        displayPurchaseOrderFields="false" displayCreditMemoFields="true"/>
 		<!--  c:out value="${KualiForm.creditMemoInitiated}" / -->
 		
 	
-		<!--  purap:creditMemoInvoiceInfo documentAttributes="${DataDictionary.KualiCreditMemoDocument.attributes}"
-	 		 displayCreditMemoInvoiceInfoFields="true" / -->        
+		<purap:creditMemoInfo documentAttributes="${DataDictionary.KualiCreditMemoDocument.attributes}"
+	 		 displayCreditMemoInfoFields="true" />        
 	
 	   
 	    < kul:notes notesBo="${KualiForm.document.documentBusinessObject.boNotes}" noteType="${Constants.NoteTypeEnum.BUSINESS_OBJECT_NOTE_TYPE}" /> 
@@ -77,8 +77,13 @@
     <purap:relatedDocuments
            documentAttributes="${DataDictionary.RelatedDocuments.attributes}"
            />
-	</c:if>
+	<!-- /c:if -->
     <kul:panelFooter />
+    <!--  c:if test="${KualiForm.editingMode['displayInitTab']}" -->
+	    <div align="right"><br>
+	          ** You must enter one and only one of these fields: PREQ #, Purchase Order #, or Vendor #.</div>
+	    </div><br>
+	<!-- /c:if -->       
     <c:if test="${KualiForm.editingMode['displayInitTab']}">
  		<c:set var="extraButtons" value="${KualiForm.extraButtons}" />
  	</c:if>

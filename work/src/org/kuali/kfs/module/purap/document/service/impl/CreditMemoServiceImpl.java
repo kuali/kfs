@@ -17,8 +17,13 @@ package org.kuali.module.purap.service.impl;
 
 import java.sql.Date;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
 
+import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DateTimeService;
 import org.kuali.core.service.DocumentService;
@@ -26,16 +31,23 @@ import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.service.KualiRuleService;
 import org.kuali.core.service.NoteService;
 import org.kuali.core.service.UniversalUserService;
+import org.kuali.core.util.GlobalVariables;
+import org.kuali.core.util.KualiDecimal;
+import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.workflow.service.WorkflowDocumentService;
+import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.module.purap.PurapConstants;
+import org.kuali.module.purap.PurapKeyConstants;
 import org.kuali.module.purap.dao.CreditMemoDao;
-import org.kuali.module.purap.dao.PaymentRequestDao;
+import org.kuali.module.purap.document.CreditMemoDocument;
+import org.kuali.module.purap.document.PurchaseOrderDocument;
 import org.kuali.module.purap.service.CreditMemoService;
 import org.kuali.module.purap.service.GeneralLedgerService;
 import org.kuali.module.purap.service.PurapService;
 import org.kuali.module.purap.service.PurchaseOrderService;
 import org.kuali.module.vendor.service.VendorService;
+import org.kuali.module.vendor.util.VendorUtils;
 import org.springframework.transaction.annotation.Transactional;
-
 
 /**
  * This class...
@@ -205,38 +217,57 @@ public class CreditMemoServiceImpl implements CreditMemoService {
      * @param invoiceNumber            invoice number as entered by AP
      * @return List of Pay Reqs.
      */
- /*
+/*
     private List getPaymentRequestsByVendorNumberInvoiceNumber(Integer vendorHeaderGeneratedId, Integer vendorDetailAssignedId, String invoiceNumber) {
         LOG.debug("getActivePaymentRequestsByVendorNumberInvoiceNumber() started");
-        return paymentRequestDao.getActivePaymentRequestsByVendorNumberInvoiceNumber(vendorHeaderGeneratedId, vendorDetailAssignedId, invoiceNumber);
+        return creditMemoDao.getActivePaymentRequestsByVendorNumberInvoiceNumber(vendorHeaderGeneratedId, vendorDetailAssignedId, invoiceNumber);
     }
-
-    public HashMap<String, String> paymentRequestDuplicateMessages(PaymentRequestDocument document) {
+*/
+    public HashMap<String, String> creditMemoDuplicateMessages(CreditMemoDocument cm) {
         HashMap<String, String> msgs;
         msgs = new HashMap<String, String>();
         KualiConfigurationService kualiConfiguration = SpringServiceLocator.getKualiConfigurationService();
         UniversalUser currentUser = (UniversalUser) GlobalVariables.getUserSession().getUniversalUser();
 
 
-        Integer purchaseOrderId = document.getPurchaseOrderIdentifier();
+        Integer purchaseOrderId = cm.getPurchaseOrderIdentifier();
 
         PurchaseOrderDocument po = purchaseOrderService.getCurrentPurchaseOrder(purchaseOrderId);
 
         // This line is for test only to simulate duplicate messages, need to remove after Code review
-        // msgs.put(PurapConstants.PREQDocumentsStrings.DUPLICATE_DATE_AMONT_QUESTION, kualiConfiguration.getPropertyString(PurapKeyConstants.MESSAGE_DUPLICATE_PREQ_DATE_AMOUNT));
+         //msgs.put(PurapConstants.PREQDocumentsStrings.DUPLICATE_DATE_AMONT_QUESTION, kualiConfiguration.getPropertyString(PurapKeyConstants.MESSAGE_DUPLICATE_PREQ_DATE_AMOUNT));
+         msgs.put(PurapConstants.PREQDocumentsStrings.DUPLICATE_INVOICE_QUESTION, kualiConfiguration.getPropertyString(PurapKeyConstants.MESSAGE_DUPLICATE_INVOICE));
 
 
         //then check that there are no other non-cancelled PREQs for this vendor number and invoice number
-        Integer vendorDetailAssignedId = po.getVendorDetailAssignedIdentifier();
-        Integer vendorHeaderGeneratedId = po.getVendorHeaderGeneratedIdentifier();
+        Integer vendorDetailAssignedId = cm.getVendorDetailAssignedIdentifier();
+        Integer vendorHeaderGeneratedId = cm.getVendorHeaderGeneratedIdentifier();
 
-        List<PaymentRequestDocument> preqs = getPaymentRequestsByVendorNumberInvoiceNumber(vendorHeaderGeneratedId, vendorDetailAssignedId, document.getInvoiceNumber());
+       ///List<CreditMemoDocument> preqs = getPaymentRequestsByVendorNumberInvoiceNumber(vendorHeaderGeneratedId, vendorDetailAssignedId, document.getInvoiceNumber());
+      //  List<CreditMemoDocument> cms = getPaymentRequestsByVendorNumberInvoiceNumber(vendorHeaderGeneratedId, vendorDetailAssignedId, cm.getCreditMemoNumber());
+        
+//      Check vendorNumber/creditMemoNumber in the database. 
+        // If already exists, give a duplication warning
+        if (ObjectUtils.isNotNull(cm.getVendorNumber())){
+            if (duplicateExists(cm.getVendorNumber(), cm.getCreditMemoNumber())) {
+               // errors.add(new ServiceError(EpicConstants.EPIC_ACTION_MSSG_WARN_PROP, "errors.duplicate.vendorNumber.creditMemoNumber"));
+                msgs.put(PurapConstants.PREQDocumentsStrings.DUPLICATE_INVOICE_QUESTION, kualiConfiguration.getPropertyString(PurapKeyConstants.MESSAGE_DUPLICATE_INVOICE));
+            }
+
+        // Check credit memo date/credit memo total for a vendor in the database.
+        // If already exists, give a duplication error
+        if (duplicateExists(cm.getVendorNumber(), cm.getCreditMemoDate(), cm.getCreditMemoAmount())) {
+          //errors.add(new ServiceError(EpicConstants.EPIC_ACTION_MSSG_WARN_PROP, "errors.duplicate.vendorNumber.date.amount"));
+          msgs.put(PurapConstants.PREQDocumentsStrings.DUPLICATE_INVOICE_QUESTION, kualiConfiguration.getPropertyString(PurapKeyConstants.MESSAGE_DUPLICATE_INVOICE_VOIDED));
+        }
+   /*     
+        
         if (preqs.size() > 0) {
             boolean addedMessage = false;
             List cancelled = new ArrayList();
             List voided = new ArrayList();
             for (Iterator iter = preqs.iterator(); iter.hasNext();) {
-                PaymentRequestDocument testPREQ = (PaymentRequestDocument) iter.next();
+                CreditMemoDocument testPREQ = (CreditMemoDocument) iter.next();
 
                 if ((!(PurapConstants.PaymentRequestStatuses.CANCELLED_POST_APPROVE.equals(testPREQ.getStatus().getStatusCode()))) && (!(PurapConstants.PaymentRequestStatuses.CANCELLED_IN_PROCESS.equals(testPREQ.getStatus().getStatusCode())))) {
 
@@ -276,7 +307,7 @@ public class CreditMemoServiceImpl implements CreditMemoService {
             List voided = new ArrayList();
             msgs.put(PurapConstants.PREQDocumentsStrings.DUPLICATE_INVOICE_QUESTION, kualiConfiguration.getPropertyString(PurapKeyConstants.MESSAGE_DUPLICATE_INVOICE_DATE_AMOUNT));
             for (Iterator iter = preqs.iterator(); iter.hasNext();) {
-                PaymentRequestDocument testPREQ = (PaymentRequestDocument) iter.next();
+                CreditMemoDocument testPREQ = (CreditMemoDocument) iter.next();
                 if ((!(PurapConstants.PaymentRequestStatuses.CANCELLED_POST_APPROVE.equals(testPREQ.getStatus().getStatusCode()))) && (!(PurapConstants.PaymentRequestStatuses.CANCELLED_IN_PROCESS.equals(testPREQ.getStatus().getStatusCode())))) {
                     msgs.put(PurapConstants.PREQDocumentsStrings.DUPLICATE_INVOICE_QUESTION, kualiConfiguration.getPropertyString(PurapKeyConstants.MESSAGE_DUPLICATE_INVOICE_DATE_AMOUNT));
                     addedMessage = true;
@@ -310,25 +341,25 @@ public class CreditMemoServiceImpl implements CreditMemoService {
                     addedMessage = true;
                 }
             }
-        }
+*/        }
 
 
         return msgs;
     }
 
-*/
+
     /*
-    public List<PaymentRequestDocument> getPaymentRequestsByPurchaseOrderId(Integer poDocId) {
-        return paymentRequestDao.getPaymentRequestsByPurchaseOrderId(poDocId);
+    public List<CreditMemoDocument> getPaymentRequestsByPurchaseOrderId(Integer poDocId) {
+        return creditMemoDao.getPaymentRequestsByPurchaseOrderId(poDocId);
     }
 
-    public void save(PaymentRequestDocument paymentRequestDocument) {
+    public void save(CreditMemoDocument creditMemoDocument) {
 
-        // Integer poId = paymentRequestDocument.getPurchaseOrderIdentifier();
-        // PurchaseOrderDocument purchaseOrderDocument = SpringServiceLocator.getPurchaseOrderService().getCurrentPurchaseOrder(paymentRequestDocument.getPurchaseOrderIdentifier());
-        // paymentRequestDocument.populatePaymentRequestFormPurchaseOrder(purchaseOrderDocument);
+        // Integer poId = creditMemoDocument.getPurchaseOrderIdentifier();
+        // PurchaseOrderDocument purchaseOrderDocument = SpringServiceLocator.getPurchaseOrderService().getCurrentPurchaseOrder(creditMemoDocument.getPurchaseOrderIdentifier());
+        // creditMemoDocument.populatePaymentRequestFormPurchaseOrder(purchaseOrderDocument);
 
-        paymentRequestDao.save(paymentRequestDocument);
+        creditMemoDao.save(creditMemoDocument);
     }
 */
     /**
@@ -342,7 +373,7 @@ public class CreditMemoServiceImpl implements CreditMemoService {
   /*
     public List getPaymentRequestsByPOIdInvoiceAmountInvoiceDate(Integer poId, KualiDecimal invoiceAmount, Date invoiceDate) {
         LOG.debug("getPaymentRequestsByPOIdInvoiceAmountInvoiceDate() started");
-        return paymentRequestDao.getActivePaymentRequestsByPOIdInvoiceAmountInvoiceDate(poId, invoiceAmount, invoiceDate);
+        return creditMemoDao.getActivePaymentRequestsByPOIdInvoiceAmountInvoiceDate(poId, invoiceAmount, invoiceDate);
     }
 
 */
@@ -365,239 +396,212 @@ public class CreditMemoServiceImpl implements CreditMemoService {
         return ((invoiceDateTime.compareTo(nowTime)) > 0);
     }
 
-/*
-    public HashMap<String, String> ExpiredOrClosedAccountsList(PaymentRequestDocument document) {
-
-        HashMap<String, String> list = new HashMap<String, String>();
-        Integer POID = document.getPurchaseOrderIdentifier();
-        java.util.Date currentDate = SpringServiceLocator.getDateTimeService().getCurrentDate();
-        
-        //TODO: Why not rely on ojb here?  You should have a po already from the mapping Actually it looks like the mapping isn't correct.  I'll fix this later
-        PurchaseOrderDocument po = SpringServiceLocator.getPurchaseOrderService().getCurrentPurchaseOrder(document.getPurchaseOrderIdentifier());
-        
-        //TODO: check for for po not be null
-        List accountNumberList = new ArrayList();
-        for (Iterator i = po.getSourceAccountingLines().iterator(); i.hasNext();) {
-            SourceAccountingLine poAccountingLine = (SourceAccountingLine) i.next();
-            Account account = (Account) poAccountingLine.getAccount();
-
-            if (account.isAccountClosedIndicator()) {
-                
-                // 1.  if the account is closed, get the continuation account and it to the list 
-                Account continuationAccount = account.getContinuationAccount();
-                if (continuationAccount == null) {
-                    //TODO: what to do here? - This should be an error presented to the user
-                }
-                else {
-                    list.put(account.getAccountNumber(), continuationAccount.getAccountNumber());
-                }
-                // 2.  if the account is expired and the current date is <= 30 days from the expiration date, do nothing 
-                // 3.  if the account is expired and the current date is > 30 days from the expiration date, get the continuation account and add it to the list
-                //TODO: check to see if there is a constant defiend for this number of days (30) in the system and use it instead of 30. If not we need to define a new one 
-            } else if (account.isExpired() & SpringServiceLocator.getDateTimeService().dateDiff(account.getAccountExpirationDate(), SpringServiceLocator.getDateTimeService().getCurrentDate(), true) > 30) {
-                Account continuationAccount = account.getContinuationAccount();
-                //TODO: Do we need to check for not being null and what to do??  Yes see above
-                list.put(account.getAccountNumber(), continuationAccount.getAccountNumber());
-            }
-           //TODO: I need a stub in here somewhere here to actually do the update on the preq account list
-           //maybe pass in the account and the continuation
-        }
-        return list;
-    }
-*/
-/*
-    public void addContinuationAccountsNote(PaymentRequestDocument document, HashMap<String, String> accounts) {
-        Note note = new Note();
-        String noteText;
-        StringBuffer sb = new StringBuffer("");
-
-        // List the entries using entrySet()
-        Set entries = accounts.entrySet();
-        Iterator it = entries.iterator();
-        while (it.hasNext()) {
-            Map.Entry entry = (Map.Entry) it.next();
-            
-            sb.append(" Account " + entry.getKey() + " has replaces with account " + entry.getValue() + " ; ");
-            
-        }
-        note.setNoteText(sb.toString());
-        document.addNote(note);
-    }
-*/
-    /*
-     public PaymentRequestInitializationValidationErrors verifyPreqInitialization(
-     Integer purchaseOrderId, String invoiceNumber, BigDecimal invoiceAmount, Timestamp invoiceDate,
-     List expiredAccounts, List closedAccounts, User u) {
-     SERVICELOG.debug("verifyPreqInitialization() started");
-     LOG.debug("verifyPreqInitialization started");
-     List messages = new ArrayList();
-     List expirAcctList = new ArrayList();
-     List closeAcctList = new ArrayList();
-     
-     PaymentRequestInitializationValidationErrors initValidationErrors = new PaymentRequestInitializationValidationErrors();
-
-     PurchaseOrder po = purchaseOrderService.getPurchaseOrderById(purchaseOrderId,u);
-     
-     if (po == null) {
-     // no PO was found in the system - notify the user
-     messages.add("errors.po.not.exist");
-     initValidationErrors.errorMessages = messages;
-     SERVICELOG.debug("verifyPreqInitialization() ended");    
-     return initValidationErrors;
-     }
-     
-     // Verify that there exists at least 1 item left to be invoiced
-     initValidationErrors.setPurchaseOrderNumberToUse(purchaseOrderId);
-     boolean zeroDollar = true;
-     for (Iterator itemIter = po.getItems().iterator(); itemIter.hasNext();) {
-     PurchaseOrderItem poi = (PurchaseOrderItem) itemIter.next();
-     BigDecimal encumberedQuantity = poi.getOutstandingEncumberedQuantity() == null ? zero : poi.getOutstandingEncumberedQuantity();
-     if (encumberedQuantity.compareTo(zero) == 1) {
-     zeroDollar = false;
-     break;
-     }
-     }
-     
-     // if messages exist now there is no need to check anything else
-     if (!messages.isEmpty()) {
-     initValidationErrors.errorMessages = messages;
-     SERVICELOG.debug("verifyPreqInitialization() ended");
-     return initValidationErrors;
-     }
-     
-     // Check invoice date to make sure it is today or before
-     if (this.isInvoiceDateAfterToday(invoiceDate)) {
-     messages.add("errors.invalid.invoice.date");
-     }
-     //    Timestamp now = new Timestamp( (new Date()).getTime() );
-     //    if ( invoiceDate.getTime() > now.getTime() ) {
-     //      messages.add("errors.invalid.invoice.date");
-     //    }
-     
-     if (EpicConstants.PO_STAT_OPEN.equals(po.getPurchaseOrderStatus().getCode())) {
-     //then check that there are no other non-cancelled PREQs for this vendor number and invoice number
-     Integer vendorDetailAssignedId = po.getVendorDetailAssignedId();
-     Integer vendorHeaderGeneratedId = po.getVendorHeaderGeneratedId();
-
-     List preqs = getPaymentRequestsByVendorNumberInvoiceNumber(vendorHeaderGeneratedId,vendorDetailAssignedId,invoiceNumber);
-     if (preqs.size() > 0) {
-     boolean addedError = false;
-     List cancelled = new ArrayList();
-     List voided = new ArrayList();
-     for (Iterator iter = preqs.iterator(); iter.hasNext();) {
-     PaymentRequest testPREQ = (PaymentRequest) iter.next();
-     if ( (!(EpicConstants.PREQ_STAT_CANCELLED_POST_APPROVE.equals(testPREQ.getStatus().getCode()))) && 
-     (!(EpicConstants.PREQ_STAT_CANCELLED_IN_PROCESS.equals(testPREQ.getStatus().getCode()))) ) {
-     messages.add("errors.duplicate.vendor.invoice");
-     addedError = true;
-     break;
-     } else if (EpicConstants.PREQ_STAT_CANCELLED_IN_PROCESS.equals(testPREQ.getStatus().getCode())) {
-     voided.add(testPREQ);
-     } else if (EpicConstants.PREQ_STAT_CANCELLED_POST_APPROVE.equals(testPREQ.getStatus().getCode())) {
-     cancelled.add(testPREQ);
-     }
-     }
-     // custom error message for duplicates related to cancelled/voided PREQs
-     if (!addedError) {
-     if ( (!(voided.isEmpty())) && (!(cancelled.isEmpty())) ) {
-     messages.add("errors.duplicate.vendor.invoice.cancelledOrVoided");
-     } else if ( (!(voided.isEmpty())) && (cancelled.isEmpty()) ) {
-     messages.add("errors.duplicate.vendor.invoice.voided");
-     } else if ( (voided.isEmpty()) && (!(cancelled.isEmpty())) ) {
-     messages.add("errors.duplicate.vendor.invoice.cancelled");
-     }
-     }
-     }
-     
-     //check that the invoice date and invoice total amount entered are not on any existing non-cancelled PREQs for this PO
-     preqs = getPaymentRequestsByPOIdInvoiceAmountInvoiceDate(po.getId(), invoiceAmount, invoiceDate);
-     if (preqs.size() > 0) {
-     boolean addedError = false;
-     List cancelled = new ArrayList();
-     List voided = new ArrayList();
-     for (Iterator iter = preqs.iterator(); iter.hasNext();) {
-     PaymentRequest testPREQ = (PaymentRequest) iter.next();
-     if ( (!(EpicConstants.PREQ_STAT_CANCELLED_POST_APPROVE.equals(testPREQ.getStatus().getCode()))) && 
-     (!(EpicConstants.PREQ_STAT_CANCELLED_IN_PROCESS.equals(testPREQ.getStatus().getCode()))) ) {
-     messages.add("errors.duplicate.invoice.date.amount");
-     addedError = true;
-     break;
-     } else if (EpicConstants.PREQ_STAT_CANCELLED_IN_PROCESS.equals(testPREQ.getStatus().getCode())) {
-     voided.add(testPREQ);
-     } else if (EpicConstants.PREQ_STAT_CANCELLED_POST_APPROVE.equals(testPREQ.getStatus().getCode())) {
-     cancelled.add(testPREQ);
-     }
-     }
-     // custom error message for duplicates related to cancelled/voided PREQs
-     if (!addedError) {
-     if ( (!(voided.isEmpty())) && (!(cancelled.isEmpty())) ) {
-     messages.add("errors.duplicate.invoice.date.amount.cancelledOrVoided");
-     } else if ( (!(voided.isEmpty())) && (cancelled.isEmpty()) ) {
-     messages.add("errors.duplicate.invoice.date.amount.voided");
-     } else if ( (voided.isEmpty()) && (!(cancelled.isEmpty())) ) {
-     messages.add("errors.duplicate.invoice.date.amount.cancelled");
-     }
-     }
-     }
-     
-     this.checkForExpiredOrClosedAccounts(po, initValidationErrors, closedAccounts, expiredAccounts);
-     
-     } else if (EpicConstants.PO_STAT_PAYMENT_HOLD.equals(po.getPurchaseOrderStatus().getCode())) {
-     //PO is not open - notify the user
-     messages.add("errors.po.status.hold");
-     } else {
-     //PO is not open - notify the user
-     messages.add("errors.po.not.open");
-     }
-
-     if ( 1 == 2 ) {
-     // TODO 2006: delyea PREQ CLOSE PO: Add code to return encumberances check for auto close of PO
-     initValidationErrors.setCanAutoClosePO(false);
-     //initValidationErrors.setCanAutoClosePO(generalLedgerService.isPOAutoCloseEligible(prd.getPreq()) && (prd.getPreq().getPurchaseOrder().getRecurringPaymentType() == null));
-     }
-
-     initValidationErrors.errorMessages = messages;
-     SERVICELOG.debug("verifyPreqInitialization() ended");    
-     return initValidationErrors;
-     }
+    /**
+     * This method is a shallow wrapper around the DAO implementation by the same
+     * name. The only substantial difference at this point is that the service
+     * takes a composite vendorNumber, extracts the parts of the vendor number,
+     * and passes it to the DAO impl.
+     * 
+     * @param vendorNumber - composite two-part vendor number (headerId-detailId)
+     * @param creditMemoNumber - vendor supplied credit memo number
+     * @return boolean - true if a matching credit memo exists in the db, false if not
      */
+    public boolean duplicateExists(String vendorNumber, String creditMemoNumber) {
+        LOG.debug("duplicateExists() started");
+      Integer vendorNumberHeaderId;
+      Integer vendorNumberDetailId;
 
+      vendorNumberHeaderId = VendorUtils.getVendorHeaderId(vendorNumber);
+      vendorNumberDetailId = VendorUtils.getVendorDetailId(vendorNumber);
+      LOG.debug("duplicateExists() ended");
+      return duplicateExists(vendorNumberHeaderId, vendorNumberDetailId,
+          creditMemoNumber);
+    }
 
     /**
-     * Creates a PaymentRequestDocument from given RequisitionDocument
      * 
-     * @param reqDocument - RequisitionDocument that the PO is being created from
-     * @return PaymentRequestDocument
+     * This method is a shallow wrapper around the DAO implementation by the same
+     * name.
+     * 
+     * @param vendorNumberHeaderId
+     * @param vendorNumberDetailId
+     * @param creditMemoNumber
+     * @return
      */
+    public boolean duplicateExists(Integer vendorNumberHeaderId,
+        Integer vendorNumberDetailId, String creditMemoNumber) {
+      LOG.debug("duplicateExists() started");
+      LOG.debug("duplicateExists() ended");
+        return creditMemoDao.duplicateExists(vendorNumberHeaderId,
+          vendorNumberDetailId, creditMemoNumber);
+    }
 
-    /* 
-     
-     public PaymentRequestDocument createPaymentRequestDocument(RequisitionDocument reqDocument) {
-     PaymentRequestDocument poDocument = null;
-
-     // get new document from doc service
-     try {
-     poDocument = (PaymentRequestDocument) documentService.getNewDocument(PaymentRequestDocTypes.PURCHASE_ORDER_DOCUMENT);
-     poDocument.populatePaymentRequestFromRequisition(reqDocument);
-     poDocument.setPaymentRequestCurrentIndicator(true);
-     // TODO set other default info
-     // TODO set initiator of document as contract manager (is that right?)
-
-     documentService.updateDocument(poDocument);
-     documentService.prepareWorkflowDocument(poDocument);
-     workflowDocumentService.save(poDocument.getDocumentHeader().getWorkflowDocument(), "", null);
-
-     }
-     catch (WorkflowException e) {
-     LOG.error("Error creating PO document: " + e.getMessage());
-     throw new RuntimeException("Error creating PO document: " + e.getMessage());
-     }
-     catch (Exception e) {
-     LOG.error("Error persisting document # " + poDocument.getDocumentHeader().getDocumentNumber() + " " + e.getMessage());
-     throw new RuntimeException("Error persisting document # " + poDocument.getDocumentHeader().getDocumentNumber() + " " + e.getMessage());
-     }
-     return poDocument;
-     }
+    /**
+     * 
+     * This method is a shallow wrapper around the service method, except with a
+     * composite vendorNumber
+     * 
+     * @param vendorNumber
+     * @param date
+     * @param amount
+     * @return
      */
+    public boolean duplicateExists(String vendorNumber, Date date, KualiDecimal amount) {
 
+      LOG.debug("duplicateExists() started");
+        Integer vendorNumberHeaderId;
+      Integer vendorNumberDetailId;
+
+      vendorNumberHeaderId = VendorUtils.getVendorHeaderId(vendorNumber);
+      vendorNumberDetailId = VendorUtils.getVendorDetailId(vendorNumber);
+      LOG.debug("duplicateExists() ended");
+      return creditMemoDao.duplicateExists(vendorNumberHeaderId,
+          vendorNumberDetailId, date, amount);
+    }
+
+    /**
+     * 
+     * This method is a shallow wrapper around the DAO implementation by the same
+     * name and signature.
+     * 
+     * @param vendorNumberHeaderId
+     * @param vendorNumberDetailId
+     * @param date
+     * @param amount
+     * @return
+     */
+    public boolean duplicateExists(Integer vendorNumberHeaderId,
+        Integer vendorNumberDetailId, Date date, KualiDecimal amount) {
+      LOG.debug("duplicateExists() started");
+      LOG.debug("duplicateExists() ended");
+        return creditMemoDao.duplicateExists(vendorNumberHeaderId,
+          vendorNumberDetailId, date, amount);
+    }
+
+    /**
+     * Get all credit Memo Documents associated with this Req ID
+     * 
+     * @param requistionId
+     *          ID of the Req associated with the Credit Memo Documents
+     * @return
+     */
+ /*
+    public List getCreditMemoDocumentsByReqID(Integer requisitionId, User user) {
+      LOG.debug("getCreditMemoDocumentsByReqID() started");
+      LOG.debug("getCreditMemoDocumentsByReqID() started");
+      List l = creditMemoDao.getCreditMemosByRequisitionId(requisitionId);
+      List creditMemoDocuments = new ArrayList();
+
+      for (Iterator iter = l.iterator(); iter.hasNext();) {
+        CreditMemo cm = (CreditMemo) iter.next();
+        if (cm != null) {
+          CreditMemoDocument cmd = new CreditMemoDocument();
+          cmd.setCreditMemo(cm);
+
+          cmd.setOnbaseImageExists(onbaseService.isCMImageAvailable(cmd.getCreditMemo().getId()));
+          cmd.setCreditMemoImageViewer(fiscalAccountingService.isCreditMemoDelegate(cmd.getCreditMemo(), user));
+          creditMemoDocuments.add(cmd);
+        }
+      }
+      LOG.debug("getCreditMemoDocumentsByReqID() ended");
+      return creditMemoDocuments;
+    }
+*/
+    /**
+     * Get all credit Memo Documents associated with this PO ID
+     * 
+     * @param poID  ID of the PO associated with the Credit Memo Documents
+     * @return
+     */
+ /*
+    public List getCreditMemoDocumentsByPOID(Integer poID, User user) {
+      LOG.debug("getCreditMemoDocumentsByPOID() started");
+      LOG.debug("getCreditMemoDocumentsByPOID() started");
+      List l = creditMemoDao.getCreditMemosByPOId(poID);
+      List creditMemoDocuments = new ArrayList();
+
+      for (Iterator iter = l.iterator(); iter.hasNext();) {
+        CreditMemo cm = (CreditMemo) iter.next();
+        if (cm != null) {
+          CreditMemoDocument cmd = new CreditMemoDocument();
+          cmd.setCreditMemo(cm);
+
+          cmd.setOnbaseImageExists(onbaseService.isCMImageAvailable(cmd.getCreditMemo().getId()));
+          cmd.setCreditMemoImageViewer(fiscalAccountingService.isCreditMemoDelegate(cmd.getCreditMemo(), user));
+          creditMemoDocuments.add(cmd);
+        }
+      }
+      LOG.debug("getCreditMemoDocumentsByPOID() ended");
+      return creditMemoDocuments;
+    }
+  */  
+    /**
+     * Get all credit Memo associated with this PO ID
+     * 
+     * @param poID  ID of the PO associated with the Credit Memo 
+     * @return
+     */
+    public List getCreditMemosByPOID(Integer poID) {
+      LOG.debug("getCreditMemosByPOID() started");
+      LOG.debug("getCreditMemosByPOID() started");
+      LOG.debug("getCreditMemosByPOID() ended");
+      return this.getCreditMemosByPOID(poID, null);
+    }
+    
+    /**
+     * Get all credit Memo associated with this PO ID
+     * 
+     * @param poID  ID of the PO associated with the Credit Memo 
+     * @return
+     */
+    public List getCreditMemosByPOID(Integer poID, Integer returnListMax) {
+      LOG.debug("getCreditMemosByPOID(Integer) started");
+      LOG.debug("getCreditMemosByPOID(Integer) started");
+      List cms = new ArrayList();
+      if (returnListMax == null) {
+        cms = creditMemoDao.getCreditMemosByPOId(poID);
+      } else {
+        cms = creditMemoDao.getCreditMemosByPOId(poID,returnListMax);
+      }
+      LOG.debug("getCreditMemosByPOID(Integer) ended");
+      return cms;
+    }
+    
+    public List getAllCMsByPOIdAndStatus(Integer purchaseOrderID,Collection statusCodes) {
+      LOG.debug("getAllCMsByPOIdAndStatus() started");
+      LOG.debug("getAllCMsByPOIdAndStatus() started");
+      LOG.debug("getAllCMsByPOIdAndStatus() ended");
+      return creditMemoDao.getAllCMsByPOIdAndStatus(purchaseOrderID,statusCodes);
+    }
+
+    /**
+     * get Credit Memo Document
+     * @param id
+     * @param user
+     * @return
+     */
+   /*
+    public CreditMemoDocument getCreditMemoDocumentByID(Integer id, User user) {
+          LOG.debug("getCreditMemoDocumentsByReqID() started");
+          LOG.debug("getCreditMemoDocumentByID() started");
+          CreditMemo cm = creditMemoDao.getCreditMemoById(id);
+          
+          if(cm == null) {
+              LOG.debug("getCreditMemoDocumentByID() Unable to find CreditMemo for id = "+id);
+              LOG.debug("getCreditMemoDocumentByID() ended");
+              return null;
+          }
+          CreditMemoDocument cmd = new CreditMemoDocument();
+          cmd.setCreditMemo(cm);
+          cmd.setOnbaseImageExists(onbaseService.isCMImageAvailable(cmd
+                  .getCreditMemo().getId()));
+          
+          cmd.setCreditMemoImageViewer(fiscalAccountingService
+                  .isCreditMemoDelegate(cmd.getCreditMemo(), user));
+          
+          cmd.setWorkflowDocument(routingService.getWorkflowDocument(cm.getDocumentHeader().getId(), user));
+          LOG.debug("getCreditMemoDocumentByID() ended");
+          return cmd;
+      }
+*/
 }

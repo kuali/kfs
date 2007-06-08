@@ -87,16 +87,16 @@ public class CreditMemoAction extends AccountsPayableActionBase {
 
         KualiConfigurationService kualiConfiguration = SpringServiceLocator.getKualiConfigurationService();
 
-   
+   /*
         
-        CreditMemoService creditMemoService = SpringServiceLocator.getCreditMemoService();
-    ///    HashMap<String, String> duplicateMessages = creditMemoService.creditMemoDuplicateMessages(creditMemoDocument);
+         CreditMemoService creditMemoService = SpringServiceLocator.getCreditMemoService();
+         HashMap<String, String> duplicateMessages = creditMemoService.creditMemoDuplicateMessages(creditMemoDocument);
         
-    ///    if (!duplicateMessages.isEmpty()){
+       if (!duplicateMessages.isEmpty()){
   
             if (question == null) {
               // ask question if not already asked
-         ///     return this.performQuestionWithoutInput(mapping, form, request, response, PurapConstants.PREQDocumentsStrings.DUPLICATE_INVOICE_QUESTION, duplicateMessages.get(PurapConstants.PREQDocumentsStrings.DUPLICATE_INVOICE_QUESTION) , KFSConstants.CONFIRMATION_QUESTION, KFSConstants.ROUTE_METHOD, "");
+              return this.performQuestionWithoutInput(mapping, form, request, response, PurapConstants.PREQDocumentsStrings.DUPLICATE_INVOICE_QUESTION, duplicateMessages.get(PurapConstants.PREQDocumentsStrings.DUPLICATE_INVOICE_QUESTION) , KFSConstants.CONFIRMATION_QUESTION, KFSConstants.ROUTE_METHOD, "");
 
             } 
             
@@ -110,7 +110,7 @@ public class CreditMemoAction extends AccountsPayableActionBase {
                 //editMode.put(PurapAuthorizationConstants.CreditMemoEditMode.DISPLAY_INIT_TAB, "TRUE");
                 return mapping.findForward(KFSConstants.MAPPING_BASIC);
              }
-    ///    }
+       }
         
         // If we are here either there was no duplicate or there was a duplicate and the user hits continue, in either case we need to validate the business rules
         creditMemoDocument.getDocumentHeader().setFinancialDocumentDescription("dummy data to pass the business rule");
@@ -122,14 +122,14 @@ public class CreditMemoAction extends AccountsPayableActionBase {
             PurchaseOrderDocument purchaseOrderDocument = SpringServiceLocator.getPurchaseOrderService().getCurrentPurchaseOrder(creditMemoDocument.getPurchaseOrderIdentifier());
         //    creditMemoDocument.populateCreditMemoFromPurchaseOrder(purchaseOrderDocument);
             creditMemoDocument.setStatusCode(PurapConstants.CreditMemoStatuses.IN_PROCESS);
-            creditMemoDocument.refreshAllReferences();
+         ///   creditMemoDocument.refreshAllReferences();
 
             //editMode.put(PurapAuthorizationConstants.CreditMemoEditMode.DISPLAY_INIT_TAB, "FALSE");
             
         } else {
             creditMemoDocument.setStatusCode(PurapConstants.CreditMemoStatuses.INITIATE);
         }
-        
+      */  
         //If the list of closed/expired accounts is not empty add a warning and  add a note for the close / epired accounts which get replaced
       /*
         HashMap<String, String> expiredOrClosedAccounts = creditMemoService.ExpiredOrClosedAccountsList(creditMemoDocument);

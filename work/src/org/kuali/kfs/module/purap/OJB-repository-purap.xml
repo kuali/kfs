@@ -686,6 +686,9 @@
 		<foreignkey field-ref="vendorHeaderGeneratedIdentifier" />
 		<foreignkey field-ref="vendorDetailAssignedIdentifier" />
 	</reference-descriptor>
+	<reference-descriptor name="purchaseOrder" class-ref="org.kuali.module.purap.document.PurchaseOrderDocument" auto-retrieve="true" auto-update="none" auto-delete="none">
+		<foreignkey field-ref="purchaseOrderIdentifier" />
+	</reference-descriptor>
 	<reference-descriptor name="paymentRequest" class-ref="org.kuali.module.purap.document.PaymentRequestDocument" auto-retrieve="true" auto-update="none" auto-delete="none">
 		<foreignkey field-ref="paymentRequestIdentifier" />
 	</reference-descriptor>

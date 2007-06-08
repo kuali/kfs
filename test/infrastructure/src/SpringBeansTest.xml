@@ -8,4 +8,6 @@
 		<property name="testMode" value="true" />
 	</bean>
 	
+	<bean id="mailService" class="org.kuali.test.NonSendingMailService" parent="mailService">
+	</bean>
 </beans>

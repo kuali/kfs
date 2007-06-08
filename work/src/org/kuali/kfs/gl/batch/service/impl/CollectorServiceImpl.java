@@ -348,7 +348,14 @@ public class CollectorServiceImpl implements CollectorService {
         MailMessage message = new MailMessage();
 
         message.setFromAddress(kualiConfigurationService.getApplicationParameterValue(ParameterGroups.COLLECTOR_SECURITY_GROUP_NAME, SystemGroupParameterNames.COLLECTOR_EMAIL_FROM_PARAMETER_NAME));
-        message.setSubject(kualiConfigurationService.getApplicationParameterValue(ParameterGroups.COLLECTOR_SECURITY_GROUP_NAME, SystemGroupParameterNames.COLLECTOR_EMAIL_SUBJECT_PARAMETER_NAME));
+        
+        String subject = kualiConfigurationService.getApplicationParameterValue(ParameterGroups.COLLECTOR_SECURITY_GROUP_NAME, SystemGroupParameterNames.COLLECTOR_EMAIL_SUBJECT_PARAMETER_NAME);
+        String productionEnvironmentCode = kualiConfigurationService.getPropertyString(KFSConstants.PROD_ENVIRONMENT_CODE_KEY);
+        String environmentCode = kualiConfigurationService.getPropertyString(KFSConstants.ENVIRONMENT_KEY);
+        if (!StringUtils.equals(productionEnvironmentCode, environmentCode)) {
+            subject = environmentCode + ": " + subject;
+        }
+        message.setSubject(subject);
 
         String body = createMessageBody(errorMessages, batch);
         message.setMessage(body);

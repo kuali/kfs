@@ -437,7 +437,8 @@ public class BatchInputFileServiceImpl implements BatchInputFileService {
      */
     private final Rules loadRules(String digestorRulesFileName) {
         // locate Digester rules
-        URL rulesUrl = ClassLoader.getSystemResource(digestorRulesFileName);
+        ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
+        URL rulesUrl = classLoader.getResource(digestorRulesFileName);
         if (rulesUrl == null) {
             throw new InitException("unable to locate digester rules file " + digestorRulesFileName);
         }

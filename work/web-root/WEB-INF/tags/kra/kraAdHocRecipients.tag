@@ -105,8 +105,16 @@
                     	</td>
                     	</c:if>
                     	<td class="infoline">
-                        	<kul:htmlControlAttribute property="newAdHocRoutePerson.id" attributeEntry="${DataDictionary.AdHocRoutePerson.attributes.id}" readOnly="${displayReadOnly}" />
-                        	<kul:lookup boClassName="org.kuali.core.bo.user.UniversalUser" fieldConversions="personUserIdentifier:newAdHocRoutePerson.id" />
+	                    	<kul:user userIdFieldName="newAdHocRoutePerson.id" 
+	                    			  userId="${KualiForm.newAdHocRoutePerson.id}" 
+	                    			  universalIdFieldName=""
+	                    			  universalId=""
+	                    			  userNameFieldName="newAdHocRoutePerson.name"
+	                    			  userName="${KualiForm.newAdHocRoutePerson.name}"
+	                    			  readOnly="${displayReadOnly}" 
+	                    			  renderOtherFields="true"
+	                    			  fieldConversions="personUserIdentifier:newAdHocRoutePerson.id,personName:newAdHocRoutePerson.name" 
+	                    			  lookupParameters="newAdHocRoutePerson.id:personUserIdentifier" />
                     	</td>
                     	<td class="infoline"><div align=center>--</div></td>
                     	<td class="infoline"><div align=center>--</div></td>

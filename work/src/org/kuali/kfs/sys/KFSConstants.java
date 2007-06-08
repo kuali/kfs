@@ -956,4 +956,11 @@ public class KFSConstants extends Constants {
     // next 3 variables for the enterprise feeder batch upload
     public static final String DATA_FILE_TYPE = "DATA";
     public static final String RECON_FILE_TYPE = "RECON";
+    
+    /**
+     * The base implementation of {@link org.kuali.module.gl.util.EnterpriseFeederStatusBase} uses strings contained within ApplicationResources.properties
+     * to store the human-readable descriptions of each status object.  The fully qualified class name is appended to the end of this key to generate the 
+     * true key.  For example, gl.EnterpriseFeeder.StatusDescriptionPrefix.org.kuali.module.gl.util.FileReconBadLoadAbortedStatus
+     */
+    public static final String ENTERPRISE_FEEDER_STATUS_DESCRIPTION_PREFIX = "gl.EnterpriseFeeder.StatusDescription.";
 }

@@ -15,7 +15,7 @@
  */
 package org.kuali.module.gl.util;
 
-import org.kuali.kfs.KFSKeyConstants;
+import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.util.SpringServiceLocator;
 
 /**
@@ -33,7 +33,7 @@ public abstract class EnterpriseFeederStatusBase implements EnterpriseFeederStat
      */
     public String getStatusDescription() {
         try {
-            String description = SpringServiceLocator.getKualiConfigurationService().getPropertyString(KFSKeyConstants.ENTERPRISE_FEEDER_STATUS_DESCRIPTION_PREFIX + getClass().getName());
+            String description = SpringServiceLocator.getKualiConfigurationService().getPropertyString(KFSConstants.ENTERPRISE_FEEDER_STATUS_DESCRIPTION_PREFIX + getClass().getName());
             if (description == null) {
                 return getDefaultStatusDescription();
             }

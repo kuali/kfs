@@ -102,9 +102,10 @@ public class AwardMaintainableImpl extends KualiMaintainableImpl {
             if (awarded) {
                 GlobalVariables.getErrorMap().putError(KFSPropertyConstants.PROPOSAL_NUMBER, KFSKeyConstants.ERROR_AWARD_PROPOSAL_AWARDED, new String[] { getAward().getProposalNumber().toString() });
             }
-            if (AwardRuleUtil.isProposalInactive(getAward())) {
-                GlobalVariables.getErrorMap().putError(KFSPropertyConstants.PROPOSAL_NUMBER, KFSKeyConstants.ERROR_AWARD_PROPOSAL_INACTIVE, new String[] { getAward().getProposalNumber().toString() });
-            }
+            // SEE KULCG-315 for details on why this code is commented out.
+//            if (AwardRuleUtil.isProposalInactive(getAward())) {
+//                GlobalVariables.getErrorMap().putError(KFSPropertyConstants.PROPOSAL_NUMBER, KFSKeyConstants.ERROR_AWARD_PROPOSAL_INACTIVE, new String[] { getAward().getProposalNumber().toString() });
+//            }
             GlobalVariables.getErrorMap().removeFromErrorPath(pathToMaintainable);
 
             // copy over proposal values after refresh

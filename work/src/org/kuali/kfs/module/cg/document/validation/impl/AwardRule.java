@@ -104,9 +104,10 @@ public class AwardRule extends CGMaintenanceDocumentRuleBase {
             putFieldError(KFSPropertyConstants.PROPOSAL_NUMBER, KFSKeyConstants.ERROR_AWARD_PROPOSAL_AWARDED, newAwardCopy.getProposalNumber().toString());
             success = false;
         }
-        else if (AwardRuleUtil.isProposalInactive(newAwardCopy)) {
-            putFieldError(KFSPropertyConstants.PROPOSAL_NUMBER, KFSKeyConstants.ERROR_AWARD_PROPOSAL_INACTIVE, newAwardCopy.getProposalNumber().toString());
-        }
+        // SEE KULCG-315 for details on why this code is commented out.
+//        else if (AwardRuleUtil.isProposalInactive(newAwardCopy)) {
+//            putFieldError(KFSPropertyConstants.PROPOSAL_NUMBER, KFSKeyConstants.ERROR_AWARD_PROPOSAL_INACTIVE, newAwardCopy.getProposalNumber().toString());
+//        }
 
         return success;
     }

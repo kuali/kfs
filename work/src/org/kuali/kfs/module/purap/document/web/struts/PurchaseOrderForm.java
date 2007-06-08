@@ -161,7 +161,7 @@ public class PurchaseOrderForm extends PurchasingFormBase {
 
             ExtraButton retransmitButton = new ExtraButton();
             retransmitButton.setExtraButtonProperty("methodToCall.retransmitPo");
-            retransmitButton.setExtraButtonSource("${kr.externalizable.images.url}buttonsmall_retransmit.gif");
+            retransmitButton.setExtraButtonSource("${externalizable.images.url}buttonsmall_retransmit.gif");
             retransmitButton.setExtraButtonAltText("Retransmit");
             this.getExtraButtons().add(retransmitButton);
         }

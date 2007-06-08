@@ -141,7 +141,7 @@
                 <maintainableItems>
                     <maintainableCollection name="proposalSubcontractors" businessObjectClass="org.kuali.module.cg.bo.ProposalSubcontractor" >
                         <maintainableField name="subcontractorNumber" required="false" webUILeaveFieldFunction="onblur_subcontractorNumber" />
-                        <maintainableField name="subcontractor.subcontractorName" readOnly="false" />
+                        <maintainableField name="subcontractor.subcontractorName" readOnly="true" />
 						<maintainableField name="proposalSubcontractorDescription" />
                         <maintainableField name="proposalSubcontractorAmount">
 							<defaultValue>0.00</defaultValue>

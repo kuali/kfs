@@ -33,13 +33,13 @@ import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.workflow.service.KualiWorkflowDocument;
-import org.kuali.kfs.bo.SourceAccountingLine;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.chart.bo.ChartUser;
 import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.PurapKeyConstants;
 import org.kuali.module.purap.PurapParameterConstants;
 import org.kuali.module.purap.bo.BillingAddress;
+import org.kuali.module.purap.bo.PurApAccountingLine;
 import org.kuali.module.purap.bo.RequisitionAccount;
 import org.kuali.module.purap.bo.RequisitionItem;
 import org.kuali.module.purap.bo.RequisitionStatusHistory;
@@ -596,8 +596,10 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
         String specificTitle = SpringServiceLocator.getKualiConfigurationService().getApplicationParameterValue(PurapParameterConstants.PURAP_ADMIN_GROUP,PurapParameterConstants.PURAP_OVERRIDE_REQ_DOC_TITLE);
         if (StringUtils.equalsIgnoreCase(specificTitle,Boolean.TRUE.toString())) {
             String docId = this.getPurapDocumentIdentifier().toString();
+            String docIdStr = (docId == null ? "" : "Requisition: "+docId);
             String chartAcct = this.getFirstChartAccount();
-            title = "Requisition: "+docId+" - Account Number: "+chartAcct;
+            String chartAcctStr = (chartAcct == null ? "" : " - Account Number:  "+chartAcct);
+            title = docIdStr+chartAcctStr;
         }
         else {
             title = super.getDocumentTitle();
@@ -606,20 +608,20 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
     }
     
     /**
-     * This method gives this requisition's Chart/Account of the first accounting line it encounters
-     * in the Summary Accounts.
+     * This method gives this requisition's Chart/Account of the first accounting line from the
+     * first item.
      * 
      * @return  The first Chart and Account, or an empty string if there is none.
      */
     private String getFirstChartAccount() {
-        String chartAcct = "";
-        List<SourceAccountingLine> accountLines = this.getSourceAccountingLines();
-        if (ObjectUtils.isNotNull(accountLines)) {
-            for ( SourceAccountingLine accountLine : accountLines ) {
-                if ( ObjectUtils.isNotNull( accountLine ) ) {
-                    chartAcct = accountLine.getChartOfAccountsCode()+"-"+accountLine.getAccountNumber();
-                    break;
-                }
+        String chartAcct = null;
+        RequisitionItem item = (RequisitionItem)this.getItem(0);
+        if (ObjectUtils.isNotNull(item)) {
+            PurApAccountingLine accountLine = item.getSourceAccountingLine(0);
+            if (ObjectUtils.isNotNull(accountLine) && 
+                    ObjectUtils.isNotNull(accountLine.getChartOfAccountsCode()) && 
+                    ObjectUtils.isNotNull(accountLine.getAccountNumber())) {
+                chartAcct = accountLine.getChartOfAccountsCode()+"-"+accountLine.getAccountNumber();
             }
         }
         return chartAcct;

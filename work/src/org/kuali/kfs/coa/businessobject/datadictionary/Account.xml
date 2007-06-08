@@ -56,11 +56,11 @@
 		                <field attributeName="accountResponsibilitySectionBlank" />
 		                <field attributeName="accountResponsibilitySection" />
 		
-						<field attributeName="accountFiscalOfficerUser.personUserIdentifier" />
+						<field attributeName="accountFiscalOfficerUserPersonUserIdentifier" />
 		                <field attributeName="accountFiscalOfficerUser.personName" />
-		                <field attributeName="accountSupervisoryUser.personUserIdentifier" />
+		                <field attributeName="accountSupervisoryUserPersonUserIdentifier" />
 		                <field attributeName="accountSupervisoryUser.personName" />
-		                <field attributeName="accountManagerUser.personUserIdentifier" />
+		                <field attributeName="accountManagerUserPersonUserIdentifier" />
 		                <field attributeName="accountManagerUser.personName" />
 		                <field attributeName="continuationFinChrtOfAcctCd" />
 		                <field attributeName="continuationAccountNumber" />
@@ -892,6 +892,21 @@
                     <hidden />
                 </control>
             </attributeReference>
+            
+            <attributeReference name="accountFiscalOfficerUserPersonUserIdentifier" sourceClassName="org.kuali.core.bo.user.UniversalUser" sourceAttributeName="personUserIdentifier">
+            	<label>Account Fiscal Officer Network ID</label>
+            	<shortLabel>AcctFONetID</shortLabel>
+            	<required>false</required>
+            	<control>
+            		<hidden />
+            	</control>
+            	<summary>
+            		<![CDATA[&nbsp;]]>
+            	</summary>
+            	<description>
+            		<![CDATA[&nbsp;]]>
+            	</description>
+            </attributeReference>
 
             <attributeReference name="accountFiscalOfficerUser.personUserIdentifier" sourceClassName="org.kuali.core.bo.user.UniversalUser" sourceAttributeName="personUserIdentifier">
                 <label>Fiscal Officer UserID</label>
@@ -928,6 +943,21 @@
                     <hidden />
                 </control>
             </attributeReference>
+            
+            <attributeReference name="accountSupervisoryUserPersonUserIdentifier"  sourceClassName="org.kuali.core.bo.user.UniversalUser" sourceAttributeName="personUserIdentifier">
+            	<label>Account Supervisor Network ID</label>
+            	<shortLabel>AcctSprNetID</shortLabel>
+            	<required>false</required>
+            	<control>
+            		<hidden />
+            	</control>
+            	<summary>
+            		<![CDATA[&nbsp;]]>
+            	</summary>
+            	<description>
+            		<![CDATA[&nbsp;]]>
+            	</description>
+            </attributeReference>
 
             <attributeReference name="accountSupervisoryUser.personUserIdentifier" sourceClassName="org.kuali.core.bo.user.UniversalUser" sourceAttributeName="personUserIdentifier">
                 <label>Account Supervisor UserID</label>
@@ -963,6 +993,21 @@
                 <control>
                     <hidden />
                 </control>
+            </attributeReference>
+            
+            <attributeReference name="accountManagerUserPersonUserIdentifier" sourceClassName="org.kuali.core.bo.user.UniversalUser" sourceAttributeName="personUserIdentifier">
+            	<label>Account Manager Network ID</label>
+            	<shortLabel>AcctMgrNetID</shortLabel>
+            	<required>false</required>
+            	<control>
+            		<hidden />
+            	</control>
+            	<summary>
+            		<![CDATA[&nbsp;]]>
+            	</summary>
+            	<description>
+            		<![CDATA[&nbsp;]]>
+            	</description>
             </attributeReference>
 
             <attributeReference name="accountManagerUser.personUserIdentifier" sourceClassName="org.kuali.core.bo.user.UniversalUser" sourceAttributeName="personUserIdentifier">

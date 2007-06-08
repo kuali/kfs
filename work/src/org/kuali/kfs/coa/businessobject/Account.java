@@ -1134,6 +1134,14 @@ public class Account extends PersistableBusinessObjectBase implements AccountInt
         accountFiscalOfficerUser = SpringServiceLocator.getUniversalUserService().updateUniversalUserIfNecessary(accountFiscalOfficerSystemIdentifier, accountFiscalOfficerUser);
         return accountFiscalOfficerUser;
     }
+    
+    /**
+     * The network id of the account fiscal officer
+     * @return the network id of the account fiscal officer
+     */
+    public String getAccountFiscalOfficerUserPersonUserIdentifier() {
+        return this.getAccountFiscalOfficerUser().getPersonUserIdentifier();
+    }
 
 
     /**
@@ -1147,6 +1155,14 @@ public class Account extends PersistableBusinessObjectBase implements AccountInt
     public UniversalUser getAccountManagerUser() {
         accountManagerUser = SpringServiceLocator.getUniversalUserService().updateUniversalUserIfNecessary(accountManagerSystemIdentifier, accountManagerUser);
         return accountManagerUser;
+    }
+    
+    /**
+     * Returns the network id of the account manager user
+     * @return the network id of the account manager user
+     */
+    public String getAccountManagerUserPersonUserIdentifier() {
+        return this.getAccountManagerUser().getPersonUserIdentifier();
     }
 
     /**
@@ -1163,7 +1179,19 @@ public class Account extends PersistableBusinessObjectBase implements AccountInt
         return accountSupervisoryUser;
     }
 
-
+    /**
+     * So, if you've read the comments for getAccountFiscalOfficerUserPersonUserIdentifier
+     * and getAccountManagerUserPersonUserIdentifier, then you would suspect that this method
+     * would return the network id for the account supervisory user.  But--ha ha!  You'd be
+     * wrong.  This method has a devious and unexpected twist.
+     * 
+     * No, actually, I'm kidding.  This returns the network if the account supervisory user.
+     * @return Take a guess. Honestly.
+     */
+    public String getAccountSupervisoryUserPersonUserIdentifier() {
+        return this.getAccountSupervisoryUser().getPersonUserIdentifier();
+    }
+    
     /**
      * @param accountSupervisoryUser The accountSupervisoryUser to set.
      * @deprecated

@@ -1172,6 +1172,7 @@
 				<ref bean="glEncumbranceForwardStep" />
 				<ref bean="glBalanceForwardStep" />
 				<ref bean="glNominalActivityClosingStep" />
+				<ref bean="glOrganizationReversionEndOfYearStep" />
 			</list>
 		</property>
 	</bean>
@@ -1181,6 +1182,14 @@
 		<property name="cronExpression" value="00 00 08 ? * *" />
 	</bean>
 	
+	<bean id="glYearBeginJob" parent="unscheduledJobDescriptor">
+		<property name="steps">
+			<list>
+				<ref bean="glOrganizationReversionBeginningOfYearStep" />
+			</list>
+		</property>
+	</bean>
+
 	<bean id="glClearPendingEntriesForCancelledOrDisapprovedDocumentsStep" class="org.kuali.module.gl.batch.ClearPendingEntriesForCancelledOrDisapprovedDocumentsStep">
 		<property name="generalLedgerPendingEntryService">
 			<ref bean="generalLedgerPendingEntryService" />

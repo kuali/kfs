@@ -25,12 +25,18 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.core.web.struts.form.KualiDocumentFormBase;
 import org.kuali.kfs.KFSConstants;
+import org.kuali.kfs.bo.AccountingLine;
 import org.kuali.kfs.bo.SourceAccountingLine;
+import org.kuali.kfs.rule.event.AddAccountingLineEvent;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.kfs.web.struts.action.KualiAccountingDocumentActionBase;
 import org.kuali.kfs.web.struts.form.KualiAccountingDocumentFormBase;
+import org.kuali.kfs.web.ui.AccountingLineDecorator;
+import org.kuali.module.purap.bo.PurApAccountingLine;
 import org.kuali.module.purap.bo.PurchasingApItem;
 import org.kuali.module.purap.document.PurchasingAccountsPayableDocument;
+import org.kuali.module.purap.web.struts.form.PurchasingAccountsPayableFormBase;
+import org.kuali.module.purap.web.struts.form.PurchasingFormBase;
 
 import edu.iu.uis.eden.exception.WorkflowException;
 
@@ -71,4 +77,80 @@ public class PurchasingAccountsPayableActionBase extends KualiAccountingDocument
         document.setSummaryAccounts(summaryAccountingLines);
     }
 
+    /**
+     * @see org.kuali.kfs.web.struts.action.KualiAccountingDocumentActionBase#deleteSourceLine(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     */
+    @Override
+    public ActionForward deleteSourceLine(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        PurchasingFormBase purchasingForm = (PurchasingFormBase) form;
+
+        int deleteIndex = getLineToDelete(request);
+        purchasingForm.getAccountDistributionsourceAccountingLines().remove(deleteIndex);
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
+    }
+    
+    /**
+     * @see org.kuali.kfs.web.struts.action.KualiAccountingDocumentActionBase#insertSourceLine(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     */
+    @Override
+    public ActionForward insertSourceLine(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        //It would be preferable to find a way to genericize the KualiAccountingDocument methods but this will work for now        
+        PurchasingAccountsPayableFormBase purapForm = (PurchasingAccountsPayableFormBase) form;
+        
+        //index of item selected
+        int itemIndex = getSelectedLine(request);
+        PurchasingApItem item = null;
+       
+        /* if custom processing of an accounting line is not done
+         * then insert a line generically.
+         */
+        if( processCustomInsertAccountingLine(purapForm, request) == false ){
+        
+            item = (PurchasingApItem)((PurchasingAccountsPayableDocument) purapForm.getDocument()).getItem((itemIndex));
+            PurApAccountingLine line = item.getNewSourceLine();
+            
+            boolean rulePassed = SpringServiceLocator.getKualiRuleService().applyRules(new AddAccountingLineEvent(KFSConstants.NEW_TARGET_ACCT_LINES_PROPERTY_NAME + "[" + Integer.toString(itemIndex) + "]", purapForm.getDocument(), (AccountingLine) line));
+    
+            if (rulePassed) {
+                // add accountingLine
+                SpringServiceLocator.getPersistenceService().retrieveNonKeyFields(line);
+                insertAccountingLine(purapForm, item, line);
+    
+                //clear the temp account
+                item.resetAccount();
+            }            
+        }
+
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
+    }
+    
+    protected void insertAccountingLine(PurchasingAccountsPayableFormBase financialDocumentForm,PurchasingApItem item, PurApAccountingLine line) {
+        //this decorator stuff should be moved out in parent class so we don't need to copy it here
+        // create and init a decorator
+        AccountingLineDecorator decorator = new AccountingLineDecorator();
+        decorator.setRevertible(false);
+
+        // add it to the item
+        item.getSourceAccountingLines().add(line);
+
+        // add it to the baseline, to prevent generation of spurious update events
+        financialDocumentForm.getBaselineSourceAccountingLines().add(line);
+
+        // add the decorator
+        financialDocumentForm.getSourceLineDecorators().add(decorator);
+        
+    }
+
+    /**
+     * This method allows the custom processing of an accounting line during a call
+     * to insert source line.  If a custom method for inserting an accounting line was
+     * performed, then a value of true must be returned.
+     * 
+     * @param purapForm
+     * @param request
+     * @return
+     */
+    public boolean processCustomInsertAccountingLine(PurchasingAccountsPayableFormBase purapForm, HttpServletRequest request){
+        return false;
+    }
 }

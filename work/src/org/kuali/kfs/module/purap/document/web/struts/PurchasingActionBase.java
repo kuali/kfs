@@ -45,6 +45,7 @@ import org.kuali.module.purap.bo.PurchasingApItem;
 import org.kuali.module.purap.document.PurchasingAccountsPayableDocument;
 import org.kuali.module.purap.document.PurchasingDocument;
 import org.kuali.module.purap.rule.event.AddPurchasingAccountsPayableItemEvent;
+import org.kuali.module.purap.web.struts.form.PurchasingAccountsPayableFormBase;
 import org.kuali.module.purap.web.struts.form.PurchasingFormBase;
 import org.kuali.module.vendor.VendorConstants;
 import org.kuali.module.vendor.bo.VendorAddress;
@@ -205,76 +206,6 @@ public class PurchasingActionBase extends PurchasingAccountsPayableActionBase {
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
-    
-    
-    protected void insertAccountingLine(KualiAccountingDocumentFormBase financialDocumentForm,PurchasingApItem item, PurApAccountingLine line) {
-        //this decorator stuff should be moved out in parent class so we don't need to copy it here
-        // create and init a decorator
-        AccountingLineDecorator decorator = new AccountingLineDecorator();
-        decorator.setRevertible(false);
-
-        // add it to the item
-        item.getSourceAccountingLines().add(line);
-
-        // add it to the baseline, to prevent generation of spurious update events
-        financialDocumentForm.getBaselineSourceAccountingLines().add(line);
-
-        // add the decorator
-        financialDocumentForm.getSourceLineDecorators().add(decorator);
-        
-    }
-
-    /**
-     * @see org.kuali.kfs.web.struts.action.KualiAccountingDocumentActionBase#deleteSourceLine(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
-     */
-    @Override
-    public ActionForward deleteSourceLine(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        PurchasingFormBase purchasingForm = (PurchasingFormBase) form;
-
-        int deleteIndex = getLineToDelete(request);
-        purchasingForm.getAccountDistributionsourceAccountingLines().remove(deleteIndex);
-        return mapping.findForward(KFSConstants.MAPPING_BASIC);
-    }
-    
-    /**
-     * @see org.kuali.kfs.web.struts.action.KualiAccountingDocumentActionBase#insertSourceLine(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
-     */
-    @Override
-    public ActionForward insertSourceLine(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        //It would be preferable to find a way to genericize the KualiAccountingDocument methods but this will work for now
-        PurchasingFormBase purchasingForm = (PurchasingFormBase) form;
-
-        //index of item selected
-        int itemIndex = getSelectedLine(request);
-        PurchasingApItem item = null;
-       
-        if (itemIndex == -2) {
-            PurApAccountingLine line = purchasingForm.getAccountDistributionnewSourceLine();
-            purchasingForm.addAccountDistributionsourceAccountingLine(line);
-        } else {
-            if(itemIndex!=-1) {
-                item = (PurchasingApItem)((PurchasingAccountsPayableDocument) purchasingForm.getDocument()).getItem((itemIndex));
-            } else {
-                item = purchasingForm.getNewPurchasingItemLine();
-            }
-            
-            PurApAccountingLine line = item.getNewSourceLine();
-            
-            boolean rulePassed = SpringServiceLocator.getKualiRuleService().applyRules(new AddAccountingLineEvent(KFSConstants.NEW_TARGET_ACCT_LINES_PROPERTY_NAME + "[" + Integer.toString(itemIndex) + "]", purchasingForm.getDocument(), (AccountingLine) line));
-    
-            if (rulePassed) {
-                // add accountingLine
-                SpringServiceLocator.getPersistenceService().retrieveNonKeyFields(line);
-                insertAccountingLine(purchasingForm, item, line);
-    
-                //clear the temp account
-                item.resetAccount();
-            }
-        }
-        
-        return mapping.findForward(KFSConstants.MAPPING_BASIC);
-    }
-
     public ActionForward setupAccountDistribution(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         PurchasingFormBase purchasingForm = (PurchasingFormBase) form;
 
@@ -332,5 +263,27 @@ public class PurchasingActionBase extends PurchasingAccountsPayableActionBase {
         
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
-           
+ 
+    /**
+     * 
+     * @see org.kuali.module.purap.web.struts.action.PurchasingAccountsPayableActionBase#processCustomInsertAccountingLine(org.kuali.module.purap.web.struts.form.PurchasingAccountsPayableFormBase)
+     */
+    @Override
+    public boolean processCustomInsertAccountingLine(PurchasingAccountsPayableFormBase purapForm, HttpServletRequest request){
+      
+        boolean success = false;
+        PurchasingFormBase purchasingForm = (PurchasingFormBase) purapForm;
+        
+        //index of item selected
+        int itemIndex = getSelectedLine(request);
+        PurchasingApItem item = null;
+        
+        if( itemIndex == -2 ) {
+            PurApAccountingLine line = purchasingForm.getAccountDistributionnewSourceLine();
+            purchasingForm.addAccountDistributionsourceAccountingLine(line);
+            success = true;
+        }
+
+        return success;
+    }
 }

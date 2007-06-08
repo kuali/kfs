@@ -88,6 +88,9 @@
 		<property name="subObjectCodeDao">
 			<ref bean="subObjectCodeDao" />
 		</property>
+		<property name="universityDateService">
+			<ref bean="universityDateService" />
+		</property>
 	</bean>
 
 	<bean id="objectCodeService" class="org.kuali.module.chart.service.impl.ObjectCodeServiceImpl">

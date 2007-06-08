@@ -18,6 +18,7 @@ package org.kuali.module.chart.service.impl;
 import org.kuali.module.chart.bo.SubObjCd;
 import org.kuali.module.chart.dao.SubObjectCodeDao;
 import org.kuali.module.chart.service.SubObjectCodeService;
+import org.kuali.module.financial.service.UniversityDateService;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -27,6 +28,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class SubObjectCodeServiceImpl implements SubObjectCodeService {
     private SubObjectCodeDao subObjectCodeDao;
+    private UniversityDateService universityDateService;
 
     /**
      * @see org.kuali.module.chart.service.SubObjectCodeService#getByPrimaryId(java.lang.Integer, java.lang.String,
@@ -37,16 +39,17 @@ public class SubObjectCodeServiceImpl implements SubObjectCodeService {
     }
 
     /**
-     * @return Returns the SubObjectCodeDao
+     * @see org.kuali.module.chart.service.SubObjectCodeService#getByPrimaryIdForCurrentYear(java.lang.String, java.lang.String, java.lang.String, java.lang.String)
      */
-    public SubObjectCodeDao getSubObjectCodeDao() {
-        return subObjectCodeDao;
+    public SubObjCd getByPrimaryIdForCurrentYear(String chartOfAccountsCode, String accountNumber, String financialObjectCode, String financialSubObjectCode) {
+        return this.getByPrimaryId(universityDateService.getCurrentFiscalYear(), chartOfAccountsCode, accountNumber, financialObjectCode, financialSubObjectCode);
     }
 
-    /**
-     * @param subObjectCodeDao The SubObjectCode object to set
-     */
     public void setSubObjectCodeDao(SubObjectCodeDao subObjectCodeDao) {
         this.subObjectCodeDao = subObjectCodeDao;
+    }
+
+    public void setUniversityDateService(UniversityDateService universityDateService) {
+        this.universityDateService = universityDateService;
     }
 }

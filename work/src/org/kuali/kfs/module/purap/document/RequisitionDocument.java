@@ -273,14 +273,6 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
             if (SpringServiceLocator.getRequisitionService().isAutomaticPurchaseOrderAllowed(this)) {
                 newRequisitionStatus = PurapConstants.RequisitionStatuses.CLOSED;
                 PurchaseOrderDocument poDocument = SpringServiceLocator.getPurchaseOrderService().createAutomaticPurchaseOrderDocument(this);
-                try {
-                    GlobalVariables.clear();
-                    poDocument = (PurchaseOrderDocument)SpringServiceLocator.getDocumentService().routeDocument(poDocument, null, null);
-                }
-                catch (WorkflowException e) {
-                    LOG.error("Error routing PO document: " + e.getMessage());
-                    throw new RuntimeException("Error routing PO document: " + e.getMessage());
-                }
             }
             SpringServiceLocator.getPurapService().updateStatusAndStatusHistory(this, newRequisitionStatus);
             SpringServiceLocator.getRequisitionService().save(this);

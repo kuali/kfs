@@ -154,12 +154,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
         reqDocument.setContractManagerCode(PurapConstants.APO_CONTRACT_MANAGER);
 
         // create PO and populate with default data
-        PurchaseOrderDocument poDocument = createPurchaseOrderDocument(reqDocument);
-        poDocument.setPurchaseOrderAutomaticIndicator(Boolean.TRUE);
-
-        if (!RequisitionSources.B2B.equals(poDocument.getRequisitionSourceCode())) {
-            poDocument.setPurchaseOrderVendorChoiceCode(VendorChoice.SMALL_ORDER);
-        }
+        PurchaseOrderDocument poDocument = createPurchaseOrderDocument(reqDocument, true);
 
         return poDocument;
     }
@@ -170,7 +165,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
      * @param reqDocument - RequisitionDocument that the PO is being created from
      * @return PurchaseOrderDocument
      */
-    public PurchaseOrderDocument createPurchaseOrderDocument(RequisitionDocument reqDocument) {
+    public PurchaseOrderDocument createPurchaseOrderDocument(RequisitionDocument reqDocument, boolean isAPO) {
         // update REQ data
         purapService.updateStatusAndStatusHistory(reqDocument, RequisitionStatuses.CLOSED);
 
@@ -207,10 +202,15 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 
             purapService.addBelowLineItems(poDocument);
 
-            documentService.updateDocument(poDocument);
-            documentService.prepareWorkflowDocument(poDocument);
-            workflowDocumentService.save(poDocument.getDocumentHeader().getWorkflowDocument(), "", null);
-
+            if (isAPO) {
+                poDocument.setDefaultValuesForAPO();
+                documentService.routeDocument(poDocument, null, null);
+            }
+            else {
+                documentService.updateDocument(poDocument);
+                documentService.prepareWorkflowDocument(poDocument);
+                workflowDocumentService.save(poDocument.getDocumentHeader().getWorkflowDocument(), "", null);
+            }
         }
         catch (WorkflowException e) {
             LOG.error("Error creating PO document: " + e.getMessage());

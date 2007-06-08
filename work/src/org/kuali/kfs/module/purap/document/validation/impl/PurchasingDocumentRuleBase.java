@@ -151,17 +151,18 @@ public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumen
      */
     private boolean validateUniqueAccountingString(PurchasingApItem item, String identifierString) {
         boolean valid = true;
-        Set<String> accountingStringSet = new HashSet();
-        List<PurApAccountingLine> accountingLines = item.getSourceAccountingLines();
-        for (PurApAccountingLine accountingLine : accountingLines) {
-            if (accountingStringSet.contains(accountingLine.toString())) {
-                valid = false;
-                GlobalVariables.getErrorMap().putError("newPurchasingItemLine", PurapKeyConstants.ERROR_ITEM_ACCOUNTING_NOT_UNIQUE, identifierString);
-            }
-            else {
-                accountingStringSet.add(accountingLine.toString());
-            }
-        }
+//FIXME
+//        Set<String> accountingStringSet = new HashSet();
+//        List<PurApAccountingLine> accountingLines = item.getSourceAccountingLines();
+//        for (PurApAccountingLine accountingLine : accountingLines) {
+//            if (accountingStringSet.contains(accountingLine.toString())) {
+//                valid = false;
+//                GlobalVariables.getErrorMap().putError("newPurchasingItemLine", PurapKeyConstants.ERROR_ITEM_ACCOUNTING_NOT_UNIQUE, identifierString);
+//            }
+//            else {
+//                accountingStringSet.add(accountingLine.toString());
+//            }
+//        }
         return valid;
     }
 

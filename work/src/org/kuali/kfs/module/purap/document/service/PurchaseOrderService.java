@@ -32,7 +32,7 @@ public interface PurchaseOrderService {
     public void save(PurchaseOrderDocument purchaseOrderDocument);
     
     public PurchaseOrderDocument createAutomaticPurchaseOrderDocument(RequisitionDocument reqDocument);
-    public PurchaseOrderDocument createPurchaseOrderDocument(RequisitionDocument reqDocument);   
+    public PurchaseOrderDocument createPurchaseOrderDocument(RequisitionDocument reqDocument, boolean isAPO);   
     public PurchaseOrderPostProcessorService convertDocTypeToService(String documentTypeId);  
     
     public boolean updateFlagsAndRoute(KualiDocumentFormBase kualiDocumentFormBase, String docType, String annotation, List adhocRoutingRecipients);

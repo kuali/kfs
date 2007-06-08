@@ -30,6 +30,7 @@ import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.util.TypedArrayList;
 import org.kuali.kfs.KFSPropertyConstants;
+import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.PurapConstants.RequisitionSources;
@@ -120,6 +121,14 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase implements Cop
     @Override
     public boolean isBoNotesSupport() {
         return true;
+    }
+
+    
+    
+    @Override
+    public List<GeneralLedgerPendingEntry> getPendingLedgerEntriesForSufficientFundsChecking() {
+        // FIXME
+        return new ArrayList();
     }
 
     public void setDefaultValuesForAPO() {

@@ -1178,8 +1178,15 @@ public class CorrectionAction extends KualiDocumentActionBase implements KualiTa
 
         CorrectionForm correctionForm = (CorrectionForm) form;
         CorrectionDocument document = correctionForm.getCorrectionDocument();
-
+        
+        correctionForm.getDisplayEntries().clear();
+        correctionForm.getDisplayEntries().addAll(correctionForm.getAllEntries());
+        
         correctionForm.setShowOutputFlag(false);
+        
+        int maxRowsPerPage = CorrectionDocumentUtils.getRecordsPerPage();
+        correctionForm.getOriginEntrySearchResultTableMetadata().jumpToFirstPage(correctionForm.getDisplayEntries().size(), maxRowsPerPage);
+
         
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
@@ -1453,7 +1460,7 @@ public class CorrectionAction extends KualiDocumentActionBase implements KualiTa
      * @param doc
      * @return if valid, return true, false if not
      */
-    private boolean validChangeGroups(CorrectionForm form) {
+    protected boolean validChangeGroups(CorrectionForm form) {
         LOG.debug("validChangeGroups() started");
 
         CorrectionDocument doc = form.getCorrectionDocument();

@@ -4,7 +4,7 @@
 
 <c:if test="${empty laborOriginEntries}">
     No Origin Entries found.
-</c:if>setid
+</c:if>
 <c:if test="${!empty laborOriginEntries}">
     <kul:tableRenderPagingBanner pageNumber="${KualiForm.originEntrySearchResultTableMetadata.viewedPageNumber}"
             totalPages="${KualiForm.originEntrySearchResultTableMetadata.totalNumberOfPages}"

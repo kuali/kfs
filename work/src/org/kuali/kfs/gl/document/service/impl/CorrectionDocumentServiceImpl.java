@@ -971,7 +971,7 @@ public class CorrectionDocumentServiceImpl implements CorrectionDocumentService 
                 cachedColumns.add(columnToAdd);
 
                 columnToAdd = new Column();
-                columnToAdd.setColumnTitle("runIdentifier");
+                columnToAdd.setColumnTitle("Run Id");
                 columnToAdd.setValueComparator(StringValueComparator.getInstance());
                 columnToAdd.setPropertyName(KFSPropertyConstants.RUN_IDENTIFIER);
                 cachedColumns.add(columnToAdd);

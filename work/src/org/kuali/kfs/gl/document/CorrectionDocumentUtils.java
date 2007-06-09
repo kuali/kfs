@@ -29,7 +29,8 @@ import org.kuali.module.gl.bo.CorrectionCriteria;
 import org.kuali.module.gl.bo.OriginEntry;
 import org.kuali.module.gl.document.CorrectionDocument;
 import org.kuali.module.gl.web.optionfinder.OriginEntryFieldFinder;
-import org.kuali.module.gl.web.struts.form.CorrectionForm;
+import org.kuali.module.labor.bo.LaborOriginEntry;
+import org.kuali.module.labor.web.optionfinder.LaborOriginEntryFieldFinder;
 import org.kuali.rice.KNSServiceLocator;
 
 public class CorrectionDocumentUtils {
@@ -191,6 +192,44 @@ public class CorrectionDocumentUtils {
     }
     
     /**
+     * Returns whether an origin entry matches the passed in criteria.  If both the criteria and actual value are both String types and are empty, null, or whitespace only,
+     * then they will match.
+     * 
+     * @param cc
+     * @param oe
+     * @return
+     */
+    public static boolean laborEntryMatchesCriteria(CorrectionCriteria cc, OriginEntry oe) {
+        LaborOriginEntryFieldFinder loeff = new LaborOriginEntryFieldFinder();
+        LaborOriginEntry loe = (LaborOriginEntry) oe;
+        Object fieldActualValue = loe.getFieldValue(cc.getCorrectionFieldName());
+        String fieldTestValue = StringUtils.isBlank(cc.getCorrectionFieldValue()) ? "" : cc.getCorrectionFieldValue();
+        String fieldType = loeff.getFieldType(cc.getCorrectionFieldName());
+        String fieldActualValueString = convertToString(fieldActualValue, fieldType);
+
+        if ("String".equals(fieldType) && StringUtils.isBlank(fieldActualValueString)) {
+            fieldActualValueString = "";
+        }
+        
+        if ("eq".equals(cc.getCorrectionOperatorCode())) {
+            return fieldActualValueString.equals(fieldTestValue);
+        }
+        else if ("ne".equals(cc.getCorrectionOperatorCode())) {
+            return (!fieldActualValueString.equals(fieldTestValue));
+        }
+        else if ("sw".equals(cc.getCorrectionOperatorCode())) {
+            return fieldActualValueString.startsWith(fieldTestValue);
+        }
+        else if ("ew".equals(cc.getCorrectionOperatorCode())) {
+            return fieldActualValueString.endsWith(fieldTestValue);
+        }
+        else if ("ct".equals(cc.getCorrectionOperatorCode())) {
+            return (fieldActualValueString.indexOf(fieldTestValue) > -1);
+        }
+        throw new IllegalArgumentException("Unknown operator: " + cc.getCorrectionOperatorCode());
+    }
+    
+    /**
      * Converts the value into a string, with the appropriate formatting
      * 
      * @param fieldActualValue
@@ -266,6 +305,32 @@ public class CorrectionDocumentUtils {
             int matches = 0;
             for (CorrectionCriteria cc : ccg.getCorrectionCriteria()) {
                 if (CorrectionDocumentUtils.entryMatchesCriteria(cc, entry)) {
+                    matches++;
+                }
+            }
+
+            // If they all match, change it
+            if (matches == ccg.getCorrectionCriteria().size()) {
+                anyGroupMatch = true;
+                break;
+            }
+        }
+        return anyGroupMatch;
+    }
+    
+    /**
+     * Returns whether the entry matches any of the criteria groups
+     * 
+     * @param entry
+     * @param groups
+     * @return
+     */
+    public static boolean doesLaborEntryMatchAnyCriteriaGroups(OriginEntry entry, Collection<CorrectionChangeGroup> groups) {
+        boolean anyGroupMatch = false;
+        for (CorrectionChangeGroup ccg : groups) {
+            int matches = 0;
+            for (CorrectionCriteria cc : ccg.getCorrectionCriteria()) {
+                if (CorrectionDocumentUtils.laborEntryMatchesCriteria(cc, entry)) {
                     matches++;
                 }
             }

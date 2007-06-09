@@ -25,6 +25,7 @@ import org.kuali.core.bo.DocumentType;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.KFSKeyConstants;
+import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
 import org.kuali.kfs.bo.OriginationCode;
 import org.kuali.module.chart.bo.AccountingPeriod;
@@ -965,6 +966,102 @@ public class LaborOriginEntry extends OriginEntry implements LaborTransaction {
     
        
         
+    }
+    
+    public Object getFieldValue(String fieldName) {
+        if ( "universityFiscalYear".equals(fieldName) ) {
+            return getUniversityFiscalYear();
+        } else if ( "chartOfAccountsCode".equals(fieldName) ) {
+            return getChartOfAccountsCode();
+        } else if ( "accountNumber".equals(fieldName) ) {
+            return getAccountNumber();
+        } else if ( "subAccountNumber".equals(fieldName) ) {
+            return getSubAccountNumber();
+        } else if ( "financialObjectCode".equals(fieldName) ) {
+            return getFinancialObjectCode();
+        } else if ( "financialSubObjectCode".equals(fieldName) ) {
+            return getFinancialSubObjectCode();
+        } else if ( "financialBalanceTypeCode".equals(fieldName) ) {
+            return getFinancialBalanceTypeCode();
+        } else if ( "financialObjectTypeCode".equals(fieldName) ) {
+            return getFinancialObjectTypeCode();
+        } else if ( "universityFiscalPeriodCode".equals(fieldName) ) {
+            return getUniversityFiscalPeriodCode();
+        } else if ( "financialDocumentTypeCode".equals(fieldName) ) {
+            return getFinancialDocumentTypeCode();
+        } else if ( "financialSystemOriginationCode".equals(fieldName) ) {
+            return getFinancialSystemOriginationCode();
+        } else if ( KFSPropertyConstants.DOCUMENT_NUMBER.equals(fieldName) ) {
+            return getDocumentNumber();
+        } else if ( "transactionLedgerEntrySequenceNumber".equals(fieldName) ) {
+            return getTransactionLedgerEntrySequenceNumber();
+        } else if ( "positionNumber".equals(fieldName) ) {
+            return getPositionNumber();
+        } else if ( "transactionLedgerEntryDescription".equals(fieldName) ) {
+            return getTransactionLedgerEntryDescription();
+        } else if ( "transactionLedgerEntryAmount".equals(fieldName) ) {
+            return getTransactionLedgerEntryAmount();
+        } else if ( "transactionDebitCreditCode".equals(fieldName) ) {
+            return getTransactionDebitCreditCode();
+        } else if ( "transactionDate".equals(fieldName) ) {
+            return getTransactionDate();
+        } else if ( "organizationDocumentNumber".equals(fieldName) ) {
+            return getOrganizationDocumentNumber();
+        } else if ( "projectCode".equals(fieldName) ) {
+            return getProjectCode();
+        } else if ( "organizationReferenceId".equals(fieldName) ) {
+            return getOrganizationReferenceId();
+        } else if ( "referenceFinancialDocumentTypeCode".equals(fieldName) ) {
+            return getReferenceFinancialDocumentTypeCode();
+        } else if ( "referenceFinancialSystemOriginationCode".equals(fieldName) ) {
+            return getReferenceFinancialSystemOriginationCode();
+        } else if ( "referenceFinancialDocumentNumber".equals(fieldName) ) {
+            return getReferenceFinancialDocumentNumber();
+        } else if ( "financialDocumentReversalDate".equals(fieldName) ) {
+            return getFinancialDocumentReversalDate();
+        } else if ( "transactionEncumbranceUpdateCode".equals(fieldName) ) {
+            return getTransactionEncumbranceUpdateCode();   
+        } else if ( "transactionPostingDate".equals(fieldName) ) {
+            return getTransactionPostingDate();   
+        } else if ( "payPeriodEndDate".equals(fieldName) ) {
+            return getPayPeriodEndDate();   
+        } else if ( "transactionTotalHours".equals(fieldName) ) {
+            return getTransactionTotalHours();   
+        } else if ( "payrollEndDateFiscalYear".equals(fieldName) ) {
+            return getPayrollEndDateFiscalYear();   
+        } else if ( "payrollEndDateFiscalPeriodCode".equals(fieldName) ) {
+            return getPayrollEndDateFiscalPeriodCode();   
+        } else if ( "emplid".equals(fieldName) ) {
+            return getEmplid();   
+        } else if ( "employeeRecord".equals(fieldName) ) {
+            return getEmployeeRecord();   
+        } else if ( "earnCode".equals(fieldName) ) {
+            return getEarnCode();   
+        } else if ( "payGroup".equals(fieldName) ) {
+            return getPayGroup();
+        } else if ( "salaryAdministrationPlan".equals(fieldName) ) {
+            return getSalaryAdministrationPlan();   
+        } else if ( "grade".equals(fieldName) ) {
+            return getGrade();   
+        } else if ( "runIdentifier".equals(fieldName) ) {
+            return getRunIdentifier();   
+        } else if ( "laborLedgerOriginalChartOfAccountsCode".equals(fieldName) ) {
+            return getLaborLedgerOriginalChartOfAccountsCode();   
+        } else if ( "laborLedgerOriginalAccountNumber".equals(fieldName) ) {
+            return getLaborLedgerOriginalAccountNumber();   
+        } else if ( "laborLedgerOriginalSubAccountNumber".equals(fieldName) ) {
+            return getLaborLedgerOriginalSubAccountNumber();   
+        } else if ( "laborLedgerOriginalFinancialObjectCode".equals(fieldName) ) {
+            return getLaborLedgerOriginalFinancialObjectCode();   
+        } else if ( "laborLedgerOriginalFinancialSubObjectCode".equals(fieldName) ) {
+            return getLaborLedgerOriginalFinancialObjectCode();  
+        } else if ( "hrmsCompany".equals(fieldName) ) {
+            return getHrmsCompany();  
+        } else if ( "setid".equals(fieldName) ) {
+            return getSetid();  
+        } else {
+            throw new IllegalArgumentException("Invalid Field Name " + fieldName);
+}
     }
     
     

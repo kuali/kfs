@@ -606,7 +606,9 @@ public class BudgetForm extends ResearchDocumentFormBase {
         if (this.getBudgetDocument().getBudget().isProjectDirectorToBeNamedIndicator()) {
             return new KeyLabelPair("DataDictionary.Budget.attributes.budgetProjectDirectorUniversalIdentifier", TO_BE_NAMED_LABEL);
         }
-        else if (this.getBudgetDocument().getBudget().getProjectDirector() != null && this.getBudgetDocument().getBudget().getProjectDirector().getUniversalUser() != null) {
+        else if (  this.getBudgetDocument().getBudget().getProjectDirector() != null 
+        		&& this.getBudgetDocument().getBudget().getProjectDirector().getUniversalUser() != null 
+        		&& this.getBudgetDocument().getBudget().getProjectDirector().getUniversalUser().getPersonUniversalIdentifier() != null ) {
             return new KeyLabelPair("DataDictionary.Budget.attributes.budgetProjectDirectorUniversalIdentifier", this.getBudgetDocument().getBudget().getProjectDirector().getUniversalUser().getPersonName());
         }
         return null;

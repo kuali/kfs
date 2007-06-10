@@ -8,6 +8,10 @@
 		<property name="testMode" value="true" />
 	</bean>
 	
-	<bean id="mailService" class="org.kuali.test.NonSendingMailService" parent="mailService">
+	<bean id="mailService" class="org.kuali.test.NonSendingMailService">
+		<property name="mailSender">
+			<ref bean="mailSender" />
+		</property>
+		<property name="batchMailingList" value="${mailing.list.batch}" />
 	</bean>
 </beans>

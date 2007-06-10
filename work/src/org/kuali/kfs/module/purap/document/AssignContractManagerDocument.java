@@ -109,7 +109,8 @@ public class AssignContractManagerDocument extends TransactionalDocumentBase {
                         req.setContractManagerCode(detail.getContractManagerCode());
                         SpringServiceLocator.getPurapService().updateStatusAndStatusHistory(req, PurapConstants.RequisitionStatuses.CLOSED);
                         SpringServiceLocator.getRequisitionService().save(req);
-                        PurchaseOrderDocument poDocument = SpringServiceLocator.getPurchaseOrderService().createPurchaseOrderDocument(req);
+                        // TODO abyrne aded false param to this method call cause the code was not compiling
+                        PurchaseOrderDocument poDocument = SpringServiceLocator.getPurchaseOrderService().createPurchaseOrderDocument(req, false);
 
                     }
                     else {

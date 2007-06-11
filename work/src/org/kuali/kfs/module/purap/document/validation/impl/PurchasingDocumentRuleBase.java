@@ -55,7 +55,6 @@ public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumen
     @Override
     public boolean processValidation(PurchasingAccountsPayableDocument purapDocument) {
         boolean valid = super.processValidation(purapDocument);
-        valid &= processItemValidation((PurchasingDocument) purapDocument);
         valid &= processPaymentInfoValidation((PurchasingDocument) purapDocument);
         valid &= processDeliveryValidation((PurchasingDocument) purapDocument);
         return valid;
@@ -67,9 +66,10 @@ public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumen
      * @param purDocument
      * @return
      */
-    public boolean processItemValidation(PurchasingDocument purDocument) {
-        boolean valid = true;
-        List<PurchasingApItem> itemList = purDocument.getItems();
+    @Override
+    public boolean processItemValidation(PurchasingAccountsPayableDocument purapDocument) {
+        boolean valid = super.processItemValidation(purapDocument);
+        List<PurchasingApItem> itemList = purapDocument.getItems();
         for (PurchasingApItem item : itemList) {
             SpringServiceLocator.getDictionaryValidationService().validateBusinessObject(item);
             String identifierString = (item.getItemType().isItemTypeAboveTheLineIndicator() ?  "Item " + item.getItemLineNumber().toString() : item.getItemType().getItemTypeDescription());
@@ -81,8 +81,8 @@ public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumen
                 valid &= validateItemQuantity(item, identifierString);
             }
         }
-        valid &= validateTotalCost(purDocument);
-        valid &= validateContainsAtLeastOneItem(purDocument);
+        valid &= validateTotalCost((PurchasingDocument)purapDocument);
+        valid &= validateContainsAtLeastOneItem((PurchasingDocument)purapDocument);
         return valid;
     }
 

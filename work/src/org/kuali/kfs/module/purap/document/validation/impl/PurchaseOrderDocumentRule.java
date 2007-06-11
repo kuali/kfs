@@ -69,18 +69,18 @@ public class PurchaseOrderDocumentRule extends PurchasingDocumentRuleBase {
      * @see org.kuali.module.purap.rules.PurchasingDocumentRuleBase#processItemValidation(org.kuali.module.purap.document.PurchasingDocument)
      */
     @Override
-    public boolean processItemValidation(PurchasingDocument purDocument) {
-        boolean valid = super.processItemValidation(purDocument);
-        for (PurchasingApItem item : purDocument.getItems()) {
+    public boolean processItemValidation(PurchasingAccountsPayableDocument purapDocument) {
+        boolean valid = super.processItemValidation(purapDocument);
+        for (PurchasingApItem item : purapDocument.getItems()) {
             String identifierString = (item.getItemType().isItemTypeAboveTheLineIndicator() ? "Item " + item.getItemLineNumber().toString() : item.getItemType().getItemTypeDescription());
             valid &= validateEmptyItemWithAccounts((PurchaseOrderItem) item, identifierString);
             valid &= validateItemWithoutAccounts((PurchaseOrderItem) item, identifierString);
             valid &= validateItemUnitOfMeasure((PurchaseOrderItem) item, identifierString);
-            if (purDocument.getDocumentHeader().getWorkflowDocument() != null && purDocument.getDocumentHeader().getWorkflowDocument().getDocumentType().equals(PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_AMENDMENT_DOCUMENT)) {
+            if (purapDocument.getDocumentHeader().getWorkflowDocument() != null && purapDocument.getDocumentHeader().getWorkflowDocument().getDocumentType().equals(PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_AMENDMENT_DOCUMENT)) {
                 valid &= validateItemForAmendment((PurchaseOrderItem) item, identifierString);
             }
         }
-        valid &= validateTradeInAndDiscountCoexistence(purDocument);
+        valid &= validateTradeInAndDiscountCoexistence((PurchasingDocument)purapDocument);
         return valid;
     }
 

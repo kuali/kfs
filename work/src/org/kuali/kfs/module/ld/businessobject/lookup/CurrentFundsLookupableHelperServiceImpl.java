@@ -15,6 +15,7 @@
  */
 package org.kuali.module.labor.web.lookupable;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
@@ -51,6 +52,7 @@ public class CurrentFundsLookupableHelperServiceImpl extends AbstractLookupableH
     public List getSearchResults(Map fieldValues) {
 
         boolean unbounded = false;
+        Long actualCountIfTruncated = new Long(0);
 
         setBackLocation((String) fieldValues.get(KFSConstants.BACK_LOCATION));
         setDocFormKey((String) fieldValues.get(KFSConstants.DOC_FORM_KEY));
@@ -61,6 +63,9 @@ public class CurrentFundsLookupableHelperServiceImpl extends AbstractLookupableH
             if (StringUtils.indexOfAny(fieldValues.get(KFSPropertyConstants.FINANCIAL_OBJECT_CODE).toString(), LaborConstants.BalanceInquiries.VALID_LABOR_OBJECT_CODES) != 0)
             GlobalVariables.getErrorMap().putError(LaborConstants.BalanceInquiries.ERROR_INVALID_LABOR_OBJECT_CODE, 
                     LaborConstants.BalanceInquiries.ERROR_INVALID_LABOR_OBJECT_CODE, "2");
+            List searchResults = new ArrayList();
+            
+            return new CollectionIncomplete(searchResults, actualCountIfTruncated);
         }
         // Parse the map and call the DAO to process the inquiry
         BeanFactory beanFactory = SpringServiceLocator.getBeanFactory();
@@ -74,7 +79,6 @@ public class CurrentFundsLookupableHelperServiceImpl extends AbstractLookupableH
             Collections.sort(searchResults, new BeanPropertyComparator(defaultSortColumns, true));
         }
                
-        Long actualCountIfTruncated = new Long(0);
 
         return new CollectionIncomplete(searchResults, actualCountIfTruncated);
     }

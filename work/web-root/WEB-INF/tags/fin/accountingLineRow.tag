@@ -117,6 +117,9 @@
 	description="foces the object code to become a read only field regardless of document state"%>
 <%@ attribute name="hideFields" required="false"
     description="Comma delimited list of fields to hide for this type of accounting line" %>
+<%@ attribute name="nestedIndex" required="false"
+    description="A boolean whether we'll need a nested index that includes item index and account index or if we just need one index for the accountingLineIndex"%>
+	
         
 <c:set var="rowCount" value="${empty extraRowFields ? 1 : 2}" />
 <c:set var="dataColumnCount" value="${columnCountUntilAmount -1}"/>
@@ -326,7 +329,8 @@
 					accountingLineIndex="${accountingLineIndex}"
 					decorator="${decorator}" 
             			customActions="${customActions}"
-					rowspan="${rowspan}"/>
+					rowspan="${rowspan}"
+					nestedIndex="${nestedIndex}"/>
 			</c:when>
 			<c:otherwise>
 				<td style="border-bottom-style: none" rowspan="${rowspan - 1}">
@@ -385,7 +389,8 @@
 					accountingAddLineIndex="${accountingAddLineIndex}"
 					accountingLineIndex="${accountingLineIndex}"
 					decorator="${decorator}" 
-            			customActions="${customActions}" />
+            		customActions="${customActions}" 
+            		nestedIndex="${nestedIndex}" />
 			</c:if>
 		</tr>
 	</c:forEach>
@@ -477,7 +482,7 @@
 				accountingLineIndex="${accountingLineIndex}"
 				decorator="${decorator}"
 				rowspan="${rowspan}"
-				/>
+				nestedIndex="${nestedIndex}" />
 		</c:if>
 	</tr>
 </c:if>

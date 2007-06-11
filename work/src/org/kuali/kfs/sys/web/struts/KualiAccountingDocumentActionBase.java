@@ -43,6 +43,7 @@ import org.kuali.core.web.struts.form.KualiDocumentFormBase;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSKeyConstants;
 import org.kuali.kfs.bo.AccountingLine;
+import org.kuali.kfs.bo.AccountingLineBase;
 import org.kuali.kfs.bo.AccountingLineOverride;
 import org.kuali.kfs.bo.AccountingLineParser;
 import org.kuali.kfs.bo.SourceAccountingLine;
@@ -63,7 +64,7 @@ import edu.iu.uis.eden.exception.WorkflowException;
  */
 public class KualiAccountingDocumentActionBase extends KualiTransactionalDocumentActionBase {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(KualiAccountingDocumentActionBase.class);
-    
+
     /**
      * Adds check for accountingLine updates, generates and dispatches any events caused by such updates
      * 
@@ -82,10 +83,10 @@ public class KualiAccountingDocumentActionBase extends KualiTransactionalDocumen
             processAccountingLines(financialDocument, transForm, KFSConstants.SOURCE);
             processAccountingLines(financialDocument, transForm, KFSConstants.TARGET);
         }
-        
+
         // This is after a potential handleUpdate(), to display automatically cleared overrides following a route or save.
         processAccountingLineOverrides(transForm);
-        
+
         // this refershes if the accounting lines within the form are editable or not
         if (ObjectUtils.isNotNull(transForm.getDocument()) && ObjectUtils.isNotNull(transForm.getDocument().getDocumentHeader()) && ObjectUtils.isNotNull(transForm.getDocument().getDocumentNumber()) && SpringServiceLocator.getWorkflowDocumentService().workflowDocumentExists(transForm.getDocument().getDocumentNumber())) {
             transForm.refreshEditableAccounts();
@@ -378,9 +379,8 @@ public class KualiAccountingDocumentActionBase extends KualiTransactionalDocumen
 
 
     /**
-     * This method will remove a TargetAccountingLine from a FinancialDocument. This assumes that the user presses the delete
-     * button for a specific accounting line on the document and that the document is represented by a
-     * FinancialDocumentFormBase.
+     * This method will remove a TargetAccountingLine from a FinancialDocument. This assumes that the user presses the delete button
+     * for a specific accounting line on the document and that the document is represented by a FinancialDocumentFormBase.
      * 
      * @param mapping
      * @param form
@@ -423,9 +423,8 @@ public class KualiAccountingDocumentActionBase extends KualiTransactionalDocumen
     }
 
     /**
-     * This method will remove a SourceAccountingLine from a FinancialDocument. This assumes that the user presses the delete
-     * button for a specific accounting line on the document and that the document is represented by a
-     * FinancialDocumentFormBase.
+     * This method will remove a SourceAccountingLine from a FinancialDocument. This assumes that the user presses the delete button
+     * for a specific accounting line on the document and that the document is represented by a FinancialDocumentFormBase.
      * 
      * @param mapping
      * @param form
@@ -593,8 +592,8 @@ public class KualiAccountingDocumentActionBase extends KualiTransactionalDocumen
     }
 
     /**
-     * This method will add a TargetAccountingLine to a FinancialDocument. This assumes that the user presses the add button for
-     * a specific accounting line on the document and that the document is represented by a FinancialDocumentFormBase. It first
+     * This method will add a TargetAccountingLine to a FinancialDocument. This assumes that the user presses the add button for a
+     * specific accounting line on the document and that the document is represented by a FinancialDocumentFormBase. It first
      * validates the line for data integrity and then checks appropriate business rules.
      * 
      * @param mapping
@@ -706,7 +705,7 @@ public class KualiAccountingDocumentActionBase extends KualiTransactionalDocumen
      */
     public ActionForward copy(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         super.copy(mapping, form, request, response);
-       
+
         KualiAccountingDocumentFormBase tmpForm = (KualiAccountingDocumentFormBase) form;
 
         // KULEDOCS-1440: need to reset base accounting lines since when doc number changes on copy base lines would still reference
@@ -765,10 +764,7 @@ public class KualiAccountingDocumentActionBase extends KualiTransactionalDocumen
      * @throws Exception
      */
     public ActionForward performBalanceInquiryForSourceLine(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        int lineIndex = getSelectedLine(request);
-
-        SourceAccountingLine line = (SourceAccountingLine) ObjectUtils.deepCopy(((KualiAccountingDocumentFormBase) form).getFinancialDocument().getSourceAccountingLine(lineIndex));
-
+        SourceAccountingLine line = (SourceAccountingLine) getSourceAccountingLine(form, request);
         return performBalanceInquiryForAccountingLine(mapping, form, request, line);
     }
 
@@ -792,6 +788,23 @@ public class KualiAccountingDocumentActionBase extends KualiTransactionalDocumen
     }
 
     /**
+     * This method is a helper method that will return a source accounting line. The reason we're making it protected in here is so
+     * that we can override this method in some of the modules. PurchasingActionBase is one of the subclasses that will be
+     * overriding this, because in PurchasingActionBase, we'll need to get the source accounting line using both an item index and
+     * an account index.
+     * 
+     * @param form
+     * @param request
+     * @param isSource
+     * @return
+     */
+    protected SourceAccountingLine getSourceAccountingLine(ActionForm form, HttpServletRequest request) {
+        int lineIndex = getSelectedLine(request);
+        SourceAccountingLine line = (SourceAccountingLine) ObjectUtils.deepCopy(((KualiAccountingDocumentFormBase) form).getFinancialDocument().getSourceAccountingLine(lineIndex));
+        return line;
+    }
+
+    /**
      * This method handles preparing all of the accounting line data so that it can be pushed up to the balance inquiries for
      * populating the search criteria of each.
      * 
@@ -801,7 +814,7 @@ public class KualiAccountingDocumentActionBase extends KualiTransactionalDocumen
      * @param line
      * @return ActionForward
      */
-    private ActionForward performBalanceInquiryForAccountingLine(ActionMapping mapping, ActionForm form, HttpServletRequest request, AccountingLine line) {
+    protected ActionForward performBalanceInquiryForAccountingLine(ActionMapping mapping, ActionForm form, HttpServletRequest request, AccountingLine line) {
         // build out base path for return location
         String basePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath();
 
@@ -857,15 +870,15 @@ public class KualiAccountingDocumentActionBase extends KualiTransactionalDocumen
     }
 
     @Override
-    public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {        
+    public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ActionForward forward = super.save(mapping, form, request, response);
-        
+
         // KULEDOCS-1443: For the revert button, set the new baseline accounting lines as the most recently saved lines
         KualiAccountingDocumentFormBase tmpForm = (KualiAccountingDocumentFormBase) form;
         tmpForm.setBaselineSourceAccountingLines(tmpForm.getFinancialDocument().getSourceAccountingLines());
         tmpForm.setBaselineTargetAccountingLines(tmpForm.getFinancialDocument().getTargetAccountingLines());
-        
+
         return forward;
     }
-    
+
 }

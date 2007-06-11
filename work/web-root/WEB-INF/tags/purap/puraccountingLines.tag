@@ -165,7 +165,8 @@
 				accountingLineAttributes="${accountingLineAttributes}"
 				accountPrefix="${accountPrefix}" hideTotalLine="${hideTotalLine}"
 				hideFields="${hideFields}"
-				accountingAddLineIndex="${accountingAddLineIndex}" />
+				accountingAddLineIndex="${accountingAddLineIndex}" 
+				nestedIndex="true" />
 			<c:if test="${!sourceAccountingLinesOnly}">
 				<fin:accountingLineGroup isSource="false"
 					columnCountUntilAmount="${columnCountUntilAmount}"
@@ -183,7 +184,8 @@
 					forcedReadOnlyFields="${forcedReadOnlyFields}"
 					accountingLineAttributes="${accountingLineAttributes}"
 					accountPrefix="${accountPrefix}" hideTotalLine="${hideTotalLine}"
-					hideFields="${hideFields}" />
+					hideFields="${hideFields}" 
+					nestedIndex="true"/>
 			</c:if>
 		</table>
 	</c:if> <c:if test="${!empty groupsOverride}">

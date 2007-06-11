@@ -15,8 +15,6 @@
  */
 package org.kuali.module.purap.web.struts.action;
 
-import java.util.List;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -30,13 +28,7 @@ import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.bo.AccountingLine;
-import org.kuali.kfs.bo.SourceAccountingLine;
-import org.kuali.kfs.rule.event.AddAccountingLineEvent;
 import org.kuali.kfs.util.SpringServiceLocator;
-import org.kuali.kfs.web.struts.action.KualiAccountingDocumentActionBase;
-import org.kuali.kfs.web.struts.form.KualiAccountingDocumentFormBase;
-import org.kuali.kfs.web.ui.AccountingLineDecorator;
 import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.PurapKeyConstants;
 import org.kuali.module.purap.PurapPropertyConstants;
@@ -63,14 +55,14 @@ public class PurchasingActionBase extends PurchasingAccountsPayableActionBase {
         PurchasingFormBase baseForm = (PurchasingFormBase) form;
         PurchasingDocument document = (PurchasingDocument) baseForm.getDocument();
         String refreshCaller = baseForm.getRefreshCaller();
-        BusinessObjectService businessObjectService = SpringServiceLocator.getBusinessObjectService();        
+        BusinessObjectService businessObjectService = SpringServiceLocator.getBusinessObjectService();
         PhoneNumberService phoneNumberService = SpringServiceLocator.getPhoneNumberService();
-        
-        // Format phone numbers        
-        document.setInstitutionContactPhoneNumber(phoneNumberService.formatNumberIfPossible(document.getInstitutionContactPhoneNumber()));    
-        document.setRequestorPersonPhoneNumber(phoneNumberService.formatNumberIfPossible(document.getRequestorPersonPhoneNumber()));    
+
+        // Format phone numbers
+        document.setInstitutionContactPhoneNumber(phoneNumberService.formatNumberIfPossible(document.getInstitutionContactPhoneNumber()));
+        document.setRequestorPersonPhoneNumber(phoneNumberService.formatNumberIfPossible(document.getRequestorPersonPhoneNumber()));
         document.setDeliveryToPhoneNumber(phoneNumberService.formatNumberIfPossible(document.getDeliveryToPhoneNumber()));
-               
+
         if (StringUtils.equals(refreshCaller, VendorConstants.VENDOR_LOOKUPABLE_IMPL) && document.getVendorDetailAssignedIdentifier() != null && document.getVendorHeaderGeneratedIdentifier() != null) {
 
             document.setVendorContractGeneratedIdentifier(null);
@@ -80,33 +72,33 @@ public class PurchasingActionBase extends PurchasingAccountsPayableActionBase {
             VendorDetail refreshVendorDetail = new VendorDetail();
             refreshVendorDetail.setVendorDetailAssignedIdentifier(vendorDetailAssignedId);
             refreshVendorDetail.setVendorHeaderGeneratedIdentifier(vendorHeaderGeneratedId);
-            refreshVendorDetail = (VendorDetail)businessObjectService.retrieve(refreshVendorDetail);
+            refreshVendorDetail = (VendorDetail) businessObjectService.retrieve(refreshVendorDetail);
             document.templateVendorDetail(refreshVendorDetail);
         }
 
-        if( StringUtils.equals( refreshCaller, KFSConstants.KUALI_LOOKUPABLE_IMPL ) ) {
-            
-            if( StringUtils.isNotEmpty( request.getParameter( PurapPropertyConstants.VENDOR_CONTRACT_ID ) ) ) {
+        if (StringUtils.equals(refreshCaller, KFSConstants.KUALI_LOOKUPABLE_IMPL)) {
+
+            if (StringUtils.isNotEmpty(request.getParameter(PurapPropertyConstants.VENDOR_CONTRACT_ID))) {
                 Integer vendorContractGeneratedId = document.getVendorContractGeneratedIdentifier();
                 VendorContract refreshVendorContract = new VendorContract();
                 refreshVendorContract.setVendorContractGeneratedIdentifier(vendorContractGeneratedId);
-                refreshVendorContract = (VendorContract)businessObjectService.retrieve(refreshVendorContract);
+                refreshVendorContract = (VendorContract) businessObjectService.retrieve(refreshVendorContract);
                 document.templateVendorContract(refreshVendorContract);
                 VendorDetail refreshVendorDetail = new VendorDetail();
                 refreshVendorDetail.setVendorDetailAssignedIdentifier(refreshVendorContract.getVendorDetailAssignedIdentifier());
                 refreshVendorDetail.setVendorHeaderGeneratedIdentifier(refreshVendorContract.getVendorHeaderGeneratedIdentifier());
-                refreshVendorDetail = (VendorDetail)businessObjectService.retrieve(refreshVendorDetail);
+                refreshVendorDetail = (VendorDetail) businessObjectService.retrieve(refreshVendorDetail);
                 document.templateVendorDetail(refreshVendorDetail);
-                
+
                 // populate default address
                 populateDefaultAddress(refreshVendorDetail, document);
-                
+
             }
-            if( StringUtils.isNotEmpty( request.getParameter( PurapPropertyConstants.VENDOR_ADDRESS_ID ) ) ) {
+            if (StringUtils.isNotEmpty(request.getParameter(PurapPropertyConstants.VENDOR_ADDRESS_ID))) {
                 Integer vendorAddressGeneratedId = document.getVendorAddressGeneratedIdentifier();
                 VendorAddress refreshVendorAddress = new VendorAddress();
                 refreshVendorAddress.setVendorAddressGeneratedIdentifier(vendorAddressGeneratedId);
-                refreshVendorAddress = (VendorAddress)businessObjectService.retrieve(refreshVendorAddress);
+                refreshVendorAddress = (VendorAddress) businessObjectService.retrieve(refreshVendorAddress);
                 document.templateVendorAddress(refreshVendorAddress);
             }
         }
@@ -123,7 +115,7 @@ public class PurchasingActionBase extends PurchasingAccountsPayableActionBase {
             refreshVendorDetail.setDefaultAddressPostalCode(defaultAddress.getVendorZipCode());
             refreshVendorDetail.setDefaultAddressStateCode(defaultAddress.getVendorStateCode());
             refreshVendorDetail.setDefaultAddressCountryCode(defaultAddress.getVendorCountryCode());
-        }        
+        }
         document.setVendorAddressGeneratedIdentifier(defaultAddress.getVendorAddressGeneratedIdentifier());
         document.setVendorLine1Address(defaultAddress.getVendorLine1Address());
         document.setVendorLine2Address(defaultAddress.getVendorLine2Address());
@@ -148,10 +140,10 @@ public class PurchasingActionBase extends PurchasingAccountsPayableActionBase {
     public ActionForward refreshDeliveryBuilding(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         PurchasingFormBase baseForm = (PurchasingFormBase) form;
         PurchasingDocument document = (PurchasingDocument) baseForm.getDocument();
-        if( ObjectUtils.isNotNull( document.isDeliveryBuildingOther() ) ) {
+        if (ObjectUtils.isNotNull(document.isDeliveryBuildingOther())) {
             if (document.isDeliveryBuildingOther()) {
-                document.setDeliveryBuildingName( PurapConstants.DELIVERY_BUILDING_OTHER );
-                document.setDeliveryBuildingCode( PurapConstants.DELIVERY_BUILDING_OTHER_CODE );
+                document.setDeliveryBuildingName(PurapConstants.DELIVERY_BUILDING_OTHER);
+                document.setDeliveryBuildingCode(PurapConstants.DELIVERY_BUILDING_OTHER_CODE);
                 baseForm.setNotOtherDeliveryBuilding(false);
             }
             else {
@@ -159,7 +151,7 @@ public class PurchasingActionBase extends PurchasingAccountsPayableActionBase {
                 document.setDeliveryBuildingCode(null);
                 baseForm.setNotOtherDeliveryBuilding(true);
             }
-        }       
+        }
         return refresh(mapping, form, request, response);
     }
 
@@ -178,8 +170,9 @@ public class PurchasingActionBase extends PurchasingAccountsPayableActionBase {
         // TODO: should call add line event/rules here
         PurchasingApItem item = purchasingForm.getAndResetNewPurchasingItemLine();
         PurchasingDocument purDocument = (PurchasingDocument) purchasingForm.getDocument();
-        boolean rulePassed = SpringServiceLocator.getKualiRuleService().applyRules(new AddPurchasingAccountsPayableItemEvent("item",purDocument,item));
-//        AddAccountingLineEvent(KFSConstants.NEW_TARGET_ACCT_LINES_PROPERTY_NAME + "[" + Integer.toString(itemIndex) + "]", purchasingForm.getDocument(), (AccountingLine) line)
+        boolean rulePassed = SpringServiceLocator.getKualiRuleService().applyRules(new AddPurchasingAccountsPayableItemEvent("item", purDocument, item));
+        // AddAccountingLineEvent(KFSConstants.NEW_TARGET_ACCT_LINES_PROPERTY_NAME + "[" + Integer.toString(itemIndex) + "]",
+        // purchasingForm.getDocument(), (AccountingLine) line)
         if (rulePassed) {
 
             purDocument.addItem(item);
@@ -210,10 +203,10 @@ public class PurchasingActionBase extends PurchasingAccountsPayableActionBase {
         PurchasingFormBase purchasingForm = (PurchasingFormBase) form;
 
         purchasingForm.setHideDistributeAccounts(false);
-        
+
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
-       
+
     public ActionForward removeAccounts(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         PurchasingFormBase purchasingForm = (PurchasingFormBase) form;
 
@@ -223,11 +216,12 @@ public class PurchasingActionBase extends PurchasingAccountsPayableActionBase {
         if (question == null) {
             String questionText = SpringServiceLocator.getKualiConfigurationService().getPropertyString(PurapConstants.QUESTION_REMOVE_ACCOUNTS);
             return this.performQuestionWithoutInput(mapping, form, request, response, PurapConstants.REMOVE_ACCOUNTS_QUESTION, questionText, Constants.CONFIRMATION_QUESTION, KFSConstants.ROUTE_METHOD, "0");
-        } else if (ConfirmationQuestion.YES.equals(buttonClicked)) {
+        }
+        else if (ConfirmationQuestion.YES.equals(buttonClicked)) {
             for (PurchasingApItem item : ((PurchasingAccountsPayableDocument) purchasingForm.getDocument()).getItems()) {
                 item.getSourceAccountingLines().clear();
             }
-        
+
             GlobalVariables.getMessageList().add(PurapKeyConstants.PURAP_GENERAL_ACCOUNTS_REMOVED);
         }
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
@@ -246,39 +240,40 @@ public class PurchasingActionBase extends PurchasingAccountsPayableActionBase {
                 purchasingForm.getAccountDistributionsourceAccountingLines().clear();
                 GlobalVariables.getMessageList().add(PurapKeyConstants.PURAP_GENERAL_ACCOUNTS_DISTRIBUTED);
                 purchasingForm.setHideDistributeAccounts(true);
-            } else {
+            }
+            else {
                 GlobalVariables.getErrorMap().putError(PurapConstants.ACCOUNT_DISTRIBUTION_ERROR_KEY, PurapKeyConstants.PURAP_GENERAL_NO_ACCOUNTS_TO_DISTRIBUTE);
             }
-        } else {
+        }
+        else {
             GlobalVariables.getErrorMap().putError(PurapConstants.ACCOUNT_DISTRIBUTION_ERROR_KEY, PurapKeyConstants.PURAP_GENERAL_NO_ITEMS_TO_DISTRIBUTE_TO);
         }
-        
+
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
-       
+
     public ActionForward cancelAccountDistribution(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         PurchasingFormBase purchasingForm = (PurchasingFormBase) form;
 
         purchasingForm.setHideDistributeAccounts(true);
-        
+
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
- 
+
     /**
-     * 
      * @see org.kuali.module.purap.web.struts.action.PurchasingAccountsPayableActionBase#processCustomInsertAccountingLine(org.kuali.module.purap.web.struts.form.PurchasingAccountsPayableFormBase)
      */
     @Override
-    public boolean processCustomInsertAccountingLine(PurchasingAccountsPayableFormBase purapForm, HttpServletRequest request){
-      
+    public boolean processCustomInsertAccountingLine(PurchasingAccountsPayableFormBase purapForm, HttpServletRequest request) {
+
         boolean success = false;
         PurchasingFormBase purchasingForm = (PurchasingFormBase) purapForm;
-        
-        //index of item selected
+
+        // index of item selected
         int itemIndex = getSelectedLine(request);
         PurchasingApItem item = null;
-        
-        if( itemIndex == -2 ) {
+
+        if (itemIndex == -2) {
             PurApAccountingLine line = purchasingForm.getAccountDistributionnewSourceLine();
             purchasingForm.addAccountDistributionsourceAccountingLine(line);
             success = true;

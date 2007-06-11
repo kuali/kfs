@@ -23,7 +23,10 @@
 <%@ attribute name="accountingLineIndex" required="false" description="index of this accountingLine in the corresponding form list, required for the existingLine actionGroup" %>
 <%@ attribute name="decorator" required="false" description="propertyName of the AccountingLineDecorator associated with this accountingLine, required for the existingLine actionGroup" %>
 <%@ attribute name="rowspan" required="false" description="defaults to 1" %>
-
+<%@ attribute name="nestedIndex" required="false"
+    description="A boolean whether we'll need a nested index that includes item index and account index or if we just need one index for the accountingLineIndex"%>
+			 
+			 
 <%@ variable name-given="accountingLineIndexVar" scope="NESTED"%>
 <%@ variable name-given="actionInfixVar" scope="NESTED"%>
 <c:set var="accountingLineIndexVar" value="${accountingLineIndex}" scope="request"/>
@@ -46,9 +49,17 @@
         <c:set var="revertible">
             <bean:write name="KualiForm" property="${decorator}.revertible" />
         </c:set>
-        <c:set var="deleteMethod" value="delete${actionInfix}Line.line${accountingLineIndex}" />
+        <c:choose>
+            <c:when test="${nestedIndex}">
+                <c:set var="deleteAndBalanceInquiryIndex" value="${accountingAddLineIndex}:${accountingLineIndex}" />
+            </c:when>
+            <c:otherwise>
+                <c:set var="deleteAndBalanceInquiryIndex" value="${accountingLineIndex}" />
+            </c:otherwise>
+        </c:choose>
+        <c:set var="deleteMethod" value="delete${actionInfix}Line.line${deleteAndBalanceInquiryIndex}" />
         <c:set var="revertMethod" value="revert${actionInfix}Line.line${accountingLineIndex}" />
-        <c:set var="balanceInquiryMethod" value="performBalanceInquiryFor${actionInfix}Line.line${accountingLineIndex}" />
+        <c:set var="balanceInquiryMethod" value="performBalanceInquiryFor${actionInfix}Line.line${deleteAndBalanceInquiryIndex}" />
 
         <td class="${dataCellCssClass}" nowrap rowspan="${rowspan}">
             <div align="center">

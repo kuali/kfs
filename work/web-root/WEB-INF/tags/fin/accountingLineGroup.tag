@@ -96,7 +96,9 @@ It's followed by 0 or more rows for the accounting lines that have already been 
               description="comma delimited list of fields to hide for this type of accounting line; currently only works with amount." %>
 <%@ attribute name="accountingAddLineIndex" required="false"
 			  description="index for multiple add new source lines"%>
-
+<%@ attribute name="nestedIndex" required="false"
+			  description="A boolean whether we'll need a nested index that includes item index and account index or if we just need one index for the accountingLineIndex"%>
+			  
 <c:set var="sourceOrTarget" value="${isSource ? 'source' : 'target'}"/>
 <c:set var="baselineSourceOrTarget" value="${isSource ? 'baselineSource' : 'baselineTarget'}"/>
 <c:set var="capitalSourceOrTarget" value="${isSource ? 'Source' : 'Target'}"/>
@@ -238,7 +240,7 @@ It's followed by 0 or more rows for the accounting lines that have already been 
     	<c:set var="newActionGroup" value="newLine"/>
       </c:otherwise>
     </c:choose>    
-    
+      
     <fin:accountingLineRow
         accountingLine="${newAccountPrefix}new${capitalSourceOrTarget}Line"
         accountingLineAttributes="${accountingLineAttributes}"
@@ -264,7 +266,8 @@ It's followed by 0 or more rows for the accounting lines that have already been 
         accountingLineValuesMap="${valuesMap}"
         forcedReadOnlyFields="${forcedReadOnlyFields}"
         hideFields="${hideFields}"
-        accountingAddLineIndex="${accountingAddLineIndex}"        
+        accountingAddLineIndex="${accountingAddLineIndex}"       
+        nestedIndex="${nestedIndex}" 
         />
 
     <c:if test="${displayMonthlyAmounts}">
@@ -326,6 +329,8 @@ It's followed by 0 or more rows for the accounting lines that have already been 
         accountingLineValuesMap="${currentLine.valuesMap}"
         forcedReadOnlyFields="${forcedReadOnlyFields}"
         hideFields="${hideFields}"  
+        accountingAddLineIndex="${accountingAddLineIndex}"
+        nestedIndex="${nestedIndex}"
         />
 
     <c:if test="${displayMonthlyAmounts}">

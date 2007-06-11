@@ -18,6 +18,7 @@ package org.kuali.module.labor.web.lookupable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -28,10 +29,13 @@ import org.kuali.core.lookup.CollectionIncomplete;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.BeanPropertyComparator;
 import org.kuali.core.util.GlobalVariables;
+import org.kuali.core.web.ui.Field;
+import org.kuali.core.web.ui.Row;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.gl.service.BalanceService;
+import org.kuali.module.gl.web.Constant;
 import org.kuali.module.labor.LaborConstants;
 import org.kuali.module.labor.dao.LaborDao;
 import org.kuali.module.labor.web.inquirable.CurrentFundsInquirableImpl;
@@ -56,6 +60,16 @@ public class CurrentFundsLookupableHelperServiceImpl extends AbstractLookupableH
 
         setBackLocation((String) fieldValues.get(KFSConstants.BACK_LOCATION));
         setDocFormKey((String) fieldValues.get(KFSConstants.DOC_FORM_KEY));
+        
+        // get the pending entry option. This method must be prior to the get search results
+//        String pendingEntryOption = getSelectedPendingEntryOption(fieldValues);
+        
+//      get the consolidation option
+//        boolean isConsolidated = isConsolidationSelected(fieldValues);
+//System.out.println("isConsolidated:" + isConsolidated);        
+
+        // update search results according to the selected pending entry option
+//        updateByPendingLedgerEntry(searchResultsCollection, fieldValues, pendingEntryOption, isConsolidated, false);
 
         if (((fieldValues.get(KFSPropertyConstants.FINANCIAL_OBJECT_CODE) != null) && (fieldValues.get(KFSPropertyConstants.FINANCIAL_OBJECT_CODE).toString().length() > 0))) {
 
@@ -90,4 +104,48 @@ public class CurrentFundsLookupableHelperServiceImpl extends AbstractLookupableH
     public String getInquiryUrl(BusinessObject bo, String propertyName) {
         return (new CurrentFundsInquirableImpl()).getInquiryUrl(bo, propertyName);
     }
+    
+    /**
+     * @see org.kuali.module.gl.web.lookupable.AbstractGLLookupableImpl#updateEntryCollection(java.util.Collection, java.util.Map,
+     *      boolean, boolean, boolean)
+     */
+
+    /**
+     * This method tests if the user selects to see the details or consolidated results
+     * 
+     * @param fieldValues the map containing the search fields and values
+     * @return true if consolidation is selected and subaccount is not specified
+     */
+  /*  protected boolean isConsolidationSelected(Map fieldValues) {
+        // truncate the non-property filed
+        String consolidationOption = (String) fieldValues.get(Constant.CONSOLIDATION_OPTION);
+        fieldValues.remove(Constant.CONSOLIDATION_OPTION);
+
+        // detail option would be used
+        if (Constant.DETAIL.equals(consolidationOption)) {
+            return false;
+        }
+
+        // if the subAccountNumber is specified, detail option could be used
+        String subAccountNumber = (String) fieldValues.get(KFSPropertyConstants.SUB_ACCOUNT_NUMBER);
+        if (!StringUtils.isBlank(subAccountNumber)) {
+            this.changeFieldValue(Constant.CONSOLIDATION_OPTION, Constant.DETAIL);
+            return false;
+        }
+
+        // if the subObjectCode is specified, detail option could be used
+        String subObjectCode = (String) fieldValues.get(KFSPropertyConstants.SUB_OBJECT_CODE);
+        if (!StringUtils.isBlank(subObjectCode)) {
+            this.changeFieldValue(Constant.CONSOLIDATION_OPTION, Constant.DETAIL);
+            return false;
+        }
+
+        // if the objectTypeCode is specified, detail option could be used
+        String objectTypeCode = (String) fieldValues.get(KFSPropertyConstants.OBJECT_TYPE_CODE);
+        if (!StringUtils.isBlank(objectTypeCode)) {
+            this.changeFieldValue(Constant.CONSOLIDATION_OPTION, Constant.DETAIL);
+            return false;
+        }
+        return true;
+    }*/
 }

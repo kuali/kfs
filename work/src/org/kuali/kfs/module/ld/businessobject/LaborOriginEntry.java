@@ -19,6 +19,7 @@ package org.kuali.module.labor.bo;
 import java.math.BigDecimal;
 import java.sql.Date;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 
 import org.kuali.core.bo.DocumentHeader;
 import org.kuali.core.bo.DocumentType;
@@ -31,6 +32,7 @@ import org.kuali.kfs.bo.OriginationCode;
 import org.kuali.module.chart.bo.AccountingPeriod;
 import org.kuali.module.gl.bo.OriginEntry;
 import org.kuali.module.gl.exception.LoadException;
+import org.springframework.util.StringUtils;
 
 /**
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
@@ -710,6 +712,11 @@ public class LaborOriginEntry extends OriginEntry implements LaborTransaction {
     public void setReferenceFinancialSystemOrigination(OriginationCode referenceFinancialSystemOrigination) {
         this.referenceFinancialSystemOrigination = referenceFinancialSystemOrigination;
     }
+    
+    public void clearTransactionTotalHours(){
+        this.transactionTotalHours = null;
+    }
+    
 
     /*  *//**
      * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
@@ -1064,6 +1071,163 @@ public class LaborOriginEntry extends OriginEntry implements LaborTransaction {
 }
     }
     
+    
+    public void setFieldValue(String fieldName,String fieldValue) {
+        if ( "universityFiscalYear".equals(fieldName) ) {
+            if ( StringUtils.hasText(fieldValue) ) {
+                setUniversityFiscalYear(Integer.parseInt(fieldValue));
+            } else {
+                setUniversityFiscalYear(null);
+            }
+        } else if ( "chartOfAccountsCode".equals(fieldName) ) {
+            setChartOfAccountsCode(fieldValue);
+        } else if ( "accountNumber".equals(fieldName) ) {
+            setAccountNumber(fieldValue);
+        } else if ( "subAccountNumber".equals(fieldName) ) {
+            setSubAccountNumber(fieldValue);
+        } else if ( "financialObjectCode".equals(fieldName) ) {
+            setFinancialObjectCode(fieldValue);
+        } else if ( "financialSubObjectCode".equals(fieldName) ) {
+            setFinancialSubObjectCode(fieldValue);
+        } else if ( "financialBalanceTypeCode".equals(fieldName) ) {
+            setFinancialBalanceTypeCode(fieldValue);
+        } else if ( "financialObjectTypeCode".equals(fieldName) ) {
+            setFinancialObjectTypeCode(fieldValue);
+        } else if ( "universityFiscalPeriodCode".equals(fieldName) ) {
+            setUniversityFiscalPeriodCode(fieldValue);
+        } else if ( "financialDocumentTypeCode".equals(fieldName) ) {
+            setFinancialDocumentTypeCode(fieldValue);
+        } else if ( "financialSystemOriginationCode".equals(fieldName) ) {
+            setFinancialSystemOriginationCode(fieldValue);
+        } else if ( KFSPropertyConstants.DOCUMENT_NUMBER.equals(fieldName) ) {
+            setDocumentNumber(fieldValue);
+        } else if ( "transactionLedgerEntrySequenceNumber".equals(fieldName) ) {
+            if ( StringUtils.hasText(fieldValue) ) {
+                setTransactionLedgerEntrySequenceNumber(Integer.parseInt(fieldValue));
+            } else {
+                setTransactionLedgerEntrySequenceNumber(null);
+            }
+        } else if ( "positionNumber".equals(fieldName) ) {
+            setPositionNumber(fieldValue);
+        } else if ( "projectCode".equals(fieldName) ) {
+            setProjectCode(fieldValue);
+        } else if ( "transactionLedgerEntryDescription".equals(fieldName) ) {
+            setTransactionLedgerEntryDescription(fieldValue);
+        } else if ( "transactionLedgerEntryAmount".equals(fieldName) ) {
+            if ( StringUtils.hasText(fieldValue) ) {
+                setTransactionLedgerEntryAmount(new KualiDecimal(fieldValue));
+            } else {
+                clearTransactionLedgerEntryAmount();
+            }
+        } else if ( "transactionDebitCreditCode".equals(fieldName) ) {
+            setTransactionDebitCreditCode(fieldValue);
+        } else if ( "transactionDate".equals(fieldName) ) {
+            if ( StringUtils.hasText(fieldValue) ) {
+                try {
+                    SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+                    setTransactionDate(new java.sql.Date( (df.parse(fieldValue)).getTime() ) );
+                } catch (ParseException e) {
+                    setTransactionDate(null);
+                }
+            } else {
+                setTransactionDate(null);
+            }
+        } else if ( "organizationDocumentNumber".equals(fieldName) ) {
+            setOrganizationDocumentNumber(fieldValue);
+        } else if ( "organizationReferenceId".equals(fieldName) ) {
+            setOrganizationReferenceId(fieldValue);
+        } else if ( "referenceFinancialDocumentTypeCode".equals(fieldName) ) {
+            setReferenceFinancialDocumentTypeCode(fieldValue);
+        } else if ( "referenceFinancialSystemOriginationCode".equals(fieldName) ) {
+            setReferenceFinancialSystemOriginationCode(fieldValue);
+        } else if ( "referenceFinancialDocumentNumber".equals(fieldName) ) {
+            setReferenceFinancialDocumentNumber(fieldValue);
+        } else if ( "financialDocumentReversalDate".equals(fieldName) ) {
+            if ( StringUtils.hasText(fieldValue) ) {
+                try {
+                    SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+                    setFinancialDocumentReversalDate(new java.sql.Date( (df.parse(fieldValue)).getTime() ) );
+                } catch (ParseException e) {
+                    setFinancialDocumentReversalDate(null);
+                }
+            } else {
+                setFinancialDocumentReversalDate(null);
+            }
+        } else if ( "transactionEncumbranceUpdateCode".equals(fieldName) ) {
+            setTransactionEncumbranceUpdateCode(fieldValue);
+        
+        } else if ( "transactionPostingDate".equals(fieldName) ) {
+            if ( StringUtils.hasText(fieldValue) ) {
+                try {
+                    SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+                    setTransactionPostingDate(new java.sql.Date( (df.parse(fieldValue)).getTime() ) );
+                } catch (ParseException e) {
+                    setTransactionPostingDate(null);
+                }
+            } else {
+                setTransactionPostingDate(null);
+            }
+        } else if ( "payPeriodEndDate".equals(fieldName) ) {
+            if ( StringUtils.hasText(fieldValue) ) {
+                try {
+                    SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+                    setPayPeriodEndDate(new java.sql.Date( (df.parse(fieldValue)).getTime() ) );
+                } catch (ParseException e) {
+                    setPayPeriodEndDate(null);
+                }
+            } else {
+                setPayPeriodEndDate(null);
+            }
+        } else if ( "transactionTotalHours".equals(fieldName) ) {
+            if ( StringUtils.hasText(fieldValue) ) {
+                setTransactionTotalHours(new BigDecimal(fieldValue));
+            } else {
+                clearTransactionTotalHours();
+            }   
+        } else if ( "payrollEndDateFiscalYear".equals(fieldName) ) {
+            if ( StringUtils.hasText(fieldValue) ) {
+                setPayrollEndDateFiscalYear(Integer.parseInt(fieldValue));
+            } else {
+                setPayrollEndDateFiscalYear(null);
+            }    
+        } else if ( "payrollEndDateFiscalPeriodCode".equals(fieldName) ) {
+            setPayrollEndDateFiscalPeriodCode(fieldValue);
+        } else if ( "emplid".equals(fieldName) ) {
+            setEmplid(fieldValue);
+        } else if ( "employeeRecord".equals(fieldName) ) {
+            if ( StringUtils.hasText(fieldValue) ) {
+                setEmployeeRecord(Integer.parseInt(fieldValue));
+            } else {
+                setEmployeeRecord(null);
+            }
+        } else if ( "earnCode".equals(fieldName) ) {
+            setEarnCode(fieldValue);
+        } else if ( "payGroup".equals(fieldName) ) {
+            setPayGroup(fieldValue);
+        } else if ( "salaryAdministrationPlan".equals(fieldName) ) {
+            setSalaryAdministrationPlan(fieldValue);
+        } else if ( "grade".equals(fieldName) ) {
+            setGrade(fieldValue);
+        } else if ( "runIdentifier".equals(fieldName) ) {
+            setRunIdentifier(fieldValue);
+        } else if ( "laborLedgerOriginalChartOfAccountsCode".equals(fieldName) ) {
+            setLaborLedgerOriginalChartOfAccountsCode(fieldValue);
+        } else if ( "laborLedgerOriginalAccountNumber".equals(fieldName) ) {
+            setLaborLedgerOriginalAccountNumber(fieldValue);
+        } else if ( "laborLedgerOriginalSubAccountNumber".equals(fieldName) ) {
+            setLaborLedgerOriginalSubAccountNumber(fieldValue);
+        } else if ( "laborLedgerOriginalFinancialObjectCode".equals(fieldName) ) {
+            setLaborLedgerOriginalFinancialObjectCode(fieldValue);
+        } else if ( "laborLedgerOriginalFinancialSubObjectCode".equals(fieldName) ) {
+            setLaborLedgerOriginalFinancialSubObjectCode(fieldValue);
+        } else if ( "hrmsCompany".equals(fieldName) ) {
+            setHrmsCompany(fieldValue);
+        } else if ( "setid".equals(fieldName) ) {
+            setSetid(fieldValue);
+        } else {
+            throw new IllegalArgumentException("Invalid Field Name " + fieldName);
+        }        
+    }
     
     
 }

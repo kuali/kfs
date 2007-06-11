@@ -518,9 +518,11 @@
 		<copy todir="${licenses.directory}/kew">
 			<fileset dir="${workflow.project.directory}/${licenses.directory}" />
 		</copy>
-		<delete dir="${database.workflow.directory}" failonerror="false" />
-		<copy todir="${database.workflow.directory}">
-			<fileset dir="${workflow.project.directory}/${workflow.ddl.directory}" includes="**/**" />
+		<delete failonerror="false">
+			<fileset dir="${database.workflow.directory}" />
+		</delete>
+		<copy todir="${database.workflow.directory}" overwrite="true">
+			<fileset dir="${workflow.project.directory}/${workflow.ddl.directory}" />
 		</copy>
 	</target>
 	

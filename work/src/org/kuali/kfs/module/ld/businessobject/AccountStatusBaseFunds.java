@@ -109,7 +109,8 @@ public class AccountStatusBaseFunds extends LedgerBalance {
      */
     public KualiDecimal getBaseCSFVarianceAmount() {
         if ((this.accountLineAnnualBalanceAmount != null) && (this.csfAmount != null))
-            baseCSFVarianceAmount = (this.accountLineAnnualBalanceAmount.add(this.csfAmount));
+            
+            baseCSFVarianceAmount = (this.accountLineAnnualBalanceAmount.subtract(this.csfAmount));
         return baseCSFVarianceAmount;
     }
 

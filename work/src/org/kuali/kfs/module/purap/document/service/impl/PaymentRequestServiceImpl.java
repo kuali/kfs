@@ -25,7 +25,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.apache.commons.lang.time.DateUtils;
 import org.kuali.core.bo.Note;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.service.BusinessObjectService;
@@ -43,7 +42,6 @@ import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.PurapKeyConstants;
-import org.kuali.module.purap.PurapPropertyConstants;
 import org.kuali.module.purap.dao.PaymentRequestDao;
 import org.kuali.module.purap.document.PaymentRequestDocument;
 import org.kuali.module.purap.document.PurchaseOrderDocument;
@@ -730,4 +728,161 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
      }
      */
 
+  /**
+   * Retrieve a list of PREQs that aren't approved, check to see if they match specific
+   * requirements, then auto-approve them if possible.
+   *
+   */
+    /*
+  public void autoApprovePaymentRequests() {
+    LOG.debug("autoApprovePaymentRequests() started");
+    
+    // Get all the payment requests that have the status for Auto Approve
+    String[] statuses = EpicConstants.PREQ_STATUSES_FOR_AUTO_APPROVE;
+    
+    // get ap supervisor user
+    User apSupervisor = this.getAccountsPayableSupervisorUser();
+
+    // Get the user that will approve them
+    Collection requests = paymentRequestDao.getByStatuses(statuses);
+
+    // default auto approve limit is $5,000
+    String defaultLimit = applicationSettingService.getString("AP_AUTO_APPROVE_MAX_AMOUNT");
+
+    for (Iterator ri = requests.iterator(); ri.hasNext();) {
+      PaymentRequest preq = (PaymentRequest)ri.next();
+      boolean autoApproveExcluded = false;
+      LOG.info("autoApprovePaymentRequests() Attempting Auto Approve for PREQ " + preq.getId());
+      
+      // Only process preq's that aren't held
+      if ( preq.getPaymentHoldIndicator().booleanValue() ) {
+        LOG.info("autoApprovePaymentRequests() PREQ " + preq.getId() + " is held... will not auto approve");
+        continue;
+      }
+      
+      // Only process preq's that aren't requested for cancel
+      if ( preq.getPaymentRequestCancelIndicator().booleanValue() ) {
+        LOG.info("autoApprovePaymentRequests() PREQ " + preq.getId() + " is requested for cancel... will not auto approve");
+        continue;
+      }
+
+      // Only process preq's that have a pay date of now or before
+      Date now = new Date();
+      if ( preq.getPaymentRequestPayDate().getTime() > now.getTime() ) {
+        // Don't process it.  It isn't ready to be paid yet
+        Calendar c = Calendar.getInstance();
+        c.setTime(new Date(preq.getPaymentRequestPayDate().getTime()));
+        LOG.info("autoApprovePaymentRequests() PREQ " + preq.getId() + " has pay date " + 
+            (c.get(Calendar.MONTH) + 1) + "-" + c.get(Calendar.DATE) + "-" + c.get(Calendar.YEAR) + "... will not auto approve");
+        // we add one above because January's value is 0, February is 1, and so on
+        continue;
+      }
+
+      // Only process preq's whose vendor is not an exclusion from auto approve in ownership type table
+      VendorHeader vh = vendorService.getVendorHeader(preq.getVendorHeaderGeneratedId());
+      if ( (vh != null) && (vh.getOwnershipType() != null) &&
+           (vh.getOwnershipType().getExcludeFromAutoApprove() != null) &&
+           (vh.getOwnershipType().getExcludeFromAutoApprove().booleanValue()) ) {
+        LOG.info("autoApprovePaymentRequests() PREQ " + preq.getId() + " has vendor auto approve exclusion set to true in ownership type table... will not auto approve");
+        continue;
+      }
+      
+      if (routingService.willDocumentRouteToTaxAsEmployee(preq.getDocumentHeader().getId(),apSupervisor)) {
+        LOG.info("autoApprovePaymentRequests() PREQ " + preq.getId() + " is scheduled to route as Employee to Tax Area... will not auto approve");
+        continue;
+      }
+      
+      // Orders below the autoApproveAmount will be auto approved
+      BigDecimal autoApproveAmount = null;
+      
+      // Find the lowest auto approve amount in all the accounts
+      String chart = null;
+      String accountNumber = null;
+      for (Iterator iter = preq.getDisplayAccounts().iterator(); iter.hasNext();) {
+        DisplayAccount acct = (DisplayAccount)iter.next();
+
+        // Only proces the preq whose chart and account number
+        // are not in the maintenance table for Auto Approve Exclusion
+        chart = acct.getFinancialChartOfAccountsCode();
+        accountNumber = acct.getAccountNumber();
+
+        if ( (acct.getAmount() != null) && (BigDecimal.ZERO.compareTo(acct.getAmount()) < 0) ) {
+          AutoApproveExclusion aae = autoApproveExclusionService.getByChartAndAcct(chart, accountNumber);
+          // as long as there's at least one account whose chart/acct is in the maint.
+          // table, we should break from this inner for-loop and continue with the 
+          // next preq.
+          if (aae != null && aae.getActive().booleanValue()) {
+            autoApproveExcluded = true;
+            break;
+          }
+        }
+            
+        BigDecimal limit = null;
+
+        // Check chart
+        limit = negativePaymentRequestApprovalLimitService.chartApprovalLimit(acct.getFinancialChartOfAccountsCode());
+        if ( (limit != null) && (limit.compareTo(autoApproveAmount) < 0) ) {
+          autoApproveAmount = limit;
+        }
+
+        // Check account
+        limit = negativePaymentRequestApprovalLimitService.accountApprovalLimit(acct.getFinancialChartOfAccountsCode(),acct.getAccountNumber());
+        if ( (limit != null) && (limit.compareTo(autoApproveAmount) < 0) ) {
+          autoApproveAmount = limit;
+        }
+
+        // Check account's org
+        Account account = chartOfAccountsService.getAccount(acct.getFinancialChartOfAccountsCode(),acct.getAccountNumber());
+        if ( account == null ) {
+          // if account is non-existant then check to see if any dollars are assigned
+          if ( (acct.getAmount() == null) || (BigDecimal.ZERO.compareTo(acct.getAmount()) == 0) ) {
+            LOG.info("autoApprovePaymentRequests() PREQ " + preq.getId() + " has invalid account " + acct.getFinancialChartOfAccountsCode() + "/" 
+                + acct.getAccountNumber() + " but will skip because account has no money assigned to it");
+            continue;
+          } else {
+            LOG.error("autoApprovePaymentRequests() Invalid account on preq " + acct.getFinancialChartOfAccountsCode() + "/" + acct.getAccountNumber());
+            throw new IllegalArgumentException("Invalid account on preq " + acct.getFinancialChartOfAccountsCode() + "/" + acct.getAccountNumber());
+          }
+        }
+        limit = negativePaymentRequestApprovalLimitService.organizationApprovalLimit(acct.getFinancialChartOfAccountsCode(),account.getOrganizationCode());
+        if ( (limit != null) && (limit.compareTo(autoApproveAmount) < 0) ) {
+          autoApproveAmount = limit;
+        }
+      }
+      
+      // if the chart and acct nbr of this preq is in the maintenance table to be
+      // excluded from auto approve, then don't do the autoApprovePaymentRequest
+      if (autoApproveExcluded) {
+        LOG.info("autoApprovePaymentRequests() PREQ " + preq.getId() + " is excluded based on Auto Approve Exclusion settings for Chart-Account combo" +
+                chart + "-" + accountNumber + "... will not auto approve");
+        continue;
+      }
+      
+      if ( (FormValidation.isStringEmpty(defaultLimit)) && (autoApproveAmount == null) ) {
+        LOG.error("autoApprovePaymentRequests() Unable to get AP Auto Approve Max Amount and none set for PREQ " + preq.getId());
+        throw new InternalError("Unable to get AP Auto Approve Max Amount");
+      }
+      BigDecimal testAutoApproveAmount = new BigDecimal(defaultLimit);
+      if ( autoApproveAmount != null ) {
+        testAutoApproveAmount = autoApproveAmount;
+      }
+      if ( preq.getTotalCost().compareTo(testAutoApproveAmount) < 0 ) {
+        String env = environmentService.getEnvironment();
+        if (EnvironmentService.PRODUCTION_ENVIRONMENT.equals(env)) {
+          LOG.debug("autoApprovePaymentRequests() auto approving PREQ with ID " + preq.getId() + " and status " + preq.getStatus().getCode());
+          routingService.autoApprovePaymentRequest(preq,apSupervisor);
+        } else {
+          LOG.debug("autoApprovePaymentRequests() if not final approved... auto approving PREQ with ID " + preq.getId() + " and status " + preq.getStatus().getCode());
+          routingService.autoApprovePaymentRequestSkipPrevious(preq,apSupervisor);
+        }
+      } else {
+        LOG.info("autoApprovePaymentRequests() PREQ " + preq.getId() + " has total cost " + preq.getTotalCost().doubleValue() + 
+            " and is not less than the auto approve max limit of " + testAutoApproveAmount.doubleValue() + "... will not auto approve");
+      }
+    }
+  }
+
+     */
+    
+    
 }

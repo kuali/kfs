@@ -347,7 +347,7 @@ public class CollectorServiceImpl implements CollectorService {
         LOG.debug("sendNoteEmails() starting");
         MailMessage message = new MailMessage();
 
-        message.setFromAddress(kualiConfigurationService.getApplicationParameterValue(ParameterGroups.COLLECTOR_SECURITY_GROUP_NAME, SystemGroupParameterNames.COLLECTOR_EMAIL_FROM_PARAMETER_NAME));
+        message.setFromAddress(mailService.getBatchMailingList());
         
         String subject = kualiConfigurationService.getApplicationParameterValue(ParameterGroups.COLLECTOR_SECURITY_GROUP_NAME, SystemGroupParameterNames.COLLECTOR_EMAIL_SUBJECT_PARAMETER_NAME);
         String productionEnvironmentCode = kualiConfigurationService.getPropertyString(KFSConstants.PROD_ENVIRONMENT_CODE_KEY);

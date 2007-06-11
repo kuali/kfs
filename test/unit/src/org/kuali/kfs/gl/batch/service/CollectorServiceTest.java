@@ -51,9 +51,6 @@ public class CollectorServiceTest extends KualiTestBase {
      * Verifies system parameters needed to send the collector email exists.
      */
     public final void testEmailSystemParametersExist() throws Exception {
-        String emailfrom = configurationService.getApplicationParameterValue(ParameterGroups.COLLECTOR_SECURITY_GROUP_NAME, SystemGroupParameterNames.COLLECTOR_EMAIL_FROM_PARAMETER_NAME);
-        assertTrue("system parameter " + SystemGroupParameterNames.COLLECTOR_EMAIL_FROM_PARAMETER_NAME + " is not setup or is empty", StringUtils.isNotBlank(emailfrom));
-
         String subject = configurationService.getApplicationParameterValue(ParameterGroups.COLLECTOR_SECURITY_GROUP_NAME, SystemGroupParameterNames.COLLECTOR_EMAIL_SUBJECT_PARAMETER_NAME);
         assertTrue("system parameter " + SystemGroupParameterNames.COLLECTOR_EMAIL_SUBJECT_PARAMETER_NAME + " is not setup or is empty", StringUtils.isNotBlank(subject));
         

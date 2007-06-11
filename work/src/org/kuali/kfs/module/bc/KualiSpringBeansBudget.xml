@@ -68,6 +68,12 @@
 		</property>
 	</bean>
 
+	<bean id="permissionService" class="org.kuali.module.budget.service.impl.PermissionServiceImpl">
+		<property name="organizationService">
+			<ref bean="organizationService" />
+		</property>
+	</bean>
+
 	<bean id="budgetConstructionDao" parent="platformAwareDao" class="org.kuali.module.budget.dao.ojb.BudgetConstructionDaoOjb" />
 	
 	<bean id="budgetConstructionOrganizationReportsService" class="org.kuali.module.budget.service.impl.BudgetConstructionOrganizationReportsServiceImpl">

@@ -22,7 +22,7 @@ public class PosterEntriesStep extends AbstractStep {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PosterEntriesStep.class);
     private PosterService posterService;
 
-    public boolean execute() {
+    public boolean execute(String jobName) {
         posterService.postMainEntries();
         return true;
     }

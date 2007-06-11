@@ -23,6 +23,7 @@ import java.util.Map;
 import org.kuali.core.service.DateTimeService;
 import org.kuali.core.util.Guid;
 import org.kuali.core.util.UnitTestSqlDao;
+import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.batch.Step;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.test.KualiTestBase;
@@ -59,7 +60,7 @@ public class PurgeTest extends KualiTestBase {
         Step purgeStep = (Step) SpringServiceLocator.getBeanFactory().getBean("glPurgeEntryStep");
 
         // Run the purge
-        assertTrue("Should return true", purgeStep.execute());
+        assertTrue("Should return true", purgeStep.execute(getClass().getName()));
 
         // Check the results (should be 1 row for 2002)
         List counts = unitTestSqlDao.sqlSelect("select univ_fiscal_yr,count(*) from gl_entry_t group by univ_fiscal_yr order by univ_fiscal_yr");
@@ -86,7 +87,7 @@ public class PurgeTest extends KualiTestBase {
         Step purgeStep = (Step) SpringServiceLocator.getBeanFactory().getBean("glPurgeBalanceStep");
 
         // Run the purge
-        assertTrue("Should return true", purgeStep.execute());
+        assertTrue("Should return true", purgeStep.execute(getClass().getName()));
 
         // Check the results (should be 1 row for 1999)
         List counts = unitTestSqlDao.sqlSelect("select univ_fiscal_yr,count(*) from gl_balance_t group by univ_fiscal_yr order by univ_fiscal_yr");
@@ -113,7 +114,7 @@ public class PurgeTest extends KualiTestBase {
         Step purgeStep = (Step) SpringServiceLocator.getBeanFactory().getBean("glPurgeAccountBalancesStep");
 
         // Run the purge
-        assertTrue("Should return true", purgeStep.execute());
+        assertTrue("Should return true", purgeStep.execute(getClass().getName()));
 
         // Check the results (should be 1 row for 1999)
         List counts = unitTestSqlDao.sqlSelect("select univ_fiscal_yr,count(*) from gl_acct_balances_t group by univ_fiscal_yr order by univ_fiscal_yr");
@@ -140,7 +141,7 @@ public class PurgeTest extends KualiTestBase {
         Step purgeStep = (Step) SpringServiceLocator.getBeanFactory().getBean("glPurgeEncumbranceStep");
 
         // Run the purge
-        assertTrue("Should return true", purgeStep.execute());
+        assertTrue("Should return true", purgeStep.execute(getClass().getName()));
 
         // Check the results (should be 1 row for 2002)
         List counts = unitTestSqlDao.sqlSelect("select univ_fiscal_yr,count(*) from gl_encumbrance_t group by univ_fiscal_yr order by univ_fiscal_yr");
@@ -167,7 +168,7 @@ public class PurgeTest extends KualiTestBase {
         Step purgeStep = (Step) SpringServiceLocator.getBeanFactory().getBean("glPurgeInterDepartmentalBillingStep");
 
         // Run the purge
-        assertTrue("Should return true", purgeStep.execute());
+        assertTrue("Should return true", purgeStep.execute(getClass().getName()));
 
         // Check the results (should be 1 row for 2002)
         List counts = unitTestSqlDao.sqlSelect("select univ_fiscal_yr,count(*) from gl_id_bill_t group by univ_fiscal_yr order by univ_fiscal_yr");
@@ -194,7 +195,7 @@ public class PurgeTest extends KualiTestBase {
         Step purgeStep = (Step) SpringServiceLocator.getBeanFactory().getBean("glPurgeSufficientFundBalancesStep");
 
         // Run the purge
-        assertTrue("Should return true", purgeStep.execute());
+        assertTrue("Should return true", purgeStep.execute(getClass().getName()));
 
         // Check the results (should be 1 row for 1999)
         List counts = unitTestSqlDao.sqlSelect("select univ_fiscal_yr,count(*) from gl_sf_balances_t group by univ_fiscal_yr order by univ_fiscal_yr");

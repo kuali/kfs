@@ -114,7 +114,7 @@ public class FileEnterpriseFeederTest extends OriginEntryTestBase {
         assertNoExtraDoneFilesExistAndCreateDoneFilesForSets(fileSets);
 
         FeederStep feederStep = SpringServiceLocator.getOriginEntryFeederStep();
-        feederStep.execute();
+        feederStep.execute(getClass().getName());
         
         assertDoneFilesDeleted(fileSets);
         
@@ -137,7 +137,7 @@ public class FileEnterpriseFeederTest extends OriginEntryTestBase {
         assertNoExtraDoneFilesExistAndCreateDoneFilesForSets(fileSets);
 
         FeederStep feederStep = SpringServiceLocator.getOriginEntryFeederStep();
-        assertTrue("Step should have returned true", feederStep.execute());
+        assertTrue("Step should have returned true", feederStep.execute(getClass().getName()));
         
         assertDoneFilesDeleted(fileSets);
         
@@ -162,7 +162,7 @@ public class FileEnterpriseFeederTest extends OriginEntryTestBase {
         assertNoExtraDoneFilesExistAndCreateDoneFilesForSets(fileSets);
 
         FeederStep feederStep = SpringServiceLocator.getOriginEntryFeederStep();
-        assertTrue("Step should have returned true", feederStep.execute());
+        assertTrue("Step should have returned true", feederStep.execute(getClass().getName()));
         
         assertDoneFilesDeleted(fileSets);
         
@@ -183,7 +183,7 @@ public class FileEnterpriseFeederTest extends OriginEntryTestBase {
         assertNoExtraDoneFilesExistAndCreateDoneFilesForSets(fileSets);
 
         FeederStep feederStep = SpringServiceLocator.getOriginEntryFeederStep();
-        assertTrue("Step should have returned true", feederStep.execute());
+        assertTrue("Step should have returned true", feederStep.execute(getClass().getName()));
         
         assertDoneFilesDeleted(fileSets);
         
@@ -203,7 +203,7 @@ public class FileEnterpriseFeederTest extends OriginEntryTestBase {
         assertNoExtraDoneFilesExistAndCreateDoneFilesForSets(fileSets);
 
         FeederStep feederStep = SpringServiceLocator.getOriginEntryFeederStep();
-        assertTrue("Step should have returned true", feederStep.execute());
+        assertTrue("Step should have returned true", feederStep.execute(getClass().getName()));
         
         assertDoneFilesDeleted(fileSets);
         

@@ -39,7 +39,7 @@ public class PurgeEntryStep extends AbstractStep {
      * within their own transaction so database transaction logs don't get completely filled up when doing this. This step class
      * should NOT be transactional.
      */
-    public boolean execute() {
+    public boolean execute(String jobName) {
         String yearStr = kualiConfigurationService.getApplicationParameterValue(KFSConstants.ParameterGroups.SYSTEM, KFSConstants.SystemGroupParameterNames.PURGE_GL_ENTRY_T_BEFORE_YEAR);
         int year = Integer.parseInt(yearStr);
         List charts = chartService.getAllChartCodes();

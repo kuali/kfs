@@ -23,7 +23,7 @@ public class ScheduleStep extends AbstractStep {
     /**
      * @see org.kuali.kfs.batch.Step#execute()
      */
-    public boolean execute() {
+    public boolean execute(String jobName) {
         while (schedulerService.hasIncompleteJob()) {
             schedulerService.processWaitingJobs();
         }

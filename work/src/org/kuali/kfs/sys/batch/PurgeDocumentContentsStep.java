@@ -36,7 +36,7 @@ public class PurgeDocumentContentsStep extends AbstractStep {
     /**
      * @see org.kuali.kfs.batch.Step#performStep()
      */
-    public boolean execute() {
+    public boolean execute(String jobName) {
         int numberOfDaysFinal = Integer.parseInt(getConfigurationService().getApplicationParameterValue(KFSConstants.ParameterGroups.SYSTEM, getName() + "_NUMBER_OF_DAYS_FINAL"));
         Calendar financialDocumentFinalCalendar = getDateTimeService().getCurrentCalendar();
         financialDocumentFinalCalendar.add(GregorianCalendar.DAY_OF_YEAR, -numberOfDaysFinal);

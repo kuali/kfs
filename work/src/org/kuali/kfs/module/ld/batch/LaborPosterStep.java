@@ -28,7 +28,7 @@ public class LaborPosterStep extends AbstractStep {
     /**
      * @see org.kuali.kfs.batch.Step#execute()
      */
-    public boolean execute() {
+    public boolean execute(String jobName) {
         laborPosterService.postMainEntries();
         return true;
     }

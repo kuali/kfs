@@ -22,7 +22,7 @@ public class ClearPendingStep extends AbstractStep {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ClearPendingStep.class);
     private NightlyOutService nightlyOutService;
 
-    public boolean execute() {
+    public boolean execute(String jobName) {
         nightlyOutService.deleteCopiedPendingLedgerEntries();
         return true;
     }

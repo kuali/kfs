@@ -22,7 +22,7 @@ public class SufficientFundsSyncStep extends AbstractStep {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(SufficientFundsSyncStep.class);
     private SufficientFundsSyncService sufficientFundsSyncService;
 
-    public boolean execute() {
+    public boolean execute(String jobName) {
         sufficientFundsSyncService.syncSufficientFunds();
         return true;
     }

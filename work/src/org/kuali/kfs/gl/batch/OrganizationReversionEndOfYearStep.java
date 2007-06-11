@@ -22,7 +22,7 @@ public class OrganizationReversionEndOfYearStep extends AbstractStep {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(OrganizationReversionEndOfYearStep.class);
     private OrganizationReversionProcessService organizationReversionProcessService;
 
-    public boolean execute() {
+    public boolean execute(String jobName) {
         organizationReversionProcessService.organizationReversionProcessEndOfYear();
         return true;
     }

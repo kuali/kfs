@@ -21,7 +21,7 @@ import org.kuali.module.gl.service.SufficientFundsRebuilderService;
 public class SufficientFundsRebuilderStep extends AbstractStep {
     private SufficientFundsRebuilderService sufficientFundsRebuilderService;
 
-    public boolean execute() {
+    public boolean execute(String jobName) {
         sufficientFundsRebuilderService.rebuildSufficientFunds();
         return true;
     }

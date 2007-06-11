@@ -22,7 +22,7 @@ public interface Step {
      * @return true if successful and continue the job, false if successful and stop the job
      * @throws Throwable if unsuccessful
      */
-    public boolean execute() throws InterruptedException;
+    public boolean execute(String jobName) throws InterruptedException;
 
     /**
      * Return id of this step spring bean.

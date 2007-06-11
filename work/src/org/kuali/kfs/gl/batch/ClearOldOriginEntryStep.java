@@ -24,7 +24,7 @@ public class ClearOldOriginEntryStep extends AbstractStep {
     private OriginEntryGroupService originEntryGroupService;
     private KualiConfigurationService kualiConfigurationService;
 
-    public boolean execute() {
+    public boolean execute(String jobName) {
         LOG.debug("performStep() started");
         String daysStr = kualiConfigurationService.getApplicationParameterValue("glClearOldOriginEntryStep", "days");
         int days = Integer.parseInt(daysStr);

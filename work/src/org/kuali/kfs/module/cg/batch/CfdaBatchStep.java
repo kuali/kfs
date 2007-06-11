@@ -53,7 +53,7 @@ public class CfdaBatchStep extends AbstractStep {
      * 
      * @see org.kuali.kfs.batch.Step#execute()
      */
-    public boolean execute() throws InterruptedException {
+    public boolean execute(String jobName) throws InterruptedException {
         MailMessage message = new MailMessage();
 
         try {

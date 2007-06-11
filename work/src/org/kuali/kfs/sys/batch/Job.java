@@ -102,7 +102,7 @@ public class Job implements StatefulJob, InterruptableJob {
                     LOG.info(new StringBuffer("Executing step: ").append(step.getName()).append("=").append(step.getClass()));
                     step.setInterrupted( false );
                     try {
-                        if (step.execute()) {
+                        if (step.execute(jobExecutionContext.getJobDetail().getFullName())) {
                             LOG.info("Continuing after successful step execution");
                         }
                         else {

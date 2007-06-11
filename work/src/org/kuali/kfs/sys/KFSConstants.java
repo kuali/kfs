@@ -963,4 +963,6 @@ public class KFSConstants extends Constants {
      * true key.  For example, gl.EnterpriseFeeder.StatusDescriptionPrefix.org.kuali.module.gl.util.FileReconBadLoadAbortedStatus
      */
     public static final String ENTERPRISE_FEEDER_STATUS_DESCRIPTION_PREFIX = "gl.EnterpriseFeeder.StatusDescription.";
+    
+    public static final String BATCH_STEP_RUNNER_JOB_NAME = "stepRunByBatchStepRunner";
 }

@@ -21,7 +21,7 @@ import org.kuali.module.gl.service.ScrubberService;
 public class ScrubberStep extends AbstractStep {
     private ScrubberService scrubberService;
 
-    public boolean execute() {
+    public boolean execute(String jobName) {
         scrubberService.scrubEntries();
         return true;
     }

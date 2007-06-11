@@ -21,7 +21,7 @@ import org.kuali.module.gl.batch.closing.year.service.YearEndService;
 public class BalanceForwardStep extends AbstractStep {
     private YearEndService yearEndService;
 
-    public boolean execute() {
+    public boolean execute(String jobName) {
         yearEndService.forwardBalances();
         return true;
     }

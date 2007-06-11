@@ -28,7 +28,7 @@ public class PurgeOldLookupResultsStep extends AbstractStep {
     
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PurgeOldLookupResultsStep.class);
     
-    public boolean execute() {
+    public boolean execute(String jobName) {
         try {
             LOG.info("executing PurgeOldLookupResultsStep");
             

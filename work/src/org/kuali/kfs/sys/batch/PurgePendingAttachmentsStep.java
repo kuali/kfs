@@ -48,7 +48,7 @@ public class PurgePendingAttachmentsStep extends AbstractStep {
      * 
      * @see org.kuali.kfs.batch.Step#execute()
      */
-    public boolean execute() {
+    public boolean execute(String jobName) {
         Calendar calendar = getDateTimeService().getCurrentCalendar();
         String maxAgeInSecondsStr = getConfigurationService().getApplicationParameterValue(KFSConstants.ParameterGroups.SYSTEM,
                 KFSConstants.SystemGroupParameterNames.PURGE_PENDING_ATTACHMENTS_STEP_MAX_AGE);

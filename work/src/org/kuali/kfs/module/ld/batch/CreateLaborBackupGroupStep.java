@@ -22,7 +22,7 @@ public class CreateLaborBackupGroupStep extends AbstractStep {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CreateLaborBackupGroupStep.class);
     private OriginEntryGroupService originEntryGroupService;
 
-    public boolean execute() {
+    public boolean execute(String jobName) {
         originEntryGroupService.createLaborBackupGroup();
         return true;
     }

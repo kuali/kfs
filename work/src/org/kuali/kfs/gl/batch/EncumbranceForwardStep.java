@@ -24,7 +24,7 @@ public class EncumbranceForwardStep extends AbstractStep {
     /**
      * @see org.kuali.kfs.batch.Step#performStep()
      */
-    public boolean execute() {
+    public boolean execute(String jobName) {
         yearEndService.forwardEncumbrances();
         return true;
     }

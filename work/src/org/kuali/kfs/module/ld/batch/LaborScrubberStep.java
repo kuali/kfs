@@ -23,7 +23,7 @@ public class LaborScrubberStep extends AbstractStep {
 
     private LaborScrubberService laborScrubberService;
     
-    public boolean execute() {
+    public boolean execute(String jobName) {
         laborScrubberService.scrubEntries();
         return true;
     }

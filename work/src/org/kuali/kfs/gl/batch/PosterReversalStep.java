@@ -22,7 +22,7 @@ public class PosterReversalStep extends AbstractStep {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PosterReversalStep.class);
     private PosterService posterService;
 
-    public boolean execute() {
+    public boolean execute(String jobName) {
         posterService.postReversalEntries();
         return true;
     }

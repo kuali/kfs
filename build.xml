@@ -554,11 +554,10 @@
 		<!-- build the rice jar and war files -->
 		<maven goals="compiler:compile jar:jar" mavenhome="${maven.home.directory}" />
 		<!-- copy main JAR file to lib directory -->
-		<copy file="${rice.project.directory}/kns/target/kns-${rice.version}.jar" todir="${lib.directory}" overwrite="true" />
+		<copy file="${rice.project.directory}/kns/target/kns-${rice.version}.jar" todir="${lib.directory}" overwrite="true" verbose="true" />
 	</target>
 
 	<target name="update-rice-web" depends="init-project-properties" description="Replaces all rice-controlled web content in work/web-root">
-		<maven goals="war:war" mavenhome="${maven.home.directory}" />
 		<!-- copy the central web content from rice into KFS -->
 		<delete>
 			<fileset dir="${work.directory}/web-root/kr">
@@ -570,12 +569,12 @@
 				<include name="**/*.tag" />
 			</fileset>
 		</delete>
-		<unzip src="${rice.project.directory}/sampleapp/target/sampleapp-${rice.version}.war" dest="${work.directory}/web-root" overwrite="true">
-		    <patternset>
+		<copy todir="${work.directory}/web-root" overwrite="true">
+			<fileset dir="${rice.project.directory}/kns/src/test/webapp">
 		    	<include name="kr/**/**" />		    	
 		    	<include name="WEB-INF/tags/kr/**/*.tag" />
-		    </patternset>
-		</unzip>
+			</fileset>
+		</copy>
 	</target>
 	
 	<target name="update-rice-misc" depends="init-project-properties">

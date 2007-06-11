@@ -30,6 +30,7 @@ import org.apache.struts.action.ActionMapping;
 import org.apache.struts.action.ActionMessage;
 import org.apache.struts.action.ActionMessages;
 import org.kuali.Constants;
+import org.kuali.core.bo.DocumentHeader;
 import org.kuali.core.bo.Note;
 import org.kuali.core.question.ConfirmationQuestion;
 import org.kuali.core.service.BusinessObjectService;
@@ -38,7 +39,6 @@ import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.web.struts.form.KualiDocumentFormBase;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.util.SpringServiceLocator;
-import org.kuali.module.purap.PurapAuthorizationConstants;
 import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.PurapKeyConstants;
 import org.kuali.module.purap.PurapPropertyConstants;
@@ -523,6 +523,7 @@ public class PurchaseOrderAction extends PurchasingActionBase {
     public ActionForward retransmitPo(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         KualiDocumentFormBase kualiDocumentFormBase = (KualiDocumentFormBase) form;
         PurchaseOrderDocument po = (PurchaseOrderDocument) kualiDocumentFormBase.getDocument();
+        DocumentHeader oldDocumentHeader = po.getDocumentHeader();
         if (!po.getDocumentHeader().getWorkflowDocument().getDocumentType().equals(PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_RETRANSMIT_DOCUMENT)) {
 
             String documentType = PurchaseOrderDocTypes.PURCHASE_ORDER_RETRANSMIT_DOCUMENT;
@@ -539,8 +540,8 @@ public class PurchaseOrderAction extends PurchasingActionBase {
                 return mapping.findForward(KFSConstants.MAPPING_ERROR);
             }
             else {
-                ((PurchaseOrderForm) kualiDocumentFormBase).addButtons();
-                //kualiDocumentFormBase.getEditingMode().remove(PurapAuthorizationConstants.PurchaseOrderEditMode.DISPLAY_RETRANSMIT_TAB);
+                DocumentHeader newDocumentHeader = kualiDocumentFormBase.getDocument().getDocumentHeader();
+                kualiDocumentFormBase.getDocument().setDocumentHeader(oldDocumentHeader);
                 return mapping.findForward(KFSConstants.MAPPING_BASIC);
             }
         }
@@ -595,27 +596,6 @@ public class PurchaseOrderAction extends PurchasingActionBase {
             }
             return null;
         }
-    }
-
-    /**
-     * TODO: Remove this dummy method when we have the actual PrintAction working
-     * 
-     * @return
-     */
-    private PurchaseOrderVendorQuote createDummyPOVQ(PurchaseOrderDocument po) {
-        PurchaseOrderVendorQuote povq = new PurchaseOrderVendorQuote();
-        povq.setPurchaseOrderVendorQuoteIdentifier(1000);
-        povq.setVendorName("Dusty's Cellar");
-        povq.setVendorHeaderGeneratedIdentifier(1000);
-        povq.setVendorCityName("Okemos");
-        povq.setVendorCountryCode("USA");
-        povq.setVendorLine1Address("1 Dobie Rd");
-        povq.setVendorFaxNumber("517-111-1FAX");
-        povq.setVendorPhoneNumber("1-800-DUSTY-CELL");
-        povq.setVendorPostalCode("48864");
-        po.setPurchaseOrderQuoteDueDate(new Date(System.currentTimeMillis()));
-        povq.setPurchaseOrder(po);
-        return povq;
     }
 
     /**
@@ -710,28 +690,6 @@ public class PurchaseOrderAction extends PurchasingActionBase {
         
         return forward;
     }
-
-    /* We don't need to lock the PO during amendment routing anymore, we'll lock it in updateFlagsAndRoute()
-    @Override
-    public ActionForward route(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        KualiDocumentFormBase kualiDocumentFormBase = (KualiDocumentFormBase) form;
-        if (!kualiDocumentFormBase.getDocument().getDocumentHeader().getWorkflowDocument().getDocumentType().equals(PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_AMENDMENT_DOCUMENT)) {
-            return super.route(mapping, form, request, response);
-        }
-        else {
-            ActionForward preRulesForward = preRulesCheck(mapping, form, request, response);
-            if (preRulesForward != null) {
-                return preRulesForward;
-            }
-
-            boolean success = SpringServiceLocator.getPurchaseOrderService().routePurchaseOrderAmendmentDocument(kualiDocumentFormBase, kualiDocumentFormBase.getAnnotation(), combineAdHocRecipients(kualiDocumentFormBase));
-            if (!success) {
-                return mapping.findForward(KFSConstants.MAPPING_ERROR);
-            }
-            return mapping.findForward(KFSConstants.MAPPING_BASIC);
-        }
-    }
-    */
     
     /**
      * Delete a stipulation from the document.

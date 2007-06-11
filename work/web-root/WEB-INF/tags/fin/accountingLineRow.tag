@@ -329,7 +329,6 @@
 					accountingLineIndex="${accountingLineIndex}"
 					decorator="${decorator}" 
             			customActions="${customActions}"
-					rowspan="${rowspan}"
 					nestedIndex="${nestedIndex}"/>
 			</c:when>
 			<c:otherwise>
@@ -481,7 +480,6 @@
 				accountingAddLineIndex="${accountingAddLineIndex}"
 				accountingLineIndex="${accountingLineIndex}"
 				decorator="${decorator}"
-				rowspan="${rowspan}"
 				nestedIndex="${nestedIndex}" />
 		</c:if>
 	</tr>

@@ -424,7 +424,43 @@ public class LaborCorrectionAction extends CorrectionAction{
         return allValid;
     }
 
+    /**
+     * For criteria based edits, this method will generate the output group
+     * 
+     * @param entries a Collection of OriginEntry BOs, this collection and its elements may be directly modified as a result of this method
+     * @param matchCriteriaOnly if true, only those entries that matched the criteria before changes were applied will remain in the collection
+     * @param changeCriteriaGroups a list of criteria and change groups.
+     */
+    protected void applyCriteriaOnEntries(Collection<OriginEntry> entries, boolean matchCriteriaOnly, List<CorrectionChangeGroup> changeCriteriaGroups) {
+        // Now, if they only want matches in the output group, go through them again and delete items that don't match any of the
+        // groups
+        // This means that matches within a group are ANDed and each group is ORed
+        
+        if (matchCriteriaOnly) {
+            removeNonMatchingEntries(entries, changeCriteriaGroups);
+        }
 
+        for (OriginEntry oe : entries) {
+            for (CorrectionChangeGroup ccg : changeCriteriaGroups) {
+                int matches = 0;
+                for (CorrectionCriteria cc : ccg.getCorrectionCriteria()) {
+                    if (CorrectionDocumentUtils.laborEntryMatchesCriteria(cc, oe)) {
+                        matches++;
+                    }
+                }
+
+                // If they all match, change it
+                if (matches == ccg.getCorrectionCriteria().size()) {
+                    for (CorrectionChange change : ccg.getCorrectionChange()) {
+                        // Change the row
+                      /*  LaborOriginEntry loe = new LaborOriginEntry();
+                        loe = (LaborOriginEntry) oe;
+                      */  oe.setFieldValue(change.getCorrectionFieldName(), change.getCorrectionFieldValue());
+                    }
+                }
+            }
+        }
+    }
     
     
     

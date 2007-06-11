@@ -179,7 +179,7 @@ public class KFSConstants extends Constants {
     public static final String LABOR_DISTRIBUTION_ORIGIN_CODE = "LD";
     public static final String STAND_IN_BUSINESS_OBJECT_FOR_ATTRIBUTES = "AttributeReferenceDummy";
     public static final String LABOR_MODIFIED_INQUIRY_ACTION = "laborModifiedInquiry.do";
-    public static final String PERSON_FUNDING_INQUIRY_ACTION = "personFundingInquiry.do";    
+    public static final String EMPLOYEE_FUNDING_INQUIRY_ACTION = "employeeFundingInquiry.do";    
     public static final String OVERRIDE_KEYS = "overrideKeys";
 
     /**

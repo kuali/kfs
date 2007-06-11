@@ -1204,7 +1204,7 @@
 	</reference-descriptor>
 </class-descriptor>
 
-<class-descriptor class="org.kuali.module.labor.bo.PersonFunding" table="LD_LDGR_BAL_T">
+<class-descriptor class="org.kuali.module.labor.bo.EmployeeFunding" table="LD_LDGR_BAL_T">
 	<field-descriptor name="universityFiscalYear" column="UNIV_FISCAL_YR" jdbc-type="INTEGER" primarykey="true" index="true"/>
 	<field-descriptor name="chartOfAccountsCode" column="FIN_COA_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
 	<field-descriptor name="accountNumber" column="ACCOUNT_NBR" jdbc-type="VARCHAR" primarykey="true" index="true"/>

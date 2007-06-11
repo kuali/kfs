@@ -556,13 +556,13 @@
 		</property>
 	</bean>    	
 
-	<bean id="PersonFundingLookupable" class="org.kuali.core.lookup.KualiLookupableImpl" singleton="false">
+	<bean id="EmployeeFundingLookupable" class="org.kuali.core.lookup.KualiLookupableImpl" singleton="false">
 		<property name="lookupableHelperService">
-			<ref bean="PersonFundingLookupableHelperService" />
+			<ref bean="EmployeeFundingLookupableHelperService" />
 		</property>
 	</bean>
 	
-	<bean id="PersonFundingLookupableHelperService" class="org.kuali.module.labor.web.lookupable.PersonFundingLookupableHelperServiceImpl" singleton="false">
+	<bean id="EmployeeFundingLookupableHelperService" class="org.kuali.module.labor.web.lookupable.EmployeeFundingLookupableHelperServiceImpl" singleton="false">
 		<property name="persistenceStructureService">
 			<ref bean="persistenceStructureService" />
 		</property>

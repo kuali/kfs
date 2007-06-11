@@ -55,7 +55,7 @@
    		<form-bean name="LaborSalaryExpenseTransferForm" type="org.kuali.module.labor.web.struts.form.SalaryExpenseTransferForm" />
    		<form-bean name="LaborBenefitExpenseTransferForm" type="org.kuali.module.labor.web.struts.form.BenefitExpenseTransferForm" />
    		<form-bean name="LaborJournalVoucherForm" type="org.kuali.module.labor.web.struts.form.LaborJournalVoucherForm" />
-   		<form-bean name="PersonFundingInquiryForm" type="org.kuali.module.labor.web.struts.form.PersonFundingInquiryForm" />
+   		<form-bean name="EmployeeFundingInquiryForm" type="org.kuali.module.labor.web.struts.form.EmployeeFundingInquiryForm" />
 		<form-bean name="LaborCorrectionForm" type="org.kuali.module.labor.web.struts.form.LaborCorrectionForm" />
 
 		<!-- Budget Construction Bean Definitions -->
@@ -195,9 +195,9 @@
             <forward name="basic" path="/jsp/modules/labor/LongRowTableInquiry.jsp" />
         </action>
 
-		<action path="/personFundingInquiry" name="PersonFundingInquiryForm" scope="request" attribute="KualiForm" parameter="methodToCall" type="org.kuali.module.labor.web.struts.action.PersonFundingInquiryAction">
+		<action path="/employeeFundingInquiry" name="EmployeeFundingInquiryForm" scope="request" attribute="KualiForm" parameter="methodToCall" type="org.kuali.module.labor.web.struts.action.EmployeeFundingInquiryAction">
             <set-property property="cancellable" value="true" />
-            <forward name="basic" path="/jsp/modules/labor/PersonFundingInquiry.jsp" />
+            <forward name="basic" path="/jsp/modules/labor/EmployeeFundingInquiry.jsp" />
 			 <forward name="BalanceInquiry" path="/jsp/modules/generalLedger/BalanceInquiry.jsp" />
         </action>
 

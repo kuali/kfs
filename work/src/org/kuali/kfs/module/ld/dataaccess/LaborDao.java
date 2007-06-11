@@ -70,5 +70,5 @@ public interface LaborDao {
      * @param fieldValues
      * @return
      */
-    Iterator getPersonFunding(Map fieldValues);
+    Iterator getEmployeeFunding(Map fieldValues);
 }

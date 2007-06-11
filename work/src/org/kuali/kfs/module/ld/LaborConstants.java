@@ -108,8 +108,8 @@ public class LaborConstants {
         public static final String ENCUMBERENCE_CODE = "'IE'";
         public static final String ACTUALS_CODE = "'AC'";
         public static final String BALANCE_CODE = "'BB'";
-        public static final String PERSON_FUNDING_EXPENSE_OBJECT_TYPE_CODE = "ES";
-        public static final String PERSON_FUNDING_NORMAL_OP_EXPENSE_OBJECT_TYPE_CODE = "EX";
+        public static final String EMPLOYEE_FUNDING_EXPENSE_OBJECT_TYPE_CODE = "ES";
+        public static final String EMPLOYEE_FUNDING_NORMAL_OP_EXPENSE_OBJECT_TYPE_CODE = "EX";
     }
 
     public static class ParameterGroups {

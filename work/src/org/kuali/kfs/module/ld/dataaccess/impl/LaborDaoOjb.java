@@ -34,7 +34,7 @@ import org.kuali.module.gl.util.OJBUtility;
 import org.kuali.module.labor.LaborConstants;
 import org.kuali.module.labor.bo.AccountStatusBaseFunds;
 import org.kuali.module.labor.bo.AccountStatusCurrentFunds;
-import org.kuali.module.labor.bo.PersonFunding;
+import org.kuali.module.labor.bo.EmployeeFunding;
 import org.kuali.module.labor.dao.LaborDao;
 
 /**
@@ -150,19 +150,19 @@ public class LaborDaoOjb extends PlatformAwareDaoBaseOjb implements LaborDao {
         return getPersistenceBrokerTemplate().getCollectionByQuery(query);
     }
     /**
-     * @see org.kuali.module.labor.dao.LaborDao#getPersonFunding(java.util.Map)
+     * @see org.kuali.module.labor.dao.LaborDao#getEmployeeFunding(java.util.Map)
      */
-    public Iterator getPersonFunding(Map fieldValues) {
+    public Iterator getEmployeeFunding(Map fieldValues) {
 
         ArrayList objectTypeCodes = new ArrayList();
-        objectTypeCodes.add(LaborConstants.BalanceInquiries.PERSON_FUNDING_EXPENSE_OBJECT_TYPE_CODE);
-        objectTypeCodes.add(LaborConstants.BalanceInquiries.PERSON_FUNDING_NORMAL_OP_EXPENSE_OBJECT_TYPE_CODE);
+        objectTypeCodes.add(LaborConstants.BalanceInquiries.EMPLOYEE_FUNDING_EXPENSE_OBJECT_TYPE_CODE);
+        objectTypeCodes.add(LaborConstants.BalanceInquiries.EMPLOYEE_FUNDING_NORMAL_OP_EXPENSE_OBJECT_TYPE_CODE);
 
         Criteria criteria = new Criteria();
         criteria.addEqualToField("financialBalanceTypeCode", LaborConstants.BalanceInquiries.ACTUALS_CODE);
         criteria.addIn("financialObjectTypeCode", objectTypeCodes);
-        criteria.addAndCriteria(OJBUtility.buildCriteriaFromMap(fieldValues, new PersonFunding()));
-        ReportQueryByCriteria query = QueryFactory.newReportQuery(PersonFunding.class, criteria);
+        criteria.addAndCriteria(OJBUtility.buildCriteriaFromMap(fieldValues, new EmployeeFunding()));
+        ReportQueryByCriteria query = QueryFactory.newReportQuery(EmployeeFunding.class, criteria);
 
         List<String> groupByList = new ArrayList<String>();
         groupByList.add(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR);

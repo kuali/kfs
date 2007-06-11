@@ -30,7 +30,6 @@ public class CreditMemoItem extends AccountsPayableItemBase {
 
 
 
-    private Integer creditMemoItemIdentifier;
 	private Integer creditMemoIdentifier;
 	private Integer itemLineNumber;
 	private String itemTypeCode;
@@ -48,25 +47,6 @@ public class CreditMemoItem extends AccountsPayableItemBase {
 
 	}
 
-	/**
-	 * Gets the creditMemoItemIdentifier attribute.
-	 * 
-	 * @return Returns the creditMemoItemIdentifier
-	 * 
-	 */
-	public Integer getCreditMemoItemIdentifier() { 
-		return creditMemoItemIdentifier;
-	}
-
-	/**
-	 * Sets the creditMemoItemIdentifier attribute.
-	 * 
-	 * @param creditMemoItemIdentifier The creditMemoItemIdentifier to set.
-	 * 
-	 */
-	public void setCreditMemoItemIdentifier(Integer creditMemoItemIdentifier) {
-		this.creditMemoItemIdentifier = creditMemoItemIdentifier;
-	}
 
 
 	/**
@@ -229,8 +209,8 @@ public class CreditMemoItem extends AccountsPayableItemBase {
 	 */
 	protected LinkedHashMap toStringMapper() {
 	    LinkedHashMap m = new LinkedHashMap();	    
-        if (this.creditMemoItemIdentifier != null) {
-            m.put("creditMemoItemIdentifier", this.creditMemoItemIdentifier.toString());
+        if (this.getItemIdentifier() != null) {
+            m.put("creditMemoItemIdentifier", this.getItemIdentifier().toString());
         }
 	    return m;
     }

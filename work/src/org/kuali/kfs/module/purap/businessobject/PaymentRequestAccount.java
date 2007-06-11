@@ -27,8 +27,8 @@ import org.kuali.module.purap.util.PurApObjectUtils;
  */
 public class PaymentRequestAccount extends PurApAccountingLineBase {
 
-	private KualiDecimal itemAccountTotalAmount;
-	private KualiDecimal disencumberedAmount;
+	private KualiDecimal itemAccountTotalAmount = KualiDecimal.ZERO;
+	private KualiDecimal disencumberedAmount = KualiDecimal.ZERO;
 
     private PaymentRequestItem paymentRequestItem;
     

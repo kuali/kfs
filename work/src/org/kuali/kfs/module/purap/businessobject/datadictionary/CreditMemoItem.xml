@@ -28,7 +28,7 @@
 
             <inquirySections><inquirySection title="Header Text"><inquiryFields>
                 <field attributeName="creditMemoIdentifier" />
-                <field attributeName="creditMemoItemIdentifier" />
+                <field attributeName="itemIdentifier" />
                 <field attributeName="itemAssignedToTradeInIndicator" />
                 <field attributeName="itemCreditQuantity" />
                 <field attributeName="itemExtendedPrice" />
@@ -51,7 +51,7 @@
 
             <lookupFields>
                 <lookupField attributeName="creditMemoIdentifier" required="false" />
-                <lookupField attributeName="creditMemoItemIdentifier" required="false" />
+                <lookupField attributeName="itemIdentifier" required="false" />
                 <lookupField attributeName="itemAssignedToTradeInIndicator" required="false" />
                 <lookupField attributeName="itemCreditQuantity" required="false" />
                 <lookupField attributeName="itemExtendedPrice" required="false" />
@@ -62,7 +62,7 @@
 
             <resultFields>
                 <field attributeName="creditMemoIdentifier" />
-                <field attributeName="creditMemoItemIdentifier" />
+                <field attributeName="itemIdentifier" />
                 <field attributeName="itemAssignedToTradeInIndicator" />
                 <field attributeName="itemCreditQuantity" />
                 <field attributeName="itemExtendedPrice" />
@@ -89,21 +89,6 @@
 
                 <summary>creditMemoIdentifier</summary>
                 <description>creditMemoIdentifier description...</description>
-			</attribute>
-
-            <attribute name="creditMemoItemIdentifier" forceUppercase="true">
-                <label>Credit Memo Item Identifier</label>
-                <shortLabel>Identifier</shortLabel>
-
-                <maxLength>10</maxLength>
-                <validationPattern><numeric /></validationPattern>
-
-                <control>
-                    <text size="12" />
-                </control>
-
-                <summary>creditMemoItemIdentifier</summary>
-                <description>creditMemoItemIdentifier description...</description>
 			</attribute>
 
 			<attributeReference name="itemCreditQuantity" sourceClassName="org.kuali.module.purap.bo.PurApAttributeReferenceDummy" sourceAttributeName="genericItemQuantity">

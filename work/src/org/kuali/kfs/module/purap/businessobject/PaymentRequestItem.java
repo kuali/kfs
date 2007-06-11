@@ -320,7 +320,7 @@ public class PaymentRequestItem extends AccountsPayableItemBase {
     @Override
     public Class getAccountingLineClass() {
         // TODO Auto-generated method stub
-        return RequisitionAccount.class;
+        return PaymentRequestAccount.class;
     }
 
 }

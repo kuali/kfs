@@ -664,6 +664,8 @@ public class CorrectionAction extends KualiDocumentActionBase implements KualiTa
             
             correctionForm.setPreviousInputGroupId(correctionForm.getInputGroupId());
         }
+        
+        correctionForm.setShowOutputFlag(false);
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
@@ -1566,7 +1568,7 @@ public class CorrectionAction extends KualiDocumentActionBase implements KualiTa
      * @param matchCriteriaOnly if true, only those entries that matched the criteria before changes were applied will remain in the collection
      * @param changeCriteriaGroups a list of criteria and change groups.
      */
-    private void applyCriteriaOnEntries(Collection<OriginEntry> entries, boolean matchCriteriaOnly, List<CorrectionChangeGroup> changeCriteriaGroups) {
+    protected void applyCriteriaOnEntries(Collection<OriginEntry> entries, boolean matchCriteriaOnly, List<CorrectionChangeGroup> changeCriteriaGroups) {
         // Now, if they only want matches in the output group, go through them again and delete items that don't match any of the
         // groups
         // This means that matches within a group are ANDed and each group is ORed

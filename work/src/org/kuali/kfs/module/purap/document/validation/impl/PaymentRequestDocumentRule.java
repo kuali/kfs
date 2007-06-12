@@ -41,7 +41,6 @@ import org.kuali.module.purap.document.PaymentRequestDocument;
 import org.kuali.module.purap.document.PurchaseOrderDocument;
 import org.kuali.module.purap.document.PurchasingAccountsPayableDocument;
 
-
 public class PaymentRequestDocumentRule extends AccountsPayableDocumentRuleBase {
 
     private static KualiDecimal zero = new KualiDecimal(0);
@@ -60,24 +59,23 @@ public class PaymentRequestDocumentRule extends AccountsPayableDocumentRuleBase 
         return valid;
     }
 
-//  TODO should we call our validation here?
-//  @Override
-//  protected boolean processCustomSaveDocumentBusinessRules(Document document) {
-//      boolean isValid = true;
-//      PurchasingAccountsPayableDocument purapDocument = (PurchasingAccountsPayableDocument) document;
-//      return isValid &= processValidation(purapDocument);
-//  }
+    //  TODO should we call our validation here?
+    //  @Override
+    //  protected boolean processCustomSaveDocumentBusinessRules(Document document) {
+    //      boolean isValid = true;
+    //      PurchasingAccountsPayableDocument purapDocument = (PurchasingAccountsPayableDocument) document;
+    //      return isValid &= processValidation(purapDocument);
+    //  }
 
    
-          @Override
-          protected boolean processCustomSaveDocumentBusinessRules(Document document) {
-              boolean isValid = true;
-              PaymentRequestDocument  paymentRequestDocument = (PaymentRequestDocument) document;
-              return isValid &= processValidation(paymentRequestDocument);
-          }
+    @Override
+    protected boolean processCustomSaveDocumentBusinessRules(Document document) {
+        boolean isValid = true;
+        PaymentRequestDocument  paymentRequestDocument = (PaymentRequestDocument) document;
+        return isValid &= processValidation(paymentRequestDocument);
+    }
 
-      
-/**
+    /**
      * This method performs any validation for the Invoice tab.
      * 
      * @param preqDocument
@@ -95,77 +93,55 @@ public class PaymentRequestDocumentRule extends AccountsPayableDocumentRuleBase 
        
         Integer POID = document.getPurchaseOrderIdentifier();
        
-       // I think only the current PO can have the pending action indicator to be "Y". For all the other POs with the same PO number the pending indicator 
-       // should be always "N". So I think we only need to check if for the current PO the Pending indicator is "Y" and it is not a Retransmit doc, then 
-       //we don't allow users to create a PREQ. Correct? 
-      //given a PO number the use enters in the Init screen, for the rule "Error if the PO is not open" we also only need to check this rule against the current PO, Correct? 
-       PurchaseOrderDocument purchaseOrderDocument = SpringServiceLocator.getPurchaseOrderService().getCurrentPurchaseOrder(document.getPurchaseOrderIdentifier());
-       if (ObjectUtils.isNull(purchaseOrderDocument)) {
-            
+        // I think only the current PO can have the pending action indicator to be "Y". For all the other POs with the same PO number the pending indicator 
+        // should be always "N". So I think we only need to check if for the current PO the Pending indicator is "Y" and it is not a Retransmit doc, then 
+        // we don't allow users to create a PREQ. Correct? 
+        // given a PO number the use enters in the Init screen, for the rule "Error if the PO is not open" we also only need to check this rule against the current PO, Correct? 
+        PurchaseOrderDocument purchaseOrderDocument = SpringServiceLocator.getPurchaseOrderService().getCurrentPurchaseOrder(document.getPurchaseOrderIdentifier());
+        if (ObjectUtils.isNull(purchaseOrderDocument)) {    
             GlobalVariables.getErrorMap().putError(PurapPropertyConstants.PURCHASE_ORDER_IDENTIFIER, PurapKeyConstants.ERROR_PURCHASE_ORDER_NOT_EXIST);
             valid &= false;
-       } else if (!StringUtils.equals(purchaseOrderDocument.getStatusCode(),PurapConstants.PurchaseOrderStatuses.OPEN)){
+        } 
+        else if (!StringUtils.equals(purchaseOrderDocument.getStatusCode(),PurapConstants.PurchaseOrderStatuses.OPEN)){
             GlobalVariables.getErrorMap().putError(PurapPropertyConstants.PURCHASE_ORDER_IDENTIFIER, PurapKeyConstants.ERROR_PURCHASE_ORDER_NOT_OPEN);
             valid &= false;
             // if the PO is pending and it is not a Retransmit, we cannot generate a Payment Request for it:
-           // 2007-04-19 15:50:40,750 [http-8080-Processor23] ERROR org.apache.catalina.core.ContainerBase.[Catalina].[localhost].[/kuali-dev].[action] :: Servlet.service() for servlet action threw exception
-           // java.lang.RuntimeException: transient FlexDoc is null - this should never happen
-            //java.lang.RuntimeException: transient FlexDoc is null - this should never happen
-           // org.kuali.core.bo.DocumentHeader.getWorkflowDocument(DocumentHeader.java:67)
-    // } else if (purchaseOrderDocument.isPendingActionIndicator() & !StringUtils.equals(purchaseOrderDocument.getDocumentHeader().getWorkflowDocument().getDocumentType(), PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_RETRANSMIT_DOCUMENT)){
-     //       GlobalVariables.getErrorMap().putError(PurapPropertyConstants.PURCHASE_ORDER_IDENTIFIER, PurapKeyConstants.ERROR_PURCHASE_ORDER_IS_PENDING);
-      //      valid &= false;
-      }
+            // 2007-04-19 15:50:40,750 [http-8080-Processor23] ERROR org.apache.catalina.core.ContainerBase.[Catalina].[localhost].[/kuali-dev].[action] :: Servlet.service() for servlet action threw exception
+            // java.lang.RuntimeException: transient FlexDoc is null - this should never happen
+            // org.kuali.core.bo.DocumentHeader.getWorkflowDocument(DocumentHeader.java:67)
+        // } 
+        // else if (purchaseOrderDocument.isPendingActionIndicator() & !StringUtils.equals(purchaseOrderDocument.getDocumentHeader().getWorkflowDocument().getDocumentType(), PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_RETRANSMIT_DOCUMENT)){
+        //      GlobalVariables.getErrorMap().putError(PurapPropertyConstants.PURCHASE_ORDER_IDENTIFIER, PurapKeyConstants.ERROR_PURCHASE_ORDER_IS_PENDING);
+        //      valid &= false;
+        }
       
-       // Verify that there exists at least 1 item left to be invoiced
-       // TODO: There is this code segment in EPIC which I am not sure if should generate an error or not? 
-       // this sets the zeroDollar but never used it again 
-       boolean zeroDollar = true;
-       for (Iterator itemIter = purchaseOrderDocument.getItems().iterator(); itemIter.hasNext();) {
-         PurchaseOrderItem poi = (PurchaseOrderItem) itemIter.next();
-         KualiDecimal encumberedQuantity = poi.getItemOutstandingEncumberedQuantity() == null ? zero : poi.getItemOutstandingEncumberedQuantity();
-         if (encumberedQuantity.compareTo(zero) == 1) {
-           zeroDollar = false;
-           break;
-         }
-       }
+        // Verify that there exists at least 1 item left to be invoiced
+        boolean zeroDollar = true;
+        for (Iterator itemIter = purchaseOrderDocument.getItems().iterator(); itemIter.hasNext();) {
+            PurchaseOrderItem poi = (PurchaseOrderItem) itemIter.next();
+            KualiDecimal encumberedQuantity = poi.getItemOutstandingEncumberedQuantity() == null ? zero : poi.getItemOutstandingEncumberedQuantity();
+            if (encumberedQuantity.compareTo(zero) == 1) {
+                zeroDollar = false;
+                break;
+            }
+        }
+        if (zeroDollar) {
+            GlobalVariables.getErrorMap().putError(PurapPropertyConstants.PURCHASE_ORDER_IDENTIFIER, PurapKeyConstants.ERROR_NO_ITEMS_TO_INVOICE);
+            valid &= false;
+        }
          
         return valid;
     }
     
-    boolean processPaymentRequestDateValidation(PaymentRequestDocument document){
-        
+    boolean processPaymentRequestDateValidation(PaymentRequestDocument document){       
         boolean valid = true;
-        //valid &= isInvoiceDateAfterToday(document.getInvoiceDate());
-        if (isInvoiceDateAfterToday(document.getInvoiceDate())) {
-                GlobalVariables.getErrorMap().putError(PurapPropertyConstants.INVOICE_DATE, PurapKeyConstants.ERROR_INVALID_INVOICE_DATE);
-                 valid &= false;
+        if (SpringServiceLocator.getPaymentRequestService().isInvoiceDateAfterToday(document.getInvoiceDate())) {
+            GlobalVariables.getErrorMap().putError(PurapPropertyConstants.INVOICE_DATE, PurapKeyConstants.ERROR_INVALID_INVOICE_DATE);
+            valid &= false;
         }
         return valid;
     }
-    
-    
-    public boolean isInvoiceDateAfterToday(Date invoiceDate) {
-        // Check invoice date to make sure it is today or before
-        DateTimeService dateTimeService = SpringServiceLocator.getDateTimeService();
         
-        Calendar now = Calendar.getInstance();
-        now.set(Calendar.HOUR, 11);
-        now.set(Calendar.MINUTE, 59);
-        now.set(Calendar.SECOND, 59);
-        now.set(Calendar.MILLISECOND, 59);
-        Timestamp nowTime = new Timestamp(now.getTimeInMillis());
-        Calendar invoiceDateC = Calendar.getInstance();
-        invoiceDateC.setTime(invoiceDate);
-        // set time to midnight
-        invoiceDateC.set(Calendar.HOUR, 0);
-        invoiceDateC.set(Calendar.MINUTE, 0);
-        invoiceDateC.set(Calendar.SECOND, 0);
-        invoiceDateC.set(Calendar.MILLISECOND, 0);
-        Timestamp invoiceDateTime = new Timestamp(invoiceDateC.getTimeInMillis());
-        return ( (invoiceDateTime.compareTo(nowTime)) > 0 );
-      }
-    
 }
     
     

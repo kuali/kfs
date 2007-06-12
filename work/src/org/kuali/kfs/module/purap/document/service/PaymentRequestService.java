@@ -34,26 +34,6 @@ import org.kuali.module.vendor.service.VendorService;
 
 public interface PaymentRequestService {
 
-    public void setBusinessObjectService(BusinessObjectService boService);
-
-    public void setDateTimeService(DateTimeService dateTimeService) ;
-   
-
-    public void setDocumentService(DocumentService documentService) ;
-    
-    public void setNoteService(NoteService noteService);
-    
-
-    public void setGeneralLedgerService(GeneralLedgerService generalLedgerService) ;
-    
-    public void setPurapService(PurapService purapService) ;
-
-    public void setPaymentRequestDao(PaymentRequestDao paymentRequestDao) ;
-
-    public void setWorkflowDocumentService(WorkflowDocumentService workflowDocumentService) ;
-    
-    public void setVendorService(VendorService vendorService) ;
-
     public void save(PaymentRequestDocument paymentRequestDocument);
     
     public List<PaymentRequestDocument> getPaymentRequestsByPurchaseOrderId(Integer poDocId);

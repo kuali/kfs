@@ -77,6 +77,7 @@ public class PurapKeyConstants {
     public static final String ERROR_PURCHASE_ORDER_NOT_OPEN="error.invoice.purchaseOrder.notOpen";
     public static final String ERROR_PURCHASE_ORDER_IS_PENDING="error.invoice.purchaseOrder.isPending";
     public static final String ERROR_INVALID_INVOICE_DATE="errors.invalid.invoice.date";
+    public static final String ERROR_NO_ITEMS_TO_INVOICE="errors.invoice.items.noneLeft";
    
     public static final String MESSAGE_DUPLICATE_INVOICE_DATE_AMOUNT="message.duplicate.preq.date.amount";
     public static final String MESSAGE_DUPLICATE_INVOICE_DATE_AMOUNT_CANCELLEDORVOIDED="message.duplicate.invoice.date.amount.cancelledOrVoided";

@@ -16,7 +16,6 @@
 package org.kuali.module.purap.web.struts.action;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -26,30 +25,22 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.kuali.Constants;
 import org.kuali.core.bo.Note;
 import org.kuali.core.question.ConfirmationQuestion;
-import org.kuali.core.rule.event.SaveDocumentEvent;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.GlobalVariables;
-import org.kuali.core.util.TypedArrayList;
 import org.kuali.core.web.struts.form.KualiDocumentFormBase;
-import org.kuali.core.web.ui.ExtraButton;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.util.SpringServiceLocator;
-import org.kuali.module.purap.PurapAuthorizationConstants;
 import org.kuali.module.purap.PurapConstants;
-import org.kuali.module.purap.PurapPropertyConstants;
 import org.kuali.module.purap.PurapKeyConstants;
-import org.kuali.module.purap.PurapConstants.PODocumentsStrings;
 import org.kuali.module.purap.PurapConstants.PREQDocumentsStrings;
-import org.kuali.module.purap.PurapConstants.PurchaseOrderDocTypes;
 import org.kuali.module.purap.document.PaymentRequestDocument;
 import org.kuali.module.purap.document.PurchaseOrderDocument;
 import org.kuali.module.purap.question.SingleConfirmationQuestion;
+import org.kuali.module.purap.rule.event.ContinueAccountsPayableEvent;
 import org.kuali.module.purap.service.PaymentRequestService;
 import org.kuali.module.purap.web.struts.form.PaymentRequestForm;
-import org.kuali.rice.KNSServiceLocator;
 
 import edu.iu.uis.eden.exception.WorkflowException;
 
@@ -126,7 +117,7 @@ public class PaymentRequestAction extends AccountsPayableActionBase {
         
         // If we are here either there was no duplicate or there was a duplicate and the user hits continue, in either case we need to validate the business rules
         paymentRequestDocument.getDocumentHeader().setFinancialDocumentDescription("dummy data to pass the business rule");
-        boolean rulePassed = SpringServiceLocator.getKualiRuleService().applyRules(new SaveDocumentEvent(paymentRequestDocument)); 
+        boolean rulePassed = SpringServiceLocator.getKualiRuleService().applyRules(new ContinueAccountsPayableEvent(paymentRequestDocument)); 
         paymentRequestDocument.getDocumentHeader().setFinancialDocumentDescription(null);
         if (rulePassed) {
             

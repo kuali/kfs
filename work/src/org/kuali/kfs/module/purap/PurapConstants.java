@@ -378,6 +378,9 @@ public class PurapConstants {
         public static final String UNIT_OF_MEASURE = "Unit of Measure";
         public static final String DESCRIPTION = "Description";
         public static final String UNIT_COST = "Unit Cost";
+        public static final String INVOICE_QUANTITY = "Qty Invoiced";
+        public static final String OPEN_QUANTITY = "Open Qty";
+        public static final String INVOICE_EXTENDED_PRICE = "Total Inv Cost";
     }
     
     public static class CreditMemoStatuses {

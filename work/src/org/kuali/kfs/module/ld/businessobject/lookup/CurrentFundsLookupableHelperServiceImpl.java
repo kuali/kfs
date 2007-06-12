@@ -48,7 +48,7 @@ public class CurrentFundsLookupableHelperServiceImpl extends AbstractLookupableH
     private Map fieldValues;
     private LaborDao laborDao;
     private KualiConfigurationService kualiConfigurationService;
-    
+
     /**
      * @see org.kuali.core.lookup.Lookupable#getSearchResults(java.util.Map)
      */
@@ -60,25 +60,25 @@ public class CurrentFundsLookupableHelperServiceImpl extends AbstractLookupableH
 
         setBackLocation((String) fieldValues.get(KFSConstants.BACK_LOCATION));
         setDocFormKey((String) fieldValues.get(KFSConstants.DOC_FORM_KEY));
-        
+
         // get the pending entry option. This method must be prior to the get search results
-//        String pendingEntryOption = getSelectedPendingEntryOption(fieldValues);
-        
-//      get the consolidation option
-//        boolean isConsolidated = isConsolidationSelected(fieldValues);
-//System.out.println("isConsolidated:" + isConsolidated);        
+        String pendingEntryOption = getSelectedPendingEntryOption(fieldValues);
+        System.out.println("pendingEntryOption:" + pendingEntryOption);
+
+        // get the consolidation option
+        boolean isConsolidated = isConsolidationSelected(fieldValues);
+        System.out.println("isConsolidated:" + isConsolidated);
 
         // update search results according to the selected pending entry option
-//        updateByPendingLedgerEntry(searchResultsCollection, fieldValues, pendingEntryOption, isConsolidated, false);
+        // updateByPendingLedgerEntry(searchResultsCollection, fieldValues, pendingEntryOption, isConsolidated, false);
 
         if (((fieldValues.get(KFSPropertyConstants.FINANCIAL_OBJECT_CODE) != null) && (fieldValues.get(KFSPropertyConstants.FINANCIAL_OBJECT_CODE).toString().length() > 0))) {
 
             // Check for a valid labor object code for this inquiry
             if (StringUtils.indexOfAny(fieldValues.get(KFSPropertyConstants.FINANCIAL_OBJECT_CODE).toString(), LaborConstants.BalanceInquiries.VALID_LABOR_OBJECT_CODES) != 0)
-            GlobalVariables.getErrorMap().putError(LaborConstants.BalanceInquiries.ERROR_INVALID_LABOR_OBJECT_CODE, 
-                    LaborConstants.BalanceInquiries.ERROR_INVALID_LABOR_OBJECT_CODE, "2");
+                GlobalVariables.getErrorMap().putError(LaborConstants.BalanceInquiries.ERROR_INVALID_LABOR_OBJECT_CODE, LaborConstants.BalanceInquiries.ERROR_INVALID_LABOR_OBJECT_CODE, "2");
             List searchResults = new ArrayList();
-            
+
             return new CollectionIncomplete(searchResults, actualCountIfTruncated);
         }
         // Parse the map and call the DAO to process the inquiry
@@ -92,11 +92,10 @@ public class CurrentFundsLookupableHelperServiceImpl extends AbstractLookupableH
         if (defaultSortColumns.size() > 0) {
             Collections.sort(searchResults, new BeanPropertyComparator(defaultSortColumns, true));
         }
-               
 
         return new CollectionIncomplete(searchResults, actualCountIfTruncated);
     }
-    
+
     /**
      * @see org.kuali.core.lookup.Lookupable#getInquiryUrl(org.kuali.core.bo.BusinessObject, java.lang.String)
      */
@@ -104,11 +103,21 @@ public class CurrentFundsLookupableHelperServiceImpl extends AbstractLookupableH
     public String getInquiryUrl(BusinessObject bo, String propertyName) {
         return (new CurrentFundsInquirableImpl()).getInquiryUrl(bo, propertyName);
     }
-    
+
+
     /**
-     * @see org.kuali.module.gl.web.lookupable.AbstractGLLookupableImpl#updateEntryCollection(java.util.Collection, java.util.Map,
-     *      boolean, boolean, boolean)
+     * This method tests if the user selects to see the general ledager pending entries
+     * 
+     * @param fieldValues the map containing the search fields and values
+     * @return the value of pending entry option
      */
+    protected String getSelectedPendingEntryOption(Map fieldValues) {
+        // truncate the non-property filed
+        String pendingEntryOption = (String) fieldValues.get(Constant.PENDING_ENTRY_OPTION);
+        fieldValues.remove(Constant.PENDING_ENTRY_OPTION);
+
+        return pendingEntryOption;
+    }
 
     /**
      * This method tests if the user selects to see the details or consolidated results
@@ -116,7 +125,7 @@ public class CurrentFundsLookupableHelperServiceImpl extends AbstractLookupableH
      * @param fieldValues the map containing the search fields and values
      * @return true if consolidation is selected and subaccount is not specified
      */
-  /*  protected boolean isConsolidationSelected(Map fieldValues) {
+    protected boolean isConsolidationSelected(Map fieldValues) {
         // truncate the non-property filed
         String consolidationOption = (String) fieldValues.get(Constant.CONSOLIDATION_OPTION);
         fieldValues.remove(Constant.CONSOLIDATION_OPTION);
@@ -147,5 +156,20 @@ public class CurrentFundsLookupableHelperServiceImpl extends AbstractLookupableH
             return false;
         }
         return true;
-    }*/
+    }
+
+    // change the value of the field with the given field name into the given field value
+    protected void changeFieldValue(String fieldName, String fieldValue) {
+        for (Iterator rowIterator = getRows().iterator(); rowIterator.hasNext();) {
+            Row row = (Row) rowIterator.next();
+
+            for (Iterator fieldIterator = row.getFields().iterator(); fieldIterator.hasNext();) {
+                Field field = (Field) fieldIterator.next();
+
+                if (field.getPropertyName().equals(fieldName)) {
+                    field.setPropertyValue(fieldValue);
+                }
+            }
+        }
+    }
 }

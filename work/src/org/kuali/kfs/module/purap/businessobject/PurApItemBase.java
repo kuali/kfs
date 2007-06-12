@@ -385,13 +385,14 @@ public abstract class PurApItemBase extends PersistableBusinessObjectBase implem
      * @return Returns the extendedPrice.
      */
     public KualiDecimal getExtendedPrice() {
-        if(this.itemUnitPrice!=null) {
-            if(!this.itemType.isQuantityBasedGeneralLedgerIndicator() || this.itemQuantity==null) {
+        if (this.itemUnitPrice != null) {
+            if (!this.itemType.isQuantityBasedGeneralLedgerIndicator() || this.itemQuantity == null) {
                 return new KualiDecimal(this.itemUnitPrice.toString());
             }
             BigDecimal extendedPrice = this.itemUnitPrice.multiply(this.itemQuantity.bigDecimalValue());
             return new KualiDecimal(extendedPrice);
-        } else {
+        }
+        else {
             return null;
         }
     } 

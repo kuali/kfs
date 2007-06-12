@@ -103,10 +103,6 @@ public class OrganizationRoutingModelRule extends MaintenanceDocumentRuleBase {
         boolean success = true;
         
         success &= checkModelNameHasAtLeastOneModel(globalDelegateTemplate);
-        if (success) {
-            // if there's not any models, why check to see that any are active?
-            success &= checkModelNameHasAtLeastOneActiveModel(globalDelegateTemplate);
-        }
         
         int line = 0;
         for (OrganizationRoutingModel delegateModel: globalDelegateTemplate.getOrganizationRoutingModel()) {
@@ -130,9 +126,11 @@ public class OrganizationRoutingModelRule extends MaintenanceDocumentRuleBase {
         success &= checkDelegateToAmountNotNull(delegateModel);
         success &= checkDelegateToAmountGreaterThanFromAmount(delegateModel);
         success &= checkDelegateUserRules(delegateModel);
-        success &= checkPrimaryRouteOnlyAllowOneAllDocType(globalDelegateTemplate, delegateModel);
-        success &= checkPrimaryRoutePerDocType(globalDelegateTemplate, delegateModel);
-        
+        if (delegateModel.isActive()) {
+            success &= checkPrimaryRouteOnlyAllowOneAllDocType(globalDelegateTemplate, delegateModel);
+            success &= checkPrimaryRoutePerDocType(globalDelegateTemplate, delegateModel);
+        }
+    
         return success;
     }
     
@@ -157,6 +155,7 @@ public class OrganizationRoutingModelRule extends MaintenanceDocumentRuleBase {
      * @param globalDelegateTemplate the account delegate model to check
      * @return true if account delegate model has at least one active model in it.
      */
+    // method not currently in use, as per Bill's comments in KULRNE-4805
     protected boolean checkModelNameHasAtLeastOneActiveModel(OrganizationRoutingModelName globalDelegateTemplate) {
         boolean success = true;
         int activeModelCount = 0;
@@ -254,7 +253,7 @@ public class OrganizationRoutingModelRule extends MaintenanceDocumentRuleBase {
             success = false;
         }
         
-        if (success) {
+        if (success && delegateModel.isActive()) {
             UniversalUser user = delegateModel.getAccountDelegate();
     
             // user must be of the allowable statuses (A - Active)
@@ -305,7 +304,7 @@ public class OrganizationRoutingModelRule extends MaintenanceDocumentRuleBase {
         // at this point, the delegateChange being added is a Primary for ALL docTypes, so we need to
         // test whether any in the existing list are also Primary, regardless of docType
         for (OrganizationRoutingModel currDelegateModel: globalDelegateTemplate.getOrganizationRoutingModel()) {
-            if (!delegateModel.equals(currDelegateModel) && currDelegateModel.getAccountDelegatePrimaryRoutingIndicator()) {
+            if (currDelegateModel.isActive() && !delegateModel.equals(currDelegateModel) && currDelegateModel.getAccountDelegatePrimaryRoutingIndicator()) {
                 success = false;
                 GlobalVariables.getErrorMap().putError("accountDelegatePrimaryRoutingIndicator", KFSKeyConstants.ERROR_DOCUMENT_GLOBAL_DELEGATEMAINT_PRIMARY_ROUTE_ALL_TYPES_ALREADY_EXISTS, new String[0]);
             }
@@ -347,7 +346,7 @@ public class OrganizationRoutingModelRule extends MaintenanceDocumentRuleBase {
         // test whether any in the existing list are also Primary, regardless of docType
         String docType = delegateModel.getFinancialDocumentTypeCode();
         for (OrganizationRoutingModel currDelegateModel: globalDelegateTemplate.getOrganizationRoutingModel()) {
-            if (!delegateModel.equals(currDelegateModel) && currDelegateModel.getAccountDelegatePrimaryRoutingIndicator() && delegateModel.getFinancialDocumentTypeCode().equals(currDelegateModel.getFinancialDocumentTypeCode())) {
+            if (currDelegateModel.isActive() && !delegateModel.equals(currDelegateModel) && currDelegateModel.getAccountDelegatePrimaryRoutingIndicator() && delegateModel.getFinancialDocumentTypeCode().equals(currDelegateModel.getFinancialDocumentTypeCode())) {
                 success = false;
                 GlobalVariables.getErrorMap().putError("accountDelegatePrimaryRoutingIndicator", KFSKeyConstants.ERROR_DOCUMENT_GLOBAL_DELEGATEMAINT_PRIMARY_ROUTE_ALREADY_EXISTS_FOR_DOCTYPE, new String[0]);
             }

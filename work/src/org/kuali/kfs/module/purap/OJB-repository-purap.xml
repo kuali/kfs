@@ -799,9 +799,10 @@
         <orderby name="itemLineNumber" sort="ASC" />
         <inverse-foreignkey field-ref="purapDocumentIdentifier" />
     </collection-descriptor>
-    <reference-descriptor name="purchaseOrderDocument" class-ref="org.kuali.module.purap.document.PurchaseOrderDocument" auto-retrieve="true" auto-update="none" auto-delete="none">
-		<foreignkey field-ref="documentNumber" />
+<!--<reference-descriptor name="purchaseOrderDocument" class-ref="org.kuali.module.purap.document.PurchaseOrderDocument" auto-retrieve="true" auto-update="none" auto-delete="none">
+		<foreignkey field-ref="purchaseOrderIdentifier" />
 	</reference-descriptor>
+-->
 	<reference-descriptor name="vendorShippingPaymentTerms" class-ref="org.kuali.module.vendor.bo.ShippingPaymentTerms" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="vendorShippingPaymentTermsCode" />
     </reference-descriptor>

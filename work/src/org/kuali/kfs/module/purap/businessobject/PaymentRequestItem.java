@@ -76,7 +76,9 @@ public class PaymentRequestItem extends AccountsPayableItemBase {
         this.purchaseOrderItemUnitPrice = poi.getItemUnitPrice();
         this.purchaseOrderCommodityCode = poi.getPurchaseOrderCommodityCd();
         //set doc fields
+        this.setPurapDocumentIdentifier(preq.getPurapDocumentIdentifier());
         this.paymentRequest = preq;
+        this.refreshNonUpdateableReferences();
     }
 
     public PurchaseOrderItem getPurchaseOrderItem() {

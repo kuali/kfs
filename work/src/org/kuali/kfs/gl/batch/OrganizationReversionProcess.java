@@ -475,59 +475,61 @@ public class OrganizationReversionProcess {
     }
 
     private void writeReversion() {
-        OriginEntry entry = getEntry();
-        entry.setChartOfAccountsCode(unitOfWork.chartOfAccountsCode);
-        entry.setAccountNumber(unitOfWork.accountNbr);
-        entry.setSubAccountNumber(unitOfWork.subAccountNbr);
-        entry.setFinancialObjectCode(paramUnallocObjectCode);
-        entry.setFinancialSubObjectCode(KFSConstants.DASHES_SUB_OBJECT_CODE);
-        entry.setFinancialBalanceTypeCode("RE");
-
-        persistenceService.retrieveReferenceObject(entry, FINANCIAL_OBJECT);
-        if (entry.getFinancialObject() == null) {
-            // TODO Error! Line 2807
+        if (organizationReversion != null) {
+            OriginEntry entry = getEntry();
+            entry.setChartOfAccountsCode(unitOfWork.chartOfAccountsCode);
+            entry.setAccountNumber(unitOfWork.accountNbr);
+            entry.setSubAccountNumber(unitOfWork.subAccountNbr);
+            entry.setFinancialObjectCode(paramUnallocObjectCode);
+            entry.setFinancialSubObjectCode(KFSConstants.DASHES_SUB_OBJECT_CODE);
+            entry.setFinancialBalanceTypeCode("RE");
+    
+            persistenceService.retrieveReferenceObject(entry, FINANCIAL_OBJECT);
+            if (entry.getFinancialObject() == null) {
+                // TODO Error! Line 2807
+            }
+    
+            ObjectCode objectCode = entry.getFinancialObject();
+            entry.setFinancialObjectTypeCode(objectCode.getFinancialObjectTypeCode());
+    
+            entry.setUniversityFiscalPeriodCode(KFSConstants.MONTH13);
+    
+            entry.setDocumentNumber("AC" + entry.getAccountNumber());
+    
+            entry.setTransactionLedgerEntryDescription(kualiConfigurationService.getPropertyString(KFSKeyConstants.OrganizationReversionProcess.FUND_REVERTED_TO) + organizationReversion.getBudgetReversionAccountNumber());
+            entry.setTransactionLedgerEntryAmount(unitOfWork.getTotalReversion().negated());
+    
+            // 2841 MOVE TRN-LDGR-ENTR-AMT TO WS-AMT-W-PERIOD
+            // 2842 WS-AMT-N.
+            // 2843 MOVE WS-AMT-X TO TRN-AMT-RED-X.
+    
+            originEntryService.createEntry(entry, outputGroup);
+    
+            // 2845 MOVE WS-AMT-N TO TRN-LDGR-ENTR-AMT.
+            // 2851 022070 ADD +1 TO SEQ-WRITE-COUNT.
+    
+            entry = getEntry();
+            entry.setChartOfAccountsCode(unitOfWork.chartOfAccountsCode);
+            entry.setAccountNumber(organizationReversion.getBudgetReversionAccountNumber());
+            entry.setSubAccountNumber(KFSConstants.DASHES_SUB_ACCOUNT_NUMBER);
+            entry.setFinancialObjectCode(paramUnallocObjectCode);
+            entry.setFinancialSubObjectCode(KFSConstants.DASHES_SUB_OBJECT_CODE);
+            entry.setFinancialBalanceTypeCode("RE");
+            entry.setFinancialObjectTypeCode(objectCode.getFinancialObjectTypeCode());
+            entry.setUniversityFiscalPeriodCode(KFSConstants.MONTH13);
+            entry.setDocumentNumber("AC" + unitOfWork.accountNbr + unitOfWork.subAccountNbr);
+            entry.setTransactionLedgerEntryDescription(kualiConfigurationService.getPropertyString(KFSKeyConstants.OrganizationReversionProcess.FUND_REVERTED_FROM) + unitOfWork.accountNbr + " " + unitOfWork.subAccountNbr);
+            entry.setTransactionLedgerEntryAmount(unitOfWork.getTotalReversion());
+    
+            // 2899 MOVE TRN-LDGR-ENTR-AMT TO WS-AMT-W-PERIOD
+            // 2900 WS-AMT-N.
+            // 2901 MOVE WS-AMT-X TO TRN-AMT-RED-X.
+    
+            originEntryService.createEntry(entry, outputGroup);
+    
+            // 2903 MOVE WS-AMT-N TO TRN-LDGR-ENTR-AMT.
+            // 2909 022610 ADD +1 TO SEQ-WRITE-COUNT.
         }
-
-        ObjectCode objectCode = entry.getFinancialObject();
-        entry.setFinancialObjectTypeCode(objectCode.getFinancialObjectTypeCode());
-
-        entry.setUniversityFiscalPeriodCode(KFSConstants.MONTH13);
-
-        entry.setDocumentNumber("AC" + entry.getAccountNumber());
-
-        entry.setTransactionLedgerEntryDescription(kualiConfigurationService.getPropertyString(KFSKeyConstants.OrganizationReversionProcess.FUND_REVERTED_TO) + organizationReversion.getBudgetReversionAccountNumber());
-        entry.setTransactionLedgerEntryAmount(unitOfWork.getTotalReversion().negated());
-
-        // 2841 MOVE TRN-LDGR-ENTR-AMT TO WS-AMT-W-PERIOD
-        // 2842 WS-AMT-N.
-        // 2843 MOVE WS-AMT-X TO TRN-AMT-RED-X.
-
-        originEntryService.createEntry(entry, outputGroup);
-
-        // 2845 MOVE WS-AMT-N TO TRN-LDGR-ENTR-AMT.
-        // 2851 022070 ADD +1 TO SEQ-WRITE-COUNT.
-
-        entry = getEntry();
-        entry.setChartOfAccountsCode(unitOfWork.chartOfAccountsCode);
-        entry.setAccountNumber(organizationReversion.getBudgetReversionAccountNumber());
-        entry.setSubAccountNumber(KFSConstants.DASHES_SUB_ACCOUNT_NUMBER);
-        entry.setFinancialObjectCode(paramUnallocObjectCode);
-        entry.setFinancialSubObjectCode(KFSConstants.DASHES_SUB_OBJECT_CODE);
-        entry.setFinancialBalanceTypeCode("RE");
-        entry.setFinancialObjectTypeCode(objectCode.getFinancialObjectTypeCode());
-        entry.setUniversityFiscalPeriodCode(KFSConstants.MONTH13);
-        entry.setDocumentNumber("AC" + unitOfWork.accountNbr + " " + unitOfWork.subAccountNbr);
-        entry.setTransactionLedgerEntryDescription(kualiConfigurationService.getPropertyString(KFSKeyConstants.OrganizationReversionProcess.FUND_REVERTED_FROM) + unitOfWork.accountNbr + " " + unitOfWork.subAccountNbr);
-        entry.setTransactionLedgerEntryAmount(unitOfWork.getTotalReversion());
-
-        // 2899 MOVE TRN-LDGR-ENTR-AMT TO WS-AMT-W-PERIOD
-        // 2900 WS-AMT-N.
-        // 2901 MOVE WS-AMT-X TO TRN-AMT-RED-X.
-
-        originEntryService.createEntry(entry, outputGroup);
-
-        // 2903 MOVE WS-AMT-N TO TRN-LDGR-ENTR-AMT.
-        // 2909 022610 ADD +1 TO SEQ-WRITE-COUNT.
     }
 
     private void calculateTotals(Balance bal) {
@@ -563,38 +565,66 @@ public class OrganizationReversionProcess {
         if ((organizationReversion == null) || (!organizationReversion.getChartOfAccountsCode().equals(bal.getChartOfAccountsCode())) || (!organizationReversion.getOrganizationCode().equals(account.getOrganizationCode()))) {
             organizationReversion = organizationReversionService.getByPrimaryId(paramUniversityFiscalYear, bal.getChartOfAccountsCode(), account.getOrganizationCode());
             if (organizationReversion == null) {
+                LOG.debug("Organization Reversion null for balance: "+bal+"; org = "+account.getOrganizationCode());
                 // TODO ERROR! Line 2058
             }
         }
 
-        // Accounts with the type of S3 have all rules always set to A
-        if (KFSConstants.ACCOUNT_TYPE_S3.equals(bal.getAccount().getAccountTypeCode())) {
-            List details = organizationReversion.getOrganizationReversionDetail();
-            for (Iterator iter = details.iterator(); iter.hasNext();) {
-                OrganizationReversionDetail element = (OrganizationReversionDetail) iter.next();
-                element.setOrganizationReversionCode(KFSConstants.EMPLOYEE_ACTIVE_STATUS);
+        if (organizationReversion != null) {
+            // Accounts with the type of S3 have all rules always set to A
+            if (KFSConstants.ACCOUNT_TYPE_S3.equals(bal.getAccount().getAccountTypeCode())) {
+                List details = organizationReversion.getOrganizationReversionDetail();
+                for (Iterator iter = details.iterator(); iter.hasNext();) {
+                    OrganizationReversionDetail element = (OrganizationReversionDetail) iter.next();
+                    element.setOrganizationReversionCode(KFSConstants.EMPLOYEE_ACTIVE_STATUS);
+                }
             }
-        }
-
-        // For each category, apply the rules
-        for (Iterator iter = categoryList.iterator(); iter.hasNext();) {
-            OrganizationReversionCategory category = (OrganizationReversionCategory) iter.next();
-            String categoryCode = category.getOrganizationReversionCategoryCode();
-            OrganizationReversionCategoryLogic logic = categories.get(categoryCode);
-            CategoryAmount amount = unitOfWork.amounts.get(categoryCode);
-
-            OrganizationReversionDetail detail = organizationReversion.getOrganizationReversionDetail(categoryCode);
-            String ruleCode = detail.getOrganizationReversionCode();
-
-            if (KFSConstants.RULE_CODE_R1.equals(ruleCode) || KFSConstants.RULE_CODE_N1.equals(ruleCode) || KFSConstants.RULE_CODE_C1.equals(ruleCode)) {
-                if (amount.getAvailable().compareTo(KualiDecimal.ZERO) > 0) {
-                    if (amount.getAvailable().compareTo(amount.getEncumbrance()) > 0) {
-                        unitOfWork.addTotalCarryForward(amount.getEncumbrance());
-                        amount.addCarryForward(amount.getEncumbrance());
-                        unitOfWork.addTotalReversion(amount.getEncumbrance().negated());
-                        unitOfWork.addTotalAvailable(amount.getEncumbrance().negated());
+    
+            // For each category, apply the rules
+            for (Iterator iter = categoryList.iterator(); iter.hasNext();) {
+                OrganizationReversionCategory category = (OrganizationReversionCategory) iter.next();
+                String categoryCode = category.getOrganizationReversionCategoryCode();
+                OrganizationReversionCategoryLogic logic = categories.get(categoryCode);
+                CategoryAmount amount = unitOfWork.amounts.get(categoryCode);
+    
+                OrganizationReversionDetail detail = organizationReversion.getOrganizationReversionDetail(categoryCode);
+                String ruleCode = detail.getOrganizationReversionCode();
+    
+                if (KFSConstants.RULE_CODE_R1.equals(ruleCode) || KFSConstants.RULE_CODE_N1.equals(ruleCode) || KFSConstants.RULE_CODE_C1.equals(ruleCode)) {
+                    if (amount.getAvailable().compareTo(KualiDecimal.ZERO) > 0) {
+                        if (amount.getAvailable().compareTo(amount.getEncumbrance()) > 0) {
+                            unitOfWork.addTotalCarryForward(amount.getEncumbrance());
+                            amount.addCarryForward(amount.getEncumbrance());
+                            unitOfWork.addTotalReversion(amount.getEncumbrance().negated());
+                            unitOfWork.addTotalAvailable(amount.getEncumbrance().negated());
+                        }
+                        else {
+                            unitOfWork.addTotalCarryForward(amount.getAvailable());
+                            amount.addCarryForward(amount.getAvailable());
+                            unitOfWork.addTotalReversion(amount.getAvailable().negated());
+                            amount.setAvailable(KualiDecimal.ZERO);
+                        }
                     }
-                    else {
+                }
+    
+                if (KFSConstants.EMPLOYEE_ACTIVE_STATUS.equals(ruleCode)) {
+                    unitOfWork.addTotalCarryForward(amount.getCarryForward());
+                    amount.addCarryForward(amount.getAvailable());
+                    unitOfWork.addTotalReversion(amount.getAvailable().negated());
+                    amount.setAvailable(KualiDecimal.ZERO);
+                }
+    
+                if (KFSConstants.RULE_CODE_C1.equals(ruleCode) || KFSConstants.RULE_CODE_C2.equals(ruleCode)) {
+                    if (amount.getAvailable().compareTo(KualiDecimal.ZERO) > 0) {
+                        unitOfWork.addTotalCarryForward(amount.getAvailable());
+                        amount.addCarryForward(amount.getAvailable());
+                        unitOfWork.addTotalReversion(amount.getAvailable());
+                        amount.setAvailable(KualiDecimal.ZERO);
+                    }
+                }
+    
+                if (KFSConstants.RULE_CODE_N1.equals(ruleCode) || KFSConstants.RULE_CODE_N2.equals(ruleCode)) {
+                    if (amount.getAvailable().compareTo(KualiDecimal.ZERO) < 0) {
                         unitOfWork.addTotalCarryForward(amount.getAvailable());
                         amount.addCarryForward(amount.getAvailable());
                         unitOfWork.addTotalReversion(amount.getAvailable().negated());
@@ -602,32 +632,7 @@ public class OrganizationReversionProcess {
                     }
                 }
             }
-
-            if (KFSConstants.EMPLOYEE_ACTIVE_STATUS.equals(ruleCode)) {
-                unitOfWork.addTotalCarryForward(amount.getCarryForward());
-                amount.addCarryForward(amount.getAvailable());
-                unitOfWork.addTotalReversion(amount.getAvailable().negated());
-                amount.setAvailable(KualiDecimal.ZERO);
-            }
-
-            if (KFSConstants.RULE_CODE_C1.equals(ruleCode) || KFSConstants.RULE_CODE_C2.equals(ruleCode)) {
-                if (amount.getAvailable().compareTo(KualiDecimal.ZERO) > 0) {
-                    unitOfWork.addTotalCarryForward(amount.getAvailable());
-                    amount.addCarryForward(amount.getAvailable());
-                    unitOfWork.addTotalReversion(amount.getAvailable());
-                    amount.setAvailable(KualiDecimal.ZERO);
-                }
-            }
-
-            if (KFSConstants.RULE_CODE_N1.equals(ruleCode) || KFSConstants.RULE_CODE_N2.equals(ruleCode)) {
-                if (amount.getAvailable().compareTo(KualiDecimal.ZERO) < 0) {
-                    unitOfWork.addTotalCarryForward(amount.getAvailable());
-                    amount.addCarryForward(amount.getAvailable());
-                    unitOfWork.addTotalReversion(amount.getAvailable().negated());
-                    amount.setAvailable(KualiDecimal.ZERO);
-                }
-            }
-        }
+        } // end if (organizationReversion != null)
     }
 
     private void setParameters() {

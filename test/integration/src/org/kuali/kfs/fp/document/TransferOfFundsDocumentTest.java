@@ -85,7 +85,7 @@ public class TransferOfFundsDocumentTest extends KualiTestBase {
 
 
     @TestsWorkflowViaDatabase
-    @RelatesTo(RelatesTo.JiraIssue.KULUT10)
+    @RelatesTo(RelatesTo.JiraIssue.KULRNE4834)
     public void testWorkflowRouting() throws Exception {
         // save and route the document
         AccountingDocument document = (AccountingDocument) buildDocumentForWorkflowRoutingTest();

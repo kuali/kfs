@@ -116,7 +116,7 @@ public class DisbursementVoucherDocumentTest extends KualiTestBase {
     }
 
     @TestsWorkflowViaDatabase
-    @RelatesTo(RelatesTo.JiraIssue.KULUT10)
+    @RelatesTo(RelatesTo.JiraIssue.KULRNE4834)
     public final void testWorkflowRouting() throws Exception {
         // save and route the document
         Document document = buildDocument();

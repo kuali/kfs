@@ -565,7 +565,7 @@ public class OrganizationReversionProcess {
         if ((organizationReversion == null) || (!organizationReversion.getChartOfAccountsCode().equals(bal.getChartOfAccountsCode())) || (!organizationReversion.getOrganizationCode().equals(account.getOrganizationCode()))) {
             organizationReversion = organizationReversionService.getByPrimaryId(paramUniversityFiscalYear, bal.getChartOfAccountsCode(), account.getOrganizationCode());
             if (organizationReversion == null) {
-                LOG.debug("Organization Reversion null for balance: "+bal+"; org = "+account.getOrganizationCode());
+                LOG.info("No Organization Reversion found for: "+paramUniversityFiscalYear+"-"+bal.getChartOfAccountsCode()+"-"+account.getOrganizationCode());
                 // TODO ERROR! Line 2058
             }
         }

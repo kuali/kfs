@@ -127,7 +127,7 @@
 
         <div style="padding: 10px">
             <c:if test="${allowOpen}">
-                <html:image src="${ConfigProperties.kr.externalizable.images.url}buttonsmall_openCashDrawer.gif" style="border: none" property="methodToCall.openCashDrawer" title="Open Cash Drawer" alt="Open Cash Drawer" />
+                <html:image src="${ConfigProperties.externalizable.images.url}buttonsmall_openCashDrawer.gif" style="border: none" property="methodToCall.openCashDrawer" title="Open Cash Drawer" alt="Open Cash Drawer" />
             </c:if>
             
             <c:if test="${allowRefresh}">

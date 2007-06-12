@@ -61,7 +61,7 @@
     	<c:if test="${empty KualiForm.document.budget.budgetProjectDirectorUniversalIdentifier && !KualiForm.document.budget.projectDirectorToBeNamedIndicator}">(select)</c:if>
     	<c:if test="${KualiForm.document.budget.projectDirectorToBeNamedIndicator}">TO BE NAMED</c:if>
     	<c:if test="${!viewOnly}">
-	    	<kul:lookup boClassName="org.kuali.module.cg.bo.ProjectDirector" fieldConversions="universalUser.personUniversalIdentifier:document.budget.budgetProjectDirectorUniversalIdentifier,universalUser.personName:document.budget.projectDirector.universalUser.personName," tabindexOverride="5000" extraButtonSource="${ConfigProperties.kr.externalizable.images.url}buttonsmall_namelater.gif" extraButtonParams="&document.budget.projectDirectorToBeNamedIndicator=true" anchor="${currentTabIndex}" />
+	    	<kul:lookup boClassName="org.kuali.module.cg.bo.ProjectDirector" fieldConversions="universalUser.personUniversalIdentifier:document.budget.budgetProjectDirectorUniversalIdentifier,universalUser.personName:document.budget.projectDirector.universalUser.personName," tabindexOverride="5000" extraButtonSource="${ConfigProperties.externalizable.images.url}buttonsmall_namelater.gif" extraButtonParams="&document.budget.projectDirectorToBeNamedIndicator=true" anchor="${currentTabIndex}" />
     	</c:if>
     </td>
     <th scope="row" ><div align="right">* ${budgetAttributes.budgetPersonnelInflationRate.label}:</div></th>
@@ -86,7 +86,7 @@
     	<c:if test="${empty KualiForm.document.budget.budgetAgencyNumber && !KualiForm.document.budget.agencyToBeNamedIndicator}">(select)</c:if>
     	<c:if test="${KualiForm.document.budget.agencyToBeNamedIndicator}">TO BE NAMED</c:if>
     	<c:if test="${!viewOnly}">
-    		<kul:lookup boClassName="org.kuali.module.cg.bo.Agency" lookupParameters="document.budget.budgetAgencyNumber:agencyNumber,document.budget.budgetAgency.fullName:fullName" fieldConversions="agencyNumber:document.budget.budgetAgencyNumber,fullName:document.budget.budgetAgency.fullName" tabindexOverride="5100" extraButtonSource="${ConfigProperties.kr.externalizable.images.url}buttonsmall_namelater.gif" extraButtonParams="&document.budget.agencyToBeNamedIndicator=true" anchor="${currentTabIndex}" />
+    		<kul:lookup boClassName="org.kuali.module.cg.bo.Agency" lookupParameters="document.budget.budgetAgencyNumber:agencyNumber,document.budget.budgetAgency.fullName:fullName" fieldConversions="agencyNumber:document.budget.budgetAgencyNumber,fullName:document.budget.budgetAgency.fullName" tabindexOverride="5100" extraButtonSource="${ConfigProperties.externalizable.images.url}buttonsmall_namelater.gif" extraButtonParams="&document.budget.agencyToBeNamedIndicator=true" anchor="${currentTabIndex}" />
     	</c:if>
     </td>
   </tr>

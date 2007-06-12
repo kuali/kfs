@@ -102,7 +102,7 @@
                 <html:select property="downloadFileType">
                   <html:optionsCollection property="fileTypes" label="label" value="key"/>
                 </html:select>
-                <html:image src="${ConfigProperties.kr.externalizable.images.url}tinybutton-download.gif" styleClass="globalbuttons" property="methodToCall.download" title="Download Batch File" alt="Download Batch File" onclick="excludeSubmitRestriction=true;"/></div>
+                <html:image src="${ConfigProperties.externalizable.images.url}tinybutton-download.gif" styleClass="globalbuttons" property="methodToCall.download" title="Download Batch File" alt="Download Batch File" onclick="excludeSubmitRestriction=true;"/></div>
               </td>
               <td class="infoline"><div align="center">
                 <html:image src="${ConfigProperties.kr.externalizable.images.url}tinybutton-delete1.gif" styleClass="globalbuttons" property="methodToCall.delete" title="Delete Batch File" alt="Delete Batch File" />

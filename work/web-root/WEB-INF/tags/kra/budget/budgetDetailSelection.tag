@@ -39,7 +39,7 @@
               <html:options collection="budgetPeriods" property="budgetPeriodSequenceNumber" labelProperty="budgetPeriodLabel"/>
               <c:if test="${includeSummary && KualiForm.document.periodListSize > 1}"><html:option value="0">Summary</html:option></c:if>
             </html:select>
-&nbsp; &nbsp;<html:image property="methodToCall.update" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-updateview.gif" align="middle" styleClass="tinybutton" alt="update"/></div>
+&nbsp; &nbsp;<html:image property="methodToCall.update" src="${ConfigProperties.externalizable.images.url}tinybutton-updateview.gif" align="middle" styleClass="tinybutton" alt="update"/></div>
           <table width="100%" cellpadding="0"  cellspacing="0" class="annotate-top">
             <tr>
               <td class="annotate-b"><img src="${ConfigProperties.kr.externalizable.images.url}annotate-bl1.gif" alt="" width=12 height=24></td>

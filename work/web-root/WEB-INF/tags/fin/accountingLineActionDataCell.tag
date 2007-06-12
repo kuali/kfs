@@ -72,10 +72,10 @@
                 <html:image property="methodToCall.${deleteMethod}.anchoraccounting${actionInfix}Anchor" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-delete1.gif" title="Delete Accounting Line ${accountingLineIndex+1}" alt="Delete Accounting Line ${accountingLineIndex+1}" styleClass="tinybutton"/>
                 <c:if test="${revertible}">
                     <br>
-                    <html:image property="methodToCall.${revertMethod}.anchoraccounting${actionInfix}${actionGroup}LineAnchor${0 + accountingLineIndex}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-revert1.gif" title="Revert Accounting Line ${accountingLineIndex+1}" alt="Revert Accounting Line ${accountingLineIndex+1}" styleClass="tinybutton"/>
+                    <html:image property="methodToCall.${revertMethod}.anchoraccounting${actionInfix}${actionGroup}LineAnchor${0 + accountingLineIndex}" src="${ConfigProperties.externalizable.images.url}tinybutton-revert1.gif" title="Revert Accounting Line ${accountingLineIndex+1}" alt="Revert Accounting Line ${accountingLineIndex+1}" styleClass="tinybutton"/>
                 </c:if>
                 <br>
-                <html:image property="methodToCall.${balanceInquiryMethod}.anchoraccounting${actionInfix}${actionGroup}LineAnchor${0 + accountingLineIndex}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-balinquiry.gif" title="Balance Inquiry For Line ${accountingLineIndex+1}" alt="Balance Inquiry For Line ${accountingLineIndex+1}" styleClass="tinybutton" />
+                <html:image property="methodToCall.${balanceInquiryMethod}.anchoraccounting${actionInfix}${actionGroup}LineAnchor${0 + accountingLineIndex}" src="${ConfigProperties.externalizable.images.url}tinybutton-balinquiry.gif" title="Balance Inquiry For Line ${accountingLineIndex+1}" alt="Balance Inquiry For Line ${accountingLineIndex+1}" styleClass="tinybutton" />
             </div>
         </td>
     </c:when>

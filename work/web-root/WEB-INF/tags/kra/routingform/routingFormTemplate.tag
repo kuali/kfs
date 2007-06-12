@@ -62,5 +62,5 @@
 </div>
 
 <div id="globalbuttons" class="globalbuttons">
-	<html:image src="${ConfigProperties.kr.externalizable.images.url}buttonsmall_template.gif" styleClass="globalbuttons" property="methodToCall.doTemplate" alt="Copy current document" />
+	<html:image src="${ConfigProperties.externalizable.images.url}buttonsmall_template.gif" styleClass="globalbuttons" property="methodToCall.doTemplate" alt="Copy current document" />
 </div>

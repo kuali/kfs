@@ -134,7 +134,7 @@
           </td>
           <th colspan="2"> <div align="left">
           <c:if test="${empty editingMode['viewOnly']}">
-            <a href="${KualiForm.disputeURL}" target="_blank"><img src="${ConfigProperties.kr.externalizable.images.url}buttonsmall_dispute.gif"/></a>
+            <a href="${KualiForm.disputeURL}" target="_blank"><img src="${ConfigProperties.externalizable.images.url}buttonsmall_dispute.gif"/></a>
           </c:if>
           </div></th>
        </tr>   

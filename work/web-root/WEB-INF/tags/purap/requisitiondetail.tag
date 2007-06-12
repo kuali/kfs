@@ -29,14 +29,14 @@
         </th>
         <td align=left valign=middle class="datacell">
         <!-- "View" links only work if you comment out lines 130 and 131 of KualiDocumentActionBase (but don't commit the lines commented out!!) -->
-            <!--  html:image property="methodToCall.viewRelatedDocuments" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-view.gif" title="View Related Documents" alt="View Related Documents" styleClass="tinybutton"/ -->
+            <!--  html:image property="methodToCall.viewRelatedDocuments" src="${ConfigProperties.externalizable.images.url}tinybutton-view.gif" title="View Related Documents" alt="View Related Documents" styleClass="tinybutton"/ -->
             <a href="purapRequisition.do?methodToCall=viewRelatedDocuments" tabindex="1000000" target="purapWindow"  title="View Related Documents">View</a>
         </td>
         <th align=right valign=middle class="bord-l-b">
             <div align="right">Payment History:</div>
         </th>
         <td align=left valign=middle class="datacell">
-            <!-- html:image property="methodToCall.viewPaymentHistory" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-view.gif" title="View Related Documents" alt="View Related Documents" styleClass="tinybutton"/ -->
+            <!-- html:image property="methodToCall.viewPaymentHistory" src="${ConfigProperties.externalizable.images.url}tinybutton-view.gif" title="View Related Documents" alt="View Related Documents" styleClass="tinybutton"/ -->
             <a href="purapRequisition.do?methodToCall=viewPaymentHistory&docTypeName=KualiRequisitionDocument" tabindex="1000000" target="purapWindow"  title="View Payment History">View</a>
         </td>
     </tr>

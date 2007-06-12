@@ -155,7 +155,7 @@
                   <html:optionsCollection property="actionFormUtilMap.getOptionsMap~org|kuali|module|gl|web|optionfinder|CorrectionEditMethodValuesFinder" label="label" value="key"/>
                 </html:select>
                 <html:hidden property="previousEditMethod"/>
-                <html:image property="methodToCall.selectSystemEditMethod.anchor${currentTabIndex}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-select.gif" styleClass="tinybutton" alt="Select System and Edit Method" title="Select System and Edit Method"/>
+                <html:image property="methodToCall.selectSystemEditMethod.anchor${currentTabIndex}" src="${ConfigProperties.externalizable.images.url}tinybutton-select.gif" styleClass="tinybutton" alt="Select System and Edit Method" title="Select System and Edit Method"/>
               </center>
             </td>
           </tr>
@@ -213,9 +213,9 @@
                     <html:image property="methodToCall.confirmDeleteDocument.anchor${currentTabIndex}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-remgrpproc.gif" styleClass="tinybutton" alt="deleteDocument" title="Remove Group From Processing" />
                   </c:if>
                   <c:if test="${KualiForm.editMethod eq 'M' or KualiForm.editMethod eq 'C'}">
-                    <html:image property="methodToCall.loadGroup.anchor${currentTabIndex}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-loadgroup.gif" styleClass="tinybutton" alt="ShowAllEntries" title="Show All Entries"/>
+                    <html:image property="methodToCall.loadGroup.anchor${currentTabIndex}" src="${ConfigProperties.externalizable.images.url}tinybutton-loadgroup.gif" styleClass="tinybutton" alt="ShowAllEntries" title="Show All Entries"/>
                   </c:if>
-                  <html:image property="methodToCall.saveToDesktop.anchor${currentTabIndex}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-cpygrpdesk.gif" styleClass="tinybutton" alt="saveToDeskTop" title="Save To Desktop" onclick="excludeSubmitRestriction=true" />
+                  <html:image property="methodToCall.saveToDesktop.anchor${currentTabIndex}" src="${ConfigProperties.externalizable.images.url}tinybutton-cpygrpdesk.gif" styleClass="tinybutton" alt="saveToDeskTop" title="Save To Desktop" onclick="excludeSubmitRestriction=true" />
                 </center> 
               </td>
             </tr>
@@ -234,7 +234,7 @@
               <td class="bord-l-b" style="padding: 4px;">
                 <html:hidden property="document.correctionInputGroupId"/>
                 <html:file size="30" property="sourceFile" />
-                <html:image property="methodToCall.uploadFile.anchor${currentTabIndex}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-loaddoc.gif" styleClass="tinybutton" alt="uploadFile" title="upload file"/>
+                <html:image property="methodToCall.uploadFile.anchor${currentTabIndex}" src="${ConfigProperties.externalizable.images.url}tinybutton-loaddoc.gif" styleClass="tinybutton" alt="uploadFile" title="upload file"/>
               </td>
             </tr>
           </table>

@@ -55,7 +55,7 @@
                   }
                   document.write(
                     '<a id="${showLink}" href="#" onclick="${showImport}();return false;">' +
-                      '<img src="${ConfigProperties.kr.externalizable.images.url}tinybutton-importlines.gif" title="import file" alt="import file"' +
+                      '<img src="${ConfigProperties.externalizable.images.url}tinybutton-importlines.gif" title="import file" alt="import file"' +
                       '     width=72 height=15 border=0 align="middle" class="det-button">' +
                     '<\/a>' +
                     '<div id="${uploadDiv}" style="display:none;" >' +
@@ -63,7 +63,7 @@
                       '<html:file size="30" property="${file}" />' +
                       '<html:image property="methodToCall.${uploadLines}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-add1.gif"
                                     styleClass="tinybutton" alt="insert ${sourceOrTarget} accounting lines" title="insert ${sourceOrTarget} accounting lines" />' +
-                      '<html:image property="methodToCall.cancel" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-cancelimport.gif"
+                      '<html:image property="methodToCall.cancel" src="${ConfigProperties.externalizable.images.url}tinybutton-cancelimport.gif"
                                     styleClass="tinybutton" alt="cancel insert" title="cancel insert" onclick="${hideImport}();return false;" />' +
                     '<\/div>');
                 //-->

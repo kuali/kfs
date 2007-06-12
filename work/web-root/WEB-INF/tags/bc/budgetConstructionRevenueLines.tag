@@ -223,7 +223,7 @@
                           <html:image src="${ConfigProperties.kr.externalizable.images.url}tinybutton-edit1.gif" styleClass="tinybutton" property="methodToCall.performMonthlyRevenueBudget.line${status.index}.anchorrevenueexistingLineLineAnchor${status.index}" title="Edit Month" alt="Edit Month"/>
                         </c:when> 
                         <c:otherwise> 
-                          <html:image src="${ConfigProperties.kr.externalizable.images.url}tinybutton-view.gif" styleClass="tinybutton" property="methodToCall.performMonthlyRevenueBudget.line${status.index}.anchorrevenueexistingLineLineAnchor${status.index}" title="View Month" alt="View Month"/>
+                          <html:image src="${ConfigProperties.externalizable.images.url}tinybutton-view.gif" styleClass="tinybutton" property="methodToCall.performMonthlyRevenueBudget.line${status.index}.anchorrevenueexistingLineLineAnchor${status.index}" title="View Month" alt="View Month"/>
                         </c:otherwise> 
                       </c:choose>
 						
@@ -237,7 +237,7 @@
                      <html:image property="methodToCall.deleteRevenueLine.line${status.index}.anchorrevenueexistingLineLineAnchor${status.index}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-delete1.gif" title="Delete Revenue Line ${status.index}" alt="Delete Revenue Line ${status.index}" styleClass="tinybutton"/>
                      <br>
                    </c:if>
-                   <html:image property="methodToCall.performBalanceInquiryForRevenueLine.line${status.index}.anchorrevenueexistingLineLineAnchor${status.index}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-balinquiry.gif" title="Balance Inquiry For Revenue Line ${status.index}" alt="Balance Inquiry For Revenue Line ${status.index}" styleClass="tinybutton" />
+                   <html:image property="methodToCall.performBalanceInquiryForRevenueLine.line${status.index}.anchorrevenueexistingLineLineAnchor${status.index}" src="${ConfigProperties.externalizable.images.url}tinybutton-balinquiry.gif" title="Balance Inquiry For Revenue Line ${status.index}" alt="Balance Inquiry For Revenue Line ${status.index}" styleClass="tinybutton" />
                    <c:if test="${!empty item.financialBeginningBalanceLineAmount && item.financialBeginningBalanceLineAmount != 0}">
                      <br>
                      <html:image property="methodToCall.performPercentAdjustmentRevenueLine.line${status.index}.anchorrevenueexistingLineLineAnchor${status.index}" src="${ConfigProperties.externalizable.images.url}tinybutton-percentincdec.gif" title="Percent Adjustment Revenue Line ${status.index}" alt="Percent Adjustment Revenue Line ${status.index}" styleClass="tinybutton"/>

@@ -30,7 +30,7 @@
 	<kra-b:budgetNonpersonnelCopyOver />
 
 	<div id="globalbuttons" class="globalbuttons" align="center"><c:if test="${!KualiForm.editingMode['viewOnly']}"><html:image
-		src="${ConfigProperties.kr.externalizable.images.url}buttonsmall_return.gif" styleClass="globalbuttons"
+		src="${ConfigProperties.externalizable.images.url}buttonsmall_return.gif" styleClass="globalbuttons"
 		property="methodToCall.returnNonpersonnel" alt="return" /></c:if> <html:image
 		src="${ConfigProperties.kr.externalizable.images.url}buttonsmall_cancel.gif" styleClass="globalbuttons"
 		property="methodToCall.cancel" alt="cancel" /></div>

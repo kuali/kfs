@@ -20,7 +20,7 @@
         <a href='financialDisbursementVoucher.do?methodToCall=printDisbursementVoucherCoverSheet&<c:out value="${PropertyConstants.DOCUMENT_NUMBER}"/>=<c:out value="${KualiForm.document.documentNumber}"/>'>
             <font color="red"><bean:message key="label.document.disbursementVoucher.printCoverSheet"/></font>
         </a>
-        <html:img src="${ConfigProperties.kr.externalizable.images.url}icon-pdf.png" title="print cover sheet" alt="print cover sheet" width="16" height="16"/>
+        <html:img src="${ConfigProperties.externalizable.images.url}icon-pdf.png" title="print cover sheet" alt="print cover sheet" width="16" height="16"/>
    </div>
    <br>
 </c:if>

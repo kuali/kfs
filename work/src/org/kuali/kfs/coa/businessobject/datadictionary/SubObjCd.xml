@@ -44,7 +44,7 @@
         <lookup>
             <title>Sub-Object Code Lookup</title>
 			<menubar>
-                <![CDATA[<a href="maintenance.do?methodToCall=start&businessObjectClassName=org.kuali.module.chart.bo.SubObjectCodeChangeDocument"><img src="${kr.externalizable.images.url}tinybutton-createnewglobal.gif" alt="create new global" width="98" height="15"/></a>]]>
+                <![CDATA[<a href="maintenance.do?methodToCall=start&businessObjectClassName=org.kuali.module.chart.bo.SubObjectCodeChangeDocument"><img src="${externalizable.images.url}tinybutton-createnewglobal.gif" alt="create new global" width="98" height="15"/></a>]]>
             </menubar>
             <instructions>Lookup a Sub-Object Code</instructions>
 

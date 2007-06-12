@@ -56,7 +56,7 @@
 </div>
 
 <div id="globalbuttons" class="globalbuttons">
-  <html:image src="${ConfigProperties.kr.externalizable.images.url}buttonsmall_genpdf.gif" styleClass="globalbuttons" property="methodToCall.pdfOutput" alt="Copy current document" onclick="excludeSubmitRestriction=true"/>
+  <html:image src="${ConfigProperties.externalizable.images.url}buttonsmall_genpdf.gif" styleClass="globalbuttons" property="methodToCall.pdfOutput" alt="Copy current document" onclick="excludeSubmitRestriction=true"/>
 </div>
 
 <div class="exportlinks">Export options: 

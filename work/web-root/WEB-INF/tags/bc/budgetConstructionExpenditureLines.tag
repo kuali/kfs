@@ -236,7 +236,7 @@
                           <html:image src="${ConfigProperties.kr.externalizable.images.url}tinybutton-edit1.gif" styleClass="tinybutton" property="methodToCall.performMonthlyExpenditureBudget.line${status.index}.anchorexpenditureexistingLineLineAnchor${status.index}" title="Edit Month" alt="Edit Month"/>
                         </c:when> 
                         <c:otherwise> 
-                          <html:image src="${ConfigProperties.kr.externalizable.images.url}tinybutton-view.gif" styleClass="tinybutton" property="methodToCall.performMonthlyExpenditureBudget.line${status.index}.anchorexpenditureexistingLineLineAnchor${status.index}" title="View Month" alt="View Month"/>
+                          <html:image src="${ConfigProperties.externalizable.images.url}tinybutton-view.gif" styleClass="tinybutton" property="methodToCall.performMonthlyExpenditureBudget.line${status.index}.anchorexpenditureexistingLineLineAnchor${status.index}" title="View Month" alt="View Month"/>
                         </c:otherwise> 
                       </c:choose>
 						
@@ -246,7 +246,7 @@
 
              <td class="datacell" nowrap>
                  <div align="center">
-                   <html:image property="methodToCall.performBalanceInquiryForExpenditureLine.line${status.index}.anchorexpenditureexistingLineLineAnchor${status.index}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-balinquiry.gif" title="Balance Inquiry For Expenditure Line ${status.index}" alt="Balance Inquiry For Expenditure Line ${status.index}" styleClass="tinybutton" />
+                   <html:image property="methodToCall.performBalanceInquiryForExpenditureLine.line${status.index}.anchorexpenditureexistingLineLineAnchor${status.index}" src="${ConfigProperties.externalizable.images.url}tinybutton-balinquiry.gif" title="Balance Inquiry For Expenditure Line ${status.index}" alt="Balance Inquiry For Expenditure Line ${status.index}" styleClass="tinybutton" />
                    <c:if test="${empty item.financialBeginningBalanceLineAmount || item.financialBeginningBalanceLineAmount == 0}">
                      <br>
                      <html:image property="methodToCall.deleteExpenditureLine.line${status.index}.anchorexpenditureexistingLineLineAnchor${status.index}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-delete1.gif" title="Delete Expenditure Line ${status.index}" alt="Delete Expenditure Line ${status.index}" styleClass="tinybutton"/>

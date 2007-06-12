@@ -138,7 +138,7 @@
               <td><div class="left"><kul:htmlControlAttribute attributeEntry="${nonEmplTravelAttributes.disbVchrPerdiemCalculatedAmt}" property="document.dvNonEmployeeTravel.disbVchrPerdiemCalculatedAmt" readOnly="true"/></div>
               <c:if test="${fullEntryMode||travelEntryMode}">
                    <div class="right"><html:image src="${ConfigProperties.kr.externalizable.images.url}tinybutton-clear1.gif" styleClass="tinybutton" property="methodToCall.clearTravelPerDiem" alt="Clear Per Diem" title="Clear Per Diem"/></div>
-                   <div class="right"><html:image src="${ConfigProperties.kr.externalizable.images.url}tinybutton-calculate.gif" styleClass="tinybutton" property="methodToCall.calculateTravelPerDiem" alt="Calculate Per Diem" title="Calculate Per Diem"/></div>
+                   <div class="right"><html:image src="${ConfigProperties.externalizable.images.url}tinybutton-calculate.gif" styleClass="tinybutton" property="methodToCall.calculateTravelPerDiem" alt="Calculate Per Diem" title="Calculate Per Diem"/></div>
               </c:if>
               </td>
               <th scope="row"><div align="right"><kul:htmlAttributeLabel attributeEntry="${nonEmplTravelAttributes.disbVchrAutoRoundTripCode}"/></div></th>
@@ -159,7 +159,7 @@
               <td><div class="left"><kul:htmlControlAttribute attributeEntry="${nonEmplTravelAttributes.disbVchrMileageCalculatedAmt}" property="document.dvNonEmployeeTravel.disbVchrMileageCalculatedAmt" readOnly="true"/></div>
               <c:if test="${fullEntryMode||travelEntryMode}">
                    <div class="right"><html:image src="${ConfigProperties.kr.externalizable.images.url}tinybutton-clear1.gif" styleClass="tinybutton" property="methodToCall.clearTravelMileageAmount" alt="Clear Total Mileage" title="Clear Total Mileage"/></div>
-                   <div class="right"><html:image src="${ConfigProperties.kr.externalizable.images.url}tinybutton-calculate.gif" styleClass="tinybutton" property="methodToCall.calculateTravelMileageAmount" alt="Calculate Total Mileage" title="Calculate Total Mileage"/></div>
+                   <div class="right"><html:image src="${ConfigProperties.externalizable.images.url}tinybutton-calculate.gif" styleClass="tinybutton" property="methodToCall.calculateTravelMileageAmount" alt="Calculate Total Mileage" title="Calculate Total Mileage"/></div>
               </c:if>
               </td>
             </tr>

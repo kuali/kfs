@@ -48,10 +48,10 @@
               <tr>
                 <th>&nbsp;</th>
                 <td colspan="3" align=left valign=middle nowrap >
-                  <html:image property="methodToCall.loadBudget.anchor${currentTabIndex}" styleClass="tinybutton" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-loadbud.gif" alt="load budget"/>
+                  <html:image property="methodToCall.loadBudget.anchor${currentTabIndex}" styleClass="tinybutton" src="${ConfigProperties.externalizable.images.url}tinybutton-loadbud.gif" alt="load budget"/>
                   &nbsp;
                   <c:if test="${not empty KualiForm.periodBudgetOverviewFormHelpers}">
-                    <html:image property="methodToCall.deleteBudget.anchor${currentTabIndex}" styleClass="tinybutton" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-delbudlink.gif" alt="delete budget link"/>
+                    <html:image property="methodToCall.deleteBudget.anchor${currentTabIndex}" styleClass="tinybutton" src="${ConfigProperties.externalizable.images.url}tinybutton-delbudlink.gif" alt="delete budget link"/>
                   </c:if>
                 </td>
               </tr>
@@ -160,7 +160,7 @@
                     <tr>
                       <td colspan="74" class="infoline" height="30">
                       <div align="center">
-                        <html:image property="methodToCall.linkBudget.anchor${currentTabIndex}" styleClass="tinybutton" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-linkselperiods.gif" alt="link selected periods"/>
+                        <html:image property="methodToCall.linkBudget.anchor${currentTabIndex}" styleClass="tinybutton" src="${ConfigProperties.externalizable.images.url}tinybutton-linkselperiods.gif" alt="link selected periods"/>
                       </div></td>
                     </tr>
                   </table>

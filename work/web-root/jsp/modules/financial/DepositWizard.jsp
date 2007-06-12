@@ -263,7 +263,7 @@ function checkAllOrNone() {
 
 			<div id="globalbuttons" class="globalbuttons"><html:image
 				property="methodToCall.createDeposit"
-				src="${ConfigProperties.kr.externalizable.images.url}buttonsmall_create.gif" alt="create" title="create"
+				src="${ConfigProperties.externalizable.images.url}buttonsmall_create.gif" alt="create" title="create"
 				styleClass="tinybutton" /> <html:image
 				property="methodToCall.refresh" src="${ConfigProperties.kr.externalizable.images.url}buttonsmall_refresh.gif"
 				alt="refresh" title="refresh" styleClass="tinybutton" /> <html:image

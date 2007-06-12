@@ -42,7 +42,7 @@
             <title>Account Delegate Lookup</title>
 
 			<menubar>
-                <![CDATA[<a href="maintenance.do?methodToCall=start&businessObjectClassName=org.kuali.module.chart.bo.DelegateChangeContainer"><img src="${kr.externalizable.images.url}tinybutton-createnewglobal.gif" alt="create new global" width="98" height="15"/></a>&nbsp;<a href="lookup.do?businessObjectClassName=org.kuali.module.chart.bo.OrganizationRoutingModelName&conversionFields=chartOfAccountsCode%3AmodelChartOfAccountsCode%2CorganizationCode%3AmodelOrganizationCode%2CorganizationRoutingModelName%3AmodelName&returnLocation=portal.do&docFormKey=88888888"><img src="${externalizable.images.url}tinybutton-crtnewglob.gif" alt="create new global from model" width="144" height="15"/></a>]]>
+                <![CDATA[<a href="maintenance.do?methodToCall=start&businessObjectClassName=org.kuali.module.chart.bo.DelegateChangeContainer"><img src="${externalizable.images.url}tinybutton-createnewglobal.gif" alt="create new global" width="98" height="15"/></a>&nbsp;<a href="lookup.do?businessObjectClassName=org.kuali.module.chart.bo.OrganizationRoutingModelName&conversionFields=chartOfAccountsCode%3AmodelChartOfAccountsCode%2CorganizationCode%3AmodelOrganizationCode%2CorganizationRoutingModelName%3AmodelName&returnLocation=portal.do&docFormKey=88888888"><img src="${externalizable.images.url}tinybutton-crtnewglob.gif" alt="create new global from model" width="144" height="15"/></a>]]>
             </menubar>
             
             <instructions>Lookup an Account Delegate</instructions>

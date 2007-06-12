@@ -83,7 +83,7 @@
   <c:if test="${not viewOnly}">
   <tr align="left">
     <th height="22">&nbsp;</th>
-    <th height="22" colspan="2"><div align="center"><html:image property="methodToCall.copySystemGraduateAssistantLines.anchor${currentTabIndex}" styleClass="tinybutton" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-copsysrates.gif" alt="copy system rate"/></div></th>
+    <th height="22" colspan="2"><div align="center"><html:image property="methodToCall.copySystemGraduateAssistantLines.anchor${currentTabIndex}" styleClass="tinybutton" src="${ConfigProperties.externalizable.images.url}tinybutton-copsysrates.gif" alt="copy system rate"/></div></th>
   </tr>
   </c:if>
 </table>

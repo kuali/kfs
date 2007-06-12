@@ -107,7 +107,7 @@
 
           <span class="gen-container"> <br>
           	<c:if test="${!viewOnly}">
-          		<html:image property="methodToCall.update" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-recalculate.gif" styleClass="tinybutton" />
+          		<html:image property="methodToCall.update" src="${ConfigProperties.externalizable.images.url}tinybutton-recalculate.gif" styleClass="tinybutton" />
           	</c:if>
           </span></div>
     </kul:tab>

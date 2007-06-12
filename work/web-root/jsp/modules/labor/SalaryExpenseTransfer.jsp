@@ -100,7 +100,7 @@
             <jsp:attribute name="importRowOverride">
                 <html:image property="methodToCall.copyAllAccountingLines" src="${ConfigProperties.externalizable.images.url}tinybutton-copyall.gif" title="Copy all Source Accounting Lines" alt="Copy all Source Lines" styleClass="tinybutton"/>
    			        <html:image property="methodToCall.deleteAllAccountingLines"
-					    src="${ConfigProperties.kr.externalizable.images.url}tinybutton-deleteall.gif"
+					    src="${ConfigProperties.externalizable.images.url}tinybutton-deleteall.gif"
 						title="Delete all Source Accounting Lines"
 						alt="Delete all Source Lines" styleClass="tinybutton" />
                 Import from Labor Ledger
@@ -112,7 +112,7 @@
             </jsp:attribute>
             <jsp:attribute name="customActions">
                 <c:set var="copyMethod" value="copyAccountingLine.line${accountingLineIndexVar}" scope="request" />
-                <html:image property="methodToCall.${copyMethod}.anchoraccounting${actionInfixVar}Anchor" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-copy2.gif" title="Copy an Accounting Line" alt="Copy an Accounting Line" styleClass="tinybutton"/>
+                <html:image property="methodToCall.${copyMethod}.anchoraccounting${actionInfixVar}Anchor" src="${ConfigProperties.externalizable.images.url}tinybutton-copy2.gif" title="Copy an Accounting Line" alt="Copy an Accounting Line" styleClass="tinybutton"/>
             </jsp:attribute>
         </ld:importedAccountingLineGroup>
 

@@ -108,7 +108,7 @@
 					<c:if test="${!viewOnly}">
 					<td rowspan="3" class="infoline">
 						<div align="center">
-							<html:image property="methodToCall.recalculate.anchor${currentTabIndex}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-recalculate.gif" styleClass="tinybutton" alt="recalculate" />
+							<html:image property="methodToCall.recalculate.anchor${currentTabIndex}" src="${ConfigProperties.externalizable.images.url}tinybutton-recalculate.gif" styleClass="tinybutton" alt="recalculate" />
 						</div>
 					</td>
 					</c:if>

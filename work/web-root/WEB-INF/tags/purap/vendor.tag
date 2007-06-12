@@ -251,7 +251,7 @@
                     <td align=left valign=middle class="datacell">
                         <kul:htmlControlAttribute attributeEntry="${documentAttributes.vendorContactsLabel}" property="document.vendorContactsLabel" readOnly="true"/>                    
                         <c:if test="${vendorReadOnly}" >
-                            <kul:lookup  boClassName="org.kuali.module.vendor.bo.VendorContact" readOnlyFields="vendorHeaderGeneratedIdentifier,vendorDetailAssignedIdentifier" autoSearch="yes" lookupParameters="document.vendorHeaderGeneratedIdentifier:vendorHeaderGeneratedIdentifier,document.vendorDetailAssignedIdentifier:vendorDetailAssignedIdentifier" hideReturnLink="true" extraButtonSource="${ConfigProperties.kr.externalizable.images.url}buttonsmall_return.gif" />                    
+                            <kul:lookup  boClassName="org.kuali.module.vendor.bo.VendorContact" readOnlyFields="vendorHeaderGeneratedIdentifier,vendorDetailAssignedIdentifier" autoSearch="yes" lookupParameters="document.vendorHeaderGeneratedIdentifier:vendorHeaderGeneratedIdentifier,document.vendorDetailAssignedIdentifier:vendorDetailAssignedIdentifier" hideReturnLink="true" extraButtonSource="${ConfigProperties.externalizable.images.url}buttonsmall_return.gif" />                    
                         </c:if>
                     </td>
                 </tr>            

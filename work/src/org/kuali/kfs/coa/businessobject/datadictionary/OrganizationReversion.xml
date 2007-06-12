@@ -54,7 +54,7 @@
             <title>Organization Reversion Lookup</title>
             
             <menubar>
-                <![CDATA[<a href="maintenance.do?methodToCall=start&businessObjectClassName=org.kuali.module.chart.bo.OrganizationReversionChangeDocument"><img src="${kr.externalizable.images.url}tinybutton-createnewglobal.gif" alt="create new global Organization Reversion" width="98" height="15"/></a>]]>
+                <![CDATA[<a href="maintenance.do?methodToCall=start&businessObjectClassName=org.kuali.module.chart.bo.OrganizationReversionChangeDocument"><img src="${externalizable.images.url}tinybutton-createnewglobal.gif" alt="create new global Organization Reversion" width="98" height="15"/></a>]]>
             </menubar>
 
             <instructions>Lookup an Organization Reversion</instructions>

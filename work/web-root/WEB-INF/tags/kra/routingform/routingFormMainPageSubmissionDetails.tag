@@ -220,7 +220,7 @@
 		                </div></td>
 		                <td class="nobord"> <div align="center">
 					    	<c:if test="${!viewOnly && fn:length(KualiForm.document.routingFormKeywords) != 0}">
-						    	<html:image property="methodToCall.deleteAllRoutingFormKeyword.anchor${currentTabIndex}" styleClass="tinybutton" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-deleteall.gif" alt="delete all routing form keywords"/>
+						    	<html:image property="methodToCall.deleteAllRoutingFormKeyword.anchor${currentTabIndex}" styleClass="tinybutton" src="${ConfigProperties.externalizable.images.url}tinybutton-deleteall.gif" alt="delete all routing form keywords"/>
 		                	</c:if>
 		                </div></td>
 		              </tr>   

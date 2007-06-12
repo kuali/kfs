@@ -61,7 +61,7 @@
                   <c:if test="${empty KualiForm.newRoutingFormPerson.personUniversalIdentifier && !KualiForm.newRoutingFormPerson.personToBeNamedIndicator}">(select)</c:if>
 		    	  <c:if test="${KualiForm.newRoutingFormPerson.personToBeNamedIndicator}">TO BE NAMED</c:if>
                   <c:if test="${!viewOnly}">
-                    <kul:lookup boClassName="org.kuali.core.bo.user.UniversalUser" fieldConversions="personUniversalIdentifier:newRoutingFormPerson.personUniversalIdentifier,personName:newRoutingFormPerson.user.personName" extraButtonSource="${ConfigProperties.kr.externalizable.images.url}buttonsmall_namelater.gif" extraButtonParams="&newRoutingFormPerson.personToBeNamedIndicator=true" anchor="${currentTabIndex}" />
+                    <kul:lookup boClassName="org.kuali.core.bo.user.UniversalUser" fieldConversions="personUniversalIdentifier:newRoutingFormPerson.personUniversalIdentifier,personName:newRoutingFormPerson.user.personName" extraButtonSource="${ConfigProperties.externalizable.images.url}buttonsmall_namelater.gif" extraButtonParams="&newRoutingFormPerson.personToBeNamedIndicator=true" anchor="${currentTabIndex}" />
                   </c:if>
                 </td>
                 <td class="infoline">
@@ -139,7 +139,7 @@
                       <c:choose>
                         <c:when test="${budgetLinked and isProjectDirector }" />
                         <c:otherwise>
-                          <kul:lookup boClassName="org.kuali.core.bo.user.UniversalUser" fieldConversions="personUniversalIdentifier:document.routingFormPersonnel[${status.index}].personUniversalIdentifier,personName:document.routingFormPersonnel[${status.index}].user.personName" extraButtonSource="${ConfigProperties.kr.externalizable.images.url}buttonsmall_namelater.gif" extraButtonParams="&document.routingFormPersonnel[${status.index}].personToBeNamedIndicator=true" anchor="${currentTabIndex}" />
+                          <kul:lookup boClassName="org.kuali.core.bo.user.UniversalUser" fieldConversions="personUniversalIdentifier:document.routingFormPersonnel[${status.index}].personUniversalIdentifier,personName:document.routingFormPersonnel[${status.index}].user.personName" extraButtonSource="${ConfigProperties.externalizable.images.url}buttonsmall_namelater.gif" extraButtonParams="&document.routingFormPersonnel[${status.index}].personToBeNamedIndicator=true" anchor="${currentTabIndex}" />
                         </c:otherwise>
                       </c:choose>
                     </c:if>
@@ -188,7 +188,7 @@
                   <td><div align="center"><span class="infoline">
                     <kul:htmlControlAttribute property="document.routingFormPersonnel[${status.index}].personCreditPercent" attributeEntry="${routingFormPersonnel.personCreditPercent}" readOnly="${viewOnly}"/>
                   </span></div></td>
-                  <td><div align="center"><html:image property="methodToCall.headerTab.headerDispatch.save.navigateTo.personnel.anchor${status.index}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-view.gif" styleClass="tinybutton" alt="view person line"/></div></td>
+                  <td><div align="center"><html:image property="methodToCall.headerTab.headerDispatch.save.navigateTo.personnel.anchor${status.index}" src="${ConfigProperties.externalizable.images.url}tinybutton-view.gif" styleClass="tinybutton" alt="view person line"/></div></td>
                   <td><div align=center>&nbsp;<c:if test="${!viewOnly}"><html:image property="methodToCall.deletePersonLine.line${status.index}.anchor${currentTabIndex}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-delete1.gif" styleClass="tinybutton" alt="delete person line"/></c:if></div></td>
                 </tr>
               </c:forEach>

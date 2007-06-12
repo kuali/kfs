@@ -20,7 +20,7 @@
         <a href="financialCashReceipt.do?methodToCall=printCoverSheet&${PropertyConstants.DOCUMENT_NUMBER}=${KualiForm.document.documentNumber}" target="pdf_window">
             <font color="red"><bean:message key="label.document.cashReceipt.printCoverSheet"/></font>
         </a>
-        <html:img src="${ConfigProperties.kr.externalizable.images.url}icon-pdf.png" alt="print cover sheet" title="print cover sheet" width="16" height="16"/>
+        <html:img src="${ConfigProperties.externalizable.images.url}icon-pdf.png" alt="print cover sheet" title="print cover sheet" width="16" height="16"/>
    </div>
    <br>
 </c:if>

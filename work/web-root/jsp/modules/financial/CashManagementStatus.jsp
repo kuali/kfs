@@ -37,7 +37,7 @@
 	<div id="globalbuttons" class="globalbuttons"><html:image
 		src="${ConfigProperties.kr.externalizable.images.url}buttonsmall_returnToIndex.gif" styleClass="globalbuttons"
 		property="methodToCall.returnToIndex" alt="Return to Index" title="Return to Index" />
-	&nbsp;&nbsp; <html:image src="${ConfigProperties.kr.externalizable.images.url}buttonsmall_openExisting.gif"
+	&nbsp;&nbsp; <html:image src="${ConfigProperties.externalizable.images.url}buttonsmall_openExisting.gif"
 		styleClass="globalbuttons" property="methodToCall.openExisting"
 		alt="Open Existing Cash Management Document" title="Open Existing Cash Management Document" /></div>
 

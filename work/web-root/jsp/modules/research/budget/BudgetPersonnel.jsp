@@ -42,7 +42,7 @@
 	<kra-b:budgetPersonnel />
 
   <c:if test="${! viewOnly}">
-  	<c:set var="extraButtonSource" value="${ConfigProperties.kr.externalizable.images.url}buttonsmall_deletesel.gif"/>
+  	<c:set var="extraButtonSource" value="${ConfigProperties.externalizable.images.url}buttonsmall_deletesel.gif"/>
   	<c:set var="extraButtonProperty" value="methodToCall.deletePersonnel"/>
   	<c:set var="extraButtonAlt" value="delete"/>
   </c:if>  

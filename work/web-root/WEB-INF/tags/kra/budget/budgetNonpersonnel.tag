@@ -118,7 +118,7 @@
                           <c:if test="${empty KualiForm.newNonpersonnelList[i].subcontractorNumber}">(select)</c:if>
                           <html:hidden property="newNonpersonnel[${i}].subcontractorNumber" />
                           <html:hidden property="newNonpersonnel[${i}].budgetNonpersonnelDescription" write="true" />
-                          <kul:lookup boClassName="org.kuali.module.cg.bo.Subcontractor" fieldConversions="subcontractorNumber:newNonpersonnel[${i}].subcontractorNumber,subcontractorName:newNonpersonnel[${i}].budgetNonpersonnelDescription" extraButtonSource="${ConfigProperties.kr.externalizable.images.url}buttonsmall_namelater.gif" extraButtonParams="&newNonpersonnel[${i}].subcontractorNumber=484&newNonpersonnel[${i}].budgetNonpersonnelDescription=TO BE NAMED" anchor="${currentTabIndex}"/>
+                          <kul:lookup boClassName="org.kuali.module.cg.bo.Subcontractor" fieldConversions="subcontractorNumber:newNonpersonnel[${i}].subcontractorNumber,subcontractorName:newNonpersonnel[${i}].budgetNonpersonnelDescription" extraButtonSource="${ConfigProperties.externalizable.images.url}buttonsmall_namelater.gif" extraButtonParams="&newNonpersonnel[${i}].subcontractorNumber=484&newNonpersonnel[${i}].budgetNonpersonnelDescription=TO BE NAMED" anchor="${currentTabIndex}"/>
                         </c:otherwise>
                       </c:choose>
                     </div>
@@ -246,7 +246,7 @@
                   <c:if test="${! viewOnly }"><td class="infoline">&nbsp;</td></c:if>
                 </tr>
                 <tr>
-                  <td height="30" colspan="7" class="infoline" ><div align="right"> </div><div align="center"><html:image property="methodToCall.nonpersonnelCopyOver.code${nonpersonnelCategory.code}." src="${ConfigProperties.kr.externalizable.images.url}tinybutton-viewperalloc.gif" styleClass="tinybutton" /><c:if test="${! viewOnly }">&nbsp; <html:image property="methodToCall.recalculate.anchor${currentTabIndex}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-recalculate.gif" styleClass="tinybutton" /></c:if></div></td>
+                  <td height="30" colspan="7" class="infoline" ><div align="right"> </div><div align="center"><html:image property="methodToCall.nonpersonnelCopyOver.code${nonpersonnelCategory.code}." src="${ConfigProperties.externalizable.images.url}tinybutton-viewperalloc.gif" styleClass="tinybutton" /><c:if test="${! viewOnly }">&nbsp; <html:image property="methodToCall.recalculate.anchor${currentTabIndex}" src="${ConfigProperties.externalizable.images.url}tinybutton-recalculate.gif" styleClass="tinybutton" /></c:if></div></td>
                 </tr>
               </tbody></table>
             </div>

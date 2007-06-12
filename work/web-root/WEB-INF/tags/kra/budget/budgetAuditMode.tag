@@ -42,8 +42,8 @@
 						<p>You can activate an audit check to determine any errors or incomplete information. There are two types of audit errors. A hard audit error is an error that must be corrected prior to linking to Routing Form for the eventual submission into routing. A soft audit error is an error that serves as a warning only and will not prevent linking to Routing Form. </p>
 						<p align="center">
 							<c:choose>
-								<c:when test="${KualiForm.auditActivated}"><html:image property="methodToCall.deactivate" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-deacaudit.gif" styleClass="tinybutton" /></c:when>
-								<c:otherwise><html:image property="methodToCall.activate" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-activaudt.gif" styleClass="tinybutton" /></c:otherwise>
+								<c:when test="${KualiForm.auditActivated}"><html:image property="methodToCall.deactivate" src="${ConfigProperties.externalizable.images.url}tinybutton-deacaudit.gif" styleClass="tinybutton" /></c:when>
+								<c:otherwise><html:image property="methodToCall.activate" src="${ConfigProperties.externalizable.images.url}tinybutton-activaudt.gif" styleClass="tinybutton" /></c:otherwise>
 							</c:choose>
 						</p>
 					</div>

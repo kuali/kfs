@@ -89,10 +89,10 @@
                 <td class="infoline" colspan="4">
                   <center>
                     <c:if test="${empty KualiForm.document.dvNonResidentAlienTax.financialDocumentAccountingLineText}">
-                      <html:image src="${ConfigProperties.kr.externalizable.images.url}tinybutton-genlines.gif" styleClass="tinybutton" property="methodToCall.generateNonResidentAlienTaxLines" title="Generate Non-resident Alien Tax Lines" alt="Generate Non-resident Alien Tax Lines"/>
+                      <html:image src="${ConfigProperties.externalizable.images.url}tinybutton-genlines.gif" styleClass="tinybutton" property="methodToCall.generateNonResidentAlienTaxLines" title="Generate Non-resident Alien Tax Lines" alt="Generate Non-resident Alien Tax Lines"/>
                     </c:if>
                     <c:if test="${!empty KualiForm.document.dvNonResidentAlienTax.financialDocumentAccountingLineText}">
-                      <html:image src="${ConfigProperties.kr.externalizable.images.url}tinybutton-clearlines.gif" styleClass="tinybutton" property="methodToCall.clearNonResidentAlienTaxLines"  title="Clear Non-resident Alien Tax Lines" alt="Clear Non-resident Alien Tax Lines" />
+                      <html:image src="${ConfigProperties.externalizable.images.url}tinybutton-clearlines.gif" styleClass="tinybutton" property="methodToCall.clearNonResidentAlienTaxLines"  title="Clear Non-resident Alien Tax Lines" alt="Clear Non-resident Alien Tax Lines" />
                     </c:if>
                   </center>
                 </td>

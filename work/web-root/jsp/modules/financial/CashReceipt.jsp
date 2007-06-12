@@ -86,7 +86,7 @@
 							<html:optionsCollection property="checkEntryModes" label="label"
 								value="value" />
 						</html:select>
-						<noscript><html:image src="${ConfigProperties.kr.externalizable.images.url}tinybutton-select.gif"
+						<noscript><html:image src="${ConfigProperties.externalizable.images.url}tinybutton-select.gif"
 							styleClass="tinybutton" alt="change check entry mode" title="change check entry mode" /></noscript>
 						</td>
 					</c:if>
@@ -127,7 +127,7 @@
 					</th>
 					<td width="35%" align="left" valign="middle">$${KualiForm.document.currencyFormattedSumTotalAmount}&nbsp;&nbsp;&nbsp;
 					<c:if test="${!readOnly}">
-						<html:image src="${ConfigProperties.kr.externalizable.images.url}tinybutton-recalculate.gif"
+						<html:image src="${ConfigProperties.externalizable.images.url}tinybutton-recalculate.gif"
 							styleClass="tinybutton" alt="recalculate total" title="recalculate total" />
 					</c:if> <c:if test="${readOnly}"> &nbsp; </c:if></td>
 				</tr>

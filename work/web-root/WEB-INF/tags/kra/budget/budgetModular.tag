@@ -159,7 +159,7 @@
 			</tr>
 		</table>
 		<c:if test="${not viewOnly}">
-			<br><html:image property="methodToCall.recalculate" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-recalculate.gif" styleClass="tinybutton" disabled="${viewOnly}"/>
+			<br><html:image property="methodToCall.recalculate" src="${ConfigProperties.externalizable.images.url}tinybutton-recalculate.gif" styleClass="tinybutton" disabled="${viewOnly}"/>
 		</c:if>
 	</div>
 	

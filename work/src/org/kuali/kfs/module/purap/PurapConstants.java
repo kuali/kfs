@@ -392,6 +392,13 @@ public class PurapConstants {
         public static final String TYPE_PO = "PO";
         public static final String TYPE_PREQ = "PREQ";
     }
+   
+    public static class CMDocumentsStrings {
+        public static String DUPLICATE_CREDIT_MEMO_QUESTION = "CMDuplicateInvoice";
+        public static String HOLD_CREDIT_MEMO_QUESTION = "HoldPREQ";
+        public static String CONFIRM_HOLD_QUESTION = "ConfirmHold";
+        public static String HOLD_NOTE_PREFIX = "Note entered while placing Payment Request on hold : ";
+    }
     
     private static HashMap<String,String> uncopyableFields() {
         HashMap<String,String> fields = new HashMap<String,String>();

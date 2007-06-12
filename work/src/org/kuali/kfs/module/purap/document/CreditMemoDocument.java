@@ -349,5 +349,4 @@ public class CreditMemoDocument extends AccountsPayableDocumentBase {
     public void setPaymentRequest(PaymentRequestDocument paymentRequest) {
         this.paymentRequest = paymentRequest;
     }
-
-}
+ }

@@ -87,7 +87,7 @@ public class CreditMemoAction extends AccountsPayableActionBase {
 
         KualiConfigurationService kualiConfiguration = SpringServiceLocator.getKualiConfigurationService();
 
-   /*
+  
         
          CreditMemoService creditMemoService = SpringServiceLocator.getCreditMemoService();
          HashMap<String, String> duplicateMessages = creditMemoService.creditMemoDuplicateMessages(creditMemoDocument);
@@ -122,14 +122,14 @@ public class CreditMemoAction extends AccountsPayableActionBase {
             PurchaseOrderDocument purchaseOrderDocument = SpringServiceLocator.getPurchaseOrderService().getCurrentPurchaseOrder(creditMemoDocument.getPurchaseOrderIdentifier());
         //    creditMemoDocument.populateCreditMemoFromPurchaseOrder(purchaseOrderDocument);
             creditMemoDocument.setStatusCode(PurapConstants.CreditMemoStatuses.IN_PROCESS);
-         ///   creditMemoDocument.refreshAllReferences();
+        //    creditMemoDocument.refreshAllReferences();
 
             //editMode.put(PurapAuthorizationConstants.CreditMemoEditMode.DISPLAY_INIT_TAB, "FALSE");
             
         } else {
             creditMemoDocument.setStatusCode(PurapConstants.CreditMemoStatuses.INITIATE);
         }
-      */  
+       
         //If the list of closed/expired accounts is not empty add a warning and  add a note for the close / epired accounts which get replaced
       /*
         HashMap<String, String> expiredOrClosedAccounts = creditMemoService.ExpiredOrClosedAccountsList(creditMemoDocument);

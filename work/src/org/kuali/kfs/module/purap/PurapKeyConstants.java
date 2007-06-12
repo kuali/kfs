@@ -116,4 +116,13 @@ public class PurapKeyConstants {
     
     //Credit Memo
     public static final String ERROR_CREDIT_MEMO_REQUIRED_FIELDS="errors.credit.memo.required.fields";
+    public static final String MESSAGE_DUPLICATE_CREDIT_MEMO_VENDOR_NUMBER="message.duplicate.creditMemo.vendorNumber";
+    public static final String MESSAGE_DUPLICATE_CREDIT_MEMO_VENDOR_NUMBER_DATE_AMOUNT="message.duplicate.creditMemo.vendorNumber.date.amount";
+    
+    public static final String ERROR_PURCHASE_ORDER_INVALID="errors.purchaseOrder.invalid";
+    public static final String ERROR_PURCAHSE_ORDER_INVALID_STATUS="errors.purchaseOrder.invalid.status";
+    public static final String ERROR_PAYMENT_REQEUEST_INVALID="errors.paymentRequest.invalid";
+    public static final String ERROR_PAYMENT_REQEUEST_INVALID_SATATUS="errors.paymentRequest.invalid.status";
+    public static final String ERROR_VENDOR_NUMBER_INVALID="errors.vendorNumber.invalid";
+
 }

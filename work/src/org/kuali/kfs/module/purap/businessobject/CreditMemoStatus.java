@@ -23,6 +23,20 @@ import org.kuali.core.bo.PersistableBusinessObjectBase;
 /**
  * 
  */
+/*
+public class CreditMemoStatus extends Status {
+
+    /**
+     * Default constructor.
+     */
+/* 
+public CreditMemoStatus() {
+        super();
+        super.ojbConcreteClass = this.getClass().getName();
+    }
+}
+*/
+
 public class CreditMemoStatus extends PersistableBusinessObjectBase {
 
 	private String creditMemoStatusCode;
@@ -32,7 +46,8 @@ public class CreditMemoStatus extends PersistableBusinessObjectBase {
 	/**
 	 * Default constructor.
 	 */
-	public CreditMemoStatus() {
+	
+    public CreditMemoStatus() {
 
 	}
 
@@ -42,6 +57,7 @@ public class CreditMemoStatus extends PersistableBusinessObjectBase {
 	 * @return Returns the creditMemoStatusCode
 	 * 
 	 */
+   
 	public String getCreditMemoStatusCode() { 
 		return creditMemoStatusCode;
 	}
@@ -52,7 +68,8 @@ public class CreditMemoStatus extends PersistableBusinessObjectBase {
 	 * @param creditMemoStatusCode The creditMemoStatusCode to set.
 	 * 
 	 */
-	public void setCreditMemoStatusCode(String creditMemoStatusCode) {
+
+    public void setCreditMemoStatusCode(String creditMemoStatusCode) {
 		this.creditMemoStatusCode = creditMemoStatusCode;
 	}
 
@@ -63,6 +80,7 @@ public class CreditMemoStatus extends PersistableBusinessObjectBase {
 	 * @return Returns the creditMemoStatusDescription
 	 * 
 	 */
+    
 	public String getCreditMemoStatusDescription() { 
 		return creditMemoStatusDescription;
 	}
@@ -73,6 +91,7 @@ public class CreditMemoStatus extends PersistableBusinessObjectBase {
 	 * @param creditMemoStatusDescription The creditMemoStatusDescription to set.
 	 * 
 	 */
+    
 	public void setCreditMemoStatusDescription(String creditMemoStatusDescription) {
 		this.creditMemoStatusDescription = creditMemoStatusDescription;
 	}
@@ -81,6 +100,7 @@ public class CreditMemoStatus extends PersistableBusinessObjectBase {
      * Gets the active attribute. 
      * @return Returns the active.
      */
+ 
     public boolean isActive() {
         return active;
     }
@@ -89,6 +109,7 @@ public class CreditMemoStatus extends PersistableBusinessObjectBase {
      * Sets the active attribute value.
      * @param active The active to set.
      */
+  
     public void setActive(boolean active) {
         this.active = active;
     }
@@ -96,6 +117,7 @@ public class CreditMemoStatus extends PersistableBusinessObjectBase {
     /**
 	 * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
 	 */
+   
 	protected LinkedHashMap toStringMapper() {
 	    LinkedHashMap m = new LinkedHashMap();	    
         m.put("creditMemoStatusCode", this.creditMemoStatusCode);

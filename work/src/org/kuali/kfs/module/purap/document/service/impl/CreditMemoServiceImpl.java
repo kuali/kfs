@@ -23,6 +23,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DateTimeService;
@@ -235,114 +236,25 @@ public class CreditMemoServiceImpl implements CreditMemoService {
         PurchaseOrderDocument po = purchaseOrderService.getCurrentPurchaseOrder(purchaseOrderId);
 
         // This line is for test only to simulate duplicate messages, need to remove after Code review
-         //msgs.put(PurapConstants.PREQDocumentsStrings.DUPLICATE_DATE_AMONT_QUESTION, kualiConfiguration.getPropertyString(PurapKeyConstants.MESSAGE_DUPLICATE_PREQ_DATE_AMOUNT));
-         msgs.put(PurapConstants.PREQDocumentsStrings.DUPLICATE_INVOICE_QUESTION, kualiConfiguration.getPropertyString(PurapKeyConstants.MESSAGE_DUPLICATE_INVOICE));
+        //msgs.put(PurapConstants.PREQDocumentsStrings.DUPLICATE_INVOICE_QUESTION, kualiConfiguration.getPropertyString(PurapKeyConstants.MESSAGE_DUPLICATE_INVOICE));
 
-
-        //then check that there are no other non-cancelled PREQs for this vendor number and invoice number
         Integer vendorDetailAssignedId = cm.getVendorDetailAssignedIdentifier();
         Integer vendorHeaderGeneratedId = cm.getVendorHeaderGeneratedIdentifier();
 
-       ///List<CreditMemoDocument> preqs = getPaymentRequestsByVendorNumberInvoiceNumber(vendorHeaderGeneratedId, vendorDetailAssignedId, document.getInvoiceNumber());
-      //  List<CreditMemoDocument> cms = getPaymentRequestsByVendorNumberInvoiceNumber(vendorHeaderGeneratedId, vendorDetailAssignedId, cm.getCreditMemoNumber());
-        
-//      Check vendorNumber/creditMemoNumber in the database. 
+        // Check vendorNumber/creditMemoNumber in the database.
         // If already exists, give a duplication warning
-        if (ObjectUtils.isNotNull(cm.getVendorNumber())){
+        String vn = cm.getVendorNumber();
+        if (StringUtils.isNotEmpty(cm.getVendorNumber())) {
             if (duplicateExists(cm.getVendorNumber(), cm.getCreditMemoNumber())) {
-               // errors.add(new ServiceError(EpicConstants.EPIC_ACTION_MSSG_WARN_PROP, "errors.duplicate.vendorNumber.creditMemoNumber"));
-                msgs.put(PurapConstants.PREQDocumentsStrings.DUPLICATE_INVOICE_QUESTION, kualiConfiguration.getPropertyString(PurapKeyConstants.MESSAGE_DUPLICATE_INVOICE));
+                msgs.put(PurapConstants.CMDocumentsStrings.DUPLICATE_CREDIT_MEMO_QUESTION, kualiConfiguration.getPropertyString(PurapKeyConstants.MESSAGE_DUPLICATE_CREDIT_MEMO_VENDOR_NUMBER));
             }
 
-        // Check credit memo date/credit memo total for a vendor in the database.
-        // If already exists, give a duplication error
-        if (duplicateExists(cm.getVendorNumber(), cm.getCreditMemoDate(), cm.getCreditMemoAmount())) {
-          //errors.add(new ServiceError(EpicConstants.EPIC_ACTION_MSSG_WARN_PROP, "errors.duplicate.vendorNumber.date.amount"));
-          msgs.put(PurapConstants.PREQDocumentsStrings.DUPLICATE_INVOICE_QUESTION, kualiConfiguration.getPropertyString(PurapKeyConstants.MESSAGE_DUPLICATE_INVOICE_VOIDED));
-        }
-   /*     
-        
-        if (preqs.size() > 0) {
-            boolean addedMessage = false;
-            List cancelled = new ArrayList();
-            List voided = new ArrayList();
-            for (Iterator iter = preqs.iterator(); iter.hasNext();) {
-                CreditMemoDocument testPREQ = (CreditMemoDocument) iter.next();
-
-                if ((!(PurapConstants.PaymentRequestStatuses.CANCELLED_POST_APPROVE.equals(testPREQ.getStatus().getStatusCode()))) && (!(PurapConstants.PaymentRequestStatuses.CANCELLED_IN_PROCESS.equals(testPREQ.getStatus().getStatusCode())))) {
-
-                    msgs.put(PurapConstants.PREQDocumentsStrings.DUPLICATE_INVOICE_QUESTION, kualiConfiguration.getPropertyString(PurapKeyConstants.MESSAGE_DUPLICATE_INVOICE));
-                    addedMessage = true;
-                    break;
-                }
-                else if (PurapConstants.PaymentRequestStatuses.CANCELLED_IN_PROCESS.equals(testPREQ.getStatus().getStatusCode())) {
-                    voided.add(testPREQ);
-                }
-                else if (PurapConstants.PaymentRequestStatuses.CANCELLED_POST_APPROVE.equals(testPREQ.getStatus().getStatusCode())) {
-                    cancelled.add(testPREQ);
-                }
-            }
-            // custom error message for duplicates related to cancelled/voided PREQs
-            if (!addedMessage) {
-                if ((!(voided.isEmpty())) && (!(cancelled.isEmpty()))) {
-
-                    msgs.put(PurapConstants.PREQDocumentsStrings.DUPLICATE_INVOICE_QUESTION, kualiConfiguration.getPropertyString(PurapKeyConstants.MESSAGE_DUPLICATE_INVOICE_CANCELLEDORVOIDED));
-                }
-                else if ((!(voided.isEmpty())) && (cancelled.isEmpty())) {
-
-                    msgs.put(PurapConstants.PREQDocumentsStrings.DUPLICATE_INVOICE_QUESTION, kualiConfiguration.getPropertyString(PurapKeyConstants.MESSAGE_DUPLICATE_INVOICE_VOIDED));
-                }
-                else if ((voided.isEmpty()) && (!(cancelled.isEmpty()))) {
-                    // messages.add("errors.duplicate.vendor.invoice.cancelled");
-                    msgs.put(PurapConstants.PREQDocumentsStrings.DUPLICATE_INVOICE_QUESTION, kualiConfiguration.getPropertyString(PurapKeyConstants.MESSAGE_DUPLICATE_INVOICE_CANCELLED));
-                }
+            // Check credit memo date/credit memo amount for a vendor in the database.
+            // If already exists, give a duplication error
+            if (duplicateExists(cm.getVendorNumber(), cm.getCreditMemoDate(), cm.getCreditMemoAmount())) {
+                msgs.put(PurapConstants.CMDocumentsStrings.DUPLICATE_CREDIT_MEMO_QUESTION, kualiConfiguration.getPropertyString(PurapKeyConstants.MESSAGE_DUPLICATE_CREDIT_MEMO_VENDOR_NUMBER_DATE_AMOUNT));
             }
         }
-
-        // check that the invoice date and invoice total amount entered are not on any existing non-cancelled PREQs for this PO
-        preqs = getPaymentRequestsByPOIdInvoiceAmountInvoiceDate(purchaseOrderId, document.getVendorInvoiceAmount(), document.getInvoiceDate());
-        if (preqs.size() > 0) {
-            boolean addedMessage = false;
-            List cancelled = new ArrayList();
-            List voided = new ArrayList();
-            msgs.put(PurapConstants.PREQDocumentsStrings.DUPLICATE_INVOICE_QUESTION, kualiConfiguration.getPropertyString(PurapKeyConstants.MESSAGE_DUPLICATE_INVOICE_DATE_AMOUNT));
-            for (Iterator iter = preqs.iterator(); iter.hasNext();) {
-                CreditMemoDocument testPREQ = (CreditMemoDocument) iter.next();
-                if ((!(PurapConstants.PaymentRequestStatuses.CANCELLED_POST_APPROVE.equals(testPREQ.getStatus().getStatusCode()))) && (!(PurapConstants.PaymentRequestStatuses.CANCELLED_IN_PROCESS.equals(testPREQ.getStatus().getStatusCode())))) {
-                    msgs.put(PurapConstants.PREQDocumentsStrings.DUPLICATE_INVOICE_QUESTION, kualiConfiguration.getPropertyString(PurapKeyConstants.MESSAGE_DUPLICATE_INVOICE_DATE_AMOUNT));
-                    addedMessage = true;
-
-                    break;
-                }
-                else if (PurapConstants.PaymentRequestStatuses.CANCELLED_IN_PROCESS.equals(testPREQ.getStatus().getStatusCode())) {
-                    voided.add(testPREQ);
-                }
-                else if (PurapConstants.PaymentRequestStatuses.CANCELLED_POST_APPROVE.equals(testPREQ.getStatus().getStatusCode())) {
-                    cancelled.add(testPREQ);
-                }
-            }
-            // custom error message for duplicates related to cancelled/voided PREQs
-            if (!addedMessage) {
-
-                if ((!(voided.isEmpty())) && (!(cancelled.isEmpty()))) {
-
-                    msgs.put(PurapConstants.PREQDocumentsStrings.DUPLICATE_INVOICE_QUESTION, kualiConfiguration.getPropertyString(PurapKeyConstants.MESSAGE_DUPLICATE_INVOICE_DATE_AMOUNT_CANCELLEDORVOIDED));
-
-                }
-                else if ((!(voided.isEmpty())) && (cancelled.isEmpty())) {
-
-                    msgs.put(PurapConstants.PREQDocumentsStrings.DUPLICATE_INVOICE_QUESTION, kualiConfiguration.getPropertyString(PurapKeyConstants.MESSAGE_DUPLICATE_INVOICE_DATE_AMOUNT_VOIDED));
-                    addedMessage = true;
-
-                }
-                else if ((voided.isEmpty()) && (!(cancelled.isEmpty()))) {
-
-                    msgs.put(PurapConstants.PREQDocumentsStrings.DUPLICATE_INVOICE_QUESTION, kualiConfiguration.getPropertyString(PurapKeyConstants.MESSAGE_DUPLICATE_INVOICE_DATE_AMOUNT_CANCELLED));
-                    addedMessage = true;
-                }
-            }
-*/        }
-
 
         return msgs;
     }

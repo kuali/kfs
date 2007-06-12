@@ -698,6 +698,9 @@
     <reference-descriptor name="vendorCountry" class-ref="org.kuali.kfs.bo.Country" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="vendorCountryCode" />
     </reference-descriptor>
+    <reference-descriptor name="status" class-ref="org.kuali.module.purap.bo.CreditMemoStatus" auto-retrieve="true" auto-update="none" auto-delete="none">
+        <foreignkey field-ref="statusCode" />
+    </reference-descriptor>
 </class-descriptor>
 
 <class-descriptor class="org.kuali.module.purap.bo.CreditMemoItem" table="AP_CRDT_MEMO_ITM_T">

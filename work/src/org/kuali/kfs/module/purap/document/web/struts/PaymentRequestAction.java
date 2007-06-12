@@ -96,8 +96,7 @@ public class PaymentRequestAction extends AccountsPayableActionBase {
         Map editMode = preqForm.getEditingMode();
         
         Object question = request.getParameter(KFSConstants.QUESTION_INST_ATTRIBUTE_NAME);
-        //String reason = request.getParameter(KFSConstants.QUESTION_REASON_ATTRIBUTE_NAME);
-
+       
         KualiConfigurationService kualiConfiguration = SpringServiceLocator.getKualiConfigurationService();
 
      

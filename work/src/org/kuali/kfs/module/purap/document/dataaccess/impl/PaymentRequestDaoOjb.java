@@ -81,12 +81,12 @@ public class PaymentRequestDaoOjb extends PlatformAwareDaoBaseOjb implements Pay
      * @param id PaymentRequest Id
      * @return PaymentRequest or null if not found
      */
-   /*
-    public PaymentRequest getPaymentRequestById(Integer id) {
+ /*  
+    public PaymentRequestDocument getPaymentRequestById(Integer id) {
         LOG.debug("getPaymentRequestById() started");
 
         Criteria criteria = new Criteria();
-        criteria.addEqualTo("id", id);
+        criteria.addEqualTo("purapDocumentIdentifier", id);
         return this.getPaymentRequestByCriteria(criteria);
       }
 */

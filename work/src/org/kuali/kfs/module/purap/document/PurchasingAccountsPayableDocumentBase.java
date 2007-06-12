@@ -21,6 +21,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 
 import org.apache.commons.lang.ArrayUtils;
+import org.apache.commons.lang.StringUtils;
 import org.apache.ojb.broker.util.collections.ManageableArrayList;
 import org.kuali.core.bo.Note;
 import org.kuali.core.document.AmountTotaling;
@@ -198,10 +199,12 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
     }
 
     public String getVendorNumber() {
-        if (ObjectUtils.isNotNull(vendorDetail)) {
-            return vendorDetail.getVendorNumber();
+        if (StringUtils.isNotEmpty(vendorNumber)){
+            return vendorNumber;
         }
-        return "";
+        else if (ObjectUtils.isNotNull(vendorDetail)) {
+            return vendorDetail.getVendorNumber();
+        }else  return "";
     }
 
     public void setVendorNumber(String vendorNumber) {

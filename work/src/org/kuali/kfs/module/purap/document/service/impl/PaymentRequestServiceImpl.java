@@ -331,7 +331,10 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
 
         return msgs;
     }
-
+    
+    public PaymentRequestDocument getPaymentRequestById(Integer poDocId){
+        return paymentRequestDao.getPaymentRequestById(poDocId); 
+    }
 
     public List<PaymentRequestDocument> getPaymentRequestsByPurchaseOrderId(Integer poDocId) {
         return paymentRequestDao.getPaymentRequestsByPurchaseOrderId(poDocId);

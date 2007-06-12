@@ -59,4 +59,8 @@ public class PurapPropertyConstants {
     
     // Credit Memo
     public static final String CREDIT_MEMO_INIT_REQUIRED_FIELDS = "document.purchaseOrderIdentifier";
+    public static final String CREDIT_MEMO_PURCHASE_ORDER_ID = "document.purchaseOrderIdentifier";
+    public static final String CREDIT_MEMO_PAYMENT_REQUEST_ID = "document.paymentRequestIdentifier";
+    public static final String CREDIT_MEMO_VENDOR_NUMBER = "document.vendorNumber";
+    
 }

@@ -30,7 +30,7 @@
     <kul:hiddenDocumentFields excludePostingYear="true" />
 	
 	<!-- purap:hiddenPurapFields / -->
-	<!--  I could not use hiddenPurapFields, because I was not sure if PREQ needs to have a requisitionSourceCode --> 
+	<!--  I could not use hiddenPurapFields, because I was not sure if CM needs to have a requisitionSourceCode --> 
 	<html:hidden property="document.purapDocumentIdentifier" />
 	<html:hidden property="document.statusCode" />
 	<html:hidden property="document.vendorHeaderGeneratedIdentifier" />
@@ -55,7 +55,7 @@
 	 		 displayCreditMemoInitFields="true" /> 
 	</c:if>
 	
-	<!--  c:if test="${not KualiForm.editingMode['displayInitTab']}" -->
+	<c:if test="${not KualiForm.editingMode['displayInitTab']}" >
 		<purap:vendor
 	        documentAttributes="${DataDictionary.KualiCreditMemoDocument.attributes}" 
 	        displayPurchaseOrderFields="false" displayCreditMemoFields="true"/>
@@ -77,13 +77,13 @@
     <purap:relatedDocuments
            documentAttributes="${DataDictionary.RelatedDocuments.attributes}"
            />
-	<!-- /c:if -->
+	</c:if>
     <kul:panelFooter />
-    <!--  c:if test="${KualiForm.editingMode['displayInitTab']}" -->
+    <c:if test="${KualiForm.editingMode['displayInitTab']}" >
 	    <div align="right"><br>
 	          ** You must enter one and only one of these fields: PREQ #, Purchase Order #, or Vendor #.</div>
 	    </div><br>
-	<!-- /c:if -->       
+	</c:if>       
     <c:if test="${KualiForm.editingMode['displayInitTab']}">
  		<c:set var="extraButtons" value="${KualiForm.extraButtons}" />
  	</c:if>

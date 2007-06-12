@@ -78,6 +78,8 @@ public interface PaymentRequestService {
     
     public void removeHoldOnPaymentRequest(PaymentRequestDocument document);
     
+    public PaymentRequestDocument getPaymentRequestById(Integer poDocId);
+    
     /* Start Paste from EPIC */
      
     /**

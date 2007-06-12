@@ -223,7 +223,7 @@ public class KFSConstants extends Constants {
     public static final String GL_CREDIT_CODE = "C";
     public static final String GL_BUDGET_CODE = " ";
 
-    // TRN_ENCUMB_UPDT_CD value values
+    // TRN_ENCUM_UPDT_CD value values
     public static final String ENCUMB_UPDT_DOCUMENT_CD = "D";
     public static final String ENCUMB_UPDT_REFERENCE_DOCUMENT_CD = "R";
     public static final String ENCUMB_UPDT_NO_ENCUMBRANCE_CD = "N";

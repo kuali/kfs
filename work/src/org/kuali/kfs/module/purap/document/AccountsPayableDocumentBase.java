@@ -59,7 +59,6 @@ public abstract class AccountsPayableDocumentBase extends PurchasingAccountsPaya
     public void refreshAllReferences() {
         super.refreshAllReferences();
         this.refreshReferenceObject("processingCampus");
-        this.refreshReferenceObject("purchaseOrderDocument");
     }
 
     public boolean requiresAccountsPayableReviewRouting() {

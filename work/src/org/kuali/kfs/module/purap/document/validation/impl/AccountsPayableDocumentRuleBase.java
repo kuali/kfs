@@ -15,6 +15,51 @@
  */
 package org.kuali.module.purap.rules;
 
-public class AccountsPayableDocumentRuleBase extends PurchasingAccountsPayableDocumentRuleBase {
+import org.kuali.core.util.GlobalVariables;
+import org.kuali.core.util.ObjectUtils;
+import org.kuali.module.purap.PurapConstants;
+import org.kuali.module.purap.PurapKeyConstants;
+import org.kuali.module.purap.PurapConstants.ItemFields;
+import org.kuali.module.purap.bo.PaymentRequestItem;
+import org.kuali.module.purap.bo.PurchasingApItem;
+import org.kuali.module.purap.document.PurchasingAccountsPayableDocument;
+import org.kuali.module.purap.document.PurchasingDocument;
 
+public class AccountsPayableDocumentRuleBase extends PurchasingAccountsPayableDocumentRuleBase {
+    @Override
+    public boolean processValidation(PurchasingAccountsPayableDocument purapDocument) {
+        boolean valid = super.processValidation(purapDocument);
+        // TODO: Add more validations in here
+        return valid;
+    }
+
+    public boolean processItemValidation(PurchasingAccountsPayableDocument purapDocument) {
+        boolean valid = super.processItemValidation(purapDocument);
+       
+        for (PurchasingApItem item : purapDocument.getItems()) {
+            String identifierString = (item.getItemType().isItemTypeAboveTheLineIndicator() ? "Item " + item.getItemLineNumber().toString() : item.getItemType().getItemTypeDescription());
+            if (item.getItemTypeCode().equals(PurapConstants.ItemTypeCodes.ITEM_TYPE_ITEM_CODE)) {
+                valid &= validateItemTypeItems((PaymentRequestItem) item, identifierString);
+            }
+        }
+        
+        return valid;
+    }
+
+    private boolean validateItemTypeItems(PaymentRequestItem item, String identifierString) {
+        boolean valid = true;
+
+        // Currently Invoice Unit Price is not allowed to be NULL on screen; 
+        // must be either a positive number or NULL for DB        
+        if (ObjectUtils.isNotNull(item.getItemUnitPrice()) && item.getItemUnitPrice().signum() == -1) {
+           // if unit price is negative give an error                       
+            valid = false;
+            GlobalVariables.getErrorMap().putError("newPurchasingItemLine", PurapKeyConstants.ERROR_ITEM_AMOUNT_BELOW_ZERO, ItemFields.UNIT_COST, identifierString);
+        }
+        if (ObjectUtils.isNotNull(item.getItemExtendedPrice()) && item.getItemExtendedPrice().isNegative()) {
+            valid = false;
+            GlobalVariables.getErrorMap().putError("newPurchasingItemLine", PurapKeyConstants.ERROR_ITEM_AMOUNT_BELOW_ZERO, ItemFields.INVOICE_EXTENDED_PRICE, identifierString);
+        }
+        return valid;
+    }
 }

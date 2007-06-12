@@ -20,8 +20,8 @@
 
 <dictionaryEntry>
     <transactionalDocument>
-        <documentClass>org.kuali.module.labor.document.LaborCorrectionDocument</documentClass>
-        <documentAuthorizerClass>org.kuali.module.labor.document.LaborCorrectionDocumentAuthorizer</documentAuthorizerClass>
+        <documentClass>org.kuali.module.gl.document.CorrectionDocument</documentClass>
+        <documentAuthorizerClass>org.kuali.module.gl.document.CorrectionDocumentAuthorizer</documentAuthorizerClass>
 
         <authorizations>
             <authorization action="initiate">

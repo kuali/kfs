@@ -227,7 +227,7 @@ public class EncumbranceClosingRuleHelper {
 
                 // Error message carried over from cobol. not very well descriptive.
                 // Just indicates that the a21 sub account doesn't exist.
-                throw new FatalErrorException("ERROR ACCESSING A21 SUB ACCOUNT TABLE");
+                throw new FatalErrorException("ERROR ACCESSING A21 SUB ACCOUNT TABLE FOR ENCUMBRANCE "+encumbrance.getChartOfAccountsCode()+"-"+encumbrance.getAccountNumber()+" "+encumbrance.getSubAccountNumber());
 
             }
 

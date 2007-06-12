@@ -183,6 +183,7 @@
 				<tr>
 					<td class="infoline" nowrap="nowrap">
 					    <html:hidden property="document.item[${ctr}].itemIdentifier" /> 
+					    <html:hidden property="document.item[${ctr}].purapDocumentIdentifier" />
 					    <html:hidden property="document.item[${ctr}].versionNumber" /> 
 						<%-- make sure itemTypeCode changes are populated in case refresh behind the scenes doesn't occur --%>					    
 					    <html:hidden property="document.item[${ctr}].itemType.itemTypeCode" /> 

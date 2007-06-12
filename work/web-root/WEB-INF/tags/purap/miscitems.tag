@@ -58,6 +58,7 @@
 		<tr>
 			<td class="infoline" colspan="5">
 			    <html:hidden property="document.item[${ctr}].itemIdentifier" /> 
+			    <html:hidden property="document.item[${ctr}].purapDocumentIdentifier" />
 			    <html:hidden property="document.item[${ctr}].versionNumber" /> 
 			    <html:hidden property="document.item[${ctr}].itemTypeCode" /> 
 			    <html:hidden property="document.item[${ctr}].itemType.itemTypeCode" /> 

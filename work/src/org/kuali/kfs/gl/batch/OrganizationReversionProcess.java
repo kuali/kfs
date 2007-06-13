@@ -588,49 +588,54 @@ public class OrganizationReversionProcess {
                 CategoryAmount amount = unitOfWork.amounts.get(categoryCode);
     
                 OrganizationReversionDetail detail = organizationReversion.getOrganizationReversionDetail(categoryCode);
-                String ruleCode = detail.getOrganizationReversionCode();
-    
-                if (KFSConstants.RULE_CODE_R1.equals(ruleCode) || KFSConstants.RULE_CODE_N1.equals(ruleCode) || KFSConstants.RULE_CODE_C1.equals(ruleCode)) {
-                    if (amount.getAvailable().compareTo(KualiDecimal.ZERO) > 0) {
-                        if (amount.getAvailable().compareTo(amount.getEncumbrance()) > 0) {
-                            unitOfWork.addTotalCarryForward(amount.getEncumbrance());
-                            amount.addCarryForward(amount.getEncumbrance());
-                            unitOfWork.addTotalReversion(amount.getEncumbrance().negated());
-                            unitOfWork.addTotalAvailable(amount.getEncumbrance().negated());
+                
+                if (detail != null) {
+                    String ruleCode = detail.getOrganizationReversionCode();
+        
+                    if (KFSConstants.RULE_CODE_R1.equals(ruleCode) || KFSConstants.RULE_CODE_N1.equals(ruleCode) || KFSConstants.RULE_CODE_C1.equals(ruleCode)) {
+                        if (amount.getAvailable().compareTo(KualiDecimal.ZERO) > 0) {
+                            if (amount.getAvailable().compareTo(amount.getEncumbrance()) > 0) {
+                                unitOfWork.addTotalCarryForward(amount.getEncumbrance());
+                                amount.addCarryForward(amount.getEncumbrance());
+                                unitOfWork.addTotalReversion(amount.getEncumbrance().negated());
+                                unitOfWork.addTotalAvailable(amount.getEncumbrance().negated());
+                            }
+                            else {
+                                unitOfWork.addTotalCarryForward(amount.getAvailable());
+                                amount.addCarryForward(amount.getAvailable());
+                                unitOfWork.addTotalReversion(amount.getAvailable().negated());
+                                amount.setAvailable(KualiDecimal.ZERO);
+                            }
                         }
-                        else {
+                    }
+        
+                    if (KFSConstants.EMPLOYEE_ACTIVE_STATUS.equals(ruleCode)) {
+                        unitOfWork.addTotalCarryForward(amount.getCarryForward());
+                        amount.addCarryForward(amount.getAvailable());
+                        unitOfWork.addTotalReversion(amount.getAvailable().negated());
+                        amount.setAvailable(KualiDecimal.ZERO);
+                    }
+        
+                    if (KFSConstants.RULE_CODE_C1.equals(ruleCode) || KFSConstants.RULE_CODE_C2.equals(ruleCode)) {
+                        if (amount.getAvailable().compareTo(KualiDecimal.ZERO) > 0) {
+                            unitOfWork.addTotalCarryForward(amount.getAvailable());
+                            amount.addCarryForward(amount.getAvailable());
+                            unitOfWork.addTotalReversion(amount.getAvailable());
+                            amount.setAvailable(KualiDecimal.ZERO);
+                        }
+                    }
+        
+                    if (KFSConstants.RULE_CODE_N1.equals(ruleCode) || KFSConstants.RULE_CODE_N2.equals(ruleCode)) {
+                        if (amount.getAvailable().compareTo(KualiDecimal.ZERO) < 0) {
                             unitOfWork.addTotalCarryForward(amount.getAvailable());
                             amount.addCarryForward(amount.getAvailable());
                             unitOfWork.addTotalReversion(amount.getAvailable().negated());
                             amount.setAvailable(KualiDecimal.ZERO);
                         }
                     }
-                }
-    
-                if (KFSConstants.EMPLOYEE_ACTIVE_STATUS.equals(ruleCode)) {
-                    unitOfWork.addTotalCarryForward(amount.getCarryForward());
-                    amount.addCarryForward(amount.getAvailable());
-                    unitOfWork.addTotalReversion(amount.getAvailable().negated());
-                    amount.setAvailable(KualiDecimal.ZERO);
-                }
-    
-                if (KFSConstants.RULE_CODE_C1.equals(ruleCode) || KFSConstants.RULE_CODE_C2.equals(ruleCode)) {
-                    if (amount.getAvailable().compareTo(KualiDecimal.ZERO) > 0) {
-                        unitOfWork.addTotalCarryForward(amount.getAvailable());
-                        amount.addCarryForward(amount.getAvailable());
-                        unitOfWork.addTotalReversion(amount.getAvailable());
-                        amount.setAvailable(KualiDecimal.ZERO);
-                    }
-                }
-    
-                if (KFSConstants.RULE_CODE_N1.equals(ruleCode) || KFSConstants.RULE_CODE_N2.equals(ruleCode)) {
-                    if (amount.getAvailable().compareTo(KualiDecimal.ZERO) < 0) {
-                        unitOfWork.addTotalCarryForward(amount.getAvailable());
-                        amount.addCarryForward(amount.getAvailable());
-                        unitOfWork.addTotalReversion(amount.getAvailable().negated());
-                        amount.setAvailable(KualiDecimal.ZERO);
-                    }
-                }
+                } else {
+                    LOG.info("Organization Reversion "+organizationReversion.getUniversityFiscalYear()+"-"+organizationReversion.getChartOfAccountsCode()+"-"+organizationReversion.getOrganizationCode()+" does not have a detail for category "+categoryCode);
+                } // end if (detail != null)
             }
         } // end if (organizationReversion != null)
     }

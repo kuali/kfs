@@ -283,7 +283,7 @@ public class PurapAccountingServiceImpl implements PurapAccountingService {
         Set<PurApAccountingLine> accountSet = new HashSet<PurApAccountingLine>();
         
         for (PurchasingApItem currentItem : items) {
-            if (checkItemActive(currentItem)) {
+            if(checkItemActive(currentItem)) {
                 for (PurApAccountingLine account : currentItem.getSourceAccountingLines()) {
                     boolean thisAccountAlreadyInSet = false;
                     for (Iterator iter = accountSet.iterator(); iter.hasNext();) {
@@ -295,11 +295,11 @@ public class PurapAccountingServiceImpl implements PurapAccountingService {
                         }
                     }
                     if (!thisAccountAlreadyInSet) {
-                        PurApAccountingLine accountToAdd = (PurApAccountingLine) ObjectUtils.deepCopy(account);
+                        PurApAccountingLine accountToAdd = (PurApAccountingLine)ObjectUtils.deepCopy(account);
                         accountSet.add(accountToAdd);
-                    }
                 }
             }
+        }
         }
         
         // convert list of PurApAccountingLine objects to SourceAccountingLineObjects
@@ -314,8 +314,8 @@ public class PurapAccountingServiceImpl implements PurapAccountingService {
     
     private boolean checkItemActive(PurchasingApItem item) {
         boolean active = true;
-        if (PurchaseOrderItem.class == item.getClass()) {
-            PurchaseOrderItem poi = (PurchaseOrderItem) item;
+        if(item instanceof PurchaseOrderItem) {
+            PurchaseOrderItem poi = (PurchaseOrderItem)item;
             active = poi.isItemActiveIndicator();
         }
         return active;

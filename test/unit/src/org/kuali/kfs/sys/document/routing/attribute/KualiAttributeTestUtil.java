@@ -37,10 +37,12 @@ import edu.iu.uis.eden.routeheader.StandardDocumentContent;
 public class KualiAttributeTestUtil {
 
     public static final String RELATIVE_PATH_IN_PROJECT = "test/src/org/kuali/workflow/attribute/";
+    public static final String RELATIVE_PATH_IN_PROJECT_WORKFLOW = "test/src/org/kuali/workflow/";
 
     public static final String TOF_FEMP_SUBCODE_ONELINER = "TransferOfFunds_FEMPSubcode_OneLiner.xml";
     public static final String TOF_SUB_ACCOUNT_TEST_DOC = "TransferOfFunds_SubAccountTestDoc.xml";
     public static final String PAYEE_MAINTENANCE_NEWDOC = "PayeeMaintenanceDocument_CreateNew.xml";
+    public static final String PURCHASE_ORDER_DOCUMENT = "PurchaseOrderDocument_AmountTest.xml";
 
     /**
      * 
@@ -53,10 +55,14 @@ public class KualiAttributeTestUtil {
      * @throws InvalidXmlException
      */
     public static final DocumentContent getDocumentContentFromXmlFile(String fileName, String docTypeName) throws IOException, InvalidXmlException {
+        return getDocumentContentFromXmlFileAndPath(fileName, KualiAttributeTestUtil.RELATIVE_PATH_IN_PROJECT, docTypeName);
+    }
+
+    public static final DocumentContent getDocumentContentFromXmlFileAndPath(String fileName, String path, String docTypeName) throws IOException, InvalidXmlException {
         if (StringUtils.isBlank(fileName)) {
             throw new IllegalArgumentException("The fileName parameter passed in was blank.");
         }
-        BufferedReader reader = new BufferedReader(new FileReader(KualiAttributeTestUtil.RELATIVE_PATH_IN_PROJECT + fileName));
+        BufferedReader reader = new BufferedReader(new FileReader(path + fileName));
         RouteContext routeContext = RouteContext.getCurrentRouteContext();
         DocumentRouteHeaderValue docRouteHeaderValue = new DocumentRouteHeaderValue();
         DocumentType docType = new DocumentType();

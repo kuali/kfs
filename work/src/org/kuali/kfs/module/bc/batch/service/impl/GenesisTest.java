@@ -75,6 +75,7 @@ public class GenesisTest {
       try
       {
       GlobalVariables.setUserSession(new UserSession("KHUNTLEY"));
+//      GlobalVariables.setUserSession(new UserSession("KULUSER"));
       }
       catch (WorkflowException wfex)
       {

@@ -15,6 +15,7 @@
  */
 package org.kuali.module.budget.dao.ojb;
 
+import java.lang.reflect.InvocationTargetException;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.text.ParseException;
@@ -24,6 +25,9 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map;
+
+// @@TODO: not needed for production code
+import org.apache.commons.beanutils.PropertyUtils;
 
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
@@ -4249,7 +4253,29 @@ public class GenesisDaoOjb extends PlatformAwareDaoBaseOjb
                                    wex.getMessage()));
             wex.printStackTrace();
         }
-    }
+        /*
+         *  (6) write out a bean's properties
+         */
+//        try
+//        {
+//            testBeanProperties();
+//        }
+//        catch (IllegalAccessException iaex)
+//        {
+//            LOG.warn(String.format("\n %s",iaex.getMessage()));
+//            iaex.printStackTrace();
+//        }
+//        catch (NoSuchMethodException nsex)
+//        {
+//            LOG.warn(String.format("\n %s",nsex.getMessage()));
+//            nsex.printStackTrace();
+//        }
+//        catch (InvocationTargetException itex)
+//        {
+//            LOG.warn(String.format("\n %s",itex.getMessage()));
+//            itex.printStackTrace();
+//        }
+   }
     
     /*
      *   @@TODO:  take this out
@@ -4257,7 +4283,25 @@ public class GenesisDaoOjb extends PlatformAwareDaoBaseOjb
     // playing around to see if we can create a new document and have workflow
     // do fewer steps in the route
     
-    public void testANewBCDocument()
+    
+    private void testBeanProperties()
+    throws IllegalAccessException, InvocationTargetException,
+           NoSuchMethodException
+    {
+        HashMap<String,Object> propertyMap;
+        propertyMap = 
+            (HashMap<String,Object>) PropertyUtils.describe(workflowDocumentService);
+        LOG.warn(String.format("\n\nworkflowDocumentService bean properties"));
+        for (Map.Entry<String,Object> printPair: propertyMap.entrySet())
+        {
+          LOG.warn(String.format("\n %s  %s",
+                          printPair.getKey(),
+                          printPair.getValue().toString())); 
+        }
+        
+    }
+    
+    private void testANewBCDocument()
     throws WorkflowException
     {
         // first, get rid of anything that's in the header
@@ -4304,6 +4348,12 @@ public class GenesisDaoOjb extends PlatformAwareDaoBaseOjb
         documentService.prepareWorkflowDocument(newBCHdr);
         workflowDocumentService.route(newBCHdr.getDocumentHeader().getWorkflowDocument(),
                                       "created by Genesis",null);
+//        KHUNTLEY does not have superuser privileges
+//        the procurement card does a superUserApprove, and its test uses KULUSER 
+//        KULUSER works for us as well, but for our document the superUser method
+//        apparently goes through the same stages as the route method        
+        workflowDocumentService.superUserApprove(newBCHdr.getDocumentHeader().getWorkflowDocument(),
+                "created by Genesis");
    }
     
         

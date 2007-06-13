@@ -37,16 +37,6 @@ public class PurchaseOrderDaoOjb extends PlatformAwareDaoBaseOjb implements Purc
 
     /**
      * 
-     * @param PurchaseOrderDocument - a populated PurchaseOrder object to be saved
-     * @throws IllegalObjectStateException
-     * @throws ValidationErrorList
-     */
-    public void save(PurchaseOrderDocument PurchaseOrderDocument) {
-        getPersistenceBrokerTemplate().store(PurchaseOrderDocument);
-    }
-
-    /**
-     * 
      * @see org.kuali.module.purap.dao.PurchaseOrderDao#getPurchaseOrderById(java.lang.Integer)
      */
     public PurchaseOrderDocument getPurchaseOrderById(Integer id) {

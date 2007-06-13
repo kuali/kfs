@@ -395,7 +395,7 @@ public class PurapConstants {
         public static final String TYPE_PO = "PO";
         public static final String TYPE_PREQ = "PREQ";
     }
-   
+    
     public static class CMDocumentsStrings {
         public static String DUPLICATE_CREDIT_MEMO_QUESTION = "CMDuplicateInvoice";
         public static String HOLD_CREDIT_MEMO_QUESTION = "HoldPREQ";
@@ -426,4 +426,8 @@ public class PurapConstants {
      * item/doc specific ones
      */
     public final static HashMap<String,String> ITEM_UNCOPYABLE_FIELDS = uncopyableItemFields();
+
+    public final static String PO_DOC_TYPE_CODE = "PO";
+    public final static String PURAP_ORIGIN_CODE = "EP";
+    
 }

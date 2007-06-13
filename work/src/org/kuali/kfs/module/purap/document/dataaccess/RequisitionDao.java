@@ -19,7 +19,6 @@ import org.kuali.module.purap.document.RequisitionDocument;
 
 public interface RequisitionDao {
 
-    public void save(RequisitionDocument requisitionDocument);
-
     public RequisitionDocument getRequisitionById(Integer id);
+
 }

@@ -380,6 +380,18 @@ public abstract class PurApItemBase extends PersistableBusinessObjectBase implem
 		this.itemType = itemType;
 	}
 
+    
+// from epic
+//    public BigDecimal getExtendedCost() {
+//        if (this.unitPrice == null) {
+//          return null;
+//        } else if (this.getIsServiceItem()) {
+//          return getUnitPrice().setScale(2,BigDecimal.ROUND_HALF_UP);
+//        } else {
+//          return this.orderQuantity.multiply(getUnitPrice()).setScale(2,BigDecimal.ROUND_HALF_UP);
+//        }
+//      }
+
 	/**
      * Gets the extendedPrice attribute. 
      * @return Returns the extendedPrice.
@@ -387,12 +399,15 @@ public abstract class PurApItemBase extends PersistableBusinessObjectBase implem
     public KualiDecimal getExtendedPrice() {
         if (this.itemUnitPrice != null) {
             if (!this.itemType.isQuantityBasedGeneralLedgerIndicator() || this.itemQuantity == null) {
+                //SERVICE ITEM: return unit price as extended price
                 return new KualiDecimal(this.itemUnitPrice.toString());
             }
             BigDecimal extendedPrice = this.itemUnitPrice.multiply(this.itemQuantity.bigDecimalValue());
+            //ITEM TYPE (qty driven): return (unitPrice x qty)
             return new KualiDecimal(extendedPrice);
         }
         else {
+            //unit price is null; return null (or should it return zero?)
             return null;
         }
     } 

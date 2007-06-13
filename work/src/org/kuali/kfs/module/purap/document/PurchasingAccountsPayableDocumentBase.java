@@ -16,7 +16,6 @@
 package org.kuali.module.purap.document;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
@@ -205,7 +204,7 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
         else if (ObjectUtils.isNotNull(vendorDetail)) {
             return vendorDetail.getVendorNumber();
         }else  return "";
-    }
+        }
 
     public void setVendorNumber(String vendorNumber) {
         this.vendorNumber = vendorNumber;
@@ -405,15 +404,18 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
      */
     @Override
     public List getSourceAccountingLines() {
+        
+        return SpringServiceLocator.getPurapAccountingService().generateSummary(this.getItems());
+
         // TODO: Chris loop through items and get accounts
-        TypedArrayList accounts = null;
-        if (items.size() >= 1) {
-            accounts = new TypedArrayList(getItem(0).getAccountingLineClass());
-        }
-        for (PurchasingApItem item : items) {
-            accounts.addAll(item.getSourceAccountingLines());
-        }
-        return (accounts == null) ? new ArrayList() : accounts;
+//        TypedArrayList accounts = null;
+//        if (items.size() >= 1) {
+//            accounts = new TypedArrayList(getItem(0).getAccountingLineClass());
+//        }
+//        for (PurchasingApItem item : items) {
+//            accounts.addAll(item.getSourceAccountingLines());
+//        }
+//        return (accounts == null) ? new ArrayList() : accounts;
     }
 
     public String getVendorCityName() {

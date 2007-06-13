@@ -19,6 +19,7 @@ import java.math.BigDecimal;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.builder.EqualsBuilder;
+import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.bo.SourceAccountingLine;
 
 public abstract class PurApAccountingLineBase extends SourceAccountingLine implements PurApAccountingLine {
@@ -58,7 +59,8 @@ public abstract class PurApAccountingLineBase extends SourceAccountingLine imple
                  StringUtils.isNotEmpty(getFinancialSubObjectCode()) || 
                  StringUtils.isNotEmpty(getOrganizationReferenceId()) || 
                  StringUtils.isNotEmpty(getProjectCode()) || 
-                 StringUtils.isNotEmpty(getSubAccountNumber()));
+                 StringUtils.isNotEmpty(getSubAccountNumber()) ||
+                 ObjectUtils.isNotNull(getAccountLinePercent()));
     }
 
     public PurApAccountingLine createBlankAmountsCopy() {

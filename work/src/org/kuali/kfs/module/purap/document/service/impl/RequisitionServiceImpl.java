@@ -47,7 +47,7 @@ public class RequisitionServiceImpl implements RequisitionService {
     
 
     public void save(RequisitionDocument requisitionDocument) {
-        requisitionDao.save(requisitionDocument);
+        businessObjectService.save(requisitionDocument);
     }
     
     public RequisitionDocument getRequisitionById(Integer id) {

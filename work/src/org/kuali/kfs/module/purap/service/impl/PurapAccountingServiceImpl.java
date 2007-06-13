@@ -287,6 +287,7 @@ public class PurapAccountingServiceImpl implements PurapAccountingService {
                     PurApAccountingLine alreadyAddedAccount = (PurApAccountingLine) iter.next();
                     if (alreadyAddedAccount.accountStringsAreEqual(account)) {
                         // TODO ckirschenman - do we need to re-add 'alreadyAddedAccount' back into the Set or will it update ok?
+                        // hjs - it is ok like this
                         alreadyAddedAccount.setAmount(alreadyAddedAccount.getAmount().add(account.getAmount()));
                         thisAccountAlreadyInSet = true;
                         break;
@@ -294,6 +295,7 @@ public class PurapAccountingServiceImpl implements PurapAccountingService {
                 }
                 if (!thisAccountAlreadyInSet) {
                     // TODO ckirschenman - should we create a new account object here so that my summing above doesn't alter the existing account list?
+                    // hjs - yes, do a deep copy
                     accountSet.add(account);
                 }
             }

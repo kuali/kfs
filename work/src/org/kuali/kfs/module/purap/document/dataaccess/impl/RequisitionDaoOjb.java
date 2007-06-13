@@ -29,16 +29,6 @@ import org.kuali.module.purap.document.RequisitionDocument;
 public class RequisitionDaoOjb extends PlatformAwareDaoBaseOjb implements RequisitionDao {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(RequisitionDaoOjb.class);
 
-    /**
-     * 
-     * @param requisitionDocument - a populated REQUISITION object to be saved
-     * @throws IllegalObjectStateException
-     * @throws ValidationErrorList
-     */
-    public void save(RequisitionDocument requisitionDocument) {
-        getPersistenceBrokerTemplate().store(requisitionDocument);
-    }
-
     public RequisitionDocument getRequisitionById(Integer id) {
         Criteria criteria = new Criteria();
         criteria.addEqualTo(PurapPropertyConstants.PURAP_DOC_ID, id);
@@ -50,4 +40,5 @@ public class RequisitionDaoOjb extends PlatformAwareDaoBaseOjb implements Requis
         }
         return r;
       }
+
 }

@@ -16,9 +16,12 @@
 
 package org.kuali.module.purap.document;
 
+import static org.kuali.kfs.KFSConstants.ZERO;
+
 import java.math.BigDecimal;
 import java.sql.Date;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
@@ -26,6 +29,7 @@ import org.kuali.core.bo.Note;
 import org.kuali.core.bo.PersistableBusinessObject;
 import org.kuali.core.document.Copyable;
 import org.kuali.core.document.TransactionalDocument;
+import org.kuali.core.rule.event.KualiDocumentEvent;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.util.TypedArrayList;
@@ -123,8 +127,57 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase implements Cop
         return true;
     }
 
+    public void customPrepareForSave(KualiDocumentEvent event) {
+
+        // Set outstanding encumbered quantity/amount on items
+        for (Iterator items = this.getItems().iterator(); items.hasNext();) {
+            PurchaseOrderItem item = (PurchaseOrderItem) items.next();
+
+            // Set quantities
+            item.setItemOutstandingEncumberedQuantity(item.getItemQuantity());
+            item.setItemReceivedTotalQuantity(ZERO);
+            item.setItemReturnedTotalQuantity(ZERO);
+            item.setItemInvoicedTotalQuantity(ZERO);
+            item.setItemInvoicedTotalAmount(ZERO);
+
+            // Set amount
+            item.setItemOutstandingEncumbranceAmount(item.getExtendedPrice() == null ? ZERO : item.getExtendedPrice());
+
+            item.prepareToSave();
+        }
+
+        //TODO fix this 
+        // Set outstanding amount in the accounts
+//        for (Iterator items = po.getDisplayItems(PurchaseOrderDocument.INCLUDE_ACTIVE_ONLY).iterator(); items.hasNext();) {
+//            DisplayItem item = (DisplayItem) items.next();
+//
+//            PurchaseOrderItem poItem = po.getItem(item.getItemLineNumber().intValue());
+//
+//            for (Iterator accounts = item.getAccounts().iterator(); accounts.hasNext();) {
+//                DisplayAccount account = (DisplayAccount) accounts.next();
+//                GlAccountingString gas = account.getGlAccountingString();
+//
+//                // Find the account in the poItem
+//                for (Iterator poAccounts = poItem.getAccounts().iterator(); poAccounts.hasNext();) {
+//                    PurchaseOrderDocumentAccount poAccount = (PurchaseOrderDocumentAccount) poAccounts.next();
+//                    if (gas.equals(poAccount.getGlAccountingString())) {
+//                        poAccount.setItemAccountOutstandingEncumbranceAmount(account.getAmount());
+//                        // poAccount.setItemAccountPaidAmount(PurapConstants.ZERO);
+//                        break;
+//                    }
+//                }
+//            }
+//        }
+
+    }
     
-    
+    @Override
+    public void prepareForSave(KualiDocumentEvent event) {
+        customPrepareForSave(event);
+        this.refreshNonUpdateableReferences();
+        super.prepareForSave(event);
+    }
+
     @Override
     public List<GeneralLedgerPendingEntry> getPendingLedgerEntriesForSufficientFundsChecking() {
         // FIXME

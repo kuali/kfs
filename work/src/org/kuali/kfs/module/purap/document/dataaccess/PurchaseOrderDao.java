@@ -21,13 +21,6 @@ public interface PurchaseOrderDao {
 
     /**
      * 
-     * This method saves a PurchaseOrderDocument to the database
-     * @param purchaseOrderDocument
-     */
-    public void save(PurchaseOrderDocument purchaseOrderDocument);
-   
-    /**
-     * 
      * This method gets a PurchaseOrderDocument by the
      * purapDocumentIdentifier.
      * 

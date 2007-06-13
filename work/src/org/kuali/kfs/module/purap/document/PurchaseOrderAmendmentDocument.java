@@ -16,6 +16,8 @@
 
 package org.kuali.module.purap.document;
 
+import org.kuali.core.rule.event.KualiDocumentEvent;
+
 
 
 /**
@@ -30,5 +32,11 @@ public class PurchaseOrderAmendmentDocument extends PurchaseOrderDocument {
 	public PurchaseOrderAmendmentDocument() {
         super();
     }
+
+    @Override
+    public void customPrepareForSave(KualiDocumentEvent event) {
+        //TODO For now, do nothing because amendment should not perform the same save prep as PO
+    }
+    
     
 }

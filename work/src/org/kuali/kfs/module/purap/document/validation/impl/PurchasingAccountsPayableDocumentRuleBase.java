@@ -19,12 +19,10 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.core.document.Document;
 import org.kuali.core.rule.KualiParameterRule;
 import org.kuali.core.rule.event.ApproveDocumentEvent;
-import org.kuali.core.util.GeneralLedgerPendingEntrySequenceHelper;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.bo.AccountingLine;
-import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
 import org.kuali.kfs.document.AccountingDocument;
 import org.kuali.kfs.rules.AccountingDocumentRuleBase;
 import org.kuali.kfs.util.SpringServiceLocator;
@@ -169,13 +167,13 @@ public class PurchasingAccountsPayableDocumentRuleBase extends AccountingDocumen
         return false;
     }
 
-    /**      
-     * @see org.kuali.kfs.rules.GeneralLedgerPostingDocumentRuleBase#populateOffsetGeneralLedgerPendingEntry(java.lang.Integer, org.kuali.kfs.bo.GeneralLedgerPendingEntry, org.kuali.core.util.GeneralLedgerPendingEntrySequenceHelper, org.kuali.kfs.bo.GeneralLedgerPendingEntry)      
-     */     
-    @Override     
-    protected boolean populateOffsetGeneralLedgerPendingEntry(Integer universityFiscalYear, GeneralLedgerPendingEntry explicitEntry, GeneralLedgerPendingEntrySequenceHelper sequenceHelper, GeneralLedgerPendingEntry offsetEntry) {
-        return true;     
-    } 
+//    /**      
+//     * @see org.kuali.kfs.rules.GeneralLedgerPostingDocumentRuleBase#populateOffsetGeneralLedgerPendingEntry(java.lang.Integer, org.kuali.kfs.bo.GeneralLedgerPendingEntry, org.kuali.core.util.GeneralLedgerPendingEntrySequenceHelper, org.kuali.kfs.bo.GeneralLedgerPendingEntry)      
+//     */     
+//    @Override     
+//    protected boolean populateOffsetGeneralLedgerPendingEntry(Integer universityFiscalYear, GeneralLedgerPendingEntry explicitEntry, GeneralLedgerPendingEntrySequenceHelper sequenceHelper, GeneralLedgerPendingEntry offsetEntry) {
+//        return true;     
+//    } 
     
     /**
      * @see org.kuali.kfs.rules.AccountingDocumentRuleBase#isAmountValid(org.kuali.kfs.document.AccountingDocument, org.kuali.kfs.bo.AccountingLine)
@@ -184,6 +182,16 @@ public class PurchasingAccountsPayableDocumentRuleBase extends AccountingDocumen
     public boolean isAmountValid(AccountingDocument document, AccountingLine accountingLine) {
         // TODO Auto-generated method stub
         return true;
+    }
+
+    // (hjs) this could probably be done in a more generic way with a better method name, but this works for now
+    public String entryDescription(String description) {
+        if (description != null && description.length() > 40) {
+            return description.toString().substring(0, 39);
+        }
+        else {
+            return description;
+        }
     }
 
 }

@@ -113,6 +113,7 @@
     <kul:adHocRecipients />
 
     <kul:routeLog />
+    <gl:generalLedgerPendingEntries />
 
 </c:if>
     <kul:panelFooter />

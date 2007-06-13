@@ -17,16 +17,21 @@
 package org.kuali.module.purap.bo;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.core.util.ObjectUtils;
+import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.purap.document.PurchaseOrderDocument;
 
 /**
  * 
  */
 public class PurchaseOrderItem extends PurchasingItemBase {
+    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PurchaseOrderItem.class);
 
     private String documentNumber;
     private KualiDecimal itemInvoicedTotalQuantity;
@@ -103,7 +108,38 @@ public class PurchaseOrderItem extends PurchasingItemBase {
         //the inactivate button.
         this.setItemActiveIndicator(true);
     }    
-        
+
+    public void prepareToSave() {
+        List accounts = (List)this.getSourceAccountingLines();
+//        Collections.sort(accounts);
+
+        KualiDecimal accountTotalAmount = new KualiDecimal(0);
+        PurchaseOrderAccount lastAccount = null;
+
+        for (Iterator iterator = accounts.iterator(); iterator.hasNext();) {
+            PurchaseOrderAccount account = (PurchaseOrderAccount) iterator.next();
+
+            if (!account.isEmpty()) {
+                KualiDecimal acctAmount = this.getExtendedPrice().multiply(new KualiDecimal(account.getAccountLinePercent().toString()));
+//                acctAmount = acctAmount.divide(new KualiDecimal(100), 2, BigDecimal.ROUND_HALF_UP);
+                acctAmount = acctAmount.divide(new KualiDecimal(100));
+                account.setAmount(acctAmount);
+                LOG.debug("getDisplayItems() account amount = " + account.getAmount());
+
+                accountTotalAmount = accountTotalAmount.add(acctAmount);
+                lastAccount = (PurchaseOrderAccount)ObjectUtils.deepCopy(account);
+            }
+        }
+
+        // Rounding
+//        if (lastAccount != null && this.getAmount() != null) {
+//            KualiDecimal difference = this.getAmount().subtract(accountTotalAmount);
+//            KualiDecimal tempAmount = lastAccount.getAmount();
+//            lastAccount.setAmount(tempAmount.add(difference));
+//        }
+
+    }
+
     /**
      * Gets the itemActiveIndicator attribute.
      * 

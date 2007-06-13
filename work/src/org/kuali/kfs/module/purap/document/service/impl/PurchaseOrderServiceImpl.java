@@ -138,6 +138,8 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
     }
 
     public void save(PurchaseOrderDocument purchaseOrderDocument) {
+        //TODO do we need this??
+        // purchaseOrderDocument.prepareForSave();
         businessObjectService.save(purchaseOrderDocument);
     }
 

@@ -291,7 +291,7 @@ public class PurchaseOrderDocumentRule extends PurchasingDocumentRuleBase {
         explicitEntry.setTransactionEncumbranceUpdateCode(ENCUMB_UPDT_DOCUMENT_CD);
         explicitEntry.setFinancialSystemOriginationCode(PURAP_ORIGIN_CODE);
         explicitEntry.setReferenceFinancialDocumentTypeCode(PO_DOC_TYPE_CODE);
-        explicitEntry.setReferenceFinancialDocumentNumber(po.getPurapDocumentIdentifier().toString());
+//        explicitEntry.setReferenceFinancialDocumentNumber(po.getPurapDocumentIdentifier().toString());
         explicitEntry.setReferenceFinancialSystemOriginationCode(PURAP_ORIGIN_CODE);
         
         UniversityDate uDate = SpringServiceLocator.getUniversityDateService().getCurrentUniversityDate();

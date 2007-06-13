@@ -95,7 +95,7 @@ public class PermissionServiceImpl implements PermissionService {
                 } else if (ORG_REVIEW_RULE_ORG_CODE_NAME.equals(extensionVO.getKey())){
                     organizationCode = extensionVO.getValue();
                 } else {
-                    //throw error
+                    //do nothing, not an extension we are interested in
                 }
             }
             if (chartOfAccounts != null && organizationCode != null){

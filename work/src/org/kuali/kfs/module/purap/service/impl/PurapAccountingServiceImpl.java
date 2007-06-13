@@ -283,22 +283,21 @@ public class PurapAccountingServiceImpl implements PurapAccountingService {
         Set<PurApAccountingLine> accountSet = new HashSet<PurApAccountingLine>();
         
         for (PurchasingApItem currentItem : items) {
-            if(checkItemActive(currentItem)) {
+            if (checkItemActive(currentItem)) {
                 for (PurApAccountingLine account : currentItem.getSourceAccountingLines()) {
                     boolean thisAccountAlreadyInSet = false;
                     for (Iterator iter = accountSet.iterator(); iter.hasNext();) {
                         PurApAccountingLine alreadyAddedAccount = (PurApAccountingLine) iter.next();
                         if (alreadyAddedAccount.accountStringsAreEqual(account)) {
-                            // TODO ckirschenman - do we need to re-add 'alreadyAddedAccount' back into the Set or will it update ok?
-                            // hjs - it is ok like this
                             alreadyAddedAccount.setAmount(alreadyAddedAccount.getAmount().add(account.getAmount()));
                             thisAccountAlreadyInSet = true;
                             break;
                         }
                     }
                     if (!thisAccountAlreadyInSet) {
-                        PurApAccountingLine accountToAdd = (PurApAccountingLine)ObjectUtils.deepCopy(account);
-                        accountSet.add(accountToAdd);                }
+                        PurApAccountingLine accountToAdd = (PurApAccountingLine) ObjectUtils.deepCopy(account);
+                        accountSet.add(accountToAdd);
+                    }
                 }
             }
         }
@@ -315,8 +314,8 @@ public class PurapAccountingServiceImpl implements PurapAccountingService {
     
     private boolean checkItemActive(PurchasingApItem item) {
         boolean active = true;
-        if(PurchaseOrderItem.class == item.getClass()) {
-            PurchaseOrderItem poi = (PurchaseOrderItem)item;
+        if (PurchaseOrderItem.class == item.getClass()) {
+            PurchaseOrderItem poi = (PurchaseOrderItem) item;
             active = poi.isItemActiveIndicator();
         }
         return active;

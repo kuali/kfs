@@ -15,20 +15,26 @@
  */
 package org.kuali.kfs.batch;
 
+import org.apache.log4j.Logger;
 import org.kuali.kfs.service.SchedulerService;
 
 public class ScheduleStep extends AbstractStep {
+    private static final Logger LOG = Logger.getLogger(ScheduleStep.class);
     private SchedulerService schedulerService;
 
     /**
      * @see org.kuali.kfs.batch.Step#execute()
      */
     public boolean execute(String jobName) {
-        while (schedulerService.hasIncompleteJob()) {
+        boolean isPastScheduleCutoffTime = schedulerService.isPastScheduleCutoffTime();
+        while (schedulerService.hasIncompleteJob() && !isPastScheduleCutoffTime) {
             schedulerService.processWaitingJobs();
         }
+        if (isPastScheduleCutoffTime) {
+            LOG.info("Schedule exceeded cutoff time, so it was terminated before completion");
+        }
         schedulerService.logScheduleResults();
-        return true;
+        return !isPastScheduleCutoffTime;
     }
 
     /**

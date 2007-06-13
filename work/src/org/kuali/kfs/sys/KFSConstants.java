@@ -731,6 +731,8 @@ public class KFSConstants extends Constants {
         public static final String COLLECTOR_EQUAL_DC_TOTAL_DOCUMENT_TYPES = "EqualDebitCreditTotalDocumentTypes";
         public static final String COLLECTOR_PERFORM_DUPLICATE_HEADER_CHECK = "PerformDuplicateHeaderCheck";
    
+        public static final String BATCH_SCHEDULE_CUTOFF_TIME = "scheduleStep_CUTOFF_TIME";
+        public static final String BATCH_SCHEDULE_CUTOFF_TIME_IS_NEXT_DAY = "scheduleStep_IS_CUTOFF_TIME_NEXT_DAY";
         /**
          * Used by PurgePendingAttachmentsJob to compute the maximum amount of time a pending attachment is allowed to
          * persist on the file system before being deleted.

@@ -23,16 +23,18 @@ import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.PurapKeyConstants;
 import org.kuali.module.purap.PurapPropertyConstants;
+import org.kuali.module.purap.document.AccountsPayableDocument;
 import org.kuali.module.purap.document.CreditMemoDocument;
 import org.kuali.module.purap.document.PaymentRequestDocument;
 import org.kuali.module.purap.document.PurchaseOrderDocument;
 import org.kuali.module.purap.document.PurchasingAccountsPayableDocument;
+import org.kuali.module.purap.rule.ContinueAccountsPayableRule;
 import org.kuali.module.vendor.bo.VendorDetail;
 import org.kuali.module.vendor.util.VendorUtils;
 
 
 
-public class CreditMemoDocumentRule extends AccountsPayableDocumentRuleBase {
+public class CreditMemoDocumentRule extends AccountsPayableDocumentRuleBase implements ContinueAccountsPayableRule {
 
     /**
      * Tabs included on Payment Request Documents are:
@@ -49,6 +51,12 @@ public class CreditMemoDocumentRule extends AccountsPayableDocumentRuleBase {
     
     @Override
     protected boolean processCustomSaveDocumentBusinessRules(Document document) {
+        boolean isValid = true;
+        CreditMemoDocument  creditMemoDocument = (CreditMemoDocument) document;
+        return isValid &= processValidation(creditMemoDocument);
+    }
+    
+    public boolean processContinueAccountsPayableBusinessRules(AccountsPayableDocument document) {
         boolean isValid = true;
         CreditMemoDocument  creditMemoDocument = (CreditMemoDocument) document;
         return isValid &= processValidation(creditMemoDocument);

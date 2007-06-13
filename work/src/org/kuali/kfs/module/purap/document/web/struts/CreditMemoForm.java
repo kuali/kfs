@@ -134,7 +134,7 @@ public class CreditMemoForm extends AccountsPayableFormBase {
         
         
         ExtraButton continueButton = new ExtraButton();
-        continueButton.setExtraButtonProperty("methodToCall.continuePREQ");
+        continueButton.setExtraButtonProperty("methodToCall.continueCM");
         continueButton.setExtraButtonSource("images/buttonsmall_continue.gif");
         
         ExtraButton clearButton = new ExtraButton();

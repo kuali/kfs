@@ -35,6 +35,7 @@ import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.PurapKeyConstants;
 import org.kuali.module.purap.document.CreditMemoDocument;
 import org.kuali.module.purap.document.PurchaseOrderDocument;
+import org.kuali.module.purap.rule.event.ContinueAccountsPayableEvent;
 import org.kuali.module.purap.service.CreditMemoService;
 import org.kuali.module.purap.web.struts.form.CreditMemoForm;
 
@@ -75,8 +76,8 @@ public class CreditMemoAction extends AccountsPayableActionBase {
     }
     
    
-    public ActionForward continuePREQ(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        LOG.debug("continuePREQ() method");
+    public ActionForward continueCM(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        LOG.debug("continueCM() method");
 
         CreditMemoForm preqForm = (CreditMemoForm) form;
         CreditMemoDocument creditMemoDocument = (CreditMemoDocument) preqForm.getDocument();
@@ -114,12 +115,14 @@ public class CreditMemoAction extends AccountsPayableActionBase {
         
         // If we are here either there was no duplicate or there was a duplicate and the user hits continue, in either case we need to validate the business rules
         creditMemoDocument.getDocumentHeader().setFinancialDocumentDescription("dummy data to pass the business rule");
-        boolean rulePassed = SpringServiceLocator.getKualiRuleService().applyRules(new SaveDocumentEvent(creditMemoDocument)); 
+       // boolean rulePassed = SpringServiceLocator.getKualiRuleService().applyRules(new SaveDocumentEvent(creditMemoDocument));
+        boolean rulePassed = SpringServiceLocator.getKualiRuleService().applyRules(new ContinueAccountsPayableEvent(creditMemoDocument)); 
         creditMemoDocument.getDocumentHeader().setFinancialDocumentDescription(null);
         if (rulePassed) {
             
             Integer poId = creditMemoDocument.getPurchaseOrderIdentifier();
             PurchaseOrderDocument purchaseOrderDocument = SpringServiceLocator.getPurchaseOrderService().getCurrentPurchaseOrder(creditMemoDocument.getPurchaseOrderIdentifier());
+            
         //    creditMemoDocument.populateCreditMemoFromPurchaseOrder(purchaseOrderDocument);
             creditMemoDocument.setStatusCode(PurapConstants.CreditMemoStatuses.IN_PROCESS);
         //    creditMemoDocument.refreshAllReferences();
@@ -151,7 +154,7 @@ public class CreditMemoAction extends AccountsPayableActionBase {
 
         CreditMemoForm preqForm = (CreditMemoForm) form;
         CreditMemoDocument creditMemoDocument = (CreditMemoDocument) preqForm.getDocument();
-        ///creditMemoDocument.clearInitFields();
+        creditMemoDocument.clearInitFields();
 
         return super.refresh(mapping, form, request, response);
         //return mapping.findForward(KFSConstants.MAPPING_BASIC);

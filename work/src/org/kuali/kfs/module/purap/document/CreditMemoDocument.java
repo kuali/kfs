@@ -16,9 +16,12 @@
 
 package org.kuali.module.purap.document;
 
+import java.math.BigDecimal;
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
 import org.kuali.core.bo.Note;
 import org.kuali.core.bo.user.UniversalUser;
@@ -29,6 +32,8 @@ import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.PurapConstants.CreditMemoTypes;
 import org.kuali.module.purap.bo.CreditMemoItem;
 import org.kuali.module.purap.bo.CreditMemoStatusHistory;
+
+
 
 
 
@@ -89,8 +94,106 @@ public class CreditMemoDocument extends AccountsPayableDocumentBase {
         //this.setStatusCode( PurapConstants.PaymentRequestStatuses.IN_PROCESS )
        // this.setInitialized(true);
    //     this.refreshAllReferences();
+        
+        
     }
+    
+    /**
+     * Perform logic needed to initiate CM Document
+     */
+   /*
+    public void CreateDocument() {
+        
 
+        //for now just populate with essentials
+        cm.setNumber(creditMemoNumber);
+        cm.setDate(new Timestamp(creditMemoDate.getTime()));
+        cm.setAmount(creditMemoAmount);
+        cm.setCreditMemoStatus((CreditMemoStatus) referenceService.getCode("CreditMemoStatus", EpicConstants.CM_STAT_IN_PROCESS));
+        cm.setCreateDate(new Timestamp((new Date()).getTime()));
+        cm.setAccountsPayableProcessorUser(u);
+        cm.setProcessCampusCode(u.getCampusCd());
+
+        
+        //create a new doc header and set it in the credit memo
+        String docName = applicationSettingService.getString("EDEN_DOCUMENT_CREDIT");
+        String orgDocNumber = "";
+        if (cm.getPaymentRequest() != null) {
+          orgDocNumber = cm.getPaymentRequest().getDocumentHeader().getOrganizationDocumentNumber();
+        } else if (cm.getPurchaseOrder() != null) {
+          orgDocNumber = cm.getPurchaseOrder().getDocumentHeader().getOrganizationDocumentNumber();
+        }
+        DocumentHeader dh = routingService.createDocumentHeader(docName, orgDocNumber, cm.getTotalCredit(), u);
+        cm.setDocumentHeader(dh);
+        
+        // IF po create line items for all the items that have invoiced quantities
+        if (po != null) {
+          if ( preq != null ) {
+            // Get the lines from the preq
+            for (Iterator iter = invoicedPoItems.iterator(); iter.hasNext();) {
+              Integer nbr = (Integer)iter.next();
+              PaymentRequestItem preqItemToUse = preq.getItem(nbr.intValue());
+              if (preqItemToUse != null) {
+                // Only get items that are 'ITEM' type items and that are invoiced on PREQ
+                if ( (EpicConstants.ITEM_TYPE_ITEM_CODE.equals(preqItemToUse.getItemType().getCode())) &&
+                     ( (preqItemToUse.getInvoiceQuantity() != null) || 
+                       (zero.compareTo(preqItemToUse.getExtendedPrice()) != 0) ) ) {
+                  cm.getItems().add(new CreditMemoItem(cm, preqItemToUse));
+                }
+              }
+            }
+          } else {
+            // Get the lines from the po
+            for (Iterator iter = invoicedPoItems.iterator(); iter.hasNext();) {
+              Integer nbr = (Integer)iter.next();
+
+              cm.getItems().add(new CreditMemoItem(cm, po.getItem(nbr.intValue())));
+            }
+          }
+        }
+
+        // Always create line items for Restocking Fee and Misc (add these after 'ITEM' type)
+        cm.getItems().add(newEmptyLineItem(cm, EpicConstants.ITEM_TYPE_RESTCK_FEE_CODE, new Integer(904)));
+        cm.getItems().add(newEmptyLineItem(cm, EpicConstants.ITEM_TYPE_MISC_CRDT_CODE, new Integer(905)));
+
+        // distribute accounts to non-item type items
+        // we distribute based on the source document items and amounts
+        List displayItems = cm.getSourceDocumentItemsDisplayItems();
+        List displayAccounts = cm.getDisplayAccountsFromDisplayItems(displayItems);
+        BigDecimal sourceDocTotalAmount = zero;
+        for (Iterator displayItemIter = displayItems.iterator(); displayItemIter.hasNext();) {
+          DisplayItem displayItem = (DisplayItem) displayItemIter.next();
+          sourceDocTotalAmount = sourceDocTotalAmount.add(displayItem.getAmount());
+        }
+        
+        cm.distributeAccountsToNonItems(displayAccounts,sourceDocTotalAmount);
+        SERVICELOG.debug("create() ended");
+        return cm;
+      }
+        
+      
+        
+    }
+*/
+/**
+ * Perform logic needed to initiate PREQ Document
+ */
+public void clearInitFields() {
+    LOG.debug("clearDocument() started");
+    // Clearing document overview fields
+    this.getDocumentHeader().setFinancialDocumentDescription(null);
+    this.getDocumentHeader().setExplanation(null);
+    this.getDocumentHeader().setFinancialDocumentTotalAmount(null);
+    this.getDocumentHeader().setOrganizationDocumentNumber(null);
+
+    // Clearing document Init fields
+    this.setPurchaseOrderIdentifier(null);
+    this.setCreditMemoNumber(null);
+    this.setCreditMemoDate(null);
+    this.setCreditMemoAmount(null);
+    this.setVendorNumber(null);
+    this.setPaymentRequestIdentifier(null);
+}
     /**
      * @see org.kuali.core.document.DocumentBase#handleRouteStatusChange()
      */

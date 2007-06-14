@@ -59,7 +59,7 @@ public abstract class AccountingLineBase extends PersistableBusinessObjectBase i
     private String organizationReferenceId;
     private String debitCreditCode; // should only be set by the Journal Voucher or Auxiliary Voucher document
     private String encumbranceUpdateCode; // should only be set by the Journal Voucher document
-    protected String ojbConcreteClass; // attribute needed for OJB polymorphism - do not alter!
+    protected String financialDocumentLineTypeCode;
     protected String financialDocumentLineDescription;
 
     private String chartOfAccountsCode;
@@ -518,17 +518,17 @@ public abstract class AccountingLineBase extends PersistableBusinessObjectBase i
     }
 
     /**
-     * @return Returns the ojbConcreteClass.
+     * @return Returns the financialDocumentLineTypeCode.
      */
-    public String getOjbConcreteClass() {
-        return ojbConcreteClass;
+    public String getFinancialDocumentLineTypeCode() {
+        return financialDocumentLineTypeCode;
     }
 
     /**
-     * @param ojbConcreteClass The ojbConcreteClass to set.
+     * @param financialDocumentLineTypeCode The financialDocumentLineTypeCode to set.
      */
-    public void setOjbConcreteClass(String ojbConcreteClass) {
-        this.ojbConcreteClass = ojbConcreteClass;
+    public void setFinancialDocumentLineTypeCode(String financialDocumentLineTypeCode) {
+        this.financialDocumentLineTypeCode = financialDocumentLineTypeCode;
     }
 
     /**
@@ -648,7 +648,7 @@ public abstract class AccountingLineBase extends PersistableBusinessObjectBase i
             setOrganizationReferenceId(other.getOrganizationReferenceId());
             setDebitCreditCode(other.getDebitCreditCode());
             setEncumbranceUpdateCode(other.getEncumbranceUpdateCode());
-            setOjbConcreteClass(other.getOjbConcreteClass());
+            setFinancialDocumentLineTypeCode(other.getFinancialDocumentLineTypeCode());
             setFinancialDocumentLineDescription(other.getFinancialDocumentLineDescription());
             setAccountExpiredOverride(other.getAccountExpiredOverride());
             setAccountExpiredOverrideNeeded(other.getAccountExpiredOverrideNeeded());
@@ -799,7 +799,7 @@ public abstract class AccountingLineBase extends PersistableBusinessObjectBase i
         simpleValues.put("organizationReferenceId", getOrganizationReferenceId());
         simpleValues.put("debitCreditCode", getDebitCreditCode());
         simpleValues.put("encumbranceUpdateCode", getEncumbranceUpdateCode());
-        simpleValues.put("ojbConcreteClass", getOjbConcreteClass());
+        simpleValues.put("financialDocumentLineTypeCode", getFinancialDocumentLineTypeCode());
         simpleValues.put("financialDocumentLineDescription", getFinancialDocumentLineDescription());
 
         simpleValues.put("chartOfAccountsCode", getChartOfAccountsCode());

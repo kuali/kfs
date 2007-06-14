@@ -343,14 +343,14 @@ public interface AccountingLine extends PersistableBusinessObject {
     public void setObjectTypeCode(String objectTypeCode);
 
     /**
-     * @return Returns the ojbConcreteClass.
+     * @return Returns the financialDocumentLineTypeCode.
      */
-    public String getOjbConcreteClass();
+    public String getFinancialDocumentLineTypeCode();
 
     /**
-     * @param ojbConcreteClass The ojbConcreteClass to set.
+     * @param financialDocumentLineTypeCode The financialDocumentLineTypeCode to set.
      */
-    public void setOjbConcreteClass(String ojbConcreteClass);
+    public void setFinancialDocumentLineTypeCode(String financialDocumentLineTypeCode);
 
     /**
      * @return Returns the project.

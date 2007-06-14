@@ -81,8 +81,8 @@ public abstract class AccountingLineEventBase extends KualiDocumentEventBase imp
             logMessage.append("null accountingLine");
         }
         else {
-            String accountingLineType = StringUtils.substringAfterLast(accountingLine.getOjbConcreteClass(), ".");
-
+            String accountingLineType = accountingLine.getFinancialDocumentLineTypeCode();
+            
             logMessage.append(accountingLineType);
             logMessage.append(" seq# ");
             logMessage.append(accountingLine.getSequenceNumber());

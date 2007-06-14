@@ -29,17 +29,7 @@ public class RequisitionAccount extends PurApAccountingLineBase {
     
 	private RequisitionItem requisitionItem;
 
-    
-	/**
-	 * Default constructor.
-	 */
-	public RequisitionAccount() {
-        super();
-        //this field is not in the database for us because they are in different tables
-        super.ojbConcreteClass = this.getClass().getName();
-	}
-    
-	/**
+    	/**
 	 * Gets the requisitionItem attribute.
 	 * 
 	 * @return Returns the requisitionItem

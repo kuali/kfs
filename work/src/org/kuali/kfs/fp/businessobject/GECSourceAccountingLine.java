@@ -26,12 +26,4 @@ import org.kuali.kfs.bo.SourceAccountingLine;
  * 
  */
 public class GECSourceAccountingLine extends SourceAccountingLine {
-    /**
-     * This constructor needs to initialize the ojbConcreteClass attribute such that it sets it to its class name. This is how OJB
-     * knows what grouping of objects to work with.
-     */
-    public GECSourceAccountingLine() {
-        super();
-        super.ojbConcreteClass = this.getClass().getName();
-    }
 }

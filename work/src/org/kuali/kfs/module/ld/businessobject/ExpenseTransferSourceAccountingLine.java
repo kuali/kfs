@@ -39,15 +39,6 @@ public class ExpenseTransferSourceAccountingLine extends SourceAccountingLine
     private LaborObject laborObject;
     
     /**
-     * This constructor needs to initialize the ojbConcreteClass attribute such that it sets it to its class name. This is how OJB
-     * knows what grouping of objects to work with.
-     */
-    public ExpenseTransferSourceAccountingLine() {
-        super();
-        super.ojbConcreteClass = this.getClass().getName();
-    }
-
-    /**
      * Gets the positionNumber attribute.
      * 
      * @return Returns the positionNumber

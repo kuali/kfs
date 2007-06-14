@@ -906,7 +906,7 @@
                         <accountExpiredOverrideNeeded>false</accountExpiredOverrideNeeded>
                         <objectBudgetOverride>false</objectBudgetOverride>
                         <objectBudgetOverrideNeeded>false</objectBudgetOverrideNeeded>
-                        <ojbConcreteClass>org.kuali.kfs.bo.SourceAccountingLine</ojbConcreteClass>
+                        <financialDocumentLineTypeCode>F</financialDocumentLineTypeCode>
                         <chartOfAccountsCode>BL</chartOfAccountsCode>
                         <accountNumber>2823205</accountNumber>
                         <financialObjectCode>9900</financialObjectCode>
@@ -1002,7 +1002,7 @@
                         <accountExpiredOverrideNeeded>false</accountExpiredOverrideNeeded>
                         <objectBudgetOverride>false</objectBudgetOverride>
                         <objectBudgetOverrideNeeded>false</objectBudgetOverrideNeeded>
-                        <ojbConcreteClass>org.kuali.kfs.bo.TargetAccountingLine</ojbConcreteClass>
+                        <financialDocumentLineTypeCode>T</financialDocumentLineTypeCode>
                         <chartOfAccountsCode>BL</chartOfAccountsCode>
                         <accountNumber>2831410</accountNumber>
                         <financialObjectCode>9915</financialObjectCode>

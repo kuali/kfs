@@ -48,13 +48,8 @@ public class BudgetAdjustmentSourceAccountingLine extends SourceAccountingLine i
     private KualiDecimal financialDocumentMonth12LineAmount;
     private boolean fringeBenefitIndicator;
 
-    /**
-     * This constructor needs to initialize the ojbConcreteClass attribute such that it sets it to its class name. This is how OJB
-     * knows what grouping of objects to work with.
-     */
     public BudgetAdjustmentSourceAccountingLine() {
         super();
-        super.ojbConcreteClass = this.getClass().getName();
         BudgetAdjustmentAccountingLineUtil.init(this);
     }
 

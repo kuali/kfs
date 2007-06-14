@@ -30,11 +30,10 @@ public class TargetAccountingLine extends AccountingLineBase {
     private static final long serialVersionUID = -7290902582961553147L;
 
     /**
-     * This constructor needs to initialize the ojbConcreteClass attribute such that it sets it to its class name. This is how OJB
-     * knows what grouping of objects to work with.
+     * This constructor needs to initialize the financialDocumentLineTypeCode attribute to the value for this class.
      */
     public TargetAccountingLine() {
         super();
-        super.ojbConcreteClass = this.getClass().getName();
+        super.financialDocumentLineTypeCode = "T";
     }
 }

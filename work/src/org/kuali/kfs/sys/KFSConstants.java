@@ -124,6 +124,8 @@ public class KFSConstants extends Constants {
     public static final String EMPLOYEE_ACTIVE_STATUS = "A";
     public static final String EXISTING_SOURCE_ACCT_LINE_PROPERTY_NAME = "sourceAccountingLine";
     public static final String EXISTING_TARGET_ACCT_LINE_PROPERTY_NAME = "targetAccountingLine";
+    public static final String SOURCE_ACCT_LINE_TYPE_CODE = "F";  // F = From, the label for this on most documents
+    public static final String TARGET_ACCT_LINE_TYPE_CODE = "T";  // T = To, the label for this on most documents
     public static final String EXTRA_BUTTON_SOURCE = "extraButtonSource";
     public static final String EXTRA_BUTTON_PARAMS = "extraButtonParams";
     public static final String NEW_DOCUMENT_NOTE_PROPERTY_NAME = "newDocumentNote";

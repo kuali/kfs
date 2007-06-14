@@ -26,12 +26,4 @@ import org.kuali.kfs.bo.TargetAccountingLine;
  * 
  */
 public class GECTargetAccountingLine extends TargetAccountingLine {
-    /**
-     * This constructor needs to initialize the ojbConcreteClass attribute such that it sets it to its class name. This is how OJB
-     * knows what grouping of objects to work with.
-     */
-    public GECTargetAccountingLine() {
-        super();
-        super.ojbConcreteClass = this.getClass().getName();
-    }
 }

@@ -40,11 +40,14 @@ public interface PaymentRequestService {
     
     public List getPaymentRequestsByPOIdInvoiceAmountInvoiceDate(Integer poId, KualiDecimal invoiceAmount, Date invoiceDate);
     
+    // TODO: Implement me.
+    public List getPaymentRequestsByVendorNumberInvoiceNumber(Integer vendorHeaderGeneratedIdentifier, Integer vendorDetailAssignedIdentifier, String invoiceNumber);
+    
     public boolean isInvoiceDateAfterToday(Date invoiceDate);
     
     public HashMap<String, String> paymentRequestDuplicateMessages(PaymentRequestDocument document);
     
-    public HashMap<String, String> ExpiredOrClosedAccountsList(PaymentRequestDocument document);
+    public HashMap<String, String> expiredOrClosedAccountsList(PaymentRequestDocument document);
     
     public void addContinuationAccountsNote(PaymentRequestDocument document, HashMap<String, String> accounts);
     

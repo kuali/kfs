@@ -29,6 +29,7 @@ import org.kuali.core.bo.Note;
 import org.kuali.core.question.ConfirmationQuestion;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.GlobalVariables;
+import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.web.struts.form.KualiDocumentFormBase;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.util.SpringServiceLocator;
@@ -88,53 +89,53 @@ public class PaymentRequestAction extends AccountsPayableActionBase {
         
         Object question = request.getParameter(KFSConstants.QUESTION_INST_ATTRIBUTE_NAME);
        
-        KualiConfigurationService kualiConfiguration = SpringServiceLocator.getKualiConfigurationService();
-
-     
-        
+        KualiConfigurationService kualiConfiguration = SpringServiceLocator.getKualiConfigurationService();     
         PaymentRequestService paymentRequestService = SpringServiceLocator.getPaymentRequestService();
-        HashMap<String, String> duplicateMessages = paymentRequestService.paymentRequestDuplicateMessages(paymentRequestDocument);
         
-        if (!duplicateMessages.isEmpty()){
-  
-            if (question == null) {
-              // ask question if not already asked
-              return this.performQuestionWithoutInput(mapping, form, request, response, PurapConstants.PREQDocumentsStrings.DUPLICATE_INVOICE_QUESTION, duplicateMessages.get(PurapConstants.PREQDocumentsStrings.DUPLICATE_INVOICE_QUESTION) , KFSConstants.CONFIRMATION_QUESTION, KFSConstants.ROUTE_METHOD, "");
-
-            } 
+        Integer poId = paymentRequestDocument.getPurchaseOrderIdentifier();
+        PurchaseOrderDocument purchaseOrderDocument = SpringServiceLocator.getPurchaseOrderService().getCurrentPurchaseOrder(paymentRequestDocument.getPurchaseOrderIdentifier());
+        
+        if (ObjectUtils.isNotNull(purchaseOrderDocument)) {
+            HashMap<String, String> duplicateMessages = paymentRequestService.paymentRequestDuplicateMessages(paymentRequestDocument);
             
-            Object buttonClicked = request.getParameter(KFSConstants.QUESTION_CLICKED_BUTTON);
-           
-            if ((PurapConstants.PREQDocumentsStrings.DUPLICATE_INVOICE_QUESTION.equals(question)) && ConfirmationQuestion.NO.equals(buttonClicked)) {
+            if (!duplicateMessages.isEmpty()){
+      
+                if (question == null) {
+                  // ask question if not already asked
+                  return this.performQuestionWithoutInput(mapping, form, request, response, PurapConstants.PREQDocumentsStrings.DUPLICATE_INVOICE_QUESTION, duplicateMessages.get(PurapConstants.PREQDocumentsStrings.DUPLICATE_INVOICE_QUESTION) , KFSConstants.CONFIRMATION_QUESTION, KFSConstants.ROUTE_METHOD, "");
+    
+                } 
                 
-                // if no button clicked just reload the doc in the INITIATE status and let the user to change the input values
+                Object buttonClicked = request.getParameter(KFSConstants.QUESTION_CLICKED_BUTTON);
                
-                paymentRequestDocument.setStatusCode(PurapConstants.PaymentRequestStatuses.INITIATE);
-                //editMode.put(PurapAuthorizationConstants.PaymentRequestEditMode.DISPLAY_INIT_TAB, "TRUE");
-                return mapping.findForward(KFSConstants.MAPPING_BASIC);
-             }
+                if ((PurapConstants.PREQDocumentsStrings.DUPLICATE_INVOICE_QUESTION.equals(question)) && ConfirmationQuestion.NO.equals(buttonClicked)) {
+                    
+                    // if no button clicked just reload the doc in the INITIATE status and let the user to change the input values
+                   
+                    paymentRequestDocument.setStatusCode(PurapConstants.PaymentRequestStatuses.INITIATE);
+                    //editMode.put(PurapAuthorizationConstants.PaymentRequestEditMode.DISPLAY_INIT_TAB, "TRUE");
+                    return mapping.findForward(KFSConstants.MAPPING_BASIC);
+                 }
+            }
         }
         
         // If we are here either there was no duplicate or there was a duplicate and the user hits continue, in either case we need to validate the business rules
         paymentRequestDocument.getDocumentHeader().setFinancialDocumentDescription("dummy data to pass the business rule");
-        boolean rulePassed = SpringServiceLocator.getKualiRuleService().applyRules(new ContinueAccountsPayableEvent(paymentRequestDocument)); 
+        boolean rulePassed = SpringServiceLocator.getKualiRuleService().applyRules(new ContinueAccountsPayableEvent(paymentRequestDocument));        
         paymentRequestDocument.getDocumentHeader().setFinancialDocumentDescription(null);
-        if (rulePassed) {
-            
-            Integer poId = paymentRequestDocument.getPurchaseOrderIdentifier();
-            PurchaseOrderDocument purchaseOrderDocument = SpringServiceLocator.getPurchaseOrderService().getCurrentPurchaseOrder(paymentRequestDocument.getPurchaseOrderIdentifier());
+        
+        if (rulePassed) {           
             paymentRequestDocument.populatePaymentRequestFromPurchaseOrder(purchaseOrderDocument);
             paymentRequestDocument.setStatusCode(PurapConstants.PaymentRequestStatuses.IN_PROCESS);
             paymentRequestDocument.refreshAllReferences();
 
-            //editMode.put(PurapAuthorizationConstants.PaymentRequestEditMode.DISPLAY_INIT_TAB, "FALSE");
-            
+            //editMode.put(PurapAuthorizationConstants.PaymentRequestEditMode.DISPLAY_INIT_TAB, "FALSE");    
         } else {
             paymentRequestDocument.setStatusCode(PurapConstants.PaymentRequestStatuses.INITIATE);
         }
         
-        //If the list of closed/expired accounts is not empty add a warning and  add a note for the close / epired accounts which get replaced
-//        HashMap<String, String> expiredOrClosedAccounts = paymentRequestService.ExpiredOrClosedAccountsList(paymentRequestDocument);
+        //If the list of closed/expired accounts is not empty add a warning and add a note for the close / epired accounts which get replaced
+        //HashMap<String, String> expiredOrClosedAccounts = paymentRequestService.expiredOrClosedAccountsList(paymentRequestDocument);
         //TODO: Chris finish above method for now just set to empty
         HashMap<String, String> expiredOrClosedAccounts = new HashMap<String,String>();
         

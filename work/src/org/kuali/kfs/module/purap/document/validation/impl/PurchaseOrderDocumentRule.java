@@ -15,14 +15,10 @@
  */
 package org.kuali.module.purap.rules;
 
-import static org.kuali.kfs.KFSConstants.BALANCE_TYPE_EXTERNAL_ENCUMBRANCE;
-import static org.kuali.kfs.KFSConstants.ENCUMB_UPDT_DOCUMENT_CD;
 import static org.kuali.kfs.KFSConstants.GL_DEBIT_CODE;
 import static org.kuali.kfs.KFSConstants.MONTH1;
 import static org.kuali.module.purap.PurapConstants.PO_DOC_TYPE_CODE;
-import static org.kuali.module.purap.PurapConstants.PURAP_ORIGIN_CODE;
 
-import java.util.Date;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
@@ -32,13 +28,13 @@ import org.kuali.core.util.ErrorMap;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
+import org.kuali.core.workflow.service.KualiWorkflowDocument;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSKeyConstants;
 import org.kuali.kfs.bo.AccountingLine;
 import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
 import org.kuali.kfs.document.AccountingDocument;
 import org.kuali.kfs.util.SpringServiceLocator;
-import org.kuali.module.chart.bo.ObjectCode;
 import org.kuali.module.gl.bo.UniversityDate;
 import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.PurapKeyConstants;
@@ -50,6 +46,7 @@ import org.kuali.module.purap.bo.PurchasingApItem;
 import org.kuali.module.purap.document.PurchaseOrderDocument;
 import org.kuali.module.purap.document.PurchasingAccountsPayableDocument;
 import org.kuali.module.purap.document.PurchasingDocument;
+import org.kuali.workflow.KualiWorkflowUtils.RouteLevelNames;
 
 public class PurchaseOrderDocumentRule extends PurchasingDocumentRuleBase {
 
@@ -280,19 +277,29 @@ public class PurchaseOrderDocumentRule extends PurchasingDocumentRuleBase {
     }
 
     @Override
+    protected boolean checkAccountingLineAccountAccessibility(AccountingDocument financialDocument, AccountingLine accountingLine, AccountingLineAction action) {
+        KualiWorkflowDocument workflowDocument = financialDocument.getDocumentHeader().getWorkflowDocument();
+        List currentRouteLevels = getCurrentRouteLevels(workflowDocument);
+
+        if (currentRouteLevels.contains(RouteLevelNames.PURCHASE_ORDER_INTERNAL_REVIEW) && workflowDocument.isApprovalRequested()) {
+            // DO NOTHING: do not check that user owns acct lines; at this level, approvers can edit all detail on PO
+            return true;
+        }
+        
+        else {
+            return super.checkAccountingLineAccountAccessibility(financialDocument, accountingLine, action);
+        }
+    }
+
+    @Override
     protected void customizeExplicitGeneralLedgerPendingEntry(AccountingDocument accountingDocument, AccountingLine accountingLine, GeneralLedgerPendingEntry explicitEntry) {
         super.customizeExplicitGeneralLedgerPendingEntry(accountingDocument, accountingLine, explicitEntry);
-        
         PurchaseOrderDocument po = (PurchaseOrderDocument)accountingDocument;
 
+        purapCustomizeGeneralLedgerPendingEntry(po, accountingLine, explicitEntry, po.getPurapDocumentIdentifier(), GL_DEBIT_CODE, true);
+        
         explicitEntry.setTransactionLedgerEntryDescription(entryDescription(po.getVendorName()));
         explicitEntry.setFinancialDocumentTypeCode(PO_DOC_TYPE_CODE);  //don't think i should have to override this, but default isn't getting the right PO doc
-        explicitEntry.setFinancialBalanceTypeCode(BALANCE_TYPE_EXTERNAL_ENCUMBRANCE);
-        explicitEntry.setTransactionEncumbranceUpdateCode(ENCUMB_UPDT_DOCUMENT_CD);
-        explicitEntry.setFinancialSystemOriginationCode(PURAP_ORIGIN_CODE);
-        explicitEntry.setReferenceFinancialDocumentTypeCode(PO_DOC_TYPE_CODE);
-//        explicitEntry.setReferenceFinancialDocumentNumber(po.getPurapDocumentIdentifier().toString());
-        explicitEntry.setReferenceFinancialSystemOriginationCode(PURAP_ORIGIN_CODE);
         
         UniversityDate uDate = SpringServiceLocator.getUniversityDateService().getCurrentUniversityDate();
         if (po.getPostingYear().compareTo(uDate.getUniversityFiscalYear()) > 0) {
@@ -304,29 +311,8 @@ public class PurchaseOrderDocumentRule extends PurchasingDocumentRuleBase {
             //USE CURRENT; don't use FY on PO in case it's a prior year
             explicitEntry.setUniversityFiscalYear(uDate.getUniversityFiscalYear());
             explicitEntry.setUniversityFiscalPeriodCode(uDate.getUniversityFiscalAccountingPeriod());
+            //TODO do we need to update the doc posting year?
         }
-
-        explicitEntry.setTransactionDebitCreditCode(GL_DEBIT_CODE);
-        
-        //what about when the amount is ZERO? (check epic GL service)
-        
-//        //if it's negative, flip the sign and the D/C indicator
-//        if (amount.doubleValue() < 0) {
-//          gpt.setAmount(amount.abs());
-//          if ("C".equals(debitCrdtCd)) {
-//            gpt.setDebitCrdtCd("D");
-//          } else {
-//            gpt.setDebitCrdtCd("C");
-//          }
-//        } else {
-//          gpt.setAmount(amount);
-//          gpt.setDebitCrdtCd(debitCrdtCd);
-//        }
-
-        //TODO should we be doing it like this or storing the FY in the acct table
-        ObjectCode objectCode = SpringServiceLocator.getObjectCodeService().getByPrimaryId(explicitEntry.getUniversityFiscalYear(), explicitEntry.getChartOfAccountsCode(), explicitEntry.getFinancialObjectCode());
-        explicitEntry.setFinancialObjectTypeCode(objectCode.getFinancialObjectTypeCode());
-
     }
 
 

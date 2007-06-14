@@ -120,6 +120,7 @@ public class KualiWorkflowUtils extends WorkflowUtils {
         public static final String PAYMENT_METHOD = "Payment Method";
         public static final String ACCOUNT_REVIEW_FULL_EDIT = "Account Review Full Edit";
         public static final String REQUISITION_CONTENT_REVIEW = "Content Review";
+        public static final String PURCHASE_ORDER_INTERNAL_REVIEW = "Internal Purchasing Review";
 
     }
 

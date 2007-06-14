@@ -399,24 +399,24 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
 
     public abstract Class getItemClass();
 
-    /**
-     * @see org.kuali.kfs.document.AccountingDocumentBase#getSourceAccountingLines()
-     */
-    @Override
-    public List getSourceAccountingLines() {
-        
-        return SpringServiceLocator.getPurapAccountingService().generateSummary(this.getItems());
-
-        // TODO: Chris loop through items and get accounts
-//        TypedArrayList accounts = null;
-//        if (items.size() >= 1) {
-//            accounts = new TypedArrayList(getItem(0).getAccountingLineClass());
-//        }
-//        for (PurchasingApItem item : items) {
-//            accounts.addAll(item.getSourceAccountingLines());
-//        }
-//        return (accounts == null) ? new ArrayList() : accounts;
-    }
+//    /**
+//     * @see org.kuali.kfs.document.AccountingDocumentBase#getSourceAccountingLines()
+//     */
+//    @Override
+//    public List getSourceAccountingLines() {
+//        
+//        return SpringServiceLocator.getPurapAccountingService().generateSummary(this.getItems());
+//
+//        // TODO: Chris loop through items and get accounts
+////        TypedArrayList accounts = null;
+////        if (items.size() >= 1) {
+////            accounts = new TypedArrayList(getItem(0).getAccountingLineClass());
+////        }
+////        for (PurchasingApItem item : items) {
+////            accounts.addAll(item.getSourceAccountingLines());
+////        }
+////        return (accounts == null) ? new ArrayList() : accounts;
+//    }
 
     public String getVendorCityName() {
         return vendorCityName;

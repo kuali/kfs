@@ -17,14 +17,12 @@
 package org.kuali.module.purap.bo;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
-import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.purap.document.PurchaseOrderDocument;
 
 /**
@@ -124,6 +122,7 @@ public class PurchaseOrderItem extends PurchasingItemBase {
 //                acctAmount = acctAmount.divide(new KualiDecimal(100), 2, BigDecimal.ROUND_HALF_UP);
                 acctAmount = acctAmount.divide(new KualiDecimal(100));
                 account.setAmount(acctAmount);
+                account.setItemAccountOutstandingEncumbranceAmount(acctAmount);
                 LOG.debug("getDisplayItems() account amount = " + account.getAmount());
 
                 accountTotalAmount = accountTotalAmount.add(acctAmount);

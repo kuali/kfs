@@ -22,6 +22,7 @@
               description="Boolean to indicate if REQ specific fields should be displayed" %>
 
 <c:set var="contentReadOnly" value="${not empty KualiForm.editingMode['lockContentEntry']}" />
+<c:set var="internalPurchasingReadOnly" value="${not empty KualiForm.editingMode['lockInternalPurchasingEntry']}" />
 <c:set var="amendmentEntry" value="${(not empty KualiForm.editingMode['amendmentEntry'])}" />
 
 <kul:tab tabTitle="Additional" defaultOpen="false" tabErrorKey="${PurapConstants.ADDITIONAL_TAB_ERRORS}">
@@ -40,7 +41,7 @@
                 <td align=left valign=middle class="datacell">
                     <kul:htmlControlAttribute attributeEntry="${documentAttributes.chartOfAccountsCode}" property="document.chartOfAccountsCode" readOnly="true" />
                     &nbsp;/&nbsp;<kul:htmlControlAttribute attributeEntry="${documentAttributes.organizationCode}" property="document.organizationCode"  readOnly="true"/>
-			        <c:if test="${(fullEntryMode or amendmentEntry) and not contentReadOnly}" >
+			        <c:if test="${(fullEntryMode or amendmentEntry) and not (contentReadOnly or internalPurchasingReadOnly)}" >
 			            <kul:lookup boClassName="org.kuali.module.chart.bo.Org" fieldConversions="organizationCode:document.organizationCode,chartOfAccountsCode:document.chartOfAccountsCode"/>
 			        </c:if>
                 </td>

@@ -143,38 +143,21 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase implements Cop
             // Set amount
             item.setItemOutstandingEncumbranceAmount(item.getExtendedPrice() == null ? ZERO : item.getExtendedPrice());
 
+            //TODO check setting of outstanding amount in the accounts in item.prepareToSave()
             item.prepareToSave();
-        }
+        }//endfor
 
-        //TODO fix this 
-        // Set outstanding amount in the accounts
-//        for (Iterator items = po.getDisplayItems(PurchaseOrderDocument.INCLUDE_ACTIVE_ONLY).iterator(); items.hasNext();) {
-//            DisplayItem item = (DisplayItem) items.next();
-//
-//            PurchaseOrderItem poItem = po.getItem(item.getItemLineNumber().intValue());
-//
-//            for (Iterator accounts = item.getAccounts().iterator(); accounts.hasNext();) {
-//                DisplayAccount account = (DisplayAccount) accounts.next();
-//                GlAccountingString gas = account.getGlAccountingString();
-//
-//                // Find the account in the poItem
-//                for (Iterator poAccounts = poItem.getAccounts().iterator(); poAccounts.hasNext();) {
-//                    PurchaseOrderDocumentAccount poAccount = (PurchaseOrderDocumentAccount) poAccounts.next();
-//                    if (gas.equals(poAccount.getGlAccountingString())) {
-//                        poAccount.setItemAccountOutstandingEncumbranceAmount(account.getAmount());
-//                        // poAccount.setItemAccountPaidAmount(PurapConstants.ZERO);
-//                        break;
-//                    }
-//                }
-//            }
-//        }
-
-    }
+    }//end customPrepareForSave()
     
     @Override
     public void prepareForSave(KualiDocumentEvent event) {
         customPrepareForSave(event);
+        if (ObjectUtils.isNull(getPurapDocumentIdentifier())) {
+            //need to save to generate PO id to save in GL entries
+            SpringServiceLocator.getPurchaseOrderService().save(this);
+        }
         this.refreshNonUpdateableReferences();
+        this.setSourceAccountingLines(SpringServiceLocator.getPurapAccountingService().generateSummaryWithNoZeroTotals(this.getItems()));
         super.prepareForSave(event);
     }
 
@@ -307,10 +290,19 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase implements Cop
     public void handleRouteLevelChange() {
         LOG.debug("handleRouteLevelChange() started");
         super.handleRouteLevelChange();
-
-
     }
 
+    public List getItemsActiveOnly() {
+        List returnList = new ArrayList();
+        for (Iterator iter = getItems().iterator(); iter.hasNext();) {
+            PurchaseOrderItem item = (PurchaseOrderItem) iter.next();
+            if (item.isItemActiveIndicator()) {
+                returnList.add(item);
+            }
+        }
+        return returnList;
+    }
+    
     // SETTERS AND GETTERS
     public Integer getAlternateVendorDetailAssignedIdentifier() {
         return alternateVendorDetailAssignedIdentifier;

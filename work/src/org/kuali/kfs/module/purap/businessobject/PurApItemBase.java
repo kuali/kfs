@@ -23,6 +23,7 @@ import java.util.List;
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.TypedArrayList;
+import org.kuali.kfs.KFSConstants;
 import org.kuali.module.purap.PurapConstants;
 
 /**
@@ -407,10 +408,10 @@ public abstract class PurApItemBase extends PersistableBusinessObjectBase implem
             return new KualiDecimal(extendedPrice);
         }
         else {
-            //unit price is null; return null (or should it return zero?)
-            return null;
+            //unit price is null; return zero
+            return KFSConstants.ZERO;
         }
-    } 
+    }
     
      /**
      * Sets the extendedPrice attribute value.

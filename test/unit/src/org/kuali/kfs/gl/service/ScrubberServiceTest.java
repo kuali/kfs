@@ -1575,10 +1575,17 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
         assertOriginEntries(4, outputTransactions);
     }
 
+    /**
+     * Tests to ensure that having invalid object codes will not cause the origin entry to enter the scrubber error group (i.e. it will enter the 
+     * scrubber valid group).  See https://test.kuali.org/confluence/download/attachments/3933/General+Ledger+Functional+Specification-v1.doc
+     * and https://test.kuali.org/confluence/download/attachments/3933/FIS+GL+Scrubber+Process+Description.doc
+     * @throws Exception
+     */
+    @RelatesTo(RelatesTo.JiraIssue.KULRNE4797)
     public void testInactiveObjectCode() throws Exception {
         String[] inputTransactions = { "2007BL2231411-----2001---ACEX07INV EUINACTOBJ      00000BALDWIN WALLACE COLLEGE                           3375.00C2006-01-05          ----------                                                                               ", "2007BL2231411-----8000---ACAS07INV EUINACTOBJ      00000TP Generated Offset                               3375.00D2006-01-05          ----------                                                                               " };
 
-        EntryHolder[] outputTransactions = { new EntryHolder(OriginEntrySource.BACKUP, inputTransactions[0]), new EntryHolder(OriginEntrySource.BACKUP, inputTransactions[1]), new EntryHolder(OriginEntrySource.SCRUBBER_ERROR, inputTransactions[0]), new EntryHolder(OriginEntrySource.SCRUBBER_ERROR, inputTransactions[1]) };
+        EntryHolder[] outputTransactions = { new EntryHolder(OriginEntrySource.BACKUP, inputTransactions[0]), new EntryHolder(OriginEntrySource.BACKUP, inputTransactions[1]), new EntryHolder(OriginEntrySource.SCRUBBER_VALID, inputTransactions[0]), new EntryHolder(OriginEntrySource.SCRUBBER_VALID, inputTransactions[1]) };
 
         scrub(inputTransactions);
         assertOriginEntries(4, outputTransactions);

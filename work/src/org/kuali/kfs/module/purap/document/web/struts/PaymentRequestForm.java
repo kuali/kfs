@@ -19,6 +19,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.util.TypedArrayList;
@@ -149,56 +150,57 @@ public class PaymentRequestForm extends AccountsPayableFormBase {
         if(this.getEditingMode().containsKey(PurapAuthorizationConstants.PaymentRequestEditMode.DISPLAY_INIT_TAB)){
             if( this.getEditingMode().get(PurapAuthorizationConstants.PaymentRequestEditMode.DISPLAY_INIT_TAB).equals("TRUE") ){
 
-                ExtraButton continueButton = new ExtraButton();
-                continueButton.setExtraButtonProperty("methodToCall.continuePREQ");
-                continueButton.setExtraButtonSource("${kr.externalizable.images.url}buttonsmall_continue.gif");
-                
-                ExtraButton clearButton = new ExtraButton();
-                clearButton.setExtraButtonProperty("methodToCall.clearInitFields");
-                clearButton.setExtraButtonSource("${kr.externalizable.images.url}buttonsmall_clear.gif");
+                addExtraButton("methodToCall.continuePREQ", "${kr.externalizable.images.url}buttonsmall_continue.gif", "Continue");                
+                addExtraButton("methodToCall.clearInitFields", "${kr.externalizable.images.url}buttonsmall_clear.gif", "Clear");
                 
                 // Only for debuggin and test:
-                String stat = preqDoc.getStatusCode();
-                
-                this.getExtraButtons().add(continueButton);
-                this.getExtraButtons().add(clearButton);
-
+                String stat = preqDoc.getStatusCode();                
             }else{
-        
-                boolean showHoldButton = false;
-                boolean showRemoveButton = false;
-                
+                       
                 //if preq holdable and user can put on hold, show button
                 if( SpringServiceLocator.getPaymentRequestService().isPaymentRequestHoldable(preqDoc) ){
                     if( SpringServiceLocator.getPaymentRequestService().canHoldPaymentRequest(preqDoc, GlobalVariables.getUserSession().getUniversalUser() ) ){
-                        showHoldButton = true;
+                        addExtraButton("methodToCall.addHoldOnPayment", "${kr.externalizable.images.url}buttonsmall_paymenthold.gif", "Hold");                     
                     }
                 }else{                    
                     //if person can remove hold
                     if( SpringServiceLocator.getPaymentRequestService().canRemoveHoldPaymentRequest(preqDoc, GlobalVariables.getUserSession().getUniversalUser() )){
-                        showRemoveButton = true;
+                        addExtraButton("methodToCall.removeHoldFromPayment", "${kr.externalizable.images.url}buttonsmall_removehold.gif", "Remove");
                     }
-                }
-                                            
-                ExtraButton paymentHoldButton = new ExtraButton();
-                ExtraButton removeHoldButton = new ExtraButton();
-                    
-                if( showHoldButton ){        
-                    //only show if payment hold flag is set to false
-                    paymentHoldButton.setExtraButtonProperty("methodToCall.addHoldOnPayment");
-                    paymentHoldButton.setExtraButtonSource("${kr.externalizable.images.url}buttonsmall_paymenthold.gif");
-                    this.getExtraButtons().add(paymentHoldButton);
-                }
-                
-                if( showRemoveButton){
-                    //Only show if payment hold flag is set to true
-                    removeHoldButton.setExtraButtonProperty("methodToCall.removeHoldFromPayment");
-                    removeHoldButton.setExtraButtonSource("${kr.externalizable.images.url}buttonsmall_removehold.gif");
-                    this.getExtraButtons().add(removeHoldButton);
-                }                                          
-        
+                }    
+
+                //if preq can have a cancel request and user can submit request cancel, show button
+                if( SpringServiceLocator.getPaymentRequestService().canRequestCancelOnPaymentRequest(preqDoc) ){
+                    if( SpringServiceLocator.getPaymentRequestService().canUserRequestCancelOnPaymentRequest(preqDoc, GlobalVariables.getUserSession().getUniversalUser() ) ){
+                        addExtraButton("methodToCall.requestCancelOnPayment", "${kr.externalizable.images.url}buttonsmall_cancel.gif", "Cancel");                     
+                    }
+                }else{                    
+                    //if person can remove request cancel
+                    if( SpringServiceLocator.getPaymentRequestService().canUserRemoveRequestCancelOnPaymentRequest(preqDoc, GlobalVariables.getUserSession().getUniversalUser() )){
+                        addExtraButton("methodToCall.removeCancelRequestFromPayment", "${kr.externalizable.images.url}buttonsmall_removehold.gif", "Remove");
+                    }
+                }    
             }
         }
+    }
+    
+    /**
+     * This is a utility method to add a new button to the extra buttons
+     * collection.
+     *   
+     * @param property
+     * @param source
+     * @param altText
+     */ 
+    private void addExtraButton(String property, String source, String altText){
+        
+        ExtraButton newButton = new ExtraButton();
+        
+        newButton.setExtraButtonProperty(property);
+        newButton.setExtraButtonSource(source);
+        newButton.setExtraButtonAltText(altText);
+        
+        this.getExtraButtons().add(newButton);
     }
  
 }

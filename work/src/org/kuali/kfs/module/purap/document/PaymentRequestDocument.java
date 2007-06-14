@@ -23,6 +23,7 @@ import java.util.List;
 
 import org.kuali.core.bo.Note;
 import org.kuali.core.bo.user.UniversalUser;
+import org.kuali.core.exceptions.UserNotFoundException;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
@@ -780,6 +781,20 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
             }
         }
         return total;
+    }
+
+    //Helper methods
+    public String getAccountsPayableRequestCancelPersonName(){
+        String personName = null;
+        try {
+            UniversalUser user = SpringServiceLocator.getUniversalUserService().getUniversalUser(getAccountsPayableRequestCancelIdentifier());
+            personName = user.getPersonName();
+        }
+        catch (UserNotFoundException unfe) {
+            personName = "";
+        }
+        
+        return personName;
     }
 
     /** 

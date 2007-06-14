@@ -60,8 +60,18 @@ public interface PaymentRequestService {
     public boolean canRemoveHoldPaymentRequest(PaymentRequestDocument document, UniversalUser user);
     
     public void removeHoldOnPaymentRequest(PaymentRequestDocument document);
-    
+       
     public PaymentRequestDocument getPaymentRequestById(Integer poDocId);
+    
+    public void requestCancelOnPaymentRequest(PaymentRequestDocument document, String note) throws Exception;
+    
+    public boolean canRequestCancelOnPaymentRequest(PaymentRequestDocument document);
+    
+    public boolean canUserRequestCancelOnPaymentRequest(PaymentRequestDocument document, UniversalUser user);
+    
+    public boolean canUserRemoveRequestCancelOnPaymentRequest(PaymentRequestDocument document, UniversalUser user);
+    
+    public void removeRequestCancelOnPaymentRequest(PaymentRequestDocument document, String note) throws Exception;
     
     /* Start Paste from EPIC */
      

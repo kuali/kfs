@@ -81,7 +81,7 @@ public class PurapKeyConstants {
     public static final String ERROR_PAYMENT_REQUEST_REASON_REQUIRED = "error.paymentRequest.reasonRequired";    
     public static final String ERROR_CANCEL_CANCELLED="errors.cancel.cancelled";
     public static final String ERROR_CANCEL_EXTRACTED="errors.cancel.extracted";
-
+   
     public static final String MESSAGE_DUPLICATE_INVOICE_DATE_AMOUNT="message.duplicate.preq.date.amount";
     public static final String MESSAGE_DUPLICATE_INVOICE_DATE_AMOUNT_CANCELLEDORVOIDED="message.duplicate.invoice.date.amount.cancelledOrVoided";
     public static final String MESSAGE_DUPLICATE_INVOICE_DATE_AMOUNT_VOIDED="message.duplicate.invoice.date.amount.voided";
@@ -96,8 +96,13 @@ public class PurapKeyConstants {
     
     public static final String PAYMENT_REQUEST_QUESTION_DOCUMENT = "paymentRequest.question.text";
     public static final String PAYMENT_REQUEST_MESSAGE_HOLD_DOCUMENT="paymentRequest.message.hold.text";
-    
-    
+
+    public static final String PAYMENT_REQUEST_QUESTION_CANCEL_DOCUMENT = "paymentRequest.question.cancel.text";
+    public static final String PAYMENT_REQUEST_MESSAGE_CANCEL_DOCUMENT="paymentRequest.message.cancel.text";
+
+    public static final String PAYMENT_REQUEST_QUESTION_REMOVE_CANCEL_DOCUMENT = "paymentRequest.question.remove.cancel.text";
+    public static final String PAYMENT_REQUEST_MESSAGE_REMOVE_CANCEL_DOCUMENT="paymentRequest.message.remove.cancel.text";
+
     public static final String WARNING_ENCUMBER_NEXT_FY="warning.encumber.nextFY";
     public static final String WARNING_CANCEL_REOPEN_PO="warning.cancel.reOpenPO";
     //Item

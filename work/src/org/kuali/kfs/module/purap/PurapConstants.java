@@ -100,6 +100,8 @@ public class PurapConstants {
 
     public static class Workgroups {
         public static final String WORKGROUP_ACCOUNTS_PAYABLE = "PURAP.WORKGROUP.ACCOUNTS_PAYABLE";
+        //TODO: need an accounts payable supervisor group
+        public static final String WORKGROUP_ACCOUNTS_PAYABLE_SUPERVISOR = "PURAP.WORKGROUP.ACCOUNTS_PAYABLE";
         public static final String WORKGROUP_PURCHASING = "PURAP.WORKGROUP.PURCHASING";
         public static final String WORKGROUP_TAXNBR_ACCESSIBLE = "PURAP.WORKGROUP.TAXNBR_ACCESSIBLE";
     }
@@ -321,6 +323,8 @@ public class PurapConstants {
         public static String AWAITING_FISCAL_APPROVAL = "AFOA";
         public static String DEPARTMENT_APPROVED = "DPTA";
         public static String AUTO_APPROVED = "AUTO";        
+        public static String AWAITING_CHART_REVIEW = "ACHA";
+        public static String AWAITING_TAX_APPROVAL = "ATAX";
         /*
          * Modify as required: public static String CANCELLED = "CANC"; public static String CLOSED = "CLOS"; public static String
          * AWAIT_CONTENT_APRVL = "ACNT"; public static String AWAIT_SUB_ACCT_APRVL = "ASUB"; public static String AWAIT_FISCAL_APRVL =
@@ -350,6 +354,13 @@ public class PurapConstants {
         public static String HOLD_PREQ_QUESTION = "HoldPREQ";
         public static String CONFIRM_HOLD_QUESTION = "ConfirmHold";
         public static String HOLD_NOTE_PREFIX = "Note entered while placing Payment Request on hold : ";
+        public static String CANCEL_PREQ_QUESTION = "CancelPREQ";
+        public static String CONFIRM_CANCEL_QUESTION = "ConfirmCancel";
+        public static String CANCEL_NOTE_PREFIX = "Note entered while requesting cancel on Payment Request : ";
+        public static String REMOVE_CANCEL_PREQ_QUESTION = "RemoveCancelPREQ";
+        public static String CONFIRM_REMOVE_CANCEL_QUESTION = "ConfirmRemoveCancel";
+        public static String REMOVE_CANCEL_NOTE_PREFIX = "Note entered while requesting a remove cancel on Payment Request : ";
+
     }
 
     private static HashMap<String, String> itemTypes()

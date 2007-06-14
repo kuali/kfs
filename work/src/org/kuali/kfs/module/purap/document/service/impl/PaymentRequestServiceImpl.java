@@ -43,6 +43,7 @@ import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.PurapKeyConstants;
+import org.kuali.module.purap.PurapParameterConstants;
 import org.kuali.module.purap.PurapConstants.PREQDocumentsStrings;
 import org.kuali.module.purap.PurapConstants.PaymentRequestStatuses;
 import org.kuali.module.purap.dao.PaymentRequestDao;
@@ -237,7 +238,8 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
         HashMap<String, String> msgs;
         msgs = new HashMap<String, String>();
         KualiConfigurationService kualiConfiguration = SpringServiceLocator.getKualiConfigurationService();
-        
+
+
         Integer purchaseOrderId = document.getPurchaseOrderIdentifier();
 
         PurchaseOrderDocument po = purchaseOrderService.getCurrentPurchaseOrder(purchaseOrderId);
@@ -262,7 +264,6 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
                     addedMessage = true;
                     break;
                 }
-
             }
             // Custom error message for duplicates related to cancelled/voided PREQs
             if (!addedMessage) {
@@ -301,12 +302,14 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
             }
             // Custom error message for duplicates related to cancelled/voided PREQs
             if (!addedMessage) {
+
                 if ((!(voided.isEmpty())) && (!(cancelled.isEmpty()))) {
                     msgs.put(PREQDocumentsStrings.DUPLICATE_INVOICE_QUESTION, kualiConfiguration.getPropertyString(PurapKeyConstants.MESSAGE_DUPLICATE_INVOICE_DATE_AMOUNT_CANCELLEDORVOIDED));
                 }
                 else if ((!(voided.isEmpty())) && (cancelled.isEmpty())) {
                     msgs.put(PREQDocumentsStrings.DUPLICATE_INVOICE_QUESTION, kualiConfiguration.getPropertyString(PurapKeyConstants.MESSAGE_DUPLICATE_INVOICE_DATE_AMOUNT_VOIDED));
                     addedMessage = true;
+
                 }
                 else if ((voided.isEmpty()) && (!(cancelled.isEmpty()))) {
                     msgs.put(PREQDocumentsStrings.DUPLICATE_INVOICE_QUESTION, kualiConfiguration.getPropertyString(PurapKeyConstants.MESSAGE_DUPLICATE_INVOICE_DATE_AMOUNT_CANCELLED));
@@ -314,9 +317,11 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
                 }
             }
         }
+
+
         return msgs;
     }
-        
+    
     public PaymentRequestDocument getPaymentRequestById(Integer poDocId){
         return paymentRequestDao.getPaymentRequestById(poDocId); 
     }
@@ -506,6 +511,7 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
     public boolean canHoldPaymentRequest(PaymentRequestDocument document, UniversalUser user){
         boolean canHold = false;
         
+        String accountsPayableGroup = SpringServiceLocator.getKualiConfigurationService().getApplicationParameterValue(PurapParameterConstants.PURAP_ADMIN_GROUP, PurapConstants.Workgroups.WORKGROUP_ACCOUNTS_PAYABLE);
         
         /* The user is an approver of the document,
          * The user is a member of the Accounts Payable group
@@ -514,7 +520,7 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
              (document.getDocumentHeader().hasWorkflowDocument() &&
              ( document.getDocumentHeader().getWorkflowDocument().stateIsEnroute() && 
                document.getDocumentHeader().getWorkflowDocument().isApprovalRequested() ) ) ||
-            ( user.isMember("KUALI_PURAP_ACCOUNTS_PAYABLE") && user.isSupervisorUser() == false) ){
+            ( user.isMember(accountsPayableGroup)) ){
             
             canHold = true;
         }
@@ -530,18 +536,146 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
     public boolean canRemoveHoldPaymentRequest(PaymentRequestDocument document, UniversalUser user){
         boolean canRemoveHold = false;
         
+        String accountsPayableSupervisorGroup = SpringServiceLocator.getKualiConfigurationService().getApplicationParameterValue(PurapParameterConstants.PURAP_ADMIN_GROUP, PurapConstants.Workgroups.WORKGROUP_ACCOUNTS_PAYABLE_SUPERVISOR);
+        
         /* The user is the person who put the preq on hold
          * The user is a member of the AP Supervisor group
          */
         if( document.isHoldIndicator() &&
             ( user.getPersonUniversalIdentifier().equals( document.getAccountsPayableHoldIdentifier() ) ||
-             (user.isMember("KUALI_PURAP_ACCOUNTS_PAYABLE") && user.isSupervisorUser() == true) ) ){
+             (user.isMember(accountsPayableSupervisorGroup)) ) ){
             
             canRemoveHold = true;
         }
         return canRemoveHold;
     }
     
+    /**
+     * This method marks a payment request as requested to be cancelled.
+     * 
+     * @see org.kuali.module.purap.service.PaymentRequestService#addHoldOnPaymentRequest(org.kuali.module.purap.document.PaymentRequestDocument, java.lang.String)
+     */
+    public void requestCancelOnPaymentRequest(PaymentRequestDocument document, String note) throws Exception{        
+        //save the note
+        Note noteObj = documentService.createNoteFromDocument(document, note);
+        documentService.addNoteToDocument(document, noteObj);
+        noteService.save(noteObj);
+        
+        //retrieve and save with hold indicator set to true
+        PaymentRequestDocument preqDoc = paymentRequestDao.getPaymentRequestById(document.getPurapDocumentIdentifier());        
+        preqDoc.setPaymentRequestedCancelIndicator(true);
+        preqDoc.setAccountsPayableRequestCancelIdentifier( GlobalVariables.getUserSession().getUniversalUser().getPersonUniversalIdentifier() );
+        paymentRequestDao.save(preqDoc);
+        
+        //must also save it on the incoming document
+        document.setPaymentRequestedCancelIndicator(true);
+        document.setAccountsPayableRequestCancelIdentifier( GlobalVariables.getUserSession().getUniversalUser().getPersonUniversalIdentifier() );
+    }
+    
+    /**
+     * This method removes a cancel on a payment request.
+     * 
+     * @see org.kuali.module.purap.service.PaymentRequestService#removeHoldOnPaymentRequest(org.kuali.module.purap.document.PaymentRequestDocument)
+     */
+    public void removeRequestCancelOnPaymentRequest(PaymentRequestDocument document, String note) throws Exception{
+        //retrieve and save with hold indicator set to false
+        PaymentRequestDocument preqDoc = paymentRequestDao.getPaymentRequestById(document.getPurapDocumentIdentifier());                    
+        preqDoc.setPaymentRequestedCancelIndicator(false);
+        preqDoc.setAccountsPayableRequestCancelIdentifier(null);
+        paymentRequestDao.save(preqDoc);
+
+        //must also save it on the incoming document
+        document.setPaymentRequestedCancelIndicator(false);
+        document.setAccountsPayableRequestCancelIdentifier(null);
+    }   
+
+    /**
+     * This method determines if this document may have a cancel requested
+     * 
+     * @see org.kuali.module.purap.service.PaymentRequestService#isPaymentRequestHoldable(org.kuali.module.purap.document.PaymentRequestDocument)
+     */
+    public boolean canRequestCancelOnPaymentRequest(PaymentRequestDocument document){
+        boolean canCancel = false;
+        String statusCode = document.getStatusCode();
+        
+        /* The document is not already requested to be canceled,
+         * The document has not been extracted,
+         * The document is out for approval,
+         * The document is one of a set of specific PREQ status codes
+         */
+        if( document.getPaymentRequestedCancelIndicator() == false &&
+            document.getExtractedDate() == null &&
+            document.getDocumentHeader().hasWorkflowDocument() &&
+            ( document.getDocumentHeader().getWorkflowDocument().stateIsEnroute() && 
+              document.getDocumentHeader().getWorkflowDocument().isApprovalRequested() ) &&
+            ( PurapConstants.PaymentRequestStatuses.AWAITING_SUB_ACCT_MGR_APPROVAL.equals(statusCode) ||
+              PurapConstants.PaymentRequestStatuses.AWAITING_FISCAL_APPROVAL.equals(statusCode) ||
+              PurapConstants.PaymentRequestStatuses.AWAITING_CHART_REVIEW.equals(statusCode) ||
+              PurapConstants.PaymentRequestStatuses.AWAITING_TAX_APPROVAL.equals(statusCode)) ){
+            
+            canCancel = true;
+        }
+        
+        return canCancel;
+    }
+    
+    /**
+     * This method determines if a user has permission to request cancel on a PREQ
+     * 
+     * @see org.kuali.module.purap.service.PaymentRequestService#canHoldPaymentRequest(org.kuali.module.purap.document.PaymentRequestDocument, org.kuali.core.bo.user.UniversalUser)
+     */
+    public boolean canUserRequestCancelOnPaymentRequest(PaymentRequestDocument document, UniversalUser user){
+        boolean canHold = false;
+        
+        String accountsPayableGroup = SpringServiceLocator.getKualiConfigurationService().getApplicationParameterValue(PurapParameterConstants.PURAP_ADMIN_GROUP, PurapConstants.Workgroups.WORKGROUP_ACCOUNTS_PAYABLE);
+        
+        /* The user is an approver of the document,
+         * The user is a member of the Accounts Payable group
+         */
+        if( document.getPaymentRequestedCancelIndicator() == false &&
+             (document.getDocumentHeader().hasWorkflowDocument() &&
+             ( document.getDocumentHeader().getWorkflowDocument().stateIsEnroute() && 
+               document.getDocumentHeader().getWorkflowDocument().isApprovalRequested() ) ) ||
+            ( user.isMember(accountsPayableGroup)) ){
+            
+            canHold = true;
+        }
+        
+        return canHold;
+    }
+
+    /**
+     * This method determines if a user has permission to remove a request for cancel on a PREQ
+     * 
+     * @see org.kuali.module.purap.service.PaymentRequestService#canRemoveHoldPaymentRequest(org.kuali.module.purap.document.PaymentRequestDocument, org.kuali.core.bo.user.UniversalUser)
+     */
+    public boolean canUserRemoveRequestCancelOnPaymentRequest(PaymentRequestDocument document, UniversalUser user){
+        boolean canRemoveHold = false;
+        
+        String accountsPayableSupervisorGroup = SpringServiceLocator.getKualiConfigurationService().getApplicationParameterValue(PurapParameterConstants.PURAP_ADMIN_GROUP, PurapConstants.Workgroups.WORKGROUP_ACCOUNTS_PAYABLE_SUPERVISOR);
+        
+        /* The user is the person who requested a cancel on the preq
+         * The user is a member of the AP Supervisor group
+         */
+        if( document.getPaymentRequestedCancelIndicator() &&
+            ( user.getPersonUniversalIdentifier().equals( document.getAccountsPayableHoldIdentifier() ) ||
+             (user.isMember(accountsPayableSupervisorGroup))) ){
+            
+            canRemoveHold = true;
+        }
+        return canRemoveHold;
+    }
+
+    /*
+     public PaymentRequestInitializationValidationErrors verifyPreqInitialization(
+     Integer purchaseOrderId, String invoiceNumber, BigDecimal invoiceAmount, Timestamp invoiceDate,
+     List expiredAccounts, List closedAccounts, User u) {
+     SERVICELOG.debug("verifyPreqInitialization() started");
+     LOG.debug("verifyPreqInitialization started");
+     List messages = new ArrayList();
+     List expirAcctList = new ArrayList();
+     List closeAcctList = new ArrayList();
+     
     /**
      * Creates a PaymentRequestDocument from given RequisitionDocument
      * 

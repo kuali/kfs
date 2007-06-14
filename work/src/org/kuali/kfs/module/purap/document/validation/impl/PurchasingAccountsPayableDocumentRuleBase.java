@@ -42,6 +42,7 @@ import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.chart.bo.ObjectCode;
 import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.PurapKeyConstants;
+import org.kuali.module.purap.bo.PaymentRequestItem;
 import org.kuali.module.purap.bo.PurchasingApItem;
 import org.kuali.module.purap.document.CreditMemoDocument;
 import org.kuali.module.purap.document.PaymentRequestDocument;
@@ -75,6 +76,18 @@ public class PurchasingAccountsPayableDocumentRuleBase extends AccountingDocumen
         return isValid &= processValidation(purapDocument);
     }
 
+    protected String getItemIdentifier(PurchasingApItem item) {
+        String identifierString = (item.getItemType().isItemTypeAboveTheLineIndicator() ? "Item " + item.getItemLineNumber().toString() : item.getItemType().getItemTypeDescription()); 
+        return identifierString;
+    }
+    
+    @Override
+    protected boolean processCustomAddAccountingLineBusinessRules(AccountingDocument financialDocument, AccountingLine accountingLine) {
+        boolean isValid = true;
+        
+        return isValid;
+    }
+    
     /**
      * This method calls each tab specific validation.  Tabs included on all PURAP docs are:
      *   DocumentOverview

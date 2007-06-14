@@ -425,7 +425,7 @@ public final class AccountingDocumentTestUtils extends KualiTestBase {
         for (int i = 0; i < d1.getSourceAccountingLines().size(); i++) {
             d1.getSourceAccountingLine(i).isLike(d2.getSourceAccountingLine(i));
         }
-        Assert.assertEquals(d2.getTargetAccountingLines().size(), d2.getTargetAccountingLines().size());
+        Assert.assertEquals(d1.getTargetAccountingLines().size(), d2.getTargetAccountingLines().size());
         for (int i = 0; i < d1.getTargetAccountingLines().size(); i++) {
             d1.getTargetAccountingLine(i).isLike(d2.getTargetAccountingLine(i));
         }

@@ -30,8 +30,8 @@
                 <c:if test="${fullEntryMode}">
                   <kul:lookup boClassName="org.kuali.module.financial.bo.PaymentReasonCode" fieldConversions="code:document.dvPayeeDetail.disbVchrPaymentReasonCode"/>
                 </c:if>
-                <a href="inquiry.do?methodToCall=start&businessObjectClassName=org.kuali.module.financial.bo.PaymentReasonCode"
-                   onclick="this.href='inquiry.do?methodToCall=start&businessObjectClassName=org.kuali.module.financial.bo.PaymentReasonCode&code=' + document.forms[0].elements['document.dvPayeeDetail.disbVchrPaymentReasonCode'].value;" target="_blank">
+                <a href="${ConfigProperties.application.url}/kr/inquiry.do?methodToCall=start&businessObjectClassName=org.kuali.module.financial.bo.PaymentReasonCode"
+                   onclick="this.href='${ConfigProperties.application.url}/kr/inquiry.do?methodToCall=start&businessObjectClassName=org.kuali.module.financial.bo.PaymentReasonCode&code=' + document.forms[0].elements['document.dvPayeeDetail.disbVchrPaymentReasonCode'].value;" target="_blank">
                   <img src="${ConfigProperties.kr.externalizable.images.url}my_cp_inf.gif" styleClass="globalbuttons" alt="help"/>
                 </a>
             </tr>

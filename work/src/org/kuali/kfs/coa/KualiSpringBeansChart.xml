@@ -53,6 +53,11 @@
 				<value>org/kuali/module/chart/dwr-chart.xml</value>
 			</list>
 		</property>
+		<property name="jobNames">
+			<list>
+				<value>fiscalYearMakerJob</value>
+			</list>
+		</property>
 	</bean>
 
 	<bean id="chartUserService" class="org.kuali.module.chart.service.impl.ChartUserServiceImpl" parent="kualiModuleUserServiceBase">
@@ -365,6 +370,20 @@
 	<bean id="indirectCostRecoveryExclusionByTypeLookupable" class="org.kuali.core.lookup.KualiLookupableImpl" singleton="false">
 		<property name="lookupableHelperService">
 			<ref bean="indirectCostRecoveryExclusionByTypeLookupableHelperService" />
+		</property>
+	</bean>
+	
+	<bean id="fiscalYearMakerStep" class="org.kuali.module.chart.batch.FiscalYearMakerStep">
+		<property name="dateMakerService">
+			<ref bean="dateMakerService" />
+		</property>
+	</bean>
+	
+	<bean id="fiscalYearMakerJob" parent="unscheduledJobDescriptor">
+		<property name="steps">
+			<list>
+				<ref bean="fiscalYearMakerStep" />
+			</list>
 		</property>
 	</bean>
 </beans>

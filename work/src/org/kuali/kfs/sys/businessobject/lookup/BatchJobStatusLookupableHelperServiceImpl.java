@@ -70,9 +70,6 @@ public class BatchJobStatusLookupableHelperServiceImpl extends KualiLookupableHe
     public String getActionUrls(BusinessObject businessObject) {
         if ( businessObject instanceof BatchJobStatus ) {
             BatchJobStatus job = (BatchJobStatus)businessObject;
-            if ( LOG.isInfoEnabled() ) {
-                LOG.info(job);
-            }
             String linkText = "Modify";
             StringBuffer sb = new StringBuffer();
             if ( configService.hasApplicationParameter(KFSConstants.ParameterGroups.SYSTEM,KFSConstants.SystemGroupParameterNames.JOB_ADMIN_WORKGROUP) ) {            

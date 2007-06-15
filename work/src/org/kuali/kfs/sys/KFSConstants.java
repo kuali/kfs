@@ -659,6 +659,9 @@ public class KFSConstants extends Constants {
     public static class ChartApcParms {
         public static final String GROUP_CHART_MAINT_EDOCS = "ChartMaintenanceEDoc";
 
+        public static final String FISCAL_YEAR_MAKER_REPLACE_MODE = "replaceMode";
+        public static final String FISCAL_YEAR_MAKER_SOURCE_FISCAL_YEAR = "sourceFiscalYear";
+
         // Account parms
         public static final String ACCOUNT_USER_EMP_STATUSES = "Account.User.AllowedEmployeeStatus";
         public static final String ACCOUNT_USER_EMP_TYPES = "Account.User.AllowedEmployeeType";
@@ -697,6 +700,7 @@ public class KFSConstants extends Constants {
         public static final String BATCH_UPLOAD_SECURITY_GROUP_NAME = "Kuali.Batch.BatchInputFileUpload";
         public static final String COLLECTOR_SECURITY_GROUP_NAME = "Kuali.GeneralLedger.Collector";
         public static final String ENTERPRSISE_FEEDER_SECURITY_GROUP_NAME = "Kuali.GeneralLedger.EnterpriseFeeder";
+        public static final String CHART_FISCAL_YEAR_MAKER = "Chart.FiscalYearMaker";
     }
 
     public static class SystemGroupParameterNames {

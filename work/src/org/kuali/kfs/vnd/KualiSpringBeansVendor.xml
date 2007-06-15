@@ -54,6 +54,12 @@
 		</property>
 	</bean>
 
+	<bean id="workflow-org.kuali.module.vendor.bo.ContractManager-Lookupable" parent="workflowLookupable" singleton="false">
+		<property name="businessObjectClassName">
+			<value>org.kuali.module.vendor.bo.ContractManager</value>
+		</property>
+	</bean>
+
 	<bean id="vendorUserService" class="org.kuali.module.vendor.service.impl.VendorUserServiceImpl" parent="kualiModuleUserServiceBase">
 	</bean>
 

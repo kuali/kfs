@@ -42,6 +42,8 @@ public class KualiAttributeXPathTest extends KualiTestBase {
     private static final String KUALI_SUBFUND_GROUP_ATTRIBUTE_XSTREAMSAFE = "wf:xstreamsafe('" + KUALI_SUBFUND_GROUP_ATTRIBUTE_SOURCE + "') or wf:xstreamsafe('" + KUALI_SUBFUND_GROUP_ATTRIBUTE_TARGET +"')";
     private static final String KUALI_SUBFUND_GROUP_ATTRIBUTE_SOURCE_XSTREAMSAFE = "wf:xstreamsafe('//org.kuali.kfs.bo.SourceAccountingLine/account/subFundGroupCode')";
     private static final String KUALI_SUBFUND_GROUP_ATTRIBUTE_TARGET_XSTREAMSAFE = "wf:xstreamsafe('//org.kuali.kfs.bo.TargetAccountingLine/account/subFundGroupCode')";
+    private static final String KUALI_CAMPUS_TYPE_ACTIVE_INDICATOR_XSTREAMSAFE = KualiWorkflowUtils.XSTREAM_SAFE_PREFIX + KualiWorkflowUtils.XSTREAM_MATCH_ANYWHERE_PREFIX + "campus/campusType/dataObjectMaintenanceCodeActiveIndicator" + KualiWorkflowUtils.XSTREAM_SAFE_SUFFIX;
+    private static final String KUALI_INITIATOR_UNIVERSAL_USER_STUDENT_INDICATOR_XSTREAMSAFE = KualiWorkflowUtils.XSTREAM_SAFE_PREFIX + KualiWorkflowUtils.XSTREAM_MATCH_ANYWHERE_PREFIX + "kualiTransactionalDocumentInformation/documentInitiator/universalUser/student" + KualiWorkflowUtils.XSTREAM_SAFE_SUFFIX;
 
     public void testKualiSubFundGroupAttribute_TransferOfFunds1() throws IOException, InvalidXmlException, XPathExpressionException {
 
@@ -74,5 +76,25 @@ public class KualiAttributeXPathTest extends KualiTestBase {
         xpathResult = (String) xpath.evaluate(KUALI_SUBFUND_GROUP_ATTRIBUTE_TARGET_XSTREAMSAFE, docContent.getDocument(), XPathConstants.STRING);
         assertEquals("FEMP", xpathResult);
 
+    }
+    
+    public void testKualiIndicatorTranslationAttributeXPath() throws IOException, InvalidXmlException, XPathExpressionException {
+        DocumentContent docContent = KualiAttributeTestUtil.getDocumentContentFromXmlFileAndPath(KualiAttributeTestUtil.PURCHASE_ORDER_DOCUMENT, KualiAttributeTestUtil.RELATIVE_PATH_IN_PROJECT_WORKFLOW,"KualiPurchaseOrderDocument");
+        XPath xpath = KualiWorkflowUtils.getXPath(docContent.getDocument());
+
+        String valueForTrue = "Yes";
+        String valueForFalse = "No";
+        
+        // test campus active indicator field translation to 'Yes'
+        String xpathConditionStatement = "(" + KUALI_CAMPUS_TYPE_ACTIVE_INDICATOR_XSTREAMSAFE + " = 'true')";
+        String xpathExpression = "concat( substring('" + valueForTrue + "', number(not(" + xpathConditionStatement + "))*string-length('" + valueForTrue + "')+1), substring('" + valueForFalse + "', number(" + xpathConditionStatement + ")*string-length('" + valueForFalse + "')+1))";
+        String xpathResult = (String) xpath.evaluate(xpathExpression, docContent.getDocument(), XPathConstants.STRING);
+        assertEquals(valueForTrue, xpathResult);
+
+        // test user student indicator translation to 'No'
+        xpathConditionStatement = "(" + KUALI_INITIATOR_UNIVERSAL_USER_STUDENT_INDICATOR_XSTREAMSAFE + " = 'true')";
+        xpathExpression = "concat( substring('" + valueForTrue + "', number(not(" + xpathConditionStatement + "))*string-length('" + valueForTrue + "')+1), substring('" + valueForFalse + "', number(" + xpathConditionStatement + ")*string-length('" + valueForFalse + "')+1))";
+        xpathResult = (String) xpath.evaluate(xpathExpression, docContent.getDocument(), XPathConstants.STRING);
+        assertEquals(valueForFalse, xpathResult);
     }
 }

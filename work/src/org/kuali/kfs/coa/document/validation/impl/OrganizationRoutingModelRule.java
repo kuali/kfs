@@ -122,11 +122,11 @@ public class OrganizationRoutingModelRule extends MaintenanceDocumentRuleBase {
     protected boolean checkSimpleRulesForOrganizationRoutingModel(OrganizationRoutingModelName globalDelegateTemplate, OrganizationRoutingModel delegateModel) {
         boolean success = true;
         
-        success &= checkDelegateFromAmountPositive(delegateModel);
-        success &= checkDelegateToAmountNotNull(delegateModel);
-        success &= checkDelegateToAmountGreaterThanFromAmount(delegateModel);
-        success &= checkDelegateUserRules(delegateModel);
         if (delegateModel.isActive()) {
+            success &= checkDelegateFromAmountPositive(delegateModel);
+            success &= checkDelegateToAmountNotNull(delegateModel);
+            success &= checkDelegateToAmountGreaterThanFromAmount(delegateModel);
+            success &= checkDelegateUserRules(delegateModel);
             success &= checkPrimaryRouteOnlyAllowOneAllDocType(globalDelegateTemplate, delegateModel);
             success &= checkPrimaryRoutePerDocType(globalDelegateTemplate, delegateModel);
         }
@@ -253,7 +253,7 @@ public class OrganizationRoutingModelRule extends MaintenanceDocumentRuleBase {
             success = false;
         }
         
-        if (success && delegateModel.isActive()) {
+        if (success) {
             UniversalUser user = delegateModel.getAccountDelegate();
     
             // user must be of the allowable statuses (A - Active)

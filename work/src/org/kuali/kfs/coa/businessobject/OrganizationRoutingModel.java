@@ -334,14 +334,7 @@ public class OrganizationRoutingModel extends PersistableBusinessObjectBase impl
     public boolean equals(Object o) {
         if (o instanceof OrganizationRoutingModel) {
             OrganizationRoutingModel orgRouteModel = (OrganizationRoutingModel)o;
-            // TODO a philosophical question - if it is indeterminate whether two objects are "equal" by tuple calculus rules
-            //      because they are missing some primary keys, should they be considered truly not equal?  For now, I'm answering
-            //      "yes"
-            if (this.getChartOfAccountsCode() == null || this.getOrganizationCode() == null || this.getAccountDelegateUniversalId() == null || this.getOrganizationRoutingModelName() == null || this.getFinancialDocumentTypeCode() == null || orgRouteModel.getAccountDelegateUniversalId() == null || orgRouteModel.getChartOfAccountsCode() == null || orgRouteModel.getFinancialDocumentTypeCode() == null || orgRouteModel.getOrganizationCode() == null || orgRouteModel.getOrganizationRoutingModelName() == null) {
-                return false;
-            } else {
-                return (this.getChartOfAccountsCode().equals(orgRouteModel.getChartOfAccountsCode()) && this.getOrganizationCode().equals(orgRouteModel.getOrganizationCode()) && this.getOrganizationRoutingModelName().equals(orgRouteModel.getOrganizationRoutingModelName()) && this.getAccountDelegateUniversalId().equals(orgRouteModel.getAccountDelegateUniversalId()) && this.getFinancialDocumentTypeCode().equals(orgRouteModel.getFinancialDocumentTypeCode()));
-            }
+                return (((this.getChartOfAccountsCode() == null && orgRouteModel.getChartOfAccountsCode() == null) || this.getChartOfAccountsCode().equals(orgRouteModel.getChartOfAccountsCode())) && ((this.getOrganizationCode() == null && orgRouteModel.getOrganizationCode() == null) || this.getOrganizationCode().equals(orgRouteModel.getOrganizationCode())) && ((this.getOrganizationRoutingModelName() == null && orgRouteModel.getOrganizationRoutingModelName() == null) || this.getOrganizationRoutingModelName().equals(orgRouteModel.getOrganizationRoutingModelName())) && ((this.getAccountDelegateUniversalId() == null && orgRouteModel.getAccountDelegateUniversalId() == null) || this.getAccountDelegateUniversalId().equals(orgRouteModel.getAccountDelegateUniversalId())) && ((this.getFinancialDocumentTypeCode() == null && orgRouteModel.getFinancialDocumentTypeCode() == null) || this.getFinancialDocumentTypeCode().equals(orgRouteModel.getFinancialDocumentTypeCode())));
         } else {
             return false;
         }

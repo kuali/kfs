@@ -32,7 +32,8 @@ public class ProposalOrganization extends PersistableBusinessObjectBase implemen
     private String organizationCode;
     private Long proposalNumber;
     private boolean proposalPrimaryOrganizationIndicator;
-
+    private boolean active;
+    
     private Org organization;
     private Chart chartOfAccounts;
 
@@ -124,6 +125,22 @@ public class ProposalOrganization extends PersistableBusinessObjectBase implemen
      */
     public void setProposalPrimaryOrganizationIndicator(boolean proposalPrimaryOrganizationIndicator) {
         this.proposalPrimaryOrganizationIndicator = proposalPrimaryOrganizationIndicator;
+    }
+
+    /**
+     * Gets the active attribute. 
+     * @return Returns the active.
+     */
+    public boolean isActive() {
+        return active;
+    }
+
+    /**
+     * Sets the active attribute value.
+     * @param active The active to set.
+     */
+    public void setActive(boolean active) {
+        this.active = active;
     }
 
     /**

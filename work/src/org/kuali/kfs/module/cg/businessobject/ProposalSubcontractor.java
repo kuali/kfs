@@ -33,6 +33,7 @@ public class ProposalSubcontractor extends PersistableBusinessObjectBase {
     private String subcontractorNumber;
     private KualiDecimal proposalSubcontractorAmount;
     private String proposalSubcontractorDescription;
+    private boolean active;
     
     private Subcontractor subcontractor;
 
@@ -140,6 +141,22 @@ public class ProposalSubcontractor extends PersistableBusinessObjectBase {
      */
     public void setProposalSubcontractorDescription(String proposalSubcontractorDescription) {
         this.proposalSubcontractorDescription = proposalSubcontractorDescription;
+    }
+
+    /**
+     * Gets the active attribute. 
+     * @return Returns the active.
+     */
+    public boolean isActive() {
+        return active;
+    }
+
+    /**
+     * Sets the active attribute value.
+     * @param active The active to set.
+     */
+    public void setActive(boolean active) {
+        this.active = active;
     }
 
     /**

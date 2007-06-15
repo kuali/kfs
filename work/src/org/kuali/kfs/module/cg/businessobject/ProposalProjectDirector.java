@@ -31,7 +31,8 @@ public class ProposalProjectDirector extends PersistableBusinessObjectBase imple
     private Long proposalNumber;
     private boolean proposalPrimaryProjectDirectorIndicator;
     private String proposalProjectDirectorProjectTitle;
-
+    private boolean active;
+    
     private ProjectDirector projectDirector;
 
     /**
@@ -117,6 +118,22 @@ public class ProposalProjectDirector extends PersistableBusinessObjectBase imple
      */
     public void setProposalProjectDirectorProjectTitle(String proposalProjectDirectorProjectTitle) {
         this.proposalProjectDirectorProjectTitle = proposalProjectDirectorProjectTitle;
+    }
+
+    /**
+     * Gets the active attribute. 
+     * @return Returns the active.
+     */
+    public boolean isActive() {
+        return active;
+    }
+
+    /**
+     * Sets the active attribute value.
+     * @param active The active to set.
+     */
+    public void setActive(boolean active) {
+        this.active = active;
     }
 
     /**

@@ -99,15 +99,15 @@ public class PaymentRequestAccount extends PurApAccountingLineBase {
         this.paymentRequestItem = paymentRequestItem;
     }
 
-    /**
-	 * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
-	 */
-	@Override
-    protected LinkedHashMap toStringMapper() {
-	    LinkedHashMap m = new LinkedHashMap();	    
-        if (this.getAccountIdentifier() != null) {
-            m.put("paymentRequestAccountIdentifier", this.getAccountIdentifier().toString());
-        }
-	    return m;
-    }
+//    /**
+//	 * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
+//	 */
+//	@Override
+//    protected LinkedHashMap toStringMapper() {
+//	    LinkedHashMap m = new LinkedHashMap();	    
+//        if (this.getAccountIdentifier() != null) {
+//            m.put("paymentRequestAccountIdentifier", this.getAccountIdentifier().toString());
+//        }
+//	    return m;
+//    }
 }

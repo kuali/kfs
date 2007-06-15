@@ -25,7 +25,9 @@ import static org.kuali.module.purap.PurapConstants.PURAP_ORIGIN_CODE;
 
 import java.math.BigDecimal;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.document.Document;
@@ -250,6 +252,7 @@ public class PurchasingAccountsPayableDocumentRuleBase extends AccountingDocumen
         boolean valid = true;
         valid = valid & verifyHasAccounts(purAccounts,itemLineNumber);
         valid = valid & verifyAccountPercent(purAccounts,itemLineNumber);
+        valid = valid & verifyUniqueAccountingStrings(purAccounts, itemLineNumber);
         return valid;
     }
 
@@ -345,4 +348,17 @@ public class PurchasingAccountsPayableDocumentRuleBase extends AccountingDocumen
 
     }//end purapCustomizeGeneralLedgerPendingEntry()
 
+    protected boolean verifyUniqueAccountingStrings(List<PurApAccountingLine> purAccounts, String itemLineNumber) {
+        Set existingAccounts = new HashSet();
+        for (PurApAccountingLine acct : purAccounts) {
+            if (!existingAccounts.contains(acct.toString())) {
+                existingAccounts.add(acct.toString());
+            }
+            else {
+                GlobalVariables.getErrorMap().putError(itemLineNumber, PurapKeyConstants.ERROR_ITEM_ACCOUNTING_NOT_UNIQUE, itemLineNumber);
+                return false;
+            }
+        }
+        return true;
+    }
 }

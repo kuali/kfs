@@ -76,7 +76,7 @@
 	<classpathentry kind="lib" path="test/lib/jaxen-1.1-beta-11.jar"/>
 	<classpathentry kind="var" path="DRIVERS_DIRECTORY/ojdbc14.jar"/>
 	<classpathentry kind="var" path="DRIVERS_DIRECTORY/mysql-connector-java-5.0.5-bin.jar"/>
-	<classpathentry kind="lib" path="work/web-root/WEB-INF/lib/kns-0.9-SNAPSHOT.jar" sourcepath="/rice"/>
+	<classpathentry kind="lib" path="work/web-root/WEB-INF/lib/kns-0.9-SNAPSHOT.jar" />
 	<classpathentry kind="lib" path="work/web-root/WEB-INF/lib/commons-collections-3.2.jar"/>
 	<classpathentry kind="lib" path="work/web-root/WEB-INF/lib/commons-logging-1.1.jar"/>
 	<classpathentry kind="lib" path="work/web-root/WEB-INF/lib/commons-io-1.2.jar"/>

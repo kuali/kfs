@@ -33,7 +33,7 @@
             </authorization>
         </authorizations>
 
-        <documentTypeName>KualiResearchAdminPostAwardMaintenanceDocument</documentTypeName>
+        <documentTypeName>KualiContractsAndGrantsAwardMaintenanceDocument</documentTypeName>
         <documentTypeCode>AWRD</documentTypeCode>
 		
         <webScriptFile>../dwr/interface/AccountService.js</webScriptFile>

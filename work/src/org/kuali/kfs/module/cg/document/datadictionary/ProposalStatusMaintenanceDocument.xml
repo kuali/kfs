@@ -32,7 +32,7 @@
             </authorization>
         </authorizations>
 
-        <documentTypeName>KualiProposalStatusMaintenanceDocument</documentTypeName>
+        <documentTypeName>KualiContractsAndGrantsProposalStatusMaintenanceDocument</documentTypeName>
         <documentTypeCode>PRST</documentTypeCode>
 
         <label>Proposal Status Maintenance Document</label>

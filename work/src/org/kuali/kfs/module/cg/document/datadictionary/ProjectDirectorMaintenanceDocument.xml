@@ -32,7 +32,7 @@
             </authorization>
         </authorizations>
 
-        <documentTypeName>KualiProjectDirectorMaintenanceDocument</documentTypeName>
+        <documentTypeName>KualiContractsAndGrantsProjectDirectorMaintenanceDocument</documentTypeName>
         <documentTypeCode>ADPD</documentTypeCode>
 
         <label>Project Director Maintenance Document</label>

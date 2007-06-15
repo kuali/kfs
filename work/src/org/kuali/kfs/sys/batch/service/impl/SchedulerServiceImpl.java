@@ -53,6 +53,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class SchedulerServiceImpl implements SchedulerService {
     private static final Logger LOG = Logger.getLogger(SchedulerServiceImpl.class);
+    public static final String JOB_STATUS_PARAMETER = "status";
     private Scheduler scheduler;
     private JobListener jobListener;
     private KualiModuleService moduleService;
@@ -136,6 +137,7 @@ public class SchedulerServiceImpl implements SchedulerService {
      * @see org.kuali.kfs.service.SchedulerService#initializeJob(java.lang.String,org.kuali.kfs.batch.Job)
      */
     public void initializeJob(String jobName, Job job) {
+        job.setSchedulerService(this);
         job.setConfigurationService(configurationService);
         job.setSteps((SpringServiceLocator.getJobDescriptor(jobName)).getSteps());
     }
@@ -419,7 +421,7 @@ public class SchedulerServiceImpl implements SchedulerService {
         return CANCELLED_JOB_STATUS_CODE.equals(getStatus(jobDetail));
     }
 
-    private String getStatus(JobDetail jobDetail) {
+    public String getStatus(JobDetail jobDetail) {
         return jobDetail.getJobDataMap().getString(JOB_STATUS_PARAMETER);
     }
 
@@ -562,7 +564,6 @@ public class SchedulerServiceImpl implements SchedulerService {
 
     private void updateStatus(String groupName, String jobName, String jobStatus) {
         try {
-            LOG.info(new StringBuffer("Updating status of job: ").append(jobName).append("=").append(jobStatus));
             JobDetail jobDetail = scheduler.getJobDetail(jobName, groupName);
             updateStatus(jobDetail, jobStatus);
             scheduler.addJob(jobDetail, true);

@@ -39,6 +39,7 @@ public class Job implements StatefulJob, InterruptableJob {
     private static final Logger LOG = Logger.getLogger(Job.class);
     protected static final String STEP_RUN_INDICATOR_PARAMETER_SUFFIX = "_FLAG";
     protected static final String STEP_USER_PARAMETER_SUFFIX = "_USER";
+    private SchedulerService schedulerService;
     private KualiConfigurationService configurationService;
     private List<Step> steps;
     private Step currentStep;
@@ -75,7 +76,7 @@ public class Job implements StatefulJob, InterruptableJob {
                 // prevent starting of the next step if the thread has an interrupted status
                 if ( workerThread.isInterrupted() ) {
                     LOG.warn( "Aborting Job execution due to manual interruption" );
-                    jobExecutionContext.getJobDetail().getJobDataMap().put(SchedulerService.JOB_STATUS_PARAMETER, SchedulerService.CANCELLED_JOB_STATUS_CODE);                    
+                    schedulerService.updateStatus(jobExecutionContext.getJobDetail(), SchedulerService.CANCELLED_JOB_STATUS_CODE);
                     return;                    
                 }
                 if ( startStep > 0 && currentStepNumber < startStep ) {
@@ -111,14 +112,13 @@ public class Job implements StatefulJob, InterruptableJob {
                         }
                     } catch ( InterruptedException ex ) {
                         LOG.warn("Stopping after step interruption");
-                        jobExecutionContext.getJobDetail().getJobDataMap().put(SchedulerService.JOB_STATUS_PARAMETER, SchedulerService.CANCELLED_JOB_STATUS_CODE);                    
+                        schedulerService.updateStatus(jobExecutionContext.getJobDetail(), SchedulerService.CANCELLED_JOB_STATUS_CODE);
                         return;
                     }
                     if ( step.isInterrupted() ) {
                         LOG.warn("attempt to interrupt step failed, step continued to completion");
                         LOG.warn("cancelling remainder of job due to step interruption");
-                        jobExecutionContext.getJobDetail().getJobDataMap().put(SchedulerService.JOB_STATUS_PARAMETER, SchedulerService.CANCELLED_JOB_STATUS_CODE);
-                        //jobExecutionContext.getScheduler().addJob( jobExecutionContext.getJobDetail(), true);
+                        schedulerService.updateStatus(jobExecutionContext.getJobDetail(), SchedulerService.CANCELLED_JOB_STATUS_CODE);
                         return;
                     }
                 }
@@ -126,11 +126,11 @@ public class Job implements StatefulJob, InterruptableJob {
             }
         }
         catch (Exception e) {
-            jobExecutionContext.getJobDetail().getJobDataMap().put(SchedulerService.JOB_STATUS_PARAMETER, SchedulerService.FAILED_JOB_STATUS_CODE);
+            schedulerService.updateStatus(jobExecutionContext.getJobDetail(), SchedulerService.FAILED_JOB_STATUS_CODE);
             throw new JobExecutionException("Caught exception in " + jobExecutionContext.getJobDetail().getName(), e, false);
         }
         LOG.info("Finished executing job: " + jobExecutionContext.getJobDetail().getName());
-        jobExecutionContext.getJobDetail().getJobDataMap().put(SchedulerService.JOB_STATUS_PARAMETER, SchedulerService.SUCCEEDED_JOB_STATUS_CODE);
+        schedulerService.updateStatus(jobExecutionContext.getJobDetail(), SchedulerService.SUCCEEDED_JOB_STATUS_CODE);
     }
 
     /**
@@ -147,55 +147,26 @@ public class Job implements StatefulJob, InterruptableJob {
         workerThread.interrupt();        
     }
     
-    /**
-     * Sets the configurationService attribute value.
-     * 
-     * @param configurationService The configurationService to set.
-     */
     public void setConfigurationService(KualiConfigurationService configurationService) {
         this.configurationService = configurationService;
     }
 
-    /**
-     * Sets the steps attribute value.
-     * 
-     * @param steps The steps to set.
-     */
     public void setSteps(List<Step> steps) {
         this.steps = steps;
     }
 
-    /**
-     * Gets the ndcAppender attribute.
-     * 
-     * @return Returns the ndcAppender.
-     */
     public Appender getNdcAppender() {
         return ndcAppender;
     }
 
-    /**
-     * Sets the ndcAppender attribute value.
-     * 
-     * @param ndcAppender The ndcAppender to set.
-     */
     public void setNdcAppender(Appender ndcAppender) {
         this.ndcAppender = ndcAppender;
     }
 
-    /**
-     * Sets the notRunnable attribute value.
-     * 
-     * @param notRunnable The notRunnable to set.
-     */
     public void setNotRunnable(boolean notRunnable) {
         this.notRunnable = notRunnable;
     }
 
-    /**
-     * Gets the notRunnable attribute. 
-     * @return Returns the notRunnable.
-     */
     protected boolean isNotRunnable() {
         return notRunnable;
     }
@@ -206,5 +177,9 @@ public class Job implements StatefulJob, InterruptableJob {
 
     public List<Step> getSteps() {
         return steps;
+    }
+
+    public void setSchedulerService(SchedulerService schedulerService) {
+        this.schedulerService = schedulerService;
     }
 }

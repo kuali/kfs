@@ -33,8 +33,6 @@ public interface SchedulerService {
     public static final String FAILED_JOB_STATUS_CODE = "Failed";
     public static final String CANCELLED_JOB_STATUS_CODE = "Cancelled";
 
-    public static final String JOB_STATUS_PARAMETER = "status";
-
     public static final String SCHEDULED_GROUP = "scheduled";
     public static final String UNSCHEDULED_GROUP = "unscheduled";
 
@@ -68,6 +66,8 @@ public interface SchedulerService {
     public void logScheduleResults();
 
     public boolean shouldNotRun(JobDetail jobDetail);
+    
+    public String getStatus(JobDetail jobDetail);
 
     public void updateStatus(JobDetail jobDetail, String jobStatus);
 

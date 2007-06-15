@@ -73,7 +73,7 @@ public class BatchJobStatus extends TransientBusinessObjectBase {
         if ( isRunning() ) {
             return SchedulerService.RUNNING_JOB_STATUS_CODE;
         }
-        String tempStatus = jobDetail.getJobDataMap().getString(SchedulerService.JOB_STATUS_PARAMETER);
+        String tempStatus = schedulerService.getStatus(jobDetail);
         if ( tempStatus == null ) {
         	if ( getNextRunDate() != null ) {
         		return SchedulerService.SCHEDULED_JOB_STATUS_CODE;

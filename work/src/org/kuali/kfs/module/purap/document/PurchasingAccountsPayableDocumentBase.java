@@ -119,7 +119,7 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
     }
 
     public KualiDecimal getTotalDollarAmountAboveLineItems() {
-        return getTotalDollarAmountAllItems(null);
+        return getTotalDollarAmountAboveLineItems(null);
     }
     
     public KualiDecimal getTotalDollarAmountAboveLineItems(String[] excludedTypes) {

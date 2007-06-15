@@ -35,12 +35,7 @@ public interface SchedulerService {
 
     public static final String SCHEDULED_GROUP = "scheduled";
     public static final String UNSCHEDULED_GROUP = "unscheduled";
-
-    public static final String SCHEDULE_JOB_NAME = "scheduleJob";
-
-    public static final String SOFT_DEPENDENCY_CODE = "softDependency";
-    public static final String HARD_DEPENDENCY_CODE = "hardDependency";
-
+    
     public void initialize();
 
     public void initializeJob(String jobName, Job job);

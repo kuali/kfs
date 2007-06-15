@@ -53,7 +53,11 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class SchedulerServiceImpl implements SchedulerService {
     private static final Logger LOG = Logger.getLogger(SchedulerServiceImpl.class);
-    public static final String JOB_STATUS_PARAMETER = "status";
+    private static final String SCHEDULE_JOB_NAME = "scheduleJob";
+    private static final String JOB_STATUS_PARAMETER = "status";
+    private static final String SOFT_DEPENDENCY_CODE = "softDependency";
+    private static final String HARD_DEPENDENCY_CODE = "hardDependency";
+
     private Scheduler scheduler;
     private JobListener jobListener;
     private KualiModuleService moduleService;

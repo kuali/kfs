@@ -23,6 +23,7 @@ import static org.kuali.kfs.KFSConstants.GL_DEBIT_CODE;
 import static org.kuali.module.purap.PurapConstants.PO_DOC_TYPE_CODE;
 import static org.kuali.module.purap.PurapConstants.PURAP_ORIGIN_CODE;
 
+import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.List;
 
@@ -42,13 +43,14 @@ import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.chart.bo.ObjectCode;
 import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.PurapKeyConstants;
-import org.kuali.module.purap.bo.PaymentRequestItem;
+import org.kuali.module.purap.bo.PurApAccountingLine;
 import org.kuali.module.purap.bo.PurchasingApItem;
 import org.kuali.module.purap.document.CreditMemoDocument;
 import org.kuali.module.purap.document.PaymentRequestDocument;
 import org.kuali.module.purap.document.PurchaseOrderDocument;
 import org.kuali.module.purap.document.PurchasingAccountsPayableDocument;
 import org.kuali.module.purap.rule.AddPurchasingAccountsPayableItemRule;
+import org.kuali.module.purap.util.PurApItemUtils;
 
 import edu.iu.uis.eden.exception.WorkflowException;
 
@@ -185,6 +187,12 @@ public class PurchasingAccountsPayableDocumentRuleBase extends AccountingDocumen
                     }
                 }
             }
+            
+            if(PurApItemUtils.checkItemActive(item)) {
+                if(item.getExtendedPrice().isNonZero()) {
+                    processAccountValidation(purapDocument, item.getSourceAccountingLines(),getItemIdentifier(item));
+                }
+            }
         }
         return valid;
     }
@@ -231,6 +239,55 @@ public class PurchasingAccountsPayableDocumentRuleBase extends AccountingDocumen
         return true;
     }
 
+
+    /**
+     * This method performs any additional document level validation for the accounts
+     * 
+     * @param purapDocument
+     * @return
+     */
+    public boolean processAccountValidation(PurchasingAccountsPayableDocument purapDocument, List<PurApAccountingLine> purAccounts, String itemLineNumber) {
+        boolean valid = true;
+        valid = valid & verifyHasAccounts(purAccounts,itemLineNumber);
+        valid = valid & verifyAccountPercent(purAccounts,itemLineNumber);
+        return valid;
+    }
+
+    protected boolean verifyHasAccounts(List<PurApAccountingLine>purAccounts,String itemLineNumber) {
+        boolean valid = true;
+        
+        if(purAccounts.isEmpty()) {
+            valid=false;
+            GlobalVariables.getErrorMap().putError("newPurchasingItemLine", PurapKeyConstants.ERROR_ITEM_ACCOUNTING_INCOMPLETE, itemLineNumber);
+        }
+        
+        return valid;
+    }
+    
+    /**
+     * This method verifies account percent
+     * @param purAccounts
+     * @return
+     */
+    protected boolean verifyAccountPercent(List<PurApAccountingLine> purAccounts,String itemLineNumber) {
+        boolean valid = true;
+        
+        //validate that the percents total 100 for each item
+        BigDecimal totalPercent = BigDecimal.ZERO;
+        BigDecimal desiredPercent = new BigDecimal("100");
+        for (PurApAccountingLine account : purAccounts) {
+            totalPercent = totalPercent.add(account.getAccountLinePercent());
+        }
+        
+        if(desiredPercent.compareTo(totalPercent)!=0) {
+            GlobalVariables.getErrorMap().putError("newPurchasingItemLine", PurapKeyConstants.ERROR_ITEM_ACCOUNTING_TOTAL, itemLineNumber);
+            valid = false;
+        }
+        return valid;
+    }
+
+    
+    
     // (hjs) this could probably be done in a more generic way with a better method name, but this works for now
     public String entryDescription(String description) {
         if (description != null && description.length() > 40) {

@@ -71,14 +71,13 @@ public class PaymentRequestItem extends AccountsPayableItemBase {
             accounts.add(new PaymentRequestAccount(this,poa));
         }
         this.setSourceAccountingLines(accounts);
-                
+        this.refreshNonUpdateableReferences();
         //copy custom
         this.purchaseOrderItemUnitPrice = poi.getItemUnitPrice();
         this.purchaseOrderCommodityCode = poi.getPurchaseOrderCommodityCd();
         //set doc fields
         this.setPurapDocumentIdentifier(preq.getPurapDocumentIdentifier());
         this.paymentRequest = preq;
-        this.refreshNonUpdateableReferences();
     }
 
     public PurchaseOrderItem getPurchaseOrderItem() {

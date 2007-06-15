@@ -26,9 +26,9 @@ import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.bo.SourceAccountingLine;
 import org.kuali.module.purap.bo.PurApAccountingLine;
-import org.kuali.module.purap.bo.PurchaseOrderItem;
 import org.kuali.module.purap.bo.PurchasingApItem;
 import org.kuali.module.purap.service.PurapAccountingService;
+import org.kuali.module.purap.util.PurApItemUtils;
 
 public class PurapAccountingServiceImpl implements PurapAccountingService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PurapAccountingServiceImpl.class);
@@ -283,7 +283,7 @@ public class PurapAccountingServiceImpl implements PurapAccountingService {
         Set<PurApAccountingLine> accountSet = new HashSet<PurApAccountingLine>();
         
         for (PurchasingApItem currentItem : items) {
-            if(checkItemActive(currentItem)) {
+            if(PurApItemUtils.checkItemActive(currentItem)) {
                 for (PurApAccountingLine account : currentItem.getSourceAccountingLines()) {
                     boolean thisAccountAlreadyInSet = false;
                     for (Iterator iter = accountSet.iterator(); iter.hasNext();) {
@@ -310,15 +310,6 @@ public class PurapAccountingServiceImpl implements PurapAccountingService {
             sourceAccounts.add(sourceLine);
         }
         return sourceAccounts;
-    }
-    
-    private boolean checkItemActive(PurchasingApItem item) {
-        boolean active = true;
-        if(item instanceof PurchaseOrderItem) {
-            PurchaseOrderItem poi = (PurchaseOrderItem)item;
-            active = poi.isItemActiveIndicator();
-        }
-        return active;
     }
     
     /**

@@ -76,13 +76,12 @@
 	<classpathentry kind="lib" path="test/lib/jaxen-1.1-beta-11.jar"/>
 	<classpathentry kind="var" path="DRIVERS_DIRECTORY/ojdbc14.jar"/>
 	<classpathentry kind="var" path="DRIVERS_DIRECTORY/mysql-connector-java-5.0.5-bin.jar"/>
-	<classpathentry kind="lib" path="work/web-root/WEB-INF/lib/kns-0.9-SNAPSHOT.jar" />
+	<classpathentry kind="lib" path="work/web-root/WEB-INF/lib/kns-0.9-SNAPSHOT.jar"/>
 	<classpathentry kind="lib" path="work/web-root/WEB-INF/lib/commons-collections-3.2.jar"/>
 	<classpathentry kind="lib" path="work/web-root/WEB-INF/lib/commons-logging-1.1.jar"/>
 	<classpathentry kind="lib" path="work/web-root/WEB-INF/lib/commons-io-1.2.jar"/>
 	<classpathentry kind="lib" path="work/web-root/WEB-INF/lib/rice-commons-shared-0.9-SNAPSHOT.jar"/>
 	<classpathentry kind="lib" path="work/web-root/WEB-INF/lib/rice-commons-core-0.9-SNAPSHOT.jar"/>
-	<classpathentry kind="lib" path="work/web-root/WEB-INF/lib/kew-2.4.jar"/>
 	<classpathentry kind="lib" path="work/web-root/WEB-INF/lib/rice-ksb-0.9-SNAPSHOT.jar"/>
 	<classpathentry kind="lib" path="work/web-root/WEB-INF/lib/xfire-all-1.2.4.jar"/>
 	<classpathentry kind="lib" path="work/web-root/WEB-INF/lib/wstx-asl-3.2.0.jar"/>
@@ -92,5 +91,6 @@
 	<classpathentry kind="lib" path="work/web-root/WEB-INF/lib/commons-httpclient-3.0.1.jar"/>
 	<classpathentry kind="lib" path="work/web-root/WEB-INF/lib/oscache-2.3.2.jar"/>
 	<classpathentry kind="lib" path="work/web-root/WEB-INF/lib/jdom-1.0.jar"/>
+	<classpathentry kind="lib" path="work/web-root/WEB-INF/lib/kew-2.4.1.jar"/>
 	<classpathentry kind="output" path="work/web-root/WEB-INF/classes"/>
 </classpath>

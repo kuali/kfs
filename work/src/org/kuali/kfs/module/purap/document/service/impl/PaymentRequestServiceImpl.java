@@ -15,6 +15,7 @@
  */
 package org.kuali.module.purap.service.impl;
 
+import java.math.BigDecimal;
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -46,6 +47,8 @@ import org.kuali.module.purap.PurapKeyConstants;
 import org.kuali.module.purap.PurapParameterConstants;
 import org.kuali.module.purap.PurapConstants.PREQDocumentsStrings;
 import org.kuali.module.purap.PurapConstants.PaymentRequestStatuses;
+import org.kuali.module.purap.bo.PaymentRequestItem;
+import org.kuali.module.purap.bo.PurchaseOrderItem;
 import org.kuali.module.purap.dao.PaymentRequestDao;
 import org.kuali.module.purap.document.PaymentRequestDocument;
 import org.kuali.module.purap.document.PurchaseOrderDocument;
@@ -53,6 +56,7 @@ import org.kuali.module.purap.service.GeneralLedgerService;
 import org.kuali.module.purap.service.PaymentRequestService;
 import org.kuali.module.purap.service.PurapService;
 import org.kuali.module.purap.service.PurchaseOrderService;
+import org.kuali.module.vendor.bo.PaymentTermType;
 import org.kuali.module.vendor.service.VendorService;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -413,6 +417,96 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
         return list;
     }
 
+    /*
+     * Calculate based on the terms and calculate a date 10 days from today.  Pick the
+     * one that is the farthest out.  We always calculate the discount date, if there is one.
+     */
+    private Date calculatePayDate(Date invoiceDate,PaymentTermType terms) {
+      LOG.debug("calculatePayDate() started");
+      //TODO: this method is mainly a direct copy from epic.  It could be made a lot better by using the DateUtils and checking if those constants should be app params
+      Calendar invoiceDateCalendar = Calendar.getInstance();
+      invoiceDateCalendar.setTime(invoiceDate);
+      invoiceDateCalendar.set(Calendar.HOUR, 12);
+      invoiceDateCalendar.set(Calendar.MINUTE, 0);
+      invoiceDateCalendar.set(Calendar.SECOND, 0);
+      invoiceDateCalendar.set(Calendar.MILLISECOND, 0);
+      invoiceDateCalendar.set(Calendar.AM_PM, Calendar.AM);
+
+      // 10 days from now
+      Calendar processDateCalendar = Calendar.getInstance();
+      processDateCalendar.setTime(new java.util.Date());
+      processDateCalendar.add(Calendar.DAY_OF_MONTH,10);
+      processDateCalendar.set(Calendar.HOUR, 12);
+      processDateCalendar.set(Calendar.MINUTE, 0);
+      processDateCalendar.set(Calendar.SECOND, 0);
+      processDateCalendar.set(Calendar.MILLISECOND, 0);
+      processDateCalendar.set(Calendar.AM_PM, Calendar.AM);
+
+      // Handle this weird one.  Due on the 10th or the 25th
+      if ("".equals(terms.getVendorPaymentTermsCode())) {
+        // Payment terms are empty
+        invoiceDateCalendar.add(Calendar.DATE,PurapConstants.PREQ_PAY_DATE_CALCULATION_DAYS);
+        
+      } else {
+        // Payment terms are not empty
+        if ( PurapConstants.PMT_TERMS_TYP_NO_DISCOUNT_CD.equals(terms.getVendorPaymentTermsCode()) ) {
+          int dayOfMonth = invoiceDateCalendar.get(Calendar.DAY_OF_MONTH);
+          if ( dayOfMonth < 10 ) {
+            invoiceDateCalendar.set(Calendar.DAY_OF_MONTH,10);
+          } else {
+            invoiceDateCalendar.set(Calendar.DAY_OF_MONTH,25);
+          }
+        } else {
+          if ( (terms.getVendorDiscountDueNumber() != null) && (terms.getVendorDiscountDueNumber().intValue() > 0) ) {
+            if ( "date".equals(terms.getVendorDiscountDueTypeDescription()) ) {
+              invoiceDateCalendar.set(Calendar.DAY_OF_MONTH,terms.getVendorDiscountDueNumber().intValue());
+            } else {
+              invoiceDateCalendar.add(Calendar.DAY_OF_MONTH,terms.getVendorDiscountDueNumber().intValue());
+            }
+          } else {
+            if ( "date".endsWith(terms.getVendorNetDueTypeDescription()) ) {
+              invoiceDateCalendar.set(Calendar.DAY_OF_MONTH,terms.getVendorNetDueNumber().intValue());
+            } else {
+              invoiceDateCalendar.add(Calendar.DAY_OF_MONTH,terms.getVendorNetDueNumber().intValue());
+            }
+          }
+        }
+      }
+      if ( processDateCalendar.after(invoiceDateCalendar) ) {
+        return new Date(processDateCalendar.getTime().getTime());
+      } else {
+        return new Date(invoiceDateCalendar.getTime().getTime());
+      }
+    }
+
+
+    
+    public void calculatePaymentRequest(PaymentRequestDocument paymentRequest,boolean updateDiscount) {
+        LOG.debug("calculatePaymentRequest() started");
+        //refresh the payment and shipping terms
+        paymentRequest.refreshNonUpdateableReferences();
+        
+        if(paymentRequest.getPaymentRequestPayDate()==null) {
+            //TODO: do some in depth tests on this
+            paymentRequest.setPaymentRequestPayDate(calculatePayDate(paymentRequest.getInvoiceDate(),paymentRequest.getVendorPaymentTerms()));
+        }
+        
+        for (PaymentRequestItem item : (List<PaymentRequestItem>)paymentRequest.getItems()) {
+            if(item.getItemType().isItemTypeAboveTheLineIndicator() &&
+                !item.getItemType().isQuantityBasedGeneralLedgerIndicator()) {
+                PurchaseOrderItem poi = (PurchaseOrderItem)paymentRequest.getPurchaseOrderDocument().getItem(item.getItemLineNumber().intValue());
+                item.setItemUnitPrice(new BigDecimal(item.getItemExtendedPrice().toString()));
+            }
+        }
+        
+        if(updateDiscount) {
+            //TODO: still have to merge this with other changes I did for discount
+            //calculateDiscount(paymentRequest);
+        }
+        
+        //TODO Chris merge in distribute accounts code and call here
+    }
+    
 
     public void addContinuationAccountsNote(PaymentRequestDocument document, HashMap<String, String> accounts) {
         Note note = new Note();

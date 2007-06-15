@@ -313,6 +313,13 @@ public class PurapConstants {
         public static String SINGLE_CONFIRMATION_QUESTION = "singleConfirmationQuestion";
     }
 
+    // PAYMENT REQUEST PAY DATE CALCULATION DAYS
+    public static int PREQ_PAY_DATE_CALCULATION_DAYS = 28;
+
+    // Weird PaymentTermsType is due on either the 10th or 25th with no discount
+    public static String PMT_TERMS_TYP_NO_DISCOUNT_CD = "00N2T";
+
+    
     public static class PaymentRequestStatuses {
         public static String INITIATE = "INIT";
         public static String IN_PROCESS = "INPR";

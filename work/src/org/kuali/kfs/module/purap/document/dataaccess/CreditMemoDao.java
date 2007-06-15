@@ -28,6 +28,7 @@ public interface CreditMemoDao {
         public static boolean RETRIEVE_ALL_REFERENCES_NO = false;
         
         public CreditMemoDocument getCreditMemoById(Integer id);
+        public void save(CreditMemoDocument cmDocument);
      ///   public CreditMemoDocument save(CreditMemoDocument cm,User user,boolean retrieveAllReferences);
         
         /**

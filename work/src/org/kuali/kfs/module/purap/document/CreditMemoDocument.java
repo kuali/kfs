@@ -27,11 +27,14 @@ import org.kuali.core.bo.Note;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.PurapConstants.CreditMemoTypes;
 import org.kuali.module.purap.bo.CreditMemoItem;
 import org.kuali.module.purap.bo.CreditMemoStatusHistory;
+import org.kuali.module.vendor.bo.VendorDetail;
+import org.kuali.module.vendor.util.VendorUtils;
 
 
 
@@ -175,6 +178,28 @@ public class CreditMemoDocument extends AccountsPayableDocumentBase {
         
     }
 */
+    public void populateCreditMemoVendorFileds(String vendorNumber){
+    //VendorDetail vd = SpringServiceLocator.getVendorService().getVendorDetail(VendorUtils.getVendorHeaderId(this.getVendorNumber()), VendorUtils.getVendorDetailId(this.getVendorNumber()));
+        VendorDetail vd = SpringServiceLocator.getVendorService().getVendorDetail(VendorUtils.getVendorHeaderId(vendorNumber), VendorUtils.getVendorDetailId(vendorNumber));
+    if (ObjectUtils.isNotNull(vd)) {
+        this.setVendorDetail(vd);
+        this.setVendorHeaderGeneratedIdentifier(vd.getVendorHeaderGeneratedIdentifier());
+        this.setVendorDetailAssignedIdentifier(vd.getVendorDetailAssignedIdentifier());
+       // cmDocument.setVendorAddressGeneratedIdentifier(VendorUtils.getVendorHeaderId(cmDocument.getVendorNumber()));
+       // cmDocument.setVendorDetailAssignedIdentifier(VendorUtils.getVendorDetailId(cmDocument.getVendorNumber()));
+        this.setVendorCustomerNumber(vd.getVendorNumber());
+        this.setVendorHeaderGeneratedIdentifier(vd.getVendorHeaderGeneratedIdentifier());
+        this.setVendorDetailAssignedIdentifier(vd.getVendorDetailAssignedIdentifier());
+        this.setVendorName(vd.getVendorName());
+        this.setVendorLine1Address(vd.getDefaultAddressLine1());
+        this.setVendorLine2Address(vd.getDefaultAddressLine1());
+        this.setVendorCityName(vd.getDefaultAddressCity());
+        this.setVendorStateCode(vd.getDefaultAddressStateCode());
+        this.setVendorPostalCode(vd.getDefaultAddressPostalCode());
+        this.setVendorCountryCode(vd.getDefaultAddressCountryCode());
+    }
+
+    }
 /**
  * Perform logic needed to initiate PREQ Document
  */

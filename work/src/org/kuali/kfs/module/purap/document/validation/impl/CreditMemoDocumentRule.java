@@ -110,8 +110,24 @@ public class CreditMemoDocumentRule extends AccountsPayableDocumentRuleBase impl
                 else {
                     cmDocument.setPaymentRequest(preq);
                     cmDocument.setPurchaseOrder(preq.getPurchaseOrderDocument());
-                    cmDocument.setVendorDetail(SpringServiceLocator.getVendorService().getVendorDetail(preq.getVendorAddressGeneratedIdentifier(), preq.getVendorDetailAssignedIdentifier()));
+                    cmDocument.setVendorHeaderGeneratedIdentifier(preq.getVendorHeaderGeneratedIdentifier());
+                    cmDocument.setVendorDetailAssignedIdentifier(preq.getVendorDetailAssignedIdentifier());
+                    cmDocument.setVendorAddressGeneratedIdentifier(preq.getVendorAddressGeneratedIdentifier());
+                    cmDocument.setVendorDetailAssignedIdentifier(preq.getVendorDetailAssignedIdentifier());
                     cmDocument.setVendorCustomerNumber(preq.getVendorCustomerNumber());
+                    
+                    cmDocument.setVendorCustomerNumber(preq.getVendorCustomerNumber());
+                    cmDocument.setVendorHeaderGeneratedIdentifier(preq.getVendorHeaderGeneratedIdentifier());
+                    cmDocument.setVendorDetailAssignedIdentifier(preq.getVendorDetailAssignedIdentifier());
+                    cmDocument.setVendorName(preq.getVendorName());
+                    cmDocument.setVendorLine1Address(preq.getVendorLine1Address());
+                    cmDocument.setVendorLine2Address(preq.getVendorLine2Address());
+                    cmDocument.setVendorCityName(preq.getVendorCityName());
+                    cmDocument.setVendorStateCode(preq.getVendorStateCode());
+                    cmDocument.setVendorPostalCode(preq.getVendorPostalCode());
+                    cmDocument.setVendorCountryCode(preq.getVendorCountryCode());
+                    // Is this needed or not?:
+                    cmDocument.setVendorDetail(SpringServiceLocator.getVendorService().getVendorDetail(preq.getVendorAddressGeneratedIdentifier(), preq.getVendorDetailAssignedIdentifier()));
                 }
             }
             else {
@@ -133,25 +149,75 @@ public class CreditMemoDocumentRule extends AccountsPayableDocumentRuleBase impl
                 }
                 else {
                     cmDocument.setPurchaseOrder(po);
-                    cmDocument.setVendorDetail(po.getVendorDetail());
+                    cmDocument.setVendorHeaderGeneratedIdentifier(po.getVendorHeaderGeneratedIdentifier());
+                    cmDocument.setVendorDetailAssignedIdentifier(po.getVendorDetailAssignedIdentifier());
+                    cmDocument.setVendorAddressGeneratedIdentifier(po.getVendorAddressGeneratedIdentifier());
+                    cmDocument.setVendorDetailAssignedIdentifier(po.getVendorDetailAssignedIdentifier());
                     cmDocument.setVendorCustomerNumber(po.getVendorCustomerNumber());
+                    
+                    cmDocument.setVendorCustomerNumber(po.getVendorCustomerNumber());
+                    cmDocument.setVendorHeaderGeneratedIdentifier(po.getVendorHeaderGeneratedIdentifier());
+                    cmDocument.setVendorDetailAssignedIdentifier(po.getVendorDetailAssignedIdentifier());
+                    cmDocument.setVendorName(po.getVendorName());
+                    cmDocument.setVendorLine1Address(po.getVendorLine1Address());
+                    cmDocument.setVendorLine2Address(po.getVendorLine2Address());
+                    cmDocument.setVendorCityName(po.getVendorCityName());
+                    cmDocument.setVendorStateCode(po.getVendorStateCode());
+                    cmDocument.setVendorPostalCode(po.getVendorPostalCode());
+                    cmDocument.setVendorCountryCode(po.getVendorCountryCode());
+                    // Is this needed or not?:
+                    cmDocument.setVendorDetail(po.getVendorDetail());
                 }
 
          }
          // Make sure vendorNumber is valid if entered
          if (StringUtils.isNotEmpty(cmDocument.getVendorNumber())) {
-                VendorDetail vd = SpringServiceLocator.getVendorService().getVendorDetail(VendorUtils.getVendorHeaderId(cmDocument.getVendorNumber()), VendorUtils.getVendorDetailId(cmDocument.getVendorNumber()));
-                if (ObjectUtils.isNotNull(vd)) {
-                    cmDocument.setVendorDetail(vd);
-                }
-                else {
-                    GlobalVariables.getErrorMap().putError(PurapPropertyConstants.CREDIT_MEMO_VENDOR_NUMBER, PurapKeyConstants.ERROR_VENDOR_NUMBER_INVALID, cmDocument.getVendorNumber());
-                    valid &= false;
-                 }
-         }
+           
+            VendorDetail vd = SpringServiceLocator.getVendorService().getVendorDetail(VendorUtils.getVendorHeaderId(cmDocument.getVendorNumber()), VendorUtils.getVendorDetailId(cmDocument.getVendorNumber()));
+            if (ObjectUtils.isNotNull(vd)) {
+                cmDocument.setVendorDetail(vd);
+                cmDocument.setVendorHeaderGeneratedIdentifier(vd.getVendorHeaderGeneratedIdentifier());
+                cmDocument.setVendorDetailAssignedIdentifier(vd.getVendorDetailAssignedIdentifier());
+               // cmDocument.setVendorAddressGeneratedIdentifier(VendorUtils.getVendorHeaderId(cmDocument.getVendorNumber()));
+               // cmDocument.setVendorDetailAssignedIdentifier(VendorUtils.getVendorDetailId(cmDocument.getVendorNumber()));
+                cmDocument.setVendorCustomerNumber(vd.getVendorNumber());
+                cmDocument.setVendorHeaderGeneratedIdentifier(vd.getVendorHeaderGeneratedIdentifier());
+                cmDocument.setVendorDetailAssignedIdentifier(vd.getVendorDetailAssignedIdentifier());
+                cmDocument.setVendorName(vd.getVendorName());
+                cmDocument.setVendorLine1Address(vd.getDefaultAddressLine1());
+                cmDocument.setVendorLine2Address(vd.getDefaultAddressLine1());
+                cmDocument.setVendorCityName(vd.getDefaultAddressCity());
+                cmDocument.setVendorStateCode(vd.getDefaultAddressStateCode());
+                cmDocument.setVendorPostalCode(vd.getDefaultAddressPostalCode());
+                cmDocument.setVendorCountryCode(vd.getDefaultAddressCountryCode());
+            }
+            else {
+                GlobalVariables.getErrorMap().putError(PurapPropertyConstants.CREDIT_MEMO_VENDOR_NUMBER, PurapKeyConstants.ERROR_VENDOR_NUMBER_INVALID, cmDocument.getVendorNumber());
+                valid &= false;
+            }
+        }
          
          return valid;
     }
-
+/*
+    public void assignVendorAddress(CreditMemoDocument cmDocument) {
+        // now that we have the vendor ids, set address for po and vendor type
+        VendorAddress defaultAddress = vendorService.getDefaultAddress(
+            cm.getVendorHeaderGeneratedId(), cm.getVendorDetailAssignedId(),
+            EpicConstants.VENDOR_ADDRESS_TYPE_REMIT, u.getCampusCd());
+        // FIXME delyea: Is this if-else correct?
+        if (poId != null) {
+          //CreditMemo object returns address from PO if VendorAddress is null
+          cm.setVendorAddress(defaultAddress);
+        } else if (vendorNumber != null) {
+          //if no remit type default, use PO default
+          if (defaultAddress == null) {
+            defaultAddress = vendorService.getDefaultAddress(
+                cm.getVendorHeaderGeneratedId(), cm.getVendorDetailAssignedId(),
+                EpicConstants.VENDOR_ADDRESS_TYPE_PO, u.getCampusCd());
+          }
+          cm.setVendorAddress(defaultAddress);
+        }
+    }*/
 }
 

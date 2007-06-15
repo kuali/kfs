@@ -431,10 +431,10 @@
 </class-descriptor>
 
 <class-descriptor class="org.kuali.module.purap.bo.CreditMemoStatus" table="AP_CRDT_MEMO_STAT_T">
-	<field-descriptor name="creditMemoStatusCode" column="CRDT_MEMO_STAT_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
+	<field-descriptor name="statusCode" column="CRDT_MEMO_STAT_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
 	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
-	<field-descriptor name="creditMemoStatusDescription" column="CRDT_MEMO_STAT_DESC" jdbc-type="VARCHAR"/>
+	<field-descriptor name="statusDescription" column="CRDT_MEMO_STAT_DESC" jdbc-type="VARCHAR"/>
 	<field-descriptor name="active" column="DOBJ_MAINT_CD_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
 </class-descriptor>
 
@@ -1622,7 +1622,7 @@
 	<field-descriptor name="creditMemoNumber" column="CRDT_MEMO_NBR" jdbc-type="VARCHAR"/>
 	<field-descriptor name="paymentRequestIdentifier" column="PMT_RQST_ID" jdbc-type="INTEGER"/>
 	<field-descriptor name="purchaseOrderIdentifier" column="PO_ID" jdbc-type="INTEGER"/>
-	<field-descriptor name="creditMemoStatusCode" column="CRDT_MEMO_STAT_CD" jdbc-type="VARCHAR"/>	
+	<field-descriptor name="statusCode" column="CRDT_MEMO_STAT_CD" jdbc-type="VARCHAR"/>	
 	<field-descriptor name="creditHoldIndicator" column="CRDT_HLD_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>	
 	<field-descriptor name="vendorCustomerNumber" column="VNDR_CUST_NBR" jdbc-type="VARCHAR"/>
 	<field-descriptor name="accountsPayableApprovalDate" column="AP_APRVL_DT" jdbc-type="DATE"/>

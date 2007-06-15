@@ -42,14 +42,14 @@
         <description>Document used to create or update Credit Memo Status objects</description>
 
         <lockingKeys>
-            <field attributeName="creditMemoStatusCode" />
+            <field attributeName="statusCode" />
         </lockingKeys>
 
         <maintainableSections>
             <maintainableSection title="Edit Credit Memo Status">
                 <maintainableItems>
-                    <maintainableField name="creditMemoStatusCode" required="true" />
-                    <maintainableField name="creditMemoStatusDescription" required="true" />
+                    <maintainableField name="statusCode" required="true" />
+                    <maintainableField name="statusDescription" required="true" />
                     <maintainableField name="active" />
                     <maintainableField name="versionNumber" />
                 </maintainableItems>

@@ -30,6 +30,7 @@ import org.kuali.core.util.KualiDecimal;
 import org.kuali.module.purap.bo.CreditMemoStatusHistory;
 import org.kuali.module.purap.dao.CreditMemoDao;
 import org.kuali.module.purap.document.CreditMemoDocument;
+import org.kuali.module.purap.document.PaymentRequestDocument;
 
 
 public class CreditMemoDaoOjb extends PlatformAwareDaoBaseOjb implements CreditMemoDao {
@@ -42,6 +43,9 @@ public class CreditMemoDaoOjb extends PlatformAwareDaoBaseOjb implements CreditM
       userService = us;
     }
 */
+    public void save(CreditMemoDocument cmDocument) {
+        getPersistenceBrokerTemplate().store(cmDocument);
+    }
     public CreditMemoDaoOjb() {
       super();
     }

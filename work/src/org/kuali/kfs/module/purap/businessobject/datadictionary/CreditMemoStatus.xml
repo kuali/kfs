@@ -25,8 +25,8 @@
             <title>Credit Memo Status Inquiry</title>
 
             <inquirySections><inquirySection title="Header Text"><inquiryFields>
-                <field attributeName="creditMemoStatusCode" />
-                <field attributeName="creditMemoStatusDescription" />
+                <field attributeName="statusCode" />
+                <field attributeName="statusDescription" />
                 <field attributeName="active" />
             </inquiryFields></inquirySection></inquirySections>
         </inquiry>
@@ -38,19 +38,19 @@
 
             <defaultSort sortAscending="true">
                 <sortAttributes>
-                    <sortAttribute attributeName="creditMemoStatusDescription" />
+                    <sortAttribute attributeName="statusDescription" />
                 </sortAttributes>
             </defaultSort>
 
             <lookupFields>
-                <lookupField attributeName="creditMemoStatusCode" required="false" />
-                <lookupField attributeName="creditMemoStatusDescription" required="false" />
+                <lookupField attributeName="statusCode" required="false" />
+                <lookupField attributeName="statusDescription" required="false" />
                 <lookupField attributeName="active" required="false" />
             </lookupFields>
 
             <resultFields>
-                <field attributeName="creditMemoStatusCode" />
-                <field attributeName="creditMemoStatusDescription" />
+                <field attributeName="statusCode" />
+                <field attributeName="statusDescription" />
                 <field attributeName="active" />
             </resultFields>
         </lookup>
@@ -59,7 +59,7 @@
 
         <attributes>
 
-            <attribute name="creditMemoStatusCode" forceUppercase="true">
+            <attribute name="statusCode" forceUppercase="true">
                 <label>Credit Memo Status Code</label>
                 <shortLabel>Code</shortLabel>
 
@@ -74,7 +74,7 @@
                 <description>creditMemoStatusCode description...</description>
 			</attribute>
 
-            <attribute name="creditMemoStatusDescription" forceUppercase="true">
+            <attribute name="statusDescription" forceUppercase="true">
                 <label>Credit Memo Status Description</label>
                 <shortLabel>Description</shortLabel>
 

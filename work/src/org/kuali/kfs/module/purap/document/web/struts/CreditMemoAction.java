@@ -122,10 +122,11 @@ public class CreditMemoAction extends AccountsPayableActionBase {
             
             Integer poId = creditMemoDocument.getPurchaseOrderIdentifier();
             PurchaseOrderDocument purchaseOrderDocument = SpringServiceLocator.getPurchaseOrderService().getCurrentPurchaseOrder(creditMemoDocument.getPurchaseOrderIdentifier());
-            
-        //    creditMemoDocument.populateCreditMemoFromPurchaseOrder(purchaseOrderDocument);
+            String vendorNbr = creditMemoDocument.getVendorNumber();
+        
+         ///   creditMemoDocument.populateCreditMemoVendorFileds(vendorNbr);
             creditMemoDocument.setStatusCode(PurapConstants.CreditMemoStatuses.IN_PROCESS);
-        //    creditMemoDocument.refreshAllReferences();
+            creditMemoDocument.refreshAllReferences();
 
             //editMode.put(PurapAuthorizationConstants.CreditMemoEditMode.DISPLAY_INIT_TAB, "FALSE");
             

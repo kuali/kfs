@@ -72,6 +72,14 @@ public interface PaymentRequestService {
     public boolean canUserRemoveRequestCancelOnPaymentRequest(PaymentRequestDocument document, UniversalUser user);
     
     public void removeRequestCancelOnPaymentRequest(PaymentRequestDocument document, String note) throws Exception;
+
+    /**
+     * Recalculate the payment request
+     * 
+     * @param pr
+     */
+    public void calculatePaymentRequest(PaymentRequestDocument pr,boolean updateDiscount);
+
     
     /* Start Paste from EPIC */
      
@@ -306,12 +314,6 @@ public interface PaymentRequestService {
      */
   //  public PaymentRequestDocument savePaymentRequest(PaymentRequestDocument pr, UniversalUser user);
     
-    /**
-     * Recalculate the payment request
-     * 
-     * @param pr
-     */
- //   public void calculatePaymentRequest(PaymentRequestDocument pr,boolean updateDiscount);
 
     /**
      * Saves a Doc Note and sends e-mail if necessary.

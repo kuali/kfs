@@ -172,7 +172,7 @@ public class OriginEntry extends PersistableBusinessObjectBase implements Transa
 
     public OriginEntry(Transaction t) {
         this();
-        setTransaction(t);
+        copyFieldsFromTransaction(t);
     }
 
     public OriginEntry(String line) {
@@ -184,7 +184,7 @@ public class OriginEntry extends PersistableBusinessObjectBase implements Transa
         }
     }
 
-    public void setTransaction(Transaction t) {
+    public void copyFieldsFromTransaction(Transaction t) {
         setAccountNumber(t.getAccountNumber());
         setDocumentNumber(t.getDocumentNumber());
         setReferenceFinancialDocumentNumber(t.getReferenceFinancialDocumentNumber());

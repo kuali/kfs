@@ -91,7 +91,7 @@ public class LaborOriginEntry extends OriginEntry implements LaborTransaction {
     
     public LaborOriginEntry(LaborTransaction t) {
         this();
-        setTransaction(t);
+        copyFieldsFromTransaction(t);
         
         setPositionNumber(t.getPositionNumber());
         setTransactionPostingDate(t.getTransactionPostingDate());

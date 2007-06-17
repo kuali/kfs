@@ -49,12 +49,6 @@ public class JobListener implements org.quartz.JobListener {
      */
     public void jobWasExecuted(JobExecutionContext jobExecutionContext, JobExecutionException jobExecutionException) {
         if (!((Job) jobExecutionContext.getJobInstance()).isNotRunnable()) {
-            String jobStatus = null;
-            String customMessage = null;
-            if (jobExecutionException != null) {
-                jobStatus = SchedulerService.FAILED_JOB_STATUS_CODE;
-                schedulerService.updateStatus(jobExecutionContext.getJobDetail(), jobStatus);
-            }
             notify(jobExecutionContext, schedulerService.getStatus(jobExecutionContext.getJobDetail()));
         }
         completeLogging(jobExecutionContext);

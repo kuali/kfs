@@ -91,6 +91,6 @@
 	<classpathentry kind="lib" path="work/web-root/WEB-INF/lib/commons-httpclient-3.0.1.jar"/>
 	<classpathentry kind="lib" path="work/web-root/WEB-INF/lib/oscache-2.3.2.jar"/>
 	<classpathentry kind="lib" path="work/web-root/WEB-INF/lib/jdom-1.0.jar"/>
-	<classpathentry kind="lib" path="work/web-root/WEB-INF/lib/kew-2.4.1.jar"/>
+	<classpathentry kind="lib" path="work/web-root/WEB-INF/lib/kew-2.4.jar"/>
 	<classpathentry kind="output" path="work/web-root/WEB-INF/classes"/>
 </classpath>

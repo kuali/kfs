@@ -511,14 +511,20 @@
 			<propertyset refid="en-properties" />
 		</ant>
 		<copy file="${workflow.project.directory}/dist/workflow-embedded-content.zip" todir="${build.workflow.appserver.directory}" overwrite="true" />
+		<delete>
+			<fileset dir="${lib.directory}" includes="kew-*.jar" />
+		</delete>
 		<ant dir="${workflow.project.directory}" target="dist-client-not-iu" inheritall="false">
 			<propertyset refid="${workflow.application}-properties" />
 		</ant>
 		<copy file="${workflow.project.directory}/dist/kew-${workflow.version}.jar" todir="${lib.directory}" overwrite="true" />
+		<delete>
+			<fileset dir="${licenses.directory}/kew" />
+		</delete>
 		<copy todir="${licenses.directory}/kew">
 			<fileset dir="${workflow.project.directory}/${licenses.directory}" />
 		</copy>
-		<delete failonerror="false">
+		<delete>
 			<fileset dir="${database.workflow.directory}" />
 		</delete>
 		<copy todir="${database.workflow.directory}" overwrite="true">

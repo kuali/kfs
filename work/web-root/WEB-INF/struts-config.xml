@@ -85,6 +85,18 @@
         <!-- CG Module Bean Definitions -->
         <form-bean name="CloseForm" type="org.kuali.module.cg.web.struts.form.CloseForm" />
 
+        <!-- PDP Module Bean Definitions -->
+        <form-bean name="PdpPaymentMaintenanceForm" type="org.kuali.module.pdp.form.paymentmaintenance.PaymentMaintenanceForm" />  
+        <form-bean name="PdpPaymentDetailSearchForm" type="org.kuali.module.pdp.form.paymentsearch.PaymentDetailSearchForm" />
+        <form-bean name="PdpBatchSearchForm" type="org.kuali.module.pdp.form.paymentsearch.BatchSearchForm" />
+        <form-bean name="PdpCustomerBankForm" type="org.kuali.module.pdp.form.customerprofile.CustomerBankForm" />
+        <form-bean name="PdpCustomerProfileForm" type="org.kuali.module.pdp.form.customerprofile.CustomerProfileForm" />
+        <form-bean name="PdpDisbursementNumberMaintenanceForm" type="org.kuali.module.pdp.form.disbursementnumbermaintenance.DisbursementNumberMaintenanceForm" />
+        <form-bean name="PdpUploadForm" type="org.kuali.module.pdp.form.upload.UploadForm" />
+        <form-bean name="PdpBankForm" type="org.kuali.module.pdp.form.bank.BankForm" />
+        <form-bean name="PdpFormatSelectionForm" type="org.kuali.module.pdp.form.format.FormatSelectionForm" />
+        <form-bean name="PdpFormatProcessForm" type="org.kuali.module.pdp.form.format.FormatProcessForm" />
+        <form-bean name="PdpFormatSummaryForm" type="org.kuali.module.pdp.form.format.FormatSummaryForm" />
     </form-beans>
 
     <global-exceptions>
@@ -103,6 +115,14 @@
         <forward name="close" path="/index.jsp" redirect="true" />
         <forward name="portal" path="/index.jsp" redirect="true" />
         <forward name="route_report" path="/kr/WEB-INF/jsp/RoutingReportForward.jsp"/>
+
+        <!-- These are PDP items -->
+        <forward name="pdp_authentication_error" path="/pdp/authentication_error.jsp"/>
+        <forward name="pdp_authorization_error" path="/pdp/authorization_error.jsp"/>
+        <forward name="pdp_unauthorized" path="/pdp/unauthorized.jsp"/>
+        <forward name="pdp_system_error" path="/pdp/system_error.jsp"/>
+        <forward name="pdp_session_timeout" path="/pdp/session_timeout.jsp"/>
+        <forward name="pdp_message" path="/pdp/message.jsp"/>
     </global-forwards>
 
     <action-mappings>
@@ -269,7 +289,129 @@
             <set-property property="cancellable" value="true" />
             <forward name="basic" path="/jsp/kfs/KualiBatchInputFileSet.jsp" />
         </action>
-        
+
+        <!-- These are PDP items -->
+        <action path="/pdp/sessiontest" name="PaymentDetailSearchForm" type="org.kuali.module.pdp.action.SessionTestAction">
+            <forward name="test" path="/pdp/session_test.jsp"/>
+        </action>
+
+        <action path="/pdp/channel" type="org.kuali.module.pdp.action.ChannelAction">
+            <forward name="channel" path="/pdp/channel.jsp"/>
+        </action>
+
+        <!-- *********** Upload a data file ************* -->
+        <action path="/pdp/manualupload" type="org.kuali.module.pdp.action.upload.ManualUploadAction">
+            <forward name="upload" path="/pdp/upload/upload.jsp"/>
+        </action>
+
+        <action path="/pdp/manualuploadfile" type="org.kuali.module.pdp.action.upload.ManualUploadFileAction" name="PdpUploadForm" scope="request" input="/pdp/upload/upload.jsp">
+            <forward name="successful"  path="/pdp/upload/successful.jsp"/>
+            <forward name="hard_errors" path="/pdp/upload/hard_errors.jsp"/>
+        </action>
+
+        <!-- ********** Batch Search ********** -->
+  	    <action path="/pdp/batchsearch" name="PdpBatchSearchForm" validate="true" input="/pdp/search/batchsearch.jsp" scope="request" type="org.kuali.module.pdp.action.paymentsearch.BatchSearchAction">
+            <forward name="search" path="/pdp/search/batchsearch.jsp" />
+            <forward name="searchresults" path="/pdp/search/batchsearch.jsp?results=1" />
+            <forward name="batchdetail" path="/pdp/search/batchdetail.jsp" />
+            <forward name="batchdetailresults" path="/pdp/search/batchdetail.jsp?results=1" />
+        </action>
+
+        <!-- ********** Payment Detail Search ********** -->    
+  	    <action path="/pdp/paymentsearch" name="PdpPaymentDetailSearchForm" validate="true" input="/pdp/search/paymentsearch.jsp" scope="request" type="org.kuali.module.pdp.action.paymentsearch.PaymentSearchAction">
+            <forward name="search" path="/pdp/search/paymentsearch.jsp" />
+            <forward name="searchresults" path="/pdp/search/paymentsearch.jsp?results=1" />
+        </action>	
+
+        <action path="/pdp/paymentdetail" type="org.kuali.module.pdp.action.paymentdetail.PaymentDetailAction">
+            <forward name="display" path="/pdp/paymentdetail/paymentdetail.jsp" />
+        </action>
+
+        <action path="/pdp/paymentlist" type="org.kuali.module.pdp.action.paymentdetail.PaymentDetailListAction">
+            <forward name="display" path="/pdp/paymentdetail/paymentlist.jsp" />
+        </action>
+
+        <action path="/pdp/epicpaymentdetail" type="org.kuali.module.pdp.action.paymentdetail.EpicPaymentDetailAction">
+            <forward name="display" path="/pdp/paymentdetail/epic/paymentdetail.jsp" />
+        </action>
+
+        <action path="/pdp/epicpaymentlist" type="org.kuali.module.pdp.action.paymentdetail.EpicPaymentDetailListAction">
+            <forward name="display" path="/pdp/paymentdetail/epic/paymentlist.jsp" />
+        </action>
+
+        <!-- ********** Payment Maintenance ********** -->
+  	    <action path="/pdp/paymentupdate" name="PdpPaymentMaintenanceForm" validate="true" input="/pdp/paymentmaintenance/paymentupdate.jsp" scope="request" type="org.kuali.module.pdp.action.paymentmaintenance.PaymentMaintenanceAction">
+            <forward name="batch" path="/pdp/batchsearch.do" />
+            <forward name="detail" path="/pdp/paymentdetail.do" />
+            <forward name="individual" path="/pdp/paymentsearch.do" />
+            <forward name="update" path="/pdp/paymentmaintenance/paymentupdate.jsp" />
+        </action>
+
+        <action path="/pdp/batchupdate" name="PdpPaymentMaintenanceForm" validate="true" input="/pdp/paymentmaintenance/batchupdate.jsp" scope="request" type="org.kuali.module.pdp.action.paymentmaintenance.BatchMaintenanceAction">
+            <forward name="batch" path="/pdp/batchsearch.do" />
+            <forward name="individual" path="/pdp/paymentsearch.do" />
+            <forward name="update" path="/pdp/paymentmaintenance/batchupdate.jsp" />
+        </action>
+
+        <!-- ********** Disbursement Number Maintenance ********** -->
+        <action path="/pdp/disbursementmaint" type="org.kuali.module.pdp.action.disbursementnumbermaintenance.DisbursementNumberMaintenanceAction">
+            <forward name="list" path="/pdp/disbursementnumber/list.jsp" />
+            <forward name="edit" path="/pdp/disbursementnumber/edit.jsp" />
+        </action>
+
+        <action path="/pdp/disbursementmaintsave" name="PdpDisbursementNumberMaintenanceForm" validate="true" input="/pdp/disbursementnumber/edit.jsp" scope="request" type="org.kuali.module.pdp.action.disbursementnumbermaintenance.DisbursementNumberMaintenanceSaveAction">
+            <forward name="list" path="/pdp/disbursementmaint.do" />
+            <forward name="edit" path="/pdp/disbursementnumber/edit.jsp" />
+        </action>
+
+        <!-- ********** Customer Profile Maintenance ********** -->    
+        <action path="/pdp/customerprofile" type="org.kuali.module.pdp.action.customerprofile.CustomerProfileAction">
+            <forward name="list" path="/pdp/customerprofile/list.jsp" />
+            <forward name="edit" path="/pdp/customerprofile/edit.jsp" />
+        </action>
+
+        <action path="/pdp/customerprofilesave" name="PdpCustomerProfileForm" validate="true" input="/pdp/customerprofile/edit.jsp" scope="request" type="org.kuali.module.pdp.action.customerprofile.CustomerProfileSaveAction">
+            <forward name="list" path="/pdp/customerprofile.do" />
+            <forward name="edit" path="/pdp/customerprofile/edit.jsp" />
+        </action>
+
+        <!-- ********** Bank ********** -->
+        <action path="/pdp/bank" type="org.kuali.module.pdp.action.bank.BankAction">
+            <forward name="list" path="/pdp/bank/list.jsp" />
+            <forward name="edit" path="/pdp/bank/edit.jsp" />
+        </action>
+
+        <action path="/pdp/banksave" name="PdpBankForm" validate="true" input="/pdp/bank/edit.jsp" scope="request" type="org.kuali.module.pdp.action.bank.BankSaveAction">
+            <forward name="list" path="/pdp/bank.do" />
+            <forward name="edit" path="/pdp/bank/edit.jsp" />
+        </action>
+
+        <!-- ********** Format ********** -->
+        <action path="/pdp/formatselection" type="org.kuali.module.pdp.action.format.FormatSelectionAction">
+            <forward name="selection" path="/pdp/format/selection.jsp" />
+            <forward name="running"   path="/pdp/format/running.jsp" />
+        </action>
+
+        <action path="/pdp/formatprepare" type="org.kuali.module.pdp.action.format.FormatPrepareAction" validate="true" input="/pdp/format/selection.jsp" scope="session" name="PdpFormatSelectionForm">
+            <forward name="no_payments" path="/pdp/format/no_payments.jsp" />
+            <forward name="restart"   path="/pdp/formatselection.do" />
+            <forward name="continue"   path="/pdp/format/continue.jsp" />
+        </action>
+
+        <action path="/pdp/format" type="org.kuali.module.pdp.action.format.FormatAction" validate="true" input="/pdp/format/selection.jsp" scope="request" name="FormatProcessForm">
+            <forward name="cleared"  path="/pdp/format/cleared.jsp"/>
+            <forward name="finished" path="/pdp/format/finished.jsp"/>
+            <forward name="error"    path="/pdp/format/error.jsp"/>
+        </action>
+
+        <action path="/pdp/formatreset" type="org.kuali.module.pdp.action.format.FormatResetAction">
+            <forward name="selection" path="/pdp/formatselection.do" />
+        </action>
+
+        <action path="/pdp/formatsummary" type="org.kuali.module.pdp.action.format.FormatSummaryAction" validate="false" scope="request" name="FormatSummaryForm">
+            <forward name="selection" path="/pdp/format/summarypreview.jsp" />
+            <forward name="finished"   path="/pdp/format/summaryreview.jsp" />
+        </action>
     </action-mappings>
 
     <controller processorClass="org.kuali.core.web.struts.action.KualiRequestProcessor" maxFileSize="25M" />

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE taglib
+  PUBLIC "-//Sun Microsystems, Inc.//DTD JSP Tag Library 1.1//EN"
+  "http://java.sun.com/j2ee/dtds/web-jsptaglibrary_1_1.dtd">
+<taglib>
+  <tlibversion>1.0</tlibversion>
+  <jspversion>1.1</jspversion>
+  <shortname>Application Tag Library</shortname>
+  <uri>http://www.kuali.org/PDP/app.tld</uri>
+  <info>
+    This tag library contains functionality specific to the Application.
+  </info>
+  <tag>
+    <name>getReference</name>
+    <tagclass>org.kuali.module.pdp.tag.GetReferenceTag</tagclass>
+    <bodycontent>empty</bodycontent>
+    <info>
+      Put lists of lookup tables in the page context so they can be used
+      by the options tag.
+
+      name - name of Lookup class to retrieve
+    </info>
+    <attribute>
+      <name>name</name>
+      <required>true</required>
+      <rtexprvalue>true</rtexprvalue>
+    </attribute>
+  </tag>
+
+  <tag>
+    <name>getBank</name>
+    <tagclass>org.kuali.module.pdp.tag.GetBankTag</tagclass>
+    <bodycontent>empty</bodycontent>
+    <info>
+      Put lists of banks in the page context so it can be used
+      by the options tag.
+
+      active - Y for active only, N for not-active, leave out for all
+      banks
+    </info>
+    <attribute>
+      <name>active</name>
+      <required>false</required>
+      <rtexprvalue>true</rtexprvalue>
+    </attribute>
+  </tag>
+</taglib>

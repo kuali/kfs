@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
- Copyright 2005-2007 The Kuali Foundation.
+ Copyright 2006-2007 The Kuali Foundation.
  
  Licensed under the Educational Community License, Version 1.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -16,4 +16,255 @@
 -->
 <!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
 <beans>
+	<bean id="vendorModule" class="org.kuali.core.KualiModule">
+		<property name="moduleId" value="pdp" />
+		<property name="moduleName" value="Pre-Disbursement Processor" />
+		<property name="moduleCode" value="PD" />
+		<property name="moduleUserService" ref="pdpUserService" />
+		<property name="moduleAuthorizer">
+			<bean class="org.kuali.kfs.authorization.KfsModuleAuthorizerBase">
+				<property name="packagePrefixes">
+					<list>
+						<value>org.kuali.module.pdp.</value>
+					</list>
+				</property>
+			</bean>
+		</property>
+		<property name="moduleUserRule">
+			<null />
+		</property>
+		<property name="moduleUserPreRules">
+			<null />
+		</property>
+		<property name="dataDictionaryPackages">
+			<list>
+				<value>org/kuali/module/pdp/datadictionary</value>
+			</list>
+		</property>
+		<property name="databaseRepositoryFilePaths">
+			<list>
+				<value>org/kuali/module/pdp/OJB-repository-pdp.xml</value>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="pdpUserService" class="org.kuali.module.pdp.service.impl.PdpUserServiceImpl" parent="kualiModuleUserServiceBase">
+	</bean>
+
+	<bean id="pdpAchAccountNumberDao" parent="platformAwareDao" class="org.kuali.module.pdp.dao.ojb.AchAccountNumberDaoOjb"/>
+	<bean id="pdpBankDao" parent="platformAwareDao" class="org.kuali.module.pdp.dao.ojb.BankDaoOjb">
+		<property name="universalUserService">
+			<ref bean="universalUserService" />
+		</property>
+	</bean>
+	<bean id="pdpBatchMaintenanceDao" parent="platformAwareDao" class="org.kuali.module.pdp.dao.ojb.BatchMaintenanceDaoOjb">
+		<property name="referenceService">
+			<ref bean="pdpReferenceService" />
+		</property>
+	</bean>
+	<bean id="pdpBatchSearchDao" parent="platformAwareDao" class="org.kuali.module.pdp.dao.ojb.BatchSearchDaoOjb">
+		<property name="universalUserService">
+			<ref bean="universalUserService" />
+		</property>
+	</bean>
+	<bean id="pdpCustomerProfileDao" parent="platformAwareDao" class="org.kuali.module.pdp.dao.ojb.CustomerProfileDaoOjb">
+		<property name="universalUserService">
+			<ref bean="universalUserService" />
+		</property>
+	</bean>
+	<bean id="pdpDisbursementNumberRangeDao" parent="platformAwareDao" class="org.kuali.module.pdp.dao.ojb.DisbursementNumberRangeDaoOjb">
+		<property name="universalUserService">
+			<ref bean="universalUserService" />
+		</property>
+	</bean>
+	<bean id="pdpFormatExtractDao" class="org.kuali.module.pdp.dao.ojb.FormatExtractDaoOjb"/>
+	<bean id="pdpFormatPaymentDao" class="org.kuali.module.pdp.dao.jdbc.FormatPaymentDaoJdbc"/>
+	<bean id="pdpFormatProcessDao" parent="platformAwareDao" class="org.kuali.module.pdp.dao.ojb.FormatProcessDaoOjb"/>
+	<bean id="pdpGlPendingTransactionDao" parent="platformAwareDao" class="org.kuali.module.pdp.dao.ojb.GlPendingTransactionDaoOjb"/>
+	<bean id="pdpPaymentDetailDao" parent="platformAwareDao" class="org.kuali.module.pdp.dao.ojb.PaymentDetailDaoOjb">
+		<property name="universalUserService">
+			<ref bean="universalUserService" />
+		</property>
+		<property name="referenceService">
+			<ref bean="pdpReferenceService" />
+		</property>
+	</bean>
+	<bean id="pdpPaymentDetailSearchDao" parent="platformAwareDao" class="org.kuali.module.pdp.dao.ojb.PaymentDetailSearchDaoOjb">
+		<property name="universalUserService">
+			<ref bean="universalUserService" />
+		</property>
+	</bean>
+	<bean id="pdpPaymentFileLoadDao" parent="platformAwareDao" class="org.kuali.module.pdp.dao.ojb.PaymentFileLoadDaoOjb"/>
+	<bean id="pdpPaymentGroupDao" parent="platformAwareDao" class="org.kuali.module.pdp.dao.ojb.PaymentGroupDaoOjb">
+		<property name="universalUserService">
+			<ref bean="universalUserService" />
+		</property>
+	</bean>
+	<bean id="pdpPaymentGroupHistoryDao" parent="platformAwareDao" class="org.kuali.module.pdp.dao.ojb.PaymentGroupHistoryDaoOjb"/>
+	<bean id="pdpPhysicalCampusDao" parent="platformAwareDao" class="org.kuali.module.pdp.dao.ojb.PhysicalCampusDaoOjb"/>
+	<bean id="pdpProcessDao" parent="platformAwareDao" class="org.kuali.module.pdp.dao.ojb.ProcessDaoOjb">
+		<property name="universalUserService">
+			<ref bean="universalUserService" />
+		</property>
+	</bean>
+	<bean id="pdpProcessSummaryDao" parent="platformAwareDao" class="org.kuali.module.pdp.dao.ojb.ProcessSummaryDaoOjb"/>
+	<bean id="pdpReferenceDao" parent="platformAwareDao" class="org.kuali.module.pdp.dao.ojb.ReferenceDaoOjb">
+		<property name="universalUserService">
+			<ref bean="universalUserService" />
+		</property>
+	</bean>
+
+	<bean id="pdpAchService" class="org.kuali.module.pdp.service.impl.AchServiceJdbc"/>
+	<bean id="pdpBankService" class="org.kuali.module.pdp.service.impl.BankServiceImpl">
+		<property name="bankDao">
+			<ref bean="pdpBankDao"/>
+		</property>
+	</bean>
+	<bean id="pdpBatchMaintenanceService" class="org.kuali.module.pdp.service.impl.BatchMaintenanceServiceImpl">
+		<property name="batchMaintenanceDao">
+			<ref bean="pdpBatchMaintenanceDao"/>
+		</property>
+		<property name="paymentGroupDao">
+			<ref bean="pdpPaymentGroupDao"/>
+		</property>
+		<property name="paymentGroupHistoryDao">
+			<ref bean="pdpPaymentGroupHistoryDao"/>
+		</property>
+		<property name="referenceService">
+			<ref bean="pdpReferenceService"/>
+		</property>
+	</bean>
+	<bean id="pdpBatchSearchService" class="org.kuali.module.pdp.service.impl.BatchSearchServiceImpl">
+		<property name="kualiConfigurationService" ref="kualiConfigurationService" />
+		<property name="batchSearchDao" ref="pdpBatchSearchDao" />
+	</bean>
+	<bean id="pdpCustomerProfileService" class="org.kuali.module.pdp.service.impl.CustomerProfileServiceImpl">
+		<property name="customerProfileDao">
+			<ref bean="pdpCustomerProfileDao"/>
+		</property>
+	</bean>
+	<bean id="pdpDisbursementNumberRangeService" class="org.kuali.module.pdp.service.impl.DisbursementNumberRangeServiceImpl">
+		<property name="disbursementNumberRangeDao">
+			<ref bean="pdpDisbursementNumberRangeDao"/>
+		</property>
+	</bean>
+	<bean id="pdpEnvironmentService" class="org.kuali.module.pdp.service.impl.EnvironmentServiceImpl"/>
+	<bean id="pdpFormatService" class="org.kuali.module.pdp.service.impl.FormatServiceImpl">
+		<property name="physicalCampusDao">
+			<ref bean="pdpPhysicalCampusDao"/>
+		</property>
+		<property name="customerProfileDao">
+			<ref bean="pdpCustomerProfileDao"/>
+		</property>
+		<property name="disbursementNumberRangeDao">
+			<ref bean="pdpDisbursementNumberRangeDao"/>
+		</property>
+		<property name="formatProcessDao">
+			<ref bean="pdpFormatProcessDao"/>
+		</property>
+		<property name="paymentDetailDao">
+			<ref bean="pdpPaymentDetailDao"/>
+		</property>
+		<property name="paymentGroupDao">
+			<ref bean="pdpPaymentGroupDao"/>
+		</property>
+		<property name="processSummaryDao">
+			<ref bean="pdpProcessSummaryDao"/>
+		</property>
+		<property name="processDao">
+			<ref bean="pdpProcessDao"/>
+		</property>
+		<property name="achService">
+			<ref bean="pdpAchService"/>
+		</property>
+		<property name="referenceService">
+			<ref bean="pdpReferenceService"/>
+		</property>
+		<property name="glPendingTransactionService">
+			<ref bean="pdpGlPendingTransactionService"/>
+		</property>
+		<property name="kualiConfigurationService" ref="kualiConfigurationService" />
+		<property name="formatPaymentDao">
+			<ref bean="pdpFormatPaymentDao"/>
+		</property>
+		<property name="formatExtractDao">
+			<ref bean="pdpFormatExtractDao"/>
+		</property>
+	</bean>
+	<bean id="pdpGlPendingTransactionService" class="org.kuali.module.pdp.service.impl.GlPendingTransactionServiceImpl">
+		<property name="glPendingTransactionDao">
+			<ref bean="pdpGlPendingTransactionDao"/>
+		</property>
+		<property name="chartService">
+			<ref bean="chartService"/>
+		</property>
+		<property name="accountingPeriodService">
+			<ref bean="accountingPeriodService"/>
+		</property>
+	</bean>
+	<bean id="pdpPaymentDetailSearchService" class="org.kuali.module.pdp.service.impl.PaymentDetailSearchServiceImpl">
+		<property name="kualiConfigurationService" ref="kualiConfigurationService" />
+		<property name="paymentDetailSearchDao">
+			<ref bean="pdpPaymentDetailSearchDao"/>
+		</property>
+	</bean>
+	<bean id="pdpPaymentDetailService" class="org.kuali.module.pdp.service.impl.PaymentDetailServiceImpl">
+		<property name="paymentDetailDao">
+			<ref bean="pdpPaymentDetailDao"/>
+		</property>
+	</bean>
+	<bean id="pdpPaymentFileService" class="org.kuali.module.pdp.service.impl.PaymentFileServiceImpl">
+		<property name="mailService">
+			<ref bean="mailService"/>
+		</property>
+		<property name="kualiConfigurationService" ref="kualiConfigurationService" />
+		<property name="environmentService">
+			<ref bean="pdpEnvironmentService"/>
+		</property>
+	</bean>
+	<bean id="pdpPaymentGroupService" class="org.kuali.module.pdp.service.impl.PaymentGroupServiceImpl">
+		<property name="paymentGroupDao">
+			<ref bean="pdpPaymentGroupDao"/>
+		</property>
+	</bean>
+	<bean id="pdpPaymentMaintenanceService" class="org.kuali.module.pdp.service.impl.PaymentMaintenanceServiceImpl">
+		<property name="paymentGroupDao">
+			<ref bean="pdpPaymentGroupDao"/>
+		</property>
+		<property name="paymentDetailDao">
+			<ref bean="pdpPaymentDetailDao"/>
+		</property>
+		<property name="achAccountNumberDao">
+			<ref bean="pdpAchAccountNumberDao"/>
+		</property>
+		<property name="paymentGroupHistoryDao">
+			<ref bean="pdpPaymentGroupHistoryDao"/>
+		</property>
+		<property name="referenceService">
+			<ref bean="pdpReferenceService"/>
+		</property>
+		<property name="glPendingTransactionService">
+			<ref bean="pdpGlPendingTransactionService"/>
+		</property>
+		<property name="environmentService">
+			<ref bean="pdpEnvironmentService"/>
+		</property>
+		<property name="mailService">
+			<ref bean="mailService"/>
+		</property>
+		<property name="kualiConfigurationService">
+			<ref bean="kualiConfigurationService"/>
+		</property>
+	</bean>
+	<bean id="pdpPdpSecurityService" class="org.kuali.module.pdp.service.impl.PdpSecurityServiceImpl">
+		<property name="kualiGroupService">
+			<ref bean="kualiGroupService"/>
+		</property>
+		<property name="kualiConfigurationService" ref="kualiConfigurationService" />
+	</bean>
+	<bean id="pdpReferenceService" class="org.kuali.module.pdp.service.impl.ReferenceServiceImpl">
+		<property name="referenceDao">
+			<ref bean="pdpReferenceDao" />
+		</property>
+	</bean>
 </beans>

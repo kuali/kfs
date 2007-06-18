@@ -38,7 +38,7 @@ public class BatchSearchAction extends BaseAction {
     private BatchMaintenanceService batchMaintenanceService;
 
     public BatchSearchAction() {
-        setBatchSearchService( (BatchSearchService)SpringServiceLocator.getService("pdpBatchSearchSerivce") );
+        setBatchSearchService( (BatchSearchService)SpringServiceLocator.getService("pdpBatchSearchService") );
         setBatchMaintenanceService( (BatchMaintenanceService)SpringServiceLocator.getService("pdpBatchMaintenanceService"));
     }
 

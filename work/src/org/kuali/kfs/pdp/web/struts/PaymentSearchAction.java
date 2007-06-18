@@ -34,7 +34,7 @@ import org.kuali.module.pdp.utilities.GeneralUtilities;
  */
 public class PaymentSearchAction extends BaseAction {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PaymentSearchAction.class);
-  
+
     private PaymentDetailSearchService paymentDetailSearchService;
 
     public PaymentSearchAction() {
@@ -69,15 +69,16 @@ public class PaymentSearchAction extends BaseAction {
 
     protected ActionForward executeLogic(ActionMapping mapping, ActionForm form,HttpServletRequest request, HttpServletResponse response) throws Exception {
         LOG.info("executeLogic() starting");
+
         String forward = "search";
         HttpSession session = request.getSession();
-        LOG.debug("executeLogic() ************* SESSION ID = " + session.getId() + "  and created " + 
-                (new Timestamp(session.getCreationTime())).toString());
+        LOG.debug("executeLogic() ************* SESSION ID = " + session.getId() + "  and created " + (new Timestamp(session.getCreationTime())).toString());
         List searchResults = null;
         Object perPage = session.getAttribute("perPage");
         if ((perPage == null) || (perPage.toString() == "")) {
             session.setAttribute("perPage",getSearchResultsPerPage());
         }
+
         ActionErrors actionErrors = new ActionErrors();
         String buttonPressed = GeneralUtilities.whichButtonWasPressed(request);
 

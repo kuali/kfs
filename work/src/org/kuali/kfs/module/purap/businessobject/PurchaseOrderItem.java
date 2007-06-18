@@ -23,6 +23,7 @@ import java.util.List;
 
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
+import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.document.PurchaseOrderDocument;
 
 /**
@@ -346,5 +347,20 @@ public class PurchaseOrderItem extends PurchasingItemBase {
     public Class getAccountingLineClass() {
         return PurchaseOrderAccount.class;
     }
+    
+    @Override
+    public boolean isCanInactivateItem() {
+        if (versionNumber == null) {
+            //don't allow newly added item to be inactivatable.
+            return false;
+        }
+        else if (versionNumber!= null && isAmendmentStatus() && itemActiveIndicator && !purchaseOrder.getContainsUnpaidPaymentRequestsOrCreditMemos()) {
+            return true;
+        }
+        return false;
+    }
 
+    private boolean isAmendmentStatus() {
+        return purchaseOrder.getStatusCode().equals(PurapConstants.PurchaseOrderStatuses.AMENDMENT);
+    }
 }

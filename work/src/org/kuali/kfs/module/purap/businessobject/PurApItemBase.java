@@ -65,6 +65,14 @@ public abstract class PurApItemBase extends PersistableBusinessObjectBase implem
         resetAccount();
 	}
 
+    public boolean isCanInactivateItem() {
+        //By default, the items of all documents cannot be inactivated.
+        //The only exception is for PurchaseOrderItem, therefore this method
+        //will be overridden in PurchaseOrderItem to indicate whether the item
+        //can be inactivated.
+        return false;
+    }
+    
 	/**
 	 * Gets the ItemIdentifier attribute.
 	 * 

@@ -39,7 +39,9 @@ import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.PurapConstants.RequisitionSources;
 import org.kuali.module.purap.PurapConstants.VendorChoice;
+import org.kuali.module.purap.bo.CreditMemoView;
 import org.kuali.module.purap.bo.ItemType;
+import org.kuali.module.purap.bo.PaymentRequestView;
 import org.kuali.module.purap.bo.PurchaseOrderItem;
 import org.kuali.module.purap.bo.PurchaseOrderStatusHistory;
 import org.kuali.module.purap.bo.PurchaseOrderVendorChoice;
@@ -791,6 +793,32 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase implements Cop
             }
         }
         return total;
+    }
+    
+    public boolean getContainsUnpaidPaymentRequestsOrCreditMemos() {
+        if (getRelatedPaymentRequestViews() != null) {
+            for (PaymentRequestView element : getRelatedPaymentRequestViews()) {
+                // If the PREQ is neither cancelled nor voided, check whether the PREQ has been paid.
+                // If it has not been paid, then this method will return true.
+                if (!element.getStatusCode().equals(PurapConstants.PaymentRequestStatuses.CANCELLED_IN_PROCESS) && !element.getStatusCode().equals(PurapConstants.PaymentRequestStatuses.CANCELLED_POST_APPROVE)) {
+                    if (element.getPaymentPaidDate() == null) {
+                        return true;
+                    }
+                }
+            }// endfor
+        }
+        if (getRelatedCreditMemoViews() != null) {
+            for (CreditMemoView element : getRelatedCreditMemoViews()) {
+                // If the CM is cancelled, check whether the CM has been paid.
+                // If it has not been paid, then this method will return true.
+                if (!element.getCreditMemoStatusCode().equals(PurapConstants.CreditMemoStatuses.CANCELLED_POST_APPROVE)) {
+                    if (element.getCreditMemoPaidTimestamp() == null) {
+                        return true;
+                    }
+                }
+            }// endfor
+        }
+        return false;
     }
     
     /**

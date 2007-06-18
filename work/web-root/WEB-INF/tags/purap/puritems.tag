@@ -91,6 +91,7 @@
 				        <html:image property="methodToCall.addItem" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-add1.gif" alt="Insert an Item" title="Add an Item" styleClass="tinybutton" />
 				    </div>
 				</td>
+				<html:hidden property="newPurchasingItemLine.documentNumber" value="${KualiForm.document.documentNumber}" />
 			</tr>
 		</c:if>
 		<!-- End of if (fullEntryMode or amendmentEntry), then display the addLine -->
@@ -125,7 +126,7 @@
 				</c:if>
 				<!--  kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemAssignedToTradeInIndicator}" / -->
 				<!-- TODO: PHASE 2B -->
-				<kul:htmlAttributeHeaderCell literalLabel="Actions" />
+				<kul:htmlAttributeHeaderCell literalLabel="Inactive" />
 			</tr>
 		</c:if>
 
@@ -191,6 +192,7 @@
 
 					    <c:if test="${((KualiForm.document.documentHeader.workflowDocument.documentType == 'KualiPurchaseOrderDocument') or (KualiForm.document.documentHeader.workflowDocument.documentType == 'KualiPurchaseOrderAmendmentDocument'))}">
 						    <html:hidden property="document.item[${ctr}].itemActiveIndicator" />
+						    <html:hidden property="document.item[${ctr}].documentNumber" />
   					    </c:if> 
 					    <html:hidden property="document.item[${ctr}].itemType.active" />
 					    <html:hidden property="document.item[${ctr}].itemType.quantityBasedGeneralLedgerIndicator" />
@@ -268,7 +270,7 @@
                                 <kul:htmlControlAttribute attributeEntry="${itemAttributes.itemAssignedToTradeInIndicator}" property="newPurchasingItemLine.itemAssignedToTradeInIndicator" readOnly="${not (fullEntryMode or (amendmentEntry and itemLine.itemActiveIndicator))}" />
                             </div>
                         </td -->
-					<c:if test="${fullEntryMode}">
+					<c:if test="${(fullEntryMode or (amendmentEntry and itemLine.versionNumber == null))}">
 						<td class="infoline">
 						    <div align="center">
 						        <html:image
@@ -279,7 +281,7 @@
 							</div>
 						</td>
 					</c:if>
-					<c:if test="${(amendmentEntry and itemLine.itemActiveIndicator)}">
+					<c:if test="${itemLine.canInactivateItem}">
 						<td class="infoline">
 						    <div align="center">
 						        <html:image

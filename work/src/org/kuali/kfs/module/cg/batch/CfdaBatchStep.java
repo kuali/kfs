@@ -65,6 +65,8 @@ public class CfdaBatchStep extends AbstractStep {
                 try {
                     UniversalUser user = universalUserService.getUniversalUser(id);
                     message.addToAddress(user.getPersonEmailAddress());
+                    // TODO Must remember to take this out.
+                    message.addToAddress("lc278@cornell.edu");
                 } catch(UserNotFoundException unfe) {
                     LOG.info("User " + id + " doesn't exist.", unfe);
                 }

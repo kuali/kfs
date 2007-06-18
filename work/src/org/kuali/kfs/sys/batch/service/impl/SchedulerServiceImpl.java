@@ -169,7 +169,7 @@ public class SchedulerServiceImpl implements SchedulerService {
      */
     public boolean isPastScheduleCutoffTime() {
         try {
-            Calendar scheduleCutoffTime = dateTimeService.getCalendar(scheduler.getTriggersOfJob(SCHEDULE_JOB_NAME, SCHEDULED_GROUP)[0].getStartTime());
+            Calendar scheduleCutoffTime = dateTimeService.getCalendar(scheduler.getTriggersOfJob(SCHEDULE_JOB_NAME, SCHEDULED_GROUP)[0].getPreviousFireTime());
             String[] scheduleStepCutoffTime = StringUtils.split(configurationService.getApplicationParameterValue(KFSConstants.ParameterGroups.SYSTEM, KFSConstants.SystemGroupParameterNames.BATCH_SCHEDULE_CUTOFF_TIME), ":");
             scheduleCutoffTime.set(GregorianCalendar.HOUR, Integer.parseInt(scheduleStepCutoffTime[0]));
             scheduleCutoffTime.set(GregorianCalendar.MINUTE, Integer.parseInt(scheduleStepCutoffTime[1]));

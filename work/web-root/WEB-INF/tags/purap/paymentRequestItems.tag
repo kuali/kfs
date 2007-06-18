@@ -21,11 +21,7 @@
 <!-- what is the purpose of this c:if? would it be better to still dipslay the section header with message that there are not items -->
 <tr>
 	<td colspan="10" class="subhead">
-		<span class="subhead-left">Edit Items&nbsp;&nbsp;
-		<html:image
-    		src="${ConfigProperties.kr.externalizable.images.url}tinybutton-expandall.gif"
-			    alt="expand all" title="toggle" styleClass="tinybutton" />			    
-	    </span>
+		<span class="subhead-left">Edit Items</span>
 	</td>
 </tr>
 

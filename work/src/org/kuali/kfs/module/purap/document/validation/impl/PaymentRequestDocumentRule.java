@@ -38,6 +38,7 @@ import org.kuali.module.purap.PurapConstants.ItemFields;
 import org.kuali.module.purap.PurapConstants.PREQDocumentsStrings;
 import org.kuali.module.purap.bo.PaymentRequestItem;
 import org.kuali.module.purap.bo.PurchaseOrderItem;
+import org.kuali.module.purap.bo.PurchasingApItem;
 import org.kuali.module.purap.document.AccountsPayableDocument;
 import org.kuali.module.purap.document.PaymentRequestDocument;
 import org.kuali.module.purap.document.PurchaseOrderDocument;
@@ -209,20 +210,34 @@ public class PaymentRequestDocumentRule extends AccountsPayableDocumentRuleBase 
     public boolean processItemValidation(PurchasingAccountsPayableDocument purapDocument) {
         boolean valid = true;
 
-        for (Iterator itemIter = purapDocument.getItems().iterator(); itemIter.hasNext(); ) { 
-            PaymentRequestItem item = (PaymentRequestItem)itemIter.next(); 
-            String identifierString = getItemIdentifier(item);
-            if (item.getItemTypeCode().equals(PurapConstants.ItemTypeCodes.ITEM_TYPE_ITEM_CODE)) { 
-                valid &= validateItemTypeItems((PaymentRequestItem) item, identifierString); 
-            } 
-            else {
-                valid &= validateNonItemTypeItems((PaymentRequestItem)item, identifierString);
-        	}
-            valid &= validateItemWithoutAccounts((PaymentRequestItem)item, identifierString);
+        for (PurchasingApItem item : purapDocument.getItems() ) { 
+            PaymentRequestItem preqItem = (PaymentRequestItem)item;
+            if (preqItem.getPurapDocumentIdentifier() == null) {
+                //This means it's a new payment request that has not
+                //been saved to the database, so we'll set it here.
+                //TODO: If anyone finds any other solution than
+                //having to call setPaymentRequest to prevent the
+                //null paymentRequest problem, please tell me so.
+                preqItem.setPaymentRequest((PaymentRequestDocument)purapDocument);
+            }
+            validateEachItem(preqItem);
         }
         return valid;
     }
 
+    private boolean validateEachItem(PaymentRequestItem item) {
+        boolean valid = true;
+        String identifierString = getItemIdentifier(item);
+        if (item.getItemTypeCode().equals(PurapConstants.ItemTypeCodes.ITEM_TYPE_ITEM_CODE)) { 
+            valid &= validateItemTypeItems(item, identifierString); 
+        } 
+        else {
+            valid &= validateNonItemTypeItems(item, identifierString);
+        }
+        valid &= validateItemWithoutAccounts(item, identifierString);
+        return valid;
+    }
+    
     private boolean validateItemTypeItems(PaymentRequestItem item, String identifierString) {
         boolean valid = true;
         // Currently Quantity is allowed to be NULL on screen;
@@ -341,7 +356,6 @@ public class PaymentRequestDocumentRule extends AccountsPayableDocumentRuleBase 
         Integer fiscalYear = universityDateService.getCurrentFiscalYear();
         Date closingDate = universityDateService.getLastDateOfFiscalYear(fiscalYear);
         
-        //TODO: How to get the purchaseOrderEncumbranceFiscalYear ?
         if (paymentRequest.getPurchaseOrderDocument().getPostingYear().intValue() > fiscalYear) {
             GlobalVariables.getMessageList().add(PurapKeyConstants.WARNING_ENCUMBER_NEXT_FY);
         }
@@ -369,7 +383,7 @@ public class PaymentRequestDocumentRule extends AccountsPayableDocumentRuleBase 
                 super.processItemValidation(paymentRequest);
                 //This is calling the validations which in EPIC are located in validateFormatters, but in Kuali they should be covered
                 //within the processItemValidation of this class.
-                processItemValidation(paymentRequest);
+                validateEachItem(item);
                     }
             else if (((item.getExtendedPrice() != null) && (item.getExtendedPrice().isNonZero()) && item.getItemType().isItemTypeAboveTheLineIndicator() && ((item.getItemType().isQuantityBasedGeneralLedgerIndicator() && ((item.getPoOutstandingAmount() == null) || (item.getPoOutstandingAmount().isNonZero()))) || ((item.getItemType().isQuantityBasedGeneralLedgerIndicator()) && ((item.getPoOutstandingQuantity() == null) || (item.getPoOutstandingQuantity().isNonZero())))))) {
                 // ERROR because we have extended price and no open encumberance on the PO item

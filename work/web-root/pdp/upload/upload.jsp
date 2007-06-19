@@ -1,7 +1,20 @@
-<%@ page language="java"%>
-<%@ taglib uri="http://jakarta.apache.org/struts/tags-bean" prefix="bean" %>
-<%@ taglib uri="http://jakarta.apache.org/struts/tags-html" prefix="html" %>
-<%@ taglib uri="http://jakarta.apache.org/struts/tags-logic" prefix="logic" %>
+<%--
+ Copyright 2007 The Kuali Foundation.
+ 
+ Licensed under the Educational Community License, Version 1.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+ 
+ http://www.opensource.org/licenses/ecl1.php
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+--%>
+<%@ include file="/jsp/kfs/kfsTldHeader.jsp"%>
+<%@ taglib uri="/WEB-INF/app.tld" prefix="app" %>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html:html locale="true">
 <head>
@@ -9,8 +22,8 @@
 <title>Upload Payment File</title>
 </head>
 <h1><strong>Upload Payment File</strong></h1>
-<jsp:include page="${request.contextPath}/TestEnvironmentWarning.jsp" flush="true"/>
-<html:form action="/manualuploadfile.do" enctype="multipart/form-data">
+<jsp:include page="${request.contextPath}/pdp/TestEnvironmentWarning.jsp" flush="true"/>
+<html:form action="/pdp/manualuploadfile.do" enctype="multipart/form-data">
 <table border="0" width="100%">
 <tr>
   <td width="10%">&nbsp;</td>
@@ -20,8 +33,7 @@
 <tr>
   <td width="10%">&nbsp;</td>
   <td width="80%">
-  <%
-  
+  <%  
       if ( request.getHeader("user-agent").indexOf("Safari") > 0 ) {
    %>
 		To manually upload a payment file to the Pre-Disbursement Processor (PDP):
@@ -68,6 +80,6 @@
 </table>
 </html:form>
 <br>
-<c:import url="/backdoor.jsp"/>
+<c:import url="/pdp/backdoor.jsp"/>
 </body>
 </html:html>

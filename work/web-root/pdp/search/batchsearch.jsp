@@ -143,7 +143,7 @@
           <td>
             <display-el:table sort="list" name="sessionScope.batchSearchResults" id="item" pagesize="${perPage}" cellpadding="4" cellspacing="0" class="bord-r-t">
               <display-el:column sortable="true" sortProperty="id" title="Batch ID" headerClass="thfont" class="datacell">
-                <a href="<%= request.getContextPath().toString() %>/batchsearch.do?btnBatchDetail=param&BatchId=<c:out value="${item.id}" />"><c:out value="${item.id}" /></a>&nbsp;
+                <a href="<%= request.getContextPath().toString() %>/pdp/batchsearch.do?btnBatchDetail=param&BatchId=<c:out value="${item.id}" />"><c:out value="${item.id}" /></a>&nbsp;
               </display-el:column>
               <display-el:column sortable="true" title="Chart" headerClass="thfont" class="datacell">
                 <c:out value="${item.customerProfile.chartCode}" />&nbsp;

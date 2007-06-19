@@ -30,10 +30,10 @@ public class ManualUploadFileAction extends BaseAction {
   private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ManualUploadFileAction.class);
 
   private PaymentFileService paymentFileService;
-  private String tmpDir;
+  private String tmpDir = "/tmp";
 
   public ManualUploadFileAction() {
-      setPaymentFileService( (PaymentFileService)SpringServiceLocator.getService("pdpPaymentFileSerivce") );
+      setPaymentFileService( (PaymentFileService)SpringServiceLocator.getService("pdpPaymentFileService") );
   }
 
   // TODO Fix this

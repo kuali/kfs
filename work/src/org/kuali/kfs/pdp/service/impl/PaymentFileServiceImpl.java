@@ -77,7 +77,7 @@ public class PaymentFileServiceImpl implements PaymentFileService, BeanFactoryAw
   }
 
   private int getMaxNoteLines() {
-      return GeneralUtilities.getParameterInteger("MAX_NOTE_LINES", kualiConfigurationService);
+      return GeneralUtilities.getParameterInteger(PdpConstants.ApplicationParameterKeys.MAX_NOTE_LINES, kualiConfigurationService);
   }
 
   // NOTE: This only works on Unix right now.
@@ -179,15 +179,18 @@ public class PaymentFileServiceImpl implements PaymentFileService, BeanFactoryAw
     LOG.debug("sendErrorEmail() starting");
 
     // To send email or not send email
-    boolean noEmail = kualiConfigurationService.getApplicationParameterIndicator(PdpConstants.PDP_APPLICATION,PdpConstants.ApplicationParameterKeys.NO_PAYMENT_FILE_EMAIL);
-    if ( noEmail) {
+    boolean noEmail = false;
+    if ( kualiConfigurationService.hasApplicationParameter(PdpConstants.PDP_APPLICATION, PdpConstants.ApplicationParameterKeys.NO_PAYMENT_FILE_EMAIL) ) {
+        noEmail = kualiConfigurationService.getApplicationParameterIndicator(PdpConstants.PDP_APPLICATION,PdpConstants.ApplicationParameterKeys.NO_PAYMENT_FILE_EMAIL);
+    }
+    if ( noEmail ) {
       LOG.debug("sendErrorEmail() sending payment file email is disabled");
       return;
     }
 
     CustomerProfile customer = null;
     MailMessage message = new MailMessage();
-    
+
     String env = environmentService.getEnvironment().toUpperCase();
     if ("PRD".equals(env)){
       message.setSubject("PDP --- Payment file NOT loaded");
@@ -277,7 +280,6 @@ public class PaymentFileServiceImpl implements PaymentFileService, BeanFactoryAw
     }
   }
 
-//  private void sendLoadEmail(Integer batchId,XmlHeader header, XmlTrailer trailer, List errors) {
   private void sendLoadEmail(DataLoadHandler dataLoadHandler,XmlHeader header, XmlTrailer trailer) {
 
     Integer batchId = dataLoadHandler.getBatch().getId();
@@ -285,7 +287,10 @@ public class PaymentFileServiceImpl implements PaymentFileService, BeanFactoryAw
     LOG.debug("sendLoadEmail() starting");
 
     //To send email or not send email
-    boolean noEmail = kualiConfigurationService.getApplicationParameterIndicator(PdpConstants.PDP_APPLICATION,PdpConstants.ApplicationParameterKeys.NO_PAYMENT_FILE_EMAIL);
+    boolean noEmail = false;
+    if ( kualiConfigurationService.hasApplicationParameter(PdpConstants.PDP_APPLICATION, PdpConstants.ApplicationParameterKeys.NO_PAYMENT_FILE_EMAIL) ) {
+        noEmail = kualiConfigurationService.getApplicationParameterIndicator(PdpConstants.PDP_APPLICATION,PdpConstants.ApplicationParameterKeys.NO_PAYMENT_FILE_EMAIL);
+    }
     if ( noEmail) {
       LOG.debug("sendLoadEmail() sending payment file email is disabled");
       return;

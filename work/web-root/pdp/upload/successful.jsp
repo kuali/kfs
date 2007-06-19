@@ -52,8 +52,8 @@ Payment Total Amount: <strong><fmt:formatNumber currencyCode="USD" value="${stat
 	</tr>
 </table>
 </logic:present>
-<p><html:link action="/manualupload.do">Upload File</html:link></p>
+<p><html:link action="/pdp/manualupload.do">Upload File</html:link></p>
 <br>
-<c:import url="/backdoor.jsp"/>
+<c:import url="/pdp/backdoor.jsp"/>
 </body>
 </html:html>

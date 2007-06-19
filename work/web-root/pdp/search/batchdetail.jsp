@@ -118,7 +118,7 @@
         <table>
           <tr>
             <td colspan="4">Back to:</td>
-            <td><a href="<%= request.getContextPath().toString() %>/batchsearch.do?btnBack_batch=param">Batch Search Results</a></td>
+            <td><a href="<%= request.getContextPath().toString() %>/pdp/batchsearch.do?btnBack_batch=param">Batch Search Results</a></td>
             <td colspan="3"></td>
           </tr>
         </table>
@@ -134,8 +134,8 @@
     <tr>
       <td width="20">&nbsp;</td>
       <td>
-        <display-el:table sort="list" name="sessionScope.batchIndivSearchResults" id="item" pagesize="${perPage}" width="100%" cellpadding="4" cellspacing="0" class="bord-r-t">
-          <display-el:column sortable="true" title="Customer" headerClass="thfont" class="datacell" width="90px">
+        <display-el:table sort="list" name="sessionScope.batchIndivSearchResults" id="item" pagesize="${perPage}" cellpadding="4" cellspacing="0" class="bord-r-t">
+          <display-el:column sortable="true" title="Customer" headerClass="thfont" class="datacell">
             <font size="0px"><c:out value="${item.paymentGroup.batch.customerProfile.chartCode}" />-<c:out value="${item.paymentGroup.batch.customerProfile.orgCode}" />-<c:out value="${item.paymentGroup.batch.customerProfile.subUnitCode}" /></font>&nbsp;
           </display-el:column>
           <display-el:column sortable="true" sortProperty="custPaymentDocNbr" title="Source Document Number" headerClass="thfont" class="datacell">
@@ -143,7 +143,7 @@
               <c:if test="${(PaymentDetailSearchForm.oldDisbursementNbr != item.paymentGroup.disbursementNbr) && (not empty PaymentDetailSearchForm.oldDisbursementNbr)}">
                 <img src="<%= request.getContextPath().toString() %>/pdp/images/bullet-red.gif" alt=">>">
               </c:if>
-              <a href="<%= request.getContextPath().toString() %>/paymentdetail.do?DetailId=<c:out value="${item.id}" />"><c:out value="${item.custPaymentDocNbr}" /></a>
+              <a href="<%= request.getContextPath().toString() %>/pdp/paymentdetail.do?DetailId=<c:out value="${item.id}" />"><c:out value="${item.custPaymentDocNbr}" /></a>
             </font>&nbsp;
           </display-el:column>
           <display-el:column sortable="true" sortProperty="purchaseOrderNbr" title="PO Number" headerClass="thfont" class="datacell">

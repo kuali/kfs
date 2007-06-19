@@ -8,7 +8,6 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import org.apache.ojb.broker.PersistenceBroker;
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
@@ -63,10 +62,10 @@ public class BatchMaintenanceDaoOjb extends PlatformAwareDaoBaseOjb implements B
     crit.addIn("paymentStatusCode",codeList);
 
     ReportQueryByCriteria q = QueryFactory.newReportQuery(PaymentGroup.class,crit);
-    q.setAttributes(new String[] { "paymentStatusCode" }); q.addGroupBy("paymentStatusCode");
+    q.setAttributes(new String[] { "paymentStatusCode" }); 
+    q.addGroupBy("paymentStatusCode");
 
-    PersistenceBroker b = getPersistenceBroker(true); 
-    Iterator i = b.getReportQueryIteratorByQuery(q);
+    Iterator i = getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(q);
     if ( i.hasNext() ) {
       LOG.debug("doBatchPaymentsHaveOpenStatus() Not all payment groups have status 'OPEN'.");
       return false;
@@ -98,16 +97,16 @@ public class BatchMaintenanceDaoOjb extends PlatformAwareDaoBaseOjb implements B
         codeList.add(element.getCode());
       }
     }
-    
+
     Criteria crit = new Criteria();
     crit.addEqualTo("batchId", batchId);
     crit.addIn("paymentStatusCode",codeList);
 
     ReportQueryByCriteria q = QueryFactory.newReportQuery(PaymentGroup.class,crit);
-    q.setAttributes(new String[] { "paymentStatusCode" }); q.addGroupBy("paymentStatusCode");
+    q.setAttributes(new String[] { "paymentStatusCode" }); 
+    q.addGroupBy("paymentStatusCode");
 
-    PersistenceBroker b = getPersistenceBroker(true); 
-    Iterator i = b.getReportQueryIteratorByQuery(q);
+    Iterator i = getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(q);
     if ( i.hasNext() ) {
       LOG.debug("doBatchPaymentsHaveHeldStatus() Not all payment groups have status 'HELD'.");
       return false;

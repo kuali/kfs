@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.Iterator;
+import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.document.Document;
@@ -37,6 +38,7 @@ import org.kuali.module.purap.PurapPropertyConstants;
 import org.kuali.module.purap.PurapConstants.ItemFields;
 import org.kuali.module.purap.PurapConstants.PREQDocumentsStrings;
 import org.kuali.module.purap.bo.PaymentRequestItem;
+import org.kuali.module.purap.bo.PurApAccountingLine;
 import org.kuali.module.purap.bo.PurchaseOrderItem;
 import org.kuali.module.purap.bo.PurchasingApItem;
 import org.kuali.module.purap.document.AccountsPayableDocument;
@@ -209,7 +211,7 @@ public class PaymentRequestDocumentRule extends AccountsPayableDocumentRuleBase 
     @Override
     public boolean processItemValidation(PurchasingAccountsPayableDocument purapDocument) {
         boolean valid = true;
-
+        PaymentRequestDocument paymentRequestDocument = (PaymentRequestDocument)purapDocument;
         for (PurchasingApItem item : purapDocument.getItems() ) { 
             PaymentRequestItem preqItem = (PaymentRequestItem)item;
             if (preqItem.getPurapDocumentIdentifier() == null) {
@@ -218,16 +220,22 @@ public class PaymentRequestDocumentRule extends AccountsPayableDocumentRuleBase 
                 //TODO: If anyone finds any other solution than
                 //having to call setPaymentRequest to prevent the
                 //null paymentRequest problem, please tell me so.
-                preqItem.setPaymentRequest((PaymentRequestDocument)purapDocument);
+                preqItem.setPaymentRequest(paymentRequestDocument);
             }
-            valid &= validateEachItem(preqItem);
+            valid &= validateEachItem(paymentRequestDocument, preqItem);
         }
         return valid;
     }
 
-    private boolean validateEachItem(PaymentRequestItem item) {
+    private boolean validateEachItem(PaymentRequestDocument paymentRequestDocument, PaymentRequestItem item) {
         boolean valid = true;
-        String identifierString = getItemIdentifier(item);
+            String identifierString = getItemIdentifier(item);
+            valid &= validateItem(paymentRequestDocument, item, identifierString);
+        return valid;
+    }
+    
+    public boolean validateItem(PaymentRequestDocument paymentRequestDocument, PaymentRequestItem item, String identifierString) {
+        boolean valid = true;
         if (item.getItemTypeCode().equals(PurapConstants.ItemTypeCodes.ITEM_TYPE_ITEM_CODE)) { 
             valid &= validateItemTypeItems(item, identifierString); 
         } 
@@ -235,9 +243,10 @@ public class PaymentRequestDocumentRule extends AccountsPayableDocumentRuleBase 
             valid &= validateNonItemTypeItems(item, identifierString);
         }
         valid &= validateItemWithoutAccounts(item, identifierString);
+        valid &= validateItemAccounts(paymentRequestDocument, item, identifierString);
         return valid;
     }
-    
+
     private boolean validateItemTypeItems(PaymentRequestItem item, String identifierString) {
         boolean valid = true;
         // Currently Quantity is allowed to be NULL on screen;
@@ -298,11 +307,20 @@ public class PaymentRequestDocumentRule extends AccountsPayableDocumentRuleBase 
      * @param item
      * @return
      */
-    boolean validateItemWithoutAccounts(PaymentRequestItem item, String identifierString) {
+    public boolean validateItemWithoutAccounts(PaymentRequestItem item, String identifierString) {
         boolean valid = true;
         if (ObjectUtils.isNotNull(item.getItemUnitPrice()) && (new KualiDecimal(item.getItemUnitPrice())).isNonZero() && item.isAccountListEmpty()) {
             valid = false;
             GlobalVariables.getErrorMap().putError("newPurchasingItemLine", PurapKeyConstants.ERROR_ITEM_ACCOUNTING_INCOMPLETE, identifierString);
+        }
+        return valid;
+    }
+    
+    public boolean validateItemAccounts(PaymentRequestDocument paymentRequestDocument, PaymentRequestItem item, String identifierString) {
+        boolean valid = true;
+        List<PurApAccountingLine> accountingLines = item.getSourceAccountingLines();
+        for ( PurApAccountingLine accountingLine :  accountingLines ) {
+            valid &= this.processReviewAccountingLineBusinessRules(paymentRequestDocument, accountingLine);
         }
         return valid;
     }
@@ -383,8 +401,8 @@ public class PaymentRequestDocumentRule extends AccountsPayableDocumentRuleBase 
                 super.processItemValidation(paymentRequest);
                 //This is calling the validations which in EPIC are located in validateFormatters, but in Kuali they should be covered
                 //within the processItemValidation of this class.
-                validateEachItem(item);
-                    }
+                validateEachItem(paymentRequest, item);
+            }
             else if (((item.getExtendedPrice() != null) && (item.getExtendedPrice().isNonZero()) && item.getItemType().isItemTypeAboveTheLineIndicator() && ((item.getItemType().isQuantityBasedGeneralLedgerIndicator() && ((item.getPoOutstandingAmount() == null) || (item.getPoOutstandingAmount().isNonZero()))) || ((item.getItemType().isQuantityBasedGeneralLedgerIndicator()) && ((item.getPoOutstandingQuantity() == null) || (item.getPoOutstandingQuantity().isNonZero())))))) {
                 // ERROR because we have extended price and no open encumberance on the PO item
                 // this error should have been caught at an earlier level

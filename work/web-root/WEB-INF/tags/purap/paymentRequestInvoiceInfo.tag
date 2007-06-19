@@ -103,10 +103,12 @@
                 <td align=left valign=middle class="datacell">
                    <kul:htmlControlAttribute attributeEntry="${documentAttributes.paymentAttachmentIndicator}" property="document.paymentAttachmentIndicator" />
                 </td>
-                <th align=right valign=middle class="bord-l-b" colspan="2">
-                   <div align="right">&nbsp;</div>
+                <th align=right valign=middle class="bord-l-b">
+					<div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.vendorInvoiceAmount}" /></div>
                 </th>
-                
+                <td align=left valign=middle class="datacell">
+                	<kul:htmlControlAttribute attributeEntry="${documentAttributes.vendorInvoiceAmount}" property="document.vendorInvoiceAmount" readOnly="true" />
+                </td>
             </tr>
             
 		</table> 

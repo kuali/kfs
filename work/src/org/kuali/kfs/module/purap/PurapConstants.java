@@ -259,7 +259,6 @@ public class PurapConstants {
         public static String PURCHASE_ORDER_AMENDMENT_DOCUMENT = "KualiPurchaseOrderAmendmentDocument";
     }
 
- 
     
     private static HashMap<String, String> purchaseOrderDocTypes() {
         HashMap<String, String> mapSLF;
@@ -320,7 +319,8 @@ public class PurapConstants {
 
     // Weird PaymentTermsType is due on either the 10th or 25th with no discount
     public static String PMT_TERMS_TYP_NO_DISCOUNT_CD = "00N2T";
-        
+
+    
     public static class PaymentRequestStatuses {
         public static String INITIATE = "INIT";
         public static String IN_PROCESS = "INPR";
@@ -367,7 +367,7 @@ public class PurapConstants {
         public static String CANCEL_NOTE_PREFIX = "Note entered while requesting cancel on Payment Request : ";
         public static String REMOVE_CANCEL_PREQ_QUESTION = "RemoveCancelPREQ";
         public static String CONFIRM_REMOVE_CANCEL_QUESTION = "ConfirmRemoveCancel";
-        public static String REMOVE_CANCEL_NOTE_PREFIX = "Note entered while requesting a remove cancel on Payment Request : ";
+        public static String REMOVE_CANCEL_NOTE_PREFIX = "Note entered while removing a request cancel on Payment Request : ";
         public static String PURCHASE_ORDER_ID = "Purchase Order Identifier";
         public static String INVOICE_DATE = "Invoice Date";
         public static String INVOICE_NUMBER = "Invoice Number";

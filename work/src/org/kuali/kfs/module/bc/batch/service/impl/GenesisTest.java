@@ -106,7 +106,7 @@ public class GenesisTest {
       // update current positions
 //        genesisTestService.testPositionBuild(2011);
       LOG.warn("\nstarting fiscalYearMakers\n");
-      dateMakerTestService.fiscalYearMakers(2012,false);
+      dateMakerTestService.fiscalYearMakers(2013,false);
         //dateMakerTestService.fiscalYearMakers(2009,false);
         //dateMakerTestService.testRoutine(); 
       LOG.warn("\nfiscalYearMakers finished\n");

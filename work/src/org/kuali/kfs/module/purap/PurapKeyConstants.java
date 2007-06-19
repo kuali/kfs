@@ -106,7 +106,8 @@ public class PurapKeyConstants {
 
     public static final String WARNING_ENCUMBER_NEXT_FY="warning.encumber.nextFY";
     public static final String WARNING_CANCEL_REOPEN_PO="warning.cancel.reOpenPO";
-    //Item
+    
+    //Item and Accounting line
     public static final String ERROR_ITEM_AMOUNT_BELOW_ZERO="errors.item.amount.belowZero";
     public static final String ERROR_ITEM_AMOUNT_NOT_BELOW_ZERO="errors.item.amount.notBelowZero";
     public static final String ERROR_ITEM_ACCOUNTING_NOT_UNIQUE="errors.item.accounting.notunique";
@@ -129,6 +130,7 @@ public class PurapKeyConstants {
     public static final String ERROR_ITEM_QUANTITY_TOO_MANY="errors.item.quantity.tooMany";
     public static final String ERROR_ITEM_QUANTITY_REQUIRED="errors.item.quantity.required";
     public static final String ERROR_ITEM_AMOUNT_ALREADY_PAID="errors.item.amount.alreadyPaid";
+    public static final String ERROR_ITEM_PERCENT="errors.item.percent";
     
     //Credit Memo
     public static final String ERROR_CREDIT_MEMO_REQUIRED_FIELDS="errors.credit.memo.required.fields";

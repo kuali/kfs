@@ -256,6 +256,9 @@ public class PurchasingAccountsPayableDocumentRuleBase extends AccountingDocumen
                 }
             }
             valid &= verifyUniqueAccountingStrings(item.getSourceAccountingLines(), getItemIdentifier(item));
+            for (PurApAccountingLine account : item.getSourceAccountingLines()) {
+                valid &= verifyAccountingStringsBetween0And100Percent(account, getItemIdentifier(item));
+            }
         }
         return valid;
     }
@@ -428,6 +431,15 @@ public class PurchasingAccountsPayableDocumentRuleBase extends AccountingDocumen
                 GlobalVariables.getErrorMap().putError(itemLineNumber, PurapKeyConstants.ERROR_ITEM_ACCOUNTING_NOT_UNIQUE, itemLineNumber);
                 return false;
             }
+        }
+        return true;
+    }
+    
+    protected boolean verifyAccountingStringsBetween0And100Percent(PurApAccountingLine account, String itemLineNumber) {
+        double pct = account.getAccountLinePercent().doubleValue();
+        if (pct <= 0 || pct > 100) {
+            GlobalVariables.getErrorMap().putError(itemLineNumber, PurapKeyConstants.ERROR_ITEM_PERCENT, "%", itemLineNumber);
+            return false;
         }
         return true;
     }

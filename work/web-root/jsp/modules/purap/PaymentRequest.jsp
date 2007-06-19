@@ -39,6 +39,7 @@
     <!-- html:hidden property="document.purchaseOrderEncumbranceFiscalYear" / --> 
     <html:hidden property="document.paymentRequestCostSourceCode" />
     <html:hidden property="document.accountsPayableProcessorIdentifier" />
+    <html:hidden property="document.vendorInvoiceAmount" />
     <!-- html:hidden property="document.paymentRequestInitiated" /-->
     
     <!-- TODO move this to where? -->

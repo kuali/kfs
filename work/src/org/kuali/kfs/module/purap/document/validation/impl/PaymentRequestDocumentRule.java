@@ -23,6 +23,7 @@ import java.util.Iterator;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.document.Document;
+import org.kuali.core.service.DataDictionaryService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
@@ -34,7 +35,7 @@ import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.PurapKeyConstants;
 import org.kuali.module.purap.PurapPropertyConstants;
 import org.kuali.module.purap.PurapConstants.ItemFields;
-import org.kuali.module.purap.bo.PaymentRequestAccount;
+import org.kuali.module.purap.PurapConstants.PREQDocumentsStrings;
 import org.kuali.module.purap.bo.PaymentRequestItem;
 import org.kuali.module.purap.bo.PurchaseOrderItem;
 import org.kuali.module.purap.document.AccountsPayableDocument;
@@ -44,14 +45,12 @@ import org.kuali.module.purap.document.PurchasingAccountsPayableDocument;
 import org.kuali.module.purap.exceptions.PurError;
 import org.kuali.module.purap.rule.ContinueAccountsPayableRule;
 
-
-
 public class PaymentRequestDocumentRule extends AccountsPayableDocumentRuleBase implements ContinueAccountsPayableRule {
 
     private static KualiDecimal zero = new KualiDecimal(0);
     private static BigDecimal ONE_HUNDRED = BigDecimal.valueOf(100);
     
-    /**
+	/**
      * Tabs included on Payment Request Documents are: Invoice
      * 
      * @see org.kuali.module.purap.rules.PurchasingAccountsPayableDocumentRuleBase#processValidation(org.kuali.module.purap.document.PurchasingAccountsPayableDocument)
@@ -59,20 +58,21 @@ public class PaymentRequestDocumentRule extends AccountsPayableDocumentRuleBase 
     @Override
     public boolean processValidation(PurchasingAccountsPayableDocument purapDocument) {
         boolean valid = super.processValidation(purapDocument);
-        valid &= processInvoiceValidation((PaymentRequestDocument) purapDocument);
-        valid &= processPurchaseOrderIDValidation((PaymentRequestDocument) purapDocument);
-        valid &= processPaymentRequestDateValidation((PaymentRequestDocument) purapDocument);
+        valid &= processInvoiceValidation((PaymentRequestDocument)purapDocument);
+        valid &= processPurchaseOrderIDValidation((PaymentRequestDocument)purapDocument);
+        valid &= processPaymentRequestDateValidation((PaymentRequestDocument)purapDocument);
         return valid;
     }
 
-    public boolean processContinueAccountsPayableBusinessRules(AccountsPayableDocument apDocument) {
-        boolean valid = true;
-        valid &= processPurchaseOrderIDValidation((PaymentRequestDocument) apDocument);
-        valid &= processInvoiceValidation((PaymentRequestDocument) apDocument);
-        valid &= processPaymentRequestDateValidation((PaymentRequestDocument) apDocument);
-        return valid;
+    @Override
+    protected boolean processCustomRouteDocumentBusinessRules(Document document) {
+        boolean isValid = true;
+        PurchasingAccountsPayableDocument purapDocument = (PurchasingAccountsPayableDocument) document;
+        isValid &= validateRouteFiscal(purapDocument);
+        isValid &= processValidation(purapDocument);
+        return isValid; 
     }
-    
+      
     @Override
     protected boolean processCustomSaveDocumentBusinessRules(Document document) {
         boolean isValid = true;
@@ -85,6 +85,15 @@ public class PaymentRequestDocumentRule extends AccountsPayableDocumentRuleBase 
         isValid &= processItemValidation(paymentRequestDocument);
         return isValid;
     }
+    
+    public boolean processContinueAccountsPayableBusinessRules(AccountsPayableDocument apDocument) {
+        boolean valid = true;
+        valid &= processPurchaseOrderIDValidation((PaymentRequestDocument) apDocument);
+        valid &= processInvoiceValidation((PaymentRequestDocument) apDocument);   
+        valid &= processPaymentRequestDateValidation((PaymentRequestDocument) apDocument);
+        return valid;
+    }
+
 
 
     /**
@@ -95,28 +104,43 @@ public class PaymentRequestDocumentRule extends AccountsPayableDocumentRuleBase 
      */
     public boolean processInvoiceValidation(PaymentRequestDocument preqDocument) {
         boolean valid = true;
-        // TODO code validation here
+        DataDictionaryService dataDictionaryService = SpringServiceLocator.getDataDictionaryService();
+        if (ObjectUtils.isNull(preqDocument.getPurchaseOrderIdentifier())) {
+            GlobalVariables.getErrorMap().putError(PurapPropertyConstants.PURCHASE_ORDER_IDENTIFIER, KFSKeyConstants.ERROR_REQUIRED, PREQDocumentsStrings.PURCHASE_ORDER_ID);
+            valid &= false;
+        }
+        if (ObjectUtils.isNull(preqDocument.getInvoiceDate())) {
+            GlobalVariables.getErrorMap().putError(PurapPropertyConstants.INVOICE_DATE, KFSKeyConstants.ERROR_REQUIRED, PREQDocumentsStrings.INVOICE_DATE);
+            valid &= false;
+        }
+        if (StringUtils.isBlank(preqDocument.getInvoiceNumber())) {
+            GlobalVariables.getErrorMap().putError(PurapPropertyConstants.INVOICE_NUMBER, KFSKeyConstants.ERROR_REQUIRED, PREQDocumentsStrings.INVOICE_NUMBER);
+            valid &= false;
+        }
+        //if (ObjectUtils.isNull(preqDocument.getVendorInvoiceAmount())) {           
+        //    GlobalVariables.getErrorMap().putError(PurapPropertyConstants.VENDOR_INVOICE_AMOUNT, KFSKeyConstants.ERROR_REQUIRED, PREQDocumentsStrings.VENDOR_INVOICE_AMOUNT);
+        //    valid &= false;
+        //}
         return valid;
     }
-
+    
     boolean processPurchaseOrderIDValidation(PaymentRequestDocument document) {
-
+       
         boolean valid = true;
-
+       
         Integer POID = document.getPurchaseOrderIdentifier();
-
+       
         // I think only the current PO can have the pending action indicator to be "Y". For all the other POs with the same PO
         // number, the pending indicator should be always "N". So, I think we only need to check if for the current PO the 
         // Pending indicator is "Y" and it is not a Retransmit doc, then we don't allow users to create a PREQ. Correct? 
         // Given a PO number, the user enters in the Init screen. For the rule "Error if the PO is not open", we also only 
         // need to check this rule against the current PO, Correct?
         PurchaseOrderDocument purchaseOrderDocument = SpringServiceLocator.getPurchaseOrderService().getCurrentPurchaseOrder(document.getPurchaseOrderIdentifier());
-        if (ObjectUtils.isNull(purchaseOrderDocument)) {
-
+        if (ObjectUtils.isNull(purchaseOrderDocument)) {    
             GlobalVariables.getErrorMap().putError(PurapPropertyConstants.PURCHASE_ORDER_IDENTIFIER, PurapKeyConstants.ERROR_PURCHASE_ORDER_NOT_EXIST);
             valid &= false;
-        }
-        else if (!StringUtils.equals(purchaseOrderDocument.getStatusCode(), PurapConstants.PurchaseOrderStatuses.OPEN)) {
+        } 
+        else if (!StringUtils.equals(purchaseOrderDocument.getStatusCode(),PurapConstants.PurchaseOrderStatuses.OPEN)){
             GlobalVariables.getErrorMap().putError(PurapPropertyConstants.PURCHASE_ORDER_IDENTIFIER, PurapKeyConstants.ERROR_PURCHASE_ORDER_NOT_OPEN);
             valid &= false;
             // if the PO is pending and it is not a Retransmit, we cannot generate a Payment Request for it:
@@ -130,13 +154,13 @@ public class PaymentRequestDocumentRule extends AccountsPayableDocumentRuleBase 
             // PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_RETRANSMIT_DOCUMENT)){
             // GlobalVariables.getErrorMap().putError(PurapPropertyConstants.PURCHASE_ORDER_IDENTIFIER,
             // PurapKeyConstants.ERROR_PURCHASE_ORDER_IS_PENDING);
-        // }
+        // } 
         // else if (purchaseOrderDocument.isPendingActionIndicator() &
         // !StringUtils.equals(purchaseOrderDocument.getDocumentHeader().getWorkflowDocument().getDocumentType(),
         // PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_RETRANSMIT_DOCUMENT)){
         // GlobalVariables.getErrorMap().putError(PurapPropertyConstants.PURCHASE_ORDER_IDENTIFIER,
         // PurapKeyConstants.ERROR_PURCHASE_ORDER_IS_PENDING);
-            // valid &= false;
+        //      valid &= false;         
         }
         else {            
             // Verify that there exists at least 1 item left to be invoiced
@@ -146,7 +170,7 @@ public class PaymentRequestDocumentRule extends AccountsPayableDocumentRuleBase 
         }
         return valid;
     }
-
+        
     public boolean encumberedItemExistsForInvoicing(PurchaseOrderDocument document) {
         boolean zeroDollar = true;
         for (Iterator itemIter = document.getItems().iterator(); itemIter.hasNext();) {
@@ -162,9 +186,8 @@ public class PaymentRequestDocumentRule extends AccountsPayableDocumentRuleBase 
         }
         return zeroDollar;
     }
-
-    boolean processPaymentRequestDateValidation(PaymentRequestDocument document) {
-
+    
+    boolean processPaymentRequestDateValidation(PaymentRequestDocument document){       
         boolean valid = true;
         java.sql.Date invoiceDate = document.getInvoiceDate();
         if (ObjectUtils.isNotNull(invoiceDate) && SpringServiceLocator.getPaymentRequestService().isInvoiceDateAfterToday(invoiceDate)) {
@@ -173,7 +196,7 @@ public class PaymentRequestDocumentRule extends AccountsPayableDocumentRuleBase 
         }
         return valid;
     }
-   
+    
     /**
      * This method performs item validations for the rules that are only applicable to Payment Request Document.
      * In EPIC, we are also doing similar steps as in this method within the validateFormatter, which is
@@ -194,12 +217,12 @@ public class PaymentRequestDocumentRule extends AccountsPayableDocumentRuleBase 
             } 
             else {
                 valid &= validateNonItemTypeItems((PaymentRequestItem)item, identifierString);
-            }
-            
+        	}
+            valid &= validateItemWithoutAccounts((PaymentRequestItem)item, identifierString);
         }
         return valid;
     }
-    
+
     private boolean validateItemTypeItems(PaymentRequestItem item, String identifierString) {
         boolean valid = true;
         // Currently Quantity is allowed to be NULL on screen;
@@ -254,6 +277,21 @@ public class PaymentRequestDocumentRule extends AccountsPayableDocumentRuleBase 
         return valid;
     }
     
+    /**
+     * This method validates that the item must contain at least one account
+     * 
+     * @param item
+     * @return
+     */
+    boolean validateItemWithoutAccounts(PaymentRequestItem item, String identifierString) {
+        boolean valid = true;
+        if (ObjectUtils.isNotNull(item.getItemUnitPrice()) && (new KualiDecimal(item.getItemUnitPrice())).isNonZero() && item.isAccountListEmpty()) {
+            valid = false;
+            GlobalVariables.getErrorMap().putError("newPurchasingItemLine", PurapKeyConstants.ERROR_ITEM_ACCOUNTING_INCOMPLETE, identifierString);
+        }
+        return valid;
+    }
+    
     public boolean validateCancel(PurchasingAccountsPayableDocument purapDocument) {
         Collection c = new ArrayList();
         boolean valid = true;
@@ -263,7 +301,8 @@ public class PaymentRequestDocumentRule extends AccountsPayableDocumentRuleBase 
             valid = false;
             GlobalVariables.getErrorMap().putError(PurapPropertyConstants.PURAP_DOC_ID, PurapKeyConstants.ERROR_CANCEL_CANCELLED);
             return valid;
-        }
+    	}
+   
         if (ObjectUtils.isNotNull(pr.getExtractedDate())) {
             // send ERROR: PREQ has been extracted to Disbursement Engine
             valid = false;
@@ -279,8 +318,18 @@ public class PaymentRequestDocumentRule extends AccountsPayableDocumentRuleBase 
         return valid;
     }
     
-    
-    private boolean validatePaymentRequestReview(PaymentRequestDocument paymentRequest) {
+    public boolean validateRouteFiscal(PurchasingAccountsPayableDocument purapDocument) {
+        boolean valid = true;
+        PaymentRequestDocument paymentRequest = (PaymentRequestDocument)purapDocument;
+        if (StringUtils.equals(paymentRequest.getStatusCode(),PurapConstants.PaymentRequestStatuses.IN_PROCESS)) {
+            GlobalVariables.getErrorMap().putError(PurapPropertyConstants.PURAP_DOC_ID, PurapKeyConstants.ERROR_PAYMENT_REQUEST_NOT_IN_PROCESS);
+            valid &= false;
+        }
+        valid &= validatePaymentRequestReview(paymentRequest);
+        return valid;
+    }
+
+    boolean validatePaymentRequestReview(PaymentRequestDocument paymentRequest) {
         boolean valid = true;
         //TODO: uncomment or replace this with a service invocation when Chris/Dan finished
         //the calculate method.
@@ -321,7 +370,7 @@ public class PaymentRequestDocumentRule extends AccountsPayableDocumentRuleBase 
                 //This is calling the validations which in EPIC are located in validateFormatters, but in Kuali they should be covered
                 //within the processItemValidation of this class.
                 processItemValidation(paymentRequest);
-            }
+                    }
             else if (((item.getExtendedPrice() != null) && (item.getExtendedPrice().isNonZero()) && item.getItemType().isItemTypeAboveTheLineIndicator() && ((item.getItemType().isQuantityBasedGeneralLedgerIndicator() && ((item.getPoOutstandingAmount() == null) || (item.getPoOutstandingAmount().isNonZero()))) || ((item.getItemType().isQuantityBasedGeneralLedgerIndicator()) && ((item.getPoOutstandingQuantity() == null) || (item.getPoOutstandingQuantity().isNonZero())))))) {
                 // ERROR because we have extended price and no open encumberance on the PO item
                 // this error should have been caught at an earlier level
@@ -359,153 +408,5 @@ public class PaymentRequestDocumentRule extends AccountsPayableDocumentRuleBase 
     private boolean validateNegativeAccountSummaryRecords(PaymentRequestDocument paymentRequest) {
         return true;
     }
+    
 }
-
-
-
-/**
- * @param purchaseOrderId
- * @param invoiceNumber
- * @param invoiceAmount
- * @param invoiceDate
- * @param expiredAccounts
- * @param closedAccounts
- * @return
- */
-/*
-public PaymentRequestInitializationValidationErrors verifyPreqInitialization(
-    Integer purchaseOrderId, String invoiceNumber, BigDecimal invoiceAmount, Timestamp invoiceDate,
-    List expiredAccounts, List closedAccounts, User u) {
-  SERVICELOG.debug("verifyPreqInitialization() started");
-    LOG.debug("verifyPreqInitialization started");
-  List messages = new ArrayList();
-  List expirAcctList = new ArrayList();
-  List closeAcctList = new ArrayList();
-  
-  PaymentRequestInitializationValidationErrors initValidationErrors = new PaymentRequestInitializationValidationErrors();
-
-  PurchaseOrder po = purchaseOrderService.getPurchaseOrderById(purchaseOrderId,u);
-  
-  if (po == null) {
-    // no PO was found in the system - notify the user
-    messages.add("errors.po.not.exist");
-    initValidationErrors.errorMessages = messages;
-    SERVICELOG.debug("verifyPreqInitialization() ended");    
-    return initValidationErrors;
-  }
-  
-  // Verify that there exists at least 1 item left to be invoiced
-  initValidationErrors.setPurchaseOrderNumberToUse(purchaseOrderId);
-  boolean zeroDollar = true;
-  for (Iterator itemIter = po.getItems().iterator(); itemIter.hasNext();) {
-    PurchaseOrderItem poi = (PurchaseOrderItem) itemIter.next();
-    BigDecimal encumberedQuantity = poi.getOutstandingEncumberedQuantity() == null ? zero : poi.getOutstandingEncumberedQuantity();
-    if (encumberedQuantity.compareTo(zero) == 1) {
-      zeroDollar = false;
-      break;
-    }
-  }
-  
-  // if messages exist now there is no need to check anything else
-  if (!messages.isEmpty()) {
-    initValidationErrors.errorMessages = messages;
-    SERVICELOG.debug("verifyPreqInitialization() ended");
-    return initValidationErrors;
-  }
-  
-  // Check invoice date to make sure it is today or before
-  if (this.isInvoiceDateAfterToday(invoiceDate)) {
-    messages.add("errors.invalid.invoice.date");
-  }
-//  Timestamp now = new Timestamp( (new Date()).getTime() );
-//  if ( invoiceDate.getTime() > now.getTime() ) {
-//    messages.add("errors.invalid.invoice.date");
-//  }
-  
-  if (EpicConstants.PO_STAT_OPEN.equals(po.getPurchaseOrderStatus().getCode())) {
-    //then check that there are no other non-cancelled PREQs for this vendor number and invoice number
-    Integer vendorDetailAssignedId = po.getVendorDetailAssignedId();
-    Integer vendorHeaderGeneratedId = po.getVendorHeaderGeneratedId();
-
-    List preqs = getPaymentRequestsByVendorNumberInvoiceNumber(vendorHeaderGeneratedId,vendorDetailAssignedId,invoiceNumber);
-    if (preqs.size() > 0) {
-      boolean addedError = false;
-      List cancelled = new ArrayList();
-      List voided = new ArrayList();
-      for (Iterator iter = preqs.iterator(); iter.hasNext();) {
-        PaymentRequest testPREQ = (PaymentRequest) iter.next();
-        if ( (!(EpicConstants.PREQ_STAT_CANCELLED_POST_APPROVE.equals(testPREQ.getStatus().getCode()))) && 
-             (!(EpicConstants.PREQ_STAT_CANCELLED_IN_PROCESS.equals(testPREQ.getStatus().getCode()))) ) {
-          messages.add("errors.duplicate.vendor.invoice");
-          addedError = true;
-          break;
-        } else if (EpicConstants.PREQ_STAT_CANCELLED_IN_PROCESS.equals(testPREQ.getStatus().getCode())) {
-          voided.add(testPREQ);
-        } else if (EpicConstants.PREQ_STAT_CANCELLED_POST_APPROVE.equals(testPREQ.getStatus().getCode())) {
-          cancelled.add(testPREQ);
-        }
-      }
-      // custom error message for duplicates related to cancelled/voided PREQs
-      if (!addedError) {
-        if ( (!(voided.isEmpty())) && (!(cancelled.isEmpty())) ) {
-          messages.add("errors.duplicate.vendor.invoice.cancelledOrVoided");
-        } else if ( (!(voided.isEmpty())) && (cancelled.isEmpty()) ) {
-          messages.add("errors.duplicate.vendor.invoice.voided");
-        } else if ( (voided.isEmpty()) && (!(cancelled.isEmpty())) ) {
-          messages.add("errors.duplicate.vendor.invoice.cancelled");
-        }
-      }
-    }
-    
-    //check that the invoice date and invoice total amount entered are not on any existing non-cancelled PREQs for this PO
-    preqs = getPaymentRequestsByPOIdInvoiceAmountInvoiceDate(po.getId(), invoiceAmount, invoiceDate);
-    if (preqs.size() > 0) {
-      boolean addedError = false;
-      List cancelled = new ArrayList();
-      List voided = new ArrayList();
-      for (Iterator iter = preqs.iterator(); iter.hasNext();) {
-        PaymentRequest testPREQ = (PaymentRequest) iter.next();
-        if ( (!(EpicConstants.PREQ_STAT_CANCELLED_POST_APPROVE.equals(testPREQ.getStatus().getCode()))) && 
-             (!(EpicConstants.PREQ_STAT_CANCELLED_IN_PROCESS.equals(testPREQ.getStatus().getCode()))) ) {
-          messages.add("errors.duplicate.invoice.date.amount");
-          addedError = true;
-          break;
-        } else if (EpicConstants.PREQ_STAT_CANCELLED_IN_PROCESS.equals(testPREQ.getStatus().getCode())) {
-          voided.add(testPREQ);
-        } else if (EpicConstants.PREQ_STAT_CANCELLED_POST_APPROVE.equals(testPREQ.getStatus().getCode())) {
-          cancelled.add(testPREQ);
-        }
-      }
-      // custom error message for duplicates related to cancelled/voided PREQs
-      if (!addedError) {
-        if ( (!(voided.isEmpty())) && (!(cancelled.isEmpty())) ) {
-          messages.add("errors.duplicate.invoice.date.amount.cancelledOrVoided");
-        } else if ( (!(voided.isEmpty())) && (cancelled.isEmpty()) ) {
-          messages.add("errors.duplicate.invoice.date.amount.voided");
-        } else if ( (voided.isEmpty()) && (!(cancelled.isEmpty())) ) {
-          messages.add("errors.duplicate.invoice.date.amount.cancelled");
-        }
-      }
-    }
-    
-    this.checkForExpiredOrClosedAccounts(po, initValidationErrors, closedAccounts, expiredAccounts);
-    
-  } else if (EpicConstants.PO_STAT_PAYMENT_HOLD.equals(po.getPurchaseOrderStatus().getCode())) {
-    //PO is not open - notify the user
-    messages.add("errors.po.status.hold");
-  } else {
-    //PO is not open - notify the user
-    messages.add("errors.po.not.open");
-  }
-
-  if ( 1 == 2 ) {
-    // TODO 2006: delyea PREQ CLOSE PO: Add code to return encumberances check for auto close of PO
-    initValidationErrors.setCanAutoClosePO(false);
-    //initValidationErrors.setCanAutoClosePO(generalLedgerService.isPOAutoCloseEligible(prd.getPreq()) && (prd.getPreq().getPurchaseOrder().getRecurringPaymentType() == null));
-  }
-
-  initValidationErrors.errorMessages = messages;
-  SERVICELOG.debug("verifyPreqInitialization() ended");    
-  return initValidationErrors;
-}
-*/

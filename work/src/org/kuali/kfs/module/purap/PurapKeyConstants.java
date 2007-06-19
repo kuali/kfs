@@ -81,6 +81,7 @@ public class PurapKeyConstants {
     public static final String ERROR_PAYMENT_REQUEST_REASON_REQUIRED = "error.paymentRequest.reasonRequired";    
     public static final String ERROR_CANCEL_CANCELLED="errors.cancel.cancelled";
     public static final String ERROR_CANCEL_EXTRACTED="errors.cancel.extracted";
+    public static final String ERROR_PAYMENT_REQUEST_NOT_IN_PROCESS = "error.paymentRequest.not.inProcess";
    
     public static final String MESSAGE_DUPLICATE_INVOICE_DATE_AMOUNT="message.duplicate.preq.date.amount";
     public static final String MESSAGE_DUPLICATE_INVOICE_DATE_AMOUNT_CANCELLEDORVOIDED="message.duplicate.invoice.date.amount.cancelledOrVoided";

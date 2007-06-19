@@ -22,6 +22,7 @@ import java.util.List;
 
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.util.TypedArrayList;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.module.purap.PurapConstants;
@@ -64,7 +65,7 @@ public abstract class PurApItemBase extends PersistableBusinessObjectBase implem
         sourceAccountingLines = new TypedArrayList(getAccountingLineClass());
         resetAccount();
 	}
-    
+
 	/**
 	 * Gets the ItemIdentifier attribute.
 	 * 
@@ -544,5 +545,17 @@ public abstract class PurApItemBase extends PersistableBusinessObjectBase implem
 
     public void setItemQuantity(KualiDecimal itemQuantity) {
         this.itemQuantity = itemQuantity;
+    }
+    
+    public boolean isAccountListEmpty() {
+        List<PurApAccountingLine> accounts = getSourceAccountingLines();
+        if (ObjectUtils.isNotNull(accounts)) {
+            for (PurApAccountingLine element : accounts) {
+                if (!element.isEmpty()) {
+                    return false;
+                }
+            }
+        }
+        return true;
     }
 }

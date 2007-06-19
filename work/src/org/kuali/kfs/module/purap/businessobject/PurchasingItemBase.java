@@ -31,8 +31,7 @@ public abstract class PurchasingItemBase extends PurApItemBase implements Purcha
                    ObjectUtils.isNotNull(getItemQuantity()) ||
                    (ObjectUtils.isNotNull(getItemUnitPrice()) && (getItemUnitPrice().compareTo(new BigDecimal("0")) != 0)) ||
                    ObjectUtils.isNotNull(getCapitalAssetTransactionType()) ||
-                   (!this.isAccountListEmpty()));
-                   
+                   (!this.isAccountListEmpty()));                  
     }
 
     public boolean isItemDetailEmpty() {
@@ -44,18 +43,4 @@ public abstract class PurchasingItemBase extends PurApItemBase implements Purcha
         empty &= ObjectUtils.isNull(getItemUnitPrice()) || (getItemUnitPrice().compareTo(new BigDecimal("0")) == 0);
         return empty;
     }
-    
-    
-    public boolean isAccountListEmpty() {
-        List<PurApAccountingLine> accounts = getSourceAccountingLines();
-        if (ObjectUtils.isNotNull(accounts)) {
-            for (PurApAccountingLine element : accounts) {
-                if (!element.isEmpty()) {
-                    return false;
-                }
-            }
-        }
-        return true;
-    }
-
 }

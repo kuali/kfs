@@ -281,7 +281,7 @@
 							</div>
 						</td>
 					</c:if>
-					<c:if test="${itemLine.canInactivateItem}">
+					<c:if test="${amendmentEntry and itemLine.canInactivateItem}">
 						<td class="infoline">
 						    <div align="center">
 						        <html:image

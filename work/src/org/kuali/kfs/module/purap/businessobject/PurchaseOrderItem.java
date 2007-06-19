@@ -348,9 +348,8 @@ public class PurchaseOrderItem extends PurchasingItemBase {
         return PurchaseOrderAccount.class;
     }
     
-    @Override
     public boolean isCanInactivateItem() {
-        if (purchaseOrder == null) {
+        if (versionNumber == null) {
             //don't allow newly added item to be inactivatable.
             return false;
         }

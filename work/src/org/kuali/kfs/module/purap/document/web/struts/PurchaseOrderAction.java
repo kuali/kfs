@@ -36,6 +36,7 @@ import org.kuali.core.question.ConfirmationQuestion;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.GlobalVariables;
+import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.web.struts.form.KualiDocumentFormBase;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.util.SpringServiceLocator;
@@ -853,5 +854,19 @@ public class PurchaseOrderAction extends PurchasingActionBase {
         SpringServiceLocator.getDocumentService().cancelDocument(kualiDocumentFormBase.getDocument(), kualiDocumentFormBase.getAnnotation());
 
         return returnToSender(mapping, kualiDocumentFormBase);
+    }
+
+    @Override
+    public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        PurchaseOrderForm poForm = (PurchaseOrderForm)form;
+        PurchaseOrderDocument po = poForm.getPurchaseOrderDocument();
+        //We have to do this because otherwise the purchaseOrder object of each of the purchase order items
+        //will be null and we need to retrieve some information from the purchaseOrder, so they can't be
+        //null. This is related to KULPURAP-825
+        for (PurchaseOrderItem item : (List<PurchaseOrderItem>)po.getItems()) {
+            item.refreshNonUpdateableReferences();
+        }
+        ActionForward result = super.execute(mapping, form, request, response);
+        return result;
     }
 }

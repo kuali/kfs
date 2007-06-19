@@ -154,6 +154,7 @@ public class SchedulerServiceImpl implements SchedulerService {
             for (String scheduledJobName : scheduler.getJobNames(SCHEDULED_GROUP)) {
                 JobDetail scheduledJobDetail = getScheduledJobDetail(scheduledJobName);
                 if (!SCHEDULE_JOB_NAME.equals(scheduledJobDetail.getName()) && (isPending(scheduledJobDetail) || isScheduled(scheduledJobDetail))) {
+                    LOG.info(scheduledJobDetail.getFullName() + " is incomplete");
                     return true;
                 }
             }
@@ -177,7 +178,9 @@ public class SchedulerServiceImpl implements SchedulerService {
             if (configurationService.getApplicationParameterIndicator(KFSConstants.ParameterGroups.SYSTEM, KFSConstants.SystemGroupParameterNames.BATCH_SCHEDULE_CUTOFF_TIME_IS_NEXT_DAY)) {
                 scheduleCutoffTime.add(GregorianCalendar.DAY_OF_YEAR, 1);
             }
-            return dateTimeService.getCurrentCalendar().after(scheduleCutoffTime);
+            boolean isPastScheduleCutoffTime = dateTimeService.getCurrentCalendar().after(scheduleCutoffTime);
+            LOG.info("isPastScheduleCutoffTime=" + isPastScheduleCutoffTime + " : " + dateTimeService.getCurrentCalendar() + " / " + scheduleCutoffTime);
+            return isPastScheduleCutoffTime;
         }
         catch (NumberFormatException e) {
             throw new RuntimeException("Caught exception while checking whether we've exceeded the schedule cutoff time", e);

@@ -1,5 +1,5 @@
 /*
- * Copyright 2006-2007 The Kuali Foundation.
+ * Copyright 2007 The Kuali Foundation.
  * 
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,22 +24,31 @@ import org.kuali.core.lookup.keyvalues.KeyValuesBase;
 import org.kuali.core.service.KeyValuesService;
 import org.kuali.core.web.ui.KeyLabelPair;
 import org.kuali.kfs.util.SpringServiceLocator;
-import org.kuali.module.purap.PurapConstants.POTransmissionMethods;
-import org.kuali.module.purap.bo.PurchaseOrderTransmissionMethod;
-import org.kuali.module.purap.bo.RequisitionStatus;
+import org.kuali.module.purap.bo.Status;
 
 /**
  * This class...
  * 
  */
-public class RequisitionStatusValuesFinder extends PurApStatusKeyValuesBase {
+public class PurApStatusKeyValuesBase extends KeyValuesBase {
 
-    /**
-     * @see org.kuali.module.purap.lookup.keyvalues.PurApStatusKeyValuesBase#getStatusClass()
+    /*
+     * @see org.kuali.keyvalues.KeyValuesFinder#getKeyValues()
      */
-    @Override
-    public Class getStatusClass() {
-        return RequisitionStatus.class;
+    public List getKeyValues() {
+        KeyValuesService boService = SpringServiceLocator.getKeyValuesService();
+        Collection<Status> statuses = boService.findAll(getStatusClass());
+        List labels = new ArrayList();
+        for (Status status : statuses) {
+            if (status.isActive()) {
+                labels.add(new KeyLabelPair(status.getStatusCode(), status.getStatusDescription()));
+            }
+        }
+        return labels;
     }
-
+    
+    public Class getStatusClass() {
+        // method must be overriden
+        throw new RuntimeException("getStatusClass() method must be overridden to be used");
+    }
 }

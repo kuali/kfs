@@ -15,31 +15,20 @@
  */
 package org.kuali.module.purap.lookup.keyvalues;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.List;
-
-import org.kuali.core.lookup.keyvalues.KeyValuesBase;
-import org.kuali.core.service.KeyValuesService;
-import org.kuali.core.web.ui.KeyLabelPair;
-import org.kuali.kfs.util.SpringServiceLocator;
-import org.kuali.module.purap.PurapConstants.POTransmissionMethods;
-import org.kuali.module.purap.bo.PurchaseOrderTransmissionMethod;
-import org.kuali.module.purap.bo.RequisitionStatus;
+import org.kuali.module.purap.bo.PurchaseOrderStatus;
 
 /**
  * This class...
  * 
  */
-public class RequisitionStatusValuesFinder extends PurApStatusKeyValuesBase {
+public class PurchaseOrderStatusValuesFinder extends PurApStatusKeyValuesBase {
 
     /**
      * @see org.kuali.module.purap.lookup.keyvalues.PurApStatusKeyValuesBase#getStatusClass()
      */
     @Override
     public Class getStatusClass() {
-        return RequisitionStatus.class;
+        return PurchaseOrderStatus.class;
     }
 
 }

@@ -15,9 +15,9 @@
  */
 package org.kuali.module.purap;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 import org.kuali.Constants;
 
@@ -219,6 +219,25 @@ public class PurapConstants {
         public static String QUOTE = "QUOT";
         public static String VOID = "VOID";
         public static String AMENDMENT = "AMND";
+        
+        public static Set INCOMPLETE_STATUSES = new HashSet();
+        static {
+            INCOMPLETE_STATUSES.add(AWAIT_TAX_APRVL);
+            INCOMPLETE_STATUSES.add(AWAIT_BUDGET_APRVL);
+            INCOMPLETE_STATUSES.add(AWAIT_CONTRACTS_GRANTS_APRVL);
+            INCOMPLETE_STATUSES.add(AWAIT_PURCHASING_APRVL);
+            INCOMPLETE_STATUSES.add(AWAIT_SPECIAL_APRVL);
+            INCOMPLETE_STATUSES.add(QUOTE);
+            INCOMPLETE_STATUSES.add(CXML_ERROR);
+            INCOMPLETE_STATUSES.add(PENDING_CXML);
+            INCOMPLETE_STATUSES.add(IN_PROCESS);
+            INCOMPLETE_STATUSES.add(PAYMENT_HOLD);
+            INCOMPLETE_STATUSES.add(PENDING_FAX);
+            INCOMPLETE_STATUSES.add(PENDING_PRINT);
+            INCOMPLETE_STATUSES.add(WAITING_FOR_VENDOR);
+            INCOMPLETE_STATUSES.add(WAITING_FOR_DEPARTMENT);
+        }
+        
     }
 
 
@@ -259,7 +278,7 @@ public class PurapConstants {
         public static String PURCHASE_ORDER_AMENDMENT_DOCUMENT = "KualiPurchaseOrderAmendmentDocument";
     }
 
-    
+
     private static HashMap<String, String> purchaseOrderDocTypes() {
         HashMap<String, String> mapSLF;
         mapSLF = new HashMap<String, String>();
@@ -320,7 +339,6 @@ public class PurapConstants {
     // Weird PaymentTermsType is due on either the 10th or 25th with no discount
     public static String PMT_TERMS_TYP_NO_DISCOUNT_CD = "00N2T";
 
-    
     public static class PaymentRequestStatuses {
         public static String INITIATE = "INIT";
         public static String IN_PROCESS = "INPR";

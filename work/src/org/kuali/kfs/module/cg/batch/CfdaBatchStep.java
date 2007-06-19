@@ -16,6 +16,7 @@
 package org.kuali.module.cg.batch;
 
 import org.kuali.kfs.batch.AbstractStep;
+import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.cg.service.CfdaService;
 import org.kuali.module.cg.service.CfdaUpdateResults;
 import org.kuali.core.service.MailService;
@@ -63,7 +64,9 @@ public class CfdaBatchStep extends AbstractStep {
             List<String> memberNetworkIds = workgroup.getGroupUsers();
             for(String id : memberNetworkIds) {
                 try {
-                    UniversalUser user = universalUserService.getUniversalUser(id.toUpperCase());
+                    UniversalUser user = 
+                        universalUserService.getUniversalUserByAuthenticationUserId(id);
+                    // UniversalUser user = universalUserService.getUniversalUser(id.toUpperCase());
                     message.addToAddress(user.getPersonEmailAddress());
                     // TODO Must remember to take this out.
                     message.addToAddress("lc278@cornell.edu");

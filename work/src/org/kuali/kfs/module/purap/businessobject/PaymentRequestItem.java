@@ -83,7 +83,7 @@ public class PaymentRequestItem extends AccountsPayableItemBase {
     public PurchaseOrderItem getPurchaseOrderItem() {
         if (paymentRequest != null) {
           PurchaseOrderDocument po = paymentRequest.getPurchaseOrderDocument();
-          PurchaseOrderItem poi = (PurchaseOrderItem)po.getItem(this.getItemLineNumber().intValue());
+          PurchaseOrderItem poi = (PurchaseOrderItem)po.getItem(this.getItemLineNumber().intValue() - 1);
           if (poi != null) {
             return poi;
           } else {

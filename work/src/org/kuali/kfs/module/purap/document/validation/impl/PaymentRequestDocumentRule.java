@@ -220,7 +220,7 @@ public class PaymentRequestDocumentRule extends AccountsPayableDocumentRuleBase 
                 //null paymentRequest problem, please tell me so.
                 preqItem.setPaymentRequest((PaymentRequestDocument)purapDocument);
             }
-            validateEachItem(preqItem);
+            valid &= validateEachItem(preqItem);
         }
         return valid;
     }

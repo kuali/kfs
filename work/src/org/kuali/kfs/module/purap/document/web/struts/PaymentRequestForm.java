@@ -156,30 +156,33 @@ public class PaymentRequestForm extends AccountsPayableFormBase {
                 // Only for debuggin and test:
                 String stat = preqDoc.getStatusCode();                
             }else{
-                       
+
                 //if preq holdable and user can put on hold, show button
                 if( SpringServiceLocator.getPaymentRequestService().isPaymentRequestHoldable(preqDoc) ){
                     if( SpringServiceLocator.getPaymentRequestService().canHoldPaymentRequest(preqDoc, GlobalVariables.getUserSession().getUniversalUser() ) ){
-                        addExtraButton("methodToCall.addHoldOnPayment", "${kr.externalizable.images.url}buttonsmall_paymenthold.gif", "Hold");                     
+                        addExtraButton("methodToCall.addHoldOnPayment", "${externalizable.images.url}buttonsmall_hold.gif", "Hold");                     
                     }
                 }else{                    
                     //if person can remove hold
                     if( SpringServiceLocator.getPaymentRequestService().canRemoveHoldPaymentRequest(preqDoc, GlobalVariables.getUserSession().getUniversalUser() )){
-                        addExtraButton("methodToCall.removeHoldFromPayment", "${kr.externalizable.images.url}buttonsmall_removehold.gif", "Remove");
+                        addExtraButton("methodToCall.removeHoldFromPayment", "${externalizable.images.url}buttonsmall_removehold.gif", "Remove");
                     }
                 }    
 
                 //if preq can have a cancel request and user can submit request cancel, show button
                 if( SpringServiceLocator.getPaymentRequestService().canRequestCancelOnPaymentRequest(preqDoc) ){
                     if( SpringServiceLocator.getPaymentRequestService().canUserRequestCancelOnPaymentRequest(preqDoc, GlobalVariables.getUserSession().getUniversalUser() ) ){
-                        addExtraButton("methodToCall.requestCancelOnPayment", "${kr.externalizable.images.url}buttonsmall_cancel.gif", "Cancel");                     
+                        addExtraButton("methodToCall.requestCancelOnPayment", "${externalizable.images.url}buttonsmall_requestcancel.gif", "Cancel");                     
                     }
                 }else{                    
                     //if person can remove request cancel
                     if( SpringServiceLocator.getPaymentRequestService().canUserRemoveRequestCancelOnPaymentRequest(preqDoc, GlobalVariables.getUserSession().getUniversalUser() )){
-                        addExtraButton("methodToCall.removeCancelRequestFromPayment", "${kr.externalizable.images.url}buttonsmall_removehold.gif", "Remove");
+                        addExtraButton("methodToCall.removeCancelRequestFromPayment", "${externalizable.images.url}buttonsmall_remreqcanc.gif", "Remove");
                     }
-                }    
+                }
+                
+                //add the calcuate button
+                addExtraButton("methodToCall.calculate", "${externalizable.images.url}buttonsmall_calculate.gif", "Calculate");                
             }
         }
     }

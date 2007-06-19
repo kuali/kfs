@@ -199,6 +199,67 @@ public class PurchasingAccountsPayableDocumentRuleBase extends AccountingDocumen
         return valid;
     }
 
+    /**
+     * This method performs any validation for the Item tab when the user clicks on Save button.
+     * 
+     * @param purapDocument
+     * @return boolean true if it passes the validation and false otherwise.
+     */
+    public boolean processItemValidationForSave(PurchasingAccountsPayableDocument purapDocument) {
+        boolean valid = true;
+        // Fetch the business rules that are common to the below the line items on all purap documents
+        String documentTypeClassName = purapDocument.getClass().getName();
+        String[] documentTypeArray = StringUtils.split(documentTypeClassName, ".");
+        String documentType = documentTypeArray[documentTypeArray.length - 1];
+        //If it's a credit memo, we'll have to append the source of the credit memo
+        //whether it's created from a Vendor, a PO or a PREQ.
+        if (documentType.equals("CreditMemoDocument")) {
+           
+        }
+        String securityGroup = (String)PurapConstants.ITEM_TYPE_SYSTEM_PARAMETERS_SECURITY_MAP.get(documentType);
+        KualiParameterRule allowsZeroRule = SpringServiceLocator.getKualiConfigurationService().getApplicationParameterRule(securityGroup, PurapConstants.ITEM_ALLOWS_ZERO);
+        KualiParameterRule allowsPositiveRule = SpringServiceLocator.getKualiConfigurationService().getApplicationParameterRule(securityGroup, PurapConstants.ITEM_ALLOWS_POSITIVE);
+        KualiParameterRule allowsNegativeRule = SpringServiceLocator.getKualiConfigurationService().getApplicationParameterRule(securityGroup, PurapConstants.ITEM_ALLOWS_NEGATIVE);
+        KualiParameterRule requiresDescriptionRule = SpringServiceLocator.getKualiConfigurationService().getApplicationParameterRule(securityGroup, PurapConstants.ITEM_REQUIRES_USER_ENTERED_DESCRIPTION);
+
+        for (PurchasingApItem item : purapDocument.getItems()) {
+            //only do this check for below the line items
+            item.refreshNonUpdateableReferences();
+            if (!item.getItemType().isItemTypeAboveTheLineIndicator()) {
+                if (ObjectUtils.isNotNull(item.getItemUnitPrice()) &&(new KualiDecimal(item.getItemUnitPrice())).isZero()) {
+                    if (allowsZeroRule.getRuleActiveIndicator() &&
+                        !allowsZeroRule.getParameterValueSet().contains(item.getItemTypeCode())) {
+                        valid = false;
+                        GlobalVariables.getErrorMap().putError("newPurchasingItemLine", PurapKeyConstants.ERROR_ITEM_BELOW_THE_LINE, item.getItemType().getItemTypeDescription(), "zero");
+                    }
+                }
+                else if (ObjectUtils.isNotNull(item.getItemUnitPrice()) && (new KualiDecimal(item.getItemUnitPrice())).isPositive()) {
+                    if (allowsPositiveRule.getRuleActiveIndicator() &&
+                        !allowsPositiveRule.getParameterValueSet().contains(item.getItemTypeCode())) {
+                        valid = false;
+                        GlobalVariables.getErrorMap().putError("newPurchasingItemLine", PurapKeyConstants.ERROR_ITEM_BELOW_THE_LINE, item.getItemType().getItemTypeDescription(), "positive");
+                    }
+                }
+                else if (ObjectUtils.isNotNull(item.getItemUnitPrice()) && (new KualiDecimal(item.getItemUnitPrice())).isNegative()) {
+                    if (allowsNegativeRule.getRuleActiveIndicator() &&
+                        !allowsNegativeRule.getParameterValueSet().contains(item.getItemTypeCode())) {
+                        valid = false;
+                        GlobalVariables.getErrorMap().putError("newPurchasingItemLine", PurapKeyConstants.ERROR_ITEM_BELOW_THE_LINE, item.getItemType().getItemTypeDescription(), "negative");
+                    }
+                }
+                if (ObjectUtils.isNotNull(item.getItemUnitPrice()) && (new KualiDecimal(item.getItemUnitPrice())).isNonZero() && StringUtils.isEmpty(item.getItemDescription())) {
+                    if (requiresDescriptionRule.getRuleActiveIndicator() &&
+                        requiresDescriptionRule.getParameterValueSet().contains(item.getItemTypeCode())) {
+                        valid = false;
+                        GlobalVariables.getErrorMap().putError("newPurchasingItemLine", PurapKeyConstants.ERROR_ITEM_BELOW_THE_LINE, "The item description of " + item.getItemType().getItemTypeDescription(), "empty");
+                    }
+                }
+            }
+            valid &= verifyUniqueAccountingStrings(item.getSourceAccountingLines(), getItemIdentifier(item));
+        }
+        return valid;
+    }
+    
     public boolean processAddItemBusinessRules(AccountingDocument financialDocument, PurchasingApItem item) {
         // TODO Auto-generated method stub
         return true;
@@ -252,7 +313,8 @@ public class PurchasingAccountsPayableDocumentRuleBase extends AccountingDocumen
         boolean valid = true;
         valid = valid & verifyHasAccounts(purAccounts,itemLineNumber);
         valid = valid & verifyAccountPercent(purAccounts,itemLineNumber);
-        valid = valid & verifyUniqueAccountingStrings(purAccounts, itemLineNumber);
+        //We can't invoke the verifyUniqueAccountingStrings in here because otherwise it would be invoking it more than once, if we're also
+        //calling it upon Save.
         return valid;
     }
 
@@ -348,6 +410,14 @@ public class PurchasingAccountsPayableDocumentRuleBase extends AccountingDocumen
 
     }//end purapCustomizeGeneralLedgerPendingEntry()
 
+    /**
+     * 
+     * This method verifies that the accounting strings entered are unique for each item. 
+     * 
+     * @param purAccounts
+     * @param itemLineNumber
+     * @return
+     */
     protected boolean verifyUniqueAccountingStrings(List<PurApAccountingLine> purAccounts, String itemLineNumber) {
         Set existingAccounts = new HashSet();
         for (PurApAccountingLine acct : purAccounts) {

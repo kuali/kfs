@@ -73,12 +73,18 @@ public class PaymentRequestDocumentRule extends AccountsPayableDocumentRuleBase 
         return valid;
     }
     
-//    @Override
-//    protected boolean processCustomSaveDocumentBusinessRules(Document document) {
-//        boolean isValid = true;
-//        PaymentRequestDocument paymentRequestDocument = (PaymentRequestDocument) document;
-//        return isValid &= processValidation(paymentRequestDocument);
-//    }
+    @Override
+    protected boolean processCustomSaveDocumentBusinessRules(Document document) {
+        boolean isValid = true;
+        PaymentRequestDocument paymentRequestDocument = (PaymentRequestDocument) document;
+        //Had to do it this way because the processItemValidation in the superclass contains
+        //some validations that won't be needed for save (e.g. the total must be 100%), so
+        //that I couldn't call the super.processItemValidation within the processItemValidation
+        //in this class.
+        isValid &= processItemValidationForSave(paymentRequestDocument);
+        isValid &= processItemValidation(paymentRequestDocument);
+        return isValid;
+    }
 
 
     /**
@@ -170,17 +176,18 @@ public class PaymentRequestDocumentRule extends AccountsPayableDocumentRuleBase 
    
     /**
      * This method performs item validations for the rules that are only applicable to Payment Request Document.
+     * In EPIC, we are also doing similar steps as in this method within the validateFormatter, which is
+     * called upon Save. Therefore now we're also calling the same validations upon Save.
      * 
      * @param purapDocument
      * @return
      */
     @Override
     public boolean processItemValidation(PurchasingAccountsPayableDocument purapDocument) {
-        boolean valid = super.processItemValidation(purapDocument);
+        boolean valid = true;
 
         for (Iterator itemIter = purapDocument.getItems().iterator(); itemIter.hasNext(); ) { 
             PaymentRequestItem item = (PaymentRequestItem)itemIter.next(); 
-            //String identifierString = (item.getItemType().isItemTypeAboveTheLineIndicator() ? "Item " + item.getItemLineNumber().toString() : item.getItemType().getItemTypeDescription()); 
             String identifierString = getItemIdentifier(item);
             if (item.getItemTypeCode().equals(PurapConstants.ItemTypeCodes.ITEM_TYPE_ITEM_CODE)) { 
                 valid &= validateItemTypeItems((PaymentRequestItem) item, identifierString); 
@@ -188,6 +195,7 @@ public class PaymentRequestDocumentRule extends AccountsPayableDocumentRuleBase 
             else {
                 valid &= validateNonItemTypeItems((PaymentRequestItem)item, identifierString);
             }
+            
         }
         return valid;
     }
@@ -309,39 +317,10 @@ public class PaymentRequestDocumentRule extends AccountsPayableDocumentRuleBase 
 
             if (((item.getItemExtendedPrice() != null && item.getItemExtendedPrice().isNonZero()) && item.getItemType().isItemTypeAboveTheLineIndicator() && ((!item.getItemType().isQuantityBasedGeneralLedgerIndicator() && (item.getPoOutstandingAmount() != null && item.getPoOutstandingAmount().isNonZero())) || ((item.getItemType().isQuantityBasedGeneralLedgerIndicator()) && ((item.getPoOutstandingQuantity() != null) && (item.getPoOutstandingQuantity().isNonZero()))))) || (((item.getExtendedPrice() != null) && (item.getExtendedPrice().isNonZero())) && (!item.getItemType().isItemTypeAboveTheLineIndicator()))) {
                 // OK TO VALIDATE because we have extended price and an open encumberance on the PO item
-                //TODO: Call the accounting lines validation when it's ready
-//                for (Iterator accountIter = item.getAccounts().iterator(); accountIter.hasNext();) {
-//                    accountLineNbr++;
-//                    PaymentRequestAccount account = (PaymentRequestAccount) accountIter.next();
-//
-//                    if (!(account.isEmpty())) {
-//                        containsAccounts = true;
-//                        Collection temp = chartOfAccountsService.validateCompleteAccountingString(accountLineNbr, identifier, account.getFinancialChartOfAccountsCode(), account.getAccountNumber(), account.getSubAccountNumber(), account.getObjectCode(), account.getSubObjectCode(), account.getProjectCode(), paymentRequest.getPurchaseOrderEncumbranceFiscalYear(), ChartOfAccountsService.USE_CG_GRACE_PERIOD);
-//
-//                        if (account.getAccountLinePercent() == null) {
-//                            ServiceError se = new ServiceError("items", "errors.item.accounting.empty");
-//                            se.addParameter("Total");
-//                            se.addParameter((new Integer(accountLineNbr)).toString());
-//                            se.addParameter(identifier);
-//                        }
-//                        else {
-//                            LOG.debug("validatePaymentRequestReview() The " + identifier + " is adding " + account.getAccountLinePercent() + " to total " + total);
-//                            total = total.add(account.getAccountLinePercent());
-//                        }
-//                    }
-//                }
-
-                if (item.getExtendedPrice().isNonZero()) {
-                    if (!containsAccounts) {
-                        valid = false;
-                        GlobalVariables.getErrorMap().putError("newPurchasingItemLine", PurapKeyConstants.ERROR_ITEM_ACCOUNTING_INCOMPLETE, identifier);
-                    }
-                    else {
-                        if ((ONE_HUNDRED.compareTo(total)) != 0) {
-                            GlobalVariables.getErrorMap().putError("newPurchasingItemLine", PurapKeyConstants.ERROR_ITEM_ACCOUNTING_TOTAL, identifier);
-                        }
-                    }
-                }
+                super.processItemValidation(paymentRequest);
+                //This is calling the validations which in EPIC are located in validateFormatters, but in Kuali they should be covered
+                //within the processItemValidation of this class.
+                processItemValidation(paymentRequest);
             }
             else if (((item.getExtendedPrice() != null) && (item.getExtendedPrice().isNonZero()) && item.getItemType().isItemTypeAboveTheLineIndicator() && ((item.getItemType().isQuantityBasedGeneralLedgerIndicator() && ((item.getPoOutstandingAmount() == null) || (item.getPoOutstandingAmount().isNonZero()))) || ((item.getItemType().isQuantityBasedGeneralLedgerIndicator()) && ((item.getPoOutstandingQuantity() == null) || (item.getPoOutstandingQuantity().isNonZero())))))) {
                 // ERROR because we have extended price and no open encumberance on the PO item

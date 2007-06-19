@@ -135,7 +135,7 @@
 		</table>
 		</div>
 	</kul:tab>
-	<cr:checkLines checkDetailMode="${checkDetailMode}"
+	<fin:checkLines checkDetailMode="${checkDetailMode}"
 		editingMode="${KualiForm.editingMode}"
 		totalAmount="${KualiForm.cashReceiptDocument.currencyFormattedTotalCheckAmount}"
 		displayHidden="${displayHidden}" />

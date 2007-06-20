@@ -92,9 +92,9 @@ public class CorrectionAction extends KualiDocumentActionBase implements KualiTa
     protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CorrectionAction.class);
 
     protected static OriginEntryGroupService originEntryGroupService;
-    private static OriginEntryService originEntryService;
+    protected static OriginEntryService originEntryService;
     protected static DateTimeService dateTimeService;
-    private static KualiConfigurationService kualiConfigurationService;
+    protected static KualiConfigurationService kualiConfigurationService;
 
     public static final String SYSTEM_AND_EDIT_METHOD_ERROR_KEY = "systemAndEditMethod";
     
@@ -145,12 +145,7 @@ public class CorrectionAction extends KualiDocumentActionBase implements KualiTa
                         // if sorting, we'll let the action take care of the sorting
                         KualiTableRenderFormMetadata originEntrySearchResultTableMetadata = rForm.getOriginEntrySearchResultTableMetadata();
                         if (originEntrySearchResultTableMetadata.getPreviouslySortedColumnIndex() != -1) {
-                            List<Column> columns;
-                            if (correctionForm.getDocumentType().equals("LLCP")){
-                                columns = SpringServiceLocator.getCorrectionDocumentService().getLaborTableRenderColumnMetadata(rForm.getDocument().getDocumentNumber());
-                            } else {
-                                columns = SpringServiceLocator.getCorrectionDocumentService().getTableRenderColumnMetadata(rForm.getDocument().getDocumentNumber());
-                            }
+                            List<Column> columns = SpringServiceLocator.getCorrectionDocumentService().getTableRenderColumnMetadata(rForm.getDocument().getDocumentNumber());
                              
                             String propertyToSortName = columns.get(originEntrySearchResultTableMetadata.getPreviouslySortedColumnIndex()).getPropertyName();
                             Comparator valueComparator = columns.get(originEntrySearchResultTableMetadata.getPreviouslySortedColumnIndex()).getValueComparator();
@@ -248,7 +243,7 @@ public class CorrectionAction extends KualiDocumentActionBase implements KualiTa
      * @param correctionForm
      * @return
      */
-    private boolean prepareForRoute(CorrectionForm correctionForm) throws Exception {
+    protected boolean prepareForRoute(CorrectionForm correctionForm) throws Exception {
         CorrectionDocument document = correctionForm.getCorrectionDocument();
 
         // Is there a description?
@@ -1333,7 +1328,7 @@ public class CorrectionAction extends KualiDocumentActionBase implements KualiTa
      * in the form's allEntries attribute.
      * @throws Exception
      */
-    private void loadPersistedOutputGroup(CorrectionForm correctionForm, boolean setSequentialIds) throws Exception {
+    protected void loadPersistedOutputGroup(CorrectionForm correctionForm, boolean setSequentialIds) throws Exception {
 
         CorrectionDocument document = correctionForm.getCorrectionDocument();
 
@@ -1403,7 +1398,7 @@ public class CorrectionAction extends KualiDocumentActionBase implements KualiTa
     /**
      * Validate that choose system and edit method are selected
      */
-    private boolean checkMainDropdown(CorrectionForm errorCorrectionForm) {
+    protected boolean checkMainDropdown(CorrectionForm errorCorrectionForm) {
         LOG.debug("checkMainDropdown() started");
 
         boolean ret = true;
@@ -1431,7 +1426,7 @@ public class CorrectionAction extends KualiDocumentActionBase implements KualiTa
      * @param correctionForm
      * @return
      */
-    private boolean checkOriginEntryGroupSelection(CorrectionForm correctionForm) {
+    protected boolean checkOriginEntryGroupSelection(CorrectionForm correctionForm) {
         LOG.debug("checkOriginEntryGroupSelection() started");
 
         if (correctionForm.getInputGroupId() == null) {
@@ -1448,7 +1443,7 @@ public class CorrectionAction extends KualiDocumentActionBase implements KualiTa
      * @param document
      * @return
      */
-    private boolean checkOriginEntryGroupSelectionBeforeRouting(CorrectionDocument document) {
+    protected boolean checkOriginEntryGroupSelectionBeforeRouting(CorrectionDocument document) {
         if (document.getCorrectionInputGroupId() == null) {
             GlobalVariables.getErrorMap().putError(SYSTEM_AND_EDIT_METHOD_ERROR_KEY, KFSKeyConstants.ERROR_GL_ERROR_CORRECTION_ORIGINGROUP_REQUIRED_FOR_ROUTING);
             return false;
@@ -1536,7 +1531,7 @@ public class CorrectionAction extends KualiDocumentActionBase implements KualiTa
         }
     }
 
-    private void updateEntriesFromCriteria(CorrectionForm correctionForm, boolean clearOutSummary) {
+    protected void updateEntriesFromCriteria(CorrectionForm correctionForm, boolean clearOutSummary) {
         LOG.debug("updateEntriesFromCriteria() started");
 
         CorrectionDocument document = correctionForm.getCorrectionDocument();
@@ -1627,12 +1622,7 @@ public class CorrectionAction extends KualiDocumentActionBase implements KualiTa
 
         KualiTableRenderFormMetadata originEntrySearchResultTableMetadata = correctionForm.getOriginEntrySearchResultTableMetadata();
 
-        List<Column> columns;
-        if (correctionForm.getDocumentType().equals("LLCP")){
-            columns = SpringServiceLocator.getCorrectionDocumentService().getLaborTableRenderColumnMetadata(correctionForm.getDocument().getDocumentNumber());
-        } else {
-            columns = SpringServiceLocator.getCorrectionDocumentService().getTableRenderColumnMetadata(correctionForm.getDocument().getDocumentNumber());
-        }
+        List<Column> columns = SpringServiceLocator.getCorrectionDocumentService().getTableRenderColumnMetadata(correctionForm.getDocument().getDocumentNumber());
         
         String propertyToSortName = columns.get(originEntrySearchResultTableMetadata.getColumnToSortIndex()).getPropertyName();
         Comparator valueComparator = columns.get(originEntrySearchResultTableMetadata.getColumnToSortIndex()).getValueComparator();
@@ -1654,7 +1644,7 @@ public class CorrectionAction extends KualiDocumentActionBase implements KualiTa
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
     
-    private void sortList(List<OriginEntry> list, String propertyToSortName, Comparator valueComparator, boolean sortDescending) {
+    protected void sortList(List<OriginEntry> list, String propertyToSortName, Comparator valueComparator, boolean sortDescending) {
         if (list != null) {
             if (valueComparator instanceof NumericValueComparator || valueComparator instanceof TemporalValueComparator) {
                 // hack alert: NumericValueComparator can only compare strings, so we use the KualiDecimal and Date's built in mechanism compare values using
@@ -1672,12 +1662,8 @@ public class CorrectionAction extends KualiDocumentActionBase implements KualiTa
         KualiTableRenderFormMetadata originEntrySearchResultTableMetadata = correctionForm.getOriginEntrySearchResultTableMetadata();
         if (originEntrySearchResultTableMetadata.getPreviouslySortedColumnIndex() != -1) {
             
-            List<Column> columns;
-            if (correctionForm.getDocumentType().equals("LLCP")){
-                columns = SpringServiceLocator.getCorrectionDocumentService().getLaborTableRenderColumnMetadata(correctionForm.getDocument().getDocumentNumber());
-            } else {
-                columns = SpringServiceLocator.getCorrectionDocumentService().getTableRenderColumnMetadata(correctionForm.getDocument().getDocumentNumber());
-            }
+            List<Column> columns = SpringServiceLocator.getCorrectionDocumentService().getTableRenderColumnMetadata(correctionForm.getDocument().getDocumentNumber());
+            
             String propertyToSortName = columns.get(originEntrySearchResultTableMetadata.getPreviouslySortedColumnIndex()).getPropertyName();
             Comparator valueComparator = columns.get(originEntrySearchResultTableMetadata.getPreviouslySortedColumnIndex()).getValueComparator();
             sortList(correctionForm.getDisplayEntries(), propertyToSortName, valueComparator, originEntrySearchResultTableMetadata.isSortDescending());
@@ -1694,7 +1680,7 @@ public class CorrectionAction extends KualiDocumentActionBase implements KualiTa
      * @return if the system and edit method were changed while not in read only mode and the selectSystemEditMethod method was not being called
      * if true, this is ususally not a good condition 
      */
-    private boolean restoreSystemAndEditMethod(CorrectionForm correctionForm) {
+    protected boolean restoreSystemAndEditMethod(CorrectionForm correctionForm) {
         boolean readOnly = correctionForm.getEditingMode().get(AuthorizationConstants.TransactionalEditMode.FULL_ENTRY) != null;
         if (!"selectSystemEditMethod".equals(correctionForm.getMethodToCall()) && !readOnly) {
             if (!StringUtils.equals(correctionForm.getPreviousEditMethod(), correctionForm.getEditMethod()) || 
@@ -1715,7 +1701,7 @@ public class CorrectionAction extends KualiDocumentActionBase implements KualiTa
      * @param correctionForm
      * @return false if the input group was inappropriately changed without using the selectSystemEditMethod method
      */
-    private boolean restoreInputGroupSelectionForDatabaseEdits(CorrectionForm correctionForm) {
+    protected boolean restoreInputGroupSelectionForDatabaseEdits(CorrectionForm correctionForm) {
         if (!CorrectionDocumentService.SYSTEM_DATABASE.equals(correctionForm.getChooseSystem())) {
             return true;
         }
@@ -1769,7 +1755,7 @@ public class CorrectionAction extends KualiDocumentActionBase implements KualiTa
      * @param correctionForm
      * @return true if we are not in restricted functionality mode or we are not manual editing
      */
-    private boolean checkRestrictedFunctionalityModeForManualEdit(CorrectionForm correctionForm) {
+    protected boolean checkRestrictedFunctionalityModeForManualEdit(CorrectionForm correctionForm) {
         if (correctionForm.isRestrictedFunctionalityMode() && CorrectionDocumentService.CORRECTION_TYPE_MANUAL.equals(correctionForm.getEditMethod())) {
             int recordCountFunctionalityLimit = CorrectionDocumentUtils.getRecordCountFunctionalityLimit();
             
@@ -1786,7 +1772,7 @@ public class CorrectionAction extends KualiDocumentActionBase implements KualiTa
         return true;
     }
     
-    private boolean validGroupsItemsForDocumentSave(CorrectionForm correctionForm) {
+    protected boolean validGroupsItemsForDocumentSave(CorrectionForm correctionForm) {
         // validate the criteria in the "add" groups to ensure that the field name and value are blank
         for (int i = 0; i < correctionForm.getGroupsSize(); i++) {
             GroupHolder groupHolder = correctionForm.getGroupsItem(i);
@@ -1812,7 +1798,7 @@ public class CorrectionAction extends KualiDocumentActionBase implements KualiTa
      * @param correctionForm
      * @return
      */
-    private boolean checkInputGroupPersistedForDocumentSave(CorrectionForm correctionForm) {
+    protected boolean checkInputGroupPersistedForDocumentSave(CorrectionForm correctionForm) {
         boolean present;
         KualiWorkflowDocument workflowDocument = correctionForm.getDocument().getDocumentHeader().getWorkflowDocument(); 
         if (workflowDocument.stateIsInitiated() || (workflowDocument.stateIsSaved() && 

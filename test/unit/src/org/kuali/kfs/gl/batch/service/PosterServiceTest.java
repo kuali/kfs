@@ -584,7 +584,7 @@ public class PosterServiceTest extends OriginEntryTestBase {
 
         // Exclude account
         unitTestSqlDao.sqlCommand("delete from ca_icr_excl_acct_t where account_nbr = '4431406'");
-        unitTestSqlDao.sqlCommand("insert into CA_ICR_EXCL_ACCT_T (FIN_COA_CD, ACCOUNT_NBR, FIN_OBJ_COA_CD, FIN_OBJECT_CD, OBJ_ID, VER_NBR) values ('BL','4431406','IU','2400','" + new Guid().toString() + "',1)");
+        unitTestSqlDao.sqlCommand("insert into CA_ICR_EXCL_ACCT_T (FIN_COA_CD, ACCOUNT_NBR, FIN_OBJ_COA_CD, FIN_OBJECT_CD, OBJ_ID, VER_NBR) values ('BL','4431406','BL','2400','" + new Guid().toString() + "',1)");
 
         // Exclude type
         unitTestSqlDao.sqlCommand("delete from ca_icr_excl_type_t where acct_icr_typ_cd = '23' and fin_coa_cd = 'BL'");

@@ -65,7 +65,8 @@ public class PaymentRequestDocumentRule extends AccountsPayableDocumentRuleBase 
         boolean valid = super.processValidation(purapDocument);
         valid &= processInvoiceValidation((PaymentRequestDocument)purapDocument);
         valid &= processPurchaseOrderIDValidation((PaymentRequestDocument)purapDocument);
-        valid &= processPaymentRequestDateValidation((PaymentRequestDocument)purapDocument);
+        valid &= processPaymentRequestDateValidationForContinue((PaymentRequestDocument)purapDocument);
+        valid &= validatePaymentRequestDates((PaymentRequestDocument)purapDocument);
         return valid;
     }
 
@@ -95,7 +96,7 @@ public class PaymentRequestDocumentRule extends AccountsPayableDocumentRuleBase 
         boolean valid = true;
         valid &= processPurchaseOrderIDValidation((PaymentRequestDocument) apDocument);
         valid &= processInvoiceValidation((PaymentRequestDocument) apDocument);   
-        valid &= processPaymentRequestDateValidation((PaymentRequestDocument) apDocument);
+        valid &= processPaymentRequestDateValidationForContinue((PaymentRequestDocument) apDocument);
         return valid;
     }
 
@@ -192,7 +193,7 @@ public class PaymentRequestDocumentRule extends AccountsPayableDocumentRuleBase 
         return zeroDollar;
     }
     
-    boolean processPaymentRequestDateValidation(PaymentRequestDocument document){       
+    boolean processPaymentRequestDateValidationForContinue(PaymentRequestDocument document){       
         boolean valid = true;
         //invoice date validation
         java.sql.Date invoiceDate = document.getInvoiceDate();
@@ -200,8 +201,13 @@ public class PaymentRequestDocumentRule extends AccountsPayableDocumentRuleBase 
             GlobalVariables.getErrorMap().putError(PurapPropertyConstants.INVOICE_DATE, PurapKeyConstants.ERROR_INVALID_INVOICE_DATE);
             valid &= false;
         }
+        return valid;
+    }
+    
+    boolean validatePaymentRequestDates(PaymentRequestDocument document) {
+        boolean valid = true;
         //pay date in the past validation
-        if (validateDateUsingGivenDate(document.getPaymentRequestPayDate())) {
+        if (!validateDateUsingGivenDate(document.getPaymentRequestPayDate())) {
             valid &= false;
             GlobalVariables.getErrorMap().putError(PurapPropertyConstants.PAYMENT_REQUEST_PAY_DATE, PurapKeyConstants.ERROR_INVALID_PAY_DATE);
         }
@@ -224,19 +230,9 @@ public class PaymentRequestDocumentRule extends AccountsPayableDocumentRuleBase 
     public boolean processItemValidation(PurchasingAccountsPayableDocument purapDocument) {
         boolean valid = true;
         PaymentRequestDocument paymentRequestDocument = (PaymentRequestDocument)purapDocument;
+        paymentRequestDocument.fixPreqItemReference();
         for (PurchasingApItem item : purapDocument.getItems() ) { 
             PaymentRequestItem preqItem = (PaymentRequestItem)item;
-            if (preqItem.getPurapDocumentIdentifier() == null) {
-                //This means it's a new payment request that has not
-                //been saved to the database, so we'll set it here.
-                //TODO: If anyone finds any other solution than
-                //having to call setPaymentRequest to prevent the
-                //null paymentRequest problem, please tell me so.
-                preqItem.setPaymentRequest(paymentRequestDocument);
-            }
-            else if (preqItem.getPaymentRequest() == null) {
-                item.refreshNonUpdateableReferences();
-            }
             valid &= validateEachItem(paymentRequestDocument, preqItem);
         }
         return valid;
@@ -379,6 +375,7 @@ public class PaymentRequestDocumentRule extends AccountsPayableDocumentRuleBase 
 
     boolean validatePaymentRequestReview(PaymentRequestDocument paymentRequest) {
         boolean valid = true;
+        paymentRequest.fixPreqItemReference();
         //TODO: uncomment or replace this with a service invocation when Chris/Dan finished
         //the calculate method.
         //this.calculatePaymentRequest(paymentRequest, false);
@@ -395,7 +392,7 @@ public class PaymentRequestDocumentRule extends AccountsPayableDocumentRuleBase 
 
         for (Iterator itemIter = paymentRequest.getItems().iterator(); itemIter.hasNext();) {
             PaymentRequestItem item = (PaymentRequestItem) itemIter.next();
-            item.refreshNonUpdateableReferences();
+
             boolean containsAccounts = false;
             int accountLineNbr = 0;
 

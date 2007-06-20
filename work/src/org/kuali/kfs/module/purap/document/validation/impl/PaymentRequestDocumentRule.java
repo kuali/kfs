@@ -388,14 +388,26 @@ public class PaymentRequestDocumentRule extends AccountsPayableDocumentRuleBase 
             BigDecimal total = BigDecimal.ZERO;
             LOG.debug("validatePaymentRequestReview() The " + identifier + " is getting the total percent field set to " + BigDecimal.ZERO);
 
-            if (((item.getItemExtendedPrice() != null && item.getItemExtendedPrice().isNonZero()) && item.getItemType().isItemTypeAboveTheLineIndicator() && ((!item.getItemType().isQuantityBasedGeneralLedgerIndicator() && (item.getPoOutstandingAmount() != null && item.getPoOutstandingAmount().isNonZero())) || ((item.getItemType().isQuantityBasedGeneralLedgerIndicator()) && ((item.getPoOutstandingQuantity() != null) && (item.getPoOutstandingQuantity().isNonZero()))))) || (((item.getExtendedPrice() != null) && (item.getExtendedPrice().isNonZero())) && (!item.getItemType().isItemTypeAboveTheLineIndicator()))) {
+            if ( ( ( item.getItemExtendedPrice() != null && item.getItemExtendedPrice().isNonZero()) && 
+                   item.getItemType().isItemTypeAboveTheLineIndicator() && 
+                   ( ( !item.getItemType().isQuantityBasedGeneralLedgerIndicator() && (item.getPoOutstandingAmount() != null && item.getPoOutstandingAmount().isNonZero())) || 
+                     ( ( item.getItemType().isQuantityBasedGeneralLedgerIndicator()) && 
+                       ( (item.getPoOutstandingQuantity() != null) && (item.getPoOutstandingQuantity().isNonZero()))))) || 
+                 ( ( ( item.getExtendedPrice() != null) && (item.getExtendedPrice().isNonZero())) && 
+                   ( !item.getItemType().isItemTypeAboveTheLineIndicator()))) {
                 // OK TO VALIDATE because we have extended price and an open encumberance on the PO item
                 super.processItemValidation(paymentRequest);
                 //This is calling the validations which in EPIC are located in validateFormatters, but in Kuali they should be covered
                 //within the processItemValidation of this class.
                 validateEachItem(paymentRequest, item);
             }
-            else if (((item.getExtendedPrice() != null) && (item.getExtendedPrice().isNonZero()) && item.getItemType().isItemTypeAboveTheLineIndicator() && ((item.getItemType().isQuantityBasedGeneralLedgerIndicator() && ((item.getPoOutstandingAmount() == null) || (item.getPoOutstandingAmount().isNonZero()))) || ((item.getItemType().isQuantityBasedGeneralLedgerIndicator()) && ((item.getPoOutstandingQuantity() == null) || (item.getPoOutstandingQuantity().isNonZero())))))) {
+            else if ( ( item.getExtendedPrice() != null && 
+                      item.getExtendedPrice().isNonZero() && 
+                      item.getItemType().isItemTypeAboveTheLineIndicator() && 
+                      ( ( item.getItemType().isQuantityBasedGeneralLedgerIndicator() && 
+                          (item.getPoOutstandingAmount() == null || item.getPoOutstandingAmount().isNonZero())) || 
+                        ( item.getItemType().isQuantityBasedGeneralLedgerIndicator() && 
+                          ( item.getPoOutstandingQuantity() == null || item.getPoOutstandingQuantity().isNonZero()))))) {
                 // ERROR because we have extended price and no open encumberance on the PO item
                 // this error should have been caught at an earlier level
                 if (item.getItemType().isQuantityBasedGeneralLedgerIndicator()) {

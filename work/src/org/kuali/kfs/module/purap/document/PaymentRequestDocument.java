@@ -822,6 +822,34 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
     }
 
     /**
+     * This method is a workaround for some problems we've found because the payment request is not saved
+     * before dealing with related objects.  This could be removed if we either saved after continue or
+     * had a reference to the actual po in the preqitems (instead of always going through the document.
+     */
+    public void fixPreqItemReference() {
+        for (PaymentRequestItem item : (List<PaymentRequestItem>)this.getItems()) {
+            if(ObjectUtils.isNull(item.getPaymentRequest())){
+                if(ObjectUtils.isNull(getPurapDocumentIdentifier())){
+                    //even though this isn't saved we still need this back reference
+                    item.setPaymentRequest(this);
+                } else {
+                    if(ObjectUtils.isNull(item.getPurapDocumentIdentifier())) {
+                        //this shouldn't be needed but just in case fix the doc #'s
+                        item.setPurapDocumentIdentifier(this.getPurapDocumentIdentifier());
+                    }
+                    item.refreshNonUpdateableReferences();
+                    
+                }
+                
+            } else {
+                //do nothing and break for performance reasons, also assume if one is set all are
+                //if you notice problems with missing open qty on certain lines, check this code
+                break;
+            }
+        }
+    }
+    
+    /**
      * @see org.kuali.module.purap.document.PurchasingAccountsPayableDocumentBase#getSourceAccountingLineClass()
      */
 //    @Override

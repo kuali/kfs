@@ -181,21 +181,7 @@ public class PaymentRequestAction extends AccountsPayableActionBase {
         //We have to do this because otherwise the paymentrequest on the item is null
         //once we get the constraints removed to allow saving on continue
         //see KULPURAP-825 for some related comments
-        for (PaymentRequestItem item : (List<PaymentRequestItem>)preq.getItems()) {
-            if(ObjectUtils.isNull(item.getPaymentRequest())){
-                if(ObjectUtils.isNull(item.getPurapDocumentIdentifier())){
-                    //even though this isn't saved we still need this back reference
-                    item.setPaymentRequest(preq);
-                } else {
-                    item.refreshNonUpdateableReferences();
-                }
-                
-            } else {
-                //do nothing and break for performance reasons, also assume if one is set all are
-                //if you notice problems with missing open qty on certain lines, check this code
-                break;
-            }
-        }
+        preq.fixPreqItemReference();
         
         return action;
     }

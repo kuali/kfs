@@ -210,7 +210,7 @@
                   <html:hidden property="previousInputGroupId"/>
                   <br/><br/>
                   <c:if test="${KualiForm.editMethod eq 'R'}">
-                    <html:image property="methodToCall.confirmDeleteDocument.anchor${currentTabIndex}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-remgrpproc.gif" styleClass="tinybutton" alt="deleteDocument" title="Remove Group From Processing" />
+                    <html:image property="methodToCall.confirmDeleteDocument.anchor${currentTabIndex}" src="${ConfigProperties.externalizable.images.url}tinybutton-remgrpproc.gif" styleClass="tinybutton" alt="deleteDocument" title="Remove Group From Processing" />
                   </c:if>
                   <c:if test="${KualiForm.editMethod eq 'M' or KualiForm.editMethod eq 'C'}">
                     <html:image property="methodToCall.loadGroup.anchor${currentTabIndex}" src="${ConfigProperties.externalizable.images.url}tinybutton-loadgroup.gif" styleClass="tinybutton" alt="ShowAllEntries" title="Show All Entries"/>

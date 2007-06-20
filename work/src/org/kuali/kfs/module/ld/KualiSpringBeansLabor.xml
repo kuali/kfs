@@ -582,4 +582,14 @@
 	
 	<bean id="laborDao" parent="platformAwareDao" class="org.kuali.module.labor.dao.ojb.LaborDaoOjb" />
 	
+	<bean id="laborCorrectionDocumentService" class="org.kuali.module.labor.service.impl.LaborCorrectionDocumentServiceImpl">
+		<property name="laborOriginEntryService">
+			<ref bean="laborOriginEntryService" />
+		</property>
+			<property name="originEntryGroupService">
+			<ref bean="glOriginEntryGroupService" />
+		</property>
+		
+		<property name="llcpDirectoryName" value="${staging.directory}/GLCP"/>
+	</bean>
 </beans>

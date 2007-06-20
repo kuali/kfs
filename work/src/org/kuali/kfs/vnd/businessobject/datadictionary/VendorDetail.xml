@@ -252,7 +252,7 @@
             </lookupFields>
 
             <resultFields>
-                <field attributeName="altVendorName" />
+                <field attributeName="vendorName" />
                 <field attributeName="vendorAliases" />
             	<field attributeName="vendorNumber" />
             	<field attributeName="activeIndicator" />

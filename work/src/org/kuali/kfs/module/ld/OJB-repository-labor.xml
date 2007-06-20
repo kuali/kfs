@@ -1688,4 +1688,77 @@
 	</reference-descriptor>
 </class-descriptor>
 
+<class-descriptor class="org.kuali.module.labor.document.LaborCorrectionDocument" table="GL_COR_DOC_T">
+    <field-descriptor name="documentNumber" column="FDOC_NBR" jdbc-type="VARCHAR" primarykey="true" index="true" />
+    <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+    <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
+    <field-descriptor name="correctionTypeCode" column="GL_COR_TYP_CD" jdbc-type="VARCHAR" />
+    <field-descriptor name="correctionSelection" column="GL_COR_SELECT_IND" jdbc-type="CHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion" />
+    <field-descriptor name="correctionFileDelete" column="GL_COR_FL_DEL_IND" jdbc-type="CHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion" />
+    <field-descriptor name="correctionRowCount" column="GL_COR_ROW_CNT" jdbc-type="INTEGER" />
+    <field-descriptor name="correctionChangeGroupNextLineNumber" column="GL_COR_CHG_GRP_NXT_LN_NBR" jdbc-type="INTEGER" />
+    <field-descriptor name="correctionDebitTotalAmount" column="GL_COR_DEBIT_TOT_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion" />
+    <field-descriptor name="correctionCreditTotalAmount" column="GL_COR_CRDT_TOT_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion" />
+    <field-descriptor name="correctionInputFileName" column="GL_COR_INP_FL_NM" jdbc-type="VARCHAR" />
+    <field-descriptor name="correctionOutputFileName" column="GL_COR_OUT_FL_NM" jdbc-type="VARCHAR" />
+    <field-descriptor name="correctionScriptText" column="GL_COR_SCR_TXT" jdbc-type="CLOB" />
+    <field-descriptor name="correctionInputGroupId" column="GL_COR_INP_GRP_ID" jdbc-type="INTEGER" />
+    <field-descriptor name="correctionOutputGroupId" column="GL_COR_OUT_GRP_ID" jdbc-type="INTEGER" />
+    <reference-descriptor name="documentHeader" class-ref="org.kuali.core.bo.DocumentHeader" auto-retrieve="true" auto-update="object" auto-delete="object">
+        <foreignkey field-ref="documentNumber" />
+    </reference-descriptor>
+    <collection-descriptor name="correctionChangeGroup" element-class-ref="org.kuali.module.gl.bo.CorrectionChangeGroup" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" proxy="false" auto-retrieve="true" auto-update="object" auto-delete="object">
+        <orderby name="correctionChangeGroupLineNumber" sort="ASC" />
+        <inverse-foreignkey field-ref="documentNumber" />
+    </collection-descriptor>
+</class-descriptor>
+<class-descriptor class="org.kuali.module.gl.bo.CorrectionChangeGroup" table="GL_COR_CHG_GRP_T">
+    <field-descriptor name="documentNumber" column="FDOC_NBR" jdbc-type="VARCHAR" primarykey="true" index="true" />
+    <field-descriptor name="correctionChangeGroupLineNumber" column="GL_COR_CHG_GRP_LN_NBR" jdbc-type="INTEGER" primarykey="true" index="true" />
+    <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
+    <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+    <field-descriptor name="correctionCriteriaNextLineNumber" column="GL_COR_CRTA_NXT_LN_NBR" jdbc-type="INTEGER" />
+    <field-descriptor name="correctionChangeNextLineNumber" column="GL_COR_CHG_NXT_LN_NBR" jdbc-type="INTEGER" />
+    <collection-descriptor name="correctionCriteria" element-class-ref="org.kuali.module.gl.bo.CorrectionCriteria" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" proxy="false" auto-retrieve="true" auto-update="object" auto-delete="object">
+        <orderby name="correctionCriteriaLineNumber" sort="ASC" />
+        <inverse-foreignkey field-ref="documentNumber" />
+        <inverse-foreignkey field-ref="correctionChangeGroupLineNumber" />
+    </collection-descriptor>
+    <collection-descriptor name="correctionChange" element-class-ref="org.kuali.module.gl.bo.CorrectionChange" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" proxy="false" auto-retrieve="true" auto-update="object" auto-delete="object">
+        <orderby name="correctionChangeLineNumber" sort="ASC" />
+        <inverse-foreignkey field-ref="documentNumber" />
+        <inverse-foreignkey field-ref="correctionChangeGroupLineNumber" />
+    </collection-descriptor>
+</class-descriptor>
+
+<class-descriptor class="org.kuali.module.gl.bo.CorrectionCriteria" table="GL_COR_CRTA_T">
+    <field-descriptor name="documentNumber" column="FDOC_NBR" jdbc-type="VARCHAR" primarykey="true" index="true" />
+    <field-descriptor name="correctionChangeGroupLineNumber" column="GL_COR_CHG_GRP_LN_NBR" jdbc-type="INTEGER" primarykey="true" index="true" />
+    <field-descriptor name="correctionCriteriaLineNumber" column="GL_COR_CRTA_LN_NBR" jdbc-type="INTEGER" primarykey="true" index="true" />
+    <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
+    <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+    <field-descriptor name="correctionStartPosition" column="GL_COR_STRT_POS" jdbc-type="INTEGER" />
+    <field-descriptor name="correctionEndPosition" column="GL_COR_END_POS" jdbc-type="INTEGER" />
+    <field-descriptor name="correctionOperatorCode" column="GL_COR_OPR_CD" jdbc-type="VARCHAR" />
+    <field-descriptor name="correctionFieldValue" column="GL_COR_FIELD_VAL" jdbc-type="VARCHAR" />
+    <field-descriptor name="correctionFieldName" column="GL_COR_FIELD_NM" jdbc-type="VARCHAR" />
+    <reference-descriptor name="correctionChangeGroup" class-ref="org.kuali.module.gl.bo.CorrectionChangeGroup" auto-retrieve="true" auto-update="none" auto-delete="none">
+        <foreignkey field-ref="documentNumber" />
+        <foreignkey field-ref="correctionChangeGroupLineNumber" />
+    </reference-descriptor>
+</class-descriptor>
+
+<class-descriptor class="org.kuali.module.gl.bo.CorrectionChange" table="GL_COR_CHG_T">
+    <field-descriptor name="documentNumber" column="FDOC_NBR" jdbc-type="VARCHAR" primarykey="true" index="true" />
+    <field-descriptor name="correctionChangeGroupLineNumber" column="GL_COR_CHG_GRP_LN_NBR" jdbc-type="INTEGER" primarykey="true" index="true" />
+    <field-descriptor name="correctionChangeLineNumber" column="GL_COR_CHG_LN_NBR" jdbc-type="INTEGER" primarykey="true" index="true" />
+    <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
+    <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+    <field-descriptor name="correctionStartPosition" column="GL_COR_STRT_POS" jdbc-type="INTEGER" />
+    <field-descriptor name="correctionEndPosition" column="GL_COR_END_POS" jdbc-type="INTEGER" />
+    <field-descriptor name="correctionFieldValue" column="GL_COR_FIELD_VAL" jdbc-type="VARCHAR" />
+    <field-descriptor name="correctionFieldName" column="GL_COR_FIELD_NM" jdbc-type="VARCHAR" />
+</class-descriptor>
+
+
 </descriptor-repository>

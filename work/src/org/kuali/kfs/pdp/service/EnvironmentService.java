@@ -10,4 +10,5 @@ package org.kuali.module.pdp.service;
  */
 public interface EnvironmentService {
   public String getEnvironment();
+  public boolean isProduction();
 }

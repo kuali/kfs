@@ -191,11 +191,11 @@ public class PaymentFileServiceImpl implements PaymentFileService, BeanFactoryAw
     CustomerProfile customer = null;
     MailMessage message = new MailMessage();
 
-    String env = environmentService.getEnvironment().toUpperCase();
-    if ("PRD".equals(env)){
-      message.setSubject("PDP --- Payment file NOT loaded");
+    if ( environmentService.isProduction() ) {
+        message.setSubject("PDP --- Payment file NOT loaded");
     } else {
-      message.setSubject(env + "-PDP --- Payment file NOT loaded");
+        String env = environmentService.getEnvironment();
+        message.setSubject(env + "-PDP --- Payment file NOT loaded");
     }
     StringBuffer body = new StringBuffer();
 
@@ -298,12 +298,14 @@ public class PaymentFileServiceImpl implements PaymentFileService, BeanFactoryAw
 
     CustomerProfile customer = null;
     MailMessage message = new MailMessage();
-    String env = environmentService.getEnvironment().toUpperCase();
-    if ("PRD".equals(env)){
-      message.setSubject("PDP --- Payment file loaded");
+
+    if ( environmentService.isProduction() ) {
+        message.setSubject("PDP --- Payment file loaded");
     } else {
-      message.setSubject(env + "-PDP --- Payment file loaded");
+        String env = environmentService.getEnvironment();
+        message.setSubject(env + "-PDP --- Payment file loaded");
     }
+
     StringBuffer body = new StringBuffer();
 
     String ccAddresses = kualiConfigurationService.getApplicationParameterValue(PdpConstants.PDP_APPLICATION, PdpConstants.ApplicationParameterKeys.SOFT_EDIT_CC);
@@ -360,12 +362,14 @@ public class PaymentFileServiceImpl implements PaymentFileService, BeanFactoryAw
   
   private void sendThresholdEmail(String type, DataLoadHandler dataLoadHandler, CustomerProfile customer, XmlHeader header, XmlTrailer trailer){
     MailMessage message = new MailMessage();
-    String env = environmentService.getEnvironment().toUpperCase();
-    if ("PRD".equals(env)){
-      message.setSubject("PDP --- Payment file loaded with Threshold Warnings");
+
+    if ( environmentService.isProduction() ) {
+        message.setSubject("PDP --- Payment file loaded with Threshold Warnings");
     } else {
-      message.setSubject(env + "-PDP --- Payment file loaded with Threshold Warnings");
+        String env = environmentService.getEnvironment();
+        message.setSubject(env + "-PDP --- Payment file loaded with Threshold Warnings");
     }
+
     StringBuffer body = new StringBuffer();
     
     body.append("The following payment file was loaded\n\n");
@@ -425,12 +429,14 @@ public class PaymentFileServiceImpl implements PaymentFileService, BeanFactoryAw
 
     CustomerProfile customer = null;
     MailMessage message = new MailMessage();
-    String env = environmentService.getEnvironment().toUpperCase();
-    if ("PRD".equals(env)){
-      message.setSubject("PDP --- Payment file loaded with payment(s) held for Tax");
+
+    if ( environmentService.isProduction() ) {
+        message.setSubject("PDP --- Payment file loaded with payment(s) held for Tax");
     } else {
-      message.setSubject(env + "-PDP --- Payment file loaded with payment(s) held for Tax");
+        String env = environmentService.getEnvironment();
+        message.setSubject(env + "-PDP --- Payment file loaded with payment(s) held for Tax");
     }
+
     StringBuffer body = new StringBuffer();
 
     String taxEmail = kualiConfigurationService.getApplicationParameterValue(PdpConstants.PDP_APPLICATION,PdpConstants.ApplicationParameterKeys.TAX_GROUP_EMAIL_ADDRESS);

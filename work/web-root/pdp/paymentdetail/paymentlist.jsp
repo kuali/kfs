@@ -1,15 +1,20 @@
-
-<%@ page language="java"%>
-
-<%@ taglib uri="http://jakarta.apache.org/struts/tags-bean" prefix="bean" %>
-<%@ taglib uri="http://jakarta.apache.org/struts/tags-html" prefix="html" %>
-<%@ taglib uri="http://jakarta.apache.org/struts/tags-logic" prefix="logic" %>
-<%@ taglib uri="http://jakarta.apache.org/struts/tags-tiles" prefix="tiles" %>
-<%@ taglib uri="http://jakarta.apache.org/struts/tags-template" prefix="template" %>
-<%@ taglib uri="http://jakarta.apache.org/struts/tags-nested" prefix="nested" %>
+<%--
+ Copyright 2007 The Kuali Foundation.
+ 
+ Licensed under the Educational Community License, Version 1.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+ 
+ http://www.opensource.org/licenses/ecl1.php
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+--%>
+<%@ include file="/jsp/kfs/kfsTldHeader.jsp"%>
 <%@ taglib uri="/WEB-INF/app.tld" prefix="app" %>
-<%@ taglib uri="http://java.sun.com/jstl/core_rt" prefix="c" %>
-<%@ taglib uri="http://java.sun.com/jstl/fmt_rt" prefix="fmt" %>
 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html:html locale="true">
@@ -30,7 +35,7 @@
 				</c:if>
   		
   	</strong></h1> <br>
-<jsp:include page="${request.contextPath}/TestEnvironmentWarning.jsp" flush="true"/>
+<jsp:include page="${request.contextPath}/pdp/TestEnvironmentWarning.jsp" flush="true"/>
 <table width="100%" border=0 cellspacing=0 cellpadding=0>
   <tr>
     <td width="20">&nbsp;</td>
@@ -40,15 +45,15 @@
           <td>
           	Return to:&nbsp; 
           	<c:if test="${batchSearchResults != null}" >
-				    	&nbsp; <a href="<%= request.getContextPath().toString() %>/batchsearch.do?btnBack_batch=param">Batch Search Results</a> 
+				    	&nbsp; <a href="<%= request.getContextPath().toString() %>/pdp/batchsearch.do?btnBack_batch=param">Batch Search Results</a> 
 				      &nbsp; ::
-				      &nbsp; <a href="<%= request.getContextPath().toString() %>/batchsearch.do?btnBack_batchIndiv=param">Individual Search Results</a>
+				      &nbsp; <a href="<%= request.getContextPath().toString() %>/pdp/batchsearch.do?btnBack_batchIndiv=param">Individual Search Results</a>
 				    </c:if>
 				    <c:if test="${batchSearchResults == null}" >
-				      &nbsp; <a href="<%= request.getContextPath().toString() %>/paymentsearch.do?btnBack_Indiv=param">Individual Search Results</a>
+				      &nbsp; <a href="<%= request.getContextPath().toString() %>/pdp/paymentsearch.do?btnBack_Indiv=param">Individual Search Results</a>
 				    </c:if>
 				      &nbsp; ::
-				      &nbsp; <a href="<%= request.getContextPath().toString() %>/paymentdetail.do?btnSummaryTab=param">Payment Detail Screen</a>
+				      &nbsp; <a href="<%= request.getContextPath().toString() %>/pdp/paymentdetail.do?btnSummaryTab=param">Payment Detail Screen</a>
           </td>
           <td>
             <div align=right>
@@ -70,42 +75,42 @@
 			        <tr>
 								<td class="tab-notselected" >
 			            <div align="center">
-		             		<a href="<%= request.getContextPath().toString() %>/paymentdetail.do?btnSummaryTab=param" class="HdrScrLnk">Summary</a>
+		             		<a href="<%= request.getContextPath().toString() %>/pdp/paymentdetail.do?btnSummaryTab=param" class="HdrScrLnk">Summary</a>
 			            </div>
 			          </td>
 								<td class="tab-notselected" >
 			            <div align="center">
-		             		<a href="<%= request.getContextPath().toString() %>/paymentdetail.do?btnBatchTab=param" class="HdrScrLnk">Batch</a>
+		             		<a href="<%= request.getContextPath().toString() %>/pdp/paymentdetail.do?btnBatchTab=param" class="HdrScrLnk">Batch</a>
 			            </div>
 			          </td>
 								<td class="tab-notselected" >
 			            <div align="center">
-		             		<a href="<%= request.getContextPath().toString() %>/paymentdetail.do?btnPaymentTab=param" class="HdrScrLnk">Payment</a>
+		             		<a href="<%= request.getContextPath().toString() %>/pdp/paymentdetail.do?btnPaymentTab=param" class="HdrScrLnk">Payment</a>
 			            </div>
 			          </td>
 								<td class="tab-notselected" >
 			            <div align="center">
-		             		<a href="<%= request.getContextPath().toString() %>/paymentdetail.do?btnPayeeTab=param" class="HdrScrLnk">Payee</a>
+		             		<a href="<%= request.getContextPath().toString() %>/pdp/paymentdetail.do?btnPayeeTab=param" class="HdrScrLnk">Payee</a>
 			            </div>
 			          </td>
 								<td class="tab-notselected" >
 									<div align=center>
-		             		<a href="<%= request.getContextPath().toString() %>/paymentdetail.do?btnAccountingTab=param" class="HdrScrLnk">Accounting</a>
+		             		<a href="<%= request.getContextPath().toString() %>/pdp/paymentdetail.do?btnAccountingTab=param" class="HdrScrLnk">Accounting</a>
 			            </div>
 			        	</td>
 								<td class="tab-notselected" >
 									<div align=center>
-		             		<a href="<%= request.getContextPath().toString() %>/paymentdetail.do?btnAchInfoTab=param" class="HdrScrLnk">ACH Info</a>
+		             		<a href="<%= request.getContextPath().toString() %>/pdp/paymentdetail.do?btnAchInfoTab=param" class="HdrScrLnk">ACH Info</a>
 			            </div>
 			        	</td>								
 								<td class="tab-notselected" >
 			            <div align=center>
-		             		<a href="<%= request.getContextPath().toString() %>/paymentdetail.do?btnHistoryTab=param" class="HdrScrLnk">History</a>
+		             		<a href="<%= request.getContextPath().toString() %>/pdp/paymentdetail.do?btnHistoryTab=param" class="HdrScrLnk">History</a>
 			            </div>
 			          </td>
 								<td class="tab-notselected" >
 			            <div align=center>
-		             		<a href="<%= request.getContextPath().toString() %>/paymentdetail.do?btnNotesTab=param" class="HdrScrLnk">Notes</a>
+		             		<a href="<%= request.getContextPath().toString() %>/pdp/paymentdetail.do?btnNotesTab=param" class="HdrScrLnk">Notes</a>
 			            </div>
 			          </td>
 			    		</tr>
@@ -277,7 +282,7 @@
         <tbody>
 						<tr>
 							<td nowrap=nowrap class="datacell">
-								<a href="<%= request.getContextPath().toString() %>/paymentdetail.do?DetailId=<c:out value="${PaymentDetail.id}"/>"><c:out value="${PaymentDetail.id}"/></a>&nbsp;
+								<a href="<%= request.getContextPath().toString() %>/pdp/paymentdetail.do?DetailId=<c:out value="${PaymentDetail.id}"/>"><c:out value="${PaymentDetail.id}"/></a>&nbsp;
 							</td>
 							<td nowrap=nowrap class="datacell">
 								<c:out value="${PaymentDetail.custPaymentDocNbr}" />&nbsp;
@@ -376,7 +381,7 @@
 						  <c:if test="${item.id != PaymentDetail.id}">
 							<tr>
 								<td nowrap=nowrap class="datacell">
-									<a href="<%= request.getContextPath().toString() %>/paymentdetail.do?DetailId=<c:out value="${item.id}"/>"><c:out value="${item.id}"/></a>&nbsp;
+									<a href="<%= request.getContextPath().toString() %>/pdp/paymentdetail.do?DetailId=<c:out value="${item.id}"/>"><c:out value="${item.id}"/></a>&nbsp;
 								</td>
 								<td nowrap=nowrap class="datacell">
 									<c:out value="${item.custPaymentDocNbr}" />&nbsp;
@@ -445,7 +450,7 @@
 						  <c:if test="${item.id != PaymentDetail.id}">
 							<tr>
 								<td nowrap=nowrap class="datacell">
-									<a href="<%= request.getContextPath().toString() %>/paymentdetail.do?DetailId=<c:out value="${item.id}"/>"><c:out value="${item.id}"/></a>&nbsp;
+									<a href="<%= request.getContextPath().toString() %>/pdp/paymentdetail.do?DetailId=<c:out value="${item.id}"/>"><c:out value="${item.id}"/></a>&nbsp;
 								</td>
 								<td nowrap=nowrap class="datacell">
 									<c:out value="${item.custPaymentDocNbr}" />&nbsp;
@@ -483,6 +488,6 @@
 	  <td width="10">&nbsp;</td>
   </tr>
 </table>    	
-<c:import url="/backdoor.jsp"/>     
+<c:import url="/pdp/backdoor.jsp"/>     
   </body>
 </html:html>

@@ -412,12 +412,12 @@ public class PaymentMaintenanceServiceImpl implements PaymentMaintenanceService 
     public void sendCancelEmail(PaymentGroup paymentGroup, String note, PdpUser user) {
       LOG.debug("sendCancelEmail() starting");
       MailMessage message = new MailMessage();
-      
-      String env = environmentService.getEnvironment().toUpperCase();
-      if ("PRD".equals(env)){
-        message.setSubject("Cancelled Payments");
+
+      if ( environmentService.isProduction() ) {
+          message.setSubject("PDP --- Cancelled Payment by Tax");
       } else {
-        message.setSubject(env + "-PDP --- Cancelled Payment by Tax");
+          String env = environmentService.getEnvironment();
+          message.setSubject(env + "-PDP --- Cancelled Payment by Tax");
       }
       
       CustomerProfile cp = paymentGroup.getBatch().getCustomerProfile();

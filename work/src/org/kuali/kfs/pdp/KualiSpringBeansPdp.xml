@@ -53,14 +53,10 @@
 
 	<bean id="pdpAchAccountNumberDao" parent="platformAwareDao" class="org.kuali.module.pdp.dao.ojb.AchAccountNumberDaoOjb"/>
 	<bean id="pdpBankDao" parent="platformAwareDao" class="org.kuali.module.pdp.dao.ojb.BankDaoOjb">
-		<property name="universalUserService">
-			<ref bean="universalUserService" />
-		</property>
+		<property name="universalUserService" ref="universalUserService" />
 	</bean>
 	<bean id="pdpBatchMaintenanceDao" parent="platformAwareDao" class="org.kuali.module.pdp.dao.ojb.BatchMaintenanceDaoOjb">
-		<property name="referenceService">
-			<ref bean="pdpReferenceService" />
-		</property>
+		<property name="referenceService" ref="pdpReferenceService" />
 	</bean>
 	<bean id="pdpBatchSearchDao" parent="platformAwareDao" class="org.kuali.module.pdp.dao.ojb.BatchSearchDaoOjb">
 		<property name="universalUserService" ref="universalUserService" />
@@ -117,7 +113,7 @@
 		<property name="disbursementNumberRangeDao" ref="pdpDisbursementNumberRangeDao"/>
 	</bean>
 	<bean id="pdpEnvironmentService" class="org.kuali.module.pdp.service.impl.EnvironmentServiceImpl">
-		<property name="environment" value="DEV"/>
+		<property name="kualiConfigurationService" ref="kualiConfigurationService" />
 	</bean>
 	<bean id="pdpFormatService" class="org.kuali.module.pdp.service.impl.FormatServiceImpl">
 		<property name="physicalCampusDao" ref="pdpPhysicalCampusDao"/>

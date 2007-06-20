@@ -58,8 +58,6 @@ public interface CorrectionDocumentService {
      */
     public List<Column> getTableRenderColumnMetadata(String docId);
     
-    public List<Column> getLaborTableRenderColumnMetadata(String docId);
-    
     /**
      * This method persists an Iterator of input origin entries for a document that is in the initiated or saved state
      * 

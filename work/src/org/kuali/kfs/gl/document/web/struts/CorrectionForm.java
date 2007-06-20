@@ -459,10 +459,6 @@ public class CorrectionForm extends KualiDocumentFormBase implements CorrectionD
         return SpringServiceLocator.getCorrectionDocumentService().getTableRenderColumnMetadata(getDocument().getDocumentNumber());
     }
     
-    public List<Column> getLaborTableRenderColumnMetadata(){
-        return SpringServiceLocator.getCorrectionDocumentService().getLaborTableRenderColumnMetadata(getDocument().getDocumentNumber());
-    }
-
     /**
      * Gets the restrictedFunctionalityMode attribute. 
      * @return Returns the restrictedFunctionalityMode.

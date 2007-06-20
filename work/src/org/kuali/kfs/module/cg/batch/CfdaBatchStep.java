@@ -19,6 +19,7 @@ import org.kuali.kfs.batch.AbstractStep;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.cg.service.CfdaService;
 import org.kuali.module.cg.service.CfdaUpdateResults;
+import org.kuali.test.fixtures.UserNameFixture;
 import org.kuali.core.service.MailService;
 import org.kuali.core.service.KualiGroupService;
 import org.kuali.core.service.UniversalUserService;
@@ -26,6 +27,7 @@ import org.kuali.core.mail.MailMessage;
 import org.kuali.core.mail.InvalidAddressException;
 import org.kuali.core.exceptions.GroupNotFoundException;
 import org.kuali.core.exceptions.UserNotFoundException;
+import org.kuali.core.bo.user.AuthenticationUserId;
 import org.kuali.core.bo.user.KualiGroup;
 import org.kuali.core.bo.user.UniversalUser;
 import org.apache.log4j.Logger;
@@ -64,9 +66,9 @@ public class CfdaBatchStep extends AbstractStep {
             List<String> memberNetworkIds = workgroup.getGroupUsers();
             for(String id : memberNetworkIds) {
                 try {
+                    AuthenticationUserId authId = new AuthenticationUserId(id.toUpperCase());
                     UniversalUser user = 
-                        universalUserService.getUniversalUserByAuthenticationUserId(id);
-                    // UniversalUser user = universalUserService.getUniversalUser(id.toUpperCase());
+                        universalUserService.getUniversalUser(authId);
                     message.addToAddress(user.getPersonEmailAddress());
                     // TODO Must remember to take this out.
                     message.addToAddress("lc278@cornell.edu");

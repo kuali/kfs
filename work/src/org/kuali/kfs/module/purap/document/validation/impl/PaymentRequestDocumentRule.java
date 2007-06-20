@@ -16,7 +16,9 @@
 package org.kuali.module.purap.rules;
 
 import java.math.BigDecimal;
+import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
 import java.util.Iterator;
@@ -192,10 +194,20 @@ public class PaymentRequestDocumentRule extends AccountsPayableDocumentRuleBase 
     
     boolean processPaymentRequestDateValidation(PaymentRequestDocument document){       
         boolean valid = true;
+        //invoice date validation
         java.sql.Date invoiceDate = document.getInvoiceDate();
         if (ObjectUtils.isNotNull(invoiceDate) && SpringServiceLocator.getPaymentRequestService().isInvoiceDateAfterToday(invoiceDate)) {
             GlobalVariables.getErrorMap().putError(PurapPropertyConstants.INVOICE_DATE, PurapKeyConstants.ERROR_INVALID_INVOICE_DATE);
             valid &= false;
+        }
+        //pay date in the past validation
+        if (validateDateUsingGivenDate(document.getPaymentRequestPayDate())) {
+            valid &= false;
+            GlobalVariables.getErrorMap().putError(PurapPropertyConstants.PAYMENT_REQUEST_PAY_DATE, PurapKeyConstants.ERROR_INVALID_PAY_DATE);
+        }
+        //pay date more than 60 days warning
+        if (isPayDateOver60Days(document)) {
+            GlobalVariables.getMessageList().add(PurapKeyConstants.WARNING_PAYMENT_REQUEST_PAYDATE_OVER_60_DAYS);
         }
         return valid;
     }
@@ -221,6 +233,9 @@ public class PaymentRequestDocumentRule extends AccountsPayableDocumentRuleBase 
                 //having to call setPaymentRequest to prevent the
                 //null paymentRequest problem, please tell me so.
                 preqItem.setPaymentRequest(paymentRequestDocument);
+            }
+            else if (preqItem.getPaymentRequest() == null) {
+                item.refreshNonUpdateableReferences();
             }
             valid &= validateEachItem(paymentRequestDocument, preqItem);
         }
@@ -391,8 +406,7 @@ public class PaymentRequestDocumentRule extends AccountsPayableDocumentRuleBase 
             if ( ( ( item.getItemExtendedPrice() != null && item.getItemExtendedPrice().isNonZero()) && 
                    item.getItemType().isItemTypeAboveTheLineIndicator() && 
                    ( ( !item.getItemType().isQuantityBasedGeneralLedgerIndicator() && (item.getPoOutstandingAmount() != null && item.getPoOutstandingAmount().isNonZero())) || 
-                     ( ( item.getItemType().isQuantityBasedGeneralLedgerIndicator()) && 
-                       ( (item.getPoOutstandingQuantity() != null) && (item.getPoOutstandingQuantity().isNonZero()))))) || 
+                     ( item.getItemType().isQuantityBasedGeneralLedgerIndicator() && (item.getPoOutstandingQuantity() != null && item.getPoOutstandingQuantity().isNonZero())))) || 
                  ( ( ( item.getExtendedPrice() != null) && (item.getExtendedPrice().isNonZero())) && 
                    ( !item.getItemType().isItemTypeAboveTheLineIndicator()))) {
                 // OK TO VALIDATE because we have extended price and an open encumberance on the PO item
@@ -404,20 +418,22 @@ public class PaymentRequestDocumentRule extends AccountsPayableDocumentRuleBase 
             else if ( ( item.getExtendedPrice() != null && 
                       item.getExtendedPrice().isNonZero() && 
                       item.getItemType().isItemTypeAboveTheLineIndicator() && 
-                      ( ( item.getItemType().isQuantityBasedGeneralLedgerIndicator() && 
-                          (item.getPoOutstandingAmount() == null || item.getPoOutstandingAmount().isNonZero())) || 
+                      ( ( !item.getItemType().isQuantityBasedGeneralLedgerIndicator() && 
+                          (item.getPoOutstandingAmount() == null || item.getPoOutstandingAmount().isZero())) || 
                         ( item.getItemType().isQuantityBasedGeneralLedgerIndicator() && 
-                          ( item.getPoOutstandingQuantity() == null || item.getPoOutstandingQuantity().isNonZero()))))) {
+                          ( item.getPoOutstandingQuantity() == null || item.getPoOutstandingQuantity().isZero()))))) {
                 // ERROR because we have extended price and no open encumberance on the PO item
                 // this error should have been caught at an earlier level
                 if (item.getItemType().isQuantityBasedGeneralLedgerIndicator()) {
                     String error = "Payment Request " + paymentRequest.getPurapDocumentIdentifier() + ", " + identifier + " has extended price '" + item.getExtendedPrice() + "' but outstanding encumbered amount " + item.getPoOutstandingAmount();
                     LOG.error("validatePaymentRequestReview() " + error);
+                    //TODO: I think here we should just display error instead of throwing PurError
                     throw new PurError(error);
                 }
                 else {
                     String error = "Payment Request " + paymentRequest.getPurapDocumentIdentifier() + ", " + identifier + " has extended price '" + item.getExtendedPrice() + "' but outstanding encumbered quantity " + item.getPoOutstandingQuantity();
                     LOG.error("validatePaymentRequestReview() " + error);
+                    //TODO: I think here we should just display error instead of throwing PurError
                     throw new PurError(error);
                 }
             }
@@ -437,6 +453,58 @@ public class PaymentRequestDocumentRule extends AccountsPayableDocumentRuleBase 
 
         }
         return valid;
+    }
+    
+    private boolean validateDateUsingGivenDate( Date payDate) {
+        LOG.debug("validatePayDateChange() enter method.");
+        boolean valid = true;
+        if (payDate != null) {
+            Calendar c = SpringServiceLocator.getDateTimeService().getCurrentCalendar();
+            c.set(Calendar.HOUR, 12);
+            c.set(Calendar.MINUTE, 0);
+            c.set(Calendar.SECOND, 0);
+            c.set(Calendar.MILLISECOND, 0);
+            c.set(Calendar.AM_PM, Calendar.AM);
+            Timestamp timeNow = new Timestamp(c.getTime().getTime());
+            Calendar c2 = SpringServiceLocator.getDateTimeService().getCalendar(payDate);
+            c2.set(Calendar.HOUR, 11);
+            c2.set(Calendar.MINUTE, 59);
+            c2.set(Calendar.SECOND, 59);
+            c2.set(Calendar.MILLISECOND, 59);
+            c2.set(Calendar.AM_PM, Calendar.PM);
+            Timestamp testTime = new Timestamp(c2.getTime().getTime());
+            if (timeNow.compareTo(testTime) > 0) {
+                valid = false;
+            }
+        }
+        return valid;
+    }
+    
+    public boolean isPayDateOver60Days(PaymentRequestDocument paymentRequest) {
+        if (paymentRequest.getPaymentRequestPayDate() != null) {
+            // Calendar c is a holder for today's date + 60 days
+            Calendar c = SpringServiceLocator.getDateTimeService().getCurrentCalendar();
+            c.set(Calendar.HOUR, 12);
+            c.set(Calendar.MINUTE, 0);
+            c.set(Calendar.SECOND, 0);
+            c.set(Calendar.MILLISECOND, 0);
+            c.set(Calendar.AM_PM, Calendar.AM);
+            c.add(Calendar.DATE, 60);
+            Timestamp testTime = new Timestamp(c.getTime().getTime());
+            // Calendar c2 is a holder for the paymentRequestPayDate
+            Calendar c2 = SpringServiceLocator.getDateTimeService().getCalendar(paymentRequest.getPaymentRequestPayDate());
+            c2.set(Calendar.HOUR, 11);
+            c2.set(Calendar.MINUTE, 59);
+            c2.set(Calendar.SECOND, 59);
+            c2.set(Calendar.MILLISECOND, 59);
+            c2.set(Calendar.AM_PM, Calendar.PM);
+            Timestamp payDate = new Timestamp(c2.getTime().getTime());
+            // return whether paymentRequestPayDate is after today's date
+            return (payDate.compareTo(testTime) > 0);
+        }
+        else {
+            return false;
+        }
     }
 
 }

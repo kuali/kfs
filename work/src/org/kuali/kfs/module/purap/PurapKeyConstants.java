@@ -77,6 +77,7 @@ public class PurapKeyConstants {
     public static final String ERROR_PURCHASE_ORDER_NOT_OPEN="error.invoice.purchaseOrder.notOpen";
     public static final String ERROR_PURCHASE_ORDER_IS_PENDING="error.invoice.purchaseOrder.isPending";
     public static final String ERROR_INVALID_INVOICE_DATE="errors.invalid.invoice.date";
+    public static final String ERROR_INVALID_PAY_DATE="errors.invalid.pay.date";
     public static final String ERROR_NO_ITEMS_TO_INVOICE="errors.invoice.items.noneLeft";
     public static final String ERROR_PAYMENT_REQUEST_REASON_REQUIRED = "error.paymentRequest.reasonRequired";    
     public static final String ERROR_CANCEL_CANCELLED="errors.cancel.cancelled";
@@ -106,6 +107,8 @@ public class PurapKeyConstants {
 
     public static final String WARNING_ENCUMBER_NEXT_FY="warning.encumber.nextFY";
     public static final String WARNING_CANCEL_REOPEN_PO="warning.cancel.reOpenPO";
+    public static final String WARNING_PAYMENT_REQUEST_PAYDATE_OVER_60_DAYS="warning.paymentRequest.payDate.over.60days";
+    
     
     //Item and Accounting line
     public static final String ERROR_ITEM_AMOUNT_BELOW_ZERO="errors.item.amount.belowZero";

@@ -123,7 +123,9 @@
                 <lookupField attributeName="proposalEndingDate" required="false" />
                 <lookupField attributeName="proposalProjectTitle" required="false" />
 				<lookupField attributeName="grantNumber" required="false" />
-                <lookupField attributeName="proposalStatusCode" required="false" />
+                <lookupField attributeName="proposalStatusCode" required="false">
+					<defaultValue>P</defaultValue>
+				</lookupField>
                 <lookupField attributeName="federalPassThroughAgencyNumber" required="false" />
                 <lookupField attributeName="proposalPurposeCode" required="false" />
                 <lookupField attributeName="proposalFellowName" required="false" />

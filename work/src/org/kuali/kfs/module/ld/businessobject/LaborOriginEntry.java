@@ -952,11 +952,51 @@ public class LaborOriginEntry extends OriginEntry implements LaborTransaction {
             throw new LoadException("Invalid Transaction Date");
         }
         
-        setTransactionTotalHours(new BigDecimal(getValue(line, 213, 222)));
-        setPayrollEndDateFiscalYear(new Integer(getValue(line, 222, 226)));
+        if (getValue(line, 213, 222).equals("")){
+            setTransactionTotalHours(new BigDecimal(0));
+        } else {
+            try {
+                setTransactionTotalHours(new BigDecimal(getValue(line, 213, 222)));
+                
+            }
+            catch (NumberFormatException e) {
+                //TODO: change the error constants 
+                GlobalVariables.getErrorMap().putError("fileUpload", KFSKeyConstants.ERROR_NUMBER_FORMAT_ORIGIN_ENTRY_FROM_TEXT_FILE, new String[] { new Integer(lineNumber).toString(), "Transaction Total Hours" });
+                throw new LoadException("Invalid Transaction Total Hours");
+            }
+        }
+        
+        if (getValue(line, 222, 226).equals("")){
+            setPayrollEndDateFiscalYear(new Integer(0));
+        } else {
+            try {
+                setPayrollEndDateFiscalYear(new Integer(getValue(line, 222, 226)));
+                
+            }
+            catch (NumberFormatException e) {
+                //TODO: change the error constants 
+                GlobalVariables.getErrorMap().putError("fileUpload", KFSKeyConstants.ERROR_NUMBER_FORMAT_ORIGIN_ENTRY_FROM_TEXT_FILE, new String[] { new Integer(lineNumber).toString(), "Payroll End Date Fiscal Year" });
+                throw new LoadException("Invalid Payroll EndDate Fiscal Year");
+            }
+        }
+        
         setPayrollEndDateFiscalPeriodCode(getValue(line, 226, 228));
         setEmplid(getValue(line, 228, 239));
-        setEmployeeRecord(new Integer(getValue(line, 239, 242)));
+        
+        if (getValue(line, 222, 226).equals("")){
+            setEmployeeRecord(new Integer(0));
+        } else {
+            try {
+                setEmployeeRecord(new Integer(getValue(line, 239, 242)));
+                
+            }
+            catch (NumberFormatException e) {
+                //TODO: change the error constants 
+                GlobalVariables.getErrorMap().putError("fileUpload", KFSKeyConstants.ERROR_NUMBER_FORMAT_ORIGIN_ENTRY_FROM_TEXT_FILE, new String[] { new Integer(lineNumber).toString(), "Employee Record" });
+                throw new LoadException("Invalid Employee Record");
+            }
+        }
+        
         setEarnCode(getValue(line, 242, 245));
         setPayGroup(getValue(line, 245, 248));
         setSalaryAdministrationPlan(getValue(line, 248, 252));

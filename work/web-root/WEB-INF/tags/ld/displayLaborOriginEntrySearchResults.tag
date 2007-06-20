@@ -20,7 +20,7 @@
                 <c:if test="${KualiForm.editableFlag == true}">
                     <th>Manual Edit</th>
                 </c:if>
-                <c:forEach items="${KualiForm.laborTableRenderColumnMetadata}" var="column">
+                <c:forEach items="${KualiForm.tableRenderColumnMetadata}" var="column">
                     <th class="sortable">
                         <c:out value="${column.columnTitle}"/><c:if test="${empty column.columnTitle}">$nbsp;</c:if>
                     </th>
@@ -30,7 +30,7 @@
                 <c:if test="${KualiForm.editableFlag == true and KualiForm.showOutputFlag == false}">
                     <th>&nbsp;</th>
                 </c:if>
-                <c:forEach items="${KualiForm.laborTableRenderColumnMetadata}" var="column" varStatus="columnLoopStatus">
+                <c:forEach items="${KualiForm.tableRenderColumnMetadata}" var="column" varStatus="columnLoopStatus">
                     <th class="sortable">
                         <c:if test="${column.sortable}">
                             <input name="methodToCall.sort.<c:out value="${columnLoopStatus.index}"/>.anchor${currentTabIndex}.x" type="image" src="${ConfigProperties.kr.externalizable.images.url}sort.gif" alt="Sort column ${column.columnTitle}" valign="bottom" title="Sort column ${column.columnTitle}">

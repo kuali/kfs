@@ -16,25 +16,14 @@
 
 package org.kuali.module.labor.web.struts.form;
 
-import java.util.ArrayList;
-import java.util.Enumeration;
 import java.util.List;
 
-import javax.servlet.http.HttpServletRequest;
-
-import org.apache.commons.lang.StringUtils;
-import org.apache.struts.upload.FormFile;
-import org.kuali.Constants;
-import org.kuali.core.document.authorization.TransactionalDocumentActionFlags;
-import org.kuali.core.web.struts.form.KualiTableRenderFormMetadata;
 import org.kuali.core.web.ui.Column;
-import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.util.SpringServiceLocator;
-import org.kuali.module.gl.bo.OriginEntry;
 import org.kuali.module.gl.document.CorrectionDocument;
 import org.kuali.module.gl.web.struts.form.CorrectionForm;
-import org.kuali.module.gl.web.struts.form.GroupHolder;
 import org.kuali.module.labor.bo.LaborOriginEntry;
+import org.kuali.module.labor.document.LaborCorrectionDocument;
 
 public class LaborCorrectionForm extends CorrectionForm {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(LaborCorrectionForm.class);
@@ -52,6 +41,7 @@ public class LaborCorrectionForm extends CorrectionForm {
         super();
         laborEntryForManualEdit = new LaborOriginEntry();
         laborEntryForManualEdit.setEntryId(0);
+        setDocument(new LaborCorrectionDocument());
         
     }
     public void clearForm() {
@@ -125,5 +115,11 @@ public class LaborCorrectionForm extends CorrectionForm {
     }
     public void setLaborEntryUniversityFiscalYear(String laborEntryUniversityFiscalYear) {
         this.laborEntryUniversityFiscalYear = laborEntryUniversityFiscalYear;
+    }
+    public LaborCorrectionDocument getLaborCorrectionDocument() {
+        return (LaborCorrectionDocument)getDocument();
+    }
+    public List<Column> getTableRenderColumnMetadata() {
+        return SpringServiceLocator.getLaborCorrectionDocumentService().getTableRenderColumnMetadata(getDocument().getDocumentNumber());
     }
  }

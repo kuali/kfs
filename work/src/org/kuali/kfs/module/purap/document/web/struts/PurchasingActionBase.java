@@ -15,6 +15,8 @@
  */
 package org.kuali.module.purap.web.struts.action;
 
+import java.math.BigDecimal;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -233,7 +235,8 @@ public class PurchasingActionBase extends PurchasingAccountsPayableActionBase {
         if (((PurchasingAccountsPayableDocument) purchasingForm.getDocument()).getItems().size() > 0) {
             if (purchasingForm.getAccountDistributionsourceAccountingLines().size() > 0) {
                 for (PurchasingApItem item : ((PurchasingAccountsPayableDocument) purchasingForm.getDocument()).getItems()) {
-                    if (item.getSourceAccountingLines().size() == 0) {
+                    BigDecimal zero = new BigDecimal(0);
+                    if (item.getSourceAccountingLines().size() == 0 && item.getItemUnitPrice() != null && zero.compareTo(item.getItemUnitPrice()) < 0) {
                         item.getSourceAccountingLines().addAll(purchasingForm.getAccountDistributionsourceAccountingLines());
                     }
                 }

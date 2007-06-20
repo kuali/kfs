@@ -22,6 +22,7 @@
 
         <inquiry>
             <title>Proposal Inquiry</title>
+			<inquirableClass>org.kuali.module.cg.maintenance.ProposalInquirable</inquirableClass>
 
             <inquirySections>
                 <inquirySection title="Proposal Details">
@@ -99,9 +100,21 @@
                         </inquiryCollection>
                     </inquiryFields>
                 </inquirySection>
+                <inquirySection title="Research Risks">
+                    <inquiryFields>
+                        <inquiryCollection name="proposalResearchRisks" businessObjectClass="org.kuali.module.cg.bo.ProposalResearchRisk">
+                            <field attributeName="researchRiskType.researchRiskTypeDescription" />
+                            <field attributeName="isActive" />
+                            <inquirySummaryFields>
+                                <inquirySummaryField attributeName="researchRiskType.researchRiskTypeDescription" />
+                                <inquirySummaryField attributeName="isActive" />
+                            </inquirySummaryFields>
+                        </inquiryCollection>
+                    </inquiryFields>
+                </inquirySection>
             </inquirySections>
         </inquiry>
-
+        
         <lookup>
         	<lookupableID>proposalLookupable</lookupableID>
             <title>Proposal Lookup</title>

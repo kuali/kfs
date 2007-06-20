@@ -170,7 +170,7 @@
                         <c:choose>
                           <c:when test="${!viewOnly}">
       		                <html:select property="document.researchTypeCode" style="${researchTypeCodeTextStyle}" disabled="${viewOnly}"> 
-      		                  <html:option value="">select:</html:option> 
+      		                  <html:option value="">&nbsp;</html:option> 
       		                  <c:set var="routingFormResearchTypeCodes" value="${KualiForm.document.routingFormResearchTypeCodes}"/> 
       		                  <html:options collection="routingFormResearchTypeCodes" property="researchTypeCode" labelProperty="researchType.researchTypeDescription"/> 
       		                </html:select>

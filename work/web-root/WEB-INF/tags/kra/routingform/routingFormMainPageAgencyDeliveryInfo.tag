@@ -76,7 +76,7 @@
                   <c:choose>
                     <c:when test="${!viewOnly}">
                       <html:select property="document.routingFormAgency.routingFormDueDateTypeCode" style="${routingFormDueDateTypeCodeTextStyle}" disabled="${viewOnly}">
-                        <html:option value="">select:</html:option>
+                        <html:option value="">&nbsp;</html:option>
                         <c:set var="routingFormDueDateTypes" value="${KualiForm.document.routingFormAgency.routingFormDueDateTypes}"/>
                         <html:options collection="routingFormDueDateTypes" property="dueDateTypeCode" labelProperty="dueDateType.dueDateDescription"/>
                       </html:select>

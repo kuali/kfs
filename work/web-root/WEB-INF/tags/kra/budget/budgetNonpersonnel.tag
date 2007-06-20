@@ -102,7 +102,7 @@
 		                <input type="hidden" name="newNonpersonnel[${i}].budgetNonpersonnelCategoryCode" value="${nonpersonnelCategory.code}" />
 
                     <html:select property="newNonpersonnel[${i}].budgetNonpersonnelSubCategoryCode" >
-                      <html:option value="">select:</html:option>
+                      <html:option value="">&nbsp;</html:option>
                       <logic:iterate id="nonpersonnelObjectCode" name="nonpersonnelCategory" property="nonpersonnelObjectCodes">
                         <html:option value="${nonpersonnelObjectCode.nonpersonnelSubCategory.code}">${nonpersonnelObjectCode.nonpersonnelSubCategory.name}</html:option>
                       </logic:iterate>

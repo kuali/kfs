@@ -76,7 +76,7 @@
 				    <c:set var="newPersonRoleCodeTextStyle" value="background-color: red"/>
 				  </c:if>
                   <html:select property="newRoutingFormPerson.personRoleCode" style="${newPersonRoleCodeTextStyle}" disabled="${viewOnly}"> 
-                    <html:option value="">select:</html:option> 
+                    <html:option value="">&nbsp;</html:option> 
                     <c:set var="routingFormPersonRoles" value="${KualiForm.document.routingFormPersonRoles}"/> 
                     <html:options collection="routingFormPersonRoles" property="personRoleCode" labelProperty="personRole.personRoleDescription"/> 
                   </html:select>
@@ -153,7 +153,7 @@
                     <c:choose>
                       <c:when test="${!viewOnly}">
     	                <html:select property="document.routingFormPersonnel[${status.index}].personRoleCode" style="${personRoleCodeTextStyle}" disabled="${viewOnly}"> 
-      	                  <html:option value="">select:</html:option> 
+      	                  <html:option value="">&nbsp;</html:option> 
       	                  <c:set var="routingFormPersonRoles" value="${KualiForm.document.routingFormPersonRoles}"/> 
       	                  <html:options collection="routingFormPersonRoles" property="personRoleCode" labelProperty="personRole.personRoleDescription"/> 
        	                </html:select>

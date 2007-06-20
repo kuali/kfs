@@ -378,20 +378,12 @@ public class PaymentRequestDocumentRule extends AccountsPayableDocumentRuleBase 
             GlobalVariables.getMessageList().add(PurapKeyConstants.WARNING_ENCUMBER_NEXT_FY);
         }
 
-        int itemNbr = 0;
-
         for (Iterator itemIter = paymentRequest.getItems().iterator(); itemIter.hasNext();) {
             PaymentRequestItem item = (PaymentRequestItem) itemIter.next();
-
+            item.refreshNonUpdateableReferences();
             boolean containsAccounts = false;
             int accountLineNbr = 0;
-            if (item != null) {
-                itemNbr = item.getItemLineNumber().intValue();
-            }
-            else {
-                // old way, should never be called
-                itemNbr++;
-            }
+
             String identifier = getItemIdentifier(item);
             BigDecimal total = BigDecimal.ZERO;
             LOG.debug("validatePaymentRequestReview() The " + identifier + " is getting the total percent field set to " + BigDecimal.ZERO);
@@ -432,13 +424,7 @@ public class PaymentRequestDocumentRule extends AccountsPayableDocumentRuleBase 
             }
 
         }
-        validateNegativeAccountSummaryRecords(paymentRequest);
         return valid;
     }
 
-    //TODO: implement this method
-    private boolean validateNegativeAccountSummaryRecords(PaymentRequestDocument paymentRequest) {
-        return true;
-    }
-    
 }

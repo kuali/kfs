@@ -307,8 +307,7 @@ public class PaymentRequestItem extends AccountsPayableItemBase {
 	/**
 	 * Sets the paymentRequest attribute.
 	 * 
-	 * @param paymentRequest The paymentRequest to set.
-	 * @deprecated
+	 * @param paymentRequest The paymentRequest to set
 	 */
 	public void setPaymentRequest(PaymentRequestDocument paymentRequest) {
 		this.paymentRequest = paymentRequest;

@@ -16,6 +16,7 @@
 package org.kuali.module.purap.web.struts.action;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -36,6 +37,7 @@ import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.PurapKeyConstants;
 import org.kuali.module.purap.PurapConstants.PREQDocumentsStrings;
+import org.kuali.module.purap.bo.PaymentRequestItem;
 import org.kuali.module.purap.document.PaymentRequestDocument;
 import org.kuali.module.purap.document.PurchaseOrderDocument;
 import org.kuali.module.purap.question.SingleConfirmationQuestion;
@@ -174,6 +176,26 @@ public class PaymentRequestAction extends AccountsPayableActionBase {
         //generate the extra buttons
         PaymentRequestForm preqForm = (PaymentRequestForm) form;
         preqForm.showButtons();
+        PaymentRequestDocument preq = preqForm.getPaymentRequestDocument();
+
+        //We have to do this because otherwise the paymentrequest on the item is null
+        //once we get the constraints removed to allow saving on continue
+        //see KULPURAP-825 for some related comments
+        for (PaymentRequestItem item : (List<PaymentRequestItem>)preq.getItems()) {
+            if(ObjectUtils.isNull(item.getPaymentRequest())){
+                if(ObjectUtils.isNull(item.getPurapDocumentIdentifier())){
+                    //even though this isn't saved we still need this back reference
+                    item.setPaymentRequest(preq);
+                } else {
+                    item.refreshNonUpdateableReferences();
+                }
+                
+            } else {
+                //do nothing and break for performance reasons, also assume if one is set all are
+                //if you notice problems with missing open qty on certain lines, check this code
+                break;
+            }
+        }
         
         return action;
     }

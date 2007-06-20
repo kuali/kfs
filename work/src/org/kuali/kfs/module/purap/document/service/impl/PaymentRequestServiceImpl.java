@@ -38,6 +38,7 @@ import org.kuali.core.service.NoteService;
 import org.kuali.core.service.UniversalUserService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.workflow.service.WorkflowDocumentService;
 import org.kuali.kfs.bo.SourceAccountingLine;
 import org.kuali.kfs.util.SpringServiceLocator;
@@ -443,7 +444,7 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
       processDateCalendar.set(Calendar.AM_PM, Calendar.AM);
 
       // Handle this weird one.  Due on the 10th or the 25th
-      if ("".equals(terms.getVendorPaymentTermsCode())) {
+      if (ObjectUtils.isNull(terms) || StringUtils.isEmpty(terms.getVendorPaymentTermsCode())) {
         // Payment terms are empty
         invoiceDateCalendar.add(Calendar.DATE,PurapConstants.PREQ_PAY_DATE_CALCULATION_DAYS);
         

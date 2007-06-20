@@ -115,7 +115,7 @@
 			    <div align="right">
 			        <kul:htmlControlAttribute
 				        attributeEntry="${itemAttributes.extendedPrice}"
-				        property="document.item[${ctr}].extendedPrice" readOnly="${true}" />
+				        property="document.item[${ctr}].extendedPrice" />
 			    </div>
 			</td>
 			<td class="infoline">

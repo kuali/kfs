@@ -91,6 +91,26 @@ public class LaborOriginEntryServiceImpl implements LaborOriginEntryService {
         return newOriginEntryGroup;
     }
 
+    
+    
+    /**
+     * @see org.kuali.module.gl.service.OriginEntryService#copyEntries(java.sql.Date, java.lang.String, boolean, boolean, boolean, java.util.Iterator)
+     */
+    public OriginEntryGroup copyEntries(Date date, String sourceCode, boolean valid, boolean process, boolean scrub, Iterator<LaborOriginEntry> entries) {
+        LOG.debug("copyEntries() started");
+
+        OriginEntryGroup newOriginEntryGroup = originEntryGroupService.createGroup(date, sourceCode, valid, process, scrub);
+
+        // Create new Entries with newOriginEntryGroup
+        while (entries.hasNext()) {
+            LaborOriginEntry oe = entries.next();
+            oe.setEntryGroupId(newOriginEntryGroup.getId());
+            createEntry(oe, newOriginEntryGroup);
+        }
+
+        return newOriginEntryGroup;
+    }
+    
     /**
      * @see org.kuali.module.gl.service.OriginEntryService#delete(org.kuali.module.gl.bo.OriginEntry)
      */

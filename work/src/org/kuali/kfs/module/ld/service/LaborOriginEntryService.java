@@ -43,7 +43,8 @@ public interface LaborOriginEntryService {
      * Copy a set of entries into a new group
      */
     public OriginEntryGroup copyEntries(Date date, String sourceCode, boolean valid,boolean process,boolean scrub,Collection<LaborOriginEntry> entries);
-
+    
+    public OriginEntryGroup copyEntries(Date date, String sourceCode, boolean valid, boolean process, boolean scrub, Iterator<LaborOriginEntry> entries);
     /**
      * Delete entry
      * 

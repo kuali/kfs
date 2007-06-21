@@ -28,6 +28,8 @@ import java.util.Map;
 
 // @@TODO: not needed for production code
 import org.apache.commons.beanutils.PropertyUtils;
+import org.kuali.workflow.*;
+import edu.iu.uis.eden.routeheader.*;
 
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
@@ -4355,6 +4357,22 @@ public class GenesisDaoOjb extends PlatformAwareDaoBaseOjb
         workflowDocumentService.superUserApprove(newBCHdr.getDocumentHeader().getWorkflowDocument(),
                 "created by Genesis");
    }
+ 
+    public Object returnWkflwDocHeader()
+    {   
+        DocumentRouteHeaderValue newDoc = new DocumentRouteHeaderValue();
+        Criteria docCriteria = new Criteria();
+        docCriteria.addEqualTo("routeHeaderId",286968);
+        QueryByCriteria queryID = 
+            new QueryByCriteria(DocumentRouteHeaderValue.class,docCriteria);
+        Iterator<DocumentRouteHeaderValue> itr =
+            getPersistenceBrokerTemplate().getIteratorByQuery(queryID);
+        if (itr.hasNext())
+        {
+           newDoc = itr.next();  
+        }
+        return newDoc;
+    }
     
         
 

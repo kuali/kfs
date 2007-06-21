@@ -15,7 +15,12 @@
  */
 package org.kuali.module.budget.dao;
 import java.util.*;
+
+import org.apache.ojb.broker.query.Criteria;
+import org.apache.ojb.broker.query.QueryByCriteria;
 import org.kuali.module.budget.bo.*;
+
+import edu.iu.uis.eden.routeheader.DocumentRouteHeaderValue;
 
 public interface GenesisDao {
     
@@ -75,6 +80,9 @@ public interface GenesisDao {
    
    // this is a junk method in genesis that was used to unit test various SQL
    public void genesisUnitTest(Integer BaseYear);
+   
+   // this is used to test the document route log
+   public Object returnWkflwDocHeader();
 }
 
 

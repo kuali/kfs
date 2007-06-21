@@ -16,6 +16,7 @@
 package org.kuali.module.budget.service.impl;
 
 import java.lang.*;
+import java.util.Iterator;
 
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSConstants.*;
@@ -26,6 +27,11 @@ import org.springframework.transaction.annotation.Transactional;
 
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
+import org.apache.ojb.broker.query.Criteria;
+import org.apache.ojb.broker.query.QueryByCriteria;
+
+import org.kuali.core.dao.ojb.PlatformAwareDaoBaseOjb;
+import edu.iu.uis.eden.routeheader.DocumentRouteHeaderValue;
 
 
  
@@ -56,6 +62,11 @@ public class GenesisServiceImpl implements GenesisService {
       public final void testLockClearance(Integer currentFiscalYear)
       {
           genesisDao.clearHangingBCLocks(currentFiscalYear);
+      }
+      
+      public Object testDocumentHeader()
+      {
+          return genesisDao.returnWkflwDocHeader();
       }
 
       public void testPositionBuild(Integer currentFiscalYear)

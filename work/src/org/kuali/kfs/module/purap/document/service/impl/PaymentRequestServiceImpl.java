@@ -18,6 +18,7 @@ package org.kuali.module.purap.service.impl;
 import java.math.BigDecimal;
 import java.sql.Date;
 import java.sql.Timestamp;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
@@ -62,7 +63,6 @@ import org.kuali.module.vendor.service.VendorService;
 import org.springframework.transaction.annotation.Transactional;
 
 import edu.iu.uis.eden.exception.WorkflowException;
-
 
 /**
  * This class...
@@ -256,8 +256,6 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
     public HashMap<String, String> paymentRequestDuplicateMessages(PaymentRequestDocument document) {
         HashMap<String, String> msgs;
         msgs = new HashMap<String, String>();
-        KualiConfigurationService kualiConfiguration = SpringServiceLocator.getKualiConfigurationService();
-
 
         Integer purchaseOrderId = document.getPurchaseOrderIdentifier();
 
@@ -265,6 +263,10 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
 
         Integer vendorDetailAssignedId = po.getVendorDetailAssignedIdentifier();
         Integer vendorHeaderGeneratedId = po.getVendorHeaderGeneratedIdentifier();
+        
+        if (purapService.isDateAYearBeforeToday(document.getInvoiceDate())) {
+            msgs.put(PREQDocumentsStrings.DUPLICATE_INVOICE_QUESTION, kualiConfigurationService.getPropertyString(PurapKeyConstants.MESSAGE_INVOICE_DATE_A_YEAR_OR_MORE_PAST));
+        }
 
         List<PaymentRequestDocument> preqs = getPaymentRequestsByVendorNumberInvoiceNumber(vendorHeaderGeneratedId, vendorDetailAssignedId, document.getInvoiceNumber());
         if (preqs.size() > 0) {
@@ -279,7 +281,7 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
                     voided.add(testPREQ);
                 }
                 else {
-                    msgs.put(PREQDocumentsStrings.DUPLICATE_INVOICE_QUESTION, kualiConfiguration.getPropertyString(PurapKeyConstants.MESSAGE_DUPLICATE_INVOICE));
+                    msgs.put(PREQDocumentsStrings.DUPLICATE_INVOICE_QUESTION, kualiConfigurationService.getPropertyString(PurapKeyConstants.MESSAGE_DUPLICATE_INVOICE));
                     addedMessage = true;
                     break;
                 }
@@ -287,14 +289,14 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
             // Custom error message for duplicates related to cancelled/voided PREQs
             if (!addedMessage) {
                 if ((!(voided.isEmpty())) && (!(cancelled.isEmpty()))) {
-                    msgs.put(PREQDocumentsStrings.DUPLICATE_INVOICE_QUESTION, kualiConfiguration.getPropertyString(PurapKeyConstants.MESSAGE_DUPLICATE_INVOICE_CANCELLEDORVOIDED));
+                    msgs.put(PREQDocumentsStrings.DUPLICATE_INVOICE_QUESTION, kualiConfigurationService.getPropertyString(PurapKeyConstants.MESSAGE_DUPLICATE_INVOICE_CANCELLEDORVOIDED));
                 }
                 else if ((!(voided.isEmpty())) && (cancelled.isEmpty())) {
-                    msgs.put(PREQDocumentsStrings.DUPLICATE_INVOICE_QUESTION, kualiConfiguration.getPropertyString(PurapKeyConstants.MESSAGE_DUPLICATE_INVOICE_VOIDED));
+                    msgs.put(PREQDocumentsStrings.DUPLICATE_INVOICE_QUESTION, kualiConfigurationService.getPropertyString(PurapKeyConstants.MESSAGE_DUPLICATE_INVOICE_VOIDED));
                 }
                 else if ((voided.isEmpty()) && (!(cancelled.isEmpty()))) {
                     // messages.add("errors.duplicate.vendor.invoice.cancelled");
-                    msgs.put(PREQDocumentsStrings.DUPLICATE_INVOICE_QUESTION, kualiConfiguration.getPropertyString(PurapKeyConstants.MESSAGE_DUPLICATE_INVOICE_CANCELLED));
+                    msgs.put(PREQDocumentsStrings.DUPLICATE_INVOICE_QUESTION, kualiConfigurationService.getPropertyString(PurapKeyConstants.MESSAGE_DUPLICATE_INVOICE_CANCELLED));
                 }
             }
         }
@@ -305,7 +307,7 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
             boolean addedMessage = false;
             List cancelled = new ArrayList();
             List voided = new ArrayList();
-            msgs.put(PREQDocumentsStrings.DUPLICATE_INVOICE_QUESTION, kualiConfiguration.getPropertyString(PurapKeyConstants.MESSAGE_DUPLICATE_INVOICE_DATE_AMOUNT));
+            msgs.put(PREQDocumentsStrings.DUPLICATE_INVOICE_QUESTION, kualiConfigurationService.getPropertyString(PurapKeyConstants.MESSAGE_DUPLICATE_INVOICE_DATE_AMOUNT));
             for (PaymentRequestDocument testPREQ : preqs) {
                 if (StringUtils.equalsIgnoreCase(testPREQ.getStatusCode(),PaymentRequestStatuses.CANCELLED_POST_APPROVE)) {
                     cancelled.add(testPREQ);
@@ -314,7 +316,7 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
                     voided.add(testPREQ);
                 }
                 else {
-                    msgs.put(PREQDocumentsStrings.DUPLICATE_INVOICE_QUESTION, kualiConfiguration.getPropertyString(PurapKeyConstants.MESSAGE_DUPLICATE_INVOICE_DATE_AMOUNT));
+                    msgs.put(PREQDocumentsStrings.DUPLICATE_INVOICE_QUESTION, kualiConfigurationService.getPropertyString(PurapKeyConstants.MESSAGE_DUPLICATE_INVOICE_DATE_AMOUNT));
                     addedMessage = true;
                     break;
                 }
@@ -323,21 +325,19 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
             if (!addedMessage) {
 
                 if ((!(voided.isEmpty())) && (!(cancelled.isEmpty()))) {
-                    msgs.put(PREQDocumentsStrings.DUPLICATE_INVOICE_QUESTION, kualiConfiguration.getPropertyString(PurapKeyConstants.MESSAGE_DUPLICATE_INVOICE_DATE_AMOUNT_CANCELLEDORVOIDED));
+                    msgs.put(PREQDocumentsStrings.DUPLICATE_INVOICE_QUESTION, kualiConfigurationService.getPropertyString(PurapKeyConstants.MESSAGE_DUPLICATE_INVOICE_DATE_AMOUNT_CANCELLEDORVOIDED));
                 }
                 else if ((!(voided.isEmpty())) && (cancelled.isEmpty())) {
-                    msgs.put(PREQDocumentsStrings.DUPLICATE_INVOICE_QUESTION, kualiConfiguration.getPropertyString(PurapKeyConstants.MESSAGE_DUPLICATE_INVOICE_DATE_AMOUNT_VOIDED));
+                    msgs.put(PREQDocumentsStrings.DUPLICATE_INVOICE_QUESTION, kualiConfigurationService.getPropertyString(PurapKeyConstants.MESSAGE_DUPLICATE_INVOICE_DATE_AMOUNT_VOIDED));
                     addedMessage = true;
 
                 }
                 else if ((voided.isEmpty()) && (!(cancelled.isEmpty()))) {
-                    msgs.put(PREQDocumentsStrings.DUPLICATE_INVOICE_QUESTION, kualiConfiguration.getPropertyString(PurapKeyConstants.MESSAGE_DUPLICATE_INVOICE_DATE_AMOUNT_CANCELLED));
+                    msgs.put(PREQDocumentsStrings.DUPLICATE_INVOICE_QUESTION, kualiConfigurationService.getPropertyString(PurapKeyConstants.MESSAGE_DUPLICATE_INVOICE_DATE_AMOUNT_CANCELLED));
                     addedMessage = true;
                 }
             }
         }
-
-
         return msgs;
     }
     
@@ -390,8 +390,7 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
         Timestamp invoiceDateTime = new Timestamp(invoiceDateC.getTimeInMillis());
         return ((invoiceDateTime.compareTo(nowTime)) > 0);
     }
-
-
+    
     public HashMap<String, String> expiredOrClosedAccountsList(PaymentRequestDocument document) {
 
         HashMap<String, String> list = new HashMap<String, String>();
@@ -401,7 +400,7 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
         //TODO: Why not rely on ojb here?  You should have a po already from the mapping Actually it looks like the mapping isn't correct.  I'll fix this later
         PurchaseOrderDocument po = SpringServiceLocator.getPurchaseOrderService().getCurrentPurchaseOrder(document.getPurchaseOrderIdentifier());
         
-        //TODO: check for for po not be null
+        //TODO: check for po not be null
         //TODO: also, this method should not call po.getSourceAccountingLines; that method is not reliable for PURAP docs. (hjs)
         List accountNumberList = new ArrayList();
         for (Iterator i = po.getSourceAccountingLines().iterator(); i.hasNext();) {

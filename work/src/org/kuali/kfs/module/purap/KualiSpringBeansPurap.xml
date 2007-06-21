@@ -87,6 +87,9 @@
 		<property name="businessObjectService">
 			<ref bean="businessObjectService" />
 		</property>
+		<property name="dateTimeService">
+			<ref bean="dateTimeService" />
+		</property>
 		<property name="kualiConfigurationService">
 			<ref bean="kualiConfigurationService" />
 		</property>
@@ -276,7 +279,7 @@
   	<bean id="purchaseOrderPostProcessorPrintService" class="org.kuali.module.purap.service.impl.PurchaseOrderPostProcessorPrintServiceImpl" parent="purchaseOrderPostProcessServiceBase">
 	</bean>
 	<bean id="purchaseOrderPostProcessorAmendmentService" class="org.kuali.module.purap.service.impl.PurchaseOrderPostProcessorAmendmentServiceImpl" parent="purchaseOrderPostProcessServiceBase">
-	</bean>
+	</bean>  
 	
 	<bean id="negativePaymentRequestApprovalLimitService" 
 		class="org.kuali.module.purap.service.impl.NegativePaymentRequestApprovalLimitServiceImpl">
@@ -294,7 +297,7 @@
 			<ref bean="kualiConfigurationService" />
 		</property>		
 	</bean>
-
+	
 	<bean id="negativePaymentRequestApprovalLimitDao" parent="platformAwareDao" 
 		class="org.kuali.module.purap.dao.ojb.NegativePaymentRequestApprovalLimitDaoOjb" />
 	

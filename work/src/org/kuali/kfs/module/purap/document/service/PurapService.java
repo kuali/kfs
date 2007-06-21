@@ -15,6 +15,7 @@
  */
 package org.kuali.module.purap.service;
 
+import java.sql.Date;
 import java.util.List;
 
 import org.kuali.core.bo.Note;
@@ -49,6 +50,15 @@ public interface PurapService {
     public String[] getBelowTheLineForDocument(PurchasingAccountsPayableDocument document);
     
     public List<SourceAccountingLine> generateSummary(List<PurchasingApItem> items);
+    
+    /**
+     * We are obliged not to simply use a dateDiff and compare the result to 365, because we have
+     * to worry about leap years.
+     * 
+     * @param compareDate   An SQL date (not a DateFormatter date, or a util Date)
+     * @return  True if the date given for comparison is more than a year in the past, not including today.
+     */
+    public boolean isDateAYearBeforeToday(Date compareDate);
     
     /*
      *    PURCHASING DOCUMENT METHODS

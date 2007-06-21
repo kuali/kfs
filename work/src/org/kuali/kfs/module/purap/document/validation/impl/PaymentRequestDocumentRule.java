@@ -94,9 +94,10 @@ public class PaymentRequestDocumentRule extends AccountsPayableDocumentRuleBase 
     
     public boolean processContinueAccountsPayableBusinessRules(AccountsPayableDocument apDocument) {
         boolean valid = true;
-        valid &= processPurchaseOrderIDValidation((PaymentRequestDocument) apDocument);
-        valid &= processInvoiceValidation((PaymentRequestDocument) apDocument);   
-        valid &= processPaymentRequestDateValidationForContinue((PaymentRequestDocument) apDocument);
+        PaymentRequestDocument paymentRequestDocument = (PaymentRequestDocument)apDocument;
+        valid &= processPurchaseOrderIDValidation(paymentRequestDocument);
+        valid &= processInvoiceValidation(paymentRequestDocument);      
+        valid &= processPaymentRequestDateValidationForContinue(paymentRequestDocument);
         return valid;
     }
 
@@ -326,7 +327,7 @@ public class PaymentRequestDocumentRule extends AccountsPayableDocumentRuleBase 
         }
         return valid;
     }
-    
+        
     public boolean validateItemAccounts(PaymentRequestDocument paymentRequestDocument, PaymentRequestItem item, String identifierString) {
         boolean valid = true;
         List<PurApAccountingLine> accountingLines = item.getSourceAccountingLines();
@@ -365,7 +366,7 @@ public class PaymentRequestDocumentRule extends AccountsPayableDocumentRuleBase 
     public boolean validateRouteFiscal(PurchasingAccountsPayableDocument purapDocument) {
         boolean valid = true;
         PaymentRequestDocument paymentRequest = (PaymentRequestDocument)purapDocument;
-        if (StringUtils.equals(paymentRequest.getStatusCode(),PurapConstants.PaymentRequestStatuses.IN_PROCESS)) {
+        if (!StringUtils.equals(paymentRequest.getStatusCode(),PurapConstants.PaymentRequestStatuses.IN_PROCESS)) {
             GlobalVariables.getErrorMap().putError(PurapPropertyConstants.PURAP_DOC_ID, PurapKeyConstants.ERROR_PAYMENT_REQUEST_NOT_IN_PROCESS);
             valid &= false;
         }

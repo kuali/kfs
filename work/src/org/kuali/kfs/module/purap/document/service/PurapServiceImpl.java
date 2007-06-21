@@ -15,6 +15,8 @@
  */
 package org.kuali.module.purap.service.impl;
 
+import java.sql.Date;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -23,6 +25,7 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.bo.Note;
 import org.kuali.core.service.BusinessObjectService;
+import org.kuali.core.service.DateTimeService;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
@@ -40,11 +43,16 @@ public class PurapServiceImpl implements PurapService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PurapServiceImpl.class);
 
     private BusinessObjectService businessObjectService;
+    private DateTimeService dateTimeService;
     private KualiConfigurationService kualiConfigurationService;
     private PurapAccountingService purapAccountingService;
     
     public void setBusinessObjectService(BusinessObjectService boService) {
         this.businessObjectService = boService;    
+    }
+    
+    public void setDateTimeService(DateTimeService dateTimeService) {
+        this.dateTimeService = dateTimeService;
     }
 
     public void setKualiConfigurationService(KualiConfigurationService kualiConfigurationService) {
@@ -220,6 +228,27 @@ public class PurapServiceImpl implements PurapService {
     
     public List<SourceAccountingLine> generateSummary(List<PurchasingApItem> items) {
         return purapAccountingService.generateSummary(items);
+    }
+    
+    /**
+     * @see org.kuali.module.purap.service.PurapService#isDateAYearAfterToday(java.sql.Date)
+     */
+    public boolean isDateAYearBeforeToday(Date compareDate) {
+        Date today = dateTimeService.getCurrentSqlDate();
+        String todayString = today.toString();
+        
+        String todaysYear = todayString.substring(0,3);
+        String restOfToday = todayString.substring(4);
+        String lastYear = new Integer((new Integer(todaysYear)).intValue() - 1).toString();
+        Date yearAgo = null;
+        try {
+            yearAgo = dateTimeService.convertToSqlDate(lastYear+restOfToday);
+        }
+        catch (ParseException pe) {
+            throw new RuntimeException(pe);
+        }
+        int diffFromYearAgo = dateTimeService.dateDiff(compareDate, yearAgo, false);
+        return (diffFromYearAgo > 0);
     }
     
     

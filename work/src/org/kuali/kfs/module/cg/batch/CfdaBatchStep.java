@@ -15,27 +15,32 @@
  */
 package org.kuali.module.cg.batch;
 
-import org.kuali.kfs.batch.AbstractStep;
-import org.kuali.kfs.util.SpringServiceLocator;
-import org.kuali.module.cg.service.CfdaService;
-import org.kuali.module.cg.service.CfdaUpdateResults;
-import org.kuali.core.service.MailService;
-import org.kuali.core.service.KualiGroupService;
-import org.kuali.core.service.UniversalUserService;
-import org.kuali.core.mail.MailMessage;
-import org.kuali.core.mail.InvalidAddressException;
-import org.kuali.core.exceptions.GroupNotFoundException;
-import org.kuali.core.exceptions.UserNotFoundException;
-import org.kuali.core.bo.user.AuthenticationUserId;
-import org.kuali.core.bo.user.KualiGroup;
-import org.kuali.core.bo.user.UniversalUser;
-import org.apache.log4j.Logger;
-
 import java.io.IOException;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
+import org.apache.log4j.Logger;
+import org.kuali.core.bo.user.AuthenticationUserId;
+import org.kuali.core.bo.user.KualiGroup;
+import org.kuali.core.bo.user.UniversalUser;
+import org.kuali.core.exceptions.GroupNotFoundException;
+import org.kuali.core.exceptions.UserNotFoundException;
+import org.kuali.core.mail.InvalidAddressException;
+import org.kuali.core.mail.MailMessage;
+import org.kuali.core.service.KualiGroupService;
+import org.kuali.core.service.MailService;
+import org.kuali.core.service.UniversalUserService;
+import org.kuali.kfs.batch.AbstractStep;
+import org.kuali.module.cg.service.CfdaService;
+import org.kuali.module.cg.service.CfdaUpdateResults;
+
 /**
- * This class...
+ * Parses data from a government web page listing the valid CFDA codes. The
+ * codes are then compared with what's in the CFDA table in Kuali. Codes set to
+ * be managed automatically are reconciled with what's on the web page. Codes
+ * managed manually are left alone. Finally an email containing a summary of
+ * what was done by the step execution is sent to the member of the KUALI_CGCFDA
+ * workgroup.
  * 
  * @author Laran Evans <lc278@cornell.edu>
  * @since May 8, 2007 5:42:16 PM
@@ -51,7 +56,7 @@ public class CfdaBatchStep extends AbstractStep {
     private UniversalUserService universalUserService;
     
     /**
-     * This method implements an interface method and performs specific cfda related methods to carry out a batch step action.  
+     * See the class description.  
      * 
      * @see org.kuali.kfs.batch.Step#execute()
      */
@@ -68,13 +73,17 @@ public class CfdaBatchStep extends AbstractStep {
                     AuthenticationUserId authId = new AuthenticationUserId(id.toUpperCase());
                     UniversalUser user = 
                         universalUserService.getUniversalUser(authId);
-                    message.addToAddress(user.getPersonEmailAddress());
-                    // TODO Must remember to take this out.
-                    message.addToAddress("lc278@cornell.edu");
+                    String address = user.getPersonEmailAddress();
+                    if(!StringUtils.isEmpty(address)) {
+                        message.addToAddress(address);
+                    }
                 } catch(UserNotFoundException unfe) {
                     LOG.info("User " + id + " doesn't exist.", unfe);
                 }
             }
+            
+            // TODO Must remember to take this out.
+            message.addToAddress("lc278@cornell.edu");
 
             // TODO this message should come from some config file.
             StringBuilder builder = new StringBuilder();
@@ -121,7 +130,6 @@ public class CfdaBatchStep extends AbstractStep {
     }
 
     /**
-     * 
      * This method is a simple setter used to set the local cfdaService attribute to the value provided.
      * @param cfdaService The service to be assigned.
      */
@@ -130,7 +138,6 @@ public class CfdaBatchStep extends AbstractStep {
     }
     
     /**
-     * 
      * This method is a simple setter used to set the local mailService attribute to the value provided.
      * @param mailService The service to be assigned.
      */
@@ -139,7 +146,6 @@ public class CfdaBatchStep extends AbstractStep {
     }
     
     /**
-     * 
      * This method is a simple setter used to set the local kualiGroupService attribute to the value provided.
      * @param kualiGroupService The service to be assigned.
      */
@@ -148,7 +154,6 @@ public class CfdaBatchStep extends AbstractStep {
     }
 
     /**
-     * 
      * This method is a simple setter used to set the local universalUserService attribute to the value provided.
      * @param universalUserService The service to be assigned.
      */

@@ -98,6 +98,14 @@ public class GrantDescription extends PersistableBusinessObjectBase {
         this.grantDescriptionActiveCode = grantDescriptionActiveCode;
     }
 
+    /**
+     * 
+     * This method returns a boolean identifying whether or not this grant description is active or inactive.
+     * @return True if the grant description is active, false if its inactive.
+     */
+    public boolean isRowActiveIndicator() {
+        return grantDescriptionActiveCode;
+    }
 
     /**
      * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()

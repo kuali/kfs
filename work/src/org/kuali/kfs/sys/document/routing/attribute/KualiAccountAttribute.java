@@ -198,14 +198,13 @@ public class KualiAccountAttribute implements RoleAttribute, WorkflowAttribute {
     }
 
     /**
-     * method to validate the rule data, which matches the routing data in this attributes case therefore, we should just be able to
-     * call into the other implementation validateRoutingData
+     * method to validate the rule data, since this is a role attribute, there is no rule data
      *
      * @param paramMap
      * @return
      */
     public List validateRuleData(Map paramMap) {
-        return validateRoutingData(paramMap);
+        return new ArrayList();
     }
 
     /**

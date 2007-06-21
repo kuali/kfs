@@ -61,6 +61,8 @@ import org.kuali.module.vendor.bo.PaymentTermType;
 import org.kuali.module.vendor.service.VendorService;
 import org.springframework.transaction.annotation.Transactional;
 
+import edu.iu.uis.eden.exception.WorkflowException;
+
 
 /**
  * This class...
@@ -222,6 +224,18 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
 
 
     /* End Paste */
+
+    public void autoApprovePaymentRequests() {
+        Iterator<PaymentRequestDocument> docs = paymentRequestDao.getEligibleForAutoApproval();
+        while(docs.hasNext()) {
+            PaymentRequestDocument doc = docs.next();
+            try {
+                documentService.approveDocument(doc, "auto-approving: Total is below threshold.", new ArrayList());
+            } catch(WorkflowException we) {
+                LOG.error("Exception encountered when approving document number " + doc.getDocumentNumber() + ".", we);
+            }
+        }
+    }
 
     /**
      * Retreives a list of Pay Reqs with the given vendor id and invoice number.

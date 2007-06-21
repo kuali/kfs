@@ -18,21 +18,119 @@ package org.kuali.module.purap.dao.ojb;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
+import org.apache.log4j.Logger;
 import org.apache.ojb.broker.query.Criteria;
+import org.apache.ojb.broker.query.Query;
 import org.apache.ojb.broker.query.QueryByCriteria;
 import org.kuali.core.dao.ojb.PlatformAwareDaoBaseOjb;
+import org.kuali.core.service.DateTimeService;
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.kfs.bo.SourceAccountingLine;
 import org.kuali.module.purap.PurapPropertyConstants;
+import org.kuali.module.purap.bo.NegativePaymentRequestApprovalLimit;
+import org.kuali.module.purap.dao.NegativePaymentRequestApprovalLimitDao;
 import org.kuali.module.purap.dao.PaymentRequestDao;
 import org.kuali.module.purap.document.PaymentRequestDocument;
+import org.kuali.module.purap.service.PurapAccountingService;
 
 public class PaymentRequestDaoOjb extends PlatformAwareDaoBaseOjb implements PaymentRequestDao {
 
-    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PaymentRequestDaoOjb.class);
+    private static Logger LOG = Logger.getLogger(PaymentRequestDaoOjb.class);
+    private NegativePaymentRequestApprovalLimitDao negativePaymentRequestApprovalLimitDao;
+    private DateTimeService dateTimeService;
+    private PurapAccountingService purapAccountingService;
 
+    public Iterator<PaymentRequestDocument> getEligibleForAutoApproval() {
+        
+//        1.23.   Payments eligible for auto approval 
+        
+//        - The total amount of the payment is less than threshold (amount to 
+//        be maintained in reference table by chart). 
+        
+//        - All accounts on the payment request are designated as allowing 
+//        for auto approval. [Kuali - if campus or chart distinct check limits] 
+//        -- The default setting on accounts is auto approve. If a payment 
+//                            request contains one or more accounts requiring 
+//                            positive approval, the entire payment request 
+//                            will require positive approval. 
+        
+//        - If the total pmt request is above the limit on any chart 
+//        represented on the PREQ, it must be positively approved. 
+//
+//        1.24.   Timing for batch auto approval
+        
+//        Payment requests that allow for auto approval will be approved 
+//        in a batch process on pay date with pay date of current date or earlier. 
+        
+        Date todayAtMidnight = dateTimeService.getCurrentSqlDateMidnight();
+        
+        Criteria criteria = new Criteria();
+        criteria.addLessThan(PurapPropertyConstants.PAYMENT_REQUEST_PAY_DATE, todayAtMidnight);
+        
+        Query query = new QueryByCriteria(PaymentRequestDocument.class, criteria);
+        Iterator<PaymentRequestDocument> iterator = 
+            (Iterator<PaymentRequestDocument>) getPersistenceBrokerTemplate().getIteratorByQuery(query);
+        
+        Set<PaymentRequestDocument> eligibleDocuments = new HashSet<PaymentRequestDocument>();
+        while(iterator.hasNext()) {
+            PaymentRequestDocument document = iterator.next();
+            if(isEligibleForAutoApproval(document)) {
+                eligibleDocuments.add(document);
+            }
+        }
+        
+        return null;
+    }
+    
+    private boolean isEligibleForAutoApproval(PaymentRequestDocument document) {
+        boolean isEligible = false;
+        
+        boolean allAccountsAreAutoApprove = true;
+        KualiDecimal minimumAmount = null;
+        for (SourceAccountingLine line : purapAccountingService.generateSummary(document.getItems())) {
+            minimumAmount = minimumLimitAmount(
+                    negativePaymentRequestApprovalLimitDao.findByChart(
+                            line.getChartOfAccountsCode()), minimumAmount);
+            minimumAmount = minimumLimitAmount(
+                    negativePaymentRequestApprovalLimitDao.findByChartAndAccount(
+                            line.getChartOfAccountsCode(), line.getAccountNumber()), minimumAmount);
+            minimumAmount = minimumLimitAmount(
+                    negativePaymentRequestApprovalLimitDao.findByChartAndOrganization(
+                            line.getChartOfAccountsCode(), line.getOrganizationReferenceId()), minimumAmount);
+            if(null == minimumAmount) {
+                
+            }
+//            allAccountsAreAutoApprove = line.getAccount().
+        }
+        
+        // TODO Create a system parameter for the default auto-approve limit.
+        // TODO If minimumAmount is null, use the default.
+        
+        if(document.getDocumentHeader().getFinancialDocumentTotalAmount().isLessThan(minimumAmount)) {
+            
+        }
+        
+        return isEligible;
+    }
+    
+    private KualiDecimal minimumLimitAmount(Collection<NegativePaymentRequestApprovalLimit> limits, KualiDecimal minimumAmount) {
+        for (NegativePaymentRequestApprovalLimit limit : limits) {
+            KualiDecimal amount = limit.getNegativePaymentRequestApprovalLimitAmount();
+            if (null == minimumAmount) {
+                minimumAmount = amount;
+            }
+            else if (minimumAmount.isGreaterThan(amount)) {
+                minimumAmount = amount;
+            }
+        }
+        return minimumAmount;
+    }
+    
     /**
      * 
      * @param paymentRequestDocument - a populated REQUISITION object to be saved
@@ -276,6 +374,18 @@ public class PaymentRequestDaoOjb extends PlatformAwareDaoBaseOjb implements Pay
         QueryByCriteria qbc = new QueryByCriteria(PaymentRequestDocument.class,criteria);
         return this.getPaymentRequestsByQueryByCriteria(qbc);
       }
+
+    public void setNegativePaymentRequestApprovalLimitDao(NegativePaymentRequestApprovalLimitDao negativePaymentRequestApprovalLimitDao) {
+        this.negativePaymentRequestApprovalLimitDao = negativePaymentRequestApprovalLimitDao;
+    }
+
+    public void setDateTimeService(DateTimeService dateTimeService) {
+        this.dateTimeService = dateTimeService;
+    }
+
+    public void setPurapAccountingService(PurapAccountingService purapAccountingService) {
+        this.purapAccountingService = purapAccountingService;
+    }
           
   /*     
       public PaymentRequestStatusHistory savePaymentRequestStatusHistory(PaymentRequestStatusHistory prsh) {
@@ -296,4 +406,6 @@ public class PaymentRequestDaoOjb extends PlatformAwareDaoBaseOjb implements Pay
         return l;
       }
       */
+      
+      
 }

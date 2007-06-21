@@ -17,6 +17,7 @@ package org.kuali.module.purap.dao;
 
 import java.sql.Date;
 import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
 
 import org.kuali.core.util.KualiDecimal;
@@ -24,6 +25,8 @@ import org.kuali.module.purap.document.PaymentRequestDocument;
 
 
 public interface PaymentRequestDao {
+    
+    public Iterator<PaymentRequestDocument> getEligibleForAutoApproval();
 
     public void save(PaymentRequestDocument paymentRequestDocument);
    

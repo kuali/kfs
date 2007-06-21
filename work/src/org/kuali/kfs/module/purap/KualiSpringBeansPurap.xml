@@ -46,6 +46,11 @@
 				<value>org/kuali/module/purap/OJB-repository-purap.xml</value>
 			</list>
 		</property>
+		<property name="jobNames">
+			<list>
+				<value>autoApprovePaymentRequestsJob</value>
+			</list>
+		</property>
 	</bean>
 
 	<bean id="workflow-org.kuali.module.purap.bo.PurchaseOrderTransmissionMethod-Lookupable" parent="workflowLookupable" singleton="false">
@@ -96,7 +101,14 @@
     <bean id="generalLedgerService" class="org.kuali.module.purap.service.impl.GeneralLedgerServiceImpl">
     </bean>
     
-    <bean id="paymentRequestDao" parent="platformAwareDao" class="org.kuali.module.purap.dao.ojb.PaymentRequestDaoOjb" />
+    <bean id="paymentRequestDao" parent="platformAwareDao" class="org.kuali.module.purap.dao.ojb.PaymentRequestDaoOjb">
+    	<property name="dateTimeService">
+    		<ref bean="dateTimeService" />
+    	</property>
+        <property name="purapAccountingService">
+            <ref bean="purapAccountingService" />
+        </property>
+    </bean>
     
     <bean id="paymentRequestService" class="org.kuali.module.purap.service.impl.PaymentRequestServiceImpl">
     	<property name="businessObjectService">
@@ -264,7 +276,15 @@
   	<bean id="purchaseOrderPostProcessorPrintService" class="org.kuali.module.purap.service.impl.PurchaseOrderPostProcessorPrintServiceImpl" parent="purchaseOrderPostProcessServiceBase">
 	</bean>
 	<bean id="purchaseOrderPostProcessorAmendmentService" class="org.kuali.module.purap.service.impl.PurchaseOrderPostProcessorAmendmentServiceImpl" parent="purchaseOrderPostProcessServiceBase">
-	</bean>  
+	</bean>
+	
+	<bean id="negativePaymentRequestApprovalLimitService" 
+		class="org.kuali.module.purap.service.impl.NegativePaymentRequestApprovalLimitServiceImpl">
+		<property name="negativePaymentRequestApprovalLimitDao">
+			<ref bean="negativePaymentRequestApprovalLimitDao" />
+		</property>
+	</bean>
+	
 	<bean id="requisitionDao" parent="platformAwareDao" class="org.kuali.module.purap.dao.ojb.RequisitionDaoOjb" />
 	
 	<bean id="purchaseOrderDao" parent="platformAwareDao" class="org.kuali.module.purap.dao.ojb.PurchaseOrderDaoOjb" />
@@ -274,6 +294,26 @@
 			<ref bean="kualiConfigurationService" />
 		</property>		
 	</bean>
+
+	<bean id="negativePaymentRequestApprovalLimitDao" parent="platformAwareDao" 
+		class="org.kuali.module.purap.dao.ojb.NegativePaymentRequestApprovalLimitDaoOjb" />
 	
 	<bean id="singleConfirmationQuestion" class="org.kuali.module.purap.question.SingleConfirmationQuestion" singleton="false" />
+	
+	<!--  Batch Jobs -->
+	
+    <bean id="autoApprovePaymentRequestsBatchStep" class="org.kuali.module.purap.batch.AutoApprovePaymentRequestsStep">
+        <property name="paymentRequestService">
+            <ref bean="paymentRequestService" />
+        </property>
+    </bean>
+
+    <bean id="autoApprovePaymentRequestsJob" parent="scheduledJobDescriptor">
+		<property name="steps">
+			<list>
+				<ref bean="autoApprovePaymentRequestsBatchStep" />
+			</list>
+		</property>
+	</bean>
+	
 </beans>

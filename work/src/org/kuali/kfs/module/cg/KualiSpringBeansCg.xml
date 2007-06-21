@@ -172,6 +172,15 @@
         <property name="closeService">
             <ref bean="closeService" />
         </property>
+        <property name="kualiGroupService">
+            <ref bean="kualiGroupService" />
+        </property>
+        <property name="universalUserService">
+            <ref bean="universalUserService" />
+        </property>
+        <property name="mailService">
+            <ref bean="mailService" />
+        </property>
     </bean>
 
     <bean id="closeJob" parent="scheduledJobDescriptor">

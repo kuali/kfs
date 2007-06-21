@@ -307,4 +307,12 @@
 	    </property>
 	</bean>
 	
+	<bean id="nonResidentAlienTaxPercentLookupableHelperService" class="org.kuali.module.financial.lookup.KualiNonResidentAlienTaxPercentLookupableHelperServiceImpl" singleton="false" parent="kualiLookupableHelperService" />
+	
+	<bean id="nonResidentAlienTaxPercentLookupable" class="org.kuali.core.lookup.KualiLookupableImpl" singleton="false">
+		<property name="lookupableHelperService">
+			<ref bean="nonResidentAlienTaxPercentLookupableHelperService" />
+		</property>
+	</bean>
+	
 </beans>

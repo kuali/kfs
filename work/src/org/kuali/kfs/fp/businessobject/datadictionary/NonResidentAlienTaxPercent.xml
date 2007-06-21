@@ -32,6 +32,7 @@
         </inquiry>
 
         <lookup>
+        	<lookupableID>nonResidentAlienTaxPercentLookupable</lookupableID>
             <title>Non Resident Alien Tax Percent Lookup</title>
 
             <instructions>Lookup a Non Resident Alien Tax Percent</instructions>

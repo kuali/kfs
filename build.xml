@@ -470,9 +470,7 @@
 		<jar jarfile="${ant.project.name}-${build.environment}.war" basedir="${war.directory}" compress="false" />
 	</target>
 
-	<target name="dist-workflow-local" depends="filter-workflow-local">
-		<unzip dest="${webroot.directory}" src="${build.workflow.appserver.directory}/workflow-embedded-content.zip"/>
-	</target>
+	<target name="dist-workflow-local" depends="filter-workflow-local" />
 
 	<target name="dist-package" depends="init-package-directories">
 		<copy todir="${packaging.distribution.directory}">

@@ -183,6 +183,13 @@ public class CollectorServiceImpl implements CollectorService {
         return valid;
     }
 
+    /**
+     * Modifies the amounts in the ID Billing Detail rows, depending on specific business rules.  For this default implementation, see the
+     * {@link #negateAmountIfNecessary(InterDepartmentalBilling, BalanceTyp, ObjectType, CollectorBatch)} method to see how the billing detail 
+     * amounts are modified.
+     * 
+     * @param batch
+     */
     protected void processInterDepartmentalBillingAmounts(CollectorBatch batch) {
         for (InterDepartmentalBilling interDepartmentalBilling : batch.getIdBillings()) {
             String balanceTypeCode = getBalanceTypeCode(interDepartmentalBilling, batch);
@@ -190,8 +197,18 @@ public class CollectorServiceImpl implements CollectorService {
             BalanceTyp balanceTyp = new BalanceTyp();
             balanceTyp.setFinancialBalanceTypeCode(balanceTypeCode);
             balanceTyp = (BalanceTyp) SpringServiceLocator.getBusinessObjectService().retrieve(balanceTyp);
-
+            if (balanceTyp == null) {
+                // no balance type in db
+                LOG.info("No balance type code found for ID billing record. " + interDepartmentalBilling);
+                continue;
+            }
+            
             interDepartmentalBilling.refreshReferenceObject(KFSPropertyConstants.FINANCIAL_OBJECT);
+            if (interDepartmentalBilling.getFinancialObject() == null) {
+                // no object code in db
+                LOG.info("No object code found for ID billing record. " + interDepartmentalBilling);
+                continue;
+            }
             ObjectType objectType = interDepartmentalBilling.getFinancialObject().getFinancialObjectType();
             
             negateAmountIfNecessary(interDepartmentalBilling, balanceTyp, objectType, batch);

@@ -81,10 +81,10 @@ public class ProposalInquirable extends KualiInquirableImpl {
         }
         // get the group name that we need here
         if ( centralPreAwardWorkgroupName == null ) {
-            centralPreAwardWorkgroupName = configService.getApplicationParameterValue(CGConstants.GROUP_CG_MAINT_EDOCS, "Kuali-Document.PreAward.Workgroup");
+//            centralPreAwardWorkgroupName = configService.getApplicationParameterValue(CGConstants.GROUP_CG_MAINT_EDOCS, "Kuali-Document.PreAward.Workgroup");
         }
         if ( centralPostAwardWorkgroupName == null ) {
-            centralPostAwardWorkgroupName = configService.getApplicationParameterValue(CGConstants.GROUP_CG_MAINT_EDOCS, "Kuali-Document.PostAward.Workgroup");
+//            centralPostAwardWorkgroupName = configService.getApplicationParameterValue(CGConstants.GROUP_CG_MAINT_EDOCS, "Kuali-Document.PostAward.Workgroup");
         }
 //        if ( centralReviewWorkgroupName == null ) {
 //            centralReviewWorkgroupName = configService.getApplicationParameterValue(CGConstants.GROUP_CG_MAINT_EDOCS, "");

@@ -35,6 +35,7 @@ import org.kuali.module.gl.bo.InterDepartmentalBilling;
 import org.kuali.module.gl.bo.OriginEntry;
 import org.kuali.test.KualiTestBase;
 import org.kuali.test.WithTestSpringContext;
+import org.kuali.test.suite.RelatesTo;
 import org.springframework.beans.factory.BeanFactory;
 
 /**
@@ -141,6 +142,7 @@ public class CollectorServiceTest extends KualiTestBase {
      * 
      * @throws Exception
      */
+    @RelatesTo(RelatesTo.JiraIssue.KULRNE4845)
     public final void testNegativeIDBillingAmounts() throws Exception {
         String collectorDirectoryName = SpringServiceLocator.getCollectorInputFileType().getDirectoryPath();
         String fileName = collectorDirectoryName + File.separator + "gl_collector3.xml";

@@ -26,9 +26,10 @@ public class ScheduleStep extends AbstractStep {
      * @see org.kuali.kfs.batch.Step#execute()
      */
     public boolean execute(String jobName) {
-        boolean isPastScheduleCutoffTime = schedulerService.isPastScheduleCutoffTime();
+        boolean isPastScheduleCutoffTime = false;
         while (schedulerService.hasIncompleteJob() && !isPastScheduleCutoffTime) {
             schedulerService.processWaitingJobs();
+            isPastScheduleCutoffTime = schedulerService.isPastScheduleCutoffTime();
         }
         if (isPastScheduleCutoffTime) {
             LOG.info("Schedule exceeded cutoff time, so it was terminated before completion");

@@ -172,14 +172,20 @@ public class SchedulerServiceImpl implements SchedulerService {
         try {
             Calendar scheduleCutoffTime = dateTimeService.getCalendar(scheduler.getTriggersOfJob(SCHEDULE_JOB_NAME, SCHEDULED_GROUP)[0].getPreviousFireTime());
             String[] scheduleStepCutoffTime = StringUtils.split(configurationService.getApplicationParameterValue(KFSConstants.ParameterGroups.SYSTEM, KFSConstants.SystemGroupParameterNames.BATCH_SCHEDULE_CUTOFF_TIME), ":");
-            scheduleCutoffTime.set(GregorianCalendar.HOUR, Integer.parseInt(scheduleStepCutoffTime[0]));
-            scheduleCutoffTime.set(GregorianCalendar.MINUTE, Integer.parseInt(scheduleStepCutoffTime[1]));
-            scheduleCutoffTime.set(GregorianCalendar.SECOND, Integer.parseInt(scheduleStepCutoffTime[2]));
+            scheduleCutoffTime.set(Calendar.HOUR, Integer.parseInt(scheduleStepCutoffTime[0]));
+            scheduleCutoffTime.set(Calendar.MINUTE, Integer.parseInt(scheduleStepCutoffTime[1]));
+            scheduleCutoffTime.set(Calendar.SECOND, Integer.parseInt(scheduleStepCutoffTime[2]));
+            if (scheduleStepCutoffTime[3] == "AM") {
+                scheduleCutoffTime.set(Calendar.AM_PM, Calendar.AM);
+            }
+            else {
+                scheduleCutoffTime.set(Calendar.AM_PM, Calendar.PM);
+            }
             if (configurationService.getApplicationParameterIndicator(KFSConstants.ParameterGroups.SYSTEM, KFSConstants.SystemGroupParameterNames.BATCH_SCHEDULE_CUTOFF_TIME_IS_NEXT_DAY)) {
-                scheduleCutoffTime.add(GregorianCalendar.DAY_OF_YEAR, 1);
+                scheduleCutoffTime.add(Calendar.DAY_OF_YEAR, 1);
             }
             boolean isPastScheduleCutoffTime = dateTimeService.getCurrentCalendar().after(scheduleCutoffTime);
-            LOG.info("isPastScheduleCutoffTime=" + isPastScheduleCutoffTime + " : " + dateTimeService.getCurrentCalendar() + " / " + scheduleCutoffTime);
+            LOG.info("isPastScheduleCutoffTime=" + isPastScheduleCutoffTime + " : " + getCalendarString(dateTimeService.getCurrentCalendar()) + " / " + getCalendarString(scheduleCutoffTime));
             return isPastScheduleCutoffTime;
         }
         catch (NumberFormatException e) {
@@ -188,6 +194,42 @@ public class SchedulerServiceImpl implements SchedulerService {
         catch (SchedulerException e) {
             throw new RuntimeException("Caught exception while checking whether we've exceeded the schedule cutoff time", e);
         }
+    }
+    
+    // TODO fix this hack
+    private static String getCalendarString(Calendar calendar) {
+        StringBuffer toString = new StringBuffer(10);
+        int month = calendar.get(Calendar.MONTH) + 1;
+        if (month < 10) {
+            toString.append("0");
+        }
+        toString.append(month).append("/");
+        if (calendar.get(Calendar.DAY_OF_MONTH) < 10) {
+            toString.append("0");
+        }
+        toString.append(calendar.get(Calendar.DAY_OF_MONTH)).append("/").append(calendar.get(Calendar.YEAR)).append("");
+        if (calendar.get(Calendar.HOUR) < 10 && calendar.get(Calendar.HOUR) != 0) {
+            toString.append("0");
+        }
+        if (calendar.get(Calendar.HOUR) == 0) {
+            toString.append("12");
+        } else {
+            toString.append(calendar.get(Calendar.HOUR));
+        }
+        toString.append(":");
+        if (calendar.get(Calendar.MINUTE) < 10) {
+            toString.append("0");
+        }
+        toString.append(calendar.get(Calendar.MINUTE)).append(" ");
+        if (calendar.get(Calendar.SECOND) < 10) {
+            toString.append("0");
+        }
+        toString.append(calendar.get(Calendar.SECOND)).append(" ");
+        String meridian = "AM";
+        if (calendar.get(Calendar.AM_PM) == Calendar.PM) {
+            meridian = "PM";
+        }
+        return toString.append(meridian).toString();
     }
 
     /**

@@ -183,11 +183,17 @@ public class CollectorServiceTest extends KualiTestBase {
     }
     
     public void testPrintFiles() throws Exception {
-        File directory = new File("/opt/kuali/unt/staging/collector");
+        File directory = new File("/opt/kuali/unt/staging/");
         if (directory.exists() && directory.isDirectory()) {
             File[] files = directory.listFiles();
             for (File file : files) {
                 System.err.println("TESTING: " + file.getName());
+                if (file.isDirectory()) {
+                    File[] files2 = file.listFiles();
+                    for (File file2 : files2) {
+                        System.err.println("TESTING2: " + file2.getName());
+                    }
+                }
             }
         }
     }

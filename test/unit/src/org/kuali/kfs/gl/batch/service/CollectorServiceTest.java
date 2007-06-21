@@ -181,4 +181,14 @@ public class CollectorServiceTest extends KualiTestBase {
         assertTrue("ID Billing detail for object code 3000 not found", objCode3000Found);
         assertTrue("ID Billing detail for object code 9760 not found", objCode9760Found);
     }
+    
+    public void testPrintFiles() throws Exception {
+        File directory = new File("/opt/kuali/unt/staging/collector");
+        if (directory.exists() && directory.isDirectory()) {
+            File[] files = directory.listFiles();
+            for (File file : files) {
+                System.err.println("TESTING: " + file.getName());
+            }
+        }
+    }
 }

@@ -45,12 +45,16 @@ import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSKeyConstants;
+import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.KFSConstants.ParameterGroups;
 import org.kuali.kfs.KFSConstants.SystemGroupParameterNames;
 import org.kuali.kfs.batch.BatchInputFileType;
 import org.kuali.kfs.exceptions.XMLParseException;
 import org.kuali.kfs.service.BatchInputFileService;
 import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.module.chart.bo.ObjectType;
+import org.kuali.module.chart.bo.codes.BalanceTyp;
+import org.kuali.module.gl.GLConstants;
 import org.kuali.module.gl.batch.collector.CollectorBatch;
 import org.kuali.module.gl.bo.CollectorHeader;
 import org.kuali.module.gl.bo.InterDepartmentalBilling;
@@ -76,7 +80,7 @@ public class CollectorServiceImpl implements CollectorService {
     private BatchInputFileService batchInputFileService;
     private BatchInputFileType collectorInputFileType;
     private BeanFactory beanFactory;
-
+    
     /**
      * Parses the given file, validates the batch, stores the entries, and sends email.
      * 
@@ -92,6 +96,10 @@ public class CollectorServiceImpl implements CollectorService {
             isValid = false;
         }
 
+        if (isValid) {
+            processInterDepartmentalBillingAmounts(batch);
+        }
+        
         // do validation, base collector files rules and total checks
         if (isValid) {
             isValid = performValidation(batch);
@@ -175,6 +183,55 @@ public class CollectorServiceImpl implements CollectorService {
         return valid;
     }
 
+    protected void processInterDepartmentalBillingAmounts(CollectorBatch batch) {
+        for (InterDepartmentalBilling interDepartmentalBilling : batch.getIdBillings()) {
+            String balanceTypeCode = getBalanceTypeCode(interDepartmentalBilling, batch);
+            
+            BalanceTyp balanceTyp = new BalanceTyp();
+            balanceTyp.setFinancialBalanceTypeCode(balanceTypeCode);
+            balanceTyp = (BalanceTyp) SpringServiceLocator.getBusinessObjectService().retrieve(balanceTyp);
+
+            interDepartmentalBilling.refreshReferenceObject(KFSPropertyConstants.FINANCIAL_OBJECT);
+            ObjectType objectType = interDepartmentalBilling.getFinancialObject().getFinancialObjectType();
+            
+            negateAmountIfNecessary(interDepartmentalBilling, balanceTyp, objectType, batch);
+        }
+    }
+    
+    /**
+     * Negates the amount of the internal departmental billing detail record if necessary.  For this default implementation, if the balance type's
+     * offset indicator is yes and the object type has a debit indicator, then the amount is negated.
+     * 
+     * @param interDepartmentalBilling the ID billing detail
+     * @param balanceTyp the balance type
+     * @param objectType the object type
+     * @param batch the patch to which the interDepartmentalBilling parameter belongs
+     */
+    protected void negateAmountIfNecessary(InterDepartmentalBilling interDepartmentalBilling, BalanceTyp balanceTyp, ObjectType objectType, CollectorBatch batch) {
+        if (balanceTyp != null && objectType != null) {
+            if (balanceTyp.isFinancialOffsetGenerationIndicator()) {
+                if (KFSConstants.GL_DEBIT_CODE.equals(objectType.getFinObjectTypeDebitcreditCd())) {
+                    KualiDecimal amount = interDepartmentalBilling.getInterDepartmentalBillingItemAmount();
+                    amount = amount.negated();
+                    interDepartmentalBilling.setInterDepartmentalBillingItemAmount(amount);
+                }
+            }
+        }
+    }
+    
+    /**
+     * Returns the balance type code for the interDepartmentalBilling record.  This default implementation will look into the system
+     * parameters to determine the balance type 
+     * 
+     * @param interDepartmentalBilling a inter departmental billing detail record
+     * @param batch the batch to which the interDepartmentalBilling billing belongs
+     * @return the balance type code for the billing detail
+     */
+    protected String getBalanceTypeCode(InterDepartmentalBilling interDepartmentalBilling, CollectorBatch batch) {
+        return kualiConfigurationService.getApplicationParameterValue(KFSConstants.ParameterGroups.COLLECTOR_SECURITY_GROUP_NAME,
+                KFSConstants.SystemGroupParameterNames.COLLECTOR_DEFAULT_INTER_DEPARTMENTAL_BILLING_BALANCE_TYPE);
+    }
+    
     /**
      * Checks header against previously loaded batch headers for a duplicate submission.
      * 
@@ -455,5 +512,4 @@ public class CollectorServiceImpl implements CollectorService {
     public void setCollectorInputFileType(BatchInputFileType collectorInputFileType) {
         this.collectorInputFileType = collectorInputFileType;
     }
-
 }

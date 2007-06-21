@@ -15,9 +15,17 @@
  */
 package org.kuali.module.gl.service;
 
+import java.io.File;
+import java.net.URI;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
+
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.GlobalVariables;
+import org.kuali.core.util.KualiDecimal;
+import org.kuali.core.util.UnitTestSqlDao;
 import org.kuali.kfs.KFSKeyConstants;
 import org.kuali.kfs.KFSConstants.ParameterGroups;
 import org.kuali.kfs.KFSConstants.SystemGroupParameterNames;
@@ -27,6 +35,7 @@ import org.kuali.module.gl.bo.InterDepartmentalBilling;
 import org.kuali.module.gl.bo.OriginEntry;
 import org.kuali.test.KualiTestBase;
 import org.kuali.test.WithTestSpringContext;
+import org.springframework.beans.factory.BeanFactory;
 
 /**
  * Test the CollectorService.
@@ -125,5 +134,49 @@ public class CollectorServiceTest extends KualiTestBase {
         boolean isValid = collectorService.performValidation(collectorBatch);
         assertFalse("returned batch was valid but there were multiple balance types", isValid);
         assertTrue("error message for mixed balance types does not exist", GlobalVariables.getErrorMap().containsMessageKey(KFSKeyConstants.Collector.MIXED_BALANCE_TYPES));
+    }
+    
+    /**
+     * Tests that the ID billing detail amounts are negative when appropriate. See https://test.kuali.org/jira/browse/KULRNE-4845 for specs.
+     * 
+     * @throws Exception
+     */
+    public final void testNegativeIDBillingAmounts() throws Exception {
+        String collectorDirectoryName = SpringServiceLocator.getCollectorInputFileType().getDirectoryPath();
+        String fileName = collectorDirectoryName + File.separator + "gl_collector3.xml";
+        
+        BeanFactory beanFactory = SpringServiceLocator.getBeanFactory();
+        UnitTestSqlDao unitTestSqlDao = (UnitTestSqlDao) beanFactory.getBean("unitTestSqlDao");
+        unitTestSqlDao.sqlCommand("delete from GL_ID_BILL_T");
+        
+        collectorService.loadCollectorFile(fileName);
+        
+        Map<String, String> criteria = new HashMap<String, String>();
+        // empty criteria, so return everything
+        Collection<InterDepartmentalBilling> allIDBs = SpringServiceLocator.getBusinessObjectService().findMatching(InterDepartmentalBilling.class, criteria);
+        
+        assertEquals("Incorrect number of InterDepartmentalBilling records found", 2, allIDBs.size());
+        
+        boolean objCode3000Found = false;
+        boolean objCode9760Found = false;
+        
+        for (InterDepartmentalBilling interDepartmentalBilling : allIDBs) {
+            if (interDepartmentalBilling.getUniversityFiscalYear().equals(new Integer(2006)) && interDepartmentalBilling.getChartOfAccountsCode().equals("BL")
+                    && interDepartmentalBilling.getFinancialObjectCode().equals("3000")) {
+                objCode3000Found = true;
+                assertEquals("ID Billing detail amount for obj code 3000 must be negative (obj type is debit)", new KualiDecimal("-1000000"), interDepartmentalBilling.getInterDepartmentalBillingItemAmount());
+            }
+            else if (interDepartmentalBilling.getUniversityFiscalYear().equals(new Integer(2006)) && interDepartmentalBilling.getChartOfAccountsCode().equals("BL")
+                    && interDepartmentalBilling.getFinancialObjectCode().equals("9760")) {
+                objCode9760Found = true;
+                assertEquals("ID Billing detail amount for obj code 9760 must be positive (obj type is credit)", new KualiDecimal("123"), interDepartmentalBilling.getInterDepartmentalBillingItemAmount());
+            }
+            else {
+                fail("Unrecognized ID Billing detail object code information " + interDepartmentalBilling);
+            }
+        }
+        
+        assertTrue("ID Billing detail for object code 3000 not found", objCode3000Found);
+        assertTrue("ID Billing detail for object code 9760 not found", objCode9760Found);
     }
 }

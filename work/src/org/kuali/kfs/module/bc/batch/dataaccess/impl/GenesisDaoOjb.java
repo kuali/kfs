@@ -26,6 +26,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map;
 
+import edu.iu.uis.eden.EdenConstants;
 // @@TODO: not needed for production code
 import org.apache.commons.beanutils.PropertyUtils;
 import org.kuali.workflow.*;
@@ -4337,25 +4338,30 @@ public class GenesisDaoOjb extends PlatformAwareDaoBaseOjb
         newBCHdr.setDocumentNumber(newBCHdr.getDocumentHeader().getDocumentNumber());
         kualiDocumentHeader.setOrganizationDocumentNumber(
                             newBCHdr.getUniversityFiscalYear().toString());
+//        kualiDocumentHeader.setFinancialDocumentStatusCode(
+//                KFSConstants.INITIAL_KUALI_DOCUMENT_STATUS_CD);
         kualiDocumentHeader.setFinancialDocumentStatusCode(
-                KFSConstants.INITIAL_KUALI_DOCUMENT_STATUS_CD);
+                EdenConstants.ROUTE_HEADER_FINAL_CD);
         kualiDocumentHeader.setFinancialDocumentTotalAmount(KualiDecimal.ZERO);
         kualiDocumentHeader.setFinancialDocumentDescription(String.format("%s %d %s %s",
                 BudgetConstructionConstants.BUDGET_CONSTRUCTION_DOCUMENT_DESCRIPTION,
                        newBCHdr.getUniversityFiscalYear(),
                        newBCHdr.getChartOfAccountsCode(),newBCHdr.getAccountNumber()));
-        kualiDocumentHeader.setExplanation(
-                BudgetConstructionConstants.BUDGET_CONSTRUCTION_DOCUMENT_DESCRIPTION);
+        kualiDocumentHeader.setExplanation(String.format("%s: %s",
+                BudgetConstructionConstants.BUDGET_CONSTRUCTION_DOCUMENT_DESCRIPTION,
+                newBCHdr.getDocumentHeader().getWorkflowDocument().toString()));
         getPersistenceBrokerTemplate().store(newBCHdr);
         documentService.prepareWorkflowDocument(newBCHdr);
+        StringBuffer annotateDoc = new StringBuffer("created by Genesis--test");
+        annotateDoc.append(newBCHdr.getDocumentNumber());
         workflowDocumentService.route(newBCHdr.getDocumentHeader().getWorkflowDocument(),
-                                      "created by Genesis",null);
+                                      annotateDoc.toString(),null);
 //        KHUNTLEY does not have superuser privileges
 //        the procurement card does a superUserApprove, and its test uses KULUSER 
 //        KULUSER works for us as well, but for our document the superUser method
 //        apparently goes through the same stages as the route method        
-        workflowDocumentService.superUserApprove(newBCHdr.getDocumentHeader().getWorkflowDocument(),
-                "created by Genesis");
+//        workflowDocumentService.superUserApprove(newBCHdr.getDocumentHeader().getWorkflowDocument(),
+//                "created by Genesis");
    }
  
     public Object returnWkflwDocHeader()

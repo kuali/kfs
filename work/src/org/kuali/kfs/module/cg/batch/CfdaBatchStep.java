@@ -19,7 +19,6 @@ import org.kuali.kfs.batch.AbstractStep;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.cg.service.CfdaService;
 import org.kuali.module.cg.service.CfdaUpdateResults;
-import org.kuali.test.fixtures.UserNameFixture;
 import org.kuali.core.service.MailService;
 import org.kuali.core.service.KualiGroupService;
 import org.kuali.core.service.UniversalUserService;

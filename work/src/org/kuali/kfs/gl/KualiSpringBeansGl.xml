@@ -21,6 +21,7 @@
 		<property name="moduleName" value="Kuali General Ledger" />
 		<property name="moduleCode" value="GL" />
 		<property name="moduleUserService" ref="glUserService" />
+		<property name="initializeDataDictionary" value="true" />
 		<property name="moduleAuthorizer">
 			<bean class="org.kuali.kfs.authorization.KfsModuleAuthorizerBase">
 				<property name="packagePrefixes">

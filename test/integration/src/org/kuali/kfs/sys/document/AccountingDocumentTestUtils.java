@@ -28,6 +28,7 @@ import org.apache.log4j.Logger;
 import org.kuali.core.bo.AdHocRouteRecipient;
 import org.kuali.core.bo.DocumentHeader;
 import org.kuali.core.datadictionary.DataDictionary;
+import org.kuali.core.datadictionary.TransactionalDocumentEntry;
 import org.kuali.core.document.Copyable;
 import org.kuali.core.document.Correctable;
 import org.kuali.core.document.Document;
@@ -91,9 +92,9 @@ public final class AccountingDocumentTestUtils extends KualiTestBase {
         // change the dataDictionary to disallow copying
         DataDictionary d = dataDictionaryService.getDataDictionary();
         Class documentClass = document.getClass();
-        boolean originalValue = d.getTransactionalDocumentEntry(documentClass).getAllowsCopy();
+        boolean originalValue = d.getDocumentEntry(documentClass.getName()).getAllowsCopy();
         try {
-            d.getTransactionalDocumentEntry(documentClass).setAllowsCopy(false);
+            d.getDocumentEntry(documentClass.getName()).setAllowsCopy(false);
 
             boolean failedAsExpected = false;
             try {
@@ -106,7 +107,7 @@ public final class AccountingDocumentTestUtils extends KualiTestBase {
             assertTrue(failedAsExpected);
         }
         finally {
-            d.getTransactionalDocumentEntry(documentClass).setAllowsCopy(originalValue);
+            d.getDocumentEntry(documentClass.getName()).setAllowsCopy(originalValue);
         }
     }
 
@@ -132,9 +133,9 @@ public final class AccountingDocumentTestUtils extends KualiTestBase {
         // change the dataDictionary to disallow errorCorrection
         DataDictionary d = dataDictionaryService.getDataDictionary();
         Class documentClass = document.getClass();
-        boolean originalValue = d.getTransactionalDocumentEntry(documentClass).getAllowsErrorCorrection();
+        boolean originalValue = ((TransactionalDocumentEntry)d.getDocumentEntry(documentClass.getName())).getAllowsErrorCorrection();
         try {
-            d.getTransactionalDocumentEntry(documentClass).setAllowsErrorCorrection(false);
+            ((TransactionalDocumentEntry)d.getDocumentEntry(documentClass.getName())).setAllowsErrorCorrection(false);
 
             boolean failedAsExpected = false;
             try {
@@ -147,7 +148,7 @@ public final class AccountingDocumentTestUtils extends KualiTestBase {
             assertTrue(failedAsExpected);
         }
         finally {
-            d.getTransactionalDocumentEntry(documentClass).setAllowsErrorCorrection(originalValue);
+            ((TransactionalDocumentEntry)d.getDocumentEntry(documentClass.getName())).setAllowsErrorCorrection(originalValue);
         }
     }
 

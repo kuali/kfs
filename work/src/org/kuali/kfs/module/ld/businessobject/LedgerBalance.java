@@ -116,7 +116,7 @@ public class LedgerBalance extends Balance {
 
         // Try to find a ledger person for this emplid if one exists
         try {
-            setLedgerPerson(((LaborUserService) SpringServiceLocator.getService(LABOR_USER_SERVICE_NAME))
+            setLedgerPerson(((LaborUserService) SpringServiceLocator.getLocalKFSService(LABOR_USER_SERVICE_NAME))
                             .getLaborUserByPersonPayrollIdentifier(emplid).getUniversalUser());
         }
         catch (UserNotFoundException unfe) {

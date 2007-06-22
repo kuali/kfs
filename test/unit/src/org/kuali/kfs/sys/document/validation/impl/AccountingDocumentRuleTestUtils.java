@@ -114,7 +114,7 @@ public abstract class AccountingDocumentRuleTestUtils extends KualiTestBase {
     public static <T extends BusinessRule> T getBusinessRule(Class<? extends AccountingDocument> documentClass, Class<T> businessRuleClass) throws Exception {
         DataDictionaryService dataDictionaryService = getDataDictionaryService();
         final String documentTypeName = dataDictionaryService.getDocumentTypeNameByClass(documentClass);
-        T businessRule = (T) dataDictionaryService.getDataDictionary().getBusinessRulesClass(documentTypeName).newInstance();
+        T businessRule = (T) dataDictionaryService.getDataDictionary().getDocumentEntry(documentTypeName).getBusinessRulesClass().newInstance();
         return businessRule;
     }
 }

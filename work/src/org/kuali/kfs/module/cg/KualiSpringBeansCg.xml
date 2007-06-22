@@ -21,6 +21,7 @@
 		<property name="moduleName" value="Kuali Contracts and Grants" />
 		<property name="moduleCode" value="CG" />
 		<property name="moduleUserService" ref="cgUserService" />
+		<property name="initializeDataDictionary" value="true" />
 		<property name="moduleAuthorizer">
 			<bean class="org.kuali.kfs.authorization.KfsModuleAuthorizerBase">
 				<property name="packagePrefixes">

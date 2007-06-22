@@ -21,6 +21,7 @@
 		<property name="moduleName" value="Kuali Research Administration" />
 		<property name="moduleCode" value="RA" />
 		<property name="moduleUserService" ref="kraUserService" />
+		<property name="initializeDataDictionary" value="true" />
 		<property name="moduleAuthorizer">
 			<bean class="org.kuali.kfs.authorization.KfsModuleAuthorizerBase">
 				<property name="packagePrefixes">

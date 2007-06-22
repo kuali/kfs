@@ -202,7 +202,7 @@ public class IsDebitTestUtils {
      */
     public static boolean isDebit(DocumentTypeService documentTypeService, DataDictionaryService dataDicitionaryService, AccountingDocument financialDocument, AccountingLine accountingLine) throws InstantiationException, IllegalAccessException {
         String documentTypeName = documentTypeService.getDocumentTypeNameByClass(financialDocument.getClass());
-        AccountingLineRule rule = (AccountingLineRule) dataDicitionaryService.getDataDictionary().getBusinessRulesClass(documentTypeName).newInstance();
+        AccountingLineRule rule = (AccountingLineRule) dataDicitionaryService.getDataDictionary().getDocumentEntry(documentTypeName).getBusinessRulesClass().newInstance();
 
         return rule.isDebit(financialDocument, accountingLine);
     }

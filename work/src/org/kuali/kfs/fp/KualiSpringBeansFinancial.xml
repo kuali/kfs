@@ -21,6 +21,7 @@
 		<property name="moduleName" value="Kuali Financial Transactions" />
 		<property name="moduleCode" value="FT" />
 		<property name="moduleUserService" ref="financialUserService" />
+		<property name="initializeDataDictionary" value="true" />
 		<property name="moduleAuthorizer">
 			<bean class="org.kuali.module.financial.authorization.FinancialModuleAuthorizer">
 				<property name="packagePrefixes">

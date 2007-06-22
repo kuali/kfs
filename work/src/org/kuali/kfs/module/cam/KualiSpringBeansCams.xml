@@ -21,6 +21,7 @@
 		<property name="moduleName" value="Kuali Capital Asset Maintenance" />
 		<property name="moduleCode" value="CA" />
 		<property name="moduleUserService" ref="camsUserService" />
+		<property name="initializeDataDictionary" value="true" />
 		<property name="moduleAuthorizer">
 			<bean class="org.kuali.kfs.authorization.KfsModuleAuthorizerBase">
 				<property name="packagePrefixes">

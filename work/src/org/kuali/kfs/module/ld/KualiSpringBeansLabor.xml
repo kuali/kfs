@@ -21,6 +21,7 @@
 		<property name="moduleName" value="Kuali Labor Distribution" />
 		<property name="moduleCode" value="LB" />
 		<property name="moduleUserService" ref="laborUserService" />
+		<property name="initializeDataDictionary" value="true" />
 		<property name="moduleAuthorizer">
 			<bean class="org.kuali.kfs.authorization.KfsModuleAuthorizerBase">
 				<property name="packagePrefixes">

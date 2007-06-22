@@ -21,6 +21,7 @@
 		<property name="moduleName" value="Kuali Chart Of Accounts" />
 		<property name="moduleCode" value="CH" />
 		<property name="moduleUserService" ref="chartUserService" />
+		<property name="initializeDataDictionary" value="true" />
 		<property name="moduleUserRule">
 			<bean class="org.kuali.module.chart.rules.ChartUserRule" singleton="false" parent="maintenanceDocumentRuleBase">
 				<!--  TODO: bind in other services -->

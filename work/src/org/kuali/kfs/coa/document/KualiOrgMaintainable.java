@@ -20,11 +20,11 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.core.bo.user.UniversalUser;
+import org.kuali.core.maintenance.KualiMaintainableImpl;
+import org.kuali.core.maintenance.Maintainable;
 import org.kuali.core.web.ui.Field;
 import org.kuali.core.web.ui.Row;
 import org.kuali.core.web.ui.Section;
-import org.kuali.core.maintenance.KualiMaintainableImpl;
 import org.kuali.kfs.KFSPropertyConstants;
 
 /**
@@ -42,9 +42,9 @@ public class KualiOrgMaintainable extends KualiMaintainableImpl {
     /**
      *
      * 
-     * @see org.kuali.core.maintenance.Maintainable#getCoreSections()
+     * @see org.kuali.core.maintenance.Maintainable#getCoreSections(org.kuali.core.maintenance.Maintainable)
      */
-    public List getCoreSections() {
+    public List getCoreSections(Maintainable oldMaintainable) {
 
         boolean fieldFound = false;
         boolean sectionFound = false;
@@ -52,7 +52,7 @@ public class KualiOrgMaintainable extends KualiMaintainableImpl {
         String orgPostalCodeFieldName = KFSPropertyConstants.ORGANIZATION_ZIP_CODE;
 
         // walk the sections
-        List sections = super.getCoreSections();
+        List sections = super.getCoreSections(oldMaintainable);
         for (Iterator sectionIterator = sections.iterator(); sectionIterator.hasNext();) {
             Section section = (Section) sectionIterator.next();
 

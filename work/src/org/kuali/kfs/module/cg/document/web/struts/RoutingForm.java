@@ -83,7 +83,7 @@ public class RoutingForm extends ResearchDocumentFormBase {
         super();
        
         DataDictionary dataDictionary = SpringServiceLocator.getDataDictionaryService().getDataDictionary();
-        DocumentEntry budgetDocumentEntry = dataDictionary.getDocumentEntry(org.kuali.module.kra.routingform.document.RoutingFormDocument.class);
+        DocumentEntry budgetDocumentEntry = dataDictionary.getDocumentEntry(org.kuali.module.kra.routingform.document.RoutingFormDocument.class.getName());
         this.setHeaderNavigationTabs(budgetDocumentEntry.getHeaderTabNavigation());
         
         setDocument(new RoutingFormDocument());

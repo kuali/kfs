@@ -267,7 +267,7 @@ public class NonCheckDisbursementDocumentRule extends AccountingDocumentRuleBase
     private boolean isRequiredReferenceFieldsValid(AccountingLine accountingLine) {
         boolean valid = true;
 
-        BusinessObjectEntry boe = SpringServiceLocator.getDataDictionaryService().getDataDictionary().getBusinessObjectEntry(SourceAccountingLine.class);
+        BusinessObjectEntry boe = SpringServiceLocator.getDataDictionaryService().getDataDictionary().getBusinessObjectEntry(SourceAccountingLine.class.getName());
         if (StringUtils.isEmpty(accountingLine.getReferenceNumber())) {
             putRequiredPropertyError(boe, REFERENCE_NUMBER);
             valid = false;

@@ -21,6 +21,7 @@
 		<property name="moduleName" value="Kuali Accounts Receivable" />
 		<property name="moduleCode" value="AR" />
 		<property name="moduleUserService" ref="arUserService" />
+		<property name="initializeDataDictionary" value="true" />
 		<property name="moduleAuthorizer">
 			<bean class="org.kuali.kfs.authorization.KfsModuleAuthorizerBase">
 				<property name="packagePrefixes">

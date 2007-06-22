@@ -86,7 +86,7 @@ public class PreEncumbranceDocumentRule extends AccountingDocumentRuleBase {
         boolean valid = true;
 
         if (accountingLine.isTargetAccountingLine()) {
-            BusinessObjectEntry boe = SpringServiceLocator.getDataDictionaryService().getDataDictionary().getBusinessObjectEntry(TargetAccountingLine.class);
+            BusinessObjectEntry boe = SpringServiceLocator.getDataDictionaryService().getDataDictionary().getBusinessObjectEntry(TargetAccountingLine.class.getName());
             if (StringUtils.isEmpty(accountingLine.getReferenceNumber())) {
                 putRequiredPropertyError(boe, REFERENCE_NUMBER);
                 valid = false;

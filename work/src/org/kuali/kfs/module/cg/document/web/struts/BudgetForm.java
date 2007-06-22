@@ -133,7 +133,7 @@ public class BudgetForm extends ResearchDocumentFormBase {
         academicYearSubdivisionNames = new ArrayList();
         
         DataDictionary dataDictionary = SpringServiceLocator.getDataDictionaryService().getDataDictionary();
-        DocumentEntry budgetDocumentEntry = dataDictionary.getDocumentEntry(org.kuali.module.kra.budget.document.BudgetDocument.class);
+        DocumentEntry budgetDocumentEntry = dataDictionary.getDocumentEntry(org.kuali.module.kra.budget.document.BudgetDocument.class.getName());
         this.setHeaderNavigationTabs(budgetDocumentEntry.getHeaderTabNavigation());
     }
 

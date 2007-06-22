@@ -248,7 +248,7 @@ public class GeneralErrorCorrectionDocumentRule extends AccountingDocumentRuleBa
             alclass = TargetAccountingLine.class;
         }
 
-        boe = SpringServiceLocator.getDataDictionaryService().getDataDictionary().getBusinessObjectEntry(alclass);
+        boe = SpringServiceLocator.getDataDictionaryService().getDataDictionary().getBusinessObjectEntry(alclass.getName());
         if (StringUtils.isEmpty(accountingLine.getReferenceOriginCode())) {
             putRequiredPropertyError(boe, REFERENCE_ORIGIN_CODE);
             valid = false;

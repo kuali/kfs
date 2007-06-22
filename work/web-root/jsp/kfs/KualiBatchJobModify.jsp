@@ -33,7 +33,7 @@
 	transactionalDocument="false" htmlFormAction="batchModify"
 	errorKey="*">
 	<div style="text-align: right;">
-		<a href="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.batch.BatchJobStatus&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true&conversionFields=name:name,group:group">Return to Lookup</a>" />
+		<a href="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.batch.BatchJobStatus&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true&conversionFields=name:name,group:group">Return to Lookup</a>
 	</div>
 	<html:hidden property="refreshCaller" />
 	<input type="hidden" name="name" value="${job.name}" />

@@ -21,7 +21,9 @@ import org.apache.log4j.Logger;
 import org.kuali.module.purap.bo.NegativePaymentRequestApprovalLimit;
 import org.kuali.module.purap.dao.NegativePaymentRequestApprovalLimitDao;
 import org.kuali.module.purap.service.NegativePaymentRequestApprovalLimitService;
+import org.springframework.transaction.annotation.Transactional;
 
+@Transactional
 public class NegativePaymentRequestApprovalLimitServiceImpl implements NegativePaymentRequestApprovalLimitService {
     private static Logger LOG = Logger.getLogger(NegativePaymentRequestApprovalLimitServiceImpl.class);
     private NegativePaymentRequestApprovalLimitDao dao;

@@ -79,5 +79,17 @@
 	<classpathentry kind="lib" path="work/web-root/WEB-INF/lib/rice-kns-0.9-RC1.jar"/>
 	<classpathentry kind="lib" path="work/web-root/WEB-INF/lib/rice-core-0.9-RC1.jar"/>
 	<classpathentry kind="lib" path="build/configurationFiles/appserver/lib/log4j-1.2.9.jar"/>
+	<classpathentry kind="lib" path="build/configurationFiles/appserver/lib/xapool.jar"/>
+	<classpathentry kind="lib" path="build/configurationFiles/appserver/lib/ow_carol.jar"/>
+	<classpathentry kind="lib" path="build/configurationFiles/appserver/lib/objectweb-datasource.jar"/>
+	<classpathentry kind="lib" path="build/configurationFiles/appserver/lib/jts1_0.jar"/>
+	<classpathentry kind="lib" path="build/configurationFiles/appserver/lib/jta-spec1_0_1.jar"/>
+	<classpathentry kind="lib" path="build/configurationFiles/appserver/lib/jotm.jar"/>
+	<classpathentry kind="lib" path="build/configurationFiles/appserver/lib/jotm_jrmp_stubs.jar"/>
+	<classpathentry kind="lib" path="build/configurationFiles/appserver/lib/jotm_iiop_stubs.jar"/>
+	<classpathentry kind="lib" path="build/configurationFiles/appserver/lib/howl.jar"/>
+	<classpathentry kind="lib" path="build/configurationFiles/appserver/lib/connector-1_5.jar"/>
+	<classpathentry kind="lib" path="build/configurationFiles/appserver/lib/commons-logging.jar"/>
+	<classpathentry kind="lib" path="build/configurationFiles/appserver/lib/commons-cli-1.0.jar"/>
 	<classpathentry kind="output" path="work/web-root/WEB-INF/classes"/>
 </classpath>

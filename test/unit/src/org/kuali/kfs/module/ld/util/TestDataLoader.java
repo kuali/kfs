@@ -74,7 +74,7 @@ public class TestDataLoader {
         keyFieldList = Arrays.asList(StringUtils.split(fieldNames, deliminator));
         fieldLengthList = Arrays.asList(StringUtils.split(fieldLength, deliminator));
 
-        SpringServiceLocator.initializeDDGeneratorApplicationContext();
+        SpringServiceLocator.initializeApplicationContext();
         beanFactory = SpringServiceLocator.getBeanFactory();
         businessObjectService = (BusinessObjectService) beanFactory.getBean("businessObjectService");
 

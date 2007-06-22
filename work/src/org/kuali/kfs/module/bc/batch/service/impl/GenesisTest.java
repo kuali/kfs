@@ -60,7 +60,7 @@ public class GenesisTest {
       LOG = org.apache.log4j.Logger.getLogger(GenesisTest.class);
      
   //    this supposedly configures spring/ojb
-     SpringServiceLocator.initializeDDGeneratorApplicationContext();
+     SpringServiceLocator.initializeApplicationContext();
      configService = 
             SpringServiceLocator.getKualiConfigurationService();
      genesisDao = (GenesisDao) SpringServiceLocator.getInstance().getApplicationContext().getBean("genesisDao");

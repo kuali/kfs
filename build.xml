@@ -403,9 +403,9 @@
 		<touch file="${rice.project.directory}/pom.xml" />
 	</target>
 	
-	<target name="update-rice-dev" depends="update-rice-lib,update-rice-web,dist-local" />
+	<target name="update-rice-dev" depends="update-rice-basic,dist-local" />
 	
-	<target name="update-rice-lib" depends="init-project-properties">
+	<target name="update-rice-basic" depends="init-project-properties">
 		<delete>
 			<fileset dir="${basedir}" includes="${lib.directory}/${rice.output.file.prefix}${rice.output.lib.suffix}" />
 		</delete>
@@ -413,16 +413,13 @@
 		<copy todir="${lib.directory}" flatten="true">
 			<fileset dir="${rice.project.directory}" includes="${rice.output.directories}${rice.output.file.prefix}${rice.version}${rice.output.lib.suffix}" excludes="${rice.excludes}" />
 		</copy>
-	</target>
-	
-	<target name="update-rice-web" depends="init-project-properties">
 		<delete>
 			<fileset dir="${build.config.directory}" includes="${rice.name}-*${rice.output.web.suffix}" />
 		</delete>
 		<zip compress="true" destfile="${build.config.directory}/${rice.name}-${rice.version}${rice.output.web.suffix}" basedir="${rice.sampleapp.directory}" includes="${rice.application}/**/**,${tags.directory}/${rice.application}/**/*.tag,${workflow.application}/**/**" excludes="**/CVS" />
 	</target>
 	
-	<target name="update-rice-extended" depends="update-rice-lib,update-rice-web">
+	<target name="update-rice-extended" depends="update-rice-dev">
 		<delete>
 			<fileset dir="${dependencies.project.directory}" includes="${rice.output.file.prefix}${rice.output.src.suffix},${rice.output.file.prefix}${rice.output.doc.suffix}" />
 		</delete>

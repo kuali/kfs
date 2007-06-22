@@ -85,7 +85,7 @@
 								</tr>
 								<tr>
 									<td></td>
-									<td><button type="submit" name="methodToCall" value="runJob">Run Job</button></td>
+									<td><html:image src="${ConfigProperties.externalizable.images.url}run.jpg" styleClass="globalbuttons" property="methodToCall.runJob" title="Run Job" alt="Run Job" /></td>
 								</tr>
 							</table>
 							<script type="text/javascript">
@@ -111,15 +111,15 @@
 				<c:if test="${canSchedule || canUnschedule || canStopJob}">
 					<td rowspan="2">
 						<c:if test="${canSchedule && !job.scheduled}">
-							<button type="submit" name="methodToCall" value="schedule">Add to Standard Schedule</button>
+							<html:image src="${ConfigProperties.externalizable.images.url}schedule.jpg" styleClass="globalbuttons" property="methodToCall.schedule" title="Add to Standard Schedule" alt="Add to Standard Schedule" />
 							<br />
 						</c:if>				
 						<c:if test="${canUnschedule && job.scheduled}">
-							<button type="submit" name="methodToCall" value="unschedule">Remove From Standard Schedule</button>
+							<html:image src="${ConfigProperties.externalizable.images.url}unschedule.jpg" styleClass="globalbuttons" property="methodToCall.unschedule" title="Remove From Standard Schedule" alt="Remove From Standard Schedule" />
 							<br />
 						</c:if>
 						<c:if test="${canStopJob && job.running}">
-							<button type="submit" name="methodToCall" value="stopJob">Stop Running Job</button>
+							<html:image src="${ConfigProperties.externalizable.images.url}stop.jpg" styleClass="globalbuttons" property="methodToCall.stop" title="Stop Running Job" alt="Stop Running Job" />
 							<br />
 						</c:if>
 						&nbsp;

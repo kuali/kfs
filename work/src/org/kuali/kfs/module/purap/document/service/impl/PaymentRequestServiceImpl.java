@@ -40,7 +40,6 @@ import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.workflow.service.WorkflowDocumentService;
-import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.bo.SourceAccountingLine;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.chart.bo.Account;
@@ -786,15 +785,20 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
      * @param note String for cancel note
      * @param u User cancelling the PREQ
      */
-    public void cancelExtractedPaymentRequest(PaymentRequestDocument paymentRequest, UniversalUser u, String note) {
+    public void cancelExtractedPaymentRequest(PaymentRequestDocument paymentRequest, String note) {
         LOG.debug("cancelExtractedPaymentRequest() started");
         if ((PurapConstants.PaymentRequestStatuses.CANCELLED_IN_PROCESS.equals(paymentRequest.getStatusCode())) || (PurapConstants.PaymentRequestStatuses.CANCELLED_POST_APPROVE.equals(paymentRequest.getStatusCode()))) {
             LOG.debug("cancelExtractedPaymentRequest() ended");
             return;
         }
         generalLedgerService.generateEntriesCancelPreq(paymentRequest);
-        //TODO: I think we should updateStatusAndStatusHistory with the note, but the method with the note is probably not working yet ?
-        //this.savePaymentRequestStatusHistory(u, paymentRequest, paymentRequest.getStatus(), newStatus, note);
+        try {
+            Note cancelNote = documentService.createNoteFromDocument(paymentRequest,note);
+            documentService.addNoteToDocument(paymentRequest,cancelNote);
+        }
+        catch (Exception e) {
+            throw new RuntimeException(PurapConstants.REQ_UNABLE_TO_CREATE_NOTE+" "+e);
+        }
         purapService.updateStatusAndStatusHistory(paymentRequest, PurapConstants.PaymentRequestStatuses.CANCELLED_POST_APPROVE);
         this.save(paymentRequest);
         LOG.debug("cancelExtractedPaymentRequest() PREQ " + paymentRequest.getPurapDocumentIdentifier() + " Cancelled Without Workflow");
@@ -816,9 +820,14 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
         }
         paymentRequest.setExtractedDate(null);
         paymentRequest.setPaymentPaidDate(null);
-        //TODO: I think we're supposed to create a note and add the note to the payment request here ?
-        //this.savePaymentRequestDocumentNote(new DocumentNote(paymentRequest.getDocumentHeader().getId(), "This Payment Request is being reset for extraction by PDP", u));
-               
+        String noteText = "This Payment Request is being reset for extraction by PDP " + note;
+        try {
+            Note resetNote = documentService.createNoteFromDocument(paymentRequest,noteText);
+            documentService.addNoteToDocument(paymentRequest,resetNote);
+        }
+        catch (Exception e) {
+            throw new RuntimeException(PurapConstants.REQ_UNABLE_TO_CREATE_NOTE+" "+e);
+        }
         this.save(paymentRequest);
         LOG.debug("resetExtractedPaymentRequest() PREQ " + paymentRequest.getPurapDocumentIdentifier() + " Reset from Extracted status");
     }

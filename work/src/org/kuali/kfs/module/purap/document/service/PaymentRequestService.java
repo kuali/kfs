@@ -16,20 +16,12 @@
 package org.kuali.module.purap.service;
 
 import java.sql.Date;
-//import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
 import org.kuali.core.bo.user.UniversalUser;
-import org.kuali.core.service.BusinessObjectService;
-import org.kuali.core.service.DateTimeService;
-import org.kuali.core.service.DocumentService;
-import org.kuali.core.service.NoteService;
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.core.workflow.service.WorkflowDocumentService;
-import org.kuali.module.purap.dao.PaymentRequestDao;
 import org.kuali.module.purap.document.PaymentRequestDocument;
-import org.kuali.module.vendor.service.VendorService;
 
 
 public interface PaymentRequestService {
@@ -75,7 +67,7 @@ public interface PaymentRequestService {
 
     public void resetExtractedPaymentRequest(PaymentRequestDocument paymentRequest, String note);
     
-    public void cancelExtractedPaymentRequest(PaymentRequestDocument paymentRequest, UniversalUser u, String note);
+    public void cancelExtractedPaymentRequest(PaymentRequestDocument paymentRequest, String note);
     
     /**
      * Recalculate the payment request

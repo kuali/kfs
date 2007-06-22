@@ -54,9 +54,9 @@ public interface CreditMemoService {
     public HashMap<String, String> creditMemoDuplicateMessages(CreditMemoDocument document);
     
     
-/*
-    public void save(PaymentRequestDocument paymentRequestDocument);
-    
+
+    public void save(CreditMemoDocument creditMemoDocument);
+    /*   
     public List<PaymentRequestDocument> getPaymentRequestsByPurchaseOrderId(Integer poDocId);
     
     public List getPaymentRequestsByPOIdInvoiceAmountInvoiceDate(Integer poId, KualiDecimal invoiceAmount, Date invoiceDate);

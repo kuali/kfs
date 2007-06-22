@@ -15,64 +15,76 @@
  */
 package org.kuali.module.purap.rules;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.document.Document;
+import org.apache.struts.action.ActionForm;
+import org.kuali.core.rule.PreRulesCheck;
+import org.kuali.core.rule.event.PreRulesCheckEvent;
 import org.kuali.core.util.GlobalVariables;
+import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.module.chart.bo.DelegateChangeContainer;
+import org.kuali.module.chart.bo.DelegateChangeDocument;
 import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.PurapKeyConstants;
 import org.kuali.module.purap.PurapPropertyConstants;
-import org.kuali.module.purap.document.AccountsPayableDocument;
 import org.kuali.module.purap.document.CreditMemoDocument;
 import org.kuali.module.purap.document.PaymentRequestDocument;
 import org.kuali.module.purap.document.PurchaseOrderDocument;
-import org.kuali.module.purap.document.PurchasingAccountsPayableDocument;
-import org.kuali.module.purap.rule.ContinueAccountsPayableRule;
 import org.kuali.module.vendor.bo.VendorDetail;
 import org.kuali.module.vendor.util.VendorUtils;
 
 
 
-public class CreditMemoDocumentRule extends AccountsPayableDocumentRuleBase implements ContinueAccountsPayableRule {
+public class CreditMemoDocumentPreRules implements PreRulesCheck {
+
+   // protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(DelegatePreRules.class);
+
+    public CreditMemoDocumentPreRules() {
+        super();
+    }
 
     /**
-     * Tabs included on Payment Request Documents are:
-     *   Credit Memo
-     * 
-     * @see org.kuali.module.purap.rules.PurchasingAccountsPayableDocumentRuleBase#processValidation(org.kuali.module.purap.document.PurchasingAccountsPayableDocument)
+     * @see org.kuali.core.rule.PreRulesCheck#processPreRuleChecks(org.apache.struts.action.ActionForm,
+     *      javax.servlet.http.HttpServletRequest, org.kuali.core.rule.event.PreRulesCheckEvent)
      */
-    @Override
-    public boolean processValidation(PurchasingAccountsPayableDocument purapDocument) {
-      //  boolean valid = super.processValidation(purapDocument);
-        boolean valid = processCreditMemoValidation((CreditMemoDocument)purapDocument);
-        return valid;
-    }
- /*   
-    @Override
-    protected boolean processCustomSaveDocumentBusinessRules(Document document) {
-        boolean isValid = true;
-        CreditMemoDocument  creditMemoDocument = (CreditMemoDocument) document;
-        return isValid &= processValidation(creditMemoDocument);
-    }
-   */ 
-    public boolean processContinueAccountsPayableBusinessRules(AccountsPayableDocument document) {
-        boolean isValid = true;
-        CreditMemoDocument  creditMemoDocument = (CreditMemoDocument) document;
-        return isValid &= processValidation(creditMemoDocument);
-    }
-    
-    /**
-     * This method performs any validation for the Credit Memo tab.
-     * 
-     * @param cmDocument
-     * @return
-     */
-    public boolean processCreditMemoValidation(CreditMemoDocument cmDocument) {
+    public boolean processPreRuleChecks(ActionForm form, HttpServletRequest request, PreRulesCheckEvent event) {
+  //     LOG.info("Entering processPreRuleChecks");
         boolean valid = true;
-        //TODO code validation here
-        valid &= validateCreditMemoInitTab(cmDocument);
+
+        // create some references to the relevant objects being looked at
+        CreditMemoDocument cmDocument = (CreditMemoDocument) event.getDocument();
+       // DelegateChangeContainer newDelegateChangeContainer = (DelegateChangeContainer) cmDocument.getNewMaintainableObject().getBusinessObject();
+        valid &=  validateCreditMemoInitTab(cmDocument);
+        // set the defaults on the document
+
+       // setUnconditionalDefaults(newDelegateChangeContainer);
+
         return valid;
+    }
+
+    private boolean empty(String s) {
+        if (s == null)
+            return true;
+        return s.length() == 0;
+    }
+
+    private void setUnconditionalDefaults(DelegateChangeContainer newDelegateChangeContainer) {
+
+        for (DelegateChangeDocument newDelegateChange : newDelegateChangeContainer.getDelegateChanges()) {
+            // FROM amount defaults to zero
+            if (ObjectUtils.isNull(newDelegateChange.getApprovalFromThisAmount())) {
+                newDelegateChange.setApprovalFromThisAmount(new KualiDecimal(0));
+            }
+
+            // TO amount defaults to zero
+            if (ObjectUtils.isNull(newDelegateChange.getApprovalToThisAmount())) {
+                newDelegateChange.setApprovalToThisAmount(new KualiDecimal(0));
+            }
+        }
+
     }
     
     /**
@@ -199,25 +211,4 @@ public class CreditMemoDocumentRule extends AccountsPayableDocumentRuleBase impl
          
          return valid;
     }
-/*
-    public void assignVendorAddress(CreditMemoDocument cmDocument) {
-        // now that we have the vendor ids, set address for po and vendor type
-        VendorAddress defaultAddress = vendorService.getDefaultAddress(
-            cm.getVendorHeaderGeneratedId(), cm.getVendorDetailAssignedId(),
-            EpicConstants.VENDOR_ADDRESS_TYPE_REMIT, u.getCampusCd());
-        // FIXME delyea: Is this if-else correct?
-        if (poId != null) {
-          //CreditMemo object returns address from PO if VendorAddress is null
-          cm.setVendorAddress(defaultAddress);
-        } else if (vendorNumber != null) {
-          //if no remit type default, use PO default
-          if (defaultAddress == null) {
-            defaultAddress = vendorService.getDefaultAddress(
-                cm.getVendorHeaderGeneratedId(), cm.getVendorDetailAssignedId(),
-                EpicConstants.VENDOR_ADDRESS_TYPE_PO, u.getCampusCd());
-          }
-          cm.setVendorAddress(defaultAddress);
-        }
-    }*/
 }
-

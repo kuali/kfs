@@ -264,16 +264,17 @@ public class CreditMemoServiceImpl implements CreditMemoService {
     public List<CreditMemoDocument> getPaymentRequestsByPurchaseOrderId(Integer poDocId) {
         return creditMemoDao.getPaymentRequestsByPurchaseOrderId(poDocId);
     }
-
+*/
     public void save(CreditMemoDocument creditMemoDocument) {
 
         // Integer poId = creditMemoDocument.getPurchaseOrderIdentifier();
         // PurchaseOrderDocument purchaseOrderDocument = SpringServiceLocator.getPurchaseOrderService().getCurrentPurchaseOrder(creditMemoDocument.getPurchaseOrderIdentifier());
         // creditMemoDocument.populatePaymentRequestFormPurchaseOrder(purchaseOrderDocument);
 
-        creditMemoDao.save(creditMemoDocument);
+       // creditMemoDao.save(creditMemoDocument);
+        businessObjectService.save(creditMemoDocument);
     }
-*/
+
     /**
      * Retreives a list of Pay Reqs with the given PO Id, invoice amount, and invoice date.
      * 

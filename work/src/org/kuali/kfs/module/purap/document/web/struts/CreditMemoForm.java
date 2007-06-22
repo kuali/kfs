@@ -57,10 +57,10 @@ public class CreditMemoForm extends AccountsPayableFormBase {
     /**
      * @param internalBillingDocument The internalBillingDocument to set.
      */
-    public void setCreditMemoDocument(CreditMemoDocument purchaseOrderDocument) {
-        setDocument(purchaseOrderDocument);
+    public void setCreditMemoDocument(CreditMemoDocument creditMemoDocument) {
+        setDocument(creditMemoDocument);
     }
-
+        
     /**
      * @see org.kuali.core.web.struts.form.KualiForm#getAdditionalDocInfo1()
      */
@@ -90,7 +90,7 @@ public class CreditMemoForm extends AccountsPayableFormBase {
     public PurchasingApItem setupNewPurchasingItemLine() {
         return new PurchaseOrderItem();
     }
-
+    
     public PurchaseOrderVendorStipulation getAndResetNewPurchaseOrderVendorStipulationLine() {
         PurchaseOrderVendorStipulation aPurchaseOrderVendorStipulationLine = getNewPurchaseOrderVendorStipulationLine();
         setNewPurchaseOrderVendorStipulationLine(new PurchaseOrderVendorStipulation());
@@ -148,5 +148,5 @@ public class CreditMemoForm extends AccountsPayableFormBase {
         this.getExtraButtons().add(clearButton);
 
     }
- 
+       
 }

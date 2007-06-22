@@ -25,6 +25,7 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.core.question.ConfirmationQuestion;
+import org.kuali.core.rule.event.PreRulesCheckEvent;
 import org.kuali.core.rule.event.SaveDocumentEvent;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.GlobalVariables;
@@ -114,10 +115,12 @@ public class CreditMemoAction extends AccountsPayableActionBase {
        }
         
         // If we are here either there was no duplicate or there was a duplicate and the user hits continue, in either case we need to validate the business rules
-        creditMemoDocument.getDocumentHeader().setFinancialDocumentDescription("dummy data to pass the business rule");
-       // boolean rulePassed = SpringServiceLocator.getKualiRuleService().applyRules(new SaveDocumentEvent(creditMemoDocument));
-        boolean rulePassed = SpringServiceLocator.getKualiRuleService().applyRules(new ContinueAccountsPayableEvent(creditMemoDocument)); 
+      
+       creditMemoDocument.getDocumentHeader().setFinancialDocumentDescription("dummy data to pass the business rule");
+      ///  boolean rulePassed = SpringServiceLocator.getKualiRuleService().applyRules(new SaveDocumentEvent(creditMemoDocument));
+       // boolean rulePassed = SpringServiceLocator.getKualiRuleService().applyRules(new ContinueAccountsPayableEvent(creditMemoDocument)); 
         creditMemoDocument.getDocumentHeader().setFinancialDocumentDescription(null);
+   /**    
         if (rulePassed) {
             
             Integer poId = creditMemoDocument.getPurchaseOrderIdentifier();
@@ -133,6 +136,36 @@ public class CreditMemoAction extends AccountsPayableActionBase {
         } else {
             creditMemoDocument.setStatusCode(PurapConstants.CreditMemoStatuses.INITIATE);
         }
+      */
+    //   ActionForm form, HttpServletRequest request, PreRulesCheckEvent event
+      // boolean rulePassed = ProcessPreRulesCheck(form, request, response,new ContinueAccountsPayableEvent(creditMemoDocument) );
+      
+       ActionForward preRulesForward = preRulesCheck(mapping, form,
+               request, response);
+      
+       if (preRulesForward != null) {
+           creditMemoDocument.setStatusCode(PurapConstants.CreditMemoStatuses.INITIATE);
+          // return preRulesForward;
+       }else {
+          
+           creditMemoDocument.setStatusCode(PurapConstants.CreditMemoStatuses.IN_PROCESS);
+       }
+/*
+       if (rulePassed) {
+           
+           Integer poId = creditMemoDocument.getPurchaseOrderIdentifier();
+           PurchaseOrderDocument purchaseOrderDocument = SpringServiceLocator.getPurchaseOrderService().getCurrentPurchaseOrder(creditMemoDocument.getPurchaseOrderIdentifier());
+           String vendorNbr = creditMemoDocument.getVendorNumber();
+       
+        ///   creditMemoDocument.populateCreditMemoVendorFileds(vendorNbr);
+           creditMemoDocument.setStatusCode(PurapConstants.CreditMemoStatuses.IN_PROCESS);
+           creditMemoDocument.refreshAllReferences();
+
+           //editMode.put(PurapAuthorizationConstants.CreditMemoEditMode.DISPLAY_INIT_TAB, "FALSE");
+           
+       } else {
+           creditMemoDocument.setStatusCode(PurapConstants.CreditMemoStatuses.INITIATE);
+       }
        
         //If the list of closed/expired accounts is not empty add a warning and  add a note for the close / epired accounts which get replaced
       /*
@@ -146,6 +179,7 @@ public class CreditMemoAction extends AccountsPayableActionBase {
         */
         
         return super.refresh(mapping, form, request, response);
+       
         //return mapping.findForward(KFSConstants.MAPPING_PORTAL);
   
     }

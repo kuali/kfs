@@ -35,10 +35,12 @@
 	<html:hidden property="document.statusCode" />
 	<html:hidden property="document.vendorHeaderGeneratedIdentifier" />
 	<html:hidden property="document.vendorDetailAssignedIdentifier" />
+	
    
     <!-- html:hidden property="document.purchaseOrderEncumbranceFiscalYear" / --> 
     <!--  html:hidden property="document.creditMemoCostSourceCode" / -->
     <html:hidden property="document.accountsPayableProcessorIdentifier" />
+    <html:hidden property="document.processingCampusCode" />
     <!-- html:hidden property="document.creditMemoInitiated" /-->
     
     <!-- TODO move this to where? -->

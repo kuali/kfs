@@ -92,6 +92,8 @@ public class CreditMemoDocument extends AccountsPayableDocumentBase {
         this.setAccountsPayableProcessorIdentifier("TBD");
         UniversalUser currentUser = (UniversalUser)GlobalVariables.getUserSession().getUniversalUser();
         this.setAccountsPayableProcessorIdentifier(currentUser.getPersonUniversalIdentifier());
+        String campCode = currentUser.getCampusCode();
+        this.setProcessingCampusCode(currentUser.getCampusCode());
         // paymentRequest.setProcessedCampusCode(u.getCampusCd());
         //paymentRequest.setAccountsPayableProcessorId(u.getId());
         //this.setStatusCode( PurapConstants.PaymentRequestStatuses.IN_PROCESS )

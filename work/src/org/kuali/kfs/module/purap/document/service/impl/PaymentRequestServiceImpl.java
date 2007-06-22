@@ -18,7 +18,6 @@ package org.kuali.module.purap.service.impl;
 import java.math.BigDecimal;
 import java.sql.Date;
 import java.sql.Timestamp;
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
@@ -41,6 +40,7 @@ import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.workflow.service.WorkflowDocumentService;
+import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.bo.SourceAccountingLine;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.chart.bo.Account;
@@ -779,6 +779,50 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
         return canRemoveHold;
     }
 
+    /**
+     * Cancel a PREQ that has already been extracted if allowed.
+     * 
+     * @param paymentRequest PaymentRequest to cancel
+     * @param note String for cancel note
+     * @param u User cancelling the PREQ
+     */
+    public void cancelExtractedPaymentRequest(PaymentRequestDocument paymentRequest, UniversalUser u, String note) {
+        LOG.debug("cancelExtractedPaymentRequest() started");
+        if ((PurapConstants.PaymentRequestStatuses.CANCELLED_IN_PROCESS.equals(paymentRequest.getStatusCode())) || (PurapConstants.PaymentRequestStatuses.CANCELLED_POST_APPROVE.equals(paymentRequest.getStatusCode()))) {
+            LOG.debug("cancelExtractedPaymentRequest() ended");
+            return;
+        }
+        generalLedgerService.generateEntriesCancelPreq(paymentRequest);
+        //TODO: I think we should updateStatusAndStatusHistory with the note, but the method with the note is probably not working yet ?
+        //this.savePaymentRequestStatusHistory(u, paymentRequest, paymentRequest.getStatus(), newStatus, note);
+        purapService.updateStatusAndStatusHistory(paymentRequest, PurapConstants.PaymentRequestStatuses.CANCELLED_POST_APPROVE);
+        this.save(paymentRequest);
+        LOG.debug("cancelExtractedPaymentRequest() PREQ " + paymentRequest.getPurapDocumentIdentifier() + " Cancelled Without Workflow");
+        LOG.debug("cancelExtractedPaymentRequest() ended");
+    }
+    
+    /**
+     * Reset a Payment Request that had an associated Payment Request or Credit Memo cancelled externally.
+     * 
+     * @param paymentRequest PaymentRequest to reset
+     * @param note String for the status change note
+     * @param u User resetting the PREQ
+     */
+    public void resetExtractedPaymentRequest(PaymentRequestDocument paymentRequest, String note) {
+        LOG.debug("resetExtractedPaymentRequest() started");
+        if ((PurapConstants.PaymentRequestStatuses.CANCELLED_IN_PROCESS.equals(paymentRequest.getStatusCode())) || (PurapConstants.PaymentRequestStatuses.CANCELLED_POST_APPROVE.equals(paymentRequest.getStatusCode()))) {
+            LOG.debug("resetExtractedPaymentRequest() ended");
+            return;
+        }
+        paymentRequest.setExtractedDate(null);
+        paymentRequest.setPaymentPaidDate(null);
+        //TODO: I think we're supposed to create a note and add the note to the payment request here ?
+        //this.savePaymentRequestDocumentNote(new DocumentNote(paymentRequest.getDocumentHeader().getId(), "This Payment Request is being reset for extraction by PDP", u));
+               
+        this.save(paymentRequest);
+        LOG.debug("resetExtractedPaymentRequest() PREQ " + paymentRequest.getPurapDocumentIdentifier() + " Reset from Extracted status");
+    }
+    
     /*
      public PaymentRequestInitializationValidationErrors verifyPreqInitialization(
      Integer purchaseOrderId, String invoiceNumber, BigDecimal invoiceAmount, Timestamp invoiceDate,

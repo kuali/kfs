@@ -46,6 +46,7 @@ public class PdpConstants {
         public static String TAX_CANCEL_EMAIL_LIST = "TAX_CANCEL_EMAIL_LIST";
 
         public static String MAX_NOTE_LINES = "MAX_NOTE_LINES";
+        public static String FORMAT_SUMMARY_ROWS = "FORMAT_SUMMARY_ROWS";
 
         public static String DISBURSEMENT_ACTION_EXPIRATION_DAYS = "DISBURSEMENT_ACTION_EXPIRATION_DAYS";
     }

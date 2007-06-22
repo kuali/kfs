@@ -347,6 +347,6 @@
     </c:if>
   </logic:notEmpty>  
   <p>&nbsp;</p>
-  <c:import url="/backdoor.jsp"/>
+  <c:import url="/pdp/backdoor.jsp"/>
 </body>
 </html:html>

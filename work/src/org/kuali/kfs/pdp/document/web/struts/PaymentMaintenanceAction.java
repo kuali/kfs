@@ -34,7 +34,7 @@ public class PaymentMaintenanceAction extends BaseAction {
   private BatchMaintenanceService batchMaintenanceService;
 
   public PaymentMaintenanceAction() {
-      setPaymentMaintenanceService( (PaymentMaintenanceService)SpringServiceLocator.getService("pdpPaymentMaintenanceSerivce") );
+      setPaymentMaintenanceService( (PaymentMaintenanceService)SpringServiceLocator.getService("pdpPaymentMaintenanceService") );
       setBatchMaintenanceService( (BatchMaintenanceService)SpringServiceLocator.getService("pdpBatchMaintenanceService") );
   }
 

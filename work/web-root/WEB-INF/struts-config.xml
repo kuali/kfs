@@ -408,9 +408,9 @@
             <forward name="selection" path="/pdp/formatselection.do" />
         </action>
 
-        <action path="/pdp/formatsummary" type="org.kuali.module.pdp.action.format.FormatSummaryAction" validate="false" scope="request" name="FormatSummaryForm">
+        <action path="/pdp/formatsummary" type="org.kuali.module.pdp.action.format.FormatSummaryAction" validate="false" scope="request" name="PdpFormatSummaryForm">
             <forward name="selection" path="/pdp/format/summarypreview.jsp" />
-            <forward name="finished"   path="/pdp/format/summaryreview.jsp" />
+            <forward name="finished"  path="/pdp/format/summaryreview.jsp" />
         </action>
     </action-mappings>
 

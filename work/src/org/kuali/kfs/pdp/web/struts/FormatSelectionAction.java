@@ -31,83 +31,80 @@ import org.kuali.module.pdp.service.SecurityRecord;
  *
  */
 public class FormatSelectionAction extends BaseAction {
-  private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(FormatSelectionAction.class);
-  private FormatService formatService;
+    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(FormatSelectionAction.class);
+    private FormatService formatService;
 
-  public FormatSelectionAction() {
-      super();
-      setFormatService( (FormatService)SpringServiceLocator.getService("pdpFormatService") );
-  }
-
-  public void setFormatService(FormatService fas) {
-    formatService = fas;
-  }
-
-  protected boolean isAuthorized(ActionMapping mapping, ActionForm form, HttpServletRequest request,
-      HttpServletResponse response) {
-    SecurityRecord sr = getSecurityRecord(request);
-    return sr.isProcessRole();
-  }
-
-  protected ActionForward executeLogic(ActionMapping mapping, ActionForm form, HttpServletRequest request,
-      HttpServletResponse response) throws Exception {
-
-    LOG.debug("executeLogic() starting");
-
-    HttpSession session = request.getSession();
-
-    PdpUser user = getUser(request);
-    FormatSelection fs = formatService.formatSelectionAction(user,request.getParameter("clear") != null);
-
-    // Get the user's campus
-    session.setAttribute("campus",user.getUniversalUser().getCampusCode());
-
-    // Note, customers, ranges and FormatSelectionForm have to be in session so
-    // validate works.  If they weren't in session, the page wouldn't have all the
-    // data it needs to display after a validate failure.
-
-    if ( fs.getStartDate() != null ) {
-      LOG.debug("executeLogic() Format is already running for " + user.getUniversalUser().getCampusCode());
-
-      session.removeAttribute("customers");
-      session.removeAttribute("ranges");
-      session.removeAttribute("FormatSelectionForm");
-
-      // Format is already running, put up message
-      request.setAttribute("formatStart",fs.getStartDate());
-      return mapping.findForward("running");
+    public FormatSelectionAction() {
+        super();
+        setFormatService( (FormatService)SpringServiceLocator.getService("pdpFormatService") );
     }
 
-    // Get the data we need
-    List customers = fs.getCustomerList();
-    List ranges = fs.getRangeList();
+    public void setFormatService(FormatService fas) {
+        formatService = fas;
+    }
 
-    FormatSelectionForm fsf = new FormatSelectionForm();
-    String[] cid = new String[customers.size()];
-    fsf.setCustomerProfileId(cid);
-    fsf.setPaymentTypes("A");
+    protected boolean isAuthorized(ActionMapping mapping, ActionForm form, HttpServletRequest request,HttpServletResponse response) {
+        SecurityRecord sr = getSecurityRecord(request);
+        return sr.isProcessRole();
+    }
 
-    if ( fs.getCampus().getFormatSelectCustomers().booleanValue() ) {
-      int i = 0;
-      for (Iterator iter = customers.iterator(); iter.hasNext();) {
-        CustomerProfile element = (CustomerProfile)iter.next();
-        if ( user.getUniversalUser().getCampusCode().equals(element.getDefaultPhysicalCampusProcessingCode()) ) {
-          cid[i] = "on";
+    protected ActionForward executeLogic(ActionMapping mapping, ActionForm form, HttpServletRequest request,HttpServletResponse response) throws Exception {
+        LOG.debug("executeLogic() starting");
+
+        HttpSession session = request.getSession();
+
+        PdpUser user = getUser(request);
+        FormatSelection fs = formatService.formatSelectionAction(user,request.getParameter("clear") != null);
+
+        // Get the user's campus
+        session.setAttribute("campus",user.getUniversalUser().getCampusCode());
+
+        // Note, customers, ranges and FormatSelectionForm have to be in session so
+        // validate works.  If they weren't in session, the page wouldn't have all the
+        // data it needs to display after a validate failure.
+
+        if ( fs.getStartDate() != null ) {
+            LOG.debug("executeLogic() Format is already running for " + user.getUniversalUser().getCampusCode());
+
+            session.removeAttribute("customers");
+            session.removeAttribute("ranges");
+            session.removeAttribute("PdPFormatSelectionForm");
+
+            // Format is already running, put up message
+            request.setAttribute("formatStart",fs.getStartDate());
+            return mapping.findForward("running");
         }
-        i++;
-      }
+
+        // Get the data we need
+        List customers = fs.getCustomerList();
+        List ranges = fs.getRangeList();
+
+        FormatSelectionForm fsf = new FormatSelectionForm();
+        String[] cid = new String[customers.size()];
+        fsf.setCustomerProfileId(cid);
+        fsf.setPaymentTypes("A");
+
+        if ( fs.getCampus().getFormatSelectCustomers().booleanValue() ) {
+            int i = 0;
+            for (Iterator iter = customers.iterator(); iter.hasNext();) {
+                CustomerProfile element = (CustomerProfile)iter.next();
+                if ( user.getUniversalUser().getCampusCode().equals(element.getDefaultPhysicalCampusProcessingCode()) ) {
+                    cid[i] = "on";
+                }
+                i++;
+            }
+        }
+
+        SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
+        Date today = new Date();
+        fsf.setPaymentDate(sdf.format(today));
+
+        // Save all the stuff in the session
+        session.setAttribute("customers",customers);
+        session.setAttribute("ranges",ranges);
+
+        session.setAttribute("PdpFormatSelectionForm",fsf);
+
+        return mapping.findForward("selection");
     }
-
-    SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
-    Date today = new Date();
-    fsf.setPaymentDate(sdf.format(today));
-
-    // Save all the stuff in the session
-    session.setAttribute("customers",customers);
-    session.setAttribute("ranges",ranges);
-
-    session.setAttribute("FormatSelectionForm",fsf);
-
-    return mapping.findForward("selection");
-  }
 }

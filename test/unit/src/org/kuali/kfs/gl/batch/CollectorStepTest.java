@@ -50,6 +50,19 @@ public class CollectorStepTest extends KualiTestBase {
     @Override
     protected void setUp() throws Exception {
         super.setUp();
+        File directory = new File("/opt/kuali/unt/staging/");
+        if (directory.exists() && directory.isDirectory()) {
+            File[] files = directory.listFiles();
+            for (File file : files) {
+                System.err.println("TESTING: " + file.getName());
+                if (file.isDirectory()) {
+                    File[] files2 = file.listFiles();
+                    for (File file2 : files2) {
+                        System.err.println("TESTING2: " + file2.getName());
+                    }
+                }
+            }
+        }
         
         String doneFileName = SpringServiceLocator.getCollectorInputFileType().getDirectoryPath() + "/gl_collector1.done";
         File doneFile = new File(doneFileName);
@@ -57,7 +70,6 @@ public class CollectorStepTest extends KualiTestBase {
             doneFile.createNewFile();
         }
     }
-    
     /**
      * Tests the whole step completes successfully.
      */
@@ -67,4 +79,5 @@ public class CollectorStepTest extends KualiTestBase {
         
         assertTrue("collector step did not exit with pass", goodExit);
     }
+    
 }

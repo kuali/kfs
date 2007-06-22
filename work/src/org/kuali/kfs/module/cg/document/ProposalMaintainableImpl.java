@@ -15,27 +15,33 @@
  */
 package org.kuali.module.cg.maintenance;
 
+import static org.kuali.kfs.KFSPropertyConstants.PROPOSAL_PROJECT_DIRECTORS;
+import static org.kuali.kfs.KFSPropertyConstants.PROPOSAL_SUBCONTRACTORS;
+
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
-import static org.kuali.kfs.KFSPropertyConstants.PROPOSAL_PROJECT_DIRECTORS;
-import static org.kuali.kfs.KFSPropertyConstants.PROPOSAL_SUBCONTRACTORS;
-
+import org.apache.commons.lang.StringUtils;
 import org.kuali.core.bo.PersistableBusinessObject;
+import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.core.maintenance.KualiMaintainableImpl;
+import org.kuali.core.maintenance.Maintainable;
 import org.kuali.core.util.AssertionUtils;
+import org.kuali.core.util.GlobalVariables;
+import org.kuali.core.web.ui.Section;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.util.SpringServiceLocator;
-import org.kuali.module.cg.bo.Proposal;
-import org.kuali.module.cg.bo.ProposalResearchRisk;
-import org.kuali.module.cg.bo.ProposalProjectDirector;
+import org.kuali.module.cg.CGConstants;
 import org.kuali.module.cg.bo.ProjectDirector;
+import org.kuali.module.cg.bo.Proposal;
+import org.kuali.module.cg.bo.ProposalProjectDirector;
+import org.kuali.module.cg.bo.ProposalResearchRisk;
 import org.kuali.module.cg.lookup.valuefinder.NextProposalNumberFinder;
 import org.kuali.module.kra.routingform.bo.ResearchRiskType;
 import org.kuali.rice.KNSServiceLocator;
-import org.apache.commons.lang.StringUtils;
 
 /**
  * Methods for the Proposal maintenance document UI.
@@ -197,4 +203,34 @@ public class ProposalMaintainableImpl extends KualiMaintainableImpl {
         refreshProposal(false);
         super.addNewLineToCollection(collectionName);
     }
+    
+    /**
+     * 
+     * This method...
+     * @return
+     */
+    @Override
+    public List getSections(Maintainable oldMaintainable) {
+        List<Section> sections = new ArrayList<Section>();
+        
+        List<Section> coreSections = getCoreSections(oldMaintainable);
+        
+        String preAwardWorkgroupName = KNSServiceLocator.getKualiConfigurationService().getApplicationParameterValue(CGConstants.GROUP_CG_MAINT_EDOCS, "Kuali-Document.PreAward.Workgroup");
+        String postAwardWorkgroupName = KNSServiceLocator.getKualiConfigurationService().getApplicationParameterValue(CGConstants.GROUP_CG_MAINT_EDOCS, "Kuali-Document.PostAward.Workgroup");
+        
+        UniversalUser user = GlobalVariables.getUserSession().getUniversalUser();
+        if(!user.isMember(preAwardWorkgroupName) && !user.isMember(postAwardWorkgroupName)) {
+            for(Section section : coreSections) {
+                if(!section.getSectionTitle().equalsIgnoreCase("Research Risks")) {
+                    sections.add(section);
+                } else {
+                    // Do nothing
+                }
+            }
+        } else {
+            sections.addAll(coreSections);
+        }
+        return sections;
+    }
+    
 }

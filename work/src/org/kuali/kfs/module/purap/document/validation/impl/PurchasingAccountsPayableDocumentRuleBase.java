@@ -79,11 +79,6 @@ public class PurchasingAccountsPayableDocumentRuleBase extends AccountingDocumen
         PurchasingAccountsPayableDocument purapDocument = (PurchasingAccountsPayableDocument) approveEvent.getDocument();
         return isValid &= processValidation(purapDocument);
     }
-
-    protected String getItemIdentifier(PurchasingApItem item) {
-        String identifierString = (item.getItemType().isItemTypeAboveTheLineIndicator() ? "Item " + item.getItemLineNumber().toString() : item.getItemType().getItemTypeDescription()); 
-        return identifierString;
-    }
     
     @Override
     protected boolean processCustomAddAccountingLineBusinessRules(AccountingDocument financialDocument, AccountingLine accountingLine) {
@@ -192,7 +187,7 @@ public class PurchasingAccountsPayableDocumentRuleBase extends AccountingDocumen
             
             if(PurApItemUtils.checkItemActive(item)) {
                 if(item.getExtendedPrice().isNonZero()) {
-                    processAccountValidation(purapDocument, item.getSourceAccountingLines(),getItemIdentifier(item));
+                    processAccountValidation(purapDocument, item.getSourceAccountingLines(),item.getItemIdentifierString());
                 }
             }
         }
@@ -255,9 +250,9 @@ public class PurchasingAccountsPayableDocumentRuleBase extends AccountingDocumen
                     }
                 }
             }
-            valid &= verifyUniqueAccountingStrings(item.getSourceAccountingLines(), getItemIdentifier(item));
+            valid &= verifyUniqueAccountingStrings(item.getSourceAccountingLines(), item.getItemIdentifierString());
             for (PurApAccountingLine account : item.getSourceAccountingLines()) {
-                valid &= verifyAccountingStringsBetween0And100Percent(account, getItemIdentifier(item));
+                valid &= verifyAccountingStringsBetween0And100Percent(account, item.getItemIdentifierString());
             }
         }
         return valid;

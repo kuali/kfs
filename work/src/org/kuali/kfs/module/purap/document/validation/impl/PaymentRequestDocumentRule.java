@@ -308,7 +308,7 @@ public class PaymentRequestDocumentRule extends AccountsPayableDocumentRuleBase 
 
     private boolean validateEachItem(PaymentRequestDocument paymentRequestDocument, PaymentRequestItem item) {
         boolean valid = true;
-            String identifierString = getItemIdentifier(item);
+            String identifierString = item.getItemIdentifierString();
             valid &= validateItem(paymentRequestDocument, item, identifierString);
         return valid;
     }
@@ -464,7 +464,7 @@ public class PaymentRequestDocumentRule extends AccountsPayableDocumentRuleBase 
             boolean containsAccounts = false;
             int accountLineNbr = 0;
 
-            String identifier = getItemIdentifier(item);
+            String identifier = item.getItemIdentifierString();
             BigDecimal total = BigDecimal.ZERO;
             LOG.debug("validatePaymentRequestReview() The " + identifier + " is getting the total percent field set to " + BigDecimal.ZERO);
 

@@ -135,7 +135,9 @@ public class PurapKeyConstants {
     public static final String ERROR_ITEM_QUANTITY_REQUIRED="errors.item.quantity.required";
     public static final String ERROR_ITEM_AMOUNT_ALREADY_PAID="errors.item.amount.alreadyPaid";
     public static final String ERROR_ITEM_PERCENT="errors.item.percent";
-    
+    public static final String ERROR_ITEM_ACCOUNTING_ROUNDING="errors.item.accounting.rounding";
+    public static final String ERROR_ITEM_ACCOUNTING_DOLLAR_TOTAL="errors.item.accounting.dollar.total";
+
     //Credit Memo
     public static final String ERROR_CREDIT_MEMO_REQUIRED_FIELDS="errors.credit.memo.required.fields";
     public static final String MESSAGE_DUPLICATE_CREDIT_MEMO_VENDOR_NUMBER="message.duplicate.creditMemo.vendorNumber";

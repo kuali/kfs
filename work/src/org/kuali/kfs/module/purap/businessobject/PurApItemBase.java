@@ -66,6 +66,11 @@ public abstract class PurApItemBase extends PersistableBusinessObjectBase implem
         resetAccount();
 	}
 
+    public String getItemIdentifierString() {
+        String identifierString = (getItemType().isItemTypeAboveTheLineIndicator() ? "Item " + getItemLineNumber().toString() : getItemType().getItemTypeDescription()); 
+        return identifierString;
+    }
+    
 	/**
 	 * Gets the ItemIdentifier attribute.
 	 * 

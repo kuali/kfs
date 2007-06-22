@@ -333,6 +333,7 @@ public class PurapConstants {
 
     // PAYMENT REQUEST
     public static String PAYMENT_REQUEST_DOCUMENT = "KualiPaymentRequestDocument";
+    public static String PAYMENT_REQUEST_DOCUMENT_DOC_TYPE = "PaymentRequestDocument";
     
     public static int PREQ_PAY_DATE_CALCULATION_DAYS = 28;
 

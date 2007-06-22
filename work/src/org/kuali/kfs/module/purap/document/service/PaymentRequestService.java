@@ -73,6 +73,10 @@ public interface PaymentRequestService {
     
     public void removeRequestCancelOnPaymentRequest(PaymentRequestDocument document, String note) throws Exception;
 
+    public void resetExtractedPaymentRequest(PaymentRequestDocument paymentRequest, String note);
+    
+    public void cancelExtractedPaymentRequest(PaymentRequestDocument paymentRequest, UniversalUser u, String note);
+    
     /**
      * Recalculate the payment request
      * 

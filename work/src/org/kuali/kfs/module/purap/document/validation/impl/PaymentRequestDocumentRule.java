@@ -23,9 +23,11 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.document.Document;
+import org.kuali.core.rule.KualiParameterRule;
 import org.kuali.core.service.DataDictionaryService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
@@ -74,6 +76,7 @@ public class PaymentRequestDocumentRule extends AccountsPayableDocumentRuleBase 
     protected boolean processCustomRouteDocumentBusinessRules(Document document) {
         boolean isValid = true;
         PurchasingAccountsPayableDocument purapDocument = (PurchasingAccountsPayableDocument) document;
+        validateTotals((PaymentRequestDocument)purapDocument);
         isValid &= validateRouteFiscal(purapDocument);
         isValid &= processValidation(purapDocument);
         return isValid; 
@@ -83,6 +86,7 @@ public class PaymentRequestDocumentRule extends AccountsPayableDocumentRuleBase 
     protected boolean processCustomSaveDocumentBusinessRules(Document document) {
         boolean isValid = true;
         PaymentRequestDocument paymentRequestDocument = (PaymentRequestDocument) document;
+        validateTotals(paymentRequestDocument);
         //Had to do it this way because the processItemValidation in the superclass contains
         //some validations that won't be needed for save (e.g. the total must be 100%), so
         //that I couldn't call the super.processItemValidation within the processItemValidation
@@ -101,7 +105,16 @@ public class PaymentRequestDocumentRule extends AccountsPayableDocumentRuleBase 
         return valid;
     }
 
-
+    public boolean processCalculateBusinessRules(AccountsPayableDocument apDocument) {
+        boolean valid = true;
+        PaymentRequestDocument paymentRequestDocument = (PaymentRequestDocument)apDocument;
+        validateTotals(paymentRequestDocument);
+        if (!isPayDateNotInThePast(paymentRequestDocument.getPaymentRequestPayDate())) {
+            valid &= false;
+            GlobalVariables.getErrorMap().putError(PurapPropertyConstants.PAYMENT_REQUEST_PAY_DATE, PurapKeyConstants.ERROR_INVALID_PAY_DATE);
+        }
+        return valid;
+    }
 
     /**
      * This method performs any validation for the Invoice tab.
@@ -208,7 +221,7 @@ public class PaymentRequestDocumentRule extends AccountsPayableDocumentRuleBase 
     boolean validatePaymentRequestDates(PaymentRequestDocument document) {
         boolean valid = true;
         //pay date in the past validation
-        if (!validateDateUsingGivenDate(document.getPaymentRequestPayDate())) {
+        if (!isPayDateNotInThePast(document.getPaymentRequestPayDate())) {
             valid &= false;
             GlobalVariables.getErrorMap().putError(PurapPropertyConstants.PAYMENT_REQUEST_PAY_DATE, PurapKeyConstants.ERROR_INVALID_PAY_DATE);
         }
@@ -217,6 +230,60 @@ public class PaymentRequestDocumentRule extends AccountsPayableDocumentRuleBase 
             GlobalVariables.getMessageList().add(PurapKeyConstants.WARNING_PAYMENT_REQUEST_PAYDATE_OVER_60_DAYS);
         }
         return valid;
+    }
+    
+    private boolean isPayDateNotInThePast(Date paymentRequestPayDate) {
+        boolean valid = false;
+        if (!validateDateUsingGivenDate(paymentRequestPayDate)) {
+            valid &= false;
+        }
+        return valid;
+    }
+    /**
+     * 
+     * This method checks whether the total of the items' extended price, excluding the item types that can be
+     * negative match with the vendor invoice amount that the user entered at the beginning of the preq creation,
+     * and if they don't match, the app will just print a warning to the page that the amounts don't match.
+     * 
+     * @param document
+     */
+    public void validateTotals(PaymentRequestDocument document) {
+        String securityGroup = (String)PurapConstants.ITEM_TYPE_SYSTEM_PARAMETERS_SECURITY_MAP.get(PurapConstants.PAYMENT_REQUEST_DOCUMENT_DOC_TYPE);
+        KualiParameterRule allowsNegativeRule = SpringServiceLocator.getKualiConfigurationService().getApplicationParameterRule(securityGroup, PurapConstants.ITEM_ALLOWS_NEGATIVE);
+        if (this.getTotalExcludingItemTypes(document.getItems(), allowsNegativeRule.getParameterValueSet()).compareTo(document.getVendorInvoiceAmount()) != 0) {
+            GlobalVariables.getMessageList().add(PurapKeyConstants.MESSAGE_PAYMENT_REQUEST_VENDOR_INVOICE_AMOUNT_INVALID);
+        }
+        flagLineItemTotals(document.getItems());
+    }
+    
+    private KualiDecimal getTotalExcludingItemTypes(List<PurchasingApItem> itemList, Set excludedItemTypes) {
+        KualiDecimal total = zero;
+        for (PurchasingApItem item : itemList) {
+            if (item.getExtendedPrice() != null && item.getExtendedPrice().isNonZero()) {
+                boolean skipThisItem = false;
+                if (excludedItemTypes.contains(item.getItemTypeCode())) {
+                    // this item type is excluded
+                    skipThisItem = true;
+                    break;
+                }
+                if (skipThisItem) {
+                    continue;
+                }
+                total = total.add(item.getExtendedPrice());
+            }
+        }
+        return total;
+    }
+    
+    private void flagLineItemTotals(List<PurchasingApItem> itemList) {
+        for (PurchasingApItem purApItem : itemList) {
+            PaymentRequestItem item = (PaymentRequestItem)purApItem;
+            if (item.getItemInvoicedQuantity()!= null) {
+                KualiDecimal calculatedTotal = (item.getItemInvoicedQuantity()).multiply(new KualiDecimal(item.getItemUnitPrice()).setScale(2));
+                //TODO: When PaymentRequestItem has the "unmatchedTotalFlag" created, add this line to it
+                //item.setUnmatchedTotalFlag((calculatedTotal == null) || (!calculatedTotal.equals(item.getExtendedPrice())));
+            }
+        }
     }
     
     /**

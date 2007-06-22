@@ -237,7 +237,7 @@ public class PurapServiceImpl implements PurapService {
         Date today = dateTimeService.getCurrentSqlDate();
         String todayString = today.toString();
         
-        String todaysYear = todayString.substring(0,3);
+        String todaysYear = todayString.substring(0,4);
         String restOfToday = todayString.substring(4);
         String lastYear = new Integer((new Integer(todaysYear)).intValue() - 1).toString();
         Date yearAgo = null;

@@ -167,6 +167,7 @@
 				<ref bean="cfdaBatchStep" />
 			</list>
 		</property>
+		<property name="cronExpression" value="00 00 00 1 1,4,7,10  ?" />
 	</bean>
 
     <bean id="closeBatchStep" class="org.kuali.module.cg.batch.CloseBatchStep">

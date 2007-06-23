@@ -70,6 +70,10 @@ public interface PurchasingAccountsPayableDocument extends AccountingDocument {
     public void setItems(List items);
     
     public void deleteItem(int lineNum);
+
+    public void itemSwap(int position1, int position2);
+    
+    public int getItemLinePosition();
     
     public PurchasingApItem getItem(int pos);
     

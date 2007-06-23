@@ -358,6 +358,27 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
             }
         }
     }
+    /**
+     *  swap two items based on item line numbers (which are one higher than item position in list
+     * @param position1
+     * @param position2
+     */
+    public void itemSwap(int positionFrom, int positionTo) {
+        //if out of range do nothing
+        if((positionTo <0) ||
+           (positionTo>=getItemLinePosition())) {
+            return;
+        }
+        PurchasingApItem item1 = this.getItem(positionFrom);
+        PurchasingApItem item2 = this.getItem(positionTo);
+        Integer oldFirstPos = item1.getItemLineNumber();
+        //swap line numbers
+        item1.setItemLineNumber(item2.getItemLineNumber());
+        item2.setItemLineNumber(oldFirstPos);
+        //fix ordering in list
+        items.remove(positionFrom);
+        items.add(positionTo,item1);
+    }
 
     /**
      * This method helps to determine the item line position if the user did not specify the line number on an above the line items
@@ -366,7 +387,7 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
      * 
      * @return int the item line position of the last(highest) line number of above the line items.
      */
-    private int getItemLinePosition() {
+    public int getItemLinePosition() {
         int belowTheLineCount = 0;
         for (PurchasingApItem item : items) {
             item.refreshNonUpdateableReferences();

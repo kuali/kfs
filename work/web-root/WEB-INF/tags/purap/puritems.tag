@@ -199,10 +199,10 @@
 					    <html:hidden property="document.item[${ctr}].itemType.itemTypeAboveTheLineIndicator" />
 					    &nbsp;<b><html:hidden write="true" property="document.item[${ctr}].itemLineNumber" /></b>&nbsp; 
 					    <c:if test="${(fullEntryMode or (amendmentEntry and itemLine.itemActiveIndicator))}">
-						    <html:image property="methodToCall.editItem"
+						    <html:image property="methodToCall.upItem.line${ctr}"
 							    src="${ConfigProperties.externalizable.images.url}purap-up.gif"
 							    alt="Move Item Up" title="Move Item Up" styleClass="tinybutton" />
-						    <html:image property="methodToCall.editItem"
+						    <html:image property="methodToCall.downItem.line${ctr}"
 							    src="${ConfigProperties.externalizable.images.url}purap-down.gif"
 							    alt="Move Item Down" title="Move Item Down"
 							    styleClass="tinybutton" />

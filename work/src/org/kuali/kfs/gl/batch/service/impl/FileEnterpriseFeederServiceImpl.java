@@ -18,7 +18,6 @@ package org.kuali.module.gl.service.impl;
 import java.io.File;
 import java.io.FileFilter;
 import java.io.FileReader;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -69,7 +68,7 @@ public class FileEnterpriseFeederServiceImpl implements EnterpriseFeederService 
      * 
      * @see org.kuali.module.gl.service.EnterpriseFeederService#feed(java.lang.String)
      */
-    public void feed(String processName, boolean performNotifications) throws Exception {
+    public void feed(String processName, boolean performNotifications) {
         // ensure that this feeder implementation may not be run concurrently on this JVM
         
         // to consider: maybe use java NIO classes to perform done file locking?

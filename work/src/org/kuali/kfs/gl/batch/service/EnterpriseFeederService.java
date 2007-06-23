@@ -15,6 +15,7 @@
  */
 package org.kuali.module.gl.service;
 
+
 /**
  * The enterprise feeder is a component that feeds in origin entries from an external data source
  */
@@ -30,7 +31,7 @@ public interface EnterpriseFeederService {
      *   It will be used to build any error messages, but computationally it should be ignored.
      * @param performNotifications whether notifications should be sent out
      */
-    public void feed(String processName, boolean performNotifications) throws Exception;
+    public void feed(String processName, boolean performNotifications);
     
     /**
      * Returns the directory name from which files are loaded.

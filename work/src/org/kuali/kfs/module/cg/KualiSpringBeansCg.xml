@@ -58,6 +58,11 @@
 				<value>cfdaJob</value>
 			</list>
 		</property>
+		<property name="triggerNames">
+			<list>
+				<value>cfdaJobTrigger</value>
+			</list>
+		</property>
 	</bean>
 	
 	<!-- DAOs -->
@@ -167,6 +172,10 @@
 				<ref bean="cfdaBatchStep" />
 			</list>
 		</property>
+	</bean>
+	
+	<bean id="cfdaJobTrigger" parent="cronTrigger">
+		<property name="jobName" value="cfdaJob" />
 		<property name="cronExpression" value="00 00 00 1 1,4,7,10  ?" />
 	</bean>
 

@@ -389,31 +389,31 @@
         </property>
     </bean>  
            
-	<bean id="laborScrubberStep" class="org.kuali.module.labor.batch.LaborScrubberStep">
+	<bean id="laborScrubberStep" class="org.kuali.module.labor.batch.LaborScrubberStep" parent="step">
 		<property name="laborScrubberService">
 			<ref bean="laborScrubberService" />
 		</property>
 	</bean>
            
-	<bean id="laborPosterStep" class="org.kuali.module.labor.batch.LaborPosterStep">
+	<bean id="laborPosterStep" class="org.kuali.module.labor.batch.LaborPosterStep" parent="step">
 		<property name="laborPosterService">
 			<ref bean="laborPosterService" />
 		</property>
 	</bean>
     
-    <bean id="laborYearEndBalanceForwardStep" class="org.kuali.module.labor.batch.LaborYearEndBalanceForwardStep">
+    <bean id="laborYearEndBalanceForwardStep" class="org.kuali.module.labor.batch.LaborYearEndBalanceForwardStep" parent="step">
 		<property name="laborYearEndBalanceForwardService">
 			<ref bean="laborYearEndBalanceForwardService" />
 		</property>
 	</bean>
 	
-	<bean id="laborNightlyOutStep" class="org.kuali.module.labor.batch.LaborNightlyOutStep">
+	<bean id="laborNightlyOutStep" class="org.kuali.module.labor.batch.LaborNightlyOutStep" parent="step">
 		<property name="laborNightlyOutService">
 			<ref bean="laborNightlyOutService" />
 		</property>
 	</bean>
 	
-	<bean id="clearLaborPendingEntriesForCancelledOrDisapprovedDocumentStep" class="org.kuali.module.labor.batch.ClearLaborPendingEntriesForCancelledOrDisapprovedDocumentStep">
+	<bean id="clearLaborPendingEntriesForCancelledOrDisapprovedDocumentStep" class="org.kuali.module.labor.batch.ClearLaborPendingEntriesForCancelledOrDisapprovedDocumentStep" parent="step">
 		<property name="laborLedgerPendingEntryService">
 			<ref bean="laborLedgerPendingEntryService" />
 		</property>
@@ -460,7 +460,7 @@
         </property>
     </bean> 
     
-    <bean id="payrollAccrualStep" class="org.kuali.module.labor.batch.PayrollAccrualStep">
+    <bean id="payrollAccrualStep" class="org.kuali.module.labor.batch.PayrollAccrualStep" parent="step">
 		<property name="payrollAccrualService">
 			<ref bean="payrollAccrualService" />
 		</property>

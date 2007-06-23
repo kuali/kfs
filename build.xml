@@ -391,7 +391,7 @@
 	</target>
 	
 	<target name="setup-rice" depends="init-project-properties">
-		<maven options="--offline -DgroupId=com.oracle -DartifactId=ojdbc14 -Dversion=10.1.0.3.0 -Dpackaging=jar -Dfile=${drivers.directory}/ojdbc14.jar" goals="install:install-file" />
+		<maven options="-U -DgroupId=com.oracle -DartifactId=ojdbc14 -Dversion=10.1.0.3.0 -Dpackaging=jar -Dfile=${drivers.directory}/ojdbc14.jar" goals="install:install-file" />
 		<copy todir="${user.home}">
 			<fileset dir="${build.config.directory}/userHomeDirectory/kuali" includes="**/**" />
 			<filterset>
@@ -399,7 +399,7 @@
 				<filter token="test-rice-password" value="${rice.datasource.password.test}" />
 			</filterset>
 		</copy>
-		<maven goals="install" options="-Pinstall-kns-dev -Dpackaging=jar" />
+		<maven goals="install" options="-U -Pinstall-kns-dev -Dpackaging=jar" />
 		<touch file="${rice.project.directory}/pom.xml" />
 	</target>
 	
@@ -443,14 +443,14 @@
 		</copy>
 		<zip compress="true" destfile="${build.config.directory}/${rice.name}-${rice.version}-ddl.zip" basedir="temp" />
 		<delete dir="temp" />
-		<zip compress="true" destfile="${build.config.directory}/${rice.name}-${rice.version}-licenses.zip" basedir="${workflow.project.directory}/${licenses.directory}" excludes="**/CVS" />
+		<!--<zip compress="true" destfile="${build.config.directory}/${rice.name}-${rice.version}-licenses.zip" basedir="${workflow.project.directory}/${licenses.directory}" excludes="**/CVS" />-->
 	</target>
 	
 	<macrodef name="maven">
 		<attribute name="goals" />
 		<attribute name="options" default="--offline" />
 		<sequential>
-	        <java classname="org.codehaus.classworlds.Launcher" dir="${rice.project.directory}" fork="true" >
+	        <java classname="org.codehaus.classworlds.Launcher" dir="${rice.project.directory}" fork="true" failonerror="true">
 	        	<arg line="@{options} @{goals}"/>
 	        	<sysproperty key="classworlds.conf" value="${maven.home.directory}/bin/m2.conf"/>
 	        	<sysproperty key="maven.home" value="${maven.home.directory}"/>

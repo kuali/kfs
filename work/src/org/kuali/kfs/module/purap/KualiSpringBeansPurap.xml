@@ -306,7 +306,7 @@
 	
 	<!--  Batch Jobs -->
 	
-    <bean id="autoApprovePaymentRequestsBatchStep" class="org.kuali.module.purap.batch.AutoApprovePaymentRequestsStep">
+    <bean id="autoApprovePaymentRequestsBatchStep" class="org.kuali.module.purap.batch.AutoApprovePaymentRequestsStep" parent="step">
         <property name="paymentRequestService">
             <ref bean="paymentRequestService" />
         </property>

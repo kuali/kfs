@@ -151,7 +151,7 @@
     </bean>
 
     <!-- Batch Steps -->
-    <bean id="cfdaBatchStep" class="org.kuali.module.cg.batch.CfdaBatchStep">
+    <bean id="cfdaBatchStep" class="org.kuali.module.cg.batch.CfdaBatchStep" parent="step">
         <property name="cfdaService">
             <ref bean="cfdaService" />
         </property>
@@ -179,7 +179,7 @@
 		<property name="cronExpression" value="00 00 00 1 1,4,7,10  ?" />
 	</bean>
 
-    <bean id="closeBatchStep" class="org.kuali.module.cg.batch.CloseBatchStep">
+    <bean id="closeBatchStep" class="org.kuali.module.cg.batch.CloseBatchStep" parent="step">
         <property name="closeService">
             <ref bean="closeService" />
         </property>

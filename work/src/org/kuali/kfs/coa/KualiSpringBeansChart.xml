@@ -374,7 +374,7 @@
 		</property>
 	</bean>
 	
-	<bean id="fiscalYearMakerStep" class="org.kuali.module.chart.batch.FiscalYearMakerStep">
+	<bean id="fiscalYearMakerStep" class="org.kuali.module.chart.batch.FiscalYearMakerStep" parent="step">
 		<property name="dateMakerService">
 			<ref bean="dateMakerService" />
 		</property>

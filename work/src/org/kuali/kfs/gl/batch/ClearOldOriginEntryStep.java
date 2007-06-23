@@ -22,11 +22,10 @@ import org.kuali.module.gl.service.OriginEntryGroupService;
 public class ClearOldOriginEntryStep extends AbstractStep {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ClearOldOriginEntryStep.class);
     private OriginEntryGroupService originEntryGroupService;
-    private KualiConfigurationService kualiConfigurationService;
 
     public boolean execute(String jobName) {
         LOG.debug("performStep() started");
-        String daysStr = kualiConfigurationService.getApplicationParameterValue("glClearOldOriginEntryStep", "days");
+        String daysStr = getConfigurationService().getApplicationParameterValue("glClearOldOriginEntryStep", "days");
         int days = Integer.parseInt(daysStr);
         originEntryGroupService.deleteOlderGroups(days);
         return true;
@@ -34,9 +33,5 @@ public class ClearOldOriginEntryStep extends AbstractStep {
 
     public void setOriginEntryGroupService(OriginEntryGroupService oes) {
         originEntryGroupService = oes;
-    }
-
-    public void setKualiConfigurationService(KualiConfigurationService kcs) {
-        kualiConfigurationService = kcs;
     }
 }

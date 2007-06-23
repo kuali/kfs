@@ -32,7 +32,6 @@ public class PurgeEntryStep extends AbstractStep {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PurgeEntryStep.class);
     private ChartService chartService;
     private EntryService entryService;
-    private KualiConfigurationService kualiConfigurationService;
 
     /**
      * This step will purge data from the gl_entry_t table older than a specified year. It purges the data one chart at a time each
@@ -40,7 +39,7 @@ public class PurgeEntryStep extends AbstractStep {
      * should NOT be transactional.
      */
     public boolean execute(String jobName) {
-        String yearStr = kualiConfigurationService.getApplicationParameterValue(KFSConstants.ParameterGroups.SYSTEM, KFSConstants.SystemGroupParameterNames.PURGE_GL_ENTRY_T_BEFORE_YEAR);
+        String yearStr = getConfigurationService().getApplicationParameterValue(KFSConstants.ParameterGroups.SYSTEM, KFSConstants.SystemGroupParameterNames.PURGE_GL_ENTRY_T_BEFORE_YEAR);
         int year = Integer.parseInt(yearStr);
         List charts = chartService.getAllChartCodes();
         for (Iterator iter = charts.iterator(); iter.hasNext();) {
@@ -56,9 +55,5 @@ public class PurgeEntryStep extends AbstractStep {
 
     public void setChartService(ChartService chartService) {
         this.chartService = chartService;
-    }
-
-    public void setKualiConfigurationService(KualiConfigurationService kualiConfigurationService) {
-        this.kualiConfigurationService = kualiConfigurationService;
     }
 }

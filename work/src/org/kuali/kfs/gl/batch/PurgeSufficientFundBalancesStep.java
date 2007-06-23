@@ -28,7 +28,6 @@ public class PurgeSufficientFundBalancesStep extends AbstractStep {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PurgeSufficientFundBalancesStep.class);
     private ChartService chartService;
     private SufficientFundsService sufficientFundsService;
-    private KualiConfigurationService kualiConfigurationService;
 
     /**
      * This step will purge data from the gl_sf_balances_t table older than a specified year. It purges the data one chart at a time
@@ -36,7 +35,7 @@ public class PurgeSufficientFundBalancesStep extends AbstractStep {
      * class should NOT be transactional.
      */
     public boolean execute(String jobName) {
-        String yearStr = kualiConfigurationService.getApplicationParameterValue(KFSConstants.ParameterGroups.SYSTEM, KFSConstants.SystemGroupParameterNames.PURGE_GL_SF_BALANCES_T_BEFORE_YEAR);
+        String yearStr = getConfigurationService().getApplicationParameterValue(KFSConstants.ParameterGroups.SYSTEM, KFSConstants.SystemGroupParameterNames.PURGE_GL_SF_BALANCES_T_BEFORE_YEAR);
         int year = Integer.parseInt(yearStr);
         List charts = chartService.getAllChartCodes();
         for (Iterator iter = charts.iterator(); iter.hasNext();) {
@@ -52,9 +51,5 @@ public class PurgeSufficientFundBalancesStep extends AbstractStep {
 
     public void setChartService(ChartService chartService) {
         this.chartService = chartService;
-    }
-
-    public void setKualiConfigurationService(KualiConfigurationService kualiConfigurationService) {
-        this.kualiConfigurationService = kualiConfigurationService;
     }
 }

@@ -1243,9 +1243,6 @@
 	</bean>
 
 	<bean id="glPurgeInterDepartmentalBillingStep" class="org.kuali.module.gl.batch.PurgeInterDepartmentalBillingStep" parent="step">
-		<property name="kualiConfigurationService">
-			<ref bean="kualiConfigurationService" />
-		</property>
 		<property name="interDepartmentalBillingService">
 			<ref bean="glInterDepartmentalBillingService" />
 		</property>

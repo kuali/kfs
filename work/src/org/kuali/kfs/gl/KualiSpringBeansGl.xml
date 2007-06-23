@@ -1398,7 +1398,7 @@
 		</property>
 	</bean>
 
-	<bean id="glPurgeCorrectionProcessFilesStep" class="org.kuali.module.gl.batch.PurgeCorrectionProcessFilesStep" parent="step" parent="step">
+	<bean id="glPurgeCorrectionProcessFilesStep" class="org.kuali.module.gl.batch.PurgeCorrectionProcessFilesStep" parent="step">
 		<property name="correctionDocumentDao">
 			<ref bean="glCorrectionDocumentDao" />
 		</property>

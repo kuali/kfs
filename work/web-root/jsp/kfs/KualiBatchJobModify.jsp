@@ -118,7 +118,7 @@
 							<br />
 						</c:if>
 						<c:if test="${canStopJob && job.running}">
-							<html:image src="${ConfigProperties.externalizable.images.url}stop.jpg" styleClass="globalbuttons" property="methodToCall.stop" title="Stop Running Job" alt="Stop Running Job" />
+							<html:image src="${ConfigProperties.externalizable.images.url}stop.jpg" styleClass="globalbuttons" property="methodToCall.stopJob" title="Stop Running Job" alt="Stop Running Job" />
 							<br />
 						</c:if>
 						&nbsp;

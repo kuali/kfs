@@ -21,6 +21,7 @@
 		<property name="moduleName" value="Pre-Disbursement Processor" />
 		<property name="moduleCode" value="PD" />
 		<property name="moduleUserService" ref="pdpUserService" />
+		<property name="initializeDataDictionary" value="true" />
 		<property name="moduleAuthorizer">
 			<bean class="org.kuali.kfs.authorization.KfsModuleAuthorizerBase">
 				<property name="packagePrefixes">

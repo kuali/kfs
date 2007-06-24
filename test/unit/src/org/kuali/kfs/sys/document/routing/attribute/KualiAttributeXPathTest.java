@@ -93,7 +93,7 @@ public class KualiAttributeXPathTest extends KualiTestBase {
 
         // test user student indicator translation to 'No'
         xpathConditionStatement = "(" + KUALI_INITIATOR_UNIVERSAL_USER_STUDENT_INDICATOR_XSTREAMSAFE + " = 'true')";
-        xpathExpression = "concat( substring('" + valueForTrue + "', number(not(" + xpathConditionStatement + "))*string-length('" + valueForTrue + "')+1), substring('" + valueForFalse + "', number(" + xpathConditionStatement + ")*string-length('" + valueForFalse + "')+1))";
+        xpathExpression = "concat(substring('" + valueForTrue + "', number(not(" + xpathConditionStatement + "))*string-length('" + valueForTrue + "')+1), substring('" + valueForFalse + "', number(" + xpathConditionStatement + ")*string-length('" + valueForFalse + "')+1))";
         xpathResult = (String) xpath.evaluate(xpathExpression, docContent.getDocument(), XPathConstants.STRING);
         assertEquals(valueForFalse, xpathResult);
     }

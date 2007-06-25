@@ -17,6 +17,7 @@
 
 <%@ attribute name="resultsList" required="true" type="java.util.List" description="The rows of fields that we'll iterate to display." %>
 
+<html:hidden property="segmented"/>
 <c:if test="${empty resultsList && KualiForm.methodToCall != 'start' && KualiForm.methodToCall != 'refresh'}">
 	There were no results found.
 </c:if>
@@ -41,8 +42,15 @@
 				<input type="image" src="${ConfigProperties.kr.externalizable.images.url}buttonsmall_retnovalue.gif" class="tinybutton" name="methodToCall.prepareToReturnNone.x" alt="Return no results" title="Return no results"/>
 				<input type="image" src="${ConfigProperties.kr.externalizable.images.url}buttonsmall_retselected.gif" class="tinybutton" name="methodToCall.prepareToReturnSelectedResults.x" alt="Return selected results" title="Return selected results"/>
 			</p>
-            <c:set var="numOfMonthField" value="14" scope="request" />
- 	        <c:set var="numOfNonMonthField" value="${fn:length(resultsList[0].columns) - numOfMonthField}" scope="request" />
+            <c:choose>
+                <c:when test="${segmented}">
+                    <c:set var="numOfMonthField" value="2" scope="request" />
+                </c:when>
+                <c:otherwise>
+                    <c:set var="numOfMonthField" value="14" scope="request" />
+                </c:otherwise>
+            </c:choose>
+            <c:set var="numOfNonMonthField" value="${fn:length(resultsList[0].columns) - numOfMonthField}" scope="request" />
 
 			<table cellpadding="0" class="datatable-100" cellspacing="1" id="row">
 				<thead>
@@ -87,16 +95,18 @@
 						</c:forEach>
 
 						<td class="infocell">
-							<c:if test="${empty KualiForm.compositeObjectIdMap[row.objectId]}">
+                            <c:choose>
+							<c:when test="${empty KualiForm.compositeObjectIdMap[row.objectId]}">
 								<input type="checkbox" name="${Constants.MULTIPLE_VALUE_LOOKUP_SELECTED_OBJ_ID_PARAM_PREFIX}${row.objectId}" value="checked"/>
-							</c:if>
-							<c:if test="${!empty KualiForm.compositeObjectIdMap[row.objectId]}">
+							</c:when>
+							<c:otherwise>
 								<input type="checkbox" name="${Constants.MULTIPLE_VALUE_LOOKUP_SELECTED_OBJ_ID_PARAM_PREFIX}${row.objectId}" value="checked" checked="checked"/>
-							</c:if>
+							</c:otherwise>
+                            </c:choose>
 							<input type="hidden" name="${Constants.MULTIPLE_VALUE_LOOKUP_DISPLAYED_OBJ_ID_PARAM_PREFIX}${row.objectId}" value="onscreen"/>
 						</td>
 					</tr>
-                    <tr>
+                    <tr class="${rowclass}">
                         <td colspan="${numOfNonMonthField+1}">
                             <center>
                             <table class="datatable-80" cellspacing="0" cellpadding="0">

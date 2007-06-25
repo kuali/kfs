@@ -319,7 +319,7 @@ public interface PurchasingDocument extends PurchasingAccountsPayableDocument {
      * @return Returns the vendorRestrictedIndicator
      * 
      */
-    public boolean getVendorRestrictedIndicator();
+    public Boolean getVendorRestrictedIndicator();
 
     /**
      * Sets the vendorRestrictedIndicator attribute.
@@ -327,7 +327,7 @@ public interface PurchasingDocument extends PurchasingAccountsPayableDocument {
      * @param vendorRestrictedIndicator The vendorRestrictedIndicator to set.
      * 
      */
-    public void setVendorRestrictedIndicator(boolean vendorRestrictedIndicator);
+    public void setVendorRestrictedIndicator(Boolean vendorRestrictedIndicator);
 
     /**
      * Gets the vendorPhoneNumber attribute.

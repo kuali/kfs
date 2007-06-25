@@ -67,6 +67,9 @@
 		<property name="businessObjectService">
 			<ref bean="businessObjectService" />
 		</property>
+        <property name="objectCodeService">
+            <ref bean="objectCodeService" />
+        </property>
 		<property name="dateTimeService">
 			<ref bean="dateTimeService" />
 		</property>
@@ -82,6 +85,15 @@
     	<property name="purapService">
 			<ref bean="purapService" />
 		</property>
+        <property name="universalUserService">
+            <ref bean="universalUserService" />
+        </property>
+        <property name="universityDateService">
+            <ref bean="universityDateService" />
+        </property>
+        <property name="kualiConfigurationService">
+            <ref bean="kualiConfigurationService" />
+        </property>
 	</bean>
 
 	<bean id="purapService" class="org.kuali.module.purap.service.impl.PurapServiceImpl">

@@ -54,7 +54,7 @@ public abstract class PurchasingDocumentBase extends PurchasingAccountsPayableDo
     private String organizationCode;
     private String deliveryCampusCode;
     private KualiDecimal purchaseOrderTotalLimit;
-    private boolean vendorRestrictedIndicator;
+    private Boolean vendorRestrictedIndicator;
     private String vendorPhoneNumber;
     private String vendorFaxNumber;
     private Integer vendorContractGeneratedIdentifier;
@@ -402,7 +402,7 @@ public abstract class PurchasingDocumentBase extends PurchasingAccountsPayableDo
      * @return Returns the vendorRestrictedIndicator
      * 
      */
-    public boolean getVendorRestrictedIndicator() { 
+    public Boolean getVendorRestrictedIndicator() { 
         return vendorRestrictedIndicator;
     }
 
@@ -412,7 +412,7 @@ public abstract class PurchasingDocumentBase extends PurchasingAccountsPayableDo
      * @param vendorRestrictedIndicator The vendorRestrictedIndicator to set.
      * 
      */
-    public void setVendorRestrictedIndicator(boolean vendorRestrictedIndicator) {
+    public void setVendorRestrictedIndicator(Boolean vendorRestrictedIndicator) {
         this.vendorRestrictedIndicator = vendorRestrictedIndicator;
     }
 

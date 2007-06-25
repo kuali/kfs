@@ -33,6 +33,11 @@ import org.kuali.module.labor.dao.LaborDao;
 import org.kuali.module.labor.web.inquirable.EmployeeFundingInquirableImpl;
 import org.springframework.transaction.annotation.Transactional;
 
+
+/**
+ * The EmployeeFundingLookupableHelperServiceImpl class is the front-end for all Employee Funding balance inquiry processing.
+ */
+
 @Transactional
 public class EmployeeFundingLookupableHelperServiceImpl extends AbstractLookupableHelperServiceImpl {
     private BalanceService balanceService;

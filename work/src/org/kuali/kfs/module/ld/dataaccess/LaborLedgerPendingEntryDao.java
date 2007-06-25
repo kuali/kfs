@@ -15,6 +15,9 @@
  */
 package org.kuali.module.labor.dao;
 
+import java.util.Iterator;
+import java.util.Map;
+
 import org.kuali.kfs.dao.GeneralLedgerPendingEntryDao;
 
 
@@ -24,4 +27,14 @@ import org.kuali.kfs.dao.GeneralLedgerPendingEntryDao;
  * 
  */
 public interface LaborLedgerPendingEntryDao extends GeneralLedgerPendingEntryDao{
+    
+    /**
+     * This method retrieves all pending ledger entries that may belong to the given account balance record in the future
+     * 
+     * @param fieldValues the input fields and values
+     * @param isApproved the flag that indicates whether the pending entries are approved or don't care
+     * @return all pending ledger entries that may belong to encumbrance table
+     */
+    public Iterator findPendingLedgerEntriesForAccountBalance(Map fieldValues, boolean isApproved);
+
 }

@@ -23,7 +23,7 @@ import org.kuali.module.labor.bo.PendingLedgerEntry;
 import org.kuali.module.labor.document.LaborLedgerPostingDocument;
 
 /**
- * This interface defines methods that a LaborLedgerPendingEntry Service must provide
+ * This interface defines methods that the LaborLedgerPendingEntry Service provides
  */
 public interface LaborLedgerPendingEntryService {
 
@@ -70,4 +70,12 @@ public interface LaborLedgerPendingEntryService {
      * @param approvedCode
      */
     public void deleteByFinancialDocumentApprovedCode(String financialDocumentApprovedCode);
+    
+    /**
+     * This method checks for pending ledger entries that match the current balance inquiry
+     * 
+     * @param emplid
+     * @return
+     */
+    public Iterator findPendingLedgerEntriesForAccountBalance(Map fieldValues, boolean isApproved);
 }

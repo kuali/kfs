@@ -21,9 +21,11 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.ojb.broker.query.QueryByCriteria;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.KualiRuleService;
 import org.kuali.core.util.GeneralLedgerPendingEntrySequenceHelper;
+import org.kuali.core.util.TransactionalServiceUtils;
 import org.kuali.kfs.bo.AccountingLine;
 import org.kuali.kfs.document.AccountingDocument;
 import org.kuali.module.chart.bo.Account;
@@ -35,6 +37,10 @@ import org.kuali.module.labor.rules.event.GenerateLaborLedgerBenefitClearingPend
 import org.kuali.module.labor.rules.event.GenerateLaborLedgerPendingEntriesEvent;
 import org.kuali.module.labor.service.LaborLedgerPendingEntryService;
 import org.springframework.transaction.annotation.Transactional;
+
+/**
+ * The LaborLedgerPendingEntryServiceImpl class is a service that supplies Pending Ledger related methods.
+ */
 
 @Transactional
 public class LaborLedgerPendingEntryServiceImpl implements LaborLedgerPendingEntryService {
@@ -194,5 +200,14 @@ public class LaborLedgerPendingEntryServiceImpl implements LaborLedgerPendingEnt
 
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
+    }
+    
+    /**
+     * @see org.kuali.module.gl.service.GeneralLedgerPendingEntryService#findPendingLedgerEntriesForAccountBalance(java.util.Map,
+     *      boolean, boolean)
+     */
+    public Iterator findPendingLedgerEntriesForAccountBalance(Map fieldValues, boolean isApproved) {
+        LOG.debug("findPendingLedgerEntriesForAccountBalance() started");
+        return TransactionalServiceUtils.copyToExternallyUsuableIterator(laborLedgerPendingEntryDao.findPendingLedgerEntriesForAccountBalance(fieldValues, isApproved));
     }
 }

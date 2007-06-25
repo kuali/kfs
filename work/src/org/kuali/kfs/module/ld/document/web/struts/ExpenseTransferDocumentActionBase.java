@@ -129,7 +129,7 @@ public class ExpenseTransferDocumentActionBase extends LaborDocumentActionBase {
             parameters.put(KFSConstants.HIDE_LOOKUP_RETURN_LINK, hideReturnLink);
         }
 
-        System.out.println("Setting the anchor to " + ((ExpenseTransferDocumentFormBase) form).getAnchor());
+        LOG.debug("Setting the anchor to " + ((ExpenseTransferDocumentFormBase) form).getAnchor());
         // anchor, if it exists
         if (form instanceof KualiForm && StringUtils.isNotEmpty(((KualiForm) form).getAnchor())) {
             parameters.put(Constants.LOOKUP_ANCHOR, ((KualiForm) form).getAnchor());

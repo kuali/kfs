@@ -33,6 +33,11 @@ import org.kuali.module.labor.web.inquirable.BaseFundsInquirableImpl;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.transaction.annotation.Transactional;
 
+
+/**
+ * The BaseFundsLookupableHelperServiceImpl class is the front-end for all Base Fund balance inquiry processing.
+ */
+
 @Transactional
 public class BaseFundsLookupableHelperServiceImpl extends AbstractLookupableHelperServiceImpl {
     private BalanceService balanceService;

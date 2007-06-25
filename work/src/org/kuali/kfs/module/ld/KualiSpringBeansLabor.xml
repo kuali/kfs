@@ -507,6 +507,13 @@
 		<property name="dataDictionaryService">
 			<ref bean="dataDictionaryService" />
 		</property>
+		<property name="laborDao">
+			<ref bean="laborDao" />
+		</property>		
+		<property name="kualiConfigurationService">
+			<ref bean="kualiConfigurationService" />
+		</property>						 
+				
 	</bean>    	
 	
 	<bean id="CurrentFundsLookupable" class="org.kuali.core.lookup.KualiLookupableImpl" singleton="false">
@@ -531,6 +538,12 @@
 		<property name="dataDictionaryService">
 			<ref bean="dataDictionaryService" />
 		</property>
+		<property name="laborInquiryOptionsService">
+			<ref bean="laborInquiryOptionsService" />
+		</property>
+		<property name="laborDao">
+			<ref bean="laborDao" />
+		</property>		
 	</bean>    	
 	
 	<bean id="BaseFundsLookupable" class="org.kuali.core.lookup.KualiLookupableImpl" singleton="false">
@@ -593,4 +606,11 @@
 		
 		<property name="llcpDirectoryName" value="${staging.directory}/GLCP"/>
 	</bean>
+	
+	<bean id="laborInquiryOptionsService" class="org.kuali.module.labor.service.impl.LaborInquiryOptionsServiceImpl"  singleton="false">
+		<property name="laborLedgerPendingEntryService">
+			<ref bean="laborLedgerPendingEntryService" />
+		</property>	
+	</bean>
+	
 </beans>

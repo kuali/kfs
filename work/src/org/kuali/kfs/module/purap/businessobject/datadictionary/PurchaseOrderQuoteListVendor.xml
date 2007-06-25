@@ -20,7 +20,6 @@
 <dictionaryEntry>
     <businessObject businessObjectClass="org.kuali.module.purap.bo.PurchaseOrderQuoteListVendor">
 
-
         <inquiry>
             <title>Purchase Order Quote List Vendor Inquiry</title>
 
@@ -116,6 +115,8 @@
                 <summary>versionNumber</summary>
                 <description>versionNumber description...</description>
 			</attribute>
+
+			<attributeReference name="vendorDetail.vendorName" sourceClassName="org.kuali.module.vendor.bo.VendorDetail" sourceAttributeName="vendorName" />			
 
         </attributes>
     </businessObject>

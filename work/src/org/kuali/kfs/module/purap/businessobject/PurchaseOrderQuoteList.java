@@ -17,8 +17,10 @@
 package org.kuali.module.purap.bo;
 
 import java.util.LinkedHashMap;
+import java.util.List;
 
 import org.kuali.core.bo.PersistableBusinessObjectBase;
+import org.kuali.core.util.TypedArrayList;
 import org.kuali.module.vendor.bo.ContractManager;
 
 /**
@@ -31,12 +33,14 @@ public class PurchaseOrderQuoteList extends PersistableBusinessObjectBase {
 	private Integer contractManagerCode;
     
     private ContractManager contractManager;
-
+   
+    private List<PurchaseOrderQuoteListVendor> quoteListVendors;
+    
 	/**
 	 * Default constructor.
 	 */
 	public PurchaseOrderQuoteList() {
-
+        quoteListVendors = new TypedArrayList(PurchaseOrderQuoteListVendor.class);
 	}
 
 	/**
@@ -101,7 +105,15 @@ public class PurchaseOrderQuoteList extends PersistableBusinessObjectBase {
 		this.contractManagerCode = contractManagerCode;
 	}
 
-	/**
+    public List<PurchaseOrderQuoteListVendor> getQuoteListVendors() {
+        return quoteListVendors;
+    }
+
+    public void setQuoteListVendors(List<PurchaseOrderQuoteListVendor> quoteListVendors) {
+        this.quoteListVendors = quoteListVendors;
+    }
+
+    /**
 	 * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
 	 */
 	protected LinkedHashMap toStringMapper() {

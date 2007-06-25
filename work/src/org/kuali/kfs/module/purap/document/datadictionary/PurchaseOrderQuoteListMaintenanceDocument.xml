@@ -54,6 +54,20 @@
                     <maintainableField name="versionNumber" />
                 </maintainableItems>
             </maintainableSection>
+			<maintainableSection title="Vendors">
+				<maintainableItems>
+					<maintainableCollection name="quoteListVendors" businessObjectClass="org.kuali.module.purap.bo.PurchaseOrderQuoteListVendor">
+						<maintainableField name="vendorHeaderGeneratedIdentifier" />
+						<maintainableField name="vendorDetailAssignedIdentifier" />
+						<maintainableField name="vendorDetail.vendorName" required="true" readOnlyAfterAdd="true" />
+						<!-- summaryFields>
+							<summaryField name="projectDirector.personName"/>
+							<summaryField name="chartOfAccountsCode" />
+							<summaryField name="accountNumber" />
+						</summaryFields -->
+					</maintainableCollection>
+				</maintainableItems>
+			</maintainableSection>
         </maintainableSections>
     </maintenanceDocument>
 </dictionaryEntry>

@@ -1202,6 +1202,10 @@
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
 	<field-descriptor name="purchaseOrderQuoteListName" column="PO_QT_LST_NM" jdbc-type="VARCHAR"/>
 	<field-descriptor name="contractManagerCode" column="CONTR_MGR_CD" jdbc-type="INTEGER"/>
+    <collection-descriptor name="quoteListVendors" element-class-ref="org.kuali.module.purap.bo.PurchaseOrderQuoteListVendor" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" proxy="false" auto-retrieve="true" auto-update="true" auto-delete="true">
+        <orderby name="purchaseOrderQuoteListIdentifier" sort="ASC" />
+        <inverse-foreignkey field-ref="purchaseOrderQuoteListIdentifier" />
+    </collection-descriptor>
 </class-descriptor>
 
 <class-descriptor class="org.kuali.module.purap.bo.PurchaseOrderQuoteListVendor" table="PUR_PO_QT_LST_VNDR_T">
@@ -1210,6 +1214,10 @@
 	<field-descriptor name="vendorDetailAssignedIdentifier" column="VNDR_DTL_ASND_ID" jdbc-type="INTEGER" primarykey="true" index="true"/>
 	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
+    <reference-descriptor name="vendorDetail" class-ref="org.kuali.module.vendor.bo.VendorDetail" auto-retrieve="true" auto-update="none" auto-delete="none">
+    	<foreignkey field-ref="vendorHeaderGeneratedIdentifier" />
+        <foreignkey field-ref="vendorDetailAssignedIdentifier" />
+    </reference-descriptor>
 	<reference-descriptor name="purchaseOrderQuoteList" class-ref="org.kuali.module.purap.bo.PurchaseOrderQuoteList" auto-retrieve="true" auto-update="none" auto-delete="none">
 		<foreignkey field-ref="purchaseOrderQuoteListIdentifier" />
 	</reference-descriptor>

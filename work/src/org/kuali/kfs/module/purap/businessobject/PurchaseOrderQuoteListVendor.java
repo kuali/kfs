@@ -19,6 +19,7 @@ package org.kuali.module.purap.bo;
 import java.util.LinkedHashMap;
 
 import org.kuali.core.bo.PersistableBusinessObjectBase;
+import org.kuali.module.vendor.bo.VendorDetail;
 
 /**
  * 
@@ -30,6 +31,8 @@ public class PurchaseOrderQuoteListVendor extends PersistableBusinessObjectBase 
 	private Integer vendorDetailAssignedIdentifier;
 
     private PurchaseOrderQuoteList purchaseOrderQuoteList;
+
+    private VendorDetail vendorDetail;
     
 	/**
 	 * Default constructor.
@@ -115,6 +118,15 @@ public class PurchaseOrderQuoteListVendor extends PersistableBusinessObjectBase 
      */
     public void setPurchaseOrderQuoteList(PurchaseOrderQuoteList purchaseOrderQuoteList) {
         this.purchaseOrderQuoteList = purchaseOrderQuoteList;
+    }
+
+
+    public VendorDetail getVendorDetail() {
+        return vendorDetail;
+    }
+
+    public void setVendorDetail(VendorDetail vendorDetail) {
+        this.vendorDetail = vendorDetail;
     }
 
     /**

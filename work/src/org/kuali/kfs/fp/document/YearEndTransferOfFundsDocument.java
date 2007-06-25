@@ -16,12 +16,14 @@
 
 package org.kuali.module.financial.document;
 
+import org.kuali.core.document.AmountTotaling;
+
 
 /**
  * Year End version of the <code>TransferOfFundsDocument</code> functionally the only difference is the accounting period code
  * used on the glpe entries
  */
-public class YearEndTransferOfFundsDocument extends TransferOfFundsDocument implements YearEndDocument {
+public class YearEndTransferOfFundsDocument extends TransferOfFundsDocument implements YearEndDocument, AmountTotaling {
 
     /**
      * Constructs a YearEndTransferOfFundsDocument.java.

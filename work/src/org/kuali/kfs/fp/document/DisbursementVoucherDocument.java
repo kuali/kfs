@@ -26,6 +26,7 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.bo.DocumentHeader;
 import org.kuali.core.bo.user.UniversalUser;
+import org.kuali.core.document.AmountTotaling;
 import org.kuali.core.document.Copyable;
 import org.kuali.core.rules.RulesUtils;
 import org.kuali.core.service.KualiConfigurationService;
@@ -58,7 +59,7 @@ import edu.iu.uis.eden.exception.WorkflowException;
 /**
  * This is the business object that represents the DisbursementVoucher document in Kuali.
  */
-public class DisbursementVoucherDocument extends AccountingDocumentBase implements Copyable {
+public class DisbursementVoucherDocument extends AccountingDocumentBase implements Copyable, AmountTotaling {
     private Integer finDocNextRegistrantLineNbr;
     private String disbVchrContactPersonName;
     private String disbVchrContactPhoneNumber;
@@ -764,6 +765,10 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
      */
     @Override
     public void prepareForSave() {
+        if (this instanceof AmountTotaling) {
+            getDocumentHeader().setFinancialDocumentTotalAmount(((AmountTotaling) this).getTotalDollarAmount());
+        }
+        
         if (dvWireTransfer != null) {
             dvWireTransfer.setDocumentNumber(this.documentNumber);
         }

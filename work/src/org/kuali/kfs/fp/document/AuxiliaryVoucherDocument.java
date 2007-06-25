@@ -174,16 +174,14 @@ public class AuxiliaryVoucherDocument extends AccountingDocumentBase implements 
     }
 
     /**
-     * This method calculates the difference between the credit and debit total.
+     * Same as default implementation but uses debit / credit totals instead. Meaning it returns either credit or if 0, debit.
      * 
+     * @see org.kuali.kfs.document.AccountingDocumentBase#getTotalDollarAmount()
      * @return KualiDecimal
      */
+    @Override
     public KualiDecimal getTotalDollarAmount() {
-        KualiDecimal total = new KualiDecimal(0);
-
-        total = getCreditTotal().subtract(getDebitTotal());
-
-        return total;
+        return getCreditTotal().equals(KualiDecimal.ZERO) ? getDebitTotal() : getCreditTotal();
     }
 
     /**

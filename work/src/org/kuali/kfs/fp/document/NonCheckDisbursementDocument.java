@@ -17,6 +17,7 @@ package org.kuali.module.financial.document;
 
 import static org.kuali.kfs.KFSConstants.EMPTY_STRING;
 
+import org.kuali.core.document.AmountTotaling;
 import org.kuali.core.document.Copyable;
 import org.kuali.core.document.Correctable;
 import org.kuali.kfs.bo.AccountingLineParser;
@@ -29,7 +30,7 @@ import org.kuali.module.financial.bo.NonCheckDisbursementDocumentAccountingLineP
  * The "Non-Check Disbursement" document is used to record charges or credits directly assessed to university bank accounts. It is
  * used primarily by the Tax and Treasury Accounting office to record wire transfers, foreign drafts, etc.
  */
-public class NonCheckDisbursementDocument extends AccountingDocumentBase implements Copyable, Correctable{
+public class NonCheckDisbursementDocument extends AccountingDocumentBase implements Copyable, Correctable, AmountTotaling{
 
 
     /**

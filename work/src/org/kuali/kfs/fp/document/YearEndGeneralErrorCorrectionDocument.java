@@ -16,6 +16,8 @@
 
 package org.kuali.module.financial.document;
 
+import org.kuali.core.document.AmountTotaling;
+
 /**
  * This is the business object that represents the <code>{@link YearEndDocument}</code> version of
  * <code>{@link GeneralErrorCorrectionDocument}</code> in Kuali. This is a transactional document that will eventually post
@@ -24,7 +26,7 @@ package org.kuali.module.financial.document;
  * version except that it has slightly different routing and that it only allows posting to the year end accounting period for a
  * year.
  */
-public class YearEndGeneralErrorCorrectionDocument extends GeneralErrorCorrectionDocument implements YearEndDocument {
+public class YearEndGeneralErrorCorrectionDocument extends GeneralErrorCorrectionDocument implements YearEndDocument, AmountTotaling {
 
     /**
      * Initializes the array lists and some basic info.

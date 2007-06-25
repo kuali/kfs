@@ -174,6 +174,7 @@ public class CreditCardReceiptDocument extends CashReceiptFamilyBase implements 
     /**
      * This method returns the overall total of the document - the credit card total.
      * 
+     * @see org.kuali.kfs.document.AccountingDocumentBase#getTotalDollarAmount()
      * @return KualiDecimal
      */
     @Override

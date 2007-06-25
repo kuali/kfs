@@ -403,11 +403,14 @@ public class BudgetAdjustmentDocument extends AccountingDocumentBase implements 
     }
 
     /**
+     * Same as default implementation but uses getTargetCurrentBudgetTotal and getSourceCurrentBudgetTotal instead.
+     * 
      * @see org.kuali.kfs.document.AccountingDocumentBase#getTotalDollarAmount()
+     * @return KualiDecimal
      */
     @Override
     public KualiDecimal getTotalDollarAmount() {
-        return super.getTotalDollarAmount();
+        return getTargetCurrentBudgetTotal().equals(KualiDecimal.ZERO) ? getSourceCurrentBudgetTotal() : getTargetCurrentBudgetTotal();
     }
 
     /**

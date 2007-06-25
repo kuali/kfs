@@ -16,12 +16,14 @@
 
 package org.kuali.module.financial.document;
 
+import org.kuali.core.document.AmountTotaling;
+
 
 /**
  * Year End version of the <code>DistributionOfIncomeAndExpenseDocument</code> the only functional difference between the YearEnd
  * version and the non-yearEnd version of a document is the glpe's generation.
  */
-public class YearEndDistributionOfIncomeAndExpenseDocument extends DistributionOfIncomeAndExpenseDocument implements YearEndDocument {
+public class YearEndDistributionOfIncomeAndExpenseDocument extends DistributionOfIncomeAndExpenseDocument implements YearEndDocument, AmountTotaling {
 
     /**
      * Constructs a YearEndDistributionOfIncomeAndExpenseDocument.java.

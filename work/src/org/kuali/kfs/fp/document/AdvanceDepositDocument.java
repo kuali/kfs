@@ -18,6 +18,7 @@ package org.kuali.module.financial.document;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.kuali.core.document.AmountTotaling;
 import org.kuali.core.document.Copyable;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.web.format.CurrencyFormatter;
@@ -31,7 +32,7 @@ import org.kuali.module.financial.bo.AdvanceDepositDetail;
  * transactional document, only accepting funds into the university, the accounting line data will be held in the source accounting
  * line data structure only.
  */
-public class AdvanceDepositDocument extends CashReceiptFamilyBase implements Copyable  {
+public class AdvanceDepositDocument extends CashReceiptFamilyBase implements Copyable, AmountTotaling  {
     // holds details about each advance deposit
     private List<AdvanceDepositDetail> advanceDeposits = new ArrayList<AdvanceDepositDetail>();
 
@@ -165,6 +166,7 @@ public class AdvanceDepositDocument extends CashReceiptFamilyBase implements Cop
     /**
      * This method returns the overall total of the document - the advance deposit total.
      * 
+     * @see org.kuali.kfs.document.AccountingDocumentBase#getTotalDollarAmount()
      * @return KualiDecimal
      */
     @Override

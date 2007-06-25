@@ -300,6 +300,7 @@ public class CashReceiptDocument extends CashReceiptFamilyBase implements Copyab
     /**
      * This method returns the overall total of the document - coin plus check plus cash.
      * 
+     * @see org.kuali.kfs.document.AccountingDocumentBase#getTotalDollarAmount()
      * @return KualiDecimal
      */
     @Override

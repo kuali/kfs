@@ -17,7 +17,7 @@ package org.kuali.module.chart.batch;
 
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.batch.AbstractStep;
-import org.kuali.module.budget.service.DateMakerService;
+import org.kuali.module.chart.service.DateMakerService;
 
 /**
  * This is the batch step implementation for Fiscal Year Maker. It brings forward the appropriate rows from certain chart, gl, and

@@ -20,9 +20,11 @@ import static org.apache.commons.beanutils.PropertyUtils.getProperty;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -46,6 +48,7 @@ import org.kuali.module.labor.bo.ExpenseTransferAccountingLine;
 import org.kuali.module.labor.bo.LedgerBalance;
 import org.kuali.module.labor.document.LaborExpenseTransferDocumentBase;
 import org.kuali.module.labor.rules.event.EmployeeIdChangedEvent;
+import org.kuali.module.labor.service.SegmentedLookupResultsService;
 import org.kuali.module.labor.web.struts.form.ExpenseTransferDocumentFormBase;
 import org.kuali.rice.KNSServiceLocator;
 
@@ -57,19 +60,19 @@ public class ExpenseTransferDocumentActionBase extends LaborDocumentActionBase {
 
     private static final Map<String, String> periodCodeMapping = new HashMap<String, String>();
     static {
-        periodCodeMapping.put("01", "month1AccountLineAmount");
-        periodCodeMapping.put("02", "month2AccountLineAmount");
-        periodCodeMapping.put("03", "month3AccountLineAmount");
-        periodCodeMapping.put("04", "month4AccountLineAmount");
-        periodCodeMapping.put("05", "month5AccountLineAmount");
-        periodCodeMapping.put("06", "month6AccountLineAmount");
-        periodCodeMapping.put("07", "month7AccountLineAmount");
-        periodCodeMapping.put("08", "month8AccountLineAmount");
-        periodCodeMapping.put("09", "month9AccountLineAmount");
-        periodCodeMapping.put("10", "month10AccountLineAmount");
-        periodCodeMapping.put("11", "month11AccountLineAmount");
-        periodCodeMapping.put("12", "month12AccountLineAmount");
-        periodCodeMapping.put("13", "month13AccountLineAmount");
+        periodCodeMapping.put("month1Amount", KFSConstants.MONTH1);
+        periodCodeMapping.put("month2Amount", KFSConstants.MONTH2);
+        periodCodeMapping.put("month3Amount", KFSConstants.MONTH3);
+        periodCodeMapping.put("month4Amount", KFSConstants.MONTH4);
+        periodCodeMapping.put("month5Amount", KFSConstants.MONTH5);
+        periodCodeMapping.put("month6Amount", KFSConstants.MONTH6);
+        periodCodeMapping.put("month7Amount", KFSConstants.MONTH7);
+        periodCodeMapping.put("month8Amount", KFSConstants.MONTH8);
+        periodCodeMapping.put("month9Amount", KFSConstants.MONTH9);
+        periodCodeMapping.put("month10Amount", KFSConstants.MONTH10);
+        periodCodeMapping.put("month11Amount", KFSConstants.MONTH11);
+        periodCodeMapping.put("month12Amount", KFSConstants.MONTH12);
+        periodCodeMapping.put("month13Amount", KFSConstants.MONTH13);
     }
 
     /**
@@ -129,7 +132,6 @@ public class ExpenseTransferDocumentActionBase extends LaborDocumentActionBase {
             parameters.put(KFSConstants.HIDE_LOOKUP_RETURN_LINK, hideReturnLink);
         }
 
-        LOG.debug("Setting the anchor to " + ((ExpenseTransferDocumentFormBase) form).getAnchor());
         // anchor, if it exists
         if (form instanceof KualiForm && StringUtils.isNotEmpty(((KualiForm) form).getAnchor())) {
             parameters.put(Constants.LOOKUP_ANCHOR, ((KualiForm) form).getAnchor());
@@ -165,13 +167,32 @@ public class ExpenseTransferDocumentActionBase extends LaborDocumentActionBase {
         Map<String, String> requestParams = (Map<String, String>) request.getParameterMap();
 
         Collection<PersistableBusinessObject> rawValues = null;
+        Map<String, Set<String>> segmentedSelection = new HashMap<String, Set<String>>();
         if (StringUtils.equals(Constants.MULTIPLE_VALUE, expenseTransferDocumentForm.getRefreshCaller())) {
             String lookupResultsSequenceNumber = expenseTransferDocumentForm.getLookupResultsSequenceNumber();
             if (StringUtils.isNotBlank(lookupResultsSequenceNumber)) {
                 // actually returning from a multiple value lookup
-                Class lookupResultsBOClass = Class.forName(expenseTransferDocumentForm.getLookupResultsBOClassName());
-
-                rawValues = KNSServiceLocator.getLookupResultsService().retrieveSelectedResultBOs(lookupResultsSequenceNumber, lookupResultsBOClass, GlobalVariables.getUserSession().getUniversalUser().getPersonUniversalIdentifier());
+                Set<String> selectedObjIds = getSegmentedLookupResultsService().retrieveSetOfSelectedObjectIds(lookupResultsSequenceNumber, 
+                                                                                                               GlobalVariables.getUserSession().getUniversalUser().getPersonUniversalIdentifier());
+                for (String selectedObjId : selectedObjIds) {
+                    Integer propertyNameIdx = selectedObjId.lastIndexOf(".");
+                    String selectedPropertyName = new String();
+                    if (propertyNameIdx > -1) {
+                        selectedPropertyName = selectedObjId.substring(propertyNameIdx + 1);
+                        selectedObjId = selectedObjId.substring(0, propertyNameIdx);
+                        LOG.debug("Selected property " + selectedPropertyName);
+                        LOG.debug("Selected object id " + selectedObjId);
+                        
+                        if (!segmentedSelection.containsKey(selectedObjId)) {
+                            segmentedSelection.put(selectedObjId, new HashSet<String>());
+                        }
+                        segmentedSelection.get(selectedObjId).add(selectedPropertyName);
+                    }
+                }
+                
+                LOG.debug("Asking segmentation service for object ids " + segmentedSelection.keySet());
+                rawValues = getSegmentedLookupResultsService().retrieveSelectedResultBOs(lookupResultsSequenceNumber, segmentedSelection.keySet(), LedgerBalance.class, 
+                                                                                         GlobalVariables.getUserSession().getUniversalUser().getPersonUniversalIdentifier());
             }
         }
 
@@ -185,20 +206,23 @@ public class ExpenseTransferDocumentActionBase extends LaborDocumentActionBase {
                     isFirstBalance = false;
                 }
 
-                for (String periodCode : periodCodeMapping.keySet()) {
-                    ExpenseTransferAccountingLine line = (ExpenseTransferAccountingLine) expenseTransferDocumentForm.getFinancialDocument().getSourceAccountingLineClass().newInstance();
-                    try {
-                        KualiDecimal lineAmount = (KualiDecimal) getProperty(bo, periodCodeMapping.get(periodCode));
-                        if (Constants.ZERO.compareTo(lineAmount) != 0) {
-                            buildAccountingLineFromLedgerBalance((LedgerBalance) bo, line, (KualiDecimal) getProperty(bo, periodCodeMapping.get(periodCode)), periodCode);
-                            SpringServiceLocator.getPersistenceService().retrieveNonKeyFields(line);
-                            insertAccountingLine(true, expenseTransferDocumentForm, line);
+                for (String selectedPropertyName : segmentedSelection.get(bo.getObjectId())) {
+                    if (periodCodeMapping.containsKey(selectedPropertyName)) {
+                        String periodCode = periodCodeMapping.get(selectedPropertyName);
+                        ExpenseTransferAccountingLine line = (ExpenseTransferAccountingLine) expenseTransferDocumentForm.getFinancialDocument().getSourceAccountingLineClass().newInstance();
+                        try {
+                            KualiDecimal lineAmount = (KualiDecimal) getProperty(bo, selectedPropertyName);
+                            if (Constants.ZERO.compareTo(lineAmount) != 0) {
+                                buildAccountingLineFromLedgerBalance((LedgerBalance) bo, line, (KualiDecimal) getProperty(bo, selectedPropertyName), periodCode);
+                                SpringServiceLocator.getPersistenceService().retrieveNonKeyFields(line);
+                                insertAccountingLine(true, expenseTransferDocumentForm, line);
+                            }
                         }
-                    }
-                    catch (Exception e) {
-                        // IllegalAccessException thrown by getProperty() call
-                        // No way to recover gracefully, so throw it back as a RuntimeException
-                        throw new RuntimeException(e);
+                        catch (Exception e) {
+                            // IllegalAccessException thrown by getProperty() call
+                            // No way to recover gracefully, so throw it back as a RuntimeException
+                            throw new RuntimeException(e);
+                        }
                     }
                 }
             }
@@ -208,7 +232,7 @@ public class ExpenseTransferDocumentActionBase extends LaborDocumentActionBase {
     }
 
     /**
-     * @see org.kuali.core.web.struts.action.KualiDocumentActionBase#refresh(ActionMapping, ActionForm, HttpServletRequest,
+     * @see org.kuali.core.web.struts.action.KualiDocumentActionBase#copyAllAccountingLines(ActionMapping, ActionForm, HttpServletRequest,
      *      HttpServletResponse)
      */
     public ActionForward copyAllAccountingLines(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -249,7 +273,7 @@ public class ExpenseTransferDocumentActionBase extends LaborDocumentActionBase {
     }
 
     /**
-     * @see org.kuali.core.web.struts.action.KualiDocumentActionBase#refresh(ActionMapping, ActionForm, HttpServletRequest,
+     * @see org.kuali.core.web.struts.action.KualiDocumentActionBase#copyAccountingLine(ActionMapping, ActionForm, HttpServletRequest,
      *      HttpServletResponse)
      */
     public ActionForward copyAccountingLine(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -354,5 +378,13 @@ public class ExpenseTransferDocumentActionBase extends LaborDocumentActionBase {
      */
     protected String getLookupResultsBOClassName(ExpenseTransferDocumentFormBase expenseTransferDocumentForm) {
         return expenseTransferDocumentForm.getLookupResultsBOClassName();
+    }
+    
+    /**
+     *
+     * @return SegmentedLookupResultsService
+     */
+    private SegmentedLookupResultsService getSegmentedLookupResultsService() {
+        return (SegmentedLookupResultsService) SpringServiceLocator.getLocalKFSService("segmentedLookupResultsService");
     }
 }

@@ -55,7 +55,16 @@ public class LaborLedgerBalanceDaoOjb extends PlatformAwareDaoBaseOjb implements
         c.addEqualTo(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, universityFiscalYear);
         c.addIn(KFSPropertyConstants.FINANCIAL_BALANCE_TYPE_CODE, balanceTypeCodes);
 
-        String[] attributes = new String[] { "account.subFundGroup.fundGroupCode", "sum(accountLineAnnualBalanceAmount)", "sum(financialBeginningBalanceLineAmount)", "sum(contractsGrantsBeginningBalanceAmount)", "sum(month1AccountLineAmount)", "sum(month2AccountLineAmount)", "sum(month3AccountLineAmount)", "sum(month4AccountLineAmount)", "sum(month5AccountLineAmount)", "sum(month6AccountLineAmount)", "sum(month7AccountLineAmount)", "sum(month8AccountLineAmount)", "sum(month9AccountLineAmount)", "sum(month10AccountLineAmount)", "sum(month11AccountLineAmount)", "sum(month12AccountLineAmount)", "sum(month13AccountLineAmount)" };
+        String[] attributes = new String[] { "account.subFundGroup.fundGroupCode", 
+                                             "sum(accountLineAnnualBalanceAmount)", 
+                                             "sum(financialBeginningBalanceLineAmount)", 
+                                             "sum(contractsGrantsBeginningBalanceAmount)", 
+                                             "sum(month1Amount)", "sum(month2Amount)", 
+                                             "sum(month3Amount)", "sum(month4Amount)", 
+                                             "sum(month5Amount)", "sum(month6Amount)", 
+                                             "sum(month7Amount)", "sum(month8Amount)", 
+                                             "sum(month9Amount)", "sum(month10Amount)", 
+                                             "sum(month11Amount)", "sum(month12Amount)", "sum(month13Amount)" };
 
         String[] groupby = new String[] { "account.subFundGroup.fundGroupCode" };
 
@@ -405,19 +414,19 @@ public class LaborLedgerBalanceDaoOjb extends PlatformAwareDaoBaseOjb implements
 
         // add the entended elements into the list
         if (isExtended) {
-            attributeList.add("sum(month1AccountLineAmount)");
-            attributeList.add("sum(month2AccountLineAmount)");
-            attributeList.add("sum(month3AccountLineAmount)");
-            attributeList.add("sum(month4AccountLineAmount)");
-            attributeList.add("sum(month5AccountLineAmount)");
-            attributeList.add("sum(month6AccountLineAmount)");
-            attributeList.add("sum(month7AccountLineAmount)");
-            attributeList.add("sum(month8AccountLineAmount)");
-            attributeList.add("sum(month9AccountLineAmount)");
-            attributeList.add("sum(month10AccountLineAmount)");
-            attributeList.add("sum(month11AccountLineAmount)");
-            attributeList.add("sum(month12AccountLineAmount)");
-            attributeList.add("sum(month13AccountLineAmount)");
+            attributeList.add("sum(month1Amount)");
+            attributeList.add("sum(month2Amount)");
+            attributeList.add("sum(month3Amount)");
+            attributeList.add("sum(month4Amount)");
+            attributeList.add("sum(month5Amount)");
+            attributeList.add("sum(month6Amount)");
+            attributeList.add("sum(month7Amount)");
+            attributeList.add("sum(month8Amount)");
+            attributeList.add("sum(month9Amount)");
+            attributeList.add("sum(month10Amount)");
+            attributeList.add("sum(month11Amount)");
+            attributeList.add("sum(month12Amount)");
+            attributeList.add("sum(month13Amount)");
         }
         return attributeList;
     }

@@ -605,7 +605,7 @@
 
 	<bean id="laborDao" parent="platformAwareDao" class="org.kuali.module.labor.dao.ojb.LaborDaoOjb" />
 	
-	<bean id="laborCorrectionDocumentService" parent="lookupResultsService" class="org.kuali.module.labor.service.impl.LaborCorrectionDocumentServiceImpl">
+	<bean id="laborCorrectionDocumentService" class="org.kuali.module.labor.service.impl.LaborCorrectionDocumentServiceImpl">
 		<property name="laborOriginEntryService">
 			<ref bean="laborOriginEntryService" />
 		</property>

@@ -42,7 +42,7 @@ import org.kuali.module.gl.bo.Entry;
 public class BalanceInquiryForm extends LookupForm {
     private static final long serialVersionUID = 1L;
 
-    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(BalanceInquiryForm.class);
+    private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(BalanceInquiryForm.class);
 
     private String formKey;
     private String backLocation;

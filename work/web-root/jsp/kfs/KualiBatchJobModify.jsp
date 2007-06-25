@@ -84,7 +84,7 @@
 								</tr>
 								<tr>
 									<td></td>
-									<td><html:image src="${ConfigProperties.externalizable.images.url}run.jpg" styleClass="globalbuttons" property="methodToCall.runJob" title="Run Job" alt="Run Job" /></td>
+									<td><html:image src="${ConfigProperties.externalizable.images.url}tinybutton-run.gif" styleClass="globalbuttons" property="methodToCall.runJob" title="Run Job" alt="Run Job" /></td>
 								</tr>
 							</table>
 							<script type="text/javascript">
@@ -110,15 +110,15 @@
 				<c:if test="${canSchedule || canUnschedule || canStopJob}">
 					<td rowspan="2">
 						<c:if test="${canSchedule && !job.scheduled}">
-							<html:image src="${ConfigProperties.externalizable.images.url}schedule.jpg" styleClass="globalbuttons" property="methodToCall.schedule" title="Add to Standard Schedule" alt="Add to Standard Schedule" />
+							<html:image src="${ConfigProperties.externalizable.images.url}tinybutton-schedule.gif" styleClass="globalbuttons" property="methodToCall.schedule" title="Add to Standard Schedule" alt="Add to Standard Schedule" />
 							<br />
 						</c:if>				
 						<c:if test="${canUnschedule && job.scheduled}">
-							<html:image src="${ConfigProperties.externalizable.images.url}unschedule.jpg" styleClass="globalbuttons" property="methodToCall.unschedule" title="Remove From Standard Schedule" alt="Remove From Standard Schedule" />
+							<html:image src="${ConfigProperties.externalizable.images.url}tinybutton-unschedule.gif" styleClass="globalbuttons" property="methodToCall.unschedule" title="Remove From Standard Schedule" alt="Remove From Standard Schedule" />
 							<br />
 						</c:if>
 						<c:if test="${canStopJob && job.running}">
-							<html:image src="${ConfigProperties.externalizable.images.url}stop.jpg" styleClass="globalbuttons" property="methodToCall.stopJob" title="Stop Running Job" alt="Stop Running Job" />
+							<html:image src="${ConfigProperties.externalizable.images.url}tinybutton-stop.gif" styleClass="globalbuttons" property="methodToCall.stopJob" title="Stop Running Job" alt="Stop Running Job" />
 							<br />
 						</c:if>
 						&nbsp;

@@ -923,4 +923,15 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
     public AccountingLineParser getAccountingLineParser() {
         return new BasicFormatWithLineDescriptionAccountingLineParser();
     }
+    
+    /**
+     * Returns check total.
+     * 
+     * @see org.kuali.kfs.document.AccountingDocumentBase#getTotalDollarAmount()
+     * @return KualiDecimal
+     */
+    @Override
+    public KualiDecimal getTotalDollarAmount() {
+        return this.getDisbVchrCheckTotalAmount();
+    }
 }

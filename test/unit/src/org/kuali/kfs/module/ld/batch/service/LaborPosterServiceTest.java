@@ -147,8 +147,8 @@ public class LaborPosterServiceTest extends KualiTestBase {
             ObjectUtil.buildObject(ledgerBalanceForTesting, entry);
 
             assertTrue(expectedDataList.contains(ledgerBalanceForTesting));
-            assertEquals(expectedMonth7Amount, ledgerBalanceForTesting.getMonth7AccountLineAmount());
-            assertEquals(expectedMonth8Amount, ledgerBalanceForTesting.getMonth8AccountLineAmount());
+            assertEquals(expectedMonth7Amount, ledgerBalanceForTesting.getMonth7Amount());
+            assertEquals(expectedMonth8Amount, ledgerBalanceForTesting.getMonth8Amount());
             assertEquals(expectedAnnualBalanceAmount, ledgerBalanceForTesting.getAccountLineAnnualBalanceAmount());
         }
         assertEquals(expectedNumOfData, ledgerEntries.size());

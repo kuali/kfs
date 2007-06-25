@@ -263,9 +263,9 @@ public class PurchaseOrderAction extends PurchasingActionBase {
             noteText = noteText + " (Previous Document Id is " + kualiDocumentFormBase.getDocId() + ")";
         }
         newNote.setNoteText(noteText);
-        newNote.setNoteTypeCode(KFSConstants.NoteTypeEnum.BUSINESS_OBJECT_NOTE_TYPE.toString());
+        newNote.setNoteTypeCode(KFSConstants.NoteTypeEnum.BUSINESS_OBJECT_NOTE_TYPE.getCode());
         kualiDocumentFormBase.setNewNote(newNote);
-        insertBONote(mapping, form, request, response);
+        insertBONote(mapping, kualiDocumentFormBase, request, response);
 
         GlobalVariables.getMessageList().add(messageType);
         if (documentType.equals(PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_AMENDMENT_DOCUMENT)) {

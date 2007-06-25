@@ -424,6 +424,10 @@ public class PurapConstants {
         public static final String INVOICE_EXTENDED_PRICE = "Total Inv Cost";
     }
     
+    // PAYMENT REQUEST
+    public static String CREDIT_MEMO_DOCUMENT = "KualiCreditMemoDocument";
+    public static String CREDIT_MEMO_DOCUMENT_DOC_TYPE = "CreditMemoDocument";
+
     public static class CreditMemoStatuses {
         public static String INITIATE = "INIT";
         public static String IN_PROCESS = "INPR";

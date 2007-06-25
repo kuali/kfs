@@ -20,12 +20,15 @@
     <description>chartOfAccountsCode description...</description>
 </attributeReference>
 
+<attributeReference name="organizationCode" sourceClassName="org.kuali.module.purap.bo.PurApAttributeReferenceDummy" sourceAttributeName="organizationCode"/>
+<!-- 
 <attributeReference name="organizationCode" sourceClassName="org.kuali.module.chart.bo.Org" sourceAttributeName="organizationCode">
     <label>Chart/Org</label>
     <shortLabel>Chart/Org</shortLabel>
     <summary>organizationCode</summary>
     <description>organizationCode description...</description>
 </attributeReference>
+-->
 
 <attributeReference name="vendorAddressGeneratedIdentifier" sourceClassName="org.kuali.module.vendor.bo.VendorAddress" sourceAttributeName="vendorAddressGeneratedIdentifier">
     <required>false</required>
@@ -120,12 +123,15 @@
     <description>contractManagerCode description...</description>
 </attributeReference>
 
+<attributeReference name="contractManager" sourceClassName="org.kuali.module.purap.bo.PurApAttributeReferenceDummy" sourceAttributeName="contractManager"/>
+<!-- 
 <attributeReference name="contractManager" sourceClassName="org.kuali.module.vendor.bo.ContractManager" sourceAttributeName="contractManagerName">
     <label>Contract Manager</label>
     <shortLabel>Contract Manager</shortLabel>
     <summary>contractManagerName</summary>
     <description>contractManagerName description...</description>
 </attributeReference>
+-->
 
 <attribute name="deliveryBuildingName">
     <label>Building</label>
@@ -492,5 +498,6 @@
 <attributeReference name="vendorShippingTitleCode" sourceClassName="org.kuali.module.vendor.bo.VendorDetail" sourceAttributeName="vendorShippingTitleCode"/>
                                     
 <attributeReference name="vendorShippingPaymentTermsCode" sourceClassName="org.kuali.module.vendor.bo.VendorDetail" sourceAttributeName="vendorShippingPaymentTermsCode"/>
+
             
 

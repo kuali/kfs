@@ -42,6 +42,7 @@ import org.kuali.kfs.bo.SourceAccountingLine;
 import org.kuali.kfs.bo.TargetAccountingLine;
 import org.kuali.kfs.document.AccountingDocument;
 import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.module.purap.PurapConstants;
 import org.w3c.dom.Document;
 import org.xml.sax.InputSource;
 
@@ -92,6 +93,8 @@ public class KualiWorkflowUtils extends WorkflowUtils {
     public static final String ORG_REVERSION_CHANGE_DOC_TYPE = "KualiOrganizationReversionChangeMaintDoc";
     public static final String C_G_AWARD_DOC_TYPE = "KualiResearchAdminPostAwardMaintenanceDocument";
     public static final String C_G_PROPOSAL_DOC_TYPE = "KualiProposalMaintenanceDocument";
+    public static final String ACCOUNTS_PAYABLE_CREDIT_MEMO_DOCUMENT_TYPE = PurapConstants.CREDIT_MEMO_DOCUMENT;
+    public static final String ACCOUNTS_PAYABLE_PAYMENT_REQUEST_DOCUMENT_TYPE = PurapConstants.PAYMENT_REQUEST_DOCUMENT;
 
     public static final String FINANCIAL_DOCUMENT_HEADER_DOCUMENT_NUMBER = xstreamSafeXPath(XSTREAM_MATCH_ANYWHERE_PREFIX + "documentHeader/documentNumber");
     public static final String FINANCIAL_DOCUMENT_TOTAL_AMOUNT_XPATH = xstreamSafeXPath(XSTREAM_MATCH_ANYWHERE_PREFIX + "documentHeader/financialDocumentTotalAmount/value");

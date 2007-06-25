@@ -679,14 +679,14 @@ public class CorrectionAction extends KualiDocumentActionBase implements KualiTa
                 int groupCount = originEntryService.getGroupCount(oeg.getId());
                 int recordCountFunctionalityLimit = CorrectionDocumentUtils.getRecordCountFunctionalityLimit();
                 
-                if (CorrectionDocumentUtils.isRestrictedFunctionalityMode(groupCount, recordCountFunctionalityLimit)) {
+                if (!CorrectionDocumentUtils.isRestrictedFunctionalityMode(groupCount, recordCountFunctionalityLimit)) {
                     loadAllEntries(correctionForm.getInputGroupId(), correctionForm);
                     correctionForm.setDeleteFileFlag(true);
                     correctionForm.setDataLoadedFlag(true);
-                    correctionForm.setRestrictedFunctionalityMode(true);
+                    correctionForm.setRestrictedFunctionalityMode(false);
                 }
                 else {
-                    correctionForm.setRestrictedFunctionalityMode(false);
+                    correctionForm.setRestrictedFunctionalityMode(true);
                 }
             }
             else {

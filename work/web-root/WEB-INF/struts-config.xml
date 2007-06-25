@@ -103,8 +103,8 @@
         <exception type="org.kuali.module.financial.exceptions.CashDrawerStateException" key="unused" path="/cashManagementStatus.do" />
         <exception type="org.kuali.core.exceptions.AuthorizationException" key="meaningless" path="/authorizationException.do" />
         <exception type="org.kuali.core.exceptions.DocumentInitiationAuthorizationException" key="meaningless" path="/initiationAuthorizationException.do" />
-        <exception type="org.kuali.core.exceptions.UnknownDocumentIdException" key="error.document.noLongerExistsInKuali" path="/kr/WEB-INF/jsp/core/Exception.jsp" />
-        <exception type="org.kuali.core.exceptions.FileUploadLimitExceededException" key="error.document.attachmentMaximumFileSizeExceeded" path="/kr/WEB-INF/jsp/core/Exception.jsp" />
+        <exception type="org.kuali.core.exceptions.UnknownDocumentIdException" key="error.document.noLongerExistsInKuali" path="/kr/WEB-INF/jsp/Exception.jsp" />
+        <exception type="org.kuali.core.exceptions.FileUploadLimitExceededException" key="error.document.attachmentMaximumFileSizeExceeded" path="/kr/WEB-INF/jsp/Exception.jsp" />
     </global-exceptions>
 
 

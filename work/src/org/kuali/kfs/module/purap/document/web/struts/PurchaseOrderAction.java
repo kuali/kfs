@@ -524,7 +524,7 @@ public class PurchaseOrderAction extends PurchasingActionBase {
     public ActionForward retransmitPo(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         KualiDocumentFormBase kualiDocumentFormBase = (KualiDocumentFormBase) form;
         PurchaseOrderDocument po = (PurchaseOrderDocument) kualiDocumentFormBase.getDocument();
-        DocumentHeader oldDocumentHeader = po.getDocumentHeader();
+        //DocumentHeader oldDocumentHeader = po.getDocumentHeader();
         if (!po.getDocumentHeader().getWorkflowDocument().getDocumentType().equals(PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_RETRANSMIT_DOCUMENT)) {
 
             String documentType = PurchaseOrderDocTypes.PURCHASE_ORDER_RETRANSMIT_DOCUMENT;
@@ -541,8 +541,7 @@ public class PurchaseOrderAction extends PurchasingActionBase {
                 return mapping.findForward(KFSConstants.MAPPING_ERROR);
             }
             else {
-                DocumentHeader newDocumentHeader = kualiDocumentFormBase.getDocument().getDocumentHeader();
-                kualiDocumentFormBase.getDocument().setDocumentHeader(oldDocumentHeader);
+                ((PurchaseOrderForm) kualiDocumentFormBase).addButtons();
                 return mapping.findForward(KFSConstants.MAPPING_BASIC);
             }
         }

@@ -24,6 +24,10 @@
         <c:set var="fullEntryMode" value="true" scope="request" />
     </c:if>
 
+    <c:if test="${((KualiForm.editingMode['displayRetransmitTab']) and (KualiForm.document.documentHeader.workflowDocument.routeHeader.docRouteStatus != 'F'))}">
+        <c:set var="retransmitMode" value="true" scope="request" />
+    </c:if>
+    
     <kul:hiddenDocumentFields excludePostingYear="true" />
 
     <purap:hiddenPurapFields />
@@ -57,14 +61,14 @@
         </kul:documentOverview>
     </c:if>
     
-    <c:if test="${KualiForm.editingMode['displayRetransmitTab']}" >
+    <c:if test="${retransmitMode}" >
         <purap:purchaseOrderRetransmit 
             documentAttributes="${DataDictionary.KualiPurchaseOrderDocument.attributes}"
             itemAttributes="${DataDictionary.PurchaseOrderItem.attributes}"
             displayPurchaseOrderFields="true" />
     </c:if>
     	 		 
-<c:if test="${not KualiForm.editingMode['displayRetransmitTab']}" >
+<c:if test="${not retransmitMode}" >
     <purap:vendor
         documentAttributes="${DataDictionary.KualiPurchaseOrderDocument.attributes}" 
         displayPurchaseOrderFields="true" />

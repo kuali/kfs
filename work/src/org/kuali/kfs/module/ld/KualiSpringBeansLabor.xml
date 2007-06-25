@@ -592,11 +592,20 @@
 		<property name="dataDictionaryService">
 			<ref bean="dataDictionaryService" />
 		</property>
-	</bean>    	
-	
+	</bean>
+
+	<bean id="segmentedLookupResultsService" class="org.kuali.module.labor.service.impl.SegmentedLookupResultsServiceImpl">
+		<property name="businessObjectService">
+			<ref bean="businessObjectService" />
+		</property>
+        <property name="dateTimeService">
+            <ref bean="dateTimeService"/>
+        </property>
+	</bean>
+
 	<bean id="laborDao" parent="platformAwareDao" class="org.kuali.module.labor.dao.ojb.LaborDaoOjb" />
 	
-	<bean id="laborCorrectionDocumentService" class="org.kuali.module.labor.service.impl.LaborCorrectionDocumentServiceImpl">
+	<bean id="laborCorrectionDocumentService" parent="lookupResultsService" class="org.kuali.module.labor.service.impl.LaborCorrectionDocumentServiceImpl">
 		<property name="laborOriginEntryService">
 			<ref bean="laborOriginEntryService" />
 		</property>

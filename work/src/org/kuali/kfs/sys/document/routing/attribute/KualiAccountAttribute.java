@@ -18,6 +18,7 @@ package org.kuali.workflow.attribute;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -98,6 +99,12 @@ public class KualiAccountAttribute implements RoleAttribute, WorkflowAttribute {
     private static final String ACCOUNT_ATTRIBUTE = "KUALI_ACCOUNT_ATTRIBUTE";
 
     private static final String ROLE_STRING_DELIMITER = "~!~!~";
+    
+    // below map is used to signify that a document will route to delegates based on a different document type's code
+    private static final Map<String,String> DOCUMENT_TYPE_TRANSLATION = new HashMap<String,String>();
+    static {
+        DOCUMENT_TYPE_TRANSLATION.put(KualiWorkflowUtils.ACCOUNTS_PAYABLE_CREDIT_MEMO_DOCUMENT_TYPE, KualiWorkflowUtils.ACCOUNTS_PAYABLE_PAYMENT_REQUEST_DOCUMENT_TYPE);
+    }
 
     private String finCoaCd;
 
@@ -528,8 +535,11 @@ public class KualiAccountAttribute implements RoleAttribute, WorkflowAttribute {
     public ResolvedQualifiedRole resolveQualifiedRole(RouteContext context, String roleName, String qualifiedRole) throws EdenUserNotFoundException {
         try {
             List members = new ArrayList();
-            // TODO delyea - figure out how to use different financial document type code for CM here
-            String kualiDocumentType = SpringServiceLocator.getDataDictionaryService().getDocumentTypeCodeByTypeName(context.getDocument().getDocumentType().getName());
+            String workfowDocumentType = context.getDocument().getDocumentType().getName();
+            if ( (DOCUMENT_TYPE_TRANSLATION.containsKey(workfowDocumentType)) && (DOCUMENT_TYPE_TRANSLATION.get(workfowDocumentType) != null) ) {
+                workfowDocumentType = DOCUMENT_TYPE_TRANSLATION.get(workfowDocumentType);
+            }
+            String kualiDocumentType = SpringServiceLocator.getDataDictionaryService().getDocumentTypeCodeByTypeName(workfowDocumentType);
             String annotation = "";
             if (FISCAL_OFFICER_ROLE_KEY.equals(roleName)) {
                 FiscalOfficerRole role = getUnqualifiedFiscalOfficerRole(qualifiedRole);

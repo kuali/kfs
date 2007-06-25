@@ -75,7 +75,7 @@ public abstract class ExpenseTransferDocumentFormBase extends LaborDocumentFormB
      * @see MultipleValueLookupBroker#getLookupResultsBOClassName()
      */
     public String getLookupResultsBOClassName() {
-        return LedgerBalance.class.getName();
+        return lookupResultsBOClassName;
     }
 
     /**

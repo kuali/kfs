@@ -22,7 +22,9 @@ import javax.servlet.http.HttpServletRequest;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.exceptions.UserNotFoundException;
 import org.kuali.kfs.util.SpringServiceLocator;
+import static org.kuali.module.labor.LaborConstants.LABOR_USER_SERVICE_NAME;
 import org.kuali.module.labor.bo.LaborUser;
+import org.kuali.module.labor.bo.LedgerBalance;
 import org.kuali.module.labor.document.SalaryExpenseTransferDocument;
 import org.kuali.module.labor.service.LaborUserService;
 import org.kuali.rice.KNSServiceLocator;
@@ -51,6 +53,7 @@ public class SalaryExpenseTransferForm extends ExpenseTransferDocumentFormBase {
         setUser(new LaborUser(new UniversalUser()));
         setDocument(new SalaryExpenseTransferDocument());
         setFinancialBalanceTypeCode("AC");
+        setLookupResultsBOClassName(LedgerBalance.class.getName());
         setUniversityFiscalYear(0);
     }
 
@@ -117,7 +120,7 @@ public class SalaryExpenseTransferForm extends ExpenseTransferDocumentFormBase {
         getSalaryExpenseTransferDocument().setEmplid(id);
 
         if (id != null) {
-            setUser(((LaborUserService) SpringServiceLocator.getService("laborUserService")).getLaborUserByPersonPayrollIdentifier(id));
+            setUser(((LaborUserService) SpringServiceLocator.getLocalKFSService(LABOR_USER_SERVICE_NAME)).getLaborUserByPersonPayrollIdentifier(id));
         }
     }
 
@@ -129,7 +132,7 @@ public class SalaryExpenseTransferForm extends ExpenseTransferDocumentFormBase {
      */
     public String getEmplid() throws UserNotFoundException {
         if (user == null) {
-            setUser(((LaborUserService) SpringServiceLocator.getService("laborUserService"))
+            setUser(((LaborUserService) SpringServiceLocator.getLocalKFSService(LABOR_USER_SERVICE_NAME))
                     .getLaborUserByPersonPayrollIdentifier(getSalaryExpenseTransferDocument().getEmplid()));
         }
         return getSalaryExpenseTransferDocument().getEmplid();

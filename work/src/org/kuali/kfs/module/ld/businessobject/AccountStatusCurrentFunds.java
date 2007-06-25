@@ -34,7 +34,7 @@ public class AccountStatusCurrentFunds extends LedgerBalance {
     private String personName;
     private KualiDecimal ytdActualAmount;
     private KualiDecimal outstandingEncum;
-
+    private KualiDecimal month1AccountLineAmount;
     private LaborDao laborDao;
     
     
@@ -106,5 +106,13 @@ public class AccountStatusCurrentFunds extends LedgerBalance {
      */
     public void setOutstandingEncum(KualiDecimal outstandingEncum) {
         this.outstandingEncum = outstandingEncum;
+    }
+
+    public KualiDecimal getMonth1AccountLineAmount() {
+        return month1AccountLineAmount;
+    }
+
+    public void setMonth1AccountLineAmount(KualiDecimal month1AccountLineAmount) {
+        this.month1AccountLineAmount = month1AccountLineAmount;
     }
 }

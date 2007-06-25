@@ -60,6 +60,7 @@ public class BalanceInquiryLookupForm extends MultipleValueLookupForm {
 
     private Lookupable pendingEntryLookupable;
     private LookupResultsSelectable selectable;
+    private boolean segmented;
 
     public BalanceInquiryLookupForm() {
     }
@@ -86,25 +87,6 @@ public class BalanceInquiryLookupForm extends MultipleValueLookupForm {
         setPendingEntryLookupable(localPendingEntryLookupable);
     }
     
-//     /**
-//      * @see org.kuali.core.web.struts.form.LookupForm#setBusinessObjectClassName(String)
-//      */
-//     public void setBusinessObjectClassName(String name) {
-//         System.out.println("Trying to set business object class to " + name);
-//         if (getLookupResultsSelectable() != null) {
-//             ((LookupForm) getLookupResultsSelectable()).setBusinessObjectClassName(name);
-//         }
-//     }
-
-//     /**
-//      * @see org.kuali.core.web.struts.form.LookupForm#getBusinessObjectClassName()
-//      */
-//     public String getBusinessObjectClassName() {
-//         if (getLookupResultsSelectable() != null) {
-//             return ((LookupForm) getLookupResultsSelectable()).getBusinessObjectClassName();
-//         }
-//         return null;
-//     }
 
     /**
      * @param pendingEntryLookupable
@@ -121,23 +103,21 @@ public class BalanceInquiryLookupForm extends MultipleValueLookupForm {
         return this.pendingEntryLookupable;
     }
 
-//     /**
-//      * Retrieve the selectable
-//      *
-//      * @return LookupResultsSelectable
-//      */
-//     public LookupResultsSelectable getLookupResultsSelectable() {
-//         return selectable;
-//     }
-
+    /**
+     * Determines if the balance inquiry lookup should be segmented or not 
+     * 
+     * @return boolean
+     */
+    public boolean isSegmented() {
+        return segmented;
+    }
     
-//     /**
-//      * Assign selectable
-//      *
-//      * @param sel the <code>{@link LookupResultsSelectable}</code> for this form.
-//      */
-//     public void setLookupResultsSelectable(LookupResultsSelectable sel) {
-//         selectable = sel;
-//     }
-
+    /**
+     * Tells the balance inquiry lookup whether to be segmented or not
+     *
+     * @param seg
+     */
+    public void setSegmented(boolean seg) {
+        segmented = seg;
+    }
 }

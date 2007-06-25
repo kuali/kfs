@@ -53,6 +53,7 @@ import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSKeyConstants;
 import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.module.gl.GLConstants;
 import org.kuali.module.gl.bo.AccountBalance;
 import org.kuali.module.gl.util.ObjectHelper;
 import org.kuali.module.gl.web.lookupable.AccountBalanceByConsolidationLookupableHelperServiceImpl;
@@ -149,12 +150,7 @@ public class BalanceInquiryLookupAction extends KualiMultipleValueLookupAction {
             lookupForm.setSearchUsingOnlyPrimaryKeyValues(false);
             lookupForm.setPrimaryKeyFieldLabels(KFSConstants.EMPTY_STRING);
         }
-
-        request.setAttribute("reqSearchResultsActualSize", totalSize);
-        request.setAttribute("reqSearchResults", resultTable);
         
-        lookupForm.setResultsActualSize((int) totalSize.longValue());
-        lookupForm.setResultsLimitedSize(resultTable.size());
 
         // TODO: use inheritance instead of this if statement
         if (kualiLookupable.getLookupableHelperService() instanceof AccountBalanceByConsolidationLookupableHelperServiceImpl) {
@@ -191,6 +187,13 @@ public class BalanceInquiryLookupAction extends KualiMultipleValueLookupAction {
         
         request.setAttribute(KFSConstants.REQUEST_SEARCH_RESULTS_SIZE, totalSize);
         request.setAttribute(KFSConstants.REQUEST_SEARCH_RESULTS, resultTable);
+        lookupForm.setResultsActualSize((int) totalSize.longValue());
+        lookupForm.setResultsLimitedSize(resultTable.size());
+        
+        if (lookupForm.isSegmented()) {
+            LOG.debug("I'm segmented");
+            request.setAttribute(GLConstants.LookupableBeanKeys.SEGMENTED_LOOKUP_FLAG_NAME, Boolean.TRUE);
+        }
         
         if (request.getParameter(KFSConstants.SEARCH_LIST_REQUEST_KEY) != null) {
             GlobalVariables.getUserSession().removeObject(request.getParameter(KFSConstants.SEARCH_LIST_REQUEST_KEY));

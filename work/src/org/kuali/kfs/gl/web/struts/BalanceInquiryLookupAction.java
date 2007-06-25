@@ -76,7 +76,7 @@ import org.kuali.rice.KNSServiceLocator;
  * @see org.kuali.module.labor.web.struts.form.SalaryExpenseTransferForm;
  */
 public class BalanceInquiryLookupAction extends KualiMultipleValueLookupAction {
-    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(BalanceInquiryLookupAction.class);
+    private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(BalanceInquiryLookupAction.class);
 
     private static final String TOTALS_TABLE_KEY = "totalsTable";
 
@@ -313,29 +313,4 @@ public class BalanceInquiryLookupAction extends KualiMultipleValueLookupAction {
         return displayList;
     }
 
-    /**
-     * This method performs the operations necessary for a multiple value lookup keep track of which results have been selected to be returned
-     * to the calling document.  Note, this method does not actually requery for the results.
-     * 
-     * @param multipleValueLookupForm
-     */
-    protected void prepareToReturnSelectedResultBOs(MultipleValueLookupForm multipleValueLookupForm) {
-        String lookupResultsSequenceNumber = multipleValueLookupForm.getLookupResultsSequenceNumber();
-        if (StringUtils.isBlank(lookupResultsSequenceNumber)) {
-            // pressed return before searching
-            return;
-        }
-        Map<String, String> compositeObjectIdMap = LookupUtils.generateCompositeSelectedObjectIds(multipleValueLookupForm.getPreviouslySelectedObjectIdSet(),
-                multipleValueLookupForm.getDisplayedObjectIdSet(), multipleValueLookupForm.getSelectedObjectIdSet());
-        Set<String> compositeObjectIds = compositeObjectIdMap.keySet();
-        try {
-            LookupResultsService lookupResultsService = KNSServiceLocator.getLookupResultsService();
-            lookupResultsService.persistSelectedObjectIds(lookupResultsSequenceNumber, compositeObjectIds,
-                    GlobalVariables.getUserSession().getUniversalUser().getPersonUniversalIdentifier());
-        }
-        catch (Exception e) {
-            LOG.error("error occured trying to retrieve selected multiple lookup results", e);
-            throw new RuntimeException("error occured trying to retrieve selected multiple lookup results");
-        }
-    }
 }

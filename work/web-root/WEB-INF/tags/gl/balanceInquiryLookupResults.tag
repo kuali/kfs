@@ -93,23 +93,22 @@
 								&nbsp;
 							</td>
 						</c:forEach>
-
-						<td class="infocell">
-                            <c:choose>
-							<c:when test="${empty KualiForm.compositeObjectIdMap[row.objectId]}">
-								<input type="checkbox" name="${Constants.MULTIPLE_VALUE_LOOKUP_SELECTED_OBJ_ID_PARAM_PREFIX}${row.objectId}" value="checked"/>
-							</c:when>
-							<c:otherwise>
-								<input type="checkbox" name="${Constants.MULTIPLE_VALUE_LOOKUP_SELECTED_OBJ_ID_PARAM_PREFIX}${row.objectId}" value="checked" checked="checked"/>
-							</c:otherwise>
-                            </c:choose>
-							<input type="hidden" name="${Constants.MULTIPLE_VALUE_LOOKUP_DISPLAYED_OBJ_ID_PARAM_PREFIX}${row.objectId}" value="onscreen"/>
-						</td>
+						<td class="infocell">&nbsp;</td>
 					</tr>
                     <tr class="${rowclass}">
-                        <td colspan="${numOfNonMonthField+1}">
+                        <c:choose>
+                            <c:when test="${segmented}">
+                                <c:set var="column" value="${row.columns[numOfNonMonthField+1]}"/>
+                        <td class="infocell" colspan="${numOfNonMonthField-2}">&nbsp;</td>
+                        <th class="infocell">${column.columnTitle}</th>
+                        <td class="numbercell" width="15%">
+                            <a href="${column.propertyURL}" target="blank">${column.propertyValue}</a>
+                        </td>
+                            </c:when>
+                            <c:otherwise>
+                        <td colspan="${numOfNonMonthField}">
                             <center>
-                            <table class="datatable-80" cellspacing="0" cellpadding="0">
+                            <table class="datatable-80" cellspacing="0" cellpadding="0" width="100%">
                                 <c:forEach var="column" items="${row.columns}" begin="${numOfNonMonthField+1}" varStatus="columnStatus">
                                     <c:if test="${columnStatus.index eq 0 or columnStatus.index % 4 == 1}">
                                 <tr>
@@ -131,6 +130,20 @@
                             </table>
                             </center>
                         </td>
+                            </c:otherwise>
+                        </c:choose>
+
+						<td class="infocell">
+                            <c:choose>
+							<c:when test="${empty KualiForm.compositeObjectIdMap[row.objectId]}">
+								<input type="checkbox" name="${Constants.MULTIPLE_VALUE_LOOKUP_SELECTED_OBJ_ID_PARAM_PREFIX}${row.objectId}" value="checked"/>
+							</c:when>
+							<c:otherwise>
+								<input type="checkbox" name="${Constants.MULTIPLE_VALUE_LOOKUP_SELECTED_OBJ_ID_PARAM_PREFIX}${row.objectId}" value="checked" checked="checked"/>
+							</c:otherwise>
+                            </c:choose>
+							<input type="hidden" name="${Constants.MULTIPLE_VALUE_LOOKUP_DISPLAYED_OBJ_ID_PARAM_PREFIX}${row.objectId}" value="onscreen"/>
+						</td>
                     </tr>
 				</c:forEach>
 			</table>

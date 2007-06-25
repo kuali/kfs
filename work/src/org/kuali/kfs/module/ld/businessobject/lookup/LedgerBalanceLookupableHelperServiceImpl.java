@@ -25,6 +25,8 @@ import java.util.Map;
 
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.kuali.Constants;
 import org.kuali.core.bo.BusinessObject;
 import org.kuali.core.bo.PersistableBusinessObject;
@@ -49,6 +51,7 @@ import org.kuali.module.gl.bo.TransientBalanceInquiryAttributes;
 import org.kuali.module.gl.util.OJBUtility;
 import org.kuali.module.gl.web.Constant;
 import org.kuali.module.labor.bo.LedgerBalance;
+import org.kuali.module.labor.bo.SegmentedBusinessObject;
 import org.kuali.module.labor.service.LaborLedgerBalanceService;
 import org.kuali.module.labor.web.inquirable.LedgerBalanceInquirableImpl;
 import org.springframework.transaction.annotation.Transactional;
@@ -58,6 +61,8 @@ import org.kuali.rice.KNSServiceLocator;
 public class LedgerBalanceLookupableHelperServiceImpl extends AbstractLookupableHelperServiceImpl {
     private LaborLedgerBalanceService balanceService;
     private Map fieldValues;
+
+    private static final Log LOG = LogFactory.getLog(LedgerBalanceLookupableHelperServiceImpl.class);
 
     /**
      * @see org.kuali.core.lookup.Lookupable#getInquiryUrl(org.kuali.core.bo.BusinessObject, java.lang.String)
@@ -142,7 +147,19 @@ public class LedgerBalanceLookupableHelperServiceImpl extends AbstractLookupable
                 int i = 0;
                 Object[] array = (Object[]) collectionEntry;
                 LedgerBalance balance = new LedgerBalance();
-
+                
+                if (LedgerBalance.class.isAssignableFrom(getBusinessObjectClass())) {
+                    try {
+                        balance = (LedgerBalance) getBusinessObjectClass().newInstance();
+                    } 
+                    catch (Exception e) {
+                        LOG.warn("Using " + LedgerBalance.class + " for results because I couldn't instantiate the " + getBusinessObjectClass());
+                    }
+                }
+                else {
+                        LOG.warn("Using " + LedgerBalance.class + " for results because I couldn't instantiate the " + getBusinessObjectClass());
+                }
+                    
                 balance.setUniversityFiscalYear(new Integer(array[i++].toString()));
                 balance.setChartOfAccountsCode(array[i++].toString());
                 balance.setAccountNumber(array[i++].toString());
@@ -347,88 +364,147 @@ public class LedgerBalanceLookupableHelperServiceImpl extends AbstractLookupable
      * @return
      */
     public Collection performLookup(LookupForm lookupForm, Collection resultTable, boolean bounded) {
-        Collection displayList;
+        Collection<BusinessObject> displayList;
         
         // call search method to get results
         if (bounded) {
-            displayList = getSearchResults(lookupForm.getFieldsForLookup());
+            displayList = (Collection<BusinessObject>) getSearchResults(lookupForm.getFieldsForLookup());
         }
         else {
-            displayList = getSearchResultsUnbounded(lookupForm.getFieldsForLookup());
+            displayList = (Collection<BusinessObject>) getSearchResultsUnbounded(lookupForm.getFieldsForLookup());
         }
 
         // iterate through result list and wrap rows with return url and action urls
-        for (Iterator iter = displayList.iterator(); iter.hasNext();) {
-            BusinessObject element = (BusinessObject) iter.next();
-
+        for (BusinessObject element : displayList) {
+            LOG.debug("Doing lookup for " + element.getClass());
             String returnUrl = getReturnUrl(element, lookupForm.getFieldConversions(), lookupForm.getLookupableImplServiceName());
-            String actionUrls = getActionUrls(element);
+            
+            if (element instanceof PersistableBusinessObject) {
+                if (element instanceof SegmentedBusinessObject) {
+                    LOG.debug("segmented property names " + ((SegmentedBusinessObject) element).getSegmentedPropertyNames());
+                    for (String propertyName : ((SegmentedBusinessObject) element).getSegmentedPropertyNames()) {
+                        Collection<Column> columns = getColumns(element);
+                        columns.add(setupResultsColumn(element, propertyName));
 
-            List<Column> columns = getColumns();
-            List<Column> rowColumns = new ArrayList<Column>();
-            for (Iterator iterator = columns.iterator(); iterator.hasNext();) {
-                
-                Column col = (Column) iterator.next();
-                Formatter formatter = col.getFormatter();
-
-                // pick off result column from result list, do formatting
-                String propValue = Constants.EMPTY_STRING;
-                Object prop = ObjectUtils.getPropertyValue(element, col.getPropertyName());
-                
-                // set comparator and formatter based on property type
-                Class propClass = null;
-                try {
-                   PropertyDescriptor propDescriptor = PropertyUtils.getPropertyDescriptor(element, col.getPropertyName());
-                   if (propDescriptor != null) {
-                       propClass = propDescriptor.getPropertyType();
-                   }
-                }
-                catch (Exception e) {
-                    throw new RuntimeException("Cannot access PropertyType for property " + "'" + col.getPropertyName() + "' " + " on an instance of '" + element.getClass().getName() + "'.", e);
-                }
-
-                // formatters
-                if (prop != null) {
-                    // for Booleans, always use BooleanFormatter
-                    if (prop instanceof Boolean) {
-                        formatter = new BooleanFormatter();
-                    }
-
-                    if (formatter != null) {
-                        propValue = (String) formatter.format(prop);
-                    }
-                    else {
-                        propValue = prop.toString();
+                        ResultRow row = new ResultRow((List<Column>) columns, returnUrl, getActionUrls(element));
+                        row.setObjectId(((PersistableBusinessObject) element).getObjectId() + "." + propertyName);
+                        resultTable.add(row);                
                     }
                 }
-
-                // comparator
-                col.setComparator(CellComparatorHelper.getAppropriateComparatorForPropertyClass(propClass));
-                col.setValueComparator(CellComparatorHelper.getAppropriateValueComparatorForPropertyClass(propClass));
-                
-                // check security on field and do masking if necessary
-                boolean viewAuthorized = KNSServiceLocator.getAuthorizationService().isAuthorizedToViewAttribute(GlobalVariables.getUserSession().getUniversalUser(), element.getClass().getName(), col.getPropertyName());
-                if (!viewAuthorized) {
-                    Mask displayMask = getDataDictionaryService().getAttributeDisplayMask(element.getClass().getName(), col.getPropertyName());
-                    propValue = displayMask.maskValue(propValue);
+                else {
+                    Collection<Column> columns = getColumns(element);
+                    ResultRow row = new ResultRow((List<Column>) columns, returnUrl, getActionUrls(element));
+                    row.setObjectId(((PersistableBusinessObject) element).getObjectId());
+                    resultTable.add(row);                
                 }
-                col.setPropertyValue(propValue);
-
-
-                if (StringUtils.isNotBlank(propValue)) {
-                    col.setPropertyURL(getInquiryUrl(element, col.getPropertyName()));
-                }
-
-                rowColumns.add(col);
             }
-
-            ResultRow row = new ResultRow(rowColumns, returnUrl, actionUrls);
-            if ( element instanceof PersistableBusinessObject ) {
-                row.setObjectId(((PersistableBusinessObject)element).getObjectId());
-            }
-            resultTable.add(row);
         }
 
         return displayList;
     }
+
+    /**
+     * @param element
+     * @param attributeName
+     * @return Column
+     */
+    protected Column setupResultsColumn(BusinessObject element, String attributeName) {
+        Column col = new Column();
+        
+        col.setPropertyName(attributeName);
+        
+        String columnTitle = getDataDictionaryService().getAttributeLabel(getBusinessObjectClass(), attributeName);
+        if (StringUtils.isBlank(columnTitle)) {
+            columnTitle = getDataDictionaryService().getCollectionLabel(getBusinessObjectClass(), attributeName);
+        }
+        col.setColumnTitle(columnTitle);
+        if (getBusinessObjectDictionaryService().getLookupResultFieldNames(getBusinessObjectClass()).contains(attributeName)) {
+            col.setMaxLength(getBusinessObjectDictionaryService().getLookupResultFieldMaxLength(getBusinessObjectClass(), attributeName));
+        }
+        else {
+            col.setMaxLength(getDataDictionaryService().getAttributeMaxLength(getBusinessObjectClass(), attributeName));
+        }
+        
+        Class formatterClass = getDataDictionaryService().getAttributeFormatter(getBusinessObjectClass(), attributeName);
+        Formatter formatter = null;
+        if (formatterClass != null) {
+            try {
+                formatter = (Formatter) formatterClass.newInstance();
+                col.setFormatter(formatter);
+            }
+            catch (InstantiationException e) {
+                LOG.error("Unable to get new instance of formatter class: " + formatterClass.getName());
+                throw new RuntimeException("Unable to get new instance of formatter class: " + formatterClass.getName());
+            }
+            catch (IllegalAccessException e) {
+                LOG.error("Unable to get new instance of formatter class: " + formatterClass.getName());
+                throw new RuntimeException("Unable to get new instance of formatter class: " + formatterClass.getName());
+            }
+        }
+        
+        // pick off result column from result list, do formatting
+        String propValue = Constants.EMPTY_STRING;
+        Object prop = ObjectUtils.getPropertyValue(element, attributeName);
+        
+        // set comparator and formatter based on property type
+        Class propClass = null;
+        try {
+            PropertyDescriptor propDescriptor = PropertyUtils.getPropertyDescriptor(element, col.getPropertyName());
+            if (propDescriptor != null) {
+                propClass = propDescriptor.getPropertyType();
+            }
+        }
+        catch (Exception e) {
+            throw new RuntimeException("Cannot access PropertyType for property " + "'" + col.getPropertyName() + "' " + " on an instance of '" + element.getClass().getName() + "'.", e);
+        }
+        
+        // formatters
+        if (prop != null) {
+            // for Booleans, always use BooleanFormatter
+            if (prop instanceof Boolean) {
+                formatter = new BooleanFormatter();
+            }
+            
+            if (formatter != null) {
+                propValue = (String) formatter.format(prop);
+            }
+            else {
+                propValue = prop.toString();
+            }
+        }
+        
+        // comparator
+        col.setComparator(CellComparatorHelper.getAppropriateComparatorForPropertyClass(propClass));
+        col.setValueComparator(CellComparatorHelper.getAppropriateValueComparatorForPropertyClass(propClass));
+        
+        // check security on field and do masking if necessary
+        boolean viewAuthorized = KNSServiceLocator.getAuthorizationService().isAuthorizedToViewAttribute(GlobalVariables.getUserSession().getUniversalUser(), element.getClass().getName(), col.getPropertyName());
+        if (!viewAuthorized) {
+            Mask displayMask = getDataDictionaryService().getAttributeDisplayMask(element.getClass().getName(), col.getPropertyName());
+            propValue = displayMask.maskValue(propValue);
+        }
+        col.setPropertyValue(propValue);
+        
+        
+        if (StringUtils.isNotBlank(propValue)) {
+            col.setPropertyURL(getInquiryUrl(element, col.getPropertyName()));
+        }
+        return col;
+    }
+    
+    
+    /**
+     * Constructs the list of columns for the search results. All properties for the column objects come from the DataDictionary.
+     *
+     * @param bo
+     * @return Collection<Column>
+     */
+    protected Collection<Column> getColumns(BusinessObject bo) {
+        Collection<Column> columns = new ArrayList<Column>();
+
+        for (String attributeName : getBusinessObjectDictionaryService().getLookupResultFieldNames(getBusinessObjectClass())) {
+            columns.add(setupResultsColumn(bo, attributeName));
+        }
+        return columns;
+    }    
 }

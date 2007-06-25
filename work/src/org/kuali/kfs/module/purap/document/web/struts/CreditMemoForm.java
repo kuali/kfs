@@ -16,6 +16,7 @@
 package org.kuali.module.purap.web.struts.form;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.Constants;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.web.ui.ExtraButton;
@@ -28,23 +29,20 @@ import org.kuali.module.purap.bo.PurchasingApItem;
 import org.kuali.module.purap.document.CreditMemoDocument;
 
 /**
- * This class is the form class for the CreditMemo document.
+ * ActionForm for the Credit Memo Document. Stores document values to and from the JSP.
  */
 public class CreditMemoForm extends AccountsPayableFormBase {
-
     private PurchaseOrderVendorStipulation newPurchaseOrderVendorStipulationLine;
-   // private boolean initialized = false;
 
     /**
-     * Constructs a PurchaseOrderForm instance and sets up the appropriately casted document. 
+     * Constructs a PurchaseOrderForm instance and sets up the appropriately casted document.
      */
     public CreditMemoForm() {
         super();
         setDocument(new CreditMemoDocument());
         this.setNewPurchasingItemLine(setupNewPurchasingItemLine());
         setNewPurchaseOrderVendorStipulationLine(new PurchaseOrderVendorStipulation());
-        showButtons();  
- 
+        setButtons();
     }
 
     /**
@@ -60,27 +58,25 @@ public class CreditMemoForm extends AccountsPayableFormBase {
     public void setCreditMemoDocument(CreditMemoDocument creditMemoDocument) {
         setDocument(creditMemoDocument);
     }
-        
+
     /**
      * @see org.kuali.core.web.struts.form.KualiForm#getAdditionalDocInfo1()
      */
     public KeyLabelPair getAdditionalDocInfo1() {
-        if (ObjectUtils.isNotNull(this.getCreditMemoDocument().getPurapDocumentIdentifier())) {
-            return new KeyLabelPair("DataDictionary.KualiCreditMemoDocument.attributes.purapDocumentIdentifier", ((CreditMemoDocument)this.getDocument()).getPurapDocumentIdentifier().toString());
-        } else {
-            return new KeyLabelPair("DataDictionary.KualiCreditMemoDocument.attributes.purapDocumentIdentifier", "Not Available");
+        if (ObjectUtils.isNotNull(getCreditMemoDocument().getPurapDocumentIdentifier())) {
+            return new KeyLabelPair("DataDictionary.KualiCreditMemoDocument.attributes.purapDocumentIdentifier", ((CreditMemoDocument) getDocument()).getPurapDocumentIdentifier().toString());
         }
+        return new KeyLabelPair("DataDictionary.KualiCreditMemoDocument.attributes.purapDocumentIdentifier", "Not Available");
     }
 
     /**
      * @see org.kuali.core.web.struts.form.KualiForm#getAdditionalDocInfo2()
      */
     public KeyLabelPair getAdditionalDocInfo2() {
-        if (ObjectUtils.isNotNull(this.getCreditMemoDocument().getStatus())) {
-            return new KeyLabelPair("DataDictionary.KualiCreditMemoDocument.attributes.statusCode", ((CreditMemoDocument)this.getDocument()).getStatus().getStatusDescription());
-        } else {
-            return new KeyLabelPair("DataDictionary.KualiCreditMemoDocument.attributes.statusCode", "Not Available");
+        if (ObjectUtils.isNotNull(getCreditMemoDocument().getStatus())) {
+            return new KeyLabelPair("DataDictionary.KualiCreditMemoDocument.attributes.statusCode", ((CreditMemoDocument) getDocument()).getStatus().getStatusDescription());
         }
+        return new KeyLabelPair("DataDictionary.KualiCreditMemoDocument.attributes.statusCode", "Not Available");
     }
 
     /**
@@ -90,17 +86,17 @@ public class CreditMemoForm extends AccountsPayableFormBase {
     public PurchasingApItem setupNewPurchasingItemLine() {
         return new PurchaseOrderItem();
     }
-    
+
     public PurchaseOrderVendorStipulation getAndResetNewPurchaseOrderVendorStipulationLine() {
         PurchaseOrderVendorStipulation aPurchaseOrderVendorStipulationLine = getNewPurchaseOrderVendorStipulationLine();
         setNewPurchaseOrderVendorStipulationLine(new PurchaseOrderVendorStipulation());
-    
-       // aPurchaseOrderVendorStipulationLine.setDocumentNumber(getPurchaseOrderDocument().getDocumentNumber());
+
+        // aPurchaseOrderVendorStipulationLine.setDocumentNumber(getPurchaseOrderDocument().getDocumentNumber());
         aPurchaseOrderVendorStipulationLine.setVendorStipulationAuthorEmployeeIdentifier(GlobalVariables.getUserSession().getUniversalUser().getPersonUniversalIdentifier());
         aPurchaseOrderVendorStipulationLine.setVendorStipulationCreateDate(SpringServiceLocator.getDateTimeService().getCurrentSqlDate());
 
         return aPurchaseOrderVendorStipulationLine;
-}
+    }
 
     public PurchaseOrderVendorStipulation getNewPurchaseOrderVendorStipulationLine() {
         return newPurchaseOrderVendorStipulationLine;
@@ -109,44 +105,28 @@ public class CreditMemoForm extends AccountsPayableFormBase {
     public void setNewPurchaseOrderVendorStipulationLine(PurchaseOrderVendorStipulation newPurchaseOrderVendorStipulationLine) {
         this.newPurchaseOrderVendorStipulationLine = newPurchaseOrderVendorStipulationLine;
     }
-    
-    /**
-     * Gets the initialized attribute. 
-     * @return Returns the initialized.
-     */
-   /*
-    public boolean isInitialized() {
-        return initialized;
-    }
-*/
-   
-    /**
-     * Gets the CreditMemoInitiated attribute for JSP 
-     * @return Returns the DisplayInitiateTab.
-     */
-  
-    public boolean isCreditMemoInitiated() { 
-        return StringUtils.equals(this.getCreditMemoDocument().getStatusCode(),PurapConstants.CreditMemoStatuses.INITIATE);
-      } 
 
-    
-    private void showButtons() {
-        
-        
+    /**
+     * @return the CreditMemoInitiated attribute for JSP
+     */
+    public boolean isCreditMemoInitiated() {
+        return StringUtils.equals(this.getCreditMemoDocument().getStatusCode(), PurapConstants.CreditMemoStatuses.INITIATE);
+    }
+
+    /**
+     * Build additional credit memo specific buttons and set extraButtons list.
+     */
+    private void setButtons() {
+        String externalImageURL = SpringServiceLocator.getKualiConfigurationService().getPropertyString(Constants.EXTERNALIZABLE_IMAGES_URL_KEY);
         ExtraButton continueButton = new ExtraButton();
-        continueButton.setExtraButtonProperty("methodToCall.continueCM");
-        continueButton.setExtraButtonSource("images/buttonsmall_continue.gif");
+        continueButton.setExtraButtonProperty("methodToCall.continueCreditMemo");
+        continueButton.setExtraButtonSource(externalImageURL + "buttonsmall_continue.gif");
+        this.getExtraButtons().add(continueButton);
         
         ExtraButton clearButton = new ExtraButton();
         clearButton.setExtraButtonProperty("methodToCall.clearInitFields");
-        clearButton.setExtraButtonSource("images/buttonsmall_clear.gif");
-        
-        // Only for debuggin and test:
-        String stat = this.getCreditMemoDocument().getStatusCode();
-        
-        this.getExtraButtons().add(continueButton);
+        clearButton.setExtraButtonSource(externalImageURL + "buttonsmall_clear.gif");
         this.getExtraButtons().add(clearButton);
-
     }
-       
+
 }

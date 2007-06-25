@@ -15,6 +15,11 @@
 --%>
 <%@ include file="/jsp/kfs/kfsTldHeader.jsp"%>
 
+<%@ attribute name="includeNonAPFields" required="false"
+              description="Boolean to indicate if non ap fields should be outputted" %>
+
+<c:set var="includeNonAPFields" value="${empty includeNonAPFields ? true : includeNonAPFields}" />
+
 <%-- PURCHASING ACCOUNTS PAYABLE DOCUMENT FIELDS --%>
 <html:hidden property="document.purapDocumentIdentifier" />
 <html:hidden property="document.accountsPayablePurchasingDocumentLinkIdentifier" />
@@ -23,8 +28,10 @@
 <html:hidden property="document.vendorDetailAssignedIdentifier" />
 
 <%-- PURCHASING DOCUMENT FIELDS --%>
-<html:hidden property="document.requisitionSourceCode" />
-<html:hidden property="document.billingPhoneNumber" />
-<html:hidden property="document.vendorContractGeneratedIdentifier" />
-<html:hidden property="document.deliveryBuildingName" />
-<html:hidden property="document.contractManagerCode" />
+<c:if test="${includeNonAPFields}" >
+  <html:hidden property="document.requisitionSourceCode" />
+  <html:hidden property="document.billingPhoneNumber" />
+  <html:hidden property="document.vendorContractGeneratedIdentifier" />
+  <html:hidden property="document.deliveryBuildingName" />
+  <html:hidden property="document.contractManagerCode" />
+</c:if>  

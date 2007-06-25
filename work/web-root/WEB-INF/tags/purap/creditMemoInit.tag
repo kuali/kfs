@@ -18,12 +18,7 @@
 <%@ attribute name="documentAttributes" required="true" type="java.util.Map"
               description="The DataDictionary entry containing attributes for this row's fields." %>
               
-<%@ attribute name="displayCreditMemoInitFields" required="false"
-              description="Boolean to indicate if PO specific fields should be displayed" %>
-
-<kul:tabTop tabTitle="Credit Memo Init" defaultOpen="true">
-	
-	
+<kul:tabTop tabTitle="Credit Memo Init" defaultOpen="true" tabErrorKey="*">
 
     <div class="tab-container" align=center>
         <div class="h2-container">
@@ -42,10 +37,10 @@
                    <div align="right">**<kul:htmlAttributeLabel attributeEntry="${documentAttributes.paymentRequestIdentifier}" /></div>
                 </th>
                 <td align=left valign=middle class="datacell">
-                   <kul:htmlControlAttribute attributeEntry="${documentAttributes.paymentRequestIdentifier}" property="document.paymentRequestIdentifier"
-                   		readOnly="${not displayInitTab}" />
+                   <kul:htmlControlAttribute attributeEntry="${documentAttributes.paymentRequestIdentifier}" property="document.paymentRequestIdentifier" />
                 </td>
             </tr>
+            
             <tr>
                 <th align=right valign=middle class="bord-l-b">
                    <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.creditMemoDate}" /></div>
@@ -60,6 +55,7 @@
                    <kul:htmlControlAttribute attributeEntry="${documentAttributes.purchaseOrderIdentifier}" property="document.purchaseOrderIdentifier"  />
                 </td>
             </tr>    
+            
             <tr>
                 <th align=right valign=middle class="bord-l-b">
                    <div align="right"><kul:htmlAttributeLabel  attributeEntry="${documentAttributes.creditMemoAmount}" /></div>
@@ -75,9 +71,6 @@
                 </td>
             </tr>
 		</table> 
-		
-		
-
     </div>
 
 </kul:tabTop>

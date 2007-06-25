@@ -9,10 +9,9 @@ import org.kuali.core.bo.Note;
 
 
 /**
- * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
+ * 
  */
 public class CreditMemoView extends AbstractRelatedView {
-
     private String creditMemoNumber;    
     private Integer paymentRequestIdentifier;
     private Integer purchaseOrderIdentifier;

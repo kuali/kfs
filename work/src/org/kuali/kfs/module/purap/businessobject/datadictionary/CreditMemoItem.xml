@@ -22,58 +22,7 @@
 <dictionaryEntry>
     <businessObject businessObjectClass="org.kuali.module.purap.bo.CreditMemoItem">
 
-
-        <inquiry>
-            <title>Credit Memo Item Inquiry</title>
-
-            <inquirySections><inquirySection title="Header Text"><inquiryFields>
-                <field attributeName="creditMemoIdentifier" />
-                <field attributeName="itemIdentifier" />
-                <field attributeName="itemAssignedToTradeInIndicator" />
-                <field attributeName="itemCreditQuantity" />
-                <field attributeName="itemExtendedPrice" />
-                <field attributeName="itemLineNumber" />
-                <field attributeName="itemTypeCode" />
-                <field attributeName="itemUnitPrice" />
-            </inquiryFields></inquirySection></inquirySections>
-        </inquiry>
-
-        <lookup>
-            <title>Credit Memo Item Lookup</title>
-
-            <instructions>Lookup a Credit Memo Item</instructions>
-
-            <defaultSort sortAscending="true">
-                <sortAttributes>
-                    <sortAttribute attributeName="creditMemoIdentifier" />
-                </sortAttributes>
-            </defaultSort>
-
-            <lookupFields>
-                <lookupField attributeName="creditMemoIdentifier" required="false" />
-                <lookupField attributeName="itemIdentifier" required="false" />
-                <lookupField attributeName="itemAssignedToTradeInIndicator" required="false" />
-                <lookupField attributeName="itemCreditQuantity" required="false" />
-                <lookupField attributeName="itemExtendedPrice" required="false" />
-                <lookupField attributeName="itemLineNumber" required="false" />
-                <lookupField attributeName="itemTypeCode" required="false" />
-                <lookupField attributeName="itemUnitPrice" required="false" />
-            </lookupFields>
-
-            <resultFields>
-                <field attributeName="creditMemoIdentifier" />
-                <field attributeName="itemIdentifier" />
-                <field attributeName="itemAssignedToTradeInIndicator" />
-                <field attributeName="itemCreditQuantity" />
-                <field attributeName="itemExtendedPrice" />
-                <field attributeName="itemLineNumber" />
-                <field attributeName="itemTypeCode" />
-                <field attributeName="itemUnitPrice" />
-            </resultFields>
-        </lookup>
-
         <attributes>
-
             &purApItemBaseAttributes;
             
             <attribute name="creditMemoIdentifier" forceUppercase="true">

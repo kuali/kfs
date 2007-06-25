@@ -13,27 +13,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.kuali.module.purap.bo;
 
-import java.util.LinkedHashMap;
-
-import org.kuali.core.bo.PersistableBusinessObjectBase;
 
 /**
- * 
+ * Credit Memo Status Code Business Object.
  */
-
 public class CreditMemoStatus extends Status {
 
     /**
      * Default constructor.
      */
-
-public CreditMemoStatus() {
+    public CreditMemoStatus() {
         super();
         super.ojbConcreteClass = this.getClass().getName();
     }
 }
-
-

@@ -16,21 +16,14 @@
 
 package org.kuali.module.purap.bo;
 
-import java.math.BigDecimal;
 import java.util.LinkedHashMap;
 
-import org.apache.commons.lang.builder.EqualsBuilder;
-import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.module.chart.bo.Account;
-import org.kuali.module.chart.bo.Chart;
-import org.kuali.module.chart.bo.SubAccount;
 
 /**
- * 
+ * Accounting line Business Object for a credit memo item line.
  */
 public class CreditMemoAccount extends PurApAccountingLineBase {
-
 	private Integer creditMemoAccountIdentifier;
 	private Integer creditMemoItemIdentifier;
 	private KualiDecimal itemAccountTotalAmount;

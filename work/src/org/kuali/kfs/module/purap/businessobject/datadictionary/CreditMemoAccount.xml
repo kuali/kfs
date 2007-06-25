@@ -24,71 +24,9 @@
 <dictionaryEntry>
 	<businessObject businessObjectClass="org.kuali.module.purap.bo.CreditMemoAccount">
 
-
-		<inquiry>
-			<title>Credit Memo Account Inquiry</title>
-
-			<inquirySections>
-				<inquirySection title="Header Text">
-					<inquiryFields>
-						<field attributeName="accountLinePercent" />
-						<field attributeName="accountNumber" />
-						<field attributeName="chartOfAccountsCode" />
-						<field attributeName="creditMemoAccountIdentifier" />
-						<field attributeName="creditMemoItemIdentifier" />
-						<field attributeName="financialObjectCode" />
-						<field attributeName="financialSubObjectCode" />
-						<field attributeName="itemAccountTotalAmount" />
-						<field attributeName="organizationReferenceId" />
-						<field attributeName="projectCode" />
-						<field attributeName="subAccountNumber" />
-					</inquiryFields>
-				</inquirySection>
-			</inquirySections>
-		</inquiry>
-
-		<lookup>
-			<title>Credit Memo Account Lookup</title>
-
-			<instructions>Lookup a Credit Memo Account</instructions>
-
-			<defaultSort sortAscending="true">
-				<sortAttributes>
-					<sortAttribute attributeName="accountLinePercent" />
-				</sortAttributes>
-			</defaultSort>
-
-			<lookupFields>
-				<lookupField attributeName="accountLinePercent" required="false" />
-				<lookupField attributeName="accountNumber" required="false" />
-				<lookupField attributeName="chartOfAccountsCode" required="false" />
-				<lookupField attributeName="creditMemoAccountIdentifier" required="false" />
-				<lookupField attributeName="creditMemoItemIdentifier" required="false" />
-				<lookupField attributeName="financialObjectCode" required="false" />
-				<lookupField attributeName="financialSubObjectCode" required="false" />
-				<lookupField attributeName="itemAccountTotalAmount" required="false" />
-				<lookupField attributeName="organizationReferenceId" required="false" />
-				<lookupField attributeName="projectCode" required="false" />
-				<lookupField attributeName="subAccountNumber" required="false" />
-			</lookupFields>
-
-			<resultFields>
-				<field attributeName="accountLinePercent" />
-				<field attributeName="accountNumber" />
-				<field attributeName="chartOfAccountsCode" />
-				<field attributeName="creditMemoAccountIdentifier" />
-				<field attributeName="creditMemoItemIdentifier" />
-				<field attributeName="financialObjectCode" />
-				<field attributeName="financialSubObjectCode" />
-				<field attributeName="itemAccountTotalAmount" />
-				<field attributeName="organizationReferenceId" />
-				<field attributeName="projectCode" />
-				<field attributeName="subAccountNumber" />
-			</resultFields>
-		</lookup>
-
 		<attributes>
 			&accountingLineBaseAttributes;
+			
 			&purApAccountingLineBaseAttributes;
 
 			<attribute name="creditMemoAccountIdentifier" forceUppercase="true">

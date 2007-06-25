@@ -193,6 +193,8 @@ public class PurapConstants {
     // Assign Contract Manager
     public static final String ASSIGN_CONTRACT_MANAGER_DEFAULT_DESC = "Contract Manager Assigned";
     public static final String ASSIGN_CONTRACT_MANAGER_TAB_ERRORS = "document.unassignedRequisition*";
+    
+    // Credit Memo Tab Constants
 
     public static class PurchaseOrderStatuses {
         public static String IN_PROCESS = "INPR";

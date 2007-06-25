@@ -15,8 +15,10 @@
  */
 package org.kuali.module.purap.rules;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.document.Document;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.util.SpringServiceLocator;
@@ -33,191 +35,95 @@ import org.kuali.module.vendor.bo.VendorDetail;
 import org.kuali.module.vendor.util.VendorUtils;
 
 
-
+/**
+ * Business rules for the Credit Memo Document.
+ */
 public class CreditMemoDocumentRule extends AccountsPayableDocumentRuleBase implements ContinueAccountsPayableRule {
 
     /**
-     * Tabs included on Payment Request Documents are:
-     *   Credit Memo
+     * Validation that occurs on Route of the document.
      * 
-     * @see org.kuali.module.purap.rules.PurchasingAccountsPayableDocumentRuleBase#processValidation(org.kuali.module.purap.document.PurchasingAccountsPayableDocument)
+     * @param purapDocument - Credit Memo Document Instance
+     * @return boolean - true if validation was ok, false if there were errors
      */
     @Override
     public boolean processValidation(PurchasingAccountsPayableDocument purapDocument) {
-      //  boolean valid = super.processValidation(purapDocument);
-        boolean valid = processCreditMemoValidation((CreditMemoDocument)purapDocument);
+        boolean valid = super.processValidation(purapDocument);
+
+        if (valid) {
+            valid = validateCreditMemoInitTab((CreditMemoDocument) purapDocument);
+        }
+
         return valid;
     }
- /*   
-    @Override
-    protected boolean processCustomSaveDocumentBusinessRules(Document document) {
-        boolean isValid = true;
-        CreditMemoDocument  creditMemoDocument = (CreditMemoDocument) document;
-        return isValid &= processValidation(creditMemoDocument);
-    }
-   */ 
+
+    /**
+     * Validation that occurs when the continue action is selected from the initial screen.
+     * 
+     * @param document - Credit Memo Document Instance
+     * @return boolean - true if validation was ok, false if there were errors
+     */
     public boolean processContinueAccountsPayableBusinessRules(AccountsPayableDocument document) {
-        boolean isValid = true;
-        CreditMemoDocument  creditMemoDocument = (CreditMemoDocument) document;
-        return isValid &= processValidation(creditMemoDocument);
-    }
-    
-    /**
-     * This method performs any validation for the Credit Memo tab.
-     * 
-     * @param cmDocument
-     * @return
-     */
-    public boolean processCreditMemoValidation(CreditMemoDocument cmDocument) {
         boolean valid = true;
-        //TODO code validation here
-        valid &= validateCreditMemoInitTab(cmDocument);
+
+        valid = validateCreditMemoInitTab((CreditMemoDocument) document);
+
         return valid;
     }
-    
+
     /**
-     * This method performs  validation for the Credit Memo Init tab.
+     * Performs validation for the Credit Memo Init tab.
      * 
-     * @param cmDocument
-     * @return
+     * @param cmDocument - Credit Memo Document instance
+     * @return boolean - true if validation was ok, false if there were errors
      */
-    public boolean validateCreditMemoInitTab(CreditMemoDocument cmDocument) {
+    protected boolean validateCreditMemoInitTab(CreditMemoDocument cmDocument) {
         boolean valid = true;
-       
-        if(!(ObjectUtils.isNotNull(cmDocument.getPaymentRequestIdentifier()) ^  StringUtils.isNotEmpty(cmDocument.getVendorNumber()) ^ 
-                ObjectUtils.isNotNull(cmDocument.getPurchaseOrderIdentifier()))) {
-                GlobalVariables.getErrorMap().putError(PurapPropertyConstants.CREDIT_MEMO_INIT_REQUIRED_FIELDS, PurapKeyConstants.ERROR_CREDIT_MEMO_REQUIRED_FIELDS);
-               valid &= false;
-           }
-       
+
+        if (!(ObjectUtils.isNotNull(cmDocument.getPaymentRequestIdentifier()) ^ StringUtils.isNotEmpty(cmDocument.getVendorNumber()) ^ ObjectUtils.isNotNull(cmDocument.getPurchaseOrderIdentifier())) ||
+                (ObjectUtils.isNotNull(cmDocument.getPaymentRequestIdentifier()) && StringUtils.isNotEmpty(cmDocument.getVendorNumber()) && ObjectUtils.isNotNull(cmDocument.getPurchaseOrderIdentifier())) ) {
+            GlobalVariables.getErrorMap().putError(PurapPropertyConstants.CREDIT_MEMO_INIT_REQUIRED_FIELDS, PurapKeyConstants.ERROR_CREDIT_MEMO_REQUIRED_FIELDS);
+            return false;
+        }
+
         // Make sure PREQ is valid if entered
         Integer preqNumber = cmDocument.getPaymentRequestIdentifier();
-        Integer poId = cmDocument.getPurchaseOrderIdentifier();
         if (ObjectUtils.isNotNull(preqNumber)) {
-           
-            PaymentRequestDocument preq = SpringServiceLocator.getPaymentRequestService().getPaymentRequestById(cmDocument.getPaymentRequestIdentifier());
-            if (ObjectUtils.isNotNull(preq)) {
-                PurchaseOrderDocument po = preq.getPurchaseOrderDocument();
-
-                if ((PurapConstants.PaymentRequestStatuses.IN_PROCESS.equals(preq.getStatus().getStatusCode())) ||
-                        (PurapConstants.PaymentRequestStatuses.CANCELLED_POST_APPROVE.equals(preq.getStatus().getStatusCode()) ||
-                        (PurapConstants.PaymentRequestStatuses.CANCELLED_IN_PROCESS.equals(preq.getStatus().getStatusCode())))) {
-                    
-                    GlobalVariables.getErrorMap().putError(PurapPropertyConstants.CREDIT_MEMO_PAYMENT_REQUEST_ID, PurapKeyConstants.ERROR_PAYMENT_REQEUEST_INVALID_SATATUS, preqNumber.toString());
-                    
-                    valid &= false;
-                } 
-                else {
-                    cmDocument.setPaymentRequest(preq);
-                    cmDocument.setPurchaseOrder(preq.getPurchaseOrderDocument());
-                    cmDocument.setVendorHeaderGeneratedIdentifier(preq.getVendorHeaderGeneratedIdentifier());
-                    cmDocument.setVendorDetailAssignedIdentifier(preq.getVendorDetailAssignedIdentifier());
-                    cmDocument.setVendorAddressGeneratedIdentifier(preq.getVendorAddressGeneratedIdentifier());
-                    cmDocument.setVendorDetailAssignedIdentifier(preq.getVendorDetailAssignedIdentifier());
-                    cmDocument.setVendorCustomerNumber(preq.getVendorCustomerNumber());
-                    
-                    cmDocument.setVendorCustomerNumber(preq.getVendorCustomerNumber());
-                    cmDocument.setVendorHeaderGeneratedIdentifier(preq.getVendorHeaderGeneratedIdentifier());
-                    cmDocument.setVendorDetailAssignedIdentifier(preq.getVendorDetailAssignedIdentifier());
-                    cmDocument.setVendorName(preq.getVendorName());
-                    cmDocument.setVendorLine1Address(preq.getVendorLine1Address());
-                    cmDocument.setVendorLine2Address(preq.getVendorLine2Address());
-                    cmDocument.setVendorCityName(preq.getVendorCityName());
-                    cmDocument.setVendorStateCode(preq.getVendorStateCode());
-                    cmDocument.setVendorPostalCode(preq.getVendorPostalCode());
-                    cmDocument.setVendorCountryCode(preq.getVendorCountryCode());
-                    // Is this needed or not?:
-                    cmDocument.setVendorDetail(SpringServiceLocator.getVendorService().getVendorDetail(preq.getVendorAddressGeneratedIdentifier(), preq.getVendorDetailAssignedIdentifier()));
-                }
-            }
-            else {
+            PaymentRequestDocument preq = SpringServiceLocator.getPaymentRequestService().getPaymentRequestById(preqNumber);
+            if (ObjectUtils.isNull(preq)) {
                 GlobalVariables.getErrorMap().putError(PurapPropertyConstants.CREDIT_MEMO_PAYMENT_REQUEST_ID, PurapKeyConstants.ERROR_PAYMENT_REQEUEST_INVALID, preqNumber.toString());
-                valid &= false;
+                valid = false;
+            }    
+            else if ((PurapConstants.PaymentRequestStatuses.IN_PROCESS.equals(preq.getStatus().getStatusCode())) || (PurapConstants.PaymentRequestStatuses.CANCELLED_POST_APPROVE.equals(preq.getStatus().getStatusCode()) || (PurapConstants.PaymentRequestStatuses.CANCELLED_IN_PROCESS.equals(preq.getStatus().getStatusCode())))) {
+                    GlobalVariables.getErrorMap().putError(PurapPropertyConstants.CREDIT_MEMO_PAYMENT_REQUEST_ID, PurapKeyConstants.ERROR_PAYMENT_REQEUEST_INVALID_SATATUS, preqNumber.toString());
+                    valid = false;
             }
         }
+
         // Make sure PO # is valid if entered
-        if (ObjectUtils.isNotNull(poId)) {
-                PurchaseOrderDocument po = SpringServiceLocator.getPurchaseOrderService().getCurrentPurchaseOrder(cmDocument.getPurchaseOrderIdentifier());
-                if (ObjectUtils.isNull(po)) {
-
-                    GlobalVariables.getErrorMap().putError(PurapPropertyConstants.PURCHASE_ORDER_IDENTIFIER, PurapKeyConstants.ERROR_PURCHASE_ORDER_NOT_EXIST, poId.toString());
-                    valid &= false;
-                }
-                else if (!(StringUtils.equals(po.getStatusCode(), PurapConstants.PurchaseOrderStatuses.OPEN)) || (StringUtils.equals(po.getStatusCode(), PurapConstants.PurchaseOrderStatuses.CLOSED))) {
-                    GlobalVariables.getErrorMap().putError(PurapPropertyConstants.PURCHASE_ORDER_IDENTIFIER, PurapKeyConstants.ERROR_PURCAHSE_ORDER_INVALID_STATUS, poId.toString());
-                    valid &= false;
-                }
-                else {
-                    cmDocument.setPurchaseOrder(po);
-                    cmDocument.setVendorHeaderGeneratedIdentifier(po.getVendorHeaderGeneratedIdentifier());
-                    cmDocument.setVendorDetailAssignedIdentifier(po.getVendorDetailAssignedIdentifier());
-                    cmDocument.setVendorAddressGeneratedIdentifier(po.getVendorAddressGeneratedIdentifier());
-                    cmDocument.setVendorDetailAssignedIdentifier(po.getVendorDetailAssignedIdentifier());
-                    cmDocument.setVendorCustomerNumber(po.getVendorCustomerNumber());
-                    
-                    cmDocument.setVendorCustomerNumber(po.getVendorCustomerNumber());
-                    cmDocument.setVendorHeaderGeneratedIdentifier(po.getVendorHeaderGeneratedIdentifier());
-                    cmDocument.setVendorDetailAssignedIdentifier(po.getVendorDetailAssignedIdentifier());
-                    cmDocument.setVendorName(po.getVendorName());
-                    cmDocument.setVendorLine1Address(po.getVendorLine1Address());
-                    cmDocument.setVendorLine2Address(po.getVendorLine2Address());
-                    cmDocument.setVendorCityName(po.getVendorCityName());
-                    cmDocument.setVendorStateCode(po.getVendorStateCode());
-                    cmDocument.setVendorPostalCode(po.getVendorPostalCode());
-                    cmDocument.setVendorCountryCode(po.getVendorCountryCode());
-                    // Is this needed or not?:
-                    cmDocument.setVendorDetail(po.getVendorDetail());
-                }
-
-         }
-         // Make sure vendorNumber is valid if entered
-         if (StringUtils.isNotEmpty(cmDocument.getVendorNumber())) {
-           
-            VendorDetail vd = SpringServiceLocator.getVendorService().getVendorDetail(VendorUtils.getVendorHeaderId(cmDocument.getVendorNumber()), VendorUtils.getVendorDetailId(cmDocument.getVendorNumber()));
-            if (ObjectUtils.isNotNull(vd)) {
-                cmDocument.setVendorDetail(vd);
-                cmDocument.setVendorHeaderGeneratedIdentifier(vd.getVendorHeaderGeneratedIdentifier());
-                cmDocument.setVendorDetailAssignedIdentifier(vd.getVendorDetailAssignedIdentifier());
-               // cmDocument.setVendorAddressGeneratedIdentifier(VendorUtils.getVendorHeaderId(cmDocument.getVendorNumber()));
-               // cmDocument.setVendorDetailAssignedIdentifier(VendorUtils.getVendorDetailId(cmDocument.getVendorNumber()));
-                cmDocument.setVendorCustomerNumber(vd.getVendorNumber());
-                cmDocument.setVendorHeaderGeneratedIdentifier(vd.getVendorHeaderGeneratedIdentifier());
-                cmDocument.setVendorDetailAssignedIdentifier(vd.getVendorDetailAssignedIdentifier());
-                cmDocument.setVendorName(vd.getVendorName());
-                cmDocument.setVendorLine1Address(vd.getDefaultAddressLine1());
-                cmDocument.setVendorLine2Address(vd.getDefaultAddressLine1());
-                cmDocument.setVendorCityName(vd.getDefaultAddressCity());
-                cmDocument.setVendorStateCode(vd.getDefaultAddressStateCode());
-                cmDocument.setVendorPostalCode(vd.getDefaultAddressPostalCode());
-                cmDocument.setVendorCountryCode(vd.getDefaultAddressCountryCode());
+        Integer purchaseOrderID = cmDocument.getPurchaseOrderIdentifier();
+        if (ObjectUtils.isNotNull(purchaseOrderID)) {
+            PurchaseOrderDocument purchaseOrder = SpringServiceLocator.getPurchaseOrderService().getCurrentPurchaseOrder(purchaseOrderID);
+            if (ObjectUtils.isNull(purchaseOrder)) {
+                GlobalVariables.getErrorMap().putError(PurapPropertyConstants.PURCHASE_ORDER_IDENTIFIER, PurapKeyConstants.ERROR_PURCHASE_ORDER_INVALID, purchaseOrderID.toString());
+                valid = false;
             }
-            else {
-                GlobalVariables.getErrorMap().putError(PurapPropertyConstants.CREDIT_MEMO_VENDOR_NUMBER, PurapKeyConstants.ERROR_VENDOR_NUMBER_INVALID, cmDocument.getVendorNumber());
-                valid &= false;
+            else if (!StringUtils.equals(purchaseOrder.getStatusCode(), PurapConstants.PurchaseOrderStatuses.OPEN)) {
+                GlobalVariables.getErrorMap().putError(PurapPropertyConstants.PURCHASE_ORDER_IDENTIFIER, PurapKeyConstants.ERROR_PURCAHSE_ORDER_INVALID_STATUS, purchaseOrderID.toString());
+                valid = false;
             }
         }
-         
-         return valid;
+
+        // Make sure vendorNumber is valid if entered
+        String vendorNumber = cmDocument.getVendorNumber();
+        if (StringUtils.isNotEmpty(vendorNumber)) {
+            VendorDetail vendor = SpringServiceLocator.getVendorService().getVendorDetail(VendorUtils.getVendorHeaderId(vendorNumber), VendorUtils.getVendorDetailId(vendorNumber));
+            if (ObjectUtils.isNull(vendor)) {
+                GlobalVariables.getErrorMap().putError(PurapPropertyConstants.CREDIT_MEMO_VENDOR_NUMBER, PurapKeyConstants.ERROR_VENDOR_NUMBER_INVALID, vendorNumber);
+                valid = false;
+            }
+        }
+
+        return valid;
     }
-/*
-    public void assignVendorAddress(CreditMemoDocument cmDocument) {
-        // now that we have the vendor ids, set address for po and vendor type
-        VendorAddress defaultAddress = vendorService.getDefaultAddress(
-            cm.getVendorHeaderGeneratedId(), cm.getVendorDetailAssignedId(),
-            EpicConstants.VENDOR_ADDRESS_TYPE_REMIT, u.getCampusCd());
-        // FIXME delyea: Is this if-else correct?
-        if (poId != null) {
-          //CreditMemo object returns address from PO if VendorAddress is null
-          cm.setVendorAddress(defaultAddress);
-        } else if (vendorNumber != null) {
-          //if no remit type default, use PO default
-          if (defaultAddress == null) {
-            defaultAddress = vendorService.getDefaultAddress(
-                cm.getVendorHeaderGeneratedId(), cm.getVendorDetailAssignedId(),
-                EpicConstants.VENDOR_ADDRESS_TYPE_PO, u.getCampusCd());
-          }
-          cm.setVendorAddress(defaultAddress);
-        }
-    }*/
 }
-

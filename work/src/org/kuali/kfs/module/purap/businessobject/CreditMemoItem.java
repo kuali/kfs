@@ -19,200 +19,180 @@ package org.kuali.module.purap.bo;
 import java.math.BigDecimal;
 import java.util.LinkedHashMap;
 
-import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.module.purap.document.CreditMemoDocument;
 
 /**
- * 
+ * Item line Bueiness Object for Credit Memo Document.
  */
 public class CreditMemoItem extends AccountsPayableItemBase {
-
-
-
-	private Integer creditMemoIdentifier;
-	private Integer itemLineNumber;
-	private String itemTypeCode;
-	private KualiDecimal itemCreditQuantity;
-	private BigDecimal itemUnitPrice;
-	private KualiDecimal itemExtendedPrice;
-	private boolean itemAssignedToTradeInIndicator;
+    private Integer creditMemoIdentifier;
+    private Integer itemLineNumber;
+    private String itemTypeCode;
+    private KualiDecimal itemCreditQuantity;
+    private BigDecimal itemUnitPrice;
+    private KualiDecimal itemExtendedPrice;
+    private boolean itemAssignedToTradeInIndicator;
 
     private CreditMemoDocument creditMemo;
 
-	/**
-	 * Default constructor.
-	 */
-	public CreditMemoItem() {
+    /**
+     * Default constructor.
+     */
+    public CreditMemoItem() {
 
-	}
+    }
 
+    /**
+     * Gets the creditMemoIdentifier attribute.
+     * 
+     * @return Returns the creditMemoIdentifier
+     */
+    public Integer getCreditMemoIdentifier() {
+        return creditMemoIdentifier;
+    }
 
-
-	/**
-	 * Gets the creditMemoIdentifier attribute.
-	 * 
-	 * @return Returns the creditMemoIdentifier
-	 * 
-	 */
-	public Integer getCreditMemoIdentifier() { 
-		return creditMemoIdentifier;
-	}
-
-	/**
-	 * Sets the creditMemoIdentifier attribute.
-	 * 
-	 * @param creditMemoIdentifier The creditMemoIdentifier to set.
-	 * 
-	 */
-	public void setCreditMemoIdentifier(Integer creditMemoIdentifier) {
-		this.creditMemoIdentifier = creditMemoIdentifier;
-	}
+    /**
+     * Sets the creditMemoIdentifier attribute.
+     * 
+     * @param creditMemoIdentifier The creditMemoIdentifier to set.
+     */
+    public void setCreditMemoIdentifier(Integer creditMemoIdentifier) {
+        this.creditMemoIdentifier = creditMemoIdentifier;
+    }
 
 
-	/**
-	 * Gets the itemLineNumber attribute.
-	 * 
-	 * @return Returns the itemLineNumber
-	 * 
-	 */
-	public Integer getItemLineNumber() { 
-		return itemLineNumber;
-	}
+    /**
+     * Gets the itemLineNumber attribute.
+     * 
+     * @return Returns the itemLineNumber
+     */
+    public Integer getItemLineNumber() {
+        return itemLineNumber;
+    }
 
-	/**
-	 * Sets the itemLineNumber attribute.
-	 * 
-	 * @param itemLineNumber The itemLineNumber to set.
-	 * 
-	 */
-	public void setItemLineNumber(Integer itemLineNumber) {
-		this.itemLineNumber = itemLineNumber;
-	}
+    /**
+     * Sets the itemLineNumber attribute.
+     * 
+     * @param itemLineNumber The itemLineNumber to set.
+     */
+    public void setItemLineNumber(Integer itemLineNumber) {
+        this.itemLineNumber = itemLineNumber;
+    }
 
 
-	/**
-	 * Gets the itemTypeCode attribute.
-	 * 
-	 * @return Returns the itemTypeCode
-	 * 
-	 */
-	public String getItemTypeCode() { 
-		return itemTypeCode;
-	}
+    /**
+     * Gets the itemTypeCode attribute.
+     * 
+     * @return Returns the itemTypeCode
+     */
+    public String getItemTypeCode() {
+        return itemTypeCode;
+    }
 
-	/**
-	 * Sets the itemTypeCode attribute.
-	 * 
-	 * @param itemTypeCode The itemTypeCode to set.
-	 * 
-	 */
-	public void setItemTypeCode(String itemTypeCode) {
-		this.itemTypeCode = itemTypeCode;
-	}
+    /**
+     * Sets the itemTypeCode attribute.
+     * 
+     * @param itemTypeCode The itemTypeCode to set.
+     */
+    public void setItemTypeCode(String itemTypeCode) {
+        this.itemTypeCode = itemTypeCode;
+    }
 
 
-	/**
-	 * Gets the itemCreditQuantity attribute.
-	 * 
-	 * @return Returns the itemCreditQuantity
-	 * 
-	 */
-	public KualiDecimal getItemCreditQuantity() { 
-		return itemCreditQuantity;
-	}
+    /**
+     * Gets the itemCreditQuantity attribute.
+     * 
+     * @return Returns the itemCreditQuantity
+     */
+    public KualiDecimal getItemCreditQuantity() {
+        return itemCreditQuantity;
+    }
 
-	/**
-	 * Sets the itemCreditQuantity attribute.
-	 * 
-	 * @param itemCreditQuantity The itemCreditQuantity to set.
-	 * 
-	 */
-	public void setItemCreditQuantity(KualiDecimal itemCreditQuantity) {
-		this.itemCreditQuantity = itemCreditQuantity;
-	}
+    /**
+     * Sets the itemCreditQuantity attribute.
+     * 
+     * @param itemCreditQuantity The itemCreditQuantity to set.
+     */
+    public void setItemCreditQuantity(KualiDecimal itemCreditQuantity) {
+        this.itemCreditQuantity = itemCreditQuantity;
+    }
 
 
-	/**
-	 * Gets the itemUnitPrice attribute.
-	 * 
-	 * @return Returns the itemUnitPrice
-	 * 
-	 */
-	public BigDecimal getItemUnitPrice() { 
-		return itemUnitPrice;
-	}
+    /**
+     * Gets the itemUnitPrice attribute.
+     * 
+     * @return Returns the itemUnitPrice
+     */
+    public BigDecimal getItemUnitPrice() {
+        return itemUnitPrice;
+    }
 
-	/**
-	 * Sets the itemUnitPrice attribute.
-	 * 
-	 * @param itemUnitPrice The itemUnitPrice to set.
-	 * 
-	 */
-	public void setItemUnitPrice(BigDecimal itemUnitPrice) {
-		this.itemUnitPrice = itemUnitPrice;
-	}
+    /**
+     * Sets the itemUnitPrice attribute.
+     * 
+     * @param itemUnitPrice The itemUnitPrice to set.
+     */
+    public void setItemUnitPrice(BigDecimal itemUnitPrice) {
+        this.itemUnitPrice = itemUnitPrice;
+    }
 
 
-	/**
-	 * Gets the itemExtendedPrice attribute.
-	 * 
-	 * @return Returns the itemExtendedPrice
-	 * 
-	 */
-	public KualiDecimal getItemExtendedPrice() { 
-		return itemExtendedPrice;
-	}
+    /**
+     * Gets the itemExtendedPrice attribute.
+     * 
+     * @return Returns the itemExtendedPrice
+     */
+    public KualiDecimal getItemExtendedPrice() {
+        return itemExtendedPrice;
+    }
 
-	/**
-	 * Sets the itemExtendedPrice attribute.
-	 * 
-	 * @param itemExtendedPrice The itemExtendedPrice to set.
-	 * 
-	 */
-	public void setItemExtendedPrice(KualiDecimal itemExtendedPrice) {
-		this.itemExtendedPrice = itemExtendedPrice;
-	}
+    /**
+     * Sets the itemExtendedPrice attribute.
+     * 
+     * @param itemExtendedPrice The itemExtendedPrice to set.
+     */
+    public void setItemExtendedPrice(KualiDecimal itemExtendedPrice) {
+        this.itemExtendedPrice = itemExtendedPrice;
+    }
 
 
-	/**
-	 * Gets the itemAssignedToTradeInIndicator attribute.
-	 * 
-	 * @return Returns the itemAssignedToTradeInIndicator
-	 * 
-	 */
-	public boolean getItemAssignedToTradeInIndicator() { 
-		return itemAssignedToTradeInIndicator;
-	}
+    /**
+     * Gets the itemAssignedToTradeInIndicator attribute.
+     * 
+     * @return Returns the itemAssignedToTradeInIndicator
+     */
+    public boolean getItemAssignedToTradeInIndicator() {
+        return itemAssignedToTradeInIndicator;
+    }
 
-	/**
-	 * Sets the itemAssignedToTradeInIndicator attribute.
-	 * 
-	 * @param itemAssignedToTradeInIndicator The itemAssignedToTradeInIndicator to set.
-	 * 
-	 */
-	public void setItemAssignedToTradeInIndicator(boolean itemAssignedToTradeInIndicator) {
-		this.itemAssignedToTradeInIndicator = itemAssignedToTradeInIndicator;
-	}
+    /**
+     * Sets the itemAssignedToTradeInIndicator attribute.
+     * 
+     * @param itemAssignedToTradeInIndicator The itemAssignedToTradeInIndicator to set.
+     */
+    public void setItemAssignedToTradeInIndicator(boolean itemAssignedToTradeInIndicator) {
+        this.itemAssignedToTradeInIndicator = itemAssignedToTradeInIndicator;
+    }
 
-    
+
     /**
      * @see org.kuali.module.purap.bo.PurApItemBase#getAccountingLineClass()
      */
     @Override
-    public Class getAccountingLineClass() {
+    public Class<CreditMemoAccount> getAccountingLineClass() {
         return CreditMemoAccount.class;
     }
 
-	/**
-	 * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
-	 */
-	protected LinkedHashMap toStringMapper() {
-	    LinkedHashMap m = new LinkedHashMap();	    
+    /**
+     * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
+     */
+    protected LinkedHashMap toStringMapper() {
+        LinkedHashMap m = new LinkedHashMap();
         if (this.getItemIdentifier() != null) {
             m.put("creditMemoItemIdentifier", this.getItemIdentifier().toString());
         }
-	    return m;
+        return m;
     }
 
     public CreditMemoDocument getCreditMemo() {

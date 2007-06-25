@@ -2362,4 +2362,17 @@
     <field-descriptor name="financialDocumentOtherCentAmount" column="FDOC_OTHR_CENT_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion" />
     <field-descriptor name="financialDocumentHundredCentAmount" column="FDOC_100_CENT_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion" />
 </class-descriptor>
+
+<class-descriptor class="org.kuali.module.financial.bo.CashieringItemsInProcess" table="FP_CASHIER_ITM_IN_PROC_T">
+	<field-descriptor name="workgroupName" column="WRKGRP_NM" jdbc-type="VARCHAR" primarykey="true" index="true"/>
+	<field-descriptor name="itemIdentifier" column="ITM_ID" jdbc-type="INTEGER" primarykey="true" index="true"/>
+	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
+	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
+	<field-descriptor name="itemAmount" column="ITM_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
+	<field-descriptor name="itemReducedAmount" column="ITM_RDCD_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
+	<field-descriptor name="itemTotalAmount" column="ITM_TOT_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
+	<field-descriptor name="itemOpenDate" column="ITM_OPEN_DT" jdbc-type="DATE"/>
+	<field-descriptor name="itemClosedDate" column="ITM_CLOSED_DT" jdbc-type="DATE"/>
+	<field-descriptor name="itemDescription" column="ITM_DESC" jdbc-type="VARCHAR"/>
+</class-descriptor>
 </descriptor-repository>

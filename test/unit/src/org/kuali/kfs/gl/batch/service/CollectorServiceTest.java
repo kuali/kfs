@@ -16,7 +16,6 @@
 package org.kuali.module.gl.service;
 
 import java.io.File;
-import java.net.URI;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
@@ -36,7 +35,6 @@ import org.kuali.module.gl.bo.OriginEntry;
 import org.kuali.test.KualiTestBase;
 import org.kuali.test.WithTestSpringContext;
 import org.kuali.test.suite.RelatesTo;
-import org.springframework.beans.factory.BeanFactory;
 
 /**
  * Test the CollectorService.

@@ -48,7 +48,6 @@ import org.kuali.module.labor.util.testobject.LedgerEntryForTesting;
 import org.kuali.module.labor.util.testobject.OriginEntryGroupForTesting;
 import org.kuali.test.KualiTestBase;
 import org.kuali.test.WithTestSpringContext;
-import org.springframework.beans.factory.BeanFactory;
 
 @WithTestSpringContext
 public class LaborPosterServiceTest extends KualiTestBase {

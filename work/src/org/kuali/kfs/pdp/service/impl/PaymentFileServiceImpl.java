@@ -12,6 +12,7 @@ import org.kuali.core.mail.InvalidAddressException;
 import org.kuali.core.mail.MailMessage;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.service.MailService;
+import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.pdp.PdpConstants;
 import org.kuali.module.pdp.bo.CustomerProfile;
 import org.kuali.module.pdp.bo.PdpUser;
@@ -26,9 +27,6 @@ import org.kuali.module.pdp.xml.XmlHeader;
 import org.kuali.module.pdp.xml.XmlTrailer;
 import org.kuali.module.pdp.xml.impl.DataLoadHandler;
 import org.kuali.module.pdp.xml.impl.HardEditHandler;
-import org.springframework.beans.BeansException;
-import org.springframework.beans.factory.BeanFactory;
-import org.springframework.beans.factory.BeanFactoryAware;
 import org.springframework.transaction.annotation.Transactional;
 
 
@@ -37,20 +35,13 @@ import org.springframework.transaction.annotation.Transactional;
  *  
  */
 @Transactional
-public class PaymentFileServiceImpl implements PaymentFileService, BeanFactoryAware {
+public class PaymentFileServiceImpl implements PaymentFileService {
   private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PaymentFileServiceImpl.class);
 
-  private BeanFactory beanFactory;
   private MailService mailService;
   private KualiConfigurationService kualiConfigurationService;
   private CustomerProfileService customerProfileService;
   private EnvironmentService environmentService;
-
-  // Spring will set this when it loads this object. This is needed
-  // for the hard edit handler and to get the Payment file parser
-  public void setBeanFactory(BeanFactory bf) throws BeansException {
-    this.beanFactory = bf;
-  }
 
   // Injected
   public void setEnvironmentService(EnvironmentService es) {
@@ -93,7 +84,7 @@ public class PaymentFileServiceImpl implements PaymentFileService, BeanFactoryAw
   // the batch directory. The batch job will actually load the file into the
   // database
   public LoadPaymentStatus loadPayments(String filename, PdpUser user) throws PaymentLoadException {
-    PaymentFileParser paymentFileParser = (PaymentFileParser)beanFactory.getBean("pdpPaymentFileParser");
+    PaymentFileParser paymentFileParser = (PaymentFileParser)SpringServiceLocator.getService("pdpPaymentFileParser");
     
     HardEditHandler hardEditHandler;
 
@@ -101,7 +92,7 @@ public class PaymentFileServiceImpl implements PaymentFileService, BeanFactoryAw
 
     // Try to do the hard edits
     LOG.debug("loadPayments() hard edit check");
-    hardEditHandler = new HardEditHandler(beanFactory);
+    hardEditHandler = new HardEditHandler();
     hardEditHandler.clear();
     hardEditHandler.setMaxNoteLines(getMaxNoteLines());
 
@@ -140,7 +131,7 @@ public class PaymentFileServiceImpl implements PaymentFileService, BeanFactoryAw
 
     DataLoadHandler dataLoadHandler;
 
-    dataLoadHandler = new DataLoadHandler(beanFactory,hardEditHandler.getTrailer());
+    dataLoadHandler = new DataLoadHandler(hardEditHandler.getTrailer());
     dataLoadHandler.setUser(user);
     dataLoadHandler.setFilename(getBaseFileName(filename));
     dataLoadHandler.setMaxNoteLines(getMaxNoteLines());

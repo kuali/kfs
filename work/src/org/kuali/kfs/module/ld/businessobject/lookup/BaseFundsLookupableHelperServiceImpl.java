@@ -30,7 +30,6 @@ import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.gl.service.BalanceService;
 import org.kuali.module.labor.dao.LaborDao;
 import org.kuali.module.labor.web.inquirable.BaseFundsInquirableImpl;
-import org.springframework.beans.factory.BeanFactory;
 import org.springframework.transaction.annotation.Transactional;
 
 

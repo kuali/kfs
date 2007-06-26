@@ -59,12 +59,10 @@ import org.kuali.module.gl.service.OriginEntryService;
 import org.kuali.module.gl.service.PosterService;
 import org.kuali.module.gl.service.ReportService;
 import org.springframework.beans.BeansException;
-import org.springframework.beans.factory.BeanFactory;
-import org.springframework.beans.factory.BeanFactoryAware;
 import org.springframework.transaction.annotation.Transactional;
 
 @Transactional
-public class PosterServiceImpl implements PosterService, BeanFactoryAware {
+public class PosterServiceImpl implements PosterService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PosterServiceImpl.class);
 
     public static final String INSERT_CODE = "I";
@@ -75,7 +73,6 @@ public class PosterServiceImpl implements PosterService, BeanFactoryAware {
     public static final KualiDecimal warningMaxDifference = new KualiDecimal("0.05");
     public static final String DATE_FORMAT_STRING = "yyyyMMdd";
 
-    private BeanFactory beanFactory;
     private List transactionPosters;
     private VerifyTransaction verifyTransaction;
     private OriginEntryService originEntryService;
@@ -651,10 +648,6 @@ public class PosterServiceImpl implements PosterService, BeanFactoryAware {
 
     public void setReportService(ReportService rs) {
         reportService = rs;
-    }
-
-    public void setBeanFactory(BeanFactory bf) throws BeansException {
-        beanFactory = bf;
     }
 
     public void setKualiConfigurationService(KualiConfigurationService kualiConfigurationService) {

@@ -28,12 +28,9 @@ import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.gl.GLSpringBeansRegistry;
 import org.kuali.module.gl.web.TestDataGenerator;
 import org.kuali.test.KualiTestBase;
-import org.springframework.beans.factory.BeanFactory;
 
 /**
  * This class is a template being used by the test case classes of GL lookupable implementation.
- * 
- * 
  */
 public abstract class AbstractGLLookupableHelperServiceTestBase extends KualiTestBase {
 

@@ -27,7 +27,6 @@ import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.labor.LaborConstants;
 import org.kuali.module.labor.dao.LaborDao;
-import org.springframework.beans.factory.BeanFactory;
 
 public class AccountStatusCurrentFunds extends LedgerBalance {
 

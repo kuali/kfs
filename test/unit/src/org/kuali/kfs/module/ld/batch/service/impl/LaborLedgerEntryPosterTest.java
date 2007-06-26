@@ -17,9 +17,9 @@ package org.kuali.module.labor.batch.poster;
 
 import static org.kuali.module.gl.bo.OriginEntrySource.LABOR_MAIN_POSTER_VALID;
 
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Date;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -41,7 +41,6 @@ import org.kuali.module.labor.util.ObjectUtil;
 import org.kuali.module.labor.util.TestDataPreparator;
 import org.kuali.test.KualiTestBase;
 import org.kuali.test.WithTestSpringContext;
-import org.springframework.beans.factory.BeanFactory;
 
 @WithTestSpringContext
 public class LaborLedgerEntryPosterTest extends KualiTestBase {

@@ -44,7 +44,6 @@ import org.kuali.module.gl.service.OrganizationReversionSelection;
 import org.kuali.module.gl.service.OriginEntryGroupService;
 import org.kuali.module.gl.service.OriginEntryService;
 import org.kuali.module.gl.util.FatalErrorException;
-import org.springframework.beans.factory.BeanFactory;
 
 public class OrganizationReversionProcess {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(OrganizationReversionProcess.class);
@@ -55,7 +54,6 @@ public class OrganizationReversionProcess {
     // Services
     private OrganizationReversionService organizationReversionService;
     private KualiConfigurationService kualiConfigurationService;
-    private BeanFactory beanFactory;
     private BalanceService balanceService;
     private OrganizationReversionSelection organizationReversionSelection;
     private OriginEntryGroupService originEntryGroupService;
@@ -82,13 +80,12 @@ public class OrganizationReversionProcess {
 
     private boolean endOfYear;
 
-    public OrganizationReversionProcess(boolean endOfYear, OrganizationReversionService ors, KualiConfigurationService kcs, BeanFactory bf, BalanceService bs, OrganizationReversionSelection orgrs, OriginEntryGroupService oegs, OriginEntryService oes, PersistenceService ps, DateTimeService dts, OrganizationReversionCategoryLogic corc, PriorYearAccountService pyas) {
+    public OrganizationReversionProcess(boolean endOfYear, OrganizationReversionService ors, KualiConfigurationService kcs, BalanceService bs, OrganizationReversionSelection orgrs, OriginEntryGroupService oegs, OriginEntryService oes, PersistenceService ps, DateTimeService dts, OrganizationReversionCategoryLogic corc, PriorYearAccountService pyas) {
 
         this.endOfYear = endOfYear;
         balanceService = bs;
         organizationReversionService = ors;
         kualiConfigurationService = kcs;
-        beanFactory = bf;
         organizationReversionSelection = orgrs;
         originEntryGroupService = oegs;
         originEntryService = oes;

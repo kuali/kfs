@@ -35,7 +35,6 @@ import org.kuali.module.labor.bo.LaborOriginEntry;
 import org.kuali.module.labor.dao.LaborOriginEntryDao;
 import org.kuali.module.labor.service.LaborOriginEntryService;
 import org.kuali.test.KualiTestBase;
-import org.springframework.beans.factory.BeanFactory;
 
 public class LaborOriginEntryTestBase extends KualiTestBase {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(LaborOriginEntryTestBase.class);

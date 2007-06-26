@@ -30,17 +30,14 @@ import org.kuali.module.gl.service.ScrubberValidator;
 import org.kuali.module.labor.service.LaborOriginEntryService;
 import org.kuali.module.labor.service.LaborScrubberService;
 import org.springframework.beans.BeansException;
-import org.springframework.beans.factory.BeanFactory;
-import org.springframework.beans.factory.BeanFactoryAware;
 import org.springframework.transaction.annotation.Transactional;
 
 @Transactional
-public class LaborScrubberServiceImpl implements LaborScrubberService, BeanFactoryAware {
+public class LaborScrubberServiceImpl implements LaborScrubberService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(LaborScrubberServiceImpl.class);
 
     private FlexibleOffsetAccountService flexibleOffsetAccountService;
     private DocumentTypeService documentTypeService;
-    private BeanFactory beanFactory;
     private LaborOriginEntryService laborOriginEntryService;
     private OriginEntryGroupService originEntryGroupService;
     private DateTimeService dateTimeService;
@@ -62,7 +59,7 @@ public class LaborScrubberServiceImpl implements LaborScrubberService, BeanFacto
         // The logic for this was moved into another object because the process was written using
         // many instance variables which shouldn't be used for Spring services
         
-        LaborScrubberProcess sp = new LaborScrubberProcess(flexibleOffsetAccountService, documentTypeService, beanFactory, laborOriginEntryService, originEntryGroupService, dateTimeService, offsetDefinitionService, objectCodeService, kualiConfigurationService, universityDateDao, persistenceService, laborReportService, scrubberValidator);
+        LaborScrubberProcess sp = new LaborScrubberProcess(flexibleOffsetAccountService, documentTypeService, laborOriginEntryService, originEntryGroupService, dateTimeService, offsetDefinitionService, objectCodeService, kualiConfigurationService, universityDateDao, persistenceService, laborReportService, scrubberValidator);
         sp.scrubGroupReportOnly(group,documentNumber);
     }
 
@@ -76,7 +73,7 @@ public class LaborScrubberServiceImpl implements LaborScrubberService, BeanFacto
         // The logic for this was moved into another object because the process was written using
         // many instance variables which shouldn't be used for Spring services
 
-        LaborScrubberProcess sp = new LaborScrubberProcess(flexibleOffsetAccountService, documentTypeService, beanFactory, laborOriginEntryService, originEntryGroupService, dateTimeService, offsetDefinitionService, objectCodeService, kualiConfigurationService, universityDateDao, persistenceService, laborReportService, scrubberValidator);
+        LaborScrubberProcess sp = new LaborScrubberProcess(flexibleOffsetAccountService, documentTypeService, laborOriginEntryService, originEntryGroupService, dateTimeService, offsetDefinitionService, objectCodeService, kualiConfigurationService, universityDateDao, persistenceService, laborReportService, scrubberValidator);
         sp.scrubEntries();
     }
 
@@ -126,9 +123,5 @@ public class LaborScrubberServiceImpl implements LaborScrubberService, BeanFacto
 
     public void setLaborReportService(LaborReportService laborReportService) {
         this.laborReportService = laborReportService;
-    }
-
-    public void setBeanFactory(BeanFactory bf) throws BeansException {
-        beanFactory = bf;
     }
 }

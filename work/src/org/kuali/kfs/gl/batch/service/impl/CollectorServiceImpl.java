@@ -21,15 +21,11 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.text.MessageFormat;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
-import org.apache.commons.collections.Bag;
-import org.apache.commons.collections.bag.HashBag;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
@@ -39,7 +35,6 @@ import org.kuali.core.mail.MailMessage;
 import org.kuali.core.service.DateTimeService;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.service.MailService;
-import org.kuali.core.util.ErrorMap;
 import org.kuali.core.util.ErrorMessage;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
@@ -54,7 +49,6 @@ import org.kuali.kfs.service.BatchInputFileService;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.chart.bo.ObjectType;
 import org.kuali.module.chart.bo.codes.BalanceTyp;
-import org.kuali.module.gl.GLConstants;
 import org.kuali.module.gl.batch.collector.CollectorBatch;
 import org.kuali.module.gl.bo.CollectorHeader;
 import org.kuali.module.gl.bo.InterDepartmentalBilling;
@@ -63,7 +57,6 @@ import org.kuali.module.gl.service.CollectorService;
 import org.kuali.module.gl.service.InterDepartmentalBillingService;
 import org.kuali.module.gl.service.OriginEntryGroupService;
 import org.kuali.module.gl.service.OriginEntryService;
-import org.springframework.beans.factory.BeanFactory;
 
 /**
  * @see org.kuali.module.gl.service.CollectorService
@@ -79,7 +72,6 @@ public class CollectorServiceImpl implements CollectorService {
     private DateTimeService dateTimeService;
     private BatchInputFileService batchInputFileService;
     private BatchInputFileType collectorInputFileType;
-    private BeanFactory beanFactory;
     
     /**
      * Parses the given file, validates the batch, stores the entries, and sends email.

@@ -29,7 +29,6 @@ import org.kuali.module.labor.bo.LaborGeneralLedgerEntry;
 import org.kuali.module.labor.util.ObjectUtil;
 import org.kuali.test.KualiTestBase;
 import org.kuali.test.WithTestSpringContext;
-import org.springframework.beans.factory.BeanFactory;
 
 @WithTestSpringContext
 public class LaborGeneralLedgerEntryServiceTest extends KualiTestBase {

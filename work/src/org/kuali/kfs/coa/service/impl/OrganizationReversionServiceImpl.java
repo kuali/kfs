@@ -22,23 +22,22 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.core.service.KualiConfigurationService;
+import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.chart.bo.OrganizationReversion;
 import org.kuali.module.chart.bo.OrganizationReversionCategory;
 import org.kuali.module.chart.dao.OrganizationReversionDao;
 import org.kuali.module.chart.service.OrganizationReversionService;
 import org.kuali.module.gl.service.OrganizationReversionCategoryLogic;
 import org.kuali.module.gl.service.impl.orgreversion.GenericOrganizationReversionCategory;
-import org.springframework.beans.factory.BeanFactory;
-import org.springframework.beans.factory.BeanFactoryAware;
+import org.springframework.beans.factory.NoSuchBeanDefinitionException;
 import org.springframework.transaction.annotation.Transactional;
 
 @Transactional
-public class OrganizationReversionServiceImpl implements OrganizationReversionService, BeanFactoryAware {
+public class OrganizationReversionServiceImpl implements OrganizationReversionService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(OrganizationReversionServiceImpl.class);
 
     private OrganizationReversionDao organizationReversionDao;
     private KualiConfigurationService kualiConfigurationService;
-    private BeanFactory beanFactory;
 
     /**
      * 
@@ -66,17 +65,17 @@ public class OrganizationReversionServiceImpl implements OrganizationReversionSe
 
             String categoryCode = orc.getOrganizationReversionCategoryCode();
 
-            if (beanFactory.containsBean("gl" + categoryCode + "OrganizationReversionCategory")) {
+            try {
+                SpringServiceLocator.getService("gl" + categoryCode + "OrganizationReversionCategory");
                 // We have a custom implementation
-                categories.put(categoryCode, (OrganizationReversionCategoryLogic) beanFactory.getBean("gl" + categoryCode + "OrganizationReversionCategory"));
+                categories.put(categoryCode, (OrganizationReversionCategoryLogic) SpringServiceLocator.getService("gl" + categoryCode + "OrganizationReversionCategory"));
             }
-            else {
+            catch (NoSuchBeanDefinitionException e) {
                 // We'll get the generic implementation
-                GenericOrganizationReversionCategory cat = (GenericOrganizationReversionCategory) beanFactory.getBean("glGenericOrganizationReversionCategory");
+                GenericOrganizationReversionCategory cat = (GenericOrganizationReversionCategory) SpringServiceLocator.getService("glGenericOrganizationReversionCategory");
                 cat.setCategoryCode(categoryCode);
                 cat.setCategoryName(orc.getOrganizationReversionCategoryName());
-
-                categories.put(categoryCode, (OrganizationReversionCategoryLogic) cat);
+                categories.put(categoryCode, (OrganizationReversionCategoryLogic) cat);                
             }
         }
         return categories;
@@ -94,9 +93,5 @@ public class OrganizationReversionServiceImpl implements OrganizationReversionSe
 
     public void setKualiConfigurationService(KualiConfigurationService kcs) {
         kualiConfigurationService = kcs;
-    }
-
-    public void setBeanFactory(BeanFactory beanFactory) {
-        this.beanFactory = beanFactory;
     }
 }

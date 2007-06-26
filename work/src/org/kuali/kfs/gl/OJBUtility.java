@@ -30,7 +30,6 @@ import org.kuali.core.dao.LookupDao;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.util.SpringServiceLocator;
-import org.springframework.beans.factory.BeanFactory;
 
 /**
  * This class provides a set of utilities that can handle common tasks related to business objects.

@@ -16,7 +16,6 @@
 package org.kuali.module.labor.service;
 
 import java.util.Arrays;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
@@ -25,13 +24,10 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.gl.web.TestDataGenerator;
-import org.kuali.module.labor.bo.AccountStatusCurrentFunds;
 import org.kuali.module.labor.bo.LedgerBalance;
 import org.kuali.module.labor.util.ObjectUtil;
-import org.kuali.module.labor.util.TestDataPreparator;
 import org.kuali.test.KualiTestBase;
 import org.kuali.test.WithTestSpringContext;
-import org.springframework.beans.factory.BeanFactory;
 
 @WithTestSpringContext
 public class LaborLedgerBalanceServiceTest extends KualiTestBase {
@@ -41,7 +37,6 @@ public class LaborLedgerBalanceServiceTest extends KualiTestBase {
     private List<String> keyFieldList;
     private Map fieldValues;
 
-    private BeanFactory beanFactory;
     private LaborLedgerBalanceService laborLedgerBalanceService;
     private BusinessObjectService businessObjectService;
 

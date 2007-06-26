@@ -18,7 +18,6 @@ package org.kuali.module.labor.batch;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.test.KualiTestBase;
 import org.kuali.test.WithTestSpringContext;
-import org.springframework.beans.factory.BeanFactory;
 
 @WithTestSpringContext
 public class LaborPosterStepTest extends KualiTestBase {

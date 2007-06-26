@@ -21,7 +21,6 @@ import org.kuali.core.util.UnitTestSqlDao;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.test.KualiTestBase;
 import org.kuali.test.WithTestSpringContext;
-import org.springframework.beans.factory.BeanFactory;
 
 /**
  * 

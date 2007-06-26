@@ -16,32 +16,22 @@
 package org.kuali.module.budget.service.impl;
 
 import java.sql.SQLException;
+import java.util.ResourceBundle;
 
+import org.apache.log4j.Logger;
+import org.apache.log4j.PropertyConfigurator;
+import org.kuali.core.UserSession;
+import org.kuali.core.exceptions.UserNotFoundException;
+import org.kuali.core.service.DateTimeService;
+import org.kuali.core.service.KualiConfigurationService;
+import org.kuali.core.util.GlobalVariables;
 import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.KFSConstants.*;
 import org.kuali.kfs.util.SpringServiceLocator;
-import org.kuali.kfs.util.SpringServiceLocator.*;
-import org.kuali.module.budget.service.*;
-import org.kuali.core.service.*;
-import org.kuali.core.*;
-import org.kuali.core.util.*;
-import org.kuali.core.bo.user.*;
-import org.kuali.module.budget.dao.*;
-import org.kuali.module.budget.dao.ojb.*;
+import org.kuali.module.budget.dao.GenesisDao;
+import org.kuali.module.budget.service.GenesisService;
 import org.kuali.module.chart.service.DateMakerService;
 
-import java.lang.reflect.*;
-
-// import these things to handle the configuration
-import org.kuali.core.service.KualiConfigurationService;
-import org.springframework.beans.factory.BeanFactory;
-//  handle workflow
 import edu.iu.uis.eden.exception.WorkflowException;
-import org.kuali.core.exceptions.UserNotFoundException;
-import org.kuali.workflow.*;
-//this is just for the logger, and could be taken out
-import org.apache.log4j.*;
-import java.util.ResourceBundle;
 
 public class GenesisTest {
     

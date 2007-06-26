@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.pdp.bo.CustomerProfile;
 import org.kuali.module.pdp.bo.PdpUser;
 import org.kuali.module.pdp.dao.CustomerProfileDao;
@@ -19,8 +20,6 @@ import org.kuali.module.pdp.xml.XmlDetail;
 import org.kuali.module.pdp.xml.XmlGroup;
 import org.kuali.module.pdp.xml.XmlHeader;
 import org.kuali.module.pdp.xml.XmlTrailer;
-import org.springframework.beans.factory.BeanFactory;
-
 
 /**
  * @author jsissom
@@ -44,12 +43,8 @@ public class HardEditHandler implements PdpFileHandler {
   private List errorMessageList = new ArrayList();
 
   public HardEditHandler() {
-    // If you call this constructor, you need to set the dependencies mannually!
-  }
-
-  public HardEditHandler(BeanFactory bf) {
-    customerDao = (CustomerProfileDao)bf.getBean("pdpCustomerProfileDao");
-    loadDao = (PaymentFileLoadDao)bf.getBean("pdpPaymentFileLoadDao");
+    customerDao = (CustomerProfileDao)SpringServiceLocator.getService("pdpCustomerProfileDao");
+    loadDao = (PaymentFileLoadDao)SpringServiceLocator.getService("pdpPaymentFileLoadDao");
   }
 
   public void clear() {

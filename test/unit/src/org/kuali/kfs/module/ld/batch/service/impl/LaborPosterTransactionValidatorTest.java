@@ -36,7 +36,6 @@ import org.kuali.module.labor.service.LaborOriginEntryService;
 import org.kuali.module.labor.util.TestDataPreparator;
 import org.kuali.test.KualiTestBase;
 import org.kuali.test.WithTestSpringContext;
-import org.springframework.beans.factory.BeanFactory;
 
 @WithTestSpringContext
 public class LaborPosterTransactionValidatorTest extends KualiTestBase {

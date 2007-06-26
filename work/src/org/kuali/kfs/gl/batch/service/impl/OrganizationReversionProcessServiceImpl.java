@@ -27,7 +27,6 @@ import org.kuali.module.gl.service.OrganizationReversionSelection;
 import org.kuali.module.gl.service.OriginEntryGroupService;
 import org.kuali.module.gl.service.OriginEntryService;
 import org.kuali.module.gl.service.impl.orgreversion.OrganizationReversionProcess;
-import org.springframework.beans.factory.BeanFactory;
 import org.springframework.transaction.annotation.Transactional;
 
 @Transactional
@@ -36,7 +35,6 @@ public class OrganizationReversionProcessServiceImpl implements OrganizationReve
 
     private OrganizationReversionService organizationReversionService;
     private KualiConfigurationService kualiConfigurationService;
-    private BeanFactory beanFactory;
     private BalanceService balanceService;
     private OrganizationReversionSelection organizationReversionSelection;
     private OriginEntryGroupService originEntryGroupService;
@@ -48,10 +46,6 @@ public class OrganizationReversionProcessServiceImpl implements OrganizationReve
 
     public void setBalanceService(BalanceService balanceService) {
         this.balanceService = balanceService;
-    }
-
-    public void setBeanFactory(BeanFactory beanFactory) {
-        this.beanFactory = beanFactory;
     }
 
     public void setCashOrganizationReversionCategoryLogic(OrganizationReversionCategoryLogic cashOrganizationReversionCategoryLogic) {
@@ -93,7 +87,7 @@ public class OrganizationReversionProcessServiceImpl implements OrganizationReve
     public void organizationReversionProcessEndOfYear() {
         LOG.debug("organizationReversionProcessEndOfYear() started");
 
-        OrganizationReversionProcess orp = new OrganizationReversionProcess(true, organizationReversionService, kualiConfigurationService, beanFactory, balanceService, organizationReversionSelection, originEntryGroupService, originEntryService, persistenceService, dateTimeService, cashOrganizationReversionCategoryLogic, priorYearAccountService);
+        OrganizationReversionProcess orp = new OrganizationReversionProcess(true, organizationReversionService, kualiConfigurationService, balanceService, organizationReversionSelection, originEntryGroupService, originEntryService, persistenceService, dateTimeService, cashOrganizationReversionCategoryLogic, priorYearAccountService);
 
         orp.organizationReversionProcess();
     }
@@ -101,7 +95,7 @@ public class OrganizationReversionProcessServiceImpl implements OrganizationReve
     public void organizationReversionProcessBeginningOfYear() {
         LOG.debug("organizationReversionProcessEndOfYear() started");
 
-        OrganizationReversionProcess orp = new OrganizationReversionProcess(false, organizationReversionService, kualiConfigurationService, beanFactory, balanceService, organizationReversionSelection, originEntryGroupService, originEntryService, persistenceService, dateTimeService, cashOrganizationReversionCategoryLogic, priorYearAccountService);
+        OrganizationReversionProcess orp = new OrganizationReversionProcess(false, organizationReversionService, kualiConfigurationService, balanceService, organizationReversionSelection, originEntryGroupService, originEntryService, persistenceService, dateTimeService, cashOrganizationReversionCategoryLogic, priorYearAccountService);
 
         orp.organizationReversionProcess();
     }

@@ -16,6 +16,8 @@
 
 <%@ include file="/jsp/kfs/kfsTldHeader.jsp"%>
 
+<c:set var="balanceInquiryAttributes"
+	value="${DataDictionary.LedgerBalanceForBenefitExpenseTransfer.attributes}" />
 <kul:documentPage showDocumentInfo="true"
     documentTypeName="KualiSalaryExpenseTransferDocument"
     htmlFormAction="laborSalaryExpenseTransfer" renderMultipart="true"
@@ -24,13 +26,29 @@
     <html:hidden property="financialBalanceTypeCode" />
     <kul:hiddenDocumentFields />
     <kul:documentOverview editingMode="${KualiForm.editingMode}" />
-    <kul:tab tabTitle="Employee Lookup" defaultOpen="true"
-        tabErrorKey="${Constants.EMPLOYEE_LOOKUP_ERRORS}">
-        <div class="tab-container" align=center>
-            <div class="h2-container"><b>Employee Lookup</b></div>
-            <table cellpadding="0" cellspacing="0" class="datatable"
-                summary="employee lookup">
-    
+ 
+		<kul:tab tabTitle="Ledger Balance Importing" defaultOpen="true"
+			tabErrorKey="${Constants.EMPLOYEE_LOOKUP_ERRORS}">
+			<div class="tab-container" align=center>
+			<div class="h2-container">
+			<h2>Ledger Balance Importing</h2>
+			</div>
+			<table cellpadding="0" cellspacing="0" class="datatable"
+				summary="Ledger Balance Importing">
+	
+				<tr>
+					<kul:htmlAttributeHeaderCell
+						attributeEntry="${balanceInquiryAttributes.universityFiscalYear}"
+						horizontal="true" width="35%"  forceRequired="true"/>
+	
+					<td class="datacell-nowrap"><kul:htmlControlAttribute
+						attributeEntry="${balanceInquiryAttributes.universityFiscalYear}"
+						property="universityFiscalYear" readOnly="${readOnly}" /> <kul:lookup
+						boClassName="org.kuali.kfs.bo.Options"
+						lookupParameters="universityFiscalYear:universityFiscalYear"
+						fieldLabel="${balanceInquiryAttributes.universityFiscalYear.label}" /></td>
+				</tr>			
+	
               <tr>
                 <kul:htmlAttributeHeaderCell
                     attributeEntry="${DataDictionary.UniversalUser.attributes.personPayrollIdentifier}"
@@ -55,18 +73,21 @@
  
                 </td>
               </tr>
-              <tr>
-                <kul:htmlAttributeHeaderCell
-                    horizontal="true"
-                    forceRequired="false"
-                    literalLabel="Last Queried Fiscal Year"
-                    />
-                <td>${KualiForm.universityFiscalYear}&nbsp;</td>
-              </tr>
-            </table>
-                <p>
-        </div>
-    </kul:tab>
+	            
+	            <tr>
+	            	<td height="30" class="infoline">&nbsp;</td>
+	            	<td height="30" class="infoline">
+                    <gl:balanceInquiryLookup
+                        boClassName="org.kuali.module.labor.bo.LedgerBalanceForSalaryExpenseTransfer"
+                        actionPath="glBalanceInquiryLookup.do"
+                        lookupParameters="emplid:emplid,financialBalanceTypeCode:financialBalanceTypeCode"
+                        hideReturnLink="false" image="buttonsmall_search.gif"/>
+					</td>
+				</tr>
+	
+			</table>
+			</div>
+		</kul:tab>
 
       <c:set var="copyMethod" value="" scope="request"/>
       <c:set var="actionInfixVar" value="" scope="request"/>
@@ -103,12 +124,6 @@
 					    src="${ConfigProperties.externalizable.images.url}tinybutton-deleteall.gif"
 						title="Delete all Source Accounting Lines"
 						alt="Delete all Source Lines" styleClass="tinybutton" />
-                Import from Labor Ledger
-                <gl:balanceInquiryLookup
-                    boClassName="org.kuali.module.labor.bo.LedgerBalanceForSalaryExpenseTransfer"
-                    actionPath="glBalanceInquiryLookup.do"
-                    lookupParameters="emplid:emplid,financialBalanceTypeCode:financialBalanceTypeCode"
-                    hideReturnLink="false" />
             </jsp:attribute>
             <jsp:attribute name="customActions">
                 <c:set var="copyMethod" value="copyAccountingLine.line${accountingLineIndexVar}" scope="request" />

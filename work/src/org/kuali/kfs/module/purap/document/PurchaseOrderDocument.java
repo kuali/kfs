@@ -829,4 +829,35 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase implements Cop
 //    public Class getSourceAccountingLineClass() {
 //        return PurchaseOrderAccount.class;
 //    }
+
+    /**
+     * USED FOR ROUTING ONLY
+     * @deprecated
+     */
+    public String getContractManagerName() {
+        return "";
+    }
+
+    /**
+     * USED FOR ROUTING ONLY
+     * @deprecated
+     */
+    public void setContractManagerName(String contractManagerName) {
+    }
+
+    /**
+     * USED FOR ROUTING ONLY
+     * @deprecated
+     */
+    public String getStatusDescription() {
+        return "";
+    }
+
+    /**
+     * USED FOR ROUTING ONLY
+     * @deprecated
+     */
+    public void setStatusDescription(String statusDescription) {
+    }
+
 }

@@ -15,6 +15,25 @@
  */
 package org.kuali.module.purap.bo;
 
-public abstract class AccountsPayableItemBase extends PurApItemBase implements AccountsPayableItem {
+import org.kuali.core.util.KualiDecimal;
 
+public abstract class AccountsPayableItemBase extends PurApItemBase implements AccountsPayableItem {
+    private KualiDecimal extendedPrice;
+
+    /**
+     * Gets the extendedPrice attribute. 
+     * @return Returns the extendedPrice.
+     */
+    public KualiDecimal getExtendedPrice() {
+        return extendedPrice;
+    }
+
+    /**
+     * Sets the extendedPrice attribute value.
+     * @param extendedPrice The extendedPrice to set.
+     */
+    public void setExtendedPrice(KualiDecimal extendedPrice) {
+        this.extendedPrice = extendedPrice;
+    }
+    
 }

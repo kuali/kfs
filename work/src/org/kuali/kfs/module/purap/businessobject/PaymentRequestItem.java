@@ -40,7 +40,6 @@ public class PaymentRequestItem extends AccountsPayableItemBase {
     private KualiDecimal itemInvoicedQuantity;
 	
     private BigDecimal purchaseOrderItemUnitPrice;
-	private KualiDecimal itemExtendedPrice;
 	private String purchaseOrderCommodityCode;
     private KualiDecimal itemOutstandingInvoiceQuantity;
     private KualiDecimal itemOutstandingInvoiceAmount;
@@ -219,27 +218,6 @@ public class PaymentRequestItem extends AccountsPayableItemBase {
 	 */
 	public void setPurchaseOrderItemUnitPrice(BigDecimal purchaseOrderItemUnitPrice) {
 		this.purchaseOrderItemUnitPrice = purchaseOrderItemUnitPrice;
-	}
-
-
-	/**
-	 * Gets the itemExtendedPrice attribute.
-	 * 
-	 * @return Returns the itemExtendedPrice
-	 * 
-	 */
-	public KualiDecimal getItemExtendedPrice() { 
-		return itemExtendedPrice;
-	}
-
-	/**
-	 * Sets the itemExtendedPrice attribute.
-	 * 
-	 * @param itemExtendedPrice The itemExtendedPrice to set.
-	 * 
-	 */
-	public void setItemExtendedPrice(KualiDecimal itemExtendedPrice) {
-		this.itemExtendedPrice = itemExtendedPrice;
 	}
 
 	/**

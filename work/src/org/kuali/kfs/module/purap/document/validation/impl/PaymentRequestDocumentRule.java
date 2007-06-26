@@ -342,7 +342,7 @@ public class PaymentRequestDocumentRule extends AccountsPayableDocumentRuleBase 
                 GlobalVariables.getErrorMap().putError("newPurchasingItemLine", PurapKeyConstants.ERROR_ITEM_QUANTITY_TOO_MANY, ItemFields.INVOICE_QUANTITY, identifierString, ItemFields.OPEN_QUANTITY);
             }
         }
-        if (item.getExtendedPrice().isPositive() && ObjectUtils.isNotNull(item.getPoOutstandingQuantity()) && item.getPoOutstandingQuantity().isPositive()) {
+        if (ObjectUtils.isNotNull(item.getExtendedPrice())&&item.getExtendedPrice().isPositive() && ObjectUtils.isNotNull(item.getPoOutstandingQuantity()) && item.getPoOutstandingQuantity().isPositive()) {
 
             // here we must require the user to enter some value for quantity if they want a credit amount associated
             if (ObjectUtils.isNull(item.getItemQuantity()) || item.getItemQuantity().isZero()) {
@@ -469,7 +469,7 @@ public class PaymentRequestDocumentRule extends AccountsPayableDocumentRuleBase 
             BigDecimal total = BigDecimal.ZERO;
             LOG.debug("validatePaymentRequestReview() The " + identifier + " is getting the total percent field set to " + BigDecimal.ZERO);
 
-            if ( ( ( item.getItemExtendedPrice() != null && item.getItemExtendedPrice().isNonZero()) && 
+            if ( ( ( item.getExtendedPrice() != null && item.getExtendedPrice().isNonZero()) && 
                    item.getItemType().isItemTypeAboveTheLineIndicator() && 
                    ( ( !item.getItemType().isQuantityBasedGeneralLedgerIndicator() && (item.getPoOutstandingAmount() != null && item.getPoOutstandingAmount().isNonZero())) || 
                      ( item.getItemType().isQuantityBasedGeneralLedgerIndicator() && (item.getPoOutstandingQuantity() != null && item.getPoOutstandingQuantity().isNonZero())))) || 

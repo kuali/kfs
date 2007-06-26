@@ -35,7 +35,6 @@
 						<field attributeName="itemCapitalAssetNoteText" />
 						<field attributeName="itemCatalogNumber" />
 						<field attributeName="itemDescription" />
-						<field attributeName="itemExtendedPrice" />
 						<field attributeName="itemInvoicedQuantity" />
 						<field attributeName="itemLineNumber" />
 						<field attributeName="itemTypeCode" />
@@ -70,7 +69,6 @@
 				<lookupField attributeName="itemCapitalAssetNoteText" required="false" />
 				<lookupField attributeName="itemCatalogNumber" required="false" />
 				<lookupField attributeName="itemDescription" required="false" />
-				<lookupField attributeName="itemExtendedPrice" required="false" />
 				<lookupField attributeName="itemInvoicedQuantity" required="false" />
 				<lookupField attributeName="itemLineNumber" required="false" />
 				<lookupField attributeName="itemTypeCode" required="false" />
@@ -91,7 +89,6 @@
 				<field attributeName="itemCapitalAssetNoteText" />
 				<field attributeName="itemCatalogNumber" />
 				<field attributeName="itemDescription" />
-				<field attributeName="itemExtendedPrice" />
 				<field attributeName="itemInvoicedQuantity" />
 				<field attributeName="itemLineNumber" />
 				<field attributeName="itemTypeCode" />

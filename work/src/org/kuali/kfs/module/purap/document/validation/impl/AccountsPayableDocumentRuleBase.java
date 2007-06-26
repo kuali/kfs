@@ -56,7 +56,7 @@ public class AccountsPayableDocumentRuleBase extends PurchasingAccountsPayableDo
             valid = false;
             GlobalVariables.getErrorMap().putError("newPurchasingItemLine", PurapKeyConstants.ERROR_ITEM_AMOUNT_BELOW_ZERO, ItemFields.UNIT_COST, identifierString);
         }
-        if (ObjectUtils.isNotNull(item.getItemExtendedPrice()) && item.getItemExtendedPrice().isNegative()) {
+        if (ObjectUtils.isNotNull(item.getExtendedPrice()) && item.getExtendedPrice().isNegative()) {
             valid = false;
             GlobalVariables.getErrorMap().putError("newPurchasingItemLine", PurapKeyConstants.ERROR_ITEM_AMOUNT_BELOW_ZERO, ItemFields.INVOICE_EXTENDED_PRICE, identifierString);
         }

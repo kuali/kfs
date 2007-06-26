@@ -478,6 +478,7 @@ public class PurapConstants {
     private static HashMap<String,String> uncopyablePREQItemFields() {
         HashMap<String,String> fields = new HashMap<String,String>(ITEM_UNCOPYABLE_FIELDS);
         fields.put(PurapPropertyConstants.QUANTITY, "");
+        fields.put(PurapPropertyConstants.EXTENDED_PRICE,"");
         return fields;
     }
     /*

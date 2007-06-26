@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
- Copyright 2005-2007 The Kuali Foundation.
- 
- Licensed under the Educational Community License, Version 1.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
- 
- http://www.opensource.org/licenses/ecl1.php
- 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
+	Copyright 2005-2007 The Kuali Foundation.
+	
+	Licensed under the Educational Community License, Version 1.0 (the "License");
+	you may not use this file except in compliance with the License.
+	You may obtain a copy of the License at
+	
+	http://www.opensource.org/licenses/ecl1.php
+	
+	Unless required by applicable law or agreed to in writing, software
+	distributed under the License is distributed on an "AS IS" BASIS,
+	WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+	See the License for the specific language governing permissions and
+	limitations under the License.
 -->
 <!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
 <beans>
@@ -23,12 +23,14 @@
 		<property name="moduleUserService" ref="chartUserService" />
 		<property name="initializeDataDictionary" value="true" />
 		<property name="moduleUserRule">
-			<bean class="org.kuali.module.chart.rules.ChartUserRule" singleton="false" parent="maintenanceDocumentRuleBase">
+			<bean class="org.kuali.module.chart.rules.ChartUserRule"
+				singleton="false" parent="maintenanceDocumentRuleBase">
 				<!--  TODO: bind in other services -->
 			</bean>
 		</property>
 		<property name="moduleAuthorizer">
-			<bean class="org.kuali.kfs.authorization.KfsModuleAuthorizerBase">
+			<bean
+				class="org.kuali.kfs.authorization.KfsModuleAuthorizerBase">
 				<property name="packagePrefixes">
 					<list>
 						<value>org.kuali.module.chart.</value>
@@ -46,7 +48,9 @@
 		</property>
 		<property name="databaseRepositoryFilePaths">
 			<list>
-				<value>org/kuali/module/chart/OJB-repository-chart.xml</value>
+				<value>
+					org/kuali/module/chart/OJB-repository-chart.xml
+				</value>
 			</list>
 		</property>
 		<property name="scriptConfigurationFilePaths">
@@ -61,7 +65,9 @@
 		</property>
 	</bean>
 
-	<bean id="chartUserService" class="org.kuali.module.chart.service.impl.ChartUserServiceImpl" parent="kualiModuleUserServiceBase">
+	<bean id="chartUserService"
+		class="org.kuali.module.chart.service.impl.ChartUserServiceImpl"
+		parent="kualiModuleUserServiceBase">
 		<property name="propertyList">
 			<list>
 				<value>userChartOfAccountsCode</value>
@@ -70,27 +76,31 @@
 			</list>
 		</property>
 	</bean>
-	
 
-	<bean id="accountService" class="org.kuali.module.chart.service.impl.AccountServiceImpl">
+
+	<bean id="accountService"
+		class="org.kuali.module.chart.service.impl.AccountServiceImpl">
 		<property name="accountDao">
 			<ref bean="accountDao" />
 		</property>
 	</bean>
 
-	<bean id="projectCodeService" class="org.kuali.module.chart.service.impl.ProjectCodeServiceImpl">
+	<bean id="projectCodeService"
+		class="org.kuali.module.chart.service.impl.ProjectCodeServiceImpl">
 		<property name="projectCodeDao">
 			<ref bean="projectCodeDao" />
 		</property>
 	</bean>
 
-	<bean id="subAccountService" class="org.kuali.module.chart.service.impl.SubAccountServiceImpl">
+	<bean id="subAccountService"
+		class="org.kuali.module.chart.service.impl.SubAccountServiceImpl">
 		<property name="subAccountDao">
 			<ref bean="subAccountDao" />
 		</property>
 	</bean>
 
-	<bean id="subObjectCodeService" class="org.kuali.module.chart.service.impl.SubObjectCodeServiceImpl">
+	<bean id="subObjectCodeService"
+		class="org.kuali.module.chart.service.impl.SubObjectCodeServiceImpl">
 		<property name="subObjectCodeDao">
 			<ref bean="subObjectCodeDao" />
 		</property>
@@ -99,7 +109,8 @@
 		</property>
 	</bean>
 
-	<bean id="objectCodeService" class="org.kuali.module.chart.service.impl.ObjectCodeServiceImpl">
+	<bean id="objectCodeService"
+		class="org.kuali.module.chart.service.impl.ObjectCodeServiceImpl">
 		<property name="objectCodeDao">
 			<ref bean="objectCodeDao" />
 		</property>
@@ -108,43 +119,50 @@
 		</property>
 	</bean>
 
-	<bean id="objectLevelService" class="org.kuali.module.chart.service.impl.ObjectLevelServiceImpl">
+	<bean id="objectLevelService"
+		class="org.kuali.module.chart.service.impl.ObjectLevelServiceImpl">
 		<property name="objectLevelDao">
 			<ref bean="objectLevelDao" />
 		</property>
 	</bean>
 
-	<bean id="objectConsService" class="org.kuali.module.chart.service.impl.ObjectConsServiceImpl">
+	<bean id="objectConsService"
+		class="org.kuali.module.chart.service.impl.ObjectConsServiceImpl">
 		<property name="objectConsDao">
 			<ref bean="objectConsDao" />
 		</property>
 	</bean>
 
-	<bean id="chartService" class="org.kuali.module.chart.service.impl.ChartServiceImpl">
+	<bean id="chartService"
+		class="org.kuali.module.chart.service.impl.ChartServiceImpl">
 		<property name="chartDao">
 			<ref bean="chartDao" />
 		</property>
 	</bean>
 
-	<bean id="organizationService" class="org.kuali.module.chart.service.impl.OrganizationServiceImpl">
+	<bean id="organizationService"
+		class="org.kuali.module.chart.service.impl.OrganizationServiceImpl">
 		<property name="organizationDao">
 			<ref bean="organizationDao" />
 		</property>
 	</bean>
 
-	<bean id="priorYearAccountService" class="org.kuali.module.chart.service.impl.PriorYearAccountServiceImpl">
+	<bean id="priorYearAccountService"
+		class="org.kuali.module.chart.service.impl.PriorYearAccountServiceImpl">
 		<property name="priorYearAccountDao">
 			<ref bean="priorYearAccountDao" />
 		</property>
 	</bean>
 
-	<bean id="offsetDefinitionService" class="org.kuali.module.chart.service.impl.OffsetDefinitionServiceImpl">
+	<bean id="offsetDefinitionService"
+		class="org.kuali.module.chart.service.impl.OffsetDefinitionServiceImpl">
 		<property name="offsetDefinitionDao">
 			<ref bean="offsetDefinitionDao" />
 		</property>
 	</bean>
 
-	<bean id="balanceTypService" class="org.kuali.module.chart.service.impl.BalanceTypServiceImpl">
+	<bean id="balanceTypService"
+		class="org.kuali.module.chart.service.impl.BalanceTypServiceImpl">
 		<property name="kualiCodeService">
 			<ref bean="kualiCodeService" />
 		</property>
@@ -153,31 +171,38 @@
 		</property>
 	</bean>
 
-	<bean id="accountingPeriodService" class="org.kuali.module.chart.service.impl.AccountingPeriodServiceImpl">
+	<bean id="accountingPeriodService"
+		class="org.kuali.module.chart.service.impl.AccountingPeriodServiceImpl">
 		<property name="businessObjectService">
 			<ref bean="businessObjectService" />
 		</property>
 	</bean>
 
-	<bean id="subFundGroupService" class="org.kuali.module.chart.service.impl.SubFundGroupServiceImpl">
-		<property name="configurationService" ref="kualiConfigurationService" />
-		<property name="dataDictionaryService" ref="dataDictionaryService" />
+	<bean id="subFundGroupService"
+		class="org.kuali.module.chart.service.impl.SubFundGroupServiceImpl">
+		<property name="configurationService"
+			ref="kualiConfigurationService" />
+		<property name="dataDictionaryService"
+			ref="dataDictionaryService" />
 		<property name="subFundGroupDao" ref="subFundGroupDao" />
 	</bean>
 
-	<bean id="objectTypeService" class="org.kuali.module.chart.service.impl.ObjectTypeServiceImpl">
+	<bean id="objectTypeService"
+		class="org.kuali.module.chart.service.impl.ObjectTypeServiceImpl">
 		<property name="objectTypeDao">
 			<ref bean="objectTypeDao" />
 		</property>
 	</bean>
 
-	<bean id="a21SubAccountService" class="org.kuali.module.chart.service.impl.A21SubAccountServiceImpl">
+	<bean id="a21SubAccountService"
+		class="org.kuali.module.chart.service.impl.A21SubAccountServiceImpl">
 		<property name="a21SubAccountDao">
 			<ref bean="a21SubAccountDao" />
 		</property>
 	</bean>
 
-	<bean id="organizationReversionService" class="org.kuali.module.chart.service.impl.OrganizationReversionServiceImpl">
+	<bean id="organizationReversionService"
+		class="org.kuali.module.chart.service.impl.OrganizationReversionServiceImpl">
 		<property name="organizationReversionDao">
 			<ref bean="organizationReversionDao" />
 		</property>
@@ -186,205 +211,433 @@
 		</property>
 	</bean>
 
-	<bean id="accountDao" parent="platformAwareDao" class="org.kuali.module.chart.dao.ojb.AccountDaoOjb">
+	<bean id="accountDao" parent="platformAwareDao"
+		class="org.kuali.module.chart.dao.ojb.AccountDaoOjb">
 		<property name="dateTimeService">
-			<ref bean="dateTimeService"/>
+			<ref bean="dateTimeService" />
 		</property>
 	</bean>
 
-	<bean id="chartDao" parent="platformAwareDao" class="org.kuali.module.chart.dao.ojb.ChartDaoOjb" />
+	<bean id="chartDao" parent="platformAwareDao"
+		class="org.kuali.module.chart.dao.ojb.ChartDaoOjb" />
 
-	<bean id="organizationDao" parent="platformAwareDao" class="org.kuali.module.chart.dao.ojb.OrganizationDaoOjb" />
+	<bean id="organizationDao" parent="platformAwareDao"
+		class="org.kuali.module.chart.dao.ojb.OrganizationDaoOjb" />
 
-	<bean id="offsetDefinitionDao" parent="platformAwareDao" class="org.kuali.module.chart.dao.ojb.OffsetDefinitionDaoOjb" />
+	<bean id="offsetDefinitionDao" parent="platformAwareDao"
+		class="org.kuali.module.chart.dao.ojb.OffsetDefinitionDaoOjb" />
 
-	<bean id="objectCodeDao" parent="platformAwareDao" class="org.kuali.module.chart.dao.ojb.ObjectCodeDaoOjb" />
+	<bean id="objectCodeDao" parent="platformAwareDao"
+		class="org.kuali.module.chart.dao.ojb.ObjectCodeDaoOjb" />
 
-	<bean id="projectCodeDao" parent="platformAwareDao" class="org.kuali.module.chart.dao.ojb.ProjectCodeDaoOjb" />
+	<bean id="projectCodeDao" parent="platformAwareDao"
+		class="org.kuali.module.chart.dao.ojb.ProjectCodeDaoOjb" />
 
-	<bean id="objectLevelDao" parent="platformAwareDao" class="org.kuali.module.chart.dao.ojb.ObjectLevelDaoOjb" />
+	<bean id="objectLevelDao" parent="platformAwareDao"
+		class="org.kuali.module.chart.dao.ojb.ObjectLevelDaoOjb" />
 
-	<bean id="objectConsDao" parent="platformAwareDao" class="org.kuali.module.chart.dao.ojb.ObjectConsDaoOjb" />
+	<bean id="objectConsDao" parent="platformAwareDao"
+		class="org.kuali.module.chart.dao.ojb.ObjectConsDaoOjb" />
 
-	<bean id="subAccountDao" parent="platformAwareDao" class="org.kuali.module.chart.dao.ojb.SubAccountDaoOjb" />
+	<bean id="subAccountDao" parent="platformAwareDao"
+		class="org.kuali.module.chart.dao.ojb.SubAccountDaoOjb" />
 
-	<bean id="subObjectCodeDao" parent="platformAwareDao" class="org.kuali.module.chart.dao.ojb.SubObjectCodeDaoOjb" />
+	<bean id="subObjectCodeDao" parent="platformAwareDao"
+		class="org.kuali.module.chart.dao.ojb.SubObjectCodeDaoOjb" />
 
-	<bean id="organizationReversionDao" parent="platformAwareDao" class="org.kuali.module.chart.dao.ojb.OrganizationReversionDaoOjb" />
+	<bean id="organizationReversionDao" parent="platformAwareDao"
+		class="org.kuali.module.chart.dao.ojb.OrganizationReversionDaoOjb" />
 
-	<bean id="balanceTypeDao" parent="platformAwareDao" class="org.kuali.module.chart.dao.ojb.BalanceTypeDaoOjb" />
+	<bean id="balanceTypeDao" parent="platformAwareDao"
+		class="org.kuali.module.chart.dao.ojb.BalanceTypeDaoOjb" />
 
-	<bean id="priorYearAccountDao" parent="platformAwareDao" class="org.kuali.module.chart.dao.ojb.PriorYearAccountDaoOjb" />
+	<bean id="priorYearAccountDao" parent="platformAwareDao"
+		class="org.kuali.module.chart.dao.ojb.PriorYearAccountDaoOjb" />
 
-	<bean id="subFundGroupDao" parent="platformAwareDao" class="org.kuali.module.chart.dao.ojb.SubFundGroupDaoOjb" />
+	<bean id="subFundGroupDao" parent="platformAwareDao"
+		class="org.kuali.module.chart.dao.ojb.SubFundGroupDaoOjb" />
 
-	<bean id="objectTypeDao" parent="platformAwareDao" class="org.kuali.module.chart.dao.ojb.ObjectTypeDaoOjb" />
+	<bean id="objectTypeDao" parent="platformAwareDao"
+		class="org.kuali.module.chart.dao.ojb.ObjectTypeDaoOjb" />
 
-	<bean id="icrAutomatedEntryDao" parent="platformAwareDao" class="org.kuali.module.chart.dao.ojb.IcrAutomatedEntryDaoOjb" />
+	<bean id="icrAutomatedEntryDao" parent="platformAwareDao"
+		class="org.kuali.module.chart.dao.ojb.IcrAutomatedEntryDaoOjb" />
 
-	<bean id="indirectCostRecoveryExclusionAccountDao" parent="platformAwareDao" class="org.kuali.module.chart.dao.ojb.IndirectCostRecoveryExclusionAccountDaoOjb" />
+	<bean id="indirectCostRecoveryExclusionAccountDao"
+		parent="platformAwareDao"
+		class="org.kuali.module.chart.dao.ojb.IndirectCostRecoveryExclusionAccountDaoOjb" />
 
-	<bean id="indirectCostRecoveryExclusionTypeDao" parent="platformAwareDao" class="org.kuali.module.chart.dao.ojb.IndirectCostRecoveryExclusionTypeDaoOjb" />
+	<bean id="indirectCostRecoveryExclusionTypeDao"
+		parent="platformAwareDao"
+		class="org.kuali.module.chart.dao.ojb.IndirectCostRecoveryExclusionTypeDaoOjb" />
 
-	<bean id="a21SubAccountDao" parent="platformAwareDao" class="org.kuali.module.chart.dao.ojb.A21SubAccountDaoOjb" />
+	<bean id="a21SubAccountDao" parent="platformAwareDao"
+		class="org.kuali.module.chart.dao.ojb.A21SubAccountDaoOjb" />
 
-	<bean id="workflow-org.kuali.module.chart.bo.Chart-Lookupable" parent="workflowLookupable" singleton="false">
+	<bean id="workflow-org.kuali.module.chart.bo.Chart-Lookupable"
+		parent="workflowLookupable" singleton="false">
 		<property name="businessObjectClassName">
 			<value>org.kuali.module.chart.bo.Chart</value>
 		</property>
 	</bean>
 
-	<bean id="workflow-org.kuali.module.chart.bo.Account-Lookupable" parent="workflowLookupable" singleton="false">
+	<bean id="workflow-org.kuali.module.chart.bo.Account-Lookupable"
+		parent="workflowLookupable" singleton="false">
 		<property name="businessObjectClassName">
 			<value>org.kuali.module.chart.bo.Account</value>
 		</property>
 	</bean>
 
-	<bean id="workflow-org.kuali.module.chart.bo.SubAccount-Lookupable" parent="workflowLookupable" singleton="false">
+	<bean id="workflow-org.kuali.module.chart.bo.SubAccount-Lookupable"
+		parent="workflowLookupable" singleton="false">
 		<property name="businessObjectClassName">
 			<value>org.kuali.module.chart.bo.SubAccount</value>
 		</property>
 	</bean>
 
-	<bean id="workflow-org.kuali.module.chart.bo.ProjectCode-Lookupable" parent="workflowLookupable" singleton="false">
+	<bean id="workflow-org.kuali.module.chart.bo.ProjectCode-Lookupable"
+		parent="workflowLookupable" singleton="false">
 		<property name="businessObjectClassName">
 			<value>org.kuali.module.chart.bo.ProjectCode</value>
 		</property>
 	</bean>
 
-	<bean id="workflow-org.kuali.module.chart.bo.ObjectCode-Lookupable" parent="workflowLookupable" singleton="false">
+	<bean id="workflow-org.kuali.module.chart.bo.ObjectCode-Lookupable"
+		parent="workflowLookupable" singleton="false">
 		<property name="businessObjectClassName">
 			<value>org.kuali.module.chart.bo.ObjectCodeCurrent</value>
 		</property>
 	</bean>
 
-	<bean id="workflow-org.kuali.module.chart.bo.ObjectCodeCurrent-Lookupable" parent="workflowLookupable" singleton="false">
+	<bean
+		id="workflow-org.kuali.module.chart.bo.ObjectCodeCurrent-Lookupable"
+		parent="workflowLookupable" singleton="false">
 		<property name="businessObjectClassName">
 			<value>org.kuali.module.chart.bo.ObjectCodeCurrent</value>
 		</property>
 	</bean>
 
-	<bean id="workflow-org.kuali.module.chart.bo.ObjLevel-Lookupable" parent="workflowLookupable" singleton="false">
+	<bean id="workflow-org.kuali.module.chart.bo.ObjLevel-Lookupable"
+		parent="workflowLookupable" singleton="false">
 		<property name="businessObjectClassName">
 			<value>org.kuali.module.chart.bo.ObjLevel</value>
 		</property>
 	</bean>
 
-	<bean id="workflow-org.kuali.module.chart.bo.ObjectType-Lookupable" parent="workflowLookupable" singleton="false">
+	<bean id="workflow-org.kuali.module.chart.bo.ObjectType-Lookupable"
+		parent="workflowLookupable" singleton="false">
 		<property name="businessObjectClassName">
 			<value>org.kuali.module.chart.bo.ObjectType</value>
 		</property>
 	</bean>
 
-	<bean id="workflow-org.kuali.module.chart.bo.ObjSubTyp-Lookupable" parent="workflowLookupable" singleton="false">
+	<bean id="workflow-org.kuali.module.chart.bo.ObjSubTyp-Lookupable"
+		parent="workflowLookupable" singleton="false">
 		<property name="businessObjectClassName">
 			<value>org.kuali.module.chart.bo.ObjSubTyp</value>
 		</property>
 	</bean>
 
-	<bean id="workflow-org.kuali.module.chart.bo.FundGroup-Lookupable" parent="workflowLookupable" singleton="false">
+	<bean id="workflow-org.kuali.module.chart.bo.FundGroup-Lookupable"
+		parent="workflowLookupable" singleton="false">
 		<property name="businessObjectClassName">
 			<value>org.kuali.module.chart.bo.FundGroup</value>
 		</property>
 	</bean>
 
-	<bean id="workflow-org.kuali.module.chart.bo.SubFundGroup-Lookupable" parent="workflowLookupable" singleton="false">
+	<bean
+		id="workflow-org.kuali.module.chart.bo.SubFundGroup-Lookupable"
+		parent="workflowLookupable" singleton="false">
 		<property name="businessObjectClassName">
 			<value>org.kuali.module.chart.bo.SubFundGroup</value>
 		</property>
 	</bean>
 
-	<bean id="workflow-org.kuali.module.chart.bo.SubFundGroupType-Lookupable" parent="workflowLookupable" singleton="false">
+	<bean
+		id="workflow-org.kuali.module.chart.bo.SubFundGroupType-Lookupable"
+		parent="workflowLookupable" singleton="false">
 		<property name="businessObjectClassName">
 			<value>org.kuali.module.chart.bo.SubFundGroupType</value>
 		</property>
 	</bean>
 
-	<bean id="workflow-org.kuali.module.chart.bo.Org-Lookupable" parent="workflowLookupable" singleton="false">
+	<bean id="workflow-org.kuali.module.chart.bo.Org-Lookupable"
+		parent="workflowLookupable" singleton="false">
 		<property name="businessObjectClassName">
 			<value>org.kuali.module.chart.bo.Org</value>
 		</property>
 	</bean>
 
-	<bean id="workflow-org.kuali.module.chart.bo.ResponsibilityCenter-Lookupable" parent="workflowLookupable" singleton="false">
+	<bean
+		id="workflow-org.kuali.module.chart.bo.ResponsibilityCenter-Lookupable"
+		parent="workflowLookupable" singleton="false">
 		<property name="businessObjectClassName">
-			<value>org.kuali.module.chart.bo.ResponsibilityCenter</value>
+			<value>
+				org.kuali.module.chart.bo.ResponsibilityCenter
+			</value>
 		</property>
 	</bean>
 
-	<bean id="workflow-org.kuali.module.chart.bo.OrgType-Lookupable" parent="workflowLookupable" singleton="false">
+	<bean id="workflow-org.kuali.module.chart.bo.OrgType-Lookupable"
+		parent="workflowLookupable" singleton="false">
 		<property name="businessObjectClassName">
 			<value>org.kuali.module.chart.bo.OrgType</value>
 		</property>
 	</bean>
 
-	<bean id="workflow-org.kuali.core.bo.Campus-Lookupable" parent="workflowLookupable" singleton="false">
+	<bean id="workflow-org.kuali.core.bo.Campus-Lookupable"
+		parent="workflowLookupable" singleton="false">
 		<property name="businessObjectClassName">
 			<value>org.kuali.core.bo.Campus</value>
 		</property>
 	</bean>
 
-	<bean id="workflow-org.kuali.module.chart.bo.AcctType-Lookupable" parent="workflowLookupable" singleton="false">
+	<bean id="workflow-org.kuali.module.chart.bo.AcctType-Lookupable"
+		parent="workflowLookupable" singleton="false">
 		<property name="businessObjectClassName">
 			<value>org.kuali.module.chart.bo.AcctType</value>
 		</property>
 	</bean>
 
-	<bean id="workflow-org.kuali.module.chart.bo.Program-Lookupable" parent="workflowLookupable" singleton="false">
+	<bean id="workflow-org.kuali.module.chart.bo.Program-Lookupable"
+		parent="workflowLookupable" singleton="false">
 		<property name="businessObjectClassName">
 			<value>org.kuali.module.chart.bo.Program</value>
 		</property>
 	</bean>
 
-	<bean id="workflow-org.kuali.module.chart.bo.HigherEdFunction-Lookupable" parent="workflowLookupable" singleton="false">
+	<bean
+		id="workflow-org.kuali.module.chart.bo.HigherEdFunction-Lookupable"
+		parent="workflowLookupable" singleton="false">
 		<property name="businessObjectClassName">
 			<value>org.kuali.module.chart.bo.HigherEdFunction</value>
 		</property>
 	</bean>
 
-	<bean id="workflow-org.kuali.core.bo.user.UniversalUser-Lookupable" parent="workflowLookupable" singleton="false">
+	<bean id="workflow-org.kuali.core.bo.user.UniversalUser-Lookupable"
+		parent="workflowLookupable" singleton="false">
 		<property name="businessObjectClassName">
 			<value>org.kuali.core.bo.user.UniversalUser</value>
 		</property>
 	</bean>
 
-	<bean id="OrgReviewLookupable" class="org.kuali.workflow.attribute.OrgReviewLookupableImpl" singleton="false" />
+	<bean id="OrgReviewLookupable"
+		class="org.kuali.workflow.attribute.OrgReviewLookupableImpl"
+		singleton="false" />
 
-	<bean id="accountLookupableHelperService" class="org.kuali.module.chart.lookup.KualiAccountLookupableHelperServiceImpl" singleton="false" parent="kualiLookupableHelperService" />
+	<bean id="accountLookupableHelperService"
+		class="org.kuali.module.chart.lookup.KualiAccountLookupableHelperServiceImpl"
+		singleton="false" parent="kualiLookupableHelperService" />
 
-	<bean id="accountLookupable" class="org.kuali.core.lookup.KualiLookupableImpl" singleton="false">
+	<bean id="accountLookupable"
+		class="org.kuali.core.lookup.KualiLookupableImpl" singleton="false">
 		<property name="lookupableHelperService">
 			<ref bean="accountLookupableHelperService" />
 		</property>
 	</bean>
 
-	<bean id="organizationRoutingModelLookupableHelperService" class="org.kuali.module.chart.lookup.OrganizationRoutingModelNameLookupableHelperServiceImpl" singleton="false" parent="kualiLookupableHelperService" />
+	<bean id="organizationRoutingModelLookupableHelperService"
+		class="org.kuali.module.chart.lookup.OrganizationRoutingModelNameLookupableHelperServiceImpl"
+		singleton="false" parent="kualiLookupableHelperService" />
 
-	<bean id="organizationRoutingModelLookupable" class="org.kuali.core.lookup.KualiLookupableImpl" singleton="false">
+	<bean id="organizationRoutingModelLookupable"
+		class="org.kuali.core.lookup.KualiLookupableImpl" singleton="false">
 		<property name="lookupableHelperService">
 			<ref bean="organizationRoutingModelLookupableHelperService" />
 		</property>
 	</bean>
-	
-	<bean id="indirectCostRecoveryExclusionByTypeLookupableHelperService" class="org.kuali.module.chart.lookup.IndirectCostRecoveryExclusionByTypeLookupableHelperServiceImpl" singleton="false" parent="kualiLookupableHelperService" />
 
-	<bean id="indirectCostRecoveryExclusionByTypeLookupable" class="org.kuali.core.lookup.KualiLookupableImpl" singleton="false">
+	<bean
+		id="indirectCostRecoveryExclusionByTypeLookupableHelperService"
+		class="org.kuali.module.chart.lookup.IndirectCostRecoveryExclusionByTypeLookupableHelperServiceImpl"
+		singleton="false" parent="kualiLookupableHelperService" />
+
+	<bean id="indirectCostRecoveryExclusionByTypeLookupable"
+		class="org.kuali.core.lookup.KualiLookupableImpl" singleton="false">
 		<property name="lookupableHelperService">
-			<ref bean="indirectCostRecoveryExclusionByTypeLookupableHelperService" />
+			<ref
+				bean="indirectCostRecoveryExclusionByTypeLookupableHelperService" />
 		</property>
 	</bean>
-	
-	<bean id="fiscalYearMakerStep" class="org.kuali.module.chart.batch.FiscalYearMakerStep" parent="step">
+
+	<bean id="fiscalYearMakerStep"
+		class="org.kuali.module.chart.batch.FiscalYearMakerStep"
+		parent="step">
 		<property name="dateMakerService">
 			<ref bean="dateMakerService" />
 		</property>
 	</bean>
-	
+
 	<bean id="fiscalYearMakerJob" parent="unscheduledJobDescriptor">
 		<property name="steps">
 			<list>
 				<ref bean="fiscalYearMakerStep" />
 			</list>
+		</property>
+	</bean>
+
+	<bean id="fiscalYearStartDate"
+		class="org.springframework.beans.factory.config.FieldRetrievingFactoryBean">
+		<property name="staticField">
+			<value>
+				org.kuali.module.chart.dao.ojb.FiscalYearMakersDaoOjb.START_JULY
+			</value>
+		</property>
+	</bean>
+
+
+	<bean id="dateMakerService"
+		class="org.kuali.module.chart.service.impl.DateMakerServiceImpl">
+		<property name="fiscalYearMakersDao">
+			<ref bean="fiscalYearMakersDao" />
+		</property>
+	</bean>
+
+	<bean id="fiscalYearMakersDao" parent="platformAwareDao"
+		class="org.kuali.module.chart.dao.ojb.FiscalYearMakersDaoOjb">
+		<property name="persistenceStructureService">
+			<ref bean="persistenceStructureService" />
+		</property>
+		<property name="dateTimeService">
+			<ref bean="dateTimeService" />
+		</property>
+		<property name="fiscalYearStartDate">
+			<ref bean="fiscalYearStartDate" />
+		</property>
+		<property name="makerObjectsList">
+			<map>
+				<entry
+					key="org.kuali.module.chart.bo.OrganizationReversion">
+					<value>
+						org.kuali.module.chart.bo.OrganizationReversion
+					</value>
+				</entry>
+				<entry
+					key="org.kuali.module.chart.bo.OrganizationReversionDetail">
+					<value>
+						org.kuali.module.chart.bo.OrganizationReversionDetail
+					</value>
+				</entry>
+				<entry key="org.kuali.module.chart.bo.SubObjCd">
+					<value>org.kuali.module.chart.bo.SubObjCd</value>
+				</entry>
+				<entry key="org.kuali.module.chart.bo.ObjectCode">
+					<value>org.kuali.module.chart.bo.ObjectCode</value>
+				</entry>
+				<entry key="org.kuali.kfs.bo.Options">
+					<value>org.kuali.kfs.bo.Options</value>
+				</entry>
+				<entry
+					key="org.kuali.module.chart.bo.OffsetDefinition">
+					<value>
+						org.kuali.module.chart.bo.OffsetDefinition
+					</value>
+				</entry>
+				<entry
+					key="org.kuali.module.labor.bo.BenefitsCalculation">
+					<value>
+						org.kuali.module.labor.bo.BenefitsCalculation
+					</value>
+				</entry>
+				<entry key="org.kuali.module.labor.bo.LaborObject">
+					<value>org.kuali.module.labor.bo.LaborObject</value>
+				</entry>
+				<entry
+					key="org.kuali.module.labor.bo.PositionObjectBenefit">
+					<value>
+						org.kuali.module.labor.bo.PositionObjectBenefit
+					</value>
+				</entry>
+				<entry
+					key="org.kuali.module.chart.bo.AccountingPeriod">
+					<value>
+						org.kuali.module.chart.bo.AccountingPeriod
+					</value>
+				</entry>
+				<entry key="org.kuali.module.gl.bo.UniversityDate">
+					<value>org.kuali.module.gl.bo.UniversityDate</value>
+				</entry>
+			</map>
+		</property>
+		<property name="childParentArrayMap">
+			<map>
+				<entry
+					key="org.kuali.module.chart.bo.OrganizationReversionDetail">
+					<list>
+						<value>org.kuali.kfs.bo.Options</value>
+						<value>
+							org.kuali.module.chart.bo.ObjectCode
+						</value>
+						<value>
+							org.kuali.module.chart.bo.OrganizationReversion
+						</value>
+					</list>
+				</entry>
+				<entry
+					key="org.kuali.module.chart.bo.OrganizationReversion">
+					<list>
+						<value>org.kuali.kfs.bo.Options</value>
+					</list>
+				</entry>
+				<entry key="org.kuali.module.chart.bo.SubObjCd">
+					<list>
+						<value>org.kuali.kfs.bo.Options</value>
+						<value>
+							org.kuali.module.chart.bo.ObjectCode
+						</value>
+					</list>
+				</entry>
+				<entry key="org.kuali.module.chart.bo.ObjectCode">
+					<list>
+						<value>org.kuali.kfs.bo.Options</value>
+					</list>
+				</entry>
+				<entry
+					key="org.kuali.module.chart.bo.OffsetDefinition">
+					<list>
+						<value>org.kuali.kfs.bo.Options</value>
+						<value>
+							org.kuali.module.chart.bo.ObjectCode
+						</value>
+					</list>
+				</entry>
+				<entry
+					key="org.kuali.module.labor.bo.BenefitsCalculation">
+					<list>
+						<value>org.kuali.kfs.bo.Options</value>
+					</list>
+				</entry>
+				<entry
+					key="org.kuali.module.labor.bo.PositionObjectBenefit">
+					<list>
+						<value>org.kuali.kfs.bo.Options</value>
+						<value>
+							org.kuali.module.labor.bo.BenefitsCalculation
+						</value>
+					</list>
+				</entry>
+				<entry
+					key="org.kuali.module.chart.bo.AccountingPeriod">
+					<list>
+						<value>org.kuali.kfs.bo.Options</value>
+					</list>
+				</entry>
+				<entry key="org.kuali.module.gl.bo.UniversityDate">
+					<list>
+						<value>org.kuali.kfs.bo.Options</value>
+					</list>
+				</entry>
+			</map>
+		</property>
+		<property name="laggingCopyCycle">
+			<set>
+				<value>
+					org.kuali.module.chart.bo.OrganizationReversion
+				</value>
+				<value>
+					org.kuali.module.chart.bo.OrganizationReversionDetail
+				</value>
+			</set>
 		</property>
 	</bean>
 </beans>

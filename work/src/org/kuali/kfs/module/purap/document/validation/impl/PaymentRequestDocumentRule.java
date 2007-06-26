@@ -109,7 +109,7 @@ public class PaymentRequestDocumentRule extends AccountsPayableDocumentRuleBase 
         boolean valid = true;
         PaymentRequestDocument paymentRequestDocument = (PaymentRequestDocument)apDocument;
         validateTotals(paymentRequestDocument);
-        if (!isPayDateNotInThePast(paymentRequestDocument.getPaymentRequestPayDate())) {
+        if (isPayDateInThePast(paymentRequestDocument.getPaymentRequestPayDate())) {
             valid &= false;
             GlobalVariables.getErrorMap().putError(PurapPropertyConstants.PAYMENT_REQUEST_PAY_DATE, PurapKeyConstants.ERROR_INVALID_PAY_DATE);
         }
@@ -221,7 +221,7 @@ public class PaymentRequestDocumentRule extends AccountsPayableDocumentRuleBase 
     boolean validatePaymentRequestDates(PaymentRequestDocument document) {
         boolean valid = true;
         //pay date in the past validation
-        if (!isPayDateNotInThePast(document.getPaymentRequestPayDate())) {
+        if (isPayDateInThePast(document.getPaymentRequestPayDate())) {
             valid &= false;
             GlobalVariables.getErrorMap().putError(PurapPropertyConstants.PAYMENT_REQUEST_PAY_DATE, PurapKeyConstants.ERROR_INVALID_PAY_DATE);
         }
@@ -232,9 +232,9 @@ public class PaymentRequestDocumentRule extends AccountsPayableDocumentRuleBase 
         return valid;
     }
     
-    private boolean isPayDateNotInThePast(Date paymentRequestPayDate) {
-        boolean valid = false;
-        if (!validateDateUsingGivenDate(paymentRequestPayDate)) {
+    private boolean isPayDateInThePast(Date paymentRequestPayDate) {
+        boolean valid = true;
+        if (isDateInPast(paymentRequestPayDate)) {
             valid &= false;
         }
         return valid;
@@ -250,7 +250,8 @@ public class PaymentRequestDocumentRule extends AccountsPayableDocumentRuleBase 
     public void validateTotals(PaymentRequestDocument document) {
         String securityGroup = (String)PurapConstants.ITEM_TYPE_SYSTEM_PARAMETERS_SECURITY_MAP.get(PurapConstants.PAYMENT_REQUEST_DOCUMENT_DOC_TYPE);
         KualiParameterRule allowsNegativeRule = SpringServiceLocator.getKualiConfigurationService().getApplicationParameterRule(securityGroup, PurapConstants.ITEM_ALLOWS_NEGATIVE);
-        if (this.getTotalExcludingItemTypes(document.getItems(), allowsNegativeRule.getParameterValueSet()).compareTo(document.getVendorInvoiceAmount()) != 0) {
+        if ((ObjectUtils.isNull(document.getVendorInvoiceAmount())) || 
+            (this.getTotalExcludingItemTypes(document.getItems(), allowsNegativeRule.getParameterValueSet()).compareTo(document.getVendorInvoiceAmount()) != 0)) {
             GlobalVariables.getMessageList().add(PurapKeyConstants.MESSAGE_PAYMENT_REQUEST_VENDOR_INVOICE_AMOUNT_INVALID);
         }
         flagLineItemTotals(document.getItems());
@@ -520,10 +521,9 @@ public class PaymentRequestDocumentRule extends AccountsPayableDocumentRuleBase 
         return valid;
     }
     
-    private boolean validateDateUsingGivenDate( Date payDate) {
-        LOG.debug("validatePayDateChange() enter method.");
+    private boolean isDateInPast(Date compareDate) {
         boolean valid = true;
-        if (payDate != null) {
+        if (compareDate != null) {
             Calendar c = SpringServiceLocator.getDateTimeService().getCurrentCalendar();
             c.set(Calendar.HOUR, 12);
             c.set(Calendar.MINUTE, 0);
@@ -531,7 +531,7 @@ public class PaymentRequestDocumentRule extends AccountsPayableDocumentRuleBase 
             c.set(Calendar.MILLISECOND, 0);
             c.set(Calendar.AM_PM, Calendar.AM);
             Timestamp timeNow = new Timestamp(c.getTime().getTime());
-            Calendar c2 = SpringServiceLocator.getDateTimeService().getCalendar(payDate);
+            Calendar c2 = SpringServiceLocator.getDateTimeService().getCalendar(compareDate);
             c2.set(Calendar.HOUR, 11);
             c2.set(Calendar.MINUTE, 59);
             c2.set(Calendar.SECOND, 59);

@@ -70,7 +70,7 @@ public class OrganizationReversionServiceImpl implements OrganizationReversionSe
                 // We have a custom implementation
                 categories.put(categoryCode, (OrganizationReversionCategoryLogic) SpringServiceLocator.getService("gl" + categoryCode + "OrganizationReversionCategory"));
             }
-            catch (NoSuchBeanDefinitionException e) {
+            catch (Exception e) {
                 // We'll get the generic implementation
                 GenericOrganizationReversionCategory cat = (GenericOrganizationReversionCategory) SpringServiceLocator.getService("glGenericOrganizationReversionCategory");
                 cat.setCategoryCode(categoryCode);

@@ -1,12 +1,12 @@
 /*
  * Copyright 2005-2007 The Kuali Foundation.
- * 
+ *
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl1.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -41,10 +41,10 @@ public class AccountDaoOjb extends PlatformAwareDaoBaseOjb implements AccountDao
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AccountDaoOjb.class);
 
     private DateTimeService dateTimeService;
-    
+
     /**
      * Retrieves account business object by primary key
-     * 
+     *
      * @param chartOfAccountsCode - the FIN_COA_CD of the Chart Code that is part of the composite key of Account
      * @param accountNumber - the ACCOUNT_NBR part of the composite key of Accont
      * @return Account
@@ -62,7 +62,7 @@ public class AccountDaoOjb extends PlatformAwareDaoBaseOjb implements AccountDao
 
     /**
      * fetch the accounts that the user is either the fiscal officer or a delegate of the fiscal officer
-     * 
+     *
      * @param kualiUser
      * @return a list of Accounts that the user has responsibility for
      */
@@ -74,9 +74,9 @@ public class AccountDaoOjb extends PlatformAwareDaoBaseOjb implements AccountDao
         accountResponsibilities.addAll(getDelegatedResponsibilities(universalUser));
         return accountResponsibilities;
     }
-    
+
     /**
-     * 
+     *
      * This method determines if the given user has any responsibilities on the given account
      * @param universalUser the user to check responsibilities for
      * @param account the account to check responsibilities on
@@ -91,11 +91,25 @@ public class AccountDaoOjb extends PlatformAwareDaoBaseOjb implements AccountDao
     }
 
     /**
+     * Resolves the Primary Delegate for the given delegate example.  If the primary delegate exists for a specific
+     * Document Type Code and for a Document Type Code of "ALL", the delegate for the specific document type code
+     * is returned;
+     *
      * @see org.kuali.module.chart.dao.AccountDao#getPrimaryDelegationByExample(org.kuali.module.chart.bo.Delegate,
      *      java.lang.String)
      */
     public Delegate getPrimaryDelegationByExample(Delegate delegateExample, String totalDollarAmount) {
-        return (Delegate) getPersistenceBrokerTemplate().getObjectByQuery(QueryFactory.newQuery(Delegate.class, getDelegateByExampleCriteria(delegateExample, totalDollarAmount, "Y")));
+        Collection collection = getPersistenceBrokerTemplate().getCollectionByQuery(QueryFactory.newQuery(Delegate.class, getDelegateByExampleCriteria(delegateExample, totalDollarAmount, "Y")));
+        if (collection.isEmpty()) {
+            return null;
+        }
+        for (Iterator iterator = collection.iterator(); iterator.hasNext();) {
+            Delegate delegate = (Delegate) iterator.next();
+            if (!"ALL".equals(delegate.getFinancialDocumentTypeCode())) {
+                return delegate;
+            }
+        }
+        return (Delegate)collection.iterator().next();
     }
 
     /**
@@ -151,9 +165,9 @@ public class AccountDaoOjb extends PlatformAwareDaoBaseOjb implements AccountDao
         }
         return fiscalOfficerResponsibilities;
     }
-    
+
     /**
-     * 
+     *
      * This method determines if a given user has fiscal officer responsiblity on a given account.
      * @param universalUser the user to check responsibilities for
      * @param account the account to check responsibilities on
@@ -200,9 +214,9 @@ public class AccountDaoOjb extends PlatformAwareDaoBaseOjb implements AccountDao
         }
         return delegatedResponsibilities;
     }
-    
+
     /**
-     * 
+     *
      * This method determines if a user has delegated responsibilities on a given account.
      * @param universalUser the user to check responsibilities for
      * @param account the account to check responsibilities on
@@ -237,7 +251,7 @@ public class AccountDaoOjb extends PlatformAwareDaoBaseOjb implements AccountDao
         Criteria criteria = new Criteria();
         return getPersistenceBrokerTemplate().getIteratorByQuery(QueryFactory.newQuery(Account.class, criteria));
     }
-    
+
 
     public void setDateTimeService(DateTimeService dateTimeService) {
         this.dateTimeService = dateTimeService;

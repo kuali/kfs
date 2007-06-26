@@ -66,9 +66,9 @@ public class LaborOriginEntryServiceImpl implements LaborOriginEntryService {
 
         OriginEntryStatistics oes = new OriginEntryStatistics();
 
-        oes.setCreditTotalAmount(originEntryDao.getGroupTotal(groupId, true));
-        oes.setDebitTotalAmount(originEntryDao.getGroupTotal(groupId, false));
-        oes.setRowCount(originEntryDao.getGroupCount(groupId));
+        oes.setCreditTotalAmount(laborOriginEntryDao.getGroupTotal(groupId, true));
+        oes.setDebitTotalAmount(laborOriginEntryDao.getGroupTotal(groupId, false));
+        oes.setRowCount(laborOriginEntryDao.getGroupCount(groupId));
 
         return oes;
     }
@@ -172,7 +172,7 @@ public class LaborOriginEntryServiceImpl implements LaborOriginEntryService {
      * @see org.kuali.module.gl.service.OriginEntryService#getEntriesByDocument(org.kuali.module.gl.bo.OriginEntryGroup,
      *      java.lang.String, java.lang.String, java.lang.String)
      */
-    public Iterator<LaborOriginEntry> getEntriesByDocument(OriginEntryGroup originEntryGroup, String documentNumber, String documentTypeCode, String originCode) {
+    public Collection<LaborOriginEntry> getEntriesByDocument(OriginEntryGroup originEntryGroup, String documentNumber, String documentTypeCode, String originCode) {
         LOG.debug("getEntriesByGroup() started");
 
         Map criteria = new HashMap();
@@ -181,7 +181,7 @@ public class LaborOriginEntryServiceImpl implements LaborOriginEntryService {
         criteria.put(KFSPropertyConstants.FINANCIAL_DOCUMENT_TYPE_CODE, documentTypeCode);
         criteria.put(KFSPropertyConstants.FINANCIAL_SYSTEM_ORIGINATION_CODE, originCode);
 
-        return originEntryDao.getMatchingEntries(criteria);
+        return laborOriginEntryDao.getMatchingEntriesByCollection(criteria);
     }
 
     /**

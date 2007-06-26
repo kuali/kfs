@@ -392,7 +392,7 @@
 	
 	<target name="setup-rice" depends="init-project-properties">
 		<maven goals="install:install-file" options="-U -DgroupId=com.oracle -DartifactId=ojdbc14 -Dversion=10.1.0.3.0 -Dpackaging=jar -Dfile=${drivers.directory}/ojdbc14.jar" />
-		<copy todir="${user.home}">
+		<copy todir="${user.home}/kuali">
 			<fileset dir="${build.config.directory}/userHomeDirectory/kuali" includes="**/**" />
 			<filterset>
 				<filter token="dev-rice-password" value="${rice.datasource.password.dev}" />

@@ -587,8 +587,10 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
         String title = "";
         String specificTitle = SpringServiceLocator.getKualiConfigurationService().getApplicationParameterValue(PurapParameterConstants.PURAP_ADMIN_GROUP,PurapParameterConstants.PURAP_OVERRIDE_REQ_DOC_TITLE);
         if (StringUtils.equalsIgnoreCase(specificTitle,Boolean.TRUE.toString())) {
-            String docId = this.getPurapDocumentIdentifier().toString();
-            String docIdStr = (docId == null ? "" : "Requisition: "+docId);
+            String docIdStr = "";
+            if ( (this.getPurapDocumentIdentifier() != null) && (StringUtils.isNotBlank(this.getPurapDocumentIdentifier().toString())) ) {
+                docIdStr = "Requisition: " + this.getPurapDocumentIdentifier().toString();
+            }
             String chartAcct = this.getFirstChartAccount();
             String chartAcctStr = (chartAcct == null ? "" : " - Account Number:  "+chartAcct);
             title = docIdStr+chartAcctStr;

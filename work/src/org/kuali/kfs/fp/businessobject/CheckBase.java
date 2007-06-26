@@ -39,7 +39,9 @@ public class CheckBase extends PersistableBusinessObjectBase implements Check {
     private Integer sequenceId;
     private KualiDecimal amount;
     private String documentNumber;
-
+    private String financialDocumentTypeCode;
+    private String financialDocumentColumnTypeCode;
+    
     /**
      * Constructs a CheckBase business object.
      */
@@ -177,6 +179,38 @@ public class CheckBase extends PersistableBusinessObjectBase implements Check {
     }
 
     /**
+     * Gets the financialDocumentColumnTypeCode attribute. 
+     * @return Returns the financialDocumentColumnTypeCode.
+     */
+    public String getFinancialDocumentColumnTypeCode() {
+        return financialDocumentColumnTypeCode;
+    }
+
+    /**
+     * Sets the financialDocumentColumnTypeCode attribute value.
+     * @param financialDocumentColumnTypeCode The financialDocumentColumnTypeCode to set.
+     */
+    public void setFinancialDocumentColumnTypeCode(String financialDocumentColumnTypeCode) {
+        this.financialDocumentColumnTypeCode = financialDocumentColumnTypeCode;
+    }
+
+    /**
+     * Gets the financialDocumentTypeCode attribute. 
+     * @return Returns the financialDocumentTypeCode.
+     */
+    public String getFinancialDocumentTypeCode() {
+        return financialDocumentTypeCode;
+    }
+
+    /**
+     * Sets the financialDocumentTypeCode attribute value.
+     * @param financialDocumentTypeCode The financialDocumentTypeCode to set.
+     */
+    public void setFinancialDocumentTypeCode(String financialDocumentTypeCode) {
+        this.financialDocumentTypeCode = financialDocumentTypeCode;
+    }
+
+    /**
      * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
      */
     protected LinkedHashMap toStringMapper() {
@@ -189,7 +223,9 @@ public class CheckBase extends PersistableBusinessObjectBase implements Check {
         m.put("interimDepositAmount", Boolean.valueOf(this.interimDepositAmount));
         m.put("description", this.description);
         m.put("documentHeaderId", this.documentNumber);
-
+        m.put("financialDocumentTypeCode", this.financialDocumentTypeCode);
+        m.put("financialDocumentColumnTypeCode", this.financialDocumentColumnTypeCode);
+        
         return m;
     }
 

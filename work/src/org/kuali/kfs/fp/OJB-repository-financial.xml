@@ -768,8 +768,10 @@
     </collection-descriptor>
 </class-descriptor>
 
-<class-descriptor class="org.kuali.module.financial.bo.CheckBase" table="FP_CHECKS_T">
+<class-descriptor class="org.kuali.module.financial.bo.CheckBase" table="FP_CHECK_DTL_T">
     <field-descriptor name="documentNumber" column="FDOC_NBR" jdbc-type="VARCHAR" primarykey="true" />
+    <field-descriptor name="financialDocumentTypeCode" column="FDOC_TYP_CD" jdbc-type="VARCHAR" primarykey="true" />
+    <field-descriptor name="financialDocumentColumnTypeCode" column="FDOC_COLUMN_TYP_CD" jdbc-type="VARCHAR" primarykey="true" />
     <field-descriptor name="sequenceId" column="FDOC_LINE_NBR" jdbc-type="INTEGER" primarykey="true" />
     <field-descriptor name="amount" column="FDOC_CHCK_AMT" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion" jdbc-type="DECIMAL" />
     <field-descriptor name="description" column="FDOC_CHCK_DESC" jdbc-type="VARCHAR" />

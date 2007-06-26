@@ -62,7 +62,7 @@ public class PaymentRequestItem extends AccountsPayableItemBase {
      */
     public PaymentRequestItem(PurchaseOrderItem poi,PaymentRequestDocument preq) {
         //copy base attributes w/ extra array of fields not to be copied
-        PurApObjectUtils.populateFromBaseClass(PurApItemBase.class, poi, this, PurapConstants.ITEM_UNCOPYABLE_FIELDS);
+        PurApObjectUtils.populateFromBaseClass(PurApItemBase.class, poi, this, PurapConstants.PREQ_ITEM_UNCOPYABLE_FIELDS);
         
         //set up accounts
         List accounts = new ArrayList();

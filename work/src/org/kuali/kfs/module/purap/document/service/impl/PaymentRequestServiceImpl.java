@@ -437,7 +437,7 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
      * Calculate based on the terms and calculate a date 10 days from today.  Pick the
      * one that is the farthest out.  We always calculate the discount date, if there is one.
      */
-    private Date calculatePayDate(Date invoiceDate,PaymentTermType terms) {
+    public Date calculatePayDate(Date invoiceDate,PaymentTermType terms) {
       LOG.debug("calculatePayDate() started");
       //TODO: this method is mainly a direct copy from epic.  It could be made a lot better by using the DateUtils and checking if those constants should be app params
       Calendar invoiceDateCalendar = Calendar.getInstance();

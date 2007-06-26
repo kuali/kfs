@@ -614,6 +614,11 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
         this.setSpecialHandlingInstructionLine3Text(null);
     }
   
+    /**
+     * TODO: this should be cleaned up
+     * This method populates a preq from po
+     * @param po
+     */
     public void populatePaymentRequestFromPurchaseOrder(PurchaseOrderDocument po) {
         this.setPurchaseOrderIdentifier(po.getPurapDocumentIdentifier());
         this.setPostingYear(po.getPostingYear());
@@ -638,7 +643,7 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
         } else {
           this.setVendorPaymentTerms(po.getVendorPaymentTerms());
         }
-
+        this.setPaymentRequestPayDate(SpringServiceLocator.getPaymentRequestService().calculatePayDate(this.getInvoiceDate(), this.getVendorPaymentTerms()));
         for (PurchaseOrderItem poi : (List<PurchaseOrderItem>)po.getItems()) {
             //TODO: still needs to be tested bu this should work now
             if(poi.isItemActiveIndicator()) {

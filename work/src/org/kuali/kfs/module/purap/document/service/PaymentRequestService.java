@@ -22,6 +22,7 @@ import java.util.List;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.module.purap.document.PaymentRequestDocument;
+import org.kuali.module.vendor.bo.PaymentTermType;
 
 
 public interface PaymentRequestService {
@@ -40,6 +41,8 @@ public interface PaymentRequestService {
     public HashMap<String, String> paymentRequestDuplicateMessages(PaymentRequestDocument document);
     
     public HashMap<String, String> expiredOrClosedAccountsList(PaymentRequestDocument document);
+    
+    public Date calculatePayDate(Date invoiceDate,PaymentTermType terms);
     
     public void addContinuationAccountsNote(PaymentRequestDocument document, HashMap<String, String> accounts);
     

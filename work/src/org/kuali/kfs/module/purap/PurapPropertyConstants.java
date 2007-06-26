@@ -26,6 +26,7 @@ public class PurapPropertyConstants {
     // ITEM
     public static final String ITEM_IDENTIFIER = "itemIdentifier";
     public static final String ACCOUNTS = "sourceAccountingLines";
+    public static final String QUANTITY = "itemQuantity";
     
     public static final String DATA_OBJ_MAINT_CD_ACTIVE_IND = "dataObjectMaintenanceCodeActiveIndicator";
     

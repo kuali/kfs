@@ -37,9 +37,9 @@
 				<span class="subhead-left">General Information</span>
 				<span class="subhead-right">
 					<html:image
-	property="methodToCall.printQuoteList"
+	property="methodToCall.loadQuoteList"
 	src="${ConfigProperties.externalizable.images.url}tinybutton-prntquolist.gif"
-	alt="print quote list" title="print quote list"
+	alt="load quote list" title="load quote list"
 	styleClass="tinybutton" />
 				</span>
 			</td>

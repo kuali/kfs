@@ -79,7 +79,7 @@
                 <validationPattern><numeric /></validationPattern>
 
                 <control>
-                    <text size="12" />
+                    <hidden />
                 </control>
 
                 <summary>vendorDetailAssignedIdentifier</summary>
@@ -94,7 +94,7 @@
                 <validationPattern><numeric /></validationPattern>
 
                 <control>
-                    <text size="12" />
+                    <hidden />
                 </control>
 
                 <summary>vendorHeaderGeneratedIdentifier</summary>

@@ -56,15 +56,14 @@
             </maintainableSection>
 			<maintainableSection title="Vendors">
 				<maintainableItems>
-					<maintainableCollection name="quoteListVendors" businessObjectClass="org.kuali.module.purap.bo.PurchaseOrderQuoteListVendor">
+					<maintainableCollection name="quoteListVendors" businessObjectClass="org.kuali.module.purap.bo.PurchaseOrderQuoteListVendor" sourceClassName="org.kuali.module.vendor.bo.VendorDetail" sourceAttributeName="quoteListVendors" summaryTitle="Vendor">
+						<maintainableField name="vendorDetail.vendorName" readOnlyAfterAdd="true" />
+						<!-- Hidden Fields -->
 						<maintainableField name="vendorHeaderGeneratedIdentifier" />
 						<maintainableField name="vendorDetailAssignedIdentifier" />
-						<maintainableField name="vendorDetail.vendorName" required="true" readOnlyAfterAdd="true" />
-						<!-- summaryFields>
-							<summaryField name="projectDirector.personName"/>
-							<summaryField name="chartOfAccountsCode" />
-							<summaryField name="accountNumber" />
-						</summaryFields -->
+						<summaryFields>
+							<summaryField name="vendorDetail.vendorNumber"/>
+						</summaryFields>
 					</maintainableCollection>
 				</maintainableItems>
 			</maintainableSection>

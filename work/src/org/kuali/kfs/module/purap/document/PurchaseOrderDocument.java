@@ -113,9 +113,9 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase implements Cop
     private RecurringPaymentFrequency recurringPaymentFrequency;
     
     /**
-	 * Default constructor.
-	 */
-	public PurchaseOrderDocument() {
+     * Default constructor.
+     */
+    public PurchaseOrderDocument() {
         super();
         this.purchaseOrderVendorStipulations = new TypedArrayList( PurchaseOrderVendorStipulation.class );
         this.purchaseOrderVendorQuotes = new TypedArrayList( PurchaseOrderVendorQuote.class );
@@ -249,6 +249,7 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase implements Cop
         this.setVendorStateCode(requisitionDocument.getVendorStateCode());
         this.setExternalOrganizationB2bSupplierIdentifier(requisitionDocument.getExternalOrganizationB2bSupplierIdentifier());
         this.setRequisitionSourceCode(requisitionDocument.getRequisitionSourceCode());
+        this.setAccountsPayablePurchasingDocumentLinkIdentifier(requisitionDocument.getAccountsPayablePurchasingDocumentLinkIdentifier());
 
         this.setStatusCode(PurapConstants.PurchaseOrderStatuses.IN_PROCESS);
         //copy items from req to pending (which will copy the item's accounts and assets)
@@ -828,35 +829,4 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase implements Cop
 //    public Class getSourceAccountingLineClass() {
 //        return PurchaseOrderAccount.class;
 //    }
-
-    /**
-     * USED FOR ROUTING ONLY
-     * @deprecated
-     */
-    public String getContractManagerName() {
-        return "";
-    }
-
-    /**
-     * USED FOR ROUTING ONLY
-     * @deprecated
-     */
-    public void setContractManagerName(String contractManagerName) {
-    }
-
-    /**
-     * USED FOR ROUTING ONLY
-     * @deprecated
-     */
-    public String getStatusDescription() {
-        return "";
-    }
-
-    /**
-     * USED FOR ROUTING ONLY
-     * @deprecated
-     */
-    public void setStatusDescription(String statusDescription) {
-    }
-
 }

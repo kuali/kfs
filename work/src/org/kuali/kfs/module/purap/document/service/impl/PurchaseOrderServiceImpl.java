@@ -179,7 +179,6 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
             poDocument.setStatusCode(PurchaseOrderStatuses.IN_PROCESS);
             poDocument.setPurchaseOrderCurrentIndicator(true);
             poDocument.setPendingActionIndicator(false);
-            poDocument.setAccountsPayablePurchasingDocumentLinkIdentifier(reqDocument.getAccountsPayablePurchasingDocumentLinkIdentifier());
 
             // TODO: need this?
             // poDocument.setInternalPurchasingLimit(getInternalPurchasingDollarLimit(po, u.getOrganization().getChart().getCode(),

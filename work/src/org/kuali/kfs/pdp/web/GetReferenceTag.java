@@ -55,7 +55,7 @@ public class GetReferenceTag  extends TagSupport {
   public int doEndTag() throws JspException {
     LOG.info("doEndTag() starting");
 
-    ReferenceDao rd = (ReferenceDao)SpringServiceLocator.getService("pdpReferenceDao");
+    ReferenceDao rd = (ReferenceDao)SpringServiceLocator.getLocalKFSService("pdpReferenceDao");
 
     pageContext.setAttribute(name + "List",rd.getAll(name));
 

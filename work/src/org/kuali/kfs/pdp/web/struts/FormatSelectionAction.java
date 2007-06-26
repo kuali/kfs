@@ -36,7 +36,7 @@ public class FormatSelectionAction extends BaseAction {
 
     public FormatSelectionAction() {
         super();
-        setFormatService( (FormatService)SpringServiceLocator.getService("pdpFormatService") );
+        setFormatService( (FormatService)SpringServiceLocator.getLocalKFSService("pdpFormatService") );
     }
 
     public void setFormatService(FormatService fas) {

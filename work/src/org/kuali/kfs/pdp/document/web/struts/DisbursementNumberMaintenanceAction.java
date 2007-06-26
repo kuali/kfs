@@ -32,7 +32,7 @@ public class DisbursementNumberMaintenanceAction extends BaseAction {
 
     public DisbursementNumberMaintenanceAction() {
         super();
-        setDisbursementNumberRangeService( (DisbursementNumberRangeService)SpringServiceLocator.getService("pdpDisbursementNumberRangeService") );
+        setDisbursementNumberRangeService( (DisbursementNumberRangeService)SpringServiceLocator.getLocalKFSService("pdpDisbursementNumberRangeService") );
     }
 
     public void setDisbursementNumberRangeService(DisbursementNumberRangeService d) {

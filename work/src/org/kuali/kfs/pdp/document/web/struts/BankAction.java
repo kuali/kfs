@@ -29,7 +29,7 @@ public class BankAction extends BaseAction {
 
     public BankAction() {
         super();
-        setBankService((BankService)SpringServiceLocator.getService("pdpBankService"));
+        setBankService((BankService)SpringServiceLocator.getLocalKFSService("pdpBankService"));
     }
 
     public void setBankService(BankService b) {

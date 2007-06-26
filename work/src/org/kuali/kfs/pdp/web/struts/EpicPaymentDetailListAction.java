@@ -26,7 +26,7 @@ public class EpicPaymentDetailListAction extends BaseAction {
   private PaymentGroupService paymentGroupService;
 
   public EpicPaymentDetailListAction() {
-      setPaymentGroupService( (PaymentGroupService)SpringServiceLocator.getService("pdpPaymentGroupSerivce") );
+      setPaymentGroupService( (PaymentGroupService)SpringServiceLocator.getLocalKFSService("pdpPaymentGroupSerivce") );
   }
 
   protected ActionForward executeLogic(ActionMapping mapping, ActionForm form,

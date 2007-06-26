@@ -32,8 +32,8 @@ public class BankSaveAction extends BaseAction {
 
   public BankSaveAction() {
       super();
-      setBankService( (BankService)SpringServiceLocator.getService("pdpBankService") );
-      setReferenceService( (ReferenceService)SpringServiceLocator.getService("pdpReferenceService") );
+      setBankService( (BankService)SpringServiceLocator.getLocalKFSService("pdpBankService") );
+      setReferenceService( (ReferenceService)SpringServiceLocator.getLocalKFSService("pdpReferenceService") );
   }
 
   public void setBankService(BankService b) {

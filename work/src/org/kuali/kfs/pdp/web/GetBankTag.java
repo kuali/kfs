@@ -53,7 +53,7 @@ public class GetBankTag extends TagSupport {
   public int doEndTag() throws JspException {
     LOG.info("doEndTag() starting");
 
-    BankDao cpd = (BankDao)SpringServiceLocator.getService("pdpBankDao");
+    BankDao cpd = (BankDao)SpringServiceLocator.getLocalKFSService("pdpBankDao");
 
     if ( "".equals(active) ) {
       pageContext.setAttribute("BankList",cpd.getAll());

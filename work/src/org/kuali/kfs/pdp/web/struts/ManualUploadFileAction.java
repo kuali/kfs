@@ -33,7 +33,7 @@ public class ManualUploadFileAction extends BaseAction {
   private String tmpDir = "/tmp";
 
   public ManualUploadFileAction() {
-      setPaymentFileService( (PaymentFileService)SpringServiceLocator.getService("pdpPaymentFileService") );
+      setPaymentFileService( (PaymentFileService)SpringServiceLocator.getLocalKFSService("pdpPaymentFileService") );
   }
 
   // TODO Fix this

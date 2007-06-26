@@ -39,8 +39,8 @@ public class PaymentDetailAction extends BaseAction {
     private Map payees;
 
     public PaymentDetailAction() {
-        setPaymentGroupService( (PaymentGroupService)SpringServiceLocator.getService("pdpPaymentGroupService") );
-        setPaymentDetailService( (PaymentDetailService)SpringServiceLocator.getService("pdpPaymentDetailService") );
+        setPaymentGroupService( (PaymentGroupService)SpringServiceLocator.getLocalKFSService("pdpPaymentGroupService") );
+        setPaymentDetailService( (PaymentDetailService)SpringServiceLocator.getLocalKFSService("pdpPaymentDetailService") );
 
         // TODO Fix this
         payees = new HashMap();

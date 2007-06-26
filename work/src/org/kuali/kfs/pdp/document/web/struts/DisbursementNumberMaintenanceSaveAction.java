@@ -34,8 +34,8 @@ public class DisbursementNumberMaintenanceSaveAction extends BaseAction {
 
   public DisbursementNumberMaintenanceSaveAction() {
       super();
-      setDisbursementNumberRangeService( (DisbursementNumberRangeService)SpringServiceLocator.getService("pdpDisbursementNumberRangeService") );
-      setBankService( (BankService)SpringServiceLocator.getService("pdpBankService") );
+      setDisbursementNumberRangeService( (DisbursementNumberRangeService)SpringServiceLocator.getLocalKFSService("pdpDisbursementNumberRangeService") );
+      setBankService( (BankService)SpringServiceLocator.getLocalKFSService("pdpBankService") );
   }
 
   public void setDisbursementNumberRangeService(DisbursementNumberRangeService d) {

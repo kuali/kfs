@@ -623,8 +623,16 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
         this.setPurchaseOrderIdentifier(po.getPurapDocumentIdentifier());
         this.setPostingYear(po.getPostingYear());
         this.setVendorCustomerNumber(po.getVendorCustomerNumber());
+        // Preq does not have costSource but it has costSoureCode. In EPIC it is CostSource
+        //po.getPurchaseOrderCostSource();
         this.setPaymentRequestCostSourceCode(po.getPurchaseOrderCostSourceCode());
-        this.setVendorShippingPaymentTermsCode(po.getVendorShippingPaymentTermsCode());
+        if (po.getVendorShippingPaymentTerms()!= null){
+            this.setVendorShippingPaymentTerms(po.getVendorShippingPaymentTerms());
+            this.setVendorShippingPaymentTermsCode(po.getVendorShippingPaymentTermsCode());
+        }
+        //po.getRecurringPaymentType()
+        this.setRecurringPaymentTypeCode(po.getRecurringPaymentTypeCode());
+        
         this.setVendorHeaderGeneratedIdentifier(po.getVendorHeaderGeneratedIdentifier());
         this.setVendorDetailAssignedIdentifier(po.getVendorDetailAssignedIdentifier());
         this.setVendorName(po.getVendorName());
@@ -690,8 +698,9 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
      * @return Returns the purchaseOrderNotes.
      */
     public String getPurchaseOrderNotes() {
-        ArrayList poNotes = SpringServiceLocator.getNoteService().getByRemoteObjectId((this.getPurchaseOrderIdentifier()).toString());
-
+        
+        ArrayList poNotes = SpringServiceLocator.getPurchaseOrderService().getPurchaseOrderNotes(this.getPurchaseOrderIdentifier());
+        
         if (poNotes.size() > 0) {
             return "Yes";
         }

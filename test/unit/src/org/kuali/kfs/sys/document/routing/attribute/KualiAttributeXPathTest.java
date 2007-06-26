@@ -97,4 +97,24 @@ public class KualiAttributeXPathTest extends KualiTestBase {
         xpathResult = (String) xpath.evaluate(xpathExpression, docContent.getDocument(), XPathConstants.STRING);
         assertEquals(valueForFalse, xpathResult);
     }
+
+    public void testConcatFunctionWithNonExistantNode() throws IOException, InvalidXmlException, XPathExpressionException {
+        DocumentContent docContent = KualiAttributeTestUtil.getDocumentContentFromXmlFileAndPath(KualiAttributeTestUtil.PURCHASE_ORDER_DOCUMENT, KualiAttributeTestUtil.RELATIVE_PATH_IN_PROJECT_WORKFLOW,"KualiPurchaseOrderDocument");
+        XPath xpath = KualiWorkflowUtils.getXPath(docContent.getDocument());
+        
+        String tempXpathNugget = KualiWorkflowUtils.XSTREAM_MATCH_ANYWHERE_PREFIX + "campus/campusType/dataObjectMaintenanceCodeActiveIndicator";
+        String xpathExistingStatement = "(" + KualiWorkflowUtils.XSTREAM_SAFE_PREFIX + tempXpathNugget + KualiWorkflowUtils.XSTREAM_SAFE_SUFFIX + ")";
+        String xpathNonExistingStatement = "(" + KualiWorkflowUtils.XSTREAM_SAFE_PREFIX + tempXpathNugget + "/dummystuff" + KualiWorkflowUtils.XSTREAM_SAFE_SUFFIX + ")";
+        String xpathExpression = "concat(" + xpathExistingStatement + ", " + xpathNonExistingStatement + ")";
+        String xpathResult = (String) xpath.evaluate(xpathExpression, docContent.getDocument(), XPathConstants.STRING);
+        assertEquals("true", xpathResult);
+
+        xpathExpression = "concat(" + xpathNonExistingStatement + ", " + xpathExistingStatement + ")";
+        xpathResult = (String) xpath.evaluate(xpathExpression, docContent.getDocument(), XPathConstants.STRING);
+        assertEquals("true", xpathResult);
+
+        xpathExpression = "concat(" + xpathNonExistingStatement + ", " + xpathNonExistingStatement + ")";
+        xpathResult = (String) xpath.evaluate(xpathExpression, docContent.getDocument(), XPathConstants.STRING);
+        assertEquals("", xpathResult);
+    }
 }

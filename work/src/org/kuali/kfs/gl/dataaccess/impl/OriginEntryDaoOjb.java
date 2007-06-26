@@ -314,6 +314,7 @@ public class OriginEntryDaoOjb extends PlatformAwareDaoBaseOjb implements Origin
         Criteria criteria = new Criteria();
         QueryByCriteria qbc = QueryFactory.newQuery(entryClass, criteria);
         qbc.addOrderByAscending(ENTRY_GROUP_ID);
+        qbc.addOrderByAscending(ENTRY_ID);
         return getPersistenceBrokerTemplate().getCollectionByQuery(qbc);
     }
 

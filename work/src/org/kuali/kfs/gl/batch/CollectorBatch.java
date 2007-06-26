@@ -21,12 +21,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang.math.RandomUtils;
+import org.kuali.core.service.BusinessObjectDictionaryService;
+import org.kuali.core.service.DataDictionaryService;
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.module.chart.bo.Chart;
+import org.kuali.module.chart.bo.Org;
 import org.kuali.module.gl.bo.CollectorHeader;
 import org.kuali.module.gl.bo.InterDepartmentalBilling;
 import org.kuali.module.gl.bo.OriginEntry;
 import org.kuali.module.gl.bo.OriginEntryGroup;
+import org.kuali.module.gl.bo.OriginEntrySource;
 import org.kuali.module.gl.service.InterDepartmentalBillingService;
 import org.kuali.module.gl.service.OriginEntryService;
 
@@ -233,6 +239,11 @@ public class CollectorBatch implements Serializable {
         SpringServiceLocator.getOriginEntryGroupService().save(entryGroup);
         
         CollectorHeader header = createCollectorHeader();
+        CollectorHeader foundHeader = (CollectorHeader) SpringServiceLocator.getBusinessObjectService().retrieve(header);
+        if (foundHeader != null) { 
+            // update the version number to prevent OptimisticLockingExceptions
+            header.setVersionNumber(foundHeader.getVersionNumber());
+        }
         SpringServiceLocator.getBusinessObjectService().save(header);
         
         OriginEntryService originEntryService = SpringServiceLocator.getOriginEntryService();
@@ -241,13 +252,47 @@ public class CollectorBatch implements Serializable {
             if (entry.getFinancialDocumentReversalDate() == null) {
                 entry.setFinancialDocumentReversalDate(SpringServiceLocator.getDateTimeService().getCurrentSqlDate());
             }
+            // don't need to worry about previous origin entries existing in the DB because there'll never be a
+            // duplicate record because a sequence # is a key
+            
             originEntryService.save(entry);
         }
         
         InterDepartmentalBillingService idBillingService = SpringServiceLocator.getInterDepartmentalBillingService();
         for(InterDepartmentalBilling idBilling: this.idBillings) {
             setDefaultsInterDepartmentalBilling(idBilling);
+            InterDepartmentalBilling foundIdBilling = (InterDepartmentalBilling) SpringServiceLocator.getBusinessObjectService().retrieve(idBilling);
+            if (foundIdBilling != null) {
+                idBilling.setVersionNumber(foundIdBilling.getVersionNumber());
+            }
             idBillingService.save(idBilling);
+        }
+    }
+    
+    /**
+     * Uppercases the appropriate fields in the batch, if told to do so by the data dictionary
+     * 
+     */
+    public void prepareDataForStorage() {
+        BusinessObjectDictionaryService businessObjectDictionaryService = SpringServiceLocator.getBusinessObjectDictionaryService();
+        DataDictionaryService dataDictionaryService = SpringServiceLocator.getDataDictionaryService();
+        
+        // uppercase the data used to generate the collector header
+        if (dataDictionaryService.getAttributeForceUppercase(Chart.class, KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE)) {
+            setChartOfAccountsCode(getChartOfAccountsCode().toUpperCase());
+        }
+        if (dataDictionaryService.getAttributeForceUppercase(Org.class, KFSPropertyConstants.ORGANIZATION_CODE)) {
+            setOrganizationCode(getOrganizationCode().toUpperCase());
+        }
+        
+        // now uppercase all of the origin entry data
+        for (OriginEntry entry : originEntries) {
+            businessObjectDictionaryService.performForceUppercase(entry);
+        }
+        
+        // uppercase the id billing entries
+        for (InterDepartmentalBilling interDepartmentalBilling : idBillings) {
+            businessObjectDictionaryService.performForceUppercase(interDepartmentalBilling);
         }
     }
     
@@ -258,7 +303,7 @@ public class CollectorBatch implements Serializable {
     private OriginEntryGroup createOriginEntryGroup() {
         OriginEntryGroup group = new OriginEntryGroup();
         
-        group.setSourceCode("COLL");
+        group.setSourceCode(OriginEntrySource.COLLECTOR);
         group.setDate(new java.sql.Date(SpringServiceLocator.getDateTimeService().getCurrentDate().getTime()));
         group.setProcess(new Boolean(true));
         group.setScrub(new Boolean(true));

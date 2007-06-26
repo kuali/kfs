@@ -146,10 +146,20 @@ public class CfdaServiceImpl implements CfdaService {
      */
     public CfdaUpdateResults update() throws IOException {
 
-        Map<String, CatalogOfFederalDomesticAssistanceReference> govMap = getGovCodes();
+        CfdaUpdateResults results = new CfdaUpdateResults();
+        Map<String, CatalogOfFederalDomesticAssistanceReference> govMap = null;
+        
+        try {
+            govMap = getGovCodes();
+        } catch(IOException ioe) {
+            StringBuilder builder = new StringBuilder();
+            builder.append("No updates took place.\n");
+            builder.append(ioe.getMessage());
+            results.setMessage(builder.toString());
+            return results;
+        }
         Map<String, CatalogOfFederalDomesticAssistanceReference> kfsMap = getKfsCodes();
 
-        CfdaUpdateResults results = new CfdaUpdateResults();
         results.setNumberOfRecordsInKfsDatabase(kfsMap.keySet().size());
         results.setNumberOfRecordsRetrievedFromWebSite(govMap.keySet().size());
 

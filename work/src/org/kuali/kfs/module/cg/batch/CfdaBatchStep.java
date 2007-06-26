@@ -112,6 +112,8 @@ public class CfdaBatchStep extends AbstractStep {
             builder.append(" - ");
             builder.append(results.getNumberOfRecrodsNotUpdatedForHistoricalPurposes());
             builder.append(" records were not updated for historical reasons.\n");
+            builder.append(" - Message\n");
+            builder.append(null != results.getMessage() ? results.getMessage() : "");
             
             message.setMessage(builder.toString());
             mailService.sendMessage(message);

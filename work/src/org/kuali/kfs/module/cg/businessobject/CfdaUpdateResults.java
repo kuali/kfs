@@ -14,6 +14,7 @@ public class CfdaUpdateResults {
     private int numberOfRecordsNotUpdatedBecauseManual;
     private int numberOfRecordsUpdatedBecauseAutomatic;
     private int numberOfRecordsNewlyAddedFromWebSite;
+    private String message;
 
     public int getNumberOfRecordsNewlyAddedFromWebSite() {
         return numberOfRecordsNewlyAddedFromWebSite;
@@ -78,4 +79,13 @@ public class CfdaUpdateResults {
     public void setNumberOfRecordsNotUpdatedBecauseManual(int numberOfRecordsNotUpdatedBecauseManual) {
         this.numberOfRecordsNotUpdatedBecauseManual = numberOfRecordsNotUpdatedBecauseManual;
     }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
+    }
+
 }

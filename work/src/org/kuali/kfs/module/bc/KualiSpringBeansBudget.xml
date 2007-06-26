@@ -102,7 +102,8 @@
             <ref bean="workflowDocumentService" />
         </property>
     </bean>
-    
 
-    <bean id="calculatedSalaryFoundationTrackerOverrideService" class="org.kuali.module.budget.service.impl.CalculatedSalaryFoundationTrackerOverrideServiceImpl" />
+    <bean id="calculatedSalaryFoundationTrackerOverrideService" class="org.kuali.module.budget.service.impl.CalculatedSalaryFoundationTrackerOverrideServiceImpl">
+    </bean>
+    	
 </beans>

@@ -68,11 +68,10 @@ public class LaborLedgerBalancePosterTest extends KualiTestBase {
         deliminator = properties.getProperty("deliminator");
         keyFieldList = Arrays.asList(StringUtils.split(fieldNames, deliminator));
         
-        BeanFactory beanFactory = SpringServiceLocator.getBeanFactory();       
-        laborLedgerBalancePoster = (PostTransaction) beanFactory.getBean("laborLedgerBalancePoster");
-        businessObjectService = (BusinessObjectService) beanFactory.getBean("businessObjectService");
-        originEntryGroupService = (OriginEntryGroupService) beanFactory.getBean("glOriginEntryGroupService");
-        DateTimeService dateTimeService = (DateTimeService)beanFactory.getBean("dateTimeService");
+        laborLedgerBalancePoster = (PostTransaction) SpringServiceLocator.getService("laborLedgerBalancePoster");
+        businessObjectService = (BusinessObjectService) SpringServiceLocator.getService("businessObjectService");
+        originEntryGroupService = (OriginEntryGroupService) SpringServiceLocator.getService("glOriginEntryGroupService");
+        DateTimeService dateTimeService = (DateTimeService)SpringServiceLocator.getService("dateTimeService");
         
         group1 = originEntryGroupService.createGroup(dateTimeService.getCurrentSqlDate(), LABOR_MAIN_POSTER_VALID, false, false, false);        
         today = dateTimeService.getCurrentDate();

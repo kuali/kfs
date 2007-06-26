@@ -75,19 +75,18 @@ public class LaborPosterServiceTest extends KualiTestBase {
         fieldNames = properties.getProperty("fieldNames");
         deliminator = properties.getProperty("deliminator");
 
-        BeanFactory beanFactory = SpringServiceLocator.getBeanFactory();
-        laborOriginEntryService = (LaborOriginEntryService) beanFactory.getBean("laborOriginEntryService");
-        originEntryGroupService = (OriginEntryGroupService) beanFactory.getBean("glOriginEntryGroupService");
-        businessObjectService = (BusinessObjectService) beanFactory.getBean("businessObjectService");
-        laborPosterService = (LaborPosterService) beanFactory.getBean("laborPosterService");
-        persistenceService = (PersistenceService) beanFactory.getBean("persistenceService");
+        laborOriginEntryService = (LaborOriginEntryService) SpringServiceLocator.getService("laborOriginEntryService");
+        originEntryGroupService = (OriginEntryGroupService) SpringServiceLocator.getService("glOriginEntryGroupService");
+        businessObjectService = (BusinessObjectService) SpringServiceLocator.getService("businessObjectService");
+        laborPosterService = (LaborPosterService) SpringServiceLocator.getService("laborPosterService");
+        persistenceService = (PersistenceService) SpringServiceLocator.getService("persistenceService");
 
         groupFieldValues = new HashMap();
         groupFieldValues.put(KFSPropertyConstants.SOURCE_CODE, LABOR_SCRUBBER_VALID);
         originEntryGroupService.deleteOlderGroups(0);
         businessObjectService.deleteMatching(OriginEntryGroup.class, groupFieldValues);
 
-        Date today = ((DateTimeService) beanFactory.getBean("dateTimeService")).getCurrentSqlDate();
+        Date today = ((DateTimeService) SpringServiceLocator.getService("dateTimeService")).getCurrentSqlDate();
         groupToPost = originEntryGroupService.createGroup(today, LABOR_SCRUBBER_VALID, true, true, false);
 
         LaborOriginEntry cleanup = new LaborOriginEntry();

@@ -37,7 +37,6 @@ import org.springframework.beans.factory.BeanFactory;
  */
 public class OJBUtility {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(OJBUtility.class);
-    private static BeanFactory beanFactory = SpringServiceLocator.getInstance().getApplicationContext();
 
     public static final String LOOKUP_DAO = "lookupDao";
 
@@ -139,7 +138,7 @@ public class OJBUtility {
      * @return the size of a result set from the given search criteria
      */
     public static Long getResultSizeFromMap(Map fieldValues, Object businessObject) {
-        LookupDao lookupDao = (LookupDao) beanFactory.getBean(LOOKUP_DAO);
+        LookupDao lookupDao = (LookupDao) SpringServiceLocator.getService(LOOKUP_DAO);
         return lookupDao.findCountByMap(businessObject, fieldValues);
     }
 
@@ -164,7 +163,7 @@ public class OJBUtility {
      * This method build OJB criteria from the given property value and name
      */
     public static boolean createCriteria(Object businessObject, String propertyValue, String propertyName, Criteria criteria) {
-        LookupDao lookupDao = (LookupDao) beanFactory.getBean(LOOKUP_DAO);
+        LookupDao lookupDao = (LookupDao) SpringServiceLocator.getService(LOOKUP_DAO);
         return lookupDao.createCriteria(businessObject, propertyValue, propertyName, criteria);
     }
 }

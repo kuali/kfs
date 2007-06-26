@@ -63,8 +63,7 @@ public class AccountStatusBaseFunds extends LedgerBalance {
         fieldValues.put("financialObjectCode", getFinancialObjectCode());
         fieldValues.put("financialSubObjectCode", getFinancialSubObjectCode());
 
-        BeanFactory beanFactory = SpringServiceLocator.getBeanFactory();
-        laborDao = (LaborDao) beanFactory.getBean("laborDao");
+        laborDao = (LaborDao) SpringServiceLocator.getService("laborDao");
         KualiDecimal CSFTotal = (KualiDecimal) laborDao.getCSFTrackerTotal(fieldValues);
         this.csfAmount = CSFTotal;
         return CSFTotal;

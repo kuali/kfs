@@ -38,7 +38,7 @@ public class PaymentSearchAction extends BaseAction {
     private PaymentDetailSearchService paymentDetailSearchService;
 
     public PaymentSearchAction() {
-        setPaymentDetailSearchService( (PaymentDetailSearchService)SpringServiceLocator.getLocalKFSService("pdpPaymentDetailSearchService") );
+        setPaymentDetailSearchService( (PaymentDetailSearchService)SpringServiceLocator.getService("pdpPaymentDetailSearchService") );
     }
 
     protected boolean isAuthorized(ActionMapping mapping, ActionForm form, HttpServletRequest request,HttpServletResponse response) {

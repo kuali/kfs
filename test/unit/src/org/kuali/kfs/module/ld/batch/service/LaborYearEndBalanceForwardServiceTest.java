@@ -67,11 +67,10 @@ public class LaborYearEndBalanceForwardServiceTest extends KualiTestBase {
         deliminator = properties.getProperty("deliminator");
         fiscalYear = Integer.valueOf(properties.getProperty("oldFiscalYear"));
 
-        BeanFactory beanFactory = SpringServiceLocator.getBeanFactory();
-        originEntryGroupService = (OriginEntryGroupService) beanFactory.getBean("glOriginEntryGroupService");
-        businessObjectService = (BusinessObjectService) beanFactory.getBean("businessObjectService");
-        laborYearEndBalanceForwardService = (LaborYearEndBalanceForwardService) beanFactory.getBean("laborYearEndBalanceForwardService");
-        persistenceService = (PersistenceService) beanFactory.getBean("persistenceService");
+        originEntryGroupService = (OriginEntryGroupService) SpringServiceLocator.getService("glOriginEntryGroupService");
+        businessObjectService = (BusinessObjectService) SpringServiceLocator.getService("businessObjectService");
+        laborYearEndBalanceForwardService = (LaborYearEndBalanceForwardService) SpringServiceLocator.getService("laborYearEndBalanceForwardService");
+        persistenceService = (PersistenceService) SpringServiceLocator.getService("persistenceService");
 
         groupFieldValues = new HashMap();
         groupFieldValues.put(KFSPropertyConstants.SOURCE_CODE, LABOR_YEAR_END_BALANCE_FORWARD);

@@ -147,8 +147,7 @@ public class CollectorServiceTest extends KualiTestBase {
         String collectorDirectoryName = SpringServiceLocator.getCollectorInputFileType().getDirectoryPath();
         String fileName = collectorDirectoryName + File.separator + "gl_collector3.xml";
         
-        BeanFactory beanFactory = SpringServiceLocator.getBeanFactory();
-        UnitTestSqlDao unitTestSqlDao = (UnitTestSqlDao) beanFactory.getBean("unitTestSqlDao");
+        UnitTestSqlDao unitTestSqlDao = (UnitTestSqlDao) SpringServiceLocator.getService("unitTestSqlDao");
         unitTestSqlDao.sqlCommand("delete from GL_ID_BILL_T");
         
         collectorService.loadCollectorFile(fileName);

@@ -18,10 +18,10 @@ package org.kuali.module.labor;
 import java.util.Calendar;
 
 import org.kuali.core.service.PersistenceService;
+import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.gl.bo.OriginEntrySource;
 import org.kuali.module.labor.service.LaborScrubberService;
 import org.kuali.test.WithTestSpringContext;
-import org.kuali.test.suite.RelatesTo;
 
 
 @WithTestSpringContext
@@ -36,9 +36,9 @@ public class LaborScrubberServiceTest extends LaborOriginEntryTestBase {
 
         LOG.debug("setUp() started");
 
-        laborScrubberService = (LaborScrubberService) beanFactory.getBean("laborScrubberService");
+        laborScrubberService = (LaborScrubberService) SpringServiceLocator.getService("laborScrubberService");
         laborScrubberService.setDateTimeService(dateTimeService);
-        persistenceService = (PersistenceService) beanFactory.getBean("persistenceService");
+        persistenceService = (PersistenceService) SpringServiceLocator.getService("persistenceService");
 
         // Get the test date time service so we can specify the date/time of the run
         Calendar c = Calendar.getInstance();

@@ -32,7 +32,7 @@ public class BatchMaintenanceAction extends BaseAction {
   private BatchMaintenanceService batchMaintenanceService;
 
   public BatchMaintenanceAction() {
-      setBatchMaintenanceService( (BatchMaintenanceService)SpringServiceLocator.getLocalKFSService("pdpBatchMaintenanceService") );
+      setBatchMaintenanceService( (BatchMaintenanceService)SpringServiceLocator.getService("pdpBatchMaintenanceService") );
   }
 
   public void setBatchMaintenanceService(BatchMaintenanceService p) {

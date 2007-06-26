@@ -94,8 +94,7 @@ public class EmployeeFunding extends LedgerBalance {
         fieldValues.put("financialSubObjectCode", getFinancialSubObjectCode());
         fieldValues.put("emplid", getEmplid());
         
-        BeanFactory beanFactory = SpringServiceLocator.getBeanFactory();
-        laborDao = (LaborDao) beanFactory.getBean("laborDao");
+        laborDao = (LaborDao) SpringServiceLocator.getService("laborDao");
         KualiDecimal EncumTotal = (KualiDecimal) laborDao.getEncumbranceTotal(fieldValues);
         this.outstandingEncum = EncumTotal;
         return EncumTotal;       

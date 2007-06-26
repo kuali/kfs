@@ -60,10 +60,9 @@ public class LaborNightlyOutServiceTest extends KualiTestBase {
         documentFieldNames = properties.getProperty("documentFieldNames");
         deliminator = properties.getProperty("deliminator");
 
-        BeanFactory beanFactory = SpringServiceLocator.getBeanFactory();
-        businessObjectService = (BusinessObjectService) beanFactory.getBean("businessObjectService");
-        laborNightlyOutService = (LaborNightlyOutService)beanFactory.getBean("laborNightlyOutService");
-        persistenceService = (PersistenceService) beanFactory.getBean("persistenceService");
+        businessObjectService = (BusinessObjectService) SpringServiceLocator.getService("businessObjectService");
+        laborNightlyOutService = (LaborNightlyOutService)SpringServiceLocator.getService("laborNightlyOutService");
+        persistenceService = (PersistenceService) SpringServiceLocator.getService("persistenceService");
         
         int numberOfDocuments = Integer.valueOf(properties.getProperty("document.numOfData"));
         List inputDataList = TestDataPreparator.buildTestDataList(DocumentHeader.class, properties, "document.testData", documentFieldNames, deliminator, numberOfDocuments);

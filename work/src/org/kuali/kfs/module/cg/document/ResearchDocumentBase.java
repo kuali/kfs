@@ -251,7 +251,7 @@ public abstract class ResearchDocumentBase extends TransactionalDocumentBase imp
     public void prepareForSave(KualiDocumentEvent event) {
         super.prepareForSave(event);
         try {
-            ((ResearchDocumentService) SpringServiceLocator.getBeanFactory().getBean("researchDocumentService")).prepareResearchDocumentForSave(this);
+            ((ResearchDocumentService) SpringServiceLocator.getService("researchDocumentService")).prepareResearchDocumentForSave(this);
         }
         catch (Exception e) {
             throw new RuntimeException("Error preparing ResearchDocument for save", e);

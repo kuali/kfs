@@ -43,7 +43,6 @@ public class LaborLedgerEntryServiceTest extends KualiTestBase {
     private List<String> keyFieldList;
     private Map fieldValues;
 
-    private BeanFactory beanFactory;
     private LaborLedgerEntryService laborLedgerEntryService;
     private BusinessObjectService businessObjectService;
 
@@ -58,9 +57,8 @@ public class LaborLedgerEntryServiceTest extends KualiTestBase {
         deliminator = properties.getProperty("deliminator");
         keyFieldList = Arrays.asList(StringUtils.split(fieldNames, deliminator));
 
-        beanFactory = SpringServiceLocator.getBeanFactory();
-        laborLedgerEntryService = (LaborLedgerEntryService) beanFactory.getBean("laborLedgerEntryService");
-        businessObjectService = (BusinessObjectService) beanFactory.getBean("businessObjectService");
+        laborLedgerEntryService = (LaborLedgerEntryService) SpringServiceLocator.getService("laborLedgerEntryService");
+        businessObjectService = (BusinessObjectService) SpringServiceLocator.getService("businessObjectService");
         
         LedgerEntry cleanup = new LedgerEntry();
         ObjectUtil.populateBusinessObject(cleanup, properties, "dataCleanup", fieldNames, deliminator);

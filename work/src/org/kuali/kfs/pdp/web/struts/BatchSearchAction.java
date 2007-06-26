@@ -38,8 +38,8 @@ public class BatchSearchAction extends BaseAction {
     private BatchMaintenanceService batchMaintenanceService;
 
     public BatchSearchAction() {
-        setBatchSearchService( (BatchSearchService)SpringServiceLocator.getLocalKFSService("pdpBatchSearchService") );
-        setBatchMaintenanceService( (BatchMaintenanceService)SpringServiceLocator.getLocalKFSService("pdpBatchMaintenanceService"));
+        setBatchSearchService( (BatchSearchService)SpringServiceLocator.getService("pdpBatchSearchService") );
+        setBatchMaintenanceService( (BatchMaintenanceService)SpringServiceLocator.getService("pdpBatchMaintenanceService"));
     }
 
     protected boolean isAuthorized(ActionMapping mapping, ActionForm form, HttpServletRequest request,HttpServletResponse response) {

@@ -40,7 +40,6 @@ import org.springframework.beans.factory.BeanFactory;
 public class OriginEntryTestBase extends KualiTestBase {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(OriginEntryTestBase.class);
 
-    protected BeanFactory beanFactory;
     protected ConfigurableDateService dateTimeService;
     protected PersistenceService persistenceService;
     protected UnitTestSqlDao unitTestSqlDao = null;
@@ -60,18 +59,16 @@ public class OriginEntryTestBase extends KualiTestBase {
 
         LOG.debug("setUp() starting");
 
-        beanFactory = SpringServiceLocator.getBeanFactory();
-
-        dateTimeService = (ConfigurableDateService) beanFactory.getBean("testDateTimeService");
+        dateTimeService = (ConfigurableDateService) SpringServiceLocator.getService("testDateTimeService");
         date = dateTimeService.getCurrentDate();
         
         // Other objects needed for the tests
-        persistenceService = (PersistenceService) beanFactory.getBean("persistenceService");
-        unitTestSqlDao = (UnitTestSqlDao) beanFactory.getBean("unitTestSqlDao");
-        originEntryService = (OriginEntryService) beanFactory.getBean("glOriginEntryService");
-        originEntryDao = (OriginEntryDao) beanFactory.getBean("glOriginEntryDao");
-        originEntryGroupService = (OriginEntryGroupService) beanFactory.getBean("glOriginEntryGroupService");
-        kualiConfigurationService = (KualiConfigurationService) beanFactory.getBean("kualiConfigurationService");
+        persistenceService = (PersistenceService) SpringServiceLocator.getService("persistenceService");
+        unitTestSqlDao = (UnitTestSqlDao) SpringServiceLocator.getService("unitTestSqlDao");
+        originEntryService = (OriginEntryService) SpringServiceLocator.getService("glOriginEntryService");
+        originEntryDao = (OriginEntryDao) SpringServiceLocator.getService("glOriginEntryDao");
+        originEntryGroupService = (OriginEntryGroupService) SpringServiceLocator.getService("glOriginEntryGroupService");
+        kualiConfigurationService = (KualiConfigurationService) SpringServiceLocator.getService("kualiConfigurationService");
 
         // Set all enhancements to off
         resetAllEnhancementFlags();

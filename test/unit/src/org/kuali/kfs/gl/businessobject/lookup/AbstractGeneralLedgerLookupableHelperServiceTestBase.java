@@ -38,7 +38,6 @@ import org.springframework.beans.factory.BeanFactory;
 public abstract class AbstractGLLookupableHelperServiceTestBase extends KualiTestBase {
 
     protected Date date;
-    protected BeanFactory beanFactory;
     protected GeneralLedgerPendingEntry pendingEntry;
     protected TestDataGenerator testDataGenerator;
     protected AbstractGLLookupableHelperServiceImpl lookupableHelperServiceImpl;
@@ -48,12 +47,11 @@ public abstract class AbstractGLLookupableHelperServiceTestBase extends KualiTes
     protected void setUp() throws Exception {
         super.setUp();
 
-        beanFactory = SpringServiceLocator.getBeanFactory();
         date = SpringServiceLocator.getDateTimeService().getCurrentDate();
         pendingEntry = new GeneralLedgerPendingEntry();
         testDataGenerator = new TestDataGenerator();
 
-        setPendingEntryService((GeneralLedgerPendingEntryService) beanFactory.getBean(GLSpringBeansRegistry.generalLedgerPendingEntryService));
+        setPendingEntryService((GeneralLedgerPendingEntryService) SpringServiceLocator.getService(GLSpringBeansRegistry.generalLedgerPendingEntryService));
     }
 
     /**

@@ -209,7 +209,7 @@ public class KualiBatchInputFileAction extends KualiAction {
      * Retrieves a BatchInputFileType implementation from Spring based on the given name.
      */
     private BatchInputFileType retrieveBatchInputFileTypeImpl(String batchInputTypeName) {
-        BatchInputFileType batchInputType = (BatchInputFileType) SpringServiceLocator.getBeanFactory().getBean(batchInputTypeName);
+        BatchInputFileType batchInputType = (BatchInputFileType) SpringServiceLocator.getService(batchInputTypeName);
         if (batchInputType == null) {
             LOG.error("Batch input type implementation not found for id " + batchInputTypeName);
             throw new RuntimeException(("Batch input type implementation not found for id " + batchInputTypeName));

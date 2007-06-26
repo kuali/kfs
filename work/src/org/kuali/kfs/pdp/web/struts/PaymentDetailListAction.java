@@ -27,7 +27,7 @@ public class PaymentDetailListAction extends BaseAction {
   private PaymentGroupService paymentGroupService;
 
   public PaymentDetailListAction() {
-      setPaymentGroupService( (PaymentGroupService)SpringServiceLocator.getLocalKFSService("pdpPaymentGroupService") );
+      setPaymentGroupService( (PaymentGroupService)SpringServiceLocator.getService("pdpPaymentGroupService") );
   }
 
   protected boolean isAuthorized(ActionMapping mapping, ActionForm form, HttpServletRequest request,

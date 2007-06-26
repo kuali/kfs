@@ -56,9 +56,8 @@ public class LaborLedgerBalanceServiceTest extends KualiTestBase {
         deliminator = properties.getProperty("deliminator");
         keyFieldList = Arrays.asList(StringUtils.split(fieldNames, deliminator));
  
-        beanFactory = SpringServiceLocator.getBeanFactory();
-        laborLedgerBalanceService = (LaborLedgerBalanceService) beanFactory.getBean("laborLedgerBalanceService");
-        businessObjectService = (BusinessObjectService) beanFactory.getBean("businessObjectService");
+        laborLedgerBalanceService = (LaborLedgerBalanceService) SpringServiceLocator.getService("laborLedgerBalanceService");
+        businessObjectService = (BusinessObjectService) SpringServiceLocator.getService("businessObjectService");
         
         LedgerBalance cleanup = new LedgerBalance();
         ObjectUtil.populateBusinessObject(cleanup, properties, "dataCleanup", fieldNames, deliminator);   

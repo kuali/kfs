@@ -28,8 +28,7 @@ public class LaborPosterStepTest extends KualiTestBase {
     public void setUp() throws Exception {
         super.setUp();
         
-        BeanFactory beanFactory = SpringServiceLocator.getBeanFactory();       
-        laborPosterStep = (LaborPosterStep) beanFactory.getBean("laborPosterStep");
+        laborPosterStep = (LaborPosterStep) SpringServiceLocator.getService("laborPosterStep");
     }
     
     public void testExecute() throws Exception{

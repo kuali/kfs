@@ -33,10 +33,7 @@ public class TestUniversityDateDao extends KualiTestBase {
     private SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
 
     public void testGetByPrimaryKey() throws Exception {
-        BeanFactory factory = SpringServiceLocator.getBeanFactory();
-        assertNotNull("Factory shouldn't be null", factory);
-
-        UniversityDateDao dao = (UniversityDateDao) factory.getBean("universityDateDao");
+        UniversityDateDao dao = (UniversityDateDao) SpringServiceLocator.getService("universityDateDao");
         assertNotNull("Dao shouldn't be null", dao);
 
         Date missing = sdf.parse("01/01/1901");
@@ -49,10 +46,7 @@ public class TestUniversityDateDao extends KualiTestBase {
     }
 
     public void testGetFirstLastFiscalYearDates() throws Exception {
-        BeanFactory factory = SpringServiceLocator.getBeanFactory();
-        assertNotNull("Factory shouldn't be null", factory);
-
-        UniversityDateDao dao = (UniversityDateDao) factory.getBean("universityDateDao");
+        UniversityDateDao dao = (UniversityDateDao) SpringServiceLocator.getService("universityDateDao");
         assertNotNull("Dao shouldn't be null", dao);
 
         UniversityDate firstFiscalYearDate = dao.getFirstFiscalYearDate(new Integer(2007));

@@ -38,7 +38,7 @@ public class FormatAction extends BaseAction {
 
   public FormatAction() {
       super();
-      setFormatService( (FormatService)SpringServiceLocator.getLocalKFSService("pdpFormatService") );
+      setFormatService( (FormatService)SpringServiceLocator.getService("pdpFormatService") );
   }
 
   public void setFormatService(FormatService fs) {

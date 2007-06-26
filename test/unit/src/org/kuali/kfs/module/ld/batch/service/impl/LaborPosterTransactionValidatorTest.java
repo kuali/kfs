@@ -62,14 +62,13 @@ public class LaborPosterTransactionValidatorTest extends KualiTestBase {
         fieldNames = properties.getProperty("fieldNames");
         deliminator = properties.getProperty("deliminator");
 
-        BeanFactory beanFactory = SpringServiceLocator.getBeanFactory();
-        laborPosterTransactionValidator = (VerifyTransaction) beanFactory.getBean("laborPosterTransactionValidator");
-        laborOriginEntryService = (LaborOriginEntryService) beanFactory.getBean("laborOriginEntryService");
-        originEntryGroupService = (OriginEntryGroupService) beanFactory.getBean("glOriginEntryGroupService");
-        businessObjectService = (BusinessObjectService) beanFactory.getBean("businessObjectService");
-        persistenceService = (PersistenceService) beanFactory.getBean("persistenceService");
+        laborPosterTransactionValidator = (VerifyTransaction) SpringServiceLocator.getService("laborPosterTransactionValidator");
+        laborOriginEntryService = (LaborOriginEntryService) SpringServiceLocator.getService("laborOriginEntryService");
+        originEntryGroupService = (OriginEntryGroupService) SpringServiceLocator.getService("glOriginEntryGroupService");
+        businessObjectService = (BusinessObjectService) SpringServiceLocator.getService("businessObjectService");
+        persistenceService = (PersistenceService) SpringServiceLocator.getService("persistenceService");
         
-        Date today = ((DateTimeService) beanFactory.getBean("dateTimeService")).getCurrentSqlDate();
+        Date today = ((DateTimeService) SpringServiceLocator.getService("dateTimeService")).getCurrentSqlDate();
         group1 = originEntryGroupService.createGroup(today, LABOR_MAIN_POSTER_VALID, true, true, false);
     }
 

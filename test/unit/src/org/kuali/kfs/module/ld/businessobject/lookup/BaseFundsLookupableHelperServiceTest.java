@@ -46,7 +46,6 @@ public class BaseFundsLookupableHelperServiceTest extends KualiTestBase {
     private LookupableHelperService lookupableHelperService;
     private PersistenceService persistenceService;
 
-    private BeanFactory beanFactory;
     private Properties properties;
     private String fieldNames, documentFieldNames;
     private String deliminator;
@@ -63,10 +62,9 @@ public class BaseFundsLookupableHelperServiceTest extends KualiTestBase {
     protected void setUp() throws Exception {
         super.setUp();
 
-        beanFactory = SpringServiceLocator.getBeanFactory();
-        businessObjectService = (BusinessObjectService) beanFactory.getBean("businessObjectService");
+        businessObjectService = (BusinessObjectService) SpringServiceLocator.getService("businessObjectService");
 
-        lookupableHelperService = (LookupableHelperService) beanFactory.getBean("BaseFundsLookupableHelperService");
+        lookupableHelperService = (LookupableHelperService) SpringServiceLocator.getService("BaseFundsLookupableHelperService");
         lookupableHelperService.setBusinessObjectClass(AccountStatusBaseFunds.class);
 
         // Clear up the database so that any existing data cannot affact your test result
@@ -165,9 +163,8 @@ public class BaseFundsLookupableHelperServiceTest extends KualiTestBase {
 
         TestDataGenerator testDataGenerator = new TestDataGenerator(propertiesFileName, messageFileName);
 
-        BeanFactory beanFactory = SpringServiceLocator.getBeanFactory();
-        businessObjectService = (BusinessObjectService) beanFactory.getBean("businessObjectService");
-        persistenceService = (PersistenceService) beanFactory.getBean("persistenceService");
+        businessObjectService = (BusinessObjectService) SpringServiceLocator.getService("businessObjectService");
+        persistenceService = (PersistenceService) SpringServiceLocator.getService("persistenceService");
 
         int numberOfDocuments = Integer.valueOf(properties.getProperty("getCSFTracker.numberOfDocuments"));
         List<CalculatedSalaryFoundationTracker> inputDataList = new ArrayList<CalculatedSalaryFoundationTracker>();
@@ -199,9 +196,8 @@ public class BaseFundsLookupableHelperServiceTest extends KualiTestBase {
 
         TestDataGenerator testDataGenerator = new TestDataGenerator(propertiesFileName, messageFileName);
 
-        BeanFactory beanFactory = SpringServiceLocator.getBeanFactory();
-        businessObjectService = (BusinessObjectService) beanFactory.getBean("businessObjectService");
-        persistenceService = (PersistenceService) beanFactory.getBean("persistenceService");
+        businessObjectService = (BusinessObjectService) SpringServiceLocator.getService("businessObjectService");
+        persistenceService = (PersistenceService) SpringServiceLocator.getService("persistenceService");
 
         int numberOfDocuments = Integer.valueOf(properties.getProperty("getAccountStatusBaseFunds.numOfData"));
         List<LedgerBalance> inputDataList = new ArrayList<LedgerBalance>();

@@ -40,8 +40,8 @@ public class CustomerProfileAction extends BaseAction {
 
     public CustomerProfileAction() {
         super();
-        setCustomerProfileService( (CustomerProfileService)SpringServiceLocator.getLocalKFSService("pdpCustomerProfileService") );
-        setReferenceService( (ReferenceService)SpringServiceLocator.getLocalKFSService("pdpReferenceService") );
+        setCustomerProfileService( (CustomerProfileService)SpringServiceLocator.getService("pdpCustomerProfileService") );
+        setReferenceService( (ReferenceService)SpringServiceLocator.getService("pdpReferenceService") );
     }
 
     public void setCustomerProfileService(CustomerProfileService c) {

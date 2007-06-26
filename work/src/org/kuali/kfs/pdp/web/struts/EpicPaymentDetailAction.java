@@ -37,8 +37,8 @@ public class EpicPaymentDetailAction extends BaseAction {
   private Map payees;
 
   public EpicPaymentDetailAction() {
-      setPaymentDetailService( (PaymentDetailService)SpringServiceLocator.getLocalKFSService("pdpPaymentDetailService") );
-      setPaymentGroupService( (PaymentGroupService)SpringServiceLocator.getLocalKFSService("pdpPaymentGroupService") );
+      setPaymentDetailService( (PaymentDetailService)SpringServiceLocator.getService("pdpPaymentDetailService") );
+      setPaymentGroupService( (PaymentGroupService)SpringServiceLocator.getService("pdpPaymentGroupService") );
   }
 
   protected ActionForward executeLogic(ActionMapping mapping, ActionForm form,

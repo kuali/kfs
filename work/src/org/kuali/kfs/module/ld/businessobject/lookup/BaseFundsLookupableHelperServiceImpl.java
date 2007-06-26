@@ -66,9 +66,7 @@ public class BaseFundsLookupableHelperServiceImpl extends AbstractLookupableHelp
         setDocFormKey((String) fieldValues.get(KFSConstants.DOC_FORM_KEY));
                 
         // Parse the map and call the DAO to process the inquiry
-        BeanFactory beanFactory = SpringServiceLocator.getBeanFactory();
-
-        laborDao = (LaborDao) beanFactory.getBean("laborDao");
+        laborDao = (LaborDao) SpringServiceLocator.getService("laborDao");
 
         Collection searchResultsCollection = laborDao.getBaseFunds(fieldValues);
 

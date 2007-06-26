@@ -20,15 +20,16 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.test.WithTestSpringContext;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
+import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.gl.GLSpringBeansRegistry;
 import org.kuali.module.gl.bo.Balance;
 import org.kuali.module.gl.service.BalanceService;
 import org.kuali.module.gl.util.BusinessObjectFieldConverter;
 import org.kuali.module.gl.web.Constant;
+import org.kuali.test.WithTestSpringContext;
 
 /**
  * This class contains the test cases that can be applied to the method in BalanceLookupableImpl class.
@@ -44,8 +45,8 @@ public class BalanceLookupableHelperServiceTest extends AbstractGLLookupableHelp
     protected void setUp() throws Exception {
         super.setUp();
 
-        setBalanceService((BalanceService) beanFactory.getBean(GLSpringBeansRegistry.glBalanceService));
-        lookupableHelperServiceImpl = (BalanceLookupableHelperServiceImpl) beanFactory.getBean(GLSpringBeansRegistry.glBalanceLookupableHelperService);
+        setBalanceService((BalanceService) SpringServiceLocator.getService(GLSpringBeansRegistry.glBalanceService));
+        lookupableHelperServiceImpl = (BalanceLookupableHelperServiceImpl) SpringServiceLocator.getService(GLSpringBeansRegistry.glBalanceLookupableHelperService);
         lookupableHelperServiceImpl.setBusinessObjectClass(Balance.class);
     }
 

@@ -39,7 +39,6 @@ public class LaborGeneralLedgerEntryServiceTest extends KualiTestBase {
     private String deliminator;
     private List<String> keyFieldList;
 
-    private BeanFactory beanFactory;
     private LaborGeneralLedgerEntryService laborGeneralLedgerEntryService;
     private BusinessObjectService businessObjectService;
 
@@ -54,9 +53,8 @@ public class LaborGeneralLedgerEntryServiceTest extends KualiTestBase {
         deliminator = properties.getProperty("deliminator");
         keyFieldList = Arrays.asList(StringUtils.split(fieldNames, deliminator));
 
-        beanFactory = SpringServiceLocator.getBeanFactory();
-        laborGeneralLedgerEntryService = (LaborGeneralLedgerEntryService) beanFactory.getBean("laborGeneralLedgerEntryService");
-        businessObjectService = (BusinessObjectService) beanFactory.getBean("businessObjectService");
+        laborGeneralLedgerEntryService = (LaborGeneralLedgerEntryService) SpringServiceLocator.getService("laborGeneralLedgerEntryService");
+        businessObjectService = (BusinessObjectService) SpringServiceLocator.getService("businessObjectService");
     }
 
     public void testSave() throws Exception {

@@ -554,7 +554,7 @@ public class SchedulerServiceImpl implements SchedulerService {
             for (String jobGroup : scheduler.getJobGroupNames()) {
                 for (String jobName : scheduler.getJobNames(jobGroup)) {
                     try {
-                        JobDescriptor jobDescriptor = (JobDescriptor) SpringServiceLocator.getBeanFactory().getBean(jobName);
+                        JobDescriptor jobDescriptor = (JobDescriptor) SpringServiceLocator.getService(jobName);
                         JobDetail jobDetail = scheduler.getJobDetail(jobName, jobGroup);
                         jobs.add(new BatchJobStatus(jobDescriptor, jobDetail));
                     }
@@ -585,7 +585,7 @@ public class SchedulerServiceImpl implements SchedulerService {
         try {
             for (String jobName : scheduler.getJobNames(groupName)) {
                 try {
-                    JobDescriptor jobDescriptor = (JobDescriptor) SpringServiceLocator.getBeanFactory().getBean(jobName);
+                    JobDescriptor jobDescriptor = (JobDescriptor) SpringServiceLocator.getService(jobName);
                     JobDetail jobDetail = scheduler.getJobDetail(jobName, groupName);
                     jobs.add(new BatchJobStatus(jobDescriptor, jobDetail));
                 }

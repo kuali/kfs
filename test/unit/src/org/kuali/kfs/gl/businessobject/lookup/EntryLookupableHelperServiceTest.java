@@ -20,12 +20,13 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.test.WithTestSpringContext;
 import org.kuali.kfs.KFSPropertyConstants;
+import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.gl.GLSpringBeansRegistry;
 import org.kuali.module.gl.bo.Entry;
 import org.kuali.module.gl.bo.Transaction;
 import org.kuali.module.gl.dao.EntryDao;
+import org.kuali.test.WithTestSpringContext;
 
 /**
  * This class contains the test cases that can be applied to the method in EntryLookupableImpl class.
@@ -44,8 +45,8 @@ public class EntryLookupableHelperServiceTest extends AbstractGLLookupableHelper
     protected void setUp() throws Exception {
         super.setUp();
 
-        entryDao = (EntryDao) beanFactory.getBean(GLSpringBeansRegistry.glEntryDao);
-        lookupableHelperServiceImpl = (EntryLookupableHelperServiceImpl) beanFactory.getBean(GLSpringBeansRegistry.glEntryLookupableHelperService);
+        entryDao = (EntryDao) SpringServiceLocator.getService(GLSpringBeansRegistry.glEntryDao);
+        lookupableHelperServiceImpl = (EntryLookupableHelperServiceImpl) SpringServiceLocator.getService(GLSpringBeansRegistry.glEntryLookupableHelperService);
         lookupableHelperServiceImpl.setBusinessObjectClass(Entry.class);
     }
 

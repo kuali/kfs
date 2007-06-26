@@ -38,7 +38,7 @@ public class SufficientFundsServiceTest extends KualiTestBase {
         super.setUp();
 
         sufficientFundsService = SpringServiceLocator.getSufficientFundsService();
-        unitTestSqlDao = (UnitTestSqlDao)SpringServiceLocator.getBeanFactory().getBean("unitTestSqlDao");
+        unitTestSqlDao = (UnitTestSqlDao)SpringServiceLocator.getService("unitTestSqlDao");
         dateTimeService = SpringServiceLocator.getDateTimeService();
     }
 

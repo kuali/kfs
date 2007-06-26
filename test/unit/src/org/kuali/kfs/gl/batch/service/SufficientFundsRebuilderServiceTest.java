@@ -35,7 +35,6 @@ import org.springframework.beans.factory.BeanFactory;
 public class SufficientFundsRebuilderServiceTest extends KualiTestBase {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(SufficientFundsRebuilderServiceTest.class);
 
-    protected BeanFactory beanFactory;
     private SufficientFundsRebuilderService sufficientFundsRebuilderService = null;
     private SufficientFundRebuildDao sufficientFundRebuildDao = null;
     private SufficientFundBalancesDao sufficientFundBalancesDao = null;
@@ -47,13 +46,11 @@ public class SufficientFundsRebuilderServiceTest extends KualiTestBase {
         super.setUp();
         LOG.debug("setUp() started");
 
-        beanFactory = SpringServiceLocator.getBeanFactory();
-
-        sufficientFundsRebuilderService = (SufficientFundsRebuilderService) beanFactory.getBean("glSufficientFundsRebuilderService");
-        sufficientFundRebuildDao = (SufficientFundRebuildDao) beanFactory.getBean("glSufficientFundRebuildDao");
-        sufficientFundBalancesDao = (SufficientFundBalancesDao) beanFactory.getBean("glSufficientFundBalancesDao");
-        persistenceService = (PersistenceService) beanFactory.getBean("persistenceService");
-        unitTestSqlDao = (UnitTestSqlDao) beanFactory.getBean("unitTestSqlDao");
+        sufficientFundsRebuilderService = (SufficientFundsRebuilderService) SpringServiceLocator.getService("glSufficientFundsRebuilderService");
+        sufficientFundRebuildDao = (SufficientFundRebuildDao) SpringServiceLocator.getService("glSufficientFundRebuildDao");
+        sufficientFundBalancesDao = (SufficientFundBalancesDao) SpringServiceLocator.getService("glSufficientFundBalancesDao");
+        persistenceService = (PersistenceService) SpringServiceLocator.getService("persistenceService");
+        unitTestSqlDao = (UnitTestSqlDao) SpringServiceLocator.getService("unitTestSqlDao");
     }
 
     // testAddedSFBLRecords

@@ -385,6 +385,6 @@ public class ExpenseTransferDocumentActionBase extends LaborDocumentActionBase {
      * @return SegmentedLookupResultsService
      */
     private SegmentedLookupResultsService getSegmentedLookupResultsService() {
-        return (SegmentedLookupResultsService) SpringServiceLocator.getLocalKFSService("segmentedLookupResultsService");
+        return (SegmentedLookupResultsService) SpringServiceLocator.getService("segmentedLookupResultsService");
     }
 }

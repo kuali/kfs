@@ -23,7 +23,7 @@ public class LaborBatchRunner {
     }
 
     public void runBatch() {
-        laborBatchJob = (JobDescriptor) SpringServiceLocator.getBeanFactory().getBean("laborBatchJob");
+        laborBatchJob = (JobDescriptor) SpringServiceLocator.getService("laborBatchJob");
         List<Step> steps = laborBatchJob.getSteps();
         for(Step step :steps){
             this.runStep(step);

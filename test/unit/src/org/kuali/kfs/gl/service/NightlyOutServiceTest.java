@@ -43,7 +43,7 @@ public class NightlyOutServiceTest extends KualiTestBase {
         super.setUp();
 
         nightlyOutService = SpringServiceLocator.getNightlyOutService();
-        unitTestSqlDao = (UnitTestSqlDao) SpringServiceLocator.getBeanFactory().getBean("unitTestSqlDao");
+        unitTestSqlDao = (UnitTestSqlDao) SpringServiceLocator.getService("unitTestSqlDao");
         dateTimeService = SpringServiceLocator.getDateTimeService();
     }
 

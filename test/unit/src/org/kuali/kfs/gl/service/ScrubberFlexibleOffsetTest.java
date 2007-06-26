@@ -19,6 +19,7 @@ import java.util.Calendar;
 
 import org.kuali.core.util.Guid;
 import org.kuali.kfs.KFSConstants;
+import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.gl.GLSpringBeansRegistry;
 import org.kuali.module.gl.OriginEntryTestBase;
 import org.kuali.module.gl.bo.OriginEntrySource;
@@ -39,7 +40,7 @@ public class ScrubberFlexibleOffsetTest extends OriginEntryTestBase {
     protected void setUp() throws Exception {
         super.setUp();
 
-        scrubberService = (ScrubberService) beanFactory.getBean(GLSpringBeansRegistry.glScrubberService);
+        scrubberService = (ScrubberService) SpringServiceLocator.getService(GLSpringBeansRegistry.glScrubberService);
         scrubberService.setDateTimeService(dateTimeService);
         // Get the test date time service so we can specify the date/time of the run
         Calendar c = Calendar.getInstance();

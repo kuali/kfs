@@ -66,7 +66,7 @@ public abstract class BaseAction extends Action {
         setUniversalUserService( SpringServiceLocator.getUniversalUserService() );
         setKualiConfigurationService( SpringServiceLocator.getKualiConfigurationService() );
         setWebAuthenticationService( SpringServiceLocator.getWebAuthenticationService() );
-        setSecurityService( (PdpSecurityService)SpringServiceLocator.getLocalKFSService("pdpPdpSecurityService") );
+        setSecurityService( (PdpSecurityService)SpringServiceLocator.getService("pdpPdpSecurityService") );
     }
 
     /**

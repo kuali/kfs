@@ -35,7 +35,7 @@ public class FormatSummaryAction extends BaseAction {
 
   public FormatSummaryAction() {
       super();
-      setFormatService( (FormatService)SpringServiceLocator.getLocalKFSService("pdpFormatService") );
+      setFormatService( (FormatService)SpringServiceLocator.getService("pdpFormatService") );
   }
 
   public void setFormatService(FormatService fs) {

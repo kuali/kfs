@@ -56,7 +56,6 @@ public class TestDataLoader {
     private List<String> keyFieldList;
     private List<String> fieldLengthList;
 
-    private static BeanFactory beanFactory;
     private BusinessObjectService businessObjectService;
     private OriginEntryGroupService originEntryGroupService;
     private LaborOriginEntryService laborOriginEntryService;
@@ -75,12 +74,11 @@ public class TestDataLoader {
         fieldLengthList = Arrays.asList(StringUtils.split(fieldLength, deliminator));
 
         SpringServiceLocator.initializeApplicationContext();
-        beanFactory = SpringServiceLocator.getBeanFactory();
-        businessObjectService = (BusinessObjectService) beanFactory.getBean("businessObjectService");
+        businessObjectService = (BusinessObjectService) SpringServiceLocator.getService("businessObjectService");
 
-        laborOriginEntryService = (LaborOriginEntryService) beanFactory.getBean("laborOriginEntryService");
-        originEntryGroupService = (OriginEntryGroupService) beanFactory.getBean("glOriginEntryGroupService");
-        persistenceService = (PersistenceService) beanFactory.getBean("persistenceService");
+        laborOriginEntryService = (LaborOriginEntryService) SpringServiceLocator.getService("laborOriginEntryService");
+        originEntryGroupService = (OriginEntryGroupService) SpringServiceLocator.getService("glOriginEntryGroupService");
+        persistenceService = (PersistenceService) SpringServiceLocator.getService("persistenceService");
     }
 
     public int loadTransactionIntoPendingEntryTable() {
@@ -92,7 +90,7 @@ public class TestDataLoader {
     public int loadTransactionIntoOriginEntryTable() {
         int numberOfInputData = Integer.valueOf(properties.getProperty("numOfData"));
            
-        Date today = ((DateTimeService) beanFactory.getBean("dateTimeService")).getCurrentSqlDate();
+        Date today = ((DateTimeService) SpringServiceLocator.getService("dateTimeService")).getCurrentSqlDate();
         OriginEntryGroup groupToPost = originEntryGroupService.createGroup(today, LABOR_SCRUBBER_VALID, true, true, false);
 
         int[] fieldLength = this.getFieldLength(fieldLengthList);
@@ -108,7 +106,7 @@ public class TestDataLoader {
     public int loadTransactionIntoGLOriginEntryTable() {
         int numberOfInputData = Integer.valueOf(properties.getProperty("numOfData"));
            
-        Date today = ((DateTimeService) beanFactory.getBean("dateTimeService")).getCurrentSqlDate();
+        Date today = ((DateTimeService) SpringServiceLocator.getService("dateTimeService")).getCurrentSqlDate();
         OriginEntryGroup groupToPost = originEntryGroupService.createGroup(today, SCRUBBER_VALID, true, true, false);
 
         int[] fieldLength = this.getFieldLength(fieldLengthList);

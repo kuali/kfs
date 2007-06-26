@@ -16,7 +16,6 @@
 package org.kuali.module.financial.service;
 
 import static org.kuali.kfs.util.SpringServiceLocator.getBalanceService;
-import static org.kuali.kfs.util.SpringServiceLocator.getBeanFactory;
 
 import java.util.List;
 
@@ -66,7 +65,7 @@ public class BalanceServiceTest extends KualiTestBase {
     @Override
     protected void setUp() throws Exception {
         super.setUp();
-        unitTestSqlDao = (UnitTestSqlDao) getBeanFactory().getBean("unitTestSqlDao");
+        unitTestSqlDao = (UnitTestSqlDao) SpringServiceLocator.getService("unitTestSqlDao");
         Integer fiscalYear = SpringServiceLocator.getUniversityDateService().getCurrentFiscalYear();
 
         if (runOnce) {

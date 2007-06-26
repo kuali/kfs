@@ -58,9 +58,9 @@ public class CustomerProfileSaveAction extends BaseAction {
 
   public CustomerProfileSaveAction() {
       super();
-      setCustomerProfileService( (CustomerProfileService)SpringServiceLocator.getLocalKFSService("pdpCustomerProfileService") );
-      setReferenceService( (ReferenceService)SpringServiceLocator.getLocalKFSService("pdpReferenceService") );
-      setBankService( (BankService)SpringServiceLocator.getLocalKFSService("pdpBankService") );
+      setCustomerProfileService( (CustomerProfileService)SpringServiceLocator.getService("pdpCustomerProfileService") );
+      setReferenceService( (ReferenceService)SpringServiceLocator.getService("pdpReferenceService") );
+      setBankService( (BankService)SpringServiceLocator.getService("pdpBankService") );
       setAccountService( SpringServiceLocator.getAccountService() );
       setSubAccountService( SpringServiceLocator.getSubAccountService() );
       setObjectCodeService( SpringServiceLocator.getObjectCodeService() );

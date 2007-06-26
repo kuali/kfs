@@ -40,7 +40,6 @@ import org.springframework.beans.factory.BeanFactory;
 public class LaborOriginEntryTestBase extends KualiTestBase {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(LaborOriginEntryTestBase.class);
 
-    protected BeanFactory beanFactory;
     protected ConfigurableDateService dateTimeService;
     protected PersistenceService persistenceService;
     protected UnitTestSqlDao unitTestSqlDao = null;
@@ -62,21 +61,19 @@ public class LaborOriginEntryTestBase extends KualiTestBase {
 
         LOG.debug("setUp() starting");
 
-        beanFactory = SpringServiceLocator.getBeanFactory();
-
-        dateTimeService = (ConfigurableDateService) beanFactory.getBean("testDateTimeService");
+        dateTimeService = (ConfigurableDateService) SpringServiceLocator.getService("testDateTimeService");
         date = dateTimeService.getCurrentDate();
 
         // Other objects needed for the tests
-        persistenceService = (PersistenceService) beanFactory.getBean("persistenceService");
-        unitTestSqlDao = (UnitTestSqlDao) beanFactory.getBean("unitTestSqlDao");
-        laborOriginEntryService = (LaborOriginEntryService) beanFactory.getBean("laborOriginEntryService");
+        persistenceService = (PersistenceService) SpringServiceLocator.getService("persistenceService");
+        unitTestSqlDao = (UnitTestSqlDao) SpringServiceLocator.getService("unitTestSqlDao");
+        laborOriginEntryService = (LaborOriginEntryService) SpringServiceLocator.getService("laborOriginEntryService");
 
-        originEntryDao = (OriginEntryDao) beanFactory.getBean("glOriginEntryDao");
-        laborOriginEntryDao = (LaborOriginEntryDao) beanFactory.getBean("laborOriginEntryDao");
+        originEntryDao = (OriginEntryDao) SpringServiceLocator.getService("glOriginEntryDao");
+        laborOriginEntryDao = (LaborOriginEntryDao) SpringServiceLocator.getService("laborOriginEntryDao");
 
-        originEntryGroupService = (OriginEntryGroupService) beanFactory.getBean("glOriginEntryGroupService");
-        kualiConfigurationService = (KualiConfigurationService) beanFactory.getBean("kualiConfigurationService");
+        originEntryGroupService = (OriginEntryGroupService) SpringServiceLocator.getService("glOriginEntryGroupService");
+        kualiConfigurationService = (KualiConfigurationService) SpringServiceLocator.getService("kualiConfigurationService");
 
         // Set all enhancements to off
         resetAllEnhancementFlags();

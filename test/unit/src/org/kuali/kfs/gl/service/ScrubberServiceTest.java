@@ -18,6 +18,7 @@ package org.kuali.module.gl.service;
 import java.util.Calendar;
 
 import org.kuali.core.service.PersistenceService;
+import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.gl.OriginEntryTestBase;
 import org.kuali.module.gl.bo.OriginEntrySource;
 import org.kuali.test.WithTestSpringContext;
@@ -35,9 +36,9 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
 
         LOG.debug("setUp() started");
 
-        scrubberService = (ScrubberService) beanFactory.getBean("glScrubberService");
+        scrubberService = (ScrubberService) SpringServiceLocator.getService("glScrubberService");
         scrubberService.setDateTimeService(dateTimeService);
-        persistenceService = (PersistenceService) beanFactory.getBean("persistenceService");
+        persistenceService = (PersistenceService) SpringServiceLocator.getService("persistenceService");
 
         // Get the test date time service so we can specify the date/time of the run
         Calendar c = Calendar.getInstance();

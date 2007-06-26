@@ -30,7 +30,6 @@ import org.springframework.beans.factory.BeanFactory;
 public class OrganizationReversionCategoryTest extends KualiTestBase {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(OrganizationReversionCategoryTest.class);
 
-    private BeanFactory beanFactory;
     private OrganizationReversionService organizationReversionService;
     private Map<String, OrganizationReversionCategoryLogic> categories;
     private ObjectCodeService objectCodeService;
@@ -39,8 +38,7 @@ public class OrganizationReversionCategoryTest extends KualiTestBase {
     public void setUp() throws Exception {
         super.setUp();
 
-        beanFactory = SpringServiceLocator.getBeanFactory();
-        organizationReversionService = (OrganizationReversionService) beanFactory.getBean("organizationReversionService");
+        organizationReversionService = (OrganizationReversionService) SpringServiceLocator.getService("organizationReversionService");
         categories = organizationReversionService.getCategories();
         objectCodeService = SpringServiceLocator.getObjectCodeService();
     }

@@ -26,7 +26,7 @@ public class LaborPosterRunner {
     }
 
     public LaborPosterRunner() {
-        laborPosterService = (LaborPosterService) SpringServiceLocator.getBeanFactory().getBean("laborPosterService");
+        laborPosterService = (LaborPosterService) SpringServiceLocator.getService("laborPosterService");
     }
 
     public void runPoster() {

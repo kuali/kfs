@@ -123,7 +123,7 @@
                 <shortLabel>Fringe</shortLabel>
 
                 <maxLength>8</maxLength>
-                <inclusiveMax>999</inclusiveMax>
+                <inclusiveMax>99</inclusiveMax>
                 <validationPattern>
                     <floatingPoint />
                 </validationPattern>
@@ -141,7 +141,7 @@
                 <shortLabel>Cost Share Fringe</shortLabel>
 
                 <maxLength>8</maxLength>
-                <inclusiveMax>999</inclusiveMax>
+                <inclusiveMax>99</inclusiveMax>
                 <validationPattern>
                     <floatingPoint />
                 </validationPattern>

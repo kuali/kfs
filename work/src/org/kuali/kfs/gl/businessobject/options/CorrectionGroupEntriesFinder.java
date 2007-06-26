@@ -47,9 +47,10 @@ public class CorrectionGroupEntriesFinder extends KeyValuesBase {
         Collections.sort(sortedGroupList, oegTypeComparator);
 
         for (OriginEntryGroup oeg : sortedGroupList) {
-            activeLabels.add(new KeyLabelPair(oeg.getId().toString(), oeg.getName()));
+            if (!oeg.getSourceCode().startsWith("L")){
+                activeLabels.add(new KeyLabelPair(oeg.getId().toString(), oeg.getName()));
+            }
         }
-
         return activeLabels;
     }
 

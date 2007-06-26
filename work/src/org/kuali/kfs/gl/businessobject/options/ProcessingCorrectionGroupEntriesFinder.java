@@ -54,7 +54,7 @@ public class ProcessingCorrectionGroupEntriesFinder extends KeyValuesBase {
         Collections.sort(sortedGroupList, oegTypeComparator);
 
         for (OriginEntryGroup oeg : sortedGroupList) {
-            if (oeg.getProcess().booleanValue()) {
+            if (oeg.getProcess().booleanValue() & !oeg.getSourceCode().startsWith("L")) {
                 activeLabels.add(new KeyLabelPair(oeg.getId().toString(), oeg.getName()));
             }
         }

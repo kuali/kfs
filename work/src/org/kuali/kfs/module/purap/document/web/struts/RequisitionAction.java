@@ -44,9 +44,7 @@ public class RequisitionAction extends PurchasingActionBase {
      */
     @Override
     protected void createDocument(KualiDocumentFormBase kualiDocumentFormBase) throws WorkflowException {
-        
         super.createDocument(kualiDocumentFormBase);
-        
         ((RequisitionDocument) kualiDocumentFormBase.getDocument()).initiateDocument();
     }
 
@@ -63,22 +61,6 @@ public class RequisitionAction extends PurchasingActionBase {
         // super.refresh() must occur before this line to get the correct APO limit
         document.setOrganizationAutomaticPurchaseOrderLimit(SpringServiceLocator.getPurapService().getApoLimit(document.getVendorContractGeneratedIdentifier(), document.getChartOfAccountsCode(), document.getOrganizationCode()));
         return forward;
-    }
-
-    public ActionForward viewRelatedDocuments(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        LOG.debug("viewRelatedDocuments() enter action");
-
-        //TODO add code
-
-        return mapping.findForward("viewRelatedDocuments");
-    }
-
-    public ActionForward viewPaymentHistory(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        LOG.debug("viewPaymentHistory() enter action");
-
-        //TODO add code
-
-        return mapping.findForward("viewPaymentHistory");
     }
 
     @Override

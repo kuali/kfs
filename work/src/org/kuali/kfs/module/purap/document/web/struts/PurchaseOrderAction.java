@@ -198,22 +198,6 @@ public class PurchaseOrderAction extends PurchasingActionBase {
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
     
-    public ActionForward viewRelatedDocuments(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        LOG.debug("viewRelatedDocuments() enter action");
-
-        // TODO add code
-
-        return mapping.findForward("viewRelatedDocuments");
-    }
-
-    public ActionForward viewPaymentHistory(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        LOG.debug("viewPaymentHistory() enter action");
-
-        // TODO add code
-
-        return mapping.findForward("viewPaymentHistory");
-    }
-
     /**
      * This method...
      * 

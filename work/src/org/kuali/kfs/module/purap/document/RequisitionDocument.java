@@ -113,25 +113,6 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
         billingAddress = (BillingAddress) SpringServiceLocator.getBusinessObjectService().findByPrimaryKey(BillingAddress.class, keys);
         this.templateBillingAddress(billingAddress);
 
-// TODO  WAIT ON ITEM LOGIC  (CHRIS AND DAVID SHOULD FIX THIS HERE)
-//        // add new item for freight
-//        addNewBelowLineItem(r, EpicConstants.ITEM_TYPE_FREIGHT_CODE);
-//
-//        // add new item for s&h
-//        addNewBelowLineItem(r, EpicConstants.ITEM_TYPE_SHIP_AND_HAND_CODE);
-//
-//        // add new item for full order discount
-//        addNewBelowLineItem(r, EpicConstants.ITEM_TYPE_ORDER_DISCOUNT_CODE);
-//
-//        // add new item for trade in
-//        addNewBelowLineItem(r, EpicConstants.ITEM_TYPE_TRADE_IN_CODE);
-
-//        Integer numRows = applicationSettingService.getInt("DEFAULT_ITEM_ROWS");
-//        for (int i = 0; i < numRows.intValue(); i++) {
-//            Integer nextLineNum = r.getNextItemLineNumber();
-//            ItemType iT = getItemType();
-//            addNewItem(r, iT, nextLineNum);
-//        }
         SpringServiceLocator.getPurapService().addBelowLineItems(this);
         this.refreshAllReferences();
     }
@@ -241,7 +222,6 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
         // Fill the BO Notes with an empty List.
         this.setBoNotes(new ArrayList());
       
-        //TODO is this ok for items and accts?
         for (Iterator iter = this.getItems().iterator(); iter.hasNext();) {
             RequisitionItem item = (RequisitionItem) iter.next();
             item.setPurapDocumentIdentifier(null);

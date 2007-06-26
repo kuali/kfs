@@ -101,7 +101,7 @@ public interface LaborOriginEntryService {
      * @param originCode Origin Code selection
      * @return iterator to all the entries
      */
-    public Iterator<LaborOriginEntry> getEntriesByDocument(OriginEntryGroup oeg, String documentNumber, String documentTypeCode, String originCode);
+    public Collection<LaborOriginEntry> getEntriesByDocument(OriginEntryGroup oeg, String documentNumber, String documentTypeCode, String originCode);
 
     /**
      * Take a generic transaction and save it as an origin entry in a specific group

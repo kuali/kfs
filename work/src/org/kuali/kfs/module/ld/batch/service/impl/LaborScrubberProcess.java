@@ -46,9 +46,11 @@ import org.kuali.module.gl.bo.UniversityDate;
 import org.kuali.module.gl.dao.UniversityDateDao;
 import org.kuali.module.gl.service.OriginEntryGroupService;
 import org.kuali.module.gl.service.ScrubberValidator;
+import org.kuali.module.gl.service.impl.scrubber.DemergerReportData;
 import org.kuali.module.gl.service.impl.scrubber.ScrubberReportData;
 import org.kuali.module.gl.util.Message;
 import org.kuali.module.gl.util.ObjectHelper;
+import org.kuali.module.gl.util.OriginEntryStatistics;
 import org.kuali.module.labor.bo.LaborOriginEntry;
 import org.kuali.module.labor.service.LaborOriginEntryService;
 import org.kuali.module.labor.service.LaborReportService;
@@ -248,10 +250,10 @@ public class LaborScrubberProcess {
         // run the demerger
         
        //TODO: Check
-       /* if (!reportOnlyMode) {
+        if (!reportOnlyMode) {
             performDemerger(errorGroup, validGroup);
         }
-*/
+
         // Run the reports
         if ( reportOnlyMode ) {
             // Run transaction list
@@ -850,5 +852,57 @@ public class LaborScrubberProcess {
         scrubbedEntry.setReferenceFinancialSystemOrigination(unscrubbedEntry.getReferenceFinancialSystemOrigination());
         scrubbedEntry.setPayrollEndDateFiscalPeriod(unscrubbedEntry.getPayrollEndDateFiscalPeriod());
         
+    }
+    
+    /**
+     * The demerger process reads all of the documents in the error group, then moves all of the original entries for that document
+     * from the valid group to the error group. It does not move generated entries to the error group. Those are deleted. It also
+     * modifies the doc number and origin code of cost share transfers.
+     * 
+     * @param errorGroup
+     * @param validGroup
+     */
+    private void performDemerger(OriginEntryGroup errorGroup, OriginEntryGroup validGroup) {
+        
+        LOG.debug("performDemerger() started");
+
+        // Without this step, the job fails with Optimistic Lock Exceptions
+        persistenceService.clearCache();
+
+        DemergerReportData demergerReport = new DemergerReportData();
+
+        OriginEntryStatistics eOes = laborOriginEntryService.getStatistics(errorGroup.getId());
+        demergerReport.setErrorTransactionsRead(eOes.getRowCount());
+      
+        String benefitTransferCode = new String("BT");
+        String salaryTransferCode = new String("ST");
+        
+        // Read all the documents from the error group and move all non-generated
+        // transactions for these documents from the valid group into the error group
+        Iterator<LaborOriginEntry> errorEntryIterator = laborOriginEntryService.getEntriesByGroup(errorGroup);
+        Collection<LaborOriginEntry> transactions = null;
+        
+        while (errorEntryIterator.hasNext()) {
+            LaborOriginEntry errorEntry = errorEntryIterator.next();
+
+            // Check each entry is from Benefit Expense Transfer or Salary Expense Transfer
+            if (errorEntry.getFinancialDocumentTypeCode().trim().equals(benefitTransferCode) | errorEntry.getFinancialDocumentTypeCode().trim().equals(salaryTransferCode)){
+                //if so, get entry from valid group. It should be Source or Target accounting line
+               transactions = laborOriginEntryService.getEntriesByDocument(validGroup, errorEntry.getDocumentNumber(), errorEntry.getFinancialDocumentTypeCode(), errorEntry.getFinancialSystemOriginationCode());
+            }
+            //if transactions is null, it means that Source or Target accounting line is already in SCE.
+            if (!(transactions == null)){
+                for(LaborOriginEntry transaction: transactions) {
+                    demergerReport.incrementErrorTransactionsSaved();
+                    transaction.setGroup(errorGroup);
+                    laborOriginEntryService.save(transaction);
+                }
+            }
+            eOes = laborOriginEntryService.getStatistics(errorGroup.getId());
+            demergerReport.setErrorTransactionWritten(eOes.getRowCount());
+            String reportsDirectory = ReportRegistry.getReportsDirectory();
+            laborReportService.generateScrubberDemergerStatisticsReports(demergerReport, reportsDirectory, runDate);
+        }
+    
     }
 }

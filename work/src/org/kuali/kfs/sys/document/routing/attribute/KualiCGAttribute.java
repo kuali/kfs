@@ -196,26 +196,16 @@ public class KualiCGAttribute implements RoleAttribute, WorkflowAttribute {
     private static GroupId getAwardWorkgroupId(AwardWorkgroupRole role) throws Exception {// fix this
         String routingWorkgroupName = role.routingWorkgroupName;
 
-        // if we already have an ID, validate it, and then we're done
-        if (StringUtils.isNotBlank(routingWorkgroupName)) {
-            routingWorkgroupName = new GroupNameId(routingWorkgroupName).getNameId();
-            if (routingWorkgroupName.equals(null)) {
-                throw new RuntimeException("Workgroup with name: " + role.routingWorkgroupName + " was not found.  Routing cannot continue.");
-            }
-            return new GroupNameId(routingWorkgroupName);
-
-        }
-
         // if we dont have an ID, but we do have a chart/account, then hit Kuali to retrieve current FO
 
-        if (StringUtils.isNotBlank(role.chart) && StringUtils.isNotBlank(role.accountNumber)) {
+        if (StringUtils.isBlank(routingWorkgroupName) && StringUtils.isNotBlank(role.chart) && StringUtils.isNotBlank(role.accountNumber)) {
             routingWorkgroupName = SpringServiceLocator.getAwardService().getAwardWorkgroupForAccount(role.chart, role.accountNumber);
-
         }
 
         // if we cant find a AwardWorkgroup, log it.
         if (StringUtils.isBlank(routingWorkgroupName)) {
             LOG.debug(new StringBuffer("Could not locate the award workgroup for the given account ").append(role.accountNumber).toString());
+            return null;
         }
 
         return new GroupNameId(routingWorkgroupName);
@@ -303,19 +293,6 @@ public class KualiCGAttribute implements RoleAttribute, WorkflowAttribute {
 
         public AwardWorkgroupRole(String roleName) {
             this.roleName = roleName;
-        }
-
-        public AwardWorkgroupRole(String roleName, String routingWorkgroupName, String chart, String accountNumber) {
-            this.roleName = roleName;
-            this.routingWorkgroupName = routingWorkgroupName;
-            this.chart = chart;
-            this.accountNumber = accountNumber;
-        }
-
-        public AwardWorkgroupRole(String roleName, String chart, String accountNumber) {
-            this.roleName = roleName;
-            this.chart = chart;
-            this.accountNumber = accountNumber;
         }
 
         @Override

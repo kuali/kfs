@@ -222,6 +222,17 @@ public interface ReportService {
     public void generateNominalActivityClosingStatisticsReport(Map jobParameters, List reportSummary, Date runDate, OriginEntryGroup originEntryGroup);
     
     /**
+     * 
+     * This method generates the statistics report of the organization reversion process.
+     * 
+     * @param jobParameters the parameters the org reversion process was run with
+     * @param reportSummary a list of various counts the job went through
+     * @param runDate the date the report was run
+     * @param orgReversionOriginEntryGroup the origin entry group that contains the reversion origin entries
+     */
+    public void generateOrgReversionStatisticsReport(Map jobParameters, List reportSummary, Date runDate, OriginEntryGroup orgReversionOriginEntryGroup);
+    
+    /**
      * Poster Reversal Transactions Listing
      * 
      * @param runDate Run date of the report

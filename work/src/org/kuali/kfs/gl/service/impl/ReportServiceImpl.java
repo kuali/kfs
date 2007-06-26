@@ -623,6 +623,18 @@ public class ReportServiceImpl implements ReportService {
         String title = "Nominal Activity Closing Report ";
         transactionReport.generateReport(jobParameters, null, reportSummary, runDate, title, "year_end_nominal_activity_closing", reportsDirectory, new Object[] { new Object[] { originEntryGroup, "Nominal Activity Closing Statistics" } });
     }
+    
+    /**
+     * 
+     * @see org.kuali.module.gl.service.ReportService#generateOrgReversionStatisticsReport(java.util.Map, java.util.List, java.util.Date, org.kuali.module.gl.bo.OriginEntryGroup)
+     */
+    public void generateOrgReversionStatisticsReport(Map jobParameters, List reportSummary, Date runDate, OriginEntryGroup orgReversionOriginEntryGroup) {
+        LOG.debug("generateOrgReversionStatisticsReport() started");
+        
+        YearEndTransactionReport transactionReport = new YearEndTransactionReport(YearEndTransactionReport.YearEndReportType.ORGANIZATION_REVERSION_PROCESS_REPORT);
+        String title = "Organization Reversion Process Report ";
+        transactionReport.generateReport(jobParameters, null, reportSummary, runDate, title, "org_reversion_process", reportsDirectory, new Object[] { new Object[] { orgReversionOriginEntryGroup, "Organization Reversion Statistics"} });
+    }
 
     /**
      * Generate the header for the scrubber status report.

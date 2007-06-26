@@ -407,6 +407,9 @@
 		<property name="cashOrganizationReversionCategoryLogic">
 			<ref bean="glCashOrganizationReversionCategoryLogic" />
 		</property>
+		<property name="reportService">
+			<ref bean="glReportService" />
+		</property>
 	</bean>
 			
 	<bean id="glCollectorService" class="org.kuali.module.gl.service.impl.CollectorServiceImpl">

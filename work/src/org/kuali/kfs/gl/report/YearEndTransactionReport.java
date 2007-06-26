@@ -61,7 +61,8 @@ public class YearEndTransactionReport {
     public enum YearEndReportType {
         NOMINAL_ACTIVITY_CLOSE_REPORT,
         FORWARD_BALANCES_REPORT,
-        FORWARD_ENCUMBERANCES_REPORT
+        FORWARD_ENCUMBERANCES_REPORT,
+        ORGANIZATION_REVERSION_PROCESS_REPORT
     }
 
     class PageHelper extends PdfPageEventHelper {
@@ -145,7 +146,7 @@ public class YearEndTransactionReport {
             Collections.sort(reportSummary);
             Paragraph paragraph;
             
-            if (this.reportType == YearEndReportType.FORWARD_ENCUMBERANCES_REPORT || this.reportType == YearEndReportType.NOMINAL_ACTIVITY_CLOSE_REPORT) {
+            if (this.reportType == YearEndReportType.FORWARD_ENCUMBERANCES_REPORT || this.reportType == YearEndReportType.NOMINAL_ACTIVITY_CLOSE_REPORT || this.reportType == YearEndReportType.ORGANIZATION_REVERSION_PROCESS_REPORT) {
                 paragraph = new Paragraph();
                 paragraph.setSpacingBefore(SECTION_MARGIN);
                 paragraph.setSpacingAfter(SECTION_MARGIN);

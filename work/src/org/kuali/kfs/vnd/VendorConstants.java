@@ -47,6 +47,7 @@ public class VendorConstants {
         public static final String TOLL_FREE = "TF";
         public static final String PHONE = "PH";
         public static final String FAX = "FX";
+        public static final String PO = "PO";
     }
 
 }

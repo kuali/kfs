@@ -27,6 +27,7 @@ import org.kuali.module.gl.service.OrganizationReversionSelection;
 import org.kuali.module.gl.service.OriginEntryGroupService;
 import org.kuali.module.gl.service.OriginEntryService;
 import org.kuali.module.gl.service.ReportService;
+import org.kuali.module.gl.service.OrgReversionUnitOfWorkService;
 import org.kuali.module.gl.service.impl.orgreversion.OrganizationReversionProcess;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -45,6 +46,7 @@ public class OrganizationReversionProcessServiceImpl implements OrganizationReve
     private OrganizationReversionCategoryLogic cashOrganizationReversionCategoryLogic;
     private PriorYearAccountService priorYearAccountService;
     private ReportService reportService;
+    private OrgReversionUnitOfWorkService orgReversionUnitOfWorkService;
 
     public void setBalanceService(BalanceService balanceService) {
         this.balanceService = balanceService;
@@ -93,11 +95,23 @@ public class OrganizationReversionProcessServiceImpl implements OrganizationReve
     public void setReportService(ReportService reportService) {
         this.reportService = reportService;
     }
+    
+    /**
+     * This is a setter.  It sets the OrgReversionUnitOfWorkService so we can use it, when we
+     * go and create the OrgReversionProcesses.  It makes the internal variables equal to the parameter
+     * you've sent in.  That's how setters work.  It's a concept that likely doesn't need heavy
+     * commenting, but perhaps should lead to debates over how object oriented languages are ideally used
+     * or the nature of state and concurrency within functional versus imperative languages.
+     * @param orgReversionUnitOfWorkService the service to set.
+     */
+    public void setOrgReversionUnitOfWorkService(OrgReversionUnitOfWorkService orgReversionUnitOfWorkService) {
+        this.orgReversionUnitOfWorkService = orgReversionUnitOfWorkService;
+    }
 
     public void organizationReversionProcessEndOfYear() {
         LOG.debug("organizationReversionProcessEndOfYear() started");
 
-        OrganizationReversionProcess orp = new OrganizationReversionProcess(true, organizationReversionService, kualiConfigurationService, balanceService, organizationReversionSelection, originEntryGroupService, originEntryService, persistenceService, dateTimeService, cashOrganizationReversionCategoryLogic, priorYearAccountService, reportService);
+        OrganizationReversionProcess orp = new OrganizationReversionProcess(true, organizationReversionService, kualiConfigurationService, balanceService, organizationReversionSelection, originEntryGroupService, originEntryService, persistenceService, dateTimeService, cashOrganizationReversionCategoryLogic, priorYearAccountService, reportService, orgReversionUnitOfWorkService);
 
         orp.organizationReversionProcess();
     }
@@ -105,7 +119,7 @@ public class OrganizationReversionProcessServiceImpl implements OrganizationReve
     public void organizationReversionProcessBeginningOfYear() {
         LOG.debug("organizationReversionProcessEndOfYear() started");
 
-        OrganizationReversionProcess orp = new OrganizationReversionProcess(false, organizationReversionService, kualiConfigurationService, balanceService, organizationReversionSelection, originEntryGroupService, originEntryService, persistenceService, dateTimeService, cashOrganizationReversionCategoryLogic, priorYearAccountService, reportService);
+        OrganizationReversionProcess orp = new OrganizationReversionProcess(false, organizationReversionService, kualiConfigurationService, balanceService, organizationReversionSelection, originEntryGroupService, originEntryService, persistenceService, dateTimeService, cashOrganizationReversionCategoryLogic, priorYearAccountService, reportService, orgReversionUnitOfWorkService);
 
         orp.organizationReversionProcess();
     }

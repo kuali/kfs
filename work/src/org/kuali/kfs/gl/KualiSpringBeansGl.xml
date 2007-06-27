@@ -410,6 +410,9 @@
 		<property name="reportService">
 			<ref bean="glReportService" />
 		</property>
+		<property name="orgReversionUnitOfWorkService">
+			<ref bean="glOrgReversionUnitOfWorkService" />
+		</property>
 	</bean>
 			
 	<bean id="glCollectorService" class="org.kuali.module.gl.service.impl.CollectorServiceImpl">
@@ -1511,6 +1514,15 @@
 		</property>
 		<property name="mailService">
 			<ref bean="mailService"/>
+		</property>
+	</bean>
+	
+	<bean id="glOrgReversionUnitOfWorkService" class="org.kuali.module.gl.service.impl.OrgReversionUnitOfWorkServiceImpl">
+		<property name="businessObjectService">
+			<ref bean="businessObjectService" />
+		</property>
+		<property name="orgReversionUnitOfWorkDao">
+			<bean class="org.kuali.module.gl.dao.jdbc.OrgReversionUnitOfWorkDaoJdbc" parent="platformAwareDaoJdbc" />
 		</property>
 	</bean>
 </beans>

@@ -123,18 +123,9 @@ public interface PurchasingAccountsPayableDocument extends AccountingDocument {
      */
     public String[] getBelowTheLineTypes();
 
-
     /**
-     * Gets the summaryAccounts attribute this is used by the summary accounts method 
-     * @return Returns the summaryAccounts.
+     * Sets up the summaryAccounts attribute value.
      */
-    public List<SourceAccountingLine> getSummaryAccounts();
-
-    /**
-     * Sets the summaryAccounts attribute value.
-     * @param summaryAccounts The summaryAccounts to set.
-     */
-    public void setSummaryAccounts(List<SourceAccountingLine> summaryAccounts);
-        
-
+    public void refreshAccountSummary();
+    
 }

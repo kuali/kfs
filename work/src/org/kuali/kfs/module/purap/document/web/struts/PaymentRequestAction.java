@@ -124,8 +124,7 @@ public class PaymentRequestAction extends AccountsPayableActionBase {
         // If we are here either there was no duplicate or there was a duplicate and the user hits continue, in either case we need to validate the business rules
         paymentRequestDocument.getDocumentHeader().setFinancialDocumentDescription("dummy data to pass the business rule");
         boolean rulePassed = SpringServiceLocator.getKualiRuleService().applyRules(new ContinueAccountsPayableEvent(paymentRequestDocument));        
-        paymentRequestDocument.getDocumentHeader().setFinancialDocumentDescription(null);
-        
+                
         if (rulePassed) {           
             paymentRequestDocument.populatePaymentRequestFromPurchaseOrder(purchaseOrderDocument);
             paymentRequestDocument.setStatusCode(PurapConstants.PaymentRequestStatuses.IN_PROCESS);
@@ -136,6 +135,14 @@ public class PaymentRequestAction extends AccountsPayableActionBase {
             paymentRequestDocument.setStatusCode(PurapConstants.PaymentRequestStatuses.INITIATE);
         }
         
+        //KULPURAP-683 - set description to a specific value
+        StringBuffer descr = new StringBuffer("");
+        descr.append("PO: ");
+        descr.append(paymentRequestDocument.getPurchaseOrderIdentifier());
+        descr.append(" Vendor: ");
+        descr.append( StringUtils.trimToEmpty(paymentRequestDocument.getVendorName()) );
+        paymentRequestDocument.getDocumentHeader().setFinancialDocumentDescription(descr.toString());
+
         //If the list of closed/expired accounts is not empty add a warning and add a note for the close / epired accounts which get replaced
         //HashMap<String, String> expiredOrClosedAccounts = paymentRequestService.expiredOrClosedAccountsList(paymentRequestDocument);
         //TODO: Chris finish above method for now just set to empty

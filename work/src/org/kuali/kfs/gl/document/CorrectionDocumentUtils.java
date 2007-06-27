@@ -23,6 +23,7 @@ import java.util.List;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.KFSConstants;
+import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.gl.bo.CorrectionChange;
 import org.kuali.module.gl.bo.CorrectionChangeGroup;
 import org.kuali.module.gl.bo.CorrectionCriteria;
@@ -31,7 +32,6 @@ import org.kuali.module.gl.document.CorrectionDocument;
 import org.kuali.module.gl.web.optionfinder.OriginEntryFieldFinder;
 import org.kuali.module.labor.bo.LaborOriginEntry;
 import org.kuali.module.labor.web.optionfinder.LaborOriginEntryFieldFinder;
-import org.kuali.rice.KNSServiceLocator;
 
 public class CorrectionDocumentUtils {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CorrectionDocumentUtils.class);
@@ -50,7 +50,7 @@ public class CorrectionDocumentUtils {
     public static final int DEFAULT_RECORDS_PER_PAGE = 10;
     
     public static int getRecordCountFunctionalityLimit() {
-        String limitString = KNSServiceLocator.getKualiConfigurationService().getApplicationParameterValue(KFSConstants.ParameterGroups.GENERAL_LEDGER_CORRECTION_PROCESS,
+        String limitString = SpringServiceLocator.getKualiConfigurationService().getApplicationParameterValue(KFSConstants.ParameterGroups.GENERAL_LEDGER_CORRECTION_PROCESS,
                 KFSConstants.GeneralLedgerCorrectionProcessApplicationParameterKeys.RECORD_COUNT_FUNCTIONALITY_LIMIT);
         if (limitString != null) {
             return Integer.valueOf(limitString);
@@ -60,7 +60,7 @@ public class CorrectionDocumentUtils {
     }
     
     public static int getRecordsPerPage() {
-        String limitString = KNSServiceLocator.getKualiConfigurationService().getApplicationParameterValue(KFSConstants.ParameterGroups.GENERAL_LEDGER_CORRECTION_PROCESS,
+        String limitString = SpringServiceLocator.getKualiConfigurationService().getApplicationParameterValue(KFSConstants.ParameterGroups.GENERAL_LEDGER_CORRECTION_PROCESS,
                 KFSConstants.GeneralLedgerCorrectionProcessApplicationParameterKeys.RECORDS_PER_PAGE);
         if (limitString != null) {
             return Integer.valueOf(limitString);

@@ -16,7 +16,6 @@
 package org.kuali.module.financial.service;
 
 import static org.kuali.kfs.util.SpringServiceLocator.getCashReceiptService;
-import static org.kuali.rice.KNSServiceLocator.getDocumentService;
 import static org.kuali.test.fixtures.UserNameFixture.KHUNTLEY;
 
 import java.util.Iterator;
@@ -26,6 +25,7 @@ import org.kuali.core.exceptions.ValidationException;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.KFSConstants;
+import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.financial.document.CashReceiptDocument;
 import org.kuali.module.financial.util.CashReceiptFamilyTestUtil;
 import org.kuali.test.KualiTestBase;
@@ -423,12 +423,12 @@ public class CashReceiptServiceTest extends KualiTestBase {
         for (Iterator i = verifiedReceipts.iterator(); i.hasNext();) {
             CashReceiptDocument receipt = (CashReceiptDocument) i.next();
             receipt.getDocumentHeader().setFinancialDocumentStatusCode("Z");
-            getDocumentService().updateDocument(receipt);
+            SpringServiceLocator.getDocumentService().updateDocument(receipt);
         }
     }
 
     private CashReceiptDocument buildCashReceiptDoc(String workgroupName, String description, String status, KualiDecimal cashAmount, KualiDecimal checkAmount) throws WorkflowException {
-        CashReceiptDocument crDoc = (CashReceiptDocument) getDocumentService().getNewDocument(CashReceiptDocument.class);
+        CashReceiptDocument crDoc = (CashReceiptDocument) SpringServiceLocator.getDocumentService().getNewDocument(CashReceiptDocument.class);
 
         crDoc.getDocumentHeader().setFinancialDocumentDescription(description);
         crDoc.getDocumentHeader().setFinancialDocumentStatusCode(status);
@@ -442,7 +442,7 @@ public class CashReceiptServiceTest extends KualiTestBase {
         crDoc.addSourceAccountingLine(CashReceiptFamilyTestUtil.buildSourceAccountingLine(crDoc.getDocumentNumber(), crDoc.getPostingYear(), crDoc.getNextSourceLineNumber()));
 
         try {
-            getDocumentService().saveDocument(crDoc);
+            SpringServiceLocator.getDocumentService().saveDocument(crDoc);
         }
         catch(ValidationException e) {
             // If the business rule evaluation fails then give us more info for debugging this test.

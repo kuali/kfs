@@ -84,7 +84,7 @@ import org.kuali.module.gl.web.optionfinder.CorrectionGroupEntriesFinder;
 import org.kuali.module.gl.web.optionfinder.OriginEntryFieldFinder;
 import org.kuali.module.gl.web.struts.form.CorrectionForm;
 import org.kuali.module.gl.web.struts.form.GroupHolder;
-import org.kuali.rice.KNSServiceLocator;
+import org.kuali.kfs.util.SpringServiceLocator;
 
 import edu.iu.uis.eden.clientapp.IDocHandler;
 
@@ -1261,7 +1261,7 @@ public class CorrectionAction extends KualiDocumentActionBase implements KualiTa
             updateDocumentSummary(document, correctionForm.getAllEntries(), correctionForm.isRestrictedFunctionalityMode());
             
             // if not in restricted functionality mode, then we can store these results temporarily in the GLCP origin entry service
-            SequenceAccessorService sequenceAccessorService = KNSServiceLocator.getSequenceAccessorService();
+            SequenceAccessorService sequenceAccessorService = SpringServiceLocator.getSequenceAccessorService();
             String glcpSearchResultsSequenceNumber = String.valueOf(sequenceAccessorService.getNextAvailableSequenceNumber(KFSConstants.LOOKUP_RESULTS_SEQUENCE));
             
             SpringServiceLocator.getGlCorrectionProcessOriginEntryService().persistAllEntries(glcpSearchResultsSequenceNumber, searchResults);
@@ -1307,7 +1307,7 @@ public class CorrectionAction extends KualiDocumentActionBase implements KualiTa
             updateDocumentSummary(document, correctionForm.getAllEntries(), false);
             
             // if not in restricted functionality mode, then we can store these results temporarily in the GLCP origin entry service
-            SequenceAccessorService sequenceAccessorService = KNSServiceLocator.getSequenceAccessorService();
+            SequenceAccessorService sequenceAccessorService = SpringServiceLocator.getSequenceAccessorService();
             String glcpSearchResultsSequenceNumber = String.valueOf(sequenceAccessorService.getNextAvailableSequenceNumber(KFSConstants.LOOKUP_RESULTS_SEQUENCE));
             
             SpringServiceLocator.getGlCorrectionProcessOriginEntryService().persistAllEntries(glcpSearchResultsSequenceNumber, searchResults);
@@ -1380,7 +1380,7 @@ public class CorrectionAction extends KualiDocumentActionBase implements KualiTa
             updateDocumentSummary(document, correctionForm.getAllEntries(), false);
             
             // if not in restricted functionality mode, then we can store these results temporarily in the GLCP origin entry service
-            SequenceAccessorService sequenceAccessorService = KNSServiceLocator.getSequenceAccessorService();
+            SequenceAccessorService sequenceAccessorService = SpringServiceLocator.getSequenceAccessorService();
             String glcpSearchResultsSequenceNumber = String.valueOf(sequenceAccessorService.getNextAvailableSequenceNumber(KFSConstants.LOOKUP_RESULTS_SEQUENCE));
             
             SpringServiceLocator.getGlCorrectionProcessOriginEntryService().persistAllEntries(glcpSearchResultsSequenceNumber, searchResults);

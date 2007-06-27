@@ -17,11 +17,11 @@ package org.kuali.module.chart.lookup.valuefinder;
 
 import java.util.Map;
 
-import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.bo.user.KualiModuleUser;
+import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.util.GlobalVariables;
+import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.chart.bo.ChartUser;
-import org.kuali.rice.KNSServiceLocator;
 
 /**
  * 
@@ -37,7 +37,7 @@ public class ValueFinderUtil {
     public static ChartUser getCurrentChartUser() {
         UniversalUser currentUser = ValueFinderUtil.getCurrentUniversalUser();
         if (currentUser != null) {
-            Map<String, KualiModuleUser> moduleUsers = KNSServiceLocator.getUniversalUserService().getModuleUsers(currentUser);
+            Map<String, KualiModuleUser> moduleUsers = SpringServiceLocator.getUniversalUserService().getModuleUsers(currentUser);
             return (ChartUser)moduleUsers.get(ChartUser.MODULE_ID);
         } else {
             return null;

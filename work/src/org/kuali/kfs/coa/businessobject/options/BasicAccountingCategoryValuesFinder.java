@@ -20,16 +20,16 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
-import org.kuali.module.chart.bo.BasicAccountingCategory;
 import org.kuali.core.lookup.keyvalues.KeyValuesBase;
 import org.kuali.core.service.KeyValuesService;
 import org.kuali.core.web.ui.KeyLabelPair;
-import org.kuali.rice.KNSServiceLocator;
+import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.module.chart.bo.BasicAccountingCategory;
 
 public class BasicAccountingCategoryValuesFinder extends KeyValuesBase {
 
     public List getKeyValues() {
-        KeyValuesService boService = KNSServiceLocator.getKeyValuesService();
+        KeyValuesService boService = SpringServiceLocator.getKeyValuesService();
         Collection codes = boService.findAllOrderBy(BasicAccountingCategory.class, "sortCode", true);
         List labels = new ArrayList();
         labels.add(new KeyLabelPair("", ""));

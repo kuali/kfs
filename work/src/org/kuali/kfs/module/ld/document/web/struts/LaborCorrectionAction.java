@@ -66,7 +66,7 @@ import org.kuali.module.labor.service.LaborCorrectionDocumentService;
 import org.kuali.module.labor.service.LaborOriginEntryService;
 import org.kuali.module.labor.web.optionfinder.LaborOriginEntryFieldFinder;
 import org.kuali.module.labor.web.struts.form.LaborCorrectionForm;
-import org.kuali.rice.KNSServiceLocator;
+import org.kuali.kfs.util.SpringServiceLocator;
 
 public class LaborCorrectionAction extends CorrectionAction{
 
@@ -302,7 +302,7 @@ public class LaborCorrectionAction extends CorrectionAction{
             updateDocumentSummary(document, correctionForm.getAllEntries(), correctionForm.isRestrictedFunctionalityMode());
             
             // if not in restricted functionality mode, then we can store these results temporarily in the GLCP origin entry service
-            SequenceAccessorService sequenceAccessorService = KNSServiceLocator.getSequenceAccessorService();
+            SequenceAccessorService sequenceAccessorService = SpringServiceLocator.getSequenceAccessorService();
             String glcpSearchResultsSequenceNumber = String.valueOf(sequenceAccessorService.getNextAvailableSequenceNumber(KFSConstants.LOOKUP_RESULTS_SEQUENCE));
             
             SpringServiceLocator.getGlCorrectionProcessOriginEntryService().persistAllEntries(glcpSearchResultsSequenceNumber, searchResults);
@@ -585,7 +585,7 @@ public class LaborCorrectionAction extends CorrectionAction{
             updateDocumentSummary(document, laborCorrectionForm.getAllEntries(), false);
             
             // if not in restricted functionality mode, then we can store these results temporarily in the GLCP origin entry service
-            SequenceAccessorService sequenceAccessorService = KNSServiceLocator.getSequenceAccessorService();
+            SequenceAccessorService sequenceAccessorService = SpringServiceLocator.getSequenceAccessorService();
             String glcpSearchResultsSequenceNumber = String.valueOf(sequenceAccessorService.getNextAvailableSequenceNumber(KFSConstants.LOOKUP_RESULTS_SEQUENCE));
             
             SpringServiceLocator.getGlCorrectionProcessOriginEntryService().persistAllEntries(glcpSearchResultsSequenceNumber, searchResults);
@@ -652,7 +652,7 @@ public class LaborCorrectionAction extends CorrectionAction{
             updateDocumentSummary(document, laborCorrectionForm.getAllEntries(), false);
             
             // if not in restricted functionality mode, then we can store these results temporarily in the GLCP origin entry service
-            SequenceAccessorService sequenceAccessorService = KNSServiceLocator.getSequenceAccessorService();
+            SequenceAccessorService sequenceAccessorService = SpringServiceLocator.getSequenceAccessorService();
             String glcpSearchResultsSequenceNumber = String.valueOf(sequenceAccessorService.getNextAvailableSequenceNumber(KFSConstants.LOOKUP_RESULTS_SEQUENCE));
             
             SpringServiceLocator.getGlCorrectionProcessOriginEntryService().persistAllEntries(glcpSearchResultsSequenceNumber, searchResults);

@@ -18,8 +18,6 @@ package org.kuali.module.financial.service;
 import static org.kuali.kfs.util.SpringServiceLocator.getCashDrawerService;
 import static org.kuali.kfs.util.SpringServiceLocator.getCashManagementService;
 import static org.kuali.kfs.util.SpringServiceLocator.getCashReceiptService;
-import static org.kuali.rice.KNSServiceLocator.getBusinessObjectService;
-import static org.kuali.rice.KNSServiceLocator.getDocumentService;
 import static org.kuali.test.fixtures.UserNameFixture.KHUNTLEY;
 
 import java.security.GeneralSecurityException;
@@ -36,6 +34,7 @@ import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSPropertyConstants;
+import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.financial.bo.BankAccount;
 import org.kuali.module.financial.bo.CashDrawer;
 import org.kuali.module.financial.bo.Deposit;
@@ -101,7 +100,7 @@ public class CashManagementServiceTest extends KualiTestBase {
             saveDocument(createdDoc);
 
             // verify that the doc was saved
-            CashManagementDocument retrievedDoc = (CashManagementDocument) getDocumentService().getByDocumentHeaderId(testDocumentId);
+            CashManagementDocument retrievedDoc = (CashManagementDocument) SpringServiceLocator.getDocumentService().getByDocumentHeaderId(testDocumentId);
             assertEquals("S", retrievedDoc.getDocumentHeader().getWorkflowDocument().getRouteHeader().getDocRouteStatus());
         }
         finally {
@@ -179,7 +178,7 @@ public class CashManagementServiceTest extends KualiTestBase {
             saveDocument(createdDoc);
 
             // verify it actually got saved
-            CashManagementDocument retrievedDoc = (CashManagementDocument) getDocumentService().getByDocumentHeaderId(testDocumentId);
+            CashManagementDocument retrievedDoc = (CashManagementDocument) SpringServiceLocator.getDocumentService().getByDocumentHeaderId(testDocumentId);
             assertEquals("S", retrievedDoc.getDocumentHeader().getWorkflowDocument().getRouteHeader().getDocRouteStatus());
 
 
@@ -237,13 +236,13 @@ public class CashManagementServiceTest extends KualiTestBase {
 
             // add interim deposit
             changeCurrentUser(KHUNTLEY);
-            CashManagementDocument interimDoc = (CashManagementDocument) getDocumentService().getByDocumentHeaderId(testDocumentId);
+            CashManagementDocument interimDoc = (CashManagementDocument) SpringServiceLocator.getDocumentService().getByDocumentHeaderId(testDocumentId);
             getCashManagementService().addDeposit(interimDoc, VALID_DEPOSIT_TICKET, lookupBankAccount(), crList, false);
 
 
             //
             // verify addition
-            CashManagementDocument depositedDoc = (CashManagementDocument) getDocumentService().getByDocumentHeaderId(testDocumentId);
+            CashManagementDocument depositedDoc = (CashManagementDocument) SpringServiceLocator.getDocumentService().getByDocumentHeaderId(testDocumentId);
             {
 
                 // 1 deposit in document
@@ -255,7 +254,7 @@ public class CashManagementServiceTest extends KualiTestBase {
                 depositPK.put(KFSPropertyConstants.DOCUMENT_NUMBER, testDocumentId);
                 depositPK.put("financialDocumentDepositLineNumber", new Integer(0));
 
-                assertEquals(1, getBusinessObjectService().countMatching(Deposit.class, depositPK));
+                assertEquals(1, SpringServiceLocator.getBusinessObjectService().countMatching(Deposit.class, depositPK));
 
                 // deposit contains 3 CRs
                 Deposit deposit = depositedDoc.getDeposit(0);
@@ -270,16 +269,16 @@ public class CashManagementServiceTest extends KualiTestBase {
 
             //
             // cancel document
-            getDocumentService().cancelDocument(depositedDoc, "testing CMS.cancel");
+            SpringServiceLocator.getDocumentService().cancelDocument(depositedDoc, "testing CMS.cancel");
 
-            DocumentWorkflowStatusMonitor m = new DocumentWorkflowStatusMonitor(getDocumentService(), testDocumentId, "X");
+            DocumentWorkflowStatusMonitor m = new DocumentWorkflowStatusMonitor(SpringServiceLocator.getDocumentService(), testDocumentId, "X");
             assertTrue(ChangeMonitor.waitUntilChange(m, 300, 5));
 
 
             {
                 //
                 // verify cancellation
-                CashManagementDocument postCanceledDoc = (CashManagementDocument) getDocumentService().getByDocumentHeaderId(testDocumentId);
+                CashManagementDocument postCanceledDoc = (CashManagementDocument) SpringServiceLocator.getDocumentService().getByDocumentHeaderId(testDocumentId);
 
 
                 // document state is canceled
@@ -295,7 +294,7 @@ public class CashManagementServiceTest extends KualiTestBase {
                 depositPK.put(KFSPropertyConstants.DOCUMENT_NUMBER, testDocumentId);
                 depositPK.put("financialDocumentDepositLineNumber", new Integer(0));
 
-                assertEquals(0, getBusinessObjectService().countMatching(Deposit.class, depositPK));
+                assertEquals(0, SpringServiceLocator.getBusinessObjectService().countMatching(Deposit.class, depositPK));
 
                 // cash receipts have been restored to appropriate state
                 assertEquals(KFSConstants.DocumentStatusCodes.CashReceipt.VERIFIED, lookupCR(cr1.getDocumentNumber()).getDocumentHeader().getFinancialDocumentStatusCode());
@@ -350,8 +349,8 @@ public class CashManagementServiceTest extends KualiTestBase {
         }
         finally {
             if (docId != null) {
-                Document testDoc = getDocumentService().getByDocumentHeaderId(docId);
-                getDocumentService().cancelDocument(testDoc, "CMST cleanup");
+                Document testDoc = SpringServiceLocator.getDocumentService().getByDocumentHeaderId(docId);
+                SpringServiceLocator.getDocumentService().cancelDocument(testDoc, "CMST cleanup");
             }
 
             // delete the cashDrawer which was created as a side-effect above
@@ -380,8 +379,8 @@ public class CashManagementServiceTest extends KualiTestBase {
         }
         finally {
             if (docId != null) {
-                Document testDoc = getDocumentService().getByDocumentHeaderId(docId);
-                getDocumentService().cancelDocument(testDoc, "CMST cleanup");
+                Document testDoc = SpringServiceLocator.getDocumentService().getByDocumentHeaderId(docId);
+                SpringServiceLocator.getDocumentService().cancelDocument(testDoc, "CMST cleanup");
             }
 
             // delete the cashDrawer which was created as a side-effect above
@@ -410,8 +409,8 @@ public class CashManagementServiceTest extends KualiTestBase {
         }
         finally {
             if (docId != null) {
-                Document testDoc = getDocumentService().getByDocumentHeaderId(docId);
-                getDocumentService().cancelDocument(testDoc, "CMST cleanup");
+                Document testDoc = SpringServiceLocator.getDocumentService().getByDocumentHeaderId(docId);
+                SpringServiceLocator.getDocumentService().cancelDocument(testDoc, "CMST cleanup");
             }
 
             // delete the cashDrawer which was created as a side-effect above
@@ -441,7 +440,7 @@ public class CashManagementServiceTest extends KualiTestBase {
             saveDocument(createdDoc);
 
             // retrieve the document, for future use
-            CashManagementDocument retrievedDoc = (CashManagementDocument) getDocumentService().getByDocumentHeaderId(testDocumentId);
+            CashManagementDocument retrievedDoc = (CashManagementDocument) SpringServiceLocator.getDocumentService().getByDocumentHeaderId(testDocumentId);
 
             //
             // create Interim Deposit
@@ -540,7 +539,7 @@ public class CashManagementServiceTest extends KualiTestBase {
             saveDocument(createdDoc);
 
             // retrieve the document, for future use
-            CashManagementDocument retrievedDoc = (CashManagementDocument) getDocumentService().getByDocumentHeaderId(testDocumentId);
+            CashManagementDocument retrievedDoc = (CashManagementDocument) SpringServiceLocator.getDocumentService().getByDocumentHeaderId(testDocumentId);
 
 
             //
@@ -564,7 +563,7 @@ public class CashManagementServiceTest extends KualiTestBase {
 
             //
             // validate results
-            CashManagementDocument depositedDoc = (CashManagementDocument) getDocumentService().getByDocumentHeaderId(testDocumentId);
+            CashManagementDocument depositedDoc = (CashManagementDocument) SpringServiceLocator.getDocumentService().getByDocumentHeaderId(testDocumentId);
 
             // 1 deposit
             List deposits = depositedDoc.getDeposits();
@@ -575,7 +574,7 @@ public class CashManagementServiceTest extends KualiTestBase {
             depositPK.put(KFSPropertyConstants.DOCUMENT_NUMBER, testDocumentId);
             depositPK.put("financialDocumentDepositLineNumber", new Integer(0));
 
-            assertEquals(1, getBusinessObjectService().countMatching(Deposit.class, depositPK));
+            assertEquals(1, SpringServiceLocator.getBusinessObjectService().countMatching(Deposit.class, depositPK));
 
             // deposit is interim, not final
             Deposit deposit = (Deposit) deposits.get(0);
@@ -654,14 +653,14 @@ public class CashManagementServiceTest extends KualiTestBase {
 
             // add interim deposit
             changeCurrentUser(KHUNTLEY);
-            CashManagementDocument interimDoc = (CashManagementDocument) getDocumentService().getByDocumentHeaderId(testDocumentId);
+            CashManagementDocument interimDoc = (CashManagementDocument) SpringServiceLocator.getDocumentService().getByDocumentHeaderId(testDocumentId);
             getCashManagementService().addDeposit(interimDoc, VALID_DEPOSIT_TICKET, lookupBankAccount(), crList, false);
 
 
             //
             // verify addition
 
-            CashManagementDocument depositedDoc = (CashManagementDocument) getDocumentService().getByDocumentHeaderId(testDocumentId);
+            CashManagementDocument depositedDoc = (CashManagementDocument) SpringServiceLocator.getDocumentService().getByDocumentHeaderId(testDocumentId);
             {
                 // 1 deposit in document
                 List deposits = depositedDoc.getDeposits();
@@ -672,7 +671,7 @@ public class CashManagementServiceTest extends KualiTestBase {
                 depositPK.put(KFSPropertyConstants.DOCUMENT_NUMBER, testDocumentId);
                 depositPK.put("financialDocumentDepositLineNumber", new Integer(0));
 
-                assertEquals(1, getBusinessObjectService().countMatching(Deposit.class, depositPK));
+                assertEquals(1, SpringServiceLocator.getBusinessObjectService().countMatching(Deposit.class, depositPK));
 
                 // deposit contains 3 CRs
                 Deposit deposit = depositedDoc.getDeposit(0);
@@ -694,7 +693,7 @@ public class CashManagementServiceTest extends KualiTestBase {
 
                 //
                 // verify cancellation
-                CashManagementDocument postCanceledDoc = (CashManagementDocument) getDocumentService().getByDocumentHeaderId(testDocumentId);
+                CashManagementDocument postCanceledDoc = (CashManagementDocument) SpringServiceLocator.getDocumentService().getByDocumentHeaderId(testDocumentId);
 
                 // 0 deposits in document
                 List deposits = postCanceledDoc.getDeposits();
@@ -705,7 +704,7 @@ public class CashManagementServiceTest extends KualiTestBase {
                 depositPK.put(KFSPropertyConstants.DOCUMENT_NUMBER, testDocumentId);
                 depositPK.put("financialDocumentDepositLineNumber", new Integer(0));
 
-                assertEquals(0, getBusinessObjectService().countMatching(Deposit.class, depositPK));
+                assertEquals(0, SpringServiceLocator.getBusinessObjectService().countMatching(Deposit.class, depositPK));
 
                 // cash receipts have been restored to appropriate state
                 assertEquals(KFSConstants.DocumentStatusCodes.CashReceipt.VERIFIED, lookupCR(cr1.getDocumentNumber()).getDocumentHeader().getFinancialDocumentStatusCode());
@@ -734,7 +733,7 @@ public class CashManagementServiceTest extends KualiTestBase {
             CashDrawer forcedOpen = getCashDrawerService().getByWorkgroupName(CMST_WORKGROUP, true);
             forcedOpen.setStatusCode(KFSConstants.CashDrawerConstants.STATUS_OPEN);
             forcedOpen.setReferenceFinancialDocumentNumber(null);
-            getBusinessObjectService().save(forcedOpen);
+            SpringServiceLocator.getBusinessObjectService().save(forcedOpen);
 
             // try create a new CM doc
             CashManagementDocument createdDoc = getCashManagementService().createCashManagementDocument(CMST_WORKGROUP, "CMST_testAddID_valid", null);
@@ -753,7 +752,7 @@ public class CashManagementServiceTest extends KualiTestBase {
             CashDrawer forcedLocked = getCashDrawerService().getByWorkgroupName(CMST_WORKGROUP, true);
             forcedLocked.setStatusCode(KFSConstants.CashDrawerConstants.STATUS_LOCKED);
             forcedLocked.setReferenceFinancialDocumentNumber("0");
-            getBusinessObjectService().save(forcedLocked);
+            SpringServiceLocator.getBusinessObjectService().save(forcedLocked);
 
             // try create a new CM doc
             CashManagementDocument createdDoc = getCashManagementService().createCashManagementDocument(CMST_WORKGROUP, "CMST_testAddID_valid", null);
@@ -802,7 +801,7 @@ public class CashManagementServiceTest extends KualiTestBase {
 
 
     private CashReceiptDocument lookupCR(String documentId) throws WorkflowException {
-        CashReceiptDocument crDoc = (CashReceiptDocument) getDocumentService().getByDocumentHeaderId(documentId);
+        CashReceiptDocument crDoc = (CashReceiptDocument) SpringServiceLocator.getDocumentService().getByDocumentHeaderId(documentId);
 
         return crDoc;
     }
@@ -811,7 +810,7 @@ public class CashManagementServiceTest extends KualiTestBase {
     private void deleteIfExists(String workgroupName) {
         Map deleteCriteria = new HashMap();
         deleteCriteria.put("workgroupName", workgroupName);
-        getBusinessObjectService().deleteMatching(CashDrawer.class, deleteCriteria);
+        SpringServiceLocator.getBusinessObjectService().deleteMatching(CashDrawer.class, deleteCriteria);
     }
 
     private static final String[] BOTH_STATII = { KFSConstants.DocumentStatusCodes.CashReceipt.VERIFIED, KFSConstants.DocumentStatusCodes.CashReceipt.INTERIM };
@@ -822,12 +821,12 @@ public class CashManagementServiceTest extends KualiTestBase {
         for (Iterator i = verifiedReceipts.iterator(); i.hasNext();) {
             CashReceiptDocument receipt = (CashReceiptDocument) i.next();
             receipt.getDocumentHeader().setFinancialDocumentStatusCode("Z");
-            getDocumentService().updateDocument(receipt);
+            SpringServiceLocator.getDocumentService().updateDocument(receipt);
         }
     }
 
     private CashReceiptDocument buildCashReceiptDoc(String workgroupName, String description, String status, KualiDecimal cashAmount, KualiDecimal checkAmount) throws WorkflowException {
-        CashReceiptDocument crDoc = (CashReceiptDocument) getDocumentService().getNewDocument(CashReceiptDocument.class);
+        CashReceiptDocument crDoc = (CashReceiptDocument) SpringServiceLocator.getDocumentService().getNewDocument(CashReceiptDocument.class);
 
         crDoc.getDocumentHeader().setFinancialDocumentDescription(description);
         crDoc.getDocumentHeader().setFinancialDocumentStatusCode(status);
@@ -841,7 +840,7 @@ public class CashManagementServiceTest extends KualiTestBase {
         crDoc.addSourceAccountingLine(CashReceiptFamilyTestUtil.buildSourceAccountingLine(crDoc.getDocumentNumber(), crDoc.getPostingYear(), crDoc.getNextSourceLineNumber()));
         saveDocument(crDoc);
 
-        CashReceiptDocument persistedDoc = (CashReceiptDocument) getDocumentService().getByDocumentHeaderId(crDoc.getDocumentNumber());
+        CashReceiptDocument persistedDoc = (CashReceiptDocument) SpringServiceLocator.getDocumentService().getByDocumentHeaderId(crDoc.getDocumentNumber());
         return persistedDoc;
     }
 
@@ -849,7 +848,7 @@ public class CashManagementServiceTest extends KualiTestBase {
         throws WorkflowException
     {
         try {
-            getDocumentService().saveDocument(doc);
+            SpringServiceLocator.getDocumentService().saveDocument(doc);
         }
         catch(ValidationException e) {
             // If the business rule evaluation fails then give us more info for debugging this test.
@@ -862,7 +861,7 @@ public class CashManagementServiceTest extends KualiTestBase {
         keyMap.put("financialDocumentBankCode", "TEST");
         keyMap.put("finDocumentBankAccountNumber", "1111");
 
-        BankAccount bankAccount = (BankAccount) getBusinessObjectService().findByPrimaryKey(BankAccount.class, keyMap);
+        BankAccount bankAccount = (BankAccount) SpringServiceLocator.getBusinessObjectService().findByPrimaryKey(BankAccount.class, keyMap);
 
         assertNotNull("invalid bank account for test",bankAccount);
         return bankAccount;
@@ -871,7 +870,7 @@ public class CashManagementServiceTest extends KualiTestBase {
     private void cleanupCancel(String documentId)
         throws WorkflowException, UserNotFoundException {
         if (documentId != null) {
-            Document testDoc = getDocumentService().getByDocumentHeaderId(documentId);
+            Document testDoc = SpringServiceLocator.getDocumentService().getByDocumentHeaderId(documentId);
 
             if (!testDoc.getDocumentHeader().getWorkflowDocument().stateIsCanceled()) {
                 final String initiatorNetworkId = testDoc.getDocumentHeader().getWorkflowDocument().getInitiatorNetworkId();
@@ -879,9 +878,9 @@ public class CashManagementServiceTest extends KualiTestBase {
                 if (!previousNetworkId.equals(initiatorNetworkId)) {
                     changeCurrentUser(UserNameFixture.valueOf(initiatorNetworkId.toUpperCase()));
                     // Only the initiator can cancel an initiated or saved document.
-                    testDoc = getDocumentService().getByDocumentHeaderId(documentId);
+                    testDoc = SpringServiceLocator.getDocumentService().getByDocumentHeaderId(documentId);
                 }
-                getDocumentService().cancelDocument(testDoc, "CMST cleanup cancel");
+                SpringServiceLocator.getDocumentService().cancelDocument(testDoc, "CMST cleanup cancel");
                 changeCurrentUser(UserNameFixture.valueOf(previousNetworkId.toUpperCase()));
             }
         }

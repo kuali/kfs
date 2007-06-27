@@ -51,7 +51,7 @@ import org.kuali.module.labor.document.LaborExpenseTransferDocumentBase;
 import org.kuali.module.labor.rules.event.EmployeeIdChangedEvent;
 import org.kuali.module.labor.service.SegmentedLookupResultsService;
 import org.kuali.module.labor.web.struts.form.ExpenseTransferDocumentFormBase;
-import org.kuali.rice.KNSServiceLocator;
+import org.kuali.kfs.util.SpringServiceLocator;
 
 /**
  * This class handles UI actions for all shared methods of expense transfer documents.

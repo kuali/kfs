@@ -58,7 +58,7 @@ import org.kuali.module.gl.bo.AccountBalance;
 import org.kuali.module.gl.util.ObjectHelper;
 import org.kuali.module.gl.web.lookupable.AccountBalanceByConsolidationLookupableHelperServiceImpl;
 import org.kuali.module.gl.web.struts.form.BalanceInquiryLookupForm;
-import org.kuali.rice.KNSServiceLocator;
+import org.kuali.kfs.util.SpringServiceLocator;
 
 /**
  * Balance inquiries are pretty much just lookups already, but are not used in the traditional sense. In most
@@ -297,11 +297,11 @@ public class BalanceInquiryLookupAction extends KualiMultipleValueLookupAction {
         // we just performed the lookup, so we're on the first page (indexed from 0)
         multipleValueLookupForm.jumpToFirstPage(resultTable.size(), maxRowsPerPage);
         
-        SequenceAccessorService sequenceAccessorService = KNSServiceLocator.getSequenceAccessorService();
+        SequenceAccessorService sequenceAccessorService = SpringServiceLocator.getSequenceAccessorService();
         String lookupResultsSequenceNumber = String.valueOf(sequenceAccessorService.getNextAvailableSequenceNumber(Constants.LOOKUP_RESULTS_SEQUENCE));
         multipleValueLookupForm.setLookupResultsSequenceNumber(lookupResultsSequenceNumber);
         try {
-            LookupResultsService lookupResultsService = KNSServiceLocator.getLookupResultsService();
+            LookupResultsService lookupResultsService = SpringServiceLocator.getLookupResultsService();
             lookupResultsService.persistResultsTable(lookupResultsSequenceNumber, resultTable,
                     GlobalVariables.getUserSession().getUniversalUser().getPersonUniversalIdentifier());
         }

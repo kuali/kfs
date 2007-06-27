@@ -29,7 +29,7 @@ import org.kuali.module.chart.bo.OrganizationReversion;
 import org.kuali.module.chart.bo.OrganizationReversionCategory;
 import org.kuali.module.chart.bo.OrganizationReversionDetail;
 import org.kuali.module.chart.service.OrganizationReversionService;
-import org.kuali.rice.KNSServiceLocator;
+import org.kuali.kfs.util.SpringServiceLocator;
 
 public class OrganizationReversionMaintainableImpl extends KualiMaintainableImpl {
 

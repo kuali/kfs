@@ -28,8 +28,8 @@ import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.web.ui.Section;
 import org.kuali.core.web.ui.SectionBridge;
+import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.cg.CGConstants;
-import org.kuali.rice.KNSServiceLocator;
 
 /**
  * This class...
@@ -56,7 +56,7 @@ public class ProposalInquirable extends KualiInquirableImpl {
             throw new RuntimeException("Business object class not set in inquirable.");
         }
 
-        Collection inquirySections = KNSServiceLocator.getBusinessObjectDictionaryService().getInquirySections(getBusinessObjectClass());
+        Collection inquirySections = SpringServiceLocator.getBusinessObjectDictionaryService().getInquirySections(getBusinessObjectClass());
         for (Iterator iter = inquirySections.iterator(); iter.hasNext();) {
 
             UniversalUser user = GlobalVariables.getUserSession().getUniversalUser();
@@ -77,7 +77,7 @@ public class ProposalInquirable extends KualiInquirableImpl {
 
     private void initStatics() {
         if ( configService == null ) {
-            configService = KNSServiceLocator.getKualiConfigurationService();
+            configService = SpringServiceLocator.getKualiConfigurationService();
         }
         // get the group name that we need here
         if ( centralPreAwardWorkgroupName == null ) {

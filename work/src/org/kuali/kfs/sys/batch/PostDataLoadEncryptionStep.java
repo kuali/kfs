@@ -23,7 +23,7 @@ import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.bo.PersistableBusinessObject;
-import org.kuali.rice.KNSServiceLocator;
+import org.kuali.kfs.util.SpringServiceLocator;
 import org.springframework.core.io.FileSystemResource;
 
 public class PostDataLoadEncryptionStep extends AbstractDatabaseImportExportStep {
@@ -57,7 +57,7 @@ public class PostDataLoadEncryptionStep extends AbstractDatabaseImportExportStep
             databaseImportExportService.createBackupTable(businessObjectClass);
             try {
                 databaseImportExportService.prepClassDescriptor(businessObjectClass, attributeNames);
-                Collection objectsToEncrypt = KNSServiceLocator.getBusinessObjectService().findAll(businessObjectClass);
+                Collection objectsToEncrypt = SpringServiceLocator.getBusinessObjectService().findAll(businessObjectClass);
                 databaseImportExportService.truncateTable(businessObjectClass);
                 for (Object businessObject : objectsToEncrypt) {
                     databaseImportExportService.encrypt((PersistableBusinessObject) businessObject, attributeNames);

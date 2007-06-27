@@ -36,6 +36,7 @@ import org.kuali.kfs.KFSKeyConstants;
 import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.bo.AccountingLine;
 import org.kuali.kfs.document.AccountingDocument;
+import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.chart.bo.AccountingPeriod;
 import org.kuali.module.labor.LaborConstants;
 import org.kuali.module.labor.bo.ExpenseTransferAccountingLine;
@@ -46,7 +47,6 @@ import org.kuali.module.labor.bo.PendingLedgerEntry;
 import org.kuali.module.labor.document.BenefitExpenseTransferDocument;
 import org.kuali.module.labor.document.LaborLedgerPostingDocument;
 import org.kuali.module.labor.util.ObjectUtil;
-import org.kuali.rice.KNSServiceLocator;
 
 /**
  * Business rule(s) applicable to Benefit Expense Transfer documents.
@@ -54,7 +54,7 @@ import org.kuali.rice.KNSServiceLocator;
 public class BenefitExpenseTransferDocumentRule extends LaborExpenseTransferDocumentRules {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(BenefitExpenseTransferDocumentRule.class);
 
-    private BusinessObjectService businessObjectService = KNSServiceLocator.getBusinessObjectService();
+    private BusinessObjectService businessObjectService = SpringServiceLocator.getBusinessObjectService();
 
     /**
      * Constructs a BenefitExpenseTransferDocumentRule.java.
@@ -425,7 +425,7 @@ public class BenefitExpenseTransferDocumentRule extends LaborExpenseTransferDocu
      * @return the amount for a given period from the qualified ledger balance
      */
     private KualiDecimal getBalanceAmount(Map<String, Object> fieldValues, String periodCode) {
-        List<LedgerBalance> ledgerBalances = (List<LedgerBalance>) KNSServiceLocator.getBusinessObjectService().findMatching(LedgerBalance.class, fieldValues);
+        List<LedgerBalance> ledgerBalances = (List<LedgerBalance>) SpringServiceLocator.getBusinessObjectService().findMatching(LedgerBalance.class, fieldValues);
 
         if (!ledgerBalances.isEmpty() && periodCode != null) {
             return ledgerBalances.get(0).getAmount(periodCode);

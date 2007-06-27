@@ -38,7 +38,6 @@ import org.kuali.test.monitor.DocumentWorkflowStatusMonitor;
 import org.kuali.test.monitor.ChangeMonitor;
 import static org.kuali.test.fixtures.UserNameFixture.KHUNTLEY;
 import org.kuali.test.fixtures.UserNameFixture;
-import static org.kuali.rice.KNSServiceLocator.getDocumentService;
 import org.kuali.workflow.WorkflowTestUtils;
 import org.kuali.workflow.KualiWorkflowUtils;
 import edu.iu.uis.eden.exception.WorkflowException;

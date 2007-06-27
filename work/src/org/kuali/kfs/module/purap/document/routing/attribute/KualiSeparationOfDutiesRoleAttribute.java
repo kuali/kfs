@@ -28,7 +28,7 @@ import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.PurapParameterConstants;
-import org.kuali.rice.KNSServiceLocator;
+import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.workflow.KualiWorkflowUtils;
 
 import edu.iu.uis.eden.EdenConstants;

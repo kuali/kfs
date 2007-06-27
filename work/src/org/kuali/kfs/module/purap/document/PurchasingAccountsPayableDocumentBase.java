@@ -621,7 +621,7 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
         populateDocumentForRouting();
         return false;
         // return
-        // KNSServiceLocator.getWorkflowInfoService().routeNodeHasApproverActionRequest(this.getDocumentHeader().getWorkflowDocument().getDocumentType(),
+        // SpringServiceLocator.getWorkflowInfoService().routeNodeHasApproverActionRequest(this.getDocumentHeader().getWorkflowDocument().getDocumentType(),
         // getDocumentHeader().getWorkflowDocument().getApplicationContent(), routeNodeName);
     }
 }

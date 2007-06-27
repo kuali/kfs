@@ -22,11 +22,11 @@ import org.apache.ojb.broker.query.ReportQueryByCriteria;
 import org.kuali.core.dao.ojb.PlatformAwareDaoBaseOjb;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.KFSPropertyConstants;
+import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.PurapPropertyConstants;
 import org.kuali.module.purap.dao.PurchaseOrderDao;
 import org.kuali.module.purap.document.PurchaseOrderDocument;
-import org.kuali.rice.KNSServiceLocator;
 
 
 /**
@@ -89,7 +89,7 @@ public class PurchaseOrderDaoOjb extends PlatformAwareDaoBaseOjb implements Purc
            StringUtils.equals(oldestDocumentNumber, po.getDocumentNumber())){
             //manually set bo notes - this is mainly done for performance reasons (preferably we could call
             //retrieve doc notes in PersistableBusinessObjectBase but that is private)
-            po.setBoNotes(KNSServiceLocator.getNoteService().getByRemoteObjectId(po.getObjectId()));
+            po.setBoNotes(SpringServiceLocator.getNoteService().getByRemoteObjectId(po.getObjectId()));
             return po;
         }
         //po not oldest, using the oldest doc number return oldest po

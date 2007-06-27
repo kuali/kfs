@@ -27,7 +27,7 @@ import org.kuali.module.labor.bo.LaborUser;
 import org.kuali.module.labor.bo.LedgerBalance;
 import org.kuali.module.labor.document.SalaryExpenseTransferDocument;
 import org.kuali.module.labor.service.LaborUserService;
-import org.kuali.rice.KNSServiceLocator;
+import org.kuali.kfs.util.SpringServiceLocator;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;

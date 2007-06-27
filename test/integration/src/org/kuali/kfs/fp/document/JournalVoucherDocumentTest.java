@@ -17,9 +17,6 @@ package org.kuali.module.financial.document;
 
 import static org.kuali.kfs.util.SpringServiceLocator.getAccountingPeriodService;
 import static org.kuali.module.financial.document.AccountingDocumentTestUtils.testGetNewDocument_byDocumentClass;
-import static org.kuali.rice.KNSServiceLocator.getDataDictionaryService;
-import static org.kuali.rice.KNSServiceLocator.getDocumentService;
-import static org.kuali.rice.KNSServiceLocator.getTransactionalDocumentDictionaryService;
 import static org.kuali.test.fixtures.AccountingLineFixture.LINE5;
 import static org.kuali.test.fixtures.UserNameFixture.DFOGLE;
 import static org.kuali.test.util.KualiTestAssertionUtils.assertEquality;
@@ -37,6 +34,7 @@ import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.bo.SourceAccountingLine;
 import org.kuali.kfs.bo.TargetAccountingLine;
 import org.kuali.kfs.document.AccountingDocument;
+import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.test.DocumentTestUtils;
 import org.kuali.test.KualiTestBase;
 import org.kuali.test.TestsWorkflowViaDatabase;
@@ -85,7 +83,7 @@ public class JournalVoucherDocumentTest extends KualiTestBase {
     public void testConvertIntoCopy() throws Exception {
         // save the original doc, wait for status change
         AccountingDocument document = buildDocument();
-        getDocumentService().routeDocument(document, "saving copy source document", null);
+        SpringServiceLocator.getDocumentService().routeDocument(document, "saving copy source document", null);
         // collect some preCopy data
         String preCopyId = document.getDocumentNumber();
         String preCopyCopiedFromId = document.getDocumentHeader().getFinancialDocumentTemplateNumber();
@@ -174,11 +172,11 @@ public class JournalVoucherDocumentTest extends KualiTestBase {
 
         String documentHeaderId = document.getDocumentNumber();
         // route the original doc, wait for status change
-        getDocumentService().routeDocument(document, "saving errorCorrection source document", null);
+        SpringServiceLocator.getDocumentService().routeDocument(document, "saving errorCorrection source document", null);
         // jv docs go straight to final
-        DocumentWorkflowStatusMonitor routeMonitor = new DocumentWorkflowStatusMonitor(getDocumentService(), documentHeaderId, "F");
+        DocumentWorkflowStatusMonitor routeMonitor = new DocumentWorkflowStatusMonitor(SpringServiceLocator.getDocumentService(), documentHeaderId, "F");
         assertTrue(ChangeMonitor.waitUntilChange(routeMonitor, 240, 5));
-        document = (AccountingDocument) getDocumentService().getByDocumentHeaderId(documentHeaderId);
+        document = (AccountingDocument) SpringServiceLocator.getDocumentService().getByDocumentHeaderId(documentHeaderId);
         // collect some preCorrect data
         String preCorrectId = document.getDocumentNumber();
         String preCorrectCorrectsId = document.getDocumentHeader().getFinancialDocumentInErrorNumber();
@@ -245,16 +243,16 @@ public class JournalVoucherDocumentTest extends KualiTestBase {
         // save the original doc, wait for status change
         Document document = buildDocument();
         assertFalse("R".equals(document.getDocumentHeader().getWorkflowDocument().getRouteHeader().getDocRouteStatus()));
-        getDocumentService().routeDocument(document, "saving copy source document", null);
+        SpringServiceLocator.getDocumentService().routeDocument(document, "saving copy source document", null);
         // jv docs go straight to final
         WorkflowTestUtils.waitForStatusChange(document.getDocumentHeader().getWorkflowDocument(), EdenConstants.ROUTE_HEADER_FINAL_CD);
         // also check the Kuali (not Workflow) document status
-        DocumentStatusMonitor statusMonitor = new DocumentStatusMonitor(getDocumentService(), document.getDocumentHeader().getDocumentNumber(), KFSConstants.DocumentStatusCodes.APPROVED);
+        DocumentStatusMonitor statusMonitor = new DocumentStatusMonitor(SpringServiceLocator.getDocumentService(), document.getDocumentHeader().getDocumentNumber(), KFSConstants.DocumentStatusCodes.APPROVED);
         assertTrue(ChangeMonitor.waitUntilChange(statusMonitor, 240, 5));
     }
 
     private Document getDocumentParameterFixture() throws Exception {
-        return DocumentTestUtils.createDocument(getDocumentService(), JournalVoucherDocument.class);
+        return DocumentTestUtils.createDocument(SpringServiceLocator.getDocumentService(), JournalVoucherDocument.class);
     }
 
     private List<AccountingLineFixture> getTargetAccountingLineParametersFromFixtures() {
@@ -274,36 +272,36 @@ public class JournalVoucherDocumentTest extends KualiTestBase {
         List<TargetAccountingLine> targetLines = generateTargetAccountingLines();
         int expectedSourceTotal = sourceLines.size();
         int expectedTargetTotal = targetLines.size();
-        JournalVoucherDocument document = DocumentTestUtils.createDocument(getDocumentService(), DOCUMENT_CLASS);
+        JournalVoucherDocument document = DocumentTestUtils.createDocument(SpringServiceLocator.getDocumentService(), DOCUMENT_CLASS);
         document.setBalanceTypeCode(KFSConstants.BALANCE_TYPE_ACTUAL);
 
         AccountingDocumentTestUtils.testAddAccountingLine(document, sourceLines, targetLines, expectedSourceTotal, expectedTargetTotal);
     }
 
     public final void testGetNewDocument() throws Exception {
-        testGetNewDocument_byDocumentClass(DOCUMENT_CLASS, getDocumentService());
+        testGetNewDocument_byDocumentClass(DOCUMENT_CLASS, SpringServiceLocator.getDocumentService());
     }
 
     public final void testConvertIntoCopy_copyDisallowed() throws Exception {
-        AccountingDocumentTestUtils.testConvertIntoCopy_copyDisallowed(buildDocument(), getDataDictionaryService());
+        AccountingDocumentTestUtils.testConvertIntoCopy_copyDisallowed(buildDocument(), SpringServiceLocator.getDataDictionaryService());
 
     }
 
     public final void testConvertIntoErrorCorrection_documentAlreadyCorrected() throws Exception {
-        AccountingDocumentTestUtils.testConvertIntoErrorCorrection_documentAlreadyCorrected(buildDocument(), getTransactionalDocumentDictionaryService());
+        AccountingDocumentTestUtils.testConvertIntoErrorCorrection_documentAlreadyCorrected(buildDocument(), SpringServiceLocator.getTransactionalDocumentDictionaryService());
     }
 
     public final void testConvertIntoErrorCorrection_errorCorrectionDisallowed() throws Exception {
-        AccountingDocumentTestUtils.testConvertIntoErrorCorrection_errorCorrectionDisallowed(buildDocument(), getDataDictionaryService());
+        AccountingDocumentTestUtils.testConvertIntoErrorCorrection_errorCorrectionDisallowed(buildDocument(), SpringServiceLocator.getDataDictionaryService());
     }
 
     public final void testConvertIntoErrorCorrection_invalidYear() throws Exception {
-        AccountingDocumentTestUtils.testConvertIntoErrorCorrection_invalidYear(buildDocument(), getTransactionalDocumentDictionaryService(), getAccountingPeriodService());
+        AccountingDocumentTestUtils.testConvertIntoErrorCorrection_invalidYear(buildDocument(), SpringServiceLocator.getTransactionalDocumentDictionaryService(), getAccountingPeriodService());
     }
 
     @TestsWorkflowViaDatabase
     public final void testSaveDocument() throws Exception {
-        AccountingDocumentTestUtils.testSaveDocument(buildDocument(), getDocumentService());
+        AccountingDocumentTestUtils.testSaveDocument(buildDocument(), SpringServiceLocator.getDocumentService());
     }
 
 

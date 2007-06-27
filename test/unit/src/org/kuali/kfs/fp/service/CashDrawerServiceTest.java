@@ -16,7 +16,6 @@
 package org.kuali.module.financial.service;
 
 import static org.kuali.kfs.util.SpringServiceLocator.getCashDrawerService;
-import static org.kuali.rice.KNSServiceLocator.getBusinessObjectService;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -378,7 +377,7 @@ public class CashDrawerServiceTest extends KualiTestBase {
 
         CashDrawer retrieved = null;
         try {
-            getBusinessObjectService().save(created);
+            SpringServiceLocator.getBusinessObjectService().save(created);
 
             retrieved = getCashDrawerService().getByWorkgroupName(RANDOM_WORKGROUP_NAME, false);
             assertNotNull(retrieved);
@@ -391,7 +390,7 @@ public class CashDrawerServiceTest extends KualiTestBase {
         finally {
             // delete it
             if (retrieved != null) {
-                getBusinessObjectService().delete(retrieved);
+                SpringServiceLocator.getBusinessObjectService().delete(retrieved);
             }
         }
 
@@ -405,7 +404,7 @@ public class CashDrawerServiceTest extends KualiTestBase {
     private void deleteCashDrawer(String workgroupName) {
         Map deleteCriteria = new HashMap();
         deleteCriteria.put("workgroupName", workgroupName);
-        getBusinessObjectService().deleteMatching(CashDrawer.class, deleteCriteria);
+        SpringServiceLocator.getBusinessObjectService().deleteMatching(CashDrawer.class, deleteCriteria);
     }
 
     private void createCashDrawer(String workgroupName) {
@@ -414,6 +413,6 @@ public class CashDrawerServiceTest extends KualiTestBase {
         CashDrawer cd = new CashDrawer();
         cd.setWorkgroupName(workgroupName);
         cd.setStatusCode(KFSConstants.CashDrawerConstants.STATUS_CLOSED);
-        getBusinessObjectService().save(cd);
+        SpringServiceLocator.getBusinessObjectService().save(cd);
     }
 }

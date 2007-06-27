@@ -34,19 +34,17 @@ import org.kuali.core.datadictionary.mask.Mask;
 import org.kuali.core.lookup.AbstractLookupableHelperServiceImpl;
 import org.kuali.core.lookup.CollectionIncomplete;
 import org.kuali.core.util.BeanPropertyComparator;
-import org.kuali.core.util.KualiDecimal;
-import org.kuali.core.util.FieldUtils;
 import org.kuali.core.util.GlobalVariables;
+import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
-import org.kuali.core.util.UrlFactory;
 import org.kuali.core.web.comparator.CellComparatorHelper;
 import org.kuali.core.web.format.BooleanFormatter;
 import org.kuali.core.web.format.Formatter;
 import org.kuali.core.web.struts.form.LookupForm;
 import org.kuali.core.web.ui.Column;
 import org.kuali.core.web.ui.ResultRow;
-import org.kuali.core.web.ui.Row;
 import org.kuali.kfs.KFSConstants;
+import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.gl.bo.TransientBalanceInquiryAttributes;
 import org.kuali.module.gl.util.OJBUtility;
 import org.kuali.module.gl.web.Constant;
@@ -55,7 +53,6 @@ import org.kuali.module.labor.bo.SegmentedBusinessObject;
 import org.kuali.module.labor.service.LaborLedgerBalanceService;
 import org.kuali.module.labor.web.inquirable.LedgerBalanceInquirableImpl;
 import org.springframework.transaction.annotation.Transactional;
-import org.kuali.rice.KNSServiceLocator;
 
 @Transactional
 public class LedgerBalanceLookupableHelperServiceImpl extends AbstractLookupableHelperServiceImpl {
@@ -478,7 +475,7 @@ public class LedgerBalanceLookupableHelperServiceImpl extends AbstractLookupable
         col.setValueComparator(CellComparatorHelper.getAppropriateValueComparatorForPropertyClass(propClass));
         
         // check security on field and do masking if necessary
-        boolean viewAuthorized = KNSServiceLocator.getAuthorizationService().isAuthorizedToViewAttribute(GlobalVariables.getUserSession().getUniversalUser(), element.getClass().getName(), col.getPropertyName());
+        boolean viewAuthorized = SpringServiceLocator.getAuthorizationService().isAuthorizedToViewAttribute(GlobalVariables.getUserSession().getUniversalUser(), element.getClass().getName(), col.getPropertyName());
         if (!viewAuthorized) {
             Mask displayMask = getDataDictionaryService().getAttributeDisplayMask(element.getClass().getName(), col.getPropertyName());
             propValue = displayMask.maskValue(propValue);

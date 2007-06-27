@@ -42,7 +42,6 @@ import org.kuali.module.cg.bo.AwardProjectDirector;
 import org.kuali.module.cg.bo.CGProjectDirector;
 import org.kuali.module.cg.bo.ProjectDirector;
 import org.kuali.module.cg.rules.AwardRuleUtil;
-import org.kuali.rice.KNSServiceLocator;
 
 /**
  * Methods for the Award maintenance document UI.
@@ -110,14 +109,14 @@ public class AwardMaintainableImpl extends KualiMaintainableImpl {
 
             // copy over proposal values after refresh
             if (!awarded) {
-                refreshAward(KNSServiceLocator.KUALI_LOOKUPABLE.equals(fieldValues.get(KFSConstants.REFRESH_CALLER)));
+                refreshAward(SpringServiceLocator.KUALI_LOOKUPABLE.equals(fieldValues.get(KFSConstants.REFRESH_CALLER)));
                 super.refresh(refreshCaller, fieldValues, document);
                 Award award = getAward();
                 award.populateFromProposal(award.getProposal());
-                refreshAward(KNSServiceLocator.KUALI_LOOKUPABLE.equals(fieldValues.get(KFSConstants.REFRESH_CALLER)));
+                refreshAward(SpringServiceLocator.KUALI_LOOKUPABLE.equals(fieldValues.get(KFSConstants.REFRESH_CALLER)));
             }
         }else{
-            refreshAward(KNSServiceLocator.KUALI_LOOKUPABLE.equals(fieldValues.get(KFSConstants.REFRESH_CALLER)));
+            refreshAward(SpringServiceLocator.KUALI_LOOKUPABLE.equals(fieldValues.get(KFSConstants.REFRESH_CALLER)));
             super.refresh(refreshCaller, fieldValues, document);
         }
 

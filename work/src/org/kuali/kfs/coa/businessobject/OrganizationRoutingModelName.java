@@ -30,7 +30,7 @@ import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.bo.user.KualiModuleUser;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.chart.bo.ChartUser;
-import org.kuali.rice.KNSServiceLocator;
+import org.kuali.kfs.util.SpringServiceLocator;
 
 /**
  * 

@@ -41,7 +41,6 @@ import org.kuali.module.cg.bo.ProposalProjectDirector;
 import org.kuali.module.cg.bo.ProposalResearchRisk;
 import org.kuali.module.cg.lookup.valuefinder.NextProposalNumberFinder;
 import org.kuali.module.kra.routingform.bo.ResearchRiskType;
-import org.kuali.rice.KNSServiceLocator;
 
 /**
  * Methods for the Proposal maintenance document UI.
@@ -99,7 +98,7 @@ public class ProposalMaintainableImpl extends KualiMaintainableImpl {
      */
     @Override
     public void refresh(String refreshCaller, Map fieldValues, MaintenanceDocument document) {
-        refreshProposal(KNSServiceLocator.KUALI_LOOKUPABLE.equals(fieldValues.get(KFSConstants.REFRESH_CALLER)));
+        refreshProposal(SpringServiceLocator.KUALI_LOOKUPABLE.equals(fieldValues.get(KFSConstants.REFRESH_CALLER)));
         super.refresh(refreshCaller, fieldValues, document);
     }
 
@@ -215,8 +214,8 @@ public class ProposalMaintainableImpl extends KualiMaintainableImpl {
         
         List<Section> coreSections = getCoreSections(oldMaintainable);
         
-        String preAwardWorkgroupName = KNSServiceLocator.getKualiConfigurationService().getApplicationParameterValue(CGConstants.GROUP_CG_MAINT_EDOCS, "Kuali-Document.PreAward.Workgroup");
-        String postAwardWorkgroupName = KNSServiceLocator.getKualiConfigurationService().getApplicationParameterValue(CGConstants.GROUP_CG_MAINT_EDOCS, "Kuali-Document.PostAward.Workgroup");
+        String preAwardWorkgroupName = SpringServiceLocator.getKualiConfigurationService().getApplicationParameterValue(CGConstants.GROUP_CG_MAINT_EDOCS, "Kuali-Document.PreAward.Workgroup");
+        String postAwardWorkgroupName = SpringServiceLocator.getKualiConfigurationService().getApplicationParameterValue(CGConstants.GROUP_CG_MAINT_EDOCS, "Kuali-Document.PostAward.Workgroup");
         
         UniversalUser user = GlobalVariables.getUserSession().getUniversalUser();
         if(!user.isMember(preAwardWorkgroupName) && !user.isMember(postAwardWorkgroupName)) {

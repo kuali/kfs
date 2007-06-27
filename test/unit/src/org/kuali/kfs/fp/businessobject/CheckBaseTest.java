@@ -57,8 +57,8 @@ public class CheckBaseTest extends KualiTestBase {
         crchk.setObjectId(GUID);
         crchk.setSequenceId(SEQ_ID);
         crchk.setVersionNumber(VER_NBR);
+        crchk.setCashieringRecordSource(CASHIERING_SOURCE);
         crchk.setFinancialDocumentTypeCode(DOCUMENT_TYPE);
-        crchk.setFinancialDocumentColumnTypeCode(CASHIERING_SOURCE);
     }
 
     public void testCashReceiptCheckPojo() {
@@ -71,7 +71,7 @@ public class CheckBaseTest extends KualiTestBase {
         assertEquals(GUID, crchk.getObjectId());
         assertEquals(SEQ_ID, crchk.getSequenceId());
         assertEquals(VER_NBR, crchk.getVersionNumber());
-        assertEquals(CASHIERING_SOURCE, crchk.getFinancialDocumentColumnTypeCode());
         assertEquals(DOCUMENT_TYPE, crchk.getFinancialDocumentTypeCode());
+        assertEquals(CASHIERING_SOURCE, crchk.getCashieringRecordSource());
     }
 }

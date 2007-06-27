@@ -1,0 +1,281 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ Copyright 2006-2007 The Kuali Foundation.
+ 
+ Licensed under the Educational Community License, Version 1.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+ 
+ http://www.opensource.org/licenses/ecl1.php
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+<!DOCTYPE dictionaryEntry PUBLIC
+    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
+    "../../../core/datadictionary/dataDictionary-1_0.dtd">
+<dictionaryEntry>
+    <businessObject businessObjectClass="org.kuali.module.financial.bo.CoinDetail">
+    	<attributes>
+    		<attributeReference name="documentNumber" sourceClassName="org.kuali.core.bo.DocumentHeader" sourceAttributeName="documentNumber" />
+    		
+    		<attribute name="financialDocumentTypeCode" forceUppercase="true">
+    			<label>Financial Document Type Code</label>
+                <shortLabel>FinDocTypCd</shortLabel>
+
+                <maxLength>4</maxLength>
+                <required>false</required>
+
+                <control>
+                    <hidden />
+                </control>
+
+                <summary>
+                    <![CDATA[&nbsp;]]>
+                </summary>
+                <description><![CDATA[&nbsp;]]></description>
+    		</attribute>
+    		
+    		<attribute name="cashieringRecordSource" forceUppercase="true">
+    			<label>Cashiering Record Source</label>
+                <shortLabel>CshrgRcdSrc</shortLabel>
+
+                <maxLength>1</maxLength>
+                <required>false</required>
+
+                <control>
+                    <hidden />
+                </control>
+
+                <summary>
+                    <![CDATA[&nbsp;]]>
+                </summary>
+                <description><![CDATA[&nbsp;]]></description>
+    		</attribute>
+    		
+    		<attribute name="financialDocumentHundredCentAmount">
+    			<label>Hundred Cent Amount</label>
+                <shortLabel>HunCntAmt</shortLabel>
+
+                <maxLength>6</maxLength>
+                <required>false</required>
+
+                <control>
+                    <currency size="6" formattedMaxLength="8" />
+                </control>
+
+                <summary>
+                    <![CDATA[&nbsp;]]>
+                </summary>
+                <description><![CDATA[&nbsp;]]></description>
+    		</attribute>
+    		<attribute name="hundredCentCount">
+    			<label>Hundred Cent Count</label>
+                <shortLabel>HunCntCnt</shortLabel>
+
+                <maxLength>6</maxLength>
+                <validationPattern><numeric /></validationPattern>
+                <required>false</required>
+
+                <control>
+                    <text size="4" />
+                </control>
+
+                <summary>
+                    <![CDATA[&nbsp;]]>
+                </summary>
+                <description><![CDATA[&nbsp;]]></description>
+    		</attribute>
+    		
+    		<attribute name="financialDocumentFiftyCentAmount">
+    			<label>Fifty Cent Amount</label>
+                <shortLabel>FtyCntAmt</shortLabel>
+
+                <maxLength>6</maxLength>
+                <required>false</required>
+
+                <control>
+                    <currency size="6" formattedMaxLength="8" />
+                </control>
+
+                <summary>
+                    <![CDATA[&nbsp;]]>
+                </summary>
+                <description><![CDATA[&nbsp;]]></description>
+    		</attribute>
+    		<attribute name="fiftyCentCount">
+    			<label>Fifty Cent Count</label>
+                <shortLabel>FtyCntCnt</shortLabel>
+
+                <maxLength>6</maxLength>
+                <validationPattern><numeric /></validationPattern>
+                <required>false</required>
+
+                <control>
+                    <text size="4" />
+                </control>
+
+                <summary>
+                    <![CDATA[&nbsp;]]>
+                </summary>
+                <description><![CDATA[&nbsp;]]></description>
+    		</attribute>
+    		
+    		<attribute name="financialDocumentTwentyFiveCentAmount">
+    			<label>Twenty Five Cent Amount</label>
+                <shortLabel>TwyFvCntAmt</shortLabel>
+
+                <maxLength>6</maxLength>
+                <required>false</required>
+
+                <control>
+                    <currency size="6" formattedMaxLength="8" />
+                </control>
+
+                <summary>
+                    <![CDATA[&nbsp;]]>
+                </summary>
+                <description><![CDATA[&nbsp;]]></description>
+    		</attribute>
+    		<attribute name="twentyFiveCentCount">
+    			<label>Twenty Five Cent Count</label>
+                <shortLabel>TwyFvCntCnt</shortLabel>
+
+                <maxLength>6</maxLength>
+                <validationPattern><numeric /></validationPattern>
+                <required>false</required>
+
+                <control>
+                    <text size="4" />
+                </control>
+
+                <summary>
+                    <![CDATA[&nbsp;]]>
+                </summary>
+                <description><![CDATA[&nbsp;]]></description>
+    		</attribute>
+    		
+    		<attribute name="financialDocumentTenCentAmount">
+    			<label>Ten Cent Amount</label>
+                <shortLabel>TnCntAmt</shortLabel>
+
+                <maxLength>6</maxLength>
+                <required>false</required>
+
+                <control>
+                    <currency size="6" formattedMaxLength="8" />
+                </control>
+
+                <summary>
+                    <![CDATA[&nbsp;]]>
+                </summary>
+                <description><![CDATA[&nbsp;]]></description>
+    		</attribute>
+    		<attribute name="tenCentCount">
+    			<label>Ten Cent Count</label>
+                <shortLabel>TnCntCnt</shortLabel>
+
+                <maxLength>6</maxLength>
+                <validationPattern><numeric /></validationPattern>
+                <required>false</required>
+
+                <control>
+                    <text size="4" />
+                </control>
+
+                <summary>
+                    <![CDATA[&nbsp;]]>
+                </summary>
+                <description><![CDATA[&nbsp;]]></description>
+    		</attribute>
+    		
+    		<attribute name="financialDocumentFiveCentAmount">
+    			<label>Five Cent Amount</label>
+                <shortLabel>FvCntAmt</shortLabel>
+
+                <maxLength>6</maxLength>
+                <required>false</required>
+
+                <control>
+                    <currency size="6" formattedMaxLength="8" />
+                </control>
+
+                <summary>
+                    <![CDATA[&nbsp;]]>
+                </summary>
+                <description><![CDATA[&nbsp;]]></description>
+    		</attribute>
+    		<attribute name="fiveCentCount">
+    			<label>Five Cent Count</label>
+                <shortLabel>FvCntCnt</shortLabel>
+
+                <maxLength>6</maxLength>
+                <validationPattern><numeric /></validationPattern>
+                <required>false</required>
+
+                <control>
+                    <text size="4" />
+                </control>
+
+                <summary>
+                    <![CDATA[&nbsp;]]>
+                </summary>
+                <description><![CDATA[&nbsp;]]></description>
+    		</attribute>
+    		
+    		<attribute name="financialDocumentOneCentAmount">
+    			<label>One Cent Amount</label>
+                <shortLabel>OneCntAmt</shortLabel>
+
+                <maxLength>6</maxLength>
+                <required>false</required>
+
+                <control>
+                    <currency size="6" formattedMaxLength="8" />
+                </control>
+
+                <summary>
+                    <![CDATA[&nbsp;]]>
+                </summary>
+                <description><![CDATA[&nbsp;]]></description>
+    		</attribute>
+    		<attribute name="oneCentCount">
+    			<label>One Cent Count</label>
+                <shortLabel>OneCntCnt</shortLabel>
+
+                <maxLength>6</maxLength>
+                <validationPattern><numeric /></validationPattern>
+                <required>false</required>
+
+                <control>
+                    <text size="4" />
+                </control>
+
+                <summary>
+                    <![CDATA[&nbsp;]]>
+                </summary>
+                <description><![CDATA[&nbsp;]]></description>
+    		</attribute>
+    		
+    		<attribute name="financialDocumentOtherCentAmount">
+    			<label>Other Cent Amount</label>
+                <shortLabel>OthrCntAmt</shortLabel>
+
+                <maxLength>6</maxLength>
+                <required>false</required>
+
+                <control>
+                    <currency size="6" formattedMaxLength="8" />
+                </control>
+
+                <summary>
+                    <![CDATA[&nbsp;]]>
+                </summary>
+                <description><![CDATA[&nbsp;]]></description>
+    		</attribute>
+    	</attributes>
+    </businessObject>
+</dictionaryEntry>

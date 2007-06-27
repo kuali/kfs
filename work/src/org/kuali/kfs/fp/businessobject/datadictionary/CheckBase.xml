@@ -65,6 +65,41 @@
                 </summary>
                 <description>A free-form text field that describes the purpose or function of the check or batch of checks.</description>
             </attribute>
+            
+            <attribute name="financialDocumentTypeCode" forceUppercase="true">
+    			<label>Financial Document Type Code</label>
+                <shortLabel>FinDocTypCd</shortLabel>
+
+                <maxLength>4</maxLength>
+                <required>false</required>
+
+                <control>
+                    <hidden />
+                </control>
+
+                <summary>
+                    <![CDATA[&nbsp;]]>
+                </summary>
+                <description><![CDATA[&nbsp;]]></description>
+    		</attribute>
+    		
+    		<attribute name="cashieringRecordSource" forceUppercase="true">
+    			<label>Cashiering Record Source</label>
+                <shortLabel>CshrgRcdSrc</shortLabel>
+
+                <maxLength>1</maxLength>
+                <required>false</required>
+
+                <control>
+                    <hidden />
+                </control>
+
+                <summary>
+                    <![CDATA[&nbsp;]]>
+                </summary>
+                <description><![CDATA[&nbsp;]]></description>
+    		</attribute>
+            
 
             <attributeReference name="interimDepositAmount" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericBoolean">
                 <required>true</required>

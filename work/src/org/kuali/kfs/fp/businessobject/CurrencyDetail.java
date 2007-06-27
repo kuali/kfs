@@ -21,6 +21,7 @@ import java.util.LinkedHashMap;
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.KFSPropertyConstants;
+import org.kuali.kfs.KFSConstants;
 
 /**
  * 
@@ -29,7 +30,7 @@ public class CurrencyDetail extends PersistableBusinessObjectBase {
 
     private String documentNumber;
     private String financialDocumentTypeCode;
-    private String financialDocumentColumnTypeCode;
+    private String cashieringRecordSource;
     private KualiDecimal financialDocumentHundredDollarAmount;
     private KualiDecimal financialDocumentFiftyDollarAmount;
     private KualiDecimal financialDocumentTwentyDollarAmount;
@@ -89,23 +90,23 @@ public class CurrencyDetail extends PersistableBusinessObjectBase {
 
 
     /**
-     * Gets the financialDocumentColumnTypeCode attribute.
+     * Gets the cashieringRecordSource attribute.
      * 
-     * @return Returns the financialDocumentColumnTypeCode
+     * @return Returns the cashieringRecordSource
      * 
      */
-    public String getFinancialDocumentColumnTypeCode() {
-        return financialDocumentColumnTypeCode;
+    public String getCashieringRecordSource() {
+        return cashieringRecordSource;
     }
 
     /**
-     * Sets the financialDocumentColumnTypeCode attribute.
+     * Sets the cashieringRecordSource attribute.
      * 
-     * @param financialDocumentColumnTypeCode The financialDocumentColumnTypeCode to set.
+     * @param cashieringRecordSource The cashieringRecordSource to set.
      * 
      */
-    public void setFinancialDocumentColumnTypeCode(String financialDocumentColumnTypeCode) {
-        this.financialDocumentColumnTypeCode = financialDocumentColumnTypeCode;
+    public void setCashieringRecordSource(String financialDocumentColumnTypeCode) {
+        this.cashieringRecordSource = financialDocumentColumnTypeCode;
     }
 
 
@@ -129,7 +130,22 @@ public class CurrencyDetail extends PersistableBusinessObjectBase {
         this.financialDocumentHundredDollarAmount = financialDocumentHundredDollarAmount;
     }
 
-
+    /**
+     * Returns the actual count of hundred dollar bills
+     * @return the number of hundred dollar bills present in the drawer
+     */
+    public int getHundredDollarCount() {
+        return financialDocumentHundredDollarAmount.divide(KFSConstants.CurrencyTypeAmounts.HUNDRED_DOLLAR_AMOUNT).intValue();
+    }
+    
+    /**
+     * This sets the count of hundred dollar bills present in the drawer
+     * @param count the number of hundred dollar bills present in the drawer
+     */
+    public void setHundredDollarCount(int count) {
+        this.financialDocumentHundredDollarAmount = new KualiDecimal(count).multiply(KFSConstants.CurrencyTypeAmounts.HUNDRED_DOLLAR_AMOUNT);
+    }
+    
     /**
      * Gets the financialDocumentFiftyDollarAmount attribute.
      * 
@@ -150,7 +166,22 @@ public class CurrencyDetail extends PersistableBusinessObjectBase {
         this.financialDocumentFiftyDollarAmount = financialDocumentFiftyDollarAmount;
     }
 
-
+    /**
+     * Returns the actual count of fifty dollar bills
+     * @return the number of fifty dollar bills present in the drawer
+     */
+    public int getFiftyDollarCount() {
+        return financialDocumentFiftyDollarAmount.divide(KFSConstants.CurrencyTypeAmounts.FIFTY_DOLLAR_AMOUNT).intValue();
+    }
+    
+    /**
+     * This sets the count of hundred dollar bills present in the drawer
+     * @param count the number of hundred dollar bills present in the drawer
+     */
+    public void setFiftyDollarCount(int count) {
+        this.financialDocumentFiftyDollarAmount = new KualiDecimal(count).multiply(KFSConstants.CurrencyTypeAmounts.FIFTY_DOLLAR_AMOUNT);
+    }
+    
     /**
      * Gets the financialDocumentTwentyDollarAmount attribute.
      * 
@@ -171,7 +202,22 @@ public class CurrencyDetail extends PersistableBusinessObjectBase {
         this.financialDocumentTwentyDollarAmount = financialDocumentTwentyDollarAmount;
     }
 
-
+    /**
+     * Returns the actual count of twenty dollar bills
+     * @return the number of twenty dollar bills present in the drawer
+     */
+    public int getTwentyDollarCount() {
+        return financialDocumentTwentyDollarAmount.divide(KFSConstants.CurrencyTypeAmounts.TWENTY_DOLLAR_AMOUNT).intValue();
+    }
+    
+    /**
+     * This sets the count of twenty dollar bills present in the drawer
+     * @param count the number of twenty dollar bills present in the drawer
+     */
+    public void setTwentyDollarCount(int count) {
+        this.financialDocumentTwentyDollarAmount = new KualiDecimal(count).multiply(KFSConstants.CurrencyTypeAmounts.TWENTY_DOLLAR_AMOUNT);
+    }
+    
     /**
      * Gets the financialDocumentTenDollarAmount attribute.
      * 
@@ -192,7 +238,22 @@ public class CurrencyDetail extends PersistableBusinessObjectBase {
         this.financialDocumentTenDollarAmount = financialDocumentTenDollarAmount;
     }
 
-
+    /**
+     * Returns the actual count of ten dollar bills
+     * @return the number of ten dollar bills present in the drawer
+     */
+    public int getTenDollarCount() {
+        return financialDocumentTenDollarAmount.divide(KFSConstants.CurrencyTypeAmounts.TEN_DOLLAR_AMOUNT).intValue();
+    }
+    
+    /**
+     * This sets the count of ten dollar bills present in the drawer
+     * @param count the number of ten dollar bills present in the drawer
+     */
+    public void setTenDollarCount(int count) {
+        this.financialDocumentTenDollarAmount = new KualiDecimal(count).multiply(KFSConstants.CurrencyTypeAmounts.TEN_DOLLAR_AMOUNT);
+    }
+    
     /**
      * Gets the financialDocumentFiveDollarAmount attribute.
      * 
@@ -213,7 +274,22 @@ public class CurrencyDetail extends PersistableBusinessObjectBase {
         this.financialDocumentFiveDollarAmount = financialDocumentFiveDollarAmount;
     }
 
-
+    /**
+     * Returns the actual count of five dollar bills
+     * @return the number of five dollar bills present in the drawer
+     */
+    public int getFiveDollarCount() {
+        return financialDocumentFiveDollarAmount.divide(KFSConstants.CurrencyTypeAmounts.FIVE_DOLLAR_AMOUNT).intValue();
+    }
+    
+    /**
+     * This sets the count of five dollar bills present in the drawer
+     * @param count the number of five dollar bills present in the drawer
+     */
+    public void setFiveDollarCount(int count) {
+        this.financialDocumentFiveDollarAmount = new KualiDecimal(count).multiply(KFSConstants.CurrencyTypeAmounts.FIVE_DOLLAR_AMOUNT);
+    }
+    
     /**
      * Gets the financialDocumentTwoDollarAmount attribute.
      * 
@@ -234,7 +310,22 @@ public class CurrencyDetail extends PersistableBusinessObjectBase {
         this.financialDocumentTwoDollarAmount = financialDocumentTwoDollarAmount;
     }
 
-
+    /**
+     * Returns the actual count of two dollar bills
+     * @return the number of two dollar bills present in the drawer
+     */
+    public int getTwoDollarCount() {
+        return financialDocumentTwoDollarAmount.divide(KFSConstants.CurrencyTypeAmounts.TWO_DOLLAR_AMOUNT).intValue();
+    }
+    
+    /**
+     * This sets the count of two dollar bills present in the drawer
+     * @param count the number of two dollar bills present in the drawer
+     */
+    public void setTwoDollarCount(int count) {
+        this.financialDocumentTwoDollarAmount = new KualiDecimal(count).multiply(KFSConstants.CurrencyTypeAmounts.TWO_DOLLAR_AMOUNT);
+    }
+    
     /**
      * Gets the financialDocumentOneDollarAmount attribute.
      * 
@@ -255,6 +346,21 @@ public class CurrencyDetail extends PersistableBusinessObjectBase {
         this.financialDocumentOneDollarAmount = financialDocumentOneDollarAmount;
     }
 
+    /**
+     * Returns the actual count of one dollar bills
+     * @return the number of one dollar bills present in the drawer
+     */
+    public int getOneDollarCount() {
+        return financialDocumentOneDollarAmount.divide(KFSConstants.CurrencyTypeAmounts.ONE_DOLLAR_AMOUNT).intValue();
+    }
+    
+    /**
+     * This sets the count of one dollar bills present in the drawer
+     * @param count the number of one dollar bills present in the drawer
+     */
+    public void setOneDollarCount(int count) {
+        this.financialDocumentOneDollarAmount = new KualiDecimal(count).multiply(KFSConstants.CurrencyTypeAmounts.ONE_DOLLAR_AMOUNT);
+    }
 
     /**
      * Gets the financialDocumentOtherDollarAmount attribute.
@@ -276,7 +382,6 @@ public class CurrencyDetail extends PersistableBusinessObjectBase {
         this.financialDocumentOtherDollarAmount = financialDocumentOtherDollarAmount;
     }
 
-
     /**
      * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
      */
@@ -284,7 +389,7 @@ public class CurrencyDetail extends PersistableBusinessObjectBase {
         LinkedHashMap m = new LinkedHashMap();
         m.put(KFSPropertyConstants.DOCUMENT_NUMBER, this.documentNumber);
         m.put("financialDocumentTypeCode", this.financialDocumentTypeCode);
-        m.put("financialDocumentColumnTypeCode", this.financialDocumentColumnTypeCode);
+        m.put("cashieringRecordSource", this.cashieringRecordSource);
         return m;
     }
 }

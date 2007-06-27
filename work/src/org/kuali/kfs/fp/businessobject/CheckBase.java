@@ -40,7 +40,7 @@ public class CheckBase extends PersistableBusinessObjectBase implements Check {
     private KualiDecimal amount;
     private String documentNumber;
     private String financialDocumentTypeCode;
-    private String financialDocumentColumnTypeCode;
+    private String cashieringRecordSource;
     
     /**
      * Constructs a CheckBase business object.
@@ -179,19 +179,19 @@ public class CheckBase extends PersistableBusinessObjectBase implements Check {
     }
 
     /**
-     * Gets the financialDocumentColumnTypeCode attribute. 
-     * @return Returns the financialDocumentColumnTypeCode.
+     * Gets the cashieringRecordSource attribute. 
+     * @return Returns the cashieringRecordSource.
      */
-    public String getFinancialDocumentColumnTypeCode() {
-        return financialDocumentColumnTypeCode;
+    public String getCashieringRecordSource() {
+        return cashieringRecordSource;
     }
 
     /**
-     * Sets the financialDocumentColumnTypeCode attribute value.
-     * @param financialDocumentColumnTypeCode The financialDocumentColumnTypeCode to set.
+     * Sets the cashieringRecordSource attribute value.
+     * @param cashieringRecordSource The cashieringRecordSource to set.
      */
-    public void setFinancialDocumentColumnTypeCode(String financialDocumentColumnTypeCode) {
-        this.financialDocumentColumnTypeCode = financialDocumentColumnTypeCode;
+    public void setCashieringRecordSource(String financialDocumentColumnTypeCode) {
+        this.cashieringRecordSource = financialDocumentColumnTypeCode;
     }
 
     /**
@@ -224,7 +224,7 @@ public class CheckBase extends PersistableBusinessObjectBase implements Check {
         m.put("description", this.description);
         m.put("documentHeaderId", this.documentNumber);
         m.put("financialDocumentTypeCode", this.financialDocumentTypeCode);
-        m.put("financialDocumentColumnTypeCode", this.financialDocumentColumnTypeCode);
+        m.put("cashieringRecordSource", this.cashieringRecordSource);
         
         return m;
     }
@@ -238,13 +238,15 @@ public class CheckBase extends PersistableBusinessObjectBase implements Check {
 
         if (StringUtils.equals(checkNumber, other.getCheckNumber())) {
             if (StringUtils.equals(description, other.getDescription())) {
-                if (StringUtils.equals(documentNumber, other.getDocumentNumber())) {
-                    if (NumberUtils.equals(sequenceId, other.getSequenceId())) {
-                        if (interimDepositAmount == other.isInterimDepositAmount()) {
-
-                            if (DateUtils.isSameDay(checkDate, other.getCheckDate())) {
-                                if ((amount != null) && amount.equals(other.getAmount())) {
-                                    like = true;
+                if (StringUtils.equals(financialDocumentTypeCode, other.getFinancialDocumentTypeCode()) && StringUtils.equals(cashieringRecordSource, other.getCashieringRecordSource())) {
+                    if (StringUtils.equals(documentNumber, other.getDocumentNumber())) {
+                        if (NumberUtils.equals(sequenceId, other.getSequenceId())) {
+                            if (interimDepositAmount == other.isInterimDepositAmount()) {
+    
+                                if (DateUtils.isSameDay(checkDate, other.getCheckDate())) {
+                                    if ((amount != null) && amount.equals(other.getAmount())) {
+                                        like = true;
+                                    }
                                 }
                             }
                         }

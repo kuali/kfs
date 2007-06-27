@@ -519,6 +519,26 @@ public class KFSConstants extends Constants {
     // CashManagement tab errors
     public static final String CASH_MANAGEMENT_ERRORS = "cashManagementDocument.*";
     public static final String CASH_MANAGEMENT_DEPOSIT_ERRORS = "document.deposit*";
+    
+    // Coin and Currency Amounts
+    public static class CoinTypeAmounts {
+        public static final KualiDecimal HUNDRED_CENT_AMOUNT = new KualiDecimal(1.0);
+        public static final KualiDecimal FIFTY_CENT_AMOUNT = new KualiDecimal(0.5);
+        public static final KualiDecimal TWENTY_FIVE_CENT_AMOUNT = new KualiDecimal(0.25);
+        public static final KualiDecimal TEN_CENT_AMOUNT = new KualiDecimal(0.1);
+        public static final KualiDecimal FIVE_CENT_AMOUNT = new KualiDecimal(0.05);
+        public static final KualiDecimal ONE_CENT_AMOUNT = new KualiDecimal(0.01);
+    }
+    
+    public static class CurrencyTypeAmounts {
+        public static final KualiDecimal HUNDRED_DOLLAR_AMOUNT = new KualiDecimal(100.0);
+        public static final KualiDecimal FIFTY_DOLLAR_AMOUNT = new KualiDecimal(50.0);
+        public static final KualiDecimal TWENTY_DOLLAR_AMOUNT = new KualiDecimal(20.0);
+        public static final KualiDecimal TEN_DOLLAR_AMOUNT = new KualiDecimal(10.0);
+        public static final KualiDecimal FIVE_DOLLAR_AMOUNT = new KualiDecimal(5.0);
+        public static final KualiDecimal TWO_DOLLAR_AMOUNT = new KualiDecimal(2.0);
+        public static final KualiDecimal ONE_DOLLAR_AMOUNT = new KualiDecimal(1.0);
+    }
 
     // Tab error patterns must be at the top level; JSPs do not have access to the nested classes.
     public static final String EDIT_CASH_RECEIPT_CASH_RECONCILIATION_ERRORS = "document.totalCashAmount,document.totalCheckAmount,document.totalCoinAmount,document.sumTotalAmount";

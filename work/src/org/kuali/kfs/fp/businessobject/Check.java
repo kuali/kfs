@@ -123,38 +123,36 @@ public interface Check extends PersistableBusinessObject, PersistenceBrokerAware
      */
     public boolean isInterimDepositAmount();
 
-
     /**
-     * @param other
-     * @return true if this Check has the same primitive field values as the given one
+     * 
+     * Returns the document type that created this record.
+     * @return the document type of the creating document.
      */
-    public boolean isLike(Check other);
+    public String getFinancialDocumentTypeCode();
     
     /**
      * 
-     * This method sets teh financial document type code
+     * Sets the kind of document that created this check
      * @param financialDocumentTypeCode
      */
     public void setFinancialDocumentTypeCode(String financialDocumentTypeCode);
     
     /**
      * 
-     * This method sets the financial document column type code
-     * @param financialDocumentColumnTypeCode
+     * Gets the code that describes where this cashiering record came from
+     * @return the cashiering record source
      */
-    public void setFinancialDocumentColumnTypeCode(String financialDocumentColumnTypeCode);
+    public String getCashieringRecordSource();
     
     /**
      * 
-     * This method returns the financial document type code
-     * @return
+     * Sets the source of this cashiering record.
+     * @param cashieringRecordSource
      */
-    public String getFinancialDocumentTypeCode();
-    
+    public void setCashieringRecordSource(String cashieringRecordSource);
     /**
-     * 
-     * This method returns the financial document column type code
-     * @return
+     * @param other
+     * @return true if this Check has the same primitive field values as the given one
      */
-    public String getFinancialDocumentColumnTypeCode();
+    public boolean isLike(Check other);
 }

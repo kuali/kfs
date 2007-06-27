@@ -486,10 +486,10 @@ public class CashReceiptDocument extends CashReceiptFamilyBase implements Copyab
         return checkMap;
     }
     
-    protected Check createNewCheck() {
+    public Check createNewCheck() {
         Check newCheck = new CheckBase();
         newCheck.setFinancialDocumentTypeCode(DOCUMENT_TYPE);
-        newCheck.setFinancialDocumentColumnTypeCode(CASHIERING_SOURCE);
+        newCheck.setCashieringRecordSource(CASHIERING_SOURCE);
         return newCheck;
     }
 }

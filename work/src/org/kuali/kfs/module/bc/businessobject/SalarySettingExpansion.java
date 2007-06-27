@@ -36,7 +36,7 @@ import org.kuali.module.chart.bo.SubObjCd;
 import org.kuali.module.chart.bo.codes.BalanceTyp;
 import org.kuali.module.labor.bo.LaborObject;
 import org.kuali.module.labor.bo.PositionObjectBenefit;
-import org.kuali.rice.KNSServiceLocator;
+
 
 /**
  * TODO is this needed??? probably need to just point OJB repository to PBGL class or

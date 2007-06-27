@@ -54,7 +54,7 @@ import org.kuali.module.budget.bo.PendingBudgetConstructionGeneralLedger;
 import org.kuali.module.budget.dao.ojb.BudgetConstructionDaoOjb;
 import org.kuali.module.budget.document.BudgetConstructionDocument;
 import org.kuali.module.budget.web.struts.form.BudgetConstructionForm;
-import org.kuali.rice.KNSServiceLocator;
+
 
 import edu.iu.uis.eden.clientapp.IDocHandler;
 import edu.iu.uis.eden.exception.WorkflowException;
@@ -188,7 +188,7 @@ public ActionForward close(ActionMapping mapping, ActionForm form, HttpServletRe
     // only want to prompt them to save if they already can save
     if (docForm.getDocumentActionFlags().getCanSave()) {
         Object question = request.getParameter(KFSConstants.QUESTION_INST_ATTRIBUTE_NAME);
-        KualiConfigurationService kualiConfiguration = KNSServiceLocator.getKualiConfigurationService();
+        KualiConfigurationService kualiConfiguration = SpringServiceLocator.getKualiConfigurationService();
 
         // logic for close question
         if (question == null) {
@@ -200,9 +200,9 @@ public ActionForward close(ActionMapping mapping, ActionForm form, HttpServletRe
             if ((KFSConstants.DOCUMENT_SAVE_BEFORE_CLOSE_QUESTION.equals(question)) && ConfirmationQuestion.YES.equals(buttonClicked)) {
                 // if yes button clicked - save the doc
 
-                //KNSServiceLocator.getDocumentService().saveDocument(docForm.getDocument());
+                //SpringServiceLocator.getDocumentService().saveDocument(docForm.getDocument());
                 // TODO for now just do trivial save eventually need to add validation, routelog stuff, etc
-                KNSServiceLocator.getDocumentService().updateDocument(docForm.getDocument());
+                SpringServiceLocator.getDocumentService().updateDocument(docForm.getDocument());
                 
             }
             // else go to close logic below
@@ -572,8 +572,8 @@ public ActionForward close(ActionMapping mapping, ActionForm form, HttpServletRe
         //TODO this should also keep original values of obj, sobj to compare and null out dependencies when needed
         if (refreshCaller != null && refreshCaller.equalsIgnoreCase(KFSConstants.KUALI_LOOKUPABLE_IMPL)){
             final List REFRESH_FIELDS = Collections.unmodifiableList(Arrays.asList(new String[] { "financialObject", "financialSubObject" }));
-            KNSServiceLocator.getPersistenceService().retrieveReferenceObjects(budgetConstructionForm.getNewRevenueLine(), REFRESH_FIELDS);            
-            KNSServiceLocator.getPersistenceService().retrieveReferenceObjects(budgetConstructionForm.getNewExpenditureLine(), REFRESH_FIELDS);            
+            SpringServiceLocator.getPersistenceService().retrieveReferenceObjects(budgetConstructionForm.getNewRevenueLine(), REFRESH_FIELDS);            
+            SpringServiceLocator.getPersistenceService().retrieveReferenceObjects(budgetConstructionForm.getNewExpenditureLine(), REFRESH_FIELDS);            
         }
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);

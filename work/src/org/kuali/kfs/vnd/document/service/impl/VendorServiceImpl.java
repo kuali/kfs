@@ -42,7 +42,6 @@ import org.kuali.module.vendor.bo.VendorHeader;
 import org.kuali.module.vendor.dao.VendorDao;
 import org.kuali.module.vendor.service.VendorService;
 import org.kuali.module.vendor.util.VendorRoutingComparable;
-import org.kuali.rice.KNSServiceLocator;
 import org.springframework.transaction.annotation.Transactional;
 
 import edu.iu.uis.eden.exception.WorkflowException;
@@ -292,7 +291,7 @@ public class VendorServiceImpl implements VendorService {
             if (StringUtils.isNotBlank(ssnTaxId)) {
                 try {
                     UniversalUser user = SpringServiceLocator.getUniversalUserService().getUniversalUser(new PersonTaxId(ssnTaxId));
-                    return (user.isFaculty() || user.isStaff() || user.isAffiliate()) && !KNSServiceLocator.getKualiConfigurationService().getApplicationParameterRule(Constants.ADMIN_GROUP, Constants.ALLOWED_EMPLOYEE_STATUS_RULE).failsRule(user.getEmployeeStatusCode());
+                    return (user.isFaculty() || user.isStaff() || user.isAffiliate()) && !SpringServiceLocator.getKualiConfigurationService().getApplicationParameterRule(Constants.ADMIN_GROUP, Constants.ALLOWED_EMPLOYEE_STATUS_RULE).failsRule(user.getEmployeeStatusCode());
                 }
                 catch (UserNotFoundException e) {
                     // user is not in the system... assume non-employee

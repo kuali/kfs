@@ -74,7 +74,7 @@ public class LaborOriginEntryServiceImpl implements LaborOriginEntryService {
     }
 
     /**
-     * @see org.kuali.module.gl.service.OriginEntryService#copyEntries(java.util.Date, java.lang.String, boolean, boolean, boolean,
+     * @see org.kuali.module.labor.service.OriginEntryService#copyEntries(java.util.Date, java.lang.String, boolean, boolean, boolean,
      *      java.util.Collection)
      */
     public OriginEntryGroup copyEntries(Date date, String sourceCode, boolean valid, boolean process, boolean scrub, Collection<LaborOriginEntry> entries) {
@@ -94,7 +94,7 @@ public class LaborOriginEntryServiceImpl implements LaborOriginEntryService {
     
     
     /**
-     * @see org.kuali.module.gl.service.OriginEntryService#copyEntries(java.sql.Date, java.lang.String, boolean, boolean, boolean, java.util.Iterator)
+     * @see org.kuali.module.labor.service.OriginEntryService#copyEntries(java.sql.Date, java.lang.String, boolean, boolean, boolean, java.util.Iterator)
      */
     public OriginEntryGroup copyEntries(Date date, String sourceCode, boolean valid, boolean process, boolean scrub, Iterator<LaborOriginEntry> entries) {
         LOG.debug("copyEntries() started");
@@ -112,7 +112,7 @@ public class LaborOriginEntryServiceImpl implements LaborOriginEntryService {
     }
     
     /**
-     * @see org.kuali.module.gl.service.OriginEntryService#delete(org.kuali.module.gl.bo.OriginEntry)
+     * @see org.kuali.module.labor.service.OriginEntryService#delete(org.kuali.module.labor.bo.LaborOriginEntry)
      */
     public void delete(LaborOriginEntry loe) {
         LOG.debug("deleteEntry() started");
@@ -121,7 +121,7 @@ public class LaborOriginEntryServiceImpl implements LaborOriginEntryService {
     }
 
     /**
-     * @see org.kuali.module.gl.service.OriginEntryService#getDocumentsByGroup(org.kuali.module.gl.bo.OriginEntryGroup)
+     * @see org.kuali.module.labor.service.OriginEntryService#getDocumentsByGroup(org.kuali.module.gl.bo.originentrygroup)
      */
     public Collection<LaborOriginEntry> getDocumentsByGroup(OriginEntryGroup oeg) {
         LOG.debug("getDocumentsByGroup() started");
@@ -140,6 +140,7 @@ public class LaborOriginEntryServiceImpl implements LaborOriginEntryService {
         return results;
     }
 
+    
     public Iterator<LaborOriginEntry> getBadBalanceEntries(Collection groups) {
         LOG.debug("getBadBalanceEntries() started");
         Iterator returnVal = originEntryDao.getBadBalanceEntries(groups);
@@ -169,7 +170,7 @@ public class LaborOriginEntryServiceImpl implements LaborOriginEntryService {
     }
 
     /**
-     * @see org.kuali.module.gl.service.OriginEntryService#getEntriesByDocument(org.kuali.module.gl.bo.OriginEntryGroup,
+     * @see org.kuali.module.labor.service.LaborOriginEntryService#getEntriesByDocument(org.kuali.module.labor.bo.LaborOriginEntryGroup,
      *      java.lang.String, java.lang.String, java.lang.String)
      */
     public Collection<LaborOriginEntry> getEntriesByDocument(OriginEntryGroup originEntryGroup, String documentNumber, String documentTypeCode, String originCode) {
@@ -185,8 +186,8 @@ public class LaborOriginEntryServiceImpl implements LaborOriginEntryService {
     }
 
     /**
-     * @see org.kuali.module.gl.service.OriginEntryService#createEntry(org.kuali.module.gl.bo.Transaction,
-     *      org.kuali.module.gl.bo.OriginEntryGroup)
+     * @see org.kuali.module.labor.service.OriginEntryService#createEntry(org.kuali.module.labor.bo.Transaction,
+     *      org.kuali.module.gl.bo.originentrygroup)
      */
     public void createEntry(LaborTransaction laborTransaction, OriginEntryGroup originEntryGroup) {
         LOG.debug("createEntry() started");
@@ -198,7 +199,7 @@ public class LaborOriginEntryServiceImpl implements LaborOriginEntryService {
     }
 
     /**
-     * @see org.kuali.module.gl.service.OriginEntryService#save(org.kuali.module.gl.bo.OriginEntry)
+     * @see org.kuali.module.labor.service.OriginEntryService#save(org.kuali.module.labor.bo.LaborOriginEntry)
      */
     public void save(LaborOriginEntry entry) {
         LOG.debug("save() started");
@@ -207,7 +208,7 @@ public class LaborOriginEntryServiceImpl implements LaborOriginEntryService {
     }
 
     /**
-     * @see org.kuali.module.gl.service.OriginEntryService#exportFlatFile(java.lang.String, java.lang.Integer)
+     * @see org.kuali.module.labor.service.OriginEntryService#exportFlatFile(java.lang.String, java.lang.Integer)
      */
     public void exportFlatFile(String filename, Integer groupId) {
         LOG.debug("exportFlatFile() started");
@@ -240,7 +241,7 @@ public class LaborOriginEntryServiceImpl implements LaborOriginEntryService {
     }
 
     /**
-     * @see org.kuali.module.gl.service.OriginEntryService#loadFlatFile(java.lang.String, java.lang.String, boolean, boolean,
+     * @see org.kuali.module.labor.service.OriginEntryService#loadFlatFile(java.lang.String, java.lang.String, boolean, boolean,
      *      boolean)
      */
     public void loadFlatFile(String filename, String groupSourceCode, boolean isValid, boolean isProcessed, boolean isScrub) {
@@ -276,7 +277,7 @@ public class LaborOriginEntryServiceImpl implements LaborOriginEntryService {
     
     
     /**
-     * @see org.kuali.module.gl.service.OriginEntryService#getMatchingEntriesByList(java.util.Map)
+     * @see org.kuali.module.labor.service.OriginEntryService#getMatchingEntriesByList(java.util.Map)
      */
     public List<LaborOriginEntry> getEntriesByGroupId(Integer groupId) {
         if (groupId == null) {
@@ -314,7 +315,7 @@ public class LaborOriginEntryServiceImpl implements LaborOriginEntryService {
     }
 
     /**
-     * @see org.kuali.module.gl.service.OriginEntryService#flatFile(java.lang.Integer, java.io.BufferedOutputStream)
+     * @see org.kuali.module.labor.service.OriginEntryService#flatFile(java.lang.Integer, java.io.BufferedOutputStream)
      */
     public void flatFile(Integer groupId, BufferedOutputStream bw) {
         LOG.debug("flatFile() started");
@@ -335,7 +336,7 @@ public class LaborOriginEntryServiceImpl implements LaborOriginEntryService {
     }
 
     /**
-     * @see org.kuali.module.gl.service.OriginEntryService#getMatchingEntriesByCollection(java.util.Map)
+     * @see org.kuali.module.labor.service.OriginEntryService#getMatchingEntriesByCollection(java.util.Map)
      */
     public Collection getMatchingEntriesByCollection(Map searchCriteria) {
         LOG.debug("getMatchingEntriesByCollection() started");
@@ -344,7 +345,7 @@ public class LaborOriginEntryServiceImpl implements LaborOriginEntryService {
     }
 
     /**
-     * @see org.kuali.module.gl.service.OriginEntryService#getExactMatchingEntry(java.lang.Integer)
+     * @see org.kuali.module.labor.service.OriginEntryService#getExactMatchingEntry(java.lang.Integer)
      */
     public LaborOriginEntry getExactMatchingEntry(Integer entryId) {
         LOG.debug("getExactMatchingEntry() started");

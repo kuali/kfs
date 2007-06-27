@@ -103,17 +103,17 @@ public class KualiAttributeXPathTest extends KualiTestBase {
         XPath xpath = KualiWorkflowUtils.getXPath(docContent.getDocument());
         
         String tempXpathNugget = KualiWorkflowUtils.XSTREAM_MATCH_ANYWHERE_PREFIX + "campus/campusType/dataObjectMaintenanceCodeActiveIndicator";
-        String xpathExistingStatement = "(" + KualiWorkflowUtils.XSTREAM_SAFE_PREFIX + tempXpathNugget + KualiWorkflowUtils.XSTREAM_SAFE_SUFFIX + ")";
-        String xpathNonExistingStatement = "(" + KualiWorkflowUtils.XSTREAM_SAFE_PREFIX + tempXpathNugget + "/dummystuff" + KualiWorkflowUtils.XSTREAM_SAFE_SUFFIX + ")";
-        String xpathExpression = "concat(" + xpathExistingStatement + ", " + xpathNonExistingStatement + ")";
+        String xpathExistingNodeStatement = "(" + KualiWorkflowUtils.XSTREAM_SAFE_PREFIX + tempXpathNugget + KualiWorkflowUtils.XSTREAM_SAFE_SUFFIX + ")";
+        String xpathNonExistingNodeStatement = "(" + KualiWorkflowUtils.XSTREAM_SAFE_PREFIX + tempXpathNugget + "/dummystuff" + KualiWorkflowUtils.XSTREAM_SAFE_SUFFIX + ")";
+        String xpathExpression = "concat(" + xpathExistingNodeStatement + ", " + xpathNonExistingNodeStatement + ")";
         String xpathResult = (String) xpath.evaluate(xpathExpression, docContent.getDocument(), XPathConstants.STRING);
         assertEquals("true", xpathResult);
 
-        xpathExpression = "concat(" + xpathNonExistingStatement + ", " + xpathExistingStatement + ")";
+        xpathExpression = "concat(" + xpathNonExistingNodeStatement + ", " + xpathExistingNodeStatement + ")";
         xpathResult = (String) xpath.evaluate(xpathExpression, docContent.getDocument(), XPathConstants.STRING);
         assertEquals("true", xpathResult);
 
-        xpathExpression = "concat(" + xpathNonExistingStatement + ", " + xpathNonExistingStatement + ")";
+        xpathExpression = "concat(" + xpathNonExistingNodeStatement + ", " + xpathNonExistingNodeStatement + ")";
         xpathResult = (String) xpath.evaluate(xpathExpression, docContent.getDocument(), XPathConstants.STRING);
         assertEquals("", xpathResult);
     }

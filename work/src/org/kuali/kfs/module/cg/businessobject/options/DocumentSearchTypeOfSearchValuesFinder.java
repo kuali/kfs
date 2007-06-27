@@ -53,7 +53,7 @@ public class DocumentSearchTypeOfSearchValuesFinder extends KeyValuesBase {
             documentTypes = documentTypes.concat(docTypeName + DOCUMENT_TYPE_SEPARATOR);
         }
         if (StringUtils.isNotBlank(documentTypes)) {
-            labels.add(new KeyLabelPair(label, documentTypes));
+            labels.add(new KeyLabelPair(documentTypes, label));
         }
     }
         

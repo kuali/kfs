@@ -75,9 +75,10 @@ public class PurchasingAccountsPayableActionBase extends KualiAccountingDocument
     }
 
     public void refreshAccountSummary(PurchasingAccountsPayableDocument document) {
-        List<PurchasingApItem> items = document.getItems();
-        List<SourceAccountingLine> summaryAccountingLines = SpringServiceLocator.getPurapService().generateSummary(items);
-        document.setSummaryAccounts(summaryAccountingLines);
+        document.setSummaryAccounts(SpringServiceLocator.getPurapService().generateSummary(document.getItems()));
+//        List<PurchasingApItem> items = document.getItems();
+//        List<SourceAccountingLine> summaryAccountingLines = SpringServiceLocator.getPurapService().generateSummary(items);
+//        document.setSummaryAccounts(summaryAccountingLines);
     }
 
 

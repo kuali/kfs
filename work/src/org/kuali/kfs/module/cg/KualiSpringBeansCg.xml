@@ -150,6 +150,19 @@
         </property>
     </bean>
 
+	<!-- Workflow Lookupables -->
+    <bean id="workflow-org.kuali.module.cg.bo.Proposal-Lookupable" parent="workflowLookupable" singleton="false">
+        <property name="businessObjectClassName">
+            <value>org.kuali.module.cg.bo.Proposal</value>
+        </property>
+    </bean>
+	
+    <bean id="workflow-org.kuali.module.cg.bo.Agency-Lookupable" parent="workflowLookupable" singleton="false">
+        <property name="businessObjectClassName">
+            <value>org.kuali.module.cg.bo.Agency</value>
+        </property>
+    </bean>
+	
     <!-- Batch Steps -->
     <bean id="cfdaBatchStep" class="org.kuali.module.cg.batch.CfdaBatchStep" parent="step">
         <property name="cfdaService">

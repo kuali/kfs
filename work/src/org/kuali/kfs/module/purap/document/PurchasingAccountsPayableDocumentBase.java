@@ -104,6 +104,19 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
     public boolean documentPerformsSufficientFundsCheck() {
         return false;
     }
+    
+    public void refreshAccountSummary() {
+        setSummaryAccounts(SpringServiceLocator.getPurapService().generateSummary(getItems()));
+    }
+
+    /**
+     * @see org.kuali.core.document.DocumentBase#populateDocumentForRouting()
+     */
+    @Override
+    public void populateDocumentForRouting() {
+        refreshAccountSummary();
+        super.populateDocumentForRouting();
+    }
 
     @Override
     public KualiDecimal getTotalDollarAmount() {

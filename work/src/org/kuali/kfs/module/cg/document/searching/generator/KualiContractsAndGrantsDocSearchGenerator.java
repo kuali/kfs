@@ -25,6 +25,7 @@ import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.module.cg.lookup.keyvalues.DocumentSearchTypeOfSearchValuesFinder;
 
+import edu.iu.uis.eden.docsearch.QueryComponent;
 import edu.iu.uis.eden.docsearch.SearchAttributeCriteriaComponent;
 import edu.iu.uis.eden.docsearch.StandardDocumentSearchGenerator;
 import edu.iu.uis.eden.doctype.DocumentType;
@@ -33,6 +34,8 @@ import edu.iu.uis.eden.doctype.DocumentType;
  * This class...
  */
 public class KualiContractsAndGrantsDocSearchGenerator extends StandardDocumentSearchGenerator {
+    
+    private static final String SEARCH_TYPE_ATTRIBUTE_FIELD_DEF_NAME = "searchType";
     
     /* Need to override this method because user could have selected a document type that is a proposal type but they could also
      * then select the checkbox to "only search for award documents".  To adjust for this we change the main doc type the search
@@ -44,7 +47,7 @@ public class KualiContractsAndGrantsDocSearchGenerator extends StandardDocumentS
     @Override
     protected String getDocTypeFullNameWhereSql(String docTypeFullName, String whereClausePredicatePrefix) {
         // get names from search critera attribute
-        List documentTypeNames = getDocTypeNames("searchType");
+        List documentTypeNames = getDocTypeNames(SEARCH_TYPE_ATTRIBUTE_FIELD_DEF_NAME);
         String docTypeToSearchOn = docTypeFullName;
         boolean hasProposalDocType = false;
         boolean hasAwardDocType = false;
@@ -74,7 +77,7 @@ public class KualiContractsAndGrantsDocSearchGenerator extends StandardDocumentS
     @Override
     protected void addExtraDocumentTypesToSearch(StringBuffer whereSql, DocumentType docType) {
         // static name below is from xml definition of search attribute
-        List documentTypeNames = getDocTypeNames("searchType");
+        List documentTypeNames = getDocTypeNames(SEARCH_TYPE_ATTRIBUTE_FIELD_DEF_NAME);
         for (Iterator iter = documentTypeNames.iterator(); iter.hasNext();) {
             String docTypeName = (String) iter.next();
             if (StringUtils.isNotBlank(docTypeName)) {
@@ -83,9 +86,24 @@ public class KualiContractsAndGrantsDocSearchGenerator extends StandardDocumentS
         }
     }
     
+    
+    
+    /**
+     * @see edu.iu.uis.eden.docsearch.StandardDocumentSearchGenerator#generateSearchableAttributeSql(edu.iu.uis.eden.docsearch.SearchAttributeCriteriaComponent, java.lang.String, int)
+     */
+    @Override
+    protected QueryComponent generateSearchableAttributeSql(SearchAttributeCriteriaComponent criteriaComponent, String whereSqlStarter, int tableIndex) {
+        QueryComponent qc = new QueryComponent();
+        // the search type attribute is not used in the actual search so we must ignore it
+        if (!SEARCH_TYPE_ATTRIBUTE_FIELD_DEF_NAME.equals(criteriaComponent.getFormKey())) {
+            qc = super.generateSearchableAttributeSql(criteriaComponent, whereSqlStarter, tableIndex);
+        }
+        return qc;
+    }
+
     private List<String> getDocTypeNames(String criteriaKeyName) {
         List documentTypes = new ArrayList();
-        SearchAttributeCriteriaComponent criteriaComponent = getSearchableAttributeByFieldName("searchType");
+        SearchAttributeCriteriaComponent criteriaComponent = getSearchableAttributeByFieldName(criteriaKeyName);
         if (criteriaComponent != null) {
             // we know that this particular criteria component is a multibox therefor we need to use the list of values
             for (String value : criteriaComponent.getValues()) {

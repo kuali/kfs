@@ -28,6 +28,8 @@ import org.kuali.module.cg.bo.AwardStatus;
 import org.kuali.module.cg.bo.ProposalStatus;
 
 public class DocumentSearchStatusCriteriaValuesFinder extends KeyValuesBase {
+    
+    private static final String STATUS_SPACE_PREFIX = "&nbsp;&nbsp;";
 
     /*
      * @see org.kuali.keyvalues.KeyValuesFinder#getKeyValues()
@@ -36,19 +38,19 @@ public class DocumentSearchStatusCriteriaValuesFinder extends KeyValuesBase {
         List<KeyLabelPair> labels = new ArrayList<KeyLabelPair>();
         labels.add(new KeyLabelPair("", ""));
 
-        labels.add(new KeyLabelPair("", "AWARD STATUSES"));
+        labels.add(new KeyLabelPair(" ", "AWARD STATUSES"));
         Collection<AwardStatus> awardCodes = SpringServiceLocator.getKeyValuesService().findAll(AwardStatus.class);
         for (AwardStatus awardStatus : awardCodes) {
             if(awardStatus.isRowActiveIndicator()) {
-                labels.add(new KeyLabelPair(awardStatus.getAwardStatusCode(), "  " + awardStatus.getAwardStatusCode()+"-"+awardStatus.getAwardStatusDescription()));
+                labels.add(new KeyLabelPair(awardStatus.getAwardStatusCode(), STATUS_SPACE_PREFIX + awardStatus.getAwardStatusCode()+"-"+awardStatus.getAwardStatusDescription()));
             }
         }
 
-        labels.add(new KeyLabelPair("", "PROPOSAL STATUSES"));
+        labels.add(new KeyLabelPair(" ", "PROPOSAL STATUSES"));
         Collection<ProposalStatus> proposalCodes = SpringServiceLocator.getKeyValuesService().findAll(ProposalStatus.class);
         for (ProposalStatus proposalStatus : proposalCodes) {
             if(proposalStatus.isRowActiveIndicator()) {
-                labels.add(new KeyLabelPair(proposalStatus.getProposalStatusCode(), "  " + proposalStatus.getProposalStatusCode()+"-"+proposalStatus.getProposalStatusDescription()));
+                labels.add(new KeyLabelPair(proposalStatus.getProposalStatusCode(), STATUS_SPACE_PREFIX + proposalStatus.getProposalStatusCode()+"-"+proposalStatus.getProposalStatusDescription()));
             }
         }
 

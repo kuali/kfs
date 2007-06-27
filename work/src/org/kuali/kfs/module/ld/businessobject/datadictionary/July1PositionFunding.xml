@@ -44,6 +44,7 @@
         </inquiry>
 
         <lookup>
+			<lookupableID>july1PositionFundingLookupable</lookupableID>	        
             <title>July 1 Position Funding Lookup</title>
 
             <instructions>Look up July 1 Position Funding</instructions>
@@ -57,7 +58,9 @@
             </defaultSort>
 
             <lookupFields>
-                <lookupField attributeName="universityFiscalYear" required="false" />
+			    <lookupField attributeName="universityFiscalYear" required="true">
+                    <defaultValueFinderClass>org.kuali.kfs.lookup.valuefinder.FiscalYearFinder</defaultValueFinderClass>
+                </lookupField>
                 <lookupField attributeName="chartOfAccountsCode" required="false" />                
                 <lookupField attributeName="accountNumber" required="false" />
                 <lookupField attributeName="subAccountNumber" required="false" />
@@ -79,7 +82,7 @@
                 <field attributeName="subAccountNumber" />
                 <field attributeName="financialObjectCode" />
                 <field attributeName="financialSubObjectCode" />                                
-                <field attributeName="fundingPerson.personName" />
+                <field attributeName="personName" />
 				<field attributeName="positionNumber" />                
                 <field attributeName="july1BudgetAmount" />
                 <field attributeName="july1BudgetFteQuantity" />
@@ -107,16 +110,24 @@
                 <summary>emplid</summary>
                 <description>emplid description...</description>
 			</attribute>
+			
+       			<attribute name="personName" forceUppercase="true">
+				<label>Person</label>
+				<shortLabel>Name</shortLabel>
 
-            <attributeReference name="fundingPerson.personName" sourceClassName="org.kuali.core.bo.user.UniversalUser" sourceAttributeName="personName">
-                <label>Name</label>
-                <shortLabel>Name</shortLabel>
-                <required>false</required>
-                <summary>
-                    <![CDATA[&nbsp;]]>
-                </summary>
-                <description>Name.</description>
-            </attributeReference>
+				<maxLength>80</maxLength>
+
+				<control>
+					<hidden/>
+					<!-- enable if you want to be able to set the display name separate from the individual name fields
+					<text size="40" />
+					-->
+				</control>
+
+				<summary>Person</summary>
+				<description>Name</description>
+
+			</attribute>
 
 			<attributeReference name="financialObjectCode" sourceClassName="org.kuali.module.chart.bo.ObjectCode" sourceAttributeName="financialObjectCode" />
 			

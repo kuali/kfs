@@ -621,5 +621,35 @@
 			<ref bean="laborLedgerPendingEntryService" />
 		</property>	
 	</bean>
+
+	<bean id="july1PositionFundingLookupable" class="org.kuali.core.lookup.KualiLookupableImpl" singleton="false">
+		<property name="lookupableHelperService">
+			<ref bean="july1PositionFundingLookupableHelperService" />
+		</property>
+	</bean>
 	
+	<bean id="july1PositionFundingLookupableHelperService" class="org.kuali.module.labor.web.lookupable.July1PositionFundingLookupableHelperServiceImpl" singleton="false">
+		<property name="persistenceStructureService">
+			<ref bean="persistenceStructureService" />
+		</property>
+		<property name="lookupService">
+			<ref bean="lookupService" />
+		</property>
+		<property name="businessObjectDictionaryService">
+			<ref bean="businessObjectDictionaryService" />
+		</property>
+		<property name="businessObjectMetaDataService">
+			<ref bean="businessObjectMetaDataService" />
+		</property>
+		<property name="dataDictionaryService">
+			<ref bean="dataDictionaryService" />
+		</property>
+		<property name="laborInquiryOptionsService">
+			<ref bean="laborInquiryOptionsService" />
+		</property>
+		<property name="laborDao">
+			<ref bean="laborDao" />
+		</property>		
+	</bean>    	
+		
 </beans>

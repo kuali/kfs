@@ -19,5 +19,5 @@
 <%@ attribute name="channelUrl" required="true" %>
 
 
-<iframe src="${channelUrl}" onload='javascript: setFocusedIframeDimensions("iframeportlet", 500); setIframeAnchor("iframeportlet")' name="iframeportlet" id="iframeportlet" hspace="0" vspace="0" style="height: 500px;" title="E-Doc" frameborder="0" height="500" scrolling="auto" width="100%"></iframe>
+<iframe src="${channelUrl}" onload='setFocusedIframeDimensions("iframeportlet", 500, true); setIframeAnchor("iframeportlet")' name="iframeportlet" id="iframeportlet" hspace="0" vspace="0" style="height: 500px;" title="E-Doc" frameborder="0" height="500" scrolling="auto" width="100%"></iframe>
                      

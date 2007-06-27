@@ -441,6 +441,11 @@ public class KualiOrgReviewAttribute implements WorkflowAttribute, MassRuleAttri
                     chart = xpath.evaluate(new StringBuffer(KualiWorkflowUtils.XSTREAM_SAFE_PREFIX).append(KualiWorkflowUtils.XSTREAM_MATCH_ANYWHERE_PREFIX).append("routingChart").append(KualiWorkflowUtils.XSTREAM_SAFE_SUFFIX).toString(), docContent.getDocument());
                     org = xpath.evaluate(new StringBuffer(KualiWorkflowUtils.XSTREAM_SAFE_PREFIX).append(KualiWorkflowUtils.XSTREAM_MATCH_ANYWHERE_PREFIX).append("routingOrg").append(KualiWorkflowUtils.XSTREAM_SAFE_SUFFIX).toString(), docContent.getDocument());
                 }
+                else if (KualiWorkflowUtils.USER_DOC_TYPE.equals(docType.getName())){
+                    //TODO: fix this xpath to use the central stuff after document xml is modified to remove string element
+                    chart = xpath.evaluate("//newMaintainableObject/businessObject/moduleProperties/entry[string=\"chart\"]/map/entry[string=\"chartOfAccountsCode\"]/string[2]", docContent.getDocument());    
+                    org = xpath.evaluate("//newMaintainableObject/businessObject/moduleProperties/entry[string=\"chart\"]/map/entry[string=\"organizationCode\"]/string[2]", docContent.getDocument());
+                }
                 if (!StringUtils.isEmpty(chart) && !StringUtils.isEmpty(org)) {
                     Org docOrg = SpringServiceLocator.getOrganizationService().getByPrimaryIdWithCaching(chart, org);
                     if (docOrg == null) {

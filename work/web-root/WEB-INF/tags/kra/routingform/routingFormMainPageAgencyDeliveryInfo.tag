@@ -37,7 +37,7 @@
                   	<html:hidden property="document.routingFormAgencyToBeNamedIndicator" />
 			    	<html:hidden property="document.routingFormAgency.agencyNumber" />
 			    	<html:hidden write="true" property="document.routingFormAgency.agency.fullName"/>
-			    	<c:if test="${empty KualiForm.document.routingFormAgency.agencyNumber && !KualiForm.document.routingFormAgencyToBeNamedIndicator}">(select)</c:if>
+			    	<c:if test="${empty KualiForm.document.routingFormAgency.agencyNumber && !KualiForm.document.routingFormAgencyToBeNamedIndicator}">&nbsp;</c:if>
   			    	<c:if test="${KualiForm.document.routingFormAgencyToBeNamedIndicator}">TO BE NAMED</c:if>
 			    	<c:if test="${!viewOnly and !budgetLinked}">
 			    		<kul:lookup boClassName="org.kuali.module.cg.bo.Agency" lookupParameters="document.routingFormAgency.agencyNumber:agencyNumber,document.routingFormAgency.agency.fullName:fullName" fieldConversions="agencyNumber:document.routingFormAgency.agencyNumber,fullName:document.routingFormAgency.agency.fullName" extraButtonSource="${ConfigProperties.externalizable.images.url}buttonsmall_namelater.gif" extraButtonParams="&document.routingFormAgencyToBeNamedIndicator=true" anchor="${currentTabIndex}" />
@@ -55,7 +55,7 @@
                   	<html:hidden property="document.agencyFederalPassThroughNotAvailableIndicator" />
 			    	<html:hidden property="document.agencyFederalPassThroughNumber" /> 
 			    	<html:hidden write="true" property="document.federalPassThroughAgency.fullName" /> 
-	    			<c:if test="${empty KualiForm.document.agencyFederalPassThroughNumber && !KualiForm.document.agencyFederalPassThroughNotAvailableIndicator and !viewOnly and !budgetLinked}">(select)</c:if>
+	    			<c:if test="${empty KualiForm.document.agencyFederalPassThroughNumber && !KualiForm.document.agencyFederalPassThroughNotAvailableIndicator and !viewOnly and !budgetLinked}">&nbsp;</c:if>
   			    	<c:if test="${KualiForm.document.agencyFederalPassThroughNotAvailableIndicator}">Unknown</c:if>
 	    	    	<c:if test="${!viewOnly and !budgetLinked}">
 	    			    <kul:lookup boClassName="org.kuali.module.cg.bo.Agency" fieldConversions="agencyNumber:document.agencyFederalPassThroughNumber,fullName:document.federalPassThroughAgency.fullName" extraButtonSource="${ConfigProperties.externalizable.images.url}buttonsmall_namelater.gif" extraButtonParams="&document.agencyFederalPassThroughNotAvailableIndicator=true" anchor="${currentTabIndex}" />
@@ -113,7 +113,7 @@
                 <td align=left valign=middle >
 			    	<html:hidden write="true" property="document.routingFormCatalogOfFederalDomesticAssistanceNumber" />
 			    	<c:if test="${!viewOnly}">
-			    	    <c:if test="${empty KualiForm.document.routingFormCatalogOfFederalDomesticAssistanceNumber}">(select)</c:if>
+			    	    <c:if test="${empty KualiForm.document.routingFormCatalogOfFederalDomesticAssistanceNumber}">&nbsp;</c:if>
 			    		<kul:lookup boClassName="org.kuali.module.cg.bo.CatalogOfFederalDomesticAssistanceReference" lookupParameters="document.routingFormCatalogOfFederalDomesticAssistanceNumber:cfdaNumber" fieldConversions="cfdaNumber:document.routingFormCatalogOfFederalDomesticAssistanceNumber" anchor="${currentTabIndex}" />
                 	</c:if>
                 	&nbsp

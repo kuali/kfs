@@ -115,7 +115,7 @@
                           <kul:htmlControlAttribute property="newNonpersonnel[${i}].budgetNonpersonnelDescription" attributeEntry="${budgetNonpersonnel.budgetNonpersonnelDescription}" readOnly="${viewOnly}" />
                         </c:when>
                         <c:otherwise>
-                          <c:if test="${empty KualiForm.newNonpersonnelList[i].subcontractorNumber}">(select)</c:if>
+                          <c:if test="${empty KualiForm.newNonpersonnelList[i].subcontractorNumber}">&nbsp;</c:if>
                           <html:hidden property="newNonpersonnel[${i}].subcontractorNumber" />
                           <html:hidden property="newNonpersonnel[${i}].budgetNonpersonnelDescription" write="true" />
                           <kul:lookup boClassName="org.kuali.module.cg.bo.Subcontractor" fieldConversions="subcontractorNumber:newNonpersonnel[${i}].subcontractorNumber,subcontractorName:newNonpersonnel[${i}].budgetNonpersonnelDescription" extraButtonSource="${ConfigProperties.externalizable.images.url}buttonsmall_namelater.gif" extraButtonParams="&newNonpersonnel[${i}].subcontractorNumber=484&newNonpersonnel[${i}].budgetNonpersonnelDescription=TO BE NAMED" anchor="${currentTabIndex}"/>
@@ -199,7 +199,7 @@
                             <c:otherwise>
                               <html:hidden property="document.budget.nonpersonnelItem[${ctr}].subcontractorNumber" />
                               <html:hidden property="document.budget.nonpersonnelItem[${ctr}].budgetNonpersonnelDescription" write="true" />
-                              <c:if test="${empty KualiForm.document.budget.nonpersonnelItems[ctr].subcontractorNumber}">(select)</c:if>
+                              <c:if test="${empty KualiForm.document.budget.nonpersonnelItems[ctr].subcontractorNumber}">&nbsp;</c:if>
                               <!-- logic for disabling copied over items -->
 			                        <c:choose>
 				                        <c:when test="${nonpersonnelItem.copiedOverItem || viewOnly}">

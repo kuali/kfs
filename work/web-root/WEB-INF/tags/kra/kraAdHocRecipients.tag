@@ -231,7 +231,7 @@
 	                </c:if>
 					<td nowrap class="infoline" colspan="3">
 						<c:choose>
-							<c:when test="${empty KualiForm.newAdHocOrg.fiscalCampusCode}">(select by org)</c:when>
+							<c:when test="${empty KualiForm.newAdHocOrg.fiscalCampusCode}">&nbsp;</c:when>
 							<c:otherwise>
 								${KualiForm.newAdHocOrg.fiscalCampusCode}/${KualiForm.newAdHocOrg.primaryDepartmentCode}
 								<html:hidden property="newAdHocOrg.fiscalCampusCode"/>

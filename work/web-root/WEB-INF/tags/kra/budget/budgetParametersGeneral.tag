@@ -58,7 +58,7 @@
     	<html:hidden write="true" property="document.budget.projectDirector.universalUser.personName"/>
       <html:hidden property="document.budget.projectDirector.universalUser.personUniversalIdentifier"/>
       <html:hidden property="document.budget.projectDirector.personUniversalIdentifier"/>
-    	<c:if test="${empty KualiForm.document.budget.budgetProjectDirectorUniversalIdentifier && !KualiForm.document.budget.projectDirectorToBeNamedIndicator}">(select)</c:if>
+    	<c:if test="${empty KualiForm.document.budget.budgetProjectDirectorUniversalIdentifier && !KualiForm.document.budget.projectDirectorToBeNamedIndicator}">&nbsp;</c:if>
     	<c:if test="${KualiForm.document.budget.projectDirectorToBeNamedIndicator}">TO BE NAMED</c:if>
     	<c:if test="${!viewOnly}">
 	    	<kul:lookup boClassName="org.kuali.module.cg.bo.ProjectDirector" fieldConversions="universalUser.personUniversalIdentifier:document.budget.budgetProjectDirectorUniversalIdentifier,universalUser.personName:document.budget.projectDirector.universalUser.personName," tabindexOverride="5000" extraButtonSource="${ConfigProperties.externalizable.images.url}buttonsmall_namelater.gif" extraButtonParams="&document.budget.projectDirectorToBeNamedIndicator=true" anchor="${currentTabIndex}" />
@@ -83,7 +83,7 @@
     	<html:hidden property="document.budget.agencyToBeNamedIndicator" />
     	<html:hidden property="document.budget.budgetAgencyNumber" /> 
     	<html:hidden write="true" property="document.budget.budgetAgency.fullName"/>
-    	<c:if test="${empty KualiForm.document.budget.budgetAgencyNumber && !KualiForm.document.budget.agencyToBeNamedIndicator}">(select)</c:if>
+    	<c:if test="${empty KualiForm.document.budget.budgetAgencyNumber && !KualiForm.document.budget.agencyToBeNamedIndicator}">&nbsp;</c:if>
     	<c:if test="${KualiForm.document.budget.agencyToBeNamedIndicator}">TO BE NAMED</c:if>
     	<c:if test="${!viewOnly}">
     		<kul:lookup boClassName="org.kuali.module.cg.bo.Agency" lookupParameters="document.budget.budgetAgencyNumber:agencyNumber,document.budget.budgetAgency.fullName:fullName" fieldConversions="agencyNumber:document.budget.budgetAgencyNumber,fullName:document.budget.budgetAgency.fullName" tabindexOverride="5100" extraButtonSource="${ConfigProperties.externalizable.images.url}buttonsmall_namelater.gif" extraButtonParams="&document.budget.agencyToBeNamedIndicator=true" anchor="${currentTabIndex}" />
@@ -100,7 +100,7 @@
     	<html:hidden write="true" property="document.budget.federalPassThroughAgency.fullName"/>
     	<c:choose>
     		<c:when test="${!viewOnly && KualiForm.document.budget.budgetAgency.agencyTypeCode != Constants.AGENCY_TYPE_CODE_FEDERAL}">
-    			<c:if test="${empty KualiForm.document.budget.federalPassThroughAgencyNumber}">(select)</c:if>
+    			<c:if test="${empty KualiForm.document.budget.federalPassThroughAgencyNumber}">&nbsp;</c:if>
     			<kul:lookup boClassName="org.kuali.module.cg.bo.Agency" fieldConversions="agencyNumber:document.budget.federalPassThroughAgencyNumber,fullName:document.budget.federalPassThroughAgency.fullName" tabindexOverride="5110" anchor="${currentTabIndex}" />
     		</c:when>
     		<c:otherwise>

@@ -58,7 +58,7 @@
                   <html:hidden property="newRoutingFormPerson.personToBeNamedIndicator" />
                   <html:hidden property="newRoutingFormPerson.personUniversalIdentifier" />
                   <html:hidden write="true" property="newRoutingFormPerson.user.personName"/>
-                  <c:if test="${empty KualiForm.newRoutingFormPerson.personUniversalIdentifier && !KualiForm.newRoutingFormPerson.personToBeNamedIndicator}">(select)</c:if>
+                  <c:if test="${empty KualiForm.newRoutingFormPerson.personUniversalIdentifier && !KualiForm.newRoutingFormPerson.personToBeNamedIndicator}">&nbsp;</c:if>
 		    	  <c:if test="${KualiForm.newRoutingFormPerson.personToBeNamedIndicator}">TO BE NAMED</c:if>
                   <c:if test="${!viewOnly}">
                     <kul:lookup boClassName="org.kuali.core.bo.user.UniversalUser" fieldConversions="personUniversalIdentifier:newRoutingFormPerson.personUniversalIdentifier,personName:newRoutingFormPerson.user.personName" extraButtonSource="${ConfigProperties.externalizable.images.url}buttonsmall_namelater.gif" extraButtonParams="&newRoutingFormPerson.personToBeNamedIndicator=true" anchor="${currentTabIndex}" />
@@ -89,7 +89,7 @@
                     <c:when test="${KualiForm.newRoutingFormPerson.chartOfAccountsCode ne null and KualiForm.newRoutingFormPerson.organizationCode ne null}">
                       ${KualiForm.newRoutingFormPerson.chartOfAccountsCode} / ${KualiForm.newRoutingFormPerson.organizationCode}
                     </c:when>
-                    <c:otherwise>(select)</c:otherwise>
+                    <c:otherwise>&nbsp;</c:otherwise>
                   </c:choose>
                   <c:if test="${!viewOnly}">
                     <kul:lookup boClassName="org.kuali.module.chart.bo.Org" fieldConversions="chartOfAccounts.chartOfAccountsCode:newRoutingFormPerson.chartOfAccountsCode,organizationCode:newRoutingFormPerson.organizationCode" anchor="${currentTabIndex}" />
@@ -133,7 +133,7 @@
                   <th scope="row"><div align="center">${status.index+1}</div></th>
                   <td>
                     <html:hidden write="true" property="document.routingFormPersonnel[${status.index}].user.personName" />
-                    <c:if test="${empty person.personUniversalIdentifier && !person.personToBeNamedIndicator}">(select)</c:if>
+                    <c:if test="${empty person.personUniversalIdentifier && !person.personToBeNamedIndicator}">&nbsp;</c:if>
 		    	    <c:if test="${person.personToBeNamedIndicator}">TO BE NAMED</c:if>
                     <c:if test="${!viewOnly}">
                       <c:choose>
@@ -171,7 +171,7 @@
                       <c:when test="${person.chartOfAccountsCode ne null and person.organizationCode ne null}">
                         ${person.chartOfAccountsCode} / ${person.organizationCode}
                       </c:when>
-                      <c:otherwise>(select)</c:otherwise>
+                      <c:otherwise>&nbsp;</c:otherwise>
                     </c:choose>
                     <c:if test="${!viewOnly}">
                       <c:choose>
@@ -215,7 +215,7 @@
                     <c:when test="${KualiForm.newRoutingFormOrganizationCreditPercent.chartOfAccountsCode ne null and KualiForm.newRoutingFormOrganizationCreditPercent.organizationCode ne null}">
                       ${KualiForm.newRoutingFormOrganizationCreditPercent.chartOfAccountsCode} / ${KualiForm.newRoutingFormOrganizationCreditPercent.organizationCode}
                     </c:when>
-                    <c:otherwise>(select)</c:otherwise>
+                    <c:otherwise>&nbsp;</c:otherwise>
                   </c:choose>
                   <c:if test="${!viewOnly}">
                     <kul:lookup boClassName="org.kuali.module.chart.bo.Org" fieldConversions="chartOfAccounts.chartOfAccountsCode:newRoutingFormOrganizationCreditPercent.chartOfAccountsCode,organizationCode:newRoutingFormOrganizationCreditPercent.organizationCode" anchor="${currentTabIndex}" />
@@ -245,7 +245,7 @@
                       <c:when test="${org.chartOfAccountsCode ne null and org.organizationCode ne null}">
                         ${org.chartOfAccountsCode} / ${org.organizationCode}
                       </c:when>
-                      <c:otherwise>(select)</c:otherwise>
+                      <c:otherwise>&nbsp;</c:otherwise>
                     </c:choose>
                     <c:if test="${!viewOnly}">
                       <kul:lookup boClassName="org.kuali.module.chart.bo.Org" fieldConversions="chartOfAccounts.chartOfAccountsCode:document.routingFormOrganizationCreditPercents[${status.index}].chartOfAccountsCode,organizationCode:document.routingFormOrganizationCreditPercents[${status.index}].organizationCode" anchor="${currentTabIndex}" />

@@ -42,8 +42,12 @@
 		                <field attributeName="accountClosedIndicator" />
 		                <field attributeName="accountTypeCode" />
 		                <field attributeName="subFundGroup.codeAndDescription" />
-		                <!--  comment programCode out if not in use at your institution -->
-		                <field attributeName="program.codeAndDescription" />
+		                
+		                
+		                <!--  FIXME: remove after testing -->
+		                <field attributeName="extension.program.codeAndDescription" />
+		                
+		                
 		                <field attributeName="accountsFringesBnftIndicator" />
 		                <field attributeName="reportsToChartOfAccountsCode" />
 		                <field attributeName="reportsToAccountNumber" />
@@ -141,7 +145,7 @@
                 <lookupField attributeName="accountTypeCode" required="false" />
                 <lookupField attributeName="subFundGroupCode" required="false" />
                 <!--  comment programCode out if not in use at your institution -->
-                <lookupField attributeName="programCode" required="false" />
+                <lookupField attributeName="extension.programCode" required="false" />
                 <lookupField attributeName="accountFiscalOfficerSystemIdentifier" required="false" />
                 <lookupField attributeName="accountFiscalOfficerUser.personUserIdentifier" required="false" />
                 <lookupField attributeName="accountFiscalOfficerUser.personName" required="false" />
@@ -157,7 +161,8 @@
                 <field attributeName="organizationCode" />
                 <field attributeName="accountTypeCode" />
                 <field attributeName="subFundGroupCode" />
-                <field attributeName="programCode" />
+                <!--  FIXME: remove after testing -->
+                <field attributeName="extension.programCode" />
                 <field attributeName="accountFiscalOfficerUser.personUserIdentifier" />               
                 <field attributeName="accountFiscalOfficerUser.personName" forceInquiry="true" />
                 <field attributeName="accountClosedIndicator" />                
@@ -304,29 +309,6 @@
                 <description>Sub-Fund Group Code and Description</description>
             </attributeReference>
              
-            <attributeReference name="programCode" sourceClassName="org.kuali.module.chart.bo.Program" sourceAttributeName="programCode">
-                <label>Program Code</label>
-                <shortLabel>ProgramCd</shortLabel>
-                <required>false</required>
-                <summary>
-                    <![CDATA[&nbsp;]]>
-                </summary>
-                <description>The program code for this account.</description>
-            </attributeReference>
-
-           <attributeReference name="program.codeAndDescription" sourceClassName="org.kuali.module.chart.bo.SubFundGroup" sourceAttributeName="codeAndDescription">
-                <label>Program Code</label>
-                <shortLabel>Program Code</shortLabel>
-                <required>false</required>
-                <control>
-                    <hidden />
-                </control>
-                <summary>
-                    <![CDATA[&nbsp;]]>
-                </summary>
-                <description>Program Code and Description</description>
-            </attributeReference>
-
             <attributeReference name="accountsFringesBnftIndicator" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="activeIndicator">
                 <label>Account Fringe Benefit</label>
                 <shortLabel>FringeBene</shortLabel>
@@ -1142,6 +1124,32 @@
                 <description>Dummy attribute to divide sections on Inquiry page.</description>
             </attribute>
 
+            <!--  FIXME: remove after testing -->
+            <attributeReference name="extension.programCode" sourceClassName="org.kuali.module.chart.bo.Program" sourceAttributeName="programCode">
+                <label>Program Code</label>
+                <shortLabel>ProgramCd</shortLabel>
+                <required>false</required>
+                <summary>
+                    <![CDATA[&nbsp;]]>
+                </summary>
+                <description>The program code for this account.</description>
+            </attributeReference>
+
+           <attributeReference name="extension.program.codeAndDescription" sourceClassName="org.kuali.module.chart.bo.Program" sourceAttributeName="codeAndDescription">
+                <label>Program Code</label>
+                <shortLabel>Program Code</shortLabel>
+                <required>false</required>
+                <control>
+                    <hidden />
+                </control>
+                <summary>
+                    <![CDATA[&nbsp;]]>
+                </summary>
+                <description>Program Code and Description</description>
+            </attributeReference>
+
+            <attributeReference name="extension.versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
+
         </attributes>
 
         <collections>
@@ -1186,6 +1194,9 @@
             <relationship objectAttributeName="accountGuideline" >
                 <primitiveAttribute sourceName="chartOfAccountsCode" targetName="chartOfAccountsCode" />
                 <primitiveAttribute sourceName="accountNumber" targetName="accountNumber" />
+            </relationship>
+            <relationship objectAttributeName="extension.program" >
+                <primitiveAttribute sourceName="extension.programCode" targetName="programCode" />
             </relationship>
         </relationships>
         

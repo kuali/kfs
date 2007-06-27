@@ -39,6 +39,8 @@ import org.kuali.module.financial.document.CashReceiptDocument;
 public class CashReceiptForm extends KualiAccountingDocumentFormBase {
     private static final long serialVersionUID = 1L;
     private static final String CAN_PRINT_COVERSHEET_SIG_STR = "isCoverSheetPrintingAllowed";
+    public static final String DOCUMENT_TYPE = "CR";
+    public static final String CASHIERING_SOURCE = "R";
     private Check newCheck;
 
     private KualiDecimal checkTotal;
@@ -55,7 +57,7 @@ public class CashReceiptForm extends KualiAccountingDocumentFormBase {
         super();
         setFormatterType(CAN_PRINT_COVERSHEET_SIG_STR, SimpleBooleanFormatter.class);
         setDocument(new CashReceiptDocument());
-        setNewCheck(new CheckBase());
+        setNewCheck(createNewCheck());
 
         checkEntryModes = new ArrayList();
         checkEntryModes.add(new LabelValueBean("Individual Checks/Batches", CashReceiptDocument.CHECK_ENTRY_DETAIL));
@@ -168,7 +170,7 @@ public class CashReceiptForm extends KualiAccountingDocumentFormBase {
      */
     public Check getBaselineCheck(int index) {
         while (baselineChecks.size() <= index) {
-            baselineChecks.add(new CheckBase());
+            baselineChecks.add(createNewCheck());
         }
         return (Check) baselineChecks.get(index);
     }
@@ -243,5 +245,12 @@ public class CashReceiptForm extends KualiAccountingDocumentFormBase {
      */
     public boolean isCoverSheetPrintingAllowed() {
         return SpringServiceLocator.getCashReceiptCoverSheetService().isCoverSheetPrintingAllowed(getCashReceiptDocument());
+    }
+    
+    protected Check createNewCheck() {
+        Check newCheck = new CheckBase();
+        newCheck.setFinancialDocumentTypeCode(DOCUMENT_TYPE);
+        newCheck.setFinancialDocumentColumnTypeCode(CASHIERING_SOURCE);
+        return newCheck;
     }
 }

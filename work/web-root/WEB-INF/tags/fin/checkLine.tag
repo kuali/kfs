@@ -34,6 +34,8 @@
         <html:hidden property="${propertyName}.sequenceId" write="${displayHidden}" />
         <html:hidden property="${propertyName}.interimDepositAmount" write="${displayHidden}" />
         <html:hidden property="${propertyName}.versionNumber" write="${displayHidden}" />
+        <html:hidden property="${propertyName}.financialDocumentTypeCode" write="${displayHidden}" />
+        <html:hidden property="${propertyName}.financialDocumentColumnTypeCode" write="${displayHidden}" />
 
         <c:if test="${!empty baselinePropertyName}">
             <html:hidden property="${baselinePropertyName}.documentNumber" write="${displayHidden}" />

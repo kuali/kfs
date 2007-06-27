@@ -40,6 +40,8 @@ public class CheckBaseTest extends KualiTestBase {
     private static final String DESCRIPTION = "Description 123.";
     private static final String DOC_HDR_ID = "999999";
     private static final Integer SEQ_ID = new Integer(1);
+    private static final String DOCUMENT_TYPE = "CR";
+    private static final String CASHIERING_SOURCE = "R";
 
     @Override
     protected void setUp() throws Exception {
@@ -55,6 +57,8 @@ public class CheckBaseTest extends KualiTestBase {
         crchk.setObjectId(GUID);
         crchk.setSequenceId(SEQ_ID);
         crchk.setVersionNumber(VER_NBR);
+        crchk.setFinancialDocumentTypeCode(DOCUMENT_TYPE);
+        crchk.setFinancialDocumentColumnTypeCode(CASHIERING_SOURCE);
     }
 
     public void testCashReceiptCheckPojo() {
@@ -67,5 +71,7 @@ public class CheckBaseTest extends KualiTestBase {
         assertEquals(GUID, crchk.getObjectId());
         assertEquals(SEQ_ID, crchk.getSequenceId());
         assertEquals(VER_NBR, crchk.getVersionNumber());
+        assertEquals(CASHIERING_SOURCE, crchk.getFinancialDocumentColumnTypeCode());
+        assertEquals(DOCUMENT_TYPE, crchk.getFinancialDocumentTypeCode());
     }
 }

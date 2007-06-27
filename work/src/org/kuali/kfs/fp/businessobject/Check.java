@@ -129,4 +129,32 @@ public interface Check extends PersistableBusinessObject, PersistenceBrokerAware
      * @return true if this Check has the same primitive field values as the given one
      */
     public boolean isLike(Check other);
+    
+    /**
+     * 
+     * This method sets teh financial document type code
+     * @param financialDocumentTypeCode
+     */
+    public void setFinancialDocumentTypeCode(String financialDocumentTypeCode);
+    
+    /**
+     * 
+     * This method sets the financial document column type code
+     * @param financialDocumentColumnTypeCode
+     */
+    public void setFinancialDocumentColumnTypeCode(String financialDocumentColumnTypeCode);
+    
+    /**
+     * 
+     * This method returns the financial document type code
+     * @return
+     */
+    public String getFinancialDocumentTypeCode();
+    
+    /**
+     * 
+     * This method returns the financial document column type code
+     * @return
+     */
+    public String getFinancialDocumentColumnTypeCode();
 }

@@ -52,6 +52,9 @@ import edu.iu.uis.eden.exception.WorkflowException;
  * 
  */
 public class CashReceiptAction extends KualiAccountingDocumentActionBase {
+    public static final String DOCUMENT_TYPE = "CR";
+    public static final String CASHIERING_SOURCE = "R";
+    
     /**
      * Adds handling for check updates
      * 
@@ -206,7 +209,7 @@ public class CashReceiptAction extends KualiAccountingDocumentActionBase {
             crDoc.addCheck(newCheck);
 
             // clear the used newCheck
-            crForm.setNewCheck(new CheckBase());
+            crForm.setNewCheck(createNewCheck());
         }
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
@@ -340,5 +343,12 @@ public class CashReceiptAction extends KualiAccountingDocumentActionBase {
 
         cform.getBaselineChecks().clear();
         cform.getBaselineChecks().addAll(cform.getCashReceiptDocument().getChecks());
+    }
+    
+    protected Check createNewCheck() {
+        Check newCheck = new CheckBase();
+        newCheck.setFinancialDocumentTypeCode(DOCUMENT_TYPE);
+        newCheck.setFinancialDocumentColumnTypeCode(CASHIERING_SOURCE);
+        return newCheck;
     }
 }

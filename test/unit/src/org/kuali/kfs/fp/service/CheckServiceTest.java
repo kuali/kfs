@@ -57,6 +57,8 @@ public class CheckServiceTest extends KualiTestBase {
         check.setDescription("test check");
         check.setInterimDepositAmount(true);
         check.setSequenceId(new Integer(2001));
+        check.setFinancialDocumentTypeCode("CR");
+        check.setFinancialDocumentColumnTypeCode("R");
 
         // clean up remnants of earlier tests
         clearTestData();

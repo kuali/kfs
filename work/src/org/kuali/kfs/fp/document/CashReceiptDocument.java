@@ -46,6 +46,9 @@ public class CashReceiptDocument extends CashReceiptFamilyBase implements Copyab
 
     public static final String CHECK_ENTRY_DETAIL = "individual";
     public static final String CHECK_ENTRY_TOTAL = "totals";
+    
+    public static final String DOCUMENT_TYPE = "CR";
+    public static final String CASHIERING_SOURCE = "R";
 
     // child object containers - for all the different reconciliation detail sections
     private String checkEntryMode = CHECK_ENTRY_DETAIL;
@@ -169,7 +172,7 @@ public class CashReceiptDocument extends CashReceiptFamilyBase implements Copyab
      */
     public Check getCheck(int index) {
         while (this.checks.size() <= index) {
-            checks.add(new CheckBase());
+            checks.add(createNewCheck());
         }
         return (Check) checks.get(index);
     }
@@ -481,5 +484,12 @@ public class CashReceiptDocument extends CashReceiptFamilyBase implements Copyab
         }
 
         return checkMap;
+    }
+    
+    protected Check createNewCheck() {
+        Check newCheck = new CheckBase();
+        newCheck.setFinancialDocumentTypeCode(DOCUMENT_TYPE);
+        newCheck.setFinancialDocumentColumnTypeCode(CASHIERING_SOURCE);
+        return newCheck;
     }
 }

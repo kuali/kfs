@@ -86,9 +86,9 @@ public class KualiContractsAndGrantsDocSearchGenerator extends StandardDocumentS
         }
     }
     
-    
-    
     /**
+     * Method being overriden to ignore search type attribute because it has no relevance for searching of actual values at this point
+     * 
      * @see edu.iu.uis.eden.docsearch.StandardDocumentSearchGenerator#generateSearchableAttributeSql(edu.iu.uis.eden.docsearch.SearchAttributeCriteriaComponent, java.lang.String, int)
      */
     @Override

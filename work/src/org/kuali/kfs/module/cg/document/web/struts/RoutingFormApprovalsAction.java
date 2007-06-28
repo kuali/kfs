@@ -138,6 +138,13 @@ public class RoutingFormApprovalsAction extends RoutingFormAction {
         return super.deleteOrg(mapping, form, request, response);
     }
     
+    public ActionForward refresh(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        super.refresh(mapping, form, request, response);
+        // Have to reload when coming back from the lookup, since we need the whole doc to run audit
+        cacheAndLoad(mapping, form, request, response);
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
+    }
+    
     private void cacheAndLoad(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         RoutingForm routingForm = (RoutingForm) form;
         

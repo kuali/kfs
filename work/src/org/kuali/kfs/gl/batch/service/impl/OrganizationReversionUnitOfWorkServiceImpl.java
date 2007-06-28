@@ -22,6 +22,7 @@ import java.util.Map.Entry;
 
 import org.apache.commons.collections.Closure;
 import org.apache.commons.collections.CollectionUtils;
+import org.springframework.transaction.annotation.Transactional;
 
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.module.gl.dao.OrgReversionUnitOfWorkDao;
@@ -29,6 +30,7 @@ import org.kuali.module.gl.bo.OrgReversionUnitOfWork;
 import org.kuali.module.gl.bo.OrgReversionUnitOfWorkCategoryAmount;
 import org.kuali.module.gl.service.OrgReversionUnitOfWorkService;
 
+@Transactional
 public class OrgReversionUnitOfWorkServiceImpl implements OrgReversionUnitOfWorkService {
     private BusinessObjectService businessObjectService;
     private OrgReversionUnitOfWorkDao orgReversionUnitOfWorkDao;

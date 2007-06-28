@@ -39,10 +39,11 @@ import org.kuali.module.labor.bo.July1PositionFunding;
 import org.kuali.module.labor.dao.LaborDao;
 
 /**
- * This class is for Labor Distribution DAO balance inquiries
+ * This class is for Labor Distribution DAO database queries 
  */
 public class LaborDaoOjb extends PlatformAwareDaoBaseOjb implements LaborDao {
     private LaborDaoOjb dao;
+    private KualiDecimal KualiDecimalZero = new KualiDecimal("0");
 
     /**
      * @see org.kuali.module.labor.dao.LaborDao#getCSFTrackerData(java.util.Map)
@@ -83,7 +84,7 @@ public class LaborDaoOjb extends PlatformAwareDaoBaseOjb implements LaborDao {
         while (calculatedSalaryFoundationTracker != null && calculatedSalaryFoundationTracker.hasNext()) {
             csf = calculatedSalaryFoundationTracker.next();
         }
-        KualiDecimal csfAmount = new KualiDecimal("0");
+        KualiDecimal csfAmount = KualiDecimalZero;
         if (csf != null)
             csfAmount = new KualiDecimal(csf[0].toString());
         return csfAmount;
@@ -96,7 +97,7 @@ public class LaborDaoOjb extends PlatformAwareDaoBaseOjb implements LaborDao {
     public Object getEncumbranceTotal(Map fieldValues) {
 
         Criteria criteria = new Criteria();
-        criteria.addEqualToField("financialBalanceTypeCode", LaborConstants.BalanceInquiries.ENCUMBERENCE_CODE);  // Encumberance Balance Type
+        criteria.addEqualToField(KFSPropertyConstants.FINANCIAL_BALANCE_TYPE_CODE, LaborConstants.BalanceInquiries.ENCUMBERENCE_CODE);  // Encumberance Balance Type
         criteria.addAndCriteria(OJBUtility.buildCriteriaFromMap(fieldValues, new AccountStatusCurrentFunds()));
 
         ReportQueryByCriteria query = QueryFactory.newReportQuery(AccountStatusCurrentFunds.class, criteria);
@@ -120,7 +121,7 @@ public class LaborDaoOjb extends PlatformAwareDaoBaseOjb implements LaborDao {
         while (accountStatusCurrentFunds != null && accountStatusCurrentFunds.hasNext()) {
             encumbrances = accountStatusCurrentFunds.next();
              }
-        KualiDecimal encumbranceTotal = new KualiDecimal("0");
+        KualiDecimal encumbranceTotal = KualiDecimalZero;
         if (encumbrances != null)
             encumbranceTotal = new KualiDecimal(encumbrances[0].toString());
         return encumbranceTotal;
@@ -131,7 +132,7 @@ public class LaborDaoOjb extends PlatformAwareDaoBaseOjb implements LaborDao {
      */
     public Collection getBaseFunds(Map fieldValues) {
         Criteria criteria = new Criteria();
-        criteria.addEqualToField("financialBalanceTypeCode", LaborConstants.BalanceInquiries.BALANCE_CODE);
+        criteria.addEqualToField(KFSPropertyConstants.FINANCIAL_BALANCE_TYPE_CODE, LaborConstants.BalanceInquiries.BALANCE_CODE);
         criteria.addAndCriteria(OJBUtility.buildCriteriaFromMap(fieldValues, new AccountStatusBaseFunds()));
 
         QueryByCriteria query = QueryFactory.newQuery(AccountStatusBaseFunds.class, criteria);
@@ -144,7 +145,7 @@ public class LaborDaoOjb extends PlatformAwareDaoBaseOjb implements LaborDao {
      */
     public Collection getCurrentFunds(Map fieldValues) {
         Criteria criteria = new Criteria();
-        criteria.addEqualToField("financialBalanceTypeCode", LaborConstants.BalanceInquiries.ACTUALS_CODE);
+        criteria.addEqualToField(KFSPropertyConstants.FINANCIAL_BALANCE_TYPE_CODE, LaborConstants.BalanceInquiries.ACTUALS_CODE);
         criteria.addAndCriteria(OJBUtility.buildCriteriaFromMap(fieldValues, new AccountStatusCurrentFunds()));
         QueryByCriteria query = QueryFactory.newQuery(AccountStatusCurrentFunds.class, criteria);
         OJBUtility.limitResultSize(query);
@@ -160,8 +161,8 @@ public class LaborDaoOjb extends PlatformAwareDaoBaseOjb implements LaborDao {
         objectTypeCodes.add(LaborConstants.BalanceInquiries.EMPLOYEE_FUNDING_NORMAL_OP_EXPENSE_OBJECT_TYPE_CODE);
 
         Criteria criteria = new Criteria();
-        criteria.addEqualToField("financialBalanceTypeCode", LaborConstants.BalanceInquiries.ACTUALS_CODE);
-        criteria.addIn("financialObjectTypeCode", objectTypeCodes);
+        criteria.addEqualToField(KFSPropertyConstants.FINANCIAL_BALANCE_TYPE_CODE, LaborConstants.BalanceInquiries.ACTUALS_CODE);
+        criteria.addIn(KFSPropertyConstants.FINANCIAL_OBJECT_TYPE_CODE, objectTypeCodes);
         criteria.addAndCriteria(OJBUtility.buildCriteriaFromMap(fieldValues, new EmployeeFunding()));
         ReportQueryByCriteria query = QueryFactory.newReportQuery(EmployeeFunding.class, criteria);
 
@@ -174,7 +175,7 @@ public class LaborDaoOjb extends PlatformAwareDaoBaseOjb implements LaborDao {
         groupByList.add(KFSPropertyConstants.FINANCIAL_SUB_OBJECT_CODE);
         groupByList.add(KFSPropertyConstants.POSITION_NUMBER);
         groupByList.add(KFSPropertyConstants.EMPLID);
-        groupByList.add("accountLineAnnualBalanceAmount");
+        groupByList.add(KFSPropertyConstants.ACCOUNT_LINE_ANNUAL_BALANCE_AMOUNT);
         
         String[] groupBy = (String[]) groupByList.toArray(new String[groupByList.size()]);
         List<String> attributeList = new ArrayList<String>(groupByList);
@@ -196,7 +197,7 @@ public class LaborDaoOjb extends PlatformAwareDaoBaseOjb implements LaborDao {
         criteria.addBetween(KFSPropertyConstants.FINANCIAL_OBJECT_CODE, 2000, 5000);
         criteria.addAndCriteria(OJBUtility.buildCriteriaFromMap(fieldValues, new July1PositionFunding()));
         QueryByCriteria query = QueryFactory.newQuery(July1PositionFunding.class, criteria);
-        OJBUtility.limitResultSize(query);
+        OJBUtility.limitResultSize(query);                
         return getPersistenceBrokerTemplate().getCollectionByQuery(query);
     }
 }

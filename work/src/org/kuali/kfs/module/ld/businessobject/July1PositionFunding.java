@@ -25,6 +25,7 @@ import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.bo.user.UserId;
 import org.kuali.core.exceptions.UserNotFoundException;
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.Chart;
@@ -33,12 +34,19 @@ import org.kuali.module.chart.bo.SubAccount;
 import org.kuali.module.chart.bo.SubObjCd;
 import org.kuali.module.gl.bo.TransientBalanceInquiryAttributes;
 import org.kuali.module.labor.LaborConstants;
+import org.kuali.module.labor.LaborPropertyConstants;
 
 /**
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  */
-public class July1PositionFunding extends LedgerBalance {
+public class July1PositionFunding extends PersistableBusinessObjectBase {
 
+    private Integer universityFiscalYear;
+    private String chartOfAccountsCode;
+    private String accountNumber;
+    private String subAccountNumber;
+    private String objectCode;
+    private String subObjectCode;
 	private String positionNumber;
 	private String emplid;
 	private KualiDecimal july1BudgetAmount;
@@ -47,6 +55,11 @@ public class July1PositionFunding extends LedgerBalance {
     
     private String personName;
     
+    private Chart chart;
+    private Account account;
+    private ObjectCode financialObject;
+    private SubObjCd financialSubObject;
+    private SubAccount subAccount;
     private TransientBalanceInquiryAttributes dummyBusinessObject;
 
 	/**
@@ -56,7 +69,181 @@ public class July1PositionFunding extends LedgerBalance {
 
 	}
 
-	/**
+    /**
+     * @return Returns the universityFiscalYear.
+     */
+    public Integer getUniversityFiscalYear() {
+        return universityFiscalYear;
+    }
+
+    /**
+     * @param universityFiscalYear The universityFiscalYear to set.
+     */
+    public void setUniversityFiscalYear(Integer universityFiscalYear) {
+        this.universityFiscalYear = universityFiscalYear;
+    }
+
+    /**
+     * @return Returns the accountNumber.
+     */
+    public String getAccountNumber() {
+        return accountNumber;
+    }
+
+    /**
+     * @param accountNumber The accountNumber to set.
+     */
+    public void setAccountNumber(String accountNumber) {
+        this.accountNumber = accountNumber;
+    }
+
+    /**
+     * @return Returns the chartOfAccountsCode.
+     */
+    public String getChartOfAccountsCode() {
+        return chartOfAccountsCode;
+    }
+
+    /**
+     * @param chartOfAccountsCode The chartOfAccountsCode to set.
+     */
+    public void setChartOfAccountsCode(String chartOfAccountsCode) {
+        this.chartOfAccountsCode = chartOfAccountsCode;
+    }
+
+    /**
+     * @return Returns the objectCode.
+     */
+    public String getFinancialObjectCode() {
+        return objectCode;
+    }
+
+    /**
+     * @param objectCode The objectCode to set.
+     */
+    public void setFinancialObjectCode(String objectCode) {
+        this.objectCode = objectCode;
+    }	
+
+    /**
+     * @return Returns the subAccountNumber.
+     */
+    public String getSubAccountNumber() {
+        return subAccountNumber;
+    }
+
+    /**
+     * @param subAccountNumber The subAccountNumber to set.
+     */
+    public void setSubAccountNumber(String subAccountNumber) {
+        this.subAccountNumber = subAccountNumber;
+    }
+
+    /**
+     * @return Returns the subObjectCode.
+     */
+    public String getFinancialSubObjectCode() {
+        return subObjectCode;
+    }
+
+    /**
+     * @param subObjectCode The subObjectCode to set.
+     */
+    public void setFinancialSubObjectCode(String subObjectCode) {
+        this.subObjectCode = subObjectCode;
+    }
+
+    /**
+     * Gets the financialObject attribute.
+     * 
+     * @return Returns the financialObject.
+     */
+    public ObjectCode getFinancialObject() {
+        return financialObject;
+    }
+
+    /**
+     * Sets the financialObject attribute value.
+     * 
+     * @param financialObject The financialObject to set.
+     */
+    public void setFinancialObject(ObjectCode financialObject) {
+        this.financialObject = financialObject;
+    }
+
+    /**
+     * Gets the financialSubObject attribute.
+     * 
+     * @return Returns the financialSubObject.
+     */
+    public SubObjCd getFinancialSubObject() {
+        return financialSubObject;
+    }
+
+    /**
+     * Sets the financialSubObject attribute value.
+     * 
+     * @param financialSubObject The financialSubObject to set.
+     */
+    public void setFinancialSubObject(SubObjCd financialSubObject) {
+        this.financialSubObject = financialSubObject;
+    }
+
+    /**
+     * Gets the account attribute.
+     * 
+     * @return Returns the account.
+     */
+    public Account getAccount() {
+        return account;
+    }
+
+    /**
+     * Sets the account attribute value.
+     * 
+     * @param account The account to set.
+     */
+    public void setAccount(Account account) {
+        this.account = account;
+    }
+
+    /**
+     * Gets the subAccount attribute.
+     * 
+     * @return Returns the subAccount.
+     */
+    public SubAccount getSubAccount() {
+        return subAccount;
+    }
+
+    /**
+     * Sets the subAccount attribute value.
+     * 
+     * @param subAccount The subAccount to set.
+     */
+    public void setSubAccount(SubAccount subAccount) {
+        this.subAccount = subAccount;
+    }
+
+    /**
+     * Gets the chart attribute.
+     * 
+     * @return Returns the chart.
+     */
+    public Chart getChartOfAccounts() {
+        return chart;
+    }
+
+    /**
+     * Sets the chart attribute value.
+     * 
+     * @param chart The chart to set.
+     */
+    public void setChartOfAccounts(Chart chart) {
+        this.chart = chart;
+    }
+
+    /**
 	 * Gets the positionNumber attribute.
 	 * 
 	 * @return Returns the positionNumber
@@ -211,5 +398,21 @@ public class July1PositionFunding extends LedgerBalance {
     
     public void setPersonName(String personName) {
         this.personName = personName;
+    }
+
+    protected LinkedHashMap toStringMapper() {
+        LinkedHashMap map = new LinkedHashMap();
+        map.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, getUniversityFiscalYear());
+        map.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, getChartOfAccountsCode());
+        map.put(KFSPropertyConstants.ACCOUNT_NUMBER, getAccountNumber());
+        map.put(KFSPropertyConstants.SUB_ACCOUNT_NUMBER, getSubAccountNumber());
+        map.put(KFSPropertyConstants.OBJECT_CODE, getFinancialObjectCode());
+        map.put(KFSPropertyConstants.SUB_OBJECT_CODE, getFinancialSubObjectCode());
+        map.put(LaborPropertyConstants.POSITION_NUMBER, getPositionNumber());
+        map.put(LaborPropertyConstants.EMPL_ID, getEmplid());
+        map.put(LaborPropertyConstants.JULY_1_BUDGET_AMOUNT, getJuly1BudgetAmount());
+        map.put(LaborPropertyConstants.JULY_1_BUDGET_FTE_QUANTITY, getJuly1BudgetFteQuantity());
+        map.put(LaborPropertyConstants.JULY_1_BUDGET_TIME_PERCENT, getJuly1BudgetTimePercent());
+        return map;
     }
 }

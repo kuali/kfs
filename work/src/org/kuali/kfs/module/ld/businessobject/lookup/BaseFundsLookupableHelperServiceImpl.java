@@ -28,6 +28,7 @@ import org.kuali.core.util.BeanPropertyComparator;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.gl.service.BalanceService;
+import org.kuali.module.labor.LaborConstants;
 import org.kuali.module.labor.dao.LaborDao;
 import org.kuali.module.labor.web.inquirable.BaseFundsInquirableImpl;
 import org.springframework.transaction.annotation.Transactional;
@@ -65,7 +66,7 @@ public class BaseFundsLookupableHelperServiceImpl extends AbstractLookupableHelp
         setDocFormKey((String) fieldValues.get(KFSConstants.DOC_FORM_KEY));
                 
         // Parse the map and call the DAO to process the inquiry
-        laborDao = (LaborDao) SpringServiceLocator.getService("laborDao");
+        laborDao = (LaborDao) SpringServiceLocator.getService(LaborConstants.LABOR_DAO);
 
         Collection searchResultsCollection = laborDao.getBaseFunds(fieldValues);
 

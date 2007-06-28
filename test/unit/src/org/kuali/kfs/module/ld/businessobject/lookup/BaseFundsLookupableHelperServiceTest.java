@@ -30,6 +30,7 @@ import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.budget.bo.CalculatedSalaryFoundationTracker;
 import org.kuali.module.gl.web.TestDataGenerator;
+import org.kuali.module.labor.LaborConstants;
 import org.kuali.module.labor.bo.AccountStatusBaseFunds;
 import org.kuali.module.labor.bo.LedgerBalance;
 import org.kuali.module.labor.util.ObjectUtil;
@@ -63,7 +64,7 @@ public class BaseFundsLookupableHelperServiceTest extends KualiTestBase {
 
         businessObjectService = (BusinessObjectService) SpringServiceLocator.getService("businessObjectService");
 
-        lookupableHelperService = (LookupableHelperService) SpringServiceLocator.getService("BaseFundsLookupableHelperService");
+        lookupableHelperService = (LookupableHelperService) SpringServiceLocator.getService(LaborConstants.BASE_FUNDS_LOOKUP_HELPER_SRVICE_NAME);
         lookupableHelperService.setBusinessObjectClass(AccountStatusBaseFunds.class);
 
         // Clear up the database so that any existing data cannot affact your test result

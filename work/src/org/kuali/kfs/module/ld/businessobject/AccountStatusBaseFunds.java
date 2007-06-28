@@ -21,6 +21,7 @@ import java.util.Map;
 
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.module.labor.LaborConstants;
 import org.kuali.module.labor.dao.LaborDao;
 
 public class AccountStatusBaseFunds extends LedgerBalance {
@@ -62,7 +63,7 @@ public class AccountStatusBaseFunds extends LedgerBalance {
         fieldValues.put("financialObjectCode", getFinancialObjectCode());
         fieldValues.put("financialSubObjectCode", getFinancialSubObjectCode());
 
-        laborDao = (LaborDao) SpringServiceLocator.getService("laborDao");
+        laborDao = (LaborDao) SpringServiceLocator.getService(LaborConstants.LABOR_DAO);
         KualiDecimal CSFTotal = (KualiDecimal) laborDao.getCSFTrackerTotal(fieldValues);
         this.csfAmount = CSFTotal;
         return CSFTotal;

@@ -90,7 +90,7 @@ public class AccountStatusCurrentFunds extends LedgerBalance {
         fieldValues.put("financialSubObjectCode", getFinancialSubObjectCode());
         fieldValues.put("emplid", getEmplid());
         
-        laborDao = (LaborDao) SpringServiceLocator.getService("laborDao");
+        laborDao = (LaborDao) SpringServiceLocator.getService(LaborConstants.LABOR_DAO);
         KualiDecimal EncumTotal = (KualiDecimal) laborDao.getEncumbranceTotal(fieldValues);
         this.outstandingEncum = EncumTotal;
         return EncumTotal;       

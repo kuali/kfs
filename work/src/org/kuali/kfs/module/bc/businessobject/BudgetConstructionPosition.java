@@ -72,7 +72,7 @@ public class BudgetConstructionPosition extends PersistableBusinessObjectBase {
     private UniversalUser positionLockUser;
     
     //position salary setting screen totals
-    private KualiDecimal bcafAppointmentRequestedCsfAmountTotal;
+    private KualiInteger bcafAppointmentRequestedCsfAmountTotal;
     private BigDecimal bcafAppointmentRequestedCsfTimePercentTotal;
     private BigDecimal bcafAppointmentRequestedCsfStandardHoursTotal;
     private BigDecimal bcafAppointmentRequestedCsfFteQuantityTotal;
@@ -102,7 +102,7 @@ public class BudgetConstructionPosition extends PersistableBusinessObjectBase {
      */
     public void zeroTotals(){
         
-        bcafAppointmentRequestedCsfAmountTotal = new KualiDecimal(0);
+        bcafAppointmentRequestedCsfAmountTotal = new KualiInteger(BigDecimal.ZERO);
         bcafAppointmentRequestedCsfTimePercentTotal = new BigDecimal(0).setScale(5,BigDecimal.ROUND_HALF_UP);
         bcafAppointmentRequestedCsfStandardHoursTotal = new BigDecimal(0).setScale(2,BigDecimal.ROUND_HALF_UP);
         bcafAppointmentRequestedCsfFteQuantityTotal = new BigDecimal(0).setScale(2,BigDecimal.ROUND_HALF_UP);
@@ -774,17 +774,19 @@ public class BudgetConstructionPosition extends PersistableBusinessObjectBase {
      * Gets the bcafAppointmentRequestedCsfAmountTotal attribute. 
      * @return Returns the bcafAppointmentRequestedCsfAmountTotal.
      */
-    public KualiDecimal getBcafAppointmentRequestedCsfAmountTotal() {
+    public KualiInteger getBcafAppointmentRequestedCsfAmountTotal() {
         return bcafAppointmentRequestedCsfAmountTotal;
     }
+
 
     /**
      * Sets the bcafAppointmentRequestedCsfAmountTotal attribute value.
      * @param bcafAppointmentRequestedCsfAmountTotal The bcafAppointmentRequestedCsfAmountTotal to set.
      */
-    public void setBcafAppointmentRequestedCsfAmountTotal(KualiDecimal bcafAppointmentRequestedCsfAmountTotal) {
+    public void setBcafAppointmentRequestedCsfAmountTotal(KualiInteger bcafAppointmentRequestedCsfAmountTotal) {
         this.bcafAppointmentRequestedCsfAmountTotal = bcafAppointmentRequestedCsfAmountTotal;
     }
+
 
     /**
      * Gets the bcafAppointmentRequestedCsfFteQuantityTotal attribute. 

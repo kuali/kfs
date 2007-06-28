@@ -1962,8 +1962,10 @@ public class GenesisDaoOjb extends PlatformAwareDaoBaseOjb
            (KualiDecimal) sqlResult[sqlBeginningBalanceLineAmount];
        BaseAmount = 
            BaseAmount.add((KualiDecimal) sqlResult[sqlAccountLineAnnualBalanceAmount]);
-       PBGLObj.setFinancialBeginningBalanceLineAmount(BaseAmount);
-       PBGLObj.setAccountLineAnnualBalanceAmount(KualiDecimal.ZERO);
+       KualiInteger DollarBaseAmount = 
+           new KualiInteger(BaseAmount.bigDecimalValue());
+       PBGLObj.setFinancialBeginningBalanceLineAmount(DollarBaseAmount);
+       PBGLObj.setAccountLineAnnualBalanceAmount(KualiInteger.ZERO);
        //  ObjectID is set in the BusinessObjectBase on insert and update
        //  but, we must set the version number
        PBGLObj.setVersionNumber(DEFAULT_VERSION_NUMBER);
@@ -2114,9 +2116,9 @@ public class GenesisDaoOjb extends PlatformAwareDaoBaseOjb
            return;
        }
        PendingBudgetConstructionGeneralLedger matchFromGL = pBGLFromGL.get(TestKey);
-       KualiDecimal baseFromCurrentGL = 
+       KualiInteger baseFromCurrentGL = 
            matchFromGL.getFinancialBeginningBalanceLineAmount();
-       KualiDecimal baseFromPBGL = 
+       KualiInteger baseFromPBGL = 
            currentPBGLInstance.getFinancialBeginningBalanceLineAmount();
        // remove the candidate GL from the hash list
        // it won't match with anything else
@@ -3346,7 +3348,7 @@ public class GenesisDaoOjb extends PlatformAwareDaoBaseOjb
             (positionNormalWorkMonths.containsKey(positionNumber)?
              positionNormalWorkMonths.get(positionNumber):12);
         // rqstAmount and notOnLeave are used elswhere and defined globally
-        KualiDecimal defaultAmount = KualiDecimal.ZERO;
+        KualiInteger defaultAmount = KualiInteger.ZERO;
         BigDecimal   defaultFractions = new BigDecimal(0);
         //
         PendingBudgetConstructionAppointmentFunding bcaf =
@@ -3482,8 +3484,8 @@ public class GenesisDaoOjb extends PlatformAwareDaoBaseOjb
         pbGL.setFinancialSubObjectCode(bcsf.getFinancialSubObjectCode());
         pbGL.setFinancialBalanceTypeCode(KFSConstants.BALANCE_TYPE_BASE_BUDGET);
         pbGL.setFinancialObjectTypeCode(objectType);
-        pbGL.setAccountLineAnnualBalanceAmount(KualiDecimal.ZERO);
-        pbGL.setFinancialBeginningBalanceLineAmount(KualiDecimal.ZERO);
+        pbGL.setAccountLineAnnualBalanceAmount(KualiInteger.ZERO);
+        pbGL.setFinancialBeginningBalanceLineAmount(KualiInteger.ZERO);
         // store the new PBGL row
         getPersistenceBrokerTemplate().store(pbGL);
         CSFNewGLRows = CSFNewGLRows+1;

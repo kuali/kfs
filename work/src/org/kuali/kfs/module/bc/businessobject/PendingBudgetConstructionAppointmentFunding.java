@@ -46,10 +46,10 @@ public class PendingBudgetConstructionAppointmentFunding extends PersistableBusi
 	private String positionNumber;
 	private String emplid;
 	private String appointmentFundingDurationCode;
-	private KualiDecimal appointmentRequestedCsfAmount;
+	private KualiInteger appointmentRequestedCsfAmount;
 	private BigDecimal appointmentRequestedCsfFteQuantity;
 	private BigDecimal appointmentRequestedCsfTimePercent;
-	private KualiDecimal appointmentTotalIntendedAmount;
+	private KualiInteger appointmentTotalIntendedAmount;
 	private BigDecimal appointmentTotalIntendedFteQuantity;
 	private KualiInteger appointmentRequestedAmount;
 	private BigDecimal appointmentRequestedTimePercent;
@@ -310,27 +310,22 @@ public class PendingBudgetConstructionAppointmentFunding extends PersistableBusi
 
 
 	/**
-	 * Gets the appointmentRequestedCsfAmount attribute.
-	 * 
-	 * @return Returns the appointmentRequestedCsfAmount
-	 * 
-	 */
-	public KualiDecimal getAppointmentRequestedCsfAmount() { 
-		return appointmentRequestedCsfAmount;
-	}
+     * Gets the appointmentRequestedCsfAmount attribute. 
+     * @return Returns the appointmentRequestedCsfAmount.
+     */
+    public KualiInteger getAppointmentRequestedCsfAmount() {
+        return appointmentRequestedCsfAmount;
+    }
 
-	/**
-	 * Sets the appointmentRequestedCsfAmount attribute.
-	 * 
-	 * @param appointmentRequestedCsfAmount The appointmentRequestedCsfAmount to set.
-	 * 
-	 */
-	public void setAppointmentRequestedCsfAmount(KualiDecimal appointmentRequestedCsfAmount) {
-		this.appointmentRequestedCsfAmount = appointmentRequestedCsfAmount;
-	}
+    /**
+     * Sets the appointmentRequestedCsfAmount attribute value.
+     * @param appointmentRequestedCsfAmount The appointmentRequestedCsfAmount to set.
+     */
+    public void setAppointmentRequestedCsfAmount(KualiInteger appointmentRequestedCsfAmount) {
+        this.appointmentRequestedCsfAmount = appointmentRequestedCsfAmount;
+    }
 
-
-	/**
+    /**
 	 * Gets the appointmentRequestedCsfFteQuantity attribute.
 	 * 
 	 * @return Returns the appointmentRequestedCsfFteQuantity
@@ -373,27 +368,22 @@ public class PendingBudgetConstructionAppointmentFunding extends PersistableBusi
 
 
 	/**
-	 * Gets the appointmentTotalIntendedAmount attribute.
-	 * 
-	 * @return Returns the appointmentTotalIntendedAmount
-	 * 
-	 */
-	public KualiDecimal getAppointmentTotalIntendedAmount() { 
-		return appointmentTotalIntendedAmount;
-	}
+     * Gets the appointmentTotalIntendedAmount attribute. 
+     * @return Returns the appointmentTotalIntendedAmount.
+     */
+    public KualiInteger getAppointmentTotalIntendedAmount() {
+        return appointmentTotalIntendedAmount;
+    }
 
-	/**
-	 * Sets the appointmentTotalIntendedAmount attribute.
-	 * 
-	 * @param appointmentTotalIntendedAmount The appointmentTotalIntendedAmount to set.
-	 * 
-	 */
-	public void setAppointmentTotalIntendedAmount(KualiDecimal appointmentTotalIntendedAmount) {
-		this.appointmentTotalIntendedAmount = appointmentTotalIntendedAmount;
-	}
+    /**
+     * Sets the appointmentTotalIntendedAmount attribute value.
+     * @param appointmentTotalIntendedAmount The appointmentTotalIntendedAmount to set.
+     */
+    public void setAppointmentTotalIntendedAmount(KualiInteger appointmentTotalIntendedAmount) {
+        this.appointmentTotalIntendedAmount = appointmentTotalIntendedAmount;
+    }
 
-
-	/**
+    /**
 	 * Gets the appointmentTotalIntendedFteQuantity attribute.
 	 * 
 	 * @return Returns the appointmentTotalIntendedFteQuantity

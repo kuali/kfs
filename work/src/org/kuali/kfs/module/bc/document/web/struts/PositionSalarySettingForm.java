@@ -466,10 +466,10 @@ public class PositionSalarySettingForm extends KualiForm {
         line.setAppointmentRequestedTimePercent(new BigDecimal(0).setScale(2,BigDecimal.ROUND_HALF_EVEN));
         line.setAppointmentRequestedPayRate(new BigDecimal(0).setScale(2,BigDecimal.ROUND_HALF_EVEN));
         line.setAppointmentFundingDurationCode(BCConstants.APPOINTMENT_FUNDING_DURATION_DEFAULT);
-        line.setAppointmentRequestedCsfAmount(new KualiDecimal(0));
+        line.setAppointmentRequestedCsfAmount(new KualiInteger(BigDecimal.ZERO));
         line.setAppointmentRequestedCsfFteQuantity(new BigDecimal(0).setScale(5,BigDecimal.ROUND_HALF_EVEN));
         line.setAppointmentRequestedCsfTimePercent(new BigDecimal(0).setScale(2,BigDecimal.ROUND_HALF_EVEN));
-        line.setAppointmentTotalIntendedAmount(new KualiDecimal(0));
+        line.setAppointmentTotalIntendedAmount(new KualiInteger(BigDecimal.ZERO));
         line.setAppointmentTotalIntendedFteQuantity(new BigDecimal(0).setScale(5,BigDecimal.ROUND_HALF_EVEN));
         
         

@@ -20,6 +20,7 @@ import java.util.LinkedHashMap;
 
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.core.util.KualiInteger;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.Chart;
 import org.kuali.module.chart.bo.ObjectCode;
@@ -40,7 +41,7 @@ public class BudgetConstructionAppointmentFundingReason extends PersistableBusin
 	private String positionNumber;
 	private String emplid;
 	private String appointmentFundingReasonCode;
-	private KualiDecimal appointmentFundingReasonAmount;
+	private KualiInteger appointmentFundingReasonAmount;
 
     private ObjectCode financialObject;
 	private Account account;
@@ -246,27 +247,22 @@ public class BudgetConstructionAppointmentFundingReason extends PersistableBusin
 
 
 	/**
-	 * Gets the appointmentFundingReasonAmount attribute.
-	 * 
-	 * @return Returns the appointmentFundingReasonAmount
-	 * 
-	 */
-	public KualiDecimal getAppointmentFundingReasonAmount() { 
-		return appointmentFundingReasonAmount;
-	}
+     * Gets the appointmentFundingReasonAmount attribute. 
+     * @return Returns the appointmentFundingReasonAmount.
+     */
+    public KualiInteger getAppointmentFundingReasonAmount() {
+        return appointmentFundingReasonAmount;
+    }
 
-	/**
-	 * Sets the appointmentFundingReasonAmount attribute.
-	 * 
-	 * @param appointmentFundingReasonAmount The appointmentFundingReasonAmount to set.
-	 * 
-	 */
-	public void setAppointmentFundingReasonAmount(KualiDecimal appointmentFundingReasonAmount) {
-		this.appointmentFundingReasonAmount = appointmentFundingReasonAmount;
-	}
+    /**
+     * Sets the appointmentFundingReasonAmount attribute value.
+     * @param appointmentFundingReasonAmount The appointmentFundingReasonAmount to set.
+     */
+    public void setAppointmentFundingReasonAmount(KualiInteger appointmentFundingReasonAmount) {
+        this.appointmentFundingReasonAmount = appointmentFundingReasonAmount;
+    }
 
-
-	/**
+    /**
 	 * Gets the financialObject attribute.
 	 * 
 	 * @return Returns the financialObject

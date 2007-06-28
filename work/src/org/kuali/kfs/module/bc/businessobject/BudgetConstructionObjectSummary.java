@@ -21,6 +21,7 @@ import java.util.LinkedHashMap;
 
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.core.util.KualiInteger;
 import org.kuali.module.chart.bo.Chart;
 import org.kuali.module.chart.bo.ObjLevel;
 import org.kuali.module.chart.bo.ObjectCons;
@@ -41,8 +42,8 @@ public class BudgetConstructionObjectSummary extends PersistableBusinessObjectBa
 	private String financialConsolidationSortCode;
 	private String financialLevelSortCode;
 	private String financialObjectCode;
-	private KualiDecimal accountLineAnnualBalanceAmount;
-	private KualiDecimal financialBeginningBalanceLineAmount;
+	private KualiInteger accountLineAnnualBalanceAmount;
+	private KualiInteger financialBeginningBalanceLineAmount;
 	private String financialConsolidationObjectCode;
 	private String financialObjectLevelCode;
 	private BigDecimal appointmentRequestedCsfFteQuantity;
@@ -254,48 +255,38 @@ public class BudgetConstructionObjectSummary extends PersistableBusinessObjectBa
 
 
 	/**
-	 * Gets the accountLineAnnualBalanceAmount attribute.
-	 * 
-	 * @return Returns the accountLineAnnualBalanceAmount
-	 * 
-	 */
-	public KualiDecimal getAccountLineAnnualBalanceAmount() { 
-		return accountLineAnnualBalanceAmount;
-	}
+     * Gets the accountLineAnnualBalanceAmount attribute. 
+     * @return Returns the accountLineAnnualBalanceAmount.
+     */
+    public KualiInteger getAccountLineAnnualBalanceAmount() {
+        return accountLineAnnualBalanceAmount;
+    }
 
-	/**
-	 * Sets the accountLineAnnualBalanceAmount attribute.
-	 * 
-	 * @param accountLineAnnualBalanceAmount The accountLineAnnualBalanceAmount to set.
-	 * 
-	 */
-	public void setAccountLineAnnualBalanceAmount(KualiDecimal accountLineAnnualBalanceAmount) {
-		this.accountLineAnnualBalanceAmount = accountLineAnnualBalanceAmount;
-	}
+    /**
+     * Sets the accountLineAnnualBalanceAmount attribute value.
+     * @param accountLineAnnualBalanceAmount The accountLineAnnualBalanceAmount to set.
+     */
+    public void setAccountLineAnnualBalanceAmount(KualiInteger accountLineAnnualBalanceAmount) {
+        this.accountLineAnnualBalanceAmount = accountLineAnnualBalanceAmount;
+    }
 
+    /**
+     * Gets the financialBeginningBalanceLineAmount attribute. 
+     * @return Returns the financialBeginningBalanceLineAmount.
+     */
+    public KualiInteger getFinancialBeginningBalanceLineAmount() {
+        return financialBeginningBalanceLineAmount;
+    }
 
-	/**
-	 * Gets the financialBeginningBalanceLineAmount attribute.
-	 * 
-	 * @return Returns the financialBeginningBalanceLineAmount
-	 * 
-	 */
-	public KualiDecimal getFinancialBeginningBalanceLineAmount() { 
-		return financialBeginningBalanceLineAmount;
-	}
+    /**
+     * Sets the financialBeginningBalanceLineAmount attribute value.
+     * @param financialBeginningBalanceLineAmount The financialBeginningBalanceLineAmount to set.
+     */
+    public void setFinancialBeginningBalanceLineAmount(KualiInteger financialBeginningBalanceLineAmount) {
+        this.financialBeginningBalanceLineAmount = financialBeginningBalanceLineAmount;
+    }
 
-	/**
-	 * Sets the financialBeginningBalanceLineAmount attribute.
-	 * 
-	 * @param financialBeginningBalanceLineAmount The financialBeginningBalanceLineAmount to set.
-	 * 
-	 */
-	public void setFinancialBeginningBalanceLineAmount(KualiDecimal financialBeginningBalanceLineAmount) {
-		this.financialBeginningBalanceLineAmount = financialBeginningBalanceLineAmount;
-	}
-
-
-	/**
+    /**
 	 * Gets the financialConsolidationObjectCode attribute.
 	 * 
 	 * @return Returns the financialConsolidationObjectCode

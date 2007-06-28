@@ -20,6 +20,7 @@ import java.util.LinkedHashMap;
 
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.core.util.KualiInteger;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.Chart;
 import org.kuali.module.chart.bo.Org;
@@ -36,7 +37,7 @@ public class BudgetConstructionTwoPlugListMove extends PersistableBusinessObject
 	private String chartOfAccountsCode;
 	private String accountNumber;
 	private String subAccountNumber;
-	private KualiDecimal accountLineAnnualBalanceAmount;
+	private KualiInteger accountLineAnnualBalanceAmount;
 
     private Chart organizationChartOfAccounts;
 	private Org organization;
@@ -178,27 +179,22 @@ public class BudgetConstructionTwoPlugListMove extends PersistableBusinessObject
 
 
 	/**
-	 * Gets the accountLineAnnualBalanceAmount attribute.
-	 * 
-	 * @return Returns the accountLineAnnualBalanceAmount
-	 * 
-	 */
-	public KualiDecimal getAccountLineAnnualBalanceAmount() { 
-		return accountLineAnnualBalanceAmount;
-	}
+     * Gets the accountLineAnnualBalanceAmount attribute. 
+     * @return Returns the accountLineAnnualBalanceAmount.
+     */
+    public KualiInteger getAccountLineAnnualBalanceAmount() {
+        return accountLineAnnualBalanceAmount;
+    }
 
-	/**
-	 * Sets the accountLineAnnualBalanceAmount attribute.
-	 * 
-	 * @param accountLineAnnualBalanceAmount The accountLineAnnualBalanceAmount to set.
-	 * 
-	 */
-	public void setAccountLineAnnualBalanceAmount(KualiDecimal accountLineAnnualBalanceAmount) {
-		this.accountLineAnnualBalanceAmount = accountLineAnnualBalanceAmount;
-	}
+    /**
+     * Sets the accountLineAnnualBalanceAmount attribute value.
+     * @param accountLineAnnualBalanceAmount The accountLineAnnualBalanceAmount to set.
+     */
+    public void setAccountLineAnnualBalanceAmount(KualiInteger accountLineAnnualBalanceAmount) {
+        this.accountLineAnnualBalanceAmount = accountLineAnnualBalanceAmount;
+    }
 
-
-	/**
+    /**
 	 * Gets the organizationChartOfAccounts attribute.
 	 * 
 	 * @return Returns the organizationChartOfAccounts

@@ -27,6 +27,7 @@ import java.util.Map;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.document.TransactionalDocumentBase;
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.core.util.KualiInteger;
 import org.kuali.core.util.TypedArrayList;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSPropertyConstants;
@@ -67,11 +68,11 @@ public class BudgetConstructionDocument extends TransactionalDocumentBase {
     private Integer previousUniversityFiscalYear;
 
     // revenue and expenditure line totals
-    private KualiDecimal revenueAccountLineAnnualBalanceAmountTotal;
-    private KualiDecimal revenueFinancialBeginningBalanceLineAmountTotal;
+    private KualiInteger revenueAccountLineAnnualBalanceAmountTotal;
+    private KualiInteger revenueFinancialBeginningBalanceLineAmountTotal;
     private KualiDecimal revenuePercentChangeTotal;
-    private KualiDecimal expenditureAccountLineAnnualBalanceAmountTotal;
-    private KualiDecimal expenditureFinancialBeginningBalanceLineAmountTotal;
+    private KualiInteger expenditureAccountLineAnnualBalanceAmountTotal;
+    private KualiInteger expenditureFinancialBeginningBalanceLineAmountTotal;
     private KualiDecimal expenditurePercentChangeTotal;
     
     
@@ -89,11 +90,11 @@ public class BudgetConstructionDocument extends TransactionalDocumentBase {
      */
     public void zeroTotals(){
 
-        revenueAccountLineAnnualBalanceAmountTotal = new KualiDecimal(0);
-        revenueFinancialBeginningBalanceLineAmountTotal = new KualiDecimal(0);
+        revenueAccountLineAnnualBalanceAmountTotal = new KualiInteger(BigDecimal.ZERO);
+        revenueFinancialBeginningBalanceLineAmountTotal = new KualiInteger(BigDecimal.ZERO);
         revenuePercentChangeTotal = new KualiDecimal(0);
-        expenditureAccountLineAnnualBalanceAmountTotal = new KualiDecimal(0);
-        expenditureFinancialBeginningBalanceLineAmountTotal = new KualiDecimal(0);
+        expenditureAccountLineAnnualBalanceAmountTotal = new KualiInteger(BigDecimal.ZERO);
+        expenditureFinancialBeginningBalanceLineAmountTotal = new KualiInteger(BigDecimal.ZERO);
         expenditurePercentChangeTotal = new KualiDecimal(0);
     }
     
@@ -550,7 +551,7 @@ public class BudgetConstructionDocument extends TransactionalDocumentBase {
      * Gets the expenditureAccountLineAnnualBalanceAmountTotal attribute. 
      * @return Returns the expenditureAccountLineAnnualBalanceAmountTotal.
      */
-    public KualiDecimal getExpenditureAccountLineAnnualBalanceAmountTotal() {
+    public KualiInteger getExpenditureAccountLineAnnualBalanceAmountTotal() {
         return expenditureAccountLineAnnualBalanceAmountTotal;
     }
 
@@ -558,7 +559,7 @@ public class BudgetConstructionDocument extends TransactionalDocumentBase {
      * Sets the expenditureAccountLineAnnualBalanceAmountTotal attribute value.
      * @param expenditureAccountLineAnnualBalanceAmountTotal The expenditureAccountLineAnnualBalanceAmountTotal to set.
      */
-    public void setExpenditureAccountLineAnnualBalanceAmountTotal(KualiDecimal expenditureAccountLineAnnualBalanceAmountTotal) {
+    public void setExpenditureAccountLineAnnualBalanceAmountTotal(KualiInteger expenditureAccountLineAnnualBalanceAmountTotal) {
         this.expenditureAccountLineAnnualBalanceAmountTotal = expenditureAccountLineAnnualBalanceAmountTotal;
     }
 
@@ -566,7 +567,7 @@ public class BudgetConstructionDocument extends TransactionalDocumentBase {
      * Gets the expenditureFinancialBeginningBalanceLineAmountTotal attribute. 
      * @return Returns the expenditureFinancialBeginningBalanceLineAmountTotal.
      */
-    public KualiDecimal getExpenditureFinancialBeginningBalanceLineAmountTotal() {
+    public KualiInteger getExpenditureFinancialBeginningBalanceLineAmountTotal() {
         return expenditureFinancialBeginningBalanceLineAmountTotal;
     }
 
@@ -574,8 +575,40 @@ public class BudgetConstructionDocument extends TransactionalDocumentBase {
      * Sets the expenditureFinancialBeginningBalanceLineAmountTotal attribute value.
      * @param expenditureFinancialBeginningBalanceLineAmountTotal The expenditureFinancialBeginningBalanceLineAmountTotal to set.
      */
-    public void setExpenditureFinancialBeginningBalanceLineAmountTotal(KualiDecimal expenditureFinancialBeginningBalanceLineAmountTotal) {
+    public void setExpenditureFinancialBeginningBalanceLineAmountTotal(KualiInteger expenditureFinancialBeginningBalanceLineAmountTotal) {
         this.expenditureFinancialBeginningBalanceLineAmountTotal = expenditureFinancialBeginningBalanceLineAmountTotal;
+    }
+
+    /**
+     * Gets the revenueAccountLineAnnualBalanceAmountTotal attribute. 
+     * @return Returns the revenueAccountLineAnnualBalanceAmountTotal.
+     */
+    public KualiInteger getRevenueAccountLineAnnualBalanceAmountTotal() {
+        return revenueAccountLineAnnualBalanceAmountTotal;
+    }
+
+    /**
+     * Sets the revenueAccountLineAnnualBalanceAmountTotal attribute value.
+     * @param revenueAccountLineAnnualBalanceAmountTotal The revenueAccountLineAnnualBalanceAmountTotal to set.
+     */
+    public void setRevenueAccountLineAnnualBalanceAmountTotal(KualiInteger revenueAccountLineAnnualBalanceAmountTotal) {
+        this.revenueAccountLineAnnualBalanceAmountTotal = revenueAccountLineAnnualBalanceAmountTotal;
+    }
+
+    /**
+     * Gets the revenueFinancialBeginningBalanceLineAmountTotal attribute. 
+     * @return Returns the revenueFinancialBeginningBalanceLineAmountTotal.
+     */
+    public KualiInteger getRevenueFinancialBeginningBalanceLineAmountTotal() {
+        return revenueFinancialBeginningBalanceLineAmountTotal;
+    }
+
+    /**
+     * Sets the revenueFinancialBeginningBalanceLineAmountTotal attribute value.
+     * @param revenueFinancialBeginningBalanceLineAmountTotal The revenueFinancialBeginningBalanceLineAmountTotal to set.
+     */
+    public void setRevenueFinancialBeginningBalanceLineAmountTotal(KualiInteger revenueFinancialBeginningBalanceLineAmountTotal) {
+        this.revenueFinancialBeginningBalanceLineAmountTotal = revenueFinancialBeginningBalanceLineAmountTotal;
     }
 
     /**
@@ -599,38 +632,6 @@ public class BudgetConstructionDocument extends TransactionalDocumentBase {
      */
     public void setExpenditurePercentChangeTotal(KualiDecimal expenditurePercentChangeTotal) {
         this.expenditurePercentChangeTotal = expenditurePercentChangeTotal;
-    }
-
-    /**
-     * Gets the revenueAccountLineAnnualBalanceAmountTotal attribute. 
-     * @return Returns the revenueAccountLineAnnualBalanceAmountTotal.
-     */
-    public KualiDecimal getRevenueAccountLineAnnualBalanceAmountTotal() {
-        return revenueAccountLineAnnualBalanceAmountTotal;
-    }
-
-    /**
-     * Sets the revenueAccountLineAnnualBalanceAmountTotal attribute value.
-     * @param revenueAccountLineAnnualBalanceAmountTotal The revenueAccountLineAnnualBalanceAmountTotal to set.
-     */
-    public void setRevenueAccountLineAnnualBalanceAmountTotal(KualiDecimal revenueAccountLineAnnualBalanceAmountTotal) {
-        this.revenueAccountLineAnnualBalanceAmountTotal = revenueAccountLineAnnualBalanceAmountTotal;
-    }
-
-    /**
-     * Gets the revenueFinancialBeginningBalanceLineAmountTotal attribute. 
-     * @return Returns the revenueFinancialBeginningBalanceLineAmountTotal.
-     */
-    public KualiDecimal getRevenueFinancialBeginningBalanceLineAmountTotal() {
-        return revenueFinancialBeginningBalanceLineAmountTotal;
-    }
-
-    /**
-     * Sets the revenueFinancialBeginningBalanceLineAmountTotal attribute value.
-     * @param revenueFinancialBeginningBalanceLineAmountTotal The revenueFinancialBeginningBalanceLineAmountTotal to set.
-     */
-    public void setRevenueFinancialBeginningBalanceLineAmountTotal(KualiDecimal revenueFinancialBeginningBalanceLineAmountTotal) {
-        this.revenueFinancialBeginningBalanceLineAmountTotal = revenueFinancialBeginningBalanceLineAmountTotal;
     }
 
     /**

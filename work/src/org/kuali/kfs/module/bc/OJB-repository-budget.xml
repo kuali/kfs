@@ -99,8 +99,8 @@
 	<field-descriptor name="financialObjectTypeCode" column="FIN_OBJ_TYP_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
 	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
-	<field-descriptor name="accountLineAnnualBalanceAmount" column="ACLN_ANNL_BAL_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
-	<field-descriptor name="financialBeginningBalanceLineAmount" column="FIN_BEG_BAL_LN_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
+	<field-descriptor name="accountLineAnnualBalanceAmount" column="ACLN_ANNL_BAL_AMT" jdbc-type="BIGINT" conversion="org.kuali.core.util.OjbKualiIntegerFieldConversion"/>
+	<field-descriptor name="financialBeginningBalanceLineAmount" column="FIN_BEG_BAL_LN_AMT" jdbc-type="BIGINT" conversion="org.kuali.core.util.OjbKualiIntegerFieldConversion"/>
 	<collection-descriptor name="pendingBudgetConstructionAppointmentFunding" element-class-ref="org.kuali.module.budget.bo.PendingBudgetConstructionAppointmentFunding" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" proxy="true" auto-retrieve="true" auto-update="none" auto-delete="none">
 		<orderby name="positionNumber" sort="ASC" />
 		<inverse-foreignkey field-ref="universityFiscalYear" />
@@ -218,18 +218,18 @@
 	<field-descriptor name="financialObjectTypeCode" column="FIN_OBJ_TYP_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
 	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
-	<field-descriptor name="financialDocumentMonth1LineAmount" column="FDOC_LN_MO1_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
-	<field-descriptor name="financialDocumentMonth2LineAmount" column="FDOC_LN_MO2_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
-	<field-descriptor name="financialDocumentMonth3LineAmount" column="FDOC_LN_MO3_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
-	<field-descriptor name="financialDocumentMonth4LineAmount" column="FDOC_LN_MO4_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
-	<field-descriptor name="financialDocumentMonth5LineAmount" column="FDOC_LN_MO5_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
-	<field-descriptor name="financialDocumentMonth6LineAmount" column="FDOC_LN_MO6_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
-	<field-descriptor name="financialDocumentMonth7LineAmount" column="FDOC_LN_MO7_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
-	<field-descriptor name="financialDocumentMonth8LineAmount" column="FDOC_LN_MO8_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
-	<field-descriptor name="financialDocumentMonth9LineAmount" column="FDOC_LN_MO9_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
-	<field-descriptor name="financialDocumentMonth10LineAmount" column="FDOC_LN_MO10_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
-	<field-descriptor name="financialDocumentMonth11LineAmount" column="FDOC_LN_MO11_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
-	<field-descriptor name="financialDocumentMonth12LineAmount" column="FDOC_LN_MO12_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
+	<field-descriptor name="financialDocumentMonth1LineAmount" column="FDOC_LN_MO1_AMT" jdbc-type="BIGINT" conversion="org.kuali.core.util.OjbKualiIntegerFieldConversion"/>
+	<field-descriptor name="financialDocumentMonth2LineAmount" column="FDOC_LN_MO2_AMT" jdbc-type="BIGINT" conversion="org.kuali.core.util.OjbKualiIntegerFieldConversion"/>
+	<field-descriptor name="financialDocumentMonth3LineAmount" column="FDOC_LN_MO3_AMT" jdbc-type="BIGINT" conversion="org.kuali.core.util.OjbKualiIntegerFieldConversion"/>
+	<field-descriptor name="financialDocumentMonth4LineAmount" column="FDOC_LN_MO4_AMT" jdbc-type="BIGINT" conversion="org.kuali.core.util.OjbKualiIntegerFieldConversion"/>
+	<field-descriptor name="financialDocumentMonth5LineAmount" column="FDOC_LN_MO5_AMT" jdbc-type="BIGINT" conversion="org.kuali.core.util.OjbKualiIntegerFieldConversion"/>
+	<field-descriptor name="financialDocumentMonth6LineAmount" column="FDOC_LN_MO6_AMT" jdbc-type="BIGINT" conversion="org.kuali.core.util.OjbKualiIntegerFieldConversion"/>
+	<field-descriptor name="financialDocumentMonth7LineAmount" column="FDOC_LN_MO7_AMT" jdbc-type="BIGINT" conversion="org.kuali.core.util.OjbKualiIntegerFieldConversion"/>
+	<field-descriptor name="financialDocumentMonth8LineAmount" column="FDOC_LN_MO8_AMT" jdbc-type="BIGINT" conversion="org.kuali.core.util.OjbKualiIntegerFieldConversion"/>
+	<field-descriptor name="financialDocumentMonth9LineAmount" column="FDOC_LN_MO9_AMT" jdbc-type="BIGINT" conversion="org.kuali.core.util.OjbKualiIntegerFieldConversion"/>
+	<field-descriptor name="financialDocumentMonth10LineAmount" column="FDOC_LN_MO10_AMT" jdbc-type="BIGINT" conversion="org.kuali.core.util.OjbKualiIntegerFieldConversion"/>
+	<field-descriptor name="financialDocumentMonth11LineAmount" column="FDOC_LN_MO11_AMT" jdbc-type="BIGINT" conversion="org.kuali.core.util.OjbKualiIntegerFieldConversion"/>
+	<field-descriptor name="financialDocumentMonth12LineAmount" column="FDOC_LN_MO12_AMT" jdbc-type="BIGINT" conversion="org.kuali.core.util.OjbKualiIntegerFieldConversion"/>
 <!-- this should probably be removed
 	<reference-descriptor name="budgetConstructionHeader" class-ref="org.kuali.module.budget.bo.BudgetConstructionHeader" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
 		<foreignkey field-ref="documentNumber" />
@@ -347,8 +347,8 @@
 	<field-descriptor name="financialObjectTypeCode" column="FIN_OBJ_TYP_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
 	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
-	<field-descriptor name="accountLineAnnualBalanceAmount" column="ACLN_ANNL_BAL_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
-	<field-descriptor name="financialBeginningBalanceLineAmount" column="FIN_BEG_BAL_LN_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
+	<field-descriptor name="accountLineAnnualBalanceAmount" column="ACLN_ANNL_BAL_AMT" jdbc-type="BIGINT" conversion="org.kuali.core.util.OjbKualiIntegerFieldConversion"/>
+	<field-descriptor name="financialBeginningBalanceLineAmount" column="FIN_BEG_BAL_LN_AMT" jdbc-type="BIGINT" conversion="org.kuali.core.util.OjbKualiIntegerFieldConversion"/>
 	<collection-descriptor name="pendingBudgetConstructionAppointmentFunding" element-class-ref="org.kuali.module.budget.bo.PendingBudgetConstructionAppointmentFunding" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" proxy="true" auto-retrieve="true" auto-update="none" auto-delete="none">
 		<orderby name="positionNumber" sort="ASC" />
 		<inverse-foreignkey field-ref="universityFiscalYear" />
@@ -559,12 +559,12 @@
 	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
 	<field-descriptor name="appointmentFundingDurationCode" column="APPT_FND_DUR_CD" jdbc-type="VARCHAR"/>
-	<field-descriptor name="appointmentRequestedCsfAmount" column="APPT_RQST_CSF_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
+	<field-descriptor name="appointmentRequestedCsfAmount" column="APPT_RQST_CSF_AMT" jdbc-type="BIGINT" conversion="org.kuali.core.util.OjbKualiIntegerFieldConversion"/>
 	<field-descriptor name="appointmentRequestedCsfFteQuantity" column="APPT_RQCSF_FTE_QTY" jdbc-type="DECIMAL"/>
 	<field-descriptor name="appointmentRequestedCsfTimePercent" column="APPT_RQCSF_TM_PCT" jdbc-type="DECIMAL"/>
-	<field-descriptor name="appointmentTotalIntendedAmount" column="APPT_TOT_INTND_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
+	<field-descriptor name="appointmentTotalIntendedAmount" column="APPT_TOT_INTND_AMT" jdbc-type="BIGINT" conversion="org.kuali.core.util.OjbKualiIntegerFieldConversion"/>
 	<field-descriptor name="appointmentTotalIntendedFteQuantity" column="APPT_TOTINTFTE_QTY" jdbc-type="DECIMAL"/>
-	<field-descriptor name="appointmentRequestedAmount" column="APPT_RQST_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
+	<field-descriptor name="appointmentRequestedAmount" column="APPT_RQST_AMT" jdbc-type="BIGINT" conversion="org.kuali.core.util.OjbKualiIntegerFieldConversion"/>
 	<field-descriptor name="appointmentRequestedTimePercent" column="APPT_RQST_TM_PCT" jdbc-type="DECIMAL"/>
 	<field-descriptor name="appointmentRequestedFteQuantity" column="APPT_RQST_FTE_QTY" jdbc-type="DECIMAL"/>
 	<field-descriptor name="appointmentRequestedPayRate" column="APPT_RQST_PAY_RT" jdbc-type="DECIMAL"/>
@@ -616,8 +616,8 @@
 	<field-descriptor name="appointmentRequestedFteQuantity" column="APPT_RQST_FTE_QTY" jdbc-type="DECIMAL"/>
 	<field-descriptor name="appointmentRequestedCsfFteQuantity" column="APPT_RQCSF_FTE_QTY" jdbc-type="DECIMAL"/>
 	<field-descriptor name="positionFullTimeEquivalencyQuantity" column="POSITION_FTE_QTY" jdbc-type="DECIMAL"/>
-	<field-descriptor name="financialBeginningBalanceLineAmount" column="FIN_BEG_BAL_LN_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
-	<field-descriptor name="accountLineAnnualBalanceAmount" column="ACLN_ANNL_BAL_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
+	<field-descriptor name="financialBeginningBalanceLineAmount" column="FIN_BEG_BAL_LN_AMT" jdbc-type="BIGINT" conversion="org.kuali.core.util.OjbKualiIntegerFieldConversion"/>
+	<field-descriptor name="accountLineAnnualBalanceAmount" column="ACLN_ANNL_BAL_AMT" jdbc-type="BIGINT" conversion="org.kuali.core.util.OjbKualiIntegerFieldConversion"/>
 	<field-descriptor name="positionCsfLeaveFteQuantity" column="POS_CSF_LV_FTE_QTY" jdbc-type="DECIMAL"/>
 	<reference-descriptor name="organizationChartOfAccounts" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
 		<foreignkey field-ref="organizationChartOfAccountsCode" />
@@ -826,7 +826,7 @@
 	<field-descriptor name="appointmentFundingReasonCode" column="APPT_FND_REASON_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
 	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
-	<field-descriptor name="appointmentFundingReasonAmount" column="APPT_FND_REASN_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
+	<field-descriptor name="appointmentFundingReasonAmount" column="APPT_FND_REASN_AMT" jdbc-type="BIGINT" conversion="org.kuali.core.util.OjbKualiIntegerFieldConversion"/>
 	<reference-descriptor name="financialObject" class-ref="org.kuali.module.chart.bo.ObjectCode" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
 		<foreignkey field-ref="universityFiscalYear" />
 		<foreignkey field-ref="chartOfAccountsCode" />
@@ -927,10 +927,10 @@
 	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
 	<field-descriptor name="appointmentFundingDurationCode" column="APPT_FND_DUR_CD" jdbc-type="VARCHAR"/>
-	<field-descriptor name="appointmentRequestedCsfAmount" column="APPT_RQST_CSF_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
+	<field-descriptor name="appointmentRequestedCsfAmount" column="APPT_RQST_CSF_AMT" jdbc-type="BIGINT" conversion="org.kuali.core.util.OjbKualiIntegerFieldConversion"/>
 	<field-descriptor name="appointmentRequestedCsfFteQuantity" column="APPT_RQCSF_FTE_QTY" jdbc-type="DECIMAL"/>
 	<field-descriptor name="appointmentRequestedCsfTimePercent" column="APPT_RQCSF_TM_PCT" jdbc-type="DECIMAL"/>
-	<field-descriptor name="appointmentTotalIntendedAmount" column="APPT_TOT_INTND_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
+	<field-descriptor name="appointmentTotalIntendedAmount" column="APPT_TOT_INTND_AMT" jdbc-type="BIGINT" conversion="org.kuali.core.util.OjbKualiIntegerFieldConversion"/>
 	<field-descriptor name="appointmentTotalIntendedFteQuantity" column="APPT_TOTINTFTE_QTY" jdbc-type="DECIMAL"/>
 	<field-descriptor name="appointmentRequestedAmount" column="APPT_RQST_AMT" jdbc-type="BIGINT" conversion="org.kuali.core.util.OjbKualiIntegerFieldConversion"/>
 	<field-descriptor name="appointmentRequestedTimePercent" column="APPT_RQST_TM_PCT" jdbc-type="DECIMAL"/>
@@ -1036,8 +1036,8 @@
 	<field-descriptor name="incomeExpenseCode" column="INC_EXP_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
 	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
-	<field-descriptor name="accountLineAnnualBalanceAmount" column="ACLN_ANNL_BAL_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
-	<field-descriptor name="financialBeginningBalanceLineAmount" column="FIN_BEG_BAL_LN_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
+	<field-descriptor name="accountLineAnnualBalanceAmount" column="ACLN_ANNL_BAL_AMT" jdbc-type="BIGINT" conversion="org.kuali.core.util.OjbKualiIntegerFieldConversion"/>
+	<field-descriptor name="financialBeginningBalanceLineAmount" column="FIN_BEG_BAL_LN_AMT" jdbc-type="BIGINT" conversion="org.kuali.core.util.OjbKualiIntegerFieldConversion"/>
 	<field-descriptor name="subFundSortCode" column="SUB_FUND_SORT_CD" jdbc-type="VARCHAR"/>
 	<reference-descriptor name="organizationChartOfAccounts" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
 		<foreignkey field-ref="organizationChartOfAccountsCode" />
@@ -1077,8 +1077,8 @@
 	<field-descriptor name="financialLevelSortCode" column="FIN_LEV_SORT_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
 	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
-	<field-descriptor name="accountLineAnnualBalanceAmount" column="ACLN_ANNL_BAL_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
-	<field-descriptor name="financialBeginningBalanceLineAmount" column="FIN_BEG_BAL_LN_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
+	<field-descriptor name="accountLineAnnualBalanceAmount" column="ACLN_ANNL_BAL_AMT" jdbc-type="BIGINT" conversion="org.kuali.core.util.OjbKualiIntegerFieldConversion"/>
+	<field-descriptor name="financialBeginningBalanceLineAmount" column="FIN_BEG_BAL_LN_AMT" jdbc-type="BIGINT" conversion="org.kuali.core.util.OjbKualiIntegerFieldConversion"/>
 	<field-descriptor name="financialConsolidationObjectCode" column="FIN_CONS_OBJ_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="financialObjectLevelCode" column="FIN_OBJ_LEVEL_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="appointmentRequestedCsfFteQuantity" column="APPT_RQCSF_FTE_QTY" jdbc-type="DECIMAL"/>
@@ -1121,19 +1121,19 @@
 	<field-descriptor name="financialSubObjectCode" column="FIN_SUB_OBJ_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
 	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
-	<field-descriptor name="accountLineAnnualBalanceAmount" column="ACLN_ANNL_BAL_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
-	<field-descriptor name="financialDocumentMonth1LineAmount" column="FDOC_LN_MO1_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
-	<field-descriptor name="financialDocumentMonth2LineAmount" column="FDOC_LN_MO2_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
-	<field-descriptor name="financialDocumentMonth3LineAmount" column="FDOC_LN_MO3_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
-	<field-descriptor name="financialDocumentMonth4LineAmount" column="FDOC_LN_MO4_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
-	<field-descriptor name="financialDocumentMonth5LineAmount" column="FDOC_LN_MO5_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
-	<field-descriptor name="financialDocumentMonth6LineAmount" column="FDOC_LN_MO6_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
-	<field-descriptor name="financialDocumentMonth7LineAmount" column="FDOC_LN_MO7_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
-	<field-descriptor name="financialDocumentMonth8LineAmount" column="FDOC_LN_MO8_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
-	<field-descriptor name="financialDocumentMonth9LineAmount" column="FDOC_LN_MO9_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
-	<field-descriptor name="financialDocumentMonth10LineAmount" column="FDOC_LN_MO10_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
-	<field-descriptor name="financialDocumentMonth11LineAmount" column="FDOC_LN_MO11_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
-	<field-descriptor name="financialDocumentMonth12LineAmount" column="FDOC_LN_MO12_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
+	<field-descriptor name="accountLineAnnualBalanceAmount" column="ACLN_ANNL_BAL_AMT" jdbc-type="BIGINT" conversion="org.kuali.core.util.OjbKualiIntegerFieldConversion"/>
+	<field-descriptor name="financialDocumentMonth1LineAmount" column="FDOC_LN_MO1_AMT" jdbc-type="BIGINT" conversion="org.kuali.core.util.OjbKualiIntegerFieldConversion"/>
+	<field-descriptor name="financialDocumentMonth2LineAmount" column="FDOC_LN_MO2_AMT" jdbc-type="BIGINT" conversion="org.kuali.core.util.OjbKualiIntegerFieldConversion"/>
+	<field-descriptor name="financialDocumentMonth3LineAmount" column="FDOC_LN_MO3_AMT" jdbc-type="BIGINT" conversion="org.kuali.core.util.OjbKualiIntegerFieldConversion"/>
+	<field-descriptor name="financialDocumentMonth4LineAmount" column="FDOC_LN_MO4_AMT" jdbc-type="BIGINT" conversion="org.kuali.core.util.OjbKualiIntegerFieldConversion"/>
+	<field-descriptor name="financialDocumentMonth5LineAmount" column="FDOC_LN_MO5_AMT" jdbc-type="BIGINT" conversion="org.kuali.core.util.OjbKualiIntegerFieldConversion"/>
+	<field-descriptor name="financialDocumentMonth6LineAmount" column="FDOC_LN_MO6_AMT" jdbc-type="BIGINT" conversion="org.kuali.core.util.OjbKualiIntegerFieldConversion"/>
+	<field-descriptor name="financialDocumentMonth7LineAmount" column="FDOC_LN_MO7_AMT" jdbc-type="BIGINT" conversion="org.kuali.core.util.OjbKualiIntegerFieldConversion"/>
+	<field-descriptor name="financialDocumentMonth8LineAmount" column="FDOC_LN_MO8_AMT" jdbc-type="BIGINT" conversion="org.kuali.core.util.OjbKualiIntegerFieldConversion"/>
+	<field-descriptor name="financialDocumentMonth9LineAmount" column="FDOC_LN_MO9_AMT" jdbc-type="BIGINT" conversion="org.kuali.core.util.OjbKualiIntegerFieldConversion"/>
+	<field-descriptor name="financialDocumentMonth10LineAmount" column="FDOC_LN_MO10_AMT" jdbc-type="BIGINT" conversion="org.kuali.core.util.OjbKualiIntegerFieldConversion"/>
+	<field-descriptor name="financialDocumentMonth11LineAmount" column="FDOC_LN_MO11_AMT" jdbc-type="BIGINT" conversion="org.kuali.core.util.OjbKualiIntegerFieldConversion"/>
+	<field-descriptor name="financialDocumentMonth12LineAmount" column="FDOC_LN_MO12_AMT" jdbc-type="BIGINT" conversion="org.kuali.core.util.OjbKualiIntegerFieldConversion"/>
 	<field-descriptor name="financialConsolidationObjectCode" column="FIN_CONS_OBJ_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="financialObjectLevelCode" column="FIN_OBJ_LEVEL_CD" jdbc-type="VARCHAR"/>
 	<reference-descriptor name="organizationChartOfAccounts" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
@@ -1171,8 +1171,8 @@
 	<field-descriptor name="financialObjectCode" column="FIN_OBJECT_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
 	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
-	<field-descriptor name="accountLineAnnualBalanceAmount" column="ACLN_ANNL_BAL_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
-	<field-descriptor name="financialBeginningBalanceLineAmount" column="FIN_BEG_BAL_LN_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
+	<field-descriptor name="accountLineAnnualBalanceAmount" column="ACLN_ANNL_BAL_AMT" jdbc-type="BIGINT" conversion="org.kuali.core.util.OjbKualiIntegerFieldConversion"/>
+	<field-descriptor name="financialBeginningBalanceLineAmount" column="FIN_BEG_BAL_LN_AMT" jdbc-type="BIGINT" conversion="org.kuali.core.util.OjbKualiIntegerFieldConversion"/>
 	<field-descriptor name="financialConsolidationObjectCode" column="FIN_CONS_OBJ_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="financialObjectLevelCode" column="FIN_OBJ_LEVEL_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="appointmentRequestedCsfFteQuantity" column="APPT_RQCSF_FTE_QTY" jdbc-type="DECIMAL"/>
@@ -1306,10 +1306,10 @@
 	<field-descriptor name="organizationCode" column="ORG_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
 	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
-	<field-descriptor name="csfAmount" column="POS_CSF_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
-	<field-descriptor name="appointmentRequestedAmount" column="APPT_RQST_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
+	<field-descriptor name="csfAmount" column="POS_CSF_AMT" jdbc-type="BIGINT" conversion="org.kuali.core.util.OjbKualiIntegerFieldConversion"/>
+	<field-descriptor name="appointmentRequestedAmount" column="APPT_RQST_AMT" jdbc-type="BIGINT" conversion="org.kuali.core.util.OjbKualiIntegerFieldConversion"/>
 	<field-descriptor name="appointmentRequestedFteQuantity" column="APPT_RQST_FTE_QTY" jdbc-type="DECIMAL"/>
-	<field-descriptor name="initialRequestedAmount" column="INIT_RQST_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
+	<field-descriptor name="initialRequestedAmount" column="INIT_RQST_AMT" jdbc-type="BIGINT" conversion="org.kuali.core.util.OjbKualiIntegerFieldConversion"/>
 	<field-descriptor name="initialRequestedFteQuantity" column="INIT_RQST_FTE_QTY" jdbc-type="DECIMAL"/>
 	<reference-descriptor name="organizationChartOfAccounts" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
 		<foreignkey field-ref="organizationChartOfAccountsCode" />
@@ -1426,20 +1426,20 @@
 	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
 	<field-descriptor name="financialObjectTypeCode" column="FIN_OBJ_TYP_CD" jdbc-type="VARCHAR"/>
-	<field-descriptor name="accountLineAnnualBalanceAmount" column="ACLN_ANNL_BAL_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
+	<field-descriptor name="accountLineAnnualBalanceAmount" column="ACLN_ANNL_BAL_AMT" jdbc-type="BIGINT" conversion="org.kuali.core.util.OjbKualiIntegerFieldConversion"/>
 	<field-descriptor name="requestUpdateErrorCode" column="RQST_UPDT_ERR_CD" jdbc-type="VARCHAR"/>
-	<field-descriptor name="financialDocumentMonth1LineAmount" column="FDOC_LN_MO1_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
-	<field-descriptor name="financialDocumentMonth2LineAmount" column="FDOC_LN_MO2_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
-	<field-descriptor name="financialDocumentMonth3LineAmount" column="FDOC_LN_MO3_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
-	<field-descriptor name="financialDocumentMonth4LineAmount" column="FDOC_LN_MO4_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
-	<field-descriptor name="financialDocumentMonth5LineAmount" column="FDOC_LN_MO5_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
-	<field-descriptor name="financialDocumentMonth6LineAmount" column="FDOC_LN_MO6_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
-	<field-descriptor name="financialDocumentMonth7LineAmount" column="FDOC_LN_MO7_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
-	<field-descriptor name="financialDocumentMonth8LineAmount" column="FDOC_LN_MO8_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
-	<field-descriptor name="financialDocumentMonth9LineAmount" column="FDOC_LN_MO9_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
-	<field-descriptor name="financialDocumentMonth10LineAmount" column="FDOC_LN_MO10_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
-	<field-descriptor name="financialDocumentMonth11LineAmount" column="FDOC_LN_MO11_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
-	<field-descriptor name="financialDocumentMonth12LineAmount" column="FDOC_LN_MO12_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
+	<field-descriptor name="financialDocumentMonth1LineAmount" column="FDOC_LN_MO1_AMT" jdbc-type="BIGINT" conversion="org.kuali.core.util.OjbKualiIntegerFieldConversion"/>
+	<field-descriptor name="financialDocumentMonth2LineAmount" column="FDOC_LN_MO2_AMT" jdbc-type="BIGINT" conversion="org.kuali.core.util.OjbKualiIntegerFieldConversion"/>
+	<field-descriptor name="financialDocumentMonth3LineAmount" column="FDOC_LN_MO3_AMT" jdbc-type="BIGINT" conversion="org.kuali.core.util.OjbKualiIntegerFieldConversion"/>
+	<field-descriptor name="financialDocumentMonth4LineAmount" column="FDOC_LN_MO4_AMT" jdbc-type="BIGINT" conversion="org.kuali.core.util.OjbKualiIntegerFieldConversion"/>
+	<field-descriptor name="financialDocumentMonth5LineAmount" column="FDOC_LN_MO5_AMT" jdbc-type="BIGINT" conversion="org.kuali.core.util.OjbKualiIntegerFieldConversion"/>
+	<field-descriptor name="financialDocumentMonth6LineAmount" column="FDOC_LN_MO6_AMT" jdbc-type="BIGINT" conversion="org.kuali.core.util.OjbKualiIntegerFieldConversion"/>
+	<field-descriptor name="financialDocumentMonth7LineAmount" column="FDOC_LN_MO7_AMT" jdbc-type="BIGINT" conversion="org.kuali.core.util.OjbKualiIntegerFieldConversion"/>
+	<field-descriptor name="financialDocumentMonth8LineAmount" column="FDOC_LN_MO8_AMT" jdbc-type="BIGINT" conversion="org.kuali.core.util.OjbKualiIntegerFieldConversion"/>
+	<field-descriptor name="financialDocumentMonth9LineAmount" column="FDOC_LN_MO9_AMT" jdbc-type="BIGINT" conversion="org.kuali.core.util.OjbKualiIntegerFieldConversion"/>
+	<field-descriptor name="financialDocumentMonth10LineAmount" column="FDOC_LN_MO10_AMT" jdbc-type="BIGINT" conversion="org.kuali.core.util.OjbKualiIntegerFieldConversion"/>
+	<field-descriptor name="financialDocumentMonth11LineAmount" column="FDOC_LN_MO11_AMT" jdbc-type="BIGINT" conversion="org.kuali.core.util.OjbKualiIntegerFieldConversion"/>
+	<field-descriptor name="financialDocumentMonth12LineAmount" column="FDOC_LN_MO12_AMT" jdbc-type="BIGINT" conversion="org.kuali.core.util.OjbKualiIntegerFieldConversion"/>
 	<reference-descriptor name="chartOfAccounts" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
 		<foreignkey field-ref="chartOfAccountsCode" />
 	</reference-descriptor>
@@ -1513,7 +1513,7 @@
 	<field-descriptor name="subAccountNumber" column="SUB_ACCT_NBR" jdbc-type="VARCHAR" primarykey="true" index="true"/>
 	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
-	<field-descriptor name="accountLineAnnualBalanceAmount" column="ACLN_ANNL_BAL_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
+	<field-descriptor name="accountLineAnnualBalanceAmount" column="ACLN_ANNL_BAL_AMT" jdbc-type="BIGINT" conversion="org.kuali.core.util.OjbKualiIntegerFieldConversion"/>
 	<reference-descriptor name="organizationChartOfAccounts" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
 		<foreignkey field-ref="organizationChartOfAccountsCode" />
 	</reference-descriptor>
@@ -1559,12 +1559,12 @@
 	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
 	<field-descriptor name="appointmentFundingDurationCode" column="APPT_FND_DUR_CD" jdbc-type="VARCHAR"/>
-	<field-descriptor name="appointmentRequestedCsfAmount" column="APPT_RQST_CSF_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
+	<field-descriptor name="appointmentRequestedCsfAmount" column="APPT_RQST_CSF_AMT" jdbc-type="BIGINT" conversion="org.kuali.core.util.OjbKualiIntegerFieldConversion"/>
 	<field-descriptor name="appointmentRequestedCsfFteQuantity" column="APPT_RQCSF_FTE_QTY" jdbc-type="DECIMAL"/>
 	<field-descriptor name="appointmentRequestedCsfTimePercent" column="APPT_RQCSF_TM_PCT" jdbc-type="DECIMAL"/>
-	<field-descriptor name="appointmentTotalIntendedAmount" column="APPT_TOT_INTND_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
+	<field-descriptor name="appointmentTotalIntendedAmount" column="APPT_TOT_INTND_AMT" jdbc-type="BIGINT" conversion="org.kuali.core.util.OjbKualiIntegerFieldConversion"/>
 	<field-descriptor name="appointmentTotalIntendedFteQuantity" column="APPT_TOTINTFTE_QTY" jdbc-type="DECIMAL"/>
-	<field-descriptor name="appointmentRequestedAmount" column="APPT_RQST_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
+	<field-descriptor name="appointmentRequestedAmount" column="APPT_RQST_AMT" jdbc-type="BIGINT" conversion="org.kuali.core.util.OjbKualiIntegerFieldConversion"/>
 	<field-descriptor name="appointmentRequestedTimePercent" column="APPT_RQST_TM_PCT" jdbc-type="DECIMAL"/>
 	<field-descriptor name="appointmentRequestedFteQuantity" column="APPT_RQST_FTE_QTY" jdbc-type="DECIMAL"/>
 	<field-descriptor name="appointmentRequestedPayRate" column="APPT_RQST_PAY_RT" jdbc-type="DECIMAL"/>
@@ -1681,8 +1681,8 @@
 	<field-descriptor name="appointmentRequestedFteQuantity" column="APPT_RQST_FTE_QTY" jdbc-type="DECIMAL"/>
 	<field-descriptor name="appointmentRequestedCsfFteQuantity" column="APPT_RQCSF_FTE_QTY" jdbc-type="DECIMAL"/>
 	<field-descriptor name="csfFullTimeEmploymentQuantity" column="POS_CSF_FTE_QTY" jdbc-type="DECIMAL"/>
-	<field-descriptor name="accountLineAnnualBalanceAmount" column="ACLN_ANNL_BAL_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
-	<field-descriptor name="financialBeginningBalanceLineAmount" column="FIN_BEG_BAL_LN_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
+	<field-descriptor name="accountLineAnnualBalanceAmount" column="ACLN_ANNL_BAL_AMT" jdbc-type="BIGINT" conversion="org.kuali.core.util.OjbKualiIntegerFieldConversion"/>
+	<field-descriptor name="financialBeginningBalanceLineAmount" column="FIN_BEG_BAL_LN_AMT" jdbc-type="BIGINT" conversion="org.kuali.core.util.OjbKualiIntegerFieldConversion"/>
 	<field-descriptor name="positionCsfLeaveFteQuantity" column="POS_CSF_LV_FTE_QTY" jdbc-type="DECIMAL"/>
 	<reference-descriptor name="financialObject" class-ref="org.kuali.module.chart.bo.ObjectCode" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
 		<foreignkey field-ref="universityFiscalYear" />
@@ -1773,8 +1773,8 @@
 	<field-descriptor name="appointmentRequestedFteQuantity" column="APPT_RQST_FTE_QTY" jdbc-type="DECIMAL"/>
 	<field-descriptor name="appointmentRequestedCsfFteQuantity" column="APPT_RQCSF_FTE_QTY" jdbc-type="DECIMAL"/>
 	<field-descriptor name="csfFullTimeEmploymentQuantity" column="POS_CSF_FTE_QTY" jdbc-type="DECIMAL"/>
-	<field-descriptor name="financialBeginningBalanceLineAmount" column="FIN_BEG_BAL_LN_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
-	<field-descriptor name="accountLineAnnualBalanceAmount" column="ACLN_ANNL_BAL_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
+	<field-descriptor name="financialBeginningBalanceLineAmount" column="FIN_BEG_BAL_LN_AMT" jdbc-type="BIGINT" conversion="org.kuali.core.util.OjbKualiIntegerFieldConversion"/>
+	<field-descriptor name="accountLineAnnualBalanceAmount" column="ACLN_ANNL_BAL_AMT" jdbc-type="BIGINT" conversion="org.kuali.core.util.OjbKualiIntegerFieldConversion"/>
 	<field-descriptor name="positionCsfLeaveFteQuantity" column="POS_CSF_LV_FTE_QTY" jdbc-type="DECIMAL"/>
 	<reference-descriptor name="organizationChartOfAccounts" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
 		<foreignkey field-ref="organizationChartOfAccountsCode" />
@@ -2144,10 +2144,10 @@
 	<field-descriptor name="emplid" column="EMPLID" jdbc-type="VARCHAR" primarykey="true" index="true"/>
 	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
-	<field-descriptor name="csfAmount" column="POS_CSF_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
-	<field-descriptor name="restatedCalculatedSalaryFoundationAmount" column="RES_CSF_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
+	<field-descriptor name="csfAmount" column="POS_CSF_AMT" jdbc-type="BIGINT" conversion="org.kuali.core.util.OjbKualiIntegerFieldConversion"/>
+	<field-descriptor name="restatedCalculatedSalaryFoundationAmount" column="RES_CSF_AMT" jdbc-type="BIGINT" conversion="org.kuali.core.util.OjbKualiIntegerFieldConversion"/>
 	<field-descriptor name="csfTimePercent" column="POS_CSF_TM_PCT" jdbc-type="DECIMAL"/>
-	<field-descriptor name="salaryAmount" column="SAL_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
+	<field-descriptor name="salaryAmount" column="SAL_AMT" jdbc-type="BIGINT" conversion="org.kuali.core.util.OjbKualiIntegerFieldConversion"/>
 	<field-descriptor name="salaryPercent" column="SAL_PCT" jdbc-type="DECIMAL"/>
 	<field-descriptor name="salaryFullTimeEquivalency" column="SAL_FTE" jdbc-type="DECIMAL"/>
 	<field-descriptor name="salaryMonths" column="SAL_MTHS" jdbc-type="INTEGER"/>
@@ -2164,10 +2164,10 @@
 	<field-descriptor name="emplid" column="EMPLID" jdbc-type="VARCHAR" primarykey="true" index="true"/>
 	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
-	<field-descriptor name="csfAmount" column="POS_CSF_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
-	<field-descriptor name="appointmentRequestedAmount" column="APPT_RQST_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
+	<field-descriptor name="csfAmount" column="POS_CSF_AMT" jdbc-type="BIGINT" conversion="org.kuali.core.util.OjbKualiIntegerFieldConversion"/>
+	<field-descriptor name="appointmentRequestedAmount" column="APPT_RQST_AMT" jdbc-type="BIGINT" conversion="org.kuali.core.util.OjbKualiIntegerFieldConversion"/>
 	<field-descriptor name="appointmentRequestedFteQuantity" column="APPT_RQST_FTE_QTY" jdbc-type="DECIMAL"/>
-	<field-descriptor name="initialRequestedAmount" column="INIT_RQST_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
+	<field-descriptor name="initialRequestedAmount" column="INIT_RQST_AMT" jdbc-type="BIGINT" conversion="org.kuali.core.util.OjbKualiIntegerFieldConversion"/>
 	<field-descriptor name="initialRequestedFullTimeEquivalency" column="INIT_RQST_FTE" jdbc-type="DECIMAL"/>
 	<reference-descriptor name="organizationChartOfAccounts" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
 		<foreignkey field-ref="organizationChartOfAccountsCode" />
@@ -2255,7 +2255,7 @@
 	<field-descriptor name="financialSubObjectCode" column="FIN_SUB_OBJ_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
 	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
-	<field-descriptor name="accountLineAnnualBalanceAmount" column="ACLN_ANNL_BAL_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
+	<field-descriptor name="accountLineAnnualBalanceAmount" column="ACLN_ANNL_BAL_AMT" jdbc-type="BIGINT" conversion="org.kuali.core.util.OjbKualiIntegerFieldConversion"/>
 	<reference-descriptor name="selectedOrganization" class-ref="org.kuali.module.chart.bo.Org" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
 		<foreignkey field-ref="selectedOrganizationChartOfAccountsCode" />
 		<foreignkey field-ref="selectedOrganizationCode" />
@@ -2288,18 +2288,18 @@
 	<field-descriptor name="financialSubObjectCode" column="FIN_SUB_OBJ_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
 	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
-	<field-descriptor name="financialDocumentMonth1LineAmount" column="FDOC_LN_MO1_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
-	<field-descriptor name="financialDocumentMonth2LineAmount" column="FDOC_LN_MO2_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
-	<field-descriptor name="financialDocumentMonth3LineAmount" column="FDOC_LN_MO3_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
-	<field-descriptor name="financialDocumentMonth4LineAmount" column="FDOC_LN_MO4_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
-	<field-descriptor name="financialDocumentMonth5LineAmount" column="FDOC_LN_MO5_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
-	<field-descriptor name="financialDocumentMonth6LineAmount" column="FDOC_LN_MO6_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
-	<field-descriptor name="financialDocumentMonth7LineAmount" column="FDOC_LN_MO7_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
-	<field-descriptor name="financialDocumentMonth8LineAmount" column="FDOC_LN_MO8_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
-	<field-descriptor name="financialDocumentMonth9LineAmount" column="FDOC_LN_MO9_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
-	<field-descriptor name="financialDocumentMonth10LineAmount" column="FDOC_LN_MO10_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
-	<field-descriptor name="financialDocumentMonth11LineAmount" column="FDOC_LN_MO11_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
-	<field-descriptor name="financialDocumentMonth12LineAmount" column="FDOC_LN_MO12_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
+	<field-descriptor name="financialDocumentMonth1LineAmount" column="FDOC_LN_MO1_AMT" jdbc-type="BIGINT" conversion="org.kuali.core.util.OjbKualiIntegerFieldConversion"/>
+	<field-descriptor name="financialDocumentMonth2LineAmount" column="FDOC_LN_MO2_AMT" jdbc-type="BIGINT" conversion="org.kuali.core.util.OjbKualiIntegerFieldConversion"/>
+	<field-descriptor name="financialDocumentMonth3LineAmount" column="FDOC_LN_MO3_AMT" jdbc-type="BIGINT" conversion="org.kuali.core.util.OjbKualiIntegerFieldConversion"/>
+	<field-descriptor name="financialDocumentMonth4LineAmount" column="FDOC_LN_MO4_AMT" jdbc-type="BIGINT" conversion="org.kuali.core.util.OjbKualiIntegerFieldConversion"/>
+	<field-descriptor name="financialDocumentMonth5LineAmount" column="FDOC_LN_MO5_AMT" jdbc-type="BIGINT" conversion="org.kuali.core.util.OjbKualiIntegerFieldConversion"/>
+	<field-descriptor name="financialDocumentMonth6LineAmount" column="FDOC_LN_MO6_AMT" jdbc-type="BIGINT" conversion="org.kuali.core.util.OjbKualiIntegerFieldConversion"/>
+	<field-descriptor name="financialDocumentMonth7LineAmount" column="FDOC_LN_MO7_AMT" jdbc-type="BIGINT" conversion="org.kuali.core.util.OjbKualiIntegerFieldConversion"/>
+	<field-descriptor name="financialDocumentMonth8LineAmount" column="FDOC_LN_MO8_AMT" jdbc-type="BIGINT" conversion="org.kuali.core.util.OjbKualiIntegerFieldConversion"/>
+	<field-descriptor name="financialDocumentMonth9LineAmount" column="FDOC_LN_MO9_AMT" jdbc-type="BIGINT" conversion="org.kuali.core.util.OjbKualiIntegerFieldConversion"/>
+	<field-descriptor name="financialDocumentMonth10LineAmount" column="FDOC_LN_MO10_AMT" jdbc-type="BIGINT" conversion="org.kuali.core.util.OjbKualiIntegerFieldConversion"/>
+	<field-descriptor name="financialDocumentMonth11LineAmount" column="FDOC_LN_MO11_AMT" jdbc-type="BIGINT" conversion="org.kuali.core.util.OjbKualiIntegerFieldConversion"/>
+	<field-descriptor name="financialDocumentMonth12LineAmount" column="FDOC_LN_MO12_AMT" jdbc-type="BIGINT" conversion="org.kuali.core.util.OjbKualiIntegerFieldConversion"/>
 	<reference-descriptor name="selectedOrganizationChartOfAccounts" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
 		<foreignkey field-ref="selectedOrganizationChartOfAccountsCode" />
 	</reference-descriptor>
@@ -2408,9 +2408,9 @@
 	<field-descriptor name="emplid" column="EMPLID" jdbc-type="VARCHAR" primarykey="true" index="true"/>
 	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
-	<field-descriptor name="csfAmount" column="POS_CSF_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
+	<field-descriptor name="csfAmount" column="POS_CSF_AMT" jdbc-type="BIGINT" conversion="org.kuali.core.util.OjbKualiIntegerFieldConversion"/>
 	<field-descriptor name="csfFullTimeEmploymentQuantity" column="POS_CSF_FTE_QTY" jdbc-type="DECIMAL"/>
-	<field-descriptor name="appointmentRequestedAmount" column="APPT_RQST_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
+	<field-descriptor name="appointmentRequestedAmount" column="APPT_RQST_AMT" jdbc-type="BIGINT" conversion="org.kuali.core.util.OjbKualiIntegerFieldConversion"/>
 	<field-descriptor name="appointmentRequestedFteQuantity" column="APPT_RQST_FTE_QTY" jdbc-type="DECIMAL"/>
 </class-descriptor>
 
@@ -2444,10 +2444,10 @@
 	<field-descriptor name="positionNumber" column="POSITION_NBR" jdbc-type="VARCHAR" primarykey="true" index="true"/>
 	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
-	<field-descriptor name="salaryAmount" column="SAL_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
+	<field-descriptor name="salaryAmount" column="SAL_AMT" jdbc-type="BIGINT" conversion="org.kuali.core.util.OjbKualiIntegerFieldConversion"/>
 	<field-descriptor name="salaryPercent" column="SAL_PCT" jdbc-type="DECIMAL"/>
 	<field-descriptor name="salaryMonths" column="SAL_MTHS" jdbc-type="INTEGER"/>
-	<field-descriptor name="csfAmount" column="POS_CSF_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
+	<field-descriptor name="csfAmount" column="POS_CSF_AMT" jdbc-type="BIGINT" conversion="org.kuali.core.util.OjbKualiIntegerFieldConversion"/>
 	<field-descriptor name="csfTimePercent" column="POS_CSF_TM_PCT" jdbc-type="DECIMAL"/>
 	<field-descriptor name="salaryPayMonths" column="SAL_PMTHS" jdbc-type="INTEGER"/>
 </class-descriptor>
@@ -2475,10 +2475,10 @@
 	<field-descriptor name="emplid" column="EMPLID" jdbc-type="VARCHAR" primarykey="true" index="true"/>
 	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
-	<field-descriptor name="csfAmount" column="POS_CSF_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
-	<field-descriptor name="restatedCalculatedSalaryFoundationAmount" column="RES_CSF_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
+	<field-descriptor name="csfAmount" column="POS_CSF_AMT" jdbc-type="BIGINT" conversion="org.kuali.core.util.OjbKualiIntegerFieldConversion"/>
+	<field-descriptor name="restatedCalculatedSalaryFoundationAmount" column="RES_CSF_AMT" jdbc-type="BIGINT" conversion="org.kuali.core.util.OjbKualiIntegerFieldConversion"/>
 	<field-descriptor name="csfTimePercent" column="POS_CSF_TM_PCT" jdbc-type="DECIMAL"/>
-	<field-descriptor name="salaryAmount" column="SAL_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
+	<field-descriptor name="salaryAmount" column="SAL_AMT" jdbc-type="BIGINT" conversion="org.kuali.core.util.OjbKualiIntegerFieldConversion"/>
 	<field-descriptor name="salaryPercent" column="SAL_PCT" jdbc-type="DECIMAL"/>
 	<field-descriptor name="salaryMonths" column="SAL_MTHS" jdbc-type="INTEGER"/>
 	<field-descriptor name="salaryPayMonths" column="SAL_PMTHS" jdbc-type="INTEGER"/>
@@ -2525,20 +2525,20 @@
 	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
 	<field-descriptor name="financialObjectTypeCode" column="FIN_OBJ_TYP_CD" jdbc-type="VARCHAR"/>
-	<field-descriptor name="accountLineAnnualBalanceAmount" column="ACLN_ANNL_BAL_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
+	<field-descriptor name="accountLineAnnualBalanceAmount" column="ACLN_ANNL_BAL_AMT" jdbc-type="BIGINT" conversion="org.kuali.core.util.OjbKualiIntegerFieldConversion"/>
 	<field-descriptor name="requestUpdateErrorCode" column="RQST_UPDT_ERR_CD" jdbc-type="VARCHAR"/>
-	<field-descriptor name="financialDocumentMonth1LineAmount" column="FDOC_LN_MO1_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
-	<field-descriptor name="financialDocumentMonth2LineAmount" column="FDOC_LN_MO2_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
-	<field-descriptor name="financialDocumentMonth3LineAmount" column="FDOC_LN_MO3_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
-	<field-descriptor name="financialDocumentMonth4LineAmount" column="FDOC_LN_MO4_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
-	<field-descriptor name="financialDocumentMonth5LineAmount" column="FDOC_LN_MO5_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
-	<field-descriptor name="financialDocumentMonth6LineAmount" column="FDOC_LN_MO6_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
-	<field-descriptor name="financialDocumentMonth7LineAmount" column="FDOC_LN_MO7_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
-	<field-descriptor name="financialDocumentMonth8LineAmount" column="FDOC_LN_MO8_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
-	<field-descriptor name="financialDocumentMonth9LineAmount" column="FDOC_LN_MO9_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
-	<field-descriptor name="financialDocumentMonth10LineAmount" column="FDOC_LN_MO10_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
-	<field-descriptor name="financialDocumentMonth11LineAmount" column="FDOC_LN_MO11_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
-	<field-descriptor name="financialDocumentMonth12LineAmount" column="FDOC_LN_MO12_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
+	<field-descriptor name="financialDocumentMonth1LineAmount" column="FDOC_LN_MO1_AMT" jdbc-type="BIGINT" conversion="org.kuali.core.util.OjbKualiIntegerFieldConversion"/>
+	<field-descriptor name="financialDocumentMonth2LineAmount" column="FDOC_LN_MO2_AMT" jdbc-type="BIGINT" conversion="org.kuali.core.util.OjbKualiIntegerFieldConversion"/>
+	<field-descriptor name="financialDocumentMonth3LineAmount" column="FDOC_LN_MO3_AMT" jdbc-type="BIGINT" conversion="org.kuali.core.util.OjbKualiIntegerFieldConversion"/>
+	<field-descriptor name="financialDocumentMonth4LineAmount" column="FDOC_LN_MO4_AMT" jdbc-type="BIGINT" conversion="org.kuali.core.util.OjbKualiIntegerFieldConversion"/>
+	<field-descriptor name="financialDocumentMonth5LineAmount" column="FDOC_LN_MO5_AMT" jdbc-type="BIGINT" conversion="org.kuali.core.util.OjbKualiIntegerFieldConversion"/>
+	<field-descriptor name="financialDocumentMonth6LineAmount" column="FDOC_LN_MO6_AMT" jdbc-type="BIGINT" conversion="org.kuali.core.util.OjbKualiIntegerFieldConversion"/>
+	<field-descriptor name="financialDocumentMonth7LineAmount" column="FDOC_LN_MO7_AMT" jdbc-type="BIGINT" conversion="org.kuali.core.util.OjbKualiIntegerFieldConversion"/>
+	<field-descriptor name="financialDocumentMonth8LineAmount" column="FDOC_LN_MO8_AMT" jdbc-type="BIGINT" conversion="org.kuali.core.util.OjbKualiIntegerFieldConversion"/>
+	<field-descriptor name="financialDocumentMonth9LineAmount" column="FDOC_LN_MO9_AMT" jdbc-type="BIGINT" conversion="org.kuali.core.util.OjbKualiIntegerFieldConversion"/>
+	<field-descriptor name="financialDocumentMonth10LineAmount" column="FDOC_LN_MO10_AMT" jdbc-type="BIGINT" conversion="org.kuali.core.util.OjbKualiIntegerFieldConversion"/>
+	<field-descriptor name="financialDocumentMonth11LineAmount" column="FDOC_LN_MO11_AMT" jdbc-type="BIGINT" conversion="org.kuali.core.util.OjbKualiIntegerFieldConversion"/>
+	<field-descriptor name="financialDocumentMonth12LineAmount" column="FDOC_LN_MO12_AMT" jdbc-type="BIGINT" conversion="org.kuali.core.util.OjbKualiIntegerFieldConversion"/>
 	<field-descriptor name="documentNumber" column="FDOC_NBR" jdbc-type="VARCHAR"/>
 	<field-descriptor name="organizationLevelChartOfAccountsCode" column="ORG_COA_OF_LVL_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="organizationLevelOrganizationCode" column="ORG_OF_LVL_CD" jdbc-type="VARCHAR"/>
@@ -2600,10 +2600,10 @@
 	<field-descriptor name="positionNumber" column="POSITION_NBR" jdbc-type="VARCHAR" primarykey="true" index="true"/>
 	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
-	<field-descriptor name="salaryAmount" column="SAL_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
+	<field-descriptor name="salaryAmount" column="SAL_AMT" jdbc-type="BIGINT" conversion="org.kuali.core.util.OjbKualiIntegerFieldConversion"/>
 	<field-descriptor name="salaryPercent" column="SAL_PCT" jdbc-type="DECIMAL"/>
 	<field-descriptor name="salaryMonths" column="SAL_MTHS" jdbc-type="INTEGER"/>
-	<field-descriptor name="csfAmount" column="POS_CSF_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
+	<field-descriptor name="csfAmount" column="POS_CSF_AMT" jdbc-type="BIGINT" conversion="org.kuali.core.util.OjbKualiIntegerFieldConversion"/>
 	<field-descriptor name="csfTimePercent" column="POS_CSF_TM_PCT" jdbc-type="DECIMAL"/>
 	<field-descriptor name="salaryPayMonths" column="SAL_PMTHS" jdbc-type="INTEGER"/>
 </class-descriptor>
@@ -2631,10 +2631,10 @@
 	<field-descriptor name="emplid" column="EMPLID" jdbc-type="VARCHAR" primarykey="true" index="true"/>
 	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
-	<field-descriptor name="csfAmount" column="POS_CSF_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
-	<field-descriptor name="restatedCalculatedSalaryFoundationAmount" column="RES_CSF_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
+	<field-descriptor name="csfAmount" column="POS_CSF_AMT" jdbc-type="BIGINT" conversion="org.kuali.core.util.OjbKualiIntegerFieldConversion"/>
+	<field-descriptor name="restatedCalculatedSalaryFoundationAmount" column="RES_CSF_AMT" jdbc-type="BIGINT" conversion="org.kuali.core.util.OjbKualiIntegerFieldConversion"/>
 	<field-descriptor name="csfTimePercent" column="POS_CSF_TM_PCT" jdbc-type="DECIMAL"/>
-	<field-descriptor name="salaryAmount" column="SAL_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
+	<field-descriptor name="salaryAmount" column="SAL_AMT" jdbc-type="BIGINT" conversion="org.kuali.core.util.OjbKualiIntegerFieldConversion"/>
 	<field-descriptor name="salaryPercent" column="SAL_PCT" jdbc-type="DECIMAL"/>
 	<field-descriptor name="salaryFullTimeEquivalency" column="SAL_FTE" jdbc-type="DECIMAL"/>
 	<field-descriptor name="salaryMonths" column="SAL_MTHS" jdbc-type="INTEGER"/>
@@ -2650,10 +2650,10 @@
 	<field-descriptor name="emplid" column="EMPLID" jdbc-type="VARCHAR" primarykey="true" index="true"/>
 	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
-	<field-descriptor name="csfAmount" column="POS_CSF_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
-	<field-descriptor name="appointmentRequestedAmount" column="APPT_RQST_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
+	<field-descriptor name="csfAmount" column="POS_CSF_AMT" jdbc-type="BIGINT" conversion="org.kuali.core.util.OjbKualiIntegerFieldConversion"/>
+	<field-descriptor name="appointmentRequestedAmount" column="APPT_RQST_AMT" jdbc-type="BIGINT" conversion="org.kuali.core.util.OjbKualiIntegerFieldConversion"/>
 	<field-descriptor name="appointmentRequestedFteQuantity" column="APPT_RQST_FTE_QTY" jdbc-type="DECIMAL"/>
-	<field-descriptor name="initialRequestedAmount" column="INIT_RQST_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
+	<field-descriptor name="initialRequestedAmount" column="INIT_RQST_AMT" jdbc-type="BIGINT" conversion="org.kuali.core.util.OjbKualiIntegerFieldConversion"/>
 	<field-descriptor name="initialRequestedFullTimeEquivalency" column="INIT_RQST_FTE" jdbc-type="DECIMAL"/>
 	<reference-descriptor name="organization" class-ref="org.kuali.module.chart.bo.Org" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
 		<foreignkey field-ref="organizationChartOfAccountsCode" />

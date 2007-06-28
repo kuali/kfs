@@ -21,6 +21,7 @@ import java.util.LinkedHashMap;
 
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.core.util.KualiInteger;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.Chart;
 import org.kuali.module.chart.bo.ObjectCode;
@@ -41,12 +42,12 @@ public class BudgetConstructionAppointmentFundingLoad01Move extends PersistableB
 	private String positionNumber;
 	private String emplid;
 	private String appointmentFundingDurationCode;
-	private KualiDecimal appointmentRequestedCsfAmount;
+	private KualiInteger appointmentRequestedCsfAmount;
 	private BigDecimal appointmentRequestedCsfFteQuantity;
 	private BigDecimal appointmentRequestedCsfTimePercent;
-	private KualiDecimal appointmentTotalIntendedAmount;
+	private KualiInteger appointmentTotalIntendedAmount;
 	private BigDecimal appointmentTotalIntendedFteQuantity;
-	private KualiDecimal appointmentRequestedAmount;
+	private KualiInteger appointmentRequestedAmount;
 	private BigDecimal appointmentRequestedTimePercent;
 	private BigDecimal appointmentRequestedFteQuantity;
 	private BigDecimal appointmentRequestedPayRate;
@@ -261,27 +262,22 @@ public class BudgetConstructionAppointmentFundingLoad01Move extends PersistableB
 
 
 	/**
-	 * Gets the appointmentRequestedCsfAmount attribute.
-	 * 
-	 * @return Returns the appointmentRequestedCsfAmount
-	 * 
-	 */
-	public KualiDecimal getAppointmentRequestedCsfAmount() { 
-		return appointmentRequestedCsfAmount;
-	}
+     * Gets the appointmentRequestedCsfAmount attribute. 
+     * @return Returns the appointmentRequestedCsfAmount.
+     */
+    public KualiInteger getAppointmentRequestedCsfAmount() {
+        return appointmentRequestedCsfAmount;
+    }
 
-	/**
-	 * Sets the appointmentRequestedCsfAmount attribute.
-	 * 
-	 * @param appointmentRequestedCsfAmount The appointmentRequestedCsfAmount to set.
-	 * 
-	 */
-	public void setAppointmentRequestedCsfAmount(KualiDecimal appointmentRequestedCsfAmount) {
-		this.appointmentRequestedCsfAmount = appointmentRequestedCsfAmount;
-	}
+    /**
+     * Sets the appointmentRequestedCsfAmount attribute value.
+     * @param appointmentRequestedCsfAmount The appointmentRequestedCsfAmount to set.
+     */
+    public void setAppointmentRequestedCsfAmount(KualiInteger appointmentRequestedCsfAmount) {
+        this.appointmentRequestedCsfAmount = appointmentRequestedCsfAmount;
+    }
 
-
-	/**
+    /**
 	 * Gets the appointmentRequestedCsfFteQuantity attribute.
 	 * 
 	 * @return Returns the appointmentRequestedCsfFteQuantity
@@ -324,27 +320,22 @@ public class BudgetConstructionAppointmentFundingLoad01Move extends PersistableB
 
 
 	/**
-	 * Gets the appointmentTotalIntendedAmount attribute.
-	 * 
-	 * @return Returns the appointmentTotalIntendedAmount
-	 * 
-	 */
-	public KualiDecimal getAppointmentTotalIntendedAmount() { 
-		return appointmentTotalIntendedAmount;
-	}
+     * Gets the appointmentTotalIntendedAmount attribute. 
+     * @return Returns the appointmentTotalIntendedAmount.
+     */
+    public KualiInteger getAppointmentTotalIntendedAmount() {
+        return appointmentTotalIntendedAmount;
+    }
 
-	/**
-	 * Sets the appointmentTotalIntendedAmount attribute.
-	 * 
-	 * @param appointmentTotalIntendedAmount The appointmentTotalIntendedAmount to set.
-	 * 
-	 */
-	public void setAppointmentTotalIntendedAmount(KualiDecimal appointmentTotalIntendedAmount) {
-		this.appointmentTotalIntendedAmount = appointmentTotalIntendedAmount;
-	}
+    /**
+     * Sets the appointmentTotalIntendedAmount attribute value.
+     * @param appointmentTotalIntendedAmount The appointmentTotalIntendedAmount to set.
+     */
+    public void setAppointmentTotalIntendedAmount(KualiInteger appointmentTotalIntendedAmount) {
+        this.appointmentTotalIntendedAmount = appointmentTotalIntendedAmount;
+    }
 
-
-	/**
+    /**
 	 * Gets the appointmentTotalIntendedFteQuantity attribute.
 	 * 
 	 * @return Returns the appointmentTotalIntendedFteQuantity
@@ -366,27 +357,22 @@ public class BudgetConstructionAppointmentFundingLoad01Move extends PersistableB
 
 
 	/**
-	 * Gets the appointmentRequestedAmount attribute.
-	 * 
-	 * @return Returns the appointmentRequestedAmount
-	 * 
-	 */
-	public KualiDecimal getAppointmentRequestedAmount() { 
-		return appointmentRequestedAmount;
-	}
+     * Gets the appointmentRequestedAmount attribute. 
+     * @return Returns the appointmentRequestedAmount.
+     */
+    public KualiInteger getAppointmentRequestedAmount() {
+        return appointmentRequestedAmount;
+    }
 
-	/**
-	 * Sets the appointmentRequestedAmount attribute.
-	 * 
-	 * @param appointmentRequestedAmount The appointmentRequestedAmount to set.
-	 * 
-	 */
-	public void setAppointmentRequestedAmount(KualiDecimal appointmentRequestedAmount) {
-		this.appointmentRequestedAmount = appointmentRequestedAmount;
-	}
+    /**
+     * Sets the appointmentRequestedAmount attribute value.
+     * @param appointmentRequestedAmount The appointmentRequestedAmount to set.
+     */
+    public void setAppointmentRequestedAmount(KualiInteger appointmentRequestedAmount) {
+        this.appointmentRequestedAmount = appointmentRequestedAmount;
+    }
 
-
-	/**
+    /**
 	 * Gets the appointmentRequestedTimePercent attribute.
 	 * 
 	 * @return Returns the appointmentRequestedTimePercent

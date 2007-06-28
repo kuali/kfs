@@ -140,10 +140,10 @@ public class PaymentRequestDocumentRule extends AccountsPayableDocumentRuleBase 
             GlobalVariables.getErrorMap().putError(PurapPropertyConstants.INVOICE_NUMBER, KFSKeyConstants.ERROR_REQUIRED, PREQDocumentsStrings.INVOICE_NUMBER);
             valid &= false;
         }
-        //if (ObjectUtils.isNull(preqDocument.getVendorInvoiceAmount())) {           
-        //    GlobalVariables.getErrorMap().putError(PurapPropertyConstants.VENDOR_INVOICE_AMOUNT, KFSKeyConstants.ERROR_REQUIRED, PREQDocumentsStrings.VENDOR_INVOICE_AMOUNT);
-        //    valid &= false;
-        //}
+        if (ObjectUtils.isNull(preqDocument.getVendorInvoiceAmount())) {           
+            GlobalVariables.getErrorMap().putError(PurapPropertyConstants.VENDOR_INVOICE_AMOUNT, KFSKeyConstants.ERROR_REQUIRED, PREQDocumentsStrings.VENDOR_INVOICE_AMOUNT);
+            valid &= false;
+        }
         return valid;
     }
     
@@ -187,8 +187,7 @@ public class PaymentRequestDocumentRule extends AccountsPayableDocumentRuleBase 
         }
         else {            
             // Verify that there exists at least 1 item left to be invoiced
-            // TODO: dterret:This is to be turned on when encumberances are turned on.
-            //valid &= encumberedItemExistsForInvoicing(purchaseOrderDocument);
+            valid &= encumberedItemExistsForInvoicing(purchaseOrderDocument);
             valid = true;
         }
         return valid;
@@ -286,9 +285,9 @@ public class PaymentRequestDocumentRule extends AccountsPayableDocumentRuleBase 
                 if(item.calculateExtendedPrice().compareTo(item.getExtendedPrice())!=0) {
                 //FIXME: all these should not be newPurchasingItem fix this after jira dealing with error messages
                     GlobalVariables.getErrorMap().putError("newPurchasingItemLine", PurapKeyConstants.ERROR_PAYMENT_REQUEST_ITEM_TOTAL_NOT_EQUAL, item.getItemIdentifierString());
-                }
             }
         }
+    }
     }
     
     /**

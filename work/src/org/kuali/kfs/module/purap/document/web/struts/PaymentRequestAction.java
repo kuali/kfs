@@ -104,13 +104,13 @@ public class PaymentRequestAction extends AccountsPayableActionBase {
       
                 if (question == null) {
                   // ask question if not already asked
-                  return this.performQuestionWithoutInput(mapping, form, request, response, PurapConstants.PREQDocumentsStrings.DUPLICATE_INVOICE_QUESTION, duplicateMessages.get(PurapConstants.PREQDocumentsStrings.DUPLICATE_INVOICE_QUESTION) , KFSConstants.CONFIRMATION_QUESTION, KFSConstants.ROUTE_METHOD, "");
+                  return this.performQuestionWithoutInput(mapping, form, request, response, PREQDocumentsStrings.DUPLICATE_INVOICE_QUESTION, duplicateMessages.get(PREQDocumentsStrings.DUPLICATE_INVOICE_QUESTION) , KFSConstants.CONFIRMATION_QUESTION, KFSConstants.ROUTE_METHOD, "");
     
                 } 
                 
                 Object buttonClicked = request.getParameter(KFSConstants.QUESTION_CLICKED_BUTTON);
                
-                if ((PurapConstants.PREQDocumentsStrings.DUPLICATE_INVOICE_QUESTION.equals(question)) && ConfirmationQuestion.NO.equals(buttonClicked)) {
+                if ((PREQDocumentsStrings.DUPLICATE_INVOICE_QUESTION.equals(question)) && ConfirmationQuestion.NO.equals(buttonClicked)) {
                     
                     // if no button clicked just reload the doc in the INITIATE status and let the user to change the input values
                    
@@ -152,7 +152,7 @@ public class PaymentRequestAction extends AccountsPayableActionBase {
             GlobalVariables.getMessageList().add(PurapKeyConstants.MESSAGE_CLOSED_OR_EXPIRED_ACCOUNTS_REPLACED);
             paymentRequestService.addContinuationAccountsNote(paymentRequestDocument, expiredOrClosedAccounts);
         }
-        
+                
         //Force calculate
         preqForm.setCalculated(false);
                 
@@ -510,12 +510,12 @@ public class PaymentRequestAction extends AccountsPayableActionBase {
         preqDoc.updateExtendedPriceOnItems();
         //notice we're ignoring whether the boolean, because these are just warnings they shouldn't halt anything
         SpringServiceLocator.getKualiRuleService().applyRules(new CalculateAccountsPayableEvent(preqDoc));        
-        
+
         SpringServiceLocator.getPaymentRequestService().calculatePaymentRequest(preqDoc, true);
     }
 
-    
-    
+        
+
     /**
      * @see org.kuali.core.web.struts.action.KualiDocumentActionBase#save(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */

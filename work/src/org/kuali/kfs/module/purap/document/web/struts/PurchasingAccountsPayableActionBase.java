@@ -49,38 +49,18 @@ import edu.iu.uis.eden.exception.WorkflowException;
 public class PurchasingAccountsPayableActionBase extends KualiAccountingDocumentActionBase {
 
     @Override
-    public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-
-        ActionForward superForward = super.save(mapping, form, request, response);
-        ((KualiAccountingDocumentFormBase) form).getDocument().refreshNonUpdateableReferences();
-        ActionForward forward = refreshAccountSummary(mapping, form, request, response);
-        return superForward;
-    }
-
-    @Override
     protected void loadDocument(KualiDocumentFormBase kualiDocumentFormBase) throws WorkflowException {
-
         super.loadDocument(kualiDocumentFormBase);
-
         PurchasingAccountsPayableDocument document = (PurchasingAccountsPayableDocument) kualiDocumentFormBase.getDocument();
-        this.refreshAccountSummary(document);
+        document.refreshAccountSummary();
     }
 
     public ActionForward refreshAccountSummary(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-
         KualiAccountingDocumentFormBase baseForm = (KualiAccountingDocumentFormBase) form;
         PurchasingAccountsPayableDocument document = (PurchasingAccountsPayableDocument) baseForm.getDocument();
-        this.refreshAccountSummary(document);
+        document.refreshAccountSummary();
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
-
-    public void refreshAccountSummary(PurchasingAccountsPayableDocument document) {
-        document.refreshAccountSummary();
-//        List<PurchasingApItem> items = document.getItems();
-//        List<SourceAccountingLine> summaryAccountingLines = SpringServiceLocator.getPurapService().generateSummary(items);
-//        document.setSummaryAccounts(summaryAccountingLines);
-    }
-
 
     /**
      * @see org.kuali.kfs.web.struts.action.KualiAccountingDocumentActionBase#insertSourceLine(org.apache.struts.action.ActionMapping,

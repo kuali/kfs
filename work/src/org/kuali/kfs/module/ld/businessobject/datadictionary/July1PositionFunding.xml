@@ -64,15 +64,7 @@
                 <lookupField attributeName="chartOfAccountsCode" required="false" />                
                 <lookupField attributeName="accountNumber" required="false" />
                 <lookupField attributeName="subAccountNumber" required="false" />
-                <!-- 
-                <lookupField attributeName="emplid" required="false" />
-                <lookupField attributeName="financialObjectCode" required="false" />
-                <lookupField attributeName="financialSubObjectCode" required="false" />
-                <lookupField attributeName="july1BudgetAmount" required="false" />
-                <lookupField attributeName="july1BudgetFteQuantity" required="false" />
-                <lookupField attributeName="july1BudgetTimePercent" required="false" />
-                <lookupField attributeName="positionNumber" required="false" />
-				-->
+               
             </lookupFields>
 
             <resultFields>
@@ -146,7 +138,6 @@
                 <shortLabel>Quantity</shortLabel>
                 <summary>july1BudgetFteQuantity</summary>
                 <description>july1BudgetFteQuantity description...</description>
-                <formatterClass>org.kuali.core.web.format.CurrencyFormatter</formatterClass>
             </attributeReference>
 
             <attribute name="july1BudgetTimePercent" forceUppercase="true">

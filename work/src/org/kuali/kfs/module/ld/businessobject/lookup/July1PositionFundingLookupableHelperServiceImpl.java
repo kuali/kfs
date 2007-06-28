@@ -67,34 +67,11 @@ public class July1PositionFundingLookupableHelperServiceImpl extends AbstractLoo
 
         // get the consolidation option
         boolean isConsolidated = getLaborInquiryOptionsService().isConsolidationSelected(fieldValues);
-       
-        if (((fieldValues.get(KFSPropertyConstants.FINANCIAL_OBJECT_CODE) != null) && (fieldValues.get(KFSPropertyConstants.FINANCIAL_OBJECT_CODE).toString().length() > 0))) {
-            List emptySearchResults = new ArrayList();
-
-            // Check for a valid labor object code for this inquiry
-            if (StringUtils.indexOfAny(fieldValues.get(KFSPropertyConstants.FINANCIAL_OBJECT_CODE).toString(), LaborConstants.BalanceInquiries.VALID_LABOR_OBJECT_CODES) != 0)
-                GlobalVariables.getErrorMap().putError(LaborConstants.BalanceInquiries.ERROR_INVALID_LABOR_OBJECT_CODE, LaborConstants.BalanceInquiries.ERROR_INVALID_LABOR_OBJECT_CODE, "2");
-
-            return new CollectionIncomplete(emptySearchResults, actualCountIfTruncated);
-        }        
-        
+               
         // Parse the map and call the DAO to process the inquiry
-        // This could probably use the LookupService instead of the laborDao
-        Collection searchResultsCollection = new ArrayList();  getLaborDao().getJuly1PositionFunding(fieldValues);
-
-        // update search results according to the selected pending entry option
-        getLaborInquiryOptionsService().updateByPendingLedgerEntry(searchResultsCollection, fieldValues, pendingEntryOption, isConsolidated, false);
-
-        // sort list if default sort column given
-        List searchResults = (List) searchResultsCollection;
-        List defaultSortColumns = getDefaultSortColumns();
-        if (defaultSortColumns.size() > 0) {
-            Collections.sort(searchResults, new BeanPropertyComparator(defaultSortColumns, true));
-        }
-
+        Collection searchResults = getLaborDao().getJuly1PositionFunding(fieldValues);
         return new CollectionIncomplete(searchResults, actualCountIfTruncated);
     }
-
 
     /**
      * @see org.kuali.core.lookup.Lookupable#getInquiryUrl(org.kuali.core.bo.BusinessObject, java.lang.String)

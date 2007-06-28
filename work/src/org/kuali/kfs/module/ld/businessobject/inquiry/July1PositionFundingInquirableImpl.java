@@ -50,12 +50,7 @@ public class July1PositionFundingInquirableImpl extends AbstractLaborInquirableI
      * @see org.kuali.module.labor.web.inquirable.AbstractLaborInquirableImpl#buildUserDefinedAttributeKeyList()
      */
     protected List buildUserDefinedAttributeKeyList() {
-        List<String> keys = new ArrayList<String>();
-
-   //     keys.add(KFSPropertyConstants.EMPLID);
-     //   keys.add(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR);
-       // keys.add(KFSPropertyConstants.FINANCIAL_BALANCE_TYPE_CODE);
-        
+        List<String> keys = new ArrayList<String>();        
         return keys;
     }
 
@@ -65,8 +60,6 @@ public class July1PositionFundingInquirableImpl extends AbstractLaborInquirableI
     protected Map getUserDefinedAttributeMap() {
                
         Map userDefinedAttributeMap = new HashMap();
-//        userDefinedAttributeMap.put(KFSPropertyConstants.MONTH1_AMOUNT, "");          
-  //      userDefinedAttributeMap.put(KFSPropertyConstants.FINANCIAL_BALANCE_TYPE_CODE, LaborConstants.BalanceInquiries.ACTUALS_CODE);          
         return userDefinedAttributeMap;
     }
 

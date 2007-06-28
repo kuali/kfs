@@ -78,5 +78,5 @@ public interface LaborDao {
      * @param fieldValues
      * @return
      */
-    Iterator getJuly1PositionFunding(Map fieldValues);
+    Collection getJuly1PositionFunding(Map fieldValues);
 }

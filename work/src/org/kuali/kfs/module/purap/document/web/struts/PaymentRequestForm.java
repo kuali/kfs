@@ -42,8 +42,6 @@ import org.kuali.module.purap.document.PaymentRequestDocument;
 public class PaymentRequestForm extends AccountsPayableFormBase {
 
     private PurchaseOrderVendorStipulation newPurchaseOrderVendorStipulationLine;
-   // private boolean initialized = false;
-
     /**
      * Constructs a PurchaseOrderForm instance and sets up the appropriately casted document. 
      */

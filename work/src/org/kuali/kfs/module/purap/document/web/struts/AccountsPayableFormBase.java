@@ -24,6 +24,7 @@ public class AccountsPayableFormBase extends PurchasingAccountsPayableFormBase {
     
     private PurchasingApItem newPurchasingItemLine;
     private Boolean notOtherDeliveryBuilding = true;
+    private boolean calculated = true;
     
     /**
      * Constructs a RequisitionForm instance and sets up the appropriately casted document. 
@@ -65,6 +66,12 @@ public class AccountsPayableFormBase extends PurchasingAccountsPayableFormBase {
     }
     public void setNotOtherDeliveryBuilding(Boolean notOtherDeliveryBuilding) {
         this.notOtherDeliveryBuilding = notOtherDeliveryBuilding;
+    }
+    public boolean isCalculated() {
+        return calculated;
+    }
+    public void setCalculated(boolean calculated) {
+        this.calculated = calculated;
     }
        
 }

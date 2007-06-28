@@ -50,9 +50,10 @@ import org.kuali.module.purap.document.PaymentRequestDocument;
 import org.kuali.module.purap.document.PurchaseOrderDocument;
 import org.kuali.module.purap.document.PurchasingAccountsPayableDocument;
 import org.kuali.module.purap.exceptions.PurError;
+import org.kuali.module.purap.rule.CalculateAccountsPayableRule;
 import org.kuali.module.purap.rule.ContinueAccountsPayableRule;
 
-public class PaymentRequestDocumentRule extends AccountsPayableDocumentRuleBase implements ContinueAccountsPayableRule {
+public class PaymentRequestDocumentRule extends AccountsPayableDocumentRuleBase implements ContinueAccountsPayableRule, CalculateAccountsPayableRule {
 
     private static KualiDecimal zero = new KualiDecimal(0);
     private static BigDecimal ONE_HUNDRED = BigDecimal.valueOf(100);
@@ -76,7 +77,8 @@ public class PaymentRequestDocumentRule extends AccountsPayableDocumentRuleBase 
     protected boolean processCustomRouteDocumentBusinessRules(Document document) {
         boolean isValid = true;
         PurchasingAccountsPayableDocument purapDocument = (PurchasingAccountsPayableDocument) document;
-        validateTotals((PaymentRequestDocument)purapDocument);
+        //not needed, this is done on calculate if we need to warn them outside of calculate that has to be done elsewhere
+        //validateTotals((PaymentRequestDocument)purapDocument);
         isValid &= validateRouteFiscal(purapDocument);
         isValid &= processValidation(purapDocument);
         return isValid; 
@@ -86,7 +88,8 @@ public class PaymentRequestDocumentRule extends AccountsPayableDocumentRuleBase 
     protected boolean processCustomSaveDocumentBusinessRules(Document document) {
         boolean isValid = true;
         PaymentRequestDocument paymentRequestDocument = (PaymentRequestDocument) document;
-        validateTotals(paymentRequestDocument);
+        //not needed, this is done on calculate.if we need to warn them outside of calculate that has to be done elsewhere
+        //        validateTotals(paymentRequestDocument);
         //Had to do it this way because the processItemValidation in the superclass contains
         //some validations that won't be needed for save (e.g. the total must be 100%), so
         //that I couldn't call the super.processItemValidation within the processItemValidation
@@ -105,7 +108,7 @@ public class PaymentRequestDocumentRule extends AccountsPayableDocumentRuleBase 
         return valid;
     }
 
-    public boolean processCalculateBusinessRules(AccountsPayableDocument apDocument) {
+    public boolean processCalculateAccountsPayableBusinessRules(AccountsPayableDocument apDocument) {
         boolean valid = true;
         PaymentRequestDocument paymentRequestDocument = (PaymentRequestDocument)apDocument;
         validateTotals(paymentRequestDocument);
@@ -279,10 +282,11 @@ public class PaymentRequestDocumentRule extends AccountsPayableDocumentRuleBase 
     private void flagLineItemTotals(List<PurchasingApItem> itemList) {
         for (PurchasingApItem purApItem : itemList) {
             PaymentRequestItem item = (PaymentRequestItem)purApItem;
-            if (item.getItemInvoicedQuantity()!= null) {
-                KualiDecimal calculatedTotal = (item.getItemInvoicedQuantity()).multiply(new KualiDecimal(item.getItemUnitPrice()).setScale(2));
-                //TODO: When PaymentRequestItem has the "unmatchedTotalFlag" created, add this line to it
-                //item.setUnmatchedTotalFlag((calculatedTotal == null) || (!calculatedTotal.equals(item.getExtendedPrice())));
+            if (item.getItemQuantity()!= null) {
+                if(item.calculateExtendedPrice().compareTo(item.getExtendedPrice())!=0) {
+                //FIXME: all these should not be newPurchasingItem fix this after jira dealing with error messages
+                    GlobalVariables.getErrorMap().putError("newPurchasingItemLine", PurapKeyConstants.ERROR_PAYMENT_REQUEST_ITEM_TOTAL_NOT_EQUAL, item.getItemIdentifierString());
+                }
             }
         }
     }

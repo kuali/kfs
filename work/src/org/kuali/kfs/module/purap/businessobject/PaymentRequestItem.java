@@ -180,23 +180,23 @@ public class PaymentRequestItem extends AccountsPayableItemBase {
     }
       
 	/**
-	 * Gets the itemInvoicedQuantity attribute.
+	 * don't use this, use itemQuantity instead
 	 * 
 	 * @return Returns the itemInvoicedQuantity
-	 * 
+	 * @deprecated
 	 */
 	public KualiDecimal getItemInvoicedQuantity() { 
-		return itemInvoicedQuantity;
+		return getItemQuantity();
 	}
 
 	/**
-	 * Sets the itemInvoicedQuantity attribute.
+	 * don't use this, use itemQuantity instead
 	 * 
 	 * @param itemInvoicedQuantity The itemInvoicedQuantity to set.
-	 * 
+	 * @deprecated
 	 */
 	public void setItemInvoicedQuantity(KualiDecimal itemInvoicedQuantity) {
-		this.itemInvoicedQuantity = itemInvoicedQuantity;
+		this.setItemQuantity(itemInvoicedQuantity);
 	}
 
 

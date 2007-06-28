@@ -72,6 +72,10 @@ public class PurapKeyConstants {
     public static final String PURCHASE_ORDER_CANCEL_QUOTE_NOTE_TEXT = "purchaseOrder.route.message.cancel.note.text";
     public static final String ERROR_PURCHASE_ORDER_QUOTE_NO_VENDOR_AWARDED= "error.transmit.purchaseOrder.noVendorAwarded";
     
+    // Accounts Payable
+    public static final String ERROR_SAVE_REQUIRES_CALCULATE="errors.save.calculationRequired";
+    public static final String ERROR_APPROVE_REQUIRES_CALCULATE="errors.save.calculationRequired";
+    
     //Payment Request
     public static final String ERROR_PURCHASE_ORDER_NOT_EXIST="error.invoice.purchaseOrder.notExist";
     public static final String ERROR_PURCHASE_ORDER_NOT_OPEN="error.invoice.purchaseOrder.notOpen";
@@ -83,7 +87,8 @@ public class PurapKeyConstants {
     public static final String ERROR_CANCEL_CANCELLED="errors.cancel.cancelled";
     public static final String ERROR_CANCEL_EXTRACTED="errors.cancel.extracted";
     public static final String ERROR_PAYMENT_REQUEST_NOT_IN_PROCESS = "error.paymentRequest.not.inProcess";
-   
+    public static final String ERROR_PAYMENT_REQUEST_ITEM_TOTAL_NOT_EQUAL = "error.paymentRequest.item.TotalInvoice.notEqual";
+    
     public static final String MESSAGE_DUPLICATE_INVOICE_DATE_AMOUNT="message.duplicate.preq.date.amount";
     public static final String MESSAGE_DUPLICATE_INVOICE_DATE_AMOUNT_CANCELLEDORVOIDED="message.duplicate.invoice.date.amount.cancelledOrVoided";
     public static final String MESSAGE_DUPLICATE_INVOICE_DATE_AMOUNT_VOIDED="message.duplicate.invoice.date.amount.voided";

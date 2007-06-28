@@ -16,7 +16,6 @@
 package org.kuali.module.purap.web.struts.action;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -37,10 +36,11 @@ import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.PurapKeyConstants;
 import org.kuali.module.purap.PurapConstants.PREQDocumentsStrings;
-import org.kuali.module.purap.bo.PaymentRequestItem;
+import org.kuali.module.purap.document.AccountsPayableDocument;
 import org.kuali.module.purap.document.PaymentRequestDocument;
 import org.kuali.module.purap.document.PurchaseOrderDocument;
 import org.kuali.module.purap.question.SingleConfirmationQuestion;
+import org.kuali.module.purap.rule.event.CalculateAccountsPayableEvent;
 import org.kuali.module.purap.rule.event.ContinueAccountsPayableEvent;
 import org.kuali.module.purap.service.PaymentRequestService;
 import org.kuali.module.purap.web.struts.form.PaymentRequestForm;
@@ -52,7 +52,7 @@ import edu.iu.uis.eden.exception.WorkflowException;
  * 
  */
 public class PaymentRequestAction extends AccountsPayableActionBase {
-    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PaymentRequestAction.class);
+    static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PaymentRequestAction.class);
     
     /**
      * Do initialization for a new requisition
@@ -124,7 +124,7 @@ public class PaymentRequestAction extends AccountsPayableActionBase {
         // If we are here either there was no duplicate or there was a duplicate and the user hits continue, in either case we need to validate the business rules
         paymentRequestDocument.getDocumentHeader().setFinancialDocumentDescription("dummy data to pass the business rule");
         boolean rulePassed = SpringServiceLocator.getKualiRuleService().applyRules(new ContinueAccountsPayableEvent(paymentRequestDocument));        
-                
+        
         if (rulePassed) {           
             paymentRequestDocument.populatePaymentRequestFromPurchaseOrder(purchaseOrderDocument);
             paymentRequestDocument.setStatusCode(PurapConstants.PaymentRequestStatuses.IN_PROCESS);
@@ -152,6 +152,9 @@ public class PaymentRequestAction extends AccountsPayableActionBase {
             GlobalVariables.getMessageList().add(PurapKeyConstants.MESSAGE_CLOSED_OR_EXPIRED_ACCOUNTS_REPLACED);
             paymentRequestService.addContinuationAccountsNote(paymentRequestDocument, expiredOrClosedAccounts);
         }
+        
+        //Force calculate
+        preqForm.setCalculated(false);
                 
         return super.refresh(mapping, form, request, response);
         //return mapping.findForward(KFSConstants.MAPPING_PORTAL);
@@ -498,28 +501,21 @@ public class PaymentRequestAction extends AccountsPayableActionBase {
     }
 
     /**
-     * This action puts a payment on hold, prompting for a reason before hand.
-     * This stops further approvals or routing.
-     * 
-     * @param mapping
-     * @param form
-     * @param request
-     * @param response
-     * @return
-     * @throws Exception
+     * calls a service method to calculate for a payment request document
      */
-    public ActionForward calculate(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {    
-        LOG.debug("calculate() method");
-
-        KualiDocumentFormBase kualiDocumentFormBase = (KualiDocumentFormBase) form;
-        PaymentRequestDocument preqDocument = (PaymentRequestDocument) kualiDocumentFormBase.getDocument();
-
-        //call the calculate service method
-        SpringServiceLocator.getPaymentRequestService().calculatePaymentRequest(preqDocument, true);
+    @Override
+    protected void customCalculate(AccountsPayableDocument apDoc) {
+        PaymentRequestDocument preqDoc = (PaymentRequestDocument)apDoc;
+        //set amounts on any empty
+        preqDoc.updateExtendedPriceOnItems();
+        //notice we're ignoring whether the boolean, because these are just warnings they shouldn't halt anything
+        SpringServiceLocator.getKualiRuleService().applyRules(new CalculateAccountsPayableEvent(preqDoc));        
         
-        return mapping.findForward(KFSConstants.MAPPING_BASIC);
+        SpringServiceLocator.getPaymentRequestService().calculatePaymentRequest(preqDoc, true);
     }
 
+    
+    
     /**
      * @see org.kuali.core.web.struts.action.KualiDocumentActionBase#save(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */

@@ -39,9 +39,13 @@
     <!-- html:hidden property="document.purchaseOrderEncumbranceFiscalYear" / --> 
     <html:hidden property="document.paymentRequestCostSourceCode" />
     <html:hidden property="document.accountsPayableProcessorIdentifier" />
-    <html:hidden property="document.vendorInvoiceAmount" />
+    <c:if test="${not KualiForm.editingMode['displayInitTab'] }">
+	    <html:hidden property="document.vendorInvoiceAmount" />
+	</c:if>
     <!-- html:hidden property="document.paymentRequestInitiated" /-->
-    
+	
+	<html:hidden property="calculated" />
+	    
     <!-- TODO move this to where? -->
     <!-- html:hidden property="document.requisitionIdentifier" / -->
 

@@ -862,7 +862,15 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
             }
         }
     }
-    
+
+    public void updateExtendedPriceOnItems() {
+        for (PaymentRequestItem item : (List<PaymentRequestItem>)this.getItems()) {
+            if(ObjectUtils.isNull(item.getExtendedPrice())) {
+                KualiDecimal newExtendedPrice = item.calculateExtendedPrice();
+                item.setExtendedPrice(newExtendedPrice);
+            }
+        }
+    }
     /**
      * @see org.kuali.module.purap.document.PurchasingAccountsPayableDocumentBase#getSourceAccountingLineClass()
      */

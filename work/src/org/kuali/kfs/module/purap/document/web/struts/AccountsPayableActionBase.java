@@ -15,27 +15,26 @@
  */
 package org.kuali.module.purap.web.struts.action;
 
-import java.util.List;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.kuali.core.service.BusinessObjectService;
+import org.kuali.Constants;
+import org.kuali.core.util.GlobalVariables;
 import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.bo.SourceAccountingLine;
 import org.kuali.kfs.util.SpringServiceLocator;
-import org.kuali.kfs.web.struts.action.KualiAccountingDocumentActionBase;
+import org.kuali.module.purap.PurapKeyConstants;
 import org.kuali.module.purap.bo.PurchasingApItem;
+import org.kuali.module.purap.document.AccountsPayableDocument;
 import org.kuali.module.purap.document.AccountsPayableDocumentBase;
-import org.kuali.module.purap.document.PurchasingAccountsPayableDocument;
+import org.kuali.module.purap.document.PaymentRequestDocument;
 import org.kuali.module.purap.document.PurchasingDocument;
 import org.kuali.module.purap.web.struts.form.AccountsPayableFormBase;
+import org.kuali.module.purap.web.struts.form.PaymentRequestForm;
 import org.kuali.module.purap.web.struts.form.PurchasingFormBase;
 import org.kuali.module.vendor.bo.VendorAddress;
-import org.kuali.module.vendor.service.PhoneNumberService;
 
 /**
  * This class handles specific Actions requests for the AP.
@@ -97,6 +96,52 @@ public class AccountsPayableActionBase extends PurchasingAccountsPayableActionBa
         PurchasingDocument purDocument = (PurchasingDocument) purchasingForm.getDocument();
         purDocument.deleteItem(getSelectedLine(request));
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
+    }
+
+    public ActionForward calculate(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {    
+            LOG.debug("calculate() method");
+            AccountsPayableFormBase apForm = (AccountsPayableFormBase)form;
+            AccountsPayableDocument apDoc = (AccountsPayableDocument) apForm.getDocument();
+            
+            customCalculate(apDoc);
+            
+            //doesn't really matter what happens above we still reset the calculate flag
+            apForm.setCalculated(true);
+            
+            return mapping.findForward(KFSConstants.MAPPING_BASIC);
+        }
+
+    /**
+     * This method is an overridable area to do calculate specific tasks
+     * @param apDoc
+     */
+    protected void customCalculate(AccountsPayableDocument apDoc) {
+        //do nothing by default
+    }
+
+
+
+
+
+    @Override
+    public ActionForward approve(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        PaymentRequestForm preqForm = (PaymentRequestForm) form;
+        if(preqForm.isCalculated()) {
+            return super.approve(mapping, form, request, response);
+        }
+        GlobalVariables.getErrorMap().putError(Constants.DOCUMENT_ERRORS, PurapKeyConstants.ERROR_APPROVE_REQUIRES_CALCULATE);
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
+    }
+
+    @Override
+    public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        PaymentRequestForm preqForm = (PaymentRequestForm) form;
+        if(preqForm.isCalculated()) {
+            return super.save(mapping, form, request, response);
+        }
+        GlobalVariables.getErrorMap().putError(Constants.DOCUMENT_ERRORS, PurapKeyConstants.ERROR_SAVE_REQUIRES_CALCULATE);
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
+        
     }
     
 }

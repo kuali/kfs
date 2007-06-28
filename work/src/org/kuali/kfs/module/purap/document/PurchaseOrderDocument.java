@@ -689,7 +689,14 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase implements Cop
         //setting it to new to avoid recursion problem (if deep copy checked for recursive objects or ignored transient we wouldn't need this)
         documentBusinessObject = new PurchaseOrderDocument();
         try {
+            // Need to copy and clear this identifier before copy so that related documents appear to be none
+            Integer tmpIdentifier = this.getAccountsPayablePurchasingDocumentLinkIdentifier();
+            this.setAccountsPayablePurchasingDocumentLinkIdentifier(null);
+
             ObjectUtils.setObjectPropertyDeep(this, KFSPropertyConstants.DOCUMENT_NUMBER, documentNumber.getClass(), newDoc.getDocumentNumber());
+
+            // now set the identifier again to maintain the related docs
+            this.setAccountsPayablePurchasingDocumentLinkIdentifier(tmpIdentifier);
         }
         catch (IllegalAccessException e) {
             //ignore for now, we need a rice change to ignore these transient and self referential fields 

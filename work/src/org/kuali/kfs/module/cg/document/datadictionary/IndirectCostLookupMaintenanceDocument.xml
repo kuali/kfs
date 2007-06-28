@@ -22,6 +22,7 @@
     <maintenanceDocument>
         <businessObjectClass>org.kuali.module.kra.budget.bo.IndirectCostLookup</businessObjectClass>
         <maintainableClass>org.kuali.core.maintenance.KualiMaintainableImpl</maintainableClass>
+        <businessRulesClass>org.kuali.module.kra.budget.rules.IndirectCostLookupRule</businessRulesClass>
 
         <documentAuthorizerClass>org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase</documentAuthorizerClass>
         <authorizations>

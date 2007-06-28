@@ -154,6 +154,9 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
      */
     @Override
     public void toCopy() throws WorkflowException, ValidationException {
+        // Need to clear this identifier before copy so that related documents appear to be none
+        this.setAccountsPayablePurchasingDocumentLinkIdentifier(null);
+        
         super.toCopy();
 
         ChartUser currentUser = (ChartUser)GlobalVariables.getUserSession().getUniversalUser().getModuleUser( ChartUser.MODULE_ID );
@@ -217,7 +220,6 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
         this.setOrganizationAutomaticPurchaseOrderLimit(null);
         this.setPurchaseOrderAutomaticIndicator(false);
         this.setStatusHistories(null);
-        this.setAccountsPayablePurchasingDocumentLinkIdentifier(null);
         
         // Fill the BO Notes with an empty List.
         this.setBoNotes(new ArrayList());

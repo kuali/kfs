@@ -63,20 +63,4 @@ public class RequisitionAction extends PurchasingActionBase {
         return forward;
     }
 
-    @Override
-    public ActionForward route(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        KualiAccountingDocumentFormBase baseForm = (KualiAccountingDocumentFormBase) form;
-        PurchasingAccountsPayableDocument document = (PurchasingAccountsPayableDocument)baseForm.getDocument();
-        refreshAccountSummary(document);
-        return super.route(mapping, form, request, response);
-    }
-
-    @Override
-    public ActionForward approve(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        KualiAccountingDocumentFormBase baseForm = (KualiAccountingDocumentFormBase) form;
-        PurchasingAccountsPayableDocument document = (PurchasingAccountsPayableDocument)baseForm.getDocument();
-        refreshAccountSummary(document);
-        return super.approve(mapping, form, request, response);
-    }
-
 }

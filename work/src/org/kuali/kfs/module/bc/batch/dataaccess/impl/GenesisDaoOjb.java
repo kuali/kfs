@@ -1110,8 +1110,11 @@ public class GenesisDaoOjb extends PlatformAwareDaoBaseOjb
                 BudgetConstructionConstants.BUDGET_CONSTRUCTION_DOCUMENT_DESCRIPTION);
         getPersistenceBrokerTemplate().store(newBCHdr);
         documentService.prepareWorkflowDocument(newBCHdr);
-        workflowDocumentService.route(newBCHdr.getDocumentHeader().getWorkflowDocument(),
-                                      "created by Genesis",null);
+        // this is more efficient than route and does what we want
+        // it calls a document method, not a service
+        newBCHdr.getDocumentHeader().getWorkflowDocument().complete("created by Genesis");
+//        workflowDocumentService.route(newBCHdr.getDocumentHeader().getWorkflowDocument(),
+//                                      "created by Genesis",null);
    }
     
         
@@ -4336,10 +4339,11 @@ public class GenesisDaoOjb extends PlatformAwareDaoBaseOjb
         newBCHdr.setVersionNumber(DEFAULT_VERSION_NUMBER);
         DocumentHeader kualiDocumentHeader = newBCHdr.getDocumentHeader();
         newBCHdr.setDocumentNumber(newBCHdr.getDocumentHeader().getDocumentNumber());
-        kualiDocumentHeader.setOrganizationDocumentNumber(
-                            newBCHdr.getUniversityFiscalYear().toString());
-//        kualiDocumentHeader.setFinancialDocumentStatusCode(
-//                KFSConstants.INITIAL_KUALI_DOCUMENT_STATUS_CD);
+//   this settting apparently has not effect on workflow
+//        kualiDocumentHeader.setOrganizationDocumentNumber(
+//                            newBCHdr.getUniversityFiscalYear().toString());
+        kualiDocumentHeader.setFinancialDocumentStatusCode(
+                KFSConstants.INITIAL_KUALI_DOCUMENT_STATUS_CD);
         kualiDocumentHeader.setFinancialDocumentStatusCode(
                 EdenConstants.ROUTE_HEADER_FINAL_CD);
         kualiDocumentHeader.setFinancialDocumentTotalAmount(KualiDecimal.ZERO);
@@ -4354,8 +4358,11 @@ public class GenesisDaoOjb extends PlatformAwareDaoBaseOjb
         documentService.prepareWorkflowDocument(newBCHdr);
         StringBuffer annotateDoc = new StringBuffer("created by Genesis--test");
         annotateDoc.append(newBCHdr.getDocumentNumber());
-        workflowDocumentService.route(newBCHdr.getDocumentHeader().getWorkflowDocument(),
-                                      annotateDoc.toString(),null);
+//  the service does not have a complete method, but the document does        
+//        workflowDocumentService.route(newBCHdr.getDocumentHeader().getWorkflowDocument(),
+//                                      annotateDoc.toString(),null);
+        newBCHdr.getDocumentHeader().getWorkflowDocument().complete(annotateDoc.toString());
+//        
 //        KHUNTLEY does not have superuser privileges
 //        the procurement card does a superUserApprove, and its test uses KULUSER 
 //        KULUSER works for us as well, but for our document the superUser method

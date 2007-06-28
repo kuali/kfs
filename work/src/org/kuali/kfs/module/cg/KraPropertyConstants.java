@@ -19,6 +19,10 @@ import org.kuali.core.JstlConstants;
 
 public class KraPropertyConstants extends JstlConstants {
     
+    // Common document values 
+    public static final String DOCUMENT = "document";
+    public static final String NEW_MAINTAINABLE_OBJECT = "newMaintainableObject";
+    
     // Research Risk Type
     public static final String RESEARCH_RISK_TYPE_DESCRIPTION = "researchRiskTypeDescription";
     public static final String CONTROL_ATTRIBUTE_TYPE_CODE = "controlAttributeTypeCode";
@@ -26,4 +30,7 @@ public class KraPropertyConstants extends JstlConstants {
     
     // Question Type
     public static final String QUESTION_TYPE_DESCRIPTION = "questionTypeDescription";
+    
+    // Indirect Cost Lookup
+    public static final String COST_RATE = "budgetIndirectCostRate";
 }

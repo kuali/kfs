@@ -140,7 +140,8 @@ public class PositionSalarySettingForm extends KualiForm {
         SpringServiceLocator.getPersistenceService().retrieveReferenceObjects(line, REFRESH_FIELDS);
         
         //add to totals
-        if (line.getBcnCalculatedSalaryFoundationTracker().get(0) != null){
+        // bcnCalculatedSalaryFoundationTracker is a list with either zero or one entries
+        if (line.getBcnCalculatedSalaryFoundationTracker().size() > 0){
             if (line.getBcnCalculatedSalaryFoundationTracker().get(0).getCsfAmount() != null){
                 bcPosn.setBcsfCsfAmountTotal(bcPosn.getBcsfCsfAmountTotal().add(line.getBcnCalculatedSalaryFoundationTracker().get(0).getCsfAmount()));
             }

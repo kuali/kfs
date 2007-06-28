@@ -55,6 +55,7 @@ public class KraKeyConstants {
     public static final String ERROR_NO_PERSON_SELECTED = "error.noPermissionSelected";
     public static final String ERROR_NO_ORG_SELECTED = "error.noOrgSelected";
     public static final String ERROR_INDIRECT_COST_MANUAL_RATE_TOO_BIG = "error.indirectCost.manualRate.tooBig";
+    public static final String ERROR_INDIRECT_COST_RATE_MALFORMED = "error.indirectCost.costRate.invalidFormat";
 
     
     // KRA Audit Errors

@@ -27,6 +27,7 @@ import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.core.exceptions.UserNotFoundException;
 import org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase;
 import org.kuali.core.service.DictionaryValidationService;
+import org.kuali.core.util.ErrorMap;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.KFSConstants;
@@ -35,6 +36,7 @@ import org.kuali.kfs.bo.Building;
 import org.kuali.kfs.service.GeneralLedgerPendingEntryService;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.chart.bo.Account;
+import org.kuali.module.chart.bo.AccountGuideline;
 import org.kuali.module.chart.bo.ChartUser;
 import org.kuali.module.chart.bo.IcrAutomatedEntry;
 import org.kuali.module.chart.bo.SubFundGroup;
@@ -129,6 +131,9 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
         // default to success
         boolean success = true;
 
+		// validate the embedded AccountGuideline object
+        success &= checkAccountGuidelinesValidation( newAccount.getAccountGuideline() ); 
+        
         success &= checkEmptyValues(document);
         success &= checkGeneralRules(document);
         success &= checkCloseAccount(document);
@@ -177,6 +182,15 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
         return success;
     }
 
+    protected boolean checkAccountGuidelinesValidation( AccountGuideline accountGuideline ) {
+        ErrorMap map = GlobalVariables.getErrorMap();
+        int errorCount = map.getErrorCount();
+        GlobalVariables.getErrorMap().addToErrorPath("document.newMaintainableObject.accountGuideline");
+        dictionaryValidationService.validateBusinessObject( accountGuideline, false ); 
+        GlobalVariables.getErrorMap().removeFromErrorPath("document.newMaintainableObject.accountGuideline");
+        return map.getErrorCount() == errorCount; 
+    }
+    
     /**
      * 
      * This method determines whether the guidelines are required, based on business rules.

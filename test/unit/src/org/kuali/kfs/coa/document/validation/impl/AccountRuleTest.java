@@ -23,15 +23,18 @@ import java.sql.Timestamp;
 import java.util.Calendar;
 
 import org.apache.commons.lang.time.DateUtils;
+import org.kuali.KeyConstants;
 import org.kuali.core.bo.user.AuthenticationUserId;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.core.exceptions.UserNotFoundException;
+import org.kuali.core.util.GlobalVariables;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSKeyConstants;
 import org.kuali.kfs.bo.Options;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.chart.bo.Account;
+import org.kuali.module.chart.bo.AccountGuideline;
 import org.kuali.module.chart.bo.SubFundGroup;
 import org.kuali.test.WithTestSpringContext;
 
@@ -1603,4 +1606,40 @@ private void disableBeginBalanceLoadInd(){
 
     }
 
+    @SuppressWarnings("deprecation")
+    public void testDataDictionaryValidation_AccountPurpose_TooLong() {
+    	Account oldAccount = new Account();
+    	newAccount.setAccountGuideline( new AccountGuideline() );
+    	newAccount.getAccountGuideline().setAccountPurposeText( "01324567890123456789012345678901324567890132456789012345678901234567890132456789\r" + 
+    			"01324567890123456789012345678901324567890132456789012345678901234567890132456789\r" + 
+    			"01324567890123456789012345678901324567890132456789012345678901234567890132456789\r" + 
+    			"01324567890123456789012345678901324567890132456789012345678901234567890132456789\r" + 
+    			"01324567890123456789012345678901324567890132456789012345678901234567890132456789" );
+    	assertTrue( "Purpose text should be more than 400 characters.  (was: " + newAccount.getAccountGuideline().getAccountPurposeText().length() +")",
+    			newAccount.getAccountGuideline().getAccountPurposeText().length() > 400 );
+    	MaintenanceDocument maintDoc = newMaintDoc(oldAccount, newAccount);
+        AccountRule rule = (AccountRule) setupMaintDocRule(maintDoc, AccountRule.class);
+        rule.processCustomRouteDocumentBusinessRules( maintDoc );
+        //System.out.println( GlobalVariables.getErrorMap().entrySet() );
+        assertFieldErrorExists( "accountGuideline.accountPurposeText", KeyConstants.ERROR_MAX_LENGTH );
+    }
+
+    @SuppressWarnings("deprecation")
+    public void testDataDictionaryValidation_AccountPurpose_GoodLength() {
+    	Account oldAccount = new Account();
+    	newAccount.setAccountGuideline( new AccountGuideline() );
+    	newAccount.getAccountGuideline().setAccountPurposeText( "01324567890123456789012345678901324567890132456789012345678901234567890132456789\r" + 
+    			"01324567890123456789012345678901324567890132456789012345678901234567890132456789\r" + 
+    			"01324567890123456789012345678901324567890132456789012345678901234567890132456789\r" + 
+    			"01324567890123456789012345678901324567890132456789012345678901234567890132456789\r" + 
+    			"013245678901234567890123456789013245678901324567890123456789012345678901324" );
+    	System.out.println( newAccount.getAccountGuideline().getAccountPurposeText().length() );
+    	assertTrue( "Purpose text should be <= 400 characters.  (was: " + newAccount.getAccountGuideline().getAccountPurposeText().length() +")",
+    			newAccount.getAccountGuideline().getAccountPurposeText().length() <= 400 );
+    	MaintenanceDocument maintDoc = newMaintDoc(oldAccount, newAccount);
+        AccountRule rule = (AccountRule) setupMaintDocRule(maintDoc, AccountRule.class);
+        rule.processCustomRouteDocumentBusinessRules( maintDoc );
+        System.out.println( GlobalVariables.getErrorMap().entrySet() );
+        assertFieldErrorDoesNotExist( "accountGuideline.accountPurposeText", KeyConstants.ERROR_MAX_LENGTH );
+    }
 }

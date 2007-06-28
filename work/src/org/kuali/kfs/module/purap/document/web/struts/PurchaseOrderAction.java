@@ -30,13 +30,11 @@ import org.apache.struts.action.ActionMapping;
 import org.apache.struts.action.ActionMessage;
 import org.apache.struts.action.ActionMessages;
 import org.kuali.Constants;
-import org.kuali.core.bo.DocumentHeader;
 import org.kuali.core.bo.Note;
 import org.kuali.core.question.ConfirmationQuestion;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.GlobalVariables;
-import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.web.struts.form.KualiDocumentFormBase;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.util.SpringServiceLocator;
@@ -55,6 +53,7 @@ import org.kuali.module.purap.question.SingleConfirmationQuestion;
 import org.kuali.module.purap.web.struts.form.PurchaseOrderForm;
 import org.kuali.module.purap.web.struts.form.PurchasingFormBase;
 import org.kuali.module.vendor.VendorConstants;
+import org.kuali.module.vendor.VendorConstants.AddressTypes;
 import org.kuali.module.vendor.bo.VendorAddress;
 import org.kuali.module.vendor.bo.VendorDetail;
 import org.kuali.module.vendor.bo.VendorPhoneNumber;
@@ -102,7 +101,7 @@ public class PurchaseOrderAction extends PurchasingActionBase {
                 newPOVendorQuote.setVendorDetailAssignedIdentifier(newVendor.getVendorDetailAssignedIdentifier());
                 newPOVendorQuote.setDocumentNumber(document.getDocumentNumber());
                 for (VendorAddress address : newVendor.getVendorAddresses()) {
-                    if (PurapConstants.PO_DOC_TYPE_CODE.equals(address.getVendorAddressTypeCode())) {
+                    if (AddressTypes.PURCHASE_ORDER.equals(address.getVendorAddressTypeCode())) {
                         newPOVendorQuote.setVendorCityName(address.getVendorCityName());
                         newPOVendorQuote.setVendorCountryCode(address.getVendorCountryCode());
                         newPOVendorQuote.setVendorLine1Address(address.getVendorLine1Address());
@@ -142,7 +141,7 @@ public class PurchaseOrderAction extends PurchasingActionBase {
             newPOVendorQuote.setVendorDetailAssignedIdentifier(newVendor.getVendorDetailAssignedIdentifier());
             newPOVendorQuote.setDocumentNumber(document.getDocumentNumber());
             for (VendorAddress address : newVendor.getVendorAddresses()) {
-                if (PurapConstants.PO_DOC_TYPE_CODE.equals(address.getVendorAddressTypeCode())) {
+                if (AddressTypes.PURCHASE_ORDER.equals(address.getVendorAddressTypeCode())) {
                     newPOVendorQuote.setVendorCityName(address.getVendorCityName());
                     newPOVendorQuote.setVendorCountryCode(address.getVendorCountryCode());
                     newPOVendorQuote.setVendorLine1Address(address.getVendorLine1Address());

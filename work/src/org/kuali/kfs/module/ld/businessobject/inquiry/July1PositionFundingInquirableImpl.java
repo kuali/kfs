@@ -35,7 +35,7 @@ import org.kuali.module.labor.LaborConstants;
 import org.kuali.module.labor.bo.LedgerBalance;
 
 /**
- * This class is used to generate the URL for the user-defined attributes for the Current Funds screen. It is entended the
+ * This class is used to generate the URL for the user-defined attributes for the July1 Position Funds screen. It is entended the
  * KualiInquirableImpl class, so it covers both the default implementation and customized implemetnation.
  */
 public class July1PositionFundingInquirableImpl extends AbstractLaborInquirableImpl {

@@ -35,6 +35,7 @@ import org.kuali.module.labor.LaborConstants;
 import org.kuali.module.labor.bo.AccountStatusBaseFunds;
 import org.kuali.module.labor.bo.AccountStatusCurrentFunds;
 import org.kuali.module.labor.bo.EmployeeFunding;
+import org.kuali.module.labor.bo.July1PositionFunding;
 import org.kuali.module.labor.dao.LaborDao;
 
 /**
@@ -184,5 +185,31 @@ public class LaborDaoOjb extends PlatformAwareDaoBaseOjb implements LaborDao {
         OJBUtility.limitResultSize(query);
         return getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(query);
     }
+    
+    public Iterator getJuly1PositionFunding(Map fieldValues) {
+        
+        ArrayList objectTypeCodes = new ArrayList();
+        Criteria criteria = new Criteria();
+        criteria.addBetween(KFSPropertyConstants.FINANCIAL_OBJECT_CODE, 2000, 5000);
+        criteria.addAndCriteria(OJBUtility.buildCriteriaFromMap(fieldValues, new July1PositionFunding()));
+        ReportQueryByCriteria query = QueryFactory.newReportQuery(July1PositionFunding.class, criteria);
 
+        List<String> groupByList = new ArrayList<String>();
+        groupByList.add(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR);
+        groupByList.add(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE);
+        groupByList.add(KFSPropertyConstants.ACCOUNT_NUMBER);
+        groupByList.add(KFSPropertyConstants.SUB_ACCOUNT_NUMBER);
+        groupByList.add(KFSPropertyConstants.FINANCIAL_OBJECT_CODE);
+        groupByList.add(KFSPropertyConstants.FINANCIAL_SUB_OBJECT_CODE);
+        groupByList.add(KFSPropertyConstants.POSITION_NUMBER);
+        groupByList.add(KFSPropertyConstants.EMPLID);
+        
+        String[] groupBy = (String[]) groupByList.toArray(new String[groupByList.size()]);
+        List<String> attributeList = new ArrayList<String>(groupByList);
+        query.setAttributes((String[]) attributeList.toArray(new String[attributeList.size()]));
+
+        query.addGroupBy(groupBy);
+        OJBUtility.limitResultSize(query);
+        return getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(query);
+    }
 }

@@ -71,4 +71,12 @@ public interface LaborDao {
      * @return
      */
     Iterator getEmployeeFunding(Map fieldValues);
+    
+    /**
+     * 
+     * This method returns current July1 Position Funding data
+     * @param fieldValues
+     * @return
+     */
+    Iterator getJuly1PositionFunding(Map fieldValues);
 }

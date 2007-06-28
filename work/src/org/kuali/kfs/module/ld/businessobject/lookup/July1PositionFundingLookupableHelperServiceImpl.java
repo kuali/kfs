@@ -18,37 +18,23 @@ package org.kuali.module.labor.web.lookupable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.Constants;
 import org.kuali.core.bo.BusinessObject;
-import org.kuali.core.bo.PersistableBusinessObject;
-import org.kuali.core.datadictionary.mask.Mask;
 import org.kuali.core.lookup.AbstractLookupableHelperServiceImpl;
 import org.kuali.core.lookup.CollectionIncomplete;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.BeanPropertyComparator;
 import org.kuali.core.util.GlobalVariables;
-import org.kuali.core.util.ObjectUtils;
-import org.kuali.core.web.comparator.CellComparatorHelper;
-import org.kuali.core.web.format.BooleanFormatter;
-import org.kuali.core.web.format.Formatter;
-import org.kuali.core.web.struts.form.LookupForm;
-import org.kuali.core.web.ui.Column;
-import org.kuali.core.web.ui.ResultRow;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSPropertyConstants;
-import org.kuali.rice.KNSServiceLocator;
 import org.kuali.module.gl.service.BalanceService;
-import org.kuali.module.gl.web.Constant;
 import org.kuali.module.labor.LaborConstants;
 import org.kuali.module.labor.dao.LaborDao;
 import org.kuali.module.labor.service.LaborInquiryOptionsService;
-import org.kuali.module.labor.service.impl.LaborInquiryOptionsServiceImpl;
-import org.kuali.module.labor.web.inquirable.CurrentFundsInquirableImpl;
+import org.kuali.module.labor.web.inquirable.July1PositionFundingInquirableImpl;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -94,7 +80,7 @@ public class July1PositionFundingLookupableHelperServiceImpl extends AbstractLoo
         
         // Parse the map and call the DAO to process the inquiry
         // This could probably use the LookupService instead of the laborDao
-        Collection searchResultsCollection = new ArrayList(); // getLaborDao().getCurrentFunds(fieldValues);
+        Collection searchResultsCollection = new ArrayList();  getLaborDao().getJuly1PositionFunding(fieldValues);
 
         // update search results according to the selected pending entry option
         getLaborInquiryOptionsService().updateByPendingLedgerEntry(searchResultsCollection, fieldValues, pendingEntryOption, isConsolidated, false);
@@ -115,7 +101,7 @@ public class July1PositionFundingLookupableHelperServiceImpl extends AbstractLoo
      */
     @Override
     public String getInquiryUrl(BusinessObject bo, String propertyName) {
-        return (new CurrentFundsInquirableImpl()).getInquiryUrl(bo, propertyName);
+        return (new July1PositionFundingInquirableImpl()).getInquiryUrl(bo, propertyName);
     }
 
     public BalanceService getBalanceService() {

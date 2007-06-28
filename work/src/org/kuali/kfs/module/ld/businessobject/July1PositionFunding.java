@@ -170,20 +170,4 @@ public class July1PositionFunding extends LedgerBalance {
     public void setPersonName(String personName) {
         this.personName = personName;
     }
-
-    protected LinkedHashMap toStringMapper() {
-        LinkedHashMap map = new LinkedHashMap();
-        map.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, getUniversityFiscalYear());
-        map.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, getChartOfAccountsCode());
-        map.put(KFSPropertyConstants.ACCOUNT_NUMBER, getAccountNumber());
-        map.put(KFSPropertyConstants.SUB_ACCOUNT_NUMBER, getSubAccountNumber());
-        map.put(KFSPropertyConstants.OBJECT_CODE, getFinancialObjectCode());
-        map.put(KFSPropertyConstants.SUB_OBJECT_CODE, getFinancialSubObjectCode());
-        map.put(LaborPropertyConstants.POSITION_NUMBER, getPositionNumber());
-        map.put(LaborPropertyConstants.EMPL_ID, getEmplid());
-        map.put(LaborPropertyConstants.JULY_1_BUDGET_AMOUNT, getJuly1BudgetAmount());
-        map.put(LaborPropertyConstants.JULY_1_BUDGET_FTE_QUANTITY, getJuly1BudgetFteQuantity());
-        map.put(LaborPropertyConstants.JULY_1_BUDGET_TIME_PERCENT, getJuly1BudgetTimePercent());
-        return map;
-    }
 }

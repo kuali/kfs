@@ -54,6 +54,7 @@
                     <sortAttribute attributeName="universityFiscalYear" />
                     <sortAttribute attributeName="chartOfAccountsCode" />
                     <sortAttribute attributeName="accountNumber" />
+                    <sortAttribute attributeName="positionNumber" />
                 </sortAttributes>
             </defaultSort>
 

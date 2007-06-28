@@ -25,6 +25,7 @@ import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.module.cg.lookup.keyvalues.DocumentSearchTypeOfSearchValuesFinder;
 
+import edu.iu.uis.eden.docsearch.DocSearchCriteriaVO;
 import edu.iu.uis.eden.docsearch.QueryComponent;
 import edu.iu.uis.eden.docsearch.SearchAttributeCriteriaComponent;
 import edu.iu.uis.eden.docsearch.StandardDocumentSearchGenerator;
@@ -37,6 +38,16 @@ public class KualiContractsAndGrantsDocSearchGenerator extends StandardDocumentS
     
     private static final String SEARCH_TYPE_ATTRIBUTE_FIELD_DEF_NAME = "searchType";
     
+    /* (non-Javadoc)
+     * @see edu.iu.uis.eden.docsearch.StandardDocumentSearchGenerator#clearSearch(edu.iu.uis.eden.docsearch.DocSearchCriteriaVO)
+     */
+    //@Override
+    public DocSearchCriteriaVO clearSearch(DocSearchCriteriaVO searchCriteria) {
+        DocSearchCriteriaVO docSearchCriteriaVO = new DocSearchCriteriaVO();
+        docSearchCriteriaVO.setDocTypeFullName(searchCriteria.getDocTypeFullName());
+        return docSearchCriteriaVO;
+    }
+
     /* Need to override this method because user could have selected a document type that is a proposal type but they could also
      * then select the checkbox to "only search for award documents".  To adjust for this we change the main doc type the search
      * will use.

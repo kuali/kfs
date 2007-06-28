@@ -174,6 +174,25 @@
         <titleAttribute>proposalNumber</titleAttribute>
 
         <attributes>
+        
+        	<!-- Following 2 attributes only used for labels for Workflow Doc Search -->
+            <attributeReference name="routingChart"  sourceClassName="org.kuali.module.chart.bo.Org" sourceAttributeName="chartOfAccountsCode">
+            	<label>Chart</label>
+            	<shortLabel>Chart</shortLabel>
+                <required>false</required>
+                <control>
+                    <hidden />
+                </control>
+            </attributeReference>
+
+            <attributeReference name="routingOrg"  sourceClassName="org.kuali.module.chart.bo.Org" sourceAttributeName="organizationCode">
+            	<label>Organization</label>
+            	<shortLabel>Org</shortLabel>
+                <required>false</required>
+                <control>
+                    <hidden />
+                </control>
+            </attributeReference>
 
 			<attributeReference name="kualiGroupNames" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericBigText">
 				<label>Kuali Workgroup Users</label>

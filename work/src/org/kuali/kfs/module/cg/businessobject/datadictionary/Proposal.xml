@@ -167,6 +167,25 @@
 
         <attributes>
 
+        	<!-- Following 2 attributes only used for labels for Workflow Doc Search -->
+            <attributeReference name="routingChart"  sourceClassName="org.kuali.module.chart.bo.Org" sourceAttributeName="chartOfAccountsCode">
+            	<label>Chart</label>
+            	<shortLabel>Chart</shortLabel>
+                <required>false</required>
+                <control>
+                    <hidden />
+                </control>
+            </attributeReference>
+
+            <attributeReference name="routingOrg"  sourceClassName="org.kuali.module.chart.bo.Org" sourceAttributeName="organizationCode">
+            	<label>Organization</label>
+            	<shortLabel>Org</shortLabel>
+                <required>false</required>
+                <control>
+                    <hidden />
+                </control>
+            </attributeReference>
+
             <attributeReference name="award.proposalNumber"  sourceClassName="org.kuali.module.cg.bo.Award" sourceAttributeName="proposalNumber">
                 <label>Link to Award</label>
                 <shortLabel>Award Link</shortLabel>

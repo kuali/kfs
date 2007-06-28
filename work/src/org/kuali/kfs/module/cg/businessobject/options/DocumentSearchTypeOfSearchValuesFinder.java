@@ -33,8 +33,8 @@ public class DocumentSearchTypeOfSearchValuesFinder extends KeyValuesBase {
     
     public static final String DOCUMENT_TYPE_SEPARATOR = ";";
     
-    public static final String[] PROPOSAL_DOCUMENT_TYPE_NAMES = new String[]{KualiWorkflowUtils.C_G_PROPOSAL_DOC_TYPE};
-    public static final String[] AWARD_DOCUMENT_TYPE_NAMES = new String[]{KualiWorkflowUtils.C_G_AWARD_DOC_TYPE};
+    public static final String[] PROPOSAL_DOCUMENT_TYPE_NAMES = new String[]{"KualiContractsAndGrantsProposalMaintenanceDocument",KualiWorkflowUtils.C_G_PROPOSAL_DOC_TYPE};
+    public static final String[] AWARD_DOCUMENT_TYPE_NAMES = new String[]{"KualiContractsAndGrantsAwardMaintenanceDocument",KualiWorkflowUtils.C_G_AWARD_DOC_TYPE};
 
     /*
      * @see org.kuali.keyvalues.KeyValuesFinder#getKeyValues()

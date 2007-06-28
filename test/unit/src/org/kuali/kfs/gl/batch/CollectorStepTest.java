@@ -25,6 +25,7 @@ import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.gl.batch.collector.CollectorStep;
 import org.kuali.test.KualiTestBase;
 import org.kuali.test.WithTestSpringContext;
+import org.kuali.test.suite.RelatesTo;
 
 /**
  * Tests the CollecterStep.
@@ -73,6 +74,7 @@ public class CollectorStepTest extends KualiTestBase {
     /**
      * Tests the whole step completes successfully.
      */
+    @RelatesTo(RelatesTo.JiraIssue.KULUT29)
     public void testAll() throws Exception {
         CollectorStep collectorStep = SpringServiceLocator.getCollectorStep();
         boolean goodExit = collectorStep.execute(getClass().getName());

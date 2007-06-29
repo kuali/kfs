@@ -184,7 +184,7 @@ public class LaborConstants {
     public static final String BASE_FUNDS_LOOKUP_HELPER_SRVICE_NAME = "BaseFundsLookupableHelperService";
     public static final String CSF_TRACKER_LOOKUP_HELPER_SRVICE_NAME = "CSFTrackerBalanceLookupableHelperService";
     public static final String CURRENT_FUNDS_LOOKUP_HELPER_SRVICE_NAME = "CurrentFundsLookupableHelperService";
-    
+    public static final String EXPENSE_TRANSFER_ACCOUNTING_LINE_SERVIOCE_NAME = "expenseTransferAccountingLineService";
     
     
 }

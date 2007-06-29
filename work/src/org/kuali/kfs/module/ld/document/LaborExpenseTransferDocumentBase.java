@@ -15,10 +15,13 @@
  */
 package org.kuali.module.labor.document;
 
+import java.util.List;
+
 import org.kuali.core.document.Copyable;
 import org.kuali.core.document.Correctable;
 import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.document.AccountingDocument;
+import org.kuali.kfs.bo.AccountingLine;
+import org.kuali.kfs.document.AccountingDocumentHelper;
 import org.kuali.module.labor.document.LaborLedgerPostingDocumentBase;
 import org.kuali.module.labor.bo.ExpenseTransferSourceAccountingLine;
 import org.kuali.module.labor.bo.ExpenseTransferTargetAccountingLine;
@@ -27,14 +30,36 @@ import org.kuali.module.labor.bo.ExpenseTransferTargetAccountingLine;
  * Base class for Expense Transfer Documents
  */
 public abstract class LaborExpenseTransferDocumentBase extends LaborLedgerPostingDocumentBase implements Copyable, Correctable, LaborExpenseTransferDocument {
+    private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(LaborExpenseTransferDocumentBase.class);
 
     private String emplid;
+    
+    private AccountingDocumentHelper helper;
 
     /**
      * Constructor 
      */
     public LaborExpenseTransferDocumentBase() {
         super();
+        setAccountingDocumentHelper(new LaborExpenseTransferDocumentHelper<LaborExpenseTransferDocument>(this));
+    }
+    
+    /**
+     * Assign the <code>{@link AccountingDocumentHelper}</code>
+     * 
+     * @param helper
+     */ 
+    public void setAccountingDocumentHelper(AccountingDocumentHelper helper) {
+        this.helper = helper;
+    }
+    
+    /**
+     * Retrieve the <code>{@link AccountingDocumentHelper}</code>
+     *
+     * @return AccountingDocumentHelper
+     */
+    public AccountingDocumentHelper getAccountingDocumentHelper() {
+        return helper;
     }
     
     /**
@@ -81,6 +106,12 @@ public abstract class LaborExpenseTransferDocumentBase extends LaborLedgerPostin
      */
     public Class getTargetAccountingLineClass() {
         return ExpenseTransferTargetAccountingLine.class;
+    }
+
+
+    @Override
+    public List generateSaveEvents() {
+        return getAccountingDocumentHelper().generateSaveEvents();
     }
 }
 

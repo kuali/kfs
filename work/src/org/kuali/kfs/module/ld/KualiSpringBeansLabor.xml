@@ -652,4 +652,9 @@
 		</property>		
 	</bean>    	
 		
+	<bean id="expenseTransferAccountingLineService" class="org.kuali.kfs.service.impl.AccountingLineServiceImpl">
+		<property name="accountingLineDao">
+			<bean parent="platformAwareDao" class="org.kuali.module.labor.dao.ojb.ExpenseTransferAccountingLineDaoOjb" />
+		</property>
+	</bean>
 </beans>

@@ -17,7 +17,7 @@ package org.kuali.kfs.dao;
 
 import java.util.ArrayList;
 
-import org.kuali.kfs.bo.AccountingLineBase;
+import org.kuali.kfs.bo.AccountingLine;
 
 /**
  * The data access interface for persisting AccountingLineBase objects.
@@ -30,14 +30,14 @@ public interface AccountingLineDao {
      * 
      * @param line
      */
-    void save(AccountingLineBase line);
+    void save(AccountingLine line);
 
     /**
      * Deletes an accounting line from the DB.
      * 
      * @param line
      */
-    void deleteAccountingLine(AccountingLineBase line);
+    void deleteAccountingLine(AccountingLine line);
 
     /**
      * Retrieves a list of accounting lines (by class type) associated with a given document.

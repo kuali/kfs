@@ -78,10 +78,10 @@ public abstract class LaborLedgerPostingDocumentBase extends AccountingDocumentB
      */
     @Override
     public void prepareForSave(KualiDocumentEvent event) {
-        super.prepareForSave(event);
         if (!SpringServiceLocator.getLaborLedgerPendingEntryService().generateLaborLedgerPendingEntries(this)) {
             logErrors();
             throw new ValidationException("labor ledger LLPE generation failed");
         }
+        super.prepareForSave(event);
     }
 }

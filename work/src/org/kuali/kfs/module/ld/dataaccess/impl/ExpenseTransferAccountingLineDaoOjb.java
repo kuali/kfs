@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kfs.dao.ojb;
+package org.kuali.module.labor.dao.ojb;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -39,13 +39,13 @@ import org.springframework.dao.DataAccessException;
  * 
  */
 
-public class AccountingLineDaoOjb extends PlatformAwareDaoBaseOjb implements AccountingLineDao {
+public class ExpenseTransferAccountingLineDaoOjb extends PlatformAwareDaoBaseOjb implements AccountingLineDao {
     private static Logger LOG = Logger.getLogger(ChartDaoOjb.class);
 
     /**
      * Default constructor.
      */
-    public AccountingLineDaoOjb() {
+    public ExpenseTransferAccountingLineDaoOjb() {
         super();
     }
 
@@ -75,11 +75,6 @@ public class AccountingLineDaoOjb extends PlatformAwareDaoBaseOjb implements Acc
     public ArrayList findByDocumentHeaderId(Class clazz, String documentHeaderId) throws DataAccessException {
         Criteria criteria = new Criteria();
         criteria.addEqualTo("FDOC_NBR", documentHeaderId);
-        if (SourceAccountingLine.class.isAssignableFrom(clazz)) {
-            criteria.addEqualTo("FDOC_LN_TYP_CD", KFSConstants.SOURCE_ACCT_LINE_TYPE_CODE);
-        } else if (TargetAccountingLine.class.isAssignableFrom(clazz)) {
-            criteria.addEqualTo("FDOC_LN_TYP_CD", KFSConstants.TARGET_ACCT_LINE_TYPE_CODE);
-        }
 
         QueryByCriteria query = QueryFactory.newQuery(clazz, criteria);
 

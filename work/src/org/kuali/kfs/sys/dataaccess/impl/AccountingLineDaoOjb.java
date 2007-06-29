@@ -76,9 +76,9 @@ public class AccountingLineDaoOjb extends PlatformAwareDaoBaseOjb implements Acc
         Criteria criteria = new Criteria();
         criteria.addEqualTo("FDOC_NBR", documentHeaderId);
         if (SourceAccountingLine.class.isAssignableFrom(clazz)) {
-            criteria.addEqualTo("FDOC_CLASS_NM", KFSConstants.SOURCE_ACCT_LINE_TYPE_CODE);
+            criteria.addEqualTo("FDOC_LN_TYP_CD", KFSConstants.SOURCE_ACCT_LINE_TYPE_CODE);
         } else if (TargetAccountingLine.class.isAssignableFrom(clazz)) {
-            criteria.addEqualTo("FDOC_CLASS_NM", KFSConstants.TARGET_ACCT_LINE_TYPE_CODE);
+            criteria.addEqualTo("FDOC_LN_TYP_CD", KFSConstants.TARGET_ACCT_LINE_TYPE_CODE);
         }
 
         QueryByCriteria query = QueryFactory.newQuery(clazz, criteria);

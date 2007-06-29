@@ -103,6 +103,7 @@ public class KualiContractsAndGrantsDocSearchGenerator extends StandardDocumentS
      * @see edu.iu.uis.eden.docsearch.StandardDocumentSearchGenerator#generateSearchableAttributeSql(edu.iu.uis.eden.docsearch.SearchAttributeCriteriaComponent, java.lang.String, int)
      */
     @Override
+    // TODO delyea - remove this once workflow is upgraded
     protected QueryComponent generateSearchableAttributeSql(SearchAttributeCriteriaComponent criteriaComponent, String whereSqlStarter, int tableIndex) {
         QueryComponent qc = new QueryComponent();
         // the search type attribute is not used in the actual search so we must ignore it
@@ -126,6 +127,7 @@ public class KualiContractsAndGrantsDocSearchGenerator extends StandardDocumentS
         return documentTypes;
     }
     
+    // TODO delyea - move this to standard search processor?
     private SearchAttributeCriteriaComponent getSearchableAttributeByFieldName(String name) {
         if (StringUtils.isBlank(name)) {
             throw new IllegalArgumentException("Attempted to find Searchable Attribute with blank Field name '" + name + "'");

@@ -415,8 +415,7 @@
 		<copy todir="${lib.directory}" flatten="true">
 			<fileset dir="${rice.project.directory}" includes="${rice.output.directories}${rice.output.file.prefix}${rice.version}${rice.output.lib.suffix}" excludes="${rice.excludes}" />
 		</copy>
-		<!-- todo fix this when find out from eric about whether we should be updating this -->
-		<!--<get src="https://onestart.iu.edu/dav/MY/maven-mirror/maven2/${workflow.name}/${workflow.name}/${workflow.version}/${workflow.name}-${workflow.version}.jar" dest="${basedir}/${lib.directory}/${rice.name}-${workflow.name}-${workflow.version}.jar" />-->
+		<get src="https://onestart.iu.edu/dav/MY/maven-mirror/maven2/${workflow.name}/${workflow.name}/${workflow.version}/${workflow.name}-${workflow.version}.jar" dest="${basedir}/${lib.directory}/${rice.name}-${workflow.name}-${workflow.version}.jar" />
 		<delete>
 			<fileset dir="${build.config.directory}" includes="${rice.name}-*${rice.output.web.suffix}" />
 		</delete>

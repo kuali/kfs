@@ -26,7 +26,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.gl.OriginEntryTestBase;
 import org.kuali.module.gl.bo.OriginEntry;
@@ -34,6 +33,7 @@ import org.kuali.module.gl.bo.OriginEntryGroup;
 import org.kuali.module.gl.service.OriginEntryGroupService;
 import org.kuali.module.gl.service.OriginEntryService;
 import org.kuali.module.gl.util.GeneralLedgerTestHelper;
+import org.kuali.test.TestUtils;
 import org.kuali.test.WithTestSpringContext;
 
 /**
@@ -156,9 +156,9 @@ public class BalanceForwardStepTest extends OriginEntryTestBase {
      * @see org.kuali.module.gl.OriginEntryTestBase#setApplicationConfigurationFlag(java.lang.String, boolean)
      */
     @Override
-    protected void setApplicationConfigurationFlag(String name, boolean value) {
+    protected void setApplicationConfigurationFlag(String name, boolean value) throws Exception {
         super.setApplicationConfigurationFlag(name, value);
-        unitTestSqlDao.sqlCommand("update FS_PARM_T set FS_PARM_TXT = '2004-01-01' where FS_SCR_NM = 'fis_gl_year_end.sh' and FS_PARM_NM = 'TRANSACTION_DT'");
-        unitTestSqlDao.sqlCommand("update FS_PARM_T set FS_PARM_TXT = '2004' where FS_SCR_NM = 'fis_gl_year_end.sh' and FS_PARM_NM = 'UNIV_FISCAL_YR'");
+        TestUtils.setSystemParameter("fis_gl_year_end.sh", "TRANSACTION_DT", "2004-01-01", false, false);
+        TestUtils.setSystemParameter("fis_gl_year_end.sh", "UNIV_FISCAL_YR", "2004", false, false);
     }
 }

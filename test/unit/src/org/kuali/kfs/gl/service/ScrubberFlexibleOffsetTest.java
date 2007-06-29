@@ -65,7 +65,7 @@ public class ScrubberFlexibleOffsetTest extends OriginEntryTestBase {
      */
     public void testNonFlexibleOffsetGeneration() throws Exception {
 
-        resetFlexibleOffsetEnableFlag(false);
+        super.setApplicationConfigurationFlag(KFSConstants.SystemGroupParameterNames.FLEXIBLE_OFFSET_ENABLED_FLAG, false);
 
         updateDocTypeForScrubberOffsetGeneration();
         setOffsetAccounts();
@@ -136,15 +136,6 @@ public class ScrubberFlexibleOffsetTest extends OriginEntryTestBase {
         unitTestSqlDao.sqlCommand("insert into FP_OFST_ACCT_T (FIN_COA_CD,OBJ_ID,ACCOUNT_NBR,FIN_OFST_OBJ_CD,FIN_OFST_COA_CD,FIN_OFST_ACCT_NBR) values ('BA','" + new Guid().toString() + "','6044900','8000','BL','2231402')");
         unitTestSqlDao.sqlCommand("insert into FP_OFST_ACCT_T (FIN_COA_CD,OBJ_ID,ACCOUNT_NBR,FIN_OFST_OBJ_CD,FIN_OFST_COA_CD,FIN_OFST_ACCT_NBR) values ('BL','" + new Guid().toString() + "','1023200','9040','BL','2231419')");
         unitTestSqlDao.sqlCommand("insert into FP_OFST_ACCT_T (FIN_COA_CD,OBJ_ID,ACCOUNT_NBR,FIN_OFST_OBJ_CD,FIN_OFST_COA_CD,FIN_OFST_ACCT_NBR) values ('BL','" + new Guid().toString() + "','9520004','9899','BL','2231419')");
-    }
-
-    /**
-     * reset the flexible offset enable flag to the given value of the flag
-     * 
-     * @param flag the given value of the flag.
-     */
-    private void resetFlexibleOffsetEnableFlag(boolean flag) {
-        unitTestSqlDao.sqlCommand("update fs_parm_t set fs_parm_txt = '" + (flag ? "Y" : "N") + "' where fs_scr_nm = '" + KFSConstants.ParameterGroups.SYSTEM + "' and fs_parm_nm = '" + KFSConstants.SystemGroupParameterNames.FLEXIBLE_OFFSET_ENABLED_FLAG + "'");
     }
 
     private void scrub(String[] inputTransactions) {

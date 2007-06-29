@@ -28,6 +28,7 @@ import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.service.PersistenceService;
 import org.kuali.core.util.Guid;
 import org.kuali.core.util.UnitTestSqlDao;
+import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.gl.bo.OriginEntry;
 import org.kuali.module.gl.bo.OriginEntryGroup;
@@ -35,6 +36,7 @@ import org.kuali.module.gl.dao.OriginEntryDao;
 import org.kuali.module.gl.service.OriginEntryGroupService;
 import org.kuali.module.gl.service.OriginEntryService;
 import org.kuali.test.KualiTestBase;
+import org.kuali.test.TestUtils;
 
 public class OriginEntryTestBase extends KualiTestBase {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(OriginEntryTestBase.class);
@@ -208,7 +210,7 @@ public class OriginEntryTestBase extends KualiTestBase {
     protected static String FLEXIBLE_OFFSET_ENABLED_FLAG = "FLEXIBLE_OFFSET_ENABLED_FLAG";
     protected static String FLEXIBLE_CLAIM_ON_CASH_BANK_ENABLED_FLAG = "FLEXIBLE_CLAIM_ON_CASH_BANK_ENABLED_FLAG";
 
-    protected void resetAllEnhancementFlags() {
+    protected void resetAllEnhancementFlags() throws Exception {
         setApplicationConfigurationFlag(OriginEntryTestBase.BUDGET_YEAR_ENABLED_FLAG, false);
         setApplicationConfigurationFlag(OriginEntryTestBase.ICR_ENCUMBRANCE_ENABLED_FLAG, false);
         setApplicationConfigurationFlag(OriginEntryTestBase.FLEXIBLE_OFFSET_ENABLED_FLAG, false);
@@ -219,9 +221,8 @@ public class OriginEntryTestBase extends KualiTestBase {
         return kualiConfigurationService.getApplicationParameterIndicator("SYSTEM", name);
     }
 
-    protected void setApplicationConfigurationFlag(String name, boolean value) {
-        unitTestSqlDao.sqlCommand("delete from fs_parm_t where fs_scr_nm = 'SYSTEM' and fs_parm_nm = '" + name + "'");
-        unitTestSqlDao.sqlCommand("insert into fs_parm_t (fs_scr_nm,fs_parm_nm,obj_id,ver_nbr,fs_parm_txt,fs_parm_desc,fs_mult_val_ind" + ") values ('SYSTEM','" + name + "', '" + new Guid().toString() + "',1,'" + (value ? "Y" : "N") + "','Y','N')");
+    protected void setApplicationConfigurationFlag(String name, boolean value) throws Exception {
+        TestUtils.setSystemParameter(KFSConstants.ParameterGroups.SYSTEM, name, value ? "Y" : "N", true, false);
     }
 
 

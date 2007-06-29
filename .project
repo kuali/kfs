@@ -19,16 +19,4 @@
 	<natures>
 		<nature>org.eclipse.jdt.core.javanature</nature>
 	</natures>
-	<linkedResources>
-		<link>
-			<name>kns-r</name>
-			<type>2</type>
-			<location>/java/projects/rice/kns/src/main/resources</location>
-		</link>
-		<link>
-			<name>kns</name>
-			<type>2</type>
-			<location>/java/projects/rice/kns/src/main/java</location>
-		</link>
-	</linkedResources>
 </projectDescription>

@@ -32,7 +32,7 @@
             </authorization>
         </authorizations>
 
-        <documentTypeName>KualiFunctionControlCodeMaintenanceDocument</documentTypeName>
+        <documentTypeName>FunctionControlCodeMaintenanceDocument</documentTypeName>
         <documentTypeCode>BFNC</documentTypeCode>
 
         <label>Function Control Code Maintenance Document</label>

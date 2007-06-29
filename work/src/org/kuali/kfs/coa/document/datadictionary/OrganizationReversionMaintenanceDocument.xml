@@ -33,7 +33,7 @@
             </authorization>
         </authorizations>
 
-        <documentTypeName>KualiOrganizationReversionMaintenanceDocument</documentTypeName>
+        <documentTypeName>OrganizationReversionMaintenanceDocument</documentTypeName>
         <documentTypeCode>ORGR</documentTypeCode>
         
         <webScriptFile>../dwr/interface/ObjectCodeService.js</webScriptFile>

@@ -32,7 +32,7 @@
             </authorization>
         </authorizations>
 
-        <documentTypeName>KualiBuildingMaintenanceDocument</documentTypeName>
+        <documentTypeName>BuildingMaintenanceDocument</documentTypeName>
         <documentTypeCode>BLDG</documentTypeCode>
 
         <label>Building Maintenance Document</label>

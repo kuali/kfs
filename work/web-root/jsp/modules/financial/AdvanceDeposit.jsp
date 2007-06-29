@@ -16,12 +16,12 @@
 <%@ include file="/jsp/kfs/kfsTldHeader.jsp"%>
 
 <c:set var="advanceDepositAttributes"
-	value="${DataDictionary['KualiAdvanceDepositDocument'].attributes}" />
+	value="${DataDictionary['AdvanceDepositDocument'].attributes}" />
 <c:set var="readOnly"
 	value="${!empty KualiForm.editingMode['viewOnly']}" />
 <kul:documentPage showDocumentInfo="true"
 	htmlFormAction="financialAdvanceDeposit"
-	documentTypeName="KualiAdvanceDepositDocument" renderMultipart="true"
+	documentTypeName="AdvanceDepositDocument" renderMultipart="true"
 	showTabButtons="true">
 	<kul:hiddenDocumentFields />
 	<!-- Advance Deposit Document Specific Hidden Fields -->

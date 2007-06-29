@@ -32,7 +32,7 @@
             </authorization>
         </authorizations>
 
-        <documentTypeName>KualiOwnershipTypeCodeMaintenanceDocument</documentTypeName>
+        <documentTypeName>OwnershipTypeCodeMaintenanceDocument</documentTypeName>
         <documentTypeCode>DVOT</documentTypeCode>
 
         <label>Ownership Type Code Maintenance Document</label>

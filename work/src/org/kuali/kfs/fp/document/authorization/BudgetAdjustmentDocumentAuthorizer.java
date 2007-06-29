@@ -74,7 +74,7 @@ public class BudgetAdjustmentDocumentAuthorizer extends AccountingDocumentAuthor
 
         // if no allowed years found, BA document is not allowed to be initiated
         if (allowedYears == null || allowedYears.isEmpty()) {
-            throw new InactiveDocumentTypeAuthorizationException("initiate", "KualiBudgetAdjustmentDocument");
+            throw new InactiveDocumentTypeAuthorizationException("initiate", "BudgetAdjustmentDocument");
         }
 
         super.canInitiate(documentTypeName, user);

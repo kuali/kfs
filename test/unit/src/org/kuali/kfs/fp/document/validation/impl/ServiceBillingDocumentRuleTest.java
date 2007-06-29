@@ -702,7 +702,7 @@ public class ServiceBillingDocumentRuleTest extends KualiTestBase {
      * 
      * protected Document createDocumentInvalidDescription() throws Exception { // TODO Auto-generated method stub return null; }
      * 
-     * protected String getDocumentTypeName() { // TODO Auto-generated method stub return "KualiServiceBillingDocument"; }
+     * protected String getDocumentTypeName() { // TODO Auto-generated method stub return "ServiceBillingDocument"; }
      */
 
     /*

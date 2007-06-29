@@ -34,7 +34,7 @@
             </authorization>
         </authorizations>
 
-        <documentTypeName>KualiObjectTypeMaintenanceDocument</documentTypeName>
+        <documentTypeName>ObjectTypeMaintenanceDocument</documentTypeName>
         <documentTypeCode>OTYP</documentTypeCode>
         <label>Object Type Maintenance Document</label>
         <shortLabel>ObjTypeMaintDoc</shortLabel>

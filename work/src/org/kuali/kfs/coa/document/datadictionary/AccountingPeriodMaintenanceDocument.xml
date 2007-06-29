@@ -33,7 +33,7 @@
             </authorization>
         </authorizations>
 
-        <documentTypeName>KualiAccountingPeriodMaintenanceDocument</documentTypeName>
+        <documentTypeName>AccountingPeriodMaintenanceDocument</documentTypeName>
         <documentTypeCode>APRD</documentTypeCode>
 
         <label>Accounting Period Maintenance Document</label>

@@ -33,7 +33,7 @@
             </authorization>
         </authorizations>
 
-        <documentTypeName>KualiChartMaintenanceDocument</documentTypeName>
+        <documentTypeName>ChartMaintenanceDocument</documentTypeName>
         <documentTypeCode>COAT</documentTypeCode>
 
         <label>Chart Maintenance Document</label>

@@ -32,7 +32,7 @@
             </authorization>
         </authorizations>
 
-        <documentTypeName>KualiOriginationCodeMaintenanceDocument</documentTypeName>
+        <documentTypeName>OriginationCodeMaintenanceDocument</documentTypeName>
         <documentTypeCode>ORIG</documentTypeCode>
 
         <label>Origination Code Maintenance Document</label>

@@ -32,7 +32,7 @@
             </authorization>
         </authorizations>
 
-        <documentTypeName>KualiStateMaintenanceDocument</documentTypeName>
+        <documentTypeName>StateMaintenanceDocument</documentTypeName>
         <documentTypeCode>STAT</documentTypeCode>
 
         <label>State Maintenance Document</label>

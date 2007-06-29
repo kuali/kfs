@@ -21,9 +21,11 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 import org.kuali.core.bo.PersistableBusinessObjectBase;
+import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.bo.Options;
+import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.chart.bo.A21SubAccount;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.Chart;
@@ -61,7 +63,7 @@ public class AccountBalance extends PersistableBusinessObjectBase {
     private Options option;
     private String title;
 
-    static final public String EXPENSE_SORT_CODE = "B";
+    final public String EXPENSE_SORT_CODE;
     static final public String TYPE_CONSOLIDATION = "Consolidation";
     static final public String TYPE_LEVEL = "Level";
     static final public String TYPE_OBJECT = "Object";
@@ -70,10 +72,13 @@ public class AccountBalance extends PersistableBusinessObjectBase {
         super();
         this.dummyBusinessObject = new TransientBalanceInquiryAttributes();
         this.financialObject = new ObjectCode();
+
+        KualiConfigurationService kualiConfigurationService = SpringServiceLocator.getKualiConfigurationService();
+        this.EXPENSE_SORT_CODE = kualiConfigurationService.getApplicationParameterValue(GLConstants.GL_ACCOUNT_BALANCE_SERVICE_GROUP, "EXPENSE_SORT_CODE");
     }
 
     public AccountBalance(Transaction t) {
-        super();
+        this();
         universityFiscalYear = t.getUniversityFiscalYear();
         chartOfAccountsCode = t.getChartOfAccountsCode();
         accountNumber = t.getAccountNumber();
@@ -83,9 +88,6 @@ public class AccountBalance extends PersistableBusinessObjectBase {
         currentBudgetLineBalanceAmount = KualiDecimal.ZERO;
         accountLineActualsBalanceAmount = KualiDecimal.ZERO;
         accountLineEncumbranceBalanceAmount = KualiDecimal.ZERO;
-
-        this.dummyBusinessObject = new TransientBalanceInquiryAttributes();
-        this.financialObject = new ObjectCode();
     }
 
     public AccountBalance(String type, Map data, Integer universityFiscalYear, String chartOfAccountsCode, String accountNumber) {

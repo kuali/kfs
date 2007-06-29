@@ -1,0 +1,364 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ Copyright 2005-2007 The Kuali Foundation.
+ 
+ Licensed under the Educational Community License, Version 1.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+ 
+ http://www.opensource.org/licenses/ecl1.php
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+<!DOCTYPE dictionaryEntry PUBLIC
+    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
+    "../../../../core/datadictionary/dataDictionary-1_0.dtd">
+
+<dictionaryEntry>
+    <transactionalDocument>
+        <documentClass>org.kuali.module.financial.document.DisbursementVoucherDocument</documentClass>
+        <businessRulesClass>org.kuali.module.financial.rules.DisbursementVoucherDocumentRule</businessRulesClass>
+        <preRulesCheckClass>org.kuali.module.financial.rules.DisbursementVoucherDocumentPreRules</preRulesCheckClass>
+
+        <documentAuthorizerClass>org.kuali.module.financial.document.authorization.DisbursementVoucherDocumentAuthorizer</documentAuthorizerClass>
+        <authorizations>
+            <authorization action="initiate">
+                <workgroups>
+                    <!-- workgroup>kualiUniversalGroup</workgroup-->
+                    <workgroup>KUALI_DVUSERS</workgroup>
+                </workgroups>
+            </authorization>
+        </authorizations>
+
+        <documentTypeName>DisbursementVoucherDocument</documentTypeName>
+        <documentTypeCode>DV</documentTypeCode>
+
+        <label>Disbursement Voucher</label>
+        <shortLabel>DVDoc</shortLabel>
+
+        <attributes>
+            <attributeReference name="documentHeader.financialDocumentDescription" sourceClassName="org.kuali.core.bo.DocumentHeader" sourceAttributeName="financialDocumentDescription" />
+
+            <attribute name="disbVchrContactPersonName">
+                <label>Contact Name</label>
+                <shortLabel>Cont. Nm</shortLabel>
+
+                <maxLength>40</maxLength>
+
+                <required>true</required>
+
+                <control>
+                    <text size="40" />
+                </control>
+
+                <summary>
+                    <![CDATA[&nbsp;]]>
+                </summary>
+                <description>Full name of the Contact, expressed as "Lastname, Firstname Initial"</description>
+            </attribute>
+
+            <attribute name="disbVchrContactPhoneNumber">
+                <label>Phone</label>
+                <shortLabel>Phone</shortLabel>
+
+                <maxLength>10</maxLength>
+
+                <required>true</required>
+
+                <control>
+                    <text size="10" />
+                </control>
+
+                <summary>
+                    <![CDATA[&nbsp;]]>
+                </summary>
+                <description>Phone number of the Contact, expressed as nnn-mmm-pppp.</description>
+            </attribute>
+
+            <attribute name="disbVchrContactEmailId">
+                <label>Email Address</label>
+                <shortLabel>Email</shortLabel>
+
+                <maxLength>50</maxLength>
+
+                <validationPattern>
+                    <emailAddress />
+                </validationPattern>
+                <required>false</required>
+
+                <control>
+                    <text size="50" />
+                </control>
+
+                <summary>
+                    <![CDATA[&nbsp;]]>
+                </summary>
+                <description>Email address of the Contact.</description>
+            </attribute>
+
+            <attribute name="disbursementVoucherDueDate">
+                <label>Due Date</label>
+                <shortLabel>Due</shortLabel>
+
+                <maxLength>10</maxLength>
+
+                <required>true</required>
+
+                <control>
+                    <text size="11" />
+                </control>
+
+                <summary>
+                    <![CDATA[&nbsp;]]>
+                </summary>
+                <description>The date on which the Payment is due.</description>
+            </attribute>
+
+            <attribute name="disbVchrAttachmentCode">
+                <label>Check Enclosure</label>
+                <shortLabel>CheckEncl</shortLabel>
+
+                <maxLength>1</maxLength>
+
+                <required>false</required>
+
+                <control>
+                    <checkbox />
+                </control>
+
+                <summary>
+                    <![CDATA[&nbsp;]]>
+                </summary>
+                <description>
+                    Check the box for Check Enclosure if you have something that must be sent to the vendor/payee 
+                    along with the check because the reason for the payment cannot be adequately described in the 
+                    check stub detail field. Examples of Check Enclosures would include a payment stub, a duplicate 
+                    invoice copy, a letter or note to the payee, a completed registration form, a subscription renewal, etc.
+                </description>
+            </attribute>
+
+            <attribute name="disbVchrSpecialHandlingCode">
+                <label>Special Handling</label>
+                <shortLabel>Spec Hand</shortLabel>
+
+                <maxLength>1</maxLength>
+
+                <required>false</required>
+
+                <control>
+                    <checkbox />
+                </control>
+
+                <summary>
+                    <![CDATA[&nbsp;]]>
+                </summary>
+                <description>
+                    <![CDATA[&nbsp;]]>
+                </description>
+            </attribute>
+
+            <attribute name="disbVchrCheckTotalAmount">
+                <label>Check Amount</label>
+                <shortLabel>Amt</shortLabel>
+
+                <maxLength>19</maxLength>
+
+                <validationPattern>
+                    <fixedPoint allowNegative="false" precision="19" scale="2" />
+                </validationPattern>
+                <required>true</required>
+
+                <control>
+                    <text size="8" />
+                </control>
+
+                <summary>
+                    <![CDATA[&nbsp;]]>
+                </summary>
+                <description>The dollar amount of the check for the document Payment.</description>
+            </attribute>
+
+            <attributeReference name="disbursementVoucherDocumentationLocationCode" sourceClassName="org.kuali.module.financial.bo.DisbursementVoucherDocumentationLocation" sourceAttributeName="disbursementVoucherDocumentationLocationCode">
+                <required>true</required>
+
+                <control>
+                    <select valuesFinderClass="org.kuali.module.financial.lookup.keyvalues.DisbursementVoucherDocumentationLocationValuesFinder" />
+                </control>
+                <description>The description of the organization involved in the document Payment. Select one from the pulldown list.</description>
+
+            </attributeReference>
+
+            <attribute name="dvCheckStubOverflowCode">
+                <label>Check Overflow</label>
+                <shortLabel>Overflow</shortLabel>
+
+                <maxLength>1</maxLength>
+
+                <required>false</required>
+
+                <control>
+                    <hidden />
+                </control>
+
+                <summary>
+                    <![CDATA[&nbsp;]]>
+                </summary>
+                <description>
+                    <![CDATA[&nbsp;]]>
+                </description>
+            </attribute>
+
+            <attribute name="disbVchrPayeeTaxControlCode">
+                <label>Payee Tax Control Code</label>
+                <shortLabel>Tax Code</shortLabel>
+
+                <maxLength>1</maxLength>
+
+                <required>false</required>
+
+                <control>
+                    <hidden />
+                </control>
+
+                <summary>
+                    <![CDATA[&nbsp;]]>
+                </summary>
+                <description>
+                    <![CDATA[&nbsp;]]>
+                </description>
+            </attribute>
+
+            <attribute name="disbVchrPayeeChangedInd">
+                <label>Payee Changed Indicator</label>
+                <shortLabel>Payee Ind</shortLabel>
+
+                <maxLength>1</maxLength>
+
+                <required>false</required>
+
+                <control>
+                    <hidden />
+                </control>
+
+                <summary>Payee Changed Indicator</summary>
+                <description>...</description>
+            </attribute>
+
+            <attribute name="disbursementVoucherCheckNbr">
+                <label>Check Number</label>
+                <shortLabel>Chk Num</shortLabel>
+
+                <maxLength>6</maxLength>
+
+
+                <control>
+                    <hidden />
+                </control>
+
+                <summary>
+                    <![CDATA[&nbsp;]]>
+                </summary>
+                <description>
+                    <![CDATA[&nbsp;]]>
+                </description>
+            </attribute>
+
+            <attribute name="disbursementVoucherCheckDate">
+                <label>Check Date</label>
+                <shortLabel>Chk Dt</shortLabel>
+
+                <maxLength>10</maxLength>
+
+                <control>
+                    <hidden />
+                </control>
+
+                <summary>
+                    <![CDATA[&nbsp;]]>
+                </summary>
+                <description>
+                    <![CDATA[&nbsp;]]>
+                </description>
+            </attribute>
+
+            <attribute name="disbVchrPayeeW9CompleteCode">
+                <label>W-9/W-8BEN Completed</label>
+                <shortLabel>W-9/W-8BEN</shortLabel>
+
+                <maxLength>1</maxLength>
+
+                <required>false</required>
+
+                <control>
+                    <checkbox />
+                </control>
+
+                <summary>
+                    <![CDATA[&nbsp;]]>
+                </summary>
+                <description>
+                    <![CDATA[&nbsp;]]>
+                </description>
+            </attribute>
+
+            <attribute name="disbVchrPaymentMethodCode">
+                <label>Payment Method</label>
+                <shortLabel>Pay Mth</shortLabel>
+
+                <maxLength>1</maxLength>
+
+                <required>true</required>
+
+                <control>
+                    <select valuesFinderClass="org.kuali.module.financial.lookup.keyvalues.PaymentMethodValuesFinder" />
+                </control>
+
+                <summary>
+                    <![CDATA[&nbsp;]]>
+                </summary>
+                <description>The description of the method of the document Payment. Select one from the pulldown list.</description>
+            </attribute>
+
+            <attributeReference name="campusCode" sourceClassName="org.kuali.core.bo.Campus" sourceAttributeName="campusCode">
+                <required>false</required>
+
+                <control>
+                    <select valuesFinderClass="org.kuali.core.lookup.keyvalues.CampusValuesFinder" />
+                </control>
+                <description>The code for the Campus of the Contact.</description>
+
+            </attributeReference>
+
+            <attribute name="disbVchrCheckStubText">
+                <label>Check Stub Text</label>
+                <shortLabel>Check Txt</shortLabel>
+
+                <maxLength>1400</maxLength>
+
+                <required>true</required>
+
+                <control>
+                    <textarea cols="100" rows="5" />
+                </control>
+
+                <summary>
+                    <![CDATA[&nbsp;]]>
+                </summary>
+                <description>A free-form text field which the Contact may add to the check stub.</description>
+            </attribute>
+
+        </attributes>
+
+        <summary>
+            <![CDATA[&nbsp;]]>
+        </summary>
+        <description>The Disbursement Voucher (DV) is a document that is used to reimburse University employees, non-employees, and other vendors for expenses incurred while conducting university business, performing a service, or providing material goods for the university. Most often this reimbursement is in the form of a check (although occasionally another method of disbursement might be used such as a direct deposit or wire transfer).</description>
+        <help securityGroupName="Kuali.FinancialTransactionProcessing.DisbursementVoucherDocument" parameterName="FINANCIAL_HELP_DISBURSEMENT_VOUCHER_DOCUMENT" />
+        <allowsCopy>true</allowsCopy>
+        <allowsErrorCorrection>false</allowsErrorCorrection>
+    </transactionalDocument>
+</dictionaryEntry>

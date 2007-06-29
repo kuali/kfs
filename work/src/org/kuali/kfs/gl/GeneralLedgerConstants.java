@@ -15,6 +15,15 @@
  */
 package org.kuali.module.gl;
 
+import org.apache.commons.lang.StringUtils;
+import org.kuali.kfs.KFSPropertyConstants;
+import org.kuali.kfs.bo.OriginationCode;
+import org.kuali.kfs.bo.TargetAccountingLine;
+import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.module.chart.bo.ObjectCode;
+import org.kuali.module.chart.bo.codes.BalanceTyp;
+import org.kuali.module.gl.bo.OriginEntry;
+
 
 /**
  * This class...
@@ -22,8 +31,13 @@ package org.kuali.module.gl;
  * 
  */
 public class GLConstants {
-    public static final String DASH_ORGANIZATION_REFERENCE_ID = "--------";
-    public static final int ORIGIN_ENTRY_ID_MAXIMUM_SIZE = 14;
+    public static final String SPACE_UNIVERSITY_FISCAL_PERIOD_CODE = StringUtils.rightPad("", SpringServiceLocator.getDataDictionaryService().getAttributeSize(OriginEntry.class, KFSPropertyConstants.UNIVERSITY_FISCAL_PERIOD_CODE), ' '); 
+    public static final String SPACE_BALANCE_TYPE_CODE = StringUtils.rightPad("", SpringServiceLocator.getDataDictionaryService().getAttributeSize(BalanceTyp.class, KFSPropertyConstants.CODE), ' '); 
+    public static final String SPACE_FINANCIAL_SYSTEM_ORIGINATION_CODE = StringUtils.rightPad("", SpringServiceLocator.getDataDictionaryService().getAttributeSize(OriginationCode.class, KFSPropertyConstants.FINANCIAL_SYSTEM_ORIGINATION_CODE), ' '); 
+    public static final String SPACE_DEBIT_CREDIT_CODE = StringUtils.rightPad("", SpringServiceLocator.getDataDictionaryService().getAttributeSize(TargetAccountingLine.class, KFSPropertyConstants.DEBIT_CREDIT_CODE), ' '); 
+    public static final String SPACE_FINANCIAL_OBJECT_CODE =  StringUtils.rightPad("", SpringServiceLocator.getDataDictionaryService().getAttributeSize(ObjectCode.class, KFSPropertyConstants.FINANCIAL_OBJECT_CODE), ' ');
+    
+    public static final String DASH_ORGANIZATION_REFERENCE_ID = StringUtils.rightPad("", SpringServiceLocator.getDataDictionaryService().getAttributeSize(OriginEntry.class, KFSPropertyConstants.ORGANIZATION_REFERENCE_ID), '-');
     
     public static class DummyBusinessObject {
         static final public String COST_SHARE_OPTION = "dummyBusinessObject.costShareOption";

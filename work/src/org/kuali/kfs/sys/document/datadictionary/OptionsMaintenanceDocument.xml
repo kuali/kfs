@@ -32,7 +32,7 @@
             </authorization>
         </authorizations>
 
-        <documentTypeName>KualiOptionsMaintenanceDocument</documentTypeName>
+        <documentTypeName>OptionsMaintenanceDocument</documentTypeName>
         <documentTypeCode>SOPT</documentTypeCode>
 
         <label>System Options Maintenance Document</label>

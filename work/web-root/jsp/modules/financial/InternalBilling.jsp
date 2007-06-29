@@ -17,7 +17,7 @@
 
 <kul:documentPage showDocumentInfo="true"
 	htmlFormAction="financialInternalBilling"
-	documentTypeName="KualiInternalBillingDocument" renderMultipart="true"
+	documentTypeName="InternalBillingDocument" renderMultipart="true"
 	showTabButtons="true">
 
 	<html:hidden property="document.nextItemLineNumber" />

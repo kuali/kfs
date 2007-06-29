@@ -32,7 +32,7 @@
             </authorization>
         </authorizations>
 
-        <documentTypeName>KualiUniversityDateMaintenanceDocument</documentTypeName>
+        <documentTypeName>UniversityDateMaintenanceDocument</documentTypeName>
         <documentTypeCode>UDAT</documentTypeCode>
 
         <label>University Date Maintenance Document</label>

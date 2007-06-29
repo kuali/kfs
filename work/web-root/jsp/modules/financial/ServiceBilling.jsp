@@ -16,7 +16,7 @@
 <%@ include file="/jsp/kfs/kfsTldHeader.jsp"%>
 
 <kul:documentPage showDocumentInfo="true"
-	documentTypeName="KualiServiceBillingDocument"
+	documentTypeName="ServiceBillingDocument"
 	htmlFormAction="financialServiceBilling" renderMultipart="true"
 	showTabButtons="true">
 	<html:hidden property="document.nextItemLineNumber" />

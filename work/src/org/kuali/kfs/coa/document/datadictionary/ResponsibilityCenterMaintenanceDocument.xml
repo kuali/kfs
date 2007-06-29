@@ -32,7 +32,7 @@
             </authorization>
         </authorizations>
 
-        <documentTypeName>KualiResponsibilityCenterMaintenanceDocument</documentTypeName>
+        <documentTypeName>ResponsibilityCenterMaintenanceDocument</documentTypeName>
         <documentTypeCode>RCEN</documentTypeCode>
 
         <label>Responsibility Center Maintenance Document</label>

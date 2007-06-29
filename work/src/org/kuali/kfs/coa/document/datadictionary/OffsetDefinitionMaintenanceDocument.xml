@@ -33,7 +33,7 @@
             </authorization>
         </authorizations>
 
-        <documentTypeName>KualiOffsetDefinitionMaintenanceDocument</documentTypeName>
+        <documentTypeName>OffsetDefinitionMaintenanceDocument</documentTypeName>
         <documentTypeCode>OFSD</documentTypeCode>
         <label>Offset Definition Maintenance Document</label>
         <shortLabel>OffsetDefMaintDoc</shortLabel>

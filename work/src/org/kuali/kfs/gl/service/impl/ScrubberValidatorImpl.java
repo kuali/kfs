@@ -102,7 +102,7 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
 
         count++;
         if (count % 100 == 0) {
-            System.out.println(count + " " + originEntry.getLine());
+            LOG.debug(count + " " + originEntry.getLine());
         }
 
         // The cobol checks fdoc_nbr, trn_ldgr_entr_desc, org_doc_nbr, org_reference_id, and fdoc_ref_nbr for characters less than

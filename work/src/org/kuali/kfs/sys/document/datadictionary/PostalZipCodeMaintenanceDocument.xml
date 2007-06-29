@@ -32,7 +32,7 @@
             </authorization>
         </authorizations>
 
-        <documentTypeName>KualiPostalZipCodeMaintenanceDocument</documentTypeName>
+        <documentTypeName>PostalZipCodeMaintenanceDocument</documentTypeName>
         <documentTypeCode>ZIPC</documentTypeCode>
 
         <label>Postal Code Maintenance Document</label>

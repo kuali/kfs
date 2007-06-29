@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ Copyright 2005-2007 The Kuali Foundation.
+ 
+ Licensed under the Educational Community License, Version 1.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+ 
+ http://www.opensource.org/licenses/ecl1.php
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+<!DOCTYPE dictionaryEntry PUBLIC
+    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
+    "../../../../core/datadictionary/dataDictionary-1_0.dtd">
+
+<dictionaryEntry>
+    <maintenanceDocument>
+        <businessObjectClass>org.kuali.module.chart.bo.ObjLevel</businessObjectClass>
+        <maintainableClass>org.kuali.core.maintenance.KualiMaintainableImpl</maintainableClass>
+        <businessRulesClass>org.kuali.module.chart.rules.ObjectLevelRule</businessRulesClass>
+        <documentAuthorizerClass>org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase</documentAuthorizerClass>
+        <authorizations>
+            <authorization action="initiate">
+                <workgroups>
+                    <workgroup>KUALI_ROLE_MAINTENANCE</workgroup>
+                </workgroups>
+            </authorization>
+        </authorizations>
+
+        <documentTypeName>ObjLevelMaintenanceDocument</documentTypeName>
+        <documentTypeCode>OBJL</documentTypeCode>
+
+        <label>Object Level Maintenance Document</label>
+        <shortLabel>ObjLevMainDoc</shortLabel>
+
+        <summary>Object Level maintenance document</summary>
+        <description>Document used to create or update Object Level objects</description>
+        <help securityGroupName="ChartMaintenanceEDoc" parameterName="CHART_HELP_OBJECT_LEVEL" />
+
+        <lockingKeys>
+            <field attributeName="chartOfAccountsCode" />
+            <field attributeName="financialObjectLevelCode" />
+        </lockingKeys>
+
+        <defaultExistenceChecks>
+            <reference attributeName="chartOfAccounts" attributeToHighlightOnFail="chartOfAccountsCode" />
+            <reference attributeName="financialConsolidationObject" attributeToHighlightOnFail="financialConsolidationObjectCode" />
+        </defaultExistenceChecks>
+
+        <maintainableSections>
+            <maintainableSection title="Edit Object Level">
+                <maintainableItems>
+                    <maintainableField name="chartOfAccountsCode" required="true" />
+                    <maintainableField name="financialObjectLevelCode" required="true" />
+                    <maintainableField name="financialObjectLevelName" required="true" />
+                    <maintainableField name="financialObjectLevelShortNm" required="true" />
+                    <maintainableField name="financialConsolidationObjectCode" required="true" />
+                    <maintainableField name="financialObjectLevelActiveIndicator" >
+                        <defaultValue>true</defaultValue>
+                    </maintainableField>
+                    <maintainableField name="financialReportingSortCode" required="true" />
+                    <maintainableField name="versionNumber" />
+                </maintainableItems>
+            </maintainableSection>
+        </maintainableSections>
+    </maintenanceDocument>
+</dictionaryEntry>

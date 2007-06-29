@@ -35,7 +35,7 @@
             </authorization>
         </authorizations>
 
-        <documentTypeName>KualiAccountDelegateMaintenanceDocument</documentTypeName>
+        <documentTypeName>DelegateMaintenanceDocument</documentTypeName>
         <documentTypeCode>ADEL</documentTypeCode>
         <label>Account Delegate Maintenance Document</label>
         <shortLabel>AcctDelMaintDoc</shortLabel>

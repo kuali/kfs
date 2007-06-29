@@ -22,7 +22,7 @@
 <c:set var="depositAttributes"
 	value="${DataDictionary.Deposit.attributes}" />
 <c:set var="cashReceiptAttributes"
-	value="${DataDictionary.KualiCashReceiptDocument.attributes}" />
+	value="${DataDictionary.CashReceiptDocument.attributes}" />
 <c:set var="checkAttributes"
 	value="${DataDictionary.CheckBase.attributes}" />
 <c:set var="dummyAttributes"

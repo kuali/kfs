@@ -47,7 +47,7 @@ public class KualiAttributeXPathTest extends KualiTestBase {
 
     public void testKualiSubFundGroupAttribute_TransferOfFunds1() throws IOException, InvalidXmlException, XPathExpressionException {
 
-        DocumentContent docContent = KualiAttributeTestUtil.getDocumentContentFromXmlFile("TransferOfFunds_FEMPSubcode_OneLiner.xml", "KualiTransferOfFundsDocument");
+        DocumentContent docContent = KualiAttributeTestUtil.getDocumentContentFromXmlFile("TransferOfFunds_FEMPSubcode_OneLiner.xml", "TransferOfFundsDocument");
         XPath xpath = KualiWorkflowUtils.getXPath(docContent.getDocument());
 
         String xpathResult;

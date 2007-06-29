@@ -31,7 +31,7 @@
             </authorization>
         </authorizations>
 
-        <documentTypeName>KualiCreditCardTypeMaintenanceDocument</documentTypeName>
+        <documentTypeName>CreditCardTypeMaintenanceDocument</documentTypeName>
         <documentTypeCode>CCTY</documentTypeCode>
 
         <label>Credit Card Type Maintenance Document</label>

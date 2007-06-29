@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ Copyright 2005-2007 The Kuali Foundation.
+ 
+ Licensed under the Educational Community License, Version 1.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+ 
+ http://www.opensource.org/licenses/ecl1.php
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+<!DOCTYPE dictionaryEntry PUBLIC
+    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
+    "../../../core/datadictionary/dataDictionary-1_0.dtd">
+<dictionaryEntry>
+    <businessObject businessObjectClass="org.kuali.module.chart.bo.ObjLevel">
+
+
+        <inquiry>
+            <title>Object Level Inquiry</title>
+
+            <inquirySections><inquirySection title="Header Text"><inquiryFields>
+                <field attributeName="chartOfAccountsCode" />
+                <field attributeName="financialObjectLevelCode" />
+                <field attributeName="financialObjectLevelName" />
+                <field attributeName="financialObjectLevelShortNm" />
+                <field attributeName="financialConsolidationObjectCode" />
+                <field attributeName="financialObjectLevelActiveIndicator" />
+                <field attributeName="financialReportingSortCode" />
+            </inquiryFields></inquirySection></inquirySections>
+        </inquiry>
+
+        <lookup>
+            <title>Object Level Lookup</title>
+
+            <instructions>Lookup an Object Level</instructions>
+
+            <defaultSort attributeName="financialObjectLevelCode" sortAscending="false" />
+
+            <lookupFields>
+                <lookupField attributeName="chartOfAccountsCode" required="false" />
+                <lookupField attributeName="financialObjectLevelCode" required="false" />
+                <lookupField attributeName="financialObjectLevelName" required="false" />
+                <lookupField attributeName="financialObjectLevelShortNm" required="false" />
+                <lookupField attributeName="financialConsolidationObjectCode" required="false" />
+                <lookupField attributeName="financialObjectLevelActiveIndicator" required="false">
+                    <defaultValue>Y</defaultValue>
+                </lookupField>
+            </lookupFields>
+
+            <resultFields>
+                <field attributeName="chartOfAccountsCode" />
+                <field attributeName="financialObjectLevelCode" />
+                <field attributeName="financialObjectLevelName" />
+                <field attributeName="financialObjectLevelShortNm" />
+                <field attributeName="financialConsolidationObjectCode" />
+                <field attributeName="financialObjectLevelActiveIndicator" />
+            </resultFields>
+        </lookup>
+
+        <!--
+            Note that this has one or two items that should 
+            be converted to <attributeReference> tags, but until the 
+            underlying BO is updated to use real sub-objects rather 
+            than just strings, doing that will cause this DD to break.
+        -->
+
+        <titleAttribute>financialObjectLevelCode</titleAttribute>
+
+        <attributes>
+            <attributeReference name="chartOfAccountsCode" sourceClassName="org.kuali.module.chart.bo.Chart" sourceAttributeName="chartOfAccountsCode">
+
+                <required>true</required>
+                <control>
+                    <text size="2" />
+                </control>
+            </attributeReference>
+
+            <attribute name="financialObjectLevelCode" forceUppercase="true">
+                <label>Level Code</label>
+                <shortLabel>Level Code</shortLabel>
+
+                <maxLength>4</maxLength>
+                <validationPattern>
+                    <anyCharacter allowWhitespace="true" />
+                </validationPattern>
+                <required>true</required>
+                <control>
+                    <text size="4" />
+                </control>
+
+                <summary>Level Code</summary>
+                <description>Level Code</description>
+            </attribute>
+
+            <attribute name="financialObjectLevelName" forceUppercase="true">
+                <label>Object Level Name</label>
+                <shortLabel>Name</shortLabel>
+
+                <maxLength>40</maxLength>
+                <validationPattern>
+                    <anyCharacter allowWhitespace="true" />
+                </validationPattern>
+                <required>true</required>
+                <control>
+                    <text size="40" />
+                </control>
+
+                <summary>Object Level Name</summary>
+                <description>Object Level Name</description>
+            </attribute>
+
+            <attribute name="financialObjectLevelShortNm" forceUppercase="true">
+                <label>Object Level Short Name</label>
+                <shortLabel>ObjLevelShortName</shortLabel>
+
+                <maxLength>12</maxLength>
+                <validationPattern>
+                    <anyCharacter allowWhitespace="true" />
+                </validationPattern>
+                <required>true</required>
+                <control>
+                    <text size="12" />
+                </control>
+
+                <summary>Object Level Short Name</summary>
+                <description>Object Level Short Name</description>
+            </attribute>
+            <attributeReference name="financialConsolidationObjectCode" sourceClassName="org.kuali.module.chart.bo.ObjectCons" sourceAttributeName="finConsolidationObjectCode">
+
+                <label>Consolidation Code</label>
+                <shortLabel>Consolidation Code</shortLabel>
+
+                <maxLength>4</maxLength>
+                <required>true</required>
+                <control>
+                    <text size="4" />
+                </control>
+
+                <summary>Consolidation Code</summary>
+                <description>Consolidation Object Code</description>
+
+            </attributeReference>
+            <attributeReference name="financialObjectLevelActiveIndicator" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="activeIndicator">
+                <required>true</required>
+            </attributeReference>
+
+            <attribute name="financialReportingSortCode" forceUppercase="true">
+                <label>Report Sort Code</label>
+                <shortLabel>SortCode</shortLabel>
+
+                <maxLength>2</maxLength>
+                <validationPattern>
+                    <alpha exactLength="2" />
+                </validationPattern>
+                <required>true</required>
+                <control>
+                    <text size="2" />
+                </control>
+
+                <summary>Report Sort Code</summary>
+                <description>Report Sort Code</description>
+            </attribute>
+
+            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
+
+        </attributes>
+        
+        <objectLabel>Object Level</objectLabel>
+    </businessObject>
+</dictionaryEntry>
+

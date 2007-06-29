@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ Copyright 2006-2007 The Kuali Foundation.
+ 
+ Licensed under the Educational Community License, Version 1.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+ 
+ http://www.opensource.org/licenses/ecl1.php
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+<!DOCTYPE dictionaryEntry PUBLIC
+    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
+    "../../../../core/datadictionary/dataDictionary-1_0.dtd">
+
+<dictionaryEntry>
+    <transactionalDocument>
+        <documentClass>org.kuali.module.financial.document.CashManagementDocument</documentClass>
+        <businessRulesClass>org.kuali.module.financial.rules.CashManagementDocumentRule</businessRulesClass>
+        <documentAuthorizerClass>org.kuali.module.financial.document.authorization.CashManagementDocumentAuthorizer</documentAuthorizerClass>
+        <authorizations>
+            <authorization action="initiate">
+                <workgroups>
+                    <workgroup>KUALI_ROLE_CASH_RECEIPT_VERIFICATION_GROUP</workgroup>
+                </workgroups>
+            </authorization>
+        </authorizations>
+
+        <documentTypeName>CashManagementDocument</documentTypeName>
+        <documentTypeCode>CMD</documentTypeCode>
+
+        <label>Cash Managment Document</label>
+        <shortLabel>Cash Mgmt Doc</shortLabel>
+
+        <attributes>
+            <attributeReference name="workgroupName" sourceClassName="org.kuali.core.bo.user.UniversalUser" sourceAttributeName="personUserIdentifier">
+                <label>Verification Unit</label>
+                <shortLabel>Verification Unit</shortLabel>
+
+                <maxLength>70</maxLength>
+                <required>true</required>
+                <control>
+                    <text size="72" />
+                </control>
+
+                <summary>Verification unit associated with this document</summary>
+                <description>Verification Unit used in selecting cash receipts and making deposits</description>
+            </attributeReference>
+
+            <attribute name="cashDrawerStatus">
+                <label>Cash Drawer Status</label>
+                <shortLabel>Cash Drawer Status</shortLabel>
+
+                <maxLength>10</maxLength>
+
+                <control>
+                    <text size="10" />
+                </control>
+
+                <summary>Current status of cash drawer associated with this document</summary>
+                <description>...</description>
+            </attribute>
+
+        </attributes>
+
+        <summary>
+            <![CDATA[&nbsp;]]>
+        </summary>
+        <description>blah blah Document blah Cash Management blah blah</description>
+        <help securityGroupName="Kuali.FinancialTransactionProcessing.CashManagementDocument" parameterName="FINANCIAL_HELP_CASH_MANAGEMENT_DOCUMENT" />
+
+        <allowsCopy>false</allowsCopy>
+        <allowsErrorCorrection>false</allowsErrorCorrection>
+    </transactionalDocument>
+</dictionaryEntry>

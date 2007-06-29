@@ -32,7 +32,7 @@
             </authorization>
         </authorizations>
 
-        <documentTypeName>KualiCreditCardVendorMaintenanceDocument</documentTypeName>
+        <documentTypeName>CreditCardVendorMaintenanceDocument</documentTypeName>
         <documentTypeCode>CCVN</documentTypeCode>
 
         <label>Credit Card Vendor Maintenance Document</label>

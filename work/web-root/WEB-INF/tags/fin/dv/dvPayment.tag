@@ -16,7 +16,7 @@
 <%@ include file="/jsp/kfs/kfsTldHeader.jsp"%>
 
 <kul:tab tabTitle="Payment Information" defaultOpen="true" tabErrorKey="${Constants.DV_PAYMENT_TAB_ERRORS}">
-  	<c:set var="dvAttributes" value="${DataDictionary.KualiDisbursementVoucherDocument.attributes}" />
+  	<c:set var="dvAttributes" value="${DataDictionary.DisbursementVoucherDocument.attributes}" />
   	<c:set var="payeeAttributes" value="${DataDictionary.DisbursementVoucherPayeeDetail.attributes}" />
     <div class="tab-container" align=center > 
     <div class="h2-container">

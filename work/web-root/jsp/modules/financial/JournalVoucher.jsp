@@ -16,12 +16,12 @@
 <%@ include file="/jsp/kfs/kfsTldHeader.jsp"%>
 
 <c:set var="journalVoucherAttributes"
-	value="${DataDictionary['KualiJournalVoucherDocument'].attributes}" />
+	value="${DataDictionary['JournalVoucherDocument'].attributes}" />
 <c:set var="readOnly"
 	value="${!empty KualiForm.editingMode['viewOnly']}" />
 
 <kul:documentPage showDocumentInfo="true"
-	documentTypeName="KualiJournalVoucherDocument"
+	documentTypeName="JournalVoucherDocument"
 	htmlFormAction="financialJournalVoucher" renderMultipart="true"
 	showTabButtons="true">
 	<kul:hiddenDocumentFields />

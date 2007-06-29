@@ -32,7 +32,7 @@
             </authorization>
         </authorizations>
 
-        <documentTypeName>KualiBalanceTypeMaintenanceDocument</documentTypeName>
+        <documentTypeName>BalanceTypeMaintenanceDocument</documentTypeName>
         <documentTypeCode>BTYP</documentTypeCode>
         <label>Balance Type Maintenance Document</label>
         <shortLabel>BalanceTypeMaintDoc</shortLabel>

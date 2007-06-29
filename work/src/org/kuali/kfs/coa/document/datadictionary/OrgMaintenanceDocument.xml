@@ -34,7 +34,7 @@
             </authorization>
         </authorizations>
 
-        <documentTypeName>KualiOrganizationMaintenanceDocument</documentTypeName>
+        <documentTypeName>OrganizationMaintenanceDocument</documentTypeName>
         <documentTypeCode>ORGN</documentTypeCode>
 
 		<webScriptFile>../dwr/interface/PostalZipCodeService.js</webScriptFile>

@@ -33,7 +33,7 @@
             </authorization>
         </authorizations>
 
-        <documentTypeName>KualiICRTypeCodeMaintenanceDocument</documentTypeName>
+        <documentTypeName>ICRTypeCodeMaintenanceDocument</documentTypeName>
         <documentTypeCode>ICRT</documentTypeCode>
         <label>ICR Type Code Maintenance Document</label>
         <shortLabel>ICRTypeCodeMaintDoc</shortLabel>

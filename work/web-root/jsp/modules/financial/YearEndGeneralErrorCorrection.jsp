@@ -16,7 +16,7 @@
 <%@ include file="/jsp/kfs/kfsTldHeader.jsp"%>
 
 <kul:documentPage showDocumentInfo="true"
-	documentTypeName="KualiYearEndGeneralErrorCorrectionDocument"
+	documentTypeName="YearEndGeneralErrorCorrectionDocument"
 	htmlFormAction="financialYearEndGeneralErrorCorrection"
 	renderMultipart="true" showTabButtons="true">
 

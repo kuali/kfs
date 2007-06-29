@@ -15,7 +15,7 @@
 --%>
 <%@ include file="/jsp/kfs/kfsTldHeader.jsp"%>
 <kul:documentPage showDocumentInfo="true"
-	documentTypeName="KualiBudgetAdjustmentDocument"
+	documentTypeName="BudgetAdjustmentDocument"
 	htmlFormAction="financialBudgetAdjustment" renderMultipart="true"
 	showTabButtons="true">
 
@@ -25,7 +25,7 @@
 		includePostingYear="true"
         postingYearOnChange="submitForm()"
         includePostingYearRefresh="true"
-        postingYearAttributes="${DataDictionary.KualiBudgetAdjustmentDocument.attributes}" />
+        postingYearAttributes="${DataDictionary.BudgetAdjustmentDocument.attributes}" />
 
 	<fin:accountingLines editingMode="${KualiForm.editingMode}"
 		editableAccounts="${KualiForm.editableAccounts}"

@@ -32,7 +32,7 @@
             </authorization>
         </authorizations>
 
-        <documentTypeName>KualiAicpaFunctionMaintenanceDocument</documentTypeName>
+        <documentTypeName>AicpaFunctionMaintenanceDocument</documentTypeName>
         <documentTypeCode>AFUN</documentTypeCode>
 
         <label>AICPA Function Maintenance Document</label>

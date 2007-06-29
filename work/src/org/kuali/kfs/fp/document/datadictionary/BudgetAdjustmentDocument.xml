@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ Copyright 2006-2007 The Kuali Foundation.
+ 
+ Licensed under the Educational Community License, Version 1.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+ 
+ http://www.opensource.org/licenses/ecl1.php
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+<!DOCTYPE dictionaryEntry PUBLIC
+    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
+    "../../../../core/datadictionary/dataDictionary-1_0.dtd">
+
+<dictionaryEntry>
+    <transactionalDocument>
+        <documentClass>org.kuali.module.financial.document.BudgetAdjustmentDocument</documentClass>
+        <businessRulesClass>org.kuali.module.financial.rules.BudgetAdjustmentDocumentRule</businessRulesClass>
+        <preRulesCheckClass>org.kuali.module.financial.rules.BudgetAdjustmentDocumentPreRules</preRulesCheckClass>
+        
+        <documentAuthorizerClass>org.kuali.module.financial.document.authorization.BudgetAdjustmentDocumentAuthorizer</documentAuthorizerClass>
+        <authorizations>
+            <authorization action="initiate">
+                <workgroups>
+                    <workgroup>kualiUniversalGroup</workgroup>
+                </workgroups>
+            </authorization>
+        </authorizations>
+
+        <documentTypeName>BudgetAdjustmentDocument</documentTypeName>
+        <documentTypeCode>BA</documentTypeCode>
+
+        <label>Budget Adjustment</label>
+        <shortLabel>BADoc</shortLabel>
+
+        <attributes>
+            <attribute name="nextPositionSourceLineNumber" forceUppercase="false">
+                <label>Next PS Source Line Number</label>
+                <shortLabel>Next PS Source</shortLabel>
+
+                <maxLength>7</maxLength>
+
+                <validationPattern>
+                    <numeric />
+                </validationPattern>
+                <required>false</required>
+                <control>
+                    <text size="10" />
+                </control>
+
+                <summary>
+                    <![CDATA[&nbsp;]]>
+                </summary>
+                <description>
+                    <![CDATA[&nbsp;]]>
+                </description>
+            </attribute>
+
+            <attribute name="nextPositionTargetLineNumber" forceUppercase="false">
+                <label>Next PS Target Line Number</label>
+                <shortLabel>Next PS Target</shortLabel>
+
+                <maxLength>7</maxLength>
+
+                <validationPattern>
+                    <numeric />
+                </validationPattern>
+                <required>false</required>
+                <control>
+                    <text size="10" />
+                </control>
+
+                <summary>
+                    <![CDATA[&nbsp;]]>
+                </summary>
+                <description>
+                    <![CDATA[&nbsp;]]>
+                </description>
+            </attribute>
+
+            <attributeReference name="postingYear" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericFiscalYear">
+                <required>true</required>
+                <control>
+                    <select valuesFinderClass="org.kuali.module.financial.lookup.keyvalues.BudgetAdjustmentFiscalYearValuesFinder" />
+                </control>
+            </attributeReference>
+        </attributes>
+
+        <summary>Document used for adjusting budgets.</summary>
+        <description>The Budget Adjustment document is a financial planning tool that allows an organization to adjust the current 
+        and/or base budget figures for a given account as circumstances may change throughout the fiscal year. It may be used to 
+        create a budget for a new account established after the beginning of a new fiscal year, and it may also be used to transfer funds between
+        general fund accounts belonging to the same chart of accounts.</description>
+       <help securityGroupName="Kuali.FinancialTransactionProcessing.BudgetAdjustmentDocument" parameterName="FINANCIAL_HELP_BUDGET_ADJUSTMENT_DOCUMENT" />
+ 
+        <allowsCopy>true</allowsCopy>
+        <allowsErrorCorrection>true</allowsErrorCorrection>
+    </transactionalDocument>
+</dictionaryEntry>

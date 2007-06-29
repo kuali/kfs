@@ -32,7 +32,7 @@
             </authorization>
         </authorizations>
 
-        <documentTypeName>KualiBankMaintenanceDocument</documentTypeName>
+        <documentTypeName>BankMaintenanceDocument</documentTypeName>
         <documentTypeCode>BANK</documentTypeCode>
 
         <label>Bank Maintenance Document</label>

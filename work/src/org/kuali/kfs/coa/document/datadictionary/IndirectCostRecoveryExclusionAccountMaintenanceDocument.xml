@@ -33,7 +33,7 @@
             </authorization>
         </authorizations>
 
-        <documentTypeName>KualiIndirectCostRecoveryExclusionAccountMaintenanceDocument</documentTypeName>
+        <documentTypeName>IndirectCostRecoveryExclusionAccountMaintenanceDocument</documentTypeName>
         <documentTypeCode>ICRA</documentTypeCode>
         <label>Indirect Cost Recovery Exclusion Account Maintenance Document</label>
         <shortLabel>ICRExclusionAccountMaintenanceDoc</shortLabel>

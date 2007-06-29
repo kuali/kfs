@@ -32,12 +32,12 @@
                 
                 <tr>
                     <kul:htmlAttributeHeaderCell
-                        attributeEntry="${DataDictionary.KualiPreEncumbranceDocument.attributes.reversalDate}"
+                        attributeEntry="${DataDictionary.PreEncumbranceDocument.attributes.reversalDate}"
                         horizontal="true"
                         width="35%"
                         />
                     <td class="datacell-nowrap"><kul:htmlControlAttribute
-                        attributeEntry="${DataDictionary.KualiPreEncumbranceDocument.attributes.reversalDate}"
+                        attributeEntry="${DataDictionary.PreEncumbranceDocument.attributes.reversalDate}"
                         datePicker="true"
                         property="document.reversalDate"
                         readOnly="${readOnly}"

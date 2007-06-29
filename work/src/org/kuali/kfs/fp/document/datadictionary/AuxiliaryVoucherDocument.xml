@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ Copyright 2005-2007 The Kuali Foundation.
+ 
+ Licensed under the Educational Community License, Version 1.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+ 
+ http://www.opensource.org/licenses/ecl1.php
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+<!DOCTYPE dictionaryEntry PUBLIC
+    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
+    "../../../../core/datadictionary/dataDictionary-1_0.dtd">
+
+<dictionaryEntry>
+	<transactionalDocument>
+	    <documentClass>org.kuali.module.financial.document.AuxiliaryVoucherDocument</documentClass>
+        <businessRulesClass>org.kuali.module.financial.rules.AuxiliaryVoucherDocumentRule</businessRulesClass>
+
+        <documentAuthorizerClass>org.kuali.kfs.document.authorization.AccountingDocumentAuthorizerBase</documentAuthorizerClass>
+        <authorizations>
+            <authorization action="initiate">
+                <workgroups>
+                    <workgroup>kualiUniversalGroup</workgroup>
+                </workgroups>
+            </authorization>
+        </authorizations>
+
+		<documentTypeName>AuxiliaryVoucherDocument</documentTypeName>
+        <documentTypeCode>AV</documentTypeCode>
+	
+		<label>Auxiliary Voucher</label>
+		<shortLabel>AVDoc</shortLabel>
+        
+        <attributes>
+        	<attribute name="accountingPeriod" forceUppercase="false">
+        		<label>Accounting Period</label>
+        		<shortLabel>Acct. Prd.</shortLabel>
+        		
+        		<maxLength>50</maxLength>
+        		<validationPattern><anyCharacter /></validationPattern>
+        		
+        		<required>true</required>
+        		
+				<control>
+					<text size="50" />
+				</control>
+
+        		<summary><![CDATA[&nbsp;]]> </summary>
+        		<description>The calendar accounting periods during which the Auxiliary Voucher applies.  Select one from the pulldown list.</description>
+        	</attribute>
+
+        	<!-- Voucher type is a 4 character value that is used to state the type of the Auxiliary Voucher.   -->
+            <!-- It is represented as a radio button selection.                                                 -->
+        	<attribute name="typeCode" forceUppercase="true">
+        		<label>Auxiliary Voucher Type</label>
+        		<shortLabel>AVType</shortLabel>
+        		
+        		<maxLength>4</maxLength>
+        		<validationPattern><anyCharacter exactLength="4" /></validationPattern>
+        		
+        		<required>true</required>
+        		
+				<control>
+					<radio valuesFinderClass="org.kuali.module.financial.lookup.keyvalues.AuxiliaryVoucherTypeCodeValuesFinder"/>
+				</control>
+
+        		<summary><![CDATA[&nbsp;]]></summary>
+        		<description>
+        			Voucher type is a 4 character value that is used to state the type of the Auxiliary Voucher. It is represented as a radio button selection.
+        		</description>
+        	</attribute>
+
+            <attributeReference name="reversalDate"
+                sourceClassName="org.kuali.core.bo.AttributeReferenceDummy"
+                sourceAttributeName="genericDate" >
+                <label>Reversal Date</label>
+                <shortLabel>Reversal Date</shortLabel>
+
+                <required>false</required>
+
+                <summary><![CDATA[&nbsp;]]> </summary>
+                <description>The date when the Kuali Financial System (KFS) will automatically reverse the General Ledger entries entered on the document. The reversal date entered must be greater than or equal to today's date. Use the calendar icon to select and format the Reversal Date.</description>
+            </attributeReference>
+        </attributes>
+
+        <summary>Auxiliary Voucher document</summary>
+        <description>blah blah Document blah Auxiliary Voucher blah blah</description>
+        <help securityGroupName="Kuali.FinancialTransactionProcessing.AuxiliaryVoucherDocument" parameterName="FINANCIAL_HELP_AUXILIARY_VOUCHER_DOCUMENT" />
+  
+        
+        <allowsCopy>true</allowsCopy>
+        <allowsErrorCorrection>true</allowsErrorCorrection>
+	</transactionalDocument>
+</dictionaryEntry>

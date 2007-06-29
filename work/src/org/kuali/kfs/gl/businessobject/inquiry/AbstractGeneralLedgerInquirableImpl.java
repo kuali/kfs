@@ -337,8 +337,8 @@ public abstract class AbstractGLInquirableImpl extends KualiInquirableImpl {
     public Class getNestedInquiryBusinessObjectClass(BusinessObject businessObject, String attributeName) {
         Class inquiryBusinessObjectClass = null;
         String entryName = businessObject.getClass().getName();
-        System.out.println("businessObject: " + entryName);
-        System.out.println("attributeName: " + attributeName);
+        LOG.debug("businessObject: " + entryName);
+        LOG.debug("attributeName: " + attributeName);
 
         DataDictionaryService dataDictionary = SpringServiceLocator.getDataDictionaryService();
         AttributeDefinition attributeDefinition = null;
@@ -355,8 +355,8 @@ public abstract class AbstractGLInquirableImpl extends KualiInquirableImpl {
 
         if (attributeDefinition instanceof AttributeReferenceDefinition) {
             AttributeReferenceDefinition attributeReferenceDefinition = (AttributeReferenceDefinition) attributeDefinition;
-            System.out.println("Source Classname = " + attributeReferenceDefinition.getSourceClassName());
-            System.out.println("Source Attribute = " + attributeReferenceDefinition.getSourceAttributeName());
+            LOG.debug("Source Classname = " + attributeReferenceDefinition.getSourceClassName());
+            LOG.debug("Source Attribute = " + attributeReferenceDefinition.getSourceAttributeName());
 
             try {
                 inquiryBusinessObjectClass = Class.forName(attributeReferenceDefinition.getSourceClassName());

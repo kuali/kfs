@@ -33,7 +33,7 @@
             </authorization>
         </authorizations>
 
-        <documentTypeName>KualiMandatoryTransferEliminationCodeMaintenanceDocument</documentTypeName>
+        <documentTypeName>MandatoryTransferEliminationCodeMaintenanceDocument</documentTypeName>
         <documentTypeCode>MTE</documentTypeCode>
         <label>Mandatory Transfer Elimination Code Maintenance Document</label>
         <shortLabel>MandTransferElimCodeMaintDoc</shortLabel>

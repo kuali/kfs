@@ -48,9 +48,9 @@ public class GlobalDocumentTest extends KualiTestBase {
 
     private static final Log LOG = LogFactory.getLog(GlobalDocumentTest.class);
 
-    private static final String KNOWN_DOCUMENT_TYPENAME = "KualiDelegateChangeDocument";
-    private static final String GLOBAL_DELEGATE_TYPENAME = "KualiDelegateChangeDocument";
-    private static final String GLOBAL_ACCOUNT_TYPENAME = "KualiAccountChangeDocument";
+    private static final String KNOWN_DOCUMENT_TYPENAME = "DelegateChangeContainer";
+    private static final String GLOBAL_DELEGATE_TYPENAME = "DelegateChangeContainer";
+    private static final String GLOBAL_ACCOUNT_TYPENAME = "AccountChangeDocumentMaintenanceDocument";
 
 
     public void testGlobalDelegateMaintenanceDocumentCreation_goodDocTypeName() throws Exception {

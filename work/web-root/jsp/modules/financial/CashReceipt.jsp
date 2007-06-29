@@ -18,12 +18,12 @@
 <c:set var="displayHidden" value="false" />
 <c:set var="checkDetailMode" value="${KualiForm.checkEntryDetailMode}" />
 <c:set var="cashReceiptAttributes"
-	value="${DataDictionary['KualiCashReceiptDocument'].attributes}" />
+	value="${DataDictionary['CashReceiptDocument'].attributes}" />
 <c:set var="readOnly"
 	value="${!empty KualiForm.editingMode['viewOnly']}" />
 <kul:documentPage showDocumentInfo="true"
 	htmlFormAction="financialCashReceipt"
-	documentTypeName="KualiCashReceiptDocument" renderMultipart="true"
+	documentTypeName="CashReceiptDocument" renderMultipart="true"
 	showTabButtons="true">
 	<cr:printCoverSheet />
 	<kul:hiddenDocumentFields />

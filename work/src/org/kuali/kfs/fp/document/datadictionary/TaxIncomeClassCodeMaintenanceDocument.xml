@@ -32,7 +32,7 @@
             </authorization>
         </authorizations>
 
-        <documentTypeName>KualiTaxIncomeClassCodeMaintenanceDocument</documentTypeName>
+        <documentTypeName>TaxIncomeClassCodeMaintenanceDocument</documentTypeName>
         <documentTypeCode>DVIC</documentTypeCode>
 
         <label>Tax Income Class Code Maintenance Document</label>

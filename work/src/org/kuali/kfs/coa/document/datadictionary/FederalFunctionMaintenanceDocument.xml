@@ -32,7 +32,7 @@
             </authorization>
         </authorizations>
 
-        <documentTypeName>KualiFederalFunctionMaintenanceDocument</documentTypeName>
+        <documentTypeName>FederalFunctionMaintenanceDocument</documentTypeName>
         <documentTypeCode>FFUN</documentTypeCode>
 
         <label>Federal Function Maintenance Document</label>

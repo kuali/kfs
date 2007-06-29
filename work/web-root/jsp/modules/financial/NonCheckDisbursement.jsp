@@ -16,7 +16,7 @@
 <%@ include file="/jsp/kfs/kfsTldHeader.jsp"%>
 
 <kul:documentPage showDocumentInfo="true"
-	documentTypeName="KualiNonCheckDisbursementDocument"
+	documentTypeName="NonCheckDisbursementDocument"
 	htmlFormAction="financialNonCheckDisbursement" renderMultipart="true"
 	showTabButtons="true">
 

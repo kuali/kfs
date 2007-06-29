@@ -32,7 +32,7 @@
             </authorization>
         </authorizations>
 
-        <documentTypeName>KualiFundGroupMaintenanceDocument</documentTypeName>
+        <documentTypeName>FundGroupMaintenanceDocument</documentTypeName>
         <documentTypeCode>FGRP</documentTypeCode>
 
         <label>Fund Group Maintenance Document</label>

@@ -32,7 +32,7 @@
             </authorization>
         </authorizations>
 
-        <documentTypeName>KualiOffsetAccountMaintenanceDocument</documentTypeName>
+        <documentTypeName>OffsetAccountMaintenanceDocument</documentTypeName>
         <documentTypeCode>OFAC</documentTypeCode>
 
         <label>Offset Account Maintenance Document</label>

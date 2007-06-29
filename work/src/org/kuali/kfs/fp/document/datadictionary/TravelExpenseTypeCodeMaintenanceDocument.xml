@@ -32,7 +32,7 @@
             </authorization>
         </authorizations>
 
-        <documentTypeName>KualiTravelExpenseTypeCodeMaintenanceDocument</documentTypeName>
+        <documentTypeName>TravelExpenseTypeCodeMaintenanceDocument</documentTypeName>
         <documentTypeCode>DVET</documentTypeCode>
 
         <label>Travel Expense Type Code Maintenance Document</label>

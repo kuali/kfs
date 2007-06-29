@@ -32,7 +32,7 @@
             </authorization>
         </authorizations>
 
-        <documentTypeName>KualiNonResidentAlienTaxPercentMaintenanceDocument</documentTypeName>
+        <documentTypeName>NonResidentAlienTaxPercentMaintenanceDocument</documentTypeName>
         <documentTypeCode>DVOT</documentTypeCode>
 
         <label>Non Resident Alien Tax Percent Maintenance Document</label>

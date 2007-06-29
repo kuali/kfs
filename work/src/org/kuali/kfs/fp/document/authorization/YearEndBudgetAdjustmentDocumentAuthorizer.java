@@ -42,7 +42,7 @@ public class YearEndBudgetAdjustmentDocumentAuthorizer extends BudgetAdjustmentD
 
         // if previous fiscal year not active, BA document is not allowed to be initiated
         if (allowedYears == null || allowedYears.isEmpty()) {
-            throw new InactiveDocumentTypeAuthorizationException("initiate", "KualiBudgetAdjustmentDocument");
+            throw new InactiveDocumentTypeAuthorizationException("initiate", "BudgetAdjustmentDocument");
         }
         
         boolean previousActive = false;
@@ -54,7 +54,7 @@ public class YearEndBudgetAdjustmentDocumentAuthorizer extends BudgetAdjustmentD
         }
         
         if (!previousActive) {
-            throw new InactiveDocumentTypeAuthorizationException("initiate", "KualiBudgetAdjustmentDocument");
+            throw new InactiveDocumentTypeAuthorizationException("initiate", "BudgetAdjustmentDocument");
         }
 
         super.canInitiate(documentTypeName, user);

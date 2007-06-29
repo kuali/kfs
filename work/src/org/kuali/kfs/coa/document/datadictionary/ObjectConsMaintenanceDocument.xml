@@ -33,7 +33,7 @@
             </authorization>
         </authorizations>
 
-        <documentTypeName>KualiObjectConsMaintenanceDocument</documentTypeName>
+        <documentTypeName>ObjectConsMaintenanceDocument</documentTypeName>
         <documentTypeCode>OBJC</documentTypeCode>
         
         <webScriptFile>../dwr/interface/ObjectCodeService.js</webScriptFile>

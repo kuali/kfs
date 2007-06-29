@@ -18,7 +18,7 @@
 
 <kul:documentPage showDocumentInfo="true"
 	htmlFormAction="financialYearEndDistributionOfIncomeAndExpense"
-	documentTypeName="KualiYearEndDistributionOfIncomeAndExpenseDocument"
+	documentTypeName="YearEndDistributionOfIncomeAndExpenseDocument"
 	renderMultipart="true" showTabButtons="true">
 
 	<kul:hiddenDocumentFields />

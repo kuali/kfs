@@ -32,7 +32,7 @@
             </authorization>
         </authorizations>
 
-        <documentTypeName>KualiDocumentationLocationMaintenanceDocument</documentTypeName>
+        <documentTypeName>DisbursementVoucherDocumentationLocationMaintenanceDocument</documentTypeName>
         <documentTypeCode>DVDL</documentTypeCode>
 
         <label>Documentation Location Maintenance Document</label>

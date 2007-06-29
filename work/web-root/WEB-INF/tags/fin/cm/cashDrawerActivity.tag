@@ -15,8 +15,8 @@
 --%>
 <%@ include file="/jsp/kfs/kfsTldHeader.jsp"%>
 
-<c:set var="cmDocAttributes" value="${DataDictionary.KualiCashManagementDocument.attributes}" />
-<c:set var="drawerAttributes" value="${DataDictionary.KualiCashManagementDocument.attributes}" />
+<c:set var="cmDocAttributes" value="${DataDictionary.CashManagementDocument.attributes}" />
+<c:set var="drawerAttributes" value="${DataDictionary.CashManagementDocument.attributes}" />
 <c:set var="dummyAttributes" value="${DataDictionary.DummyBusinessObject.attributes}" />
 
 <c:set var="allowOpen" value="${(KualiForm.editingMode[AuthorizationConstants.EditMode.FULL_ENTRY]) && (KualiForm.document.rawCashDrawerStatus == Constants.CashDrawerConstants.STATUS_CLOSED)}" />

@@ -32,7 +32,7 @@
             </authorization>
         </authorizations>
 
-        <documentTypeName>KualiBudgetAggregationCodeMaintenanceDocument</documentTypeName>
+        <documentTypeName>BudgetAggregationCodeMaintenanceDocument</documentTypeName>
         <documentTypeCode>BAMD</documentTypeCode>
         <label>Budget Aggregation Code Maintenance Document</label>
         <shortLabel>BudgetAggrCodeMaintDoc</shortLabel>

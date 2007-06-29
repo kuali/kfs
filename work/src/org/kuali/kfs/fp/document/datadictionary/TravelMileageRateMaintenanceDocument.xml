@@ -32,7 +32,7 @@
             </authorization>
         </authorizations>
 
-        <documentTypeName>KualiTravelMileageRateMaintenanceDocument</documentTypeName>
+        <documentTypeName>TravelMileageRateMaintenanceDocument</documentTypeName>
         <documentTypeCode>DVML</documentTypeCode>
 
         <label>Travel Mileage Rate Maintenance Document</label>

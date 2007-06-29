@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ Copyright 2005-2007 The Kuali Foundation.
+ 
+ Licensed under the Educational Community License, Version 1.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+ 
+ http://www.opensource.org/licenses/ecl1.php
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+<!DOCTYPE dictionaryEntry PUBLIC
+    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
+    "../../../../core/datadictionary/dataDictionary-1_0.dtd">
+
+<dictionaryEntry>
+    <transactionalDocument>
+        <documentClass>org.kuali.module.financial.document.JournalVoucherDocument</documentClass>
+        <businessRulesClass>org.kuali.module.financial.rules.JournalVoucherDocumentRule</businessRulesClass>
+
+        <documentAuthorizerClass>org.kuali.module.financial.document.authorization.JournalVoucherDocumentAuthorizer</documentAuthorizerClass>
+        <authorizations>
+            <authorization action="initiate">
+                <workgroups>
+                    <workgroup>KUALI_ROLE_JOURNAL_VOUCHER_DOCUMENT_USER</workgroup>
+                </workgroups>
+            </authorization>
+        </authorizations>
+
+        <documentTypeName>JournalVoucherDocument</documentTypeName>
+        <documentTypeCode>JV</documentTypeCode>
+
+        <label>Journal Voucher Document</label>
+        <shortLabel>JVDoc</shortLabel>
+
+        <attributes>
+            <attribute name="accountingPeriod" forceUppercase="false">
+                <label>Accounting Period</label>
+                <shortLabel>Acct. Prd.</shortLabel>
+
+                <maxLength>50</maxLength>
+                <validationPattern>
+                    <anyCharacter />
+                </validationPattern>
+
+                <required>true</required>
+
+                <control>
+                    <text size="50" />
+                </control>
+
+                <summary>
+                    <![CDATA[&nbsp;]]>
+                </summary>
+                <description>The calendar accounting periods during which the Journal Voucher applies. Select one from the pulldown list.</description>
+            </attribute>
+
+            <attributeReference name="reversalDate" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericDate">
+                <label>Reversal Date</label>
+                <shortLabel>Reversal Date</shortLabel>
+
+                <required>false</required>
+
+                <summary>
+                    <![CDATA[&nbsp;]]>
+                </summary>
+                <description>The date when the Kuali Financial System (KFS) will automatically reverse the General Ledger entries entered on the document.  The reversal date entered must be greater than or equal to today’s date. Use the calendar icon to select and format the Reversal Date.</description>
+            </attributeReference>
+
+            <attributeReference name="balanceTypeCode" sourceClassName="org.kuali.module.chart.bo.codes.BalanceTyp" sourceAttributeName="code">
+                <required>true</required>
+                <summary>
+                    <![CDATA[&nbsp;]]>
+                </summary>
+                <description>The 2-character code and text describing the type of balance involved in the Journal Voucher. Select one from the pulldown list.</description>
+
+            </attributeReference>
+        </attributes>
+
+        <summary>
+            <![CDATA[&nbsp;]]>
+        </summary>
+        <description>The Journal Voucher (JV) document is used to perform accounting tasks that cannot be done by any of the specialized financial documents. The JV document is a very open ended financial transactions document, with few checks of business rules. The main purpose of the Journal Voucher is to record accruals and allocations, and to adjust entries. The JV document can also be used to fix errors that may occur in the system which inadvertently put the General Ledger out of balance.</description>
+        <help securityGroupName="Kuali.FinancialTransactionProcessing.JournalVoucherDocument" parameterName="FINANCIAL_HELP_JOURNAL_VOUCHER_DOCUMENT" />
+        <allowsCopy>true</allowsCopy>
+        <allowsErrorCorrection>true</allowsErrorCorrection>
+    </transactionalDocument>
+</dictionaryEntry>

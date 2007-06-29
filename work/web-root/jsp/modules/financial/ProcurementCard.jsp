@@ -15,7 +15,7 @@
 --%>
 <%@ include file="/jsp/kfs/kfsTldHeader.jsp"%>
 <kul:documentPage showDocumentInfo="true"
-	documentTypeName="KualiProcurementCardDocument"
+	documentTypeName="ProcurementCardDocument"
 	htmlFormAction="financialProcurementCard" renderMultipart="true"
 	showTabButtons="true">
 

@@ -32,7 +32,7 @@
             </authorization>
         </authorizations>
 
-        <documentTypeName>KualiPaymentReasonCodeMaintenanceDocument</documentTypeName>
+        <documentTypeName>PaymentReasonCodeMaintenanceDocument</documentTypeName>
         <documentTypeCode>DVPR</documentTypeCode>
 
         <label>Payment Reason Code Maintenance Document</label>

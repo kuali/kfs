@@ -33,6 +33,7 @@ import org.kuali.core.service.DateTimeService;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSPropertyConstants;
+import org.kuali.module.gl.GLConstants;
 import org.kuali.module.gl.bo.OriginEntry;
 import org.kuali.module.gl.bo.OriginEntryGroup;
 import org.kuali.module.gl.bo.Transaction;
@@ -340,10 +341,10 @@ public class OriginEntryServiceImpl implements OriginEntryService {
         Object oCount = entrySummary[6];
 
         Integer fiscalYear = oFiscalYear != null ? new Integer(oFiscalYear.toString()) : null;
-        String periodCode = oPeriodCode != null ? oPeriodCode.toString() : "  ";
-        String balanceType = oBalanceType != null ? oBalanceType.toString() : "  ";
-        String originCode = oOriginCode != null ? oOriginCode.toString() : "  ";
-        String debitCreditCode = oDebitCreditCode != null ? oDebitCreditCode.toString() : " ";
+        String periodCode = oPeriodCode != null ? oPeriodCode.toString() : GLConstants.SPACE_UNIVERSITY_FISCAL_PERIOD_CODE;
+        String balanceType = oBalanceType != null ? oBalanceType.toString() : GLConstants.SPACE_BALANCE_TYPE_CODE;
+        String originCode = oOriginCode != null ? oOriginCode.toString() : GLConstants.SPACE_FINANCIAL_SYSTEM_ORIGINATION_CODE;
+        String debitCreditCode = oDebitCreditCode != null ? oDebitCreditCode.toString() : GLConstants.SPACE_DEBIT_CREDIT_CODE;
         KualiDecimal amount = oAmount != null ? new KualiDecimal(oAmount.toString()) : KualiDecimal.ZERO;
         int count = oCount != null ? Integer.parseInt(oCount.toString()) : 0;
 

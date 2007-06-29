@@ -32,7 +32,7 @@
             </authorization>
         </authorizations>
 
-        <documentTypeName>KualiTravelCompanyCodeMaintenanceDocument</documentTypeName>
+        <documentTypeName>TravelCompanyCodeMaintenanceDocument</documentTypeName>
         <documentTypeCode>DVIC</documentTypeCode>
 
         <label>Travel Company Code Maintenance Document</label>

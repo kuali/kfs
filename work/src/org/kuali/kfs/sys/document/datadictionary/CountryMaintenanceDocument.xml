@@ -32,7 +32,7 @@
             </authorization>
         </authorizations>
 
-        <documentTypeName>KualiCountryMaintenanceDocument</documentTypeName>
+        <documentTypeName>CountryMaintenanceDocument</documentTypeName>
         <documentTypeCode>CTRY</documentTypeCode>
 
         <label>Country Maintenance Document</label>

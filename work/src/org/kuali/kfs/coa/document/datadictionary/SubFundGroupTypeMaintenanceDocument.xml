@@ -31,7 +31,7 @@
             </authorization>
         </authorizations>
 
-        <documentTypeName>KualiSubFundGroupTypeMaintenanceDocument</documentTypeName>
+        <documentTypeName>SubFundGroupTypeMaintenanceDocument</documentTypeName>
         <documentTypeCode>SFGT</documentTypeCode>
 
         <label>Sub-Fund Group Type Maintenance Document</label>

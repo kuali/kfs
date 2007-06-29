@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ Copyright 2006-2007 The Kuali Foundation.
+ 
+ Licensed under the Educational Community License, Version 1.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+ 
+ http://www.opensource.org/licenses/ecl1.php
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+<!DOCTYPE dictionaryEntry PUBLIC
+    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
+    "../../../../core/datadictionary/dataDictionary-1_0.dtd">
+
+<dictionaryEntry>
+    <transactionalDocument>
+        <documentClass>org.kuali.module.financial.document.YearEndBudgetAdjustmentDocument</documentClass>
+        <businessRulesClass>org.kuali.module.financial.rules.YearEndBudgetAdjustmentDocumentRule</businessRulesClass>
+        <preRulesCheckClass>org.kuali.module.financial.rules.BudgetAdjustmentDocumentPreRules</preRulesCheckClass>
+
+        <documentAuthorizerClass>org.kuali.module.financial.document.authorization.YearEndBudgetAdjustmentDocumentAuthorizer</documentAuthorizerClass>
+        <authorizations>
+            <authorization action="initiate">
+                <workgroups>
+                    <workgroup>kualiUniversalGroup</workgroup>
+                </workgroups>
+            </authorization>
+        </authorizations>
+        
+        <documentTypeName>YearEndBudgetAdjustmentDocument</documentTypeName>
+        <documentTypeCode>YEBA</documentTypeCode>
+
+        <label>Year End Budget Adjustment</label>
+        
+        <shortLabel>YEBADoc</shortLabel>
+        
+        <attributes>
+            <attribute name="nextPositionSourceLineNumber" forceUppercase="false">
+                <label>Next PS Source Line Number</label>
+                <shortLabel>Next PS Source</shortLabel>
+
+                <maxLength>7</maxLength>
+
+                <validationPattern>
+                    <numeric />
+                </validationPattern>
+                <required>false</required>
+                <control>
+                    <text size="10" />
+                </control>
+
+                <summary>
+                    <![CDATA[&nbsp;]]>
+                </summary>
+                <description>
+                    <![CDATA[&nbsp;]]>
+                </description>
+            </attribute>
+
+            <attribute name="nextPositionTargetLineNumber" forceUppercase="false">
+                <label>Next PS Target Line Number</label>
+                <shortLabel>Next PS Target</shortLabel>
+
+                <maxLength>7</maxLength>
+
+                <validationPattern>
+                    <numeric />
+                </validationPattern>
+                <required>false</required>
+                <control>
+                    <text size="10" />
+                </control>
+
+                <summary>
+                    <![CDATA[&nbsp;]]>
+                </summary>
+                <description>
+                    <![CDATA[&nbsp;]]>
+                </description>
+            </attribute>
+
+            <attributeReference name="postingYear" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericFiscalYear">
+                <required>true</required>
+                <control>
+                    <select valuesFinderClass="org.kuali.module.financial.lookup.keyvalues.BudgetAdjustmentFiscalYearValuesFinder" />
+                </control>
+            </attributeReference>
+        </attributes>
+        
+        <summary><![CDATA[&nbsp;]]></summary>
+        <description>The Year End version of the Budget Adjustment document.</description>
+        <help securityGroupName="Kuali.FinancialTransactionProcessing.YearEndBudgetAdjustmentDocument" parameterName="FINANCIAL_HELP_YEAR_END_BUDGET_ADJUSTMENT_DOCUMENT" />
+        <allowsCopy>true</allowsCopy>
+        <allowsErrorCorrection>true</allowsErrorCorrection>
+    </transactionalDocument>
+</dictionaryEntry>

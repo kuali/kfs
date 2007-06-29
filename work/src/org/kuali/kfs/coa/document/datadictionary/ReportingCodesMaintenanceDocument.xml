@@ -33,7 +33,7 @@
             </authorization>
         </authorizations>
 
-        <documentTypeName>KualiReportingCodesMaintenanceDocument</documentTypeName>
+        <documentTypeName>ReportingCodesMaintenanceDocument</documentTypeName>
         <documentTypeCode>RPTC</documentTypeCode>
         <label>Financial Reporting Code Maintenance Document</label>
         <shortLabel>FinRptCdMaintDoc</shortLabel>

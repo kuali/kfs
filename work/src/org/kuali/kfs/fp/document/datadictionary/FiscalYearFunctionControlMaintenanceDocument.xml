@@ -32,7 +32,7 @@
             </authorization>
         </authorizations>
 
-        <documentTypeName>KualiFiscalYearFunctionControlMaintenanceDocument</documentTypeName>
+        <documentTypeName>FiscalYearFunctionControlMaintenanceDocument</documentTypeName>
         <documentTypeCode>BFYC</documentTypeCode>
 
         <label>Fiscal Year Function Control Maintenance Document</label>

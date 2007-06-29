@@ -32,7 +32,7 @@
             </authorization>
         </authorizations>
 
-        <documentTypeName>KualiHigherEdFunctionMaintenanceDocument</documentTypeName>
+        <documentTypeName>HigherEdFunctionMaintenanceDocument</documentTypeName>
         <documentTypeCode>HEFN</documentTypeCode>
 
         <label>Higher Education Function Maintenance Document</label>

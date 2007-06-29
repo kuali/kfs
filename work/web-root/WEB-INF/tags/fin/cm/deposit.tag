@@ -23,7 +23,7 @@
 <c:set var="allowAdditionalDeposits" value="${editingMode[AuthorizationConstants.CashManagementEditMode.ALLOW_ADDITIONAL_DEPOSITS]}" />
 <c:set var="allowCancelDeposits" value="${editingMode[AuthorizationConstants.CashManagementEditMode.ALLOW_CANCEL_DEPOSITS]}" />
 
-<c:set var="receiptAttributes" value="${DataDictionary.KualiCashReceiptDocument.attributes}" />
+<c:set var="receiptAttributes" value="${DataDictionary.CashReceiptDocument.attributes}" />
 <c:set var="dummyAttributes" value="${DataDictionary.AttributeReferenceDummy.attributes}" />
 <c:set var="depositAttributes" value="${DataDictionary.Deposit.attributes}" />
 

@@ -32,7 +32,7 @@
             </authorization>
         </authorizations>
 
-        <documentTypeName>KualiUniversityBudgetOfficeFunctionMaintenanceDocument</documentTypeName>
+        <documentTypeName>UniversityBudgetOfficeFunctionMaintenanceDocument</documentTypeName>
         <documentTypeCode>UFUN</documentTypeCode>
 
         <label>University Budget Office Function Maintenance Document</label>

@@ -32,7 +32,7 @@
             </authorization>
         </authorizations>
 
-        <documentTypeName>KualiMessageOfTheDayMaintenanceDocument</documentTypeName>
+        <documentTypeName>MessageOfTheDayMaintenanceDocument</documentTypeName>
         <documentTypeCode>MOTD</documentTypeCode>
 
         <label>Message Of The Day Maintenance Document</label>

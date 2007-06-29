@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ Copyright 2006-2007 The Kuali Foundation.
+ 
+ Licensed under the Educational Community License, Version 1.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+ 
+ http://www.opensource.org/licenses/ecl1.php
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+<!DOCTYPE dictionaryEntry PUBLIC
+    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
+    "../../../core/datadictionary/dataDictionary-1_0.dtd">
+
+<dictionaryEntry>
+    <businessObject businessObjectClass="org.kuali.module.gl.bo.Encumbrance">
+
+        <inquiry>
+            <title>Open Encumbrance</title>
+            <inquirySections><inquirySection title="Header Text"><inquiryFields>
+                <field attributeName="chartOfAccountsCode" forceInquiry="true" />
+                <field attributeName="accountNumber" forceInquiry="true" />
+                <field attributeName="objectCode" />
+                <field attributeName="balanceTypeCode" />
+                <field attributeName="subAccountNumber" />
+            </inquiryFields></inquirySection></inquirySections>
+        </inquiry>
+
+        <lookup>
+            <lookupableID>glEncumbranceLookupable</lookupableID>
+            <title>Open Encumbrance Lookup</title>
+            <instructions>Lookup Open Encumbrance Entry for a Transaction Processing document.</instructions>
+            <defaultSort attributeName="objectCode" />
+
+            <lookupFields>
+                <lookupField attributeName="universityFiscalYear" required="true">
+                    <defaultValueFinderClass>org.kuali.kfs.lookup.valuefinder.FiscalYearFinder</defaultValueFinderClass>
+                </lookupField>
+
+                <lookupField attributeName="chartOfAccountsCode" required="true" />
+                <lookupField attributeName="accountNumber" required="true" noLookup="false" />
+                <lookupField attributeName="subAccountNumber" forceLookup="true" />
+                <lookupField attributeName="objectCode" />
+                <lookupField attributeName="subObjectCode" />
+                <lookupField attributeName="balanceTypeCode" >
+	                <defaultValueFinderClass>org.kuali.module.gl.web.optionfinder.GLEncumbranceBalanceTypeOptionFinder</defaultValueFinderClass>
+                </lookupField>
+                <lookupField attributeName="documentTypeCode" />
+                <lookupField attributeName="originCode" />
+                <lookupField attributeName="documentNumber" />
+
+                <lookupField attributeName="dummyBusinessObject.pendingEntryOption">
+                    <defaultValueFinderClass>org.kuali.module.gl.web.optionfinder.GLPendingEntryOptionFinder</defaultValueFinderClass>
+                </lookupField>
+            </lookupFields>
+
+            <resultFields>
+                <field attributeName="universityFiscalYear" />
+                <field attributeName="chartOfAccountsCode" />
+                <field attributeName="accountNumber" />
+                <field attributeName="subAccountNumber" />
+                <field attributeName="objectCode" />
+                <field attributeName="subObjectCode" />
+                <field attributeName="balanceTypeCode" />
+                <field attributeName="documentTypeCode" />
+                <field attributeName="originCode" />
+                <field attributeName="documentNumber" />
+                <field attributeName="transactionEncumbranceDescription" />
+                <field attributeName="accountLineEncumbranceAmount" />
+                <field attributeName="accountLineEncumbranceClosedAmount" />
+                <field attributeName="transactionEncumbranceDate" />
+            </resultFields>
+        </lookup>
+
+        <attributes>
+            <attributeReference name="universityFiscalYear" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericFiscalYear">
+                <label>Fiscal Year</label>
+                <shortLabel>Fisc Year</shortLabel>
+                <description>Identifies the Fiscal Year to which the balances apply.</description>
+            </attributeReference>
+
+            <attributeReference name="chartOfAccountsCode" sourceClassName="org.kuali.module.chart.bo.Chart" sourceAttributeName="chartOfAccountsCode">
+                <control>
+                    <text size="2" />
+                </control>
+                <description>The Chart of Accounts for an Account Number. Kuali accommodates more than one Chart of Accounts. Each chart has its own set of Account Numbers, Object Codes, and Organizations.</description>
+            </attributeReference>
+
+            <attributeReference name="accountNumber" sourceClassName="org.kuali.module.chart.bo.Account" sourceAttributeName="accountNumber">
+                <description>An identifier for a pool of funds assigned to a specific division for a stated purpose.</description>
+            </attributeReference>
+
+            <attributeReference name="subAccountNumber" sourceClassName="org.kuali.module.chart.bo.SubAccount" sourceAttributeName="subAccountNumber">
+                <description>A code that partitions an Account Number into greater detail. Sub-Accounts take on most of the attributes of the Account Number to which they report.</description>
+            </attributeReference>
+
+            <attributeReference name="objectCode" sourceClassName="org.kuali.module.chart.bo.ObjectCode" sourceAttributeName="financialObjectCode">
+                <description>The list of codes (commonly known as Income, Expense, Asset, Liability, and Fund Balance) used to identify the nature of a financial transaction.</description>
+            </attributeReference>
+
+            <attributeReference name="subObjectCode" sourceClassName="org.kuali.module.chart.bo.SubObjCd" sourceAttributeName="financialSubObjectCode">
+                <description>A code that partitions an Object Code into greater detail. Sub-Object Codes take on most of the attributes of the Object Code to which they report.</description>
+            </attributeReference>
+
+            <attributeReference name="balanceTypeCode" sourceClassName="org.kuali.module.chart.bo.codes.BalanceTyp" sourceAttributeName="financialBalanceTypeShortNm">
+                <label>Balance Type</label>
+                <shortLabel>Balance Type</shortLabel>
+                <maxLength>2</maxLength>
+                <control>
+                    <text size="2" />
+	                <!-- 
+	                    <select valuesFinderClass="org.kuali.module.gl.web.optionfinder.GLEncumbranceBalanceTypeOptionFinder" />
+	                -->
+                </control>
+                <summary>balanceTypeCode</summary>
+                <description>Balance type categorizes transactions and balances into Budget, Actual or Encumbrance. There may be various types of each category.</description>
+            </attributeReference>
+
+            <attributeReference name="accountLineEncumbranceAmount" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericAmount">
+                <label>Open Amount</label>
+                <shortLabel>Amount</shortLabel>
+                <summary>accountLineEncumbranceAmount</summary>
+                <description>accountLineEncumbranceAmount description...</description>
+                <formatterClass>org.kuali.core.web.format.CurrencyFormatter</formatterClass>
+            </attributeReference>
+
+            <attributeReference name="accountLineEncumbranceClosedAmount" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericAmount">
+                <label>Closed Amount</label>
+                <shortLabel>Closed Amount</shortLabel>
+                <summary>accountLineEncumbranceClosedAmount</summary>
+                <description>accountLineEncumbranceClosedAmount description...</description>
+                <formatterClass>org.kuali.core.web.format.CurrencyFormatter</formatterClass>
+            </attributeReference>
+
+            <attribute name="transactionEncumbranceDescription" forceUppercase="false">
+                <label>Description</label>
+                <shortLabel>Description</shortLabel>
+                <maxLength>40</maxLength>
+                <control>
+                    <text size="40" />
+                </control>
+                <summary>transactionEncumbranceDescription</summary>
+                <description>transactionEncumbranceDescription description...</description>
+            </attribute>
+
+            <attribute name="documentTypeCode" forceUppercase="true">
+                <label>Document Type</label>
+                <shortLabel>Document Type Code</shortLabel>
+                <maxLength>4</maxLength>
+                <control>
+                    <text size="6" />
+                </control>
+                <summary>documentTypeCode</summary>
+                <description>The code that represents the particular type of document being process, e.g., CR = Cash Receipts, JV = Journal Voucher, and DV = Disbursement Voucher.</description>
+            </attribute>
+
+            <attribute name="documentNumber" forceUppercase="false">
+                <label>Document Number</label>
+                <shortLabel>Doc Number</shortLabel>
+                <maxLength>10</maxLength>
+                <control>
+                    <text size="12" />
+                </control>
+                <summary>documentNumber</summary>
+                <description>The system generated Document Number attached to the accounting transaction. Used for tracking purposes.</description>
+            </attribute>
+
+            <attribute name="originCode" forceUppercase="false">
+                <label>Origin Code</label>
+                <shortLabel>Origin Code</shortLabel>
+                <maxLength>2</maxLength>
+                <control>
+                    <text size="3" />
+                </control>
+                <summary>originCode</summary>
+                <description>originCode description...</description>
+            </attribute>
+
+            <attributeReference name="transactionEncumbranceDate" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericDate">
+                <label>Transaction Date</label>
+                <shortLabel>Transaction Date</shortLabel>
+                <summary>transactionEncumbranceDate</summary>
+                <description>transactionEncumbranceDate description...</description>
+            </attributeReference>
+
+            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
+
+            <attributeReference name="timestamp" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericTimestamp">
+                <label>Transaction Entry Processed</label>
+                <shortLabel>Entry Processed</shortLabel>
+                <summary>transactionEntryProcessed</summary>
+                <description>transactionEntryProcessed description...</description>
+            </attributeReference>
+
+            <attributeReference name="dummyBusinessObject.pendingEntryOption" sourceClassName="org.kuali.module.gl.bo.TransientBalanceInquiryAttributes" sourceAttributeName="pendingEntryOption" />
+        </attributes>
+    </businessObject>
+</dictionaryEntry>

@@ -15,7 +15,7 @@
 --%>
 <%@ include file="/jsp/kfs/kfsTldHeader.jsp"%>
 <kul:documentPage showDocumentInfo="true"
-	documentTypeName="KualiPreEncumbranceDocument"
+	documentTypeName="PreEncumbranceDocument"
 	htmlFormAction="financialPreEncumbrance" renderMultipart="true"
 	showTabButtons="true">
 

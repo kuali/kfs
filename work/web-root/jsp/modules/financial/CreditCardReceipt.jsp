@@ -16,12 +16,12 @@
 <%@ include file="/jsp/kfs/kfsTldHeader.jsp"%>
 
 <c:set var="creditCardReceiptAttributes"
-	value="${DataDictionary['KualiCreditCardReceiptDocument'].attributes}" />
+	value="${DataDictionary['CreditCardReceiptDocument'].attributes}" />
 <c:set var="readOnly"
 	value="${!empty KualiForm.editingMode['viewOnly']}" />
 <kul:documentPage showDocumentInfo="true"
 	htmlFormAction="financialCreditCardReceipt"
-	documentTypeName="KualiCreditCardReceiptDocument"
+	documentTypeName="CreditCardReceiptDocument"
 	renderMultipart="true" showTabButtons="true">
 	<kul:hiddenDocumentFields />
 	<!-- Credit Card Receipt Document Specific Hidden Fields -->

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ Copyright 2005-2007 The Kuali Foundation.
+ 
+ Licensed under the Educational Community License, Version 1.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+ 
+ http://www.opensource.org/licenses/ecl1.php
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+<!DOCTYPE dictionaryEntry PUBLIC
+    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
+    "../dataDictionary-1_0.dtd">
+
+<dictionaryEntry>
+    <transactionalDocument>
+        <documentClass>org.kuali.module.financial.document.NonCheckDisbursementDocument</documentClass>
+        <businessRulesClass>org.kuali.module.financial.rules.NonCheckDisbursementDocumentRule</businessRulesClass>
+
+        <documentAuthorizerClass>org.kuali.kfs.document.authorization.AccountingDocumentAuthorizerBase</documentAuthorizerClass>
+        <authorizations>
+            <authorization action="initiate">
+                <workgroups>
+                    <workgroup>kualiUniversalGroup</workgroup>
+                </workgroups>
+            </authorization>
+        </authorizations>
+
+        <documentTypeName>NonCheckDisbursementDocument</documentTypeName>
+        <documentTypeCode>ND</documentTypeCode>
+
+        <label>Non-Check Disbursement</label>
+        <shortLabel>NCDoc</shortLabel>
+
+        <summary>
+            <![CDATA[&nbsp;]]>
+        </summary>
+        <description>The "Non-Check Disbursement" document is used to record charges or credits directly assessed to university bank accounts. It is used primarily by the Tax and Treasury Accounting office to record wire transfers, foreign drafts, etc.</description>
+        <help securityGroupName="Kuali.FinancialTransactionProcessing.NonCheckDisbursementDocument" parameterName="FINANCIAL_HELP_NON_CHECK_DISBURSEMENT_DOCUMENT" />
+        <allowsCopy>true</allowsCopy>
+        <allowsErrorCorrection>true</allowsErrorCorrection>
+    </transactionalDocument>
+</dictionaryEntry>

@@ -34,7 +34,7 @@
             </authorization>
         </authorizations>
 
-        <documentTypeName>KualiIcrAutomatedEntryMaintenanceDocument</documentTypeName>
+        <documentTypeName>IcrAutomatedEntryMaintenanceDocument</documentTypeName>
         <documentTypeCode>ICRE</documentTypeCode>
         <label>Indirect Cost Recovery Automated Entry Maintenance Document</label>
         <shortLabel>ICRAutotomatedEntryMaintenanceDoc</shortLabel>

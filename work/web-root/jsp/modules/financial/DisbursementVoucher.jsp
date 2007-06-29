@@ -17,7 +17,7 @@
 
 <kul:documentPage showDocumentInfo="true"
 	htmlFormAction="financialDisbursementVoucher"
-	documentTypeName="KualiDisbursementVoucherDocument"
+	documentTypeName="DisbursementVoucherDocument"
 	renderMultipart="true" showTabButtons="true">
 
 	<dv:dvPrintCoverSheet />

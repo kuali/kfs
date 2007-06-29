@@ -41,7 +41,7 @@ import edu.iu.uis.eden.routeheader.DocumentContent;
 public class KualiSubAccountAttributeTest extends KualiTestBase {
 
     public void testGetSubAccountValuesFromDocContentData() throws IOException, InvalidXmlException, XPathExpressionException {
-        String documentTypeName = "KualiTransferOfFundsDocument";
+        String documentTypeName = "TransferOfFundsDocument";
         DocumentContent docContent = KualiAttributeTestUtil.getDocumentContentFromXmlFile(KualiAttributeTestUtil.TOF_SUB_ACCOUNT_TEST_DOC, documentTypeName);
         XPath xpath = KualiWorkflowUtils.getXPath(docContent.getDocument());
         KualiSubAccountAttribute subAccountAttribute = new KualiSubAccountAttribute();
@@ -51,7 +51,7 @@ public class KualiSubAccountAttributeTest extends KualiTestBase {
     }
     
     public void testGetNonReportDocumentContentValues() throws IOException, InvalidXmlException, XPathExpressionException {
-        String docTypeName = "KualiTransferOfFundsDocument";
+        String docTypeName = "TransferOfFundsDocument";
         DocumentContent docContent = KualiAttributeTestUtil.getDocumentContentFromXmlFile(KualiAttributeTestUtil.TOF_SUB_ACCOUNT_TEST_DOC, docTypeName);
         String xpathExp = null;
 

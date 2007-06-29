@@ -19,6 +19,7 @@ import java.util.Date;
 
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.KFSConstants;
+import org.kuali.module.gl.GLConstants;
 import org.kuali.module.gl.batch.poster.PostTransaction;
 import org.kuali.module.gl.bo.SufficientFundBalances;
 import org.kuali.module.gl.bo.Transaction;
@@ -67,7 +68,7 @@ public class PostSufficientFundBalances implements PostTransaction {
             sufficientFundsObjectCode = t.getFinancialObject().getFinancialObjectLevel().getFinancialConsolidationObjectCode();
         }
         else if (KFSConstants.SF_TYPE_CASH_AT_ACCOUNT.equals(t.getAccount().getAccountSufficientFundsCode()) || KFSConstants.SF_TYPE_ACCOUNT.equals(t.getAccount().getAccountSufficientFundsCode())) {
-            sufficientFundsObjectCode = "    ";
+            sufficientFundsObjectCode = GLConstants.SPACE_FINANCIAL_OBJECT_CODE;
         }
         else {
             return "E:Invalid sufficient funds code (" + t.getAccount().getAccountSufficientFundsCode() + ")";

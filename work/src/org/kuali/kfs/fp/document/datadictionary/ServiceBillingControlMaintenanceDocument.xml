@@ -33,7 +33,7 @@
             </authorization>
         </authorizations>
 
-        <documentTypeName>KualiServiceBillingControlMaintenanceDocument</documentTypeName>
+        <documentTypeName>ServiceBillingControlMaintenanceDocument</documentTypeName>
         <documentTypeCode>SBC</documentTypeCode>
 
         <label>Service Billing Control Maintenance Document</label>

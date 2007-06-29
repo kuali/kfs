@@ -33,7 +33,7 @@
             </authorization>
         </authorizations>
 
-        <documentTypeName>KualiObjectSubTypeMaintenanceDocument</documentTypeName>
+        <documentTypeName>ObjectSubTypeMaintenanceDocument</documentTypeName>
         <documentTypeCode>OSTY</documentTypeCode>
         <label>Object Sub-Type Maintenance Document</label>
         <shortLabel>ObjSubTypeMaintDoc</shortLabel>

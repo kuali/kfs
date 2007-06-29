@@ -32,7 +32,7 @@
             </authorization>
         </authorizations>
 
-        <documentTypeName>KualiTravelPerDiemMaintenanceDocument</documentTypeName>
+        <documentTypeName>TravelPerDiemMaintenanceDocument</documentTypeName>
         <documentTypeCode>DVPD</documentTypeCode>
 
         <label>Travel Per Diem Maintenance Document</label>

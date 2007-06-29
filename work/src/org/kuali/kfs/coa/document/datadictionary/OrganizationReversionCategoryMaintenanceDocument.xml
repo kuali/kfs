@@ -32,7 +32,7 @@
             </authorization>
         </authorizations>
 
-        <documentTypeName>KualiOrganizationReversionCategoryMaintenanceDocument</documentTypeName>
+        <documentTypeName>OrganizationReversionCategoryMaintenanceDocument</documentTypeName>
         <documentTypeCode>ORGC</documentTypeCode>
 
         <label>Organization Reversion Category Maintenance Document</label>

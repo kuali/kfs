@@ -35,7 +35,7 @@
 		includePostingYear="true"
         postingYearOnChange="submitForm()"
         includePostingYearRefresh="true"
-        postingYearAttributes="${DataDictionary.KualiBudgetAdjustmentDocument.attributes}" />
+        postingYearAttributes="${DataDictionary.BudgetAdjustmentDocument.attributes}" />
 --%>
     <bc:systemInformation />
 

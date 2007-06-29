@@ -33,7 +33,7 @@
             </authorization>
         </authorizations>
 
-        <documentTypeName>KualiFederalFundedCodeMaintenanceDocument</documentTypeName>
+        <documentTypeName>FederalFundedCodeMaintenanceDocument</documentTypeName>
         <documentTypeCode>FFC</documentTypeCode>
         <label>Federal Funded Code Maintenance Document</label>
         <shortLabel>FederalFundedCodeMaintDoc</shortLabel>

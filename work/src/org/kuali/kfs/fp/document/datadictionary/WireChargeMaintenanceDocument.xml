@@ -32,7 +32,7 @@
             </authorization>
         </authorizations>
 
-        <documentTypeName>KualiWireChargeMaintenanceDocument</documentTypeName>
+        <documentTypeName>WireChargeMaintenanceDocument</documentTypeName>
         <documentTypeCode>DVWT</documentTypeCode>
 
         <label>Wire Charge Maintenance Document</label>

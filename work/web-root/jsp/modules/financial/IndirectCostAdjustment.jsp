@@ -15,7 +15,7 @@
 --%>
 <%@ include file="/jsp/kfs/kfsTldHeader.jsp" %>
 
-<kul:documentPage showDocumentInfo="true" documentTypeName="KualiIndirectCostAdjustmentDocument" htmlFormAction="financialIndirectCostAdjustment" renderMultipart="true" showTabButtons="true">
+<kul:documentPage showDocumentInfo="true" documentTypeName="IndirectCostAdjustmentDocument" htmlFormAction="financialIndirectCostAdjustment" renderMultipart="true" showTabButtons="true">
 
 		<kul:hiddenDocumentFields />
 

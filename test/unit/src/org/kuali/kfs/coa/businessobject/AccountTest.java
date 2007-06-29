@@ -31,20 +31,20 @@ import org.kuali.test.WithTestSpringContext;
 @WithTestSpringContext
 public class AccountTest extends KualiTestBase {
 
-    private static final String TEST_DATE_1_TODAY = "2002-04-22 19:48:23";
-    private static final String TEST_DATE_1_YESTERDAY = "2002-04-21 19:48:23";
-    private static final String TEST_DATE_1_TOMORROW = "2002-04-23 19:48:23";
+    private static final String TEST_DATE_1_TODAY = "04/22/2002 07:48 PM";
+    private static final String TEST_DATE_1_YESTERDAY = "04/21/2002 07:48 PM";
+    private static final String TEST_DATE_1_TOMORROW = "04/23/2002 07:48 PM";
 
-    private static final String TEST_DATE_2_TODAY = "2002-04-22 10:23:08";
-    private static final String TEST_DATE_2_YESTERDAY = "2002-04-21 10:23:08";
-    private static final String TEST_DATE_2_TOMORROW = "2002-04-23 10:23:08";
+    private static final String TEST_DATE_2_TODAY = "04/22/2002 10:23 AM";
+    private static final String TEST_DATE_2_YESTERDAY = "04/21/2002 10:23 AM";
+    private static final String TEST_DATE_2_TOMORROW = "04/23/2002 10:23 AM";
 
-    private static final String TEST_DATE_3_TODAY = "2002-04-22 06:14:55";
-    private static final String TEST_DATE_3_YESTERDAY = "2002-04-21 06:14:55";
-    private static final String TEST_DATE_3_TOMORROW = "2002-04-23 06:14:55";
+    private static final String TEST_DATE_3_TODAY = "04/22/2002 06:14 AM";
+    private static final String TEST_DATE_3_YESTERDAY = "04/21/2002 06:14 AM";
+    private static final String TEST_DATE_3_TOMORROW = "04/23/2002 06:14 AM";
 
     // pass this a name, and it returns a setup timestamp instance
-    private Timestamp getNamedTimestamp(String timestampString) {
+    private Timestamp getTimestamp(String timestampString) {
         Timestamp timestamp;
         try {
             timestamp = getDateTimeService().convertToSqlTimestamp(timestampString);
@@ -59,8 +59,8 @@ public class AccountTest extends KualiTestBase {
     // since all the tests are doing the same thing, this is centralized
     private void doTest(String expirationDateString, String testDateString, boolean expectedResult) {
 
-        Timestamp expirationDate = getNamedTimestamp(expirationDateString);
-        Timestamp testDate = getNamedTimestamp(testDateString);
+        Timestamp expirationDate = getTimestamp(expirationDateString);
+        Timestamp testDate = getTimestamp(testDateString);
 
         // setup the account, and set its expiration date
         Account account = new Account();

@@ -151,17 +151,45 @@ public class SchedulerServiceImpl implements SchedulerService {
      */
     public boolean hasIncompleteJob() {
         try {
-            for (String scheduledJobName : scheduler.getJobNames(SCHEDULED_GROUP)) {
-                JobDetail scheduledJobDetail = getScheduledJobDetail(scheduledJobName);
-                if (!SCHEDULE_JOB_NAME.equals(scheduledJobDetail.getName()) && (isPending(scheduledJobDetail) || isScheduled(scheduledJobDetail))) {
-                    LOG.info(scheduledJobDetail.getFullName() + " is incomplete");
+            StringBuffer log = new StringBuffer("The schedule has incomplete jobs.");
+            boolean hasIncompleteJob = false;
+                for (String scheduledJobName : scheduler.getJobNames(SCHEDULED_GROUP)) {
+                    JobDetail scheduledJobDetail = getScheduledJobDetail(scheduledJobName);
+                    boolean jobIsIncomplete = isIncomplete(scheduledJobDetail);
+                    if (jobIsIncomplete) {
+                        log.append("\n\t").append(scheduledJobDetail.getFullName());
+                        hasIncompleteJob = true;
+                    }
+                }
+                if (hasIncompleteJob) {
+                    LOG.info(log);
+                }
+                return hasIncompleteJob;
+            }
+        catch (SchedulerException e) {
+            throw new RuntimeException("Caught exception while getting list of jobs to check for incompletes", e);
+        }
+    }
+
+    private boolean isIncomplete(JobDetail scheduledJobDetail) {
+        try {
+            if (!SCHEDULE_JOB_NAME.equals(scheduledJobDetail.getName()) && (isPending(scheduledJobDetail) || isScheduled(scheduledJobDetail))) {
+                Trigger[] triggersOfJob = scheduler.getTriggersOfJob(scheduledJobDetail.getName(), SCHEDULED_GROUP);
+                if (triggersOfJob.length > 0) {
+                    for (int triggerIndex = 0; triggerIndex < triggersOfJob.length; triggerIndex++) {
+                        if (triggersOfJob[triggerIndex].getNextFireTime() != null && !isPastScheduleCutoffTime(dateTimeService.getCalendar(triggersOfJob[triggerIndex].getNextFireTime()), false)) {
+                            return true;
+                        }
+                    }
+                }
+                else {
                     return true;
                 }
             }
             return false;
         }
         catch (SchedulerException e) {
-            throw new RuntimeException("Caught exception while checking for incomplete jobs", e);
+            throw new RuntimeException("Caught exception while checking job for completeness: " + scheduledJobDetail.getFullName(), e);
         }
     }
 
@@ -169,13 +197,17 @@ public class SchedulerServiceImpl implements SchedulerService {
      * @see org.kuali.kfs.service.SchedulerService#isPastScheduleCutoffTime()
      */
     public boolean isPastScheduleCutoffTime() {
+        return isPastScheduleCutoffTime(dateTimeService.getCurrentCalendar(), true);
+    }
+
+    private boolean isPastScheduleCutoffTime(Calendar dateTime, boolean log) {
         try {
             Calendar scheduleCutoffTime = dateTimeService.getCalendar(scheduler.getTriggersOfJob(SCHEDULE_JOB_NAME, SCHEDULED_GROUP)[0].getPreviousFireTime());
             String[] scheduleStepCutoffTime = StringUtils.split(configurationService.getApplicationParameterValue(KFSConstants.ParameterGroups.SYSTEM, KFSConstants.SystemGroupParameterNames.BATCH_SCHEDULE_CUTOFF_TIME), ":");
             scheduleCutoffTime.set(Calendar.HOUR, Integer.parseInt(scheduleStepCutoffTime[0]));
             scheduleCutoffTime.set(Calendar.MINUTE, Integer.parseInt(scheduleStepCutoffTime[1]));
             scheduleCutoffTime.set(Calendar.SECOND, Integer.parseInt(scheduleStepCutoffTime[2]));
-            if (scheduleStepCutoffTime[3] == "AM") {
+            if ("AM".equals(scheduleStepCutoffTime[3].trim())) {
                 scheduleCutoffTime.set(Calendar.AM_PM, Calendar.AM);
             }
             else {
@@ -184,8 +216,10 @@ public class SchedulerServiceImpl implements SchedulerService {
             if (configurationService.getApplicationParameterIndicator(KFSConstants.ParameterGroups.SYSTEM, KFSConstants.SystemGroupParameterNames.BATCH_SCHEDULE_CUTOFF_TIME_IS_NEXT_DAY)) {
                 scheduleCutoffTime.add(Calendar.DAY_OF_YEAR, 1);
             }
-            boolean isPastScheduleCutoffTime = dateTimeService.getCurrentCalendar().after(scheduleCutoffTime);
-            LOG.info("isPastScheduleCutoffTime=" + isPastScheduleCutoffTime + " : " + getCalendarString(dateTimeService.getCurrentCalendar()) + " / " + getCalendarString(scheduleCutoffTime));
+            boolean isPastScheduleCutoffTime = dateTime.after(scheduleCutoffTime);
+            if (log) {
+                LOG.info(new StringBuffer("isPastScheduleCutoffTime=").append(isPastScheduleCutoffTime).append(" : ").append(dateTimeService.toDateTimeString(dateTime.getTime())).append(" / ").append(dateTimeService.toDateTimeString(scheduleCutoffTime.getTime())));
+            }
             return isPastScheduleCutoffTime;
         }
         catch (NumberFormatException e) {
@@ -194,42 +228,6 @@ public class SchedulerServiceImpl implements SchedulerService {
         catch (SchedulerException e) {
             throw new RuntimeException("Caught exception while checking whether we've exceeded the schedule cutoff time", e);
         }
-    }
-    
-    // TODO fix this hack
-    private static String getCalendarString(Calendar calendar) {
-        StringBuffer toString = new StringBuffer(10);
-        int month = calendar.get(Calendar.MONTH) + 1;
-        if (month < 10) {
-            toString.append("0");
-        }
-        toString.append(month).append("/");
-        if (calendar.get(Calendar.DAY_OF_MONTH) < 10) {
-            toString.append("0");
-        }
-        toString.append(calendar.get(Calendar.DAY_OF_MONTH)).append("/").append(calendar.get(Calendar.YEAR)).append("");
-        if (calendar.get(Calendar.HOUR) < 10 && calendar.get(Calendar.HOUR) != 0) {
-            toString.append("0");
-        }
-        if (calendar.get(Calendar.HOUR) == 0) {
-            toString.append("12");
-        } else {
-            toString.append(calendar.get(Calendar.HOUR));
-        }
-        toString.append(":");
-        if (calendar.get(Calendar.MINUTE) < 10) {
-            toString.append("0");
-        }
-        toString.append(calendar.get(Calendar.MINUTE)).append(" ");
-        if (calendar.get(Calendar.SECOND) < 10) {
-            toString.append("0");
-        }
-        toString.append(calendar.get(Calendar.SECOND)).append(" ");
-        String meridian = "AM";
-        if (calendar.get(Calendar.AM_PM) == Calendar.PM) {
-            meridian = "PM";
-        }
-        return toString.append(meridian).toString();
     }
 
     /**

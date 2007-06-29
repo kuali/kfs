@@ -15,7 +15,6 @@
  */
 package org.kuali.module.purap.service.impl;
 
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Iterator;
 
@@ -242,9 +241,8 @@ public class RequisitionServiceImpl implements RequisitionService {
         Date closingDate = universityDateService.getLastDateOfFiscalYear(currentFY);
         Integer allowApoDate = new Integer(kualiConfigurationService.getApplicationParameterValue(PurapRuleConstants.PURAP_ADMIN_GROUP, PurapRuleConstants.ALLOW_APO_NEXT_FY_DAYS));
         int diffTodayClosing = dateTimeService.dateDiff(today, closingDate, false);
-        SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
         LOG.debug("isApo() req FY = " + requisition.getPostingYear() + " and currentFY = " + currentFY);
-        LOG.debug("isApo() today = " + sdf.format(today.getTime()) + ", allowApoDate = " + allowApoDate + " and diffTodayClosing = " + diffTodayClosing);
+        LOG.debug("isApo() today = " + dateTimeService.toDateString(today) + ", allowApoDate = " + allowApoDate + " and diffTodayClosing = " + diffTodayClosing);
         
         if (requisition.getPostingYear().compareTo(currentFY) > 0 &&
                 allowApoDate.intValue() >= diffTodayClosing &&

@@ -42,8 +42,8 @@ public class UniversityDateServiceTest extends KualiTestBase {
     }
 
     public final void testGetFiscalYear_pastDate() throws Exception {
-        java.sql.Timestamp badTimestamp = SpringServiceLocator.getDateTimeService().convertToSqlTimestamp("1989-01-10 00:00:00");
-        java.sql.Timestamp goodTimestamp = SpringServiceLocator.getDateTimeService().convertToSqlTimestamp("1993-08-19 00:00:00");
+        java.sql.Timestamp badTimestamp = SpringServiceLocator.getDateTimeService().convertToSqlTimestamp("01/10/1989 12:00 AM");
+        java.sql.Timestamp goodTimestamp = SpringServiceLocator.getDateTimeService().convertToSqlTimestamp("08/19/1993 12:00 AM");
 
         assertNull("This date shouldn't be in sh_univ_date_t", SpringServiceLocator.getUniversityDateService().getFiscalYear(badTimestamp));
         assertEquals("This date should be in sh_univ_date_t", new Integer(1994), SpringServiceLocator.getUniversityDateService().getFiscalYear(goodTimestamp));

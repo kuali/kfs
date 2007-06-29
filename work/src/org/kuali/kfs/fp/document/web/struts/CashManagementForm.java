@@ -23,7 +23,7 @@ import java.util.List;
 import org.apache.log4j.Logger;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.web.format.CurrencyFormatter;
-import org.kuali.core.web.format.TimestampFullPrecisionFormatter;
+import org.kuali.core.web.format.TimestampAMPMFormatter;
 import org.kuali.core.web.struts.form.KualiDocumentFormBase;
 import org.kuali.kfs.KFSConstants.DocumentStatusCodes.CashReceipt;
 import org.kuali.kfs.util.SpringServiceLocator;
@@ -57,8 +57,8 @@ public class CashManagementForm extends KualiDocumentFormBase {
         setFormatterType("document.cashDrawerStatus", CashDrawerStatusCodeFormatter.class);
         setFormatterType("document.deposit.depositTypeCode", CashReceiptDepositTypeFormatter.class);
 
-        setFormatterType("cashDrawerSummary.timeOpened", TimestampFullPrecisionFormatter.class);
-        setFormatterType("cashDrawerSummary.timeRefreshed", TimestampFullPrecisionFormatter.class);
+        setFormatterType("cashDrawerSummary.timeOpened", TimestampAMPMFormatter.class);
+        setFormatterType("cashDrawerSummary.timeRefreshed", TimestampAMPMFormatter.class);
         setFormatterType("cashDrawerSummary.*Total", CurrencyFormatter.class);
     }
 

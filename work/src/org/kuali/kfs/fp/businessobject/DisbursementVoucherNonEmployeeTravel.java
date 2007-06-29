@@ -17,6 +17,7 @@
 package org.kuali.module.financial.bo;
 
 import java.sql.Timestamp;
+import java.text.ParseException;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -26,6 +27,7 @@ import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.TypedArrayList;
 import org.kuali.core.web.format.TimestampAMPMFormatter;
 import org.kuali.kfs.KFSPropertyConstants;
+import org.kuali.kfs.util.SpringServiceLocator;
 
 /**
  * 
@@ -745,7 +747,7 @@ public class DisbursementVoucherNonEmployeeTravel extends PersistableBusinessObj
      * @return
      */
     public String getPerDiemStartDateTime() {
-        return (String) new TimestampAMPMFormatter().format(dvPerdiemStartDttmStamp);
+        return SpringServiceLocator.getDateTimeService().toDateTimeString(dvPerdiemStartDttmStamp);
     }
 
     /**
@@ -754,7 +756,12 @@ public class DisbursementVoucherNonEmployeeTravel extends PersistableBusinessObj
      * @param perDiemStartDateTime
      */
     public void setPerDiemStartDateTime(String perDiemStartDateTime) {
-        this.dvPerdiemStartDttmStamp = (Timestamp) new TimestampAMPMFormatter().convertFromPresentationFormat(perDiemStartDateTime);
+        try {
+            this.dvPerdiemStartDttmStamp = SpringServiceLocator.getDateTimeService().convertToSqlTimestamp(perDiemStartDateTime);
+        }
+        catch (ParseException e) {
+            this.dvPerdiemStartDttmStamp = null;
+        }
     }
 
     /**
@@ -763,7 +770,7 @@ public class DisbursementVoucherNonEmployeeTravel extends PersistableBusinessObj
      * @return String
      */
     public String getPerDiemEndDateTime() {
-        return (String) new TimestampAMPMFormatter().format(dvPerdiemEndDttmStamp);
+        return SpringServiceLocator.getDateTimeService().toDateTimeString(dvPerdiemEndDttmStamp);
     }
 
     /**
@@ -772,7 +779,12 @@ public class DisbursementVoucherNonEmployeeTravel extends PersistableBusinessObj
      * @param perDiemEndDateTime
      */
     public void setPerDiemEndDateTime(String perDiemEndDateTime) {
-        this.dvPerdiemEndDttmStamp = (Timestamp) new TimestampAMPMFormatter().convertFromPresentationFormat(perDiemEndDateTime);
+        try {
+            this.dvPerdiemEndDttmStamp = SpringServiceLocator.getDateTimeService().convertToSqlTimestamp(perDiemEndDateTime);
+        }
+        catch (ParseException e) {
+            this.dvPerdiemEndDttmStamp = null;
+        }
     }
 
     /**

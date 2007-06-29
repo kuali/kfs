@@ -15,7 +15,6 @@
  */
 package org.kuali.kfs.web.struts.action;
 
-import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import javax.servlet.http.HttpServletRequest;
@@ -43,7 +42,6 @@ public class KualiBatchJobModifyAction extends KualiAction {
     private static final String END_STEP_PARAMETER = "endStep";
     private static final String START_TIME_PARAMETER = "startTime";
     private static final String EMAIL_PARAMETER = "emailAddress";
-    private static final String START_TIME_FORMAT = "MM/dd/yyyy HH:mm";
     private static final String JOB_ADMIN_PARAMETER_SUFFIX = "_WORKGROUP";
 
     private static SchedulerService schedulerService;
@@ -132,7 +130,7 @@ public class KualiBatchJobModifyAction extends KualiAction {
         int endStep = Integer.parseInt(endStepStr);
         Date startTime = new Date();
         if ( !StringUtils.isBlank(startTimeStr) ) {
-            startTime = new SimpleDateFormat( START_TIME_FORMAT ).parse(startTimeStr);
+            startTime = SpringServiceLocator.getDateTimeService().convertToDateTime(startTimeStr);
         }        
         
         job.runJob( startStep, endStep, startTime, emailAddress );

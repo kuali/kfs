@@ -17,7 +17,6 @@ package org.kuali.kfs.batch;
 
 import java.io.File;
 import java.io.IOException;
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 import org.apache.commons.lang.StringUtils;
@@ -75,7 +74,7 @@ public class JobListener implements org.quartz.JobListener {
     private void initializeLogging(JobExecutionContext jobExecutionContext) {
         try {
             Calendar startTimeCalendar = dateTimeService.getCurrentCalendar();
-            StringBuffer nestedDiagnosticContext = new StringBuffer(jobExecutionContext.getJobDetail().getName()).append("-").append(new SimpleDateFormat("yyyyMMdd-HH-mm-ss-S").format(startTimeCalendar.getTime()));
+            StringBuffer nestedDiagnosticContext = new StringBuffer(jobExecutionContext.getJobDetail().getName()).append("-").append(dateTimeService.toString(startTimeCalendar.getTime(), "yyyyMMdd-HH-mm-ss-S"));
             ((Job) jobExecutionContext.getJobInstance()).setNdcAppender(new FileAppender(Logger.getRootLogger().getAppender("LogFile").getLayout(), getLogFileName(nestedDiagnosticContext.toString())));
             ((Job) jobExecutionContext.getJobInstance()).getNdcAppender().addFilter(new NDCFilter(nestedDiagnosticContext.toString()));
             Logger.getRootLogger().addAppender(((Job) jobExecutionContext.getJobInstance()).getNdcAppender());

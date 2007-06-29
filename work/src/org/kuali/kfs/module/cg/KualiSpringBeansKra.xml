@@ -59,11 +59,6 @@
 		<property name="configService" ref="kualiConfigurationService" />
 	</bean>
 
-	<!-- The following is temporary, only until SH_UNIV_DATE_T is corrected in the databse -->
-
-	<bean id="dateTimeService" class="org.kuali.core.service.impl.DateTimeServiceImpl">
-	</bean>
-
 	<bean id="budgetService" class="org.kuali.module.kra.budget.service.impl.BudgetServiceImpl">
 		<property name="documentService">
 			<ref bean="documentService" />

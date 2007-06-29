@@ -21,7 +21,6 @@ import org.apache.log4j.Logger;
 import java.io.File;
 import java.sql.Timestamp;
 import java.text.FieldPosition;
-import java.text.SimpleDateFormat;
 import java.util.Arrays;
 
 import org.kuali.core.bo.user.KualiGroup;
@@ -69,16 +68,11 @@ public class ProcurementCardInputFileType extends BatchInputFileTypeBase {
     public String getFileName(UniversalUser user, Object parsedFileContents, String userIdentifier) {
         Timestamp currentTimestamp = dateTimeService.getCurrentTimestamp();
 
-        StringBuffer buf = new StringBuffer();
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMdd_HHmmss");
-        formatter.setLenient(false);
-        formatter.format(currentTimestamp, buf, new FieldPosition(0));
-
         String fileName = "pcdo_"  + user.getPersonUserIdentifier().toLowerCase();
         if (StringUtils.isNotBlank(userIdentifier)) {
             fileName += "_" + userIdentifier;
         }
-        fileName += "_" + buf.toString();
+        fileName += "_" + dateTimeService.toString(currentTimestamp, "yyyyMMdd_HHmmss");
         
         // remove spaces in filename
         fileName = StringUtils.remove(fileName, " ");

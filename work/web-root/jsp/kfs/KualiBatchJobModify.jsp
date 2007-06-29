@@ -70,9 +70,19 @@
 								<tr>
 									<td>Start Date/Time: </td>
 									<td>
-										<input type="text" name="startTime" id="startTime" value="" />
-										<img src="${ConfigProperties.kr.externalizable.images.url}cal.gif" id="startTime_datepicker" style="cursor: pointer;" alt="Date selector" title="Date selector" onmouseover="this.style.background='#F00';" onmouseout="this.style.background='#FFF';" />    
-										(format: mm/dd/yy hh:mm)
+										<input type="text" name="startTime" id="startTime" value="" maxlength="20" size="20" onchange="" onblur="" style="" class="">
+										<img src="${ConfigProperties.kr.externalizable.images.url}cal.gif" id="startTime_datepicker" style="cursor: pointer;" title="Date selector" alt="Date selector" onmouseover="this.style.backgroundColor='red';" onmouseout="this.style.backgroundColor='transparent';"	/>
+						                <script type="text/javascript">
+						                  Calendar.setup(
+						                          {
+						                            inputField : "startTime", // ID of the input field
+						                            ifFormat : "%m/%d/%Y %I:%M %p", // the date format
+						                            button : "startTime_datepicker", // ID of the button
+						                            showsTime: true,
+						                            timeFormat: "12"
+						                          }
+						                  );
+						               </script>			
 									</td>
 								</tr>
 								<tr>
@@ -87,22 +97,6 @@
 									<td><html:image src="${ConfigProperties.externalizable.images.url}tinybutton-run.gif" styleClass="globalbuttons" property="methodToCall.runJob" title="Run Job" alt="Run Job" /></td>
 								</tr>
 							</table>
-							<script type="text/javascript">
-								var today = new Date();
-								var years = new Array(1);
-								years[0] = today.getFullYear();
-								years[1] = today.getFullYear() + 1;
-								Calendar.setup(
-								{
-							    	inputField : "startTime", // ID of the input field
-							    	ifFormat : "%m/%d/%Y %H:%M", // the date format
-							    	button : "startTime_datepicker", // ID of the button
-							    	showsTime: true,
-							    	dateStatusFunc: function(date) { return date <= today; },
-							    	range: years
-							    }
-							    );
-							</script>
 						</c:if>	
 						&nbsp;				
 					</td>

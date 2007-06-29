@@ -15,7 +15,6 @@
  */
 package org.kuali.kfs.web.struts.form;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -620,21 +619,6 @@ public class KualiAccountingDocumentFormBase extends KualiTransactionalDocumentF
      */
     public String getAccountingLineImportInstructionsUrl() {
         return "https://test.kuali.org/confluence/display/KULRNE/Accounting+Line+Import+Instructions";
-    }
-
-    /**
-     * This method formats the given java.sql.Date as MMM d, yyyy.
-     * 
-     * @param reversalDate
-     * 
-     * @return String
-     */
-    protected static String formatReversalDate(java.sql.Date reversalDate) {
-        if (reversalDate == null) {
-            return "";
-        }
-        // new for thread safety
-        return new SimpleDateFormat("MMM d, yyyy").format(reversalDate);
     }
 
     /**

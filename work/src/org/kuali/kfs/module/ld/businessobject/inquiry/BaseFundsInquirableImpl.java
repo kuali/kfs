@@ -65,7 +65,7 @@ public class BaseFundsInquirableImpl extends AbstractLaborInquirableImpl {
      */
     protected Map getUserDefinedAttributeMap() {
         Map userDefinedAttributeMap = new HashMap();
-        userDefinedAttributeMap.put("csfAmount", "csfAmount");        
+        userDefinedAttributeMap.put(KFSPropertyConstants.CSF_AMOUNT, KFSPropertyConstants.CSF_AMOUNT);        
         return userDefinedAttributeMap;
     }
 

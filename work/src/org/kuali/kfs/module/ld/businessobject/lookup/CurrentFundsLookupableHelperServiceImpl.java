@@ -70,18 +70,6 @@ public class CurrentFundsLookupableHelperServiceImpl extends AbstractLookupableH
 
         // get the consolidation option
         boolean isConsolidated = getLaborInquiryOptionsService().isConsolidationSelected(fieldValues);
-       /* if (isConsolidated) {
-            if (fieldValues.get(KFSPropertyConstants.SUB_ACCOUNT_NUMBER) != null);
-                fieldValues.remove(KFSPropertyConstants.SUB_ACCOUNT_NUMBER);
-            if (fieldValues.get(KFSPropertyConstants.FINANCIAL_SUB_OBJECT_CODE) != null);
-                fieldValues.remove(KFSPropertyConstants.FINANCIAL_SUB_OBJECT_CODE);
-            if (fieldValues.get(KFSPropertyConstants.FINANCIAL_OBJECT_TYPE_CODE) != null);
-                fieldValues.remove(KFSPropertyConstants.FINANCIAL_OBJECT_TYPE_CODE);            
-            fieldValues.put(KFSPropertyConstants.SUB_ACCOUNT_NUMBER, Constant.CONSOLIDATED_SUB_ACCOUNT_NUMBER);
-            fieldValues.put(KFSPropertyConstants.FINANCIAL_OBJECT_TYPE_CODE, Constant.CONSOLIDATED_OBJECT_TYPE_CODE);                   
-        }
-        else
-*/
         if (((fieldValues.get(KFSPropertyConstants.FINANCIAL_OBJECT_CODE) != null) && (fieldValues.get(KFSPropertyConstants.FINANCIAL_OBJECT_CODE).toString().length() > 0))) {
             List emptySearchResults = new ArrayList();
 

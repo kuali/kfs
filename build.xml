@@ -313,7 +313,7 @@
 
 	<target name="make-tests" depends="init-test-properties,init-make-references,filter-project">
 		<mkdir dir="${test.classes.directory}" />
-		<javac destdir="${test.classes.directory}" debug="true" deprecation="true" optimize="true" fork="true" memoryinitialsize="${compile.min.memory}" memorymaximumsize="${compile.max.memory}">
+		<javac destdir="${test.classes.directory}" debug="true" optimize="true" fork="true" memoryinitialsize="${compile.min.memory}" memorymaximumsize="${compile.max.memory}">
 			<classpath refid="compile.tests.classpath" />
 			<src path="${source.directory}" />
 			<src path="${test.source.directory}" />

@@ -63,6 +63,8 @@ public class KFSConstants extends Constants {
     public static final String TRIGGER_NAMES_LIST_NAME = "triggerNames";
 
     public static final String ACCOUNT_NUMBER_PROPERTY_NAME = "accountNumber";
+    public static final String MODULE_ID_PROPERTY_NAME = "moduleId";
+    public static final String MODULE_CODE_PROPERTY_NAME = "moduleCode";
     public static final String ACCOUNT_STATUS_CLOSED = "Y";
     public static final String ACCOUNTING_PERIOD_STATUS_CODE_FIELD = "universityFiscalPeriodStatusCode";
     public static final String ACCOUNTING_PERIOD_STATUS_CLOSED = "C";
@@ -180,7 +182,7 @@ public class KFSConstants extends Constants {
     public static final String TRANSFER_FUNDS = "TF";
     public static final String[] ENCUMBRANCE_BALANCE_TYPE = new String[] { BALANCE_TYPE_EXTERNAL_ENCUMBRANCE, BALANCE_TYPE_INTERNAL_ENCUMBRANCE, BALANCE_TYPE_PRE_ENCUMBRANCE };
     public static final String LABOR_DISTRIBUTION_ORIGIN_CODE = "LD";
-    public static final String STAND_IN_BUSINESS_OBJECT_FOR_ATTRIBUTES = "AttributeReferenceDummy";
+    public static final String STAND_IN_BUSINESS_OBJECT_FOR_ATTRIBUTES = "KFSAttributeReferenceDummy";
     public static final String LABOR_MODIFIED_INQUIRY_ACTION = "laborModifiedInquiry.do";
     public static final String EMPLOYEE_FUNDING_INQUIRY_ACTION = "employeeFundingInquiry.do";    
     public static final String OVERRIDE_KEYS = "overrideKeys";

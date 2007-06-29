@@ -84,10 +84,10 @@ public class GenesisTest {
   public static void main(String args[]) throws SQLException
   {
       configurationStep();
-      //   these are the current run configurations (to change when workflow is embedded)
+      //   these are the current run configurations 
       //   for
       //   genesis
-      // genesisTestService.genesisStep(2007);
+// 6/29/2007      genesisTestService.genesisStep(2007);
       //   budget construction update
       // bcUpdateStep(2009);
       //
@@ -95,10 +95,10 @@ public class GenesisTest {
       //
       //
       // update current positions
-        genesisTestService.testPositionBuild(2011);
+// 6/28/2007        genesisTestService.testPositionBuild(2011);
 //      LOG.warn("\nstarting fiscalYearMakers\n");
 //      dateMakerTestService.fiscalYearMakers(2013,false);
-        //dateMakerTestService.fiscalYearMakers(2009,false);
+// 6/29/2007        dateMakerTestService.fiscalYearMakers(2007,false);
         //dateMakerTestService.testRoutine(); 
 //      LOG.warn("\nfiscalYearMakers finished\n");
       // create the proxy BC headers

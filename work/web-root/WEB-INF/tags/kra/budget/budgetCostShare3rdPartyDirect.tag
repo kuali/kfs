@@ -155,7 +155,7 @@
 					</td>
 				</tr>
 
-				<!---------------------- Imported from Nonpersonnel --------------------------------------------->
+        <!-- Imported from Nonpersonnel -->
 				<tr>
 					<td colspan="${KualiForm.document.periodListSize+7}" class="tab-subhead">
 						Imported from Nonpersonnel
@@ -236,7 +236,8 @@
 					</tr>
 				</logic:iterate>
 
-				<!------------------- Add Source ---------------------------------------------------------------->
+        <!--  Add Source -->				
+
 				<tr>
 					<td colspan="10" class="tab-subhead">
 						Add Source
@@ -312,7 +313,7 @@
 				</tr>
 				</c:if>
 
-				<!--------- Show added Sources ------------------------------------------------------------------->
+        <!-- Show Added Sources -->
 
 				<logic:iterate id="sources" name="KualiForm" property="document.budget.thirdPartyCostShareItems" indexId="rowctr">
 					<tr>

@@ -781,6 +781,7 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
         return canRemoveHold;
     }
 
+    //TODO: I don't think this method is needed in Kuali.  Talk to Heather about.
     //This method was copied over from EPIC with some minor modification. Please refer to EPIC's PaymentRequestServiceImpl 
     //convertMoneyToPercent method if you'd like to find out how it was in EPIC.
     public Collection convertMoneyToPercent(PaymentRequestDocument pr) {
@@ -804,7 +805,7 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
                 for (Iterator iterator = item.getSourceAccountingLines().iterator(); iterator.hasNext();) {
                     accountIdentifier++;
                     PaymentRequestAccount account = (PaymentRequestAccount) iterator.next();
-                    KualiDecimal accountAmount = account.getItemAccountTotalAmount();
+                    KualiDecimal accountAmount = account.getAmount();
                     KualiDecimal tmpPercent = KualiDecimal.ZERO;
                     tmpPercent = accountAmount.divide(item.getExtendedPrice());
                     // test that the above amount is correct, if so just check that the total of all these matches the item total

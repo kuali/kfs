@@ -26,7 +26,7 @@ import org.kuali.module.purap.util.PurApObjectUtils;
  * 
  */
 public class PaymentRequestAccount extends PurApAccountingLineBase {
-
+    //FIXME: remove this field, it is superseeded by amount on parent
 	private KualiDecimal itemAccountTotalAmount = KualiDecimal.ZERO;
 	private KualiDecimal disencumberedAmount = KualiDecimal.ZERO;
 
@@ -70,6 +70,7 @@ public class PaymentRequestAccount extends PurApAccountingLineBase {
     /**
      * Gets the itemAccountTotalAmount attribute. 
      * @return Returns the itemAccountTotalAmount.
+     * @deprecated
      */
     public KualiDecimal getItemAccountTotalAmount() {
         return itemAccountTotalAmount;
@@ -78,6 +79,7 @@ public class PaymentRequestAccount extends PurApAccountingLineBase {
     /**
      * Sets the itemAccountTotalAmount attribute value.
      * @param itemAccountTotalAmount The itemAccountTotalAmount to set.
+     * @deprecated
      */
     public void setItemAccountTotalAmount(KualiDecimal itemAccountTotalAmount) {
         this.itemAccountTotalAmount = itemAccountTotalAmount;

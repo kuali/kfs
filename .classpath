@@ -2,6 +2,8 @@
 <classpath>
 	<classpathentry kind="src" path="work/src"/>
 	<classpathentry kind="src" output="test/classes" path="test/src"/>
+	<classpathentry excluding="**/AbstractDBPlatformDaoJdbc.java|**/DatabaseImportExportService.java|**/DatabaseImportExportServiceImpl.java|**/KualiDBPlatform.java|**/KualiDBPlatformDao.java|**/KualiDBPlatformMySQL.java|**/KualiDBPlatformOracle.java|**/KualiMySQLSequenceManagerImpl.java|**/KualiPostProcessor.java|**/Log4jLifeCycle.java" kind="src" path="kns"/>
+	<classpathentry kind="src" path="kns-r"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="lib" path="work/web-root/WEB-INF/lib/antlr-2.7.4.jar"/>
 	<classpathentry kind="lib" path="work/web-root/WEB-INF/lib/axis-1.2.jar"/>
@@ -76,7 +78,6 @@
 	<classpathentry kind="lib" path="work/web-root/WEB-INF/lib/kew-2.4.1.jar"/>
 	<classpathentry kind="lib" path="work/web-root/WEB-INF/lib/rice-shared-0.9-RC1.jar"/>
 	<classpathentry kind="lib" path="work/web-root/WEB-INF/lib/rice-ksb-0.9-RC1.jar"/>
-	<classpathentry kind="lib" path="work/web-root/WEB-INF/lib/rice-kns-0.9-RC1.jar"/>
 	<classpathentry kind="lib" path="work/web-root/WEB-INF/lib/rice-core-0.9-RC1.jar"/>
 	<classpathentry kind="lib" path="build/configurationFiles/appserver/lib/log4j-1.2.9.jar"/>
 	<classpathentry kind="lib" path="build/configurationFiles/appserver/lib/xapool.jar"/>
@@ -91,5 +92,6 @@
 	<classpathentry kind="lib" path="build/configurationFiles/appserver/lib/connector-1_5.jar"/>
 	<classpathentry kind="lib" path="build/configurationFiles/appserver/lib/commons-logging.jar"/>
 	<classpathentry kind="lib" path="build/configurationFiles/appserver/lib/commons-cli-1.0.jar"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/rice"/>
 	<classpathentry kind="output" path="work/web-root/WEB-INF/classes"/>
 </classpath>

@@ -99,7 +99,7 @@ public class CurrentFundsInquirableImpl extends AbstractLaborInquirableImpl {
      * @see org.kuali.module.gl.web.inquirable.AbstractGLInquirableImpl#getLookupableImplAttributeName()
      */
     protected String getLookupableImplAttributeName() {
-        return "laborLedgerBalanceLookupable";
+        return "currentFundsLookupable";
     }
 
     /**

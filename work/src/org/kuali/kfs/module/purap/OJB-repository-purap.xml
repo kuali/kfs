@@ -1610,6 +1610,7 @@
 	<field-descriptor name="itemUnitPrice" column="ITM_UNT_PRC" jdbc-type="DECIMAL"/>
 	<field-descriptor name="itemExtendedPrice" column="ITM_EXTND_PRC" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
 	<field-descriptor name="itemAssignedToTradeInIndicator" column="ITM_ASND_TO_TRADE_IN_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
+	<field-descriptor name="itemDescription" column="ITM_DESC" jdbc-type="VARCHAR"/>
 	<reference-descriptor name="creditMemo" class-ref="org.kuali.module.purap.document.CreditMemoDocument" auto-retrieve="true" auto-update="none" auto-delete="none">
 		<foreignkey field-ref="purapDocumentIdentifier" />
 	</reference-descriptor>

@@ -23,7 +23,7 @@ import org.kuali.core.util.KualiDecimal;
 import org.kuali.module.purap.document.CreditMemoDocument;
 
 /**
- * Item line Bueiness Object for Credit Memo Document.
+ * Item line Business Object for Credit Memo Document.
  */
 public class CreditMemoItem extends AccountsPayableItemBase {
     private Integer creditMemoIdentifier;
@@ -33,7 +33,8 @@ public class CreditMemoItem extends AccountsPayableItemBase {
     private BigDecimal itemUnitPrice;
     private KualiDecimal itemExtendedPrice;
     private boolean itemAssignedToTradeInIndicator;
-
+    private String itemDescription;
+    
     private CreditMemoDocument creditMemo;
 
     /**
@@ -175,6 +176,21 @@ public class CreditMemoItem extends AccountsPayableItemBase {
         this.itemAssignedToTradeInIndicator = itemAssignedToTradeInIndicator;
     }
 
+    /**
+     * Gets the itemDescription attribute. 
+     * @return Returns the itemDescription.
+     */
+    public String getItemDescription() {
+        return itemDescription;
+    }
+
+    /**
+     * Sets the itemDescription attribute value.
+     * @param itemDescription The itemDescription to set.
+     */
+    public void setItemDescription(String itemDescription) {
+        this.itemDescription = itemDescription;
+    }
 
     /**
      * @see org.kuali.module.purap.bo.PurApItemBase#getAccountingLineClass()

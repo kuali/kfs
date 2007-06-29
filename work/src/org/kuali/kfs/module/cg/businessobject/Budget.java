@@ -460,7 +460,7 @@ public class Budget extends PersistableBusinessObjectBase {
      * 
      * @return Returns the graduate assistant rates
      */
-    public List getGraduateAssistantRates() {
+    public List<BudgetGraduateAssistantRate> getGraduateAssistantRates() {
         return graduateAssistantRates;
     }
 

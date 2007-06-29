@@ -174,83 +174,25 @@ public class BudgetParametersAction extends BudgetAction {
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
-    /*
-     * A struts action to copy the first academic year subdivision graduate assistance rate system values
-     */
-    public ActionForward copyPeriod1GraduateAssistantLines(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        return copyPeriodGraduateAssistantLines(mapping, form, request, response, 1);
-    }
 
     /*
-     * A struts action to copy the second academic year subdivision graduate assistance rate system values
-     */
-    public ActionForward copyPeriod2GraduateAssistantLines(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        return copyPeriodGraduateAssistantLines(mapping, form, request, response, 2);
-    }
-
-    /*
-     * A struts action to copy the third academic year subdivision graduate assistance rate system values
-     */
-    public ActionForward copyPeriod3GraduateAssistantLines(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        return copyPeriodGraduateAssistantLines(mapping, form, request, response, 3);
-    }
-
-    /*
-     * A struts action to copy the forth academic year subdivision graduate assistance rate system values
-     */
-    public ActionForward copyPeriod4GraduateAssistantLines(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        return copyPeriodGraduateAssistantLines(mapping, form, request, response, 4);
-    }
-
-    /*
-     * A struts action to copy the fifth academic year subdivision graduate assistance rate system values
-     */
-    public ActionForward copyPeriod5GraduateAssistantLines(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        return copyPeriodGraduateAssistantLines(mapping, form, request, response, 5);
-    }
-
-    /*
-     * A struts action to copy the sixth academic year subdivision graduate assistance rate system values
-     */
-    public ActionForward copyPeriod6GraduateAssistantLines(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        return copyPeriodGraduateAssistantLines(mapping, form, request, response, 6);
-    }
-
-    /*
-     * A struts action to copy all the academic year subdivision graduate assistance rate system values
+     * A struts action to copy the the Graduate Asst. rates from the system rate to the current budget
      */
     public ActionForward copySystemGraduateAssistantLines(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        return copyPeriodGraduateAssistantLines(mapping, form, request, response, 0);
-    }
-
-    /*
-     * A struts action to copy the academic year subdivision graduate assistance rate system values @param periodToCopy - the
-     * academic year subdivision number to copy - 0 means copy all
-     */
-    public ActionForward copyPeriodGraduateAssistantLines(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response, int periodToCopy) throws Exception {
         // get the form
         BudgetForm budgetForm = (BudgetForm) form;
-        // get the fringe rate list
-        List graduateAssistantRate = budgetForm.getBudgetDocument().getBudget().getGraduateAssistantRates();
-        int i = 0;
-        BudgetGraduateAssistantRateService bgarService = SpringServiceLocator.getBudgetGraduateAssistantRateService();
-        for (Iterator iter = bgarService.getAllGraduateAssistantRates().iterator(); iter.hasNext();) {
-            GraduateAssistantRate gar = (GraduateAssistantRate) iter.next();
-            BudgetGraduateAssistantRate currentGraduateAssistantRate = budgetForm.getBudgetDocument().getBudget().getGraduateAssistantRate(i);
-            KualiDecimal[] periodRates = new KualiDecimal[6];
-            for (int j = 0; j < 6; j++) {
-                if (periodToCopy == 0 || j + 1 == periodToCopy) {
-                    periodRates[j] = gar.getCampusMaximumPeriodRate(j + 1);
-                }
-                else {
-                    periodRates[j] = currentGraduateAssistantRate.getCampusMaximumPeriodRate(j + 1);
-                }
-            }
-            BudgetGraduateAssistantRate budgetGraduateAssistantRate = new BudgetGraduateAssistantRate(budgetForm.getDocument().getDocumentNumber(), gar.getCampusCode(), periodRates[0], periodRates[1], periodRates[2], periodRates[3], periodRates[4], periodRates[5], gar, currentGraduateAssistantRate.getObjectId(), currentGraduateAssistantRate.getVersionNumber());
-
-            graduateAssistantRate.set(i, budgetGraduateAssistantRate);
-            i++;
+        
+        for (BudgetGraduateAssistantRate budgetGraduateAssistantRate : budgetForm.getBudgetDocument().getBudget().getGraduateAssistantRates()) {
+            budgetGraduateAssistantRate.refreshNonUpdateableReferences();
+            GraduateAssistantRate systemRate = budgetGraduateAssistantRate.getGraduateAssistantRate();
+            budgetGraduateAssistantRate.setCampusMaximumPeriod1Rate(systemRate.getCampusMaximumPeriod1Rate());
+            budgetGraduateAssistantRate.setCampusMaximumPeriod2Rate(systemRate.getCampusMaximumPeriod2Rate());
+            budgetGraduateAssistantRate.setCampusMaximumPeriod3Rate(systemRate.getCampusMaximumPeriod3Rate());
+            budgetGraduateAssistantRate.setCampusMaximumPeriod4Rate(systemRate.getCampusMaximumPeriod4Rate());
+            budgetGraduateAssistantRate.setCampusMaximumPeriod5Rate(systemRate.getCampusMaximumPeriod5Rate());
+            budgetGraduateAssistantRate.setCampusMaximumPeriod6Rate(systemRate.getCampusMaximumPeriod6Rate());
         }
+
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 

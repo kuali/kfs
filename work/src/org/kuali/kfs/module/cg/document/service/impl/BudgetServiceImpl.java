@@ -162,6 +162,10 @@ public class BudgetServiceImpl implements BudgetService {
                 for (BudgetFringeRate budgetFringeRate : budgetDocument.getBudget().getFringeRates()) {
                     budgetFringeRate.setBudgetLastUpdateTimestamp(dateTimeService.getCurrentTimestamp());
                 }
+                
+                for (BudgetGraduateAssistantRate budgetGradAsstRate : budgetDocument.getBudget().getGraduateAssistantRates()) {
+                    budgetGradAsstRate.setLastUpdateTimestamp(dateTimeService.getCurrentTimestamp());
+                }
             }
             
             // Add new data, based on changes that may have occurred prior to the save (e.g., Project Director from Parameters)

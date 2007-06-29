@@ -168,7 +168,11 @@ public class BudgetPeriod extends PersistableBusinessObjectBase implements Compa
             if (this.getClass().equals(obj.getClass())) {
                 BudgetPeriod other = (BudgetPeriod) obj;
 
-                if (this.getDocumentNumber().equals(other.getDocumentNumber()) && this.getBudgetPeriodSequenceNumber().equals(other.getBudgetPeriodSequenceNumber()) && this.getBudgetPeriodBeginDate().equals(other.getBudgetPeriodBeginDate()) && this.getBudgetPeriodEndDate().equals(other.getBudgetPeriodEndDate())) {
+                if (this.getDocumentNumber().equals(other.getDocumentNumber()) && 
+                        this.getBudgetPeriodSequenceNumber().equals(other.getBudgetPeriodSequenceNumber()) && 
+                        ((this.getBudgetPeriodBeginDate() == null && other.getBudgetPeriodEndDate() == null) || this.getBudgetPeriodBeginDate().equals(other.getBudgetPeriodBeginDate())) && 
+                        ((this.getBudgetPeriodEndDate() == null && other.getBudgetPeriodEndDate() == null) || this.getBudgetPeriodEndDate().equals(other.getBudgetPeriodEndDate()))) {
+                    
                     equal = true;
                 }
             }

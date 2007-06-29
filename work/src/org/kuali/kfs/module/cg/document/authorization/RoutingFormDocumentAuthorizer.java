@@ -15,6 +15,7 @@
  */
 package org.kuali.module.kra.routingform.document;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import org.kuali.core.authorization.AuthorizationConstants;
@@ -27,6 +28,7 @@ import org.kuali.core.workflow.service.KualiWorkflowDocument;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.kra.KraConstants;
 import org.kuali.module.kra.KraKeyConstants;
+import org.kuali.module.kra.document.ResearchDocument;
 import org.kuali.module.kra.document.ResearchDocumentAuthorizer;
 import org.kuali.module.kra.routingform.bo.RoutingFormPersonnel;
 import org.kuali.module.kra.service.ResearchDocumentPermissionsService;
@@ -36,6 +38,9 @@ public class RoutingFormDocumentAuthorizer extends ResearchDocumentAuthorizer {
 
     @Override
     public Map getEditMode(Document d, UniversalUser u) {
+        
+        Map editModes = new HashMap();
+        
         KualiConfigurationService kualiConfigurationService = SpringServiceLocator.getKualiConfigurationService();
         ResearchDocumentPermissionsService permissionsService = SpringServiceLocator.getResearchDocumentPermissionsService();
         RoutingFormDocument routingFormDocument = (RoutingFormDocument) d;
@@ -49,7 +54,7 @@ public class RoutingFormDocumentAuthorizer extends ResearchDocumentAuthorizer {
             } else {
                 permissionCode = getPermissionCodeByPrecedence(permissionCode, AuthorizationConstants.EditMode.FULL_ENTRY);
             }
-            return finalizeEditMode(routingFormDocument, permissionCode);
+            return this.finalizeEditMode(routingFormDocument, permissionCode);
         }
         
         // Check personnel
@@ -65,7 +70,7 @@ public class RoutingFormDocumentAuthorizer extends ResearchDocumentAuthorizer {
                         permissionCode = getPermissionCodeByPrecedence(permissionCode, AuthorizationConstants.EditMode.FULL_ENTRY);
                     }
                     
-                    return finalizeEditMode(routingFormDocument, permissionCode);
+                    return this.finalizeEditMode(routingFormDocument, permissionCode);
                 }
                 if (KraConstants.CONTACT_PERSON_ADMINISTRATIVE_CODE.equals(role)
                         || KraConstants.CONTACT_PERSON_PROPOSAL_CODE.equals(role)) {
@@ -88,9 +93,22 @@ public class RoutingFormDocumentAuthorizer extends ResearchDocumentAuthorizer {
         }
         
         permissionCode = getPermissionCodeByPrecedence(permissionCode, getAdHocEditMode(routingFormDocument, u));
-        Map editModes = finalizeEditMode(routingFormDocument, permissionCode);
+
+        return this.finalizeEditMode(routingFormDocument, permissionCode);
+    }
+    
+    
+
+    /**
+     * Overriding to check for Budget Overwrite Mode.  It was being bypassed in most cases.
+     * @see org.kuali.module.kra.document.ResearchDocumentAuthorizer#finalizeEditMode(org.kuali.module.kra.document.ResearchDocument, java.lang.String)
+     */
+    @Override
+    protected Map finalizeEditMode(ResearchDocument researchDocument, String permissionCode) {
+        // TODO Auto-generated method stub
+        Map editModes =  super.finalizeEditMode(researchDocument, permissionCode);
         
-        RoutingFormDocument rfd = (RoutingFormDocument) d;
+        RoutingFormDocument rfd = (RoutingFormDocument) researchDocument;
         if (rfd.getRoutingFormBudgetNumber() != null) {
             editModes.put(KraConstants.AuthorizationConstants.BUDGET_LINKED, "TRUE");
             if (!GlobalVariables.getMessageList().contains(KraKeyConstants.BUDGET_OVERRIDE))
@@ -99,6 +117,8 @@ public class RoutingFormDocumentAuthorizer extends ResearchDocumentAuthorizer {
         
         return editModes;
     }
+
+
 
     public DocumentActionFlags getDocumentActionFlags(Document document, UniversalUser user) {
 

@@ -50,6 +50,9 @@ public class RoutingFormLinkAction extends RoutingFormAction {
         Integer i = 0;
         for (BudgetOverviewFormHelper budgetOverviewFormHelper : routingForm.getPeriodBudgetOverviewFormHelpers()) {
             if (budgetOverviewFormHelper.isSelected() || routingForm.getAllPeriodsSelected()) {
+                if (routingForm.getAllPeriodsSelected()) {
+                    budgetOverviewFormHelper.setSelected(true);
+                }
                 selectedBudgetPeriodsList.add(i.toString());
                 linkedPeriods.add(budgetOverviewFormHelper);
             }

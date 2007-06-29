@@ -128,7 +128,7 @@ public class KualiContractsAndGrantsDocSearchGenerator extends StandardDocumentS
     }
     
     // TODO delyea - move this to standard search processor?
-    private SearchAttributeCriteriaComponent getSearchableAttributeByFieldName(String name) {
+    protected SearchAttributeCriteriaComponent getSearchableAttributeByFieldName(String name) {
         if (StringUtils.isBlank(name)) {
             throw new IllegalArgumentException("Attempted to find Searchable Attribute with blank Field name '" + name + "'");
         }

@@ -124,7 +124,8 @@ public class KualiWorkflowUtils extends WorkflowUtils {
         public static final String ACCOUNT_REVIEW_FULL_EDIT = "Account Review Full Edit";
         public static final String REQUISITION_CONTENT_REVIEW = "Content Review";
         public static final String PURCHASE_ORDER_INTERNAL_REVIEW = "Internal Purchasing Review";
-
+        public static final String VENDOR_TAX_REVIEW = "Vendor Tax Review";
+        
     }
 
     public static final Set SOURCE_LINE_ONLY_DOCUMENT_TYPES = new HashSet();

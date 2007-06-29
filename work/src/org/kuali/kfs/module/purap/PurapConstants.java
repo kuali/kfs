@@ -342,6 +342,11 @@ public class PurapConstants {
     // Weird PaymentTermsType is due on either the 10th or 25th with no discount
     public static String PMT_TERMS_TYP_NO_DISCOUNT_CD = "00N2T";
 
+    public static class PaymentRequestIndicatorText {
+        public static String HOLD = "HOLD";
+        public static String REQUEST_CANCEL = "REQUEST CANCEL";
+    }
+    
     public static class PaymentRequestStatuses {
         public static String INITIATE = "INIT";
         public static String IN_PROCESS = "INPR";
@@ -429,7 +434,7 @@ public class PurapConstants {
     // PAYMENT REQUEST
     public static String CREDIT_MEMO_DOCUMENT = "KualiCreditMemoDocument";
     public static String CREDIT_MEMO_DOCUMENT_DOC_TYPE = "CreditMemoDocument";
-
+    
     public static class CreditMemoStatuses {
         public static String INITIATE = "INIT";
         public static String IN_PROCESS = "INPR";

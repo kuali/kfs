@@ -34,6 +34,12 @@ public class CreditMemoItem extends AccountsPayableItemBase {
     private KualiDecimal itemExtendedPrice;
     private boolean itemAssignedToTradeInIndicator;
     private String itemDescription;
+    private KualiDecimal purchaseOrderInvoicedTotalQuantity;
+    private BigDecimal purchaseOrderUnitPrice;
+    private KualiDecimal purchaseOrderExtendedPrice;
+    private KualiDecimal paymentRequestInvoicedTotalQuantity;
+    private BigDecimal paymentRequestUnitPrice;
+    private KualiDecimal paymentRequestExtendedPrice;
     
     private CreditMemoDocument creditMemo;
 
@@ -190,6 +196,102 @@ public class CreditMemoItem extends AccountsPayableItemBase {
      */
     public void setItemDescription(String itemDescription) {
         this.itemDescription = itemDescription;
+    }
+
+    /**
+     * Gets the purchaseOrderExtendedPrice attribute. 
+     * @return Returns the purchaseOrderExtendedPrice.
+     */
+    public KualiDecimal getPurchaseOrderExtendedPrice() {
+        return purchaseOrderExtendedPrice;
+    }
+
+    /**
+     * Sets the purchaseOrderExtendedPrice attribute value.
+     * @param purchaseOrderExtendedPrice The purchaseOrderExtendedPrice to set.
+     */
+    public void setPurchaseOrderExtendedPrice(KualiDecimal purchaseOrderExtendedPrice) {
+        this.purchaseOrderExtendedPrice = purchaseOrderExtendedPrice;
+    }
+
+    /**
+     * Gets the purchaseOrderInvoicedTotalQuantity attribute. 
+     * @return Returns the purchaseOrderInvoicedTotalQuantity.
+     */
+    public KualiDecimal getPurchaseOrderInvoicedTotalQuantity() {
+        return purchaseOrderInvoicedTotalQuantity;
+    }
+
+    /**
+     * Sets the purchaseOrderInvoicedTotalQuantity attribute value.
+     * @param purchaseOrderInvoicedTotalQuantity The purchaseOrderInvoicedTotalQuantity to set.
+     */
+    public void setPurchaseOrderInvoicedTotalQuantity(KualiDecimal purchaseOrderInvoicedTotalQuantity) {
+        this.purchaseOrderInvoicedTotalQuantity = purchaseOrderInvoicedTotalQuantity;
+    }
+
+    /**
+     * Gets the purchaseOrderUnitPrice attribute. 
+     * @return Returns the purchaseOrderUnitPrice.
+     */
+    public BigDecimal getPurchaseOrderUnitPrice() {
+        return purchaseOrderUnitPrice;
+    }
+
+    /**
+     * Sets the purchaseOrderUnitPrice attribute value.
+     * @param purchaseOrderUnitPrice The purchaseOrderUnitPrice to set.
+     */
+    public void setPurchaseOrderUnitPrice(BigDecimal purchaseOrderUnitPrice) {
+        this.purchaseOrderUnitPrice = purchaseOrderUnitPrice;
+    }
+
+    /**
+     * Gets the paymentRequestExtendedPrice attribute. 
+     * @return Returns the paymentRequestExtendedPrice.
+     */
+    public KualiDecimal getPaymentRequestExtendedPrice() {
+        return paymentRequestExtendedPrice;
+    }
+
+    /**
+     * Sets the paymentRequestExtendedPrice attribute value.
+     * @param paymentRequestExtendedPrice The paymentRequestExtendedPrice to set.
+     */
+    public void setPaymentRequestExtendedPrice(KualiDecimal paymentRequestExtendedPrice) {
+        this.paymentRequestExtendedPrice = paymentRequestExtendedPrice;
+    }
+
+    /**
+     * Gets the paymentRequestInvoicedTotalQuantity attribute. 
+     * @return Returns the paymentRequestInvoicedTotalQuantity.
+     */
+    public KualiDecimal getPaymentRequestInvoicedTotalQuantity() {
+        return paymentRequestInvoicedTotalQuantity;
+    }
+
+    /**
+     * Sets the paymentRequestInvoicedTotalQuantity attribute value.
+     * @param paymentRequestInvoicedTotalQuantity The paymentRequestInvoicedTotalQuantity to set.
+     */
+    public void setPaymentRequestInvoicedTotalQuantity(KualiDecimal paymentRequestInvoicedTotalQuantity) {
+        this.paymentRequestInvoicedTotalQuantity = paymentRequestInvoicedTotalQuantity;
+    }
+
+    /**
+     * Gets the paymentRequestUnitPrice attribute. 
+     * @return Returns the paymentRequestUnitPrice.
+     */
+    public BigDecimal getPaymentRequestUnitPrice() {
+        return paymentRequestUnitPrice;
+    }
+
+    /**
+     * Sets the paymentRequestUnitPrice attribute value.
+     * @param paymentRequestUnitPrice The paymentRequestUnitPrice to set.
+     */
+    public void setPaymentRequestUnitPrice(BigDecimal paymentRequestUnitPrice) {
+        this.paymentRequestUnitPrice = paymentRequestUnitPrice;
     }
 
     /**

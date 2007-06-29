@@ -1611,6 +1611,12 @@
 	<field-descriptor name="itemExtendedPrice" column="ITM_EXTND_PRC" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
 	<field-descriptor name="itemAssignedToTradeInIndicator" column="ITM_ASND_TO_TRADE_IN_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
 	<field-descriptor name="itemDescription" column="ITM_DESC" jdbc-type="VARCHAR"/>
+	<field-descriptor name="purchaseOrderInvoicedTotalQuantity" column="PO_INV_TOT_QTY" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
+	<field-descriptor name="purchaseOrderUnitPrice" column="PO_UNT_PRC" jdbc-type="DECIMAL"/>
+	<field-descriptor name="purchaseOrderExtendedPrice" column="PO_EXTND_PRC" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
+	<field-descriptor name="paymentRequestInvoicedTotalQuantity" column="PMT_RQST_INV_TOT_QTY" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
+	<field-descriptor name="paymentRequestUnitPrice" column="PMT_RQST_UNT_PRC" jdbc-type="DECIMAL"/>
+	<field-descriptor name="paymentRequestExtendedPrice" column="PMT_RQST_EXTND_PRC" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
 	<reference-descriptor name="creditMemo" class-ref="org.kuali.module.purap.document.CreditMemoDocument" auto-retrieve="true" auto-update="none" auto-delete="none">
 		<foreignkey field-ref="purapDocumentIdentifier" />
 	</reference-descriptor>

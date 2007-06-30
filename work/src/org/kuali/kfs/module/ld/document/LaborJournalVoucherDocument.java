@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.core.bo.DocumentType;
+import org.kuali.core.document.AmountTotaling;
 import org.kuali.core.exceptions.ValidationException;
 import org.kuali.core.rule.event.KualiDocumentEvent;
 import org.kuali.kfs.bo.AccountingLineParser;
@@ -31,7 +32,7 @@ import org.kuali.module.labor.bo.LaborLedgerAccountingLineParser;
 import org.kuali.module.labor.bo.PendingLedgerEntry;
 import org.kuali.module.labor.bo.TestSourceAccountingLine;
 
-public class LaborJournalVoucherDocument extends JournalVoucherDocument implements LaborLedgerPostingDocument{
+public class LaborJournalVoucherDocument extends JournalVoucherDocument implements LaborLedgerPostingDocument, AmountTotaling {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(LaborJournalVoucherDocument.class);
 
     private String offsetTypeCode = JournalVoucherOffsetType.NO_OFFSET.typeCode;

@@ -17,6 +17,7 @@ package org.kuali.module.labor.document;
 
 import java.util.List;
 
+import org.kuali.core.document.AmountTotaling;
 import org.kuali.core.document.Copyable;
 import org.kuali.core.document.Correctable;
 import org.kuali.kfs.KFSConstants;
@@ -29,7 +30,7 @@ import org.kuali.module.labor.bo.ExpenseTransferTargetAccountingLine;
 /**
  * Base class for Expense Transfer Documents
  */
-public abstract class LaborExpenseTransferDocumentBase extends LaborLedgerPostingDocumentBase implements Copyable, Correctable, LaborExpenseTransferDocument {
+public abstract class LaborExpenseTransferDocumentBase extends LaborLedgerPostingDocumentBase implements AmountTotaling, Copyable, Correctable, LaborExpenseTransferDocument {
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(LaborExpenseTransferDocumentBase.class);
 
     private String emplid;

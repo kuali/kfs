@@ -21,20 +21,15 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.ojb.broker.query.QueryByCriteria;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.KualiRuleService;
 import org.kuali.core.util.GeneralLedgerPendingEntrySequenceHelper;
 import org.kuali.core.util.TransactionalServiceUtils;
 import org.kuali.kfs.bo.AccountingLine;
-import org.kuali.kfs.document.AccountingDocument;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.labor.bo.LaborLedgerPendingEntry;
 import org.kuali.module.labor.dao.LaborLedgerPendingEntryDao;
-import org.kuali.module.labor.document.LaborExpenseTransferDocument;
 import org.kuali.module.labor.document.LaborLedgerPostingDocument;
-import org.kuali.module.labor.rule.event.GenerateLaborLedgerBenefitClearingPendingEntriesEvent;
-import org.kuali.module.labor.rule.event.GenerateLaborLedgerPendingEntriesEvent;
 import org.kuali.module.labor.service.LaborLedgerPendingEntryService;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -141,9 +136,9 @@ public class LaborLedgerPendingEntryServiceImpl implements LaborLedgerPendingEnt
     private boolean processLaborLedgerPendingEntryForAccountingLine(LaborLedgerPostingDocument document, GeneralLedgerPendingEntrySequenceHelper sequenceHelper, AccountingLine line) {
         LOG.debug("processLaborLedgerPendingEntryForAccountingLine() started");
         boolean success = true;
-
-        GenerateLaborLedgerPendingEntriesEvent event = new GenerateLaborLedgerPendingEntriesEvent(document, line, sequenceHelper);
-        success &= kualiRuleService.applyRules(event);
+// abyrne commented out the lines below to fix the build
+//        GenerateLaborLedgerPendingEntriesEvent event = new GenerateLaborLedgerPendingEntriesEvent(document, line, sequenceHelper);
+    //    success &= kualiRuleService.applyRules(event);
         return success;
     }
 
@@ -151,8 +146,9 @@ public class LaborLedgerPendingEntryServiceImpl implements LaborLedgerPendingEnt
         LOG.debug("processLaborLedgerPendingEntryForAccountingLine() started");
         boolean success = true;
 
-        GenerateLaborLedgerBenefitClearingPendingEntriesEvent event = new GenerateLaborLedgerBenefitClearingPendingEntriesEvent(document, sequenceHelper);
-        success &= kualiRuleService.applyRules(event);
+        // abyrne commented out the lines below to fix the build
+        //GenerateLaborLedgerBenefitClearingPendingEntriesEvent event = new GenerateLaborLedgerBenefitClearingPendingEntriesEvent(document, sequenceHelper);
+        //success &= kualiRuleService.applyRules(event);
         return success;
     }
 

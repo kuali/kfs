@@ -649,7 +649,7 @@
         <inverse-foreignkey field-ref="documentNumber" />
     </collection-descriptor>
     
-        <collection-descriptor name="laborLedgerPendingEntries" proxy="true" element-class-ref="org.kuali.module.labor.bo.PendingLedgerEntry" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
+        <collection-descriptor name="laborLedgerPendingEntries" proxy="true" element-class-ref="org.kuali.module.labor.bo.LaborLedgerPendingEntry" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
         <orderby name="transactionLedgerEntrySequenceNumber" sort="ASC" />
         <inverse-foreignkey field-ref="documentNumber" />
     </collection-descriptor>
@@ -693,7 +693,7 @@
         <inverse-foreignkey field-ref="documentNumber" />
     </collection-descriptor>
     
-        <collection-descriptor name="laborLedgerPendingEntries" proxy="true" element-class-ref="org.kuali.module.labor.bo.PendingLedgerEntry" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
+        <collection-descriptor name="laborLedgerPendingEntries" proxy="true" element-class-ref="org.kuali.module.labor.bo.LaborLedgerPendingEntry" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
         <orderby name="transactionLedgerEntrySequenceNumber" sort="ASC" />
         <inverse-foreignkey field-ref="documentNumber" />
     </collection-descriptor>
@@ -1248,7 +1248,7 @@
 	</reference-descriptor>
 </class-descriptor>
 		
-	<class-descriptor class="org.kuali.module.labor.bo.PendingLedgerEntry" table="LD_PND_LDGR_ENTR_T">
+	<class-descriptor class="org.kuali.module.labor.bo.LaborLedgerPendingEntry" table="LD_PND_LDGR_ENTR_T">
 	<field-descriptor name="financialSystemOriginationCode" column="FS_ORIGIN_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
 	<field-descriptor name="documentNumber" column="FDOC_NBR" jdbc-type="VARCHAR" primarykey="true" index="true"/>
 	<field-descriptor name="transactionLedgerEntrySequenceNumber" column="TRN_ENTR_SEQ_NBR" jdbc-type="INTEGER" primarykey="true" index="true"/>
@@ -1528,7 +1528,7 @@
         <foreignkey field-ref="offsetTypeCode" />
     </reference-descriptor>
     
-    <collection-descriptor name="laborLedgerPendingEntries" proxy="true" element-class-ref="org.kuali.module.labor.bo.PendingLedgerEntry" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
+    <collection-descriptor name="laborLedgerPendingEntries" proxy="true" element-class-ref="org.kuali.module.labor.bo.LaborLedgerPendingEntry" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
         <orderby name="transactionLedgerEntrySequenceNumber" sort="ASC" />
         <inverse-foreignkey field-ref="documentNumber" />
     </collection-descriptor>

@@ -36,7 +36,7 @@ import org.kuali.module.gl.service.OriginEntryGroupService;
 import org.kuali.module.gl.web.TestDataGenerator;
 import org.kuali.module.labor.bo.LaborOriginEntry;
 import org.kuali.module.labor.bo.LedgerEntry;
-import org.kuali.module.labor.bo.PendingLedgerEntry;
+import org.kuali.module.labor.bo.LaborLedgerPendingEntry;
 import org.kuali.module.labor.service.LaborOriginEntryService;
 import org.kuali.module.labor.util.testobject.PendingLedgerEntryForTesting;
 
@@ -139,7 +139,7 @@ public class TestDataLoader {
             PendingLedgerEntryForTesting inputData = new PendingLedgerEntryForTesting();
             ObjectUtil.populateBusinessObject(inputData, properties, propertyKey, fieldLength, keyFieldList);
 
-            if (businessObjectService.countMatching(PendingLedgerEntry.class, inputData.getPrimaryKeyMap()) <= 0) {
+            if (businessObjectService.countMatching(LaborLedgerPendingEntry.class, inputData.getPrimaryKeyMap()) <= 0) {
                 businessObjectService.save(inputData);
                 count++;
             }

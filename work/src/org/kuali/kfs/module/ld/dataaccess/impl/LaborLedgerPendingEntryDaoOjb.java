@@ -29,7 +29,7 @@ import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
 import org.kuali.kfs.dao.ojb.GeneralLedgerPendingEntryDaoOjb;
-import org.kuali.module.labor.bo.PendingLedgerEntry;
+import org.kuali.module.labor.bo.LaborLedgerPendingEntry;
 import org.kuali.module.labor.dao.LaborLedgerPendingEntryDao;
 import org.springmodules.orm.ojb.support.PersistenceBrokerDaoSupport;
 
@@ -96,6 +96,6 @@ public class LaborLedgerPendingEntryDaoOjb extends GeneralLedgerPendingEntryDaoO
     
     @Override
     public Class getEntryClass(){
-        return PendingLedgerEntry.class;
+        return LaborLedgerPendingEntry.class;
     }
 }

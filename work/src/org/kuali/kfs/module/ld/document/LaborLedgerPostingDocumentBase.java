@@ -22,9 +22,11 @@ import org.kuali.core.document.TransactionalDocument;
 import org.kuali.core.exceptions.ValidationException;
 import org.kuali.core.rule.event.KualiDocumentEvent;
 import org.kuali.kfs.KFSConstants;
+import org.kuali.kfs.bo.SourceAccountingLine;
+import org.kuali.kfs.bo.TargetAccountingLine;
 import org.kuali.kfs.document.AccountingDocumentBase;
 import org.kuali.kfs.util.SpringServiceLocator;
-import org.kuali.module.labor.bo.PendingLedgerEntry;
+import org.kuali.module.labor.bo.LaborLedgerPendingEntry;
 
 
 /**
@@ -33,27 +35,27 @@ import org.kuali.module.labor.bo.PendingLedgerEntry;
  */
 public abstract class LaborLedgerPostingDocumentBase extends AccountingDocumentBase implements LaborLedgerPostingDocument {
 
-    protected List<PendingLedgerEntry> laborLedgerPendingEntries;
+    protected List<LaborLedgerPendingEntry> laborLedgerPendingEntries;
 
     /**
      * Initializes the pending entries.
      */
     public LaborLedgerPostingDocumentBase() {
         super();
-        setLaborLedgerPendingEntries(new ArrayList<PendingLedgerEntry>());
+        setLaborLedgerPendingEntries(new ArrayList<LaborLedgerPendingEntry>());
     }
 
     /**
      * @see org.kuali.module.labor.document.LaborLedgerPostingDocument#getLaborLedgerPendingEntries()
      */
-    public List<PendingLedgerEntry> getLaborLedgerPendingEntries() {
+    public List<LaborLedgerPendingEntry> getLaborLedgerPendingEntries() {
         return this.laborLedgerPendingEntries;
     }
 
     /**
      * @see org.kuali.module.labor.document.LaborLedgerPostingDocument#setLaborLedgerPendingEntries(java.util.List)
      */
-    public void setLaborLedgerPendingEntries(List<PendingLedgerEntry> laborLedgerPendingEntries) {
+    public void setLaborLedgerPendingEntries(List<LaborLedgerPendingEntry> laborLedgerPendingEntries) {
         this.laborLedgerPendingEntries = laborLedgerPendingEntries;
     }
 
@@ -64,11 +66,11 @@ public abstract class LaborLedgerPostingDocumentBase extends AccountingDocumentB
      * instances at indices before that one are not being instantiated. So changing the code below will cause things to break.
      *
      * @param index of Labor Ledger Pending Entry to retrieve
-     * @return PendingLedgerEntry
+     * @return LaborLedgerPendingEntry
      */
-    public PendingLedgerEntry getLaborLedgerPendingEntry(int index) {
+    public LaborLedgerPendingEntry getLaborLedgerPendingEntry(int index) {
         while (laborLedgerPendingEntries.size() <= index) {
-            laborLedgerPendingEntries.add(new PendingLedgerEntry());
+            laborLedgerPendingEntries.add(new LaborLedgerPendingEntry());
         }
         return laborLedgerPendingEntries.get(index);
     }

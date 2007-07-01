@@ -178,6 +178,10 @@ public class LaborConstants {
         }        
     }
     
+    public static class LookupableBeanKeys {
+        static final public String PENDING_ENTRY = "laborPendingEntryLookupable";
+    }
+    
     public static final String LONG_ROW_TABLE_INRUIRY_ACTION = "laborLongRowTableInquiry.do";
     public static final String LABOR_USER_SERVICE_NAME = "laborUserService";
     public static final String LABOR_INQUIRY_OPTIONS_SERVICE = "laborInquiryOptionsService";

@@ -22,7 +22,7 @@ import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
 import org.kuali.kfs.document.AccountingDocument;
 import org.kuali.module.financial.rules.JournalVoucherDocumentRule;
 import org.kuali.module.labor.bo.LaborJournalVoucherDetail;
-import org.kuali.module.labor.bo.PendingLedgerEntry;
+import org.kuali.module.labor.bo.LaborLedgerPendingEntry;
 import org.kuali.module.labor.document.LaborJournalVoucherDocument;
 import org.kuali.module.labor.document.LaborLedgerPostingDocument;
 import org.kuali.module.labor.rule.GenerateLaborLedgerPendingEntriesRule;
@@ -47,10 +47,10 @@ public class LaborJournalVoucherDocumentRule extends JournalVoucherDocumentRule 
     public boolean processGenerateLaborLedgerPendingEntries(LaborLedgerPostingDocument accountingDocument, AccountingLine accountingLine, GeneralLedgerPendingEntrySequenceHelper sequenceHelper) {
         LOG.debug("processGenerateLaborLedgerPendingEntries() started");
 
-        return addLaborLedgerPendingEntry(accountingDocument, sequenceHelper, accountingLine, new PendingLedgerEntry());
+        return addLaborLedgerPendingEntry(accountingDocument, sequenceHelper, accountingLine, new LaborLedgerPendingEntry());
     }
     
-    private boolean addLaborLedgerPendingEntry(AccountingDocument accountingDocument, GeneralLedgerPendingEntrySequenceHelper sequenceHelper, AccountingLine accountingLine, PendingLedgerEntry pendingLedgerEntry) {
+    private boolean addLaborLedgerPendingEntry(AccountingDocument accountingDocument, GeneralLedgerPendingEntrySequenceHelper sequenceHelper, AccountingLine accountingLine, LaborLedgerPendingEntry pendingLedgerEntry) {
         LOG.debug("processExplicitGeneralLedgerPendingEntry() started");
         
         try{

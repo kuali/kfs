@@ -27,7 +27,7 @@ import org.kuali.module.gl.bo.OriginEntryGroup;
 import org.kuali.module.gl.bo.OriginEntrySource;
 import org.kuali.module.gl.service.OriginEntryGroupService;
 import org.kuali.module.labor.bo.LaborOriginEntry;
-import org.kuali.module.labor.bo.PendingLedgerEntry;
+import org.kuali.module.labor.bo.LaborLedgerPendingEntry;
 import org.kuali.module.labor.service.LaborLedgerPendingEntryService;
 import org.kuali.module.labor.service.LaborNightlyOutService;
 import org.kuali.module.labor.service.LaborReportService;
@@ -62,9 +62,9 @@ public class LaborNightlyOutServiceImpl implements LaborNightlyOutService {
         String reportDirectory = ReportRegistry.getReportsDirectory();
         OriginEntryGroup group = originEntryGroupService.createGroup(runDate, OriginEntrySource.LABOR_EDOC, true, true, true);
 
-        Iterator<PendingLedgerEntry> pendingEntries = laborLedgerPendingEntryService.findApprovedPendingLedgerEntries();
+        Iterator<LaborLedgerPendingEntry> pendingEntries = laborLedgerPendingEntryService.findApprovedPendingLedgerEntries();
         while (pendingEntries != null && pendingEntries.hasNext()) {
-            PendingLedgerEntry pendingEntry = pendingEntries.next();
+            LaborLedgerPendingEntry pendingEntry = pendingEntries.next();
 
             // copy the pending entry to origin entry table
             saveAsOriginEntry(pendingEntry, group);
@@ -83,7 +83,7 @@ public class LaborNightlyOutServiceImpl implements LaborNightlyOutService {
     /*
      * save pending ledger entry as origin entry
      */
-    private void saveAsOriginEntry(PendingLedgerEntry pendingEntry, OriginEntryGroup group) {
+    private void saveAsOriginEntry(LaborLedgerPendingEntry pendingEntry, OriginEntryGroup group) {
         LaborOriginEntry originEntry = new LaborOriginEntry();
         ObjectUtil.buildObject(originEntry, pendingEntry);
 

@@ -43,7 +43,7 @@ import org.kuali.module.labor.bo.ExpenseTransferAccountingLine;
 import org.kuali.module.labor.bo.ExpenseTransferSourceAccountingLine;
 import org.kuali.module.labor.bo.LaborObject;
 import org.kuali.module.labor.bo.LedgerBalance;
-import org.kuali.module.labor.bo.PendingLedgerEntry;
+import org.kuali.module.labor.bo.LaborLedgerPendingEntry;
 import org.kuali.module.labor.document.BenefitExpenseTransferDocument;
 import org.kuali.module.labor.document.LaborLedgerPostingDocument;
 import org.kuali.module.labor.util.ObjectUtil;
@@ -173,19 +173,19 @@ public class BenefitExpenseTransferDocumentRule extends LaborExpenseTransferDocu
         LOG.info("started processGenerateLaborLedgerPendingEntries");
 
         // setup default values, so they don't have to be set multiple times
-        PendingLedgerEntry defaultEntry = new PendingLedgerEntry();
+        LaborLedgerPendingEntry defaultEntry = new LaborLedgerPendingEntry();
         populateDefaultLaborLedgerPendingEntry(accountingDocument, accountingLine, defaultEntry);
 
         // Generate original entry
-        PendingLedgerEntry originalEntry = (PendingLedgerEntry) ObjectUtils.deepCopy(defaultEntry);
+        LaborLedgerPendingEntry originalEntry = (LaborLedgerPendingEntry) ObjectUtils.deepCopy(defaultEntry);
         boolean success = processOriginalLaborLedgerPendingEntry(accountingDocument, sequenceHelper, accountingLine, originalEntry);
 
         // Generate A21 entry
-        PendingLedgerEntry a21Entry = (PendingLedgerEntry) ObjectUtils.deepCopy(defaultEntry);
+        LaborLedgerPendingEntry a21Entry = (LaborLedgerPendingEntry) ObjectUtils.deepCopy(defaultEntry);
         success &= processA21LaborLedgerPendingEntry(accountingDocument, sequenceHelper, accountingLine, a21Entry);
 
         // Generate A21 reversal entry
-        PendingLedgerEntry a21RevEntry = (PendingLedgerEntry) ObjectUtils.deepCopy(defaultEntry);
+        LaborLedgerPendingEntry a21RevEntry = (LaborLedgerPendingEntry) ObjectUtils.deepCopy(defaultEntry);
         success &= processA21RevLaborLedgerPendingEntry(accountingDocument, sequenceHelper, accountingLine, a21RevEntry);
 
         return success;
@@ -270,7 +270,7 @@ public class BenefitExpenseTransferDocumentRule extends LaborExpenseTransferDocu
         }
         
         BenefitExpenseTransferDocument benefitExpenseTransferDocument = (BenefitExpenseTransferDocument) accountingDocument;
-        List<AccountingLine> sourceAccountingLines = benefitExpenseTransferDocument.getSourceAccountingLines();               
+        List<ExpenseTransferSourceAccountingLine> sourceAccountingLines = benefitExpenseTransferDocument.getSourceAccountingLines();               
         List<String> key = defaultKeyOfExpenseTransferAccountingLine();
         
         int counter = 0;

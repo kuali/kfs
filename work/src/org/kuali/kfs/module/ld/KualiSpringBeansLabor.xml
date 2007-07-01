@@ -81,6 +81,36 @@
 			<ref bean="kualiRuleService" />
 		</property>	
 	</bean>
+
+	<bean id="laborPendingEntryLookupable" class="org.kuali.core.lookup.KualiLookupableImpl" singleton="false">
+		<property name="lookupableHelperService">
+			<ref bean="laborPendingEntryLookupableHelperService" />
+		</property>
+	</bean>
+
+	<bean id="laborPendingEntryLookupableHelperService" class="org.kuali.module.labor.web.lookupable.LaborPendingEntryLookupableHelperServiceImpl">
+		<property name="persistenceStructureService">
+			<ref bean="persistenceStructureService" />
+		</property>
+		<property name="lookupService">
+			<ref bean="lookupService" />
+		</property>
+		<property name="businessObjectDictionaryService">
+			<ref bean="businessObjectDictionaryService" />
+		</property>
+		<property name="businessObjectMetaDataService">
+			<ref bean="businessObjectMetaDataService" />
+		</property>
+		<property name="dataDictionaryService">
+			<ref bean="dataDictionaryService" />
+		</property>
+		<property name="laborLedgerPendingEntryService">
+			<ref bean="laborLedgerPendingEntryService" />
+		</property>
+		<property name="kualiConfigurationService">
+			<ref bean="kualiConfigurationService" />
+		</property>
+    </bean>
 	
     <bean id="laborGeneralLedgerEntryService" class="org.kuali.module.labor.service.impl.LaborGeneralLedgerEntryServiceImpl">
         <property name="businessObjectService">

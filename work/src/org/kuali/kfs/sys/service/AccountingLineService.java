@@ -17,7 +17,7 @@ package org.kuali.kfs.service;
 
 import java.util.List;
 
-import org.kuali.kfs.bo.AccountingLineBase;
+import org.kuali.kfs.bo.AccountingLine;
 
 /**
  * This interface defines methods that an AccountingLine service implementation must provide.
@@ -42,7 +42,7 @@ public interface AccountingLineService {
      * @return The saved accounting line
      * @throws Exception
      */
-    public AccountingLineBase save(AccountingLineBase line);
+    public AccountingLine save(AccountingLine line);
 
 
     /**
@@ -51,5 +51,5 @@ public interface AccountingLineService {
      * @param line
      * @throws Exception
      */
-    public void deleteAccountingLine(AccountingLineBase line);
+    public void deleteAccountingLine(AccountingLine line);
 }

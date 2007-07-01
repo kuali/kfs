@@ -21,10 +21,10 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.kfs.KFSPropertyConstants;
-import org.kuali.module.labor.bo.PendingLedgerEntry;
+import org.kuali.module.labor.bo.LaborLedgerPendingEntry;
 import org.kuali.module.labor.util.ObjectUtil;
 
-public class PendingLedgerEntryForTesting extends PendingLedgerEntry{
+public class PendingLedgerEntryForTesting extends LaborLedgerPendingEntry {
     
     @ Override
     public boolean equals(Object otherPendingLedgerEntry){

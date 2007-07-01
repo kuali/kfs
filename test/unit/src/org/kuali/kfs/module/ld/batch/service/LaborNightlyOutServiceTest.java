@@ -28,7 +28,7 @@ import org.kuali.core.service.PersistenceService;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.gl.web.TestDataGenerator;
 import org.kuali.module.labor.bo.LaborOriginEntry;
-import org.kuali.module.labor.bo.PendingLedgerEntry;
+import org.kuali.module.labor.bo.LaborLedgerPendingEntry;
 import org.kuali.module.labor.util.ObjectUtil;
 import org.kuali.module.labor.util.TestDataPreparator;
 import org.kuali.module.labor.util.testobject.LaborOriginEntryForTesting;
@@ -71,7 +71,7 @@ public class LaborNightlyOutServiceTest extends KualiTestBase {
         ObjectUtil.populateBusinessObject(cleanup, properties, "dataCleanup", fieldNames, deliminator);
         fieldValues = ObjectUtil.buildPropertyMap(cleanup, Arrays.asList(StringUtils.split(fieldNames, deliminator)));
         businessObjectService.deleteMatching(LaborOriginEntry.class, fieldValues);
-        businessObjectService.deleteMatching(PendingLedgerEntry.class, fieldValues);
+        businessObjectService.deleteMatching(LaborLedgerPendingEntry.class, fieldValues);
     }
     
     public void testCopyApprovedPendingLedgerEntries() throws Exception {
@@ -79,7 +79,7 @@ public class LaborNightlyOutServiceTest extends KualiTestBase {
         int numberOfTestData = Integer.valueOf(properties.getProperty(testTarget + "numOfData"));
         int expectedNumOfData = Integer.valueOf(properties.getProperty(testTarget + "expectedNumOfData"));
 
-        List inputDataList = TestDataPreparator.buildTestDataList(PendingLedgerEntry.class, properties, testTarget + "testData", numberOfTestData);
+        List inputDataList = TestDataPreparator.buildTestDataList(LaborLedgerPendingEntry.class, properties, testTarget + "testData", numberOfTestData);
         businessObjectService.save(inputDataList);
         
         laborNightlyOutService.copyApprovedPendingLedgerEntries();
@@ -99,7 +99,7 @@ public class LaborNightlyOutServiceTest extends KualiTestBase {
         int numberOfTestData = Integer.valueOf(properties.getProperty(testTarget + "numOfData"));
         int expectedNumOfData = Integer.valueOf(properties.getProperty(testTarget + "expectedNumOfData"));
 
-        List inputDataList = TestDataPreparator.buildTestDataList(PendingLedgerEntry.class, properties, testTarget + "testData", numberOfTestData);
+        List inputDataList = TestDataPreparator.buildTestDataList(LaborLedgerPendingEntry.class, properties, testTarget + "testData", numberOfTestData);
         businessObjectService.save(inputDataList);
         
         laborNightlyOutService.copyApprovedPendingLedgerEntries();
@@ -119,7 +119,7 @@ public class LaborNightlyOutServiceTest extends KualiTestBase {
         int numberOfTestData = Integer.valueOf(properties.getProperty(testTarget + "numOfData"));
         int expectedNumOfData = Integer.valueOf(properties.getProperty(testTarget + "expectedNumOfData"));
 
-        List inputDataList = TestDataPreparator.buildTestDataList(PendingLedgerEntry.class, properties, testTarget + "testData", numberOfTestData);
+        List inputDataList = TestDataPreparator.buildTestDataList(LaborLedgerPendingEntry.class, properties, testTarget + "testData", numberOfTestData);
         businessObjectService.save(inputDataList);
         
         laborNightlyOutService.deleteCopiedPendingLedgerEntries();
@@ -134,13 +134,13 @@ public class LaborNightlyOutServiceTest extends KualiTestBase {
         int numberOfTestData = Integer.valueOf(properties.getProperty(testTarget + "numOfData"));
         int expectedNumOfData = Integer.valueOf(properties.getProperty(testTarget + "expectedNumOfData"));
 
-        List inputDataList = TestDataPreparator.buildTestDataList(PendingLedgerEntry.class, properties, testTarget + "testData", numberOfTestData);
+        List inputDataList = TestDataPreparator.buildTestDataList(LaborLedgerPendingEntry.class, properties, testTarget + "testData", numberOfTestData);
         businessObjectService.save(inputDataList);
         
         laborNightlyOutService.deleteCopiedPendingLedgerEntries();
        
         List expectedDataList = TestDataPreparator.buildExpectedValueList(LaborOriginEntryForTesting.class, properties, testTarget + "expected", expectedNumOfData);
-        Collection originEntries = businessObjectService.findMatching(PendingLedgerEntry.class, fieldValues);       
+        Collection originEntries = businessObjectService.findMatching(LaborLedgerPendingEntry.class, fieldValues);       
         for (Object entry : originEntries) {
             PendingLedgerEntryForTesting pendingEntryForTesting = new PendingLedgerEntryForTesting();
             ObjectUtil.buildObject(pendingEntryForTesting, entry);

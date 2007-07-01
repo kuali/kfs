@@ -17,7 +17,7 @@ package org.kuali.kfs.service.impl;
 
 import java.util.List;
 
-import org.kuali.kfs.bo.AccountingLineBase;
+import org.kuali.kfs.bo.AccountingLine;
 import org.kuali.kfs.dao.AccountingLineDao;
 import org.kuali.kfs.service.AccountingLineService;
 import org.springframework.transaction.annotation.Transactional;
@@ -44,10 +44,10 @@ public class AccountingLineServiceImpl implements AccountingLineService {
     /**
      * Saves an accounting line to the DB.
      * 
-     * @param AccountingLineBase The accounting line object to save - can be any object that extends AccountingLineBase (i.e. Source
+     * @param AccountingLine The accounting line object to save - can be any object that extends AccountingLineBase (i.e. Source
      *        and Target lines).
      */
-    public AccountingLineBase save(AccountingLineBase line) {
+    public AccountingLine save(AccountingLine line) {
         accountingLineDao.save(line);
         return line;
     }
@@ -55,10 +55,10 @@ public class AccountingLineServiceImpl implements AccountingLineService {
     /**
      * Deletes an accounting line from the DB.
      * 
-     * @param AccountingLineBase The accounting line object to save - can be any object that extends AccountingLineBase (i.e. Source
+     * @param AccountingLine The accounting line object to save - can be any object that extends AccountingLineBase (i.e. Source
      *        and Target lines).
      */
-    public void deleteAccountingLine(AccountingLineBase line) {
+    public void deleteAccountingLine(AccountingLine line) {
         accountingLineDao.deleteAccountingLine(line);
     }
 

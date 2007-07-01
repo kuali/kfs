@@ -27,7 +27,7 @@ import org.kuali.core.web.ui.Row;
 import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.module.gl.util.BusinessObjectFieldConverter;
 import org.kuali.module.gl.web.Constant;
-import org.kuali.module.labor.bo.PendingLedgerEntry;
+import org.kuali.module.labor.bo.LaborLedgerPendingEntry;
 import org.kuali.module.labor.service.LaborInquiryOptionsService;
 import org.kuali.module.labor.service.LaborLedgerPendingEntryService;
 import org.springframework.transaction.annotation.Transactional;
@@ -150,7 +150,7 @@ public class LaborInquiryOptionsServiceImpl extends AbstractLookupableHelperServ
         Iterator pendingEntryIterator = getLaborLedgerPendingEntryService().findPendingLedgerEntriesForAccountBalance(pendingEntryFieldValues, isApproved);
 
         while (pendingEntryIterator.hasNext()) {
-            PendingLedgerEntry pendingEntry = (PendingLedgerEntry) pendingEntryIterator.next();
+            LaborLedgerPendingEntry pendingEntry = (LaborLedgerPendingEntry) pendingEntryIterator.next();
 
             if (isCostShareExcluded) {
                 if ((pendingEntry.getSubAccount() != null) && (pendingEntry.getSubAccount().getA21SubAccount() != null)) {

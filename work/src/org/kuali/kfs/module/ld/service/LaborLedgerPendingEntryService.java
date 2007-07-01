@@ -15,11 +15,12 @@
  */
 package org.kuali.module.labor.service;
 
+import java.util.Collection;
 import java.util.Iterator;
 import java.util.Map;
 
 import org.kuali.module.chart.bo.Account;
-import org.kuali.module.labor.bo.PendingLedgerEntry;
+import org.kuali.module.labor.bo.LaborLedgerPendingEntry;
 import org.kuali.module.labor.document.LaborLedgerPostingDocument;
 
 /**
@@ -62,7 +63,7 @@ public interface LaborLedgerPendingEntryService {
      * 
      * @return all approved pending entries
      */
-    public Iterator<PendingLedgerEntry> findApprovedPendingLedgerEntries();
+    public Iterator<LaborLedgerPendingEntry> findApprovedPendingLedgerEntries();
 
     /**
      * Delete the pending entries with the given financial document approved code
@@ -78,4 +79,12 @@ public interface LaborLedgerPendingEntryService {
      * @return
      */
     public Iterator findPendingLedgerEntriesForAccountBalance(Map fieldValues, boolean isApproved);
+
+    /**
+     * Use fieldValues to create a query for matching records of <code>{@link LaborLedgerPendingEntry}</code> instances
+     * 
+     * @param fieldValues properties to match against
+     * @param isApproved Retrieve approved or unapproved entries?
+     */
+    public Collection findPendingEntries(Map fieldValues, boolean isApproved);
 }

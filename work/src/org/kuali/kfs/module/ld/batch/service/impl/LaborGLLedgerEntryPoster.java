@@ -27,7 +27,6 @@ import org.kuali.module.gl.bo.Transaction;
 import org.kuali.module.labor.LaborConstants;
 import org.kuali.module.labor.bo.LaborGeneralLedgerEntry;
 import org.kuali.module.labor.bo.LedgerBalance;
-import org.kuali.module.labor.bo.PendingLedgerEntry;
 import org.kuali.module.labor.service.LaborGeneralLedgerEntryService;
 import org.kuali.module.labor.service.LaborLedgerPendingEntryService;
 import org.kuali.module.labor.util.ObjectUtil;

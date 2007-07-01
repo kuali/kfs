@@ -26,7 +26,6 @@ import org.kuali.core.web.ui.Row;
 import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.module.gl.util.BusinessObjectFieldConverter;
 import org.kuali.module.gl.web.Constant;
-import org.kuali.module.labor.bo.PendingLedgerEntry;
 
 /**
  * The LaborInquiryOptionsService interface provides hooks for Pending Ledger and Consilidation options for balance inquiries.

@@ -29,7 +29,7 @@ import org.kuali.core.util.TransactionalServiceUtils;
 import org.kuali.kfs.bo.AccountingLine;
 import org.kuali.kfs.document.AccountingDocument;
 import org.kuali.module.chart.bo.Account;
-import org.kuali.module.labor.bo.PendingLedgerEntry;
+import org.kuali.module.labor.bo.LaborLedgerPendingEntry;
 import org.kuali.module.labor.dao.LaborLedgerPendingEntryDao;
 import org.kuali.module.labor.document.LaborExpenseTransferDocument;
 import org.kuali.module.labor.document.LaborLedgerPostingDocument;
@@ -55,17 +55,17 @@ public class LaborLedgerPendingEntryServiceImpl implements LaborLedgerPendingEnt
         fieldValues.put("chartOfAccountsCode", account.getChartOfAccountsCode());
         fieldValues.put("accountNumber", account.getAccountNumber());
 
-        return businessObjectService.countMatching(PendingLedgerEntry.class, fieldValues) > 0;
+        return businessObjectService.countMatching(LaborLedgerPendingEntry.class, fieldValues) > 0;
     }
 
     public boolean hasPendingLaborLedgerEntry(String emplid) {
 
         Map fieldValues = new HashMap();
         fieldValues.put("emplid", emplid);
-        Collection<PendingLedgerEntry> pendingEntries = businessObjectService.findMatching(PendingLedgerEntry.class, fieldValues);
+        Collection<LaborLedgerPendingEntry> pendingEntries = businessObjectService.findMatching(LaborLedgerPendingEntry.class, fieldValues);
 
         // When the financial Document Approved Code equals 'X' it means the pending labor ledger transaction has been processed
-        for (PendingLedgerEntry pendingLedgerEntry : pendingEntries) {
+        for (LaborLedgerPendingEntry pendingLedgerEntry : pendingEntries) {
             if ((pendingLedgerEntry.getFinancialDocumentApprovedCode() == null) || (!pendingLedgerEntry.getFinancialDocumentApprovedCode().trim().equals("X"))) {
                 return true;
             }
@@ -121,25 +121,11 @@ public class LaborLedgerPendingEntryServiceImpl implements LaborLedgerPendingEnt
     }
     
     private List<AccountingLine> getSourceLines(LaborLedgerPostingDocument document) {
-        if (document instanceof AccountingDocument) {
-            return (List<AccountingLine>) ((AccountingDocument) document).getSourceAccountingLines();
-        }
-        else if (document instanceof LaborExpenseTransferDocument) {
-            return (List<AccountingLine>) ((LaborExpenseTransferDocument) document).getSourceAccountingLines();
-        }
-            
-        return null;
+        return (List<AccountingLine>) document.getSourceAccountingLines();
     }
 
     private List<AccountingLine> getTargetLines(LaborLedgerPostingDocument document) {
-        if (document instanceof AccountingDocument) {
-            return (List<AccountingLine>) ((AccountingDocument) document).getTargetAccountingLines();
-        }
-        else if (document instanceof LaborExpenseTransferDocument) {
-            return (List<AccountingLine>) ((LaborExpenseTransferDocument) document).getTargetAccountingLines();
-        }
-        
-        return null;
+        return (List<AccountingLine>) document.getTargetAccountingLines();
     }
 
     /**
@@ -173,13 +159,19 @@ public class LaborLedgerPendingEntryServiceImpl implements LaborLedgerPendingEnt
     public void delete(String documentHeaderId) {
         LOG.debug("delete() started");
 
-        this.laborLedgerPendingEntryDao.delete(documentHeaderId);
+        this.getLaborLedgerPendingEntryDao().delete(documentHeaderId);
+    }
+
+    public Collection findPendingEntries(Map fieldValues, boolean isApproved) {
+        LOG.debug("findPendingEntries() started");
+
+        return getLaborLedgerPendingEntryDao().findPendingEntries(fieldValues, isApproved);
     }
 
     /**
      * @see org.kuali.module.labor.service.LaborLedgerPendingEntryService#findApprovedPendingLedgerEntries()
      */
-    public Iterator<PendingLedgerEntry> findApprovedPendingLedgerEntries() {
+    public Iterator<LaborLedgerPendingEntry> findApprovedPendingLedgerEntries() {
         return laborLedgerPendingEntryDao.findApprovedPendingLedgerEntries();
     }
 
@@ -192,6 +184,10 @@ public class LaborLedgerPendingEntryServiceImpl implements LaborLedgerPendingEnt
 
     public void setLaborLedgerPendingEntryDao(LaborLedgerPendingEntryDao laborLedgerPendingEntryDao) {
         this.laborLedgerPendingEntryDao = laborLedgerPendingEntryDao;
+    }
+
+    public LaborLedgerPendingEntryDao getLaborLedgerPendingEntryDao() {
+        return laborLedgerPendingEntryDao;
     }
 
     public void setKualiRuleService(KualiRuleService kualiRuleService) {

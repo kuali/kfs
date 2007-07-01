@@ -50,7 +50,6 @@ import org.kuali.module.labor.bo.BenefitsCalculation;
 import org.kuali.module.labor.bo.BenefitsType;
 import org.kuali.module.labor.bo.ExpenseTransferAccountingLine;
 import org.kuali.module.labor.bo.LaborObject;
-import org.kuali.module.labor.bo.PendingLedgerEntry;
 import org.kuali.module.labor.bo.PositionObjectBenefit;
 import org.kuali.module.labor.document.LaborLedgerPostingDocument;
 import org.kuali.module.labor.document.SalaryExpenseTransferDocument;

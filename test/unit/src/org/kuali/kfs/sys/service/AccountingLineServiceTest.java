@@ -24,7 +24,6 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.kuali.kfs.bo.AccountingLine;
-import org.kuali.kfs.bo.AccountingLineBase;
 import org.kuali.kfs.bo.SourceAccountingLine;
 import org.kuali.kfs.bo.TargetAccountingLine;
 import org.kuali.kfs.document.AccountingDocument;
@@ -55,8 +54,8 @@ public class AccountingLineServiceTest extends KualiTestBase {
         LINE2_TOF.addAsSourceTo(document);
         LINE2_TOF.addAsTargetTo(document);
 
-        sline = document.getSourceAccountingLine(0);
-        tline = document.getTargetAccountingLine(0);
+        sline = (SourceAccountingLine) document.getSourceAccountingLine(0);
+        tline = (TargetAccountingLine) document.getTargetAccountingLine(0);
     }
 
     /**
@@ -80,7 +79,7 @@ public class AccountingLineServiceTest extends KualiTestBase {
         assertEquals(LINE2_TOF.financialObjectCode, line.getFinancialObjectCode());
         assertEquals(LINE2_TOF.financialSubObjectCode, line.getFinancialSubObjectCode());
 
-        getAccountingLineService().deleteAccountingLine((AccountingLineBase) line);
+        getAccountingLineService().deleteAccountingLine((AccountingLine) line);
 
     }
 
@@ -131,12 +130,12 @@ public class AccountingLineServiceTest extends KualiTestBase {
         // delete 'em
         if (sourceLines != null) {
             for (Iterator i = sourceLines.iterator(); i.hasNext();) {
-                getAccountingLineService().deleteAccountingLine((AccountingLineBase) i.next());
+                getAccountingLineService().deleteAccountingLine((AccountingLine) i.next());
             }
         }
         if (targetLines != null) {
             for (Iterator i = targetLines.iterator(); i.hasNext();) {
-                getAccountingLineService().deleteAccountingLine((AccountingLineBase) i.next());
+                getAccountingLineService().deleteAccountingLine((AccountingLine) i.next());
             }
         }
 

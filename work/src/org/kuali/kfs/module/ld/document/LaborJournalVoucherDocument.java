@@ -23,20 +23,26 @@ import org.kuali.core.document.AmountTotaling;
 import org.kuali.core.exceptions.ValidationException;
 import org.kuali.core.rule.event.KualiDocumentEvent;
 import org.kuali.kfs.bo.AccountingLineParser;
+import org.kuali.kfs.bo.TargetAccountingLine;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.financial.document.JournalVoucherDocument;
 import org.kuali.module.labor.LaborConstants.JournalVoucherOffsetType;
 import org.kuali.module.labor.bo.ExpenseTransferSourceAccountingLine;
 import org.kuali.module.labor.bo.LaborJournalVoucherDetail;
 import org.kuali.module.labor.bo.LaborLedgerAccountingLineParser;
-import org.kuali.module.labor.bo.PendingLedgerEntry;
+import org.kuali.module.labor.bo.LaborLedgerPendingEntry;
 import org.kuali.module.labor.bo.TestSourceAccountingLine;
 
+// @latex.ClassSignatureStart
+/**
+ * Labor Distribution implementation of the <code>{@link org.kuali.module.financial.document.JournalVoucherDocument}</code>
+ */
 public class LaborJournalVoucherDocument extends JournalVoucherDocument implements LaborLedgerPostingDocument, AmountTotaling {
+// @latex.ClassSignatureStop
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(LaborJournalVoucherDocument.class);
 
     private String offsetTypeCode = JournalVoucherOffsetType.NO_OFFSET.typeCode;
-    private List<PendingLedgerEntry> laborLedgerPendingEntries;   
+    private List<LaborLedgerPendingEntry> laborLedgerPendingEntries;   
     private DocumentType documentType;
        
     /**
@@ -44,7 +50,7 @@ public class LaborJournalVoucherDocument extends JournalVoucherDocument implemen
      */
     public LaborJournalVoucherDocument() {
         super();
-        setLaborLedgerPendingEntries(new ArrayList<PendingLedgerEntry>());
+        setLaborLedgerPendingEntries(new ArrayList<LaborLedgerPendingEntry>());
     }
 
     /**
@@ -58,9 +64,9 @@ public class LaborJournalVoucherDocument extends JournalVoucherDocument implemen
     /**
      * @see org.kuali.module.labor.document.LaborLedgerPostingDocument#getLaborLedgerPendingEntry(int)
      */
-    public PendingLedgerEntry getLaborLedgerPendingEntry(int index) {
+    public LaborLedgerPendingEntry getLaborLedgerPendingEntry(int index) {
         while (laborLedgerPendingEntries.size() <= index) {
-            laborLedgerPendingEntries.add(new PendingLedgerEntry());
+            laborLedgerPendingEntries.add(new LaborLedgerPendingEntry());
         }
         return laborLedgerPendingEntries.get(index);
     }
@@ -100,7 +106,7 @@ public class LaborJournalVoucherDocument extends JournalVoucherDocument implemen
      * 
      * @return Returns the laborLedgerPendingEntries.
      */
-    public List<PendingLedgerEntry> getLaborLedgerPendingEntries() {
+    public List<LaborLedgerPendingEntry> getLaborLedgerPendingEntries() {
         return laborLedgerPendingEntries;
     }
 
@@ -109,7 +115,7 @@ public class LaborJournalVoucherDocument extends JournalVoucherDocument implemen
      * 
      * @param laborLedgerPendingEntries The laborLedgerPendingEntries to set.
      */
-    public void setLaborLedgerPendingEntries(List<PendingLedgerEntry> laborLedgerPendingEntries) {
+    public void setLaborLedgerPendingEntries(List<LaborLedgerPendingEntry> laborLedgerPendingEntries) {
         this.laborLedgerPendingEntries = laborLedgerPendingEntries;
     }
 

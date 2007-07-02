@@ -206,10 +206,10 @@ public class LaborYearEndBalanceForwardServiceImpl implements LaborYearEndBalanc
             originEntry.setAccountNumber(balance.getAccountNumber());
             originEntry.setChartOfAccountsCode(balance.getChartOfAccountsCode());
             originEntry.setSubAccountNumber(balance.getSubAccountNumber());
-            originEntry.setFinancialObjectCode(balance.getObjectCode());
-            originEntry.setFinancialSubObjectCode(balance.getSubObjectCode());
+            originEntry.setFinancialObjectCode(balance.getFinancialObjectCode());
+            originEntry.setFinancialSubObjectCode(balance.getFinancialSubObjectCode());
             originEntry.setFinancialBalanceTypeCode(balance.getBalanceTypeCode());
-            originEntry.setFinancialObjectTypeCode(balance.getObjectTypeCode());
+            originEntry.setFinancialObjectTypeCode(balance.getFinancialObjectTypeCode());
 
             originEntry.setPositionNumber(balance.getPositionNumber());
             originEntry.setEmplid(balance.getEmplid());

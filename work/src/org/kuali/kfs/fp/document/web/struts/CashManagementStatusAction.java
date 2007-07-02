@@ -129,7 +129,7 @@ public class CashManagementStatusAction extends KualiAction {
         params.setProperty("docId", cform.getControllingDocumentId());
 
 
-        String cmActionUrl = UrlFactory.buildDocumentActionUrl(cmDocTypeName, params);
+        String cmActionUrl = UrlFactory.parameterizeUrl(KFSConstants.CASH_MANAGEMENT_DOCUMENT_ACTION, params);
 
         return new ActionForward(cmActionUrl, true);
     }

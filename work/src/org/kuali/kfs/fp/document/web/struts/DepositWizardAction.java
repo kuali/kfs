@@ -312,7 +312,7 @@ public class DepositWizardAction extends KualiAction {
         params.setProperty("command", "displayDocSearchView");
         params.setProperty("docId", cmDocId);
 
-        String cmActionUrl = UrlFactory.buildDocumentActionUrl(cmDocTypeName, params);
+        String cmActionUrl = UrlFactory.parameterizeUrl(KFSConstants.CASH_MANAGEMENT_DOCUMENT_ACTION, params);
 
         return new ActionForward(cmActionUrl, true);
     }

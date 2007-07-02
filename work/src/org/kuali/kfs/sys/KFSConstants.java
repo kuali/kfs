@@ -542,6 +542,24 @@ public class KFSConstants extends Constants {
         public static final KualiDecimal TWO_DOLLAR_AMOUNT = new KualiDecimal(2.0);
         public static final KualiDecimal ONE_DOLLAR_AMOUNT = new KualiDecimal(1.0);
     }
+    
+    // Cashiering source constants
+    public static class CurrencyCoinSources {
+        public static final String CASH_MANAGEMENT_IN = "R"; // money coming in through cashiering activity
+        public static final String DEPOSITS = "D"; // money going out through deposits
+        public static final String CASH_RECEIPTS = "C"; // money coming in through cash receipts
+        public static final String CASH_MANAGEMENT_OUT = "O"; // money going out through cashiering activity
+        public static final String CASH_MANAGEMENT_MASTER = "M"; // an amalgamation of a cashiering transaction
+    }
+    
+    // Constants for check sources
+    // Why are these constants different from the Currency/Coin constants?
+    // Why, I ask you in return, is the sky blue?  That's right, because of
+    // the effect of Rayleigh scattering on atmospheric particles.  That's why.
+    public static class CheckSources {
+        public static final String CASH_RECEIPTS = "R";
+        public static final String CASH_MANAGEMENT = "I";
+    }
 
     // Tab error patterns must be at the top level; JSPs do not have access to the nested classes.
     public static final String EDIT_CASH_RECEIPT_CASH_RECONCILIATION_ERRORS = "document.totalCashAmount,document.totalCheckAmount,document.totalCoinAmount,document.sumTotalAmount";

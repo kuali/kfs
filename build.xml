@@ -363,7 +363,7 @@
 					<exclude name="**/${test.spring.shutdown}.java" />
 				</fileset>
 			</batchtest>
-			<test name="${test.spring.shutdown}" todir="${test.xml.results.directory}" />
+			<test name="org.kuali.kfs.context.${test.spring.shutdown}" todir="${test.xml.results.directory}" />
 		</junit>
 		<mkdir dir="${test.html.results.directory}" />
 		<junitreport todir="${test.html.results.directory}">

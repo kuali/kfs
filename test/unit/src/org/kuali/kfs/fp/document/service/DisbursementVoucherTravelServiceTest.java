@@ -137,7 +137,7 @@ public class DisbursementVoucherTravelServiceTest extends KualiTestBase {
         runMileageAmountTest(new Integer(0), new KualiDecimal(0), effectiveDate);
         runMileageAmountTest(new Integer(1), new KualiDecimal(.38), effectiveDate);
         runMileageAmountTest(new Integer(10), new KualiDecimal(3.75), effectiveDate);
-        runMileageAmountTest(new Integer(15), new KualiDecimal(5.62), effectiveDate);
+        runMileageAmountTest(new Integer(15), new KualiDecimal(5.63), effectiveDate);
         runMileageAmountTest(new Integer(100), new KualiDecimal(37.5), effectiveDate);
         runMileageAmountTest(new Integer(200), new KualiDecimal(75.00), effectiveDate);
         runMileageAmountTest(new Integer(380), new KualiDecimal(142.5), effectiveDate);

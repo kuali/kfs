@@ -66,22 +66,32 @@ public class BatchStepRunner {
         GlobalVariables.setMessageList(new ArrayList());
         String stepUserParameter = stepName + "_USER";
         KualiConfigurationService configService = SpringServiceLocator.getKualiConfigurationService();
-        if (configService.hasApplicationParameter(KFSConstants.ParameterGroups.SYSTEM, stepUserParameter)) {
-            GlobalVariables.setUserSession(new UserSession(configService.getApplicationParameterValue(KFSConstants.ParameterGroups.SYSTEM, stepUserParameter)));
+        try {
+	        if (configService.hasApplicationParameter(KFSConstants.ParameterGroups.SYSTEM, stepUserParameter)) {
+	            GlobalVariables.setUserSession(new UserSession(configService.getApplicationParameterValue(KFSConstants.ParameterGroups.SYSTEM, stepUserParameter)));
+	        }
+        } catch ( Exception ex ) {
+        	// database may not be created yet, if performing the initial import - handle the database error which results
+        	LOG.warn( "error checking application parameter", ex );
         }
-        LOG.debug("main() Retrieving step " + stepName);
+        LOG.debug("runStep() Retrieving step " + stepName);
         Step step = (Step) SpringServiceLocator.getService(stepName);
         String stepRunIndicatorParameter = stepName + "_FLAG";
-        if (configService.hasApplicationParameter(KFSConstants.ParameterGroups.SYSTEM, stepRunIndicatorParameter) && !configService.getApplicationParameterIndicator(KFSConstants.ParameterGroups.SYSTEM, stepRunIndicatorParameter)) {
-            LOG.info("main() Skipping step " + stepName + " due to flag turned off");
+        boolean skipStep = false;
+        try {
+        	skipStep = configService.hasApplicationParameter(KFSConstants.ParameterGroups.SYSTEM, stepRunIndicatorParameter) && !configService.getApplicationParameterIndicator(KFSConstants.ParameterGroups.SYSTEM, stepRunIndicatorParameter);
+        } catch ( Exception ex ) {
+        	// database may not be created yet, if performing the initial import - handle the database error which results
+        	LOG.warn( "error checking application parameter", ex );
         }
-        else {
-            LOG.info("main() Running step " + stepName);
+        if ( skipStep ) {
+            LOG.info("runStep() Skipping step " + stepName + " due to flag turned off");
+        } else {
+            LOG.info("runStep() Running step " + stepName);
             if (step.execute(jobName)) {
-                LOG.info("main() Step successful - continue");
-            }
-            else {
-                LOG.info("main() Step successful - stop job");
+                LOG.info("runStep() Step successful - continue");
+            } else {
+                LOG.info("runStep() Step successful - stop job");
                 System.exit(4);
             }
         }

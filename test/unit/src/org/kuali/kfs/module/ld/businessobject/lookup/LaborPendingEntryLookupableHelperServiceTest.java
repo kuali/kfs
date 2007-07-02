@@ -138,7 +138,8 @@ public class LaborPendingEntryLookupableHelperServiceTest extends KualiTestBase 
      */
     public Map getLookupFieldValues(PersistableBusinessObject businessObject, boolean isExtended) throws Exception {
         List lookupFields = this.getLookupFields(isExtended);
-        return testDataGenerator.generateLookupFieldValues(businessObject, lookupFields);
+        //return testDataGenerator.generateLookupFieldValues(businessObject, lookupFields);
+        return null;
     }
 
 

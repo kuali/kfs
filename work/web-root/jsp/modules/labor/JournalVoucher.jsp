@@ -27,10 +27,10 @@
 	<kul:documentOverview editingMode="${KualiForm.editingMode}" />
 
 	<!-- LABOR JOURNAL VOUCHER SPECIFIC FIELDS -->
-	<kul:tab tabTitle="Labor Journal Voucher Details" defaultOpen="true"
+	<kul:tab tabTitle="Labor Distribution Journal Voucher Details" defaultOpen="true"
 		tabErrorKey="${Constants.EDIT_JOURNAL_VOUCHER_ERRORS}">
 		<div class="tab-container" align=center>
-		<div class="h2-container"><h2>Labor Journal Voucher Details</h2></div>
+		<div class="h2-container"><h2>Labor Distribution Journal Voucher Details</h2></div>
 		
 		<table cellpadding=0 class="datatable"
 			summary="view/edit ad hoc recipients">

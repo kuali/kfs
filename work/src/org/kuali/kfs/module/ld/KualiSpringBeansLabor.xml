@@ -185,6 +185,9 @@
 		<property name="balanceService">
 			<ref bean="laborLedgerBalanceService" />
 		</property>		
+		<property name="laborInquiryOptionsService">
+			<ref bean="laborInquiryOptionsService" />
+		</property>
 	</bean>
 	
 	<bean id="laborLedgerBalanceLookupable" class="org.kuali.core.lookup.KualiLookupableImpl" singleton="false">
@@ -586,6 +589,9 @@
 		<property name="persistenceStructureService">
 			<ref bean="persistenceStructureService" />
 		</property>
+		<property name="laborDao">
+			<ref bean="laborDao" />
+		</property>		
 		<property name="lookupService">
 			<ref bean="lookupService" />
 		</property>
@@ -597,6 +603,9 @@
 		</property>
 		<property name="dataDictionaryService">
 			<ref bean="dataDictionaryService" />
+		</property>
+		<property name="laborInquiryOptionsService">
+			<ref bean="laborInquiryOptionsService" />
 		</property>
 	</bean>    	
 

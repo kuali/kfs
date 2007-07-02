@@ -22,6 +22,9 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import static org.kuali.kfs.KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR;
+import static org.kuali.kfs.KFSPropertyConstants.UNIVERSITY_FISCAL_PERIOD_CODE;
+
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.bo.BusinessObject;
 import org.kuali.core.bo.PersistableBusinessObject;
@@ -41,14 +44,14 @@ import org.kuali.module.gl.web.inquirable.InquirableFinancialDocument;
 import org.kuali.module.labor.bo.LaborLedgerPendingEntry;
 import org.kuali.module.labor.service.LaborLedgerPendingEntryService;
 
+/**
+ * Helper Service for looking up instances of <code>{@link LaborLedgerPendingEntry}</code>
+ */
 public class LaborPendingEntryLookupableHelperServiceImpl extends AbstractLookupableHelperServiceImpl {
-    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(LaborPendingEntryLookupableHelperServiceImpl.class);
+    private static org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(LaborPendingEntryLookupableHelperServiceImpl.class);
 
     private LaborLedgerPendingEntryService laborLedgerPendingEntryService;
     private KualiConfigurationService kualiConfigurationService;
-
-    private final static String UNIVERSITY_FISCAL_YEAR = "universityFiscalYear";
-    private final static String UNIVERSITY_FISCAL_PERIOD_CODE = "universityFiscalPeriodCode";
 
     /**
      * @see org.kuali.core.lookup.Lookupable#getInquiryUrl(org.kuali.core.bo.BusinessObject, java.lang.String)

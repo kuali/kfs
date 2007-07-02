@@ -130,26 +130,32 @@ public class LaborDaoOjb extends PlatformAwareDaoBaseOjb implements LaborDao {
     /**
      * @see org.kuali.module.labor.dao.LaborDao#getBaseFunds(java.util.Map)
      */
-    public Collection getBaseFunds(Map fieldValues) {
+    public Iterator getBaseFunds(Map fieldValues, boolean isConsolidated) {
         Criteria criteria = new Criteria();
         criteria.addEqualToField(KFSPropertyConstants.FINANCIAL_BALANCE_TYPE_CODE, LaborConstants.BalanceInquiries.BALANCE_CODE);
         criteria.addAndCriteria(OJBUtility.buildCriteriaFromMap(fieldValues, new AccountStatusBaseFunds()));
 
         QueryByCriteria query = QueryFactory.newQuery(AccountStatusBaseFunds.class, criteria);
         OJBUtility.limitResultSize(query);
-        return getPersistenceBrokerTemplate().getCollectionByQuery(query);
+        if (isConsolidated) {
+            return getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(query);
+        }
+        return getPersistenceBrokerTemplate().getIteratorByQuery(query);
     }
 
     /**
      * @see org.kuali.module.labor.dao.LaborDao#getCurrentFunds(java.util.Map)
      */
-    public Collection getCurrentFunds(Map fieldValues) {
+    public Iterator getCurrentFunds(Map fieldValues, boolean isConsolidated) {
         Criteria criteria = new Criteria();
         criteria.addEqualToField(KFSPropertyConstants.FINANCIAL_BALANCE_TYPE_CODE, LaborConstants.BalanceInquiries.ACTUALS_CODE);
         criteria.addAndCriteria(OJBUtility.buildCriteriaFromMap(fieldValues, new AccountStatusCurrentFunds()));
         QueryByCriteria query = QueryFactory.newQuery(AccountStatusCurrentFunds.class, criteria);
         OJBUtility.limitResultSize(query);
-        return getPersistenceBrokerTemplate().getCollectionByQuery(query);
+        if (isConsolidated) {
+            return getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(query);
+        }
+        return getPersistenceBrokerTemplate().getIteratorByQuery(query);
     }
     /**
      * @see org.kuali.module.labor.dao.LaborDao#getEmployeeFunding(java.util.Map)

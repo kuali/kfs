@@ -21,7 +21,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.lookup.AbstractLookupableHelperServiceImpl;
 import org.kuali.core.web.ui.Field;
 import org.kuali.core.web.ui.Row;
 import org.kuali.kfs.KFSPropertyConstants;
@@ -36,29 +35,58 @@ import org.springframework.transaction.annotation.Transactional;
  * The LaborInquiryOptionsService class is a service that will generate Pending Ledger and Consilidation options for balance inquiries.
  */
 @Transactional
-public class LaborInquiryOptionsServiceImpl extends AbstractLookupableHelperServiceImpl implements LaborInquiryOptionsService {
-
+public class LaborInquiryOptionsServiceImpl implements LaborInquiryOptionsService {    
+    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(LaborInquiryOptionsServiceImpl.class);
     protected LaborLedgerPendingEntryService laborLedgerPendingEntryService;
 
-    
-    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(LaborInquiryOptionsServiceImpl.class);
+    /**
+     * The expected name of the consolidation option field name
+     *
+     * @return String
+     */
+    public String getConsolidationFieldName() {
+        return Constant.CONSOLIDATION_OPTION;
+    }
 
+    /**
+     * Examine a collection of <code>{@link Row}</code> instances for the consolidation field
+     *
+     * @param rows
+     * @return Field
+     */
+    public Field getConsolidationField(Collection<Row> rows) {
+        for (Row row : rows) {
+            for (Field field : ((Collection<Field>) row.getFields())) {
+                if (field.getPropertyName().equals(getConsolidationFieldName())) {
+                    return field;
+                }
+            }
+        }
+        return null;
+    }
 
-    public List getSearchResults(Map fieldValues) {
-        List searchResults = null;
-        return searchResults;
+    /**
+     * Get the current state of the consolidation option
+     * 
+     * @return String
+     */
+    public String getConsolidationOption(Map fieldValues) {
+        String consolidationOption = (String) fieldValues.get(getConsolidationFieldName());
+        // truncate the non-property filed        
+        fieldValues.remove(getConsolidationFieldName());
+        return consolidationOption;
     }
     
     /**
      * This method tests if the user selects to see the details or consolidated results
      * 
      * @param fieldValues the map containing the search fields and values
+     * @param rows 
      * @return true if consolidation is selected and subaccount is not specified
      */
-    public boolean isConsolidationSelected(Map fieldValues) {
-        // truncate the non-property filed
-        String consolidationOption = (String) fieldValues.get(Constant.CONSOLIDATION_OPTION);
-        fieldValues.remove(Constant.CONSOLIDATION_OPTION);
+    public boolean isConsolidationSelected(Map fieldValues, Collection<Row> rows) {
+        String consolidationOption = getConsolidationOption(fieldValues);
+        Field consolidationField = getConsolidationField(rows);
 
         // detail option would be used
         if (Constant.DETAIL.equals(consolidationOption)) {
@@ -66,41 +94,26 @@ public class LaborInquiryOptionsServiceImpl extends AbstractLookupableHelperServ
         }
 
         // if the subAccountNumber is specified, detail option could be used
-        String subAccountNumber = (String) fieldValues.get(KFSPropertyConstants.SUB_ACCOUNT_NUMBER);
-        if (!StringUtils.isBlank(subAccountNumber)) {
-            this.changeFieldValue(Constant.CONSOLIDATION_OPTION, Constant.DETAIL);
-            return false;
-        }
-
         // if the subObjectCode is specified, detail option could be used
-        String subObjectCode = (String) fieldValues.get(KFSPropertyConstants.SUB_OBJECT_CODE);
-        if (!StringUtils.isBlank(subObjectCode)) {
-            this.changeFieldValue(Constant.CONSOLIDATION_OPTION, Constant.DETAIL);
-            return false;
-        }
-
         // if the objectTypeCode is specified, detail option could be used
-        String objectTypeCode = (String) fieldValues.get(KFSPropertyConstants.OBJECT_TYPE_CODE);
-        if (!StringUtils.isBlank(objectTypeCode)) {
-            this.changeFieldValue(Constant.CONSOLIDATION_OPTION, Constant.DETAIL);
+        if (isDetailDefaultFieldUsed(fieldValues, KFSPropertyConstants.SUB_ACCOUNT_NUMBER)
+            || isDetailDefaultFieldUsed(fieldValues, KFSPropertyConstants.SUB_OBJECT_CODE)
+            || isDetailDefaultFieldUsed(fieldValues, KFSPropertyConstants.OBJECT_TYPE_CODE)) {
+            consolidationField.setPropertyValue(Constant.DETAIL);
             return false;
         }
         return true;
     }
 
-    // change the value of the field with the given field name into the given field value
-    public void changeFieldValue(String fieldName, String fieldValue) {
-        for (Iterator rowIterator = getRows().iterator(); rowIterator.hasNext();) {
-            Row row = (Row) rowIterator.next();
-
-            for (Iterator fieldIterator = row.getFields().iterator(); fieldIterator.hasNext();) {
-                Field field = (Field) fieldIterator.next();
-
-                if (field.getPropertyName().equals(fieldName)) {
-                    field.setPropertyValue(fieldValue);
-                }
-            }
-        }
+    /**
+     * Determines if any of the fields that require a detail view are used
+     *
+     * @param fieldValues
+     * @param fieldName
+     * @return boolean
+     */
+    private boolean isDetailDefaultFieldUsed(Map fieldValues, String fieldName) {
+        return !(StringUtils.isBlank((String) fieldValues.get(fieldName)));
     }
     
     /**
@@ -167,7 +180,8 @@ public class LaborInquiryOptionsServiceImpl extends AbstractLookupableHelperServ
                 pendingEntry.setFinancialSubObjectCode(Constant.CONSOLIDATED_SUB_OBJECT_CODE);
                 pendingEntry.setFinancialObjectTypeCode(Constant.CONSOLIDATED_OBJECT_TYPE_CODE);
             }
-
+            // TODO: This method should be pulled out of here. Its implementation is specific to different 
+            // Business Objects, so it should really be in the XXXLookupableHelperServiceImpl
 //            AccountBalance accountBalance = postAccountBalance.findAccountBalance(entryCollection, pendingEntry);
   //          postAccountBalance.updateAccountBalance(pendingEntry, accountBalance);
 

@@ -94,8 +94,9 @@ public class LaborExpenseTransferDocumentRules extends AccountingDocumentRuleBas
         }
        
         // Make sure the employee does not have any pending salary transfers
-//          if (!validatePendingExpenseTransfer(emplid))
-//              return false;
+        if (!validatePendingExpenseTransfer(emplid)) {
+            return false;
+        }
         return true;
     }
 

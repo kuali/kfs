@@ -52,6 +52,7 @@
                 <field attributeName="subAccountNumber" />
                 <field attributeName="transactionDateTimeStamp" />
                 <field attributeName="universityFiscalYear" />
+                <field attributeName="dummyBusinessObject.consolidationOption" forceInquiry="true" />
             </inquiryFields></inquirySection></inquirySections>
         </inquiry>
 
@@ -75,7 +76,14 @@
                 </lookupField>
                 <lookupField attributeName="laborObject.financialObjectFringeOrSalaryCode" required="false" />
                 <lookupField attributeName="emplid" required="false" />
-                <lookupField attributeName="financialBalanceTypeCode" required="true" />
+                <lookupField attributeName="financialBalanceTypeCode" required="false" />
+                <lookupField attributeName="dummyBusinessObject.consolidationOption">
+                    <defaultValueFinderClass>org.kuali.module.gl.web.optionfinder.GLConsolidationOptionFinder</defaultValueFinderClass>
+                </lookupField>
+
+                <lookupField attributeName="dummyBusinessObject.pendingEntryOption">
+                    <defaultValueFinderClass>org.kuali.module.gl.web.optionfinder.GLPendingEntryOptionFinder</defaultValueFinderClass>
+                </lookupField>
 			</lookupFields>
 
             <resultFields>
@@ -306,6 +314,11 @@
                 <formatterClass>org.kuali.core.web.format.CurrencyFormatter</formatterClass>
             </attributeReference>
 
+            <attributeReference name="dummyBusinessObject.consolidationOption" sourceClassName="org.kuali.module.gl.bo.TransientBalanceInquiryAttributes" sourceAttributeName="consolidationOption">
+                <description>Radioboxes that specify either Consolidation or Detail balances. If Detail is selected, balances are displayed by Chart, Account Number, Sub-Account Number, Object Code, and Sub-Object Code. If Consolidation is selected, the amounts are aggregated by Chart, Account Number, and Object Code.</description>
+            </attributeReference>
+
+            <attributeReference name="dummyBusinessObject.pendingEntryOption" sourceClassName="org.kuali.module.gl.bo.TransientBalanceInquiryAttributes" sourceAttributeName="pendingEntryOption" />
         </attributes>
 
         <relationships>

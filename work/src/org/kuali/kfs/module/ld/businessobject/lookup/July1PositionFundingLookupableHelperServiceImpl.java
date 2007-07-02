@@ -28,6 +28,7 @@ import org.kuali.core.lookup.CollectionIncomplete;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.BeanPropertyComparator;
 import org.kuali.core.util.GlobalVariables;
+import org.kuali.core.web.ui.Row;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.module.gl.service.BalanceService;
@@ -66,7 +67,7 @@ public class July1PositionFundingLookupableHelperServiceImpl extends AbstractLoo
         String pendingEntryOption = getLaborInquiryOptionsService().getSelectedPendingEntryOption(fieldValues);
 
         // get the consolidation option
-        boolean isConsolidated = getLaborInquiryOptionsService().isConsolidationSelected(fieldValues);
+        boolean isConsolidated = getLaborInquiryOptionsService().isConsolidationSelected(fieldValues, (Collection<Row>) getRows());
                
         // Parse the map and call the DAO to process the inquiry
         Collection searchResults = getLaborDao().getJuly1PositionFunding(fieldValues);

@@ -15,8 +15,10 @@
  */
 package org.kuali.module.labor.web.lookupable;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -25,11 +27,18 @@ import org.kuali.core.lookup.AbstractLookupableHelperServiceImpl;
 import org.kuali.core.lookup.CollectionIncomplete;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.BeanPropertyComparator;
+import org.kuali.core.util.TransactionalServiceUtils;
+import org.kuali.core.util.KualiDecimal;
+import org.kuali.core.web.ui.Row;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.module.gl.bo.TransientBalanceInquiryAttributes;
 import org.kuali.module.gl.service.BalanceService;
+import org.kuali.module.gl.web.Constant;
 import org.kuali.module.labor.LaborConstants;
+import org.kuali.module.labor.bo.AccountStatusBaseFunds;
 import org.kuali.module.labor.dao.LaborDao;
+import org.kuali.module.labor.service.LaborInquiryOptionsService;
 import org.kuali.module.labor.web.inquirable.BaseFundsInquirableImpl;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -40,10 +49,13 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Transactional
 public class BaseFundsLookupableHelperServiceImpl extends AbstractLookupableHelperServiceImpl {
+    private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(BaseFundsLookupableHelperServiceImpl.class);
     private BalanceService balanceService;
     private Map fieldValues;
     private LaborDao laborDao;
     private KualiConfigurationService kualiConfigurationService;
+    private LaborInquiryOptionsService laborInquiryOptionsService;    
+    
 
     /**
      * @see org.kuali.core.lookup.Lookupable#getInquiryUrl(org.kuali.core.bo.BusinessObject, java.lang.String)
@@ -64,11 +76,11 @@ public class BaseFundsLookupableHelperServiceImpl extends AbstractLookupableHelp
 
         setBackLocation((String) fieldValues.get(KFSConstants.BACK_LOCATION));
         setDocFormKey((String) fieldValues.get(KFSConstants.DOC_FORM_KEY));
-                
-        // Parse the map and call the DAO to process the inquiry
-        laborDao = (LaborDao) SpringServiceLocator.getService(LaborConstants.LABOR_DAO);
-
-        Collection searchResultsCollection = laborDao.getBaseFunds(fieldValues);
+ 
+        // get the consolidation option
+        boolean isConsolidated = getLaborInquiryOptionsService().isConsolidationSelected(fieldValues, (Collection<Row>) getRows());
+               
+        Collection searchResultsCollection = buildBaseFundsCollection(findBaseFunds(fieldValues, isConsolidated), isConsolidated);
 
         // sort list if default sort column given
         List searchResults = (List) searchResultsCollection;
@@ -83,7 +95,126 @@ public class BaseFundsLookupableHelperServiceImpl extends AbstractLookupableHelp
     }
 
 
-public void updateEntryCollection(Collection entryCollection, Map fieldValues, boolean isApproved, boolean isConsolidated, boolean isCostShareInclusive) {
-}
+    /**
+     * Retrieve the Account Status
+     */
+    public Iterator findBaseFunds(Map fieldValues, boolean isConsolidated) {
+        LOG.debug("findBaseFunds() started");
+        return TransactionalServiceUtils.copyToExternallyUsuableIterator(laborDao.getBaseFunds(fieldValues, isConsolidated));
+    }
 
+    /**
+     * @param iterator the iterator of search results of account status
+     * @param isConsolidated determine if the consolidated result is desired
+     * 
+     * @return the base funds collection
+     */
+    private Collection buildBaseFundsCollection(Iterator iterator, boolean isConsolidated) {
+        Collection retval = null;
+        
+        if (isConsolidated) {
+            retval = buildCosolidatedBaseFundsCollection(iterator);
+        }
+        else {
+            retval = buildDetailedBaseFundsCollection(iterator);
+        }
+        return retval;
+    }
+
+    /**
+     * This method builds the base funds collection with consolidation option from an iterator
+     * 
+     * @param iterator
+     * 
+     * @return the consolidated base funds collection
+     */
+    private Collection buildCosolidatedBaseFundsCollection(Iterator iterator) {
+        Collection retval = new ArrayList();
+        
+        while (iterator.hasNext()) {
+            Object collectionEntry = iterator.next();
+
+            if (collectionEntry.getClass().isArray()) {
+                int i = 0;
+                Object[] array = (Object[]) collectionEntry;
+                AccountStatusBaseFunds bf = new AccountStatusBaseFunds();
+                
+                if (AccountStatusBaseFunds.class.isAssignableFrom(getBusinessObjectClass())) {
+                    try {
+                        bf = (AccountStatusBaseFunds) getBusinessObjectClass().newInstance();
+                    } 
+                    catch (Exception e) {
+                        LOG.warn("Using " + AccountStatusBaseFunds.class + " for results because I couldn't instantiate the " + getBusinessObjectClass());
+                    }
+                }
+                else {
+                        LOG.warn("Using " + AccountStatusBaseFunds.class + " for results because I couldn't instantiate the " + getBusinessObjectClass());
+                }
+                    
+                bf.setUniversityFiscalYear(new Integer(array[i++].toString()));
+                bf.setChartOfAccountsCode(array[i++].toString());
+                bf.setAccountNumber(array[i++].toString());
+
+                String subAccountNumber = Constant.CONSOLIDATED_SUB_ACCOUNT_NUMBER;
+                bf.setSubAccountNumber(subAccountNumber);
+
+                bf.setBalanceTypeCode(array[i++].toString());
+                bf.setObjectCode(array[i++].toString());
+
+                bf.setObjectId(array[i++].toString());
+                bf.setPositionNumber(array[i++].toString());
+               
+                bf.setSubObjectCode(Constant.CONSOLIDATED_SUB_OBJECT_CODE);
+                bf.setObjectTypeCode(Constant.CONSOLIDATED_OBJECT_TYPE_CODE);
+
+                bf.setAccountLineAnnualBalanceAmount(new KualiDecimal(array[i++].toString()));
+                bf.setBeginningBalanceLineAmount(new KualiDecimal(array[i++].toString()));
+                bf.setContractsGrantsBeginningBalanceAmount(new KualiDecimal(array[i++].toString()));
+
+                bf.setDummyBusinessObject(new TransientBalanceInquiryAttributes());
+
+                retval.add(bf);
+            }
+        }
+        return retval;
+    }
+
+    /**
+     * This method builds the base funds collection with detail option from an iterator
+     * 
+     * @param iterator the current funds iterator
+     * 
+     * @return the detailed balance collection
+     */
+    private Collection buildDetailedBaseFundsCollection(Iterator iterator) {
+        Collection retval = new ArrayList();
+        
+        while (iterator.hasNext()) {
+            AccountStatusBaseFunds bf = (AccountStatusBaseFunds) (iterator.next());
+
+            bf.setDummyBusinessObject(new TransientBalanceInquiryAttributes());
+
+            retval.add(bf);
+        }
+        return retval;
+    }
+
+    public void updateEntryCollection(Collection entryCollection, Map fieldValues, boolean isApproved, boolean isConsolidated, boolean isCostShareInclusive) {
+    }
+
+    public LaborDao getLaborDao() {
+        return laborDao;
+    }
+
+    public void setLaborDao(LaborDao laborDao) {
+        this.laborDao = laborDao;
+    }
+
+    public LaborInquiryOptionsService getLaborInquiryOptionsService() {
+        return laborInquiryOptionsService;
+    }
+
+    public void setLaborInquiryOptionsService(LaborInquiryOptionsService laborInquiryOptionsService) {
+        this.laborInquiryOptionsService = laborInquiryOptionsService;
+    }
 }

@@ -18,6 +18,7 @@ package org.kuali.module.labor.web.lookupable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -27,15 +28,19 @@ import org.kuali.core.lookup.AbstractLookupableHelperServiceImpl;
 import org.kuali.core.lookup.CollectionIncomplete;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.BeanPropertyComparator;
+import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.GlobalVariables;
+import org.kuali.core.util.TransactionalServiceUtils;
+import org.kuali.core.web.ui.Row;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSPropertyConstants;
+import org.kuali.module.gl.bo.TransientBalanceInquiryAttributes;
 import org.kuali.module.gl.service.BalanceService;
 import org.kuali.module.gl.web.Constant;
 import org.kuali.module.labor.LaborConstants;
+import org.kuali.module.labor.bo.AccountStatusCurrentFunds;
 import org.kuali.module.labor.dao.LaborDao;
 import org.kuali.module.labor.service.LaborInquiryOptionsService;
-import org.kuali.module.labor.service.impl.LaborInquiryOptionsServiceImpl;
 import org.kuali.module.labor.web.inquirable.CurrentFundsInquirableImpl;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -45,7 +50,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Transactional
 public class CurrentFundsLookupableHelperServiceImpl extends AbstractLookupableHelperServiceImpl {
-    private BalanceService balanceService;   
     private LaborDao laborDao;
     private KualiConfigurationService kualiConfigurationService;    
     private LaborInquiryOptionsService laborInquiryOptionsService;    
@@ -69,7 +73,8 @@ public class CurrentFundsLookupableHelperServiceImpl extends AbstractLookupableH
         String pendingEntryOption = getLaborInquiryOptionsService().getSelectedPendingEntryOption(fieldValues);
 
         // get the consolidation option
-        boolean isConsolidated = getLaborInquiryOptionsService().isConsolidationSelected(fieldValues);
+        boolean isConsolidated = getLaborInquiryOptionsService().isConsolidationSelected(fieldValues, (Collection<Row>) getRows());
+
         if (((fieldValues.get(KFSPropertyConstants.FINANCIAL_OBJECT_CODE) != null) && (fieldValues.get(KFSPropertyConstants.FINANCIAL_OBJECT_CODE).toString().length() > 0))) {
             List emptySearchResults = new ArrayList();
 
@@ -81,7 +86,7 @@ public class CurrentFundsLookupableHelperServiceImpl extends AbstractLookupableH
         }        
         
         // Parse the map and call the DAO to process the inquiry
-        Collection searchResultsCollection = getLaborDao().getCurrentFunds(fieldValues);
+        Collection searchResultsCollection = buildCurrentFundsCollection(findCurrentFunds(fieldValues, isConsolidated), isConsolidated, pendingEntryOption);
 
         // update search results according to the selected pending entry option
         getLaborInquiryOptionsService().updateByPendingLedgerEntry(searchResultsCollection, fieldValues, pendingEntryOption, isConsolidated, false);
@@ -97,19 +102,123 @@ public class CurrentFundsLookupableHelperServiceImpl extends AbstractLookupableH
     }
 
     /**
+     * Retrieve the Account Status
+     */
+    public Iterator findCurrentFunds(Map fieldValues, boolean isConsolidated) {
+        LOG.debug("findCurrentFunds() started");
+        return TransactionalServiceUtils.copyToExternallyUsuableIterator(laborDao.getCurrentFunds(fieldValues, isConsolidated));
+    }
+
+    /**
+     * @param iterator the iterator of search results of account status
+     * @param isConsolidated determine if the consolidated result is desired
+     * @param pendingEntryOption the given pending entry option that can be no, approved or all
+     * 
+     * @return the current funds collection
+     */
+    private Collection buildCurrentFundsCollection(Iterator iterator, boolean isConsolidated, String pendingEntryOption) {
+        Collection retval = null;
+        
+        if (isConsolidated) {
+            retval = buildCosolidatedCurrentFundsCollection(iterator, pendingEntryOption);
+        }
+        else {
+            retval = buildDetailedCurrentFundsCollection(iterator, pendingEntryOption);
+        }
+        return retval;
+    }
+
+    /**
+     * This method builds the current funds collection with consolidation option from an iterator
+     * 
+     * @param iterator
+     * @param pendingEntryOption the selected pending entry option
+     * 
+     * @return the consolidated current funds collection
+     */
+    private Collection buildCosolidatedCurrentFundsCollection(Iterator iterator, String pendingEntryOption) {
+        Collection retval = new ArrayList();
+        
+        while (iterator.hasNext()) {
+            Object collectionEntry = iterator.next();
+
+            if (collectionEntry.getClass().isArray()) {
+                int i = 0;
+                Object[] array = (Object[]) collectionEntry;
+                AccountStatusCurrentFunds cf = new AccountStatusCurrentFunds();
+                
+                if (AccountStatusCurrentFunds.class.isAssignableFrom(getBusinessObjectClass())) {
+                    try {
+                        cf = (AccountStatusCurrentFunds) getBusinessObjectClass().newInstance();
+                    } 
+                    catch (Exception e) {
+                        LOG.warn("Using " + AccountStatusCurrentFunds.class + " for results because I couldn't instantiate the " + getBusinessObjectClass());
+                    }
+                }
+                else {
+                        LOG.warn("Using " + AccountStatusCurrentFunds.class + " for results because I couldn't instantiate the " + getBusinessObjectClass());
+                }
+                    
+                cf.setUniversityFiscalYear(new Integer(array[i++].toString()));
+                cf.setChartOfAccountsCode(array[i++].toString());
+                cf.setAccountNumber(array[i++].toString());
+
+                String subAccountNumber = Constant.CONSOLIDATED_SUB_ACCOUNT_NUMBER;
+                cf.setSubAccountNumber(subAccountNumber);
+
+                cf.setBalanceTypeCode(array[i++].toString());
+                cf.setObjectCode(array[i++].toString());
+
+                cf.setEmplid(array[i++].toString());
+                cf.setObjectId(array[i++].toString());
+                cf.setPositionNumber(array[i++].toString());
+                
+                cf.setSubObjectCode(Constant.CONSOLIDATED_SUB_OBJECT_CODE);
+                cf.setObjectTypeCode(Constant.CONSOLIDATED_OBJECT_TYPE_CODE);
+
+                cf.setAccountLineAnnualBalanceAmount(new KualiDecimal(array[i++].toString()));
+                cf.setBeginningBalanceLineAmount(new KualiDecimal(array[i++].toString()));
+                cf.setContractsGrantsBeginningBalanceAmount(new KualiDecimal(array[i++].toString()));
+
+                cf.setMonth1Amount(new KualiDecimal(array[i++].toString()));
+
+                cf.setDummyBusinessObject(new TransientBalanceInquiryAttributes());
+                cf.getDummyBusinessObject().setPendingEntryOption(pendingEntryOption);
+
+                retval.add(cf);
+            }
+        }
+        return retval;
+    }
+
+    /**
+     * This method builds the current funds collection with detail option from an iterator
+     * 
+     * @param iterator the current funds iterator
+     * @param pendingEntryOption the selected pending entry option
+     * 
+     * @return the detailed balance collection
+     */
+    private Collection buildDetailedCurrentFundsCollection(Iterator iterator, String pendingEntryOption) {
+        Collection retval = new ArrayList();
+        
+        while (iterator.hasNext()) {
+            AccountStatusCurrentFunds cf = (AccountStatusCurrentFunds) (iterator.next());
+
+            cf.setDummyBusinessObject(new TransientBalanceInquiryAttributes());
+            cf.getDummyBusinessObject().setPendingEntryOption(pendingEntryOption);
+
+            retval.add(cf);
+        }
+        return retval;
+    }
+
+    /**
      * @see org.kuali.core.lookup.Lookupable#getInquiryUrl(org.kuali.core.bo.BusinessObject, java.lang.String)
      */
     @Override
     public String getInquiryUrl(BusinessObject bo, String propertyName) {
         return (new CurrentFundsInquirableImpl()).getInquiryUrl(bo, propertyName);
-    }
-
-    public BalanceService getBalanceService() {
-        return balanceService;
-    }
-
-    public void setBalanceService(BalanceService balanceService) {
-        this.balanceService = balanceService;
     }
 
     public KualiConfigurationService getKualiConfigurationService() {

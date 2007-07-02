@@ -43,6 +43,7 @@ import org.kuali.core.web.format.Formatter;
 import org.kuali.core.web.struts.form.LookupForm;
 import org.kuali.core.web.ui.Column;
 import org.kuali.core.web.ui.ResultRow;
+import org.kuali.core.web.ui.Row;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.gl.bo.TransientBalanceInquiryAttributes;
@@ -50,6 +51,7 @@ import org.kuali.module.gl.util.OJBUtility;
 import org.kuali.module.gl.web.Constant;
 import org.kuali.module.labor.bo.LedgerBalance;
 import org.kuali.module.labor.bo.SegmentedBusinessObject;
+import org.kuali.module.labor.service.LaborInquiryOptionsService;
 import org.kuali.module.labor.service.LaborLedgerBalanceService;
 import org.kuali.module.labor.web.inquirable.LedgerBalanceInquirableImpl;
 import org.springframework.transaction.annotation.Transactional;
@@ -57,6 +59,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class LedgerBalanceLookupableHelperServiceImpl extends AbstractLookupableHelperServiceImpl {
     private LaborLedgerBalanceService balanceService;
+    private LaborInquiryOptionsService laborInquiryOptionsService;    
     private Map fieldValues;
 
     private static final Log LOG = LogFactory.getLog(LedgerBalanceLookupableHelperServiceImpl.class);
@@ -78,12 +81,11 @@ public class LedgerBalanceLookupableHelperServiceImpl extends AbstractLookupable
         setDocFormKey((String) fieldValues.get(KFSConstants.DOC_FORM_KEY));
 
         // get the pending entry option. This method must be prior to the get search results
-        //String pendingEntryOption = this.getSelectedPendingEntryOption(fieldValues);
-        String pendingEntryOption = "No";
-        
+        String pendingEntryOption = getLaborInquiryOptionsService().getSelectedPendingEntryOption(fieldValues);
+
         // test if the consolidation option is selected or not
-        //boolean isConsolidated = isConsolidationSelected(fieldValues);
-        boolean isConsolidated = true;
+        
+        boolean isConsolidated = getLaborInquiryOptionsService().isConsolidationSelected(fieldValues, (Collection<Row>) getRows());
         
         // get Amount View Option and determine if the results has to be accumulated
         //String amountViewOption = getSelectedAmountViewOption(fieldValues);
@@ -504,4 +506,12 @@ public class LedgerBalanceLookupableHelperServiceImpl extends AbstractLookupable
         }
         return columns;
     }    
+
+    public LaborInquiryOptionsService getLaborInquiryOptionsService() {
+        return laborInquiryOptionsService;
+    }
+
+    public void setLaborInquiryOptionsService(LaborInquiryOptionsService laborInquiryOptionsService) {
+        this.laborInquiryOptionsService = laborInquiryOptionsService;
+    }
 }

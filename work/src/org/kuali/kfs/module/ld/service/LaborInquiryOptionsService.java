@@ -16,26 +16,56 @@
 package org.kuali.module.labor.service;
 
 import java.util.Collection;
-import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.lang.StringUtils;
 import org.kuali.core.web.ui.Field;
 import org.kuali.core.web.ui.Row;
-import org.kuali.kfs.KFSPropertyConstants;
-import org.kuali.module.gl.util.BusinessObjectFieldConverter;
-import org.kuali.module.gl.web.Constant;
 
 /**
  * The LaborInquiryOptionsService interface provides hooks for Pending Ledger and Consilidation options for balance inquiries.
  */
 public interface LaborInquiryOptionsService {
    
-    public List getSearchResults(Map fieldValues);
-    public boolean isConsolidationSelected(Map fieldValues);
-    public void changeFieldValue(String fieldName, String fieldValue);
+    /**
+     * The expected name of the consolidation option field name
+     *
+     * @return String
+     */
+    public String getConsolidationFieldName();
+
+    /**
+     * Examine a collection of <code>{@link Row}</code> instances for the consolidation field
+     *
+     * @param rows
+     * @return Field
+     */
+    public Field getConsolidationField(Collection<Row> rows);
+
+    /**
+     * Get the current state of the consolidation option
+     * 
+     * @return String
+     */
+    public String getConsolidationOption(Map fieldValues);
+        
+    /**
+     * This method tests if the user selects to see the details or consolidated results
+     * 
+     * @param fieldValues the map containing the search fields and values
+     * @param rows 
+     * @return true if consolidation is selected and subaccount is not specified
+     */
+    public boolean isConsolidationSelected(Map fieldValues, Collection<Row> rows);
+
     public void updateByPendingLedgerEntry(Collection entryCollection, Map fieldValues, String pendingEntryOption, boolean isConsolidated, boolean isCostShareInclusive);
+
+    /**
+     * Get the Pending Entry Option selected 
+     * 
+     * @param fieldValues
+     * @return String 
+     */
     public String getSelectedPendingEntryOption(Map fieldValues);
+
     public void updateEntryCollection(Collection entryCollection, Map fieldValues, boolean isApproved, boolean isConsolidated, boolean isCostShareExcluded);
 }

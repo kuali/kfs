@@ -52,23 +52,25 @@ public interface LaborDao {
      * 
      * This method returns base funds data
      * @param fieldValues
-     * @return
+     * @param isConsolidated
+     * @return Collection
      */
-    Collection getBaseFunds(Map fieldValues);
+    Iterator getBaseFunds(Map fieldValues, boolean isConsolidated);
     
     /**
      * 
      * This method returns current funds data
      * @param fieldValues
-     * @return
+     * @param isConsolidated
+     * @return Collection
      */
-    Collection getCurrentFunds(Map fieldValues);
+    Iterator getCurrentFunds(Map fieldValues, boolean isConsolidated);
     
     /**
      * 
      * This method returns current funds data
      * @param fieldValues
-     * @return
+     * @return Iterator
      */
     Iterator getEmployeeFunding(Map fieldValues);
     
@@ -76,7 +78,7 @@ public interface LaborDao {
      * 
      * This method returns current July1 Position Funding data
      * @param fieldValues
-     * @return
+     * @return Collection
      */
     Collection getJuly1PositionFunding(Map fieldValues);
 }

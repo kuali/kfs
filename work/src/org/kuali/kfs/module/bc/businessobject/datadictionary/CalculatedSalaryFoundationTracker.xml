@@ -70,9 +70,14 @@
                 <lookupField attributeName="accountNumber" required="true" />
                 <lookupField attributeName="subAccountNumber" required="false" />
                 <lookupField attributeName="financialObjectCode" required="false" />
+                <lookupField attributeName="financialSubObjectCode" required="false" />
             </lookupFields>
 
             <resultFields>
+                <field attributeName="universityFiscalYear" />
+                <field attributeName="chartOfAccountsCode" />
+                <field attributeName="accountNumber" />
+                <field attributeName="subAccountNumber" />
                 <field attributeName="personName" />
                 <field attributeName="financialObjectCode" />
                 <field attributeName="financialSubObjectCode" />

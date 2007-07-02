@@ -18,8 +18,8 @@
 <beans>
 	<bean id="financialModule" class="org.kuali.core.KualiModule">
 		<property name="moduleId" value="financial" />
-		<property name="moduleName" value="Kuali Financial Transactions" />
-		<property name="moduleCode" value="FT" />
+		<property name="moduleName" value="Financial Transaction Processing" />
+		<property name="moduleCode" value="FP" />
 		<property name="moduleUserService" ref="financialUserService" />
 		<property name="initializeDataDictionary" value="true" />
 		<property name="moduleAuthorizer">

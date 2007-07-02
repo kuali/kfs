@@ -18,7 +18,7 @@
 <beans>
 	<bean id="kraModule" class="org.kuali.core.KualiModule">
 		<property name="moduleId" value="kra" />
-		<property name="moduleName" value="Kuali Research Administration" />
+		<property name="moduleName" value="Research Administration" />
 		<property name="moduleCode" value="RA" />
 		<property name="moduleUserService" ref="kraUserService" />
 		<property name="initializeDataDictionary" value="true" />

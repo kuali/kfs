@@ -18,7 +18,7 @@
 <beans>
 	<bean id="budgetModule" class="org.kuali.core.KualiModule">
 		<property name="moduleId" value="budget" />
-		<property name="moduleName" value="Kuali Budget Construction" />
+		<property name="moduleName" value="Budget Construction" />
 		<property name="moduleCode" value="BC" />
 		<property name="moduleUserService" ref="budgetUserService" />
 		<property name="initializeDataDictionary" value="true" />

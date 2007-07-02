@@ -18,8 +18,8 @@
 <beans>
 	<bean id="chartModule" class="org.kuali.core.KualiModule">
 		<property name="moduleId" value="chart" />
-		<property name="moduleName" value="Kuali Chart Of Accounts" />
-		<property name="moduleCode" value="CH" />
+		<property name="moduleName" value="Chart Of Accounts" />
+		<property name="moduleCode" value="CA" />
 		<property name="moduleUserService" ref="chartUserService" />
 		<property name="initializeDataDictionary" value="true" />
 		<property name="moduleUserRule">

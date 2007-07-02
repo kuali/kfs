@@ -18,8 +18,8 @@
 <beans>
 	<bean id="camsModule" class="org.kuali.core.KualiModule">
 		<property name="moduleId" value="cams" />
-		<property name="moduleName" value="Kuali Capital Asset Maintenance" />
-		<property name="moduleCode" value="CA" />
+		<property name="moduleName" value="Capital Asset Management" />
+		<property name="moduleCode" value="CM" />
 		<property name="moduleUserService" ref="camsUserService" />
 		<property name="initializeDataDictionary" value="true" />
 		<property name="moduleAuthorizer">

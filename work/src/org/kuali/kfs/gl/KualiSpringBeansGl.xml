@@ -18,7 +18,7 @@
 <beans>
 	<bean id="glModule" class="org.kuali.core.KualiModule">
 		<property name="moduleId" value="gl" />
-		<property name="moduleName" value="Kuali General Ledger" />
+		<property name="moduleName" value="General Ledger" />
 		<property name="moduleCode" value="GL" />
 		<property name="moduleUserService" ref="glUserService" />
 		<property name="initializeDataDictionary" value="true" />

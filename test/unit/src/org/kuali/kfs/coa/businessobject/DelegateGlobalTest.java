@@ -39,7 +39,7 @@ import edu.iu.uis.eden.exception.WorkflowException;
 @WithTestSpringContext(session = KHUNTLEY)
 public class DelegateGlobalTest extends KualiTestBase {
 
-    private static final String GLOBAL_DELEGATE_TYPENAME = "DelegateGlobal";
+    private static final String GLOBAL_DELEGATE_TYPENAME = "DelegateGlobalMaintenanceDocument";
 
     private static final Log LOG = LogFactory.getLog(DelegateGlobalTest.class);
 

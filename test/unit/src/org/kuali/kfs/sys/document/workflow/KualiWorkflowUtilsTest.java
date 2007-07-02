@@ -20,7 +20,7 @@ import java.io.IOException;
 import javax.xml.xpath.XPathExpressionException;
 
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.test.KualiTestBase;
+import org.kuali.kfs.context.KualiTestBase;
 import org.kuali.test.WithTestSpringContext;
 import org.kuali.workflow.attribute.KualiAttributeTestUtil;
 

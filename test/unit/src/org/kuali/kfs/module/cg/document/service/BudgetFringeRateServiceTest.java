@@ -22,8 +22,8 @@ package org.kuali.module.kra.service;
 import static org.kuali.kfs.util.SpringServiceLocator.getBudgetFringeRateService;
 
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.kfs.context.KualiTestBase;
 import org.kuali.module.kra.budget.bo.BudgetFringeRate;
-import org.kuali.test.KualiTestBase;
 import org.kuali.test.WithTestSpringContext;
 
 /**

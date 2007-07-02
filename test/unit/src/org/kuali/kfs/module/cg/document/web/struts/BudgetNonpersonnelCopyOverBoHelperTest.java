@@ -19,9 +19,9 @@ import static org.kuali.test.util.KualiTestAssertionUtils.assertEquality;
 
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.KualiInteger;
+import org.kuali.kfs.context.KualiTestBase;
 import org.kuali.module.kra.budget.bo.BudgetNonpersonnel;
 import org.kuali.module.kra.budget.web.struts.form.BudgetNonpersonnelCopyOverBoHelper;
-import org.kuali.test.KualiTestBase;
 import org.kuali.test.WithTestSpringContext;
 /**
  * This class tests methods in BudgetNonpersonnelCopyOverBoHelper.

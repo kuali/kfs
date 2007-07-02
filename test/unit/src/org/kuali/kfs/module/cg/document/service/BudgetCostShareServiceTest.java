@@ -22,11 +22,11 @@ import org.kuali.core.util.ObjectUtils;
 
 import static org.kuali.kfs.util.SpringServiceLocator.getBudgetCostShareService;
 
+import org.kuali.kfs.context.KualiTestBase;
 import org.kuali.module.kra.budget.bo.BudgetThirdPartyCostShare;
 import org.kuali.module.kra.budget.bo.BudgetInstitutionCostShare;
 import org.kuali.module.kra.budget.bo.BudgetUser;
 import org.kuali.module.kra.budget.bo.InstitutionCostSharePersonnel;
-import org.kuali.test.KualiTestBase;
 import org.kuali.test.WithTestSpringContext;
 import org.kuali.test.suite.AnnotationTestSuite;
 import org.kuali.test.suite.CrossSectionSuite;

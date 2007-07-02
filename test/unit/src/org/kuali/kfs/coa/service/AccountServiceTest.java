@@ -19,8 +19,8 @@ import static org.kuali.kfs.util.SpringServiceLocator.*;
 
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.exceptions.UserNotFoundException;
+import org.kuali.kfs.context.KualiTestBase;
 import org.kuali.module.chart.bo.Account;
-import org.kuali.test.KualiTestBase;
 import org.kuali.test.WithTestSpringContext;
 
 /**

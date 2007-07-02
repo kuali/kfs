@@ -32,6 +32,7 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.UnitTestSqlDao;
 import org.kuali.kfs.KFSConstants;
+import org.kuali.kfs.context.KualiTestBase;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.gl.OriginEntryTestBase;
 import org.kuali.module.gl.bo.OriginEntry;
@@ -39,7 +40,6 @@ import org.kuali.module.gl.bo.OriginEntryGroup;
 import org.kuali.module.gl.bo.OriginEntrySource;
 import org.kuali.module.gl.service.OriginEntryService;
 import org.kuali.module.gl.service.impl.FileEnterpriseFeederServiceImpl;
-import org.kuali.test.KualiTestBase;
 import org.kuali.test.WithTestSpringContext;
 
 /**

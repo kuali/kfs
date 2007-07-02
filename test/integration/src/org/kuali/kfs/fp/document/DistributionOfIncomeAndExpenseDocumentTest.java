@@ -23,6 +23,7 @@ import org.apache.commons.logging.LogFactory;
 import org.kuali.core.document.Document;
 import org.kuali.kfs.bo.SourceAccountingLine;
 import org.kuali.kfs.bo.TargetAccountingLine;
+import org.kuali.kfs.context.KualiTestBase;
 
 import static org.kuali.kfs.util.SpringServiceLocator.getDataDictionaryService;
 import static org.kuali.kfs.util.SpringServiceLocator.getDocumentService;
@@ -30,7 +31,6 @@ import static org.kuali.kfs.util.SpringServiceLocator.getTransactionalDocumentDi
 import static org.kuali.module.financial.document.AccountingDocumentTestUtils.testGetNewDocument_byDocumentClass;
 
 import org.kuali.test.DocumentTestUtils;
-import org.kuali.test.KualiTestBase;
 import org.kuali.test.TestsWorkflowViaDatabase;
 import org.kuali.test.WithTestSpringContext;
 import org.kuali.test.fixtures.AccountingLineFixture;

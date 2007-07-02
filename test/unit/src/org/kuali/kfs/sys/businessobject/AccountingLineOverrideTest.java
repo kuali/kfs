@@ -20,8 +20,8 @@ import java.sql.Timestamp;
 import org.kuali.kfs.bo.AccountingLine;
 import org.kuali.kfs.bo.AccountingLineOverride;
 import org.kuali.kfs.bo.SourceAccountingLine;
+import org.kuali.kfs.context.KualiTestBase;
 import org.kuali.module.chart.bo.Account;
-import org.kuali.test.KualiTestBase;
 import org.kuali.test.WithTestSpringContext;
 
 /**

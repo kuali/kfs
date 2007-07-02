@@ -23,8 +23,8 @@ import java.util.Map;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
+import org.kuali.kfs.context.KualiTestBase;
 import org.kuali.module.gl.bo.AccountBalance;
-import org.kuali.test.KualiTestBase;
 
 /**
  * This class...

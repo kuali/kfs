@@ -26,6 +26,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import org.kuali.kfs.context.TestUtils;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.gl.OriginEntryTestBase;
 import org.kuali.module.gl.bo.OriginEntry;
@@ -33,7 +34,6 @@ import org.kuali.module.gl.bo.OriginEntryGroup;
 import org.kuali.module.gl.service.OriginEntryGroupService;
 import org.kuali.module.gl.service.OriginEntryService;
 import org.kuali.module.gl.util.GeneralLedgerTestHelper;
-import org.kuali.test.TestUtils;
 import org.kuali.test.WithTestSpringContext;
 
 /**

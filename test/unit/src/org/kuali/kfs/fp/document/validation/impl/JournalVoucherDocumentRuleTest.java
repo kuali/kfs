@@ -54,11 +54,11 @@ import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.bo.AccountingLine;
 import org.kuali.kfs.bo.SourceAccountingLine;
 import org.kuali.kfs.bo.TargetAccountingLine;
+import org.kuali.kfs.context.KualiTestBase;
 import org.kuali.kfs.document.AccountingDocument;
 import org.kuali.kfs.rule.AddAccountingLineRule;
 import org.kuali.module.financial.document.JournalVoucherDocument;
 import org.kuali.test.DocumentTestUtils;
-import org.kuali.test.KualiTestBase;
 import org.kuali.test.WithTestSpringContext;
 import org.kuali.test.suite.RelatesTo;
 

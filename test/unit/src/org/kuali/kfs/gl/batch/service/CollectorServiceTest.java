@@ -28,11 +28,11 @@ import org.kuali.core.util.UnitTestSqlDao;
 import org.kuali.kfs.KFSKeyConstants;
 import org.kuali.kfs.KFSConstants.ParameterGroups;
 import org.kuali.kfs.KFSConstants.SystemGroupParameterNames;
+import org.kuali.kfs.context.KualiTestBase;
 import org.kuali.kfs.service.MockCollectorBatch;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.gl.bo.InterDepartmentalBilling;
 import org.kuali.module.gl.bo.OriginEntry;
-import org.kuali.test.KualiTestBase;
 import org.kuali.test.WithTestSpringContext;
 import org.kuali.test.suite.RelatesTo;
 

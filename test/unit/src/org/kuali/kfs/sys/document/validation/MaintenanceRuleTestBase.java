@@ -32,7 +32,7 @@ import static org.kuali.kfs.util.SpringServiceLocator.getDocumentService;
 import org.kuali.core.util.TypedArrayList;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSKeyConstants;
-import org.kuali.test.KualiTestBase;
+import org.kuali.kfs.context.KualiTestBase;
 import org.kuali.test.WithTestSpringContext;
 
 import edu.iu.uis.eden.exception.WorkflowException;

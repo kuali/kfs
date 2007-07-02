@@ -18,10 +18,10 @@ package org.kuali.module.gl.dao.ojb;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import org.kuali.kfs.context.KualiTestBase;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.gl.bo.UniversityDate;
 import org.kuali.module.gl.dao.UniversityDateDao;
-import org.kuali.test.KualiTestBase;
 
 public class TestUniversityDateDao extends KualiTestBase {
 

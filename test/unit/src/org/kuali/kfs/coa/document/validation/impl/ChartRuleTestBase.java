@@ -32,7 +32,7 @@ import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.TypedArrayList;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSKeyConstants;
-import org.kuali.test.KualiTestBase;
+import org.kuali.kfs.context.KualiTestBase;
 
 import edu.iu.uis.eden.exception.WorkflowException;
 

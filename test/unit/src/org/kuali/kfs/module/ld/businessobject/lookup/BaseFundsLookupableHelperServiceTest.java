@@ -27,6 +27,7 @@ import org.kuali.core.lookup.LookupableHelperService;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.PersistenceService;
 import org.kuali.kfs.KFSPropertyConstants;
+import org.kuali.kfs.context.KualiTestBase;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.budget.bo.CalculatedSalaryFoundationTracker;
 import org.kuali.module.gl.web.TestDataGenerator;
@@ -34,7 +35,6 @@ import org.kuali.module.labor.LaborConstants;
 import org.kuali.module.labor.bo.AccountStatusBaseFunds;
 import org.kuali.module.labor.bo.LedgerBalance;
 import org.kuali.module.labor.util.ObjectUtil;
-import org.kuali.test.KualiTestBase;
 import org.kuali.test.WithTestSpringContext;
 
 /**

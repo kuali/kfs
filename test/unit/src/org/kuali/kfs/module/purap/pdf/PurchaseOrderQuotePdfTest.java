@@ -26,13 +26,13 @@ import org.kuali.Constants;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.bo.Country;
+import org.kuali.kfs.context.KualiTestBase;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.purap.bo.ItemType;
 import org.kuali.module.purap.bo.PurchaseOrderItem;
 import org.kuali.module.purap.bo.PurchaseOrderVendorQuote;
 import org.kuali.module.purap.document.PurchaseOrderDocument;
 import org.kuali.module.vendor.bo.ContractManager;
-import org.kuali.test.KualiTestBase;
 import org.kuali.test.WithTestSpringContext;
 
 @WithTestSpringContext

@@ -20,9 +20,9 @@ import static org.kuali.test.fixtures.AccountingLineFixture.LINE;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.bo.SourceAccountingLine;
 import org.kuali.kfs.bo.TargetAccountingLine;
+import org.kuali.kfs.context.KualiTestBase;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.Chart;
-import org.kuali.test.KualiTestBase;
 import org.kuali.test.WithTestSpringContext;
 
 @WithTestSpringContext

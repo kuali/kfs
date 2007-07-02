@@ -29,18 +29,22 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DateTimeService;
 import org.kuali.core.service.PersistenceService;
+import org.kuali.kfs.context.KualiTestBase;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.gl.bo.OriginEntry;
 import org.kuali.module.gl.bo.OriginEntryGroup;
 import org.kuali.module.gl.service.OriginEntryGroupService;
 import org.kuali.module.gl.web.TestDataGenerator;
+import org.kuali.module.labor.bo.LaborLedgerPendingEntry;
 import org.kuali.module.labor.bo.LaborOriginEntry;
 import org.kuali.module.labor.bo.LedgerEntry;
-import org.kuali.module.labor.bo.LaborLedgerPendingEntry;
 import org.kuali.module.labor.service.LaborOriginEntryService;
 import org.kuali.module.labor.util.testobject.PendingLedgerEntryForTesting;
+import org.kuali.test.TestsWorkflowViaDatabase;
+import org.kuali.test.WithTestSpringContext;
 
-public class TestDataLoader {
+@WithTestSpringContext
+public class TestDataLoader extends KualiTestBase {
     private Properties properties;
     private String fieldNames;
     private String fieldLength;
@@ -54,7 +58,8 @@ public class TestDataLoader {
     private LaborOriginEntryService laborOriginEntryService;
     private PersistenceService persistenceService;
 
-    public TestDataLoader() {
+    public void setUp() throws Exception {
+        super.setUp();
         String messageFileName = "test/src/org/kuali/module/labor/testdata/message.properties";
         String propertiesFileName = "test/src/org/kuali/module/labor/testdata/laborTransaction.properties";
 
@@ -65,8 +70,6 @@ public class TestDataLoader {
 
         keyFieldList = Arrays.asList(StringUtils.split(fieldNames, deliminator));
         fieldLengthList = Arrays.asList(StringUtils.split(fieldLength, deliminator));
-
-        SpringServiceLocator.initializeApplicationContext();
         businessObjectService = (BusinessObjectService) SpringServiceLocator.getService("businessObjectService");
 
         laborOriginEntryService = (LaborOriginEntryService) SpringServiceLocator.getService("laborOriginEntryService");
@@ -74,13 +77,15 @@ public class TestDataLoader {
         persistenceService = (PersistenceService) SpringServiceLocator.getService("persistenceService");
     }
 
-    public int loadTransactionIntoPendingEntryTable() {
+    @TestsWorkflowViaDatabase
+    public void testLoadTransactionIntoPendingEntryTable() {
         int numberOfInputData = Integer.valueOf(properties.getProperty("numOfData"));
         int[] fieldLength = this.getFieldLength(fieldLengthList);
-        return this.loadInputData("data", numberOfInputData, keyFieldList, fieldLength);
+        System.out.println("Loaded transactions into pending entry table: " + this.loadInputData("data", numberOfInputData, keyFieldList, fieldLength));
     }
 
-    public int loadTransactionIntoOriginEntryTable() {
+    @TestsWorkflowViaDatabase
+    public void testLoadTransactionIntoOriginEntryTable() {
         int numberOfInputData = Integer.valueOf(properties.getProperty("numOfData"));
            
         Date today = ((DateTimeService) SpringServiceLocator.getService("dateTimeService")).getCurrentSqlDate();
@@ -93,10 +98,11 @@ public class TestDataLoader {
         }
         
         businessObjectService.save(originEntries);       
-        return originEntries.size();
+        System.out.println("Loaded transactions into origin entry table: " + originEntries.size());
     }
     
-    public int loadTransactionIntoGLOriginEntryTable() {
+    @TestsWorkflowViaDatabase
+    public void testLoadTransactionIntoGLOriginEntryTable() {
         int numberOfInputData = Integer.valueOf(properties.getProperty("numOfData"));
            
         Date today = ((DateTimeService) SpringServiceLocator.getService("dateTimeService")).getCurrentSqlDate();
@@ -109,10 +115,11 @@ public class TestDataLoader {
         }
         
         businessObjectService.save(originEntries);       
-        return originEntries.size();
+        System.out.println("Loaded transactions into gl origin entry table: " + originEntries.size());
     }
     
-    public void generateLedgerEntryTestData() {
+    @TestsWorkflowViaDatabase
+    public void testGenerateLedgerEntryTestData() {
         int numberOfInputData = Integer.valueOf(properties.getProperty("numOfData"));
 
         int[] fieldLength = this.getFieldLength(fieldLengthList);
@@ -170,16 +177,5 @@ public class TestDataLoader {
             fieldLengthArray[i] = Integer.valueOf(fieldLengthList.get(i).trim());
         }
         return fieldLengthArray;
-    }
-
-    public static void main(String[] args) {
-        TestDataLoader testDataLoader = new TestDataLoader();
-        for(int i=0; i<1; i++){
-            //int numOfData = testDataLoader.loadTransactionIntoPendingEntryTable();
-            int numOfData = testDataLoader.loadTransactionIntoOriginEntryTable();
-            System.out.println("Number of Data Loaded = " + numOfData);
-        }
-        //testDataLoader.generateLedgerEntryTestData();
-        System.exit(0);
     }
 }

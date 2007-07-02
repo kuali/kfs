@@ -18,11 +18,11 @@ package org.kuali.module.vendor.service;
 import static org.kuali.test.fixtures.UserNameFixture.KHUNTLEY;
 
 import org.kuali.core.web.format.FormatException;
+import org.kuali.kfs.context.KualiTestBase;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.vendor.bo.VendorDetail;
 import org.kuali.module.vendor.rules.VendorRule;
 import org.kuali.module.vendor.service.PhoneNumberService;
-import org.kuali.test.KualiTestBase;
 import org.kuali.test.WithTestSpringContext;
 
 @WithTestSpringContext(session = KHUNTLEY)

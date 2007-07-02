@@ -19,12 +19,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.core.util.KualiInteger;
+import org.kuali.kfs.context.KualiTestBase;
 import org.kuali.module.kra.bo.BudgetPeriodTest;
 import org.kuali.module.kra.budget.bo.BudgetPeriod;
 import org.kuali.module.kra.budget.bo.BudgetTask;
 import org.kuali.module.kra.budget.bo.BudgetTaskPeriodIndirectCost;
 import org.kuali.module.kra.budget.web.struts.form.BudgetIndirectCostFormHelper;
-import org.kuali.test.KualiTestBase;
 import org.kuali.test.WithTestSpringContext;
 
 @WithTestSpringContext

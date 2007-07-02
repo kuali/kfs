@@ -21,13 +21,13 @@ import static org.kuali.test.util.KualiTestAssertionUtils.assertEquality;
 import java.util.List;
 
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.kfs.context.KualiTestBase;
 import org.kuali.module.kra.bo.BudgetNonpersonnelTest;
 import org.kuali.module.kra.bo.BudgetPeriodTest;
 import org.kuali.module.kra.budget.bo.BudgetNonpersonnel;
 import org.kuali.module.kra.budget.web.struts.form.BudgetForm;
 import org.kuali.module.kra.budget.web.struts.form.BudgetNonpersonnelCopyOverFormHelper;
 import org.kuali.module.kra.budget.web.struts.form.BudgetNonpersonnelCopyOverFormHelper.NonpersonnelCopyOverCategoryHelper;
-import org.kuali.test.KualiTestBase;
 import org.kuali.test.WithTestSpringContext;
 
 /**

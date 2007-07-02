@@ -19,30 +19,17 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Iterator;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.math.RandomUtils;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.exceptions.AuthorizationException;
-import org.kuali.core.service.KualiConfigurationService;
-import org.kuali.kfs.KFSConstants.ParameterGroups;
-import org.kuali.kfs.KFSConstants.SystemGroupParameterNames;
 import org.kuali.kfs.batch.BatchInputFileType;
+import org.kuali.kfs.context.KualiTestBase;
 import org.kuali.kfs.exceptions.FileStorageException;
-import org.kuali.kfs.exceptions.XMLParseException;
-import org.kuali.kfs.util.KFSUtils;
 import org.kuali.kfs.util.SpringServiceLocator;
-import org.kuali.module.financial.bo.ProcurementCardTransaction;
-import org.kuali.module.gl.batch.collector.CollectorBatch;
-import org.kuali.module.gl.bo.InterDepartmentalBilling;
-import org.kuali.module.gl.bo.OriginEntry;
-import org.kuali.test.KualiTestBase;
-import org.kuali.test.TestUtils;
 import org.kuali.test.WithTestSpringContext;
-import org.kuali.test.KualiTestConstants.TestConstants.Data2;
 import org.kuali.test.KualiTestConstants.TestConstants.Data4;
 
 /**

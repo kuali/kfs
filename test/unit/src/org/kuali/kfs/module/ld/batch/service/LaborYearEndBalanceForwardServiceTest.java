@@ -28,6 +28,7 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.PersistenceService;
 import org.kuali.kfs.KFSPropertyConstants;
+import org.kuali.kfs.context.KualiTestBase;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.gl.bo.OriginEntryGroup;
 import org.kuali.module.gl.service.OriginEntryGroupService;
@@ -37,7 +38,6 @@ import org.kuali.module.labor.bo.LedgerBalance;
 import org.kuali.module.labor.util.ObjectUtil;
 import org.kuali.module.labor.util.TestDataPreparator;
 import org.kuali.module.labor.util.testobject.LaborOriginEntryForTesting;
-import org.kuali.test.KualiTestBase;
 import org.kuali.test.WithTestSpringContext;
 
 @WithTestSpringContext

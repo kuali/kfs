@@ -50,10 +50,10 @@ import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.bo.AccountingLine;
 import org.kuali.kfs.bo.SourceAccountingLine;
 import org.kuali.kfs.bo.TargetAccountingLine;
+import org.kuali.kfs.context.KualiTestBase;
 import org.kuali.kfs.document.AccountingDocument;
 import org.kuali.module.financial.document.GeneralErrorCorrectionDocument;
 import org.kuali.test.DocumentTestUtils;
-import org.kuali.test.KualiTestBase;
 import org.kuali.test.WithTestSpringContext;
 import org.kuali.test.suite.RelatesTo;
 

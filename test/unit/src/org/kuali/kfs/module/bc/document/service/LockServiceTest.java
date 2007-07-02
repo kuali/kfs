@@ -25,13 +25,13 @@ import static org.kuali.kfs.util.SpringServiceLocator.getLockService;
 
 import org.kuali.core.bo.DocumentHeader;
 import org.kuali.kfs.KFSConstants.BudgetConstructionConstants.LockStatus;
+import org.kuali.kfs.context.KualiTestBase;
 import org.kuali.module.budget.bo.BudgetConstructionFundingLock;
 import org.kuali.module.budget.bo.BudgetConstructionHeader;
 import org.kuali.module.budget.bo.BudgetConstructionPosition;
 import org.kuali.module.budget.bo.PendingBudgetConstructionAppointmentFunding;
 import org.kuali.module.budget.dao.ojb.BudgetConstructionDaoOjb;
 import org.kuali.module.budget.service.impl.BudgetConstructionLockStatus;
-import org.kuali.test.KualiTestBase;
 import org.kuali.test.TestsWorkflowViaDatabase;
 import org.kuali.test.WithTestSpringContext;
 

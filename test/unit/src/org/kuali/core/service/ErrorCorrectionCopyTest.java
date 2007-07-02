@@ -15,7 +15,7 @@
  */
 package org.kuali.core.service;
 
-import org.kuali.test.KualiTestBase;
+import org.kuali.kfs.context.KualiTestBase;
 
 /**
  * This class tests the Document service.

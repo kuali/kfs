@@ -31,6 +31,7 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DateTimeService;
 import org.kuali.core.service.PersistenceService;
+import org.kuali.kfs.context.KualiTestBase;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.gl.batch.poster.VerifyTransaction;
 import org.kuali.module.gl.bo.OriginEntryGroup;
@@ -44,7 +45,6 @@ import org.kuali.module.labor.util.ObjectUtil;
 import org.kuali.module.labor.util.PayrollAccrualSummaryTable;
 import org.kuali.module.labor.util.ReportRegistry;
 import org.kuali.module.labor.util.TestDataPreparator;
-import org.kuali.test.KualiTestBase;
 import org.kuali.test.WithTestSpringContext;
 
 /**

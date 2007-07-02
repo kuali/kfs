@@ -25,9 +25,9 @@ import static org.kuali.test.fixtures.UserNameFixture.KHUNTLEY;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.bo.AccountingLine;
 import org.kuali.kfs.bo.SourceAccountingLine;
+import org.kuali.kfs.context.KualiTestBase;
 import org.kuali.kfs.document.AccountingDocument;
 import org.kuali.module.financial.document.CreditCardReceiptDocument;
-import org.kuali.test.KualiTestBase;
 import org.kuali.test.WithTestSpringContext;
 
 

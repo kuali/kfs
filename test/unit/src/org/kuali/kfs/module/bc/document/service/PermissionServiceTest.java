@@ -17,8 +17,8 @@ package org.kuali.module.budget.service;
 
 import java.util.List;
 
-import org.kuali.test.KualiTestBase;
 import org.kuali.test.WithTestSpringContext;
+import org.kuali.kfs.context.KualiTestBase;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.chart.bo.Org;
 

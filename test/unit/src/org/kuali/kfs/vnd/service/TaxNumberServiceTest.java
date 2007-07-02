@@ -18,11 +18,11 @@ package org.kuali.module.vendor.service;
 
 import org.kuali.core.bo.BusinessRule;
 import org.kuali.core.util.ObjectUtils;
+import org.kuali.kfs.context.KualiTestBase;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.purap.PurapRuleConstants;
 import org.kuali.module.vendor.VendorConstants;
 import org.kuali.module.vendor.VendorRuleConstants;
-import org.kuali.test.KualiTestBase;
 import org.kuali.test.WithTestSpringContext;
 
 @WithTestSpringContext

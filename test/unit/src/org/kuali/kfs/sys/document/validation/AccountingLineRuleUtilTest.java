@@ -36,10 +36,10 @@ import org.kuali.kfs.KFSKeyConstants;
 import org.kuali.kfs.bo.AccountingLine;
 import org.kuali.kfs.bo.AccountingLineOverride;
 import org.kuali.kfs.bo.SourceAccountingLine;
+import org.kuali.kfs.context.KualiTestBase;
 import org.kuali.kfs.rules.AccountingLineRuleUtil;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.ObjectCode;
-import org.kuali.test.KualiTestBase;
 import org.kuali.test.WithTestSpringContext;
 
 /**

@@ -18,7 +18,7 @@ package org.kuali.module.financial.service;
 import static org.kuali.kfs.util.SpringServiceLocator.getProcurementCardCreateDocumentService;
 import static org.kuali.test.fixtures.UserNameFixture.KULUSER;
 
-import org.kuali.test.KualiTestBase;
+import org.kuali.kfs.context.KualiTestBase;
 import org.kuali.test.WithTestSpringContext;
 /**
  * This class tests the services used to create ProcurementCard documents.

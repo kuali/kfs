@@ -21,12 +21,12 @@ import static org.kuali.test.util.KualiTestAssertionUtils.assertGlobalErrorMapEm
 
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSPropertyConstants;
+import org.kuali.kfs.context.KualiTestBase;
 import org.kuali.kfs.rules.AccountingDocumentRuleUtil;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.chart.bo.AccountingPeriod;
 import org.kuali.module.chart.bo.codes.BalanceTyp;
 import org.kuali.module.financial.document.JournalVoucherDocument;
-import org.kuali.test.KualiTestBase;
 import org.kuali.test.WithTestSpringContext;
 /**
  * Class for unit testing the functionality of <code>{@link TransactionalDocumentRuleUtil}</code>

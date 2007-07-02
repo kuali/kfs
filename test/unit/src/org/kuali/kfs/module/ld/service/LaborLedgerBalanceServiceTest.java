@@ -22,11 +22,11 @@ import java.util.Properties;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.service.BusinessObjectService;
+import org.kuali.kfs.context.KualiTestBase;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.gl.web.TestDataGenerator;
 import org.kuali.module.labor.bo.LedgerBalance;
 import org.kuali.module.labor.util.ObjectUtil;
-import org.kuali.test.KualiTestBase;
 import org.kuali.test.WithTestSpringContext;
 
 @WithTestSpringContext

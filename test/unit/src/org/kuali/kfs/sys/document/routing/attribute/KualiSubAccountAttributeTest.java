@@ -26,8 +26,8 @@ import javax.xml.xpath.XPathExpressionException;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.KFSConstants;
+import org.kuali.kfs.context.KualiTestBase;
 import org.kuali.module.chart.bo.SubAccount;
-import org.kuali.test.KualiTestBase;
 import org.kuali.test.WithTestSpringContext;
 import org.kuali.workflow.KualiWorkflowUtils;
 import org.w3c.dom.Node;

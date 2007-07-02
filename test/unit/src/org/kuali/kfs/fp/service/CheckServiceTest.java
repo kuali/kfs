@@ -23,12 +23,12 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.kfs.context.KualiTestBase;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.financial.bo.Check;
 import org.kuali.module.financial.bo.CheckBase;
 import org.kuali.module.financial.document.CashReceiptDocument;
 import org.kuali.test.DocumentTestUtils;
-import org.kuali.test.KualiTestBase;
 import org.kuali.test.TestsWorkflowViaDatabase;
 import org.kuali.test.WithTestSpringContext;
 /**

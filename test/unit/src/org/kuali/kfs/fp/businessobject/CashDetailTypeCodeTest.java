@@ -17,7 +17,7 @@ package org.kuali.module.financial.bo;
 
 import java.util.ArrayList;
 
-import org.kuali.test.KualiTestBase;
+import org.kuali.kfs.context.KualiTestBase;
 
 /**
  * This class...

@@ -25,8 +25,8 @@ import org.kuali.core.util.Guid;
 import org.kuali.core.util.UnitTestSqlDao;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.batch.Step;
+import org.kuali.kfs.context.KualiTestBase;
 import org.kuali.kfs.util.SpringServiceLocator;
-import org.kuali.test.KualiTestBase;
 import org.kuali.test.WithTestSpringContext;
 
 @WithTestSpringContext

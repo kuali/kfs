@@ -21,9 +21,9 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 
 import org.kuali.kfs.KFSConstants;
+import org.kuali.kfs.context.KualiTestBase;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.gl.batch.collector.CollectorStep;
-import org.kuali.test.KualiTestBase;
 import org.kuali.test.WithTestSpringContext;
 import org.kuali.test.suite.RelatesTo;
 

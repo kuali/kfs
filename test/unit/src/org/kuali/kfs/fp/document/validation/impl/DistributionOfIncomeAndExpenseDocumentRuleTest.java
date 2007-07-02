@@ -26,9 +26,9 @@ import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.bo.AccountingLine;
 import org.kuali.kfs.bo.SourceAccountingLine;
 import org.kuali.kfs.bo.TargetAccountingLine;
+import org.kuali.kfs.context.KualiTestBase;
 import org.kuali.kfs.document.AccountingDocument;
 import org.kuali.module.financial.document.DistributionOfIncomeAndExpenseDocument;
-import org.kuali.test.KualiTestBase;
 import org.kuali.test.WithTestSpringContext;
 
 

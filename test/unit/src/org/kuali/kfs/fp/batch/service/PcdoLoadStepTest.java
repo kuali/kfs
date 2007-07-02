@@ -18,10 +18,10 @@ package org.kuali.module.financial.batch;
 import java.io.File;
 import java.util.Collection;
 
+import org.kuali.kfs.context.KualiTestBase;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.financial.batch.pcard.PcdoLoadStep;
 import org.kuali.module.financial.bo.ProcurementCardTransaction;
-import org.kuali.test.KualiTestBase;
 import org.kuali.test.WithTestSpringContext;
 
 /**

@@ -23,11 +23,11 @@ import java.util.Map;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
+import org.kuali.kfs.context.KualiTestBase;
 import org.kuali.kfs.service.GeneralLedgerPendingEntryService;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.gl.GLSpringBeansRegistry;
 import org.kuali.module.gl.web.TestDataGenerator;
-import org.kuali.test.KualiTestBase;
 
 /**
  * This class is a template being used by the test case classes of GL lookupable implementation.

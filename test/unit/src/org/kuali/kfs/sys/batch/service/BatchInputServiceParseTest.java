@@ -20,20 +20,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.io.IOUtils;
-import org.apache.commons.lang.math.RandomUtils;
-import org.kuali.core.bo.user.UniversalUser;
-import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.kfs.batch.BatchInputFileType;
+import org.kuali.kfs.context.KualiTestBase;
 import org.kuali.kfs.exceptions.XMLParseException;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.financial.bo.ProcurementCardTransaction;
 import org.kuali.module.gl.batch.collector.CollectorBatch;
 import org.kuali.module.gl.bo.InterDepartmentalBilling;
 import org.kuali.module.gl.bo.OriginEntry;
-import org.kuali.test.KualiTestBase;
-import org.kuali.test.TestUtils;
 import org.kuali.test.WithTestSpringContext;
-import org.kuali.test.KualiTestConstants.TestConstants.Data4;
 
 /**
  * Tests for the service parse method.

@@ -23,11 +23,11 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.core.util.GlobalVariables;
+import org.kuali.kfs.context.KualiTestBase;
 import org.kuali.module.kra.KraConstants;
 import org.kuali.module.kra.budget.bo.BudgetPeriod;
 import org.kuali.module.kra.budget.bo.BudgetTask;
 import org.kuali.module.kra.budget.rules.budget.BudgetDocumentRule;
-import org.kuali.test.KualiTestBase;
 import org.kuali.test.WithTestSpringContext;
 
 

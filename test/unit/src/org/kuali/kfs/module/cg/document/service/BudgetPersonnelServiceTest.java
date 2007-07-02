@@ -19,9 +19,9 @@ import java.sql.Date;
 import java.text.SimpleDateFormat;
 
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.kfs.context.KualiTestBase;
 import org.kuali.module.kra.budget.bo.BudgetPeriod;
 import org.kuali.module.kra.budget.bo.BudgetUser;
-import org.kuali.test.KualiTestBase;
 import org.kuali.test.WithTestSpringContext;
 
 /**

@@ -24,8 +24,8 @@ import java.util.ResourceBundle;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.KFSKeyConstants;
+import org.kuali.kfs.context.KualiTestBase;
 import org.kuali.kfs.util.SpringServiceLocator;
-import org.kuali.test.KualiTestBase;
 
 import com.opensymphony.oscache.util.StringUtil;
 

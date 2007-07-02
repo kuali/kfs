@@ -21,8 +21,8 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.core.util.UnitTestSqlDao;
+import org.kuali.kfs.context.KualiTestBase;
 import org.kuali.kfs.util.SpringServiceLocator;
-import org.kuali.test.KualiTestBase;
 
 public class TestUnitTestSqlDao extends KualiTestBase {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(TestUnitTestSqlDao.class);

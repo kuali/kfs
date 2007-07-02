@@ -20,7 +20,7 @@ import static org.kuali.kfs.util.SpringServiceLocator.getDateTimeService;
 import java.sql.Timestamp;
 import java.text.ParseException;
 
-import org.kuali.test.KualiTestBase;
+import org.kuali.kfs.context.KualiTestBase;
 import org.kuali.test.WithTestSpringContext;
 
 /**

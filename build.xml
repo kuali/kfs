@@ -5,7 +5,7 @@
 		<copy file="${metainf.directory}/${tomcat.context.file}" tofile="${appserver.localhost.dir}/${ant.project.name}-${build.environment}.xml" overwrite="true" />
 	</target>
 
-	<target name="test-local" depends="init-test-properties,dist-local,make-tests,test" description="Run all unit tests and format results"/>
+	<target name="test-local" depends="dist-local,make-tests,test" description="Run all unit tests and format results"/>
 
 	<target name="echo-properties" depends="init-filter-sets" description="Print all build properties that have been set">
 		<echoproperties />
@@ -114,10 +114,6 @@
 	<target name="init-institution-default-properties" depends="init-institution-override-properties">
 		<property file="${build.institution.defaults.file}" />
 		<echo message="Loaded properties in ${build.institution.defaults.file}" />
-		<condition property="test.spring.beans.import" value="${spring.test.imports}">
-			<equals arg1="${import.test.spring.beans}" arg2="true" />
-		</condition>
-		<property name="test.spring.beans.import" value="" />
 	</target>
 
 	<target name="init-filter-sets" depends="init-institution-default-properties">
@@ -161,7 +157,6 @@
 			<filter token="appenders" value="${appenders}" />
 			<filter token="mail-relay-server" value="${mail.relay.server}" />
 			<filter token="batch-mailing-list" value="${batch.mailing.list}" />
-			<filter token="spring-imports" value="${spring.imports}" />
 			<filter token="use-quartz-scheduling" value="${use.quartz.scheduling}" />
 			<filter token="use-quartz-jdbc-jobstore" value="${use.quartz.jdbc.jobstore}" />
 			<filter token="transaction-timeout" value="${transaction.timeout}"/>
@@ -171,8 +166,10 @@
 			<filter token="encrypt-attributes-properties-file" value="${encrypt.attributes.properties.file}" />
 			<filter token="data-export-zip-file" value="${data.export.zip.file}" />
 			<filter token="test-spring-beans-import" value="${test.spring.beans.import}" />
-			<filter token="dev.mode" value="${dev.mode}" />
-			<filter token="message.persistence" value="${message.persistence}" />
+			<filter token="dev-mode" value="${dev.mode}" />
+			<filter token="message-persistence" value="${message.persistence}" />
+			<filter token="spring-source-files" value="${spring.source.files}" />
+			<filter token="spring-test-files" value="${spring.test.files}" />
 		</filterset>
 	</target>
 	
@@ -193,11 +190,6 @@
 			<include name="**/*.html" />
 			<include name="**/*.xsd" />
 		</patternset>
-	</target>
-	
-	<target name="init-test-properties">
-		<property name="import.test.spring.beans" value="true" />
-		<property name="use.quartz.scheduling" value="true" />
 	</target>
 	
 	<target name="init-batch-properties">
@@ -267,6 +259,10 @@
 			<fileset dir="${build.tokenized.resources.directory}" includes="${tokenized.source.files}" />
 			<filterset refid="general.filterset" />
 		</copy>
+		<copy todir="${test.source.directory}" overwrite="true">
+			<fileset dir="${build.tokenized.resources.directory}" includes="${tokenized.test.files}" />
+			<filterset refid="general.filterset" />
+		</copy>
 	</target>
 
 	<target name="filter-local" if="is.local.build" depends="init-filter-sets">
@@ -311,7 +307,7 @@
 		</copy>
 	</target>
 
-	<target name="make-tests" depends="init-test-properties,init-make-references,filter-project">
+	<target name="make-tests" depends="init-make-references,filter-project">
 		<mkdir dir="${test.classes.directory}" />
 		<javac destdir="${test.classes.directory}" debug="true" optimize="true" fork="true" memoryinitialsize="${compile.min.memory}" memorymaximumsize="${compile.max.memory}">
 			<classpath refid="compile.tests.classpath" />
@@ -386,7 +382,7 @@
 		<jar jarfile="${ant.project.name}-${build.environment}.war" basedir="${war.directory}" compress="false" />
 	</target>
 		
-	<target name="continuous-integration" depends="init-test-properties,clean,make-tests,test">
+	<target name="continuous-integration" depends="clean,make-tests,test">
 		<fail if="tests.failed" message="Tests failed" />
 	</target>
 	

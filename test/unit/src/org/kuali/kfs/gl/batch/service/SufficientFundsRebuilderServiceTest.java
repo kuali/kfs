@@ -22,12 +22,12 @@ import java.util.List;
 import org.kuali.core.service.PersistenceService;
 import org.kuali.core.util.Guid;
 import org.kuali.core.util.UnitTestSqlDao;
+import org.kuali.kfs.context.KualiTestBase;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.gl.bo.SufficientFundBalances;
 import org.kuali.module.gl.bo.SufficientFundRebuild;
 import org.kuali.module.gl.dao.SufficientFundBalancesDao;
 import org.kuali.module.gl.dao.SufficientFundRebuildDao;
-import org.kuali.test.KualiTestBase;
 import org.kuali.test.WithTestSpringContext;
 
 @WithTestSpringContext

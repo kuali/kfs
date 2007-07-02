@@ -29,14 +29,14 @@ import org.kuali.core.service.PersistenceService;
 import org.kuali.core.util.Guid;
 import org.kuali.core.util.UnitTestSqlDao;
 import org.kuali.kfs.KFSConstants;
+import org.kuali.kfs.context.KualiTestBase;
+import org.kuali.kfs.context.TestUtils;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.gl.bo.OriginEntry;
 import org.kuali.module.gl.bo.OriginEntryGroup;
 import org.kuali.module.gl.dao.OriginEntryDao;
 import org.kuali.module.gl.service.OriginEntryGroupService;
 import org.kuali.module.gl.service.OriginEntryService;
-import org.kuali.test.KualiTestBase;
-import org.kuali.test.TestUtils;
 
 public class OriginEntryTestBase extends KualiTestBase {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(OriginEntryTestBase.class);

@@ -18,10 +18,10 @@ package org.kuali.module.chart.service;
 import java.util.Collections;
 import java.util.List;
 
+import org.kuali.kfs.context.KualiTestBase;
 import org.kuali.module.chart.bo.Org;
 import org.kuali.module.chart.dao.OrganizationDao;
 import org.kuali.module.chart.service.impl.OrganizationServiceImpl;
-import org.kuali.test.KualiTestBase;
 
 /**
  * This class tests the Organization service.

@@ -17,8 +17,8 @@ package org.kuali.core.service;
 
 import static org.kuali.kfs.util.SpringServiceLocator.getKualiCodeService;
 
+import org.kuali.kfs.context.KualiTestBase;
 import org.kuali.module.chart.bo.codes.BudgetAggregationCode;
-import org.kuali.test.KualiTestBase;
 import org.kuali.test.WithTestSpringContext;
 
 /**

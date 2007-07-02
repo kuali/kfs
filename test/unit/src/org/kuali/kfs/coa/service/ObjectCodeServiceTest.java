@@ -23,8 +23,8 @@ import java.util.Map;
 
 import org.apache.commons.beanutils.PropertyUtils;
 import org.kuali.core.util.ObjectUtils;
+import org.kuali.kfs.context.KualiTestBase;
 import org.kuali.module.chart.bo.ObjectCode;
-import org.kuali.test.KualiTestBase;
 import org.kuali.test.WithTestSpringContext;
 
 /**

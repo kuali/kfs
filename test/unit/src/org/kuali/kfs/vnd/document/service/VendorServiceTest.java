@@ -25,12 +25,12 @@ import static org.kuali.test.fixtures.UserNameFixture.KHUNTLEY;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.kuali.kfs.context.KualiTestBase;
 import org.kuali.module.vendor.bo.VendorAddress;
 import org.kuali.module.vendor.bo.VendorDetail;
 import org.kuali.module.vendor.bo.VendorHeader;
 import org.kuali.module.vendor.fixtures.VendorAddressFixture;
 import org.kuali.module.vendor.fixtures.VendorRoutingChangesFixture;
-import org.kuali.test.KualiTestBase;
 import org.kuali.test.WithTestSpringContext;
 
 @WithTestSpringContext(session = KHUNTLEY)

@@ -13,27 +13,26 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.budget.service.impl;
-
-import java.sql.SQLException;
-import java.util.ResourceBundle;
+package org.kuali.module.budget;
 
 import org.apache.log4j.Logger;
-import org.apache.log4j.PropertyConfigurator;
 import org.kuali.core.UserSession;
 import org.kuali.core.exceptions.UserNotFoundException;
 import org.kuali.core.service.DateTimeService;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.GlobalVariables;
-import org.kuali.kfs.KFSConstants;
+import org.kuali.kfs.context.KualiTestBase;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.budget.dao.GenesisDao;
 import org.kuali.module.budget.service.GenesisService;
 import org.kuali.module.chart.service.DateMakerService;
+import org.kuali.test.WithTestSpringContext;
+import org.kuali.test.fixtures.UserNameFixture;
 
 import edu.iu.uis.eden.exception.WorkflowException;
 
-public class GenesisTest {
+@WithTestSpringContext(session=UserNameFixture.KULUSER)
+public class TestGenesis extends KualiTestBase {
     
   private static GenesisService            genesisTestService;
   private static GenesisDao                genesisDao;
@@ -42,16 +41,9 @@ public class GenesisTest {
   private static DateMakerService          dateMakerTestService;
   private static KualiConfigurationService configService;
   
-  private static void configurationStep()
+  public void testConfiguration() throws Exception
   {
-      //    this supposedly configures a logger that everybody can fetch and use
-      PropertyConfigurator.configure(ResourceBundle.getBundle(
-        KFSConstants.CONFIGURATION_FILE_NAME).getString(KFSConstants.LOG4J_SETTINGS_FILE_KEY));
-  //  get one for this routine
-      LOG = org.apache.log4j.Logger.getLogger(GenesisTest.class);
-     
-  //    this supposedly configures spring/ojb
-     SpringServiceLocator.initializeApplicationContext();
+      LOG = org.apache.log4j.Logger.getLogger(TestGenesis.class);
      configService = 
             SpringServiceLocator.getKualiConfigurationService();
      genesisDao = (GenesisDao) SpringServiceLocator.getService("genesisDao");
@@ -81,9 +73,9 @@ public class GenesisTest {
       
   }
     
-  public static void main(String args[]) throws SQLException
-  {
-      configurationStep();
+  //public static void main(String args[]) throws SQLException
+  //{
+    //  configurationStep();
       //   these are the current run configurations 
       //   for
       //   genesis
@@ -122,5 +114,5 @@ public class GenesisTest {
   //    genesisTestService.testSLFStep(2009);
   //    genesisTestService.testSLFAfterStep(2009);
   //    genesisTestService.testLockClearance(2007);
-  }
+  //}
 }

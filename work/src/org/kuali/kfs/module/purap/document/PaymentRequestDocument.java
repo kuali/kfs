@@ -42,7 +42,6 @@ import org.kuali.module.purap.bo.PurApAccountingLine;
 import org.kuali.module.purap.bo.PurchaseOrderItem;
 import org.kuali.module.vendor.bo.PaymentTermType;
 import org.kuali.module.vendor.bo.ShippingPaymentTerms;
-import org.kuali.rice.KNSServiceLocator;
 import org.kuali.workflow.KualiWorkflowUtils.RouteLevelNames;
 
 import edu.iu.uis.eden.exception.WorkflowException;

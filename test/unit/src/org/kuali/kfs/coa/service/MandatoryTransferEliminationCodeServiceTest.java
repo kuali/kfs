@@ -17,8 +17,8 @@ package org.kuali.module.chart.service;
 
 import static org.kuali.kfs.util.SpringServiceLocator.getKualiCodeService;
 
+import org.kuali.kfs.context.KualiTestBase;
 import org.kuali.module.chart.bo.codes.MandatoryTransferEliminationCode;
-import org.kuali.test.KualiTestBase;
 import org.kuali.test.WithTestSpringContext;
 import org.kuali.test.suite.AnnotationTestSuite;
 import org.kuali.test.suite.CrossSectionSuite;

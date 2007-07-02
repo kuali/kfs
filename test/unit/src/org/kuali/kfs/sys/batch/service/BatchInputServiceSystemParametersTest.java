@@ -15,18 +15,15 @@
  */
 package org.kuali.kfs.service;
 
-import java.util.ArrayList;
-
 import org.apache.commons.lang.StringUtils;
-import org.apache.commons.lang.math.RandomUtils;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.kfs.KFSConstants.ParameterGroups;
 import org.kuali.kfs.KFSConstants.SystemGroupParameterNames;
 import org.kuali.kfs.batch.BatchInputFileType;
+import org.kuali.kfs.context.KualiTestBase;
+import org.kuali.kfs.context.TestUtils;
 import org.kuali.kfs.util.SpringServiceLocator;
-import org.kuali.test.KualiTestBase;
-import org.kuali.test.TestUtils;
 import org.kuali.test.WithTestSpringContext;
 import org.kuali.test.KualiTestConstants.TestConstants.Data2;
 import org.kuali.test.KualiTestConstants.TestConstants.Data4;

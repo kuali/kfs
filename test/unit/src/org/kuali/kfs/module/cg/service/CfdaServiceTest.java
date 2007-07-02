@@ -10,8 +10,8 @@ import java.util.ArrayList;
 import java.io.IOException;
 
 import static org.kuali.kfs.util.SpringServiceLocator.*;
-import org.kuali.test.KualiTestBase;
 import org.kuali.test.WithTestSpringContext;
+import org.kuali.kfs.context.KualiTestBase;
 import org.kuali.module.cg.bo.CatalogOfFederalDomesticAssistanceReference;
 import org.kuali.module.cg.service.CfdaUpdateResults;
 

@@ -24,7 +24,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.kfs.KFSConstants;
-import org.kuali.test.KualiTestBase;
+import org.kuali.kfs.context.KualiTestBase;
 import org.kuali.test.WithTestSpringContext;
 
 @WithTestSpringContext

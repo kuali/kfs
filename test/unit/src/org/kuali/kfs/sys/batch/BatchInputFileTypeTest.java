@@ -16,13 +16,12 @@
 package org.kuali.kfs.batch;
 
 import java.io.File;
-import java.io.InputStream;
 import java.util.ArrayList;
 
 import org.kuali.core.bo.user.UniversalUser;
+import org.kuali.kfs.context.KualiTestBase;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.gl.batch.collector.CollectorBatch;
-import org.kuali.test.KualiTestBase;
 import org.kuali.test.WithTestSpringContext;
 import org.kuali.test.KualiTestConstants.TestConstants.Data4;
 

@@ -29,10 +29,10 @@ import org.kuali.core.rule.SaveDocumentRule;
 import org.kuali.core.service.DataDictionaryService;
 import org.kuali.core.util.GeneralLedgerPendingEntrySequenceHelper;
 import org.kuali.kfs.bo.AccountingLine;
+import org.kuali.kfs.context.KualiTestBase;
 import org.kuali.kfs.document.AccountingDocument;
 import org.kuali.kfs.rule.AddAccountingLineRule;
 import org.kuali.kfs.rule.GenerateGeneralLedgerPendingEntriesRule;
-import org.kuali.test.KualiTestBase;
 import org.kuali.test.fixtures.GeneralLedgerPendingEntryFixture;
 
 public abstract class AccountingDocumentRuleTestUtils extends KualiTestBase {

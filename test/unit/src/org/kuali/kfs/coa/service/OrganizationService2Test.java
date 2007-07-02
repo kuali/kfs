@@ -20,7 +20,7 @@ import static org.kuali.kfs.util.SpringServiceLocator.getOrganizationService;
 import java.util.Collections;
 import java.util.List;
 
-import org.kuali.test.KualiTestBase;
+import org.kuali.kfs.context.KualiTestBase;
 import org.kuali.test.WithTestSpringContext;
 
 @WithTestSpringContext

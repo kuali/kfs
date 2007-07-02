@@ -19,9 +19,9 @@ import static org.kuali.kfs.util.SpringServiceLocator.getCashDetailTypeCodeServi
 
 import java.util.ArrayList;
 
+import org.kuali.kfs.context.KualiTestBase;
 import org.kuali.module.financial.bo.CashDetailTypeCode;
 import org.kuali.module.financial.service.impl.CashDetailTypeCodeServiceImpl;
-import org.kuali.test.KualiTestBase;
 import org.kuali.test.WithTestSpringContext;
 /**
  * This class tests the CashDetailTypeCode service.

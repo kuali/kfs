@@ -19,8 +19,8 @@ import static org.kuali.kfs.util.SpringServiceLocator.getBusinessObjectService;
 
 import java.util.HashMap;
 
+import org.kuali.kfs.context.KualiTestBase;
 import org.kuali.module.chart.bo.codes.BalanceTyp;
-import org.kuali.test.KualiTestBase;
 import org.kuali.test.WithTestSpringContext;
 
 /**

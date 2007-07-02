@@ -28,6 +28,8 @@ import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.service.PersistenceService;
 import org.kuali.core.util.UnitTestSqlDao;
 import org.kuali.kfs.KFSConstants;
+import org.kuali.kfs.context.KualiTestBase;
+import org.kuali.kfs.context.TestUtils;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.gl.bo.OriginEntryGroup;
 import org.kuali.module.gl.dao.OriginEntryDao;
@@ -35,8 +37,6 @@ import org.kuali.module.gl.service.OriginEntryGroupService;
 import org.kuali.module.labor.bo.LaborOriginEntry;
 import org.kuali.module.labor.dao.LaborOriginEntryDao;
 import org.kuali.module.labor.service.LaborOriginEntryService;
-import org.kuali.test.KualiTestBase;
-import org.kuali.test.TestUtils;
 
 public class LaborOriginEntryTestBase extends KualiTestBase {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(LaborOriginEntryTestBase.class);

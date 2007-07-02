@@ -15,45 +15,30 @@
  */
 package org.kuali.module.labor.util;
 
+import org.kuali.kfs.batch.Step;
+import org.kuali.kfs.context.KualiTestBase;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.labor.service.LaborPosterService;
+import org.kuali.test.WithTestSpringContext;
+import org.kuali.test.fixtures.UserNameFixture;
 
-public class LaborPosterRunner {
+@WithTestSpringContext(session=UserNameFixture.KULUSER)
+public class LaborPosterRunner extends KualiTestBase {
     private LaborPosterService laborPosterService;
     
-    static{
-        SpringServiceLocator.initializeApplicationContext();
-    }
-
-    public LaborPosterRunner() {
+    protected void setUp() throws Exception {
+        super.setUp();
         laborPosterService = (LaborPosterService) SpringServiceLocator.getService("laborPosterService");
     }
 
-    public void runPoster() {
-        laborPosterService.postMainEntries();
-    }
-
-    public static void main(String[] args) {
-        try {
-            LaborPosterRunner laborPosterRunner = new LaborPosterRunner();
-
-            System.out.println("Labor Poster started");
-            long start = System.currentTimeMillis();
-            System.out.println("Labor Poster is running ...");
-            System.out.printf("Starting Time = %d (ms)\n", start);
-            
-            laborPosterRunner.runPoster();
-            
-            long elapsedTime = System.currentTimeMillis() - start;
-            System.out.printf("Execution Time = %d (ms)\n", elapsedTime);
-            System.out.println("Labor Poster stopped");
-        }
-        catch (Exception e) {
-            e.printStackTrace();
-        }
-        finally {
-            System.out.println("Labor Poster stopped");
-            System.exit(0);
-        }
+    public void testPoster() throws Exception {
+        System.out.println("Labor Poster started");
+        long start = System.currentTimeMillis();
+        System.out.println("Labor Poster is running ...");
+        System.out.printf("Starting Time = %d (ms)\n", start);
+        SpringServiceLocator.getJobDescriptor("laborBatchJob").getSteps().get(2).execute("laborBatchJob");
+        long elapsedTime = System.currentTimeMillis() - start;
+        System.out.printf("Execution Time = %d (ms)\n", elapsedTime);
+        System.out.println("Labor Poster stopped");
     }
 }

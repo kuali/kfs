@@ -19,9 +19,9 @@ import java.util.Calendar;
 import java.util.List;
 
 import org.kuali.kfs.batch.BatchJobStatus;
+import org.kuali.kfs.context.KualiTestBase;
 import org.kuali.kfs.service.SchedulerService;
 import org.kuali.kfs.util.SpringServiceLocator;
-import org.kuali.test.KualiTestBase;
 import org.kuali.test.WithTestSpringContext;
 import org.kuali.test.fixtures.UserNameFixture;
 

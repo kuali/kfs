@@ -18,9 +18,9 @@ package org.kuali.module.chart.service;
 import static org.kuali.kfs.util.SpringServiceLocator.getSubAccountService;
 
 import org.kuali.core.util.ObjectUtils;
+import org.kuali.kfs.context.KualiTestBase;
 import org.kuali.module.chart.bo.A21SubAccount;
 import org.kuali.module.chart.bo.SubAccount;
-import org.kuali.test.KualiTestBase;
 import org.kuali.test.WithTestSpringContext;
 
 /**

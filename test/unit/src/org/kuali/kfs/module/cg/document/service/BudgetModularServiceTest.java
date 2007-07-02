@@ -26,6 +26,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.kuali.core.util.KualiInteger;
+import org.kuali.kfs.context.KualiTestBase;
 import org.kuali.module.cg.bo.Agency;
 import org.kuali.module.kra.bo.BudgetNonpersonnelTest;
 import org.kuali.module.kra.bo.BudgetPeriodTest;
@@ -36,7 +37,6 @@ import org.kuali.module.kra.budget.bo.BudgetModularPeriod;
 import org.kuali.module.kra.budget.bo.BudgetNonpersonnel;
 import org.kuali.module.kra.budget.bo.BudgetPeriod;
 import org.kuali.module.kra.budget.bo.UserAppointmentTaskPeriod;
-import org.kuali.test.KualiTestBase;
 import org.kuali.test.WithTestSpringContext;
 
 /**

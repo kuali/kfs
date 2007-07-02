@@ -23,10 +23,10 @@ import java.lang.reflect.InvocationTargetException;
 
 import org.kuali.core.bo.FinancialSystemParameter;
 import org.kuali.kfs.KFSConstants;
+import org.kuali.kfs.context.KualiTestBase;
+import org.kuali.kfs.context.TestUtils;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.financial.bo.OffsetAccount;
-import org.kuali.test.KualiTestBase;
-import org.kuali.test.TestUtils;
 import org.kuali.test.WithTestSpringContext;
 import org.kuali.test.suite.RelatesTo;
 

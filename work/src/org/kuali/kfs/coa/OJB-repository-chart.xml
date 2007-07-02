@@ -1332,7 +1332,7 @@
     <field-descriptor name="organizationReversionCategoryActiveIndicator" column="ORG_RVRSN_CTGRY_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion" />
 </class-descriptor>
 
-<class-descriptor class="org.kuali.module.chart.bo.OrganizationReversionChangeDocument" table="CA_ORG_RVRSN_CHG_DOC_T">
+<class-descriptor class="org.kuali.module.chart.bo.OrganizationReversionGlobal" table="CA_ORG_RVRSN_CHG_DOC_T">
   <field-descriptor name="documentNumber" column="FDOC_NBR" jdbc-type="VARCHAR" primarykey="true" index="true" />
   <field-descriptor name="universityFiscalYear" column="UNIV_FISCAL_YR" jdbc-type="INTEGER" index="true" />
   <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
@@ -1361,17 +1361,17 @@
 		<foreignkey field-ref="universityFiscalYear" />
 	</reference-descriptor>
   
-  <collection-descriptor name="organizationReversionChangeDetails" element-class-ref="org.kuali.module.chart.bo.OrganizationReversionChangeDetail" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="true" auto-delete="none">
+  <collection-descriptor name="organizationReversionGlobalDetails" element-class-ref="org.kuali.module.chart.bo.OrganizationReversionGlobalDetail" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="true" auto-delete="none">
     <orderby name="organizationReversionCategoryCode" sort="ASC" />
     <inverse-foreignkey field-ref="documentNumber" />
   </collection-descriptor>
-  <collection-descriptor name="organizationReversionChangeOrganizations" element-class-ref="org.kuali.module.chart.bo.OrganizationReversionChangeOrganization" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="true" auto-delete="none">
+  <collection-descriptor name="organizationReversionGlobalOrganizations" element-class-ref="org.kuali.module.chart.bo.OrganizationReversionGlobalOrganization" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="true" auto-delete="none">
     <orderby name="organizationCode" sort="ASC"/>
     <inverse-foreignkey field-ref="documentNumber" />
   </collection-descriptor>
 </class-descriptor>
 
-<class-descriptor class="org.kuali.module.chart.bo.OrganizationReversionChangeDetail" table="CA_ORG_RVRSN_CHG_DTL_T">
+<class-descriptor class="org.kuali.module.chart.bo.OrganizationReversionGlobalDetail" table="CA_ORG_RVRSN_CHG_DTL_T">
   <field-descriptor name="documentNumber" column="FDOC_NBR" jdbc-type="VARCHAR" primarykey="true" index="true" />
   <field-descriptor name="organizationReversionCategoryCode" column="ORG_RVRSN_CTGRY_CD" jdbc-type="VARCHAR" primarykey="true" index="true" />
   <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
@@ -1385,7 +1385,7 @@
   
 </class-descriptor>
 
-<class-descriptor class="org.kuali.module.chart.bo.OrganizationReversionChangeOrganization" table="CA_ORG_RVRSN_CHG_ORG_T">
+<class-descriptor class="org.kuali.module.chart.bo.OrganizationReversionGlobalOrganization" table="CA_ORG_RVRSN_CHG_ORG_T">
   <field-descriptor name="documentNumber" column="FDOC_NBR" jdbc-type="VARCHAR" primarykey="true" index="true" />
   <field-descriptor name="chartOfAccountsCode" column="FIN_COA_CD" jdbc-type="VARCHAR" primarykey="true" index="true" />
   <field-descriptor name="organizationCode" column="ORG_CD" jdbc-type="VARCHAR" primarykey="true" index="true" />
@@ -1437,7 +1437,7 @@
     <field-descriptor name="financialAicpaFunctionName" column="FIN_AICPA_FUNC_NM" jdbc-type="VARCHAR" />
 </class-descriptor>
 
-<class-descriptor class="org.kuali.module.chart.bo.AccountChangeDocument" table="CA_ACCT_CHG_DOC_T">
+<class-descriptor class="org.kuali.module.chart.bo.AccountGlobal" table="CA_ACCT_CHG_DOC_T">
     <field-descriptor name="documentNumber" column="FDOC_NBR" jdbc-type="VARCHAR" primarykey="true" index="true" />
     <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
     <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
@@ -1510,14 +1510,14 @@
     <reference-descriptor name="sufficientFundsCode" class-ref="org.kuali.module.chart.bo.codes.SufficientFundsCode" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
         <foreignkey field-ref="accountSufficientFundsCode" />
     </reference-descriptor>
-    <collection-descriptor name="accountChangeDetails" element-class-ref="org.kuali.module.chart.bo.AccountChangeDetail" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="true" auto-delete="true">
+    <collection-descriptor name="accountGlobalDetails" element-class-ref="org.kuali.module.chart.bo.AccountGlobalDetail" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="true" auto-delete="true">
         <orderby name="chartOfAccountsCode" sort="ASC" />
         <orderby name="accountNumber" sort="ASC" />
         <inverse-foreignkey field-ref="documentNumber" />
     </collection-descriptor>
 </class-descriptor>
 
-<class-descriptor class="org.kuali.module.chart.bo.AccountChangeDetail" table="CA_ACCT_CHG_DTL_T">
+<class-descriptor class="org.kuali.module.chart.bo.AccountGlobalDetail" table="CA_ACCT_CHG_DTL_T">
     <field-descriptor name="documentNumber" column="FDOC_NBR" jdbc-type="VARCHAR" primarykey="true" index="true" />
     <field-descriptor name="chartOfAccountsCode" column="FIN_COA_CD" jdbc-type="VARCHAR" primarykey="true" index="true" />
     <field-descriptor name="accountNumber" column="ACCOUNT_NBR" jdbc-type="VARCHAR" primarykey="true" index="true" />
@@ -1548,7 +1548,7 @@
     </reference-descriptor>
 </class-descriptor>
 
-<class-descriptor class="org.kuali.module.chart.bo.DelegateChangeDocument" table="CA_DLGT_CHG_DOC_T">
+<class-descriptor class="org.kuali.module.chart.bo.DelegateGlobalDetail" table="CA_DLGT_CHG_DOC_T">
     <field-descriptor name="documentNumber" column="FDOC_NBR" jdbc-type="VARCHAR" primarykey="true" index="true" />
     <field-descriptor name="accountDelegateUniversalId" column="ACCT_DLGT_UNVL_ID" jdbc-type="VARCHAR" index="true" primarykey="true" />
     <field-descriptor name="financialDocumentTypeCode" column="FDOC_TYP_CD" jdbc-type="VARCHAR" index="true" primarykey="true" />
@@ -1564,7 +1564,7 @@
     </reference-descriptor>
 </class-descriptor>
 
-<class-descriptor class="org.kuali.module.chart.bo.ObjectCodeChangeDocument" table="CA_OBJ_CD_CHG_DOC_T">
+<class-descriptor class="org.kuali.module.chart.bo.ObjectCodeGlobal" table="CA_OBJ_CD_CHG_DOC_T">
 	<field-descriptor name="documentNumber" column="FDOC_NBR" jdbc-type="VARCHAR" primarykey="true" index="true"/>
 	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
@@ -1635,14 +1635,14 @@
     <reference-descriptor name="financialFederalFunded" class-ref="org.kuali.module.chart.bo.codes.FederalFundedCode" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
         <foreignkey field-ref="financialFederalFundedCode" />
     </reference-descriptor>
-	<collection-descriptor name="objectCodeChangeDetails" element-class-ref="org.kuali.module.chart.bo.ObjectCodeChangeDetail" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="true" auto-delete="true">
+	<collection-descriptor name="objectCodeGlobalDetails" element-class-ref="org.kuali.module.chart.bo.ObjectCodeGlobalDetail" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="true" auto-delete="true">
         <orderby name="chartOfAccountsCode" sort="ASC" />
         <orderby name="universityFiscalYear" sort="ASC" />
         <inverse-foreignkey field-ref="documentNumber" />
     </collection-descriptor>
 </class-descriptor>
 
-<class-descriptor class="org.kuali.module.chart.bo.ObjectCodeChangeDetail" table="CA_OBJ_CD_CHG_DTL_T">
+<class-descriptor class="org.kuali.module.chart.bo.ObjectCodeGlobalDetail" table="CA_OBJ_CD_CHG_DTL_T">
     <field-descriptor name="documentNumber" column="FDOC_NBR" jdbc-type="VARCHAR" primarykey="true" index="true" />
     <field-descriptor name="universityFiscalYear" column="UNIV_FISCAL_YR" jdbc-type="INTEGER" primarykey="true" index="true" />
     <field-descriptor name="chartOfAccountsCode" column="FIN_COA_CD" jdbc-type="VARCHAR" primarykey="true" index="true" />
@@ -1653,7 +1653,7 @@
     </reference-descriptor>
 </class-descriptor>
 
-<class-descriptor class="org.kuali.module.chart.bo.SubObjectCodeChangeDocument" table="CA_SUB_OBJ_CD_CHG_DOC_T">
+<class-descriptor class="org.kuali.module.chart.bo.SubObjCdGlobal" table="CA_SUB_OBJ_CD_CHG_DOC_T">
 	<field-descriptor name="documentNumber" column="FDOC_NBR" jdbc-type="VARCHAR" primarykey="true" index="true"/>
 	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
@@ -1674,13 +1674,13 @@
 		<foreignkey field-ref="chartOfAccountsCode" />
 	</reference-descriptor>
 	
-	<collection-descriptor name="accountChangeDetails" element-class-ref="org.kuali.module.chart.bo.AccountChangeDetail" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="true" auto-delete="true">
+	<collection-descriptor name="accountGlobalDetails" element-class-ref="org.kuali.module.chart.bo.AccountGlobalDetail" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="true" auto-delete="true">
     <!-- no real need to sort by chart b/c they're all the same, but is it best to list the full foreign key to account? -->
     	<orderby name="chartOfAccountsCode" sort="ASC" />
     	<orderby name="accountNumber" sort="ASC" />
     	<inverse-foreignkey field-ref="documentNumber" />
   	</collection-descriptor>
-	<collection-descriptor name="subObjectCodeChangeDetails" element-class-ref="org.kuali.module.chart.bo.SubObjectCodeChangeDetail" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="true" auto-delete="true">
+	<collection-descriptor name="subObjCdGlobalDetails" element-class-ref="org.kuali.module.chart.bo.SubObjCdGlobalDetail" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="true" auto-delete="true">
     <!-- no real need to sort by fiscal year or chart b/c they're all the same, but is it best to list the full foreign key to object code? -->
     	<orderby name="universityFiscalYear" sort="ASC" />
     	<orderby name="chartOfAccountsCode" sort="ASC" />
@@ -1689,7 +1689,7 @@
   </collection-descriptor>
 </class-descriptor>
 
-<class-descriptor class="org.kuali.module.chart.bo.SubObjectCodeChangeDetail" table="CA_SUB_OBJ_CD_CHG_DTL_T">
+<class-descriptor class="org.kuali.module.chart.bo.SubObjCdGlobalDetail" table="CA_SUB_OBJ_CD_CHG_DTL_T">
     <field-descriptor name="documentNumber" column="FDOC_NBR" jdbc-type="VARCHAR" primarykey="true" index="true" />
     <field-descriptor name="universityFiscalYear" column="UNIV_FISCAL_YR" jdbc-type="INTEGER" primarykey="true" index="true" />
     <field-descriptor name="chartOfAccountsCode" column="FIN_COA_CD" jdbc-type="VARCHAR" primarykey="true" index="true" />
@@ -1890,15 +1890,15 @@
     <field-descriptor name="programActiveIndicator" column="PGM_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion" />
 </class-descriptor>
 
-<class-descriptor class="org.kuali.module.chart.bo.DelegateChangeContainer" table="FP_MAINTENANCE_DOCUMENT_T">
+<class-descriptor class="org.kuali.module.chart.bo.DelegateGlobal" table="FP_MAINTENANCE_DOCUMENT_T">
     <field-descriptor name="documentNumber" column="FDOC_NBR" jdbc-type="VARCHAR" primarykey="true" index="true" />
 
-    <collection-descriptor name="accountChangeDetails" element-class-ref="org.kuali.module.chart.bo.AccountChangeDetail" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="true" auto-delete="true">
+    <collection-descriptor name="accountGlobalDetails" element-class-ref="org.kuali.module.chart.bo.AccountGlobalDetail" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="true" auto-delete="true">
         <orderby name="chartOfAccountsCode" sort="ASC" />
         <orderby name="accountNumber" sort="ASC" />
         <inverse-foreignkey field-ref="documentNumber" />
     </collection-descriptor>
-    <collection-descriptor name="delegateChanges" element-class-ref="org.kuali.module.chart.bo.DelegateChangeDocument" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="true" auto-delete="true">
+    <collection-descriptor name="delegateGlobals" element-class-ref="org.kuali.module.chart.bo.DelegateGlobalDetail" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="true" auto-delete="true">
         <orderby name="accountDelegateUniversalId" sort="ASC" />
         <orderby name="financialDocumentTypeCode" sort="ASC" />
         <inverse-foreignkey field-ref="documentNumber" />

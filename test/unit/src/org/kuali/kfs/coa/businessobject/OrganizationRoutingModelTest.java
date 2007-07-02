@@ -64,10 +64,10 @@ public class OrganizationRoutingModelTest extends KualiTestBase {
 
         Collection<OrganizationRoutingModel> foundModel = getBusinessObjectService().findMatching(clazz, fieldValues);
 
-        List<DelegateChangeDocument> delegateChanges = new ArrayList<DelegateChangeDocument>();
+        List<DelegateGlobalDetail> delegateGlobals = new ArrayList<DelegateGlobalDetail>();
 
         for (OrganizationRoutingModel model : foundModel) {
-            delegateChanges.add(new DelegateChangeDocument(model));
+            delegateGlobals.add(new DelegateGlobalDetail(model));
         }
 
         return (foundModel != null && !foundModel.isEmpty());

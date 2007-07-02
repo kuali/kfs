@@ -272,14 +272,14 @@ public class OrganizationRoutingModelRule extends MaintenanceDocumentRuleBase {
     /**
      * 
      * This method validates the rule that says there can be only one PrimaryRoute delegate on a Global Delegate document if the
-     * docType is ALL. It checks the delegateChangeToTest against the list, to determine whether adding this new
-     * delegateChangeToTest would violate any PrimaryRoute business rule violations.
+     * docType is ALL. It checks the delegateGlobalToTest against the list, to determine whether adding this new
+     * delegateGlobalToTest would violate any PrimaryRoute business rule violations.
      * 
      * If any of the incoming variables is null or empty, the method will do nothing, and return Null. It will only process the
      * business rules if there is sufficient data to do so.
      * 
-     * @param delegateChangeToTest A delegateChange line that you want to test agains the list.
-     * @param delegateChanges A List of delegateChange items that is being tested against.
+     * @param delegateGlobalToTest A delegateGlobal line that you want to test agains the list.
+     * @param delegateGlobals A List of delegateGlobal items that is being tested against.
      * @return Null if the business rule passes, or an Integer value greater than zero, representing the line that the new line is
      *         conflicting with
      * 
@@ -298,7 +298,7 @@ public class OrganizationRoutingModelRule extends MaintenanceDocumentRuleBase {
             return success;
         }
 
-        // at this point, the delegateChange being added is a Primary for ALL docTypes, so we need to
+        // at this point, the delegateGlobal being added is a Primary for ALL docTypes, so we need to
         // test whether any in the existing list are also Primary, regardless of docType
         for (OrganizationRoutingModel currDelegateModel: globalDelegateTemplate.getOrganizationRoutingModel()) {
             if (currDelegateModel.isActive() && !delegateModel.equals(currDelegateModel) && currDelegateModel.getAccountDelegatePrimaryRoutingIndicator()) {
@@ -313,14 +313,14 @@ public class OrganizationRoutingModelRule extends MaintenanceDocumentRuleBase {
     /**
      * 
      * This method validates the rule that says there can be only one PrimaryRoute delegate for each given docType. It checks the
-     * delegateChangeToTest against the list, to determine whether adding this new delegateChangeToTest would violate any
+     * delegateGlobalToTest against the list, to determine whether adding this new delegateGlobalToTest would violate any
      * PrimaryRoute business rule violations.
      * 
      * If any of the incoming variables is null or empty, the method will do nothing, and return Null. It will only process the
      * business rules if there is sufficient data to do so.
      * 
-     * @param delegateChangeToTest A delegateChange line that you want to test against the list.
-     * @param delegateChanges A List of delegateChange items that is being tested against.
+     * @param delegateGlobalToTest A delegateGlobal line that you want to test against the list.
+     * @param delegateGlobals A List of delegateGlobal items that is being tested against.
      * @return Null if the business rule passes, or an Integer value greater than zero, representing the line that the new line is
      *         conflicting with
      * 
@@ -339,7 +339,7 @@ public class OrganizationRoutingModelRule extends MaintenanceDocumentRuleBase {
             return success;
         }
 
-        // at this point, the delegateChange being added is a Primary for ALL docTypes, so we need to
+        // at this point, the delegateGlobal being added is a Primary for ALL docTypes, so we need to
         // test whether any in the existing list are also Primary, regardless of docType
         String docType = delegateModel.getFinancialDocumentTypeCode();
         for (OrganizationRoutingModel currDelegateModel: globalDelegateTemplate.getOrganizationRoutingModel()) {

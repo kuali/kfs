@@ -510,17 +510,17 @@ public class KualiOrgReviewAttribute implements WorkflowAttribute, MassRuleAttri
         if (KualiWorkflowUtils.ACCOUNT_CHANGE_DOC_TYPE.equals(docTypeName) ||
                 KualiWorkflowUtils.ACCOUNT_DELEGATE_GLOBAL_DOC_TYPE.equals(docTypeName) ||
                 KualiWorkflowUtils.SUB_OBJECT_CODE_CHANGE_DOC_TYPE.equals(docTypeName)) {
-            NodeList accountChangeDetails = (NodeList)xpath.evaluate(KualiWorkflowUtils.ACCOUNT_CHANGE_DETAILS_XPATH, docContent.getDocument(), XPathConstants.NODESET);
-            for (int index = 0; index < accountChangeDetails.getLength(); index++) {
-                Element accountChangeDetail = (Element)accountChangeDetails.item(index);
-                String chartOfAccountsCode = getChildElementValue(accountChangeDetail, KFSConstants.CHART_OF_ACCOUNTS_CODE_PROPERTY_NAME);
-                String accountNumber = getChildElementValue(accountChangeDetail, KFSConstants.ACCOUNT_NUMBER_PROPERTY_NAME);
+            NodeList accountGlobalDetails = (NodeList)xpath.evaluate(KualiWorkflowUtils.ACCOUNT_GLOBAL_DETAILS_XPATH, docContent.getDocument(), XPathConstants.NODESET);
+            for (int index = 0; index < accountGlobalDetails.getLength(); index++) {
+                Element accountGlobalDetail = (Element)accountGlobalDetails.item(index);
+                String chartOfAccountsCode = getChildElementValue(accountGlobalDetail, KFSConstants.CHART_OF_ACCOUNTS_CODE_PROPERTY_NAME);
+                String accountNumber = getChildElementValue(accountGlobalDetail, KFSConstants.ACCOUNT_NUMBER_PROPERTY_NAME);
                 Account account = SpringServiceLocator.getAccountService().getByPrimaryIdWithCaching(chartOfAccountsCode, accountNumber);
                 orgs.add(account.getOrganization());
             }
         }
         else if (KualiWorkflowUtils.ORG_REVERSION_CHANGE_DOC_TYPE.equals(docTypeName)) {
-            NodeList orgReversionChangeDetails = (NodeList)xpath.evaluate(KualiWorkflowUtils.ORG_REVERSION_DETAILS_XPATH, docContent.getDocument(), XPathConstants.NODESET);
+            NodeList orgReversionChangeDetails = (NodeList)xpath.evaluate(KualiWorkflowUtils.ORG_REVERSION_GLOBALS_XPATH, docContent.getDocument(), XPathConstants.NODESET);
             for (int index = 0; index < orgReversionChangeDetails.getLength(); index++) {
                 Element orgReversionChangeDetail = (Element)orgReversionChangeDetails.item(index);
                 String chartOfAccountsCode = getChildElementValue(orgReversionChangeDetail, KFSConstants.CHART_OF_ACCOUNTS_CODE_PROPERTY_NAME);

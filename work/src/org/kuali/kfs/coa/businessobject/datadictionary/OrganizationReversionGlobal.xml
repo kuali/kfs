@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ Copyright 2007 The Kuali Foundation.
+ 
+ Licensed under the Educational Community License, Version 1.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+ 
+ http://www.opensource.org/licenses/ecl1.php
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+<!DOCTYPE dictionaryEntry PUBLIC
+    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
+    "../../../../core/datadictionary/dataDictionary-1_0.dtd">
+
+<dictionaryEntry>
+    <businessObject businessObjectClass="org.kuali.module.chart.bo.OrganizationReversionGlobal">
+        <attributes>
+        	<attribute name="documentNumber" forceUppercase="true">
+                <label>Document Number</label>
+                <shortLabel>Number</shortLabel>
+
+                <maxLength>14</maxLength>
+                <validationPattern>
+                    <anyCharacter />
+                </validationPattern>
+
+                <control>
+                    <text size="16" />
+                </control>
+
+                <summary>documentNumber</summary>
+                <description>documentNumber description...</description>
+            </attribute>
+        
+            <attributeReference name="universityFiscalYear" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericFiscalYear">
+                <required>true</required>
+            </attributeReference>
+
+            <attributeReference name="budgetReversionChartOfAccountsCode" sourceClassName="org.kuali.module.chart.bo.Chart" sourceAttributeName="chartOfAccountsCode">
+                <label>Budget Reversion Chart</label>
+                <shortLabel>Budget Reversion Chart</shortLabel>
+                <required>false</required>
+            </attributeReference>
+
+            <attributeReference name="budgetReversionAccountNumber" sourceClassName="org.kuali.module.chart.bo.Account" sourceAttributeName="accountNumber">
+                <label>Budget Reversion Account</label>
+                <shortLabel>Budget Reversion Account</shortLabel>
+                <required>false</required>
+                <description>Budget Reversion Account</description>
+            </attributeReference>
+
+            <attributeReference name="cashReversionFinancialChartOfAccountsCode" sourceClassName="org.kuali.module.chart.bo.Chart" sourceAttributeName="chartOfAccountsCode">
+                <label>Cash Reversion Chart</label>
+                <shortLabel>Cash Reversion Chart</shortLabel>
+                <required>false</required>
+            </attributeReference>
+
+            <attributeReference name="cashReversionAccountNumber" sourceClassName="org.kuali.module.chart.bo.Account" sourceAttributeName="accountNumber">
+                <label>Cash Reversion Account</label>
+                <shortLabel>Cash Reversion Account</shortLabel>
+                <required>false</required>
+                <description>Cash Reversion Account</description>
+            </attributeReference>
+
+            <attribute name="carryForwardByObjectCodeIndicator">
+                <label>Carry Forward by Object Code Indicator</label>
+                <shortLabel>CF by Object Code</shortLabel>
+                <maxLength>$attribute.maxLength</maxLength>
+                <control>
+                    <select valuesFinderClass="org.kuali.core.lookup.keyvalues.IndicatorYNNullValuesFinder" />
+                </control>
+                <summary>
+                    <![CDATA[&nbsp;]]>
+                </summary>
+                <description>
+                    <![CDATA[&nbsp;]]>
+                </description>
+                <formatterClass>org.kuali.core.web.format.BooleanFormatter</formatterClass>
+            </attribute>
+            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
+        </attributes>
+        
+        <objectLabel>Global Organization Reversion</objectLabel>
+    </businessObject>
+</dictionaryEntry>

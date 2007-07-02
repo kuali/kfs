@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ Copyright 2006-2007 The Kuali Foundation.
+ 
+ Licensed under the Educational Community License, Version 1.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+ 
+ http://www.opensource.org/licenses/ecl1.php
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+<!DOCTYPE dictionaryEntry PUBLIC
+    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
+    "../../../../core/datadictionary/dataDictionary-1_0.dtd">
+
+<dictionaryEntry>
+    <maintenanceDocument>
+        <businessObjectClass>org.kuali.module.chart.bo.DelegateGlobal</businessObjectClass>
+        <maintainableClass>org.kuali.module.chart.maintenance.DelegateGlobalMaintainableImpl</maintainableClass>
+
+        <businessRulesClass>org.kuali.module.chart.rules.DelegateGlobalRule</businessRulesClass>
+        <preRulesCheckClass>org.kuali.module.chart.rules.DelegateGlobalPreRules</preRulesCheckClass>
+        <documentAuthorizerClass>org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase</documentAuthorizerClass>
+        <authorizations>
+            <authorization action="initiate">
+                <workgroups>
+                    <workgroup>kualiUniversalGroup</workgroup>
+                </workgroups>
+            </authorization>
+        </authorizations>
+
+        <documentTypeName>DelegateGlobalMaintenanceDocument</documentTypeName>
+        <documentTypeCode>GDLG</documentTypeCode>
+
+		<webScriptFile>../dwr/interface/AccountService.js</webScriptFile>
+		<webScriptFile>../scripts/chart/accountGlobal.js</webScriptFile>
+		<webScriptFile>../scripts/kfs/objectInfo.js</webScriptFile>
+
+        <label>Global Account Delegate Maintenance Document</label>
+        <shortLabel>GlobalDelMaintDoc</shortLabel>
+
+        <summary>Global Account Delegate Maintenance Document</summary>
+        <description>Document used to create or update global account delegate document.</description>
+
+        <lockingKeys>
+            <field attributeName="documentNumber" />
+        </lockingKeys>
+
+        <maintainableSections>
+            <maintainableSection title="Edit Global Delegate">
+                <maintainableItems>
+                    <maintainableCollection name="delegateGlobals" businessObjectClass="org.kuali.module.chart.bo.DelegateGlobalDetail"  sourceClassName="org.kuali.module.chart.bo.Delegate" sourceAttributeName="delegateGlobals" includeMultipleLookupLine="false" summaryTitle="Account Delegate">
+                        <maintainableField name="financialDocumentTypeCode" required="true" readOnlyAfterAdd="false" />
+                        <maintainableField name="accountDelegatePrimaryRoutingIndicator" readOnlyAfterAdd="false" />
+                        <maintainableField name="accountDelegateStartDate" required="true" readOnlyAfterAdd="false" >
+                            <defaultValueFinderClass>org.kuali.kfs.lookup.valuefinder.CurrentDateMMDDYYYYFinder</defaultValueFinderClass>
+                        </maintainableField>
+                        <maintainableField name="accountDelegate.personUserIdentifier" required="true" readOnlyAfterAdd="false" />
+                        <maintainableField name="accountDelegate.personName" required="false" readOnly="true" />
+                        <maintainableField name="accountDelegateUniversalId" required="false" readOnly="true" />
+                        <maintainableField name="approvalFromThisAmount">
+                            <defaultValue>0.00</defaultValue>
+                        </maintainableField>
+                        <maintainableField name="approvalToThisAmount" readOnlyAfterAdd="false">
+                            <defaultValue>0.00</defaultValue>
+                        </maintainableField>
+                        <maintainableField name="newCollectionRecord" />
+                        <maintainableField name="versionNumber" />
+                        <summaryFields>
+                            <summaryField name="financialDocumentTypeCode" />
+                            <summaryField name="accountDelegatePrimaryRoutingIndicator" />
+                            <summaryField name="accountDelegate.personUserIdentifier" />
+                        </summaryFields>
+                    </maintainableCollection>
+	            </maintainableItems>
+            </maintainableSection>
+
+            <maintainableSection title="Edit List of Accounts">
+                <maintainableItems>
+                    <maintainableCollection name="accountGlobalDetails" businessObjectClass="org.kuali.module.chart.bo.AccountGlobalDetail" sourceClassName="org.kuali.module.chart.bo.Account" sourceAttributeName="accountGlobalDetails" summaryTitle="Account">
+                        <maintainableField name="chartOfAccountsCode" template="chartOfAccountsCode" required="true" readOnlyAfterAdd="false" />
+                        <maintainableField name="accountNumber" template="accountNumber" webUILeaveFieldFunction="loadAccountName" required="true" readOnlyAfterAdd="false" />
+                        <maintainableField name="account.accountName" template="accountName" readOnly="true" />
+                        <maintainableField name="newCollectionRecord" />
+                        <maintainableField name="versionNumber" />
+                        <summaryFields>
+                            <summaryField name="chartOfAccountsCode" />
+                            <summaryField name="accountNumber" />
+                            <summaryField name="account.accountName" />
+                        </summaryFields>
+                    </maintainableCollection>
+                </maintainableItems>
+            </maintainableSection>
+
+        </maintainableSections>
+    </maintenanceDocument>
+</dictionaryEntry>

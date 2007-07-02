@@ -67,11 +67,11 @@ public class KualiWorkflowUtils extends WorkflowUtils {
     public static final String OLD_MAINTAINABLE_PREFIX = KualiWorkflowUtils.OLD_MAINTAINABLE_PREFIX_NTS + "/";
     public static final String ACCOUNT_DOC_TYPE = "AccountMaintenanceDocument";
     public static final String ACCOUNT_DEL_DOC_TYPE = "DelegateMaintenanceDocument";
-    public static final String ACCOUNT_DELEGATE_GLOBAL_DOC_TYPE = "DelegateChangeContainer";
-    public static final String ACCOUNT_CHANGE_DOC_TYPE = "AccountChangeDocumentMaintenanceDocument";
+    public static final String ACCOUNT_DELEGATE_GLOBAL_DOC_TYPE = "DelegateGlobal";
+    public static final String ACCOUNT_CHANGE_DOC_TYPE = "AccountGlobalMaintenanceDocument";
     public static final String SUB_ACCOUNT_DOC_TYPE = "SubAccountMaintenanceDocument";
     public static final String SUB_OBJECT_DOC_TYPE = "SubObjCdMaintenanceDocument";
-    public static final String OBJECT_CODE_CHANGE_DOC_TYPE = "ObjectCodeChangeDocumentMaintenanceDocument";
+    public static final String OBJECT_CODE_CHANGE_DOC_TYPE = "ObjectCodeGlobalMaintenanceDocument";
     public static final String INTERNAL_BILLING_DOC_TYPE = "InternalBillingDocument";
     public static final String PRE_ENCUMBRANCE_DOC_TYPE = "PreEncumbranceDocument";
     public static final String DISBURSEMENT_VOCHER_DOC_TYPE = "DisbursementVoucherDocument";
@@ -89,8 +89,8 @@ public class KualiWorkflowUtils extends WorkflowUtils {
     public static final String KRA_BUDGET_DOC_TYPE = "KualiBudgetDocument";
     public static final String KRA_ROUTING_FORM_DOC_TYPE = "KualiRoutingFormDocument";
     public static final String SIMPLE_MAINTENANCE_DOC_TYPE = "KualiSimpleMaintenanceDocument";
-    public static final String SUB_OBJECT_CODE_CHANGE_DOC_TYPE = "KualiSubObjectCodeChangeMaintenanceDocument";
-    public static final String ORG_REVERSION_CHANGE_DOC_TYPE = "OrganizationReversionChangeDocumentMaintenanceDocument";
+    public static final String SUB_OBJECT_CODE_CHANGE_DOC_TYPE = "SubObjCdGlobalMaintenanceDocument";
+    public static final String ORG_REVERSION_CHANGE_DOC_TYPE = "OrganizationReversionGlobalMaintenanceDocument";
     public static final String C_G_AWARD_DOC_TYPE = "KualiResearchAdminPostAwardMaintenanceDocument";
     public static final String C_G_PROPOSAL_DOC_TYPE = "KualiProposalMaintenanceDocument";
     public static final String USER_DOC_TYPE = "KualiUniversityUserMaintenanceDocument";
@@ -98,8 +98,8 @@ public class KualiWorkflowUtils extends WorkflowUtils {
     public static final String ACCOUNTS_PAYABLE_PAYMENT_REQUEST_DOCUMENT_TYPE = PurapConstants.PAYMENT_REQUEST_DOCUMENT;
     public static final String FINANCIAL_DOCUMENT_HEADER_DOCUMENT_NUMBER = xstreamSafeXPath(XSTREAM_MATCH_ANYWHERE_PREFIX + "documentHeader/documentNumber");
     public static final String FINANCIAL_DOCUMENT_TOTAL_AMOUNT_XPATH = xstreamSafeXPath(XSTREAM_MATCH_ANYWHERE_PREFIX + "documentHeader/financialDocumentTotalAmount/value");
-    public static final String ACCOUNT_CHANGE_DETAILS_XPATH = xstreamSafeXPath(NEW_MAINTAINABLE_PREFIX + "accountChangeDetails/list/org.kuali.module.chart.bo.AccountChangeDetail");
-    public static final String ORG_REVERSION_DETAILS_XPATH = xstreamSafeXPath(NEW_MAINTAINABLE_PREFIX + "organizationReversionChangeOrganizations/list/org.kuali.module.chart.bo.OrganizationReversionChangeOrganization");
+    public static final String ACCOUNT_GLOBAL_DETAILS_XPATH = xstreamSafeXPath(NEW_MAINTAINABLE_PREFIX + "accountGlobalDetails/list/org.kuali.module.chart.bo.AccountGlobalDetail");
+    public static final String ORG_REVERSION_GLOBALS_XPATH = xstreamSafeXPath(NEW_MAINTAINABLE_PREFIX + "organizationReversionGlobalOrganizations/list/org.kuali.module.chart.bo.OrganizationReversionGlobalOrganization");
 
     public class RouteLevels {
 

@@ -23,7 +23,7 @@ import org.kuali.PropertyConstants;
 public class KFSPropertyConstants extends PropertyConstants {
     public static final String A21_SUB_ACCOUNT = "a21SubAccount";
     public static final String ACCOUNT = "account";
-    public static final String ACCOUNT_CHANGE_DETAILS = "accountChangeDetails";
+    public static final String ACCOUNT_CHANGE_DETAILS = "accountGlobalDetails";
     public static final String ACCOUNT_CITY_NAME = "accountCityName";
     public static final String ACCOUNT_CLOSED_INDICATOR = "accountClosedIndicator";
     public static final String ACCOUNT_CREATE_DATE = "accountCreateDate";
@@ -332,7 +332,7 @@ public class KFSPropertyConstants extends PropertyConstants {
     public static final String DEBIT_CREDIT_CODE = "debitCreditCode";
     public static final String DEBIT_OR_CREDIT_CODE = "debitOrCreditCode";
     public static final String DEBIT_TOTAL = "debitTotal";
-    public static final String DELEGATE_CHANGES = "delegateChanges";
+    public static final String DELEGATE_GLOBALS = "delegateGlobals";
     public static final String DEPOSIT = "deposit";
     public static final String DEPOSIT_BANK_ACCOUNT_NUMBER = "depositBankAccountNumber";
     public static final String DEPOSIT_DATE = "depositDate";
@@ -819,7 +819,7 @@ public class KFSPropertyConstants extends PropertyConstants {
     public static final String NUMBER = "number";
     public static final String OBJECT_CODE = "objectCode";
     public static final String OBJECT_CODE_CURRENT = "objectCodeCurrent";
-    public static final String OBJECT_CODE_CHANGE_DETAILS = "objectCodeChangeDetails";
+    public static final String OBJECT_CODE_GLOBAL_DETAILS = "objectCodeGlobalDetails";
     public static final String OBJECT_ID = "objectId";
     public static final String OBJECT_TYPE = "objectType";
     public static final String OBJECT_TYPE_CODE = "objectTypeCode";
@@ -1036,7 +1036,7 @@ public class KFSPropertyConstants extends PropertyConstants {
     public static final String SUB_FUND_GROUP_TYPE_CODE = "subFundGroupTypeCode";
     public static final String SUB_FUND_GROUP_WAGES_INDICATOR = "subFundGroupWagesIndicator";
     public static final String SUB_OBJECT_CODE = "subObjectCode";
-    public static final String SUB_OBJ_CODE_CHANGE_DETAILS = "subObjectCodeChangeDetails";
+    public static final String SUB_OBJ_CODE_CHANGE_DETAILS = "subObjCdGlobalDetails";
     public static final String SUBCONTRACTOR_NUMBER = "subcontractorNumber";
     public static final String SUBFUNDGRP_ACTIVITY_INDICATOR = "subfundgrpActivityIndicator";
     public static final String SUFFICIENT_FUNDS_CODE = "sufficientFundsCode";

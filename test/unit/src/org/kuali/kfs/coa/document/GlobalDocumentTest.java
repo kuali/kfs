@@ -30,10 +30,10 @@ import org.kuali.core.util.KualiDecimal;
 import static org.kuali.kfs.util.SpringServiceLocator.getDocumentService;
 
 import org.kuali.kfs.context.KualiTestBase;
-import org.kuali.module.chart.bo.AccountChangeDetail;
-import org.kuali.module.chart.bo.AccountChangeDocument;
-import org.kuali.module.chart.bo.DelegateChangeContainer;
-import org.kuali.module.chart.bo.DelegateChangeDocument;
+import org.kuali.module.chart.bo.AccountGlobalDetail;
+import org.kuali.module.chart.bo.AccountGlobal;
+import org.kuali.module.chart.bo.DelegateGlobal;
+import org.kuali.module.chart.bo.DelegateGlobalDetail;
 import org.kuali.test.TestsWorkflowViaDatabase;
 import org.kuali.test.WithTestSpringContext;
 import org.kuali.test.suite.AnnotationTestSuite;
@@ -48,16 +48,16 @@ public class GlobalDocumentTest extends KualiTestBase {
 
     private static final Log LOG = LogFactory.getLog(GlobalDocumentTest.class);
 
-    private static final String KNOWN_DOCUMENT_TYPENAME = "DelegateChangeContainer";
-    private static final String GLOBAL_DELEGATE_TYPENAME = "DelegateChangeContainer";
-    private static final String GLOBAL_ACCOUNT_TYPENAME = "AccountChangeDocumentMaintenanceDocument";
+    private static final String KNOWN_DOCUMENT_TYPENAME = "DelegateGlobal";
+    private static final String GLOBAL_DELEGATE_TYPENAME = "DelegateGlobal";
+    private static final String GLOBAL_ACCOUNT_TYPENAME = "AccountGlobalMaintenanceDocument";
 
 
     public void testGlobalDelegateMaintenanceDocumentCreation_goodDocTypeName() throws Exception {
         MaintenanceDocument doc = (MaintenanceDocument) getDocumentService().getNewDocument(KNOWN_DOCUMENT_TYPENAME);
         assertNotNull(doc);
         assertNotNull(doc.getNewMaintainableObject());
-        assertEquals("org.kuali.module.chart.bo.DelegateChangeContainer", doc.getNewMaintainableObject().getBoClass().getName());
+        assertEquals("org.kuali.module.chart.bo.DelegateGlobal", doc.getNewMaintainableObject().getBoClass().getName());
     }
 
     public final void testGetNewDocument_globalDelegateMaintDoc() throws Exception {
@@ -74,11 +74,11 @@ public class GlobalDocumentTest extends KualiTestBase {
 
         Maintainable newMaintainable = document.getNewMaintainableObject();
         assertNotNull("New Maintainable should never be null.", newMaintainable);
-        assertEquals("BO Class should be DelegateChangeContainer.", DelegateChangeContainer.class, newMaintainable.getBoClass());
+        assertEquals("BO Class should be DelegateGlobal.", DelegateGlobal.class, newMaintainable.getBoClass());
 
         PersistableBusinessObject newBo = newMaintainable.getBusinessObject();
         assertNotNull("New BO should never be null.", newBo);
-        assertEquals("New BO should be of the correct class.", DelegateChangeContainer.class, newBo.getClass());
+        assertEquals("New BO should be of the correct class.", DelegateGlobal.class, newBo.getClass());
 
     }
 
@@ -96,11 +96,11 @@ public class GlobalDocumentTest extends KualiTestBase {
 
         Maintainable newMaintainable = document.getNewMaintainableObject();
         assertNotNull("New Maintainable should never be null.", newMaintainable);
-        assertEquals("BO Class should be AccountChangeDocument.", AccountChangeDocument.class, newMaintainable.getBoClass());
+        assertEquals("BO Class should be AccountGlobal.", AccountGlobal.class, newMaintainable.getBoClass());
 
         PersistableBusinessObject newBo = newMaintainable.getBusinessObject();
         assertNotNull("New BO should never be null.", newBo);
-        assertEquals("New BO should be of the correct class.", AccountChangeDocument.class, newBo.getClass());
+        assertEquals("New BO should be of the correct class.", AccountGlobal.class, newBo.getClass());
     }
 
     @TestsWorkflowViaDatabase
@@ -110,15 +110,15 @@ public class GlobalDocumentTest extends KualiTestBase {
 
         // get local references to the Maintainable and the BO
         Maintainable newMaintainable = document.getNewMaintainableObject();
-        DelegateChangeContainer bo = (DelegateChangeContainer) newMaintainable.getBusinessObject();
+        DelegateGlobal bo = (DelegateGlobal) newMaintainable.getBusinessObject();
         String finDocNumber = document.getDocumentNumber();
         document.getDocumentHeader().setFinancialDocumentDescription("blah");
 
         System.err.println("DOC_NBR = " + finDocNumber);
 
-        List<DelegateChangeDocument> changes = new ArrayList();
+        List<DelegateGlobalDetail> changes = new ArrayList();
 
-        DelegateChangeDocument change = new DelegateChangeDocument();
+        DelegateGlobalDetail change = new DelegateGlobalDetail();
         change.setAccountDelegatePrimaryRoutingIndicator(false);
         change.setAccountDelegateStartDate(DateUtils.newDate(2006, 6, 1));
         change.setAccountDelegateUniversalId("6137600107");
@@ -127,23 +127,23 @@ public class GlobalDocumentTest extends KualiTestBase {
         change.setFinancialDocumentTypeCode("ALL");
         changes.add(change);
 
-        bo.setDelegateChanges(changes);
+        bo.setDelegateGlobals(changes);
 
-        AccountChangeDetail account;
+        AccountGlobalDetail account;
 
-        account = new AccountChangeDetail();
+        account = new AccountGlobalDetail();
         account.setDocumentNumber(finDocNumber);
         account.setChartOfAccountsCode("BL");
         account.setAccountNumber("1031400");
         bo.addAccount(account);
 
-        account = new AccountChangeDetail();
+        account = new AccountGlobalDetail();
         account.setDocumentNumber(finDocNumber);
         account.setChartOfAccountsCode("BL");
         account.setAccountNumber("1031420");
         bo.addAccount(account);
 
-        account = new AccountChangeDetail();
+        account = new AccountGlobalDetail();
         account.setDocumentNumber(finDocNumber);
         account.setChartOfAccountsCode("BL");
         account.setAccountNumber("1031467");
@@ -163,13 +163,13 @@ public class GlobalDocumentTest extends KualiTestBase {
 
         // get local references to the Maintainable and the BO
         Maintainable newMaintainable = document.getNewMaintainableObject();
-        DelegateChangeContainer bo = (DelegateChangeContainer) newMaintainable.getBusinessObject();
+        DelegateGlobal bo = (DelegateGlobal) newMaintainable.getBusinessObject();
         String finDocNumber = document.getDocumentNumber();
         document.getDocumentHeader().setFinancialDocumentDescription("blah");
 
-        List<DelegateChangeDocument> changes = new ArrayList();
+        List<DelegateGlobalDetail> changes = new ArrayList();
 
-        DelegateChangeDocument change = new DelegateChangeDocument();
+        DelegateGlobalDetail change = new DelegateGlobalDetail();
         change.setAccountDelegatePrimaryRoutingIndicator(false);
         change.setAccountDelegateStartDate(DateUtils.newDate(2006, 6, 1));
         change.setAccountDelegateUniversalId("6137600107");
@@ -177,23 +177,23 @@ public class GlobalDocumentTest extends KualiTestBase {
         change.setApprovalToThisAmount(new KualiDecimal(0));
         change.setFinancialDocumentTypeCode("ALL");
         changes.add(change);
-        bo.setDelegateChanges(changes);
+        bo.setDelegateGlobals(changes);
 
-        AccountChangeDetail account;
+        AccountGlobalDetail account;
 
-        account = new AccountChangeDetail();
+        account = new AccountGlobalDetail();
         account.setDocumentNumber(finDocNumber);
         account.setChartOfAccountsCode("BL");
         account.setAccountNumber("1031400");
         bo.addAccount(account);
 
-        account = new AccountChangeDetail();
+        account = new AccountGlobalDetail();
         account.setDocumentNumber(finDocNumber);
         account.setChartOfAccountsCode("BL");
         account.setAccountNumber("1031420");
         bo.addAccount(account);
 
-        account = new AccountChangeDetail();
+        account = new AccountGlobalDetail();
         account.setDocumentNumber(finDocNumber);
         account.setChartOfAccountsCode("BL");
         account.setAccountNumber("1031467");
@@ -215,22 +215,22 @@ public class GlobalDocumentTest extends KualiTestBase {
         // Maintainable should be populated and contain the right class
         newMaintainable = document.getNewMaintainableObject();
         assertNotNull("New Maintainable should never be null.", newMaintainable);
-        assertEquals("BO Class should be DelegateChangeContainer.", DelegateChangeContainer.class, newMaintainable.getBoClass());
+        assertEquals("BO Class should be DelegateGlobal.", DelegateGlobal.class, newMaintainable.getBoClass());
 
         // BO should be non-null and the right class
-        bo = (DelegateChangeContainer) newMaintainable.getBusinessObject();
+        bo = (DelegateGlobal) newMaintainable.getBusinessObject();
         assertNotNull("New BO should never be null.", bo);
-        assertEquals("New BO should be of the correct class.", DelegateChangeContainer.class, bo.getClass());
+        assertEquals("New BO should be of the correct class.", DelegateGlobal.class, bo.getClass());
 
         // List should contain 3 elements
-        assertNotNull("AccountDetail list should not be null.", bo.getAccountChangeDetails());
-        List accounts = bo.getAccountChangeDetails();
+        assertNotNull("AccountDetail list should not be null.", bo.getAccountGlobalDetails());
+        List accounts = bo.getAccountGlobalDetails();
         assertEquals("AccountDetail list should not be empty.", false, accounts.isEmpty());
         assertEquals("AccountDetail list should contain 3 elements.", 3, accounts.size());
 
         // make sure all the accounts are non-null and at least have the Chart populated
         for (Iterator iter = accounts.iterator(); iter.hasNext();) {
-            AccountChangeDetail accountDetail = (AccountChangeDetail) iter.next();
+            AccountGlobalDetail accountDetail = (AccountGlobalDetail) iter.next();
 
             assertNotNull("AccountDetailChange should not be null.", accountDetail);
             assertNotNull("ChartOfAccountsCode", accountDetail.getChartOfAccountsCode());

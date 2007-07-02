@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ Copyright 2006-2007 The Kuali Foundation.
+ 
+ Licensed under the Educational Community License, Version 1.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+ 
+ http://www.opensource.org/licenses/ecl1.php
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+<!DOCTYPE dictionaryEntry PUBLIC
+    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
+    "../dataDictionary-1_0.dtd">
+<dictionaryEntry>
+    <businessObject businessObjectClass="org.kuali.module.chart.bo.AccountGlobalDetail">
+
+
+        <inquiry>
+            <title>Account Change Detail Inquiry</title>
+
+            <inquirySections><inquirySection title="Header Text"><inquiryFields>
+                <field attributeName="accountNumber" />
+                <field attributeName="chartOfAccountsCode" />
+                <field attributeName="documentNumber" />
+                <field attributeName="versionNumber" />
+            </inquiryFields></inquirySection></inquirySections>
+        </inquiry>
+
+        <lookup>
+            <title>Account Change Detail Lookup</title>
+
+            <instructions>Lookup an Account Change Detail</instructions>
+
+            <defaultSort sortAscending="true">
+                <sortAttributes>
+                    <sortAttribute attributeName="chartOfAccountsCode" />
+                    <sortAttribute attributeName="accountNumber" />
+                </sortAttributes>
+            </defaultSort>
+
+            <lookupFields>
+                <lookupField attributeName="accountNumber" required="false" />
+                <lookupField attributeName="chartOfAccountsCode" required="false" />
+                <lookupField attributeName="documentNumber" required="false" />
+                <lookupField attributeName="versionNumber" required="false" />
+            </lookupFields>
+
+            <resultFields>
+                <field attributeName="accountNumber" />
+                <field attributeName="chartOfAccountsCode" />
+                <field attributeName="documentNumber" />
+                <field attributeName="versionNumber" />
+            </resultFields>
+        </lookup>
+
+        <attributes>
+
+            <attributeReference name="accountNumber" sourceClassName="org.kuali.module.chart.bo.Account" sourceAttributeName="accountNumber" />
+
+            <attributeReference name="chartOfAccountsCode" sourceClassName="org.kuali.module.chart.bo.Chart" sourceAttributeName="chartOfAccountsCode">
+                <control>
+                    <select valuesFinderClass="org.kuali.module.chart.lookup.keyvalues.ChartValuesFinder" />
+                </control>
+            </attributeReference>
+
+            <attributeReference name="account.accountName" sourceClassName="org.kuali.module.chart.bo.Account" sourceAttributeName="accountName" />
+
+            <attributeReference name="documentNumber" sourceClassName="org.kuali.core.bo.DocumentHeader" sourceAttributeName="documentNumber" />
+            
+            <attributeReference name="newCollectionRecord" 
+                                sourceClassName="org.kuali.core.bo.AttributeReferenceDummy"
+                                sourceAttributeName="newCollectionRecord" />
+
+            <attributeReference name="versionNumber" 
+            					sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" 
+            					sourceAttributeName="versionNumber" />
+
+        </attributes>
+        
+        <objectLabel>Account Change Detail</objectLabel>
+    </businessObject>
+</dictionaryEntry>

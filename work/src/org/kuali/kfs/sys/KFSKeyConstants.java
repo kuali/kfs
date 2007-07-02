@@ -234,8 +234,8 @@ public class KFSKeyConstants extends KeyConstants {
     public static final String ERROR_DOCUMENT_ACCMAINT_ACCOUNT_CLOSED_PENDING_LEDGER_ENTRIES = "error.document.accountMaintenance.closedAccount.noPendingLedgerEntriesAllowed";
     public static final String ERROR_DOCUMENT_ACCMAINT_ACCOUNT_CLOSED_NO_LOADED_BEGINNING_BALANCE = "error.document.accountMaintenance.closedAccount.beginningBalanceNotLoaded";
     public static final String ERROR_DOCUMENT_ACCMAINT_ACCOUNT_CLOSED_NO_FUND_BALANCES = "error.document.accountMaintenance.closedAccount.noFundBalances";
-    public static final String ERROR_DOCUMENT_GLOBAL_ACCOUNT_NO_ACCOUNTS = "error.document.accountChangeDetails.noAccountsEntered";
-    public static final String ERROR_DOCUMENT_GLOBAL_ACCOUNT_INVALID_ACCOUNT = "error.document.accountChangeDetails.invalidAccount";
+    public static final String ERROR_DOCUMENT_GLOBAL_ACCOUNT_NO_ACCOUNTS = "error.document.accountGlobalDetails.noAccountsEntered";
+    public static final String ERROR_DOCUMENT_GLOBAL_ACCOUNT_INVALID_ACCOUNT = "error.document.accountGlobalDetails.invalidAccount";
     public static final String ERROR_DOCUMENT_ACCMAINT_ACCOUNT_CLOSED_PENDING_LABOR_LEDGER_ENTRIES = "error.document.accountMaintenance.closedAccount.noPendingLaborLedgerEntriesAllowed";
     public static final String ERROR_DOCUMENT_ACCMAINT_REPORTING_USER_MUST_BE_CHART_MANAGER_OR_ROOT_MANAGER = "error.document.accountMaintenance.userMustBeChartManagerOrRootManager";
     public static final String ERROR_DOCUMENT_ACCMAINT_CG_FIELDS_FILLED_FOR_NON_CG_ACCOUNT = "error.document.accountMaintenance.cgFieldsFilledInForNonCGAccount";
@@ -260,13 +260,13 @@ public class KFSKeyConstants extends KeyConstants {
     public static final String ERROR_DOCUMENT_ACCTDELEGATEMAINT_USER_NOT_ACTIVE_KUALI_USER = "error.document.accountDelegateMaintenance.notActiveKualiUser";
     public static final String ERROR_DOCUMENT_ACCTDELEGATEMAINT_USER_NOT_PROFESSIONAL = "error.document.accountDelegateMaintenance.userNotProfessional";
     public static final String ERROR_DOCUMENT_ACCTDELEGATEMAINT_ACCT_NOT_CLOSED = "error.document.accountDelegateMaintenance.acctNotClosed";
-    public static final String ERROR_DOCUMENT_GLOBAL_ACCOUNT_ONE_CHART_ONLY = "error.document.accountChangeDetails.onlyOneChartAllowed";
-    public static final String ERROR_DOCUMENT_GLOBAL_ACCOUNT_ONE_CHART_ONLY_ADDNEW = "error.document.accountChangeDetails.onlyOneChartAllowedOnAddNew";
-    public static final String ERROR_DOCUMENT_DELEGATE_CHANGE_NO_DELEGATE = "error.document.delegateChange.noDelegate";
-    public static final String ERROR_DOCUMENT_DELEGATE_CHANGE_NO_ACTIVE_DELEGATE = "error.document.delegateChange.noActiveDelegate";
-    public static final String ERROR_DOCUMENT_DELEGATE_CHANGE_ACCT_DOESNT_EXIST = "error.document.delegateChange.acctDoesntExist";
-    public static final String ERROR_DOCUMENT_DELEGATE_CHANGE_SAVE_AND_LOAD = "error.document.delegateChange.saveAndLoad";
-    public static final String ERROR_DOCUMENT_DELEGATE_CHANGE_SAVE_SUCCESS = "error.document.delegateChange.saveSuccess";
+    public static final String ERROR_DOCUMENT_GLOBAL_ACCOUNT_ONE_CHART_ONLY = "error.document.accountGlobalDetails.onlyOneChartAllowed";
+    public static final String ERROR_DOCUMENT_GLOBAL_ACCOUNT_ONE_CHART_ONLY_ADDNEW = "error.document.accountGlobalDetails.onlyOneChartAllowedOnAddNew";
+    public static final String ERROR_DOCUMENT_DELEGATE_CHANGE_NO_DELEGATE = "error.document.delegateGlobal.noDelegate";
+    public static final String ERROR_DOCUMENT_DELEGATE_CHANGE_NO_ACTIVE_DELEGATE = "error.document.delegateGlobal.noActiveDelegate";
+    public static final String ERROR_DOCUMENT_DELEGATE_CHANGE_ACCT_DOESNT_EXIST = "error.document.delegateGlobal.acctDoesntExist";
+    public static final String ERROR_DOCUMENT_DELEGATE_CHANGE_SAVE_AND_LOAD = "error.document.delegateGlobal.saveAndLoad";
+    public static final String ERROR_DOCUMENT_DELEGATE_CHANGE_SAVE_SUCCESS = "error.document.delegateGlobal.saveSuccess";
 
     // SubAccount Maintenance Errors
     public static final String ERROR_DOCUMENT_SUBACCTMAINT_RPTCODE_ALL_FIELDS_IF_ANY_FIELDS = "error.document.subAccountMaintenance.someReportingCodeFieldsEnteredButNotAll";
@@ -291,7 +291,7 @@ public class KFSKeyConstants extends KeyConstants {
     public static final String ERROR_DOCUMENT_GLOBAL_SUBOBJECTMAINT_FISCAL_YEAR_MUST_BE_SAME = "error.document.globalSubObjectCodeMaintenance.fiscalYearMustBeSame";
     public static final String ERROR_DOCUMENT_GLOBAL_SUBOBJECTMAINT_NO_OBJECT_CODE = "error.document.globalSubObjectCodeMaintenance.noObjectCode";
     public static final String ERROR_DOCUMENT_GLOBAL_SUBOBJECTMAINT_NO_ACCOUNT = "error.document.globalSubObjectCodeMaintenance.noAccount";
-    public static final String ERROR_DOCUMENT_GLOBAL_SUBOBJECTMAINT_INVALID_OBJECT_CODE = "error.document.subObjectCodeChangeDetails.invalidObjectCode";
+    public static final String ERROR_DOCUMENT_GLOBAL_SUBOBJECTMAINT_INVALID_OBJECT_CODE = "error.document.subObjCdGlobalDetails.invalidObjectCode";
 
     // Org Maintenance Errors
     public static final String ERROR_DOCUMENT_ORGMAINT_ONLY_CHART_MGRS_MAY_MODIFY_ORG_PLANT_ACCT_NUMBER = "error.document.orgMaintenance.onlyChartManagersCanModifyOrgPlantAccountNumber";
@@ -348,12 +348,12 @@ public class KFSKeyConstants extends KeyConstants {
     public static final String ERROR_DOCUMENT_OBJCODE_MUST_BEVALID = "error.document.objectCode.mustBeValid";
     public static final String ERROR_DOCUMENT_OBJCODE_CONSOLIDATION_ERROR = "error.document.objectCode.consolidation";
     public static final String ERROR_DOCUMENT_OBJCODE_LEVEL_ERROR = "error.document.objectCode.level";
-    public static final String ERROR_DOCUMENT_GLOBAL_OBJECTMAINT_INVALID_RPTS_TO_OBJ_CODE = "error.document.objectCodeChangeDetails.invalidReportsToObjectCode";
-    public static final String ERROR_DOCUMENT_GLOBAL_OBJECTMAINT_INVALID_NEXT_YEAR_OBJ_CODE = "error.document.objectCodeChangeDetails.invalidNextYearObjectCode";
-    public static final String ERROR_DOCUMENT_GLOBAL_OBJECTMAINT_INVALID_OBJ_LEVEL = "error.document.objectCodeChangeDetails.invalidObjectLevel";
-    public static final String ERROR_DOCUMENT_GLOBAL_OBJECTMAINT_NO_CHART_FISCAL_YEAR = "error.document.objectCodeChangeDetails.noChartFiscalYear";
-    public static final String ERROR_DOCUMENT_GLOBAL_OBJECTMAINT_FISCAL_YEAR_MUST_EXIST = "error.document.objectCodeChangeDetails.noFiscalYear";
-    public static final String ERROR_DOCUMENT_GLOBAL_OBJECTMAINT_CHART_MUST_EXIST = "error.document.objectCodeChangeDetails.noChart";
+    public static final String ERROR_DOCUMENT_GLOBAL_OBJECTMAINT_INVALID_RPTS_TO_OBJ_CODE = "error.document.objectCodeGlobalDetails.invalidReportsToObjectCode";
+    public static final String ERROR_DOCUMENT_GLOBAL_OBJECTMAINT_INVALID_NEXT_YEAR_OBJ_CODE = "error.document.objectCodeGlobalDetails.invalidNextYearObjectCode";
+    public static final String ERROR_DOCUMENT_GLOBAL_OBJECTMAINT_INVALID_OBJ_LEVEL = "error.document.objectCodeGlobalDetails.invalidObjectLevel";
+    public static final String ERROR_DOCUMENT_GLOBAL_OBJECTMAINT_NO_CHART_FISCAL_YEAR = "error.document.objectCodeGlobalDetails.noChartFiscalYear";
+    public static final String ERROR_DOCUMENT_GLOBAL_OBJECTMAINT_FISCAL_YEAR_MUST_EXIST = "error.document.objectCodeGlobalDetails.noFiscalYear";
+    public static final String ERROR_DOCUMENT_GLOBAL_OBJECTMAINT_CHART_MUST_EXIST = "error.document.objectCodeGlobalDetails.noChart";
 
     // Object Consolidation errors
     public static final String ERROR_DOCUMENT_OBJCONSMAINT_ALREADY_EXISTS_AS_OBJLEVEL = "error.document.objConsMaintenance.alreadyExistsAsObjLevel";

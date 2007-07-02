@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ Copyright 2007 The Kuali Foundation.
+ 
+ Licensed under the Educational Community License, Version 1.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+ 
+ http://www.opensource.org/licenses/ecl1.php
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+<!DOCTYPE dictionaryEntry PUBLIC
+    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
+    "../../../core/datadictionary/dataDictionary-1_0.dtd">
+
+<dictionaryEntry>
+    <businessObject businessObjectClass="org.kuali.module.chart.bo.SubObjCdGlobal">
+
+
+       
+        <attributes>
+            <attributeReference name="universityFiscalYear" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericFiscalYear">
+                <label>Fiscal Year</label>
+                <shortLabel>FY</shortLabel>
+                <required>false</required>
+                <summary>
+                    <![CDATA[&nbsp;]]>
+                </summary>
+                <description>This identifies the fiscal year of this object code. The Kuali object code table is by fiscal year, which assists in clean-up and maitenance of object codes.</description>
+            </attributeReference>
+
+            <attributeReference name="chartOfAccountsCode" sourceClassName="org.kuali.module.chart.bo.Chart" sourceAttributeName="chartOfAccountsCode">
+                <required>false</required>
+                <control>
+                    <select valuesFinderClass="org.kuali.module.chart.lookup.keyvalues.ChartValuesFinder" />
+                </control>
+
+            </attributeReference>
+
+            <attribute name="financialSubObjectCode" forceUppercase="true">
+                <label>Sub-Object Code</label>
+                <shortLabel>Sub-Object</shortLabel>
+
+                <maxLength>3</maxLength>
+                <validationPattern>
+                    <alphaNumeric />
+                </validationPattern>
+                <required>true</required>
+                <control>
+                    <text size="3" />
+                </control>
+
+                <summary>
+                    <![CDATA[&nbsp;]]>
+                </summary>
+                <description>The sub-object code for the "object" of accounting for a transaction, expressed as a 4-digit numeric text, including leading zeros. For Search Criteria, select the Help for the Object Code Lookup title.</description>
+            </attribute>
+
+            <attribute name="financialSubObjectCodeName" forceUppercase="true">
+                <label>Sub-Object Code Name</label>
+                <shortLabel>SubObjCodeName</shortLabel>
+
+                <maxLength>40</maxLength>
+                <validationPattern>
+                    <anyCharacter allowWhitespace="true" />
+                </validationPattern>
+                <required>true</required>
+                <control>
+                    <text size="40" />
+                </control>
+
+                <summary>
+                    <![CDATA[&nbsp;]]>
+                </summary>
+                <description>A description that conveys the concept represented by the Object Code. For Search Criteria, select the Help for the Object Code Lookup title.</description>
+            </attribute>
+
+            <attribute name="financialSubObjectCodeShortName" forceUppercase="true">
+                <label>Sub Object Code Short Name</label>
+                <shortLabel>SubObjCodeShortName</shortLabel>
+
+                <maxLength>12</maxLength>
+                <validationPattern>
+                    <anyCharacter allowWhitespace="true" />
+                </validationPattern>
+                <required>true</required>
+                <control>
+                    <text size="12" />
+                </control>
+
+                <summary>
+                    <![CDATA[&nbsp;]]>
+                </summary>
+                <description>A shortened version of the Object Code Name for use on standard reports that have limited space available for printing. No additional functions have been assigned to this field. For Search Criteria, select the Help for the Object Code Lookup title.</description>
+            </attribute>
+
+            <attribute name="financialSubObjectActiveIndicator" forceUppercase="false">
+                <label>Active Code</label>
+                <shortLabel>Ac.</shortLabel>
+
+                <maxLength>1</maxLength>
+
+                <control>
+                    <checkbox />
+                </control>
+
+                <summary>
+                    <![CDATA[&nbsp;]]>
+                </summary>
+                <description>Radioboxes in the entry form that indicate if the Object Code is active or inactive. If "Both" is checked in the Lookup, then both "Yes" (active) or "No" (inactive) values are listed in the search.</description>
+                <formatterClass>org.kuali.core.web.format.BooleanFormatter</formatterClass>
+            </attribute>
+
+            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
+
+        </attributes>
+        
+        <objectLabel>Sub-Object Code Change Document</objectLabel>
+    </businessObject>
+</dictionaryEntry>

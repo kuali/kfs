@@ -22,7 +22,7 @@ import org.kuali.core.bo.BusinessObject;
 import org.kuali.core.lookup.KualiLookupableHelperServiceImpl;
 import org.kuali.core.util.UrlFactory;
 import org.kuali.kfs.KFSConstants;
-import org.kuali.module.chart.bo.DelegateChangeContainer;
+import org.kuali.module.chart.bo.DelegateGlobal;
 
 public class OrganizationRoutingModelNameLookupableHelperServiceImpl extends KualiLookupableHelperServiceImpl {
     private boolean initializingDelegate = true;
@@ -44,7 +44,7 @@ public class OrganizationRoutingModelNameLookupableHelperServiceImpl extends Kua
     public String getReturnUrl(BusinessObject businessObject, Map fieldConversions, String lookupImpl) {
         Properties parameters = getParameters(businessObject, fieldConversions, lookupImpl);
         parameters.put(KFSConstants.DISPATCH_REQUEST_PARAMETER, KFSConstants.MAINTENANCE_NEWWITHEXISTING_ACTION);
-        parameters.put(KFSConstants.BUSINESS_OBJECT_CLASS_ATTRIBUTE, DelegateChangeContainer.class.getName());
+        parameters.put(KFSConstants.BUSINESS_OBJECT_CLASS_ATTRIBUTE, DelegateGlobal.class.getName());
         parameters.put(KFSConstants.OVERRIDE_KEYS, "modelName"+KFSConstants.FIELD_CONVERSIONS_SEPERATOR+"modelChartOfAccountsCode"+KFSConstants.FIELD_CONVERSIONS_SEPERATOR+"modelOrganizationCode");
         return UrlFactory.parameterizeUrl(KFSConstants.MAINTENANCE_ACTION, parameters);
     }

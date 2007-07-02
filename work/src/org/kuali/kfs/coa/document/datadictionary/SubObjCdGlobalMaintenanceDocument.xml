@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ Copyright 2007 The Kuali Foundation.
+ 
+ Licensed under the Educational Community License, Version 1.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+ 
+ http://www.opensource.org/licenses/ecl1.php
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+<!DOCTYPE dictionaryEntry PUBLIC
+    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
+    "../../../../core/datadictionary/dataDictionary-1_0.dtd">
+
+<dictionaryEntry>
+    <maintenanceDocument>
+        <businessObjectClass>org.kuali.module.chart.bo.SubObjCdGlobal</businessObjectClass>
+        <maintainableClass>org.kuali.module.chart.maintenance.SubObjCdGlobalMaintainableImpl</maintainableClass>
+
+        <businessRulesClass>org.kuali.module.chart.rules.SubObjCdGlobalRule</businessRulesClass>
+        <!-- preRulesCheckClass>org.kuali.module.chart.rules.DelegateGlobalPreRules</preRulesCheckClass>-->
+        <documentAuthorizerClass>org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase</documentAuthorizerClass>
+        <authorizations>
+            <authorization action="initiate">
+                <workgroups>
+                    <workgroup>kualiUniversalGroup</workgroup>
+                </workgroups>
+            </authorization>
+        </authorizations>
+
+        <documentTypeName>SubObjCdGlobalMaintenanceDocument</documentTypeName>
+        <documentTypeCode>GSOB</documentTypeCode>
+
+        <label>Global Sub Object Code Maintenance Document</label>
+        <shortLabel>GlobalSubObjCdMaintDoc</shortLabel>
+
+        <summary>Global Sub Object Code Maintenance Document</summary>
+        <description>Global Sub Object Code Maintenance Document</description>
+
+        <lockingKeys>
+            <field attributeName="documentNumber" />
+        </lockingKeys>
+        <defaultExistenceChecks>
+            <reference attributeName="chartOfAccounts" attributeToHighlightOnFail="chartOfAccountsCode" />
+            <reference attributeName="universityFiscal" attributeToHighlightOnFail="universityFiscalYear" />
+        </defaultExistenceChecks>
+        
+        <maintainableSections>
+            <maintainableSection title="Edit Global Sub Object Code">
+                <maintainableItems>
+                    <maintainableField name="universityFiscalYear" required="true">
+                        <defaultValueFinderClass>org.kuali.kfs.lookup.valuefinder.FiscalYearFinder</defaultValueFinderClass>
+                    </maintainableField>
+                    <maintainableField name="chartOfAccountsCode" required="true" />
+                    <maintainableField name="financialSubObjectCode" required="true" />
+                    <maintainableField name="financialSubObjectCodeName" required="true" />
+                    <maintainableField name="financialSubObjectCodeShortName" required="true" />
+                    <maintainableField name="financialSubObjectActiveIndicator" required="false">
+                        <defaultValue>true</defaultValue>
+                    </maintainableField>
+                    <maintainableField name="versionNumber" />
+	              </maintainableItems>
+            </maintainableSection>
+            <maintainableSection title="Edit Object Codes">
+            	  <maintainableItems>
+                    <maintainableCollection name="subObjCdGlobalDetails" businessObjectClass="org.kuali.module.chart.bo.SubObjCdGlobalDetail" sourceClassName="org.kuali.module.chart.bo.ObjectCode" sourceAttributeName="subObjCdGlobalDetails" summaryTitle="Object Code">
+                        <maintainableField name="universityFiscalYear" template="universityFiscalYear" required="true" readOnlyAfterAdd="true" >
+                            <defaultValueFinderClass>org.kuali.kfs.lookup.valuefinder.FiscalYearFinder</defaultValueFinderClass>
+						            </maintainableField>
+                        <maintainableField name="chartOfAccountsCode" template="chartOfAccountsCode" readOnlyAfterAdd="true" />
+                        <maintainableField name="financialObjectCode" template="financialObjectCode" required="true"/>
+                        <maintainableField name="newCollectionRecord" />
+                        <maintainableField name="versionNumber" />
+                        <summaryFields>
+                            <summaryField name="financialObjectCode" />
+                        </summaryFields>
+                    </maintainableCollection>
+            	  </maintainableItems>
+            </maintainableSection>
+            <maintainableSection title="Edit Accounts">
+            	  <maintainableItems>
+            		    <maintainableCollection name="accountGlobalDetails" businessObjectClass="org.kuali.module.chart.bo.AccountGlobalDetail"  sourceClassName="org.kuali.module.chart.bo.Account" sourceAttributeName="accountGlobalDetails" summaryTitle="Account">
+                        <maintainableField name="chartOfAccountsCode" template="chartOfAccountsCode" readOnlyAfterAdd="true" />
+                        <maintainableField name="accountNumber" template="accountNumber" required="true"/>
+                        <maintainableField name="account.accountName" template="accountName" readOnly="true" />
+                        <maintainableField name="newCollectionRecord" />
+                        <maintainableField name="versionNumber" />
+                        <summaryFields>
+                            <summaryField name="accountNumber" />
+                            <summaryField name="account.accountName" />
+                        </summaryFields>
+                    </maintainableCollection>
+            	  </maintainableItems>
+            </maintainableSection>
+
+        </maintainableSections>
+    </maintenanceDocument>
+</dictionaryEntry>

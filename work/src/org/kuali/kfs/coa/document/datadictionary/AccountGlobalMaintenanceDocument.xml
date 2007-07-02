@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ Copyright 2006-2007 The Kuali Foundation.
+ 
+ Licensed under the Educational Community License, Version 1.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+ 
+ http://www.opensource.org/licenses/ecl1.php
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+<!DOCTYPE dictionaryEntry PUBLIC
+    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
+    "../../../../core/datadictionary/dataDictionary-1_0.dtd">
+
+<dictionaryEntry>
+    <maintenanceDocument>
+        <businessObjectClass>org.kuali.module.chart.bo.AccountGlobal</businessObjectClass>
+        <maintainableClass>org.kuali.module.chart.maintenance.AccountGlobalMaintainableImpl</maintainableClass>
+
+        <businessRulesClass>org.kuali.module.chart.rules.AccountGlobalRule</businessRulesClass>
+
+        <documentAuthorizerClass>org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase</documentAuthorizerClass>
+        <authorizations>
+            <authorization action="initiate">
+                <workgroups>
+                    <workgroup>kualiUniversalGroup</workgroup>
+                </workgroups>
+            </authorization>
+        </authorizations>
+
+        <documentTypeName>AccountGlobalMaintenanceDocument</documentTypeName>
+        <documentTypeCode>GACC</documentTypeCode>
+
+		<webScriptFile>../dwr/interface/AccountService.js</webScriptFile>
+		<webScriptFile>../scripts/chart/accountGlobal.js</webScriptFile>
+		<webScriptFile>../scripts/kfs/objectInfo.js</webScriptFile>
+
+        <label>Global Account Maintenance Document</label>
+        <shortLabel>GlobalAccMaintDoc</shortLabel>
+
+        <summary>Global Account Maintenance Document</summary>
+        <description>Document used to create or update global account document.</description>
+
+        <lockingKeys>
+            <field attributeName="documentNumber" />
+        </lockingKeys>
+
+        <defaultExistenceChecks>
+            <reference attributeName="organization" activeIndicatorAttributeName="organizationActiveIndicator" attributeToHighlightOnFail="organizationCode" />
+            <reference attributeName="accountState" attributeToHighlightOnFail="accountStateCode" />
+            <reference attributeName="postalZipCode" attributeToHighlightOnFail="accountZipCode" />
+            <reference attributeName="financialHigherEdFunction" attributeToHighlightOnFail="financialHigherEdFunctionCd" />
+            <reference attributeName="incomeStreamAccount" activeIndicatorAttributeName="accountClosedIndicator" activeIndicatorReversed="true" attributeToHighlightOnFail="incomeStreamAccountNumber" />
+            <reference attributeName="sufficientFundsCode" attributeToHighlightOnFail="accountSufficientFundsCode" />
+            <!--
+            <reference attributeName="accountFiscalOfficerUser" attributeToHighlightOnFail="accountFiscalOfficerUser.personUserIdentifier" />
+            <reference attributeName="accountSupervisoryUser" attributeToHighlightOnFail="accountSupervisoryUser.personUserIdentifier" />
+            <reference attributeName="accountManagerUser" attributeToHighlightOnFail="accountManagerUser.personUserIdentifier" />
+            -->
+            <reference attributeName="subFundGroup" attributeToHighlightOnFail="subFundGroupCode" />
+        </defaultExistenceChecks>
+
+        <maintainableSections>
+            <maintainableSection title="Global Account Maintenance">
+                <maintainableItems>
+                    <!-- DO NOT put documentNumber on globals else will get error about it being null (KULRNE-4196) -->
+                    <maintainableField name="accountFiscalOfficerSystemIdentifier" required="false" readOnly="true" />
+                    <maintainableField name="accountFiscalOfficerUser.personUserIdentifier" required="false" />
+                    <maintainableField name="accountFiscalOfficerUser.personName" required="false" readOnly="true" />
+                    <maintainableField name="accountsSupervisorySystemsIdentifier" required="false" readOnly="true" />
+                    <maintainableField name="accountSupervisoryUser.personUserIdentifier" required="false" />
+                    <maintainableField name="accountSupervisoryUser.personName" required="false" readOnly="true" />
+                    <maintainableField name="accountManagerSystemIdentifier" required="false" readOnly="true" />
+                    <maintainableField name="accountManagerUser.personUserIdentifier" required="false" />
+                    <maintainableField name="accountManagerUser.personName" required="false" readOnly="true" />
+                    <maintainableField name="organizationCode" required="false" />
+                    <maintainableField name="subFundGroupCode" required="false" />
+                    <maintainableField name="accountExpirationDate" required="false" />
+                    <maintainableField name="accountZipCode" required="false" />
+                    <maintainableField name="accountCityName" required="false" />
+                    <maintainableField name="accountStateCode" required="false"/>
+                    <maintainableField name="accountStreetAddress" required="false" />
+                    <maintainableField name="continuationFinChrtOfAcctCd" required="false" />
+                    <maintainableField name="continuationAccountNumber" required="false" />
+                    <maintainableField name="incomeStreamFinancialCoaCode" required="false" />
+                    <maintainableField name="incomeStreamAccountNumber" required="false" />
+                    <maintainableField name="accountCfdaNumber" required="false" />
+                    <maintainableField name="financialHigherEdFunctionCd" required="false" />
+                    <maintainableField name="accountSufficientFundsCode" required="false" />
+                    <maintainableField name="pendingAcctSufficientFundsIndicator" required="false" />
+                    <maintainableField name="versionNumber" />
+                </maintainableItems>
+            </maintainableSection>
+            <maintainableSection title="Edit List of Accounts">
+                <maintainableItems>
+                    <maintainableCollection name="accountGlobalDetails" businessObjectClass="org.kuali.module.chart.bo.AccountGlobalDetail" sourceClassName="org.kuali.module.chart.bo.Account" sourceAttributeName="accountGlobalDetails" summaryTitle="Account">
+                        <maintainableField name="chartOfAccountsCode" template="chartOfAccountsCode" required="true" readOnlyAfterAdd="true" />
+                        <maintainableField name="accountNumber" template="accountNumber" webUILeaveFieldFunction="loadAccountName" required="true" readOnlyAfterAdd="true" />
+                        <maintainableField name="account.accountName" template="accountName" readOnly="true" />
+                        <maintainableField name="versionNumber" />
+                        <maintainableField name="newCollectionRecord" />
+                        <summaryFields>
+                            <summaryField name="chartOfAccountsCode" />
+                            <summaryField name="accountNumber" />
+                            <summaryField name="account.accountName" />
+                        </summaryFields>
+                    </maintainableCollection>
+                </maintainableItems>
+            </maintainableSection>
+        </maintainableSections>
+    </maintenanceDocument>
+</dictionaryEntry>

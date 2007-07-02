@@ -420,13 +420,13 @@ public class KualiAccountAttribute implements RoleAttribute, WorkflowAttribute {
                     fiscalOfficers.add(new FiscalOfficerRole(roleName, foChartCode, foAccountNumber));
                 }
                 else if (KualiWorkflowUtils.SUB_OBJECT_CODE_CHANGE_DOC_TYPE.equals(docTypeName)) {
-                    // route to the fiscal officers of the accounts on the AccountChangeDetails
-                    NodeList accountChangeDetails = (NodeList)xpath.evaluate(KualiWorkflowUtils.ACCOUNT_CHANGE_DETAILS_XPATH, docContent.getDocument(), XPathConstants.NODESET);
-                    if (accountChangeDetails != null) {
-                        for (int index = 0; index < accountChangeDetails.getLength(); index++) {
-                            Element accountChangeDetail = (Element)accountChangeDetails.item(index);
-                            String chartOfAccountsCode = getChildElementValue(accountChangeDetail, KFSConstants.CHART_OF_ACCOUNTS_CODE_PROPERTY_NAME);
-                            String accountNumber = getChildElementValue(accountChangeDetail, KFSConstants.ACCOUNT_NUMBER_PROPERTY_NAME);
+                    // route to the fiscal officers of the accounts on the AccountGlobalDetails
+                    NodeList accountGlobalDetails = (NodeList)xpath.evaluate(KualiWorkflowUtils.ACCOUNT_GLOBAL_DETAILS_XPATH, docContent.getDocument(), XPathConstants.NODESET);
+                    if (accountGlobalDetails != null) {
+                        for (int index = 0; index < accountGlobalDetails.getLength(); index++) {
+                            Element accountGlobalDetail = (Element)accountGlobalDetails.item(index);
+                            String chartOfAccountsCode = getChildElementValue(accountGlobalDetail, KFSConstants.CHART_OF_ACCOUNTS_CODE_PROPERTY_NAME);
+                            String accountNumber = getChildElementValue(accountGlobalDetail, KFSConstants.ACCOUNT_NUMBER_PROPERTY_NAME);
                             fiscalOfficers.add(new FiscalOfficerRole(roleName, chartOfAccountsCode, accountNumber));
                         }
                     }
@@ -472,9 +472,9 @@ public class KualiAccountAttribute implements RoleAttribute, WorkflowAttribute {
         if (docTypeName.equals(KualiWorkflowUtils.ACCOUNT_DOC_TYPE)) {
             accountXPaths.add(KualiWorkflowUtils.xstreamSafeXPath(KualiWorkflowUtils.NEW_MAINTAINABLE_PREFIX_NTS));
         }
-        // Sub Object Code Change Document - route to Account Supervisor of accounts on AccountChangeDetails
+        // Sub Object Code Change Document - route to Account Supervisor of accounts on AccountGlobalDetails
         else if (docTypeName.equals(KualiWorkflowUtils.SUB_OBJECT_CODE_CHANGE_DOC_TYPE)) {
-            accountXPaths.add(KualiWorkflowUtils.ACCOUNT_CHANGE_DETAILS_XPATH);
+            accountXPaths.add(KualiWorkflowUtils.ACCOUNT_GLOBAL_DETAILS_XPATH);
         }
         for (String accountXPath : accountXPaths) {
             NodeList accountNodes = (NodeList)xpath.evaluate(accountXPath, docContent.getDocument(), XPathConstants.NODESET);

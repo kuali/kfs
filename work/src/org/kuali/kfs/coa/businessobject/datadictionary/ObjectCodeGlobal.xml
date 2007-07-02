@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
- Copyright 2005-2007 The Kuali Foundation.
+ Copyright 2006-2007 The Kuali Foundation.
  
  Licensed under the Educational Community License, Version 1.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -17,104 +17,17 @@
 <!DOCTYPE dictionaryEntry PUBLIC
     "-//Kuali Project//DTD Data Dictionary 1.0//EN"
     "../../../core/datadictionary/dataDictionary-1_0.dtd">
-<!-- 
-    NOTE!!!
-    ObjectCodeCurrent.xml is a copy of this, if you make any changes 
-    they need to be made to both documents
--->
+
 <dictionaryEntry>
-    <businessObject businessObjectClass="org.kuali.module.chart.bo.ObjectCode">
+    <businessObject businessObjectClass="org.kuali.module.chart.bo.ObjectCodeGlobal">
 
 
-        <inquiry>
-            <title>Object Code Inquiry</title>
-
-            <inquirySections><inquirySection title="Object Code Detail"><inquiryFields>
-                <field attributeName="universityFiscalYear" />
-                <field attributeName="chartOfAccountsCode" />
-                <field attributeName="financialObjectCode" />
-                <field attributeName="financialObjectCodeName" />
-                <field attributeName="financialObjectCodeShortName" />
-                <field attributeName="reportsToChartOfAccountsCode" />
-                <field attributeName="reportsToFinancialObjectCode" />
-                <field attributeName="financialObjectTypeCode" />
-                <field attributeName="financialObjectLevelCode" />
-                <field attributeName="financialObjectSubTypeCode" />
-                <field attributeName="historicalFinancialObjectCode" />
-                <field attributeName="financialObjectActiveCode" />
-                <field attributeName="financialBudgetAggregationCd" />
-                <field attributeName="finObjMandatoryTrnfrelimCd" />
-                <field attributeName="financialFederalFundedCode" />
-                <field attributeName="nextYearFinancialObjectCode" />
-            </inquiryFields></inquirySection></inquirySections>
-        </inquiry>
-        <!-- 
-            NOTE!!!
-            ObjectCodeCurrent.xml is a copy of this, if you make any changes 
-            they need to be made to both documents
-        -->
-        <lookup>
-            <title>Object Code Lookup</title>
-
-            <menubar>
-                <![CDATA[<a href="maintenance.do?methodToCall=start&businessObjectClassName=org.kuali.module.chart.bo.ObjectCodeGlobal"><img src="${kr.externalizable.images.url}tinybutton-createnewglobal.gif" alt="create new global" width="98" height="15"/></a>]]>
-            </menubar>
-
-            <instructions>Lookup an Object Code</instructions>
-
-            <defaultSort attributeName="financialObjectCode" sortAscending="true" />
-
-            <lookupFields>
-                <lookupField attributeName="universityFiscalYear" required="true">
-                    <defaultValueFinderClass>org.kuali.kfs.lookup.valuefinder.FiscalYearFinder</defaultValueFinderClass>
-                </lookupField>
-                <lookupField attributeName="chartOfAccountsCode" required="false" />
-                <lookupField attributeName="financialObjectCode" required="false" />
-                <lookupField attributeName="financialObjectCodeName" required="false" />
-                <lookupField attributeName="financialObjectCodeShortName" required="false" />
-                <lookupField attributeName="financialObjectLevelCode" required="false" />
-                <lookupField attributeName="financialObjectTypeCode" required="false" />
-                <lookupField attributeName="financialObjectSubTypeCode" required="false" />
-                <lookupField attributeName="historicalFinancialObjectCode" required="false" />
-                <lookupField attributeName="financialBudgetAggregationCd" required="false" />
-                <lookupField attributeName="financialObjectActiveCode" required="false">
-                    <defaultValue>Y</defaultValue>
-                </lookupField>
-            </lookupFields>
-
-            <resultFields>
-                <field attributeName="universityFiscalYear" />
-                <field attributeName="chartOfAccountsCode" />
-                <field attributeName="financialObjectCode" />
-                <field attributeName="financialObjectCodeName" />
-                <field attributeName="financialObjectCodeShortName" />
-                <field attributeName="financialObjectLevelCode" />
-                <field attributeName="financialObjectTypeCode" />
-                <field attributeName="financialObjectSubTypeCode" />
-                <field attributeName="historicalFinancialObjectCode" />
-                <field attributeName="financialBudgetAggregationCd" />
-                <field attributeName="financialObjectActiveCode" />
-            </resultFields>
-        </lookup>
-
-        <titleAttribute>financialObjectCode</titleAttribute>
-
-        <!--
-            Note that this has alot of items that should 
-            be converted to <attributeReference> tags, but until the 
-            underlying BO is updated to use real sub-objects rather 
-            than just strings, doing that will cause this DD to break.
-        -->
-        <!-- 
-            NOTE!!!
-            ObjectCodeCurrent.xml is a copy of this, if you make any changes 
-            they need to be made to both documents
-        -->
+       
         <attributes>
             <attributeReference name="universityFiscalYear" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericFiscalYear">
                 <label>Fiscal Year</label>
                 <shortLabel>FY</shortLabel>
-                <required>true</required>
+                <required>false</required>
                 <summary>
                     <![CDATA[&nbsp;]]>
                 </summary>
@@ -122,10 +35,11 @@
             </attributeReference>
 
             <attributeReference name="chartOfAccountsCode" sourceClassName="org.kuali.module.chart.bo.Chart" sourceAttributeName="chartOfAccountsCode">
-                <required>true</required>
+                <required>false</required>
                 <control>
-				    <select valuesFinderClass="org.kuali.module.chart.lookup.keyvalues.ChartValuesFinder" script="if ( typeof setReportsToChartCode == 'function' ) { setReportsToChartCode(); }" /> 
+                    <select valuesFinderClass="org.kuali.module.chart.lookup.keyvalues.ChartValuesFinder" />
                 </control>
+
             </attributeReference>
 
             <attribute name="financialObjectCode" forceUppercase="true">
@@ -184,14 +98,9 @@
                 </summary>
                 <description>A shortened version of the Object Code Name for use on standard reports that have limited space available for printing. No additional functions have been assigned to this field. For Search Criteria, select the Help for the Object Code Lookup title.</description>
             </attribute>
-            <!-- 
-                NOTE!!!
-                ObjectCodeCurrent.xml is a copy of this, if you make any changes 
-                they need to be made to both documents
-            -->
             <attribute name="financialObjectLevelCode" forceUppercase="true">
-                <label>Level Code</label>
-                <shortLabel>Level Code</shortLabel>
+                <label>Object Level Code</label>
+                <shortLabel>ObjLevlCde</shortLabel>
 
                 <maxLength>4</maxLength>
                 <validationPattern>
@@ -206,26 +115,6 @@
                     <![CDATA[&nbsp;]]>
                 </summary>
                 <description>The code used to aggregate Object Codes into a broader classification, expressed as a 4-character code. For Search Criteria, select the Help for the Object Code Lookup title.</description>
-            </attribute>
-
-            <attribute name="reportsToChartOfAccountsCode" forceUppercase="true">
-                <label>Reports to Chart Code</label>
-                <shortLabel>RptsToChart</shortLabel>
-
-                <maxLength>2</maxLength>
-                <validationPattern>
-                    <alpha exactLength="2" />
-                </validationPattern>
-                <required>true</required>
-                <control>
-					<text size="2" />
-				</control>
-                <summary>
-                    <![CDATA[&nbsp;]]>
-                </summary>
-                <description>
-                    <![CDATA[&nbsp;]]>
-                </description>
             </attribute>
 
             <attribute name="reportsToFinancialObjectCode" forceUppercase="true">
@@ -245,14 +134,10 @@
                     <![CDATA[&nbsp;]]>
                 </summary>
                 <description>
-                    <![CDATA[&nbsp;]]>
+                    The Object Code in the chart higher than the current chart that this Object Code reports to.
                 </description>
             </attribute>
-            <!-- 
-                NOTE!!!
-                ObjectCodeCurrent.xml is a copy of this, if you make any changes 
-                they need to be made to both documents
-            -->
+ 
             <attribute name="financialObjectTypeCode" forceUppercase="true">
                 <label>Object Type Code</label>
                 <shortLabel>Object Type</shortLabel>
@@ -274,7 +159,7 @@
 
             <attribute name="financialObjectSubTypeCode" forceUppercase="true">
                 <label>Object Sub-Type Code</label>
-                <shortLabel>Object Sub-Type Code</shortLabel>
+                <shortLabel>ObjSubTypCode</shortLabel>
 
                 <maxLength>2</maxLength>
                 <validationPattern>
@@ -308,12 +193,8 @@
                 </summary>
                 <description>The code that links the current Object Code to codes used in the past to represent the same concept. It provides for the reference of a different code previously used for this purpose, and can be used for historical reporting.</description>
             </attribute>
-            <!-- 
-                NOTE!!!
-                ObjectCodeCurrent.xml is a copy of this, if you make any changes 
-                they need to be made to both documents
-            -->
-            <attribute name="financialObjectActiveCode" forceUppercase="false">
+
+            <attribute name="financialObjectActiveIndicator" forceUppercase="false">
                 <label>Active Code</label>
                 <shortLabel>Ac.</shortLabel>
 
@@ -336,46 +217,38 @@
 
                 <maxLength>1</maxLength>
                 <required>true</required>
-                <control><text size="1"/>
-                <!-- 
-                        <select valuesFinderClass="org.kuali.module.chart.lookup.keyvalues.BudgetAggregationCodeValuesFinder" />
-                -->
-				</control>
+                <control>
+                    <text size="1" />
+                </control>                
+                
                 <summary>
                     <![CDATA[&nbsp;]]>
                 </summary>
                 <description>The code that indicates at what level the Object Code can be used for budgeting, expressed as a 1-character code, where O = Object Code level, C = consolidation level, and L = the level itself.</description>
             </attribute>
 
-            <attribute name="finObjMandatoryTrnfrelimCd" forceUppercase="true">
+            <attribute name="finObjMandatoryTrnfrOrElimCd" forceUppercase="true">
                 <label>Mandatory Transfer Or Eliminations Code</label>
                 <shortLabel>ManTranOrElimCode</shortLabel>
 
                 <maxLength>1</maxLength>
 
                 <control>
-                    <select valuesFinderClass="org.kuali.module.chart.lookup.keyvalues.MandatoryTransferEliminationCodeValuesFinder" />
+                    <text size="1" />
                 </control>
 
                 <summary>
                     <![CDATA[&nbsp;]]>
                 </summary>
                 <description>
-                    <![CDATA[&nbsp;]]>
+                    The code to identify for a mandatory transfer code (M), elimination code (E), or neither (N). This value is used by the KFS for the application of business rules where mandatory transfer or elimination codes are either required or prohibited.
                 </description>
             </attribute>
-            <!-- 
-                NOTE!!!
-                ObjectCodeCurrent.xml is a copy of this, if you make any changes 
-                they need to be made to both documents
-            -->
             <attribute name="financialFederalFundedCode" forceUppercase="true">
                 <label>Federal Funded Code</label>
                 <shortLabel>FedFundCd</shortLabel>
 
                 <maxLength>1</maxLength>
-                <required>true</required>
-                
                 <control>
                     <select valuesFinderClass="org.kuali.module.chart.lookup.keyvalues.FederalFundedCodeValuesFinder" />
                 </control>
@@ -384,7 +257,7 @@
                     <![CDATA[&nbsp;]]>
                 </summary>
                 <description>
-                    <![CDATA[&nbsp;]]>
+                    The indicator shows whether this is an Object Code for capital equipment is Federally Funded.  Values include non-federally funded, university owned (N), federally funded, university owned (O), or federally funded, federally owned (F).
                 </description>
             </attribute>
 
@@ -405,7 +278,7 @@
                     <![CDATA[&nbsp;]]>
                 </summary>
                 <description>
-                    <![CDATA[&nbsp;]]>
+                    Select the check box if this attribute allows the referencing of a subsequent year code in a previous chart year. Clear the check box if it does not.
                 </description>
             </attribute>
 
@@ -413,6 +286,6 @@
 
         </attributes>
         
-        <objectLabel>Object Code</objectLabel>
+        <objectLabel>Object Code Change Document</objectLabel>
     </businessObject>
 </dictionaryEntry>

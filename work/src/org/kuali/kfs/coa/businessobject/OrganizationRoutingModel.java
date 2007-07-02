@@ -52,13 +52,13 @@ public class OrganizationRoutingModel extends PersistableBusinessObjectBase impl
     public OrganizationRoutingModel() {
     }
 
-    public OrganizationRoutingModel(DelegateChangeDocument delegateChangeDocument) {
-        accountDelegateUniversalId = delegateChangeDocument.getAccountDelegateUniversalId();
-        accountDelegatePrimaryRoutingIndicator = delegateChangeDocument.getAccountDelegatePrimaryRoutingIndicator();
-        approvalFromThisAmount = delegateChangeDocument.getApprovalFromThisAmount();
-        approvalToThisAmount = delegateChangeDocument.getApprovalToThisAmount();
-        accountDelegateStartDate = delegateChangeDocument.getAccountDelegateStartDate();
-        financialDocumentTypeCode = delegateChangeDocument.getFinancialDocumentTypeCode();
+    public OrganizationRoutingModel(DelegateGlobalDetail delegateGlobalDetail) {
+        accountDelegateUniversalId = delegateGlobalDetail.getAccountDelegateUniversalId();
+        accountDelegatePrimaryRoutingIndicator = delegateGlobalDetail.getAccountDelegatePrimaryRoutingIndicator();
+        approvalFromThisAmount = delegateGlobalDetail.getApprovalFromThisAmount();
+        approvalToThisAmount = delegateGlobalDetail.getApprovalToThisAmount();
+        accountDelegateStartDate = delegateGlobalDetail.getAccountDelegateStartDate();
+        financialDocumentTypeCode = delegateGlobalDetail.getFinancialDocumentTypeCode();
     }
 
     /**

@@ -33,7 +33,7 @@ import org.kuali.core.lookup.LookupUtils;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.chart.bo.Chart;
-import org.kuali.module.chart.bo.OrganizationReversionChangeOrganization;
+import org.kuali.module.chart.bo.OrganizationReversionGlobalOrganization;
 import org.kuali.workflow.KualiWorkflowUtils;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
@@ -248,10 +248,10 @@ public class KualiChartAttribute implements RoleAttribute, WorkflowAttribute {
         return roleName + ROLE_STRING_DELIMITER + chart;
     }
 
-    private static final String ACCOUNT_CHANGE_DETAIL_XPATH = "wf:xstreamsafe('" + KualiWorkflowUtils.NEW_MAINTAINABLE_PREFIX + "accountChangeDetails/list/org.kuali.module.chart.bo.AccountChangeDetail/chartOfAccountsCode')";
-    private static final String SUB_OBJECT_CODE_CHANGE_DETAIL_XPATH = "wf:xstreamsafe('" + KualiWorkflowUtils.NEW_MAINTAINABLE_PREFIX + "subObjectCodeChangeDetails/list/org.kuali.module.chart.bo.SubObjectCodeChangeDetail/chartOfAccountsCode')";
-    private static final String OBJECT_CODE_CHANGE_DETAIL_XPATH = "wf:xstreamsafe('" + KualiWorkflowUtils.NEW_MAINTAINABLE_PREFIX + "objectCodeChangeDetails/list/org.kuali.module.chart.bo.ObjectCodeChangeDetail/chartOfAccountsCode')";
-    private static final String ORG_REVERSION_CHANGE_DETAIL_XPATH = "wf:xstreamsafe('" + KualiWorkflowUtils.NEW_MAINTAINABLE_PREFIX + "organizationReversionChangeOrganizations/list/org.kuali.module.chart.bo.OrganizationReversionChangeOrganization/chartOfAccountsCode')";
+    private static final String ACCOUNT_GLOBAL_DETAIL_XPATH = "wf:xstreamsafe('" + KualiWorkflowUtils.NEW_MAINTAINABLE_PREFIX + "accountGlobalDetails/list/org.kuali.module.chart.bo.AccountGlobalDetail/chartOfAccountsCode')";
+    private static final String SUB_OBJECT_CODE_GLOBAL_DETAIL_XPATH = "wf:xstreamsafe('" + KualiWorkflowUtils.NEW_MAINTAINABLE_PREFIX + "subObjCdGlobalDetails/list/org.kuali.module.chart.bo.SubObjCdGlobalDetail/chartOfAccountsCode')";
+    private static final String OBJECT_CODE_GLOBAL_DETAIL_XPATH = "wf:xstreamsafe('" + KualiWorkflowUtils.NEW_MAINTAINABLE_PREFIX + "objectCodeGlobalDetails/list/org.kuali.module.chart.bo.ObjectCodeGlobalDetail/chartOfAccountsCode')";
+    private static final String ORG_REVERSION_GLOBAL_DETAIL_XPATH = "wf:xstreamsafe('" + KualiWorkflowUtils.NEW_MAINTAINABLE_PREFIX + "organizationReversionGlobalOrganizations/list/org.kuali.module.chart.bo.OrganizationReversionGlobalOrganization/chartOfAccountsCode')";
     /**
      * @see edu.iu.uis.eden.routetemplate.RoleAttribute#getQualifiedRoleNames(java.lang.String, java.lang.String)
      */
@@ -269,16 +269,16 @@ public class KualiChartAttribute implements RoleAttribute, WorkflowAttribute {
                 if (isReport) {
                     chartXPaths.add("wf:xstreamsafe('//report/" + CHART_ATTRIBUTE + "/" + FIN_COA_CD_KEY + "')");
                 } else if (KualiWorkflowUtils.ACCOUNT_DELEGATE_GLOBAL_DOC_TYPE.equals(docTypeName)) {
-                    chartXPaths.add(ACCOUNT_CHANGE_DETAIL_XPATH);
+                    chartXPaths.add(ACCOUNT_GLOBAL_DETAIL_XPATH);
                 } else if (KualiWorkflowUtils.ACCOUNT_CHANGE_DOC_TYPE.equals(docTypeName)) {
-                    chartXPaths.add(ACCOUNT_CHANGE_DETAIL_XPATH);
+                    chartXPaths.add(ACCOUNT_GLOBAL_DETAIL_XPATH);
                 } else if (KualiWorkflowUtils.SUB_OBJECT_CODE_CHANGE_DOC_TYPE.equals(docTypeName)) {
-                    chartXPaths.add(ACCOUNT_CHANGE_DETAIL_XPATH);
-                    chartXPaths.add(SUB_OBJECT_CODE_CHANGE_DETAIL_XPATH);
+                    chartXPaths.add(ACCOUNT_GLOBAL_DETAIL_XPATH);
+                    chartXPaths.add(SUB_OBJECT_CODE_GLOBAL_DETAIL_XPATH);
                 } else if (KualiWorkflowUtils.OBJECT_CODE_CHANGE_DOC_TYPE.equals(docTypeName)) {
-                    chartXPaths.add(OBJECT_CODE_CHANGE_DETAIL_XPATH);
+                    chartXPaths.add(OBJECT_CODE_GLOBAL_DETAIL_XPATH);
                 } else if (KualiWorkflowUtils.ORG_REVERSION_CHANGE_DOC_TYPE.equals(docTypeName)) {
-                    chartXPaths.add(ORG_REVERSION_CHANGE_DETAIL_XPATH);
+                    chartXPaths.add(ORG_REVERSION_GLOBAL_DETAIL_XPATH);
                 }
                 //  this is the typical path during normal workflow operation
                 else {

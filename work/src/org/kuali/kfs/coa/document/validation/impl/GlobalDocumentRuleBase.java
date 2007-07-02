@@ -18,7 +18,7 @@ package org.kuali.module.chart.rules;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase;
 import org.kuali.kfs.KFSKeyConstants;
-import org.kuali.module.chart.bo.AccountChangeDetail;
+import org.kuali.module.chart.bo.AccountGlobalDetail;
 
 import java.util.List;
 
@@ -41,15 +41,15 @@ public class GlobalDocumentRuleBase extends MaintenanceDocumentRuleBase {
      * This method checks whether the set of Account Change Detail records on this document all are under the same Chart of
      * Accounts. It will set the appropriate field error if it did fail, and return the result.
      * 
-     * @param accountChangeDetails
+     * @param accountGlobalDetails
      * @return True if the test passed with no errors, False if any errors occurred.
      * 
      */
-    protected boolean checkOnlyOneChartErrorWrapper(List<AccountChangeDetail> accountChangeDetails) {
-        CheckOnlyOneChartResult result = checkOnlyOneChart(accountChangeDetails);
+    protected boolean checkOnlyOneChartErrorWrapper(List<AccountGlobalDetail> accountGlobalDetails) {
+        CheckOnlyOneChartResult result = checkOnlyOneChart(accountGlobalDetails);
         if (!result.success) {
-            putFieldError("accountChangeDetails[" + result.firstLineNumber + "].chartOfAccountsCode", KFSKeyConstants.ERROR_DOCUMENT_GLOBAL_ACCOUNT_ONE_CHART_ONLY);
-            putFieldError("accountChangeDetails[" + result.failedLineNumber + "].chartOfAccountsCode", KFSKeyConstants.ERROR_DOCUMENT_GLOBAL_ACCOUNT_ONE_CHART_ONLY);
+            putFieldError("accountGlobalDetails[" + result.firstLineNumber + "].chartOfAccountsCode", KFSKeyConstants.ERROR_DOCUMENT_GLOBAL_ACCOUNT_ONE_CHART_ONLY);
+            putFieldError("accountGlobalDetails[" + result.failedLineNumber + "].chartOfAccountsCode", KFSKeyConstants.ERROR_DOCUMENT_GLOBAL_ACCOUNT_ONE_CHART_ONLY);
         }
         return result.success;
     }
@@ -62,17 +62,17 @@ public class GlobalDocumentRuleBase extends MaintenanceDocumentRuleBase {
      * Note that this method doesnt actually set any errors, it just returns whether or not the test succeeded, and where it failed
      * if it failed.
      * 
-     * @param accountChangeDetails The popualted accountChangeDocument to test.
+     * @param accountGlobalDetails The popualted accountGlobalDocument to test.
      * @return A populated CheckOnlyOneChartResult object. This will contain whether the test succeeded or failed, and if failed,
      *         what lines the failures occurred on.
      * 
      */
-    protected CheckOnlyOneChartResult checkOnlyOneChart(List<AccountChangeDetail> accountChangeDetails) {
+    protected CheckOnlyOneChartResult checkOnlyOneChart(List<AccountGlobalDetail> accountGlobalDetails) {
         // if there is not enough information to do the test, then exit happily with no failure
-        if (accountChangeDetails == null) {
+        if (accountGlobalDetails == null) {
             return new CheckOnlyOneChartResult(true);
         }
-        if (accountChangeDetails.isEmpty()) {
+        if (accountGlobalDetails.isEmpty()) {
             return new CheckOnlyOneChartResult(true);
         }
 
@@ -80,7 +80,7 @@ public class GlobalDocumentRuleBase extends MaintenanceDocumentRuleBase {
         int compareLineNumber = 0;
         int firstChartLineNumber = 0;
         String firstChart = "";
-        for (AccountChangeDetail account : accountChangeDetails) {
+        for (AccountGlobalDetail account : accountGlobalDetails) {
             if (StringUtils.isBlank(firstChart)) {
                 if (StringUtils.isNotBlank(account.getChartOfAccountsCode())) {
                     firstChart = account.getChartOfAccountsCode();
@@ -113,7 +113,7 @@ public class GlobalDocumentRuleBase extends MaintenanceDocumentRuleBase {
 
         /**
          * 
-         * Constructs a AccountChangeRule.java.
+         * Constructs a AccountGlobalRule.java.
          */
         public CheckOnlyOneChartResult() {
             firstLineNumber = -1;
@@ -123,7 +123,7 @@ public class GlobalDocumentRuleBase extends MaintenanceDocumentRuleBase {
 
         /**
          * 
-         * Constructs a AccountChangeRule.java.
+         * Constructs a AccountGlobalRule.java.
          * 
          * @param success
          */
@@ -134,7 +134,7 @@ public class GlobalDocumentRuleBase extends MaintenanceDocumentRuleBase {
 
         /**
          * 
-         * Constructs a AccountChangeRule.java.
+         * Constructs a AccountGlobalRule.java.
          * 
          * @param success
          * @param firstLineNumber
@@ -154,17 +154,17 @@ public class GlobalDocumentRuleBase extends MaintenanceDocumentRuleBase {
      * set an Error and return false if this is the case.
      * 
      * @param newAccountLine
-     * @param accountChangeDetails
+     * @param accountGlobalDetails
      * @return True if the line being added has the exact same chart as all the existing lines, False if not.
      * 
      */
-    protected boolean checkOnlyOneChartAddLineErrorWrapper(AccountChangeDetail newAccountLine, List<AccountChangeDetail> accountChangeDetails) {
-        boolean success = checkOnlyOneChartAddLine(newAccountLine, accountChangeDetails);
+    protected boolean checkOnlyOneChartAddLineErrorWrapper(AccountGlobalDetail newAccountLine, List<AccountGlobalDetail> accountGlobalDetails) {
+        boolean success = checkOnlyOneChartAddLine(newAccountLine, accountGlobalDetails);
         if (!success) {
             putGlobalError(KFSKeyConstants.ERROR_DOCUMENT_GLOBAL_ACCOUNT_ONE_CHART_ONLY_ADDNEW);
             // TODO: KULCOA-1091 Need to add this error to the add line, but this doesnt work right, as the
             // error message comes out at the bottom, and the field doesnt get highlighted.
-            // putFieldError("newAccountChangeDetail.chartOfAccountsCode",
+            // putFieldError("newAccountGlobalDetail.chartOfAccountsCode",
             // KFSKeyConstants.ERROR_DOCUMENT_GLOBAL_ACCOUNT_ONE_CHART_ONLY);
         }
         return success;
@@ -178,22 +178,22 @@ public class GlobalDocumentRuleBase extends MaintenanceDocumentRuleBase {
      * Note that this document does not actually set any errors, it just reports success or failure.
      * 
      * @param newAccountLine
-     * @param accountChangeDetails
+     * @param accountGlobalDetails
      * @return True if no errors are found, False if the line being added has a different Chart code than any of the existing lines.
      * 
      */
-    protected boolean checkOnlyOneChartAddLine(AccountChangeDetail newAccountLine, List<AccountChangeDetail> accountChangeDetails) {
-        if (newAccountLine == null || accountChangeDetails == null) {
+    protected boolean checkOnlyOneChartAddLine(AccountGlobalDetail newAccountLine, List<AccountGlobalDetail> accountGlobalDetails) {
+        if (newAccountLine == null || accountGlobalDetails == null) {
             return true;
         }
-        if (accountChangeDetails.isEmpty()) {
+        if (accountGlobalDetails.isEmpty()) {
             return true;
         }
         String newChart = newAccountLine.getChartOfAccountsCode();
         if (StringUtils.isBlank(newChart)) {
             return true;
         }
-        for (AccountChangeDetail account : accountChangeDetails) {
+        for (AccountGlobalDetail account : accountGlobalDetails) {
             if (StringUtils.isNotBlank(account.getChartOfAccountsCode())) {
                 if (!newChart.equalsIgnoreCase(account.getChartOfAccountsCode())) {
                     return false;

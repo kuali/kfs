@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ Copyright 2007 The Kuali Foundation.
+ 
+ Licensed under the Educational Community License, Version 1.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+ 
+ http://www.opensource.org/licenses/ecl1.php
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+<!DOCTYPE dictionaryEntry PUBLIC
+    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
+    "../../../../core/datadictionary/dataDictionary-1_0.dtd">
+
+<dictionaryEntry>
+    <maintenanceDocument>
+        <businessObjectClass>org.kuali.module.chart.bo.OrganizationReversionGlobal</businessObjectClass>
+        <maintainableClass>org.kuali.module.chart.maintenance.OrganizationReversionGlobalMaintainableImpl</maintainableClass>
+
+        <businessRulesClass>org.kuali.module.chart.rules.OrganizationReversionGlobalRule</businessRulesClass>
+        <preRulesCheckClass>org.kuali.module.chart.rules.OrganizationReversionGlobalPreRules</preRulesCheckClass>
+        <documentAuthorizerClass>org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase</documentAuthorizerClass>
+        <authorizations>
+            <authorization action="initiate">
+                <workgroups>
+                    <workgroup>KUALI_ROLE_MAINTENANCE</workgroup>
+                </workgroups>
+            </authorization>
+        </authorizations>
+
+        <documentTypeName>OrganizationReversionGlobalMaintenanceDocument</documentTypeName>
+        <documentTypeCode>GORV</documentTypeCode>
+        
+        <webScriptFile>../dwr/interface/ObjectCodeService.js</webScriptFile>
+        <webScriptFile>../scripts/chart/orgReversionChangeDocument.js</webScriptFile>
+
+        <label>Global Organization Reversion Maintenance Document</label>
+        <shortLabel>GlobOrgRevMaintDoc</shortLabel>
+
+        <summary>Global Organization Reversion Maintenance Document</summary>
+        <description>Global Organization Reversion Maintenance Document</description>
+
+        <lockingKeys>
+            <field attributeName="documentNumber" />
+        </lockingKeys>
+        
+        <allowsNewOrCopy>true</allowsNewOrCopy>
+        
+        <defaultExistenceChecks>
+            <reference attributeName="universityFiscal" attributeToHighlightOnFail="universityFiscalYear" />
+            <reference attributeName="budgetReversionChartOfAccounts" activeIndicatorAttributeName="finChartOfAccountActiveIndicator" attributeToHighlightOnFail="budgetReversionChartOfAccountsCode" />
+            <reference attributeName="budgetReversionAccount" attributeToHighlightOnFail="budgetReversionAccountNumber" activeIndicatorAttributeName="accountClosedIndicator" activeIndicatorReversed="true" />
+            <reference attributeName="cashReversionFinancialChartOfAccounts" activeIndicatorAttributeName="finChartOfAccountActiveIndicator" attributeToHighlightOnFail="cashReversionFinancialChartOfAccountsCode" />
+            <reference attributeName="cashReversionAccount" attributeToHighlightOnFail="cashReversionAccountNumber" activeIndicatorAttributeName="accountClosedIndicator" activeIndicatorReversed="true" />
+        </defaultExistenceChecks>
+        
+        <maintainableSections>
+        	<maintainableSection title="Edit Global Organization Reversion Organizations">
+            	  <maintainableItems>
+            		<maintainableCollection name="organizationReversionGlobalOrganizations" businessObjectClass="org.kuali.module.chart.bo.OrganizationReversionGlobalOrganization" summaryTitle="Organization" sourceClassName="org.kuali.module.chart.bo.Org" sourceAttributeName="organizationCode">
+            		    <maintainableField name="chartOfAccountsCode" template="chartOfAccountsCode" required="true" />
+                        <maintainableField name="organizationCode" template="organizationCode" required="true" />
+                        <maintainableField name="newCollectionRecord" />
+                        <maintainableField name="versionNumber" />
+                        <summaryFields>
+                        	<summaryField name="chartOfAccountsCode" />
+                        	<summaryField name="organizationCode" />
+                        </summaryFields>
+                  	</maintainableCollection>
+            	  </maintainableItems>
+            </maintainableSection>
+            <maintainableSection title="Edit Global Organization Reversion">
+                <maintainableItems>
+                    <maintainableField name="universityFiscalYear" required="true" />
+                    <maintainableField name="budgetReversionChartOfAccountsCode" />
+                    <maintainableField name="budgetReversionAccountNumber" />
+                    <maintainableField name="cashReversionFinancialChartOfAccountsCode" />
+                    <maintainableField name="cashReversionAccountNumber" />
+                    <maintainableField name="carryForwardByObjectCodeIndicator" />
+                    <maintainableField name="versionNumber" />
+	              </maintainableItems>
+            </maintainableSection>
+            <maintainableSection title="Edit Global Organization Reversion Details">
+            	  <maintainableItems>
+                    <maintainableCollection name="organizationReversionGlobalDetails" businessObjectClass="org.kuali.module.chart.bo.OrganizationReversionGlobalDetail" includeAddLine="false" summaryTitle="Organization Reversion Detail">
+                        <maintainableField name="organizationReversionCategoryCode" required="true" readOnly="true"/>
+                        <maintainableField name="organizationReversionObjectCode" webUILeaveFieldFunction="updateObjectNames" />
+                        <maintainableField name="objectCodeNames" readOnly="true" />
+                        <maintainableField name="organizationReversionCode" />
+                        <maintainableField name="newCollectionRecord" />
+                        <maintainableField name="versionNumber" />
+                    </maintainableCollection>
+            	  </maintainableItems>
+            </maintainableSection>
+        </maintainableSections>
+    </maintenanceDocument>
+</dictionaryEntry>

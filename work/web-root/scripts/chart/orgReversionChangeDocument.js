@@ -33,19 +33,19 @@ function updateObjectNames( objField ) {
 	var fiscalYear = getElementValue( elPrefix + ".universityFiscalYear" );
   // now, get all of the distinct chart of account codes from the organizations tab
   var chartCodes = [];
-  var chartCode = getElementValue(elPrefix + ".add.organizationReversionChangeOrganizations.chartOfAccountsCode");
+  var chartCode = getElementValue(elPrefix + ".add.organizationReversionGlobalOrganizations.chartOfAccountsCode");
   if (chartCode) {
     chartCodes.push(chartCode);
   }
   var orgCount = 0;
-  var chartElementName = elPrefix + ".organizationReversionChangeOrganizations["+orgCount+"].chartOfAccountsCode";
+  var chartElementName = elPrefix + ".organizationReversionGlobalOrganizations["+orgCount+"].chartOfAccountsCode";
   while (kualiElements[chartElementName]) {
     chartCode = getElementValue(chartElementName);
     if (chartCode && !arrayContains(chartCodes, chartCode)) {
       chartCodes.push(chartCode);
     }
     orgCount += 1;
-    chartElementName = elPrefix + ".organizationReversionChangeOrganizations["+orgCount+"].chartOfAccountsCode";
+    chartElementName = elPrefix + ".organizationReversionGlobalOrganizations["+orgCount+"].chartOfAccountsCode";
   }
   
 	var objectCode = getElementValue( objField.name );

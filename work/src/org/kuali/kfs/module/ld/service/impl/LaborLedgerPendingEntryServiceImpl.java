@@ -30,6 +30,8 @@ import org.kuali.module.chart.bo.Account;
 import org.kuali.module.labor.bo.LaborLedgerPendingEntry;
 import org.kuali.module.labor.dao.LaborLedgerPendingEntryDao;
 import org.kuali.module.labor.document.LaborLedgerPostingDocument;
+import org.kuali.module.labor.rule.event.GenerateLaborLedgerBenefitClearingPendingEntriesEvent; 
+import org.kuali.module.labor.rule.event.GenerateLaborLedgerPendingEntriesEvent;
 import org.kuali.module.labor.service.LaborLedgerPendingEntryService;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -136,9 +138,8 @@ public class LaborLedgerPendingEntryServiceImpl implements LaborLedgerPendingEnt
     private boolean processLaborLedgerPendingEntryForAccountingLine(LaborLedgerPostingDocument document, GeneralLedgerPendingEntrySequenceHelper sequenceHelper, AccountingLine line) {
         LOG.debug("processLaborLedgerPendingEntryForAccountingLine() started");
         boolean success = true;
-// abyrne commented out the lines below to fix the build
-//        GenerateLaborLedgerPendingEntriesEvent event = new GenerateLaborLedgerPendingEntriesEvent(document, line, sequenceHelper);
-    //    success &= kualiRuleService.applyRules(event);
+        GenerateLaborLedgerPendingEntriesEvent event = new GenerateLaborLedgerPendingEntriesEvent(document, line, sequenceHelper);
+        success &= kualiRuleService.applyRules(event);
         return success;
     }
 

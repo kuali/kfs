@@ -48,6 +48,7 @@ import org.kuali.module.gl.GLConstants;
 import org.kuali.module.labor.bo.ExpenseTransferAccountingLine;
 import org.kuali.module.labor.bo.LedgerBalance;
 import org.kuali.module.labor.document.LaborExpenseTransferDocumentBase;
+import org.kuali.module.labor.rule.event.EmployeeIdChangedEvent; 
 import org.kuali.module.labor.service.SegmentedLookupResultsService;
 import org.kuali.module.labor.web.struts.form.ExpenseTransferDocumentFormBase;
 
@@ -163,9 +164,7 @@ public class ExpenseTransferDocumentActionBase extends LaborDocumentActionBase {
         ExpenseTransferDocumentFormBase expenseTransferDocumentForm = (ExpenseTransferDocumentFormBase) form;
 
         // Needed to be executed for each accounting line that may have been added.
-        //boolean rulePassed = runRule(new EmployeeIdChangedEvent(expenseTransferDocumentForm.getDocument()));
-        // abyrne commented out the line above to fix the build
-        boolean rulePassed = false;
+        boolean rulePassed = runRule(new EmployeeIdChangedEvent(expenseTransferDocumentForm.getDocument()));
         Map<String, String> requestParams = (Map<String, String>) request.getParameterMap();
 
         Collection<PersistableBusinessObject> rawValues = null;

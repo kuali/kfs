@@ -42,6 +42,7 @@ import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.UrlFactory;
 import org.kuali.core.web.struts.form.KualiForm;
 import org.kuali.kfs.KFSConstants;
+import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.rule.event.AddAccountingLineEvent;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.gl.GLConstants;
@@ -60,19 +61,19 @@ public class ExpenseTransferDocumentActionBase extends LaborDocumentActionBase {
 
     private static final Map<String, String> periodCodeMapping = new HashMap<String, String>();
     static {
-        periodCodeMapping.put("month1Amount", KFSConstants.MONTH1);
-        periodCodeMapping.put("month2Amount", KFSConstants.MONTH2);
-        periodCodeMapping.put("month3Amount", KFSConstants.MONTH3);
-        periodCodeMapping.put("month4Amount", KFSConstants.MONTH4);
-        periodCodeMapping.put("month5Amount", KFSConstants.MONTH5);
-        periodCodeMapping.put("month6Amount", KFSConstants.MONTH6);
-        periodCodeMapping.put("month7Amount", KFSConstants.MONTH7);
-        periodCodeMapping.put("month8Amount", KFSConstants.MONTH8);
-        periodCodeMapping.put("month9Amount", KFSConstants.MONTH9);
-        periodCodeMapping.put("month10Amount", KFSConstants.MONTH10);
-        periodCodeMapping.put("month11Amount", KFSConstants.MONTH11);
-        periodCodeMapping.put("month12Amount", KFSConstants.MONTH12);
-        periodCodeMapping.put("month13Amount", KFSConstants.MONTH13);
+        periodCodeMapping.put(KFSPropertyConstants.MONTH1_AMOUNT, KFSConstants.MONTH1);
+        periodCodeMapping.put(KFSPropertyConstants.MONTH2_AMOUNT, KFSConstants.MONTH2);
+        periodCodeMapping.put(KFSPropertyConstants.MONTH3_AMOUNT, KFSConstants.MONTH3);
+        periodCodeMapping.put(KFSPropertyConstants.MONTH4_AMOUNT, KFSConstants.MONTH4);
+        periodCodeMapping.put(KFSPropertyConstants.MONTH5_AMOUNT, KFSConstants.MONTH5);
+        periodCodeMapping.put(KFSPropertyConstants.MONTH6_AMOUNT, KFSConstants.MONTH6);
+        periodCodeMapping.put(KFSPropertyConstants.MONTH7_AMOUNT, KFSConstants.MONTH7);
+        periodCodeMapping.put(KFSPropertyConstants.MONTH8_AMOUNT, KFSConstants.MONTH8);
+        periodCodeMapping.put(KFSPropertyConstants.MONTH9_AMOUNT, KFSConstants.MONTH9);
+        periodCodeMapping.put(KFSPropertyConstants.MONTH10_AMOUNT, KFSConstants.MONTH10);
+        periodCodeMapping.put(KFSPropertyConstants.MONTH11_AMOUNT, KFSConstants.MONTH11);
+        periodCodeMapping.put(KFSPropertyConstants.MONTH12_AMOUNT, KFSConstants.MONTH12);
+        periodCodeMapping.put(KFSPropertyConstants.MONTH13_AMOUNT, KFSConstants.MONTH13);
     }
 
     /**

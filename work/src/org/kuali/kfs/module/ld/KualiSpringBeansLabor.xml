@@ -203,6 +203,9 @@
 		<property name="lookupService">
 			<ref bean="lookupService" />
 		</property>
+		<property name="balanceService">
+			<ref bean="laborLedgerBalanceService" />
+		</property>		
 		<property name="businessObjectDictionaryService">
 			<ref bean="businessObjectDictionaryService" />
 		</property>

@@ -94,20 +94,6 @@
                 <field attributeName="financialBeginningBalanceLineAmount" />                            
                 <field attributeName="contractsGrantsBeginningBalanceAmount" />                
 				<field attributeName="accountLineAnnualBalanceAmount" />
-
-                <field attributeName="month1Amount" />
-                <field attributeName="month2Amount" />
-                <field attributeName="month3Amount" />
-                <field attributeName="month4Amount" />
-                <field attributeName="month5Amount" />
-                <field attributeName="month6Amount" />
-                <field attributeName="month7Amount" />
-                <field attributeName="month8Amount" />
-                <field attributeName="month9Amount" />
-                <field attributeName="month10Amount" />
-                <field attributeName="month11Amount" />
-                <field attributeName="month12Amount" />
-                <field attributeName="month13Amount" />
             </resultFields>
         </lookup>
 

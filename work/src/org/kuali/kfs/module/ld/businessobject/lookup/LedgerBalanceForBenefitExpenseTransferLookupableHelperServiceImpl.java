@@ -15,6 +15,7 @@
  */
 package org.kuali.module.labor.web.lookupable;
 
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -27,13 +28,15 @@ import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.bo.Options;
 import org.kuali.kfs.service.OptionsService;
+import org.kuali.module.gl.util.OJBUtility;
+import org.kuali.module.gl.web.Constant;
 import org.kuali.module.labor.LaborConstants.BenefitExpenseTransfer;
 import org.kuali.module.labor.bo.LedgerBalance;
 import org.kuali.module.labor.web.inquirable.LedgerBalanceInquirableImpl;
 import org.springframework.transaction.annotation.Transactional;
 
 @Transactional
-public class LedgerBalanceForBenefitExpenseTransferLookupableHelperServiceImpl extends AbstractLookupableHelperServiceImpl {
+public class LedgerBalanceForBenefitExpenseTransferLookupableHelperServiceImpl extends LedgerBalanceLookupableHelperServiceImpl {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(LedgerBalanceForBenefitExpenseTransferLookupableHelperServiceImpl.class);
     
     private OptionsService optionsService;
@@ -45,6 +48,7 @@ public class LedgerBalanceForBenefitExpenseTransferLookupableHelperServiceImpl e
     public String getInquiryUrl(BusinessObject bo, String propertyName) {
         return (new LedgerBalanceInquirableImpl()).getInquiryUrl(bo, propertyName);
     }
+
 
     /**
      * @see org.kuali.core.lookup.Lookupable#getSearchResults(java.util.Map)
@@ -64,24 +68,21 @@ public class LedgerBalanceForBenefitExpenseTransferLookupableHelperServiceImpl e
         
         // get the ledger balances with actual balance type code
         fieldValues.put(KFSPropertyConstants.FINANCIAL_BALANCE_TYPE_CODE, options.getActualFinancialBalanceTypeCd());
-        List cashBalances = (List) getLookupService().findCollectionBySearchHelper(LedgerBalance.class, fieldValues, false);
+        Collection cashBalances =  buildConsolidatedBalanceCollection(getBalanceService().findBalance(fieldValues, true), Constant.NO_PENDING_ENTRY);
         
         // get the ledger balances with effort balance type code
         fieldValues.put(KFSPropertyConstants.FINANCIAL_BALANCE_TYPE_CODE, KFSConstants.BALANCE_TYPE_A21);
-        List effortBalances = (List) getLookupService().findCollectionBySearchHelper(LedgerBalance.class, fieldValues, false);
-        
-        CollectionIncomplete cashBalancesResults = new CollectionIncomplete(cashBalances, (long)cashBalances.size());
-        CollectionIncomplete effortBalancesResults = new CollectionIncomplete(effortBalances, (long)effortBalances.size());
-        
-        List searchResults = cashBalancesResults;
-        searchResults.addAll(effortBalancesResults);
-        
-        // sort list if default sort column given
-        List defaultSortColumns = getDefaultSortColumns();
-        if (defaultSortColumns.size() > 0) {
-            Collections.sort(searchResults, new BeanPropertyComparator(getDefaultSortColumns(), true));
-        }
-        return searchResults;
+        Collection effortBalances = buildConsolidatedBalanceCollection(getBalanceService().findBalance(fieldValues, true), Constant.NO_PENDING_ENTRY);
+                
+        Collection searchResults = cashBalances;
+        LOG.debug("cashBalancesResults " + cashBalances.size());
+        searchResults.addAll(effortBalances);
+        LOG.debug("searchResults " + searchResults.size());
+
+        Integer recordCount = getBalanceService().getBalanceRecordCount(fieldValues, true);
+        Long actualSize = OJBUtility.getResultActualSize(searchResults, recordCount, fieldValues, new LedgerBalance());
+
+        return buildSearchResultList(searchResults, actualSize);
     }
     
     /**
@@ -108,4 +109,5 @@ public class LedgerBalanceForBenefitExpenseTransferLookupableHelperServiceImpl e
     public void setOptionsService(OptionsService optionsService) {
         this.optionsService = optionsService;
     }
+
 }

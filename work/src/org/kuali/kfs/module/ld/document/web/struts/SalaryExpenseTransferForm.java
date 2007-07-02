@@ -54,7 +54,7 @@ public class SalaryExpenseTransferForm extends ExpenseTransferDocumentFormBase {
         setDocument(new SalaryExpenseTransferDocument());
         setFinancialBalanceTypeCode("AC");
         setLookupResultsBOClassName(LedgerBalance.class.getName());
-        setUniversityFiscalYear(0);
+        setUniversityFiscalYear(SpringServiceLocator.getAccountingPeriodService().getByDate(new Date(System.currentTimeMillis())).getUniversityFiscalYear());
     }
 
     /**
@@ -143,12 +143,7 @@ public class SalaryExpenseTransferForm extends ExpenseTransferDocumentFormBase {
      */
     @Override
     public Integer getUniversityFiscalYear() {
-        if (fiscalYear > 0) {
-            return fiscalYear;
-        }
-        else {
-            return SpringServiceLocator.getAccountingPeriodService().getByDate(new Date(System.currentTimeMillis())).getUniversityFiscalYear();
-        }
+        return fiscalYear;
     }
 
     /**

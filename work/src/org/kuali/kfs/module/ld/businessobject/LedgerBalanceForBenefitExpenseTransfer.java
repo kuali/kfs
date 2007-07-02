@@ -15,13 +15,30 @@
  */
 package org.kuali.module.labor.bo;
 
+import java.util.Arrays;
+import java.util.Collection;
+import org.kuali.module.labor.LaborPropertyConstants.AccountingPeriodProperties;
 
-public class LedgerBalanceForBenefitExpenseTransfer extends LedgerBalance {
+public class LedgerBalanceForBenefitExpenseTransfer extends LedgerBalance implements SegmentedBusinessObject {
 
     /**
      * Constructs a LedgerBalanceForBenefitExpenseTransfer.java.
      */
     public LedgerBalanceForBenefitExpenseTransfer() {
         super();
+    }
+
+    /**
+     * @see org.kuali.module.labor.bo.SegmentedBusinessObject#isLookupResultsSegmented()
+     */
+    public boolean isLookupResultsSegmented() {
+        return true;
+    }
+
+    /**
+     * @see org.kuali.module.labor.bo.SegmentedBusinessObject#getSegmentedPropertyNames()
+     */
+    public Collection<String> getSegmentedPropertyNames() {
+        return (Collection<String>) Arrays.asList(AccountingPeriodProperties.namesToArray());
     }
 }

@@ -44,11 +44,49 @@ public class LaborPropertyConstants {
         YEAR_END (KFSPropertyConstants.MONTH13_AMOUNT, KFSConstants.MONTH13);
         
         public String propertyName;
-        public String typeCode;
+        public String periodCode;
         
-        private AccountingPeriodProperties(String propertyName, String typeCode) {
+        private AccountingPeriodProperties(String propertyName, String periodCode) {
             this.propertyName = propertyName;
-            this.typeCode = typeCode;
-        }        
+            this.periodCode = periodCode;
+        }
+
+        /**
+         * Spew out the property names in as a String array
+         *
+         * @return String[]
+         */
+        public static String[] namesToArray() {
+            return new String[] {
+                JULY.propertyName, AUGUST.propertyName, SEPTEMBER.propertyName, OCTOBER.propertyName, 
+                NOVEMBER.propertyName, DECEMBER.propertyName, JANUARY.propertyName, FEBRUARY.propertyName, 
+                MARCH.propertyName, APRIL.propertyName, MAY.propertyName, JUNE.propertyName, 
+                YEAR_END.propertyName
+            };
+        }
+
+        /**
+         * Spew out accounting period codes as a String array
+         *
+         * @return String[]
+         */
+        public static String[] codeToArray() {
+            return new String[] {
+                JULY.periodCode, AUGUST.periodCode, SEPTEMBER.periodCode, OCTOBER.periodCode, 
+                NOVEMBER.periodCode, DECEMBER.periodCode, JANUARY.periodCode, FEBRUARY.periodCode, 
+                MARCH.periodCode, APRIL.periodCode, MAY.periodCode, JUNE.periodCode, 
+                YEAR_END.periodCode
+            };            
+        }
+
+        /**
+         * Spew out everything in an array
+         */
+        public static AccountingPeriodProperties[] toArray() {
+            return new AccountingPeriodProperties[] {
+                JULY, AUGUST, SEPTEMBER, OCTOBER, NOVEMBER, DECEMBER, JANUARY, FEBRUARY, MARCH, APRIL,
+                MAY, JUNE, YEAR_END
+            };
+        }
     }
 }

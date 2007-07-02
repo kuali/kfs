@@ -76,7 +76,9 @@
                 </lookupField>
                 <lookupField attributeName="laborObject.financialObjectFringeOrSalaryCode" required="false" />
                 <lookupField attributeName="emplid" required="false" />
-                <lookupField attributeName="financialBalanceTypeCode" required="false" />
+                <lookupField attributeName="financialBalanceTypeCode" required="false">
+                    <defaultValueFinderClass>org.kuali.module.labor.web.optionfinder.BalanceTypeCodeOptionFinder</defaultValueFinderClass>
+                </lookupField>
                 <lookupField attributeName="dummyBusinessObject.consolidationOption">
                     <defaultValueFinderClass>org.kuali.module.gl.web.optionfinder.GLConsolidationOptionFinder</defaultValueFinderClass>
                 </lookupField>
@@ -200,9 +202,9 @@
 			<attributeReference name="accountNumber" sourceClassName="org.kuali.module.chart.bo.Account" sourceAttributeName="accountNumber" />
 			<attributeReference name="chartOfAccountsCode" sourceClassName="org.kuali.module.chart.bo.Chart" sourceAttributeName="chartOfAccountsCode" />
 			<attributeReference name="financialBalanceTypeCode" sourceClassName="org.kuali.module.chart.bo.codes.BalanceTyp" sourceAttributeName="code">
-				<control>
-					<hidden />
-				</control>
+                <control>
+                    <radio valuesFinderClass="org.kuali.module.labor.web.optionfinder.BalanceTypeCodeOptionFinder" />
+                </control>
 			</attributeReference>
 			<attributeReference name="financialObjectCode" sourceClassName="org.kuali.module.chart.bo.ObjectCode" sourceAttributeName="financialObjectCode" />
 			<attributeReference name="financialObjectTypeCode" sourceClassName="org.kuali.module.chart.bo.ObjectType" sourceAttributeName="code" />

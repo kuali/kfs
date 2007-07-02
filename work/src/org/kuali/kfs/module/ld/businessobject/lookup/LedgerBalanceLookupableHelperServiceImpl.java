@@ -116,11 +116,11 @@ public class LedgerBalanceLookupableHelperServiceImpl extends AbstractLookupable
      * 
      * @return the balance collection
      */
-    private Collection buildBalanceCollection(Iterator iterator, boolean isConsolidated, String pendingEntryOption) {
+    protected Collection buildBalanceCollection(Iterator iterator, boolean isConsolidated, String pendingEntryOption) {
         Collection balanceCollection = null;
         
         if (isConsolidated) {
-            balanceCollection = buildCosolidatedBalanceCollection(iterator, pendingEntryOption);
+            balanceCollection = buildConsolidatedBalanceCollection(iterator, pendingEntryOption);
         }
         else {
             balanceCollection = buildDetailedBalanceCollection(iterator, pendingEntryOption);
@@ -136,7 +136,7 @@ public class LedgerBalanceLookupableHelperServiceImpl extends AbstractLookupable
      * 
      * @return the consolidated balance collection
      */
-    private Collection buildCosolidatedBalanceCollection(Iterator iterator, String pendingEntryOption) {
+    protected Collection buildConsolidatedBalanceCollection(Iterator iterator, String pendingEntryOption) {
         Collection balanceCollection = new ArrayList();
         
         while (iterator.hasNext()) {
@@ -146,7 +146,7 @@ public class LedgerBalanceLookupableHelperServiceImpl extends AbstractLookupable
                 int i = 0;
                 Object[] array = (Object[]) collectionEntry;
                 LedgerBalance balance = new LedgerBalance();
-                
+
                 if (LedgerBalance.class.isAssignableFrom(getBusinessObjectClass())) {
                     try {
                         balance = (LedgerBalance) getBusinessObjectClass().newInstance();
@@ -212,7 +212,7 @@ public class LedgerBalanceLookupableHelperServiceImpl extends AbstractLookupable
      * 
      * @return the detailed balance collection
      */
-    private Collection buildDetailedBalanceCollection(Iterator iterator, String pendingEntryOption) {
+    protected Collection buildDetailedBalanceCollection(Iterator iterator, String pendingEntryOption) {
         Collection balanceCollection = new ArrayList();
         
         while (iterator.hasNext()) {
@@ -336,12 +336,17 @@ public class LedgerBalanceLookupableHelperServiceImpl extends AbstractLookupable
     protected List buildSearchResultList(Collection searchResultsCollection, Long actualSize) {
         CollectionIncomplete results = new CollectionIncomplete(searchResultsCollection, actualSize);
 
+        LOG.debug("Building search results " + actualSize);
+        LOG.debug("Results are " + results.size());
+        LOG.debug("SearchResults are " + searchResultsCollection.size());
+
         // sort list if default sort column given
         List searchResults = (List) results;
         List defaultSortColumns = getDefaultSortColumns();
         if (defaultSortColumns.size() > 0) {
             Collections.sort(results, new BeanPropertyComparator(defaultSortColumns, true));
         }
+        LOG.debug("Results are " + searchResults.size());
         return searchResults;
     }
 
@@ -353,6 +358,16 @@ public class LedgerBalanceLookupableHelperServiceImpl extends AbstractLookupable
     public void setBalanceService(LaborLedgerBalanceService balanceService) {
         this.balanceService = balanceService;
     }
+
+    /**
+     * Gets the balanceService attribute value.
+     * 
+     * @return balanceService The balanceService to set.
+     */
+    public LaborLedgerBalanceService getBalanceService() {
+        return balanceService;
+    }
+
     /**
      * 
      * This method performs the lookup and returns a collection of lookup items
@@ -364,6 +379,7 @@ public class LedgerBalanceLookupableHelperServiceImpl extends AbstractLookupable
      */
     public Collection performLookup(LookupForm lookupForm, Collection resultTable, boolean bounded) {
         Collection<BusinessObject> displayList;
+        LOG.debug("Got here");
         
         // call search method to get results
         if (bounded) {
@@ -372,6 +388,8 @@ public class LedgerBalanceLookupableHelperServiceImpl extends AbstractLookupable
         else {
             displayList = (Collection<BusinessObject>) getSearchResultsUnbounded(lookupForm.getFieldsForLookup());
         }
+
+        LOG.debug("Got displayList of size " + displayList.size());
 
         // iterate through result list and wrap rows with return url and action urls
         for (BusinessObject element : displayList) {

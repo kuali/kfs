@@ -15,9 +15,9 @@
  */
 package org.kuali.module.labor.bo;
 
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
-
+import org.kuali.module.labor.LaborPropertyConstants.AccountingPeriodProperties;
 
 /**
  * BO class specifically for <code>{@link SalaryExpenseTransferDocument}</code> ledger balance
@@ -43,20 +43,6 @@ public class LedgerBalanceForSalaryExpenseTransfer extends LedgerBalance impleme
      * @see org.kuali.module.labor.bo.SegmentedBusinessObject#getSegmentedPropertyNames()
      */
     public Collection<String> getSegmentedPropertyNames() {
-        Collection<String> retval = new ArrayList<String>();
-        retval.add("month1Amount");
-        retval.add("month2Amount");
-        retval.add("month3Amount");
-        retval.add("month4Amount");
-        retval.add("month5Amount");
-        retval.add("month6Amount");
-        retval.add("month7Amount");
-        retval.add("month8Amount");
-        retval.add("month9Amount");
-        retval.add("month10Amount");
-        retval.add("month11Amount");
-        retval.add("month12Amount");
-        retval.add("month13Amount");
-        return retval;
+        return (Collection<String>) Arrays.asList(AccountingPeriodProperties.namesToArray());
     }
 }

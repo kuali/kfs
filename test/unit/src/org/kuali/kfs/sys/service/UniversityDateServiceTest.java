@@ -15,6 +15,8 @@
  */
 package org.kuali.module.financial.service;
 
+import java.util.Calendar;
+
 import org.kuali.kfs.context.KualiTestBase;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.test.WithTestSpringContext;
@@ -23,9 +25,13 @@ import org.kuali.test.WithTestSpringContext;
 public class UniversityDateServiceTest extends KualiTestBase {
 
     public final void testGetCurrentFiscalYear() {
-        Integer serviceYear = SpringServiceLocator.getUniversityDateService().getCurrentFiscalYear();
-
-        assertEquals("The current fiscal year in the Kuali test data is 2007", new Integer(2007), serviceYear);
+        int currentFiscalYearAccordingToUniversityDateService = SpringServiceLocator.getUniversityDateService().getCurrentFiscalYear();
+        Calendar today = SpringServiceLocator.getDateTimeService().getCurrentCalendar();
+        int currentFiscalYearAccordingToTest = today.get(Calendar.YEAR); 
+        if (today.get(Calendar.MONTH) >= Calendar.JULY) {
+            currentFiscalYearAccordingToTest++;
+        }
+        assertEquals("Test expected: " + currentFiscalYearAccordingToTest + ", but UniversityDateService said: " + currentFiscalYearAccordingToUniversityDateService, currentFiscalYearAccordingToTest, currentFiscalYearAccordingToUniversityDateService);
     }
 
     public final void testGetFiscalYear_nullDate() {

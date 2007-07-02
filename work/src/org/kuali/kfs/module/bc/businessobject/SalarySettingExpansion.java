@@ -68,9 +68,9 @@ public class SalarySettingExpansion extends PendingBudgetConstructionGeneralLedg
     public void zeroTotals() {
 
         csfAmountTotal = new KualiInteger(0);
-        csfFullTimeEmploymentQuantityTotal = new BigDecimal(0).setScale(5,BigDecimal.ROUND_HALF_EVEN);
+        csfFullTimeEmploymentQuantityTotal = new BigDecimal(0).setScale(5,KualiDecimal.ROUND_BEHAVIOR);
         appointmentRequestedAmountTotal = new KualiInteger(0);
-        appointmentRequestedFteQuantityTotal = new BigDecimal(0).setScale(5,BigDecimal.ROUND_HALF_EVEN);
+        appointmentRequestedFteQuantityTotal = new BigDecimal(0).setScale(5,KualiDecimal.ROUND_BEHAVIOR);
         percentChangeTotal = new KualiDecimal(0.00);
     }
 

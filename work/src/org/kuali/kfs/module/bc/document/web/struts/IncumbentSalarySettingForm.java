@@ -78,16 +78,18 @@ public class IncumbentSalarySettingForm extends KualiForm {
     //this also controls where we return the user when done
     private boolean budgetByAccountMode;
 
+    //TODO these should be moved to BudgetConstructionIntendedIncumbent.java to be consistent with
+    //SalarySettingExpansion.java and BudgetConstructionPosition.java totaling
     //totals
     private KualiDecimal csfAmountTotal = new KualiDecimal(0.00);
-    private BigDecimal csfFullTimeEmploymentQuantityTotal = new BigDecimal(0).setScale(5,BigDecimal.ROUND_HALF_EVEN);
-    private BigDecimal csfStandardHoursTotal = new BigDecimal(0).setScale(2,BigDecimal.ROUND_HALF_EVEN);
+    private BigDecimal csfFullTimeEmploymentQuantityTotal = new BigDecimal(0).setScale(5,KualiDecimal.ROUND_BEHAVIOR);
+    private BigDecimal csfStandardHoursTotal = new BigDecimal(0).setScale(2,KualiDecimal.ROUND_BEHAVIOR);
     private KualiDecimal appointmentRequestedAmountTotal = new KualiDecimal(0.00);
-    private BigDecimal appointmentRequestedFteQuantityTotal = new BigDecimal(0).setScale(5,BigDecimal.ROUND_HALF_EVEN);
-    private BigDecimal appointmentRequestedStandardHoursTotal = new BigDecimal(0).setScale(2,BigDecimal.ROUND_HALF_EVEN);
+    private BigDecimal appointmentRequestedFteQuantityTotal = new BigDecimal(0).setScale(5,KualiDecimal.ROUND_BEHAVIOR);
+    private BigDecimal appointmentRequestedStandardHoursTotal = new BigDecimal(0).setScale(2,KualiDecimal.ROUND_BEHAVIOR);
     private KualiDecimal appointmentRequestedCsfAmountTotal = new KualiDecimal(0.00);
-    private BigDecimal appointmentRequestedCsfFteQuantityTotal = new BigDecimal(0).setScale(5,BigDecimal.ROUND_HALF_EVEN);
-    private BigDecimal appointmentRequestedCsfStandardHoursTotal = new BigDecimal(0).setScale(2,BigDecimal.ROUND_HALF_EVEN);
+    private BigDecimal appointmentRequestedCsfFteQuantityTotal = new BigDecimal(0).setScale(5,KualiDecimal.ROUND_BEHAVIOR);
+    private BigDecimal appointmentRequestedCsfStandardHoursTotal = new BigDecimal(0).setScale(2,KualiDecimal.ROUND_BEHAVIOR);
 
     public IncumbentSalarySettingForm(){
         super();
@@ -380,15 +382,15 @@ public class IncumbentSalarySettingForm extends KualiForm {
 //TODO remove this will be set when a user selects and sets the positionNumber
 //        line.setAppointmentFundingMonth(bcII.getIuNormalWorkMonths());
         line.setAppointmentRequestedAmount(new KualiInteger(0));
-        line.setAppointmentRequestedFteQuantity(new BigDecimal(0).setScale(5,BigDecimal.ROUND_HALF_EVEN));
-        line.setAppointmentRequestedTimePercent(new BigDecimal(0).setScale(2,BigDecimal.ROUND_HALF_EVEN));
-        line.setAppointmentRequestedPayRate(new BigDecimal(0).setScale(2,BigDecimal.ROUND_HALF_EVEN));
+        line.setAppointmentRequestedFteQuantity(new BigDecimal(0).setScale(5,KualiDecimal.ROUND_BEHAVIOR));
+        line.setAppointmentRequestedTimePercent(new BigDecimal(0).setScale(2,KualiDecimal.ROUND_BEHAVIOR));
+        line.setAppointmentRequestedPayRate(new BigDecimal(0).setScale(2,KualiDecimal.ROUND_BEHAVIOR));
         line.setAppointmentFundingDurationCode(BCConstants.APPOINTMENT_FUNDING_DURATION_DEFAULT);
         line.setAppointmentRequestedCsfAmount(new KualiInteger(BigDecimal.ZERO));
-        line.setAppointmentRequestedCsfFteQuantity(new BigDecimal(0).setScale(5,BigDecimal.ROUND_HALF_EVEN));
-        line.setAppointmentRequestedCsfTimePercent(new BigDecimal(0).setScale(2,BigDecimal.ROUND_HALF_EVEN));
+        line.setAppointmentRequestedCsfFteQuantity(new BigDecimal(0).setScale(5,KualiDecimal.ROUND_BEHAVIOR));
+        line.setAppointmentRequestedCsfTimePercent(new BigDecimal(0).setScale(2,KualiDecimal.ROUND_BEHAVIOR));
         line.setAppointmentTotalIntendedAmount(new KualiInteger(BigDecimal.ZERO));
-        line.setAppointmentTotalIntendedFteQuantity(new BigDecimal(0).setScale(5,BigDecimal.ROUND_HALF_EVEN));
+        line.setAppointmentTotalIntendedFteQuantity(new BigDecimal(0).setScale(5,KualiDecimal.ROUND_BEHAVIOR));
         
         
     }

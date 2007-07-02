@@ -462,15 +462,15 @@ public class PositionSalarySettingForm extends KualiForm {
         line.setAppointmentFundingDeleteIndicator(false);
         line.setAppointmentFundingMonth(bcPosn.getIuNormalWorkMonths());
         line.setAppointmentRequestedAmount(new KualiInteger(0));
-        line.setAppointmentRequestedFteQuantity(new BigDecimal(0).setScale(5,BigDecimal.ROUND_HALF_EVEN));
-        line.setAppointmentRequestedTimePercent(new BigDecimal(0).setScale(2,BigDecimal.ROUND_HALF_EVEN));
-        line.setAppointmentRequestedPayRate(new BigDecimal(0).setScale(2,BigDecimal.ROUND_HALF_EVEN));
+        line.setAppointmentRequestedFteQuantity(new BigDecimal(0).setScale(5,KualiDecimal.ROUND_BEHAVIOR));
+        line.setAppointmentRequestedTimePercent(new BigDecimal(0).setScale(2,KualiDecimal.ROUND_BEHAVIOR));
+        line.setAppointmentRequestedPayRate(new BigDecimal(0).setScale(2,KualiDecimal.ROUND_BEHAVIOR));
         line.setAppointmentFundingDurationCode(BCConstants.APPOINTMENT_FUNDING_DURATION_DEFAULT);
         line.setAppointmentRequestedCsfAmount(new KualiInteger(BigDecimal.ZERO));
-        line.setAppointmentRequestedCsfFteQuantity(new BigDecimal(0).setScale(5,BigDecimal.ROUND_HALF_EVEN));
-        line.setAppointmentRequestedCsfTimePercent(new BigDecimal(0).setScale(2,BigDecimal.ROUND_HALF_EVEN));
+        line.setAppointmentRequestedCsfFteQuantity(new BigDecimal(0).setScale(5,KualiDecimal.ROUND_BEHAVIOR));
+        line.setAppointmentRequestedCsfTimePercent(new BigDecimal(0).setScale(2,KualiDecimal.ROUND_BEHAVIOR));
         line.setAppointmentTotalIntendedAmount(new KualiInteger(BigDecimal.ZERO));
-        line.setAppointmentTotalIntendedFteQuantity(new BigDecimal(0).setScale(5,BigDecimal.ROUND_HALF_EVEN));
+        line.setAppointmentTotalIntendedFteQuantity(new BigDecimal(0).setScale(5,KualiDecimal.ROUND_BEHAVIOR));
         
         
     }

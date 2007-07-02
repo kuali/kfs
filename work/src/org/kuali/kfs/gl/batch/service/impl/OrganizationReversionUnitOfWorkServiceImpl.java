@@ -32,6 +32,7 @@ import org.kuali.module.gl.service.OrgReversionUnitOfWorkService;
 
 @Transactional
 public class OrgReversionUnitOfWorkServiceImpl implements OrgReversionUnitOfWorkService {
+    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(OrgReversionUnitOfWorkServiceImpl.class);
     private BusinessObjectService businessObjectService;
     private OrgReversionUnitOfWorkDao orgReversionUnitOfWorkDao;
 
@@ -60,10 +61,12 @@ public class OrgReversionUnitOfWorkServiceImpl implements OrgReversionUnitOfWork
      * @see org.kuali.module.gl.service.OrgReversionUnitOfWorkService#save(org.kuali.module.gl.bo.OrgReversionUnitOfWork)
      */
     public void save(OrgReversionUnitOfWork orgRevUnitOfWork) {
+        LOG.debug("Saving org reversion summary for "+orgRevUnitOfWork.toString()+"; its category keys are: "+orgRevUnitOfWork.getCategoryAmounts().keySet());
         businessObjectService.save(orgRevUnitOfWork);
         CollectionUtils.forAllDo(orgRevUnitOfWork.getCategoryAmounts().entrySet(), new Closure() {
             public void execute(Object categoryEntryAsObject) {
                 OrgReversionUnitOfWorkCategoryAmount categoryAmount = (OrgReversionUnitOfWorkCategoryAmount)((Map.Entry)categoryEntryAsObject).getValue();
+                LOG.debug("Saving category amount for "+categoryAmount.toString());
                 businessObjectService.save(categoryAmount);
             }
         });

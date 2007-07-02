@@ -21,6 +21,9 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.collections.Closure;
+import org.apache.commons.collections.CollectionUtils;
+
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.module.chart.bo.OrganizationReversionCategory;
@@ -50,6 +53,7 @@ public class OrgReversionUnitOfWork extends PersistableBusinessObjectBase {
         chartOfAccountsCode = chart;
         accountNumber = acct;
         subAccountNumber = subAcct;
+        cascadeCategoryAmountKeys();
         clearAmounts();
     }
 
@@ -92,6 +96,33 @@ public class OrgReversionUnitOfWork extends PersistableBusinessObjectBase {
             element.setActual(KualiDecimal.ZERO);
             element.setBudget(KualiDecimal.ZERO);
             element.setEncumbrance(KualiDecimal.ZERO);
+        }
+    }
+    
+    /**
+     * 
+     * This method updates the category amount keys for the current unit of work
+     */
+    public void cascadeCategoryAmountKeys() {
+        CollectionUtils.forAllDo(amounts.keySet(), new CategoryAmountKeyCascadingClosure(this));
+    }
+    
+    /**
+     * Inner class to actually perform the category amount updating.
+     */
+    class CategoryAmountKeyCascadingClosure implements Closure {
+        private OrgReversionUnitOfWork unitOfWork;
+        
+        public CategoryAmountKeyCascadingClosure(OrgReversionUnitOfWork unitOfWork) {
+            this.unitOfWork = unitOfWork;
+        }
+        
+        public void execute(Object o) {
+            String category = (String)o;
+            OrgReversionUnitOfWorkCategoryAmount catAmt = amounts.get(category);
+            catAmt.setChartOfAccountsCode(unitOfWork.chartOfAccountsCode);
+            catAmt.setAccountNumber(unitOfWork.accountNumber);
+            catAmt.setSubAccountNumber(unitOfWork.subAccountNumber);
         }
     }
 

@@ -25,7 +25,7 @@ import java.util.Properties;
 
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.bo.PersistableBusinessObjectBase;
+import org.kuali.core.bo.PersistableBusinessObject;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.module.gl.bo.Transaction;
 import org.kuali.module.gl.util.BusinessObjectFieldConverter;
@@ -102,7 +102,7 @@ public class TestDataGenerator {
      * @return the map of lookup fields and values
      * @throws Exception
      */
-    public Map generateLookupFieldValues(PersistableBusinessObjectBase businessObject) throws Exception {
+    public Map generateLookupFieldValues(PersistableBusinessObject businessObject) throws Exception {
         return generateLookupFieldValues(businessObject, null);
     }
 
@@ -113,7 +113,7 @@ public class TestDataGenerator {
      * @return the map of lookup fields and values
      * @throws Exception
      */
-    public Map generateLookupFieldValues(PersistableBusinessObjectBase businessObject, List lookupFields) throws Exception {
+    public Map generateLookupFieldValues(PersistableBusinessObject businessObject, List lookupFields) throws Exception {
         Map fieldValues = new HashMap();
 
         boolean isTransaction = (businessObject instanceof Transaction);

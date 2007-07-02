@@ -17,7 +17,7 @@ package org.kuali.module.gl.batch.poster.impl;
 
 import java.util.Date;
 
-import org.apache.ojb.broker.metadata.DescriptorRepository;
+import org.apache.ojb.broker.metadata.MetadataManager;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.util.SpringServiceLocator;
@@ -172,6 +172,6 @@ public class PostExpenditureTransaction implements IcrTransaction, PostTransacti
     }
 
     public String getDestinationName() {
-        return new DescriptorRepository().getDescriptorFor(ExpenditureTransaction.class).getFullTableName();
+        return MetadataManager.getInstance().getGlobalRepository().getDescriptorFor(ExpenditureTransaction.class).getFullTableName();
     }
 }

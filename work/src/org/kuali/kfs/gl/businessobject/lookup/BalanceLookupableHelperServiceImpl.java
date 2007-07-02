@@ -95,7 +95,7 @@ public class BalanceLookupableHelperServiceImpl extends AbstractGLLookupableHelp
         Collection balanceCollection = null;
 
         if (isConsolidated) {
-            balanceCollection = buildCosolidatedBalanceCollection(iterator, pendingEntryOption);
+            balanceCollection = buildConsolidatedBalanceCollection(iterator, pendingEntryOption);
         }
         else {
             balanceCollection = buildDetailedBalanceCollection(iterator, pendingEntryOption);
@@ -111,7 +111,7 @@ public class BalanceLookupableHelperServiceImpl extends AbstractGLLookupableHelp
      * 
      * @return the consolidated balance collection
      */
-    private Collection buildCosolidatedBalanceCollection(Iterator iterator, String pendingEntryOption) {
+    private Collection buildConsolidatedBalanceCollection(Iterator iterator, String pendingEntryOption) {
         Collection balanceCollection = new ArrayList();
 
         while (iterator.hasNext()) {

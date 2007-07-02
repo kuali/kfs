@@ -63,9 +63,6 @@ public class BalanceInquiryForm extends LookupForm {
         super.populate(request);
 
         try {
-            Lookupable localLookupable = null;
-            Lookupable localPendingEntryLookupable = null;
-
             if (StringUtils.isBlank(request.getParameter(KFSConstants.LOOKUPABLE_IMPL_ATTRIBUTE_NAME)) && StringUtils.isBlank(getLookupableImplServiceName())) {
 
                 // get the business object class for the lookup
@@ -85,16 +82,16 @@ public class BalanceInquiryForm extends LookupForm {
 
                 setLookupableImplServiceName(lookupImplID);
             }
-            localLookupable = SpringServiceLocator.getLookupable(getLookupableImplServiceName());
-
-            if (localLookupable == null) {
+            setLookupable(SpringServiceLocator.getLookupable(getLookupableImplServiceName()));
+            
+            if (getLookupable() == null) {
                 LOG.error("Lookup impl not found for lookup impl name " + getLookupableImplServiceName());
                 throw new RuntimeException("Lookup impl not found for lookup impl name " + getLookupableImplServiceName());
             }
 
             // (laran) I put this here to allow the Exception to be thrown if the localLookupable is null.
             if (Entry.class.getName().equals(getBusinessObjectClassName())) {
-                localPendingEntryLookupable = SpringServiceLocator.getLookupable(GLConstants.LookupableBeanKeys.PENDING_ENTRY);
+                setPendingEntryLookupable(SpringServiceLocator.getLookupable(GLConstants.LookupableBeanKeys.PENDING_ENTRY));
             }
 
             if (request.getParameter(KFSConstants.LOOKUPABLE_IMPL_ATTRIBUTE_NAME) != null) {
@@ -117,15 +114,15 @@ public class BalanceInquiryForm extends LookupForm {
             }
 
             // init lookupable with bo class
-            localLookupable.setBusinessObjectClass(Class.forName(getBusinessObjectClassName()));
-            if (null != localPendingEntryLookupable) {
-                localPendingEntryLookupable.setBusinessObjectClass(GeneralLedgerPendingEntry.class);
+            getLookupable().setBusinessObjectClass(Class.forName(getBusinessObjectClassName()));
+            if (null != getPendingEntryLookupable()) {
+                getPendingEntryLookupable().setBusinessObjectClass(GeneralLedgerPendingEntry.class);
             }
 
             Map fieldValues = new HashMap();
             Map formFields = getFields();
             Class boClass = Class.forName(getBusinessObjectClassName());
-            for (Iterator iter = localLookupable.getRows().iterator(); iter.hasNext();) {
+            for (Iterator iter = getLookupable().getRows().iterator(); iter.hasNext();) {
                 Row row = (Row) iter.next();
 
                 for (Iterator iterator = row.getFields().iterator(); iterator.hasNext();) {
@@ -147,8 +144,8 @@ public class BalanceInquiryForm extends LookupForm {
                     fieldValues.put(field.getPropertyName(), field.getPropertyValue());
                 }
             }
-            if (localLookupable.checkForAdditionalFields(fieldValues)) {
-                for (Iterator iter = localLookupable.getRows().iterator(); iter.hasNext();) {
+            if (getLookupable().checkForAdditionalFields(fieldValues)) {
+                for (Iterator iter = getLookupable().getRows().iterator(); iter.hasNext();) {
                     Row row = (Row) iter.next();
 
                     for (Iterator iterator = row.getFields().iterator(); iterator.hasNext();) {
@@ -186,12 +183,10 @@ public class BalanceInquiryForm extends LookupForm {
                 }
             }
             setFieldConversions(fieldConversionMap);
-            localLookupable.setFieldConversions(fieldConversionMap);
-            if (null != localPendingEntryLookupable) {
-                localPendingEntryLookupable.setFieldConversions(fieldConversionMap);
+            getLookupable().setFieldConversions(fieldConversionMap);
+            if (null != getPendingEntryLookupable()) {
+                getPendingEntryLookupable().setFieldConversions(fieldConversionMap);
             }
-            setLookupable(localLookupable);
-            setPendingEntryLookupable(localPendingEntryLookupable);
         }
         catch (ClassNotFoundException e) {
             LOG.error("Business Object class " + getBusinessObjectClassName() + " not found");

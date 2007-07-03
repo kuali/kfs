@@ -45,7 +45,7 @@ import org.kuali.module.budget.document.authorization.BudgetConstructionDocument
  * from new class DetailSalarySettingForm and put common code there. Or use something like
  * DetailSalarySettingFormHelper?
  */
-public class PositionSalarySettingForm extends KualiForm {
+public class PositionSalarySettingForm extends DetailSalarySettingForm {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PositionSalarySettingForm.class);
 
     private BudgetConstructionPosition budgetConstructionPosition;
@@ -95,8 +95,8 @@ public class PositionSalarySettingForm extends KualiForm {
         super.populate(request);
 
         String methodToCall = this.getMethodToCall();
-        BudgetConstructionPosition bcPosn = this.getBudgetConstructionPosition();
-        bcPosn.zeroTotals();
+
+        zeroTotals();
 
         //TODO add insert line populate call here
 
@@ -111,12 +111,11 @@ public class PositionSalarySettingForm extends KualiForm {
     public void populateBCAFLines(){
 
         //TODO add bcaf totaling here??
-        BudgetConstructionPosition bcPosn = this.getBudgetConstructionPosition();
 
         Iterator bcafLines = this.getBudgetConstructionPosition().getPendingBudgetConstructionAppointmentFunding().iterator();
         while (bcafLines.hasNext()){
             PendingBudgetConstructionAppointmentFunding bcafLine = (PendingBudgetConstructionAppointmentFunding) bcafLines.next();
-            this.populateBCAFLine(bcPosn, bcafLine);
+            this.populateBCAFLine(bcafLine);
         }
         
     }
@@ -126,7 +125,7 @@ public class PositionSalarySettingForm extends KualiForm {
      * 
      * @param line
      */
-    private void populateBCAFLine(BudgetConstructionPosition bcPosn, PendingBudgetConstructionAppointmentFunding line){
+    private void populateBCAFLine(PendingBudgetConstructionAppointmentFunding line){
 
         final List REFRESH_FIELDS;
         if (line.getEmplid().equalsIgnoreCase("VACANT")){
@@ -139,38 +138,7 @@ public class PositionSalarySettingForm extends KualiForm {
 //        SpringServiceLocator.getPersistenceService().retrieveReferenceObjects(line, REFRESH_FIELDS);
         SpringServiceLocator.getPersistenceService().retrieveReferenceObjects(line, REFRESH_FIELDS);
         
-        //add to totals
-        // bcnCalculatedSalaryFoundationTracker is a list with either zero or one entries
-        if (line.getBcnCalculatedSalaryFoundationTracker().size() > 0){
-            if (line.getBcnCalculatedSalaryFoundationTracker().get(0).getCsfAmount() != null){
-                bcPosn.setBcsfCsfAmountTotal(bcPosn.getBcsfCsfAmountTotal().add(line.getBcnCalculatedSalaryFoundationTracker().get(0).getCsfAmount()));
-            }
-            if (line.getBcnCalculatedSalaryFoundationTracker().get(0).getCsfTimePercent() != null){
-                bcPosn.setBcsfCsfTimePercentTotal(bcPosn.getBcsfCsfTimePercentTotal().add(line.getBcnCalculatedSalaryFoundationTracker().get(0).getCsfTimePercent()));
-            }
-            if (line.getBcnCalculatedSalaryFoundationTracker().get(0).getCsfFullTimeEmploymentQuantity() != null){
-                bcPosn.setBcsfCsfFullTimeEmploymentQuantityTotal(bcPosn.getBcsfCsfFullTimeEmploymentQuantityTotal().add(line.getBcnCalculatedSalaryFoundationTracker().get(0).getCsfFullTimeEmploymentQuantity()));
-            }
-        }
-        if (line.getAppointmentRequestedAmount() != null){
-            bcPosn.setBcafAppointmentRequestedAmountTotal(bcPosn.getBcafAppointmentRequestedAmountTotal().add(line.getAppointmentRequestedAmount()));
-        }
-        if (line.getAppointmentRequestedTimePercent() != null){
-            bcPosn.setBcafAppointmentRequestedTimePercentTotal(bcPosn.getBcafAppointmentRequestedTimePercentTotal().add(line.getAppointmentRequestedTimePercent()));
-        }
-        if (line.getAppointmentRequestedFteQuantity() != null){
-            bcPosn.setBcafAppointmentRequestedFteQuantityTotal(bcPosn.getBcafAppointmentRequestedFteQuantityTotal().add(line.getAppointmentRequestedFteQuantity()));
-        }
-
-        if (line.getAppointmentRequestedCsfAmount() != null){
-            bcPosn.setBcafAppointmentRequestedCsfAmountTotal(bcPosn.getBcafAppointmentRequestedCsfAmountTotal().add(line.getAppointmentRequestedCsfAmount()));
-        }
-        if (line.getAppointmentRequestedCsfTimePercent() != null){
-            bcPosn.setBcafAppointmentRequestedCsfTimePercentTotal(bcPosn.getBcafAppointmentRequestedCsfTimePercentTotal().add(line.getAppointmentRequestedCsfTimePercent()));
-        }
-        if (line.getAppointmentRequestedCsfFteQuantity() != null){
-            bcPosn.setBcafAppointmentRequestedCsfFteQuantityTotal(bcPosn.getBcafAppointmentRequestedCsfFteQuantityTotal().add(line.getAppointmentRequestedCsfFteQuantity()));
-        }
+        addBCAFLineToTotals(line);
     }
 
     /**

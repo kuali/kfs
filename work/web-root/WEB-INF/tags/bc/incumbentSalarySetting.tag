@@ -698,32 +698,38 @@
                 literalLabel="<span class=\"nowrap\">TOTALS:</span>"
                 horizontal="true" />
             <bc:columnTotalCell dataCellCssClass="datacell"
-                cellProperty="csfAmountTotal"
+                cellProperty="bcsfCsfAmountTotal"
                 textStyle="${textStyle}"
                 fieldAlign="right"
                 colSpan="2" />
+            <fmt:formatNumber value="${KualiForm.bcsfCsfFullTimeEmploymentQuantityTotal}" var="formattedNumber" type="number" groupingUsed="true" minFractionDigits="5" />
             <bc:columnTotalCell dataCellCssClass="datacell"
-                cellProperty="csfFullTimeEmploymentQuantityTotal"
+                cellProperty="bcsfCsfFullTimeEmploymentQuantityTotal"
+                formattedNumberValue="${formattedNumber}"
                 textStyle="${textStyle}"
                 fieldAlign="right"
                 colSpan="1" />
             <bc:columnTotalCell dataCellCssClass="datacell"
-                cellProperty="appointmentRequestedAmountTotal"
+                cellProperty="bcafAppointmentRequestedAmountTotal"
+                textStyle="${textStyle}"
+                fieldAlign="right"
+                colSpan="1" />
+            <fmt:formatNumber value="${KualiForm.bcafAppointmentRequestedFteQuantityTotal}" var="formattedNumber" type="number" groupingUsed="true" minFractionDigits="5" />
+            <bc:columnTotalCell dataCellCssClass="datacell"
+                cellProperty="bcafAppointmentRequestedFteQuantityTotal"
+                formattedNumberValue="${formattedNumber}"
                 textStyle="${textStyle}"
                 fieldAlign="right"
                 colSpan="1" />
             <bc:columnTotalCell dataCellCssClass="datacell"
-                cellProperty="appointmentRequestedFteQuantityTotal"
+                cellProperty="bcafAppointmentRequestedCsfAmountTotal"
                 textStyle="${textStyle}"
                 fieldAlign="right"
                 colSpan="1" />
+            <fmt:formatNumber value="${KualiForm.bcafAppointmentRequestedCsfFteQuantityTotal}" var="formattedNumber" type="number" groupingUsed="true" minFractionDigits="5" />
             <bc:columnTotalCell dataCellCssClass="datacell"
-                cellProperty="appointmentRequestedCsfAmountTotal"
-                textStyle="${textStyle}"
-                fieldAlign="right"
-                colSpan="1" />
-            <bc:columnTotalCell dataCellCssClass="datacell"
-                cellProperty="appointmentRequestedCsfFteQuantityTotal"
+                cellProperty="bcafAppointmentRequestedCsfFteQuantityTotal"
+                formattedNumberValue="${formattedNumber}"
                 textStyle="${textStyle}"
                 fieldAlign="right"
                 colSpan="1" />
@@ -735,17 +741,17 @@
                 literalLabel="<span class=\"nowrap\">Tot.SHr:</span>"
                 horizontal="true" />
             <bc:columnTotalCell dataCellCssClass="datacell"
-                cellProperty="csfStandardHoursTotal"
+                cellProperty="bcsfCsfStandardHoursTotal"
                 textStyle="${textStyle}"
                 fieldAlign="right"
                 colSpan="1" />
             <bc:columnTotalCell dataCellCssClass="datacell"
-                cellProperty="appointmentRequestedStandardHoursTotal"
+                cellProperty="bcafAppointmentRequestedStandardHoursTotal"
                 textStyle="${textStyle}"
                 fieldAlign="right"
                 colSpan="2" />
             <bc:columnTotalCell dataCellCssClass="datacell"
-                cellProperty="appointmentRequestedCsfStandardHoursTotal"
+                cellProperty="bcafAppointmentRequestedCsfStandardHoursTotal"
                 textStyle="${textStyle}"
                 fieldAlign="right"
                 colSpan="2" />

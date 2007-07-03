@@ -112,6 +112,8 @@ public class IncumbentSalarySettingAction extends KualiAction {
             //TODO this is an RI error need to report it
         }
         incumbentSalarySettingForm.setBudgetConstructionIntendedIncumbent(budgetConstructionIntendedIncumbent);
+        incumbentSalarySettingForm.populateBCAFLines();
+        
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 

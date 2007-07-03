@@ -46,7 +46,7 @@ import org.kuali.module.budget.document.authorization.BudgetConstructionDocument
  * from new class DetailSalarySettingForm and put common code there. Or use something like
  * DetailSalarySettingFormHelper?
  */
-public class IncumbentSalarySettingForm extends KualiForm {
+public class IncumbentSalarySettingForm extends DetailSalarySettingForm {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(IncumbentSalarySettingForm.class);
 
     private BudgetConstructionIntendedIncumbent budgetConstructionIntendedIncumbent;
@@ -104,6 +104,8 @@ public class IncumbentSalarySettingForm extends KualiForm {
     public void populate(HttpServletRequest request) {
 
         super.populate(request);
+        
+        zeroTotals();
 
         //TODO add insert line populate call here
 
@@ -115,7 +117,7 @@ public class IncumbentSalarySettingForm extends KualiForm {
      * TODO verify this - and calls prepareAccountingLineForValidationAndPersistence on each one.
      * This is called to refresh ref objects for use by validation
      */
-    protected void populateBCAFLines(){
+    public void populateBCAFLines(){
 
         //TODO add bcaf totaling here??
 
@@ -137,6 +139,8 @@ public class IncumbentSalarySettingForm extends KualiForm {
       final List REFRESH_FIELDS = Collections.unmodifiableList(Arrays.asList(new String[] {"chartOfAccounts", "account", "subAccount", "financialObject", "financialSubObject", "bcnCalculatedSalaryFoundationTracker", "budgetConstructionDuration"}));
 //        SpringServiceLocator.getPersistenceService().retrieveReferenceObjects(line, REFRESH_FIELDS);
         SpringServiceLocator.getPersistenceService().retrieveReferenceObjects(line, REFRESH_FIELDS);
+        
+        addBCAFLineToTotals(line);
 
     }
 

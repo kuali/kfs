@@ -620,7 +620,7 @@ public class BudgetConstructionDocument extends TransactionalDocumentBase {
             this.expenditurePercentChangeTotal = null;
         } else {
             BigDecimal diffRslt = (expenditureAccountLineAnnualBalanceAmountTotal.bigDecimalValue().setScale(4)).subtract(expenditureFinancialBeginningBalanceLineAmountTotal.bigDecimalValue().setScale(4));
-            BigDecimal divRslt = diffRslt.divide((expenditureFinancialBeginningBalanceLineAmountTotal.bigDecimalValue().setScale(4)),BigDecimal.ROUND_HALF_UP);
+            BigDecimal divRslt = diffRslt.divide((expenditureFinancialBeginningBalanceLineAmountTotal.bigDecimalValue().setScale(4)),KualiDecimal.ROUND_BEHAVIOR);
             this.expenditurePercentChangeTotal = new KualiDecimal(divRslt.multiply(BigDecimal.valueOf(100)).setScale(2)); 
         }
         return expenditurePercentChangeTotal;
@@ -643,7 +643,7 @@ public class BudgetConstructionDocument extends TransactionalDocumentBase {
             this.revenuePercentChangeTotal = null;
         } else {
             BigDecimal diffRslt = (revenueAccountLineAnnualBalanceAmountTotal.bigDecimalValue().setScale(4)).subtract(revenueFinancialBeginningBalanceLineAmountTotal.bigDecimalValue().setScale(4));
-            BigDecimal divRslt = diffRslt.divide((revenueFinancialBeginningBalanceLineAmountTotal.bigDecimalValue().setScale(4)),BigDecimal.ROUND_HALF_UP);
+            BigDecimal divRslt = diffRslt.divide((revenueFinancialBeginningBalanceLineAmountTotal.bigDecimalValue().setScale(4)),KualiDecimal.ROUND_BEHAVIOR);
             this.revenuePercentChangeTotal = new KualiDecimal(divRslt.multiply(BigDecimal.valueOf(100)).setScale(2)); 
         }
         return revenuePercentChangeTotal;

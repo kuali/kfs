@@ -104,7 +104,9 @@ public class ResearchDocumentAuthorizer extends DocumentAuthorizerBase {
     protected Map finalizeEditMode(ResearchDocument researchDocument, String permissionCode) {
         // If doc is approved, full entry should become view only
         if (permissionCode.equals(AuthorizationConstants.EditMode.FULL_ENTRY) 
-                && researchDocument.getDocumentHeader().getFinancialDocumentStatusCode().equals(KFSConstants.DocumentStatusCodes.APPROVED)) {
+                && (researchDocument.getDocumentHeader().getFinancialDocumentStatusCode().equals(KFSConstants.DocumentStatusCodes.APPROVED)
+                        || researchDocument.getDocumentHeader().getFinancialDocumentStatusCode().equals(KFSConstants.DocumentStatusCodes.DISAPPROVED)
+                        || researchDocument.getDocumentHeader().getFinancialDocumentStatusCode().equals(KFSConstants.DocumentStatusCodes.CANCELLED))) {
             permissionCode = AuthorizationConstants.EditMode.VIEW_ONLY;
         }
         

@@ -48,17 +48,6 @@ public class LaborDaoOjb extends PlatformAwareDaoBaseOjb implements LaborDao {
     /**
      * @see org.kuali.module.labor.dao.LaborDao#getCSFTrackerData(java.util.Map)
      */
-    public Collection getCSFTrackerData(Map fieldValues) {
-        Criteria criteria = new Criteria();
-        criteria.addAndCriteria(OJBUtility.buildCriteriaFromMap(fieldValues, new CalculatedSalaryFoundationTracker()));
-        LookupUtils.applySearchResultsLimit(criteria, getDbPlatform());
-        QueryByCriteria query = QueryFactory.newQuery(CalculatedSalaryFoundationTracker.class, criteria);
-        return getPersistenceBrokerTemplate().getCollectionByQuery(query);
-    }
-
-    /**
-     * @see org.kuali.module.labor.dao.LaborDao#getCSFTrackerData(java.util.Map)
-     */
     public Object getCSFTrackerTotal(Map fieldValues) {
 
         Criteria criteria = new Criteria();

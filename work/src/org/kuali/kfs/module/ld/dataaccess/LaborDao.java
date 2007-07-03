@@ -26,14 +26,6 @@ public interface LaborDao {
  
     /**
      * 
-     * This method returns CSF Tracker data
-     * @param fieldValues
-     * @return
-     */
-    Collection getCSFTrackerData(Map fieldValues);
-
-    /**
-     * 
      * This method returns a CSF Tracker total for a given selection criteria
      * @param fieldValues
      * @return

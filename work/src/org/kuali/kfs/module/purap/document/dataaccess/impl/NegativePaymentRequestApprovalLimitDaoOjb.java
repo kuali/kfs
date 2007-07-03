@@ -37,7 +37,7 @@ public class NegativePaymentRequestApprovalLimitDaoOjb extends PlatformAwareDaoB
         LOG.debug("Entering findByChart(String)");
         Criteria criteria = new Criteria();
         criteria.addEqualTo("chartOfAccountsCode", chartCode);
-        Query query = new QueryByCriteria(CreditMemoDocument.class,criteria);
+        Query query = new QueryByCriteria(NegativePaymentRequestApprovalLimit.class,criteria);
         LOG.debug("Leaving findByChart(String)");
         return getPersistenceBrokerTemplate().getCollectionByQuery(query);
     }
@@ -50,7 +50,7 @@ public class NegativePaymentRequestApprovalLimitDaoOjb extends PlatformAwareDaoB
         Criteria criteria = new Criteria();
         criteria.addEqualTo("chartOfAccountsCode", chartCode);
         criteria.addEqualTo("accountNumber", accountNumber);
-        Query query = new QueryByCriteria(CreditMemoDocument.class,criteria);
+        Query query = new QueryByCriteria(NegativePaymentRequestApprovalLimit.class,criteria);
         LOG.debug("Leaving findByChartAndAccount(String, String)");
         return getPersistenceBrokerTemplate().getCollectionByQuery(query);
     }
@@ -63,7 +63,7 @@ public class NegativePaymentRequestApprovalLimitDaoOjb extends PlatformAwareDaoB
         Criteria criteria = new Criteria();
         criteria.addEqualTo("chartOfAccountsCode", chartCode);
         criteria.addEqualTo("organizationCode", organizationCode);
-        Query query = new QueryByCriteria(CreditMemoDocument.class,criteria);
+        Query query = new QueryByCriteria(NegativePaymentRequestApprovalLimit.class,criteria);
         LOG.debug("Leaving findByChartAndOrganization(String, String)");
         return getPersistenceBrokerTemplate().getCollectionByQuery(query);
     }

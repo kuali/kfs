@@ -27,8 +27,7 @@ public class AutoApprovePaymentRequestsStep extends AbstractStep {
     }
 
     public boolean execute(String jobName) throws InterruptedException {
-        // TODO Implement logic according to KULPURAP-513
-        return true;
+        return paymentRequestService.autoApprovePaymentRequests();
     }
 
     public boolean execute() throws InterruptedException {

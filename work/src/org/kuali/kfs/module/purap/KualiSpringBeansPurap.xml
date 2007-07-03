@@ -124,6 +124,9 @@
         <property name="purapAccountingService">
             <ref bean="purapAccountingService" />
         </property>
+        <property name="kualiConfigurationService">
+            <ref bean="kualiConfigurationService" />
+        </property>
     </bean>
     
     <bean id="paymentRequestService" class="org.kuali.module.purap.service.impl.PaymentRequestServiceImpl">

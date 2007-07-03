@@ -523,4 +523,14 @@ public class PurapConstants {
     public final static String PO_DOC_TYPE_CODE = "PO";
     public final static String PURAP_ORIGIN_CODE = "EP";
     
+    public static String PREQ_STAT_AWAIT_SUB_ACCOUNT_APRVL = "ASAA";   // Waiting for Sub Acct Manager approval
+    public static String PREQ_STAT_AWAIT_FISCAL_OFFICER_APRVL = "AFOA";   // Waiting for Fiscal Officer approval
+    public static String PREQ_STAT_AWAIT_CHART_APRVL = "ACHA";   // Waiting for Chart/Org approval
+    
+    public static String[] PREQ_STATUSES_FOR_AUTO_APPROVE = {
+        PaymentRequestStatuses.AWAITING_SUB_ACCT_MGR_APPROVAL,
+        PaymentRequestStatuses.AWAITING_FISCAL_APPROVAL,
+        PaymentRequestStatuses.AWAITING_CHART_REVIEW
+        };
+    
 }

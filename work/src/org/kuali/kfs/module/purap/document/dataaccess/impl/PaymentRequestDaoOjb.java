@@ -17,6 +17,7 @@ package org.kuali.module.purap.dao.ojb;
 
 import java.sql.Date;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -29,8 +30,11 @@ import org.apache.ojb.broker.query.Query;
 import org.apache.ojb.broker.query.QueryByCriteria;
 import org.kuali.core.dao.ojb.PlatformAwareDaoBaseOjb;
 import org.kuali.core.service.DateTimeService;
+import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.bo.SourceAccountingLine;
+import org.kuali.module.purap.PurapConstants;
+import org.kuali.module.purap.PurapParameterConstants;
 import org.kuali.module.purap.PurapPropertyConstants;
 import org.kuali.module.purap.bo.NegativePaymentRequestApprovalLimit;
 import org.kuali.module.purap.dao.NegativePaymentRequestApprovalLimitDao;
@@ -44,33 +48,25 @@ public class PaymentRequestDaoOjb extends PlatformAwareDaoBaseOjb implements Pay
     private NegativePaymentRequestApprovalLimitDao negativePaymentRequestApprovalLimitDao;
     private DateTimeService dateTimeService;
     private PurapAccountingService purapAccountingService;
+    private KualiConfigurationService kualiConfigurationService;
 
+    /**
+     * @see org.kuali.module.purap.dao.PaymentRequestDao#getEligibleForAutoApproval()
+     */
     public Iterator<PaymentRequestDocument> getEligibleForAutoApproval() {
-        
-//        1.23.   Payments eligible for auto approval 
-        
-//        - The total amount of the payment is less than threshold (amount to 
-//        be maintained in reference table by chart). 
-        
-//        - All accounts on the payment request are designated as allowing 
-//        for auto approval. [Kuali - if campus or chart distinct check limits] 
-//        -- The default setting on accounts is auto approve. If a payment 
-//                            request contains one or more accounts requiring 
-//                            positive approval, the entire payment request 
-//                            will require positive approval. 
-        
-//        - If the total pmt request is above the limit on any chart 
-//        represented on the PREQ, it must be positively approved. 
-//
-//        1.24.   Timing for batch auto approval
-        
-//        Payment requests that allow for auto approval will be approved 
-//        in a batch process on pay date with pay date of current date or earlier. 
         
         Date todayAtMidnight = dateTimeService.getCurrentSqlDateMidnight();
         
+        String samt = kualiConfigurationService.getApplicationParameterValue(
+                PurapParameterConstants.PURAP_ADMIN_GROUP, 
+                PurapParameterConstants.PURAP_DEFAULT_NEGATIVE_PAYMENT_REQUEST_APPROVAL_LIMIT);
+        KualiDecimal defaultMinimumAmount = new KualiDecimal(samt);
+        
         Criteria criteria = new Criteria();
         criteria.addLessThan(PurapPropertyConstants.PAYMENT_REQUEST_PAY_DATE, todayAtMidnight);
+        criteria.addNotEqualTo("holdIndicator", "Y");
+        criteria.addNotEqualTo("paymentRequestedCancelIndicator", "Y");
+        criteria.addIn("status", Arrays.asList(PurapConstants.PREQ_STATUSES_FOR_AUTO_APPROVE));
         
         Query query = new QueryByCriteria(PaymentRequestDocument.class, criteria);
         Iterator<PaymentRequestDocument> iterator = 
@@ -79,19 +75,33 @@ public class PaymentRequestDaoOjb extends PlatformAwareDaoBaseOjb implements Pay
         Set<PaymentRequestDocument> eligibleDocuments = new HashSet<PaymentRequestDocument>();
         while(iterator.hasNext()) {
             PaymentRequestDocument document = iterator.next();
-            if(isEligibleForAutoApproval(document)) {
+            //document.getDocumentHeader().getDocumentStatus().
+            if(isEligibleForAutoApproval(document, defaultMinimumAmount)) {
                 eligibleDocuments.add(document);
             }
         }
         
-        return null;
+        return eligibleDocuments.iterator();
     }
     
-    private boolean isEligibleForAutoApproval(PaymentRequestDocument document) {
+    /**
+     * This method determines whether or not a payment request document can be
+     * automatically approved. 
+     * 
+     * @param document
+     * @return
+     */
+    private boolean isEligibleForAutoApproval(PaymentRequestDocument document, KualiDecimal defaultMinimumLimit) {
         boolean isEligible = false;
         
-        boolean allAccountsAreAutoApprove = true;
+        // This minimum will be set to the minimum limit derived from all
+        // accounting lines on the document. If no limit is determined, the 
+        // default will be used.
         KualiDecimal minimumAmount = null;
+        
+        // Iterate all source accounting lines on the document, deriving a 
+        // minimum limit from each according to chart, chart and account, and 
+        // chart and organization. 
         for (SourceAccountingLine line : purapAccountingService.generateSummary(document.getItems())) {
             minimumAmount = minimumLimitAmount(
                     negativePaymentRequestApprovalLimitDao.findByChart(
@@ -102,22 +112,31 @@ public class PaymentRequestDaoOjb extends PlatformAwareDaoBaseOjb implements Pay
             minimumAmount = minimumLimitAmount(
                     negativePaymentRequestApprovalLimitDao.findByChartAndOrganization(
                             line.getChartOfAccountsCode(), line.getOrganizationReferenceId()), minimumAmount);
-            if(null == minimumAmount) {
-                
-            }
-//            allAccountsAreAutoApprove = line.getAccount().
         }
         
-        // TODO Create a system parameter for the default auto-approve limit.
-        // TODO If minimumAmount is null, use the default.
+        // If no limit was found, the default limit is used.
+        if(null == minimumAmount) {
+            minimumAmount = defaultMinimumLimit;
+        }
         
+        // The document is eligible for auto-approval if the document total is 
+        // below the limit. 
         if(document.getDocumentHeader().getFinancialDocumentTotalAmount().isLessThan(minimumAmount)) {
-            
+            isEligible = true;
         }
         
         return isEligible;
     }
     
+    /**
+     * This method iterates a collection of negative payment request approval 
+     * limits and returns the minimum of a given minimum amount and the least
+     * among the limits in the collection.
+     * 
+     * @param limits
+     * @param minimumAmount
+     * @return
+     */
     private KualiDecimal minimumLimitAmount(Collection<NegativePaymentRequestApprovalLimit> limits, KualiDecimal minimumAmount) {
         for (NegativePaymentRequestApprovalLimit limit : limits) {
             KualiDecimal amount = limit.getNegativePaymentRequestApprovalLimitAmount();
@@ -385,6 +404,10 @@ public class PaymentRequestDaoOjb extends PlatformAwareDaoBaseOjb implements Pay
 
     public void setPurapAccountingService(PurapAccountingService purapAccountingService) {
         this.purapAccountingService = purapAccountingService;
+    }
+
+    public void setKualiConfigurationService(KualiConfigurationService kualiConfigurationService) {
+        this.kualiConfigurationService = kualiConfigurationService;
     }
           
   /*     

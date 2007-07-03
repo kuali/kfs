@@ -432,9 +432,8 @@ public interface PaymentRequestService {
     /**
      * Retrieve a list of PREQs that aren't approved, check to see if they match specific
      * requirements, then auto-approve them if possible.
-     *
      */
-    public void autoApprovePaymentRequests();
+    public boolean autoApprovePaymentRequests();
 
     /**
      * Retrieve all initiated PREQs and check for onbase images.  If an image is found,

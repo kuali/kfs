@@ -224,19 +224,24 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
      
      */
 
-
     /* End Paste */
 
-    public void autoApprovePaymentRequests() {
+    /**
+     * @see org.kuali.module.purap.service.PaymentRequestService.autoApprovePaymentRequests()
+     */
+    public boolean autoApprovePaymentRequests() {
         Iterator<PaymentRequestDocument> docs = paymentRequestDao.getEligibleForAutoApproval();
         while(docs.hasNext()) {
             PaymentRequestDocument doc = docs.next();
             try {
                 documentService.approveDocument(doc, "auto-approving: Total is below threshold.", new ArrayList());
+                // FIXME Need to set payment request status as well.
             } catch(WorkflowException we) {
                 LOG.error("Exception encountered when approving document number " + doc.getDocumentNumber() + ".", we);
+                return false;
             }
         }
+        return true;
     }
 
     /**

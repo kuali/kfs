@@ -26,6 +26,17 @@ import org.kuali.module.purap.document.PaymentRequestDocument;
 
 public interface PaymentRequestDao {
     
+    /**
+     * Get all payment request documents that are eligible for auto-approval.
+     * Whether or not a document is eligible for auto-approval is determined
+     * according to whether or not the document total is below a pre-determined
+     * minimum amount. This amount is derived from the accounts, charts and/or
+     * organizations associated with a given document. If no minimum amount can
+     * be determined from chart associations a default minimum specified as a 
+     * system parameter is used to determine the minimum amount threshold.
+     * 
+     * @return an Iterator over all payment request documents eligible for automatic approval
+     */
     public Iterator<PaymentRequestDocument> getEligibleForAutoApproval();
 
     public void save(PaymentRequestDocument paymentRequestDocument);

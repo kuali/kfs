@@ -149,7 +149,7 @@ public class SalarySettingExpansion extends PendingBudgetConstructionGeneralLedg
             setPercentChangeTotal(new KualiDecimal(0.00));
         } else {
             BigDecimal diffRslt = (appointmentRequestedAmountTotal.bigDecimalValue().setScale(4)).subtract(csfAmountTotal.bigDecimalValue().setScale(4));
-            BigDecimal divRslt = diffRslt.divide((csfAmountTotal.bigDecimalValue().setScale(4)),BigDecimal.ROUND_HALF_UP);
+            BigDecimal divRslt = diffRslt.divide((csfAmountTotal.bigDecimalValue().setScale(4)),KualiDecimal.ROUND_BEHAVIOR);
             setPercentChangeTotal(new KualiDecimal(divRslt.multiply(BigDecimal.valueOf(100)).setScale(2))); 
         }
 

@@ -70,7 +70,16 @@ public class July1PositionFundingLookupableHelperServiceImpl extends AbstractLoo
         boolean isConsolidated = getLaborInquiryOptionsService().isConsolidationSelected(fieldValues, (Collection<Row>) getRows());
                
         // Parse the map and call the DAO to process the inquiry
-        Collection searchResults = getLaborDao().getJuly1PositionFunding(fieldValues);
+
+        Collection searchResultsCollection = getLaborDao().getJuly1PositionFunding(fieldValues);
+
+        // sort list if default sort column given
+        List searchResults = (List) searchResultsCollection;
+        List defaultSortColumns = getDefaultSortColumns();
+        if (defaultSortColumns.size() > 0) {
+            Collections.sort(searchResults, new BeanPropertyComparator(defaultSortColumns, true));
+        }
+
         return new CollectionIncomplete(searchResults, actualCountIfTruncated);
     }
 

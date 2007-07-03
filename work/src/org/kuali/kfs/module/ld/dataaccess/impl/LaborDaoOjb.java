@@ -119,7 +119,7 @@ public class LaborDaoOjb extends PlatformAwareDaoBaseOjb implements LaborDao {
     /**
      * @see org.kuali.module.labor.dao.LaborDao#getBaseFunds(java.util.Map)
      */
-    public Iterator getBaseFunds(Map fieldValues, boolean isConsolidated) {
+    public Iterator<AccountStatusBaseFunds> getBaseFunds(Map fieldValues, boolean isConsolidated) {
         Criteria criteria = new Criteria();
         criteria.addEqualToField(KFSPropertyConstants.FINANCIAL_BALANCE_TYPE_CODE, LaborConstants.BalanceInquiries.BALANCE_CODE);
         criteria.addAndCriteria(OJBUtility.buildCriteriaFromMap(fieldValues, new AccountStatusBaseFunds()));
@@ -135,7 +135,7 @@ public class LaborDaoOjb extends PlatformAwareDaoBaseOjb implements LaborDao {
     /**
      * @see org.kuali.module.labor.dao.LaborDao#getCurrentFunds(java.util.Map)
      */
-    public Iterator getCurrentFunds(Map fieldValues, boolean isConsolidated) {
+    public Iterator<AccountStatusCurrentFunds> getCurrentFunds(Map fieldValues, boolean isConsolidated) {
         Criteria criteria = new Criteria();
         criteria.addEqualToField(KFSPropertyConstants.FINANCIAL_BALANCE_TYPE_CODE, LaborConstants.BalanceInquiries.ACTUALS_CODE);
         criteria.addAndCriteria(OJBUtility.buildCriteriaFromMap(fieldValues, new AccountStatusCurrentFunds()));
@@ -143,10 +143,12 @@ public class LaborDaoOjb extends PlatformAwareDaoBaseOjb implements LaborDao {
         OJBUtility.limitResultSize(query);
         if (isConsolidated) {
             return getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(query);
-        }
+       }
         return getPersistenceBrokerTemplate().getIteratorByQuery(query);
     }
-    /**
+
+
+   /**
      * @see org.kuali.module.labor.dao.LaborDao#getEmployeeFunding(java.util.Map)
      */
     public Iterator getEmployeeFunding(Map fieldValues) {

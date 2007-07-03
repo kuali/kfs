@@ -829,7 +829,7 @@
                 <description>A checkbox that indicates if the Account will use presence control, i.e., sufficient funds checking by Object Code.</description>
             </attributeReference>
 
-            <attributeReference name="accountCfdaNumber" sourceClassName="org.kuali.module.cg.bo.CatalogOfFederalDomesticAssistanceReference" sourceAttributeName="cfdaNumber">
+            <attributeReference name="accountCfdaNumber" sourceClassName="org.kuali.module.cg.bo.Cfda" sourceAttributeName="cfdaNumber">
                 <label>Catalog of Federal Domestic Assistance Number</label>
                 <shortLabel>FedDomAssisNum</shortLabel>
                 <required>false</required>

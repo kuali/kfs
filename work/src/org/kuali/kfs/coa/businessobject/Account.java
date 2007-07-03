@@ -39,7 +39,7 @@ import org.kuali.kfs.bo.PostalZipCode;
 import org.kuali.kfs.bo.State;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.cg.bo.AwardAccount;
-import org.kuali.module.cg.bo.CatalogOfFederalDomesticAssistanceReference;
+import org.kuali.module.cg.bo.Cfda;
 import org.kuali.module.chart.bo.codes.BudgetRecordingLevelCode;
 import org.kuali.module.chart.bo.codes.ICRTypeCode;
 import org.kuali.module.chart.bo.codes.SufficientFundsCode;
@@ -128,7 +128,7 @@ public class Account extends PersistableBusinessObjectBase implements AccountInt
     private BudgetRecordingLevelCode budgetRecordingLevel;
     private SufficientFundsCode sufficientFundsCode;
     private Program program;
-    private CatalogOfFederalDomesticAssistanceReference cfda;
+    private Cfda cfda;
 
     // Several kinds of Dummy Attributes for dividing sections on Inquiry page
     private String accountResponsibilitySectionBlank;
@@ -821,11 +821,11 @@ public class Account extends PersistableBusinessObjectBase implements AccountInt
         this.accountCfdaNumber = accountCfdaNumber;
     }
 
-    public CatalogOfFederalDomesticAssistanceReference getCfda() {
+    public Cfda getCfda() {
         return cfda;
     }
 
-    public void setCfda(CatalogOfFederalDomesticAssistanceReference cfda) {
+    public void setCfda(Cfda cfda) {
         this.cfda = cfda;
     }
 

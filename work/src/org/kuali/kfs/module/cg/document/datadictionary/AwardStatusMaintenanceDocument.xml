@@ -32,7 +32,7 @@
             </authorization>
         </authorizations>
 
-        <documentTypeName>KualiContractsAndGrantsAwardStatusMaintenanceDocument</documentTypeName>
+        <documentTypeName>AwardStatusMaintenanceDocument</documentTypeName>
         <documentTypeCode>AWDS</documentTypeCode>
 
         <label>Award Status Maintenance Document</label>

@@ -24,6 +24,7 @@ import java.util.Set;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.core.bo.Campus;
+import org.kuali.core.bo.Inactivateable;
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.util.UrlFactory;
@@ -35,7 +36,7 @@ import org.kuali.kfs.util.SpringServiceLocator;
 /**
  * 
  */
-public class Org extends PersistableBusinessObjectBase {
+public class Org extends PersistableBusinessObjectBase implements Inactivateable {
     private static final Logger LOG = Logger.getLogger(Org.class);
 
     private static final long serialVersionUID = 121873645110037203L;
@@ -99,6 +100,8 @@ public class Org extends PersistableBusinessObjectBase {
     private String editPlantAccountsSectionBlank;
     private String editPlantAccountsSection;
 
+    private boolean active;
+    
     /**
      * Gets the organizationCode attribute.
      * 
@@ -960,5 +963,12 @@ public class Org extends PersistableBusinessObjectBase {
         return hashString.hashCode();
     }
 
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
+    }
 
 }

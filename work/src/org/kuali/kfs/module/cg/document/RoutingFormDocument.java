@@ -36,7 +36,7 @@ import org.kuali.core.workflow.KualiTransactionalDocumentInformation;
 import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.cg.bo.Agency;
-import org.kuali.module.cg.bo.CatalogOfFederalDomesticAssistanceReference;
+import org.kuali.module.cg.bo.Cfda;
 import org.kuali.module.chart.bo.ChartUser;
 import org.kuali.module.kra.KraConstants;
 import org.kuali.module.kra.bo.AdhocOrg;
@@ -123,7 +123,7 @@ public class RoutingFormDocument extends ResearchDocumentBase {
     private RoutingFormStatus routingFormStatus;
     private Purpose purpose;
     private RoutingFormAgency routingFormAgency;
-    private CatalogOfFederalDomesticAssistanceReference catalogOfFederalDomesticAssistanceReference;
+    private Cfda cfda;
     private List<RoutingFormResearchRisk> routingFormResearchRisks;
     private List<RoutingFormKeyword> routingFormKeywords;
     private RoutingFormBudget routingFormBudget;
@@ -1220,12 +1220,12 @@ public class RoutingFormDocument extends ResearchDocumentBase {
         this.routingFormAgency = routingFormAgency;
     }
 
-    public CatalogOfFederalDomesticAssistanceReference getCatalogOfFederalDomesticAssistanceReference() {
-        return catalogOfFederalDomesticAssistanceReference;
+    public Cfda getCatalogOfFederalDomesticAssistanceReference() {
+        return cfda;
     }
 
-    public void setCatalogOfFederalDomesticAssistanceReference(CatalogOfFederalDomesticAssistanceReference catalogOfFederalDomesticAssistanceReference) {
-        this.catalogOfFederalDomesticAssistanceReference = catalogOfFederalDomesticAssistanceReference;
+    public void setCatalogOfFederalDomesticAssistanceReference(Cfda cfda) {
+        this.cfda = cfda;
     }
     
     public List<RoutingFormResearchRisk> getRoutingFormResearchRisks() {

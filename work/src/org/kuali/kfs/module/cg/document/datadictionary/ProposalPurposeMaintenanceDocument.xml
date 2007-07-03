@@ -32,7 +32,7 @@
             </authorization>
         </authorizations>
 
-        <documentTypeName>KualiContractsAndGrantsProposalPurposeMaintenanceDocument</documentTypeName>
+        <documentTypeName>ProposalPurposeMaintenanceDocument</documentTypeName>
         <documentTypeCode>PURP</documentTypeCode>
 
         <label>Proposal Purpose Maintenance Document</label>

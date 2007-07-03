@@ -2,7 +2,7 @@ package org.kuali.module.cg.service.impl;
 
 import org.kuali.module.cg.service.CfdaService;
 import org.kuali.module.cg.service.CfdaUpdateResults;
-import org.kuali.module.cg.bo.CatalogOfFederalDomesticAssistanceReference;
+import org.kuali.module.cg.bo.Cfda;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.kfs.service.impl.HomeOriginationServiceImpl;
 import org.kuali.core.service.BusinessObjectService;
@@ -87,9 +87,9 @@ public class CfdaServiceImpl implements CfdaService {
      * @return
      * @throws IOException
      */
-    public static SortedMap<String, CatalogOfFederalDomesticAssistanceReference> getGovCodes() throws IOException {
-        SortedMap<String, CatalogOfFederalDomesticAssistanceReference> govMap =
-                new TreeMap<String, CatalogOfFederalDomesticAssistanceReference>();
+    public static SortedMap<String, Cfda> getGovCodes() throws IOException {
+        SortedMap<String, Cfda> govMap =
+                new TreeMap<String, Cfda>();
 
         URL url = new URL(SOURCE_URL);
         InputStream inputStream = url.openStream();
@@ -113,7 +113,7 @@ public class CfdaServiceImpl implements CfdaService {
                                                                                   // to move past it.
                 String title  = extractCfdaTitleFrom(screen.readLine());
 
-                CatalogOfFederalDomesticAssistanceReference cfda = new CatalogOfFederalDomesticAssistanceReference();
+                Cfda cfda = new Cfda();
                 cfda.setCfdaNumber(number);
                 cfda.setCfdaProgramTitleName(title);
 
@@ -130,12 +130,12 @@ public class CfdaServiceImpl implements CfdaService {
      * @return
      * @throws IOException
      */
-    public static SortedMap<String, CatalogOfFederalDomesticAssistanceReference> getKfsCodes() throws IOException {
-        Collection allCodes = SpringServiceLocator.getLookupService().findCollectionBySearch(CatalogOfFederalDomesticAssistanceReference.class, new HashMap());
+    public static SortedMap<String, Cfda> getKfsCodes() throws IOException {
+        Collection allCodes = SpringServiceLocator.getLookupService().findCollectionBySearch(Cfda.class, new HashMap());
 
-        SortedMap<String, CatalogOfFederalDomesticAssistanceReference> kfsMapAll = new TreeMap<String, CatalogOfFederalDomesticAssistanceReference>(cfdaComparator);
+        SortedMap<String, Cfda> kfsMapAll = new TreeMap<String, Cfda>(cfdaComparator);
         for(Object o : allCodes) {
-            CatalogOfFederalDomesticAssistanceReference c = (CatalogOfFederalDomesticAssistanceReference) o;
+            Cfda c = (Cfda) o;
             kfsMapAll.put(c.getCfdaNumber(), c);
         }
         return kfsMapAll;
@@ -147,7 +147,7 @@ public class CfdaServiceImpl implements CfdaService {
     public CfdaUpdateResults update() throws IOException {
 
         CfdaUpdateResults results = new CfdaUpdateResults();
-        Map<String, CatalogOfFederalDomesticAssistanceReference> govMap = null;
+        Map<String, Cfda> govMap = null;
         
         try {
             govMap = getGovCodes();
@@ -158,15 +158,15 @@ public class CfdaServiceImpl implements CfdaService {
             results.setMessage(builder.toString());
             return results;
         }
-        Map<String, CatalogOfFederalDomesticAssistanceReference> kfsMap = getKfsCodes();
+        Map<String, Cfda> kfsMap = getKfsCodes();
 
         results.setNumberOfRecordsInKfsDatabase(kfsMap.keySet().size());
         results.setNumberOfRecordsRetrievedFromWebSite(govMap.keySet().size());
 
         for(Object key : kfsMap.keySet()) {
 
-            CatalogOfFederalDomesticAssistanceReference cfdaKfs = kfsMap.get(key);
-            CatalogOfFederalDomesticAssistanceReference cfdaGov = govMap.get(key);
+            Cfda cfdaKfs = kfsMap.get(key);
+            Cfda cfdaGov = govMap.get(key);
 
             if(cfdaKfs.getCfdaMaintenanceTypeId().startsWith("M")) {
                 // Leave it alone. It's maintained manually.
@@ -202,7 +202,7 @@ public class CfdaServiceImpl implements CfdaService {
 
         // What's left in govMap now is just the codes that don't exist in
         for(String key : govMap.keySet()) {
-            CatalogOfFederalDomesticAssistanceReference cfdaGov = govMap.get(key);
+            Cfda cfdaGov = govMap.get(key);
             cfdaGov.setCfdaMaintenanceTypeId("Automatic");
             cfdaGov.setCfdaStatusCode(true);
             businessObjectService.save(cfdaGov);

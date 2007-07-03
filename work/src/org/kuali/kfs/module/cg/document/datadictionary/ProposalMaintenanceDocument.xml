@@ -33,7 +33,7 @@
             </authorization>
         </authorizations>
 
-        <documentTypeName>KualiContractsAndGrantsProposalMaintenanceDocument</documentTypeName>
+        <documentTypeName>ProposalMaintenanceDocument</documentTypeName>
         <documentTypeCode>PRPL</documentTypeCode>
 
         <webScriptFile>../dwr/interface/AgencyService.js</webScriptFile>

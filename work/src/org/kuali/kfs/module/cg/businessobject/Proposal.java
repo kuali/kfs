@@ -93,7 +93,7 @@ public class Proposal extends PersistableBusinessObjectBase implements Alternate
     private ProposalStatus proposalStatus;
     private Agency federalPassThroughAgency;
     private ProposalPurpose proposalPurpose;
-    private CatalogOfFederalDomesticAssistanceReference cfda;
+    private Cfda cfda;
     private ProposalOrganization primaryProposalOrganization;
     private String routingOrg;
     private String routingChart;
@@ -749,7 +749,7 @@ public class Proposal extends PersistableBusinessObjectBase implements Alternate
      * @return Returns the cfda
      *
      */
-    public CatalogOfFederalDomesticAssistanceReference getCfda() {
+    public Cfda getCfda() {
         return cfda;
     }
 
@@ -759,7 +759,7 @@ public class Proposal extends PersistableBusinessObjectBase implements Alternate
      * @param cfda The cfda to set.
      * @deprecated
      */
-    public void setCfda(CatalogOfFederalDomesticAssistanceReference cfda) {
+    public void setCfda(Cfda cfda) {
         this.cfda = cfda;
     }
 

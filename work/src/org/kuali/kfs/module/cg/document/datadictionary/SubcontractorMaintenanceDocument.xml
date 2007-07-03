@@ -34,7 +34,7 @@
             </authorization>
         </authorizations>
 
-        <documentTypeName>KualiContractsAndGrantsSubcontractorMaintenanceDocument</documentTypeName>
+        <documentTypeName>SubcontractorMaintenanceDocument</documentTypeName>
         <documentTypeCode>SUBC</documentTypeCode>
 
         <label>Subcontractor Maintenance Document</label>

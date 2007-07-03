@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ Copyright 2006-2007 The Kuali Foundation.
+ 
+ Licensed under the Educational Community License, Version 1.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+ 
+ http://www.opensource.org/licenses/ecl1.php
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+<!DOCTYPE dictionaryEntry PUBLIC
+    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
+    "../../../core/datadictionary/dataDictionary-1_0.dtd">
+<dictionaryEntry>
+    <businessObject businessObjectClass="org.kuali.module.cg.bo.Cfda">
+
+
+        <inquiry>
+            <title>Catalog Of Federal Domestic Assistance Reference Inquiry</title>
+
+            <inquirySections><inquirySection title="Catalog of Federal Domestic Assistance Details"><inquiryFields>
+                <field attributeName="cfdaMaintenanceTypeId" />
+                <field attributeName="cfdaNumber" />
+                <field attributeName="cfdaProgramTitleName" />
+                <field attributeName="cfdaStatusCode" />
+            </inquiryFields></inquirySection></inquirySections>
+        </inquiry>
+
+        <lookup>
+            <title>Catalog Of Federal Domestic Assistance Reference Lookup</title>
+
+            <instructions>Look up a Catalog Of Federal Domestic Assistance Reference</instructions>
+
+            <defaultSort sortAscending="true">
+                <sortAttributes>
+                    <sortAttribute attributeName="cfdaNumber" />
+                </sortAttributes>
+            </defaultSort>
+
+            <lookupFields>
+                <lookupField attributeName="cfdaMaintenanceTypeId" required="false" />
+                <lookupField attributeName="cfdaNumber" required="false" />
+                <lookupField attributeName="cfdaProgramTitleName" required="false" />
+                <lookupField attributeName="cfdaStatusCode" required="false" />
+            </lookupFields>
+
+            <resultFields>
+                <field attributeName="cfdaMaintenanceTypeId" />
+                <field attributeName="cfdaNumber" />
+                <field attributeName="cfdaProgramTitleName" />
+                <field attributeName="cfdaStatusCode" />
+            </resultFields>
+        </lookup>
+
+        <attributes>
+
+            <attribute name="cfdaMaintenanceTypeId" forceUppercase="true">
+                <label>CFDA Maintenance Type Id</label>
+                <shortLabel>Id</shortLabel>
+
+                <maxLength>10</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <select valuesFinderClass="org.kuali.module.cg.lookup.keyvalues.CatalogOfFederalDomesticAssistanceMaintenanceTypeIdFinder" />
+                </control>
+
+                <summary>CFDA Maintenance Type ID</summary>
+                <description>
+					Valid values are Manual or Automatic.  The Maintenance Type 
+					identifies whether the CFDA number was added to the table 
+					automatically via the system refresh from the CFDA website, 
+					or whether the number was added manually to the table by a 
+					system administrator.
+				</description>
+			</attribute>
+
+            <attribute name="cfdaNumber" forceUppercase="true">
+                <label>CFDA Number</label>
+                <shortLabel>Number</shortLabel>
+
+                <maxLength>6</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="8" />
+                </control>
+
+                <summary>CFDA Number</summary>
+                <description>
+					CFDA stands for Catalog of Federal Domestic Assistance.  The 
+					CFDA Number is a number assigned by the Federal Government 
+					to any grant or aid mechanism.  If you are unsure what CFDA 
+					Number to use on your application, or if you cannot find the 
+					CFDA Number you are searching for, contact your research 
+					office for guidance.
+				</description>
+			</attribute>
+
+            <attribute name="cfdaProgramTitleName" forceUppercase="true">
+                <label>CFDA Program Title Name</label>
+                <shortLabel>Name</shortLabel>
+
+                <maxLength>300</maxLength>
+                <validationPattern><anyCharacter allowWhitespace="true" /></validationPattern>
+
+                <control>
+                    <textarea rows="5" cols="80"/>
+                </control>
+
+                <summary>CFDA Program Title</summary>
+                <description>
+                	This is the official title given by the Federal Government to 
+                	the particular agency and program which funds the grant.  Be 
+                	aware that many Program Titles are similar.
+                </description>
+			</attribute>
+
+            <attribute name="cfdaStatusCode" forceUppercase="false">
+                <label>Active Indicator</label>
+                <shortLabel>Active Indicator</shortLabel>
+
+                <maxLength>1</maxLength>
+
+                <control>
+                    <checkbox />
+                </control>
+
+                <summary>Active Indicator</summary>
+                <description>
+					This field identifies whether the CFDA Code is active in the 
+					system or not.  This allows historical records to reference 
+					the inactive CFDA Codes while restricting new proposals and 
+					awards from referencing them.
+				</description>
+			</attribute>
+
+            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
+
+        </attributes>
+    </businessObject>
+</dictionaryEntry>

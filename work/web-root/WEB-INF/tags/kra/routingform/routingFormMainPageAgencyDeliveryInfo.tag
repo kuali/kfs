@@ -17,7 +17,7 @@
 
 <c:set var="routingFormAttributes" value="${DataDictionary.KualiRoutingFormDocument.attributes}" />
 <c:set var="routingFormAgencyAttributes" value="${DataDictionary.RoutingFormAgency.attributes}" />
-<c:set var="cfdaAttributes" value="${DataDictionary.CatalogOfFederalDomesticAssistanceReference.attributes}" />
+<c:set var="cfdaAttributes" value="${DataDictionary.Cfda.attributes}" />
 <c:set var="viewOnly" value="${KualiForm.editingMode['viewOnly']}"/>
 <c:set var="budgetLinked" value="${KualiForm.editingMode['budgetLinked']}" />
 
@@ -114,7 +114,7 @@
 			    	<html:hidden write="true" property="document.routingFormCatalogOfFederalDomesticAssistanceNumber" />
 			    	<c:if test="${!viewOnly}">
 			    	    <c:if test="${empty KualiForm.document.routingFormCatalogOfFederalDomesticAssistanceNumber}">&nbsp;</c:if>
-			    		<kul:lookup boClassName="org.kuali.module.cg.bo.CatalogOfFederalDomesticAssistanceReference" lookupParameters="document.routingFormCatalogOfFederalDomesticAssistanceNumber:cfdaNumber" fieldConversions="cfdaNumber:document.routingFormCatalogOfFederalDomesticAssistanceNumber" anchor="${currentTabIndex}" />
+			    		<kul:lookup boClassName="org.kuali.module.cg.bo.Cfda" lookupParameters="document.routingFormCatalogOfFederalDomesticAssistanceNumber:cfdaNumber" fieldConversions="cfdaNumber:document.routingFormCatalogOfFederalDomesticAssistanceNumber" anchor="${currentTabIndex}" />
                 	</c:if>
                 	&nbsp
 				</td>

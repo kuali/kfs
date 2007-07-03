@@ -18,23 +18,22 @@ package org.kuali.module.cg.bo;
 
 import java.util.LinkedHashMap;
 
-import org.apache.commons.lang.StringUtils;
+import org.kuali.core.bo.Inactivateable;
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.bo.user.UniversalUser;
-import org.kuali.core.bo.user.UserId;
-import org.kuali.core.bo.user.UuId;
 import org.kuali.core.exceptions.UserNotFoundException;
 import org.kuali.kfs.util.SpringServiceLocator;
 
 /**
  * 
  */
-public class ProjectDirector extends PersistableBusinessObjectBase {
+public class ProjectDirector extends PersistableBusinessObjectBase implements Inactivateable {
 
     private static final long serialVersionUID = -8864103362445919041L;
     private String personUniversalIdentifier;
     private String personUserIdentifier; // secondary key from user input, not persisted but takes priority over primary key.
     private UniversalUser universalUser;
+    private boolean active;
 
     /**
      * Default no-arg constructor.
@@ -118,4 +117,12 @@ public class ProjectDirector extends PersistableBusinessObjectBase {
         }
     }
 
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
+    }
+    
 }

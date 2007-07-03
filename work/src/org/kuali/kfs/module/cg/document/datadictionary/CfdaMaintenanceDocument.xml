@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
- Copyright 2005-2007 The Kuali Foundation.
+ Copyright 2006-2007 The Kuali Foundation.
  
  Licensed under the Educational Community License, Version 1.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -20,9 +20,9 @@
 
 <dictionaryEntry>
     <maintenanceDocument>
-        <businessObjectClass>org.kuali.module.cg.bo.Agency</businessObjectClass>
+        <businessObjectClass>org.kuali.module.cg.bo.Cfda</businessObjectClass>
         <maintainableClass>org.kuali.core.maintenance.KualiMaintainableImpl</maintainableClass>
-        <businessRulesClass>org.kuali.module.cg.rules.AgencyRule</businessRulesClass>
+
         <documentAuthorizerClass>org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase</documentAuthorizerClass>
         <authorizations>
             <authorization action="initiate">
@@ -32,38 +32,30 @@
             </authorization>
         </authorizations>
 
-        <documentTypeName>AgencyMaintenanceDocument</documentTypeName>
-        <documentTypeCode>AGCY</documentTypeCode>
+        <documentTypeName>CfdaMaintenanceDocument</documentTypeName>
+        <documentTypeCode>CFDA</documentTypeCode>
 
-        <label>Agency Maintenance Document</label>
-        <shortLabel>AgencyMaintDoc</shortLabel>
+        <label>Catalog of Federal Domestic Assistance Reference Maintenance Document</label>
+        <shortLabel>CatalogOfFederalDomisticAssistanceReferenceMaintDoc</shortLabel>
 
-        <summary>Agency Maintenance Document</summary>
-        <description>Document used to create or update Agency objects</description>
+        <summary>Catalog of Federal Domestic Assistance Reference Maintenance Document</summary>
+        <description>Document used to create or update Catalog of Federal Domestic Assistance Reference objects</description>
 
         <lockingKeys>
-            <field attributeName="agencyNumber" />
+            <field attributeName="cfdaNumber" />
         </lockingKeys>
 
-        <defaultExistenceChecks>
-            <reference attributeName="agencyType" activeIndicatorAttributeName="active" attributeToHighlightOnFail="agencyTypeCode" />
-        </defaultExistenceChecks>
-
         <maintainableSections>
-            <maintainableSection title="Edit Agency">
+            <maintainableSection title="Edit Catalog of Federal Domestic Assistance Reference">
                 <maintainableItems>
-                    <maintainableField name="agencyNumber" required="true" readOnly="true" >
-                           <defaultValueFinderClass>org.kuali.module.cg.lookup.valuefinder.NextAgencyNumberFinder</defaultValueFinderClass>
+                    <maintainableField name="cfdaNumber" required="true" />
+                    <maintainableField name="cfdaProgramTitleName" required="true" />
+                    <maintainableField name="cfdaMaintenanceTypeId" required="true" >
+                        <defaultValue>MANUAL</defaultValue>
                     </maintainableField>
-                    <maintainableField name="reportingName" required="true" />
-                    <maintainableField name="fullName" required="true" />
-                    <maintainableField name="agencyTypeCode" required="true" />
-                    <maintainableField name="historicalIndicator" required="false">
+                    <maintainableField name="cfdaStatusCode" required="false">
 						<defaultValue>true</defaultValue>
-                    </maintainableField>
-                    <maintainableField name="inStateIndicator" />
-                    <maintainableField name="indirectAmount" />
-                    <maintainableField name="reportsToAgencyNumber" />
+					</maintainableField>
                     <maintainableField name="versionNumber" />
                 </maintainableItems>
             </maintainableSection>

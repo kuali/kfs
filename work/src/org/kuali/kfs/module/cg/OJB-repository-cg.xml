@@ -176,7 +176,7 @@
  CATALOG OF FEDERAL DOMESTIC ASSISTANCE REFERENCE (CFDA)
 
 -->
-<class-descriptor class="org.kuali.module.cg.bo.CatalogOfFederalDomesticAssistanceReference" table="CG_CFDA_REF_T">
+<class-descriptor class="org.kuali.module.cg.bo.Cfda" table="CG_CFDA_REF_T">
     <field-descriptor name="cfdaNumber" column="CG_CFDA_NBR" jdbc-type="VARCHAR" primarykey="true" index="true" />
     <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
     <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
@@ -236,7 +236,7 @@
     <reference-descriptor name="proposalPurpose" class-ref="org.kuali.module.cg.bo.ProposalPurpose" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="proposalPurposeCode" />
     </reference-descriptor>
-    <reference-descriptor name="cfda" class-ref="org.kuali.module.cg.bo.CatalogOfFederalDomesticAssistanceReference" auto-retrieve="true" auto-update="none" auto-delete="none">
+    <reference-descriptor name="cfda" class-ref="org.kuali.module.cg.bo.Cfda" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="cfdaNumber" />
     </reference-descriptor>
     <collection-descriptor name="proposalSubcontractors" element-class-ref="org.kuali.module.cg.bo.ProposalSubcontractor" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" proxy="false" auto-retrieve="true" auto-update="true" auto-delete="true">

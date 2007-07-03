@@ -18,6 +18,7 @@ package org.kuali.module.cg.bo;
 
 import java.util.LinkedHashMap;
 
+import org.kuali.core.bo.Inactivateable;
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.kfs.bo.Country;
 import org.kuali.kfs.bo.State;
@@ -25,7 +26,7 @@ import org.kuali.kfs.bo.State;
 /**
  * 
  */
-public class Subcontractor extends PersistableBusinessObjectBase {
+public class Subcontractor extends PersistableBusinessObjectBase implements Inactivateable {
 
     private String subcontractorNumber;
     private String subcontractorName;

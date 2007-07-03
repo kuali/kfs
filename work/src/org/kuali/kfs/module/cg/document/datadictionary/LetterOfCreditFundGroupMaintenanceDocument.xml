@@ -32,7 +32,7 @@
             </authorization>
         </authorizations>
 
-        <documentTypeName>KualiContractsAndGrantsLetterOfCreditFundGroupMaintenanceDocument</documentTypeName>
+        <documentTypeName>LetterOfCreditFundGroupMaintenanceDocument</documentTypeName>
         <documentTypeCode>LFGR</documentTypeCode>
 
         <label>Letter of Credit Fund Group Maintenance Document</label>

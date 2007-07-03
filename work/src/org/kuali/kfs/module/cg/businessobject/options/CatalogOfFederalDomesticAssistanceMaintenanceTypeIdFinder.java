@@ -24,7 +24,7 @@ import org.kuali.core.lookup.keyvalues.KeyValuesBase;
 import org.kuali.core.service.KeyValuesService;
 import org.kuali.core.web.ui.KeyLabelPair;
 import org.kuali.kfs.util.SpringServiceLocator;
-import org.kuali.module.cg.bo.CatalogOfFederalDomesticAssistanceReference;
+import org.kuali.module.cg.bo.Cfda;
 
 public class CatalogOfFederalDomesticAssistanceMaintenanceTypeIdFinder extends KeyValuesBase {
 
@@ -37,13 +37,13 @@ public class CatalogOfFederalDomesticAssistanceMaintenanceTypeIdFinder extends K
     public List getKeyValues() {
 
         KeyValuesService boService = SpringServiceLocator.getKeyValuesService();
-        Collection codes = boService.findAll(CatalogOfFederalDomesticAssistanceReference.class);
+        Collection codes = boService.findAll(Cfda.class);
 
         List<KeyLabelPair> labels = new ArrayList<KeyLabelPair>();
         labels.add(new KeyLabelPair("", ""));
 
         for (Iterator iter = codes.iterator(); iter.hasNext();) {
-            CatalogOfFederalDomesticAssistanceReference cfdaReference = (CatalogOfFederalDomesticAssistanceReference) iter.next();
+            Cfda cfdaReference = (Cfda) iter.next();
             
             if(!isDuplicateValue(labels, cfdaReference.getCfdaMaintenanceTypeId())) {
                 labels.add(new KeyLabelPair(cfdaReference.getCfdaMaintenanceTypeId(), cfdaReference.getCfdaMaintenanceTypeId()));

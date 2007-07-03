@@ -31,7 +31,7 @@
             </authorization>
         </authorizations>
 
-        <documentTypeName>KualiContractsAndGrantsCloseTransactionalDocument</documentTypeName>
+        <documentTypeName>CloseDocument</documentTypeName>
         <documentTypeCode>CLOS</documentTypeCode>
 
         <label>Close</label>

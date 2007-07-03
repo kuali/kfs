@@ -695,7 +695,7 @@
     <reference-descriptor name="federalPassThroughAgency" class-ref="org.kuali.module.cg.bo.Agency" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="agencyFederalPassThroughNumber" />
     </reference-descriptor>
-	<reference-descriptor name="catalogOfFederalDomesticAssistanceReference" class-ref="org.kuali.module.cg.bo.CatalogOfFederalDomesticAssistanceReference" auto-retrieve="true" auto-update="none" auto-delete="none">
+	<reference-descriptor name="catalogOfFederalDomesticAssistanceReference" class-ref="org.kuali.module.cg.bo.Cfda" auto-retrieve="true" auto-update="none" auto-delete="none">
 		<foreignkey field-ref="routingFormCatalogOfFederalDomesticAssistanceNumber" />
 	</reference-descriptor>
 

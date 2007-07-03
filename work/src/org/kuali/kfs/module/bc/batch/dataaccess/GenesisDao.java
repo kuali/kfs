@@ -36,10 +36,6 @@ public interface GenesisDao {
     */
    public boolean getBudgetConstructionControlFlag (Integer universityFiscalYear,
                String FlagID);
-   /*
-    *  get the initiator ID for budget construction
-    */
-   public String getBudgetConstructionInitiatorID();
    
    // clear locks in headers
    public void clearHangingBCLocks (Integer currentFiscalYear);

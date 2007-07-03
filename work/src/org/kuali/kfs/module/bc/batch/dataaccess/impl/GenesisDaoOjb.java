@@ -200,32 +200,6 @@ public class GenesisDaoOjb extends PlatformAwareDaoBaseOjb
             
     }
     
-    public final String getBudgetConstructionInitiatorID()
-    {
-        //@TODO: The constants and field names below should come from constants files
-        //  the chart and department should be budget construction constants
-        //  the others should be kuali constants
-        final String DEFAULT_ID = "666-666-66";
-        Criteria criteriaID = new Criteria();
-        criteriaID.addEqualTo(FINANCIAL_CHART_PROPERTY, BUDGET_CZAR_CHART);
-        criteriaID.addEqualTo(ORG_CODE_PROPERTY,BUDGET_CZAR_ORG);
-        criteriaID.addColumnEqualTo(ACCOUNT_CLOSED_INDICATOR_PROPERTY,
-                KFSConstants.ParameterValues.NO);
-        String[] queryAttr = {FISCAL_OFFICER_ID_PROPERTY};
-        ReportQueryByCriteria queryID = 
-            new ReportQueryByCriteria(Account.class, queryAttr, criteriaID, true);
-        Iterator Results = getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(queryID);
-        if (!Results.hasNext())
-        {
-            return DEFAULT_ID;
-        }
-        else
-        {  
-           String retID = (String) ((Object[]) Results.next())[0];  
-           return retID;
-        }
-    }
-    
     /*
      * ******************************************************************************
      *   These are utility routines used by all the units
@@ -248,6 +222,17 @@ public class GenesisDaoOjb extends PlatformAwareDaoBaseOjb
     // sensibilities, the offended are free to change the copy of the code they are
     // using.
     //***********************************************************
+    private void closeDBResources(Iterator resultSet)
+    {
+        // even if an iterator from an OJB query has only one row, it is necessary
+        // to do the final hasNext on the Iterator, or DB resources will remain open
+        while (resultSet.hasNext())
+        {
+            // there should be at most one row
+            resultSet.next();
+        }
+    }
+    
     private Integer hashCapacity(Integer hashSize)
     {
         // this corresponds to a little more than the default load factor of .75
@@ -2988,35 +2973,16 @@ public class GenesisDaoOjb extends PlatformAwareDaoBaseOjb
         orgRCMap.clear();
     }
     
-    private Integer readOrgRCCount()
-    {
-        String[] selectList = {"COUNT(*)"};
-        ReportQueryByCriteria queryID = 
-            new ReportQueryByCriteria(Org.class, selectList,
-                    QueryByCriteria.CRITERIA_SELECT_ALL);
-        Iterator resultRow =
-        getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(queryID);
-        if (!(resultRow.hasNext()))
-        {
-            return new Integer(0);
-        }
-        else
-        {
-            BigDecimal resultValue = (BigDecimal) ((Object[]) resultRow.next())[0];
-            return (Integer) resultValue.intValue();
-        }
-    }
-    
     private void readOrgRCMap()
     {
-        Integer orgCount = readOrgRCCount();
-        orgRCMap = new HashMap<String,String>(orgCount+3);
         String[] selectList = {KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE,
                                KFSPropertyConstants.ORGANIZATION_CODE,
                                KFSPropertyConstants.RESPONSIBILITY_CENTER_CODE};
         ReportQueryByCriteria queryID = 
             new ReportQueryByCriteria(Org.class, selectList,
                                       QueryByCriteria.CRITERIA_SELECT_ALL);
+        orgRCMap = new HashMap<String,String>(hashCapacity((Integer)
+                                              getPersistenceBrokerTemplate().getCount(queryID)));
         Iterator resultSet =
             getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(queryID);
         while (resultSet.hasNext())
@@ -3665,7 +3631,7 @@ public class GenesisDaoOjb extends PlatformAwareDaoBaseOjb
             String testKey = buildCSFKey(csfRow);
             if (csfOverrideKeys.contains(testKey))
             {
-                break;
+                continue;
             }
             // is the line vacant
             testKey = buildVacantCSFKey(csfRow);
@@ -4065,6 +4031,8 @@ public class GenesisDaoOjb extends PlatformAwareDaoBaseOjb
       bcaf.setAppointmentFundingDeleteIndicator(true);
       getPersistenceBrokerTemplate().store(bcaf);
       CSFBCAFRowsMarkedDeleted = CSFBCAFRowsMarkedDeleted+1;
+      // we also need to exhaust the iterator, so OJB will close the cursor (Oracle)
+      closeDBResources(resultSet);
     }
 
 //     this is an inner class which will store the data we need to perform the rounding,

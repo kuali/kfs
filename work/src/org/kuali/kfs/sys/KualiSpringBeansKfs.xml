@@ -264,4 +264,20 @@
 			<ref bean="businessObjectService" />
 		</property>
 	</bean>
+
+	<bean id="workflow-org.kuali.kfs.bo.KualiModuleBO-Lookupable" parent="workflowLookupable" singleton="false">
+		<property name="businessObjectClassName">
+			<value>org.kuali.kfs.bo.KualiModuleBO</value>
+		</property>
+	</bean>
+	
+	<bean id="moduleLookupableHelperService" class="org.kuali.kfs.lookup.ModuleLookupableHelperServiceImpl" singleton="false" parent="kualiLookupableHelperService" >
+		<property name="configService" ref="kualiConfigurationService" />
+	</bean>
+
+	<bean id="moduleLookupable" class="org.kuali.core.lookup.KualiLookupableImpl" singleton="false">
+		<property name="lookupableHelperService">
+			<ref bean="moduleLookupableHelperService" />
+		</property>
+	</bean>
 </beans>

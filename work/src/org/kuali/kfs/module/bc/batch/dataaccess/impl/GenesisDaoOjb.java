@@ -4331,6 +4331,7 @@ public class GenesisDaoOjb extends PlatformAwareDaoBaseOjb
 //  the service does not have a complete method, but the document does        
 //        workflowDocumentService.route(newBCHdr.getDocumentHeader().getWorkflowDocument(),
 //                                      annotateDoc.toString(),null);
+        newBCHdr.getDocumentHeader().getWorkflowDocument().saveDocument(annotateDoc.toString());
         newBCHdr.getDocumentHeader().getWorkflowDocument().complete(annotateDoc.toString());
 //        
 //        KHUNTLEY does not have superuser privileges

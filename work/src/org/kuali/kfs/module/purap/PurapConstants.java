@@ -17,6 +17,7 @@ package org.kuali.module.purap;
 
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 import org.kuali.Constants;
@@ -27,7 +28,8 @@ import org.kuali.Constants;
 public class PurapConstants {
 
     // STANDARD PARAMETER PREFIXES
-    private static final String PURAP_PARAM_PREFIX = "PURAP.";
+    private static final String PURAP_PARAM_PREFIX = "PURAP";
+    private static final String STANDARD_SEPARATOR = ".";
 
     public static class WorkflowConstants {
         // PARAMETER NAMES
@@ -41,32 +43,57 @@ public class PurapConstants {
         }
 
         public static class RequisitionDocument {
-            public static final String SEPARATION_OF_DUTIES_DOLLAR_AMOUNT = PURAP_PARAM_PREFIX + "SEPARATION_OF_DUTIES_DOLLAR_AMOUNT";
+            // Node Names
+            public static class NodeDetails {
+                public static final String CONTENT_REVIEW = "";
+                public static final String SUB_ACCOUNT_REVIEW = "";
+                public static final String ACCOUNT_REVIEW = "";
+                public static final String ORG_REVIEW = "";
+                public static final String SEPARAION_OF_DUTIES_REVIEW = "";
+                
+                public static Map<String,String> REQUISITION_STATUS_BY_NODE_NAME = new HashMap<String,String>();
+                public static Map<String,String> REQUISITION_DISAPPROVAL_STATUS_BY_NODE_NAME = new HashMap<String,String>();
+                static {
+                    REQUISITION_STATUS_BY_NODE_NAME.put(CONTENT_REVIEW, PurapConstants.RequisitionStatuses.AWAIT_CONTENT_APRVL);
+                    REQUISITION_STATUS_BY_NODE_NAME.put(SUB_ACCOUNT_REVIEW, PurapConstants.RequisitionStatuses.AWAIT_SUB_ACCT_APRVL);
+                    REQUISITION_STATUS_BY_NODE_NAME.put(ACCOUNT_REVIEW, PurapConstants.RequisitionStatuses.AWAIT_FISCAL_APRVL);
+                    REQUISITION_STATUS_BY_NODE_NAME.put(ORG_REVIEW, PurapConstants.RequisitionStatuses.AWAIT_CHART_APRVL);
+                    REQUISITION_STATUS_BY_NODE_NAME.put(SEPARAION_OF_DUTIES_REVIEW, PurapConstants.RequisitionStatuses.AWAIT_SEP_OF_DUTY_APRVL);
+
+                    REQUISITION_DISAPPROVAL_STATUS_BY_NODE_NAME.put(CONTENT_REVIEW, PurapConstants.RequisitionStatuses.DAPRVD_CONTENT);
+                    REQUISITION_DISAPPROVAL_STATUS_BY_NODE_NAME.put(SUB_ACCOUNT_REVIEW, PurapConstants.RequisitionStatuses.DAPRVD_SUB_ACCT);
+                    REQUISITION_DISAPPROVAL_STATUS_BY_NODE_NAME.put(ACCOUNT_REVIEW, PurapConstants.RequisitionStatuses.DAPRVD_FISCAL);
+                    REQUISITION_DISAPPROVAL_STATUS_BY_NODE_NAME.put(ORG_REVIEW, PurapConstants.RequisitionStatuses.DAPRVD_CHART);
+                    REQUISITION_DISAPPROVAL_STATUS_BY_NODE_NAME.put(SEPARAION_OF_DUTIES_REVIEW, PurapConstants.RequisitionStatuses.DAPRVD_SEP_OF_DUTY);
+}
+            }
+            
+            public static final String SEPARATION_OF_DUTIES_DOLLAR_AMOUNT = PURAP_PARAM_PREFIX + STANDARD_SEPARATOR + "SEPARATION_OF_DUTIES_DOLLAR_AMOUNT";
 
             // Workgroups
-            public static final String SEPARATION_OF_DUTIES_WORKGROUP_NAME = PURAP_PARAM_PREFIX + "WORKGROUP.SEPARATION_OF_DUTIES";
+            public static final String SEPARATION_OF_DUTIES_WORKGROUP_NAME = PURAP_PARAM_PREFIX + STANDARD_SEPARATOR + "WORKGROUP.SEPARATION_OF_DUTIES";
         }
 
         public static class PurchaseOrderDocument {
             public static final String CG_RESTRICTED_OBJECT_CODE_RULE_GROUP_NAME = "PurAp.CG_Restricted_Object_Codes";
             // Workgroups
-            public static final String INTERNAL_PURCHASING_WORKGROUP_NAME = PURAP_PARAM_PREFIX + "INTERNAL_PURCHASING_REVIEWERS";
-            public static final String VENDOR_EMPLOYEE_WORKGROUP_NAME = PURAP_PARAM_PREFIX + "PO_EMPLOYEE_VENDOR_REVIEWERS";
-            public static final String VENDOR_NRA_WORKGROUP_NAME = PURAP_PARAM_PREFIX + "PO_NRA_VENDOR_REVIEWERS";
-            public static final String VENDOR_NRA_EMPLOYEE_WORKGROUP_NAME = PURAP_PARAM_PREFIX + "PO_NRA_EMPLOYEE_VENDOR_REVIEWERS";
+            public static final String INTERNAL_PURCHASING_WORKGROUP_NAME = PURAP_PARAM_PREFIX + STANDARD_SEPARATOR + "INTERNAL_PURCHASING_REVIEWERS";
+            public static final String VENDOR_EMPLOYEE_WORKGROUP_NAME = PURAP_PARAM_PREFIX + STANDARD_SEPARATOR + "PO_EMPLOYEE_VENDOR_REVIEWERS";
+            public static final String VENDOR_NRA_WORKGROUP_NAME = PURAP_PARAM_PREFIX + STANDARD_SEPARATOR + "PO_NRA_VENDOR_REVIEWERS";
+            public static final String VENDOR_NRA_EMPLOYEE_WORKGROUP_NAME = PURAP_PARAM_PREFIX + STANDARD_SEPARATOR + "PO_NRA_EMPLOYEE_VENDOR_REVIEWERS";
         }
 
         public static class PaymentRequestDocument {
             // Workgroups
-            public static final String VENDOR_EMPLOYEE_WORKGROUP_NAME = PURAP_PARAM_PREFIX + "PREQ_EMPLOYEE_VENDOR_REVIEWERS";
-            public static final String VENDOR_NRA_WORKGROUP_NAME = PURAP_PARAM_PREFIX + "PREQ_NRA_VENDOR_REVIEWERS";
-            public static final String VENDOR_NRA_EMPLOYEE_WORKGROUP_NAME = PURAP_PARAM_PREFIX + "PREQ_NRA_EMPLOYEE_VENDOR_REVIEWERS";
-            public static final String ACCOUNTS_PAYABLE_REVIEWER_WORKGROUP_NAME = PURAP_PARAM_PREFIX + "PREQ_AP_REVIEWERS";
+            public static final String VENDOR_EMPLOYEE_WORKGROUP_NAME = PURAP_PARAM_PREFIX + STANDARD_SEPARATOR + "PREQ_EMPLOYEE_VENDOR_REVIEWERS";
+            public static final String VENDOR_NRA_WORKGROUP_NAME = PURAP_PARAM_PREFIX + STANDARD_SEPARATOR + "PREQ_NRA_VENDOR_REVIEWERS";
+            public static final String VENDOR_NRA_EMPLOYEE_WORKGROUP_NAME = PURAP_PARAM_PREFIX + STANDARD_SEPARATOR + "PREQ_NRA_EMPLOYEE_VENDOR_REVIEWERS";
+            public static final String ACCOUNTS_PAYABLE_REVIEWER_WORKGROUP_NAME = PURAP_PARAM_PREFIX + STANDARD_SEPARATOR + "PREQ_AP_REVIEWERS";
         }
 
         public static class CreditMemoDocument {
             // Workgroups
-            public static final String ACCOUNTS_PAYABLE_REVIEWER_WORKGROUP_NAME = PURAP_PARAM_PREFIX + "CM_AP_REVIEWERS";
+            public static final String ACCOUNTS_PAYABLE_REVIEWER_WORKGROUP_NAME = PURAP_PARAM_PREFIX + STANDARD_SEPARATOR + "CM_AP_REVIEWERS";
         }
     }
 
@@ -104,6 +131,8 @@ public class PurapConstants {
         public static final String WORKGROUP_ACCOUNTS_PAYABLE_SUPERVISOR = "PURAP.WORKGROUP.ACCOUNTS_PAYABLE";
         public static final String WORKGROUP_PURCHASING = "PURAP.WORKGROUP.PURCHASING";
         public static final String WORKGROUP_TAXNBR_ACCESSIBLE = "PURAP.WORKGROUP.TAXNBR_ACCESSIBLE";
+        
+        public static final String SEARCH_SPECIAL_ACCESS = PURAP_PARAM_PREFIX + STANDARD_SEPARATOR + "SEARCH_SPECIAL_ACCESS";
     }
 
     public static final String NOTE_TAB_WARNING = "noteWarning";

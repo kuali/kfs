@@ -114,6 +114,8 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
      */
     @Override
     public void populateDocumentForRouting() {
+// TODO delyea - FIX THIS
+//        refreshAllReferences();
         refreshAccountSummary();
         super.populateDocumentForRouting();
     }

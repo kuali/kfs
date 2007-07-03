@@ -47,6 +47,8 @@ import org.kuali.module.purap.bo.RequisitionView;
 import org.kuali.module.vendor.bo.VendorContract;
 import org.kuali.module.vendor.bo.VendorDetail;
 
+import edu.iu.uis.eden.EdenConstants;
+import edu.iu.uis.eden.clientapp.vo.ReportCriteriaVO;
 import edu.iu.uis.eden.exception.WorkflowException;
 
 /**
@@ -280,52 +282,29 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
         super.handleRouteLevelChange();
         try {
             String[] nodeNames = getDocumentHeader().getWorkflowDocument().getNodeNames();
+//            TODO delyea - FIX THIS
+//            if (nodeNames.length > 1) {
+//                // if we find more than one node name then setting the status is invalid
+//                throw new RuntimeException("More than one active node name found for Requisition");
+//            }
+//            ReportCriteriaVO reportCriteriaVO = new ReportCriteriaVO(Long.valueOf(getDocumentNumber()));
+//            String nodeName = nodeNames[0];
+//            reportCriteriaVO.setTargetNodeName(nodeName);
+//            if (SpringServiceLocator.getWorkflowInfoService().documentWillHaveAtLeastOneActionRequest(
+//                    reportCriteriaVO, new String[]{EdenConstants.ACTION_REQUEST_APPROVE_REQ,EdenConstants.ACTION_REQUEST_COMPLETE_REQ})) {
+//                String statusCode = PurapConstants.WorkflowConstants.RequisitionDocument.NodeDetails.REQUISITION_STATUS_BY_NODE_NAME.get(nodeName);
+//                if (StringUtils.isBlank(statusCode)) {
+//                    // if we can't find a status code for this node... the setup is invalid
+//                    throw new RuntimeException("No valid status code found for route node with name '" + nodeName + "'");
+//                }
+//                SpringServiceLocator.getPurapService().updateStatusAndStatusHistory(this, statusCode);
+//            }
         }
         catch (WorkflowException e) {
             String errorMsg = "Error getting node names for document with id " + getDocumentNumber();
             LOG.error(errorMsg,e);
             throw new RuntimeException(errorMsg,e);
         }
-
-        //on level change alter EPIC status of document - possibly clear & reset attributes
-//        DocumentRouteHeaderValue routeHeader = getRouteHeaderService().getRouteHeader(levelChangeEvent.getRouteHeaderId());
-//
-//        if (RoutingService.REQ_CONTENT_NODE_NAME.equalsIgnoreCase(levelChangeEvent.getNewNodeName())) {
-//            getRequisitionPostProcessorService().changeRequisitionStatus(routeHeader.getRouteHeaderId(), EpicConstants.REQ_STAT_AWAIT_CONTENT_APRVL, getLastUserId(routeHeader));
-//        }
-//        if (RoutingService.REQ_SUB_ACCT_NODE_NAME.equalsIgnoreCase(levelChangeEvent.getNewNodeName())) {
-//            getRequisitionPostProcessorService().changeRequisitionStatus(routeHeader.getRouteHeaderId(), EpicConstants.REQ_STAT_AWAIT_SUB_ACCT_APRVL, getLastUserId(routeHeader));
-//        }
-//        if (RoutingService.REQ_FISCAL_OFFICER_NODE_NAME.equalsIgnoreCase(levelChangeEvent.getNewNodeName())) {
-//            getRequisitionPostProcessorService().changeRequisitionStatus(routeHeader.getRouteHeaderId(), EpicConstants.REQ_STAT_AWAIT_FISCAL_APRVL, getLastUserId(routeHeader));
-//        }
-//        if (RoutingService.REQ_CHART_ORG_NODE_NAME.equalsIgnoreCase(levelChangeEvent.getNewNodeName())) {
-//            getRequisitionPostProcessorService().changeRequisitionStatus(routeHeader.getRouteHeaderId(), EpicConstants.REQ_STAT_AWAIT_CHART_APRVL, getLastUserId(routeHeader));          
-//        }
-//        if (RoutingService.REQ_SOD_NODE_NAME.equalsIgnoreCase(levelChangeEvent.getNewNodeName())){
-//            getRequisitionPostProcessorService().changeRequisitionStatus(routeHeader.getRouteHeaderId(), EpicConstants.REQ_STAT_AWAIT_SEP_OF_DUTY_APRVL, getLastUserId(routeHeader));
-//            
-//            //test for separation of duties, if fail send to exception routing
-//            String initiatorId = routeHeader.getInitiatorUser().getAuthenticationUserId().getAuthenticationId();
-//            int numberOfApprovals = 0;
-//            String approver = null;
-//            for (Iterator iter = routeHeader.getActionsTaken().iterator(); iter.hasNext();) {
-//                ActionTakenValue actionTaken = (ActionTakenValue) iter.next();
-//                if(actionTaken.getActionTaken().equals(EdenConstants.ACTION_TAKEN_APPROVED_CD)){
-//                    numberOfApprovals++;
-//                    approver = actionTaken.getWorkflowUser().getAuthenticationUserId().getAuthenticationId();
-//                }
-//            }
-//            
-//            if(getRequisitionPostProcessorService().failsSeparationOfDuties(routeHeader.getRouteHeaderId(), initiatorId, approver, numberOfApprovals)){
-//                WorkflowDocument document = new WorkflowDocument(new NetworkIdVO(initiatorId), routeHeader.getRouteHeaderId());
-//                document.clearAttributeContent();
-//                document.addAttributeDefinition(new SeparationDefinition("fails"));
-//                document.saveRoutingData();
-//            }
-//            
-//        }
-
     }
     
     /**

@@ -41,7 +41,7 @@ public class KualiContractsAndGrantsDocSearchGenerator extends StandardDocumentS
     /* (non-Javadoc)
      * @see edu.iu.uis.eden.docsearch.StandardDocumentSearchGenerator#clearSearch(edu.iu.uis.eden.docsearch.DocSearchCriteriaVO)
      */
-    //@Override
+    @Override
     public DocSearchCriteriaVO clearSearch(DocSearchCriteriaVO searchCriteria) {
         DocSearchCriteriaVO docSearchCriteriaVO = new DocSearchCriteriaVO();
         docSearchCriteriaVO.setDocTypeFullName(searchCriteria.getDocTypeFullName());
@@ -127,17 +127,4 @@ public class KualiContractsAndGrantsDocSearchGenerator extends StandardDocumentS
         return documentTypes;
     }
     
-    // TODO delyea - move this to standard search processor?
-    protected SearchAttributeCriteriaComponent getSearchableAttributeByFieldName(String name) {
-        if (StringUtils.isBlank(name)) {
-            throw new IllegalArgumentException("Attempted to find Searchable Attribute with blank Field name '" + name + "'");
-        }
-        for (Iterator iter = getCriteria().getSearchableAttributes().iterator(); iter.hasNext();) {
-            SearchAttributeCriteriaComponent critComponent = (SearchAttributeCriteriaComponent) iter.next();
-            if (name.equals(critComponent.getFormKey())) {
-                return critComponent;
-            }
-        }
-        return null;
-    }
 }

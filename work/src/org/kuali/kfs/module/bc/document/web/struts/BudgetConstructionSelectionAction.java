@@ -141,7 +141,7 @@ public class BudgetConstructionSelectionAction extends KualiAction {
             // the form object is retrieved and removed upon return by KualiRequestProcessor.processActionForm()
             parameters.put(BCConstants.RETURN_FORM_KEY, GlobalVariables.getUserSession().addObject(form));
 
-            String lookupUrl = UrlFactory.parameterizeUrl("/" + BCConstants.BC_DOCUMENT_ACTION, parameters);
+            String lookupUrl = UrlFactory.parameterizeUrl(basePath + "/" + BCConstants.BC_DOCUMENT_ACTION, parameters);
             return new ActionForward(lookupUrl, true);
         }
     }

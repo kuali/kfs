@@ -278,8 +278,9 @@ public ActionForward close(ActionMapping mapping, ActionForm form, HttpServletRe
             pbglLine = bcDocument.getPendingBudgetConstructionGeneralLedgerExpenditureLines().get(this.getSelectedLine(request));
         }
 
-        // build out base path for return location
-        String basePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath();
+        // build out base path for return location, use config service instead
+//        String basePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath();
+        String basePath = SpringServiceLocator.getKualiConfigurationService().getPropertyString(KFSConstants.APPLICATION_URL_KEY);
 
         // build out the actual form key that will be used to retrieve the form on refresh
         String callerDocFormKey = GlobalVariables.getUserSession().addObject(form);
@@ -343,7 +344,8 @@ public ActionForward close(ActionMapping mapping, ActionForm form, HttpServletRe
         }
 
 
-        String basePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath();
+//        String basePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath();
+        String basePath = SpringServiceLocator.getKualiConfigurationService().getPropertyString(KFSConstants.APPLICATION_URL_KEY);
         Properties parameters = new Properties();
         parameters.put(KFSConstants.DISPATCH_REQUEST_PARAMETER, BCConstants.MONTHLY_BUDGET_METHOD);
         parameters.put("documentNumber", pbglLine.getDocumentNumber());
@@ -364,7 +366,7 @@ public ActionForward close(ActionMapping mapping, ActionForm form, HttpServletRe
         // the form object is retrieved and removed upon return by KualiRequestProcessor.processActionForm()
         parameters.put(BCConstants.RETURN_FORM_KEY, GlobalVariables.getUserSession().addObject(form));
             
-        String lookupUrl = UrlFactory.parameterizeUrl("/" + BCConstants.MONTHLY_BUDGET_ACTION, parameters);
+        String lookupUrl = UrlFactory.parameterizeUrl(basePath + "/" + BCConstants.MONTHLY_BUDGET_ACTION, parameters);
         return new ActionForward(lookupUrl, true);
     }
     
@@ -382,7 +384,8 @@ public ActionForward close(ActionMapping mapping, ActionForm form, HttpServletRe
         PendingBudgetConstructionGeneralLedger pbglLine;
         pbglLine = bcDocument.getPendingBudgetConstructionGeneralLedgerExpenditureLines().get(this.getSelectedLine(request));
 
-        String basePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath();
+//        String basePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath();
+        String basePath = SpringServiceLocator.getKualiConfigurationService().getPropertyString(KFSConstants.APPLICATION_URL_KEY);
         Properties parameters = new Properties();
         parameters.put(KFSConstants.DISPATCH_REQUEST_PARAMETER, BCConstants.SALARY_SETTING_METHOD);
 
@@ -404,7 +407,7 @@ public ActionForward close(ActionMapping mapping, ActionForm form, HttpServletRe
         // the form object is retrieved and removed upon return by KualiRequestProcessor.processActionForm()
         parameters.put(BCConstants.RETURN_FORM_KEY, GlobalVariables.getUserSession().addObject(form));
             
-        String lookupUrl = UrlFactory.parameterizeUrl("/" + BCConstants.SALARY_SETTING_ACTION, parameters);
+        String lookupUrl = UrlFactory.parameterizeUrl(basePath + "/" + BCConstants.SALARY_SETTING_ACTION, parameters);
         return new ActionForward(lookupUrl, true);
     }
     

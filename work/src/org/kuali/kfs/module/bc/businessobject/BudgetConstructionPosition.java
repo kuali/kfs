@@ -71,51 +71,16 @@ public class BudgetConstructionPosition extends PersistableBusinessObjectBase {
     private ResponsibilityCenter responsibilityCenter;
     private UniversalUser positionLockUser;
     
-    //position salary setting screen totals
-    private KualiInteger bcafAppointmentRequestedCsfAmountTotal;
-    private BigDecimal bcafAppointmentRequestedCsfTimePercentTotal;
-    private BigDecimal bcafAppointmentRequestedCsfStandardHoursTotal;
-    private BigDecimal bcafAppointmentRequestedCsfFteQuantityTotal;
-    private KualiInteger bcafAppointmentRequestedAmountTotal;
-    private BigDecimal bcafAppointmentRequestedTimePercentTotal;
-    private BigDecimal bcafAppointmentRequestedStandardHoursTotal;
-    private BigDecimal bcafAppointmentRequestedFteQuantityTotal;
-    private KualiInteger bcsfCsfAmountTotal;
-    private BigDecimal bcsfCsfTimePercentTotal;
-    private BigDecimal bcsfCsfStandardHoursTotal;
-    private BigDecimal bcsfCsfFullTimeEmploymentQuantityTotal;
-
-    
 	/**
 	 * Default constructor.
 	 */
 	public BudgetConstructionPosition() {
         budgetConstructionPositionSelect = new ArrayList();
         setPendingBudgetConstructionAppointmentFunding(new TypedArrayList(PendingBudgetConstructionAppointmentFunding.class));
-        zeroTotals();
 
 	}
 
 
-    /**
-     * This zeros totals displayed on the position salary setting screen
-     */
-    public void zeroTotals(){
-        
-        bcafAppointmentRequestedCsfAmountTotal = new KualiInteger(BigDecimal.ZERO);
-        bcafAppointmentRequestedCsfTimePercentTotal = new BigDecimal(0).setScale(5,BigDecimal.ROUND_HALF_UP);
-        bcafAppointmentRequestedCsfStandardHoursTotal = new BigDecimal(0).setScale(2,BigDecimal.ROUND_HALF_UP);
-        bcafAppointmentRequestedCsfFteQuantityTotal = new BigDecimal(0).setScale(2,BigDecimal.ROUND_HALF_UP);
-        bcafAppointmentRequestedAmountTotal = new KualiInteger(0);
-        bcafAppointmentRequestedTimePercentTotal = new BigDecimal(0).setScale(5,BigDecimal.ROUND_HALF_UP);
-        bcafAppointmentRequestedStandardHoursTotal = new BigDecimal(0).setScale(2,BigDecimal.ROUND_HALF_UP);
-        bcafAppointmentRequestedFteQuantityTotal = new BigDecimal(0).setScale(2,BigDecimal.ROUND_HALF_UP);
-        bcsfCsfAmountTotal = new KualiInteger(0);
-        bcsfCsfTimePercentTotal = new BigDecimal(0).setScale(5,BigDecimal.ROUND_HALF_UP);
-        bcsfCsfStandardHoursTotal = new BigDecimal(0).setScale(2,BigDecimal.ROUND_HALF_UP);
-        bcsfCsfFullTimeEmploymentQuantityTotal = new BigDecimal(0).setScale(2,BigDecimal.ROUND_HALF_UP);
-    }
-    
     /**
      * Computes the positionFullTimeEquivalency attribute.
      * 
@@ -124,10 +89,10 @@ public class BudgetConstructionPosition extends PersistableBusinessObjectBase {
      */
     public static BigDecimal getCalculatedBCPositionFTE(BigDecimal positionStandardHoursDefault, Integer iuNormalWorkMonths, Integer iuPayMonths ) { 
         if (iuPayMonths > 0){
-            BigDecimal temp1 = positionStandardHoursDefault.divide(new BigDecimal(40),4, BigDecimal.ROUND_DOWN );
-            BigDecimal temp2 = new BigDecimal(iuNormalWorkMonths).divide(new BigDecimal(iuPayMonths), 4, BigDecimal.ROUND_DOWN );
+            BigDecimal temp1 = positionStandardHoursDefault.divide(new BigDecimal(40),4, KualiDecimal.ROUND_BEHAVIOR );
+            BigDecimal temp2 = new BigDecimal(iuNormalWorkMonths).divide(new BigDecimal(iuPayMonths), 4, KualiDecimal.ROUND_BEHAVIOR );
             BigDecimal result = temp1.multiply(temp2) ;
-            result = result.setScale(2, BigDecimal.ROUND_DOWN);
+            result = result.setScale(2, KualiDecimal.ROUND_BEHAVIOR);
             return result;
         }else{
             return BigDecimal.valueOf(0.0);
@@ -754,203 +719,6 @@ public class BudgetConstructionPosition extends PersistableBusinessObjectBase {
         this.universityFiscal = universityFiscal;
     }
     
-    /**
-     * Gets the bcafAppointmentRequestedAmountTotal attribute. 
-     * @return Returns the bcafAppointmentRequestedAmountTotal.
-     */
-    public KualiInteger getBcafAppointmentRequestedAmountTotal() {
-        return bcafAppointmentRequestedAmountTotal;
-    }
-
-    /**
-     * Sets the bcafAppointmentRequestedAmountTotal attribute value.
-     * @param bcafAppointmentRequestedAmountTotal The bcafAppointmentRequestedAmountTotal to set.
-     */
-    public void setBcafAppointmentRequestedAmountTotal(KualiInteger bcafAppointmentRequestedAmountTotal) {
-        this.bcafAppointmentRequestedAmountTotal = bcafAppointmentRequestedAmountTotal;
-    }
-
-    /**
-     * Gets the bcafAppointmentRequestedCsfAmountTotal attribute. 
-     * @return Returns the bcafAppointmentRequestedCsfAmountTotal.
-     */
-    public KualiInteger getBcafAppointmentRequestedCsfAmountTotal() {
-        return bcafAppointmentRequestedCsfAmountTotal;
-    }
-
-
-    /**
-     * Sets the bcafAppointmentRequestedCsfAmountTotal attribute value.
-     * @param bcafAppointmentRequestedCsfAmountTotal The bcafAppointmentRequestedCsfAmountTotal to set.
-     */
-    public void setBcafAppointmentRequestedCsfAmountTotal(KualiInteger bcafAppointmentRequestedCsfAmountTotal) {
-        this.bcafAppointmentRequestedCsfAmountTotal = bcafAppointmentRequestedCsfAmountTotal;
-    }
-
-
-    /**
-     * Gets the bcafAppointmentRequestedCsfFteQuantityTotal attribute. 
-     * @return Returns the bcafAppointmentRequestedCsfFteQuantityTotal.
-     */
-    public BigDecimal getBcafAppointmentRequestedCsfFteQuantityTotal() {
-        return bcafAppointmentRequestedCsfFteQuantityTotal;
-    }
-
-    /**
-     * Sets the bcafAppointmentRequestedCsfFteQuantityTotal attribute value.
-     * @param bcafAppointmentRequestedCsfFteQuantityTotal The bcafAppointmentRequestedCsfFteQuantityTotal to set.
-     */
-    public void setBcafAppointmentRequestedCsfFteQuantityTotal(BigDecimal bcafAppointmentRequestedCsfFteQuantityTotal) {
-        this.bcafAppointmentRequestedCsfFteQuantityTotal = bcafAppointmentRequestedCsfFteQuantityTotal;
-    }
-
-    /**
-     * Gets the bcafAppointmentRequestedCsfStandardHoursTotal attribute. 
-     * @return Returns the bcafAppointmentRequestedCsfStandardHoursTotal.
-     */
-    public BigDecimal getBcafAppointmentRequestedCsfStandardHoursTotal() {
-        bcafAppointmentRequestedCsfStandardHoursTotal = bcafAppointmentRequestedCsfTimePercentTotal.multiply(BigDecimal.valueOf(0.4).setScale(2)).setScale(2);
-        return bcafAppointmentRequestedCsfStandardHoursTotal;
-    }
-
-    /**
-     * Sets the bcafAppointmentRequestedCsfStandardHoursTotal attribute value.
-     * @param bcafAppointmentRequestedCsfStandardHoursTotal The bcafAppointmentRequestedCsfStandardHoursTotal to set.
-     */
-    public void setBcafAppointmentRequestedCsfStandardHoursTotal(BigDecimal bcafAppointmentRequestedCsfStandardHoursTotal) {
-        this.bcafAppointmentRequestedCsfStandardHoursTotal = bcafAppointmentRequestedCsfStandardHoursTotal;
-    }
-
-    /**
-     * Gets the bcafAppointmentRequestedCsfTimePercentTotal attribute. 
-     * @return Returns the bcafAppointmentRequestedCsfTimePercentTotal.
-     */
-    public BigDecimal getBcafAppointmentRequestedCsfTimePercentTotal() {
-        return bcafAppointmentRequestedCsfTimePercentTotal;
-    }
-
-    /**
-     * Sets the bcafAppointmentRequestedCsfTimePercentTotal attribute value.
-     * @param bcafAppointmentRequestedCsfTimePercentTotal The bcafAppointmentRequestedCsfTimePercentTotal to set.
-     */
-    public void setBcafAppointmentRequestedCsfTimePercentTotal(BigDecimal bcafAppointmentRequestedCsfTimePercentTotal) {
-        this.bcafAppointmentRequestedCsfTimePercentTotal = bcafAppointmentRequestedCsfTimePercentTotal;
-    }
-
-    /**
-     * Gets the bcafAppointmentRequestedFteQuantityTotal attribute. 
-     * @return Returns the bcafAppointmentRequestedFteQuantityTotal.
-     */
-    public BigDecimal getBcafAppointmentRequestedFteQuantityTotal() {
-        return bcafAppointmentRequestedFteQuantityTotal;
-    }
-
-    /**
-     * Sets the bcafAppointmentRequestedFteQuantityTotal attribute value.
-     * @param bcafAppointmentRequestedFteQuantityTotal The bcafAppointmentRequestedFteQuantityTotal to set.
-     */
-    public void setBcafAppointmentRequestedFteQuantityTotal(BigDecimal bcafAppointmentRequestedFteQuantityTotal) {
-        this.bcafAppointmentRequestedFteQuantityTotal = bcafAppointmentRequestedFteQuantityTotal;
-    }
-
-    /**
-     * Gets the bcafAppointmentRequestedStandardHoursTotal attribute. 
-     * @return Returns the bcafAppointmentRequestedStandardHoursTotal.
-     */
-    public BigDecimal getBcafAppointmentRequestedStandardHoursTotal() {
-        bcafAppointmentRequestedStandardHoursTotal = bcafAppointmentRequestedTimePercentTotal.multiply(BigDecimal.valueOf(0.4).setScale(2)).setScale(2);
-        return bcafAppointmentRequestedStandardHoursTotal;
-    }
-
-    /**
-     * Sets the bcafAppointmentRequestedStandardHoursTotal attribute value.
-     * @param bcafAppointmentRequestedStandardHoursTotal The bcafAppointmentRequestedStandardHoursTotal to set.
-     */
-    public void setBcafAppointmentRequestedStandardHoursTotal(BigDecimal bcafAppointmentRequestedStandardHoursTotal) {
-        this.bcafAppointmentRequestedStandardHoursTotal = bcafAppointmentRequestedStandardHoursTotal;
-    }
-
-    /**
-     * Gets the bcafAppointmentRequestedTimePercentTotal attribute. 
-     * @return Returns the bcafAppointmentRequestedTimePercentTotal.
-     */
-    public BigDecimal getBcafAppointmentRequestedTimePercentTotal() {
-        return bcafAppointmentRequestedTimePercentTotal;
-    }
-
-    /**
-     * Sets the bcafAppointmentRequestedTimePercentTotal attribute value.
-     * @param bcafAppointmentRequestedTimePercentTotal The bcafAppointmentRequestedTimePercentTotal to set.
-     */
-    public void setBcafAppointmentRequestedTimePercentTotal(BigDecimal bcafAppointmentRequestedTimePercentTotal) {
-        this.bcafAppointmentRequestedTimePercentTotal = bcafAppointmentRequestedTimePercentTotal;
-    }
-
-    /**
-     * Gets the bcsfCsfAmountTotal attribute. 
-     * @return Returns the bcsfCsfAmountTotal.
-     */
-    public KualiInteger getBcsfCsfAmountTotal() {
-        return bcsfCsfAmountTotal;
-    }
-
-    /**
-     * Sets the bcsfCsfAmountTotal attribute value.
-     * @param bcsfCsfAmountTotal The bcsfCsfAmountTotal to set.
-     */
-    public void setBcsfCsfAmountTotal(KualiInteger bcsfCsfAmountTotal) {
-        this.bcsfCsfAmountTotal = bcsfCsfAmountTotal;
-    }
-
-    /**
-     * Gets the bcsfCsfFullTimeEmploymentQuantityTotal attribute. 
-     * @return Returns the bcsfCsfFullTimeEmploymentQuantityTotal.
-     */
-    public BigDecimal getBcsfCsfFullTimeEmploymentQuantityTotal() {
-        return bcsfCsfFullTimeEmploymentQuantityTotal;
-    }
-
-    /**
-     * Sets the bcsfCsfFullTimeEmploymentQuantityTotal attribute value.
-     * @param bcsfCsfFullTimeEmploymentQuantityTotal The bcsfCsfFullTimeEmploymentQuantityTotal to set.
-     */
-    public void setBcsfCsfFullTimeEmploymentQuantityTotal(BigDecimal bcsfCsfFullTimeEmploymentQuantityTotal) {
-        this.bcsfCsfFullTimeEmploymentQuantityTotal = bcsfCsfFullTimeEmploymentQuantityTotal;
-    }
-
-    /**
-     * Gets the bcsfCsfStandardHoursTotal attribute. 
-     * @return Returns the bcsfCsfStandardHoursTotal.
-     */
-    public BigDecimal getBcsfCsfStandardHoursTotal() {
-        bcsfCsfStandardHoursTotal = bcsfCsfTimePercentTotal.multiply(BigDecimal.valueOf(0.4).setScale(2)).setScale(2);
-        return bcsfCsfStandardHoursTotal;
-    }
-
-    /**
-     * Sets the bcsfCsfStandardHoursTotal attribute value.
-     * @param bcsfCsfStandardHoursTotal The bcsfCsfStandardHoursTotal to set.
-     */
-    public void setBcsfCsfStandardHoursTotal(BigDecimal bcsfCsfStandardHoursTotal) {
-        this.bcsfCsfStandardHoursTotal = bcsfCsfStandardHoursTotal;
-    }
-
-    /**
-     * Gets the bcsfCsfTimePercentTotal attribute. 
-     * @return Returns the bcsfCsfTimePercentTotal.
-     */
-    public BigDecimal getBcsfCsfTimePercentTotal() {
-        return bcsfCsfTimePercentTotal;
-    }
-
-    /**
-     * Sets the bcsfCsfTimePercentTotal attribute value.
-     * @param bcsfCsfTimePercentTotal The bcsfCsfTimePercentTotal to set.
-     */
-    public void setBcsfCsfTimePercentTotal(BigDecimal bcsfCsfTimePercentTotal) {
-        this.bcsfCsfTimePercentTotal = bcsfCsfTimePercentTotal;
-    }
-
     /**
      * @see org.kuali.core.bo.PersistableBusinessObjectBase#buildListOfDeletionAwareLists()
      */

@@ -25,7 +25,7 @@ import org.kuali.module.chart.bo.Org;
 /**
  * This class...
  */
-public class PaymentRequestDocSearchGenerator extends KualiPurApDocumentSearchGenerator {
+public class PaymentRequestDocSearchGenerator extends PurApDocumentSearchGenerator {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PaymentRequestDocSearchGenerator.class);
 
     /**

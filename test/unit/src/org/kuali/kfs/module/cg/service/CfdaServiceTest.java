@@ -1,18 +1,12 @@
 package org.kuali.module.cg.service.impl;
 
-import junit.framework.TestCase;
+import static org.kuali.kfs.util.SpringServiceLocator.getCfdaService;
 
-import java.util.regex.Pattern;
-import java.util.regex.Matcher;
-import java.util.Map;
-import java.util.List;
-import java.util.ArrayList;
 import java.io.IOException;
 
-import static org.kuali.kfs.util.SpringServiceLocator.*;
-import org.kuali.test.WithTestSpringContext;
 import org.kuali.kfs.context.KualiTestBase;
 import org.kuali.module.cg.service.CfdaUpdateResults;
+import org.kuali.test.WithTestSpringContext;
 
 /**
  * User: Laran Evans <lc278@cornell.edu>

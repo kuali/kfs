@@ -22,7 +22,18 @@ import edu.iu.uis.eden.docsearch.DocumentSearchResult;
 import edu.iu.uis.eden.lookupable.Column;
 import edu.iu.uis.eden.lookupable.Field;
 
-public class CreditMemoDocumentSearchResultProcessor extends PurApDocumentSearchResultProcessor {
+public class PurchaseOrderDocumentSearchResultProcessor extends PurApDocumentSearchResultProcessor {
+
+    /**
+     * @see edu.iu.uis.eden.docsearch.StandardDocumentSearchResultProcessor#addSearchableAttributeColumnUsingKey(java.util.List, java.lang.String, java.lang.String, java.lang.Boolean, java.lang.Boolean)
+     */
+    @Override
+    protected void addSearchableAttributeColumnUsingKey(List<Column> columns, String key, String label, Boolean sortableOverride, Boolean defaultSortable) {
+        if ("purchaseOrderDocumentFiscalPostingYear".equals(key)) {
+            addColumnUsingKey(columns, DocumentSearchResult.PROPERTY_NAME_DATE_CREATED);
+        }
+        super.addSearchableAttributeColumnUsingKey(columns, key, label, sortableOverride, defaultSortable);
+    }
 
     /**
      * @see org.kuali.workflow.module.purap.docsearch.KualiPurApDocumentSearchResultProcessor#getDocumentSpecificCustomColumns()
@@ -31,20 +42,16 @@ public class CreditMemoDocumentSearchResultProcessor extends PurApDocumentSearch
     public List<Column> getDocumentSpecificCustomColumns() {
         List<Column> columns = new ArrayList<Column>();
         List<String> searchableAttributeFieldNames = new ArrayList<String>();
-        // cm id
-        // vendor cm #
-        // PREQ #
-        // PO #
-        // Status Desc
-        // Hold Yes/No
-        // Vendor Name
-        // customer number
+        searchableAttributeFieldNames.add("purchaseOrderDocumentPurchaseOrderId");
+        searchableAttributeFieldNames.add("purchaseOrderDocumentStatusDescription");
+        searchableAttributeFieldNames.add("purchaseOrderDocumentContractManagerName");
+        searchableAttributeFieldNames.add("purapDocumentOrgDisplayValue");
+        searchableAttributeFieldNames.add("documentHeaderDescription");
         searchableAttributeFieldNames.add("documentTotalAmount");
-        // ap approval date
-        // extracted date
-        // paid indicator
+        searchableAttributeFieldNames.add("purchaseOrderDocumentVendorName");
+        searchableAttributeFieldNames.add("purchaseOrderDocumentFiscalPostingYear");
         addSearchableAttributeColumnsBasedOnFields(columns, getSearchCriteria(), searchableAttributeFieldNames);
         return columns;
     }
-
+    
 }

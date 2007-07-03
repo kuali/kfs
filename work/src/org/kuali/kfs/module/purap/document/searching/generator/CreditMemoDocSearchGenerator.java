@@ -25,8 +25,8 @@ import org.kuali.module.chart.bo.Org;
 /**
  * This class...
  */
-public class RequisitionDocSearchGenerator extends PurApDocumentSearchGenerator {
-    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(RequisitionDocSearchGenerator.class);
+public class CreditMemoDocSearchGenerator extends PurApDocumentSearchGenerator {
+    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CreditMemoDocSearchGenerator.class);
 
     /**
      * @see org.kuali.workflow.module.purap.docsearch.KualiPurApDocumentSearchGenerator#getErrorMessageForNonSpecialUserInvalidCriteria()
@@ -44,8 +44,8 @@ public class RequisitionDocSearchGenerator extends PurApDocumentSearchGenerator 
     @Override
     public List<String> getGeneralSearchUserRequiredFormFieldNames() {
         List<String> fieldNames = new ArrayList<String>();
-        fieldNames.add("purapDocumentChartOfAccountsCode");
-        fieldNames.add("purapDocumentOrganizationCode");
+//        fieldNames.add("purapDocumentChartOfAccountsCode");
+//        fieldNames.add("purapDocumentOrganizationCode");
         return fieldNames;
     }
 
@@ -55,7 +55,7 @@ public class RequisitionDocSearchGenerator extends PurApDocumentSearchGenerator 
     @Override
     public List<String> getSearchAttributeFormFieldNamesToIgnore() {
         List<String> fieldNames = new ArrayList<String>();
-        fieldNames.add("displayType");
+//        fieldNames.add("displayType");
         return fieldNames;
     }
 
@@ -65,15 +65,12 @@ public class RequisitionDocSearchGenerator extends PurApDocumentSearchGenerator 
     @Override
     public List<String> getSpecificSearchCriteriaFormFieldNames() {
         List<String> fieldNames = new ArrayList<String>();
-        fieldNames.add("requisitionDocumentRequisitionId");
-        // doc id should be in list but is standard workflow field
-        fieldNames.add("requisitionDocumentRequestorName");
-        fieldNames.add("requisitionDocumentDeliverToName");
-        fieldNames.add("purapDocumentChartOfAccountsCode");
-        fieldNames.add("purapDocumentOrganizationCode");
-        fieldNames.add("requisitionDocumentOrganizationReference1Text");
-        fieldNames.add("requisitionDocumentOrganizationReference2Text");
-        fieldNames.add("requisitionDocumentOrganizationReference3Text");
+//        fieldNames.add("paymentRequestDocumentPaymentRequestId");
+//        fieldNames.add("paymentRequestDocumentPurchaseOrderId");
+//        fieldNames.add("paymentRequestDocumentRequisitionId");
+//        fieldNames.add("paymentRequestDocumentInvoiceNumber");
+//        fieldNames.add("purapDocumentChartOfAccountsCode");
+//        fieldNames.add("purapDocumentOrganizationCode");
         return fieldNames;
     }
 

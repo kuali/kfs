@@ -22,7 +22,7 @@ import edu.iu.uis.eden.docsearch.DocumentSearchResult;
 import edu.iu.uis.eden.lookupable.Column;
 import edu.iu.uis.eden.lookupable.Field;
 
-public class PaymentRequestDocumentSearchResultProcessor extends KualiPurApDocumentSearchResultProcessor {
+public class PaymentRequestDocumentSearchResultProcessor extends PurApDocumentSearchResultProcessor {
 
     /**
      * @see org.kuali.workflow.module.purap.docsearch.KualiPurApDocumentSearchResultProcessor#getDocumentSpecificCustomColumns()

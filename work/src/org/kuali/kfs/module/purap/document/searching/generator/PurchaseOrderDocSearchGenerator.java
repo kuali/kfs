@@ -30,7 +30,7 @@ import edu.iu.uis.eden.docsearch.SearchAttributeCriteriaComponent;
 /**
  * This class...
  */
-public class PurchaseOrderDocSearchGenerator extends KualiPurApDocumentSearchGenerator {
+public class PurchaseOrderDocSearchGenerator extends PurApDocumentSearchGenerator {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PurchaseOrderDocSearchGenerator.class);
     
     private boolean usingIncompleteStatusCriteria = false;

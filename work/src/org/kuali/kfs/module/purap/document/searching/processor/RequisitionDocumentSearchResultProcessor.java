@@ -22,7 +22,7 @@ import edu.iu.uis.eden.docsearch.DocumentSearchResult;
 import edu.iu.uis.eden.lookupable.Column;
 import edu.iu.uis.eden.lookupable.Field;
 
-public class CreditMemoDocumentSearchResultProcessor extends PurApDocumentSearchResultProcessor {
+public class RequisitionDocumentSearchResultProcessor extends PurApDocumentSearchResultProcessor {
 
     /**
      * @see org.kuali.workflow.module.purap.docsearch.KualiPurApDocumentSearchResultProcessor#getDocumentSpecificCustomColumns()
@@ -31,20 +31,15 @@ public class CreditMemoDocumentSearchResultProcessor extends PurApDocumentSearch
     public List<Column> getDocumentSpecificCustomColumns() {
         List<Column> columns = new ArrayList<Column>();
         List<String> searchableAttributeFieldNames = new ArrayList<String>();
-        // cm id
-        // vendor cm #
-        // PREQ #
-        // PO #
-        // Status Desc
-        // Hold Yes/No
-        // Vendor Name
-        // customer number
+        searchableAttributeFieldNames.add("requisitionDocumentRequisitionId");
+        searchableAttributeFieldNames.add("requisitionDocumentStatusDescription");
+        searchableAttributeFieldNames.add("purapDocumentOrgDisplayValue");
+        searchableAttributeFieldNames.add("documentHeaderDescription");
         searchableAttributeFieldNames.add("documentTotalAmount");
-        // ap approval date
-        // extracted date
-        // paid indicator
+        searchableAttributeFieldNames.add("requisitionDocumentVendorName");
         addSearchableAttributeColumnsBasedOnFields(columns, getSearchCriteria(), searchableAttributeFieldNames);
+        addColumnUsingKey(columns, DocumentSearchResult.PROPERTY_NAME_DATE_CREATED);
         return columns;
     }
-
+    
 }

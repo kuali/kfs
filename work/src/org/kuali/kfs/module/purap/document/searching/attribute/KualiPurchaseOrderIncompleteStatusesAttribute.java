@@ -48,7 +48,7 @@ public class KualiPurchaseOrderIncompleteStatusesAttribute extends KualiXmlSearc
         List<SearchableAttributeValue> newSearchAttributeValues = new ArrayList();
         List<SearchableAttributeValue> superList = super.getSearchStorageValues(docContent);
         if (superList.size() != 1) {
-            String errorMessage = "Only one field with an xpath expression that finds one status code should be defined for this attribute.";
+            String errorMessage = "Exactly one field with an xpath expression that finds one status code should be defined for this attribute (found " + superList.size() + ").";
             LOG.error(errorMessage);
             throw new RuntimeException(errorMessage);
         }

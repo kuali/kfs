@@ -336,17 +336,12 @@ public class LedgerBalanceLookupableHelperServiceImpl extends AbstractLookupable
     protected List buildSearchResultList(Collection searchResultsCollection, Long actualSize) {
         CollectionIncomplete results = new CollectionIncomplete(searchResultsCollection, actualSize);
 
-        LOG.debug("Building search results " + actualSize);
-        LOG.debug("Results are " + results.size());
-        LOG.debug("SearchResults are " + searchResultsCollection.size());
-
         // sort list if default sort column given
         List searchResults = (List) results;
         List defaultSortColumns = getDefaultSortColumns();
         if (defaultSortColumns.size() > 0) {
             Collections.sort(results, new BeanPropertyComparator(defaultSortColumns, true));
         }
-        LOG.debug("Results are " + searchResults.size());
         return searchResults;
     }
 
@@ -379,7 +374,6 @@ public class LedgerBalanceLookupableHelperServiceImpl extends AbstractLookupable
      */
     public Collection performLookup(LookupForm lookupForm, Collection resultTable, boolean bounded) {
         Collection<BusinessObject> displayList;
-        LOG.debug("Got here");
         
         // call search method to get results
         if (bounded) {
@@ -388,8 +382,6 @@ public class LedgerBalanceLookupableHelperServiceImpl extends AbstractLookupable
         else {
             displayList = (Collection<BusinessObject>) getSearchResultsUnbounded(lookupForm.getFieldsForLookup());
         }
-
-        LOG.debug("Got displayList of size " + displayList.size());
 
         // iterate through result list and wrap rows with return url and action urls
         for (BusinessObject element : displayList) {

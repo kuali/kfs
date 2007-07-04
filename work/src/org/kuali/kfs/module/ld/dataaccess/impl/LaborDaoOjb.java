@@ -22,6 +22,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.ojb.broker.query.Criteria;
+import org.apache.ojb.broker.query.Query;
 import org.apache.ojb.broker.query.QueryByCriteria;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
@@ -38,12 +39,18 @@ import org.kuali.module.labor.bo.EmployeeFunding;
 import org.kuali.module.labor.bo.July1PositionFunding;
 import org.kuali.module.labor.dao.LaborDao;
 
+import static org.kuali.module.gl.web.Constant.PENDING_ENTRY_OPTION;
+import static org.kuali.module.labor.LaborPropertyConstants.AccountingPeriodProperties.*;
+import static org.kuali.module.labor.util.ConsolidationUtil.buildConsolidatedQuery;
+import static org.kuali.module.labor.util.ConsolidationUtil.sum;
+
+
 /**
  * This class is for Labor Distribution DAO database queries 
  */
 public class LaborDaoOjb extends PlatformAwareDaoBaseOjb implements LaborDao {
-    private LaborDaoOjb dao;
     private KualiDecimal KualiDecimalZero = new KualiDecimal("0");
+    private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(LaborDaoOjb.class);
 
     /**
      * @see org.kuali.module.labor.dao.LaborDao#getCSFTrackerData(java.util.Map)
@@ -101,7 +108,7 @@ public class LaborDaoOjb extends PlatformAwareDaoBaseOjb implements LaborDao {
 
         String[] groupBy = (String[]) groupByList.toArray(new String[groupByList.size()]);
 
-        query.setAttributes(new String[] { "sum(" + LaborConstants.BalanceInquiries.ANNUAL_BALANCE + ") + sum(" + LaborConstants.BalanceInquiries.CONTRACT_GRANT_BB_AMOUNT +")"});
+        query.setAttributes(new String[] {sum(LaborConstants.BalanceInquiries.ANNUAL_BALANCE) + " + " + sum(LaborConstants.BalanceInquiries.CONTRACT_GRANT_BB_AMOUNT)});
         query.addGroupBy(groupBy);
 
         Object[] encumbrances = null;
@@ -114,37 +121,58 @@ public class LaborDaoOjb extends PlatformAwareDaoBaseOjb implements LaborDao {
         if (encumbrances != null)
             encumbranceTotal = new KualiDecimal(encumbrances[0].toString());
         return encumbranceTotal;
-        }
+    }
 
     /**
      * @see org.kuali.module.labor.dao.LaborDao#getBaseFunds(java.util.Map)
      */
     public Iterator<AccountStatusBaseFunds> getBaseFunds(Map fieldValues, boolean isConsolidated) {
-        Criteria criteria = new Criteria();
-        criteria.addEqualToField(KFSPropertyConstants.FINANCIAL_BALANCE_TYPE_CODE, LaborConstants.BalanceInquiries.BALANCE_CODE);
-        criteria.addAndCriteria(OJBUtility.buildCriteriaFromMap(fieldValues, new AccountStatusBaseFunds()));
-
-        QueryByCriteria query = QueryFactory.newQuery(AccountStatusBaseFunds.class, criteria);
-        OJBUtility.limitResultSize(query);
-        if (isConsolidated) {
-            return getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(query);
-        }
-        return getPersistenceBrokerTemplate().getIteratorByQuery(query);
+        fieldValues.remove(PENDING_ENTRY_OPTION); // hack because BaseFunds doesn't have Pending entry option. If it does get it, you can remove this.
+        fieldValues.put(KFSPropertyConstants.FINANCIAL_BALANCE_TYPE_CODE, LaborConstants.BalanceInquiries.BALANCE_CODE);
+        return getAccountStatus(AccountStatusBaseFunds.class, fieldValues, isConsolidated);
     }
 
     /**
      * @see org.kuali.module.labor.dao.LaborDao#getCurrentFunds(java.util.Map)
      */
     public Iterator<AccountStatusCurrentFunds> getCurrentFunds(Map fieldValues, boolean isConsolidated) {
-        Criteria criteria = new Criteria();
-        criteria.addEqualToField(KFSPropertyConstants.FINANCIAL_BALANCE_TYPE_CODE, LaborConstants.BalanceInquiries.ACTUALS_CODE);
-        criteria.addAndCriteria(OJBUtility.buildCriteriaFromMap(fieldValues, new AccountStatusCurrentFunds()));
-        QueryByCriteria query = QueryFactory.newQuery(AccountStatusCurrentFunds.class, criteria);
+        fieldValues.put(KFSPropertyConstants.FINANCIAL_BALANCE_TYPE_CODE, LaborConstants.BalanceInquiries.ACTUALS_CODE);
+        return getAccountStatus(AccountStatusCurrentFunds.class, fieldValues, isConsolidated);
+    }
+
+    private <T> Iterator<T> getAccountStatus(Class<T> clazz, Map fieldValues, boolean isConsolidated) {
+        Query query = getAccountStatusQuery(AccountStatusBaseFunds.class, fieldValues, isConsolidated);
         OJBUtility.limitResultSize(query);
+
         if (isConsolidated) {
             return getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(query);
-       }
+        }
         return getPersistenceBrokerTemplate().getIteratorByQuery(query);
+    }
+
+    // build the query for balance search
+    private <T> Query getAccountStatusQuery(Class<T> clazz, Map fieldValues, boolean isConsolidated) {
+        LOG.debug("getAccountStatusQuery(Class<T>, Map, boolean) started");
+        LOG.debug("Building criteria from map fields: " + fieldValues.entrySet());
+
+        Criteria criteria = new Criteria();        
+        try {
+            criteria.addAndCriteria(OJBUtility.buildCriteriaFromMap(fieldValues, clazz.newInstance()));
+        }
+        catch (Exception e) {
+            LOG.error("Could not add and criteria properly for " + clazz);
+            throw new RuntimeException(e);
+        }
+
+        ReportQueryByCriteria query = QueryFactory.newReportQuery(clazz, criteria);
+        LOG.debug("Built query: " + query);
+
+        // if consolidated, then ignore subaccount number and balance type code
+        if (isConsolidated) {
+            buildConsolidatedQuery(query, sum(JULY.propertyName));
+        }
+
+        return query;
     }
 
 

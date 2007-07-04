@@ -86,7 +86,7 @@ public class CurrentFundsLookupableHelperServiceImpl extends AbstractLookupableH
         }        
         
         // Parse the map and call the DAO to process the inquiry
-        Collection searchResultsCollection = buildCurrentFundsCollection(findCurrentFunds(fieldValues, isConsolidated), isConsolidated, pendingEntryOption);
+        Collection searchResultsCollection = buildCurrentFundsCollection(findCurrentFunds(fieldValues, isConsolidated), fieldValues, isConsolidated, pendingEntryOption);
 
         // update search results according to the selected pending entry option
         getLaborInquiryOptionsService().updateByPendingLedgerEntry(searchResultsCollection, fieldValues, pendingEntryOption, isConsolidated, false);
@@ -116,14 +116,14 @@ public class CurrentFundsLookupableHelperServiceImpl extends AbstractLookupableH
      * 
      * @return the current funds collection
      */
-    private Collection buildCurrentFundsCollection(Iterator iterator, boolean isConsolidated, String pendingEntryOption) {
+    private Collection buildCurrentFundsCollection(Iterator iterator, Map fieldValues, boolean isConsolidated, String pendingEntryOption) {
         Collection retval = null;
         
         if (isConsolidated) {
-            retval = buildCosolidatedCurrentFundsCollection(iterator, pendingEntryOption);
+            retval = buildCosolidatedCurrentFundsCollection(iterator, fieldValues, pendingEntryOption);
         }
         else {
-            retval = buildDetailedCurrentFundsCollection(iterator, pendingEntryOption);
+            retval = buildDetailedCurrentFundsCollection(iterator, fieldValues, pendingEntryOption);
         }
         return retval;
     }
@@ -136,7 +136,7 @@ public class CurrentFundsLookupableHelperServiceImpl extends AbstractLookupableH
      * 
      * @return the consolidated current funds collection
      */
-    private Collection buildCosolidatedCurrentFundsCollection(Iterator iterator, String pendingEntryOption) {
+    private Collection buildCosolidatedCurrentFundsCollection(Iterator iterator, Map fieldValues, String pendingEntryOption) {
         Collection retval = new ArrayList();
         
         while (iterator.hasNext()) {
@@ -184,6 +184,7 @@ public class CurrentFundsLookupableHelperServiceImpl extends AbstractLookupableH
 
                 cf.setDummyBusinessObject(new TransientBalanceInquiryAttributes());
                 cf.getDummyBusinessObject().setPendingEntryOption(pendingEntryOption);
+                cf.setOutstandingEncum(getOutstandingEncum(cf, fieldValues));
 
                 retval.add(cf);
             }
@@ -199,7 +200,7 @@ public class CurrentFundsLookupableHelperServiceImpl extends AbstractLookupableH
      * 
      * @return the detailed balance collection
      */
-    private Collection buildDetailedCurrentFundsCollection(Iterator iterator, String pendingEntryOption) {
+    private Collection buildDetailedCurrentFundsCollection(Iterator iterator, Map fieldValues, String pendingEntryOption) {
         Collection retval = new ArrayList();
         
         while (iterator.hasNext()) {
@@ -207,10 +208,20 @@ public class CurrentFundsLookupableHelperServiceImpl extends AbstractLookupableH
 
             cf.setDummyBusinessObject(new TransientBalanceInquiryAttributes());
             cf.getDummyBusinessObject().setPendingEntryOption(pendingEntryOption);
-
+            cf.setOutstandingEncum(getOutstandingEncum(cf, fieldValues));
             retval.add(cf);
         }
         return retval;
+    }
+    
+    /**
+     *
+     * @param AccountStatusCurrentFunds
+     * @param Map fieldValues
+     */
+    private KualiDecimal getOutstandingEncum(AccountStatusCurrentFunds bo, Map fieldValues) {
+        fieldValues.put("emplid", bo.getEmplid());        
+        return (KualiDecimal) getLaborDao().getEncumbranceTotal(fieldValues);
     }
 
     /**

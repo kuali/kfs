@@ -53,20 +53,7 @@ public class AccountStatusBaseFunds extends LedgerBalance {
      * @return
      */
     public KualiDecimal getCsfAmount() {
-
-        Map fieldValues = new HashMap();
-
-        fieldValues.put("universityFiscalYear", getUniversityFiscalYear());
-        fieldValues.put("chartOfAccountsCode", getChartOfAccountsCode());
-        fieldValues.put("accountNumber", getAccountNumber());
-        fieldValues.put("subAccountNumber", getSubAccountNumber());
-        fieldValues.put("financialObjectCode", getFinancialObjectCode());
-        fieldValues.put("financialSubObjectCode", getFinancialSubObjectCode());
-
-        laborDao = (LaborDao) SpringServiceLocator.getService(LaborConstants.LABOR_DAO);
-        KualiDecimal CSFTotal = (KualiDecimal) laborDao.getCSFTrackerTotal(fieldValues);
-        this.csfAmount = CSFTotal;
-        return CSFTotal;
+        return csfAmount;
     }
 
     /**

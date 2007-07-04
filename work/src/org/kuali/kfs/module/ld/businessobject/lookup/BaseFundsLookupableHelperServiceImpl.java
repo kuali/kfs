@@ -31,7 +31,6 @@ import org.kuali.core.util.TransactionalServiceUtils;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.web.ui.Row;
 import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.gl.bo.TransientBalanceInquiryAttributes;
 import org.kuali.module.gl.service.BalanceService;
 import org.kuali.module.gl.web.Constant;
@@ -80,7 +79,7 @@ public class BaseFundsLookupableHelperServiceImpl extends AbstractLookupableHelp
         // get the consolidation option
         boolean isConsolidated = getLaborInquiryOptionsService().isConsolidationSelected(fieldValues, (Collection<Row>) getRows());
                
-        Collection searchResultsCollection = buildBaseFundsCollection(findBaseFunds(fieldValues, isConsolidated), isConsolidated);
+        Collection searchResultsCollection = buildBaseFundsCollection(findBaseFunds(fieldValues, isConsolidated), fieldValues, isConsolidated);
 
         // sort list if default sort column given
         List searchResults = (List) searchResultsCollection;
@@ -109,14 +108,14 @@ public class BaseFundsLookupableHelperServiceImpl extends AbstractLookupableHelp
      * 
      * @return the base funds collection
      */
-    private Collection buildBaseFundsCollection(Iterator iterator, boolean isConsolidated) {
+    private Collection buildBaseFundsCollection(Iterator iterator, Map fieldValues, boolean isConsolidated) {
         Collection retval = null;
         
         if (isConsolidated) {
-            retval = buildCosolidatedBaseFundsCollection(iterator);
+            retval = buildCosolidatedBaseFundsCollection(iterator, fieldValues);
         }
         else {
-            retval = buildDetailedBaseFundsCollection(iterator);
+            retval = buildDetailedBaseFundsCollection(iterator, fieldValues);
         }
         return retval;
     }
@@ -128,7 +127,7 @@ public class BaseFundsLookupableHelperServiceImpl extends AbstractLookupableHelp
      * 
      * @return the consolidated base funds collection
      */
-    private Collection buildCosolidatedBaseFundsCollection(Iterator iterator) {
+    private Collection buildCosolidatedBaseFundsCollection(Iterator iterator, Map fieldValues) {
         Collection retval = new ArrayList();
         
         while (iterator.hasNext()) {
@@ -171,12 +170,22 @@ public class BaseFundsLookupableHelperServiceImpl extends AbstractLookupableHelp
                 bf.setBeginningBalanceLineAmount(new KualiDecimal(array[i++].toString()));
                 bf.setContractsGrantsBeginningBalanceAmount(new KualiDecimal(array[i++].toString()));
 
+                bf.setCsfAmount(getCsfAmount(bf, fieldValues));
                 bf.setDummyBusinessObject(new TransientBalanceInquiryAttributes());
 
                 retval.add(bf);
             }
         }
         return retval;
+    }
+
+
+    /**
+     * Assign to base funds bo a Csf Amount
+     */
+    private KualiDecimal getCsfAmount(AccountStatusBaseFunds bo, Map fieldValues) {
+        fieldValues.put("emplid", bo.getEmplid());
+        return (KualiDecimal) getLaborDao().getCSFTrackerTotal(fieldValues);
     }
 
     /**
@@ -186,13 +195,14 @@ public class BaseFundsLookupableHelperServiceImpl extends AbstractLookupableHelp
      * 
      * @return the detailed balance collection
      */
-    private Collection buildDetailedBaseFundsCollection(Iterator iterator) {
+    private Collection buildDetailedBaseFundsCollection(Iterator iterator, Map fieldValues) {
         Collection retval = new ArrayList();
         
         while (iterator.hasNext()) {
             AccountStatusBaseFunds bf = (AccountStatusBaseFunds) (iterator.next());
 
             bf.setDummyBusinessObject(new TransientBalanceInquiryAttributes());
+            bf.setCsfAmount(getCsfAmount(bf, fieldValues));
 
             retval.add(bf);
         }

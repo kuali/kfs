@@ -79,21 +79,7 @@ public class AccountStatusCurrentFunds extends LedgerBalance {
      * @return
      */
     public KualiDecimal getOutstandingEncum() {
-        
-        Map fieldValues = new HashMap(); 
-        
-        fieldValues.put("universityFiscalYear", getUniversityFiscalYear());
-        fieldValues.put("chartOfAccountsCode", getChartOfAccountsCode());
-        fieldValues.put("accountNumber", getAccountNumber());
-        fieldValues.put("subAccountNumber", getSubAccountNumber());       
-        fieldValues.put("financialObjectCode", getFinancialObjectCode());
-        fieldValues.put("financialSubObjectCode", getFinancialSubObjectCode());
-        fieldValues.put("emplid", getEmplid());
-        
-        laborDao = (LaborDao) SpringServiceLocator.getService(LaborConstants.LABOR_DAO);
-        KualiDecimal EncumTotal = (KualiDecimal) laborDao.getEncumbranceTotal(fieldValues);
-        this.outstandingEncum = EncumTotal;
-        return EncumTotal;       
+        return outstandingEncum;
     }
 
     /**
@@ -105,4 +91,4 @@ public class AccountStatusCurrentFunds extends LedgerBalance {
         this.outstandingEncum = outstandingEncum;
     }
 
-    }
+}

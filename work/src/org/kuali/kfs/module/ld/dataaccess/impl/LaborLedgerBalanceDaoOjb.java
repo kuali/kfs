@@ -41,6 +41,12 @@ import org.kuali.module.gl.util.OJBUtility;
 import org.kuali.module.labor.bo.LedgerBalance;
 import org.kuali.module.labor.dao.LaborLedgerBalanceDao;
 
+import static org.kuali.module.labor.LaborPropertyConstants.AccountingPeriodProperties.*;
+import static org.kuali.module.labor.util.ConsolidationUtil.buildConsolidatedQuery;
+import static org.kuali.module.labor.util.ConsolidationUtil.buildAttributeCollection;
+import static org.kuali.module.labor.util.ConsolidationUtil.buildGroupByCollection;
+import static org.kuali.module.labor.util.ConsolidationUtil.sum;
+
 public class LaborLedgerBalanceDaoOjb extends PlatformAwareDaoBaseOjb implements LaborLedgerBalanceDao {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(LaborLedgerBalanceDaoOjb.class);
     private KualiConfigurationService kualiConfigurationService;
@@ -59,12 +65,12 @@ public class LaborLedgerBalanceDaoOjb extends PlatformAwareDaoBaseOjb implements
                                              "sum(accountLineAnnualBalanceAmount)", 
                                              "sum(financialBeginningBalanceLineAmount)", 
                                              "sum(contractsGrantsBeginningBalanceAmount)", 
-                                             "sum(month1Amount)", "sum(month2Amount)", 
-                                             "sum(month3Amount)", "sum(month4Amount)", 
-                                             "sum(month5Amount)", "sum(month6Amount)", 
-                                             "sum(month7Amount)", "sum(month8Amount)", 
-                                             "sum(month9Amount)", "sum(month10Amount)", 
-                                             "sum(month11Amount)", "sum(month12Amount)", "sum(month13Amount)" };
+                                             sum(JULY.propertyName), sum(AUGUST.propertyName), 
+                                             sum(SEPTEMBER.propertyName), sum(OCTOBER.propertyName), 
+                                             sum(NOVEMBER.propertyName), sum(DECEMBER.propertyName), 
+                                             sum(JANUARY.propertyName), sum(FEBRUARY.propertyName), 
+                                             sum(MARCH.propertyName), sum(APRIL.propertyName), 
+                                             sum(MAY.propertyName), sum(JUNE.propertyName), sum(JULY.propertyName)};
 
         String[] groupby = new String[] { "account.subFundGroup.fundGroupCode" };
 
@@ -270,7 +276,7 @@ public class LaborLedgerBalanceDaoOjb extends PlatformAwareDaoBaseOjb implements
 
         ReportQueryByCriteria query = QueryFactory.newReportQuery(LedgerBalance.class, criteria);
 
-        List groupByList = buildGroupByList();
+        Collection<String> groupByList = buildGroupByCollection();
         groupByList.remove(KFSPropertyConstants.SUB_ACCOUNT_NUMBER);
         groupByList.remove(KFSPropertyConstants.FINANCIAL_SUB_OBJECT_CODE);
         groupByList.remove(KFSPropertyConstants.FINANCIAL_OBJECT_TYPE_CODE);
@@ -292,8 +298,8 @@ public class LaborLedgerBalanceDaoOjb extends PlatformAwareDaoBaseOjb implements
         criteria.addEqualToField("chart.financialCashObjectCode", KFSPropertyConstants.FINANCIAL_OBJECT_CODE);
 
         ReportQueryByCriteria query = QueryFactory.newReportQuery(LedgerBalance.class, criteria);
-        List attributeList = buildAttributeList(false);
-        List groupByList = buildGroupByList();
+        Collection<String> attributeList = buildAttributeCollection();
+        Collection<String> groupByList = buildGroupByCollection();
 
         // if consolidated, then ignore the following fields
         if (isConsolidated) {
@@ -319,30 +325,26 @@ public class LaborLedgerBalanceDaoOjb extends PlatformAwareDaoBaseOjb implements
     // build the query for balance search
     private Query getBalanceQuery(Map fieldValues, boolean isConsolidated) {
         LOG.debug("getBalanceQuery(Map, boolean) started");
+        LOG.debug("Building criteria from map fields: " + fieldValues.keySet());
 
         Criteria criteria = buildCriteriaFromMap(fieldValues, new LedgerBalance());
         ReportQueryByCriteria query = QueryFactory.newReportQuery(LedgerBalance.class, criteria);
 
         // if consolidated, then ignore subaccount number and balance type code
         if (isConsolidated) {
-            List attributeList = buildAttributeList(true);
-            List groupByList = buildGroupByList();
-
-            // ignore subaccount number, sub object code and object type code
-            attributeList.remove(KFSPropertyConstants.SUB_ACCOUNT_NUMBER);
-            groupByList.remove(KFSPropertyConstants.SUB_ACCOUNT_NUMBER);
-            attributeList.remove(KFSPropertyConstants.FINANCIAL_SUB_OBJECT_CODE);
-            groupByList.remove(KFSPropertyConstants.FINANCIAL_SUB_OBJECT_CODE);
-            attributeList.remove(KFSPropertyConstants.FINANCIAL_OBJECT_TYPE_CODE);
-            groupByList.remove(KFSPropertyConstants.FINANCIAL_OBJECT_TYPE_CODE);
-
-            // set the selection attributes
-            String[] attributes = (String[]) attributeList.toArray(new String[attributeList.size()]);
-            query.setAttributes(attributes);
-
-            // add the group criteria into the selection statement
-            String[] groupBy = (String[]) groupByList.toArray(new String[groupByList.size()]);
-            query.addGroupBy(groupBy);
+            buildConsolidatedQuery(query, sum(JULY.propertyName),
+                                   sum(AUGUST.propertyName),
+                                   sum(SEPTEMBER.propertyName),
+                                   sum(OCTOBER.propertyName),
+                                   sum(NOVEMBER.propertyName),
+                                   sum(DECEMBER.propertyName),
+                                   sum(JANUARY.propertyName),
+                                   sum(FEBRUARY.propertyName),
+                                   sum(MARCH.propertyName),
+                                   sum(APRIL.propertyName),
+                                   sum(MAY.propertyName),
+                                   sum(JUNE.propertyName),
+                                   sum(YEAR_END.propertyName));
         }
 
         return query;
@@ -356,7 +358,7 @@ public class LaborLedgerBalanceDaoOjb extends PlatformAwareDaoBaseOjb implements
         // set the selection attributes
         query.setAttributes(new String[] { "count(*)" });
 
-        List groupByList = buildGroupByList();
+        Collection<String> groupByList = buildGroupByCollection();
         groupByList.remove(KFSPropertyConstants.SUB_ACCOUNT_NUMBER);
         groupByList.remove(KFSPropertyConstants.FINANCIAL_SUB_OBJECT_CODE);
         groupByList.remove(KFSPropertyConstants.FINANCIAL_OBJECT_TYPE_CODE);
@@ -397,61 +399,6 @@ public class LaborLedgerBalanceDaoOjb extends PlatformAwareDaoBaseOjb implements
     private List<String> getEncumbranceBalanceTypeCodeList() {
         String[] balanceTypesAsArray = kualiConfigurationService.getApplicationParameterValues("Kuali.GeneralLedger.AvailableBalanceInquiry", "GeneralLedger.BalanceInquiry.AvailableBalances.EncumbranceDrillDownBalanceTypes");
         return Arrays.asList(balanceTypesAsArray);
-    }
-
-    /**
-     * This method builds the atrribute list used by balance searching
-     * 
-     * @param isExtended
-     * @return List an attribute list
-     */
-    private List<String> buildAttributeList(boolean isExtended) {
-        List attributeList = this.buildGroupByList();
-
-        attributeList.add("sum(accountLineAnnualBalanceAmount)");
-        attributeList.add("sum(financialBeginningBalanceLineAmount)");
-        attributeList.add("sum(contractsGrantsBeginningBalanceAmount)");
-
-        // add the entended elements into the list
-        if (isExtended) {
-            attributeList.add("sum(month1Amount)");
-            attributeList.add("sum(month2Amount)");
-            attributeList.add("sum(month3Amount)");
-            attributeList.add("sum(month4Amount)");
-            attributeList.add("sum(month5Amount)");
-            attributeList.add("sum(month6Amount)");
-            attributeList.add("sum(month7Amount)");
-            attributeList.add("sum(month8Amount)");
-            attributeList.add("sum(month9Amount)");
-            attributeList.add("sum(month10Amount)");
-            attributeList.add("sum(month11Amount)");
-            attributeList.add("sum(month12Amount)");
-            attributeList.add("sum(month13Amount)");
-        }
-        return attributeList;
-    }
-
-    /**
-     * This method builds group by attribute list used by balance searching
-     * 
-     * @return List an group by attribute list
-     */
-    private List<String> buildGroupByList() {
-        List attributeList = new ArrayList();
-
-        attributeList.add(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR);
-        attributeList.add(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE);
-        attributeList.add(KFSPropertyConstants.ACCOUNT_NUMBER);
-        attributeList.add(KFSPropertyConstants.SUB_ACCOUNT_NUMBER);
-        attributeList.add(KFSPropertyConstants.FINANCIAL_BALANCE_TYPE_CODE);
-        attributeList.add(KFSPropertyConstants.FINANCIAL_OBJECT_CODE);
-        attributeList.add(KFSPropertyConstants.FINANCIAL_SUB_OBJECT_CODE);
-        attributeList.add(KFSPropertyConstants.FINANCIAL_OBJECT_TYPE_CODE);
-        attributeList.add(KFSPropertyConstants.EMPLID);
-        attributeList.add(PropertyConstants.OBJECT_ID);
-        attributeList.add(KFSPropertyConstants.POSITION_NUMBER);
-
-        return attributeList;
     }
 
     public LedgerBalance getBalanceByPrimaryId(Integer universityFiscalYear, String chartOfAccountsCode, String accountNumber) {

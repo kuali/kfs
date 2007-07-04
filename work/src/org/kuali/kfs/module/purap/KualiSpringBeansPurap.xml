@@ -177,6 +177,15 @@
 		</property>
         <property name="kualiConfigurationService">
             <ref bean="kualiConfigurationService" />
+        </property>	     
+    </bean>
+    
+	<bean id="creditMemoCreateService" class="org.kuali.module.purap.service.impl.CreditMemoCreateServiceImpl">
+		<property name="creditMemoService">
+			<ref bean="creditMemoService" />
+		</property>
+        <property name="vendorService">
+            <ref bean="vendorService" />
         </property>	        
     </bean>
 	

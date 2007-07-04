@@ -409,20 +409,21 @@ public abstract class PurApItemBase extends PersistableBusinessObjectBase implem
 
     /**
      * This method calculates the extended price based on item type
-     * @return
+     * 
+     * @return KualiDecimal - calculate extended price
      */
     public KualiDecimal calculateExtendedPrice() {
         if (this.itemUnitPrice != null) {
             if (!this.itemType.isQuantityBasedGeneralLedgerIndicator() || this.itemQuantity == null) {
-                //SERVICE ITEM: return unit price as extended price
+                // SERVICE ITEM: return unit price as extended price
                 return new KualiDecimal(this.itemUnitPrice.toString());
             }
             BigDecimal extendedPrice = this.itemUnitPrice.multiply(this.itemQuantity.bigDecimalValue());
-            //ITEM TYPE (qty driven): return (unitPrice x qty)
+            // ITEM TYPE (qty driven): return (unitPrice x qty)
             return new KualiDecimal(extendedPrice);
         }
         else {
-            //unit price is null; return zero
+            // unit price is null; return zero
             return KFSConstants.ZERO;
         }
     }

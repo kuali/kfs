@@ -17,7 +17,6 @@ package org.kuali.module.purap;
 
 /**
  * Property name constants.
- * 
  */
 public class PurapPropertyConstants {
     
@@ -28,6 +27,10 @@ public class PurapPropertyConstants {
     public static final String ACCOUNTS = "sourceAccountingLines";
     public static final String QUANTITY = "itemQuantity";
     public static final String EXTENDED_PRICE = "extendedPrice";
+    public static final String ITEM_TYPE = "itemType";
+    public static final String ITEM = "item";
+    public static final String ITEM_UNIT_PRICE = "itemUnitPrice";
+    public static final String ITEM_DESCRIPTION = "itemDescription";
     
     public static final String DATA_OBJ_MAINT_CD_ACTIVE_IND = "dataObjectMaintenanceCodeActiveIndicator";
     
@@ -63,9 +66,12 @@ public class PurapPropertyConstants {
     public static final String PURCHASE_ORDER_QUOTE_LANGUAGE_ID = "purchaseOrderQuoteLanguageIdentifier";
     
     // Credit Memo
-    public static final String CREDIT_MEMO_INIT_REQUIRED_FIELDS = "document.purchaseOrderIdentifier";
-    public static final String CREDIT_MEMO_PURCHASE_ORDER_ID = "document.purchaseOrderIdentifier";
-    public static final String CREDIT_MEMO_PAYMENT_REQUEST_ID = "document.paymentRequestIdentifier";
-    public static final String CREDIT_MEMO_VENDOR_NUMBER = "document.vendorNumber";
+    public static final String CREDIT_MEMO_INIT_REQUIRED_FIELDS = "purchaseOrderIdentifier";
+    public static final String CREDIT_MEMO_PURCHASE_ORDER_ID = "purchaseOrderIdentifier";
+    public static final String CREDIT_MEMO_PAYMENT_REQUEST_ID = "paymentRequestIdentifier";
+    public static final String CREDIT_MEMO_VENDOR_NUMBER = "vendorNumber";
+    public static final String CREDIT_MEMO_DATE = "creditMemoDate";
+    public static final String CREDIT_MEMO_NUMBER = "creditMemoNumber";
+    public static final String CREDIT_MEMO_AMOUNT = "creditMemoAmount";
     
 }

@@ -1603,23 +1603,20 @@
 	<field-descriptor name="itemIdentifier" column="CRDT_MEMO_ITM_ID" jdbc-type="INTEGER" primarykey="true" index="true" autoincrement="true" sequence-name="CRDT_MEMO_ITM_ID"/>
 	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
-	<field-descriptor name="creditMemoIdentifier" column="CRDT_MEMO_ID" jdbc-type="INTEGER" index="true"/>
+	<field-descriptor name="purapDocumentIdentifier" column="CRDT_MEMO_ID" jdbc-type="INTEGER" index="true"/>
 	<field-descriptor name="itemLineNumber" column="ITM_LN_NBR" jdbc-type="INTEGER" index="true"/>
 	<field-descriptor name="itemTypeCode" column="ITM_TYP_CD" jdbc-type="VARCHAR"/>
-	<field-descriptor name="itemCreditQuantity" column="ITM_CRDT_QTY" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
+	<field-descriptor name="itemQuantity" column="ITM_CRDT_QTY" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
 	<field-descriptor name="itemUnitPrice" column="ITM_UNT_PRC" jdbc-type="DECIMAL"/>
-	<field-descriptor name="itemExtendedPrice" column="ITM_EXTND_PRC" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
+	<field-descriptor name="extendedPrice" column="ITM_EXTND_PRC" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
 	<field-descriptor name="itemAssignedToTradeInIndicator" column="ITM_ASND_TO_TRADE_IN_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
 	<field-descriptor name="itemDescription" column="ITM_DESC" jdbc-type="VARCHAR"/>
-	<field-descriptor name="purchaseOrderInvoicedTotalQuantity" column="PO_INV_TOT_QTY" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
-	<field-descriptor name="purchaseOrderUnitPrice" column="PO_UNT_PRC" jdbc-type="DECIMAL"/>
-	<field-descriptor name="purchaseOrderExtendedPrice" column="PO_EXTND_PRC" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
-	<field-descriptor name="paymentRequestInvoicedTotalQuantity" column="PMT_RQST_INV_TOT_QTY" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
-	<field-descriptor name="paymentRequestUnitPrice" column="PMT_RQST_UNT_PRC" jdbc-type="DECIMAL"/>
-	<field-descriptor name="paymentRequestExtendedPrice" column="PMT_RQST_EXTND_PRC" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
-	<reference-descriptor name="creditMemo" class-ref="org.kuali.module.purap.document.CreditMemoDocument" auto-retrieve="true" auto-update="none" auto-delete="none">
-		<foreignkey field-ref="purapDocumentIdentifier" />
-	</reference-descriptor>
+	<field-descriptor name="poInvoicedTotalQuantity" column="PO_INV_TOT_QTY" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
+	<field-descriptor name="poUnitPrice" column="PO_UNT_PRC" jdbc-type="DECIMAL"/>
+	<field-descriptor name="poExtendedPrice" column="PO_EXTND_PRC" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
+	<field-descriptor name="preqInvoicedTotalQuantity" column="PMT_RQST_INV_TOT_QTY" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
+	<field-descriptor name="preqUnitPrice" column="PMT_RQST_UNT_PRC" jdbc-type="DECIMAL"/>
+	<field-descriptor name="preqExtendedPrice" column="PMT_RQST_EXTND_PRC" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
 	<reference-descriptor name="itemType" class-ref="org.kuali.module.purap.bo.ItemType" auto-retrieve="true" auto-update="none" auto-delete="none">
 		<foreignkey field-ref="itemTypeCode" />
 	</reference-descriptor>
@@ -1648,7 +1645,7 @@
 </class-descriptor>
 
 <class-descriptor class="org.kuali.module.purap.bo.CreditMemoAccount" table="AP_CRDT_MEMO_ACCT_T">
-	<field-descriptor name="creditMemoAccountIdentifier" column="CRDT_MEMO_ACCT_ID" jdbc-type="INTEGER" primarykey="true" index="true" autoincrement="true" sequence-name="CRDT_MEMO_ACCT_ID"/>
+	<field-descriptor name="accountIdentifier" column="CRDT_MEMO_ACCT_ID" jdbc-type="INTEGER" primarykey="true" index="true" autoincrement="true" sequence-name="CRDT_MEMO_ACCT_ID"/>
 	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
 	<field-descriptor name="itemIdentifier" column="CRDT_MEMO_ITM_ID" jdbc-type="INTEGER" index="true"/>
@@ -1659,7 +1656,7 @@
 	<field-descriptor name="financialSubObjectCode" column="FIN_SUB_OBJ_CD" jdbc-type="VARCHAR" index="true"/>
 	<field-descriptor name="projectCode" column="PROJECT_CD" jdbc-type="VARCHAR" index="true"/>
 	<field-descriptor name="organizationReferenceId" column="ORG_REFERENCE_ID" jdbc-type="VARCHAR" index="true"/>
-	<field-descriptor name="itemAccountTotalAmount" column="ITM_ACCT_TOT_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
+	<field-descriptor name="amount" column="ITM_ACCT_TOT_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
 	<field-descriptor name="accountLinePercent" column="ACLN_PCT" jdbc-type="DECIMAL"/>
     <reference-descriptor name="creditMemoItem" class-ref="org.kuali.module.purap.bo.CreditMemoItem" auto-retrieve="true" auto-update="none" auto-delete="none">
 		<foreignkey field-ref="itemIdentifier" />

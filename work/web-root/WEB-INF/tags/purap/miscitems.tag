@@ -36,12 +36,10 @@
 <tr>
 	<kul:htmlAttributeHeaderCell colspan="5"
 		attributeEntry="${itemAttributes.itemTypeCode}" />
-	<kul:htmlAttributeHeaderCell
-		attributeEntry="${itemAttributes.itemDescription}" />
-	<kul:htmlAttributeHeaderCell literalLabel="&nbsp;" />
-	<kul:htmlAttributeHeaderCell
+	<kul:htmlAttributeHeaderCell colspan="2"
 		attributeEntry="${itemAttributes.extendedPrice}" />
-	<kul:htmlAttributeHeaderCell colspan="2" literalLabel="&nbsp;" />
+	<kul:htmlAttributeHeaderCell colspan="2"
+		attributeEntry="${itemAttributes.itemDescription}" />
 </tr>
 
 <logic:iterate indexId="ctr" name="KualiForm" property="document.items"
@@ -67,21 +65,19 @@
 			    <html:hidden property="document.item[${ctr}].itemType.quantityBasedGeneralLedgerIndicator" />
  			    <html:hidden property="document.item[${ctr}].itemType.itemTypeAboveTheLineIndicator" />
 			    <div align="right">
-			        <kul:htmlControlAttribute attributeEntry="${itemAttributes.itemTypeCode}" property="document.item[${ctr}].itemType.itemTypeDescription" readOnly="${true}" />
+			        <kul:htmlControlAttribute attributeEntry="${itemAttributes.itemTypeCode}" property="document.item[${ctr}].itemType.itemTypeDescription" readOnly="${true}" />:&nbsp;
 			    </div>
 			</td>
-			<td class="infoline"><kul:htmlControlAttribute
-				attributeEntry="${itemAttributes.itemDescription}"
-				property="document.item[${ctr}].itemDescription"
-				readOnly="${not (fullEntryMode or amendmentEntry)}" /></td>
-			<td class="infoline">&nbsp;</td>
-			<td class="infoline">
+			<td class="infoline" colspan="2">
 			<div align="right"><kul:htmlControlAttribute
 				attributeEntry="${itemAttributes.itemUnitPrice}"
 				property="document.item[${ctr}].itemUnitPrice"
-				readOnly="${not (fullEntryMode or amendmentEntry)}" /></div>
+				readOnly="${not (fullEntryMode or amendmentEntry)}" styleClass="amount" /></div>
 			</td>
-			<kul:htmlAttributeHeaderCell literalLabel="&nbsp;" colspan="2" />
+			<td class="infoline" colspan="2"><kul:htmlControlAttribute
+				attributeEntry="${itemAttributes.itemDescription}"
+				property="document.item[${ctr}].itemDescription"
+				readOnly="${not (fullEntryMode or amendmentEntry)}" /></td>
 		</tr>
 
 		<c:if test="${amendmentEntry}">

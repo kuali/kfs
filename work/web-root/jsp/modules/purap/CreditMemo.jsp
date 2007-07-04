@@ -28,6 +28,7 @@
 	<purap:hiddenPurapFields includeNonAPFields="false" />
     <html:hidden property="document.accountsPayableProcessorIdentifier" />
     <html:hidden property="document.processingCampusCode" />
+    <html:hidden property="calculated" />
     
     <c:if test="${displayInitTab}" > 
     	<purap:creditMemoInit documentAttributes="${DataDictionary.KualiCreditMemoDocument.attributes}" /> 
@@ -37,8 +38,6 @@
 	    <div align="right"><br>
 	          ** You must enter one and only one of these fields: PREQ #, Purchase Order #, or Vendor #.</div>
 	    </div><br>
-	  
- 		<c:set var="extraButtons" value="${KualiForm.extraButtons}" scope="request"/>
 	</c:if>
 	
 	<c:if test="${not displayInitTab}" >
@@ -48,6 +47,11 @@
 	
 		<purap:creditMemoInfo documentAttributes="${DataDictionary.KualiCreditMemoDocument.attributes}" />        
 	   
+	  	<purap:paymentRequestProcessItems 
+			documentAttributes="${DataDictionary.KualiCreditMemoDocument.attributes}"
+			itemAttributes="${DataDictionary.CreditMemoItem.attributes}"
+			accountingLineAttributes="${DataDictionary.CreditMemoAccount.attributes}" isCreditMemo="true" />
+	  
 	    <kul:notes notesBo="${KualiForm.document.documentBusinessObject.boNotes}" noteType="${Constants.NoteTypeEnum.BUSINESS_OBJECT_NOTE_TYPE}" /> 
 	
 	    <kul:adHocRecipients />
@@ -55,7 +59,11 @@
 	    <kul:routeLog />
 	
         <purap:relatedDocuments documentAttributes="${DataDictionary.RelatedDocuments.attributes}" />
+        
+        <kul:panelFooter />
 	</c:if>
+	
+	<c:set var="extraButtons" value="${KualiForm.extraButtons}" scope="request"/>
 	
   	<kul:documentControls transactionalDocument="true" extraButtons="${extraButtons}" suppressRoutingControls="${displayInitTab}" />
    

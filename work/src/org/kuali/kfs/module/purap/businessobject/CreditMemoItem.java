@@ -17,7 +17,7 @@
 package org.kuali.module.purap.bo;
 
 import java.math.BigDecimal;
-import java.util.LinkedHashMap;
+import java.util.Iterator;
 
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.module.purap.document.CreditMemoDocument;
@@ -26,272 +26,85 @@ import org.kuali.module.purap.document.CreditMemoDocument;
  * Item line Business Object for Credit Memo Document.
  */
 public class CreditMemoItem extends AccountsPayableItemBase {
-    private Integer creditMemoIdentifier;
-    private Integer itemLineNumber;
-    private String itemTypeCode;
-    private KualiDecimal itemCreditQuantity;
-    private BigDecimal itemUnitPrice;
-    private KualiDecimal itemExtendedPrice;
-    private boolean itemAssignedToTradeInIndicator;
-    private String itemDescription;
-    private KualiDecimal purchaseOrderInvoicedTotalQuantity;
-    private BigDecimal purchaseOrderUnitPrice;
-    private KualiDecimal purchaseOrderExtendedPrice;
-    private KualiDecimal paymentRequestInvoicedTotalQuantity;
-    private BigDecimal paymentRequestUnitPrice;
-    private KualiDecimal paymentRequestExtendedPrice;
-    
-    private CreditMemoDocument creditMemo;
+    private KualiDecimal poInvoicedTotalQuantity;
+    private BigDecimal poUnitPrice;
+    private KualiDecimal poExtendedPrice;
+    private KualiDecimal preqInvoicedTotalQuantity;
+    private BigDecimal preqUnitPrice;
+    private KualiDecimal preqExtendedPrice;
+
 
     /**
      * Default constructor.
      */
     public CreditMemoItem() {
-
     }
 
     /**
-     * Gets the creditMemoIdentifier attribute.
-     * 
-     * @return Returns the creditMemoIdentifier
+     * Constructs a CreditMemoItem.java from an existing PurchaseOrderItem.
      */
-    public Integer getCreditMemoIdentifier() {
-        return creditMemoIdentifier;
+    public CreditMemoItem(CreditMemoDocument cmDocument, PurchaseOrderItem poItem) {
+        super();
+
+        setPurapDocumentIdentifier(cmDocument.getPurapDocumentIdentifier());
+        setItemLineNumber(poItem.getItemLineNumber());
+        setPoInvoicedTotalQuantity(poItem.getItemInvoicedTotalQuantity());
+        setPoUnitPrice(poItem.getItemUnitPrice());
+        setPoExtendedPrice(poItem.getItemInvoicedTotalAmount());
+        setItemTypeCode(poItem.getItemTypeCode());
+        setItemUnitPrice(poItem.getItemUnitPrice());
+        setItemCatalogNumber(poItem.getItemCatalogNumber());
+        setItemDescription(poItem.getItemDescription());
+
+        if (getPoInvoicedTotalQuantity() == null) {
+            setPoInvoicedTotalQuantity(KualiDecimal.ZERO);
+        }
+        if (getPoUnitPrice() == null) {
+            setPoUnitPrice(BigDecimal.ZERO);
+        }
+        if (getPoExtendedPrice() == null) {
+            setPoExtendedPrice(KualiDecimal.ZERO);
+        }
+
+        for (Iterator iter = poItem.getSourceAccountingLines().iterator(); iter.hasNext();) {
+            PurchaseOrderAccount account = (PurchaseOrderAccount) iter.next();
+            getSourceAccountingLines().add(new CreditMemoAccount(account));
+        }
     }
 
     /**
-     * Sets the creditMemoIdentifier attribute.
-     * 
-     * @param creditMemoIdentifier The creditMemoIdentifier to set.
+     * Constructs a CreditMemoItem.java from an existing PaymentRequestItem
      */
-    public void setCreditMemoIdentifier(Integer creditMemoIdentifier) {
-        this.creditMemoIdentifier = creditMemoIdentifier;
-    }
+    public CreditMemoItem(CreditMemoDocument cmDocument, PaymentRequestItem preqItem) {
+        super();
 
+        setPurapDocumentIdentifier(cmDocument.getPurapDocumentIdentifier());
+        setItemLineNumber(preqItem.getItemLineNumber());
 
-    /**
-     * Gets the itemLineNumber attribute.
-     * 
-     * @return Returns the itemLineNumber
-     */
-    public Integer getItemLineNumber() {
-        return itemLineNumber;
-    }
+        // TODO: comparison with po item quantity for lesser one
+        setPreqInvoicedTotalQuantity(preqItem.getItemQuantity());
 
-    /**
-     * Sets the itemLineNumber attribute.
-     * 
-     * @param itemLineNumber The itemLineNumber to set.
-     */
-    public void setItemLineNumber(Integer itemLineNumber) {
-        this.itemLineNumber = itemLineNumber;
-    }
+        setPreqUnitPrice(preqItem.getItemUnitPrice());
+        setPreqExtendedPrice(preqItem.getExtendedPrice());
+        setItemTypeCode(preqItem.getItemTypeCode());
+        setItemUnitPrice(preqItem.getItemUnitPrice());
+        setItemCatalogNumber(preqItem.getItemCatalogNumber());
+        setItemDescription(preqItem.getItemDescription());
 
+        if (getPreqInvoicedTotalQuantity() == null) {
+            setPreqInvoicedTotalQuantity(KualiDecimal.ZERO);
+        }
+        if (getPreqUnitPrice() == null) {
+            setPreqUnitPrice(BigDecimal.ZERO);
+        }
+        if (getPreqExtendedPrice() == null) {
+            setPreqExtendedPrice(KualiDecimal.ZERO);
+        }
 
-    /**
-     * Gets the itemTypeCode attribute.
-     * 
-     * @return Returns the itemTypeCode
-     */
-    public String getItemTypeCode() {
-        return itemTypeCode;
-    }
-
-    /**
-     * Sets the itemTypeCode attribute.
-     * 
-     * @param itemTypeCode The itemTypeCode to set.
-     */
-    public void setItemTypeCode(String itemTypeCode) {
-        this.itemTypeCode = itemTypeCode;
-    }
-
-
-    /**
-     * Gets the itemCreditQuantity attribute.
-     * 
-     * @return Returns the itemCreditQuantity
-     */
-    public KualiDecimal getItemCreditQuantity() {
-        return itemCreditQuantity;
-    }
-
-    /**
-     * Sets the itemCreditQuantity attribute.
-     * 
-     * @param itemCreditQuantity The itemCreditQuantity to set.
-     */
-    public void setItemCreditQuantity(KualiDecimal itemCreditQuantity) {
-        this.itemCreditQuantity = itemCreditQuantity;
-    }
-
-
-    /**
-     * Gets the itemUnitPrice attribute.
-     * 
-     * @return Returns the itemUnitPrice
-     */
-    public BigDecimal getItemUnitPrice() {
-        return itemUnitPrice;
-    }
-
-    /**
-     * Sets the itemUnitPrice attribute.
-     * 
-     * @param itemUnitPrice The itemUnitPrice to set.
-     */
-    public void setItemUnitPrice(BigDecimal itemUnitPrice) {
-        this.itemUnitPrice = itemUnitPrice;
-    }
-
-
-    /**
-     * Gets the itemExtendedPrice attribute.
-     * 
-     * @return Returns the itemExtendedPrice
-     */
-    public KualiDecimal getItemExtendedPrice() {
-        return itemExtendedPrice;
-    }
-
-    /**
-     * Sets the itemExtendedPrice attribute.
-     * 
-     * @param itemExtendedPrice The itemExtendedPrice to set.
-     */
-    public void setItemExtendedPrice(KualiDecimal itemExtendedPrice) {
-        this.itemExtendedPrice = itemExtendedPrice;
-    }
-
-
-    /**
-     * Gets the itemAssignedToTradeInIndicator attribute.
-     * 
-     * @return Returns the itemAssignedToTradeInIndicator
-     */
-    public boolean getItemAssignedToTradeInIndicator() {
-        return itemAssignedToTradeInIndicator;
-    }
-
-    /**
-     * Sets the itemAssignedToTradeInIndicator attribute.
-     * 
-     * @param itemAssignedToTradeInIndicator The itemAssignedToTradeInIndicator to set.
-     */
-    public void setItemAssignedToTradeInIndicator(boolean itemAssignedToTradeInIndicator) {
-        this.itemAssignedToTradeInIndicator = itemAssignedToTradeInIndicator;
-    }
-
-    /**
-     * Gets the itemDescription attribute. 
-     * @return Returns the itemDescription.
-     */
-    public String getItemDescription() {
-        return itemDescription;
-    }
-
-    /**
-     * Sets the itemDescription attribute value.
-     * @param itemDescription The itemDescription to set.
-     */
-    public void setItemDescription(String itemDescription) {
-        this.itemDescription = itemDescription;
-    }
-
-    /**
-     * Gets the purchaseOrderExtendedPrice attribute. 
-     * @return Returns the purchaseOrderExtendedPrice.
-     */
-    public KualiDecimal getPurchaseOrderExtendedPrice() {
-        return purchaseOrderExtendedPrice;
-    }
-
-    /**
-     * Sets the purchaseOrderExtendedPrice attribute value.
-     * @param purchaseOrderExtendedPrice The purchaseOrderExtendedPrice to set.
-     */
-    public void setPurchaseOrderExtendedPrice(KualiDecimal purchaseOrderExtendedPrice) {
-        this.purchaseOrderExtendedPrice = purchaseOrderExtendedPrice;
-    }
-
-    /**
-     * Gets the purchaseOrderInvoicedTotalQuantity attribute. 
-     * @return Returns the purchaseOrderInvoicedTotalQuantity.
-     */
-    public KualiDecimal getPurchaseOrderInvoicedTotalQuantity() {
-        return purchaseOrderInvoicedTotalQuantity;
-    }
-
-    /**
-     * Sets the purchaseOrderInvoicedTotalQuantity attribute value.
-     * @param purchaseOrderInvoicedTotalQuantity The purchaseOrderInvoicedTotalQuantity to set.
-     */
-    public void setPurchaseOrderInvoicedTotalQuantity(KualiDecimal purchaseOrderInvoicedTotalQuantity) {
-        this.purchaseOrderInvoicedTotalQuantity = purchaseOrderInvoicedTotalQuantity;
-    }
-
-    /**
-     * Gets the purchaseOrderUnitPrice attribute. 
-     * @return Returns the purchaseOrderUnitPrice.
-     */
-    public BigDecimal getPurchaseOrderUnitPrice() {
-        return purchaseOrderUnitPrice;
-    }
-
-    /**
-     * Sets the purchaseOrderUnitPrice attribute value.
-     * @param purchaseOrderUnitPrice The purchaseOrderUnitPrice to set.
-     */
-    public void setPurchaseOrderUnitPrice(BigDecimal purchaseOrderUnitPrice) {
-        this.purchaseOrderUnitPrice = purchaseOrderUnitPrice;
-    }
-
-    /**
-     * Gets the paymentRequestExtendedPrice attribute. 
-     * @return Returns the paymentRequestExtendedPrice.
-     */
-    public KualiDecimal getPaymentRequestExtendedPrice() {
-        return paymentRequestExtendedPrice;
-    }
-
-    /**
-     * Sets the paymentRequestExtendedPrice attribute value.
-     * @param paymentRequestExtendedPrice The paymentRequestExtendedPrice to set.
-     */
-    public void setPaymentRequestExtendedPrice(KualiDecimal paymentRequestExtendedPrice) {
-        this.paymentRequestExtendedPrice = paymentRequestExtendedPrice;
-    }
-
-    /**
-     * Gets the paymentRequestInvoicedTotalQuantity attribute. 
-     * @return Returns the paymentRequestInvoicedTotalQuantity.
-     */
-    public KualiDecimal getPaymentRequestInvoicedTotalQuantity() {
-        return paymentRequestInvoicedTotalQuantity;
-    }
-
-    /**
-     * Sets the paymentRequestInvoicedTotalQuantity attribute value.
-     * @param paymentRequestInvoicedTotalQuantity The paymentRequestInvoicedTotalQuantity to set.
-     */
-    public void setPaymentRequestInvoicedTotalQuantity(KualiDecimal paymentRequestInvoicedTotalQuantity) {
-        this.paymentRequestInvoicedTotalQuantity = paymentRequestInvoicedTotalQuantity;
-    }
-
-    /**
-     * Gets the paymentRequestUnitPrice attribute. 
-     * @return Returns the paymentRequestUnitPrice.
-     */
-    public BigDecimal getPaymentRequestUnitPrice() {
-        return paymentRequestUnitPrice;
-    }
-
-    /**
-     * Sets the paymentRequestUnitPrice attribute value.
-     * @param paymentRequestUnitPrice The paymentRequestUnitPrice to set.
-     */
-    public void setPaymentRequestUnitPrice(BigDecimal paymentRequestUnitPrice) {
-        this.paymentRequestUnitPrice = paymentRequestUnitPrice;
+        for (Iterator iter = preqItem.getSourceAccountingLines().iterator(); iter.hasNext();) {
+            PaymentRequestAccount account = (PaymentRequestAccount) iter.next();
+            getSourceAccountingLines().add(new CreditMemoAccount(account));
+        }
     }
 
     /**
@@ -303,17 +116,110 @@ public class CreditMemoItem extends AccountsPayableItemBase {
     }
 
     /**
-     * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
+     * Gets the poExtendedPrice attribute.
+     * 
+     * @return Returns the poExtendedPrice.
      */
-    protected LinkedHashMap toStringMapper() {
-        LinkedHashMap m = new LinkedHashMap();
-        if (this.getItemIdentifier() != null) {
-            m.put("creditMemoItemIdentifier", this.getItemIdentifier().toString());
-        }
-        return m;
+    public KualiDecimal getPoExtendedPrice() {
+        return poExtendedPrice;
     }
 
-    public CreditMemoDocument getCreditMemo() {
-        return creditMemo;
+    /**
+     * Sets the poExtendedPrice attribute value.
+     * 
+     * @param poExtendedPrice The poExtendedPrice to set.
+     */
+    public void setPoExtendedPrice(KualiDecimal poExtendedCost) {
+        this.poExtendedPrice = poExtendedCost;
+    }
+
+    /**
+     * Gets the poInvoicedTotalQuantity attribute.
+     * 
+     * @return Returns the poInvoicedTotalQuantity.
+     */
+    public KualiDecimal getPoInvoicedTotalQuantity() {
+        return poInvoicedTotalQuantity;
+    }
+
+    /**
+     * Sets the poInvoicedTotalQuantity attribute value.
+     * 
+     * @param poInvoicedTotalQuantity The poInvoicedTotalQuantity to set.
+     */
+    public void setPoInvoicedTotalQuantity(KualiDecimal poInvoicedTotalQuantity) {
+        this.poInvoicedTotalQuantity = poInvoicedTotalQuantity;
+    }
+
+    /**
+     * Gets the poUnitPrice attribute.
+     * 
+     * @return Returns the poUnitPrice.
+     */
+    public BigDecimal getPoUnitPrice() {
+        return poUnitPrice;
+    }
+
+    /**
+     * Sets the poUnitPrice attribute value.
+     * 
+     * @param poUnitPrice The poUnitPrice to set.
+     */
+    public void setPoUnitPrice(BigDecimal poUnitPrice) {
+        this.poUnitPrice = poUnitPrice;
+    }
+
+    /**
+     * Gets the preqExtendedPrice attribute.
+     * 
+     * @return Returns the preqExtendedPrice.
+     */
+    public KualiDecimal getPreqExtendedPrice() {
+        return preqExtendedPrice;
+    }
+
+    /**
+     * Sets the preqExtendedPrice attribute value.
+     * 
+     * @param preqExtendedPrice The preqExtendedPrice to set.
+     */
+    public void setPreqExtendedPrice(KualiDecimal preqExtendedCost) {
+        this.preqExtendedPrice = preqExtendedCost;
+    }
+
+    /**
+     * Gets the preqInvoicedTotalQuantity attribute.
+     * 
+     * @return Returns the preqInvoicedTotalQuantity.
+     */
+    public KualiDecimal getPreqInvoicedTotalQuantity() {
+        return preqInvoicedTotalQuantity;
+    }
+
+    /**
+     * Sets the preqInvoicedTotalQuantity attribute value.
+     * 
+     * @param preqInvoicedTotalQuantity The preqInvoicedTotalQuantity to set.
+     */
+    public void setPreqInvoicedTotalQuantity(KualiDecimal preqInvoicedTotalQuantity) {
+        this.preqInvoicedTotalQuantity = preqInvoicedTotalQuantity;
+    }
+
+    /**
+     * Gets the preqUnitPrice attribute.
+     * 
+     * @return Returns the preqUnitPrice.
+     */
+    public BigDecimal getPreqUnitPrice() {
+        return preqUnitPrice;
+    }
+
+    /**
+     * Sets the preqUnitPrice attribute value.
+     * 
+     * @param preqUnitPrice The preqUnitPrice to set.
+     */
+    public void setPreqUnitPrice(BigDecimal preqUnitPrice) {
+        this.preqUnitPrice = preqUnitPrice;
     }
 }

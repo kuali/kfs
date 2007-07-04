@@ -27,8 +27,11 @@ import org.kuali.core.web.struts.form.KualiDocumentFormBase;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.purap.PurapConstants;
+import org.kuali.module.purap.document.AccountsPayableDocument;
 import org.kuali.module.purap.document.CreditMemoDocument;
+import org.kuali.module.purap.rule.event.CalculateAccountsPayableEvent;
 import org.kuali.module.purap.rule.event.ContinueAccountsPayableEvent;
+import org.kuali.module.purap.rule.event.PreCalculateAccountsPayableEvent;
 import org.kuali.module.purap.web.struts.form.CreditMemoForm;
 
 import edu.iu.uis.eden.exception.WorkflowException;
@@ -71,7 +74,11 @@ public class CreditMemoAction extends AccountsPayableActionBase {
         }
         else {
             creditMemoDocument.setStatusCode(PurapConstants.CreditMemoStatuses.IN_PROCESS);
+            SpringServiceLocator.getCreditMemoCreateService().populateDocumentAfterInit(creditMemoDocument);
+            SpringServiceLocator.getCreditMemoService().save(creditMemoDocument);
         }
+
+        creditMemoDocument.refreshAllReferences();
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
@@ -88,8 +95,9 @@ public class CreditMemoAction extends AccountsPayableActionBase {
     }
 
     /**
-     * Calls CreditMemoService to perform the duplicate credit memo check. If one is found, a question is setup and control is forwarded to the question action 
-     * method. Coming back from the question prompt the button that was clicked is checked and if 'no' was selected they are forward back to the page still in init mode.
+     * Calls CreditMemoService to perform the duplicate credit memo check. If one is found, a question is setup and control is
+     * forwarded to the question action method. Coming back from the question prompt the button that was clicked is checked and if
+     * 'no' was selected they are forward back to the page still in init mode.
      */
     private ActionForward performDuplicateCreditMemoCheck(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response, CreditMemoDocument creditMemoDocument) throws Exception {
         ActionForward forward = null;
@@ -97,7 +105,7 @@ public class CreditMemoAction extends AccountsPayableActionBase {
         if (StringUtils.isNotBlank(duplicateMessage)) {
             Object question = request.getParameter(KFSConstants.QUESTION_INST_ATTRIBUTE_NAME);
             if (question == null) {
-                return this.performQuestionWithoutInput(mapping, form, request, response, PurapConstants.PREQDocumentsStrings.DUPLICATE_INVOICE_QUESTION, duplicateMessage, KFSConstants.CONFIRMATION_QUESTION, KFSConstants.ROUTE_METHOD, "");
+                return this.performQuestionWithoutInput(mapping, form, request, response, PurapConstants.PREQDocumentsStrings.DUPLICATE_INVOICE_QUESTION, duplicateMessage, KFSConstants.CONFIRMATION_QUESTION, "continueCreditMemo", "");
             }
 
             Object buttonClicked = request.getParameter(KFSConstants.QUESTION_CLICKED_BUTTON);
@@ -107,5 +115,27 @@ public class CreditMemoAction extends AccountsPayableActionBase {
         }
 
         return forward;
+    }
+
+    /**
+     * Calls methods to perform credit allowed calculation and total credit memo amount
+     */
+    @Override
+    protected void customCalculate(AccountsPayableDocument apDoc) {
+        CreditMemoDocument cmDocument = (CreditMemoDocument) apDoc;
+
+        // check rules before doing calculation
+        boolean valid = SpringServiceLocator.getKualiRuleService().applyRules(new PreCalculateAccountsPayableEvent(cmDocument));
+
+        if (valid) {
+            // update extended price on item lines
+            cmDocument.updateExtendedPriceOnItems();
+
+            // call service method to finish up calculation
+            SpringServiceLocator.getCreditMemoService().calculateCreditMemo(cmDocument);
+
+            // notice we're ignoring whether the boolean, because these are just warnings they shouldn't halt anything
+            SpringServiceLocator.getKualiRuleService().applyRules(new CalculateAccountsPayableEvent(cmDocument));
+        }
     }
 }

@@ -18,26 +18,37 @@
 <%@ attribute name="documentAttributes" required="true" type="java.util.Map" description="The DataDictionary entry containing attributes for this row's fields." %>
 <%@ attribute name="itemAttributes" required="true" type="java.util.Map" description="The DataDictionary entry containing attributes for this row's fields."%>
 <%@ attribute name="accountingLineAttributes" required="true" type="java.util.Map" description="The DataDictionary entry containing attributes for this row's fields."%>
+<%@ attribute name="isCreditMemo" required="false" description="Indicates whether the tag is being used in the context of a credit memo document." %>
 
 <kul:tab tabTitle="Process Items" defaultOpen="false" tabErrorKey="${PurapConstants.ITEM_TAB_ERRORS}">
 	<div class="tab-container" align=center>
 		
 	<table cellpadding="0" cellspacing="0" class="datatable" summary="Items Section">
 	
-		<purap:purPOLineItemTotals documentAttributes="${documentAttributes}" />
+	    <c:set var="editingMode" value="${KualiForm.editingMode}" scope="request"/>
+	    <c:if test="${empty isCreditMemo or !isCreditMemo}" >
+    		<purap:purPOLineItemTotals documentAttributes="${documentAttributes}" />
 
-		<purap:paymentRequestItems 
-			itemAttributes="${itemAttributes}"
-			accountingLineAttributes="${accountingLineAttributes}" />
+	    	<purap:paymentRequestItems 
+		    	itemAttributes="${itemAttributes}"
+	    		accountingLineAttributes="${accountingLineAttributes}" />
+		</c:if>
+
+        <!--  replace literal with PurapConstants once exported -->
+	    <c:if test="${isCreditMemo and !(KualiForm.document.creditMemoType eq 'Vendor')}" >
+	    	<purap:creditMemoItems 
+		    	itemAttributes="${itemAttributes}"
+	    		accountingLineAttributes="${accountingLineAttributes}" />
+	    </c:if>
 
 		<!-- BEGIN TOTAL SECTION -->
 		<tr>
-			<td align=right width='75%' colspan=7 scope="row" class="datacell">
+			<td align=right width='75%' colspan="5" scope="row" class="datacell">
 			    <div align="right">
-			        <b><kul:htmlAttributeLabel attributeEntry="${documentAttributes.lineItemTotal}" skipHelpUrl="true" noColon="true" /></b>
+			        <b><kul:htmlAttributeLabel attributeEntry="${documentAttributes.lineItemTotal}" skipHelpUrl="true"/></b>&nbsp;
 			    </div>
 			</td>
-			<td valign=middle class="datacell">
+			<td valign=middle class="datacell" colspan="2">
 			    <div align="right"><b>$${KualiForm.document.lineItemTotal}</b></div>
 			</td>
 			<td colspan=2 class="datacell">&nbsp;</td>
@@ -51,12 +62,12 @@
 
 		<!-- BEGIN TOTAL SECTION -->
 		<tr>
-			<td align=right width='75%' colspan=7 scope="row" class="datacell">
+			<td align=right width='75%' colspan="5" scope="row" class="datacell">
 			    <div align="right">
-			        <b><kul:htmlAttributeLabel attributeEntry="${documentAttributes.grandTotal}" skipHelpUrl="true" noColon="true" /></b>
+			        <b><kul:htmlAttributeLabel attributeEntry="${documentAttributes.grandTotal}" skipHelpUrl="true" /></b>&nbsp;
 			    </div>
 			</td>
-			<td valign=middle class="datacell">
+			<td valign=middle class="datacell" colspan="2">
 			    <div align="right"><b>$${KualiForm.document.grandTotal}</b></div>
 			</td>
 			<td colspan=2 class="datacell">&nbsp;</td>

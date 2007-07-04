@@ -15,6 +15,7 @@
  */
 package org.kuali.module.purap.web.struts.form;
 
+import org.kuali.core.web.ui.ExtraButton;
 import org.kuali.module.purap.bo.PurchasingApItem;
 
 /**
@@ -23,14 +24,16 @@ import org.kuali.module.purap.bo.PurchasingApItem;
 public class AccountsPayableFormBase extends PurchasingAccountsPayableFormBase {
     
     private PurchasingApItem newPurchasingItemLine;
-    private Boolean notOtherDeliveryBuilding = true;
-    private boolean calculated = true;
+    private Boolean notOtherDeliveryBuilding;
+    private boolean calculated;
     
     /**
      * Constructs a RequisitionForm instance and sets up the appropriately casted document. 
      */
     public AccountsPayableFormBase() {
         super();
+        calculated = false;
+        notOtherDeliveryBuilding = true;
     }
     /**
      * Gets the newPurchasingItemLine attribute. 
@@ -72,6 +75,25 @@ public class AccountsPayableFormBase extends PurchasingAccountsPayableFormBase {
     }
     public void setCalculated(boolean calculated) {
         this.calculated = calculated;
+    }
+    
+    /**
+     * This is a utility method to add a new button to the extra buttons
+     * collection.
+     *   
+     * @param property
+     * @param source
+     * @param altText
+     */ 
+    protected void addExtraButton(String property, String source, String altText){
+        
+        ExtraButton newButton = new ExtraButton();
+        
+        newButton.setExtraButtonProperty(property);
+        newButton.setExtraButtonSource(source);
+        newButton.setExtraButtonAltText(altText);
+        
+        extraButtons.add(newButton);
     }
        
 }

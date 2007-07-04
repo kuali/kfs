@@ -21,11 +21,12 @@ import java.util.Map;
 import java.util.Set;
 
 import org.kuali.Constants;
+import org.kuali.core.JstlConstants;
 
 /**
  * Holds constants for PURAP.
  */
-public class PurapConstants {
+public class PurapConstants extends JstlConstants {
 
     // STANDARD PARAMETER PREFIXES
     private static final String PURAP_PARAM_PREFIX = "PURAP";
@@ -50,7 +51,7 @@ public class PurapConstants {
                 public static final String ACCOUNT_REVIEW = "";
                 public static final String ORG_REVIEW = "";
                 public static final String SEPARAION_OF_DUTIES_REVIEW = "";
-                
+
                 public static Map<String,String> REQUISITION_STATUS_BY_NODE_NAME = new HashMap<String,String>();
                 public static Map<String,String> REQUISITION_DISAPPROVAL_STATUS_BY_NODE_NAME = new HashMap<String,String>();
                 static {
@@ -436,9 +437,7 @@ public class PurapConstants {
         map.put("RequisitionDocument", "Kuali.FinancialTransactionProcessing.RequisitionDocument");
         map.put("PurchaseOrderDocument", "Kuali.FinancialTransactionProcessing.PurchaseOrderDocument");
         map.put("PaymentRequestDocument", "Kuali.FinancialTransactionProcessing.PaymentRequestDocument");
-        map.put("CreditMemoDocumentFromVendor", "Kuali.FinancialTransactionProcessing.CreditMemoDocument.FromVendor");
-        map.put("CreditMemoDocumentFromPurchaseOrder", "Kuali.FinancialTransactionProcessing.CreditMemoDocument.FromPurchaseOrder");
-        map.put("CreditMemoDocumentFromPaymentRequest", "Kuali.FinancialTransactionProcessing.CreditMemoDocument.FromPaymentRequest");
+        map.put("CreditMemoDocument", "Kuali.FinancialTransactionProcessing.CreditMemoDocument");
         return map;
     }
     public final static HashMap<String,String> ITEM_TYPE_SYSTEM_PARAMETERS_SECURITY_MAP =
@@ -460,10 +459,10 @@ public class PurapConstants {
         public static final String INVOICE_EXTENDED_PRICE = "Total Inv Cost";
     }
     
-    // PAYMENT REQUEST
+    // CREDIT MEMO DOCUMENT
     public static String CREDIT_MEMO_DOCUMENT = "KualiCreditMemoDocument";
     public static String CREDIT_MEMO_DOCUMENT_DOC_TYPE = "CreditMemoDocument";
-    
+
     public static class CreditMemoStatuses {
         public static String INITIATE = "INIT";
         public static String IN_PROCESS = "INPR";
@@ -471,17 +470,19 @@ public class PurapConstants {
         public static String CANCELLED_IN_PROCESS = "VOID";
     }
     
-    public static class CreditMemoTypes{
-        public static final String TYPE_VENDOR = "Vendor";
-        public static final String TYPE_PO = "PO";
-        public static final String TYPE_PREQ = "PREQ";
-    }
-    
     public static class CMDocumentsStrings {
         public static String DUPLICATE_CREDIT_MEMO_QUESTION = "CMDuplicateInvoice";
         public static String HOLD_CREDIT_MEMO_QUESTION = "HoldPREQ";
         public static String CONFIRM_HOLD_QUESTION = "ConfirmHold";
         public static String HOLD_NOTE_PREFIX = "Note entered while placing Payment Request on hold : ";
+    }
+    
+    public static class CREDIT_MEMO_TYPES {
+
+        public static final String TYPE_PO = "PO";
+        public static final String TYPE_PREQ = "PREQ";
+        public static final String TYPE_VENDOR = "Vendor";
+        
     }
     
     private static HashMap<String,String> uncopyableFields() {

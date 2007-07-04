@@ -184,24 +184,5 @@ public class PaymentRequestForm extends AccountsPayableFormBase {
             }
         }
     }
-    
-    /**
-     * This is a utility method to add a new button to the extra buttons
-     * collection.
-     *   
-     * @param property
-     * @param source
-     * @param altText
-     */ 
-    private void addExtraButton(String property, String source, String altText){
-        
-        ExtraButton newButton = new ExtraButton();
-        
-        newButton.setExtraButtonProperty(property);
-        newButton.setExtraButtonSource(source);
-        newButton.setExtraButtonAltText(altText);
-        
-        this.getExtraButtons().add(newButton);
-    }
  
 }

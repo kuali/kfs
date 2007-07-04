@@ -88,7 +88,7 @@ public class PurapKeyConstants {
     public static final String ERROR_CANCEL_EXTRACTED="errors.cancel.extracted";
     public static final String ERROR_PAYMENT_REQUEST_NOT_IN_PROCESS = "error.paymentRequest.not.inProcess";
     public static final String ERROR_PAYMENT_REQUEST_ITEM_TOTAL_NOT_EQUAL = "error.paymentRequest.item.TotalInvoice.notEqual";
-    
+   
     public static final String MESSAGE_DUPLICATE_INVOICE_DATE_AMOUNT="message.duplicate.invoice.date.amount";
     public static final String MESSAGE_DUPLICATE_INVOICE_DATE_AMOUNT_CANCELLEDORVOIDED="message.duplicate.invoice.date.amount.cancelledOrVoided";
     public static final String MESSAGE_DUPLICATE_INVOICE_DATE_AMOUNT_VOIDED="message.duplicate.invoice.date.amount.voided";
@@ -144,14 +144,22 @@ public class PurapKeyConstants {
     public static final String ERROR_ITEM_ACCOUNTING_DOLLAR_TOTAL="errors.item.accounting.dollar.total";
 
     //Credit Memo
-    public static final String ERROR_CREDIT_MEMO_REQUIRED_FIELDS="errors.creditMemo.required.fields";
-    public static final String ERROR_PURCHASE_ORDER_INVALID="errors.creditMemo.purchaseOrder.invalid";
-    public static final String ERROR_PURCAHSE_ORDER_INVALID_STATUS="errors.creditMemo.purchaseOrder.invalid.status";
-    public static final String ERROR_PAYMENT_REQEUEST_INVALID="errors.creditMemo.paymentRequest.invalid";
-    public static final String ERROR_PAYMENT_REQEUEST_INVALID_SATATUS="errors.creditMemo.paymentRequest.invalid.status";
-    public static final String ERROR_VENDOR_NUMBER_INVALID="errors.creditMemo.vendorNumber.invalid";
+    public static final String ERROR_CREDIT_MEMO_REQUIRED_FIELDS = "errors.creditMemo.required.fields";
+    public static final String ERROR_CREDIT_MEMO_PURCHASE_ORDER_INVALID = "errors.creditMemo.purchaseOrder.invalid";
+    public static final String ERROR_CREDIT_MEMO_PURCAHSE_ORDER_INVALID_STATUS = "errors.creditMemo.purchaseOrder.invalid.status";
+    public static final String ERROR_CREDIT_MEMO_PURCAHSE_ORDER_NOITEMS = "errors.creditMemo.po.noItems";
+    public static final String ERROR_CREDIT_MEMO_PAYMENT_REQEUEST_INVALID = "errors.creditMemo.paymentRequest.invalid";
+    public static final String ERROR_CREDIT_MEMO_PAYMENT_REQEUEST_INVALID_SATATUS = "errors.creditMemo.paymentRequest.invalid.status";
+    public static final String ERROR_CREDIT_MEMO_VENDOR_NUMBER_INVALID = "errors.creditMemo.vendorNumber.invalid";
+    public static final String ERROR_CREDIT_MEMO_INVALID_CREDIT_MEMO_DATE = "errors.creditMemo.creditMemoDate.invalid";
+    public static final String ERROR_CREDIT_MEMO_INVOICE_AMOUNT_NONMATCH = "errors.creditMemo.vendorInvoiceAmount.invalid";
+    public static final String ERROR_CREDIT_MEMO_TOTAL_ZERO = "errors.creditMemo.total.zero";
+    public static final String ERROR_CREDIT_MEMO_ITEM_AMOUNT_NONPOSITIVE = "errors.creditMemo.itemAmount.aboveZero";
+    public static final String ERROR_CREDIT_MEMO_ITEM_QUANTITY_TOOMUCH = "errors.creditMemo.item.quantity.tooMuch";
+    public static final String ERROR_CREDIT_MEMO_ITEM_EXTENDEDPRICE_TOOMUCH = "errors.creditMemo.item.extendedPrice.tooMuch";
+    public static final String ERROR_CREDIT_MEMO_ITEM_MISCDESCRIPTION = "errors.creditMemo.item.miscDescription";
     
-    public static final String MESSAGE_DUPLICATE_CREDIT_MEMO_VENDOR_NUMBER="message.duplicate.creditMemo.vendorNumber";
-    public static final String MESSAGE_DUPLICATE_CREDIT_MEMO_VENDOR_NUMBER_DATE_AMOUNT="message.duplicate.creditMemo.vendorNumber.date.amount";
+    public static final String MESSAGE_DUPLICATE_CREDIT_MEMO_VENDOR_NUMBER = "message.duplicate.creditMemo.vendorNumber";
+    public static final String MESSAGE_DUPLICATE_CREDIT_MEMO_VENDOR_NUMBER_DATE_AMOUNT = "message.duplicate.creditMemo.vendorNumber.date.amount";
 
 }

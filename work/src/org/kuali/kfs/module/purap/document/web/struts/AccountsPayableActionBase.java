@@ -18,6 +18,7 @@ package org.kuali.module.purap.web.struts.action;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
@@ -26,14 +27,15 @@ import org.kuali.core.util.GlobalVariables;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.purap.PurapKeyConstants;
+import org.kuali.module.purap.PurapPropertyConstants;
 import org.kuali.module.purap.bo.PurchasingApItem;
 import org.kuali.module.purap.document.AccountsPayableDocument;
 import org.kuali.module.purap.document.AccountsPayableDocumentBase;
-import org.kuali.module.purap.document.PaymentRequestDocument;
 import org.kuali.module.purap.document.PurchasingDocument;
 import org.kuali.module.purap.web.struts.form.AccountsPayableFormBase;
 import org.kuali.module.purap.web.struts.form.PaymentRequestForm;
 import org.kuali.module.purap.web.struts.form.PurchasingFormBase;
+import org.kuali.module.vendor.VendorConstants;
 import org.kuali.module.vendor.bo.VendorAddress;
 
 /**
@@ -42,13 +44,16 @@ import org.kuali.module.vendor.bo.VendorAddress;
 public class AccountsPayableActionBase extends PurchasingAccountsPayableActionBase {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AccountsPayableActionBase.class);
 
+    /**
+     * Performs refresh of objects after a lookup.
+     * @see org.kuali.core.web.struts.action.KualiDocumentActionBase#refresh(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     */
     public ActionForward refresh(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         AccountsPayableFormBase baseForm = (AccountsPayableFormBase) form;
         AccountsPayableDocumentBase document = (AccountsPayableDocumentBase)baseForm.getDocument();
-        String refreshCaller = baseForm.getRefreshCaller();
         
-        if (KFSConstants.KUALI_LOOKUPABLE_IMPL.equals(baseForm.getRefreshCaller())) {
-            if (request.getParameter("document.vendorAddressGeneratedIdentifier") != null) {
+        if (StringUtils.equals(baseForm.getRefreshCaller(), VendorConstants.VENDOR_ADDRESS_LOOKUPABLE_IMPL)) {
+            if (StringUtils.isNotBlank(request.getParameter(PurapPropertyConstants.VENDOR_ADDRESS_ID))) {
                 Integer vendorAddressGeneratedId = document.getVendorAddressGeneratedIdentifier();
                 VendorAddress refreshVendorAddress = new VendorAddress();
                 refreshVendorAddress.setVendorAddressGeneratedIdentifier(vendorAddressGeneratedId);
@@ -56,6 +61,8 @@ public class AccountsPayableActionBase extends PurchasingAccountsPayableActionBa
                 document.templateVendorAddress(refreshVendorAddress);
             }
         }
+        
+        document.refreshAllReferences();
         
         return super.refresh(mapping, form, request, response);
     }
@@ -98,30 +105,29 @@ public class AccountsPayableActionBase extends PurchasingAccountsPayableActionBa
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
-    public ActionForward calculate(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {    
-            LOG.debug("calculate() method");
-            AccountsPayableFormBase apForm = (AccountsPayableFormBase)form;
-            AccountsPayableDocument apDoc = (AccountsPayableDocument) apForm.getDocument();
-            
-            customCalculate(apDoc);
-            
-            //doesn't really matter what happens above we still reset the calculate flag
-            apForm.setCalculated(true);
-            
-            return mapping.findForward(KFSConstants.MAPPING_BASIC);
-        }
+    /**
+     * Perform calculation on item line.
+     */
+    public ActionForward calculate(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        AccountsPayableFormBase apForm = (AccountsPayableFormBase) form;
+        AccountsPayableDocument apDoc = (AccountsPayableDocument) apForm.getDocument();
+
+        customCalculate(apDoc);
+
+        // doesn't really matter what happens above we still reset the calculate flag
+        apForm.setCalculated(true);
+
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
+    }
 
     /**
      * This method is an overridable area to do calculate specific tasks
+     * 
      * @param apDoc
      */
     protected void customCalculate(AccountsPayableDocument apDoc) {
         //do nothing by default
     }
-
-
-
-
 
     @Override
     public ActionForward approve(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {

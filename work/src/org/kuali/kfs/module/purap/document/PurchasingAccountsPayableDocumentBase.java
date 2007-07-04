@@ -16,6 +16,7 @@
 package org.kuali.module.purap.document;
 
 import java.math.BigDecimal;
+import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 
@@ -32,6 +33,7 @@ import org.kuali.kfs.bo.Country;
 import org.kuali.kfs.bo.SourceAccountingLine;
 import org.kuali.kfs.document.AccountingDocumentBase;
 import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.module.purap.PurapPropertyConstants;
 import org.kuali.module.purap.bo.CreditMemoView;
 import org.kuali.module.purap.bo.ItemType;
 import org.kuali.module.purap.bo.PaymentRequestView;
@@ -148,6 +150,7 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
 
         KualiDecimal total = new KualiDecimal(BigDecimal.ZERO);
         for (PurchasingApItem item : (List<PurchasingApItem>)getItems()) {
+            item.refreshReferenceObject(PurapPropertyConstants.ITEM_TYPE);
             ItemType it = item.getItemType();
             if((includeBelowTheLine || it.isItemTypeAboveTheLineIndicator()) && 
                     !ArrayUtils.contains(excludedTypes,it.getItemTypeCode())) {
@@ -432,7 +435,25 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
         }
         return (PurchasingApItem) items.get(pos);
     }
+    
+    /**
+     * Iterates through the items of the document and returns the item with
+     * the line number equal to the number given, or null if a match is not found.
+     * 
+     * @param lineNumber - line number to match on
+     * @return PurchasingApItem - if a match was found, or null
+     */
+    public PurchasingApItem getItemByLineNumber(int lineNumber) {
+        for (Iterator iter = items.iterator(); iter.hasNext();) {
+            PurchasingApItem item = (PurchasingApItem) iter.next();
 
+            if (item.getItemLineNumber().intValue() == lineNumber) {
+                return item;
+            }
+        }
+        return null;
+    }
+    
     public abstract Class getItemClass();
 
 //    /**

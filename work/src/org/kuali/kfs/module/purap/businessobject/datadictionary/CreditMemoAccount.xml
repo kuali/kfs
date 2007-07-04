@@ -29,30 +29,6 @@
 			
 			&purApAccountingLineBaseAttributes;
 
-			<attribute name="creditMemoAccountIdentifier" forceUppercase="true">
-				<label>Credit Memo Account Identifier</label>
-				<shortLabel>Identifier</shortLabel>
-
-				<maxLength>10</maxLength>
-				<validationPattern>
-					<numeric />
-				</validationPattern>
-
-				<control>
-					<text size="12" />
-				</control>
-
-				<summary>creditMemoAccountIdentifier</summary>
-				<description>creditMemoAccountIdentifier description...</description>
-			</attribute>
-
-			<attributeReference name="creditMemoItemIdentifier" sourceClassName="org.kuali.module.purap.bo.PurApAttributeReferenceDummy" sourceAttributeName="genericItemIdentifier">
-				<label>Credit Memo Item Identifier</label>
-				<shortLabel>Item Identifier</shortLabel>
-				<summary>creditMemoItemIdentifier</summary>
-				<description>creditMemoItemIdentifier description...</description>
-			</attributeReference>
-
 			<attributeReference name="itemAccountTotalAmount" sourceClassName="org.kuali.module.purap.bo.PurApAttributeReferenceDummy" sourceAttributeName="genericItemAmount">
 				<label>Item Account Total Amount</label>
 				<shortLabel>Amount</shortLabel>

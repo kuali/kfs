@@ -30,17 +30,17 @@
         <table cellpadding="0" cellspacing="0" class="datatable" summary="Credit Memo Info Section">
 
             <tr>
-                <th align=right valign=middle class="bord-l-b">
+                <th align=right valign=middle class="bord-l-b" width="25%">
                    <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.creditMemoNumber}" /></div>
                 </th>
-                <td align=left valign=middle class="datacell">
+                <td align=left valign=middle class="datacell" width="25%">
                    <kul:htmlControlAttribute attributeEntry="${documentAttributes.creditMemoNumber}" property="document.creditMemoNumber" readOnly="true" /> 
                 </td>
-                <th align=right valign=middle class="bord-l-b">
+                <th align=right valign=middle class="bord-l-b" width="25%">
                    <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.creditMemoType}" /></div>
                 </th>
-                <td align=left valign=middle class="datacell">
-                   <kul:htmlControlAttribute attributeEntry="${documentAttributes.creditMemoType}" property="document.creditMemoType" readOnly="true" />
+                <td align=left valign=middle class="datacell" width="25%">
+                   <bean:write name="KualiForm" property="document.creditMemoType" />
                 </td>
             </tr>
             
@@ -88,7 +88,7 @@
                    <div align="right"><kul:htmlAttributeLabel  attributeEntry="${documentAttributes.purchaseOrderNotes}" /></div>
                 </th>
                 <td align=left valign=middle class="datacell">
-                   <kul:htmlControlAttribute attributeEntry="${documentAttributes.purchaseOrderNotes}" property="document.purchaseOrderNotes" readOnly="true" />
+                   <bean:write name="KualiForm" property="document.purchaseOrderNotes" />
                 </td>
                 <th align=right valign=middle class="bord-l-b">
                    <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.paymentRequestIdentifier}" /></div>

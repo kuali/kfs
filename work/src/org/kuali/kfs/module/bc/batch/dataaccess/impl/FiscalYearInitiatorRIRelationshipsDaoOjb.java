@@ -101,7 +101,7 @@ public class FiscalYearInitiatorRIRelationshipsDaoOjb
     public class ParentKeyChecker<C> 
     {
         private ParentClass<C>[] parentClassList = null;
-        public void ParentKeyChecker(Class childClass, Integer RequestYear)
+        public ParentKeyChecker(Class childClass, Integer RequestYear)
         {
             String testString = childClass.getName();
             if (childParentMap.containsKey(testString))
@@ -299,7 +299,7 @@ public class FiscalYearInitiatorRIRelationshipsDaoOjb
  {
      S firstObject;
      T secondObject;
-     public void ReturnedPair()
+     public ReturnedPair()
      {
        this.firstObject = null;
        this.secondObject = null;

@@ -67,9 +67,10 @@ public class RoutingFormResearchRisksAction extends RoutingFormAction {
         RoutingForm routingForm = (RoutingForm) form;
 
         // Remove the item from the list.
-        //int tabToDelete = super.getTabToToggle(request);
+        String tabToDeleteStr = super.getTabToToggle(request);
+        int tabToDelete = Integer.parseInt(tabToDeleteStr);
         int lineToDelete = super.getLineToDelete(request);
-        //routingForm.getRoutingFormDocument().getRoutingFormResearchRisks().get(tabToDelete).getResearchRiskStudies().remove(lineToDelete);
+        routingForm.getRoutingFormDocument().getRoutingFormResearchRisks().get(tabToDelete).getResearchRiskStudies().remove(lineToDelete);
         
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }

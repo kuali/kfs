@@ -15,7 +15,7 @@
  */
 package org.kuali.module.kra.web.struts.action;
 
-import java.util.ArrayList;
+import java.util.HashMap;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -32,7 +32,6 @@ import org.kuali.core.document.authorization.DocumentActionFlags;
 import org.kuali.core.rule.event.AddAdHocRoutePersonEvent;
 import org.kuali.core.rule.event.AddAdHocRouteWorkgroupEvent;
 import org.kuali.core.util.GlobalVariables;
-import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.web.struts.action.KualiDocumentActionBase;
 import org.kuali.core.web.struts.form.KualiForm;
 import org.kuali.kfs.KFSConstants;
@@ -42,9 +41,7 @@ import org.kuali.module.kra.KraKeyConstants;
 import org.kuali.module.kra.bo.AdhocOrg;
 import org.kuali.module.kra.bo.AdhocPerson;
 import org.kuali.module.kra.bo.AdhocWorkgroup;
-import org.kuali.module.kra.budget.web.struts.form.BudgetForm;
 import org.kuali.module.kra.document.ResearchDocument;
-import org.kuali.module.kra.routingform.web.struts.form.RoutingForm;
 import org.kuali.module.kra.web.struts.form.ResearchDocumentFormBase;
 
 import edu.iu.uis.eden.clientapp.IDocHandler;
@@ -80,7 +77,7 @@ public abstract class ResearchDocumentActionBase extends KualiDocumentActionBase
      */
     public ActionForward headerTab(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         
-        //((KualiForm)form).setTabStates(new ArrayList());
+        ((KualiForm)form).setTabStates(new HashMap());
         
         return super.headerTab(mapping, form, request, response);
     }
@@ -109,7 +106,7 @@ public abstract class ResearchDocumentActionBase extends KualiDocumentActionBase
             researchDocumentForm.getDocument().refreshReferenceObject("documentHeader");
         }
 
-        //researchDocumentForm.setTabStates(new ArrayList());
+        researchDocumentForm.setTabStates(new HashMap());
         
         return mapping.findForward("notes");
     }

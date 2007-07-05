@@ -20,18 +20,19 @@
 <%@ attribute name="totalErrors" required="true" %>
 
 <c:set var="currentTabIndex" value="${KualiForm.currentTabIndex}"/>
-<c:set var="currentTab" value="${KualiForm.tabStateJstl}"/>
+<c:set var="incrementerDummy" value="${kfunc:incrementTabIndex(KualiForm, currentTabIndex)}" />
+<c:set var="currentTab" value="${kfunc:getTabState(KualiForm, currentTabIndex)}"/>
 
 <c:choose>
     <c:when test="${empty currentTab}">
         <c:set var="isOpen" value="${defaultOpen}" />
     </c:when>
     <c:when test="${!empty currentTab}" >
-        <c:set var="isOpen" value="${currentTab.open}" />
+        <c:set var="isOpen" value="${(currentTab == 'OPEN')}" />
     </c:when>
 </c:choose>
 
-<html:hidden property="tabState[${currentTabIndex}].open" value="${isOpen}" />
+<html:hidden property="tabStates(${currentTabIndex})" value="${(isOpen ? 'OPEN' : 'CLOSE')}" />
 
 <!-- ROW -->
 

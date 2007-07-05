@@ -159,7 +159,7 @@ public class BudgetForm extends ResearchDocumentFormBase {
      * @param resetPeriod determines whether period is to be reset.
      */
     public void newTabState(boolean resetTask, boolean resetPeriod) {
-        //this.setTabStates(new ArrayList());
+        this.setTabStates(new HashMap());
         if (resetTask)
             this.setCurrentTaskNumber(null);
         if (resetPeriod)

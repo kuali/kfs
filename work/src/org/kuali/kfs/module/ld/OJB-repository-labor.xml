@@ -1161,8 +1161,7 @@
 		<foreignkey field-ref="accountNumber" />
 		<foreignkey field-ref="financialObjectCode" />
 		<foreignkey field-ref="financialSubObjectCode" />
-    </reference-descriptor>
-	
+    </reference-descriptor>	
 </class-descriptor>
 
 <class-descriptor class="org.kuali.module.labor.bo.AccountStatusCurrentFunds" table="LD_LDGR_BAL_T">

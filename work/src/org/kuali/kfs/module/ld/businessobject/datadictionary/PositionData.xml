@@ -37,60 +37,57 @@
         </inquiry>
 
         <lookup>
-            <title>Position Data Lookup</title>
-
+            <lookupableID>laborPositionDataLookupable</lookupableID>	        
+            <title>Position Inquiry</title>
             <instructions>Look up Position Data</instructions>
 
             <defaultSort sortAscending="true">
                 <sortAttributes>
-                    <sortAttribute attributeName="positionIdentifierSequence" />
+                    <sortAttribute attributeName="positionNumber" />
                 </sortAttributes>
             </defaultSort>
 
             <lookupFields>
-                <lookupField attributeName="budgetedPosition" required="false" />
+                <lookupField attributeName="positionNumber" required="false" />
+                <lookupField attributeName="effectiveDate" required="false" />
                 <lookupField attributeName="businessUnit" required="false" />
                 <lookupField attributeName="departmentId" required="false" />
-                <lookupField attributeName="description" required="false" />
-                <lookupField attributeName="effectiveDate" required="false" />
-                <lookupField attributeName="employeeType" required="false" />
+                
                 <lookupField attributeName="jobCode" required="false" />
-                <lookupField attributeName="payGroup" required="false" />
-                <lookupField attributeName="positionEffectiveStatus" required="false" />
-                <lookupField attributeName="positionFullTimeEquivalency" required="false" />
-                <lookupField attributeName="positionGradeDefault" required="false" />
-                <lookupField attributeName="positionIdentifierSequence" required="false" />
-                <lookupField attributeName="positionNumber" required="false" />
-                <lookupField attributeName="positionRegularTemporary" required="false" />
-                <lookupField attributeName="positionSalaryPlanDefault" required="false" />
                 <lookupField attributeName="positionStatus" required="false" />
-                <lookupField attributeName="shortDescription" required="false" />
-                <lookupField attributeName="standardHoursDefault" required="false" />
-                <lookupField attributeName="standardHoursFrequency" required="false" />
-                <lookupField attributeName="statusDate" required="false" />
+                <lookupField attributeName="description" required="false" />
+                
+                <lookupField attributeName="positionSalaryPlanDefault" required="false" />
+                <lookupField attributeName="positionGradeDefault" required="false" />
             </lookupFields>
 
             <resultFields>
-                <field attributeName="budgetedPosition" />
-                <field attributeName="businessUnit" />
-                <field attributeName="departmentId" />
-                <field attributeName="description" />
-                <field attributeName="effectiveDate" />
-                <field attributeName="employeeType" />
-                <field attributeName="jobCode" />
+            	<field attributeName="positionIdentifierSequence"/>
+                <field attributeName="positionNumber"/>
+                <field attributeName="effectiveDate"/>
+                <field attributeName="description"/>
+                
+                <field attributeName="businessUnit"/>
+                <field attributeName="departmentId"/>             
+                <field attributeName="positionSalaryPlanDefault"/>
+                <field attributeName="positionGradeDefault"/>
+                
+                <field attributeName="jobCode"/>
+                <field attributeName="positionStatus"/>
+                <field attributeName="dummyBusinessObject.linkButtonOption" />
+                
+                <!-- 
                 <field attributeName="payGroup" />
                 <field attributeName="positionEffectiveStatus" />
                 <field attributeName="positionFullTimeEquivalency" />
-                <field attributeName="positionGradeDefault" />
                 <field attributeName="positionIdentifierSequence" />
-                <field attributeName="positionNumber" />
                 <field attributeName="positionRegularTemporary" />
-                <field attributeName="positionSalaryPlanDefault" />
-                <field attributeName="positionStatus" />
+
                 <field attributeName="shortDescription" />
                 <field attributeName="standardHoursDefault" />
                 <field attributeName="standardHoursFrequency" />
                 <field attributeName="statusDate" />
+                 -->
             </resultFields>
         </lookup>
 
@@ -395,6 +392,13 @@
                 <summary>statusDate</summary>
                 <description>statusDate description...</description>
 			</attribute>
+			
+			<attributeReference name="dummyBusinessObject.linkButtonOption" sourceClassName="org.kuali.module.gl.bo.TransientBalanceInquiryAttributes" sourceAttributeName="linkButtonOption">
+                <label>Position Funding</label>
+                <shortLabel>Position Funding</shortLabel>
+                <summary>Lookup Position Funding</summary>
+                <description>Lookup Position Funding ...</description>
+            </attributeReference>
 
             <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
 

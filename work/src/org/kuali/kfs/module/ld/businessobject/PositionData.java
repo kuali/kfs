@@ -5,6 +5,8 @@ import java.sql.Date;
 import java.util.LinkedHashMap;
 
 import org.kuali.core.bo.PersistableBusinessObjectBase;
+import org.kuali.module.gl.bo.TransientBalanceInquiryAttributes;
+import org.kuali.module.gl.web.Constant;
 
 /**
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
@@ -31,12 +33,16 @@ public class PositionData extends PersistableBusinessObjectBase {
 	private BigDecimal positionFullTimeEquivalency;
 	private String positionSalaryPlanDefault;
 	private String positionGradeDefault;
+    
+    private TransientBalanceInquiryAttributes dummyBusinessObject;
 
 	/**
 	 * Default constructor.
 	 */
 	public PositionData() {
-
+	    super();
+        this.dummyBusinessObject = new TransientBalanceInquiryAttributes();
+        this.dummyBusinessObject.setLinkButtonOption(Constant.LOOKUP_BUTTON_VALUE);
 	}
 
 	/**
@@ -468,5 +474,21 @@ public class PositionData extends PersistableBusinessObjectBase {
             m.put("positionIdentifierSequence", this.positionIdentifierSequence.toString());
         }
 	    return m;
+    }
+
+    /**
+     * Gets the dummyBusinessObject attribute. 
+     * @return Returns the dummyBusinessObject.
+     */
+    public TransientBalanceInquiryAttributes getDummyBusinessObject() {
+        return dummyBusinessObject;
+    }
+
+    /**
+     * Sets the dummyBusinessObject attribute value.
+     * @param dummyBusinessObject The dummyBusinessObject to set.
+     */
+    public void setDummyBusinessObject(TransientBalanceInquiryAttributes dummyBusinessObject) {
+        this.dummyBusinessObject = dummyBusinessObject;
     }
 }

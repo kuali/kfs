@@ -236,7 +236,31 @@
 		<property name="optionsService">
 			<ref bean="optionsService" />
 		</property>
-	</bean>	
+	</bean>
+	
+	<bean id="laborPositionDataLookupableHelperService" class="org.kuali.module.labor.web.lookupable.PositionDataLookupableHelperServiceImpl" singleton="false">
+		<property name="persistenceStructureService">
+			<ref bean="persistenceStructureService" />
+		</property>
+		<property name="lookupService">
+			<ref bean="lookupService" />
+		</property>
+		<property name="businessObjectDictionaryService">
+			<ref bean="businessObjectDictionaryService" />
+		</property>
+		<property name="businessObjectMetaDataService">
+			<ref bean="businessObjectMetaDataService" />
+		</property>
+		<property name="dataDictionaryService">
+			<ref bean="dataDictionaryService" />
+		</property>		
+	</bean>
+	
+	<bean id="laborPositionDataLookupable" class="org.kuali.core.lookup.KualiLookupableImpl" singleton="false">
+		<property name="lookupableHelperService">
+			<ref bean="laborPositionDataLookupableHelperService" />
+		</property>
+	</bean>		
 	
     <!-- Section 2: Spring Beans for DAO -->
 

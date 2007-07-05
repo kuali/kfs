@@ -353,12 +353,12 @@
       <foreignkey field-ref="processId"/>
     </reference-descriptor>
 
-    <collection-descriptor name="paymentGroupHistory" proxy="true" element-class-ref="org.kuali.module.pdp.bo.PaymentGroupHistory" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-update="object" auto-delete="object">
+    <collection-descriptor name="paymentGroupHistory" proxy="true" element-class-ref="org.kuali.module.pdp.bo.PaymentGroupHistory" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
        <orderby name="changeTime" sort="DESC"/>
        <inverse-foreignkey field-ref="paymentGroupId"/>
     </collection-descriptor>
 
-    <collection-descriptor name="paymentDetails" proxy="true" element-class-ref="org.kuali.module.pdp.bo.PaymentDetail" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-update="object" auto-delete="object">
+    <collection-descriptor name="paymentDetails" proxy="true" element-class-ref="org.kuali.module.pdp.bo.PaymentDetail" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
        <orderby name="invoiceDate" sort="ASC"/>
        <inverse-foreignkey field-ref="paymentGroupId"/>
     </collection-descriptor>

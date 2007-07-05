@@ -43,7 +43,7 @@
         <table border="0" cellpadding="4" cellspacing="0" width="100%">
           <tbody>
             <tr>
-              <td><strong>Your Default Campus Code is <b><c:out value="${FormatProcessForm.campusCd}"/> Process ID: <c:out value="${FormatProcessForm.procId}"/></strong></td>
+              <td><strong>Your Default Campus Code is <b><c:out value="${PdpFormatProcessForm.campusCd}"/> Process ID: <c:out value="${PdpFormatProcessForm.procId}"/></strong></td>
               <td width="20">&nbsp;</td>
             </tr>
           </tbody>

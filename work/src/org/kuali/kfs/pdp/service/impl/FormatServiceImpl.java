@@ -388,6 +388,7 @@ public class FormatServiceImpl implements FormatService {
         int count = 0;
         while ( i.hasNext() ) {
             PaymentGroup pg = (PaymentGroup)i.next();
+
             count++;
             fps.add(pg);
         }

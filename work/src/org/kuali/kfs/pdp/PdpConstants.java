@@ -50,4 +50,9 @@ public class PdpConstants {
 
         public static String DISBURSEMENT_ACTION_EXPIRATION_DAYS = "DISBURSEMENT_ACTION_EXPIRATION_DAYS";
     }
+
+    public static class PaymentStatusCodes {
+        public static String FORMAT = "FORM";
+        public static String OPEN = "OPEN";
+    }
 }

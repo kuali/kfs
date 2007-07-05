@@ -398,7 +398,7 @@
             <forward name="continue"   path="/pdp/format/continue.jsp" />
         </action>
 
-        <action path="/pdp/format" type="org.kuali.module.pdp.action.format.FormatAction" validate="true" input="/pdp/format/selection.jsp" scope="request" name="FormatProcessForm">
+        <action path="/pdp/format" type="org.kuali.module.pdp.action.format.FormatAction" validate="true" input="/pdp/format/selection.jsp" scope="request" name="PdpFormatProcessForm">
             <forward name="cleared"  path="/pdp/format/cleared.jsp"/>
             <forward name="finished" path="/pdp/format/finished.jsp"/>
             <forward name="error"    path="/pdp/format/error.jsp"/>

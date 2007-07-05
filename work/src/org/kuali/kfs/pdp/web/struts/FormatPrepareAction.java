@@ -96,14 +96,14 @@ public class FormatPrepareAction extends BaseAction {
     if ( results.size() == 0 ) {
       return mapping.findForward("no_payments");
     }
-    
+
     // Get the first one to get the process ID out of it
     FormatResult fr = (FormatResult)results.get(0);
 
     FormatProcessForm fpf = new FormatProcessForm();
     fpf.setProcId(fr.getProcId());
     fpf.setCampusCd(campus);
-    request.setAttribute("FormatProcessForm",fpf);
+    request.setAttribute("PdpFormatProcessForm",fpf);
 
     int count = 0;
     BigDecimal amount = new BigDecimal(0);
@@ -123,5 +123,4 @@ public class FormatPrepareAction extends BaseAction {
 
     return mapping.findForward("continue");
   }
-
 }

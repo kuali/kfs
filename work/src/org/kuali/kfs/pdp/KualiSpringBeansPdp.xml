@@ -68,7 +68,9 @@
 		<property name="universalUserService" ref="universalUserService" />
 	</bean>
 	<bean id="pdpFormatExtractDao" class="org.kuali.module.pdp.dao.ojb.FormatExtractDaoOjb"/>
-	<bean id="pdpFormatPaymentDao" class="org.kuali.module.pdp.dao.jdbc.FormatPaymentDaoJdbc"/>
+	<bean id="pdpFormatPaymentDao" parent="platformAwareDao" class="org.kuali.module.pdp.dao.ojb.FormatPaymentDaoOjb">
+		<property name="referenceService" ref="pdpReferenceService" />
+	</bean>
 	<bean id="pdpFormatProcessDao" parent="platformAwareDao" class="org.kuali.module.pdp.dao.ojb.FormatProcessDaoOjb"/>
 	<bean id="pdpGlPendingTransactionDao" parent="platformAwareDao" class="org.kuali.module.pdp.dao.ojb.GlPendingTransactionDaoOjb"/>
 	<bean id="pdpPaymentDetailDao" parent="platformAwareDao" class="org.kuali.module.pdp.dao.ojb.PaymentDetailDaoOjb">

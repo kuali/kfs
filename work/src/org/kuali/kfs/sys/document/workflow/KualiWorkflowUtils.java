@@ -91,8 +91,8 @@ public class KualiWorkflowUtils extends WorkflowUtils {
     public static final String SIMPLE_MAINTENANCE_DOC_TYPE = "KualiSimpleMaintenanceDocument";
     public static final String SUB_OBJECT_CODE_CHANGE_DOC_TYPE = "SubObjCdGlobalMaintenanceDocument";
     public static final String ORG_REVERSION_CHANGE_DOC_TYPE = "OrganizationReversionGlobalMaintenanceDocument";
-    public static final String C_G_AWARD_DOC_TYPE = "KualiResearchAdminPostAwardMaintenanceDocument";
-    public static final String C_G_PROPOSAL_DOC_TYPE = "KualiProposalMaintenanceDocument";
+    public static final String C_G_AWARD_DOC_TYPE = "AwardMaintenanceDocument";
+    public static final String C_G_PROPOSAL_DOC_TYPE = "ProposalMaintenanceDocument";
     public static final String USER_DOC_TYPE = "UniversalUserMaintenanceDocument";
 	public static final String ACCOUNTS_PAYABLE_CREDIT_MEMO_DOCUMENT_TYPE = PurapConstants.CREDIT_MEMO_DOCUMENT;
     public static final String ACCOUNTS_PAYABLE_PAYMENT_REQUEST_DOCUMENT_TYPE = PurapConstants.PAYMENT_REQUEST_DOCUMENT;

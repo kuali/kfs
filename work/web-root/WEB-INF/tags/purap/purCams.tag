@@ -22,7 +22,12 @@
 
 <c:set var="currentTabIndex" value="${KualiForm.currentTabIndex}" scope="request" />
 <c:set var="topLevelTabIndex" value="${KualiForm.currentTabIndex}" scope="request" />
-<c:set var="currentTab" value="${KualiForm.tabStateJstl}" />
+<c:set var="tabKey" value="${kfunc:generateTabKey(tabTitle)}"/>
+<!--  hit form method to increment tab index -->
+<c:set var="dummyIncrementer" value="${kfunc:incrementTabIndex(KualiForm, tabKey)}" />
+
+<c:set var="currentTab" value="${kfunc:getTabState(KualiForm, tabKey)}"/>
+
 <c:set var="amendmentEntry" value="${(not empty KualiForm.editingMode['amendmentEntry'])}" />
 
 <%-- default to closed --%>
@@ -31,27 +36,27 @@
         <c:set var="isOpen" value="false" />
     </c:when>
     <c:when test="${!empty currentTab}">
-        <c:set var="isOpen" value="${currentTab.open}" />
+        <c:set var="isOpen" value="${currentTab == 'OPEN'}" />
     </c:when>
 </c:choose>
 
-<html:hidden property="tabState[${currentTabIndex}].open" value="${isOpen}" />
+<html:hidden property="tabState(${tabKey})" value="${isOpen}" />
 
 <table cellpadding="0" cellspacing="0" class="datatable" >
     <tr>
         <td colspan="4" class="subhead">
             <span class="subhead-left">CAMS Detail
                 <c:if test="${isOpen == 'true' || isOpen == 'TRUE'}">
-                    <html:image property="methodToCall.toggleTab.tab${currentTabIndex}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-hide.gif" alt="hide" title="toggle" styleClass="tinybutton" styleId="tab-${currentTabIndex}-imageToggle" onclick="javascript: return toggleTab(document, ${currentTabIndex}); " />
+                    <html:image property="methodToCall.toggleTab.tab${tabKey}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-hide.gif" alt="hide" title="toggle" styleClass="tinybutton" styleId="tab-${tabKey}-imageToggle" onclick="javascript: return toggleTab(document, ${tabKey}); " />
                 </c:if>
                 <c:if test="${isOpen != 'true' && isOpen != 'TRUE'}">
-                    <html:image property="methodToCall.toggleTab.tab${currentTabIndex}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-show.gif" alt="show" title="toggle" styleClass="tinybutton" styleId="tab-${currentTabIndex}-imageToggle" onclick="javascript: return toggleTab(document, ${currentTabIndex}); " />
+                    <html:image property="methodToCall.toggleTab.tab${tabKey}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-show.gif" alt="show" title="toggle" styleClass="tinybutton" styleId="tab-${tabKey}-imageToggle" onclick="javascript: return toggleTab(document, ${tabKey}); " />
                 </c:if>
             </span>
         </td>
     </tr>
 <c:if test="${isOpen != 'true' && isOpen != 'TRUE'}">
-    <tbody style="display: none;" id="tab-${currentTabIndex}-div">
+    <tbody style="display: none;" id="tab-${tabKey}-div">
 </c:if>
 
     <tr>

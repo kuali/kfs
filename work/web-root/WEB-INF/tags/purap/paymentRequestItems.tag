@@ -50,7 +50,11 @@
 	<c:if test="${itemLine.itemType.itemTypeAboveTheLineIndicator == true}">
 		<c:set var="currentTabIndex" value="${KualiForm.currentTabIndex}" scope="request" />
 		<c:set var="topLevelTabIndex" value="${KualiForm.currentTabIndex}" scope="request" />
-		<c:set var="currentTab" value="${KualiForm.tabStateJstl}" />
+        <c:set var="tabKey" value="${kfunc:generateTabKey(tabTitle)}"/>
+        <!--  hit form method to increment tab index -->
+        <c:set var="dummyIncrementer" value="${kfunc:incrementTabIndex(KualiForm, tabKey)}" />
+
+        <c:set var="currentTab" value="${kfunc:getTabState(KualiForm, tabKey)}"/>
 
 		<%-- default to closed --%>
 		<c:choose>
@@ -58,11 +62,11 @@
 			<c:set var="isOpen" value="false" />
 		</c:when>
 		<c:when test="${!empty currentTab}">
-			<c:set var="isOpen" value="${currentTab.open}" />
+			<c:set var="isOpen" value="${currentTab == 'OPEN'}" />
 		</c:when>
 		</c:choose>
 
-		<html:hidden property="tabState[${currentTabIndex}].open" value="${isOpen}" />
+		<html:hidden property="tabState(${tabKey})" value="${isOpen}" />
 
 		<tr>
 			<td class="infoline" nowrap="nowrap">

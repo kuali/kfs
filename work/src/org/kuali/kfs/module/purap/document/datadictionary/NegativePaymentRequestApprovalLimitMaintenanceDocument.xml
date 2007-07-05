@@ -33,7 +33,7 @@
         </authorizations>
 
         <documentTypeName>KualiNegativePaymentRequestApprovalLimitMaintenanceDocument</documentTypeName>
-        <documentTypeCode>NPAL</documentTypeCode>
+        <documentTypeCode>PMNP</documentTypeCode>
 
         <label>Negative Payment Request Approval Limit Maintenance Document</label>
         <shortLabel>Negative PREQ Approval Limit Maint Doc</shortLabel>

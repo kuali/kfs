@@ -56,6 +56,8 @@
                     forceRequired="true"
                     />
                 <td>
+                <c:choose>
+                    <c:when test="${empty KualiForm.emplid}">
                         <ld:employee userIdFieldName="emplid" 
                                   userNameFieldName="user.personName" 
                                   fieldConversions="personPayrollIdentifier:emplid"
@@ -70,7 +72,9 @@
                                     altText="${field.fieldHelpSummary}" />      
                             </jsp:attribute>
                         </ld:employee>
- 
+                    </c:when>
+                    <c:otherwise>${KualiForm.emplid}</c:otherwise>
+                </c:choose>
                 </td>
               </tr>
 	            

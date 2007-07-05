@@ -35,10 +35,10 @@
 		<documentTypeName>KualiLaborObjectMaintenanceDocument</documentTypeName>
 		<documentTypeCode>LOBJ</documentTypeCode>
 
-		<label>Labor Object Maintenance Document</label>
+		<label>Labor Object Code Maintenance Document</label>
 		<shortLabel>Lab Obj Maint Doc</shortLabel>
 		
-		<summary>Labor Object Maintenance Document</summary>
+		<summary>Labor Object Code Maintenance Document</summary>
 		<description>Document used to create or update Labor objects</description>
         <help securityGroupName="Kuali.Other.Help" parameterName="OTHER_HELP_LABOR_OBJECT" />
 

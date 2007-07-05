@@ -29,7 +29,11 @@
 <c:set var="baAttributes" value="${DataDictionary.BudgetAdjustmentSourceAccountingLine.attributes}" />
 
 <c:set var="currentTabIndex" value="${KualiForm.currentTabIndex}"/>
-<c:set var="currentTab" value="${KualiForm.tabStateJstl}"/>
+<c:set var="tabKey" value="${kfunc:generateTabKey(tabTitle)}"/>
+<!--  hit form method to increment tab index -->
+<c:set var="dummyIncrementer" value="${kfunc:incrementTabIndex(KualiForm, tabKey)}" />
+
+<c:set var="currentTab" value="${kfunc:getTabState(KualiForm, tabKey)}"/>
 
 <%-- default to closed --%>
 <c:choose>
@@ -37,12 +41,12 @@
         <c:set var="isOpen" value="false" />
     </c:when>
     <c:when test="${!empty currentTab}" >
-        <c:set var="isOpen" value="${currentTab.open}" />
+        <c:set var="isOpen" value="${currentTab == 'OPEN'}" />
     </c:when>
 </c:choose>
 
 
-<html:hidden property="tabState[${currentTabIndex}].open" value="${isOpen}" />
+<html:hidden property="tabState(${tabKey})" value="${isOpen}" />
 
 <tr>
     <th>&nbsp;</th>
@@ -51,20 +55,20 @@
             <tr>
                 <td colspan="4" class="tab-subhead" style="border-right: none;">Monthly Lines 
                   <c:if test="${isOpen == 'true' || isOpen == 'TRUE'}">
-                    <html:image property="methodToCall.toggleTab.tab${currentTabIndex}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-hide.gif" alt="hide" title="toggle" styleClass="tinybutton"  styleId="tab-${currentTabIndex}-imageToggle" onclick="javascript: return toggleTab(document, ${currentTabIndex}); " />
+                    <html:image property="methodToCall.toggleTab.tab${tabKey}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-hide.gif" alt="hide" title="toggle" styleClass="tinybutton"  styleId="tab-${tabKey}-imageToggle" onclick="javascript: return toggleTab(document, ${tabKey}); " />
                  </c:if>
                  <c:if test="${isOpen != 'true' && isOpen != 'TRUE'}">
-                   <html:image  property="methodToCall.toggleTab.tab${currentTabIndex}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-show.gif" alt="show" title="toggle" styleClass="tinybutton" styleId="tab-${currentTabIndex}-imageToggle" onclick="javascript: return toggleTab(document, ${currentTabIndex}); " />
+                   <html:image  property="methodToCall.toggleTab.tab${tabKey}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-show.gif" alt="show" title="toggle" styleClass="tinybutton" styleId="tab-${tabKey}-imageToggle" onclick="javascript: return toggleTab(document, ${tabKey}); " />
                  </c:if>
                 </td>
             </tr>
         </table>    
             
         <c:if test="${isOpen == 'true' || isOpen == 'TRUE'}">
-            <div style="display: block;" id="tab-${currentTabIndex}-div">
+            <div style="display: block;" id="tab-${tabKey}-div">
         </c:if>
         <c:if test="${isOpen != 'true' && isOpen != 'TRUE'}" >
-            <div style="display: none;" id="tab-${currentTabIndex}-div">
+            <div style="display: none;" id="tab-${tabKey}-div">
         </c:if>
 
         <c:if test="${!empty baselineAccountingLine}">

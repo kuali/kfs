@@ -189,32 +189,28 @@
             <attributeReference name="award.proposalNumber"  sourceClassName="org.kuali.module.cg.bo.Award" sourceAttributeName="proposalNumber">
                 <label>Link to Award</label>
                 <shortLabel>Award Link</shortLabel>
+                <description>Mechanism to access award data associated with an existing proposal.</description>
             </attributeReference>
             
             <attributeReference name="proposalOrganizations.organization.organizationCode" sourceClassName="org.kuali.module.chart.bo.Org" sourceAttributeName="organizationCode">
 				<label>Organization Code</label>
 				<shortLabel>Org Cd</shortLabel>
 				<summary>Organization Code</summary>
-   				<description>Insert desc here...</description>
+   				<description>Code used to represent an institutional organization, department, unit or center.</description>
             </attributeReference>
 
             <attributeReference name="proposalSubcontractors.subcontractor.subcontractorNumber" sourceClassName="org.kuali.module.cg.bo.Subcontractor" sourceAttributeName="subcontractorNumber">
 				<label>Subcontractor Number</label>
 				<shortLabel>Subcontr Num</shortLabel>
 				<summary>Proposal Subcontractor Number</summary>
-                <description>
-					The number which corresponds to the Subcontractor Name.  It is expressed as 5-digit numeric text, including leading zeros.
-					When creating a new Subcontractor in the database, this number is automatically assigned by the system.  When adding an existing
-					Subcontractor to a Proposal or Award, the user may search for the subcontractor using the search icon, or may manually enter the
-					Subcontractor Number into the field.
-				</description>
+                <description>Unique numeric identifier which is associated with a specific subcontractor.</description>
             </attributeReference>
 			
             <attributeReference name="proposalProjectDirectors.projectDirector.personUniversalIdentifier" sourceClassName="org.kuali.module.cg.bo.ProjectDirector" sourceAttributeName="personUniversalIdentifier">
 				<label>Project Director ID</label>
 				<shortLabel>Proj Dir ID</shortLabel>
 				<summary>Proposal Project Director ID</summary>
-   				<description>Insert desc here...</description>
+   				<description>Kuali user ID of the Project Director associated with a particular proposal.</description>
             </attributeReference>
 
             <attributeReference name="lookupPersonUniversalIdentifier" sourceClassName="org.kuali.core.bo.user.UniversalUser" sourceAttributeName="personUniversalIdentifier">
@@ -225,6 +221,7 @@
                 <control>
                     <hidden />
                 </control>
+                <description>Universal User ID of the Project Director.</description>
             </attributeReference>
 
             <attributeReference name="lookupUniversalUser.personUserIdentifier" sourceClassName="org.kuali.core.bo.user.UniversalUser" sourceAttributeName="personUserIdentifier">
@@ -234,7 +231,7 @@
                     <kualiUser universalIdAttributeName="lookupPersonUniversalIdentifier" userIdAttributeName="lookupUniversalUser.personUserIdentifier" personNameAttributeName="lookupUniversalUser.personName" />
                 </control>
 				<summary>Project Director User ID</summary>
-   				<description>Insert desc here...</description>
+   				<description>Kuali user ID of the Project Director associated with a particular proposal.</description>
             </attributeReference>
 
             <attributeReference name="lookupUniversalUser.personName" sourceClassName="org.kuali.core.bo.user.UniversalUser" sourceAttributeName="personName">
@@ -247,28 +244,28 @@
                 <summary>
                     <![CDATA[&nbsp;]]>
                 </summary>
-                <description>The Name of the Project Director.</description>
+                <description>Name of the Project Director.</description>
             </attributeReference>
 
             <attributeReference name="proposal.grantNumber" sourceClassName="org.kuali.module.cg.bo.Proposal" sourceAttributeName="grantNumber">
 				<summary>Grant Number</summary>
-				<description>Insert desc here...</description>
+				<description>Unique number assigned by an external agency for a specific contract or grant which serves as an identifier for a particular proposal.</description>
             </attributeReference>
 
             <attributeReference name="agency.fullName" sourceClassName="org.kuali.module.cg.bo.Agency" sourceAttributeName="fullName">
                 <label>Agency Name</label>
 				<summary>Agency Name</summary>
-				<description>Insert desc here...</description>
+				<description>Official full name of the agency.</description>
             </attributeReference>
 
             <attributeReference name="agencyNumber" sourceClassName="org.kuali.module.cg.bo.Agency" sourceAttributeName="agencyNumber">
 				<summary>Agency Number</summary>
-				<description>Insert desc here...</description>
+				<description>Five-digit unique number which is assigned to an external funding agency.</description>
             </attributeReference>
 
             <attributeReference name="agency.reportingName" sourceClassName="org.kuali.module.cg.bo.Agency" sourceAttributeName="reportingName">
 				<summary>Agency Name</summary>
-				<description>Insert desc here...</description>
+				<description>Official full name of the agency.</description>
             </attributeReference>
 
             <attribute name="cfdaNumber" forceUppercase="true">
@@ -283,7 +280,7 @@
                 </control>
 
                 <summary>CFDA Number</summary>
-                <description>CFDA Number description...</description>
+                <description>Catalog of Federal Domestic Assistance identification code provided by the agency.</description>
 			</attribute>
 
             <attribute name="federalPassThroughAgencyNumber" forceUppercase="true">
@@ -298,12 +295,13 @@
                 </control>
 
                 <summary>Federal Pass Through Agency Number</summary>
-                <description>federalPassThroughAgencyNumber description...</description>
+                <description>Five-digit code that corresponds to the originating agency for any federal pass-through funds for a proposal.</description>
 			</attribute>
 
             <attributeReference name="federalPassThroughAgency.fullName" sourceClassName="org.kuali.module.cg.bo.Agency" sourceAttributeName="fullName">
                 <label>Federal Pass Through Agency Name</label>
                 <shortLabel>FPT Agency Name</shortLabel>
+                <description>Name of a specific federal pass-through agency associated with the proposal.</description>
             </attributeReference>
 
             <attribute name="grantNumber" forceUppercase="true">
@@ -318,7 +316,7 @@
                 </control>
 
                 <summary>Grant Number</summary>
-                <description>grantNumber description...</description>
+                <description>Unique number assigned by an external agency for a specific contract or grant which serves as an identifier for a particular proposal.</description>
 			</attribute>
 
             <attribute name="oldProposalNumber" forceUppercase="true">
@@ -333,7 +331,7 @@
                 </control>
 
                 <summary>Old Proposal Number</summary>
-                <description>oldProposalNumber description...</description>
+                <description>Data associated with an existing proposal number that is being updated/altered.</description>
 			</attribute>
 
             <attributeReference name="proposalAwardTypeCode" sourceClassName="org.kuali.module.cg.bo.ProposalAwardType" sourceAttributeName="proposalAwardTypeCode">
@@ -345,7 +343,7 @@
                 </control>
 
                 <summary>Proposal Award Type Code</summary>
-                <description>proposalAwardTypeCode description...</description>
+                <description>One-letter code to represent the type of proposal. I.E.: N = New.</description>
 			</attributeReference>
 
             <attributeReference name="proposalBeginningDate" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericDate">
@@ -355,7 +353,7 @@
                 <summary>
                     Proposal Beginning Date
                 </summary>
-                <description>proposalBeginningDate description...</description>
+                <description>Date the project is proposed to begin.</description>
 			</attributeReference>
 
             <attributeReference name="proposalClosingDate" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericDate">
@@ -363,7 +361,7 @@
                 <shortLabel>Close</shortLabel>
 
                 <summary>Proposal Closing Date</summary>
-                <description>proposalClosingDate description...</description>
+                <description>Date the system manger closes out business for the month.</description>
 			</attributeReference>
 
             <attributeReference name="proposalDirectCostAmount" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericAmount">
@@ -373,7 +371,7 @@
                 <exclusiveMin>-0.001</exclusiveMin>
 
                 <summary>Proposal Direct Cost Amount</summary>
-                <description>proposalDirectCostAmount description...</description>
+                <description>Estimate of the direct costs that will be charged to the proposed award for a particular funding period.</description>
                 <formatterClass>org.kuali.core.web.format.CurrencyFormatter</formatterClass>
             </attributeReference>
 
@@ -382,7 +380,7 @@
                 <shortLabel>Due</shortLabel>
 
                 <summary>Proposal Due Date</summary>
-                <description>proposalDueDate description...</description>
+                <description>Date the proposal must be received by the agency.</description>
 			</attributeReference>
 
             <attributeReference name="proposalEndingDate" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericDate">
@@ -390,7 +388,7 @@
                 <shortLabel>Stop</shortLabel>
 
                 <summary>Proposal Ending Date</summary>
-                <description>proposalEndingDate description...</description>
+                <description>Date the project is proposed to end.</description>
 			</attributeReference>
 
             <attribute name="proposalFederalPassThroughIndicator" forceUppercase="true">
@@ -404,7 +402,7 @@
                 </control>
 
                 <summary>Proposal Federal Pass Through Indicator</summary>
-                <description>proposalFederalPassThroughIndicator description...</description>
+                <description>Federal agencies that are planning to award money to another agency which in turn awards money to the institution.</description>
 			</attribute>
 
             <attribute name="proposalFellowName" forceUppercase="true">
@@ -419,7 +417,7 @@
                 </control>
 
                 <summary>Proposal Fellow Name</summary>
-                <description>proposalFellowName description...</description>
+                <description>Name of the individual to receive fellowship money associated with the proposal (if applicable).</description>
 			</attribute>
 
             <attributeReference name="proposalIndirectCostAmount" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericAmount">
@@ -429,7 +427,7 @@
                 <exclusiveMin>-0.001</exclusiveMin>
 
                 <summary>Proposal Indirect Cost Amount</summary>
-                <description>proposalIndirectCostAmount description...</description>
+                <description>Amount of indirect costs proposed for a project for a specific funding period.</description>
                 <formatterClass>org.kuali.core.web.format.CurrencyFormatter</formatterClass>
 			</attributeReference>
 
@@ -438,7 +436,7 @@
                 <shortLabel>Update</shortLabel>
 
                 <summary>Proposal Last Update Date</summary>
-                <description>proposalLastUpdateDate description...</description>
+                <description>Date stamp that records the most recently completed proposal document.</description>
 			</attributeReference>
 
             <attribute name="proposalNumber" forceUppercase="true">
@@ -453,7 +451,7 @@
                 </control>
 
                 <summary>Proposal Number</summary>
-                <description>proposalNumber description...</description>
+                <description>System-assigned number that identifies a specific proposal.</description>
 			</attribute>
 
             <attribute name="proposalProjectTitle">
@@ -468,7 +466,7 @@
                 </control>
 
                 <summary>Proposal Project Title</summary>
-                <description>proposalProjectTitle description...</description>
+                <description>Official title of the project.</description>
 			</attribute>
 
             <attributeReference name="proposalPurposeCode" sourceClassName="org.kuali.module.cg.bo.ProposalPurpose" sourceAttributeName="proposalPurposeCode">
@@ -482,7 +480,7 @@
                 <summary>
                     Proposal Purpose Code
                 </summary>
-                <description>A proposal purpose code</description>
+                <description>Code that defines the nature of the research that will be conducted for the proposal.</description>
             </attributeReference>
 
             <attributeReference name="proposalRejectedDate" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericDate">
@@ -490,7 +488,7 @@
                 <shortLabel>Rejected</shortLabel>
 
                 <summary>Proposal Rejected Date</summary>
-                <description>proposalRejectedDate description...</description>
+                <description>Date the agency rejected to proposal (if applicable).</description>
 			</attributeReference>
 
             <attributeReference name="proposalStatusCode" sourceClassName="org.kuali.module.cg.bo.ProposalStatus" sourceAttributeName="proposalStatusCode">
@@ -504,7 +502,7 @@
                 <summary>
                     Proposal Status Code
                 </summary>
-                <description>A proposal status code</description>
+                <description>Maximum two-character code indicating the current standing of a proposal. I.E.: P = Proposal.</description>
             </attributeReference>
 
             <attributeReference name="proposalSubmissionDate" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericDate">
@@ -512,7 +510,7 @@
                 <shortLabel>Submit</shortLabel>
 
                 <summary>Proposal Submission Date</summary>
-                <description>proposalSubmissionDate description...</description>
+                <description>Date the proposal is being submitted to the agency.</description>
 			</attributeReference>
 
             <attributeReference name="proposalTotalAmount" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericAmount">
@@ -522,7 +520,7 @@
                 <exclusiveMin>-0.001</exclusiveMin>
 
                 <summary>Proposal Total Amount</summary>
-                <description>proposalTotalAmount description...</description>
+                <description>System-calculated amount that is the sum of the proposal’s direct costs and indirect costs for a particular funding period.</description>
                 <formatterClass>org.kuali.core.web.format.CurrencyFormatter</formatterClass>
 			</attributeReference>
 
@@ -533,7 +531,7 @@
                 <exclusiveMin>-0.001</exclusiveMin>
                 
                 <summary>Proposal Total Project Amount</summary>
-                <description>proposalTotalProjectAmount description...</description>
+                <description>Amount of entire proposed project.</description>
                 <!--formatterClass>org.kuali.core.web.format.CurrencyFormatter</formatterClass-->
 			</attributeReference>
 
@@ -549,7 +547,7 @@
                 <summary>
                     Proposal Organizations
                 </summary>
-                <description>Proposal Organizations</description>
+                <description>Listing of institutional organizations, departments, units or centers associated with a proposal.</description>
             </collection>
 
             <collection name="proposalProjectDirectors">
@@ -559,7 +557,7 @@
                 <summary>
                     Proposal Project Directors
                 </summary>
-                <description>Proposal Project Directors</description>
+                <description>Listing of project directors and co-project directors associated with a proposal.</description>
             </collection>
 
             <collection name="proposalSubcontractors">
@@ -569,7 +567,7 @@
                 <summary>
                     Proposal Subcontractors
                 </summary>
-                <description>Proposal Subcontractors</description>
+                <description>Listing of subcontractors associated with a proposal.</description>
             </collection>
 
 			<collection name="proposalResearchRisks">
@@ -579,7 +577,7 @@
                 <summary>
                     Proposal Research Risks
                 </summary>
-                <description>Proposal Research Risks</description>
+                <description>Listing of research risks associated with a proposal.</description>
             </collection>
             
         </collections>

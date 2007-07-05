@@ -93,7 +93,7 @@ public class KualiWorkflowUtils extends WorkflowUtils {
     public static final String ORG_REVERSION_CHANGE_DOC_TYPE = "OrganizationReversionGlobalMaintenanceDocument";
     public static final String C_G_AWARD_DOC_TYPE = "KualiResearchAdminPostAwardMaintenanceDocument";
     public static final String C_G_PROPOSAL_DOC_TYPE = "KualiProposalMaintenanceDocument";
-    public static final String USER_DOC_TYPE = "KualiUniversityUserMaintenanceDocument";
+    public static final String USER_DOC_TYPE = "UniversalUserMaintenanceDocument";
 	public static final String ACCOUNTS_PAYABLE_CREDIT_MEMO_DOCUMENT_TYPE = PurapConstants.CREDIT_MEMO_DOCUMENT;
     public static final String ACCOUNTS_PAYABLE_PAYMENT_REQUEST_DOCUMENT_TYPE = PurapConstants.PAYMENT_REQUEST_DOCUMENT;
     public static final String FINANCIAL_DOCUMENT_HEADER_DOCUMENT_NUMBER = xstreamSafeXPath(XSTREAM_MATCH_ANYWHERE_PREFIX + "documentHeader/documentNumber");

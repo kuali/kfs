@@ -80,7 +80,7 @@ public abstract class ResearchDocumentActionBase extends KualiDocumentActionBase
      */
     public ActionForward headerTab(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         
-        ((KualiForm)form).setTabStates(new ArrayList());
+        //((KualiForm)form).setTabStates(new ArrayList());
         
         return super.headerTab(mapping, form, request, response);
     }
@@ -109,7 +109,7 @@ public abstract class ResearchDocumentActionBase extends KualiDocumentActionBase
             researchDocumentForm.getDocument().refreshReferenceObject("documentHeader");
         }
 
-        researchDocumentForm.setTabStates(new ArrayList());
+        //researchDocumentForm.setTabStates(new ArrayList());
         
         return mapping.findForward("notes");
     }

@@ -46,7 +46,7 @@
 </c:choose>
 
 
-<html:hidden property="tabState(${tabKey})" value="${isOpen}" />
+<html:hidden property="tabState(${tabKey})" value="${(isOpen ? 'OPEN' : 'CLOSE')}" />
 
 <tr>
     <th>&nbsp;</th>

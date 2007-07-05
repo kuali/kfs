@@ -36,11 +36,13 @@ import org.kuali.module.labor.bo.AccountStatusCurrentFunds;
 import org.kuali.module.labor.bo.LedgerBalance;
 import org.kuali.module.labor.util.ObjectUtil;
 import org.kuali.test.WithTestSpringContext;
+import org.kuali.test.suite.RelatesTo;
 
 /**
  * This class contains test cases that can be applied to methods in Account Status Current Funds class.
  */
 @WithTestSpringContext
+@RelatesTo(RelatesTo.JiraIssue.KULLAB286)
 public class CurrentFundsLookupableHelperServiceTest extends KualiTestBase {
     private BusinessObjectService businessObjectService;
     private LookupableHelperService lookupableHelperService;

@@ -24,7 +24,8 @@
               description="The name in the form of the baseline accounting line
               from before the most recent edit of this row,
               to put in hidden fields for comparison or reversion." %>
-
+              
+<c:set var="tabTitle" value="Monthly Lines" />
 <c:set var="capitalSourceOrTarget" value="${isSource ? 'Source' : 'Target'}"/>
 <c:set var="baAttributes" value="${DataDictionary.BudgetAdjustmentSourceAccountingLine.attributes}" />
 
@@ -46,7 +47,7 @@
 </c:choose>
 
 
-<html:hidden property="tabState(${tabKey})" value="${(isOpen ? 'OPEN' : 'CLOSE')}" />
+<html:hidden property="tabStates(${tabKey})" value="${(isOpen ? 'OPEN' : 'CLOSE')}" />
 
 <tr>
     <th>&nbsp;</th>

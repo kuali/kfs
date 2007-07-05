@@ -82,7 +82,7 @@
 		</c:when>
 		</c:choose>
 
-		<html:hidden property="tabState(${tabKey})" value="${isOpen}" />
+		<html:hidden property="tabStates(${tabKey})" value="${isOpen}" />
 
 		<tr>
 			<td class="infoline" nowrap="nowrap">

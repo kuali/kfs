@@ -156,7 +156,7 @@
 					</c:when>
 				</c:choose>
 
-				<html:hidden property="tabState(${tabKey})" value="${(isOpen ? 'OPEN' : 'CLOSE')}" />
+				<html:hidden property="tabStates(${tabKey})" value="${(isOpen ? 'OPEN' : 'CLOSE')}" />
 
 				<tr>
 					<td colspan="10" class="tab-subhead" style="border-right: none;">

@@ -66,20 +66,20 @@ public class PurapConstants extends JstlConstants {
                         SEPARAION_OF_DUTIES_REVIEW
                         });
 
-                public static Map<String,String> REQUISITION_STATUS_BY_NODE_NAME = new HashMap<String,String>();
-                public static Map<String,String> REQUISITION_DISAPPROVAL_STATUS_BY_NODE_NAME = new HashMap<String,String>();
+                public static Map<String,String> STATUS_BY_NODE_NAME = new HashMap<String,String>();
+                public static Map<String,String> DISAPPROVAL_STATUS_BY_NODE_NAME = new HashMap<String,String>();
                 static {
-                    REQUISITION_STATUS_BY_NODE_NAME.put(CONTENT_REVIEW, PurapConstants.RequisitionStatuses.AWAIT_CONTENT_APRVL);
-                    REQUISITION_STATUS_BY_NODE_NAME.put(SUB_ACCOUNT_REVIEW, PurapConstants.RequisitionStatuses.AWAIT_SUB_ACCT_APRVL);
-                    REQUISITION_STATUS_BY_NODE_NAME.put(ACCOUNT_REVIEW, PurapConstants.RequisitionStatuses.AWAIT_FISCAL_APRVL);
-                    REQUISITION_STATUS_BY_NODE_NAME.put(ORG_REVIEW, PurapConstants.RequisitionStatuses.AWAIT_CHART_APRVL);
-                    REQUISITION_STATUS_BY_NODE_NAME.put(SEPARAION_OF_DUTIES_REVIEW, PurapConstants.RequisitionStatuses.AWAIT_SEP_OF_DUTY_APRVL);
+                    STATUS_BY_NODE_NAME.put(CONTENT_REVIEW, PurapConstants.RequisitionStatuses.AWAIT_CONTENT_APRVL);
+                    STATUS_BY_NODE_NAME.put(SUB_ACCOUNT_REVIEW, PurapConstants.RequisitionStatuses.AWAIT_SUB_ACCT_APRVL);
+                    STATUS_BY_NODE_NAME.put(ACCOUNT_REVIEW, PurapConstants.RequisitionStatuses.AWAIT_FISCAL_APRVL);
+                    STATUS_BY_NODE_NAME.put(ORG_REVIEW, PurapConstants.RequisitionStatuses.AWAIT_CHART_APRVL);
+                    STATUS_BY_NODE_NAME.put(SEPARAION_OF_DUTIES_REVIEW, PurapConstants.RequisitionStatuses.AWAIT_SEP_OF_DUTY_APRVL);
 
-                    REQUISITION_DISAPPROVAL_STATUS_BY_NODE_NAME.put(CONTENT_REVIEW, PurapConstants.RequisitionStatuses.DAPRVD_CONTENT);
-                    REQUISITION_DISAPPROVAL_STATUS_BY_NODE_NAME.put(SUB_ACCOUNT_REVIEW, PurapConstants.RequisitionStatuses.DAPRVD_SUB_ACCT);
-                    REQUISITION_DISAPPROVAL_STATUS_BY_NODE_NAME.put(ACCOUNT_REVIEW, PurapConstants.RequisitionStatuses.DAPRVD_FISCAL);
-                    REQUISITION_DISAPPROVAL_STATUS_BY_NODE_NAME.put(ORG_REVIEW, PurapConstants.RequisitionStatuses.DAPRVD_CHART);
-                    REQUISITION_DISAPPROVAL_STATUS_BY_NODE_NAME.put(SEPARAION_OF_DUTIES_REVIEW, PurapConstants.RequisitionStatuses.DAPRVD_SEP_OF_DUTY);
+                    DISAPPROVAL_STATUS_BY_NODE_NAME.put(CONTENT_REVIEW, PurapConstants.RequisitionStatuses.DAPRVD_CONTENT);
+                    DISAPPROVAL_STATUS_BY_NODE_NAME.put(SUB_ACCOUNT_REVIEW, PurapConstants.RequisitionStatuses.DAPRVD_SUB_ACCT);
+                    DISAPPROVAL_STATUS_BY_NODE_NAME.put(ACCOUNT_REVIEW, PurapConstants.RequisitionStatuses.DAPRVD_FISCAL);
+                    DISAPPROVAL_STATUS_BY_NODE_NAME.put(ORG_REVIEW, PurapConstants.RequisitionStatuses.DAPRVD_CHART);
+                    DISAPPROVAL_STATUS_BY_NODE_NAME.put(SEPARAION_OF_DUTIES_REVIEW, PurapConstants.RequisitionStatuses.DAPRVD_SEP_OF_DUTY);
                 }
             }
             
@@ -90,6 +90,39 @@ public class PurapConstants extends JstlConstants {
         }
 
         public static class PurchaseOrderDocument {
+
+            public static class NodeDetails {
+                public static final String ADHOC_REVIEW = "Adhoc Routing";
+                public static final String INTERNAL_PURCHASING_REVIEW = "Internal Purchasing Review";
+                public static final String CONTRACTS_AND_GRANTS_REVIEW = "Contracts and Grants Review";
+                public static final String BUDGET_OFFICE_REVIEW = "Budget Office Review";
+                public static final String VENDOR_TAX_REVIEW = "Vendor Tax Review";
+                public static final String DOCUMENT_TRANSMISSION = "Document Transmission";
+
+                public static final List ORDERED_NODE_NAME_LIST = Arrays.asList(new String[] {
+                        ADHOC_REVIEW,
+                        INTERNAL_PURCHASING_REVIEW,
+                        CONTRACTS_AND_GRANTS_REVIEW,
+                        BUDGET_OFFICE_REVIEW,
+                        VENDOR_TAX_REVIEW,
+                        DOCUMENT_TRANSMISSION
+                        });
+
+                public static Map<String,String> STATUS_BY_NODE_NAME = new HashMap<String,String>();
+                public static Map<String,String> DISAPPROVAL_STATUS_BY_NODE_NAME = new HashMap<String,String>();
+                static {
+                    STATUS_BY_NODE_NAME.put(INTERNAL_PURCHASING_REVIEW, PurapConstants.PurchaseOrderStatuses.AWAIT_PURCHASING_APRVL);
+                    STATUS_BY_NODE_NAME.put(CONTRACTS_AND_GRANTS_REVIEW, PurapConstants.PurchaseOrderStatuses.AWAIT_CONTRACTS_GRANTS_APRVL);
+                    STATUS_BY_NODE_NAME.put(BUDGET_OFFICE_REVIEW, PurapConstants.PurchaseOrderStatuses.AWAIT_BUDGET_APRVL);
+                    STATUS_BY_NODE_NAME.put(VENDOR_TAX_REVIEW, PurapConstants.PurchaseOrderStatuses.AWAIT_TAX_APRVL);
+
+                    DISAPPROVAL_STATUS_BY_NODE_NAME.put(INTERNAL_PURCHASING_REVIEW, PurapConstants.PurchaseOrderStatuses.DAPRVD_PURCHASING);
+                    DISAPPROVAL_STATUS_BY_NODE_NAME.put(CONTRACTS_AND_GRANTS_REVIEW, PurapConstants.PurchaseOrderStatuses.DAPRVD_CONTRACTS_GRANTS);
+                    DISAPPROVAL_STATUS_BY_NODE_NAME.put(BUDGET_OFFICE_REVIEW, PurapConstants.PurchaseOrderStatuses.DAPRVD_BUDGET);
+                    DISAPPROVAL_STATUS_BY_NODE_NAME.put(VENDOR_TAX_REVIEW, PurapConstants.PurchaseOrderStatuses.DAPRVD_TAX);
+                }
+            }
+
             public static final String CG_RESTRICTED_OBJECT_CODE_RULE_GROUP_NAME = "PurAp.CG_Restricted_Object_Codes";
             // Workgroups
             public static final String INTERNAL_PURCHASING_WORKGROUP_NAME = PURAP_PARAM_PREFIX + STANDARD_SEPARATOR + "INTERNAL_PURCHASING_REVIEWERS";
@@ -266,7 +299,8 @@ public class PurapConstants extends JstlConstants {
         public static String VOID = "VOID";
         public static String AMENDMENT = "AMND";
         
-        public static Set INCOMPLETE_STATUSES = new HashSet();
+        public static Set<String> INCOMPLETE_STATUSES = new HashSet<String>();
+        public static Map<String,String> STATUSES_BY_TRANSMISSION_TYPE = new HashMap<String,String>();
         static {
             INCOMPLETE_STATUSES.add(AWAIT_TAX_APRVL);
             INCOMPLETE_STATUSES.add(AWAIT_BUDGET_APRVL);
@@ -282,6 +316,10 @@ public class PurapConstants extends JstlConstants {
             INCOMPLETE_STATUSES.add(PENDING_PRINT);
             INCOMPLETE_STATUSES.add(WAITING_FOR_VENDOR);
             INCOMPLETE_STATUSES.add(WAITING_FOR_DEPARTMENT);
+            
+            STATUSES_BY_TRANSMISSION_TYPE.put(PurapConstants.POTransmissionMethods.PRINT, PENDING_PRINT);
+            STATUSES_BY_TRANSMISSION_TYPE.put(PurapConstants.POTransmissionMethods.ELECTRONIC, PENDING_CXML);
+            STATUSES_BY_TRANSMISSION_TYPE.put(PurapConstants.POTransmissionMethods.FAX, PENDING_FAX);
         }
         
     }

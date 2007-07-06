@@ -1045,4 +1045,19 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
 //        return PaymentRequestAccount.class;
 //    }
     
+    /**
+     * USED FOR ROUTING ONLY
+     * @deprecated
+     */
+    public String getStatusDescription() {
+        return "";
+    }
+
+    /**
+     * USED FOR ROUTING ONLY
+     * @deprecated
+     */
+    public void setStatusDescription(String statusDescription) {
+    }
+
 }

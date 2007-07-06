@@ -404,4 +404,20 @@ public class CreditMemoDocument extends AccountsPayableDocumentBase {
     public void setPurchaseOrderEndDate(Date purchaseOrderEndDate) {
         this.purchaseOrderEndDate = purchaseOrderEndDate;
     }
+
+    /**
+     * USED FOR ROUTING ONLY
+     * @deprecated
+     */
+    public String getStatusDescription() {
+        return "";
+    }
+
+    /**
+     * USED FOR ROUTING ONLY
+     * @deprecated
+     */
+    public void setStatusDescription(String statusDescription) {
+    }
+
 }

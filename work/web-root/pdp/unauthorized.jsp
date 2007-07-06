@@ -1,5 +1,5 @@
 <html>
-<link rel="stylesheet" type="text/css"  href="https://docs.onestart.iu.edu/dav/MY/channels/css/styles.css">
+<link rel="stylesheet" type="text/css"  href="<%= request.getContextPath() %>/pdp/css/pdp_styles.css">
 <head>
 <title>Unauthorized</title>
 </head>

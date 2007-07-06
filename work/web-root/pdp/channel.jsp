@@ -22,8 +22,7 @@
 <head>
 <title>PDP Channel</title>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
-<link href="https://docs.onestart.iu.edu/dav/MY/channels/style-channel.css" rel="stylesheet" type="text/css">
-<script language='javascript' src='https://docs.onestart.iu.edu/dav/MY/shared/OneStartGlobal.js'></script>
+<link href="<%= request.getContextPath() %>/pdp/css/style-channel.css" rel="stylesheet" type="text/css">
 </head>
 
 <body bgcolor="#ffffff" marginheight="0" marginwidth="0" topmargin="0" leftmargin="0">
@@ -33,11 +32,11 @@
   </tr>
 
   <tr>
-    <td colspan="3"><img src="https://docs.onestart.iu.edu/dav/MY/channels/images-channelglobal/pixel_clear.gif" width="5" height="5"></td>
+    <td colspan="3"><img src="<%= request.getContextPath() %>/pdp/images/pixel_clear.gif" width="5" height="5"></td>
   </tr>
   <tr>
     <td width="200" valign="top">
-    <img src="https://uisapp2.iu.edu/pdp-prd/images/logo_small.gif" border="0" alt="PDP" hspace="1">
+    <img src="<%= request.getContextPath() %>/pdp/images/logo_small.gif" border="0" alt="PDP" hspace="1">
     <li><span>Hours: Mon-Sat, 6am-9pm</span></li>
   </td>
 <c:if test="${not SecurityRecord.anyRole}">
@@ -58,7 +57,7 @@
       </c:if>
       <c:if test="${SecurityRecord.processRole}">
           <li><portal:portalLink displayTitle="true" title="Format Checks/ACH" url="pdp/formatselection.do" prefix="../" /></li>
-          <li><portal:portalLink displayTitle="true" title="Forumat Summary Review" url="pdp/formatsummary.do" prefix="../" /></li>
+          <li><portal:portalLink displayTitle="true" title="Format Summary Review" url="pdp/formatsummary.do" prefix="../" /></li>
       </c:if>
     </ul>
   </td>
@@ -68,22 +67,13 @@
     <ul>
     <b>Support</b>
       <c:if test="${SecurityRecord.rangesRole}">
-          <li><portal:portalLink displayTitle="true" title="Disbursement Ragne Maintenance" url="pdp/disbursementmaint.do" prefix="../" /></li>
+          <li><portal:portalLink displayTitle="true" title="Disbursement Range Maintenance" url="pdp/disbursementmaint.do" prefix="../" /></li>
       </c:if>
       <c:if test="${SecurityRecord.sysAdminRole}">
           <li><portal:portalLink displayTitle="true" title="Bank Maintenance" url="pdp/bank.do" prefix="../" /></li>
           <li><portal:portalLink displayTitle="true" title="Customer Profile Maintenance" url="pdp/customerprofile.do" prefix="../" /></li>
       </c:if>
     </ul>
-    <!--<ul>
-    <b>Training</b>
-        <li>
-    </ul>
-    <ul>
-    <b>Other</b>
-    <li><a href="javascript:focusInOnUrl('yourlink.html')">Frequently Asked Questions</a> </li>
-    <li><a href="javascript:focusInOnUrl('yourlink.html')">Current Announcements</a></li>
-    </ul> -->
     </td>
 </c:if>
   </tr>

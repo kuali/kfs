@@ -18,7 +18,7 @@
 <%@page import="java.util.List,org.kuali.module.pdp.bo.PaymentDetail,org.kuali.module.pdp.bo.PaymentGroup" %>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html:html locale="true">
-<link rel="stylesheet" type="text/css"  href="https://docs.onestart.iu.edu/dav/MY/channels/css/styles.css">
+<link rel="stylesheet" type="text/css"  href="<%= request.getContextPath() %>/pdp/css/pdp_styles.css">
   <head>
     <html:base />
     <title>Payment Details</title>

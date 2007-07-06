@@ -17,7 +17,7 @@
 <%@ taglib uri="/WEB-INF/app.tld" prefix="app" %>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html:html locale="true">
-<link rel="stylesheet" type="text/css"  href="https://docs.onestart.iu.edu/dav/MY/channels/css/styles.css">
+<link rel="stylesheet" type="text/css"  href="<%= request.getContextPath() %>/pdp/css/pdp_styles.css">
   <head><title>Authentication Error</title></head>
   <body>
   	<h1><strong>Authentication Error</strong></h1>

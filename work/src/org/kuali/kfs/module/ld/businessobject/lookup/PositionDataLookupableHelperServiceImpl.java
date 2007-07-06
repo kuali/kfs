@@ -29,6 +29,7 @@ import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.module.gl.bo.Entry;
 import org.kuali.module.gl.web.inquirable.EntryInquirableImpl;
 import org.kuali.module.gl.web.inquirable.InquirableFinancialDocument;
+import org.kuali.module.labor.web.inquirable.PositionDataDetailsInquirableImpl;
 import org.kuali.module.labor.web.inquirable.PositionDataInquirableImpl;
 
 /**
@@ -42,9 +43,9 @@ public class PositionDataLookupableHelperServiceImpl extends AbstractLookupableH
     @Override
     public String getInquiryUrl(BusinessObject businessObject, String propertyName) {
         if (KFSPropertyConstants.POSITION_IDENTIFIER_SEQUENCE.equals(propertyName)) {
-            return (new PositionDataInquirableImpl()).getInquiryUrl(businessObject, propertyName);
+            return (new PositionDataDetailsInquirableImpl()).getInquiryUrl(businessObject, propertyName);
         }
-        return (new EntryInquirableImpl()).getInquiryUrl(businessObject, propertyName);
+        return (new PositionDataInquirableImpl()).getInquiryUrl(businessObject, propertyName);
     }
 
     /**

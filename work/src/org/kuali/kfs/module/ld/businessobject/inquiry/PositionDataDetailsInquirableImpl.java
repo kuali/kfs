@@ -23,37 +23,36 @@ import java.util.Properties;
 
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSPropertyConstants;
-import org.kuali.module.gl.GLConstants;
-import org.kuali.module.gl.web.Constant;
 import org.kuali.module.labor.bo.PositionData;
-import org.kuali.module.labor.bo.PositionFunding;
 
-public class PositionDataInquirableImpl extends AbstractLaborInquirableImpl {
+public class PositionDataDetailsInquirableImpl extends AbstractLaborInquirableImpl {
 
     @Override
     protected void addMoreParameters(Properties parameter, String attributeName) {
+        parameter.put(KFSConstants.DISPATCH_REQUEST_PARAMETER, KFSConstants.START_METHOD);
     }
 
     @Override
     protected List buildUserDefinedAttributeKeyList() {
         List keys = new ArrayList();
-        keys.add(KFSPropertyConstants.POSITION_NUMBER);
+        keys.add(KFSPropertyConstants.POSITION_IDENTIFIER_SEQUENCE);
+
         return keys;
     }
 
     @Override
     protected String getAttributeName(String attributeName) {
-        return attributeName;
+        return KFSPropertyConstants.POSITION_IDENTIFIER_SEQUENCE;
     }
 
     @Override
     protected String getBaseUrl() {
-        return KFSConstants.GL_MODIFIED_INQUIRY_ACTION;
+        return KFSConstants.INQUIRY_ACTION;
     }
 
     @Override
     protected Class getInquiryBusinessObjectClass(String attributeName) {
-        return PositionFunding.class;
+        return PositionData.class;
     }
 
     @Override
@@ -74,7 +73,7 @@ public class PositionDataInquirableImpl extends AbstractLaborInquirableImpl {
     @Override
     protected Map getUserDefinedAttributeMap() {
         Map userDefinedAttributeMap = new HashMap();
-        userDefinedAttributeMap.put(GLConstants.DummyBusinessObject.LINK_BUTTON_OPTION, "");
+        userDefinedAttributeMap.put(KFSPropertyConstants.POSITION_IDENTIFIER_SEQUENCE, KFSPropertyConstants.POSITION_IDENTIFIER_SEQUENCE);
         
         return userDefinedAttributeMap;
     }

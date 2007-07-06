@@ -46,7 +46,7 @@
                 <kul:htmlControlAttribute attributeEntry="${vendorQuoteAttributes.vendorHeaderGeneratedIdentifier}" property="document.purchaseOrderVendorQuote[${ctr}].vendorDetailAssignedIdentifier" readOnly="true" />
             </td>
             <td rowspan="9">
-            	<c:if test="${isPurchaseOrderAwarded}">
+            	<c:if test="${!isPurchaseOrderAwarded}">
             	<html:image
 	property="methodToCall.deleteVendor.line${ctr}"
 	src="${ConfigProperties.kr.externalizable.images.url}tinybutton-delete1.gif"

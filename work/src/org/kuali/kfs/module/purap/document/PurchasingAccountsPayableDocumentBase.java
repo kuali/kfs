@@ -116,12 +116,28 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
      */
     @Override
     public void populateDocumentForRouting() {
-// TODO delyea - FIX THIS
-//        refreshAllReferences();
+        /* refreshAllReferences needed below to update status reference object for 
+         * document search results display of status description
+         */
+        refreshAllReferences();
         refreshAccountSummary();
         super.populateDocumentForRouting();
     }
 
+    protected void logAndThrowRuntimeException(String errorMessage) {
+        this.logAndThrowRuntimeException(errorMessage, null);
+    }
+    
+    protected void logAndThrowRuntimeException(String errorMessage, Exception e) {
+        if (ObjectUtils.isNotNull(e)) {
+            LOG.error(errorMessage,e);
+            throw new RuntimeException(errorMessage,e);
+        } else {
+            LOG.error(errorMessage);
+            throw new RuntimeException(errorMessage);
+        }
+    }
+    
     @Override
     public KualiDecimal getTotalDollarAmount() {
         return getTotalDollarAmountAllItems();
@@ -209,8 +225,7 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
                 noteService.save(note);
             }
             catch (Exception e) {
-                LOG.error("Unable to create or save status history note " + e.getMessage());
-                throw new RuntimeException("Unable to create or save status history note " + e.getMessage());
+                logAndThrowRuntimeException("Unable to create or save status history note " + e.getMessage(), e);
             }
         }
     }
@@ -424,13 +439,13 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
                 getItems().add(getItemClass().newInstance());
             }
             catch (InstantiationException e) {
-                throw new RuntimeException("Unable to get class");
+                logAndThrowRuntimeException("Unable to instantiate class", e);
             }
             catch (IllegalAccessException e) {
-                throw new RuntimeException("Unable to get class");
+                logAndThrowRuntimeException("Unable to get class", e);
             }
             catch (NullPointerException e) {
-                throw new RuntimeException("Can't instantiate Purchasing Item from base");
+                logAndThrowRuntimeException("Can't instantiate Purchasing Item from base", e);
             }
         }
         return (PurchasingApItem) items.get(pos);

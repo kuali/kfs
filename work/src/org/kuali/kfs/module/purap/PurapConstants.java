@@ -15,13 +15,17 @@
  */
 package org.kuali.module.purap;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
 import org.kuali.Constants;
 import org.kuali.core.JstlConstants;
+
+import edu.iu.uis.eden.export.ExportFormat;
 
 /**
  * Holds constants for PURAP.
@@ -46,11 +50,21 @@ public class PurapConstants extends JstlConstants {
         public static class RequisitionDocument {
             // Node Names
             public static class NodeDetails {
-                public static final String CONTENT_REVIEW = "";
-                public static final String SUB_ACCOUNT_REVIEW = "";
-                public static final String ACCOUNT_REVIEW = "";
-                public static final String ORG_REVIEW = "";
-                public static final String SEPARAION_OF_DUTIES_REVIEW = "";
+                public static final String ADHOC_REVIEW = "Adhoc Routing";
+                public static final String CONTENT_REVIEW = "Content Review";
+                public static final String SUB_ACCOUNT_REVIEW = "Sub Account Review";
+                public static final String ACCOUNT_REVIEW = "Account Review";
+                public static final String ORG_REVIEW = "Org Review";
+                public static final String SEPARAION_OF_DUTIES_REVIEW = "Separation of Duties";
+
+                public static final List ORDERED_NODE_NAME_LIST = Arrays.asList(new String[] {
+                        ADHOC_REVIEW,
+                        CONTENT_REVIEW,
+                        SUB_ACCOUNT_REVIEW,
+                        ACCOUNT_REVIEW,
+                        ORG_REVIEW,
+                        SEPARAION_OF_DUTIES_REVIEW
+                        });
 
                 public static Map<String,String> REQUISITION_STATUS_BY_NODE_NAME = new HashMap<String,String>();
                 public static Map<String,String> REQUISITION_DISAPPROVAL_STATUS_BY_NODE_NAME = new HashMap<String,String>();
@@ -66,7 +80,7 @@ public class PurapConstants extends JstlConstants {
                     REQUISITION_DISAPPROVAL_STATUS_BY_NODE_NAME.put(ACCOUNT_REVIEW, PurapConstants.RequisitionStatuses.DAPRVD_FISCAL);
                     REQUISITION_DISAPPROVAL_STATUS_BY_NODE_NAME.put(ORG_REVIEW, PurapConstants.RequisitionStatuses.DAPRVD_CHART);
                     REQUISITION_DISAPPROVAL_STATUS_BY_NODE_NAME.put(SEPARAION_OF_DUTIES_REVIEW, PurapConstants.RequisitionStatuses.DAPRVD_SEP_OF_DUTY);
-}
+                }
             }
             
             public static final String SEPARATION_OF_DUTIES_DOLLAR_AMOUNT = PURAP_PARAM_PREFIX + STANDARD_SEPARATOR + "SEPARATION_OF_DUTIES_DOLLAR_AMOUNT";
@@ -133,7 +147,7 @@ public class PurapConstants extends JstlConstants {
         public static final String WORKGROUP_PURCHASING = "PURAP.WORKGROUP.PURCHASING";
         public static final String WORKGROUP_TAXNBR_ACCESSIBLE = "PURAP.WORKGROUP.TAXNBR_ACCESSIBLE";
         
-        public static final String SEARCH_SPECIAL_ACCESS = PURAP_PARAM_PREFIX + STANDARD_SEPARATOR + "SEARCH_SPECIAL_ACCESS";
+        public static final String SEARCH_SPECIAL_ACCESS = "WORKGROUP" + STANDARD_SEPARATOR + "SEARCH_SPECIAL_ACCESS";
     }
 
     public static final String NOTE_TAB_WARNING = "noteWarning";

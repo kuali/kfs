@@ -18,9 +18,13 @@ package org.kuali.module.purap.service;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.module.purap.document.RequisitionDocument;
 
+import edu.iu.uis.eden.exception.WorkflowException;
+
 public interface RequisitionService {
 
     public void save(RequisitionDocument requisitionDocument);
+
+    public void saveWithWorkflowDocumentUpdate(RequisitionDocument requisitionDocument) throws WorkflowException;
 
     public RequisitionDocument getRequisitionById(Integer id);
 

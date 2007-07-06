@@ -104,11 +104,6 @@ public abstract class PurApDocumentSearchGenerator extends StandardDocumentSearc
         return docSearchCriteriaVO;
     }
 
-    // TODO delyea - delete this when KEW Jar updated
-    protected void addErrorMessageToList(List<WorkflowServiceError> errors, String message) {
-        errors.add(new WorkflowServiceErrorImpl(message,"general.message",message));
-    }
-
     /**
      * @see edu.iu.uis.eden.docsearch.StandardDocumentSearchGenerator#performPreSearchConditions(edu.iu.uis.eden.user.WorkflowUser, edu.iu.uis.eden.docsearch.DocSearchCriteriaVO)
      */

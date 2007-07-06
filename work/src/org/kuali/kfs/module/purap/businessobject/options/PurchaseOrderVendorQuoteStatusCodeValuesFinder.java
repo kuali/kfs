@@ -20,7 +20,10 @@ import java.util.List;
 
 import org.kuali.core.lookup.keyvalues.KeyValuesBase;
 import org.kuali.core.web.ui.KeyLabelPair;
+import org.kuali.kfs.KFSConstants;
+import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.purap.PurapConstants;
+import org.kuali.module.purap.bo.PurchaseOrderQuoteStatus;
 
 /**
  * This class returns list of ba fund restriction levels.
@@ -34,22 +37,12 @@ public class PurchaseOrderVendorQuoteStatusCodeValuesFinder extends KeyValuesBas
      */
     public List getKeyValues() {
         List keyValues = new ArrayList();
-        keyValues.add(new KeyLabelPair("", ""));
-        keyValues.add(new KeyLabelPair(PurapConstants.QuoteStatusCode.DELV, "Delivery"));
-        keyValues.add(new KeyLabelPair(PurapConstants.QuoteStatusCode.FUIP, "Follow up in Progress"));
-        keyValues.add(new KeyLabelPair(PurapConstants.QuoteStatusCode.IIQ, "Incorrect Items Quoted"));
-        keyValues.add(new KeyLabelPair(PurapConstants.QuoteStatusCode.LEXP, "Lack of Exprience"));
-        keyValues.add(new KeyLabelPair(PurapConstants.QuoteStatusCode.MULT, "Multiple Award"));
-        keyValues.add(new KeyLabelPair(PurapConstants.QuoteStatusCode.NORS, "No Response"));
-        keyValues.add(new KeyLabelPair(PurapConstants.QuoteStatusCode.PTFE, "Payment Terms - Freight"));
-        keyValues.add(new KeyLabelPair(PurapConstants.QuoteStatusCode.RECV, "Received"));
-        keyValues.add(new KeyLabelPair(PurapConstants.QuoteStatusCode.RIR, "Received - Incomplete Response"));
-        keyValues.add(new KeyLabelPair(PurapConstants.QuoteStatusCode.RECL, "Received - Low Bid"));
-        keyValues.add(new KeyLabelPair(PurapConstants.QuoteStatusCode.RNLB, "Received - Not Low Bid - Competitive"));
-        keyValues.add(new KeyLabelPair(PurapConstants.QuoteStatusCode.RNLN, "Received - Not Low Bid - Not Competitive"));
-        keyValues.add(new KeyLabelPair(PurapConstants.QuoteStatusCode.NOBD, "Responded - No Bid"));
-        keyValues.add(new KeyLabelPair(PurapConstants.QuoteStatusCode.SQNA, "Substitutions Quoted - Not Acceptable"));
-        keyValues.add(new KeyLabelPair(PurapConstants.QuoteStatusCode.TINC, "Technically Incompatible"));
+        keyValues.add(new KeyLabelPair(KFSConstants.EMPTY_STRING, KFSConstants.EMPTY_STRING));
+
+        ArrayList<PurchaseOrderQuoteStatus> poQuoteStatuses = SpringServiceLocator.getPurchaseOrderService().getPurchaseOrderQuoteStatusCodes();
+        for (PurchaseOrderQuoteStatus status : poQuoteStatuses) {
+            keyValues.add(new KeyLabelPair(status.getPurchaseOrderQuoteStatusCode(), status.getPurchaseOrderQuoteStatusDescription()));
+        }
 
         return keyValues;
     }

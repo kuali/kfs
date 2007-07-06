@@ -17,6 +17,7 @@ package org.kuali.module.purap.web.struts.action;
 
 import java.io.ByteArrayOutputStream;
 import java.sql.Date;
+import java.util.Collection;
 import java.util.List;
 
 import javax.servlet.ServletOutputStream;
@@ -739,8 +740,8 @@ public class PurchaseOrderAction extends PurchasingActionBase {
     public ActionForward printQuoteList(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         PurchaseOrderForm poForm = (PurchaseOrderForm) form;
         PurchaseOrderDocument document = (PurchaseOrderDocument) poForm.getDocument();
-//        SpringServiceLocator.getPrintService().generatePurchaseOrderQuotePdf(po, povq, byteArrayOutputStream, environment)
-        document.setStatusCode(PurapConstants.PurchaseOrderStatuses.CANCELLED);
+        ByteArrayOutputStream baosPDF = new ByteArrayOutputStream();
+        Collection<String> generatePDFErrors = SpringServiceLocator.getPrintService().generatePurchaseOrderQuoteRequestsListPdf(document, baosPDF);
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
@@ -776,7 +777,12 @@ public class PurchaseOrderAction extends PurchasingActionBase {
         // use question framework to make sure they REALLY want to complete the quote...
         String message = SpringServiceLocator.getKualiConfigurationService().getPropertyString(PurapKeyConstants.PURCHASE_ORDER_QUESTION_CONFIRM_AWARD);
         message = StringUtils.replace(message, "{0}", poQuote.getVendorName());
-        message = StringUtils.replace(message, "{1}", poQuote.getPurchaseOrderQuoteAwardDate().toString());
+        if (poQuote.getPurchaseOrderQuoteAwardDate() == null) {
+            message = StringUtils.replace(message, "{1}", SpringServiceLocator.getDateTimeService().getCurrentSqlDate().toString());
+        }
+        else {
+            message = StringUtils.replace(message, "{1}", poQuote.getPurchaseOrderQuoteAwardDate().toString());
+        }
         message = StringUtils.replace(message, "{2}", poQuote.getPurchaseOrderQuoteStatusCode());
         message = StringUtils.replace(message, "{3}", poQuote.getPurchaseOrderQuoteRankNumber());
 

@@ -23,6 +23,7 @@
 <%@ attribute name="isPurchaseOrderAwarded" required="true" description="has the PO been awarded?" %>
 <%@ attribute name="isSysVendor" required="false" description="vendor is from system?" %>
 <%@ attribute name="isRanked" required="false" description="vendor is ranked?" %>
+<%@ attribute name="isAwarded" required="false" description="vendor has been awarded?" %>
 
         <tr>
 			<td colspan="5" class="subhead">
@@ -45,15 +46,15 @@
                 <kul:htmlControlAttribute attributeEntry="${vendorQuoteAttributes.vendorHeaderGeneratedIdentifier}" property="document.purchaseOrderVendorQuote[${ctr}].vendorHeaderGeneratedIdentifier" readOnly="true" />-
                 <kul:htmlControlAttribute attributeEntry="${vendorQuoteAttributes.vendorHeaderGeneratedIdentifier}" property="document.purchaseOrderVendorQuote[${ctr}].vendorDetailAssignedIdentifier" readOnly="true" />
             </td>
-            <td rowspan="9">
-            	<c:if test="${!isPurchaseOrderAwarded}">
-            	<html:image
+           	<c:if test="${!isPurchaseOrderAwarded}">
+   	         <td rowspan="9">
+   	        	<html:image
 	property="methodToCall.deleteVendor.line${ctr}"
 	src="${ConfigProperties.kr.externalizable.images.url}tinybutton-delete1.gif"
 	alt="delete vendor" title="delete vendor"
 	styleClass="tinybutton" />&nbsp;
-				</c:if>
-			</td>
+				</td>
+			</c:if>
         </tr>
         <tr>
             <th align=right valign=middle class="bord-l-b">
@@ -167,10 +168,10 @@
 	            	<html:radio property="awardedVendorNumber" value="${ctr}" />
             	</c:if>
             	<c:if test="${isPurchaseOrderAwarded}">
-	           		<c:if test="${empty document.purchaseOrderVendorQuote[ctr].purchaseOrderQuoteAwardDate}">
+	           		<c:if test="${!isAwarded}">
 	           			No
 	           		</c:if>
-	           		<c:if test="${not empty document.purchaseOrderVendorQuote[ctr].purchaseOrderQuoteAwardDate}">
+	           		<c:if test="${isAwarded}">
 	           			Yes
 	           		</c:if>
             	</c:if>

@@ -50,6 +50,7 @@ import org.kuali.module.purap.PurapConstants.RequisitionSources;
 import org.kuali.module.purap.PurapConstants.RequisitionStatuses;
 import org.kuali.module.purap.PurapConstants.VendorChoice;
 import org.kuali.module.purap.bo.PurchaseOrderItem;
+import org.kuali.module.purap.bo.PurchaseOrderQuoteStatus;
 import org.kuali.module.purap.dao.PurchaseOrderDao;
 import org.kuali.module.purap.document.PurchaseOrderDocument;
 import org.kuali.module.purap.document.PurchasingDocumentBase;
@@ -550,5 +551,11 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
         // Set the Pending indicator for the oldPO to N
         oldPO.setPendingActionIndicator(false);
         save(oldPO);
+    }
+
+    public ArrayList<PurchaseOrderQuoteStatus> getPurchaseOrderQuoteStatusCodes() {
+        ArrayList poQuoteStatuses = new TypedArrayList(PurchaseOrderQuoteStatus.class);
+        poQuoteStatuses = (ArrayList) businessObjectService.findAll(PurchaseOrderQuoteStatus.class);
+        return poQuoteStatuses;
     }
 }

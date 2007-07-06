@@ -22,6 +22,7 @@ import java.util.List;
 import org.kuali.core.bo.Note;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.web.struts.form.KualiDocumentFormBase;
+import org.kuali.module.purap.bo.PurchaseOrderQuoteStatus;
 import org.kuali.module.purap.document.PurchaseOrderDocument;
 import org.kuali.module.purap.document.PurchasingDocumentBase;
 import org.kuali.module.purap.document.RequisitionDocument;
@@ -54,4 +55,5 @@ public interface PurchaseOrderService {
     public ArrayList<Note> getPurchaseOrderNotes(Integer id);
     //public void sendFYItoWorkgroup(PurchaseOrderDocument po, String annotation, Long workgroupId);
     public void cancelAmendment(KualiDocumentFormBase kualiDocumentFormBase);
+    public ArrayList<PurchaseOrderQuoteStatus> getPurchaseOrderQuoteStatusCodes();
 }

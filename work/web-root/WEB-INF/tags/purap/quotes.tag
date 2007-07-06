@@ -197,6 +197,7 @@
 		        isSysVendor="${not empty quoteLine.vendorHeaderGeneratedIdentifier}"
 		        isRanked="${not empty quoteLine.purchaseOrderQuoteRankNumber}"
 		        isPurchaseOrderAwarded="${isPurchaseOrderAwarded}"
+				isAwarded="${not empty quoteLine.purchaseOrderQuoteAwardDate}"
 		        ctr="${ctr}" /> 
 		</logic:iterate>
 

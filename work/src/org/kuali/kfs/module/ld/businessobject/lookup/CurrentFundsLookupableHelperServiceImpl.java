@@ -18,6 +18,7 @@ package org.kuali.module.labor.web.lookupable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -86,7 +87,7 @@ public class CurrentFundsLookupableHelperServiceImpl extends AbstractLookupableH
         }        
         
         // Parse the map and call the DAO to process the inquiry
-        Collection searchResultsCollection = buildCurrentFundsCollection(findCurrentFunds(fieldValues, isConsolidated), fieldValues, isConsolidated, pendingEntryOption);
+        Collection searchResultsCollection = buildCurrentFundsCollection(findCurrentFunds(fieldValues, isConsolidated), isConsolidated, pendingEntryOption);
 
         // update search results according to the selected pending entry option
         getLaborInquiryOptionsService().updateByPendingLedgerEntry(searchResultsCollection, fieldValues, pendingEntryOption, isConsolidated, false);
@@ -116,14 +117,14 @@ public class CurrentFundsLookupableHelperServiceImpl extends AbstractLookupableH
      * 
      * @return the current funds collection
      */
-    private Collection buildCurrentFundsCollection(Iterator iterator, Map fieldValues, boolean isConsolidated, String pendingEntryOption) {
+    private Collection buildCurrentFundsCollection(Iterator iterator, boolean isConsolidated, String pendingEntryOption) {
         Collection retval = null;
         
         if (isConsolidated) {
-            retval = buildCosolidatedCurrentFundsCollection(iterator, fieldValues, pendingEntryOption);
+            retval = buildCosolidatedCurrentFundsCollection(iterator, pendingEntryOption);
         }
         else {
-            retval = buildDetailedCurrentFundsCollection(iterator, fieldValues, pendingEntryOption);
+            retval = buildDetailedCurrentFundsCollection(iterator, pendingEntryOption);
         }
         return retval;
     }
@@ -136,7 +137,7 @@ public class CurrentFundsLookupableHelperServiceImpl extends AbstractLookupableH
      * 
      * @return the consolidated current funds collection
      */
-    private Collection buildCosolidatedCurrentFundsCollection(Iterator iterator, Map fieldValues, String pendingEntryOption) {
+    private Collection buildCosolidatedCurrentFundsCollection(Iterator iterator, String pendingEntryOption) {
         Collection retval = new ArrayList();
         
         while (iterator.hasNext()) {
@@ -146,6 +147,10 @@ public class CurrentFundsLookupableHelperServiceImpl extends AbstractLookupableH
                 int i = 0;
                 Object[] array = (Object[]) collectionEntry;
                 AccountStatusCurrentFunds cf = new AccountStatusCurrentFunds();
+                LOG.debug("element length " + array.length);
+                for (Object element : array) {
+                    LOG.debug("I found this element " + element);
+                }
                 
                 if (AccountStatusCurrentFunds.class.isAssignableFrom(getBusinessObjectClass())) {
                     try {
@@ -167,13 +172,13 @@ public class CurrentFundsLookupableHelperServiceImpl extends AbstractLookupableH
                 cf.setSubAccountNumber(subAccountNumber);
 
                 cf.setBalanceTypeCode(array[i++].toString());
-                cf.setObjectCode(array[i++].toString());
+                cf.setFinancialObjectCode(array[i++].toString());
 
                 cf.setEmplid(array[i++].toString());
                 cf.setObjectId(array[i++].toString());
                 cf.setPositionNumber(array[i++].toString());
                 
-                cf.setSubObjectCode(Constant.CONSOLIDATED_SUB_OBJECT_CODE);
+                cf.setFinancialSubObjectCode(Constant.CONSOLIDATED_SUB_OBJECT_CODE);
                 cf.setObjectTypeCode(Constant.CONSOLIDATED_OBJECT_TYPE_CODE);
 
                 cf.setAccountLineAnnualBalanceAmount(new KualiDecimal(array[i++].toString()));
@@ -184,7 +189,7 @@ public class CurrentFundsLookupableHelperServiceImpl extends AbstractLookupableH
 
                 cf.setDummyBusinessObject(new TransientBalanceInquiryAttributes());
                 cf.getDummyBusinessObject().setPendingEntryOption(pendingEntryOption);
-                cf.setOutstandingEncum(getOutstandingEncum(cf, fieldValues));
+                cf.setOutstandingEncum(getOutstandingEncum(cf));
 
                 retval.add(cf);
             }
@@ -200,7 +205,7 @@ public class CurrentFundsLookupableHelperServiceImpl extends AbstractLookupableH
      * 
      * @return the detailed balance collection
      */
-    private Collection buildDetailedCurrentFundsCollection(Iterator iterator, Map fieldValues, String pendingEntryOption) {
+    private Collection buildDetailedCurrentFundsCollection(Iterator iterator, String pendingEntryOption) {
         Collection retval = new ArrayList();
         
         while (iterator.hasNext()) {
@@ -208,7 +213,7 @@ public class CurrentFundsLookupableHelperServiceImpl extends AbstractLookupableH
 
             cf.setDummyBusinessObject(new TransientBalanceInquiryAttributes());
             cf.getDummyBusinessObject().setPendingEntryOption(pendingEntryOption);
-            cf.setOutstandingEncum(getOutstandingEncum(cf, fieldValues));
+            cf.setOutstandingEncum(getOutstandingEncum(cf));
             retval.add(cf);
         }
         return retval;
@@ -219,8 +224,25 @@ public class CurrentFundsLookupableHelperServiceImpl extends AbstractLookupableH
      * @param AccountStatusCurrentFunds
      * @param Map fieldValues
      */
-    private KualiDecimal getOutstandingEncum(AccountStatusCurrentFunds bo, Map fieldValues) {
-        fieldValues.put("emplid", bo.getEmplid());        
+    private KualiDecimal getOutstandingEncum(AccountStatusCurrentFunds bo) {
+        Map<String, String> fieldValues = new HashMap();
+        fieldValues.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, bo.getUniversityFiscalYear().toString());
+        fieldValues.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, bo.getChartOfAccountsCode());
+        fieldValues.put(KFSPropertyConstants.ACCOUNT_NUMBER, bo.getAccountNumber());
+        
+        if (!bo.getSubAccountNumber().equals(Constant.CONSOLIDATED_SUB_ACCOUNT_NUMBER)) {
+            fieldValues.put(KFSPropertyConstants.SUB_ACCOUNT_NUMBER, bo.getSubAccountNumber());
+        }
+
+        fieldValues.put(KFSPropertyConstants.FINANCIAL_OBJECT_CODE, bo.getFinancialObjectCode());
+
+        if (!bo.getFinancialSubObjectCode().equals(Constant.CONSOLIDATED_SUB_OBJECT_CODE)) {
+            fieldValues.put(KFSPropertyConstants.FINANCIAL_SUB_OBJECT_CODE, bo.getFinancialSubObjectCode());
+        }
+        fieldValues.put(KFSPropertyConstants.FINANCIAL_BALANCE_TYPE_CODE, LaborConstants.BalanceInquiries.ENCUMBERENCE_CODE);  // Encumberance Balance Type
+        fieldValues.put(KFSPropertyConstants.EMPLID, bo.getEmplid());
+        LOG.debug("using " + fieldValues.values());
+        LOG.debug("using " + fieldValues.keySet());
         return (KualiDecimal) getLaborDao().getEncumbranceTotal(fieldValues);
     }
 

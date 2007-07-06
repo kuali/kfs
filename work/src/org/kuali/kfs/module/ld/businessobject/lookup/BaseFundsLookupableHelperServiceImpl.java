@@ -137,6 +137,11 @@ public class BaseFundsLookupableHelperServiceImpl extends AbstractLookupableHelp
                 int i = 0;
                 Object[] array = (Object[]) collectionEntry;
                 AccountStatusBaseFunds bf = new AccountStatusBaseFunds();
+
+                LOG.debug("element length " + array.length);
+                for (Object element : array) {
+                    LOG.debug("I found this element " + element);
+                }
                 
                 if (AccountStatusBaseFunds.class.isAssignableFrom(getBusinessObjectClass())) {
                     try {
@@ -160,8 +165,9 @@ public class BaseFundsLookupableHelperServiceImpl extends AbstractLookupableHelp
                 bf.setBalanceTypeCode(array[i++].toString());
                 bf.setObjectCode(array[i++].toString());
 
-                bf.setObjectId(array[i++].toString());
                 bf.setPositionNumber(array[i++].toString());
+                bf.setObjectId(array[i++].toString());
+                bf.setEmplid(array[i++].toString());
                
                 bf.setSubObjectCode(Constant.CONSOLIDATED_SUB_OBJECT_CODE);
                 bf.setObjectTypeCode(Constant.CONSOLIDATED_OBJECT_TYPE_CODE);

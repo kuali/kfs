@@ -93,7 +93,6 @@ public class LaborDaoOjb extends PlatformAwareDaoBaseOjb implements LaborDao {
     public Object getEncumbranceTotal(Map fieldValues) {
 
         Criteria criteria = new Criteria();
-        criteria.addEqualToField(KFSPropertyConstants.FINANCIAL_BALANCE_TYPE_CODE, LaborConstants.BalanceInquiries.ENCUMBERENCE_CODE);  // Encumberance Balance Type
         criteria.addAndCriteria(OJBUtility.buildCriteriaFromMap(fieldValues, new AccountStatusCurrentFunds()));
 
         ReportQueryByCriteria query = QueryFactory.newReportQuery(AccountStatusCurrentFunds.class, criteria);

@@ -21,6 +21,7 @@
 
 
 <c:set var="currentTabIndex" value="${KualiForm.currentTabIndex}" scope="request" />
+<c:set var="tabTitle" value="CAMS-${currentTabIndex}" />
 <c:set var="topLevelTabIndex" value="${KualiForm.currentTabIndex}" scope="request" />
 <c:set var="tabKey" value="${kfunc:generateTabKey(tabTitle)}"/>
 <!--  hit form method to increment tab index -->
@@ -40,17 +41,17 @@
     </c:when>
 </c:choose>
 
-<html:hidden property="tabStates(${tabKey})" value="${isOpen}" />
+<html:hidden property="tabStates(${tabKey})" value="${(isOpen ? 'OPEN' : 'CLOSE')}" />
 
 <table cellpadding="0" cellspacing="0" class="datatable" >
     <tr>
         <td colspan="4" class="subhead">
             <span class="subhead-left">CAMS Detail
                 <c:if test="${isOpen == 'true' || isOpen == 'TRUE'}">
-                    <html:image property="methodToCall.toggleTab.tab${tabKey}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-hide.gif" alt="hide" title="toggle" styleClass="tinybutton" styleId="tab-${tabKey}-imageToggle" onclick="javascript: return toggleTab(document, ${tabKey}); " />
+                    <html:image property="methodToCall.toggleTab.tab${tabKey}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-hide.gif" alt="hide" title="toggle" styleClass="tinybutton" styleId="tab-${tabKey}-imageToggle" onclick="javascript: return toggleTab(document, '${tabKey}'); " />
                 </c:if>
                 <c:if test="${isOpen != 'true' && isOpen != 'TRUE'}">
-                    <html:image property="methodToCall.toggleTab.tab${tabKey}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-show.gif" alt="show" title="toggle" styleClass="tinybutton" styleId="tab-${tabKey}-imageToggle" onclick="javascript: return toggleTab(document, ${tabKey}); " />
+                    <html:image property="methodToCall.toggleTab.tab${tabKey}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-show.gif" alt="show" title="toggle" styleClass="tinybutton" styleId="tab-${tabKey}-imageToggle" onclick="javascript: return toggleTab(document, '${tabKey}'); " />
                 </c:if>
             </span>
         </td>

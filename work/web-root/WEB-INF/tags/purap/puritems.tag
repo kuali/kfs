@@ -140,7 +140,7 @@
 			<c:if test="${itemLine.itemType.itemTypeAboveTheLineIndicator == true}">
 				<c:set var="currentTabIndex" value="${KualiForm.currentTabIndex}" scope="request" />
 				<c:set var="topLevelTabIndex" value="${KualiForm.currentTabIndex}" scope="request" />
-                <c:set var="tabKey" value="${kfunc:generateTabKey(tabTitle)}"/>
+                <c:set var="tabKey" value="Item-${ctr}"/>
                 <!--  hit form method to increment tab index -->
                 <c:set var="dummyIncrementer" value="${kfunc:incrementTabIndex(KualiForm, tabKey)}" />
 
@@ -167,7 +167,7 @@
 							    src="${ConfigProperties.kr.externalizable.images.url}tinybutton-hide.gif"
 							    alt="hide" title="toggle" styleClass="tinybutton"
 							    styleId="tab-${tabKey}-imageToggle"
-							    onclick="javascript: return toggleTab(document, ${tabKey}); " />
+							    onclick="javascript: return toggleTab(document, '${tabKey}'); " />
 					    </c:if> 
 					    <c:if test="${isOpen != 'true' && isOpen != 'TRUE'}">
 						    <html:image
@@ -175,7 +175,7 @@
 							    src="${ConfigProperties.kr.externalizable.images.url}tinybutton-show.gif"
 							    alt="show" title="toggle" styleClass="tinybutton"
 							    styleId="tab-${tabKey}-imageToggle"
-							    onclick="javascript: return toggleTab(document, ${tabKey}); " />
+							    onclick="javascript: return toggleTab(document, '${tabKey}'); " />
 					    </c:if>
 					</td>
 				</tr>

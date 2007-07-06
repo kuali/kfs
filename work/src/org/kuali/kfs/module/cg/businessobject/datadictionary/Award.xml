@@ -533,7 +533,7 @@
                 <shortLabel>FPT Amount</shortLabel>
 
                 <summary>Federal Pass Through Funded Amount</summary>
-                <description>Amount funded by the external funding agency for the draw on the line of credit.</description>
+                <description>Amount of federal money funded through another external funding agency to the institution.</description>
                 <formatterClass>org.kuali.core.web.format.CurrencyFormatter</formatterClass>
 			</attributeReference>
 
@@ -563,7 +563,7 @@
                 </control>
 
                 <summary>Workgroup Name</summary>
-                <description>Field to identify federal and non-federal workgroups for an award.</description>
+                <description>Field to identify internal workgroups set up to manage an award.</description>
 			</attribute>
 
             <attributeReference name="grantDescriptionCode" sourceClassName="org.kuali.module.cg.bo.GrantDescription" sourceAttributeName="grantDescriptionCode">

@@ -40,7 +40,7 @@ public class DataDictionaryConfigurationTest extends KualiTestBase {
     private static final String KFS_CORE_PACKAGE_PREFIX = "org.kuali.kfs.";
     private DataDictionary dataDictionary;
     private Map <String,Exception> dataDictionaryLoadFailures;
-    private List<String> dataDictionaryNullEntries;
+    private Map<String,String> dataDictionaryWarnings;
     private Map<String, KualiModule> modules;
     private KualiModule coreModule;
     private KualiModule kfsModule;
@@ -51,16 +51,16 @@ public class DataDictionaryConfigurationTest extends KualiTestBase {
         loadDataDictionary();
         StringBuffer failureMessage = new StringBuffer("Unable to load DataDictionaryEntrys for some file locations:");
         for (String key : dataDictionaryLoadFailures.keySet()) {
-            failureMessage.append("\n\t").append(new StringBuffer("Unable to load DataDictionaryEntry for key: ").append(key).append(" at location: ").append(dataDictionary.getFileLocationMap().get(key)));
+            failureMessage.append("\n\t").append("key: ").append(key).append(" at location: ").append(dataDictionary.getFileLocationMap().get(key)).append(" error: ").append(((Exception)dataDictionaryLoadFailures.get(key)).getMessage());
         }
-        StringBuffer warningMessage = new StringBuffer("DataDictionaryEntrys for some file locations are null (probably because the workflow document type name does not match the xml / bo name for the maintenance document):");
-        for (String key : dataDictionaryNullEntries) {
-            warningMessage.append("\n\t").append(key).append(" at location: ").append(dataDictionary.getFileLocationMap().get(key));
+        StringBuffer warningMessage = new StringBuffer("Loaded DataDictionaryEntrys for some file locations with warnings:");
+        for (String key : dataDictionaryWarnings.keySet()) {
+            warningMessage.append("\n\t").append("key: ").append(key).append(" at location: ").append(dataDictionary.getFileLocationMap().get(key)).append(" warning: ").append(dataDictionaryWarnings.get(key));
         }
-        if (dataDictionaryNullEntries.size() > 0) {
-            LOG.warn(warningMessage);
+        if (dataDictionaryWarnings.size() > 0) {
+            System.err.print(warningMessage);
         }
-        assertTrue(failureMessage.toString(), dataDictionaryLoadFailures.isEmpty());      
+        assertTrue(failureMessage.toString(), dataDictionaryLoadFailures.isEmpty());  
     }
     
     public void testGetComponentsByModule() throws Exception {
@@ -87,8 +87,18 @@ public class DataDictionaryConfigurationTest extends KualiTestBase {
             try {
                 DataDictionaryEntry entry = dataDictionary.getDictionaryObjectEntry(key);
                 if (entry == null) {
-                    dataDictionaryNullEntries.add(key);
+                    dataDictionaryWarnings.put(key, "DataDictionaryEntry is null");
                 }
+                else if ((entry instanceof BusinessObjectEntry) && !((BusinessObjectEntry)entry).getBusinessObjectClass().getSimpleName().equals(key)) {
+                    dataDictionaryWarnings.put(key, "BusinessObjectEntry xml file name and business object class simple name are out of sync");                    
+                }
+                else if ((entry instanceof MaintenanceDocumentEntry) && (!(((MaintenanceDocumentEntry)entry).getBusinessObjectClass().getSimpleName() + "MaintenanceDocument").equals(key) || !((MaintenanceDocumentEntry)entry).getDocumentTypeName().equals(key)))  {
+                    dataDictionaryWarnings.put(key, "MaintenanceDocumentEntry xml file name and business object class simple name or workflow document type name are out of sync");                                        
+                }
+                else if ((entry instanceof TransactionalDocumentEntry) && (!((TransactionalDocumentEntry)entry).getDocumentClass().getSimpleName().equals(key) || !((TransactionalDocumentEntry)entry).getDocumentTypeName().equals(key))) {
+                    dataDictionaryWarnings.put(key, "TransactionalDocumentEntry xml file name and document class simple name or workflow document type name are out of sync");                                         
+                }
+            
             }
             catch (Exception e) {
                 dataDictionaryLoadFailures.put(key, e);
@@ -126,7 +136,7 @@ public class DataDictionaryConfigurationTest extends KualiTestBase {
         super.setUp();
         dataDictionary = SpringServiceLocator.getDataDictionaryService().getDataDictionary();
         dataDictionaryLoadFailures = new TreeMap();
-        dataDictionaryNullEntries = new ArrayList();
+        dataDictionaryWarnings = new TreeMap();
         modules = new HashMap();
         coreModule = new KualiModule();
         coreModule.setModuleId("core");

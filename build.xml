@@ -413,28 +413,31 @@
 		</copy>
 		<get src="https://onestart.iu.edu/dav/MY/maven-mirror/maven2/${workflow.name}/${workflow.name}/${workflow.version}/${workflow.name}-${workflow.version}.jar" dest="${basedir}/${lib.directory}/${rice.name}-${workflow.name}-${workflow.version}.jar" />
 		<delete>
-			<fileset dir="${build.config.directory}" includes="${rice.name}-*${rice.output.web.suffix}" />
+			<fileset dir="${build.config.directory}" includes="${rice.name}*${rice.output.web.suffix}" />
 		</delete>
 		<zip compress="true" destfile="${build.config.directory}/${rice.name}-${rice.version}${rice.output.web.suffix}" basedir="${rice.sampleapp.directory}" includes="${rice.application}/**/**,${tags.directory}/${rice.application}/**/*.tag,${workflow.application}/**/**" excludes="**/CVS" />
 	</target>
 	
 	<target name="update-rice-extended" depends="init-project-properties">
 		<delete>
-			<fileset dir="${dependencies.project.directory}" includes="${rice.output.file.prefix}${rice.output.src.suffix},${rice.output.file.prefix}${rice.output.doc.suffix}" />
+			<fileset dir="${dependencies.project.directory}" includes="${rice.output.file.prefix}" />
+		</delete>
+		<!-- todo fix this when licenses are moved to rice -->
+		<delete>
+			<fileset dir="${build.config.directory}" includes="${rice.name}*${rice.output.ddl.suffix}" />
 		</delete>
 		<maven goals="source:jar javadoc:jar" />
-		<copy todir="${dependencies.project.directory}" flatten="true">
-			<fileset dir="${rice.project.directory}" includes="${rice.output.directories}${rice.output.file.prefix}${rice.version}${rice.output.src.suffix}" excludes="${rice.excludes}" />
-		</copy>
-		<copy todir="${dependencies.project.directory}" flatten="true">
-			<fileset dir="${rice.project.directory}" includes="${rice.output.directories}${rice.output.file.prefix}${rice.version}${rice.output.doc.suffix}" excludes="${rice.excludes}" />
+		<copy todir="${dependencies.project.directory}">
+			<fileset dir="${rice.project.directory}" includes="${rice.output.directories}${rice.output.file.prefix}${rice.version}${rice.output.src.suffix},${rice.output.directories}${rice.output.file.prefix}${rice.version}${rice.output.doc.suffix}" excludes="${rice.excludes}" />
+			<chainedmapper>
+				<flattenmapper />
+				<globmapper from="*.jar" to="*.zip" />
+			</chainedmapper>
 		</copy>
 		<mkdir dir="temp" />
 		<copy todir="temp">
 			<fileset dir="${rice.project.directory}" includes="${rice.ddl.files}" excludes="${rice.excludes},**/CVS" />
-			<filtermapper>
-				<replaceregex pattern="^\w+/src/main/config/" replace="" />
-			</filtermapper>
+			<regexpmapper from="^(.*)/src/main/config/(.*)" to="\2" />
 		</copy>
 		<zip compress="true" destfile="${build.config.directory}/${rice.name}-${rice.version}-ddl.zip" basedir="temp" />
 		<delete dir="temp" />

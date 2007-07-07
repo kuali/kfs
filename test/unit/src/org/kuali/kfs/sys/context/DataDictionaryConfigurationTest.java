@@ -49,9 +49,7 @@ public class DataDictionaryConfigurationTest extends KualiTestBase {
         loadDataDictionary();
         StringBuffer failureMessage = new StringBuffer("Unable to load DataDictionaryEntrys for some file locations:");
         for (String key : dataDictionaryLoadFailures.keySet()) {
-            StringBuffer loadFailureMessage = new StringBuffer("Unable to load DataDictionaryEntry for key: ").append(key).append(" at location: ").append(dataDictionary.getFileLocationMap().get(key));
-            failureMessage.append("\n\t").append(loadFailureMessage);
-            LOG.error(loadFailureMessage, dataDictionaryLoadFailures.get(key));
+            failureMessage.append("\n\t").append(new StringBuffer("Unable to load DataDictionaryEntry for key: ").append(key).append(" at location: ").append(dataDictionary.getFileLocationMap().get(key)));
         }
         StringBuffer warningMessage = new StringBuffer("DataDictionaryEntrys for some file locations are null (probably because the workflow document type name does not match the xml / bo name for the maintenance document):");
         for (String key : dataDictionaryNullEntries) {

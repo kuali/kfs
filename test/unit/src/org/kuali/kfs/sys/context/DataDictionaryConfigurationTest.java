@@ -31,6 +31,7 @@ import org.kuali.kfs.batch.JobDescriptor;
 import org.kuali.kfs.context.KualiTestBase;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.test.WithTestSpringContext;
+import org.kuali.test.suite.RelatesTo;
 
 @WithTestSpringContext
 public class DataDictionaryConfigurationTest extends KualiTestBase {
@@ -45,6 +46,7 @@ public class DataDictionaryConfigurationTest extends KualiTestBase {
     private KualiModule kfsModule;
     Map<String, Set<String>> componentNamesByModule = new TreeMap();
     
+    //@RelatesTo(RelatesTo.JiraIssue.KULPURAP1014)
     public void testLoadDataDictionaryConfiguration() throws Exception {
         loadDataDictionary();
         StringBuffer failureMessage = new StringBuffer("Unable to load DataDictionaryEntrys for some file locations:");

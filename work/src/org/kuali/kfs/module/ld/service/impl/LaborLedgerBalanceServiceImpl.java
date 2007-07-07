@@ -23,6 +23,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.collections.IteratorUtils;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.TransactionalServiceUtils;
@@ -59,6 +60,42 @@ public class LaborLedgerBalanceServiceImpl implements LaborLedgerBalanceService 
     private Collection wrap(String[] s) {
         return Arrays.asList(s);
     }
+    
+    /**
+     * Because there is &lt;extent-class .../&gt; is broken in OJB, we need to create this class
+     * that will handle the inheritence. This is intended for use with AccountStatusCurrentFunds and
+     * AccountStatusBaseFunds. This is a simple implementation and only handls POJO stuff.
+     *
+     * @param source Original LedgerBalance
+     * @param dest some class to extend LedgerBalance to copy to
+     * @returns the copy
+     */
+    public <T> T copyLedgerBalance(LedgerBalance source, Class<? extends LedgerBalance> dest) {
+        T retval = null;
+        try {
+            retval = (T) dest.newInstance();
+        }
+        catch (Exception e) {
+            LOG.error("Failed to create Business Object of type " + dest + " when converting from LedgerBalance");
+            throw new RuntimeException(e);
+        }
+        
+        
+        try {
+            for (String property : (Collection<String>) PropertyUtils.describe(source).keySet()) {
+                if (PropertyUtils.isWriteable(retval, property)) {
+                    PropertyUtils.setProperty(retval, property, PropertyUtils.getProperty(source, property));
+                }
+            }
+        }
+        catch (Exception e) {
+            LOG.error("Failed to write a property to Business Object of type " + dest + "when converting from LedgerBalance");
+            throw new RuntimeException(e);
+        }
+
+        return retval;
+    }
+
 
     /**
      * 

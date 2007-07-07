@@ -30,10 +30,12 @@ import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.context.KualiTestBase;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.budget.bo.CalculatedSalaryFoundationTracker;
+import org.kuali.module.gl.web.Constant;
 import org.kuali.module.gl.web.TestDataGenerator;
 import org.kuali.module.labor.LaborConstants;
 import org.kuali.module.labor.bo.AccountStatusCurrentFunds;
 import org.kuali.module.labor.bo.LedgerBalance;
+import org.kuali.module.labor.service.LaborInquiryOptionsService;
 import org.kuali.module.labor.util.ObjectUtil;
 import org.kuali.test.WithTestSpringContext;
 import org.kuali.test.suite.RelatesTo;
@@ -43,6 +45,7 @@ import org.kuali.test.suite.RelatesTo;
  */
 @WithTestSpringContext
 public class CurrentFundsLookupableHelperServiceTest extends KualiTestBase {
+    private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(CurrentFundsLookupableHelperServiceTest.class);
     private BusinessObjectService businessObjectService;
     private LookupableHelperService lookupableHelperService;
     private PersistenceService persistenceService;
@@ -88,6 +91,11 @@ public class CurrentFundsLookupableHelperServiceTest extends KualiTestBase {
 
         // test the search results before the specified entry is inserted
         Map fieldValues = buildFieldValues(accountStatusCurrentFunds, this.getLookupFields(false));
+
+        // Tells the lookupable I want detailed results
+        getInquiryOptionsService().getConsolidationField(lookupableHelperService.getRows()).setPropertyValue(Constant.DETAIL);
+        fieldValues.put(Constant.CONSOLIDATION_OPTION, Constant.DETAIL);
+
         List<String> groupByList = new ArrayList<String>();
         List<AccountStatusCurrentFunds> searchResults = lookupableHelperService.getSearchResults(fieldValues);
         
@@ -100,6 +108,44 @@ public class CurrentFundsLookupableHelperServiceTest extends KualiTestBase {
               
         if (searchResults != null) {
             System.out.println("Results Size:" + searchResults.size());
+        }
+
+        // compare the search results with the expected and see if they match with each other        
+        assertEquals(this.currentFundsExpectedInsertion,searchResults.size());
+    }
+
+    /**
+     * 
+     * This method will run the current funds balance inquiry to test that the CurrentFundsLookupableHelperService 
+     * is returning data correctly.
+     * @throws Exception
+     */
+    public void testGetSearchResultsConsolidated() throws Exception {
+        insertCurrentFundsRecords();
+        AccountStatusCurrentFunds accountStatusCurrentFunds = new AccountStatusCurrentFunds();
+        accountStatusCurrentFunds.setAccountNumber("6044906");
+        accountStatusCurrentFunds.setUniversityFiscalYear(2004);
+        accountStatusCurrentFunds.setChartOfAccountsCode("BA");
+
+        // test the search results before the specified entry is inserted
+        Map fieldValues = buildFieldValues(accountStatusCurrentFunds, this.getLookupFields(false));
+        
+        // Tells the lookupable I want consolidated results
+        getInquiryOptionsService().getConsolidationField(lookupableHelperService.getRows()).setPropertyValue(Constant.CONSOLIDATION);
+        fieldValues.put(Constant.CONSOLIDATION_OPTION, Constant.CONSOLIDATION);
+
+        List<String> groupByList = new ArrayList<String>();
+        List<AccountStatusCurrentFunds> searchResults = lookupableHelperService.getSearchResults(fieldValues);
+        
+        // Make sure the basic search parameters are returned from the inquiry
+        for (AccountStatusCurrentFunds accountStatusCurrentFundsReturn : searchResults) {
+              assertFalse(!(accountStatusCurrentFundsReturn.getAccountNumber().equals(accountStatusCurrentFunds.getAccountNumber()) &&
+              accountStatusCurrentFundsReturn.getUniversityFiscalYear().equals(accountStatusCurrentFunds.getUniversityFiscalYear()) &&
+              accountStatusCurrentFundsReturn.getChartOfAccountsCode().equals(accountStatusCurrentFunds.getChartOfAccountsCode())));
+        }            
+              
+        if (searchResults != null) {
+            LOG.debug("Results Size:" + searchResults.size());
         }
 
         // compare the search results with the expected and see if they match with each other        
@@ -174,4 +220,9 @@ public class CurrentFundsLookupableHelperServiceTest extends KualiTestBase {
         this.currentFundsExpectedInsertion = Integer.valueOf(properties.getProperty(testTarget + "expectedInsertion"));
         businessObjectService.save(inputDataList);
     }  
+    
+    
+    private LaborInquiryOptionsService getInquiryOptionsService() {
+        return (LaborInquiryOptionsService) SpringServiceLocator.getService("laborInquiryOptionsService");
+    }
 }

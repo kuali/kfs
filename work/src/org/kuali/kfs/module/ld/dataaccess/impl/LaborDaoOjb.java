@@ -125,7 +125,7 @@ public class LaborDaoOjb extends PlatformAwareDaoBaseOjb implements LaborDao {
     /**
      * @see org.kuali.module.labor.dao.LaborDao#getBaseFunds(java.util.Map)
      */
-    public Iterator<AccountStatusBaseFunds> getBaseFunds(Map fieldValues, boolean isConsolidated) {
+    public Iterator getBaseFunds(Map fieldValues, boolean isConsolidated) {
         fieldValues.remove(PENDING_ENTRY_OPTION); // hack because BaseFunds doesn't have Pending entry option. If it does get it, you can remove this.
         fieldValues.put(KFSPropertyConstants.FINANCIAL_BALANCE_TYPE_CODE, LaborConstants.BalanceInquiries.BALANCE_CODE);
         return getAccountStatus(AccountStatusBaseFunds.class, fieldValues, isConsolidated);
@@ -134,19 +134,19 @@ public class LaborDaoOjb extends PlatformAwareDaoBaseOjb implements LaborDao {
     /**
      * @see org.kuali.module.labor.dao.LaborDao#getCurrentFunds(java.util.Map)
      */
-    public Iterator<AccountStatusCurrentFunds> getCurrentFunds(Map fieldValues, boolean isConsolidated) {
+    public Iterator getCurrentFunds(Map fieldValues, boolean isConsolidated) {
         fieldValues.put(KFSPropertyConstants.FINANCIAL_BALANCE_TYPE_CODE, LaborConstants.BalanceInquiries.ACTUALS_CODE);
         return getAccountStatus(AccountStatusCurrentFunds.class, fieldValues, isConsolidated);
     }
 
-    private <T> Iterator<T> getAccountStatus(Class<T> clazz, Map fieldValues, boolean isConsolidated) {
+    private <T> Iterator getAccountStatus(Class<T> clazz, Map fieldValues, boolean isConsolidated) {
         Query query = getAccountStatusQuery(AccountStatusBaseFunds.class, fieldValues, isConsolidated);
         OJBUtility.limitResultSize(query);
 
         if (isConsolidated) {
             return getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(query);
         }
-        return getPersistenceBrokerTemplate().getIteratorByQuery(query);
+        return getPersistenceBrokerTemplate().getIteratorByQuery(query);        
     }
 
     // build the query for balance search
@@ -211,6 +211,7 @@ public class LaborDaoOjb extends PlatformAwareDaoBaseOjb implements LaborDao {
         return getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(query);
     }
     
+
     /**
      * @see org.kuali.module.labor.dao.LaborDao#getJuly1PositionFunding(java.util.Map)
      */    

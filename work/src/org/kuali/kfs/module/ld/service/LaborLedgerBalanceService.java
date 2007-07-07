@@ -25,6 +25,17 @@ import org.kuali.module.labor.bo.LedgerBalance;
 
 public interface LaborLedgerBalanceService {
     /**
+     * Because there is &lt;extent-class .../&gt; is broken in OJB, we need to create this class
+     * that will handle the inheritence. This is intended for use with AccountStatusCurrentFunds and
+     * AccountStatusBaseFunds. This is a simple implementation and only handls POJO stuff.
+     *
+     * @param source Original LedgerBalance
+     * @param dest some class to extend LedgerBalance to copy to
+     * @returns the copy
+     */
+    public <U> U copyLedgerBalance(LedgerBalance source, Class<? extends LedgerBalance> dest);
+
+    /**
      * Save
      * 
      * @param b

@@ -36,11 +36,14 @@ import org.kuali.module.gl.service.BalanceService;
 import org.kuali.module.gl.web.Constant;
 import org.kuali.module.labor.LaborConstants;
 import org.kuali.module.labor.bo.AccountStatusBaseFunds;
+import org.kuali.module.labor.bo.LedgerBalance;
 import org.kuali.module.labor.dao.LaborDao;
 import org.kuali.module.labor.service.LaborInquiryOptionsService;
+import org.kuali.module.labor.service.LaborLedgerBalanceService;
 import org.kuali.module.labor.web.inquirable.BaseFundsInquirableImpl;
 import org.springframework.transaction.annotation.Transactional;
 
+import static org.apache.commons.collections.IteratorUtils.toList;
 
 /**
  * The BaseFundsLookupableHelperServiceImpl class is the front-end for all Base Fund balance inquiry processing.
@@ -49,9 +52,9 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class BaseFundsLookupableHelperServiceImpl extends AbstractLookupableHelperServiceImpl {
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(BaseFundsLookupableHelperServiceImpl.class);
-    private BalanceService balanceService;
     private Map fieldValues;
     private LaborDao laborDao;
+    private LaborLedgerBalanceService balanceService;
     private KualiConfigurationService kualiConfigurationService;
     private LaborInquiryOptionsService laborInquiryOptionsService;    
     
@@ -79,7 +82,7 @@ public class BaseFundsLookupableHelperServiceImpl extends AbstractLookupableHelp
         // get the consolidation option
         boolean isConsolidated = getLaborInquiryOptionsService().isConsolidationSelected(fieldValues, (Collection<Row>) getRows());
                
-        Collection searchResultsCollection = buildBaseFundsCollection(findBaseFunds(fieldValues, isConsolidated), fieldValues, isConsolidated);
+        Collection searchResultsCollection = buildBaseFundsCollection(toList(laborDao.getBaseFunds(fieldValues, isConsolidated)), fieldValues, isConsolidated);
 
         // sort list if default sort column given
         List searchResults = (List) searchResultsCollection;
@@ -93,29 +96,20 @@ public class BaseFundsLookupableHelperServiceImpl extends AbstractLookupableHelp
         return new CollectionIncomplete(searchResults, actualCountIfTruncated);
     }
 
-
-    /**
-     * Retrieve the Account Status
-     */
-    public Iterator findBaseFunds(Map fieldValues, boolean isConsolidated) {
-        LOG.debug("findBaseFunds() started");
-        return TransactionalServiceUtils.copyToExternallyUsuableIterator(laborDao.getBaseFunds(fieldValues, isConsolidated));
-    }
-
     /**
      * @param iterator the iterator of search results of account status
      * @param isConsolidated determine if the consolidated result is desired
      * 
      * @return the base funds collection
      */
-    private Collection buildBaseFundsCollection(Iterator iterator, Map fieldValues, boolean isConsolidated) {
+    private Collection<AccountStatusBaseFunds> buildBaseFundsCollection(Collection collection, Map fieldValues, boolean isConsolidated) {
         Collection retval = null;
         
         if (isConsolidated) {
-            retval = buildCosolidatedBaseFundsCollection(iterator, fieldValues);
+            retval = buildConsolidatedBaseFundsCollection(collection, fieldValues);
         }
         else {
-            retval = buildDetailedBaseFundsCollection(iterator, fieldValues);
+            retval = buildDetailedBaseFundsCollection(collection, fieldValues);
         }
         return retval;
     }
@@ -127,11 +121,10 @@ public class BaseFundsLookupableHelperServiceImpl extends AbstractLookupableHelp
      * 
      * @return the consolidated base funds collection
      */
-    private Collection buildCosolidatedBaseFundsCollection(Iterator iterator, Map fieldValues) {
-        Collection retval = new ArrayList();
+    private Collection<AccountStatusBaseFunds> buildConsolidatedBaseFundsCollection(Collection collection, Map fieldValues) {
+        Collection<AccountStatusBaseFunds> retval = new ArrayList<AccountStatusBaseFunds>();
         
-        while (iterator.hasNext()) {
-            Object collectionEntry = iterator.next();
+        for (Object collectionEntry : collection) {
 
             if (collectionEntry.getClass().isArray()) {
                 int i = 0;
@@ -201,11 +194,11 @@ public class BaseFundsLookupableHelperServiceImpl extends AbstractLookupableHelp
      * 
      * @return the detailed balance collection
      */
-    private Collection buildDetailedBaseFundsCollection(Iterator iterator, Map fieldValues) {
-        Collection retval = new ArrayList();
+    private Collection<AccountStatusBaseFunds> buildDetailedBaseFundsCollection(Collection collection, Map fieldValues) {
+        Collection<AccountStatusBaseFunds> retval = new ArrayList();
         
-        while (iterator.hasNext()) {
-            AccountStatusBaseFunds bf = (AccountStatusBaseFunds) (iterator.next());
+        for (LedgerBalance balance : ((Collection<LedgerBalance>) collection)) {
+            AccountStatusBaseFunds bf = getBalanceService().copyLedgerBalance(balance, AccountStatusBaseFunds.class);
 
             bf.setDummyBusinessObject(new TransientBalanceInquiryAttributes());
             bf.setCsfAmount(getCsfAmount(bf, fieldValues));
@@ -232,5 +225,23 @@ public class BaseFundsLookupableHelperServiceImpl extends AbstractLookupableHelp
 
     public void setLaborInquiryOptionsService(LaborInquiryOptionsService laborInquiryOptionsService) {
         this.laborInquiryOptionsService = laborInquiryOptionsService;
+    }
+
+    /**
+     * Sets the balanceService attribute value.
+     * 
+     * @param balanceService The balanceService to set.
+     */
+    public void setBalanceService(LaborLedgerBalanceService balanceService) {
+        this.balanceService = balanceService;
+    }
+
+    /**
+     * Gets the balanceService attribute value.
+     * 
+     * @return balanceService The balanceService to set.
+     */
+    public LaborLedgerBalanceService getBalanceService() {
+        return balanceService;
     }
 }

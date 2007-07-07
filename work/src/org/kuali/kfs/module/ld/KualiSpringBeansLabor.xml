@@ -601,6 +601,9 @@
 		<property name="laborInquiryOptionsService">
 			<ref bean="laborInquiryOptionsService" />
 		</property>
+		<property name="balanceService">
+			<ref bean="laborLedgerBalanceService" />
+		</property>		
 		<property name="laborDao">
 			<ref bean="laborDao" />
 		</property>		
@@ -631,6 +634,9 @@
 		<property name="dataDictionaryService">
 			<ref bean="dataDictionaryService" />
 		</property>
+		<property name="balanceService">
+			<ref bean="laborLedgerBalanceService" />
+		</property>		
 		<property name="laborInquiryOptionsService">
 			<ref bean="laborInquiryOptionsService" />
 		</property>

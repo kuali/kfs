@@ -36,14 +36,17 @@ import org.kuali.core.web.ui.Row;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.module.gl.bo.TransientBalanceInquiryAttributes;
-import org.kuali.module.gl.service.BalanceService;
 import org.kuali.module.gl.web.Constant;
 import org.kuali.module.labor.LaborConstants;
 import org.kuali.module.labor.bo.AccountStatusCurrentFunds;
+import org.kuali.module.labor.bo.LedgerBalance;
 import org.kuali.module.labor.dao.LaborDao;
 import org.kuali.module.labor.service.LaborInquiryOptionsService;
+import org.kuali.module.labor.service.LaborLedgerBalanceService;
 import org.kuali.module.labor.web.inquirable.CurrentFundsInquirableImpl;
 import org.springframework.transaction.annotation.Transactional;
+
+import static org.apache.commons.collections.IteratorUtils.toList;
 
 /**
  * The CurrentFundsLookupableHelperServiceImpl class is the front-end for all current funds balance inquiry processing.
@@ -52,6 +55,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class CurrentFundsLookupableHelperServiceImpl extends AbstractLookupableHelperServiceImpl {
     private LaborDao laborDao;
+    private LaborLedgerBalanceService balanceService;
     private KualiConfigurationService kualiConfigurationService;    
     private LaborInquiryOptionsService laborInquiryOptionsService;    
     
@@ -87,7 +91,7 @@ public class CurrentFundsLookupableHelperServiceImpl extends AbstractLookupableH
         }        
         
         // Parse the map and call the DAO to process the inquiry
-        Collection searchResultsCollection = buildCurrentFundsCollection(findCurrentFunds(fieldValues, isConsolidated), isConsolidated, pendingEntryOption);
+        Collection<AccountStatusCurrentFunds> searchResultsCollection = buildCurrentFundsCollection(toList(laborDao.getCurrentFunds(fieldValues, isConsolidated)), isConsolidated, pendingEntryOption);
 
         // update search results according to the selected pending entry option
         getLaborInquiryOptionsService().updateByPendingLedgerEntry(searchResultsCollection, fieldValues, pendingEntryOption, isConsolidated, false);
@@ -103,28 +107,20 @@ public class CurrentFundsLookupableHelperServiceImpl extends AbstractLookupableH
     }
 
     /**
-     * Retrieve the Account Status
-     */
-    public Iterator findCurrentFunds(Map fieldValues, boolean isConsolidated) {
-        LOG.debug("findCurrentFunds() started");
-        return TransactionalServiceUtils.copyToExternallyUsuableIterator(laborDao.getCurrentFunds(fieldValues, isConsolidated));
-    }
-
-    /**
      * @param iterator the iterator of search results of account status
      * @param isConsolidated determine if the consolidated result is desired
      * @param pendingEntryOption the given pending entry option that can be no, approved or all
      * 
      * @return the current funds collection
      */
-    private Collection buildCurrentFundsCollection(Iterator iterator, boolean isConsolidated, String pendingEntryOption) {
-        Collection retval = null;
+    private Collection<AccountStatusCurrentFunds> buildCurrentFundsCollection(Collection collection, boolean isConsolidated, String pendingEntryOption) {
+        Collection<AccountStatusCurrentFunds> retval = null;
         
         if (isConsolidated) {
-            retval = buildCosolidatedCurrentFundsCollection(iterator, pendingEntryOption);
+            retval = buildCosolidatedCurrentFundsCollection(collection, pendingEntryOption);
         }
         else {
-            retval = buildDetailedCurrentFundsCollection(iterator, pendingEntryOption);
+            retval = buildDetailedCurrentFundsCollection(collection, pendingEntryOption);
         }
         return retval;
     }
@@ -137,12 +133,10 @@ public class CurrentFundsLookupableHelperServiceImpl extends AbstractLookupableH
      * 
      * @return the consolidated current funds collection
      */
-    private Collection buildCosolidatedCurrentFundsCollection(Iterator iterator, String pendingEntryOption) {
-        Collection retval = new ArrayList();
+    private Collection<AccountStatusCurrentFunds> buildCosolidatedCurrentFundsCollection(Collection collection, String pendingEntryOption) {
+        Collection<AccountStatusCurrentFunds> retval = new ArrayList<AccountStatusCurrentFunds>();
         
-        while (iterator.hasNext()) {
-            Object collectionEntry = iterator.next();
-
+        for (Object collectionEntry : collection) {
             if (collectionEntry.getClass().isArray()) {
                 int i = 0;
                 Object[] array = (Object[]) collectionEntry;
@@ -205,11 +199,11 @@ public class CurrentFundsLookupableHelperServiceImpl extends AbstractLookupableH
      * 
      * @return the detailed balance collection
      */
-    private Collection buildDetailedCurrentFundsCollection(Iterator iterator, String pendingEntryOption) {
-        Collection retval = new ArrayList();
-        
-        while (iterator.hasNext()) {
-            AccountStatusCurrentFunds cf = (AccountStatusCurrentFunds) (iterator.next());
+    private Collection<AccountStatusCurrentFunds> buildDetailedCurrentFundsCollection(Collection collection, String pendingEntryOption) {
+        Collection<AccountStatusCurrentFunds> retval = new ArrayList<AccountStatusCurrentFunds>();
+
+        for (LedgerBalance balance : ((Collection<LedgerBalance>) collection)) {
+            AccountStatusCurrentFunds cf = getBalanceService().copyLedgerBalance(balance, AccountStatusCurrentFunds.class);
 
             cf.setDummyBusinessObject(new TransientBalanceInquiryAttributes());
             cf.getDummyBusinessObject().setPendingEntryOption(pendingEntryOption);
@@ -276,5 +270,23 @@ public class CurrentFundsLookupableHelperServiceImpl extends AbstractLookupableH
 
     public void setLaborInquiryOptionsService(LaborInquiryOptionsService laborInquiryOptionsService) {
         this.laborInquiryOptionsService = laborInquiryOptionsService;
+    }
+
+    /**
+     * Sets the balanceService attribute value.
+     * 
+     * @param balanceService The balanceService to set.
+     */
+    public void setBalanceService(LaborLedgerBalanceService balanceService) {
+        this.balanceService = balanceService;
+    }
+
+    /**
+     * Gets the balanceService attribute value.
+     * 
+     * @return balanceService The balanceService to set.
+     */
+    public LaborLedgerBalanceService getBalanceService() {
+        return balanceService;
     }
 }

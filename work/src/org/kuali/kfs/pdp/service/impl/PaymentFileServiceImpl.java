@@ -14,8 +14,10 @@ import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.service.MailService;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.pdp.PdpConstants;
+import org.kuali.module.pdp.bo.Batch;
 import org.kuali.module.pdp.bo.CustomerProfile;
 import org.kuali.module.pdp.bo.PdpUser;
+import org.kuali.module.pdp.dao.PaymentFileLoadDao;
 import org.kuali.module.pdp.exception.PaymentLoadException;
 import org.kuali.module.pdp.service.CustomerProfileService;
 import org.kuali.module.pdp.service.EnvironmentService;
@@ -42,6 +44,12 @@ public class PaymentFileServiceImpl implements PaymentFileService {
   private KualiConfigurationService kualiConfigurationService;
   private CustomerProfileService customerProfileService;
   private EnvironmentService environmentService;
+  private PaymentFileLoadDao paymentFileLoadDao;
+
+  // Injected
+  public void setPaymentFileLoadDao(PaymentFileLoadDao pfld) {
+      paymentFileLoadDao = pfld;
+  }
 
   // Injected
   public void setEnvironmentService(EnvironmentService es) {
@@ -78,6 +86,10 @@ public class PaymentFileServiceImpl implements PaymentFileService {
       startingPointer--;
     }
     return filename.substring(startingPointer+1);
+  }
+
+  public void saveBatch(Batch batch) {
+      paymentFileLoadDao.createBatch(batch);
   }
 
   // This will parse the file for hard edit problems, then copy the file to

@@ -63,6 +63,33 @@
 	<bean id="purapUserService" class="org.kuali.module.purap.service.impl.PurapUserServiceImpl" parent="kualiModuleUserServiceBase">
 	</bean>
 
+	<bean id="pdpExtractService" class="org.kuali.module.purap.service.impl.PdpExtractServiceImpl">
+		<property name="paymentRequestService">
+			<ref bean="paymentRequestService"/>
+		</property>
+		<property name="paymentFileService">
+			<ref bean="pdpPaymentFileService"/>
+		</property>
+		<property name="kualiConfigurationService">
+			<ref bean="kualiConfigurationService"/>
+		</property>
+		<property name="customerProfileService">
+			<ref bean="pdpCustomerProfileService"/>
+		</property>
+		<property name="dateTimeService">
+			<ref bean="dateTimeService"/>
+		</property>
+		<property name="universalUserService">
+			<ref bean="universalUserService"/>
+		</property>
+		<property name="paymentGroupService">
+			<ref bean="pdpPaymentGroupService"/>
+		</property>
+		<property name="paymentDetailService">
+			<ref bean="pdpPaymentDetailService"/>
+		</property>
+	</bean>
+
 	<bean id="requisitionService" class="org.kuali.module.purap.service.impl.RequisitionServiceImpl">
 		<property name="businessObjectService">
 			<ref bean="businessObjectService" />
@@ -298,12 +325,17 @@
 	<bean id="singleConfirmationQuestion" class="org.kuali.module.purap.question.SingleConfirmationQuestion" singleton="false" />
 	
 	<!--  Batch Jobs -->
-	
     <bean id="autoApprovePaymentRequestsBatchStep" class="org.kuali.module.purap.batch.AutoApprovePaymentRequestsStep" parent="step">
         <property name="paymentRequestService">
             <ref bean="paymentRequestService" />
         </property>
     </bean>
+
+	<bean id="extractPdpBatchStep" class="org.kuali.module.purap.batch.ExtractPdpStep" parent="step">
+		<property name="pdpExtractService">
+			<ref bean="pdpExtractService"/>
+		</property>
+	</bean>
 
     <bean id="autoApprovePaymentRequestsJob" parent="scheduledJobDescriptor">
 		<property name="steps">

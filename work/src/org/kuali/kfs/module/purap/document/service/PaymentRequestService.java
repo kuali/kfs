@@ -17,6 +17,7 @@ package org.kuali.module.purap.service;
 
 import java.sql.Date;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 
 import org.kuali.core.bo.user.UniversalUser;
@@ -71,7 +72,22 @@ public interface PaymentRequestService {
     public void resetExtractedPaymentRequest(PaymentRequestDocument paymentRequest, String note);
     
     public void cancelExtractedPaymentRequest(PaymentRequestDocument paymentRequest, String note);
-    
+
+    /**
+     * Get all the payment requests that need to be extracted
+     * 
+     * @return Iterator of payment requests
+     */
+    public Iterator<PaymentRequestDocument> getPaymentRequestsToExtract();
+
+    /**
+     * Get all the special payment requests for a single chart that need to be extracted
+     * 
+     * @param chartCode
+     * @return
+     */
+    public Iterator<PaymentRequestDocument> getPaymentRequestsToExtractSpecialPayments(String chartCode);
+
     /**
      * Recalculate the payment request
      * 

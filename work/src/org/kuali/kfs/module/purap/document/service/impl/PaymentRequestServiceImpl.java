@@ -227,6 +227,21 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
     /* End Paste */
 
     /**
+     * @see org.kuali.module.purap.server.PaymentRequestService.getPaymentRequestsToExtract()
+     */
+    public Iterator<PaymentRequestDocument> getPaymentRequestsToExtract() {
+        LOG.debug("getPaymentRequestsToExtract() started");
+
+        return paymentRequestDao.getPaymentRequestsToExtract(false,null);
+    }
+
+    public Iterator<PaymentRequestDocument> getPaymentRequestsToExtractSpecialPayments(String chartCode) {
+        LOG.debug("getPaymentRequestsToExtractSpecialPayments() started");
+
+        return paymentRequestDao.getPaymentRequestsToExtract(true,chartCode);
+    }
+
+    /**
      * @see org.kuali.module.purap.service.PaymentRequestService.autoApprovePaymentRequests()
      */
     public boolean autoApprovePaymentRequests() {

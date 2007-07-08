@@ -25,7 +25,15 @@ import org.kuali.module.purap.document.PaymentRequestDocument;
 
 
 public interface PaymentRequestDao {
-    
+    /**
+     * Get all the payment requests that need to be extracted
+     * 
+     * @param onlySpecialPayments True - only include special payments, False - include all
+     * @param chartCode if not null, limit results to a single chart
+     * @return Iterator of payment requests
+     */
+    public Iterator<PaymentRequestDocument> getPaymentRequestsToExtract(boolean onlySpecialPayments,String chartCode);
+
     /**
      * Get all payment request documents that are eligible for auto-approval.
      * Whether or not a document is eligible for auto-approval is determined

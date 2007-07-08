@@ -4,6 +4,7 @@
  */
 package org.kuali.module.pdp.service;
 
+import org.kuali.module.pdp.bo.Batch;
 import org.kuali.module.pdp.bo.PdpUser;
 import org.kuali.module.pdp.exception.PaymentLoadException;
 
@@ -13,4 +14,5 @@ import org.kuali.module.pdp.exception.PaymentLoadException;
  */
 public interface PaymentFileService {
     public LoadPaymentStatus loadPayments(String filename,PdpUser user) throws PaymentLoadException;
+    public void saveBatch(Batch batch);
 }

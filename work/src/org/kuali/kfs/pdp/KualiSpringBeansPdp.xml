@@ -150,6 +150,7 @@
 		<property name="kualiConfigurationService" ref="kualiConfigurationService" />
 		<property name="environmentService" ref="pdpEnvironmentService"/>
 		<property name="customerProfileService" ref="pdpCustomerProfileService"/>
+		<property name="paymentFileLoadDao" ref="pdpPaymentFileLoadDao"/>
 	</bean>
 	<bean id="pdpPaymentGroupService" class="org.kuali.module.pdp.service.impl.PaymentGroupServiceImpl">
 		<property name="paymentGroupDao" ref="pdpPaymentGroupDao"/>

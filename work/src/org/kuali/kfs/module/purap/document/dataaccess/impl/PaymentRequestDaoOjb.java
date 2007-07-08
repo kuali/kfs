@@ -32,6 +32,7 @@ import org.kuali.core.dao.ojb.PlatformAwareDaoBaseOjb;
 import org.kuali.core.service.DateTimeService;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.bo.SourceAccountingLine;
 import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.PurapParameterConstants;
@@ -49,6 +50,69 @@ public class PaymentRequestDaoOjb extends PlatformAwareDaoBaseOjb implements Pay
     private DateTimeService dateTimeService;
     private PurapAccountingService purapAccountingService;
     private KualiConfigurationService kualiConfigurationService;
+
+    /**
+     * The special payments query should be this:
+     *  select *
+            from pur.ap_pmt_rqst_t
+            where pmt_rqst_stat_cd in ('AUTO', 'DPTA')
+              and prcs_cmp_cd = ?
+              and pmt_extrt_ts is NULL
+          and pmt_hld_ind = 'N'
+          and (   (   (    pmt_spcl_handlg_instrc_ln1_txt is not NULL
+               or  pmt_spcl_handlg_instrc_ln2_txt is not NULL
+               or  pmt_spcl_handlg_instrc_ln3_txt is not NULL
+               or pmt_att_ind = 'Y')
+               and trunc (pmt_rqst_pay_dt) <= trunc (sysdate))
+           or IMD_PMT_IND = 'Y')})
+
+     * @see org.kuali.module.purap.dao.PaymentRequestDao#getPaymentRequestsToExtract(boolean, java.lang.String)
+     */
+    public Iterator<PaymentRequestDocument> getPaymentRequestsToExtract(boolean onlySpecialPayments,String chartCode) {
+        LOG.debug("getPaymentRequestsToExtract() started");
+
+        List statuses = new ArrayList();
+        statuses.add(PurapConstants.PaymentRequestStatuses.AUTO_APPROVED);
+        statuses.add(PurapConstants.PaymentRequestStatuses.DEPARTMENT_APPROVED);
+
+        Criteria criteria = new Criteria();
+        if ( chartCode != null ) {
+            criteria.addEqualTo("processingCampusCode", chartCode);
+        }
+        criteria.addIn("statusCode",statuses);
+        criteria.addIsNull("extractedDate");
+        criteria.addEqualTo("holdIndicator", Boolean.FALSE);
+
+        if ( onlySpecialPayments ) {
+            Criteria a = new Criteria();
+
+            Criteria c1 = new Criteria();
+            c1.addNotNull("specialHandlingInstructionLine1Text");
+            Criteria c2 = new Criteria();
+            c2.addNotNull("specialHandlingInstructionLine2Text");
+            Criteria c3 = new Criteria();
+            c3.addNotNull("specialHandlingInstructionLine3Text");
+            Criteria c4 = new Criteria();
+            c4.addEqualTo("paymentAttachmentIndicator", Boolean.TRUE);
+
+            c1.addOrCriteria(c2);
+            c1.addOrCriteria(c3);
+            c1.addOrCriteria(c4);
+
+            a.addAndCriteria(c1);
+            a.addLessOrEqualThan("paymentRequestPayDate", dateTimeService.getCurrentSqlDateMidnight());
+
+            Criteria c5 = new Criteria();
+            c5.addEqualTo("immediatePaymentIndicator", Boolean.TRUE);
+            c5.addOrCriteria(a);
+
+            criteria.addAndCriteria(a);
+        } else {
+            criteria.addLessOrEqualThan("paymentRequestPayDate", dateTimeService.getCurrentSqlDateMidnight());
+        }
+
+        return getPersistenceBrokerTemplate().getIteratorByQuery(new QueryByCriteria(PaymentRequestDocument.class,criteria));
+    }
 
     /**
      * @see org.kuali.module.purap.dao.PaymentRequestDao#getEligibleForAutoApproval()

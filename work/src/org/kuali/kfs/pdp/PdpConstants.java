@@ -18,6 +18,10 @@ package org.kuali.module.pdp;
 public class PdpConstants {
     public static final String PDP_APPLICATION = "PDP";
 
+    public static class PayeeTypeCodes {
+        public static String VENDOR = "V";
+    }
+
     public static class Groups {
         // Security Workgroup names
         public static String CANCEL_GROUP = "KUALI_PDP_CANCEL";

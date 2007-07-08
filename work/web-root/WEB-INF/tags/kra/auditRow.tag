@@ -19,6 +19,7 @@
 <%@ attribute name="defaultOpen" required="true" %>
 <%@ attribute name="totalErrors" required="true" %>
 
+<c:set var="tabKey" value="${kfunc:generateTabKey(tabTitle)}"/>
 <c:set var="currentTabIndex" value="${KualiForm.currentTabIndex}"/>
 <c:set var="incrementerDummy" value="${kfunc:incrementTabIndex(KualiForm, currentTabIndex)}" />
 <c:set var="currentTab" value="${kfunc:getTabState(KualiForm, currentTabIndex)}"/>
@@ -32,7 +33,7 @@
     </c:when>
 </c:choose>
 
-<html:hidden property="tabStates(${currentTabIndex})" value="${(isOpen ? 'OPEN' : 'CLOSE')}" />
+<html:hidden property="tabStates(${tabKey})" value="${(isOpen ? 'OPEN' : 'CLOSE')}" />
 
 <!-- ROW -->
 
@@ -40,10 +41,10 @@
     <tr>
 	    <td class="tab-subhead">
 	      	<c:if test="${isOpen == 'true' || isOpen == 'TRUE'}">
-	            <html:image property="methodToCall.toggleTab.tab${currentTabIndex}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-hide.gif" alt="hide" styleClass="tinybutton" styleId="tab-${currentTabIndex}-imageToggle" onclick="javascript: return toggleTab(document, ${currentTabIndex}); " />
+	            <html:image property="methodToCall.toggleTab.tab${tabKey}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-hide.gif" alt="hide" styleClass="tinybutton" styleId="tab-${tabKey}-imageToggle" onclick="javascript: return toggleTab(document, ${tabKey}); " />
 	        </c:if>
 	        <c:if test="${isOpen != 'true' && isOpen != 'TRUE'}">
-	            <html:image property="methodToCall.toggleTab.tab${currentTabIndex}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-show.gif" alt="show" styleClass="tinybutton" styleId="tab-${currentTabIndex}-imageToggle" onclick="javascript: return toggleTab(document, ${currentTabIndex}); " />
+	            <html:image property="methodToCall.toggleTab.tab${tabKey}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-show.gif" alt="show" styleClass="tinybutton" styleId="tab-${tabKey}-imageToggle" onclick="javascript: return toggleTab(document, ${tabKey}); " />
 	        </c:if>
 	    </td>
 	    <td colspan="3" class="tab-subhead" width="99%"><b>${tabTitle} (${totalErrors})</b></td>
@@ -51,10 +52,10 @@
 </tbody>
 
 <c:if test="${isOpen == 'true' || isOpen == 'TRUE'}">
-	<tbody style="display: ;" id="tab-${currentTabIndex}-div">
+	<tbody style="display: ;" id="tab-${tabKey}-div">
 </c:if>
 <c:if test="${isOpen != 'true' && isOpen != 'TRUE'}">
-	<tbody style="display: none;" id="tab-${currentTabIndex}-div">
+	<tbody style="display: none;" id="tab-${tabKey}-div">
 </c:if>
 
 <!-- Before the jsp:doBody of the kul:tab tag -->

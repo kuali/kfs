@@ -21,6 +21,7 @@
 <%@ attribute name="institutionCostShare" required="false" %>
 <%@ attribute name="thirdPartyCostShare" required="false" %>
 
+<c:set var="tabKey" value="${kfunc:generateTabKey(tabTitle)}"/>
 <c:set var="currentTabIndex" value="${KualiForm.currentTabIndex}"/>
 <c:set var="incrementerDummy" value="${kfunc:incrementTabIndex(KualiForm, currentTabIndex)}" />
 
@@ -39,7 +40,7 @@
   <c:set var="isOpen" value="true"/>
 </logic:messagesPresent>
 
-<html:hidden property="tabStates(${currentTabIndex})" value="${(isOpen ? 'OPEN' : 'CLOSE')}" />
+<html:hidden property="tabStates(${tabKey})" value="${(isOpen ? 'OPEN' : 'CLOSE')}" />
 
 <!-- ROW -->
 
@@ -47,10 +48,10 @@
         <tr>
 	        <td class="tab-subhead" width="5%">
 	          <c:if test="${isOpen == 'true' || isOpen == 'TRUE'}">
-	            <html:image property="methodToCall.toggleTab.tab${currentTabIndex}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-hide.gif" alt="hide" styleClass="tinybutton" styleId="tab-${currentTabIndex}-imageToggle" onclick="javascript: return toggleTab(document, ${currentTabIndex}); " />
+	            <html:image property="methodToCall.toggleTab.tab${tabKey}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-hide.gif" alt="hide" styleClass="tinybutton" styleId="tab-${tabKey}-imageToggle" onclick="javascript: return toggleTab(document, ${tabKey}); " />
 	          </c:if>
 	          <c:if test="${isOpen != 'true' && isOpen != 'TRUE'}">
-	            <html:image property="methodToCall.toggleTab.tab${currentTabIndex}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-show.gif" alt="show" styleClass="tinybutton" styleId="tab-${currentTabIndex}-imageToggle" onclick="javascript: return toggleTab(document, ${currentTabIndex}); " />
+	            <html:image property="methodToCall.toggleTab.tab${tabKey}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-show.gif" alt="show" styleClass="tinybutton" styleId="tab-${tabKey}-imageToggle" onclick="javascript: return toggleTab(document, ${tabKey}); " />
 	          </c:if>
 	        </td>
 	        <td colspan="3" class="tab-subhead">${tabTitle}</td>
@@ -63,10 +64,10 @@
 
 
 <c:if test="${isOpen == 'true' || isOpen == 'TRUE'}">
-<tbody style="display: ;" id="tab-${currentTabIndex}-div">
+<tbody style="display: ;" id="tab-${tabKey}-div">
 </c:if>
 <c:if test="${isOpen != 'true' && isOpen != 'TRUE'}">
-<tbody style="display: none;" id="tab-${currentTabIndex}-div">
+<tbody style="display: none;" id="tab-${tabKey}-div">
 </c:if>
  
       

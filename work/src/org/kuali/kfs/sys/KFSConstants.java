@@ -109,7 +109,6 @@ public class KFSConstants extends Constants {
     public static final String COST_SHARE = "CS";
     public static final String CREDIT_AMOUNT_PROPERTY_NAME = "newSourceLineCredit";
     public static final String DEBIT_AMOUNT_PROPERTY_NAME = "newSourceLineDebit";
-    public static final String DEFAULT_RETURN_LOCATION = "lookup.do";
     public static final String DELETE_LINE_METHOD = "deleteLine";
     public static final String DICTIONARY_BO_NAME = "dictionaryBusinessObjectName";
     public static final String DISENCUMBRANCE = "Disencumbrance";
@@ -274,7 +273,6 @@ public class KFSConstants extends Constants {
     public static final String VOUCHER_LINE_HELPER_DEBIT_PROPERTY_NAME = ".debit";
     public static final String KUALI_WORKFLOW_APPLICATION_CODE = "kuali";
     public static final String LOOKUP_ACTION = "kr/lookup.do";
-    public static final String MULTIPLE_VALUE_LOOKUP_ACTION = "multipleValueLookup.do";
     public static final String LOOKUP_RESULTS_SEQUENCE_NUMBER = "lookupResultsSequenceNumber";
     public static final String LOOKUP_RESULTS_BO_CLASS_NAME = "lookupResultsBOClassName";
     public static final String LOOKED_UP_COLLECTION_NAME = "lookedUpCollectionName";

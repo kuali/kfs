@@ -890,19 +890,8 @@ public class Org extends PersistableBusinessObjectBase implements Inactivateable
     public String getOrganizationReviewHierarchy() {
 
         Properties params = new Properties();
-
-        /*
-        Lookup.do?
-        methodToCall=start
-        docFormKey=
-        lookupableImplServiceName=OrgReviewLookupable
-        conversionFields=
-        returnLocation=
-        */ 
-        
         params.put("methodToCall", "start");
         params.put("docFormKey", "");
-        //params.put("lookupableImplServiceName", "OrgReviewLookupable");
         params.put("lookupableImplServiceName", "RuleBaseValuesLookupableImplService");
         params.put("fin_coa_cd", this.chartOfAccountsCode);
         params.put("org_cd", this.organizationCode);

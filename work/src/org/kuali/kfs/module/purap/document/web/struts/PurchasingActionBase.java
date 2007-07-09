@@ -298,7 +298,7 @@ public class PurchasingActionBase extends PurchasingAccountsPayableActionBase {
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
-
+    
     /**
      * @see org.kuali.module.purap.web.struts.action.PurchasingAccountsPayableActionBase#processCustomInsertAccountingLine(org.kuali.module.purap.web.struts.form.PurchasingAccountsPayableFormBase)
      */
@@ -319,5 +319,26 @@ public class PurchasingActionBase extends PurchasingAccountsPayableActionBase {
         }
 
         return success;
+    }
+    
+    /**
+     * @see org.kuali.kfs.web.struts.action.KualiAccountingDocumentActionBase#deleteSourceLine(org.apache.struts.action.ActionMapping,
+     *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     */
+    @Override
+    public ActionForward deleteSourceLine(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        PurchasingFormBase purchasingForm = (PurchasingFormBase) form;
+
+        String[] indexes = getSelectedLineForAccounts(request);
+        int itemIndex = Integer.parseInt(indexes[0]);
+        int accountIndex = Integer.parseInt(indexes[1]);
+        if (itemIndex == -2) {
+            purchasingForm.getAccountDistributionsourceAccountingLines().remove(accountIndex);
+        }
+        else {
+            PurchasingApItem item = (PurchasingApItem) ((PurchasingAccountsPayableDocument) purchasingForm.getDocument()).getItem((itemIndex));
+            item.getSourceAccountingLines().remove(accountIndex);
+        }
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 }

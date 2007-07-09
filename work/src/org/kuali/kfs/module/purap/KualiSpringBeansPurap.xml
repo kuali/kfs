@@ -204,7 +204,31 @@
 		</property>
         <property name="kualiConfigurationService">
             <ref bean="kualiConfigurationService" />
-        </property>	     
+        </property>	   
+        <property name="businessObjectService">
+            <ref bean="businessObjectService" />
+        </property>	  
+        <property name="documentService">
+            <ref bean="documentService" />
+        </property>	 
+        <property name="noteService">
+            <ref bean="noteService" />
+        </property>	 
+        <property name="generalLedgerService">
+            <ref bean="generalLedgerService" />
+        </property>	
+        <property name="purapService">
+            <ref bean="purapService" />
+        </property>	      
+         <property name="paymentRequestService">
+            <ref bean="paymentRequestService" />
+        </property>	
+         <property name="purchaseOrderService">
+            <ref bean="purchaseOrderService" />
+        </property>	
+         <property name="dateTimeService">
+            <ref bean="dateTimeService" />
+        </property>	
     </bean>
     
 	<bean id="creditMemoCreateService" class="org.kuali.module.purap.service.impl.CreditMemoCreateServiceImpl">
@@ -213,7 +237,7 @@
 		</property>
         <property name="vendorService">
             <ref bean="vendorService" />
-        </property>	        
+        </property>
     </bean>
 	
 	<bean id="printService" class="org.kuali.module.purap.service.impl.PrintServiceImpl">
@@ -325,6 +349,7 @@
 	<bean id="singleConfirmationQuestion" class="org.kuali.module.purap.question.SingleConfirmationQuestion" singleton="false" />
 	
 	<!--  Batch Jobs -->
+	
     <bean id="autoApprovePaymentRequestsBatchStep" class="org.kuali.module.purap.batch.AutoApprovePaymentRequestsStep" parent="step">
         <property name="paymentRequestService">
             <ref bean="paymentRequestService" />

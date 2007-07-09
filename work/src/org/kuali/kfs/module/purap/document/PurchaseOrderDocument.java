@@ -819,7 +819,7 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase implements Cop
             for (CreditMemoView element : getRelatedCreditMemoViews()) {
                 // If the CM is cancelled, check whether the CM has been paid.
                 // If it has not been paid, then this method will return true.
-                if (!element.getCreditMemoStatusCode().equals(PurapConstants.CreditMemoStatuses.CANCELLED_POST_APPROVE)) {
+                if (!element.getCreditMemoStatusCode().equals(PurapConstants.CreditMemoStatuses.CANCELLED)) {
                     if (element.getCreditMemoPaidTimestamp() == null) {
                         return true;
                     }

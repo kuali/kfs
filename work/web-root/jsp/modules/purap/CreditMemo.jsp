@@ -35,12 +35,15 @@
     	
     	<kul:panelFooter />
     
-	    <div align="right"><br>
-	          ** You must enter one and only one of these fields: PREQ #, Purchase Order #, or Vendor #.</div>
-	    </div><br>
+	    <div align="right"><br><bean:message key="message.creditMemo.initMessage" /></div><br>
 	</c:if>
 	
 	<c:if test="${not displayInitTab}" >
+		<!--  Display hold message if payment is on hold -->
+	    <c:if test="${KualiForm.document.holdIndicator}">	
+		  <h3>This Credit Memo has been Held by <c:out value="${KualiForm.document.accountsPayableHoldPersonName}"/></h3>		
+	    </c:if>
+	    
 		<kul:documentOverview editingMode="${KualiForm.editingMode}" includePostingYear="true" postingYearAttributes="${DataDictionary.KualiCreditMemoDocument.attributes}" />
 	        
 		<purap:vendor documentAttributes="${DataDictionary.KualiCreditMemoDocument.attributes}" displayPurchaseOrderFields="false" displayCreditMemoFields="true"/>

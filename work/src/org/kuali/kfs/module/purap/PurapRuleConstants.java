@@ -22,6 +22,7 @@ public class PurapRuleConstants {
 
     // GROUP NAMES
     public static String PURAP_ADMIN_GROUP = "PurapAdminGroup";
+    public static String CREDIT_MEMO_RULES_GROUP = "Kuali.Purchasing.CreditMemoDocument";
 
     // RULE NAMES
     public static final String PURAP_DOCUMENT_PO_ACTIONS = "PURAP.DOCUMENT.PO.ACTIONS";
@@ -29,4 +30,10 @@ public class PurapRuleConstants {
     public static final String PURAP_DOCUMENT_ASSIGN_CM_ACTIONS = "PURAP.DOCUMENT.ASSIGN.CM.ACTIONS";
 
     public static final String ALLOW_APO_NEXT_FY_DAYS = "PURAP.ALLOW_APO_NEXT_FY_DAYS";
+    
+    public static final String RESTRICTED_OBJECT_TYPE_PARM_NM = "RESTRICTED_OBJECT_TYPE";
+    public static final String RESTRICTED_OBJECT_CONSOLIDATION_PARM_NM = "RESTRICTED_OBJECT_CONSOLIDATION";
+    public static final String RESTRICTED_OBJECT_LEVEL_PARM_NM = "RESTRICTED_OBJECT_LEVEL";
+    public static final String RESTRICTED_OBJECT_LEVEL_BY_TYPE_PARM_PREFIX = "RESTRICTED_OBJECT_LEVEL_OBJECT_TYPE_";
+    public static final String RESTRICTED_OBJECT_SUB_TYPE_PARM_NM = "RESTRICTED_OBJECT_SUB_TYPE";
 }

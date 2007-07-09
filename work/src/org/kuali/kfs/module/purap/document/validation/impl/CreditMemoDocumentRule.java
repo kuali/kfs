@@ -15,6 +15,7 @@
  */
 package org.kuali.module.purap.rules;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
@@ -24,13 +25,20 @@ import org.kuali.core.bo.BusinessObject;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
+import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSKeyConstants;
+import org.kuali.kfs.bo.AccountingLine;
+import org.kuali.kfs.document.AccountingDocument;
 import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.module.chart.bo.ObjectCode;
 import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.PurapKeyConstants;
 import org.kuali.module.purap.PurapPropertyConstants;
+import org.kuali.module.purap.PurapRuleConstants;
 import org.kuali.module.purap.PurapConstants.CREDIT_MEMO_TYPES;
+import org.kuali.module.purap.bo.CreditMemoAccount;
 import org.kuali.module.purap.bo.CreditMemoItem;
+import org.kuali.module.purap.bo.PurApAccountingLine;
 import org.kuali.module.purap.bo.PurchaseOrderItem;
 import org.kuali.module.purap.bo.PurchasingApItem;
 import org.kuali.module.purap.document.AccountsPayableDocument;
@@ -58,14 +66,32 @@ public class CreditMemoDocumentRule extends AccountsPayableDocumentRuleBase impl
      */
     @Override
     public boolean processValidation(PurchasingAccountsPayableDocument purapDocument) {
-        boolean valid = super.processValidation(purapDocument);
+        boolean valid = true;
 
         CreditMemoDocument cmDocument = (CreditMemoDocument) purapDocument;
 
-        valid = processItemValidation(cmDocument);
-
+        valid = processDocumentOverviewValidation(cmDocument);
+        valid &= processItemValidation(cmDocument);
         valid = valid && validateTotalMatchesVendorAmount(cmDocument);
-        valid = valid && validateTotalOverZero(cmDocument);
+        // valid &= validateTotalOverZero(cmDocument);
+
+        return valid;
+    }
+
+    /**
+     * Validates a new accounting line.
+     * 
+     * @see org.kuali.module.purap.rules.PurchasingAccountsPayableDocumentRuleBase#processCustomAddAccountingLineBusinessRules(org.kuali.kfs.document.AccountingDocument,
+     *      org.kuali.kfs.bo.AccountingLine)
+     */
+    @Override
+    protected boolean processCustomAddAccountingLineBusinessRules(AccountingDocument financialDocument, AccountingLine accountingLine) {
+        boolean valid = true;
+
+        CreditMemoAccount cmAccount = (CreditMemoAccount) accountingLine;
+
+        valid = verifyAccountingStringsBetween0And100Percent(cmAccount);
+        valid &= validateObjectCode((CreditMemoDocument) financialDocument, cmAccount);
 
         return valid;
     }
@@ -188,7 +214,7 @@ public class CreditMemoDocumentRule extends AccountsPayableDocumentRuleBase impl
                 GlobalVariables.getErrorMap().putError(PurapPropertyConstants.PURCHASE_ORDER_IDENTIFIER, PurapKeyConstants.ERROR_CREDIT_MEMO_PURCHASE_ORDER_INVALID, purchaseOrderID.toString());
                 valid = false;
             }
-            else if (!StringUtils.equals(purchaseOrder.getStatusCode(), PurapConstants.PurchaseOrderStatuses.OPEN)) {
+            else if (!(StringUtils.equals(purchaseOrder.getStatusCode(), PurapConstants.PurchaseOrderStatuses.OPEN) || StringUtils.equals(purchaseOrder.getStatusCode(), PurapConstants.PurchaseOrderStatuses.CLOSED))) {
                 GlobalVariables.getErrorMap().putError(PurapPropertyConstants.PURCHASE_ORDER_IDENTIFIER, PurapKeyConstants.ERROR_CREDIT_MEMO_PURCAHSE_ORDER_INVALID_STATUS, purchaseOrderID.toString());
                 valid = false;
             }
@@ -224,11 +250,16 @@ public class CreditMemoDocumentRule extends AccountsPayableDocumentRuleBase impl
         List itemList = cmDocument.getItems();
         for (int i = 0; i < itemList.size(); i++) {
             CreditMemoItem item = (CreditMemoItem) itemList.get(i);
+            item.refreshReferenceObject(PurapPropertyConstants.ITEM_TYPE);
             String errorKeyPrefix = PropertyConstants.DOCUMENT + "." + PurapPropertyConstants.ITEM + "[" + Integer.toString(i) + "].";
 
-            valid = validateItemQuantity(cmDocument, item, errorKeyPrefix + PurapPropertyConstants.QUANTITY);
-            valid = valid && validateItemUnitPrice(cmDocument, item, errorKeyPrefix + PurapPropertyConstants.ITEM_UNIT_PRICE);
-            valid = valid && validateItemExtendedPrice(cmDocument, item, errorKeyPrefix + PurapPropertyConstants.EXTENDED_PRICE);
+            valid &= validateItemQuantity(cmDocument, item, errorKeyPrefix + PurapPropertyConstants.QUANTITY);
+            valid &= validateItemUnitPrice(cmDocument, item, errorKeyPrefix + PurapPropertyConstants.ITEM_UNIT_PRICE);
+            valid &= validateItemExtendedPrice(cmDocument, item, errorKeyPrefix + PurapPropertyConstants.EXTENDED_PRICE);
+
+            if (item.getExtendedPrice() != null && item.getExtendedPrice().isNonZero()) {
+                valid &= processAccountValidation(purapDocument, item.getSourceAccountingLines(), errorKeyPrefix);
+            }
         }
 
         return valid;
@@ -263,7 +294,7 @@ public class CreditMemoDocumentRule extends AccountsPayableDocumentRuleBase impl
         else {
             // check if quantity should be required
             KualiDecimal invoicedQuantity = getSourceTotalInvoiceQuantity(cmDocument, item);
-            if (item.getItemType().isQuantityBasedGeneralLedgerIndicator() && invoicedQuantity.isGreaterThan(KualiDecimal.ZERO) && item.getExtendedPrice().isGreaterThan(KualiDecimal.ZERO)) {
+            if (item.getItemType().isQuantityBasedGeneralLedgerIndicator() && invoicedQuantity.isGreaterThan(KualiDecimal.ZERO) && (item.getExtendedPrice() != null && item.getExtendedPrice().isGreaterThan(KualiDecimal.ZERO))) {
                 String label = SpringServiceLocator.getDataDictionaryService().getAttributeErrorLabel(CreditMemoItem.class, PurapPropertyConstants.QUANTITY);
                 GlobalVariables.getErrorMap().putError(errorKey, KeyConstants.ERROR_REQUIRED, label);
                 valid = false;
@@ -294,7 +325,7 @@ public class CreditMemoDocumentRule extends AccountsPayableDocumentRuleBase impl
             }
 
             // if item type is misc check description was given
-            if (StringUtils.equals(PurapConstants.ItemTypeCodes.ITEM_TYPE_MISC_CODE, item.getItemTypeCode()) && StringUtils.isBlank(item.getItemDescription())) {
+            if (StringUtils.equals(PurapConstants.ItemTypeCodes.ITEM_TYPE_MISC_CRDT_CODE, item.getItemTypeCode()) && StringUtils.isBlank(item.getItemDescription())) {
                 GlobalVariables.getErrorMap().putError(errorKey, PurapKeyConstants.ERROR_CREDIT_MEMO_ITEM_MISCDESCRIPTION);
                 valid = false;
             }
@@ -328,6 +359,10 @@ public class CreditMemoDocumentRule extends AccountsPayableDocumentRuleBase impl
             }
             else {
                 invoicedAmount = item.getPreqExtendedPrice();
+            }
+
+            if (invoicedAmount == null) {
+                invoicedAmount = KualiDecimal.ZERO;
             }
 
             if (item.getExtendedPrice().isGreaterThan(invoicedAmount)) {
@@ -404,7 +439,8 @@ public class CreditMemoDocumentRule extends AccountsPayableDocumentRuleBase impl
     }
 
     /**
-     * Validates the credit memo total matches the vendor credit memo amount
+     * Validates the credit memo total matches the vendor credit memo amount. If the unmatched override is set to true, user has
+     * choosen to accept the difference and there should be no error added.
      * 
      * @param cmDocument - credit memo document
      * @return boolean - true if amounts match, false if they do not match
@@ -412,7 +448,7 @@ public class CreditMemoDocumentRule extends AccountsPayableDocumentRuleBase impl
     private boolean validateTotalMatchesVendorAmount(CreditMemoDocument cmDocument) {
         boolean valid = true;
 
-        if (cmDocument.getGrandTotal().compareTo(cmDocument.getCreditMemoAmount()) != 0) {
+        if (cmDocument.getGrandTotal().compareTo(cmDocument.getCreditMemoAmount()) != 0 && !cmDocument.isUnmatchedOverride()) {
             GlobalVariables.getErrorMap().putError(PropertyConstants.DOCUMENT + "." + PurapPropertyConstants.ITEM, PurapKeyConstants.ERROR_CREDIT_MEMO_INVOICE_AMOUNT_NONMATCH);
             valid = false;
         }
@@ -450,5 +486,123 @@ public class CreditMemoDocumentRule extends AccountsPayableDocumentRuleBase impl
                 GlobalVariables.getErrorMap().putError(errorKey, PurapKeyConstants.ERROR_PAYMENT_REQUEST_ITEM_TOTAL_NOT_EQUAL);
             }
         }
+    }
+
+    /**
+     * Validates object code of accounting line against setup rule restrictions.
+     * 
+     * @param cmDocument - credit memo document
+     * @param account - cm accounting line
+     * @return boolean - true if object code is valid, false if it fails a rule
+     */
+    public boolean validateObjectCode(CreditMemoDocument cmDocument, PurApAccountingLine account) {
+        boolean valid = true;
+
+        account.refreshReferenceObject(PropertyConstants.OBJECT_CODE);
+        ObjectCode objectCode = account.getObjectCode();
+
+        String objectCodeLabel = SpringServiceLocator.getDataDictionaryService().getAttributeLabel(account.getClass(), PropertyConstants.FINANCIAL_OBJECT_CODE);
+
+        // check object type restrictions
+        valid = executeApplicationParameterRestriction(PurapRuleConstants.CREDIT_MEMO_RULES_GROUP, PurapRuleConstants.RESTRICTED_OBJECT_TYPE_PARM_NM, objectCode.getFinancialObjectTypeCode(), PropertyConstants.FINANCIAL_OBJECT_CODE, objectCodeLabel);
+
+        // check object consolidation restrictions
+        valid &= executeApplicationParameterRestriction(PurapRuleConstants.CREDIT_MEMO_RULES_GROUP, PurapRuleConstants.RESTRICTED_OBJECT_CONSOLIDATION_PARM_NM, objectCode.getFinancialObjectLevel().getConsolidatedObjectCode(), PropertyConstants.FINANCIAL_OBJECT_CODE, objectCodeLabel);
+
+        // check object level restrictions
+        valid &= executeApplicationParameterRestriction(PurapRuleConstants.CREDIT_MEMO_RULES_GROUP, PurapRuleConstants.RESTRICTED_OBJECT_LEVEL_PARM_NM, objectCode.getFinancialObjectLevelCode(), PropertyConstants.FINANCIAL_OBJECT_CODE, objectCodeLabel);
+
+        // check object level by object type restrictions
+        valid &= executeApplicationParameterRestriction(PurapRuleConstants.CREDIT_MEMO_RULES_GROUP, PurapRuleConstants.RESTRICTED_OBJECT_LEVEL_BY_TYPE_PARM_PREFIX + objectCode.getFinancialObjectTypeCode(), objectCode.getFinancialObjectLevelCode(), PropertyConstants.FINANCIAL_OBJECT_CODE, objectCodeLabel);
+
+        // check object sub type restrictions
+        valid &= executeApplicationParameterRestriction(PurapRuleConstants.CREDIT_MEMO_RULES_GROUP, PurapRuleConstants.RESTRICTED_OBJECT_SUB_TYPE_PARM_NM, objectCode.getFinancialObjectSubTypeCode(), PropertyConstants.FINANCIAL_OBJECT_CODE, objectCodeLabel);
+        
+        return valid;
+    }
+
+    /**
+     * This method performs any additional document level validation for the accounts.
+     * 
+     * @param purapDocument - credit memo document
+     * @param purAccounts - list of accounting lines
+     * @param errorPrefix - prefix for error keys
+     * @return boolean - true if lines are valid, false if errors were found
+     */
+    @Override
+    public boolean processAccountValidation(PurchasingAccountsPayableDocument purapDocument, List<PurApAccountingLine> purAccounts, String errorPrefix) {
+        boolean valid = true;
+
+        valid = valid & verifyHasAccounts(purAccounts, errorPrefix);
+        valid = valid & verifyAccountPercentTotal(purAccounts, errorPrefix);
+
+        return valid;
+    }
+
+
+    /**
+     * Verifies there is at least one accounting line for the item.
+     * 
+     * @see org.kuali.module.purap.rules.PurchasingAccountsPayableDocumentRuleBase#verifyHasAccounts(java.util.List,
+     *      java.lang.String)
+     */
+    @Override
+    protected boolean verifyHasAccounts(List<PurApAccountingLine> purAccounts, String errorPrefix) {
+        boolean valid = true;
+
+        if (purAccounts.isEmpty()) {
+            GlobalVariables.getErrorMap().putError(errorPrefix + KFSConstants.NEW_SOURCE_ACCT_LINE_PROPERTY_NAME, PurapKeyConstants.ERROR_CREDIT_MEMO_ACCOUNTING_INCOMPLETE);
+            valid = false;
+        }
+
+        return valid;
+    }
+
+    /**
+     * This method verifies the total of accounting line percents equals 100.
+     * 
+     * @param purAccounts - list of accounting lines
+     * @param errorPrefix - prefix for error keys
+     * @return boolean - true if total equals 100, false if it does not equal
+     */
+    protected boolean verifyAccountPercentTotal(List<PurApAccountingLine> purAccounts, String errorPrefix) {
+        boolean valid = true;
+
+        // validate that the percents total 100 for each item
+        BigDecimal totalPercent = BigDecimal.ZERO;
+        BigDecimal desiredPercent = new BigDecimal("100");
+        for (PurApAccountingLine account : purAccounts) {
+            totalPercent = totalPercent.add(account.getAccountLinePercent());
+        }
+
+        if (desiredPercent.compareTo(totalPercent) != 0) {
+            GlobalVariables.getErrorMap().putError(errorPrefix, PurapKeyConstants.ERROR_CREDIT_MEMO_ACCOUNTING_TOTAL);
+            valid = false;
+        }
+
+        return valid;
+    }
+
+    /**
+     * Verifies the percentage given is not null and between 1 and 100.
+     * 
+     * @param account - cm accounting line
+     * @return boolean - true if percentage is valid, false if not
+     */
+    private boolean verifyAccountingStringsBetween0And100Percent(PurApAccountingLine account) {
+        boolean isValid = true;
+
+        if (validateRequiredField(account, PurapPropertyConstants.ACCOUNT_LINE_PERCENT)) {
+            double pct = account.getAccountLinePercent().doubleValue();
+            if (pct <= 0 || pct > 100) {
+                GlobalVariables.getErrorMap().putError(PurapPropertyConstants.ACCOUNT_LINE_PERCENT, PurapKeyConstants.ERROR_CREDIT_MEMO_LINE_PERCENT);
+                isValid = false;
+            }
+        }
+        else {
+            isValid = false;
+        }
+
+        return isValid;
     }
 }

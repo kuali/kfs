@@ -99,7 +99,7 @@ public class CreditMemoCreateServiceImpl implements CreditMemoCreateService {
 
             if (preqItemToTemplate != null && preqItemToTemplate.getItemType().isItemTypeAboveTheLineIndicator()) {
                 if (preqItemToTemplate.getItemQuantity() != null || preqItemToTemplate.getExtendedPrice().isNonZero()) {
-                    cmDocument.getItems().add(new CreditMemoItem(cmDocument, preqItemToTemplate));
+                    cmDocument.getItems().add(new CreditMemoItem(cmDocument, preqItemToTemplate, poItem));
                 }
             }
         }
@@ -189,6 +189,9 @@ public class CreditMemoCreateServiceImpl implements CreditMemoCreateService {
 
         cmDocument.setVendorAddressGeneratedIdentifier(vendorAddress.getVendorAddressGeneratedIdentifier());
         cmDocument.templateVendorAddress(vendorAddress);
+        
+        // add below the line items
+        SpringServiceLocator.getPurapService().addBelowLineItems(cmDocument);
     }
 
     /**

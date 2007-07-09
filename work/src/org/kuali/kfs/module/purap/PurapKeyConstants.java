@@ -159,6 +159,13 @@ public class PurapKeyConstants {
     public static final String ERROR_CREDIT_MEMO_ITEM_QUANTITY_TOOMUCH = "errors.creditMemo.item.quantity.tooMuch";
     public static final String ERROR_CREDIT_MEMO_ITEM_EXTENDEDPRICE_TOOMUCH = "errors.creditMemo.item.extendedPrice.tooMuch";
     public static final String ERROR_CREDIT_MEMO_ITEM_MISCDESCRIPTION = "errors.creditMemo.item.miscDescription";
+    public static final String ERROR_CREDIT_MEMO_LINE_PERCENT = "errors.creditMemo.line.percent";
+    public static final String ERROR_CREDIT_MEMO_ACCOUNTING_INCOMPLETE = "errors.creditMemo.accounting.incomplete";
+    public static final String ERROR_CREDIT_MEMO_ACCOUNTING_TOTAL = "errors.creditMemo.accounting.total";
+    
+    public static final String CREDIT_MEMO_QUESTION_HOLD_DOCUMENT = "creditMemo.question.hold.text";
+    public static final String CREDIT_MEMO_QUESTION_CANCEL_DOCUMENT = "creditMemo.question.cancel.text";
+    public static final String CREDIT_MEMO_QUESTION_REMOVE_HOLD_DOCUMENT = "creditMemo.question.removeHold.text";
     
     public static final String MESSAGE_DUPLICATE_CREDIT_MEMO_VENDOR_NUMBER = "message.duplicate.creditMemo.vendorNumber";
     public static final String MESSAGE_DUPLICATE_CREDIT_MEMO_VENDOR_NUMBER_DATE_AMOUNT = "message.duplicate.creditMemo.vendorNumber.date.amount";

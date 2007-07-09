@@ -75,17 +75,23 @@ public class CreditMemoItem extends AccountsPayableItemBase {
     /**
      * Constructs a CreditMemoItem.java from an existing PaymentRequestItem
      */
-    public CreditMemoItem(CreditMemoDocument cmDocument, PaymentRequestItem preqItem) {
+    public CreditMemoItem(CreditMemoDocument cmDocument, PaymentRequestItem preqItem, PurchaseOrderItem poItem) {
         super();
 
         setPurapDocumentIdentifier(cmDocument.getPurapDocumentIdentifier());
         setItemLineNumber(preqItem.getItemLineNumber());
 
-        // TODO: comparison with po item quantity for lesser one
-        setPreqInvoicedTotalQuantity(preqItem.getItemQuantity());
+        // take invoiced quantities from the lower of the preq and po if different
+        if (poItem.getItemInvoicedTotalQuantity() != null && preqItem.getItemQuantity() != null && poItem.getItemInvoicedTotalQuantity().isLessThan(preqItem.getItemQuantity())) {
+            setPreqInvoicedTotalQuantity(poItem.getItemInvoicedTotalQuantity());
+            setPreqExtendedPrice(poItem.getItemInvoicedTotalAmount());
+        }
+        else {
+            setPreqInvoicedTotalQuantity(preqItem.getItemQuantity());
+            setPreqExtendedPrice(preqItem.getExtendedPrice());
+        }
 
         setPreqUnitPrice(preqItem.getItemUnitPrice());
-        setPreqExtendedPrice(preqItem.getExtendedPrice());
         setItemTypeCode(preqItem.getItemTypeCode());
         setItemUnitPrice(preqItem.getItemUnitPrice());
         setItemCatalogNumber(preqItem.getItemCatalogNumber());

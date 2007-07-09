@@ -52,11 +52,14 @@ public class CreditMemoDocument extends AccountsPayableDocumentBase {
     private PurchaseOrderDocument purchaseOrder;
     private PaymentRequestDocument paymentRequest;
 
+    private boolean unmatchedOverride; // not persisted
+
     /**
      * Default constructor.
      */
     public CreditMemoDocument() {
         super();
+        unmatchedOverride = false;
     }
 
     /**
@@ -152,7 +155,7 @@ public class CreditMemoDocument extends AccountsPayableDocumentBase {
     public void updateExtendedPriceOnItems() {
         for (CreditMemoItem item : (List<CreditMemoItem>) getItems()) {
             item.refreshReferenceObject(PurapPropertyConstants.ITEM_TYPE);
-            
+
             if (ObjectUtils.isNull(item.getExtendedPrice())) {
                 KualiDecimal newExtendedPrice = item.calculateExtendedPrice();
                 item.setExtendedPrice(newExtendedPrice);
@@ -222,7 +225,7 @@ public class CreditMemoDocument extends AccountsPayableDocumentBase {
 
         for (CreditMemoItem item : (List<CreditMemoItem>) getItems()) {
             item.refreshReferenceObject(PurapPropertyConstants.ITEM_TYPE);
-           
+
             if (item.getExtendedPrice() != null) {
                 // make sure restocking fee is negative
                 if (StringUtils.equals(PurapConstants.ItemTypeCodes.ITEM_TYPE_RESTCK_FEE_CODE, item.getItemTypeCode())) {
@@ -385,6 +388,7 @@ public class CreditMemoDocument extends AccountsPayableDocumentBase {
      */
     public void setPurchaseOrder(PurchaseOrderDocument purchaseOrder) {
         this.purchaseOrder = purchaseOrder;
+        this.setPurchaseOrderIdentifier(purchaseOrder.getPurapDocumentIdentifier());
     }
 
     /**
@@ -406,6 +410,24 @@ public class CreditMemoDocument extends AccountsPayableDocumentBase {
     }
 
     /**
+     * Gets the unmatchedOverride attribute.
+     * 
+     * @return Returns the unmatchedOverride.
+     */
+    public boolean isUnmatchedOverride() {
+        return unmatchedOverride;
+    }
+
+    /**
+     * Sets the unmatchedOverride attribute value.
+     * 
+     * @param unmatchedOverride The unmatchedOverride to set.
+     */
+    public void setUnmatchedOverride(boolean unmatchedOverride) {
+        this.unmatchedOverride = unmatchedOverride;
+    }
+    
+    /**
      * USED FOR ROUTING ONLY
      * @deprecated
      */
@@ -419,5 +441,4 @@ public class CreditMemoDocument extends AccountsPayableDocumentBase {
      */
     public void setStatusDescription(String statusDescription) {
     }
-
 }

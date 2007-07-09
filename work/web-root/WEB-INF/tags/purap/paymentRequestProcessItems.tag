@@ -20,7 +20,7 @@
 <%@ attribute name="accountingLineAttributes" required="true" type="java.util.Map" description="The DataDictionary entry containing attributes for this row's fields."%>
 <%@ attribute name="isCreditMemo" required="false" description="Indicates whether the tag is being used in the context of a credit memo document." %>
 
-<kul:tab tabTitle="Process Items" defaultOpen="false" tabErrorKey="${PurapConstants.ITEM_TAB_ERRORS}">
+<kul:tab tabTitle="Process Items" defaultOpen="true" tabErrorKey="${PurapConstants.ITEM_TAB_ERRORS}">
 	<div class="tab-container" align=center>
 		
 	<table cellpadding="0" cellspacing="0" class="datatable" summary="Items Section">
@@ -73,6 +73,25 @@
 			<td colspan=2 class="datacell">&nbsp;</td>
 		</tr>
 		<!-- END TOTAL SECTION -->
+		
+        <c:if test="${isCreditMemo}" >
+          <c:if test="${KualiForm.showTotalOverride}" >
+		    <tr>
+			   <td align=right width='75%' colspan="5" scope="row" class="datacell">
+			      <div align="right">
+			        <bean:message key="message.creditMemo.totalOverride" />:&nbsp;
+			      </div>
+			  </td>
+			  <td valign=middle class="datacell" colspan="2">
+			      <div align="left"><html:checkbox property="document.unmatchedOverride" value="Y"/></div>
+		  	  </td>
+			  <td colspan=2 class="datacell">&nbsp;</td>
+		  </tr>
+		  </c:if>
+          <c:if test="${!KualiForm.showTotalOverride}" >
+               <html:hidden property="document.unmatchedOverride" />
+          </c:if>
+        </c:if>
 
 	</table>
 

@@ -1589,6 +1589,10 @@
     <reference-descriptor name="status" class-ref="org.kuali.module.purap.bo.CreditMemoStatus" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="statusCode" />
     </reference-descriptor>
+    <collection-descriptor name="items" proxy="true" element-class-ref="org.kuali.module.purap.bo.CreditMemoItem" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
+        <orderby name="itemLineNumber" sort="ASC" />
+        <inverse-foreignkey field-ref="purapDocumentIdentifier" />
+    </collection-descriptor>
 </class-descriptor>
 
 <class-descriptor class="org.kuali.module.purap.bo.CreditMemoStatus" table="AP_CRDT_MEMO_STAT_T">

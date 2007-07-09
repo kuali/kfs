@@ -15,8 +15,6 @@
  */
 package org.kuali.module.purap.web.struts.action;
 
-import java.util.List;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -25,6 +23,7 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.Constants;
+import org.kuali.PropertyConstants;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.web.struts.form.KualiDocumentFormBase;
 import org.kuali.kfs.KFSConstants;
@@ -35,6 +34,7 @@ import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.kfs.web.struts.action.KualiAccountingDocumentActionBase;
 import org.kuali.kfs.web.struts.form.KualiAccountingDocumentFormBase;
 import org.kuali.kfs.web.ui.AccountingLineDecorator;
+import org.kuali.module.purap.PurapPropertyConstants;
 import org.kuali.module.purap.bo.PurApAccountingLine;
 import org.kuali.module.purap.bo.PurchasingApItem;
 import org.kuali.module.purap.document.PurchasingAccountsPayableDocument;
@@ -83,7 +83,8 @@ public class PurchasingAccountsPayableActionBase extends KualiAccountingDocument
             item = (PurchasingApItem) ((PurchasingAccountsPayableDocument) purapForm.getDocument()).getItem((itemIndex));
             PurApAccountingLine line = item.getNewSourceLine();
 
-            boolean rulePassed = SpringServiceLocator.getKualiRuleService().applyRules(new AddAccountingLineEvent(KFSConstants.NEW_TARGET_ACCT_LINES_PROPERTY_NAME + "[" + Integer.toString(itemIndex) + "]", purapForm.getDocument(), (AccountingLine) line));
+            String errorPrefix = PropertyConstants.DOCUMENT + "." + PurapPropertyConstants.ITEM + "[" + Integer.toString(itemIndex) + "]." + KFSConstants.NEW_SOURCE_ACCT_LINE_PROPERTY_NAME;
+            boolean rulePassed = SpringServiceLocator.getKualiRuleService().applyRules(new AddAccountingLineEvent(errorPrefix, purapForm.getDocument(), (AccountingLine) line));
 
             if (rulePassed) {
                 // add accountingLine
@@ -151,18 +152,15 @@ public class PurchasingAccountsPayableActionBase extends KualiAccountingDocument
      */
     @Override
     public ActionForward deleteSourceLine(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        PurchasingFormBase purchasingForm = (PurchasingFormBase) form;
+        PurchasingAccountsPayableFormBase purapForm = (PurchasingAccountsPayableFormBase) form;
 
         String[] indexes = getSelectedLineForAccounts(request);
         int itemIndex = Integer.parseInt(indexes[0]);
         int accountIndex = Integer.parseInt(indexes[1]);
-        if (itemIndex == -2) {
-            purchasingForm.getAccountDistributionsourceAccountingLines().remove(accountIndex);
-        }
-        else {
-            PurchasingApItem item = (PurchasingApItem) ((PurchasingAccountsPayableDocument) purchasingForm.getDocument()).getItem((itemIndex));
-            item.getSourceAccountingLines().remove(accountIndex);
-        }
+
+        PurchasingApItem item = (PurchasingApItem) ((PurchasingAccountsPayableDocument) purapForm.getDocument()).getItem((itemIndex));
+        item.getSourceAccountingLines().remove(accountIndex);
+
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
@@ -195,7 +193,7 @@ public class PurchasingAccountsPayableActionBase extends KualiAccountingDocument
      * @param request
      * @return
      */
-    private String[] getSelectedLineForAccounts(HttpServletRequest request) {
+    protected String[] getSelectedLineForAccounts(HttpServletRequest request) {
         String accountString = new String();
         String parameterName = (String) request.getAttribute(Constants.METHOD_TO_CALL_ATTRIBUTE);
         if (StringUtils.isNotBlank(parameterName)) {

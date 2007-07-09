@@ -19,6 +19,7 @@ import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.Constants;
+import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.web.ui.ExtraButton;
 import org.kuali.core.web.ui.KeyLabelPair;
@@ -31,6 +32,7 @@ import org.kuali.module.purap.document.CreditMemoDocument;
  * ActionForm for the Credit Memo Document. Stores document values to and from the JSP.
  */
 public class CreditMemoForm extends AccountsPayableFormBase {
+    boolean showTotalOverride;
 
     /**
      * Constructs a PurchaseOrderForm instance and sets up the appropriately casted document.
@@ -38,6 +40,7 @@ public class CreditMemoForm extends AccountsPayableFormBase {
     public CreditMemoForm() {
         super();
         setDocument(new CreditMemoDocument());
+        showTotalOverride = false;
     }
 
     /**
@@ -79,51 +82,46 @@ public class CreditMemoForm extends AccountsPayableFormBase {
 
         String externalImageURL = SpringServiceLocator.getKualiConfigurationService().getPropertyString(Constants.EXTERNALIZABLE_IMAGES_URL_KEY);
         String appExternalImageURL = SpringServiceLocator.getKualiConfigurationService().getPropertyString(Constants.APPLICATION_EXTERNALIZABLE_IMAGES_URL_KEY);
-        
+
         if (getEditingMode().containsKey(PurapAuthorizationConstants.CreditMemoEditMode.DISPLAY_INIT_TAB)) {
             if (getEditingMode().get(PurapAuthorizationConstants.CreditMemoEditMode.DISPLAY_INIT_TAB).equals("TRUE")) {
                 addExtraButton("methodToCall.continueCreditMemo", externalImageURL + "buttonsmall_continue.gif", "Continue");
                 addExtraButton("methodToCall.clearInitFields", externalImageURL + "buttonsmall_clear.gif", "Clear");
             }
             else {
-
-                // //if preq holdable and user can put on hold, show button
-                // if( SpringServiceLocator.getPaymentRequestService().isPaymentRequestHoldable(preqDoc) ){
-                // if( SpringServiceLocator.getPaymentRequestService().canHoldPaymentRequest(preqDoc,
-                // GlobalVariables.getUserSession().getUniversalUser() ) ){
-                // addExtraButton("methodToCall.addHoldOnPayment", "${externalizable.images.url}buttonsmall_hold.gif", "Hold");
-                // }
-                // }else{
-                // //if person can remove hold
-                // if( SpringServiceLocator.getPaymentRequestService().canRemoveHoldPaymentRequest(preqDoc,
-                // GlobalVariables.getUserSession().getUniversalUser() )){
-                // addExtraButton("methodToCall.removeHoldFromPayment", "${externalizable.images.url}buttonsmall_removehold.gif",
-                // "Remove");
-                // }
-                // }
-                //
-                // //if preq can have a cancel request and user can submit request cancel, show button
-                // if( SpringServiceLocator.getPaymentRequestService().canRequestCancelOnPaymentRequest(preqDoc) ){
-                // if( SpringServiceLocator.getPaymentRequestService().canUserRequestCancelOnPaymentRequest(preqDoc,
-                // GlobalVariables.getUserSession().getUniversalUser() ) ){
-                // addExtraButton("methodToCall.requestCancelOnPayment",
-                // "${externalizable.images.url}buttonsmall_requestcancel.gif", "Cancel");
-                // }
-                // }else{
-                // //if person can remove request cancel
-                // if( SpringServiceLocator.getPaymentRequestService().canUserRemoveRequestCancelOnPaymentRequest(preqDoc,
-                // GlobalVariables.getUserSession().getUniversalUser() )){
-                // addExtraButton("methodToCall.removeCancelRequestFromPayment",
-                // "${externalizable.images.url}buttonsmall_remreqcanc.gif", "Remove");
-                // }
-                // }
+                if (SpringServiceLocator.getCreditMemoService().canHoldCreditMemo(cmDocument, GlobalVariables.getUserSession().getUniversalUser())) {
+                    addExtraButton("methodToCall.addHoldOnCreditMemo", appExternalImageURL + "buttonsmall_hold.gif", "Hold");
+                }
+                else if (SpringServiceLocator.getCreditMemoService().canRemoveHoldCreditMemo(cmDocument, GlobalVariables.getUserSession().getUniversalUser())) {
+                    addExtraButton("methodToCall.removeHoldFromCreditMemo", appExternalImageURL + "buttonsmall_removehold.gif", "Remove");
+                }
 
                 // add the calcuate button
-                addExtraButton("methodToCall.calculate", appExternalImageURL + "buttonsmall_calculate.gif", "Calculate");
+                if (PurapConstants.CreditMemoStatuses.IN_PROCESS.equals(cmDocument.getStatusCode())) {
+                    addExtraButton("methodToCall.calculate", appExternalImageURL + "buttonsmall_calculate.gif", "Calculate");
+                }
             }
         }
 
         return extraButtons;
+    }
+
+    /**
+     * Gets the showTotalOverride attribute.
+     * 
+     * @return Returns the showTotalOverride.
+     */
+    public boolean isShowTotalOverride() {
+        return showTotalOverride;
+    }
+
+    /**
+     * Sets the showTotalOverride attribute value.
+     * 
+     * @param showTotalOverride The showTotalOverride to set.
+     */
+    public void setShowTotalOverride(boolean showTotalOverride) {
+        this.showTotalOverride = showTotalOverride;
     }
 
 }

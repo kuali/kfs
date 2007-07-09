@@ -32,6 +32,9 @@ public class PurapPropertyConstants {
     public static final String ITEM_UNIT_PRICE = "itemUnitPrice";
     public static final String ITEM_DESCRIPTION = "itemDescription";
     
+    // accounting line
+    public static final String ACCOUNT_LINE_PERCENT = "accountLinePercent";
+    
     public static final String DATA_OBJ_MAINT_CD_ACTIVE_IND = "dataObjectMaintenanceCodeActiveIndicator";
     
     // Purchase Order & Requisition
@@ -46,6 +49,7 @@ public class PurapPropertyConstants {
     public static final String PURCHASE_ORDER_TOTAL_LIMIT = "document.purchaseOrderTotalLimit";
     public static final String REQUISITION_VENDOR_FAX_NUMBER = "document.vendorFaxNumber";
     public static final String STATUS_CODE = "statusCode";
+    public static final String STATUS = "status";
     public static final String DOCUMENT_NUMBER = "documentNumber";
     public static final String CONTRACT_MANAGER_CODE = "contractManagerCode";
     public static final String VENDOR_STIPULATION = "purchaseOrderVendorStipulations";

@@ -573,13 +573,13 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
         documentService.addNoteToDocument(document, noteObj);
         noteService.save(noteObj);
         
-        //retrieve and save with hold indicator set to true
+        // retrieve and save with hold indicator set to true
         PaymentRequestDocument preqDoc = paymentRequestDao.getPaymentRequestById(document.getPurapDocumentIdentifier());        
         preqDoc.setHoldIndicator(true);
         preqDoc.setAccountsPayableHoldIdentifier( GlobalVariables.getUserSession().getUniversalUser().getPersonUniversalIdentifier() );
         paymentRequestDao.save(preqDoc);
         
-        //must also save it on the incoming document
+        // must also save it on the incoming document
         document.setHoldIndicator(true);
         document.setAccountsPayableHoldIdentifier( GlobalVariables.getUserSession().getUniversalUser().getPersonUniversalIdentifier() );
     }

@@ -80,7 +80,7 @@ public class PurapConstants extends JstlConstants {
                     DISAPPROVAL_STATUS_BY_NODE_NAME.put(ACCOUNT_REVIEW, PurapConstants.RequisitionStatuses.DAPRVD_FISCAL);
                     DISAPPROVAL_STATUS_BY_NODE_NAME.put(ORG_REVIEW, PurapConstants.RequisitionStatuses.DAPRVD_CHART);
                     DISAPPROVAL_STATUS_BY_NODE_NAME.put(SEPARAION_OF_DUTIES_REVIEW, PurapConstants.RequisitionStatuses.DAPRVD_SEP_OF_DUTY);
-                }
+}
             }
             
             public static final String SEPARATION_OF_DUTIES_DOLLAR_AMOUNT = PURAP_PARAM_PREFIX + STANDARD_SEPARATOR + "SEPARATION_OF_DUTIES_DOLLAR_AMOUNT";
@@ -518,23 +518,25 @@ public class PurapConstants extends JstlConstants {
     public static class CreditMemoStatuses {
         public static String INITIATE = "INIT";
         public static String IN_PROCESS = "INPR";
-        public static String CANCELLED_POST_APPROVE = "CANC";
-        public static String CANCELLED_IN_PROCESS = "VOID";
+        public static String AP_APPROVED = "APAD";
+        public static String CANCELLED = "CANC";
+        public static String COMPLETE = "CMPT";
     }
     
     public static class CMDocumentsStrings {
         public static String DUPLICATE_CREDIT_MEMO_QUESTION = "CMDuplicateInvoice";
-        public static String HOLD_CREDIT_MEMO_QUESTION = "HoldPREQ";
-        public static String CONFIRM_HOLD_QUESTION = "ConfirmHold";
-        public static String HOLD_NOTE_PREFIX = "Note entered while placing Payment Request on hold : ";
+        public static String HOLD_CM_QUESTION = "HoldCM";
+        public static String HOLD_NOTE_PREFIX = "Note entered while placing Credit Memo on hold: ";
+        public static String CANCEL_CM_QUESTION = "CancelCM";
+        public static String CANCEL_NOTE_PREFIX = "Note entered while requesting cancel on Credit Memo: ";
+        public static String REMOVE_HOLD_CM_QUESTION = "RemoveCM";
+        public static String REMOVE_HOLD_NOTE_PREFIX = "Note entered while removing hold on Credit Memo: ";
     }
     
     public static class CREDIT_MEMO_TYPES {
-
         public static final String TYPE_PO = "PO";
         public static final String TYPE_PREQ = "PREQ";
         public static final String TYPE_VENDOR = "Vendor";
-        
     }
     
     private static HashMap<String,String> uncopyableFields() {

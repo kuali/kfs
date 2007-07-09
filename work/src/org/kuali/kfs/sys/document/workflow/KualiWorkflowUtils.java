@@ -84,7 +84,7 @@ public class KualiWorkflowUtils extends WorkflowUtils {
     public static final String FINANCIAL_DOC_TYPE = "KualiFinancialDocument";
     public static final String FINANCIAL_YEAR_END_DOC_TYPE = "KualiFinancialYearEndDocument";
     public static final String FIS_USER_DOC_TYPE = "KualiUserMaintenanceDocument";
-    public static final String ORGANIZATION_DOC_TYPE = "OrganizationMaintenanceDocument";
+    public static final String ORGANIZATION_DOC_TYPE = "OrgMaintenanceDocument";
     public static final String PROJECT_CODE_DOC_TYPE = "ProjectCodeMaintenanceDocument";
     public static final String KRA_BUDGET_DOC_TYPE = "KualiBudgetDocument";
     public static final String KRA_ROUTING_FORM_DOC_TYPE = "KualiRoutingFormDocument";

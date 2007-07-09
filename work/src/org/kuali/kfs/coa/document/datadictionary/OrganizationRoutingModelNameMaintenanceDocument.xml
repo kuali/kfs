@@ -34,7 +34,7 @@
             </authorization>
         </authorizations>
 
-        <documentTypeName>OrganizationRoutingModelMaintDoc</documentTypeName>
+        <documentTypeName>OrganizationRoutingModelNameMaintenanceDocument</documentTypeName>
         <documentTypeCode>GDLM</documentTypeCode>
 
         <label>Account Delegate Model Maintenance Document</label>

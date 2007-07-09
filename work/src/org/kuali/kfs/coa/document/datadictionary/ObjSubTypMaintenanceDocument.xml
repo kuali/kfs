@@ -33,7 +33,7 @@
             </authorization>
         </authorizations>
 
-        <documentTypeName>ObjectSubTypeMaintenanceDocument</documentTypeName>
+        <documentTypeName>ObjSubTypMaintenanceDocument</documentTypeName>
         <documentTypeCode>OSTY</documentTypeCode>
         <label>Object Sub-Type Maintenance Document</label>
         <shortLabel>ObjSubTypeMaintDoc</shortLabel>

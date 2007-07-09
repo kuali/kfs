@@ -32,7 +32,7 @@
             </authorization>
         </authorizations>
 
-        <documentTypeName>AccountTypeMaintenanceDocument</documentTypeName>
+        <documentTypeName>AcctTypeMaintenanceDocument</documentTypeName>
         <documentTypeCode>ATYP</documentTypeCode>
         <label>Account Type Maintenance Document</label>
         <shortLabel>AccountTypeMaintDoc</shortLabel>

@@ -32,7 +32,7 @@
             </authorization>
         </authorizations>
 
-        <documentTypeName>OrganizationTypeMaintenanceDocument</documentTypeName>
+        <documentTypeName>OrgTypeMaintenanceDocument</documentTypeName>
         <documentTypeCode>ORTY</documentTypeCode>
         <label>Organization Type Maintenance Document</label>
         <shortLabel>OrgTypeMaintDoc</shortLabel>

@@ -32,7 +32,7 @@
             </authorization>
         </authorizations>
 
-        <documentTypeName>BalanceTypeMaintenanceDocument</documentTypeName>
+        <documentTypeName>BalanceTypMaintenanceDocument</documentTypeName>
         <documentTypeCode>BTYP</documentTypeCode>
         <label>Balance Type Maintenance Document</label>
         <shortLabel>BalanceTypeMaintDoc</shortLabel>

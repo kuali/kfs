@@ -77,7 +77,7 @@ public class KualiChartAttribute implements RoleAttribute, WorkflowAttribute {
 
     private static final String ROLE_STRING_DELIMITER = "~!~!~";
 
-    private static final String ORGANIZATION_DOC_TYPE = "OrganizationMaintenanceDocument";
+    private static final String ORGANIZATION_DOC_TYPE = "OrgMaintenanceDocument";
 
     private String finCoaCd;
 

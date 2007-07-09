@@ -73,7 +73,7 @@ public class CreditMemoDocumentRule extends AccountsPayableDocumentRuleBase impl
         valid = processDocumentOverviewValidation(cmDocument);
         valid &= processItemValidation(cmDocument);
         valid = valid && validateTotalMatchesVendorAmount(cmDocument);
-        // valid &= validateTotalOverZero(cmDocument);
+        valid &= validateTotalOverZero(cmDocument);
 
         return valid;
     }

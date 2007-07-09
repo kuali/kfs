@@ -119,18 +119,15 @@ public class CreditMemoServiceImpl implements CreditMemoService {
                 continue;
             }
             
-            // TODO: Remove this line and add back commented lines below when good data becomes available
-            invoicedItems.add(poItem);
-            
-//            if (poItem.getItemInvoicedTotalQuantity() != null && poItem.getItemInvoicedTotalQuantity().isGreaterThan(KualiDecimal.ZERO)) {
-//                invoicedItems.add(poItem);
-//            }
-//            else {
-//                BigDecimal unitPrice = (poItem.getItemUnitPrice() == null ? new BigDecimal(0) : poItem.getItemUnitPrice());
-//                if (PurapConstants.ItemTypeCodes.ITEM_TYPE_SERVICE_CODE.equals(poItem.getItemType()) && (unitPrice.doubleValue() > poItem.getItemOutstandingEncumbranceAmount().doubleValue())) {
-//                    invoicedItems.add(poItem);
-//                }
-//            }
+            if (poItem.getItemInvoicedTotalQuantity() != null && poItem.getItemInvoicedTotalQuantity().isGreaterThan(KualiDecimal.ZERO)) {
+                invoicedItems.add(poItem);
+            }
+            else {
+                BigDecimal unitPrice = (poItem.getItemUnitPrice() == null ? new BigDecimal(0) : poItem.getItemUnitPrice());
+                if (PurapConstants.ItemTypeCodes.ITEM_TYPE_SERVICE_CODE.equals(poItem.getItemType()) && (unitPrice.doubleValue() > poItem.getItemOutstandingEncumbranceAmount().doubleValue())) {
+                    invoicedItems.add(poItem);
+                }
+            }
         }
 
         return invoicedItems;

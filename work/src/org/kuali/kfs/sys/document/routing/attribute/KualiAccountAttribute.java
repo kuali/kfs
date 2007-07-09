@@ -36,6 +36,7 @@ import org.apache.log4j.Logger;
 import org.kuali.core.bo.user.UuId;
 import org.kuali.core.lookup.LookupUtils;
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.util.SpringServiceLocator;
@@ -43,6 +44,7 @@ import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.Chart;
 import org.kuali.module.chart.bo.Delegate;
 import org.kuali.workflow.KualiWorkflowUtils;
+import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -434,12 +436,12 @@ public class KualiAccountAttribute implements RoleAttribute, WorkflowAttribute {
                 else {
                     if (!KualiWorkflowUtils.isTargetLineOnly(docTypeName)) {
                         NodeList sourceLineNodes = (NodeList) xpath.evaluate(KualiWorkflowUtils.xstreamSafeXPath(KualiWorkflowUtils.XSTREAM_MATCH_ANYWHERE_PREFIX + KualiWorkflowUtils.getSourceAccountingLineClassName(docTypeName)), docContent.getDocument(), XPathConstants.NODESET);
-                        String totalDollarAmount = String.valueOf(calculateTotalDollarAmount(xpath, sourceLineNodes));
+                        String totalDollarAmount = String.valueOf(calculateTotalDollarAmount(docContent.getDocument()));
                         fiscalOfficers.addAll(getFiscalOfficerCriteria(xpath, sourceLineNodes, roleName, totalDollarAmount));
                     }
                     if (!KualiWorkflowUtils.isSourceLineOnly(docTypeName)) {
                         NodeList targetLineNodes = (NodeList) xpath.evaluate(KualiWorkflowUtils.xstreamSafeXPath(KualiWorkflowUtils.XSTREAM_MATCH_ANYWHERE_PREFIX + KualiWorkflowUtils.getTargetAccountingLineClassName(docTypeName)), docContent.getDocument(), XPathConstants.NODESET);
-                        String totalDollarAmount = String.valueOf(calculateTotalDollarAmount(xpath, targetLineNodes));
+                        String totalDollarAmount = String.valueOf(calculateTotalDollarAmount(docContent.getDocument()));
                         fiscalOfficers.addAll(getFiscalOfficerCriteria(xpath, targetLineNodes, roleName, totalDollarAmount));
                     }
                 }
@@ -504,14 +506,10 @@ public class KualiAccountAttribute implements RoleAttribute, WorkflowAttribute {
         return null;
     }
 
-    private static String calculateTotalDollarAmount(XPath xpath, NodeList targetAccountingLineNodes) throws XPathExpressionException {
-        KualiDecimal sum = new KualiDecimal(0);
-        String stringAddend = "";
-        for (int index = 0; index < targetAccountingLineNodes.getLength(); index++) {
-            stringAddend = xpath.evaluate(KualiWorkflowUtils.XSTREAM_MATCH_RELATIVE_PREFIX + "amount/value", targetAccountingLineNodes.item(index));
-            if (KualiDecimal.isNumeric(stringAddend)) {
-                sum = sum.add(new KualiDecimal(stringAddend));
-            }
+    private static String calculateTotalDollarAmount(Document document) throws XPathExpressionException {
+        KualiDecimal sum = KualiWorkflowUtils.getFinancialDocumentTotalAmount(document);
+        if (ObjectUtils.isNull(sum)) {
+            sum = KualiDecimal.ZERO;
         }
         return sum.toString();
     }

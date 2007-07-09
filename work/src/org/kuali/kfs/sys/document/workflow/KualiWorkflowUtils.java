@@ -412,10 +412,9 @@ public class KualiWorkflowUtils extends WorkflowUtils {
 
     /**
      * This method gets the document total amount from the DocumentHeader 
-     * 
+     * <br>
      * If an XPathExpressionException is thrown, this will be re-thrown within a RuntimeException.
-     *
-     * @param routeContext The RouteContext object from the workflow system
+     * @param document - the document object from the workflow system
      * @return the KualiDecimal value of the total amount from the document's workflow document content or null if the amount value cannot be found.
      */
     public static KualiDecimal getFinancialDocumentTotalAmount(Document document) {

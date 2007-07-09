@@ -34,6 +34,8 @@ import org.apache.log4j.Logger;
 import org.kuali.Constants;
 import org.kuali.core.lookup.LookupUtils;
 import org.kuali.core.util.FieldUtils;
+import org.kuali.core.util.KualiDecimal;
+import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.workflow.attribute.WorkflowLookupableImpl;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.bo.SourceAccountingLine;
@@ -42,6 +44,7 @@ import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.Chart;
 import org.kuali.module.chart.bo.Org;
 import org.kuali.workflow.KualiWorkflowUtils;
+import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -590,7 +593,8 @@ public class KualiOrgReviewAttribute implements WorkflowAttribute, MassRuleAttri
      */
     private Float getAmount(DocumentType docType, DocumentContent docContent) {
         try {
-            XPath xpath = KualiWorkflowUtils.getXPath(docContent.getDocument());
+            Document doc = docContent.getDocument();
+            XPath xpath = KualiWorkflowUtils.getXPath(doc);
             // TODO delyea - fix report xpath expression problem
             boolean isReport = ((Boolean) xpath.evaluate(new StringBuffer(KualiWorkflowUtils.XSTREAM_SAFE_PREFIX).append(KualiWorkflowUtils.XSTREAM_MATCH_ANYWHERE_PREFIX).append(REPORT_XML_BASE_TAG_NAME).append(KualiWorkflowUtils.XSTREAM_SAFE_SUFFIX).toString(), docContent.getDocument(), XPathConstants.BOOLEAN)).booleanValue();
             if (isReport) {
@@ -602,27 +606,17 @@ public class KualiOrgReviewAttribute implements WorkflowAttribute, MassRuleAttri
                     return new Float(0);
                 }
             }
-            String xpathExp = null;
             if (KualiWorkflowUtils.isMaintenanceDocument(docType)) {
                 return null;
             }
             else if (KualiWorkflowUtils.KRA_BUDGET_DOC_TYPE.equalsIgnoreCase(docType.getName()) || KualiWorkflowUtils.KRA_ROUTING_FORM_DOC_TYPE.equalsIgnoreCase(docType.getName())) {
                 return null;
             }
-            else if (KualiWorkflowUtils.isSourceLineOnly(docType.getName())) {
-                xpathExp = new StringBuffer(KualiWorkflowUtils.XSTREAM_SAFE_PREFIX).append(KualiWorkflowUtils.XSTREAM_MATCH_ANYWHERE_PREFIX).append(KualiWorkflowUtils.getSourceAccountingLineClassName(docType.getName())).append("/amount/value").append(KualiWorkflowUtils.XSTREAM_SAFE_SUFFIX).toString();
-            }
-            else if (KualiWorkflowUtils.isTargetLineOnly(docType.getName())) {
-                xpathExp = new StringBuffer(KualiWorkflowUtils.XSTREAM_SAFE_PREFIX).append(KualiWorkflowUtils.XSTREAM_MATCH_ANYWHERE_PREFIX).append(KualiWorkflowUtils.getTargetAccountingLineClassName(docType.getName())).append("/amount/value").append(KualiWorkflowUtils.XSTREAM_SAFE_SUFFIX).toString();
-            }
-            else {
-                xpathExp = new StringBuffer(KualiWorkflowUtils.XSTREAM_SAFE_PREFIX).append(KualiWorkflowUtils.XSTREAM_MATCH_ANYWHERE_PREFIX).append(KualiWorkflowUtils.getSourceAccountingLineClassName(docType.getName())).append("/amount/value").append(KualiWorkflowUtils.XSTREAM_SAFE_SUFFIX).append(" | ").append(KualiWorkflowUtils.XSTREAM_SAFE_PREFIX).append(KualiWorkflowUtils.XSTREAM_MATCH_ANYWHERE_PREFIX).append(KualiWorkflowUtils.getTargetAccountingLineClassName(docType.getName())).append("/amount/value").append(KualiWorkflowUtils.XSTREAM_SAFE_SUFFIX).toString();
-            }
-            String value = xpath.evaluate(new StringBuffer("sum(").append(xpathExp).append(")").toString(), docContent.getDocument());
-            if (value == null) {
+            KualiDecimal value = KualiWorkflowUtils.getFinancialDocumentTotalAmount(doc);
+            if (ObjectUtils.isNull(value)) {
                 throw new RuntimeException("Didn't find amount for document " + docContent.getRouteContext().getDocument().getRouteHeaderId());
             }
-            return Math.abs(new Float(value));
+            return value.abs().floatValue();
         }
         catch (Exception e) {
             LOG.error("Caught excpeption getting document amount", e);

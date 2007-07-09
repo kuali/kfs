@@ -44,6 +44,11 @@
         <lockingKeys>
             <field attributeName="accountNumber" />
         </lockingKeys>
+        
+		<defaultExistenceChecks>
+			<reference attributeName="chartOfAccounts" attributeToHighlightOnFail="chartOfAccountsCode" />
+			<reference attributeName="account" attributeToHighlightOnFail="accountNumber" />
+		</defaultExistenceChecks>
 
         <maintainableSections>
             <maintainableSection title="Edit Auto Approve Exclude">

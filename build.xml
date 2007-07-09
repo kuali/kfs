@@ -229,9 +229,10 @@
 		<delete failonerror="false">
 			<fileset dir="${appserver.deploy.dir}" includes="${ant.project.name}-*.war,${ant.project.name}-*/**" />
 		</delete>
+		<!-- commenting out cause it cause things are already slow and this makes them slower
 		<delete failonerror="false" includeemptydirs="true">
 			<fileset dir="${appserver.work.dir}" includes="${ant.project.name}-*/**" />
-		</delete>
+		</delete> -->
 	</target>
 	
 	<target name="clean-batch" depends="init-batch-properties,clean" />

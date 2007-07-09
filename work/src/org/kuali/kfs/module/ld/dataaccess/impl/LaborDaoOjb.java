@@ -219,7 +219,7 @@ public class LaborDaoOjb extends PlatformAwareDaoBaseOjb implements LaborDao {
         
         ArrayList objectTypeCodes = new ArrayList();
         Criteria criteria = new Criteria();
-        criteria.addBetween(KFSPropertyConstants.FINANCIAL_OBJECT_CODE, 2000, 5000);
+        criteria.addBetween(KFSPropertyConstants.FINANCIAL_OBJECT_CODE, LaborConstants.BalanceInquiries.laborLowValueObjectCode, LaborConstants.BalanceInquiries.laborHighValueObjectCode);
         criteria.addAndCriteria(OJBUtility.buildCriteriaFromMap(fieldValues, new July1PositionFunding()));
         QueryByCriteria query = QueryFactory.newQuery(July1PositionFunding.class, criteria);
         OJBUtility.limitResultSize(query);                

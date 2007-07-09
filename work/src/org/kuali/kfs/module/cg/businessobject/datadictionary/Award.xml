@@ -145,9 +145,7 @@
 				<lookupField attributeName="awardProjectTitle" required="false" />
 				<lookupField attributeName="proposal.grantNumber" required="false" />
 				<lookupField attributeName="grantDescriptionCode" required="false" />
-                <lookupField attributeName="awardStatusCode" required="false">
-                	<defaultValue>A</defaultValue>
-                </lookupField>
+                <lookupField attributeName="awardStatusCode" required="false" />
                 <lookupField attributeName="federalPassThroughAgencyNumber" required="false" />
                 <lookupField attributeName="workgroupName" required="false" />
                 <lookupField attributeName="awardPurposeCode" required="false" />

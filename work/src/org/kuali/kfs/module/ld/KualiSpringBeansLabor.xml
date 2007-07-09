@@ -567,9 +567,6 @@
 		<property name="dataDictionaryService">
 			<ref bean="dataDictionaryService" />
 		</property>
-		<property name="laborDao">
-			<ref bean="laborDao" />
-		</property>		
 		<property name="kualiConfigurationService">
 			<ref bean="kualiConfigurationService" />
 		</property>						 

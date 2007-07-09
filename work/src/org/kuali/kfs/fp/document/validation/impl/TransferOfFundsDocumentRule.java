@@ -70,7 +70,7 @@ public class TransferOfFundsDocumentRule extends AccountingDocumentRuleBase impl
                 explicitEntry.setFinancialObjectTypeCode(options.getFinancialObjectTypeTransferIncomeCd());
             }
             else {
-                explicitEntry.setFinancialObjectTypeCode(accountingLine.getObjectCode().getFinancialObjectTypeCode());
+                explicitEntry.setFinancialObjectTypeCode(AccountingDocumentRuleUtil.getObjectCodeTypeCodeWithoutSideEffects(accountingLine));
             }
         }
     }

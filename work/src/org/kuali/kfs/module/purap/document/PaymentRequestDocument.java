@@ -641,7 +641,7 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
         }
         //po.getRecurringPaymentType()
         this.setRecurringPaymentTypeCode(po.getRecurringPaymentTypeCode());
-        
+        //TODO: WHAT ABOUT REMIT ADDRESS!? see code in createPaymentRequest in EPIC PREQServiceIMPL
         this.setVendorHeaderGeneratedIdentifier(po.getVendorHeaderGeneratedIdentifier());
         this.setVendorDetailAssignedIdentifier(po.getVendorDetailAssignedIdentifier());
         this.setVendorName(po.getVendorName());
@@ -658,11 +658,12 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
             this.setVendorPaymentTerms(new PaymentTermType());
             this.vendorPaymentTerms.setVendorPaymentTermsCode("");
         } else {
-          this.setVendorPaymentTerms(po.getVendorPaymentTerms());
+            this.setVendorPaymentTermsCode(po.getVendorPaymentTermsCode());
+            this.setVendorPaymentTerms(po.getVendorPaymentTerms());
         }
         this.setPaymentRequestPayDate(SpringServiceLocator.getPaymentRequestService().calculatePayDate(this.getInvoiceDate(), this.getVendorPaymentTerms()));
         for (PurchaseOrderItem poi : (List<PurchaseOrderItem>)po.getItems()) {
-            //TODO: still needs to be tested bu this should work now
+            //TODO: still needs to be tested but this should work now
             if(poi.isItemActiveIndicator()) {
                 this.getItems().add(new PaymentRequestItem(poi,this));                
             }

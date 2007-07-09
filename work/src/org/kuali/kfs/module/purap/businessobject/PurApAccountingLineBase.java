@@ -20,8 +20,8 @@ import java.util.LinkedHashMap;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.builder.EqualsBuilder;
+import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
-import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.bo.SourceAccountingLine;
 
 public abstract class PurApAccountingLineBase extends SourceAccountingLine implements PurApAccountingLine {
@@ -66,8 +66,10 @@ public abstract class PurApAccountingLineBase extends SourceAccountingLine imple
     }
 
     public PurApAccountingLine createBlankAmountsCopy() {
-        // TODO PURAP - Finish Me
-        return null;
+        PurApAccountingLine newAccount = (PurApAccountingLine)ObjectUtils.deepCopy(this);
+        newAccount.setAccountLinePercent(BigDecimal.ZERO);
+        newAccount.setAmount(KualiDecimal.ZERO);
+        return newAccount;
     }
 
     // TODO PURAP - need more fields for comparison or not? - look at org.kuali.kfs.bo.AccountingLineBase#getValuesMap()

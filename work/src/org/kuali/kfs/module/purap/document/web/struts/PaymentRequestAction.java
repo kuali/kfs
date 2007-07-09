@@ -93,10 +93,8 @@ public class PaymentRequestAction extends AccountsPayableActionBase {
         KualiConfigurationService kualiConfiguration = SpringServiceLocator.getKualiConfigurationService();     
         PaymentRequestService paymentRequestService = SpringServiceLocator.getPaymentRequestService();
         
-        Integer poId = paymentRequestDocument.getPurchaseOrderIdentifier();
-        PurchaseOrderDocument purchaseOrderDocument = SpringServiceLocator.getPurchaseOrderService().getCurrentPurchaseOrder(paymentRequestDocument.getPurchaseOrderIdentifier());
         
-        if (ObjectUtils.isNotNull(purchaseOrderDocument)) {
+        if (ObjectUtils.isNotNull(paymentRequestDocument.getPurchaseOrderIdentifier())) {
             HashMap<String, String> duplicateMessages = paymentRequestService.paymentRequestDuplicateMessages(paymentRequestDocument);
             
             if (!duplicateMessages.isEmpty()){
@@ -125,38 +123,18 @@ public class PaymentRequestAction extends AccountsPayableActionBase {
         boolean rulePassed = SpringServiceLocator.getKualiRuleService().applyRules(new ContinueAccountsPayableEvent(paymentRequestDocument));        
         
         if (rulePassed) {           
-            paymentRequestDocument.populatePaymentRequestFromPurchaseOrder(purchaseOrderDocument);
             paymentRequestDocument.setStatusCode(PurapConstants.PaymentRequestStatuses.IN_PROCESS);
-            paymentRequestDocument.refreshAllReferences();
-
-            //editMode.put(PurapAuthorizationConstants.PaymentRequestEditMode.DISPLAY_INIT_TAB, "FALSE");    
+            SpringServiceLocator.getPaymentRequestService().populatePaymentRequest(paymentRequestDocument);
+            //TODO: can we save the payment request here?!
+            
+            paymentRequestDocument.refreshAllReferences();    
         } else {
             paymentRequestDocument.setStatusCode(PurapConstants.PaymentRequestStatuses.INITIATE);
         }
         
-        //KULPURAP-683 - set description to a specific value
-        StringBuffer descr = new StringBuffer("");
-        descr.append("PO: ");
-        descr.append(paymentRequestDocument.getPurchaseOrderIdentifier());
-        descr.append(" Vendor: ");
-        descr.append( StringUtils.trimToEmpty(paymentRequestDocument.getVendorName()) );
-        paymentRequestDocument.getDocumentHeader().setFinancialDocumentDescription(descr.toString());
 
-        //If the list of closed/expired accounts is not empty add a warning and add a note for the close / epired accounts which get replaced
-        //HashMap<String, String> expiredOrClosedAccounts = paymentRequestService.expiredOrClosedAccountsList(paymentRequestDocument);
-        //TODO: Chris finish above method for now just set to empty
-        HashMap<String, String> expiredOrClosedAccounts = new HashMap<String,String>();
-        
-        if (!expiredOrClosedAccounts.isEmpty()){
-            GlobalVariables.getMessageList().add(PurapKeyConstants.MESSAGE_CLOSED_OR_EXPIRED_ACCOUNTS_REPLACED);
-            paymentRequestService.addContinuationAccountsNote(paymentRequestDocument, expiredOrClosedAccounts);
-        }
                 
-        //Force calculate
-        preqForm.setCalculated(false);
-                
-        return super.refresh(mapping, form, request, response);
-        //return mapping.findForward(KFSConstants.MAPPING_PORTAL);
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
   
     }
     

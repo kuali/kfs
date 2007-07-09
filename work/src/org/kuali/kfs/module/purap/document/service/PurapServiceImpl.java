@@ -32,6 +32,7 @@ import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.bo.SourceAccountingLine;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.purap.PurapConstants;
+import org.kuali.module.purap.bo.ItemType;
 import org.kuali.module.purap.bo.OrganizationParameter;
 import org.kuali.module.purap.bo.PurchaseOrderView;
 import org.kuali.module.purap.bo.PurchasingApItem;
@@ -224,6 +225,23 @@ public class PurapServiceImpl implements PurapService {
         String securityGroup = (String)PurapConstants.ITEM_TYPE_SYSTEM_PARAMETERS_SECURITY_MAP.get(documentType);
         String[] itemTypes = kualiConfigurationService.getApplicationParameterValues(securityGroup, PurapConstants.BELOW_THE_LINES_PARAMETER);
         return itemTypes;
+    }
+    
+    /**
+     * 
+     * @see org.kuali.module.purap.service.PurapService#getBelowTheLineByType(org.kuali.module.purap.document.PurchasingAccountsPayableDocument, org.kuali.module.purap.bo.ItemType)
+     */
+    public PurchasingApItem getBelowTheLineByType(PurchasingAccountsPayableDocument document, ItemType iT) {
+        PurchasingApItem belowTheLineItem = null;
+        for (PurchasingApItem item : (List<PurchasingApItem>)document.getItems()) {
+            if(!item.getItemType().isItemTypeAboveTheLineIndicator()) {
+                if(StringUtils.equals(iT.getItemTypeCode(), item.getItemType().getItemTypeCode())) {
+                    belowTheLineItem = item;
+                    break;
+                }
+            }
+        }
+        return belowTheLineItem;
     }
     
     public List<SourceAccountingLine> generateSummary(List<PurchasingApItem> items) {

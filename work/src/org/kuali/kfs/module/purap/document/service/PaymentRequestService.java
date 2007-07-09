@@ -95,6 +95,17 @@ public interface PaymentRequestService {
      */
     public void calculatePaymentRequest(PaymentRequestDocument pr,boolean updateDiscount);
 
+    /**
+     * populate payment request.  
+     * 
+     * @param preq paymentrequestdocument
+     */
+    public void populatePaymentRequest(PaymentRequestDocument preq);
+    
+    
+    
+    
+    
     
     /* Start Paste from EPIC */
      
@@ -119,19 +130,8 @@ public interface PaymentRequestService {
         String specialHandlingInstructionsLine2, String specialHandlingInstructionsLine3, 
         List closedAccounts, List expiredAccounts);
  */
-    /**
-     * Create payment request.  
-     * 
-     * @param poId               Integer - purchase order id.
-     * @param u                  User
-     * @return PaymentRequest or null if not created
-     */
- /*
-    public PaymentRequestDocument createPaymentRequest(Integer poID, String invoiceNumber, 
-        Timestamp invoiceDate, BigDecimal vendorInvoiceAmount, String specialHandlingInstructionsLine1, 
-        String specialHandlingInstructionsLine2, String specialHandlingInstructionsLine3, UniversalUser u,
-        List closedAccounts, List expiredAccounts);
-*/
+
+    
     /**
      * Get a payment request by id
      * 

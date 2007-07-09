@@ -349,6 +349,7 @@ public class PurapConstants extends JstlConstants {
     public static int DOLLAR_AMOUNT_MIN_SCALE = 2;
     public static int UNIT_PRICE_MAX_SCALE = 4;
     public static int PREQ_DESC_LENGTH = 500;
+    public static String PREQ_DISCOUNT_MULT = "-0.01";
 
     public static class PurchaseOrderDocTypes {
         public static String PURCHASE_ORDER_REOPEN_DOCUMENT = "KualiPurchaseOrderReopenDocument";
@@ -542,6 +543,7 @@ public class PurapConstants extends JstlConstants {
     private static HashMap<String,String> uncopyableFields() {
         HashMap<String,String> fields = new HashMap<String,String>();
         fields.put(Constants.VERSION_NUMBER, "");
+        fields.put("LOG", "");
         return fields;
     }
     /*

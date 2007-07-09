@@ -40,6 +40,7 @@ import org.kuali.core.service.UniversalUserService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
+import org.kuali.core.web.format.BigDecimalFormatter;
 import org.kuali.core.workflow.service.WorkflowDocumentService;
 import org.kuali.kfs.bo.SourceAccountingLine;
 import org.kuali.kfs.util.SpringServiceLocator;
@@ -51,6 +52,7 @@ import org.kuali.module.purap.PurapConstants.PREQDocumentsStrings;
 import org.kuali.module.purap.PurapConstants.PaymentRequestStatuses;
 import org.kuali.module.purap.bo.PaymentRequestAccount;
 import org.kuali.module.purap.bo.PaymentRequestItem;
+import org.kuali.module.purap.bo.PurApAccountingLine;
 import org.kuali.module.purap.bo.PurchaseOrderItem;
 import org.kuali.module.purap.dao.PaymentRequestDao;
 import org.kuali.module.purap.document.PaymentRequestDocument;
@@ -66,8 +68,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 import edu.iu.uis.eden.exception.WorkflowException;
 
+
+
 /**
- * This class...
+ * This class provides services of use to a payment request document
  */
 @Transactional
 public class PaymentRequestServiceImpl implements PaymentRequestService {
@@ -522,7 +526,7 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
         //refresh the payment and shipping terms
         paymentRequest.refreshNonUpdateableReferences();
         
-        if(paymentRequest.getPaymentRequestPayDate()==null) {
+        if(ObjectUtils.isNull(paymentRequest.getPaymentRequestPayDate())) {
             //TODO: do some in depth tests on this
             paymentRequest.setPaymentRequestPayDate(calculatePayDate(paymentRequest.getInvoiceDate(),paymentRequest.getVendorPaymentTerms()));
         }
@@ -536,14 +540,112 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
         }
         
         if(updateDiscount) {
-            //TODO: still have to merge this with other changes I did for discount
-            //calculateDiscount(paymentRequest);
+            calculateDiscount(paymentRequest);
         }
         
-        //TODO Chris merge in distribute accounts code and call here
+        distributeAccounting(paymentRequest);
     }
     
+    
+    /**
+     * This method calculates the discount item for this paymentRequest
+     */
+    private void calculateDiscount(PaymentRequestDocument paymentRequestDocument) {
+        PaymentRequestItem discountItem = findDiscountItem(paymentRequestDocument);
+        //find out if we really need the discount item
+        PaymentTermType pt = paymentRequestDocument.getVendorPaymentTerms(); 
+        if((pt!=null)&&(pt.getVendorPaymentTermsPercent()!=null) && (BigDecimal.ZERO.compareTo(pt.getVendorPaymentTermsPercent())!=0)) {
+            if(discountItem==null) {
+                //set discountItem and add to items
+                //this is probably not the best way of doing it but should work for now if we start excluding discount from below we will need to manually add
+                SpringServiceLocator.getPurapService().addBelowLineItems(paymentRequestDocument);
+                discountItem = findDiscountItem(paymentRequestDocument);
+            }
+            KualiDecimal totalCost = paymentRequestDocument.getTotalDollarAmountAboveLineItems();
+            BigDecimal discountAmount = pt.getVendorPaymentTermsPercent().multiply(totalCost.bigDecimalValue()).multiply(new BigDecimal(PurapConstants.PREQ_DISCOUNT_MULT));
+            //do we really need to set both, not positive, but probably won't hurt
+            discountItem.setItemUnitPrice(discountAmount.setScale(2,KualiDecimal.ROUND_BEHAVIOR));
+            discountItem.setExtendedPrice(new KualiDecimal(discountAmount));
+            
+        } else { //no discount
+            if(discountItem!=null) {
+                paymentRequestDocument.getItems().remove(discountItem);
+            }
+        }
+        
+    }
 
+    /**
+     * This method finds the discount item
+     * @param paymentRequestDocument the payment request document
+     * @return the discount item if it exists
+     */
+    private PaymentRequestItem findDiscountItem(PaymentRequestDocument paymentRequestDocument) {
+        PaymentRequestItem discountItem = null;
+        for (PaymentRequestItem preqItem : (List<PaymentRequestItem>)paymentRequestDocument.getItems()) {
+            if(StringUtils.equals(preqItem.getItemTypeCode(),PurapConstants.ItemTypeCodes.ITEM_TYPE_PMT_TERMS_DISCOUNT_CODE)) {
+                discountItem=preqItem;
+                break;
+            }
+        }
+        return discountItem;
+    }
+    
+    /**
+     * 
+     * This method distributes accounts for a payment request document
+     * @param paymentRequestDocument
+     */
+    private void distributeAccounting(PaymentRequestDocument paymentRequestDocument) {
+        for (PaymentRequestItem item : (List<PaymentRequestItem>)paymentRequestDocument.getItems()) {
+            KualiDecimal totalAmount = KualiDecimal.ZERO;
+            List<PurApAccountingLine> distributedAccounts = null;
+            List<SourceAccountingLine> summaryAccounts = null;
+            
+            //skip above the line
+            if(item.getItemType().isItemTypeAboveTheLineIndicator()) {
+                continue;
+            }
+            
+            if((item.getSourceAccountingLines().isEmpty()) && (ObjectUtils.isNotNull(item.getExtendedPrice())) &&
+               (KualiDecimal.ZERO.compareTo(item.getExtendedPrice())!=0)) {
+                //TODO: add tax stuff here in 2B
+                if ((StringUtils.equals(PurapConstants.ItemTypeCodes.ITEM_TYPE_PMT_TERMS_DISCOUNT_CODE,item.getItemType().getItemTypeCode())) &&
+                        (paymentRequestDocument.getGrandTotal() != null) && 
+                        ((KualiDecimal.ZERO.compareTo(paymentRequestDocument.getGrandTotal()) != 0))) {
+/*
+        totalAmount = paymentRequestDocument.getGrandTotal();
+        summaryAccounts = SpringServiceLocator.getPurapAccountingService().generateSummary(paymentRequestDocument.getItems());
+        
+        distributedAccounts = SpringServiceLocator.getPurapAccountingService().generateAccountDistributionForProration(summaryAccounts, totalAmount, new Integer("6"));
+        
+//        paymentRequestDocument.distributeAccounts(item, distributedAccounts);
+*/
+                } else {
+/*
+ *  TODO: rewrite this! original wasn't working correctly after move
+ *  
+         PurchaseOrderItem poi = item.getPurchaseOrderItem();
+        if ( (poi != null) && (poi.getAccounts() != null) && (!(poi.getAccounts().isEmpty())) && 
+             (poi.getExtendedCost() != null) && ((zero.compareTo(poi.getExtendedCost())) != 0) ) {
+          // use accounts from purchase order item matching this item
+          // account list of current item is already empty
+          item.generateAccountListFromPoItemAccounts(poi.getAccounts());
+        } else {
+          // use line item accounting from PO for distribution
+          totalAmount = this.purchaseOrder.getTotalCost(PurchaseOrder.INCLUDE_ACTIVE_ONLY, PurchaseOrder.INCLUDE_ITEM_TYPE_ITEMS_ONLY);
+          displayAccounts = this.purchaseOrder.getDisplayAccounts(PurchaseOrder.INCLUDE_ACTIVE_ONLY,
+              PurchaseOrder.INCLUDE_NO_BELOW_LINE_ITEMS,PurchaseOrder.ACTUAL_AMOUNT);
+              
+        distributedAccounts = SpringServiceLocator.getPurapAccountingService().generateAccountDistributionForProration(summaryAccounts, totalAmount, new Integer("6"));
+        }
+    
+ */
+                }
+            }
+        }
+    }
+    
     public void addContinuationAccountsNote(PaymentRequestDocument document, HashMap<String, String> accounts) {
         Note note = new Note();
         String noteText;
@@ -914,6 +1016,40 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
         }
         this.save(paymentRequest);
         LOG.debug("resetExtractedPaymentRequest() PREQ " + paymentRequest.getPurapDocumentIdentifier() + " Reset from Extracted status");
+    }
+
+    /**
+     * @see org.kuali.module.purap.service.PaymentRequestService#populatePaymentRequest(org.kuali.module.purap.document.PaymentRequestDocument)
+     */
+    public void populatePaymentRequest(PaymentRequestDocument paymentRequestDocument) {
+
+        PurchaseOrderDocument purchaseOrderDocument = SpringServiceLocator.getPurchaseOrderService().getCurrentPurchaseOrder(paymentRequestDocument.getPurchaseOrderIdentifier());
+
+        paymentRequestDocument.populatePaymentRequestFromPurchaseOrder(purchaseOrderDocument);
+        //KULPURAP-683 - set description to a specific value
+        //TODO: can we abstract this any better so the values aren't hardcoded
+        StringBuffer descr = new StringBuffer("");
+        descr.append("PO: ");
+        descr.append(paymentRequestDocument.getPurchaseOrderIdentifier());
+        descr.append(" Vendor: ");
+        descr.append( StringUtils.trimToEmpty(paymentRequestDocument.getVendorName()) );
+        paymentRequestDocument.getDocumentHeader().setFinancialDocumentDescription(descr.toString());
+
+        //If the list of closed/expired accounts is not empty add a warning and add a note for the close / epired accounts which get replaced
+        
+        //HashMap<String, String> expiredOrClosedAccounts = paymentRequestService.expiredOrClosedAccountsList(paymentRequestDocument);
+        //TODO: Chris finish above method for now just set to empty
+        HashMap<String, String> expiredOrClosedAccounts = new HashMap<String,String>();
+        
+        if (!expiredOrClosedAccounts.isEmpty()){
+            GlobalVariables.getMessageList().add(PurapKeyConstants.MESSAGE_CLOSED_OR_EXPIRED_ACCOUNTS_REPLACED);
+            addContinuationAccountsNote(paymentRequestDocument, expiredOrClosedAccounts);
+        }
+        //add discount item
+        calculateDiscount(paymentRequestDocument);
+        //distribute accounts (i.e. proration)
+        distributeAccounting(paymentRequestDocument);
+        
     }
     
     /*

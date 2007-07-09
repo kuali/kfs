@@ -23,6 +23,7 @@ import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.bo.SourceAccountingLine;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.purap.bo.CreditMemoView;
+import org.kuali.module.purap.bo.ItemType;
 import org.kuali.module.purap.bo.PaymentRequestView;
 import org.kuali.module.purap.bo.PurchaseOrderView;
 import org.kuali.module.purap.bo.PurchasingApItem;
@@ -48,6 +49,14 @@ public interface PurapService {
     public void addBelowLineItems(PurchasingAccountsPayableDocument document);
     
     public String[] getBelowTheLineForDocument(PurchasingAccountsPayableDocument document);
+    /**
+     * 
+     * This method gets the below the line item for a doc by item type (unknown result if multilple of same below the line item type)
+     * @param document the document
+     * @param iT the itemType
+     * @return below the line item by item type 
+     */
+    public PurchasingApItem getBelowTheLineByType(PurchasingAccountsPayableDocument document, ItemType iT);
     
     public List<SourceAccountingLine> generateSummary(List<PurchasingApItem> items);
     

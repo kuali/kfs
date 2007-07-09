@@ -70,7 +70,9 @@ public class PurapAccountingServiceImpl implements PurapAccountingService {
         List<PurApAccountingLine> newAccounts = new ArrayList();
         
         if (totalAmount.isZero()) {
-            throwRuntimeException(methodName,"Purchasing/Accounts Payable account distribution for proration does not allow zero dollar total.");
+//            throwRuntimeException(methodName,"Purchasing/Accounts Payable account distribution for proration does not allow zero dollar total.");
+            //TODO: check with David is this ok?!
+            generateAccountDistributionForProrationWithZeroTotal(accounts, percentScale);
         }
         
         BigDecimal percentTotal = BigDecimal.ZERO;

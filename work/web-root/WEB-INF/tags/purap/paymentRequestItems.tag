@@ -24,22 +24,22 @@
 		<span class="subhead-left">Edit Items</span>
 	</td>
 </tr>
-
-<c:if test="${fn:length(KualiForm.document.items) > fn:length(KualiForm.document.belowTheLineTypes)}">
+<%-- temporary workaround due to removing discount item --%>
+<c:if test="${fn:length(KualiForm.document.items) >= fn:length(KualiForm.document.belowTheLineTypes)}">
 	<tr>
-		<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemLineNumber}" />
-		<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.poOutstandingQuantity}" />
-		<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemUnitOfMeasureCode}" />
-		<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.purchaseOrderItemUnitPrice}" />				
-		<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemQuantity}" />				
-		<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemUnitPrice}" />
-		<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.extendedPrice}" />
-		<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemCatalogNumber}" />
-		<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemDescription}" />
+		<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemLineNumber}" width="2%"/>
+		<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.poOutstandingQuantity}" width="12%"/>
+		<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemUnitOfMeasureCode}" width="12%"/>
+		<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.purchaseOrderItemUnitPrice}" width="12%"/>				
+		<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemQuantity}" width="12%"/>				
+		<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemUnitPrice}" width="12%"/>
+		<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.extendedPrice}" width="12%"/>
+		<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemCatalogNumber}" width="12%"/>
+		<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemDescription}" width="25%"/>
 	</tr>
 </c:if>
-
-<c:if test="${!(fn:length(KualiForm.document.items) > fn:length(KualiForm.document.belowTheLineTypes))}">
+<%-- temporary workaround due to removing discount item --%>
+<c:if test="${!(fn:length(KualiForm.document.items) >= fn:length(KualiForm.document.belowTheLineTypes))}">
 	<tr>
 		<th height=30 colspan="10">No items added to document</th>
 	</tr>

@@ -37,6 +37,8 @@
             <td align=left valign=middle class="datacell">
                 <kul:htmlControlAttribute attributeEntry="${vendorQuoteAttributes.vendorName}" property="document.purchaseOrderVendorQuote[${ctr}].vendorName" readOnly="${isPurchaseOrderAwarded || isSysVendor}" />
 			    <html:hidden property="document.purchaseOrderVendorQuote[${ctr}].documentNumber" />
+			    <html:hidden property="document.purchaseOrderVendorQuote[${ctr}].purchaseOrderVendorQuoteIdentifier" />
+			    <html:hidden property="document.purchaseOrderVendorQuote[${ctr}].versionNumber" />
             </td>
             <th align=right valign=middle class="bord-l-b">
                 <div align="right"><kul:htmlAttributeLabel attributeEntry="${vendorQuoteAttributes.vendorHeaderGeneratedIdentifier}" /></div>

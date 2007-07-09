@@ -1062,7 +1062,7 @@ public abstract class AccountingDocumentRuleBase extends GeneralLedgerPostingDoc
     public final boolean isAsset(AccountingLine accountingLine) {
         LOG.debug("isAsset(AccountingLine) - start");
 
-        boolean returnboolean = isAssetTypeCode(AccountingDocumentRuleUtil.getObjectCodeTypeCodeWithoutSideEffects(accountingLine));
+        boolean returnboolean = isAssetTypeCode(accountingLine.getObjectCode().getFinancialObjectTypeCode());
         LOG.debug("isAsset(AccountingLine) - end");
         return returnboolean;
     }
@@ -1076,7 +1076,7 @@ public abstract class AccountingDocumentRuleBase extends GeneralLedgerPostingDoc
     public final boolean isLiability(AccountingLine accountingLine) {
         LOG.debug("isLiability(AccountingLine) - start");
 
-        boolean returnboolean = isLiabilityTypeCode(AccountingDocumentRuleUtil.getObjectCodeTypeCodeWithoutSideEffects(accountingLine));
+        boolean returnboolean = isLiabilityTypeCode(accountingLine.getObjectCode().getFinancialObjectTypeCode());
         LOG.debug("isLiability(AccountingLine) - end");
         return returnboolean;
     }

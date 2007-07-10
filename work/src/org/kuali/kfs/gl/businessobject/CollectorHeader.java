@@ -19,7 +19,11 @@ public class CollectorHeader extends PersistableBusinessObjectBase {
 	private Integer processBatchSequenceNumber;
 	private Integer processTotalRecordCount;
 	private KualiDecimal processTotalAmount;
-
+    private String campusCode;
+    private String contactPersonPhoneNumber;
+    private String contactMailingAddress;
+    private String contactDeparmentName;
+    
     private Org organization;
 	private Chart chartOfAccounts;
 
@@ -155,8 +159,71 @@ public class CollectorHeader extends PersistableBusinessObjectBase {
 		this.processTotalAmount = processTotalAmount;
 	}
 
-
 	/**
+     * Gets the campusCode attribute. 
+     * @return Returns the campusCode.
+     */
+    public String getCampusCode() {
+        return campusCode;
+    }
+
+    /**
+     * Sets the campusCode attribute value.
+     * @param campusCode The campusCode to set.
+     */
+    public void setCampusCode(String campusCode) {
+        this.campusCode = campusCode;
+    }
+
+    /**
+     * Gets the contactDeparmentName attribute. 
+     * @return Returns the contactDeparmentName.
+     */
+    public String getContactDeparmentName() {
+        return contactDeparmentName;
+    }
+
+    /**
+     * Sets the contactDeparmentName attribute value.
+     * @param contactDeparmentName The contactDeparmentName to set.
+     */
+    public void setContactDeparmentName(String contactDeparmentName) {
+        this.contactDeparmentName = contactDeparmentName;
+    }
+
+    /**
+     * Gets the contactMailingAddress attribute. 
+     * @return Returns the contactMailingAddress.
+     */
+    public String getContactMailingAddress() {
+        return contactMailingAddress;
+    }
+
+    /**
+     * Sets the contactMailingAddress attribute value.
+     * @param contactMailingAddress The contactMailingAddress to set.
+     */
+    public void setContactMailingAddress(String contactMailingAddress) {
+        this.contactMailingAddress = contactMailingAddress;
+    }
+
+    /**
+     * Gets the contactPersonPhoneNumber attribute. 
+     * @return Returns the contactPersonPhoneNumber.
+     */
+    public String getContactPersonPhoneNumber() {
+        return contactPersonPhoneNumber;
+    }
+
+    /**
+     * Sets the contactPersonPhoneNumber attribute value.
+     * @param contactPersonPhoneNumber The contactPersonPhoneNumber to set.
+     */
+    public void setContactPersonPhoneNumber(String contactPersonPhoneNumber) {
+        this.contactPersonPhoneNumber = contactPersonPhoneNumber;
+    }
+
+    /**
 	 * Gets the organization attribute.
 	 * 
 	 * @return Returns the organization

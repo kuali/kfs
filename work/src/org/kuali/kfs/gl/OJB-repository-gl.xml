@@ -710,6 +710,7 @@
     <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
     <field-descriptor name="interDepartmentalBillingItemAmount" column="FDOC_IDBIL_ITM_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion" />
     <field-descriptor name="interDepartmentalBillingNoteText" column="FDOC_IDBIL_NTE_TXT" jdbc-type="VARCHAR" />
+    <field-descriptor name="transactionDebitCreditCode" column="TRN_DEBIT_CRDT_CD" jdbc-type="VARCHAR" />
     <reference-descriptor name="financialObject" class-ref="org.kuali.module.chart.bo.ObjectCode" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="universityFiscalYear" />
         <foreignkey field-ref="chartOfAccountsCode" />
@@ -952,6 +953,10 @@
 	<field-descriptor name="processTotalAmount" column="PROC_TOT_AMT" jdbc-type="DECIMAL" primarykey="true" index="true" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
 	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
+	<field-descriptor name="campusCode" column="CAMPUS_CD" jdbc-type="VARCHAR"/>
+	<field-descriptor name="contactPersonPhoneNumber" column="CNTCT_PRSN_PHN_NBR" jdbc-type="VARCHAR"/>
+	<field-descriptor name="contactMailingAddress" column="CNTCT_MAIL_ADDR" jdbc-type="VARCHAR"/>
+	<field-descriptor name="contactDeparmentName" column="CNTCT_DEPT_NM" jdbc-type="VARCHAR"/>
 	<reference-descriptor name="organization" class-ref="org.kuali.module.chart.bo.Org" auto-retrieve="true" auto-update="none" auto-delete="none">
 		<foreignkey field-ref="chartOfAccountsCode" />
 		<foreignkey field-ref="organizationCode" />

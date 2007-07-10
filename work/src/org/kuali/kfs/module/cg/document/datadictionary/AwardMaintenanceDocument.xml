@@ -74,9 +74,7 @@
             <maintainableSection title="Award Maintenance">
                 <maintainableItems>
                     <maintainableField name="proposalNumber" required="true" readOnlyAfterAdd="true"/>
-                    <maintainableField name="awardStatusCode" required="true">
-						<defaultValue>A</defaultValue>
-					</maintainableField>
+                    <maintainableField name="awardStatusCode" required="true" />
                     <maintainableField name="agencyNumber" required="true" webUILeaveFieldFunction="onblur_agencyNumber"/>
                     <maintainableField name="agency.fullName" readOnly="true" />
                     <maintainableField name="awardProjectTitle" required="true" />

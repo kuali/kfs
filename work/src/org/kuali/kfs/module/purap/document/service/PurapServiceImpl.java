@@ -291,4 +291,10 @@ public class PurapServiceImpl implements PurapService {
         }
         return purchaseOrderTotalLimit;
     }
+
+    public boolean isDocumentStoppingAtRouteLevel(String documentNumber, String routeLevel) {
+        //FIXME delyea, finish coding me!
+        return true;
+    }
+    
 }

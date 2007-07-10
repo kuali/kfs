@@ -88,4 +88,7 @@ public interface PurapService {
      * @return a KualiDecimal if a valid limit amount is found or null if one is not found
      */
     public KualiDecimal getApoLimit(Integer vendorContractGeneratedIdentifier, String chart, String org);
+
+    public boolean isDocumentStoppingAtRouteLevel(String documentNumber, String routeLevel);
+    
 }

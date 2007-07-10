@@ -21,13 +21,8 @@ import java.util.List;
 import org.kuali.core.bo.Note;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.bo.SourceAccountingLine;
-import org.kuali.kfs.util.SpringServiceLocator;
-import org.kuali.module.purap.bo.CreditMemoView;
 import org.kuali.module.purap.bo.ItemType;
-import org.kuali.module.purap.bo.PaymentRequestView;
-import org.kuali.module.purap.bo.PurchaseOrderView;
 import org.kuali.module.purap.bo.PurchasingApItem;
-import org.kuali.module.purap.bo.RequisitionView;
 import org.kuali.module.purap.document.PurchasingAccountsPayableDocument;
 
 public interface PurapService {
@@ -89,6 +84,6 @@ public interface PurapService {
      */
     public KualiDecimal getApoLimit(Integer vendorContractGeneratedIdentifier, String chart, String org);
 
-    public boolean isDocumentStoppingAtRouteLevel(String documentNumber, String routeLevel);
+    public boolean isDocumentStoppingAtRouteLevel(String documentNumber, String routeNodeName);
     
 }

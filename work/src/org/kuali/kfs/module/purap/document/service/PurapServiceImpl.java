@@ -40,6 +40,10 @@ import org.kuali.module.purap.document.PurchasingAccountsPayableDocument;
 import org.kuali.module.purap.service.PurapAccountingService;
 import org.kuali.module.purap.service.PurapService;
 
+import edu.iu.uis.eden.EdenConstants;
+import edu.iu.uis.eden.clientapp.vo.ReportCriteriaVO;
+import edu.iu.uis.eden.exception.WorkflowException;
+
 public class PurapServiceImpl implements PurapService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PurapServiceImpl.class);
 
@@ -292,9 +296,18 @@ public class PurapServiceImpl implements PurapService {
         return purchaseOrderTotalLimit;
     }
 
-    public boolean isDocumentStoppingAtRouteLevel(String documentNumber, String routeLevel) {
-        //FIXME delyea, finish coding me!
-        return true;
+    public boolean isDocumentStoppingAtRouteLevel(String documentNumber, String routeNodeName) {
+        try {
+            ReportCriteriaVO reportCriteriaVO = new ReportCriteriaVO(Long.valueOf(documentNumber));
+            reportCriteriaVO.setTargetNodeName(routeNodeName);
+            return SpringServiceLocator.getWorkflowInfoService().documentWillHaveAtLeastOneActionRequest(
+                    reportCriteriaVO, new String[]{EdenConstants.ACTION_REQUEST_APPROVE_REQ,EdenConstants.ACTION_REQUEST_COMPLETE_REQ});
+        }
+        catch (WorkflowException e) {
+            String errorMessage = "Error trying to test document id '" + documentNumber + "' for action requests at node name '" + routeNodeName + "'";
+            LOG.error("isDocumentStoppingAtRouteLevel() " + errorMessage,e);
+            throw new RuntimeException(errorMessage,e);
+        }
     }
     
 }

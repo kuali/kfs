@@ -110,7 +110,9 @@
                     </maintainableField>
                     <maintainableField name="versionNumber" />
                     <maintainableField name="vendorHeader.versionNumber" />
-                    <maintainableField name="vendorParentIndicator" />
+                    <maintainableField name="vendorParentIndicator">
+	                    <defaultValue>true</defaultValue>
+                    </maintainableField>
                     <maintainableField name="vendorFirstLastNameIndicator" />
                 </maintainableItems>
             </maintainableSection>

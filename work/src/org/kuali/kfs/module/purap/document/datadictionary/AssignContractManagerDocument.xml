@@ -21,7 +21,7 @@
     <transactionalDocument>
         <documentClass>org.kuali.module.purap.document.AssignContractManagerDocument</documentClass>
         <businessRulesClass>org.kuali.module.purap.rules.AssignContractManagerDocumentRule</businessRulesClass>
-        <documentAuthorizerClass>org.kuali.module.purap.document.AssignContractManagerDocumentAuthorizer</documentAuthorizerClass>
+        <documentAuthorizerClass>org.kuali.module.purap.document.authorization.AssignContractManagerDocumentAuthorizer</documentAuthorizerClass>
         
         <authorizations>
             <authorization action="initiate">

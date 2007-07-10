@@ -61,6 +61,7 @@ import org.kuali.module.purap.service.PurapService;
 import org.kuali.module.purap.service.PurchaseOrderPostProcessorService;
 import org.kuali.module.purap.service.PurchaseOrderService;
 import org.kuali.module.purap.service.RequisitionService;
+import org.kuali.module.purap.util.PurApObjectUtils;
 import org.kuali.module.vendor.bo.VendorDetail;
 import org.kuali.module.vendor.service.VendorService;
 import org.springframework.transaction.annotation.Transactional;
@@ -361,28 +362,30 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 
             save(po);
 
-            // call toCopy to give us a new documentHeader
-            po.toCopy(docType);
-            po.refreshNonUpdateableReferences();
-            po.setPurchaseOrderCurrentIndicator(false);
-            po.setPendingActionIndicator(false);
+            PurchaseOrderDocument newPO = (PurchaseOrderDocument)documentService.getNewDocument(docType);
+            
+            PurApObjectUtils.populateFromBaseWithSuper(po, newPO);
+            newPO.refreshNonUpdateableReferences();
+            newPO.setPurchaseOrderCurrentIndicator(false);
+            newPO.setPendingActionIndicator(false);
+
             // Before Routing, I think we ought to check the rules first
-            boolean rulePassed = kualiRuleService.applyRules(new RouteDocumentEvent(po));
+            boolean rulePassed = kualiRuleService.applyRules(new RouteDocumentEvent(newPO));
             if (!rulePassed) {
                 return false;
             }
             else {
                 if (docType.equals(PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_AMENDMENT_DOCUMENT)) {
-                    po.setStatusCode(PurapConstants.PurchaseOrderStatuses.AMENDMENT);
+                    newPO.setStatusCode(PurapConstants.PurchaseOrderStatuses.AMENDMENT);
                 }
-                save(po);
-                kualiDocumentFormBase.setDocument(po);
+                save(newPO);
+                kualiDocumentFormBase.setDocument(newPO);
                 
                 if (docType.equals(PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_AMENDMENT_DOCUMENT)) {
-                    documentService.saveDocument(po);
+                    documentService.saveDocument(newPO);
                 }
                 else {
-                    documentService.routeDocument(po, annotation, adhocRoutingRecipients);
+                    documentService.routeDocument(newPO, annotation, adhocRoutingRecipients);
                 }
             }
         }
@@ -557,5 +560,5 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
         ArrayList poQuoteStatuses = new TypedArrayList(PurchaseOrderQuoteStatus.class);
         poQuoteStatuses = (ArrayList) businessObjectService.findAll(PurchaseOrderQuoteStatus.class);
         return poQuoteStatuses;
-    }
+}
 }

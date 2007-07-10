@@ -56,7 +56,7 @@ public class PurapConstants extends JstlConstants {
                 public static final String ACCOUNT_REVIEW = "Account Review";
                 public static final String ORG_REVIEW = "Org Review";
                 public static final String SEPARAION_OF_DUTIES_REVIEW = "Separation of Duties";
-
+                
                 public static final List ORDERED_NODE_NAME_LIST = Arrays.asList(new String[] {
                         ADHOC_REVIEW,
                         CONTENT_REVIEW,
@@ -363,7 +363,6 @@ public class PurapConstants extends JstlConstants {
         public static String PURCHASE_ORDER_AMENDMENT_DOCUMENT = "KualiPurchaseOrderAmendmentDocument";
     }
 
-
     private static HashMap<String, String> purchaseOrderDocTypes() {
         HashMap<String, String> mapSLF;
         mapSLF = new HashMap<String, String>();
@@ -489,6 +488,13 @@ public class PurapConstants extends JstlConstants {
         map = new HashMap<String, String>();
         map.put("RequisitionDocument", "Kuali.FinancialTransactionProcessing.RequisitionDocument");
         map.put("PurchaseOrderDocument", "Kuali.FinancialTransactionProcessing.PurchaseOrderDocument");
+        map.put("PurchaseOrderCloseDocument", "Kuali.FinancialTransactionProcessing.PurchaseOrderDocument");
+        map.put("PurchaseOrderReopenDocument", "Kuali.FinancialTransactionProcessing.PurchaseOrderDocument");
+        map.put("PurchaseOrderAmendmentDocument", "Kuali.FinancialTransactionProcessing.PurchaseOrderDocument");
+        map.put("PurchaseOrderPaymentHoldDocument", "Kuali.FinancialTransactionProcessing.PurchaseOrderDocument");
+        map.put("PurchaseOrderRemoveHoldDocument", "Kuali.FinancialTransactionProcessing.PurchaseOrderDocument");
+        map.put("PurchaseOrderRetransmitDocument", "Kuali.FinancialTransactionProcessing.PurchaseOrderDocument");
+        map.put("PurchaseOrderVoidDocument", "Kuali.FinancialTransactionProcessing.PurchaseOrderDocument");
         map.put("PaymentRequestDocument", "Kuali.FinancialTransactionProcessing.PaymentRequestDocument");
         map.put("CreditMemoDocument", "Kuali.FinancialTransactionProcessing.CreditMemoDocument");
         return map;
@@ -515,7 +521,7 @@ public class PurapConstants extends JstlConstants {
     // CREDIT MEMO DOCUMENT
     public static String CREDIT_MEMO_DOCUMENT = "KualiCreditMemoDocument";
     public static String CREDIT_MEMO_DOCUMENT_DOC_TYPE = "CreditMemoDocument";
-
+    
     public static class CreditMemoStatuses {
         public static String INITIATE = "INIT";
         public static String IN_PROCESS = "INPR";
@@ -535,9 +541,11 @@ public class PurapConstants extends JstlConstants {
     }
     
     public static class CREDIT_MEMO_TYPES {
+
         public static final String TYPE_PO = "PO";
         public static final String TYPE_PREQ = "PREQ";
         public static final String TYPE_VENDOR = "Vendor";
+        
     }
     
     private static HashMap<String,String> uncopyableFields() {

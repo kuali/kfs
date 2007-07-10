@@ -1,5 +1,5 @@
 /*
- * Copyright 2007 The Kuali Foundation.
+ * Copyright 2006-2007 The Kuali Foundation.
  * 
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,25 +16,12 @@
 
 package org.kuali.module.purap.document;
 
-import org.kuali.core.rule.event.KualiDocumentEvent;
+import org.kuali.core.document.Copyable;
 
 /**
- * Purchase Order Amendment Document
+ * Purchase Order Document
  */
-public class PurchaseOrderAmendmentDocument extends PurchaseOrderDocument {
-    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PurchaseOrderAmendmentDocument.class);
+public class PurchaseOrderRetransmitDocument extends PurchaseOrderDocument implements Copyable {
+    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PurchaseOrderRetransmitDocument.class);
 
-    /**
-	 * Default constructor.
-	 */
-	public PurchaseOrderAmendmentDocument() {
-        super();
-    }
-
-    @Override
-    public void customPrepareForSave(KualiDocumentEvent event) {
-        //TODO For now, do nothing because amendment should not perform the same save prep as PO
-    }
-    
-    
 }

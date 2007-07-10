@@ -16,18 +16,21 @@
 package org.kuali.module.purap.util;
 
 import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.logging.Logger;
 
 import org.kuali.core.bo.BusinessObject;
+import org.kuali.core.document.TransactionalDocumentBase;
 import org.kuali.core.util.ObjectUtils;
-import org.kuali.core.web.format.FormatException;
+import org.kuali.kfs.document.AccountingDocumentBase;
+import org.kuali.kfs.document.GeneralLedgerPostingDocumentBase;
+import org.kuali.kfs.document.LedgerPostingDocumentBase;
 import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.document.PurchaseOrderDocument;
+import org.kuali.module.purap.document.PurchasingAccountsPayableDocumentBase;
+import org.kuali.module.purap.document.PurchasingDocumentBase;
 
 public class PurApObjectUtils {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PurApObjectUtils.class);
@@ -70,5 +73,24 @@ public class PurApObjectUtils {
      */
     public static void populateFromBaseClass(Class base,BusinessObject src,BusinessObject target) {
         populateFromBaseClass(base,src,target,new HashMap());
+    }
+    
+    /**
+     * TODO: FIXME: this needs to be fixed!
+     * This method is a temporary place holder until I get this done right
+     * @param po
+     * @param newPO
+     */
+    public static void populateFromBaseWithSuper(PurchaseOrderDocument po, PurchaseOrderDocument newPO) {
+//        PurApObjectUtils.populateFromBaseClass(DocumentBase.class, po, newPO);
+        newPO.getDocumentHeader().setFinancialDocumentDescription(po.getDocumentHeader().getFinancialDocumentDescription());
+        newPO.getDocumentHeader().setOrganizationDocumentNumber(po.getDocumentHeader().getOrganizationDocumentNumber());
+        PurApObjectUtils.populateFromBaseClass(TransactionalDocumentBase.class, po, newPO);
+        PurApObjectUtils.populateFromBaseClass(LedgerPostingDocumentBase.class, po, newPO);
+        PurApObjectUtils.populateFromBaseClass(GeneralLedgerPostingDocumentBase.class, po, newPO);
+        PurApObjectUtils.populateFromBaseClass(AccountingDocumentBase.class, po, newPO);
+        PurApObjectUtils.populateFromBaseClass(PurchasingAccountsPayableDocumentBase.class, po, newPO);
+        PurApObjectUtils.populateFromBaseClass(PurchasingDocumentBase.class, po, newPO);
+        PurApObjectUtils.populateFromBaseClass(PurchaseOrderDocument.class, po, newPO);
     }
 }

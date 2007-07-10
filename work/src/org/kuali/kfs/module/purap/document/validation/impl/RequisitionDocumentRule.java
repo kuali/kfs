@@ -78,6 +78,20 @@ public class RequisitionDocumentRule extends PurchasingDocumentRuleBase {
            
         }
 
+        if (SpringServiceLocator.getPurapService().isDocumentStoppingAtRouteLevel(purapDocument.getDocumentNumber(), PurapConstants.WorkflowConstants.RequisitionDocument.NodeDetails.CONTENT_REVIEW)) {
+            for (PurchasingApItem item : purapDocument.getItems()) {
+                item.refreshNonUpdateableReferences();
+
+                //only do this check for below the line items
+                if (item.getItemType().isItemTypeAboveTheLineIndicator() &&
+                        item.getSourceAccountingLines().size() == 0) {
+                    GlobalVariables.getErrorMap().putError(Constants.ITEM_LINE_ERRORS, PurapKeyConstants.ERROR_NO_ACCOUNTS);
+                    valid = false;
+                    break;
+                }
+            }
+        }
+
         List<PurchasingApItem> itemList = purapDocument.getItems();
         if (itemList.size() <= purapDocument.getBelowTheLineTypes().length) {
             GlobalVariables.getErrorMap().putError(Constants.ITEM_LINE_ERRORS, PurapKeyConstants.ERROR_NO_ITEMS);

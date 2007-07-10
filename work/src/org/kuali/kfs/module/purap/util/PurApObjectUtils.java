@@ -82,6 +82,7 @@ public class PurApObjectUtils {
      * @param newPO
      */
     public static void populateFromBaseWithSuper(PurchaseOrderDocument po, PurchaseOrderDocument newPO) {
+        //FIXME this doesn't seem quite right (hstaplet)
 //        PurApObjectUtils.populateFromBaseClass(DocumentBase.class, po, newPO);
         newPO.getDocumentHeader().setFinancialDocumentDescription(po.getDocumentHeader().getFinancialDocumentDescription());
         newPO.getDocumentHeader().setOrganizationDocumentNumber(po.getDocumentHeader().getOrganizationDocumentNumber());

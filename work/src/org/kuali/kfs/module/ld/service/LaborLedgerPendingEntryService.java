@@ -78,7 +78,7 @@ public interface LaborLedgerPendingEntryService {
      * @param emplid
      * @return
      */
-    public Iterator findPendingLedgerEntriesForAccountBalance(Map fieldValues, boolean isApproved);
+    public Iterator findPendingLedgerEntriesForLedgerBalance(Map fieldValues, boolean isApproved);
 
     /**
      * Use fieldValues to create a query for matching records of <code>{@link LaborLedgerPendingEntry}</code> instances

@@ -15,11 +15,14 @@
  */
 package org.kuali.module.labor.service;
 
+import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
 import org.kuali.module.chart.bo.Account;
+import org.kuali.module.gl.bo.Balance;
+import org.kuali.module.gl.bo.Transaction;
 import org.kuali.module.labor.bo.AccountStatusCurrentFunds;
 import org.kuali.module.labor.bo.LedgerBalance;
 
@@ -113,4 +116,27 @@ public interface LaborLedgerBalanceService {
     public List getGlSummary(int universityFiscalYear, List<String> balanceTypeCodes);
     
     public Iterator<AccountStatusCurrentFunds> getAccountStatusCurrentFunds(Map fieldValues);
+    
+    /**
+     * find a ledger balance from the given ledger balance collection with the given transaction information
+     * @param ledgerBalanceCollection the given ledger balance collection 
+     * @param transaction the given transaction information
+     * @return a matching ledger balance from the given ledger balance
+     */
+    public LedgerBalance findLedgerBalance(Collection<LedgerBalance> ledgerBalanceCollection, Transaction transaction);
+    
+    /**
+     * convert the given transaction information into a ledger balance and add it into the given ledger balance collection with 
+     * @param ledgerBalanceCollection the given ledger balance collection 
+     * @param transaction the given transaction information
+     * @return true if the ledger balance has been added; otherwise, false;
+     */
+    public boolean addLedgerBalance(Collection<LedgerBalance> ledgerBalanceCollection, Transaction transaction);
+
+    /**
+     * update the given ledger balance with the given transaction information 
+     * @param ledgerBalance the given ledger balance
+     * @param transaction the given transaction information
+     */
+    public void updateLedgerBalance(LedgerBalance ledgerBalance, Transaction transaction);
 }

@@ -15,87 +15,28 @@
  */
 package org.kuali.module.labor.dao.ojb;
 
-import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
 
-import org.apache.ojb.broker.query.Criteria;
-import org.apache.ojb.broker.query.QueryByCriteria;
-import org.apache.ojb.broker.query.QueryFactory;
-import org.apache.ojb.broker.query.ReportQueryByCriteria;
-import org.kuali.core.bo.DocumentHeader;
-import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.KFSPropertyConstants;
-import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
 import org.kuali.kfs.dao.ojb.GeneralLedgerPendingEntryDaoOjb;
 import org.kuali.module.labor.bo.LaborLedgerPendingEntry;
 import org.kuali.module.labor.dao.LaborLedgerPendingEntryDao;
-import org.springmodules.orm.ojb.support.PersistenceBrokerDaoSupport;
 
 public class LaborLedgerPendingEntryDaoOjb extends GeneralLedgerPendingEntryDaoOjb implements LaborLedgerPendingEntryDao {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(LaborLedgerPendingEntryDaoOjb.class);
-    
+
     /**
-    * @see org.kuali.module.gl.dao.GeneralLedgerPendingEntryDao#findPendingLedgerEntriesForAccountBalance(java.util.Map, boolean,
-            *      boolean)
-            */
-           public Iterator findPendingLedgerEntriesForAccountBalance(Map fieldValues, boolean isApproved) {
-               LOG.debug("findPendingLedgerEntriesForAccountBalance started");
-
-               Criteria criteria = buildCriteriaFromMap(fieldValues, new GeneralLedgerPendingEntry());
-
-               // add the status codes into the criteria
-               addStatusCode(criteria, isApproved);
-
-               QueryByCriteria query = QueryFactory.newQuery(this.getEntryClass(), criteria);
-               
-               return getPersistenceBrokerTemplate().getIteratorByQuery(query);
-           }
-
-           /**
-            * add the status code into the given criteria. The status code can be categorized into approved and all.
-            * 
-            * @param criteria the given criteria
-            * @param isApproved the flag that indictates if only approved status code can be added into the given searach criteria 
-            */
-           private void addStatusCode(Criteria criteria, boolean isOnlyApproved) {
-               // add criteria for the approved pending entries
-               if (isOnlyApproved) {
-                   criteria.addIn("documentHeader.financialDocumentStatusCode", this.buildApprovalCodeList());
-               }
-               criteria.addNotIn("documentHeader.financialDocumentStatusCode", this.buildExcludedStatusCodeList());
-               criteria.addNotEqualTo("financialDocumentApprovedCode", KFSConstants.PENDING_ENTRY_APPROVED_STATUS_CODE.PROCESSED);
-           }
-           
-           /**
-            * build a status code list including the legal approval codes
-            * 
-            * @return an approval code list
-            */
-           private List buildApprovalCodeList() {
-               List approvalCodeList = new ArrayList();
-
-               approvalCodeList.add(KFSConstants.DocumentStatusCodes.APPROVED);
-               return approvalCodeList;
-           }
-
-           /**
-            * build a status code list including the codes that will not be processed
-            * 
-            * @return a status code list including the codes that will not be processed
-            */
-           private List buildExcludedStatusCodeList() {
-               List exclusiveCodeList = new ArrayList();
-
-               exclusiveCodeList.add(KFSConstants.DocumentStatusCodes.CANCELLED);
-               exclusiveCodeList.add(KFSConstants.DocumentStatusCodes.DISAPPROVED);
-               return exclusiveCodeList;
-           }
-           
-    
+     * @see org.kuali.kfs.dao.ojb.GeneralLedgerPendingEntryDaoOjb#getEntryClass()
+     */
     @Override
-    public Class getEntryClass(){
+    public Class getEntryClass() {
         return LaborLedgerPendingEntry.class;
+    }
+
+    /**
+     * @see org.kuali.module.labor.dao.LaborLedgerPendingEntryDao#findPendingLedgerEntriesForLedgerBalance(java.util.Map, boolean)
+     */
+    public Iterator<LaborLedgerPendingEntry> findPendingLedgerEntriesForLedgerBalance(Map fieldValues, boolean isApproved) {
+        return this.findPendingLedgerEntriesForBalance(fieldValues, isApproved);
     }
 }

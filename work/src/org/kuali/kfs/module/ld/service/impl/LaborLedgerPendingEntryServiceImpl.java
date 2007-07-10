@@ -199,8 +199,8 @@ public class LaborLedgerPendingEntryServiceImpl implements LaborLedgerPendingEnt
      * @see org.kuali.module.gl.service.GeneralLedgerPendingEntryService#findPendingLedgerEntriesForAccountBalance(java.util.Map,
      *      boolean, boolean)
      */
-    public Iterator findPendingLedgerEntriesForAccountBalance(Map fieldValues, boolean isApproved) {
+    public Iterator findPendingLedgerEntriesForLedgerBalance(Map fieldValues, boolean isApproved) {
         LOG.debug("findPendingLedgerEntriesForAccountBalance() started");
-        return TransactionalServiceUtils.copyToExternallyUsuableIterator(laborLedgerPendingEntryDao.findPendingLedgerEntriesForAccountBalance(fieldValues, isApproved));
+        return TransactionalServiceUtils.copyToExternallyUsuableIterator(laborLedgerPendingEntryDao.findPendingLedgerEntriesForLedgerBalance(fieldValues, isApproved));
     }
 }

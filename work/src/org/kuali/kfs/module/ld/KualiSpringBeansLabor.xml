@@ -689,6 +689,9 @@
 		<property name="laborLedgerPendingEntryService">
 			<ref bean="laborLedgerPendingEntryService" />
 		</property>	
+		<property name="laborLedgerBalanceService">
+			<ref bean="laborLedgerBalanceService" />
+		</property>	
 	</bean>
 
 	<bean id="july1PositionFundingLookupable" class="org.kuali.core.lookup.KualiLookupableImpl" singleton="false">

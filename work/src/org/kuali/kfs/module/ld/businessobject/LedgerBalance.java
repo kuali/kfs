@@ -20,7 +20,9 @@ import static org.kuali.module.labor.LaborConstants.LABOR_USER_SERVICE_NAME;
 
 import java.sql.Date;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import java.util.List;
 
 import org.kuali.core.bo.user.PersonPayrollId;
 import org.kuali.core.bo.user.UniversalUser;
@@ -28,6 +30,7 @@ import org.kuali.core.bo.user.UserId;
 import org.kuali.core.exceptions.UserNotFoundException;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.KFSConstants;
+import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.Chart;
@@ -375,5 +378,24 @@ public class LedgerBalance extends Balance {
      */
     public void setLedgerPerson(UniversalUser ledgerPerson) {
         this.ledgerPerson = ledgerPerson;
+    }
+
+    /**
+     * construct the primary key list of the business object
+     * @return the primary key list of the business object
+     */
+    public List<String> getPrimaryKeyList() {
+        List<String> primaryKeyList = new ArrayList<String>();
+        primaryKeyList.add(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR);
+        primaryKeyList.add(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE);
+        primaryKeyList.add(KFSPropertyConstants.ACCOUNT_NUMBER);
+        primaryKeyList.add(KFSPropertyConstants.SUB_ACCOUNT_NUMBER);
+        primaryKeyList.add(KFSPropertyConstants.FINANCIAL_OBJECT_CODE);
+        primaryKeyList.add(KFSPropertyConstants.FINANCIAL_SUB_OBJECT_CODE);
+        primaryKeyList.add(KFSPropertyConstants.FINANCIAL_BALANCE_TYPE_CODE);
+        primaryKeyList.add(KFSPropertyConstants.FINANCIAL_OBJECT_TYPE_CODE);
+        primaryKeyList.add(KFSPropertyConstants.POSITION_NUMBER);
+        primaryKeyList.add(KFSPropertyConstants.EMPLID);
+        return primaryKeyList;
     }
 }

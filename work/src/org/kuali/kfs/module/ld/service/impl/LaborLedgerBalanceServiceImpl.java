@@ -27,16 +27,19 @@ import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.collections.IteratorUtils;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.TransactionalServiceUtils;
+import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.bo.Options;
 import org.kuali.kfs.service.OptionsService;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.gl.bo.GlSummary;
+import org.kuali.module.gl.bo.Transaction;
 import org.kuali.module.gl.util.OJBUtility;
 import org.kuali.module.labor.bo.AccountStatusCurrentFunds;
 import org.kuali.module.labor.bo.LedgerBalance;
 import org.kuali.module.labor.dao.LaborLedgerBalanceDao;
 import org.kuali.module.labor.service.LaborLedgerBalanceService;
+import org.kuali.module.labor.util.ObjectUtil;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -471,5 +474,44 @@ public class LaborLedgerBalanceServiceImpl implements LaborLedgerBalanceService 
             accountStatusCurrentFunds.add(balance);
         }       
         return accountStatusCurrentFunds.iterator();
+    }
+
+    /**
+     * @see org.kuali.module.labor.service.LaborLedgerBalanceService#findLedgerBalance(java.util.Collection, org.kuali.module.gl.bo.Transaction)
+     */
+    public LedgerBalance findLedgerBalance(Collection<LedgerBalance> ledgerBalanceCollection, Transaction transaction) {
+        for(LedgerBalance ledgerBalance : ledgerBalanceCollection){
+            boolean found = ObjectUtil.compareObject(ledgerBalance, transaction, ledgerBalance.getPrimaryKeyList());
+            if(found){
+                return ledgerBalance;
+            }
+        }
+        return null;
+    }
+
+    /**
+     * @see org.kuali.module.labor.service.LaborLedgerBalanceService#updateBalance(org.kuali.module.labor.bo.LedgerBalance, org.kuali.module.gl.bo.Transaction)
+     */
+    public void updateLedgerBalance(LedgerBalance ledgerBalance, Transaction transaction) {
+        String debitCreditCode = transaction.getTransactionDebitCreditCode();
+        KualiDecimal amount = transaction.getTransactionLedgerEntryAmount();
+        amount = debitCreditCode.equals(KFSConstants.GL_CREDIT_CODE) ? amount.negated() : amount;
+        
+        ledgerBalance.addAmount(transaction.getUniversityFiscalPeriodCode(), amount);        
+    }
+
+    /**
+     * @see org.kuali.module.labor.service.LaborLedgerBalanceService#addLedgerBalance(java.util.Collection, org.kuali.module.gl.bo.Transaction)
+     */
+    public boolean addLedgerBalance(Collection<LedgerBalance> ledgerBalanceCollection, Transaction transaction) {
+        LedgerBalance ledgerBalance = this.findLedgerBalance(ledgerBalanceCollection, transaction);
+        
+        if(ledgerBalance == null){
+            LedgerBalance newLedgerBalance = new LedgerBalance();       
+            ObjectUtil.buildObject(newLedgerBalance, transaction);
+            ledgerBalanceCollection.add(newLedgerBalance);
+            return true;
+        }
+        return false;
     }
 }

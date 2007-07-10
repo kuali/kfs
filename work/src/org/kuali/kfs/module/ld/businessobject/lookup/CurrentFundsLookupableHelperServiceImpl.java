@@ -67,6 +67,7 @@ public class CurrentFundsLookupableHelperServiceImpl extends AbstractLookupableH
      */
     @Override
     public List getSearchResults(Map fieldValues) {
+        LOG.info("getSearchResults() - Entry");     
 
         boolean unbounded = false;
         Long actualCountIfTruncated = new Long(0);
@@ -84,12 +85,13 @@ public class CurrentFundsLookupableHelperServiceImpl extends AbstractLookupableH
             List emptySearchResults = new ArrayList();
 
             // Check for a valid labor object code for this inquiry
-            if (StringUtils.indexOfAny(fieldValues.get(KFSPropertyConstants.FINANCIAL_OBJECT_CODE).toString(), LaborConstants.BalanceInquiries.VALID_LABOR_OBJECT_CODES) != 0)
-                GlobalVariables.getErrorMap().putError(LaborConstants.BalanceInquiries.ERROR_INVALID_LABOR_OBJECT_CODE, LaborConstants.BalanceInquiries.ERROR_INVALID_LABOR_OBJECT_CODE, "2");
+            if (StringUtils.indexOfAny(fieldValues.get(KFSPropertyConstants.FINANCIAL_OBJECT_CODE).toString(), LaborConstants.BalanceInquiries.VALID_LABOR_OBJECT_CODES) != 0) {
+                GlobalVariables.getErrorMap().putError(KFSPropertyConstants.FINANCIAL_OBJECT_CODE, LaborConstants.BalanceInquiries.ERROR_INVALID_LABOR_OBJECT_CODE, "2");
+                return new CollectionIncomplete(emptySearchResults, actualCountIfTruncated);
+            }
 
-            return new CollectionIncomplete(emptySearchResults, actualCountIfTruncated);
         }        
-        
+
         // Parse the map and call the DAO to process the inquiry
         Collection<AccountStatusCurrentFunds> searchResultsCollection = buildCurrentFundsCollection(toList(laborDao.getCurrentFunds(fieldValues, isConsolidated)), isConsolidated, pendingEntryOption);
 
@@ -135,7 +137,6 @@ public class CurrentFundsLookupableHelperServiceImpl extends AbstractLookupableH
      */
     private Collection<AccountStatusCurrentFunds> buildCosolidatedCurrentFundsCollection(Collection collection, String pendingEntryOption) {
         Collection<AccountStatusCurrentFunds> retval = new ArrayList<AccountStatusCurrentFunds>();
-        
         for (Object collectionEntry : collection) {
             if (collectionEntry.getClass().isArray()) {
                 int i = 0;

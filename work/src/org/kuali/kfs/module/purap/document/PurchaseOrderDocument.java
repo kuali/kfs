@@ -289,12 +289,6 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase implements Cop
         }
     }
 
-    @Override
-    public void handleRouteLevelChange() {
-        LOG.debug("handleRouteLevelChange() started");
-        super.handleRouteLevelChange();
-    }
-
     public List getItemsActiveOnly() {
         List returnList = new ArrayList();
         for (Iterator iter = getItems().iterator(); iter.hasNext();) {

@@ -29,6 +29,8 @@ import org.kuali.module.labor.bo.LaborOriginEntry;
 import org.kuali.module.labor.service.LaborCorrectionDocumentService;
 import org.kuali.module.labor.service.LaborOriginEntryService;
 
+import edu.iu.uis.eden.clientapp.vo.DocumentRouteLevelChangeVO;
+
 public class LaborCorrectionDocument extends CorrectionDocument{
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(LaborCorrectionDocument.class);
     public LaborCorrectionDocument() {
@@ -41,16 +43,12 @@ public class LaborCorrectionDocument extends CorrectionDocument{
     private static final Integer WORKGROUP_APPROVAL_ROUTE_LEVEL = new Integer(1);
     
     /**
-     * @see org.kuali.core.document.DocumentBase#handleRouteLevelChange()
+     * @see org.kuali.core.document.DocumentBase#handleRouteLevelChange(edu.iu.uis.eden.clientapp.vo.DocumentRouteLevelChangeVO)
      */
     @Override
-    public void handleRouteLevelChange() {
-        
-        Integer routeLevel = getDocumentHeader().getWorkflowDocument().getDocRouteLevel();
-        if (routeLevel == null) {
-            LOG.error("Null routing level");
-        }
-        else if(WORKGROUP_APPROVAL_ROUTE_LEVEL.equals(routeLevel)) {
+    public void handleRouteLevelChange(DocumentRouteLevelChangeVO change) {
+        super.handleRouteLevelChange(change);
+        if(WORKGROUP_APPROVAL_ROUTE_LEVEL.equals(change.getNewRouteLevel())) {
             String correctionType = getCorrectionTypeCode();
             if (CorrectionDocumentService.CORRECTION_TYPE_MANUAL.equals(correctionType) || CorrectionDocumentService.CORRECTION_TYPE_CRITERIA.equals(correctionType)){
                 String docId = getDocumentHeader().getDocumentNumber();

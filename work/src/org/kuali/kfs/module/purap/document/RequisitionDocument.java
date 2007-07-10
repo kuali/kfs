@@ -48,6 +48,7 @@ import org.kuali.module.vendor.bo.VendorContract;
 import org.kuali.module.vendor.bo.VendorDetail;
 
 import edu.iu.uis.eden.EdenConstants;
+import edu.iu.uis.eden.clientapp.vo.DocumentRouteLevelChangeVO;
 import edu.iu.uis.eden.clientapp.vo.ReportCriteriaVO;
 import edu.iu.uis.eden.exception.WorkflowException;
 
@@ -276,10 +277,12 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
 
     }
 
+    /**
+     * @see org.kuali.core.document.DocumentBase#handleRouteLevelChange(edu.iu.uis.eden.clientapp.vo.DocumentRouteLevelChangeVO)
+     */
     @Override
-    public void handleRouteLevelChange() {
-        LOG.debug("handleRouteLevelChange() started");
-        super.handleRouteLevelChange();
+    public void handleRouteLevelChange(DocumentRouteLevelChangeVO change) {
+        super.handleRouteLevelChange(change);
         try {
             String[] nodeNames = getDocumentHeader().getWorkflowDocument().getNodeNames();
 //            TODO delyea - FIX THIS

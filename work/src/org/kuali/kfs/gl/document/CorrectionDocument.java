@@ -23,7 +23,6 @@ import java.util.LinkedHashMap;
 import java.util.List;
 
 import org.kuali.Constants;
-import org.kuali.core.document.DocumentBase;
 import org.kuali.core.document.TransactionalDocumentBase;
 import org.kuali.core.service.DateTimeService;
 import org.kuali.core.util.KualiDecimal;
@@ -38,6 +37,8 @@ import org.kuali.module.gl.service.OriginEntryGroupService;
 import org.kuali.module.gl.service.OriginEntryService;
 import org.kuali.module.gl.service.ReportService;
 import org.kuali.module.gl.service.ScrubberService;
+
+import edu.iu.uis.eden.clientapp.vo.DocumentRouteLevelChangeVO;
 
 /**
  * 
@@ -176,16 +177,12 @@ public class CorrectionDocument extends TransactionalDocumentBase {
     private static final Integer WORKGROUP_APPROVAL_ROUTE_LEVEL = new Integer(1);
     
     /**
-     * @see org.kuali.core.document.DocumentBase#handleRouteLevelChange()
+     * @see org.kuali.core.document.DocumentBase#handleRouteLevelChange(edu.iu.uis.eden.clientapp.vo.DocumentRouteLevelChangeVO)
      */
     @Override
-    public void handleRouteLevelChange() {
-        super.handleRouteLevelChange();
-        Integer routeLevel = getDocumentHeader().getWorkflowDocument().getDocRouteLevel();
-        if (routeLevel == null) {
-            LOG.error("Null routing level");
-        }
-        else if(WORKGROUP_APPROVAL_ROUTE_LEVEL.equals(routeLevel)) {
+    public void handleRouteLevelChange(DocumentRouteLevelChangeVO change) {
+        super.handleRouteLevelChange(change);
+        if(WORKGROUP_APPROVAL_ROUTE_LEVEL.equals(change.getNewRouteLevel())) {
             String correctionType = getCorrectionTypeCode();
             if (CorrectionDocumentService.CORRECTION_TYPE_MANUAL.equals(correctionType) || CorrectionDocumentService.CORRECTION_TYPE_CRITERIA.equals(correctionType)){
                 String docId = getDocumentHeader().getDocumentNumber();

@@ -173,12 +173,6 @@ public class CreditMemoDocument extends AccountsPayableDocumentBase {
 
     }
 
-    @Override
-    public void handleRouteLevelChange() {
-        LOG.debug("handleRouteLevelChange() started");
-        super.handleRouteLevelChange();
-    }
-
     /**
      * @see org.kuali.module.purap.document.PurchasingAccountsPayableDocument#addToStatusHistories(java.lang.String,
      *      java.lang.String)

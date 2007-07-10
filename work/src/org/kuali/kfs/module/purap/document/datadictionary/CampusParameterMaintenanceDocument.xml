@@ -34,7 +34,7 @@
 			</authorization>
 		</authorizations>
 
-		<documentTypeName>KualiCampusParametersMaintenanceDocument</documentTypeName>
+		<documentTypeName>CampusParameterMaintenanceDocument</documentTypeName>
 		<documentTypeCode>PMCP</documentTypeCode>
 
 		<label>Campus Parameter Maintenance Document</label>

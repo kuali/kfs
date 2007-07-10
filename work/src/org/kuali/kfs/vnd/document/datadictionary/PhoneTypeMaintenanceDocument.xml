@@ -32,7 +32,7 @@
             </authorization>
         </authorizations>
 
-        <documentTypeName>KualiPhoneTypeMaintenanceDocument</documentTypeName>
+        <documentTypeName>PhoneTypeMaintenanceDocument</documentTypeName>
         <documentTypeCode>PMPT</documentTypeCode>
 
         <label>Phone Type Maintenance Document</label>

@@ -194,7 +194,7 @@
 					    <html:hidden property="document.item[${ctr}].itemType.itemTypeCode" /> 
 					    <html:hidden property="document.item[${ctr}].itemType.itemTypeDescription" />
 
-					    <c:if test="${((KualiForm.document.documentHeader.workflowDocument.documentType == 'KualiPurchaseOrderDocument') or (KualiForm.document.documentHeader.workflowDocument.documentType == 'KualiPurchaseOrderAmendmentDocument'))}">
+					    <c:if test="${((KualiForm.document.documentHeader.workflowDocument.documentType == 'PurchaseOrderDocument') or (KualiForm.document.documentHeader.workflowDocument.documentType == 'PurchaseOrderAmendmentDocument'))}">
 						    <html:hidden property="document.item[${ctr}].itemActiveIndicator" />
 						    <html:hidden property="document.item[${ctr}].documentNumber" />
   					    </c:if> 
@@ -394,7 +394,7 @@
 			<th align=right width='75%' colspan=7 scope="row">
 			    <c:if test="${displayRequisitionFields}">
 				    <div align="right">
-				        <kul:htmlAttributeLabel attributeEntry="${DataDictionary.KualiRequisitionDocument.attributes.organizationAutomaticPurchaseOrderLimit}" />
+				        <kul:htmlAttributeLabel attributeEntry="${DataDictionary.RequisitionDocument.attributes.organizationAutomaticPurchaseOrderLimit}" />
 					</div>
 			    </c:if> 
 			    <c:if test="${!displayRequisitionFields}"> 
@@ -405,7 +405,7 @@
 			    <c:if test="${displayRequisitionFields}">
 				    <div align="right">$
 				        <kul:htmlControlAttribute
-					        attributeEntry="${DataDictionary.KualiRequisitionDocument.attributes.organizationAutomaticPurchaseOrderLimit}"
+					        attributeEntry="${DataDictionary.RequisitionDocument.attributes.organizationAutomaticPurchaseOrderLimit}"
 					        property="document.organizationAutomaticPurchaseOrderLimit"
 					        readOnly="true" />
 					</div>

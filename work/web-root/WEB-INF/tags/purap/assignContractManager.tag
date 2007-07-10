@@ -15,7 +15,7 @@
 --%>
 <%@ include file="/jsp/kfs/kfsTldHeader.jsp"%>
 
-<c:set var="requisitionAttributes" value="${DataDictionary.KualiRequisitionDocument.attributes}" />
+<c:set var="requisitionAttributes" value="${DataDictionary.RequisitionDocument.attributes}" />
 <c:set var="readOnly" value="${empty KualiForm.editingMode['fullEntry']}" />
 
 <kul:tab tabTitle="Assign A Contract Manager" defaultOpen="true" tabErrorKey="${PurapConstants.ASSIGN_CONTRACT_MANAGER_TAB_ERRORS}">

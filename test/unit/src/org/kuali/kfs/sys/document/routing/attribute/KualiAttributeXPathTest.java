@@ -79,7 +79,7 @@ public class KualiAttributeXPathTest extends KualiTestBase {
     }
     
     public void testKualiIndicatorTranslationAttributeXPath() throws IOException, InvalidXmlException, XPathExpressionException {
-        DocumentContent docContent = KualiAttributeTestUtil.getDocumentContentFromXmlFileAndPath(KualiAttributeTestUtil.PURCHASE_ORDER_DOCUMENT, KualiAttributeTestUtil.RELATIVE_PATH_IN_PROJECT_WORKFLOW,"KualiPurchaseOrderDocument");
+        DocumentContent docContent = KualiAttributeTestUtil.getDocumentContentFromXmlFileAndPath(KualiAttributeTestUtil.PURCHASE_ORDER_DOCUMENT, KualiAttributeTestUtil.RELATIVE_PATH_IN_PROJECT_WORKFLOW,"PurchaseOrderDocument");
         XPath xpath = KualiWorkflowUtils.getXPath(docContent.getDocument());
 
         String valueForTrue = "Yes";
@@ -99,7 +99,7 @@ public class KualiAttributeXPathTest extends KualiTestBase {
     }
 
     public void testConcatFunctionWithNonExistantNode() throws IOException, InvalidXmlException, XPathExpressionException {
-        DocumentContent docContent = KualiAttributeTestUtil.getDocumentContentFromXmlFileAndPath(KualiAttributeTestUtil.PURCHASE_ORDER_DOCUMENT, KualiAttributeTestUtil.RELATIVE_PATH_IN_PROJECT_WORKFLOW,"KualiPurchaseOrderDocument");
+        DocumentContent docContent = KualiAttributeTestUtil.getDocumentContentFromXmlFileAndPath(KualiAttributeTestUtil.PURCHASE_ORDER_DOCUMENT, KualiAttributeTestUtil.RELATIVE_PATH_IN_PROJECT_WORKFLOW,"PurchaseOrderDocument");
         XPath xpath = KualiWorkflowUtils.getXPath(docContent.getDocument());
         
         String tempXpathNugget = KualiWorkflowUtils.XSTREAM_MATCH_ANYWHERE_PREFIX + "campus/campusType/dataObjectMaintenanceCodeActiveIndicator";

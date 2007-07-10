@@ -32,7 +32,7 @@
             </authorization>
         </authorizations>
 
-        <documentTypeName>KualiFundingSourceMaintenanceDocument</documentTypeName>
+        <documentTypeName>FundingSourceMaintenanceDocument</documentTypeName>
         <documentTypeCode>PMFS</documentTypeCode>
 
         <label>Funding Source Maintenance Document</label>

@@ -16,7 +16,7 @@
 <%@ include file="/jsp/kfs/kfsTldHeader.jsp"%>
 
 <kul:documentPage showDocumentInfo="true"
-      documentTypeName="KualiAssignContractManagerDocument"
+      documentTypeName="AssignContractManagerDocument"
       htmlFormAction="purapAssignContractManager" renderMultipart="true"
       showTabButtons="true">
 

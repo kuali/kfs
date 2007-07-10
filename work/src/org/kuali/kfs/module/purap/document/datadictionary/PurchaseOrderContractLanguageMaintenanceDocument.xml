@@ -33,7 +33,7 @@
             </authorization>
         </authorizations>
 
-        <documentTypeName>KualiPoContractLanguageMaintenanceDocument</documentTypeName>
+        <documentTypeName>PurchaseOrderContractLanguageMaintenanceDocument</documentTypeName>
         <documentTypeCode>PMCL</documentTypeCode>
 
         <label>Purchase Order Contract Language Maintenance Document</label>

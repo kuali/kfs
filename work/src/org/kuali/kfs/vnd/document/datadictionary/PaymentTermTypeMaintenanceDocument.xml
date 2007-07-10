@@ -32,7 +32,7 @@
             </authorization>
         </authorizations>
 
-        <documentTypeName>KualiPaymentTermsTypeMaintenanceDocument</documentTypeName>
+        <documentTypeName>PaymentTermTypeMaintenanceDocument</documentTypeName>
         <documentTypeCode>PMPA</documentTypeCode>
 
         <label>Payment Term Type Maintenance Document</label>

@@ -32,7 +32,7 @@
             </authorization>
         </authorizations>
 
-        <documentTypeName>KualiOwnershipCategoryMaintenanceDocument</documentTypeName>
+        <documentTypeName>OwnershipCategoryMaintenanceDocument</documentTypeName>
         <documentTypeCode>PMOC</documentTypeCode>
 
         <label>Ownership Category Maintenance Document</label>

@@ -16,7 +16,7 @@
 <%@ include file="/jsp/kfs/kfsTldHeader.jsp"%>
 
 <kul:documentPage showDocumentInfo="true"
-    documentTypeName="KualiPaymentRequestDocument"
+    documentTypeName="PaymentRequestDocument"
     htmlFormAction="purapPaymentRequest" renderMultipart="true"
     showTabButtons="true">
 
@@ -57,26 +57,26 @@
 	<c:if test="${not KualiForm.editingMode['displayInitTab']}" >
 	    <kul:documentOverview editingMode="${KualiForm.editingMode}"
 	        includePostingYear="true"
-	        postingYearAttributes="${DataDictionary.KualiPaymentRequestDocument.attributes}" />
+	        postingYearAttributes="${DataDictionary.PaymentRequestDocument.attributes}" />
 	</c:if>
     
     <c:if test="${KualiForm.editingMode['displayInitTab']}" > 
-    	<purap:paymentRequestInit documentAttributes="${DataDictionary.KualiPaymentRequestDocument.attributes}"
+    	<purap:paymentRequestInit documentAttributes="${DataDictionary.PaymentRequestDocument.attributes}"
 	 		 displayPaymentRequestInitFields="true" />
 	</c:if>
 	
 	<c:if test="${not KualiForm.editingMode['displayInitTab']}" >
 		< purap:vendor
-	        documentAttributes="${DataDictionary.KualiPaymentRequestDocument.attributes}" 
+	        documentAttributes="${DataDictionary.PaymentRequestDocument.attributes}" 
 	        displayPurchaseOrderFields="false" displayPaymentRequestFields="true"/>
 		<!--  c:out value="${KualiForm.paymentRequestInitiated}" / -->
 		
 	
-		<purap:paymentRequestInvoiceInfo documentAttributes="${DataDictionary.KualiPaymentRequestDocument.attributes}"
+		<purap:paymentRequestInvoiceInfo documentAttributes="${DataDictionary.PaymentRequestDocument.attributes}"
 	 		 displayPaymentRequestInvoiceInfoFields="true" />        
 
 		<purap:paymentRequestProcessItems 
-			documentAttributes="${DataDictionary.KualiPaymentRequestDocument.attributes}"
+			documentAttributes="${DataDictionary.PaymentRequestDocument.attributes}"
 			itemAttributes="${DataDictionary.PaymentRequestItem.attributes}"
 			accountingLineAttributes="${DataDictionary.PaymentRequestAccount.attributes}" />
 		   

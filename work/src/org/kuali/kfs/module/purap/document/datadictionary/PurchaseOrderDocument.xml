@@ -1,0 +1,423 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ Copyright 2006-2007 The Kuali Foundation.
+ 
+ Licensed under the Educational Community License, Version 1.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+ 
+ http://www.opensource.org/licenses/ecl1.php
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+<!DOCTYPE dictionaryEntry PUBLIC
+    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
+    "../../../../core/datadictionary/dataDictionary-1_0.dtd" [
+<!ENTITY purchasingDocumentBaseAttributes SYSTEM "../../PurchasingDocumentBaseAttributes.xml">
+<!ENTITY purchasingAccountsPayableDocumentBaseAttributes SYSTEM "../../dictionary/entity/PurchasingAccountsPayableDocumentBaseAttributes.xml">
+]>
+<dictionaryEntry>
+    <transactionalDocument>
+        <documentClass>org.kuali.module.purap.document.PurchaseOrderDocument</documentClass>
+        <businessRulesClass>org.kuali.module.purap.rules.PurchaseOrderDocumentRule</businessRulesClass>
+        <documentAuthorizerClass>org.kuali.module.purap.document.authorization.PurchaseOrderDocumentAuthorizer</documentAuthorizerClass>
+        
+        <authorizations>
+            <authorization action="initiate">
+                <workgroups>
+                    <workgroup>kualiUniversalGroup</workgroup>
+                </workgroups>
+            </authorization>
+        </authorizations>
+
+        <documentTypeName>PurchaseOrderDocument</documentTypeName>
+        <documentTypeCode>PO</documentTypeCode>
+
+        <label>PurchaseOrder</label>
+        <shortLabel>PO</shortLabel>
+
+        <attributes>
+
+            <!-- BELOW ARE DUMMY ATTRIBUTES FOR ROUTING LABELS ONLY -->
+			<attributeReference name="statusDescription" sourceClassName="org.kuali.module.purap.bo.PurApAttributeReferenceDummy" sourceAttributeName="purchaseOrderStatus"/>
+            
+            <attributeReference name="contractManagerName" sourceClassName="org.kuali.module.purap.bo.PurApAttributeReferenceDummy" sourceAttributeName="contractManager"/>
+
+			<!-- PURAP DOCUMENT ATTRIBUTES -->
+			&purchasingAccountsPayableDocumentBaseAttributes;
+			
+			<attributeReference name="purchaseOrderRetransmissionMethodCode" sourceClassName="org.kuali.module.purap.bo.PurchaseOrderTransmissionMethod" sourceAttributeName="purchaseOrderTransmissionMethodCode">
+                <label>Method of PO Retransmission</label>
+                <shortLabel>Code</shortLabel>
+                <required>false</required>
+                <control>
+                    <select valuesFinderClass="org.kuali.module.purap.lookup.keyvalues.PurchaseOrderRetransmissionMethodValuesFinder" />
+                </control>
+                <summary>purchaseOrderRetransmissionMethodCode</summary>
+                <description>purchaseOrderRetransmissionMethodCode description...</description>
+            </attributeReference>
+
+            <attribute name="retransmitHeader" forceUppercase="true">
+            	<label>PO Header</label>
+            	<shortLabel>PO Header</shortLabel>
+            	
+            	<maxLength>45</maxLength>
+            	<validationPattern><anyCharacter /></validationPattern>
+            	
+            	<control>
+            		<select valuesFinderClass="org.kuali.module.purap.lookup.keyvalues.PurchaseOrderHeaderValuesFinder"/>
+            	</control>
+            	
+            	<summary>retransmitHeader</summary>
+            	<description>retransmitHeader description</description>
+            </attribute>
+                            
+			<attributeReference name="purapDocumentIdentifier" sourceClassName="org.kuali.module.purap.bo.PurApAttributeReferenceDummy" sourceAttributeName="purapDocumentIdentifier">
+                <label>Purchase Order Nbr</label>
+                <shortLabel>PO Nbr</shortLabel>
+                <summary>The Purchase Order Number</summary>
+                <description>The Purchase Order number</description>
+            </attributeReference>
+
+			<attributeReference name="statusCode" sourceClassName="org.kuali.module.purap.bo.PurApAttributeReferenceDummy" sourceAttributeName="purchaseOrderStatus">
+			    <required>true</required>
+			</attributeReference>
+            
+			<!-- PURCHASING DOCUMENT ATTRIBUTES -->
+            &purchasingDocumentBaseAttributes;
+
+			<!-- PURCHASE ORDER DOCUMENT ATTRIBUTES -->
+            <attributeReference name="purchaseOrderVendorChoiceCode" sourceClassName="org.kuali.module.purap.bo.PurchaseOrderVendorChoice" sourceAttributeName="purchaseOrderVendorChoiceCode">
+                <label>Vendor Choice</label>
+                <shortLabel>Vendor Choice</shortLabel>
+                <required>true</required>
+                <control>
+                    <select valuesFinderClass="org.kuali.module.purap.lookup.keyvalues.PurchaseOrderVendorChoiceValuesFinder" />
+                </control>
+                <summary>purchaseOrderVendorChoiceCode</summary>
+                <description>purchaseOrderVendorChoiceCode description...</description>
+            </attributeReference>
+
+            <attributeReference name="alternateVendorHeaderGeneratedIdentifier" sourceClassName="org.kuali.module.vendor.bo.VendorDetail" sourceAttributeName="vendorHeaderGeneratedIdentifier">
+                <label>Alternate Vendor Header Generated Identifier</label>
+                <required>false</required>
+            </attributeReference>
+
+            <attributeReference name="alternateVendorDetailAssignedIdentifier" sourceClassName="org.kuali.module.vendor.bo.VendorDetail" sourceAttributeName="vendorDetailAssignedIdentifier">
+                <label>Alternate Vendor Detail Assigned Identifier</label>
+                <required>false</required>
+            </attributeReference>
+
+            <attributeReference name="alternateVendorNumber" sourceClassName="org.kuali.module.vendor.bo.VendorDetail" sourceAttributeName="vendorNumber">
+                <label>Alternate Vendor Number For Escrow Payment</label>
+                <required>false</required>
+                <summary>alternateVendorNumber</summary>
+                <description>A concatenation of the alternateVendorHeaderGeneratedIdentifier, a dash, and the alternateVendorDetailAssignedIdentifier</description>
+            </attributeReference>
+
+            <attributeReference name="alternateVendorName" sourceClassName="org.kuali.module.vendor.bo.VendorDetail" sourceAttributeName="vendorName">
+                <label>Alternate Vendor For Escrow Payment</label>
+                <required>false</required>
+                <summary>Alternate Vendor Name For Escrow Payment</summary>
+                <description>Alternate Vendor Name For Escrow Payment description...</description>
+            </attributeReference>
+
+            <attribute name="finalPaymentAmount" forceUppercase="true">
+                <label>Final Payment Amount</label>
+                <shortLabel>Amount</shortLabel>
+
+                <maxLength>19</maxLength>
+                <validationPattern><floatingPoint /></validationPattern>
+
+                <control>
+                    <text size="21" />
+                </control>
+
+                <summary>finalPaymentAmount</summary>
+                <description>finalPaymentAmount description...</description>
+            </attribute>
+
+            <attribute name="finalPaymentDate" forceUppercase="true">
+                <label>Final Payment Date</label>
+                <shortLabel>Date</shortLabel>
+
+                <maxLength>7</maxLength>
+                <validationPattern><date /></validationPattern>
+
+                <control>
+                    <text size="9" />
+                </control>
+
+                <summary>finalPaymentDate</summary>
+                <description>finalPaymentDate description...</description>
+            </attribute>
+
+            <attribute name="initialPaymentAmount" forceUppercase="true">
+                <label>Initial Payment Amount</label>
+                <shortLabel>Amount</shortLabel>
+
+                <maxLength>19</maxLength>
+                <validationPattern><floatingPoint /></validationPattern>
+
+                <control>
+                    <text size="21" />
+                </control>
+
+                <summary>initialPaymentAmount</summary>
+                <description>initialPaymentAmount description...</description>
+            </attribute>
+
+            <attribute name="initialPaymentDate" forceUppercase="true">
+                <label>Initial Payment Date</label>
+                <shortLabel>Date</shortLabel>
+
+                <maxLength>7</maxLength>
+                <validationPattern><date /></validationPattern>
+
+                <control>
+                    <text size="9" />
+                </control>
+
+                <summary>initialPaymentDate</summary>
+                <description>initialPaymentDate description...</description>
+            </attribute>
+
+            <attribute name="recurringPaymentAmount" forceUppercase="true">
+                <label>Recurring Payment Amount</label>
+                <shortLabel>Amount</shortLabel>
+
+                <maxLength>19</maxLength>
+                <validationPattern><floatingPoint /></validationPattern>
+
+                <control>
+                    <text size="21" />
+                </control>
+
+                <summary>recurringPaymentAmount</summary>
+                <description>recurringPaymentAmount description...</description>
+            </attribute>
+
+            <attribute name="recurringPaymentDate" forceUppercase="true">
+                <label>Recurring Payment Date</label>
+                <shortLabel>Date</shortLabel>
+
+                <maxLength>7</maxLength>
+                <validationPattern><date /></validationPattern>
+
+                <control>
+                    <text size="9" />
+                </control>
+
+                <summary>recurringPaymentDate</summary>
+                <description>recurringPaymentDate description...</description>
+            </attribute>
+
+            <attribute name="purchaseOrderCommodityDescription" forceUppercase="true">
+                <label>Purchase Order Commodity Description</label>
+                <shortLabel>Description</shortLabel>
+
+                <maxLength>7</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="9" />
+                </control>
+
+                <summary>purchaseOrderCommodityDescription</summary>
+                <description>purchaseOrderCommodityDescription description...</description>
+            </attribute>
+
+            <attribute name="purchaseOrderConfirmedIndicator" forceUppercase="true">
+                <label>Purchase Order Confirmed Indicator</label>
+                <shortLabel>Indicator</shortLabel>
+
+                <maxLength>1</maxLength>
+
+                <control>
+                    <checkbox />
+                </control>
+
+                <summary>purchaseOrderConfirmedIndicator</summary>
+                <description>purchaseOrderConfirmedIndicator description...</description>
+            </attribute>
+
+            <attribute name="purchaseOrderInitialOpenDate" forceUppercase="true">
+                <label>Purchase Order Initial Open Date</label>
+                <shortLabel>Date</shortLabel>
+
+                <maxLength>7</maxLength>
+                <validationPattern><date /></validationPattern>
+
+                <control>
+                    <text size="9" />
+                </control>
+
+                <summary>purchaseOrderInitialOpenDate</summary>
+                <description>purchaseOrderInitialOpenDate description...</description>
+            </attribute>
+
+            <attribute name="purchaseOrderLastTransmitDate" forceUppercase="true">
+                <label>Purchase Order Last Transmit Date</label>
+                <shortLabel>Date</shortLabel>
+
+                <maxLength>7</maxLength>
+                <validationPattern><date /></validationPattern>
+
+                <control>
+                    <text size="9" />
+                </control>
+
+                <summary>purchaseOrderLastTransmitDate</summary>
+                <description>purchaseOrderLastTransmitDate description...</description>
+            </attribute>
+
+            <attribute name="purchaseOrderPreviousIdentifier" forceUppercase="true">
+                <label>Purchase Order Previous Identifier</label>
+                <shortLabel>Identifier</shortLabel>
+
+                <maxLength>9</maxLength>
+                <validationPattern><numeric /></validationPattern>
+
+                <control>
+                    <text size="11" />
+                </control>
+
+                <summary>purchaseOrderPreviousIdentifier</summary>
+                <description>purchaseOrderPreviousIdentifier description...</description>
+            </attribute>
+
+            <attribute name="purchaseOrderQuoteDueDate" forceUppercase="true">
+                <label>Quote Due Date</label>
+                <shortLabel>Date</shortLabel>
+
+                <maxLength>10</maxLength>
+                <validationPattern><date /></validationPattern>
+
+                <control>
+                    <text size="9" />
+                </control>
+
+                <summary>purchaseOrderQuoteDueDate</summary>
+                <description>purchaseOrderQuoteDueDate description...</description>
+            </attribute>
+
+            <attribute name="purchaseOrderQuoteTypeCode" forceUppercase="true">
+                <label>Quote Type Code</label>
+                <shortLabel>Code</shortLabel>
+
+                <maxLength>25</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <select valuesFinderClass="org.kuali.module.purap.lookup.keyvalues.PurchaseOrderQuoteTypeValuesFinder"/>
+                </control>
+
+                <summary>purchaseOrderQuoteTypeCode</summary>
+                <description>purchaseOrderQuoteTypeCode description...</description>
+            </attribute>
+
+            <attribute name="purchaseOrderQuoteVendorNoteText" forceUppercase="true">
+                <label>Notes to Vendor</label>
+                <shortLabel>Text</shortLabel>
+
+                <maxLength>255</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <textarea rows="5" cols="80"/>
+                </control>
+
+                <summary>purchaseOrderQuoteVendorNoteText</summary>
+                <description>purchaseOrderQuoteVendorNoteText description...</description>
+            </attribute>
+
+<!-- The following vendor fields are defined here although common among other docs because they are not required on REQ, but are required for PO -->
+            <attributeReference name="vendorHeaderGeneratedIdentifier" sourceClassName="org.kuali.module.vendor.bo.VendorDetail" sourceAttributeName="vendorHeaderGeneratedIdentifier">
+                <required>true</required>
+            </attributeReference>
+
+            <attributeReference name="vendorName" sourceClassName="org.kuali.module.vendor.bo.VendorDetail" sourceAttributeName="vendorName">
+                <label>Vendor</label>
+                <shortLabel>Vendor</shortLabel>
+                <required>true</required>
+            </attributeReference>
+            
+            <attributeReference name="vendorLine1Address" sourceClassName="org.kuali.module.vendor.bo.VendorAttributeReferenceDummy" sourceAttributeName="line1Address">
+                <required>true</required>
+                <summary>vendorLine1Address</summary>
+                <description>vendorLine1Address description...</description>
+            </attributeReference>
+
+            <attributeReference name="vendorCityName" sourceClassName="org.kuali.module.vendor.bo.VendorAttributeReferenceDummy" sourceAttributeName="cityName">
+                <required>true</required>
+                <summary>vendorCityName</summary>
+                <description>vendorCityName description...</description>
+            </attributeReference>
+            
+            <attributeReference name="vendorCountryCode" sourceClassName="org.kuali.module.vendor.bo.VendorAttributeReferenceDummy" sourceAttributeName="countryCode">
+                <required>true</required>
+                <summary>vendorCountryCode</summary>
+                <description>vendorCountryCode description...</description>
+            </attributeReference>
+
+            <attributeReference name="recurringPaymentFrequencyCode" sourceClassName="org.kuali.module.purap.bo.RecurringPaymentFrequency" sourceAttributeName="recurringPaymentFrequencyCode">
+                <label>Recurring Payment Frequency</label>
+                <shortLabel>Code</shortLabel>
+                <control>
+			        <select valuesFinderClass="org.kuali.module.purap.lookup.keyvalues.RecurringPaymentFrequencyValuesFinder" />
+                </control>
+                <summary>recurringPaymentFrequencyCode</summary>
+                <description>recurringPaymentFrequencyCode description...</description>
+			</attributeReference>  
+            
+            <!-- TODO something is wrong with this; is it supposed to be the source or status?  check purapDocumentDetail.tag  -->
+            <attributeReference name="requisitionSource" sourceClassName="org.kuali.module.purap.bo.RequisitionStatus" sourceAttributeName="statusDescription">
+            	<label>Requisition Source</label>
+            	<shortLabel>Req. Source</shortLabel>        	
+            </attributeReference>
+            
+            <attribute name="statusChange" forceUppercase="true">
+            	<label>Waiting on Additional Info</label>
+            	<shortLabel>Status Change</shortLabel>
+            	
+            	<maxLength>4</maxLength>
+            	<validationPattern><anyCharacter /></validationPattern>
+            	
+            	<control>
+            		<radio valuesFinderClass="org.kuali.module.purap.lookup.keyvalues.StatusChangeValuesFinder"/>
+            	</control>
+            	
+            	<summary>statusChange</summary>
+            	<description>This is the destination status for the PO which is picked at one point in routing, 
+            		and is not persisted in the database as a separate field.</description>
+            </attribute>
+            
+            <attribute name="statusChangeNote">
+            	<label>Status Change Note</label>
+            	<shortLabel>Status Change Note</shortLabel>
+            	
+            	<maxLength>255</maxLength>
+            	<validationPattern><anyCharacter allowWhitespace="true"/></validationPattern>
+            	
+            	<control>
+            		<textarea rows="5" cols="80"/>
+            	</control>
+            	
+            	<summary>statusChangeNote</summary>
+            	<description>statusChangeNote description ...</description>
+            </attribute>
+
+        </attributes>
+
+        <summary>Document used for creating POs.</summary>
+        <description>The Purchase Order document is a...</description>
+
+        <allowsCopy>true</allowsCopy>
+        <allowsErrorCorrection>false</allowsErrorCorrection>
+        
+    </transactionalDocument>
+</dictionaryEntry>

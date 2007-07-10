@@ -48,9 +48,9 @@ public class CreditMemoForm extends AccountsPayableFormBase {
      */
     public KeyLabelPair getAdditionalDocInfo1() {
         if (ObjectUtils.isNotNull(((CreditMemoDocument) getDocument()).getPurapDocumentIdentifier())) {
-            return new KeyLabelPair("DataDictionary.KualiCreditMemoDocument.attributes.purapDocumentIdentifier", ((CreditMemoDocument) getDocument()).getPurapDocumentIdentifier().toString());
+            return new KeyLabelPair("DataDictionary.CreditMemoDocument.attributes.purapDocumentIdentifier", ((CreditMemoDocument) getDocument()).getPurapDocumentIdentifier().toString());
         }
-        return new KeyLabelPair("DataDictionary.KualiCreditMemoDocument.attributes.purapDocumentIdentifier", "Not Available");
+        return new KeyLabelPair("DataDictionary.CreditMemoDocument.attributes.purapDocumentIdentifier", "Not Available");
     }
 
     /**
@@ -58,9 +58,9 @@ public class CreditMemoForm extends AccountsPayableFormBase {
      */
     public KeyLabelPair getAdditionalDocInfo2() {
         if (ObjectUtils.isNotNull(((CreditMemoDocument) getDocument()).getStatus())) {
-            return new KeyLabelPair("DataDictionary.KualiCreditMemoDocument.attributes.statusCode", ((CreditMemoDocument) getDocument()).getStatus().getStatusDescription());
+            return new KeyLabelPair("DataDictionary.CreditMemoDocument.attributes.statusCode", ((CreditMemoDocument) getDocument()).getStatus().getStatusDescription());
         }
-        return new KeyLabelPair("DataDictionary.KualiCreditMemoDocument.attributes.statusCode", "Not Available");
+        return new KeyLabelPair("DataDictionary.CreditMemoDocument.attributes.statusCode", "Not Available");
     }
 
     /**

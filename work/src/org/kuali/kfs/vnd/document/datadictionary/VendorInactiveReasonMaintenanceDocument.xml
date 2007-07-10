@@ -32,7 +32,7 @@
             </authorization>
         </authorizations>
 
-        <documentTypeName>KualiVendorInactiveReasonMaintenanceDocument</documentTypeName>
+        <documentTypeName>VendorInactiveReasonMaintenanceDocument</documentTypeName>
         <documentTypeCode>PMIR</documentTypeCode>
 
         <label>Vendor Inactive Reason Maintenance Document</label>

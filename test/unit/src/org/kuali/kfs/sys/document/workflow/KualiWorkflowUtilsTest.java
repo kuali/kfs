@@ -36,7 +36,7 @@ import edu.iu.uis.eden.routeheader.DocumentContent;
 public class KualiWorkflowUtilsTest extends KualiTestBase {
     
     public void testTemp() throws IOException, InvalidXmlException, XPathExpressionException {
-        DocumentContent docContent = KualiAttributeTestUtil.getDocumentContentFromXmlFileAndPath(KualiAttributeTestUtil.PURCHASE_ORDER_DOCUMENT, KualiAttributeTestUtil.RELATIVE_PATH_IN_PROJECT_WORKFLOW,"KualiPurchaseOrderDocument");
+        DocumentContent docContent = KualiAttributeTestUtil.getDocumentContentFromXmlFileAndPath(KualiAttributeTestUtil.PURCHASE_ORDER_DOCUMENT, KualiAttributeTestUtil.RELATIVE_PATH_IN_PROJECT_WORKFLOW,"PurchaseOrderDocument");
 
         KualiDecimal testAmount = KualiWorkflowUtils.getFinancialDocumentTotalAmount(docContent.getDocument());
         assertEquals(new KualiDecimal(3.00), testAmount);

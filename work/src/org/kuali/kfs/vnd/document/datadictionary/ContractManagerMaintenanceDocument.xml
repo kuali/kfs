@@ -32,7 +32,7 @@
             </authorization>
         </authorizations>
 
-        <documentTypeName>KualiContractManagerMaintenanceDocument</documentTypeName>
+        <documentTypeName>ContractManagerMaintenanceDocument</documentTypeName>
         <documentTypeCode>PMCO</documentTypeCode>
 
         <label>Contract Manager Maintenance Document</label>

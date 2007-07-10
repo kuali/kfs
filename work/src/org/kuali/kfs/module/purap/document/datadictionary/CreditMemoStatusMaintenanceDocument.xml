@@ -32,7 +32,7 @@
             </authorization>
         </authorizations>
 
-        <documentTypeName>KualiCreditMemoStatusMaintenanceDocument</documentTypeName>
+        <documentTypeName>CreditMemoStatusMaintenanceDocument</documentTypeName>
         <documentTypeCode>PMCM</documentTypeCode>
 
         <label>Credit Memo Status Maintenance Document</label>

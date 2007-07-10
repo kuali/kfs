@@ -1,0 +1,390 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ Copyright 2007 The Kuali Foundation.
+ 
+ Licensed under the Educational Community License, Version 1.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+ 
+ http://www.opensource.org/licenses/ecl1.php
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+<!DOCTYPE dictionaryEntry PUBLIC
+    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
+    "../../../../core/datadictionary/dataDictionary-1_0.dtd" [
+<!ENTITY accountsPayableDocumentBaseAttributes SYSTEM "../../AccountsPayableDocumentBaseAttributes.xml">
+<!ENTITY purchasingAccountsPayableDocumentBaseAttributes SYSTEM "../../dictionary/entity/PurchasingAccountsPayableDocumentBaseAttributes.xml">
+]>
+<dictionaryEntry>
+    <transactionalDocument>
+        <documentClass>org.kuali.module.purap.document.PaymentRequestDocument</documentClass>
+        <businessRulesClass>org.kuali.module.purap.rules.PaymentRequestDocumentRule</businessRulesClass>
+        <preRulesCheckClass>org.kuali.module.purap.rules.PaymentRequestDocumentPreRules</preRulesCheckClass>
+        <documentAuthorizerClass>org.kuali.module.purap.document.authorization.PaymentRequestDocumentAuthorizer</documentAuthorizerClass>
+        
+        <authorizations>
+            <authorization action="initiate">
+                <workgroups>
+                    <workgroup>kualiUniversalGroup</workgroup>
+                </workgroups>
+            </authorization>
+        </authorizations>
+
+        <documentTypeName>PaymentRequestDocument</documentTypeName>
+        <documentTypeCode>PREQ</documentTypeCode>
+
+        <label>PaymentRequest</label>
+        <shortLabel>PREQ</shortLabel>
+
+        <attributes>
+
+            <!-- BELOW IS DUMMY ATTRIBUTE FOR ROUTING LABELS ONLY -->
+ 			<attributeReference name="statusDescription" sourceClassName="org.kuali.module.purap.bo.PurApAttributeReferenceDummy" sourceAttributeName="paymentRequestStatus"/>
+            
+			<!-- PURAP DOCUMENT ATTRIBUTES -->
+			&purchasingAccountsPayableDocumentBaseAttributes;
+			
+			<!-- ACCOUNTS PAYABLE DOCUMENT ATTRIBUTES -->
+            &accountsPayableDocumentBaseAttributes;
+			
+			<attributeReference name="purapDocumentIdentifier" sourceClassName="org.kuali.module.purap.bo.PurApAttributeReferenceDummy" sourceAttributeName="purapDocumentIdentifier">
+                <label>Payment Request Nbr</label>
+                <shortLabel>PREQ Nbr</shortLabel>
+                <summary>The Payment Request Number</summary>
+                <description>The payment request number</description>
+            </attributeReference>
+            
+            <attributeReference name="purchaseOrderIdentifier" sourceClassName="org.kuali.module.purap.bo.PurApAttributeReferenceDummy" sourceAttributeName="purapDocumentIdentifier">
+			    <label>Purchase Order Nbr</label>
+			    <shortLabel>PO Nbr</shortLabel>
+			    <required>true</required>
+			    <summary>The Purchase Order Number</summary>
+			    <description>The Purchase Order number</description>
+			</attributeReference>
+                        
+			<attributeReference name="statusCode" sourceClassName="org.kuali.module.purap.bo.PurApAttributeReferenceDummy" sourceAttributeName="paymentRequestStatus">
+                <required>true</required>
+            </attributeReference>
+         
+			<attribute name="purchaseOrderClassificationTypeDescription" forceUppercase="true">
+				<label>Purchase Order Classification Type Description</label>
+				<shortLabel>PO Classification Type Description</shortLabel>
+				
+				<maxLength>20</maxLength>
+				<validationPattern><anyCharacter /></validationPattern>
+				
+				<control>
+					<text size="22"/>
+				</control>
+				
+				<summary>Purchase Order Classification Type Description</summary>
+				<description>Purchase Order Classification Type Description ...</description>
+			</attribute>
+			
+			<attributeReference name="invoiceDate" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericDate">
+                <label>Invoice Date</label>
+                <shortLabel>Invoice Date</shortLabel>
+                <required>true</required>
+                <summary>Invoice Date</summary>
+                <description>Invoice Date description...</description>
+            </attributeReference>
+			
+			<attribute name="invoiceNumber" forceUppercase="true">
+				<label>Invoice Number</label>
+				<shortLabel>Invoice Number</shortLabel>
+				
+				<maxLength>20</maxLength>
+				<validationPattern><anyCharacter /></validationPattern>
+				<required>true</required>
+				
+				<control>
+					<text size="22"/>
+				</control>
+				
+				<summary>Invoice Number</summary>
+				<description>Invoice Number Description ...</description>
+			</attribute>
+			
+			<attribute name="vendorInvoiceAmount" forceUppercase="true">
+                <label>Vendor Invoice Amount</label>
+                <shortLabel>Vendor Invoice Amount</shortLabel>
+
+                <maxLength>19</maxLength>
+                <validationPattern><floatingPoint /></validationPattern>
+                <required>true</required>
+
+                <control>
+                    <text size="21" />
+                </control>
+
+                <summary>vendorInvoiceAmount</summary>
+                <description>vendorInvoiceAmount description...</description>
+            </attribute>
+            
+            <attributeReference name="paymentRequestPayDate" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericDate">
+                <label>Pay Date</label>
+                <shortLabel>paymentRequestPayDate</shortLabel>
+
+                <summary>Payment Request PayDate</summary>
+                <description>paymentRequestPayDate description...</description>
+            </attributeReference>
+            
+            <attribute name="paymentRequestCostSourceCode" forceUppercase="true">
+                <label>Payment Request Cost Source Code</label>
+                <shortLabel>PaymentRequestCostSourceCode</shortLabel>
+
+                <maxLength>5</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="21" />
+                </control>
+
+                <summary>PaymentRequestCostSourceCode</summary>
+                <description>PaymentRequestCostSourceCode description...</description>
+            </attribute>
+            
+            <attribute name="paymentAttachmentIndicator" forceUppercase="true">
+                <label>Payment Attachment Indicator</label>
+                <shortLabel>Indicator</shortLabel>
+
+                <maxLength>1</maxLength>
+
+                <control>
+                    <checkbox />
+                </control>
+
+                <summary>PaymentAttachmentIndicator</summary>
+                <description>PaymentAttachmentIndicator description...</description>
+            </attribute>
+            
+            <attribute name="immediatePaymentIndicator" forceUppercase="true">
+                <label>Immediate Payment Indicator</label>
+                <shortLabel>Indicator</shortLabel>
+
+                <maxLength>1</maxLength>
+
+                <control>
+                    <checkbox />
+                </control>
+
+                <summary>ImmediatePaymentIndicator</summary>
+                <description>ImmediatePaymentIndicator description...</description>
+            </attribute>
+            
+            <attribute name="specialHandlingInstructionLine1Text" forceUppercase="false">
+                <label>Special Handling Instructions</label>
+                <shortLabel>Special Handling Instructions</shortLabel>
+
+                <maxLength>90</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="45" />
+                </control>
+
+                <summary>paymentSpecialHandlingInstructionLine1Text</summary>
+                <description>paymentSpecialHandlingInstructionLine1Text description...</description>
+            </attribute>
+            
+            <attribute name="specialHandlingInstructionLine2Text" forceUppercase="false">
+                <label>Special Handling Instructions</label>
+                <shortLabel>Special Handling Instructions</shortLabel>
+
+                <maxLength>90</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="45" />
+                </control>
+
+                <summary>paymentSpecialHandlingInstructionLine2Text</summary>
+                <description>paymentSpecialHandlingInstructionLine2Text description...</description>
+            </attribute>
+            
+            <attribute name="specialHandlingInstructionLine3Text" forceUppercase="false">
+                <label>Special Handling Instructions</label>
+                <shortLabel>Special Handling Instructions</shortLabel>
+
+                <maxLength>90</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="45" />
+                </control>
+
+                <summary>paymentSpecialHandlingInstructionLine3Text</summary>
+                <description>paymentSpecialHandlingInstructionLine3Text description...</description>
+            </attribute>
+            
+            <attributeReference name="paymentPaidDate" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericDate">
+                <label>Payment Request Paid Date</label>
+                <shortLabel>paymentRequestPaidDate</shortLabel>
+                <summary>Payment Request PaidDate</summary>
+                <description>paymentRequestPaidDate description...</description>
+            </attributeReference>
+
+            <attribute name="paymentRequestElectronicInvoiceIndicator" forceUppercase="true">
+                <label>Payment Request Electronic Invoice Indicator</label>
+                <shortLabel>Indicator</shortLabel>
+
+                <maxLength>1</maxLength>
+
+                <control>
+                    <checkbox />
+                </control>
+
+                <summary>PaymentRequestElectronicInvoiceIndicator</summary>
+                <description>PaymentRequestElectronicInvoiceIndicator description...</description>
+            </attribute>
+            
+            <attribute name="accountsPayableProcessorIdentifier" forceUppercase="true">
+                <label>accountsPayableProcessorIdentifier</label>
+                <shortLabel>accountsPayableProcessorIdentifier</shortLabel>
+
+                <maxLength>11</maxLength>
+                <validationPattern><anyCharacter allowWhitespace="true"/></validationPattern>
+
+                <control>
+                    <text size="9" />
+                </control>
+
+                <summary>accountsPayableProcessorIdentifier</summary>
+                <description>accountsPayableProcessorIdentifier description...</description>
+            </attribute>
+            
+            <attribute name="paymentRequestedCancelIndicator" forceUppercase="true">
+                <label>Accounts Payable Request Cancel Identifier</label>
+                <shortLabel>Identifier</shortLabel>
+
+                <maxLength>11</maxLength>
+                <validationPattern>
+                    <numeric />  
+                </validationPattern>
+ 
+                <required>true</required>
+                
+                <control>
+                    <text size="9" />
+                </control>
+                
+                <summary>accountsPayableRequestCancelIdentifier</summary>
+                <description>accountsPayableRequestCancelIdentifier description...</description>
+            </attribute>
+
+            <attribute name="purchaseOrderNotes">
+            	<label>PO Notes</label>
+            	<shortLabel>PO Notes</shortLabel>
+            	
+            	<maxLength>3</maxLength>
+            	<validationPattern><anyCharacter allowWhitespace="true"/></validationPattern>
+            	
+            	<control>
+            		<text size="3"/>
+            	</control>
+            	
+            	<summary>PurchaseOrderNotes Indicator</summary>
+            	<description>PurchaseOrderNotes description ...</description>
+            </attribute>
+            
+            <attributeReference name="purchaseOrderEndDate" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericDate"> 
+			    <label>PO End Date</label> 
+			    <shortLabel>PO End Date</shortLabel> 
+			    <summary>purchaseOrderEndDate</summary> 
+			    <description>purchaseOrderEndDate description...</description> 
+			</attributeReference> 
+
+            
+                   
+			<!-- PAYMENT REQUEST DOCUMENT ATTRIBUTES -->
+			
+			<attributeReference name="vendorHeaderGeneratedIdentifier" sourceClassName="org.kuali.module.vendor.bo.VendorDetail" sourceAttributeName="vendorHeaderGeneratedIdentifier">
+                <required>true</required>
+            </attributeReference>
+			
+            <attributeReference name="alternateVendorHeaderGeneratedIdentifier" sourceClassName="org.kuali.module.vendor.bo.VendorDetail" sourceAttributeName="vendorHeaderGeneratedIdentifier">
+                <label>Alternate Vendor Header Generated Identifier</label>
+                <required>false</required>
+            </attributeReference>
+
+            <attributeReference name="alternateVendorDetailAssignedIdentifier" sourceClassName="org.kuali.module.vendor.bo.VendorDetail" sourceAttributeName="vendorDetailAssignedIdentifier">
+                <label>Alternate Vendor Detail Assigned Identifier</label>
+                <required>false</required>
+            </attributeReference>
+
+            <attributeReference name="originalVendorHeaderGeneratedIdentifier" sourceClassName="org.kuali.module.vendor.bo.VendorDetail" sourceAttributeName="vendorHeaderGeneratedIdentifier">
+                <label>Original Vendor Header Generated Identifier</label>
+                <required>false</required>
+            </attributeReference>
+
+            <attributeReference name="originalVendorDetailAssignedIdentifier" sourceClassName="org.kuali.module.vendor.bo.VendorDetail" sourceAttributeName="vendorDetailAssignedIdentifier">
+                <label>Original Vendor Detail Assigned Identifier</label>
+                <required>false</required>
+            </attributeReference>
+
+            <attributeReference name="vendorPaymentTermsCode" sourceClassName="org.kuali.module.vendor.bo.VendorDetail" sourceAttributeName="vendorPaymentTermsCode"/>
+            
+            <attributeReference name="vendorShippingTitleCode" sourceClassName="org.kuali.module.vendor.bo.VendorDetail" sourceAttributeName="vendorShippingTitleCode"/>
+                                                
+            <attributeReference name="vendorShippingPaymentTermsCode" sourceClassName="org.kuali.module.vendor.bo.VendorDetail" sourceAttributeName="vendorShippingPaymentTermsCode"/>
+            
+            <attributeReference name="recurringPaymentTypeCode" sourceClassName="org.kuali.module.purap.bo.RecurringPaymentType" sourceAttributeName="recurringPaymentTypeCode">
+                <label>Payment Classification</label>
+                <shortLabel>recurringPaymentTypeCode</shortLabel>
+                <control>
+                    <select valuesFinderClass="org.kuali.module.purap.lookup.keyvalues.RecurringPaymentTypeValuesFinder" />
+                </control>
+                <summary>recurringPaymentTypeCode</summary>
+                <description>recurringPaymentTypeCode description...</description>
+            </attributeReference>
+
+			<attributeReference name="itemTotalPoEncumbranceAmount" sourceClassName="org.kuali.module.purap.bo.PurApAttributeReferenceDummy" sourceAttributeName="genericItemAmount">
+				<label>Total PO Encumbrance Amount</label>
+				<shortLabel>Total Encumbrance Amount</shortLabel>
+				<summary>TotalEncumbranceAmount</summary>
+				<description>TotalEncumbranceAmount description...</description>
+			</attributeReference>
+
+			<attributeReference name="itemTotalPoEncumbranceAmountRelieved" sourceClassName="org.kuali.module.purap.bo.PurApAttributeReferenceDummy" sourceAttributeName="genericItemAmount">
+				<label>Total PO Encumbrance Amount Relieved</label>
+				<shortLabel>Total Encumbrance Amount Relieved</shortLabel>
+				<summary>TotalEncumbranceAmountRelieved</summary>
+				<description>TotalEncumbranceAmountRelieved description...</description>
+			</attributeReference>
+
+			<attributeReference name="itemTotalPoPaidAmount" sourceClassName="org.kuali.module.purap.bo.PurApAttributeReferenceDummy" sourceAttributeName="genericItemAmount">
+				<label>Total PO Paid Amount</label>
+				<shortLabel>TotalPaidAmount</shortLabel>
+				<summary>TotalPaidAmount</summary>
+				<description>TotalPaidAmount description...</description>
+			</attributeReference>
+
+			<attributeReference name="lineItemTotal" sourceClassName="org.kuali.module.purap.bo.PurApAttributeReferenceDummy" sourceAttributeName="genericItemAmount">
+				<label>Invoice Total Prior to Additional Charges</label>
+				<shortLabel>Invoice Total Prior to Additional Charges</shortLabel>
+				<summary>Invoice Total Prior to Additional Charges</summary>
+				<description>Invoice Total Prior to Additional Charges description...</description>
+			</attributeReference>
+
+			<attributeReference name="grandTotal" sourceClassName="org.kuali.module.purap.bo.PurApAttributeReferenceDummy" sourceAttributeName="genericItemAmount">
+				<label>Grand Total</label>
+				<shortLabel>Grand Total</shortLabel>
+				<summary>GrandTotal</summary>
+				<description>GrandTotal description...</description>
+			</attributeReference>
+
+        </attributes>
+		
+        <summary>Document used for creating PREQs.</summary>
+        <description>The Payment Request document is a...</description>
+
+        <allowsCopy>false</allowsCopy>
+        <allowsErrorCorrection>false</allowsErrorCorrection>
+        
+    </transactionalDocument>
+</dictionaryEntry>

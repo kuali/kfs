@@ -352,15 +352,15 @@ public class PurapConstants extends JstlConstants {
     public static String PREQ_DISCOUNT_MULT = "-0.01";
 
     public static class PurchaseOrderDocTypes {
-        public static String PURCHASE_ORDER_REOPEN_DOCUMENT = "KualiPurchaseOrderReopenDocument";
-        public static String PURCHASE_ORDER_CLOSE_DOCUMENT = "KualiPurchaseOrderCloseDocument";
-        public static String PURCHASE_ORDER_DOCUMENT = "KualiPurchaseOrderDocument";
-        public static String PURCHASE_ORDER_RETRANSMIT_DOCUMENT = "KualiPurchaseOrderRetransmitDocument";
-        public static String PURCHASE_ORDER_PRINT_DOCUMENT = "KualiPurchaseOrderPrintDocument";
-        public static String PURCHASE_ORDER_VOID_DOCUMENT = "KualiPurchaseOrderVoidDocument";
-        public static String PURCHASE_ORDER_PAYMENT_HOLD_DOCUMENT = "KualiPurchaseOrderPaymentHoldDocument";
-        public static String PURCHASE_ORDER_REMOVE_HOLD_DOCUMENT = "KualiPurchaseOrderRemoveHoldDocument";
-        public static String PURCHASE_ORDER_AMENDMENT_DOCUMENT = "KualiPurchaseOrderAmendmentDocument";
+        public static String PURCHASE_ORDER_REOPEN_DOCUMENT = "PurchaseOrderReopenDocument";
+        public static String PURCHASE_ORDER_CLOSE_DOCUMENT = "PurchaseOrderCloseDocument";
+        public static String PURCHASE_ORDER_DOCUMENT = "PurchaseOrderDocument";
+        public static String PURCHASE_ORDER_RETRANSMIT_DOCUMENT = "PurchaseOrderRetransmitDocument";
+        public static String PURCHASE_ORDER_PRINT_DOCUMENT = "PurchaseOrderPrintDocument";
+        public static String PURCHASE_ORDER_VOID_DOCUMENT = "PurchaseOrderVoidDocument";
+        public static String PURCHASE_ORDER_PAYMENT_HOLD_DOCUMENT = "PurchaseOrderPaymentHoldDocument";
+        public static String PURCHASE_ORDER_REMOVE_HOLD_DOCUMENT = "PurchaseOrderRemoveHoldDocument";
+        public static String PURCHASE_ORDER_AMENDMENT_DOCUMENT = "PurchaseOrderAmendmentDocument";
     }
 
     private static HashMap<String, String> purchaseOrderDocTypes() {
@@ -416,7 +416,7 @@ public class PurapConstants extends JstlConstants {
     }
 
     // PAYMENT REQUEST
-    public static String PAYMENT_REQUEST_DOCUMENT = "KualiPaymentRequestDocument";
+    public static String PAYMENT_REQUEST_DOCUMENT = "PaymentRequestDocument";
     public static String PAYMENT_REQUEST_DOCUMENT_DOC_TYPE = "PaymentRequestDocument";
     
     public static int PREQ_PAY_DATE_CALCULATION_DAYS = 28;
@@ -519,7 +519,7 @@ public class PurapConstants extends JstlConstants {
     }
     
     // CREDIT MEMO DOCUMENT
-    public static String CREDIT_MEMO_DOCUMENT = "KualiCreditMemoDocument";
+    public static String CREDIT_MEMO_DOCUMENT = "CreditMemoDocument";
     public static String CREDIT_MEMO_DOCUMENT_DOC_TYPE = "CreditMemoDocument";
     
     public static class CreditMemoStatuses {

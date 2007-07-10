@@ -16,7 +16,7 @@
 <%@ include file="/jsp/kfs/kfsTldHeader.jsp"%>
 
 <kul:documentPage showDocumentInfo="true"
-	documentTypeName="KualiRequisitionDocument"
+	documentTypeName="RequisitionDocument"
 	htmlFormAction="purapRequisition" renderMultipart="true"
 	showTabButtons="true">
 
@@ -30,15 +30,15 @@
 
 	<kul:documentOverview editingMode="${KualiForm.editingMode}"
 		includePostingYear="true"
-        postingYearAttributes="${DataDictionary.KualiRequisitionDocument.attributes}" >
+        postingYearAttributes="${DataDictionary.RequisitionDocument.attributes}" >
 
     	<purap:purapDocumentDetail
-	    	documentAttributes="${DataDictionary.KualiRequisitionDocument.attributes}"
+	    	documentAttributes="${DataDictionary.RequisitionDocument.attributes}"
 	    	detailSectionLabel="Requisition Detail" />
     </kul:documentOverview>
 	
     <purap:vendor
-        documentAttributes="${DataDictionary.KualiRequisitionDocument.attributes}"
+        documentAttributes="${DataDictionary.RequisitionDocument.attributes}"
         displayRequisitionFields="true" />
 
     <purap:puritems itemAttributes="${DataDictionary.RequisitionItem.attributes}"
@@ -47,13 +47,13 @@
     	displayRequisitionFields="true"/>
 
     <purap:paymentinfo
-        documentAttributes="${DataDictionary.KualiRequisitionDocument.attributes}" />
+        documentAttributes="${DataDictionary.RequisitionDocument.attributes}" />
 
     <purap:delivery
-        documentAttributes="${DataDictionary.KualiRequisitionDocument.attributes}" />
+        documentAttributes="${DataDictionary.RequisitionDocument.attributes}" />
 
     <purap:additional
-        documentAttributes="${DataDictionary.KualiRequisitionDocument.attributes}"
+        documentAttributes="${DataDictionary.RequisitionDocument.attributes}"
         displayRequisitionFields="true" />
         
     <purap:accountsummary

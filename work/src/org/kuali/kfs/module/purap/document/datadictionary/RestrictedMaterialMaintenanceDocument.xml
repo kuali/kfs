@@ -32,7 +32,7 @@
             </authorization>
         </authorizations>
 
-        <documentTypeName>KualiRestrictedMaterialMaintenanceDocument</documentTypeName>
+        <documentTypeName>RestrictedMaterialMaintenanceDocument</documentTypeName>
         <documentTypeCode>PMRM</documentTypeCode>
 
         <label>Restricted Material Maintenance Document</label>

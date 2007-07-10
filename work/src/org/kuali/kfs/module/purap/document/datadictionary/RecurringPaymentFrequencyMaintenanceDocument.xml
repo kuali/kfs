@@ -32,7 +32,7 @@
             </authorization>
         </authorizations>
 
-        <documentTypeName>KualiRecurringPaymentFrequencyMaintenanceDocument</documentTypeName>
+        <documentTypeName>RecurringPaymentFrequencyMaintenanceDocument</documentTypeName>
         <documentTypeCode>PMRF</documentTypeCode>
 
         <label>Recurring Payment Frequency Maintenance Document</label>

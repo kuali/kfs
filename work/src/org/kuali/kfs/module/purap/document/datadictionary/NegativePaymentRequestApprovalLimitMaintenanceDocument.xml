@@ -32,7 +32,7 @@
             </authorization>
         </authorizations>
 
-        <documentTypeName>KualiNegativePaymentRequestApprovalLimitMaintenanceDocument</documentTypeName>
+        <documentTypeName>NegativePaymentRequestApprovalLimitMaintenanceDocument</documentTypeName>
         <documentTypeCode>PMNP</documentTypeCode>
 
         <label>Negative Payment Request Approval Limit Maintenance Document</label>

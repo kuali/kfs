@@ -32,7 +32,7 @@
             </authorization>
         </authorizations>
 
-        <documentTypeName>KualiPaymentRequestStatusMaintenanceDocument</documentTypeName>
+        <documentTypeName>PaymentRequestStatusMaintenanceDocument</documentTypeName>
         <documentTypeCode>PMPR</documentTypeCode>
 
         <label>Payment Request Status Maintenance Document</label>

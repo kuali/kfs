@@ -54,9 +54,9 @@ public class RequisitionForm extends PurchasingFormBase {
      */
     public KeyLabelPair getAdditionalDocInfo1() {
         if (ObjectUtils.isNotNull(this.getRequisitionDocument().getPurapDocumentIdentifier())) {
-            return new KeyLabelPair("DataDictionary.KualiRequisitionDocument.attributes.purapDocumentIdentifier", ((RequisitionDocument)this.getDocument()).getPurapDocumentIdentifier().toString());
+            return new KeyLabelPair("DataDictionary.RequisitionDocument.attributes.purapDocumentIdentifier", ((RequisitionDocument)this.getDocument()).getPurapDocumentIdentifier().toString());
         } else {
-            return new KeyLabelPair("DataDictionary.KualiRequisitionDocument.attributes.purapDocumentIdentifier", "Not Available");
+            return new KeyLabelPair("DataDictionary.RequisitionDocument.attributes.purapDocumentIdentifier", "Not Available");
         }
     }
 
@@ -65,9 +65,9 @@ public class RequisitionForm extends PurchasingFormBase {
      */
     public KeyLabelPair getAdditionalDocInfo2() {
         if (ObjectUtils.isNotNull(this.getRequisitionDocument().getStatus())) {
-            return new KeyLabelPair("DataDictionary.KualiRequisitionDocument.attributes.statusCode", ((RequisitionDocument)this.getDocument()).getStatus().getStatusDescription());
+            return new KeyLabelPair("DataDictionary.RequisitionDocument.attributes.statusCode", ((RequisitionDocument)this.getDocument()).getStatus().getStatusDescription());
         } else {
-            return new KeyLabelPair("DataDictionary.KualiRequisitionDocument.attributes.statusCode", "Not Available");
+            return new KeyLabelPair("DataDictionary.RequisitionDocument.attributes.statusCode", "Not Available");
         }
     }
 

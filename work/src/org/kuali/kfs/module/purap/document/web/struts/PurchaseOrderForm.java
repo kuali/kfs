@@ -83,10 +83,10 @@ public class PurchaseOrderForm extends PurchasingFormBase {
      */
     public KeyLabelPair getAdditionalDocInfo1() {
         if (ObjectUtils.isNotNull(this.getPurchaseOrderDocument().getPurapDocumentIdentifier())) {
-            return new KeyLabelPair("DataDictionary.KualiPurchaseOrderDocument.attributes.purapDocumentIdentifier", ((PurchaseOrderDocument) this.getDocument()).getPurapDocumentIdentifier().toString());
+            return new KeyLabelPair("DataDictionary.PurchaseOrderDocument.attributes.purapDocumentIdentifier", ((PurchaseOrderDocument) this.getDocument()).getPurapDocumentIdentifier().toString());
         }
         else {
-            return new KeyLabelPair("DataDictionary.KualiPurchaseOrderDocument.attributes.purapDocumentIdentifier", "Not Available");
+            return new KeyLabelPair("DataDictionary.PurchaseOrderDocument.attributes.purapDocumentIdentifier", "Not Available");
         }
     }
 
@@ -95,10 +95,10 @@ public class PurchaseOrderForm extends PurchasingFormBase {
      */
     public KeyLabelPair getAdditionalDocInfo2() {
         if (ObjectUtils.isNotNull(this.getPurchaseOrderDocument().getStatus())) {
-            return new KeyLabelPair("DataDictionary.KualiPurchaseOrderDocument.attributes.statusCode", ((PurchaseOrderDocument) this.getDocument()).getStatus().getStatusDescription());
+            return new KeyLabelPair("DataDictionary.PurchaseOrderDocument.attributes.statusCode", ((PurchaseOrderDocument) this.getDocument()).getStatus().getStatusDescription());
         }
         else {
-            return new KeyLabelPair("DataDictionary.KualiPurchaseOrderDocument.attributes.statusCode", "Not Available");
+            return new KeyLabelPair("DataDictionary.PurchaseOrderDocument.attributes.statusCode", "Not Available");
         }
     }
 

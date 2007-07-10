@@ -33,7 +33,7 @@
             </authorization>
         </authorizations>
 
-        <documentTypeName>KualiVendorMaintenanceDocument</documentTypeName>
+        <documentTypeName>VendorDetailMaintenanceDocument</documentTypeName>
         <documentTypeCode>PVEN</documentTypeCode>
 
         <label>Vendor Maintenance Document</label>

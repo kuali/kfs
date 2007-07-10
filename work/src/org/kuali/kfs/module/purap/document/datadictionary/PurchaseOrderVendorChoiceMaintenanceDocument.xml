@@ -32,7 +32,7 @@
             </authorization>
         </authorizations>
 
-        <documentTypeName>KualiPoVendorChoiceMaintenanceDocument</documentTypeName>
+        <documentTypeName>PurchaseOrderVendorChoiceMaintenanceDocument</documentTypeName>
         <documentTypeCode>PMVC</documentTypeCode>
 
         <label>Purchase Order Vendor Choice Maintenance Document</label>

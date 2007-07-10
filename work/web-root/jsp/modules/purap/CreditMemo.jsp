@@ -15,7 +15,7 @@
 --%>
 <%@ include file="/jsp/kfs/kfsTldHeader.jsp"%>
 
-<kul:documentPage showDocumentInfo="true" documentTypeName="KualiCreditMemoDocument" htmlFormAction="purapCreditMemo" renderMultipart="true" showTabButtons="true">
+<kul:documentPage showDocumentInfo="true" documentTypeName="CreditMemoDocument" htmlFormAction="purapCreditMemo" renderMultipart="true" showTabButtons="true">
 
     <c:if test="${!empty KualiForm.editingMode['fullEntry']}">
         <c:set var="fullEntryMode" value="true" scope="request" />
@@ -31,7 +31,7 @@
     <html:hidden property="calculated" />
     
     <c:if test="${displayInitTab}" > 
-    	<purap:creditMemoInit documentAttributes="${DataDictionary.KualiCreditMemoDocument.attributes}" /> 
+    	<purap:creditMemoInit documentAttributes="${DataDictionary.CreditMemoDocument.attributes}" /> 
     	
     	<kul:panelFooter />
     
@@ -44,14 +44,14 @@
 		  <h3>This Credit Memo has been Held by <c:out value="${KualiForm.document.accountsPayableHoldPersonName}"/></h3>		
 	    </c:if>
 	    
-		<kul:documentOverview editingMode="${KualiForm.editingMode}" includePostingYear="true" postingYearAttributes="${DataDictionary.KualiCreditMemoDocument.attributes}" />
+		<kul:documentOverview editingMode="${KualiForm.editingMode}" includePostingYear="true" postingYearAttributes="${DataDictionary.CreditMemoDocument.attributes}" />
 	        
-		<purap:vendor documentAttributes="${DataDictionary.KualiCreditMemoDocument.attributes}" displayPurchaseOrderFields="false" displayCreditMemoFields="true"/>
+		<purap:vendor documentAttributes="${DataDictionary.CreditMemoDocument.attributes}" displayPurchaseOrderFields="false" displayCreditMemoFields="true"/>
 	
-		<purap:creditMemoInfo documentAttributes="${DataDictionary.KualiCreditMemoDocument.attributes}" />        
+		<purap:creditMemoInfo documentAttributes="${DataDictionary.CreditMemoDocument.attributes}" />        
 	   
 	  	<purap:paymentRequestProcessItems 
-			documentAttributes="${DataDictionary.KualiCreditMemoDocument.attributes}"
+			documentAttributes="${DataDictionary.CreditMemoDocument.attributes}"
 			itemAttributes="${DataDictionary.CreditMemoItem.attributes}"
 			accountingLineAttributes="${DataDictionary.CreditMemoAccount.attributes}" isCreditMemo="true" />
 	  

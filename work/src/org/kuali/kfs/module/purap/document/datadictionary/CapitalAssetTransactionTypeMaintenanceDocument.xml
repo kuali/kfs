@@ -32,7 +32,7 @@
             </authorization>
         </authorizations>
 
-        <documentTypeName>KualiCapitalAssetsTransactionTypeMaintenanceDocument</documentTypeName>
+        <documentTypeName>CapitalAssetTransactionTypeMaintenanceDocument</documentTypeName>
         <documentTypeCode>PMTT</documentTypeCode>
 
         <label>Capital Asset Transaction Type Maintenance Document</label>

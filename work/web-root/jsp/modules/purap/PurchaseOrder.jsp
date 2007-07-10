@@ -16,7 +16,7 @@
 <%@ include file="/jsp/kfs/kfsTldHeader.jsp"%>
 
 <kul:documentPage showDocumentInfo="true"
-    documentTypeName="KualiPurchaseOrderDocument"
+    documentTypeName="PurchaseOrderDocument"
     htmlFormAction="purapPurchaseOrder" renderMultipart="true"
     showTabButtons="true">
 
@@ -39,10 +39,10 @@
     <c:if test="${empty KualiForm.editingMode['amendmentEntry']}">
         <kul:documentOverview editingMode="${KualiForm.editingMode}"
             includePostingYear="true"
-            postingYearAttributes="${DataDictionary.KualiPurchaseOrderDocument.attributes}" >
+            postingYearAttributes="${DataDictionary.PurchaseOrderDocument.attributes}" >
 
             <purap:purapDocumentDetail
-                documentAttributes="${DataDictionary.KualiPurchaseOrderDocument.attributes}"
+                documentAttributes="${DataDictionary.PurchaseOrderDocument.attributes}"
                 purchaseOrder="true"
                 detailSectionLabel="Purchase Order Detail" />
         </kul:documentOverview>
@@ -52,10 +52,10 @@
         <c:set target="${KualiForm.accountingLineEditingMode}" property="fullEntry" value="true" />
         <kul:documentOverview editingMode="${KualiForm.accountingLineEditingMode}"
             includePostingYear="true"
-            postingYearAttributes="${DataDictionary.KualiPurchaseOrderDocument.attributes}" >
+            postingYearAttributes="${DataDictionary.PurchaseOrderDocument.attributes}" >
 
             <purap:purapDocumentDetail
-                documentAttributes="${DataDictionary.KualiPurchaseOrderDocument.attributes}"
+                documentAttributes="${DataDictionary.PurchaseOrderDocument.attributes}"
                 purchaseOrder="true"
                 detailSectionLabel="Purchase Order Detail" />
         </kul:documentOverview>
@@ -63,38 +63,38 @@
     
     <c:if test="${retransmitMode}" >
         <purap:purchaseOrderRetransmit 
-            documentAttributes="${DataDictionary.KualiPurchaseOrderDocument.attributes}"
+            documentAttributes="${DataDictionary.PurchaseOrderDocument.attributes}"
             itemAttributes="${DataDictionary.PurchaseOrderItem.attributes}"
             displayPurchaseOrderFields="true" />
     </c:if>
     	 		 
 <c:if test="${not retransmitMode}" >
     <purap:vendor
-        documentAttributes="${DataDictionary.KualiPurchaseOrderDocument.attributes}" 
+        documentAttributes="${DataDictionary.PurchaseOrderDocument.attributes}" 
         displayPurchaseOrderFields="true" />
 
     <purap:stipulationsAndInfo
-        documentAttributes="${DataDictionary.KualiPurchaseOrderDocument.attributes}" />
+        documentAttributes="${DataDictionary.PurchaseOrderDocument.attributes}" />
 
     <purap:puritems itemAttributes="${DataDictionary.PurchaseOrderItem.attributes}"
         accountingLineAttributes="${DataDictionary.PurchaseOrderAccount.attributes}"
         camsAttributes="${DataDictionary.PurchaseOrderItemCapitalAsset.attributes}" /> 
      
     <purap:paymentinfo
-        documentAttributes="${DataDictionary.KualiPurchaseOrderDocument.attributes}" 
+        documentAttributes="${DataDictionary.PurchaseOrderDocument.attributes}" 
         displayPurchaseOrderFields="true"/>
 
     <purap:delivery
-        documentAttributes="${DataDictionary.KualiPurchaseOrderDocument.attributes}" />
+        documentAttributes="${DataDictionary.PurchaseOrderDocument.attributes}" />
 
     <purap:additional
-        documentAttributes="${DataDictionary.KualiPurchaseOrderDocument.attributes}" />
+        documentAttributes="${DataDictionary.PurchaseOrderDocument.attributes}" />
         
     <purap:accountsummary
     	documentAttributes="${DataDictionary.SourceAccountingLine.attributes}" />  
 
     <purap:quotes
-        documentAttributes="${DataDictionary.KualiPurchaseOrderDocument.attributes}"
+        documentAttributes="${DataDictionary.PurchaseOrderDocument.attributes}"
         vendorQuoteAttributes="${DataDictionary.PurchaseOrderVendorQuote.attributes}"
         isPurchaseOrderAwarded="${KualiForm.document.purchaseOrderAwarded}" /> 
 

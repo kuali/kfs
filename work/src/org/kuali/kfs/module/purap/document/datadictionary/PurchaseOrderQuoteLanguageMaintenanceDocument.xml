@@ -33,7 +33,7 @@
             </authorization>
         </authorizations>
 
-        <documentTypeName>KualiPoQuoteLanguageMaintenanceDocument</documentTypeName>
+        <documentTypeName>PurchaseOrderQuoteLanguageMaintenanceDocument</documentTypeName>
         <documentTypeCode>PMQL</documentTypeCode>
 
         <label>Purchase Order Quote Language Maintenance Document</label>

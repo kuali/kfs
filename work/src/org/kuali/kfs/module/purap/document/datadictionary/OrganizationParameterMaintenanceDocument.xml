@@ -32,7 +32,7 @@
 			</authorization>
 		</authorizations>
 
-		<documentTypeName>KualiOrganizationParametersMaintenanceDocument</documentTypeName>
+		<documentTypeName>OrganizationParameterMaintenanceDocument</documentTypeName>
 		<documentTypeCode>PMOP</documentTypeCode>
 
 		<label>Organization Parameter Maintenance Document</label>

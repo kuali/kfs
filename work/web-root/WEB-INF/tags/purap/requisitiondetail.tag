@@ -37,7 +37,7 @@
         </th>
         <td align=left valign=middle class="datacell">
             <!-- html:image property="methodToCall.viewPaymentHistory" src="${ConfigProperties.externalizable.images.url}tinybutton-view.gif" title="View Related Documents" alt="View Related Documents" styleClass="tinybutton"/ -->
-            <a href="purapRequisition.do?methodToCall=viewPaymentHistory&docTypeName=KualiRequisitionDocument" tabindex="1000000" target="purapWindow"  title="View Payment History">View</a>
+            <a href="purapRequisition.do?methodToCall=viewPaymentHistory&docTypeName=RequisitionDocument" tabindex="1000000" target="purapWindow"  title="View Payment History">View</a>
         </td>
     </tr>
     <tr>

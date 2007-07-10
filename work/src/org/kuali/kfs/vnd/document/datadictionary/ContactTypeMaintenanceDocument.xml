@@ -32,7 +32,7 @@
             </authorization>
         </authorizations>
 
-        <documentTypeName>KualiContactTypeMaintenanceDocument</documentTypeName>
+        <documentTypeName>ContactTypeMaintenanceDocument</documentTypeName>
         <documentTypeCode>PMCT</documentTypeCode>
 
         <label>Contact Type Maintenance Document</label>

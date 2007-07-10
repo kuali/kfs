@@ -32,7 +32,7 @@
             </authorization>
         </authorizations>
 
-        <documentTypeName>KualiAutoApproveExclusionMaintenanceDocument</documentTypeName>
+        <documentTypeName>AutoApproveExcludeMaintenanceDocument</documentTypeName>
         <documentTypeCode>PMAA</documentTypeCode>
 
         <label>Auto Approve Exclude Maintenance Document</label>

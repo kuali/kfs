@@ -32,7 +32,7 @@
             </authorization>
         </authorizations>
 
-        <documentTypeName>KualiPoCostSourceMaintenanceDocument</documentTypeName>
+        <documentTypeName>PurchaseOrderCostSourceMaintenanceDocument</documentTypeName>
         <documentTypeCode>PMCS</documentTypeCode>
 
         <label>Purchase Order Cost Source Maintenance Document</label>

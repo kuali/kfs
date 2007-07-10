@@ -32,7 +32,7 @@
             </authorization>
         </authorizations>
 
-        <documentTypeName>KualiItemTypeMaintenanceDocument</documentTypeName>
+        <documentTypeName>ItemTypeMaintenanceDocument</documentTypeName>
         <documentTypeCode>PMIT</documentTypeCode>
 
         <label>Item Type Maintenance Document</label>

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
- Copyright 2006-2007 The Kuali Foundation.
+ Copyright 2007 The Kuali Foundation.
  
  Licensed under the Educational Community License, Version 1.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -19,9 +19,9 @@
     "../../../../core/datadictionary/dataDictionary-1_0.dtd" >
 <dictionaryEntry>
     <transactionalDocument>
-        <documentClass>org.kuali.module.purap.document.AssignContractManagerDocument</documentClass>
-        <businessRulesClass>org.kuali.module.purap.rules.AssignContractManagerDocumentRule</businessRulesClass>
-        <documentAuthorizerClass>org.kuali.module.purap.document.authorization.AssignContractManagerDocumentAuthorizer</documentAuthorizerClass>
+        <documentClass>org.kuali.module.purap.document.PurchaseOrderCloseDocument</documentClass>
+        <businessRulesClass>org.kuali.module.purap.rules.PurchaseOrderCloseDocumentRule</businessRulesClass>
+        <documentAuthorizerClass>org.kuali.module.purap.document.authorization.PurchaseOrderCloseDocumentAuthorizer</documentAuthorizerClass>
         
         <authorizations>
             <authorization action="initiate">
@@ -31,18 +31,16 @@
             </authorization>
         </authorizations>
 
-        <documentTypeName>AssignContractManagerDocument</documentTypeName>
-        <documentTypeCode>ACM</documentTypeCode>
+        <documentTypeName>PurchaseOrderCloseDocument</documentTypeName>
+        <documentTypeCode>POC</documentTypeCode>
 
-        <label>Assign A Contract Manager</label>
-        <shortLabel>AssignContractManager</shortLabel>
-        
-<!-- 
-ripierce: no attributes are needed in this xml because all of the attributes on the 
-  Assign a Contract Manager jsp come from the RequisitionDocument.
--->        
-        <summary>Document used for assigning contract managers.</summary>
-        <description>The Assign Contract Manager document is a...</description>
+        <label>Close a Purchase Order</label>
+        <shortLabel>PurchaseOrderClose</shortLabel>
+               
+        <summary>Document used to Close a Purchase Order.</summary>
+        <description>The Purchase Order Close document, as distinct from the ordinary document close action,
+        	is used to do the additional things that need to be done to a Purchase Order to move it into
+        	a Final status of Closed.</description>
 
         <allowsCopy>false</allowsCopy>
         <allowsErrorCorrection>false</allowsErrorCorrection>

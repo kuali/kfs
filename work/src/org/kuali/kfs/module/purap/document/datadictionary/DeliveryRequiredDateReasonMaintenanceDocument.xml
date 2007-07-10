@@ -32,7 +32,7 @@
             </authorization>
         </authorizations>
 
-        <documentTypeName>KualiDeliveryRequiredMaintenanceDocument</documentTypeName>
+        <documentTypeName>DeliveryRequiredDateReasonMaintenanceDocument</documentTypeName>
         <documentTypeCode>PMDR</documentTypeCode>
 
         <label>Delivery Required Date Reason Maintenance Document</label>

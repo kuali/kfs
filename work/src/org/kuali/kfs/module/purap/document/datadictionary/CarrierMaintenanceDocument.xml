@@ -32,7 +32,7 @@
             </authorization>
         </authorizations>
 
-        <documentTypeName>KualiCarrierMaintenanceDocument</documentTypeName>
+        <documentTypeName>CarrierMaintenanceDocument</documentTypeName>
         <documentTypeCode>PMCA</documentTypeCode>
 
         <label>Carrier Maintenance Document</label>

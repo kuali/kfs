@@ -32,7 +32,7 @@
             </authorization>
         </authorizations>
 
-        <documentTypeName>KualiSupplierDiversityMaintenanceDocument</documentTypeName>
+        <documentTypeName>SupplierDiversityMaintenanceDocument</documentTypeName>
         <documentTypeCode>PMSD</documentTypeCode>
 
         <label>Supplier Diversity Maintenance Document</label>

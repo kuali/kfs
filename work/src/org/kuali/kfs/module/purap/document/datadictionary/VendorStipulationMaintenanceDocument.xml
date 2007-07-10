@@ -32,7 +32,7 @@
             </authorization>
         </authorizations>
 
-        <documentTypeName>KualiVendorStipulationMaintenanceDocument</documentTypeName>
+        <documentTypeName>VendorStipulationMaintenanceDocument</documentTypeName>
         <documentTypeCode>PMSI</documentTypeCode>
 
         <label>Vendor Stipulation Maintenance Document</label>

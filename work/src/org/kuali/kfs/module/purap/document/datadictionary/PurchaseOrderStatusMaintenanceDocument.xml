@@ -32,7 +32,7 @@
             </authorization>
         </authorizations>
 
-        <documentTypeName>KualiPoStatusMaintenanceDocument</documentTypeName>
+        <documentTypeName>PurchaseOrderStatusMaintenanceDocument</documentTypeName>
         <documentTypeCode>PMPS</documentTypeCode>
 
         <label>Purchase Order Status Maintenance Document</label>

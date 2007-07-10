@@ -32,7 +32,7 @@
             </authorization>
         </authorizations>
 
-        <documentTypeName>KualiPoTransmissionMethodMaintenanceDocument</documentTypeName>
+        <documentTypeName>PurchaseOrderTransmissionMethodMaintenanceDocument</documentTypeName>
         <documentTypeCode>PMTM</documentTypeCode>
 
         <label>Purchase Order Transmission Method Maintenance Document</label>

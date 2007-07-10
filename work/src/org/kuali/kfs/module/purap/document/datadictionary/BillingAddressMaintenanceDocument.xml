@@ -32,7 +32,7 @@
             </authorization>
         </authorizations>
 
-        <documentTypeName>KualiBillingAddressMaintenanceDocument</documentTypeName>
+        <documentTypeName>BillingAddressMaintenanceDocument</documentTypeName>
         <documentTypeCode>PMBA</documentTypeCode>
 
         <label>Billing Address Maintenance Document</label>

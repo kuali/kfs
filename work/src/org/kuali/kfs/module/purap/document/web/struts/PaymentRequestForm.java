@@ -71,9 +71,9 @@ public class PaymentRequestForm extends AccountsPayableFormBase {
      */
     public KeyLabelPair getAdditionalDocInfo1() {
         if (ObjectUtils.isNotNull(this.getPaymentRequestDocument().getPurapDocumentIdentifier())) {
-            return new KeyLabelPair("DataDictionary.KualiPaymentRequestDocument.attributes.purapDocumentIdentifier", ((PaymentRequestDocument)this.getDocument()).getPurapDocumentIdentifier().toString());
+            return new KeyLabelPair("DataDictionary.PaymentRequestDocument.attributes.purapDocumentIdentifier", ((PaymentRequestDocument)this.getDocument()).getPurapDocumentIdentifier().toString());
         } else {
-            return new KeyLabelPair("DataDictionary.KualiPaymentRequestDocument.attributes.purapDocumentIdentifier", "Not Available");
+            return new KeyLabelPair("DataDictionary.PaymentRequestDocument.attributes.purapDocumentIdentifier", "Not Available");
         }
     }
 
@@ -82,9 +82,9 @@ public class PaymentRequestForm extends AccountsPayableFormBase {
      */
     public KeyLabelPair getAdditionalDocInfo2() {
         if (ObjectUtils.isNotNull(this.getPaymentRequestDocument().getStatus())) {
-            return new KeyLabelPair("DataDictionary.KualiPaymentRequestDocument.attributes.statusCode", ((PaymentRequestDocument)this.getDocument()).getStatus().getStatusDescription());
+            return new KeyLabelPair("DataDictionary.PaymentRequestDocument.attributes.statusCode", ((PaymentRequestDocument)this.getDocument()).getStatus().getStatusDescription());
         } else {
-            return new KeyLabelPair("DataDictionary.KualiPaymentRequestDocument.attributes.statusCode", "Not Available");
+            return new KeyLabelPair("DataDictionary.PaymentRequestDocument.attributes.statusCode", "Not Available");
         }
     }
 

@@ -32,7 +32,7 @@
             </authorization>
         </authorizations>
 
-        <documentTypeName>KualiAddressTypeMaintenanceDocument</documentTypeName>
+        <documentTypeName>AddressTypeMaintenanceDocument</documentTypeName>
         <documentTypeCode>PMAT</documentTypeCode>
 
         <label>Address Type Maintenance Document</label>

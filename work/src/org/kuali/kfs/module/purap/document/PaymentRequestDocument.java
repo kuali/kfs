@@ -16,7 +16,6 @@
 
 package org.kuali.module.purap.document;
 
-import java.math.BigDecimal;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -40,7 +39,9 @@ import org.kuali.module.purap.bo.PaymentRequestStatusHistory;
 import org.kuali.module.purap.bo.PaymentRequestView;
 import org.kuali.module.purap.bo.PurApAccountingLine;
 import org.kuali.module.purap.bo.PurchaseOrderItem;
+import org.kuali.module.purap.bo.RecurringPaymentType;
 import org.kuali.module.vendor.bo.PaymentTermType;
+import org.kuali.module.vendor.bo.PurchaseOrderCostSource;
 import org.kuali.module.vendor.bo.ShippingPaymentTerms;
 import org.kuali.workflow.KualiWorkflowUtils.RouteLevelNames;
 
@@ -85,6 +86,9 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
     // REFERENCE OBJECTS
     private PaymentTermType vendorPaymentTerms;
     private ShippingPaymentTerms vendorShippingPaymentTerms;
+    private PurchaseOrderCostSource paymentRequestCostSource;
+    private RecurringPaymentType recurringPaymentType;
+    
    
     /**
 	 * Default constructor.
@@ -98,6 +102,8 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
         super.refreshAllReferences();
         this.refreshReferenceObject("vendorPaymentTerms");
         this.refreshReferenceObject("vendorShippingPaymentTerms");
+        this.refreshReferenceObject("paymentRequestCostSource");
+ 
     }
     
     /**
@@ -589,16 +595,10 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
      */
     public void initiateDocument() {
         LOG.debug("initiateDocument() started");
-        this.setStatusCode( PurapConstants.PaymentRequestStatuses.INITIATE );
-  
-        //TODO: Change this one:
-        this.setAccountsPayableProcessorIdentifier("TBD");
         UniversalUser currentUser = (UniversalUser)GlobalVariables.getUserSession().getUniversalUser();
+        this.setStatusCode( PurapConstants.PaymentRequestStatuses.INITIATE );
         this.setAccountsPayableProcessorIdentifier(currentUser.getPersonUniversalIdentifier());
-        // paymentRequest.setProcessedCampusCode(u.getCampusCd());
-        //paymentRequest.setAccountsPayableProcessorId(u.getId());
-        //this.setStatusCode( PurapConstants.PaymentRequestStatuses.IN_PROCESS )
-       // this.setInitialized(true);
+        this.setProcessingCampusCode(currentUser.getCampusCode());
         this.refreshAllReferences();
     }
     
@@ -632,15 +632,20 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
         this.setPurchaseOrderIdentifier(po.getPurapDocumentIdentifier());
         this.setPostingYear(po.getPostingYear());
         this.setVendorCustomerNumber(po.getVendorCustomerNumber());
-        // Preq does not have costSource but it has costSoureCode. In EPIC it is CostSource
-        //po.getPurchaseOrderCostSource();
-        this.setPaymentRequestCostSourceCode(po.getPurchaseOrderCostSourceCode());
+        if (po.getPurchaseOrderCostSource() != null ){
+            this.setPaymentRequestCostSource(po.getPurchaseOrderCostSource());
+            this.setPaymentRequestCostSourceCode(po.getPurchaseOrderCostSourceCode()); 
+        }
         if (po.getVendorShippingPaymentTerms()!= null){
             this.setVendorShippingPaymentTerms(po.getVendorShippingPaymentTerms());
             this.setVendorShippingPaymentTermsCode(po.getVendorShippingPaymentTermsCode());
         }
-        //po.getRecurringPaymentType()
-        this.setRecurringPaymentTypeCode(po.getRecurringPaymentTypeCode());
+        
+        if (po.getRecurringPaymentType() !=null){
+            this.setRecurringPaymentType(po.getRecurringPaymentType());
+            this.setRecurringPaymentTypeCode(po.getRecurringPaymentTypeCode());
+        }
+        
         //TODO: WHAT ABOUT REMIT ADDRESS!? see code in createPaymentRequest in EPIC PREQServiceIMPL
         this.setVendorHeaderGeneratedIdentifier(po.getVendorHeaderGeneratedIdentifier());
         this.setVendorDetailAssignedIdentifier(po.getVendorDetailAssignedIdentifier());
@@ -652,9 +657,6 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
         this.setVendorPostalCode(po.getVendorPostalCode());
         this.setVendorCountryCode(po.getVendorCountryCode());
         if ((po.getVendorPaymentTerms() == null) || ("".equals(po.getVendorPaymentTerms().getVendorPaymentTermsCode())) ) {
-        //if ( (po.getVendorPaymentTerms() == null) || ("".equals(po.getVendorPaymentTermsCode())) ) {
-          //this.vendorPaymentTerms = new PaymentTermsType();
-          //this.vendorPaymentTerms.setCode("");
             this.setVendorPaymentTerms(new PaymentTermType());
             this.vendorPaymentTerms.setVendorPaymentTermsCode("");
         } else {
@@ -1051,6 +1053,38 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
      * @deprecated
      */
     public void setStatusDescription(String statusDescription) {
+    }
+   
+    /**
+     * Gets the recurringPaymentType attribute. 
+     * @return Returns the recurringPaymentType.
+     */
+    public RecurringPaymentType getRecurringPaymentType() {
+        return recurringPaymentType;
+    }
+
+    /**
+     * Sets the recurringPaymentType attribute value.
+     * @param recurringPaymentType The recurringPaymentType to set.
+     */
+    public void setRecurringPaymentType(RecurringPaymentType recurringPaymentType) {
+        this.recurringPaymentType = recurringPaymentType;
+    }
+
+    /**
+     * Gets the paymentRequestCostSource attribute. 
+     * @return Returns the paymentRequestCostSource.
+     */
+    public PurchaseOrderCostSource getPaymentRequestCostSource() {
+        return paymentRequestCostSource;
+    }
+
+    /**
+     * Sets the paymentRequestCostSource attribute value.
+     * @param paymentRequestCostSource The paymentRequestCostSource to set.
+     */
+    public void setPaymentRequestCostSource(PurchaseOrderCostSource paymentRequestCostSource) {
+        this.paymentRequestCostSource = paymentRequestCostSource;
     }
 
 }

@@ -723,6 +723,10 @@
     <reference-descriptor name="vendorCountry" class-ref="org.kuali.kfs.bo.Country" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="vendorCountryCode" />
     </reference-descriptor>
+    <reference-descriptor name="paymentRequestCostSource" class-ref="org.kuali.module.vendor.bo.PurchaseOrderCostSource" auto-retrieve="true" auto-update="none" auto-delete="none">
+        <foreignkey field-ref="paymentRequestCostSourceCode" />
+    </reference-descriptor>
+
 </class-descriptor>
 
 <class-descriptor class="org.kuali.module.purap.bo.PurchaseOrderStatus" table="PUR_PO_STAT_T">

@@ -82,11 +82,15 @@ public class CreditMemoServiceImpl implements CreditMemoService {
         if (StringUtils.isEmpty(vendorNumber)) {
             if (StringUtils.equals(cmDocument.getCreditMemoType(), CREDIT_MEMO_TYPES.TYPE_PREQ)) {
                 PaymentRequestDocument paymentRequestDocument = paymentRequestService.getPaymentRequestById(cmDocument.getPaymentRequestIdentifier());
-                vendorNumber = paymentRequestDocument.getVendorNumber();
+                if (paymentRequestDocument != null) {
+                    vendorNumber = paymentRequestDocument.getVendorNumber();
+                }
             }
             else {
                 PurchaseOrderDocument purchaseOrderDocument = purchaseOrderService.getCurrentPurchaseOrder(cmDocument.getPurchaseOrderIdentifier());
-                vendorNumber = purchaseOrderDocument.getVendorNumber();
+                if (purchaseOrderDocument != null) {
+                    vendorNumber = purchaseOrderDocument.getVendorNumber();
+                }
             }
         }
 
@@ -118,7 +122,7 @@ public class CreditMemoServiceImpl implements CreditMemoService {
             if (!poItem.getItemType().isItemTypeAboveTheLineIndicator()) {
                 continue;
             }
-            
+
             if (poItem.getItemInvoicedTotalQuantity() != null && poItem.getItemInvoicedTotalQuantity().isGreaterThan(KualiDecimal.ZERO)) {
                 invoicedItems.add(poItem);
             }

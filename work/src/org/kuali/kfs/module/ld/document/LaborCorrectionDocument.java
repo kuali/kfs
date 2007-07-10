@@ -17,6 +17,7 @@ package org.kuali.module.labor.document;
 
 import java.util.Iterator;
 
+import org.kuali.core.document.AmountTotaling;
 import org.kuali.core.service.DateTimeService;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.gl.bo.OriginEntryGroup;
@@ -31,7 +32,7 @@ import org.kuali.module.labor.service.LaborOriginEntryService;
 
 import edu.iu.uis.eden.clientapp.vo.DocumentRouteLevelChangeVO;
 
-public class LaborCorrectionDocument extends CorrectionDocument{
+public class LaborCorrectionDocument extends CorrectionDocument implements AmountTotaling {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(LaborCorrectionDocument.class);
     public LaborCorrectionDocument() {
         super();

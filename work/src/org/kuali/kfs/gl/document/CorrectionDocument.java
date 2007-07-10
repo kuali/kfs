@@ -23,6 +23,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 
 import org.kuali.Constants;
+import org.kuali.core.document.AmountTotaling;
 import org.kuali.core.document.TransactionalDocumentBase;
 import org.kuali.core.service.DateTimeService;
 import org.kuali.core.util.KualiDecimal;
@@ -43,7 +44,7 @@ import edu.iu.uis.eden.clientapp.vo.DocumentRouteLevelChangeVO;
 /**
  * 
  */
-public class CorrectionDocument extends TransactionalDocumentBase {
+public class CorrectionDocument extends TransactionalDocumentBase implements AmountTotaling {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CorrectionDocument.class);
 
     private String correctionTypeCode; // CorrectionDocumentService.CORRECTION_TYPE_MANUAL or
@@ -219,6 +220,13 @@ public class CorrectionDocument extends TransactionalDocumentBase {
         }
     }
 
+    /**
+     * @return if credit total is zero, debit total, otherwise credit total
+     */
+    public KualiDecimal getTotalDollarAmount() {
+        return getCorrectionCreditTotalAmount().add(getCorrectionDebitTotalAmount());
+    }
+    
     /**
      * We need to make sure this is set on all the child objects also
      * 

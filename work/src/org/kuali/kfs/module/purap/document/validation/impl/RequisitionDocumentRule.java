@@ -18,6 +18,7 @@ package org.kuali.module.purap.rules;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.Constants;
 import org.kuali.core.datadictionary.validation.fieldlevel.ZipcodeValidationPattern;
 import org.kuali.core.document.AmountTotaling;
 import org.kuali.core.rule.KualiParameterRule;
@@ -35,6 +36,7 @@ import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.PurapKeyConstants;
 import org.kuali.module.purap.PurapPropertyConstants;
+import org.kuali.module.purap.PurapConstants.ItemFields;
 import org.kuali.module.purap.bo.PurchasingApItem;
 import org.kuali.module.purap.document.PurchasingAccountsPayableDocument;
 import org.kuali.module.purap.document.PurchasingDocument;
@@ -64,7 +66,7 @@ public class RequisitionDocumentRule extends PurchasingDocumentRuleBase {
      * @see org.kuali.module.purap.rules.PurchasingDocumentRuleBase#processItemValidation(org.kuali.module.purap.document.PurchasingAccountsPayableDocument)
      */
     @Override
-    public boolean processItemValidation (PurchasingAccountsPayableDocument purapDocument) {
+    public boolean processItemValidation(PurchasingAccountsPayableDocument purapDocument) {
         boolean valid = true;
         // Fetch the business rules that are common to the below the line items on all purap documents
         String documentTypeClassName = purapDocument.getClass().getName();
@@ -75,6 +77,13 @@ public class RequisitionDocumentRule extends PurchasingDocumentRuleBase {
         if (documentType.equals("CreditMemoDocument")) {
            
         }
+
+        List<PurchasingApItem> itemList = purapDocument.getItems();
+        if (itemList.size() <= purapDocument.getBelowTheLineTypes().length) {
+            GlobalVariables.getErrorMap().putError(Constants.ITEM_LINE_ERRORS, PurapKeyConstants.ERROR_NO_ITEMS);
+            valid = false;
+        }
+
         String securityGroup = (String)PurapConstants.ITEM_TYPE_SYSTEM_PARAMETERS_SECURITY_MAP.get(documentType);
         KualiParameterRule allowsZeroRule = SpringServiceLocator.getKualiConfigurationService().getApplicationParameterRule(securityGroup, PurapConstants.ITEM_ALLOWS_ZERO);
         KualiParameterRule allowsPositiveRule = SpringServiceLocator.getKualiConfigurationService().getApplicationParameterRule(securityGroup, PurapConstants.ITEM_ALLOWS_POSITIVE);
@@ -82,8 +91,9 @@ public class RequisitionDocumentRule extends PurchasingDocumentRuleBase {
         KualiParameterRule requiresDescriptionRule = SpringServiceLocator.getKualiConfigurationService().getApplicationParameterRule(securityGroup, PurapConstants.ITEM_REQUIRES_USER_ENTERED_DESCRIPTION);
 
         for (PurchasingApItem item : purapDocument.getItems()) {
-            //only do this check for below the line items
             item.refreshNonUpdateableReferences();
+
+            //only do this check for below the line items
             if (!item.getItemType().isItemTypeAboveTheLineIndicator()) {
                 if (ObjectUtils.isNotNull(item.getItemUnitPrice()) &&(new KualiDecimal(item.getItemUnitPrice())).isZero()) {
                     if (allowsZeroRule.getRuleActiveIndicator() &&

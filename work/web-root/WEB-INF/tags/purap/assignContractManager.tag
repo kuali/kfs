@@ -35,19 +35,19 @@
 	            <tr>
 	                <th align=center valign=middle class="bord-l-b">
 	                    <div align="right"><kul:htmlAttributeLabel attributeEntry="${requisitionAttributes.contractManagerCode}" /></div>
-                        Contract Manager
+                        
 	                </th>
 	                <th align=center valign=middle class="bord-l-b">
 	                 <div align="right"><kul:htmlAttributeLabel attributeEntry="${requisitionAttributes.purapDocumentIdentifier}" /></div>
-	                    Req Number
+	                    
 	                </th>
 	                <th align=center valign=middle class="bord-l-b">
 	                    <div align="right"><kul:htmlAttributeLabel attributeEntry="${requisitionAttributes.deliveryCampusCode}" /></div>
-	                    Delivery Campus
+	                    
 	                </th>
 	                <th align=center valign=middle class="bord-l-b">
 	                    <div align="right"><kul:htmlAttributeLabel attributeEntry="${requisitionAttributes.vendorName}" /></div>
-	                    Vendor Name
+	                    
 	                </th>
 	                <th align=center valign=middle class="bord-l-b">
 	                   General Desc
@@ -90,10 +90,7 @@
 		                    <kul:htmlControlAttribute property="document.assignContractManagerDetail[${ctr}].requisition.documentHeader.financialDocumentTotalAmount" attributeEntry="${requisitionAttributes.documentHeader.financialDocumentTotalAmount}" readOnly="true" />
 		                </td>
 		                <td align=left valign=middle class="datacell">
-		                    
-		                    <fmt:formatDate value="${KualiForm.document.documentHeader.workflowDocument.createDate}" pattern="hh:mm a MM/dd/yyyy" />
-		                    <fmt:formatDate value="${document.assignContractManagerDetail[0].requisition.createDate}" pattern="hh:mm a MM/dd/yyyy" />
-		                    <kul:htmlControlAttribute property="document.assignContractManagerDetail[${ctr}].requisition.createDate" attributeEntry="${requisitionAttributes.vendorName}" readOnly="true" />
+		                    Create Date
 		                    </td>
 		                <td align=left valign=middle class="datacell">
 		                    

@@ -36,6 +36,7 @@ import org.kuali.module.chart.bo.ProjectCode;
 import org.kuali.module.chart.bo.SubAccount;
 import org.kuali.module.chart.bo.SubObjCd;
 import org.kuali.module.chart.bo.codes.BalanceTyp;
+import org.kuali.module.financial.bo.SalesTax;
 
 /**
  * This is the generic class which contains all the elements on a typical line of accounting elements. These are all the accounting
@@ -61,6 +62,7 @@ public abstract class AccountingLineBase extends PersistableBusinessObjectBase i
     private String encumbranceUpdateCode; // should only be set by the Journal Voucher document
     protected String financialDocumentLineTypeCode;
     protected String financialDocumentLineDescription;
+    protected boolean salesTaxRequired;
 
     private String chartOfAccountsCode;
     private String accountNumber;
@@ -82,6 +84,7 @@ public abstract class AccountingLineBase extends PersistableBusinessObjectBase i
     private ObjectType objectType; // should only be set by the Journal Voucher document
     private OriginationCode referenceOrigin;
     private DocumentType referenceType;
+    private SalesTax salesTax;
 
     /**
      * This constructor sets up empty instances for the dependent objects.
@@ -100,6 +103,8 @@ public abstract class AccountingLineBase extends PersistableBusinessObjectBase i
         // of Actual, except for JV which allows a choice and PE which uses "PE"
         balanceTyp = SpringServiceLocator.getBalanceTypService().getActualBalanceTyp();
         objectType = new ObjectType();
+        //salesTax = new SalesTax();
+        salesTaxRequired = false;
     }
 
 
@@ -364,6 +369,41 @@ public abstract class AccountingLineBase extends PersistableBusinessObjectBase i
     public void setSubObjectCode(SubObjCd subObjectCode) {
         this.subObjectCode = subObjectCode;
     }
+    
+    
+    /**
+     * 
+     * @see org.kuali.kfs.bo.AccountingLine#getSalesTax()
+     */
+    public SalesTax getSalesTax() {
+        return salesTax;
+    }
+
+    /**
+     * 
+     * @see org.kuali.kfs.bo.AccountingLine#setSalesTax(org.kuali.module.financial.bo.SalesTax)
+     * @deprecated
+     */
+    public void setSalesTax(SalesTax salesTax) {
+        this.salesTax = salesTax;
+    }
+    
+    /**
+     * 
+     * @see org.kuali.kfs.bo.AccountingLine#isSalesTaxRequired()
+     */
+    public boolean isSalesTaxRequired() {
+        return salesTaxRequired;
+    }
+
+    /**
+     * 
+     * @see org.kuali.kfs.bo.AccountingLine#setSalesTaxRequired(boolean)
+     */
+    public void setSalesTaxRequired(boolean salesTaxRequired) {
+        this.salesTaxRequired = salesTaxRequired;
+    }
+
 
     /**
      * @param documentNumber The documentNumber to set.
@@ -664,6 +704,26 @@ public abstract class AccountingLineBase extends PersistableBusinessObjectBase i
             setProjectCode(other.getProjectCode());
             setBalanceTypeCode(other.getBalanceTypeCode());
             setObjectTypeCode(other.getObjectTypeCode());
+            
+            //sales tax
+            if(other.getSalesTax() != null) {
+                SalesTax salesTax = getSalesTax();
+                SalesTax origSalesTax = other.getSalesTax();
+                if(salesTax != null) {
+                    salesTax.setAccountNumber(origSalesTax.getAccountNumber());
+                    salesTax.setChartOfAccountsCode(origSalesTax.getChartOfAccountsCode());
+                    salesTax.setFinancialDocumentGrossSalesAmount(origSalesTax.getFinancialDocumentGrossSalesAmount());
+                    salesTax.setFinancialDocumentTaxableSalesAmount(origSalesTax.getFinancialDocumentTaxableSalesAmount());
+                    salesTax.setFinancialDocumentSaleDate(origSalesTax.getFinancialDocumentSaleDate());
+                    
+                    //primary keys
+                    salesTax.setDocumentNumber(other.getDocumentNumber());
+                    salesTax.setFinancialDocumentLineNumber(other.getSequenceNumber());
+                    salesTax.setFinancialDocumentLineTypeCode(other.getFinancialDocumentLineTypeCode());
+                } else {
+                    salesTax = origSalesTax;
+                }
+            }
 
             // object references
             setChart((Chart) ObjectUtils.deepCopy(other.getChart()));

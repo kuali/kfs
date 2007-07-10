@@ -23,6 +23,9 @@ public interface AccountingDocumentRuleBaseConstants {
     // Security grouping constants used to do application parameter lookups
     public static final class APPLICATION_PARAMETER_SECURITY_GROUP {
         public static final String KUALI_TRANSACTION_PROCESSING_GLOBAL_RULES_SECURITY_GROUPING = "Kuali.FinancialTransactionProcessing.GlobalRules";
+        //WorkGroup for sales tax collection parameters
+        public static final String KUALI_TRANSACTION_PROCESSING_SALES_TAX_COLLECTION_GROUPING = "Kuali.FinancialTransactionProcessing.SalesTaxCollection";
+        
     }
 
     // Application parameter lookup constants to be used in conjunction with the grouping constants above
@@ -35,8 +38,12 @@ public interface AccountingDocumentRuleBaseConstants {
         public static final String MANDATORY_TRANSFER_SUBTYPE_CODES = "MandatoryTransferSubTypeCodes";
         public static final String NONMANDATORY_TRANSFER_SUBTYPE_CODES = "NonMandatoryTransferSubTypeCode";
         public static final String FUND_GROUP_BALANCING_SET = "FundGroupBalancingSet";
+        // doctype parameter
+        public static final String DOCTYPE_SALES_TAX_CHECK = "DocTypeSalesTaxCheck";
+        
+        // combination object code and account parameter
+        public static final String VALID_ACCOUNT_AND_OBJ_CD = "ValidAccountAndObjectCode";
     }
-    
     /**
      * Constant to statically define reusable error paths
      */

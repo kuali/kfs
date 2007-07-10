@@ -120,8 +120,17 @@
 <%@ attribute name="nestedIndex" required="false"
     description="A boolean whether we'll need a nested index that includes item index and account index or if we just need one index for the accountingLineIndex"%>
 	
-        
+<c:set var="salesTaxNeeded" value="false"/>
+<logic:notEmpty name="KualiForm" property="${accountingLine}.salesTaxRequired">
+	<c:set var="salesTaxRequired">
+		<bean:write name="KualiForm" property="${accountingLine}.salesTaxRequired"/>
+	</c:set>
+	<c:if test="${salesTaxRequired == 'Yes' }">
+		<c:set var="salesTaxNeeded" value="true"/>
+	</c:if>
+</logic:notEmpty>
 <c:set var="rowCount" value="${empty extraRowFields ? 1 : 2}" />
+<c:set var="rowCount" value="${salesTaxNeeded ? rowCount + 1 : rowCount}"/>
 <c:set var="dataColumnCount" value="${columnCountUntilAmount -1}"/>
 
 <%-- compute the count of the new rows --%>
@@ -132,7 +141,7 @@
 	<c:set var="numOfNewRows" value="${remainingCells == 0 ? tempNumOfNewRows : tempNumOfNewRows + 1}"/>
 </c:if>
 
-<c:set var="rowspan" value="${rowCount + (isOptionalFieldsInNewRow ? 2*numOfNewRows: 0) }" />
+<c:set var="rowspan" value="${rowCount + (isOptionalFieldsInNewRow ? 2*numOfNewRows: 0)}" />
 
 <tr>
 	<kul:htmlAttributeHeaderCell literalLabel="${rowHeader}:" scope="row" rowspan="${rowspan}">
@@ -321,7 +330,7 @@
 
 	<c:if test="${!readOnly}">
 		<c:choose>
-			<c:when test="${empty extraRowFields && (numOfOptionalFields == 0 || !isOptionalFieldsInNewRow)}">
+			<c:when test="${empty extraRowFields && (numOfOptionalFields == 0 || !isOptionalFieldsInNewRow) && !salesTaxNeeded}">
 				<fin:accountingLineActionDataCell
 					dataCellCssClass="${dataCellCssClass}" actionGroup="${actionGroup}"
 					actionInfix="${actionInfix}"
@@ -396,12 +405,13 @@
 </c:if>
 
 <%-- optional second row of accounting fields, between index and amount columns --%>
+
 <c:if test="${!empty extraRowFields}">
 	<tr>
 		<td colspan="${dataColumnCount}"
 			style="padding: 0px;border: 0px none ;">
 			<c:set var="hasMultipleActionButtons"
-				value="${!readOnly && actionGroup == 'existingLine'}" />
+				value="${!readOnly && actionGroup == 'existingLine' && !salesTaxNeeded}" />
 			<%-- Multiple buttons increase this row's height, but the table can't automatically cover that extra height, so kludge it. --%>
 			<table cellpadding="0" cellspacing="0"
 				style="width: 100%;border: 0px;${hasMultipleActionButtons ? 'height: 60px;' : ''}">
@@ -472,7 +482,7 @@
 			</table>
 		</td>
 		<%-- Assert rowCount == 2.  Browser skips 2-row amount columns here. --%>
-		<c:if test="${!readOnly}">
+		<c:if test="${!readOnly && !salesTaxNeeded}">
 			<%-- Action buttons go on the second row here, if any, to get the right default tab navigation. --%>
 			<fin:accountingLineActionDataCell
 				dataCellCssClass="${dataCellCssClass}" actionGroup="${actionGroup}"
@@ -482,5 +492,34 @@
 				decorator="${decorator}"
 				nestedIndex="${nestedIndex}" />
 		</c:if>
+	</tr>
+</c:if>
+<c:if test="${salesTaxNeeded}">
+	<c:set var="hasMultipleActionButtons"
+				value="${!readOnly && actionGroup == 'existingLine'}" />
+	<tr>
+	<td colspan="${dataColumnCount}"
+		style="padding: 0px;border: 0px none ;">
+		<fin:salesTaxAccountingLineRow 
+			dataCellCssClass="${dataCellCssClass}"
+			accountingLine="${accountingLine}"
+			baselineAccountingLine="${baselineAccountingLine}"
+			accountingLineAttributes="${accountingLineAttributes}"
+			displayHidden="${displayHidden}"
+			accountingLineValuesMap="${accountingLineValuesMap}"
+			salesTaxRowlabelFontWeight="bold"
+			readOnly="${readOnly}"
+			hasMultipleActionButtons="${hasMultipleActionButtons }"/>
+	</td>
+	<c:if test="${!readOnly}">
+		<%-- Action buttons go on the second row here, if any, to get the right default tab navigation. --%>
+		<fin:accountingLineActionDataCell
+			dataCellCssClass="${dataCellCssClass}" actionGroup="${actionGroup}"
+			actionInfix="${actionInfix}"
+			accountingAddLineIndex="${accountingAddLineIndex}"
+			accountingLineIndex="${accountingLineIndex}"
+			decorator="${decorator}"
+			nestedIndex="${nestedIndex}" />
+	</c:if>
 	</tr>
 </c:if>

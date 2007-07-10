@@ -296,6 +296,68 @@
                 </summary>
                 <description>A free-form text field that describes the purpose or function of the Accounting Line.</description>
             </attribute>
+            <!-- items for Sales Tax Collection -->
+            <attribute name="salesTaxRequired">
+				<label>Sales Tax Required</label>
+			    <shortLabel>Sales Tax Reqd</shortLabel>
+			
+			    <maxLength>10</maxLength>
+			    <required>false</required>
+			    <control>
+			        <hidden />
+			    </control>
+			
+			    <summary>
+			        <![CDATA[&nbsp;]]>
+			    </summary>
+			    <description>Added in specifically so that I can override the formatter for booleans</description>
+			    <formatterClass>org.kuali.core.web.format.TrueFalseBooleanFormatter</formatterClass>
+			</attribute>
+            <attributeReference name="salesTax.chartOfAccountsCode" sourceClassName="org.kuali.module.financial.bo.SalesTax" sourceAttributeName="chartOfAccountsCode">
+                <label>Sales Tax Chart of Accounts Code</label>
+                <shortLabel>Sales Tax Chart</shortLabel>
+                <required>true</required>
+                <summary>
+                    <![CDATA[&nbsp;]]>
+                </summary>
+                <description>Chart of Accounts Code that Sales Tax is collected against</description>
+            </attributeReference>
+            <attributeReference name="salesTax.accountNumber" sourceClassName="org.kuali.module.financial.bo.SalesTax" sourceAttributeName="accountNumber">
+                <label>Sales Tax Account Number</label>
+                <shortLabel>Sales Tax Account</shortLabel>
+                <required>true</required>
+                <summary>
+                    <![CDATA[&nbsp;]]>
+                </summary>
+                <description>Account Number that Sales Tax is collected against</description>
+            </attributeReference>
+            <attributeReference name="salesTax.financialDocumentGrossSalesAmount" sourceClassName="org.kuali.module.financial.bo.SalesTax" sourceAttributeName="financialDocumentGrossSalesAmount">
+                <label>Gross Sales Amount</label>
+                <shortLabel>Gross Sales Amt.</shortLabel>
+                <required>true</required>
+                <summary>
+                    <![CDATA[&nbsp;]]>
+                </summary>
+                <description>Gross Sales Amount to be taxed</description>
+            </attributeReference>
+            <attributeReference name="salesTax.financialDocumentTaxableSalesAmount" sourceClassName="org.kuali.module.financial.bo.SalesTax" sourceAttributeName="financialDocumentTaxableSalesAmount">
+                <label>Taxable Sales Amount</label>
+                <shortLabel>Taxable Sales Amt.</shortLabel>
+                <required>true</required>
+                <summary>
+                    <![CDATA[&nbsp;]]>
+                </summary>
+                <description>Taxable Sales Amount to be taxed</description>
+            </attributeReference>
+            <attributeReference name="salesTax.financialDocumentSaleDate" sourceClassName="org.kuali.module.financial.bo.SalesTax" sourceAttributeName="financialDocumentSaleDate">
+                <label>Sale Date</label>
+                <shortLabel>Sale Date</shortLabel>
+                <required>true</required>
+                <summary>
+                    <![CDATA[&nbsp;]]>
+                </summary>
+                <description>Date of Sale</description>
+            </attributeReference>
         </attributes>
 
     </businessObject>

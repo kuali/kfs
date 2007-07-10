@@ -94,6 +94,9 @@
               description="comma separated list of inquiry key names in the accountingLineValuesMap" %>
 <%@ attribute name="lookupUnkeyedFieldConversions" required="false"
 			  description="lookup field conversions; use this instead of lookupOrInquiryKeys when property names don't match" %>
+<%@ attribute name="lookupParameters" required="false"
+			  description="lookup parameters; use this to manually add lookupParameters" %>
+
 <%@ attribute name="accountingLineValuesMap" required="false" type="java.util.Map"
               description="map of the accounting line primitive fields and values, for inquiry keys" %>
 <%@ attribute name="inquiryExtraKeyValues" required="false"
@@ -116,6 +119,9 @@
 </c:if>
 <c:if test="${empty dataFieldCssClass}">
     <c:set var="dataFieldCssClass" value=""/>
+</c:if>
+<c:if test="${empty lookupParameters}">
+    <c:set var="lookupParameters" value=""/>
 </c:if>
 <c:choose>
 	<c:when test="${not empty boClassFullName}">
@@ -191,7 +197,7 @@
         </c:when>
         <c:otherwise>
             <%-- todo: this lookup to field conversion swapping in accountingLineLookup.tag --%>
-            <c:set var="lookupParameters" value=""/>
+            <%-- c:set var="lookupParameters" value="${lookupParameters}"/ --%>
             <c:set var="fieldConversions" value="${lookupUnkeyedFieldConversions}"/>
             <c:forTokens var="key" items="${lookupOrInquiryKeys}" delims=",">
                 <c:set var="withAccountingLine" value="${accountingLine}.${key}"/>

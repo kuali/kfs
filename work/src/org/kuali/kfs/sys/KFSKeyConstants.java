@@ -166,6 +166,9 @@ public class KFSKeyConstants extends KeyConstants {
     public static final String ERROR_ACCOUNTINGLINE_DELETERULE_INVALIDACCOUNT = "error.accountingLine.deleteRule.invalidAccount";
     public static final String ERROR_DOCUMENT_ACCOUNTING_LINE_INVALID_FORMAT = "error.document.accountingLine.invalidFormat";
     public static final String ERROR_DOCUMENT_ACCOUNTING_LINE_MAX_LENGTH = "error.document.accountingLine.maxLength";
+    public static final String ERROR_DOCUMENT_ACCOUNTING_LINE_SALES_TAX_REQUIRED = "error.document.accountingLine.salesTaxRequired";
+    public static final String ERROR_DOCUMENT_ACCOUNTING_LINE_INVALID_ACCT_OBJ_CD = "error.document.accountingLine.invalidAccountAndObjectCode";
+    public static final String ERROR_DOCUMENT_ACCOUNTING_LINE_SALES_TAX_INVALID_ACCOUNT = "error.document.accountingLine.salesTax.invalidAccountChart";
 
     // General Maintenance Document Error Messages
     public static final String ERROR_DOCUMENT_MAINTENANCE_PRIMARY_KEYS_CHANGED_ON_EDIT = "error.document.maintenance.general.primaryKeysChangedOnEdit";

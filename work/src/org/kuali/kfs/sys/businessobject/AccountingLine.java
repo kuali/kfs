@@ -28,6 +28,7 @@ import org.kuali.module.chart.bo.ProjectCode;
 import org.kuali.module.chart.bo.SubAccount;
 import org.kuali.module.chart.bo.SubObjCd;
 import org.kuali.module.chart.bo.codes.BalanceTyp;
+import org.kuali.module.financial.bo.SalesTax;
 
 /**
  * An AccountLine contains all the accounting items typically necessary to create a pending entry to the G/L. All transaction
@@ -382,6 +383,32 @@ public interface AccountingLine extends PersistableBusinessObject {
      * @param financialDocumentLineDescription The financialDocumentLineDescription to set.
      */
     public abstract void setFinancialDocumentLineDescription(String financialDocumentLineDescription);
+    
+    /**
+     * @return the sales tax associated with this line if any
+     */
+    public abstract SalesTax getSalesTax();
+    
+    /**
+     * @param salesTax The sales tax associated with this AccountingLine
+     */
+    public abstract void setSalesTax(SalesTax salesTax);
+    
+    /**
+     * 
+     * This method checks to see if sales tax is required for this accounting line
+     * or not
+     * @return true if it is required, false otherwise
+     */
+    public boolean isSalesTaxRequired();
+
+    /**
+     * 
+     * You can set whether or not sales tax is required for this accounting line
+     * or not
+     * @param salesTaxRequired - true if required
+     */
+    public void setSalesTaxRequired(boolean salesTaxRequired);
 
     /**
      * @see org.kuali.core.bo.AccountingLine#isSourceAccountingLine()

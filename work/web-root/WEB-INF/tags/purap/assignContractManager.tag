@@ -34,28 +34,32 @@
 			<c:if test="${!empty KualiForm.document.assignContractManagerDetails}">
 	            <tr>
 	                <th align=center valign=middle class="bord-l-b">
-	                    Contract Manager
+	                    <div align="right"><kul:htmlAttributeLabel attributeEntry="${requisitionAttributes.contractManagerCode}" /></div>
+                        Contract Manager
 	                </th>
 	                <th align=center valign=middle class="bord-l-b">
+	                 <div align="right"><kul:htmlAttributeLabel attributeEntry="${requisitionAttributes.purapDocumentIdentifier}" /></div>
 	                    Req Number
 	                </th>
 	                <th align=center valign=middle class="bord-l-b">
+	                    <div align="right"><kul:htmlAttributeLabel attributeEntry="${requisitionAttributes.deliveryCampusCode}" /></div>
 	                    Delivery Campus
 	                </th>
 	                <th align=center valign=middle class="bord-l-b">
+	                    <div align="right"><kul:htmlAttributeLabel attributeEntry="${requisitionAttributes.vendorName}" /></div>
 	                    Vendor Name
 	                </th>
 	                <th align=center valign=middle class="bord-l-b">
-	                    General Desc
+	                   General Desc
 	                </th>
 	                <th align=center valign=middle class="bord-l-b">
-	                    Total
+	                   Total
 	                </th>
 	                <th align=center valign=middle class="bord-l-b">
 	                    Create Date
 	                </th>
 	                <th align=center valign=middle class="bord-l-b">
-	                    First Item Description
+	                   First Item Description
 	                </th>
 	                <th align=center valign=middle class="bord-l-b">
 	                    First Object Code
@@ -86,13 +90,18 @@
 		                    <kul:htmlControlAttribute property="document.assignContractManagerDetail[${ctr}].requisition.documentHeader.financialDocumentTotalAmount" attributeEntry="${requisitionAttributes.documentHeader.financialDocumentTotalAmount}" readOnly="true" />
 		                </td>
 		                <td align=left valign=middle class="datacell">
-		                    Create Date
+		                    
+		                    <fmt:formatDate value="${KualiForm.document.documentHeader.workflowDocument.createDate}" pattern="hh:mm a MM/dd/yyyy" />
+		                    <fmt:formatDate value="${document.assignContractManagerDetail[0].requisition.createDate}" pattern="hh:mm a MM/dd/yyyy" />
+		                    <kul:htmlControlAttribute property="document.assignContractManagerDetail[${ctr}].requisition.createDate" attributeEntry="${requisitionAttributes.vendorName}" readOnly="true" />
+		                    </td>
+		                <td align=left valign=middle class="datacell">
+		                    
+		                    <kul:htmlControlAttribute property="document.assignContractManagerDetail[${ctr}].requisition.items[0].itemDescription" attributeEntry="${requisitionAttributes.items[0].itemDescription}" readOnly="true" />
 		                </td>
 		                <td align=left valign=middle class="datacell">
-		                    1st Item Desc
-		                </td>
-		                <td align=left valign=middle class="datacell">
-		                    1st Item Obj Code
+		                    
+		                    <kul:htmlControlAttribute property="document.assignContractManagerDetail[${ctr}].requisition.items[0].sourceAccountingLines[0].financialObjectCode" attributeEntry="${requisitionAttributes.items[0].sourceAccountingLines[0].financialObjectCode}" readOnly="true" />
 		                </td>
 		                <html:hidden property="document.assignContractManagerDetail[${ctr}].requisitionIdentifier" />
 		            </tr>

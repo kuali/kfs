@@ -608,6 +608,9 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
      */
     public void setStatusDescription(String statusDescription) {
     }
-
+    
+    public Date getCreateDate(){
+        return this.getDocumentHeader().getWorkflowDocument().getCreateDate();
+    }
 }
 

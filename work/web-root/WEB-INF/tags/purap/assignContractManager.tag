@@ -16,6 +16,7 @@
 <%@ include file="/jsp/kfs/kfsTldHeader.jsp"%>
 
 <c:set var="requisitionAttributes" value="${DataDictionary.RequisitionDocument.attributes}" />
+<c:set var="assignContractManagerAttributes" value="${DataDictionary.AssignContractManagerDocument.attributes}" />
 <c:set var="readOnly" value="${empty KualiForm.editingMode['fullEntry']}" />
 
 <kul:tab tabTitle="Assign A Contract Manager" defaultOpen="true" tabErrorKey="${PurapConstants.ASSIGN_CONTRACT_MANAGER_TAB_ERRORS}">
@@ -33,37 +34,25 @@
 			</c:if>
 			<c:if test="${!empty KualiForm.document.assignContractManagerDetails}">
 	            <tr>
-	                <th align=center valign=middle class="bord-l-b">
-	                    <div align="right"><kul:htmlAttributeLabel attributeEntry="${requisitionAttributes.contractManagerCode}" /></div>
-                        
-	                </th>
-	                <th align=center valign=middle class="bord-l-b">
-	                 <div align="right"><kul:htmlAttributeLabel attributeEntry="${requisitionAttributes.purapDocumentIdentifier}" /></div>
+	                
+	                    <kul:htmlAttributeHeaderCell attributeEntry="${requisitionAttributes.contractManagerCode}" />
+ 
+	                 	<kul:htmlAttributeHeaderCell attributeEntry="${assignContractManagerAttributes.requisitionNumber}" />
+
+	                    <kul:htmlAttributeHeaderCell attributeEntry="${assignContractManagerAttributes.deliveryCampusCode}" />
+	
+	                    <kul:htmlAttributeHeaderCell attributeEntry="${assignContractManagerAttributes.vendorName}" />
 	                    
-	                </th>
-	                <th align=center valign=middle class="bord-l-b">
-	                    <div align="right"><kul:htmlAttributeLabel attributeEntry="${requisitionAttributes.deliveryCampusCode}" /></div>
+	                    <kul:htmlAttributeHeaderCell attributeEntry="${assignContractManagerAttributes.generalDescription}" />
 	                    
-	                </th>
-	                <th align=center valign=middle class="bord-l-b">
-	                    <div align="right"><kul:htmlAttributeLabel attributeEntry="${requisitionAttributes.vendorName}" /></div>
+	                    <kul:htmlAttributeHeaderCell attributeEntry="${assignContractManagerAttributes.requisitionTotalAmount}" />
 	                    
-	                </th>
-	                <th align=center valign=middle class="bord-l-b">
-	                   General Desc
-	                </th>
-	                <th align=center valign=middle class="bord-l-b">
-	                   Total
-	                </th>
-	                <th align=center valign=middle class="bord-l-b">
-	                    Create Date
-	                </th>
-	                <th align=center valign=middle class="bord-l-b">
-	                   First Item Description
-	                </th>
-	                <th align=center valign=middle class="bord-l-b">
-	                    First Object Code
-	                </th>
+	                    <kul:htmlAttributeHeaderCell attributeEntry="${assignContractManagerAttributes.requisitionCreateDate}" />
+	                    
+	                    <kul:htmlAttributeHeaderCell attributeEntry="${assignContractManagerAttributes.firstItemDescription}" />
+
+	                    <kul:htmlAttributeHeaderCell attributeEntry="${assignContractManagerAttributes.firstObjectCode}" /> 
+	                	
 	            </tr>
 	
 		        <logic:iterate id="acmDetail" name="KualiForm" property="document.assignContractManagerDetails" indexId="ctr">
@@ -91,7 +80,7 @@
 		                </td>
 		                <td align=left valign=middle class="datacell">
 		                    Create Date
-		                    </td>
+						</td>
 		                <td align=left valign=middle class="datacell">
 		                    
 		                    <kul:htmlControlAttribute property="document.assignContractManagerDetail[${ctr}].requisition.items[0].itemDescription" attributeEntry="${requisitionAttributes.items[0].itemDescription}" readOnly="true" />

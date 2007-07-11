@@ -1,51 +1,142 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
- Copyright 2006-2007 The Kuali Foundation.
- 
- Licensed under the Educational Community License, Version 1.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
- 
- http://www.opensource.org/licenses/ecl1.php
- 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
+	Copyright 2006-2007 The Kuali Foundation.
+	
+	Licensed under the Educational Community License, Version 1.0 (the "License");
+	you may not use this file except in compliance with the License.
+	You may obtain a copy of the License at
+	
+	http://www.opensource.org/licenses/ecl1.php
+	
+	Unless required by applicable law or agreed to in writing, software
+	distributed under the License is distributed on an "AS IS" BASIS,
+	WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+	See the License for the specific language governing permissions and
+	limitations under the License.
 -->
 <!DOCTYPE dictionaryEntry PUBLIC
     "-//Kuali Project//DTD Data Dictionary 1.0//EN"
     "../../../../core/datadictionary/dataDictionary-1_0.dtd" >
 <dictionaryEntry>
-    <transactionalDocument>
+	<transactionalDocument>
         <documentClass>org.kuali.module.purap.document.AssignContractManagerDocument</documentClass>
         <businessRulesClass>org.kuali.module.purap.rules.AssignContractManagerDocumentRule</businessRulesClass>
         <documentAuthorizerClass>org.kuali.module.purap.document.authorization.AssignContractManagerDocumentAuthorizer</documentAuthorizerClass>
-        
-        <authorizations>
-            <authorization action="initiate">
-                <workgroups>
-                    <workgroup>kualiUniversalGroup</workgroup>
-                </workgroups>
-            </authorization>
-        </authorizations>
 
-        <documentTypeName>AssignContractManagerDocument</documentTypeName>
-        <documentTypeCode>ACM</documentTypeCode>
+		<authorizations>
+			<authorization action="initiate">
+				<workgroups>
+					<workgroup>kualiUniversalGroup</workgroup>
+				</workgroups>
+			</authorization>
+		</authorizations>
 
-        <label>Assign A Contract Manager</label>
-        <shortLabel>AssignContractManager</shortLabel>
-        
+		<documentTypeName>AssignContractManagerDocument</documentTypeName>
+		<documentTypeCode>ACM</documentTypeCode>
+
+		<label>Assign A Contract Manager</label>
+		<shortLabel>AssignContractManager</shortLabel>
+
 <!-- 
-ripierce: no attributes are needed in this xml because all of the attributes on the 
-  Assign a Contract Manager jsp come from the RequisitionDocument.
--->        
-        <summary>Document used for assigning contract managers.</summary>
+nalavi: these attributes are added for the purpose of labels display in assingContractManager.tag
+-->   		
+
+		<attributes>
+			
+			<attributeReference name="requisitionNumber" sourceClassName="org.kuali.module.purap.bo.PurApAttributeReferenceDummy" sourceAttributeName="purapDocumentIdentifier">
+                <label>Requisition Number</label>
+                <shortLabel>Requisition Number</shortLabel>
+                <summary>The Requisition Number</summary>
+                <description>The requisition number</description>
+            </attributeReference>
+            
+            <attributeReference name="deliveryCampusCode" sourceClassName="org.kuali.module.vendor.bo.VendorAttributeReferenceDummy" sourceAttributeName="campusCode">
+			    <label>Delivery Campus</label>
+			    <shortLabel>Delivery Campus</shortLabel>
+			    
+			    <summary>deliveryCampusCode</summary>
+			    <description>deliveryCampusCode description...</description>
+			</attributeReference>
+            
+            <attributeReference name="vendorName" sourceClassName="org.kuali.module.vendor.bo.VendorDetail" sourceAttributeName="vendorName">
+                <label>Suggested Vendor</label>
+                <shortLabel>Vendor Name</shortLabel>
+            </attributeReference>
+            
+            <attribute name="generalDescription" >
+			    <label>General Description</label>
+			    <shortLabel>General Description</shortLabel>
+			    <maxLength>20</maxLength>
+			    <control>
+					<text size="22" />
+				</control>
+			    <summary>General Description</summary>
+			    <description>General Description description...</description>
+			</attribute>
+            
+            <attribute name="requisitionTotalAmount" >
+			    <label>Requisition Total Amount</label>
+			    <shortLabel>Total</shortLabel>
+			    <maxLength>20</maxLength>
+			    <control>
+					<text size="22" />
+				</control>
+			    <summary>requisitionTotalAmount</summary>
+			    <description>requisitionTotalAmount description...</description>
+			</attribute>
+			
+			<attribute name="requisitionCreateDate" >
+			    <label>Requisition Create Date</label>
+			    <shortLabel>Create Date</shortLabel>
+			    <maxLength>20</maxLength>
+			    <control>
+					<text size="22" />
+				</control>
+			    <summary>requisitionCreateDate</summary>
+			    <description>requisitionCreateDate description...</description>
+			</attribute>
+			
+            <attribute name="firstItemDescription" >
+			    <label>First Item Description</label>
+			    <shortLabel>First Item Description</shortLabel>
+			    <maxLength>20</maxLength>
+			    <control>
+					<text size="22" />
+				</control>
+			    <summary>firstItemDescription</summary>
+			    <description>firstItemDescription description...</description>
+			</attribute>
+            
+            
+			
+			
+			<attribute name="firstObjectCode">
+				<label>First Object Code</label>
+				<shortLabel>First Object Code</shortLabel>
+	
+				<maxLength>20</maxLength>
+				<validationPattern>
+					<anyCharacter />
+				</validationPattern>
+	
+				<control>
+					<text size="22" />
+				</control>
+	
+				<summary>First Object Code</summary>
+				<description>
+					First Object Code description...
+				</description>
+			</attribute>
+
+		</attributes>
+
+		<summary>Document used for assigning contract managers.</summary>
         <description>The Assign Contract Manager document is a...</description>
 
-        <allowsCopy>false</allowsCopy>
-        <allowsErrorCorrection>false</allowsErrorCorrection>
-        
-    </transactionalDocument>
+
+		<allowsCopy>false</allowsCopy>
+		<allowsErrorCorrection>false</allowsErrorCorrection>
+
+	</transactionalDocument>
 </dictionaryEntry>

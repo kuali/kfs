@@ -48,6 +48,16 @@ public class AssignContractManagerDocument extends TransactionalDocumentBase {
     private String organizationDocumentNumber;
     private String financialDocumentInErrorNumber;
     private String financialDocumentTemplateNumber;
+
+    // Not persisted (only for labels in tag) 
+    private String requisitionNumber;
+    private String deliveryCampusCode;
+    private String vendorName;
+    private String generalDescription;
+    private String requisitionTotalAmount;
+    private String requisitionCreateDate;
+    private String firstItemDescription;
+    private String firstObjectCode;
     // TODO: remove following field from here, OJB, and database after workflow API to retrieve this is implemented
     private Date documentFinalDate;
 
@@ -173,11 +183,11 @@ public class AssignContractManagerDocument extends TransactionalDocumentBase {
         }
         return title;
     }
-
+    
     public List getAssignContractManagerDetails() {
         return assignContractManagerDetails;
     }
-
+ 
     public void setAssignContractManagerDetails(List assignContractManagerDetails) {
         this.assignContractManagerDetails = assignContractManagerDetails;
     }
@@ -252,6 +262,70 @@ public class AssignContractManagerDocument extends TransactionalDocumentBase {
 
     public void setDocumentNumber(String documentNumber) {
         this.documentNumber = documentNumber;
+    }
+
+    /**
+     * Gets the firstObjectCode attribute. 
+     * @return Returns the firstObjectCode.
+     */
+    public String getFirstObjectCode() {
+        return firstObjectCode;
+    }
+    
+    /**
+     * Gets the deliveryCampusCode attribute. 
+     * @return Returns the deliveryCampusCode.
+     */
+    public String getDeliveryCampusCode() {
+        return deliveryCampusCode;
+    }
+
+    /**
+     * Gets the firstItemDescription attribute. 
+     * @return Returns the firstItemDescription.
+     */
+    public String getFirstItemDescription() {
+        return firstItemDescription;
+    }
+
+    /**
+     * Gets the generalDescription attribute. 
+     * @return Returns the generalDescription.
+     */
+    public String getGeneralDescription() {
+        return generalDescription;
+    }
+
+    /**
+     * Gets the requisitionCreateDate attribute. 
+     * @return Returns the requisitionCreateDate.
+     */
+    public String getRequisitionCreateDate() {
+        return requisitionCreateDate;
+    }
+
+    /**
+     * Gets the requisitionNumber attribute. 
+     * @return Returns the requisitionNumber.
+     */
+    public String getRequisitionNumber() {
+        return requisitionNumber;
+    }
+
+    /**
+     * Gets the requisitionTotalAmount attribute. 
+     * @return Returns the requisitionTotalAmount.
+     */
+    public String getRequisitionTotalAmount() {
+        return requisitionTotalAmount;
+    }
+
+    /**
+     * Gets the vendorName attribute. 
+     * @return Returns the vendorName.
+     */
+    public String getVendorName() {
+        return vendorName;
     }
 
 }

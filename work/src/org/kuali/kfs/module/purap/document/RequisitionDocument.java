@@ -251,30 +251,41 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
     public void handleRouteStatusChange() {
         LOG.debug("handleRouteStatusChange() started");
         super.handleRouteStatusChange();
-
-        // DOCUMENT PROCESSED
-        if (this.getDocumentHeader().getWorkflowDocument().stateIsProcessed()) {
-            String newRequisitionStatus = PurapConstants.RequisitionStatuses.AWAIT_CONTRACT_MANAGER_ASSGN;
-            if (SpringServiceLocator.getRequisitionService().isAutomaticPurchaseOrderAllowed(this)) {
-                newRequisitionStatus = PurapConstants.RequisitionStatuses.CLOSED;
-                PurchaseOrderDocument poDocument = SpringServiceLocator.getPurchaseOrderService().createAutomaticPurchaseOrderDocument(this);
+        try {
+            // DOCUMENT PROCESSED
+            if (this.getDocumentHeader().getWorkflowDocument().stateIsProcessed()) {
+                String newRequisitionStatus = PurapConstants.RequisitionStatuses.AWAIT_CONTRACT_MANAGER_ASSGN;
+                if (SpringServiceLocator.getRequisitionService().isAutomaticPurchaseOrderAllowed(this)) {
+                    newRequisitionStatus = PurapConstants.RequisitionStatuses.CLOSED;
+                    PurchaseOrderDocument poDocument = SpringServiceLocator.getPurchaseOrderService().createAutomaticPurchaseOrderDocument(this);
+                }
+                SpringServiceLocator.getPurapService().updateStatusAndStatusHistory(this, newRequisitionStatus);
+                populateDocumentForRouting();
+                SpringServiceLocator.getRequisitionService().saveWithWorkflowDocumentUpdate(this);
             }
-            SpringServiceLocator.getPurapService().updateStatusAndStatusHistory(this, newRequisitionStatus);
-            SpringServiceLocator.getRequisitionService().save(this);
+            // DOCUMENT DISAPPROVED
+            else if (this.getDocumentHeader().getWorkflowDocument().stateIsDisapproved()) {
+                String nodeName = SpringServiceLocator.getWorkflowDocumentService().getCurrentRouteLevelName(getDocumentHeader().getWorkflowDocument());
+                String statusCode = PurapConstants.WorkflowConstants.RequisitionDocument.NodeDetails.DISAPPROVAL_STATUS_BY_NODE_NAME.get(nodeName);
+                if (StringUtils.isNotBlank(statusCode)) {
+                    SpringServiceLocator.getPurapService().updateStatusAndStatusHistory(this, statusCode);
+                    populateDocumentForRouting();
+                    SpringServiceLocator.getRequisitionService().saveWithWorkflowDocumentUpdate(this);
+                } else {
+                    // TODO PURAP/delyea - what to do in a disapproval where no status to set exists?
+                    logAndThrowRuntimeException("No status found to set for document being disapproved in node '" + nodeName + "'");
+                }
+            }
+            // DOCUMENT CANCELED
+            else if (this.getDocumentHeader().getWorkflowDocument().stateIsCanceled()) {
+                SpringServiceLocator.getPurapService().updateStatusAndStatusHistory(this, PurapConstants.RequisitionStatuses.CANCELLED);
+                populateDocumentForRouting();
+                SpringServiceLocator.getRequisitionService().saveWithWorkflowDocumentUpdate(this);
+            }
         }
-        // DOCUMENT DISAPPROVED
-        else if (this.getDocumentHeader().getWorkflowDocument().stateIsDisapproved()) {
-            // TODO set REQ status to disapproved - based on route level
-//            SpringServiceLocator.getPurapService().updateStatusAndStatusHistory(this, ??);
-//            SpringServiceLocator.getRequisitionService().save(this);
+        catch (WorkflowException e) {
+            logAndThrowRuntimeException("Error saving routing data while saving document with id " + getDocumentNumber(), e);
         }
-        // DOCUMENT CANCELED
-        else if (this.getDocumentHeader().getWorkflowDocument().stateIsCanceled()) {
-            SpringServiceLocator.getPurapService().updateStatusAndStatusHistory(this, PurapConstants.RequisitionStatuses.CANCELLED);
-            SpringServiceLocator.getRequisitionService().save(this);
-        }
-
-
     }
 
     /**
@@ -282,31 +293,34 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
      */
     @Override
     public void handleRouteLevelChange(DocumentRouteLevelChangeVO change) {
+        LOG.debug("handleRouteLevelChange() started");
         super.handleRouteLevelChange(change);
         try {
-            String[] nodeNames = getDocumentHeader().getWorkflowDocument().getNodeNames();
-//            TODO delyea - FIX THIS
-//            if (nodeNames.length > 1) {
-//                // if we find more than one node name then setting the status is invalid
-//                throw new RuntimeException("More than one active node name found for Requisition");
-//            }
-//            ReportCriteriaVO reportCriteriaVO = new ReportCriteriaVO(Long.valueOf(getDocumentNumber()));
-//            String nodeName = nodeNames[0];
-//            reportCriteriaVO.setTargetNodeName(nodeName);
-//            if (SpringServiceLocator.getWorkflowInfoService().documentWillHaveAtLeastOneActionRequest(
-//                    reportCriteriaVO, new String[]{EdenConstants.ACTION_REQUEST_APPROVE_REQ,EdenConstants.ACTION_REQUEST_COMPLETE_REQ})) {
-//                String statusCode = PurapConstants.WorkflowConstants.RequisitionDocument.NodeDetails.REQUISITION_STATUS_BY_NODE_NAME.get(nodeName);
-//                if (StringUtils.isBlank(statusCode)) {
-//                    // if we can't find a status code for this node... the setup is invalid
-//                    throw new RuntimeException("No valid status code found for route node with name '" + nodeName + "'");
-//                }
-//                SpringServiceLocator.getPurapService().updateStatusAndStatusHistory(this, statusCode);
-//            }
+            String nodeName = change.getNewNodeName();
+            if (StringUtils.isNotBlank(nodeName)) {
+                int indexOfNode = PurapConstants.WorkflowConstants.RequisitionDocument.NodeDetails.ORDERED_NODE_NAME_LIST.indexOf(nodeName);
+                int indexOfNextNode = indexOfNode + 1;
+                if ( (indexOfNode != -1) && (indexOfNextNode < PurapConstants.WorkflowConstants.RequisitionDocument.NodeDetails.ORDERED_NODE_NAME_LIST.size()) ) {
+                    // we can find a valid next node name
+                    String nextNodeName = (String)PurapConstants.WorkflowConstants.RequisitionDocument.NodeDetails.ORDERED_NODE_NAME_LIST.get(indexOfNextNode);
+                    ReportCriteriaVO reportCriteriaVO = new ReportCriteriaVO(Long.valueOf(getDocumentNumber()));
+                    reportCriteriaVO.setTargetNodeName(nextNodeName);
+                    if (SpringServiceLocator.getWorkflowInfoService().documentWillHaveAtLeastOneActionRequest(
+                            reportCriteriaVO, new String[]{EdenConstants.ACTION_REQUEST_APPROVE_REQ,EdenConstants.ACTION_REQUEST_COMPLETE_REQ})) {
+                        String statusCode = PurapConstants.WorkflowConstants.RequisitionDocument.NodeDetails.STATUS_BY_NODE_NAME.get(nextNodeName);
+                        if (StringUtils.isNotBlank(statusCode)) {
+                            SpringServiceLocator.getPurapService().updateStatusAndStatusHistory(this, statusCode);
+                            populateDocumentForRouting();
+                            SpringServiceLocator.getRequisitionService().save(this);
+                        }
+                    } else {
+                        LOG.debug("Document with id " + getDocumentNumber() + " will not stop in route node '" + nextNodeName + "'");
+                    }
+                }
+            }
         }
         catch (WorkflowException e) {
-            String errorMsg = "Error getting node names for document with id " + getDocumentNumber();
-            LOG.error(errorMsg,e);
-            throw new RuntimeException(errorMsg,e);
+            logAndThrowRuntimeException("Error getting node names for document with id " + getDocumentNumber(), e);
         }
     }
     
@@ -593,6 +607,10 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
         }
         return chartAcct;
     }
+    
+    public Date getCreateDate(){
+        return this.getDocumentHeader().getWorkflowDocument().getCreateDate();
+    }
 
     /**
      * USED FOR ROUTING ONLY
@@ -608,9 +626,6 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
      */
     public void setStatusDescription(String statusDescription) {
     }
-    
-    public Date getCreateDate(){
-        return this.getDocumentHeader().getWorkflowDocument().getCreateDate();
-    }
+
 }
 

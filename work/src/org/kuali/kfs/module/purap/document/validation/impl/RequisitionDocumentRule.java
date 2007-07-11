@@ -78,7 +78,8 @@ public class RequisitionDocumentRule extends PurchasingDocumentRuleBase {
            
         }
 
-        if (SpringServiceLocator.getPurapService().isDocumentStoppingAtRouteLevel(purapDocument.getDocumentNumber(), PurapConstants.WorkflowConstants.RequisitionDocument.NodeDetails.CONTENT_REVIEW)) {
+        if (SpringServiceLocator.getPurapService().isDocumentStoppingAtRouteLevel(purapDocument, PurapConstants.WorkflowConstants.RequisitionDocument.NodeDetails.ORDERED_NODE_NAME_LIST, 
+                PurapConstants.WorkflowConstants.RequisitionDocument.NodeDetails.CONTENT_REVIEW)) {
             for (PurchasingApItem item : purapDocument.getItems()) {
                 item.refreshNonUpdateableReferences();
 

@@ -84,6 +84,13 @@ public interface PurapService {
      */
     public KualiDecimal getApoLimit(Integer vendorContractGeneratedIdentifier, String chart, String org);
 
-    public boolean isDocumentStoppingAtRouteLevel(String documentNumber, String routeNodeName);
     
+    /**
+     * This method...
+     * @param document
+     * @param orderedNodeNames
+     * @param routeNodeName
+     * @return
+     */
+    public boolean isDocumentStoppingAtRouteLevel(PurchasingAccountsPayableDocument document, List orderedNodeNames, String routeNodeName);
 }

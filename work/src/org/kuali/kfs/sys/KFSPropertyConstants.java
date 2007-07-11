@@ -563,6 +563,7 @@ public class KFSPropertyConstants extends PropertyConstants {
     public static final String FINANCIAL_DOCUMENT_BANK_SHORT_NM = "financialDocumentBankShortNm";
     public static final String FINANCIAL_DOCUMENT_CREDIT_CARD_TYPE_CODE = "financialDocumentCreditCardTypeCode";
     public static final String FINANCIAL_DOCUMENT_CREDIT_CARD_VENDOR_NUMBER = "financialDocumentCreditCardVendorNumber";
+    public static final String FINANCIAL_DOCUMENT_DEPOSIT_LINE_NUMBER = "financialDocumentDepositLineNumber";
     public static final String FINANCIAL_DOCUMENT_DESCRIPTION = "financialDocumentDescription";
     public static final String FINANCIAL_DOCUMENT_IN_ERROR_NUMBER = "financialDocumentInErrorNumber";
     public static final String FINANCIAL_DOCUMENT_LINE_DESCRIPTION = "financialDocumentLineDescription";
@@ -715,7 +716,6 @@ public class KFSPropertyConstants extends PropertyConstants {
     public static final String INITIATOR_NETWORK_ID = "initiatorNetworkId";
     public static final String INQUIRE_ONLY_USER = "inquireOnlyUser";
     public static final String INTER_DEPARTMENTAL_BILLING_SEQUENCE_NUMBER = "interDepartmentalBillingSequenceNumber";
-    public static final String INTERIM_DEPOSIT_AMOUNT = "interimDepositAmount";
     public static final String INTRNL_FIN_ENCUM_SUFFICNT_FND_INDICATOR = "intrnlFinEncumSufficntFndIndicator";
     public static final String ITEM = "item";
     public static final String ITEM_QUANTITY = "itemQuantity";

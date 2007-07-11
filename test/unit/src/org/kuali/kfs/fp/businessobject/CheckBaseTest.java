@@ -40,6 +40,7 @@ public class CheckBaseTest extends KualiTestBase {
     private static final String DESCRIPTION = "Description 123.";
     private static final String DOC_HDR_ID = "999999";
     private static final Integer SEQ_ID = new Integer(1);
+    private static final Integer DEPOSIT_LINE_NUMBER = new Integer(1);
     private static final String DOCUMENT_TYPE = "CR";
     private static final String CASHIERING_SOURCE = "R";
 
@@ -53,7 +54,7 @@ public class CheckBaseTest extends KualiTestBase {
         crchk.setCheckNumber(CHECK_NUMBER);
         crchk.setDescription(DESCRIPTION);
         crchk.setDocumentNumber(DOC_HDR_ID);
-        crchk.setInterimDepositAmount(false);
+        crchk.setFinancialDocumentDepositLineNumber(DEPOSIT_LINE_NUMBER);
         crchk.setObjectId(GUID);
         crchk.setSequenceId(SEQ_ID);
         crchk.setVersionNumber(VER_NBR);
@@ -67,7 +68,7 @@ public class CheckBaseTest extends KualiTestBase {
         assertEquals(CHECK_NUMBER, crchk.getCheckNumber());
         assertEquals(DESCRIPTION, crchk.getDescription());
         assertEquals(DOC_HDR_ID, crchk.getDocumentNumber());
-        assertEquals(false, crchk.isInterimDepositAmount());
+        assertEquals(DEPOSIT_LINE_NUMBER, crchk.getFinancialDocumentDepositLineNumber());
         assertEquals(GUID, crchk.getObjectId());
         assertEquals(SEQ_ID, crchk.getSequenceId());
         assertEquals(VER_NBR, crchk.getVersionNumber());

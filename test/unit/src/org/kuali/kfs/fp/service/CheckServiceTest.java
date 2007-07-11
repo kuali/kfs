@@ -54,7 +54,7 @@ public class CheckServiceTest extends KualiTestBase {
         check.setCheckDate(SpringServiceLocator.getDateTimeService().getCurrentSqlDate());
         check.setCheckNumber("2112");
         check.setDescription("test check");
-        check.setInterimDepositAmount(true);
+        check.setFinancialDocumentDepositLineNumber(new Integer(2001));
         check.setSequenceId(new Integer(2001));
         check.setFinancialDocumentTypeCode("CR");
         check.setCashieringRecordSource("R");

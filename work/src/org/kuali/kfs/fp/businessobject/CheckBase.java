@@ -35,12 +35,12 @@ public class CheckBase extends PersistableBusinessObjectBase implements Check {
     private String checkNumber;
     private Date checkDate;
     private String description;
-    private boolean interimDepositAmount;
     private Integer sequenceId;
     private KualiDecimal amount;
     private String documentNumber;
     private String financialDocumentTypeCode;
     private String cashieringRecordSource;
+    private Integer financialDocumentDepositLineNumber;
     
     /**
      * Constructs a CheckBase business object.
@@ -103,24 +103,6 @@ public class CheckBase extends PersistableBusinessObjectBase implements Check {
      */
     public void setDescription(String description) {
         this.description = description;
-    }
-
-    /**
-     * Gets the interimDepositAmount attribute.
-     * 
-     * @return Returns the interimDepositAmount.
-     */
-    public boolean isInterimDepositAmount() {
-        return interimDepositAmount;
-    }
-
-    /**
-     * Sets the interimDepositAmount attribute value.
-     * 
-     * @param interimDepositAmount The interimDepositAmount to set.
-     */
-    public void setInterimDepositAmount(boolean interimDepositAmount) {
-        this.interimDepositAmount = interimDepositAmount;
     }
 
     /**
@@ -211,6 +193,22 @@ public class CheckBase extends PersistableBusinessObjectBase implements Check {
     }
 
     /**
+     * Gets the financialDocumentDepositLineNumber attribute. 
+     * @return Returns the financialDocumentDepositLineNumber.
+     */
+    public Integer getFinancialDocumentDepositLineNumber() {
+        return financialDocumentDepositLineNumber;
+    }
+
+    /**
+     * Sets the financialDocumentDepositLineNumber attribute value.
+     * @param financialDocumentDepositLineNumber The financialDocumentDepositLineNumber to set.
+     */
+    public void setFinancialDocumentDepositLineNumber(Integer financialDocumentDepositLineNumber) {
+        this.financialDocumentDepositLineNumber = financialDocumentDepositLineNumber;
+    }
+
+    /**
      * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
      */
     protected LinkedHashMap toStringMapper() {
@@ -220,7 +218,7 @@ public class CheckBase extends PersistableBusinessObjectBase implements Check {
         m.put("checkNumber", this.checkNumber);
         m.put("amount", this.amount);
         m.put("checkDate", this.checkDate);
-        m.put("interimDepositAmount", Boolean.valueOf(this.interimDepositAmount));
+        m.put("financialDocumentDepositLineNumber", this.financialDocumentDepositLineNumber);
         m.put("description", this.description);
         m.put("documentHeaderId", this.documentNumber);
         m.put("financialDocumentTypeCode", this.financialDocumentTypeCode);
@@ -241,7 +239,7 @@ public class CheckBase extends PersistableBusinessObjectBase implements Check {
                 if (StringUtils.equals(financialDocumentTypeCode, other.getFinancialDocumentTypeCode()) && StringUtils.equals(cashieringRecordSource, other.getCashieringRecordSource())) {
                     if (StringUtils.equals(documentNumber, other.getDocumentNumber())) {
                         if (NumberUtils.equals(sequenceId, other.getSequenceId())) {
-                            if (interimDepositAmount == other.isInterimDepositAmount()) {
+                            if (NumberUtils.equals(financialDocumentDepositLineNumber, other.getFinancialDocumentDepositLineNumber())) {
     
                                 if (DateUtils.isSameDay(checkDate, other.getCheckDate())) {
                                     if ((amount != null) && amount.equals(other.getAmount())) {

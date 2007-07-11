@@ -112,16 +112,18 @@ public interface Check extends PersistableBusinessObject, PersistenceBrokerAware
 
 
     /**
-     * Sets the interimDepositAmount.
+     * Sets the financialDocumentDepositLineNumber.
      * 
-     * @param interimDepositAmount
+     * @param financialDocumentDepositLineNumber
      */
-    public void setInterimDepositAmount(boolean interimDepositAmount);
+    public void setFinancialDocumentDepositLineNumber(Integer financialDocumentDepositLineNumber);
 
     /**
-     * @return interimDepositAmount value
+     * Gets the financialDocumentDepositLineNumber attribute.
+     * 
+     * @return Returns the financialDocumentDepositLineNumber.
      */
-    public boolean isInterimDepositAmount();
+    public Integer getFinancialDocumentDepositLineNumber();
 
     /**
      * 

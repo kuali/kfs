@@ -101,7 +101,7 @@
     		</attribute>
             
 
-            <attributeReference name="interimDepositAmount" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericBoolean">
+            <attributeReference name="financialDocumentDepositLineNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericAmount">
                 <required>true</required>
             </attributeReference>
 

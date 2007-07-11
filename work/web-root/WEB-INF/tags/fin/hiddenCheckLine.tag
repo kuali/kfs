@@ -22,7 +22,7 @@
 
 <html:hidden property="${propertyName}.documentNumber" write="${displayHidden}" />
 <html:hidden property="${propertyName}.sequenceId" write="${displayHidden}" />
-<html:hidden property="${propertyName}.interimDepositAmount" write="${displayHidden}" />
+<html:hidden property="${propertyName}.financialDocumentDepositLineNumber" write="${displayHidden}" />
 <html:hidden property="${propertyName}.versionNumber" write="${displayHidden}" />
 
 <html:hidden property="${propertyName}.checkNumber" write="${displayHidden}" />
@@ -33,7 +33,7 @@
 
 <html:hidden property="${baselinePropertyName}.documentNumber" write="${displayHidden}" />
 <html:hidden property="${baselinePropertyName}.sequenceId" write="${displayHidden}" />
-<html:hidden property="${baselinePropertyName}.interimDepositAmount" write="${displayHidden}" />
+<html:hidden property="${baselinePropertyName}.financialDocumentDepositLineNumber" write="${displayHidden}" />
 <html:hidden property="${baselinePropertyName}.versionNumber" write="${displayHidden}" />
 
 <html:hidden property="${baselinePropertyName}.checkNumber" write="${displayHidden}" />

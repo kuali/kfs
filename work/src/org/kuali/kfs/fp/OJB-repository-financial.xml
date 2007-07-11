@@ -789,7 +789,7 @@
     <field-descriptor name="description" column="FDOC_CHCK_DESC" jdbc-type="VARCHAR" />
     <field-descriptor name="checkDate" column="FDOC_CHCK_DT" jdbc-type="DATE" />
     <field-descriptor name="checkNumber" column="FDOC_CHCK_NBR" jdbc-type="VARCHAR" />
-    <field-descriptor name="interimDepositAmount" column="FDOC_INTRM_DPST_IND" conversion="org.kuali.core.util.OjbCharBooleanConversion" jdbc-type="VARCHAR" />
+    <field-descriptor name="financialDocumentDepositLineNumber" column="FDOC_DPST_LN_NBR" jdbc-type="INTEGER" />
     <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
     <field-descriptor name="versionNumber" locking="true" column="VER_NBR" jdbc-type="BIGINT" />
 </class-descriptor>

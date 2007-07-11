@@ -65,7 +65,7 @@
 	<c:if test="${itemLine.itemType.itemTypeAboveTheLineIndicator == true}">
 		<c:set var="currentTabIndex" value="${KualiForm.currentTabIndex}" scope="request" />
 		<c:set var="topLevelTabIndex" value="${KualiForm.currentTabIndex}" scope="request" />
-        <c:set var="tabKey" value="${kfunc:generateTabKey(tabTitle)}"/>
+        <c:set var="tabKey" value="Item-${itemLine.itemDescription}"/>
         <!--  hit form method to increment tab index -->
         <c:set var="dummyIncrementer" value="${kfunc:incrementTabIndex(KualiForm, tabKey)}" />
 

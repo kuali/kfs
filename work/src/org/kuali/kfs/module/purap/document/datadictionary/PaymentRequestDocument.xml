@@ -151,7 +151,7 @@
             
             <attribute name="paymentAttachmentIndicator" forceUppercase="true">
                 <label>Payment Attachment Indicator</label>
-                <shortLabel>Indicator</shortLabel>
+                <shortLabel>Attachment</shortLabel>
 
                 <maxLength>1</maxLength>
 
@@ -165,7 +165,7 @@
             
             <attribute name="immediatePaymentIndicator" forceUppercase="true">
                 <label>Immediate Payment Indicator</label>
-                <shortLabel>Indicator</shortLabel>
+                <shortLabel>Immediate Pay</shortLabel>
 
                 <maxLength>1</maxLength>
 
@@ -231,7 +231,7 @@
 
             <attribute name="paymentRequestElectronicInvoiceIndicator" forceUppercase="true">
                 <label>Payment Request Electronic Invoice Indicator</label>
-                <shortLabel>Indicator</shortLabel>
+                <shortLabel>E-Invoice</shortLabel>
 
                 <maxLength>1</maxLength>
 
@@ -244,8 +244,8 @@
             </attribute>
             
             <attribute name="accountsPayableProcessorIdentifier" forceUppercase="true">
-                <label>accountsPayableProcessorIdentifier</label>
-                <shortLabel>accountsPayableProcessorIdentifier</shortLabel>
+                <label>Accounts Payable Processor</label>
+                <shortLabel>AP Processor</shortLabel>
 
                 <maxLength>11</maxLength>
                 <validationPattern><anyCharacter allowWhitespace="true"/></validationPattern>
@@ -259,8 +259,8 @@
             </attribute>
             
             <attribute name="paymentRequestedCancelIndicator" forceUppercase="true">
-                <label>Accounts Payable Request Cancel Identifier</label>
-                <shortLabel>Identifier</shortLabel>
+                <label>Request Cancel Indicator</label>
+                <shortLabel>Request Cancel</shortLabel>
 
                 <maxLength>11</maxLength>
                 <validationPattern>

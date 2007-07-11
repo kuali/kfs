@@ -318,12 +318,6 @@
 		</property>
 	</bean>
 
-	<bean id="workflow-org.kuali.core.bo.Campus-Lookupable" parent="workflowLookupable" singleton="false">
-		<property name="businessObjectClassName">
-			<value>org.kuali.core.bo.Campus</value>
-		</property>
-	</bean>
-
 	<bean id="workflow-org.kuali.module.chart.bo.AcctType-Lookupable" parent="workflowLookupable" singleton="false">
 		<property name="businessObjectClassName">
 			<value>org.kuali.module.chart.bo.AcctType</value>
@@ -339,12 +333,6 @@
 	<bean id="workflow-org.kuali.module.chart.bo.HigherEdFunction-Lookupable" parent="workflowLookupable" singleton="false">
 		<property name="businessObjectClassName">
 			<value>org.kuali.module.chart.bo.HigherEdFunction</value>
-		</property>
-	</bean>
-
-	<bean id="workflow-org.kuali.core.bo.user.UniversalUser-Lookupable" parent="workflowLookupable" singleton="false">
-		<property name="businessObjectClassName">
-			<value>org.kuali.core.bo.user.UniversalUser</value>
 		</property>
 	</bean>
 

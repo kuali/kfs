@@ -92,7 +92,6 @@ public class KualiSeparationOfDutiesRoleAttribute extends UnqualifiedRoleAttribu
     public ResolvedQualifiedRole resolveRole(RouteContext routeContext, String roleName) throws EdenUserNotFoundException {
         DocumentRouteHeaderValue document = routeContext.getDocument();
         Set documentReviewers = new HashSet();
-        String workflowUserIdOfRouter = null;
         // get a list of all people who have approved or completed this document in it's routing lifespan
         // currently this will get the COMPLETE request that the router of the document
         for (Iterator iter = document.getActionsTaken().iterator(); iter.hasNext();) {

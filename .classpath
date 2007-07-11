@@ -86,7 +86,7 @@
 	<classpathentry kind="lib" path="build/configurationFiles/appserver/lib/connector-1_5.jar"/>
 	<classpathentry kind="lib" path="build/configurationFiles/appserver/lib/commons-logging.jar"/>
 	<classpathentry kind="lib" path="build/configurationFiles/appserver/lib/commons-cli-1.0.jar"/>
-	<classpathentry kind="lib" path="work/web-root/WEB-INF/lib/rice-kew-2.4.1-RC1.jar"/>
+	<classpathentry kind="lib" path="work/web-root/WEB-INF/lib/rice-kew-2.4.1-RC2.jar"/>
 	<classpathentry kind="lib" path="work/web-root/WEB-INF/lib/rice-shared-0.9.0.1-SNAPSHOT.jar"/>
 	<classpathentry kind="lib" path="work/web-root/WEB-INF/lib/rice-ksb-0.9.0.1-SNAPSHOT.jar"/>
 	<classpathentry kind="lib" path="work/web-root/WEB-INF/lib/rice-kns-0.9.0.1-SNAPSHOT.jar"/>

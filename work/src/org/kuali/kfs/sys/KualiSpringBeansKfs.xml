@@ -265,12 +265,24 @@
 		</property>
 	</bean>
 
+	<bean id="workflow-org.kuali.core.bo.user.UniversalUser-Lookupable" parent="workflowLookupable" singleton="false">
+		<property name="businessObjectClassName">
+			<value>org.kuali.core.bo.user.UniversalUser</value>
+		</property>
+	</bean>
+
 	<bean id="workflow-org.kuali.kfs.bo.KualiModuleBO-Lookupable" parent="workflowLookupable" singleton="false">
 		<property name="businessObjectClassName">
 			<value>org.kuali.kfs.bo.KualiModuleBO</value>
 		</property>
 	</bean>
 	
+	<bean id="workflow-org.kuali.core.bo.Campus-Lookupable" parent="workflowLookupable" singleton="false">
+		<property name="businessObjectClassName">
+			<value>org.kuali.core.bo.Campus</value>
+		</property>
+	</bean>
+
 	<bean id="moduleLookupableHelperService" class="org.kuali.kfs.lookup.ModuleLookupableHelperServiceImpl" singleton="false" parent="kualiLookupableHelperService" >
 		<property name="configService" ref="kualiConfigurationService" />
 	</bean>

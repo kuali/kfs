@@ -31,18 +31,18 @@ public class CreditMemoDocumentSearchResultProcessor extends PurApDocumentSearch
     public List<Column> getDocumentSpecificCustomColumns() {
         List<Column> columns = new ArrayList<Column>();
         List<String> searchableAttributeFieldNames = new ArrayList<String>();
-        // cm id
-        // vendor cm #
-        // PREQ #
-        // PO #
-        // Status Desc
-        // Hold Yes/No
-        // Vendor Name
-        // customer number
+        searchableAttributeFieldNames.add("creditMemoCreditMemoId");// cm id
+        searchableAttributeFieldNames.add("creditMemoVendorCreditMemoNumber");// vendor cm #
+        searchableAttributeFieldNames.add("creditMemoPaymentRequestId");// PREQ #
+        searchableAttributeFieldNames.add("creditMemoPurchaseOrderId");// PO #
+        searchableAttributeFieldNames.add("creditMemoStatusDescription");// Status Desc
+        searchableAttributeFieldNames.add("creditMemoHoldIndicator");// Hold Yes/No
+        searchableAttributeFieldNames.add("creditMemoVendorName");// Vendor Name
+        searchableAttributeFieldNames.add("creditMemoCustomerNumber");// customer number
         searchableAttributeFieldNames.add("documentTotalAmount");
-        // ap approval date
-        // extracted date
-        // paid indicator
+        searchableAttributeFieldNames.add("creditMemoAccountsPayableDate");// ap approval date
+        searchableAttributeFieldNames.add("creditMemoExtractedDate");// extracted date
+        searchableAttributeFieldNames.add("creditMemoPaidIndicator");// paid indicator
         addSearchableAttributeColumnsBasedOnFields(columns, getSearchCriteria(), searchableAttributeFieldNames);
         return columns;
     }

@@ -44,8 +44,8 @@ public class CreditMemoDocSearchGenerator extends PurApDocumentSearchGenerator {
     @Override
     public List<String> getGeneralSearchUserRequiredFormFieldNames() {
         List<String> fieldNames = new ArrayList<String>();
-//        fieldNames.add("purapDocumentChartOfAccountsCode");
-//        fieldNames.add("purapDocumentOrganizationCode");
+        fieldNames.add("purapDocumentChartOfAccountsCode");
+        fieldNames.add("purapDocumentOrganizationCode");
         return fieldNames;
     }
 
@@ -55,7 +55,7 @@ public class CreditMemoDocSearchGenerator extends PurApDocumentSearchGenerator {
     @Override
     public List<String> getSearchAttributeFormFieldNamesToIgnore() {
         List<String> fieldNames = new ArrayList<String>();
-//        fieldNames.add("displayType");
+        fieldNames.add("displayType");
         return fieldNames;
     }
 
@@ -65,12 +65,12 @@ public class CreditMemoDocSearchGenerator extends PurApDocumentSearchGenerator {
     @Override
     public List<String> getSpecificSearchCriteriaFormFieldNames() {
         List<String> fieldNames = new ArrayList<String>();
-//        fieldNames.add("paymentRequestDocumentPaymentRequestId");
-//        fieldNames.add("paymentRequestDocumentPurchaseOrderId");
-//        fieldNames.add("paymentRequestDocumentRequisitionId");
-//        fieldNames.add("paymentRequestDocumentInvoiceNumber");
-//        fieldNames.add("purapDocumentChartOfAccountsCode");
-//        fieldNames.add("purapDocumentOrganizationCode");
+        fieldNames.add("creditMemoCreditMemoId");
+        fieldNames.add("creditMemoPaymentRequestId");
+        fieldNames.add("creditMemoPurchaseOrderId");
+        fieldNames.add("creditMemoVendorCreditMemoNumber");
+        fieldNames.add("purapDocumentChartOfAccountsCode");
+        fieldNames.add("purapDocumentOrganizationCode");
         return fieldNames;
     }
 

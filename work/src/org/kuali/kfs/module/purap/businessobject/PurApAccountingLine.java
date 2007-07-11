@@ -25,11 +25,11 @@ public interface PurApAccountingLine extends AccountingLine {
     
     public abstract Integer getAccountIdentifier();
 
-    public abstract void setAccountIdentifier(Integer requisitionAccountIdentifier);
+    public abstract void setAccountIdentifier(Integer accountIdentifier);
 
     public abstract Integer getItemIdentifier();
 
-    public abstract void setItemIdentifier(Integer requisitionItemIdentifier);
+    public abstract void setItemIdentifier(Integer itemIdentifier);
 
     public abstract BigDecimal getAccountLinePercent();
 

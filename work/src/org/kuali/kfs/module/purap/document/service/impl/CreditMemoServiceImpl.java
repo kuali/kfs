@@ -123,7 +123,7 @@ public class CreditMemoServiceImpl implements CreditMemoService {
             if (!poItem.getItemType().isItemTypeAboveTheLineIndicator()) {
                 continue;
             }
-            
+
             if (poItem.getItemInvoicedTotalQuantity() != null && poItem.getItemInvoicedTotalQuantity().isGreaterThan(KualiDecimal.ZERO)) {
                 invoicedItems.add(poItem);
             }
@@ -217,7 +217,7 @@ public class CreditMemoServiceImpl implements CreditMemoService {
         }
 
         if (purchaseOrderDocument != null && PurapConstants.PurchaseOrderStatuses.CLOSED.equals(purchaseOrderDocument.getStatusCode())) {
-
+           // TODO: call reopen purchasing order service method when avaliable
         }
     }
 

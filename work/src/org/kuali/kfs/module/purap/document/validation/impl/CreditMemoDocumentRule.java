@@ -109,7 +109,7 @@ public class CreditMemoDocumentRule extends AccountsPayableDocumentRuleBase impl
         valid = validateInitTabRequiredFields(cmDocument);
 
         if (valid) {
-            valid = validatInitTabReferenceNumbers(cmDocument);
+            valid = validateInitTabReferenceNumbers(cmDocument);
         }
 
         if (valid && StringUtils.equals(cmDocument.getCreditMemoType(), CREDIT_MEMO_TYPES.TYPE_PO)) {
@@ -184,7 +184,7 @@ public class CreditMemoDocumentRule extends AccountsPayableDocumentRuleBase impl
      * @param cmDocument - credit memo document which contains init reference numbers
      * @return boolean - true if validation was ok, false if there were errors
      */
-    protected boolean validatInitTabReferenceNumbers(CreditMemoDocument cmDocument) {
+    protected boolean validateInitTabReferenceNumbers(CreditMemoDocument cmDocument) {
         boolean valid = true;
 
         if (!(ObjectUtils.isNotNull(cmDocument.getPaymentRequestIdentifier()) ^ StringUtils.isNotEmpty(cmDocument.getVendorNumber()) ^ ObjectUtils.isNotNull(cmDocument.getPurchaseOrderIdentifier())) || (ObjectUtils.isNotNull(cmDocument.getPaymentRequestIdentifier()) && StringUtils.isNotEmpty(cmDocument.getVendorNumber()) && ObjectUtils.isNotNull(cmDocument.getPurchaseOrderIdentifier()))) {

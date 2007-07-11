@@ -706,7 +706,7 @@ public abstract class AccountingLineBase extends PersistableBusinessObjectBase i
             setObjectTypeCode(other.getObjectTypeCode());
             
             //sales tax
-            if(other.getSalesTax() != null) {
+            if(ObjectUtils.isNotNull(other.getSalesTax())) {
                 SalesTax salesTax = getSalesTax();
                 SalesTax origSalesTax = other.getSalesTax();
                 if(salesTax != null) {

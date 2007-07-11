@@ -43,7 +43,7 @@
 	    <html:hidden property="document.vendorInvoiceAmount" />
 	</c:if>
     <!-- html:hidden property="document.paymentRequestInitiated" /-->
-	
+	<html:hidden property="document.processingCampusCode" />
 	<html:hidden property="calculated" />
 	    
     <!-- TODO move this to where? -->

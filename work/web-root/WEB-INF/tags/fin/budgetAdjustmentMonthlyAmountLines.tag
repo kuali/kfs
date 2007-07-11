@@ -25,8 +25,8 @@
               from before the most recent edit of this row,
               to put in hidden fields for comparison or reversion." %>
               
-<c:set var="tabTitle" value="Monthly Lines" />
 <c:set var="capitalSourceOrTarget" value="${isSource ? 'Source' : 'Target'}"/>
+<c:set var="tabTitle" value="${capitalSourceOrTarget} + ' Monthly Lines'"/>
 <c:set var="baAttributes" value="${DataDictionary.BudgetAdjustmentSourceAccountingLine.attributes}" />
 
 <c:set var="currentTabIndex" value="${KualiForm.currentTabIndex}"/>

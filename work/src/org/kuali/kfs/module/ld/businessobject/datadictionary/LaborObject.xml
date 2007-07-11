@@ -50,14 +50,14 @@
             </defaultSort>
 
             <lookupFields>
+                <lookupField attributeName="universityFiscalYear" required="false" />
                 <lookupField attributeName="chartOfAccountsCode" required="false" />
-                <lookupField attributeName="detailPositionRequiredIndicator" required="false" />
                 <lookupField attributeName="financialObjectCode" required="false" />
                 <lookupField attributeName="financialObjectFringeOrSalaryCode" required="false" />
-                <lookupField attributeName="financialObjectHoursRequiredIndicator" required="false" />
                 <lookupField attributeName="financialObjectPayTypeCode" required="false" />
                 <lookupField attributeName="positionObjectGroupCode" required="false" />
-                <lookupField attributeName="universityFiscalYear" required="false" />
+                <lookupField attributeName="detailPositionRequiredIndicator" required="false" />
+                <lookupField attributeName="financialObjectHoursRequiredIndicator" required="false" />
             </lookupFields>
 
             <resultFields>

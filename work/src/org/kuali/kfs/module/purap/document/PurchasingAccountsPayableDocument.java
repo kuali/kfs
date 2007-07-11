@@ -128,4 +128,6 @@ public interface PurchasingAccountsPayableDocument extends AccountingDocument {
      */
     public void refreshAccountSummary();
     
+    public void refreshAllReferences();
+    
 }

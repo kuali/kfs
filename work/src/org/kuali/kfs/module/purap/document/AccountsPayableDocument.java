@@ -70,4 +70,6 @@ public interface AccountsPayableDocument extends PurchasingAccountsPayableDocume
     public Campus getProcessingCampus();
 
     public PurchaseOrderDocument getPurchaseOrderDocument();
+    
+    public boolean requiresAccountsPayableReviewRouting();
 }

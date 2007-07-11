@@ -283,8 +283,6 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
             populateDocumentForRouting();
             SpringServiceLocator.getRequisitionService().saveWithWorkflowDocumentUpdate(this);
         }
-
-
     }
     catch (WorkflowException e) {
         logAndThrowRuntimeException("Error saving routing data while saving document with id " + getDocumentNumber(), e);

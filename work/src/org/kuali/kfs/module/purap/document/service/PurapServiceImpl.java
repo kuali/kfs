@@ -19,6 +19,7 @@ import java.sql.Date;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -296,18 +297,46 @@ public class PurapServiceImpl implements PurapService {
         return purchaseOrderTotalLimit;
     }
 
-    public boolean isDocumentStoppingAtRouteLevel(String documentNumber, String routeNodeName) {
+    public boolean isDocumentStoppingAtRouteLevel(PurchasingAccountsPayableDocument document, List orderedNodeNames, String routeNodeName) {
         try {
-            ReportCriteriaVO reportCriteriaVO = new ReportCriteriaVO(Long.valueOf(documentNumber));
-            reportCriteriaVO.setTargetNodeName(routeNodeName);
-            return SpringServiceLocator.getWorkflowInfoService().documentWillHaveAtLeastOneActionRequest(
-                    reportCriteriaVO, new String[]{EdenConstants.ACTION_REQUEST_APPROVE_REQ,EdenConstants.ACTION_REQUEST_COMPLETE_REQ});
+            String activeNode = null;
+            String[] nodeNames = document.getDocumentHeader().getWorkflowDocument().getNodeNames();
+            if (nodeNames.length == 1) {
+                activeNode = nodeNames[0];
+            }
+            if (isGivenNodeEqualToOrAfterCurrentNode(orderedNodeNames, routeNodeName, activeNode)) {
+                ReportCriteriaVO reportCriteriaVO = new ReportCriteriaVO(Long.valueOf(document.getDocumentNumber()));
+                reportCriteriaVO.setTargetNodeName(routeNodeName);
+                return SpringServiceLocator.getWorkflowInfoService().documentWillHaveAtLeastOneActionRequest(
+                        reportCriteriaVO, new String[]{EdenConstants.ACTION_REQUEST_APPROVE_REQ,EdenConstants.ACTION_REQUEST_COMPLETE_REQ});
+            }
+            return false;
         }
         catch (WorkflowException e) {
-            String errorMessage = "Error trying to test document id '" + documentNumber + "' for action requests at node name '" + routeNodeName + "'";
+            String errorMessage = "Error trying to test document id '" + document.getDocumentNumber() + "' for action requests at node name '" + routeNodeName + "'";
             LOG.error("isDocumentStoppingAtRouteLevel() " + errorMessage,e);
             throw new RuntimeException(errorMessage,e);
         }
+    }
+    
+    private boolean isGivenNodeEqualToOrAfterCurrentNode(List orderedNodeNames, String givenNode, String currentNode) {
+        if (StringUtils.isBlank(givenNode)) {
+            // given node is empty
+            return false;
+        } else if (StringUtils.isBlank(currentNode)) {
+            // current node is empty
+            return true;
+        }
+        boolean foundCurrentNode = false;
+        int indexOfGivenNode = orderedNodeNames.indexOf(givenNode);
+        int indexOfCurrentNode = orderedNodeNames.indexOf(currentNode);
+        if ( (indexOfCurrentNode < 0) || (indexOfGivenNode < 0) ) {
+            String errorMsg = "Could not find instance of node name '" + ((indexOfGivenNode < 0) ? givenNode : "") + " " +
+                    ((indexOfCurrentNode < 0) ? currentNode : "") + "' in ordered node name list";
+            LOG.error("isGivenNodeAfterCurrentNode() " + errorMsg);
+            throw new RuntimeException(errorMsg);
+        }
+        return indexOfGivenNode >= indexOfCurrentNode;
     }
     
 }

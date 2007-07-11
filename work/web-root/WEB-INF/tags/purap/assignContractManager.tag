@@ -47,7 +47,7 @@
 	                    
 	                    <kul:htmlAttributeHeaderCell attributeEntry="${assignContractManagerAttributes.requisitionTotalAmount}" />
 	                    
-	                    <kul:htmlAttributeHeaderCell attributeEntry="${assignContractManagerAttributes.requisitionCreateDate}" />
+	                    <%--kul:htmlAttributeHeaderCell attributeEntry="${assignContractManagerAttributes.requisitionCreateDate}" / --%>
 	                    
 	                    <kul:htmlAttributeHeaderCell attributeEntry="${assignContractManagerAttributes.firstItemDescription}" />
 
@@ -64,7 +64,7 @@
 					        </c:if>
 		                </td>
 		                <td align=left valign=middle class="datacell">
-		                    <kul:htmlControlAttribute property="document.assignContractManagerDetail[${ctr}].requisition.purapDocumentIdentifier" attributeEntry="${requisitionAttributes.purapDocumentIdentifier}" readOnly="true" />
+		                    <a href="<c:out value="${acmDetail.requisition.url}" />"  target="_BLANK"><c:out value="${acmDetail.requisition.purapDocumentIdentifier}" /></a>
 		                </td>
 		                <td align=left valign=middle class="datacell">
 		                    <kul:htmlControlAttribute property="document.assignContractManagerDetail[${ctr}].requisition.deliveryCampusCode" attributeEntry="${requisitionAttributes.deliveryCampusCode}" readOnly="true" />
@@ -78,9 +78,14 @@
 		                <td align=left valign=middle class="datacell">
 		                    <kul:htmlControlAttribute property="document.assignContractManagerDetail[${ctr}].requisition.documentHeader.financialDocumentTotalAmount" attributeEntry="${requisitionAttributes.documentHeader.financialDocumentTotalAmount}" readOnly="true" />
 		                </td>
-		                <td align=left valign=middle class="datacell">
-		                    Create Date
-						</td>
+		               
+		                <%-- td align=left valign=middle class="datacell" --%>
+		                    
+		                    
+		                    <%-- fmt:formatDate value="${acmDetail.requisition.documentHeader.workflowDocument.createDate}" pattern="hh:mm a MM/dd/yyyy" / --%>
+		                   
+						<%-- /td --%>
+						
 		                <td align=left valign=middle class="datacell">
 		                    
 		                    <kul:htmlControlAttribute property="document.assignContractManagerDetail[${ctr}].requisition.items[0].itemDescription" attributeEntry="${requisitionAttributes.items[0].itemDescription}" readOnly="true" />

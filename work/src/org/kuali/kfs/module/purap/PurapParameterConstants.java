@@ -24,8 +24,9 @@ public class PurapParameterConstants {
     public static final String PURAP_ADMIN_GROUP = "PurapAdminGroup";
     
     // PARAMETER NAMES
-    public static final String PURAP_OVERRIDE_REQ_DOC_TITLE = "PURAP_OVERRIDE_REQ_DOC_TITLE";
     public static final String PURAP_OVERRIDE_ASSIGN_CONTRACT_MGR_DOC_TITLE = "PURAP.OVERRIDE_ASSIGN_CONTRACT_MGR_DOC_TITLE";
+    public static final String PURAP_OVERRIDE_REQ_DOC_TITLE = "PURAP.OVERRIDE_REQ_DOC_TITLE";    
+    public static final String PURAP_OVERRIDE_VENDOR_DOC_TITLE = "PURAP.OVERRIDE_VENDOR_DOC_TITLE";
     public static final String PURAP_DEFAULT_NEGATIVE_PAYMENT_REQUEST_APPROVAL_LIMIT = "PURAP.DEFAULT_NEG_PMT_RQST_APRVL_LMT";
     public static final String PURAP_PDP_EPIC_ORG_CODE = "PURAP.PDP.EPIC.ORG.CODE";
     public static final String PURAP_PDP_EPIC_SBUNT_CODE = "PURAP.PDP.EPIC.SBUNT.CODE";

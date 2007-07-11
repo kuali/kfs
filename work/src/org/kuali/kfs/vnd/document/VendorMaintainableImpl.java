@@ -34,6 +34,7 @@ import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.module.purap.PurapParameterConstants;
 import org.kuali.module.vendor.VendorConstants;
 import org.kuali.module.vendor.VendorPropertyConstants;
 import org.kuali.module.vendor.VendorRuleConstants;
@@ -58,35 +59,43 @@ public class VendorMaintainableImpl extends KualiMaintainableImpl {
     @Override
     public String getDocumentTitle(MaintenanceDocument document) {
         String documentTitle = "";
-        if (document.isOldBusinessObjectInDocument()) {
-            documentTitle = "Edit Vendor - ";
+        // Check if we are choosing to override the Kuali default document title.
+        String specificTitle = SpringServiceLocator.getKualiConfigurationService().getApplicationParameterValue(PurapParameterConstants.PURAP_ADMIN_GROUP,PurapParameterConstants.PURAP_OVERRIDE_VENDOR_DOC_TITLE);
+        
+        if (StringUtils.equals(specificTitle,Boolean.TRUE.toString())) {
+            // We are overriding the standard with a Vendor-specific document title style.
+            if (document.isOldBusinessObjectInDocument()) {
+                documentTitle = "Edit Vendor - ";
+            }
+            else {
+                documentTitle = "New Vendor - ";
+            }
+    
+            try {
+                UniversalUser initUser = SpringServiceLocator.getUniversalUserService().getUniversalUser(new AuthenticationUserId(document.getDocumentHeader().getWorkflowDocument().getInitiatorNetworkId()));
+                documentTitle += initUser.getCampusCode();
+            }
+            catch (UserNotFoundException e) {
+                throw new RuntimeException("Document Initiator not found " + e.getMessage());
+            }
+    
+            VendorDetail newBo = (VendorDetail) document.getNewMaintainableObject().getBusinessObject();
+    
+            if (StringUtils.isNotBlank(newBo.getVendorName())) {
+                documentTitle += " '" + newBo.getVendorName() + "'";
+            }
+    
+            if (newBo.getVendorHeader().getVendorForeignIndicator()) {
+                documentTitle += " (F)";
+            }
+    
+            if (!newBo.isVendorParentIndicator()) {
+                documentTitle += " (D)";
+            }
         }
-        else {
-            documentTitle = "New Vendor - ";
+        else { //We are using the Kuali default document title.
+            documentTitle = super.getDocumentTitle(document);
         }
-
-        try {
-            UniversalUser initUser = SpringServiceLocator.getUniversalUserService().getUniversalUser(new AuthenticationUserId(document.getDocumentHeader().getWorkflowDocument().getInitiatorNetworkId()));
-            documentTitle += initUser.getCampusCode();
-        }
-        catch (UserNotFoundException e) {
-            throw new RuntimeException("Document Initiator not found " + e.getMessage());
-        }
-
-        VendorDetail newBo = (VendorDetail) document.getNewMaintainableObject().getBusinessObject();
-
-        if (StringUtils.isNotBlank(newBo.getVendorName())) {
-            documentTitle += " '" + newBo.getVendorName() + "'";
-        }
-
-        if (newBo.getVendorHeader().getVendorForeignIndicator()) {
-            documentTitle += " (F)";
-        }
-
-        if (!newBo.isVendorParentIndicator()) {
-            documentTitle += " (D)";
-        }
-
         return documentTitle;
     }
 

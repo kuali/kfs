@@ -691,7 +691,12 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
      * 
      * @see org.kuali.module.purap.service.PaymentRequestService#removeHoldOnPaymentRequest(org.kuali.module.purap.document.PaymentRequestDocument)
      */
-    public void removeHoldOnPaymentRequest(PaymentRequestDocument document){
+    public void removeHoldOnPaymentRequest(PaymentRequestDocument document, String note) throws Exception{
+        //save the note
+        Note noteObj = documentService.createNoteFromDocument(document, note);
+        documentService.addNoteToDocument(document, noteObj);
+        noteService.save(noteObj);
+
         //retrieve and save with hold indicator set to false
         PaymentRequestDocument preqDoc = paymentRequestDao.getPaymentRequestById(document.getPurapDocumentIdentifier());                    
         preqDoc.setHoldIndicator(false);
@@ -1051,7 +1056,7 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
         distributeAccounting(paymentRequestDocument);
         
     }
-    
+
     /*
      public PaymentRequestInitializationValidationErrors verifyPreqInitialization(
      Integer purchaseOrderId, String invoiceNumber, BigDecimal invoiceAmount, Timestamp invoiceDate,

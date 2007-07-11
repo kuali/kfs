@@ -55,7 +55,7 @@ public interface PaymentRequestService {
     
     public boolean canRemoveHoldPaymentRequest(PaymentRequestDocument document, UniversalUser user);
     
-    public void removeHoldOnPaymentRequest(PaymentRequestDocument document);
+    public void removeHoldOnPaymentRequest(PaymentRequestDocument document, String note) throws Exception;
        
     public PaymentRequestDocument getPaymentRequestById(Integer poDocId);
     
@@ -101,7 +101,6 @@ public interface PaymentRequestService {
      * @param preq paymentrequestdocument
      */
     public void populatePaymentRequest(PaymentRequestDocument preq);
-    
     
     
     

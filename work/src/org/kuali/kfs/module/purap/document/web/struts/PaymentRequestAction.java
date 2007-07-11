@@ -127,15 +127,15 @@ public class PaymentRequestAction extends AccountsPayableActionBase {
             SpringServiceLocator.getPaymentRequestService().populatePaymentRequest(paymentRequestDocument);
             //TODO: can we save the payment request here?!
             
-            paymentRequestDocument.refreshAllReferences();    
+            paymentRequestDocument.refreshAllReferences();
         } else {
             paymentRequestDocument.setStatusCode(PurapConstants.PaymentRequestStatuses.INITIATE);
         }
         
 
-                
+        
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
-  
+                
     }
     
     public ActionForward clearInitFields(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -186,13 +186,13 @@ public class PaymentRequestAction extends AccountsPayableActionBase {
      */
     public ActionForward addHoldOnPayment(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {    
         String operation = "Hold ";
-        
+
         PurQuestionCallback callback = new PurQuestionCallback() {
             public void doPostQuestion(AccountsPayableDocument document, String noteText) throws Exception {
                 SpringServiceLocator.getPaymentRequestService().addHoldOnPaymentRequest((PaymentRequestDocument) document, noteText);
-            }
+    }
         };
-        
+    
         return askQuestionWithInput(mapping, form, request, response, PREQDocumentsStrings.HOLD_PREQ_QUESTION, PREQDocumentsStrings.HOLD_NOTE_PREFIX, operation, PurapKeyConstants.PAYMENT_REQUEST_MESSAGE_HOLD_DOCUMENT, callback);
     }
     
@@ -206,16 +206,16 @@ public class PaymentRequestAction extends AccountsPayableActionBase {
      * @return
      * @throws Exception
      */
-    public ActionForward removeHoldFromPayment(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+    public ActionForward removeHoldFromPayment(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {        
+        String operation = "Remove ";
         
-        LOG.debug("removeHoldFromPayment() method");
-
-        PaymentRequestForm preqForm = (PaymentRequestForm) form;
-        PaymentRequestDocument document = (PaymentRequestDocument) preqForm.getDocument();
-
-        SpringServiceLocator.getPaymentRequestService().removeHoldOnPaymentRequest(document);
+        PurQuestionCallback callback = new PurQuestionCallback() {
+            public void doPostQuestion(AccountsPayableDocument document, String noteText) throws Exception {
+                SpringServiceLocator.getPaymentRequestService().removeHoldOnPaymentRequest((PaymentRequestDocument) document, noteText);
+    }
+        };
         
-        return mapping.findForward(KFSConstants.MAPPING_BASIC);
+        return askQuestionWithInput(mapping, form, request, response, PREQDocumentsStrings.REMOVE_HOLD_PREQ_QUESTION, PREQDocumentsStrings.REMOVE_HOLD_NOTE_PREFIX, operation, PurapKeyConstants.PAYMENT_REQUEST_MESSAGE_REMOVE_HOLD_DOCUMENT, callback);
     }
 
     /**
@@ -231,13 +231,13 @@ public class PaymentRequestAction extends AccountsPayableActionBase {
      */
     public ActionForward requestCancelOnPayment(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {    
         String operation = "Cancel ";
-        
+    
         PurQuestionCallback callback = new PurQuestionCallback() {
             public void doPostQuestion(AccountsPayableDocument document, String noteText) throws Exception {
                 SpringServiceLocator.getPaymentRequestService().requestCancelOnPaymentRequest((PaymentRequestDocument) document, noteText);
-            }
+    }
         };
-        
+
         return askQuestionWithInput(mapping, form, request, response, PREQDocumentsStrings.CANCEL_PREQ_QUESTION, PREQDocumentsStrings.CANCEL_NOTE_PREFIX, operation, PurapKeyConstants.PAYMENT_REQUEST_MESSAGE_CANCEL_DOCUMENT, callback);
     }
 
@@ -253,16 +253,16 @@ public class PaymentRequestAction extends AccountsPayableActionBase {
      */
     public ActionForward removeCancelRequestFromPayment(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         String operation = "Cancel ";
-        
+
         PurQuestionCallback callback = new PurQuestionCallback() {
             public void doPostQuestion(AccountsPayableDocument document, String noteText) throws Exception {
                 SpringServiceLocator.getPaymentRequestService().removeRequestCancelOnPaymentRequest((PaymentRequestDocument) document, noteText);
-            }
+        }
         };
-        
+    
         return askQuestionWithInput(mapping, form, request, response, PREQDocumentsStrings.REMOVE_CANCEL_PREQ_QUESTION, PREQDocumentsStrings.REMOVE_CANCEL_NOTE_PREFIX, operation, PurapKeyConstants.PAYMENT_REQUEST_MESSAGE_REMOVE_CANCEL_DOCUMENT, callback);
-    }
-
+                    }
+        
     /**
      * calls a service method to calculate for a payment request document
      */

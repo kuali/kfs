@@ -108,6 +108,9 @@ public class PurapKeyConstants {
     public static final String PAYMENT_REQUEST_QUESTION_DOCUMENT = "paymentRequest.question.text";
     public static final String PAYMENT_REQUEST_MESSAGE_HOLD_DOCUMENT="paymentRequest.message.hold.text";
 
+    public static final String PAYMENT_REQUEST_QUESTION_REMOVE_HOLD_DOCUMENT = "paymentRequest.question.remove.hold.text";
+    public static final String PAYMENT_REQUEST_MESSAGE_REMOVE_HOLD_DOCUMENT="paymentRequest.message.remove.hold.text";
+
     public static final String PAYMENT_REQUEST_QUESTION_CANCEL_DOCUMENT = "paymentRequest.question.cancel.text";
     public static final String PAYMENT_REQUEST_MESSAGE_CANCEL_DOCUMENT="paymentRequest.message.cancel.text";
 

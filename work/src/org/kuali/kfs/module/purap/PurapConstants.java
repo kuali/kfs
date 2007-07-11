@@ -470,6 +470,9 @@ public class PurapConstants extends JstlConstants {
         public static String HOLD_PREQ_QUESTION = "HoldPREQ";
         public static String CONFIRM_HOLD_QUESTION = "ConfirmHold";
         public static String HOLD_NOTE_PREFIX = "Note entered while placing Payment Request on hold : ";
+        public static String REMOVE_HOLD_PREQ_QUESTION = "RemoveHoldPREQ";
+        public static String CONFIRM_REMOVE_HOLD_QUESTION = "ConfirmRemoveHold";
+        public static String REMOVE_HOLD_NOTE_PREFIX = "Note entered while removing a hold on Payment Request : ";
         public static String CANCEL_PREQ_QUESTION = "CancelPREQ";
         public static String CONFIRM_CANCEL_QUESTION = "ConfirmCancel";
         public static String CANCEL_NOTE_PREFIX = "Note entered while requesting cancel on Payment Request : ";

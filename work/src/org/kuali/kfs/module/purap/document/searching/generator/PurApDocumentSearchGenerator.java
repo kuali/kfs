@@ -164,9 +164,7 @@ public abstract class PurApDocumentSearchGenerator extends StandardDocumentSearc
             if (component == null) {
                 throw new RuntimeException("Criteria Component for search using form key '" + formKey + "' cannot be found in search criteria searchable attributes");
             }
-            // TODO delyea - uncomment/delete below when KEW Jar updated
-//            if (component.isNonBlankValueGiven()) {
-            if ( (StringUtils.isNotBlank(component.getValue())) || (!Utilities.isEmpty(component.getValues())) ) {
+            if (component.isNonBlankValueGiven()) {
                 if (!checkForAllInList) {
                     // checking for at least one element of list that is filled in and we found one
                     return true;

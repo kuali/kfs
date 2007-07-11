@@ -311,7 +311,6 @@
 			        <![CDATA[&nbsp;]]>
 			    </summary>
 			    <description>Added in specifically so that I can override the formatter for booleans</description>
-			    <formatterClass>org.kuali.core.web.format.TrueFalseBooleanFormatter</formatterClass>
 			</attribute>
             <attributeReference name="salesTax.chartOfAccountsCode" sourceClassName="org.kuali.module.financial.bo.SalesTax" sourceAttributeName="chartOfAccountsCode">
                 <label>Sales Tax Chart of Accounts Code</label>

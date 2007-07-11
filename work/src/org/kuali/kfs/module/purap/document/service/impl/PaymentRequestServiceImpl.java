@@ -40,7 +40,6 @@ import org.kuali.core.service.UniversalUserService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
-import org.kuali.core.web.format.BigDecimalFormatter;
 import org.kuali.core.workflow.service.WorkflowDocumentService;
 import org.kuali.kfs.bo.SourceAccountingLine;
 import org.kuali.kfs.util.SpringServiceLocator;
@@ -385,6 +384,14 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
     }
 
     /**
+     * @see org.kuali.module.purap.service.PaymentRequestService#saveWithWorkflowDocumentUpdate(org.kuali.module.purap.document.PaymentRequestDocument)
+     */
+    public void saveWithWorkflowDocumentUpdate(PaymentRequestDocument paymentRequestDocument) throws WorkflowException {
+        paymentRequestDocument.getDocumentHeader().getWorkflowDocument().saveRoutingData();
+        this.save(paymentRequestDocument);
+    }
+    
+    /**
      * Retreives a list of Pay Reqs with the given PO Id, invoice amount, and invoice date.
      * 
      * @param poId           purchase order ID
@@ -728,11 +735,7 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
             document.getDocumentHeader().hasWorkflowDocument() &&
             ( document.getDocumentHeader().getWorkflowDocument().stateIsEnroute() && 
               document.getDocumentHeader().getWorkflowDocument().isApprovalRequested() ) &&
-            ( PurapConstants.PaymentRequestStatuses.AP_APPROVED.equals(statusCode) ||
-              PurapConstants.PaymentRequestStatuses.AWAITING_SUB_ACCT_MGR_APPROVAL.equals(statusCode) ||
-              PurapConstants.PaymentRequestStatuses.AWAITING_FISCAL_APPROVAL.equals(statusCode) ||
-              PurapConstants.PaymentRequestStatuses.DEPARTMENT_APPROVED.equals(statusCode) ||
-              PurapConstants.PaymentRequestStatuses.AUTO_APPROVED.equals(statusCode) ) ){
+            ( !PurapConstants.PaymentRequestStatuses.STATUSES_DISALLOWING_HOLD.contains(statusCode) ) ){
             
             holdable = true;
         }
@@ -850,10 +853,10 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
             document.getDocumentHeader().hasWorkflowDocument() &&
             ( document.getDocumentHeader().getWorkflowDocument().stateIsEnroute() && 
               document.getDocumentHeader().getWorkflowDocument().isApprovalRequested() ) &&
-            ( PurapConstants.PaymentRequestStatuses.AWAITING_SUB_ACCT_MGR_APPROVAL.equals(statusCode) ||
-              PurapConstants.PaymentRequestStatuses.AWAITING_FISCAL_APPROVAL.equals(statusCode) ||
-              PurapConstants.PaymentRequestStatuses.AWAITING_CHART_REVIEW.equals(statusCode) ||
-              PurapConstants.PaymentRequestStatuses.AWAITING_TAX_APPROVAL.equals(statusCode)) ){
+            ( PurapConstants.PaymentRequestStatuses.AWAITING_SUB_ACCT_MGR_REVIEW.equals(statusCode) ||
+              PurapConstants.PaymentRequestStatuses.AWAITING_FISCAL_REVIEW.equals(statusCode) ||
+              PurapConstants.PaymentRequestStatuses.AWAITING_ORG_REVIEW.equals(statusCode) ||
+              PurapConstants.PaymentRequestStatuses.AWAITING_TAX_REVIEW.equals(statusCode)) ){
             
             canCancel = true;
         }

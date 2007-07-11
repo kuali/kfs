@@ -67,7 +67,7 @@ public interface CreditMemoService {
      * @param adHocRecipients - list of additional people to route to
      * @throws WorkflowException
      */
-    public void approve(CreditMemoDocument cmDocument, String annotation, List adHocRecipients) throws WorkflowException;
+    public void route(CreditMemoDocument cmDocument, String annotation, List adHocRecipients) throws WorkflowException;
 
     /**
      * Performs the credit memo item extended price calculation.
@@ -85,6 +85,15 @@ public interface CreditMemoService {
      */
     public void addHoldOnCreditMemo(CreditMemoDocument cmDocument, String note) throws Exception;
 
+    /**
+     * Persists the credit memo without business rule checks as well as updating
+     * the workflow document by calling {@link org.kuali.core.workflow.service.KualiWorkflowDocument#saveRoutingData()}
+     * 
+     * @param creditMemoDocument - credit memo document to save
+     * @throws WorkflowException - when WorkflowDocument data is unable to be saved
+     */
+    public void saveWithWorkflowDocumentUpdate(CreditMemoDocument creditMemoDocument) throws WorkflowException;
+    
     /**
      * Determines if the document can be put on hold and if the user has permission to do so.
      * 

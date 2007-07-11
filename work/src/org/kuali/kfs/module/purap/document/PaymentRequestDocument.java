@@ -45,6 +45,9 @@ import org.kuali.module.vendor.bo.PurchaseOrderCostSource;
 import org.kuali.module.vendor.bo.ShippingPaymentTerms;
 import org.kuali.workflow.KualiWorkflowUtils.RouteLevelNames;
 
+import edu.iu.uis.eden.EdenConstants;
+import edu.iu.uis.eden.clientapp.vo.DocumentRouteLevelChangeVO;
+import edu.iu.uis.eden.clientapp.vo.ReportCriteriaVO;
 import edu.iu.uis.eden.exception.WorkflowException;
 
 
@@ -82,6 +85,8 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
     private String recurringPaymentTypeCode;
     private String vendorShippingTitleCode;
     private String purchaseOrderEndDate;
+    // BELOW USED BY ROUTING
+    private Integer requisitionIdentifier;
     
     // REFERENCE OBJECTS
     private PaymentTermType vendorPaymentTerms;
@@ -103,7 +108,7 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
         this.refreshReferenceObject("vendorPaymentTerms");
         this.refreshReferenceObject("vendorShippingPaymentTerms");
         this.refreshReferenceObject("paymentRequestCostSource");
- 
+        this.setRequisitionIdentifier(getPurchaseOrderDocument().getRequisitionIdentifier());
     }
     
     /**
@@ -114,6 +119,22 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
         return true;
     }
 
+
+    /**
+     * Gets the requisitionIdentifier attribute. 
+     * @return Returns the requisitionIdentifier.
+     */
+    public Integer getRequisitionIdentifier() {
+        return requisitionIdentifier;
+    }
+
+    /**
+     * Sets the requisitionIdentifier attribute value.
+     * @param requisitionIdentifier The requisitionIdentifier to set.
+     */
+    public void setRequisitionIdentifier(Integer requisitionIdentifier) {
+        this.requisitionIdentifier = requisitionIdentifier;
+    }
 
     /**
      * Gets the purchaseOrderClassificationTypeDescription attribute. 
@@ -685,6 +706,47 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
         LOG.debug("handleRouteStatusChange() started");
         super.handleRouteStatusChange();
 
+    }
+
+    /**
+     * @see org.kuali.core.document.DocumentBase#handleRouteLevelChange(edu.iu.uis.eden.clientapp.vo.DocumentRouteLevelChangeVO)
+     */
+    @Override
+    public void handleRouteLevelChange(DocumentRouteLevelChangeVO levelChangeEvent) {
+        LOG.debug("handleRouteLevelChange() started");
+        super.handleRouteLevelChange(levelChangeEvent);
+        try {
+            String newNodeName = levelChangeEvent.getNewNodeName();
+            if (StringUtils.isNotBlank(newNodeName)) {
+                if (PurapConstants.WorkflowConstants.PaymentRequestDocument.NodeDetails.ACCOUNTS_PAYABLE_REVIEW.equals(levelChangeEvent.getOldNodeName())) {
+                    setAccountsPayableApprovalDate(SpringServiceLocator.getDateTimeService().getCurrentSqlDate());
+                }
+                ReportCriteriaVO reportCriteriaVO = new ReportCriteriaVO(Long.valueOf(getDocumentNumber()));
+                int indexOfNode = PurapConstants.WorkflowConstants.PaymentRequestDocument.NodeDetails.ORDERED_NODE_NAME_LIST.indexOf(newNodeName);
+                int indexOfNextNode = indexOfNode + 1;
+                if ( (indexOfNode != -1) && (indexOfNextNode < PurapConstants.WorkflowConstants.PaymentRequestDocument.NodeDetails.ORDERED_NODE_NAME_LIST.size()) ) {
+                    // we can find a valid next node name
+                    String nextNodeName = (String)PurapConstants.WorkflowConstants.PaymentRequestDocument.NodeDetails.ORDERED_NODE_NAME_LIST.get(indexOfNextNode);
+                    reportCriteriaVO.setTargetNodeName(nextNodeName);
+                    if (SpringServiceLocator.getWorkflowInfoService().documentWillHaveAtLeastOneActionRequest(
+                            reportCriteriaVO, new String[]{EdenConstants.ACTION_REQUEST_APPROVE_REQ,EdenConstants.ACTION_REQUEST_COMPLETE_REQ})) {
+                        String statusCode = PurapConstants.WorkflowConstants.PaymentRequestDocument.NodeDetails.STATUS_BY_NODE_NAME.get(nextNodeName);
+                        if (StringUtils.isNotBlank(statusCode)) {
+                            SpringServiceLocator.getPurapService().updateStatusAndStatusHistory(this, statusCode);
+                            populateDocumentForRouting();
+                            SpringServiceLocator.getPaymentRequestService().save(this);
+                        }
+                    } else {
+                        if (LOG.isDebugEnabled()) {
+                            LOG.debug("Document with id " + getDocumentNumber() + " will not stop in route node '" + nextNodeName + "'");
+                        }
+                    }
+                }
+            }
+        }
+        catch (WorkflowException e) {
+            logAndThrowRuntimeException("Error getting node names for document with id " + getDocumentNumber(), e);
+        }
     }
 
     /**

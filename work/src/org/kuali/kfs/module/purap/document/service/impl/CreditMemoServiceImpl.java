@@ -32,6 +32,7 @@ import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.service.NoteService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.PurapKeyConstants;
@@ -122,7 +123,7 @@ public class CreditMemoServiceImpl implements CreditMemoService {
             if (!poItem.getItemType().isItemTypeAboveTheLineIndicator()) {
                 continue;
             }
-
+            
             if (poItem.getItemInvoicedTotalQuantity() != null && poItem.getItemInvoicedTotalQuantity().isGreaterThan(KualiDecimal.ZERO)) {
                 invoicedItems.add(poItem);
             }
@@ -177,12 +178,20 @@ public class CreditMemoServiceImpl implements CreditMemoService {
     }
 
     /**
-     * Recalculates the credit memo, calls document service to run rules and route the document, updates status and approval date.
+     * @see org.kuali.module.purap.service.CreditMemoService#saveWithWorkflowDocumentUpdate(org.kuali.module.purap.document.CreditMemoDocument)
+     */
+    public void saveWithWorkflowDocumentUpdate(CreditMemoDocument creditMemoDocument) throws WorkflowException {
+        creditMemoDocument.getDocumentHeader().getWorkflowDocument().saveRoutingData();
+        this.save(creditMemoDocument);
+    }
+    
+    /**
+     * Recalculates the credit memo, calls document service to run rules and route the document.
      * Also reopens PO if closed.
      * 
      * @see org.kuali.module.purap.service.CreditMemoService#approve(org.kuali.module.purap.document.CreditMemoDocument)
      */
-    public void approve(CreditMemoDocument cmDocument, String annotation, List adHocRecipients) throws WorkflowException {
+    public void route(CreditMemoDocument cmDocument, String annotation, List adHocRecipients) throws WorkflowException {
         // recalculate
         cmDocument.updateExtendedPriceOnItems();
         calculateCreditMemo(cmDocument);
@@ -192,8 +201,8 @@ public class CreditMemoServiceImpl implements CreditMemoService {
         // run rules and route, throws exception if errors were found
         documentService.routeDocument(cmDocument, annotation, adHocRecipients);
 
-        purapService.updateStatusAndStatusHistory(cmDocument, PurapConstants.CreditMemoStatuses.AP_APPROVED);
-        cmDocument.setAccountsPayableApprovalDate(dateTimeService.getCurrentSqlDate());
+//        purapService.updateStatusAndStatusHistory(cmDocument, PurapConstants.CreditMemoStatuses.AP_APPROVED);
+//        cmDocument.setAccountsPayableApprovalDate(dateTimeService.getCurrentSqlDate());
         save(cmDocument);
 
         // reopen PO if closed
@@ -222,7 +231,8 @@ public class CreditMemoServiceImpl implements CreditMemoService {
         boolean canHold = false;
 
         String accountsPayableGroup = SpringServiceLocator.getKualiConfigurationService().getApplicationParameterValue(PurapParameterConstants.PURAP_ADMIN_GROUP, PurapConstants.Workgroups.WORKGROUP_ACCOUNTS_PAYABLE);
-        if (cmDocument.isHoldIndicator() == false && user.isMember(accountsPayableGroup) && cmDocument.getExtractedDate() == null && (PurapConstants.CreditMemoStatuses.AP_APPROVED.equals(cmDocument.getStatusCode()) || PurapConstants.CreditMemoStatuses.COMPLETE.equals(cmDocument.getStatusCode()))) {
+        if ( (!cmDocument.isHoldIndicator()) && user.isMember(accountsPayableGroup) && ObjectUtils.isNull(cmDocument.getExtractedDate()) && 
+             (!PurapConstants.CreditMemoStatuses.STATUSES_DISALLOWING_HOLD.contains(cmDocument.getStatusCode())) ) {
             canHold = true;
         }
 
@@ -322,9 +332,9 @@ public class CreditMemoServiceImpl implements CreditMemoService {
 
         // retrieve and save with canceled status, clear gl entries
         CreditMemoDocument cmDoc = getCreditMemoDocumentById(cmDocument.getPurapDocumentIdentifier());
-        if (PurapConstants.CreditMemoStatuses.AP_APPROVED.equals(cmDoc.getStatusCode()) || PurapConstants.CreditMemoStatuses.COMPLETE.equals(cmDoc.getStatusCode())) {
+        if (!PurapConstants.CreditMemoStatuses.STATUSES_NOT_REQUIRING_ENTRY_REVERSAL.contains(cmDoc.getStatusCode())) {
             generalLedgerService.generateEntriesCancelCm(cmDoc);
-            generalLedgerService.generateEntriesCancelCm(cmDocument);
+//            generalLedgerService.generateEntriesCancelCm(cmDocument);
         }
 
         purapService.updateStatusAndStatusHistory(cmDoc, PurapConstants.CreditMemoStatuses.CANCELLED, noteObj);

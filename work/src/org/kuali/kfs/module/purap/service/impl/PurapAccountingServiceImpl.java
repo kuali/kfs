@@ -299,15 +299,20 @@ public class PurapAccountingServiceImpl implements PurapAccountingService {
                     if (!thisAccountAlreadyInSet) {
                         PurApAccountingLine accountToAdd = (PurApAccountingLine)ObjectUtils.deepCopy(account);
                         accountSet.add(accountToAdd);
+                    }
                 }
             }
-        }
         }
         
         // convert list of PurApAccountingLine objects to SourceAccountingLineObjects
         List<SourceAccountingLine> sourceAccounts = new ArrayList<SourceAccountingLine>();
         for (Iterator iter = accountSet.iterator(); iter.hasNext();) {
             PurApAccountingLine accountToAlter = (PurApAccountingLine) iter.next();
+            if (accountToAlter.isEmpty()) {
+                String errorMessage = "Found an 'empty' account in summary generation " + accountToAlter.toString();
+                LOG.error("generateAccountSummary() " + errorMessage);
+                throw new RuntimeException(errorMessage);
+            }
             SourceAccountingLine sourceLine = accountToAlter.generateSourceAccountingLine();
             sourceAccounts.add(sourceLine);
         }

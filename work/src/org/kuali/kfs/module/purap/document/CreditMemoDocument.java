@@ -35,6 +35,11 @@ import org.kuali.module.purap.bo.CreditMemoItem;
 import org.kuali.module.purap.bo.CreditMemoStatusHistory;
 import org.kuali.module.purap.bo.PurchasingApItem;
 
+import edu.iu.uis.eden.EdenConstants;
+import edu.iu.uis.eden.clientapp.vo.DocumentRouteLevelChangeVO;
+import edu.iu.uis.eden.clientapp.vo.ReportCriteriaVO;
+import edu.iu.uis.eden.exception.WorkflowException;
+
 /**
  * Credit Memo Document Business Object. Contains the fields associated with the main document table.
  */
@@ -171,6 +176,47 @@ public class CreditMemoDocument extends AccountsPayableDocumentBase {
         LOG.debug("handleRouteStatusChange() started");
         super.handleRouteStatusChange();
 
+    }
+    
+    /**
+     * @see org.kuali.core.document.DocumentBase#handleRouteLevelChange(edu.iu.uis.eden.clientapp.vo.DocumentRouteLevelChangeVO)
+     */
+    @Override
+    public void handleRouteLevelChange(DocumentRouteLevelChangeVO levelChangeEvent) {
+        LOG.debug("handleRouteLevelChange() started");
+        super.handleRouteLevelChange(levelChangeEvent);
+        try {
+            String newNodeName = levelChangeEvent.getNewNodeName();
+            if (StringUtils.isNotBlank(newNodeName)) {
+                if (PurapConstants.WorkflowConstants.CreditMemoDocument.NodeDetails.ACCOUNTS_PAYABLE_REVIEW.equals(levelChangeEvent.getOldNodeName())) {
+                    setAccountsPayableApprovalDate(SpringServiceLocator.getDateTimeService().getCurrentSqlDate());
+                }
+                ReportCriteriaVO reportCriteriaVO = new ReportCriteriaVO(Long.valueOf(getDocumentNumber()));
+                int indexOfNode = PurapConstants.WorkflowConstants.CreditMemoDocument.NodeDetails.ORDERED_NODE_NAME_LIST.indexOf(newNodeName);
+                int indexOfNextNode = indexOfNode + 1;
+                if ( (indexOfNode != -1) && (indexOfNextNode < PurapConstants.WorkflowConstants.CreditMemoDocument.NodeDetails.ORDERED_NODE_NAME_LIST.size()) ) {
+                    // we can find a valid next node name
+                    String nextNodeName = (String)PurapConstants.WorkflowConstants.CreditMemoDocument.NodeDetails.ORDERED_NODE_NAME_LIST.get(indexOfNextNode);
+                    reportCriteriaVO.setTargetNodeName(nextNodeName);
+                    if (SpringServiceLocator.getWorkflowInfoService().documentWillHaveAtLeastOneActionRequest(
+                            reportCriteriaVO, new String[]{EdenConstants.ACTION_REQUEST_APPROVE_REQ,EdenConstants.ACTION_REQUEST_COMPLETE_REQ})) {
+                        String statusCode = PurapConstants.WorkflowConstants.CreditMemoDocument.NodeDetails.STATUS_BY_NODE_NAME.get(nextNodeName);
+                        if (StringUtils.isNotBlank(statusCode)) {
+                            SpringServiceLocator.getPurapService().updateStatusAndStatusHistory(this, statusCode);
+                            populateDocumentForRouting();
+                            SpringServiceLocator.getCreditMemoService().save(this);
+                        }
+                    } else {
+                        if (LOG.isDebugEnabled()) {
+                            LOG.debug("Document with id " + getDocumentNumber() + " will not stop in route node '" + nextNodeName + "'");
+                        }
+                    }
+                }
+            }
+        }
+        catch (WorkflowException e) {
+            logAndThrowRuntimeException("Error getting node names for document with id " + getDocumentNumber(), e);
+        }
     }
 
     /**

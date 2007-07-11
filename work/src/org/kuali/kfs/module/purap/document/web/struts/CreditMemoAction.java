@@ -212,7 +212,7 @@ public class CreditMemoAction extends AccountsPayableActionBase {
 
         // route and catch validation errors to check for unmatched total error
         try {
-            SpringServiceLocator.getCreditMemoService().approve(creditMemoDocument, cmForm.getAnnotation(), combineAdHocRecipients(cmForm));
+            SpringServiceLocator.getCreditMemoService().route(creditMemoDocument, cmForm.getAnnotation(), combineAdHocRecipients(cmForm));
         }
         catch (ValidationException e) {
             // check for needed override

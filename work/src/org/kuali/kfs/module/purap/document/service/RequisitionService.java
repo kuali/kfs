@@ -15,7 +15,6 @@
  */
 package org.kuali.module.purap.service;
 
-import org.kuali.core.util.KualiDecimal;
 import org.kuali.module.purap.document.RequisitionDocument;
 
 import edu.iu.uis.eden.exception.WorkflowException;

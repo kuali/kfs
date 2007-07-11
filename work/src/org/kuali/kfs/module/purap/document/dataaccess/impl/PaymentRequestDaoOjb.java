@@ -130,7 +130,7 @@ public class PaymentRequestDaoOjb extends PlatformAwareDaoBaseOjb implements Pay
         criteria.addLessThan(PurapPropertyConstants.PAYMENT_REQUEST_PAY_DATE, todayAtMidnight);
         criteria.addNotEqualTo("holdIndicator", "Y");
         criteria.addNotEqualTo("paymentRequestedCancelIndicator", "Y");
-        criteria.addIn("status", Arrays.asList(PurapConstants.PREQ_STATUSES_FOR_AUTO_APPROVE));
+        criteria.addIn("status", Arrays.asList(PurapConstants.PaymentRequestStatuses.PREQ_STATUSES_FOR_AUTO_APPROVE));
         
         Query query = new QueryByCriteria(PaymentRequestDocument.class, criteria);
         Iterator<PaymentRequestDocument> iterator = 

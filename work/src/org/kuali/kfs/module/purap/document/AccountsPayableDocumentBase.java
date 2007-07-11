@@ -16,13 +16,14 @@
 package org.kuali.module.purap.document;
 
 import java.sql.Date;
+import java.util.List;
 
 import org.kuali.core.bo.Campus;
+import org.kuali.core.bo.Note;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.exceptions.UserNotFoundException;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.util.SpringServiceLocator;
-import org.kuali.module.labor.service.LaborUserService;
 
 
 /**
@@ -43,6 +44,11 @@ public abstract class AccountsPayableDocumentBase extends PurchasingAccountsPaya
     private String noteLine1Text;
     private String noteLine2Text;
     private String noteLine3Text;
+    
+    // NOT PERSISTED IN DB
+    // BELOW USED BY ROUTING
+    private String chartOfAccountsCode;
+    private String organizationCode;
 
     // REFERENCE OBJECTS
     private Campus processingCampus;
@@ -59,10 +65,25 @@ public abstract class AccountsPayableDocumentBase extends PurchasingAccountsPaya
     public void refreshAllReferences() {
         super.refreshAllReferences();
         this.refreshReferenceObject("processingCampus");
+        if (ObjectUtils.isNotNull(getPurchaseOrderDocument())) {
+            setChartOfAccountsCode(getPurchaseOrderDocument().getChartOfAccountsCode());
+            setOrganizationCode(getPurchaseOrderDocument().getOrganizationCode());
+        } else {
+            setChartOfAccountsCode(null);
+            setOrganizationCode(null);
+        }
     }
 
     public boolean requiresAccountsPayableReviewRouting() {
-        // TODO PURAP/delyea - IMPLEMENT THIS
+        List boNotes = this.getDocumentHeader().getBoNotes();
+        if (ObjectUtils.isNotNull(boNotes)) {
+            for (Object obj : boNotes) {
+                Note note = (Note) obj;
+                if (note.getAttachment() != null) {
+                    return false;
+                }
+            }
+        }
         return true;
     }
     
@@ -149,6 +170,22 @@ public abstract class AccountsPayableDocumentBase extends PurchasingAccountsPaya
 
     public Campus getProcessingCampus() { 
         return processingCampus;
+    }
+
+    public String getChartOfAccountsCode() {
+        return chartOfAccountsCode;
+    }
+
+    public void setChartOfAccountsCode(String chartOfAccountsCode) {
+        this.chartOfAccountsCode = chartOfAccountsCode;
+    }
+
+    public String getOrganizationCode() {
+        return organizationCode;
+    }
+
+    public void setOrganizationCode(String organizationCode) {
+        this.organizationCode = organizationCode;
     }
 
     public PurchaseOrderDocument getPurchaseOrderDocument() {

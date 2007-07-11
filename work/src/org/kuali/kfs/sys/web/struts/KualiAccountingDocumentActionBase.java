@@ -1137,7 +1137,7 @@ public class KualiAccountingDocumentActionBase extends KualiTransactionalDocumen
         String objCd = accountingLine.getFinancialObjectCode();
         String account = accountingLine.getAccountNumber();
         SalesTax salesTax = accountingLine.getSalesTax();
-        if(salesTax == null) {
+        if(ObjectUtils.isNull(salesTax)) {
             return false;
         }
         if(StringUtils.isBlank(salesTax.getChartOfAccountsCode())) {

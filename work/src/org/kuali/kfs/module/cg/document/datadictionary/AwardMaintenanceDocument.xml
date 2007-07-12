@@ -93,7 +93,7 @@
 					<maintainableField name="grantDescriptionCode" required="true" />
                     <maintainableField name="awardPurposeCode" required="true" />
                     <maintainableField name="federalFundedAmount" readOnly="true" />
-                    <maintainableField name="federalPassThroughIndicator" required="true" />
+                    <maintainableField name="federalPassThroughIndicator" />
                     <maintainableField name="federalPassThroughAgencyNumber" webUILeaveFieldFunction="onblur_federalPassThroughAgencyNumber" />
                     <maintainableField name="federalPassThroughAgency.fullName" readOnly="true" />
 					<maintainableField name="federalPassThroughFundedAmount" />

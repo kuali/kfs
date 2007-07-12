@@ -189,12 +189,6 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase implements Cop
         super.prepareForSave(event);
     }
 
-    @Override
-    public List<GeneralLedgerPendingEntry> getPendingLedgerEntriesForSufficientFundsChecking() {
-        // FIXME
-        return new ArrayList();
-    }
-
     public void setDefaultValuesForAPO() {
         this.setPurchaseOrderAutomaticIndicator(Boolean.TRUE);
 

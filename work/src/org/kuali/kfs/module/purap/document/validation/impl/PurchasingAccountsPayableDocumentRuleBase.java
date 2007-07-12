@@ -186,7 +186,7 @@ public class PurchasingAccountsPayableDocumentRuleBase extends AccountingDocumen
             }
             
             if(PurApItemUtils.checkItemActive(item)) {
-                if(item.getExtendedPrice().isNonZero()) {
+                if(ObjectUtils.isNotNull(item.getExtendedPrice()) && item.getExtendedPrice().isNonZero()) {
                     processAccountValidation(purapDocument, item.getSourceAccountingLines(),item.getItemIdentifierString());
                 }
             }

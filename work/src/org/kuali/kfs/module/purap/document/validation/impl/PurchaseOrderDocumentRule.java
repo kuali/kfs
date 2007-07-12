@@ -17,7 +17,7 @@ package org.kuali.module.purap.rules;
 
 import static org.kuali.kfs.KFSConstants.GL_DEBIT_CODE;
 import static org.kuali.kfs.KFSConstants.MONTH1;
-import static org.kuali.module.purap.PurapConstants.PO_DOC_TYPE_CODE;
+import static org.kuali.module.purap.PurapConstants.PurchaseOrderDocumentTypeCodes.PO;
 
 import java.util.List;
 
@@ -299,7 +299,7 @@ public class PurchaseOrderDocumentRule extends PurchasingDocumentRuleBase {
         purapCustomizeGeneralLedgerPendingEntry(po, accountingLine, explicitEntry, po.getPurapDocumentIdentifier(), GL_DEBIT_CODE, true);
         
         explicitEntry.setTransactionLedgerEntryDescription(entryDescription(po.getVendorName()));
-        explicitEntry.setFinancialDocumentTypeCode(PO_DOC_TYPE_CODE);  //don't think i should have to override this, but default isn't getting the right PO doc
+        explicitEntry.setFinancialDocumentTypeCode(PO);  //don't think i should have to override this, but default isn't getting the right PO doc
         
         UniversityDate uDate = SpringServiceLocator.getUniversityDateService().getCurrentUniversityDate();
         if (po.getPostingYear().compareTo(uDate.getUniversityFiscalYear()) > 0) {

@@ -30,6 +30,7 @@ public class PurapRuleConstants {
     public static final String PURAP_DOCUMENT_ASSIGN_CM_ACTIONS = "PURAP.DOCUMENT.ASSIGN.CM.ACTIONS";
 
     public static final String ALLOW_APO_NEXT_FY_DAYS = "PURAP.ALLOW_APO_NEXT_FY_DAYS";
+    public static final String ALLOW_BACKPOST_DAYS = "PURAP.ALLOW_BACKPOST_DAYS";
     
     public static final String RESTRICTED_OBJECT_TYPE_PARM_NM = "RESTRICTED_OBJECT_TYPE";
     public static final String RESTRICTED_OBJECT_CONSOLIDATION_PARM_NM = "RESTRICTED_OBJECT_CONSOLIDATION";

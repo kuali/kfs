@@ -25,6 +25,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.ojb.broker.util.collections.ManageableArrayList;
 import org.kuali.core.bo.Note;
 import org.kuali.core.document.AmountTotaling;
+import org.kuali.core.rule.event.KualiDocumentEvent;
 import org.kuali.core.service.NoteService;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
@@ -93,6 +94,22 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
     public PurchasingAccountsPayableDocumentBase() {
         items = new TypedArrayList(getItemClass());
         this.statusHistories = new ManageableArrayList();
+    }
+
+    /**
+     * This method is to allow child classes to customize the prepareForSave method.  Most need to call the super to get the GL entry creation, 
+     * but they each need to do different things to prepare for those entries to be created.
+     * 
+     * @param event
+     */
+    public void customPrepareForSave(KualiDocumentEvent event) {
+    }
+
+    @Override
+    public void prepareForSave(KualiDocumentEvent event) {
+        refreshNonUpdateableReferences();
+        customPrepareForSave(event);
+        super.prepareForSave(event);
     }
 
     /**

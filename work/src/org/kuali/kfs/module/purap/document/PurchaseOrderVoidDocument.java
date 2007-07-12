@@ -16,12 +16,90 @@
 
 package org.kuali.module.purap.document;
 
+import static org.kuali.core.util.KualiDecimal.ZERO;
+
+import java.util.Iterator;
+
 import org.kuali.core.document.Copyable;
+import org.kuali.core.rule.event.KualiDocumentEvent;
+import org.kuali.core.util.KualiDecimal;
+import org.kuali.core.util.ObjectUtils;
+import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.module.purap.PurapConstants;
+import org.kuali.module.purap.bo.PurchaseOrderAccount;
+import org.kuali.module.purap.bo.PurchaseOrderItem;
 
 /**
  * Purchase Order Document
  */
 public class PurchaseOrderVoidDocument extends PurchaseOrderDocument implements Copyable {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PurchaseOrderVoidDocument.class);
+
+    /**
+     * Default constructor.
+     */
+    public PurchaseOrderVoidDocument() {
+        super();
+    }
+
+    public void customPrepareForSave(KualiDocumentEvent event) {
+        LOG.info("customPrepareForSave() enter method for PO Close doc #" + getDocumentNumber());
+
+        // Set outstanding encumbered quantity/amount on items
+        for (Iterator items = this.getItems().iterator(); items.hasNext();) {
+            PurchaseOrderItem item = (PurchaseOrderItem) items.next();
+
+            String logItmNbr = "Item # " + item.getItemLineNumber();
+
+            if (!item.isItemActiveIndicator()) {
+                continue;
+            }
+
+            KualiDecimal itemAmount = null;
+            if (!item.getItemType().isQuantityBasedGeneralLedgerIndicator()) {
+                LOG.debug("poCloseReopen() " + logItmNbr + " Calculate based on amounts");
+                itemAmount = item.getItemOutstandingEncumbranceAmount() == null ? ZERO  : item.getItemOutstandingEncumbranceAmount();
+            }
+            else {
+                LOG.debug("poCloseReopen() " + logItmNbr + " Calculate based on quantities");
+                itemAmount = item.getItemOutstandingEncumberedQuantity().multiply(new KualiDecimal(item.getItemUnitPrice()));
+            }
+
+            KualiDecimal accountTotal = ZERO;
+            PurchaseOrderAccount lastAccount = null;
+            if ( itemAmount.compareTo(ZERO) != 0 ) {
+                // Sort accounts
+//                Collections.sort( (List)item.getSourceAccountingLines() );
+              
+                for (Iterator iterAcct = item.getSourceAccountingLines().iterator(); iterAcct.hasNext();) {
+                    PurchaseOrderAccount acct = (PurchaseOrderAccount) iterAcct.next();
+                    if (!acct.isEmpty()) {
+                        KualiDecimal acctAmount = itemAmount.multiply(new KualiDecimal(acct.getAccountLinePercent().toString())).divide(PurapConstants.HUNDRED);
+                        accountTotal = accountTotal.add(acctAmount);
+                        acct.setAlternateAmount(acctAmount);
+                        lastAccount = acct;
+                    }
+                }
+
+                // account for rounding by adjusting last account as needed
+                if (lastAccount != null) {
+                    KualiDecimal difference = itemAmount.subtract(accountTotal);
+                    LOG.debug("poCloseReopen() difference: " + logItmNbr + " " + difference);
+
+                    KualiDecimal amount = lastAccount.getAlternateAmount();
+                    if (ObjectUtils.isNotNull(amount)) {
+                        lastAccount.setAlternateAmount(amount.add(difference));
+                    }
+                    else {
+                        lastAccount.setAlternateAmount(difference);
+                    }
+                }
+
+            }
+        }// endfor
+          
+        setSourceAccountingLines(SpringServiceLocator.getPurapAccountingService().generateSummaryWithNoZeroTotalsUsingAlternateAmount(getItemsActiveOnly()));
+
+    }//end customPrepareForSave()
 
 }

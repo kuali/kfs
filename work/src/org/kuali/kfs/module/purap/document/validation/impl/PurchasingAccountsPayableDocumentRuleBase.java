@@ -20,8 +20,8 @@ import static org.kuali.kfs.KFSConstants.ENCUMB_UPDT_DOCUMENT_CD;
 import static org.kuali.kfs.KFSConstants.ENCUMB_UPDT_REFERENCE_DOCUMENT_CD;
 import static org.kuali.kfs.KFSConstants.GL_CREDIT_CODE;
 import static org.kuali.kfs.KFSConstants.GL_DEBIT_CODE;
-import static org.kuali.module.purap.PurapConstants.PO_DOC_TYPE_CODE;
 import static org.kuali.module.purap.PurapConstants.PURAP_ORIGIN_CODE;
+import static org.kuali.module.purap.PurapConstants.PurchaseOrderDocumentTypeCodes.PO;
 
 import java.math.BigDecimal;
 import java.util.Arrays;
@@ -367,14 +367,16 @@ public class PurchasingAccountsPayableDocumentRuleBase extends AccountingDocumen
         
         explicitEntry.setFinancialSystemOriginationCode(PURAP_ORIGIN_CODE);
         explicitEntry.setReferenceFinancialSystemOriginationCode(PURAP_ORIGIN_CODE);
-        explicitEntry.setReferenceFinancialDocumentTypeCode(PO_DOC_TYPE_CODE);
+        explicitEntry.setReferenceFinancialDocumentTypeCode(PO);
         if (ObjectUtils.isNotNull(referenceDocumentNumber)) {
             explicitEntry.setReferenceFinancialDocumentNumber(referenceDocumentNumber.toString());
         }
 
         //TODO should we be doing it like this or storing the FY in the acct table in which case we wouldn't need this at all we'd inherit it from the accountingdocument
         ObjectCode objectCode = SpringServiceLocator.getObjectCodeService().getByPrimaryId(explicitEntry.getUniversityFiscalYear(), explicitEntry.getChartOfAccountsCode(), explicitEntry.getFinancialObjectCode());
-        explicitEntry.setFinancialObjectTypeCode(objectCode.getFinancialObjectTypeCode());
+        if (ObjectUtils.isNotNull(objectCode)) {
+            explicitEntry.setFinancialObjectTypeCode(objectCode.getFinancialObjectTypeCode());
+        }
 
         if (isEncumbrance) {
             explicitEntry.setFinancialBalanceTypeCode(BALANCE_TYPE_EXTERNAL_ENCUMBRANCE);

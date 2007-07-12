@@ -17,6 +17,7 @@ package org.kuali.module.purap.bo;
 
 import java.math.BigDecimal;
 
+import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.bo.AccountingLine;
 import org.kuali.kfs.bo.SourceAccountingLine;
 
@@ -43,4 +44,8 @@ public interface PurApAccountingLine extends AccountingLine {
 
     public abstract SourceAccountingLine generateSourceAccountingLine();
 
+    public KualiDecimal getAlternateAmount();
+
+    public void setAlternateAmount(KualiDecimal alternateAmount);
+    
 }

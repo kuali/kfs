@@ -24,19 +24,22 @@ import java.util.Set;
 
 import org.kuali.Constants;
 import org.kuali.core.JstlConstants;
+import org.kuali.core.util.KualiDecimal;
 
 /**
  * Holds constants for PURAP.
  */
 public class PurapConstants extends JstlConstants {
 
+    public static final KualiDecimal HUNDRED = new KualiDecimal(100);
+    
     // STANDARD PARAMETER PREFIXES
     private static final String PURAP_PARAM_PREFIX = "PURAP";
     private static final String STANDARD_SEPARATOR = ".";
 
     public static class WorkflowConstants {
         // PARAMETER NAMES
-        
+
         // Global
         public static final String DOC_ADHOC_NODE_NAME = "Adhoc Routing";
 
@@ -47,14 +50,14 @@ public class PurapConstants extends JstlConstants {
 
         public static class RequisitionDocument {
             public static class NodeDetails {
-                // Node Names
+            // Node Names
                 public static final String ADHOC_REVIEW = "Adhoc Routing";
                 public static final String CONTENT_REVIEW = "Content Review";
                 public static final String SUB_ACCOUNT_REVIEW = "Sub Account Review";
                 public static final String ACCOUNT_REVIEW = "Account Review";
                 public static final String ORG_REVIEW = "Org Review";
                 public static final String SEPARAION_OF_DUTIES_REVIEW = "Separation of Duties";
-                
+
                 public static final List ORDERED_NODE_NAME_LIST = Arrays.asList(new String[] {
                         ADHOC_REVIEW,
                         CONTENT_REVIEW,
@@ -78,7 +81,7 @@ public class PurapConstants extends JstlConstants {
                     DISAPPROVAL_STATUS_BY_NODE_NAME.put(ACCOUNT_REVIEW, PurapConstants.RequisitionStatuses.DAPRVD_FISCAL);
                     DISAPPROVAL_STATUS_BY_NODE_NAME.put(ORG_REVIEW, PurapConstants.RequisitionStatuses.DAPRVD_CHART);
                     DISAPPROVAL_STATUS_BY_NODE_NAME.put(SEPARAION_OF_DUTIES_REVIEW, PurapConstants.RequisitionStatuses.DAPRVD_SEP_OF_DUTY);
-                }
+}
             }
             
             public static final String SEPARATION_OF_DUTIES_DOLLAR_AMOUNT = PURAP_PARAM_PREFIX + STANDARD_SEPARATOR + "SEPARATION_OF_DUTIES_DOLLAR_AMOUNT";
@@ -88,6 +91,7 @@ public class PurapConstants extends JstlConstants {
         }
 
         public static class PurchaseOrderDocument {
+
             public static class NodeDetails {
                 public static final String ADHOC_REVIEW = "Adhoc Routing";
                 public static final String INTERNAL_PURCHASING_REVIEW = "Internal Purchasing Review";
@@ -381,11 +385,11 @@ public class PurapConstants extends JstlConstants {
     public static class ItemTypeCodes {
         // ITEM TYPES
         public static String ITEM_TYPE_ITEM_CODE = "ITEM";
+        public static String ITEM_TYPE_SERVICE_CODE = "SRVC";
         public static String ITEM_TYPE_FREIGHT_CODE = "FRHT";
         public static String ITEM_TYPE_SHIP_AND_HAND_CODE = "SPHD";
         public static String ITEM_TYPE_TRADE_IN_CODE = "TRDI";
         public static String ITEM_TYPE_ORDER_DISCOUNT_CODE = "ORDS";
-        public static String ITEM_TYPE_SERVICE_CODE = "SRVC";
         public static String ITEM_TYPE_MIN_ORDER_CODE = "MNOR";
         public static String ITEM_TYPE_MISC_CODE = "MISC";
         public static String ITEM_TYPE_PMT_TERMS_DISCOUNT_CODE = "DISC";
@@ -415,6 +419,7 @@ public class PurapConstants extends JstlConstants {
         public static String PURCHASE_ORDER_REMOVE_HOLD_DOCUMENT = "PurchaseOrderRemoveHoldDocument";
         public static String PURCHASE_ORDER_AMENDMENT_DOCUMENT = "PurchaseOrderAmendmentDocument";
     }
+
 
     private static HashMap<String, String> purchaseOrderDocTypes() {
         HashMap<String, String> mapSLF;
@@ -487,7 +492,7 @@ public class PurapConstants extends JstlConstants {
         public static String IN_PROCESS = "INPR";
         public static String CANCELLED_IN_PROCESS = "VOID";
         public static String DEPARTMENT_APPROVED = "DPTA";
-        public static String AUTO_APPROVED = "AUTO";
+        public static String AUTO_APPROVED = "AUTO";        
         public static String AWAITING_ACCOUNTS_PAYABLE_REVIEW = "AAPA";   // Waiting for Accounts Payable approval
         public static String AWAITING_SUB_ACCT_MGR_REVIEW = "ASAA";   // Waiting for Sub Acct Manager approval
         public static String AWAITING_FISCAL_REVIEW = "AFOA";   // Waiting for Fiscal Officer approval
@@ -597,7 +602,7 @@ public class PurapConstants extends JstlConstants {
     // CREDIT MEMO DOCUMENT
     public static String CREDIT_MEMO_DOCUMENT = "CreditMemoDocument";
     public static String CREDIT_MEMO_DOCUMENT_DOC_TYPE = "CreditMemoDocument";
-    
+
     public static class CreditMemoStatuses {
         public static String INITIATE = "INIT";
         public static String IN_PROCESS = "INPR";
@@ -616,7 +621,7 @@ public class PurapConstants extends JstlConstants {
             STATUSES_NOT_REQUIRING_ENTRY_REVERSAL.add(INITIATE);
             STATUSES_NOT_REQUIRING_ENTRY_REVERSAL.add(IN_PROCESS);
             STATUSES_NOT_REQUIRING_ENTRY_REVERSAL.add(CANCELLED);
-        }
+    }
     }
     
     public static class CMDocumentsStrings {
@@ -656,7 +661,6 @@ public class PurapConstants extends JstlConstants {
         fields.put(PurapPropertyConstants.ACCOUNTS, "");
         return fields;
     }
-    
     /*
      * Fields that shouldn't be copied by our reflective copy method.
      * This should only contain fields that are known throughout objects not
@@ -675,7 +679,15 @@ public class PurapConstants extends JstlConstants {
      */
     public final static HashMap<String,String> PREQ_ITEM_UNCOPYABLE_FIELDS = uncopyablePREQItemFields();
     
-    public final static String PO_DOC_TYPE_CODE = "PO";
     public final static String PURAP_ORIGIN_CODE = "EP";
+
+    public static class PurchaseOrderDocumentTypeCodes {
+        public final static String PO = "PO";
+        public final static String PO_AMENDMENT = "POA";
+        public final static String PO_CLOSE = "POC";
+        public final static String PO_REOPEN = "POR";
+        public final static String PO_VOID = "POV";
+    }
+    
     
 }

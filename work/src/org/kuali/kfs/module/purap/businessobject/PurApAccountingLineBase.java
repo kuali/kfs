@@ -29,6 +29,7 @@ public abstract class PurApAccountingLineBase extends SourceAccountingLine imple
     protected Integer accountIdentifier;
     private Integer itemIdentifier;
     private BigDecimal accountLinePercent;
+    private KualiDecimal alternateAmount; //not stored in DB; needed for disencumbrances and such
 
     public Integer getAccountIdentifier() {
         return accountIdentifier;
@@ -121,5 +122,13 @@ public abstract class PurApAccountingLineBase extends SourceAccountingLine imple
         m.put("orgRefId", getOrganizationReferenceId());
 
         return m;
+    }
+
+    public KualiDecimal getAlternateAmount() {
+        return alternateAmount;
+    }
+
+    public void setAlternateAmount(KualiDecimal alternateAmount) {
+        this.alternateAmount = alternateAmount;
     }
 }

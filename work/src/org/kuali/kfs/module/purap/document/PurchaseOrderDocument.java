@@ -16,7 +16,7 @@
 
 package org.kuali.module.purap.document;
 
-import static org.kuali.kfs.KFSConstants.ZERO;
+import static org.kuali.core.util.KualiDecimal.ZERO;
 
 import java.math.BigDecimal;
 import java.sql.Date;
@@ -42,6 +42,7 @@ import org.kuali.module.purap.PurapConstants.VendorChoice;
 import org.kuali.module.purap.bo.CreditMemoView;
 import org.kuali.module.purap.bo.ItemType;
 import org.kuali.module.purap.bo.PaymentRequestView;
+import org.kuali.module.purap.bo.PurchaseOrderAccount;
 import org.kuali.module.purap.bo.PurchaseOrderItem;
 import org.kuali.module.purap.bo.PurchaseOrderStatusHistory;
 import org.kuali.module.purap.bo.PurchaseOrderVendorChoice;
@@ -129,8 +130,8 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase implements Cop
         return true;
     }
 
+    @Override
     public void customPrepareForSave(KualiDocumentEvent event) {
-
         // Set outstanding encumbered quantity/amount on items
         for (Iterator items = this.getItems().iterator(); items.hasNext();) {
             PurchaseOrderItem item = (PurchaseOrderItem) items.next();
@@ -145,21 +146,46 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase implements Cop
             // Set amount
             item.setItemOutstandingEncumbranceAmount(item.getExtendedPrice() == null ? ZERO : item.getExtendedPrice());
 
-            //TODO check setting of outstanding amount in the accounts in item.prepareToSave()
-            item.prepareToSave();
-        }//endfor
+            //TODO check setting of outstanding amount in the accounts
+            List accounts = (List)item.getSourceAccountingLines();
+//          Collections.sort(accounts);
 
+            KualiDecimal accountTotalAmount = new KualiDecimal(0);
+            PurchaseOrderAccount lastAccount = null;
+
+            for (Iterator iterator = accounts.iterator(); iterator.hasNext();) {
+                PurchaseOrderAccount account = (PurchaseOrderAccount) iterator.next();
+
+                if (!account.isEmpty()) {
+                    KualiDecimal acctAmount = item.getExtendedPrice().multiply(new KualiDecimal(account.getAccountLinePercent().toString()));
+                    // acctAmount = acctAmount.divide(new KualiDecimal(100), 2, BigDecimal.ROUND_HALF_UP);
+                    acctAmount = acctAmount.divide(new KualiDecimal(100));
+                    account.setAmount(acctAmount);
+                    account.setItemAccountOutstandingEncumbranceAmount(acctAmount);
+                    LOG.debug("getDisplayItems() account amount = " + account.getAmount());
+
+                    accountTotalAmount = accountTotalAmount.add(acctAmount);
+                    lastAccount = (PurchaseOrderAccount) ObjectUtils.deepCopy(account);
+                }
+            }//endfor accounts
+
+          // Rounding
+//          if (lastAccount != null && this.getAmount() != null) {
+//              KualiDecimal difference = this.getAmount().subtract(accountTotalAmount);
+//              KualiDecimal tempAmount = lastAccount.getAmount();
+//              lastAccount.setAmount(tempAmount.add(difference));
+//          }
+        }//endfor items
+
+        this.setSourceAccountingLines(SpringServiceLocator.getPurapAccountingService().generateSummaryWithNoZeroTotals(this.getItems()));
     }//end customPrepareForSave()
     
     @Override
     public void prepareForSave(KualiDocumentEvent event) {
-        customPrepareForSave(event);
         if (ObjectUtils.isNull(getPurapDocumentIdentifier())) {
             //need to save to generate PO id to save in GL entries
             SpringServiceLocator.getPurchaseOrderService().save(this);
         }
-        this.refreshNonUpdateableReferences();
-        this.setSourceAccountingLines(SpringServiceLocator.getPurapAccountingService().generateSummaryWithNoZeroTotals(this.getItems()));
         super.prepareForSave(event);
     }
 
@@ -299,7 +325,7 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase implements Cop
         }
         return returnList;
     }
-    
+
     // SETTERS AND GETTERS
     public Integer getAlternateVendorDetailAssignedIdentifier() {
         return alternateVendorDetailAssignedIdentifier;
@@ -837,8 +863,7 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase implements Cop
      */
     public String getContractManagerName() {
         return "";
-    }
-
+}
     /**
      * USED FOR ROUTING ONLY
      * @deprecated

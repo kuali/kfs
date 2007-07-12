@@ -36,6 +36,7 @@ public interface PurapAccountingService {
 
     public List<SourceAccountingLine> generateSummary(List<PurchasingApItem> items);
     public List<SourceAccountingLine> generateSummaryWithNoZeroTotals(List<PurchasingApItem> items);
+    public List<SourceAccountingLine> generateSummaryWithNoZeroTotalsUsingAlternateAmount(List<PurchasingApItem> items);
     public List<SourceAccountingLine> generateSummaryExcludeItemTypes(List<PurchasingApItem> items, Set excludedItemTypeCodes);
     public List<SourceAccountingLine> generateSummaryExcludeItemTypesAndNoZeroTotals(List<PurchasingApItem> items, Set excludedItemTypeCodes);
     public List<SourceAccountingLine> generateSummaryIncludeItemTypes(List<PurchasingApItem> items, Set includedItemTypeCodes);

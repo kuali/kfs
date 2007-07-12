@@ -86,56 +86,32 @@ public class PaymentRequestAction extends AccountsPayableActionBase {
 
         PaymentRequestForm preqForm = (PaymentRequestForm) form;
         PaymentRequestDocument paymentRequestDocument = (PaymentRequestDocument) preqForm.getDocument();
-        Map editMode = preqForm.getEditingMode();
-        
-        Object question = request.getParameter(KFSConstants.QUESTION_INST_ATTRIBUTE_NAME);
-       
-        KualiConfigurationService kualiConfiguration = SpringServiceLocator.getKualiConfigurationService();     
-        PaymentRequestService paymentRequestService = SpringServiceLocator.getPaymentRequestService();
-        
-        
-        if (ObjectUtils.isNotNull(paymentRequestDocument.getPurchaseOrderIdentifier())) {
-            HashMap<String, String> duplicateMessages = paymentRequestService.paymentRequestDuplicateMessages(paymentRequestDocument);
-            
-            if (!duplicateMessages.isEmpty()){
-      
-                if (question == null) {
-                  // ask question if not already asked
-                  return this.performQuestionWithoutInput(mapping, form, request, response, PREQDocumentsStrings.DUPLICATE_INVOICE_QUESTION, duplicateMessages.get(PREQDocumentsStrings.DUPLICATE_INVOICE_QUESTION) , KFSConstants.CONFIRMATION_QUESTION, KFSConstants.ROUTE_METHOD, "");
-    
-                } 
-                
-                Object buttonClicked = request.getParameter(KFSConstants.QUESTION_CLICKED_BUTTON);
-               
-                if ((PREQDocumentsStrings.DUPLICATE_INVOICE_QUESTION.equals(question)) && ConfirmationQuestion.NO.equals(buttonClicked)) {
-                    
-                    // if no button clicked just reload the doc in the INITIATE status and let the user to change the input values
-                   
-                    paymentRequestDocument.setStatusCode(PurapConstants.PaymentRequestStatuses.INITIATE);
-                    //editMode.put(PurapAuthorizationConstants.PaymentRequestEditMode.DISPLAY_INIT_TAB, "TRUE");
-                    return mapping.findForward(KFSConstants.MAPPING_BASIC);
-                 }
-            }
+
+        // preform duplicate check which will forward to a question prompt if one is found
+        ActionForward forward = performDuplicatePaymentRequestCheck(mapping, form, request, response, paymentRequestDocument);
+        if (forward != null) {
+            return forward;
         }
-        
-        // If we are here either there was no duplicate or there was a duplicate and the user hits continue, in either case we need to validate the business rules
-        paymentRequestDocument.getDocumentHeader().setFinancialDocumentDescription("dummy data to pass the business rule");
-        boolean rulePassed = SpringServiceLocator.getKualiRuleService().applyRules(new ContinueAccountsPayableEvent(paymentRequestDocument));        
-        
-        if (rulePassed) {           
+
+        // If we are here either there was no duplicate or there was a duplicate and the user hits continue, in either case we need
+        // to validate the business rules
+        /// paymentRequestDocument.getDocumentHeader().setFinancialDocumentDescription("dummy data to pass the business rule");
+        boolean rulePassed = SpringServiceLocator.getKualiRuleService().applyRules(new ContinueAccountsPayableEvent(paymentRequestDocument));
+
+        if (rulePassed) {
             paymentRequestDocument.setStatusCode(PurapConstants.PaymentRequestStatuses.IN_PROCESS);
             SpringServiceLocator.getPaymentRequestService().populatePaymentRequest(paymentRequestDocument);
-            //TODO: can we save the payment request here?!
+           /// SpringServiceLocator.getPaymentRequestService().save(paymentRequestDocument);
             
-            paymentRequestDocument.refreshAllReferences();
-        } else {
+        }
+        else {
             paymentRequestDocument.setStatusCode(PurapConstants.PaymentRequestStatuses.INITIATE);
         }
-        
 
+        paymentRequestDocument.refreshAllReferences();
         
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
-                
+
     }
     
     public ActionForward clearInitFields(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -146,9 +122,35 @@ public class PaymentRequestAction extends AccountsPayableActionBase {
         paymentRequestDocument.clearInitFields();
 
         return super.refresh(mapping, form, request, response);
-        //return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
+    
+    
+    /**
+     * Calls PaymentRequestService to perform the duplicate payment request check. If one is found, a question is setup and control is
+     * forwarded to the question action method. Coming back from the question prompt the button that was clicked is checked and if
+     * 'no' was selected they are forward back to the page still in init mode.
+     */
+    private ActionForward performDuplicatePaymentRequestCheck(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response, PaymentRequestDocument paymentRequestDocument) throws Exception {
+        ActionForward forward = null;
+        HashMap<String, String> duplicateMessages = SpringServiceLocator.getPaymentRequestService().paymentRequestDuplicateMessages(paymentRequestDocument);
+        if (!duplicateMessages.isEmpty()){
+            Object question = request.getParameter(KFSConstants.QUESTION_INST_ATTRIBUTE_NAME);
+            if (question == null) {
+                return this.performQuestionWithoutInput(mapping, form, request, response, PREQDocumentsStrings.DUPLICATE_INVOICE_QUESTION, duplicateMessages.get(PREQDocumentsStrings.DUPLICATE_INVOICE_QUESTION) , KFSConstants.CONFIRMATION_QUESTION, KFSConstants.ROUTE_METHOD, "");
+            }
 
+            Object buttonClicked = request.getParameter(KFSConstants.QUESTION_CLICKED_BUTTON);
+            if ((PurapConstants.PREQDocumentsStrings.DUPLICATE_INVOICE_QUESTION.equals(question)) && ConfirmationQuestion.NO.equals(buttonClicked)) {
+                paymentRequestDocument.setStatusCode(PurapConstants.PaymentRequestStatuses.INITIATE);
+                forward = mapping.findForward(KFSConstants.MAPPING_BASIC);
+            }
+        }
+
+        return forward;
+    }
+    
+    
+    
     /**
      * The execute method is being overriden to reevaluate on each call 
      * which extra buttons to display.
@@ -162,7 +164,6 @@ public class PaymentRequestAction extends AccountsPayableActionBase {
                 
         //generate the extra buttons
         PaymentRequestForm preqForm = (PaymentRequestForm) form;
-        preqForm.showButtons();
         PaymentRequestDocument preq = preqForm.getPaymentRequestDocument();
 
         //We have to do this because otherwise the paymentrequest on the item is null

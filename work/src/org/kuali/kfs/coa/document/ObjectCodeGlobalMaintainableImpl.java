@@ -58,26 +58,26 @@ public class ObjectCodeGlobalMaintainableImpl extends KualiGlobalMaintainableImp
         
         super.refresh(refreshCaller, fieldValues, document);
     }
+//
+//    @Override
+//    protected List<String> getMultiValueIdentifierList(Collection maintCollection) {
+//        List<String> identifierList = new ArrayList<String>();
+//        for (ObjectCodeGlobalDetail bo : (Collection<ObjectCodeGlobalDetail>)maintCollection) {
+//            identifierList.add(bo.getChartOfAccountsCode());
+//        }
+//        return identifierList;
+//    }
 
-    @Override
-    protected List<String> getMultiValueIdentifierList(Collection maintCollection) {
-        List<String> identifierList = new ArrayList<String>();
-        for (ObjectCodeGlobalDetail bo : (Collection<ObjectCodeGlobalDetail>)maintCollection) {
-            identifierList.add(bo.getChartOfAccountsCode());
-        }
-        return identifierList;
-    }
-
-    @Override
-    protected boolean hasBusinessObjectExistedInLookupResult(BusinessObject bo, List<String> existingIdentifierList) {
-        // default implementation does nothing
-        if (existingIdentifierList.contains(((ObjectCodeGlobalDetail)bo).getChartOfAccountsCode())) {
-            return true; 
-        }
-        else {
-            return false;
-        }
-    } 
+//    @Override
+//    protected boolean hasBusinessObjectExistedInLookupResult(BusinessObject bo, List<String> existingIdentifierList) {
+//        // default implementation does nothing
+//        if (existingIdentifierList.contains(((ObjectCodeGlobalDetail)bo).getChartOfAccountsCode())) {
+//            return true; 
+//        }
+//        else {
+//            return false;
+//        }
+//    } 
     
     /**
      * This method does special-case handling for Globals, filling out various fields that need to be filled, etc.

@@ -76,6 +76,9 @@
                             <summaryField name="accountDelegatePrimaryRoutingIndicator" />
                             <summaryField name="accountDelegate.personUserIdentifier" />
                         </summaryFields>
+                        <duplicateIdentificationFields>
+                            <duplicateIdentificationField name="accountDelegate.personUserIdentifier"/>
+                        </duplicateIdentificationFields>   
                     </maintainableCollection>
 	            </maintainableItems>
             </maintainableSection>
@@ -93,6 +96,10 @@
                             <summaryField name="accountNumber" />
                             <summaryField name="account.accountName" />
                         </summaryFields>
+                        <duplicateIdentificationFields>
+                            <duplicateIdentificationField name="chartOfAccountsCode"/>
+                            <duplicateIdentificationField name="accountNumber"/>
+                        </duplicateIdentificationFields>                          
                     </maintainableCollection>
                 </maintainableItems>
             </maintainableSection>

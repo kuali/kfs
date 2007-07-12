@@ -54,25 +54,4 @@ public class AccountGlobalMaintainableImpl extends KualiGlobalMaintainableImpl {
         }
         return maintenanceLocks;
     }
-    
-    @Override
-    protected List<String> getMultiValueIdentifierList(Collection maintCollection) {
-        List<String> identifierList = new ArrayList<String>();
-        for (AccountGlobalDetail bo : (Collection<AccountGlobalDetail>)maintCollection) {
-            identifierList.add(bo.getChartOfAccountsCode() + "-" + bo.getAccountNumber());
-        }
-        return identifierList;
-    }
-
-    @Override
-    protected boolean hasBusinessObjectExistedInLookupResult(BusinessObject bo, List<String> existingIdentifierList) {
-        // default implementation does nothing
-        AccountGlobalDetail acct = (AccountGlobalDetail)bo;
-        if (existingIdentifierList.contains(acct.getChartOfAccountsCode() + "-" + acct.getAccountNumber())) {
-            return true; 
-        }
-        else {
-            return false;
-        }
-    } 
 }

@@ -120,7 +120,11 @@ public class ObjectCodeGlobalRule extends MaintenanceDocumentRuleBase {
                 GlobalVariables.getErrorMap().putError( "universityFiscalYear", KFSKeyConstants.ERROR_REQUIRED, "University Fiscal Year");
                 success &= false;
             }
-            //both keys are present go ahead and proces the rest of the rules
+            if (!checkUniqueIdentifiers(detail)) {
+                // TODO: put an error about unique identifier fields must not exist more than once.
+                success &= false;
+            }
+            //both keys are present and satisfy the unique identifiers requirement, go ahead and proces the rest of the rules
             if(success) {
                 success &= checkObjectCodeDetails(detail);
             }
@@ -129,6 +133,11 @@ public class ObjectCodeGlobalRule extends MaintenanceDocumentRuleBase {
         return success;
     }
     
+    private boolean checkUniqueIdentifiers(ObjectCodeGlobalDetail dtl) {
+        boolean success = true;
+        return success;
+        
+    }
     public boolean checkObjectCodeDetails( ObjectCodeGlobalDetail dtl ) {
         boolean success = true;
         int originalErrorCount = GlobalVariables.getErrorMap().getErrorCount();

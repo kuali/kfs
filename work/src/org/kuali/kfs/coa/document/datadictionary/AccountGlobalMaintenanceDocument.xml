@@ -110,6 +110,10 @@
                             <summaryField name="accountNumber" />
                             <summaryField name="account.accountName" />
                         </summaryFields>
+                        <duplicateIdentificationFields>
+                            <duplicateIdentificationField name="chartOfAccountsCode"/>
+                            <duplicateIdentificationField name="accountNumber"/>
+                        </duplicateIdentificationFields>       
                     </maintainableCollection>
                 </maintainableItems>
             </maintainableSection>

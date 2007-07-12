@@ -90,6 +90,9 @@
                             <summaryField name="universityFiscalYear" />
                             <summaryField name="chartOfAccountsCode" />
                         </summaryFields>
+                        <duplicateIdentificationFields>
+                            <duplicateIdentificationField name="chartOfAccountsCode"/>
+                        </duplicateIdentificationFields>                        
                     </maintainableCollection>
                 </maintainableItems>
             </maintainableSection>

@@ -80,6 +80,9 @@
                         <summaryFields>
                             <summaryField name="financialObjectCode" />
                         </summaryFields>
+                        <duplicateIdentificationFields>
+                            <duplicateIdentificationField name="chartOfAccountsCode"/>
+                        </duplicateIdentificationFields>                             
                     </maintainableCollection>
             	  </maintainableItems>
             </maintainableSection>
@@ -95,6 +98,10 @@
                             <summaryField name="accountNumber" />
                             <summaryField name="account.accountName" />
                         </summaryFields>
+                        <duplicateIdentificationFields>
+                            <duplicateIdentificationField name="chartOfAccountsCode"/>
+                            <duplicateIdentificationField name="accountNumber"/>
+                        </duplicateIdentificationFields>                             
                     </maintainableCollection>
             	  </maintainableItems>
             </maintainableSection>

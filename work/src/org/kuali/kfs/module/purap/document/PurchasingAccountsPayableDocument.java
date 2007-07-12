@@ -130,4 +130,6 @@ public interface PurchasingAccountsPayableDocument extends AccountingDocument {
     
     public void refreshAllReferences();
     
+    public PurchasingAccountsPayableDocument getPurApSourceDocumentIfPossible();
+    
 }

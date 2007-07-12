@@ -17,13 +17,21 @@ package org.kuali.module.purap.document;
 
 import java.sql.Date;
 import java.util.List;
+import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.core.bo.Campus;
 import org.kuali.core.bo.Note;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.exceptions.UserNotFoundException;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.module.purap.PurapConstants;
+
+import edu.iu.uis.eden.EdenConstants;
+import edu.iu.uis.eden.clientapp.vo.DocumentRouteLevelChangeVO;
+import edu.iu.uis.eden.clientapp.vo.ReportCriteriaVO;
+import edu.iu.uis.eden.exception.WorkflowException;
 
 
 /**
@@ -79,7 +87,7 @@ public abstract class AccountsPayableDocumentBase extends PurchasingAccountsPaya
         if (ObjectUtils.isNotNull(boNotes)) {
             for (Object obj : boNotes) {
                 Note note = (Note) obj;
-                if (note.getAttachment() != null) {
+                if (ObjectUtils.isNotNull(note.getAttachment())) {
                     return false;
                 }
             }
@@ -87,6 +95,54 @@ public abstract class AccountsPayableDocumentBase extends PurchasingAccountsPaya
         return true;
     }
     
+    /**
+     * @see org.kuali.core.document.DocumentBase#handleRouteLevelChange(edu.iu.uis.eden.clientapp.vo.DocumentRouteLevelChangeVO)
+     */
+    @Override
+    public void handleRouteLevelChange(DocumentRouteLevelChangeVO levelChangeEvent) {
+        LOG.debug("handleRouteLevelChange() started");
+        super.handleRouteLevelChange(levelChangeEvent);
+        try {
+            String newNodeName = levelChangeEvent.getNewNodeName();
+            if (StringUtils.isNotBlank(newNodeName)) {
+                List orderedNodeNameList = getNodeDetailsOrderedNodeNameList();
+                preProcessNodeChange(newNodeName, levelChangeEvent.getOldNodeName());
+                ReportCriteriaVO reportCriteriaVO = new ReportCriteriaVO(Long.valueOf(getDocumentNumber()));
+                int indexOfNode = orderedNodeNameList.indexOf(newNodeName);
+                int indexOfNextNode = indexOfNode + 1;
+                if ( (indexOfNode != -1) && (indexOfNextNode < orderedNodeNameList.size()) ) {
+                    // we can find a valid next node name
+                    String nextNodeName = (String)orderedNodeNameList.get(indexOfNextNode);
+                    reportCriteriaVO.setTargetNodeName(nextNodeName);
+                    if (SpringServiceLocator.getWorkflowInfoService().documentWillHaveAtLeastOneActionRequest(
+                            reportCriteriaVO, new String[]{EdenConstants.ACTION_REQUEST_APPROVE_REQ,EdenConstants.ACTION_REQUEST_COMPLETE_REQ})) {
+                        String statusCode = getNodeDetailsStatusByNodeNameMap().get(nextNodeName);
+                        if (StringUtils.isNotBlank(statusCode)) {
+                            SpringServiceLocator.getPurapService().updateStatusAndStatusHistory(this, statusCode);
+                            populateDocumentForRouting();
+                            saveDocumentFromPostProcessing();
+                        }
+                    } else {
+                        if (LOG.isDebugEnabled()) {
+                            LOG.debug("Document with id " + getDocumentNumber() + " will not stop in route node '" + nextNodeName + "'");
+                        }
+                    }
+                }
+            }
+        }
+        catch (WorkflowException e) {
+            logAndThrowRuntimeException("Error getting node names for document with id " + getDocumentNumber(), e);
+        }
+    }
+    
+    public abstract void preProcessNodeChange(String newNodeName, String oldNodeName);
+    
+    public abstract List<String> getNodeDetailsOrderedNodeNameList();
+    
+    public abstract Map<String, String> getNodeDetailsStatusByNodeNameMap();
+    
+    public abstract void saveDocumentFromPostProcessing();
+
     // GETTERS AND SETTERS    
     public Integer getPurchaseOrderIdentifier() {
         return purchaseOrderIdentifier;
@@ -189,10 +245,15 @@ public abstract class AccountsPayableDocumentBase extends PurchasingAccountsPaya
     }
 
     public PurchaseOrderDocument getPurchaseOrderDocument() {
-        if(purchaseOrderDocument==null && this.getPurchaseOrderIdentifier()!=null) {
-            purchaseOrderDocument = SpringServiceLocator.getPurchaseOrderService().getCurrentPurchaseOrder(this.getPurchaseOrderIdentifier());
+        if ( (ObjectUtils.isNull(purchaseOrderDocument)) && (ObjectUtils.isNotNull(getPurchaseOrderIdentifier())) ) {
+            setPurchaseOrderDocument(SpringServiceLocator.getPurchaseOrderService().getCurrentPurchaseOrder(this.getPurchaseOrderIdentifier()));
         }
         return purchaseOrderDocument;
+    }
+    
+    public void setPurchaseOrderDocument(PurchaseOrderDocument purchaseOrderDocument) {
+        this.purchaseOrderIdentifier = purchaseOrderDocument.getPurapDocumentIdentifier();
+        this.purchaseOrderDocument = purchaseOrderDocument;
     }
 
     //Helper methods

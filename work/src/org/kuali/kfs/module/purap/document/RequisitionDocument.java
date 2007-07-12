@@ -557,6 +557,16 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
     public Class getItemClass() {
         return RequisitionItem.class;
     }
+    
+    /**
+     * METHOD WILL RETURN NULL AS REQUISITION HAS NO SOURCE DOCUMENT
+     * 
+     * @see org.kuali.module.purap.document.PurchasingAccountsPayableDocumentBase#getPurApSourceDocumentIfPossible()
+     */
+    @Override
+    public PurchasingAccountsPayableDocument getPurApSourceDocumentIfPossible() {
+        return null;
+    }
 
     /**
      * @see org.kuali.module.purap.document.PurchasingAccountsPayableDocumentBase#getSourceAccountingLineClass()

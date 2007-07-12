@@ -45,6 +45,7 @@ import org.kuali.module.purap.dao.CreditMemoDao;
 import org.kuali.module.purap.document.CreditMemoDocument;
 import org.kuali.module.purap.document.PaymentRequestDocument;
 import org.kuali.module.purap.document.PurchaseOrderDocument;
+import org.kuali.module.purap.document.PurchasingAccountsPayableDocument;
 import org.kuali.module.purap.service.CreditMemoService;
 import org.kuali.module.purap.service.GeneralLedgerService;
 import org.kuali.module.purap.service.PaymentRequestService;
@@ -81,18 +82,22 @@ public class CreditMemoServiceImpl implements CreditMemoService {
 
         String vendorNumber = cmDocument.getVendorNumber();
         if (StringUtils.isEmpty(vendorNumber)) {
-            if (StringUtils.equals(cmDocument.getCreditMemoType(), CREDIT_MEMO_TYPES.TYPE_PREQ)) {
-                PaymentRequestDocument paymentRequestDocument = paymentRequestService.getPaymentRequestById(cmDocument.getPaymentRequestIdentifier());
-                if (paymentRequestDocument != null) {
-                    vendorNumber = paymentRequestDocument.getVendorNumber();
-                }
+            PurchasingAccountsPayableDocument sourceDocument = cmDocument.getPurApSourceDocumentIfPossible();
+            if (ObjectUtils.isNotNull(sourceDocument)) {
+                vendorNumber = sourceDocument.getVendorNumber();
             }
-            else {
-                PurchaseOrderDocument purchaseOrderDocument = purchaseOrderService.getCurrentPurchaseOrder(cmDocument.getPurchaseOrderIdentifier());
-                if (purchaseOrderDocument != null) {
-                    vendorNumber = purchaseOrderDocument.getVendorNumber();
-                }
-            }
+//            if (StringUtils.equals(cmDocument.getCreditMemoType(), CREDIT_MEMO_TYPES.TYPE_PREQ)) {
+//                PaymentRequestDocument paymentRequestDocument = paymentRequestService.getPaymentRequestById(cmDocument.getPaymentRequestIdentifier());
+//                if (paymentRequestDocument != null) {
+//                    vendorNumber = paymentRequestDocument.getVendorNumber();
+//                }
+//            }
+//            else {
+//                PurchaseOrderDocument purchaseOrderDocument = purchaseOrderService.getCurrentPurchaseOrder(cmDocument.getPurchaseOrderIdentifier());
+//                if (purchaseOrderDocument != null) {
+//                    vendorNumber = purchaseOrderDocument.getVendorNumber();
+//                }
+//            }
         }
 
         if (StringUtils.isNotEmpty(vendorNumber)) {
@@ -205,19 +210,22 @@ public class CreditMemoServiceImpl implements CreditMemoService {
 //        cmDocument.setAccountsPayableApprovalDate(dateTimeService.getCurrentSqlDate());
         save(cmDocument);
 
+        // TODO CHRIS/DELYEA - THIS SHOULD HAPPEN WITH GL AND PERCENT CONVERT AT 'Leaving AP Review Level'
         // reopen PO if closed
-        PurchaseOrderDocument purchaseOrderDocument = null;
-        if (StringUtils.equals(cmDocument.getCreditMemoType(), CREDIT_MEMO_TYPES.TYPE_PREQ)) {
+        Integer purchaseOrderDocumentId = cmDocument.getPurchaseOrderIdentifier();
+        if (ObjectUtils.isNull(purchaseOrderDocumentId)) {
             PaymentRequestDocument paymentRequestDocument = paymentRequestService.getPaymentRequestById(cmDocument.getPaymentRequestIdentifier());
-            purchaseOrderDocument = paymentRequestDocument.getPurchaseOrderDocument();
+            purchaseOrderDocumentId = paymentRequestDocument.getPurchaseOrderIdentifier();
         }
-
-        if (StringUtils.equals(cmDocument.getCreditMemoType(), CREDIT_MEMO_TYPES.TYPE_PO)) {
-            purchaseOrderDocument = purchaseOrderService.getCurrentPurchaseOrder(cmDocument.getPurchaseOrderIdentifier());
-        }
-
-        if (purchaseOrderDocument != null && PurapConstants.PurchaseOrderStatuses.CLOSED.equals(purchaseOrderDocument.getStatusCode())) {
-           // TODO: call reopen purchasing order service method when avaliable
+        // if we found a valid po id number then check it for reopening
+        if (ObjectUtils.isNotNull(purchaseOrderDocumentId)) {
+            PurchaseOrderDocument purchaseOrderDocument = purchaseOrderService.getCurrentPurchaseOrder(purchaseOrderDocumentId);
+            // only reopen if the po is not null, it does not have a pending change already scheduled, and it is in closed status
+            if (ObjectUtils.isNotNull(purchaseOrderDocument) &&
+                (!purchaseOrderDocument.isPendingActionIndicator()) &&
+                PurapConstants.PurchaseOrderStatuses.CLOSED.equals(purchaseOrderDocument.getStatusCode())) {
+                // TODO: call reopen purchasing order service method when avaliable
+             }
         }
     }
 

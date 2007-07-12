@@ -20,6 +20,7 @@ import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.bo.Note;
@@ -54,8 +55,7 @@ public class CreditMemoDocument extends AccountsPayableDocumentBase {
     private String itemMiscellaneousCreditDescription;
     private Date purchaseOrderEndDate;
 
-    private PurchaseOrderDocument purchaseOrder;
-    private PaymentRequestDocument paymentRequest;
+    private PaymentRequestDocument paymentRequestDocument;
 
     private boolean unmatchedOverride; // not persisted
 
@@ -179,44 +179,33 @@ public class CreditMemoDocument extends AccountsPayableDocumentBase {
     }
     
     /**
-     * @see org.kuali.core.document.DocumentBase#handleRouteLevelChange(edu.iu.uis.eden.clientapp.vo.DocumentRouteLevelChangeVO)
+     * @see org.kuali.module.purap.document.AccountsPayableDocumentBase#preProcessNodeChange(java.lang.String, java.lang.String)
      */
-    @Override
-    public void handleRouteLevelChange(DocumentRouteLevelChangeVO levelChangeEvent) {
-        LOG.debug("handleRouteLevelChange() started");
-        super.handleRouteLevelChange(levelChangeEvent);
-        try {
-            String newNodeName = levelChangeEvent.getNewNodeName();
-            if (StringUtils.isNotBlank(newNodeName)) {
-                if (PurapConstants.WorkflowConstants.CreditMemoDocument.NodeDetails.ACCOUNTS_PAYABLE_REVIEW.equals(levelChangeEvent.getOldNodeName())) {
-                    setAccountsPayableApprovalDate(SpringServiceLocator.getDateTimeService().getCurrentSqlDate());
-                }
-                ReportCriteriaVO reportCriteriaVO = new ReportCriteriaVO(Long.valueOf(getDocumentNumber()));
-                int indexOfNode = PurapConstants.WorkflowConstants.CreditMemoDocument.NodeDetails.ORDERED_NODE_NAME_LIST.indexOf(newNodeName);
-                int indexOfNextNode = indexOfNode + 1;
-                if ( (indexOfNode != -1) && (indexOfNextNode < PurapConstants.WorkflowConstants.CreditMemoDocument.NodeDetails.ORDERED_NODE_NAME_LIST.size()) ) {
-                    // we can find a valid next node name
-                    String nextNodeName = (String)PurapConstants.WorkflowConstants.CreditMemoDocument.NodeDetails.ORDERED_NODE_NAME_LIST.get(indexOfNextNode);
-                    reportCriteriaVO.setTargetNodeName(nextNodeName);
-                    if (SpringServiceLocator.getWorkflowInfoService().documentWillHaveAtLeastOneActionRequest(
-                            reportCriteriaVO, new String[]{EdenConstants.ACTION_REQUEST_APPROVE_REQ,EdenConstants.ACTION_REQUEST_COMPLETE_REQ})) {
-                        String statusCode = PurapConstants.WorkflowConstants.CreditMemoDocument.NodeDetails.STATUS_BY_NODE_NAME.get(nextNodeName);
-                        if (StringUtils.isNotBlank(statusCode)) {
-                            SpringServiceLocator.getPurapService().updateStatusAndStatusHistory(this, statusCode);
-                            populateDocumentForRouting();
-                            SpringServiceLocator.getCreditMemoService().save(this);
-                        }
-                    } else {
-                        if (LOG.isDebugEnabled()) {
-                            LOG.debug("Document with id " + getDocumentNumber() + " will not stop in route node '" + nextNodeName + "'");
-                        }
-                    }
-                }
-            }
+    public void preProcessNodeChange(String newNodeName, String oldNodeName) {
+        if (PurapConstants.WorkflowConstants.CreditMemoDocument.NodeDetails.ACCOUNTS_PAYABLE_REVIEW.equals(oldNodeName)) {
+            setAccountsPayableApprovalDate(SpringServiceLocator.getDateTimeService().getCurrentSqlDate());
         }
-        catch (WorkflowException e) {
-            logAndThrowRuntimeException("Error getting node names for document with id " + getDocumentNumber(), e);
-        }
+    }
+    
+    /**
+     * @see org.kuali.module.purap.document.AccountsPayableDocumentBase#getNodeDetailsOrderedNodeNameList()
+     */
+    public List<String> getNodeDetailsOrderedNodeNameList() {
+        return PurapConstants.WorkflowConstants.CreditMemoDocument.NodeDetails.ORDERED_NODE_NAME_LIST;
+    }
+    
+    /**
+     * @see org.kuali.module.purap.document.AccountsPayableDocumentBase#getNodeDetailsStatusByNodeNameMap()
+     */
+    public Map<String, String> getNodeDetailsStatusByNodeNameMap() {
+        return PurapConstants.WorkflowConstants.CreditMemoDocument.NodeDetails.STATUS_BY_NODE_NAME;
+    }
+    
+    /**
+     * @see org.kuali.module.purap.document.AccountsPayableDocumentBase#saveDocumentFromPostProcessing()
+     */
+    public void saveDocumentFromPostProcessing() {
+        SpringServiceLocator.getCreditMemoService().save(this);
     }
 
     /**
@@ -235,6 +224,20 @@ public class CreditMemoDocument extends AccountsPayableDocumentBase {
     @Override
     public Class<CreditMemoItem> getItemClass() {
         return CreditMemoItem.class;
+    }
+
+    /**
+     * @see org.kuali.module.purap.document.PurchasingAccountsPayableDocumentBase#getPurApSourceDocumentIfPossible()
+     */
+    @Override
+    public PurchasingAccountsPayableDocument getPurApSourceDocumentIfPossible() {
+        PurchasingAccountsPayableDocument sourceDocument = null;
+        if (StringUtils.equals(getCreditMemoType(), CREDIT_MEMO_TYPES.TYPE_PREQ)) {
+            sourceDocument = getPaymentRequestDocument();
+        } else if (StringUtils.equals(getCreditMemoType(), CREDIT_MEMO_TYPES.TYPE_PO)) {
+            sourceDocument = getPurchaseOrderDocument();
+        }
+        return sourceDocument;
     }
 
     /**
@@ -393,42 +396,48 @@ public class CreditMemoDocument extends AccountsPayableDocumentBase {
         this.creditMemoPaidTimestamp = creditMemoPaidTimestamp;
     }
 
+    public PaymentRequestDocument getPaymentRequestDocument() {
+        if ( (ObjectUtils.isNull(paymentRequestDocument)) && (ObjectUtils.isNotNull(getPaymentRequestIdentifier())) ) {
+            setPaymentRequestDocument(SpringServiceLocator.getPaymentRequestService().getPaymentRequestById(getPaymentRequestIdentifier()));
+        }
+        return this.paymentRequestDocument;
+    }
+    
+    public void setPaymentRequestDocument(PaymentRequestDocument paymentRequestDocument) {
+        setPaymentRequestIdentifier(paymentRequestDocument.getPurapDocumentIdentifier());
+        this.paymentRequestDocument = paymentRequestDocument;
+    }
 
     /**
-     * Gets the paymentRequest attribute.
-     * 
-     * @return Returns the paymentRequest
+     * AS A REPLACEMENT USE getPaymentRequestDocument()
+     * @deprecated
      */
     public PaymentRequestDocument getPaymentRequest() {
-        return paymentRequest;
+        return getPaymentRequestDocument();
     }
 
     /**
-     * Sets the paymentRequest attribute value.
-     * 
-     * @param paymentRequest The paymentRequest to set.
+     * AS A REPLACEMENT USE setPaymentRequestDocument(PaymentRequestDocument)
+     * @deprecated 
      */
     public void setPaymentRequest(PaymentRequestDocument paymentRequest) {
-        this.paymentRequest = paymentRequest;
+        setPaymentRequestDocument(paymentRequest);
     }
 
     /**
-     * Gets the purchaseOrder attribute.
-     * 
-     * @return Returns the purchaseOrder.
+     * AS A REPLACEMENT USE getPurchaseOrderDocument()
+     * @deprecated
      */
     public PurchaseOrderDocument getPurchaseOrder() {
-        return purchaseOrder;
+        return getPurchaseOrderDocument();
     }
 
     /**
-     * Sets the purchaseOrder attribute value.
-     * 
-     * @param purchaseOrder The purchaseOrder to set.
+     * AS A REPLACEMENT USE setPurchaseOrderDocument(PurchaseOrderDocument)
+     * @deprecated
      */
     public void setPurchaseOrder(PurchaseOrderDocument purchaseOrder) {
-        this.purchaseOrder = purchaseOrder;
-        this.setPurchaseOrderIdentifier(purchaseOrder.getPurapDocumentIdentifier());
+        setPurchaseOrderDocument(purchaseOrder);
     }
 
     /**

@@ -94,6 +94,7 @@ public class PurchaseOrderDocSearchGenerator extends PurApDocumentSearchGenerato
             // if we've previous found the criteria object for incomplete or if we find it now... exclude the statuses in criteria
             if (usingIncompleteStatusCriteria || 
                 isIncompleteStatusBeingUsed(getSearchableAttributeByFieldName(KualiPurchaseOrderIncompleteStatusesAttribute.FIELD_DEF_NAME))) {
+                // found the incomplete status checkbox value so ignore the status code search attribute entry
                 return new QueryComponent();
             }
         }

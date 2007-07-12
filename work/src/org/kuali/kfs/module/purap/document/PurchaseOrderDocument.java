@@ -754,9 +754,20 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase implements Cop
      */
     @Override
     public Class getItemClass() {
-        // TODO Auto-generated method stub
         return PurchaseOrderItem.class;
-}
+    }
+
+    /**
+     * @see org.kuali.module.purap.document.PurchasingAccountsPayableDocumentBase#getPurApSourceDocumentIfPossible()
+     */
+    @Override
+    public RequisitionDocument getPurApSourceDocumentIfPossible() {
+        RequisitionDocument sourceDoc = null;
+        if (ObjectUtils.isNotNull(getRequisitionIdentifier())) {
+            sourceDoc = SpringServiceLocator.getRequisitionService().getRequisitionById(getRequisitionIdentifier());
+        }
+        return sourceDoc;
+    }
 
     public Integer getNewQuoteVendorDetailAssignedIdentifier() {
         return newQuoteVendorDetailAssignedIdentifier;

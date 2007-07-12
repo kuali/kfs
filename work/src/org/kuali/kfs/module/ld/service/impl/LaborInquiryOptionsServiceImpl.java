@@ -131,8 +131,8 @@ public class LaborInquiryOptionsServiceImpl implements LaborInquiryOptionsServic
     }
 
     /**
-     * @see org.kuali.module.gl.web.lookupable.AbstractGLLookupableImpl#updateEntryCollection(java.util.Collection, java.util.Map,
-     *      boolean, boolean, boolean)
+     * @see org.kuali.module.labor.service.LaborInquiryOptionsService#updateEntryCollection(java.util.Collection, java.util.Map,
+     *      boolean, boolean)
      */
     public void updateEntryCollection(Collection entryCollection, Map fieldValues, boolean isApproved, boolean isConsolidated) {
         // go through the pending entries to update the balance collection

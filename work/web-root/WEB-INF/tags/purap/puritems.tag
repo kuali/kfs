@@ -263,7 +263,7 @@
 						<div align="center">
 						    <kul:htmlControlAttribute
 							    attributeEntry="${itemAttributes.itemRestrictedIndicator}"
-							    property="newPurchasingItemLine.itemRestrictedIndicator"
+							    property="document.item[${ctr}].itemRestrictedIndicator"
 							    readOnly="${not (fullEntryMode or (amendmentEntry and itemLine.itemActiveIndicator))}" />
 					    </div>
 						</td>

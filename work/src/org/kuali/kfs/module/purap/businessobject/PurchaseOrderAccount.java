@@ -32,6 +32,7 @@ public class PurchaseOrderAccount extends PurApAccountingLineBase {
      */
     // private String documentNumber;
     private KualiDecimal itemAccountOutstandingEncumbranceAmount;
+    private KualiDecimal accountLineAmount;
 
     private PurchaseOrderItem purchaseOrderItem;
 
@@ -70,6 +71,22 @@ public class PurchaseOrderAccount extends PurApAccountingLineBase {
      */
     public void setItemAccountOutstandingEncumbranceAmount(KualiDecimal itemAccountOutstandingEncumbranceAmount) {
         this.itemAccountOutstandingEncumbranceAmount = itemAccountOutstandingEncumbranceAmount;
+    }
+
+    /**
+     * Gets the accountLineAmount attribute. 
+     * @return Returns the accountLineAmount.
+     */
+    public KualiDecimal getAccountLineAmount() {
+        return accountLineAmount;
+    }
+
+    /**
+     * Sets the accountLineAmount attribute value.
+     * @param accountLineAmount The accountLineAmount to set.
+     */
+    public void setAccountLineAmount(KualiDecimal accountLineAmount) {
+        this.accountLineAmount = accountLineAmount;
     }
 
     /**

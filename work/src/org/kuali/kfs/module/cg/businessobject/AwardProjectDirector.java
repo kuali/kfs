@@ -21,7 +21,7 @@ import java.util.LinkedHashMap;
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 
 /**
- * 
+ * This class represents a financial awards project director.
  */
 public class AwardProjectDirector extends PersistableBusinessObjectBase implements Primaryable, CGProjectDirector {
 
@@ -33,7 +33,7 @@ public class AwardProjectDirector extends PersistableBusinessObjectBase implemen
     private ProjectDirector projectDirector;
 
     /**
-     * Default constructor.
+     * Default no-args constructor.
      */
     public AwardProjectDirector() {
         // Struts needs this instance to populate the secondary key, personUserIdentifier.

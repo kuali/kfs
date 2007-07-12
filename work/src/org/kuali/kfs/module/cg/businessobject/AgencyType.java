@@ -36,6 +36,7 @@ public class AgencyType extends KualiCodeBase {
     }
 
     /**
+     * Returns a boolean defining the active status of the AgencyType object.
      * @return Getter for the active field.
      */
     public boolean isRowActiveIndicator() {
@@ -44,6 +45,7 @@ public class AgencyType extends KualiCodeBase {
 
     
     /**
+     * Sets the active indicator flag for this AgencyType object.
      * @param name - Setter for the active field.
      */
     public void setRowActiveIndicator(boolean a) {

@@ -24,7 +24,7 @@ import org.kuali.module.chart.bo.Org;
 
 /**
  * 
- * 
+ * This class represents a financial award organization.
  */
 public class AwardOrganization extends PersistableBusinessObjectBase implements Primaryable {
 
@@ -37,7 +37,7 @@ public class AwardOrganization extends PersistableBusinessObjectBase implements 
     private Org organization;
 
     /**
-     * Default constructor.
+     * Default no-args constructor.
      */
     public AwardOrganization() {
 
@@ -61,7 +61,6 @@ public class AwardOrganization extends PersistableBusinessObjectBase implements 
         this.chartOfAccountsCode = chartOfAccountsCode;
     }
 
-
     /**
      * Gets the organizationCode attribute.
      * 
@@ -79,8 +78,7 @@ public class AwardOrganization extends PersistableBusinessObjectBase implements 
     public void setOrganizationCode(String organizationCode) {
         this.organizationCode = organizationCode;
     }
-
-
+    
     /**
      * Gets the proposalNumber attribute.
      * 
@@ -89,7 +87,7 @@ public class AwardOrganization extends PersistableBusinessObjectBase implements 
     public Long getProposalNumber() {
         return proposalNumber;
     }
-
+    
     /**
      * Sets the proposalNumber attribute.
      * 
@@ -98,7 +96,6 @@ public class AwardOrganization extends PersistableBusinessObjectBase implements 
     public void setProposalNumber(Long proposalNumber) {
         this.proposalNumber = proposalNumber;
     }
-
 
     /**
      * Gets the awardPrimaryOrganizationIndicator attribute.
@@ -109,7 +106,6 @@ public class AwardOrganization extends PersistableBusinessObjectBase implements 
         return awardPrimaryOrganizationIndicator;
     }
 
-
     /**
      * Sets the awardPrimaryOrganizationIndicator attribute.
      * 
@@ -118,7 +114,6 @@ public class AwardOrganization extends PersistableBusinessObjectBase implements 
     public void setAwardPrimaryOrganizationIndicator(boolean awardPrimaryOrganizationIndicator) {
         this.awardPrimaryOrganizationIndicator = awardPrimaryOrganizationIndicator;
     }
-
 
     /**
      * Gets the chartOfAccounts attribute.
@@ -133,7 +128,8 @@ public class AwardOrganization extends PersistableBusinessObjectBase implements 
      * Sets the chartOfAccounts attribute.
      * 
      * @param chartOfAccounts The chartOfAccounts to set.
-     * @deprecated
+     * @deprecated Setter is required by OJB, but should not be used to modify this attribute.  
+     * This attribute is set on the initial creation of the object and should not be changed.
      */
     @Deprecated
     public void setChartOfAccounts(Chart chartOfAccounts) {
@@ -153,7 +149,8 @@ public class AwardOrganization extends PersistableBusinessObjectBase implements 
      * Sets the organization attribute.
      * 
      * @param organization The organization to set.
-     * @deprecated
+     * @deprecated Setter is required by OJB, but should not be used to modify this attribute.  
+     * This attribute is set on the initial creation of the object and should not be changed.
      */
     @Deprecated
     public void setOrganization(Org organization) {

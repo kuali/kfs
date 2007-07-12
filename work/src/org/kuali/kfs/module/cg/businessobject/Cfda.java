@@ -21,7 +21,7 @@ import java.util.LinkedHashMap;
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 
 /**
- * 
+ * This class defines a catalog of federal domestic assistance reference object.
  */
 public class Cfda extends PersistableBusinessObjectBase {
 
@@ -130,10 +130,20 @@ public class Cfda extends PersistableBusinessObjectBase {
         return m;
     }
 
+    /**
+     * 
+     * This method gets the row active indicator value.
+     * @return The value of the row active indicator attribute.
+     */
     public boolean isRowActiveIndicator() {
         return rowActiveIndicator;
     }
 
+    /**
+     * 
+     * This method sets the row active indicator for this object.
+     * @param rowActiveIndicator The value to be assigned to the rowActiveIndicator attribute.
+     */
     public void setRowActiveIndicator(boolean rowActiveIndicator) {
         this.rowActiveIndicator = rowActiveIndicator;
     }

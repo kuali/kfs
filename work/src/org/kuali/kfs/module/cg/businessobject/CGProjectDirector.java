@@ -23,10 +23,9 @@ import org.kuali.core.util.ObjectUtils;
 import org.kuali.module.kra.routingform.bo.RoutingFormPersonnel;
 
 /**
- * 
+ * This interface defines all the necessary methods to define a contracts and grants project director object.
  */
 public interface CGProjectDirector {
-
 
     /**
      * Gets the personUniversalIdentifier attribute.
@@ -42,7 +41,6 @@ public interface CGProjectDirector {
      */
     public void setPersonUniversalIdentifier(String personUniversalIdentifier);
 
-
     /**
      * Gets the proposalNumber attribute.
      * 
@@ -57,8 +55,9 @@ public interface CGProjectDirector {
      */
     public void setProposalNumber(Long proposalNumber);
 
-
     /**
+     * Gets the project director attribute.
+     * 
      * @return the projectDirector.
      */
     public ProjectDirector getProjectDirector();

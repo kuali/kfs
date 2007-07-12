@@ -23,7 +23,7 @@ import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.Chart;
 
 /**
- * 
+ * This class represents a financial award account.
  */
 public class AwardAccount extends PersistableBusinessObjectBase implements CGProjectDirector {
 
@@ -134,7 +134,8 @@ public class AwardAccount extends PersistableBusinessObjectBase implements CGPro
      * Sets the account attribute.
      * 
      * @param account The account to set.
-     * @deprecated
+     * @deprecated Setter is required by OJB, but should not be used to modify this attribute.  
+     * This attribute is set on the initial creation of the object and should not be changed.
      */
     @Deprecated
     public void setAccount(Account account) {
@@ -154,7 +155,8 @@ public class AwardAccount extends PersistableBusinessObjectBase implements CGPro
      * Sets the chartOfAccounts attribute.
      * 
      * @param chartOfAccounts The chartOfAccounts to set.
-     * @deprecated
+     * @deprecated Setter is required by OJB, but should not be used to modify this attribute.  
+     * This attribute is set on the initial creation of the object and should not be changed.
      */
     @Deprecated
     public void setChartOfAccounts(Chart chartOfAccounts) {
@@ -162,19 +164,20 @@ public class AwardAccount extends PersistableBusinessObjectBase implements CGPro
     }
 
     /**
-     * gets the project director attribute
+     * Gets the project director attribute.
      * 
-     * @return the projectDirector
+     * @return Returns the projectDirector.
      */
     public ProjectDirector getProjectDirector() {
         return projectDirector;
     }
 
     /**
-     * sets the project director attribute
+     * Sets the project director attribute
      * 
-     * @param projectDirector the projectDirector to set
-     * @deprecated
+     * @param projectDirector The projectDirector to set.
+     * @deprecated Setter is required by OJB, but should not be used to modify this attribute.  
+     * This attribute is set on the initial creation of the object and should not be changed.
      */
     @Deprecated
     public void setProjectDirector(ProjectDirector projectDirector) {

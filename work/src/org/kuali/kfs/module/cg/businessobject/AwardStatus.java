@@ -21,7 +21,7 @@ import java.util.LinkedHashMap;
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 
 /**
- * 
+ * This class defines a financial award status object.
  */
 public class AwardStatus extends PersistableBusinessObjectBase {
 

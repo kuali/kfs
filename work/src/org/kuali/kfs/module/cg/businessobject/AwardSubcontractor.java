@@ -22,7 +22,7 @@ import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.util.KualiDecimal;
 
 /**
- * 
+ * This class defines a financial award subcontractor.
  */
 public class AwardSubcontractor extends PersistableBusinessObjectBase {
 
@@ -215,6 +215,8 @@ public class AwardSubcontractor extends PersistableBusinessObjectBase {
     }
 
     /**
+     * Gets the subcontractor attribute.
+     * 
      * @return Returns the subcontractor.
      */
     public Subcontractor getSubcontractor() {
@@ -222,8 +224,11 @@ public class AwardSubcontractor extends PersistableBusinessObjectBase {
     }
 
     /**
+     * Sets the subcontractor attribute.
+     * 
      * @param subcontractor The subcontractor to set.
-     * @deprecated
+     * @deprecated Setter is required by OJB, but should not be used to modify this attribute.  
+     * This attribute is set on the initial creation of the object and should not be changed.
      */
     @Deprecated
     public void setSubcontractor(Subcontractor subcontractor) {

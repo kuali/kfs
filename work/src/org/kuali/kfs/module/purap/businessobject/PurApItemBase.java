@@ -236,9 +236,9 @@ public abstract class PurApItemBase extends PersistableBusinessObjectBase implem
 	public void setItemUnitPrice(BigDecimal itemUnitPrice) {
 		if(itemUnitPrice!=null) {
             if(itemUnitPrice.scale()<PurapConstants.DOLLAR_AMOUNT_MIN_SCALE) {
-                itemUnitPrice = itemUnitPrice.setScale(PurapConstants.DOLLAR_AMOUNT_MIN_SCALE, BigDecimal.ROUND_HALF_EVEN);
+                itemUnitPrice = itemUnitPrice.setScale(PurapConstants.DOLLAR_AMOUNT_MIN_SCALE, KualiDecimal.ROUND_BEHAVIOR);
             } else if(itemUnitPrice.scale()>PurapConstants.DOLLAR_AMOUNT_MIN_SCALE) {
-                itemUnitPrice = itemUnitPrice.setScale(PurapConstants.UNIT_PRICE_MAX_SCALE, BigDecimal.ROUND_HALF_EVEN);
+                itemUnitPrice = itemUnitPrice.setScale(PurapConstants.UNIT_PRICE_MAX_SCALE, KualiDecimal.ROUND_BEHAVIOR);
             }
         }
         this.itemUnitPrice = itemUnitPrice;
@@ -415,15 +415,15 @@ public abstract class PurApItemBase extends PersistableBusinessObjectBase implem
     public KualiDecimal calculateExtendedPrice() {
         if (this.itemUnitPrice != null) {
             if (!this.itemType.isQuantityBasedGeneralLedgerIndicator() || this.itemQuantity == null) {
-                // SERVICE ITEM: return unit price as extended price
+                //SERVICE ITEM: return unit price as extended price
                 return new KualiDecimal(this.itemUnitPrice.toString());
             }
             BigDecimal extendedPrice = this.itemUnitPrice.multiply(this.itemQuantity.bigDecimalValue());
-            // ITEM TYPE (qty driven): return (unitPrice x qty)
+            //ITEM TYPE (qty driven): return (unitPrice x qty)
             return new KualiDecimal(extendedPrice);
         }
         else {
-            // unit price is null; return zero
+            //unit price is null; return zero
             return KFSConstants.ZERO;
         }
     }

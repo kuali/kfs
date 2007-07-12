@@ -50,6 +50,7 @@ import org.kuali.module.kra.routingform.document.RoutingFormDocument;
 public class Proposal extends PersistableBusinessObjectBase implements AlternateOrgReviewRouting{
 
     public static final String PROPOSAL_CODE = "P";
+    public static final String AWARD_CODE = "A";
     private Long proposalNumber;
     private Date proposalBeginningDate;
     private Date proposalEndingDate;

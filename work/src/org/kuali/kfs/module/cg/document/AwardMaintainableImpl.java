@@ -26,11 +26,13 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.core.bo.DocumentHeader;
 import org.kuali.core.bo.PersistableBusinessObject;
 import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.core.maintenance.KualiMaintainableImpl;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.ObjectUtils;
+import org.kuali.core.workflow.service.KualiWorkflowDocument;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSKeyConstants;
 import org.kuali.kfs.KFSPropertyConstants;
@@ -41,21 +43,31 @@ import org.kuali.module.cg.bo.AwardOrganization;
 import org.kuali.module.cg.bo.AwardProjectDirector;
 import org.kuali.module.cg.bo.CGProjectDirector;
 import org.kuali.module.cg.bo.ProjectDirector;
+import org.kuali.module.cg.bo.Proposal;
 import org.kuali.module.cg.rules.AwardRuleUtil;
 
 /**
  * Methods for the Award maintenance document UI.
  */
 public class AwardMaintainableImpl extends KualiMaintainableImpl {
+    
+    /**
+     * 
+     * Constructs a AwardMaintainableImpl.java.
+     */
     public AwardMaintainableImpl() {
         super();
     }
 
+    /**
+     * 
+     * Constructs a AwardMaintainableImpl.java.
+     * @param award
+     */
     public AwardMaintainableImpl(Award award) {
         super(award);
         this.setBoClass(award.getClass());
     }
-
 
     /**
      * This method is called for refreshing the Agency before display to show the full name in case the agency number was changed by
@@ -88,6 +100,8 @@ public class AwardMaintainableImpl extends KualiMaintainableImpl {
 
     /**
      * This method is called for refreshing the Agency after a lookup to display its full name without AJAX.
+     * 
+     * @see org.kuali.core.maintenance.KualiMaintainableImpl#refresh(java.lang.String, java.util.Map, org.kuali.core.document.MaintenanceDocument)
      */
     @SuppressWarnings("unchecked")
     @Override
@@ -115,13 +129,18 @@ public class AwardMaintainableImpl extends KualiMaintainableImpl {
                 award.populateFromProposal(award.getProposal());
                 refreshAward(SpringServiceLocator.KUALI_LOOKUPABLE.equals(fieldValues.get(KFSConstants.REFRESH_CALLER)));
             }
-        }else{
+        } else {
             refreshAward(SpringServiceLocator.KUALI_LOOKUPABLE.equals(fieldValues.get(KFSConstants.REFRESH_CALLER)));
             super.refresh(refreshCaller, fieldValues, document);
         }
 
     }
 
+    /**
+     * 
+     * This method...
+     * @param refreshFromLookup
+     */
     private void refreshAward(boolean refreshFromLookup) {
         Award award = getAward();
         award.refreshNonUpdateableReferences();
@@ -147,7 +166,6 @@ public class AwardMaintainableImpl extends KualiMaintainableImpl {
             getNewCollectionLine(AWARD_PROJECT_DIRECTORS).refreshNonUpdateableReferences();
             refreshNonUpdateableReferences(getAward().getAwardProjectDirectors());
 
-
             getNewCollectionLine(AWARD_ACCOUNTS).refreshNonUpdateableReferences();
             refreshNonUpdateableReferences(getAward().getAwardAccounts());
         }
@@ -164,7 +182,12 @@ public class AwardMaintainableImpl extends KualiMaintainableImpl {
         }
     }
 
-    // todo: move to ObjectUtils?
+    /**
+     * @todo: move to ObjectUtils?
+     * 
+     * This method...
+     * @param collection
+     */
     private static void refreshNonUpdateableReferences(Collection<? extends PersistableBusinessObject> collection) {
         for (PersistableBusinessObject item : collection) {
             item.refreshNonUpdateableReferences();
@@ -193,6 +216,11 @@ public class AwardMaintainableImpl extends KualiMaintainableImpl {
         }
     }
 
+    /**
+     * 
+     * This method...
+     * @return
+     */
     public Award getAward() {
         return (Award) getBusinessObject();
     }
@@ -207,5 +235,25 @@ public class AwardMaintainableImpl extends KualiMaintainableImpl {
     public void addNewLineToCollection(String collectionName) {
         refreshAward(false);
         super.addNewLineToCollection(collectionName);
+    }    
+    
+    /**
+     * This method overrides the parent method to check the status of the award document and change the linked
+     * proposal status to A if the award is now in approved status.
+     * 
+     * @see org.kuali.core.maintenance.KualiMaintainableImpl#handleRouteStatusChange(org.kuali.core.bo.DocumentHeader)
+     */
+    @Override
+    public void handleRouteStatusChange(DocumentHeader header) {
+        super.handleRouteStatusChange(header);
+        
+        Award award = getAward();
+        KualiWorkflowDocument workflowDoc = header.getWorkflowDocument();
+        if(workflowDoc.stateIsApproved()) {
+            Proposal proposal = award.getProposal();
+            proposal.setProposalStatusCode(Proposal.AWARD_CODE);
+            SpringServiceLocator.getBusinessObjectService().save(proposal);
+        }
+        
     }
 }

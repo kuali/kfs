@@ -41,8 +41,10 @@ import edu.iu.uis.eden.Id;
 import edu.iu.uis.eden.engine.RouteContext;
 import edu.iu.uis.eden.exception.EdenUserNotFoundException;
 import edu.iu.uis.eden.exception.WorkflowException;
+import edu.iu.uis.eden.routeheader.DocumentContent;
 import edu.iu.uis.eden.routetemplate.ResolvedQualifiedRole;
 import edu.iu.uis.eden.routetemplate.Role;
+import edu.iu.uis.eden.routetemplate.RuleExtension;
 import edu.iu.uis.eden.routetemplate.UnqualifiedRoleAttribute;
 import edu.iu.uis.eden.workgroup.GroupNameId;
 
@@ -79,6 +81,29 @@ public class KualiInternalPurchasingRoleAttribute extends UnqualifiedRoleAttribu
     }
 
     /**
+     * @see edu.iu.uis.eden.routetemplate.AbstractRoleAttribute#isMatch(edu.iu.uis.eden.routeheader.DocumentContent, java.util.List)
+     */
+    @Override
+    public boolean isMatch(DocumentContent docContent, List<RuleExtension> ruleExtensions) {
+        String documentNumber = null;
+        try {
+            String documentContent = docContent.getDocContent();
+            // get the document id number from the routeContext doc content
+            documentNumber = KualiWorkflowUtils.getDocumentHeaderDocumentNumber(docContent.getDocument());
+            PurchasingDocumentBase document = (PurchasingDocumentBase)SpringServiceLocator.getDocumentService().getByDocumentHeaderId(documentNumber);
+            document.refreshAllReferences();
+            KualiDecimal internalPurchasingLimit = SpringServiceLocator.getPurchaseOrderService().getInternalPurchasingDollarLimit(document, document.getChartOfAccountsCode(), document.getOrganizationCode());
+
+            return ( (ObjectUtils.isNull(internalPurchasingLimit)) || (internalPurchasingLimit.compareTo(KualiWorkflowUtils.getFinancialDocumentTotalAmount(docContent.getDocument())) < 0) );
+        }
+        catch (WorkflowException we) {
+            String errorMsg = "Error trying to get document using doc id '" + documentNumber + "'";
+            LOG.error(errorMsg,we);
+            throw new RuntimeException (errorMsg,we);
+        }
+    }
+
+    /**
      * TODO delyea - documentation
      * 
      * @param routeContext the RouteContext
@@ -87,35 +112,8 @@ public class KualiInternalPurchasingRoleAttribute extends UnqualifiedRoleAttribu
      */
     @Override
     public ResolvedQualifiedRole resolveRole(RouteContext routeContext, String roleName) throws EdenUserNotFoundException {
-//        XPath xpath = KualiWorkflowUtils.getXPath(routeContext.getDocumentContent().getDocument());
-//        String xPathExpression = "";
-        String documentNumber = null;
-        try {
-            String documentContent = routeContext.getDocumentContent().getDocContent();
-//            // get the class attribute of the document element to determine the doc type
-//            xPathExpression = KualiWorkflowUtils.xstreamSafeXPath(KualiWorkflowUtils.XSTREAM_MATCH_ANYWHERE_PREFIX + "document/@class");
-//            String docType = (String) xpath.evaluate(xPathExpression, documentContent, XPathConstants.STRING);
-            // get the document id number from the routeContext doc content
-            documentNumber = KualiWorkflowUtils.getDocumentHeaderDocumentNumber(routeContext);
-            PurchasingDocumentBase document = (PurchasingDocumentBase)SpringServiceLocator.getDocumentService().getByDocumentHeaderId(documentNumber);
-            document.refreshAllReferences();
-            KualiDecimal internalPurchasingLimit = SpringServiceLocator.getPurchaseOrderService().getInternalPurchasingDollarLimit(document, document.getChartOfAccountsCode(), document.getOrganizationCode());
-
-            if ( (ObjectUtils.isNull(internalPurchasingLimit)) || (internalPurchasingLimit.compareTo(KualiWorkflowUtils.getFinancialDocumentTotalAmount(routeContext)) < 0) ) {
-                String workgroupName = SpringServiceLocator.getKualiConfigurationService().getApplicationParameterValue(PurapParameterConstants.PURAP_ADMIN_GROUP, PurapConstants.WorkflowConstants.PurchaseOrderDocument.INTERNAL_PURCHASING_WORKGROUP_NAME);
-                return new ResolvedQualifiedRole(INTERNAL_PURCHASING_ROLE_LABEL, Arrays.asList(new Id[] { new GroupNameId(workgroupName) }));
-            }
-            return null;
-        }
-//        catch (XPathExpressionException xe) {
-//            String errorMsg = "Error executing XPath expression - '" + xPathExpression + "'";
-//            LOG.error(errorMsg);
-//            throw new RuntimeException (errorMsg,xe);
-//        }
-        catch (WorkflowException we) {
-            String errorMsg = "Error trying to get document using doc id '" + documentNumber + "'";
-            LOG.error(errorMsg);
-            throw new RuntimeException (errorMsg,we);
-        }
+        // assume isMatch above has done it's job
+        String workgroupName = SpringServiceLocator.getKualiConfigurationService().getApplicationParameterValue(PurapParameterConstants.PURAP_ADMIN_GROUP, PurapConstants.WorkflowConstants.PurchaseOrderDocument.INTERNAL_PURCHASING_WORKGROUP_NAME);
+        return new ResolvedQualifiedRole(INTERNAL_PURCHASING_ROLE_LABEL, Arrays.asList(new Id[] { new GroupNameId(workgroupName) }));
     }
 }

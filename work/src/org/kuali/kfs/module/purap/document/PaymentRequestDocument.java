@@ -108,7 +108,6 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
         this.refreshReferenceObject("vendorPaymentTerms");
         this.refreshReferenceObject("vendorShippingPaymentTerms");
         this.refreshReferenceObject("paymentRequestCostSource");
-        this.setRequisitionIdentifier(getPurchaseOrderDocument().getRequisitionIdentifier());
     }
     
     /**
@@ -651,6 +650,7 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
      */
     public void populatePaymentRequestFromPurchaseOrder(PurchaseOrderDocument po) {
         this.setPurchaseOrderIdentifier(po.getPurapDocumentIdentifier());
+        this.setRequisitionIdentifier(getPurchaseOrderDocument().getRequisitionIdentifier());
         this.setPostingYear(po.getPostingYear());
         this.setVendorCustomerNumber(po.getVendorCustomerNumber());
         if (po.getPurchaseOrderCostSource() != null ){

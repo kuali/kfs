@@ -284,82 +284,87 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
 
         Integer purchaseOrderId = document.getPurchaseOrderIdentifier();
 
-        PurchaseOrderDocument po = purchaseOrderService.getCurrentPurchaseOrder(purchaseOrderId);
-
-        Integer vendorDetailAssignedId = po.getVendorDetailAssignedIdentifier();
-        Integer vendorHeaderGeneratedId = po.getVendorHeaderGeneratedIdentifier();
-        
         if (purapService.isDateAYearBeforeToday(document.getInvoiceDate())) {
             msgs.put(PREQDocumentsStrings.DUPLICATE_INVOICE_QUESTION, kualiConfigurationService.getPropertyString(PurapKeyConstants.MESSAGE_INVOICE_DATE_A_YEAR_OR_MORE_PAST));
         }
 
-        List<PaymentRequestDocument> preqs = getPaymentRequestsByVendorNumberInvoiceNumber(vendorHeaderGeneratedId, vendorDetailAssignedId, document.getInvoiceNumber());
-        if (preqs.size() > 0) {
-            boolean addedMessage = false;
-            List cancelled = new ArrayList();
-            List voided = new ArrayList();
-            for (PaymentRequestDocument testPREQ : preqs) {
-                if (StringUtils.equals(testPREQ.getStatusCode(),PaymentRequestStatuses.CANCELLED_POST_APPROVE)) {
-                    cancelled.add(testPREQ);
+        PurchaseOrderDocument po = purchaseOrderService.getCurrentPurchaseOrder(purchaseOrderId);
+
+        if (po != null) {
+            Integer vendorDetailAssignedId = po.getVendorDetailAssignedIdentifier();
+            Integer vendorHeaderGeneratedId = po.getVendorHeaderGeneratedIdentifier();
+
+
+            List<PaymentRequestDocument> preqs = getPaymentRequestsByVendorNumberInvoiceNumber(vendorHeaderGeneratedId, vendorDetailAssignedId, document.getInvoiceNumber());
+
+            if (preqs.size() > 0) {
+                boolean addedMessage = false;
+                List cancelled = new ArrayList();
+                List voided = new ArrayList();
+                for (PaymentRequestDocument testPREQ : preqs) {
+                    if (StringUtils.equals(testPREQ.getStatusCode(), PaymentRequestStatuses.CANCELLED_POST_APPROVE)) {
+                        cancelled.add(testPREQ);
+                    }
+                    else if (StringUtils.equals(testPREQ.getStatusCode(), PaymentRequestStatuses.CANCELLED_IN_PROCESS)) {
+                        voided.add(testPREQ);
+                    }
+                    else {
+                        msgs.put(PREQDocumentsStrings.DUPLICATE_INVOICE_QUESTION, kualiConfigurationService.getPropertyString(PurapKeyConstants.MESSAGE_DUPLICATE_INVOICE));
+                        addedMessage = true;
+                        break;
+                    }
                 }
-                else if (StringUtils.equals(testPREQ.getStatusCode(),PaymentRequestStatuses.CANCELLED_IN_PROCESS)) {
-                    voided.add(testPREQ);
-                }
-                else {
-                    msgs.put(PREQDocumentsStrings.DUPLICATE_INVOICE_QUESTION, kualiConfigurationService.getPropertyString(PurapKeyConstants.MESSAGE_DUPLICATE_INVOICE));
-                    addedMessage = true;
-                    break;
+                // Custom error message for duplicates related to cancelled/voided PREQs
+                if (!addedMessage) {
+                    if ((!(voided.isEmpty())) && (!(cancelled.isEmpty()))) {
+                        msgs.put(PREQDocumentsStrings.DUPLICATE_INVOICE_QUESTION, kualiConfigurationService.getPropertyString(PurapKeyConstants.MESSAGE_DUPLICATE_INVOICE_CANCELLEDORVOIDED));
+                    }
+                    else if ((!(voided.isEmpty())) && (cancelled.isEmpty())) {
+                        msgs.put(PREQDocumentsStrings.DUPLICATE_INVOICE_QUESTION, kualiConfigurationService.getPropertyString(PurapKeyConstants.MESSAGE_DUPLICATE_INVOICE_VOIDED));
+                    }
+                    else if ((voided.isEmpty()) && (!(cancelled.isEmpty()))) {
+                        // messages.add("errors.duplicate.vendor.invoice.cancelled");
+                        msgs.put(PREQDocumentsStrings.DUPLICATE_INVOICE_QUESTION, kualiConfigurationService.getPropertyString(PurapKeyConstants.MESSAGE_DUPLICATE_INVOICE_CANCELLED));
+                    }
                 }
             }
-            // Custom error message for duplicates related to cancelled/voided PREQs
-            if (!addedMessage) {
-                if ((!(voided.isEmpty())) && (!(cancelled.isEmpty()))) {
-                    msgs.put(PREQDocumentsStrings.DUPLICATE_INVOICE_QUESTION, kualiConfigurationService.getPropertyString(PurapKeyConstants.MESSAGE_DUPLICATE_INVOICE_CANCELLEDORVOIDED));
-                }
-                else if ((!(voided.isEmpty())) && (cancelled.isEmpty())) {
-                    msgs.put(PREQDocumentsStrings.DUPLICATE_INVOICE_QUESTION, kualiConfigurationService.getPropertyString(PurapKeyConstants.MESSAGE_DUPLICATE_INVOICE_VOIDED));
-                }
-                else if ((voided.isEmpty()) && (!(cancelled.isEmpty()))) {
-                    // messages.add("errors.duplicate.vendor.invoice.cancelled");
-                    msgs.put(PREQDocumentsStrings.DUPLICATE_INVOICE_QUESTION, kualiConfigurationService.getPropertyString(PurapKeyConstants.MESSAGE_DUPLICATE_INVOICE_CANCELLED));
-                }
-            }
-        }
 
-        // Check that the invoice date and invoice total amount entered are not on any existing non-cancelled PREQs for this PO
-        preqs = getPaymentRequestsByPOIdInvoiceAmountInvoiceDate(purchaseOrderId, document.getVendorInvoiceAmount(), document.getInvoiceDate());
-        if (preqs.size() > 0) {
-            boolean addedMessage = false;
-            List cancelled = new ArrayList();
-            List voided = new ArrayList();
-            msgs.put(PREQDocumentsStrings.DUPLICATE_INVOICE_QUESTION, kualiConfigurationService.getPropertyString(PurapKeyConstants.MESSAGE_DUPLICATE_INVOICE_DATE_AMOUNT));
-            for (PaymentRequestDocument testPREQ : preqs) {
-                if (StringUtils.equalsIgnoreCase(testPREQ.getStatusCode(),PaymentRequestStatuses.CANCELLED_POST_APPROVE)) {
-                    cancelled.add(testPREQ);
+            // Check that the invoice date and invoice total amount entered are not on any existing non-cancelled PREQs for this PO
+            preqs = getPaymentRequestsByPOIdInvoiceAmountInvoiceDate(purchaseOrderId, document.getVendorInvoiceAmount(), document.getInvoiceDate());
+            if (preqs.size() > 0) {
+                boolean addedMessage = false;
+                List cancelled = new ArrayList();
+                List voided = new ArrayList();
+                msgs.put(PREQDocumentsStrings.DUPLICATE_INVOICE_QUESTION, kualiConfigurationService.getPropertyString(PurapKeyConstants.MESSAGE_DUPLICATE_INVOICE_DATE_AMOUNT));
+                for (PaymentRequestDocument testPREQ : preqs) {
+                    if (StringUtils.equalsIgnoreCase(testPREQ.getStatusCode(), PaymentRequestStatuses.CANCELLED_POST_APPROVE)) {
+                        cancelled.add(testPREQ);
+                    }
+                    else if (StringUtils.equalsIgnoreCase(testPREQ.getStatusCode(), PaymentRequestStatuses.CANCELLED_IN_PROCESS)) {
+                        voided.add(testPREQ);
+                    }
+                    else {
+                        msgs.put(PREQDocumentsStrings.DUPLICATE_INVOICE_QUESTION, kualiConfigurationService.getPropertyString(PurapKeyConstants.MESSAGE_DUPLICATE_INVOICE_DATE_AMOUNT));
+                        addedMessage = true;
+                        break;
+                    }
                 }
-                else if (StringUtils.equalsIgnoreCase(testPREQ.getStatusCode(),PaymentRequestStatuses.CANCELLED_IN_PROCESS)) {
-                    voided.add(testPREQ);
-                }
-                else {
-                    msgs.put(PREQDocumentsStrings.DUPLICATE_INVOICE_QUESTION, kualiConfigurationService.getPropertyString(PurapKeyConstants.MESSAGE_DUPLICATE_INVOICE_DATE_AMOUNT));
-                    addedMessage = true;
-                    break;
-                }
-            }
-            // Custom error message for duplicates related to cancelled/voided PREQs
-            if (!addedMessage) {
 
-                if ((!(voided.isEmpty())) && (!(cancelled.isEmpty()))) {
-                    msgs.put(PREQDocumentsStrings.DUPLICATE_INVOICE_QUESTION, kualiConfigurationService.getPropertyString(PurapKeyConstants.MESSAGE_DUPLICATE_INVOICE_DATE_AMOUNT_CANCELLEDORVOIDED));
-                }
-                else if ((!(voided.isEmpty())) && (cancelled.isEmpty())) {
-                    msgs.put(PREQDocumentsStrings.DUPLICATE_INVOICE_QUESTION, kualiConfigurationService.getPropertyString(PurapKeyConstants.MESSAGE_DUPLICATE_INVOICE_DATE_AMOUNT_VOIDED));
-                    addedMessage = true;
+                // Custom error message for duplicates related to cancelled/voided PREQs
+                if (!addedMessage) {
 
-                }
-                else if ((voided.isEmpty()) && (!(cancelled.isEmpty()))) {
-                    msgs.put(PREQDocumentsStrings.DUPLICATE_INVOICE_QUESTION, kualiConfigurationService.getPropertyString(PurapKeyConstants.MESSAGE_DUPLICATE_INVOICE_DATE_AMOUNT_CANCELLED));
-                    addedMessage = true;
+                    if ((!(voided.isEmpty())) && (!(cancelled.isEmpty()))) {
+                        msgs.put(PREQDocumentsStrings.DUPLICATE_INVOICE_QUESTION, kualiConfigurationService.getPropertyString(PurapKeyConstants.MESSAGE_DUPLICATE_INVOICE_DATE_AMOUNT_CANCELLEDORVOIDED));
+                    }
+                    else if ((!(voided.isEmpty())) && (cancelled.isEmpty())) {
+                        msgs.put(PREQDocumentsStrings.DUPLICATE_INVOICE_QUESTION, kualiConfigurationService.getPropertyString(PurapKeyConstants.MESSAGE_DUPLICATE_INVOICE_DATE_AMOUNT_VOIDED));
+                        addedMessage = true;
+
+                    }
+                    else if ((voided.isEmpty()) && (!(cancelled.isEmpty()))) {
+                        msgs.put(PREQDocumentsStrings.DUPLICATE_INVOICE_QUESTION, kualiConfigurationService.getPropertyString(PurapKeyConstants.MESSAGE_DUPLICATE_INVOICE_DATE_AMOUNT_CANCELLED));
+                        addedMessage = true;
+                    }
                 }
             }
         }

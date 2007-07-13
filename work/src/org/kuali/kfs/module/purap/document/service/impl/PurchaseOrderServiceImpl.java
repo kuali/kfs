@@ -140,7 +140,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
     }
 
     public void save(PurchaseOrderDocument purchaseOrderDocument) {
-        //purchaseOrderDocument.prepareForSave();
+//        purchaseOrderDocument.prepareForSave();
         businessObjectService.save(purchaseOrderDocument);
     }
 
@@ -530,10 +530,10 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
             LOG.info("setupDocumentForPendingFirstTransmission() Unhandled Transmission Status: " + po.getPurchaseOrderTransmissionMethodCode() + " -- Defaulting Status to '" + newStatusCode + "'");
             if ( (!PurapConstants.PurchaseOrderStatuses.OPEN.equals(po.getStatusCode())) &&
                     (ObjectUtils.isNull(po.getPurchaseOrderInitialOpenDate())) ) {
-                po.setPurchaseOrderInitialOpenDate(dateTimeService.getCurrentSqlDate());
-            }
-            purapService.updateStatusAndStatusHistory(po, newStatusCode);
+            po.setPurchaseOrderInitialOpenDate(dateTimeService.getCurrentSqlDate());
         }
+            purapService.updateStatusAndStatusHistory(po, newStatusCode);
+    }
     }
 
     public PurchaseOrderDocument getCurrentPurchaseOrder(Integer id) {
@@ -562,7 +562,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
         // TODO delyea - ask about if this is best status/place to set indicators
         if (newPO.getDocumentHeader().getWorkflowDocument().stateIsProcessed()) {
             setCurrentAndPendingIndicatorsForApprovedPODocuments(newPO);
-        } else if (newPO.getDocumentHeader().getWorkflowDocument().stateIsApproved()) {
+        } else if (newPO.getDocumentHeader().getWorkflowDocument().stateIsDisapproved()) {
             setCurrentAndPendingIndicatorsForDisapprovedPODocuments(newPO);
         }
     }
@@ -591,5 +591,5 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
         ArrayList poQuoteStatuses = new TypedArrayList(PurchaseOrderQuoteStatus.class);
         poQuoteStatuses = (ArrayList) businessObjectService.findAll(PurchaseOrderQuoteStatus.class);
         return poQuoteStatuses;
-    }
+}
 }

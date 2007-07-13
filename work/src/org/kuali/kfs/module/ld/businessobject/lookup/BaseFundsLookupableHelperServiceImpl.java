@@ -48,16 +48,13 @@ import static org.apache.commons.collections.IteratorUtils.toList;
 /**
  * The BaseFundsLookupableHelperServiceImpl class is the front-end for all Base Fund balance inquiry processing.
  */
-
 @Transactional
 public class BaseFundsLookupableHelperServiceImpl extends AbstractLookupableHelperServiceImpl {
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(BaseFundsLookupableHelperServiceImpl.class);
     private Map fieldValues;
     private LaborDao laborDao;
     private LaborLedgerBalanceService balanceService;
-    private KualiConfigurationService kualiConfigurationService;
-    private LaborInquiryOptionsService laborInquiryOptionsService;    
-    
+    private LaborInquiryOptionsService laborInquiryOptionsService;
 
     /**
      * @see org.kuali.core.lookup.Lookupable#getInquiryUrl(org.kuali.core.bo.BusinessObject, java.lang.String)
@@ -66,11 +63,10 @@ public class BaseFundsLookupableHelperServiceImpl extends AbstractLookupableHelp
     public String getInquiryUrl(BusinessObject bo, String propertyName) {
         return (new BaseFundsInquirableImpl()).getInquiryUrl(bo, propertyName);
     }
-    
+
     /**
      * @see org.kuali.core.lookup.Lookupable#gfetSearchResults(java.util.Map)
      */
-
     @Override
     public List getSearchResults(Map fieldValues) {
 
@@ -78,10 +74,10 @@ public class BaseFundsLookupableHelperServiceImpl extends AbstractLookupableHelp
 
         setBackLocation((String) fieldValues.get(KFSConstants.BACK_LOCATION));
         setDocFormKey((String) fieldValues.get(KFSConstants.DOC_FORM_KEY));
- 
+
         // get the consolidation option
-        boolean isConsolidated = getLaborInquiryOptionsService().isConsolidationSelected(fieldValues, (Collection<Row>) getRows());
-               
+        boolean isConsolidated = laborInquiryOptionsService.isConsolidationSelected(fieldValues, (Collection<Row>) getRows());
+
         Collection searchResultsCollection = buildBaseFundsCollection(toList(laborDao.getBaseFunds(fieldValues, isConsolidated)), fieldValues, isConsolidated);
 
         // sort list if default sort column given
@@ -90,7 +86,7 @@ public class BaseFundsLookupableHelperServiceImpl extends AbstractLookupableHelp
         if (defaultSortColumns.size() > 0) {
             Collections.sort(searchResults, new BeanPropertyComparator(defaultSortColumns, true));
         }
-        
+
         Long actualCountIfTruncated = new Long(0);
 
         return new CollectionIncomplete(searchResults, actualCountIfTruncated);
@@ -99,12 +95,11 @@ public class BaseFundsLookupableHelperServiceImpl extends AbstractLookupableHelp
     /**
      * @param iterator the iterator of search results of account status
      * @param isConsolidated determine if the consolidated result is desired
-     * 
      * @return the base funds collection
      */
     private Collection<AccountStatusBaseFunds> buildBaseFundsCollection(Collection collection, Map fieldValues, boolean isConsolidated) {
         Collection retval = null;
-        
+
         if (isConsolidated) {
             retval = buildConsolidatedBaseFundsCollection(collection, fieldValues);
         }
@@ -117,13 +112,13 @@ public class BaseFundsLookupableHelperServiceImpl extends AbstractLookupableHelp
     /**
      * This method builds the base funds collection with consolidation option from an iterator
      * 
-     * @param iterator
-     * 
+     * @param collection
+     * @param fieldValues
      * @return the consolidated base funds collection
      */
     private Collection<AccountStatusBaseFunds> buildConsolidatedBaseFundsCollection(Collection collection, Map fieldValues) {
         Collection<AccountStatusBaseFunds> retval = new ArrayList<AccountStatusBaseFunds>();
-        
+
         for (Object collectionEntry : collection) {
 
             if (collectionEntry.getClass().isArray()) {
@@ -135,19 +130,19 @@ public class BaseFundsLookupableHelperServiceImpl extends AbstractLookupableHelp
                 for (Object element : array) {
                     LOG.debug("I found this element " + element);
                 }
-                
+
                 if (AccountStatusBaseFunds.class.isAssignableFrom(getBusinessObjectClass())) {
                     try {
                         bf = (AccountStatusBaseFunds) getBusinessObjectClass().newInstance();
-                    } 
+                    }
                     catch (Exception e) {
                         LOG.warn("Using " + AccountStatusBaseFunds.class + " for results because I couldn't instantiate the " + getBusinessObjectClass());
                     }
                 }
                 else {
-                        LOG.warn("Using " + AccountStatusBaseFunds.class + " for results because I couldn't instantiate the " + getBusinessObjectClass());
+                    LOG.warn("Using " + AccountStatusBaseFunds.class + " for results because I couldn't instantiate the " + getBusinessObjectClass());
                 }
-                    
+
                 bf.setUniversityFiscalYear(new Integer(array[i++].toString()));
                 bf.setChartOfAccountsCode(array[i++].toString());
                 bf.setAccountNumber(array[i++].toString());
@@ -161,7 +156,7 @@ public class BaseFundsLookupableHelperServiceImpl extends AbstractLookupableHelp
                 bf.setPositionNumber(array[i++].toString());
                 bf.setObjectId(array[i++].toString());
                 bf.setEmplid(array[i++].toString());
-               
+
                 bf.setSubObjectCode(Constant.CONSOLIDATED_SUB_OBJECT_CODE);
                 bf.setObjectTypeCode(Constant.CONSOLIDATED_OBJECT_TYPE_CODE);
 
@@ -184,21 +179,20 @@ public class BaseFundsLookupableHelperServiceImpl extends AbstractLookupableHelp
      */
     private KualiDecimal getCsfAmount(AccountStatusBaseFunds bo, Map fieldValues) {
         fieldValues.put("emplid", bo.getEmplid());
-        return (KualiDecimal) getLaborDao().getCSFTrackerTotal(fieldValues);
+        return (KualiDecimal) laborDao.getCSFTrackerTotal(fieldValues);
     }
 
     /**
      * This method builds the base funds collection with detail option from an iterator
      * 
      * @param iterator the current funds iterator
-     * 
      * @return the detailed balance collection
      */
     private Collection<AccountStatusBaseFunds> buildDetailedBaseFundsCollection(Collection collection, Map fieldValues) {
         Collection<AccountStatusBaseFunds> retval = new ArrayList();
-        
+
         for (LedgerBalance balance : ((Collection<LedgerBalance>) collection)) {
-            AccountStatusBaseFunds bf = getBalanceService().copyLedgerBalance(balance, AccountStatusBaseFunds.class);
+            AccountStatusBaseFunds bf = balanceService.copyLedgerBalance(balance, AccountStatusBaseFunds.class);
 
             bf.setDummyBusinessObject(new TransientBalanceInquiryAttributes());
             bf.setCsfAmount(getCsfAmount(bf, fieldValues));
@@ -206,25 +200,6 @@ public class BaseFundsLookupableHelperServiceImpl extends AbstractLookupableHelp
             retval.add(bf);
         }
         return retval;
-    }
-
-    public void updateEntryCollection(Collection entryCollection, Map fieldValues, boolean isApproved, boolean isConsolidated, boolean isCostShareInclusive) {
-    }
-
-    public LaborDao getLaborDao() {
-        return laborDao;
-    }
-
-    public void setLaborDao(LaborDao laborDao) {
-        this.laborDao = laborDao;
-    }
-
-    public LaborInquiryOptionsService getLaborInquiryOptionsService() {
-        return laborInquiryOptionsService;
-    }
-
-    public void setLaborInquiryOptionsService(LaborInquiryOptionsService laborInquiryOptionsService) {
-        this.laborInquiryOptionsService = laborInquiryOptionsService;
     }
 
     /**
@@ -237,11 +212,20 @@ public class BaseFundsLookupableHelperServiceImpl extends AbstractLookupableHelp
     }
 
     /**
-     * Gets the balanceService attribute value.
+     * Sets the laborDao attribute value.
      * 
-     * @return balanceService The balanceService to set.
+     * @param laborDao The laborDao to set.
      */
-    public LaborLedgerBalanceService getBalanceService() {
-        return balanceService;
+    public void setLaborDao(LaborDao laborDao) {
+        this.laborDao = laborDao;
+    }
+
+    /**
+     * Sets the laborInquiryOptionsService attribute value.
+     * 
+     * @param laborInquiryOptionsService The laborInquiryOptionsService to set.
+     */
+    public void setLaborInquiryOptionsService(LaborInquiryOptionsService laborInquiryOptionsService) {
+        this.laborInquiryOptionsService = laborInquiryOptionsService;
     }
 }

@@ -60,8 +60,11 @@
             </lookupFields>
 
             <resultFields>
+                <field attributeName="universityFiscalYear" />
+                <field attributeName="chartOfAccountsCode" />
                 <field attributeName="accountNumber" />
                 <field attributeName="subAccountNumber" />
+                <field attributeName="financialBalanceTypeCode" />
                 <field attributeName="financialObjectCode" />
                 <field attributeName="financialSubObjectCode" />
 				<field attributeName="personName" />

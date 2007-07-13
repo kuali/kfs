@@ -27,29 +27,23 @@ import org.apache.ojb.broker.query.QueryByCriteria;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
 import org.kuali.core.dao.ojb.PlatformAwareDaoBaseOjb;
-import org.kuali.core.lookup.LookupUtils;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.module.budget.bo.CalculatedSalaryFoundationTracker;
 import org.kuali.module.gl.util.OJBUtility;
 import org.kuali.module.labor.LaborConstants;
+import org.kuali.module.labor.LaborPropertyConstants.AccountingPeriodProperties;
 import org.kuali.module.labor.bo.AccountStatusBaseFunds;
 import org.kuali.module.labor.bo.AccountStatusCurrentFunds;
 import org.kuali.module.labor.bo.EmployeeFunding;
 import org.kuali.module.labor.bo.July1PositionFunding;
 import org.kuali.module.labor.dao.LaborDao;
-
-import static org.kuali.module.gl.web.Constant.PENDING_ENTRY_OPTION;
-import static org.kuali.module.labor.LaborPropertyConstants.AccountingPeriodProperties.*;
-import static org.kuali.module.labor.util.ConsolidationUtil.buildConsolidatedQuery;
-import static org.kuali.module.labor.util.ConsolidationUtil.sum;
-
+import org.kuali.module.labor.util.ConsolidationUtil;
 
 /**
- * This class is for Labor Distribution DAO database queries 
+ * This class is for Labor Distribution DAO database queries
  */
 public class LaborDaoOjb extends PlatformAwareDaoBaseOjb implements LaborDao {
-    private KualiDecimal KualiDecimalZero = new KualiDecimal("0");
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(LaborDaoOjb.class);
 
     /**
@@ -71,7 +65,7 @@ public class LaborDaoOjb extends PlatformAwareDaoBaseOjb implements LaborDao {
         groupByList.add(KFSPropertyConstants.FINANCIAL_SUB_OBJECT_CODE);
         String[] groupBy = (String[]) groupByList.toArray(new String[groupByList.size()]);
 
-        query.setAttributes(new String[] { "sum(" + KFSPropertyConstants.CSF_AMOUNT + ")" });
+        query.setAttributes(new String[] { ConsolidationUtil.sum(KFSPropertyConstants.CSF_AMOUNT) });
         query.addGroupBy(groupBy);
 
         Object[] csf = null;
@@ -80,14 +74,14 @@ public class LaborDaoOjb extends PlatformAwareDaoBaseOjb implements LaborDao {
         while (calculatedSalaryFoundationTracker != null && calculatedSalaryFoundationTracker.hasNext()) {
             csf = calculatedSalaryFoundationTracker.next();
         }
-        KualiDecimal csfAmount = KualiDecimalZero;
-        if (csf != null)
+        KualiDecimal csfAmount = KualiDecimal.ZERO;
+        if (csf != null) {
             csfAmount = new KualiDecimal(csf[0].toString());
+        }
         return csfAmount;
     }
 
     /**
-     * 
      * @see org.kuali.module.labor.dao.LaborDao#getEncumbranceTotal(java.util.Map)
      */
     public Object getEncumbranceTotal(Map fieldValues) {
@@ -107,7 +101,7 @@ public class LaborDaoOjb extends PlatformAwareDaoBaseOjb implements LaborDao {
 
         String[] groupBy = (String[]) groupByList.toArray(new String[groupByList.size()]);
 
-        query.setAttributes(new String[] {sum(LaborConstants.BalanceInquiries.ANNUAL_BALANCE) + " + " + sum(LaborConstants.BalanceInquiries.CONTRACT_GRANT_BB_AMOUNT)});
+        query.setAttributes(new String[] { ConsolidationUtil.sum(LaborConstants.BalanceInquiries.ANNUAL_BALANCE) + " + " + ConsolidationUtil.sum(LaborConstants.BalanceInquiries.CONTRACT_GRANT_BB_AMOUNT) });
         query.addGroupBy(groupBy);
 
         Object[] encumbrances = null;
@@ -115,8 +109,8 @@ public class LaborDaoOjb extends PlatformAwareDaoBaseOjb implements LaborDao {
         Iterator<Object[]> accountStatusCurrentFunds = getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(query);
         while (accountStatusCurrentFunds != null && accountStatusCurrentFunds.hasNext()) {
             encumbrances = accountStatusCurrentFunds.next();
-             }
-        KualiDecimal encumbranceTotal = KualiDecimalZero;
+        }
+        KualiDecimal encumbranceTotal = KualiDecimal.ZERO;
         if (encumbrances != null)
             encumbranceTotal = new KualiDecimal(encumbrances[0].toString());
         return encumbranceTotal;
@@ -126,7 +120,6 @@ public class LaborDaoOjb extends PlatformAwareDaoBaseOjb implements LaborDao {
      * @see org.kuali.module.labor.dao.LaborDao#getBaseFunds(java.util.Map)
      */
     public Iterator getBaseFunds(Map fieldValues, boolean isConsolidated) {
-        fieldValues.remove(PENDING_ENTRY_OPTION); // hack because BaseFunds doesn't have Pending entry option. If it does get it, you can remove this.
         fieldValues.put(KFSPropertyConstants.FINANCIAL_BALANCE_TYPE_CODE, LaborConstants.BalanceInquiries.BALANCE_CODE);
         return getAccountStatus(AccountStatusBaseFunds.class, fieldValues, isConsolidated);
     }
@@ -146,7 +139,7 @@ public class LaborDaoOjb extends PlatformAwareDaoBaseOjb implements LaborDao {
         if (isConsolidated) {
             return getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(query);
         }
-        return getPersistenceBrokerTemplate().getIteratorByQuery(query);        
+        return getPersistenceBrokerTemplate().getIteratorByQuery(query);
     }
 
     // build the query for balance search
@@ -154,7 +147,7 @@ public class LaborDaoOjb extends PlatformAwareDaoBaseOjb implements LaborDao {
         LOG.debug("getAccountStatusQuery(Class<T>, Map, boolean) started");
         LOG.debug("Building criteria from map fields: " + fieldValues.entrySet());
 
-        Criteria criteria = new Criteria();        
+        Criteria criteria = new Criteria();
         try {
             criteria.addAndCriteria(OJBUtility.buildCriteriaFromMap(fieldValues, clazz.newInstance()));
         }
@@ -168,14 +161,13 @@ public class LaborDaoOjb extends PlatformAwareDaoBaseOjb implements LaborDao {
 
         // if consolidated, then ignore subaccount number and balance type code
         if (isConsolidated) {
-            buildConsolidatedQuery(query, sum(JULY.propertyName));
+            ConsolidationUtil.buildConsolidatedQuery(query, ConsolidationUtil.sum(AccountingPeriodProperties.JULY.propertyName));
         }
 
         return query;
     }
 
-
-   /**
+    /**
      * @see org.kuali.module.labor.dao.LaborDao#getEmployeeFunding(java.util.Map)
      */
     public Iterator getEmployeeFunding(Map fieldValues) {
@@ -200,29 +192,28 @@ public class LaborDaoOjb extends PlatformAwareDaoBaseOjb implements LaborDao {
         groupByList.add(KFSPropertyConstants.POSITION_NUMBER);
         groupByList.add(KFSPropertyConstants.EMPLID);
         groupByList.add(KFSPropertyConstants.ACCOUNT_LINE_ANNUAL_BALANCE_AMOUNT);
-        
+
         String[] groupBy = (String[]) groupByList.toArray(new String[groupByList.size()]);
         List<String> attributeList = new ArrayList<String>(groupByList);
-        attributeList.add(0, "sum(" + KFSPropertyConstants.ACCOUNTING_LINE_ANNUAL_BALANCE_AMOUNT + ")");
+        attributeList.add(0, ConsolidationUtil.sum(KFSPropertyConstants.ACCOUNTING_LINE_ANNUAL_BALANCE_AMOUNT));
         query.setAttributes((String[]) attributeList.toArray(new String[attributeList.size()]));
 
         query.addGroupBy(groupBy);
         OJBUtility.limitResultSize(query);
         return getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(query);
     }
-    
 
     /**
      * @see org.kuali.module.labor.dao.LaborDao#getJuly1PositionFunding(java.util.Map)
-     */    
+     */
     public Collection getJuly1PositionFunding(Map fieldValues) {
-        
+
         ArrayList objectTypeCodes = new ArrayList();
         Criteria criteria = new Criteria();
         criteria.addBetween(KFSPropertyConstants.FINANCIAL_OBJECT_CODE, LaborConstants.BalanceInquiries.laborLowValueObjectCode, LaborConstants.BalanceInquiries.laborHighValueObjectCode);
         criteria.addAndCriteria(OJBUtility.buildCriteriaFromMap(fieldValues, new July1PositionFunding()));
         QueryByCriteria query = QueryFactory.newQuery(July1PositionFunding.class, criteria);
-        OJBUtility.limitResultSize(query);                
+        OJBUtility.limitResultSize(query);
         return getPersistenceBrokerTemplate().getCollectionByQuery(query);
     }
 }

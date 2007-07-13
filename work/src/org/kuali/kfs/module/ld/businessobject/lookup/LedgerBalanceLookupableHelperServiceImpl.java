@@ -58,11 +58,11 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Transactional
 public class LedgerBalanceLookupableHelperServiceImpl extends AbstractLookupableHelperServiceImpl {
+    private static final Log LOG = LogFactory.getLog(LedgerBalanceLookupableHelperServiceImpl.class);
+    
     private LaborLedgerBalanceService balanceService;
     private LaborInquiryOptionsService laborInquiryOptionsService;    
     private Map fieldValues;
-
-    private static final Log LOG = LogFactory.getLog(LedgerBalanceLookupableHelperServiceImpl.class);
 
     /**
      * @see org.kuali.core.lookup.Lookupable#getInquiryUrl(org.kuali.core.bo.BusinessObject, java.lang.String)
@@ -81,11 +81,11 @@ public class LedgerBalanceLookupableHelperServiceImpl extends AbstractLookupable
         setDocFormKey((String) fieldValues.get(KFSConstants.DOC_FORM_KEY));
 
         // get the pending entry option. This method must be prior to the get search results
-        String pendingEntryOption = getLaborInquiryOptionsService().getSelectedPendingEntryOption(fieldValues);
+        String pendingEntryOption = laborInquiryOptionsService.getSelectedPendingEntryOption(fieldValues);
 
         // test if the consolidation option is selected or not
         
-        boolean isConsolidated = getLaborInquiryOptionsService().isConsolidationSelected(fieldValues, (Collection<Row>) getRows());
+        boolean isConsolidated = laborInquiryOptionsService.isConsolidationSelected(fieldValues, (Collection<Row>) getRows());
         
         // get Amount View Option and determine if the results has to be accumulated
         //String amountViewOption = getSelectedAmountViewOption(fieldValues);
@@ -346,24 +346,6 @@ public class LedgerBalanceLookupableHelperServiceImpl extends AbstractLookupable
     }
 
     /**
-     * Sets the balanceService attribute value.
-     * 
-     * @param balanceService The balanceService to set.
-     */
-    public void setBalanceService(LaborLedgerBalanceService balanceService) {
-        this.balanceService = balanceService;
-    }
-
-    /**
-     * Gets the balanceService attribute value.
-     * 
-     * @return balanceService The balanceService to set.
-     */
-    public LaborLedgerBalanceService getBalanceService() {
-        return balanceService;
-    }
-
-    /**
      * 
      * This method performs the lookup and returns a collection of lookup items
      * @param lookupForm
@@ -500,8 +482,7 @@ public class LedgerBalanceLookupableHelperServiceImpl extends AbstractLookupable
         }
         return col;
     }
-    
-    
+     
     /**
      * Constructs the list of columns for the search results. All properties for the column objects come from the DataDictionary.
      *
@@ -515,13 +496,29 @@ public class LedgerBalanceLookupableHelperServiceImpl extends AbstractLookupable
             columns.add(setupResultsColumn(bo, attributeName));
         }
         return columns;
-    }    
-
-    public LaborInquiryOptionsService getLaborInquiryOptionsService() {
-        return laborInquiryOptionsService;
     }
 
+    /**
+     * Sets the laborInquiryOptionsService attribute value.
+     * @param laborInquiryOptionsService The laborInquiryOptionsService to set.
+     */
     public void setLaborInquiryOptionsService(LaborInquiryOptionsService laborInquiryOptionsService) {
         this.laborInquiryOptionsService = laborInquiryOptionsService;
     }
+
+    /**
+     * Sets the balanceService attribute value.
+     * @param balanceService The balanceService to set.
+     */
+    public void setBalanceService(LaborLedgerBalanceService balanceService) {
+        this.balanceService = balanceService;
+    }
+
+    /**
+     * Gets the balanceService attribute. 
+     * @return Returns the balanceService.
+     */
+    public LaborLedgerBalanceService getBalanceService() {
+        return balanceService;
+    }    
 }

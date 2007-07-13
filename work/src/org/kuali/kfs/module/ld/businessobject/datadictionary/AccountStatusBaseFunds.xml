@@ -56,16 +56,17 @@
                 <lookupField attributeName="financialSubObjectCode" required="false" />
                 <lookupField attributeName="dummyBusinessObject.consolidationOption">
                     <defaultValueFinderClass>org.kuali.module.gl.web.optionfinder.GLConsolidationOptionFinder</defaultValueFinderClass>
-                </lookupField>
-                <lookupField attributeName="dummyBusinessObject.pendingEntryOption">
-                    <defaultValueFinderClass>org.kuali.module.gl.web.optionfinder.GLPendingEntryOptionFinder</defaultValueFinderClass>
-                </lookupField>
-				
+                </lookupField>				
             </lookupFields>
 
             <resultFields>
-                <field attributeName="subAccountNumber" />
+            	<field attributeName="universityFiscalYear" />
+                <field attributeName="chartOfAccountsCode" />
+                <field attributeName="accountNumber" />
+                <field attributeName="subAccountNumber" />	
+                <field attributeName="financialBalanceTypeCode" />			
                 <field attributeName="financialObjectCode" />
+                <field attributeName="financialSubObjectCode" />
                 <field attributeName="accountLineAnnualBalanceAmount" />   
                 <field attributeName="csfAmount" />
                 <field attributeName="baseCSFVarianceAmount" />

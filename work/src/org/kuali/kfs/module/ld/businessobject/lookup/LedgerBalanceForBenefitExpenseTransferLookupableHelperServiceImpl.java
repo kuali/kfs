@@ -16,14 +16,10 @@
 package org.kuali.module.labor.web.lookupable;
 
 import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
 import org.kuali.core.bo.BusinessObject;
-import org.kuali.core.lookup.AbstractLookupableHelperServiceImpl;
-import org.kuali.core.lookup.CollectionIncomplete;
-import org.kuali.core.util.BeanPropertyComparator;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.bo.Options;
@@ -38,9 +34,9 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class LedgerBalanceForBenefitExpenseTransferLookupableHelperServiceImpl extends LedgerBalanceLookupableHelperServiceImpl {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(LedgerBalanceForBenefitExpenseTransferLookupableHelperServiceImpl.class);
-    
+
     private OptionsService optionsService;
-    
+
     /**
      * @see org.kuali.core.lookup.Lookupable#getInquiryUrl(org.kuali.core.bo.BusinessObject, java.lang.String)
      */
@@ -49,31 +45,30 @@ public class LedgerBalanceForBenefitExpenseTransferLookupableHelperServiceImpl e
         return (new LedgerBalanceInquirableImpl()).getInquiryUrl(bo, propertyName);
     }
 
-
     /**
      * @see org.kuali.core.lookup.Lookupable#getSearchResults(java.util.Map)
      */
     @Override
     public List getSearchResults(Map fieldValues) {
         LOG.info("Start getSearchResults()");
-        
+
         setBackLocation((String) fieldValues.get(KFSConstants.BACK_LOCATION));
         setDocFormKey((String) fieldValues.get(KFSConstants.DOC_FORM_KEY));
 
-        String fiscalYearString = (String)fieldValues.get(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR);        
+        String fiscalYearString = (String) fieldValues.get(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR);
         Options options = this.getOptions(fiscalYearString);
-        
+
         fieldValues.put(KFSPropertyConstants.FINANCIAL_OBJECT_TYPE_CODE, options.getFinObjTypeExpenditureexpCd());
         fieldValues.put(KFSPropertyConstants.LABOR_OBJECT + "." + KFSPropertyConstants.FINANCIAL_OBJECT_FRINGE_OR_SALARY_CODE, BenefitExpenseTransfer.LABOR_LEDGER_BENEFIT_CODE);
-        
+
         // get the ledger balances with actual balance type code
         fieldValues.put(KFSPropertyConstants.FINANCIAL_BALANCE_TYPE_CODE, options.getActualFinancialBalanceTypeCd());
-        Collection cashBalances =  buildConsolidatedBalanceCollection(getBalanceService().findBalance(fieldValues, true), Constant.NO_PENDING_ENTRY);
-        
+        Collection cashBalances = buildDetailedBalanceCollection(getBalanceService().findBalance(fieldValues, true), Constant.NO_PENDING_ENTRY);
+
         // get the ledger balances with effort balance type code
         fieldValues.put(KFSPropertyConstants.FINANCIAL_BALANCE_TYPE_CODE, KFSConstants.BALANCE_TYPE_A21);
-        Collection effortBalances = buildConsolidatedBalanceCollection(getBalanceService().findBalance(fieldValues, true), Constant.NO_PENDING_ENTRY);
-                
+        Collection effortBalances = buildDetailedBalanceCollection(getBalanceService().findBalance(fieldValues, true), Constant.NO_PENDING_ENTRY);
+
         Collection searchResults = cashBalances;
         LOG.debug("cashBalancesResults " + cashBalances.size());
         searchResults.addAll(effortBalances);
@@ -84,18 +79,19 @@ public class LedgerBalanceForBenefitExpenseTransferLookupableHelperServiceImpl e
 
         return buildSearchResultList(searchResults, actualSize);
     }
-    
+
     /**
      * get the Options object for the given fiscal year
+     * 
      * @param fiscalYearString the given fiscal year
      * @return the Options object for the given fiscal year
      */
-    private Options getOptions(String fiscalYearString){
+    private Options getOptions(String fiscalYearString) {
         Options options;
-        if(fiscalYearString == null){
+        if (fiscalYearString == null) {
             options = optionsService.getCurrentYearOptions();
         }
-        else{
+        else {
             Integer fiscalYear = Integer.valueOf(fiscalYearString.trim());
             options = optionsService.getOptions(fiscalYear);
         }
@@ -104,10 +100,10 @@ public class LedgerBalanceForBenefitExpenseTransferLookupableHelperServiceImpl e
 
     /**
      * Sets the optionsService attribute value.
+     * 
      * @param optionsService The optionsService to set.
      */
     public void setOptionsService(OptionsService optionsService) {
         this.optionsService = optionsService;
     }
-
 }

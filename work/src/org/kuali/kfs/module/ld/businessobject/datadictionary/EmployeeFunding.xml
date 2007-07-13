@@ -44,6 +44,7 @@
 
             <resultFields>				
 				<field attributeName="personName" />
+				<field attributeName="universityFiscalYear"/> 
                 <field attributeName="chartOfAccountsCode" />
                 <field attributeName="accountNumber" />
                 <field attributeName="subAccountNumber" />

@@ -33,7 +33,8 @@ public class VendorCustomerNumber extends PersistableBusinessObjectBase {
 	private String vendorCustomerNumber;
 	private String chartOfAccountsCode;
 	private String vendorOrganizationCode;
-
+    private boolean active;
+    
     private VendorDetail vendorDetail;
 	private Org vendorOrganization;
 	private Chart chartOfAccounts;
@@ -170,6 +171,21 @@ public class VendorCustomerNumber extends PersistableBusinessObjectBase {
 		this.vendorOrganizationCode = vendorOrganizationCode;
 	}
 
+    /**
+     * Gets the active attribute. 
+     * @return Returns the active.
+     */
+    public boolean isActive() {
+        return active;
+    }
+
+    /**
+     * Sets the active attribute value.
+     * @param active The active to set.
+     */
+    public void setActive(boolean active) {
+        this.active = active;
+    }    
 
 	/**
 	 * Gets the vendorDetail attribute.

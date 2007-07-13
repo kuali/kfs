@@ -28,7 +28,8 @@ public class VendorAlias extends PersistableBusinessObjectBase {
 	private String vendorAliasName;
 	private Integer vendorDetailAssignedIdentifier;
 	private Integer vendorHeaderGeneratedIdentifier;
-
+    private boolean active;
+    
     VendorDetail vendorDetail;
     
 	/**
@@ -100,6 +101,22 @@ public class VendorAlias extends PersistableBusinessObjectBase {
 		this.vendorHeaderGeneratedIdentifier = vendorHeaderGeneratedIdentifier;
 	}
 
+    /**
+     * Gets the active attribute. 
+     * @return Returns the active.
+     */
+    public boolean isActive() {
+        return active;
+    }
+
+    /**
+     * Sets the active attribute value.
+     * @param active The active to set.
+     */
+    public void setActive(boolean active) {
+        this.active = active;
+    }    
+    
     /**
      * Gets the vendorDetail attribute. 
      * @return Returns the vendorDetail.

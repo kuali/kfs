@@ -36,7 +36,8 @@ public class VendorContractOrganization extends PersistableBusinessObjectBase im
 	private String organizationCode;
 	private KualiDecimal vendorContractPurchaseOrderLimitAmount;
 	private boolean vendorContractExcludeIndicator;
-
+    private boolean active;
+    
     private VendorContract vendorContract;
     private Org organization;
 	private Chart chartOfAccounts;
@@ -153,7 +154,22 @@ public class VendorContractOrganization extends PersistableBusinessObjectBase im
 		this.vendorContractExcludeIndicator = vendorContractExcludeIndicator;
 	}
 
+    /**
+     * Gets the active attribute. 
+     * @return Returns the active.
+     */
+    public boolean isActive() {
+        return active;
+    }
 
+    /**
+     * Sets the active attribute value.
+     * @param active The active to set.
+     */
+    public void setActive(boolean active) {
+        this.active = active;
+    }
+    
 	/**
 	 * Gets the organization attribute.
 	 * 

@@ -44,6 +44,7 @@ public class VendorContact extends PersistableBusinessObjectBase {
     private String vendorCountryCode;
     private String vendorAttentionName;
     private String vendorAddressInternationalProvinceName;
+    private boolean active;
     
     //These aren't persisted in db, only for lookup page
     private String phoneNumberForLookup;
@@ -264,6 +265,22 @@ public class VendorContact extends PersistableBusinessObjectBase {
         this.vendorAddressInternationalProvinceName = vendorAddressInternationalProvinceName;
     }
 
+    /**
+     * Gets the active attribute. 
+     * @return Returns the active.
+     */
+    public boolean isActive() {
+        return active;
+    }
+
+    /**
+     * Sets the active attribute value.
+     * @param active The active to set.
+     */
+    public void setActive(boolean active) {
+        this.active = active;
+    }    
+    
     /**
      * Gets the vendorAttentionName attribute. 
      * @return Returns the vendorAttentionName.

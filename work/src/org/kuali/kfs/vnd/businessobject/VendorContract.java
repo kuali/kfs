@@ -53,7 +53,8 @@ public class VendorContract extends PersistableBusinessObjectBase implements Ven
 	private Date vendorContractExtensionDate;
 	private Boolean vendorB2bIndicator;
 	private KualiDecimal organizationAutomaticPurchaseOrderLimit;
-
+    private boolean active;
+    
     private List<VendorContractOrganization> vendorContractOrganizations;
     
 	private VendorDetail vendorDetail;
@@ -406,6 +407,22 @@ public class VendorContract extends PersistableBusinessObjectBase implements Ven
 		this.organizationAutomaticPurchaseOrderLimit = organizationAutomaticPurchaseOrderLimit;
 	}
 
+    /**
+     * Gets the active attribute. 
+     * @return Returns the active.
+     */
+    public boolean isActive() {
+        return active;
+    }
+
+    /**
+     * Sets the active attribute value.
+     * @param active The active to set.
+     */
+    public void setActive(boolean active) {
+        this.active = active;
+    }    
+    
 	/**
 	 * Gets the vendorDetail attribute.
 	 * 

@@ -32,7 +32,8 @@ public class VendorDefaultAddress extends PersistableBusinessObjectBase implemen
     private Integer vendorDefaultAddressGeneratedIdentifier;
     private Integer vendorAddressGeneratedIdentifier;
 	private String vendorCampusCode;
-
+    private boolean active;
+    
     private VendorAddress vendorAddress;
 	private Campus vendorCampus;
     
@@ -84,7 +85,22 @@ public class VendorDefaultAddress extends PersistableBusinessObjectBase implemen
 		this.vendorAddressGeneratedIdentifier = vendorAddressGeneratedIdentifier;
 	}
 
+    /**
+     * Gets the active attribute. 
+     * @return Returns the active.
+     */
+    public boolean isActive() {
+        return active;
+    }
 
+    /**
+     * Sets the active attribute value.
+     * @param active The active to set.
+     */
+    public void setActive(boolean active) {
+        this.active = active;
+    }
+    
 	/**
 	 * Gets the vendorAddress attribute.
 	 * 

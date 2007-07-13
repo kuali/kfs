@@ -51,7 +51,8 @@ public class VendorAddress extends PersistableBusinessObjectBase implements Vend
     private String vendorBusinessToBusinessUrlAddress;
     private String vendorFaxNumber;
     private boolean vendorDefaultAddressIndicator;
-
+    private boolean active;
+    
 //    private String[] vendorDefaultAddresses = {};
     private List<VendorDefaultAddress> vendorDefaultAddresses;
 
@@ -478,6 +479,22 @@ public class VendorAddress extends PersistableBusinessObjectBase implements Vend
         this.vendorDefaultAddressIndicator = vendorDefaultAddressIndicator;
     }
 
+    /**
+     * Gets the active attribute. 
+     * @return Returns the active.
+     */
+    public boolean isActive() {
+        return active;
+    }
+
+    /**
+     * Sets the active attribute value.
+     * @param active The active to set.
+     */
+    public void setActive(boolean active) {
+        this.active = active;
+    }    
+    
     /**
      * Gets the vendorDefaultAddresses attribute. 
      * @return Returns the vendorDefaultAddresses.

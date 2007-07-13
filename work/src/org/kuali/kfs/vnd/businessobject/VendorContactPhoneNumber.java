@@ -30,7 +30,8 @@ public class VendorContactPhoneNumber extends PersistableBusinessObjectBase {
 	private String vendorPhoneTypeCode;
 	private String vendorPhoneNumber;
 	private String vendorPhoneExtensionNumber;
-
+    private boolean active;
+    
     private PhoneType vendorPhoneType;
     
 	/**
@@ -144,6 +145,22 @@ public class VendorContactPhoneNumber extends PersistableBusinessObjectBase {
 		this.vendorPhoneExtensionNumber = vendorPhoneExtensionNumber;
 	}
 
+    /**
+     * Gets the active attribute. 
+     * @return Returns the active.
+     */
+    public boolean isActive() {
+        return active;
+    }
+
+    /**
+     * Sets the active attribute value.
+     * @param active The active to set.
+     */
+    public void setActive(boolean active) {
+        this.active = active;
+    }
+    
     /**
      * Gets the vendorPhoneType attribute. 
      * @return Returns the vendorPhoneType.

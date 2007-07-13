@@ -76,11 +76,14 @@ public class PaymentRequestDocumentRule extends AccountsPayableDocumentRuleBase 
     @Override
     protected boolean processCustomRouteDocumentBusinessRules(Document document) {
         boolean isValid = true;
-        PurchasingAccountsPayableDocument purapDocument = (PurchasingAccountsPayableDocument) document;
+        PaymentRequestDocument paymentRequestDocument = (PaymentRequestDocument) document;
+        //TODO: this won't be required if we save at continue
+        fixItemReferences(paymentRequestDocument);
+        
         //not needed, this is done on calculate if we need to warn them outside of calculate that has to be done elsewhere
         //validateTotals((PaymentRequestDocument)purapDocument);
-        isValid &= validateRouteFiscal(purapDocument);
-        isValid &= processValidation(purapDocument);
+        isValid &= validateRouteFiscal(paymentRequestDocument);
+        isValid &= processValidation(paymentRequestDocument);
         return isValid; 
     }
       
@@ -94,9 +97,19 @@ public class PaymentRequestDocumentRule extends AccountsPayableDocumentRuleBase 
         //some validations that won't be needed for save (e.g. the total must be 100%), so
         //that I couldn't call the super.processItemValidation within the processItemValidation
         //in this class.
+        
+        //TODO: this won't be required if we save at continue
+        fixItemReferences(paymentRequestDocument);
         isValid &= processItemValidationForSave(paymentRequestDocument);
         isValid &= processItemValidation(paymentRequestDocument);
         return isValid;
+    }
+    
+    //TODO: move this to the service until I can get rid of it
+    public void fixItemReferences(PaymentRequestDocument preq) {
+        for (PaymentRequestItem item : (List<PaymentRequestItem>)preq.getItems()) {
+            item.setPaymentRequest(preq);
+        }
     }
     
     public boolean processContinueAccountsPayableBusinessRules(AccountsPayableDocument apDocument) {

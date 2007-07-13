@@ -21,6 +21,7 @@ import static org.kuali.kfs.KFSPropertyConstants.AMOUNT;
 import static org.kuali.kfs.KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE;
 import static org.kuali.kfs.KFSPropertyConstants.FINANCIAL_OBJECT_CODE;
 import static org.kuali.kfs.KFSPropertyConstants.FINANCIAL_SUB_OBJECT_CODE;
+import static org.kuali.kfs.KFSPropertyConstants.OBJECT_TYPE_CODE;
 import static org.kuali.kfs.KFSPropertyConstants.ORGANIZATION_REFERENCE_ID;
 import static org.kuali.kfs.KFSPropertyConstants.PAYROLL_END_DATE_FISCAL_PERIOD_CODE;
 import static org.kuali.kfs.KFSPropertyConstants.PAYROLL_END_DATE_FISCAL_YEAR;
@@ -41,8 +42,9 @@ import org.kuali.kfs.bo.TargetAccountingLine;
  */
 public class LaborLedgerAccountingLineParser extends AccountingLineParserBase {
 
-    protected static final String[] LABOR_LEDGER_FORMAT = { CHART_OF_ACCOUNTS_CODE, ACCOUNT_NUMBER, SUB_ACCOUNT_NUMBER, FINANCIAL_OBJECT_CODE, FINANCIAL_SUB_OBJECT_CODE, PROJECT_CODE, ORGANIZATION_REFERENCE_ID, POSITION_NUMBER,
-        PAYROLL_END_DATE_FISCAL_YEAR, PAYROLL_END_DATE_FISCAL_PERIOD_CODE, PAYROLL_TOTAL_HOURS, AMOUNT };
+    protected static final String[] LABOR_LEDGER_FORMAT = { CHART_OF_ACCOUNTS_CODE, ACCOUNT_NUMBER, SUB_ACCOUNT_NUMBER, FINANCIAL_OBJECT_CODE, FINANCIAL_SUB_OBJECT_CODE, PROJECT_CODE,
+        ORGANIZATION_REFERENCE_ID, POSITION_NUMBER, PAYROLL_END_DATE_FISCAL_YEAR, PAYROLL_END_DATE_FISCAL_PERIOD_CODE, PAYROLL_TOTAL_HOURS, AMOUNT };
+    
     
     public LaborLedgerAccountingLineParser() {
     }

@@ -751,7 +751,7 @@ public class KFSPropertyConstants extends PropertyConstants {
     // public static final String KUALI_USER_PERSON_UPDATE_ABILITY_NUMBER = "personUpdateAbilityNumber";
     public static final String KUALI_USER_PERSON_USER_IDENTIFIER = "personUserIdentifier";
     public static final String LABOR_OBJECT = "laborObject";
-    public static final String LABORLEDGER_ORIGINAL_CHART_OF_ACCOUNTS_CODE = "aborLedgerOriginalChartOfAccountsCode";
+    public static final String LABORLEDGER_ORIGINAL_CHART_OF_ACCOUNTS_CODE = "laborLedgerOriginalChartOfAccountsCode";
     public static final String LABORLEDGER_ORIGINAL_ACCOUNT_NUMBER = "laborLedgerOriginalAccountNumber";
     public static final String LABORLEDGER_ORIGINAL_SUB_ACCOUNT_NUMBER = "laborLedgerOriginalSubAccountNumber";
     public static final String LABORLEDGER_ORIGINAL_FINANCIAL_OBJECT_CODE = "laborLedgerOriginalFinancialObjectCode";

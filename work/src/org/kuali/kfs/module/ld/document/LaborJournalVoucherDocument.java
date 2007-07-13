@@ -23,15 +23,12 @@ import org.kuali.core.document.AmountTotaling;
 import org.kuali.core.exceptions.ValidationException;
 import org.kuali.core.rule.event.KualiDocumentEvent;
 import org.kuali.kfs.bo.AccountingLineParser;
-import org.kuali.kfs.bo.TargetAccountingLine;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.financial.document.JournalVoucherDocument;
 import org.kuali.module.labor.LaborConstants.JournalVoucherOffsetType;
-import org.kuali.module.labor.bo.ExpenseTransferSourceAccountingLine;
+import org.kuali.module.labor.bo.LaborJournalVoucherAccountingLineParser;
 import org.kuali.module.labor.bo.LaborJournalVoucherDetail;
-import org.kuali.module.labor.bo.LaborLedgerAccountingLineParser;
 import org.kuali.module.labor.bo.LaborLedgerPendingEntry;
-import org.kuali.module.labor.bo.TestSourceAccountingLine;
 
 // @latex.ClassSignatureStart
 /**
@@ -133,5 +130,15 @@ public class LaborJournalVoucherDocument extends JournalVoucherDocument implemen
      */
     public void setDocumentType(DocumentType documentType) {
         this.documentType = documentType;
+    }
+    
+    /**
+     * Used to get the appropriate <code>{@link AccountingLineParser}</code> for the <code>Document</code>
+     * 
+     * @return AccountingLineParser
+     */
+    @Override
+    public AccountingLineParser getAccountingLineParser() {
+        return new LaborJournalVoucherAccountingLineParser(getBalanceTypeCode());
     }
 }

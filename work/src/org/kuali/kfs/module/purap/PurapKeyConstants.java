@@ -45,7 +45,8 @@ public class PurapKeyConstants {
     public static final String ERROR_QUOTE_TRANSMITTED = "error.purchaseOrder.quote.transmitted";
     public static final String ERROR_NO_ITEMS = "error.requisition.no.items";
     public static final String ERROR_NO_ACCOUNTS = "error.requisition.no.accounts";
-
+    public static final String ERROR_NOT_100_PERCENT = "error.requisition.items.not.100.percent";
+    
     //Purchase Order  
     public static final String PURCHASE_ORDER_QUESTION_DOCUMENT = "purchaseOrder.question.text";
     public static final String PURCHASE_ORDER_MESSAGE_CLOSE_DOCUMENT = "purchaseOrder.route.message.close.text";

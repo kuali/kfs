@@ -15,6 +15,7 @@
  */
 package org.kuali.module.purap.rules;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
@@ -31,12 +32,14 @@ import org.kuali.core.workflow.service.KualiWorkflowDocument;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.bo.AccountingLine;
 import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
+import org.kuali.kfs.bo.SourceAccountingLine;
 import org.kuali.kfs.document.AccountingDocument;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.PurapKeyConstants;
 import org.kuali.module.purap.PurapPropertyConstants;
 import org.kuali.module.purap.PurapConstants.ItemFields;
+import org.kuali.module.purap.bo.PurApAccountingLine;
 import org.kuali.module.purap.bo.PurchasingApItem;
 import org.kuali.module.purap.document.PurchasingAccountsPayableDocument;
 import org.kuali.module.purap.document.PurchasingDocument;
@@ -83,12 +86,23 @@ public class RequisitionDocumentRule extends PurchasingDocumentRuleBase {
             for (PurchasingApItem item : purapDocument.getItems()) {
                 item.refreshNonUpdateableReferences();
 
-                //only do this check for below the line items
-                if (item.getItemType().isItemTypeAboveTheLineIndicator() &&
-                        item.getSourceAccountingLines().size() == 0) {
-                    GlobalVariables.getErrorMap().putError(Constants.ITEM_LINE_ERRORS, PurapKeyConstants.ERROR_NO_ACCOUNTS);
-                    valid = false;
-                    break;
+                //only do these check for below the line items
+                if (item.getItemType().isItemTypeAboveTheLineIndicator()) {
+                    if (item.getSourceAccountingLines().size() == 0) {
+                        GlobalVariables.getErrorMap().putError(Constants.ITEM_LINE_ERRORS, PurapKeyConstants.ERROR_NO_ACCOUNTS);
+                        valid = false;
+                        break;
+                    }
+
+                    BigDecimal totalPercentage = new BigDecimal(0);
+                    for (PurApAccountingLine accountingLine : item.getSourceAccountingLines()) {
+                        totalPercentage = totalPercentage.add(accountingLine.getAccountLinePercent());
+                    }
+                    if (!totalPercentage.equals(new BigDecimal(100))) {
+                        GlobalVariables.getErrorMap().putError(Constants.ITEM_LINE_ERRORS, PurapKeyConstants.ERROR_NOT_100_PERCENT);
+                        valid = false;
+                        break;
+                    }
                 }
             }
         }

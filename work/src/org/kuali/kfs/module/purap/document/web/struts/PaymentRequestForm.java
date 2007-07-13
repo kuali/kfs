@@ -186,7 +186,7 @@ public class PaymentRequestForm extends AccountsPayableFormBase {
                 }
 
                 //add the calcuate button
-                addExtraButton("methodToCall.calculate", externalImageURL + "buttonsmall_calculate.gif", "Calculate");
+                addExtraButton("methodToCall.calculate", appExternalImageURL + "buttonsmall_calculate.gif", "Calculate");
             }
         }
 

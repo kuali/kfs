@@ -191,7 +191,6 @@ public class LaborDaoOjb extends PlatformAwareDaoBaseOjb implements LaborDao {
         groupByList.add(KFSPropertyConstants.FINANCIAL_SUB_OBJECT_CODE);
         groupByList.add(KFSPropertyConstants.POSITION_NUMBER);
         groupByList.add(KFSPropertyConstants.EMPLID);
-        groupByList.add(KFSPropertyConstants.ACCOUNT_LINE_ANNUAL_BALANCE_AMOUNT);
 
         String[] groupBy = (String[]) groupByList.toArray(new String[groupByList.size()]);
         List<String> attributeList = new ArrayList<String>(groupByList);

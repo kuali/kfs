@@ -661,6 +661,9 @@
 		<property name="dataDictionaryService">
 			<ref bean="dataDictionaryService" />
 		</property>
+		<property name="laborDao">
+			<ref bean="laborDao" />
+		</property>
 	</bean>
 
 	<bean id="segmentedLookupResultsService" class="org.kuali.module.labor.service.impl.SegmentedLookupResultsServiceImpl">

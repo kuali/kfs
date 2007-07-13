@@ -23,11 +23,8 @@ import java.util.Map;
 import org.kuali.core.bo.BusinessObject;
 import org.kuali.core.lookup.AbstractLookupableHelperServiceImpl;
 import org.kuali.core.lookup.CollectionIncomplete;
-import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.util.SpringServiceLocator;
-import org.kuali.module.gl.service.BalanceService;
 import org.kuali.module.labor.bo.EmployeeFunding;
 import org.kuali.module.labor.dao.LaborDao;
 import org.kuali.module.labor.web.inquirable.EmployeeFundingInquirableImpl;
@@ -40,23 +37,26 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Transactional
 public class EmployeeFundingLookupableHelperServiceImpl extends AbstractLookupableHelperServiceImpl {
-    private BalanceService balanceService;
-    private Map fieldValues;
+    private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(EmployeeFundingLookupableHelperServiceImpl.class);
     private LaborDao laborDao;
-    private KualiConfigurationService kualiConfigurationService;
+
+    /**
+     * @see org.kuali.core.lookup.Lookupable#getInquiryUrl(org.kuali.core.bo.BusinessObject, java.lang.String)
+     */
+    @Override
+    public String getInquiryUrl(BusinessObject bo, String propertyName) {
+        return (new EmployeeFundingInquirableImpl()).getInquiryUrl(bo, propertyName);
+    }
 
     /**
      * @see org.kuali.core.lookup.Lookupable#gfetSearchResults(java.util.Map)
      */
     @Override
     public List getSearchResults(Map fieldValues) {
-        
-        this.setLaborDao(SpringServiceLocator.getLaborDao());
-        boolean unbounded = false;
 
         setBackLocation((String) fieldValues.get(KFSConstants.BACK_LOCATION));
         setDocFormKey((String) fieldValues.get(KFSConstants.DOC_FORM_KEY));
-        
+
         // Parse the map and call the DAO to process the inquiry
         Iterator searchResultsCollection = laborDao.getEmployeeFunding(fieldValues);
 
@@ -84,13 +84,9 @@ public class EmployeeFundingLookupableHelperServiceImpl extends AbstractLookupab
     }
 
     /**
-     * @see org.kuali.core.lookup.Lookupable#getInquiryUrl(org.kuali.core.bo.BusinessObject, java.lang.String)
+     * Sets the laborDao attribute value.
+     * @param laborDao The laborDao to set.
      */
-    @Override
-    public String getInquiryUrl(BusinessObject bo, String propertyName) {
-        return (new EmployeeFundingInquirableImpl()).getInquiryUrl(bo, propertyName);
-    }
-    
     public void setLaborDao(LaborDao laborDao) {
         this.laborDao = laborDao;
     }

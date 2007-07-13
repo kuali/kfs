@@ -140,10 +140,10 @@ public class AccountsPayableActionBase extends PurchasingAccountsPayableActionBa
     }
 
     @Override
-    public ActionForward approve(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+    public ActionForward route(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         PaymentRequestForm preqForm = (PaymentRequestForm) form;
         if (preqForm.isCalculated()) {
-            return super.approve(mapping, form, request, response);
+            return super.route(mapping, form, request, response);
         }
         GlobalVariables.getErrorMap().putError(Constants.DOCUMENT_ERRORS, PurapKeyConstants.ERROR_APPROVE_REQUIRES_CALCULATE);
         return mapping.findForward(KFSConstants.MAPPING_BASIC);

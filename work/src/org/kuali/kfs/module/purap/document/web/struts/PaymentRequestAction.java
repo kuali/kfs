@@ -86,32 +86,34 @@ public class PaymentRequestAction extends AccountsPayableActionBase {
 
         PaymentRequestForm preqForm = (PaymentRequestForm) form;
         PaymentRequestDocument paymentRequestDocument = (PaymentRequestDocument) preqForm.getDocument();
-
+        
         // preform duplicate check which will forward to a question prompt if one is found
         ActionForward forward = performDuplicatePaymentRequestCheck(mapping, form, request, response, paymentRequestDocument);
         if (forward != null) {
             return forward;
-        }
-
+                } 
+                
         // If we are here either there was no duplicate or there was a duplicate and the user hits continue, in either case we need
         // to validate the business rules
         /// paymentRequestDocument.getDocumentHeader().setFinancialDocumentDescription("dummy data to pass the business rule");
-        boolean rulePassed = SpringServiceLocator.getKualiRuleService().applyRules(new ContinueAccountsPayableEvent(paymentRequestDocument));
-
-        if (rulePassed) {
+        boolean rulePassed = SpringServiceLocator.getKualiRuleService().applyRules(new ContinueAccountsPayableEvent(paymentRequestDocument));        
+        
+        if (rulePassed) {           
             paymentRequestDocument.setStatusCode(PurapConstants.PaymentRequestStatuses.IN_PROCESS);
             SpringServiceLocator.getPaymentRequestService().populatePaymentRequest(paymentRequestDocument);
-           /// SpringServiceLocator.getPaymentRequestService().save(paymentRequestDocument);
-            
+            //TODO: Naser you can replace this with your call when you complete KULPURAP-1003 for now I need this here as a workaround for Jay
+            SpringServiceLocator.getDocumentService().saveDocument(paymentRequestDocument);
         }
         else {
             paymentRequestDocument.setStatusCode(PurapConstants.PaymentRequestStatuses.INITIATE);
         }
-
+        
         paymentRequestDocument.refreshAllReferences();
+        //force calculation
+        preqForm.setCalculated(false);
         
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
-
+                
     }
     
     public ActionForward clearInitFields(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -123,8 +125,7 @@ public class PaymentRequestAction extends AccountsPayableActionBase {
 
         return super.refresh(mapping, form, request, response);
     }
-    
-    
+
     /**
      * Calls PaymentRequestService to perform the duplicate payment request check. If one is found, a question is setup and control is
      * forwarded to the question action method. Coming back from the question prompt the button that was clicked is checked and if

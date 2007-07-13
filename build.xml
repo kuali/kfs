@@ -396,7 +396,7 @@
 				<filter token="test-rice-password" value="${rice.datasource.password.test}" />
 			</filterset>
 		</copy>
-		<maven goals="install source:jar javadoc:jar" options="-U -Pinstall-kns-dev -Dpackaging=jar" />
+		<maven goals="clean:clean install source:jar javadoc:jar" options="-U -Pinstall-kns-dev -Dpackaging=jar" />
 		<touch file="${rice.project.directory}/pom.xml" />
 	</target>
 	
@@ -408,7 +408,7 @@
 		<delete>
 			<fileset dir="${basedir}" includes="${lib.directory}/${rice.output.file.prefix}${rice.output.lib.suffix}" />
 		</delete>
-		<maven goals="package" />
+		<maven goals="clean:clean package" />
 		<copy todir="${lib.directory}" flatten="true">
 			<fileset dir="${rice.project.directory}" includes="${rice.output.directories}${rice.output.file.prefix}${rice.version}${rice.output.lib.suffix}" excludes="${rice.excludes}" />
 		</copy>

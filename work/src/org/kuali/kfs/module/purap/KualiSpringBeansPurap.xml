@@ -136,6 +136,9 @@
 		<property name="purapAccountingService">
 			<ref bean="purapAccountingService" />
 		</property>	
+        <property name="universityDateService">
+            <ref bean="universityDateService" />
+        </property>
 	</bean>
 	
 	<bean id="purapAccountingService" class="org.kuali.module.purap.service.impl.PurapAccountingServiceImpl">

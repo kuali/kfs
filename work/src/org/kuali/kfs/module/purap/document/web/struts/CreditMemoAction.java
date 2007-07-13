@@ -22,13 +22,12 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.kuali.Constants;
-import org.kuali.KeyConstants;
 import org.kuali.core.exceptions.ValidationException;
 import org.kuali.core.question.ConfirmationQuestion;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.web.struts.form.KualiDocumentFormBase;
 import org.kuali.kfs.KFSConstants;
+import org.kuali.kfs.KFSKeyConstants;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.PurapKeyConstants;
@@ -206,7 +205,7 @@ public class CreditMemoAction extends AccountsPayableActionBase {
         CreditMemoDocument creditMemoDocument = (CreditMemoDocument) cmForm.getDocument();
 
         if (!cmForm.isCalculated()) {
-            GlobalVariables.getErrorMap().putError(Constants.DOCUMENT_ERRORS, PurapKeyConstants.ERROR_APPROVE_REQUIRES_CALCULATE);
+            GlobalVariables.getErrorMap().putError(KFSConstants.DOCUMENT_ERRORS, PurapKeyConstants.ERROR_APPROVE_REQUIRES_CALCULATE);
             return mapping.findForward(KFSConstants.MAPPING_BASIC);
         }
 
@@ -223,7 +222,7 @@ public class CreditMemoAction extends AccountsPayableActionBase {
         }
         
         // add route success message
-        GlobalVariables.getMessageList().add(KeyConstants.MESSAGE_ROUTE_SUCCESSFUL);
+        GlobalVariables.getMessageList().add(KFSKeyConstants.MESSAGE_ROUTE_SUCCESSFUL);
         cmForm.setAnnotation("");
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);

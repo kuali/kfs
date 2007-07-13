@@ -73,23 +73,24 @@
 	<classpathentry kind="lib" path="work/web-root/WEB-INF/lib/oscache-2.3.2.jar"/>
 	<classpathentry kind="lib" path="work/web-root/WEB-INF/lib/jdom-1.0.jar"/>
 	<classpathentry kind="lib" path="work/web-root/WEB-INF/lib/xstream-1.2.2.jar"/>
-	<classpathentry kind="lib" path="build/configurationFiles/appserver/lib/log4j-1.2.9.jar"/>
-	<classpathentry kind="lib" path="build/configurationFiles/appserver/lib/xapool.jar"/>
-	<classpathentry kind="lib" path="build/configurationFiles/appserver/lib/ow_carol.jar"/>
-	<classpathentry kind="lib" path="build/configurationFiles/appserver/lib/objectweb-datasource.jar"/>
-	<classpathentry kind="lib" path="build/configurationFiles/appserver/lib/jts1_0.jar"/>
-	<classpathentry kind="lib" path="build/configurationFiles/appserver/lib/jta-spec1_0_1.jar"/>
-	<classpathentry kind="lib" path="build/configurationFiles/appserver/lib/jotm.jar"/>
-	<classpathentry kind="lib" path="build/configurationFiles/appserver/lib/jotm_jrmp_stubs.jar"/>
-	<classpathentry kind="lib" path="build/configurationFiles/appserver/lib/jotm_iiop_stubs.jar"/>
-	<classpathentry kind="lib" path="build/configurationFiles/appserver/lib/howl.jar"/>
-	<classpathentry kind="lib" path="build/configurationFiles/appserver/lib/connector-1_5.jar"/>
-	<classpathentry kind="lib" path="build/configurationFiles/appserver/lib/commons-logging.jar"/>
-	<classpathentry kind="lib" path="build/configurationFiles/appserver/lib/commons-cli-1.0.jar"/>
 	<classpathentry kind="lib" path="work/web-root/WEB-INF/lib/rice-kew-2.4.1-RC2.jar"/>
 	<classpathentry kind="lib" path="work/web-root/WEB-INF/lib/rice-shared-0.9.0.1-SNAPSHOT.jar"/>
 	<classpathentry kind="lib" path="work/web-root/WEB-INF/lib/rice-ksb-0.9.0.1-SNAPSHOT.jar"/>
 	<classpathentry kind="lib" path="work/web-root/WEB-INF/lib/rice-kns-0.9.0.1-SNAPSHOT.jar"/>
 	<classpathentry kind="lib" path="work/web-root/WEB-INF/lib/rice-core-0.9.0.1-SNAPSHOT.jar"/>
+	<classpathentry kind="lib" path="build/appserverHome/xapool.jar"/>
+	<classpathentry kind="lib" path="build/appserverHome/p6spy-1.3-patched.jar"/>
+	<classpathentry kind="lib" path="build/appserverHome/ow_carol.jar"/>
+	<classpathentry kind="lib" path="build/appserverHome/objectweb-datasource.jar"/>
+	<classpathentry kind="lib" path="build/appserverHome/jts1_0.jar"/>
+	<classpathentry kind="lib" path="build/appserverHome/jta-spec1_0_1.jar"/>
+	<classpathentry kind="lib" path="build/appserverHome/jotm.jar"/>
+	<classpathentry kind="lib" path="build/appserverHome/jotm_jrmp_stubs.jar"/>
+	<classpathentry kind="lib" path="build/appserverHome/jotm_iiop_stubs.jar"/>
+	<classpathentry kind="lib" path="build/appserverHome/howl.jar"/>
+	<classpathentry kind="lib" path="build/appserverHome/connector-1_5.jar"/>
+	<classpathentry kind="lib" path="build/appserverHome/commons-logging.jar"/>
+	<classpathentry kind="lib" path="build/appserverHome/commons-cli-1.0.jar"/>
+	<classpathentry kind="lib" path="build/log4j-1.2.9.jar"/>
 	<classpathentry kind="output" path="work/web-root/WEB-INF/classes"/>
 </classpath>

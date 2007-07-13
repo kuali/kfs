@@ -22,9 +22,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.kuali.Constants;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.bo.Country;
 import org.kuali.kfs.context.KualiTestBase;
 import org.kuali.kfs.util.SpringServiceLocator;
@@ -118,7 +118,7 @@ public class PurchaseOrderQuotePdfTest extends KualiTestBase {
      */
     public void testGeneratePOQuotePDF() throws Exception {
 
-        String environment = SpringServiceLocator.getKualiConfigurationService().getPropertyString(Constants.ENVIRONMENT_KEY);
+        String environment = SpringServiceLocator.getKualiConfigurationService().getPropertyString(KFSConstants.ENVIRONMENT_KEY);
         
         poQuotePdf.generatePOQuotePDF(po, poqv, "East Lansing", "EL", getLogoImageName(), bao, environment);
         bao.writeTo(fo);

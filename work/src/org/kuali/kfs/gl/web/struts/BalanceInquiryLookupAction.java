@@ -15,40 +15,30 @@
  */
 package org.kuali.module.gl.web.struts.action;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
 import java.util.Properties;
 
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.kuali.Constants;
 import org.kuali.core.lookup.CollectionIncomplete;
 import org.kuali.core.lookup.LookupResultsService;
 import org.kuali.core.lookup.Lookupable;
-import org.kuali.core.lookup.LookupUtils;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.service.SequenceAccessorService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.UrlFactory;
-import org.kuali.core.web.struts.form.LookupForm;
-import org.kuali.core.web.struts.form.MultipleValueLookupForm;
 import org.kuali.core.web.struts.action.KualiMultipleValueLookupAction;
-import org.kuali.core.web.struts.action.KualiTableRenderAction;
+import org.kuali.core.web.struts.form.MultipleValueLookupForm;
 import org.kuali.core.web.ui.Column;
-import org.kuali.core.web.ui.Field;
 import org.kuali.core.web.ui.ResultRow;
-import org.kuali.core.web.ui.Row;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSKeyConstants;
 import org.kuali.kfs.KFSPropertyConstants;
@@ -58,7 +48,6 @@ import org.kuali.module.gl.bo.AccountBalance;
 import org.kuali.module.gl.util.ObjectHelper;
 import org.kuali.module.gl.web.lookupable.AccountBalanceByConsolidationLookupableHelperServiceImpl;
 import org.kuali.module.gl.web.struts.form.BalanceInquiryLookupForm;
-import org.kuali.kfs.util.SpringServiceLocator;
 
 /**
  * Balance inquiries are pretty much just lookups already, but are not used in the traditional sense. In most
@@ -219,10 +208,10 @@ public class BalanceInquiryLookupAction extends KualiMultipleValueLookupAction {
         
         // build the parameters for the refresh url
         Properties parameters = new Properties();
-        parameters.put(Constants.DOC_FORM_KEY, multipleValueLookupForm.getFormKey());
-        parameters.put(Constants.DISPATCH_REQUEST_PARAMETER, Constants.RETURN_METHOD_TO_CALL);
-        parameters.put(Constants.REFRESH_CALLER, Constants.MULTIPLE_VALUE);
-        parameters.put(Constants.ANCHOR, multipleValueLookupForm.getLookupAnchor());
+        parameters.put(KFSConstants.DOC_FORM_KEY, multipleValueLookupForm.getFormKey());
+        parameters.put(KFSConstants.DISPATCH_REQUEST_PARAMETER, KFSConstants.RETURN_METHOD_TO_CALL);
+        parameters.put(KFSConstants.REFRESH_CALLER, KFSConstants.MULTIPLE_VALUE);
+        parameters.put(KFSConstants.ANCHOR, multipleValueLookupForm.getLookupAnchor());
         
         String backUrl = UrlFactory.parameterizeUrl(multipleValueLookupForm.getBackLocation(), parameters);
         return new ActionForward(backUrl, true);
@@ -249,12 +238,12 @@ public class BalanceInquiryLookupAction extends KualiMultipleValueLookupAction {
         
         // build the parameters for the refresh url
         Properties parameters = new Properties();
-        parameters.put(Constants.LOOKUP_RESULTS_BO_CLASS_NAME, multipleValueLookupForm.getBusinessObjectClassName());
-        parameters.put(Constants.LOOKUP_RESULTS_SEQUENCE_NUMBER, multipleValueLookupForm.getLookupResultsSequenceNumber());
-        parameters.put(Constants.DOC_FORM_KEY, multipleValueLookupForm.getFormKey());
-        parameters.put(Constants.DISPATCH_REQUEST_PARAMETER, Constants.RETURN_METHOD_TO_CALL);
-        parameters.put(Constants.REFRESH_CALLER, Constants.MULTIPLE_VALUE);
-        parameters.put(Constants.ANCHOR, multipleValueLookupForm.getLookupAnchor());
+        parameters.put(KFSConstants.LOOKUP_RESULTS_BO_CLASS_NAME, multipleValueLookupForm.getBusinessObjectClassName());
+        parameters.put(KFSConstants.LOOKUP_RESULTS_SEQUENCE_NUMBER, multipleValueLookupForm.getLookupResultsSequenceNumber());
+        parameters.put(KFSConstants.DOC_FORM_KEY, multipleValueLookupForm.getFormKey());
+        parameters.put(KFSConstants.DISPATCH_REQUEST_PARAMETER, KFSConstants.RETURN_METHOD_TO_CALL);
+        parameters.put(KFSConstants.REFRESH_CALLER, KFSConstants.MULTIPLE_VALUE);
+        parameters.put(KFSConstants.ANCHOR, multipleValueLookupForm.getLookupAnchor());
         String backUrl = UrlFactory.parameterizeUrl(multipleValueLookupForm.getBackLocation(), parameters);
         return new ActionForward(backUrl, true);
     }
@@ -298,7 +287,7 @@ public class BalanceInquiryLookupAction extends KualiMultipleValueLookupAction {
         multipleValueLookupForm.jumpToFirstPage(resultTable.size(), maxRowsPerPage);
         
         SequenceAccessorService sequenceAccessorService = SpringServiceLocator.getSequenceAccessorService();
-        String lookupResultsSequenceNumber = String.valueOf(sequenceAccessorService.getNextAvailableSequenceNumber(Constants.LOOKUP_RESULTS_SEQUENCE));
+        String lookupResultsSequenceNumber = String.valueOf(sequenceAccessorService.getNextAvailableSequenceNumber(KFSConstants.LOOKUP_RESULTS_SEQUENCE));
         multipleValueLookupForm.setLookupResultsSequenceNumber(lookupResultsSequenceNumber);
         try {
             LookupResultsService lookupResultsService = SpringServiceLocator.getLookupResultsService();

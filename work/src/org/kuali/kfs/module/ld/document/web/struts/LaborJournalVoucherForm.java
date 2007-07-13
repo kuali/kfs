@@ -15,23 +15,9 @@
  */
 package org.kuali.module.labor.web.struts.form;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.servlet.http.HttpServletRequest;
-
-import org.apache.commons.lang.StringUtils;
-import org.kuali.Constants;
-import org.kuali.core.util.ObjectUtils;
-import org.kuali.kfs.bo.SourceAccountingLine;
-import org.kuali.kfs.util.SpringServiceLocator;
-import org.kuali.module.chart.bo.ObjectCode;
-import org.kuali.module.chart.bo.SubObjCd;
 import org.kuali.module.chart.bo.codes.BalanceTyp;
-import org.kuali.module.chart.service.BalanceTypService;
 import org.kuali.module.financial.document.JournalVoucherDocument;
 import org.kuali.module.financial.web.struts.form.JournalVoucherForm;
-import org.kuali.module.financial.web.struts.form.VoucherForm;
 import org.kuali.module.labor.LaborConstants.JournalVoucherOffsetType;
 import org.kuali.module.labor.document.LaborJournalVoucherDocument;
 

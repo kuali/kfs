@@ -21,8 +21,8 @@ import java.io.ByteArrayInputStream;
 import java.util.Arrays;
 import java.util.List;
 
-import org.kuali.KeyConstants;
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.kfs.KFSKeyConstants;
 import org.kuali.kfs.bo.AccountingLineParser;
 import org.kuali.kfs.bo.SourceAccountingLine;
 import org.kuali.kfs.bo.TargetAccountingLine;
@@ -66,7 +66,7 @@ public class AccountingLineParserBaseTest extends KualiTestBase {
     }
 
     private static void assertInvalidPropertyValue(AccountingLineParserException e, String expectedErrorParam) {
-        assertEquals(KeyConstants.AccountingLineParser.ERROR_INVALID_PROPERTY_VALUE, e.getErrorKey());
+        assertEquals(KFSKeyConstants.AccountingLineParser.ERROR_INVALID_PROPERTY_VALUE, e.getErrorKey());
         List<String> errorParams = Arrays.asList(e.getErrorParameters());
         assertTrue(errorParams + " contains '" + expectedErrorParam + "'", errorParams.contains(expectedErrorParam));
     }

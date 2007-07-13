@@ -20,10 +20,9 @@ import java.util.Collection;
 
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryFactory;
-import org.kuali.Constants;
-import org.kuali.PropertyConstants;
-import org.kuali.core.bo.DocumentHeader;
 import org.kuali.core.dao.ojb.PlatformAwareDaoBaseOjb;
+import org.kuali.kfs.KFSConstants;
+import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.module.gl.dao.CorrectionDocumentDao;
 import org.kuali.module.gl.document.CorrectionDocument;
 
@@ -31,7 +30,7 @@ public class CorrectionDocumentDaoOjb extends PlatformAwareDaoBaseOjb implements
 
     public Collection<CorrectionDocument> getCorrectionDocumentsFinalizedOn(Date documentFinalDate) {
         Criteria criteria = new Criteria();
-        criteria.addEqualTo(Constants.DOCUMENT_HEADER_PROPERTY_NAME + "." + PropertyConstants.DOCUMENT_FINAL_DATE, documentFinalDate);
+        criteria.addEqualTo(KFSConstants.DOCUMENT_HEADER_PROPERTY_NAME + "." + KFSPropertyConstants.DOCUMENT_FINAL_DATE, documentFinalDate);
         return getPersistenceBrokerTemplate().getCollectionByQuery(QueryFactory.newQuery(CorrectionDocument.class, criteria));
     }
 }

@@ -25,8 +25,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.Date;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -42,14 +40,11 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.upload.FormFile;
-import org.kuali.Constants;
 import org.kuali.core.authorization.AuthorizationConstants;
-import org.kuali.core.lookup.LookupUtils;
 import org.kuali.core.service.DateTimeService;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.service.SequenceAccessorService;
 import org.kuali.core.util.GlobalVariables;
-import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.web.comparator.NumericValueComparator;
 import org.kuali.core.web.comparator.TemporalValueComparator;
 import org.kuali.core.web.struts.action.KualiDocumentActionBase;
@@ -74,16 +69,12 @@ import org.kuali.module.gl.exception.LoadException;
 import org.kuali.module.gl.service.CorrectionDocumentService;
 import org.kuali.module.gl.service.OriginEntryGroupService;
 import org.kuali.module.gl.service.OriginEntryService;
-import org.kuali.module.gl.service.impl.CorrectionDocumentServiceImpl;
-import org.kuali.module.gl.util.CorrectionDocumentEntryMetadata;
 import org.kuali.module.gl.util.CorrectionDocumentUtils;
 import org.kuali.module.gl.util.OriginEntryStatistics;
-import org.kuali.module.gl.web.Constant;
 import org.kuali.module.gl.web.optionfinder.CorrectionGroupEntriesFinder;
 import org.kuali.module.gl.web.optionfinder.OriginEntryFieldFinder;
 import org.kuali.module.gl.web.struts.form.CorrectionForm;
 import org.kuali.module.gl.web.struts.form.GroupHolder;
-import org.kuali.kfs.util.SpringServiceLocator;
 
 import edu.iu.uis.eden.clientapp.IDocHandler;
 
@@ -120,7 +111,7 @@ public class CorrectionAction extends KualiDocumentActionBase implements KualiTa
         
         // If we are called from the docHandler or reload, ignore the persisted origin entries because we are either creating a new document
         // or loading an old one
-        if (!(Constants.DOC_HANDLER_METHOD.equals(rForm.getMethodToCall()) || Constants.RELOAD_METHOD_TO_CALL.equals(rForm.getMethodToCall()))) {
+        if (!(KFSConstants.DOC_HANDLER_METHOD.equals(rForm.getMethodToCall()) || KFSConstants.RELOAD_METHOD_TO_CALL.equals(rForm.getMethodToCall()))) {
             restoreSystemAndEditMethod(rForm);
             restoreInputGroupSelectionForDatabaseEdits(rForm);
             if (!rForm.isRestrictedFunctionalityMode()) {

@@ -15,7 +15,6 @@
  */
 package org.kuali.kfs.web.struts.action;
 
-import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -25,18 +24,15 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.Map.Entry;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.upload.FormFile;
-import org.kuali.Constants;
 import org.kuali.core.authorization.AuthorizationType;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.exceptions.AuthorizationException;
@@ -45,13 +41,12 @@ import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.WebUtils;
 import org.kuali.core.web.struts.action.KualiAction;
 import org.kuali.core.web.ui.KeyLabelPair;
+import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSKeyConstants;
 import org.kuali.kfs.batch.BatchInputFileSetType;
-import org.kuali.kfs.batch.BatchInputFileType;
 import org.kuali.kfs.bo.BatchUpload;
 import org.kuali.kfs.exceptions.FileStorageException;
 import org.kuali.kfs.service.BatchInputFileSetService;
-import org.kuali.kfs.util.KFSUtils;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.kfs.web.struts.form.KualiBatchInputFileSetForm;
 
@@ -105,7 +100,7 @@ public class KualiBatchInputFileSetAction extends KualiAction {
         if (batchType.isSupportsDoneFileCreation()) {
             
         }
-        return mapping.findForward(Constants.MAPPING_BASIC);
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
     /**
@@ -119,7 +114,7 @@ public class KualiBatchInputFileSetAction extends KualiAction {
 
         boolean requiredValuesForFilesMissing = false;
         if (StringUtils.isBlank(batchUpload.getFileUserIdentifer())) {
-            GlobalVariables.getErrorMap().putError(Constants.GLOBAL_ERRORS, KFSKeyConstants.ERROR_BATCH_UPLOAD_NO_FILE_SET_IDENTIFIER_SELECTED, new String[] {});
+            GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_ERRORS, KFSKeyConstants.ERROR_BATCH_UPLOAD_NO_FILE_SET_IDENTIFIER_SELECTED, new String[] {});
             requiredValuesForFilesMissing = true;
         }
         
@@ -131,7 +126,7 @@ public class KualiBatchInputFileSetAction extends KualiAction {
         for (String fileType : uploadedFiles.keySet()) {
             FormFile uploadedFile = uploadedFiles.get(fileType);
             if (uploadedFile == null || uploadedFile.getInputStream() == null || uploadedFile.getInputStream().available() == 0) {
-                GlobalVariables.getErrorMap().putError(Constants.GLOBAL_ERRORS, KFSKeyConstants.ERROR_BATCH_UPLOAD_NO_FILE_SELECTED_SAVE_FOR_FILE_TYPE, 
+                GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_ERRORS, KFSKeyConstants.ERROR_BATCH_UPLOAD_NO_FILE_SELECTED_SAVE_FOR_FILE_TYPE, 
                         new String[] {batchType.getFileTypeDescription().get(fileType)});
                 requiredValuesForFilesMissing = true;
             }
@@ -140,7 +135,7 @@ public class KualiBatchInputFileSetAction extends KualiAction {
             }
         }
         if (requiredValuesForFilesMissing) {
-            return mapping.findForward(Constants.MAPPING_BASIC);
+            return mapping.findForward(KFSConstants.MAPPING_BASIC);
         }
 
         try {
@@ -149,13 +144,13 @@ public class KualiBatchInputFileSetAction extends KualiAction {
         }
         catch (FileStorageException e) {
             LOG.error("Error occured while trying to save file set (probably tried to save a file that already exists).", e);
-            GlobalVariables.getErrorMap().putError(Constants.GLOBAL_ERRORS, KFSKeyConstants.ERROR_BATCH_UPLOAD_FILE_SAVE_ERROR, 
+            GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_ERRORS, KFSKeyConstants.ERROR_BATCH_UPLOAD_FILE_SAVE_ERROR, 
                     new String[] {e.getMessage()});
-            return mapping.findForward(Constants.MAPPING_BASIC);
+            return mapping.findForward(KFSConstants.MAPPING_BASIC);
         }
         GlobalVariables.getMessageList().add(KFSKeyConstants.MESSAGE_BATCH_UPLOAD_SAVE_SUCCESSFUL);
         
-        return mapping.findForward(Constants.MAPPING_BASIC);
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
     /**
@@ -167,8 +162,8 @@ public class KualiBatchInputFileSetAction extends KualiAction {
         BatchUpload batchUpload = kualiBatchInputFileSetForm.getBatchUpload();
         
         if (StringUtils.isBlank(batchUpload.getExistingFileName())) {
-            GlobalVariables.getErrorMap().putError(Constants.GLOBAL_ERRORS, KFSKeyConstants.ERROR_BATCH_UPLOAD_NO_FILE_SELECTED_DELETE, new String[] {});
-            return mapping.findForward(Constants.MAPPING_BASIC);
+            GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_ERRORS, KFSKeyConstants.ERROR_BATCH_UPLOAD_NO_FILE_SELECTED_DELETE, new String[] {});
+            return mapping.findForward(KFSConstants.MAPPING_BASIC);
         }
 
         BatchInputFileSetType batchType = retrieveBatchInputFileSetTypeImpl(batchUpload.getBatchInputTypeName());
@@ -179,10 +174,10 @@ public class KualiBatchInputFileSetAction extends KualiAction {
         }
         catch (FileNotFoundException e1) {
             LOG.error("errors deleting file " + e1.getMessage(), e1);
-            GlobalVariables.getErrorMap().putError(Constants.GLOBAL_ERRORS, KFSKeyConstants.ERROR_BATCH_UPLOAD_DELETE, new String[] { e1.getMessage() });
+            GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_ERRORS, KFSKeyConstants.ERROR_BATCH_UPLOAD_DELETE, new String[] { e1.getMessage() });
         }
 
-        return mapping.findForward(Constants.MAPPING_BASIC);
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
     /**
@@ -194,13 +189,13 @@ public class KualiBatchInputFileSetAction extends KualiAction {
         BatchUpload batchUpload = kualiBatchInputFileSetForm.getBatchUpload();
 
         if (StringUtils.isBlank(batchUpload.getExistingFileName())) {
-            GlobalVariables.getErrorMap().putError(Constants.GLOBAL_ERRORS, KFSKeyConstants.ERROR_BATCH_UPLOAD_NO_FILE_SELECTED_DOWNLOAD, new String[] {});
-            return mapping.findForward(Constants.MAPPING_BASIC);
+            GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_ERRORS, KFSKeyConstants.ERROR_BATCH_UPLOAD_NO_FILE_SELECTED_DOWNLOAD, new String[] {});
+            return mapping.findForward(KFSConstants.MAPPING_BASIC);
         }
         
         if (StringUtils.isBlank(kualiBatchInputFileSetForm.getDownloadFileType())) {
-            GlobalVariables.getErrorMap().putError(Constants.GLOBAL_ERRORS, KFSKeyConstants.ERROR_BATCH_UPLOAD_NO_FILE_TYPE_SELECTED_DOWNLOAD, new String[] {});
-            return mapping.findForward(Constants.MAPPING_BASIC);
+            GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_ERRORS, KFSKeyConstants.ERROR_BATCH_UPLOAD_NO_FILE_TYPE_SELECTED_DOWNLOAD, new String[] {});
+            return mapping.findForward(KFSConstants.MAPPING_BASIC);
         }
         
         BatchInputFileSetType batchType = retrieveBatchInputFileSetTypeImpl(batchUpload.getBatchInputTypeName());
@@ -211,9 +206,9 @@ public class KualiBatchInputFileSetAction extends KualiAction {
         }
         catch (FileNotFoundException e1) {
             LOG.error("errors downloading file " + e1.getMessage(), e1);
-            GlobalVariables.getErrorMap().putError(Constants.GLOBAL_ERRORS, KFSKeyConstants.ERROR_BATCH_UPLOAD_DOWNLOAD, new String[] { e1.getMessage() });
+            GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_ERRORS, KFSKeyConstants.ERROR_BATCH_UPLOAD_DOWNLOAD, new String[] { e1.getMessage() });
 
-            return mapping.findForward(Constants.MAPPING_BASIC);
+            return mapping.findForward(KFSConstants.MAPPING_BASIC);
         }
 
         WebUtils.saveMimeInputStreamAsFile(response, "text/plain", new FileInputStream(batchInputFile), batchInputFile.getName(), new Long(batchInputFile.length()).intValue());

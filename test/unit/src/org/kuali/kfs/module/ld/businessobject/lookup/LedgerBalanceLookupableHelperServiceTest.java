@@ -21,10 +21,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
-import org.kuali.PropertyConstants;
 import org.kuali.core.lookup.LookupableHelperService;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.PersistenceService;
+import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.context.KualiTestBase;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.gl.web.TestDataGenerator;
@@ -58,10 +58,10 @@ public class LedgerBalanceLookupableHelperServiceTest extends KualiTestBase {
 
         // Clear up the database so that any existing data cannot affact your test result
         HashMap keys = new HashMap();
-        keys.put(PropertyConstants.UNIVERSITY_FISCAL_YEAR, "2004");
-        keys.put(PropertyConstants.EMPLID, "1000000005");        
-        keys.put(PropertyConstants.FINANCIAL_BALANCE_TYPE_CODE, "AC");        
-        keys.put(PropertyConstants.CHART_OF_ACCOUNTS_CODE, "BL");
+        keys.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, "2004");
+        keys.put(KFSPropertyConstants.EMPLID, "1000000005");        
+        keys.put(KFSPropertyConstants.FINANCIAL_BALANCE_TYPE_CODE, "AC");        
+        keys.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, "BL");
         businessObjectService.deleteMatching(LedgerBalance.class, keys);               
     }
 
@@ -99,10 +99,10 @@ public class LedgerBalanceLookupableHelperServiceTest extends KualiTestBase {
     private List<String> getLookupFields(boolean isExtended) {
         List<String> lookupFields = new ArrayList<String>();
 
-        lookupFields.add(PropertyConstants.UNIVERSITY_FISCAL_YEAR);
-        lookupFields.add(PropertyConstants.EMPLID);
-        lookupFields.add(PropertyConstants.FINANCIAL_BALANCE_TYPE_CODE);
-        lookupFields.add(PropertyConstants.CHART_OF_ACCOUNTS_CODE);
+        lookupFields.add(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR);
+        lookupFields.add(KFSPropertyConstants.EMPLID);
+        lookupFields.add(KFSPropertyConstants.FINANCIAL_BALANCE_TYPE_CODE);
+        lookupFields.add(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE);
 
         return lookupFields;
     }

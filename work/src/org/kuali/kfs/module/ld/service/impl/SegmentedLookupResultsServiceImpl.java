@@ -27,8 +27,6 @@ import java.util.Set;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.kuali.Constants;
-import org.kuali.PropertyConstants;
 import org.kuali.core.bo.LookupResults;
 import org.kuali.core.bo.PersistableBusinessObject;
 import org.kuali.core.bo.SelectedObjectIds;
@@ -38,6 +36,7 @@ import org.kuali.core.lookup.LookupUtils;
 import org.kuali.core.service.DateTimeService;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.web.ui.ResultRow;
+import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.module.labor.service.SegmentedLookupResultsService;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -165,7 +164,7 @@ public class SegmentedLookupResultsServiceImpl extends LookupResultsServiceImpl 
             return new ArrayList<PersistableBusinessObject>();
         }
         Map<String, Collection<String>> queryCriteria = new HashMap<String, Collection<String>>();
-        queryCriteria.put(PropertyConstants.OBJECT_ID, setOfSelectedObjIds);
+        queryCriteria.put(KFSPropertyConstants.OBJECT_ID, setOfSelectedObjIds);
         return getBusinessObjectService().findMatching(boClass, queryCriteria);
     }
     

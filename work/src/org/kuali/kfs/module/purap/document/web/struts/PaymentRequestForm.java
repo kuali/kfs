@@ -19,7 +19,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.Constants;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.ObjectUtils;
@@ -147,8 +146,8 @@ public class PaymentRequestForm extends AccountsPayableFormBase {
 
         PaymentRequestDocument preqDoc = this.getPaymentRequestDocument();
 
-        String externalImageURL = SpringServiceLocator.getKualiConfigurationService().getPropertyString(Constants.EXTERNALIZABLE_IMAGES_URL_KEY);
-        String appExternalImageURL = SpringServiceLocator.getKualiConfigurationService().getPropertyString(Constants.APPLICATION_EXTERNALIZABLE_IMAGES_URL_KEY);
+        String externalImageURL = SpringServiceLocator.getKualiConfigurationService().getPropertyString(KFSConstants.RICE_EXTERNALIZABLE_IMAGES_URL_KEY);
+        String appExternalImageURL = SpringServiceLocator.getKualiConfigurationService().getPropertyString(KFSConstants.EXTERNALIZABLE_IMAGES_URL_KEY);
 
         if (this.getEditingMode().containsKey(PurapAuthorizationConstants.PaymentRequestEditMode.DISPLAY_INIT_TAB)) {
             if (this.getEditingMode().get(PurapAuthorizationConstants.PaymentRequestEditMode.DISPLAY_INIT_TAB).equals("TRUE")) {

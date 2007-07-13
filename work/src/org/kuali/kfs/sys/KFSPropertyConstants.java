@@ -15,12 +15,11 @@
  */
 package org.kuali.kfs;
 
-import org.kuali.PropertyConstants;
 
 /**
  * Property name constants.
  */
-public class KFSPropertyConstants extends PropertyConstants {
+public class KFSPropertyConstants {
     public static final String A21_SUB_ACCOUNT = "a21SubAccount";
     public static final String ACCOUNT = "account";
     public static final String ACCOUNT_CHANGE_DETAILS = "accountGlobalDetails";

@@ -19,7 +19,6 @@ import java.lang.management.ManagementFactory;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
@@ -32,7 +31,6 @@ import org.kuali.core.util.AssertionUtils;
 import org.kuali.core.util.MemoryMonitor;
 import org.kuali.core.util.cache.MethodCacheInterceptor;
 import org.kuali.core.util.spring.NamedOrderedListBean;
-import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.service.SchedulerService;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.rice.KNSServiceLocator;
@@ -90,7 +88,7 @@ public class SpringContext {
     public static List<NamedOrderedListBean> getNamedOrderedListBeans(String listName) {
         return KNSServiceLocator.getNamedOrderedListBeans(listName, instance.applicationContext);
     }
-
+    
     protected static String[] getBeanNames() {
         return instance.applicationContext.getBeanDefinitionNames();
     }
@@ -103,11 +101,19 @@ public class SpringContext {
         instance.applicationContext.close();
     }
     
+    protected static String getStringConfigurationProperty(String propertyName) {
+        return ResourceBundle.getBundle(PropertyLoadingFactoryBean.CONFIGURATION_FILE_NAME).getString(propertyName);
+    }
+    
+    protected static List<String> getListConfigurationProperty(String propertyName) {
+        return Arrays.asList(getStringConfigurationProperty(propertyName).split(","));
+    }
+    
     private static String[] getSpringConfigurationFiles(String[] propertyNames) {
         List<String> springConfigurationFiles = new ArrayList<String>();
         springConfigurationFiles.add(APPLICATION_CONTEXT_DEFINITION);
         for (int i = 0; i < propertyNames.length; i++) {
-            springConfigurationFiles.addAll(Arrays.asList(ResourceBundle.getBundle(KFSConstants.CONFIGURATION_FILE_NAME).getString(propertyNames[i]).split(",")));
+            springConfigurationFiles.addAll(getListConfigurationProperty(propertyNames[i]));
         }
         return springConfigurationFiles.toArray(new String[] {});
     }

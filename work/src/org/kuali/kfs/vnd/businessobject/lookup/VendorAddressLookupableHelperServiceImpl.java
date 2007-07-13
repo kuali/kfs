@@ -15,22 +15,15 @@
  */
 package org.kuali.module.vendor.lookup;
 
-import java.util.Collection;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.lang.StringUtils;
-import org.kuali.Constants;
 import org.kuali.core.bo.BusinessObject;
 import org.kuali.core.bo.user.UniversalUser;
-import org.kuali.core.lookup.AbstractLookupableHelperServiceImpl;
 import org.kuali.core.lookup.KualiLookupableHelperServiceImpl;
-import org.kuali.core.lookup.LookupUtils;
-import org.kuali.core.lookup.LookupableHelperService;
 import org.kuali.core.util.BeanPropertyComparator;
-import org.kuali.module.cg.bo.ProjectDirector;
+import org.kuali.kfs.KFSConstants;
 
 
 public class VendorAddressLookupableHelperServiceImpl extends KualiLookupableHelperServiceImpl{
@@ -40,9 +33,9 @@ public class VendorAddressLookupableHelperServiceImpl extends KualiLookupableHel
     protected List<? extends BusinessObject> getSearchResultsHelper(Map<String, String> fieldValues, boolean unbounded) {
         searchUsingOnlyPrimaryKeyValues = getLookupService().allPrimaryKeyValuesPresentAndNotWildcard(getBusinessObjectClass(), fieldValues);
 
-        setBackLocation(fieldValues.get(Constants.BACK_LOCATION));
-        setDocFormKey(fieldValues.get(Constants.DOC_FORM_KEY));
-        setReferencesToRefresh(fieldValues.get(Constants.REFERENCES_TO_REFRESH));
+        setBackLocation(fieldValues.get(KFSConstants.BACK_LOCATION));
+        setDocFormKey(fieldValues.get(KFSConstants.DOC_FORM_KEY));
+        setReferencesToRefresh(fieldValues.get(KFSConstants.REFERENCES_TO_REFRESH));
         List searchResults;
         if (UniversalUser.class.equals(getBusinessObjectClass())) {
             searchResults = (List) getUniversalUserService().findUniversalUsers(fieldValues);

@@ -72,7 +72,7 @@ public abstract class MaintenanceRuleTestBase extends KualiTestBase {
             // get a new MaintenanceDocument from Spring
             MaintenanceDocument document = null;
             try {
-                document = (MaintenanceDocument) getDocumentService().getNewDocument(MaintenanceDocumentBase.class);
+                document = (MaintenanceDocument) getDocumentService().getNewDocument(newBo.getClass().getSimpleName() + "MaintenanceDocument");
             }
             catch (WorkflowException e) {
                 throw new RuntimeException(e);

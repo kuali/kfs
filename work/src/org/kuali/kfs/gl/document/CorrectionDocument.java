@@ -22,11 +22,11 @@ import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 
-import org.kuali.Constants;
 import org.kuali.core.document.AmountTotaling;
 import org.kuali.core.document.TransactionalDocumentBase;
 import org.kuali.core.service.DateTimeService;
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.gl.bo.CorrectionChangeGroup;
@@ -94,7 +94,7 @@ public class CorrectionDocument extends TransactionalDocumentBase implements Amo
             return "Remove Group from Processing";
         }
         else {
-            return Constants.NOT_AVAILABLE_STRING;
+            return KFSConstants.NOT_AVAILABLE_STRING;
         }
     }
 

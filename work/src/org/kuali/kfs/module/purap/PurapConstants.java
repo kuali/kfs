@@ -22,9 +22,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.kuali.Constants;
 import org.kuali.core.JstlConstants;
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.kfs.KFSConstants;
 
 /**
  * Holds constants for PURAP.
@@ -644,7 +644,7 @@ public class PurapConstants extends JstlConstants {
     
     private static HashMap<String,String> uncopyableFields() {
         HashMap<String,String> fields = new HashMap<String,String>();
-        fields.put(Constants.VERSION_NUMBER, "");
+        fields.put(KFSConstants.VERSION_NUMBER, "");
         fields.put("LOG", "");
         return fields;
     }

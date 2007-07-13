@@ -35,7 +35,6 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.upload.FormFile;
-import org.kuali.Constants;
 import org.kuali.core.authorization.AuthorizationConstants;
 import org.kuali.core.service.SequenceAccessorService;
 import org.kuali.core.util.GlobalVariables;
@@ -99,7 +98,7 @@ public class LaborCorrectionAction extends CorrectionAction{
         
         // If we are called from the docHandler or reload, ignore the persisted origin entries because we are either creating a new document
         // or loading an old one
-        if (!(Constants.DOC_HANDLER_METHOD.equals(rForm.getMethodToCall()) || Constants.RELOAD_METHOD_TO_CALL.equals(rForm.getMethodToCall()))) {
+        if (!(KFSConstants.DOC_HANDLER_METHOD.equals(rForm.getMethodToCall()) || KFSConstants.RELOAD_METHOD_TO_CALL.equals(rForm.getMethodToCall()))) {
             restoreSystemAndEditMethod(rForm);
             restoreInputGroupSelectionForDatabaseEdits(rForm);
             if (!rForm.isRestrictedFunctionalityMode()) {

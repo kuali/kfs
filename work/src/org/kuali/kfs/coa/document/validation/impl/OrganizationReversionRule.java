@@ -17,11 +17,11 @@ package org.kuali.module.chart.rules;
 
 import java.util.List;
 
-import org.kuali.KeyConstants;
-import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase;
 import org.kuali.core.util.GlobalVariables;
+import org.kuali.core.util.ObjectUtils;
+import org.kuali.kfs.KFSKeyConstants;
 import org.kuali.module.chart.bo.OrganizationReversion;
 import org.kuali.module.chart.bo.OrganizationReversionDetail;
 
@@ -95,7 +95,7 @@ public class OrganizationReversionRule extends MaintenanceDocumentRuleBase {
         LOG.debug("organization reversion finanical object = "+detail.getOrganizationReversionObject());
         if (ObjectUtils.isNull(detail.getOrganizationReversionObject())) {
             result = false;
-            GlobalVariables.getErrorMap().putError("organizationReversionObjectCode", KeyConstants.ERROR_EXISTENCE, new String[] { "Financial Object Code: "+detail.getOrganizationReversionObjectCode() });
+            GlobalVariables.getErrorMap().putError("organizationReversionObjectCode", KFSKeyConstants.ERROR_EXISTENCE, new String[] { "Financial Object Code: "+detail.getOrganizationReversionObjectCode() });
         }
         return result;
     }

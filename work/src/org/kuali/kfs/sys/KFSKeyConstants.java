@@ -15,12 +15,11 @@
  */
 package org.kuali.kfs;
 
-import org.kuali.KeyConstants;
 
 /**
  * Holds error key constants.
  */
-public class KFSKeyConstants extends KeyConstants {
+public class KFSKeyConstants {
     public static final String ERROR_EXISTENCE = "error.existence";
     public static final String ERROR_EXPIRED = "error.expired";
     public static final String ERROR_INACTIVE = "error.inactive";

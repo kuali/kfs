@@ -24,7 +24,6 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.kuali.Constants;
 import org.kuali.core.question.ConfirmationQuestion;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.util.GlobalVariables;
@@ -253,7 +252,7 @@ public class PurchasingActionBase extends PurchasingAccountsPayableActionBase {
 
         if (question == null) {
             String questionText = SpringServiceLocator.getKualiConfigurationService().getPropertyString(PurapConstants.QUESTION_REMOVE_ACCOUNTS);
-            return this.performQuestionWithoutInput(mapping, form, request, response, PurapConstants.REMOVE_ACCOUNTS_QUESTION, questionText, Constants.CONFIRMATION_QUESTION, KFSConstants.ROUTE_METHOD, "0");
+            return this.performQuestionWithoutInput(mapping, form, request, response, PurapConstants.REMOVE_ACCOUNTS_QUESTION, questionText, KFSConstants.CONFIRMATION_QUESTION, KFSConstants.ROUTE_METHOD, "0");
         }
         else if (ConfirmationQuestion.YES.equals(buttonClicked)) {
             for (PurchasingApItem item : ((PurchasingAccountsPayableDocument) purchasingForm.getDocument()).getItems()) {

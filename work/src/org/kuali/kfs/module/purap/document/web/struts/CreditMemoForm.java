@@ -18,11 +18,11 @@ package org.kuali.module.purap.web.struts.form;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.Constants;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.web.ui.ExtraButton;
 import org.kuali.core.web.ui.KeyLabelPair;
+import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.purap.PurapAuthorizationConstants;
 import org.kuali.module.purap.PurapConstants;
@@ -80,8 +80,8 @@ public class CreditMemoForm extends AccountsPayableFormBase {
 
         CreditMemoDocument cmDocument = (CreditMemoDocument) getDocument();
 
-        String externalImageURL = SpringServiceLocator.getKualiConfigurationService().getPropertyString(Constants.EXTERNALIZABLE_IMAGES_URL_KEY);
-        String appExternalImageURL = SpringServiceLocator.getKualiConfigurationService().getPropertyString(Constants.APPLICATION_EXTERNALIZABLE_IMAGES_URL_KEY);
+        String externalImageURL = SpringServiceLocator.getKualiConfigurationService().getPropertyString(KFSConstants.RICE_EXTERNALIZABLE_IMAGES_URL_KEY);
+        String appExternalImageURL = SpringServiceLocator.getKualiConfigurationService().getPropertyString(KFSConstants.EXTERNALIZABLE_IMAGES_URL_KEY);
 
         if (getEditingMode().containsKey(PurapAuthorizationConstants.CreditMemoEditMode.DISPLAY_INIT_TAB)) {
             if (getEditingMode().get(PurapAuthorizationConstants.CreditMemoEditMode.DISPLAY_INIT_TAB).equals("TRUE")) {

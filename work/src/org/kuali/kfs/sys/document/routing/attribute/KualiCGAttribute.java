@@ -31,7 +31,6 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.log4j.Logger;
-import org.kuali.Constants;
 import org.kuali.core.lookup.LookupUtils;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.util.SpringServiceLocator;
@@ -168,8 +167,8 @@ public class KualiCGAttribute implements RoleAttribute, WorkflowAttribute {
         for (int i = 0; i < accountingLineNodes.getLength(); i++) {
             Node accountingLineNode = accountingLineNodes.item(i);
             AwardWorkgroupRole role = new AwardWorkgroupRole(roleName);
-            role.chart = xpath.evaluate(KualiWorkflowUtils.XSTREAM_MATCH_RELATIVE_PREFIX + Constants.CHART_OF_ACCOUNTS_CODE_PROPERTY_NAME, accountingLineNode);
-            role.accountNumber = xpath.evaluate(KualiWorkflowUtils.XSTREAM_MATCH_RELATIVE_PREFIX + Constants.ACCOUNT_NUMBER_PROPERTY_NAME, accountingLineNode);
+            role.chart = xpath.evaluate(KualiWorkflowUtils.XSTREAM_MATCH_RELATIVE_PREFIX + KFSConstants.CHART_OF_ACCOUNTS_CODE_PROPERTY_NAME, accountingLineNode);
+            role.accountNumber = xpath.evaluate(KualiWorkflowUtils.XSTREAM_MATCH_RELATIVE_PREFIX + KFSConstants.ACCOUNT_NUMBER_PROPERTY_NAME, accountingLineNode);
 
             awardWorkgroups.add(role);
         }

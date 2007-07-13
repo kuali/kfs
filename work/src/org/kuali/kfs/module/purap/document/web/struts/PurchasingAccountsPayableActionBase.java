@@ -22,11 +22,10 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.kuali.Constants;
-import org.kuali.PropertyConstants;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.web.struts.form.KualiDocumentFormBase;
 import org.kuali.kfs.KFSConstants;
+import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.bo.AccountingLine;
 import org.kuali.kfs.bo.SourceAccountingLine;
 import org.kuali.kfs.rule.event.AddAccountingLineEvent;
@@ -83,7 +82,7 @@ public class PurchasingAccountsPayableActionBase extends KualiAccountingDocument
             item = (PurchasingApItem) ((PurchasingAccountsPayableDocument) purapForm.getDocument()).getItem((itemIndex));
             PurApAccountingLine line = item.getNewSourceLine();
 
-            String errorPrefix = PropertyConstants.DOCUMENT + "." + PurapPropertyConstants.ITEM + "[" + Integer.toString(itemIndex) + "]." + KFSConstants.NEW_SOURCE_ACCT_LINE_PROPERTY_NAME;
+            String errorPrefix = KFSPropertyConstants.DOCUMENT + "." + PurapPropertyConstants.ITEM + "[" + Integer.toString(itemIndex) + "]." + KFSConstants.NEW_SOURCE_ACCT_LINE_PROPERTY_NAME;
             boolean rulePassed = SpringServiceLocator.getKualiRuleService().applyRules(new AddAccountingLineEvent(errorPrefix, purapForm.getDocument(), (AccountingLine) line));
 
             if (rulePassed) {
@@ -195,7 +194,7 @@ public class PurchasingAccountsPayableActionBase extends KualiAccountingDocument
      */
     protected String[] getSelectedLineForAccounts(HttpServletRequest request) {
         String accountString = new String();
-        String parameterName = (String) request.getAttribute(Constants.METHOD_TO_CALL_ATTRIBUTE);
+        String parameterName = (String) request.getAttribute(KFSConstants.METHOD_TO_CALL_ATTRIBUTE);
         if (StringUtils.isNotBlank(parameterName)) {
             accountString = StringUtils.substringBetween(parameterName, ".line", ".");
         }

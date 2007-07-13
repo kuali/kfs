@@ -27,7 +27,6 @@ import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.kuali.Constants;
 import org.kuali.core.bo.BusinessObject;
 import org.kuali.core.bo.PersistableBusinessObject;
 import org.kuali.core.datadictionary.mask.Mask;
@@ -433,7 +432,7 @@ public class LedgerBalanceLookupableHelperServiceImpl extends AbstractLookupable
         }
         
         // pick off result column from result list, do formatting
-        String propValue = Constants.EMPTY_STRING;
+        String propValue = KFSConstants.EMPTY_STRING;
         Object prop = ObjectUtils.getPropertyValue(element, attributeName);
         
         // set comparator and formatter based on property type
@@ -481,7 +480,8 @@ public class LedgerBalanceLookupableHelperServiceImpl extends AbstractLookupable
         }
         return col;
     }
-     
+    
+    
     /**
      * Constructs the list of columns for the search results. All properties for the column objects come from the DataDictionary.
      *
@@ -495,7 +495,7 @@ public class LedgerBalanceLookupableHelperServiceImpl extends AbstractLookupable
             columns.add(setupResultsColumn(bo, attributeName));
         }
         return columns;
-    }
+    }    
 
     /**
      * Sets the laborInquiryOptionsService attribute value.
@@ -511,8 +511,7 @@ public class LedgerBalanceLookupableHelperServiceImpl extends AbstractLookupable
      */
     public void setBalanceService(LaborLedgerBalanceService balanceService) {
         this.balanceService = balanceService;
-    }
-
+}
     /**
      * Gets the balanceService attribute. 
      * @return Returns the balanceService.

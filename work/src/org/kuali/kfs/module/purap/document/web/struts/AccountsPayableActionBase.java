@@ -22,7 +22,6 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.kuali.Constants;
 import org.kuali.core.bo.Note;
 import org.kuali.core.question.ConfirmationQuestion;
 import org.kuali.core.service.KualiConfigurationService;
@@ -145,7 +144,7 @@ public class AccountsPayableActionBase extends PurchasingAccountsPayableActionBa
         if (preqForm.isCalculated()) {
             return super.route(mapping, form, request, response);
         }
-        GlobalVariables.getErrorMap().putError(Constants.DOCUMENT_ERRORS, PurapKeyConstants.ERROR_APPROVE_REQUIRES_CALCULATE);
+        GlobalVariables.getErrorMap().putError(KFSConstants.DOCUMENT_ERRORS, PurapKeyConstants.ERROR_APPROVE_REQUIRES_CALCULATE);
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
@@ -155,7 +154,7 @@ public class AccountsPayableActionBase extends PurchasingAccountsPayableActionBa
         if (apForm.isCalculated()) {
             return super.save(mapping, form, request, response);
         }
-        GlobalVariables.getErrorMap().putError(Constants.DOCUMENT_ERRORS, PurapKeyConstants.ERROR_SAVE_REQUIRES_CALCULATE);
+        GlobalVariables.getErrorMap().putError(KFSConstants.DOCUMENT_ERRORS, PurapKeyConstants.ERROR_SAVE_REQUIRES_CALCULATE);
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
 
     }

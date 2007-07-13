@@ -17,13 +17,12 @@ package org.kuali.kfs;
 
 import java.util.HashMap;
 
-import org.kuali.Constants;
 import org.kuali.core.util.KualiDecimal;
 
 /**
  * This class is used to define global constants.
  */
-public class KFSConstants extends Constants {
+public class KFSConstants {
     private static final long serialVersionUID = 2882277719647128949L;
     
     // special user used in the post-processor
@@ -34,7 +33,6 @@ public class KFSConstants extends Constants {
     public static final String PARAM_MAINTENANCE_VIEW_MODE_LOOKUP = "lookup";
     public static final String PARAM_MAINTENANCE_VIEW_MODE_INQUIRY = "inquiry";
     
-    public static final String CONFIGURATION_FILE_NAME = "configuration";
     public static final String ENVIRONMENT_KEY = "environment";
     public static final String VERSION_KEY = "version";
     public static final String LOG4J_SETTINGS_FILE_KEY = "log4j.settings.file";
@@ -49,19 +47,24 @@ public class KFSConstants extends Constants {
     public static final String STAGING_DIRECTORY_KEY = "staging.directory";
     public static final String EXTERNALIZABLE_HELP_URL_KEY = "externalizable.help.url";
     public static final String EXTERNALIZABLE_IMAGES_URL_KEY = "externalizable.images.url";
+    public static final String RICE_EXTERNALIZABLE_IMAGES_URL_KEY = "kr.externalizable.images.url";
     public static final String REPORTS_DIRECTORY_KEY = "reports.directory";
     public static final String WORKFLOW_URL_KEY = "workflow.url";
-    public static final String LOOKUP_RESULTS_LIMIT_URL_KEY = "lookup.results.limit";
     public static final String PROD_ENVIRONMENT_CODE_KEY = "production.environment.code";
     public static final String MAINTAIN_USERS_LOCALLY_KEY = "maintain.users.locally";
-    public static final String DOCHANDLER_DO_URL = "/DocHandler.do?docId=";
-    public static final String DOCHANDLER_URL_CHUNK = "&command=displayDocSearchView";
     
     public static final String DATABASE_REPOSITORY_FILES_LIST_NAME = "databaseRepositoryFilePaths";
     public static final String SCRIPT_CONFIGURATION_FILES_LIST_NAME = "scriptConfigurationFilePaths";
     public static final String JOB_NAMES_LIST_NAME = "jobNames";
     public static final String TRIGGER_NAMES_LIST_NAME = "triggerNames";
+    
+    public static final String CROSS_MODULE_CODE = "CF";
+    public static final String CROSS_MODULE_NAME = "Core Functionality";
 
+    public static final String LOOKUP_RESULTS_LIMIT_URL_KEY = "lookup.results.limit";
+    public static final String DOCHANDLER_DO_URL = "/DocHandler.do?docId=";
+    public static final String DOCHANDLER_URL_CHUNK = "&command=displayDocSearchView";
+   
     public static final String ACCOUNT_NUMBER_PROPERTY_NAME = "accountNumber";
     public static final String MODULE_ID_PROPERTY_NAME = "moduleId";
     public static final String MODULE_CODE_PROPERTY_NAME = "moduleCode";
@@ -101,7 +104,6 @@ public class KFSConstants extends Constants {
     public static final String CHANGE_JOURNAL_VOUCHER_BALANCE_TYPE_METHOD = "changeBalanceType";
     public static final String CHART_OF_ACCOUNTS_CODE_PROPERTY_NAME = "chartOfAccountsCode";
     public static final String CONFIRMATION_QUESTION = "confirmationQuestion";
-    public static final String CONFIGURATION_SERVICE_DATA_FILE_NAME = "configurationServiceData.xml";
     public static final String CONSOLIDATED_SUBACCOUNT = "*ALL*";
     public static final String CONVERSION_FIELDS_PARAMETER = "conversionFields";
     public static final String LOOKUP_READ_ONLY_FIELDS = "readOnlyFields";

@@ -15,15 +15,11 @@
  */
 package org.kuali.module.labor.util;
 
-import java.util.Arrays;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 
-
-import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
-import org.kuali.PropertyConstants;
-import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.module.labor.LaborPropertyConstants;
 

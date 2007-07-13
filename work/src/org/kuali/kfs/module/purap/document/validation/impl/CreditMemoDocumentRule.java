@@ -19,14 +19,13 @@ import java.math.BigDecimal;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.KeyConstants;
-import org.kuali.PropertyConstants;
 import org.kuali.core.bo.BusinessObject;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSKeyConstants;
+import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.bo.AccountingLine;
 import org.kuali.kfs.document.AccountingDocument;
 import org.kuali.kfs.util.SpringServiceLocator;
@@ -251,7 +250,7 @@ public class CreditMemoDocumentRule extends AccountsPayableDocumentRuleBase impl
         for (int i = 0; i < itemList.size(); i++) {
             CreditMemoItem item = (CreditMemoItem) itemList.get(i);
             item.refreshReferenceObject(PurapPropertyConstants.ITEM_TYPE);
-            String errorKeyPrefix = PropertyConstants.DOCUMENT + "." + PurapPropertyConstants.ITEM + "[" + Integer.toString(i) + "].";
+            String errorKeyPrefix = KFSPropertyConstants.DOCUMENT + "." + PurapPropertyConstants.ITEM + "[" + Integer.toString(i) + "].";
 
             valid &= validateItemQuantity(cmDocument, item, errorKeyPrefix + PurapPropertyConstants.QUANTITY);
             valid &= validateItemUnitPrice(cmDocument, item, errorKeyPrefix + PurapPropertyConstants.ITEM_UNIT_PRICE);
@@ -296,7 +295,7 @@ public class CreditMemoDocumentRule extends AccountsPayableDocumentRuleBase impl
             KualiDecimal invoicedQuantity = getSourceTotalInvoiceQuantity(cmDocument, item);
             if (item.getItemType().isQuantityBasedGeneralLedgerIndicator() && invoicedQuantity.isGreaterThan(KualiDecimal.ZERO) && (item.getExtendedPrice() != null && item.getExtendedPrice().isGreaterThan(KualiDecimal.ZERO))) {
                 String label = SpringServiceLocator.getDataDictionaryService().getAttributeErrorLabel(CreditMemoItem.class, PurapPropertyConstants.QUANTITY);
-                GlobalVariables.getErrorMap().putError(errorKey, KeyConstants.ERROR_REQUIRED, label);
+                GlobalVariables.getErrorMap().putError(errorKey, KFSKeyConstants.ERROR_REQUIRED, label);
                 valid = false;
             }
         }
@@ -449,7 +448,7 @@ public class CreditMemoDocumentRule extends AccountsPayableDocumentRuleBase impl
         boolean valid = true;
 
         if (cmDocument.getGrandTotal().compareTo(cmDocument.getCreditMemoAmount()) != 0 && !cmDocument.isUnmatchedOverride()) {
-            GlobalVariables.getErrorMap().putError(PropertyConstants.DOCUMENT + "." + PurapPropertyConstants.ITEM, PurapKeyConstants.ERROR_CREDIT_MEMO_INVOICE_AMOUNT_NONMATCH);
+            GlobalVariables.getErrorMap().putError(KFSPropertyConstants.DOCUMENT + "." + PurapPropertyConstants.ITEM, PurapKeyConstants.ERROR_CREDIT_MEMO_INVOICE_AMOUNT_NONMATCH);
             valid = false;
         }
 
@@ -466,7 +465,7 @@ public class CreditMemoDocumentRule extends AccountsPayableDocumentRuleBase impl
         boolean valid = true;
 
         if (!cmDocument.getGrandTotal().isPositive()) {
-            GlobalVariables.getErrorMap().putError(PropertyConstants.DOCUMENT + "." + PurapPropertyConstants.ITEM, PurapKeyConstants.ERROR_CREDIT_MEMO_TOTAL_ZERO);
+            GlobalVariables.getErrorMap().putError(KFSPropertyConstants.DOCUMENT + "." + PurapPropertyConstants.ITEM, PurapKeyConstants.ERROR_CREDIT_MEMO_TOTAL_ZERO);
             valid = false;
         }
 
@@ -482,7 +481,7 @@ public class CreditMemoDocumentRule extends AccountsPayableDocumentRuleBase impl
         for (int i = 0; i < itemList.size(); i++) {
             CreditMemoItem item = (CreditMemoItem) itemList.get(i);
             if (item.getItemQuantity() != null && item.calculateExtendedPrice().compareTo(item.getExtendedPrice()) != 0) {
-                String errorKey = PropertyConstants.DOCUMENT + "." + PurapPropertyConstants.ITEM + "[" + Integer.toString(i) + "]." + PurapPropertyConstants.EXTENDED_PRICE;
+                String errorKey = KFSPropertyConstants.DOCUMENT + "." + PurapPropertyConstants.ITEM + "[" + Integer.toString(i) + "]." + PurapPropertyConstants.EXTENDED_PRICE;
                 GlobalVariables.getErrorMap().putError(errorKey, PurapKeyConstants.ERROR_PAYMENT_REQUEST_ITEM_TOTAL_NOT_EQUAL);
             }
         }
@@ -498,25 +497,25 @@ public class CreditMemoDocumentRule extends AccountsPayableDocumentRuleBase impl
     public boolean validateObjectCode(CreditMemoDocument cmDocument, PurApAccountingLine account) {
         boolean valid = true;
 
-        account.refreshReferenceObject(PropertyConstants.OBJECT_CODE);
+        account.refreshReferenceObject(KFSPropertyConstants.OBJECT_CODE);
         ObjectCode objectCode = account.getObjectCode();
 
-        String objectCodeLabel = SpringServiceLocator.getDataDictionaryService().getAttributeLabel(account.getClass(), PropertyConstants.FINANCIAL_OBJECT_CODE);
+        String objectCodeLabel = SpringServiceLocator.getDataDictionaryService().getAttributeLabel(account.getClass(), KFSPropertyConstants.FINANCIAL_OBJECT_CODE);
 
         // check object type restrictions
-        valid = executeApplicationParameterRestriction(PurapRuleConstants.CREDIT_MEMO_RULES_GROUP, PurapRuleConstants.RESTRICTED_OBJECT_TYPE_PARM_NM, objectCode.getFinancialObjectTypeCode(), PropertyConstants.FINANCIAL_OBJECT_CODE, objectCodeLabel);
+        valid = executeApplicationParameterRestriction(PurapRuleConstants.CREDIT_MEMO_RULES_GROUP, PurapRuleConstants.RESTRICTED_OBJECT_TYPE_PARM_NM, objectCode.getFinancialObjectTypeCode(), KFSPropertyConstants.FINANCIAL_OBJECT_CODE, objectCodeLabel);
 
         // check object consolidation restrictions
-        valid &= executeApplicationParameterRestriction(PurapRuleConstants.CREDIT_MEMO_RULES_GROUP, PurapRuleConstants.RESTRICTED_OBJECT_CONSOLIDATION_PARM_NM, objectCode.getFinancialObjectLevel().getConsolidatedObjectCode(), PropertyConstants.FINANCIAL_OBJECT_CODE, objectCodeLabel);
+        valid &= executeApplicationParameterRestriction(PurapRuleConstants.CREDIT_MEMO_RULES_GROUP, PurapRuleConstants.RESTRICTED_OBJECT_CONSOLIDATION_PARM_NM, objectCode.getFinancialObjectLevel().getConsolidatedObjectCode(), KFSPropertyConstants.FINANCIAL_OBJECT_CODE, objectCodeLabel);
 
         // check object level restrictions
-        valid &= executeApplicationParameterRestriction(PurapRuleConstants.CREDIT_MEMO_RULES_GROUP, PurapRuleConstants.RESTRICTED_OBJECT_LEVEL_PARM_NM, objectCode.getFinancialObjectLevelCode(), PropertyConstants.FINANCIAL_OBJECT_CODE, objectCodeLabel);
+        valid &= executeApplicationParameterRestriction(PurapRuleConstants.CREDIT_MEMO_RULES_GROUP, PurapRuleConstants.RESTRICTED_OBJECT_LEVEL_PARM_NM, objectCode.getFinancialObjectLevelCode(), KFSPropertyConstants.FINANCIAL_OBJECT_CODE, objectCodeLabel);
 
         // check object level by object type restrictions
-        valid &= executeApplicationParameterRestriction(PurapRuleConstants.CREDIT_MEMO_RULES_GROUP, PurapRuleConstants.RESTRICTED_OBJECT_LEVEL_BY_TYPE_PARM_PREFIX + objectCode.getFinancialObjectTypeCode(), objectCode.getFinancialObjectLevelCode(), PropertyConstants.FINANCIAL_OBJECT_CODE, objectCodeLabel);
+        valid &= executeApplicationParameterRestriction(PurapRuleConstants.CREDIT_MEMO_RULES_GROUP, PurapRuleConstants.RESTRICTED_OBJECT_LEVEL_BY_TYPE_PARM_PREFIX + objectCode.getFinancialObjectTypeCode(), objectCode.getFinancialObjectLevelCode(), KFSPropertyConstants.FINANCIAL_OBJECT_CODE, objectCodeLabel);
 
         // check object sub type restrictions
-        valid &= executeApplicationParameterRestriction(PurapRuleConstants.CREDIT_MEMO_RULES_GROUP, PurapRuleConstants.RESTRICTED_OBJECT_SUB_TYPE_PARM_NM, objectCode.getFinancialObjectSubTypeCode(), PropertyConstants.FINANCIAL_OBJECT_CODE, objectCodeLabel);
+        valid &= executeApplicationParameterRestriction(PurapRuleConstants.CREDIT_MEMO_RULES_GROUP, PurapRuleConstants.RESTRICTED_OBJECT_SUB_TYPE_PARM_NM, objectCode.getFinancialObjectSubTypeCode(), KFSPropertyConstants.FINANCIAL_OBJECT_CODE, objectCodeLabel);
         
         return valid;
     }

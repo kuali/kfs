@@ -15,7 +15,24 @@
  */
 package org.kuali.module.labor.dao.ojb;
 
-import java.util.ArrayList;
+import static org.kuali.module.labor.LaborPropertyConstants.AccountingPeriodProperties.APRIL;
+import static org.kuali.module.labor.LaborPropertyConstants.AccountingPeriodProperties.AUGUST;
+import static org.kuali.module.labor.LaborPropertyConstants.AccountingPeriodProperties.DECEMBER;
+import static org.kuali.module.labor.LaborPropertyConstants.AccountingPeriodProperties.FEBRUARY;
+import static org.kuali.module.labor.LaborPropertyConstants.AccountingPeriodProperties.JANUARY;
+import static org.kuali.module.labor.LaborPropertyConstants.AccountingPeriodProperties.JULY;
+import static org.kuali.module.labor.LaborPropertyConstants.AccountingPeriodProperties.JUNE;
+import static org.kuali.module.labor.LaborPropertyConstants.AccountingPeriodProperties.MARCH;
+import static org.kuali.module.labor.LaborPropertyConstants.AccountingPeriodProperties.MAY;
+import static org.kuali.module.labor.LaborPropertyConstants.AccountingPeriodProperties.NOVEMBER;
+import static org.kuali.module.labor.LaborPropertyConstants.AccountingPeriodProperties.OCTOBER;
+import static org.kuali.module.labor.LaborPropertyConstants.AccountingPeriodProperties.SEPTEMBER;
+import static org.kuali.module.labor.LaborPropertyConstants.AccountingPeriodProperties.YEAR_END;
+import static org.kuali.module.labor.util.ConsolidationUtil.buildAttributeCollection;
+import static org.kuali.module.labor.util.ConsolidationUtil.buildConsolidatedQuery;
+import static org.kuali.module.labor.util.ConsolidationUtil.buildGroupByCollection;
+import static org.kuali.module.labor.util.ConsolidationUtil.sum;
+
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
@@ -28,7 +45,6 @@ import org.apache.ojb.broker.query.Query;
 import org.apache.ojb.broker.query.QueryByCriteria;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
-import org.kuali.PropertyConstants;
 import org.kuali.core.dao.ojb.PlatformAwareDaoBaseOjb;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.kfs.KFSConstants;
@@ -40,12 +56,6 @@ import org.kuali.module.gl.bo.Transaction;
 import org.kuali.module.gl.util.OJBUtility;
 import org.kuali.module.labor.bo.LedgerBalance;
 import org.kuali.module.labor.dao.LaborLedgerBalanceDao;
-
-import static org.kuali.module.labor.LaborPropertyConstants.AccountingPeriodProperties.*;
-import static org.kuali.module.labor.util.ConsolidationUtil.buildConsolidatedQuery;
-import static org.kuali.module.labor.util.ConsolidationUtil.buildAttributeCollection;
-import static org.kuali.module.labor.util.ConsolidationUtil.buildGroupByCollection;
-import static org.kuali.module.labor.util.ConsolidationUtil.sum;
 
 public class LaborLedgerBalanceDaoOjb extends PlatformAwareDaoBaseOjb implements LaborLedgerBalanceDao {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(LaborLedgerBalanceDaoOjb.class);

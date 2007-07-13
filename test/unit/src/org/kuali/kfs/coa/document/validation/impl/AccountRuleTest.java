@@ -23,13 +23,11 @@ import java.sql.Timestamp;
 import java.util.Calendar;
 
 import org.apache.commons.lang.time.DateUtils;
-import org.kuali.KeyConstants;
 import org.kuali.core.bo.user.AuthenticationUserId;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.core.exceptions.UserNotFoundException;
 import org.kuali.core.util.GlobalVariables;
-import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSKeyConstants;
 import org.kuali.kfs.bo.Options;
 import org.kuali.kfs.util.SpringServiceLocator;
@@ -1621,7 +1619,7 @@ private void disableBeginBalanceLoadInd(){
         AccountRule rule = (AccountRule) setupMaintDocRule(maintDoc, AccountRule.class);
         rule.processCustomRouteDocumentBusinessRules( maintDoc );
         //System.out.println( GlobalVariables.getErrorMap().entrySet() );
-        assertFieldErrorExists( "accountGuideline.accountPurposeText", KeyConstants.ERROR_MAX_LENGTH );
+        assertFieldErrorExists( "accountGuideline.accountPurposeText", KFSKeyConstants.ERROR_MAX_LENGTH );
     }
 
     @SuppressWarnings("deprecation")
@@ -1640,6 +1638,6 @@ private void disableBeginBalanceLoadInd(){
         AccountRule rule = (AccountRule) setupMaintDocRule(maintDoc, AccountRule.class);
         rule.processCustomRouteDocumentBusinessRules( maintDoc );
         System.out.println( GlobalVariables.getErrorMap().entrySet() );
-        assertFieldErrorDoesNotExist( "accountGuideline.accountPurposeText", KeyConstants.ERROR_MAX_LENGTH );
+        assertFieldErrorDoesNotExist( "accountGuideline.accountPurposeText", KFSKeyConstants.ERROR_MAX_LENGTH );
     }
 }

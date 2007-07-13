@@ -15,12 +15,10 @@
  */
 package org.kuali.module.labor.web.struts.form;
 
-import static org.kuali.Constants.MULTIPLE_VALUE;
-
 import java.util.Map;
 
+import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSPropertyConstants;
-import org.kuali.module.labor.bo.LedgerBalance;
 
 /**
  * This class is the base action form for all expense transfer documents.
@@ -54,7 +52,7 @@ public abstract class ExpenseTransferDocumentFormBase extends LaborDocumentFormB
      */
     @Override
     public String getRefreshCaller() {
-        return MULTIPLE_VALUE;
+        return KFSConstants.MULTIPLE_VALUE;
     }
 
     /**

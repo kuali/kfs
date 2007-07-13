@@ -2,18 +2,18 @@
 <project name="kuali" default="dist-local" basedir=".">
 	<!-- run the help target to view usage instructions for public targets -->
 	<target name="dist-local" if="is.local.build" depends="clean,filter-project,filter-local" description="Prepare local configuration files and tokenized resources and deploy tomcat context file on development workstation">
-		<copy file="${metainf.directory}/${tomcat.context.file}" tofile="${appserver.localhost.dir}/${ant.project.name}-${build.environment}.xml" overwrite="true" />
+		<copy file="${metainf.directory}/${context.file}" tofile="${appserver.localhost.dir}/${ant.project.name}-${build.environment}.xml" overwrite="true" />
 	</target>
 
 	<target name="test-local" depends="dist-local,make-tests,test" description="Run all unit tests and format results"/>
 
-	<target name="echo-properties" depends="init-filter-sets" description="Print all build properties that have been set">
+	<target name="echo-properties" depends="init-properties" description="Print all build properties that have been set">
 		<echoproperties />
 	</target>
 	
 	<target name="clean" depends="clean-project,clean-local" description="Remove all build output" />
 
-	<target name="init-user-properties">
+	<target name="init-static-properties">
 		<property file="${user.home}/${ant.project.name}-build.properties" />
 		<condition property="use.p6spy.local">
 			<and>
@@ -22,158 +22,56 @@
 			</and>
 		</condition>
 		<!-- todo: remove dev.mode and message.persistence - fix for workflow bug introduced with the 2.4 upgrade -->
-		<condition property="dev.mode" value="true">
-			<equals arg1="${is.local.build}" arg2="true" />
-		</condition>
-		<condition property="message.persistence" value="synchronous">
-			<equals arg1="${is.local.build}" arg2="true" />
-		</condition>
-		<echo message="Loaded properties in ${user.home}/${ant.project.name}-build.properties" />
-	</target>
-
-	<target name="init-project-properties" depends="init-user-properties">
+		<condition property="dev.mode" value="true"><equals arg1="${is.local.build}" arg2="true" /></condition>
+		<condition property="message.persistence" value="synchronous"><equals arg1="${is.local.build}" arg2="true" /></condition>
 		<property file="build.properties" />
-		<condition property="load.institution.override.properties">
-			<available file="${build.institution.overrides.file}" />
-		</condition>
-		<echo message="Loaded properties in ./build.properties and set dependent properties" />
 	</target>
 	
-	<target name="init-logic-based-properties" depends="init-project-properties">
-		<tstamp>
-			<format property="project.cvs.tag" pattern="MM/dd/yyyy hh:mm aa" />
-		</tstamp>
-		<condition property="context.docbase" value=' docBase="${basedir}${file.separator}work${file.separator}web-root"'>
-			<equals arg1="${is.local.build}" arg2="true" />
-		</condition>
+	<target name="init-properties" depends="init-static-properties">
+		<tstamp><format property="project.cvs.tag" pattern="MM/dd/yyyy hh:mm aa" /></tstamp>
+		<condition property="context.docbase" value=' docBase="${basedir}${file.separator}work${file.separator}web-root"'><equals arg1="${is.local.build}" arg2="true" /></condition>
 		<property name="context.docbase" value="" />
-		<condition property="base.application.url" value="${local.environment.url}">
-			<equals arg1="${is.local.build}" arg2="true" />
-		</condition>
-		<condition property="base.application.url" value="${prod.environment.url}">
-			<or>
-				<equals arg1="${build.environment}" arg2="ptd" />
-				<equals arg1="${build.environment}" arg2="gl" />
-			</or>
-		</condition>
-		<property name="base.application.url" value="${test.environment.url}" />
-		<property name="application.url" value="${base.application.url}${ant.project.name}-${build.environment}" />
-		<condition property="datasource.url" value="${mysql.datasource.url}">
-			<equals arg1="${ojb.platform}" arg2="${mysql.ojb.platform}" />
-		</condition>
+		<condition property="datasource.url" value="${mysql.datasource.url}"><equals arg1="${ojb.platform}" arg2="${mysql.ojb.platform}" /></condition>
 		<property name="datasource.url" value="${oracle.datasource.url}" />
-		<condition property="driver.class" value="${p6spy.driver.class}">
-			<equals arg1="${use.p6spy.local}" arg2="true"/>
-		</condition>
-		<condition property="driver.class" value="${mysql.driver.class}">
-			<equals arg1="${ojb.platform}" arg2="${mysql.ojb.platform}" />
-		</condition>
+		<condition property="driver.class" value="${p6spy.driver.class}"><equals arg1="${use.p6spy.local}" arg2="true"/></condition>
+		<condition property="driver.class" value="${mysql.driver.class}"><equals arg1="${ojb.platform}" arg2="${mysql.ojb.platform}" /></condition>
 		<property name="driver.class" value="${oracle.driver.class}" />
-		<condition property="p6spy.real.driver.class" value="${mysql.driver.class}">
-			<equals arg1="${ojb.platform}" arg2="${mysql.ojb.platform}" />
-		</condition>
+		<condition property="p6spy.real.driver.class" value="${mysql.driver.class}"><equals arg1="${ojb.platform}" arg2="${mysql.ojb.platform}" /></condition>
 		<property name="p6spy.real.driver.class" value="${oracle.driver.class}" />
-		<condition property="ojb.sequencemanager.class" value="${mysql.sequence.manager.class}">
-			<equals arg1="${ojb.platform}" arg2="${mysql.ojb.platform}" />
-		</condition>
+		<condition property="ojb.sequencemanager.class" value="${mysql.sequence.manager.class}"><equals arg1="${ojb.platform}" arg2="${mysql.ojb.platform}" /></condition>
 		<property name="ojb.sequencemanager.class" value="${oracle.sequence.manager.class}" />
-	    <condition property="database.platform.class" value="${mysql.database.platform}">
-	    		<equals arg1="${ojb.platform}" arg2="${mysql.ojb.platform}" />
-	    </condition>
+	    <condition property="database.platform.class" value="${mysql.database.platform}"><equals arg1="${ojb.platform}" arg2="${mysql.ojb.platform}" /></condition>
 		<property name="database.platform.class" value="${oracle.database.platform}" />
-	    <condition property="workflow.database.platform.class" value="${mysql.workflow.database.platform}">
-	    		<equals arg1="${ojb.platform}" arg2="${mysql.ojb.platform}" />
-	    </condition>
+	    <condition property="workflow.database.platform.class" value="${mysql.workflow.database.platform}"><equals arg1="${ojb.platform}" arg2="${mysql.ojb.platform}" /></condition>
 		<property name="workflow.database.platform.class" value="${oracle.workflow.database.platform}" />
-		<condition property="appenders" value="INFO, LogFile, StdOut">
-			<equals arg1="${is.local.build}" arg2="true" />
-		</condition>
+		<condition property="appenders" value="INFO, LogFile, StdOut"><equals arg1="${is.local.build}" arg2="true" /></condition>
 		<property name="appenders" value="INFO, LogFile" />
-		<condition property="startup.stats.mailing.list" value="${configuration.manager.mailing.list}">
-			<equals arg1="${build.environment}" arg2="cnv" />
-		</condition>
+		<condition property="startup.stats.mailing.list" value="${configuration.manager.mailing.list}"><equals arg1="${build.environment}" arg2="cnv" /></condition>
 		<property name="startup.stats.mailing.list" value="" />
 		<property name="use.quartz.scheduling" value="true" />
-		<condition property="use.quartz.jdbc.jobstore" value="false">
-			<equals arg1="${is.local.build}" arg2="true" />
-		</condition>
+		<condition property="use.quartz.jdbc.jobstore" value="false"><equals arg1="${is.local.build}" arg2="true" /></condition>
 		<property name="use.quartz.jdbc.jobstore" value="true" />
 		<!-- todo this is hosed - need to figure out quartz solution or adapt p1 brte solution -->
-		<condition property="database.file.directory" value="${batch.program.directory}/db">
-			<equals arg1="${is.batch.dist}" arg2="true" />
-		</condition>
+		<condition property="database.file.directory" value="${batch.program.directory}/db"><equals arg1="${is.batch.dist}" arg2="true" /></condition>
 		<path id="database.file.directory.temp" location="${basedir}/${database.directory}" />
 		<pathconvert property="database.file.directory" targetos="unix" refid="database.file.directory.temp" />
-	</target>
-
-	<target name="init-institution-override-properties" if="load.institution.override.properties" depends="init-logic-based-properties">
-		<property file="${build.institution.overrides.file}" />
-		<echo message="Loaded properties in ${build.institution.overrides.file}" />
-	</target>
-
-	<target name="init-institution-default-properties" depends="init-institution-override-properties">
-		<property file="${build.institution.defaults.file}" />
-		<echo message="Loaded properties in ${build.institution.defaults.file}" />
-	</target>
-
-	<target name="init-filter-sets" depends="init-institution-default-properties">
-		<filterset id="general.filterset">
-			<filter token="settings-root-directory" value="${settings.root.directory}" />
-			<filter token="security-root-directory" value="${security.root.directory}" />			
-			<filter token="log4j-settings-file" value="${settings.directory}/${log4j.settings.file}" />
-			<filter token="security-directory" value="${security.directory}" />
-			<filter token="settings-directory" value="${settings.directory}" />
-			<filter token="logs-directory" value="${logs.directory}" />
-			<filter token="staging-directory" value="${staging.directory}" />
-			<filter token="attachments-directory" value="${attachments.directory}" />
-			<filter token="reports-directory" value="${reports.directory}" />
-			<filter token="workflow-xml-directory" value="${external.config.directory}/ears/${build.environment}/${workflow.application}/xml" />
-			<filter token="workflow-web-authentication-filter" value="${workflow.web.authentication.filter}" />
-			<filter token="application" value="${ant.project.name}" />
-			<filter token="institution" value="${institution}" />
-			<filter token="environment" value="${build.environment}" />
-			<filter token="version" value="${project.cvs.tag}" />
-			<filter token="application-url" value="${application.url}" />
-			<filter token="externalizable-static-content-url" value="${externalizable.static.content.url}" />
-			<filter token="htdocs-url" value="${base.application.url}${ant.project.name}/${build.environment}/" />
-			<filter token="cas-url" value="${application.url}/${cas.application}" />
-			<filter token="rice-url" value="${application.url}/${rice.application}" />
-			<filter token="workflow-url" value="${application.url}/${workflow.application}" />
-			<filter token="web-authentication-filter" value="${web.authentication.filter}" />
-			<filter token="web-authentication-service" value="${web.authentication.service}" />
-			<filter token="maintain-users-locally" value="${maintain.users.locally}" />
-			<filter token="production-environment-code" value="${production.environment.code}" />
-			<filter token="datasource-url" value="${datasource.url}" />
-			<filter token="datasource-username" value="${datasource.username}" />
-			<filter token="datasource-password" value="${datasource.password}" />
-			<filter token="driver-class" value="${driver.class}" />
-			<filter token="p6spy-real-driver-class" value="${p6spy.real.driver.class}" />
-			<filter token="ojb-platform" value="${ojb.platform}" />
-			<filter token="ojb-sequencemanager-class" value="${ojb.sequencemanager.class}" />
-			<filter token="database-platform-class" value="${database.platform.class}" />
-			<filter token="workflow-database-platform-class" value="${workflow.database.platform.class}" />
-			<filter token="encryption-key" value="${encryption.key}" />
-			<filter token="context-docbase" value="${context.docbase}" />
-			<filter token="appenders" value="${appenders}" />
-			<filter token="mail-relay-server" value="${mail.relay.server}" />
-			<filter token="batch-mailing-list" value="${batch.mailing.list}" />
-			<filter token="use-quartz-scheduling" value="${use.quartz.scheduling}" />
-			<filter token="use-quartz-jdbc-jobstore" value="${use.quartz.jdbc.jobstore}" />
-			<filter token="transaction-timeout" value="${transaction.timeout}"/>
-			<filter token="startup-stats-mailing-list" value="${startup.stats.mailing.list}"/>
-			<filter token="database-file-directory" value="${database.file.directory}" />
-			<filter token="database-update-file-list" value="${database.update.file.list}" />
-			<filter token="encrypt-attributes-properties-file" value="${encrypt.attributes.properties.file}" />
-			<filter token="data-export-zip-file" value="${data.export.zip.file}" />
-			<filter token="test-spring-beans-import" value="${test.spring.beans.import}" />
-			<filter token="dev-mode" value="${dev.mode}" />
-			<filter token="message-persistence" value="${message.persistence}" />
-			<filter token="spring-source-files" value="${spring.source.files}" />
-			<filter token="spring-test-files" value="${spring.test.files}" />
-		</filterset>
+		<loadfile property="configuration" srcfile="${build.project.directory}/${configuration.file}"><filterchain><expandproperties/></filterchain></loadfile>
+		<loadfile property="ojb" srcfile="${build.project.directory}/${ojb.file}"><filterchain><expandproperties/></filterchain></loadfile>
+		<loadfile property="spring" srcfile="${build.project.directory}/${spring.file}"><filterchain><expandproperties/></filterchain></loadfile>
+		<loadfile property="p6spy" srcfile="${build.project.directory}/${p6spy.file}"><filterchain><expandproperties/></filterchain></loadfile>
+		<loadfile property="web" srcfile="${build.project.directory}/${web.file}"><filterchain><expandproperties/></filterchain></loadfile>
+		<loadfile property="context" srcfile="${build.appserver.directory}/${context.file}"><filterchain><expandproperties/></filterchain></loadfile>
+		<loadfile property="log4j" srcfile="${user.home}/${log4j.file}" failonerror="false"><filterchain><expandproperties/></filterchain></loadfile>	
+		<loadfile property="log4j" srcfile="${build.external.config.directory}/${log4j.file}"><filterchain><expandproperties/></filterchain></loadfile>	
+		<loadfile property="security" srcfile="${build.external.config.directory}/${security.file}"><filterchain><expandproperties/></filterchain></loadfile>	
 	</target>
 	
-	<target name="init-make-references" depends="init-filter-sets">
+	<target name="init-batch-properties">
+		<property name="appserver.home" value="${user.home}/.securedir/java" />
+		<property file="${appserver.home}/build.properties" />
+	</target>
+
+	<target name="init-make-references" depends="init-properties">
 		<path id="compile.source.classpath">
 			<fileset dir="${appserver.lib.dir}" includes="*.jar" />
 			<fileset dir="${lib.directory}" includes="*.jar" />
@@ -192,35 +90,28 @@
 		</patternset>
 	</target>
 	
-	<target name="init-batch-properties">
-		<property name="appserver.home" value="${user.home}/.securedir/java" />
-		<property file="${appserver.home}/build.properties" />
-	</target>
-	
-	<target name="clean-project" depends="init-project-properties">
+	<target name="clean-project" depends="init-static-properties">
 		<delete failonerror="false">
-			<fileset dir="${basedir}" includes="${webinf.directory}/${web.xml.file},${lib.directory}/${log4j.library},${war.directory}/**/**,${test.directory}/**/**,*.war,*.zip,${webroot.directory}/${rice.application}/**/**,${webroot.directory}/${tags.directory}/${rice.application}/**/**,${webroot.directory}/${workflow.application}/**/**,${database.directory}/${rice.name}/**/**,${licenses.directory}/${rice.name}/**/**" />
-		</delete>
-		<delete failonerror="false">
-			<fileset dir="${source.directory}" includes="${tokenized.source.files}" />
+			<fileset dir="${basedir}" includes="${source.directory}/${configuration.file},${source.directory}/${ojb.file},${source.directory}/${spring.file},${source.directory}/${p6spy.file},${webinf.directory}/${web.file},${lib.directory}/${log4j.library.file},${war.directory}/**/**,${test.directory}/**/**,*.war,*.zip,${webroot.directory}/${rice.application}/**/**,${webroot.directory}/${tags.directory}/${rice.application}/**/**,${webroot.directory}/${workflow.application}/**/**,${database.directory}/${rice.name}/**/**,${licenses.directory}/${rice.name}/**/**" />
 		</delete>
 	</target>
 
-	<target name="clean-local" if="is.local.build" depends="init-project-properties">
+	<target name="clean-local" if="is.local.build" depends="init-static-properties">
 		<delete failonerror="false" includeemptydirs="true">
 			<fileset dir="${external.config.directory}" includes="**/${ant.project.name}/"/>
 		</delete>
 		<delete failonerror="false">
 			<fileset dir="${appserver.lib.dir}">
 				<or>
-					<present targetdir="${build.appserver.lib.directory}" />
+					<present targetdir="${build.directory}" />
+					<present targetdir="${build.appserver.directory}" />
 					<present targetdir="${drivers.directory}" />
 				</or>
 			</fileset>
 		</delete>
 		<delete failonerror="false">
 			<fileset dir="${appserver.classes.dir}">
-				<present targetdir="${build.appserver.classes.directory}" />
+				<present targetdir="${build.appserver.directory}" />
 			</fileset>
 		</delete>
 		<delete failonerror="false">
@@ -237,62 +128,43 @@
 	
 	<target name="clean-batch" depends="init-batch-properties,clean" />
 
-	<target name="filter-project-log4j" unless="use.p6spy.local" depends="init-filter-sets">
-		<copy file="${build.appserver.lib.directory}/${log4j.library}" todir="${lib.directory}"/>
+	<target name="filter-project-log4j" unless="use.p6spy.local" depends="init-properties">
+		<copy file="${build.directory}/${log4j.library.file}" todir="${lib.directory}"/>
 	</target>
 	
 	<target name="filter-project-p6spy" if="use.p6spy.local" depends="filter-project-log4j">
-		<copy file="${build.appserver.lib.directory}/${log4j.library}" todir="${appserver.lib.dir}"/>
+		<copy file="${build.directory}/${log4j.library.file}" todir="${appserver.lib.dir}"/>
 	</target>
 	
 	<target name="filter-project" depends="filter-project-p6spy">
-		<unzip dest="${webroot.directory}" src="${build.config.directory}/${rice.name}-${rice.version}${rice.output.web.suffix}" />
-		<unzip dest="${database.directory}/${rice.name}" src="${build.config.directory}/${rice.name}-${rice.version}${rice.output.ddl.suffix}" />
-		<unzip dest="${licenses.directory}/${rice.name}" src="${build.config.directory}/${rice.name}-${rice.version}${rice.output.licenses.suffix}" />
+		<unzip dest="${webroot.directory}" src="${build.project.directory}/${rice.name}-${rice.version}${rice.output.web.suffix}" />
+		<unzip dest="${database.directory}/${rice.name}" src="${build.project.directory}/${rice.name}-${rice.version}${rice.output.ddl.suffix}" />
+		<unzip dest="${licenses.directory}/${rice.name}" src="${build.project.directory}/${rice.name}-${rice.version}${rice.output.licenses.suffix}" />
+		<echo file="${source.directory}/${configuration.file}" message="${configuration}" />
+		<echo file="${source.directory}/${ojb.file}" message="${ojb}" />
+		<echo file="${source.directory}/${spring.file}" message="${spring}" />
+		<echo file="${source.directory}/${p6spy.file}" message="${p6spy}" />
+		<echo file="${webinf.directory}/${web.file}" message="${web}" />
 		<mkdir dir="${metainf.directory}" />
-		<copy file="${build.tokenized.resources.directory}/${tomcat.context.file}" todir="${metainf.directory}" overwrite="true">
-			<filterset refid="general.filterset" />
-		</copy>
-		<copy file="${build.tokenized.resources.directory}/${web.xml.file}" todir="${webinf.directory}" overwrite="true">
-			<filterset refid="general.filterset" />
-		</copy>
-		<copy todir="${source.directory}" overwrite="true">
-			<fileset dir="${build.tokenized.resources.directory}" includes="${tokenized.source.files}" />
-			<filterset refid="general.filterset" />
-		</copy>
-		<copy todir="${test.source.directory}" overwrite="true">
-			<fileset dir="${build.tokenized.resources.directory}" includes="${tokenized.test.files}" />
-			<filterset refid="general.filterset" />
-		</copy>
+		<echo file="${metainf.directory}/${context.file}" message="${context}" />
 	</target>
 
-	<target name="filter-local" if="is.local.build" depends="init-filter-sets">
-		<copy todir="${appserver.classes.dir}" overwrite="true">
-			<fileset dir="${build.appserver.classes.directory}" excludes="${log4j.library}" />
-		</copy>
+	<target name="filter-local" if="is.local.build" depends="init-properties">
+		<copy file="${build.appserver.directory}/${carol.file}" todir="${appserver.classes.dir}" overwrite="true" />
 		<copy todir="${appserver.lib.dir}" overwrite="true">
-			<fileset dir="${build.appserver.lib.directory}" excludes="${log4j.library}" />
+			<fileset dir="${build.appserver.directory}" includes="*.jar" />
 		</copy>
 		<copy todir="${appserver.lib.dir}" overwrite="true">
 			<fileset dir="${drivers.directory}" />
 		</copy>
-		<copy todir="${settings.directory}" overwrite="true">
-			<fileset dir="${build.settings.directory}" />
-			<filterset refid="general.filterset" />
-		</copy>
-		<copy file="${user.home}/${log4j.settings.file}" todir="${settings.directory}" failonerror="false" overwrite="true">
-			<filterset refid="general.filterset" />
-		</copy>
-		<copy todir="${security.directory}" overwrite="true">
-			<fileset dir="${build.security.directory}" />
-			<filterset refid="general.filterset" />
-		</copy>
-		<copy todir="${logs.directory}" overwrite="true">
-			<fileset dir="${build.logs.directory}" />
-		</copy>
-		<copy todir="${static.directory}" overwrite="true">
+		<mkdir dir="${settings.directory}" />
+		<echo file="${log4j.settings.file}" message="${log4j}" />
+		<mkdir dir="${security.directory}" />
+		<echo file="${security.property.file}" message="${security}"  />
+		<mkdir dir="${logs.directory}" />
+		<echo file="${logs.directory}/${ant.project.name}.log" message="" />
+		<copy todir="${static.directory}">
 			<fileset dir="${build.static.directory}" />
-			<filterset refid="general.filterset" />
 		</copy>
 	</target>
 	
@@ -387,83 +259,6 @@
 		<fail if="tests.failed" message="Tests failed" />
 	</target>
 	
-	<target name="setup-rice" depends="init-project-properties">
-		<maven goals="install:install-file" options="-U -DgroupId=com.oracle -DartifactId=ojdbc14 -Dversion=10.1.0.3.0 -Dpackaging=jar -Dfile=${drivers.directory}/ojdbc14.jar" />
-		<copy todir="${user.home}/kuali">
-			<fileset dir="${build.config.directory}/userHomeDirectory/kuali" includes="**/**" />
-			<filterset>
-				<filter token="dev-rice-password" value="${rice.datasource.password.dev}" />
-				<filter token="test-rice-password" value="${rice.datasource.password.test}" />
-			</filterset>
-		</copy>
-		<maven goals="clean:clean install source:jar javadoc:jar" options="-U -Pinstall-kns-dev -Dpackaging=jar" />
-		<touch file="${rice.project.directory}/pom.xml" />
-	</target>
-	
-	<target name="update-rice-dev" depends="update-rice-basic,dist-local" />
-
-	<target name="update-rice" depends="update-rice-basic,update-rice-extended,dist-local" />
-
-	<target name="update-rice-basic" depends="init-project-properties">
-		<delete>
-			<fileset dir="${basedir}" includes="${lib.directory}/${rice.output.file.prefix}${rice.output.lib.suffix}" />
-		</delete>
-		<maven goals="clean:clean package" />
-		<copy todir="${lib.directory}" flatten="true">
-			<fileset dir="${rice.project.directory}" includes="${rice.output.directories}${rice.output.file.prefix}${rice.version}${rice.output.lib.suffix}" excludes="${rice.excludes}" />
-		</copy>
-		<get src="https://onestart.iu.edu/dav/MY/maven-mirror/maven2/${workflow.name}/${workflow.name}/${workflow.version}/${workflow.name}-${workflow.version}.jar" dest="${basedir}/${lib.directory}/${rice.name}-${workflow.name}-${workflow.version}.jar" />
-		<delete>
-			<fileset dir="${build.config.directory}" includes="${rice.name}*${rice.output.web.suffix}" />
-		</delete>
-		<zip compress="true" destfile="${build.config.directory}/${rice.name}-${rice.version}${rice.output.web.suffix}" basedir="${rice.sampleapp.directory}" includes="${rice.application}/**/**,${tags.directory}/${rice.application}/**/*.tag,${workflow.application}/**/**" excludes="**/CVS" />
-	</target>
-	
-	<target name="update-rice-extended" depends="init-project-properties">
-		<delete>
-			<fileset dir="${dependencies.project.directory}" includes="${rice.output.file.prefix}" />
-		</delete>
-		<!-- todo fix this when licenses are moved to rice -->
-		<delete>
-			<fileset dir="${build.config.directory}" includes="${rice.name}*${rice.output.ddl.suffix}" />
-		</delete>
-		<maven goals="source:jar javadoc:jar" />
-		<copy todir="${dependencies.project.directory}">
-			<fileset dir="${rice.project.directory}" includes="${rice.output.directories}${rice.output.file.prefix}${rice.version}${rice.output.src.suffix},${rice.output.directories}${rice.output.file.prefix}${rice.version}${rice.output.doc.suffix}" excludes="${rice.excludes}" />
-			<chainedmapper>
-				<flattenmapper />
-				<globmapper from="*.jar" to="*.zip" />
-			</chainedmapper>
-		</copy>
-		<mkdir dir="temp" />
-		<copy todir="temp">
-			<fileset dir="${rice.project.directory}" includes="${rice.ddl.files}" excludes="${rice.excludes},**/CVS" />
-			<regexpmapper from="^(.*)/src/main/config/(.*)" to="\2" />
-		</copy>
-		<zip compress="true" destfile="${build.config.directory}/${rice.name}-${rice.version}-ddl.zip" basedir="temp" />
-		<delete dir="temp" />
-		<!-- todo fix this when licenses are moved to rice -->
-		<!--<zip compress="true" destfile="${build.config.directory}/${rice.name}-${rice.version}-licenses.zip" basedir="${workflow.project.directory}/${licenses.directory}" excludes="**/CVS" />-->
-	</target>
-	
-	<macrodef name="maven">
-		<attribute name="goals" />
-		<attribute name="options" default="--offline" />
-		<sequential>
-	        <java classname="org.codehaus.classworlds.Launcher" dir="${rice.project.directory}" fork="true" failonerror="true">
-	        	<arg line="@{options} @{goals}"/>
-	        	<sysproperty key="classworlds.conf" value="${maven.home.directory}/bin/m2.conf"/>
-	        	<sysproperty key="maven.home" value="${maven.home.directory}"/>
-	        	<sysproperty key="maven.test.skip" value="true"/>
-	        	<classpath>
-	        		<fileset dir="${maven.home.directory}/boot">
-						<include name="classworlds-*.jar"/>
-					</fileset>
-	        	</classpath>
-	        </java>
-		</sequential>
-	</macrodef>
-	
 	<target name="help" description="Describe public targets">
 		<echo>--- OVERVIEW ---
 			 
@@ -510,4 +305,83 @@
 			clean: removes all build output
 		</echo>
 	</target>
+	
+	<!-- CONFIGURATION MANAGEMENT TARGETS -->
+	
+	<target name="setup-rice" depends="init-static-properties">
+		<maven goals="install:install-file" options="-U -DgroupId=com.oracle -DartifactId=ojdbc14 -Dversion=10.1.0.3.0 -Dpackaging=jar -Dfile=${drivers.directory}/ojdbc14.jar" />
+		<copy todir="${user.home}/kuali">
+			<fileset dir="${build.user.directory}/${ant.project.name}" includes="**/**" />
+			<filterset>
+				<filter token="dev-rice-password" value="${rice.datasource.password.dev}" />
+				<filter token="test-rice-password" value="${rice.datasource.password.test}" />
+			</filterset>
+		</copy>
+		<maven goals="clean:clean install source:jar javadoc:jar" options="-U -Pinstall-kns-dev -Dpackaging=jar" />
+		<touch file="${rice.project.directory}/pom.xml" />
+	</target>
+	
+	<target name="update-rice-dev" depends="update-rice-basic,dist-local" />
+
+	<target name="update-rice" depends="update-rice-basic,update-rice-extended,dist-local" />
+
+	<target name="update-rice-basic" depends="init-static-properties">
+		<delete>
+			<fileset dir="${basedir}" includes="${lib.directory}/${rice.output.file.prefix}${rice.output.lib.suffix}" />
+		</delete>
+		<maven goals="clean:clean package" />
+		<copy todir="${lib.directory}" flatten="true">
+			<fileset dir="${rice.project.directory}" includes="${rice.output.directories}${rice.output.file.prefix}${rice.version}${rice.output.lib.suffix}" excludes="${rice.excludes}" />
+		</copy>
+		<get src="https://onestart.iu.edu/dav/MY/maven-mirror/maven2/${workflow.name}/${workflow.name}/${workflow.version}/${workflow.name}-${workflow.version}.jar" dest="${basedir}/${lib.directory}/${rice.name}-${workflow.name}-${workflow.version}.jar" />
+		<delete>
+			<fileset dir="${build.project.directory}" includes="${rice.name}*${rice.output.web.suffix}" />
+		</delete>
+		<zip compress="true" destfile="${build.project.directory}/${rice.name}-${rice.version}${rice.output.web.suffix}" basedir="${rice.sampleapp.directory}" includes="${rice.application}/**/**,${tags.directory}/${rice.application}/**/*.tag,${workflow.application}/**/**" excludes="**/CVS" />
+	</target>
+	
+	<target name="update-rice-extended" depends="init-static-properties">
+		<delete>
+			<fileset dir="${dependencies.project.directory}" includes="${rice.output.file.prefix}" />
+		</delete>
+		<!-- todo fix this when licenses are moved to rice -->
+		<delete>
+			<fileset dir="${build.project.directory}" includes="${rice.name}*${rice.output.ddl.suffix}" />
+		</delete>
+		<maven goals="source:jar javadoc:jar" />
+		<copy todir="${dependencies.project.directory}">
+			<fileset dir="${rice.project.directory}" includes="${rice.output.directories}${rice.output.file.prefix}${rice.version}${rice.output.src.suffix},${rice.output.directories}${rice.output.file.prefix}${rice.version}${rice.output.doc.suffix}" excludes="${rice.excludes}" />
+			<chainedmapper>
+				<flattenmapper />
+				<globmapper from="*.jar" to="*.zip" />
+			</chainedmapper>
+		</copy>
+		<mkdir dir="temp" />
+		<copy todir="temp">
+			<fileset dir="${rice.project.directory}" includes="${rice.ddl.files}" excludes="${rice.excludes},**/CVS" />
+			<regexpmapper from="^(.*)/src/main/config/(.*)" to="\2" />
+		</copy>
+		<zip compress="true" destfile="${build.project.directory}/${rice.name}-${rice.version}-ddl.zip" basedir="temp" />
+		<delete dir="temp" />
+		<!-- todo fix this when licenses are moved to rice -->
+		<!--<zip compress="true" destfile="${build.project.directory}/${rice.name}-${rice.version}-licenses.zip" basedir="${workflow.project.directory}/${licenses.directory}" excludes="**/CVS" />-->
+	</target>
+	
+	<macrodef name="maven">
+		<attribute name="goals" />
+		<attribute name="options" default="--offline" />
+		<sequential>
+	        <java classname="org.codehaus.classworlds.Launcher" dir="${rice.project.directory}" fork="true" failonerror="true">
+	        	<arg line="@{options} @{goals}"/>
+	        	<sysproperty key="classworlds.conf" value="${maven.home.directory}/bin/m2.conf"/>
+	        	<sysproperty key="maven.home" value="${maven.home.directory}"/>
+	        	<sysproperty key="maven.test.skip" value="true"/>
+	        	<classpath>
+	        		<fileset dir="${maven.home.directory}/boot">
+						<include name="classworlds-*.jar"/>
+					</fileset>
+	        	</classpath>
+	        </java>
+		</sequential>
+	</macrodef>
 </project>

@@ -55,7 +55,7 @@ public class GenesisTest {
   {
       //    this supposedly configures a logger that everybody can fetch and use
       PropertyConfigurator.configure(ResourceBundle.getBundle(
-        KFSConstants.CONFIGURATION_FILE_NAME).getString(KFSConstants.LOG4J_SETTINGS_FILE_KEY));
+              "configuration").getString(KFSConstants.LOG4J_SETTINGS_FILE_KEY));
   //  get one for this routine
       LOG = org.apache.log4j.Logger.getLogger(GenesisTest.class);
      

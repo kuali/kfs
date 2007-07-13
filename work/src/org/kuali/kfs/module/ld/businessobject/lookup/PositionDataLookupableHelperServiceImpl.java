@@ -19,16 +19,12 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.Constants;
 import org.kuali.core.bo.BusinessObject;
-import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.lookup.AbstractLookupableHelperServiceImpl;
 import org.kuali.core.lookup.LookupUtils;
 import org.kuali.core.util.BeanPropertyComparator;
+import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSPropertyConstants;
-import org.kuali.module.gl.bo.Entry;
-import org.kuali.module.gl.web.inquirable.EntryInquirableImpl;
-import org.kuali.module.gl.web.inquirable.InquirableFinancialDocument;
 import org.kuali.module.labor.web.inquirable.PositionDataDetailsInquirableImpl;
 import org.kuali.module.labor.web.inquirable.PositionDataInquirableImpl;
 
@@ -56,9 +52,9 @@ public class PositionDataLookupableHelperServiceImpl extends AbstractLookupableH
         // remove hidden fields
         LookupUtils.removeHiddenCriteriaFields( getBusinessObjectClass(), fieldValues );
 
-        setBackLocation(fieldValues.get(Constants.BACK_LOCATION));
-        setDocFormKey(fieldValues.get(Constants.DOC_FORM_KEY));
-        setReferencesToRefresh(fieldValues.get(Constants.REFERENCES_TO_REFRESH));
+        setBackLocation(fieldValues.get(KFSConstants.BACK_LOCATION));
+        setDocFormKey(fieldValues.get(KFSConstants.DOC_FORM_KEY));
+        setReferencesToRefresh(fieldValues.get(KFSConstants.REFERENCES_TO_REFRESH));
         
         List searchResults = (List) getLookupService().findCollectionBySearchHelper(getBusinessObjectClass(), fieldValues, false);
         // sort list if default sort column given

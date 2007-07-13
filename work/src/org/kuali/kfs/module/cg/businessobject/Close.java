@@ -19,11 +19,10 @@ package org.kuali.module.cg.bo;
 import java.sql.Date;
 import java.util.LinkedHashMap;
 
-import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.document.TransactionalDocumentBase;
+import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.util.SpringServiceLocator;
-import org.kuali.Constants;
 
 /**
  * 
@@ -46,7 +45,7 @@ public class Close extends TransactionalDocumentBase {
     }
 
     public boolean isApproved() {
-        return Constants.DocumentStatusCodes.APPROVED.equals(getDocumentHeader().getFinancialDocumentStatusCode());
+        return KFSConstants.DocumentStatusCodes.APPROVED.equals(getDocumentHeader().getFinancialDocumentStatusCode());
     }
 
     /**

@@ -33,7 +33,6 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.kuali.Constants;
 import org.kuali.core.bo.PersistableBusinessObject;
 import org.kuali.core.document.TransactionalDocument;
 import org.kuali.core.rule.event.KualiDocumentEventBase;
@@ -135,7 +134,7 @@ public class ExpenseTransferDocumentActionBase extends LaborDocumentActionBase {
 
         // anchor, if it exists
         if (form instanceof KualiForm && StringUtils.isNotEmpty(((KualiForm) form).getAnchor())) {
-            parameters.put(Constants.LOOKUP_ANCHOR, ((KualiForm) form).getAnchor());
+            parameters.put(KFSConstants.LOOKUP_ANCHOR, ((KualiForm) form).getAnchor());
         }
 
         // determine what the action path is
@@ -170,7 +169,7 @@ public class ExpenseTransferDocumentActionBase extends LaborDocumentActionBase {
 
         Collection<PersistableBusinessObject> rawValues = null;
         Map<String, Set<String>> segmentedSelection = new HashMap<String, Set<String>>();
-        if (StringUtils.equals(Constants.MULTIPLE_VALUE, expenseTransferDocumentForm.getRefreshCaller())) {
+        if (StringUtils.equals(KFSConstants.MULTIPLE_VALUE, expenseTransferDocumentForm.getRefreshCaller())) {
             String lookupResultsSequenceNumber = expenseTransferDocumentForm.getLookupResultsSequenceNumber();
             if (StringUtils.isNotBlank(lookupResultsSequenceNumber)) {
                 // actually returning from a multiple value lookup
@@ -214,7 +213,7 @@ public class ExpenseTransferDocumentActionBase extends LaborDocumentActionBase {
                         ExpenseTransferAccountingLine line = (ExpenseTransferAccountingLine) expenseTransferDocumentForm.getFinancialDocument().getSourceAccountingLineClass().newInstance();
                         try {
                             KualiDecimal lineAmount = (KualiDecimal) getProperty(bo, selectedPropertyName);
-                            if (Constants.ZERO.compareTo(lineAmount) != 0) {
+                            if (KFSConstants.ZERO.compareTo(lineAmount) != 0) {
                                 buildAccountingLineFromLedgerBalance((LedgerBalance) bo, line, (KualiDecimal) getProperty(bo, selectedPropertyName), periodCode);
                                 SpringServiceLocator.getPersistenceService().retrieveNonKeyFields(line);
                                 insertAccountingLine(true, expenseTransferDocumentForm, line);

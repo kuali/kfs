@@ -21,7 +21,6 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
-import org.kuali.Constants;
 import org.kuali.core.bo.user.PersonTaxId;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.document.MaintenanceDocument;
@@ -30,6 +29,7 @@ import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DocumentService;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
+import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.vendor.VendorConstants;
 import org.kuali.module.vendor.VendorPropertyConstants;
@@ -291,7 +291,7 @@ public class VendorServiceImpl implements VendorService {
             if (StringUtils.isNotBlank(ssnTaxId)) {
                 try {
                     UniversalUser user = SpringServiceLocator.getUniversalUserService().getUniversalUser(new PersonTaxId(ssnTaxId));
-                    return (user.isFaculty() || user.isStaff() || user.isAffiliate()) && !SpringServiceLocator.getKualiConfigurationService().getApplicationParameterRule(Constants.ADMIN_GROUP, Constants.ALLOWED_EMPLOYEE_STATUS_RULE).failsRule(user.getEmployeeStatusCode());
+                    return (user.isFaculty() || user.isStaff() || user.isAffiliate()) && !SpringServiceLocator.getKualiConfigurationService().getApplicationParameterRule(KFSConstants.ADMIN_GROUP, KFSConstants.ALLOWED_EMPLOYEE_STATUS_RULE).failsRule(user.getEmployeeStatusCode());
                 }
                 catch (UserNotFoundException e) {
                     // user is not in the system... assume non-employee

@@ -24,11 +24,10 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.kuali.Constants;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.UrlFactory;
-import org.kuali.core.web.struts.form.KualiForm;
 import org.kuali.core.web.struts.action.KualiAction;
+import org.kuali.core.web.struts.form.KualiForm;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.web.struts.form.KualiBalanceInquiryReportMenuForm;
 
@@ -149,7 +148,7 @@ public class KualiBalanceInquiryReportMenuAction extends KualiAction {
         System.out.println("Setting the anchor to " + ((KualiForm) form).getAnchor());
         // anchor, if it exists
         if (form instanceof KualiForm && StringUtils.isNotEmpty(((KualiForm) form).getAnchor())) {
-            parameters.put(Constants.LOOKUP_ANCHOR, ((KualiForm) form).getAnchor());
+            parameters.put(KFSConstants.LOOKUP_ANCHOR, ((KualiForm) form).getAnchor());
         }
 
         // determine what the action path is

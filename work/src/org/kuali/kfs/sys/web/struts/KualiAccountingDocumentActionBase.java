@@ -15,9 +15,9 @@
  */
 package org.kuali.kfs.web.struts.action;
 
-import static org.kuali.kfs.KFSKeyConstants.ERROR_REQUIRED;
-import static org.kuali.kfs.KFSKeyConstants.ERROR_DOCUMENT_ACCOUNTING_LINE_SALES_TAX_REQUIRED;
 import static org.kuali.kfs.KFSKeyConstants.ERROR_DOCUMENT_ACCOUNTING_LINE_SALES_TAX_INVALID_ACCOUNT;
+import static org.kuali.kfs.KFSKeyConstants.ERROR_DOCUMENT_ACCOUNTING_LINE_SALES_TAX_REQUIRED;
+import static org.kuali.kfs.KFSKeyConstants.ERROR_REQUIRED;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -38,7 +38,6 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.upload.FormFile;
-import org.kuali.Constants;
 import org.kuali.core.rule.KualiParameterRule;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DictionaryValidationService;
@@ -52,7 +51,6 @@ import org.kuali.core.web.struts.form.KualiDocumentFormBase;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSKeyConstants;
 import org.kuali.kfs.bo.AccountingLine;
-import org.kuali.kfs.bo.AccountingLineBase;
 import org.kuali.kfs.bo.AccountingLineOverride;
 import org.kuali.kfs.bo.AccountingLineParser;
 import org.kuali.kfs.bo.SourceAccountingLine;
@@ -68,7 +66,6 @@ import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.kfs.web.struts.form.KualiAccountingDocumentFormBase;
 import org.kuali.kfs.web.ui.AccountingLineDecorator;
 import org.kuali.module.financial.bo.SalesTax;
-import org.kuali.rice.KNSServiceLocator;
 
 import edu.iu.uis.eden.exception.WorkflowException;
 
@@ -177,7 +174,7 @@ public class KualiAccountingDocumentActionBase extends KualiTransactionalDocumen
         super.refresh(mapping, form, request, response);
         refreshSalesTaxInfo(form);
 
-        return mapping.findForward(Constants.MAPPING_BASIC);
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
     /**
@@ -189,7 +186,7 @@ public class KualiAccountingDocumentActionBase extends KualiTransactionalDocumen
         super.toggleTab(mapping, form, request, response);
         refreshSalesTaxInfo(form);
 
-        return mapping.findForward(Constants.MAPPING_BASIC);
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
 

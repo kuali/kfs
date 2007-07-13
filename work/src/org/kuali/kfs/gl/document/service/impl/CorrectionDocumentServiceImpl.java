@@ -15,28 +15,20 @@
  */
 package org.kuali.module.gl.service.impl;
 
-import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileFilter;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
-import org.apache.commons.collections.comparators.ComparableComparator;
-import org.apache.commons.io.filefilter.AgeFileFilter;
-import org.apache.commons.io.filefilter.AndFileFilter;
-import org.apache.commons.io.filefilter.SuffixFileFilter;
 import org.apache.log4j.Logger;
-import org.kuali.Constants;
 import org.kuali.core.dao.DocumentDao;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.web.comparator.NumericValueComparator;
@@ -45,7 +37,6 @@ import org.kuali.core.web.comparator.TemporalValueComparator;
 import org.kuali.core.web.ui.Column;
 import org.kuali.core.workflow.service.KualiWorkflowDocument;
 import org.kuali.kfs.KFSPropertyConstants;
-import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.gl.bo.CorrectionChangeGroup;
 import org.kuali.module.gl.bo.OriginEntry;
 import org.kuali.module.gl.bo.OriginEntryGroup;
@@ -53,7 +44,6 @@ import org.kuali.module.gl.dao.CorrectionChangeDao;
 import org.kuali.module.gl.dao.CorrectionChangeGroupDao;
 import org.kuali.module.gl.dao.CorrectionCriteriaDao;
 import org.kuali.module.gl.document.CorrectionDocument;
-import org.kuali.module.gl.exception.LoadException;
 import org.kuali.module.gl.service.CorrectionDocumentService;
 import org.kuali.module.gl.service.OriginEntryGroupService;
 import org.kuali.module.gl.service.OriginEntryService;
@@ -61,7 +51,6 @@ import org.kuali.module.gl.util.CorrectionDocumentEntryMetadata;
 import org.kuali.module.gl.util.CorrectionDocumentUtils;
 import org.kuali.module.gl.util.OriginEntryFileIterator;
 import org.kuali.module.gl.util.OriginEntryStatistics;
-import org.kuali.module.gl.web.struts.form.CorrectionForm;
 import org.springframework.transaction.annotation.Transactional;
 
 /**

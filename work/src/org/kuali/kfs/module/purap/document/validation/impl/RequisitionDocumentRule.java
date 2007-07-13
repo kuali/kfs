@@ -19,7 +19,6 @@ import java.math.BigDecimal;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.Constants;
 import org.kuali.core.datadictionary.validation.fieldlevel.ZipcodeValidationPattern;
 import org.kuali.core.document.AmountTotaling;
 import org.kuali.core.rule.KualiParameterRule;
@@ -89,27 +88,27 @@ public class RequisitionDocumentRule extends PurchasingDocumentRuleBase {
                 //only do these check for below the line items
                 if (item.getItemType().isItemTypeAboveTheLineIndicator()) {
                     if (item.getSourceAccountingLines().size() == 0) {
-                        GlobalVariables.getErrorMap().putError(Constants.ITEM_LINE_ERRORS, PurapKeyConstants.ERROR_NO_ACCOUNTS);
-                        valid = false;
-                        break;
-                    }
+                        GlobalVariables.getErrorMap().putError(KFSConstants.ITEM_LINE_ERRORS, PurapKeyConstants.ERROR_NO_ACCOUNTS);
+                    valid = false;
+                    break;
+                }
 
                     BigDecimal totalPercentage = new BigDecimal(0);
                     for (PurApAccountingLine accountingLine : item.getSourceAccountingLines()) {
                         totalPercentage = totalPercentage.add(accountingLine.getAccountLinePercent());
-                    }
+            }
                     if (!totalPercentage.equals(new BigDecimal(100))) {
-                        GlobalVariables.getErrorMap().putError(Constants.ITEM_LINE_ERRORS, PurapKeyConstants.ERROR_NOT_100_PERCENT);
+                        GlobalVariables.getErrorMap().putError(KFSConstants.ITEM_LINE_ERRORS, PurapKeyConstants.ERROR_NOT_100_PERCENT);
                         valid = false;
                         break;
-                    }
+        }
                 }
             }
         }
 
         List<PurchasingApItem> itemList = purapDocument.getItems();
         if (itemList.size() <= purapDocument.getBelowTheLineTypes().length) {
-            GlobalVariables.getErrorMap().putError(Constants.ITEM_LINE_ERRORS, PurapKeyConstants.ERROR_NO_ITEMS);
+            GlobalVariables.getErrorMap().putError(KFSConstants.ITEM_LINE_ERRORS, PurapKeyConstants.ERROR_NO_ITEMS);
             valid = false;
         }
 

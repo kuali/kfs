@@ -30,7 +30,6 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.action.ActionMessage;
 import org.apache.struts.action.ActionMessages;
-import org.kuali.Constants;
 import org.kuali.core.bo.Note;
 import org.kuali.core.question.ConfirmationQuestion;
 import org.kuali.core.service.BusinessObjectService;
@@ -860,20 +859,20 @@ public class PurchaseOrderAction extends PurchasingActionBase {
 
     @Override
     public ActionForward cancel(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        Object question = request.getParameter(Constants.QUESTION_INST_ATTRIBUTE_NAME);
+        Object question = request.getParameter(KFSConstants.QUESTION_INST_ATTRIBUTE_NAME);
         // this should probably be moved into a private instance variable
         KualiConfigurationService kualiConfiguration = SpringServiceLocator.getKualiConfigurationService();
 
         // logic for cancel question
         if (question == null) {
             // ask question if not already asked
-            return this.performQuestionWithoutInput(mapping, form, request, response, Constants.DOCUMENT_CANCEL_QUESTION, kualiConfiguration.getPropertyString("document.question.cancel.text"), Constants.CONFIRMATION_QUESTION, Constants.MAPPING_CANCEL, "");
+            return this.performQuestionWithoutInput(mapping, form, request, response, KFSConstants.DOCUMENT_CANCEL_QUESTION, kualiConfiguration.getPropertyString("document.question.cancel.text"), KFSConstants.CONFIRMATION_QUESTION, KFSConstants.MAPPING_CANCEL, "");
         }
         else {
-            Object buttonClicked = request.getParameter(Constants.QUESTION_CLICKED_BUTTON);
-            if ((Constants.DOCUMENT_CANCEL_QUESTION.equals(question)) && ConfirmationQuestion.NO.equals(buttonClicked)) {
+            Object buttonClicked = request.getParameter(KFSConstants.QUESTION_CLICKED_BUTTON);
+            if ((KFSConstants.DOCUMENT_CANCEL_QUESTION.equals(question)) && ConfirmationQuestion.NO.equals(buttonClicked)) {
                 // if no button clicked just reload the doc
-                return mapping.findForward(Constants.MAPPING_BASIC);
+                return mapping.findForward(KFSConstants.MAPPING_BASIC);
             }
             // else go to cancel logic below
         }

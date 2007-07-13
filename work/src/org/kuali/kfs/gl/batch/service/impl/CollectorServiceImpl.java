@@ -29,7 +29,6 @@ import java.util.Set;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
-import org.kuali.Constants;
 import org.kuali.core.mail.InvalidAddressException;
 import org.kuali.core.mail.MailMessage;
 import org.kuali.core.service.DateTimeService;
@@ -140,7 +139,7 @@ public class CollectorServiceImpl implements CollectorService {
         }
         catch (XMLParseException e1) {
             LOG.error("errors parsing xml " + e1.getMessage(), e1);
-            GlobalVariables.getErrorMap().putError(Constants.GLOBAL_ERRORS, KFSKeyConstants.ERROR_BATCH_UPLOAD_PARSING_XML, new String[] { e1.getMessage() });
+            GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_ERRORS, KFSKeyConstants.ERROR_BATCH_UPLOAD_PARSING_XML, new String[] { e1.getMessage() });
         }
 
         return parsedObject;
@@ -255,7 +254,7 @@ public class CollectorServiceImpl implements CollectorService {
 
         if (foundHeader != null) {
             LOG.error("batch header was matched to a previously loaded batch");
-            GlobalVariables.getErrorMap().putError(Constants.GLOBAL_ERRORS, KFSKeyConstants.Collector.DUPLICATE_BATCH_HEADER);
+            GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_ERRORS, KFSKeyConstants.Collector.DUPLICATE_BATCH_HEADER);
 
             validHeader = false;
         }
@@ -280,7 +279,7 @@ public class CollectorServiceImpl implements CollectorService {
 
         if (batchDocumentTypes.size() > 1) {
             LOG.error("mixed document types found in batch");
-            GlobalVariables.getErrorMap().putError(Constants.GLOBAL_ERRORS, KFSKeyConstants.Collector.MIXED_DOCUMENT_TYPES);
+            GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_ERRORS, KFSKeyConstants.Collector.MIXED_DOCUMENT_TYPES);
 
             docTypesNotMixed = false;
         }
@@ -304,7 +303,7 @@ public class CollectorServiceImpl implements CollectorService {
 
         if (balanceTypes.size() > 1) {
             LOG.error("mixed balance types found in batch");
-            GlobalVariables.getErrorMap().putError(Constants.GLOBAL_ERRORS, KFSKeyConstants.Collector.MIXED_BALANCE_TYPES);
+            GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_ERRORS, KFSKeyConstants.Collector.MIXED_BALANCE_TYPES);
 
             balanceTypesNotMixed = false;
         }
@@ -332,7 +331,7 @@ public class CollectorServiceImpl implements CollectorService {
             String idBillingKey = StringUtils.join(new String[] { idBilling.getChartOfAccountsCode(), idBilling.getAccountNumber(), idBilling.getSubAccountNumber(), idBilling.getFinancialObjectCode(), idBilling.getFinancialSubObjectCode() }, ",");
             if (!glEntryKeys.contains(idBillingKey)) {
                 LOG.error("found detail key without a matching gl entry key " + idBillingKey);
-                GlobalVariables.getErrorMap().putError(Constants.GLOBAL_ERRORS, KFSKeyConstants.Collector.NONMATCHING_DETAIL_KEY, idBillingKey);
+                GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_ERRORS, KFSKeyConstants.Collector.NONMATCHING_DETAIL_KEY, idBillingKey);
 
                 detailKeysFound = false;
                 break;
@@ -354,7 +353,7 @@ public class CollectorServiceImpl implements CollectorService {
         int actualRecordCount = batch.getOriginEntries().size() + batch.getIdBillings().size();
         if (actualRecordCount != batch.getTotalRecords()) {
             LOG.error("trailer check on total count did not pass, expected count: " + String.valueOf(batch.getTotalRecords()) + ", actual count: " + String.valueOf(actualRecordCount));
-            GlobalVariables.getErrorMap().putError(Constants.GLOBAL_ERRORS, KFSKeyConstants.Collector.TRAILER_ERROR_COUNTNOMATCH, String.valueOf(batch.getTotalRecords()), String.valueOf(actualRecordCount));
+            GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_ERRORS, KFSKeyConstants.Collector.TRAILER_ERROR_COUNTNOMATCH, String.valueOf(batch.getTotalRecords()), String.valueOf(actualRecordCount));
 
             trailerTotalsMatch = false;
         }
@@ -389,7 +388,7 @@ public class CollectorServiceImpl implements CollectorService {
             // credits must equal debits must equal total trailer amount
             if (!creditAmount.equals(debitAmount) || !creditAmount.equals(batch.getTotalAmount())) {
                 LOG.error("trailer check on total amount did not pass, debit should equal credit, should equal trailer total");
-                GlobalVariables.getErrorMap().putError(Constants.GLOBAL_ERRORS, KFSKeyConstants.Collector.TRAILER_ERROR_AMOUNTNOMATCH1, creditAmount.toString(), debitAmount.toString(), batch.getTotalAmount().toString());
+                GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_ERRORS, KFSKeyConstants.Collector.TRAILER_ERROR_AMOUNTNOMATCH1, creditAmount.toString(), debitAmount.toString(), batch.getTotalAmount().toString());
             }
         }
         else {
@@ -397,7 +396,7 @@ public class CollectorServiceImpl implements CollectorService {
             KualiDecimal totalGlEntries = creditAmount.add(debitAmount).add(otherAmount);
             if (!totalGlEntries.equals(batch.getTotalAmount())) {
                 LOG.error("trailer check on total amount did not pass, sum of gl entry amounts should equal trailer total");
-                GlobalVariables.getErrorMap().putError(Constants.GLOBAL_ERRORS, KFSKeyConstants.Collector.TRAILER_ERROR_AMOUNTNOMATCH2, totalGlEntries.toString(), batch.getTotalAmount().toString());
+                GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_ERRORS, KFSKeyConstants.Collector.TRAILER_ERROR_AMOUNTNOMATCH2, totalGlEntries.toString(), batch.getTotalAmount().toString());
             }
         }
 

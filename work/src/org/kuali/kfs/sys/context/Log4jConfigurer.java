@@ -18,21 +18,19 @@ package org.kuali.kfs.context;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.Date;
-import java.util.ResourceBundle;
 
 import org.apache.log4j.Logger;
 import org.apache.log4j.NDC;
 import org.apache.log4j.PropertyConfigurator;
-import org.kuali.Constants;
+import org.kuali.kfs.KFSConstants;
 
 public class Log4jConfigurer {
-    private static final Logger LOG = Logger.getLogger(Log4jConfigurer.class);
     private static final long MILLISECONDS_CONVERSION_MULTIPLIER = 60 * 1000;
     private static StartupTimeStatsMailAppender NDC_APPENDER = new StartupTimeStatsMailAppender(new Date().getTime());
 
     public static final void configureLogging() {
-        String settingsFile = ResourceBundle.getBundle(Constants.CONFIGURATION_FILE_NAME).getString(Constants.LOG4J_SETTINGS_FILE_KEY);
-        String reloadMinutes = ResourceBundle.getBundle(Constants.CONFIGURATION_FILE_NAME).getString(Constants.LOG4J_RELOAD_MINUTES_KEY);
+        String settingsFile = SpringContext.getStringConfigurationProperty(KFSConstants.LOG4J_SETTINGS_FILE_KEY);
+        String reloadMinutes = SpringContext.getStringConfigurationProperty(KFSConstants.LOG4J_RELOAD_MINUTES_KEY);
         long reloadMilliseconds = 5 * MILLISECONDS_CONVERSION_MULTIPLIER;
         try {
             reloadMilliseconds = Long.parseLong(reloadMinutes) * MILLISECONDS_CONVERSION_MULTIPLIER;
@@ -57,7 +55,7 @@ public class Log4jConfigurer {
         for(int i=0; i< urls.length; i++) {
             classpath.append(urls[i].getFile()).append("; ");
         }
-        LOG.info(classpath.toString());
+        Logger.getLogger(Log4jConfigurer.class).info(classpath.toString());
     }
 
     public static void completeStartupLogging() {

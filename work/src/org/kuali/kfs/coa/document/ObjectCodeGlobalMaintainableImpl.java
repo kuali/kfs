@@ -21,7 +21,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.Constants;
 import org.kuali.core.bo.BusinessObject;
 import org.kuali.core.bo.PersistableBusinessObject;
 import org.kuali.core.document.MaintenanceDocument;
@@ -44,7 +43,7 @@ public class ObjectCodeGlobalMaintainableImpl extends KualiGlobalMaintainableImp
     public void refresh(String refreshCaller, Map fieldValues, MaintenanceDocument document) {
         //if our detail objects have a null fiscal year we need to fill these in with the "addLine" fiscal year
         //otherwise we leave it alone, these should only be null when coming back from a multiple value lookup
-        if(refreshCaller != null && refreshCaller.equals(Constants.MULTIPLE_VALUE)) {
+        if(refreshCaller != null && refreshCaller.equals(KFSConstants.MULTIPLE_VALUE)) {
             ObjectCodeGlobal objectCodeGlobal = (ObjectCodeGlobal)document.getDocumentBusinessObject();
             ObjectCodeGlobalDetail addLineDetail = (ObjectCodeGlobalDetail)newCollectionLines.get(CHANGE_DETAIL_COLLECTION);
             int fiscalYear = addLineDetail.getUniversityFiscalYear();

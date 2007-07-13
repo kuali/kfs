@@ -64,47 +64,47 @@ public class SchedulerServiceImplTest extends KualiTestBase {
    
     public void testRunJob() throws Exception {
         SchedulerService s = SpringServiceLocator.getSchedulerService();
-        BatchJobStatus job = s.getJob(SchedulerService.UNSCHEDULED_GROUP, "glScrubberJob" );
+        BatchJobStatus job = s.getJob(SchedulerService.UNSCHEDULED_GROUP, "scrubberJob" );
         assertNotNull( "job must not be null", job );
         System.out.println( job );
         job.runJob( null ); 
         System.out.println( s.getRunningJobs() );
-        System.out.println( s.getJob(SchedulerService.UNSCHEDULED_GROUP, "glScrubberJob" ) );
+        System.out.println( s.getJob(SchedulerService.UNSCHEDULED_GROUP, "scrubberJob" ) );
         Thread.sleep( 1000 );
         System.out.println( s.getRunningJobs() );
-        System.out.println( s.getJob(SchedulerService.UNSCHEDULED_GROUP, "glScrubberJob" ) );
+        System.out.println( s.getJob(SchedulerService.UNSCHEDULED_GROUP, "scrubberJob" ) );
         Thread.sleep( 1000 );
         System.out.println( s.getRunningJobs() );
-        System.out.println( s.getJob(SchedulerService.UNSCHEDULED_GROUP, "glScrubberJob" ) );
+        System.out.println( s.getJob(SchedulerService.UNSCHEDULED_GROUP, "scrubberJob" ) );
         Thread.sleep( 1000 );
         System.out.println( s.getRunningJobs() );
-        System.out.println( s.getJob(SchedulerService.UNSCHEDULED_GROUP, "glScrubberJob" ) );
+        System.out.println( s.getJob(SchedulerService.UNSCHEDULED_GROUP, "scrubberJob" ) );
         Thread.sleep( 1000 );
         System.out.println( s.getRunningJobs() );
-        System.out.println( s.getJob(SchedulerService.UNSCHEDULED_GROUP, "glScrubberJob" ) );
+        System.out.println( s.getJob(SchedulerService.UNSCHEDULED_GROUP, "scrubberJob" ) );
         Thread.sleep( 1000 );
         System.out.println( s.getRunningJobs() );
-        System.out.println( s.getJob(SchedulerService.UNSCHEDULED_GROUP, "glScrubberJob" ) );
+        System.out.println( s.getJob(SchedulerService.UNSCHEDULED_GROUP, "scrubberJob" ) );
     }
     
     /**
      * Test that the unschedule job function works and removes the job from the standard scheduled group.
      * 
-     * Assumes: glScrubberJob exists as a job in the scheduled group.
+     * Assumes: scrubberJob exists as a job in the scheduled group.
      */
     
     public void testUnscheduleJob() throws Exception {
         SchedulerService s = SpringServiceLocator.getSchedulerService();
-        BatchJobStatus job = s.getJob(SchedulerService.SCHEDULED_GROUP, "glScrubberJob" );
+        BatchJobStatus job = s.getJob(SchedulerService.SCHEDULED_GROUP, "scrubberJob" );
         assertNotNull( "job must not be null", job );
 
         assertTrue( "must return isScheduled == true", job.isScheduled() );
         
         s.removeScheduled( job.getName() );
-        job = s.getJob(SchedulerService.SCHEDULED_GROUP, "glScrubberJob" );
+        job = s.getJob(SchedulerService.SCHEDULED_GROUP, "scrubberJob" );
         assertNull( "new attempt to retrieve job must be null", job );
         
-        job = s.getJob(SchedulerService.UNSCHEDULED_GROUP, "glScrubberJob" );
+        job = s.getJob(SchedulerService.UNSCHEDULED_GROUP, "scrubberJob" );
         assertNotNull( "job must not be null", job );
         assertFalse( "must return isScheduled == false", job.isScheduled() );
     }
@@ -113,23 +113,23 @@ public class SchedulerServiceImplTest extends KualiTestBase {
      * Test that the schedule job function works and puts the job into the standard scheduled group.  Also tests 
      * to make sure that BatchJobStatus detects the scheduled status even if it is in the unscheduled group.
      * 
-     * Assumes: glClearOldOriginEntriesJob exists as a job in the unscheduled group.
+     * Assumes: clearOldOriginEntriesJob exists as a job in the unscheduled group.
      */
     
     public void testScheduleJob() throws Exception {
         SchedulerService s = SpringServiceLocator.getSchedulerService();
-        BatchJobStatus job = s.getJob(SchedulerService.UNSCHEDULED_GROUP, "glClearOldOriginEntriesJob" );
+        BatchJobStatus job = s.getJob(SchedulerService.UNSCHEDULED_GROUP, "clearOldOriginEntriesJob" );
         assertNotNull( "job must not be null", job );
 
         assertFalse( "must return isScheduled == false", job.isScheduled() );
         
         job.schedule();
 
-        job = s.getJob(SchedulerService.UNSCHEDULED_GROUP, "glClearOldOriginEntriesJob" );
+        job = s.getJob(SchedulerService.UNSCHEDULED_GROUP, "clearOldOriginEntriesJob" );
         assertNotNull( "job (in unsched group) must not be null", job );
         assertTrue( "must return isScheduled == true", job.isScheduled() );
 
-        job = s.getJob(SchedulerService.SCHEDULED_GROUP, "glClearOldOriginEntriesJob" );
+        job = s.getJob(SchedulerService.SCHEDULED_GROUP, "clearOldOriginEntriesJob" );
         assertNotNull( "job (in sched group) must not be null", job );
         assertTrue( "must return isScheduled == true", job.isScheduled() );
         
@@ -142,7 +142,7 @@ public class SchedulerServiceImplTest extends KualiTestBase {
     public void testJobInterrupt() throws Exception{
         SchedulerService s = SpringServiceLocator.getSchedulerService();
         
-        BatchJobStatus job = s.getJob(SchedulerService.UNSCHEDULED_GROUP, "glScrubberJob" );
+        BatchJobStatus job = s.getJob(SchedulerService.UNSCHEDULED_GROUP, "scrubberJob" );
         job.runJob( null );
         // wait for job to enter running status
         int waitCount = 0; // provide an "out" in case things fail badly
@@ -158,7 +158,7 @@ public class SchedulerServiceImplTest extends KualiTestBase {
             waitCount++;
         }
         Thread.sleep( 2000 );
-        job = s.getJob(SchedulerService.UNSCHEDULED_GROUP, "glScrubberJob" );
+        job = s.getJob(SchedulerService.UNSCHEDULED_GROUP, "scrubberJob" );
         List<BatchJobStatus> jobs = s.getJobs();
         for ( BatchJobStatus b : jobs ) {
             System.out.println( b );

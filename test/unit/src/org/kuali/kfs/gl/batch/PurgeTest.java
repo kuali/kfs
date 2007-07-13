@@ -57,7 +57,7 @@ public class PurgeTest extends KualiTestBase {
         // Should be deleted
         unitTestSqlDao.sqlCommand("insert into GL_ENTRY_T (UNIV_FISCAL_YR, FIN_COA_CD, ACCOUNT_NBR, SUB_ACCT_NBR, FIN_OBJECT_CD, FIN_SUB_OBJ_CD, FIN_BALANCE_TYP_CD, FIN_OBJ_TYP_CD, UNIV_FISCAL_PRD_CD, FDOC_TYP_CD," + "FS_ORIGIN_CD, FDOC_NBR, TRN_ENTR_SEQ_NBR, OBJ_ID, VER_NBR, TRN_LDGR_ENTR_DESC, TRN_LDGR_ENTR_AMT, TRN_DEBIT_CRDT_CD, TRANSACTION_DT," + "ORG_DOC_NBR, PROJECT_CD, ORG_REFERENCE_ID, FDOC_REF_TYP_CD, FS_REF_ORIGIN_CD, FDOC_REF_NBR, FDOC_REVERSAL_DT, TRN_ENCUM_UPDT_CD, TRN_POST_DT, TIMESTAMP) " + "values (2001, 'BL', '1031400', '-----', '5000', '---', 'AC', 'EX', '01', 'JV', '01', 'XXX', 1,'" + new Guid().toString() + "', 0, 'YYY', 0, 'D', " + unitTestSqlDao.getDbPlatform().getCurTimeFunction() + ", " + "'XX', '----------', 'X', null,null,null,null,' '," + unitTestSqlDao.getDbPlatform().getCurTimeFunction() + "," + unitTestSqlDao.getDbPlatform().getCurTimeFunction() + ")");
 
-        Step purgeStep = (Step) SpringServiceLocator.getService("glPurgeEntryStep");
+        Step purgeStep = (Step) SpringServiceLocator.getService("purgeEntryStep");
 
         // Run the purge
         assertTrue("Should return true", purgeStep.execute(getClass().getName()));
@@ -84,7 +84,7 @@ public class PurgeTest extends KualiTestBase {
         // Shouldn't be deleted
         unitTestSqlDao.sqlCommand("insert into gl_balance_t (UNIV_FISCAL_YR, FIN_COA_CD, ACCOUNT_NBR, SUB_ACCT_NBR, FIN_OBJECT_CD, FIN_SUB_OBJ_CD, FIN_BALANCE_TYP_CD, FIN_OBJ_TYP_CD, OBJ_ID, " + "VER_NBR, ACLN_ANNL_BAL_AMT, FIN_BEG_BAL_LN_AMT, CONTR_GR_BB_AC_AMT, MO1_ACCT_LN_AMT, MO2_ACCT_LN_AMT, MO3_ACCT_LN_AMT, MO4_ACCT_LN_AMT, MO5_ACCT_LN_AMT, MO6_ACCT_LN_AMT, " + "MO7_ACCT_LN_AMT, MO8_ACCT_LN_AMT, MO9_ACCT_LN_AMT, MO10_ACCT_LN_AMT, MO11_ACCT_LN_AMT, MO12_ACCT_LN_AMT, MO13_ACCT_LN_AMT, TIMESTAMP) " + "values (1999, 'BL', '1031400', '-----', '5000', '---', 'AC', 'EX','" + new Guid().toString() + "', 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, " + unitTestSqlDao.getDbPlatform().getCurTimeFunction() + ")");
 
-        Step purgeStep = (Step) SpringServiceLocator.getService("glPurgeBalanceStep");
+        Step purgeStep = (Step) SpringServiceLocator.getService("purgeBalanceStep");
 
         // Run the purge
         assertTrue("Should return true", purgeStep.execute(getClass().getName()));
@@ -111,7 +111,7 @@ public class PurgeTest extends KualiTestBase {
         // Shouldn't be deleted
         unitTestSqlDao.sqlCommand("INSERT INTO GL_ACCT_BALANCES_T (UNIV_FISCAL_YR, FIN_COA_CD, ACCOUNT_NBR, SUB_ACCT_NBR, FIN_OBJECT_CD, FIN_SUB_OBJ_CD, " + "OBJ_ID, VER_NBR, CURR_BDLN_BAL_AMT, ACLN_ACTLS_BAL_AMT, ACLN_ENCUM_BAL_AMT, TIMESTAMP) VALUES (1999, 'BL', '1031400', '-----', '5000', " + "'---','" + new Guid().toString() + "', 0, 0, 0, 0, " + unitTestSqlDao.getDbPlatform().getCurTimeFunction() + ")");
 
-        Step purgeStep = (Step) SpringServiceLocator.getService("glPurgeAccountBalancesStep");
+        Step purgeStep = (Step) SpringServiceLocator.getService("purgeAccountBalancesStep");
 
         // Run the purge
         assertTrue("Should return true", purgeStep.execute(getClass().getName()));
@@ -138,7 +138,7 @@ public class PurgeTest extends KualiTestBase {
         // Shouldn't be deleted
         unitTestSqlDao.sqlCommand("insert into GL_ENCUMBRANCE_T (UNIV_FISCAL_YR, FIN_COA_CD, ACCOUNT_NBR, SUB_ACCT_NBR, FIN_OBJECT_CD, FIN_SUB_OBJ_CD, " + "FIN_BALANCE_TYP_CD, FDOC_TYP_CD, FS_ORIGIN_CD, FDOC_NBR, OBJ_ID, VER_NBR, TRN_ENCUM_DESC, TRN_ENCUM_DT, ACLN_ENCUM_AMT, ACLN_ENCUM_CLS_AMT, " + "ACLN_ENCUM_PRG_CD, TIMESTAMP) values (2002, 'BL', '1031400', '-----', '5000', '---', 'AC', 'JV', '01', 'XXX', '" + new Guid().toString() + "', 0, 'Desc', " + unitTestSqlDao.getDbPlatform().getCurTimeFunction() + ", " + "0, 0, 'N', " + unitTestSqlDao.getDbPlatform().getCurTimeFunction() + ")");
 
-        Step purgeStep = (Step) SpringServiceLocator.getService("glPurgeEncumbranceStep");
+        Step purgeStep = (Step) SpringServiceLocator.getService("purgeEncumbranceStep");
 
         // Run the purge
         assertTrue("Should return true", purgeStep.execute(getClass().getName()));
@@ -165,7 +165,7 @@ public class PurgeTest extends KualiTestBase {
         // Shouldn't be deleted
         unitTestSqlDao.sqlCommand("insert into GL_ID_BILL_T (FS_ORIGIN_CD,UNIV_FISCAL_PRD_CD, UNIV_FISCAL_YR, CREATE_DT, CREATE_SEQ, FIN_COA_CD, ACCOUNT_NBR, " + "SUB_ACCT_NBR, FIN_OBJECT_CD, FIN_SUB_OBJ_CD, FDOC_IDBIL_SEQ_NBR, FDOC_TYP_CD, FDOC_NBR, OBJ_ID, VER_NBR, FDOC_IDBIL_ITM_AMT, " + "FDOC_IDBIL_NTE_TXT) values ('01','01', 2002, " + unitTestSqlDao.getDbPlatform().getCurTimeFunction() + ", '1', 'BL', '1031400', '-----', '5000', '---', '1', 'ID22', 'XXX','" + new Guid().toString() + "', 1, 0, 'x')");
 
-        Step purgeStep = (Step) SpringServiceLocator.getService("glPurgeInterDepartmentalBillingStep");
+        Step purgeStep = (Step) SpringServiceLocator.getService("purgeInterDepartmentalBillingStep");
 
         // Run the purge
         assertTrue("Should return true", purgeStep.execute(getClass().getName()));
@@ -192,7 +192,7 @@ public class PurgeTest extends KualiTestBase {
         // Shouldn't be deleted
         unitTestSqlDao.sqlCommand("insert into gl_sf_balances_t (UNIV_FISCAL_YR, FIN_COA_CD, ACCOUNT_NBR, FIN_OBJECT_CD, OBJ_ID, VER_NBR, ACCT_SF_CD, " + "CURR_BDGT_BAL_AMT, ACCT_ACTL_XPND_AMT, ACCT_ENCUM_AMT, TIMESTAMP) values (1999, 'BL', '1031400', '5000','" + new Guid().toString() + "', 0, 'H', 0, 0, 0, " + unitTestSqlDao.getDbPlatform().getCurTimeFunction() + ")");
 
-        Step purgeStep = (Step) SpringServiceLocator.getService("glPurgeSufficientFundBalancesStep");
+        Step purgeStep = (Step) SpringServiceLocator.getService("purgeSufficientFundBalancesStep");
 
         // Run the purge
         assertTrue("Should return true", purgeStep.execute(getClass().getName()));

@@ -92,7 +92,16 @@
 		                </td>
 		                <td align=left valign=middle class="datacell">
 		                    
-		                    <kul:htmlControlAttribute property="document.assignContractManagerDetail[${ctr}].requisition.items[0].sourceAccountingLines[0].financialObjectCode" attributeEntry="${requisitionAttributes.items[0].sourceAccountingLines[0].financialObjectCode}" readOnly="true" />
+		                    <c:choose>
+								<c:when test="${!empty acmDetail.requisition.items[0].sourceAccountingLines}">
+		                    		<kul:htmlControlAttribute property="document.assignContractManagerDetail[${ctr}].requisition.items[0].sourceAccountingLines[0].financialObjectCode" attributeEntry="${requisitionAttributes.items[0].sourceAccountingLines[0].financialObjectCode}" readOnly="true" />
+		                    	
+								</c:when>
+								<c:when test="${empty acmDetail.requisition.items[0].sourceAccountingLines}">
+		                    		Note: This is bad data! If you are seeing this, you may have a requisition with no account for one item.
+								</c:when>
+							</c:choose>
+		                    
 		                </td>
 		                <html:hidden property="document.assignContractManagerDetail[${ctr}].requisitionIdentifier" />
 		            </tr>

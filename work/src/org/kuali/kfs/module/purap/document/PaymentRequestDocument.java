@@ -765,6 +765,14 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
     }
 
     /**
+     * @see org.kuali.module.purap.document.PurchasingAccountsPayableDocumentBase#getPurApSourceDocumentLabelIfPossible()
+     */
+    @Override
+    public String getPurApSourceDocumentLabelIfPossible() {
+        return SpringServiceLocator.getDataDictionaryService().getDocumentLabelByClass(PurchaseOrderDocument.class);
+    }
+
+    /**
      * Gets the purchaseOrderNotes attribute. 
      * @return Returns the purchaseOrderNotes.
      */

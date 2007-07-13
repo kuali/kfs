@@ -144,6 +144,11 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
         businessObjectService.save(purchaseOrderDocument);
     }
 
+    public void saveWithWorkflowDocumentUpdate(PurchaseOrderDocument purchaseOrderDocument) throws WorkflowException {
+        purchaseOrderDocument.getDocumentHeader().getWorkflowDocument().saveRoutingData();
+        this.save(purchaseOrderDocument);
+    }
+    
     /**
      * Creates an automatic PurchaseOrderDocument from given RequisitionDocument. Both documents need to be saved after this method
      * is called.
@@ -489,18 +494,53 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
         // create general ledger entries for this PO
         generalLedgerService.generateEntriesApprovePo(po);
 
-        if (POTransmissionMethods.PRINT.equals(po.getPurchaseOrderTransmissionMethodCode())) {
-            LOG.debug("completePurchaseOrder() Purchase Order Transmission Type is Print");
-            po.setPurchaseOrderCurrentIndicator(true);
-            po.setPendingActionIndicator(true);
-            purapService.updateStatusAndStatusHistory(po, PurchaseOrderStatuses.PENDING_PRINT);
-            this.save(po);
-        }
-        else {
-            LOG.info("completePurchaseOrder() Unhandled Transmission Status: " + po.getPurchaseOrderTransmissionMethodCode() + " -- Defaulting Status to OPEN");
+//        if (POTransmissionMethods.PRINT.equals(po.getPurchaseOrderTransmissionMethodCode())) {
+//            LOG.debug("completePurchaseOrder() Purchase Order Transmission Type is Print");
+//            po.setPurchaseOrderCurrentIndicator(true);
+//            po.setPendingActionIndicator(true);
+//            purapService.updateStatusAndStatusHistory(po, PurchaseOrderStatuses.PENDING_PRINT);
+//        }
+//        else {
+//            LOG.info("completePurchaseOrder() Unhandled Transmission Status: " + po.getPurchaseOrderTransmissionMethodCode() + " -- Defaulting Status to OPEN");
+//            purapService.updateStatusAndStatusHistory(po, PurchaseOrderStatuses.OPEN);
+//            po.setPurchaseOrderInitialOpenDate(dateTimeService.getCurrentSqlDate());
+//        }
+        if (!PurchaseOrderStatuses.OPEN.equals(po.getStatusCode())) {
+            String statusCode = PurchaseOrderStatuses.OPEN;
+            LOG.info("completePurchaseOrder() Setting po document id " + po.getDocumentNumber() + " status from '" + po.getStatusCode() + "' to '" + statusCode + "'" );
             purapService.updateStatusAndStatusHistory(po, PurchaseOrderStatuses.OPEN);
             po.setPurchaseOrderInitialOpenDate(dateTimeService.getCurrentSqlDate());
-            this.save(po);
+        }
+        this.save(po);
+        
+    }
+    
+    public void setupDocumentForPendingFirstTransmission(PurchaseOrderDocument po, boolean hasActionRequestForDocumentTransmission) {
+        if (POTransmissionMethods.PRINT.equals(po.getPurchaseOrderTransmissionMethodCode())) {
+            String newStatusCode = PurchaseOrderStatuses.STATUSES_BY_TRANSMISSION_TYPE.get(po.getPurchaseOrderTransmissionMethod());
+            LOG.debug("setupDocumentForPendingFirstTransmission() Purchase Order Transmission Type is '" + po.getPurchaseOrderTransmissionMethodCode() + "' setting status to '" + newStatusCode + "'");
+            po.setPurchaseOrderCurrentIndicator(true);
+            po.setPendingActionIndicator(true);
+            purapService.updateStatusAndStatusHistory(po, newStatusCode);
+        }
+        else {
+            if (hasActionRequestForDocumentTransmission) {
+                /* here we error out because the document generated a request for the doc
+                 * transmission route level but the default status to set is open... this
+                 * prevents Open purchase orders that could be awaiting transmission by a
+                 * valid method (via the generated request)
+                 */
+                String errorMessage = "An action request was generated for document id " + po.getDocumentNumber() + " with an unhandled transmission type '" + po.getPurchaseOrderTransmissionMethodCode() + "'";
+                LOG.error(errorMessage);
+                throw new RuntimeException(errorMessage);
+            }
+            String newStatusCode = PurchaseOrderStatuses.OPEN;
+            LOG.info("setupDocumentForPendingFirstTransmission() Unhandled Transmission Status: " + po.getPurchaseOrderTransmissionMethodCode() + " -- Defaulting Status to '" + newStatusCode + "'");
+            if ( (!PurapConstants.PurchaseOrderStatuses.OPEN.equals(po.getStatusCode())) &&
+                    (ObjectUtils.isNull(po.getPurchaseOrderInitialOpenDate())) ) {
+                po.setPurchaseOrderInitialOpenDate(dateTimeService.getCurrentSqlDate());
+            }
+            purapService.updateStatusAndStatusHistory(po, newStatusCode);
         }
     }
 
@@ -526,11 +566,11 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
         return notes;
     }
 
-    public void setCurrentAndPendingIndicatorsInPostProcessor(PurchaseOrderDocument newPO, String workflowState) {
-        if (workflowState.equals(KFSConstants.DocumentStatusCodes.APPROVED)) {
+    public void setCurrentAndPendingIndicatorsInPostProcessor(PurchaseOrderDocument newPO) {
+        // TODO delyea - ask about if this is best status/place to set indicators
+        if (newPO.getDocumentHeader().getWorkflowDocument().stateIsProcessed()) {
             setCurrentAndPendingIndicatorsForApprovedPODocuments(newPO);
-        }
-        else if (workflowState.equals(KFSConstants.DocumentStatusCodes.DISAPPROVED)) {
+        } else if (newPO.getDocumentHeader().getWorkflowDocument().stateIsApproved()) {
             setCurrentAndPendingIndicatorsForDisapprovedPODocuments(newPO);
         }
     }
@@ -559,5 +599,5 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
         ArrayList poQuoteStatuses = new TypedArrayList(PurchaseOrderQuoteStatus.class);
         poQuoteStatuses = (ArrayList) businessObjectService.findAll(PurchaseOrderQuoteStatus.class);
         return poQuoteStatuses;
-}
+    }
 }

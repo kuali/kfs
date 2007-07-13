@@ -241,6 +241,18 @@ public class CreditMemoDocument extends AccountsPayableDocumentBase {
     }
 
     /**
+     * @see org.kuali.module.purap.document.PurchasingAccountsPayableDocumentBase#getPurApSourceDocumentLabelIfPossible()
+     */
+    @Override
+    public String getPurApSourceDocumentLabelIfPossible() {
+        PurchasingAccountsPayableDocument document = getPurApSourceDocumentIfPossible();
+        if (ObjectUtils.isNotNull(document)) {
+            return SpringServiceLocator.getDataDictionaryService().getDocumentLabelByClass(document.getClass());
+        }
+        return null;
+    }
+
+    /**
      * Calculates the total of the above the line items
      * 
      * @return KualiDecimal - above the line item total

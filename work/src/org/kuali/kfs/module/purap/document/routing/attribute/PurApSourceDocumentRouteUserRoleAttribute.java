@@ -18,34 +18,24 @@ package org.kuali.workflow.module.purap.attribute;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Set;
 
-import org.kuali.core.service.KualiConfigurationService;
-import org.kuali.core.util.KualiDecimal;
+import org.kuali.core.bo.DocumentHeader;
+import org.kuali.core.service.DataDictionaryService;
 import org.kuali.core.util.ObjectUtils;
+import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.util.SpringServiceLocator;
-import org.kuali.module.purap.PurapConstants;
-import org.kuali.module.purap.PurapParameterConstants;
-import org.kuali.module.purap.document.AccountsPayableDocument;
 import org.kuali.module.purap.document.PurchasingAccountsPayableDocument;
-import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.workflow.KualiWorkflowUtils;
 
-import edu.iu.uis.eden.EdenConstants;
 import edu.iu.uis.eden.Id;
-import edu.iu.uis.eden.actiontaken.ActionTakenValue;
 import edu.iu.uis.eden.engine.RouteContext;
 import edu.iu.uis.eden.exception.EdenUserNotFoundException;
 import edu.iu.uis.eden.exception.WorkflowException;
-import edu.iu.uis.eden.routeheader.DocumentRouteHeaderValue;
 import edu.iu.uis.eden.routetemplate.ResolvedQualifiedRole;
 import edu.iu.uis.eden.routetemplate.Role;
 import edu.iu.uis.eden.routetemplate.UnqualifiedRoleAttribute;
 import edu.iu.uis.eden.user.AuthenticationUserId;
-import edu.iu.uis.eden.workgroup.GroupNameId;
 
 /**
  * TODO delyea - documentation
@@ -100,7 +90,9 @@ public class PurApSourceDocumentRouteUserRoleAttribute extends UnqualifiedRoleAt
             // method getSourceDocumentIfPossible() could return null but for using this instance we should get something back
             assertDocumentNotNull(sourceDocument);
             // return the user who routed the source document
-            return new ResolvedQualifiedRole(SOURCE_DOC_ROUTED_BY_USER_ROLE_KEY, Arrays.asList(new Id[] {new AuthenticationUserId(sourceDocument.getDocumentHeader().getWorkflowDocument().getRoutedByUserNetworkId())}));
+            DataDictionaryService dataDictionaryService = SpringServiceLocator.getDataDictionaryService();
+            String label = "User Who Routed " + sourceDocument.getPurApSourceDocumentLabelIfPossible() + " " + sourceDocument.getPurapDocumentIdentifier();
+            return new ResolvedQualifiedRole(label, Arrays.asList(new Id[] {new AuthenticationUserId(sourceDocument.getDocumentHeader().getWorkflowDocument().getRoutedByUserNetworkId())}));
         }
         catch (WorkflowException e) {
             String errorMessage = "Workflow problem while trying to get document using doc id '" + documentNumber + "'";

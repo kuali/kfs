@@ -490,6 +490,8 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
     
     public abstract PurchasingAccountsPayableDocument getPurApSourceDocumentIfPossible();
 
+    public abstract String getPurApSourceDocumentLabelIfPossible();
+
 //    /**
 //     * @see org.kuali.kfs.document.AccountingDocumentBase#getSourceAccountingLines()
 //     */

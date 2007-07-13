@@ -132,4 +132,6 @@ public interface PurchasingAccountsPayableDocument extends AccountingDocument {
     
     public PurchasingAccountsPayableDocument getPurApSourceDocumentIfPossible();
     
+    public String getPurApSourceDocumentLabelIfPossible();
+    
 }

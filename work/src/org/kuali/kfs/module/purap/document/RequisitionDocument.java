@@ -570,6 +570,16 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
     }
 
     /**
+     * METHOD WILL RETURN NULL AS REQUISITION HAS NO SOURCE DOCUMENT
+     * 
+     * @see org.kuali.module.purap.document.PurchasingAccountsPayableDocumentBase#getPurApSourceDocumentLabelIfPossible()
+     */
+    @Override
+    public String getPurApSourceDocumentLabelIfPossible() {
+        return null;
+    }
+
+    /**
      * @see org.kuali.module.purap.document.PurchasingAccountsPayableDocumentBase#getSourceAccountingLineClass()
      */
 //    @Override

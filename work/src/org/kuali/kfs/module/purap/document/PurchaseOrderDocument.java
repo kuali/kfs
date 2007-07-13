@@ -59,6 +59,7 @@ import org.kuali.module.vendor.bo.ShippingPaymentTerms;
 import org.kuali.module.vendor.bo.ShippingTitle;
 import org.kuali.module.vendor.bo.VendorDetail;
 
+import edu.iu.uis.eden.clientapp.vo.DocumentRouteLevelChangeVO;
 import edu.iu.uis.eden.exception.WorkflowException;
 
 /**
@@ -306,6 +307,23 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase implements Cop
         // null if defined as empty string in map
         if (popp != null) {
             popp.handleRouteStatusChange(this);
+        }
+    }
+
+    /**
+     * @see org.kuali.core.document.DocumentBase#handleRouteLevelChange(edu.iu.uis.eden.clientapp.vo.DocumentRouteLevelChangeVO)
+     */
+    @Override
+    public void handleRouteLevelChange(DocumentRouteLevelChangeVO levelChangeEvent) {
+        LOG.debug("handleRouteLevelChange() started");
+        super.handleRouteLevelChange(levelChangeEvent);
+
+        // additional processing
+        PurchaseOrderPostProcessorService popp = 
+            SpringServiceLocator.getPurchaseOrderService().convertDocTypeToService(getDocumentHeader().getWorkflowDocument().getDocumentType());
+        // null if defined as empty string in map
+        if (popp != null) {
+            popp.handleRouteLevelChange(new DocumentRouteLevelChangeVO(), this);
         }
     }
 
@@ -767,6 +785,14 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase implements Cop
             sourceDoc = SpringServiceLocator.getRequisitionService().getRequisitionById(getRequisitionIdentifier());
         }
         return sourceDoc;
+    }
+
+    /**
+     * @see org.kuali.module.purap.document.PurchasingAccountsPayableDocumentBase#getPurApSourceDocumentLabelIfPossible()
+     */
+    @Override
+    public String getPurApSourceDocumentLabelIfPossible() {
+        return SpringServiceLocator.getDataDictionaryService().getDocumentLabelByClass(RequisitionDocument.class);
     }
 
     public Integer getNewQuoteVendorDetailAssignedIdentifier() {

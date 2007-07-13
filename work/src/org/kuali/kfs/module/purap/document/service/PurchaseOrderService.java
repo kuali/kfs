@@ -27,10 +27,13 @@ import org.kuali.module.purap.document.PurchaseOrderDocument;
 import org.kuali.module.purap.document.PurchasingDocumentBase;
 import org.kuali.module.purap.document.RequisitionDocument;
 
+import edu.iu.uis.eden.exception.WorkflowException;
+
 
 public interface PurchaseOrderService {
 
     public void save(PurchaseOrderDocument purchaseOrderDocument);
+    public void saveWithWorkflowDocumentUpdate(PurchaseOrderDocument purchaseOrderDocument) throws WorkflowException;
     
     public PurchaseOrderDocument createAutomaticPurchaseOrderDocument(RequisitionDocument reqDocument);
     public PurchaseOrderDocument createPurchaseOrderDocument(RequisitionDocument reqDocument, boolean isAPO);   
@@ -48,7 +51,7 @@ public interface PurchaseOrderService {
     public void completePurchaseOrder(PurchaseOrderDocument po);
     public PurchaseOrderDocument getCurrentPurchaseOrder(Integer id);
     public PurchaseOrderDocument getPurchaseOrderByDocumentNumber(String documentNumber);
-    public void setCurrentAndPendingIndicatorsInPostProcessor(PurchaseOrderDocument newPO, String workflowState);
+    public void setCurrentAndPendingIndicatorsInPostProcessor(PurchaseOrderDocument newPO);
 
     public PurchaseOrderDocument getOldestPurchaseOrder(Integer id, PurchaseOrderDocument po);
     public PurchaseOrderDocument getPurchaseOrderInPendingPrintStatus(Integer id);
@@ -56,4 +59,6 @@ public interface PurchaseOrderService {
     //public void sendFYItoWorkgroup(PurchaseOrderDocument po, String annotation, Long workgroupId);
     public void cancelAmendment(KualiDocumentFormBase kualiDocumentFormBase);
     public ArrayList<PurchaseOrderQuoteStatus> getPurchaseOrderQuoteStatusCodes();
+
+    public void setupDocumentForPendingFirstTransmission(PurchaseOrderDocument po, boolean hasActionRequestForDocumentTransmission);
 }

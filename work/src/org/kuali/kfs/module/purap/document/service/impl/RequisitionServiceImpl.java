@@ -45,8 +45,6 @@ import org.kuali.module.vendor.bo.VendorDetail;
 import org.kuali.module.vendor.service.VendorService;
 import org.springframework.transaction.annotation.Transactional;
 
-import edu.iu.uis.eden.exception.WorkflowException;
-
 @Transactional
 public class RequisitionServiceImpl implements RequisitionService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(RequisitionServiceImpl.class);
@@ -64,11 +62,6 @@ public class RequisitionServiceImpl implements RequisitionService {
 
     public void save(RequisitionDocument requisitionDocument) {
         businessObjectService.save(requisitionDocument);
-    }
-    
-    public void saveWithWorkflowDocumentUpdate(RequisitionDocument requisitionDocument) throws WorkflowException {
-        requisitionDocument.getDocumentHeader().getWorkflowDocument().saveRoutingData();
-        this.save(requisitionDocument);
     }
     
     public RequisitionDocument getRequisitionById(Integer id) {

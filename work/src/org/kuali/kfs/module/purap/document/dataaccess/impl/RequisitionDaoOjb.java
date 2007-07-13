@@ -40,5 +40,17 @@ public class RequisitionDaoOjb extends PlatformAwareDaoBaseOjb implements Requis
         }
         return r;
       }
+    
+    public String getDocumentNumberForRequisitionId(Integer id) {
+        Criteria criteria = new Criteria();
+        criteria.addEqualTo(PurapPropertyConstants.PURAP_DOC_ID, id);
+
+        RequisitionDocument r = (RequisitionDocument) getPersistenceBrokerTemplate().getObjectByQuery(
+            new QueryByCriteria(RequisitionDocument.class, criteria));
+        if (r != null) {
+            return r.getDocumentNumber();
+        }
+        return null;
+    }
 
 }

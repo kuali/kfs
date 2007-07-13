@@ -29,6 +29,7 @@ import org.kuali.core.service.DocumentService;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.service.UniversalUserService;
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.chart.service.ObjectCodeService;
@@ -44,6 +45,8 @@ import org.kuali.module.vendor.bo.VendorContract;
 import org.kuali.module.vendor.bo.VendorDetail;
 import org.kuali.module.vendor.service.VendorService;
 import org.springframework.transaction.annotation.Transactional;
+
+import edu.iu.uis.eden.exception.WorkflowException;
 
 @Transactional
 public class RequisitionServiceImpl implements RequisitionService {
@@ -65,48 +68,19 @@ public class RequisitionServiceImpl implements RequisitionService {
     }
     
     public RequisitionDocument getRequisitionById(Integer id) {
-        return requisitionDao.getRequisitionById(id);
+        String documentNumber = requisitionDao.getDocumentNumberForRequisitionId(id);
+        if (ObjectUtils.isNotNull(documentNumber)) {
+            try {
+                return (RequisitionDocument)documentService.getByDocumentHeaderId(documentNumber);
+            }
+            catch (WorkflowException e) {
+                String errorMessage = "Error getting requisition document from document service";
+                LOG.error("getRequisitionById() " + errorMessage,e);
+                throw new RuntimeException(errorMessage,e);
+            }
+        }
+        return null;
     }
-    
-//    public void disapproveRequisition(String docHeaderId, String level, String networkId) {
-//        if(RoutingService.REQ_CONTENT_NODE_NAME.equalsIgnoreCase(level)){
-//            //disapproved content
-//            changeRequisitionStatus(docHeaderId, EpicConstants.REQ_STAT_DAPRVD_CONTENT, networkId);
-//        }
-//        else if(RoutingService.REQ_SUB_ACCT_NODE_NAME.equalsIgnoreCase(level)){
-//            //disapproved subaccount
-//            changeRequisitionStatus(docHeaderId, EpicConstants.REQ_STAT_DAPRVD_SUB_ACCT, networkId);
-//        }
-//        else if(RoutingService.REQ_FISCAL_OFFICER_NODE_NAME.equalsIgnoreCase(level)){
-//            //disapproved fiscal
-//            changeRequisitionStatus(docHeaderId, EpicConstants.REQ_STAT_DAPRVD_FISCAL, networkId);
-//        }
-//        else if(RoutingService.REQ_CHART_ORG_NODE_NAME.equalsIgnoreCase(level)){
-//            //disapprove base hierarchy
-//            changeRequisitionStatus(docHeaderId, EpicConstants.REQ_STAT_DAPRVD_CHART, networkId);
-//        }
-//        else if(RoutingService.REQ_SOD_NODE_NAME.equalsIgnoreCase(level)){
-//            changeRequisitionStatus(docHeaderId, EpicConstants.REQ_STAT_DAPRVD_SEP_OF_DUTY, networkId);
-//        }
-//    }
-//        
-//   
-//    public boolean failsSeparationOfDuties(String docHeaderId, String networkId, String approverId, int approvals) {
-//        LOG.debug("failsSeparationOfDuties() ");
-//        boolean fails = false;
-//        Requisition r = requisitionService.getRequisitionByDocumentId(docHeaderId);
-//        BigDecimal totalCost = r.getTotalCost();
-//        LOG.debug("failsSeparationOfDuties() - approvals = " + approvals);
-//        LOG.debug("failsSeparationOfDuties() - total cost = " + totalCost);
-//        LOG.debug("failsSeparationOfDuties() - ApproverID = " + networkId);
-//        LOG.debug("failsSeparationOfDuties() - InitiatorID = " + approverId);
-//        if((totalCost.compareTo(new BigDecimal(10000.00)) == 1) && (networkId.equals(approverId)) && (approvals <= 1)){
-//          return true;
-//        }
-//        LOG.debug("failsSeparationOfDuties() return value: " + fails);
-//        return fails;
-//    }
-//
     
     public boolean isAutomaticPurchaseOrderAllowed(RequisitionDocument requisition) {
         LOG.debug("isAutomaticPurchaseOrderAllowed() started");

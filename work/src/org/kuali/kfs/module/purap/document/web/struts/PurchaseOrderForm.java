@@ -18,19 +18,21 @@ package org.kuali.module.purap.web.struts.form;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.kuali.core.authorization.AuthorizationConstants;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.web.ui.ExtraButton;
 import org.kuali.core.web.ui.KeyLabelPair;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.purap.PurapConstants;
+import org.kuali.module.purap.PurapParameterConstants;
 import org.kuali.module.purap.bo.PurchaseOrderAccount;
 import org.kuali.module.purap.bo.PurchaseOrderItem;
 import org.kuali.module.purap.bo.PurchaseOrderVendorQuote;
 import org.kuali.module.purap.bo.PurchaseOrderVendorStipulation;
 import org.kuali.module.purap.bo.PurchasingApItem;
 import org.kuali.module.purap.document.PurchaseOrderDocument;
+
+import edu.iu.uis.eden.exception.WorkflowException;
 
 /**
  * This class is the form class for the PurchaseOrder document.
@@ -165,7 +167,20 @@ public class PurchaseOrderForm extends PurchasingFormBase {
             retransmitButton.setExtraButtonAltText("Retransmit");
             this.getExtraButtons().add(retransmitButton);
         }
-        if (documentType.equals(PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_PRINT_DOCUMENT)) {
+        
+        boolean isFYIRequested = purchaseOrder.getDocumentHeader().getWorkflowDocument().isFYIRequested();
+        String purchasingGroup = SpringServiceLocator.getKualiConfigurationService().getApplicationParameterValue(PurapParameterConstants.PURAP_ADMIN_GROUP, PurapConstants.Workgroups.WORKGROUP_PURCHASING);
+        boolean isPurchasingMember = GlobalVariables.getUserSession().getUniversalUser().isMember(purchasingGroup);
+        String currentRouteLevel = new String();
+        try {
+            currentRouteLevel = SpringServiceLocator.getWorkflowDocumentService().getCurrentRouteLevelName(purchaseOrder.getDocumentHeader().getWorkflowDocument());
+        }
+        catch (WorkflowException we) {
+            //do something
+        }
+        
+        if ( currentRouteLevel.equals(PurapConstants.WorkflowConstants.PurchaseOrderDocument.NodeDetails.DOCUMENT_TRANSMISSION) && 
+             (isPurchasingMember || isFYIRequested) ) {
             ExtraButton printButton = new ExtraButton();
             printButton.setExtraButtonProperty("methodToCall.printPo");
             printButton.setExtraButtonSource("${externalizable.images.url}buttonsmall_print.gif");

@@ -140,7 +140,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
     }
 
     public void save(PurchaseOrderDocument purchaseOrderDocument) {
-        purchaseOrderDocument.prepareForSave();
+        //purchaseOrderDocument.prepareForSave();
         businessObjectService.save(purchaseOrderDocument);
     }
 
@@ -303,15 +303,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
             po.setPurchaseOrderLastTransmitDate(currentSqlDate);
             po.setPurchaseOrderCurrentIndicator(true);
             purapService.updateStatusAndStatusHistory(po, PurchaseOrderStatuses.CLOSED);
-            save(po);
-
-            // Get the PurchaseOrderDocument of this print document whose status is Pending Print and update that PO's
-            // status to Open and set its firstTransmissionDate, initialOpenDate and lastTransmitDate to current date
-            PurchaseOrderDocument previousPo = getPurchaseOrderInPendingPrintStatus(po.getPurapDocumentIdentifier());
-            previousPo.setPurchaseOrderCurrentIndicator(false);
-            previousPo.setPendingActionIndicator(false);
-            purapService.updateStatusAndStatusHistory(previousPo, PurchaseOrderStatuses.OPEN);
-            save(previousPo);
+            //save(po);
         }
         return result;
     }

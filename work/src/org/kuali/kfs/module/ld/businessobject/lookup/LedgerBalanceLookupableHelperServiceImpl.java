@@ -167,14 +167,13 @@ public class LedgerBalanceLookupableHelperServiceImpl extends AbstractLookupable
                 balance.setSubAccountNumber(subAccountNumber);
 
                 balance.setBalanceTypeCode(array[i++].toString());
-                balance.setObjectCode(array[i++].toString());
+                balance.setFinancialObjectCode(array[i++].toString());
 
                 balance.setEmplid(array[i++].toString());
-                balance.setObjectId(array[i++].toString());
                 balance.setPositionNumber(array[i++].toString());
                 
-                balance.setSubObjectCode(Constant.CONSOLIDATED_SUB_OBJECT_CODE);
-                balance.setObjectTypeCode(Constant.CONSOLIDATED_OBJECT_TYPE_CODE);
+                balance.setFinancialSubObjectCode(Constant.CONSOLIDATED_SUB_OBJECT_CODE);
+                balance.setFinancialObjectTypeCode(Constant.CONSOLIDATED_OBJECT_TYPE_CODE);
 
                 balance.setAccountLineAnnualBalanceAmount(new KualiDecimal(array[i++].toString()));
                 balance.setBeginningBalanceLineAmount(new KualiDecimal(array[i++].toString()));

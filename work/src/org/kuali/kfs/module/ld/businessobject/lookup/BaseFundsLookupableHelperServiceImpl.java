@@ -51,7 +51,7 @@ import static org.apache.commons.collections.IteratorUtils.toList;
 @Transactional
 public class BaseFundsLookupableHelperServiceImpl extends AbstractLookupableHelperServiceImpl {
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(BaseFundsLookupableHelperServiceImpl.class);
-    private Map fieldValues;
+
     private LaborDao laborDao;
     private LaborLedgerBalanceService balanceService;
     private LaborInquiryOptionsService laborInquiryOptionsService;
@@ -151,14 +151,13 @@ public class BaseFundsLookupableHelperServiceImpl extends AbstractLookupableHelp
                 bf.setSubAccountNumber(subAccountNumber);
 
                 bf.setBalanceTypeCode(array[i++].toString());
-                bf.setObjectCode(array[i++].toString());
+                bf.setFinancialObjectCode(array[i++].toString());
 
                 bf.setPositionNumber(array[i++].toString());
-                bf.setObjectId(array[i++].toString());
                 bf.setEmplid(array[i++].toString());
 
-                bf.setSubObjectCode(Constant.CONSOLIDATED_SUB_OBJECT_CODE);
-                bf.setObjectTypeCode(Constant.CONSOLIDATED_OBJECT_TYPE_CODE);
+                bf.setFinancialSubObjectCode(Constant.CONSOLIDATED_SUB_OBJECT_CODE);
+                bf.setFinancialObjectTypeCode(Constant.CONSOLIDATED_OBJECT_TYPE_CODE);
 
                 bf.setAccountLineAnnualBalanceAmount(new KualiDecimal(array[i++].toString()));
                 bf.setBeginningBalanceLineAmount(new KualiDecimal(array[i++].toString()));

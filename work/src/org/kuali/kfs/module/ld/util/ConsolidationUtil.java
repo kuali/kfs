@@ -112,7 +112,6 @@ public class ConsolidationUtil {
         retval.add(KFSPropertyConstants.FINANCIAL_SUB_OBJECT_CODE);
         retval.add(KFSPropertyConstants.FINANCIAL_OBJECT_TYPE_CODE);
         retval.add(KFSPropertyConstants.EMPLID);
-        retval.add(PropertyConstants.OBJECT_ID);
         retval.add(KFSPropertyConstants.POSITION_NUMBER);
         retval.addAll(extraFields);
         return retval;

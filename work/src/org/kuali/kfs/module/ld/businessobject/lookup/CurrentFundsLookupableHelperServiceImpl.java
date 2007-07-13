@@ -170,7 +170,6 @@ public class CurrentFundsLookupableHelperServiceImpl extends AbstractLookupableH
                 cf.setFinancialObjectCode(array[i++].toString());
 
                 cf.setEmplid(array[i++].toString());
-                cf.setObjectId(array[i++].toString());
                 cf.setPositionNumber(array[i++].toString());
 
                 cf.setFinancialSubObjectCode(Constant.CONSOLIDATED_SUB_OBJECT_CODE);

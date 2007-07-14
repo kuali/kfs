@@ -81,7 +81,7 @@ public class SpringContext {
         }
     }
     
-    public static List getBeansOfType(Class type) {
+    public static <T> List<T> getBeansOfType(Class<T> type) {
         return new ArrayList(instance.applicationContext.getBeansOfType(type).values());
     }
     

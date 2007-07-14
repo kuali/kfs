@@ -13,7 +13,7 @@
 	
 	<target name="clean" depends="clean-project,clean-local" description="Remove all build output" />
 
-	<target name="init-static-properties">
+	<target name="init-property-files">
 		<property file="${user.home}/${ant.project.name}-build.properties" />
 		<condition property="use.p6spy.local">
 			<and>
@@ -27,7 +27,7 @@
 		<property file="build.properties" />
 	</target>
 	
-	<target name="init-properties" depends="init-static-properties">
+	<target name="init-properties" depends="init-property-files">
 		<tstamp><format property="project.cvs.tag" pattern="MM/dd/yyyy hh:mm aa" /></tstamp>
 		<condition property="context.docbase" value=' docBase="${basedir}${file.separator}work${file.separator}web-root"'><equals arg1="${is.local.build}" arg2="true" /></condition>
 		<property name="context.docbase" value="" />
@@ -90,13 +90,13 @@
 		</patternset>
 	</target>
 	
-	<target name="clean-project" depends="init-static-properties">
+	<target name="clean-project" depends="init-property-files">
 		<delete failonerror="false">
 			<fileset dir="${basedir}" includes="${source.directory}/${configuration.file},${source.directory}/${ojb.file},${source.directory}/${spring.file},${source.directory}/${p6spy.file},${webinf.directory}/${web.file},${lib.directory}/${log4j.library.file},${war.directory}/**/**,${test.directory}/**/**,*.war,*.zip,${webroot.directory}/${rice.application}/**/**,${webroot.directory}/${tags.directory}/${rice.application}/**/**,${webroot.directory}/${workflow.application}/**/**,${database.directory}/${rice.name}/**/**,${licenses.directory}/${rice.name}/**/**" />
 		</delete>
 	</target>
 
-	<target name="clean-local" if="is.local.build" depends="init-static-properties">
+	<target name="clean-local" if="is.local.build" depends="init-property-files">
 		<delete failonerror="false" includeemptydirs="true">
 			<fileset dir="${external.config.directory}" includes="**/${ant.project.name}/"/>
 		</delete>
@@ -308,7 +308,7 @@
 	
 	<!-- CONFIGURATION MANAGEMENT TARGETS -->
 	
-	<target name="setup-rice" depends="init-static-properties">
+	<target name="setup-rice" depends="init-property-files">
 		<maven goals="install:install-file" options="-U -DgroupId=com.oracle -DartifactId=ojdbc14 -Dversion=10.1.0.3.0 -Dpackaging=jar -Dfile=${drivers.directory}/ojdbc14.jar" />
 		<copy todir="${user.home}/kuali">
 			<fileset dir="${build.user.directory}/${ant.project.name}" includes="**/**" />
@@ -325,7 +325,7 @@
 
 	<target name="update-rice" depends="update-rice-basic,update-rice-extended,dist-local" />
 
-	<target name="update-rice-basic" depends="init-static-properties">
+	<target name="update-rice-basic" depends="init-property-files">
 		<delete>
 			<fileset dir="${basedir}" includes="${lib.directory}/${rice.output.file.prefix}${rice.output.lib.suffix}" />
 		</delete>
@@ -340,7 +340,7 @@
 		<zip compress="true" destfile="${build.project.directory}/${rice.name}-${rice.version}${rice.output.web.suffix}" basedir="${rice.sampleapp.directory}" includes="${rice.application}/**/**,${tags.directory}/${rice.application}/**/*.tag,${workflow.application}/**/**" excludes="**/CVS" />
 	</target>
 	
-	<target name="update-rice-extended" depends="init-static-properties">
+	<target name="update-rice-extended" depends="init-property-files">
 		<delete>
 			<fileset dir="${dependencies.project.directory}" includes="${rice.output.file.prefix}" />
 		</delete>

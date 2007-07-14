@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans>
+	<bean id="properties" class="org.kuali.kfs.context.PropertyLoadingFactoryBean">
+		<property name="testMode" value="true" />
+	</bean>
+	
+	<bean id="mailService" class="org.kuali.test.NonSendingMailService">
+		<property name="mailSender">
+			<ref bean="mailSender" />
+		</property>
+		<property name="batchMailingList" value="${mailing.list.batch}" />
+	</bean>
+
+	<bean id="unitTestSqlDao" parent="platformAwareDao" class="org.kuali.core.util.UnitTestSqlDaoOjb" />
+</beans>

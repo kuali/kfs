@@ -18,6 +18,8 @@ package org.kuali.module.purap.batch;
 import org.kuali.kfs.batch.AbstractStep;
 import org.kuali.module.purap.service.PdpExtractService;
 
+import edu.iu.uis.eden.exception.WorkflowException;
+
 public class ExtractPdpStep extends AbstractStep {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ExtractPdpStep.class);
  
@@ -31,7 +33,6 @@ public class ExtractPdpStep extends AbstractStep {
         LOG.debug("execute() started");
 
         pdpExtractService.extractPayments();
-
         return true;
     }
 

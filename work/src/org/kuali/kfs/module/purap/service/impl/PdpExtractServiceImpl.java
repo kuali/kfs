@@ -29,8 +29,10 @@ import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.exceptions.UserNotFoundException;
 import org.kuali.core.service.DateTimeService;
+import org.kuali.core.service.DocumentService;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.service.UniversalUserService;
+import org.kuali.kfs.KFSConstants;
 import org.kuali.module.pdp.PdpConstants;
 import org.kuali.module.pdp.bo.Batch;
 import org.kuali.module.pdp.bo.CustomerProfile;
@@ -65,6 +67,7 @@ public class PdpExtractServiceImpl implements PdpExtractService {
     private UniversalUserService universalUserService;
     private PaymentGroupService paymentGroupService;
     private PaymentDetailService paymentDetailService;
+    private DocumentService documentService;
 
     public void extractPayments() {
         LOG.debug("extractPayments() started");
@@ -127,7 +130,11 @@ public class PdpExtractServiceImpl implements PdpExtractService {
     private PaymentDetail populatePaymentDetail(PaymentRequestDocument prd,Batch batch) {
         PaymentDetail pd = new PaymentDetail();
 
-        pd.setInvoiceNbr(prd.getInvoiceNumber().substring(0,25));
+        String invNbr = prd.getInvoiceNumber();
+        if ( invNbr.length() > 25 ) {
+            invNbr = invNbr.substring(0,25);
+        }
+        pd.setInvoiceNbr(invNbr);
         if ( prd.getPurapDocumentIdentifier() != null ) {
             pd.setPurchaseOrderNbr(prd.getPurapDocumentIdentifier().toString());
         }
@@ -140,6 +147,7 @@ public class PdpExtractServiceImpl implements PdpExtractService {
         pd.setFinancialDocumentTypeCode("PREQ");
         pd.setInvoiceDate(new Timestamp(prd.getInvoiceDate().getTime()));
         pd.setOrigInvoiceAmount(prd.getVendorInvoiceAmount().bigDecimalValue());
+
         pd.setNetPaymentAmount(prd.getDocumentHeader().getFinancialDocumentTotalAmount().bigDecimalValue());
 
         BigDecimal shippingAmount = new BigDecimal("0");
@@ -148,17 +156,21 @@ public class PdpExtractServiceImpl implements PdpExtractService {
         BigDecimal debitAmount = new BigDecimal("0");
         for (Iterator iter = prd.getItems().iterator(); iter.hasNext();) {
             PaymentRequestItem item = (PaymentRequestItem)iter.next();
+            BigDecimal itemAmount = new BigDecimal("0");
+            if ( item.getExtendedPrice() != null ) {
+                itemAmount = item.getExtendedPrice().bigDecimalValue();
+            }
             if ( PurapConstants.ItemTypeCodes.ITEM_TYPE_PMT_TERMS_DISCOUNT_CODE.equals(item.getItemTypeCode()) ) {
-                discountAmount = discountAmount.add(item.getExtendedPrice().bigDecimalValue());
+                discountAmount = discountAmount.add(itemAmount);
             } else if ( PurapConstants.ItemTypeCodes.ITEM_TYPE_SHIP_AND_HAND_CODE.equals(item.getItemTypeCode()) ) {
-                shippingAmount = shippingAmount.add(item.getExtendedPrice().bigDecimalValue());
+                shippingAmount = shippingAmount.add(itemAmount);
             } else if ( PurapConstants.ItemTypeCodes.ITEM_TYPE_MIN_ORDER_CODE.equals(item.getItemTypeCode()) ) {
-                debitAmount = debitAmount.add(item.getExtendedPrice().bigDecimalValue());
+                debitAmount = debitAmount.add(itemAmount);
             } else if ( PurapConstants.ItemTypeCodes.ITEM_TYPE_MISC_CODE.equals(item.getItemTypeCode()) ) {
-                if ( item.getExtendedPrice().isNegative() ) {
-                    creditAmount = creditAmount.add(item.getExtendedPrice().bigDecimalValue());
+                if ( itemAmount.compareTo(new BigDecimal("0")) < 0 ) {
+                    creditAmount = creditAmount.add(itemAmount);
                 } else {
-                    debitAmount = debitAmount.add(item.getExtendedPrice().bigDecimalValue());
+                    debitAmount = debitAmount.add(itemAmount);
                 }
             }
         }
@@ -183,9 +195,9 @@ public class PdpExtractServiceImpl implements PdpExtractService {
                 AccountingInfo ai = new AccountingInfo(account.getChartOfAccountsCode(),account.getAccountNumber(),account.getSubAccountNumber(),account.getFinancialObjectCode(),account.getFinancialSubObjectCode(),account.getOrganizationReferenceId(),account.getProjectCode());
                 if ( accounts.containsKey(ai) ) {
                     BigDecimal total = account.getAmount().bigDecimalValue().add( (BigDecimal)accounts.get(ai) );
-                    accounts.put(account, total);
+                    accounts.put(ai, total);
                 } else {
-                    accounts.put(account, account.getAmount().bigDecimalValue());
+                    accounts.put(ai, account.getAmount().bigDecimalValue());
                 }
             }
         }
@@ -325,21 +337,90 @@ public class PdpExtractServiceImpl implements PdpExtractService {
     }
 
     class AccountingInfo {
-        public String chart;
-        public String account;
-        public String subAccount;
-        public String objectCode;
-        public String subObjectCode;
-        public String orgReferenceId;
-        public String projectCode;
+        private String chart;
+        private String account;
+        private String subAccount;
+        private String objectCode;
+        private String subObjectCode;
+        private String orgReferenceId;
+        private String projectCode;
+
         public AccountingInfo(String c,String a,String s,String o,String so,String or,String pc) {
-            chart = c;
-            account = a;
-            subAccount = s;
-            objectCode = o;
-            subObjectCode = so;
-            orgReferenceId = or;
-            projectCode = pc;
+            setChart(c);
+            setAccount(a);
+            setSubAccount(s);
+            setObjectCode(o);
+            setSubObjectCode(so);
+            setOrgReferenceId(or);
+            setProjectCode(pc);
+        }
+
+        public String getAccount() {
+            return account;
+        }
+
+        public void setAccount(String account) {
+            this.account = account;
+        }
+
+        public String getChart() {
+            return chart;
+        }
+
+        public void setChart(String chart) {
+            this.chart = chart;
+        }
+
+        public String getObjectCode() {
+            return objectCode;
+        }
+
+        public void setObjectCode(String objectCode) {
+            this.objectCode = objectCode;
+        }
+
+        public String getOrgReferenceId() {
+            return orgReferenceId;
+        }
+
+        public void setOrgReferenceId(String orgReferenceId) {
+            this.orgReferenceId = orgReferenceId;
+        }
+
+        public String getProjectCode() {
+            return projectCode;
+        }
+
+        public void setProjectCode(String projectCode) {
+            if ( projectCode == null ) {
+                this.projectCode = KFSConstants.DASHES_PROJECT_CODE;
+            } else {
+                this.projectCode = projectCode;
+            }
+        }
+
+        public String getSubAccount() {
+            return subAccount;
+        }
+
+        public void setSubAccount(String subAccount) {
+            if ( subAccount == null ) {
+                this.subAccount = KFSConstants.DASHES_SUB_ACCOUNT_NUMBER;
+            } else {
+                this.subAccount = subAccount;
+            }
+        }
+
+        public String getSubObjectCode() {
+            return subObjectCode;
+        }
+
+        public void setSubObjectCode(String subObjectCode) {
+            if ( subObjectCode == null ) {
+                this.subObjectCode = KFSConstants.DASHES_SUB_OBJECT_CODE;
+            } else {
+                this.subObjectCode = subObjectCode;
+            }
         }
 
         private String key() {
@@ -389,5 +470,9 @@ public class PdpExtractServiceImpl implements PdpExtractService {
 
     public void setPaymentGroupService(PaymentGroupService paymentGroupService) {
         this.paymentGroupService = paymentGroupService;
+    }
+
+    public void setDocumentService(DocumentService ds) {
+        this.documentService = ds;
     }
 }

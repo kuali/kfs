@@ -238,10 +238,22 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
         return paymentRequestDao.getPaymentRequestsToExtract(false,null);
     }
 
+    /**
+     * @see org.kuali.module.purap.service.PaymentRequestService#getPaymentRequestsToExtractSpecialPayments(java.lang.String)
+     */
     public Iterator<PaymentRequestDocument> getPaymentRequestsToExtractSpecialPayments(String chartCode) {
         LOG.debug("getPaymentRequestsToExtractSpecialPayments() started");
 
         return paymentRequestDao.getPaymentRequestsToExtract(true,chartCode);
+    }
+
+    /**
+     * @see org.kuali.module.purap.service.PaymentRequestService#getPaymentRequestToExtractByChart(java.lang.String)
+     */
+    public Iterator<PaymentRequestDocument> getPaymentRequestToExtractByChart(String chartCode) {
+        LOG.debug("getPaymentRequestToExtractByChart() started");
+
+        return paymentRequestDao.getPaymentRequestsToExtract(false,chartCode);
     }
 
     /**

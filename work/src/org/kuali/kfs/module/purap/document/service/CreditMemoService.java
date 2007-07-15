@@ -15,6 +15,7 @@
  */
 package org.kuali.module.purap.service;
 
+import java.util.Iterator;
 import java.util.List;
 
 import org.kuali.core.bo.user.UniversalUser;
@@ -28,6 +29,14 @@ import edu.iu.uis.eden.exception.WorkflowException;
  * Defines methods that must be implemented by a CreditMemoService implementation.
  */
 public interface CreditMemoService {
+
+    /**
+     * Gets the Credit memos that can be extracted
+     * 
+     * @param chartCode Chart to select from
+     * @return Iterator of credit memos
+     */
+    public Iterator<CreditMemoDocument> getCreditMemosToExtract(String chartCode);
 
     /**
      * Retrieves the Credit Memo document by document number.

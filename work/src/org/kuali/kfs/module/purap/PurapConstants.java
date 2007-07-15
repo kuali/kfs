@@ -608,6 +608,7 @@ public class PurapConstants extends JstlConstants {
         public static String IN_PROCESS = "INPR";
         public static String CANCELLED = "CANC";
         public static String COMPLETE = "CMPT";
+        public static String AP_APPROVED = "APAD";
         public static String AWAITING_ACCOUNTS_PAYABLE_REVIEW = "AAPA";   // Waiting for Accounts Payable approval
         public static String AWAITING_FISCAL_REVIEW = "AFOA";   // Waiting for Fiscal Officer approval
         

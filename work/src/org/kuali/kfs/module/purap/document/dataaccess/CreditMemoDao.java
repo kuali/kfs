@@ -16,6 +16,7 @@
 package org.kuali.module.purap.dao;
 
 import java.sql.Date;
+import java.util.Iterator;
 
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.module.purap.document.CreditMemoDocument;
@@ -24,6 +25,13 @@ import org.kuali.module.purap.document.CreditMemoDocument;
  * Defines DB access methods that a CreditMemoDaoImpl must implement.
  */
 public interface CreditMemoDao {
+    /**
+     * Get all the credit memos that need to be extracted
+     * 
+     * @param chartCode if not null, limit results to a single chart
+     * @return Iterator of credit memos
+     */
+    public Iterator<CreditMemoDocument> getCreditMemosToExtract(String chartCode);
 
     /**
      * Persists the credit memo document and updates the last use fields.

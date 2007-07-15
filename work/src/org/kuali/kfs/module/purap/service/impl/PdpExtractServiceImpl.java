@@ -18,6 +18,7 @@ package org.kuali.module.purap.service.impl;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -29,7 +30,6 @@ import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.exceptions.UserNotFoundException;
 import org.kuali.core.service.DateTimeService;
-import org.kuali.core.service.DocumentService;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.service.UniversalUserService;
 import org.kuali.kfs.KFSConstants;
@@ -47,9 +47,14 @@ import org.kuali.module.pdp.service.PaymentFileService;
 import org.kuali.module.pdp.service.PaymentGroupService;
 import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.PurapParameterConstants;
+import org.kuali.module.purap.bo.AccountsPayableItemBase;
+import org.kuali.module.purap.bo.CreditMemoItem;
 import org.kuali.module.purap.bo.PaymentRequestItem;
 import org.kuali.module.purap.bo.PurApAccountingLine;
+import org.kuali.module.purap.document.AccountsPayableDocumentBase;
+import org.kuali.module.purap.document.CreditMemoDocument;
 import org.kuali.module.purap.document.PaymentRequestDocument;
+import org.kuali.module.purap.service.CreditMemoService;
 import org.kuali.module.purap.service.PaymentRequestService;
 import org.kuali.module.purap.service.PdpExtractService;
 import org.kuali.module.vendor.VendorConstants;
@@ -67,7 +72,7 @@ public class PdpExtractServiceImpl implements PdpExtractService {
     private UniversalUserService universalUserService;
     private PaymentGroupService paymentGroupService;
     private PaymentDetailService paymentDetailService;
-    private DocumentService documentService;
+    private CreditMemoService creditMemoService;
 
     public void extractPayments() {
         LOG.debug("extractPayments() started");
@@ -88,6 +93,7 @@ public class PdpExtractServiceImpl implements PdpExtractService {
         List<String> campusesToProcess = getChartCodes();
         for (Iterator iter = campusesToProcess.iterator(); iter.hasNext();) {
             String campus = (String)iter.next();
+
             extractPaymentsForChart(campus,puser,processRunDate);
         }
     }
@@ -100,31 +106,239 @@ public class PdpExtractServiceImpl implements PdpExtractService {
         BigDecimal totalAmount = new BigDecimal("0");
 
         // Do all the special ones
-        Iterator<PaymentRequestDocument> prIter = paymentRequestService.getPaymentRequestsToExtractSpecialPayments(chartCode);
-        while ( prIter.hasNext() ) {
-            LOG.debug("extractPaymentsForChart() here we are");
-            PaymentRequestDocument prd = prIter.next();
-            PaymentGroup pg = populatePaymentGroup(prd,batch);
-            PaymentDetail pd = populatePaymentDetail(prd,batch);
-            pg.addPaymentDetails(pd);
-            paymentGroupService.save(pg);
+        Totals t = extractSpecialPaymentsForChart(chartCode, puser, processRunDate, batch);
+        count = count + t.count;
+        totalAmount = totalAmount.add(t.totalAmount);
 
-            count++;
-            totalAmount = totalAmount.add(pg.getNetPaymentAmount());
-
-            updatePaymentRequest(prd,puser,processRunDate);
-        }
-
-        // TODO Do all the regular ones (including credit memos)
-
+        // Do all the regular ones (including credit memos)
+        t = extractRegularPaymentsForChart(chartCode, puser, processRunDate, batch);
+        count = count + t.count;
+        totalAmount = totalAmount.add(t.totalAmount);
+        
         batch.setPaymentCount(count);
         batch.setPaymentTotalAmount(totalAmount);
         paymentFileService.saveBatch(batch);
     }
 
+    private Totals extractRegularPaymentsForChart(String chartCode,PdpUser puser,Date processRunDate,Batch batch) {
+        Totals t = new Totals();
+
+        List itemsToProcess = new ArrayList();
+        
+        // Get all the payment requests to process
+        Iterator<PaymentRequestDocument> prIter = paymentRequestService.getPaymentRequestToExtractByChart(chartCode);
+        while ( prIter.hasNext() ) {
+            PaymentRequestDocument prd = prIter.next();
+
+            Payment p = new Payment(prd.getPurapDocumentIdentifier(),Payment.PREQ,prd.getProcessingCampusCode(),prd.getVendorHeaderGeneratedIdentifier()+"-"+prd.getVendorDetailAssignedIdentifier(),prd.getVendorCountryCode(),prd.getVendorPostalCode(),prd.getVendorCustomerNumber(),prd);
+            itemsToProcess.add(p);
+        }
+
+        // Get all the matching credit memos
+        Iterator<CreditMemoDocument> cmIter = creditMemoService.getCreditMemosToExtract(chartCode);
+        while ( cmIter.hasNext() ) {
+            CreditMemoDocument cmd = cmIter.next();
+
+            Payment p = new Payment(cmd.getPurapDocumentIdentifier(),Payment.CM,cmd.getProcessingCampusCode(),cmd.getVendorHeaderGeneratedIdentifier()+"-"+cmd.getVendorDetailAssignedIdentifier(),cmd.getVendorCountryCode(),cmd.getVendorPostalCode(),cmd.getVendorCustomerNumber(),cmd);
+            itemsToProcess.add(p);
+        }
+
+        Collections.sort(itemsToProcess);
+
+        // Decide which get processed and which don't
+        Map<String,Integer> groups = new HashMap<String,Integer>();
+
+        Iterator i = itemsToProcess.iterator();
+        while ( i.hasNext() ) {
+            Payment p = (Payment)i.next();
+            if ( groups.containsKey(p.combineKey()) ) {
+                Integer count = groups.get(p.combineKey());
+                groups.put(p.combineKey(), count + 1);
+            } else {
+                groups.put(p.combineKey(), 1);
+            }
+        }
+
+        for (Iterator iter = groups.keySet().iterator(); iter.hasNext();) {
+            String key = (String)iter.next();
+            Integer count = (Integer)groups.get(key);
+            List<Payment> pmts = getByCombineKey(key,itemsToProcess);
+
+            // If there is one PREQ in the group, process it.  If it is a CM, ignore it.
+            // If there is a group that doesn't contain a CM, process each one individually.
+            // If there is a group that contains 1 or more CM's, decide how to process them
+            if ( count == 1 ) {
+                Payment pmt = pmts.get(0);
+                if ( Payment.PREQ.equals(pmt.typeCode) ) {
+                    PaymentRequestDocument prd = (PaymentRequestDocument)pmt.data;
+
+                    PaymentGroup pg = processSinglePaymentRequestDocument(prd,batch,puser,processRunDate);
+
+                    t.count = t.count + pg.getPaymentDetails().size();
+                    t.totalAmount = t.totalAmount.add(pg.getNetPaymentAmount());
+                }
+            } else {
+                // If the list doesn't contain a CM, process each one individually
+                boolean containsCm = false;
+                for (Iterator iterator = pmts.iterator(); iterator.hasNext();) {
+                    Payment element = (Payment)iterator.next();
+                    if ( Payment.CM.equals(element.typeCode) ) {
+                        containsCm = true;
+                    }
+                }
+
+                if ( ! containsCm ) {
+                    for (Iterator iterator = pmts.iterator(); iterator.hasNext();) {
+                        Payment element = (Payment)iterator.next();
+
+                        PaymentRequestDocument prd = (PaymentRequestDocument)element.data;
+
+                        PaymentGroup pg = processSinglePaymentRequestDocument(prd,batch,puser,processRunDate);
+
+                        t.count = t.count + pg.getPaymentDetails().size();
+                        t.totalAmount = t.totalAmount.add(pg.getNetPaymentAmount());
+                    }
+                } else {
+                    // TODO Decide what to do with the CM(s)
+                }
+            }
+        }
+
+        return t;
+    }
+
+    private PaymentGroup processSinglePaymentRequestDocument(PaymentRequestDocument prd,Batch batch,PdpUser puser,Date processRunDate) {
+        List<PaymentRequestDocument> prds = new ArrayList<PaymentRequestDocument>();
+        List<CreditMemoDocument> cmds = new ArrayList<CreditMemoDocument>();
+        prds.add(prd);
+
+        PaymentGroup pg = buildPaymentGroup(prds,cmds,batch);
+        paymentGroupService.save(pg);
+        updatePaymentRequest(prd,puser,processRunDate);
+
+        return pg;
+    }
+
+    private List<Payment> getByCombineKey(String key,List itemsToProcess,String typeCode) {
+        List<Payment> p = new ArrayList<Payment>();
+        for (Iterator iter = itemsToProcess.iterator(); iter.hasNext();) {
+            Payment element = (Payment) iter.next();
+            if ( key.equals(element.combineKey()) ) {
+                if ( (typeCode == null) || (typeCode.equals(element.typeCode)) ) {
+                    p.add(element);
+                }
+            }
+        }
+        return p;        
+    }
+
+    private List<Payment> getByCombineKey(String key,List itemsToProcess) {
+        return getByCombineKey(key, itemsToProcess, null);
+    }
+
+    private Totals extractSpecialPaymentsForChart(String chartCode,PdpUser puser,Date processRunDate,Batch batch) {
+        Totals t = new Totals();
+
+        Iterator<PaymentRequestDocument> prIter = paymentRequestService.getPaymentRequestsToExtractSpecialPayments(chartCode);
+        while ( prIter.hasNext() ) {
+            LOG.debug("extractPaymentsForChart() here we are");
+            PaymentRequestDocument prd = prIter.next();
+
+            PaymentGroup pg = processSinglePaymentRequestDocument(prd, batch, puser, processRunDate);
+
+            t.count = t.count + pg.getPaymentDetails().size();
+            t.totalAmount = t.totalAmount.add(pg.getNetPaymentAmount());
+        }
+
+        return t;
+    }
+
+    private void updateCreditMemo(CreditMemoDocument cmd,PdpUser puser,Date processRunDate) {
+        cmd.setExtractedDate(new java.sql.Date(processRunDate.getTime()));
+        creditMemoService.save(cmd);
+    }
+
     private void updatePaymentRequest(PaymentRequestDocument prd,PdpUser puser,Date processRunDate) {
         prd.setExtractedDate(new java.sql.Date(processRunDate.getTime()));
         paymentRequestService.save(prd);
+    }
+
+    private PaymentGroup buildPaymentGroup(List<PaymentRequestDocument> prds,List<CreditMemoDocument> cmds,Batch batch) {
+
+        // There should always be at least one Payment Request Document in the list.
+        PaymentRequestDocument firstPrd = prds.get(0);
+        PaymentGroup pg = populatePaymentGroup(firstPrd, batch);
+
+        for (Iterator iter = prds.iterator(); iter.hasNext();) {
+            PaymentRequestDocument p = (PaymentRequestDocument)iter.next();
+            PaymentDetail pd = populatePaymentDetail(p, batch);
+            pg.addPaymentDetails(pd);
+        }
+        for (Iterator iter = cmds.iterator(); iter.hasNext();) {
+            CreditMemoDocument c = (CreditMemoDocument) iter.next();
+            PaymentDetail pd = populatePaymentDetail(c, batch);
+            pg.addPaymentDetails(pd);
+        }
+
+        return pg;
+    }
+
+    private PaymentDetail populatePaymentDetail(CreditMemoDocument cmd,Batch batch) {
+        PaymentDetail pd = new PaymentDetail();
+
+        String invNbr = cmd.getCreditMemoNumber();
+        if ( invNbr.length() > 25 ) {
+            invNbr = invNbr.substring(0,25);
+        }
+        pd.setInvoiceNbr(invNbr);
+        if ( cmd.getPurapDocumentIdentifier() != null ) {
+            pd.setPurchaseOrderNbr(cmd.getPurapDocumentIdentifier().toString());
+        }
+        if ( cmd.getPurchaseOrderDocument().getRequisitionIdentifier() != null ) {
+            pd.setRequisitionNbr(cmd.getPurchaseOrderDocument().getRequisitionIdentifier().toString());
+        }
+        if ( cmd.getPurchaseOrderDocument().getDocumentHeader().getOrganizationDocumentNumber() != null ) {
+            pd.setOrganizationDocNbr(cmd.getPurchaseOrderDocument().getDocumentHeader().getOrganizationDocumentNumber());
+        }
+        pd.setFinancialDocumentTypeCode("CM");
+        pd.setInvoiceDate(new Timestamp(cmd.getCreditMemoDate().getTime()));
+        pd.setOrigInvoiceAmount(cmd.getCreditMemoAmount().bigDecimalValue());
+
+        pd.setNetPaymentAmount(cmd.getDocumentHeader().getFinancialDocumentTotalAmount().bigDecimalValue());
+
+        BigDecimal shippingAmount = new BigDecimal("0");
+        BigDecimal discountAmount = new BigDecimal("0");
+        BigDecimal creditAmount = new BigDecimal("0");
+        BigDecimal debitAmount = new BigDecimal("0");
+        for (Iterator iter = cmd.getItems().iterator(); iter.hasNext();) {
+            CreditMemoItem item = (CreditMemoItem)iter.next();
+            BigDecimal itemAmount = new BigDecimal("0");
+            if ( item.getExtendedPrice() != null ) {
+                itemAmount = item.getExtendedPrice().bigDecimalValue();
+            }
+            if ( PurapConstants.ItemTypeCodes.ITEM_TYPE_PMT_TERMS_DISCOUNT_CODE.equals(item.getItemTypeCode()) ) {
+                discountAmount = discountAmount.add(itemAmount);
+            } else if ( PurapConstants.ItemTypeCodes.ITEM_TYPE_SHIP_AND_HAND_CODE.equals(item.getItemTypeCode()) ) {
+                shippingAmount = shippingAmount.add(itemAmount);
+            } else if ( PurapConstants.ItemTypeCodes.ITEM_TYPE_MIN_ORDER_CODE.equals(item.getItemTypeCode()) ) {
+                debitAmount = debitAmount.add(itemAmount);
+            } else if ( PurapConstants.ItemTypeCodes.ITEM_TYPE_MISC_CODE.equals(item.getItemTypeCode()) ) {
+                if ( itemAmount.compareTo(new BigDecimal("0")) < 0 ) {
+                    creditAmount = creditAmount.add(itemAmount);
+                } else {
+                    debitAmount = debitAmount.add(itemAmount);
+                }
+            }
+        }
+
+        pd.setInvTotDiscountAmount(discountAmount);
+        pd.setInvTotShipAmount(shippingAmount);
+        pd.setInvTotOtherCreditAmount(creditAmount);
+        pd.setInvTotOtherDebitAmount(debitAmount);
+
+        addAccounts(cmd,pd);
+        addNotes(cmd,pd);
+        return pd;
     }
 
     private PaymentDetail populatePaymentDetail(PaymentRequestDocument prd,Batch batch) {
@@ -185,11 +399,11 @@ public class PdpExtractServiceImpl implements PdpExtractService {
         return pd;
     }
 
-    private void addAccounts(PaymentRequestDocument prd,PaymentDetail pd) {
+    private void addAccounts(AccountsPayableDocumentBase prd,PaymentDetail pd) {
         // Calculate the total amount for each account across all items
         Map accounts = new HashMap();
         for (Iterator iter = prd.getItems().iterator(); iter.hasNext();) {
-            PaymentRequestItem item = (PaymentRequestItem)iter.next();
+            AccountsPayableItemBase item = (AccountsPayableItemBase)iter.next();
             for (Iterator iterator = item.getSourceAccountingLines().iterator(); iterator.hasNext();) {
                 PurApAccountingLine account = (PurApAccountingLine)iterator.next();
                 AccountingInfo ai = new AccountingInfo(account.getChartOfAccountsCode(),account.getAccountNumber(),account.getSubAccountNumber(),account.getFinancialObjectCode(),account.getFinancialSubObjectCode(),account.getOrganizationReferenceId(),account.getProjectCode());
@@ -217,42 +431,48 @@ public class PdpExtractServiceImpl implements PdpExtractService {
         }
     }
 
-    private void addNotes(PaymentRequestDocument prd,PaymentDetail pd) {
+    private void addNotes(AccountsPayableDocumentBase doc,PaymentDetail pd) {
+
         int count = 1;
-        if ( prd.getSpecialHandlingInstructionLine1Text() != null ) {
+
+        if ( doc instanceof PaymentRequestDocument ) {
+            PaymentRequestDocument prd = (PaymentRequestDocument)doc;
+
+            if ( prd.getSpecialHandlingInstructionLine1Text() != null ) {
+                PaymentNoteText pnt = new PaymentNoteText();
+                pnt.setCustomerNoteLineNbr(count++);
+                pnt.setCustomerNoteText(prd.getSpecialHandlingInstructionLine1Text());
+                pd.addNote(pnt);
+            }
+            if ( prd.getSpecialHandlingInstructionLine2Text() != null ) {
+                PaymentNoteText pnt = new PaymentNoteText();
+                pnt.setCustomerNoteLineNbr(count++);
+                pnt.setCustomerNoteText(prd.getSpecialHandlingInstructionLine2Text());
+                pd.addNote(pnt);
+            }
+            if ( prd.getSpecialHandlingInstructionLine3Text() != null ) {
+                PaymentNoteText pnt = new PaymentNoteText();
+                pnt.setCustomerNoteLineNbr(count++);
+                pnt.setCustomerNoteText(prd.getSpecialHandlingInstructionLine3Text());
+                pd.addNote(pnt);
+            }
+        }
+        if ( doc.getNoteLine1Text() != null ) {
             PaymentNoteText pnt = new PaymentNoteText();
             pnt.setCustomerNoteLineNbr(count++);
-            pnt.setCustomerNoteText(prd.getSpecialHandlingInstructionLine1Text());
+            pnt.setCustomerNoteText(doc.getNoteLine1Text());
             pd.addNote(pnt);
         }
-        if ( prd.getSpecialHandlingInstructionLine2Text() != null ) {
+        if ( doc.getNoteLine2Text() != null ) {
             PaymentNoteText pnt = new PaymentNoteText();
             pnt.setCustomerNoteLineNbr(count++);
-            pnt.setCustomerNoteText(prd.getSpecialHandlingInstructionLine2Text());
+            pnt.setCustomerNoteText(doc.getNoteLine2Text());
             pd.addNote(pnt);
         }
-        if ( prd.getSpecialHandlingInstructionLine3Text() != null ) {
+        if ( doc.getNoteLine3Text() != null ) {
             PaymentNoteText pnt = new PaymentNoteText();
             pnt.setCustomerNoteLineNbr(count++);
-            pnt.setCustomerNoteText(prd.getSpecialHandlingInstructionLine3Text());
-            pd.addNote(pnt);
-        }
-        if ( prd.getNoteLine1Text() != null ) {
-            PaymentNoteText pnt = new PaymentNoteText();
-            pnt.setCustomerNoteLineNbr(count++);
-            pnt.setCustomerNoteText(prd.getNoteLine1Text());
-            pd.addNote(pnt);
-        }
-        if ( prd.getNoteLine2Text() != null ) {
-            PaymentNoteText pnt = new PaymentNoteText();
-            pnt.setCustomerNoteLineNbr(count++);
-            pnt.setCustomerNoteText(prd.getNoteLine2Text());
-            pd.addNote(pnt);
-        }
-        if ( prd.getNoteLine3Text() != null ) {
-            PaymentNoteText pnt = new PaymentNoteText();
-            pnt.setCustomerNoteLineNbr(count++);
-            pnt.setCustomerNoteText(prd.getNoteLine3Text());
+            pnt.setCustomerNoteText(doc.getNoteLine3Text());
             pd.addNote(pnt);
         }
     }
@@ -316,7 +536,7 @@ public class PdpExtractServiceImpl implements PdpExtractService {
         batch.setSubmiterUser(puser);
 
         // Set these for now, we will update them later
-        batch.setPaymentCount(1);
+        batch.setPaymentCount(0);
         batch.setPaymentTotalAmount(new BigDecimal("0"));
         paymentFileService.saveBatch(batch);
 
@@ -334,6 +554,64 @@ public class PdpExtractServiceImpl implements PdpExtractService {
             }
         }
         return output;
+    }
+
+    class Payment {
+        public static final String CM = "cm";
+        public static final String PREQ = "preq";
+
+        public Integer id;
+        public String typeCode;
+        public String campusCode;
+        public String vendorId;
+        public String countryCode;
+        public String zipCode;
+        public String customerNbr;
+        public Object data;
+
+        public Payment(Integer id,String typeCode,String campusCode,String vendorId,String countryCode,String zipCode,String customerNbr,Object data) {
+            this.id = id;
+            this.typeCode = typeCode;
+            this.campusCode = campusCode;
+            this.vendorId = vendorId;
+            this.countryCode = countryCode;
+            if ( (zipCode != null) && (zipCode.length() > 5) ) {
+                this.zipCode = zipCode.substring(0,5);
+            } else {
+                this.zipCode = zipCode;
+            }
+            this.customerNbr = customerNbr;
+            this.data = data;
+        }
+
+        public boolean combine(Payment p) {
+            return combineKey().equals(p.combineKey());
+        }
+
+        public String combineKey() {
+            return campusCode + "~" + vendorId + "~" + customerNbr + "~" + countryCode + "~" + zipCode;            
+        }
+
+        private String key() {
+            return campusCode + "~" + vendorId + "~" + customerNbr + "~" + countryCode + "~" + zipCode + "~" + typeCode + "~" + id;
+        }
+
+        public int hashCode() {
+            return new HashCodeBuilder(3, 5).append(key()).toHashCode();
+        }
+
+        public boolean equals(Object obj) {
+            if (!(obj instanceof AccountingInfo)) {
+                return false;
+            }
+            AccountingInfo thisobj = (AccountingInfo) obj;
+            return new EqualsBuilder().append(key(), thisobj.key()).isEquals();
+        }
+    }
+
+    class Totals {
+        public Integer count = 0;
+        public BigDecimal totalAmount = new BigDecimal("0");
     }
 
     class AccountingInfo {
@@ -355,40 +633,20 @@ public class PdpExtractServiceImpl implements PdpExtractService {
             setProjectCode(pc);
         }
 
-        public String getAccount() {
-            return account;
-        }
-
         public void setAccount(String account) {
             this.account = account;
-        }
-
-        public String getChart() {
-            return chart;
         }
 
         public void setChart(String chart) {
             this.chart = chart;
         }
 
-        public String getObjectCode() {
-            return objectCode;
-        }
-
         public void setObjectCode(String objectCode) {
             this.objectCode = objectCode;
         }
 
-        public String getOrgReferenceId() {
-            return orgReferenceId;
-        }
-
         public void setOrgReferenceId(String orgReferenceId) {
             this.orgReferenceId = orgReferenceId;
-        }
-
-        public String getProjectCode() {
-            return projectCode;
         }
 
         public void setProjectCode(String projectCode) {
@@ -399,20 +657,12 @@ public class PdpExtractServiceImpl implements PdpExtractService {
             }
         }
 
-        public String getSubAccount() {
-            return subAccount;
-        }
-
         public void setSubAccount(String subAccount) {
             if ( subAccount == null ) {
                 this.subAccount = KFSConstants.DASHES_SUB_ACCOUNT_NUMBER;
             } else {
                 this.subAccount = subAccount;
             }
-        }
-
-        public String getSubObjectCode() {
-            return subObjectCode;
         }
 
         public void setSubObjectCode(String subObjectCode) {
@@ -439,6 +689,8 @@ public class PdpExtractServiceImpl implements PdpExtractService {
             return new EqualsBuilder().append(key(), thisobj.key()).isEquals();
         }
     }
+
+    // Dependencies
 
     public void setPaymentFileService(PaymentFileService pfs) {
         paymentFileService = pfs;
@@ -472,7 +724,7 @@ public class PdpExtractServiceImpl implements PdpExtractService {
         this.paymentGroupService = paymentGroupService;
     }
 
-    public void setDocumentService(DocumentService ds) {
-        this.documentService = ds;
+    public void setCreditMemoService(CreditMemoService cms) {
+        this.creditMemoService = cms;
     }
 }

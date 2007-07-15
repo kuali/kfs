@@ -38,7 +38,6 @@ import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.PurapKeyConstants;
 import org.kuali.module.purap.PurapParameterConstants;
 import org.kuali.module.purap.PurapPropertyConstants;
-import org.kuali.module.purap.PurapConstants.CREDIT_MEMO_TYPES;
 import org.kuali.module.purap.bo.CreditMemoItem;
 import org.kuali.module.purap.bo.PurchaseOrderItem;
 import org.kuali.module.purap.dao.CreditMemoDao;
@@ -73,6 +72,15 @@ public class CreditMemoServiceImpl implements CreditMemoService {
     private PaymentRequestService paymentRequestService;
     private PurchaseOrderService purchaseOrderService;
     private DateTimeService dateTimeService;
+
+    /**
+     * @see org.kuali.module.purap.service.CreditMemoService#getCreditMemosToExtract(java.lang.String)
+     */
+    public Iterator<CreditMemoDocument> getCreditMemosToExtract(String chartCode) {
+        LOG.debug("getCreditMemosToExtract() started");
+
+        return creditMemoDao.getCreditMemosToExtract(chartCode);
+    }
 
     /**
      * @see org.kuali.module.purap.service.CreditMemoService#creditMemoDuplicateMessages(org.kuali.module.purap.document.CreditMemoDocument)

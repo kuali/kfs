@@ -100,6 +100,14 @@ public interface PaymentRequestService {
     public Iterator<PaymentRequestDocument> getPaymentRequestsToExtractSpecialPayments(String chartCode);
 
     /**
+     * Get all the regular payment requests for a single campus
+     * 
+     * @param chartCode
+     * @return
+     */
+    public Iterator<PaymentRequestDocument> getPaymentRequestToExtractByChart(String chartCode);
+
+    /**
      * Recalculate the payment request
      * 
      * @param pr

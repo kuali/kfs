@@ -76,7 +76,7 @@
                             <field attributeName="vendorCityName" />
                             <field attributeName="vendorStateCode" />
                             <field attributeName="vendorZipCode" />
-                            <inquiryCollection name="vendorDefaultAddresses" businessObjectClass="org.kuali.module.vendor.bo.VendorDefaultAddress" >
+                            <inquiryCollection name="vendorDefaultAddresses" businessObjectClass="org.kuali.module.vendor.bo.VendorDefaultAddress" summaryTitle="Default Address" >
                                 <field attributeName="vendorCampusCode" />
                                 <inquirySummaryFields>
            		       		        <inquirySummaryField attributeName="vendorCampusCode" />
@@ -92,7 +92,7 @@
                 
                 <inquirySection title="Contacts">
                     <inquiryFields>
-                        <inquiryCollection name="vendorContacts" businessObjectClass="org.kuali.module.vendor.bo.VendorContact" numberOfColumns="2" >                       	
+                        <inquiryCollection name="vendorContacts" businessObjectClass="org.kuali.module.vendor.bo.VendorContact" numberOfColumns="2" summaryTitle="Contact" >                       	
                         	<field attributeName="vendorContactName"/>
                         	<field attributeName="vendorContactTypeCode"/>
                         	<field attributeName="vendorContactEmailAddress"/>
@@ -105,7 +105,7 @@
                         	<field attributeName="vendorAddressInternationalProvinceName"/>
                         	<field attributeName="vendorCityName"/>  	
                         	<field attributeName="vendorCountryCode"/>
-                        	<inquiryCollection name="vendorContactPhoneNumbers" businessObjectClass="org.kuali.module.vendor.bo.VendorContactPhoneNumber" numberOfColumns="1" >
+                        	<inquiryCollection name="vendorContactPhoneNumbers" businessObjectClass="org.kuali.module.vendor.bo.VendorContactPhoneNumber" numberOfColumns="1" summaryTitle="Phone Number" >
                         		<field attributeName="vendorPhoneTypeCode"/>
                         		<field attributeName="vendorPhoneNumber"/>
                         		<field attributeName="vendorPhoneExtensionNumber"/>
@@ -124,7 +124,7 @@
                 
                 <inquirySection title="Contracts">
                     <inquiryFields>
-                        <inquiryCollection name="vendorContracts" businessObjectClass="org.kuali.module.vendor.bo.VendorContract" numberOfColumns="2" >
+                        <inquiryCollection name="vendorContracts" businessObjectClass="org.kuali.module.vendor.bo.VendorContract" numberOfColumns="2" summaryTitle="Contract" >
                         	<field attributeName="vendorContractName"/>
                         	<field attributeName="vendorContractDescription"/>                	
                         	<field attributeName="vendorCampusCode"/>
@@ -137,7 +137,7 @@
                         	<field attributeName="vendorShippingTitleCode"/>
                         	<field attributeName="vendorContractExtensionDate"/>
                         	<field attributeName="organizationAutomaticPurchaseOrderLimit"/>
-                        	<inquiryCollection name="vendorContractOrganizations" businessObjectClass="org.kuali.module.vendor.bo.VendorContractOrganization" >
+                        	<inquiryCollection name="vendorContractOrganizations" businessObjectClass="org.kuali.module.vendor.bo.VendorContractOrganization" summaryTitle="Contract Organization" >
                         		<field attributeName="chartOfAccountsCode"/>
                         		<field attributeName="organizationCode"/>
                         		<field attributeName="vendorContractPurchaseOrderLimitAmount"/>
@@ -157,7 +157,7 @@
                   
  				<inquirySection title="Supplier Diversities">
                     <inquiryFields>
-                        <inquiryCollection name="vendorHeader.vendorSupplierDiversities" businessObjectClass="org.kuali.module.vendor.bo.VendorSupplierDiversity" >
+                        <inquiryCollection name="vendorHeader.vendorSupplierDiversities" businessObjectClass="org.kuali.module.vendor.bo.VendorSupplierDiversity"  summaryTitle="Supplier Diversity" >
                         	<field attributeName="vendorSupplierDiversityCode" />
                         	<inquirySummaryFields>
                                 <inquirySummaryField attributeName="vendorSupplierDiversityCode" />
@@ -168,7 +168,7 @@
                 
     			<inquirySection title="Shipping Special Conditions">
                     <inquiryFields>
-                        <inquiryCollection name="vendorShippingSpecialConditions" businessObjectClass="org.kuali.module.vendor.bo.VendorShippingSpecialCondition" >
+                        <inquiryCollection name="vendorShippingSpecialConditions" businessObjectClass="org.kuali.module.vendor.bo.VendorShippingSpecialCondition" summaryTitle="Shipping Special Condition" >
                         	<field attributeName="vendorShippingSpecialCondition.vendorShippingSpecialConditionCode"/>
                             <inquirySummaryFields>
            		       		    <inquirySummaryField attributeName="vendorShippingSpecialConditionCode" />

@@ -22,7 +22,7 @@
 	</init>
 	<allow>
 	   	<convert converter="bean" match="org.kuali.module.chart.bo.Account">
-	   		<param name="include" value="chartOfAccountCode,accountNumber,accountName,accountTypeCode,subFundGroupCode,organizationCode,financialIcrSeriesIdentifier,indirectCostRcvyFinCoaCode,indirectCostRecoveryAcctNbr,accountOffCampusIndicator,acctIndirectCostRcvyTypeCd" />
+	   		<param name="include" value="chartOfAccountCode,accountNumber,accountName,accountTypeCode,subFundGroupCode,organizationCode,financialIcrSeriesIdentifier,indirectCostRcvyFinCoaCode,indirectCostRecoveryAcctNbr,accountOffCampusIndicator,acctIndirectCostRcvyTypeCd,accountNameAndExtensionDescription" />
 	   	</convert>
 	    <create creator="spring" javascript="AccountService">
 	    	<param name="beanName" value="accountService" />

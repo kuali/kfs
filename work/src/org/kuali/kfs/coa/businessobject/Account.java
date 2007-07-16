@@ -81,7 +81,6 @@ public class Account extends PersistableBusinessObjectBase implements AccountInt
     private String accountCfdaNumber;
     private boolean accountOffCampusIndicator;
     private boolean accountClosedIndicator;
-    private String programCode;
 
     private String accountFiscalOfficerSystemIdentifier;
     private String accountsSupervisorySystemsIdentifier;
@@ -127,7 +126,6 @@ public class Account extends PersistableBusinessObjectBase implements AccountInt
     private PostalZipCode postalZipCode;
     private BudgetRecordingLevelCode budgetRecordingLevel;
     private SufficientFundsCode sufficientFundsCode;
-    private Program program;
     private Cfda cfda;
 
     // Several kinds of Dummy Attributes for dividing sections on Inquiry page
@@ -1218,21 +1216,6 @@ public class Account extends PersistableBusinessObjectBase implements AccountInt
     }
 
     /**
-     * @return Returns the program.
-     */
-    public Program getProgram() {
-        return program;
-    }
-
-    /**
-     * @param program The program to set.
-     * @deprecated
-     */
-    public void setProgram(Program program) {
-        this.program = program;
-    }
-
-    /**
      * @return Returns the accountGuideline.
      */
     public AccountGuideline getAccountGuideline() {
@@ -1646,20 +1629,6 @@ public class Account extends PersistableBusinessObjectBase implements AccountInt
     public void setSufficientFundsCode(SufficientFundsCode sufficientFundsCode) {
         this.sufficientFundsCode = sufficientFundsCode;
     }
-
-    /**
-     * @return Returns the programCode.
-     */
-    public String getProgramCode() {
-        return programCode;
-    }
-
-    /**
-     * @param programCode The programCode to set.
-     */
-    public void setProgramCode(String programCode) {
-        this.programCode = programCode;
-    }
     
     /**
      * Gets the acctIndirectCostRcvyType attribute. 
@@ -1921,5 +1890,37 @@ public class Account extends PersistableBusinessObjectBase implements AccountInt
     public void setAwards(List<AwardAccount> awards) {
         this.awards = awards;
     }
+
+
+    /**
+     * @return Returns the accountNameAndExtensionDescription.
+     */
+    public String getAccountNameAndExtensionDescription() {
+        String resultString;
+        AccountExtension accountExtension;
+        Program program;
+        resultString = this.getAccountName();
+        if (this.getExtension() != null){
+            accountExtension = (AccountExtension) this.getExtension();
+            if (accountExtension.getProgram() != null){
+                program = accountExtension.getProgram();
+                resultString = accountName + 
+                " Program=" + 
+                program.getProgramCode() + "-" + 
+                program.getProgramName();
+            }         
+        }      
+        return  resultString;
+    }
+
+    /**
+     * Sets the accountNameAndExtensionDescription attribute value.
+     * 
+     * @param accountNameAndExtensionDescription The accountNameAndExtensionDescription to set.
+     */
+    public void setAccountNameAndExtensionDescription(String dummy ) {
+        
+    }
+
 
 }

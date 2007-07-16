@@ -73,7 +73,6 @@ public class PriorYearAccount extends PersistableBusinessObjectBase implements A
     private String accountCfdaNumber;
     private boolean accountOffCampusIndicator;
     private boolean accountClosedIndicator;
-    private String programCode;
 
     private String accountFiscalOfficerSystemIdentifier;
     private String accountsSupervisorySystemsIdentifier;
@@ -117,7 +116,7 @@ public class PriorYearAccount extends PersistableBusinessObjectBase implements A
     private PostalZipCode postalZipCode;
     private BudgetRecordingLevelCode budgetRecordingLevel;
     private SufficientFundsCode sufficientFundsCode;
-    private Program program;
+
 
     // Several kinds of Dummy Attributes for dividing sections on Inquiry page
     private String accountResponsibilitySectionBlank;
@@ -1141,20 +1140,6 @@ public class PriorYearAccount extends PersistableBusinessObjectBase implements A
         this.continuationAccount = continuationAccount;
     }
 
-    /**
-     * @return Returns the program.
-     */
-    public Program getProgram() {
-        return program;
-    }
-
-    /**
-     * @param program The program to set.
-     * @deprecated
-     */
-    public void setProgram(Program program) {
-        this.program = program;
-    }
 
     /**
      * @return Returns the accountGuideline.
@@ -1162,7 +1147,6 @@ public class PriorYearAccount extends PersistableBusinessObjectBase implements A
     public AccountGuideline getAccountGuideline() {
         return accountGuideline;
     }
-
 
     /**
      * @param accountGuideline The accountGuideline to set.
@@ -1571,19 +1555,6 @@ public class PriorYearAccount extends PersistableBusinessObjectBase implements A
         this.sufficientFundsCode = sufficientFundsCode;
     }
 
-    /**
-     * @return Returns the programCode.
-     */
-    public String getProgramCode() {
-        return programCode;
-    }
-
-    /**
-     * @param programCode The programCode to set.
-     */
-    public void setProgramCode(String programCode) {
-        this.programCode = programCode;
-    }
   
     /**
      * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()

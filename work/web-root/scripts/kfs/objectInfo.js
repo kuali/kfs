@@ -88,7 +88,7 @@ function loadAccountInfo( accountCodeFieldName, accountNameFieldName ) {
 		var dwrReply = {
 			callback:function(data) {
 			if ( data != null && typeof data == 'object' ) {
-				setRecipientValue( accountNameFieldName, data.accountName );
+				setRecipientValue( accountNameFieldName, data.accountNumber );
 			} else {
 				setRecipientValue( accountNameFieldName, wrapError( "account not found" ), true );			
 			} },
@@ -100,6 +100,37 @@ function loadAccountInfo( accountCodeFieldName, accountNameFieldName ) {
 	}	
 }
 
+function loadAccountNameAndExtensionInfo( accountCodeFieldName, accountNameFieldName ) {
+    var elPrefix = findElPrefix( accountCodeFieldName );
+    var accountCode = DWRUtil.getValue( accountCodeFieldName );
+    var coaCode = DWRUtil.getValue( elPrefix + chartCodeSuffix );
+
+    if (valueChanged( accountCodeFieldName )) {
+        setRecipientValue( elPrefix + subAccountNumberSuffix, "" );
+        setRecipientValue( elPrefix + subAccountNameSuffix, "" );
+        setRecipientValue( elPrefix + subObjectCodeSuffix, "" );
+        setRecipientValue( elPrefix + subObjectCodeNameSuffix, "" );
+    }
+    
+    if (accountCode=='') {
+		clearRecipients(accountNameFieldName);
+	} else if (coaCode=='') {
+		setRecipientValue(accountNameFieldName, wrapError( 'chart code is empty' ), true );
+	} else {
+		var dwrReply = {
+			callback:function(data) {
+			if ( data != null && typeof data == 'object' ) {
+				setRecipientValue( accountNameFieldName, data.accountNameAndExtensionDescription );
+			} else {
+				setRecipientValue( accountNameFieldName, wrapError( "account not found" ), true );			
+			} },
+			errorHandler:function( errorMessage ) { 
+				setRecipientValue( accountNameFieldName, wrapError( "account not found" ), true );
+			}
+		};
+		AccountService.getByPrimaryIdWithCaching( coaCode, accountCode, dwrReply );
+	}	
+}
 function loadSubAccountInfo( subAccountCodeFieldName, subAccountNameFieldName ) {
     var elPrefix = findElPrefix( subAccountCodeFieldName );
     var coaCode = getElementValue( elPrefix + chartCodeSuffix );

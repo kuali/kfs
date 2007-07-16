@@ -51,6 +51,7 @@ public class PurchasingAccountsPayableActionBase extends KualiAccountingDocument
     protected void loadDocument(KualiDocumentFormBase kualiDocumentFormBase) throws WorkflowException {
         super.loadDocument(kualiDocumentFormBase);
         PurchasingAccountsPayableDocument document = (PurchasingAccountsPayableDocument) kualiDocumentFormBase.getDocument();
+        SpringServiceLocator.getPurapAccountingService().updateAccountAmounts(document);
         document.refreshAccountSummary();
     }
 

@@ -138,6 +138,7 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
          * document search results display of status description
          */
         refreshNonUpdateableReferences();
+        SpringServiceLocator.getPurapAccountingService().updateAccountAmounts(this);
         refreshAccountSummary();
         super.populateDocumentForRouting();
     }

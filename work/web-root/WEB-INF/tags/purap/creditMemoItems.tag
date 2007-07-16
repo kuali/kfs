@@ -213,7 +213,7 @@
 			editableAccounts="${KualiForm.editableAccounts}"
 			sourceAccountingLinesOnly="true"
 			optionalFields="accountLinePercent"
-			extraHiddenFields=",accountIdentifier,itemIdentifier"
+			extraHiddenFields=",accountIdentifier,itemIdentifier,amount"
 			accountPrefix="document.item[${ctr}]."
 			accountingLineAttributes="${accountingLineAttributes}" 
 			hideFields="amount" 

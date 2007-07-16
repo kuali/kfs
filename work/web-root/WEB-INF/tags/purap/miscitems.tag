@@ -88,7 +88,7 @@
 				editingMode="${KualiForm.accountingLineEditingMode}"
 				editableAccounts="${KualiForm.editableAccounts}"
 				sourceAccountingLinesOnly="true" optionalFields="accountLinePercent"
-				extraHiddenFields=",accountIdentifier,itemIdentifier"
+				extraHiddenFields=",accountIdentifier,itemIdentifier,amount"
 				accountingLineAttributes="${accountingLineAttributes}"
 				accountPrefix="document.item[${ctr}]." hideTotalLine="true"
 				hideFields="amount" accountingAddLineIndex="${ctr}"

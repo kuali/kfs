@@ -32,6 +32,7 @@
                 <field attributeName="vendorDetailAssignedIdentifier" />
                 <field attributeName="vendorHeaderGeneratedIdentifier" />
                 <field attributeName="vendorContactCommentText" />
+                <field attributeName="active"/>               
             </inquiryFields></inquirySection></inquirySections>
         </inquiry>
 
@@ -53,6 +54,7 @@
                 <lookupField attributeName="vendorDetailAssignedIdentifier" required="false" /> 
                 <lookupField attributeName="vendorContactTypeCode" required="false" />         
                 <lookupField attributeName="vendorContactEmailAddress" required="false" />                            
+                <lookupField attributeName="active" required="false" /> 
             </lookupFields>
 
             <resultFields>
@@ -64,6 +66,7 @@
                 <field attributeName="phoneNumberForLookup" />
                 <field attributeName="faxForLookup" />
                 <field attributeName="tollFreeForLookup" />
+                <field attributeName="active"/>               
             </resultFields>
         </lookup>
         
@@ -173,7 +176,7 @@
             <attributeReference name="vendorHeaderGeneratedIdentifier" sourceClassName="org.kuali.module.vendor.bo.VendorDetail" sourceAttributeName="vendorHeaderGeneratedIdentifier" />
             <attributeReference name="vendorDetailAssignedIdentifier" sourceClassName="org.kuali.module.vendor.bo.VendorDetail" sourceAttributeName="vendorDetailAssignedIdentifier" />
             <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
-
+            <attributeReference name="active" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="activeIndicator"/>
         </attributes>
     </businessObject>
 </dictionaryEntry>

@@ -140,6 +140,9 @@
                         <maintainableField name="versionNumber" />
                         <maintainableField name="vendorHeaderGeneratedIdentifier"  readOnly="true" />
            		        <maintainableField name="vendorDetailAssignedIdentifier"  readOnly="true" />
+	                    <maintainableField name="active">
+	                        <defaultValue>true</defaultValue>
+	                    </maintainableField>
                         
                         <maintainableCollection name="vendorDefaultAddresses" businessObjectClass="org.kuali.module.vendor.bo.VendorDefaultAddress" summaryTitle="Default Address">
                            <maintainableField name="vendorCampusCode" required="true" />
@@ -180,6 +183,9 @@
                         <maintainableField name="vendorContactGeneratedIdentifier"  readOnly="true" />
                         <maintainableField name="vendorHeaderGeneratedIdentifier"  readOnly="true" />
            		        <maintainableField name="vendorDetailAssignedIdentifier"  readOnly="true" />
+	                    <maintainableField name="active">
+	                        <defaultValue>true</defaultValue>
+	                    </maintainableField>
                         
                         <!-- The following collection should display below, in a single column. -->                        
                         <maintainableCollection name="vendorContactPhoneNumbers" businessObjectClass="org.kuali.module.vendor.bo.VendorContactPhoneNumber" summaryTitle="Phone Number">
@@ -212,6 +218,9 @@
                         <maintainableField name="vendorHeaderGeneratedIdentifier"  readOnly="true" />
                         <maintainableField name="newCollectionRecord" />
                         <maintainableField name="versionNumber" />
+	                    <maintainableField name="active">
+	                        <defaultValue>true</defaultValue>
+	                    </maintainableField>
                         <summaryFields>
                             <summaryField name="vendorSupplierDiversityCode" />
                         </summaryFields>
@@ -227,6 +236,9 @@
            		        <maintainableField name="vendorDetailAssignedIdentifier"  readOnly="true" />
            		        <maintainableField name="newCollectionRecord" />
                         <maintainableField name="versionNumber" />
+	                    <maintainableField name="active">
+	                        <defaultValue>true</defaultValue>
+	                    </maintainableField>
                         <summaryFields>
            		       		<summaryField name="vendorShippingSpecialConditionCode" />
            		       	</summaryFields>                        
@@ -240,6 +252,9 @@
                         <maintainableField name="vendorAliasName" required="true" />
                         <maintainableField name="newCollectionRecord" />
                         <maintainableField name="versionNumber" />
+	                    <maintainableField name="active">
+	                        <defaultValue>true</defaultValue>
+	                    </maintainableField>
                         <summaryFields>
            		       		<summaryField name="vendorAliasName" />
            		       	</summaryFields>                            
@@ -258,6 +273,9 @@
                         <maintainableField name="vendorPhoneGeneratedIdentifier"  readOnly="true" />    
                         <maintainableField name="newCollectionRecord" />                    
                         <maintainableField name="versionNumber" />
+	                    <maintainableField name="active">
+	                        <defaultValue>true</defaultValue>
+	                    </maintainableField>
                         <summaryFields>
            		       		<summaryField name="vendorPhoneTypeCode" />
            		       		<summaryField name="vendorPhoneNumber" />
@@ -277,6 +295,9 @@
                         <maintainableField name="vendorCustomerNumberGeneratedIdentifier" readOnly="true" />
                         <maintainableField name="vendorDetailAssignedIdentifier" readOnly="true" />
                         <maintainableField name="vendorHeaderGeneratedIdentifier" readOnly="true" />
+	                    <maintainableField name="active">
+	                        <defaultValue>true</defaultValue>
+	                    </maintainableField>
                         <summaryFields>
            		       		<summaryField name="vendorCustomerNumber" />
            		       	</summaryFields>   
@@ -307,6 +328,9 @@
            		        <maintainableField name="vendorContractGeneratedIdentifier"  readOnly="true" />
            		        <maintainableField name="vendorHeaderGeneratedIdentifier"  readOnly="true" />
            		        <maintainableField name="vendorDetailAssignedIdentifier"  readOnly="true" />
+	                    <maintainableField name="active">
+	                        <defaultValue>true</defaultValue>
+	                    </maintainableField>
 
                         <maintainableCollection name="vendorContractOrganizations" businessObjectClass="org.kuali.module.vendor.bo.VendorContractOrganization" summaryTitle="Contract Organization">
                            <maintainableField name="chartOfAccountsCode" required="true" />

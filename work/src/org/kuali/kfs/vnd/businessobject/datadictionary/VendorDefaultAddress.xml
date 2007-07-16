@@ -20,9 +20,7 @@
 <dictionaryEntry>
     <businessObject businessObjectClass="org.kuali.module.vendor.bo.VendorDefaultAddress">
 
-
         <attributes>
-
             <attributeReference name="vendorAddressGeneratedIdentifier" sourceClassName="org.kuali.module.vendor.bo.VendorAddress" sourceAttributeName="vendorAddressGeneratedIdentifier" >
             	<control>
                     <hidden/>
@@ -55,7 +53,7 @@
                                 sourceAttributeName="newCollectionRecord" />
 
             <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
-
+            <attributeReference name="active" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="activeIndicator"/>
         </attributes>
     </businessObject>
 </dictionaryEntry>

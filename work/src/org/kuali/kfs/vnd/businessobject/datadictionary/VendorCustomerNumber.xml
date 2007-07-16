@@ -20,9 +20,7 @@
 <dictionaryEntry>
     <businessObject businessObjectClass="org.kuali.module.vendor.bo.VendorCustomerNumber">
 
-
         <attributes>
-
             <attribute name="vendorCustomerNumber" forceUppercase="true">
                 <label>Customer Number</label>
                 <shortLabel>Customer #</shortLabel>
@@ -77,7 +75,7 @@
             <attributeReference name="vendorHeaderGeneratedIdentifier" sourceClassName="org.kuali.module.vendor.bo.VendorDetail" sourceAttributeName="vendorHeaderGeneratedIdentifier" />
             <attributeReference name="vendorDetailAssignedIdentifier" sourceClassName="org.kuali.module.vendor.bo.VendorDetail" sourceAttributeName="vendorDetailAssignedIdentifier" />
             <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
-
+            <attributeReference name="active" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="activeIndicator"/>
         </attributes>
     </businessObject>
 </dictionaryEntry>

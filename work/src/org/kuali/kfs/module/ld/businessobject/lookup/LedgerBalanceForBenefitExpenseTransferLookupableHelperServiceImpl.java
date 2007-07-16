@@ -15,7 +15,9 @@
  */
 package org.kuali.module.labor.web.lookupable;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -24,6 +26,7 @@ import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.bo.Options;
 import org.kuali.kfs.service.OptionsService;
+import org.kuali.module.gl.bo.TransientBalanceInquiryAttributes;
 import org.kuali.module.gl.util.OJBUtility;
 import org.kuali.module.gl.web.Constant;
 import org.kuali.module.labor.LaborConstants.BenefitExpenseTransfer;
@@ -63,21 +66,12 @@ public class LedgerBalanceForBenefitExpenseTransferLookupableHelperServiceImpl e
 
         // get the ledger balances with actual balance type code
         fieldValues.put(KFSPropertyConstants.FINANCIAL_BALANCE_TYPE_CODE, options.getActualFinancialBalanceTypeCd());
-        Collection cashBalances = buildDetailedBalanceCollection(getBalanceService().findBalance(fieldValues, true), Constant.NO_PENDING_ENTRY);
-
-        // get the ledger balances with effort balance type code
-        fieldValues.put(KFSPropertyConstants.FINANCIAL_BALANCE_TYPE_CODE, KFSConstants.BALANCE_TYPE_A21);
-        Collection effortBalances = buildDetailedBalanceCollection(getBalanceService().findBalance(fieldValues, true), Constant.NO_PENDING_ENTRY);
-
-        Collection searchResults = cashBalances;
-        LOG.debug("cashBalancesResults " + cashBalances.size());
-        searchResults.addAll(effortBalances);
-        LOG.debug("searchResults " + searchResults.size());
+        Collection cashBalances = buildDetailedBalanceCollection(getBalanceService().findBalance(fieldValues, false), Constant.NO_PENDING_ENTRY);
 
         Integer recordCount = getBalanceService().getBalanceRecordCount(fieldValues, true);
-        Long actualSize = OJBUtility.getResultActualSize(searchResults, recordCount, fieldValues, new LedgerBalance());
+        Long actualSize = OJBUtility.getResultActualSize(cashBalances, recordCount, fieldValues, new LedgerBalance());
 
-        return buildSearchResultList(searchResults, actualSize);
+        return buildSearchResultList(cashBalances, actualSize);
     }
 
     /**

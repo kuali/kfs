@@ -131,13 +131,16 @@ public class CreditMemoDocument extends AccountsPayableDocumentBase {
      * 
      * @see org.kuali.module.purap.document.AccountsPayableDocumentBase#refreshAllReferences()
      */
+
+    // TODO: Remove This function:
+    /*
     public void refreshAllReferences() {
         super.refreshAllReferences();
         for (Object item : getItems()) {
             ((PurchasingApItem) item).refreshNonUpdateableReferences();
         }
     }
-
+*/
     /**
      * Determines if the purchase order has notes.
      * 

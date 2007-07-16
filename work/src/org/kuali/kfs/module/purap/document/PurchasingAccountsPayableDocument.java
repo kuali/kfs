@@ -127,8 +127,8 @@ public interface PurchasingAccountsPayableDocument extends AccountingDocument {
      * Sets up the summaryAccounts attribute value.
      */
     public void refreshAccountSummary();
-    
-    public void refreshAllReferences();
+   // TODO: Remove this: 
+  //  public void refreshAllReferences();
     
     public PurchasingAccountsPayableDocument getPurApSourceDocumentIfPossible();
     

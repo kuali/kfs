@@ -137,7 +137,7 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
         /* refreshAllReferences needed below to update status reference object for 
          * document search results display of status description
          */
-        refreshAllReferences();
+        refreshNonUpdateableReferences();
         refreshAccountSummary();
         super.populateDocumentForRouting();
     }
@@ -199,12 +199,14 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
     /**
      * Retrieve all references common to purchasing and ap
      */
+    // TODO: Remove this function:
+    /*
     public void refreshAllReferences() {
         this.refreshReferenceObject("status");
         this.refreshReferenceObject("vendorDetail");
         this.refreshReferenceObject("vendorCountry");
     }
-
+*/
     /**
      * @see org.kuali.module.purap.document.PurchasingAccountsPayableDocumentBase#templateVendorAddress(org.kuali.module.vendor.bo.VendorAddress)
      */

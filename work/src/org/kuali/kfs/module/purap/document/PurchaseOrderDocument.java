@@ -276,11 +276,12 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase {
         this.setItems(items);
         
     }
-
+    // TODO: Remove this if every thing works fine
+    /*
     public void refreshAllReferences() {
         super.refreshAllReferences();
     }
-    
+  */  
     public PurchaseOrderVendorStipulation getPurchaseOrderVendorStipulation(int index) {
         while (getPurchaseOrderVendorStipulations().size() <= index) {
             getPurchaseOrderVendorStipulations().add(new PurchaseOrderVendorStipulation());

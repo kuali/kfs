@@ -260,7 +260,7 @@ public class PaymentRequestDaoOjb extends PlatformAwareDaoBaseOjb implements Pay
         PaymentRequestDocument pReq = (PaymentRequestDocument) getPersistenceBrokerTemplate().getObjectByQuery(
             new QueryByCriteria(PaymentRequestDocument.class, criteria));
         if (pReq != null) {
-            pReq.refreshAllReferences();
+            pReq.refreshNonUpdateableReferences();
         }
         return pReq;
       }

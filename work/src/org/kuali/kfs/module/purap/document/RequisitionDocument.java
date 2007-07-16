@@ -83,11 +83,13 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
     public boolean isBoNotesSupport() {
         return true;
     }
-
+    
+    // TODO: Remove this method:
+    /*
     public void refreshAllReferences() {
         super.refreshAllReferences();
     }
-    
+  */ 
     /**
      * Perform logic needed to initiate Requisition Document
      */
@@ -118,7 +120,7 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
         this.templateBillingAddress(billingAddress);
 
         SpringServiceLocator.getPurapService().addBelowLineItems(this);
-        this.refreshAllReferences();
+        this.refreshNonUpdateableReferences();
     }
 
     /**
@@ -242,7 +244,7 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
 
         this.setOrganizationAutomaticPurchaseOrderLimit(SpringServiceLocator.getPurapService().getApoLimit(this.getVendorContractGeneratedIdentifier(), this.getChartOfAccountsCode(), this.getOrganizationCode()));
       
-        this.refreshAllReferences();
+        this.refreshNonUpdateableReferences();
 	}
 
 	/**

@@ -108,7 +108,7 @@ public class PaymentRequestAction extends AccountsPayableActionBase {
             paymentRequestDocument.setStatusCode(PurapConstants.PaymentRequestStatuses.INITIATE);
         }
         
-        paymentRequestDocument.refreshAllReferences();
+        paymentRequestDocument.refreshNonUpdateableReferences();
         //force calculation
         preqForm.setCalculated(false);
         

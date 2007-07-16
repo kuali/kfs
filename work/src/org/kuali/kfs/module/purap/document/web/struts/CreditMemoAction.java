@@ -84,7 +84,7 @@ public class CreditMemoAction extends AccountsPayableActionBase {
             SpringServiceLocator.getCreditMemoService().save(creditMemoDocument);
         }
 
-        creditMemoDocument.refreshAllReferences();
+        creditMemoDocument.refreshNonUpdateableReferences();
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }

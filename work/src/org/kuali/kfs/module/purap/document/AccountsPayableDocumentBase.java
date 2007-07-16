@@ -65,10 +65,12 @@ public abstract class AccountsPayableDocumentBase extends PurchasingAccountsPaya
     public AccountsPayableDocumentBase() {
         super();
     }
-    
+
+    //  TODO: Remove this function:
     /**
      * Retrieve all references common to AccountsPayable
      */
+    /*
     @Override
     public void refreshAllReferences() {
         super.refreshAllReferences();
@@ -81,7 +83,8 @@ public abstract class AccountsPayableDocumentBase extends PurchasingAccountsPaya
             setOrganizationCode(null);
         }
     }
-
+*/
+  
     public boolean requiresAccountsPayableReviewRouting() {
         List boNotes = this.getDocumentHeader().getBoNotes();
         if (ObjectUtils.isNotNull(boNotes)) {

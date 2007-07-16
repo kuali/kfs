@@ -85,7 +85,7 @@ public class PurApSourceDocumentRouteUserRoleAttribute extends UnqualifiedRoleAt
             documentNumber = KualiWorkflowUtils.getDocumentHeaderDocumentNumber(routeContext);
             PurchasingAccountsPayableDocument document = (PurchasingAccountsPayableDocument)SpringServiceLocator.getDocumentService().getByDocumentHeaderId(documentNumber);
             assertDocumentNotNull(document);
-            document.refreshAllReferences();
+            document.refreshNonUpdateableReferences();
             PurchasingAccountsPayableDocument sourceDocument = document.getPurApSourceDocumentIfPossible();
             // method getSourceDocumentIfPossible() could return null but for using this instance we should get something back
             assertDocumentNotNull(sourceDocument);

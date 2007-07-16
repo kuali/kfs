@@ -103,7 +103,9 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
 	public PaymentRequestDocument() {
         super();
     }
-
+	
+    // TODO: remove this method:
+    /*
     @Override
     public void refreshAllReferences() {
         super.refreshAllReferences();
@@ -111,7 +113,7 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
         this.refreshReferenceObject("vendorShippingPaymentTerms");
         this.refreshReferenceObject("paymentRequestCostSource");
     }
-    
+  */  
     /**
      * @see org.kuali.core.bo.PersistableBusinessObjectBase#isBoNotesSupport()
      */
@@ -621,7 +623,7 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
         this.setStatusCode( PurapConstants.PaymentRequestStatuses.INITIATE );
         this.setAccountsPayableProcessorIdentifier(currentUser.getPersonUniversalIdentifier());
         this.setProcessingCampusCode(currentUser.getCampusCode());
-        this.refreshAllReferences();
+        this.refreshNonUpdateableReferences();
     }
     
     /**
@@ -696,7 +698,7 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
         //add missing below the line
         SpringServiceLocator.getPurapService().addBelowLineItems(this);
 
-        this.refreshAllReferences();
+        this.refreshNonUpdateableReferences();
     }
     
    

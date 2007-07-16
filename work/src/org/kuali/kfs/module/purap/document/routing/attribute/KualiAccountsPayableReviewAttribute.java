@@ -47,7 +47,7 @@ public class KualiAccountsPayableReviewAttribute extends AbstractWorkflowAttribu
                 LOG.error("getAccountsPayableDocument() " + errorMsg);
                 throw new RuntimeException(errorMsg);
             }
-            document.refreshAllReferences();
+            document.refreshNonUpdateableReferences();
             return document;
         }
         catch (WorkflowException e) {

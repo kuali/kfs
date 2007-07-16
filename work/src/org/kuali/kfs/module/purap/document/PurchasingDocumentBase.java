@@ -132,6 +132,8 @@ public abstract class PurchasingDocumentBase extends PurchasingAccountsPayableDo
     /**
      * Retrieve all references common to purchasing
      */
+    // TODO: Remove This Function:
+    /*
     public void refreshAllReferences() {
         super.refreshAllReferences();
         this.refreshReferenceObject("fundingSource");
@@ -144,7 +146,7 @@ public abstract class PurchasingDocumentBase extends PurchasingAccountsPayableDo
         this.refreshReferenceObject("vendorContract");
         this.refreshReferenceObject("contractManager");
     }
-
+*/
     /**
      * @see org.kuali.module.purap.document.PurchasingDocument#templateVendorDetail(org.kuali.module.vendor.bo.VendorDetail)
      */

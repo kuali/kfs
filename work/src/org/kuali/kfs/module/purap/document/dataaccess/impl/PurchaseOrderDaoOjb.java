@@ -68,7 +68,7 @@ public class PurchaseOrderDaoOjb extends PlatformAwareDaoBaseOjb implements Purc
         PurchaseOrderDocument po = (PurchaseOrderDocument) getPersistenceBrokerTemplate().getObjectByQuery(
             new QueryByCriteria(PurchaseOrderDocument.class, criteria));
         if (ObjectUtils.isNotNull(po)) {
-            po.refreshAllReferences();
+            po.refreshNonUpdateableReferences();
         }
         return po;        
     }
@@ -100,7 +100,7 @@ public class PurchaseOrderDaoOjb extends PlatformAwareDaoBaseOjb implements Purc
         
         PurchaseOrderDocument oldestPO = (PurchaseOrderDocument)getPersistenceBrokerTemplate().getObjectByQuery(qbc);
         if (ObjectUtils.isNotNull(oldestPO)) {
-            oldestPO.refreshAllReferences();
+            oldestPO.refreshNonUpdateableReferences();
         }
         return oldestPO;
     }

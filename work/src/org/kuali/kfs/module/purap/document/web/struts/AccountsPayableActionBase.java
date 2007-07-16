@@ -71,7 +71,7 @@ public class AccountsPayableActionBase extends PurchasingAccountsPayableActionBa
             }
         }
 
-        document.refreshAllReferences();
+        document.refreshNonUpdateableReferences();
 
         return super.refresh(mapping, form, request, response);
     }

@@ -54,6 +54,7 @@ import org.kuali.module.purap.bo.PaymentRequestItem;
 import org.kuali.module.purap.bo.PurApAccountingLine;
 import org.kuali.module.purap.bo.PurchaseOrderItem;
 import org.kuali.module.purap.dao.PaymentRequestDao;
+import org.kuali.module.purap.document.CreditMemoDocument;
 import org.kuali.module.purap.document.PaymentRequestDocument;
 import org.kuali.module.purap.document.PurchaseOrderDocument;
 import org.kuali.module.purap.exceptions.PurError;
@@ -228,6 +229,16 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
      */
 
     /* End Paste */
+
+
+    /**
+     * @see org.kuali.module.purap.server.PaymentRequestService.getPaymentRequestsToExtractByCM()
+     */
+    public Iterator<PaymentRequestDocument> getPaymentRequestsToExtractByCM(String campusCode,CreditMemoDocument cmd) {
+        LOG.debug("getPaymentRequestsByCM() started");
+
+        return paymentRequestDao.getPaymentRequestsToExtract(campusCode,cmd.getPaymentRequestIdentifier(),cmd.getPurchaseOrderIdentifier(),cmd.getVendorHeaderGeneratedIdentifier(),cmd.getVendorDetailAssignedIdentifier());
+    }
 
     /**
      * @see org.kuali.module.purap.server.PaymentRequestService.getPaymentRequestsToExtract()

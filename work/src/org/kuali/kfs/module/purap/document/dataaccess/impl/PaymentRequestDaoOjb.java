@@ -32,7 +32,6 @@ import org.kuali.core.dao.ojb.PlatformAwareDaoBaseOjb;
 import org.kuali.core.service.DateTimeService;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.bo.SourceAccountingLine;
 import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.PurapParameterConstants;
@@ -110,6 +109,36 @@ public class PaymentRequestDaoOjb extends PlatformAwareDaoBaseOjb implements Pay
         } else {
             criteria.addLessOrEqualThan("paymentRequestPayDate", dateTimeService.getCurrentSqlDateMidnight());
         }
+
+        return getPersistenceBrokerTemplate().getIteratorByQuery(new QueryByCriteria(PaymentRequestDocument.class,criteria));
+    }
+
+    /**
+     * @see org.kuali.module.purap.dao.PaymentRequestDao#getPaymentRequestsToExtract(java.lang.String, java.lang.Integer, java.lang.Integer, java.lang.Integer, java.lang.Integer)
+     */
+    public Iterator<PaymentRequestDocument> getPaymentRequestsToExtract(String campusCode,Integer paymentRequestIdentifier,Integer purchaseOrderIdentifier,Integer vendorHeaderGeneratedIdentifier,Integer vendorDetailAssignedIdentifier) {
+        LOG.debug("getPaymentRequestsToExtract() started");
+
+        List statuses = new ArrayList();
+        statuses.add(PurapConstants.PaymentRequestStatuses.AUTO_APPROVED);
+        statuses.add(PurapConstants.PaymentRequestStatuses.DEPARTMENT_APPROVED);
+
+        Criteria criteria = new Criteria();
+        criteria.addEqualTo("processingCampusCode", campusCode);
+        criteria.addIn("statusCode",statuses);
+        criteria.addIsNull("extractedDate");
+        criteria.addEqualTo("holdIndicator", Boolean.FALSE);
+
+        criteria.addLessOrEqualThan("paymentRequestPayDate", dateTimeService.getCurrentSqlDateMidnight());
+
+        if ( paymentRequestIdentifier != null ) {
+            criteria.addEqualTo("paymentRequestIdentifier",paymentRequestIdentifier);
+        }
+        if ( purchaseOrderIdentifier != null ) {
+            criteria.addEqualTo("purchaseOrderIdentifier",purchaseOrderIdentifier);
+        }
+        criteria.addEqualTo("vendorHeaderGeneratedIdentifier",vendorHeaderGeneratedIdentifier);
+        criteria.addEqualTo("vendorDetailAssignedIdentifier",vendorDetailAssignedIdentifier);
 
         return getPersistenceBrokerTemplate().getIteratorByQuery(new QueryByCriteria(PaymentRequestDocument.class,criteria));
     }

@@ -18,7 +18,6 @@ package org.kuali.module.purap.service.impl;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -32,6 +31,7 @@ import org.kuali.core.exceptions.UserNotFoundException;
 import org.kuali.core.service.DateTimeService;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.service.UniversalUserService;
+import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.module.pdp.PdpConstants;
 import org.kuali.module.pdp.bo.Batch;
@@ -94,24 +94,24 @@ public class PdpExtractServiceImpl implements PdpExtractService {
         for (Iterator iter = campusesToProcess.iterator(); iter.hasNext();) {
             String campus = (String)iter.next();
 
-            extractPaymentsForChart(campus,puser,processRunDate);
+            extractPaymentsForCampus(campus,puser,processRunDate);
         }
     }
 
-    private void extractPaymentsForChart(String chartCode,PdpUser puser,Date processRunDate) {
-        LOG.debug("extractPaymentsForChart() started for chart: " + chartCode);
+    private void extractPaymentsForCampus(String campusCode,PdpUser puser,Date processRunDate) {
+        LOG.debug("extractPaymentsForCampus() started for campus: " + campusCode);
 
-        Batch batch = createBatch(chartCode,puser,processRunDate);
+        Batch batch = createBatch(campusCode,puser,processRunDate);
         Integer count = 0;
         BigDecimal totalAmount = new BigDecimal("0");
 
         // Do all the special ones
-        Totals t = extractSpecialPaymentsForChart(chartCode, puser, processRunDate, batch);
+        Totals t = extractSpecialPaymentsForChart(campusCode, puser, processRunDate, batch);
         count = count + t.count;
         totalAmount = totalAmount.add(t.totalAmount);
 
         // Do all the regular ones (including credit memos)
-        t = extractRegularPaymentsForChart(chartCode, puser, processRunDate, batch);
+        t = extractRegularPaymentsForChart(campusCode, puser, processRunDate, batch);
         count = count + t.count;
         totalAmount = totalAmount.add(t.totalAmount);
         
@@ -120,88 +120,52 @@ public class PdpExtractServiceImpl implements PdpExtractService {
         paymentFileService.saveBatch(batch);
     }
 
-    private Totals extractRegularPaymentsForChart(String chartCode,PdpUser puser,Date processRunDate,Batch batch) {
+    private Totals extractRegularPaymentsForChart(String campusCode,PdpUser puser,Date processRunDate,Batch batch) {
         Totals t = new Totals();
 
-        List itemsToProcess = new ArrayList();
-        
-        // Get all the payment requests to process
-        Iterator<PaymentRequestDocument> prIter = paymentRequestService.getPaymentRequestToExtractByChart(chartCode);
-        while ( prIter.hasNext() ) {
-            PaymentRequestDocument prd = prIter.next();
-
-            Payment p = new Payment(prd.getPurapDocumentIdentifier(),Payment.PREQ,prd.getProcessingCampusCode(),prd.getVendorHeaderGeneratedIdentifier()+"-"+prd.getVendorDetailAssignedIdentifier(),prd.getVendorCountryCode(),prd.getVendorPostalCode(),prd.getVendorCustomerNumber(),prd);
-            itemsToProcess.add(p);
-        }
-
         // Get all the matching credit memos
-        Iterator<CreditMemoDocument> cmIter = creditMemoService.getCreditMemosToExtract(chartCode);
+        Iterator<CreditMemoDocument> cmIter = creditMemoService.getCreditMemosToExtract(campusCode);
         while ( cmIter.hasNext() ) {
             CreditMemoDocument cmd = cmIter.next();
 
-            Payment p = new Payment(cmd.getPurapDocumentIdentifier(),Payment.CM,cmd.getProcessingCampusCode(),cmd.getVendorHeaderGeneratedIdentifier()+"-"+cmd.getVendorDetailAssignedIdentifier(),cmd.getVendorCountryCode(),cmd.getVendorPostalCode(),cmd.getVendorCustomerNumber(),cmd);
-            itemsToProcess.add(p);
-        }
+            List<PaymentRequestDocument> prds = new ArrayList<PaymentRequestDocument>();
+            List<CreditMemoDocument> cmds = new ArrayList<CreditMemoDocument>();
+            cmds.add(cmd);
 
-        Collections.sort(itemsToProcess);
+            KualiDecimal creditMemoAmount = cmd.getCreditMemoAmount();
+            KualiDecimal paymentRequestAmount = KualiDecimal.ZERO;
 
-        // Decide which get processed and which don't
-        Map<String,Integer> groups = new HashMap<String,Integer>();
+            Iterator<PaymentRequestDocument> pri = paymentRequestService.getPaymentRequestsToExtractByCM(campusCode,cmd);
+            while ( pri.hasNext() ) {
+                PaymentRequestDocument prd = pri.next();
+                paymentRequestAmount = paymentRequestAmount.add(prd.getGrandTotal());
+                prds.add(prd);
+            }
 
-        Iterator i = itemsToProcess.iterator();
-        while ( i.hasNext() ) {
-            Payment p = (Payment)i.next();
-            if ( groups.containsKey(p.combineKey()) ) {
-                Integer count = groups.get(p.combineKey());
-                groups.put(p.combineKey(), count + 1);
-            } else {
-                groups.put(p.combineKey(), 1);
+            if ( paymentRequestAmount.compareTo(creditMemoAmount) > 0 ) {
+                PaymentGroup pg = buildPaymentGroup(prds,cmds,batch);
+                paymentGroupService.save(pg);
+
+                for (Iterator iter = cmds.iterator(); iter.hasNext();) {
+                    CreditMemoDocument element = (CreditMemoDocument)iter.next();
+                    updateCreditMemo(element,puser,processRunDate);                    
+                }
+                for (Iterator iter = prds.iterator(); iter.hasNext();) {
+                    PaymentRequestDocument element = (PaymentRequestDocument)iter.next();
+                    updatePaymentRequest(element,puser,processRunDate);                    
+                }
             }
         }
 
-        for (Iterator iter = groups.keySet().iterator(); iter.hasNext();) {
-            String key = (String)iter.next();
-            Integer count = (Integer)groups.get(key);
-            List<Payment> pmts = getByCombineKey(key,itemsToProcess);
+        // Get all the payment requests to process
+        Iterator<PaymentRequestDocument> prIter = paymentRequestService.getPaymentRequestToExtractByChart(campusCode);
+        while ( prIter.hasNext() ) {
+            PaymentRequestDocument prd = prIter.next();
 
-            // If there is one PREQ in the group, process it.  If it is a CM, ignore it.
-            // If there is a group that doesn't contain a CM, process each one individually.
-            // If there is a group that contains 1 or more CM's, decide how to process them
-            if ( count == 1 ) {
-                Payment pmt = pmts.get(0);
-                if ( Payment.PREQ.equals(pmt.typeCode) ) {
-                    PaymentRequestDocument prd = (PaymentRequestDocument)pmt.data;
+            PaymentGroup pg = processSinglePaymentRequestDocument(prd,batch,puser,processRunDate);
 
-                    PaymentGroup pg = processSinglePaymentRequestDocument(prd,batch,puser,processRunDate);
-
-                    t.count = t.count + pg.getPaymentDetails().size();
-                    t.totalAmount = t.totalAmount.add(pg.getNetPaymentAmount());
-                }
-            } else {
-                // If the list doesn't contain a CM, process each one individually
-                boolean containsCm = false;
-                for (Iterator iterator = pmts.iterator(); iterator.hasNext();) {
-                    Payment element = (Payment)iterator.next();
-                    if ( Payment.CM.equals(element.typeCode) ) {
-                        containsCm = true;
-                    }
-                }
-
-                if ( ! containsCm ) {
-                    for (Iterator iterator = pmts.iterator(); iterator.hasNext();) {
-                        Payment element = (Payment)iterator.next();
-
-                        PaymentRequestDocument prd = (PaymentRequestDocument)element.data;
-
-                        PaymentGroup pg = processSinglePaymentRequestDocument(prd,batch,puser,processRunDate);
-
-                        t.count = t.count + pg.getPaymentDetails().size();
-                        t.totalAmount = t.totalAmount.add(pg.getNetPaymentAmount());
-                    }
-                } else {
-                    // TODO Decide what to do with the CM(s)
-                }
-            }
+            t.count = t.count + pg.getPaymentDetails().size();
+            t.totalAmount = t.totalAmount.add(pg.getNetPaymentAmount());
         }
 
         return t;
@@ -236,10 +200,10 @@ public class PdpExtractServiceImpl implements PdpExtractService {
         return getByCombineKey(key, itemsToProcess, null);
     }
 
-    private Totals extractSpecialPaymentsForChart(String chartCode,PdpUser puser,Date processRunDate,Batch batch) {
+    private Totals extractSpecialPaymentsForChart(String campusCode,PdpUser puser,Date processRunDate,Batch batch) {
         Totals t = new Totals();
 
-        Iterator<PaymentRequestDocument> prIter = paymentRequestService.getPaymentRequestsToExtractSpecialPayments(chartCode);
+        Iterator<PaymentRequestDocument> prIter = paymentRequestService.getPaymentRequestsToExtractSpecialPayments(campusCode);
         while ( prIter.hasNext() ) {
             LOG.debug("extractPaymentsForChart() here we are");
             PaymentRequestDocument prd = prIter.next();
@@ -519,12 +483,12 @@ public class PdpExtractServiceImpl implements PdpExtractService {
         return pg;
     }
 
-    private Batch createBatch(String chartCode,PdpUser puser,Date processRunDate) {
+    private Batch createBatch(String campusCode,PdpUser puser,Date processRunDate) {
         String orgCode = kualiConfigurationService.getApplicationParameterValue(PurapParameterConstants.PURAP_ADMIN_GROUP, PurapParameterConstants.PURAP_PDP_EPIC_ORG_CODE);
         String subUnitCode = kualiConfigurationService.getApplicationParameterValue(PurapParameterConstants.PURAP_ADMIN_GROUP, PurapParameterConstants.PURAP_PDP_EPIC_SBUNT_CODE);
-        CustomerProfile customer = customerProfileService.get(chartCode, orgCode, subUnitCode);
+        CustomerProfile customer = customerProfileService.get(campusCode, orgCode, subUnitCode);
         if ( customer == null ) {
-            throw new IllegalArgumentException("Unable to find customer profile for " + chartCode + "/" + orgCode + "/" + subUnitCode);
+            throw new IllegalArgumentException("Unable to find customer profile for " + campusCode + "/" + orgCode + "/" + subUnitCode);
         }
 
         // Create the group for this campus

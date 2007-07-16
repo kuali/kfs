@@ -25,6 +25,19 @@ import org.kuali.module.purap.document.PaymentRequestDocument;
 
 
 public interface PaymentRequestDao {
+
+    /**
+     * Get all the payment requests that need to be extracted that match a credit memo
+     * 
+     * @param campusCode limit results to a single chart
+     * @param paymentRequestIdentifier Payment Request Identifier (can be null)
+     * @param purchaseOrderIdentifier PO Identifier (can be null)
+     * @param vendorHeaderGeneratedIdentifier Vendor Header ID
+     * @param vendorDetailAssignedIdentifier Vendor Detail ID
+     * @return
+     */
+    public Iterator<PaymentRequestDocument> getPaymentRequestsToExtract(String campusCode,Integer paymentRequestIdentifier,Integer purchaseOrderIdentifier,Integer vendorHeaderGeneratedIdentifier,Integer vendorDetailAssignedIdentifier);
+
     /**
      * Get all the payment requests that need to be extracted
      * 

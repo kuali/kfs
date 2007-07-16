@@ -22,6 +22,7 @@ import java.util.List;
 
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.module.purap.document.CreditMemoDocument;
 import org.kuali.module.purap.document.PaymentRequestDocument;
 import org.kuali.module.vendor.bo.PaymentTermType;
 
@@ -83,6 +84,14 @@ public interface PaymentRequestService {
     public void resetExtractedPaymentRequest(PaymentRequestDocument paymentRequest, String note);
     
     public void cancelExtractedPaymentRequest(PaymentRequestDocument paymentRequest, String note);
+
+    /**
+     * Get all the payment requests that match a credit memo
+     * 
+     * @param cmd
+     * @return Iterator of payment requests
+     */
+    public Iterator<PaymentRequestDocument> getPaymentRequestsToExtractByCM(String campusCode,CreditMemoDocument cmd);
 
     /**
      * Get all the payment requests that need to be extracted

@@ -17,16 +17,21 @@
 package org.kuali.module.labor.bo;
 
 import static org.kuali.kfs.KFSPropertyConstants.ACCOUNT_NUMBER;
+import static org.kuali.kfs.KFSPropertyConstants.AMOUNT;
 import static org.kuali.kfs.KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE;
-import static org.kuali.kfs.KFSPropertyConstants.CREDIT;
-import static org.kuali.kfs.KFSPropertyConstants.DEBIT;
+import static org.kuali.kfs.KFSPropertyConstants.DEBIT_CREDIT_CODE;
 import static org.kuali.kfs.KFSPropertyConstants.EARN_CODE;
 import static org.kuali.kfs.KFSPropertyConstants.EMPLID;
 import static org.kuali.kfs.KFSPropertyConstants.EMPLOYEE_RECORD;
 import static org.kuali.kfs.KFSPropertyConstants.FINANCIAL_OBJECT_CODE;
 import static org.kuali.kfs.KFSPropertyConstants.FINANCIAL_SUB_OBJECT_CODE;
 import static org.kuali.kfs.KFSPropertyConstants.GRADE;
+import static org.kuali.kfs.KFSPropertyConstants.HRMS_COMPANY;
 import static org.kuali.kfs.KFSPropertyConstants.LABORLEDGER_ORIGINAL_ACCOUNT_NUMBER;
+import static org.kuali.kfs.KFSPropertyConstants.LABORLEDGER_ORIGINAL_CHART_OF_ACCOUNTS_CODE;
+import static org.kuali.kfs.KFSPropertyConstants.LABORLEDGER_ORIGINAL_FINANCIAL_OBJECT_CODE;
+import static org.kuali.kfs.KFSPropertyConstants.LABORLEDGER_ORIGINAL_FINANCIAL_SUB_OBJECT_CODE;
+import static org.kuali.kfs.KFSPropertyConstants.LABORLEDGER_ORIGINAL_SUB_ACCOUNT_NUMBER;
 import static org.kuali.kfs.KFSPropertyConstants.OBJECT_TYPE_CODE;
 import static org.kuali.kfs.KFSPropertyConstants.ORGANIZATION_REFERENCE_ID;
 import static org.kuali.kfs.KFSPropertyConstants.PAYROLL_END_DATE_FISCAL_PERIOD_CODE;
@@ -37,14 +42,9 @@ import static org.kuali.kfs.KFSPropertyConstants.POSITION_NUMBER;
 import static org.kuali.kfs.KFSPropertyConstants.PROJECT_CODE;
 import static org.kuali.kfs.KFSPropertyConstants.RUN_IDENTIFIER;
 import static org.kuali.kfs.KFSPropertyConstants.SALARY_ADMINISTRATION_PLAN;
+import static org.kuali.kfs.KFSPropertyConstants.SET_ID;
 import static org.kuali.kfs.KFSPropertyConstants.SUB_ACCOUNT_NUMBER;
 import static org.kuali.kfs.KFSPropertyConstants.TRANSACTION_TOTAL_HOURS;
-import static org.kuali.kfs.KFSPropertyConstants.LABORLEDGER_ORIGINAL_CHART_OF_ACCOUNTS_CODE;
-import static org.kuali.kfs.KFSPropertyConstants.LABORLEDGER_ORIGINAL_SUB_ACCOUNT_NUMBER;
-import static org.kuali.kfs.KFSPropertyConstants.LABORLEDGER_ORIGINAL_FINANCIAL_OBJECT_CODE;
-import static org.kuali.kfs.KFSPropertyConstants.LABORLEDGER_ORIGINAL_FINANCIAL_SUB_OBJECT_CODE;
-import static org.kuali.kfs.KFSPropertyConstants.HRMS_COMPANY;
-import static org.kuali.kfs.KFSPropertyConstants.SET_ID;
 
 import java.util.Map;
 
@@ -56,7 +56,7 @@ import org.kuali.kfs.util.SpringServiceLocator;
 
 public class LaborJournalVoucherAccountingLineParser extends AccountingLineParserBase {
     private String balanceTypeCode;
-    protected static final String[] LABOR_LINE_FORMAT = { CHART_OF_ACCOUNTS_CODE, ACCOUNT_NUMBER, SUB_ACCOUNT_NUMBER, FINANCIAL_OBJECT_CODE, FINANCIAL_SUB_OBJECT_CODE, PROJECT_CODE, ORGANIZATION_REFERENCE_ID, POSITION_NUMBER, EMPLID, EMPLOYEE_RECORD, EARN_CODE, PAY_GROUP, SALARY_ADMINISTRATION_PLAN, GRADE, RUN_IDENTIFIER, PAY_PERIOD_END_DATE, PAYROLL_END_DATE_FISCAL_YEAR, PAYROLL_END_DATE_FISCAL_PERIOD_CODE, TRANSACTION_TOTAL_HOURS, LABORLEDGER_ORIGINAL_CHART_OF_ACCOUNTS_CODE, LABORLEDGER_ORIGINAL_ACCOUNT_NUMBER, LABORLEDGER_ORIGINAL_SUB_ACCOUNT_NUMBER, LABORLEDGER_ORIGINAL_FINANCIAL_OBJECT_CODE, LABORLEDGER_ORIGINAL_FINANCIAL_SUB_OBJECT_CODE, HRMS_COMPANY, SET_ID, DEBIT, CREDIT};
+    protected static final String[] LABOR_LINE_FORMAT = { CHART_OF_ACCOUNTS_CODE, ACCOUNT_NUMBER, SUB_ACCOUNT_NUMBER, FINANCIAL_OBJECT_CODE, OBJECT_TYPE_CODE, FINANCIAL_SUB_OBJECT_CODE, PROJECT_CODE, ORGANIZATION_REFERENCE_ID, POSITION_NUMBER, EMPLID, EMPLOYEE_RECORD, EARN_CODE, PAY_GROUP, SALARY_ADMINISTRATION_PLAN, GRADE, RUN_IDENTIFIER, PAY_PERIOD_END_DATE, PAYROLL_END_DATE_FISCAL_YEAR, PAYROLL_END_DATE_FISCAL_PERIOD_CODE, TRANSACTION_TOTAL_HOURS, LABORLEDGER_ORIGINAL_CHART_OF_ACCOUNTS_CODE, LABORLEDGER_ORIGINAL_ACCOUNT_NUMBER, LABORLEDGER_ORIGINAL_SUB_ACCOUNT_NUMBER, LABORLEDGER_ORIGINAL_FINANCIAL_OBJECT_CODE, LABORLEDGER_ORIGINAL_FINANCIAL_SUB_OBJECT_CODE, HRMS_COMPANY, SET_ID, DEBIT_CREDIT_CODE, AMOUNT};    
     /**
      * Constructs a JournalVoucherAccountingLineParser.java.
      * 

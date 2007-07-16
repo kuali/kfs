@@ -19,7 +19,9 @@ import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.core.document.authorization.MaintenanceDocumentAuthorizations;
 import org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase;
+import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.util.ObjectUtils;
+import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.kra.KraPropertyConstants;
 import org.kuali.module.kra.routingform.bo.ResearchRiskType;
 
@@ -35,9 +37,11 @@ public class ResearchRiskTypeMaintenanceDocumentAuthorizer extends MaintenanceDo
         
         MaintenanceDocumentAuthorizations auths = new MaintenanceDocumentAuthorizations();
         ResearchRiskType researchRisk = (ResearchRiskType) document.getNewMaintainableObject().getBusinessObject();
+        BusinessObjectService service = SpringServiceLocator.getBusinessObjectService();
+        ResearchRiskType persistedResearchRisk = (ResearchRiskType) service.retrieve(researchRisk);
         
         //If the research risk exists in db, set read-only fields
-        if (ObjectUtils.isNotNull(researchRisk) && researchRisk.getResearchRiskTypeCode() != null) {
+        if (ObjectUtils.isNotNull(persistedResearchRisk) && persistedResearchRisk.getResearchRiskTypeCode() != null) {
             auths.addReadonlyAuthField(KraPropertyConstants.RESEARCH_RISK_TYPE_DESCRIPTION);
             auths.addReadonlyAuthField(KraPropertyConstants.CONTROL_ATTRIBUTE_TYPE_CODE);
         }

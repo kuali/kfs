@@ -22,6 +22,7 @@ import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.bo.SourceAccountingLine;
 import org.kuali.module.purap.bo.PurApAccountingLine;
 import org.kuali.module.purap.bo.PurchasingApItem;
+import org.kuali.module.purap.document.PurchasingAccountsPayableDocument;
 
 /**
  * This class is used to generate Account Summaries for PURAP Module account lists as well as
@@ -41,4 +42,6 @@ public interface PurapAccountingService {
     public List<SourceAccountingLine> generateSummaryExcludeItemTypesAndNoZeroTotals(List<PurchasingApItem> items, Set excludedItemTypeCodes);
     public List<SourceAccountingLine> generateSummaryIncludeItemTypes(List<PurchasingApItem> items, Set includedItemTypeCodes);
     public List<SourceAccountingLine> generateSummaryIncludeItemTypesAndNoZeroTotals(List<PurchasingApItem> items, Set includedItemTypeCodes);
+    
+    public void updateAccountAmounts(PurchasingAccountsPayableDocument document);
 }

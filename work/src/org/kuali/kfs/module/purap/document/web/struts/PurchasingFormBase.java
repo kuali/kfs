@@ -147,5 +147,13 @@ public class PurchasingFormBase extends PurchasingAccountsPayableFormBase {
         this.accountDistributionnextSourceLineNumber = new Integer(this.getAccountDistributionnextSourceLineNumber().intValue() + 1);
         this.setAccountDistributionnewSourceLine(setupNewPurchasingAccountingLine());
     }
+//    /**
+//     * @see org.kuali.kfs.web.struts.form.KualiAccountingDocumentFormBase#getBaselineSourceAccountingLines()
+//     */
+//    @Override
+//    public List getBaselineSourceAccountingLines() {
+//        // TODO Auto-generated method stub
+//        return getSou;
+//    }
 
 }

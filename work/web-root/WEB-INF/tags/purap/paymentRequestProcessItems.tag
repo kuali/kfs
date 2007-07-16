@@ -26,12 +26,15 @@
 	<table cellpadding="0" cellspacing="0" class="datatable" summary="Items Section">
 	
 	    <c:set var="editingMode" value="${KualiForm.editingMode}" scope="request"/>
+	    <c:set var="showAmount" value="${(!empty KualiForm.editingMode['allowAccountAmountEntry'])}" />
+	    
 	    <c:if test="${empty isCreditMemo or !isCreditMemo}" >
     		<purap:purPOLineItemTotals documentAttributes="${documentAttributes}" />
 
 	    	<purap:paymentRequestItems 
 		    	itemAttributes="${itemAttributes}"
-	    		accountingLineAttributes="${accountingLineAttributes}" />
+	    		accountingLineAttributes="${accountingLineAttributes}" 
+	    		showAmount="${showAmount}" />
 		</c:if>
 
         <!--  replace literal with PurapConstants once exported -->
@@ -58,7 +61,8 @@
 		<purap:miscitems 
 			itemAttributes="${itemAttributes}" 
 			accountingLineAttributes="${accountingLineAttributes}" 
-			overrideTitle="Additional Charges" />
+			overrideTitle="Additional Charges" 
+			showAmount="${showAmount}" />
 
 		<!-- BEGIN TOTAL SECTION -->
 		<tr>

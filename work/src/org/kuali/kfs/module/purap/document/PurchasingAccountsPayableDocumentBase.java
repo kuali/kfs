@@ -108,6 +108,7 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
     @Override
     public void prepareForSave(KualiDocumentEvent event) {
         refreshNonUpdateableReferences();
+        SpringServiceLocator.getPurapAccountingService().updateAccountAmounts(this);
         customPrepareForSave(event);
         super.prepareForSave(event);
     }

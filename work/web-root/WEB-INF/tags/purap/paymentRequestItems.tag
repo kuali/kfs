@@ -17,13 +17,17 @@
 
 <%@ attribute name="itemAttributes" required="true" type="java.util.Map" description="The DataDictionary entry containing attributes for this row's fields."%>
 <%@ attribute name="accountingLineAttributes" required="true" type="java.util.Map" description="The DataDictionary entry containing attributes for this row's fields."%>
-		
-<!-- what is the purpose of this c:if? would it be better to still dipslay the section header with message that there are not items -->
+<%@ attribute name="showAmount" required="false"
+    type="java.lang.Boolean"
+    description="show the amount if true else percent" %>
+
+
 <tr>
 	<td colspan="10" class="subhead">
 		<span class="subhead-left">Edit Items</span>
 	</td>
 </tr>
+
 <%-- temporary workaround due to removing discount item --%>
 <c:if test="${fn:length(KualiForm.document.items) >= fn:length(KualiForm.document.belowTheLineTypes)}">
 	<tr>
@@ -119,7 +123,8 @@
 			    <div align="right">
 			        <kul:htmlControlAttribute
 				        attributeEntry="${itemAttributes.extendedPrice}"
-				        property="document.item[${ctr}].extendedPrice" />
+				        property="document.item[${ctr}].extendedPrice" 
+				        readOnly="${not (fullEntryMode)}" />
 			    </div>
 			</td>
 			<td class="infoline">
@@ -141,15 +146,23 @@
 				</td>
 			</c:if>
 		</tr>
-
+		<c:set var="optionalFields" value="accountLinePercent" />
+		<c:set var="extraHiddenFields" value=",accountIdentifier,itemIdentifier" />
+		<c:set var="hideFields" value="amount" />
+		<c:if test="${showAmount}">
+			<c:set var="optionalFields" value="" />
+			<c:set var="extraHiddenFields" value=",accountIdentifier,itemIdentifier,accountLinePercent" />
+			<c:set var="hideFields" value="" />
+		</c:if>
 		<purap:puraccountingLineCams
+			editingMode="${KualiForm.editingMode}"
 			editableAccounts="${KualiForm.editableAccounts}"
 			sourceAccountingLinesOnly="true"
-			optionalFields="accountLinePercent"
-			extraHiddenFields=",accountIdentifier,itemIdentifier"
-			accountPrefix="document.item[${ctr}]."
+			optionalFields="${optionalFields}"
+			extraHiddenFields="${extraHiddenFields}"
+			accountPrefix="document.item[${ctr}]." hideTotalLine="true"
 			accountingLineAttributes="${accountingLineAttributes}" 
-			hideFields="amount" 
+			hideFields="${hideFields}" 
 			accountingAddLineIndex="${ctr}" 
 			suppressCams="${true}" 
 			overrideTitle="Item Accounting Lines"/>

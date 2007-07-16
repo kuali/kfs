@@ -19,6 +19,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.authorization.AuthorizationConstants;
 import org.kuali.core.bo.user.UniversalUser;
@@ -33,6 +34,7 @@ import org.kuali.module.purap.PurapAuthorizationConstants;
 import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.PurapRuleConstants;
 import org.kuali.module.purap.document.PaymentRequestDocument;
+import org.kuali.workflow.KualiWorkflowUtils.RouteLevelNames;
 
 /**
  * Document Authorizer for the PREQ document.
@@ -57,9 +59,11 @@ public class PaymentRequestDocumentAuthorizer extends AccountingDocumentAuthoriz
      */
     @Override
     public Map getEditMode(Document document, UniversalUser user, List sourceAccountingLines, List targetAccountingLines) {
+        PaymentRequestDocument preq = (PaymentRequestDocument)document;
+        //use a generated source list since the main doc one isn't necessarily correct
+        List localSourceAccountingLines = SpringServiceLocator.getPurapAccountingService().generateSummary(preq.getItems());
+        Map editModeMap = super.getEditMode(document, user, localSourceAccountingLines, targetAccountingLines);
         
-        //Map editModeMap = new HashMap();
-        Map editModeMap = super.getEditMode(document, user, sourceAccountingLines, targetAccountingLines);
         String editMode = AuthorizationConstants.EditMode.VIEW_ONLY;
 
         KualiWorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
@@ -69,7 +73,16 @@ public class PaymentRequestDocumentAuthorizer extends AccountingDocumentAuthoriz
             }
         }
         else if (workflowDocument.stateIsEnroute() && workflowDocument.isApprovalRequested()) {
+            List currentRouteLevels = getCurrentRouteLevels(workflowDocument);
             editMode = AuthorizationConstants.EditMode.FULL_ENTRY;
+
+            if (currentRouteLevels.contains(RouteLevelNames.ACCOUNT_REVIEW)) {
+                editModeMap.remove(AuthorizationConstants.EditMode.FULL_ENTRY);
+                //expense_entry was already added above
+//                editMode = AuthorizationConstants.TransactionalEditMode.EXPENSE_ENTRY;
+                //TODO: add another edit mode here to show amount instead of percent
+                editMode=PurapAuthorizationConstants.PaymentRequestEditMode.ALLOW_ACCOUNT_AMOUNT_ENTRY;
+            }
         }
 
         editModeMap.put(editMode, "TRUE"); 

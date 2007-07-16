@@ -17,16 +17,19 @@ package org.kuali.module.purap.service.impl;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.bo.SourceAccountingLine;
 import org.kuali.module.purap.bo.PurApAccountingLine;
 import org.kuali.module.purap.bo.PurchasingApItem;
+import org.kuali.module.purap.document.PurchasingAccountsPayableDocument;
 import org.kuali.module.purap.service.PurapAccountingService;
 import org.kuali.module.purap.util.PurApItemUtils;
 
@@ -409,4 +412,44 @@ public class PurapAccountingServiceImpl implements PurapAccountingService {
         }
         return newItemList;
     }
+    
+    /**
+     * 
+     * This method updates account amounts based on the percents.
+     * @param document the document
+     */
+    public void updateAccountAmounts(PurchasingAccountsPayableDocument document) {
+
+        for (PurchasingApItem item : document.getItems()) {
+            if ( (item.getExtendedPrice()!=null) && 
+                 KualiDecimal.ZERO.compareTo(item.getExtendedPrice()) != 0 ) {
+                //TODO: is this the best sort to use?
+                //                Collections.sort( (List)item.getSourceAccountingLines() );
+
+                KualiDecimal accountTotal = KualiDecimal.ZERO;
+                PurApAccountingLine lastAccount = null;
+
+                for (PurApAccountingLine account : item.getSourceAccountingLines()) {
+                    BigDecimal pct = new BigDecimal(account.getAccountLinePercent().toString()).divide(new BigDecimal(100));
+                    account.setAmount(new KualiDecimal(pct.multiply(new BigDecimal(item.getExtendedPrice().toString()))));
+                    accountTotal = accountTotal.add(account.getAmount());
+                    lastAccount = account;
+                }
+
+                // put excess on last account
+                if ( lastAccount != null ) {
+                  KualiDecimal difference = item.getExtendedPrice().subtract(accountTotal);
+                  lastAccount.setAmount(lastAccount.getAmount().add(difference));
+                }
+              } else {
+                //zero out if extended price is zero
+                  for (PurApAccountingLine account : item.getSourceAccountingLines()) {
+                      account.setAmount(KualiDecimal.ZERO);
+                }
+              }
+            }
+  
+        }
+
+    
 }

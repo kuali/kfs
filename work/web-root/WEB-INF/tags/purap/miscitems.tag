@@ -22,6 +22,9 @@
 <%@ attribute name="accountingLineAttributes" required="true"
 	type="java.util.Map"
 	description="The DataDictionary entry containing attributes for this row's fields."%>
+<%@ attribute name="showAmount" required="false"
+    type="java.lang.Boolean"
+    description="show the amount if true else percent" %>
 
 <c:if test="${empty overrideTitle}">
 	<c:set var="overrideTitle" value="Misc Items"/>
@@ -92,13 +95,21 @@
 				suppressCams="${true}" overrideTitle="Item Accounting Lines" />
 		</c:if>
 		<c:if test="${!amendmentEntry}">
+			<c:set var="optionalFields" value="accountLinePercent" />
+			<c:set var="extraHiddenFields" value=",accountIdentifier,itemIdentifier" />
+			<c:set var="hideFields" value="amount" />
+			<c:if test="${showAmount}">
+				<c:set var="optionalFields" value="" />
+				<c:set var="extraHiddenFields" value=",accountIdentifier,itemIdentifier,accountLinePercent" />
+				<c:set var="hideFields" value="" />
+			</c:if>
 			<purap:puraccountingLineCams editingMode="${KualiForm.editingMode}"
 				editableAccounts="${KualiForm.editableAccounts}"
-				sourceAccountingLinesOnly="true" optionalFields="accountLinePercent"
-				extraHiddenFields=",accountIdentifier,itemIdentifier"
+				sourceAccountingLinesOnly="true" optionalFields="${optionalFields}"
+				extraHiddenFields="${extraHiddenFields}"
 				accountingLineAttributes="${accountingLineAttributes}"
 				accountPrefix="document.item[${ctr}]." hideTotalLine="true"
-				hideFields="amount" accountingAddLineIndex="${ctr}"
+				hideFields="${hideFields}" accountingAddLineIndex="${ctr}"
 				suppressCams="${true}" overrideTitle="Item Accounting Lines" />
 		</c:if>
 	</c:if>

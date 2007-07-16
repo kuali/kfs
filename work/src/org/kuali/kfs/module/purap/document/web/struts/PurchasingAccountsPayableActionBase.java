@@ -57,6 +57,7 @@ public class PurchasingAccountsPayableActionBase extends KualiAccountingDocument
     public ActionForward refreshAccountSummary(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         KualiAccountingDocumentFormBase baseForm = (KualiAccountingDocumentFormBase) form;
         PurchasingAccountsPayableDocument document = (PurchasingAccountsPayableDocument) baseForm.getDocument();
+        SpringServiceLocator.getPurapAccountingService().updateAccountAmounts(document);
         document.refreshAccountSummary();
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }

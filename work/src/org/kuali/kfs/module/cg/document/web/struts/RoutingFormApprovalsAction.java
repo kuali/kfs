@@ -103,6 +103,12 @@ public class RoutingFormApprovalsAction extends RoutingFormAction {
     }
     
     @Override
+    public ActionForward disapprove(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        cacheAndLoad(mapping, form, request, response);
+        return super.disapprove(mapping, form, request, response);
+    }
+    
+    @Override
     public ActionForward insertAdHocRoutePerson(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         cacheAndLoad(mapping, form, request, response);
         return super.insertAdHocRoutePerson(mapping, form, request, response);

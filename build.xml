@@ -269,7 +269,7 @@
 			- ${user.home}\${ant.project.name}-build.properties
 			
 	you should start using this build script as follows
-			- copy build/configurationFiles/userHomeDirectory/${ant.project.name}-build.properties to ${user.home}
+			- copy build/userHome/${ant.project.name}-build.properties to ${user.home}
 			- obtain the values for ${datasource.username}, ${datasource.password} and ${encryption.key} for the
 			  dev environment from someone on the project, and put them in ${user.home}\${ant.project.name}-build.properties
 			- override other property values in ${user.home}\${ant.project.name}-build.properties to permanently

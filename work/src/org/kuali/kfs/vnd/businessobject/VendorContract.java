@@ -23,6 +23,7 @@ import java.util.List;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.log4j.Logger;
 import org.kuali.core.bo.Campus;
+import org.kuali.core.bo.Inactivateable;
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
@@ -34,7 +35,7 @@ import org.kuali.module.vendor.util.VendorRoutingComparable;
 /**
  * 
  */
-public class VendorContract extends PersistableBusinessObjectBase implements VendorRoutingComparable {
+public class VendorContract extends PersistableBusinessObjectBase implements VendorRoutingComparable, Inactivateable {
     private static Logger LOG = Logger.getLogger(VendorContract.class);
 
 	private Integer vendorContractGeneratedIdentifier;

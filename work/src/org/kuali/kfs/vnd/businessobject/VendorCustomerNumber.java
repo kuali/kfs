@@ -18,6 +18,7 @@ package org.kuali.module.vendor.bo;
 
 import java.util.LinkedHashMap;
 
+import org.kuali.core.bo.Inactivateable;
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.module.chart.bo.Chart;
 import org.kuali.module.chart.bo.Org;
@@ -25,7 +26,7 @@ import org.kuali.module.chart.bo.Org;
 /**
  * 
  */
-public class VendorCustomerNumber extends PersistableBusinessObjectBase {
+public class VendorCustomerNumber extends PersistableBusinessObjectBase implements Inactivateable {
 
 	private Integer vendorCustomerNumberGeneratedIdentifier;
 	private Integer vendorHeaderGeneratedIdentifier;

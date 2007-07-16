@@ -19,6 +19,7 @@ package org.kuali.module.vendor.bo;
 import java.util.LinkedHashMap;
 import java.util.List;
 
+import org.kuali.core.bo.Inactivateable;
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.util.TypedArrayList;
 import org.kuali.kfs.bo.Country;
@@ -27,7 +28,7 @@ import org.kuali.kfs.bo.State;
 /**
  * 
  */
-public class VendorContact extends PersistableBusinessObjectBase {
+public class VendorContact extends PersistableBusinessObjectBase implements Inactivateable {
 
 	private Integer vendorContactGeneratedIdentifier;
 	private Integer vendorHeaderGeneratedIdentifier;

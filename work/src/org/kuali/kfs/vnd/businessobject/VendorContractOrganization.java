@@ -19,6 +19,7 @@ package org.kuali.module.vendor.bo;
 import java.util.LinkedHashMap;
 
 import org.apache.commons.lang.builder.EqualsBuilder;
+import org.kuali.core.bo.Inactivateable;
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
@@ -29,7 +30,7 @@ import org.kuali.module.vendor.util.VendorRoutingComparable;
 /**
  * 
  */
-public class VendorContractOrganization extends PersistableBusinessObjectBase implements VendorRoutingComparable {
+public class VendorContractOrganization extends PersistableBusinessObjectBase implements VendorRoutingComparable, Inactivateable {
 
 	private Integer vendorContractGeneratedIdentifier;
 	private String chartOfAccountsCode;

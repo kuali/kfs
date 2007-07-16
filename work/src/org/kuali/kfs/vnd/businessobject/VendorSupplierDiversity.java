@@ -20,6 +20,7 @@ import java.util.LinkedHashMap;
 
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.log4j.Logger;
+import org.kuali.core.bo.Inactivateable;
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.module.vendor.util.VendorRoutingComparable;
@@ -27,7 +28,7 @@ import org.kuali.module.vendor.util.VendorRoutingComparable;
 /**
  * 
  */
-public class VendorSupplierDiversity extends PersistableBusinessObjectBase implements VendorRoutingComparable {
+public class VendorSupplierDiversity extends PersistableBusinessObjectBase implements VendorRoutingComparable, Inactivateable {
     private static Logger LOG = Logger.getLogger(VendorSupplierDiversity.class);
     
 	private Integer vendorHeaderGeneratedIdentifier;

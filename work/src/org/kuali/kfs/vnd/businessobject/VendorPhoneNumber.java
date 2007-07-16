@@ -18,12 +18,13 @@ package org.kuali.module.vendor.bo;
 
 import java.util.LinkedHashMap;
 
+import org.kuali.core.bo.Inactivateable;
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 
 /**
  * 
  */
-public class VendorPhoneNumber extends PersistableBusinessObjectBase {
+public class VendorPhoneNumber extends PersistableBusinessObjectBase implements Inactivateable {
 
 	private Integer vendorPhoneGeneratedIdentifier;
 	private Integer vendorHeaderGeneratedIdentifier;

@@ -260,14 +260,13 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
         }
     }
     
-    public boolean firstPurchaseOrderTransmitViaPrint (KualiDocumentFormBase kualiDocumentFormBase, String docType, String annotation, List adhocRoutingRecipients,
+    public boolean firstPurchaseOrderTransmitViaPrint (PurchaseOrderDocument po, String docType, String annotation, List adhocRoutingRecipients,
         ByteArrayOutputStream baosPDF,  String environment) {
 
         boolean isRetransmit = false;
         boolean result = true;
-        PurchaseOrderDocument po = (PurchaseOrderDocument) kualiDocumentFormBase.getDocument();
         po.setPurchaseOrderFirstTransmissionDate(dateTimeService.getCurrentSqlDate());
-        result = updateFlagsAndRoute(kualiDocumentFormBase, docType, annotation, adhocRoutingRecipients);
+        result = updateFlagsAndRoute(po.getDocumentNumber(), docType, annotation, adhocRoutingRecipients);
         Collection<String> generatePDFErrors = printService.generatePurchaseOrderPdf(po, baosPDF, isRetransmit, environment);
 
         if (generatePDFErrors.size() > 0) {
@@ -350,9 +349,9 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
      * @see org.kuali.module.purap.service.PurchaseOrderService#updateFlagsAndRoute(org.kuali.module.purap.document.PurchaseOrderDocument,
      *      java.lang.String, java.lang.String, java.util.List)
      */
-    public boolean updateFlagsAndRoute(KualiDocumentFormBase kualiDocumentFormBase, String docType, String annotation, List adhocRoutingRecipients) {
+    public boolean updateFlagsAndRoute(String documentNumber, String docType, String annotation, List adhocRoutingRecipients) {
         try {
-            PurchaseOrderDocument po = SpringServiceLocator.getPurchaseOrderService().getPurchaseOrderByDocumentNumber(kualiDocumentFormBase.getDocument().getDocumentNumber());
+            PurchaseOrderDocument po = SpringServiceLocator.getPurchaseOrderService().getPurchaseOrderByDocumentNumber(documentNumber);
 
             po.setPendingActionIndicator(true);
 
@@ -375,7 +374,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
                     newPO.setStatusCode(PurapConstants.PurchaseOrderStatuses.AMENDMENT);
                 }
                 save(newPO);
-                kualiDocumentFormBase.setDocument(newPO);
+                //kualiDocumentFormBase.setDocument(newPO);
                 
                 if (docType.equals(PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_AMENDMENT_DOCUMENT)) {
                     documentService.saveDocument(newPO);

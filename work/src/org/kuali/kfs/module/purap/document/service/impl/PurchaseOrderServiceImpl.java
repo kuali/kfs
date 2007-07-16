@@ -367,6 +367,8 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
             // Before Routing, I think we ought to check the rules first
             boolean rulePassed = kualiRuleService.applyRules(new RouteDocumentEvent(newPO));
             if (!rulePassed) {
+                po.setPendingActionIndicator(false);
+                save(po);
                 return false;
             }
             else {

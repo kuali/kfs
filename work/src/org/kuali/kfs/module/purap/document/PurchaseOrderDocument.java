@@ -27,14 +27,10 @@ import java.util.List;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.bo.Note;
 import org.kuali.core.bo.PersistableBusinessObject;
-import org.kuali.core.document.Copyable;
-import org.kuali.core.document.TransactionalDocument;
 import org.kuali.core.rule.event.KualiDocumentEvent;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.util.TypedArrayList;
-import org.kuali.kfs.KFSPropertyConstants;
-import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.PurapConstants.RequisitionSources;
@@ -60,12 +56,11 @@ import org.kuali.module.vendor.bo.ShippingTitle;
 import org.kuali.module.vendor.bo.VendorDetail;
 
 import edu.iu.uis.eden.clientapp.vo.DocumentRouteLevelChangeVO;
-import edu.iu.uis.eden.exception.WorkflowException;
 
 /**
  * Purchase Order Document
  */
-public class PurchaseOrderDocument extends PurchasingDocumentBase implements Copyable {
+public class PurchaseOrderDocument extends PurchasingDocumentBase {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PurchaseOrderDocument.class);
 
     private Date purchaseOrderCreateDate;
@@ -712,37 +707,7 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase implements Cop
     
         this.setAlternateVendorNumber(vendorDetail.getVendorHeaderGeneratedIdentifier() + VendorConstants.DASH + vendorDetail.getVendorDetailAssignedIdentifier());
         this.setAlternateVendorName(vendorDetail.getVendorName());
-    }
-    
-    public void toCopy(String docType) throws WorkflowException {
-        TransactionalDocument newDoc = (TransactionalDocument) SpringServiceLocator.getDocumentService().getNewDocument(docType);
-        newDoc.getDocumentHeader().setFinancialDocumentDescription(getDocumentHeader().getFinancialDocumentDescription());
-        newDoc.getDocumentHeader().setOrganizationDocumentNumber(getDocumentHeader().getOrganizationDocumentNumber());
-        //setting it to new to avoid recursion problem (if deep copy checked for recursive objects or ignored transient we wouldn't need this)
-        documentBusinessObject = new PurchaseOrderDocument();
-        try {
-            // Need to copy and clear this identifier before copy so that related documents appear to be none
-            Integer tmpIdentifier = this.getAccountsPayablePurchasingDocumentLinkIdentifier();
-            this.setAccountsPayablePurchasingDocumentLinkIdentifier(null);
-
-            ObjectUtils.setObjectPropertyDeep(this, KFSPropertyConstants.DOCUMENT_NUMBER, documentNumber.getClass(), newDoc.getDocumentNumber());
-
-            // now set the identifier again to maintain the related docs
-            this.setAccountsPayablePurchasingDocumentLinkIdentifier(tmpIdentifier);
-        }
-        catch (IllegalAccessException e) {
-            //ignore for now, we need a rice change to ignore these transient and self referential fields 
-        }
-        catch (Exception e) {
-            LOG.error("Unable to set document number property in copied document " + e.getMessage());
-            throw new RuntimeException("Unable to set document number property in copied document " + e.getMessage());
-        }
-        refreshDocumentBusinessObject();
-        
-        // replace current documentHeader with new documentHeader
-        setDocumentHeader(newDoc.getDocumentHeader());
-        
-    }        
+    } 
             
     /**
      * Overriding this from the super class so that Note will use only the oldest

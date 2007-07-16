@@ -16,13 +16,12 @@
 
 package org.kuali.module.purap.document;
 
-import org.kuali.core.document.Copyable;
 import org.kuali.core.rule.event.KualiDocumentEvent;
 
 /**
  * Purchase Order Document
  */
-public class PurchaseOrderRetransmitDocument extends PurchaseOrderDocument implements Copyable {
+public class PurchaseOrderRetransmitDocument extends PurchaseOrderDocument {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PurchaseOrderRetransmitDocument.class);
 
     /**

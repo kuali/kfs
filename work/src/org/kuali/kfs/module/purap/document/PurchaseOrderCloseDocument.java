@@ -20,7 +20,6 @@ import static org.kuali.core.util.KualiDecimal.ZERO;
 
 import java.util.Iterator;
 
-import org.kuali.core.document.Copyable;
 import org.kuali.core.rule.event.KualiDocumentEvent;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
@@ -32,7 +31,7 @@ import org.kuali.module.purap.bo.PurchaseOrderItem;
 /**
  * Purchase Order Document
  */
-public class PurchaseOrderCloseDocument extends PurchaseOrderDocument implements Copyable {
+public class PurchaseOrderCloseDocument extends PurchaseOrderDocument {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PurchaseOrderCloseDocument.class);
 
     /**

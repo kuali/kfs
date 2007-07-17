@@ -87,6 +87,14 @@ public class RequisitionDocumentAuthorizer extends AccountingDocumentAuthorizerB
             }
             
             /**
+             * SEP of DUTIES ROUTE LEVEL - Approvers can only approve or diapprove.
+             */
+            else if (currentRouteLevels.contains(RouteLevelNames.SEPARATION_OF_DUTIES)) {
+                editModeMap.remove(AuthorizationConstants.EditMode.FULL_ENTRY);
+                editMode = PurapAuthorizationConstants.RequisitionEditMode.LOCK_CONTENT_ENTRY;
+            }
+
+            /**
              * SUB-ACCOUNT ROUTE LEVEL - Approvers cannot edit any detail on REQ.
              * BASE ORG REVIEW ROUTE LEVEL - Approvers cannot edit any detail on REQ.
              * SEPARATION OF DUTIES ROUTE LEVEL - Approvers cannot edit any detail on REQ.

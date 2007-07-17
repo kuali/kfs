@@ -60,7 +60,7 @@
         <attributes>
 
             <attribute name="positionBenefitRetirementIndicator" forceUppercase="true">
-                <label>Position Benefit Retirement Indicator</label>
+                <label>Labor Benefits Retirement Indicator</label>
                 <shortLabel>Indicator</shortLabel>
 
                 <maxLength>$attribute.maxLength</maxLength>
@@ -74,7 +74,7 @@
 			</attribute>
 
             <attribute name="positionBenefitTypeCode" forceUppercase="true">
-                <label>Labor Position Benefit Type Code</label>
+                <label>Labor Benefits Type Code</label>
                 <shortLabel>Code</shortLabel>
 
                 <maxLength>2</maxLength>
@@ -89,7 +89,7 @@
 			</attribute>
 
             <attribute name="positionBenefitTypeDescription" forceUppercase="true">
-                <label>Position Benefit Type Description</label>
+                <label>Labor Benefits Description</label>
                 <shortLabel>Description</shortLabel>
 
                 <maxLength>40</maxLength>

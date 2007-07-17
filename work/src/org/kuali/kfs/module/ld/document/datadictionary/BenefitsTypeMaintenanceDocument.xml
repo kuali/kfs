@@ -50,7 +50,7 @@
 	        <maintainableSection title="Edit Benefit Code">
 	        	<maintainableItems>
 	            	<maintainableField name="positionBenefitTypeCode" required="true" />
-	            	<maintainableField name="positionBenefitTypeDescription" required="false" />
+	            	<maintainableField name="positionBenefitTypeDescription" required="true" />
 	            	<maintainableField name="positionBenefitRetirementIndicator" required="false"/>
 	            	<maintainableField name="versionNumber" />
 	         	</maintainableItems>

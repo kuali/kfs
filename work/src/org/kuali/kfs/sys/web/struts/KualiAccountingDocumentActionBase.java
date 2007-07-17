@@ -283,7 +283,9 @@ public class KualiAccountingDocumentActionBase extends KualiTransactionalDocumen
             
             //update sales tax required attribute for view
             handleSalesTaxRequired(transDoc, formLine, source, false, index);
-            handleSalesTaxRequired(transDoc, baseLine, source, false, index);
+            if (baseLine != null) {
+                handleSalesTaxRequired(transDoc, baseLine, source, false, index);
+            }
 
             // only generate update events for specific action methods
             String methodToCall = transForm.getMethodToCall();

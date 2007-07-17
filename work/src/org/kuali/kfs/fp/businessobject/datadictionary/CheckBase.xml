@@ -102,7 +102,7 @@
             
 
             <attributeReference name="financialDocumentDepositLineNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericAmount">
-                <required>true</required>
+                <required>false</required>
             </attributeReference>
 
             <attributeReference name="amount" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericAmount">

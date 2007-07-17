@@ -97,7 +97,6 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
     private ShippingPaymentTerms vendorShippingPaymentTerms;
     private PurchaseOrderCostSource paymentRequestCostSource;
     private RecurringPaymentType recurringPaymentType;
-    
    
     /**
 	 * Default constructor.
@@ -661,7 +660,7 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
         this.setVendorCustomerNumber(po.getVendorCustomerNumber());
         if (po.getPurchaseOrderCostSource() != null ){
             this.setPaymentRequestCostSource(po.getPurchaseOrderCostSource());
-            this.setPaymentRequestCostSourceCode(po.getPurchaseOrderCostSourceCode()); 
+        this.setPaymentRequestCostSourceCode(po.getPurchaseOrderCostSourceCode());
         }
         if (po.getVendorShippingPaymentTerms()!= null){
             this.setVendorShippingPaymentTerms(po.getVendorShippingPaymentTerms());
@@ -670,7 +669,7 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
         
         if (po.getRecurringPaymentType() !=null){
             this.setRecurringPaymentType(po.getRecurringPaymentType());
-            this.setRecurringPaymentTypeCode(po.getRecurringPaymentTypeCode());
+        this.setRecurringPaymentTypeCode(po.getRecurringPaymentTypeCode());
         }
         
         this.setVendorHeaderGeneratedIdentifier(po.getVendorHeaderGeneratedIdentifier());
@@ -688,12 +687,12 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
         else {
             // set address from PO
             this.setVendorAddressGeneratedIdentifier(po.getVendorAddressGeneratedIdentifier());
-            this.setVendorLine1Address(po.getVendorLine1Address());
-            this.setVendorLine2Address(po.getVendorLine2Address());
-            this.setVendorCityName(po.getVendorCityName());
-            this.setVendorStateCode(po.getVendorStateCode());
-            this.setVendorPostalCode(po.getVendorPostalCode());
-            this.setVendorCountryCode(po.getVendorCountryCode());
+        this.setVendorLine1Address(po.getVendorLine1Address());
+        this.setVendorLine2Address(po.getVendorLine2Address());
+        this.setVendorCityName(po.getVendorCityName());
+        this.setVendorStateCode(po.getVendorStateCode());
+        this.setVendorPostalCode(po.getVendorPostalCode());
+        this.setVendorCountryCode(po.getVendorCountryCode());
         }
 
         if ((po.getVendorPaymentTerms() == null) || ("".equals(po.getVendorPaymentTerms().getVendorPaymentTermsCode())) ) {
@@ -725,8 +724,27 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
         LOG.debug("handleRouteStatusChange() started");
         super.handleRouteStatusChange();
 
+        //set back to default workflow title if state is final
+        if( getDocumentHeader().getWorkflowDocument().stateIsFinal() ){
+            //set the node name to something other then vendor tax so it uses
+            // the default
+            DocumentRouteLevelChangeVO levelChangeEvent = new DocumentRouteLevelChangeVO();
+            levelChangeEvent.setNewNodeName("");
+            SpringServiceLocator.getPaymentRequestService().updateWorkflowDocumentTitle(this, levelChangeEvent);
+        }
     }
-    
+
+    /**
+     * @see org.kuali.core.document.Document#handleRouteLevelChange(edu.iu.uis.eden.clientapp.vo.DocumentRouteLevelChangeVO)
+     */
+    @Override
+    public void handleRouteLevelChange(DocumentRouteLevelChangeVO levelChangeEvent) {
+        LOG.debug("handleRouteLevelChange() started");
+        super.handleRouteLevelChange(levelChangeEvent);
+        
+        SpringServiceLocator.getPaymentRequestService().updateWorkflowDocumentTitle(this, levelChangeEvent);
+    }
+
     @Override
     public void doActionTaken(ActionTakenEventVO event) {
         super.doActionTaken(event);
@@ -739,23 +757,23 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
      */
     public void preProcessNodeChange(String newNodeName, String oldNodeName) {
         if (PurapConstants.WorkflowConstants.PaymentRequestDocument.NodeDetails.ACCOUNTS_PAYABLE_REVIEW.equals(oldNodeName)) {
-            setAccountsPayableApprovalDate(SpringServiceLocator.getDateTimeService().getCurrentSqlDate());
-        }
-    }
+                    setAccountsPayableApprovalDate(SpringServiceLocator.getDateTimeService().getCurrentSqlDate());
+    			}
+                        }
     
     /**
      * @see org.kuali.module.purap.document.AccountsPayableDocumentBase#getNodeDetailsOrderedNodeNameList()
      */
     public List<String> getNodeDetailsOrderedNodeNameList() {
         return PurapConstants.WorkflowConstants.PaymentRequestDocument.NodeDetails.ORDERED_NODE_NAME_LIST;
-    }
+                        }
     
     /**
      * @see org.kuali.module.purap.document.AccountsPayableDocumentBase#getNodeDetailsStatusByNodeNameMap()
      */
     public Map<String, String> getNodeDetailsStatusByNodeNameMap() {
         return PurapConstants.WorkflowConstants.PaymentRequestDocument.NodeDetails.STATUS_BY_NODE_NAME;
-    }
+                    }
     
     /**
      * @see org.kuali.module.purap.document.AccountsPayableDocumentBase#saveDocumentFromPostProcessing()
@@ -958,164 +976,7 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
             }
         }
     }
-
-    /**
-     * Overriding the document title.
-     * 
-     * @see org.kuali.core.document.Document#getDocumentTitle()
-     */
-    @Override
-    public String getDocumentTitle(){
         
-        String documentTitle = "";
-        
-        //grab the first account
-        Account theAccount = getFirstAccount();
-        
-        //setup variables
-        String poNumber = this.getPurchaseOrderIdentifier().toString();
-        String vendorName = StringUtils.trimToEmpty( this.getVendorName() );
-        String preqAmount = this.getGrandTotal().toString();
-        String indicator = getTitleIndicator();        
-        String deliveryCampus = StringUtils.trimToEmpty( (this.getProcessingCampus() != null ? this.getProcessingCampus().getCampusShortName() : "") );        
-        String accountNumber = (theAccount != null ? StringUtils.trimToEmpty( theAccount.getAccountNumber() ) : "");
-        String department = (theAccount != null ? StringUtils.trimToEmpty( (theAccount.getOrganization() != null ? theAccount.getOrganization().getOrganizationName() : "") ) : "");
-                       
-        //now construct the appropriate message after evaluating the route level
-        List currentRouteLevels = this.getCurrentRouteLevels(this.getDocumentHeader().getWorkflowDocument());
-                
-        if( currentRouteLevels.contains(RouteLevelNames.VENDOR_TAX_REVIEW) ){
-            //tax review
-            documentTitle = constructPaymentRequestTaxReviewTitle(vendorName, poNumber, accountNumber, department, deliveryCampus);            
-        }else{
-            //default
-            documentTitle = constructPaymentRequestDefaultTitle(poNumber, vendorName, preqAmount, indicator);
-        }
-        
-        return documentTitle;
-    }
-
-    /**
-     * This method constructs a default title for the workflow document title.
-     *  
-     * @param poNumber
-     * @param vendorName
-     * @param preqAmount
-     * @param indicator
-     * @return
-     */
-    public String constructPaymentRequestDefaultTitle(String poNumber, String vendorName, 
-            String preqAmount, String indicator){
-        
-        StringBuffer docTitle = new StringBuffer("");
-        
-        docTitle.append("PO: ");
-        docTitle.append(poNumber);
-        docTitle.append(" Vendor: ");
-        docTitle.append(vendorName);
-        docTitle.append(" Amount: ");
-        docTitle.append(preqAmount);
-        docTitle.append(" ");
-        docTitle.append(indicator);
-        
-        return docTitle.toString();
-    }
-
-    /**
-     * This method constructs a special version of the workflow document title for tax review.
-     * 
-     * @param vendorName
-     * @param poNumber
-     * @param accountNumber
-     * @param department
-     * @param deliveryCampus
-     * @return
-     */
-    public String constructPaymentRequestTaxReviewTitle(String vendorName, String poNumber, 
-            String accountNumber, String department, String deliveryCampus){
-        
-        StringBuffer docTitle = new StringBuffer("");
-        
-        docTitle.append("Vendor: ");
-        docTitle.append(vendorName);
-        docTitle.append(" PO: ");
-        docTitle.append(poNumber);
-        docTitle.append(" Account Number: ");
-        docTitle.append(accountNumber);
-        docTitle.append(" Dept: ");
-        docTitle.append(department);
-        docTitle.append(" Delivery Campus: ");
-        docTitle.append(deliveryCampus);
-        
-        return docTitle.toString();
-    }
-    
-    /** 
-     * This method determines the indicator text that will appear in the workflow document title
-     * 
-     * @return
-     */
-    public String getTitleIndicator(){
-        
-        String indicator = "";
-        
-        //TODO: Need to see if hold and cancel indicators can be done at the same time, this would affect this logic
-        if(this.isHoldIndicator() == true){
-            indicator = PurapConstants.PaymentRequestIndicatorText.HOLD;
-        }else if(this.getPaymentRequestedCancelIndicator() == true){
-            indicator = PurapConstants.PaymentRequestIndicatorText.REQUEST_CANCEL;
-        }
-
-        return indicator;
-    }
-    
-    /**
-     * This method returns the first payment item's first account.
-     * 
-     * @return
-     */
-    public Account getFirstAccount(){
-        
-        PaymentRequestItem theItem = null;
-        PurApAccountingLine theLine = null;
-        Account theAccount = null;        
-        
-        //loop through items, and pick the first item
-        if( this.getItems() != null ){
-            for (PaymentRequestItem item : (List<PaymentRequestItem>)this.getItems()) {            
-                if ( (item.getItemType().isItemTypeAboveTheLineIndicator() && 
-                     (theItem == null || (theItem.getItemLineNumber().intValue() > item.getItemLineNumber().intValue()))) ){
-                    theItem = item;
-                }
-            }
-        }
-        
-        //if first item found, get the first accountline and return the account
-        if(theItem != null){
-            Iterator<PurApAccountingLine> lines = theItem.getSourceAccountingLines().iterator();
-            if( lines.hasNext() ){
-                theLine = lines.next();
-                theAccount = theLine.getAccount();
-            }
-        }
-        return theAccount;
-    }
-    
-    /**
-     * A helper method for determining the route levels for a given document.
-     * 
-     * @param workflowDocument
-     * @return List
-     */
-    protected List getCurrentRouteLevels(KualiWorkflowDocument workflowDocument) {
-        try {
-            return Arrays.asList(workflowDocument.getNodeNames());
-        }
-        catch (WorkflowException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
     public void updateExtendedPriceOnItems() {
         for (PaymentRequestItem item : (List<PaymentRequestItem>)this.getItems()) {
             if(ObjectUtils.isNull(item.getExtendedPrice())) {
@@ -1146,14 +1007,14 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
      */
     public void setStatusDescription(String statusDescription) {
     }
-   
+
     /**
      * Gets the recurringPaymentType attribute. 
      * @return Returns the recurringPaymentType.
      */
     public RecurringPaymentType getRecurringPaymentType() {
         return recurringPaymentType;
-    }
+}
 
     /**
      * Sets the recurringPaymentType attribute value.

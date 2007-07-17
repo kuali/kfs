@@ -26,6 +26,7 @@ import org.kuali.module.purap.document.CreditMemoDocument;
 import org.kuali.module.purap.document.PaymentRequestDocument;
 import org.kuali.module.vendor.bo.PaymentTermType;
 
+import edu.iu.uis.eden.clientapp.vo.DocumentRouteLevelChangeVO;
 import edu.iu.uis.eden.exception.WorkflowException;
 
 
@@ -130,6 +131,12 @@ public interface PaymentRequestService {
      */
     public void populatePaymentRequest(PaymentRequestDocument preq);
     
+    /**
+     * This method updates the workflow document title.
+     * 
+     * @param preqDoc
+     */
+    public void updateWorkflowDocumentTitle(PaymentRequestDocument preqDoc, DocumentRouteLevelChangeVO levelChangeEvent);
     
     
     

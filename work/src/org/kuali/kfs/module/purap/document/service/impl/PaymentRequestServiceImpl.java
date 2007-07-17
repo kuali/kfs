@@ -64,8 +64,10 @@ import org.kuali.module.purap.service.PurapService;
 import org.kuali.module.purap.service.PurchaseOrderService;
 import org.kuali.module.vendor.bo.PaymentTermType;
 import org.kuali.module.vendor.service.VendorService;
+import org.kuali.workflow.KualiWorkflowUtils.RouteLevelNames;
 import org.springframework.transaction.annotation.Transactional;
 
+import edu.iu.uis.eden.clientapp.vo.DocumentRouteLevelChangeVO;
 import edu.iu.uis.eden.exception.WorkflowException;
 
 
@@ -1087,6 +1089,156 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
         //distribute accounts (i.e. proration)
         distributeAccounting(paymentRequestDocument);
         
+    }
+
+    /** 
+     * This method updates the workflow documents title.
+     * 
+     * @param preqDoc
+     */
+    public void updateWorkflowDocumentTitle(PaymentRequestDocument preqDoc, DocumentRouteLevelChangeVO levelChangeEvent){
+                        
+        try{
+            //set the workflow document title
+            preqDoc.getDocumentHeader().getWorkflowDocument().setTitle( createDocumentTitle( preqDoc, levelChangeEvent.getNewNodeName() ) );                        
+        }catch (WorkflowException e) {
+            LOG.error("Error updating Payment Request document: " + e.getMessage());
+            throw new RuntimeException("Error updating Payment Request document: " + e.getMessage());
+        }
+    }
+   
+    private String createDocumentTitle(PaymentRequestDocument preqDoc, String currentRouteLevel){
+        
+        String documentTitle = "";
+        
+        //grab the first account
+        Account theAccount = getFirstAccount(preqDoc);
+        
+        //setup variables
+        String poNumber = preqDoc.getPurchaseOrderIdentifier().toString();
+        String vendorName = StringUtils.trimToEmpty( preqDoc.getVendorName() );
+        String preqAmount = preqDoc.getGrandTotal().toString();
+        String indicator = getTitleIndicator(preqDoc.isHoldIndicator(), preqDoc.getPaymentRequestedCancelIndicator());        
+        String deliveryCampus = StringUtils.trimToEmpty( (preqDoc.getProcessingCampus() != null ? preqDoc.getProcessingCampus().getCampusShortName() : "") );        
+        String accountNumber = (theAccount != null ? StringUtils.trimToEmpty( theAccount.getAccountNumber() ) : "");
+        String department = (theAccount != null ? StringUtils.trimToEmpty( (theAccount.getOrganization() != null ? theAccount.getOrganization().getOrganizationName() : "") ) : "");
+                                       
+        if( currentRouteLevel.equals(RouteLevelNames.VENDOR_TAX_REVIEW) ){
+            //tax review
+            documentTitle = constructPaymentRequestTaxReviewTitle(vendorName, poNumber, accountNumber, department, deliveryCampus);            
+        }else{
+            //default
+            documentTitle = constructPaymentRequestDefaultTitle(poNumber, vendorName, preqAmount, indicator);
+        }
+        
+        return documentTitle;
+    }
+
+    /**
+     * This method returns the first payment item's first account.
+     * 
+     * @return
+     */
+    private Account getFirstAccount(PaymentRequestDocument preqDoc){
+        
+        PaymentRequestItem theItem = null;
+        PurApAccountingLine theLine = null;
+        Account theAccount = null;        
+        
+        //loop through items, and pick the first item
+        if( preqDoc.getItems() != null ){
+            for (PaymentRequestItem item : (List<PaymentRequestItem>)preqDoc.getItems()) {            
+                if ( (item.getItemType().isItemTypeAboveTheLineIndicator() && 
+                     (theItem == null || (theItem.getItemLineNumber().intValue() > item.getItemLineNumber().intValue()))) ){
+                    theItem = item;
+                }
+            }
+        }
+        
+        //if first item found, get the first accountline and return the account
+        if(theItem != null){
+            Iterator<PurApAccountingLine> lines = theItem.getSourceAccountingLines().iterator();
+            if( lines.hasNext() ){
+                theLine = lines.next();
+                theLine.refreshNonUpdateableReferences();
+                theAccount = theLine.getAccount();
+            }
+        }
+        return theAccount;
+    }
+
+    /**
+     * This method constructs a default title for the workflow document title.
+     *  
+     * @param poNumber
+     * @param vendorName
+     * @param preqAmount
+     * @param indicator
+     * @return
+     */
+    private String constructPaymentRequestDefaultTitle(String poNumber, String vendorName, 
+            String preqAmount, String indicator){
+        
+        StringBuffer docTitle = new StringBuffer("");
+        
+        docTitle.append("PO: ");
+        docTitle.append(poNumber);
+        docTitle.append(" Vendor: ");
+        docTitle.append(vendorName);
+        docTitle.append(" Amount: ");
+        docTitle.append(preqAmount);
+        docTitle.append(" ");
+        docTitle.append(indicator);
+        
+        return docTitle.toString();
+    }
+
+    /**
+     * This method constructs a special version of the workflow document title for tax review.
+     * 
+     * @param vendorName
+     * @param poNumber
+     * @param accountNumber
+     * @param department
+     * @param deliveryCampus
+     * @return
+     */
+    private String constructPaymentRequestTaxReviewTitle(String vendorName, String poNumber, 
+            String accountNumber, String department, String deliveryCampus){
+        
+        StringBuffer docTitle = new StringBuffer("");
+        
+        docTitle.append("Vendor: ");
+        docTitle.append(vendorName);
+        docTitle.append(" PO: ");
+        docTitle.append(poNumber);
+        docTitle.append(" Account Number: ");
+        docTitle.append(accountNumber);
+        docTitle.append(" Dept: ");
+        docTitle.append(department);
+        docTitle.append(" Delivery Campus: ");
+        docTitle.append(deliveryCampus);
+        
+        return docTitle.toString();
+    }
+    
+    /** 
+     * This method determines the indicator text that will appear in the workflow document title
+     * 
+     * @return
+     */
+    private String getTitleIndicator(boolean holdIndicator, boolean paymentRequestedCancelIndicator){
+        
+        String indicator = "";
+        
+        //TODO: Need to see if hold and cancel indicators can be done at the same time, this would affect this logic
+        if(holdIndicator  == true){
+            indicator = PurapConstants.PaymentRequestIndicatorText.HOLD;
+        }else if(paymentRequestedCancelIndicator == true){
+            indicator = PurapConstants.PaymentRequestIndicatorText.REQUEST_CANCEL;
+        }
+
+        return indicator;
     }
 
     /*

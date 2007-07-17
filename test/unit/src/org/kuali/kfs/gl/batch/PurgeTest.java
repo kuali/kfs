@@ -153,17 +153,25 @@ public class PurgeTest extends KualiTestBase {
     }
 
     // This will purge entries before 2002
-    public void testPurgeIdBill() throws Exception {
-        LOG.debug("testPurgeIdBill() started");
+    public void testPurgeCollectorDetail() throws Exception {
+        LOG.debug("testPurgeCollectorDetail() started");
 
         // Clear out the table
         unitTestSqlDao.sqlCommand("DELETE FROM GL_ID_BILL_T");
 
         // Should be deleted
-        unitTestSqlDao.sqlCommand("insert into GL_ID_BILL_T (FS_ORIGIN_CD,UNIV_FISCAL_PRD_CD, UNIV_FISCAL_YR, CREATE_DT, CREATE_SEQ, FIN_COA_CD, ACCOUNT_NBR, " + "SUB_ACCT_NBR, FIN_OBJECT_CD, FIN_SUB_OBJ_CD, FDOC_IDBIL_SEQ_NBR, FDOC_TYP_CD, FDOC_NBR, OBJ_ID, VER_NBR, FDOC_IDBIL_ITM_AMT, " + "FDOC_IDBIL_NTE_TXT) values ('01','01', 2001, " + unitTestSqlDao.getDbPlatform().getCurTimeFunction() + ", '1', 'BL', '1031400', '-----', '5000', '---', '1', 'ID22', 'XXX','" + new Guid().toString() + "', 1, 0, 'x')");
+        unitTestSqlDao.sqlCommand("insert into GL_ID_BILL_T (FS_ORIGIN_CD,UNIV_FISCAL_PRD_CD, UNIV_FISCAL_YR, CREATE_DT, CREATE_SEQ, FIN_COA_CD, ACCOUNT_NBR, " 
+                    + "SUB_ACCT_NBR, FIN_OBJECT_CD, FIN_SUB_OBJ_CD, FDOC_IDBIL_SEQ_NBR, FDOC_TYP_CD, FDOC_NBR, OBJ_ID, VER_NBR, FDOC_IDBIL_ITM_AMT, " 
+                    + "FDOC_IDBIL_NTE_TXT, FIN_OBJ_TYP_CD, FIN_BALANCE_TYP_CD) values ('01','01', 2001, " 
+                    + unitTestSqlDao.getDbPlatform().getCurTimeFunction() + ", '1', 'BL', '1031400', '-----', '5000', '---', '1', 'ID22', 'XXX','" 
+                    + new Guid().toString() + "', 1, 0, 'x', 'EX', 'AC')");
 
         // Shouldn't be deleted
-        unitTestSqlDao.sqlCommand("insert into GL_ID_BILL_T (FS_ORIGIN_CD,UNIV_FISCAL_PRD_CD, UNIV_FISCAL_YR, CREATE_DT, CREATE_SEQ, FIN_COA_CD, ACCOUNT_NBR, " + "SUB_ACCT_NBR, FIN_OBJECT_CD, FIN_SUB_OBJ_CD, FDOC_IDBIL_SEQ_NBR, FDOC_TYP_CD, FDOC_NBR, OBJ_ID, VER_NBR, FDOC_IDBIL_ITM_AMT, " + "FDOC_IDBIL_NTE_TXT) values ('01','01', 2002, " + unitTestSqlDao.getDbPlatform().getCurTimeFunction() + ", '1', 'BL', '1031400', '-----', '5000', '---', '1', 'ID22', 'XXX','" + new Guid().toString() + "', 1, 0, 'x')");
+        unitTestSqlDao.sqlCommand("insert into GL_ID_BILL_T (FS_ORIGIN_CD,UNIV_FISCAL_PRD_CD, UNIV_FISCAL_YR, CREATE_DT, CREATE_SEQ, FIN_COA_CD, ACCOUNT_NBR, "
+                + "SUB_ACCT_NBR, FIN_OBJECT_CD, FIN_SUB_OBJ_CD, FDOC_IDBIL_SEQ_NBR, FDOC_TYP_CD, FDOC_NBR, OBJ_ID, VER_NBR, FDOC_IDBIL_ITM_AMT, "
+                + "FDOC_IDBIL_NTE_TXT, FIN_OBJ_TYP_CD, FIN_BALANCE_TYP_CD) values ('01','01', 2002, " 
+                + unitTestSqlDao.getDbPlatform().getCurTimeFunction() + ", '1', 'BL', '1031400', '-----', '5000', '---', '1', 'ID22', 'XXX','" 
+                + new Guid().toString() + "', 1, 0, 'x', 'EX', 'AC')");
 
         Step purgeStep = (Step) SpringServiceLocator.getService("purgeInterDepartmentalBillingStep");
 

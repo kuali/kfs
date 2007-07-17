@@ -450,10 +450,11 @@ public class PaymentRequestDocumentRule extends AccountsPayableDocumentRuleBase 
     public boolean validateRouteFiscal(PurchasingAccountsPayableDocument purapDocument) {
         boolean valid = true;
         PaymentRequestDocument paymentRequest = (PaymentRequestDocument)purapDocument;
-        if (!StringUtils.equals(paymentRequest.getStatusCode(),PurapConstants.PaymentRequestStatuses.IN_PROCESS)) {
+        //TODO: Double check that this rule is correct. During fiscal officer review, the status code is AFOA
+        /*if (!StringUtils.equals(paymentRequest.getStatusCode(),PurapConstants.PaymentRequestStatuses.IN_PROCESS)) {
             GlobalVariables.getErrorMap().putError(PurapPropertyConstants.PURAP_DOC_ID, PurapKeyConstants.ERROR_PAYMENT_REQUEST_NOT_IN_PROCESS);
             valid &= false;
-        }
+        }*/
         valid &= validatePaymentRequestReview(paymentRequest);
         return valid;
     }

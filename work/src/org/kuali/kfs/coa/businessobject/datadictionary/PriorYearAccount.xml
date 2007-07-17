@@ -78,7 +78,6 @@
                 <field attributeName="intrnlFinEncumSufficntFndIndicator" />
                 <field attributeName="organizationCode" />
                 <field attributeName="pendingAcctSufficientFundsIndicator" />
-                <field attributeName="programCode" />
                 <field attributeName="reportsToAccountNumber" />
                 <field attributeName="reportsToChartOfAccountsCode" />
                 <field attributeName="subFundGroupCode" />
@@ -151,7 +150,6 @@
                 <lookupField attributeName="intrnlFinEncumSufficntFndIndicator" required="false" />
                 <lookupField attributeName="organizationCode" required="false" />
                 <lookupField attributeName="pendingAcctSufficientFundsIndicator" required="false" />
-                <lookupField attributeName="programCode" required="false" />
                 <lookupField attributeName="reportsToAccountNumber" required="false" />
                 <lookupField attributeName="reportsToChartOfAccountsCode" required="false" />
                 <lookupField attributeName="subFundGroupCode" required="false" />
@@ -211,7 +209,6 @@
                 <field attributeName="intrnlFinEncumSufficntFndIndicator" />
                 <field attributeName="organizationCode" />
                 <field attributeName="pendingAcctSufficientFundsIndicator" />
-                <field attributeName="programCode" />
                 <field attributeName="reportsToAccountNumber" />
                 <field attributeName="reportsToChartOfAccountsCode" />
                 <field attributeName="subFundGroupCode" />
@@ -958,21 +955,6 @@
 
                 <summary><![CDATA[&nbsp;]]></summary>
                 <description>Select the check box if sufficient funds checking should be performed on this account. Clear the check box if not.</description>
-			</attribute>
-
-            <attribute name="programCode" forceUppercase="true">
-                <label>Program Code</label>
-                <shortLabel>Code</shortLabel>
-
-                <maxLength>6</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="8" />
-                </control>
-
-                <summary><![CDATA[&nbsp;]]></summary>
-                <description>The financial reporting classification required by some community colleges.</description>
 			</attribute>
 
             <attribute name="reportsToAccountNumber" forceUppercase="true">

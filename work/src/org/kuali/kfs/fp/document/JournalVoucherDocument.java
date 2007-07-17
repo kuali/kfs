@@ -202,15 +202,15 @@ public class JournalVoucherDocument extends AccountingDocumentBase implements Vo
 
         this.refreshReferenceObject("balanceType");
 
-        if (this.balanceType.isFinancialOffsetGenerationIndicator()) { // credits and debits mode
-            total = getCreditTotal().subtract(getDebitTotal());
-        }
-        else { // single amount mode
-            Iterator iter = sourceAccountingLines.iterator();
-            while (iter.hasNext()) {
-                al = (AccountingLineBase) iter.next();
-                total = total.add(al.getAmount());
+        if (this.balanceType.isFinancialOffsetGenerationIndicator()) {
+            if (getCreditTotal().isGreaterThan(getDebitTotal())){
+                total = getCreditTotal();
+            } else {
+                total = getDebitTotal();
             }
+        }
+        else {
+            total = getDebitTotal();
         }
         return total;
     }

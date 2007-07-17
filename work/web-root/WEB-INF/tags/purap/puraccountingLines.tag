@@ -166,7 +166,10 @@
 				accountPrefix="${accountPrefix}" hideTotalLine="${hideTotalLine}"
 				hideFields="${hideFields}"
 				accountingAddLineIndex="${accountingAddLineIndex}" 
-				nestedIndex="true" />
+				nestedIndex="true">
+				<jsp:attribute name="importRowOverride">
+				</jsp:attribute>
+				</fin:accountingLineGroup>
 			<c:if test="${!sourceAccountingLinesOnly}">
 				<fin:accountingLineGroup isSource="false"
 					columnCountUntilAmount="${columnCountUntilAmount}"
@@ -185,7 +188,10 @@
 					accountingLineAttributes="${accountingLineAttributes}"
 					accountPrefix="${accountPrefix}" hideTotalLine="${hideTotalLine}"
 					hideFields="${hideFields}" 
-					nestedIndex="true"/>
+					nestedIndex="true">
+					<jsp:attribute name="importRowOverride">
+					</jsp:attribute>
+					</fin:accountingLineGroup>
 			</c:if>
 		</table>
 	</c:if> <c:if test="${!empty groupsOverride}">

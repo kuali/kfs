@@ -61,7 +61,6 @@ public class LedgerBalanceLookupableHelperServiceImpl extends AbstractLookupable
     
     private LaborLedgerBalanceService balanceService;
     private LaborInquiryOptionsService laborInquiryOptionsService;    
-    private Map fieldValues;
 
     /**
      * @see org.kuali.core.lookup.Lookupable#getInquiryUrl(org.kuali.core.bo.BusinessObject, java.lang.String)
@@ -82,8 +81,7 @@ public class LedgerBalanceLookupableHelperServiceImpl extends AbstractLookupable
         // get the pending entry option. This method must be prior to the get search results
         String pendingEntryOption = laborInquiryOptionsService.getSelectedPendingEntryOption(fieldValues);
 
-        // test if the consolidation option is selected or not
-        
+        // test if the consolidation option is selected or not       
         boolean isConsolidated = laborInquiryOptionsService.isConsolidationSelected(fieldValues, (Collection<Row>) getRows());
         
         // get Amount View Option and determine if the results has to be accumulated
@@ -95,7 +93,9 @@ public class LedgerBalanceLookupableHelperServiceImpl extends AbstractLookupable
         Iterator balanceIterator = balanceService.findBalance(fieldValues, isConsolidated);
         Collection searchResultsCollection = this.buildBalanceCollection(balanceIterator, isConsolidated, pendingEntryOption);
 
-
+        // update search results according to the selected pending entry option
+        laborInquiryOptionsService.updateByPendingLedgerEntry(searchResultsCollection, fieldValues, pendingEntryOption, isConsolidated);
+        
         // perform the accumulation of the amounts
         this.accumulate(searchResultsCollection, isAccumulated);
 
@@ -215,7 +215,7 @@ public class LedgerBalanceLookupableHelperServiceImpl extends AbstractLookupable
         
         while (iterator.hasNext()) {
             LedgerBalance copyBalance = (LedgerBalance) (iterator.next());
-            
+
             LedgerBalance balance = new LedgerBalance();
             if (LedgerBalance.class.isAssignableFrom(getBusinessObjectClass())) {
                 try {
@@ -262,7 +262,6 @@ public class LedgerBalanceLookupableHelperServiceImpl extends AbstractLookupable
 
             balanceCollection.add(balance);
         }
-
         return balanceCollection;
     }
 

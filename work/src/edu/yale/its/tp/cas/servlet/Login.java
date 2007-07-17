@@ -51,6 +51,7 @@ public class Login extends HttpServlet {
     private LoginTicketCache ltCache;
     private AuthHandler handler;
     private String loginForm, genericSuccess, serviceSuccess, confirmService, redirect;
+    private boolean requireHttps;
     private ServletContext app;
 
     // *********************************************************************
@@ -88,6 +89,7 @@ public class Login extends HttpServlet {
         genericSuccess = app.getInitParameter("edu.yale.its.tp.cas.genericSuccess");
         confirmService = app.getInitParameter("edu.yale.its.tp.cas.confirmService");
         redirect = app.getInitParameter("edu.yale.its.tp.cas.redirect");
+        requireHttps = Boolean.getBoolean(app.getInitParameter("org.kuali.cas.auth.requireHttps"));
         if (loginForm == null || genericSuccess == null || redirect == null || confirmService == null)
             throw new ServletException("need edu.yale.its.tp.cas.loginForm, " + "-genericSuccess, -serviceSuccess, -redirect, and -confirmService");
     }
@@ -251,7 +253,7 @@ public class Login extends HttpServlet {
             TicketGrantingTicket t = new TicketGrantingTicket(username);
             String token = tgcCache.addTicket(t);
             Cookie tgc = new Cookie(TGC_ID, token);
-            if (request.getRequestURI().startsWith("https") || SpringServiceLocator.getKualiConfigurationService().isProductionEnvironment() ) {
+            if (request.getRequestURI().startsWith("https") || !requireHttps) {
                 tgc.setSecure(true);
             }
             tgc.setMaxAge(-1);

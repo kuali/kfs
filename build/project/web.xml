@@ -4,313 +4,333 @@
 
 	<!-- ******************* CAS Context Parameters ********************* -->
 
-    <!-- Authentication handler -->
-    <context-param>
-        <param-name>edu.yale.its.tp.cas.authHandler</param-name>
-        <param-value>org.kuali.cas.auth.KualiPasswordHandler</param-value>
-    </context-param>
+	<!-- Authentication handler -->
+	<context-param>
+		<param-name>edu.yale.its.tp.cas.authHandler</param-name>
+		<param-value>org.kuali.cas.auth.KualiPasswordHandler</param-value>
+	</context-param>
 
-    <!-- Timeout for granting tickets -->
-    <context-param>
-        <param-name>edu.yale.its.tp.cas.grantingTimeout</param-name>
-        <param-value>7200</param-value>
-    </context-param>
+	<!-- Whether only https urls should be allowed through -->
+	<context-param>
+		<param-name>org.kuali.cas.auth.requireHttps</param-name>
+		<param-value>${require.https}</param-value>
+	</context-param>
 
-    <!-- Timeout for service tickets -->
-    <context-param>
-        <param-name>edu.yale.its.tp.cas.serviceTimeout</param-name>
-        <param-value>300</param-value>
-    </context-param>
+	<!-- Timeout for granting tickets -->
+	<context-param>
+		<param-name>edu.yale.its.tp.cas.grantingTimeout</param-name>
+		<param-value>7200</param-value>
+	</context-param>
 
-    <!-- Timeout for login tickets -->
-    <context-param>
-        <param-name>edu.yale.its.tp.cas.loginTimeout</param-name>
-        <param-value>86400</param-value>
-    </context-param>
+	<!-- Timeout for service tickets -->
+	<context-param>
+		<param-name>edu.yale.its.tp.cas.serviceTimeout</param-name>
+		<param-value>300</param-value>
+	</context-param>
 
-    <!-- Service validation URL -->
-    <context-param>
-        <param-name>edu.yale.its.tp.cas.serviceValidate</param-name>
-        <param-value>/serviceValidate</param-value>
-    </context-param>
+	<!-- Timeout for login tickets -->
+	<context-param>
+		<param-name>edu.yale.its.tp.cas.loginTimeout</param-name>
+		<param-value>86400</param-value>
+	</context-param>
 
-    <!-- Login page URL -->
-    <context-param>
-        <param-name>edu.yale.its.tp.cas.loginForm</param-name>
-        <param-value>/cas/login.jsp</param-value>
-    </context-param>
+	<!-- Service validation URL -->
+	<context-param>
+		<param-name>edu.yale.its.tp.cas.serviceValidate</param-name>
+		<param-value>/serviceValidate</param-value>
+	</context-param>
 
-    <!-- Page URL for generic login success message -->
-    <context-param>
-        <param-name>edu.yale.its.tp.cas.genericSuccess</param-name>
-        <param-value>/cas/success.jsp</param-value>
-    </context-param>
+	<!-- Login page URL -->
+	<context-param>
+		<param-name>edu.yale.its.tp.cas.loginForm</param-name>
+		<param-value>/cas/login.jsp</param-value>
+	</context-param>
 
-    <!-- Page URL for simple JavaScript-based redirection -->
-    <context-param>
-        <param-name>edu.yale.its.tp.cas.redirect</param-name>
-        <param-value>/cas/redirect.jsp</param-value>
-    </context-param>
+	<!-- Page URL for generic login success message -->
+	<context-param>
+		<param-name>edu.yale.its.tp.cas.genericSuccess</param-name>
+		<param-value>/cas/success.jsp</param-value>
+	</context-param>
 
-    <!-- Page URL for login success message when 'service' is specified -->
-    <context-param>
-        <param-name>edu.yale.its.tp.cas.serviceSuccess</param-name>
-        <param-value>/cas/goService.jsp</param-value>
-    </context-param>
+	<!-- Page URL for simple JavaScript-based redirection -->
+	<context-param>
+		<param-name>edu.yale.its.tp.cas.redirect</param-name>
+		<param-value>/cas/redirect.jsp</param-value>
+	</context-param>
 
-    <!-- Page URL for login success message + confirmation
-         when 'service' is specified -->
-    <context-param>
-        <param-name>edu.yale.its.tp.cas.confirmService</param-name>
-        <param-value>/cas/warnService.jsp</param-value>
-    </context-param>
+	<!-- Page URL for login success message when 'service' is specified -->
+	<context-param>
+		<param-name>edu.yale.its.tp.cas.serviceSuccess</param-name>
+		<param-value>/cas/goService.jsp</param-value>
+	</context-param>
 
-    <!-- Logout page URL -->
-    <context-param>
-        <param-name>edu.yale.its.tp.cas.logoutPage</param-name>
-        <param-value>/cas/logout.jsp</param-value>
-    </context-param>
+	<!-- Page URL for login success message + confirmation
+		when 'service' is specified -->
+	<context-param>
+		<param-name>edu.yale.its.tp.cas.confirmService</param-name>
+		<param-value>/cas/warnService.jsp</param-value>
+	</context-param>
+
+	<!-- Logout page URL -->
+	<context-param>
+		<param-name>edu.yale.its.tp.cas.logoutPage</param-name>
+		<param-value>/cas/logout.jsp</param-value>
+	</context-param>
 
 	<!-- ******************* END CAS Context Parameters ********************* -->
 
 
-    <filter>
-        <filter-name>SessionFilter</filter-name>
-        <filter-class>org.kuali.core.web.filter.SessionFilter</filter-class>
-    </filter>
-    <filter>
-        <filter-name>ResponseOverrideFilter</filter-name>
-        <filter-class>org.displaytag.filter.ResponseOverrideFilter</filter-class>
-    </filter>
-    <filter>
-        <filter-name>SetResponseBufferSizeFilter</filter-name>
-        <filter-class>org.kuali.core.web.filter.SetResponseBufferSizeFilter</filter-class>
-        <init-param>
-            <param-name>bufferSize</param-name>
-            <param-value>128000</param-value>
-        </init-param>
-    </filter>
-    <filter>
-      <filter-name>UserLoginFilter</filter-name>
-      <filter-class>edu.iu.uis.eden.web.UserLoginFilter</filter-class>
-    </filter>
-    ${web.authentication.filter}
-    <filter-mapping>
-        <filter-name>SessionFilter</filter-name>
-        <url-pattern>/*</url-pattern>
-    </filter-mapping>
-    <filter-mapping>
-        <filter-name>ResponseOverrideFilter</filter-name>
-        <url-pattern>*.do</url-pattern>
-    </filter-mapping>
-    <filter-mapping>
-        <filter-name>SetResponseBufferSizeFilter</filter-name>
-        <url-pattern>*.do</url-pattern>
-    </filter-mapping>
-    <filter-mapping>
-      <filter-name>UserLoginFilter</filter-name>
-      <servlet-name>action</servlet-name>
-    </filter-mapping>
-    <!-- protect the DWR servlet from unauthenticated access -->
+	<filter>
+		<filter-name>SessionFilter</filter-name>
+		<filter-class>org.kuali.core.web.filter.SessionFilter</filter-class>
+	</filter>
+	<filter>
+		<filter-name>ResponseOverrideFilter</filter-name>
+		<filter-class>org.displaytag.filter.ResponseOverrideFilter</filter-class>
+	</filter>
+	<filter>
+		<filter-name>SetResponseBufferSizeFilter</filter-name>
+		<filter-class>org.kuali.core.web.filter.SetResponseBufferSizeFilter</filter-class>
+		<init-param>
+			<param-name>bufferSize</param-name>
+			<param-value>128000</param-value>
+		</init-param>
+	</filter>
+	<filter>
+		<filter-name>UserLoginFilter</filter-name>
+		<filter-class>edu.iu.uis.eden.web.UserLoginFilter</filter-class>
+	</filter>
+	<filter>
+		<filter-name>cas</filter-name>
+		<filter-class>org.kuali.core.web.filter.KualiCasFilter</filter-class>
+		<init-param>
+			<param-name>edu.yale.its.tp.cas.client.filter.loginUrl</param-name>
+			<param-value>${application.url}/${cas.application}/login</param-value>
+		</init-param>
+		<init-param>
+			<param-name>edu.yale.its.tp.cas.client.filter.validateUrl</param-name>
+			<param-value>${application.url}/${cas.application}/serviceValidate</param-value>
+		</init-param>
+	</filter>
 	<filter-mapping>
-  		<filter-name>SessionFilter</filter-name>
-  		<servlet-name>dwr-invoker</servlet-name>
+		<filter-name>cas</filter-name>
+		<servlet-name>action</servlet-name>
 	</filter-mapping>
 	<filter-mapping>
-  		<filter-name>UserLoginFilter</filter-name>
-  		<servlet-name>dwr-invoker</servlet-name>
+		<filter-name>SessionFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+	<filter-mapping>
+		<filter-name>ResponseOverrideFilter</filter-name>
+		<url-pattern>*.do</url-pattern>
+	</filter-mapping>
+	<filter-mapping>
+		<filter-name>SetResponseBufferSizeFilter</filter-name>
+		<url-pattern>*.do</url-pattern>
+	</filter-mapping>
+	<filter-mapping>
+		<filter-name>UserLoginFilter</filter-name>
+		<servlet-name>action</servlet-name>
+	</filter-mapping>
+	<!-- protect the DWR servlet from unauthenticated access -->
+	<filter-mapping>
+		<filter-name>SessionFilter</filter-name>
+		<servlet-name>dwr-invoker</servlet-name>
+	</filter-mapping>
+	<filter-mapping>
+		<filter-name>UserLoginFilter</filter-name>
+		<servlet-name>dwr-invoker</servlet-name>
 	</filter-mapping>
 
 
-    <listener>
-        <listener-class>org.kuali.kfs.context.WebApplicationInitListener</listener-class>
-    </listener>
+	<listener>
+		<listener-class>org.kuali.kfs.context.WebApplicationInitListener</listener-class>
+	</listener>
 
 	<!-- ******************* CAS Listeners ********************* -->
 
-    <!-- Sets up ticket caches -->
-    <listener>
-      <listener-class>edu.yale.its.tp.cas.servlet.CacheInit</listener-class>
-    </listener>
+	<!-- Sets up ticket caches -->
+	<listener>
+		<listener-class>edu.yale.its.tp.cas.servlet.CacheInit</listener-class>
+	</listener>
 
 	<!-- ******************* END CAS Listeners ********************* -->
 
 	<!-- ******************* CAS Servlets ********************* -->
 
-    <!-- Login -->
-    <servlet>
-      <servlet-name>Login</servlet-name>
-      <servlet-class>edu.yale.its.tp.cas.servlet.Login</servlet-class>
-    </servlet>
+	<!-- Login -->
+	<servlet>
+		<servlet-name>Login</servlet-name>
+		<servlet-class>edu.yale.its.tp.cas.servlet.Login</servlet-class>
+	</servlet>
 
-    <!-- Logout -->
-    <servlet>
-      <servlet-name>Logout</servlet-name>
-      <servlet-class>edu.yale.its.tp.cas.servlet.Logout</servlet-class>
-    </servlet>
+	<!-- Logout -->
+	<servlet>
+		<servlet-name>Logout</servlet-name>
+		<servlet-class>edu.yale.its.tp.cas.servlet.Logout</servlet-class>
+	</servlet>
 
-    <!-- Legacy validation -->
-    <servlet>
-      <servlet-name>LegacyValidate</servlet-name>
-      <servlet-class>edu.yale.its.tp.cas.servlet.LegacyValidate</servlet-class>
-    </servlet>
+	<!-- Legacy validation -->
+	<servlet>
+		<servlet-name>LegacyValidate</servlet-name>
+		<servlet-class>edu.yale.its.tp.cas.servlet.LegacyValidate</servlet-class>
+	</servlet>
 
-    <!-- Modern service validation -->
-    <servlet>
-      <servlet-name>ServiceValidate</servlet-name>
-      <servlet-class>edu.yale.its.tp.cas.servlet.ServiceValidate</servlet-class>
-    </servlet>
+	<!-- Modern service validation -->
+	<servlet>
+		<servlet-name>ServiceValidate</servlet-name>
+		<servlet-class>edu.yale.its.tp.cas.servlet.ServiceValidate</servlet-class>
+	</servlet>
 
-    <!-- Proxy (PGT acquisition) -->
-    <servlet>
-      <servlet-name>Proxy</servlet-name>
-      <servlet-class>edu.yale.its.tp.cas.servlet.Proxy</servlet-class>
-    </servlet>
+	<!-- Proxy (PGT acquisition) -->
+	<servlet>
+		<servlet-name>Proxy</servlet-name>
+		<servlet-class>edu.yale.its.tp.cas.servlet.Proxy</servlet-class>
+	</servlet>
 
-    <!-- Modern proxy-service validation -->
-    <servlet>
-      <servlet-name>ProxyValidate</servlet-name>
-      <servlet-class>edu.yale.its.tp.cas.servlet.ProxyValidate</servlet-class>
-    </servlet>
+	<!-- Modern proxy-service validation -->
+	<servlet>
+		<servlet-name>ProxyValidate</servlet-name>
+		<servlet-class>edu.yale.its.tp.cas.servlet.ProxyValidate</servlet-class>
+	</servlet>
 
 	<!-- ******************* END CAS Servlets ********************* -->
 
-    <servlet>
-        <servlet-name>action</servlet-name>
-        <servlet-class>org.kuali.core.web.struts.action.KualiActionServlet</servlet-class>
-        <init-param>
-            <param-name>convertNull</param-name>
-            <param-value>true</param-value>
-        </init-param>
-        <init-param>
-            <param-name>config</param-name>
-            <param-value>${struts.config.files}</param-value>
-        </init-param>
+	<servlet>
+		<servlet-name>action</servlet-name>
+		<servlet-class>org.kuali.core.web.struts.action.KualiActionServlet</servlet-class>
+		<init-param>
+			<param-name>convertNull</param-name>
+			<param-value>true</param-value>
+		</init-param>
+		<init-param>
+			<param-name>config</param-name>
+			<param-value>${struts.config.files}</param-value>
+		</init-param>
 		<init-param>
 			<param-name>config/kr</param-name>
 			<param-value>${struts.rice.config.files}</param-value>
 		</init-param>
-        <init-param>
-          <param-name>config/en</param-name>
-          <param-value>${struts.workflow.config.files}</param-value>
-        </init-param>
-        <load-on-startup>2</load-on-startup>
-    </servlet>
+		<init-param>
+			<param-name>config/en</param-name>
+			<param-value>${struts.workflow.config.files}</param-value>
+		</init-param>
+		<load-on-startup>2</load-on-startup>
+	</servlet>
 	<servlet>
-  		<servlet-name>dwr-invoker</servlet-name>
-  		<servlet-class>org.kuali.core.web.servlet.KualiDWRServlet</servlet-class>
-  		<init-param>
-     		<param-name>debug</param-name>
-     		<param-value>false</param-value>
-  		</init-param>
-  		<init-param>
-  			<param-name>springpath</param-name>
-     		<param-value>true</param-value>
-  		</init-param>
+		<servlet-name>dwr-invoker</servlet-name>
+		<servlet-class>org.kuali.core.web.servlet.KualiDWRServlet</servlet-class>
+		<init-param>
+			<param-name>debug</param-name>
+			<param-value>false</param-value>
+		</init-param>
+		<init-param>
+			<param-name>springpath</param-name>
+			<param-value>true</param-value>
+		</init-param>
 	</servlet>
 
-  <!-- Embedded KEW Servlets -->
-  <servlet>
-    <servlet-name>remoting</servlet-name>
-    <servlet-class>edu.iu.uis.eden.messaging.servlet.KSBDispatcherServlet</servlet-class>
-    <load-on-startup>1</load-on-startup>
-  </servlet>
+	<!-- Embedded KEW Servlets -->
+	<servlet>
+		<servlet-name>remoting</servlet-name>
+		<servlet-class>edu.iu.uis.eden.messaging.servlet.KSBDispatcherServlet</servlet-class>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
 
-  <servlet>
-    <servlet-name>export</servlet-name>
-    <servlet-class>edu.iu.uis.eden.export.web.ExportServlet</servlet-class>
-  </servlet>
+	<servlet>
+		<servlet-name>export</servlet-name>
+		<servlet-class>edu.iu.uis.eden.export.web.ExportServlet</servlet-class>
+	</servlet>
 
-  <servlet>
-    <servlet-name>attachment</servlet-name>
-    <servlet-class>edu.iu.uis.eden.notes.AttachmentServlet</servlet-class>
-  </servlet>
+	<servlet>
+		<servlet-name>attachment</servlet-name>
+		<servlet-class>edu.iu.uis.eden.notes.AttachmentServlet</servlet-class>
+	</servlet>
 
-  <servlet>
-    <servlet-name>edoclite</servlet-name>
-    <servlet-class>edu.iu.uis.eden.edl.EDLServlet</servlet-class>
-  </servlet>
+	<servlet>
+		<servlet-name>edoclite</servlet-name>
+		<servlet-class>edu.iu.uis.eden.edl.EDLServlet</servlet-class>
+	</servlet>
 
 
-    <servlet-mapping>
-        <servlet-name>action</servlet-name>
-        <url-pattern>*.do</url-pattern>
-    </servlet-mapping>
 	<servlet-mapping>
-  		<servlet-name>dwr-invoker</servlet-name>
-  		<url-pattern>/dwr/*</url-pattern>
+		<servlet-name>action</servlet-name>
+		<url-pattern>*.do</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>dwr-invoker</servlet-name>
+		<url-pattern>/dwr/*</url-pattern>
 	</servlet-mapping>
 
 	<!-- ******************* CAS Servlet Mappings ********************* -->
 
-    <!-- Servlet mappings to local URLs -->
-    <servlet-mapping>
-      <servlet-name>Login</servlet-name>
-      <url-pattern>/cas/login</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-      <servlet-name>Logout</servlet-name>
-      <url-pattern>/cas/logout</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-      <servlet-name>LegacyValidate</servlet-name>
-      <url-pattern>/cas/validate</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-      <servlet-name>ServiceValidate</servlet-name>
-      <url-pattern>/cas/serviceValidate</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-      <servlet-name>Proxy</servlet-name>
-      <url-pattern>/cas/proxy</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-      <servlet-name>ProxyValidate</servlet-name>
-      <url-pattern>/cas/proxyValidate</url-pattern>
-    </servlet-mapping>
+	<!-- Servlet mappings to local URLs -->
+	<servlet-mapping>
+		<servlet-name>Login</servlet-name>
+		<url-pattern>/cas/login</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>Logout</servlet-name>
+		<url-pattern>/cas/logout</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>LegacyValidate</servlet-name>
+		<url-pattern>/cas/validate</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>ServiceValidate</servlet-name>
+		<url-pattern>/cas/serviceValidate</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>Proxy</servlet-name>
+		<url-pattern>/cas/proxy</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>ProxyValidate</servlet-name>
+		<url-pattern>/cas/proxyValidate</url-pattern>
+	</servlet-mapping>
 
 	<!-- ******************* END CAS Servlet Mappings ********************* -->
 
-  <!-- ******************* Embedded KEW Servlet Mappings ********************* -->
+	<!-- ******************* Embedded KEW Servlet Mappings ********************* -->
 
-   <servlet-mapping>
-    <servlet-name>remoting</servlet-name>
-    <url-pattern>/remoting/*</url-pattern>
-  </servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>remoting</servlet-name>
+		<url-pattern>/remoting/*</url-pattern>
+	</servlet-mapping>
 
-  <servlet-mapping>
-    <servlet-name>export</servlet-name>
-    <url-pattern>/export/*</url-pattern>
-  </servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>export</servlet-name>
+		<url-pattern>/export/*</url-pattern>
+	</servlet-mapping>
 
-  <servlet-mapping>
-    <servlet-name>attachment</servlet-name>
-    <url-pattern>/en/attachment/*</url-pattern>
-  </servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>attachment</servlet-name>
+		<url-pattern>/en/attachment/*</url-pattern>
+	</servlet-mapping>
 
-  <servlet-mapping>
-    <servlet-name>edoclite</servlet-name>
-    <url-pattern>/en/EDocLite</url-pattern>
-  </servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>edoclite</servlet-name>
+		<url-pattern>/en/EDocLite</url-pattern>
+	</servlet-mapping>
 
-    <!-- ******************* END Embedded KEW Servlet Mappings ********************* -->
+	<!-- ******************* END Embedded KEW Servlet Mappings ********************* -->
 
-
-    <session-config>
-        <session-timeout>15</session-timeout>
-    </session-config>
-    <welcome-file-list>
-        <welcome-file>index.jsp</welcome-file>
-    </welcome-file-list>
-    <security-constraint>
-        <web-resource-collection>
-            <web-resource-name>ProtectedFolder</web-resource-name>
-            <url-pattern>/jsp/*</url-pattern>
-            <http-method>DELETE</http-method>
-            <http-method>GET</http-method>
-            <http-method>POST</http-method>
-            <http-method>PUT</http-method>
-        </web-resource-collection>
-        <auth-constraint />
-    </security-constraint>
+	<session-config>
+		<session-timeout>15</session-timeout>
+	</session-config>
+	<welcome-file-list>
+		<welcome-file>index.jsp</welcome-file>
+	</welcome-file-list>
+	<security-constraint>
+		<web-resource-collection>
+			<web-resource-name>ProtectedFolder</web-resource-name>
+			<url-pattern>/jsp/*</url-pattern>
+			<http-method>DELETE</http-method>
+			<http-method>GET</http-method>
+			<http-method>POST</http-method>
+			<http-method>PUT</http-method>
+		</web-resource-collection>
+		<auth-constraint />
+	</security-constraint>
 </web-app>

@@ -18,11 +18,14 @@ package org.kuali.module.labor.web.struts.action;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.RiceConstants;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.module.labor.LaborConstants;
+import org.kuali.module.labor.bo.LaborLedgerPendingEntry;
 import org.kuali.module.labor.bo.LedgerBalance;
 import org.kuali.module.labor.util.ObjectUtil;
 import org.kuali.module.labor.web.struts.form.BenefitExpenseTransferForm;
@@ -57,6 +60,15 @@ public class BenefitExpenseTransferAction extends ExpenseTransferDocumentActionB
      */
     @Override
     public ActionForward performLookup(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+       
+        // parse out the business object name from our methodToCall parameter
+        String fullParameter = (String) request.getAttribute(RiceConstants.METHOD_TO_CALL_ATTRIBUTE);
+        String boClassName = StringUtils.substringBetween(fullParameter, RiceConstants.METHOD_TO_CALL_BOPARM_LEFT_DEL, RiceConstants.METHOD_TO_CALL_BOPARM_RIGHT_DEL);
+        
+        if(!StringUtils.equals(boClassName, LaborLedgerPendingEntry.class.getName())){
+            return super.performLookup(mapping, form, request, response);
+        }
+
         String path = super.performLookup(mapping, form, request, response).getPath();
         path = path.replaceFirst(KFSConstants.LOOKUP_ACTION, LaborConstants.LONG_ROW_TABLE_INRUIRY_ACTION);
         return new ActionForward(path, true);

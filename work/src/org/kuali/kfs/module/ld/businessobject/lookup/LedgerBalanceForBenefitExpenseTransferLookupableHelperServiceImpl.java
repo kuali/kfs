@@ -64,11 +64,18 @@ public class LedgerBalanceForBenefitExpenseTransferLookupableHelperServiceImpl e
         // get the ledger balances with actual balance type code
         fieldValues.put(KFSPropertyConstants.FINANCIAL_BALANCE_TYPE_CODE, options.getActualFinancialBalanceTypeCd());
         Collection cashBalances = buildDetailedBalanceCollection(getBalanceService().findBalance(fieldValues, false), Constant.NO_PENDING_ENTRY);
+        
+        // get the ledger balances with effort balance type code
+        fieldValues.put(KFSPropertyConstants.FINANCIAL_BALANCE_TYPE_CODE, KFSConstants.BALANCE_TYPE_A21);
+        Collection effortBalances = buildDetailedBalanceCollection(getBalanceService().findBalance(fieldValues, false), Constant.NO_PENDING_ENTRY);
+
+        Collection searchResults = cashBalances;
+        searchResults.addAll(effortBalances);
 
         Integer recordCount = getBalanceService().getBalanceRecordCount(fieldValues, true);
-        Long actualSize = OJBUtility.getResultActualSize(cashBalances, recordCount, fieldValues, new LedgerBalance());
+        Long actualSize = OJBUtility.getResultActualSize(searchResults, recordCount, fieldValues, new LedgerBalance());
 
-        return buildSearchResultList(cashBalances, actualSize);
+        return buildSearchResultList(searchResults, actualSize);
     }
 
     /**

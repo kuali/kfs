@@ -35,7 +35,9 @@ import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSKeyConstants;
 import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.bo.AccountingLine;
+import org.kuali.kfs.bo.Options;
 import org.kuali.kfs.document.AccountingDocument;
+import org.kuali.kfs.service.OptionsService;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.chart.bo.AccountingPeriod;
 import org.kuali.module.labor.LaborConstants;
@@ -55,6 +57,7 @@ public class BenefitExpenseTransferDocumentRule extends LaborExpenseTransferDocu
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(BenefitExpenseTransferDocumentRule.class);
 
     private BusinessObjectService businessObjectService = SpringServiceLocator.getBusinessObjectService();
+    private OptionsService optionsService = SpringServiceLocator.getOptionsService();
 
     /**
      * Constructs a BenefitExpenseTransferDocumentRule.java.
@@ -381,14 +384,18 @@ public class BenefitExpenseTransferDocumentRule extends LaborExpenseTransferDocu
 
             KualiDecimal balanceAmount = getBalanceAmount(fieldValues, accountingLine.getPayrollEndDateFiscalPeriodCode());
             KualiDecimal transferAmount = accountingLine.getAmount();
+            
+            System.out.println("-->" + balanceAmount + ":" + transferAmount);
 
             // the tranferred amount cannot greater than the balance amount
             if (balanceAmount.abs().isLessThan(transferAmount.abs())) {
+                System.out.println("-->1");
                 return false;
             }
 
             // a positive amount cannot be transferred if the balance amount is negative
             if (balanceAmount.isNegative() && transferAmount.isPositive()) {
+                System.out.println("-->2");
                 return false;
             }
         }
@@ -428,6 +435,7 @@ public class BenefitExpenseTransferDocumentRule extends LaborExpenseTransferDocu
         List<LedgerBalance> ledgerBalances = (List<LedgerBalance>) SpringServiceLocator.getBusinessObjectService().findMatching(LedgerBalance.class, fieldValues);
 
         if (!ledgerBalances.isEmpty() && periodCode != null) {
+            System.out.println("****:" + ledgerBalances.get(0).getMonth1Amount() + ":" + periodCode + ":" + ledgerBalances.get(0).getAmount(periodCode));
             return ledgerBalances.get(0).getAmount(periodCode);
         }
         return KualiDecimal.ZERO;
@@ -511,6 +519,9 @@ public class BenefitExpenseTransferDocumentRule extends LaborExpenseTransferDocu
 
         fieldValues.put(KFSPropertyConstants.FINANCIAL_BALANCE_TYPE_CODE, accountingLine.getBalanceTypeCode());
         fieldValues.put(KFSPropertyConstants.FINANCIAL_OBJECT_CODE, accountingLine.getFinancialObjectCode());
+        
+        Options options = optionsService.getOptions(accountingLine.getPostingYear());
+        fieldValues.put(KFSPropertyConstants.FINANCIAL_OBJECT_TYPE_CODE, options.getFinObjTypeExpenditureexpCd());
 
         String subObjectCode = accountingLine.getFinancialSubObjectCode();
         subObjectCode = StringUtils.isBlank(subObjectCode) ? KFSConstants.DASHES_SUB_OBJECT_CODE : subObjectCode;
@@ -518,6 +529,8 @@ public class BenefitExpenseTransferDocumentRule extends LaborExpenseTransferDocu
 
         fieldValues.put(KFSPropertyConstants.EMPLID, accountingLine.getEmplid());
         fieldValues.put(KFSPropertyConstants.POSITION_NUMBER, accountingLine.getPositionNumber());
+        
+        System.out.println(fieldValues);
 
         return fieldValues;
     }

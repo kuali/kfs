@@ -18,7 +18,7 @@
 <kul:tab tabTitle="Labor Ledger Pending Entries" defaultOpen="false" tabErrorKey="${Constants.LABOR_LEDGER_PENDING_ENTRIES_TAB_ERRORS}">
 <div class="tab-container" align=center>
 		<div class="h2-container">
-		<h2>Labor Ledger Pending Entries <kul:lookup boClassName="org.kuali.module.labor.bo.PendingLedgerEntry" lookupParameters="document.documentNumber:documentNumber" hideReturnLink="true" suppressActions="true"/></h2>
+		<h2>Labor Ledger Pending Entries <kul:lookup boClassName="org.kuali.module.labor.bo.LaborLedgerPendingEntry" lookupParameters="document.documentNumber:documentNumber" hideReturnLink="true" suppressActions="true"/></h2>
 		</div>
 	 <table cellpadding="0" cellspacing="0" class="datatable" summary="view/edit pending entries">
 

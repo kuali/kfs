@@ -17,7 +17,11 @@ package org.kuali.module.gl;
 
 import java.io.PrintStream;
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
@@ -26,7 +30,6 @@ import java.util.Map;
 import org.kuali.core.service.ConfigurableDateService;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.service.PersistenceService;
-import org.kuali.core.util.Guid;
 import org.kuali.core.util.UnitTestSqlDao;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.context.KualiTestBase;
@@ -147,28 +150,59 @@ public class OriginEntryTestBase extends KualiTestBase {
     protected void assertOriginEntries(int groupCount, EntryHolder[] requiredEntries) {
         persistenceService.clearCache();
 
-        List groups = unitTestSqlDao.sqlSelect("select * from gl_origin_entry_grp_t order by origin_entry_grp_src_cd");
+        final List groups = unitTestSqlDao.sqlSelect("select * from gl_origin_entry_grp_t order by origin_entry_grp_src_cd");
         assertEquals("Number of groups is wrong", groupCount, groups.size());
 
-        Collection c = originEntryDao.testingGetAllEntries();
+        Collection<OriginEntry> c = originEntryDao.testingGetAllEntries();
 
+        // now, sort the lines here to avoid any DB sorting issues
+        Comparator<OriginEntry> originEntryComparator = new Comparator<OriginEntry>() {
+        	public int compare(OriginEntry o1, OriginEntry o2) {
+        		int groupCompareResult = o1.getEntryGroupId().compareTo( o2.getEntryGroupId() );
+        		if ( groupCompareResult == 0 ) {
+        			return o1.getLine().compareTo( o2.getLine() );
+        		} else {
+        			return groupCompareResult;        			
+        		}
+        	}
+        };
+        Comparator<EntryHolder> entryHolderComparator = new Comparator<EntryHolder>() {
+        	public int compare(EntryHolder o1, EntryHolder o2) {
+        		int groupCompareResult = String.valueOf( getGroup( groups, o1.groupCode ) ).compareTo( String.valueOf( getGroup( groups, o2.groupCode ) ) );
+        		if ( groupCompareResult == 0 ) {
+        			return o1.transactionLine.compareTo( o2.transactionLine );
+        		} else {
+        			return groupCompareResult;        			
+        		}
+        	}
+        };
+        ArrayList<OriginEntry> sortedEntryTransactions = new ArrayList<OriginEntry>( c );
+        Collections.sort( sortedEntryTransactions, originEntryComparator );
+        Arrays.sort( requiredEntries, entryHolderComparator );
+        
         // This is for debugging purposes - change to true for output
         if (true) {
+        	System.err.println( "Groups:" );
             for (Iterator iter = groups.iterator(); iter.hasNext();) {
                 Map element = (Map) iter.next();
                 System.err.println("G:" + element.get("ORIGIN_ENTRY_GRP_ID") + " " + element.get("ORIGIN_ENTRY_GRP_SRC_CD"));
             }
 
-            for (Iterator iter = c.iterator(); iter.hasNext();) {
-                OriginEntry element = (OriginEntry) iter.next();
+        	System.err.println( "Transactions:" );
+            for (OriginEntry element : sortedEntryTransactions ) {
                 System.err.println("L:" + element.getEntryGroupId() + " " + element.getLine());
+            }
+        	System.err.println( "Expected Transactions:" );
+            for (EntryHolder element : requiredEntries ) {
+                System.err.println("L:" + getGroup(groups, element.groupCode ) + " " + element.transactionLine );
             }
         }
 
         assertEquals("Wrong number of transactions in Origin Entry", requiredEntries.length, c.size());
 
+        
         int count = 0;
-        for (Iterator iter = c.iterator(); iter.hasNext();) {
+        for (Iterator iter = sortedEntryTransactions.iterator(); iter.hasNext();) {
             OriginEntry foundTransaction = (OriginEntry) iter.next();
 
             // Check group

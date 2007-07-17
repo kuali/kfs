@@ -33,6 +33,7 @@ import org.kuali.core.util.TypedArrayList;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSKeyConstants;
 import org.kuali.kfs.context.KualiTestBase;
+import org.kuali.kfs.util.SpringServiceLocator;
 
 import edu.iu.uis.eden.exception.WorkflowException;
 
@@ -70,8 +71,8 @@ public abstract class ChartRuleTestBase extends KualiTestBase {
 
         // get a new MaintenanceDocument from Spring
         MaintenanceDocument document = null;
-        try {
-            document = (MaintenanceDocument) getDocumentService().getNewDocument(MaintenanceDocumentBase.class);
+        try {        	
+            document = (MaintenanceDocument) getDocumentService().getNewDocument( SpringServiceLocator.getMaintenanceDocumentDictionaryService().getDocumentTypeName( newBo.getClass() ) );
         }
         catch (WorkflowException e) {
             throw new RuntimeException(e);

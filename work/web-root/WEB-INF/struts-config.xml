@@ -109,7 +109,7 @@
 
 
     <global-forwards>
-        <forward name="error" path="/kr/WEB-INF/jsp/core/KualiError.jsp" />
+        <forward name="error" path="/kr/WEB-INF/jsp/KualiError.jsp" />
         <forward name="save" path="/index.jsp" redirect="true" />
         <forward name="cancel" path="/index.jsp" redirect="true" />
         <forward name="close" path="/index.jsp" redirect="true" />

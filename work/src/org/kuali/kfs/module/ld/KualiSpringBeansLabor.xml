@@ -223,7 +223,40 @@
 		</property>	
 	</bean>
 	
-	<bean id="laborLedgerBalanceForBenefitExpenseTransferLookupable" class="org.kuali.core.lookup.KualiLookupableImpl" singleton="false">
+    <bean id="laborLedgerBalanceForSalaryExpenseTransferLookupableHelperService" class="org.kuali.module.labor.web.lookupable.LedgerBalanceForSalaryExpenseTransferLookupableHelperServiceImpl" singleton="false">
+		<property name="persistenceStructureService">
+			<ref bean="persistenceStructureService" />
+		</property>
+		<property name="lookupService">
+			<ref bean="lookupService" />
+		</property>
+		<property name="balanceService">
+			<ref bean="laborLedgerBalanceService" />
+		</property>		
+		<property name="businessObjectDictionaryService">
+			<ref bean="businessObjectDictionaryService" />
+		</property>
+		<property name="businessObjectMetaDataService">
+			<ref bean="businessObjectMetaDataService" />
+		</property>
+		<!--property name="dictionaryValidationService">
+			<ref bean="dictionaryValidationService" />
+			</property-->
+		<property name="dataDictionaryService">
+			<ref bean="dataDictionaryService" />
+		</property>
+		<property name="optionsService">
+			<ref bean="optionsService" />
+		</property>	
+	</bean>
+	
+	<bean id="laborLedgerBalanceForSalaryExpenseTransferLookupable" class="org.kuali.core.lookup.KualiLookupableImpl" singleton="false">
+		<property name="lookupableHelperService">
+			<ref bean="laborLedgerBalanceForSalaryExpenseTransferLookupableHelperService" />
+		</property>
+	</bean>	
+	
+    <bean id="laborLedgerBalanceForBenefitExpenseTransferLookupable" class="org.kuali.core.lookup.KualiLookupableImpl" singleton="false">
 		<property name="lookupableHelperService">
 			<ref bean="laborLedgerBalanceForBenefitExpenseTransferLookupableHelperService" />
 		</property>

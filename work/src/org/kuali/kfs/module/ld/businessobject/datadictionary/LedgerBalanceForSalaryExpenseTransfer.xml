@@ -56,7 +56,7 @@
         </inquiry>
 
         <lookup>
-	        <lookupableID>laborLedgerBalanceLookupable</lookupableID>	        
+	        <lookupableID>laborLedgerBalanceForSalaryExpenseTransferLookupable</lookupableID>	        
             <title>Ledger Balance Lookup</title>
 
             <instructions>Look up a Ledger Balance</instructions>
@@ -297,7 +297,6 @@
                 <description>Year End Close Amount...</description>
                 <formatterClass>org.kuali.core.web.format.CurrencyFormatter</formatterClass>
             </attributeReference>
-
         </attributes>
 
         <relationships>

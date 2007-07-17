@@ -56,25 +56,20 @@
                     forceRequired="true"
                     />
                 <td>
-                <c:choose>
-                    <c:when test="${empty KualiForm.emplid}">
-                        <ld:employee userIdFieldName="emplid" 
+                      <ld:employee userIdFieldName="emplid" 
                                   userNameFieldName="user.personName" 
                                   fieldConversions="personPayrollIdentifier:emplid"
                                   lookupParameters="emplid:personPayrollIdentifier,universityFiscalYear:universityFiscalYear"
                                   hasErrors="${hasErrors}"
                                   onblur="${onblur}"
                                   highlight="${addHighlighting}">
-                            <jsp:attribute name="helpLink" trim="true">
+                        <jsp:attribute name="helpLink" trim="true">
                                 <kul:help
                                     businessObjectClassName="${field.businessObjectClassName}"
                                     attributeName="${field.fieldHelpName}"
                                     altText="${field.fieldHelpSummary}" />      
                             </jsp:attribute>
-                        </ld:employee>
-                    </c:when>
-                    <c:otherwise>${KualiForm.emplid}</c:otherwise>
-                </c:choose>
+                      </ld:employee>
                 </td>
               </tr>
 	            
@@ -84,7 +79,7 @@
                     <gl:balanceInquiryLookup
                         boClassName="org.kuali.module.labor.bo.LedgerBalanceForSalaryExpenseTransfer"
                         actionPath="glBalanceInquiryLookup.do"
-                        lookupParameters="emplid:emplid,financialBalanceTypeCode:financialBalanceTypeCode"
+                        lookupParameters="universityFiscalYear:universityFiscalYear,emplid:emplid,financialBalanceTypeCode:financialBalanceTypeCode"
                         hideReturnLink="false" image="buttonsmall_search.gif"/>
 					</td>
 				</tr>

@@ -26,14 +26,14 @@ import org.kuali.kfs.bo.Options;
 import org.kuali.kfs.service.OptionsService;
 import org.kuali.module.gl.util.OJBUtility;
 import org.kuali.module.gl.web.Constant;
-import org.kuali.module.labor.LaborConstants.BenefitExpenseTransfer;
+import org.kuali.module.labor.LaborConstants.SalaryExpenseTransfer;
 import org.kuali.module.labor.bo.LedgerBalance;
 import org.kuali.module.labor.web.inquirable.LedgerBalanceInquirableImpl;
 import org.springframework.transaction.annotation.Transactional;
 
 @Transactional
-public class LedgerBalanceForBenefitExpenseTransferLookupableHelperServiceImpl extends LedgerBalanceLookupableHelperServiceImpl {
-    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(LedgerBalanceForBenefitExpenseTransferLookupableHelperServiceImpl.class);
+public class LedgerBalanceForSalaryExpenseTransferLookupableHelperServiceImpl extends LedgerBalanceLookupableHelperServiceImpl {
+    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(LedgerBalanceForSalaryExpenseTransferLookupableHelperServiceImpl.class);
 
     private OptionsService optionsService;
 
@@ -59,7 +59,7 @@ public class LedgerBalanceForBenefitExpenseTransferLookupableHelperServiceImpl e
         Options options = this.getOptions(fiscalYearString);
 
         fieldValues.put(KFSPropertyConstants.FINANCIAL_OBJECT_TYPE_CODE, options.getFinObjTypeExpenditureexpCd());
-        fieldValues.put(KFSPropertyConstants.LABOR_OBJECT + "." + KFSPropertyConstants.FINANCIAL_OBJECT_FRINGE_OR_SALARY_CODE, BenefitExpenseTransfer.LABOR_LEDGER_BENEFIT_CODE);
+        fieldValues.put(KFSPropertyConstants.LABOR_OBJECT + "." + KFSPropertyConstants.FINANCIAL_OBJECT_FRINGE_OR_SALARY_CODE, SalaryExpenseTransfer.LABOR_LEDGER_SALARY_CODE);
 
         // get the ledger balances with actual balance type code
         fieldValues.put(KFSPropertyConstants.FINANCIAL_BALANCE_TYPE_CODE, options.getActualFinancialBalanceTypeCd());

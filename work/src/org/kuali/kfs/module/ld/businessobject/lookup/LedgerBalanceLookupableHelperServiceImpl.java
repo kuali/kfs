@@ -214,13 +214,55 @@ public class LedgerBalanceLookupableHelperServiceImpl extends AbstractLookupable
         Collection balanceCollection = new ArrayList();
         
         while (iterator.hasNext()) {
-            LedgerBalance balance = (LedgerBalance) (iterator.next());
+            LedgerBalance copyBalance = (LedgerBalance) (iterator.next());
+            
+            LedgerBalance balance = new LedgerBalance();
+            if (LedgerBalance.class.isAssignableFrom(getBusinessObjectClass())) {
+                try {
+                    balance = (LedgerBalance) getBusinessObjectClass().newInstance();
+                }
+                catch (Exception e) {
+                    LOG.warn("Using " + LedgerBalance.class + " for results because I couldn't instantiate the " + getBusinessObjectClass());
+                }
+            }
+            else {
+                LOG.warn("Using " + LedgerBalance.class + " for results because I couldn't instantiate the " + getBusinessObjectClass());
+            }
+                
+            balance.setUniversityFiscalYear(copyBalance.getUniversityFiscalYear());
+            balance.setChartOfAccountsCode(copyBalance.getChartOfAccountsCode());
+            balance.setAccountNumber(copyBalance.getAccountNumber());
+            balance.setSubAccountNumber(copyBalance.getSubAccountNumber());
+            balance.setBalanceTypeCode(copyBalance.getBalanceTypeCode());
+            balance.setFinancialObjectCode(copyBalance.getFinancialObjectCode());
+            balance.setEmplid(copyBalance.getEmplid());
+            balance.setObjectId(copyBalance.getObjectId());
+            balance.setPositionNumber(copyBalance.getPositionNumber());
+            balance.setFinancialSubObjectCode(copyBalance.getFinancialSubObjectCode());
+            balance.setFinancialObjectTypeCode(copyBalance.getFinancialObjectTypeCode());
+            balance.setAccountLineAnnualBalanceAmount(copyBalance.getAccountLineAnnualBalanceAmount());
+            balance.setBeginningBalanceLineAmount(copyBalance.getBeginningBalanceLineAmount());
+            balance.setContractsGrantsBeginningBalanceAmount(copyBalance.getContractsGrantsBeginningBalanceAmount());
+            balance.setMonth1Amount(copyBalance.getMonth1Amount());
+            balance.setMonth2Amount(copyBalance.getMonth2Amount());
+            balance.setMonth3Amount(copyBalance.getMonth3Amount());
+            balance.setMonth4Amount(copyBalance.getMonth4Amount());
+            balance.setMonth5Amount(copyBalance.getMonth5Amount());
+            balance.setMonth6Amount(copyBalance.getMonth6Amount());
+            balance.setMonth7Amount(copyBalance.getMonth7Amount());
+            balance.setMonth8Amount(copyBalance.getMonth8Amount());
+            balance.setMonth9Amount(copyBalance.getMonth9Amount());
+            balance.setMonth10Amount(copyBalance.getMonth10Amount());
+            balance.setMonth11Amount(copyBalance.getMonth11Amount());
+            balance.setMonth12Amount(copyBalance.getMonth12Amount());
+            balance.setMonth13Amount(copyBalance.getMonth13Amount());
 
             balance.setDummyBusinessObject(new TransientBalanceInquiryAttributes());
             balance.getDummyBusinessObject().setPendingEntryOption(pendingEntryOption);
 
             balanceCollection.add(balance);
         }
+
         return balanceCollection;
     }
 

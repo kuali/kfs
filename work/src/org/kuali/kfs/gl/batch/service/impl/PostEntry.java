@@ -21,8 +21,11 @@ package org.kuali.module.gl.batch.poster.impl;
 
 import java.util.Date;
 
+import org.apache.ojb.broker.metadata.MetadataManager;
+import org.kuali.module.gl.GLConstants;
 import org.kuali.module.gl.batch.poster.PostTransaction;
 import org.kuali.module.gl.bo.Entry;
+import org.kuali.module.gl.bo.ExpenditureTransaction;
 import org.kuali.module.gl.bo.Transaction;
 import org.kuali.module.gl.dao.EntryDao;
 import org.kuali.module.gl.service.PosterService;
@@ -62,11 +65,11 @@ public class PostGlEntry implements PostTransaction {
 
         entryDao.addEntry(e, postDate);
 
-        return "I";
+        return GLConstants.INSERT_CODE;
     }
 
     public String getDestinationName() {
-        return "GL_ENTRY_T";
+        return MetadataManager.getInstance().getGlobalRepository().getDescriptorFor(Entry.class).getFullTableName();
     }
 
     public void setEntryDao(EntryDao ed) {

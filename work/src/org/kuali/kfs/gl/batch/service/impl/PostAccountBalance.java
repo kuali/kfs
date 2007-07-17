@@ -19,10 +19,13 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.Iterator;
 
+import org.apache.ojb.broker.metadata.MetadataManager;
 import org.kuali.kfs.KFSConstants;
+import org.kuali.module.gl.GLConstants;
 import org.kuali.module.gl.batch.poster.AccountBalanceCalculator;
 import org.kuali.module.gl.batch.poster.PostTransaction;
 import org.kuali.module.gl.bo.AccountBalance;
+import org.kuali.module.gl.bo.ExpenditureTransaction;
 import org.kuali.module.gl.bo.Transaction;
 import org.kuali.module.gl.dao.AccountBalanceDao;
 import org.springframework.transaction.annotation.Transactional;
@@ -57,20 +60,20 @@ public class PostGlAccountBalance implements PostTransaction, AccountBalanceCalc
                  t.getFinancialBalanceTypeCode().equals(t.getOption().getPreencumbranceFinBalTypeCd()) || t.getFinancialBalanceTypeCode().equals(t.getOption().getCostShareEncumbranceBalanceTypeCd())) && 
                  ( ! t.getFinancialObjectTypeCode().equals(t.getOption().getFinObjectTypeFundBalanceCd()))) {
             // We are posting this transaction
-            String returnCode = "U";
+            String returnCode = GLConstants.UPDATE_CODE;
 
             // Load it
             AccountBalance ab = accountBalanceDao.getByTransaction(t);
 
             if (ab == null) {
-                returnCode = "I";
+                returnCode = GLConstants.INSERT_CODE;
                 ab = new AccountBalance(t);
             }
 
             ab.setTimestamp(new java.sql.Date(postDate.getTime()));
 
             if (!updateAccountBalanceReturn(t, ab)) {
-                return "";
+                return GLConstants.EMPTY_CODE;
             }
 
             accountBalanceDao.save(ab);
@@ -78,7 +81,7 @@ public class PostGlAccountBalance implements PostTransaction, AccountBalanceCalc
             return returnCode;
         }
         else {
-            return "";
+            return GLConstants.EMPTY_CODE;
         }
     }
 
@@ -136,6 +139,6 @@ public class PostGlAccountBalance implements PostTransaction, AccountBalanceCalc
     }
 
     public String getDestinationName() {
-        return "GL_ACCT_BALANCES_T";
+        return MetadataManager.getInstance().getGlobalRepository().getDescriptorFor(AccountBalance.class).getFullTableName();
     }
 }

@@ -22,13 +22,16 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
+import org.apache.ojb.broker.metadata.MetadataManager;
 import org.kuali.core.service.DateTimeService;
 import org.kuali.kfs.KFSConstants;
+import org.kuali.module.gl.GLConstants;
 import org.kuali.module.gl.batch.poster.EncumbranceCalculator;
 import org.kuali.module.gl.batch.poster.PostTransaction;
 import org.kuali.module.gl.batch.poster.VerifyTransaction;
 import org.kuali.module.gl.bo.Encumbrance;
 import org.kuali.module.gl.bo.Entry;
+import org.kuali.module.gl.bo.SufficientFundBalances;
 import org.kuali.module.gl.bo.Transaction;
 import org.kuali.module.gl.dao.EncumbranceDao;
 import org.springframework.transaction.annotation.Transactional;
@@ -71,7 +74,7 @@ public class PostEncumbrance implements PostTransaction, VerifyTransaction, Encu
     public String post(Transaction t, int mode, Date postDate) {
         LOG.debug("post() started");
 
-        String returnCode = "U";
+        String returnCode = GLConstants.UPDATE_CODE;
 
         // If the encumbrance update code is space or N, or the object type code is FB
         // we don't need to post an encumbrance
@@ -93,7 +96,7 @@ public class PostEncumbrance implements PostTransaction, VerifyTransaction, Encu
             // Build a new encumbrance record
             enc = new Encumbrance(e);
 
-            returnCode = "I";
+            returnCode = GLConstants.INSERT_CODE;
         }
         else {
             // Use the one retrieved
@@ -101,7 +104,7 @@ public class PostEncumbrance implements PostTransaction, VerifyTransaction, Encu
                 enc.setTransactionEncumbranceDate(t.getTransactionDate());
             }
 
-            returnCode = "U";
+            returnCode = GLConstants.UPDATE_CODE;
         }
 
         updateEncumbrance(t, enc);
@@ -178,7 +181,7 @@ public class PostEncumbrance implements PostTransaction, VerifyTransaction, Encu
     }
 
     public String getDestinationName() {
-        return "GL_ENCUMBRANCE_T";
+        return MetadataManager.getInstance().getGlobalRepository().getDescriptorFor(Encumbrance.class).getFullTableName();
     }
     
 

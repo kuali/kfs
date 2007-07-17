@@ -25,6 +25,9 @@ public class Summary implements Comparable {
      * This number is used by TransactionReport when sorting the list of Summary objects passed to
      * TransactionReport.generateReport(). Lowest number prints first.
      */
+    public static final int TOTAL_RECORD_COUNT_SUMMARY_SORT_ORDER = 1;
+    public static final int SELECTED_RECORD_COUNT_SUMMARY_SORT_ORDER = 2;
+    public static final int SEQUENCE_RECORDS_WRITTEN_SUMMARY_SORT_ORDER = 3;
     private int sortOrder;
 
     /**

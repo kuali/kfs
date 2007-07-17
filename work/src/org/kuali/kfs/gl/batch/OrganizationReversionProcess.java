@@ -18,18 +18,21 @@ package org.kuali.module.gl.service.impl.orgreversion;
 import java.sql.Date;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.ArrayList;
-import java.util.HashMap;
 
+import org.kuali.core.rule.KualiParameterRule;
 import org.kuali.core.service.DateTimeService;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.service.PersistenceService;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSKeyConstants;
+import org.kuali.kfs.KFSPropertyConstants;
+import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.chart.bo.AccountIntf;
 import org.kuali.module.chart.bo.ObjectCode;
 import org.kuali.module.chart.bo.OrganizationReversion;
@@ -39,15 +42,15 @@ import org.kuali.module.chart.service.OrganizationReversionService;
 import org.kuali.module.chart.service.PriorYearAccountService;
 import org.kuali.module.gl.GLConstants;
 import org.kuali.module.gl.bo.Balance;
-import org.kuali.module.gl.bo.OrgReversionUnitOfWorkCategoryAmount;
 import org.kuali.module.gl.bo.OrgReversionUnitOfWork;
+import org.kuali.module.gl.bo.OrgReversionUnitOfWorkCategoryAmount;
 import org.kuali.module.gl.bo.OriginEntry;
 import org.kuali.module.gl.bo.OriginEntryGroup;
 import org.kuali.module.gl.bo.OriginEntrySource;
 import org.kuali.module.gl.service.BalanceService;
+import org.kuali.module.gl.service.OrgReversionUnitOfWorkService;
 import org.kuali.module.gl.service.OrganizationReversionCategoryLogic;
 import org.kuali.module.gl.service.OrganizationReversionSelection;
-import org.kuali.module.gl.service.OrgReversionUnitOfWorkService;
 import org.kuali.module.gl.service.OriginEntryGroupService;
 import org.kuali.module.gl.service.OriginEntryService;
 import org.kuali.module.gl.service.ReportService;
@@ -57,7 +60,6 @@ import org.kuali.module.gl.util.Summary;
 public class OrganizationReversionProcess {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(OrganizationReversionProcess.class);
 
-    private static final String FINANCIAL_OBJECT = "financialObject";
     private static final String DATE_FORMAT = "yyyy-MM-dd";
 
     // Services
@@ -91,7 +93,29 @@ public class OrganizationReversionProcess {
 
     private boolean endOfYear;
 
+    public final KualiParameterRule ORGANIZATION_REVERSION_COA;
+    public final String CARRY_FORWARD_OBJECT_CODE;
+    public final String DEFAULT_FINANCIAL_DOCUMENT_TYPE_CODE;
+    public final String DEFAULT_FINANCIAL_SYSTEM_ORIGINATION_CODE;
+    public final String DEFAULT_FINANCIAL_BALANCE_TYPE_CODE;
+    public final String DEFAULT_FINANCIAL_BALANCE_TYPE_CODE_YEAR_END;
+    public final String DEFAULT_DOCUMENT_NUMBER_PREFIX;
+    
+    public OrganizationReversionProcess() {
+        super();
+
+        KualiConfigurationService kualiConfigurationService = SpringServiceLocator.getKualiConfigurationService();
+        this.ORGANIZATION_REVERSION_COA = kualiConfigurationService.getApplicationParameterRule(GLConstants.GL_ORGANIZATION_REVERSION_PROCESS_GROUP, GLConstants.OrganizationReversionProcess.ORGANIZATION_REVERSION_COA);
+        this.CARRY_FORWARD_OBJECT_CODE = kualiConfigurationService.getApplicationParameterValue(GLConstants.GL_ORGANIZATION_REVERSION_PROCESS_GROUP, GLConstants.OrganizationReversionProcess.CARRY_FORWARD_OBJECT_CODE);
+        this.DEFAULT_FINANCIAL_DOCUMENT_TYPE_CODE = kualiConfigurationService.getApplicationParameterValue(GLConstants.GL_ORGANIZATION_REVERSION_PROCESS_GROUP, GLConstants.OrganizationReversionProcess.DEFAULT_FINANCIAL_DOCUMENT_TYPE_CODE);
+        this.DEFAULT_FINANCIAL_SYSTEM_ORIGINATION_CODE = kualiConfigurationService.getApplicationParameterValue(GLConstants.GL_ORGANIZATION_REVERSION_PROCESS_GROUP, GLConstants.OrganizationReversionProcess.DEFAULT_FINANCIAL_SYSTEM_ORIGINATION_CODE);
+        this.DEFAULT_FINANCIAL_BALANCE_TYPE_CODE = kualiConfigurationService.getApplicationParameterValue(GLConstants.GL_ORGANIZATION_REVERSION_PROCESS_GROUP, GLConstants.OrganizationReversionProcess.DEFAULT_FINANCIAL_BALANCE_TYPE_CODE);
+        this.DEFAULT_FINANCIAL_BALANCE_TYPE_CODE_YEAR_END = kualiConfigurationService.getApplicationParameterValue(GLConstants.GL_ORGANIZATION_REVERSION_PROCESS_GROUP, GLConstants.OrganizationReversionProcess.DEFAULT_FINANCIAL_BALANCE_TYPE_CODE_YEAR_END);
+        this.DEFAULT_DOCUMENT_NUMBER_PREFIX = kualiConfigurationService.getApplicationParameterValue(GLConstants.GL_ORGANIZATION_REVERSION_PROCESS_GROUP, GLConstants.OrganizationReversionProcess.DEFAULT_DOCUMENT_NUMBER_PREFIX);
+    }
+    
     public OrganizationReversionProcess(boolean endOfYear, OrganizationReversionService ors, KualiConfigurationService kcs, BalanceService bs, OrganizationReversionSelection orgrs, OriginEntryGroupService oegs, OriginEntryService oes, PersistenceService ps, DateTimeService dts, OrganizationReversionCategoryLogic corc, PriorYearAccountService pyas, ReportService rs, OrgReversionUnitOfWorkService oruows) {
+        this();
 
         this.endOfYear = endOfYear;
         balanceService = bs;
@@ -172,7 +196,7 @@ public class OrganizationReversionProcess {
                                 else if (KFSConstants.BALANCE_TYPE_CURRENT_BUDGET.equals(bal.getBalanceTypeCode())) {
                                     // Budget 
                                     // if balance's object code is the "carry forward" object code
-                                    if (!"0110".equals(bal.getObjectCode())) {
+                                    if (!CARRY_FORWARD_OBJECT_CODE.equals(bal.getObjectCode())) {
                                         unitOfWork.addBudgetAmount(cat.getOrganizationReversionCategoryCode(), bal.getBeginningBalanceLineAmount());
                                         unitOfWork.addBudgetAmount(cat.getOrganizationReversionCategoryCode(), bal.getAccountLineAnnualBalanceAmount());
                                     }
@@ -197,17 +221,17 @@ public class OrganizationReversionProcess {
         jobParameters.put(KFSConstants.BEG_BUD_CASH_OBJECT_CD, this.paramBegBudgetCashObjectCode);
         
         Summary totalRecordCountSummary = new Summary();
-        totalRecordCountSummary.setSortOrder(1);
+        totalRecordCountSummary.setSortOrder(Summary.TOTAL_RECORD_COUNT_SUMMARY_SORT_ORDER);
         totalRecordCountSummary.setDescription("NUMBER OF GLBL RECORDS READ....:");
         totalRecordCountSummary.setCount(balancesRead);
         
         Summary selectedRecordCountSummary = new Summary();
-        selectedRecordCountSummary.setSortOrder(2);
+        selectedRecordCountSummary.setSortOrder(Summary.SELECTED_RECORD_COUNT_SUMMARY_SORT_ORDER);
         selectedRecordCountSummary.setDescription("NUMBER OF GLBL RECORDS SELECTED:");
         selectedRecordCountSummary.setCount(balancesSelected);
         
         Summary sequenceRecordsWrittenSummary = new Summary();
-        sequenceRecordsWrittenSummary.setSortOrder(3);
+        sequenceRecordsWrittenSummary.setSortOrder(Summary.SEQUENCE_RECORDS_WRITTEN_SUMMARY_SORT_ORDER);
         sequenceRecordsWrittenSummary.setDescription("NUMBER OF SEQ RECORDS WRITTEN..:");
         sequenceRecordsWrittenSummary.setCount(sequenceRecordsWritten);
         
@@ -241,8 +265,8 @@ public class OrganizationReversionProcess {
         OriginEntry entry = new OriginEntry();
         entry.setUniversityFiscalYear(paramUniversityFiscalYear);
         entry.setUniversityFiscalPeriodCode(KFSConstants.MONTH13);
-        entry.setFinancialDocumentTypeCode("ACLO");
-        entry.setFinancialSystemOriginationCode("MF");
+        entry.setFinancialDocumentTypeCode(DEFAULT_FINANCIAL_DOCUMENT_TYPE_CODE);
+        entry.setFinancialSystemOriginationCode(DEFAULT_FINANCIAL_SYSTEM_ORIGINATION_CODE);
         entry.setTransactionLedgerEntrySequenceNumber(1);
         entry.setTransactionDebitCreditCode(KFSConstants.GL_BUDGET_CODE);
         entry.setTransactionDate(paramTransactionDate);
@@ -260,13 +284,13 @@ public class OrganizationReversionProcess {
         entry.setFinancialSubObjectCode(KFSConstants.DASHES_SUB_OBJECT_CODE);
         entry.setFinancialBalanceTypeCode(entry.getOption().getNominalFinancialBalanceTypeCd());
 
-        persistenceService.retrieveReferenceObject(entry, FINANCIAL_OBJECT);
+        persistenceService.retrieveReferenceObject(entry, KFSPropertyConstants.FINANCIAL_OBJECT);
         if (entry.getFinancialObject() == null) {
             throw new FatalErrorException("Object Code for Entry not found: "+entry);
             // TODO Error! Line 3426
         }
 
-        entry.setDocumentNumber("AC" + entry.getAccountNumber());
+        entry.setDocumentNumber(DEFAULT_DOCUMENT_NUMBER_PREFIX + entry.getAccountNumber());
         entry.setTransactionLedgerEntryDescription(KFSKeyConstants.OrganizationReversionProcess.CASH_REVERTED_TO + organizationReversion.getCashReversionAccountNumber());
         entry.setTransactionLedgerEntryAmount(unitOfWork.getTotalCash());
         if (unitOfWork.getTotalCash().compareTo(KualiDecimal.ZERO) > 0) {
@@ -293,15 +317,15 @@ public class OrganizationReversionProcess {
         entry.setSubAccountNumber(unitOfWork.subAccountNumber);
         entry.setFinancialObjectCode(paramFundBalanceObjectCode);
         entry.setFinancialSubObjectCode(KFSConstants.DASHES_SUB_OBJECT_CODE);
-        entry.setFinancialBalanceTypeCode("NB");
+        entry.setFinancialBalanceTypeCode(DEFAULT_FINANCIAL_BALANCE_TYPE_CODE);
 
-        persistenceService.retrieveReferenceObject(entry, FINANCIAL_OBJECT);
+        persistenceService.retrieveReferenceObject(entry, KFSPropertyConstants.FINANCIAL_OBJECT);
         if (entry.getFinancialObject() == null) {
             throw new FatalErrorException("Object Code for Entry not found: "+entry);
             // TODO Error! Line 3522
         }
 
-        entry.setDocumentNumber("AC" + unitOfWork.accountNumber);
+        entry.setDocumentNumber(DEFAULT_DOCUMENT_NUMBER_PREFIX + unitOfWork.accountNumber);
         entry.setTransactionLedgerEntryDescription(kualiConfigurationService.getPropertyString(KFSKeyConstants.OrganizationReversionProcess.FUND_BALANCE_REVERTED_TO) + organizationReversion.getCashReversionAccountNumber());
         entry.setTransactionLedgerEntryAmount(unitOfWork.getTotalCash().abs());
         if (unitOfWork.getTotalCash().compareTo(KualiDecimal.ZERO) > 0) {
@@ -326,15 +350,15 @@ public class OrganizationReversionProcess {
         entry.setSubAccountNumber(KFSConstants.DASHES_SUB_ACCOUNT_NUMBER);
         entry.setFinancialObjectCode(organizationReversion.getChartOfAccounts().getFinancialCashObjectCode());
         entry.setFinancialSubObjectCode(KFSConstants.DASHES_SUB_OBJECT_CODE);
-        entry.setFinancialBalanceTypeCode("NB");
+        entry.setFinancialBalanceTypeCode(DEFAULT_FINANCIAL_BALANCE_TYPE_CODE);
 
-        persistenceService.retrieveReferenceObject(entry, FINANCIAL_OBJECT);
+        persistenceService.retrieveReferenceObject(entry, KFSPropertyConstants.FINANCIAL_OBJECT);
         if (entry.getFinancialObject() == null) {
             throw new FatalErrorException("Object Code for Entry not found: "+entry);
             // TODO Error! Line 3624
         }
 
-        entry.setDocumentNumber("AC" + unitOfWork.accountNumber);
+        entry.setDocumentNumber(DEFAULT_DOCUMENT_NUMBER_PREFIX + unitOfWork.accountNumber);
         entry.setTransactionLedgerEntryDescription(kualiConfigurationService.getPropertyString(KFSKeyConstants.OrganizationReversionProcess.CASH_REVERTED_FROM) + unitOfWork.accountNumber + " " + unitOfWork.subAccountNumber);
         entry.setTransactionLedgerEntryAmount(unitOfWork.getTotalCash());
         if (unitOfWork.getTotalCash().compareTo(KualiDecimal.ZERO) > 0) {
@@ -361,15 +385,15 @@ public class OrganizationReversionProcess {
         entry.setSubAccountNumber(KFSConstants.DASHES_SUB_ACCOUNT_NUMBER);
         entry.setFinancialObjectCode(paramFundBalanceObjectCode);
         entry.setFinancialSubObjectCode(KFSConstants.DASHES_SUB_OBJECT_CODE);
-        entry.setFinancialBalanceTypeCode("NB");
+        entry.setFinancialBalanceTypeCode(DEFAULT_FINANCIAL_BALANCE_TYPE_CODE);
 
-        persistenceService.retrieveReferenceObject(entry, FINANCIAL_OBJECT);
+        persistenceService.retrieveReferenceObject(entry, KFSPropertyConstants.FINANCIAL_OBJECT);
         if (entry.getFinancialObject() == null) {
             throw new FatalErrorException("Object Code for Entry not found: "+entry);
             // TODO Error! Line 3722
         }
 
-        entry.setDocumentNumber("AC" + unitOfWork.accountNumber);
+        entry.setDocumentNumber(DEFAULT_DOCUMENT_NUMBER_PREFIX + unitOfWork.accountNumber);
         entry.setTransactionLedgerEntryDescription(kualiConfigurationService.getPropertyString(KFSKeyConstants.OrganizationReversionProcess.FUND_BALANCE_REVERTED_FROM) + unitOfWork.accountNumber + " " + unitOfWork.subAccountNumber);
         entry.setTransactionLedgerEntryAmount(unitOfWork.getTotalCash());
         if (unitOfWork.getTotalCash().compareTo(KualiDecimal.ZERO) > 0) {
@@ -407,7 +431,7 @@ public class OrganizationReversionProcess {
                 OriginEntry entry = getEntry();
                 entry.setUniversityFiscalYear(paramUniversityFiscalYear + 1);
                 entry.setChartOfAccountsCode(unitOfWork.chartOfAccountsCode);
-                if ("BL".equals(unitOfWork.chartOfAccountsCode)) {
+                if (ORGANIZATION_REVERSION_COA.succeedsRule(unitOfWork.chartOfAccountsCode)) {
                     entry.setAccountNumber(organizationReversion.getBudgetReversionAccountNumber());
                     entry.setSubAccountNumber(KFSConstants.DASHES_SUB_ACCOUNT_NUMBER);
                 }
@@ -419,14 +443,14 @@ public class OrganizationReversionProcess {
                 entry.setFinancialSubObjectCode(KFSConstants.DASHES_SUB_OBJECT_CODE);
                 entry.setFinancialBalanceTypeCode(KFSConstants.BALANCE_TYPE_CURRENT_BUDGET);
 
-                persistenceService.retrieveReferenceObject(entry, FINANCIAL_OBJECT);
+                persistenceService.retrieveReferenceObject(entry, KFSPropertyConstants.FINANCIAL_OBJECT);
                 if (entry.getFinancialObject() == null) {
                     throw new FatalErrorException("Object Code for Entry not found: "+entry);
                     // TODO Error! Line 3224
                 }
 
                 entry.setUniversityFiscalPeriodCode(KFSConstants.MONTH1);
-                entry.setDocumentNumber("AC" + unitOfWork.accountNumber);
+                entry.setDocumentNumber(DEFAULT_DOCUMENT_NUMBER_PREFIX + unitOfWork.accountNumber);
                 entry.setTransactionLedgerEntryDescription(kualiConfigurationService.getPropertyString(KFSKeyConstants.OrganizationReversionProcess.FUND_CARRIED) + paramUniversityFiscalYear);
                 entry.setTransactionLedgerEntryAmount(commonAmount);
 
@@ -450,14 +474,14 @@ public class OrganizationReversionProcess {
                 entry.setFinancialSubObjectCode(KFSConstants.DASHES_SUB_OBJECT_CODE);
                 entry.setFinancialBalanceTypeCode(KFSConstants.BALANCE_TYPE_CURRENT_BUDGET);
 
-                persistenceService.retrieveReferenceObject(entry, FINANCIAL_OBJECT);
+                persistenceService.retrieveReferenceObject(entry, KFSPropertyConstants.FINANCIAL_OBJECT);
                 if (entry.getFinancialObject() == null) {
                     throw new FatalErrorException("Object Code for Entry not found: "+entry);
                     // TODO Error! Line 3304
                 }
 
                 entry.setUniversityFiscalPeriodCode(KFSConstants.MONTH1);
-                entry.setDocumentNumber("AC" + unitOfWork.accountNumber);
+                entry.setDocumentNumber(DEFAULT_DOCUMENT_NUMBER_PREFIX + unitOfWork.accountNumber);
                 entry.setTransactionLedgerEntryDescription(kualiConfigurationService.getPropertyString(KFSKeyConstants.OrganizationReversionProcess.FUND_CARRIED) + paramUniversityFiscalYear);
                 entry.setTransactionLedgerEntryAmount(commonAmount);
 
@@ -482,7 +506,7 @@ public class OrganizationReversionProcess {
         entry.setUniversityFiscalYear(paramUniversityFiscalYear + 1);
         entry.setChartOfAccountsCode(unitOfWork.chartOfAccountsCode);
 
-        if ("BL".equals(unitOfWork.chartOfAccountsCode)) {
+        if (ORGANIZATION_REVERSION_COA.succeedsRule(unitOfWork.chartOfAccountsCode)) {
             entry.setAccountNumber(organizationReversion.getBudgetReversionAccountNumber());
         }
         else {
@@ -493,7 +517,7 @@ public class OrganizationReversionProcess {
         entry.setFinancialSubObjectCode(KFSConstants.DASHES_SUB_OBJECT_CODE);
         entry.setFinancialBalanceTypeCode(KFSConstants.BALANCE_TYPE_CURRENT_BUDGET);
 
-        persistenceService.retrieveReferenceObject(entry, FINANCIAL_OBJECT);
+        persistenceService.retrieveReferenceObject(entry, KFSPropertyConstants.FINANCIAL_OBJECT);
         if (entry.getFinancialObject() == null) {
             throw new FatalErrorException("Object Code for Entry not found: "+entry);
             // TODO Error! Line 2960
@@ -502,9 +526,9 @@ public class OrganizationReversionProcess {
         ObjectCode objectCode = entry.getFinancialObject();
         entry.setFinancialObjectTypeCode(objectCode.getFinancialObjectTypeCode());
         entry.setUniversityFiscalPeriodCode(KFSConstants.MONTH1);
-        entry.setFinancialDocumentTypeCode("ACLO");
-        entry.setFinancialSystemOriginationCode("MF");
-        entry.setDocumentNumber("AC" + unitOfWork.accountNumber);
+        entry.setFinancialDocumentTypeCode(DEFAULT_FINANCIAL_DOCUMENT_TYPE_CODE);
+        entry.setFinancialSystemOriginationCode(DEFAULT_FINANCIAL_SYSTEM_ORIGINATION_CODE);
+        entry.setDocumentNumber(DEFAULT_DOCUMENT_NUMBER_PREFIX + unitOfWork.accountNumber);
         entry.setTransactionLedgerEntrySequenceNumber(1);
         entry.setTransactionLedgerEntryDescription(kualiConfigurationService.getPropertyString(KFSKeyConstants.OrganizationReversionProcess.FUND_CARRIED) + paramUniversityFiscalYear);
         entry.setTransactionLedgerEntryAmount(unitOfWork.getTotalCarryForward());
@@ -527,7 +551,7 @@ public class OrganizationReversionProcess {
         entry.setSubAccountNumber(unitOfWork.subAccountNumber);
         entry.setFinancialObjectCode(paramUnallocObjectCode);
 
-        persistenceService.retrieveReferenceObject(entry, FINANCIAL_OBJECT);
+        persistenceService.retrieveReferenceObject(entry, KFSPropertyConstants.FINANCIAL_OBJECT);
         if (entry.getFinancialObject() == null) {
             // TODO Error! Line 3040
         }
@@ -537,7 +561,7 @@ public class OrganizationReversionProcess {
         entry.setFinancialSubObjectCode(KFSConstants.DASHES_SUB_OBJECT_CODE);
         entry.setFinancialBalanceTypeCode(KFSConstants.BALANCE_TYPE_CURRENT_BUDGET);
         entry.setUniversityFiscalPeriodCode(KFSConstants.MONTH1);
-        entry.setDocumentNumber("AC" + unitOfWork.accountNumber);
+        entry.setDocumentNumber(DEFAULT_DOCUMENT_NUMBER_PREFIX + unitOfWork.accountNumber);
         entry.setTransactionLedgerEntryDescription(kualiConfigurationService.getPropertyString(KFSKeyConstants.OrganizationReversionProcess.FUND_CARRIED) + paramUniversityFiscalYear);
         entry.setTransactionLedgerEntryAmount(unitOfWork.getTotalCarryForward());
 
@@ -563,9 +587,9 @@ public class OrganizationReversionProcess {
         entry.setSubAccountNumber(unitOfWork.subAccountNumber);
         entry.setFinancialObjectCode(paramUnallocObjectCode);
         entry.setFinancialSubObjectCode(KFSConstants.DASHES_SUB_OBJECT_CODE);
-        entry.setFinancialBalanceTypeCode("RE");
+        entry.setFinancialBalanceTypeCode(DEFAULT_FINANCIAL_BALANCE_TYPE_CODE_YEAR_END);
 
-        persistenceService.retrieveReferenceObject(entry, FINANCIAL_OBJECT);
+        persistenceService.retrieveReferenceObject(entry, KFSPropertyConstants.FINANCIAL_OBJECT);
         if (entry.getFinancialObject() == null) {
             // TODO Error! Line 2807
         }
@@ -575,7 +599,7 @@ public class OrganizationReversionProcess {
 
         entry.setUniversityFiscalPeriodCode(KFSConstants.MONTH13);
 
-        entry.setDocumentNumber("AC" + entry.getAccountNumber());
+        entry.setDocumentNumber(DEFAULT_DOCUMENT_NUMBER_PREFIX + entry.getAccountNumber());
 
         entry.setTransactionLedgerEntryDescription(kualiConfigurationService.getPropertyString(KFSKeyConstants.OrganizationReversionProcess.FUND_REVERTED_TO) + organizationReversion.getBudgetReversionAccountNumber());
         entry.setTransactionLedgerEntryAmount(unitOfWork.getTotalReversion().negated());
@@ -596,10 +620,10 @@ public class OrganizationReversionProcess {
         entry.setSubAccountNumber(KFSConstants.DASHES_SUB_ACCOUNT_NUMBER);
         entry.setFinancialObjectCode(paramUnallocObjectCode);
         entry.setFinancialSubObjectCode(KFSConstants.DASHES_SUB_OBJECT_CODE);
-        entry.setFinancialBalanceTypeCode("RE");
+        entry.setFinancialBalanceTypeCode(DEFAULT_FINANCIAL_BALANCE_TYPE_CODE_YEAR_END);
         entry.setFinancialObjectTypeCode(objectCode.getFinancialObjectTypeCode());
         entry.setUniversityFiscalPeriodCode(KFSConstants.MONTH13);
-        entry.setDocumentNumber("AC" + unitOfWork.accountNumber + unitOfWork.subAccountNumber);
+        entry.setDocumentNumber(DEFAULT_DOCUMENT_NUMBER_PREFIX + unitOfWork.accountNumber + unitOfWork.subAccountNumber);
         entry.setTransactionLedgerEntryDescription(kualiConfigurationService.getPropertyString(KFSKeyConstants.OrganizationReversionProcess.FUND_REVERTED_FROM) + unitOfWork.accountNumber + " " + unitOfWork.subAccountNumber);
         entry.setTransactionLedgerEntryAmount(unitOfWork.getTotalReversion());
 

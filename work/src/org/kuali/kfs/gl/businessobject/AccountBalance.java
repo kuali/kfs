@@ -63,18 +63,14 @@ public class AccountBalance extends PersistableBusinessObjectBase {
     private Options option;
     private String title;
 
-    final public String EXPENSE_SORT_CODE;
-    static final public String TYPE_CONSOLIDATION = "Consolidation";
-    static final public String TYPE_LEVEL = "Level";
-    static final public String TYPE_OBJECT = "Object";
+    public static final String TYPE_CONSOLIDATION = "Consolidation";
+    public static final String TYPE_LEVEL = "Level";
+    public static final String TYPE_OBJECT = "Object";
 
     public AccountBalance() {
         super();
         this.dummyBusinessObject = new TransientBalanceInquiryAttributes();
         this.financialObject = new ObjectCode();
-
-        KualiConfigurationService kualiConfigurationService = SpringServiceLocator.getKualiConfigurationService();
-        this.EXPENSE_SORT_CODE = kualiConfigurationService.getApplicationParameterValue(GLConstants.GL_ACCOUNT_BALANCE_SERVICE_GROUP, "EXPENSE_SORT_CODE");
     }
 
     public AccountBalance(Transaction t) {
@@ -116,7 +112,7 @@ public class AccountBalance extends PersistableBusinessObjectBase {
             financialObject.getFinancialObjectLevel().setFinancialObjectLevelCode((String) data.get(GLConstants.ColumnNames.OBJECT_LEVEL_CODE2));
 
             // tricking it so getVariance() works
-            financialObject.getFinancialObjectType().setFinancialReportingSortCode(EXPENSE_SORT_CODE);
+            financialObject.getFinancialObjectType().setFinancialReportingSortCode(Constant.START_CHAR_OF_REPORTING_SORT_CODE_B);
             fixVariance();
         }
         else if (TYPE_OBJECT.equals(type)) {
@@ -125,7 +121,7 @@ public class AccountBalance extends PersistableBusinessObjectBase {
             financialObject.getFinancialObjectLevel().setFinancialObjectLevelCode((String) data.get(GLConstants.ColumnNames.OBJECT_LEVEL_CODE));
 
             // tricking it so getVariance() works
-            financialObject.getFinancialObjectType().setFinancialReportingSortCode(EXPENSE_SORT_CODE);
+            financialObject.getFinancialObjectType().setFinancialReportingSortCode(Constant.START_CHAR_OF_REPORTING_SORT_CODE_B);
             fixVariance();
         }
         else {

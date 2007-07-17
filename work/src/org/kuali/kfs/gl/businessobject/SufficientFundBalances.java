@@ -28,6 +28,7 @@ import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.Chart;
 import org.kuali.module.chart.bo.ObjectCode;
+import org.kuali.module.gl.GLConstants;
 
 /**
  * 
@@ -66,7 +67,7 @@ public class SufficientFundBalances extends PersistableBusinessObjectBase {
         // Just in case
         line = line + "                   ";
 
-        if (!"    ".equals(line.substring(0, 4))) {
+        if (!GLConstants.getSpaceUniversityFiscalYear().equals(line.substring(0, 4))) {
             setUniversityFiscalYear(new Integer(line.substring(0, 4)));
         }
         else {
@@ -91,7 +92,7 @@ public class SufficientFundBalances extends PersistableBusinessObjectBase {
 
         StringBuffer sb = new StringBuffer();
         if (universityFiscalYear == null) {
-            sb.append("    ");
+            sb.append(GLConstants.getSpaceUniversityFiscalYear());
         }
         else {
             sb.append(universityFiscalYear);

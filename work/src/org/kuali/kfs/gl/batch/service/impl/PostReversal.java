@@ -21,7 +21,10 @@ package org.kuali.module.gl.batch.poster.impl;
 
 import java.util.Date;
 
+import org.apache.ojb.broker.metadata.MetadataManager;
+import org.kuali.module.gl.GLConstants;
 import org.kuali.module.gl.batch.poster.PostTransaction;
+import org.kuali.module.gl.bo.ExpenditureTransaction;
 import org.kuali.module.gl.bo.Reversal;
 import org.kuali.module.gl.bo.Transaction;
 import org.kuali.module.gl.dao.ReversalDao;
@@ -51,7 +54,7 @@ public class PostReversal implements PostTransaction {
 
         if (t.getFinancialDocumentReversalDate() == null) {
             // No need to post this
-            return "";
+            return GLConstants.EMPTY_CODE;
         }
 
         Reversal re = new Reversal(t);
@@ -63,10 +66,10 @@ public class PostReversal implements PostTransaction {
 
         reversalDao.save(re);
 
-        return "I";
+        return GLConstants.INSERT_CODE;
     }
 
     public String getDestinationName() {
-        return "GL_REVERSAL_T";
+        return MetadataManager.getInstance().getGlobalRepository().getDescriptorFor(Reversal.class).getFullTableName();
     }
 }

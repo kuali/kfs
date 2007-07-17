@@ -28,6 +28,7 @@ import org.kuali.module.gl.dao.UniversityDateDao;
 import org.kuali.module.gl.service.OriginEntryGroupService;
 import org.kuali.module.gl.service.OriginEntryService;
 import org.kuali.module.gl.service.ReportService;
+import org.kuali.module.gl.service.ScrubberProcessObjectCodeOverride;
 import org.kuali.module.gl.service.ScrubberService;
 import org.kuali.module.gl.service.ScrubberValidator;
 import org.kuali.module.gl.util.CollectorReportData;
@@ -50,6 +51,7 @@ public class ScrubberServiceImpl implements ScrubberService {
     private PersistenceService persistenceService;
     private ReportService reportService;
     private ScrubberValidator scrubberValidator;
+    private ScrubberProcessObjectCodeOverride scrubberProcessObjectCodeOverride;
 
     /**
      * 
@@ -61,7 +63,7 @@ public class ScrubberServiceImpl implements ScrubberService {
         // The logic for this was moved into another object because the process was written using
         // many instance variables which shouldn't be used for Spring services
 
-        ScrubberProcess sp = new ScrubberProcess(flexibleOffsetAccountService, documentTypeService, originEntryService, originEntryGroupService, dateTimeService, offsetDefinitionService, objectCodeService, kualiConfigurationService, universityDateDao, persistenceService, reportService, scrubberValidator);
+        ScrubberProcess sp = new ScrubberProcess(flexibleOffsetAccountService, documentTypeService, originEntryService, originEntryGroupService, dateTimeService, offsetDefinitionService, objectCodeService, kualiConfigurationService, universityDateDao, persistenceService, reportService, scrubberValidator, scrubberProcessObjectCodeOverride);
         sp.scrubGroupReportOnly(group,documentNumber);
     }
 
@@ -75,7 +77,7 @@ public class ScrubberServiceImpl implements ScrubberService {
         // The logic for this was moved into another object because the process was written using
         // many instance variables which shouldn't be used for Spring services
 
-        ScrubberProcess sp = new ScrubberProcess(flexibleOffsetAccountService, documentTypeService, originEntryService, originEntryGroupService, dateTimeService, offsetDefinitionService, objectCodeService, kualiConfigurationService, universityDateDao, persistenceService, reportService, scrubberValidator);
+        ScrubberProcess sp = new ScrubberProcess(flexibleOffsetAccountService, documentTypeService, originEntryService, originEntryGroupService, dateTimeService, offsetDefinitionService, objectCodeService, kualiConfigurationService, universityDateDao, persistenceService, reportService, scrubberValidator, scrubberProcessObjectCodeOverride);
         sp.scrubEntries();
     }
     
@@ -85,7 +87,7 @@ public class ScrubberServiceImpl implements ScrubberService {
             throw new NullPointerException("for scrubCollectorBatch, the OriginEntryService and OriginEntryGroupService services must be specified in the parameters");
         }
         // this service is especially developed to support collector scrubbing, demerger, and report generation
-        ScrubberProcess sp = new ScrubberProcess(flexibleOffsetAccountService, documentTypeService, overrideOriginEntryService, overrideOriginEntryGroupService, dateTimeService, offsetDefinitionService, objectCodeService, kualiConfigurationService, universityDateDao, persistenceService, reportService, scrubberValidator);
+        ScrubberProcess sp = new ScrubberProcess(flexibleOffsetAccountService, documentTypeService, overrideOriginEntryService, overrideOriginEntryGroupService, dateTimeService, offsetDefinitionService, objectCodeService, kualiConfigurationService, universityDateDao, persistenceService, reportService, scrubberValidator, scrubberProcessObjectCodeOverride);
         return sp.scrubCollectorBatch(batch, collectorReportData);
     }
 
@@ -101,6 +103,10 @@ public class ScrubberServiceImpl implements ScrubberService {
         scrubberValidator = sv;
     }
 
+    public void setScrubberProcessObjectCodeOverride(ScrubberProcessObjectCodeOverride scrubberProcessObjectCodeOverride) {
+        this.scrubberProcessObjectCodeOverride = scrubberProcessObjectCodeOverride;
+    }
+    
     public void setOriginEntryService(OriginEntryService oes) {
         this.originEntryService = oes;
     }

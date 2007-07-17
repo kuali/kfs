@@ -30,6 +30,7 @@ import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
 import org.kuali.kfs.bo.Options;
 import org.kuali.kfs.bo.OriginationCode;
+import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.chart.bo.A21SubAccount;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.AccountingPeriod;
@@ -40,6 +41,7 @@ import org.kuali.module.chart.bo.ProjectCode;
 import org.kuali.module.chart.bo.SubAccount;
 import org.kuali.module.chart.bo.SubObjCd;
 import org.kuali.module.chart.bo.codes.BalanceTyp;
+import org.kuali.module.gl.GLConstants;
 import org.kuali.module.gl.exception.LoadException;
 import org.springframework.util.StringUtils;
 
@@ -48,6 +50,9 @@ public class OriginEntry extends PersistableBusinessObjectBase implements Transa
 
     private static final String DATE_FORMAT = "yyyy-MM-dd";
 
+    // 17 characters while it is 19 character in DD. Don't change, it has to be 17.
+    public static final String SPACE_TRANSACTION_LEDGER_ENTRY_AMOUNT = "                 "; 
+    
     private Integer entryId;
     private Integer entryGroupId;
     protected String accountNumber;
@@ -228,7 +233,7 @@ public class OriginEntry extends PersistableBusinessObjectBase implements Transa
 
     protected String formatDate(Date date) {
         if (date == null) {
-            return "          ";
+            return GLConstants.getSpaceTransactionDate();
         }
         else {
             SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT);
@@ -253,9 +258,9 @@ public class OriginEntry extends PersistableBusinessObjectBase implements Transa
     public void setFromTextFile(String line, int lineNumber) throws LoadException {
 
         // Just in case
-        line = line + SPACES;
+        line = line + GLConstants.getSpaceAllOriginEntryFields();
 
-        if (!"    ".equals(line.substring(0, 4))) {
+        if (!GLConstants.getSpaceUniversityFiscalYear().equals(line.substring(0, 4))) {
             try {
                 setUniversityFiscalYear(new Integer(line.substring(0, 4)));
             }
@@ -280,7 +285,7 @@ public class OriginEntry extends PersistableBusinessObjectBase implements Transa
         setFinancialDocumentTypeCode(getValue(line, 31, 35));
         setFinancialSystemOriginationCode(getValue(line, 35, 37));
         setDocumentNumber(getValue(line, 37, 51));
-        if (!"     ".equals(line.substring(51, 56)) && !"00000".equals(line.substring(51, 56))) {
+        if (!GLConstants.getSpaceTransactionEntrySequenceNumber().equals(line.substring(51, 56)) && !GLConstants.getZeroTransactionEntrySequenceNumber().equals(line.substring(51, 56))) {
             try {
                 setTransactionLedgerEntrySequenceNumber(new Integer(line.substring(51, 56).trim()));
         }
@@ -329,15 +334,13 @@ public class OriginEntry extends PersistableBusinessObjectBase implements Transa
         setTransactionEncumbranceUpdateCode(line.substring(182, 183));
     }
 
-    private static String SPACES = "                                                                                                                                                                                       ";
-
     protected String getField(int size, String value) {
         if (value == null) {
-            return SPACES.substring(0, size);
+            return GLConstants.getSpaceAllOriginEntryFields().substring(0, size);
         }
         else {
             if (value.length() < size) {
-                return value + SPACES.substring(0, size - value.length());
+                return value + GLConstants.getSpaceAllOriginEntryFields().substring(0, size - value.length());
             }
             else {
                 return value;
@@ -348,7 +351,7 @@ public class OriginEntry extends PersistableBusinessObjectBase implements Transa
     public String getLine() {
         StringBuffer sb = new StringBuffer();
         if (universityFiscalYear == null) {
-            sb.append("    ");
+            sb.append(GLConstants.getSpaceUniversityFiscalYear());
         }
         else {
             sb.append(universityFiscalYear);
@@ -391,11 +394,11 @@ public class OriginEntry extends PersistableBusinessObjectBase implements Transa
         }
         sb.append(getField(40, transactionLedgerEntryDescription));
         if (transactionLedgerEntryAmount == null) {
-            sb.append("                 ");
+            sb.append(SPACE_TRANSACTION_LEDGER_ENTRY_AMOUNT);
         }
         else {
             String a = transactionLedgerEntryAmount.toString();
-            sb.append("                 ".substring(0, 17 - a.length()));
+            sb.append(SPACE_TRANSACTION_LEDGER_ENTRY_AMOUNT.substring(0, 17 - a.length()));
             sb.append(a);
         }
         sb.append(getField(1, transactionDebitCreditCode));

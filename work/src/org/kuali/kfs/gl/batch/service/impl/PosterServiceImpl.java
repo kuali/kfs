@@ -26,6 +26,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.ojb.broker.metadata.MetadataManager;
 import org.kuali.core.service.DateTimeService;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.service.PersistenceService;
@@ -58,17 +59,11 @@ import org.kuali.module.gl.service.OriginEntryGroupService;
 import org.kuali.module.gl.service.OriginEntryService;
 import org.kuali.module.gl.service.PosterService;
 import org.kuali.module.gl.service.ReportService;
-import org.springframework.beans.BeansException;
 import org.springframework.transaction.annotation.Transactional;
 
 @Transactional
 public class PosterServiceImpl implements PosterService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PosterServiceImpl.class);
-
-    public static final String INSERT_CODE = "I";
-    public static final String UPDATE_CODE = "U";
-    public static final String DELETE_CODE = "D";
-    public static final String SELECT_CODE = "S";
 
     public static final KualiDecimal warningMaxDifference = new KualiDecimal("0.05");
     public static final String DATE_FORMAT_STRING = "yyyyMMdd";
@@ -163,9 +158,9 @@ public class PosterServiceImpl implements PosterService {
         Map reportSummary = new HashMap();
         for (Iterator posterIter = transactionPosters.iterator(); posterIter.hasNext();) {
             PostTransaction poster = (PostTransaction) posterIter.next();
-            reportSummary.put(poster.getDestinationName() + "," + PosterServiceImpl.DELETE_CODE, new Integer(0));
-            reportSummary.put(poster.getDestinationName() + "," + PosterServiceImpl.INSERT_CODE, new Integer(0));
-            reportSummary.put(poster.getDestinationName() + "," + PosterServiceImpl.UPDATE_CODE, new Integer(0));
+            reportSummary.put(poster.getDestinationName() + "," + GLConstants.DELETE_CODE, new Integer(0));
+            reportSummary.put(poster.getDestinationName() + "," + GLConstants.INSERT_CODE, new Integer(0));
+            reportSummary.put(poster.getDestinationName() + "," + GLConstants.UPDATE_CODE, new Integer(0));
         }
 
         int ecount = 0;
@@ -189,9 +184,12 @@ public class PosterServiceImpl implements PosterService {
         }
         else {
             LOG.debug("postEntries() Processing reversal transactions");
+            
+            final String GL_REVERSAL_T = MetadataManager.getInstance().getGlobalRepository().getDescriptorFor(Reversal.class).getFullTableName();
+            
             while (reversalTransactions.hasNext()) {
                 Transaction tran = (Transaction) reversalTransactions.next();
-                addReporting(reportSummary, "GL_REVERSAL_T", PosterServiceImpl.SELECT_CODE);
+                addReporting(reportSummary, GL_REVERSAL_T, GLConstants.SELECT_CODE);
 
                 postTransaction(tran, mode, reportSummary, reportError, invalidGroup, validGroup, runUniversityDate);
 
@@ -213,12 +211,14 @@ public class PosterServiceImpl implements PosterService {
 
         Transaction originalTransaction = tran;
 
+        final String GL_ORIGIN_ENTRY_T = MetadataManager.getInstance().getGlobalRepository().getDescriptorFor(OriginEntry.class).getFullTableName();
+        
         // Update select count in the report
         if (mode == PosterService.MODE_ENTRIES) {
-            addReporting(reportSummary, "GL_ORIGIN_ENTRY_T", PosterServiceImpl.SELECT_CODE);
+            addReporting(reportSummary, GL_ORIGIN_ENTRY_T, GLConstants.SELECT_CODE);
         }
         else {
-            addReporting(reportSummary, "GL_ORIGIN_ENTRY_T (ICR)", PosterServiceImpl.SELECT_CODE);
+            addReporting(reportSummary, GL_ORIGIN_ENTRY_T + " (ICR)", GLConstants.SELECT_CODE);
         }
 
         // If these are reversal entries, we need to reverse the entry and
@@ -283,7 +283,7 @@ public class PosterServiceImpl implements PosterService {
         if (errors.size() > 0) {
             // Error on this transaction
             reportError.put(tran, errors);
-            addReporting(reportSummary, "WARNING", PosterServiceImpl.SELECT_CODE);
+            addReporting(reportSummary, "WARNING", GLConstants.SELECT_CODE);
 
             originEntryService.createEntry(tran, invalidGroup);
         }
@@ -293,22 +293,22 @@ public class PosterServiceImpl implements PosterService {
                 PostTransaction poster = (PostTransaction) posterIter.next();
                 String actionCode = poster.post(tran, mode, runUniversityDate.getUniversityDate());
 
-                if (actionCode.startsWith("E")) {
+                if (actionCode.startsWith(GLConstants.ERROR_CODE)) {
                     errors = new ArrayList();
                     errors.add(actionCode);
                     reportError.put(tran, errors);
                 }
-                else if (actionCode.indexOf(PosterServiceImpl.INSERT_CODE) >= 0) {
-                    addReporting(reportSummary, poster.getDestinationName(), PosterServiceImpl.INSERT_CODE);
+                else if (actionCode.indexOf(GLConstants.INSERT_CODE) >= 0) {
+                    addReporting(reportSummary, poster.getDestinationName(), GLConstants.INSERT_CODE);
                 }
-                else if (actionCode.indexOf(PosterServiceImpl.UPDATE_CODE) >= 0) {
-                    addReporting(reportSummary, poster.getDestinationName(), PosterServiceImpl.UPDATE_CODE);
+                else if (actionCode.indexOf(GLConstants.UPDATE_CODE) >= 0) {
+                    addReporting(reportSummary, poster.getDestinationName(), GLConstants.UPDATE_CODE);
                 }
-                else if (actionCode.indexOf(PosterServiceImpl.DELETE_CODE) >= 0) {
-                    addReporting(reportSummary, poster.getDestinationName(), PosterServiceImpl.DELETE_CODE);
+                else if (actionCode.indexOf(GLConstants.DELETE_CODE) >= 0) {
+                    addReporting(reportSummary, poster.getDestinationName(), GLConstants.DELETE_CODE);
                 }
-                else if (actionCode.indexOf(PosterServiceImpl.SELECT_CODE) >= 0) {
-                    addReporting(reportSummary, poster.getDestinationName(), PosterServiceImpl.SELECT_CODE);
+                else if (actionCode.indexOf(GLConstants.SELECT_CODE) >= 0) {
+                    addReporting(reportSummary, poster.getDestinationName(), GLConstants.SELECT_CODE);
                 }
             }
 
@@ -318,7 +318,7 @@ public class PosterServiceImpl implements PosterService {
                 // Delete the reversal entry
                 if (mode == PosterService.MODE_REVERSAL) {
                     reversalDao.delete((Reversal) originalTransaction);
-                    addReporting(reportSummary, "GL_REVERSAL_T", PosterServiceImpl.DELETE_CODE);
+                    addReporting(reportSummary, MetadataManager.getInstance().getGlobalRepository().getDescriptorFor(Reversal.class).getFullTableName(), GLConstants.DELETE_CODE);
                 }
             }
         }
@@ -417,15 +417,15 @@ public class PosterServiceImpl implements PosterService {
         OriginEntry e = new OriginEntry();
         e.setTransactionLedgerEntrySequenceNumber(0);
 
-        // @ means we use the field from the expenditure entry, # means we use the ICR field from the account record, otherwise, use
-        // the field in the icrEntry
-        if ("@".equals(icrEntry.getFinancialObjectCode()) || "#".equals(icrEntry.getFinancialObjectCode())) {
+        // SYMBOL_USE_EXPENDITURE_ENTRY means we use the field from the expenditure entry, SYMBOL_USE_IRC_FROM_ACCOUNT
+        // means we use the ICR field from the account record, otherwise, use the field in the icrEntry
+        if (GLConstants.PosterService.SYMBOL_USE_EXPENDITURE_ENTRY.equals(icrEntry.getFinancialObjectCode()) || GLConstants.PosterService.SYMBOL_USE_IRC_FROM_ACCOUNT.equals(icrEntry.getFinancialObjectCode())) {
             e.setFinancialObjectCode(et.getObjectCode());
             e.setFinancialSubObjectCode(et.getSubObjectCode());
         }
         else {
             e.setFinancialObjectCode(icrEntry.getFinancialObjectCode());
-            if ("@".equals(icrEntry.getFinancialSubObjectCode())) {
+            if (GLConstants.PosterService.SYMBOL_USE_EXPENDITURE_ENTRY.equals(icrEntry.getFinancialSubObjectCode())) {
                 e.setFinancialSubObjectCode(et.getSubObjectCode());
             }
             else {
@@ -433,12 +433,12 @@ public class PosterServiceImpl implements PosterService {
             }
         }
 
-        if ("@".equals(icrEntry.getAccountNumber())) {
+        if (GLConstants.PosterService.SYMBOL_USE_EXPENDITURE_ENTRY.equals(icrEntry.getAccountNumber())) {
             e.setAccountNumber(et.getAccountNumber());
             e.setChartOfAccountsCode(et.getChartOfAccountsCode());
             e.setSubAccountNumber(et.getSubAccountNumber());
         }
-        else if ("#".equals(icrEntry.getAccountNumber())) {
+        else if (GLConstants.PosterService.SYMBOL_USE_IRC_FROM_ACCOUNT.equals(icrEntry.getAccountNumber())) {
             e.setAccountNumber(et.getAccount().getIndirectCostRecoveryAcctNbr());
             e.setChartOfAccountsCode(et.getAccount().getIndirectCostRcvyFinCoaCode());
             e.setSubAccountNumber(KFSConstants.DASHES_SUB_ACCOUNT_NUMBER);
@@ -490,7 +490,7 @@ public class PosterServiceImpl implements PosterService {
             e.setDocumentNumber(kualiConfigurationService.getApplicationParameterValue(KFSConstants.ParameterGroups.SYSTEM, KFSConstants.SystemGroupParameterNames.GL_INDIRECT_COST_RECOVERY));
         }
         e.setProjectCode(et.getProjectCode());
-        if (GLConstants.DASH_ORGANIZATION_REFERENCE_ID.equals(et.getOrganizationReferenceId())) {
+        if (GLConstants.getDashOrganizationReferenceId().equals(et.getOrganizationReferenceId())) {
             e.setOrganizationReferenceId(null);
         }
         else {

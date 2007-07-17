@@ -22,6 +22,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+import org.apache.commons.lang.ArrayUtils;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.service.PersistenceService;
 import org.kuali.core.util.KualiDecimal;
@@ -34,6 +35,7 @@ import org.kuali.kfs.service.OriginationCodeService;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.service.AccountService;
+import org.kuali.module.gl.GLConstants;
 import org.kuali.module.gl.bo.OriginEntry;
 import org.kuali.module.gl.bo.UniversityDate;
 import org.kuali.module.gl.dao.UniversityDateDao;
@@ -58,9 +60,6 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
     public static final String DATE_FORMAT_STRING = "yyyy-MM-dd";
 
     private static String[] debitOrCredit = new String[] { KFSConstants.GL_DEBIT_CODE, KFSConstants.GL_CREDIT_CODE };
-    private static String[] continuationAccountBypassOriginationCodes = new String[] { "EU", "PL" };
-    private static String[] continuationAccountBypassBalanceTypeCodes = new String[] { "EX", "IE", "PE" };
-    private static String[] continuationAccountBypassDocumentTypeCodes = new String[] { "PREQ", "ACHC", "ACHD", "ACHR", "CHKC", "CHKD", "CHKR", "TOPS", "CD", "LOCR" };
 
     public ScrubberValidatorImpl() {
     }
@@ -265,15 +264,19 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
             return null;
         }
 
+        String[] continuationAccountBypassOriginationCodes = kualiConfigurationService.getApplicationParameterValues(GLConstants.GL_SCRUBBER_GROUP, GLConstants.GlScrubberGroupRules.CONTINUATION_ACCOUNT_BYPASS_ORIGINATION_CODES);
+        String[] continuationAccountBypassBalanceTypeCodes = kualiConfigurationService.getApplicationParameterValues(GLConstants.GL_SCRUBBER_GROUP, GLConstants.GlScrubberGroupRules.CONTINUATION_ACCOUNT_BYPASS_BALANCE_TYPE_CODES);
+        String[] continuationAccountBypassDocumentTypeCodes = kualiConfigurationService.getApplicationParameterValues(GLConstants.GL_SCRUBBER_GROUP, GLConstants.GlScrubberGroupRules.CONTINUATION_ACCOUNT_BYPASS_DOCUMENT_TYPE_CODES);
+        
         // Has an expiration date or is closed
-        if ((org.apache.commons.lang.StringUtils.isNumeric(originEntry.getFinancialSystemOriginationCode()) || ObjectHelper.isOneOf(originEntry.getFinancialSystemOriginationCode(), continuationAccountBypassOriginationCodes)) && account.isAccountClosedIndicator()) {
+        if ((org.apache.commons.lang.StringUtils.isNumeric(originEntry.getFinancialSystemOriginationCode()) || ArrayUtils.contains(continuationAccountBypassOriginationCodes, originEntry.getFinancialSystemOriginationCode())) && account.isAccountClosedIndicator()) {
             return new Message(kualiConfigurationService.getPropertyString(KFSKeyConstants.ERROR_ORIGIN_CODE_CANNOT_HAVE_CLOSED_ACCOUNT) + " (" + originEntry.getAccount().getChartOfAccountsCode() + "-" + originEntry.getAccountNumber() + ")", Message.TYPE_FATAL);
         }
 
         if ((org.apache.commons.lang.StringUtils.isNumeric(originEntry.getFinancialSystemOriginationCode()) || 
-                ObjectHelper.isOneOf(originEntry.getFinancialSystemOriginationCode(), continuationAccountBypassOriginationCodes) || 
-                ObjectHelper.isOneOf(originEntry.getFinancialBalanceTypeCode(), continuationAccountBypassBalanceTypeCodes) || 
-                ObjectHelper.isOneOf(originEntry.getFinancialDocumentTypeCode().trim(), continuationAccountBypassDocumentTypeCodes)) && 
+                ArrayUtils.contains(continuationAccountBypassOriginationCodes, originEntry.getFinancialSystemOriginationCode()) || 
+                ArrayUtils.contains(continuationAccountBypassBalanceTypeCodes, originEntry.getFinancialBalanceTypeCode()) || 
+                ArrayUtils.contains(continuationAccountBypassDocumentTypeCodes, originEntry.getFinancialDocumentTypeCode().trim())) && 
                 !account.isAccountClosedIndicator()) {
             workingEntry.setAccountNumber(originEntry.getAccountNumber());
             workingEntry.setAccount(originEntry.getAccount());

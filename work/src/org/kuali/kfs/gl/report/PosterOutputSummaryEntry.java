@@ -16,12 +16,14 @@
 package org.kuali.module.gl.util;
 
 import org.apache.commons.lang.ArrayUtils;
+import org.kuali.core.rule.KualiParameterRule;
+import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.KFSConstants;
+import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.module.gl.GLConstants;
 
 public class PosterOutputSummaryEntry implements Comparable {
-    private static String[] assetExpenseObjectTypeCodeList = new String[] { "AS", "EE", "ES", "EX", "TE" };
-
     private Integer universityFiscalYear;
     private String fiscalPeriodCode;
     private String balanceTypeCode;
@@ -32,11 +34,16 @@ public class PosterOutputSummaryEntry implements Comparable {
     private KualiDecimal budgetAmount;
     private KualiDecimal netAmount;
 
+    private final KualiParameterRule assetExpenseObjectTypeCode;
+
     public PosterOutputSummaryEntry() {
         creditAmount = KualiDecimal.ZERO;
         debitAmount = KualiDecimal.ZERO;
         budgetAmount = KualiDecimal.ZERO;
         netAmount = KualiDecimal.ZERO;
+
+        KualiConfigurationService kualiConfigurationService = SpringServiceLocator.getKualiConfigurationService();
+        assetExpenseObjectTypeCode = kualiConfigurationService.getApplicationParameterRule(GLConstants.GL_SCRUBBER_GROUP, GLConstants.PosterOutputSummaryEntry.ASSET_EXPENSE_OBJECT_TYPE_CODES);
     }
 
     public String getKey() {
@@ -67,7 +74,7 @@ public class PosterOutputSummaryEntry implements Comparable {
 
         if (KFSConstants.GL_CREDIT_CODE.equals(debitCreditCode)) {
             setCreditAmount(creditAmount.add(amount));
-            if (ArrayUtils.contains(assetExpenseObjectTypeCodeList, objectTypeCode)) {
+            if (assetExpenseObjectTypeCode.succeedsRule(objectTypeCode)) {
                 setNetAmount(netAmount.subtract(amount));
             }
             else {
@@ -76,7 +83,7 @@ public class PosterOutputSummaryEntry implements Comparable {
         }
         else if (KFSConstants.GL_DEBIT_CODE.equals(debitCreditCode)) {
             setDebitAmount(debitAmount.add(amount));
-            if (ArrayUtils.contains(assetExpenseObjectTypeCodeList, objectTypeCode)) {
+            if (assetExpenseObjectTypeCode.succeedsRule(objectTypeCode)) {
                 setNetAmount(netAmount.add(amount));
             }
             else {

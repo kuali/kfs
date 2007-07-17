@@ -66,7 +66,7 @@ public class ExpenditureTransactionDaoOjb extends PlatformAwareDaoBaseOjb implem
         crit.addEqualTo(PROJECT_CODE, t.getProjectCode());
 
         if (t.getOrganizationReferenceId() == null) {
-            crit.addEqualTo(ORGANIZATION_REFERENCE_ID, GLConstants.DASH_ORGANIZATION_REFERENCE_ID);
+            crit.addEqualTo(ORGANIZATION_REFERENCE_ID, GLConstants.getDashOrganizationReferenceId());
         }
         else {
             crit.addEqualTo("organizationReferenceId", t.getOrganizationReferenceId());

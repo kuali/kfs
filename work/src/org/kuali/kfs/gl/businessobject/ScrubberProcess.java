@@ -58,6 +58,7 @@ import org.kuali.module.gl.dao.UniversityDateDao;
 import org.kuali.module.gl.service.OriginEntryGroupService;
 import org.kuali.module.gl.service.OriginEntryService;
 import org.kuali.module.gl.service.ReportService;
+import org.kuali.module.gl.service.ScrubberProcessObjectCodeOverride;
 import org.kuali.module.gl.service.ScrubberValidator;
 import org.kuali.module.gl.service.impl.scrubber.DemergerReportData;
 import org.kuali.module.gl.service.impl.scrubber.ScrubberReportData;
@@ -80,9 +81,23 @@ import org.springframework.util.StringUtils;
 public class ScrubberProcess {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ScrubberProcess.class);
 
-    // 40 spaces - used for filling in descriptions with spaces
-    private static String SPACES = "                                        ";
+    private static final String TRANSACTION_TYPE_COST_SHARE_ENCUMBRANCE = "CE";
+    private static final String TRANSACTION_TYPE_OFFSET = "O";
+    private static final String TRANSACTION_TYPE_CAPITALIZATION = "C";
+    private static final String TRANSACTION_TYPE_LIABILITY = "L";
+    private static final String TRANSACTION_TYPE_TRANSFER = "T";
+    private static final String TRANSACTION_TYPE_COST_SHARE = "CS";
+    private static final String TRANSACTION_TYPE_OTHER = "X";
 
+    private static final String COST_SHARE_CODE = "CSHR";
+
+    private static final String COST_SHARE_TRANSFER_ENTRY_IND = "***";
+    
+    // These lengths are different then database field lengths, hence they are not from the DD
+    private static final int COST_SHARE_ENCUMBRANCE_ENTRY_MAXLENGTH = 28;
+    private static final int DEMERGER_TRANSACTION_LEDGET_ENTRY_DESCRIPTION = 33;
+    private static final int OFFSET_MESSAGE_MAXLENGTH = 33;
+    
     /* Services required */
     private FlexibleOffsetAccountService flexibleOffsetAccountService;
     private DocumentTypeService documentTypeService;
@@ -96,6 +111,7 @@ public class ScrubberProcess {
     private PersistenceService persistenceService;
     private ReportService reportService;
     private ScrubberValidator scrubberValidator;
+    private ScrubberProcessObjectCodeOverride scrubberProcessObjectCodeOverride;
 
     private Map<String, FinancialSystemParameter> parameters;
     private Map<String, KualiParameterRule> rules;
@@ -148,7 +164,7 @@ public class ScrubberProcess {
     /**
      * These parameters are all the dependencies.
      */
-    public ScrubberProcess(FlexibleOffsetAccountService flexibleOffsetAccountService, DocumentTypeService documentTypeService, OriginEntryService originEntryService, OriginEntryGroupService originEntryGroupService, DateTimeService dateTimeService, OffsetDefinitionService offsetDefinitionService, ObjectCodeService objectCodeService, KualiConfigurationService kualiConfigurationService, UniversityDateDao universityDateDao, PersistenceService persistenceService, ReportService reportService, ScrubberValidator scrubberValidator) {
+    public ScrubberProcess(FlexibleOffsetAccountService flexibleOffsetAccountService, DocumentTypeService documentTypeService, OriginEntryService originEntryService, OriginEntryGroupService originEntryGroupService, DateTimeService dateTimeService, OffsetDefinitionService offsetDefinitionService, ObjectCodeService objectCodeService, KualiConfigurationService kualiConfigurationService, UniversityDateDao universityDateDao, PersistenceService persistenceService, ReportService reportService, ScrubberValidator scrubberValidator, ScrubberProcessObjectCodeOverride scrubberProcessObjectCodeOverride) {
         super();
         this.flexibleOffsetAccountService = flexibleOffsetAccountService;
         this.documentTypeService = documentTypeService;
@@ -163,7 +179,8 @@ public class ScrubberProcess {
         this.reportService = reportService;
         this.scrubberValidator = scrubberValidator;
         this.unscrubbedToUnscrubbedEntries = new HashMap<OriginEntry, OriginEntry>();
-        
+        this.scrubberProcessObjectCodeOverride = scrubberProcessObjectCodeOverride;
+
         parameters = kualiConfigurationService.getParametersByGroup(GLConstants.GL_SCRUBBER_GROUP);
         rules = kualiConfigurationService.getRulesByGroup(GLConstants.GL_SCRUBBER_GROUP);
         
@@ -377,27 +394,27 @@ public class ScrubberProcess {
 
                 String transactionType = getTransactionType(transaction);
 
-                if ("CE".equals(transactionType)) {
+                if (TRANSACTION_TYPE_COST_SHARE_ENCUMBRANCE.equals(transactionType)) {
                     demergerReport.incrementCostShareEncumbranceTransactionsBypassed();
                     originEntryService.delete(transaction);
                 }
-                else if ("O".equals(transactionType)) {
+                else if (TRANSACTION_TYPE_OFFSET.equals(transactionType)) {
                     demergerReport.incrementOffsetTransactionsBypassed();
                     originEntryService.delete(transaction);
                 }
-                else if ("C".equals(transactionType)) {
+                else if (TRANSACTION_TYPE_CAPITALIZATION.equals(transactionType)) {
                     demergerReport.incrementCapitalizationTransactionsBypassed();
                     originEntryService.delete(transaction);
                 }
-                else if ("L".equals(transactionType)) {
+                else if (TRANSACTION_TYPE_LIABILITY.equals(transactionType)) {
                     demergerReport.incrementLiabilityTransactionsBypassed();
                     originEntryService.delete(transaction);
                 }
-                else if ("T".equals(transactionType)) {
+                else if (TRANSACTION_TYPE_TRANSFER.equals(transactionType)) {
                     demergerReport.incrementTransferTransactionsBypassed();
                     originEntryService.delete(transaction);
                 }
-                else if ("CS".equals(transactionType)) {
+                else if (TRANSACTION_TYPE_COST_SHARE.equals(transactionType)) {
                     demergerReport.incrementCostShareTransactionsBypassed();
                     originEntryService.delete(transaction);
                 }
@@ -416,27 +433,27 @@ public class ScrubberProcess {
 
             String transactionType = getTransactionType(transaction);
 
-            if ("CE".equals(transactionType)) {
+            if (TRANSACTION_TYPE_COST_SHARE_ENCUMBRANCE.equals(transactionType)) {
                 demergerReport.incrementCostShareEncumbranceTransactionsBypassed();
                 originEntryService.delete(transaction);
             }
-            else if ("O".equals(transactionType)) {
+            else if (TRANSACTION_TYPE_OFFSET.equals(transactionType)) {
                 demergerReport.incrementOffsetTransactionsBypassed();
                 originEntryService.delete(transaction);
             }
-            else if ("C".equals(transactionType)) {
+            else if (TRANSACTION_TYPE_CAPITALIZATION.equals(transactionType)) {
                 demergerReport.incrementCapitalizationTransactionsBypassed();
                 originEntryService.delete(transaction);
             }
-            else if ("L".equals(transactionType)) {
+            else if (TRANSACTION_TYPE_LIABILITY.equals(transactionType)) {
                 demergerReport.incrementLiabilityTransactionsBypassed();
                 originEntryService.delete(transaction);
             }
-            else if ("T".equals(transactionType)) {
+            else if (TRANSACTION_TYPE_TRANSFER.equals(transactionType)) {
                 demergerReport.incrementTransferTransactionsBypassed();
                 originEntryService.delete(transaction);
             }
-            else if ("CS".equals(transactionType)) {
+            else if (TRANSACTION_TYPE_COST_SHARE.equals(transactionType)) {
                 demergerReport.incrementCostShareTransactionsBypassed();
                 originEntryService.delete(transaction);
             }
@@ -449,10 +466,10 @@ public class ScrubberProcess {
             demergerReport.incrementValidTransactionsSaved();
 
             String transactionType = getTransactionType(transaction);
-            if ("CS".equals(transactionType)) {
+            if (TRANSACTION_TYPE_COST_SHARE.equals(transactionType)) {
                 transaction.setFinancialDocumentTypeCode(KFSConstants.TRANSFER_FUNDS);
                 transaction.setFinancialSystemOriginationCode(KFSConstants.COST_SHARE);
-                StringBuffer docNbr = new StringBuffer("CSHR");
+                StringBuffer docNbr = new StringBuffer(COST_SHARE_CODE);
 
                 String desc = transaction.getTransactionLedgerEntryDescription();
 
@@ -461,7 +478,7 @@ public class ScrubberProcess {
                 docNbr.append(desc.substring(38, 40));
                 transaction.setDocumentNumber(docNbr.toString());
 
-                transaction.setTransactionLedgerEntryDescription(desc.substring(0, 33));
+                transaction.setTransactionLedgerEntryDescription(desc.substring(0, DEMERGER_TRANSACTION_LEDGET_ENTRY_DESCRIPTION));
 
                 originEntryService.save(transaction);
             }
@@ -482,34 +499,34 @@ public class ScrubberProcess {
      * @return CE (Cost share encumbrance, O (Offset), C (apitalization), L (Liability), T (Transfer), CS (Cost Share), X (Other)
      */
     private String getTransactionType(OriginEntry transaction) {
-        if ("CE".equals(transaction.getFinancialBalanceTypeCode())) {
-            return "CE";
+        if (TRANSACTION_TYPE_COST_SHARE_ENCUMBRANCE.equals(transaction.getFinancialBalanceTypeCode())) {
+            return TRANSACTION_TYPE_COST_SHARE_ENCUMBRANCE;
         }
         String desc = transaction.getTransactionLedgerEntryDescription();
 
         if (desc == null) {
-            return "X";
+            return TRANSACTION_TYPE_OTHER;
         }
 
-        if (desc.startsWith(offsetDescription) && desc.indexOf("***") > -1) {
-            return "CS";
+        if (desc.startsWith(offsetDescription) && desc.indexOf(COST_SHARE_TRANSFER_ENTRY_IND) > -1) {
+            return TRANSACTION_TYPE_COST_SHARE;
         }
-        if (desc.startsWith(costShareDescription) && desc.indexOf("***") > -1) {
-            return "CS";
+        if (desc.startsWith(costShareDescription) && desc.indexOf(COST_SHARE_TRANSFER_ENTRY_IND) > -1) {
+            return TRANSACTION_TYPE_COST_SHARE;
         }
         if (desc.startsWith(offsetDescription)) {
-            return "O";
+            return TRANSACTION_TYPE_OFFSET;
         }
         if (desc.startsWith(capitalizationDescription)) {
-            return "C";
+            return TRANSACTION_TYPE_CAPITALIZATION;
         }
         if (desc.startsWith(liabilityDescription)) {
-            return "L";
+            return TRANSACTION_TYPE_LIABILITY;
         }
         if (desc.startsWith(transferDescription)) {
-            return "T";
+            return TRANSACTION_TYPE_TRANSFER;
         }
-        return "X";
+        return TRANSACTION_TYPE_OTHER;
     }
 
     /**
@@ -603,9 +620,10 @@ public class ScrubberProcess {
                     }
     
                     // The sub account type code will only exist if there is a valid sub account
-                    String subAccountTypeCode = "  ";
+                    String subAccountTypeCode = GLConstants.getSpaceSubAccountTypeCode();
                     if (scrubbedEntry.getA21SubAccount() != null) {
                         subAccountTypeCode = scrubbedEntry.getA21SubAccount().getSubAccountTypeCode();
+
                     }
     
                     KualiParameterRule costShareObjectTypeCodes = getRule(GLConstants.GlScrubberGroupRules.COST_SHARE_OBJ_TYPE_CODES);
@@ -990,7 +1008,7 @@ public class ScrubberProcess {
         nf.setMinimumFractionDigits(0);
         nf.setMinimumIntegerDigits(2);
 
-        offsetString = "***" + nf.format(runCal.get(Calendar.MONTH) + 1) + nf.format(runCal.get(Calendar.DAY_OF_MONTH));
+        offsetString = COST_SHARE_TRANSFER_ENTRY_IND + nf.format(runCal.get(Calendar.MONTH) + 1) + nf.format(runCal.get(Calendar.DAY_OF_MONTH));
     }
 
     /**
@@ -1000,9 +1018,9 @@ public class ScrubberProcess {
      * @return Offset message
      */
     private String getOffsetMessage() {
-        String msg = offsetDescription + SPACES;
+        String msg = offsetDescription + GLConstants.getSpaceTransactionLedgetEntryDescription();
 
-        return msg.substring(0, 33) + offsetString;
+        return msg.substring(0, OFFSET_MESSAGE_MAXLENGTH) + offsetString;
     }
 
     /**
@@ -1014,7 +1032,7 @@ public class ScrubberProcess {
      * @return null if no error, message if error
      */
     private String processCapitalization(OriginEntry scrubbedEntry) {
-        if (!"Y".equals((getParameter(GLConstants.GlScrubberGroupParameters.CAPITALIZATION_IND)).getFinancialSystemParameterText())) {
+        if (!KFSConstants.ACTIVE_INDICATOR.equals((getParameter(GLConstants.GlScrubberGroupParameters.CAPITALIZATION_IND)).getFinancialSystemParameterText())) {
             return null;
         }
 
@@ -1084,7 +1102,7 @@ public class ScrubberProcess {
      * @return null if no error, message if error
      */
     private String processPlantIndebtedness(OriginEntry scrubbedEntry) {
-        if (!"Y".equals((getParameter(GLConstants.GlScrubberGroupParameters.PLANT_INDEBTEDNESS_IND)).getFinancialSystemParameterText())) {
+        if (!KFSConstants.ACTIVE_INDICATOR.equals((getParameter(GLConstants.GlScrubberGroupParameters.PLANT_INDEBTEDNESS_IND)).getFinancialSystemParameterText())) {
             return null;
         }
 
@@ -1206,7 +1224,7 @@ public class ScrubberProcess {
      * @return null if no error, message if error
      */
     private String processLiabilities(OriginEntry scrubbedEntry) {
-        if (!"Y".equals((getParameter(GLConstants.GlScrubberGroupParameters.LIABILITY_IND)).getFinancialSystemParameterText())) {
+        if (!KFSConstants.ACTIVE_INDICATOR.equals((getParameter(GLConstants.GlScrubberGroupParameters.LIABILITY_IND)).getFinancialSystemParameterText())) {
             return null;
         }
 
@@ -1316,7 +1334,7 @@ public class ScrubberProcess {
         OriginEntry costShareEncumbranceEntry = new OriginEntry(scrubbedEntry);
 
         // First 28 characters of the description, padding to 28 if shorter)
-        StringBuffer buffer = new StringBuffer((scrubbedEntry.getTransactionLedgerEntryDescription() + SPACES).substring(0, 28));
+        StringBuffer buffer = new StringBuffer((scrubbedEntry.getTransactionLedgerEntryDescription() + GLConstants.getSpaceTransactionLedgetEntryDescription()).substring(0, COST_SHARE_ENCUMBRANCE_ENTRY_MAXLENGTH));
 
         buffer.append("FR-");
         buffer.append(costShareEncumbranceEntry.getChartOfAccountsCode());
@@ -1444,24 +1462,11 @@ public class ScrubberProcess {
 
         String originEntryObjectLevelCode = (null == originEntry.getFinancialObject() ? "" : originEntry.getFinancialObject().getFinancialObjectLevelCode());
 
-        boolean done = false;
-        String originEntryObjectCode = originEntry.getFinancialObjectCode();
-        
-        // IU Specific Rules
-
-        if ( (! done) && ("BENF".equals(originEntryObjectLevelCode) && ("9956".equals(originEntryObjectCode) || 5700 > Integer.valueOf(originEntryObjectCode).intValue()))) { // BENEFITS
-            originEntryObjectCode = "9956"; // TRSFRS_OF_FUNDS_FRINGE_BENF
-            done = true;
-        }
-
-        if ( (! done) && ("FINA".equals(originEntryObjectLevelCode) && ("9954".equals(originEntryObjectCode) || "5400".equals(originEntryObjectCode)))) {
-            // STUDENT_FINANCIAL_AID - TRSFRS_OF_FUNDS_FEE_REM - GRADUATE_FEE_REMISSIONS
-            originEntryObjectCode = "9954"; // TRSFRS_OF_FUNDS_CAPITAL
-            done = true;
-        }
+        String financialOriginEntryObjectCode = originEntry.getFinancialObjectCode();
+        String originEntryObjectCode = scrubberProcessObjectCodeOverride.getOriginEntryObjectCode(originEntryObjectLevelCode, financialOriginEntryObjectCode);
 
         // General rules
-        if ( ! done ) {
+        if ( originEntryObjectCode.equals(financialOriginEntryObjectCode) ) {
             FinancialSystemParameter param = parameters.get(GLConstants.GlScrubberGroupParameters.COST_SHARE_LEVEL_OBJECT_PREFIX + originEntryObjectLevelCode);
             if ( param == null ) {
                 param = getParameter(GLConstants.GlScrubberGroupParameters.COST_SHARE_LEVEL_OBJECT_DEFAULT);
@@ -1477,8 +1482,6 @@ public class ScrubberProcess {
                     originEntryObjectCode = param.getFinancialSystemParameterText();                    
                 }
             }
-
-            done = true;
         }
 
         // Lookup the new object code

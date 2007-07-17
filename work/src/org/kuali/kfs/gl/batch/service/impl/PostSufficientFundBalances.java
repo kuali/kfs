@@ -17,10 +17,12 @@ package org.kuali.module.gl.batch.poster.impl;
 
 import java.util.Date;
 
+import org.apache.ojb.broker.metadata.MetadataManager;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.module.gl.GLConstants;
 import org.kuali.module.gl.batch.poster.PostTransaction;
+import org.kuali.module.gl.bo.ExpenditureTransaction;
 import org.kuali.module.gl.bo.SufficientFundBalances;
 import org.kuali.module.gl.bo.Transaction;
 import org.kuali.module.gl.dao.SufficientFundBalancesDao;
@@ -48,11 +50,11 @@ public class PostSufficientFundBalances implements PostTransaction {
     public String post(Transaction t, int mode, Date postDate) {
         LOG.debug("post() started");
 
-        String returnCode = "U";
+        String returnCode = GLConstants.UPDATE_CODE;
 
         if (KFSConstants.SF_TYPE_NO_CHECKING.equals(t.getAccount().getAccountSufficientFundsCode())) {
             // Don't need to post
-            return "";
+            return GLConstants.EMPTY_CODE;
         }
 
         // Get the Sufficient funds code
@@ -68,7 +70,7 @@ public class PostSufficientFundBalances implements PostTransaction {
             sufficientFundsObjectCode = t.getFinancialObject().getFinancialObjectLevel().getFinancialConsolidationObjectCode();
         }
         else if (KFSConstants.SF_TYPE_CASH_AT_ACCOUNT.equals(t.getAccount().getAccountSufficientFundsCode()) || KFSConstants.SF_TYPE_ACCOUNT.equals(t.getAccount().getAccountSufficientFundsCode())) {
-            sufficientFundsObjectCode = GLConstants.SPACE_FINANCIAL_OBJECT_CODE;
+            sufficientFundsObjectCode = GLConstants.getSpaceFinancialObjectCode();
         }
         else {
             return "E:Invalid sufficient funds code (" + t.getAccount().getAccountSufficientFundsCode() + ")";
@@ -77,7 +79,7 @@ public class PostSufficientFundBalances implements PostTransaction {
         // Look to see if there is a sufficient funds record for this
         SufficientFundBalances sfBalance = sufficientFundBalancesDao.getByPrimaryId(t.getUniversityFiscalYear(), t.getChartOfAccountsCode(), t.getAccountNumber(), sufficientFundsObjectCode);
         if (sfBalance == null) {
-            returnCode = "I";
+            returnCode = GLConstants.INSERT_CODE;
             sfBalance = new SufficientFundBalances();
             sfBalance.setUniversityFiscalYear(t.getUniversityFiscalYear());
             sfBalance.setChartOfAccountsCode(t.getChartOfAccountsCode());
@@ -98,7 +100,7 @@ public class PostSufficientFundBalances implements PostTransaction {
                 }
                 else {
                     // No need to post this
-                    return "";
+                    return GLConstants.EMPTY_CODE;
                 }
             }
             else if (t.getFinancialBalanceTypeCode().equals(t.getOption().getExtrnlEncumFinBalanceTypCd()) || t.getFinancialBalanceTypeCode().equals(t.getOption().getIntrnlEncumFinBalanceTypCd()) || t.getFinancialBalanceTypeCode().equals(t.getOption().getPreencumbranceFinBalTypeCd()) || t.getOption().getCostShareEncumbranceBalanceTypeCd().equals(t.getFinancialBalanceTypeCode())) {
@@ -108,12 +110,12 @@ public class PostSufficientFundBalances implements PostTransaction {
                 }
                 else {
                     // No need to post this
-                    return "";
+                    return GLConstants.EMPTY_CODE;
                 }
             }
             else {
                 // No need to post this
-                return "";
+                return GLConstants.EMPTY_CODE;
             }
         }
         else {
@@ -132,12 +134,12 @@ public class PostSufficientFundBalances implements PostTransaction {
                 }
                 else {
                     // No need to post this
-                    return "";
+                    return GLConstants.EMPTY_CODE;
                 }
             }
             else {
                 // No need to post this
-                return "";
+                return GLConstants.EMPTY_CODE;
             }
         }
 
@@ -179,6 +181,6 @@ public class PostSufficientFundBalances implements PostTransaction {
     }
 
     public String getDestinationName() {
-        return "GL_SF_BALANCES_T";
+        return MetadataManager.getInstance().getGlobalRepository().getDescriptorFor(SufficientFundBalances.class).getFullTableName();
     }
 }

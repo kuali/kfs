@@ -597,6 +597,9 @@
 		<property name="scrubberValidator">
 			<ref bean="glScrubberValidator" />
 		</property>
+		<property name="scrubberProcessObjectCodeOverride">
+			<ref bean="glScrubberProcessObjectCodeOverride" />
+		</property>
 	</bean>
 
 	<bean id="glScrubberValidator" class="org.kuali.module.gl.service.impl.ScrubberValidatorImpl">
@@ -615,6 +618,9 @@
 		<property name="accountService">
 			<ref bean="accountService" />
 		</property>
+	</bean>
+
+	<bean id="glScrubberProcessObjectCodeOverride" class="org.kuali.module.gl.service.impl.ScrubberProcessObjectCodeOverrideImpl">
 	</bean>
 
 	<bean id="glSufficientFundsSyncService" class="org.kuali.module.gl.service.impl.SufficientFundsSyncServiceImpl">

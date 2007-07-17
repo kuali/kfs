@@ -15,11 +15,16 @@
  */
 package org.kuali.module.gl;
 
+import java.util.Iterator;
+import java.util.Map;
+
 import org.apache.commons.lang.StringUtils;
+import org.kuali.core.datadictionary.AttributeDefinition;
 import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.bo.OriginationCode;
 import org.kuali.kfs.bo.TargetAccountingLine;
 import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.module.chart.bo.A21SubAccount;
 import org.kuali.module.chart.bo.ObjectCode;
 import org.kuali.module.chart.bo.codes.BalanceTyp;
 import org.kuali.module.gl.bo.OriginEntry;
@@ -31,13 +36,13 @@ import org.kuali.module.gl.bo.OriginEntry;
  * 
  */
 public class GLConstants {
-    public static final String SPACE_UNIVERSITY_FISCAL_PERIOD_CODE = "  ";//StringUtils.rightPad("", SpringServiceLocator.getDataDictionaryService().getAttributeSize(OriginEntry.class, KFSPropertyConstants.UNIVERSITY_FISCAL_PERIOD_CODE), ' '); 
-    public static final String SPACE_BALANCE_TYPE_CODE = "  ";//StringUtils.rightPad("", SpringServiceLocator.getDataDictionaryService().getAttributeSize(BalanceTyp.class, KFSPropertyConstants.CODE), ' '); 
-    public static final String SPACE_FINANCIAL_SYSTEM_ORIGINATION_CODE = "  ";//StringUtils.rightPad("", SpringServiceLocator.getDataDictionaryService().getAttributeSize(OriginationCode.class, KFSPropertyConstants.FINANCIAL_SYSTEM_ORIGINATION_CODE), ' '); 
-    public static final String SPACE_DEBIT_CREDIT_CODE = " ";//StringUtils.rightPad("", SpringServiceLocator.getDataDictionaryService().getAttributeSize(TargetAccountingLine.class, KFSPropertyConstants.DEBIT_CREDIT_CODE), ' '); 
-    public static final String SPACE_FINANCIAL_OBJECT_CODE = "    ";//StringUtils.rightPad("", SpringServiceLocator.getDataDictionaryService().getAttributeSize(ObjectCode.class, KFSPropertyConstants.FINANCIAL_OBJECT_CODE), ' ');
-    
-    public static final String DASH_ORGANIZATION_REFERENCE_ID = "--------";//StringUtils.rightPad("", SpringServiceLocator.getDataDictionaryService().getAttributeSize(OriginEntry.class, KFSPropertyConstants.ORGANIZATION_REFERENCE_ID), '-');
+
+    public static final String INSERT_CODE = "I";
+    public static final String UPDATE_CODE = "U";
+    public static final String DELETE_CODE = "D";
+    public static final String SELECT_CODE = "S";
+    public static final String EMPTY_CODE = "";
+    public static final String ERROR_CODE = "E";
     
     public static class DummyBusinessObject {
         static final public String COST_SHARE_OPTION = "dummyBusinessObject.costShareOption";
@@ -99,7 +104,11 @@ public class GLConstants {
 
     public static final String GL_ACCOUNT_BALANCE_SERVICE_GROUP = "GL.ACCOUNT_BALANCE_SERVICE";
     public static final String GL_SCRUBBER_GROUP = "GL.SCRUBBER";
-
+    public static final String GL_SUMMARY_REPORT_GROUP = "GL.SUMMARY_REPORT";
+    public static final String GL_ORGANIZATION_REVERSION_PROCESS_GROUP = "GL.ORGANIZATION_REVERSION_PROCESS";
+    public static final String GL_ORGANIZATION_REVERSION_SELECTION_GROUP = "GL.ORGANIZATION_REVERSION_SELECTION";
+    public static final String GL_POSTER_OUTPUT_SUMMARY_ENTRY_GROUP = "GL.POSTER_OUTPUT_SUMMARY_ENTRY";
+    
     public static class GlAccountBalanceGroupParameters {
         static final public String EXPENSE_OBJECT_TYPE_CODES = "EXPENSE_OBJECT_TYPE_CODES";
         static final public String EXPENSE_TRANSFER_OBJECT_TYPE_CODES = "EXPENSE_TRANSFER_OBJECT_TYPE_CODES";
@@ -154,5 +163,157 @@ public class GLConstants {
 
         static final public String PLANT_INDEBTEDNESS_OBJ_SUB_TYPE_CODES = "PLANT_INDEBTEDNESS.OBJ_SUB_TYPE_CODES";
         static final public String PLANT_INDEBTEDNESS_SUB_FUND_GROUP_CODES = "PLANT_INDEBTEDNESS.SUB_FUND_GROUP_CODES";
+
+        static final public String CONTINUATION_ACCOUNT_BYPASS_ORIGINATION_CODES = "CONTINUATION_ACCOUNT_BYPASS_ORIGINATION_CODES";
+        static final public String CONTINUATION_ACCOUNT_BYPASS_BALANCE_TYPE_CODES = "CONTINUATION_ACCOUNT_BYPASS_BALANCE_TYPE_CODES";
+        static final public String CONTINUATION_ACCOUNT_BYPASS_DOCUMENT_TYPE_CODES = "CONTINUATION_ACCOUNT_BYPASS_DOCUMENT_TYPE_CODES";
+    }
+    
+    public static class GlSummaryReport {
+        static final public String DATE_FORMAT = "DATE_FORMAT";
+        static final public String CURRENT_YEAR_LOWER = "CURRENT_YEAR_LOWER";
+        static final public String CURRENT_YEAR_UPPER = "CURRENT_YEAR_UPPER";
+        static final public String CURRENT_AND_LAST_YEAR = "CURRENT_AND_LAST_YEAR";
+    }
+    
+    public static class OrganizationReversionProcess {
+        static final public String ORGANIZATION_REVERSION_COA = "ORGANIZATION_REVERSION_COA";
+        static final public String CARRY_FORWARD_OBJECT_CODE = "CARRY_FORWARD_OBJECT_CODE";
+        static final public String DEFAULT_FINANCIAL_DOCUMENT_TYPE_CODE = "DEFAULT_FINANCIAL_DOCUMENT_TYPE_CODE";
+        static final public String DEFAULT_FINANCIAL_SYSTEM_ORIGINATION_CODE = "DEFAULT_FINANCIAL_SYSTEM_ORIGINATION_CODE";
+        static final public String DEFAULT_FINANCIAL_BALANCE_TYPE_CODE = "DEFAULT_FINANCIAL_BALANCE_TYPE_CODE";
+        static final public String DEFAULT_FINANCIAL_BALANCE_TYPE_CODE_YEAR_END = "DEFAULT_FINANCIAL_BALANCE_TYPE_CODE_YEAR_END";
+        static final public String DEFAULT_DOCUMENT_NUMBER_PREFIX = "DEFAULT_DOCUMENT_NUMBER_PREFIX";
+    }
+    
+    public static class PosterService {
+        static final public String SYMBOL_USE_EXPENDITURE_ENTRY = "@";
+        static final public String SYMBOL_USE_IRC_FROM_ACCOUNT = "#";
+    }
+    
+    public static class PosterOutputSummaryEntry {
+        static final public String ASSET_EXPENSE_OBJECT_TYPE_CODES = "ASSET_EXPENSE_OBJECT_TYPE_CODES";
+    }
+
+    // Some static method calls below that could be done in static variables instead but isn't safe to do during class loading w/SpringServiceLocator.
+    private static String SPACE_UNIVERSITY_FISCAL_PERIOD_CODE = null;
+    public static String getSpaceUniversityFiscalPeriodCode() {
+        if (SPACE_UNIVERSITY_FISCAL_PERIOD_CODE == null) {
+            SPACE_UNIVERSITY_FISCAL_PERIOD_CODE = StringUtils.rightPad("", SpringServiceLocator.getDataDictionaryService().getAttributeSize(OriginEntry.class, KFSPropertyConstants.UNIVERSITY_FISCAL_PERIOD_CODE), ' ');
+        }
+        return SPACE_UNIVERSITY_FISCAL_PERIOD_CODE;
+    }
+    
+    private static String SPACE_BALANCE_TYPE_CODE = null; 
+    public static String getSpaceBalanceTypeCode() {
+        if (SPACE_BALANCE_TYPE_CODE == null) {
+            SPACE_BALANCE_TYPE_CODE = StringUtils.rightPad("", SpringServiceLocator.getDataDictionaryService().getAttributeSize(BalanceTyp.class, KFSPropertyConstants.CODE), ' ');
+        }
+        return SPACE_BALANCE_TYPE_CODE;
+    }
+    
+    private static String SPACE_FINANCIAL_SYSTEM_ORIGINATION_CODE = null; 
+    public static String getSpaceFinancialSystemOriginationCode() {
+        if (SPACE_FINANCIAL_SYSTEM_ORIGINATION_CODE == null) {
+            SPACE_FINANCIAL_SYSTEM_ORIGINATION_CODE = StringUtils.rightPad("", SpringServiceLocator.getDataDictionaryService().getAttributeSize(OriginationCode.class, KFSPropertyConstants.FINANCIAL_SYSTEM_ORIGINATION_CODE), ' ');
+        }
+        return SPACE_FINANCIAL_SYSTEM_ORIGINATION_CODE;
+    }
+    
+    private static String SPACE_DEBIT_CREDIT_CODE = null; 
+    public static String getSpaceDebitCreditCode() {
+        if (SPACE_DEBIT_CREDIT_CODE == null) {
+            SPACE_DEBIT_CREDIT_CODE = StringUtils.rightPad("", SpringServiceLocator.getDataDictionaryService().getAttributeSize(TargetAccountingLine.class, KFSPropertyConstants.DEBIT_CREDIT_CODE), ' ');
+        }
+        return SPACE_DEBIT_CREDIT_CODE;
+    }
+    
+    private static String SPACE_FINANCIAL_OBJECT_CODE = null;
+    public static String getSpaceFinancialObjectCode() {
+        if (SPACE_FINANCIAL_OBJECT_CODE == null) {
+            SPACE_FINANCIAL_OBJECT_CODE = StringUtils.rightPad("", SpringServiceLocator.getDataDictionaryService().getAttributeSize(ObjectCode.class, KFSPropertyConstants.FINANCIAL_OBJECT_CODE), ' ');
+        }
+        return SPACE_FINANCIAL_OBJECT_CODE;
+    }
+    
+    private static String SPACE_TRANSACTION_DATE = null;
+    public static String getSpaceTransactionDate() {
+        if (SPACE_TRANSACTION_DATE == null) {
+            SPACE_TRANSACTION_DATE = StringUtils.rightPad("", SpringServiceLocator.getDataDictionaryService().getAttributeSize(OriginEntry.class, KFSPropertyConstants.TRANSACTION_DATE), ' ');
+        }
+        return SPACE_TRANSACTION_DATE;
+    }
+    
+    private static String SPACE_UNIVERSITY_FISCAL_YEAR = null;
+    public static String getSpaceUniversityFiscalYear() {
+        if (SPACE_UNIVERSITY_FISCAL_YEAR == null) {
+            SPACE_UNIVERSITY_FISCAL_YEAR = StringUtils.rightPad("", SpringServiceLocator.getDataDictionaryService().getAttributeSize(OriginEntry.class, KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR), ' ');
+        }
+        return SPACE_UNIVERSITY_FISCAL_YEAR;
+    }
+    
+    private static String SPACE_TRANSACTION_ENTRY_SEQUENCE_NUMBER = null;
+    public static String getSpaceTransactionEntrySequenceNumber() {
+        if (SPACE_TRANSACTION_ENTRY_SEQUENCE_NUMBER == null) {
+            SPACE_TRANSACTION_ENTRY_SEQUENCE_NUMBER = StringUtils.rightPad("", SpringServiceLocator.getDataDictionaryService().getAttributeSize(OriginEntry.class, KFSPropertyConstants.TRANSACTION_ENTRY_SEQUENCE_NUMBER), ' ');
+        }
+        return SPACE_TRANSACTION_ENTRY_SEQUENCE_NUMBER;
+    }
+    
+    private static String SPACE_TRANSACTION_LEDGER_ENTRY_DESCRIPTION = null;
+    public static String getSpaceTransactionLedgetEntryDescription() {
+        if (SPACE_TRANSACTION_LEDGER_ENTRY_DESCRIPTION == null) {
+            SPACE_TRANSACTION_LEDGER_ENTRY_DESCRIPTION = StringUtils.rightPad("", SpringServiceLocator.getDataDictionaryService().getAttributeSize(OriginEntry.class, KFSPropertyConstants.TRANSACTION_LEDGER_ENTRY_DESC), ' ');
+        }
+        return SPACE_TRANSACTION_LEDGER_ENTRY_DESCRIPTION;
+    }
+    
+    private static String SPACE_SUB_ACCOUNT_TYPE_CODE = null;
+    public static String getSpaceSubAccountTypeCode() {
+        if (SPACE_SUB_ACCOUNT_TYPE_CODE == null) {
+            SPACE_SUB_ACCOUNT_TYPE_CODE = StringUtils.rightPad("", SpringServiceLocator.getDataDictionaryService().getAttributeSize(A21SubAccount.class, KFSPropertyConstants.SUB_ACCOUNT_TYPE_CODE), ' ');
+        }
+        return SPACE_SUB_ACCOUNT_TYPE_CODE;
+    }
+    
+    private static String SPACE_ALL_ORIGIN_ENTRY_FIELDS = null;
+    public static String getSpaceAllOriginEntryFields() {
+        if (SPACE_ALL_ORIGIN_ENTRY_FIELDS == null) {
+            Map map = SpringServiceLocator.getDataDictionaryService().getDataDictionary().getBusinessObjectEntry(OriginEntry.class.getName()).getAttributes();
+            
+            int totalLength = 0; 
+            
+            Iterator iter = map.values().iterator();
+            while (iter.hasNext()) {
+                AttributeDefinition attributeDefinition = (AttributeDefinition) iter.next();
+                
+                if(KFSPropertyConstants.TRANSACTION_LEDGER_ENTRY_AMOUNT.equals(attributeDefinition.getName())) {
+                    totalLength += OriginEntry.SPACE_TRANSACTION_LEDGER_ENTRY_AMOUNT.length();
+                } else if(!(KFSPropertyConstants.ENTRY_GROUP_ID.equals(attributeDefinition.getName()) ||
+                        KFSPropertyConstants.ENTRY_ID.equals(attributeDefinition.getName()))) {
+                    totalLength += attributeDefinition.getMaxLength();
+                }
+            }
+            
+            SPACE_ALL_ORIGIN_ENTRY_FIELDS = StringUtils.rightPad("", totalLength, ' ');
+        }
+        
+        return SPACE_ALL_ORIGIN_ENTRY_FIELDS;
+    }
+    
+    private static String ZERO_TRANSACTION_ENTRY_SEQUENCE_NUMBER = null;
+    public static String getZeroTransactionEntrySequenceNumber() {
+        if (ZERO_TRANSACTION_ENTRY_SEQUENCE_NUMBER == null) {
+            ZERO_TRANSACTION_ENTRY_SEQUENCE_NUMBER = StringUtils.rightPad("", SpringServiceLocator.getDataDictionaryService().getAttributeSize(OriginEntry.class, KFSPropertyConstants.TRANSACTION_ENTRY_SEQUENCE_NUMBER), '0');
+        }
+        return ZERO_TRANSACTION_ENTRY_SEQUENCE_NUMBER;
+    }
+    
+    private static String DASH_ORGANIZATION_REFERENCE_ID = null;
+    public static String getDashOrganizationReferenceId() {
+        if (DASH_ORGANIZATION_REFERENCE_ID == null) {
+            DASH_ORGANIZATION_REFERENCE_ID = StringUtils.rightPad("", SpringServiceLocator.getDataDictionaryService().getAttributeSize(OriginEntry.class, KFSPropertyConstants.ORGANIZATION_REFERENCE_ID), '-');
+        }
+        return DASH_ORGANIZATION_REFERENCE_ID;
     }
 }

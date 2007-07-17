@@ -306,11 +306,12 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
         msgs = new HashMap<String, String>();
 
         Integer purchaseOrderId = document.getPurchaseOrderIdentifier();
-
-        if (purapService.isDateAYearBeforeToday(document.getInvoiceDate())) {
-            msgs.put(PREQDocumentsStrings.DUPLICATE_INVOICE_QUESTION, kualiConfigurationService.getPropertyString(PurapKeyConstants.MESSAGE_INVOICE_DATE_A_YEAR_OR_MORE_PAST));
+        
+        if (ObjectUtils.isNotNull(document.getInvoiceDate())){
+            if (purapService.isDateAYearBeforeToday(document.getInvoiceDate())) {
+                msgs.put(PREQDocumentsStrings.DUPLICATE_INVOICE_QUESTION, kualiConfigurationService.getPropertyString(PurapKeyConstants.MESSAGE_INVOICE_DATE_A_YEAR_OR_MORE_PAST));
+            }
         }
-
         PurchaseOrderDocument po = purchaseOrderService.getCurrentPurchaseOrder(purchaseOrderId);
 
         if (po != null) {

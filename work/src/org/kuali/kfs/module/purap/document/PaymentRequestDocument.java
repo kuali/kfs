@@ -41,9 +41,11 @@ import org.kuali.module.purap.bo.PaymentRequestView;
 import org.kuali.module.purap.bo.PurApAccountingLine;
 import org.kuali.module.purap.bo.PurchaseOrderItem;
 import org.kuali.module.purap.bo.RecurringPaymentType;
+import org.kuali.module.vendor.VendorConstants;
 import org.kuali.module.vendor.bo.PaymentTermType;
 import org.kuali.module.vendor.bo.PurchaseOrderCostSource;
 import org.kuali.module.vendor.bo.ShippingPaymentTerms;
+import org.kuali.module.vendor.bo.VendorAddress;
 import org.kuali.workflow.KualiWorkflowUtils.RouteLevelNames;
 
 import edu.iu.uis.eden.EdenConstants;
@@ -671,16 +673,29 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
             this.setRecurringPaymentTypeCode(po.getRecurringPaymentTypeCode());
         }
         
-        //TODO: WHAT ABOUT REMIT ADDRESS!? see code in createPaymentRequest in EPIC PREQServiceIMPL
         this.setVendorHeaderGeneratedIdentifier(po.getVendorHeaderGeneratedIdentifier());
         this.setVendorDetailAssignedIdentifier(po.getVendorDetailAssignedIdentifier());
+        this.setVendorCustomerNumber(po.getVendorCustomerNumber());
         this.setVendorName(po.getVendorName());
-        this.setVendorLine1Address(po.getVendorLine1Address());
-        this.setVendorLine2Address(po.getVendorLine2Address());
-        this.setVendorCityName(po.getVendorCityName());
-        this.setVendorStateCode(po.getVendorStateCode());
-        this.setVendorPostalCode(po.getVendorPostalCode());
-        this.setVendorCountryCode(po.getVendorCountryCode());
+
+        // populate preq vendor address with the default remit address type for the vendor if found
+        String userCampus = GlobalVariables.getUserSession().getUniversalUser().getCampusCode();
+        VendorAddress vendorAddress = SpringServiceLocator.getVendorService().getVendorDefaultAddress(po.getVendorHeaderGeneratedIdentifier(), po.getVendorDetailAssignedIdentifier(), VendorConstants.AddressTypes.REMIT, userCampus);
+        if (vendorAddress != null) {
+            this.templateVendorAddress(vendorAddress);
+            this.setVendorAddressGeneratedIdentifier(vendorAddress.getVendorAddressGeneratedIdentifier());
+        }
+        else {
+            // set address from PO
+            this.setVendorAddressGeneratedIdentifier(po.getVendorAddressGeneratedIdentifier());
+            this.setVendorLine1Address(po.getVendorLine1Address());
+            this.setVendorLine2Address(po.getVendorLine2Address());
+            this.setVendorCityName(po.getVendorCityName());
+            this.setVendorStateCode(po.getVendorStateCode());
+            this.setVendorPostalCode(po.getVendorPostalCode());
+            this.setVendorCountryCode(po.getVendorCountryCode());
+        }
+
         if ((po.getVendorPaymentTerms() == null) || ("".equals(po.getVendorPaymentTerms().getVendorPaymentTermsCode())) ) {
             this.setVendorPaymentTerms(new PaymentTermType());
             this.vendorPaymentTerms.setVendorPaymentTermsCode("");

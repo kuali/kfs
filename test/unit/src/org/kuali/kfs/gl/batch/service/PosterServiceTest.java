@@ -22,6 +22,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.core.util.Guid;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.gl.OriginEntryTestBase;
@@ -200,10 +201,10 @@ public class PosterServiceTest extends OriginEntryTestBase {
         assertEquals("ORG_DOC_NBR wrong", "ABCDEFGHIJ", (String) glEntry.get("ORG_DOC_NBR"));
         assertEquals("PROJECT_CD wrong", "----------", (String) glEntry.get("PROJECT_CD"));
         assertEquals("ORG_REFERENCE_ID wrong", "12345678", (String) glEntry.get("ORG_REFERENCE_ID"));
-        assertNull("FDOC_REF_TYP_CD wrong", glEntry.get("FDOC_REF_TYP_CD"));
-        assertNull("FS_REF_ORIGIN_CD wrong", glEntry.get("FS_REF_ORIGIN_CD"));
-        assertNull("FDOC_REF_NBR wrong", glEntry.get("FDOC_REF_NBR"));
-        assertNull("FDOC_REVERSAL_DT wrong", glEntry.get("FDOC_REVERSAL_DT"));
+        assertTrue("FDOC_REF_TYP_CD is not blank, was: '" + glEntry.get("FDOC_REF_TYP_CD") + "'", StringUtils.isEmpty( (String)glEntry.get("FDOC_REF_TYP_CD") ));
+        assertTrue("FS_REF_ORIGIN_CD is not blank, was: '" + glEntry.get("FS_REF_ORIGIN_CD") + "'", StringUtils.isEmpty( (String)glEntry.get("FS_REF_ORIGIN_CD") ));
+        assertTrue("FDOC_REF_NBR is not blank, was: '" + glEntry.get("FDOC_REF_NBR") + "'", StringUtils.isEmpty( (String)glEntry.get("FDOC_REF_NBR") ));
+        assertNull("FDOC_REVERSAL_DT is not null, was: '" + glEntry.get("FDOC_REVERSAL_DT") + "'", glEntry.get("FDOC_REVERSAL_DT"));
         assertEquals("TRN_ENCUM_UPDT_CD wrong", " ", (String) glEntry.get("TRN_ENCUM_UPDT_CD"));
 
         // The 2nd one should have a different sequence number

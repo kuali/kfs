@@ -26,7 +26,7 @@ import org.kuali.kfs.exceptions.XMLParseException;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.financial.bo.ProcurementCardTransaction;
 import org.kuali.module.gl.batch.collector.CollectorBatch;
-import org.kuali.module.gl.bo.InterDepartmentalBilling;
+import org.kuali.module.gl.bo.CollectorDetail;
 import org.kuali.module.gl.bo.OriginEntry;
 import org.kuali.test.WithTestSpringContext;
 
@@ -108,16 +108,16 @@ public class BatchInputServiceParseTest extends KualiTestBase {
         }
 
         // verify id billing entries were populated
-        assertEquals("parsed object has incorrect number of id billing entries", 2, collectorBatch.getIdBillings().size());
+        assertEquals("parsed object has incorrect number of id billing entries", 2, collectorBatch.getCollectorDetails().size());
 
-        for (int i = 0; i < collectorBatch.getIdBillings().size(); i++) {
-            Object idBilling = collectorBatch.getIdBillings().get(i);
+        for (int i = 0; i < collectorBatch.getCollectorDetails().size(); i++) {
+            Object idBilling = collectorBatch.getCollectorDetails().get(i);
 
             assertNotNull("ID Billing record is null on index " + i, idBilling);
-            assertEquals("object type was incorrect on index " + i, InterDepartmentalBilling.class, idBilling.getClass());
+            assertEquals("object type was incorrect on index " + i, CollectorDetail.class, idBilling.getClass());
         }
 
-        assertEquals("number of batch records does not match header count", collectorBatch.getTotalRecords().intValue(), collectorBatch.getOriginEntries().size() + collectorBatch.getIdBillings().size());
+        assertEquals("number of batch records does not match header count", collectorBatch.getTotalRecords().intValue(), collectorBatch.getOriginEntries().size() + collectorBatch.getCollectorDetails().size());
     }
 
 

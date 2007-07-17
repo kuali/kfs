@@ -330,7 +330,7 @@ public class OriginEntryServiceImpl implements OriginEntryService {
     }
 
     // create or update a ledger entry with the array of information from the given entry summary object
-    private LedgerEntry buildLedgerEntry(Object[] entrySummary) {
+    public static LedgerEntry buildLedgerEntry(Object[] entrySummary) {
         // extract the data from an array and use them to populate a ledger entry
         Object oFiscalYear = entrySummary[0];
         Object oPeriodCode = entrySummary[1];

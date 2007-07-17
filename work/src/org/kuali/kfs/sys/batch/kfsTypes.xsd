@@ -20,6 +20,11 @@
             <xsd:pattern value="[A-Za-z0-9]{1,14}"/>
         </xsd:restriction>
     </xsd:simpleType>
+    <xsd:simpleType name="fdocNumberTypeOptional">
+        <xsd:restriction base="xsd:string">
+            <xsd:pattern value="[A-Za-z0-9]{0,14}"/>
+        </xsd:restriction>
+    </xsd:simpleType>
     <xsd:simpleType name="campusPhoneType">
         <xsd:restriction base="xsd:string">
             <xsd:pattern value="[0-9]{1,10}"/>
@@ -52,6 +57,11 @@
     <xsd:simpleType name="oneToFourCharType">
         <xsd:restriction base="xsd:string">
             <xsd:minLength value="1"/>
+            <xsd:maxLength value="4"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+    <xsd:simpleType name="zeroToFourCharType">
+        <xsd:restriction base="xsd:string">
             <xsd:maxLength value="4"/>
         </xsd:restriction>
     </xsd:simpleType>
@@ -156,6 +166,7 @@
         <xsd:restriction base="xsd:string">
             <xsd:enumeration value="R"/>
             <xsd:enumeration value="D"/>
+            <xsd:enumeration value=" "/>
         </xsd:restriction>
     </xsd:simpleType>
     <xsd:simpleType name="debitCreditCodeType">

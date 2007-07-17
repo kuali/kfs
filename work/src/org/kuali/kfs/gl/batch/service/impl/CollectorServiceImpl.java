@@ -1,5 +1,5 @@
 /*
- * Copyright 2006 The Kuali Foundation.
+ * Copyright 2007 The Kuali Foundation.
  * 
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,509 +15,163 @@
  */
 package org.kuali.module.gl.service.impl;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
-import java.text.MessageFormat;
+import java.io.File;
+import java.sql.Date;
 import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Iterator;
+import java.util.Collection;
 import java.util.List;
-import java.util.Set;
 
-import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringUtils;
-import org.apache.log4j.Logger;
-import org.kuali.core.mail.InvalidAddressException;
-import org.kuali.core.mail.MailMessage;
 import org.kuali.core.service.DateTimeService;
-import org.kuali.core.service.KualiConfigurationService;
-import org.kuali.core.service.MailService;
-import org.kuali.core.util.ErrorMessage;
-import org.kuali.core.util.GlobalVariables;
-import org.kuali.core.util.KualiDecimal;
-import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.KFSKeyConstants;
-import org.kuali.kfs.KFSPropertyConstants;
-import org.kuali.kfs.KFSConstants.ParameterGroups;
-import org.kuali.kfs.KFSConstants.SystemGroupParameterNames;
 import org.kuali.kfs.batch.BatchInputFileType;
-import org.kuali.kfs.exceptions.XMLParseException;
 import org.kuali.kfs.service.BatchInputFileService;
-import org.kuali.kfs.util.SpringServiceLocator;
-import org.kuali.module.chart.bo.ObjectType;
-import org.kuali.module.chart.bo.codes.BalanceTyp;
-import org.kuali.module.gl.batch.collector.CollectorBatch;
-import org.kuali.module.gl.bo.CollectorHeader;
-import org.kuali.module.gl.bo.InterDepartmentalBilling;
-import org.kuali.module.gl.bo.OriginEntry;
+import org.kuali.module.gl.bo.OriginEntryGroup;
+import org.kuali.module.gl.bo.OriginEntrySource;
+import org.kuali.module.gl.service.CollectorHelperService;
+import org.kuali.module.gl.service.CollectorScrubberService;
 import org.kuali.module.gl.service.CollectorService;
-import org.kuali.module.gl.service.InterDepartmentalBillingService;
 import org.kuali.module.gl.service.OriginEntryGroupService;
 import org.kuali.module.gl.service.OriginEntryService;
+import org.kuali.module.gl.service.RunDateService;
+import org.kuali.module.gl.util.CollectorReportData;
+import org.kuali.module.gl.util.CollectorScrubberStatus;
+import org.kuali.module.gl.util.LedgerEntryHolder;
+import org.springframework.transaction.annotation.Transactional;
 
-/**
- * @see org.kuali.module.gl.service.CollectorService
- */
+@Transactional
 public class CollectorServiceImpl implements CollectorService {
-    private static Logger LOG = Logger.getLogger(CollectorServiceImpl.class);
-
-    private InterDepartmentalBillingService interDepartmentalBillingService;
-    private OriginEntryService originEntryService;
-    private OriginEntryGroupService originEntryGroupService;
-    private KualiConfigurationService kualiConfigurationService;
-    private MailService mailService;
-    private DateTimeService dateTimeService;
+    private CollectorHelperService collectorHelperService;
     private BatchInputFileService batchInputFileService;
     private BatchInputFileType collectorInputFileType;
+    private OriginEntryGroupService originEntryGroupService;
+    private DateTimeService dateTimeService;
+    private CollectorScrubberService collectorScrubberService;
+    private RunDateService runDateService;
     
     /**
-     * Parses the given file, validates the batch, stores the entries, and sends email.
-     * 
-     * @see org.kuali.module.gl.service.CollectorService#loadCollectorFile(java.lang.String)
+     * @see org.kuali.module.gl.service.CollectorService#performCollection()
      */
-    public boolean loadCollectorFile(String fileName) {
-        boolean isValid = true;
-
-        CollectorBatch batch = doCollectorFileParse(fileName);
-
-        // terminate if there were parse errors
-        if (!GlobalVariables.getErrorMap().isEmpty()) {
-            isValid = false;
-        }
-
-        if (isValid) {
-            processInterDepartmentalBillingAmounts(batch);
-        }
+    public CollectorReportData performCollection() {
+        List<String> fileNamesToLoad = batchInputFileService.listInputFileNamesWithDoneFile(collectorInputFileType);
+        List<String> processedFiles = new ArrayList();
         
-        // do validation, base collector files rules and total checks
-        if (isValid) {
-            isValid = performValidation(batch);
-        }
-
-        if (isValid) {
-            // check totals
-            isValid = checkTrailerTotals(batch);
-        }
-
-        if (isValid) {
-            // store origin group, entries, and id billings
-            batch.setDefaultsAndStore();
-        }
-
-        List<String> errorMessages = translateErrorsFromGlobalVariables();
-        sendEmail(errorMessages, batch);
-
-        return isValid;
-    }
-
-    /**
-     * Calls batch input service to parse the xml contents into an object. Any errors will be contained in GlobalVariables.errorMap
-     * 
-     * @param fileName
-     */
-    private CollectorBatch doCollectorFileParse(String fileName) {
-
-        InputStream inputStream = null;
+        Date executionDate = dateTimeService.getCurrentSqlDate();
+        
+        Date runDate = runDateService.calculateRunDate(executionDate);
+        OriginEntryGroup group = originEntryGroupService.createGroup(runDate, OriginEntrySource.COLLECTOR, true, false, true);
+        CollectorReportData collectorReportData = new CollectorReportData();
+        List<CollectorScrubberStatus> collectorScrubberStatuses = new ArrayList<CollectorScrubberStatus>();
+        
         try {
-            inputStream = new FileInputStream(fileName);
-        }
-        catch (FileNotFoundException e) {
-            LOG.error("file to parse not found " + fileName, e);
-            throw new RuntimeException("Cannot find the file requested to be parsed " + fileName + " " + e.getMessage(), e);
-        }
-
-        CollectorBatch parsedObject = null;
-        try {
-            byte[] fileByteContent = IOUtils.toByteArray(inputStream);
-            parsedObject = (CollectorBatch) batchInputFileService.parse(collectorInputFileType, fileByteContent);
-        }
-        catch (IOException e) {
-            LOG.error("error while getting file bytes:  " + e.getMessage(), e);
-            throw new RuntimeException("Error encountered while attempting to get file bytes: " + e.getMessage(), e);
-        }
-        catch (XMLParseException e1) {
-            LOG.error("errors parsing xml " + e1.getMessage(), e1);
-            GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_ERRORS, KFSKeyConstants.ERROR_BATCH_UPLOAD_PARSING_XML, new String[] { e1.getMessage() });
-        }
-
-        return parsedObject;
-    }
-
-    /**
-     * Performs the following checks on the collector batch: Any errors will be contained in GlobalVariables.errorMap
-     * 
-     * @param batch - batch to validate
-     * @return boolean - true if validation was successful, false it not
-     */
-    public boolean performValidation(CollectorBatch batch) {
-        boolean valid = true;
-
-        boolean performDuplicateHeaderCheck = kualiConfigurationService.getApplicationParameterIndicator(ParameterGroups.COLLECTOR_SECURITY_GROUP_NAME, SystemGroupParameterNames.COLLECTOR_PERFORM_DUPLICATE_HEADER_CHECK);
-        if (performDuplicateHeaderCheck) {
-            valid = duplicateHeaderCheck(batch);
-        }
-
-        if (valid) {
-            valid = checkForMixedDocumentTypes(batch);
-        }
-
-        if (valid) {
-            valid = checkForMixedBalanceTypes(batch);
-        }
-
-        if (valid) {
-            valid = checkDetailKeys(batch);
-        }
-
-        return valid;
-    }
-
-    /**
-     * Modifies the amounts in the ID Billing Detail rows, depending on specific business rules.  For this default implementation, see the
-     * {@link #negateAmountIfNecessary(InterDepartmentalBilling, BalanceTyp, ObjectType, CollectorBatch)} method to see how the billing detail 
-     * amounts are modified.
-     * 
-     * @param batch
-     */
-    protected void processInterDepartmentalBillingAmounts(CollectorBatch batch) {
-        for (InterDepartmentalBilling interDepartmentalBilling : batch.getIdBillings()) {
-            String balanceTypeCode = getBalanceTypeCode(interDepartmentalBilling, batch);
-            
-            BalanceTyp balanceTyp = new BalanceTyp();
-            balanceTyp.setFinancialBalanceTypeCode(balanceTypeCode);
-            balanceTyp = (BalanceTyp) SpringServiceLocator.getBusinessObjectService().retrieve(balanceTyp);
-            if (balanceTyp == null) {
-                // no balance type in db
-                LOG.info("No balance type code found for ID billing record. " + interDepartmentalBilling);
-                continue;
-            }
-            
-            interDepartmentalBilling.refreshReferenceObject(KFSPropertyConstants.FINANCIAL_OBJECT);
-            if (interDepartmentalBilling.getFinancialObject() == null) {
-                // no object code in db
-                LOG.info("No object code found for ID billing record. " + interDepartmentalBilling);
-                continue;
-            }
-            ObjectType objectType = interDepartmentalBilling.getFinancialObject().getFinancialObjectType();
-            
-            negateAmountIfNecessary(interDepartmentalBilling, balanceTyp, objectType, batch);
-        }
-    }
-    
-    /**
-     * Negates the amount of the internal departmental billing detail record if necessary.  For this default implementation, if the balance type's
-     * offset indicator is yes and the object type has a debit indicator, then the amount is negated.
-     * 
-     * @param interDepartmentalBilling the ID billing detail
-     * @param balanceTyp the balance type
-     * @param objectType the object type
-     * @param batch the patch to which the interDepartmentalBilling parameter belongs
-     */
-    protected void negateAmountIfNecessary(InterDepartmentalBilling interDepartmentalBilling, BalanceTyp balanceTyp, ObjectType objectType, CollectorBatch batch) {
-        if (balanceTyp != null && objectType != null) {
-            if (balanceTyp.isFinancialOffsetGenerationIndicator()) {
-                if (KFSConstants.GL_DEBIT_CODE.equals(objectType.getFinObjectTypeDebitcreditCd())) {
-                    KualiDecimal amount = interDepartmentalBilling.getInterDepartmentalBillingItemAmount();
-                    amount = amount.negated();
-                    interDepartmentalBilling.setInterDepartmentalBillingItemAmount(amount);
+            for(String inputFileName: fileNamesToLoad) {
+                boolean processSuccess = collectorHelperService.loadCollectorFile(inputFileName, group, collectorReportData, collectorScrubberStatuses);
+                if (processSuccess) {
+                    processedFiles.add(inputFileName);
                 }
             }
         }
-    }
-    
-    /**
-     * Returns the balance type code for the interDepartmentalBilling record.  This default implementation will look into the system
-     * parameters to determine the balance type 
-     * 
-     * @param interDepartmentalBilling a inter departmental billing detail record
-     * @param batch the batch to which the interDepartmentalBilling billing belongs
-     * @return the balance type code for the billing detail
-     */
-    protected String getBalanceTypeCode(InterDepartmentalBilling interDepartmentalBilling, CollectorBatch batch) {
-        return kualiConfigurationService.getApplicationParameterValue(KFSConstants.ParameterGroups.COLLECTOR_SECURITY_GROUP_NAME,
-                KFSConstants.SystemGroupParameterNames.COLLECTOR_DEFAULT_INTER_DEPARTMENTAL_BILLING_BALANCE_TYPE);
-    }
-    
-    /**
-     * Checks header against previously loaded batch headers for a duplicate submission.
-     * 
-     * @param batch - batch to check
-     * @return true if header if OK, false if header was used previously
-     */
-    private boolean duplicateHeaderCheck(CollectorBatch batch) {
-        boolean validHeader = true;
-
-        CollectorHeader batchHeader = batch.createCollectorHeader();
-        CollectorHeader foundHeader = (CollectorHeader) SpringServiceLocator.getBusinessObjectService().retrieve(batchHeader);
-
-        if (foundHeader != null) {
-            LOG.error("batch header was matched to a previously loaded batch");
-            GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_ERRORS, KFSKeyConstants.Collector.DUPLICATE_BATCH_HEADER);
-
-            validHeader = false;
+        finally {
+            collectorScrubberService.removeTempGroups(collectorScrubberStatuses);
+            group.setProcess(true);
+            originEntryGroupService.save(group);
+            removeDoneFiles(processedFiles);
         }
-
-        return validHeader;
+        updateCollectorReportDataWithExecutionStatistics(collectorReportData, collectorScrubberStatuses);
+        return collectorReportData;
     }
 
     /**
-     * Iterates through the origin entries and builds a map on the document types. Then checks there was only one document type
-     * found.
-     * 
-     * @param batch - batch to check document types
-     * @return true if there is only one document type, false if multiple document types were found.
+     * Clears out associated .done files for the processed data files.
      */
-    private boolean checkForMixedDocumentTypes(CollectorBatch batch) {
-        boolean docTypesNotMixed = true;
-
-        Set batchDocumentTypes = new HashSet();
-        for (OriginEntry entry : batch.getOriginEntries()) {
-            batchDocumentTypes.add(entry.getFinancialDocumentTypeCode());
-        }
-
-        if (batchDocumentTypes.size() > 1) {
-            LOG.error("mixed document types found in batch");
-            GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_ERRORS, KFSKeyConstants.Collector.MIXED_DOCUMENT_TYPES);
-
-            docTypesNotMixed = false;
-        }
-
-        return docTypesNotMixed;
-    }
-
-    /**
-     * Iterates through the origin entries and builds a map on the balance types. Then checks there was only one balance type found.
-     * 
-     * @param batch - batch to check balance types
-     * @return true if there is only one balance type, false if multiple balance types were found
-     */
-    private boolean checkForMixedBalanceTypes(CollectorBatch batch) {
-        boolean balanceTypesNotMixed = true;
-
-        Set balanceTypes = new HashSet();
-        for (OriginEntry entry : batch.getOriginEntries()) {
-            balanceTypes.add(entry.getFinancialBalanceTypeCode());
-        }
-
-        if (balanceTypes.size() > 1) {
-            LOG.error("mixed balance types found in batch");
-            GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_ERRORS, KFSKeyConstants.Collector.MIXED_BALANCE_TYPES);
-
-            balanceTypesNotMixed = false;
-        }
-
-        return balanceTypesNotMixed;
-    }
-
-    /**
-     * Verifies each detail (id billing) record key has an corresponding gl entry in the same batch. The key is built by joining the
-     * values of chart of accounts code, account number, sub account number, object code, and sub object code.
-     * 
-     * @param batch - batch to validate
-     * @return true if all detail records had matching keys, false otherwise
-     */
-    private boolean checkDetailKeys(CollectorBatch batch) {
-        boolean detailKeysFound = true;
-
-        // build a Set of keys from the gl entries to compare with
-        Set glEntryKeys = new HashSet();
-        for (OriginEntry entry : batch.getOriginEntries()) {
-            glEntryKeys.add(StringUtils.join(new String[] { entry.getChartOfAccountsCode(), entry.getAccountNumber(), entry.getSubAccountNumber(), entry.getFinancialObjectCode(), entry.getFinancialSubObjectCode() }, ","));
-        }
-
-        for (InterDepartmentalBilling idBilling : batch.getIdBillings()) {
-            String idBillingKey = StringUtils.join(new String[] { idBilling.getChartOfAccountsCode(), idBilling.getAccountNumber(), idBilling.getSubAccountNumber(), idBilling.getFinancialObjectCode(), idBilling.getFinancialSubObjectCode() }, ",");
-            if (!glEntryKeys.contains(idBillingKey)) {
-                LOG.error("found detail key without a matching gl entry key " + idBillingKey);
-                GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_ERRORS, KFSKeyConstants.Collector.NONMATCHING_DETAIL_KEY, idBillingKey);
-
-                detailKeysFound = false;
-                break;
+    private void removeDoneFiles(List<String> dataFileNames) {
+        for(String dataFileName: dataFileNames) {
+            File doneFile = new File(StringUtils.substringBeforeLast(dataFileName, ".") + ".done");
+            if (doneFile.exists()) {
+                doneFile.delete();
             }
         }
-
-        return detailKeysFound;
     }
 
-    /**
-     * Checks the batch total line count and amounts against the trailer. Any errors will be contained in GlobalVariables.errorMap
-     * 
-     * @param batch - batch to check totals for
-     * @return boolean - true if validation was successful, false it not
-     */
-    public boolean checkTrailerTotals(CollectorBatch batch) {
-        boolean trailerTotalsMatch = true;
-
-        int actualRecordCount = batch.getOriginEntries().size() + batch.getIdBillings().size();
-        if (actualRecordCount != batch.getTotalRecords()) {
-            LOG.error("trailer check on total count did not pass, expected count: " + String.valueOf(batch.getTotalRecords()) + ", actual count: " + String.valueOf(actualRecordCount));
-            GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_ERRORS, KFSKeyConstants.Collector.TRAILER_ERROR_COUNTNOMATCH, String.valueOf(batch.getTotalRecords()), String.valueOf(actualRecordCount));
-
-            trailerTotalsMatch = false;
-        }
-
-        KualiDecimal creditAmount = new KualiDecimal(0);
-        KualiDecimal debitAmount = new KualiDecimal(0);
-        KualiDecimal otherAmount = new KualiDecimal(0);
-        for (OriginEntry entry : batch.getOriginEntries()) {
-            if (KFSConstants.GL_CREDIT_CODE.equals(entry.getTransactionDebitCreditCode())) {
-                creditAmount = creditAmount.add(entry.getTransactionLedgerEntryAmount());
-            }
-            else if (KFSConstants.GL_DEBIT_CODE.equals(entry.getTransactionDebitCreditCode())) {
-                debitAmount = debitAmount.add(entry.getTransactionLedgerEntryAmount());
-            }
-            else {
-                otherAmount = otherAmount.add(entry.getTransactionLedgerEntryAmount());
-            }
-        }
-
-        // retrieve document types that balance by equal debits and credits
-        String[] documentTypes = kualiConfigurationService.getApplicationParameterValues(ParameterGroups.COLLECTOR_SECURITY_GROUP_NAME, SystemGroupParameterNames.COLLECTOR_EQUAL_DC_TOTAL_DOCUMENT_TYPES);
-
-        boolean equalDebitCreditTotal = false;
-        for (int i = 0; i < documentTypes.length; i++) {
-            String documentType = StringUtils.remove(documentTypes[i], "*");
-            if (batch.getOriginEntries().get(0).getFinancialDocumentTypeCode().startsWith(documentType.toUpperCase()) && KFSConstants.BALANCE_TYPE_ACTUAL.equals(batch.getOriginEntries().get(0).getFinancialBalanceTypeCode())) {
-                equalDebitCreditTotal = true;
-            }
-        }
-
-        if (equalDebitCreditTotal) {
-            // credits must equal debits must equal total trailer amount
-            if (!creditAmount.equals(debitAmount) || !creditAmount.equals(batch.getTotalAmount())) {
-                LOG.error("trailer check on total amount did not pass, debit should equal credit, should equal trailer total");
-                GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_ERRORS, KFSKeyConstants.Collector.TRAILER_ERROR_AMOUNTNOMATCH1, creditAmount.toString(), debitAmount.toString(), batch.getTotalAmount().toString());
-            }
-        }
-        else {
-            // credits plus debits plus other amount must equal trailer
-            KualiDecimal totalGlEntries = creditAmount.add(debitAmount).add(otherAmount);
-            if (!totalGlEntries.equals(batch.getTotalAmount())) {
-                LOG.error("trailer check on total amount did not pass, sum of gl entry amounts should equal trailer total");
-                GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_ERRORS, KFSKeyConstants.Collector.TRAILER_ERROR_AMOUNTNOMATCH2, totalGlEntries.toString(), batch.getTotalAmount().toString());
-            }
-        }
-
-        return trailerTotalsMatch;
-    }
-
-    /**
-     * Sends email with results of the batch processing.
-     * 
-     * @param eerrorMessages - list of error messages that were encountered during processing
-     */
-    private void sendEmail(List<String> errorMessages, CollectorBatch batch) {
-        LOG.debug("sendNoteEmails() starting");
-        MailMessage message = new MailMessage();
-
-        message.setFromAddress(mailService.getBatchMailingList());
-        
-        String subject = kualiConfigurationService.getApplicationParameterValue(ParameterGroups.COLLECTOR_SECURITY_GROUP_NAME, SystemGroupParameterNames.COLLECTOR_EMAIL_SUBJECT_PARAMETER_NAME);
-        String productionEnvironmentCode = kualiConfigurationService.getPropertyString(KFSConstants.PROD_ENVIRONMENT_CODE_KEY);
-        String environmentCode = kualiConfigurationService.getPropertyString(KFSConstants.ENVIRONMENT_KEY);
-        if (!StringUtils.equals(productionEnvironmentCode, environmentCode)) {
-            subject = environmentCode + ": " + subject;
-        }
-        message.setSubject(subject);
-
-        String body = createMessageBody(errorMessages, batch);
-        message.setMessage(body);
-        message.addToAddress(batch.getWorkgroupName());
-        try {
-            mailService.sendMessage(message);
-        }
-        catch (InvalidAddressException e) {
-            LOG.error("sendErrorEmail() Invalid email address. Message not sent", e);
-        }
-    }
-
-    private String createMessageBody(List<String> errorMessages, CollectorBatch batch) {
-        StringBuffer body = new StringBuffer();
-
-        body.append("Header Information:\n\n");
-        if (!GlobalVariables.getErrorMap().containsMessageKey(KFSKeyConstants.ERROR_BATCH_UPLOAD_PARSING_XML)) {
-            body.append("Chart: " + batch.getChartOfAccountsCode() + "\n");
-            body.append("Org: " + batch.getOrganizationCode() + "\n");
-            body.append("Contact: " + batch.getPersonUserID() + "\n");
-            body.append("Email: " + batch.getWorkgroupName() + "\n");
-            body.append("File Date: " + batch.getTransmissionDate() + "\n\n");
-            body.append("Summary Totals:\n");
-
-            // SUMMARY TOTALS HERE
-            body.append("    Total Records: " + String.valueOf(batch.getTotalRecords().intValue()) + "\n");
-            body.append("    Total Amount: " + batch.getTotalAmount() + "\n\n");
-        }
-        body.append("Reported Errors:\n");
-
-        // ERRORS GO HERE
-        if (errorMessages.isEmpty()) {
-            body.append("----- NO ERRORS TO REPORT -----\nFiles have been added to the system.");
-        }
-        else {
-            for (String currentMessage : errorMessages) {
-                body.append(currentMessage + "\n");
-            }
-            body.append("\n----- THE RECORDS WERE NOT SAVED TO THE DATABASE -----");
-        }
-        return body.toString();
-    }
-
-    /**
-     * Builds actual error message from error key and parameters.
-     * 
-     * @return List<String> of error message text
-     */
-    private List<String> translateErrorsFromGlobalVariables() {
-        List<String> collectorErrors = new ArrayList();
-
-        for (Iterator iter = GlobalVariables.getErrorMap().getPropertiesWithErrors().iterator(); iter.hasNext();) {
-            String errorKey = (String) iter.next();
-
-            for (Iterator iter2 = GlobalVariables.getErrorMap().getMessages(errorKey).iterator(); iter2.hasNext();) {
-                ErrorMessage errorMessage = (ErrorMessage) iter2.next();
-                String messageText = kualiConfigurationService.getPropertyString(errorMessage.getErrorKey());
-                collectorErrors.add(MessageFormat.format(messageText, (Object[]) errorMessage.getMessageParameters()));
-            }
-        }
-
-        return collectorErrors;
-    }
-
-    public void setInterDepartmentalBillingService(InterDepartmentalBillingService interDepartmentalBillingService) {
-        this.interDepartmentalBillingService = interDepartmentalBillingService;
-    }
-
-    public void setOriginEntryGroupService(OriginEntryGroupService originEntryGroupService) {
-        this.originEntryGroupService = originEntryGroupService;
-    }
-
-    public void setOriginEntryService(OriginEntryService originEntryService) {
-        this.originEntryService = originEntryService;
-    }
-
-    public void setKualiConfigurationService(KualiConfigurationService kualiConfigurationService) {
-        this.kualiConfigurationService = kualiConfigurationService;
-    }
-
-    public String getStagingDirectory() {
-        return kualiConfigurationService.getPropertyString(KFSConstants.GL_COLLECTOR_STAGING_DIRECTORY);
-    }
-
-    public void setDateTimeService(DateTimeService dateTimeService) {
-        this.dateTimeService = dateTimeService;
-    }
-
-    public void setMailService(MailService mailService) {
-        this.mailService = mailService;
+    public void setCollectorHelperService(CollectorHelperService collectorHelperService) {
+        this.collectorHelperService = collectorHelperService;
     }
 
     public void setBatchInputFileService(BatchInputFileService batchInputFileService) {
         this.batchInputFileService = batchInputFileService;
     }
-
+    
     public void setCollectorInputFileType(BatchInputFileType collectorInputFileType) {
         this.collectorInputFileType = collectorInputFileType;
+    }
+
+    /**
+     * Gets the originEntryGroupService attribute. 
+     * @return Returns the originEntryGroupService.
+     */
+    public OriginEntryGroupService getOriginEntryGroupService() {
+        return originEntryGroupService;
+    }
+
+    /**
+     * Sets the originEntryGroupService attribute value.
+     * @param originEntryGroupService The originEntryGroupService to set.
+     */
+    public void setOriginEntryGroupService(OriginEntryGroupService originEntryGroupService) {
+        this.originEntryGroupService = originEntryGroupService;
+    }
+
+    /**
+     * Gets the dateTimeService attribute. 
+     * @return Returns the dateTimeService.
+     */
+    public DateTimeService getDateTimeService() {
+        return dateTimeService;
+    }
+
+    /**
+     * Sets the dateTimeService attribute value.
+     * @param dateTimeService The dateTimeService to set.
+     */
+    public void setDateTimeService(DateTimeService dateTimeService) {
+        this.dateTimeService = dateTimeService;
+    }
+    
+    /**
+     * Gets the collectorScrubberService attribute. 
+     * @return Returns the collectorScrubberService.
+     */
+    public CollectorScrubberService getCollectorScrubberService() {
+        return collectorScrubberService;
+    }
+
+    /**
+     * Sets the collectorScrubberService attribute value.
+     * @param collectorScrubberService The collectorScrubberService to set.
+     */
+    public void setCollectorScrubberService(CollectorScrubberService collectorScrubberService) {
+        this.collectorScrubberService = collectorScrubberService;
+    }
+    
+    protected void updateCollectorReportDataWithExecutionStatistics(CollectorReportData collectorReportData, List<CollectorScrubberStatus> collectorScrubberStatuses) {
+        Collection<OriginEntryGroup> inputGroups = new ArrayList<OriginEntryGroup>();
+        
+        // NOTE: this implementation does not support the use of multiple origin entry group service/origin entry services
+        for (CollectorScrubberStatus collectorScrubberStatus : collectorScrubberStatuses) {
+            inputGroups.add(collectorScrubberStatus.getInputGroup());
+        }
+        
+        if (inputGroups.size() > 0 && collectorScrubberStatuses.size() > 0) {
+            OriginEntryService collectorScrubberOriginEntryService = collectorScrubberStatuses.get(0).getOriginEntryService();
+            LedgerEntryHolder ledgerEntryHolder = collectorScrubberOriginEntryService.getSummaryByGroupId(inputGroups);
+            collectorReportData.setLedgerEntryHolder(ledgerEntryHolder);
+        }
+    }
+
+    public RunDateService getRunDateService() {
+        return runDateService;
+    }
+
+    public void setRunDateService(RunDateService runDateService) {
+        this.runDateService = runDateService;
     }
 }

@@ -133,157 +133,7 @@ public class TransactionReport {
             writer.setPageEvent(helper);
 
             document.open();
-
-            // Sort what we get
-            Collections.sort(reportSummary);
-
-            float[] summaryWidths = { 80, 20 };
-            PdfPTable summary = new PdfPTable(summaryWidths);
-            summary.setWidthPercentage(40);
-            PdfPCell cell = new PdfPCell(new Phrase("S T A T I S T I C S", headerFont));
-            cell.setColspan(2);
-            cell.setBorder(Rectangle.NO_BORDER);
-            cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
-            summary.addCell(cell);
-
-            for (Iterator iter = reportSummary.iterator(); iter.hasNext();) {
-                Summary s = (Summary) iter.next();
-
-                cell = new PdfPCell(new Phrase(s.getDescription(), textFont));
-                cell.setBorder(Rectangle.NO_BORDER);
-                summary.addCell(cell);
-
-                if ("".equals(s.getDescription())) {
-                    cell = new PdfPCell(new Phrase("", textFont));
-                    cell.setBorder(Rectangle.NO_BORDER);
-                    summary.addCell(cell);
-                }
-                else {
-                    DecimalFormat nf = new DecimalFormat("###,###,###,##0");
-                    cell = new PdfPCell(new Phrase(nf.format(s.getCount()), textFont));
-                    cell.setBorder(Rectangle.NO_BORDER);
-                    cell.setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
-                    summary.addCell(cell);
-                }
-            }
-            cell = new PdfPCell(new Phrase(""));
-            cell.setColspan(2);
-            cell.setBorder(Rectangle.NO_BORDER);
-            summary.addCell(cell);
-
-            document.add(summary);
-
-            if (reportErrors != null && reportErrors.size() > 0) {
-                float[] warningWidths = { 4, 3, 6, 5, 5, 4, 5, 5, 4, 5, 5, 9, 4, 36 };
-                PdfPTable warnings = new PdfPTable(warningWidths);
-                warnings.setHeaderRows(2);
-                warnings.setWidthPercentage(100);
-                cell = new PdfPCell(new Phrase("W A R N I N G S", headerFont));
-                cell.setColspan(14);
-                cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
-                warnings.addCell(cell);
-
-                // Add headers
-                cell = new PdfPCell(new Phrase("Year", headerFont));
-                warnings.addCell(cell);
-                cell = new PdfPCell(new Phrase("COA", headerFont));
-                warnings.addCell(cell);
-                cell = new PdfPCell(new Phrase("Account", headerFont));
-                warnings.addCell(cell);
-                cell = new PdfPCell(new Phrase("Sacct", headerFont));
-                warnings.addCell(cell);
-                cell = new PdfPCell(new Phrase("Obj", headerFont));
-                warnings.addCell(cell);
-                cell = new PdfPCell(new Phrase("SObj", headerFont));
-                warnings.addCell(cell);
-                cell = new PdfPCell(new Phrase("BalTyp", headerFont));
-                warnings.addCell(cell);
-                cell = new PdfPCell(new Phrase("ObjTyp", headerFont));
-                warnings.addCell(cell);
-                cell = new PdfPCell(new Phrase("Prd", headerFont));
-                warnings.addCell(cell);
-                cell = new PdfPCell(new Phrase("DocType", headerFont));
-                warnings.addCell(cell);
-                cell = new PdfPCell(new Phrase("Origin", headerFont));
-                warnings.addCell(cell);
-                cell = new PdfPCell(new Phrase("DocNbr", headerFont));
-                warnings.addCell(cell);
-                cell = new PdfPCell(new Phrase("Seq", headerFont));
-                warnings.addCell(cell);
-                cell = new PdfPCell(new Phrase("Warning", headerFont));
-                warnings.addCell(cell);
-
-                for (Iterator errorIter = errorSortedList.iterator(); errorIter.hasNext();) {
-                    Transaction tran = (Transaction) errorIter.next();
-                    boolean first = true;
-
-                    List errors = (List) reportErrors.get(tran);
-                    for (Iterator listIter = errors.iterator(); listIter.hasNext();) {
-                        String msg = null;
-                        Object m = listIter.next();
-                        if (m instanceof Message) {
-                            Message mm = (Message) m;
-                            msg = mm.getMessage();
-                        }
-                        else {
-                            if ( m == null ) {
-                                msg = "";
-                            } else {
-                            	msg = m.toString();
-                        	}
-                        }
-
-                        if (first) {
-                            first = false;
-
-                            if (tran.getUniversityFiscalYear() == null) {
-                                cell = new PdfPCell(new Phrase("NULL", textFont));
-                            }
-                            else {
-                                cell = new PdfPCell(new Phrase(tran.getUniversityFiscalYear().toString(), textFont));
-                            }
-                            warnings.addCell(cell);
-                            cell = new PdfPCell(new Phrase(tran.getChartOfAccountsCode(), textFont));
-                            warnings.addCell(cell);
-                            cell = new PdfPCell(new Phrase(tran.getAccountNumber(), textFont));
-                            warnings.addCell(cell);
-                            cell = new PdfPCell(new Phrase(tran.getSubAccountNumber(), textFont));
-                            warnings.addCell(cell);
-                            cell = new PdfPCell(new Phrase(tran.getFinancialObjectCode(), textFont));
-                            warnings.addCell(cell);
-                            cell = new PdfPCell(new Phrase(tran.getFinancialSubObjectCode(), textFont));
-                            warnings.addCell(cell);
-                            cell = new PdfPCell(new Phrase(tran.getFinancialBalanceTypeCode(), textFont));
-                            warnings.addCell(cell);
-                            cell = new PdfPCell(new Phrase(tran.getFinancialObjectTypeCode(), textFont));
-                            warnings.addCell(cell);
-                            cell = new PdfPCell(new Phrase(tran.getUniversityFiscalPeriodCode(), textFont));
-                            warnings.addCell(cell);
-                            cell = new PdfPCell(new Phrase(tran.getFinancialDocumentTypeCode(), textFont));
-                            warnings.addCell(cell);
-                            cell = new PdfPCell(new Phrase(tran.getFinancialSystemOriginationCode(), textFont));
-                            warnings.addCell(cell);
-                            cell = new PdfPCell(new Phrase(tran.getDocumentNumber(), textFont));
-                            warnings.addCell(cell);
-                            if (tran.getTransactionLedgerEntrySequenceNumber() == null) {
-                                cell = new PdfPCell(new Phrase("NULL", textFont));
-                            }
-                            else {
-                                cell = new PdfPCell(new Phrase(tran.getTransactionLedgerEntrySequenceNumber().toString(), textFont));
-                            }
-                            warnings.addCell(cell);
-                        }
-                        else {
-                            cell = new PdfPCell(new Phrase("", textFont));
-                            cell.setColspan(13);
-                            warnings.addCell(cell);
-                        }
-                        cell = new PdfPCell(new Phrase(msg, textFont));
-                        warnings.addCell(cell);
-                    }
-                }
-                document.add(warnings);
-            }
+            appendReport(document, headerFont, textFont, errorSortedList, reportErrors, reportSummary, runDate);
         }
         catch (DocumentException de) {
             LOG.error("generateReport() Error creating PDF report", de);
@@ -300,4 +150,167 @@ public class TransactionReport {
         }
     }
 
+    /**
+     * Appends the scrubber totals/statistics and error report to the given (iText) document object.
+     * @param document
+     * @param headerFont
+     * @param textFont
+     * @param errorSortedList
+     * @param reportErrors
+     * @param reportSummary
+     * @param runDate
+     * @throws DocumentException
+     */
+    public void appendReport(Document document, Font headerFont, Font textFont, List<Transaction> errorSortedList, Map<Transaction, List<Message>> reportErrors, List<Summary> reportSummary, Date runDate) throws DocumentException {
+        // Sort what we get
+        Collections.sort(reportSummary);
+
+        float[] summaryWidths = { 80, 20 };
+        PdfPTable summary = new PdfPTable(summaryWidths);
+        summary.setWidthPercentage(40);
+        PdfPCell cell = new PdfPCell(new Phrase("S T A T I S T I C S", headerFont));
+        cell.setColspan(2);
+        cell.setBorder(Rectangle.NO_BORDER);
+        cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
+        summary.addCell(cell);
+
+        for (Iterator iter = reportSummary.iterator(); iter.hasNext();) {
+            Summary s = (Summary) iter.next();
+
+            cell = new PdfPCell(new Phrase(s.getDescription(), textFont));
+            cell.setBorder(Rectangle.NO_BORDER);
+            summary.addCell(cell);
+
+            if ("".equals(s.getDescription())) {
+                cell = new PdfPCell(new Phrase("", textFont));
+                cell.setBorder(Rectangle.NO_BORDER);
+                summary.addCell(cell);
+            }
+            else {
+                DecimalFormat nf = new DecimalFormat("###,###,###,##0");
+                cell = new PdfPCell(new Phrase(nf.format(s.getCount()), textFont));
+                cell.setBorder(Rectangle.NO_BORDER);
+                cell.setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
+                summary.addCell(cell);
+            }
+        }
+        cell = new PdfPCell(new Phrase(""));
+        cell.setColspan(2);
+        cell.setBorder(Rectangle.NO_BORDER);
+        summary.addCell(cell);
+
+        document.add(summary);
+
+        if (reportErrors != null && reportErrors.size() > 0) {
+            float[] warningWidths = { 4, 3, 6, 5, 5, 4, 5, 5, 4, 5, 5, 9, 4, 36 };
+            PdfPTable warnings = new PdfPTable(warningWidths);
+            warnings.setHeaderRows(2);
+            warnings.setWidthPercentage(100);
+            cell = new PdfPCell(new Phrase("W A R N I N G S", headerFont));
+            cell.setColspan(14);
+            cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
+            warnings.addCell(cell);
+
+            // Add headers
+            cell = new PdfPCell(new Phrase("Year", headerFont));
+            warnings.addCell(cell);
+            cell = new PdfPCell(new Phrase("COA", headerFont));
+            warnings.addCell(cell);
+            cell = new PdfPCell(new Phrase("Account", headerFont));
+            warnings.addCell(cell);
+            cell = new PdfPCell(new Phrase("Sacct", headerFont));
+            warnings.addCell(cell);
+            cell = new PdfPCell(new Phrase("Obj", headerFont));
+            warnings.addCell(cell);
+            cell = new PdfPCell(new Phrase("SObj", headerFont));
+            warnings.addCell(cell);
+            cell = new PdfPCell(new Phrase("BalTyp", headerFont));
+            warnings.addCell(cell);
+            cell = new PdfPCell(new Phrase("ObjTyp", headerFont));
+            warnings.addCell(cell);
+            cell = new PdfPCell(new Phrase("Prd", headerFont));
+            warnings.addCell(cell);
+            cell = new PdfPCell(new Phrase("DocType", headerFont));
+            warnings.addCell(cell);
+            cell = new PdfPCell(new Phrase("Origin", headerFont));
+            warnings.addCell(cell);
+            cell = new PdfPCell(new Phrase("DocNbr", headerFont));
+            warnings.addCell(cell);
+            cell = new PdfPCell(new Phrase("Seq", headerFont));
+            warnings.addCell(cell);
+            cell = new PdfPCell(new Phrase("Warning", headerFont));
+            warnings.addCell(cell);
+
+            for (Iterator errorIter = errorSortedList.iterator(); errorIter.hasNext();) {
+                Transaction tran = (Transaction) errorIter.next();
+                boolean first = true;
+
+                List errors = (List) reportErrors.get(tran);
+                for (Iterator listIter = errors.iterator(); listIter.hasNext();) {
+                    String msg = null;
+                    Object m = listIter.next();
+                    if (m instanceof Message) {
+                        Message mm = (Message) m;
+                        msg = mm.getMessage();
+                    }
+                    else {
+                        if ( m == null ) {
+                            msg = "";
+                        } else {
+                            msg = m.toString();
+                        }
+                    }
+
+                    if (first) {
+                        first = false;
+
+                        if (tran.getUniversityFiscalYear() == null) {
+                            cell = new PdfPCell(new Phrase("NULL", textFont));
+                        }
+                        else {
+                            cell = new PdfPCell(new Phrase(tran.getUniversityFiscalYear().toString(), textFont));
+                        }
+                        warnings.addCell(cell);
+                        cell = new PdfPCell(new Phrase(tran.getChartOfAccountsCode(), textFont));
+                        warnings.addCell(cell);
+                        cell = new PdfPCell(new Phrase(tran.getAccountNumber(), textFont));
+                        warnings.addCell(cell);
+                        cell = new PdfPCell(new Phrase(tran.getSubAccountNumber(), textFont));
+                        warnings.addCell(cell);
+                        cell = new PdfPCell(new Phrase(tran.getFinancialObjectCode(), textFont));
+                        warnings.addCell(cell);
+                        cell = new PdfPCell(new Phrase(tran.getFinancialSubObjectCode(), textFont));
+                        warnings.addCell(cell);
+                        cell = new PdfPCell(new Phrase(tran.getFinancialBalanceTypeCode(), textFont));
+                        warnings.addCell(cell);
+                        cell = new PdfPCell(new Phrase(tran.getFinancialObjectTypeCode(), textFont));
+                        warnings.addCell(cell);
+                        cell = new PdfPCell(new Phrase(tran.getUniversityFiscalPeriodCode(), textFont));
+                        warnings.addCell(cell);
+                        cell = new PdfPCell(new Phrase(tran.getFinancialDocumentTypeCode(), textFont));
+                        warnings.addCell(cell);
+                        cell = new PdfPCell(new Phrase(tran.getFinancialSystemOriginationCode(), textFont));
+                        warnings.addCell(cell);
+                        cell = new PdfPCell(new Phrase(tran.getDocumentNumber(), textFont));
+                        warnings.addCell(cell);
+                        if (tran.getTransactionLedgerEntrySequenceNumber() == null) {
+                            cell = new PdfPCell(new Phrase("NULL", textFont));
+                        }
+                        else {
+                            cell = new PdfPCell(new Phrase(tran.getTransactionLedgerEntrySequenceNumber().toString(), textFont));
+                        }
+                        warnings.addCell(cell);
+                    }
+                    else {
+                        cell = new PdfPCell(new Phrase("", textFont));
+                        cell.setColspan(13);
+                        warnings.addCell(cell);
+                    }
+                    cell = new PdfPCell(new Phrase(msg, textFont));
+                    warnings.addCell(cell);
+                }
+            }
+            document.add(warnings);
+        }
+    }
 }

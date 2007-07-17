@@ -1,5 +1,5 @@
 /*
- * Copyright 2007 The Kuali Foundation.
+ * Copyright 2006 The Kuali Foundation.
  * 
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,15 +15,17 @@
  */
 package org.kuali.module.gl.service;
 
-import org.kuali.module.gl.util.CollectorReportData;
+import org.kuali.module.gl.bo.CollectorDetail;
 
-/**
- * This class
- */
-public interface CollectorService {
+public interface CollectorDetailService {
     /**
-     * performs collection
-     * @return status information related to the collection execution
+     * Purge the sufficient funds balance table by year/chart
+     * 
+     * @param chart
+     * @param year
      */
-    public CollectorReportData performCollection();
+    public void purgeYearByChart(String chartOfAccountsCode, int universityFiscalYear);
+
+    public void save(CollectorDetail detail);
+
 }

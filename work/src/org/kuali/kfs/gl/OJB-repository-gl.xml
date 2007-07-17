@@ -692,7 +692,7 @@
     </reference-descriptor>
 </class-descriptor>
 
-<class-descriptor class="org.kuali.module.gl.bo.InterDepartmentalBilling" table="GL_ID_BILL_T">
+<class-descriptor class="org.kuali.module.gl.bo.CollectorDetail" table="GL_ID_BILL_T">
     <field-descriptor name="universityFiscalPeriodCode" column="UNIV_FISCAL_PRD_CD" jdbc-type="VARCHAR" primarykey="true" index="true" />
     <field-descriptor name="universityFiscalYear" column="UNIV_FISCAL_YR" jdbc-type="INTEGER" primarykey="true" index="true" />
     <field-descriptor name="createDate" column="CREATE_DT" jdbc-type="DATE" primarykey="true" index="true" />
@@ -702,14 +702,16 @@
     <field-descriptor name="subAccountNumber" column="SUB_ACCT_NBR" jdbc-type="VARCHAR" primarykey="true" index="true" />
     <field-descriptor name="financialObjectCode" column="FIN_OBJECT_CD" jdbc-type="VARCHAR" primarykey="true" index="true" />
     <field-descriptor name="financialSubObjectCode" column="FIN_SUB_OBJ_CD" jdbc-type="VARCHAR" primarykey="true" index="true" />
-    <field-descriptor name="interDepartmentalBillingSequenceNumber" column="FDOC_IDBIL_SEQ_NBR" jdbc-type="VARCHAR" primarykey="true" index="true" />
+    <field-descriptor name="collectorDetailSequenceNumber" column="FDOC_IDBIL_SEQ_NBR" jdbc-type="VARCHAR" primarykey="true" index="true" />
+	<field-descriptor name="financialBalanceTypeCode" column="FIN_BALANCE_TYP_CD" jdbc-type="VARCHAR" primarykey="true" index="true" />
+	<field-descriptor name="financialObjectTypeCode" column="FIN_OBJ_TYP_CD" primarykey="true" jdbc-type="VARCHAR"/>
     <field-descriptor name="financialDocumentTypeCode" column="FDOC_TYP_CD" jdbc-type="VARCHAR" primarykey="true" index="true" />
     <field-descriptor name="financialSystemOriginationCode" column="FS_ORIGIN_CD" jdbc-type="VARCHAR" primarykey="true" index="true" />
     <field-descriptor name="documentNumber" column="FDOC_NBR" jdbc-type="VARCHAR" primarykey="true" index="true" />
     <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
     <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
-    <field-descriptor name="interDepartmentalBillingItemAmount" column="FDOC_IDBIL_ITM_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion" />
-    <field-descriptor name="interDepartmentalBillingNoteText" column="FDOC_IDBIL_NTE_TXT" jdbc-type="VARCHAR" />
+    <field-descriptor name="collectorDetailItemAmount" column="FDOC_IDBIL_ITM_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion" />
+    <field-descriptor name="collectorDetailNoteText" column="FDOC_IDBIL_NTE_TXT" jdbc-type="VARCHAR" />
     <reference-descriptor name="financialObject" class-ref="org.kuali.module.chart.bo.ObjectCode" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="universityFiscalYear" />
         <foreignkey field-ref="chartOfAccountsCode" />
@@ -722,6 +724,13 @@
     <reference-descriptor name="chartOfAccounts" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="chartOfAccountsCode" />
     </reference-descriptor>
+    <reference-descriptor name="balanceType" class-ref="org.kuali.module.chart.bo.codes.BalanceTyp" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+        <foreignkey field-ref="financialBalanceTypeCode" />
+    </reference-descriptor>
+    <reference-descriptor name="objectType" class-ref="org.kuali.module.chart.bo.ObjectType" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+        <foreignkey field-ref="financialObjectTypeCode" />
+    </reference-descriptor>
+
 </class-descriptor>
 
 <class-descriptor class="org.kuali.module.gl.bo.EntryMove" table="GL_ENTRY_MT">
@@ -955,13 +964,16 @@
 	<field-descriptor name="campusCode" column="CAMPUS_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="contactPersonPhoneNumber" column="CNTCT_PRSN_PHN_NBR" jdbc-type="VARCHAR"/>
 	<field-descriptor name="contactMailingAddress" column="CNTCT_MAIL_ADDR" jdbc-type="VARCHAR"/>
-	<field-descriptor name="contactDeparmentName" column="CNTCT_DEPT_NM" jdbc-type="VARCHAR"/>
+	<field-descriptor name="contactDepartmentName" column="CNTCT_DEPT_NM" jdbc-type="VARCHAR"/>
 	<reference-descriptor name="organization" class-ref="org.kuali.module.chart.bo.Org" auto-retrieve="true" auto-update="none" auto-delete="none">
 		<foreignkey field-ref="chartOfAccountsCode" />
 		<foreignkey field-ref="organizationCode" />
 	</reference-descriptor>
 	<reference-descriptor name="chartOfAccounts" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="none" auto-delete="none">
 		<foreignkey field-ref="chartOfAccountsCode" />
+	</reference-descriptor>
+	<reference-descriptor name="campus" class-ref="org.kuali.core.bo.Campus" auto-retrieve="none" auto-update="none" auto-delete="none" proxy="true">
+		<foreignkey field-ref="campusCode" />
 	</reference-descriptor>
 </class-descriptor>
 

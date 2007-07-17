@@ -17,13 +17,7 @@ package org.kuali.module.gl.service;
 
 import org.kuali.module.gl.util.CollectorReportData;
 
-/**
- * This class
- */
-public interface CollectorService {
-    /**
-     * performs collection
-     * @return status information related to the collection execution
-     */
-    public CollectorReportData performCollection();
+public interface CollectorReportService {
+    public void sendEmails(CollectorReportData collectorReportData);
+    public void generateCollectorRunReports(CollectorReportData collectorReportData);
 }

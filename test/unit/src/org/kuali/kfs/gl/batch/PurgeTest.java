@@ -173,7 +173,7 @@ public class PurgeTest extends KualiTestBase {
                 + unitTestSqlDao.getDbPlatform().getCurTimeFunction() + ", '1', 'BL', '1031400', '-----', '5000', '---', '1', 'ID22', 'XXX','" 
                 + new Guid().toString() + "', 1, 0, 'x', 'EX', 'AC')");
 
-        Step purgeStep = (Step) SpringServiceLocator.getService("purgeInterDepartmentalBillingStep");
+        Step purgeStep = (Step) SpringServiceLocator.getService("purgeCollectorDetailStep");
 
         // Run the purge
         assertTrue("Should return true", purgeStep.execute(getClass().getName()));

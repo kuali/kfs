@@ -29,6 +29,23 @@ public class DemergerReportData {
     private int costShareTransactionsBypassed = 0;
     private int costShareEncumbranceTransactionsBypassed = 0;
 
+    /**
+     * Adds the values from the parameter report data into this object.
+     * 
+     * @param anotherReport
+     */
+    public void incorporateReportData(DemergerReportData anotherReport) {
+        errorTransactionsRead += anotherReport.errorTransactionsRead;
+        errorTransactionsSaved += anotherReport.errorTransactionsSaved;
+        validTransactionsSaved += anotherReport.validTransactionsSaved;
+        offsetTransactionsBypassed += anotherReport.offsetTransactionsBypassed;
+        capitalizationTransactionsBypassed += anotherReport.capitalizationTransactionsBypassed;
+        liabilityTransactionsBypassed += anotherReport.liabilityTransactionsBypassed;
+        transferTransactionsBypassed += anotherReport.transferTransactionsBypassed;
+        costShareTransactionsBypassed += anotherReport.costShareTransactionsBypassed;
+        costShareEncumbranceTransactionsBypassed += anotherReport.costShareEncumbranceTransactionsBypassed;
+    }
+    
     public void incrementErrorTransactionsRead() {
         errorTransactionsRead++;
     }

@@ -19,17 +19,35 @@ public class ScrubberReportData {
     public ScrubberReportData() {
     }
 
-    int numberOfUnscrubbedRecordsRead = 0;
-    int numberOfScrubbedRecordsWritten = 0;
-    int numberOfErrorRecordsWritten = 0;
-    int numberOfOffsetEntriesGenerated = 0;
-    int numberOfCapitalizationEntriesGenerated = 0;
-    int numberOfLiabilityEntriesGenerated = 0;
-    int numberOfPlantIndebtednessEntriesGenerated = 0;
-    int numberOfCostShareEntriesGenerated = 0;
-    int numberOfCostShareEncumbrancesGenerated = 0;
-    int numberOfExpiredAccountsFound = 0;
+    private int numberOfUnscrubbedRecordsRead = 0;
+    private int numberOfScrubbedRecordsWritten = 0;
+    private int numberOfErrorRecordsWritten = 0;
+    private int numberOfOffsetEntriesGenerated = 0;
+    private int numberOfCapitalizationEntriesGenerated = 0;
+    private int numberOfLiabilityEntriesGenerated = 0;
+    private int numberOfPlantIndebtednessEntriesGenerated = 0;
+    private int numberOfCostShareEntriesGenerated = 0;
+    private int numberOfCostShareEncumbrancesGenerated = 0;
+    private int numberOfExpiredAccountsFound = 0;
 
+    /**
+     * Adds the values from the parameter report data into this object.
+     * 
+     * @param anotherReport
+     */
+    public void incorporateReportData(ScrubberReportData anotherReport) {
+       numberOfUnscrubbedRecordsRead += anotherReport.numberOfUnscrubbedRecordsRead;
+       numberOfScrubbedRecordsWritten += anotherReport.numberOfScrubbedRecordsWritten;
+       numberOfErrorRecordsWritten += anotherReport.numberOfErrorRecordsWritten;
+       numberOfOffsetEntriesGenerated += anotherReport.numberOfOffsetEntriesGenerated;
+       numberOfCapitalizationEntriesGenerated += anotherReport.numberOfCapitalizationEntriesGenerated;
+       numberOfLiabilityEntriesGenerated += anotherReport.numberOfLiabilityEntriesGenerated;
+       numberOfPlantIndebtednessEntriesGenerated += anotherReport.numberOfPlantIndebtednessEntriesGenerated;
+       numberOfCostShareEntriesGenerated += anotherReport.numberOfCostShareEntriesGenerated;
+       numberOfCostShareEncumbrancesGenerated += anotherReport.numberOfCostShareEncumbrancesGenerated;
+       numberOfExpiredAccountsFound += numberOfExpiredAccountsFound;
+    }
+    
     public void incrementErrorRecordWritten() {
         numberOfErrorRecordsWritten++;
     }

@@ -22,6 +22,7 @@ import java.util.Calendar;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 import org.kuali.core.service.DateTimeService;
@@ -200,6 +201,23 @@ public class OriginEntryGroupServiceImpl implements OriginEntryGroupService {
         if (groups.size() > 0) {
             originEntryDao.deleteGroups(groups);
             originEntryGroupDao.deleteGroups(groups);
+        }
+    }
+
+    
+    /**
+     * @see org.kuali.module.gl.service.OriginEntryGroupService#deleteGroups(java.util.Collection)
+     */
+    public void deleteGroups(Collection<OriginEntryGroup> groupsToDelete) {
+        for (OriginEntryGroup groupToDelete : groupsToDelete) {
+            if (groupToDelete.getId() == null) {
+                throw new NullPointerException("Received null group ID trying to delete groups");
+            }
+        }
+        
+        if (groupsToDelete.size() > 0) {
+            originEntryDao.deleteGroups(groupsToDelete);
+            originEntryGroupDao.deleteGroups(groupsToDelete);
         }
     }
 

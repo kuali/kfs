@@ -536,6 +536,7 @@ public class OriginEntry extends PersistableBusinessObjectBase implements Transa
     }
 
     public void setEntryGroupId(Integer entryGroupId) {
+        if (entryGroupId == null) System.out.println();
         this.entryGroupId = entryGroupId;
     }
 
@@ -544,6 +545,7 @@ public class OriginEntry extends PersistableBusinessObjectBase implements Transa
     }
 
     public void setEntryId(Integer entryId) {
+        if (entryId == null) System.out.println();
         this.entryId = entryId;
     }
 

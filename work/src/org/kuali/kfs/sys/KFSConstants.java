@@ -774,10 +774,10 @@ public class KFSConstants {
         public static final String COLLECTOR_FILE_TYPE_WORKGROUP_PARAMAETER_NAME = COLLECTOR_FILE_TYPE_INDENTIFIER + ".WORKGROUP";
         public static final String ENTERPRISE_FEEDER_FILE_SET_TYPE_WORKGROUP_PARAMAETER_NAME = ENTERPRISE_FEEDER_FILE_SET_TYPE_INDENTIFIER + ".WORKGROUP";
         
-        public static final String COLLECTOR_EMAIL_SUBJECT_PARAMETER_NAME = "SubjectLine";
+        public static final String COLLECTOR_VALIDATOR_EMAIL_SUBJECT_PARAMETER_NAME = "ValidationEmailSubjectLine";
+        public static final String COLLECTOR_DEMERGER_EMAIL_SUBJECT_PARAMETER_NAME = "DemergerEmailSubjectLine";
         public static final String COLLECTOR_EQUAL_DC_TOTAL_DOCUMENT_TYPES = "EqualDebitCreditTotalDocumentTypes";
         public static final String COLLECTOR_PERFORM_DUPLICATE_HEADER_CHECK = "PerformDuplicateHeaderCheck";
-        public static final String COLLECTOR_DEFAULT_INTER_DEPARTMENTAL_BILLING_BALANCE_TYPE = "DefaultInterDepartmentalBillingBalanceType";
         
         public static final String BATCH_SCHEDULE_CUTOFF_TIME = "scheduleStep_CUTOFF_TIME";
         public static final String BATCH_SCHEDULE_CUTOFF_TIME_IS_NEXT_DAY = "scheduleStep_IS_CUTOFF_TIME_NEXT_DAY";

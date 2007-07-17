@@ -15,15 +15,19 @@
  */
 package org.kuali.module.gl.service;
 
-import org.kuali.module.gl.util.CollectorReportData;
+import java.sql.Date;
 
 /**
- * This class
+ * Sometimes it is necessary to rerun a GL process on the following day if the previous
+ * night's GL batch processes failed.  This service facilitates the re-running of GL batch
+ * processes by allowing the GL processes to assume that the GL processes are being run the night before
  */
-public interface CollectorService {
+public interface RunDateService {
     /**
-     * performs collection
-     * @return status information related to the collection execution
+     * Returns the assumed runtime given the actual execution time.
+     * 
+     * @param executionTime the actual date that this method is called
+     * @return the run date/time to assume when running the GL processes
      */
-    public CollectorReportData performCollection();
+    public Date calculateRunDate(Date executionTime);
 }

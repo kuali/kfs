@@ -22,6 +22,7 @@ import org.kuali.core.service.PersistenceService;
 import org.kuali.module.chart.service.ObjectCodeService;
 import org.kuali.module.chart.service.OffsetDefinitionService;
 import org.kuali.module.financial.service.FlexibleOffsetAccountService;
+import org.kuali.module.gl.batch.collector.CollectorBatch;
 import org.kuali.module.gl.bo.OriginEntryGroup;
 import org.kuali.module.gl.dao.UniversityDateDao;
 import org.kuali.module.gl.service.OriginEntryGroupService;
@@ -29,6 +30,8 @@ import org.kuali.module.gl.service.OriginEntryService;
 import org.kuali.module.gl.service.ReportService;
 import org.kuali.module.gl.service.ScrubberService;
 import org.kuali.module.gl.service.ScrubberValidator;
+import org.kuali.module.gl.util.CollectorReportData;
+import org.kuali.module.gl.util.ScrubberStatus;
 import org.springframework.transaction.annotation.Transactional;
 
 @Transactional
@@ -74,6 +77,16 @@ public class ScrubberServiceImpl implements ScrubberService {
 
         ScrubberProcess sp = new ScrubberProcess(flexibleOffsetAccountService, documentTypeService, originEntryService, originEntryGroupService, dateTimeService, offsetDefinitionService, objectCodeService, kualiConfigurationService, universityDateDao, persistenceService, reportService, scrubberValidator);
         sp.scrubEntries();
+    }
+    
+    
+    public ScrubberStatus scrubCollectorBatch(CollectorBatch batch, CollectorReportData collectorReportData, OriginEntryService overrideOriginEntryService, OriginEntryGroupService overrideOriginEntryGroupService) {
+        if (overrideOriginEntryService == null && overrideOriginEntryGroupService == null) {
+            throw new NullPointerException("for scrubCollectorBatch, the OriginEntryService and OriginEntryGroupService services must be specified in the parameters");
+        }
+        // this service is especially developed to support collector scrubbing, demerger, and report generation
+        ScrubberProcess sp = new ScrubberProcess(flexibleOffsetAccountService, documentTypeService, overrideOriginEntryService, overrideOriginEntryGroupService, dateTimeService, offsetDefinitionService, objectCodeService, kualiConfigurationService, universityDateDao, persistenceService, reportService, scrubberValidator);
+        return sp.scrubCollectorBatch(batch, collectorReportData);
     }
 
     public void setFlexibleOffsetAccountService(FlexibleOffsetAccountService flexibleOffsetAccountService) {

@@ -27,7 +27,11 @@
     <xsd:element name="batchSequenceNumber" type="xsd:integer"/>
     <xsd:element name="personUserId" type="kfs:oneToEightCharType"/>
     <xsd:element name="workgroupName" type="kfs:oneToSeventyCharType"/>
-
+	<xsd:element name="campusCode" type="kfs:oneToTwoCharType"/>
+	<xsd:element name="phoneNumber" type="kfs:oneToTwentyCharType"/>
+	<xsd:element name="mailingAddress" type="kfs:oneToThirtyCharType"/>
+	<xsd:element name="departmentName" type="kfs:oneToThirtyCharType"/>
+	
     <!-- glEntry fields -->
     <xsd:element name="universityFiscalYear" type="kfs:yearType"/>
     <xsd:element name="chartOfAccountsCode" type="kfs:twoCharType"/>
@@ -39,7 +43,7 @@
     <xsd:element name="objectTypeCode" type="kfs:twoCharType"/>
     <xsd:element name="universityFiscalAccountingPeriod" type="kfs:twoCharType"/>
     <xsd:element name="documentTypeCode" type="kfs:oneToFourCharType"/>
-    <xsd:element name="originCode" type="kfs:twoCharType"/>
+    <xsd:element name="originationCode" type="kfs:twoCharType"/>
     <xsd:element name="documentNumber" type="kfs:fdocNumberType"/>
     <xsd:element name="transactionEntrySequenceId" type="xsd:integer"/>
     <xsd:element name="transactionLedgerEntryDescription" type="kfs:oneToFortyCharType"/>
@@ -49,9 +53,9 @@
     <xsd:element name="organizationDocumentNumber" type="kfs:oneToTenCharType"/>
     <xsd:element name="projectCode" type="kfs:oneToTenCharType"/>
     <xsd:element name="organizationReferenceId" type="kfs:oneToEightCharType"/>
-    <xsd:element name="referenceDocumentTypeCode" type="kfs:oneToFourCharType"/>
-    <xsd:element name="referenceOriginCode" type="kfs:oneToTwoCharType"/>
-    <xsd:element name="referenceDocumentNumber" type="kfs:fdocNumberType"/>
+    <xsd:element name="referenceDocumentTypeCode" type="kfs:zeroToFourCharType"/>
+    <xsd:element name="referenceOriginationCode" type="kfs:oneToTwoCharType"/>
+    <xsd:element name="referenceDocumentNumber" type="kfs:fdocNumberTypeOptional"/>
     <xsd:element name="documentReversalDate" type="xsd:date"/>
     <xsd:element name="encumbranceUpdateCode" type="kfs:encumbranceUpdateCodeType"/>
 
@@ -62,40 +66,29 @@
     <!-- detail -->
     <xsd:element name="createDate" type="xsd:date" />
     <xsd:element name="createSequence" type="kfs:oneToEightCharType" />
-    <xsd:element name="interDepartmentalBillingSequenceNumber" type="kfs:oneToTwoCharType"/>
+    <xsd:element name="collectorDetailSequenceNumber" type="kfs:oneToTwoCharType"/>
     <xsd:element name="detailText" type="kfs:detailsType"/>
     <xsd:element name="amount" type="xsd:decimal"/>
  
     <!-- definition of complex type elements -->
-    <xsd:element name="batch">
-        <xsd:complexType>
-            <xsd:sequence>
-                <xsd:element ref="header"/>
-                <xsd:sequence maxOccurs="unbounded">
-                    <xsd:element minOccurs="0" maxOccurs="1" name="glEntry"/>
-                    <xsd:element minOccurs="0" maxOccurs="1" name="detail"/>
-                </xsd:sequence>
-                <xsd:element ref="trailer"/>
-            </xsd:sequence>
-        </xsd:complexType>
-    </xsd:element>
 
-    <xsd:element name="header">
-        <xsd:complexType>
-            <xsd:sequence>
+        <xsd:complexType name="headerType">
+            <xsd:all>
                <xsd:element maxOccurs="1" minOccurs="1" ref="chartOfAccountsCode" />
                <xsd:element maxOccurs="1" minOccurs="1" ref="organizationCode" />
                <xsd:element maxOccurs="1" minOccurs="1" ref="transmissionDate" />
                <xsd:element maxOccurs="1" minOccurs="1" ref="batchSequenceNumber" />
                <xsd:element maxOccurs="1" minOccurs="1" ref="personUserId" />
                <xsd:element maxOccurs="1" minOccurs="1" ref="workgroupName" />
-            </xsd:sequence>
+               <xsd:element maxOccurs="1" minOccurs="1" ref="campusCode"/>
+	           <xsd:element maxOccurs="1" minOccurs="1" ref="phoneNumber"/>
+               <xsd:element maxOccurs="1" minOccurs="1" ref="mailingAddress"/>
+               <xsd:element maxOccurs="1" minOccurs="1" ref="departmentName"/>
+            </xsd:all>
         </xsd:complexType>
-    </xsd:element>
 
-    <xsd:element name="detail">
-        <xsd:complexType>
-            <xsd:sequence>
+        <xsd:complexType name="detailType">
+            <xsd:all>
                <xsd:element maxOccurs="1" minOccurs="1" ref="universityFiscalAccountingPeriod" />
                <xsd:element maxOccurs="1" minOccurs="1" ref="universityFiscalYear" />
                <xsd:element maxOccurs="1" minOccurs="1" ref="createDate" />
@@ -105,28 +98,26 @@
                <xsd:element maxOccurs="1" minOccurs="0" ref="subAccountNumber" />
                <xsd:element maxOccurs="1" minOccurs="1" ref="objectCode" />
                <xsd:element maxOccurs="1" minOccurs="0" ref="subObjectCode" />
-               <xsd:element maxOccurs="1" minOccurs="1" ref="interDepartmentalBillingSequenceNumber" />
-               <xsd:element maxOccurs="1" minOccurs="1" ref="originCode" />
+               <xsd:element maxOccurs="1" minOccurs="1" ref="balanceTypeCode" />
+               <xsd:element maxOccurs="1" minOccurs="0" ref="objectTypeCode" />
+               <xsd:element maxOccurs="1" minOccurs="1" ref="collectorDetailSequenceNumber" />
+               <xsd:element maxOccurs="1" minOccurs="1" ref="originationCode" />
                <xsd:element maxOccurs="1" minOccurs="1" ref="documentTypeCode" />
                <xsd:element maxOccurs="1" minOccurs="1" ref="documentNumber" />
                <xsd:element maxOccurs="1" minOccurs="1" ref="amount" />
                <xsd:element maxOccurs="1" minOccurs="1" ref="detailText" />
-            </xsd:sequence>
+            </xsd:all>
         </xsd:complexType>
-    </xsd:element>
 
-    <xsd:element name="trailer">
-        <xsd:complexType>
-            <xsd:sequence>
-	        <xsd:element ref="totalRecords" />
-	        <xsd:element ref="totalAmount" />
-            </xsd:sequence>
+        <xsd:complexType name="trailerType">
+            <xsd:all>
+		        <xsd:element ref="totalRecords" />
+		        <xsd:element ref="totalAmount" />
+            </xsd:all>
         </xsd:complexType>
-    </xsd:element>
  
-    <xsd:element name="glEntry">
-        <xsd:complexType>
-            <xsd:sequence>
+        <xsd:complexType name="glEntryType">
+            <xsd:all>
                <xsd:element maxOccurs="1" minOccurs="0" ref="universityFiscalYear" />
                <xsd:element maxOccurs="1" minOccurs="1" ref="chartOfAccountsCode" />
                <xsd:element maxOccurs="1" minOccurs="1" ref="accountNumber" />
@@ -134,10 +125,10 @@
                <xsd:element maxOccurs="1" minOccurs="1" ref="objectCode" />
                <xsd:element maxOccurs="1" minOccurs="0" ref="subObjectCode" />
                <xsd:element maxOccurs="1" minOccurs="1" ref="balanceTypeCode" />
-               <xsd:element maxOccurs="1" minOccurs="1" ref="objectTypeCode" />
+               <xsd:element maxOccurs="1" minOccurs="0" ref="objectTypeCode" />
                <xsd:element maxOccurs="1" minOccurs="0" ref="universityFiscalAccountingPeriod" />
                <xsd:element maxOccurs="1" minOccurs="1" ref="documentTypeCode" />
-               <xsd:element maxOccurs="1" minOccurs="1" ref="originCode" />
+               <xsd:element maxOccurs="1" minOccurs="1" ref="originationCode" />
                <xsd:element maxOccurs="1" minOccurs="1" ref="documentNumber" />
                <xsd:element maxOccurs="1" minOccurs="0" ref="transactionEntrySequenceId" />
                <xsd:element maxOccurs="1" minOccurs="1" ref="transactionLedgerEntryDescription" />
@@ -148,12 +139,25 @@
                <xsd:element maxOccurs="1" minOccurs="0" ref="projectCode" />
                <xsd:element maxOccurs="1" minOccurs="0" ref="organizationReferenceId" />
                <xsd:element maxOccurs="1" minOccurs="0" ref="referenceDocumentTypeCode" />
-               <xsd:element maxOccurs="1" minOccurs="0" ref="referenceOriginCode" />
+               <xsd:element maxOccurs="1" minOccurs="0" ref="referenceOriginationCode" />
                <xsd:element maxOccurs="1" minOccurs="0" ref="referenceDocumentNumber" />
                <xsd:element maxOccurs="1" minOccurs="0" ref="documentReversalDate" />
                <xsd:element maxOccurs="1" minOccurs="0" ref="encumbranceUpdateCode" />
-	 </xsd:sequence>
+            </xsd:all>
         </xsd:complexType>
-    </xsd:element>
+
+        <xsd:complexType name="batchType">
+            <xsd:sequence>
+                <xsd:element name="header" type="headerType"/>
+                <xsd:sequence maxOccurs="unbounded">
+                    <xsd:element minOccurs="0" maxOccurs="1" name="glEntry" type="glEntryType"/>
+                    <xsd:element minOccurs="0" maxOccurs="1" name="detail" type="detailType"/>
+                </xsd:sequence>
+                <xsd:element name="trailer" type="trailerType"/>
+            </xsd:sequence>
+        </xsd:complexType>
+        
+    <xsd:element name="batch" type="batchType"/>
+
 </xsd:schema>
 

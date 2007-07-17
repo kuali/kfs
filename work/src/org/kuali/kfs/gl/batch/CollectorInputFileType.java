@@ -32,7 +32,7 @@ import org.kuali.kfs.KFSConstants.ParameterGroups;
 import org.kuali.kfs.KFSConstants.SystemGroupParameterNames;
 import org.kuali.kfs.batch.BatchInputFileTypeBase;
 import org.kuali.kfs.util.SpringServiceLocator;
-import org.kuali.module.gl.service.CollectorService;
+import org.kuali.module.gl.service.CollectorHelperService;
 
 /**
  * Batch input type for the collector job.
@@ -41,7 +41,7 @@ public class CollectorInputFileType extends BatchInputFileTypeBase {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CollectorInputFileType.class);
 
     private DateTimeService dateTimeService;
-    private CollectorService collectorService;
+    private CollectorHelperService collectorHelperService;
 
     /**
      * @see org.kuali.kfs.batch.BatchInputFileType#getFileTypeIdentifer()
@@ -112,9 +112,9 @@ public class CollectorInputFileType extends BatchInputFileTypeBase {
      * @see org.kuali.kfs.batch.BatchInputFileType#validate(java.lang.Object)
      */
     public boolean validate(Object parsedFileContents) {
-        boolean isValid = collectorService.performValidation((CollectorBatch) parsedFileContents);
+        boolean isValid = collectorHelperService.performValidation((CollectorBatch) parsedFileContents);
         if (isValid) {
-            isValid = collectorService.checkTrailerTotals((CollectorBatch) parsedFileContents);
+            isValid = collectorHelperService.checkTrailerTotals((CollectorBatch) parsedFileContents, null);
         }
         
         return isValid;
@@ -137,8 +137,8 @@ public class CollectorInputFileType extends BatchInputFileTypeBase {
     /**
      * Sets the collectorService attribute value.
      */
-    public void setCollectorService(CollectorService collectorService) {
-        this.collectorService = collectorService;
+    public void setCollectorHelperService(CollectorHelperService collectorHelperService) {
+        this.collectorHelperService = collectorHelperService;
     }
 
 

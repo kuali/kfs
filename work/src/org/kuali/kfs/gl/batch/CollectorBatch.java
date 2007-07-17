@@ -24,23 +24,27 @@ import org.apache.commons.lang.math.RandomUtils;
 import org.kuali.core.service.BusinessObjectDictionaryService;
 import org.kuali.core.service.DataDictionaryService;
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.kfs.KFSKeyConstants;
 import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.chart.bo.Chart;
 import org.kuali.module.chart.bo.Org;
 import org.kuali.module.gl.bo.CollectorHeader;
-import org.kuali.module.gl.bo.InterDepartmentalBilling;
+import org.kuali.module.gl.bo.CollectorDetail;
 import org.kuali.module.gl.bo.OriginEntry;
 import org.kuali.module.gl.bo.OriginEntryGroup;
 import org.kuali.module.gl.bo.OriginEntrySource;
-import org.kuali.module.gl.service.InterDepartmentalBillingService;
+import org.kuali.module.gl.service.CollectorDetailService;
 import org.kuali.module.gl.service.OriginEntryService;
+import org.kuali.module.gl.util.CollectorReportData;
 
 /**
  * Object representation of collector xml input.
  */
 public class CollectorBatch implements Serializable {
-
+    // way to distinguish this batch from others
+    private String batchName;
+    
     // header records
     private String chartOfAccountsCode;
     private String organizationCode;
@@ -48,9 +52,14 @@ public class CollectorBatch implements Serializable {
     private String personUserID;
     private Integer batchSequenceNumber;
     private String workgroupName;
+    
+    private String campusCode;
+    private String phoneNumber;
+    private String mailingAddress;
+    private String departmentName;
 
     private List<OriginEntry> originEntries;
-    private List<InterDepartmentalBilling> idBillings;
+    private List<CollectorDetail> collectorDetails;
 
     // trailer records
     private Integer totalRecords;
@@ -58,7 +67,7 @@ public class CollectorBatch implements Serializable {
 
     public CollectorBatch() {
         originEntries = new ArrayList();
-        idBillings = new ArrayList();
+        collectorDetails = new ArrayList();
     }
 
     /**
@@ -190,15 +199,15 @@ public class CollectorBatch implements Serializable {
     /**
      * Gets the idBillings attribute.
      */
-    public List<InterDepartmentalBilling>  getIdBillings() {
-        return idBillings;
+    public List<CollectorDetail>  getCollectorDetails() {
+        return collectorDetails;
     }
     
     /**
      * Sets the idBillings attribute value.
      */
-    public void setIdBillings(List<InterDepartmentalBilling> idBillings) {
-        this.idBillings = idBillings;
+    public void setCollectorDetails(List<CollectorDetail> idDetails) {
+        this.collectorDetails = idDetails;
     }
 
     /**
@@ -225,30 +234,40 @@ public class CollectorBatch implements Serializable {
     /**
      * Adds a processed id billing to the list.
      */
-    public void addIDBilling(InterDepartmentalBilling idBilling) {
-        this.idBillings.add(idBilling);
+    public void addCollectorDetail(CollectorDetail collectorDetail) {
+        this.collectorDetails.add(collectorDetail);
+    }
+    
+    public CollectorHeader retrieveDuplicateHeader() {
+        // checkHeader is used to check whether a record with the same PK values exist already (i.e. only PK values are filled in).
+        CollectorHeader checkHeader = createCollectorHeaderWithPKValuesOnly();
+        
+        CollectorHeader foundHeader = (CollectorHeader) SpringServiceLocator.getBusinessObjectService().retrieve(checkHeader);
+        return foundHeader;
     }
     
     /**
      * Sets defaults for fields not populated from file. Store an origin entry group,
      * all gl entries and id billing entries from the processed file. Also write the header
      * for the duplicate file check.
+     * 
+     * @param originEntryGroup the group into which to store the origin entries
+     * @param collectorReportData report data
      */
-    public void setDefaultsAndStore() {
-        OriginEntryGroup entryGroup = createOriginEntryGroup();
-        SpringServiceLocator.getOriginEntryGroupService().save(entryGroup);
+    public void setDefaultsAndStore(OriginEntryGroup originEntryGroup, CollectorReportData collectorReportData) {
+        // persistHeader is used to persist a collector header record into the DB
+        CollectorHeader persistHeader = createCollectorHeaderForStorage();
+        CollectorHeader foundHeader = retrieveDuplicateHeader();
         
-        CollectorHeader header = createCollectorHeader();
-        CollectorHeader foundHeader = (CollectorHeader) SpringServiceLocator.getBusinessObjectService().retrieve(header);
         if (foundHeader != null) { 
             // update the version number to prevent OptimisticLockingExceptions
-            header.setVersionNumber(foundHeader.getVersionNumber());
+            persistHeader.setVersionNumber(foundHeader.getVersionNumber());
         }
-        SpringServiceLocator.getBusinessObjectService().save(header);
+        SpringServiceLocator.getBusinessObjectService().save(persistHeader);
         
         OriginEntryService originEntryService = SpringServiceLocator.getOriginEntryService();
         for(OriginEntry entry: this.originEntries) {
-            entry.setGroup(entryGroup);
+            entry.setGroup(originEntryGroup);
             if (entry.getFinancialDocumentReversalDate() == null) {
                 entry.setFinancialDocumentReversalDate(SpringServiceLocator.getDateTimeService().getCurrentSqlDate());
             }
@@ -258,15 +277,18 @@ public class CollectorBatch implements Serializable {
             originEntryService.save(entry);
         }
         
-        InterDepartmentalBillingService idBillingService = SpringServiceLocator.getInterDepartmentalBillingService();
-        for(InterDepartmentalBilling idBilling: this.idBillings) {
-            setDefaultsInterDepartmentalBilling(idBilling);
-            InterDepartmentalBilling foundIdBilling = (InterDepartmentalBilling) SpringServiceLocator.getBusinessObjectService().retrieve(idBilling);
-            if (foundIdBilling != null) {
-                idBilling.setVersionNumber(foundIdBilling.getVersionNumber());
+        CollectorDetailService collectorDetailService = SpringServiceLocator.getCollectorDetailService();
+        int numSavedDetails = 0;
+        for(CollectorDetail idDetail: this.collectorDetails) {
+            setDefaultsCollectorDetail(idDetail);
+            CollectorDetail foundIdDetail = (CollectorDetail) SpringServiceLocator.getBusinessObjectService().retrieve(idDetail);
+            if (foundIdDetail != null) {
+                idDetail.setVersionNumber(foundIdDetail.getVersionNumber());
             }
-            idBillingService.save(idBilling);
+            numSavedDetails++;
+            collectorDetailService.save(idDetail);
         }
+        collectorReportData.setNumSavedDetails(this, numSavedDetails);
     }
     
     /**
@@ -291,8 +313,8 @@ public class CollectorBatch implements Serializable {
         }
         
         // uppercase the id billing entries
-        for (InterDepartmentalBilling interDepartmentalBilling : idBillings) {
-            businessObjectDictionaryService.performForceUppercase(interDepartmentalBilling);
+        for (CollectorDetail collectorDetail : collectorDetails) {
+            businessObjectDictionaryService.performForceUppercase(collectorDetail);
         }
     }
     
@@ -313,10 +335,31 @@ public class CollectorBatch implements Serializable {
     }
     
     /**
-     * Creates a CollectorHeader from the batch.
+     * Creates a CollectorHeader from the batch to be used for storage
      * @return CollectorHeader
      */
-    public CollectorHeader createCollectorHeader() {
+    public CollectorHeader createCollectorHeaderForStorage() {
+        CollectorHeader header = new CollectorHeader();
+        
+        header.setChartOfAccountsCode(getChartOfAccountsCode());
+        header.setOrganizationCode(getOrganizationCode());
+        header.setProcessTransmissionDate(getTransmissionDate());
+        header.setProcessBatchSequenceNumber(getBatchSequenceNumber());
+        header.setProcessTotalRecordCount(getTotalRecords());
+        header.setProcessTotalAmount(getTotalAmount());
+        header.setContactCampusCode(getCampusCode());
+        header.setContactPersonPhoneNumber(getPhoneNumber());
+        header.setContactMailingAddress(getMailingAddress());
+        header.setContactDepartmentName(getDepartmentName());
+        
+        return header;
+    }
+    
+    /**
+     * Creates an origin entry record with the PK values filled in only.  This is useful to check for duplicate headers.
+     * @return
+     */
+    public CollectorHeader createCollectorHeaderWithPKValuesOnly() {
         CollectorHeader header = new CollectorHeader();
         
         header.setChartOfAccountsCode(getChartOfAccountsCode());
@@ -326,18 +369,98 @@ public class CollectorBatch implements Serializable {
         header.setProcessTotalRecordCount(getTotalRecords());
         header.setProcessTotalAmount(getTotalAmount());
         
-        return header;        
+        return header;
     }
     
     /**
      * Sets defaults for missing id billing fields.
      * @param idBilling
      */
-    private void setDefaultsInterDepartmentalBilling(InterDepartmentalBilling idBilling) {
+    private void setDefaultsCollectorDetail(CollectorDetail idDetail) {
         // TODO: Get current fiscal year and period if blank?
 //        idBilling.setUniversityFiscalPeriodCode(String.valueOf(RandomUtils.nextInt(2)));
 //        idBilling.setCreateSequence(String.valueOf(RandomUtils.nextInt(2)));
 //        idBilling.setInterDepartmentalBillingSequenceNumber(String.valueOf(RandomUtils.nextInt(2)));
-        idBilling.setCreateDate(new Date(SpringServiceLocator.getDateTimeService().getCurrentDate().getTime()));
+        idDetail.setCreateDate(new Date(SpringServiceLocator.getDateTimeService().getCurrentDate().getTime()));
+    }
+
+    /**
+     * Gets the campusCode attribute. 
+     * @return Returns the campusCode.
+     */
+    public String getCampusCode() {
+        return campusCode;
+    }
+
+    /**
+     * Sets the campusCode attribute value.
+     * @param campusCode The campusCode to set.
+     */
+    public void setCampusCode(String campusCode) {
+        this.campusCode = campusCode;
+    }
+
+    /**
+     * Gets the departmentName attribute. 
+     * @return Returns the departmentName.
+     */
+    public String getDepartmentName() {
+        return departmentName;
+    }
+
+    /**
+     * Sets the departmentName attribute value.
+     * @param departmentName The departmentName to set.
+     */
+    public void setDepartmentName(String departmentName) {
+        this.departmentName = departmentName;
+    }
+
+    /**
+     * Gets the mailingAddress attribute. 
+     * @return Returns the mailingAddress.
+     */
+    public String getMailingAddress() {
+        return mailingAddress;
+    }
+
+    /**
+     * Sets the mailingAddress attribute value.
+     * @param mailingAddress The mailingAddress to set.
+     */
+    public void setMailingAddress(String mailingAddress) {
+        this.mailingAddress = mailingAddress;
+    }
+
+    /**
+     * Gets the phoneNumber attribute. 
+     * @return Returns the phoneNumber.
+     */
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    /**
+     * Sets the phoneNumber attribute value.
+     * @param phoneNumber The phoneNumber to set.
+     */
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
+
+    /**
+     * Gets the batchName attribute. 
+     * @return Returns the batchName.
+     */
+    public String getBatchName() {
+        return batchName;
+    }
+
+    /**
+     * Sets the batchName attribute value.
+     * @param batchName The batchName to set.
+     */
+    public void setBatchName(String batchName) {
+        this.batchName = batchName;
     }
 }

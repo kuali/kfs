@@ -851,6 +851,9 @@ public class KFSKeyConstants {
         public static final String MIXED_BALANCE_TYPES = "error.collector.mixedBalanceTypes";
         public static final String DUPLICATE_BATCH_HEADER = "error.collector.duplicateHeader";
         public static final String NONMATCHING_DETAIL_KEY = "error.collector.nonmatchingDetailKey";
+        public static final String EMAIL_ADDRESS_NOT_FOUND = "error.collector.emailAddressNotFound";
+        public static final String NOTIFICATION_EMAIL_SENT = "collector.notificationEmailSent";
+        public static final String EMAIL_SEND_ERROR = "error.collector.emailSendError";
     }
 
     public static final class OrganizationReversionProcess {

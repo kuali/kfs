@@ -57,6 +57,8 @@ public interface OriginEntryGroupService {
      * @param days
      */
     public void deleteOlderGroups(int days);
+    
+    public void deleteGroups(Collection<OriginEntryGroup> groupsToDelete);
 
     /**
      * Get groups that match

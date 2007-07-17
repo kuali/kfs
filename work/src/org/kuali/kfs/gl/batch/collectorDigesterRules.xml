@@ -29,6 +29,10 @@
             <call-method-rule pattern="batchSequenceNumber" methodname="setBatchSequenceNumber" paramcount="0" paramtypes="java.lang.Integer" />
             <call-method-rule pattern="personUserId"        methodname="setPersonUserID" paramcount="0" />
             <call-method-rule pattern="workgroupName"       methodname="setWorkgroupName" paramcount="0" />
+            <call-method-rule pattern="campusCode"          methodname="setCampusCode" paramcount="0" />
+            <call-method-rule pattern="phoneNumber"         methodname="setPhoneNumber" paramcount="0" />
+            <call-method-rule pattern="mailingAddress"      methodname="setMailingAddress" paramcount="0" />
+            <call-method-rule pattern="departmentName"      methodname="setDepartmentName" paramcount="0" />
         </pattern>
         
         <pattern value="glEntry">  
@@ -44,7 +48,7 @@
             <call-method-rule pattern="objectTypeCode"                    methodname="setFinancialObjectTypeCode" paramcount="0" />
             <call-method-rule pattern="universityFiscalAccountingPeriod"  methodname="setUniversityFiscalPeriodCode" paramcount="0" />
             <call-method-rule pattern="documentTypeCode"                  methodname="setFinancialDocumentTypeCode" paramcount="0" />
-            <call-method-rule pattern="originCode"                        methodname="setFinancialSystemOriginationCode" paramcount="0" />
+            <call-method-rule pattern="originationCode"                        methodname="setFinancialSystemOriginationCode" paramcount="0" />
             <call-method-rule pattern="documentNumber"                    methodname="setDocumentNumber" paramcount="0" />
             <call-method-rule pattern="transactionEntrySequenceId"        methodname="setTransactionLedgerEntrySequenceNumber" paramcount="0" paramtypes="java.lang.Integer"/>
             <call-method-rule pattern="transactionLedgerEntryDescription" methodname="setTransactionLedgerEntryDescription" paramcount="0" />
@@ -55,7 +59,7 @@
             <call-method-rule pattern="projectCode"                       methodname="setProjectCode" paramcount="0" />
             <call-method-rule pattern="organizationReferenceId"           methodname="setOrganizationReferenceId" paramcount="0" />
             <call-method-rule pattern="referenceDocumentTypeCode"         methodname="setReferenceFinancialDocumentTypeCode" paramcount="0" />
-            <call-method-rule pattern="referenceOriginCode"               methodname="setReferenceFinancialSystemOriginationCode" paramcount="0" />
+            <call-method-rule pattern="referenceOriginationCode"          methodname="setReferenceFinancialSystemOriginationCode" paramcount="0" />
             <call-method-rule pattern="referenceDocumentNumber"           methodname="setReferenceFinancialDocumentNumber" paramcount="0" />
             <call-method-rule pattern="documentReversalDate"              methodname="setFinancialDocumentReversalDate" paramcount="0" paramtypes="java.sql.Date"/>
             <call-method-rule pattern="encumbranceUpdateCode"             methodname="setTransactionEncumbranceUpdateCode" paramcount="0" />
@@ -64,7 +68,7 @@
         </pattern>
         
         <pattern value="detail">
-            <object-create-rule classname="org.kuali.module.gl.bo.InterDepartmentalBilling" />
+            <object-create-rule classname="org.kuali.module.gl.bo.CollectorDetail" />
             
             <call-method-rule pattern="universityFiscalAccountingPeriod"       methodname="setUniversityFiscalPeriodCode" paramcount="0" />
             <call-method-rule pattern="universityFiscalYear"                   methodname="setUniversityFiscalYear" paramcount="0" paramtypes="java.lang.Integer"/>
@@ -73,16 +77,18 @@
             <call-method-rule pattern="chartOfAccountsCode"                    methodname="setChartOfAccountsCode" paramcount="0" />
             <call-method-rule pattern="accountNumber"                          methodname="setAccountNumber" paramcount="0" />
             <call-method-rule pattern="subAccountNumber"                       methodname="setSubAccountNumber" paramcount="0" />
+            <call-method-rule pattern="balanceTypeCode"                        methodname="setFinancialBalanceTypeCode" paramcount="0" />
+            <call-method-rule pattern="objectTypeCode"                         methodname="setFinancialObjectTypeCode" paramcount="0" />
             <call-method-rule pattern="objectCode"                             methodname="setFinancialObjectCode" paramcount="0" />
             <call-method-rule pattern="subObjectCode"                          methodname="setFinancialSubObjectCode" paramcount="0" />
-            <call-method-rule pattern="interDepartmentalBillingSequenceNumber" methodname="setInterDepartmentalBillingSequenceNumber" paramcount="0" />
+            <call-method-rule pattern="collectorDetailSequenceNumber"          methodname="setCollectorDetailSequenceNumber" paramcount="0" />
             <call-method-rule pattern="originationCode"                        methodname="setFinancialSystemOriginationCode" paramcount="0" />
             <call-method-rule pattern="documentTypeCode"                       methodname="setFinancialDocumentTypeCode" paramcount="0"/>
             <call-method-rule pattern="documentNumber"                         methodname="setDocumentNumber" paramcount="0" />
-            <call-method-rule pattern="amount"                                 methodname="setInterDepartmentalBillingItemAmount" paramcount="0" />
-            <call-method-rule pattern="detailText"                             methodname="setInterDepartmentalBillingNoteText" paramcount="0" />
-        
-            <set-next-rule methodname="addIDBilling" />
+            <call-method-rule pattern="amount"                                 methodname="setCollectorDetailItemAmount" paramcount="0" />
+            <call-method-rule pattern="detailText"                             methodname="setCollectorDetailNoteText" paramcount="0" />
+            
+            <set-next-rule methodname="addCollectorDetail" />
         </pattern>  
                                   
         <pattern value="trailer">

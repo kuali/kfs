@@ -1,5 +1,5 @@
 /*
- * Copyright 2007 The Kuali Foundation.
+ * Copyright 2006 The Kuali Foundation.
  * 
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,17 +13,24 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.gl.service;
+package org.kuali.module.gl.dao;
 
-import org.kuali.module.gl.util.CollectorReportData;
+import org.kuali.module.gl.bo.CollectorDetail;
 
-/**
- * This class
- */
-public interface CollectorService {
+public interface CollectorDetailDao {
     /**
-     * performs collection
-     * @return status information related to the collection execution
+     * Purge the table by year/chart
+     * 
+     * @param chart
+     * @param year
      */
-    public CollectorReportData performCollection();
+    public void purgeYearByChart(String chartOfAccountsCode, int universityFiscalYear);
+
+    public void save(CollectorDetail detail);
+    
+    /**
+     * Retrieves the DB table name that's mapped to instances of CollectorDetail
+     * @return
+     */
+    public String retrieveCollectorDetailTableName();
 }

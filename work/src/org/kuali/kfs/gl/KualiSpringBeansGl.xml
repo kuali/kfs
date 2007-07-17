@@ -413,10 +413,34 @@
 			<ref bean="glOrgReversionUnitOfWorkService" />
 		</property>
 	</bean>
-			
+	
 	<bean id="glCollectorService" class="org.kuali.module.gl.service.impl.CollectorServiceImpl">
-		<property name="interDepartmentalBillingService">
-			<ref bean="glInterDepartmentalBillingService" />
+		<property name="collectorHelperService">
+			<ref bean="glCollectorHelperService" />
+		</property>
+		<property name="collectorInputFileType">
+			<ref bean="collectorInputFileType" />
+		</property>
+		<property name="originEntryGroupService">
+			<ref bean="glOriginEntryGroupService" />
+		</property>
+		<property name="batchInputFileService">
+		    <ref bean="batchInputFileService" />
+		</property>
+		<property name="dateTimeService">
+			<ref bean="dateTimeService" />
+		</property>
+		<property name="collectorScrubberService">
+			<ref bean="glCollectorScrubberService" />
+		</property>
+		<property name="runDateService">
+			<ref bean="glRunDateService" />
+		</property>
+	</bean>
+	
+	<bean id="glCollectorHelperService" class="org.kuali.module.gl.service.impl.CollectorHelperServiceImpl">
+		<property name="collectorDetailService">
+			<ref bean="glCollectorDetailService" />
 		</property>
 		<property name="originEntryService">
 			<ref bean="glOriginEntryService" />
@@ -433,12 +457,43 @@
 		<property name="dateTimeService">
 			<ref bean="dateTimeService" />
 		</property>
+		<property name="collectorScrubberService">
+		    <ref bean="glCollectorScrubberService" />
+		</property>
 		<property name="batchInputFileService">
 		    <ref bean="batchInputFileService" />
 		</property>
 		<property name="collectorInputFileType">
-		    <ref bean="collectorInputFileType" />
+			<ref bean="collectorInputFileType" />
 		</property>
+	</bean>
+
+	<bean id="glCollectorScrubberService" class="org.kuali.module.gl.service.impl.scrubber.CollectorScrubberServiceImpl">
+		<property name="dateTimeService">
+			<ref bean="dateTimeService" />
+		</property>
+		<property name="universityDateDao">
+			<ref bean="universityDateDao" />
+		</property>
+		<property name="kualiConfigurationService">
+			<ref bean="kualiConfigurationService" />
+		</property>
+		<property name="scrubberService">
+			<ref bean="glScrubberService" />
+		</property>
+	</bean>
+	
+	<bean id="glCollectorReportService" class="org.kuali.module.gl.service.impl.CollectorReportServiceImpl">
+		<property name="dateTimeService">
+			<ref bean="dateTimeService" />
+		</property>
+		<property name="kualiConfigurationService">
+			<ref bean="kualiConfigurationService"/>
+		</property>
+		<property name="mailService">
+			<ref bean="mailService"/>
+		</property>
+		<property name="directoryName" value="${reports.directory}"/>
 	</bean>
 
 	<bean id="glOrganizationReversionSelection" class="org.kuali.module.gl.service.impl.orgreversion.OrganizationReversionSelectionImpl" />
@@ -812,9 +867,9 @@
 		</property>
 	</bean>
 
-	<bean id="glInterDepartmentalBillingService" class="org.kuali.module.gl.service.impl.InterDepartmentalBillingServiceImpl">
-		<property name="interDepartmentalBillingDao">
-			<ref bean="glInterDepartmentalBillingDao" />
+	<bean id="glCollectorDetailService" class="org.kuali.module.gl.service.impl.CollectorDetailServiceImpl">
+		<property name="collectorDetailDao">
+			<ref bean="glCollectorDetailDao" />
 		</property>
 	</bean>
 
@@ -979,7 +1034,7 @@
 
 	<bean id="glSufficientFundRebuildDao" parent="platformAwareDao" class="org.kuali.module.gl.dao.ojb.SufficientFundRebuildDaoOjb" />
 
-	<bean id="glInterDepartmentalBillingDao" parent="platformAwareDao" class="org.kuali.module.gl.dao.ojb.InterDepartmentalBillingDaoOjb" />
+	<bean id="glCollectorDetailDao" parent="platformAwareDao" class="org.kuali.module.gl.dao.ojb.CollectorDetailDaoOjb" />
 
 	<bean id="glCorrectionDocumentDao" parent="platformAwareDao" class="org.kuali.module.gl.dao.ojb.CorrectionDocumentDaoOjb" />
 	
@@ -1167,7 +1222,7 @@
 				<ref bean="purgeSufficientFundBalancesStep" />
 				<ref bean="purgeEncumbranceStep" />
 				<ref bean="purgeAccountBalancesStep" />
-				<ref bean="purgeInterDepartmentalBillingStep" />
+				<ref bean="purgeCollectorDetailStep" />
 			</list>
 		</property>
 	</bean>
@@ -1263,9 +1318,9 @@
 		</property>
 	</bean>
 
-	<bean id="purgeInterDepartmentalBillingStep" class="org.kuali.module.gl.batch.PurgeInterDepartmentalBillingStep" parent="step">
-		<property name="interDepartmentalBillingService">
-			<ref bean="glInterDepartmentalBillingService" />
+	<bean id="purgeCollectorDetailStep" class="org.kuali.module.gl.batch.PurgeCollectorDetailStep" parent="step">
+		<property name="collectorDetailService">
+			<ref bean="glCollectorDetailService" />
 		</property>
 		<property name="chartService">
 			<ref bean="chartService" />
@@ -1408,11 +1463,8 @@
 		<property name="collectorService">
 			<ref bean="glCollectorService" />
 		</property>
-		<property name="batchInputFileService">
-		    <ref bean="batchInputFileService" />
-		</property>
-		<property name="collectorInputFileType">
-		    <ref bean="collectorInputFileType" />
+		<property name="collectorReportService">
+			<ref bean="glCollectorReportService" />
 		</property>
 	</bean>
 
@@ -1455,8 +1507,8 @@
 	    <property name="dateTimeService">
 	       <ref bean="dateTimeService"/>
 	    </property>
-	    <property name="collectorService">
-	       <ref bean="glCollectorService"/>
+	    <property name="collectorHelperService">
+	       <ref bean="glCollectorHelperService"/>
 	    </property>
 	</bean>
 
@@ -1538,6 +1590,12 @@
 		</property>
 		<property name="orgReversionUnitOfWorkDao">
 			<bean class="org.kuali.module.gl.dao.jdbc.OrgReversionUnitOfWorkDaoJdbc" parent="platformAwareDaoJdbc" />
+		</property>
+	</bean>
+	
+	<bean id="glRunDateService" class="org.kuali.module.gl.service.impl.RunDateServiceImpl">
+		<property name="kualiConfigurationService">
+			<ref bean="kualiConfigurationService"/>
 		</property>
 	</bean>
 </beans>

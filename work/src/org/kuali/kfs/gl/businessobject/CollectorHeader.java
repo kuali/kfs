@@ -3,8 +3,10 @@ package org.kuali.module.gl.bo;
 import java.sql.Date;
 import java.util.LinkedHashMap;
 
+import org.kuali.core.bo.Campus;
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.module.chart.bo.Chart;
 import org.kuali.module.chart.bo.Org;
 
@@ -22,10 +24,11 @@ public class CollectorHeader extends PersistableBusinessObjectBase {
     private String campusCode;
     private String contactPersonPhoneNumber;
     private String contactMailingAddress;
-    private String contactDeparmentName;
+    private String contactDepartmentName;
     
     private Org organization;
 	private Chart chartOfAccounts;
+    private Campus campus;
 
 	/**
 	 * Default constructor.
@@ -159,71 +162,8 @@ public class CollectorHeader extends PersistableBusinessObjectBase {
 		this.processTotalAmount = processTotalAmount;
 	}
 
+
 	/**
-     * Gets the campusCode attribute. 
-     * @return Returns the campusCode.
-     */
-    public String getCampusCode() {
-        return campusCode;
-    }
-
-    /**
-     * Sets the campusCode attribute value.
-     * @param campusCode The campusCode to set.
-     */
-    public void setCampusCode(String campusCode) {
-        this.campusCode = campusCode;
-    }
-
-    /**
-     * Gets the contactDeparmentName attribute. 
-     * @return Returns the contactDeparmentName.
-     */
-    public String getContactDeparmentName() {
-        return contactDeparmentName;
-    }
-
-    /**
-     * Sets the contactDeparmentName attribute value.
-     * @param contactDeparmentName The contactDeparmentName to set.
-     */
-    public void setContactDeparmentName(String contactDeparmentName) {
-        this.contactDeparmentName = contactDeparmentName;
-    }
-
-    /**
-     * Gets the contactMailingAddress attribute. 
-     * @return Returns the contactMailingAddress.
-     */
-    public String getContactMailingAddress() {
-        return contactMailingAddress;
-    }
-
-    /**
-     * Sets the contactMailingAddress attribute value.
-     * @param contactMailingAddress The contactMailingAddress to set.
-     */
-    public void setContactMailingAddress(String contactMailingAddress) {
-        this.contactMailingAddress = contactMailingAddress;
-    }
-
-    /**
-     * Gets the contactPersonPhoneNumber attribute. 
-     * @return Returns the contactPersonPhoneNumber.
-     */
-    public String getContactPersonPhoneNumber() {
-        return contactPersonPhoneNumber;
-    }
-
-    /**
-     * Sets the contactPersonPhoneNumber attribute value.
-     * @param contactPersonPhoneNumber The contactPersonPhoneNumber to set.
-     */
-    public void setContactPersonPhoneNumber(String contactPersonPhoneNumber) {
-        this.contactPersonPhoneNumber = contactPersonPhoneNumber;
-    }
-
-    /**
 	 * Gets the organization attribute.
 	 * 
 	 * @return Returns the organization
@@ -267,21 +207,101 @@ public class CollectorHeader extends PersistableBusinessObjectBase {
 	 * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
 	 */
 	protected LinkedHashMap toStringMapper() {
-	    LinkedHashMap m = new LinkedHashMap();	    
-        m.put("chartOfAccountsCode", this.chartOfAccountsCode);
-        m.put("organizationCode", this.organizationCode);
+	    LinkedHashMap<String, String> m = new LinkedHashMap();	    
+        m.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, this.chartOfAccountsCode);
+        m.put(KFSPropertyConstants.ORGANIZATION_CODE, this.organizationCode);
         if (this.processTransmissionDate != null) {
-            m.put("processTransmissionDate", this.processTransmissionDate.toString());
+            m.put(KFSPropertyConstants.PROCESS_TRANSMISSION_DATE, this.processTransmissionDate.toString());
         }
         if (this.processBatchSequenceNumber != null) {
-            m.put("processBatchSequenceNumber", this.processBatchSequenceNumber.toString());
+            m.put(KFSPropertyConstants.PROCESS_BATCH_SEQUENCE_NUMBER, this.processBatchSequenceNumber.toString());
         }
         if (this.processTotalRecordCount != null) {
-            m.put("processTotalRecordCount", this.processTotalRecordCount.toString());
+            m.put(KFSPropertyConstants.PROCESS_TOTAL_RECORD_COUNT, this.processTotalRecordCount.toString());
         }
         if (this.processTotalAmount != null) {
-            m.put("processTotalAmount", this.processTotalAmount.toString());
+            m.put(KFSPropertyConstants.PROCESS_TOTAL_AMOUNT, this.processTotalAmount.toString());
         }
 	    return m;
+    }
+
+    /**
+     * Gets the campusCode attribute. 
+     * @return Returns the campusCode.
+     */
+    public String getCampusCode() {
+        return campusCode;
+    }
+
+    /**
+     * Sets the campusCode attribute value.
+     * @param campusCode The campusCode to set.
+     */
+    public void setContactCampusCode(String campusCode) {
+        this.campusCode = campusCode;
+    }
+
+    /**
+     * Gets the departmentName attribute. 
+     * @return Returns the departmentName.
+     */
+    public String getContactDepartmentName() {
+        return contactDepartmentName;
+    }
+
+    /**
+     * Sets the departmentName attribute value.
+     * @param departmentName The departmentName to set.
+     */
+    public void setContactDepartmentName(String contactDepartmentName) {
+        this.contactDepartmentName = contactDepartmentName;
+    }
+
+    /**
+     * Gets the mailingAddress attribute. 
+     * @return Returns the mailingAddress.
+     */
+    public String getContactMailingAddress() {
+        return contactMailingAddress;
+    }
+
+    /**
+     * Sets the mailingAddress attribute value.
+     * @param mailingAddress The mailingAddress to set.
+     */
+    public void setContactMailingAddress(String contactMailingAddress) {
+        this.contactMailingAddress = contactMailingAddress;
+    }
+
+    /**
+     * Gets the phoneNumber attribute. 
+     * @return Returns the phoneNumber.
+     */
+    public String getContactPersonPhoneNumber() {
+        return contactPersonPhoneNumber;
+    }
+
+    /**
+     * Sets the phoneNumber attribute value.
+     * @param phoneNumber The phoneNumber to set.
+     */
+    public void setContactPersonPhoneNumber(String contactPersonPhoneNumber) {
+        this.contactPersonPhoneNumber = contactPersonPhoneNumber;
+    }
+
+    /**
+     * Gets the campus attribute. 
+     * @return Returns the campus.
+     */
+    public Campus getCampus() {
+        return campus;
+    }
+
+    /**
+     * Sets the campus attribute value.
+     * @param campus The campus to set.
+     */
+    public void setCampus(Campus campus) {
+        this.campus = campus;
     }
 }

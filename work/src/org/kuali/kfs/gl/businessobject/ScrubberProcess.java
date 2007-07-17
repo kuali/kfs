@@ -21,9 +21,11 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.StringTokenizer;
 
 import org.kuali.core.bo.DocumentType;
@@ -34,6 +36,7 @@ import org.kuali.core.service.DocumentTypeService;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.service.PersistenceService;
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSKeyConstants;
 import org.kuali.kfs.KFSPropertyConstants;
@@ -44,6 +47,8 @@ import org.kuali.module.chart.service.OffsetDefinitionService;
 import org.kuali.module.financial.exceptions.InvalidFlexibleOffsetException;
 import org.kuali.module.financial.service.FlexibleOffsetAccountService;
 import org.kuali.module.gl.GLConstants;
+import org.kuali.module.gl.batch.collector.CollectorBatch;
+import org.kuali.module.gl.bo.CollectorDetail;
 import org.kuali.module.gl.bo.OriginEntry;
 import org.kuali.module.gl.bo.OriginEntryGroup;
 import org.kuali.module.gl.bo.OriginEntrySource;
@@ -56,9 +61,12 @@ import org.kuali.module.gl.service.ReportService;
 import org.kuali.module.gl.service.ScrubberValidator;
 import org.kuali.module.gl.service.impl.scrubber.DemergerReportData;
 import org.kuali.module.gl.service.impl.scrubber.ScrubberReportData;
+import org.kuali.module.gl.util.CollectorReportData;
+import org.kuali.module.gl.util.DocumentGroupData;
 import org.kuali.module.gl.util.Message;
 import org.kuali.module.gl.util.ObjectHelper;
 import org.kuali.module.gl.util.OriginEntryStatistics;
+import org.kuali.module.gl.util.ScrubberStatus;
 import org.kuali.module.gl.util.StringHelper;
 import org.springframework.util.StringUtils;
 
@@ -92,6 +100,9 @@ public class ScrubberProcess {
     private Map<String, FinancialSystemParameter> parameters;
     private Map<String, KualiParameterRule> rules;
 
+    // this will only be populated when in collector mode, otherwise the memory requirements will be huge
+    private Map<OriginEntry, OriginEntry> unscrubbedToUnscrubbedEntries;
+    
     /* These are all different forms of the run date for this job */
     private Date runDate;
     private Calendar runCal;
@@ -118,7 +129,8 @@ public class ScrubberProcess {
     private ScrubberReportData scrubberReport;
     private Map<Transaction, List<Message>> scrubberReportErrors;
     private List<Message> transactionErrors;
-
+    private DemergerReportData demergerReport;
+    
     /* Description names */
     private String offsetDescription;
     private String capitalizationDescription;
@@ -128,7 +140,11 @@ public class ScrubberProcess {
 
     /* Misc stuff */
     private boolean reportOnlyMode;
-
+    /**
+     * Whether this instance is being used to support the scrubbing of a collector batch
+     */
+    private boolean collectorMode;
+    
     /**
      * These parameters are all the dependencies.
      */
@@ -146,7 +162,8 @@ public class ScrubberProcess {
         this.persistenceService = persistenceService;
         this.reportService = reportService;
         this.scrubberValidator = scrubberValidator;
-
+        this.unscrubbedToUnscrubbedEntries = new HashMap<OriginEntry, OriginEntry>();
+        
         parameters = kualiConfigurationService.getParametersByGroup(GLConstants.GL_SCRUBBER_GROUP);
         rules = kualiConfigurationService.getRulesByGroup(GLConstants.GL_SCRUBBER_GROUP);
         
@@ -154,6 +171,7 @@ public class ScrubberProcess {
         cutoffMinute = null;
         cutoffSecond = null;
         
+        collectorMode = false;
         initCutoffTime();
     }
 
@@ -171,6 +189,44 @@ public class ScrubberProcess {
     public void scrubEntries() {
         scrubEntries(null,null);
     }
+    
+    /**
+     * Scrubs the origin entry and ID billing details if the given batch.  Store all scrubber output into the collectorReportData parameter.
+     * 
+     * NOTE: DO NOT CALL ANY OF THE scrub* METHODS OF THIS CLASS AFTER CALLING THIS METHOD FOR EVERY UNIQUE INSTANCE OF THIS CLASS, OR THE COLLECTOR REPORTS MAY BE CORRUPTED
+     * 
+     * @param batch
+     * @param collectorReportData
+     */
+    public ScrubberStatus scrubCollectorBatch(CollectorBatch batch, CollectorReportData collectorReportData) {
+        collectorMode = true;
+        
+        /*/ explicit service dependence
+        if (!(originEntryService instanceof MemoryOriginEntryServiceImpl && originEntryGroupService instanceof MemoryOriginEntryServiceImpl && originEntryGroupService == originEntryService)) {
+            // when doing the collector scrubbing, we have an explicit dependence on the service implementation of the originEntryGroupService and originEntryService
+            throw new IllegalStateException("service configuration error: collector scrubbing requires a special service implementation");
+        }*/
+        OriginEntryGroup group = originEntryGroupService.createGroup(batch.getTransmissionDate(), OriginEntrySource.COLLECTOR, false, false, false);
+        for (OriginEntry originEntry : batch.getOriginEntries()) {
+            originEntry.setGroup(group);
+            originEntryService.save(originEntry);
+        }
+        
+        // first, scrub the origin entries
+        scrubEntries(group, null);
+        // the scrubber process has just updated several member variables of this class.  Store these values for the collector report
+        collectorReportData.setBatchOriginEntryScrubberErrors(batch, scrubberReportErrors);
+        collectorReportData.setScrubberReportData(batch, scrubberReport);
+        collectorReportData.setDemergerReportData(batch, demergerReport);
+        
+        ScrubberStatus scrubberStatus = new ScrubberStatus();
+        scrubberStatus.setInputGroup(group);
+        scrubberStatus.setValidGroup(validGroup);
+        scrubberStatus.setErrorGroup(errorGroup);
+        scrubberStatus.setExpiredGroup(expiredGroup);
+        scrubberStatus.setUnscrubbedToScrubbedEntries(unscrubbedToUnscrubbedEntries);
+        return scrubberStatus;
+    }
 
     /**
      * Scrub all entries that need it in origin entry. Put valid scrubbed entries in a scrubber valid group, put errors in a
@@ -181,8 +237,8 @@ public class ScrubberProcess {
 
         // We are in report only mode if we pass a group to this method.
         // if not, we are in batch mode and we scrub the backup group
-        reportOnlyMode = (group != null);
-
+        reportOnlyMode = (group != null) && !collectorMode;
+                    
         scrubberReportErrors = new HashMap<Transaction, List<Message>>();
 
         // setup an object to hold the "default" date information
@@ -201,15 +257,25 @@ public class ScrubberProcess {
         // Create the groups that will store the valid and error entries that come out of the scrubber
         // We don't need groups for the reportOnlyMode
         if (!reportOnlyMode) {
-            validGroup = originEntryGroupService.createGroup(runDate, OriginEntrySource.SCRUBBER_VALID, true, true, false);
-            errorGroup = originEntryGroupService.createGroup(runDate, OriginEntrySource.SCRUBBER_ERROR, false, true, false);
-            expiredGroup = originEntryGroupService.createGroup(runDate, OriginEntrySource.SCRUBBER_EXPIRED, false, true, false);
+            if (collectorMode) {
+                // for collector mode, these groups are not meant to be permanently persisted.
+                // after the collector is done, it will delete these groups, but in case there's a failure and the following groups aren't created,
+                // we set all of the group flags to false to prevent these groups from entering the nightly cycle
+                validGroup = originEntryGroupService.createGroup(runDate, OriginEntrySource.SCRUBBER_VALID, false, false, false);
+                errorGroup = originEntryGroupService.createGroup(runDate, OriginEntrySource.SCRUBBER_ERROR, false, false, false);
+                expiredGroup = originEntryGroupService.createGroup(runDate, OriginEntrySource.SCRUBBER_EXPIRED, false, false, false);
+            }
+            else {
+                validGroup = originEntryGroupService.createGroup(runDate, OriginEntrySource.SCRUBBER_VALID, true, true, false);
+                errorGroup = originEntryGroupService.createGroup(runDate, OriginEntrySource.SCRUBBER_ERROR, false, true, false);
+                expiredGroup = originEntryGroupService.createGroup(runDate, OriginEntrySource.SCRUBBER_EXPIRED, false, true, false);
+            }
         }
 
         // get the origin entry groups to be processed by Scrubber
-        Collection groupsToScrub = null;
-        if (reportOnlyMode) {
-            groupsToScrub = new ArrayList();
+        Collection<OriginEntryGroup> groupsToScrub = null;
+        if (reportOnlyMode || collectorMode) {
+            groupsToScrub = new ArrayList<OriginEntryGroup>();
             groupsToScrub.add(group);
         }
         else {
@@ -220,7 +286,11 @@ public class ScrubberProcess {
         // generate the reports based on the origin entries to be processed by scrubber
         if (reportOnlyMode) {
             reportService.generateScrubberLedgerSummaryReportOnline(runDate, group,documentNumber);
-        } else {
+        }
+        else if (collectorMode) {
+            // defer report generation for later
+        }
+        else {
             reportService.generateScrubberLedgerSummaryReportBatch(runDate, groupsToScrub);
         }
 
@@ -232,7 +302,7 @@ public class ScrubberProcess {
 
             processGroup(originEntryGroup);
 
-            if (!reportOnlyMode) {
+            if (!reportOnlyMode && !collectorMode) {
                 // Mark the origin entry group as being processed ...
                 originEntryGroup.setProcess(Boolean.FALSE);
 
@@ -245,11 +315,14 @@ public class ScrubberProcess {
         if (reportOnlyMode) {
             reportService.generateOnlineScrubberStatisticsReport( group.getId(), runDate, scrubberReport, scrubberReportErrors,documentNumber);
         }
+        else if (collectorMode) {
+            // defer report generation for later
+        }
         else {
             reportService.generateBatchScrubberStatisticsReport(runDate, scrubberReport, scrubberReportErrors);
         }
 
-        // run the demerger
+        // run the demerger if during regular nightly processing and collector processing
         if (!reportOnlyMode) {
             performDemerger(errorGroup, validGroup);
         }
@@ -258,7 +331,11 @@ public class ScrubberProcess {
         if ( reportOnlyMode ) {
             // Run transaction list
             reportService.generateScrubberTransactionsOnline(runDate, group,documentNumber);
-        } else {
+        }
+        else if (collectorMode) {
+            // defer report generation for later
+        }
+        else {
             // Run bad balance type report and removed transaction report
             reportService.generateScrubberBadBalanceTypeListingReport(runDate, groupsToScrub);
 
@@ -280,7 +357,7 @@ public class ScrubberProcess {
         // Without this step, the job fails with Optimistic Lock Exceptions
         persistenceService.clearCache();
 
-        DemergerReportData demergerReport = new DemergerReportData();
+        demergerReport = new DemergerReportData();
 
         OriginEntryStatistics eOes = originEntryService.getStatistics(errorGroup.getId());
         demergerReport.setErrorTransactionsRead(eOes.getRowCount());
@@ -291,9 +368,8 @@ public class ScrubberProcess {
         Iterator<OriginEntry> i = errorDocuments.iterator();
         while (i.hasNext()) {
             OriginEntry document = i.next();
-
+            
             // Get all the transactions for the document in the valid group
-            Integer lastId = -1;
             Iterator<OriginEntry> transactions = originEntryService.getEntriesByDocument(validGroup, document.getDocumentNumber(), document.getFinancialDocumentTypeCode(), document.getFinancialSystemOriginationCode());
 
             while (transactions.hasNext()) {
@@ -394,7 +470,9 @@ public class ScrubberProcess {
         eOes = originEntryService.getStatistics(errorGroup.getId());
         demergerReport.setErrorTransactionWritten(eOes.getRowCount());
 
-        reportService.generateScrubberDemergerStatisticsReports(runDate, demergerReport);
+        if (!collectorMode) {
+            reportService.generateScrubberDemergerStatisticsReports(runDate, demergerReport);
+        }
     }
 
     /**
@@ -494,121 +572,130 @@ public class ScrubberProcess {
 
             if (!isFatal(transactionErrors)) {
                 saveValidTransaction = true;
-
-                // See if unit of work has changed
-                if (!unitOfWork.isSameUnitOfWork(scrubbedEntry)) {
-                    // Generate offset for last unit of work
-                    generateOffset(lastEntry);
-
-                    unitOfWork = new UnitOfWorkInfo(scrubbedEntry);
+                
+                if (collectorMode) {
+                    // only populate this map in collector mode because it's only needed for the collector
+                    unscrubbedToUnscrubbedEntries.put(unscrubbedEntry, scrubbedEntry);
+                    
+                    // for the collector, we don't need further processing, since we're going to rescrub all of the origin entries anyways during the nightly process
                 }
-
-                KualiDecimal transactionAmount = scrubbedEntry.getTransactionLedgerEntryAmount();
-
-                KualiParameterRule offsetFiscalPeriods = getRule(GLConstants.GlScrubberGroupRules.OFFSET_FISCAL_PERIOD_CODES);
-
-                if (scrubbedEntry.getBalanceType().isFinancialOffsetGenerationIndicator() && offsetFiscalPeriods.succeedsRule(scrubbedEntry.getUniversityFiscalPeriodCode())) {
-                    if (scrubbedEntry.isDebit()) {
-                        unitOfWork.offsetAmount = unitOfWork.offsetAmount.add(transactionAmount);
+                else {
+                    
+                    // See if unit of work has changed
+                    if (!unitOfWork.isSameUnitOfWork(scrubbedEntry)) {
+                        // Generate offset for last unit of work
+                        generateOffset(lastEntry);
+    
+                        unitOfWork = new UnitOfWorkInfo(scrubbedEntry);
                     }
-                    else {
-                        unitOfWork.offsetAmount = unitOfWork.offsetAmount.subtract(transactionAmount);
+    
+                    KualiDecimal transactionAmount = scrubbedEntry.getTransactionLedgerEntryAmount();
+    
+                    KualiParameterRule offsetFiscalPeriods = getRule(GLConstants.GlScrubberGroupRules.OFFSET_FISCAL_PERIOD_CODES);
+    
+                    if (scrubbedEntry.getBalanceType().isFinancialOffsetGenerationIndicator() && offsetFiscalPeriods.succeedsRule(scrubbedEntry.getUniversityFiscalPeriodCode())) {
+                        if (scrubbedEntry.isDebit()) {
+                            unitOfWork.offsetAmount = unitOfWork.offsetAmount.add(transactionAmount);
+                        }
+                        else {
+                            unitOfWork.offsetAmount = unitOfWork.offsetAmount.subtract(transactionAmount);
+                        }
                     }
+    
+                    // The sub account type code will only exist if there is a valid sub account
+                    String subAccountTypeCode = "  ";
+                    if (scrubbedEntry.getA21SubAccount() != null) {
+                        subAccountTypeCode = scrubbedEntry.getA21SubAccount().getSubAccountTypeCode();
+                    }
+    
+                    KualiParameterRule costShareObjectTypeCodes = getRule(GLConstants.GlScrubberGroupRules.COST_SHARE_OBJ_TYPE_CODES);
+                    KualiParameterRule costShareEncBalanceTypeCodes = getRule(GLConstants.GlScrubberGroupRules.COST_SHARE_ENC_BAL_TYP_CODES);
+                    KualiParameterRule costShareEncFiscalPeriodCodes = getRule(GLConstants.GlScrubberGroupRules.COST_SHARE_ENC_FISCAL_PERIOD_CODES);
+                    KualiParameterRule costShareEncDocTypeCodes = getRule(GLConstants.GlScrubberGroupRules.COST_SHARE_ENC_DOC_TYPE_CODES);
+                    KualiParameterRule costShareFiscalPeriodCodes = getRule(GLConstants.GlScrubberGroupRules.COST_SHARE_FISCAL_PERIOD_CODES);
+    
+                    if (costShareObjectTypeCodes.succeedsRule(scrubbedEntry.getFinancialObjectTypeCode()) && 
+                            costShareEncBalanceTypeCodes.succeedsRule(scrubbedEntry.getFinancialBalanceTypeCode()) && 
+                            scrubbedEntry.getAccount().isForContractsAndGrants() && KFSConstants.COST_SHARE.equals(subAccountTypeCode) && 
+                            costShareEncFiscalPeriodCodes.succeedsRule(scrubbedEntry.getUniversityFiscalPeriodCode()) && 
+                            costShareEncDocTypeCodes.succeedsRule(scrubbedEntry.getFinancialDocumentTypeCode().trim())) {
+                        TransactionError te1 = generateCostShareEncumbranceEntries(scrubbedEntry);
+                        if (te1 != null) {
+                            List errors = new ArrayList();
+                            errors.add(te1.message);
+                            scrubberReportErrors.put(te1.transaction, errors);
+    
+                            saveValidTransaction = false;
+                            saveErrorTransaction = true;
+                        }
+                    }
+    
+                    if (costShareObjectTypeCodes.succeedsRule(scrubbedEntry.getFinancialObjectTypeCode()) && 
+                            scrubbedEntry.getOption().getActualFinancialBalanceTypeCd().equals(scrubbedEntry.getFinancialBalanceTypeCode()) && 
+                            scrubbedEntry.getAccount().isForContractsAndGrants() && 
+                            KFSConstants.COST_SHARE.equals(subAccountTypeCode) && 
+                            costShareFiscalPeriodCodes.succeedsRule(scrubbedEntry.getUniversityFiscalPeriodCode()) && 
+                            costShareEncDocTypeCodes.succeedsRule(scrubbedEntry.getFinancialDocumentTypeCode().trim())) {
+                        if (scrubbedEntry.isDebit()) {
+                            scrubCostShareAmount = scrubCostShareAmount.subtract(transactionAmount);
+                        }
+                        else {
+                            scrubCostShareAmount = scrubCostShareAmount.add(transactionAmount);
+                        }
+                    }
+    
+                    KualiParameterRule otherDocTypeCodes = getRule(GLConstants.GlScrubberGroupRules.CAP_LIAB_PLANT_DOC_TYPE_CODES);
+    
+                    if (otherDocTypeCodes.succeedsRule(scrubbedEntry.getFinancialDocumentTypeCode())) {
+                        String m = processCapitalization(scrubbedEntry);
+                        if (m != null) {
+                            saveValidTransaction = false;
+                            saveErrorTransaction = false;
+                            addTransactionError(m, "", Message.TYPE_FATAL);
+                        }
+    
+                        m = processLiabilities(scrubbedEntry);
+                        if (m != null) {
+                            saveValidTransaction = false;
+                            saveErrorTransaction = false;
+                            addTransactionError(m, "", Message.TYPE_FATAL);
+                        }
+    
+                        m = processPlantIndebtedness(scrubbedEntry);
+                        if (m != null) {
+                            saveValidTransaction = false;
+                            saveErrorTransaction = false;
+                            addTransactionError(m, "", Message.TYPE_FATAL);
+                        }
+                    }
+    
+                    if (!scrubCostShareAmount.isZero()) {
+                        TransactionError te = generateCostShareEntries(scrubbedEntry);
+    
+                        if (te != null) {
+                            saveValidTransaction = false;
+                            saveErrorTransaction = false;
+    
+                            // Make a copy of it so OJB doesn't just update the row in the original
+                            // group. It needs to make a new one in the error group
+                            OriginEntry errorEntry = new OriginEntry(te.transaction);
+                            errorEntry.setTransactionScrubberOffsetGenerationIndicator(false);
+                            createOutputEntry(errorEntry, errorGroup);
+                            scrubberReport.incrementErrorRecordWritten();
+    
+                            List messages = new ArrayList();
+                            messages.add(te.message);
+                            scrubberReportErrors.put(errorEntry, messages);
+                        }
+                        scrubCostShareAmount = KualiDecimal.ZERO;
+                    }
+    
+                    if (transactionErrors.size() > 0) {
+                        scrubberReportErrors.put(scrubbedEntry, transactionErrors);
+                    }
+    
+                    lastEntry = scrubbedEntry;
                 }
-
-                // The sub account type code will only exist if there is a valid sub account
-                String subAccountTypeCode = "  ";
-                if (scrubbedEntry.getA21SubAccount() != null) {
-                    subAccountTypeCode = scrubbedEntry.getA21SubAccount().getSubAccountTypeCode();
-                }
-
-                KualiParameterRule costShareObjectTypeCodes = getRule(GLConstants.GlScrubberGroupRules.COST_SHARE_OBJ_TYPE_CODES);
-                KualiParameterRule costShareEncBalanceTypeCodes = getRule(GLConstants.GlScrubberGroupRules.COST_SHARE_ENC_BAL_TYP_CODES);
-                KualiParameterRule costShareEncFiscalPeriodCodes = getRule(GLConstants.GlScrubberGroupRules.COST_SHARE_ENC_FISCAL_PERIOD_CODES);
-                KualiParameterRule costShareEncDocTypeCodes = getRule(GLConstants.GlScrubberGroupRules.COST_SHARE_ENC_DOC_TYPE_CODES);
-                KualiParameterRule costShareFiscalPeriodCodes = getRule(GLConstants.GlScrubberGroupRules.COST_SHARE_FISCAL_PERIOD_CODES);
-
-                if (costShareObjectTypeCodes.succeedsRule(scrubbedEntry.getFinancialObjectTypeCode()) && 
-                        costShareEncBalanceTypeCodes.succeedsRule(scrubbedEntry.getFinancialBalanceTypeCode()) && 
-                        scrubbedEntry.getAccount().isForContractsAndGrants() && KFSConstants.COST_SHARE.equals(subAccountTypeCode) && 
-                        costShareEncFiscalPeriodCodes.succeedsRule(scrubbedEntry.getUniversityFiscalPeriodCode()) && 
-                        costShareEncDocTypeCodes.succeedsRule(scrubbedEntry.getFinancialDocumentTypeCode().trim())) {
-                    TransactionError te1 = generateCostShareEncumbranceEntries(scrubbedEntry);
-                    if (te1 != null) {
-                        List errors = new ArrayList();
-                        errors.add(te1.message);
-                        scrubberReportErrors.put(te1.transaction, errors);
-
-                        saveValidTransaction = false;
-                        saveErrorTransaction = true;
-                    }
-                }
-
-                if (costShareObjectTypeCodes.succeedsRule(scrubbedEntry.getFinancialObjectTypeCode()) && 
-                        scrubbedEntry.getOption().getActualFinancialBalanceTypeCd().equals(scrubbedEntry.getFinancialBalanceTypeCode()) && 
-                        scrubbedEntry.getAccount().isForContractsAndGrants() && 
-                        KFSConstants.COST_SHARE.equals(subAccountTypeCode) && 
-                        costShareFiscalPeriodCodes.succeedsRule(scrubbedEntry.getUniversityFiscalPeriodCode()) && 
-                        costShareEncDocTypeCodes.succeedsRule(scrubbedEntry.getFinancialDocumentTypeCode().trim())) {
-                    if (scrubbedEntry.isDebit()) {
-                        scrubCostShareAmount = scrubCostShareAmount.subtract(transactionAmount);
-                    }
-                    else {
-                        scrubCostShareAmount = scrubCostShareAmount.add(transactionAmount);
-                    }
-                }
-
-                KualiParameterRule otherDocTypeCodes = getRule(GLConstants.GlScrubberGroupRules.CAP_LIAB_PLANT_DOC_TYPE_CODES);
-
-                if (otherDocTypeCodes.succeedsRule(scrubbedEntry.getFinancialDocumentTypeCode())) {
-                    String m = processCapitalization(scrubbedEntry);
-                    if (m != null) {
-                        saveValidTransaction = false;
-                        saveErrorTransaction = false;
-                        addTransactionError(m, "", Message.TYPE_FATAL);
-                    }
-
-                    m = processLiabilities(scrubbedEntry);
-                    if (m != null) {
-                        saveValidTransaction = false;
-                        saveErrorTransaction = false;
-                        addTransactionError(m, "", Message.TYPE_FATAL);
-                    }
-
-                    m = processPlantIndebtedness(scrubbedEntry);
-                    if (m != null) {
-                        saveValidTransaction = false;
-                        saveErrorTransaction = false;
-                        addTransactionError(m, "", Message.TYPE_FATAL);
-                    }
-                }
-
-                if (!scrubCostShareAmount.isZero()) {
-                    TransactionError te = generateCostShareEntries(scrubbedEntry);
-
-                    if (te != null) {
-                        saveValidTransaction = false;
-                        saveErrorTransaction = false;
-
-                        // Make a copy of it so OJB doesn't just update the row in the original
-                        // group. It needs to make a new one in the error group
-                        OriginEntry errorEntry = new OriginEntry(te.transaction);
-                        errorEntry.setTransactionScrubberOffsetGenerationIndicator(false);
-                        createOutputEntry(errorEntry, errorGroup);
-                        scrubberReport.incrementErrorRecordWritten();
-
-                        List messages = new ArrayList();
-                        messages.add(te.message);
-                        scrubberReportErrors.put(errorEntry, messages);
-                    }
-                    scrubCostShareAmount = KualiDecimal.ZERO;
-                }
-
-                if (transactionErrors.size() > 0) {
-                    scrubberReportErrors.put(scrubbedEntry, transactionErrors);
-                }
-
-                lastEntry = scrubbedEntry;
             }
             else {
                 // Error transaction
@@ -633,8 +720,10 @@ public class ScrubberProcess {
             }
         }
 
-        // Generate last offset (if necessary)
-        generateOffset(lastEntry);
+        if (!collectorMode) {
+            // Generate last offset (if necessary)
+            generateOffset(lastEntry);
+        }
     }
 
     private boolean isFatal(List<Message> errors) {
@@ -1523,17 +1612,18 @@ public class ScrubberProcess {
      * @param group Group to save it in
      */
     private void createOutputEntry(OriginEntry entry, OriginEntryGroup group) {
-        // Write the entry if we aren't running in report only mode.
-        if ( reportOnlyMode ) {
+        // Write the entry if we aren't running in report only or collector mode.
+        if ( reportOnlyMode || collectorMode ) {
             // If the group is null don't write it because the error and expired groups aren't created in reportOnlyMode 
             if ( group != null ) {
+                entry.setGroup(group);
+                originEntryService.save(entry);
+            }
+        }
+        else {
             entry.setGroup(group);
             originEntryService.save(entry);
         }
-        } else {
-            entry.setGroup(group);
-            originEntryService.save(entry);
-    }
     }
 
     /**
@@ -1750,5 +1840,9 @@ public class ScrubberProcess {
         }
         cutoffTime = cutoffParam.getFinancialSystemParameterText();
         setCutoffTime(cutoffTime);
+    }
+    
+    protected void scrubInterDepartmentalBillings(CollectorBatch batch) {
+        
     }
 }

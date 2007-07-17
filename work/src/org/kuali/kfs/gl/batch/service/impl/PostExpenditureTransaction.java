@@ -107,6 +107,8 @@ public class PostExpenditureTransaction implements IcrTransaction, PostTransacti
             }
             else {
                 // If the ICR type code is empty or 10, don't post
+                
+                // TODO: use type 10 constant
                 if ((!StringUtils.hasText(account.getAcctIndirectCostRcvyTypeCd())) || KFSConstants.MONTH10.equals(account.getAcctIndirectCostRcvyTypeCd())) {
                     // No need to post this
                     LOG.debug("isIcrTransaction() ICR type is null or 10 - not posted");

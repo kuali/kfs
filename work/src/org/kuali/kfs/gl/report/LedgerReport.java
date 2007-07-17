@@ -122,7 +122,7 @@ public class LedgerReport {
     }
 
     // draw a PDF table populated with the data held by ledger entry holder
-    private PdfPTable drawPdfTable(Object ledgerEntryHolder) {
+    public PdfPTable drawPdfTable(Object ledgerEntryHolder) {
         PdfPTable ledgerEntryTable = null;
         if (ledgerEntryHolder instanceof Collection) {
             ledgerEntryTable = this.buildPdfTable((Collection) ledgerEntryHolder);

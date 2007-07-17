@@ -961,6 +961,10 @@ public class KFSPropertyConstants {
     public static final String POSTING_YEAR = "postingYear";
     public static final String PREPAID_EXPENSE = "prepaidExpense";
     public static final String PRIMARY_DEPARTMENT_CODE = "primaryDepartmentCode";
+    public static final String PROCESS_BATCH_SEQUENCE_NUMBER = "processBatchSequenceNumber";
+    public static final String PROCESS_TOTAL_RECORD_COUNT = "processTotalRecordCount";
+    public static final String PROCESS_TOTAL_AMOUNT = "processTotalAmount";
+    public static final String PROCESS_TRANSMISSION_DATE = "processTransmissionDate";
     public static final String PROCESSING_FIN_CHART_OF_ACCT = "processingFinChartOfAcct";
     public static final String PROCESSING_FIN_CHART_OF_ACCT_CD = "processingFinChartOfAcctCd";
     public static final String PROCESSING_ORG = "processingOrg";

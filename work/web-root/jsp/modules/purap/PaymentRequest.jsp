@@ -66,11 +66,10 @@
 	</c:if>
 	
 	<c:if test="${not KualiForm.editingMode['displayInitTab']}" >
-		< purap:vendor
+		<purap:vendor
 	        documentAttributes="${DataDictionary.PaymentRequestDocument.attributes}" 
 	        displayPurchaseOrderFields="false" displayPaymentRequestFields="true"/>
-		<!--  c:out value="${KualiForm.paymentRequestInitiated}" / -->
-		
+		<!--  c:out value="${KualiForm.paymentRequestInitiated}" / -->		
 	
 		<purap:paymentRequestInvoiceInfo documentAttributes="${DataDictionary.PaymentRequestDocument.attributes}"
 	 		 displayPaymentRequestInvoiceInfoFields="true" />        
@@ -80,22 +79,22 @@
 			itemAttributes="${DataDictionary.PaymentRequestItem.attributes}"
 			accountingLineAttributes="${DataDictionary.PaymentRequestAccount.attributes}" />
 		   
-	    < kul:notes notesBo="${KualiForm.document.documentBusinessObject.boNotes}" noteType="${Constants.NoteTypeEnum.BUSINESS_OBJECT_NOTE_TYPE}"  allowsNoteFYI="true"/> 
+	    <kul:notes notesBo="${KualiForm.document.documentBusinessObject.boNotes}" noteType="${Constants.NoteTypeEnum.BUSINESS_OBJECT_NOTE_TYPE}"  allowsNoteFYI="true"/> 
 	    	
-	    < kul:adHocRecipients />
+	    <kul:adHocRecipients />
 	
 	    <kul:routeLog />
-	</c:if>
-
-	<c:if test="${not KualiForm.editingMode['displayInitTab']}" >	
-		<purap:accountsummary
-    		documentAttributes="${DataDictionary.SourceAccountingLine.attributes}" />
-	</c:if>
 	
-	<c:if test="${not KualiForm.editingMode['displayInitTab']}" >
-		<purap:relatedDocuments
-        	documentAttributes="${DataDictionary.RelatedDocuments.attributes}"
-           	/>
+		<purap:accountsummary documentAttributes="${DataDictionary.SourceAccountingLine.attributes}" />
+
+		<purap:relatedDocuments documentAttributes="${DataDictionary.RelatedDocuments.attributes}"/>
+           	
+        <purap:statushistory 
+        	documentAttributes="${DataDictionary.PaymentRequestStatusHistory.attributes}">
+          	<html:messages id="warnings" property="statusHistoryWarning" message="true">
+            	&nbsp;&nbsp;&nbsp;<bean:write name="warnings"/><br><br>
+          	</html:messages>       
+    	</purap:statushistory>
 	</c:if>
 	
     <kul:panelFooter />

@@ -2193,10 +2193,10 @@
     <reference-descriptor name="processingCampus" class-ref="org.kuali.core.bo.Campus" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="processingCampusCode" />
     </reference-descriptor>
-    <!-- collection-descriptor name="statusHistories" element-class-ref="org.kuali.module.purap.bo.PaymentRequestStatusHistory" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="true" auto-delete="true">
+    <collection-descriptor name="statusHistories" element-class-ref="org.kuali.module.purap.bo.PaymentRequestStatusHistory" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="true" auto-delete="true">
         <orderby name="statusHistoryIdentifier" sort="DESC" />
         <inverse-foreignkey field-ref="purapDocumentIdentifier" />
-    </collection-descriptor -->
+    </collection-descriptor>
     <collection-descriptor name="items" proxy="true" element-class-ref="org.kuali.module.purap.bo.PaymentRequestItem" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
         <orderby name="itemLineNumber" sort="ASC" />
         <inverse-foreignkey field-ref="purapDocumentIdentifier" />

@@ -16,7 +16,6 @@
 package org.kuali.module.gl.util;
 
 import org.apache.commons.lang.ArrayUtils;
-import org.kuali.core.rule.KualiParameterRule;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.KFSConstants;
@@ -34,7 +33,7 @@ public class PosterOutputSummaryEntry implements Comparable {
     private KualiDecimal budgetAmount;
     private KualiDecimal netAmount;
 
-    private final KualiParameterRule assetExpenseObjectTypeCode;
+    private final String[] assetExpenseObjectTypeCodes;
 
     public PosterOutputSummaryEntry() {
         creditAmount = KualiDecimal.ZERO;
@@ -43,7 +42,7 @@ public class PosterOutputSummaryEntry implements Comparable {
         netAmount = KualiDecimal.ZERO;
 
         KualiConfigurationService kualiConfigurationService = SpringServiceLocator.getKualiConfigurationService();
-        assetExpenseObjectTypeCode = kualiConfigurationService.getApplicationParameterRule(GLConstants.GL_SCRUBBER_GROUP, GLConstants.PosterOutputSummaryEntry.ASSET_EXPENSE_OBJECT_TYPE_CODES);
+        assetExpenseObjectTypeCodes = kualiConfigurationService.getApplicationParameterValues(GLConstants.GL_POSTER_OUTPUT_SUMMARY_ENTRY_GROUP, GLConstants.PosterOutputSummaryEntry.ASSET_EXPENSE_OBJECT_TYPE_CODES);
     }
 
     public String getKey() {
@@ -74,7 +73,7 @@ public class PosterOutputSummaryEntry implements Comparable {
 
         if (KFSConstants.GL_CREDIT_CODE.equals(debitCreditCode)) {
             setCreditAmount(creditAmount.add(amount));
-            if (assetExpenseObjectTypeCode.succeedsRule(objectTypeCode)) {
+            if (ArrayUtils.contains(assetExpenseObjectTypeCodes, objectTypeCode)) {
                 setNetAmount(netAmount.subtract(amount));
             }
             else {
@@ -83,7 +82,7 @@ public class PosterOutputSummaryEntry implements Comparable {
         }
         else if (KFSConstants.GL_DEBIT_CODE.equals(debitCreditCode)) {
             setDebitAmount(debitAmount.add(amount));
-            if (assetExpenseObjectTypeCode.succeedsRule(objectTypeCode)) {
+            if (ArrayUtils.contains(assetExpenseObjectTypeCodes, objectTypeCode)) {
                 setNetAmount(netAmount.add(amount));
             }
             else {

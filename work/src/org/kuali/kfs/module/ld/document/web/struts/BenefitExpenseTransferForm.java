@@ -15,10 +15,12 @@
  */
 package org.kuali.module.labor.web.struts.form;
 
+import java.sql.Date;
 import java.util.Map;
 
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.kfs.KFSPropertyConstants;
+import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.labor.document.BenefitExpenseTransferDocument;
 
 /**
@@ -37,6 +39,7 @@ public class BenefitExpenseTransferForm extends ExpenseTransferDocumentFormBase 
     public BenefitExpenseTransferForm() {
         super();
         setDocument(new BenefitExpenseTransferDocument());
+        setUniversityFiscalYear(SpringServiceLocator.getOptionsService().getCurrentYearOptions().getUniversityFiscalYear());
     }
 
     /**
@@ -142,6 +145,7 @@ public class BenefitExpenseTransferForm extends ExpenseTransferDocumentFormBase 
     @Override
     public Map getForcedReadOnlyTargetFields() {
         Map map = this.getForcedReadOnlySourceFields();
+        map.remove(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE);
         map.remove(KFSPropertyConstants.ACCOUNT_NUMBER);
         map.remove(KFSPropertyConstants.SUB_ACCOUNT_NUMBER);
         map.remove(KFSPropertyConstants.AMOUNT);

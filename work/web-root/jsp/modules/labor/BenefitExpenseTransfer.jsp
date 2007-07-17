@@ -51,7 +51,20 @@
 						boClassName="org.kuali.kfs.bo.Options"
 						lookupParameters="universityFiscalYear:universityFiscalYear"
 						fieldLabel="${balanceInquiryAttributes.universityFiscalYear.label}" /></td>
-				</tr>			
+				</tr>	
+														
+				<tr>
+					<kul:htmlAttributeHeaderCell
+						attributeEntry="${balanceInquiryAttributes.chartOfAccountsCode}"
+						horizontal="true" forceRequired="true" />
+	
+					<td class="datacell-nowrap"><kul:htmlControlAttribute
+						attributeEntry="${balanceInquiryAttributes.chartOfAccountsCode}"
+						property="chartOfAccountsCode" readOnly="${readOnly}" /> <kul:lookup
+						boClassName="org.kuali.module.chart.bo.Chart"
+						lookupParameters="chartOfAccountsCode:chartOfAccountsCode"
+						fieldLabel="${balanceInquiryAttributes.chartOfAccountsCode.label}" /></td>
+				</tr>		
 	
 				<tr>
 					<kul:htmlAttributeHeaderCell
@@ -64,19 +77,6 @@
 						boClassName="org.kuali.module.chart.bo.Account"
 						lookupParameters="accountNumber:accountNumber,chartOfAccountsCode:chartOfAccountsCode"
 						fieldLabel="${balanceInquiryAttributes.accountNumber.label}" /></td>
-				</tr>
-							
-				<tr>
-					<kul:htmlAttributeHeaderCell
-						attributeEntry="${balanceInquiryAttributes.chartOfAccountsCode}"
-						horizontal="true" forceRequired="false" hideRequiredAsterisk="true"/>
-	
-					<td class="datacell-nowrap"><kul:htmlControlAttribute
-						attributeEntry="${balanceInquiryAttributes.chartOfAccountsCode}"
-						property="chartOfAccountsCode" readOnly="${readOnly}" /> <kul:lookup
-						boClassName="org.kuali.module.chart.bo.Chart"
-						lookupParameters="chartOfAccountsCode:chartOfAccountsCode"
-						fieldLabel="${balanceInquiryAttributes.chartOfAccountsCode.label}" /></td>
 				</tr>
 	
 				<tr>

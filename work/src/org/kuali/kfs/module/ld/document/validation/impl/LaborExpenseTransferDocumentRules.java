@@ -24,9 +24,11 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.document.Document;
@@ -42,6 +44,7 @@ import org.kuali.kfs.bo.SourceAccountingLine;
 import org.kuali.kfs.document.AccountingDocument;
 import org.kuali.kfs.rules.AccountingDocumentRuleBase;
 import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.AccountingPeriod;
 import org.kuali.module.chart.bo.ObjectCode;
 import org.kuali.module.financial.bo.OffsetAccount;
@@ -1650,6 +1653,9 @@ public class LaborExpenseTransferDocumentRules extends AccountingDocumentRuleBas
 
         // check to ensure totals of accounting lines in source and target sections match by pay FY + pay period
         isValid = isValid && isAccountingLineTotalsMatchByPayFYAndPayPeriod(sourceLines, targetLines);
+        
+        // check whether the accounts in source/target accounting lines are valid
+        isValid = isValid && isValidAccount(expenseTransferDocument);
 
         // only allow a transfer of benefit dollars up to the amount that already exist in labor ledger detail for a given pay
         // period
@@ -1669,6 +1675,33 @@ public class LaborExpenseTransferDocumentRules extends AccountingDocumentRuleBas
         }
 
         return isValid;
+    }
+    
+    /**
+     * Determine whether the accounts in source/target accounting lines are valid
+     * 
+     * @param accountingDocument the given accounting document
+     * @return true if the accounts in source/target accounting lines are valid; otherwise, false
+     */
+    private boolean isValidAccount(AccountingDocument accountingDocument) {
+        LaborExpenseTransferDocumentBase expenseTransferDocument = (LaborExpenseTransferDocumentBase) accountingDocument;
+
+        for (Object sourceAccountingLine : expenseTransferDocument.getSourceAccountingLines()) {
+            AccountingLine line = (AccountingLine) sourceAccountingLine;
+            if(line.getAccount()==null){
+                reportError(KFSPropertyConstants.SOURCE_ACCOUNTING_LINES, KFSKeyConstants.ERROR_DOCUMENT_GLOBAL_ACCOUNT_INVALID_ACCOUNT, new String[]{line.getChartOfAccountsCode(), line.getAccountNumber()});
+                return false;
+            }
+        }
+        
+        for (Object targetAccountingLine : expenseTransferDocument.getTargetAccountingLines()) {
+            AccountingLine line = (AccountingLine) targetAccountingLine;
+            if(line.getAccount()==null){
+                reportError(KFSPropertyConstants.TARGET_ACCOUNTING_LINES, KFSKeyConstants.ERROR_DOCUMENT_GLOBAL_ACCOUNT_INVALID_ACCOUNT, new String[]{line.getChartOfAccountsCode(), line.getAccountNumber()});
+                return false;
+            }
+        }
+        return true;
     }
     
     /**

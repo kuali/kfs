@@ -121,6 +121,7 @@ public class CreditMemoCreateServiceImpl implements CreditMemoCreateService {
         cmDocument.setVendorDetailAssignedIdentifier(purchaseOrderDocument.getVendorDetailAssignedIdentifier());
         cmDocument.setVendorCustomerNumber(purchaseOrderDocument.getVendorCustomerNumber());
         cmDocument.setVendorName(purchaseOrderDocument.getVendorName());
+        cmDocument.setAccountsPayablePurchasingDocumentLinkIdentifier(purchaseOrderDocument.getAccountsPayablePurchasingDocumentLinkIdentifier());
 
 
         // populate cm vendor address with the default remit address type for the vendor if found

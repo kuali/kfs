@@ -83,8 +83,8 @@ public class PaymentRequestItem extends AccountsPayableItemBase {
 
     public PurchaseOrderItem getPurchaseOrderItem() {
         //ideally we should do this a different way - maybe move it all into the service or save this info somehow (make sure and update though)
-        if (paymentRequest != null) {
-          PurchaseOrderDocument po = paymentRequest.getPurchaseOrderDocument();
+        if (getPaymentRequest() != null) {
+          PurchaseOrderDocument po = getPaymentRequest().getPurchaseOrderDocument();
           PurchaseOrderItem poi = null;
           if(this.getItemType().isItemTypeAboveTheLineIndicator()) {
               poi = (PurchaseOrderItem)po.getItem(this.getItemLineNumber().intValue() - 1);

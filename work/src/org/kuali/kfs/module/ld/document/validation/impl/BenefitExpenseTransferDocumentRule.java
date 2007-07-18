@@ -31,21 +31,17 @@ import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.util.GeneralLedgerPendingEntrySequenceHelper;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
-import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSKeyConstants;
 import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.bo.AccountingLine;
-import org.kuali.kfs.bo.Options;
 import org.kuali.kfs.document.AccountingDocument;
-import org.kuali.kfs.service.OptionsService;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.chart.bo.AccountingPeriod;
 import org.kuali.module.labor.LaborConstants;
 import org.kuali.module.labor.bo.ExpenseTransferAccountingLine;
 import org.kuali.module.labor.bo.ExpenseTransferSourceAccountingLine;
-import org.kuali.module.labor.bo.LaborObject;
-import org.kuali.module.labor.bo.LedgerBalance;
 import org.kuali.module.labor.bo.LaborLedgerPendingEntry;
+import org.kuali.module.labor.bo.LaborObject;
 import org.kuali.module.labor.document.BenefitExpenseTransferDocument;
 import org.kuali.module.labor.document.LaborLedgerPostingDocument;
 import org.kuali.module.labor.util.ObjectUtil;
@@ -57,7 +53,6 @@ public class BenefitExpenseTransferDocumentRule extends LaborExpenseTransferDocu
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(BenefitExpenseTransferDocumentRule.class);
 
     private BusinessObjectService businessObjectService = SpringServiceLocator.getBusinessObjectService();
-    private OptionsService optionsService = SpringServiceLocator.getOptionsService();
 
     /**
      * Constructs a BenefitExpenseTransferDocumentRule.java.
@@ -105,8 +100,8 @@ public class BenefitExpenseTransferDocumentRule extends LaborExpenseTransferDocu
             reportError(KFSPropertyConstants.PAYROLL_END_DATE_FISCAL_PERIOD_CODE, KFSKeyConstants.Labor.INVALID_PAY_PERIOD_CODE);
             return false;
         }
-         
-        // not allow the duplicate source accounting line in the document  
+
+        // not allow the duplicate source accounting line in the document
         if (this.isDuplicateSourceAccountingLine(accountingDocument, accountingLine)) {
             reportError(KFSPropertyConstants.SOURCE_ACCOUNTING_LINES, KFSKeyConstants.Labor.ERROR_DUPLICATE_SOURCE_ACCOUNTING_LINE);
             return false;
@@ -147,20 +142,10 @@ public class BenefitExpenseTransferDocumentRule extends LaborExpenseTransferDocu
             isValid = false;
         }
 
-        // only allow a transfer of benefit dollars up to the amount that already exist in labor ledger detail for a given pay
-        // period
-        Map<String, ExpenseTransferAccountingLine> accountingLineGroupMap = this.getAccountingLineGroupMap(sourceLines, ExpenseTransferSourceAccountingLine.class);
-        boolean isValidTransferAmount = this.isValidTransferAmount(accountingLineGroupMap);
-        if (!isValidTransferAmount) {
-            reportError(KFSPropertyConstants.SOURCE_ACCOUNTING_LINES, KFSKeyConstants.Labor.ERROR_TRANSFER_AMOUNT_EXCEED_MAXIMUM);
-            isValid = false;
-        }
-
-        // allow a negative amount to be moved from one account to another but do not allow a negative amount to be created when the
-        // balance is positive
-        boolean canNegtiveAmountBeTransferred = canNegtiveAmountBeTransferred(accountingLineGroupMap);
-        if (!canNegtiveAmountBeTransferred) {
-            reportError(KFSPropertyConstants.SOURCE_ACCOUNTING_LINES, KFSKeyConstants.Labor.ERROR_CANNOT_TRANSFER_NEGATIVE_AMOUNT);
+        // target accouting lines must have the same amounts as source accounting lines for each object code
+        boolean isValidAmountTransferredByObjectCode = isValidAmountTransferredByObjectCode(benefitExpenseTransferDocument);
+        if (!isValidAmountTransferredByObjectCode) {
+            reportError(KFSPropertyConstants.TARGET_ACCOUNTING_LINES, KFSKeyConstants.Labor.ERROR_TRANSFER_AMOUNT_NOT_BALANCED_BY_OBJECT);
             isValid = false;
         }
 
@@ -240,6 +225,58 @@ public class BenefitExpenseTransferDocumentRule extends LaborExpenseTransferDocu
     }
 
     /**
+     * Determine whether target accouting lines have the same amounts as source accounting lines for each object code
+     * 
+     * @param accountingDocument the given accounting document
+     * @return true if target accouting lines have the same amounts as source accounting lines for each object code; otherwise,
+     *         false
+     */
+    private boolean isValidAmountTransferredByObjectCode(AccountingDocument accountingDocument) {
+        BenefitExpenseTransferDocument benefitExpenseTransferDocument = (BenefitExpenseTransferDocument) accountingDocument;
+        Map<String, KualiDecimal> amountsFromSourceLine = summerizeByObjectCode(benefitExpenseTransferDocument.getSourceAccountingLines());
+        Map<String, KualiDecimal> amountsFromTargetLine = summerizeByObjectCode(benefitExpenseTransferDocument.getTargetAccountingLines());
+
+        if (amountsFromSourceLine.size() != amountsFromTargetLine.size()) {
+            return false;
+        }
+
+        for (String objectCode : amountsFromSourceLine.keySet()) {
+            if (!amountsFromTargetLine.containsKey(objectCode)) {
+                return false;
+            }
+
+            KualiDecimal sourceAmount = amountsFromSourceLine.get(objectCode);
+            KualiDecimal targetAmount = amountsFromTargetLine.get(objectCode);
+            if (!sourceAmount.equals(targetAmount)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /**
+     * summerize the amounts of accounting lines by object codes
+     * 
+     * @param accountingLines the given accounting line list
+     * @return the summerized amounts by object codes
+     */
+    private Map<String, KualiDecimal> summerizeByObjectCode(List accountingLines) {
+        Map<String, KualiDecimal> amountByObjectCode = new HashMap<String, KualiDecimal>();
+
+        for (Object accountingLine : accountingLines) {
+            AccountingLine line = (AccountingLine) accountingLine;
+            String objectCode = line.getFinancialObjectCode();
+            KualiDecimal amount = line.getAmount();
+
+            if (amountByObjectCode.containsKey(objectCode)) {
+                amount = amount.add(amountByObjectCode.get(objectCode));
+            }
+            amountByObjectCode.put(objectCode, amount);
+        }
+        return amountByObjectCode;
+    }
+
+    /**
      * Determine whether the object code of the given accouting line is one of fringe benefit objects of source accounting lines
      * 
      * @param accountingDocument the given accounting document
@@ -268,14 +305,14 @@ public class BenefitExpenseTransferDocumentRule extends LaborExpenseTransferDocu
      */
     private boolean isDuplicateSourceAccountingLine(AccountingDocument accountingDocument, AccountingLine accountingLine) {
         // only check source accounting lines
-        if(!(accountingLine instanceof ExpenseTransferSourceAccountingLine)){
+        if (!(accountingLine instanceof ExpenseTransferSourceAccountingLine)) {
             return false;
         }
-        
+
         BenefitExpenseTransferDocument benefitExpenseTransferDocument = (BenefitExpenseTransferDocument) accountingDocument;
-        List<ExpenseTransferSourceAccountingLine> sourceAccountingLines = benefitExpenseTransferDocument.getSourceAccountingLines();               
+        List<ExpenseTransferSourceAccountingLine> sourceAccountingLines = benefitExpenseTransferDocument.getSourceAccountingLines();
         List<String> key = defaultKeyOfExpenseTransferAccountingLine();
-        
+
         int counter = 0;
         for (AccountingLine sourceAccountingLine : sourceAccountingLines) {
             boolean isExisting = ObjectUtil.compareObject(accountingLine, sourceAccountingLine, key);
@@ -368,170 +405,5 @@ public class BenefitExpenseTransferDocumentRule extends LaborExpenseTransferDocu
             }
         }
         return true;
-    }
-
-    /**
-     * determine whether the amount to be tranferred is only up to the amount in ledger balance for a given pay period
-     * 
-     * @param accountingDocument the given accounting document
-     * @return true if the amount to be tranferred is only up to the amount in ledger balance for a given pay period; otherwise,
-     *         false
-     */
-    private boolean isValidTransferAmount(Map<String, ExpenseTransferAccountingLine> accountingLineGroupMap) {
-        for (String key : accountingLineGroupMap.keySet()) {
-            ExpenseTransferAccountingLine accountingLine = accountingLineGroupMap.get(key);
-            Map<String, Object> fieldValues = this.buildFieldValueMap(accountingLine);
-
-            KualiDecimal balanceAmount = getBalanceAmount(fieldValues, accountingLine.getPayrollEndDateFiscalPeriodCode());
-            KualiDecimal transferAmount = accountingLine.getAmount();
-            
-            System.out.println("-->" + balanceAmount + ":" + transferAmount);
-
-            // the tranferred amount cannot greater than the balance amount
-            if (balanceAmount.abs().isLessThan(transferAmount.abs())) {
-                System.out.println("-->1");
-                return false;
-            }
-
-            // a positive amount cannot be transferred if the balance amount is negative
-            if (balanceAmount.isNegative() && transferAmount.isPositive()) {
-                System.out.println("-->2");
-                return false;
-            }
-        }
-        return true;
-    }
-
-    /**
-     * determine whether a negtive amount can be transferred from one account to another
-     * 
-     * @param accountingDocument the given accounting document
-     * @return true if a negtive amount can be transferred from one account to another; otherwise, false
-     */
-    private boolean canNegtiveAmountBeTransferred(Map<String, ExpenseTransferAccountingLine> accountingLineGroupMap) {
-        for (String key : accountingLineGroupMap.keySet()) {
-            ExpenseTransferAccountingLine accountingLine = accountingLineGroupMap.get(key);
-            Map<String, Object> fieldValues = this.buildFieldValueMap(accountingLine);
-
-            KualiDecimal balanceAmount = getBalanceAmount(fieldValues, accountingLine.getPayrollEndDateFiscalPeriodCode());
-            KualiDecimal transferAmount = accountingLine.getAmount();
-
-            // a negtive amount cannot be transferred if the balance amount is positive
-            if (transferAmount.isNegative() && balanceAmount.isPositive()) {
-                return false;
-            }
-        }
-        return true;
-    }
-
-    /**
-     * get the amount for a given period from a ledger balance that has the given values for specified fileds
-     * 
-     * @param fieldValues the given fields and their values
-     * @param periodCode the given period
-     * @return the amount for a given period from the qualified ledger balance
-     */
-    private KualiDecimal getBalanceAmount(Map<String, Object> fieldValues, String periodCode) {
-        List<LedgerBalance> ledgerBalances = (List<LedgerBalance>) SpringServiceLocator.getBusinessObjectService().findMatching(LedgerBalance.class, fieldValues);
-
-        if (!ledgerBalances.isEmpty() && periodCode != null) {
-            System.out.println("****:" + ledgerBalances.get(0).getMonth1Amount() + ":" + periodCode + ":" + ledgerBalances.get(0).getAmount(periodCode));
-            return ledgerBalances.get(0).getAmount(periodCode);
-        }
-        return KualiDecimal.ZERO;
-    }
-
-    /**
-     * group the accounting lines by the specified key fields
-     * 
-     * @param accountingLines the given accounting lines that are stored in a list
-     * @param clazz the class type of given accounting lines
-     * @return the accounting line groups
-     */
-    private Map<String, ExpenseTransferAccountingLine> getAccountingLineGroupMap(List<ExpenseTransferAccountingLine> accountingLines, Class clazz) {
-        Map<String, ExpenseTransferAccountingLine> accountingLineGroupMap = new HashMap<String, ExpenseTransferAccountingLine>();
-
-        for (ExpenseTransferAccountingLine accountingLine : accountingLines) {
-            String stringKey = ObjectUtil.buildPropertyMap(accountingLine, defaultKeyOfExpenseTransferAccountingLine()).toString();
-            ExpenseTransferAccountingLine line = null;
-
-            if (accountingLineGroupMap.containsKey(stringKey)) {
-                line = accountingLineGroupMap.get(stringKey);
-                KualiDecimal amount = line.getAmount();
-                line.setAmount(amount.add(accountingLine.getAmount()));
-            }
-            else {
-                try {
-                    line = (ExpenseTransferAccountingLine) clazz.newInstance();
-                    ObjectUtil.buildObject(line, accountingLine);
-                    accountingLineGroupMap.put(stringKey, line);
-                }
-                catch (Exception e) {
-                    LOG.error("Cannot create a new instance of ExpenseTransferAccountingLine" + e);
-                }
-            }
-        }
-        return accountingLineGroupMap;
-    }
-
-    /**
-     * get the default key of ExpenseTransferAccountingLine
-     * 
-     * @return the default key of ExpenseTransferAccountingLine
-     */
-    private List<String> defaultKeyOfExpenseTransferAccountingLine() {
-        List<String> defaultKey = new ArrayList<String>();
-
-        defaultKey.add(KFSPropertyConstants.POSTING_YEAR);
-        defaultKey.add(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE);
-        defaultKey.add(KFSPropertyConstants.ACCOUNT_NUMBER);
-        defaultKey.add(KFSPropertyConstants.SUB_ACCOUNT_NUMBER);
-
-        defaultKey.add(KFSPropertyConstants.BALANCE_TYPE_CODE);
-        defaultKey.add(KFSPropertyConstants.FINANCIAL_OBJECT_CODE);
-        defaultKey.add(KFSPropertyConstants.FINANCIAL_SUB_OBJECT_CODE);
-
-        defaultKey.add(KFSPropertyConstants.EMPLID);
-        defaultKey.add(KFSPropertyConstants.POSITION_NUMBER);
-
-        defaultKey.add(KFSPropertyConstants.PAYROLL_END_DATE_FISCAL_YEAR);
-        defaultKey.add(KFSPropertyConstants.PAYROLL_END_DATE_FISCAL_PERIOD_CODE);
-
-        return defaultKey;
-    }
-
-    /**
-     * build the field-value maps throught the given accouting line
-     * 
-     * @param accountingLine the given accounting line
-     * @return the field-value maps built from the given accouting line
-     */
-    private Map<String, Object> buildFieldValueMap(ExpenseTransferAccountingLine accountingLine) {
-        Map<String, Object> fieldValues = new HashMap<String, Object>();
-
-        fieldValues.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, accountingLine.getPostingYear());
-        fieldValues.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, accountingLine.getChartOfAccountsCode());
-        fieldValues.put(KFSPropertyConstants.ACCOUNT_NUMBER, accountingLine.getAccountNumber());
-
-        String subAccountNumber = accountingLine.getSubAccountNumber();
-        subAccountNumber = StringUtils.isBlank(subAccountNumber) ? KFSConstants.DASHES_SUB_ACCOUNT_NUMBER : subAccountNumber;
-        fieldValues.put(KFSPropertyConstants.SUB_ACCOUNT_NUMBER, subAccountNumber);
-
-        fieldValues.put(KFSPropertyConstants.FINANCIAL_BALANCE_TYPE_CODE, accountingLine.getBalanceTypeCode());
-        fieldValues.put(KFSPropertyConstants.FINANCIAL_OBJECT_CODE, accountingLine.getFinancialObjectCode());
-        
-        Options options = optionsService.getOptions(accountingLine.getPostingYear());
-        fieldValues.put(KFSPropertyConstants.FINANCIAL_OBJECT_TYPE_CODE, options.getFinObjTypeExpenditureexpCd());
-
-        String subObjectCode = accountingLine.getFinancialSubObjectCode();
-        subObjectCode = StringUtils.isBlank(subObjectCode) ? KFSConstants.DASHES_SUB_OBJECT_CODE : subObjectCode;
-        fieldValues.put(KFSPropertyConstants.FINANCIAL_SUB_OBJECT_CODE, subObjectCode);
-
-        fieldValues.put(KFSPropertyConstants.EMPLID, accountingLine.getEmplid());
-        fieldValues.put(KFSPropertyConstants.POSITION_NUMBER, accountingLine.getPositionNumber());
-        
-        System.out.println(fieldValues);
-
-        return fieldValues;
     }
 }

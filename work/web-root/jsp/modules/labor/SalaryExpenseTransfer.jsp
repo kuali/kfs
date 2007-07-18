@@ -92,7 +92,7 @@
       <c:set var="actionInfixVar" value="" scope="request"/>
       <c:set var="accountingLineIndexVar" value="" scope="request"/>
 	<fin:accountingLines editingMode="${KualiForm.editingMode}"
-		editableAccounts="${KualiForm.editableAccounts}" inherit="false"
+		editableAccounts="${KualiForm.editableAccounts}" inherit="false" extraHiddenFields=",objectTypeCode,emplid,positionNumber,balanceTypeCode,payrollTotalHours"
 		optionalFields="positionNumber,payrollEndDateFiscalYear,payrollEndDateFiscalPeriodCode,payrollTotalHours">
 
       <jsp:attribute name="groupsOverride">
@@ -115,7 +115,7 @@
             useCurrencyFormattedTotal="${useCurrencyFormattedTotalBoolean}"
             includeObjectTypeCode="${includeObjectTypeCodeBoolean}"
             displayMonthlyAmounts="${displayMonthlyAmountsBoolean}"
-            forcedReadOnlyFields="${KualiForm.forcedReadOnlySourceFields}"
+            forcedReadOnlyFields="${KualiForm.forcedReadOnlyTargetFields}"
             accountingLineAttributes="${accountingLineAttributesMap}">
             <jsp:attribute name="importRowOverride">
                 <html:image property="methodToCall.copyAllAccountingLines" src="${ConfigProperties.externalizable.images.url}tinybutton-copyall.gif" title="Copy all Source Accounting Lines" alt="Copy all Source Lines" styleClass="tinybutton"/>

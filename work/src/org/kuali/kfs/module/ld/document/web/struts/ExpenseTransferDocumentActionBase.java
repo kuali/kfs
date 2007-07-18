@@ -328,6 +328,7 @@ public class ExpenseTransferDocumentActionBase extends LaborDocumentActionBase {
         target.setAmount(source.getAmount());
         target.setEmplid(source.getEmplid());
         target.setPayrollEndDateFiscalPeriodCode(source.getPayrollEndDateFiscalPeriodCode());
+        target.setObjectTypeCode(source.getObjectTypeCode());
     }
 
     /**
@@ -347,6 +348,7 @@ public class ExpenseTransferDocumentActionBase extends LaborDocumentActionBase {
         line.setPostingYear(bo.getUniversityFiscalYear());
         line.setPayrollEndDateFiscalYear(bo.getUniversityFiscalYear());
         line.setFinancialObjectCode(bo.getFinancialObjectCode());
+        line.setObjectTypeCode(bo.getFinancialObjectTypeCode());
 
         if (!KFSConstants.DASHES_SUB_OBJECT_CODE.equals(bo.getFinancialSubObjectCode())) {
             line.setFinancialSubObjectCode(bo.getFinancialSubObjectCode());

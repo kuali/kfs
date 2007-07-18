@@ -58,9 +58,9 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class LedgerBalanceLookupableHelperServiceImpl extends AbstractLookupableHelperServiceImpl {
     private static final Log LOG = LogFactory.getLog(LedgerBalanceLookupableHelperServiceImpl.class);
-    
+
     private LaborLedgerBalanceService balanceService;
-    private LaborInquiryOptionsService laborInquiryOptionsService;    
+    private LaborInquiryOptionsService laborInquiryOptionsService;
 
     /**
      * @see org.kuali.core.lookup.Lookupable#getInquiryUrl(org.kuali.core.bo.BusinessObject, java.lang.String)
@@ -81,21 +81,21 @@ public class LedgerBalanceLookupableHelperServiceImpl extends AbstractLookupable
         // get the pending entry option. This method must be prior to the get search results
         String pendingEntryOption = laborInquiryOptionsService.getSelectedPendingEntryOption(fieldValues);
 
-        // test if the consolidation option is selected or not       
+        // test if the consolidation option is selected or not
         boolean isConsolidated = laborInquiryOptionsService.isConsolidationSelected(fieldValues, (Collection<Row>) getRows());
-        
+
         // get Amount View Option and determine if the results has to be accumulated
-        //String amountViewOption = getSelectedAmountViewOption(fieldValues);
-        //boolean isAccumulated = amountViewOption.equals(Constant.ACCUMULATE);
+        // String amountViewOption = getSelectedAmountViewOption(fieldValues);
+        // boolean isAccumulated = amountViewOption.equals(Constant.ACCUMULATE);
         boolean isAccumulated = false;
-        
+
         // get the search result collection
         Iterator balanceIterator = balanceService.findBalance(fieldValues, isConsolidated);
         Collection searchResultsCollection = this.buildBalanceCollection(balanceIterator, isConsolidated, pendingEntryOption);
 
         // update search results according to the selected pending entry option
         laborInquiryOptionsService.updateByPendingLedgerEntry(searchResultsCollection, fieldValues, pendingEntryOption, isConsolidated);
-        
+
         // perform the accumulation of the amounts
         this.accumulate(searchResultsCollection, isAccumulated);
 
@@ -112,12 +112,11 @@ public class LedgerBalanceLookupableHelperServiceImpl extends AbstractLookupable
      * @param iterator the iterator of search results of balance
      * @param isConsolidated determine if the consolidated result is desired
      * @param pendingEntryOption the given pending entry option that can be no, approved or all
-     * 
      * @return the balance collection
      */
     protected Collection buildBalanceCollection(Iterator iterator, boolean isConsolidated, String pendingEntryOption) {
         Collection balanceCollection = null;
-        
+
         if (isConsolidated) {
             balanceCollection = buildConsolidatedBalanceCollection(iterator, pendingEntryOption);
         }
@@ -132,12 +131,11 @@ public class LedgerBalanceLookupableHelperServiceImpl extends AbstractLookupable
      * 
      * @param iterator
      * @param pendingEntryOption the selected pending entry option
-     * 
      * @return the consolidated balance collection
      */
     protected Collection buildConsolidatedBalanceCollection(Iterator iterator, String pendingEntryOption) {
         Collection balanceCollection = new ArrayList();
-        
+
         while (iterator.hasNext()) {
             Object collectionEntry = iterator.next();
 
@@ -149,15 +147,15 @@ public class LedgerBalanceLookupableHelperServiceImpl extends AbstractLookupable
                 if (LedgerBalance.class.isAssignableFrom(getBusinessObjectClass())) {
                     try {
                         balance = (LedgerBalance) getBusinessObjectClass().newInstance();
-                    } 
+                    }
                     catch (Exception e) {
                         LOG.warn("Using " + LedgerBalance.class + " for results because I couldn't instantiate the " + getBusinessObjectClass());
                     }
                 }
                 else {
-                        LOG.warn("Using " + LedgerBalance.class + " for results because I couldn't instantiate the " + getBusinessObjectClass());
+                    LOG.warn("Using " + LedgerBalance.class + " for results because I couldn't instantiate the " + getBusinessObjectClass());
                 }
-                    
+
                 balance.setUniversityFiscalYear(new Integer(array[i++].toString()));
                 balance.setChartOfAccountsCode(array[i++].toString());
                 balance.setAccountNumber(array[i++].toString());
@@ -170,7 +168,7 @@ public class LedgerBalanceLookupableHelperServiceImpl extends AbstractLookupable
 
                 balance.setEmplid(array[i++].toString());
                 balance.setPositionNumber(array[i++].toString());
-                
+
                 balance.setFinancialSubObjectCode(Constant.CONSOLIDATED_SUB_OBJECT_CODE);
                 balance.setFinancialObjectTypeCode(Constant.CONSOLIDATED_OBJECT_TYPE_CODE);
 
@@ -207,12 +205,11 @@ public class LedgerBalanceLookupableHelperServiceImpl extends AbstractLookupable
      * 
      * @param iterator the balance iterator
      * @param pendingEntryOption the selected pending entry option
-     * 
      * @return the detailed balance collection
      */
     protected Collection buildDetailedBalanceCollection(Iterator iterator, String pendingEntryOption) {
         Collection balanceCollection = new ArrayList();
-        
+
         while (iterator.hasNext()) {
             LedgerBalance copyBalance = (LedgerBalance) (iterator.next());
 
@@ -228,7 +225,7 @@ public class LedgerBalanceLookupableHelperServiceImpl extends AbstractLookupable
             else {
                 LOG.warn("Using " + LedgerBalance.class + " for results because I couldn't instantiate the " + getBusinessObjectClass());
             }
-                
+
             balance.setUniversityFiscalYear(copyBalance.getUniversityFiscalYear());
             balance.setChartOfAccountsCode(copyBalance.getChartOfAccountsCode());
             balance.setAccountNumber(copyBalance.getAccountNumber());
@@ -385,8 +382,8 @@ public class LedgerBalanceLookupableHelperServiceImpl extends AbstractLookupable
     }
 
     /**
-     * 
      * This method performs the lookup and returns a collection of lookup items
+     * 
      * @param lookupForm
      * @param kualiLookupable
      * @param resultTable
@@ -395,7 +392,7 @@ public class LedgerBalanceLookupableHelperServiceImpl extends AbstractLookupable
      */
     public Collection performLookup(LookupForm lookupForm, Collection resultTable, boolean bounded) {
         Collection<BusinessObject> displayList;
-        
+
         // call search method to get results
         if (bounded) {
             displayList = (Collection<BusinessObject>) getSearchResults(lookupForm.getFieldsForLookup());
@@ -408,7 +405,7 @@ public class LedgerBalanceLookupableHelperServiceImpl extends AbstractLookupable
         for (BusinessObject element : displayList) {
             LOG.debug("Doing lookup for " + element.getClass());
             String returnUrl = getReturnUrl(element, lookupForm.getFieldConversions(), lookupForm.getLookupableImplServiceName());
-            
+
             if (element instanceof PersistableBusinessObject) {
                 if (element instanceof SegmentedBusinessObject) {
                     LOG.debug("segmented property names " + ((SegmentedBusinessObject) element).getSegmentedPropertyNames());
@@ -418,14 +415,14 @@ public class LedgerBalanceLookupableHelperServiceImpl extends AbstractLookupable
 
                         ResultRow row = new ResultRow((List<Column>) columns, returnUrl, getActionUrls(element));
                         row.setObjectId(((PersistableBusinessObject) element).getObjectId() + "." + propertyName);
-                        resultTable.add(row);                
+                        resultTable.add(row);
                     }
                 }
                 else {
                     Collection<Column> columns = getColumns(element);
                     ResultRow row = new ResultRow((List<Column>) columns, returnUrl, getActionUrls(element));
                     row.setObjectId(((PersistableBusinessObject) element).getObjectId());
-                    resultTable.add(row);                
+                    resultTable.add(row);
                 }
             }
         }
@@ -440,9 +437,9 @@ public class LedgerBalanceLookupableHelperServiceImpl extends AbstractLookupable
      */
     protected Column setupResultsColumn(BusinessObject element, String attributeName) {
         Column col = new Column();
-        
+
         col.setPropertyName(attributeName);
-        
+
         String columnTitle = getDataDictionaryService().getAttributeLabel(getBusinessObjectClass(), attributeName);
         if (StringUtils.isBlank(columnTitle)) {
             columnTitle = getDataDictionaryService().getCollectionLabel(getBusinessObjectClass(), attributeName);
@@ -454,7 +451,7 @@ public class LedgerBalanceLookupableHelperServiceImpl extends AbstractLookupable
         else {
             col.setMaxLength(getDataDictionaryService().getAttributeMaxLength(getBusinessObjectClass(), attributeName));
         }
-        
+
         Class formatterClass = getDataDictionaryService().getAttributeFormatter(getBusinessObjectClass(), attributeName);
         Formatter formatter = null;
         if (formatterClass != null) {
@@ -471,11 +468,11 @@ public class LedgerBalanceLookupableHelperServiceImpl extends AbstractLookupable
                 throw new RuntimeException("Unable to get new instance of formatter class: " + formatterClass.getName());
             }
         }
-        
+
         // pick off result column from result list, do formatting
         String propValue = KFSConstants.EMPTY_STRING;
         Object prop = ObjectUtils.getPropertyValue(element, attributeName);
-        
+
         // set comparator and formatter based on property type
         Class propClass = null;
         try {
@@ -487,14 +484,14 @@ public class LedgerBalanceLookupableHelperServiceImpl extends AbstractLookupable
         catch (Exception e) {
             throw new RuntimeException("Cannot access PropertyType for property " + "'" + col.getPropertyName() + "' " + " on an instance of '" + element.getClass().getName() + "'.", e);
         }
-        
+
         // formatters
         if (prop != null) {
             // for Booleans, always use BooleanFormatter
             if (prop instanceof Boolean) {
                 formatter = new BooleanFormatter();
             }
-            
+
             if (formatter != null) {
                 propValue = (String) formatter.format(prop);
             }
@@ -502,11 +499,11 @@ public class LedgerBalanceLookupableHelperServiceImpl extends AbstractLookupable
                 propValue = prop.toString();
             }
         }
-        
+
         // comparator
         col.setComparator(CellComparatorHelper.getAppropriateComparatorForPropertyClass(propClass));
         col.setValueComparator(CellComparatorHelper.getAppropriateValueComparatorForPropertyClass(propClass));
-        
+
         // check security on field and do masking if necessary
         boolean viewAuthorized = SpringServiceLocator.getAuthorizationService().isAuthorizedToViewAttribute(GlobalVariables.getUserSession().getUniversalUser(), element.getClass().getName(), col.getPropertyName());
         if (!viewAuthorized) {
@@ -514,18 +511,18 @@ public class LedgerBalanceLookupableHelperServiceImpl extends AbstractLookupable
             propValue = displayMask.maskValue(propValue);
         }
         col.setPropertyValue(propValue);
-        
-        
+
+
         if (StringUtils.isNotBlank(propValue)) {
             col.setPropertyURL(getInquiryUrl(element, col.getPropertyName()));
         }
         return col;
     }
-    
-    
+
+
     /**
      * Constructs the list of columns for the search results. All properties for the column objects come from the DataDictionary.
-     *
+     * 
      * @param bo
      * @return Collection<Column>
      */
@@ -536,10 +533,11 @@ public class LedgerBalanceLookupableHelperServiceImpl extends AbstractLookupable
             columns.add(setupResultsColumn(bo, attributeName));
         }
         return columns;
-    }    
+    }
 
     /**
      * Sets the laborInquiryOptionsService attribute value.
+     * 
      * @param laborInquiryOptionsService The laborInquiryOptionsService to set.
      */
     public void setLaborInquiryOptionsService(LaborInquiryOptionsService laborInquiryOptionsService) {
@@ -548,16 +546,19 @@ public class LedgerBalanceLookupableHelperServiceImpl extends AbstractLookupable
 
     /**
      * Sets the balanceService attribute value.
+     * 
      * @param balanceService The balanceService to set.
      */
     public void setBalanceService(LaborLedgerBalanceService balanceService) {
         this.balanceService = balanceService;
-}
+    }
+
     /**
-     * Gets the balanceService attribute. 
+     * Gets the balanceService attribute.
+     * 
      * @return Returns the balanceService.
      */
     public LaborLedgerBalanceService getBalanceService() {
         return balanceService;
-    }    
+    }
 }

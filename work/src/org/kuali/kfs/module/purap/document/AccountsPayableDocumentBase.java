@@ -16,6 +16,7 @@
 package org.kuali.module.purap.document;
 
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -24,6 +25,8 @@ import org.kuali.core.bo.Campus;
 import org.kuali.core.bo.Note;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.exceptions.UserNotFoundException;
+import org.kuali.core.rule.event.KualiDocumentEvent;
+import org.kuali.core.rule.event.RouteDocumentEvent;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.purap.PurapConstants;
@@ -58,6 +61,8 @@ public abstract class AccountsPayableDocumentBase extends PurchasingAccountsPaya
     private String chartOfAccountsCode;
     private String organizationCode;
 
+    private boolean closeReopenPoIndicator;
+    
     // REFERENCE OBJECTS
     private Campus processingCampus;
     private PurchaseOrderDocument purchaseOrderDocument;
@@ -96,6 +101,39 @@ public abstract class AccountsPayableDocumentBase extends PurchasingAccountsPaya
             }
         }
         return true;
+    }
+
+    /**
+     * 
+     * @see org.kuali.module.purap.document.PurchasingAccountsPayableDocumentBase#customPrepareForSave(org.kuali.core.rule.event.KualiDocumentEvent)
+     */
+    @Override
+    public void customPrepareForSave(KualiDocumentEvent event) {
+        
+        //if routing and closereopen po indicator set, call closereopen po method
+        if((event instanceof RouteDocumentEvent) && this.isCloseReopenPoIndicator()){
+            processCloseReopenPo();
+            this.setCloseReopenPoIndicator(false);
+        }
+    }
+
+    /**
+     * Helper method to be called from custom prepare for save and to be
+     * overriden by sub class.
+     */
+    public void processCloseReopenPo(){        
+        //do nothing, override in subclass, make a call to the processCloseReopenPo with a parameter
+    }
+    
+    /**
+     * This method should be called from child class from overridden
+     * processCloseReopenPo(), it will pass the action it will take,
+     * which is document specific.
+     * 
+     * @param docType
+     */
+    public void processCloseReopenPo(String docType){
+        SpringServiceLocator.getPurchaseOrderService().updateFlagsAndRoute(this.getPurchaseOrderDocument().getDocumentNumber(), docType, "", new ArrayList());
     }
     
     /**
@@ -257,6 +295,14 @@ public abstract class AccountsPayableDocumentBase extends PurchasingAccountsPaya
     public void setPurchaseOrderDocument(PurchaseOrderDocument purchaseOrderDocument) {
         this.purchaseOrderIdentifier = purchaseOrderDocument.getPurapDocumentIdentifier();
         this.purchaseOrderDocument = purchaseOrderDocument;
+    }
+
+    public boolean isCloseReopenPoIndicator() {
+        return closeReopenPoIndicator;
+    }
+
+    public void setCloseReopenPoIndicator(boolean closeReopenPoIndicator) {
+        this.closeReopenPoIndicator = closeReopenPoIndicator;
     }
 
     //Helper methods

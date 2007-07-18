@@ -378,6 +378,19 @@
 				<description>GrandTotal description...</description>
 			</attributeReference>
 
+			<attribute name="closeReopenPoIndicator" forceUppercase="true">
+			    <label>Close PO</label>
+			    <shortLabel>Close PO</shortLabel>
+			
+			    <maxLength>1</maxLength>
+			
+			    <control>
+			        <checkbox />
+			    </control>
+			
+			    <summary>closePoIndicator</summary>
+			    <description>closePoIndicator description...</description>
+			</attribute>
         </attributes>
 		
         <summary>Document used for creating PREQs.</summary>

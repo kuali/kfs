@@ -1040,4 +1040,13 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
         this.paymentRequestCostSource = paymentRequestCostSource;
     }
 
+    /**
+     * 
+     * @see org.kuali.module.purap.document.AccountsPayableDocumentBase#processCloseReopenPo()
+     */
+    @Override
+    public void processCloseReopenPo(){
+       processCloseReopenPo(PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_CLOSE_DOCUMENT); 
+    }
+
 }

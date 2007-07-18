@@ -74,7 +74,18 @@
 			<td valign=middle class="datacell" colspan="2">
 			    <div align="right"><b>$${KualiForm.document.grandTotal}</b></div>
 			</td>
-			<td colspan=2 class="datacell">&nbsp;</td>
+			<td colspan=2 class="datacell">
+              <c:if test="${KualiForm.calculated and (empty KualiForm.document.recurringPaymentTypeCode)}">                
+                <kul:htmlControlAttribute
+				    attributeEntry="${documentAttributes.closeReopenPoIndicator}"
+				    property="document.closeReopenPoIndicator"
+				    readOnly="false" />
+				    <kul:htmlAttributeLabel attributeEntry="${documentAttributes.closeReopenPoIndicator}" skipHelpUrl="true" noColon="true" />
+              </c:if>
+              <c:if test="${not empty KualiForm.document.recurringPaymentTypeCode}">
+                Recurring PO
+              </c:if>			
+			</td>
 		</tr>
 		<!-- END TOTAL SECTION -->
 		

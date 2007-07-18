@@ -46,13 +46,13 @@ public class SpringAOPUsageTest extends KualiTestBase {
         assertTrue(classOrMethodAnnotationFilter.matches(BalanceTypServiceImpl.class));
         // should be cached cause of method annotation
         SpringServiceLocator.getBalanceTypService().getAllBalanceTyps();
-        assertTrue(SpringContext.methodIsCached(BalanceTypService.class.getMethod("getAllBalanceTyps", new Class[] {}), new Object[] {}));
+        assertTrue(TestUtils.methodIsCached(BalanceTypService.class.getMethod("getAllBalanceTyps", new Class[] {}), new Object[] {}));
         // should not be cached cause no method annotation and no class annotation
         SpringServiceLocator.getBalanceTypService().getEncumbranceBalanceTypes();
-        assertFalse(SpringContext.methodIsCached(BalanceTypService.class.getMethod("getEncumbranceBalanceTypes", new Class[] {}), new Object[] {}));
+        assertFalse(TestUtils.methodIsCached(BalanceTypService.class.getMethod("getEncumbranceBalanceTypes", new Class[] {}), new Object[] {}));
         // should not be cached, cause no annotations on the class or its methods
         SpringServiceLocator.getPriorYearAccountService().getByPrimaryKey("BL", "1031490");
-        assertFalse(SpringContext.methodIsCached(PriorYearAccountService.class.getMethod("getByPrimaryKey", new Class[] { String.class, String.class }), new Object[] { "BL", "1031490" }));
+        assertFalse(TestUtils.methodIsCached(PriorYearAccountService.class.getMethod("getByPrimaryKey", new Class[] { String.class, String.class }), new Object[] { "BL", "1031490" }));
     }
     
     /**
@@ -62,9 +62,9 @@ public class SpringAOPUsageTest extends KualiTestBase {
      */
     public void testClearMethodCache() throws Exception {
         SpringServiceLocator.getBalanceTypService().getAllBalanceTyps();
-        assertTrue(SpringContext.methodIsCached(BalanceTypService.class.getMethod("getAllBalanceTyps", new Class[] {}), new Object[] {}));
-        TestUtils.clearMethodCache(BalanceTypService.class, "getAllBalanceTyps", new Class[] {}, new Object[] {});
-        assertFalse(SpringContext.methodIsCached(BalanceTypService.class.getMethod("getAllBalanceTyps", new Class[] {}), new Object[] {}));
+        assertTrue(TestUtils.methodIsCached(BalanceTypService.class.getMethod("getAllBalanceTyps", new Class[] {}), new Object[] {}));
+        TestUtils.removeCachedMethod(BalanceTypService.class.getMethod("getAllBalanceTyps", new Class[] {}), new Object[] {});
+        assertFalse(TestUtils.methodIsCached(BalanceTypService.class.getMethod("getAllBalanceTyps", new Class[] {}), new Object[] {}));
     }
 
     @Transactional

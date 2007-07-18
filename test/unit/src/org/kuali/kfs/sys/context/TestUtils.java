@@ -18,8 +18,10 @@ package org.kuali.kfs.context;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.lang.reflect.Method;
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.Timer;
 
@@ -31,6 +33,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.kuali.core.bo.FinancialSystemParameter;
 import org.kuali.core.service.KualiConfigurationService;
+import org.kuali.core.util.cache.MethodCacheInterceptor;
 import org.kuali.core.util.properties.PropertyTree;
 import org.kuali.kfs.util.SpringServiceLocator;
 
@@ -181,6 +184,23 @@ public class TestUtils {
 
         return formatted.toString();
     }
+    
+    public static boolean methodIsCached(Method method, Object[] arguments) {
+        List<MethodCacheInterceptor> methodCacheInterceptors = SpringContext.getBeansOfType(MethodCacheInterceptor.class);
+        String cacheKey = methodCacheInterceptors.get(0).buildCacheKey(method.toString(), arguments);
+        return methodCacheInterceptors.get(0).containsCacheKey(cacheKey) || methodCacheInterceptors.get(1).containsCacheKey(cacheKey);
+    }
+    
+    public static void removeCachedMethod(Method method, Object[] arguments) {
+        List<MethodCacheInterceptor> methodCacheInterceptors = SpringContext.getBeansOfType(MethodCacheInterceptor.class);
+        String cacheKey = methodCacheInterceptors.get(0).buildCacheKey(method.toString(), arguments);
+        if (methodCacheInterceptors.get(0).containsCacheKey(cacheKey)) {
+            methodCacheInterceptors.get(0).removeCacheKey(cacheKey);
+        }
+        if (methodCacheInterceptors.get(1).containsCacheKey(cacheKey)) {
+            methodCacheInterceptors.get(1).removeCacheKey(cacheKey);
+        }
+    }
 
 
     private static String buildIndent(int level) {
@@ -276,13 +296,6 @@ public class TestUtils {
     
 
     /**
-     * Removes Spring cache for the given method invocation parameters if one is present.
-     */
-    public static void clearMethodCache(Class methodClass, String methodName, Class[] parameterTypes, Object[] parameterValues) throws Exception {
-        SpringContext.removeCachedMethod(methodClass.getMethod(methodName, parameterTypes), parameterValues);
-    }
-
-    /**
      * This sets a given system parameter and clears the method cache for retrieving the parameter.
      */
     public static void setSystemParameter(String groupName, String parameterName, String parameterText, boolean isIndicator, boolean isMultipleValue) throws Exception {
@@ -308,8 +321,7 @@ public class TestUtils {
         else if (isMultipleValue) {
             configMethodName = "getApplicationParameterValues";
         }
-        
-        clearMethodCache(KualiConfigurationService.class, configMethodName, new Class[] { String.class, String.class }, new Object[] { groupName, parameterName });
+        removeCachedMethod(KualiConfigurationService.class.getMethod(configMethodName, new Class[] { String.class, String.class }), new Object[] { groupName, parameterName });
     }
 
     /**

@@ -246,23 +246,6 @@ public class SpringContext {
     protected static boolean testTransactionIsRollbackOnly() {
         return (TRANSACTION_STATUS != null) && (TRANSACTION_STATUS.isRollbackOnly());
     }
-    
-    protected static boolean methodIsCached(Method method, Object[] arguments) {
-        List<MethodCacheInterceptor> methodCacheInterceptors = getBeansOfType(MethodCacheInterceptor.class);
-        String cacheKey = methodCacheInterceptors.get(0).buildCacheKey(method.toString(), arguments);
-        return methodCacheInterceptors.get(0).containsCacheKey(cacheKey) || methodCacheInterceptors.get(1).containsCacheKey(cacheKey);
-    }
-    
-    protected static void removeCachedMethod(Method method, Object[] arguments) {
-        List<MethodCacheInterceptor> methodCacheInterceptors = getBeansOfType(MethodCacheInterceptor.class);
-        String cacheKey = methodCacheInterceptors.get(0).buildCacheKey(method.toString(), arguments);
-        if (methodCacheInterceptors.get(0).containsCacheKey(cacheKey)) {
-            methodCacheInterceptors.get(0).removeCacheKey(cacheKey);
-        }
-        if (methodCacheInterceptors.get(1).containsCacheKey(cacheKey)) {
-            methodCacheInterceptors.get(1).removeCacheKey(cacheKey);
-        }
-    }
 
     private static void setSynchronousWorkflow(boolean synchronous) {
         String persistence = synchronous ? EdenConstants.MESSAGING_SYNCHRONOUS : null;

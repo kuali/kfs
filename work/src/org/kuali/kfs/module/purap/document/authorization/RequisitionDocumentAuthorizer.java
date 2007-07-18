@@ -91,7 +91,7 @@ public class RequisitionDocumentAuthorizer extends AccountingDocumentAuthorizerB
              */
             else if (currentRouteLevels.contains(RouteLevelNames.SEPARATION_OF_DUTIES)) {
                 editModeMap.remove(AuthorizationConstants.EditMode.FULL_ENTRY);
-                editMode = PurapAuthorizationConstants.RequisitionEditMode.LOCK_CONTENT_ENTRY;
+                editMode = AuthorizationConstants.TransactionalEditMode.VIEW_ONLY;
             }
 
             /**

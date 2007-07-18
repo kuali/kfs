@@ -711,7 +711,8 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
         }
         //add missing below the line
         SpringServiceLocator.getPurapService().addBelowLineItems(this);
-
+        this.setAccountsPayablePurchasingDocumentLinkIdentifier(po.getAccountsPayablePurchasingDocumentLinkIdentifier());
+        
         this.refreshNonUpdateableReferences();
     }
     

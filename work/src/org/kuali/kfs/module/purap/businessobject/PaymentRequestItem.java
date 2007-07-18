@@ -22,6 +22,7 @@ import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.document.PaymentRequestDocument;
@@ -82,6 +83,12 @@ public class PaymentRequestItem extends AccountsPayableItemBase {
     }
 
     public PurchaseOrderItem getPurchaseOrderItem() {
+        //TODO: look into, this is total hackery but works for now, revisit during QA 
+        if(ObjectUtils.isNotNull(this.getPurapDocumentIdentifier())) {
+            if(ObjectUtils.isNull(this.getPaymentRequest())) {
+                this.refreshReferenceObject("paymentRequest");
+            }
+        }
         //ideally we should do this a different way - maybe move it all into the service or save this info somehow (make sure and update though)
         if (getPaymentRequest() != null) {
           PurchaseOrderDocument po = getPaymentRequest().getPurchaseOrderDocument();
@@ -98,6 +105,7 @@ public class PaymentRequestItem extends AccountsPayableItemBase {
             return null;
           }
         } else {
+          
           LOG.error("getPurchaseOrderItem() Returning null because paymentRequest object is null");
           throw new PurError("Payment Request Object in Purchase Order item line number " + getItemLineNumber() + "or itemType " + getItemTypeCode() + " is null");
         }
@@ -299,10 +307,11 @@ public class PaymentRequestItem extends AccountsPayableItemBase {
 		this.paymentRequest = paymentRequest;
 	}
 
-    public void generateAccountListFromPoItemAccounts(List<PurchaseOrderAccount> purchaseOrderAccounts) {
-        for (PurchaseOrderAccount line : purchaseOrderAccounts) {
+    public void generateAccountListFromPoItemAccounts(List<PurApAccountingLine> accounts) {
+        for (PurApAccountingLine line : accounts) {
+            PurchaseOrderAccount poa = (PurchaseOrderAccount)line; 
             if(!line.isEmpty()) {
-                getSourceAccountingLines().add(new PaymentRequestAccount(this,line));
+                getSourceAccountingLines().add(new PaymentRequestAccount(this,poa));
             }
         }
     }

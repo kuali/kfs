@@ -26,12 +26,14 @@ import java.util.Set;
 import org.apache.commons.collections.CollectionUtils;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
+import org.kuali.kfs.bo.AccountingLineBase;
 import org.kuali.kfs.bo.SourceAccountingLine;
 import org.kuali.module.purap.bo.PurApAccountingLine;
 import org.kuali.module.purap.bo.PurchasingApItem;
 import org.kuali.module.purap.document.PurchasingAccountsPayableDocument;
 import org.kuali.module.purap.service.PurapAccountingService;
 import org.kuali.module.purap.util.PurApItemUtils;
+import org.kuali.module.purap.util.PurApObjectUtils;
 
 public class PurapAccountingServiceImpl implements PurapAccountingService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PurapAccountingServiceImpl.class);
@@ -63,26 +65,34 @@ public class PurapAccountingServiceImpl implements PurapAccountingService {
         LOG.error(methodName + "  " + errorMessage);
         throw new RuntimeException(errorMessage);
     }
-    
+
+    /**
+     * @deprecated
+     * @see org.kuali.module.purap.service.PurapAccountingService#generateAccountDistributionForProration(java.util.List, org.kuali.core.util.KualiDecimal, java.lang.Integer)
+     */
+    public List<PurApAccountingLine> generateAccountDistributionForProration(List<SourceAccountingLine> accounts, KualiDecimal totalAmount, Integer percentScale) {
+        //TODO: remove this method, use the class one below
+        return null;//generateAccountDistributionForProration(accounts, totalAmount, percentScale, null);
+    }
     /**
      * TODO PURAP: Needs Unit Tests
      * 
      * @see org.kuali.module.purap.service.PurapAccountingService#generateAccountDistributionForProration(java.util.List, org.kuali.core.util.KualiDecimal, java.lang.Integer)
      */
-    public List<PurApAccountingLine> generateAccountDistributionForProration(List<PurApAccountingLine> accounts, KualiDecimal totalAmount, Integer percentScale) {
+    public List<PurApAccountingLine> generateAccountDistributionForProration(List<SourceAccountingLine> accounts, KualiDecimal totalAmount, Integer percentScale, Class clazz) {
         String methodName = "generateAccountDistributionForProration()";
         LOG.debug(methodName + " started");
         List<PurApAccountingLine> newAccounts = new ArrayList();
         
         if (totalAmount.isZero()) {
-//            throwRuntimeException(methodName,"Purchasing/Accounts Payable account distribution for proration does not allow zero dollar total.");
+            throwRuntimeException(methodName,"Purchasing/Accounts Payable account distribution for proration does not allow zero dollar total.");
             //TODO: check with David is this ok?!
-            generateAccountDistributionForProrationWithZeroTotal(accounts, percentScale);
+//            generateAccountDistributionForProrationWithZeroTotal(accounts, percentScale);
         }
         
         BigDecimal percentTotal = BigDecimal.ZERO;
         BigDecimal totalAmountBigDecimal = totalAmount.bigDecimalValue();
-        for(PurApAccountingLine accountingLine : accounts) {
+        for(SourceAccountingLine accountingLine : accounts) {
             LOG.debug(methodName + " " + accountingLine.getAccountNumber() + " " + accountingLine.getAmount() + "/" + totalAmountBigDecimal);
             
             BigDecimal pct = accountingLine.getAmount().bigDecimalValue().divide(totalAmountBigDecimal,SCALE,BIG_DECIMAL_ROUNDING_MODE);
@@ -92,7 +102,22 @@ public class PurapAccountingServiceImpl implements PurapAccountingService {
 
             BigDecimal lowestPossible = this.getLowestPossibleRoundUpNumber();
             if (lowestPossible.compareTo(pct) <= 0) {
-                PurApAccountingLine newAccountingLine = accountingLine.createBlankAmountsCopy();
+                PurApAccountingLine newAccountingLine;
+                newAccountingLine = null;
+                
+                try {
+                    newAccountingLine = (PurApAccountingLine)clazz.newInstance();
+                }
+                catch (InstantiationException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+                catch (IllegalAccessException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+                
+                PurApObjectUtils.populateFromBaseClass(AccountingLineBase.class, accountingLine, newAccountingLine);
                 newAccountingLine.setAccountLinePercent(pct);
                 LOG.debug(methodName + " adding " + newAccountingLine.getAccountLinePercent());
                 newAccounts.add(newAccountingLine);

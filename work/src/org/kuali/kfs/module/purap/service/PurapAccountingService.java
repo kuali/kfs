@@ -30,9 +30,19 @@ import org.kuali.module.purap.document.PurchasingAccountsPayableDocument;
  * other items that may require distribution
  */
 public interface PurapAccountingService {
-
-    public List<PurApAccountingLine> generateAccountDistributionForProration(List<PurApAccountingLine> accounts, KualiDecimal totalAmount, Integer percentScale);
-
+    
+    /**
+     * 
+     * @deprecated
+     * @param accounts
+     * @param totalAmount
+     * @param percentScale
+     * @return
+     */
+    public List<PurApAccountingLine> generateAccountDistributionForProration(List<SourceAccountingLine> accounts, KualiDecimal totalAmount, Integer percentScale);
+    
+    public List<PurApAccountingLine> generateAccountDistributionForProration(List<SourceAccountingLine> accounts, KualiDecimal totalAmount, Integer percentScale, Class clazz);
+    
     public List<PurApAccountingLine> generateAccountDistributionForProrationWithZeroTotal(List<PurApAccountingLine> accounts, Integer percentScale);
 
     public List<SourceAccountingLine> generateSummary(List<PurchasingApItem> items);

@@ -47,6 +47,7 @@ public class PaymentRequestAccount extends PurApAccountingLineBase {
         PurApObjectUtils.populateFromBaseClass(AccountingLineBase.class, poa, this);
         //copy percent
         this.setAccountLinePercent(poa.getAccountLinePercent());
+        setItemIdentifier(item.getItemIdentifier());
         setPaymentRequestItem(item);
     }
 

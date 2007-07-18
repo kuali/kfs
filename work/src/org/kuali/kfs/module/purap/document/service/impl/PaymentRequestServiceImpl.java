@@ -27,6 +27,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.bo.Note;
 import org.kuali.core.bo.user.UniversalUser;
@@ -62,6 +63,7 @@ import org.kuali.module.purap.service.GeneralLedgerService;
 import org.kuali.module.purap.service.PaymentRequestService;
 import org.kuali.module.purap.service.PurapService;
 import org.kuali.module.purap.service.PurchaseOrderService;
+import org.kuali.module.purap.util.PurApItemUtils;
 import org.kuali.module.vendor.bo.PaymentTermType;
 import org.kuali.module.vendor.service.VendorService;
 import org.kuali.workflow.KualiWorkflowUtils.RouteLevelNames;
@@ -651,38 +653,44 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
                 if ((StringUtils.equals(PurapConstants.ItemTypeCodes.ITEM_TYPE_PMT_TERMS_DISCOUNT_CODE,item.getItemType().getItemTypeCode())) &&
                         (paymentRequestDocument.getGrandTotal() != null) && 
                         ((KualiDecimal.ZERO.compareTo(paymentRequestDocument.getGrandTotal()) != 0))) {
-/*
-        totalAmount = paymentRequestDocument.getGrandTotal();
-        summaryAccounts = SpringServiceLocator.getPurapAccountingService().generateSummary(paymentRequestDocument.getItems());
-        
-        distributedAccounts = SpringServiceLocator.getPurapAccountingService().generateAccountDistributionForProration(summaryAccounts, totalAmount, new Integer("6"));
-        
-//        paymentRequestDocument.distributeAccounts(item, distributedAccounts);
-*/
-                } else {
-/*
- *  TODO: rewrite this! original wasn't working correctly after move
- *  
-         PurchaseOrderItem poi = item.getPurchaseOrderItem();
-        if ( (poi != null) && (poi.getAccounts() != null) && (!(poi.getAccounts().isEmpty())) && 
-             (poi.getExtendedCost() != null) && ((zero.compareTo(poi.getExtendedCost())) != 0) ) {
-          // use accounts from purchase order item matching this item
-          // account list of current item is already empty
-          item.generateAccountListFromPoItemAccounts(poi.getAccounts());
-        } else {
-          // use line item accounting from PO for distribution
-          totalAmount = this.purchaseOrder.getTotalCost(PurchaseOrder.INCLUDE_ACTIVE_ONLY, PurchaseOrder.INCLUDE_ITEM_TYPE_ITEMS_ONLY);
-          displayAccounts = this.purchaseOrder.getDisplayAccounts(PurchaseOrder.INCLUDE_ACTIVE_ONLY,
-              PurchaseOrder.INCLUDE_NO_BELOW_LINE_ITEMS,PurchaseOrder.ACTUAL_AMOUNT);
-              
-        distributedAccounts = SpringServiceLocator.getPurapAccountingService().generateAccountDistributionForProration(summaryAccounts, totalAmount, new Integer("6"));
-        }
-    
- */
+
+                    totalAmount = paymentRequestDocument.getGrandTotal();
+                    
+                    SpringServiceLocator.getPurapAccountingService().updateAccountAmounts(paymentRequestDocument);
+                    summaryAccounts = SpringServiceLocator.getPurapAccountingService().generateSummary(paymentRequestDocument.getItems());
+                    
+                    // TODO: what is this 6 all about? was that the original scale keeping just in case but I need to look into this?
+                    distributedAccounts = SpringServiceLocator.getPurapAccountingService().generateAccountDistributionForProration(summaryAccounts, totalAmount, new Integer("6"),PaymentRequestAccount.class);
+                    
+                }
+                else {
+
+
+                    PurchaseOrderItem poi = item.getPurchaseOrderItem();
+                    if ((poi != null) && (poi.getSourceAccountingLines() != null) && 
+                            (!(poi.getSourceAccountingLines().isEmpty())) && 
+                            (poi.getExtendedPrice() != null) && 
+                            ((KualiDecimal.ZERO.compareTo(poi.getExtendedPrice())) != 0)) {
+                        // use accounts from purchase order item matching this item
+                        // account list of current item is already empty
+                        item.generateAccountListFromPoItemAccounts(poi.getSourceAccountingLines());
+                    }else { 
+                         totalAmount = paymentRequestDocument.getPurchaseOrderDocument().getTotalDollarAmountAboveLineItems();
+                         SpringServiceLocator.getPurapAccountingService().updateAccountAmounts(paymentRequestDocument.getPurchaseOrderDocument());
+                         summaryAccounts = SpringServiceLocator.getPurapAccountingService().generateSummary(PurApItemUtils.getAboveTheLineOnly(paymentRequestDocument.getPurchaseOrderDocument().getItems()));
+                         distributedAccounts = SpringServiceLocator.getPurapAccountingService().generateAccountDistributionForProration(summaryAccounts, totalAmount, new Integer("6"),PaymentRequestAccount.class); 
+                    }
+                         
+                }
+                if(CollectionUtils.isNotEmpty(distributedAccounts)&&
+                   CollectionUtils.isEmpty(item.getSourceAccountingLines())) {
+                    item.setSourceAccountingLines(distributedAccounts);
                 }
             }
         }
     }
+    
+    
     
     public void addContinuationAccountsNote(PaymentRequestDocument document, HashMap<String, String> accounts) {
         Note note = new Note();

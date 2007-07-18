@@ -15,22 +15,23 @@
  */
 package org.kuali.module.labor.web.struts.form;
 
+import static org.kuali.module.labor.LaborConstants.LABOR_USER_SERVICE_NAME;
+
 import java.sql.Date;
 import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.exceptions.UserNotFoundException;
+import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.util.SpringServiceLocator;
-import static org.kuali.module.labor.LaborConstants.LABOR_USER_SERVICE_NAME;
 import org.kuali.module.labor.bo.LaborUser;
 import org.kuali.module.labor.bo.LedgerBalance;
 import org.kuali.module.labor.document.SalaryExpenseTransferDocument;
 import org.kuali.module.labor.service.LaborUserService;
-import org.kuali.kfs.util.SpringServiceLocator;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 
 /**
  * This class is the form class for the Salary Expense Transfer document. This method extends the parent
@@ -152,5 +153,17 @@ public class SalaryExpenseTransferForm extends ExpenseTransferDocumentFormBase {
     @Override
     public void setUniversityFiscalYear(Integer year) {
         fiscalYear = year;
+    }
+    
+    /**
+     * @see org.kuali.core.web.struts.form.KualiTransactionalDocumentFormBase#getForcedReadOnlyFields()
+     */
+    @Override
+    public Map getForcedReadOnlyTargetFields() {
+        Map map = this.getForcedReadOnlySourceFields();
+        map.remove(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE);
+        map.remove(KFSPropertyConstants.ACCOUNT_NUMBER);
+        map.remove(KFSPropertyConstants.SUB_ACCOUNT_NUMBER);
+        return map;
     }
 }

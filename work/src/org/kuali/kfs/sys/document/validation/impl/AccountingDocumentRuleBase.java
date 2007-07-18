@@ -29,7 +29,6 @@ import static org.kuali.kfs.KFSKeyConstants.ERROR_ACCOUNTINGLINE_INACCESSIBLE_AD
 import static org.kuali.kfs.KFSKeyConstants.ERROR_ACCOUNTINGLINE_INACCESSIBLE_DELETE;
 import static org.kuali.kfs.KFSKeyConstants.ERROR_ACCOUNTINGLINE_INACCESSIBLE_UPDATE;
 import static org.kuali.kfs.KFSKeyConstants.ERROR_ACCOUNTINGLINE_LASTACCESSIBLE_DELETE;
-import static org.kuali.kfs.KFSKeyConstants.ERROR_ACCOUNTING_LINES_DIFFERENT_BUDGET_YEAR;
 import static org.kuali.kfs.KFSKeyConstants.ERROR_APC_INDIRECT_ALLOWED_MULTIPLE;
 import static org.kuali.kfs.KFSKeyConstants.ERROR_APC_INDIRECT_DENIED_MULTIPLE;
 import static org.kuali.kfs.KFSKeyConstants.ERROR_DOCUMENT_ACCOUNTING_LINE_INVALID_FORMAT;

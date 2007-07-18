@@ -57,8 +57,6 @@ import org.kuali.module.labor.rule.GenerateLaborLedgerPendingEntriesRule;
 
 /**
  * Business rule(s) applicable to Labor Expense Transfer documents.
- * 
- * 
  */
 public class LaborExpenseTransferDocumentRules extends AccountingDocumentRuleBase implements GenerateLaborLedgerPendingEntriesRule<LaborLedgerPostingDocument>{
 

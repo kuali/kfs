@@ -15,56 +15,32 @@
  */
 package org.kuali.module.labor.rules;
 
-import static org.kuali.kfs.KFSConstants.BALANCE_TYPE_A21;
-import static org.kuali.kfs.KFSConstants.BALANCE_TYPE_ACTUAL;
-
-import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.lang.StringUtils;
 import org.kuali.core.document.Document;
-import org.kuali.core.exceptions.ReferentialIntegrityException;
 import org.kuali.core.util.ErrorMap;
-import org.kuali.core.util.GeneralLedgerPendingEntrySequenceHelper;
 import org.kuali.core.util.GlobalVariables;
-import org.kuali.core.util.KualiDecimal;
-import org.kuali.core.util.ObjectUtils;
-import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSKeyConstants;
 import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.bo.AccountingLine;
 import org.kuali.kfs.document.AccountingDocument;
-import org.kuali.kfs.rules.AccountingDocumentRuleBase;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.chart.bo.AccountingPeriod;
-import org.kuali.module.chart.bo.ObjectCode;
-import org.kuali.module.financial.bo.OffsetAccount;
 import org.kuali.module.labor.LaborConstants;
-import org.kuali.module.labor.LaborConstants.LABOR_LEDGER_PENDING_ENTRY_CODE;
-import org.kuali.module.labor.bo.BenefitsCalculation;
-import org.kuali.module.labor.bo.BenefitsType;
 import org.kuali.module.labor.bo.ExpenseTransferAccountingLine;
 import org.kuali.module.labor.bo.LaborObject;
-import org.kuali.module.labor.bo.PositionObjectBenefit;
 import org.kuali.module.labor.document.LaborLedgerPostingDocument;
 import org.kuali.module.labor.document.SalaryExpenseTransferDocument;
 import org.kuali.module.labor.rule.GenerateLaborLedgerBenefitClearingPendingEntriesRule;
-import org.kuali.module.labor.rule.GenerateLaborLedgerPendingEntriesRule;
 
 
 /**
  * Business rule(s) applicable to Salary Expense Transfer documents.
- * 
- * 
  */
-
 public class SalaryExpenseTransferDocumentRule extends LaborExpenseTransferDocumentRules implements GenerateLaborLedgerBenefitClearingPendingEntriesRule<LaborLedgerPostingDocument>{
-
     // LLPE KFSConstants
     public static final String LABOR_LEDGER_ACCOUNT_NUMBER = "9712700";
    

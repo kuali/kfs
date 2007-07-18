@@ -60,6 +60,8 @@ import edu.iu.uis.eden.lookupable.Row;
 public class KualiWorkflowUtils extends WorkflowUtils {
     private static final Logger LOG = Logger.getLogger(KualiWorkflowUtils.class);
 
+    public static final String REPORT_XML_BASE_TAG_NAME = "report";
+
     // no trailing slash
     public static final String NEW_MAINTAINABLE_PREFIX_NTS = KualiWorkflowUtils.XSTREAM_MATCH_ANYWHERE_PREFIX + "newMaintainableObject/businessObject";
     public static final String OLD_MAINTAINABLE_PREFIX_NTS = KualiWorkflowUtils.XSTREAM_MATCH_ANYWHERE_PREFIX + "oldMaintainableObject/businessObject";

@@ -32,8 +32,7 @@ import edu.iu.uis.eden.exception.WorkflowException;
 
 public interface PurchaseOrderService {
 
-    public void save(PurchaseOrderDocument purchaseOrderDocument);
-    public void saveWithWorkflowDocumentUpdate(PurchaseOrderDocument purchaseOrderDocument) throws WorkflowException;
+    public void saveDocumentWithoutValidation(PurchaseOrderDocument purchaseOrderDocument);
     
     public PurchaseOrderDocument createAutomaticPurchaseOrderDocument(RequisitionDocument reqDocument);
     public PurchaseOrderDocument createPurchaseOrderDocument(RequisitionDocument reqDocument);

@@ -24,7 +24,9 @@ import java.util.List;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.bo.Note;
 import org.kuali.core.bo.user.UniversalUser;
+import org.kuali.core.exceptions.ValidationException;
 import org.kuali.core.rule.event.RouteDocumentEvent;
+import org.kuali.core.rule.event.SaveOnlyDocumentEvent;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DateTimeService;
 import org.kuali.core.service.DocumentService;
@@ -139,16 +141,23 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
         this.requisitionService = requisitionService;
     }
 
-    public void save(PurchaseOrderDocument purchaseOrderDocument) {
-//        purchaseOrderDocument.prepareForSave();
-        businessObjectService.save(purchaseOrderDocument);
+    public void saveDocumentWithoutValidation(PurchaseOrderDocument purchaseOrderDocument) {
+        try {
+            purchaseOrderDocument.getDocumentHeader().getWorkflowDocument().saveRoutingData();
+            documentService.validateAndPersistDocument(purchaseOrderDocument, new SaveOnlyDocumentEvent(purchaseOrderDocument));
+        }
+        catch (WorkflowException we) {
+            String errorMsg = "Error persisting document # " + purchaseOrderDocument.getDocumentHeader().getDocumentNumber() + " " + we.getMessage(); 
+            LOG.error(errorMsg, we);
+            throw new RuntimeException(errorMsg, we);
+        }
+        catch (ValidationException ve) {
+            String errorMsg = "Error persisting document # " + purchaseOrderDocument.getDocumentHeader().getDocumentNumber() + " " + ve.getMessage(); 
+            LOG.error(errorMsg, ve);
+            throw new RuntimeException(errorMsg, ve);
+        }
     }
 
-    public void saveWithWorkflowDocumentUpdate(PurchaseOrderDocument purchaseOrderDocument) throws WorkflowException {
-        purchaseOrderDocument.getDocumentHeader().getWorkflowDocument().saveRoutingData();
-        this.save(purchaseOrderDocument);
-    }
-    
     /**
      * Creates an automatic PurchaseOrderDocument from given RequisitionDocument. Both documents need to be saved after this method
      * is called.
@@ -183,7 +192,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
      */
     public PurchaseOrderDocument createPurchaseOrderDocument(RequisitionDocument reqDocument) {
         try {
-            PurchaseOrderDocument poDocument = createPurchaseOrderDocument(reqDocument);
+            PurchaseOrderDocument poDocument = createPurchaseOrder(reqDocument);
             documentService.updateDocument(poDocument);
             documentService.prepareWorkflowDocument(poDocument);
             workflowDocumentService.save(poDocument.getDocumentHeader().getWorkflowDocument(), "", null);
@@ -370,7 +379,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 
             po.setPendingActionIndicator(true);
 
-            save(po);
+            businessObjectService.save(po);
 
             PurchaseOrderDocument newPO = (PurchaseOrderDocument)documentService.getNewDocument(docType);
             
@@ -383,14 +392,14 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
             boolean rulePassed = kualiRuleService.applyRules(new RouteDocumentEvent(newPO));
             if (!rulePassed) {
                 po.setPendingActionIndicator(false);
-                save(po);
+                saveDocumentWithoutValidation(po);
                 return false;
             }
             else {
                 if (docType.equals(PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_AMENDMENT_DOCUMENT)) {
                     newPO.setStatusCode(PurapConstants.PurchaseOrderStatuses.AMENDMENT);
                 }
-                save(newPO);
+                saveDocumentWithoutValidation(po);
                 //kualiDocumentFormBase.setDocument(newPO);
                 
                 if (docType.equals(PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_AMENDMENT_DOCUMENT)) {
@@ -453,7 +462,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
         PurchaseOrderDocument document = (PurchaseOrderDocument) kualiDocumentFormBase.getDocument();
         PurchaseOrderDocument oldPO = getCurrentPurchaseOrder(document.getPurapDocumentIdentifier());
         oldPO.setPendingActionIndicator(false);
-        save(oldPO);
+        saveDocumentWithoutValidation(oldPO);
     }
     
     /*
@@ -519,7 +528,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
             purapService.updateStatusAndStatusHistory(po, PurchaseOrderStatuses.OPEN);
             po.setPurchaseOrderInitialOpenDate(dateTimeService.getCurrentSqlDate());
         }
-        this.save(po);
+        this.saveDocumentWithoutValidation(po);
         
     }
     
@@ -623,7 +632,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
         // First, we set the indicators for the oldPO to : Current = N and Pending = N
         oldPO.setPurchaseOrderCurrentIndicator(false);
         oldPO.setPendingActionIndicator(false);
-        save(oldPO);
+        saveDocumentWithoutValidation(oldPO);
         // Now, we set the "new PO" indicators so that Current = Y and Pending = N
         newPO.setPurchaseOrderCurrentIndicator(true);
         newPO.setPendingActionIndicator(false);
@@ -634,7 +643,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
         PurchaseOrderDocument oldPO = getCurrentPurchaseOrder(newPO.getPurapDocumentIdentifier());
         // Set the Pending indicator for the oldPO to N
         oldPO.setPendingActionIndicator(false);
-        save(oldPO);
+        saveDocumentWithoutValidation(oldPO);
     }
 
     public ArrayList<PurchaseOrderQuoteStatus> getPurchaseOrderQuoteStatusCodes() {

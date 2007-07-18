@@ -180,7 +180,7 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase {
     public void prepareForSave(KualiDocumentEvent event) {
         if (ObjectUtils.isNull(getPurapDocumentIdentifier())) {
             //need to save to generate PO id to save in GL entries
-            SpringServiceLocator.getPurchaseOrderService().save(this);
+            SpringServiceLocator.getBusinessObjectService().save(this);
         }
         super.prepareForSave(event);
     }

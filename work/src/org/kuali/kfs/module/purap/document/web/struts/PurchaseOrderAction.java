@@ -274,7 +274,8 @@ public class PurchaseOrderAction extends PurchasingActionBase {
             success = SpringServiceLocator.getPurchaseOrderService().updateFlagsAndRoute(kualiDocumentFormBase.getDocument().getDocumentNumber(), documentType, kualiDocumentFormBase.getAnnotation(), combineAdHocRecipients(kualiDocumentFormBase));
         }
         if (!success) {
-            return mapping.findForward(KFSConstants.MAPPING_ERROR);
+            return mapping.findForward(KFSConstants.MAPPING_BASIC);
+            //return mapping.findForward(KFSConstants.MAPPING_ERROR);
         }
 
         Note newNote = new Note();

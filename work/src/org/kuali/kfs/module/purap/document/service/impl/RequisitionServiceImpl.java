@@ -68,7 +68,7 @@ public class RequisitionServiceImpl implements RequisitionService {
     public void saveDocumentWithoutValidation(RequisitionDocument requisitionDocument) {
         try {
             documentService.validateAndPersistDocument(requisitionDocument, new SaveOnlyDocumentEvent(requisitionDocument));
-        }
+    }
         catch (WorkflowException we) {
             String errorMsg = "Error persisting document # " + requisitionDocument.getDocumentHeader().getDocumentNumber() + " " + we.getMessage(); 
             LOG.error(errorMsg, we);
@@ -88,7 +88,7 @@ public class RequisitionServiceImpl implements RequisitionService {
                 RequisitionDocument doc = (RequisitionDocument)documentService.getByDocumentHeaderId(documentNumber);
                 if (ObjectUtils.isNotNull(doc)) {
                     doc.refreshNonUpdateableReferences();
-                }
+            }
                 return doc;
             }
             catch (WorkflowException e) {
@@ -209,7 +209,7 @@ public class RequisitionServiceImpl implements RequisitionService {
         }
 
         if ((requisition.getPurchaseOrderTotalLimit() != null) && (KFSConstants.ZERO.compareTo(requisition.getPurchaseOrderTotalLimit()) != 0)) {
-            LOG.debug("isAPO() po total limit is not null or not equal to zero; return false.");
+            LOG.debug("isAPO() po total limit is not null and not equal to zero; return false.");
             return "The 'PO not to exceed' amount has been entered.";
         }
 

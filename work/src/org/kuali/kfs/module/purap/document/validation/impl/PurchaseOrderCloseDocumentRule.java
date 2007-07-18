@@ -79,8 +79,7 @@ public class PurchaseOrderCloseDocumentRule extends PurchasingDocumentRuleBase {
                 GlobalVariables.getErrorMap().putError(PurapPropertyConstants.STATUS_CODE, PurapKeyConstants.ERROR_PURCHASE_ORDER_STATUS_NOT_REQUIRED_STATUS, PurchaseOrderStatuses.OPEN );
             }
             else {
-                // TODO: To be uncommented and tested after PREQ implementation gets further.
-                // valid &= processPaymentRequestRules( document );
+                valid &= processPaymentRequestRules( document );
             }
         }
         return valid;
@@ -124,7 +123,7 @@ public class PurchaseOrderCloseDocumentRule extends PurchasingDocumentRuleBase {
             //USE NEXT AS SET ON PO; POs can be forward dated to not encumber until next fiscal year
             explicitEntry.setUniversityFiscalYear(po.getPostingYear());
             explicitEntry.setUniversityFiscalPeriodCode(MONTH1);
-        }
+}
         else {
             //USE CURRENT; don't use FY on PO in case it's a prior year
             explicitEntry.setUniversityFiscalYear(uDate.getUniversityFiscalYear());

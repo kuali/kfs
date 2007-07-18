@@ -22,6 +22,7 @@ import java.util.Collection;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.log4j.Logger;
 import org.kuali.core.service.DateTimeService;
 import org.kuali.kfs.batch.BatchInputFileType;
 import org.kuali.kfs.service.BatchInputFileService;
@@ -40,6 +41,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Transactional
 public class CollectorServiceImpl implements CollectorService {
+    private static Logger LOG = Logger.getLogger(CollectorServiceImpl.class);
+    
     private CollectorHelperService collectorHelperService;
     private BatchInputFileService batchInputFileService;
     private BatchInputFileType collectorInputFileType;
@@ -64,7 +67,13 @@ public class CollectorServiceImpl implements CollectorService {
         
         try {
             for(String inputFileName: fileNamesToLoad) {
-                boolean processSuccess = collectorHelperService.loadCollectorFile(inputFileName, group, collectorReportData, collectorScrubberStatuses);
+                boolean processSuccess = false;
+                try {
+                    processSuccess = collectorHelperService.loadCollectorFile(inputFileName, group, collectorReportData, collectorScrubberStatuses);
+                }
+                catch (RuntimeException e) {
+                    LOG.error("Caught exception trying to load collector file: " + inputFileName, e);
+                }
                 if (processSuccess) {
                     processedFiles.add(inputFileName);
                 }

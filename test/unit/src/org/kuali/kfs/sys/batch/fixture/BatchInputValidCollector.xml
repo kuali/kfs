@@ -22,7 +22,11 @@
 		<transmissionDate>2005-10-05</transmissionDate>
 		<batchSequenceNumber>0</batchSequenceNumber>
 		<personUserId>broc</personUserId>
-		<workgroupName>broc.nelson@rsmart.com</workgroupName>
+		<campusCode>BL</campusCode>
+		<departmentName>UITS</departmentName>
+		<phoneNumber>31240143</phoneNumber>
+		<mailingAddress>425 POPLARS</mailingAddress>
+		<workgroupName>@batch-mailing-list@</workgroupName>
 	</header>
 	<glEntry>
 		<universityFiscalYear>2006</universityFiscalYear>
@@ -35,7 +39,7 @@
 		<objectTypeCode>EX</objectTypeCode>
 		<universityFiscalAccountingPeriod>04</universityFiscalAccountingPeriod>
 		<documentTypeCode>REQ</documentTypeCode>
-		<originCode>EP</originCode>
+		<originationCode>EP</originationCode>
 		<documentNumber>1000000</documentNumber>
 		<transactionEntrySequenceId>1</transactionEntrySequenceId>
 		<transactionLedgerEntryDescription>Description</transactionLedgerEntryDescription>
@@ -46,7 +50,7 @@
 		<projectCode>PROJCD</projectCode>
 		<organizationReferenceId>ORI</organizationReferenceId>
 		<referenceDocumentTypeCode>XXXX</referenceDocumentTypeCode>
-		<referenceOriginCode>01</referenceOriginCode>
+		<referenceOriginationCode>01</referenceOriginationCode>
 		<referenceDocumentNumber>1234</referenceDocumentNumber>
 		<documentReversalDate>2005-10-31</documentReversalDate>
 		<encumbranceUpdateCode>D</encumbranceUpdateCode>
@@ -59,12 +63,15 @@
 		<accountNumber>6182560</accountNumber>
 		<subAccountNumber>6182</subAccountNumber>
 		<objectCode>4707</objectCode>
+		<createDate>2007-07-15</createDate>
 		<subObjectCode>XX</subObjectCode>
-		<interDepartmentalBillingSequenceNumber>47</interDepartmentalBillingSequenceNumber>
+		<collectorDetailSequenceNumber>47</collectorDetailSequenceNumber>
 		<originationCode>XX</originationCode>
 		<documentTypeCode>REQ</documentTypeCode>
 		<documentNumber>1000000</documentNumber>
 		<amount>1000000</amount>
+		<balanceTypeCode>AC</balanceTypeCode>
+		<objectTypeCode>EX</objectTypeCode>
 		<detailText>Line 1b</detailText>
 	</detail>
 	<glEntry>
@@ -78,7 +85,7 @@
 		<objectTypeCode>EX</objectTypeCode>
 		<universityFiscalAccountingPeriod>04</universityFiscalAccountingPeriod>
 		<documentTypeCode>REQ</documentTypeCode>
-		<originCode>EP</originCode>
+		<originationCode>EP</originationCode>
 		<documentNumber>1000000</documentNumber>
 		<transactionEntrySequenceId>1</transactionEntrySequenceId>
 		<transactionLedgerEntryDescription>Description</transactionLedgerEntryDescription>
@@ -89,7 +96,7 @@
 		<projectCode>PROJCD</projectCode>
 		<organizationReferenceId>ORI</organizationReferenceId>
 		<referenceDocumentTypeCode>XXXX</referenceDocumentTypeCode>
-		<referenceOriginCode>01</referenceOriginCode>
+		<referenceOriginationCode>01</referenceOriginationCode>
 		<referenceDocumentNumber>1234</referenceDocumentNumber>
 		<documentReversalDate>2005-10-31</documentReversalDate>
 		<encumbranceUpdateCode>D</encumbranceUpdateCode>
@@ -98,13 +105,16 @@
 		<universityFiscalAccountingPeriod>06</universityFiscalAccountingPeriod>
 		<universityFiscalYear>2006</universityFiscalYear>
 		<createSequence>2006</createSequence>
+		<balanceTypeCode>AC</balanceTypeCode>
+		<objectTypeCode>EX</objectTypeCode>
 		<chartOfAccountsCode>IN</chartOfAccountsCode>
 		<accountNumber>6182560</accountNumber>
 		<subAccountNumber>6182</subAccountNumber>
 		<objectCode>4707</objectCode>
 		<subObjectCode>XX</subObjectCode>
-		<interDepartmentalBillingSequenceNumber>47</interDepartmentalBillingSequenceNumber>
+		<collectorDetailSequenceNumber>47</collectorDetailSequenceNumber>
 		<originationCode>XX</originationCode>
+		<createDate>2007-07-15</createDate>
 		<documentTypeCode>REQ</documentTypeCode>
 		<documentNumber>1000000</documentNumber>
 		<amount>1000000</amount>

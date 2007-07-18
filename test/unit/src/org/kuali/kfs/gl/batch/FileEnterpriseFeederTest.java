@@ -156,6 +156,7 @@ public class FileEnterpriseFeederTest extends OriginEntryTestBase {
      * This method...
      * @throws Exception
      */
+    @RelatesTo(RelatesTo.JiraIssue.KULUT30)
     public final void testOneOkOneBadFileSet() throws Exception {
         List<Integer> fileSets = new ArrayList<Integer>();
         fileSets.add(1);

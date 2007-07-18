@@ -30,7 +30,6 @@ import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.AssertionUtils;
 import org.kuali.core.util.MemoryMonitor;
 import org.kuali.core.util.cache.MethodCacheInterceptor;
-import org.kuali.core.util.spring.NamedOrderedListBean;
 import org.kuali.kfs.service.SchedulerService;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.rice.KNSServiceLocator;
@@ -59,37 +58,55 @@ public class SpringContext {
     private static SpringContext instance = new SpringContext();
     private ConfigurableApplicationContext applicationContext;
 
-    public static Object getBean(String beanName) {
-        if (hideSpringFromTestsMessage != null) {
-            throw new RuntimeException(hideSpringFromTestsMessage);
-        }
-        if (instance.applicationContext == null) {
-            throw new RuntimeException("Spring not initialized properly.  Initialization has begun and the application context is null." + "Probably spring loaded bean is trying to use KNSServiceLocator before the application context is initialized.");
-        }
+    public static <T> T getBean(Class<T> type) {
+        checkProperInitialization();
         try {
-            return instance.applicationContext.getBean(beanName);
+            List<T> beansOfType = getBeansOfType(type);
+            if (beansOfType.size() > 1) {
+                throw new IllegalArgumentException("The getBean(Class<T> type) method of SpringContext expects a type for which there is only one matching bean in the application context: " + type.getName());
+            }
+            return beansOfType.get(0);
         }
         catch (NoSuchBeanDefinitionException nsbde) {
-            LOG.info("Could not find bean named " + beanName + " - checking KNS context");
+            LOG.info("Could not find bean of type " + type.getName() + " - checking KNS context");
             try {
-                return KNSServiceLocator.getService(beanName);
+                return KNSServiceLocator.getBean(type);
             }
             catch (Exception e) {
                 LOG.error(e);
-                throw new NoSuchBeanDefinitionException(beanName, "Unable to locate service in KFS or KNS");
+                throw new NoSuchBeanDefinitionException("No beans of this type in the in KFS or KNS application contexts: " + type.getName());
             }
         }
     }
     
-    public static <T> List<T> getBeansOfType(Class<T> type) {
-        return new ArrayList(instance.applicationContext.getBeansOfType(type).values());
+    @SuppressWarnings("unchecked")
+    public static <T> T getBean(Class<T> type, String name) {
+        checkProperInitialization();
+        try {
+            return (T) instance.applicationContext.getBean(name);
+        }
+        catch (NoSuchBeanDefinitionException nsbde) {
+            LOG.info("Could not find bean named " + name + " - checking KNS context");
+            try {
+                return KNSServiceLocator.getBean(type, name);
+            }
+            catch (Exception e) {
+                LOG.error(e);
+                throw new NoSuchBeanDefinitionException(name, new StringBuffer("No bean of this type and name in the in KFS or KNS application contexts: ").append(type.getName()).append(", ").append(name).toString());
+            }
+        }
     }
     
-    public static List<NamedOrderedListBean> getNamedOrderedListBeans(String listName) {
-        return KNSServiceLocator.getNamedOrderedListBeans(listName, instance.applicationContext);
+    @SuppressWarnings("unchecked")
+    public static <T> List<T> getBeansOfType(Class<T> type) {
+        checkProperInitialization();
+        List<T> beansOfType = new ArrayList<T>(instance.applicationContext.getBeansOfType(type).values());
+        beansOfType.addAll(KNSServiceLocator.getBeansOfType(type));
+        return beansOfType;
     }
     
     protected static String[] getBeanNames() {
+        checkProperInitialization();
         return instance.applicationContext.getBeanDefinitionNames();
     }
     
@@ -109,6 +126,15 @@ public class SpringContext {
         return Arrays.asList(getStringConfigurationProperty(propertyName).split(","));
     }
     
+    private static void checkProperInitialization() {
+        if (hideSpringFromTestsMessage != null) {
+            throw new RuntimeException(hideSpringFromTestsMessage);
+        }
+        if (instance.applicationContext == null) {
+            throw new RuntimeException("Spring not initialized properly.  Initialization has begun and the application context is null." + "Probably spring loaded bean is trying to use KNSServiceLocator before the application context is initialized.");
+        }
+    }
+    
     private static String[] getSpringConfigurationFiles(String[] propertyNames) {
         List<String> springConfigurationFiles = new ArrayList<String>();
         springConfigurationFiles.add(APPLICATION_CONTEXT_DEFINITION);
@@ -123,10 +149,10 @@ public class SpringContext {
 
         Log4jConfigurer.completeStartupLogging();
 
-        if (Double.valueOf(((KualiConfigurationService)getBean(KNSServiceLocator.KUALI_CONFIGURATION_SERVICE)).getPropertyString(MEMORY_MONITOR_THRESHOLD_KEY)) > 0) {
+        if (Double.valueOf((getBean(KualiConfigurationService.class)).getPropertyString(MEMORY_MONITOR_THRESHOLD_KEY)) > 0) {
             ManagementFactory.getThreadMXBean().setThreadContentionMonitoringEnabled(true);
             ManagementFactory.getThreadMXBean().setThreadCpuTimeEnabled(true);
-            MemoryMonitor.setPercentageUsageThreshold(Double.valueOf(((KualiConfigurationService)getBean(KNSServiceLocator.KUALI_CONFIGURATION_SERVICE)).getPropertyString(MEMORY_MONITOR_THRESHOLD_KEY)));
+            MemoryMonitor.setPercentageUsageThreshold(Double.valueOf((getBean(KualiConfigurationService.class)).getPropertyString(MEMORY_MONITOR_THRESHOLD_KEY)));
             MemoryMonitor memoryMonitor = new MemoryMonitor(APPLICATION_CONTEXT_DEFINITION);
             memoryMonitor.addListener(new MemoryMonitor.Listener() {
                 org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(MemoryMonitor.class);
@@ -148,12 +174,12 @@ public class SpringContext {
             });
         }
 
-        if (((KualiConfigurationService)getBean(KNSServiceLocator.KUALI_CONFIGURATION_SERVICE)).getPropertyAsBoolean("use.quartz.scheduling")) {
+        if ((getBean(KualiConfigurationService.class)).getPropertyAsBoolean("use.quartz.scheduling")) {
             try {
                 LOG.info("Attempting to initialize the scheduler");
-                ((SchedulerService)getBean(SpringServiceLocator.SCHEDULER_SERVICE)).initialize();
+                (getBean(SchedulerService.class)).initialize();
                 LOG.info("Starting the scheduler");
-                ((Scheduler) getBean("scheduler")).start();
+                (getBean(Scheduler.class)).start();
             }
             catch (NoSuchBeanDefinitionException e) {
                 LOG.info("Not initializing the scheduler because there is no scheduler bean");
@@ -222,21 +248,19 @@ public class SpringContext {
     }
     
     protected static boolean methodIsCached(Method method, Object[] arguments) {
-        MethodCacheInterceptor kfsMethodCacheInterceptor = (MethodCacheInterceptor) getBean(KNSServiceLocator.METHOD_CACHE_INTERCEPTOR);
-        MethodCacheInterceptor knsMethodCacheInterceptor = KNSServiceLocator.getMethodCacheInterceptor();
-        String cacheKey = knsMethodCacheInterceptor.buildCacheKey(method.toString(), arguments);
-        return kfsMethodCacheInterceptor.containsCacheKey(cacheKey) || knsMethodCacheInterceptor.containsCacheKey(cacheKey);
+        List<MethodCacheInterceptor> methodCacheInterceptors = getBeansOfType(MethodCacheInterceptor.class);
+        String cacheKey = methodCacheInterceptors.get(0).buildCacheKey(method.toString(), arguments);
+        return methodCacheInterceptors.get(0).containsCacheKey(cacheKey) || methodCacheInterceptors.get(1).containsCacheKey(cacheKey);
     }
     
     protected static void removeCachedMethod(Method method, Object[] arguments) {
-        MethodCacheInterceptor kfsMethodCacheInterceptor = (MethodCacheInterceptor) getBean(KNSServiceLocator.METHOD_CACHE_INTERCEPTOR);
-        MethodCacheInterceptor knsMethodCacheInterceptor = KNSServiceLocator.getMethodCacheInterceptor();
-        String cacheKey = knsMethodCacheInterceptor.buildCacheKey(method.toString(), arguments);
-        if (kfsMethodCacheInterceptor.containsCacheKey(cacheKey)) {
-            kfsMethodCacheInterceptor.removeCacheKey(cacheKey);
+        List<MethodCacheInterceptor> methodCacheInterceptors = getBeansOfType(MethodCacheInterceptor.class);
+        String cacheKey = methodCacheInterceptors.get(0).buildCacheKey(method.toString(), arguments);
+        if (methodCacheInterceptors.get(0).containsCacheKey(cacheKey)) {
+            methodCacheInterceptors.get(0).removeCacheKey(cacheKey);
         }
-        if (knsMethodCacheInterceptor.containsCacheKey(cacheKey)) {
-            knsMethodCacheInterceptor.removeCacheKey(cacheKey);
+        if (methodCacheInterceptors.get(1).containsCacheKey(cacheKey)) {
+            methodCacheInterceptors.get(1).removeCacheKey(cacheKey);
         }
     }
 

@@ -29,19 +29,22 @@
 	</bean>
 	
 	<!-- begin batch framework -->
-	<bean class="org.kuali.core.util.spring.NamedOrderedListBean">
-		<property name="name" value="jobNames" />
-		<property name="listItems">
-			<list>
-				<value>scheduleJob</value>
-				<value>corePurgeJob</value>
-			</list>
+	<bean name="kfsBatchComponents" class="org.springframework.beans.factory.config.MapFactoryBean">
+		<property name="sourceMap">
+			<map>
+				<entry key="org.kuali.kfs.batch.JobDescriptor">
+					<list>
+						<value>scheduleJob</value>
+						<value>corePurgeJob</value>
+					</list>
+				</entry>
+				<entry key="org.kuali.kfs.batch.TriggerDescriptor">
+					<list>
+						<value>scheduleJobTrigger</value>
+					</list>
+				</entry>	
+			</map>
 		</property>
-	</bean>
-	
-	<bean class="org.kuali.core.util.spring.NamedOrderedListBean">
-		<property name="name" value="triggerNames" />
-		<property name="listItem" value="scheduleJobTrigger" />
 	</bean>
 	
 	<bean id="scheduler" class="org.kuali.kfs.batch.SchedulerFactoryBean">

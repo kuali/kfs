@@ -22,7 +22,7 @@ import edu.iu.uis.eden.exception.WorkflowException;
 
 public interface RequisitionService {
 
-    public void save(RequisitionDocument requisitionDocument);
+    public void saveDocumentWithoutValidation(RequisitionDocument requisitionDocument);
 
     public RequisitionDocument getRequisitionById(Integer id);
 

@@ -27,6 +27,7 @@ import org.kuali.core.workflow.service.KualiWorkflowDocument;
 import org.kuali.kfs.document.authorization.AccountingDocumentAuthorizerBase;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.purap.PurapAuthorizationConstants;
+import org.kuali.module.purap.PurapConstants.WorkflowConstants.PurchaseOrderDocument.NodeDetails;
 import org.kuali.module.purap.PurapRuleConstants;
 import org.kuali.workflow.KualiWorkflowUtils.RouteLevelNames;
 
@@ -80,7 +81,7 @@ public class PurchaseOrderDocumentAuthorizer extends AccountingDocumentAuthorize
             /**
              * INTERNAL PURCHASING ROUTE LEVEL - Approvers can edit full detail on Purchase Order except they cannot change the CHART/ORG.
              */
-            if (currentRouteLevels.contains(RouteLevelNames.PURCHASE_ORDER_INTERNAL_REVIEW) && workflowDocument.isApprovalRequested()) {
+            if (currentRouteLevels.contains(NodeDetails.INTERNAL_PURCHASING_REVIEW) && workflowDocument.isApprovalRequested()) {
                 // FULL_ENTRY allowed; also set internal purchasing lock
                 editMode = AuthorizationConstants.EditMode.FULL_ENTRY;
                 editModeMap.put(PurapAuthorizationConstants.PurchaseOrderEditMode.LOCK_INTERNAL_PURCHASING_ENTRY, "TRUE");

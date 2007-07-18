@@ -25,6 +25,7 @@ import java.util.Set;
 import org.kuali.core.JstlConstants;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.KFSConstants;
+import org.kuali.workflow.KualiWorkflowUtils;
 
 /**
  * Holds constants for PURAP.
@@ -53,9 +54,9 @@ public class PurapConstants extends JstlConstants {
             // Node Names
                 public static final String ADHOC_REVIEW = "Adhoc Routing";
                 public static final String CONTENT_REVIEW = "Content Review";
-                public static final String SUB_ACCOUNT_REVIEW = "Sub Account Review";
-                public static final String ACCOUNT_REVIEW = "Account Review";
-                public static final String ORG_REVIEW = "Org Review";
+                public static final String SUB_ACCOUNT_REVIEW = KualiWorkflowUtils.RouteLevelNames.SUB_ACCOUNT_REVIEW;
+                public static final String ACCOUNT_REVIEW = KualiWorkflowUtils.RouteLevelNames.ACCOUNT_REVIEW;
+                public static final String ORG_REVIEW = KualiWorkflowUtils.RouteLevelNames.ORG_REVIEW;
                 public static final String SEPARAION_OF_DUTIES_REVIEW = "Separation of Duties";
 
                 public static final List ORDERED_NODE_NAME_LIST = Arrays.asList(new String[] {
@@ -136,9 +137,9 @@ public class PurapConstants extends JstlConstants {
             public static class NodeDetails {
                 public static final String ADHOC_REVIEW = "Adhoc Routing";
                 public static final String ACCOUNTS_PAYABLE_REVIEW = "Accounts Payable Review";
-                public static final String SUB_ACCOUNT_REVIEW = "Sub Account Review";
-                public static final String ACCOUNT_REVIEW = "Account Review";
-                public static final String ORG_REVIEW = "Org Review";
+                public static final String SUB_ACCOUNT_REVIEW = KualiWorkflowUtils.RouteLevelNames.SUB_ACCOUNT_REVIEW;
+                public static final String ACCOUNT_REVIEW = KualiWorkflowUtils.RouteLevelNames.ACCOUNT_REVIEW;
+                public static final String ORG_REVIEW = KualiWorkflowUtils.RouteLevelNames.ORG_REVIEW;
                 public static final String VENDOR_TAX_REVIEW = "Vendor Tax Review";
 
                 public static final List ORDERED_NODE_NAME_LIST = Arrays.asList(new String[] {
@@ -178,7 +179,7 @@ public class PurapConstants extends JstlConstants {
             public static class NodeDetails {
                 public static final String ADHOC_REVIEW = "Adhoc Routing";
                 public static final String ACCOUNTS_PAYABLE_REVIEW = "Accounts Payable Review";
-                public static final String ACCOUNT_REVIEW = "Account Review";
+                public static final String ACCOUNT_REVIEW = KualiWorkflowUtils.RouteLevelNames.ACCOUNT_REVIEW;
 
                 public static final List ORDERED_NODE_NAME_LIST = Arrays.asList(new String[] {
                         ADHOC_REVIEW,

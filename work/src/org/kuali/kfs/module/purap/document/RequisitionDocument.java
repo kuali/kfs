@@ -39,6 +39,7 @@ import org.kuali.module.chart.bo.ChartUser;
 import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.PurapKeyConstants;
 import org.kuali.module.purap.PurapParameterConstants;
+import org.kuali.module.purap.PurapConstants.RequisitionStatuses;
 import org.kuali.module.purap.bo.BillingAddress;
 import org.kuali.module.purap.bo.PurApAccountingLine;
 import org.kuali.module.purap.bo.RequisitionAccount;
@@ -247,6 +248,12 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
         this.refreshNonUpdateableReferences();
 	}
 
+    private void updateStatusAndStatusHistoryAndSave(String statusCode) {
+        SpringServiceLocator.getPurapService().updateStatusAndStatusHistory(this, statusCode);
+        populateDocumentForRouting();
+        SpringServiceLocator.getRequisitionService().saveDocumentWithoutValidation(this);
+    }
+
 	/**
      * @see org.kuali.core.document.DocumentBase#handleRouteStatusChange()
      */
@@ -262,18 +269,20 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
                     newRequisitionStatus = PurapConstants.RequisitionStatuses.CLOSED;
                     PurchaseOrderDocument poDocument = SpringServiceLocator.getPurchaseOrderService().createAutomaticPurchaseOrderDocument(this);
                 }
-                SpringServiceLocator.getPurapService().updateStatusAndStatusHistory(this, newRequisitionStatus);
-                populateDocumentForRouting();
-                SpringServiceLocator.getRequisitionService().save(this);
+                updateStatusAndStatusHistoryAndSave(newRequisitionStatus);
+//                SpringServiceLocator.getPurapService().updateStatusAndStatusHistory(this, newRequisitionStatus);
+//                populateDocumentForRouting();
+//                SpringServiceLocator.getRequisitionService().saveDocumentWithoutValidation(this);
             }
             // DOCUMENT DISAPPROVED
             else if (this.getDocumentHeader().getWorkflowDocument().stateIsDisapproved()) {
                 String nodeName = SpringServiceLocator.getWorkflowDocumentService().getCurrentRouteLevelName(getDocumentHeader().getWorkflowDocument());
                 String statusCode = PurapConstants.WorkflowConstants.RequisitionDocument.NodeDetails.DISAPPROVAL_STATUS_BY_NODE_NAME.get(nodeName);
                 if (StringUtils.isNotBlank(statusCode)) {
-                    SpringServiceLocator.getPurapService().updateStatusAndStatusHistory(this, statusCode);
-                    populateDocumentForRouting();
-                    SpringServiceLocator.getRequisitionService().save(this);
+                    updateStatusAndStatusHistoryAndSave(statusCode);
+//                    SpringServiceLocator.getPurapService().updateStatusAndStatusHistory(this, statusCode);
+//                    populateDocumentForRouting();
+//                    SpringServiceLocator.getRequisitionService().saveDocumentWithoutValidation(this);
                 }
                 else {
                     // TODO PURAP/delyea - what to do in a disapproval where no status to set exists?
@@ -282,16 +291,17 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
             }
             // DOCUMENT CANCELED
             else if (this.getDocumentHeader().getWorkflowDocument().stateIsCanceled()) {
-                SpringServiceLocator.getPurapService().updateStatusAndStatusHistory(this, PurapConstants.RequisitionStatuses.CANCELLED);
-                populateDocumentForRouting();
-                SpringServiceLocator.getRequisitionService().save(this);
+                updateStatusAndStatusHistoryAndSave(RequisitionStatuses.CANCELLED);
+//                SpringServiceLocator.getPurapService().updateStatusAndStatusHistory(this, PurapConstants.RequisitionStatuses.CANCELLED);
+//                populateDocumentForRouting();
+//                SpringServiceLocator.getRequisitionService().saveDocumentWithoutValidation(this);
             }
         }
         catch (WorkflowException e) {
             logAndThrowRuntimeException("Error saving routing data while saving document with id " + getDocumentNumber(), e);
         }
     }
-
+    
     /**
      * @see org.kuali.core.document.DocumentBase#handleRouteLevelChange(edu.iu.uis.eden.clientapp.vo.DocumentRouteLevelChangeVO)
      */
@@ -312,9 +322,10 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
                     if (SpringServiceLocator.getWorkflowInfoService().documentWillHaveAtLeastOneActionRequest(reportCriteriaVO, new String[] { EdenConstants.ACTION_REQUEST_APPROVE_REQ, EdenConstants.ACTION_REQUEST_COMPLETE_REQ })) {
                         String statusCode = PurapConstants.WorkflowConstants.RequisitionDocument.NodeDetails.STATUS_BY_NODE_NAME.get(nextNodeName);
                         if (StringUtils.isNotBlank(statusCode)) {
-                            SpringServiceLocator.getPurapService().updateStatusAndStatusHistory(this, statusCode);
-                            populateDocumentForRouting();
-                            SpringServiceLocator.getRequisitionService().save(this);
+                            updateStatusAndStatusHistoryAndSave(statusCode);
+//                            SpringServiceLocator.getPurapService().updateStatusAndStatusHistory(this, statusCode);
+//                            populateDocumentForRouting();
+//                            SpringServiceLocator.getRequisitionService().saveDocumentWithoutValidation(this);
                         }
                     }
                     else {

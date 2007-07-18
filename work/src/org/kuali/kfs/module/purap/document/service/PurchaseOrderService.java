@@ -36,7 +36,7 @@ public interface PurchaseOrderService {
     public void saveWithWorkflowDocumentUpdate(PurchaseOrderDocument purchaseOrderDocument) throws WorkflowException;
     
     public PurchaseOrderDocument createAutomaticPurchaseOrderDocument(RequisitionDocument reqDocument);
-    public PurchaseOrderDocument createPurchaseOrderDocument(RequisitionDocument reqDocument, boolean isAPO);   
+    public PurchaseOrderDocument createPurchaseOrderDocument(RequisitionDocument reqDocument);
     public PurchaseOrderPostProcessorService convertDocTypeToService(String documentTypeId);  
     
     public boolean updateFlagsAndRoute(String documentNumber, String docType, String annotation, List adhocRoutingRecipients);
@@ -53,8 +53,7 @@ public interface PurchaseOrderService {
     public PurchaseOrderDocument getPurchaseOrderByDocumentNumber(String documentNumber);
     public void setCurrentAndPendingIndicatorsInPostProcessor(PurchaseOrderDocument newPO);
 
-    public PurchaseOrderDocument getOldestPurchaseOrder(Integer id, PurchaseOrderDocument po);
-    public PurchaseOrderDocument getPurchaseOrderInPendingPrintStatus(Integer id);
+    public PurchaseOrderDocument getOldestPurchaseOrder(PurchaseOrderDocument po);
     public ArrayList<Note> getPurchaseOrderNotes(Integer id);
     //public void sendFYItoWorkgroup(PurchaseOrderDocument po, String annotation, Long workgroupId);
     public void cancelAmendment(KualiDocumentFormBase kualiDocumentFormBase);

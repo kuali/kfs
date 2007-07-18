@@ -50,6 +50,7 @@ import org.kuali.module.purap.PurapKeyConstants;
 import org.kuali.module.purap.PurapParameterConstants;
 import org.kuali.module.purap.PurapConstants.PREQDocumentsStrings;
 import org.kuali.module.purap.PurapConstants.PaymentRequestStatuses;
+import org.kuali.module.purap.PurapConstants.WorkflowConstants;
 import org.kuali.module.purap.bo.PaymentRequestAccount;
 import org.kuali.module.purap.bo.PaymentRequestItem;
 import org.kuali.module.purap.bo.PurApAccountingLine;
@@ -1131,7 +1132,7 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
         String accountNumber = (theAccount != null ? StringUtils.trimToEmpty( theAccount.getAccountNumber() ) : "");
         String department = (theAccount != null ? StringUtils.trimToEmpty( (theAccount.getOrganization() != null ? theAccount.getOrganization().getOrganizationName() : "") ) : "");
                                        
-        if( currentRouteLevel.equals(RouteLevelNames.VENDOR_TAX_REVIEW) ){
+        if( currentRouteLevel.equals(WorkflowConstants.PaymentRequestDocument.NodeDetails.VENDOR_TAX_REVIEW) ){
             //tax review
             documentTitle = constructPaymentRequestTaxReviewTitle(vendorName, poNumber, accountNumber, department, deliveryCampus);            
         }else{

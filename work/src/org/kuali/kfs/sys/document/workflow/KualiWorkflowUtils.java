@@ -112,6 +112,7 @@ public class KualiWorkflowUtils extends WorkflowUtils {
     public class RouteLevelNames {
 
         public static final String ACCOUNT_REVIEW = "Account Review";
+        public static final String SUB_ACCOUNT_REVIEW = "Sub Account Review";
         public static final String ORG_REVIEW = "Org Review";
         public static final String EMPLOYEE_INDICATOR = "Employee Indicator";
         public static final String TAX_CONTROL_CODE = "Tax Control Code";
@@ -122,10 +123,6 @@ public class KualiWorkflowUtils extends WorkflowUtils {
         public static final String ALIEN_INDICATOR_PAYMENT_REASON = "Alien Indicator+Payment Reason";
         public static final String PAYMENT_METHOD = "Payment Method";
         public static final String ACCOUNT_REVIEW_FULL_EDIT = "Account Review Full Edit";
-        public static final String REQUISITION_CONTENT_REVIEW = "Content Review";
-        public static final String PURCHASE_ORDER_INTERNAL_REVIEW = "Internal Purchasing Review";
-        public static final String VENDOR_TAX_REVIEW = "Vendor Tax Review";
-        public static final String SEPARATION_OF_DUTIES = "Separation of Duties";
         
     }
 

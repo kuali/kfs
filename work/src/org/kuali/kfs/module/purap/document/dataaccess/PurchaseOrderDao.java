@@ -20,53 +20,29 @@ import org.kuali.module.purap.document.PurchaseOrderDocument;
 public interface PurchaseOrderDao {
 
     /**
-     * 
-     * This method gets a PurchaseOrderDocument by the
-     * purapDocumentIdentifier.
+     * This method gets the Purchase Order Document's document number
+     * using the purapDocumentIdentifier as criteria
      * 
      * @param id Integer the purapDocumentIdentifier.
-     * @return PurchaseOrderDocument 
+     * @return the document number of the purchase order found or null if no purchase order found 
      */
-    public PurchaseOrderDocument getPurchaseOrderById(Integer id);
+    public String getDocumentNumberForPurchaseOrderId(Integer id);
     
     /**
-     * 
-     * This method gets the current PurchaseOrderDocument by the
-     * purapDocumentIdentifier.
+     * This method gets the current Purchase Order Document's document number
+     * by the purapDocumentIdentifier.
      * 
      * @param id Integer the purapDocumentIdentifier.
-     * @return PurchaseOrderDocument 
+     * @return the document number of the purchase order found or null if no purchase order found 
      */
-    public PurchaseOrderDocument getCurrentPurchaseOrder(Integer id);
+    public String getDocumentNumberForCurrentPurchaseOrder(Integer id);
 
     /**
-     * 
      * This method gets the oldest, which is the first PurchaseOrderDocument
      * that had been created in the database given the purapDocumentIdentifier.
      * 
      * @param id Integer the purapDocumentIdentifier.
-     * @param po the Purchase Order
-     * @return PurchaseOrderDocument
+     * @return the document number of the purchase order found or null if no purchase order found 
      */
-    public PurchaseOrderDocument getOldestPurchaseOrder(Integer id, PurchaseOrderDocument po);
-    
-    /**
-     * 
-     * This method gets the PurchaseOrderDocument whose status is Pending Print
-     * and purapDocumentIdentifier is the same as the id in the input parameter.
-     * 
-     * @param id Integer the purapDocumentIdentifier.
-     * @return PurchaseOrderDocument
-     */
-    public PurchaseOrderDocument getPurchaseOrderInPendingPrintStatus(Integer id);
-    
-    /**
-     * 
-     * This method gets the PurchaseOrderDocument whose document number is the
-     * same as the document number in the input parameter.
-     * 
-     * @param documentNumber the document number of the PO we're looking for
-     * @return PurchaseOrderDocument
-     */
-    public PurchaseOrderDocument getPurchaseOrderByDocumentNumber(String documentNumber); 
+    public String getDocumentNumberForOldestPurchaseOrder(Integer id);
 }

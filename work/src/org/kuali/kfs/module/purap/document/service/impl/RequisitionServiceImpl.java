@@ -23,6 +23,8 @@ import org.kuali.core.bo.Note;
 import org.kuali.core.bo.user.AuthenticationUserId;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.exceptions.UserNotFoundException;
+import org.kuali.core.exceptions.ValidationException;
+import org.kuali.core.rule.event.SaveOnlyDocumentEvent;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DateTimeService;
 import org.kuali.core.service.DocumentService;
@@ -63,15 +65,31 @@ public class RequisitionServiceImpl implements RequisitionService {
     private VendorService vendorService;
     private KualiConfigurationService kualiConfigurationService;
 
-    public void save(RequisitionDocument requisitionDocument) {
-        businessObjectService.save(requisitionDocument);
+    public void saveDocumentWithoutValidation(RequisitionDocument requisitionDocument) {
+        try {
+            documentService.validateAndPersistDocument(requisitionDocument, new SaveOnlyDocumentEvent(requisitionDocument));
+        }
+        catch (WorkflowException we) {
+            String errorMsg = "Error persisting document # " + requisitionDocument.getDocumentHeader().getDocumentNumber() + " " + we.getMessage(); 
+            LOG.error(errorMsg, we);
+            throw new RuntimeException(errorMsg, we);
+        }
+        catch (ValidationException ve) {
+            String errorMsg = "Error persisting document # " + requisitionDocument.getDocumentHeader().getDocumentNumber() + " " + ve.getMessage(); 
+            LOG.error(errorMsg, ve);
+            throw new RuntimeException(errorMsg, ve);
+        }
     }
     
     public RequisitionDocument getRequisitionById(Integer id) {
         String documentNumber = requisitionDao.getDocumentNumberForRequisitionId(id);
         if (ObjectUtils.isNotNull(documentNumber)) {
             try {
-                return (RequisitionDocument)documentService.getByDocumentHeaderId(documentNumber);
+                RequisitionDocument doc = (RequisitionDocument)documentService.getByDocumentHeaderId(documentNumber);
+                if (ObjectUtils.isNotNull(doc)) {
+                    doc.refreshNonUpdateableReferences();
+                }
+                return doc;
             }
             catch (WorkflowException e) {
                 String errorMessage = "Error getting requisition document from document service";

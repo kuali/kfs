@@ -725,7 +725,7 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase {
     }
     
     public void refreshDocumentBusinessObject() {
-        documentBusinessObject = SpringServiceLocator.getPurchaseOrderService().getOldestPurchaseOrder(getPurapDocumentIdentifier(),this);
+        documentBusinessObject = SpringServiceLocator.getPurchaseOrderService().getOldestPurchaseOrder(this);
     }
 
     @Override

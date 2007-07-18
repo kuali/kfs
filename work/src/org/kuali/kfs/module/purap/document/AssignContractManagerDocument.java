@@ -118,8 +118,8 @@ public class AssignContractManagerDocument extends TransactionalDocumentBase {
                         //only update REQ if code is empty and status is correct
                         req.setContractManagerCode(detail.getContractManagerCode());
                         SpringServiceLocator.getPurapService().updateStatusAndStatusHistory(req, PurapConstants.RequisitionStatuses.CLOSED);
-                        SpringServiceLocator.getRequisitionService().save(req);
-                        PurchaseOrderDocument poDocument = SpringServiceLocator.getPurchaseOrderService().createPurchaseOrderDocument(req, false);
+                        SpringServiceLocator.getRequisitionService().saveDocumentWithoutValidation(req);
+                        PurchaseOrderDocument poDocument = SpringServiceLocator.getPurchaseOrderService().createPurchaseOrderDocument(req);
 
                     }
                     else {

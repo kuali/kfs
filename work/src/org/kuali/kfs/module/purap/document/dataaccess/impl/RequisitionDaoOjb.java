@@ -15,9 +15,12 @@
  */
 package org.kuali.module.purap.dao.ojb;
 
+import java.util.Iterator;
+
 import org.apache.ojb.broker.query.Criteria;
-import org.apache.ojb.broker.query.QueryByCriteria;
+import org.apache.ojb.broker.query.ReportQueryByCriteria;
 import org.kuali.core.dao.ojb.PlatformAwareDaoBaseOjb;
+import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.module.purap.PurapPropertyConstants;
 import org.kuali.module.purap.dao.RequisitionDao;
 import org.kuali.module.purap.document.RequisitionDocument;
@@ -29,28 +32,34 @@ import org.kuali.module.purap.document.RequisitionDocument;
 public class RequisitionDaoOjb extends PlatformAwareDaoBaseOjb implements RequisitionDao {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(RequisitionDaoOjb.class);
 
-    public RequisitionDocument getRequisitionById(Integer id) {
-        Criteria criteria = new Criteria();
-        criteria.addEqualTo(PurapPropertyConstants.PURAP_DOC_ID, id);
-
-        RequisitionDocument r = (RequisitionDocument) getPersistenceBrokerTemplate().getObjectByQuery(
-            new QueryByCriteria(RequisitionDocument.class, criteria));
-        if (r != null) {
-            r.refreshNonUpdateableReferences();
-        }
-        return r;
-      }
-    
+    /**
+     * @see org.kuali.module.purap.dao.RequisitionDao#getDocumentNumberForRequisitionId(java.lang.Integer)
+     */
     public String getDocumentNumberForRequisitionId(Integer id) {
         Criteria criteria = new Criteria();
         criteria.addEqualTo(PurapPropertyConstants.PURAP_DOC_ID, id);
 
-        RequisitionDocument r = (RequisitionDocument) getPersistenceBrokerTemplate().getObjectByQuery(
-            new QueryByCriteria(RequisitionDocument.class, criteria));
-        if (r != null) {
-            return r.getDocumentNumber();
+        ReportQueryByCriteria rqbc = new ReportQueryByCriteria(RequisitionDocument.class, criteria);
+        rqbc.setAttributes(new String[] {KFSPropertyConstants.DOCUMENT_NUMBER});
+        rqbc.addOrderByAscending(KFSPropertyConstants.DOCUMENT_NUMBER);
+        Iterator iter = getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(rqbc);
+        if (iter.hasNext()) {
+            Object[] cols = (Object[])iter.next();
+            if (iter.hasNext()) {
+                // the iterator should have held only a single doc id of data but it holds 2 or more
+                String errorMsg = "Expected single document number for given criteria but multiple (at least 2) were returned";
+                LOG.error(errorMsg);
+                throw new RuntimeException();
+            }
+            return (String)cols[0];
         }
         return null;
+//        RequisitionDocument r = (RequisitionDocument) getPersistenceBrokerTemplate().getObjectByQuery(
+//            new QueryByCriteria(RequisitionDocument.class, criteria));
+//        if (r != null) {
+//            return r.getDocumentNumber();
+//        }
+//        return null;
     }
 
 }

@@ -161,10 +161,18 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
         reqDocument.setPurchaseOrderAutomaticIndicator(Boolean.TRUE);
         reqDocument.setContractManagerCode(PurapConstants.APO_CONTRACT_MANAGER);
 
-        // create PO and populate with default data
-        PurchaseOrderDocument poDocument = createPurchaseOrderDocument(reqDocument, true);
+        try {
+            // create PO and populate with default data
+            PurchaseOrderDocument poDocument = createPurchaseOrderDocument(reqDocument);
+            poDocument.setDefaultValuesForAPO();
+            documentService.routeDocument(poDocument, null, null);
 
-        return poDocument;
+            return poDocument;
+        }
+        catch (WorkflowException e) {
+            LOG.error("Error creating PO document: " + e.getMessage(),e);
+            throw new RuntimeException("Error creating PO document: " + e.getMessage(),e);
+        }
     }
 
     /**
@@ -173,13 +181,24 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
      * @param reqDocument - RequisitionDocument that the PO is being created from
      * @return PurchaseOrderDocument
      */
-    public PurchaseOrderDocument createPurchaseOrderDocument(RequisitionDocument reqDocument, boolean isAPO) {
-        // update REQ data
-        purapService.updateStatusAndStatusHistory(reqDocument, RequisitionStatuses.CLOSED);
-
+    public PurchaseOrderDocument createPurchaseOrderDocument(RequisitionDocument reqDocument) {
+        try {
+            PurchaseOrderDocument poDocument = createPurchaseOrderDocument(reqDocument);
+            documentService.updateDocument(poDocument);
+            documentService.prepareWorkflowDocument(poDocument);
+            workflowDocumentService.save(poDocument.getDocumentHeader().getWorkflowDocument(), "", null);
+            return poDocument;
+        }
+        catch (WorkflowException e) {
+            LOG.error("Error creating PO document: " + e.getMessage(),e);
+            throw new RuntimeException("Error creating PO document: " + e.getMessage(),e);
+        }
+    }
+    
+    private PurchaseOrderDocument createPurchaseOrder(RequisitionDocument reqDocument) throws WorkflowException {
         // create PO and populate with default data
         PurchaseOrderDocument poDocument = null;
-        try {
+//        try {
             poDocument = (PurchaseOrderDocument) documentService.getNewDocument(PurchaseOrderDocTypes.PURCHASE_ORDER_DOCUMENT);
             poDocument.populatePurchaseOrderFromRequisition(reqDocument);
             poDocument.setStatusCode(PurchaseOrderStatuses.IN_PROCESS);
@@ -209,24 +228,24 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 
             purapService.addBelowLineItems(poDocument);
 
-            if (isAPO) {
-                poDocument.setDefaultValuesForAPO();
-                documentService.routeDocument(poDocument, null, null);
-            }
-            else {
-                documentService.updateDocument(poDocument);
-                documentService.prepareWorkflowDocument(poDocument);
-                workflowDocumentService.save(poDocument.getDocumentHeader().getWorkflowDocument(), "", null);
-            }
-        }
-        catch (WorkflowException e) {
-            LOG.error("Error creating PO document: " + e.getMessage());
-            throw new RuntimeException("Error creating PO document: " + e.getMessage());
-        }
-        catch (Exception e) {
-            LOG.error("Error persisting document # " + poDocument.getDocumentHeader().getDocumentNumber() + " " + e.getMessage());
-            throw new RuntimeException("Error persisting document # " + poDocument.getDocumentHeader().getDocumentNumber() + " " + e.getMessage());
-        }
+//            if (isAPO) {
+//                poDocument.setDefaultValuesForAPO();
+//                documentService.routeDocument(poDocument, null, null);
+//            }
+//            else {
+//                documentService.updateDocument(poDocument);
+//                documentService.prepareWorkflowDocument(poDocument);
+//                workflowDocumentService.save(poDocument.getDocumentHeader().getWorkflowDocument(), "", null);
+//            }
+//        }
+//        catch (WorkflowException e) {
+//            LOG.error("Error creating PO document: " + e.getMessage(),e);
+//            throw new RuntimeException("Error creating PO document: " + e.getMessage(),e);
+//        }
+//        catch (Exception e) {
+//            LOG.error("Error persisting document # " + poDocument.getDocumentHeader().getDocumentNumber() + " " + e.getMessage(),e);
+//            throw new RuntimeException("Error persisting document # " + poDocument.getDocumentHeader().getDocumentNumber() + " " + e.getMessage(),e);
+//        }
         return poDocument;
     }
 
@@ -339,10 +358,6 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
             po.setPurchaseOrderCurrentIndicator(true);
         }
         return result;
-    }
-
-    public PurchaseOrderDocument getPurchaseOrderInPendingPrintStatus(Integer id) {
-        return purchaseOrderDao.getPurchaseOrderInPendingPrintStatus(id);
     }
 
     /**
@@ -538,23 +553,57 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
     }
 
     public PurchaseOrderDocument getCurrentPurchaseOrder(Integer id) {
-        return purchaseOrderDao.getCurrentPurchaseOrder(id);
+        return getPurchaseOrderByDocumentNumber(purchaseOrderDao.getDocumentNumberForCurrentPurchaseOrder(id));
     }
 
     public PurchaseOrderDocument getPurchaseOrderByDocumentNumber(String documentNumber) {
-        return purchaseOrderDao.getPurchaseOrderByDocumentNumber(documentNumber);
+        if (ObjectUtils.isNotNull(documentNumber)) {
+            try {
+                PurchaseOrderDocument doc = (PurchaseOrderDocument)documentService.getByDocumentHeaderId(documentNumber);
+                if (ObjectUtils.isNotNull(doc)) {
+                    doc.refreshNonUpdateableReferences();
+                }
+                return doc;
+            }
+            catch (WorkflowException e) {
+                String errorMessage = "Error getting requisition document from document service";
+                LOG.error("getRequisitionById() " + errorMessage,e);
+                throw new RuntimeException(errorMessage,e);
+            }
+        }
+        return null;
     }
 
-    public PurchaseOrderDocument getOldestPurchaseOrder(Integer id, PurchaseOrderDocument po) {
-        LOG.debug("entering getOldestPO");
-        PurchaseOrderDocument pod = purchaseOrderDao.getOldestPurchaseOrder(id, po);
-        LOG.debug("exiting getOldestPO");
-        return pod;
+    private PurchaseOrderDocument getOldestPurchaseOrder(Integer id) {
+        LOG.debug("entering getOldestPO(Integer)");
+        LOG.debug("exiting getOldestPO(Integer)");
+        return getPurchaseOrderByDocumentNumber(purchaseOrderDao.getDocumentNumberForOldestPurchaseOrder(id));
+    }
+    
+    public PurchaseOrderDocument getOldestPurchaseOrder(PurchaseOrderDocument po) {
+        LOG.debug("entering getOldestPO(PurchaseOrderDocument)");
+        if (ObjectUtils.isNotNull(po)) {
+            String oldestDocumentNumber = purchaseOrderDao.getDocumentNumberForOldestPurchaseOrder(po.getPurapDocumentIdentifier());
+            if (StringUtils.equals(oldestDocumentNumber, po.getDocumentNumber())) {
+                //manually set bo notes - this is mainly done for performance reasons (preferably we could call
+                //retrieve doc notes in PersistableBusinessObjectBase but that is private)
+                po.setBoNotes(SpringServiceLocator.getNoteService().getByRemoteObjectId(po.getObjectId()));
+                LOG.debug("exiting getOldestPO(PurchaseOrderDocument)");
+                return po;
+            }
+        }
+        LOG.debug("exiting getOldestPO(PurchaseOrderDocument)");
+        return getOldestPurchaseOrder(po.getPurapDocumentIdentifier(), po);
+    }
+    
+    private PurchaseOrderDocument getOldestPurchaseOrder(Integer id, PurchaseOrderDocument po) {
+        String oldestDocumentNumber = purchaseOrderDao.getDocumentNumberForOldestPurchaseOrder(id);
+        return getPurchaseOrderByDocumentNumber(oldestDocumentNumber);
     }
 
     public ArrayList<Note> getPurchaseOrderNotes(Integer id) {
         ArrayList notes = new TypedArrayList(Note.class);
-        PurchaseOrderDocument po = getOldestPurchaseOrder(id, null);
+        PurchaseOrderDocument po = getOldestPurchaseOrder(id);
         notes = noteService.getByRemoteObjectId(po.getObjectId());
         return notes;
     }
@@ -592,5 +641,5 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
         ArrayList poQuoteStatuses = new TypedArrayList(PurchaseOrderQuoteStatus.class);
         poQuoteStatuses = (ArrayList) businessObjectService.findAll(PurchaseOrderQuoteStatus.class);
         return poQuoteStatuses;
-}
+    }
 }

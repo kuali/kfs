@@ -19,8 +19,11 @@ import org.kuali.module.purap.document.RequisitionDocument;
 
 public interface RequisitionDao {
 
-//    public RequisitionDocument getRequisitionById(Integer id);
-    
+    /**
+     * This method...
+     * @param id
+     * @return
+     */
     public String getDocumentNumberForRequisitionId(Integer id);
 
 }

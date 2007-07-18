@@ -28,6 +28,7 @@ import org.kuali.core.workflow.service.KualiWorkflowDocument;
 import org.kuali.kfs.document.authorization.AccountingDocumentAuthorizerBase;
 import org.kuali.module.chart.bo.ChartUser;
 import org.kuali.module.purap.PurapAuthorizationConstants;
+import org.kuali.module.purap.PurapConstants.WorkflowConstants.RequisitionDocument.NodeDetails;
 import org.kuali.module.purap.bo.RequisitionItem;
 import org.kuali.module.purap.document.RequisitionDocument;
 import org.kuali.workflow.KualiWorkflowUtils.RouteLevelNames;
@@ -64,7 +65,7 @@ public class RequisitionDocumentAuthorizer extends AccountingDocumentAuthorizerB
             /**
              * CONTENT ROUTE LEVEL - Approvers can edit full detail on Requisition except they cannot change the CHART/ORG.
              */
-            if (currentRouteLevels.contains(RouteLevelNames.REQUISITION_CONTENT_REVIEW) && workflowDocument.isApprovalRequested()) {
+            if (currentRouteLevels.contains(NodeDetails.CONTENT_REVIEW) && workflowDocument.isApprovalRequested()) {
                 // FULL_ENTRY will be set by super which is fine; also set content lock
                 editMode = PurapAuthorizationConstants.RequisitionEditMode.LOCK_CONTENT_ENTRY;
             }
@@ -72,7 +73,7 @@ public class RequisitionDocumentAuthorizer extends AccountingDocumentAuthorizerB
             /**
              * FISCAL OFFICER ROUTE LEVEL - Approvers can edit only the accounting lines that they own and no other detail on REQ.
              */
-            else if (currentRouteLevels.contains(RouteLevelNames.ACCOUNT_REVIEW)) {
+            else if (currentRouteLevels.contains(NodeDetails.ACCOUNT_REVIEW)) {
                 List lineList = new ArrayList();
                 for (Iterator iter = reqDocument.getItems().iterator(); iter.hasNext();) {
                     RequisitionItem item = (RequisitionItem) iter.next();
@@ -89,7 +90,7 @@ public class RequisitionDocumentAuthorizer extends AccountingDocumentAuthorizerB
             /**
              * SEP of DUTIES ROUTE LEVEL - Approvers can only approve or diapprove.
              */
-            else if (currentRouteLevels.contains(RouteLevelNames.SEPARATION_OF_DUTIES)) {
+            else if (currentRouteLevels.contains(NodeDetails.SEPARAION_OF_DUTIES_REVIEW)) {
                 editModeMap.remove(AuthorizationConstants.EditMode.FULL_ENTRY);
                 editMode = AuthorizationConstants.TransactionalEditMode.VIEW_ONLY;
             }

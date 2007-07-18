@@ -41,6 +41,7 @@ import org.kuali.module.gl.bo.OriginEntrySource;
 import org.kuali.module.gl.service.OriginEntryService;
 import org.kuali.module.gl.service.impl.FileEnterpriseFeederServiceImpl;
 import org.kuali.test.WithTestSpringContext;
+import org.kuali.test.suite.RelatesTo;
 
 /**
  * This class tests the enterprise feeder service.
@@ -107,13 +108,14 @@ public class FileEnterpriseFeederTest extends OriginEntryTestBase {
      * Tests to ensure that the feeder will not feed upon anything if no done files exist.
      * @throws Exception
      */
+    @RelatesTo(RelatesTo.JiraIssue.KULUT30)
     public final void testNoDoneFiles() throws Exception {
         List<Integer> fileSets = Collections.emptyList();
         
         initializeDatabaseForTest();
         assertNoExtraDoneFilesExistAndCreateDoneFilesForSets(fileSets);
 
-        FeederStep feederStep = SpringServiceLocator.getOriginEntryFeederStep();
+        FeederStep feederStep = SpringServiceLocator.getEnterpriseFeedStep();
         feederStep.execute(getClass().getName());
         
         assertDoneFilesDeleted(fileSets);
@@ -129,6 +131,7 @@ public class FileEnterpriseFeederTest extends OriginEntryTestBase {
      * 
      * @throws Exception
      */
+    @RelatesTo(RelatesTo.JiraIssue.KULUT30)
     public final void testOneOkFileSet() throws Exception {
         List<Integer> fileSets = new ArrayList<Integer>();
         fileSets.add(2);
@@ -136,7 +139,7 @@ public class FileEnterpriseFeederTest extends OriginEntryTestBase {
         initializeDatabaseForTest();
         assertNoExtraDoneFilesExistAndCreateDoneFilesForSets(fileSets);
 
-        FeederStep feederStep = SpringServiceLocator.getOriginEntryFeederStep();
+        FeederStep feederStep = SpringServiceLocator.getEnterpriseFeedStep();
         assertTrue("Step should have returned true", feederStep.execute(getClass().getName()));
         
         assertDoneFilesDeleted(fileSets);
@@ -161,7 +164,7 @@ public class FileEnterpriseFeederTest extends OriginEntryTestBase {
         initializeDatabaseForTest();
         assertNoExtraDoneFilesExistAndCreateDoneFilesForSets(fileSets);
 
-        FeederStep feederStep = SpringServiceLocator.getOriginEntryFeederStep();
+        FeederStep feederStep = SpringServiceLocator.getEnterpriseFeedStep();
         assertTrue("Step should have returned true", feederStep.execute(getClass().getName()));
         
         assertDoneFilesDeleted(fileSets);
@@ -174,6 +177,7 @@ public class FileEnterpriseFeederTest extends OriginEntryTestBase {
         assertOriginEntriesLoaded(expectedEntries, group);
     }
     
+    @RelatesTo(RelatesTo.JiraIssue.KULUT30)
     public final void testBadReconFileSet() throws Exception {
         List<Integer> fileSets = new ArrayList<Integer>();
         fileSets.add(2);
@@ -182,7 +186,7 @@ public class FileEnterpriseFeederTest extends OriginEntryTestBase {
         initializeDatabaseForTest();
         assertNoExtraDoneFilesExistAndCreateDoneFilesForSets(fileSets);
 
-        FeederStep feederStep = SpringServiceLocator.getOriginEntryFeederStep();
+        FeederStep feederStep = SpringServiceLocator.getEnterpriseFeedStep();
         assertTrue("Step should have returned true", feederStep.execute(getClass().getName()));
         
         assertDoneFilesDeleted(fileSets);
@@ -195,6 +199,7 @@ public class FileEnterpriseFeederTest extends OriginEntryTestBase {
         assertOriginEntriesLoaded(expectedEntries, group);
     }
     
+    @RelatesTo(RelatesTo.JiraIssue.KULUT30)
     public final void testDataFileMissing() throws Exception {
         List<Integer> fileSets = new ArrayList<Integer>();
         fileSets.add(2);
@@ -202,7 +207,7 @@ public class FileEnterpriseFeederTest extends OriginEntryTestBase {
         initializeDatabaseForTest();
         assertNoExtraDoneFilesExistAndCreateDoneFilesForSets(fileSets);
 
-        FeederStep feederStep = SpringServiceLocator.getOriginEntryFeederStep();
+        FeederStep feederStep = SpringServiceLocator.getEnterpriseFeedStep();
         assertTrue("Step should have returned true", feederStep.execute(getClass().getName()));
         
         assertDoneFilesDeleted(fileSets);
@@ -234,6 +239,7 @@ public class FileEnterpriseFeederTest extends OriginEntryTestBase {
         return group;
     }
     
+    @RelatesTo(RelatesTo.JiraIssue.KULUT30)
     protected void checkNecessaryFilesPresentAndReadable() {
         boolean invalidFiles = false;
         StringBuilder problemFiles = new StringBuilder();

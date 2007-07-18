@@ -29,6 +29,7 @@ import java.util.Set;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
+import org.kuali.core.bo.DocumentHeader;
 import org.kuali.core.bo.Note;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.service.BusinessObjectService;
@@ -42,6 +43,8 @@ import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.workflow.service.WorkflowDocumentService;
+import org.kuali.kfs.KFSConstants;
+import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.bo.SourceAccountingLine;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.chart.bo.Account;
@@ -1074,15 +1077,9 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
         PurchaseOrderDocument purchaseOrderDocument = SpringServiceLocator.getPurchaseOrderService().getCurrentPurchaseOrder(paymentRequestDocument.getPurchaseOrderIdentifier());
 
         paymentRequestDocument.populatePaymentRequestFromPurchaseOrder(purchaseOrderDocument);
-        //KULPURAP-683 - set description to a specific value
-        //TODO: can we abstract this any better so the values aren't hardcoded
-        StringBuffer descr = new StringBuffer("");
-        descr.append("PO: ");
-        descr.append(paymentRequestDocument.getPurchaseOrderIdentifier());
-        descr.append(" Vendor: ");
-        descr.append( StringUtils.trimToEmpty(paymentRequestDocument.getVendorName()) );
-        paymentRequestDocument.getDocumentHeader().setFinancialDocumentDescription(descr.toString());
 
+        paymentRequestDocument.getDocumentHeader().setFinancialDocumentDescription( createPreqDocumentDescription(paymentRequestDocument.getPurchaseOrderIdentifier(), paymentRequestDocument.getVendorName() ) );
+        
         //If the list of closed/expired accounts is not empty add a warning and add a note for the close / epired accounts which get replaced
         
         //HashMap<String, String> expiredOrClosedAccounts = paymentRequestService.expiredOrClosedAccountsList(paymentRequestDocument);
@@ -1100,6 +1097,20 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
         
     }
 
+    private String createPreqDocumentDescription(Integer purchaseOrderIdentifier, String vendorName){
+        //KULPURAP-683 - set description to a specific value
+        //TODO: can we abstract this any better so the values aren't hardcoded
+        StringBuffer descr = new StringBuffer("");
+        descr.append("PO: ");
+        descr.append(purchaseOrderIdentifier);
+        descr.append(" Vendor: ");
+        descr.append( StringUtils.trimToEmpty(vendorName) );
+
+        int noteTextMaxLength = SpringServiceLocator.getDataDictionaryService().getAttributeMaxLength(DocumentHeader.class, KFSPropertyConstants.FINANCIAL_DOCUMENT_DESCRIPTION).intValue();
+        
+        return descr.toString().substring(0, noteTextMaxLength);
+    }
+    
     /** 
      * This method updates the workflow documents title.
      * 

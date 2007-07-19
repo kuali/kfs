@@ -81,7 +81,7 @@ public class CreditMemoAction extends AccountsPayableActionBase {
         else {
             creditMemoDocument.setStatusCode(PurapConstants.CreditMemoStatuses.IN_PROCESS);
             SpringServiceLocator.getCreditMemoCreateService().populateDocumentAfterInit(creditMemoDocument);
-            SpringServiceLocator.getCreditMemoService().save(creditMemoDocument);
+            SpringServiceLocator.getCreditMemoService().saveDocumentWithoutValidation(creditMemoDocument);
         }
 
         creditMemoDocument.refreshNonUpdateableReferences();

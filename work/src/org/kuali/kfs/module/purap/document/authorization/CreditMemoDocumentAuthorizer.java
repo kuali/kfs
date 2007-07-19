@@ -31,7 +31,6 @@ import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.purap.PurapAuthorizationConstants;
 import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.PurapRuleConstants;
-import org.kuali.module.purap.PurapConstants.CREDIT_MEMO_TYPES;
 import org.kuali.module.purap.document.CreditMemoDocument;
 
 /**
@@ -85,7 +84,7 @@ public class CreditMemoDocumentAuthorizer extends AccountingDocumentAuthorizerBa
             editModeMap.put(PurapAuthorizationConstants.CreditMemoEditMode.DISPLAY_INIT_TAB, "FALSE");
         }
 
-        if (!StringUtils.equals(creditMemoDocument.getCreditMemoType(), CREDIT_MEMO_TYPES.TYPE_PREQ)) {
+        if (!creditMemoDocument.isSourceDocumentPaymentRequest()) {
             editModeMap.put(PurapAuthorizationConstants.CreditMemoEditMode.LOCK_VENDOR_ENTRY, "TRUE");
         }
 

@@ -60,7 +60,11 @@ import edu.iu.uis.eden.lookupable.Row;
 public class KualiWorkflowUtils extends WorkflowUtils {
     private static final Logger LOG = Logger.getLogger(KualiWorkflowUtils.class);
 
-    public static final String REPORT_XML_BASE_TAG_NAME = "report";
+    /* the following is so verbose because most times the match anywhere prefix is used and the
+     * verboseness prevents bad matching if a document has an attribute named 'report'
+     */
+    
+    public static final String REPORT_XML_BASE_TAG_NAME = "report_for_routing_purposes";  // this is 
 
     // no trailing slash
     public static final String NEW_MAINTAINABLE_PREFIX_NTS = KualiWorkflowUtils.XSTREAM_MATCH_ANYWHERE_PREFIX + "newMaintainableObject/businessObject";

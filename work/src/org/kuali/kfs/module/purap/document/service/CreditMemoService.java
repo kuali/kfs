@@ -64,10 +64,10 @@ public interface CreditMemoService {
     /**
      * Persists the credit memo without business rule checks.
      * 
-     * @param cmDocument - credit memo document to save
+     * @param creditMemoDocument - credit memo document to save
      */
-    public void save(CreditMemoDocument cmDocument);
-
+    public void saveDocumentWithoutValidation(CreditMemoDocument creditMemoDocument);
+    
     /**
      * Performs checks for approve and any necessary modifications of the document.
      * 
@@ -94,15 +94,6 @@ public interface CreditMemoService {
      */
     public void addHoldOnCreditMemo(CreditMemoDocument cmDocument, String note) throws Exception;
 
-    /**
-     * Persists the credit memo without business rule checks as well as updating
-     * the workflow document by calling {@link org.kuali.core.workflow.service.KualiWorkflowDocument#saveRoutingData()}
-     * 
-     * @param creditMemoDocument - credit memo document to save
-     * @throws WorkflowException - when WorkflowDocument data is unable to be saved
-     */
-    public void saveWithWorkflowDocumentUpdate(CreditMemoDocument creditMemoDocument) throws WorkflowException;
-    
     /**
      * Determines if the document can be put on hold and if the user has permission to do so.
      * 

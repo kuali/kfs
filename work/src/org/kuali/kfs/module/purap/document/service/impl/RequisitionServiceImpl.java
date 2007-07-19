@@ -68,7 +68,7 @@ public class RequisitionServiceImpl implements RequisitionService {
     public void saveDocumentWithoutValidation(RequisitionDocument requisitionDocument) {
         try {
             documentService.validateAndPersistDocument(requisitionDocument, new SaveOnlyDocumentEvent(requisitionDocument));
-    }
+        }
         catch (WorkflowException we) {
             String errorMsg = "Error persisting document # " + requisitionDocument.getDocumentHeader().getDocumentNumber() + " " + we.getMessage(); 
             LOG.error(errorMsg, we);

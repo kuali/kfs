@@ -219,7 +219,7 @@ public class PdpExtractServiceImpl implements PdpExtractService {
 
     private void updateCreditMemo(CreditMemoDocument cmd,PdpUser puser,Date processRunDate) {
         cmd.setExtractedDate(new java.sql.Date(processRunDate.getTime()));
-        creditMemoService.save(cmd);
+        creditMemoService.saveDocumentWithoutValidation(cmd);
     }
 
     private void updatePaymentRequest(PaymentRequestDocument prd,PdpUser puser,Date processRunDate) {

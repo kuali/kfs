@@ -34,7 +34,6 @@ import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.PurapKeyConstants;
 import org.kuali.module.purap.PurapPropertyConstants;
 import org.kuali.module.purap.PurapRuleConstants;
-import org.kuali.module.purap.PurapConstants.CREDIT_MEMO_TYPES;
 import org.kuali.module.purap.bo.CreditMemoAccount;
 import org.kuali.module.purap.bo.CreditMemoItem;
 import org.kuali.module.purap.bo.PurApAccountingLine;
@@ -111,7 +110,7 @@ public class CreditMemoDocumentRule extends AccountsPayableDocumentRuleBase impl
             valid = validateInitTabReferenceNumbers(cmDocument);
         }
 
-        if (valid && StringUtils.equals(cmDocument.getCreditMemoType(), CREDIT_MEMO_TYPES.TYPE_PO)) {
+        if (valid && cmDocument.isSourceDocumentPurchaseOrder()) {
             valid = checkPurchaseOrderForInvoicedItems(cmDocument);
         }
 
@@ -353,7 +352,7 @@ public class CreditMemoDocumentRule extends AccountsPayableDocumentRuleBase impl
 
             // check cm extended price is not greater than total invoiced amount
             KualiDecimal invoicedAmount = null;
-            if (StringUtils.equals(PurapConstants.CREDIT_MEMO_TYPES.TYPE_PO, cmDocument.getCreditMemoType())) {
+            if (cmDocument.isSourceDocumentPurchaseOrder()) {
                 invoicedAmount = item.getPoExtendedPrice();
             }
             else {
@@ -385,7 +384,7 @@ public class CreditMemoDocumentRule extends AccountsPayableDocumentRuleBase impl
     private KualiDecimal getSourceTotalInvoiceQuantity(CreditMemoDocument cmDocument, CreditMemoItem item) {
         KualiDecimal invoicedQuantity = null;
 
-        if (StringUtils.equals(PurapConstants.CREDIT_MEMO_TYPES.TYPE_PO, cmDocument.getCreditMemoType())) {
+        if (cmDocument.isSourceDocumentPurchaseOrder()) {
             invoicedQuantity = item.getPoInvoicedTotalQuantity();
         }
         else {

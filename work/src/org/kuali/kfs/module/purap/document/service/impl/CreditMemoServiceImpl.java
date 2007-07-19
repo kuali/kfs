@@ -25,6 +25,8 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.bo.Note;
 import org.kuali.core.bo.user.UniversalUser;
+import org.kuali.core.exceptions.ValidationException;
+import org.kuali.core.rule.event.SaveOnlyDocumentEvent;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DateTimeService;
 import org.kuali.core.service.DocumentService;
@@ -182,22 +184,27 @@ public class CreditMemoServiceImpl implements CreditMemoService {
     }
 
     /**
-     * @see org.kuali.module.purap.service.CreditMemoService#save(org.kuali.module.purap.document.CreditMemoDocument)
+     * @see org.kuali.module.purap.service.CreditMemoService#saveDocumentWithoutValidation(org.kuali.module.purap.document.CreditMemoDocument)
      */
-    public void save(CreditMemoDocument cmDocument) {
-        cmDocument.prepareForSave();
-        creditMemoDao.save(cmDocument);
-        cmDocument.refreshReferenceObject(PurapPropertyConstants.STATUS);
+    public void saveDocumentWithoutValidation(CreditMemoDocument creditMemoDocument) {
+        try {
+            creditMemoDocument.getDocumentHeader().getWorkflowDocument().saveRoutingData();
+            creditMemoDocument.prepareForSave();
+            documentService.validateAndPersistDocument(creditMemoDocument, new SaveOnlyDocumentEvent(creditMemoDocument));
+            creditMemoDocument.refreshNonUpdateableReferences();
+        }
+        catch (WorkflowException we) {
+            String errorMsg = "Error persisting document # " + creditMemoDocument.getDocumentHeader().getDocumentNumber() + " " + we.getMessage(); 
+            LOG.error(errorMsg, we);
+            throw new RuntimeException(errorMsg, we);
+        }
+        catch (ValidationException ve) {
+            String errorMsg = "Error persisting document # " + creditMemoDocument.getDocumentHeader().getDocumentNumber() + " " + ve.getMessage(); 
+            LOG.error(errorMsg, ve);
+            throw new RuntimeException(errorMsg, ve);
+        }
     }
 
-    /**
-     * @see org.kuali.module.purap.service.CreditMemoService#saveWithWorkflowDocumentUpdate(org.kuali.module.purap.document.CreditMemoDocument)
-     */
-    public void saveWithWorkflowDocumentUpdate(CreditMemoDocument creditMemoDocument) throws WorkflowException {
-        creditMemoDocument.getDocumentHeader().getWorkflowDocument().saveRoutingData();
-        this.save(creditMemoDocument);
-    }
-    
     /**
      * Recalculates the credit memo, calls document service to run rules and route the document.
      * Also reopens PO if closed.
@@ -216,7 +223,7 @@ public class CreditMemoServiceImpl implements CreditMemoService {
 
 //        purapService.updateStatusAndStatusHistory(cmDocument, PurapConstants.CreditMemoStatuses.AP_APPROVED);
 //        cmDocument.setAccountsPayableApprovalDate(dateTimeService.getCurrentSqlDate());
-        save(cmDocument);
+//        saveDocumentWithoutValidation(cmDocument);
 
         // TODO CHRIS/DELYEA - THIS SHOULD HAPPEN WITH GL AND PERCENT CONVERT AT 'Leaving AP Review Level'
         // reopen PO if closed
@@ -269,7 +276,7 @@ public class CreditMemoServiceImpl implements CreditMemoService {
         CreditMemoDocument cmDoc = getCreditMemoDocumentById(cmDocument.getPurapDocumentIdentifier());
         cmDoc.setHoldIndicator(true);
         cmDoc.setAccountsPayableHoldIdentifier(GlobalVariables.getUserSession().getUniversalUser().getPersonUniversalIdentifier());
-        creditMemoDao.save(cmDoc);
+        saveDocumentWithoutValidation(cmDoc);
 
         // must also save it on the incoming document
         cmDocument.setHoldIndicator(true);
@@ -307,7 +314,7 @@ public class CreditMemoServiceImpl implements CreditMemoService {
         CreditMemoDocument cmDoc = getCreditMemoDocumentById(cmDocument.getPurapDocumentIdentifier());
         cmDoc.setHoldIndicator(false);
         cmDoc.setAccountsPayableHoldIdentifier(null);
-        creditMemoDao.save(cmDoc);
+        saveDocumentWithoutValidation(cmDoc);
 
         // must also save it on the incoming document
         cmDocument.setHoldIndicator(false);
@@ -354,7 +361,7 @@ public class CreditMemoServiceImpl implements CreditMemoService {
         }
 
         purapService.updateStatusAndStatusHistory(cmDoc, PurapConstants.CreditMemoStatuses.CANCELLED, noteObj);
-        save(cmDoc);
+        saveDocumentWithoutValidation(cmDoc);
 
         // must also save it on the incoming document
         cmDocument.setStatusCode(PurapConstants.CreditMemoStatuses.CANCELLED);

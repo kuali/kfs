@@ -15,7 +15,9 @@
  */
 package org.kuali.module.purap.dao.ojb;
 
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
@@ -51,10 +53,18 @@ public class PurchaseOrderDaoOjb extends PlatformAwareDaoBaseOjb implements Purc
         return getDocumentNumberUsingPurchaseOrderCriteria(criteria);
     }
 
-    public String getDocumentNumberForOldestPurchaseOrder(Integer id) {
+    public String getOldestPurchaseOrderDocumentNumber(Integer id) {
         Criteria criteria = new Criteria();
         criteria.addEqualTo(PurapPropertyConstants.PURAP_DOC_ID, id);
-        return getDocumentNumberUsingPurchaseOrderCriteria(criteria);
+        ReportQueryByCriteria rqbc = new ReportQueryByCriteria(PurchaseOrderDocument.class, criteria);
+        rqbc.setAttributes(new String[] {KFSPropertyConstants.DOCUMENT_NUMBER});
+        rqbc.addOrderByAscending(KFSPropertyConstants.DOCUMENT_NUMBER);
+        Iterator<Object[]> iter = getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(rqbc);
+        String oldestDocumentNumber = null;
+        if (iter != null) {
+            oldestDocumentNumber = (String)(iter.next())[0];
+        }
+        return oldestDocumentNumber;
     }
 
     /**
@@ -77,12 +87,6 @@ public class PurchaseOrderDaoOjb extends PlatformAwareDaoBaseOjb implements Purc
             return (String)cols[0];
         }
         return null;
-//        PurchaseOrderDocument po = (PurchaseOrderDocument) getPersistenceBrokerTemplate().getObjectByQuery(
-//            new QueryByCriteria(PurchaseOrderDocument.class, criteria));
-//        if (ObjectUtils.isNotNull(po)) {
-//            return po.getDocumentNumber();
-//        }
-//        return null;        
     }
     
     private Iterator<Object[]> getDocumentNumbersUsingPurchaseOrderCriteria(Criteria criteria) {
@@ -90,66 +94,6 @@ public class PurchaseOrderDaoOjb extends PlatformAwareDaoBaseOjb implements Purc
         rqbc.setAttributes(new String[] {KFSPropertyConstants.DOCUMENT_NUMBER});
         rqbc.addOrderByAscending(KFSPropertyConstants.DOCUMENT_NUMBER);
         return getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(rqbc);
-//        return (Object [])(getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(rqbc).next());
     }
-    
-//    /**
-//     * 
-//     * @see org.kuali.module.purap.dao.PurchaseOrderDao#getOldestPurchaseOrder(java.lang.Integer)
-//     */
-//    public PurchaseOrderDocument getOldestPurchaseOrder(Integer id, PurchaseOrderDocument po) {
-//        /*
-//         * This method takes in a poid and a document and returns the document if oldest, else it returns the 
-//         * po document that is oldest
-//         */
-//        //get oldest docid
-//        String oldestDocumentNumber = getOldestPODocId(id); 
-//        //compare to po doc number if oldest return po
-//        if(ObjectUtils.isNotNull(po) && 
-//           StringUtils.equals(oldestDocumentNumber, po.getDocumentNumber())){
-//            //manually set bo notes - this is mainly done for performance reasons (preferably we could call
-//            //retrieve doc notes in PersistableBusinessObjectBase but that is private)
-//            po.setBoNotes(SpringServiceLocator.getNoteService().getByRemoteObjectId(po.getObjectId()));
-//            return po;
-//        }
-//        //po not oldest, using the oldest doc number return oldest po
-//        Criteria criteria = new Criteria();
-//        criteria.addEqualTo(PurapPropertyConstants.PURAP_DOC_ID, id);
-//        criteria.addEqualTo(KFSPropertyConstants.DOCUMENT_NUMBER, oldestDocumentNumber);
-//        QueryByCriteria qbc = new QueryByCriteria(PurchaseOrderDocument.class, criteria);
-//        
-//        PurchaseOrderDocument oldestPO = (PurchaseOrderDocument)getPersistenceBrokerTemplate().getObjectByQuery(qbc);
-//        if (ObjectUtils.isNotNull(oldestPO)) {
-//            oldestPO.refreshAllReferences();
-//        }
-//        return oldestPO;
-//    }
-//
-//    /**
-//     * This method finds the oldest doc #
-//     * @param id
-//     * @return
-//     */
-//    private String getOldestPODocId(Integer id) {
-//        Criteria criteria = new Criteria();
-//        criteria.addEqualTo(PurapPropertyConstants.PURAP_DOC_ID, id);
-//        ReportQueryByCriteria rqbc = new ReportQueryByCriteria(PurchaseOrderDocument.class, criteria);
-//        rqbc.setAttributes(new String[] {KFSPropertyConstants.DOCUMENT_NUMBER});
-//        rqbc.addOrderByAscending(KFSPropertyConstants.DOCUMENT_NUMBER);
-//        Object [] cols = (Object [])(getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(rqbc).next());
-//        String oldestDocumentNumber = (String)cols[0];
-//        return oldestDocumentNumber;
-//    }
-//    
-//    /**
-//     * 
-//     * @see org.kuali.module.purap.dao.PurchaseOrderDao#getPurchaseOrderInPendingPrintStatus(java.lang.Integer)
-//     */
-//    public PurchaseOrderDocument getPurchaseOrderInPendingPrintStatus(Integer id) {
-//        Criteria criteria = new Criteria();
-//        criteria.addEqualTo(PurapPropertyConstants.PURAP_DOC_ID, id);
-//        criteria.addEqualTo(PurapPropertyConstants.STATUS_CODE, PurapConstants.PurchaseOrderStatuses.PENDING_PRINT);
-//        PurchaseOrderDocument thePO = (PurchaseOrderDocument)getPurchaseOrder(criteria);
-//        return thePO;
-//    }
+
 }

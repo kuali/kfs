@@ -582,17 +582,11 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
         }
         return null;
     }
-
-    private PurchaseOrderDocument getOldestPurchaseOrder(Integer id) {
-        LOG.debug("entering getOldestPO(Integer)");
-        LOG.debug("exiting getOldestPO(Integer)");
-        return getPurchaseOrderByDocumentNumber(purchaseOrderDao.getDocumentNumberForOldestPurchaseOrder(id));
-    }
     
     public PurchaseOrderDocument getOldestPurchaseOrder(PurchaseOrderDocument po) {
         LOG.debug("entering getOldestPO(PurchaseOrderDocument)");
         if (ObjectUtils.isNotNull(po)) {
-            String oldestDocumentNumber = purchaseOrderDao.getDocumentNumberForOldestPurchaseOrder(po.getPurapDocumentIdentifier());
+            String oldestDocumentNumber = purchaseOrderDao.getOldestPurchaseOrderDocumentNumber(po.getPurapDocumentIdentifier());
             if (StringUtils.equals(oldestDocumentNumber, po.getDocumentNumber())) {
                 //manually set bo notes - this is mainly done for performance reasons (preferably we could call
                 //retrieve doc notes in PersistableBusinessObjectBase but that is private)
@@ -600,19 +594,15 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
                 LOG.debug("exiting getOldestPO(PurchaseOrderDocument)");
                 return po;
             }
+            LOG.debug("exiting getOldestPO(PurchaseOrderDocument)");
+            return getPurchaseOrderByDocumentNumber(oldestDocumentNumber);
         }
-        LOG.debug("exiting getOldestPO(PurchaseOrderDocument)");
-        return getOldestPurchaseOrder(po.getPurapDocumentIdentifier(), po);
+        return null;
     }
     
-    private PurchaseOrderDocument getOldestPurchaseOrder(Integer id, PurchaseOrderDocument po) {
-        String oldestDocumentNumber = purchaseOrderDao.getDocumentNumberForOldestPurchaseOrder(id);
-        return getPurchaseOrderByDocumentNumber(oldestDocumentNumber);
-    }
-
     public ArrayList<Note> getPurchaseOrderNotes(Integer id) {
         ArrayList notes = new TypedArrayList(Note.class);
-        PurchaseOrderDocument po = getOldestPurchaseOrder(id);
+        PurchaseOrderDocument po = getPurchaseOrderByDocumentNumber(purchaseOrderDao.getOldestPurchaseOrderDocumentNumber(id));
         notes = noteService.getByRemoteObjectId(po.getObjectId());
         return notes;
     }

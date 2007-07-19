@@ -20,7 +20,6 @@ import java.util.List;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.kfs.util.SpringServiceLocator;
-import org.kuali.module.purap.PurapConstants.CREDIT_MEMO_TYPES;
 import org.kuali.module.purap.bo.CreditMemoItem;
 import org.kuali.module.purap.bo.PaymentRequestItem;
 import org.kuali.module.purap.bo.PurchaseOrderItem;
@@ -46,10 +45,10 @@ public class CreditMemoCreateServiceImpl implements CreditMemoCreateService {
      * @see org.kuali.module.purap.service.CreditMemoCreateService#populateDocumentAfterInit(org.kuali.module.purap.document.CreditMemoDocument)
      */
     public void populateDocumentAfterInit(CreditMemoDocument cmDocument) {
-        if (StringUtils.equals(cmDocument.getCreditMemoType(), CREDIT_MEMO_TYPES.TYPE_PREQ)) {
+        if (cmDocument.isSourceDocumentPaymentRequest()) {
             populateDocumentFromPreq(cmDocument);
         }
-        else if (StringUtils.equals(cmDocument.getCreditMemoType(), CREDIT_MEMO_TYPES.TYPE_PO)) {
+        else if (cmDocument.isSourceDocumentPurchaseOrder()) {
             populateDocumentFromPO(cmDocument);
         }
         else {
@@ -66,8 +65,8 @@ public class CreditMemoCreateServiceImpl implements CreditMemoCreateService {
      */
     protected void populateDocumentFromPreq(CreditMemoDocument cmDocument) {
         PaymentRequestDocument paymentRequestDocument = SpringServiceLocator.getPaymentRequestService().getPaymentRequestById(cmDocument.getPaymentRequestIdentifier());
-        cmDocument.setPaymentRequest(paymentRequestDocument);
-        cmDocument.setPurchaseOrder(paymentRequestDocument.getPurchaseOrderDocument());
+        cmDocument.setPaymentRequestDocument(paymentRequestDocument);
+        cmDocument.setPurchaseOrderDocument(paymentRequestDocument.getPurchaseOrderDocument());
 
         // credit memo address taken directly from payment request
         cmDocument.setVendorHeaderGeneratedIdentifier(paymentRequestDocument.getVendorHeaderGeneratedIdentifier());
@@ -91,9 +90,9 @@ public class CreditMemoCreateServiceImpl implements CreditMemoCreateService {
      * @param cmDocument - Credit Memo Document to Populate
      */
     protected void populateItemLinesFromPreq(CreditMemoDocument cmDocument) {
-        PaymentRequestDocument preqDocument = cmDocument.getPaymentRequest();
+        PaymentRequestDocument preqDocument = cmDocument.getPaymentRequestDocument();
 
-        List<PurchaseOrderItem> invoicedItems = creditMemoService.getPOInvoicedItems(cmDocument.getPurchaseOrder());
+        List<PurchaseOrderItem> invoicedItems = creditMemoService.getPOInvoicedItems(cmDocument.getPurchaseOrderDocument());
         for (PurchaseOrderItem poItem : invoicedItems) {
             PaymentRequestItem preqItemToTemplate = (PaymentRequestItem) preqDocument.getItemByLineNumber(poItem.getItemLineNumber());
 
@@ -115,7 +114,7 @@ public class CreditMemoCreateServiceImpl implements CreditMemoCreateService {
      */
     protected void populateDocumentFromPO(CreditMemoDocument cmDocument) {
         PurchaseOrderDocument purchaseOrderDocument = (SpringServiceLocator.getPurchaseOrderService().getCurrentPurchaseOrder(cmDocument.getPurchaseOrderIdentifier()));
-        cmDocument.setPurchaseOrder(purchaseOrderDocument);
+        cmDocument.setPurchaseOrderDocument(purchaseOrderDocument);
 
         cmDocument.setVendorHeaderGeneratedIdentifier(purchaseOrderDocument.getVendorHeaderGeneratedIdentifier());
         cmDocument.setVendorDetailAssignedIdentifier(purchaseOrderDocument.getVendorDetailAssignedIdentifier());
@@ -151,7 +150,7 @@ public class CreditMemoCreateServiceImpl implements CreditMemoCreateService {
      * @param cmDocument - Credit Memo Document to Populate
      */
     protected void populateItemLinesFromPO(CreditMemoDocument cmDocument) {
-        List<PurchaseOrderItem> invoicedItems = creditMemoService.getPOInvoicedItems(cmDocument.getPurchaseOrder());
+        List<PurchaseOrderItem> invoicedItems = creditMemoService.getPOInvoicedItems(cmDocument.getPurchaseOrderDocument());
         for (PurchaseOrderItem poItem : invoicedItems) {
             cmDocument.getItems().add(new CreditMemoItem(cmDocument, poItem));
         }
@@ -202,11 +201,11 @@ public class CreditMemoCreateServiceImpl implements CreditMemoCreateService {
      */
     private void populateDocumentDescription(CreditMemoDocument cmDocument) {
         String description = "";
-        if (StringUtils.equals(cmDocument.getCreditMemoType(), CREDIT_MEMO_TYPES.TYPE_VENDOR)) {
+        if (cmDocument.isSourceVendor()) {
             description = "Vendor: " + cmDocument.getVendorName();
         }
         else {
-            description = "PO: " + cmDocument.getPurchaseOrder().getPurapDocumentIdentifier() + " Vendor: " + cmDocument.getVendorName();
+            description = "PO: " + cmDocument.getPurchaseOrderDocument().getPurapDocumentIdentifier() + " Vendor: " + cmDocument.getVendorName();
         }
 
         cmDocument.getDocumentHeader().setFinancialDocumentDescription(description);

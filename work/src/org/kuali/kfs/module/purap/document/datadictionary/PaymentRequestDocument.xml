@@ -182,7 +182,7 @@
                 <shortLabel>Special Handling Instructions</shortLabel>
 
                 <maxLength>90</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
+                <validationPattern><anyCharacter allowWhitespace="true"/></validationPattern>
 
                 <control>
                     <text size="45" />
@@ -197,7 +197,7 @@
                 <shortLabel>Special Handling Instructions</shortLabel>
 
                 <maxLength>90</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
+                <validationPattern><anyCharacter allowWhitespace="true"/></validationPattern>
 
                 <control>
                     <text size="45" />
@@ -212,7 +212,7 @@
                 <shortLabel>Special Handling Instructions</shortLabel>
 
                 <maxLength>90</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
+                <validationPattern><anyCharacter allowWhitespace="true"/></validationPattern>
 
                 <control>
                     <text size="45" />

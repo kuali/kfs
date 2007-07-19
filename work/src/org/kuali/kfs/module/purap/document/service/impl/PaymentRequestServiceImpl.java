@@ -1109,8 +1109,12 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
         descr.append( StringUtils.trimToEmpty(vendorName) );
 
         int noteTextMaxLength = SpringServiceLocator.getDataDictionaryService().getAttributeMaxLength(DocumentHeader.class, KFSPropertyConstants.FINANCIAL_DOCUMENT_DESCRIPTION).intValue();
-        
-        return descr.toString().substring(0, noteTextMaxLength);
+        if(noteTextMaxLength >= descr.length()) {
+            return descr.toString();
+        }
+        else {
+            return descr.toString().substring(0, noteTextMaxLength);
+        }
     }
     
     /** 

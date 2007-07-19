@@ -27,7 +27,7 @@
 	
 	    <c:set var="editingMode" value="${KualiForm.editingMode}" scope="request"/>
 	    <c:set var="showAmount" value="${(!empty KualiForm.editingMode['allowAccountAmountEntry'])}" />
-	    
+	   	       
 	    <c:if test="${empty isCreditMemo or !isCreditMemo}" >
     		<purap:purPOLineItemTotals documentAttributes="${documentAttributes}" />
 
@@ -76,16 +76,30 @@
 			    <div align="right"><b>$${KualiForm.document.grandTotal}</b></div>
 			</td>
 			<td colspan=2 class="datacell">
-              <c:if test="${KualiForm.calculated and (empty KualiForm.document.recurringPaymentTypeCode)}">                
-                <kul:htmlControlAttribute
-				    attributeEntry="${documentAttributes.closeReopenPoIndicator}"
-				    property="document.closeReopenPoIndicator"
-				    readOnly="false" />
-				    <kul:htmlAttributeLabel attributeEntry="${documentAttributes.closeReopenPoIndicator}" skipHelpUrl="true" noColon="true" />
+              <c:if test="${empty isCreditMemo or !isCreditMemo}" >
+	              <c:if test="${KualiForm.calculated and (empty KualiForm.document.recurringPaymentTypeCode)}" > 
+	              	<kul:htmlControlAttribute
+					    attributeEntry="${documentAttributes.closeReopenPoIndicator}"
+					    property="document.closeReopenPoIndicator"
+					    readOnly="false" />
+					    <kul:htmlAttributeLabel attributeEntry="${documentAttributes.closeReopenPoIndicator}" skipHelpUrl="true" noColon="true" />
+	              </c:if>
+	              <c:if test="${not empty KualiForm.document.recurringPaymentTypeCode}">
+	                Recurring PO
+	              </c:if>
               </c:if>
-              <c:if test="${not empty KualiForm.document.recurringPaymentTypeCode}">
-                Recurring PO
-              </c:if>			
+              <c:if test="${isCreditMemo}" >
+	              <c:if test="${KualiForm.calculated and (empty KualiForm.document.paymentRequestDocument.recurringPaymentTypeCode)}">                   
+	                <kul:htmlControlAttribute
+					    attributeEntry="${documentAttributes.closeReopenPoIndicator}"
+					    property="document.closeReopenPoIndicator"
+					    readOnly="false" />
+					    <kul:htmlAttributeLabel attributeEntry="${documentAttributes.closeReopenPoIndicator}" skipHelpUrl="true" noColon="true" />
+	              </c:if>
+	              <c:if test="${not empty KualiForm.document.paymentRequestDocument.recurringPaymentTypeCode}">
+	                Recurring PO
+	              </c:if>			
+              	</c:if>		
 			</td>
 		</tr>
 		<!-- END TOTAL SECTION -->

@@ -96,7 +96,7 @@ public class CashManagementServiceTest extends KualiTestBase {
             testDocumentId = createdDoc.getDocumentNumber();
 
             // save it separately
-            getCashDrawerService().openCashDrawer(CMST_WORKGROUP, testDocumentId);
+            getCashDrawerService().openCashDrawer(createdDoc.getCashDrawer(), testDocumentId);
             saveDocument(createdDoc);
 
             // verify that the doc was saved
@@ -126,7 +126,7 @@ public class CashManagementServiceTest extends KualiTestBase {
             testDocumentId = createdDoc.getDocumentNumber();
             
             // force the drawer open
-            getCashDrawerService().openCashDrawer(CMST_WORKGROUP, testDocumentId);
+            getCashDrawerService().openCashDrawer(createdDoc.getCashDrawer(), testDocumentId);
             saveDocument(createdDoc);
 
             boolean failedAsExpected = false;
@@ -174,7 +174,7 @@ public class CashManagementServiceTest extends KualiTestBase {
             testDocumentId = createdDoc.getDocumentNumber();
 
             // save it separately
-            getCashDrawerService().openCashDrawer(CMST_WORKGROUP, testDocumentId);
+            getCashDrawerService().openCashDrawer(createdDoc.getCashDrawer(), testDocumentId);
             saveDocument(createdDoc);
 
             // verify it actually got saved
@@ -217,7 +217,7 @@ public class CashManagementServiceTest extends KualiTestBase {
             testDocumentId = createdDoc.getDocumentNumber();
 
             // save it separately
-            getCashDrawerService().openCashDrawer(CMST_WORKGROUP, testDocumentId);
+            getCashDrawerService().openCashDrawer(createdDoc.getCashDrawer(), testDocumentId);
             saveDocument(createdDoc);
 
             //
@@ -339,7 +339,7 @@ public class CashManagementServiceTest extends KualiTestBase {
             CashManagementDocument createdDoc = getCashManagementService().createCashManagementDocument(CMST_WORKGROUP, "CMST_testAddID_nCRL", null);
             docId = createdDoc.getDocumentNumber();
 
-            getCashDrawerService().openCashDrawer(CMST_WORKGROUP, docId);
+            getCashDrawerService().openCashDrawer(createdDoc.getCashDrawer(), docId);
             saveDocument(createdDoc);
 
             getCashManagementService().addDeposit(createdDoc, VALID_DEPOSIT_TICKET, lookupBankAccount(), null, false);
@@ -369,7 +369,7 @@ public class CashManagementServiceTest extends KualiTestBase {
             CashManagementDocument createdDoc = getCashManagementService().createCashManagementDocument(CMST_WORKGROUP, "CMST_testAddID_eCRL", null);
             docId = createdDoc.getDocumentNumber();
 
-            getCashDrawerService().openCashDrawer(CMST_WORKGROUP, docId);
+            getCashDrawerService().openCashDrawer(createdDoc.getCashDrawer(), docId);
             saveDocument(createdDoc);
 
             getCashManagementService().addDeposit(createdDoc, VALID_DEPOSIT_TICKET, lookupBankAccount(), new ArrayList(), false);
@@ -399,7 +399,7 @@ public class CashManagementServiceTest extends KualiTestBase {
             CashManagementDocument createdDoc = getCashManagementService().createCashManagementDocument(CMST_WORKGROUP, "CMST_testAddID_eCRL", null);
             docId = createdDoc.getDocumentNumber();
 
-            getCashDrawerService().openCashDrawer(CMST_WORKGROUP, docId);
+            getCashDrawerService().openCashDrawer(createdDoc.getCashDrawer(), docId);
             saveDocument(createdDoc);
 
             getCashManagementService().addDeposit(createdDoc, VALID_DEPOSIT_TICKET, null, new ArrayList(), false);
@@ -436,7 +436,7 @@ public class CashManagementServiceTest extends KualiTestBase {
             CashManagementDocument createdDoc = getCashManagementService().createCashManagementDocument(CMST_WORKGROUP, "CMST_testAddID_nonverified", null);
             testDocumentId = createdDoc.getDocumentNumber();
 
-            getCashDrawerService().openCashDrawer(CMST_WORKGROUP, testDocumentId);
+            getCashDrawerService().openCashDrawer(createdDoc.getCashDrawer(), testDocumentId);
             saveDocument(createdDoc);
 
             // retrieve the document, for future use
@@ -535,7 +535,7 @@ public class CashManagementServiceTest extends KualiTestBase {
             testDocumentId = createdDoc.getDocumentNumber();
 
             // save it
-            getCashDrawerService().openCashDrawer(CMST_WORKGROUP, testDocumentId);
+            getCashDrawerService().openCashDrawer(createdDoc.getCashDrawer(), testDocumentId);
             saveDocument(createdDoc);
 
             // retrieve the document, for future use
@@ -634,7 +634,7 @@ public class CashManagementServiceTest extends KualiTestBase {
             testDocumentId = createdDoc.getDocumentNumber();
 
             // save it
-            getCashDrawerService().openCashDrawer(CMST_WORKGROUP, testDocumentId);
+            getCashDrawerService().openCashDrawer(createdDoc.getCashDrawer(), testDocumentId);
             saveDocument(createdDoc);
 
             //
@@ -780,7 +780,7 @@ public class CashManagementServiceTest extends KualiTestBase {
             testDocumentId = createdDoc.getDocumentNumber();
 
             // save it
-            getCashDrawerService().openCashDrawer(CMST_WORKGROUP, testDocumentId);
+            getCashDrawerService().openCashDrawer(createdDoc.getCashDrawer(), testDocumentId);
             saveDocument(createdDoc);
 
             // try create a new CM doc
@@ -806,6 +806,13 @@ public class CashManagementServiceTest extends KualiTestBase {
         return crDoc;
     }
 
+    public void testMoneyInTotal() {
+        assertTrue(true);
+    }
+    
+    public void testMoneyOutTotal() {
+        assertTrue(true);
+    }
 
     private void deleteIfExists(String workgroupName) {
         Map deleteCriteria = new HashMap();

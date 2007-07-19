@@ -136,7 +136,7 @@ public class CashManagementServiceImpl implements CashManagementService {
             }
 
             if (forceDrawerClosed) {
-                cashDrawerService.closeCashDrawer(unitName);
+                cashDrawerService.closeCashDrawer(cd);
                 cd = cashDrawerService.getByWorkgroupName(unitName, true);
             }
         }
@@ -149,6 +149,7 @@ public class CashManagementServiceImpl implements CashManagementService {
                 cmDoc = (CashManagementDocument) documentService.getNewDocument(CashManagementDocument.class);
                 cmDoc.getDocumentHeader().setFinancialDocumentDescription(docDescription);
                 cmDoc.setWorkgroupName(unitName);
+                cmDoc.setCashDrawer(cd);
             }
             catch (WorkflowException e) {
                 throw new InfrastructureException("unable to create CashManagementDocument", e);
@@ -178,7 +179,7 @@ public class CashManagementServiceImpl implements CashManagementService {
 
         //
         // lock the cashDrawer
-        cashDrawerService.lockCashDrawer(cashManagementDoc.getWorkgroupName(), cashManagementDoc.getDocumentNumber());
+        cashDrawerService.lockCashDrawer(cashManagementDoc.getCashDrawer(), cashManagementDoc.getDocumentNumber());
 
 
         //
@@ -228,7 +229,7 @@ public class CashManagementServiceImpl implements CashManagementService {
         //
         // unlock the cashDrawer, if needed
         if (!isFinalDeposit) {
-            cashDrawerService.unlockCashDrawer(cashManagementDoc.getWorkgroupName(), cashManagementDoc.getDocumentNumber());
+            cashDrawerService.unlockCashDrawer(cashManagementDoc.getCashDrawer(), cashManagementDoc.getDocumentNumber());
         }
     }
 
@@ -347,7 +348,7 @@ public class CashManagementServiceImpl implements CashManagementService {
 
         // reclose the cashDrawer
         String unitName = cmDoc.getWorkgroupName();
-        cashDrawerService.closeCashDrawer(cmDoc.getWorkgroupName());
+        cashDrawerService.closeCashDrawer(cmDoc.getCashDrawer());
 
         // cleanup the CMDoc, but let the postprocessor itself save it
         cmDoc.setDeposits(new ArrayList());
@@ -384,7 +385,7 @@ public class CashManagementServiceImpl implements CashManagementService {
 
         // unlock the cashDrawer, if needed
         if (deposit.getDepositTypeCode() == DepositConstants.DEPOSIT_TYPE_FINAL) {
-            cashDrawerService.unlockCashDrawer(depositWorkgroup, deposit.getDocumentNumber());
+            cashDrawerService.unlockCashDrawer(deposit.getCashManagementDocument().getCashDrawer(), deposit.getDocumentNumber());
         }
 
         // delete the Deposit from the database
@@ -406,7 +407,7 @@ public class CashManagementServiceImpl implements CashManagementService {
         }
 
         String workgroupName = cmDoc.getWorkgroupName();
-        cashDrawerService.closeCashDrawer(workgroupName);
+        cashDrawerService.closeCashDrawer(cmDoc.getCashDrawer());
         CashDrawer cd = cashDrawerService.getByWorkgroupName(workgroupName, false);
 
 
@@ -517,7 +518,7 @@ public class CashManagementServiceImpl implements CashManagementService {
             }
         }
         // lock the cash drawer
-        cashDrawerService.lockCashDrawer(cmDoc.getWorkgroupName(), cmDoc.getDocumentNumber());
+        cashDrawerService.lockCashDrawer(cmDoc.getCashDrawer(), cmDoc.getDocumentNumber());
         // change the deposit type code for the last deposit
         List<Deposit> allDeposits = cmDoc.getDeposits();
         Deposit lastInterim = allDeposits.get(allDeposits.size() - 1);

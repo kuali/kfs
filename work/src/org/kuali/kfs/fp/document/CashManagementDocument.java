@@ -44,7 +44,8 @@ public class CashManagementDocument extends AccountingDocumentBase {
     private String referenceFinancialDocumentNumber;
 
     private List<Deposit> deposits;
-
+    
+    private CashDrawer cashDrawer;
 
     /**
      * Default constructor.
@@ -92,10 +93,11 @@ public class CashManagementDocument extends AccountingDocumentBase {
      * Derives and returns the cash drawer status for the document's workgroup
      */
     public String getCashDrawerStatus() {
-        CashDrawer drawer = SpringServiceLocator.getCashDrawerService().getByWorkgroupName(getWorkgroupName(), true);
-        String statusCode = drawer.getStatusCode();
+        //CashDrawer drawer = SpringServiceLocator.getCashDrawerService().getByWorkgroupName(getWorkgroupName(), true);
+        //String statusCode = drawer.getStatusCode();
 
-        return statusCode;
+        //return statusCode;
+        return getCashDrawer().getStatusCode();
     }
 
     /**
@@ -199,7 +201,6 @@ public class CashManagementDocument extends AccountingDocumentBase {
         }
     }
 
-
     /**
      * @see org.kuali.core.document.DocumentBase#buildListOfDeletionAwareLists()
      */
@@ -212,7 +213,25 @@ public class CashManagementDocument extends AccountingDocumentBase {
         return managedLists;
     }
 
-
+    
+    /**
+     * Gets the cashDrawer attribute. 
+     * @return Returns the cashDrawer.
+     */
+    public CashDrawer getCashDrawer() {
+        return cashDrawer;
+        //return cashDrawerService.getByWorkgroupName(this.workgroupName, false);
+    }
+    
+    /**
+     * 
+     * Sets the cashDrawer attribute
+     * @param cd the cash drawer to set
+     */
+    public void setCashDrawer(CashDrawer cd) {
+        cashDrawer = cd;
+    }
+    
     /**
      * @see org.kuali.core.document.DocumentBase#handleRouteStatusChange()
      */
@@ -252,6 +271,18 @@ public class CashManagementDocument extends AccountingDocumentBase {
             LOG.debug("CMD stateIsDisapproved");
         }
     }
+    
+    /**
+     * @see org.kuali.core.document.DocumentBase#processAfterRetrieve()
+     */
+    @Override
+    public void processAfterRetrieve() {
+        super.processAfterRetrieve();
+        // grab the cash drawer
+        if (this.getWorkgroupName() != null) {
+            this.cashDrawer = SpringServiceLocator.getCashDrawerService().getByWorkgroupName(this.getWorkgroupName(), false);
+        }
+    }
 
 
     /* utility methods */
@@ -265,4 +296,5 @@ public class CashManagementDocument extends AccountingDocumentBase {
         m.put("workgroupName", getWorkgroupName());
         return m;
     }
+
 }

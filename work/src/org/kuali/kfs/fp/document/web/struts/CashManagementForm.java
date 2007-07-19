@@ -19,6 +19,7 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.log4j.Logger;
 import org.kuali.core.util.KualiDecimal;
@@ -41,6 +42,8 @@ import org.kuali.module.financial.service.CashManagementService;
 public class CashManagementForm extends KualiDocumentFormBase {
     private static final long serialVersionUID = 1L;
     private static Logger LOG = Logger.getLogger(CashManagementForm.class);
+    
+    private static final String WORKGROUP_NAME_PROPERTY = "document.workgroupName";
 
     private List depositHelpers;
     private CashDrawerSummary cashDrawerSummary;
@@ -774,4 +777,24 @@ public class CashManagementForm extends KualiDocumentFormBase {
             }
         }
     }
+
+    /**
+     * @see org.kuali.core.web.struts.pojo.PojoFormBase#postprocessRequestParameters(java.util.Map)
+     */
+    @Override
+    public void postprocessRequestParameters(Map requestParameters) {
+        super.postprocessRequestParameters(requestParameters);
+        // fish the workgroup name out of the parameters
+        String[] workgroupNames = (String[])requestParameters.get(CashManagementForm.WORKGROUP_NAME_PROPERTY);
+        String workgroupName = null;
+        if (workgroupNames != null && workgroupNames.length > 0) {
+            workgroupName = workgroupNames[0];
+        }
+        if (workgroupName != null && getCashManagementDocument() != null) {
+            // use that to put the cash drawer back into the cash management document
+            getCashManagementDocument().setCashDrawer(SpringServiceLocator.getCashDrawerService().getByWorkgroupName(workgroupName, false));
+        }
+    }
+    
+    
 }

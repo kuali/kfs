@@ -1148,9 +1148,9 @@
 		</property>
 		<property name="dependencies">
 			<map>
-				<entry key="enterpriseFeedJob" value="hardDependency"/>
-				<entry key="collectorJob" value="hardDependency" />
-				<entry key="nightlyOutJob" value="hardDependency" />
+				<entry key="enterpriseFeedJob" value="softDependency"/>
+				<entry key="collectorJob" value="softDependency" />
+				<entry key="nightlyOutJob" value="softDependency" />
 			</map>
 		</property>
 	</bean>	

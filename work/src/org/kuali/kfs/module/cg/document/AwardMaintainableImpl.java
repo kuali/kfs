@@ -249,6 +249,8 @@ public class AwardMaintainableImpl extends KualiMaintainableImpl {
         
         Award award = getAward();
         KualiWorkflowDocument workflowDoc = header.getWorkflowDocument();
+
+        // Use the stateIsProcessed() method so this code is only executed when the final approval occurs
         if(workflowDoc.stateIsProcessed()) {
             Proposal proposal = award.getProposal();
             proposal.setProposalStatusCode(Proposal.AWARD_CODE);

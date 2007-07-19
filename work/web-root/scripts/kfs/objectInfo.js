@@ -88,7 +88,7 @@ function loadAccountInfo( accountCodeFieldName, accountNameFieldName ) {
 		var dwrReply = {
 			callback:function(data) {
 			if ( data != null && typeof data == 'object' ) {
-				setRecipientValue( accountNameFieldName, data.accountNumber );
+				setRecipientValue( accountNameFieldName, data.accountName );
 			} else {
 				setRecipientValue( accountNameFieldName, wrapError( "account not found" ), true );			
 			} },

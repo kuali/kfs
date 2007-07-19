@@ -44,6 +44,7 @@ import org.kuali.module.financial.bo.Deposit;
 import org.kuali.module.financial.document.CashManagementDocument;
 import org.kuali.module.financial.document.authorization.CashManagementDocumentAuthorizer;
 import org.kuali.module.financial.service.CashDrawerService;
+import org.kuali.module.financial.service.CashManagementService;
 import org.kuali.module.financial.web.struts.form.CashManagementForm;
 import org.kuali.module.financial.web.struts.form.CashManagementForm.CashDrawerSummary;
 
@@ -310,7 +311,32 @@ public class CashManagementAction extends KualiDocumentActionBase {
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
-
+    
+    /**
+     * This action makes the last interim deposit a final deposit
+     * @param mapping the mapping of the actions
+     * @param form the Struts form populated on the post
+     * @param request the servlet request
+     * @param response the servlet response
+     * @return a forward to the same page we were on
+     * @throws Exception because you never know when something just might go wrong
+     */
+    public ActionForward finalizeLastInterimDeposit(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        CashManagementDocument cmDoc = ((CashManagementForm)form).getCashManagementDocument();
+        CashManagementService cms = SpringServiceLocator.getCashManagementService();
+        
+        if (cmDoc.hasFinalDeposit()) {
+            GlobalVariables.getErrorMap().putError(KFSConstants.CASH_MANAGEMENT_DEPOSIT_ERRORS, CashManagement.ERROR_DOCUMENT_ALREADY_HAS_FINAL_DEPOSIT, new String[]{});
+        } else if (cmDoc.getDeposits().size() == 0) {
+            GlobalVariables.getErrorMap().putError(KFSConstants.CASH_MANAGEMENT_DEPOSIT_ERRORS, CashManagement.ERROR_DOCUMENT_NO_DEPOSITS_TO_MAKE_FINAL, new String[]{});
+        } else if (!cms.allVerifiedCashReceiptsAreDeposited(cmDoc)) {
+            GlobalVariables.getErrorMap().putError(KFSConstants.CASH_MANAGEMENT_DEPOSIT_ERRORS, CashManagement.ERROR_NON_DEPOSITED_VERIFIED_CASH_RECEIPTS, new String[]{});
+        }
+        
+        cms.finalizeLastInterimDeposit(cmDoc);
+        
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
+    }
 
     /**
      * Overridden to clear the CashDrawerSummary info
@@ -327,10 +353,6 @@ public class CashManagementAction extends KualiDocumentActionBase {
 
         // clear the CashDrawerSummary
         cmForm.setCashDrawerSummary(null);
-
-        // close the CashDrawer
-        CashDrawerService cds = SpringServiceLocator.getCashDrawerService();
-        cds.closeCashDrawer(cmDoc.getWorkgroupName());
 
         return dest;
     }

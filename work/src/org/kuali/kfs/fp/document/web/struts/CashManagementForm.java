@@ -97,6 +97,22 @@ public class CashManagementForm extends KualiDocumentFormBase {
             }
         }
     }
+    
+    /**
+     * Tells any JSP page using this form whether an action can be taken to make the last interim
+     * deposit the final deposit
+     * @return true if last interim deposit could be the final deposit, false if otherwise
+     */
+    public boolean isLastInterimDepositFinalizable() {
+        boolean result = true;
+        CashManagementDocument cmDoc = getCashManagementDocument();
+        result &= !cmDoc.hasFinalDeposit();
+        result &= (cmDoc.getDeposits().size() > 0);
+        if (result) {
+            result &= SpringServiceLocator.getCashManagementService().allVerifiedCashReceiptsAreDeposited(cmDoc);
+        }
+        return result;
+    }
 
     /**
      * @return CashDrawerSummary instance associated with this form, if any

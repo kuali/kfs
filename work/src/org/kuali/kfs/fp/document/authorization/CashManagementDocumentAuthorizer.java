@@ -16,6 +16,7 @@
 package org.kuali.module.financial.document.authorization;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.logging.Log;
@@ -29,10 +30,15 @@ import org.kuali.core.document.authorization.DocumentAuthorizerBase;
 import org.kuali.core.exceptions.DocumentInitiationAuthorizationException;
 import org.kuali.core.exceptions.DocumentTypeAuthorizationException;
 import org.kuali.core.exceptions.GroupNotFoundException;
+import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.workflow.service.KualiWorkflowDocument;
+import org.kuali.kfs.KFSConstants;
+import org.kuali.kfs.KFSKeyConstants;
 import org.kuali.kfs.KFSConstants.CashDrawerConstants;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.financial.document.CashManagementDocument;
+import org.kuali.module.financial.document.CashReceiptDocument;
+import org.kuali.module.financial.service.CashManagementService;
 
 /**
  * DocumentAuthorizer containing authorization code for CashManagement documents
@@ -105,11 +111,30 @@ public class CashManagementDocumentAuthorizer extends DocumentAuthorizerBase {
         }
 
         // CM document can only be routed if it contains a Final Deposit
-        if (!cmDoc.hasFinalDeposit()) {
+        if (!cmDoc.hasFinalDeposit() || !SpringServiceLocator.getCashManagementService().allVerifiedCashReceiptsAreDeposited(cmDoc)) {
             flags.setCanRoute(false);
         }
 
         return flags;
+    }
+    
+    /**
+     * 
+     * This method checks that all verified cash receipts are deposited
+     * @param cmDoc the cash management document to check
+     * @return true if all verified cash receipts are deposited, false if otherwise
+     */
+    private boolean areAllVerifiedCashReceiptsDeposited(CashManagementDocument cmDoc) {
+        boolean theyAre = true;
+        List verifiedReceipts = SpringServiceLocator.getCashReceiptService().getCashReceipts(cmDoc.getWorkgroupName(), KFSConstants.DocumentStatusCodes.CashReceipt.VERIFIED);
+        CashManagementService cms = SpringServiceLocator.getCashManagementService();
+        for (Object o: verifiedReceipts) {
+            if (!cms.verifyCashReceiptIsDeposited(cmDoc, (CashReceiptDocument)o)) {
+                theyAre = false;
+                break;
+            }
+        }
+        return theyAre;
     }
 
     /**

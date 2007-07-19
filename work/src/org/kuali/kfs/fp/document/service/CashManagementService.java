@@ -20,6 +20,7 @@ import java.util.List;
 import org.kuali.module.financial.bo.BankAccount;
 import org.kuali.module.financial.bo.Deposit;
 import org.kuali.module.financial.document.CashManagementDocument;
+import org.kuali.module.financial.document.CashReceiptDocument;
 
 /**
  * This interface defines methods that a CashManagementService implementation must provide.
@@ -94,4 +95,25 @@ public interface CashManagementService {
      * @return List of CashReceipts
      */
     public List retrieveCashReceipts(Deposit deposit);
+    
+    /**
+     * Verifies if a given cash receipt is deposited as part of the given cash management document
+     * @param cmDoc the cash management document to search through
+     * @param crDoc the cash receipt to check  the deposited status of
+     * @return true if the given cash receipt document is deposited as part of the given cash management document, false if otherwise
+     */
+    public boolean verifyCashReceiptIsDeposited(CashManagementDocument cmDoc, CashReceiptDocument crDoc);
+    
+    /**
+     * This method verifies that all cash receipts for the document are deposited
+     * @param cmDoc the cash management document to verify
+     * @return true if all CRs are deposited, false if otherwise
+     */
+    public boolean allVerifiedCashReceiptsAreDeposited(CashManagementDocument cmDoc);
+    
+    /**
+     * This method turns the last interim deposit into the final deposit and locks the cash drawer 
+     * @param cmDoc the cash management document to take deposits from for finalization
+     */
+    public void finalizeLastInterimDeposit(CashManagementDocument cmDoc);
 }

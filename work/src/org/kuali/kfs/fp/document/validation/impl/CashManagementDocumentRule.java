@@ -44,6 +44,7 @@ import org.kuali.module.financial.bo.Deposit;
 import org.kuali.module.financial.bo.DepositCashReceiptControl;
 import org.kuali.module.financial.document.CashManagementDocument;
 import org.kuali.module.financial.document.CashReceiptDocument;
+import org.kuali.module.financial.service.CashManagementService;
 
 /**
  * Business rule(s) applicable to Cash Management Document.
@@ -77,7 +78,19 @@ public class CashManagementDocumentRule extends GeneralLedgerPostingDocumentRule
 
         return isValid;
     }
-
+    
+    /**
+     * @see org.kuali.core.rules.DocumentRuleBase#processCustomRouteDocumentBusinessRules(org.kuali.core.document.Document)
+     */
+    @Override
+    protected boolean processCustomRouteDocumentBusinessRules(Document document) {
+        boolean isValid = true;
+        
+        CashManagementDocument cmDoc = (CashManagementDocument)document;
+        isValid &= verifyAllVerifiedCashReceiptsDeposited(cmDoc);
+        
+        return isValid;
+    }
 
     /**
      * This method checks to make sure that the current system user is the person that initiated this document in the first place.
@@ -193,6 +206,24 @@ public class CashManagementDocumentRule extends GeneralLedgerPostingDocumentRule
                 throw new IllegalStateException("Cash receipt document number " + cashReceipt.getDocumentNumber() + " is not in an appropriate state for the associated CashManagementDocument to be submitted.");
             }
         }
+    }
+    
+    /**
+     * Verifies that all verified cash receipts have been deposited
+     * @param cmDoc the cash management document that is about to be routed
+     * @return true if there are no outstanding verified cash receipts that are not part of a deposit, false if otherwise
+     */
+    private boolean verifyAllVerifiedCashReceiptsDeposited(CashManagementDocument cmDoc) {
+        boolean allCRsDeposited = true;
+        CashManagementService cms = SpringServiceLocator.getCashManagementService();
+        List verifiedReceipts = SpringServiceLocator.getCashReceiptService().getCashReceipts(cmDoc.getWorkgroupName(), KFSConstants.DocumentStatusCodes.CashReceipt.VERIFIED);
+        for (Object o: verifiedReceipts) {
+            if (!cms.verifyCashReceiptIsDeposited(cmDoc, (CashReceiptDocument)o)) {
+                allCRsDeposited = false;
+                GlobalVariables.getErrorMap().putError(KFSConstants.CASH_MANAGEMENT_DEPOSIT_ERRORS, KFSKeyConstants.CashManagement.ERROR_NON_DEPOSITED_VERIFIED_CASH_RECEIPT, new String[] { ((CashReceiptDocument)o).getDocumentNumber() });
+            }
+        }
+        return allCRsDeposited;
     }
 
     /**

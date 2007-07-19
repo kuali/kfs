@@ -764,6 +764,8 @@ public class KFSKeyConstants {
 
         public static final String ERROR_MISSING_BANKACCOUNT = "error.deposit.missingBankAccount";
         public static final String ERROR_UNKNOWN_BANKACCOUNT = "error.deposit.unknownBankAccount";
+        
+        public static final String ERROR_NON_DEPOSITED_VERIFIED_CASH_RECEIPT = "error.deposit.nonDepositedVerifiedCashReceipt";
     }
 
     public static final class CashManagement {
@@ -774,6 +776,11 @@ public class KFSKeyConstants {
 
         public static final String DESCRIPTION_GLPE_BANK_OFFSET_INTERIM = "description.glpe.bankOffset.cashManagement.interim";
         public static final String DESCRIPTION_GLPE_BANK_OFFSET_FINAL = "description.glpe.bankOffset.cashManagement.final";
+        
+        public static final String ERROR_NON_DEPOSITED_VERIFIED_CASH_RECEIPT = "error.cashManagement.nonDepositedVerifiedCashReceipt";
+        public static final String ERROR_DOCUMENT_ALREADY_HAS_FINAL_DEPOSIT = "error.cashManagement.documentAlreadyHasFinalDeposit";
+        public static final String ERROR_DOCUMENT_NO_DEPOSITS_TO_MAKE_FINAL = "error.cashManagement.documentHasNoDepositsToMakeFinal";
+        public static final String ERROR_NON_DEPOSITED_VERIFIED_CASH_RECEIPTS = "error.cashManagement.nonDepositedVerifiedCashReceips";
     }
 
     public static final class GeneralErrorCorrection {

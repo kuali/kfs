@@ -23,8 +23,8 @@
     <div class="tab-container" align=center>
         <c:if test="${allowAdditionalDeposits}">
             <div align=left style="padding-left: 10px">
-                <html:image src="${ConfigProperties.externalizable.images.url}buttonsmall_addInterimDeposit.gif" style="border: none" property="methodToCall.addInterimDeposit" title="close" alt="close"/>
-                <html:image src="${ConfigProperties.externalizable.images.url}buttonsmall_addFinalDeposit.gif" style="border: none" property="methodToCall.addFinalDeposit" title="close" alt="close"/>
+                <html:image src="${ConfigProperties.externalizable.images.url}buttonsmall_addInterimDeposit.gif" style="border: none" property="methodToCall.addInterimDeposit" title="create interim" alt="create interim deposit"/>
+                <html:image src="${ConfigProperties.externalizable.images.url}buttonsmall_addFinalDeposit.gif" style="border: none" property="methodToCall.addFinalDeposit" title="create final deposit" alt="create final deposit"/>
             </div>
             <br>
         </c:if>
@@ -38,5 +38,11 @@
                     
             <hr>
         </logic:iterate>
+        
+        <c:if test="${KualiForm.lastInterimDepositFinalizable}">
+          <div align="left" style="padding=left: 10px">
+            <html:image src="${ConfigProperties.externalizable.images.url}buttonsmall_makeLastInterimDepositFinal.gif" style="border: none" property="methodToCall.finalizeLastInterimDeposit" title="make last interim deposit final" alt="make last interim deposit final" />
+          </div>
+        </c:if>
     </div>
 </kul:tab>

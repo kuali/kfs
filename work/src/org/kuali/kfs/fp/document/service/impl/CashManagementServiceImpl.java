@@ -31,6 +31,7 @@ import org.kuali.core.service.DateTimeService;
 import org.kuali.core.service.DocumentService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.KFSConstants.CashDrawerConstants;
 import org.kuali.kfs.KFSConstants.DepositConstants;
@@ -41,6 +42,7 @@ import org.kuali.module.financial.bo.Bank;
 import org.kuali.module.financial.bo.BankAccount;
 import org.kuali.module.financial.bo.CashDrawer;
 import org.kuali.module.financial.bo.CashReceiptHeader;
+import org.kuali.module.financial.bo.Check;
 import org.kuali.module.financial.bo.Deposit;
 import org.kuali.module.financial.bo.DepositCashReceiptControl;
 import org.kuali.module.financial.document.CashManagementDocument;
@@ -404,10 +406,8 @@ public class CashManagementServiceImpl implements CashManagementService {
         }
 
         String workgroupName = cmDoc.getWorkgroupName();
+        cashDrawerService.closeCashDrawer(workgroupName);
         CashDrawer cd = cashDrawerService.getByWorkgroupName(workgroupName, false);
-        if (!cd.isClosed()) {
-            throw new IllegalStateException("cashDrawer for workgroup '" + workgroupName + "' should already have been closed");
-        }
 
 
         // finalize the CashReceipts
@@ -430,6 +430,23 @@ public class CashManagementServiceImpl implements CashManagementService {
 
         // finalize the CMDoc, but let the postprocessor save it
         cmDoc.getDocumentHeader().setFinancialDocumentStatusCode(DocumentStatusCodes.APPROVED);
+    }
+    
+    /**
+     * This method verifies that all cash receipts for the document are deposited
+     * @param cmDoc the cash management document to verify
+     * @return true if all CRs are deposited, false if otherwise
+     */
+    public boolean allVerifiedCashReceiptsAreDeposited(CashManagementDocument cmDoc) {
+        boolean result = true;
+        List verifiedReceipts = SpringServiceLocator.getCashReceiptService().getCashReceipts(cmDoc.getWorkgroupName(), KFSConstants.DocumentStatusCodes.CashReceipt.VERIFIED);
+        for (Object o: verifiedReceipts) {
+            if (!verifyCashReceiptIsDeposited(cmDoc, (CashReceiptDocument)o)) {
+                result = false;
+                break;
+            }
+        }
+        return result;
     }
 
     /**
@@ -465,6 +482,48 @@ public class CashManagementServiceImpl implements CashManagementService {
         return cashReceiptDocuments;
     }
 
+    /**
+     * Verifies if a given cash receipt is deposited as part of the given cash management document
+     * @param cmDoc the cash management document to search through
+     * @param crDoc the cash receipt to check  the deposited status of
+     * @return true if the given cash receipt document is deposited as part of the given cash management document, false if otherwise
+     */
+    public boolean verifyCashReceiptIsDeposited(CashManagementDocument cmDoc, CashReceiptDocument crDoc) {
+        boolean thisCRDeposited = false;
+        for (Deposit deposit: cmDoc.getDeposits()) {
+            if (deposit.containsCashReceipt(crDoc)) {
+                thisCRDeposited = true;
+                break;
+            }
+        }
+        return thisCRDeposited;
+    }
+
+    /**
+     * This method turns the last interim deposit into the final deposit and locks the cash drawer 
+     * @param cmDoc the cash management document to take deposits from for finalization
+     */
+    public void finalizeLastInterimDeposit(CashManagementDocument cmDoc) {
+        // if there's already a final deposit, throw an IllegalStateException
+        if (cmDoc.hasFinalDeposit()) {
+            throw new IllegalStateException("CashManagementDocument #"+cmDoc.getDocumentNumber()+" already has a final deposit");
+        }
+        // if there are still verified un-deposited cash receipts, throw an IllegalStateException
+        List verifiedReceipts = SpringServiceLocator.getCashReceiptService().getCashReceipts(cmDoc.getWorkgroupName(), KFSConstants.DocumentStatusCodes.CashReceipt.VERIFIED);
+        for (Object o: verifiedReceipts) {
+            CashReceiptDocument crDoc = (CashReceiptDocument)o;
+            if (!verifyCashReceiptIsDeposited(cmDoc, crDoc)) {
+                throw new IllegalStateException("Verified Cash Receipt Document #"+crDoc.getDocumentNumber()+" must be deposited for this to be a final deposit");
+            }
+        }
+        // lock the cash drawer
+        cashDrawerService.lockCashDrawer(cmDoc.getWorkgroupName(), cmDoc.getDocumentNumber());
+        // change the deposit type code for the last deposit
+        List<Deposit> allDeposits = cmDoc.getDeposits();
+        Deposit lastInterim = allDeposits.get(allDeposits.size() - 1);
+        lastInterim.setDepositTypeCode(DepositConstants.DEPOSIT_TYPE_FINAL);
+        documentService.updateDocument(cmDoc);
+    }
 
     // injected dependencies
     /**

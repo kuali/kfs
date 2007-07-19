@@ -247,30 +247,43 @@ public class DepositWizardAction extends KualiAction {
             try {
                 // retrieve selected receipts
                 List selectedReceipts = SpringServiceLocator.getDocumentService().getDocumentsByListOfDocumentHeaderIds(CashReceiptDocument.class, selectedIds);
-
-                // retrieve CashManagementDocument
-                String cashManagementDocId = dform.getCashManagementDocId();
-                CashManagementDocument cashManagementDoc = null;
-                try {
-                    cashManagementDoc = (CashManagementDocument) SpringServiceLocator.getDocumentService().getByDocumentHeaderId(cashManagementDocId);
-                    if (cashManagementDoc == null) {
-                        throw new IllegalStateException("unable to find cashManagementDocument with id " + cashManagementDocId);
+                
+                boolean depositIsFinal = (StringUtils.equals(dform.getDepositTypeCode(), KFSConstants.DepositConstants.DEPOSIT_TYPE_FINAL));
+                if (depositIsFinal) {
+                    // have all verified CRs been deposited?  If not, that's an error
+                    List verifiedReceipts = SpringServiceLocator.getCashReceiptService().getCashReceipts(dform.getCashDrawerVerificationUnit(), KFSConstants.DocumentStatusCodes.CashReceipt.VERIFIED);
+                    for (Object o: verifiedReceipts) {
+                        CashReceiptDocument crDoc = (CashReceiptDocument)o;
+                        if (!selectedReceipts.contains(crDoc)) {
+                            GlobalVariables.getErrorMap().putError(KFSConstants.DepositConstants.DEPOSIT_WIZARD_DEPOSITHEADER_ERROR, KFSKeyConstants.Deposit.ERROR_NON_DEPOSITED_VERIFIED_CASH_RECEIPT, new String[] { crDoc.getDocumentNumber() });
+                        }
                     }
                 }
-                catch (WorkflowException e) {
-                    throw new IllegalStateException("unable to retrieve cashManagementDocument with id " + cashManagementDocId, e);
+
+                // proceed again...if possible
+                if (GlobalVariables.getErrorMap().isEmpty()) {
+                    // retrieve CashManagementDocument
+                    String cashManagementDocId = dform.getCashManagementDocId();
+                    CashManagementDocument cashManagementDoc = null;
+                    try {
+                        cashManagementDoc = (CashManagementDocument) SpringServiceLocator.getDocumentService().getByDocumentHeaderId(cashManagementDocId);
+                        if (cashManagementDoc == null) {
+                            throw new IllegalStateException("unable to find cashManagementDocument with id " + cashManagementDocId);
+                        }
+                    }
+                    catch (WorkflowException e) {
+                        throw new IllegalStateException("unable to retrieve cashManagementDocument with id " + cashManagementDocId, e);
+                    }
+    
+                    // create deposit
+                    String cmDocId = dform.getCashManagementDocId();
+    
+                    CashManagementService cms = SpringServiceLocator.getCashManagementService();
+                    cms.addDeposit(cashManagementDoc, dform.getDepositTicketNumber(), dform.getBankAccount(), selectedReceipts, depositIsFinal);
+    
+                    // redirect to controlling CashManagementDocument
+                    dest = returnToSender(cashManagementDocId);
                 }
-
-
-                // create deposit
-                String cmDocId = dform.getCashManagementDocId();
-
-                boolean depositIsFinal = (StringUtils.equals(dform.getDepositTypeCode(), KFSConstants.DepositConstants.DEPOSIT_TYPE_FINAL));
-                CashManagementService cms = SpringServiceLocator.getCashManagementService();
-                cms.addDeposit(cashManagementDoc, dform.getDepositTicketNumber(), dform.getBankAccount(), selectedReceipts, depositIsFinal);
-
-                // redirect to controlling CashManagementDocument
-                dest = returnToSender(cashManagementDocId);
             }
             catch (WorkflowException e) {
                 throw new InfrastructureException("unable to retrieve cashReceipts by documentId", e);

@@ -25,6 +25,7 @@ import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.module.financial.document.CashManagementDocument;
+import org.kuali.module.financial.document.CashReceiptDocument;
 
 
 /**
@@ -275,5 +276,20 @@ public class Deposit extends PersistableBusinessObjectBase {
         }
 
         return keysEqual;
+    }
+    
+    /**
+     * 
+     * This method returns whether the given deposit contains the parameter cash receipt document
+     * @param crDoc the cash receipt document to look for
+     * @return true if the cash receipt document is part of the deposit, false if otherwise
+     */
+    public boolean containsCashReceipt(CashReceiptDocument crDoc) {
+        boolean result = false;
+        for (int i = 0; i < this.getDepositCashReceiptControl().size() && !result; i++) {
+            DepositCashReceiptControl crCtrl = (DepositCashReceiptControl)getDepositCashReceiptControl().get(i);
+            result = crCtrl.getFinancialDocumentCashReceiptNumber().equals(crDoc.getDocumentNumber());
+        }
+        return result;
     }
 }

@@ -873,7 +873,15 @@ public class LaborExpenseTransferDocumentRules extends AccountingDocumentRuleBas
         a21RevEntry.setFinancialBalanceTypeCode(BALANCE_TYPE_A21);
         a21RevEntry.setTransactionLedgerEntrySequenceNumber(getNextSequenceNumber(sequenceHelper));
         a21RevEntry.setTransactionLedgerEntryAmount(getGeneralLedgerPendingEntryAmountForAccountingLine(accountingLine));
-        a21RevEntry.setTransactionDebitCreditCode( accountingLine.isSourceAccountingLine() ? KFSConstants.GL_CREDIT_CODE : KFSConstants.GL_DEBIT_CODE);
+        
+        //Jira KULLAB-224 
+        if (a21RevEntry.getFinancialObject() != null && a21RevEntry.getFinancialObject().getFinancialObjectSubTypeCode() != null
+                && a21RevEntry.getFinancialObject().getFinancialObjectSubTypeCode().equals("FR")){
+            a21RevEntry.setTransactionDebitCreditCode( accountingLine.isSourceAccountingLine() ? KFSConstants.GL_DEBIT_CODE : KFSConstants.GL_CREDIT_CODE);
+        } else {
+            a21RevEntry.setTransactionDebitCreditCode( accountingLine.isSourceAccountingLine() ? KFSConstants.GL_CREDIT_CODE : KFSConstants.GL_DEBIT_CODE);
+        }
+        
         Timestamp transactionTimestamp = new Timestamp(SpringServiceLocator.getDateTimeService().getCurrentDate().getTime());
         a21RevEntry.setTransactionDate(new java.sql.Date(transactionTimestamp.getTime()));
         a21RevEntry.setProjectCode(getEntryValue(accountingLine.getProjectCode(), LABOR_LEDGER_PENDING_ENTRY_CODE.BLANK_PROJECT_STRING));

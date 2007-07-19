@@ -293,8 +293,13 @@ public abstract class AccountsPayableDocumentBase extends PurchasingAccountsPaya
     }
     
     public void setPurchaseOrderDocument(PurchaseOrderDocument purchaseOrderDocument) {
-        this.purchaseOrderIdentifier = purchaseOrderDocument.getPurapDocumentIdentifier();
-        this.purchaseOrderDocument = purchaseOrderDocument;
+        if (ObjectUtils.isNull(purchaseOrderDocument)) {
+            setPurchaseOrderIdentifier(null);
+            this.purchaseOrderDocument = null;
+        } else {
+            setPurchaseOrderIdentifier(purchaseOrderDocument.getPurapDocumentIdentifier());
+            this.purchaseOrderDocument = purchaseOrderDocument;
+        }
     }
 
     public boolean isCloseReopenPoIndicator() {

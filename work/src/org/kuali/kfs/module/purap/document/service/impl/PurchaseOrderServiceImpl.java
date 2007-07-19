@@ -324,13 +324,14 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
             result = false;
         }
         if (result) {
+            // logic can stay here because PO has a pending status for this transmission type
             Date currentSqlDate = dateTimeService.getCurrentSqlDate();
             po.setPurchaseOrderFirstTransmissionDate(currentSqlDate);
             po.setPurchaseOrderInitialOpenDate(currentSqlDate);
             po.setPurchaseOrderLastTransmitDate(currentSqlDate);
             po.setPurchaseOrderCurrentIndicator(true);
-            purapService.updateStatusAndStatusHistory(po, PurchaseOrderStatuses.CLOSED);
-            //save(po);
+            purapService.updateStatusAndStatusHistory(po, PurchaseOrderStatuses.OPEN);
+            //saveDocumentWithoutValidation(po);
         }
         return result;
     }
@@ -361,11 +362,13 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
             }
             result = false;
         }
-        if (result) {
-            Date currentSqlDate = dateTimeService.getCurrentSqlDate();
-            po.setPurchaseOrderLastTransmitDate(currentSqlDate);
-            po.setPurchaseOrderCurrentIndicator(true);
-        }
+        // below logic moved to post processor PurchaseOrderPostProcessorRetransmitService.handleRouteStatusChange()
+//        if (result) {
+//            Date currentSqlDate = dateTimeService.getCurrentSqlDate();
+//            po.setPurchaseOrderLastTransmitDate(currentSqlDate);
+//            po.setPurchaseOrderCurrentIndicator(true);
+//            saveDocumentWithoutValidation(po);
+//        }
         return result;
     }
 
@@ -542,23 +545,23 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
         }
         else {
             if (hasActionRequestForDocumentTransmission) {
-                /* here we error out because the document generated a request for the doc
-                 * transmission route level but the default status to set is open... this
-                 * prevents Open purchase orders that could be awaiting transmission by a
-                 * valid method (via the generated request)
+                /*
+                 * here we error out because the document generated a request for the doc transmission route level but the default
+                 * status to set is open... this prevents Open purchase orders that could be awaiting transmission by a valid method
+                 * (via the generated request)
                  */
                 String errorMessage = "An action request was generated for document id " + po.getDocumentNumber() + " with an unhandled transmission type '" + po.getPurchaseOrderTransmissionMethodCode() + "'";
                 LOG.error(errorMessage);
                 throw new RuntimeException(errorMessage);
             }
-            String newStatusCode = PurchaseOrderStatuses.OPEN;
-            LOG.info("setupDocumentForPendingFirstTransmission() Unhandled Transmission Status: " + po.getPurchaseOrderTransmissionMethodCode() + " -- Defaulting Status to '" + newStatusCode + "'");
-            if ( (!PurapConstants.PurchaseOrderStatuses.OPEN.equals(po.getStatusCode())) &&
-                    (ObjectUtils.isNull(po.getPurchaseOrderInitialOpenDate())) ) {
-            po.setPurchaseOrderInitialOpenDate(dateTimeService.getCurrentSqlDate());
+            LOG.info("setupDocumentForPendingFirstTransmission() Unhandled Transmission Status: " + po.getPurchaseOrderTransmissionMethodCode() + " -- Defaulting Status to '" + PurchaseOrderStatuses.OPEN + "'");
+            if (!PurchaseOrderStatuses.OPEN.equals(po.getStatusCode())) {
+                if (ObjectUtils.isNull(po.getPurchaseOrderInitialOpenDate())) {
+                    po.setPurchaseOrderInitialOpenDate(dateTimeService.getCurrentSqlDate());
+                }
+                purapService.updateStatusAndStatusHistory(po, PurchaseOrderStatuses.OPEN);
+            }
         }
-            purapService.updateStatusAndStatusHistory(po, newStatusCode);
-    }
     }
 
     public PurchaseOrderDocument getCurrentPurchaseOrder(Integer id) {

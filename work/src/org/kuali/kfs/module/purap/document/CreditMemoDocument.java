@@ -431,8 +431,13 @@ public class CreditMemoDocument extends AccountsPayableDocumentBase {
     }
     
     public void setPaymentRequestDocument(PaymentRequestDocument paymentRequestDocument) {
-        setPaymentRequestIdentifier(paymentRequestDocument.getPurapDocumentIdentifier());
-        this.paymentRequestDocument = paymentRequestDocument;
+        if (ObjectUtils.isNull(paymentRequestDocument)) {
+            setPaymentRequestIdentifier(null);
+            this.paymentRequestDocument = null;
+        } else {
+            setPaymentRequestIdentifier(paymentRequestDocument.getPurapDocumentIdentifier());
+            this.paymentRequestDocument = paymentRequestDocument;
+        }
     }
 
     /**

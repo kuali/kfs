@@ -88,8 +88,8 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase {
     private String alternateVendorName;
     private String statusChange;
     private String statusChangeNote;
-    private boolean purchaseOrderCurrentIndicator;
-    private boolean pendingActionIndicator;
+    private boolean purchaseOrderCurrentIndicator = false;
+    private boolean pendingActionIndicator = false;
     private Date purchaseOrderFirstTransmissionDate;
     
     //COLLECTIONS

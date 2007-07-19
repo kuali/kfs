@@ -39,6 +39,7 @@ public enum UserNameFixture {
     MYLARGE,
     RRUFFNER,
     SEASON,
+    DQPERRON,
     ;
 
     static {

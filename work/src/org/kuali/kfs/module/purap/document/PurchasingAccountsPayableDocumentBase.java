@@ -16,9 +16,11 @@
 package org.kuali.module.purap.document;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
@@ -80,8 +82,10 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
     private List<PurchaseOrderView> relatedPurchaseOrderViews;
     private List<PaymentRequestView> relatedPaymentRequestViews;
     private List<CreditMemoView> relatedCreditMemoViews;
-    private List<SourceAccountingLine> summaryAccounts;
-
+    private Map<SourceAccountingLine, List<PurchasingApItem>> summaryAccountsWithItems;
+    private List<SourceAccountingLine> summaryAccountsWithItemsKey;
+    private List<List<PurchasingApItem>> summaryAccountsWithItemsValue;
+    
     // REFERENCE OBJECTS
     private Status status;
     private VendorDetail vendorDetail;
@@ -126,7 +130,8 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
     }
     
     public void refreshAccountSummary() {
-        setSummaryAccounts(SpringServiceLocator.getPurapService().generateSummary(getItems()));
+        //setSummaryAccounts(SpringServiceLocator.getPurapService().generateSummary(getItems()));
+        this.setSummaryAccountsWithItems(SpringServiceLocator.getPurapService().generateSummaryWithItems(getItems()));
     }
 
     /**
@@ -656,24 +661,55 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
     /**
      * @see org.kuali.kfs.document.AccountingDocumentBase#getSourceAccountingLineClass()
      */
-    // @Override
-    // public abstract Class getSourceAccountingLineClass();
-    /**
-     * Gets the summaryAccounts attribute this is used by the summary accounts method
-     * 
-     * @return Returns the summaryAccounts.
-     */
-    public List<SourceAccountingLine> getSummaryAccounts() {
-        return summaryAccounts;
+
+    public Map<SourceAccountingLine, List<PurchasingApItem>> getSummaryAccountsWithItems() {
+        return summaryAccountsWithItems;
     }
 
-    /**
-     * Sets the summaryAccounts attribute value.
-     * 
-     * @param summaryAccounts The summaryAccounts to set.
-     */
-    public void setSummaryAccounts(List<SourceAccountingLine> summaryAccounts) {
-        this.summaryAccounts = summaryAccounts;
+    public void setSummaryAccountsWithItems(Map<SourceAccountingLine, List<PurchasingApItem>> summaryAccountsWithItems) {
+        this.summaryAccountsWithItems = summaryAccountsWithItems;
+        getSummaryAccountsWithItemsKey();
+        getSummaryAccountsWithItemsValue();
+    }
+
+    public List<SourceAccountingLine> getSummaryAccountsWithItemsKey() {
+        if (this.summaryAccountsWithItemsKey == null || summaryAccountsWithItemsKey.size() == 0) {
+            summaryAccountsWithItemsKey = new ArrayList();
+            for (Iterator keyIter = summaryAccountsWithItems.keySet().iterator(); keyIter.hasNext();) {
+                summaryAccountsWithItemsKey.add((SourceAccountingLine)keyIter.next());
+            }
+        }
+        return summaryAccountsWithItemsKey;
+    }
+
+    public void setSummaryAccountsWithItemsKey(List<SourceAccountingLine> summaryAccountsWithItemsKey) {
+        this.summaryAccountsWithItemsKey = summaryAccountsWithItemsKey;
+    }
+
+    public List<List<PurchasingApItem>> getSummaryAccountsWithItemsValue() {
+        if (this.summaryAccountsWithItemsValue == null) {
+            summaryAccountsWithItemsValue = new ArrayList();
+            for (Iterator iter = summaryAccountsWithItems.values().iterator(); iter.hasNext();) {
+                summaryAccountsWithItemsValue.add((List<PurchasingApItem>)iter.next());
+            }
+        }
+        return summaryAccountsWithItemsValue;
+    }
+
+    public List<PurchasingApItem> getSummaryAccountsWithItemsValue(int index) {
+        if (this.summaryAccountsWithItemsValue == null) {
+            summaryAccountsWithItemsValue = getSummaryAccountsWithItemsValue();
+        }
+        if (summaryAccountsWithItemsValue.size() > index-1) {
+            return summaryAccountsWithItemsValue.get(index);
+        }
+        else {
+            return null;
+        }
+    }
+    
+    public void setSummaryAccountsWithItemsValue(List<List<PurchasingApItem>> summaryAccountsWithItemsValue) {
+        this.summaryAccountsWithItemsValue = summaryAccountsWithItemsValue;
     }
 
     public Country getVendorCountry() {

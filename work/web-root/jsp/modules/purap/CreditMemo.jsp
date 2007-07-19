@@ -61,6 +61,10 @@
 	
 	    <kul:routeLog />
 	
+	    <purap:accountsummary
+            itemAttributes="${DataDictionary.CreditMemoItem.attributes}"
+    	    documentAttributes="${DataDictionary.SourceAccountingLine.attributes}" />  
+    	    	
         <purap:relatedDocuments documentAttributes="${DataDictionary.RelatedDocuments.attributes}" />
         
         <kul:panelFooter />

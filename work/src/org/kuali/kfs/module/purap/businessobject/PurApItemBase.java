@@ -46,6 +46,7 @@ public abstract class PurApItemBase extends PersistableBusinessObjectBase implem
 	private String externalOrganizationB2bProductTypeName;
 	private boolean itemAssignedToTradeInIndicator;
     private KualiDecimal extendedPrice; //not currently in DB
+    private KualiDecimal extendedPriceForAccountSummary;
     
     private List<PurApAccountingLine> sourceAccountingLines;
     private transient PurApAccountingLine newSourceLine;
@@ -54,6 +55,7 @@ public abstract class PurApItemBase extends PersistableBusinessObjectBase implem
 	private ItemType itemType;
     private Integer purapDocumentIdentifier;
     private KualiDecimal itemQuantity;
+    
 
 	/**
 	 * Default constructor.
@@ -571,4 +573,13 @@ public abstract class PurApItemBase extends PersistableBusinessObjectBase implem
         }
         return true;
     }
+    
+    public KualiDecimal getExtendedPriceForAccountSummary() {
+        return extendedPriceForAccountSummary;
+    }
+
+    public void setExtendedPriceForAccountSummary(KualiDecimal extendedPriceForAccountSummary) {
+        this.extendedPriceForAccountSummary = extendedPriceForAccountSummary;
+    }
+    
 }

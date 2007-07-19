@@ -16,6 +16,7 @@
 package org.kuali.module.purap.service;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.kuali.core.util.KualiDecimal;
@@ -46,6 +47,8 @@ public interface PurapAccountingService {
     public List<PurApAccountingLine> generateAccountDistributionForProrationWithZeroTotal(List<PurApAccountingLine> accounts, Integer percentScale);
 
     public List<SourceAccountingLine> generateSummary(List<PurchasingApItem> items);
+    public Map<SourceAccountingLine, List<PurchasingApItem>> generateSummaryWithItems(List<PurchasingApItem> items);
+    
     public List<SourceAccountingLine> generateSummaryWithNoZeroTotals(List<PurchasingApItem> items);
     public List<SourceAccountingLine> generateSummaryWithNoZeroTotalsUsingAlternateAmount(List<PurchasingApItem> items);
     public List<SourceAccountingLine> generateSummaryExcludeItemTypes(List<PurchasingApItem> items, Set excludedItemTypeCodes);

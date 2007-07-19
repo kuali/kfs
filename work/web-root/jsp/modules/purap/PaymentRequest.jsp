@@ -85,7 +85,9 @@
 	
 	    <kul:routeLog />
 	
-		<purap:accountsummary documentAttributes="${DataDictionary.SourceAccountingLine.attributes}" />
+	    <purap:accountsummary
+            itemAttributes="${DataDictionary.PaymentRequestItem.attributes}"
+    	    documentAttributes="${DataDictionary.SourceAccountingLine.attributes}" />  
 
 		<purap:relatedDocuments documentAttributes="${DataDictionary.RelatedDocuments.attributes}"/>
            	

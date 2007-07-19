@@ -91,6 +91,7 @@
         documentAttributes="${DataDictionary.PurchaseOrderDocument.attributes}" />
         
     <purap:accountsummary
+        itemAttributes="${DataDictionary.PurchaseOrderItem.attributes}"
     	documentAttributes="${DataDictionary.SourceAccountingLine.attributes}" />  
 
     <purap:quotes

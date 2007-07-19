@@ -57,6 +57,7 @@
         displayRequisitionFields="true" />
         
     <purap:accountsummary
+        itemAttributes="${DataDictionary.RequisitionItem.attributes}"
     	documentAttributes="${DataDictionary.SourceAccountingLine.attributes}" />
 
     <purap:relatedDocuments

@@ -255,9 +255,9 @@ public class PurapServiceImpl implements PurapService {
         }
         return belowTheLineItem;
     }
-    
-    public List<SourceAccountingLine> generateSummary(List<PurchasingApItem> items) {
-        return purapAccountingService.generateSummary(items);
+
+    public Map<SourceAccountingLine, List<PurchasingApItem>> generateSummaryWithItems(List<PurchasingApItem> items) {
+        return purapAccountingService.generateSummaryWithItems(items);
     }
     
     /**

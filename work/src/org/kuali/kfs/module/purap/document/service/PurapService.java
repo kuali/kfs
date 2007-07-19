@@ -17,6 +17,7 @@ package org.kuali.module.purap.service;
 
 import java.sql.Date;
 import java.util.List;
+import java.util.Map;
 
 import org.kuali.core.bo.Note;
 import org.kuali.core.util.KualiDecimal;
@@ -53,7 +54,7 @@ public interface PurapService {
      */
     public PurchasingApItem getBelowTheLineByType(PurchasingAccountsPayableDocument document, ItemType iT);
     
-    public List<SourceAccountingLine> generateSummary(List<PurchasingApItem> items);
+    public Map<SourceAccountingLine, List<PurchasingApItem>> generateSummaryWithItems(List<PurchasingApItem> items);
     
     /**
      * We are obliged not to simply use a dateDiff and compare the result to 365, because we have

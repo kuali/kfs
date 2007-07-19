@@ -17,13 +17,13 @@ package org.kuali.module.purap.service.impl;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.Collections;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
-import org.apache.commons.collections.CollectionUtils;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.bo.AccountingLineBase;
@@ -241,6 +241,12 @@ public class PurapAccountingServiceImpl implements PurapAccountingService {
         return generateAccountSummary(items, null, ITEM_TYPES_EXCLUDED_VALUE, ZERO_TOTALS_RETURNED_VALUE, ALTERNATE_AMOUNT_NOT_USED);
     }
 
+    public Map<SourceAccountingLine, List<PurchasingApItem>> generateSummaryWithItems(List<PurchasingApItem> items) {
+        String methodName = "generateSummaryWithItems()";
+        LOG.debug(methodName + " started");
+        return generateAccountSummaryWithItems(items, null, ITEM_TYPES_EXCLUDED_VALUE, ZERO_TOTALS_RETURNED_VALUE, ALTERNATE_AMOUNT_NOT_USED);
+    }
+    
     /**
      * TODO PURAP: Needs Unit Tests
      * 
@@ -321,6 +327,71 @@ public class PurapAccountingServiceImpl implements PurapAccountingService {
      * @param useZeroTotals - value to tell whether to include zero dollar items (see {@link #ZERO_TOTALS_RETURNED_VALUE})
      * @return a list of {@link SourceAccountingLine} objects that represent a summing of all accounts across all derived processable items based on given criteria
      */
+    private Map<SourceAccountingLine, List<PurchasingApItem>> generateAccountSummaryWithItems(List<PurchasingApItem> items, Set itemTypeCodes, Boolean itemTypeCodesAreIncluded, Boolean useZeroTotals,
+            Boolean useAlternateAmount) {
+        Map<SourceAccountingLine, List<PurchasingApItem>>accountItemsMap = new HashMap();
+        List<PurchasingApItem> itemsToProcess = getProcessablePurapItems(items, itemTypeCodes, itemTypeCodesAreIncluded, useZeroTotals);
+        Set<PurApAccountingLine> accountSet = new HashSet<PurApAccountingLine>();
+        
+        for (PurchasingApItem currentItemFromDocument : items) {
+            if (PurApItemUtils.checkItemActive(currentItemFromDocument)) {
+                PurchasingApItem copyItemFromDocument = (PurchasingApItem)ObjectUtils.deepCopy(currentItemFromDocument);
+                for (PurApAccountingLine account : copyItemFromDocument.getSourceAccountingLines()) {
+                    PurchasingApItem currentItem = (PurchasingApItem)ObjectUtils.deepCopy(copyItemFromDocument);
+                    currentItem.setExtendedPriceForAccountSummary(account.getAmount());
+                    boolean thisAccountAlreadyInSet = false;
+                    for (Iterator iter = accountSet.iterator(); iter.hasNext();) {
+                        PurApAccountingLine alreadyAddedAccount = (PurApAccountingLine) iter.next();
+                        if (alreadyAddedAccount.accountStringsAreEqual(account)) {
+                            if (useAlternateAmount) {
+                                alreadyAddedAccount.setAlternateAmount(alreadyAddedAccount.getAlternateAmount().add(account.getAlternateAmount()));
+                                account.setAlternateAmount(alreadyAddedAccount.getAlternateAmount());
+                            } 
+                            else {
+                                alreadyAddedAccount.setAmount(alreadyAddedAccount.getAmount().add(account.getAmount()));
+                                account.setAmount(alreadyAddedAccount.getAmount());
+                            }
+                            thisAccountAlreadyInSet = true;
+                            break;
+                        }
+                    }
+                    
+                    PurApAccountingLine accountToAdd = (PurApAccountingLine) ObjectUtils.deepCopy(account);
+                    SourceAccountingLine sourceLine = accountToAdd.generateSourceAccountingLine();
+                    if (!thisAccountAlreadyInSet) {
+                        accountSet.add(accountToAdd);
+                        if (accountToAdd.isEmpty()) {
+                            String errorMessage = "Found an 'empty' account in summary generation " + accountToAdd.toString();
+                            LOG.error("generateAccountSummary() " + errorMessage);
+                            throw new RuntimeException(errorMessage);
+                        }
+                        if (useAlternateAmount) {
+                            sourceLine.setAmount(accountToAdd.getAlternateAmount());
+                        }
+                        List<PurchasingApItem> itemList = new ArrayList();
+                        itemList.add(currentItem);        
+                        accountItemsMap.put(sourceLine, itemList);
+                    }    
+                    else {
+                        for (Iterator mapIter = accountItemsMap.keySet().iterator(); mapIter.hasNext();) {
+                            SourceAccountingLine accountFromMap = (SourceAccountingLine)mapIter.next();
+                            SourceAccountingLine tempAccount = (SourceAccountingLine)ObjectUtils.deepCopy(accountFromMap);
+                            tempAccount.setAmount(sourceLine.getAmount());
+                            if (sourceLine.toString().equals(tempAccount.toString())) {
+                                accountFromMap.setAmount(sourceLine.getAmount());
+                                List<PurchasingApItem> itemList = accountItemsMap.get(accountFromMap);
+                                itemList.add(currentItem);
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        return accountItemsMap;
+    }
+    
     private List<SourceAccountingLine> generateAccountSummary(List<PurchasingApItem> items, Set itemTypeCodes, Boolean itemTypeCodesAreIncluded, Boolean useZeroTotals,
             Boolean useAlternateAmount) {
         List<PurchasingApItem> itemsToProcess = getProcessablePurapItems(items, itemTypeCodes, itemTypeCodesAreIncluded, useZeroTotals);

@@ -16,6 +16,7 @@
 package org.kuali.module.purap.bo;
 
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.core.util.ObjectUtils;
 
 public abstract class AccountsPayableItemBase extends PurApItemBase implements AccountsPayableItem {
     private KualiDecimal extendedPrice;
@@ -25,6 +26,10 @@ public abstract class AccountsPayableItemBase extends PurApItemBase implements A
      * @return Returns the extendedPrice.
      */
     public KualiDecimal getExtendedPrice() {
+        if(!this.getItemType().isItemTypeAboveTheLineIndicator() &&
+           ObjectUtils.isNotNull(this.getItemUnitPrice())) {
+           extendedPrice = new KualiDecimal(this.getItemUnitPrice().toString());
+        }
         return extendedPrice;
     }
 

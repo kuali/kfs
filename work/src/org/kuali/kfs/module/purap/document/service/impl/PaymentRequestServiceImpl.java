@@ -588,6 +588,8 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
         }
         
         distributeAccounting(paymentRequest);
+        //refresh account summary
+        paymentRequest.refreshAccountSummary();
     }
     
     

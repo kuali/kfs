@@ -25,6 +25,9 @@
 <%@ attribute name="showAmount" required="false"
     type="java.lang.Boolean"
     description="show the amount if true else percent" %>
+<%@ attribute name="updateExtended" required="false"
+    type="java.lang.Boolean"
+    description="post the unitPrice into the extendedPrice field" %>
 
 <c:if test="${empty overrideTitle}">
 	<c:set var="overrideTitle" value="Misc Items"/>
@@ -67,6 +70,11 @@
 			    <html:hidden property="document.item[${ctr}].itemType.active" /> 
 			    <html:hidden property="document.item[${ctr}].itemType.quantityBasedGeneralLedgerIndicator" />
  			    <html:hidden property="document.item[${ctr}].itemType.itemTypeAboveTheLineIndicator" />
+ 			    
+				<c:if test="${updateExtended}">
+					<html:hidden property="document.item[${ctr}].extendedPrice" />
+				</c:if>
+				
 			    <div align="right">
 			        <kul:htmlControlAttribute attributeEntry="${itemAttributes.itemTypeCode}" property="document.item[${ctr}].itemType.itemTypeDescription" readOnly="${true}" />:&nbsp;
 			    </div>

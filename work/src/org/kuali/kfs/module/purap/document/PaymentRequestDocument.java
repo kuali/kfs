@@ -724,7 +724,39 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
     public void handleRouteStatusChange() {
         LOG.debug("handleRouteStatusChange() started");
         super.handleRouteStatusChange();
-
+        try {
+            // DOCUMENT PROCESSED
+            if (this.getDocumentHeader().getWorkflowDocument().stateIsProcessed()) {
+                SpringServiceLocator.getPurapService().updateStatusAndStatusHistory(this, PurapConstants.PaymentRequestStatuses.DEPARTMENT_APPROVED);
+                populateDocumentForRouting();
+                SpringServiceLocator.getPaymentRequestService().save(this);
+            }
+            // DOCUMENT DISAPPROVED
+            else if (this.getDocumentHeader().getWorkflowDocument().stateIsDisapproved()) {
+                String nodeName = SpringServiceLocator.getWorkflowDocumentService().getCurrentRouteLevelName(getDocumentHeader().getWorkflowDocument());
+                String statusCode = PurapConstants.WorkflowConstants.PaymentRequestDocument.NodeDetails.DISAPPROVAL_STATUS_BY_NODE_NAME.get(nodeName);
+                if (StringUtils.isNotBlank(statusCode)) {
+                    SpringServiceLocator.getPurapService().updateStatusAndStatusHistory(this, statusCode);
+                    populateDocumentForRouting();
+                    SpringServiceLocator.getPaymentRequestService().save(this);
+                }
+                else {
+                    // TODO PURAP/delyea - what to do in a disapproval where no status to set exists?
+                    logAndThrowRuntimeException("No status found to set for document being disapproved in node '" + nodeName + "'");
+                }
+            }
+            // DOCUMENT CANCELED
+            else if (this.getDocumentHeader().getWorkflowDocument().stateIsCanceled()) {
+                //TODO: Chris I know this cancel isn't correct check with David for the correct one!!!!! (and additional scenarios
+                SpringServiceLocator.getPurapService().updateStatusAndStatusHistory(this, PurapConstants.PaymentRequestStatuses.CANCELLED_IN_PROCESS);
+                populateDocumentForRouting();
+                SpringServiceLocator.getPaymentRequestService().save(this);
+            }
+        }
+        catch (WorkflowException e) {
+            logAndThrowRuntimeException("Error saving routing data while saving document with id " + getDocumentNumber(), e);
+        }
+        
         //set back to default workflow title if state is final
         if( getDocumentHeader().getWorkflowDocument().stateIsFinal() ){
             //set the node name to something other then vendor tax so it uses

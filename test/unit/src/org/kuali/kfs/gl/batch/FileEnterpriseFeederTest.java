@@ -27,18 +27,17 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.apache.commons.io.filefilter.AndFileFilter;
+import org.apache.commons.io.filefilter.PrefixFileFilter;
 import org.apache.commons.io.filefilter.SuffixFileFilter;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.service.KualiConfigurationService;
-import org.kuali.core.util.UnitTestSqlDao;
 import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.context.KualiTestBase;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.gl.OriginEntryTestBase;
 import org.kuali.module.gl.bo.OriginEntry;
 import org.kuali.module.gl.bo.OriginEntryGroup;
 import org.kuali.module.gl.bo.OriginEntrySource;
-import org.kuali.module.gl.service.OriginEntryService;
 import org.kuali.module.gl.service.impl.FileEnterpriseFeederServiceImpl;
 import org.kuali.test.WithTestSpringContext;
 import org.kuali.test.suite.RelatesTo;
@@ -113,6 +112,7 @@ public class FileEnterpriseFeederTest extends OriginEntryTestBase {
         List<Integer> fileSets = Collections.emptyList();
         
         initializeDatabaseForTest();
+        
         assertNoExtraDoneFilesExistAndCreateDoneFilesForSets(fileSets);
 
         FeederStep feederStep = SpringServiceLocator.getEnterpriseFeedStep();
@@ -124,6 +124,8 @@ public class FileEnterpriseFeederTest extends OriginEntryTestBase {
         System.out.println(group);
         int groupCount = originEntryService.getGroupCount(group.getId());
         assertTrue("Expected group count of 0, but got group count of " + groupCount, groupCount == 0);
+        
+        assertNoExtraTestDoneFilesExistAfterTest();
     }
     
     /**
@@ -150,6 +152,8 @@ public class FileEnterpriseFeederTest extends OriginEntryTestBase {
         
         List<String> expectedEntries = buildVerificationEntries(fileSets, group);
         assertOriginEntriesLoaded(expectedEntries, group);
+        
+        assertNoExtraTestDoneFilesExistAfterTest();
     }
     
     /**
@@ -176,6 +180,8 @@ public class FileEnterpriseFeederTest extends OriginEntryTestBase {
         
         List<String> expectedEntries = buildVerificationEntries(fileSets, group);
         assertOriginEntriesLoaded(expectedEntries, group);
+        
+        assertNoExtraTestDoneFilesExistAfterTest();
     }
     
     @RelatesTo(RelatesTo.JiraIssue.KULUT30)
@@ -198,6 +204,8 @@ public class FileEnterpriseFeederTest extends OriginEntryTestBase {
         
         List<String> expectedEntries = buildVerificationEntries(fileSets, group);
         assertOriginEntriesLoaded(expectedEntries, group);
+        
+        assertNoExtraTestDoneFilesExistAfterTest();
     }
     
     @RelatesTo(RelatesTo.JiraIssue.KULUT30)
@@ -219,6 +227,8 @@ public class FileEnterpriseFeederTest extends OriginEntryTestBase {
         
         List<String> expectedEntries = buildVerificationEntries(fileSets, group);
         assertOriginEntriesLoaded(expectedEntries, group);
+        
+        assertNoExtraTestDoneFilesExistAfterTest();
     }
     
     protected void initializeDatabaseForTest() {
@@ -292,7 +302,13 @@ public class FileEnterpriseFeederTest extends OriginEntryTestBase {
         FileFilter fileFilter = new SuffixFileFilter(FileEnterpriseFeederServiceImpl.DONE_FILE_SUFFIX);
         File directory = new File(((FileEnterpriseFeederServiceImpl)SpringServiceLocator.getOriginEntryEnterpriseFeederService()).getDirectoryName());
         File[] doneFiles = directory.listFiles(fileFilter);
-        assertTrue("Done files exist in the directory, which will cause this step to produce unexpected results when testing." + 
+        
+        StringBuilder sb = new StringBuilder();
+        for (File file : doneFiles) {
+            sb.append( file.getName() + ";" );
+        }
+        
+        assertTrue("Done files exist in the directory ( " + sb.toString() + " ), which will cause this step to produce unexpected results when testing." + 
                 "  To run this test, the done files must be removed (do NOT do this if running on a production system).", doneFiles.length == 0);
         
         for (Integer setNumber : fileSets) {
@@ -302,6 +318,25 @@ public class FileEnterpriseFeederTest extends OriginEntryTestBase {
             }
         }
     }
+    
+    /**
+     * Asserts true if no test done files exist.  If so, method removes done files before assert.
+     * 
+     * @throws IOException
+     */
+    protected void assertNoExtraTestDoneFilesExistAfterTest( ) throws IOException {
+        FileFilter fileFilter = new AndFileFilter(new PrefixFileFilter( TEST_FILE_PREFIX ), new SuffixFileFilter( FileEnterpriseFeederServiceImpl.DONE_FILE_SUFFIX) );
+        File directory = new File(((FileEnterpriseFeederServiceImpl)SpringServiceLocator.getOriginEntryEnterpriseFeederService()).getDirectoryName());
+        File[] doneFiles = directory.listFiles(fileFilter);
+        
+        StringBuilder buf = new StringBuilder();
+        for (File file : doneFiles) {
+            buf.append( file.getName() + ";" );
+            file.delete();
+        }        
+        
+        assertTrue("The following test done files existed ( " + buf.toString() + " ), but shouldn't have.  These test done files have been deleted. ", buf.length() == 0 );
+    }    
     
     protected void assertDoneFilesDeleted(List<Integer> fileSets) throws IOException {
         StringBuilder buf = new StringBuilder();

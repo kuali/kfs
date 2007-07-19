@@ -147,26 +147,42 @@ public class CGMaintenanceDocumentRuleBase extends MaintenanceDocumentRuleBase {
     /**
      * checks if the required federal pass through fields are filled in if the federal pass through indicator is yes
      *
-     * @return
+     * @return True if all the necessary rules regarding the federal pass through agency input fields are met, false otherwise.
      */
     protected boolean checkFederalPassThrough(boolean federalPassThroughIndicator, Agency primaryAgency, String federalPassThroughAgencyNumber, Class propertyClass, String federalPassThroughIndicatorFieldName) {
         boolean success = true;
-        if (federalPassThroughIndicator) {
 
-            String indicatorLabel = SpringServiceLocator.getDataDictionaryService().getAttributeErrorLabel(propertyClass, federalPassThroughIndicatorFieldName);
-            if (StringUtils.isBlank(federalPassThroughAgencyNumber)) {
-                String agencyLabel = SpringServiceLocator.getDataDictionaryService().getAttributeErrorLabel(propertyClass, KFSPropertyConstants.FEDERAL_PASS_THROUGH_AGENCY_NUMBER);
-                putFieldError(KFSPropertyConstants.FEDERAL_PASS_THROUGH_AGENCY_NUMBER, KFSKeyConstants.ERROR_AWARD_FEDERAL_PASS_THROUGH_INDICATOR_DEPENDENCY_REQUIRED, new String[] { agencyLabel, indicatorLabel });
+        // check if primary agency is federal
+        boolean primaryAgencyIsFederal = AGENCY_TYPE_CODE_FEDERAL.equalsIgnoreCase(primaryAgency.getAgencyTypeCode());
+        
+        String indicatorLabel = SpringServiceLocator.getDataDictionaryService().getAttributeErrorLabel(propertyClass, federalPassThroughIndicatorFieldName);
+        String agencyLabel = SpringServiceLocator.getDataDictionaryService().getAttributeErrorLabel(propertyClass, KFSPropertyConstants.FEDERAL_PASS_THROUGH_AGENCY_NUMBER);
+
+        if(primaryAgencyIsFederal) {
+            if(federalPassThroughIndicator) {
+                // fpt indicator should not be checked if primary agency is federal
+                putFieldError(KFSPropertyConstants.FEDERAL_PASS_THROUGH_AGENCY_NUMBER, KFSKeyConstants.ERROR_PRIMARY_AGENCY_IS_FEDERAL_AND_FPT_INDICATOR_IS_CHECKED, new String[] { primaryAgency.getAgencyNumber(), AGENCY_TYPE_CODE_FEDERAL});
                 success = false;
             }
-            else {
-                if(ObjectUtils.isNotNull(primaryAgency) && AGENCY_TYPE_CODE_FEDERAL.equalsIgnoreCase(primaryAgency.getAgencyTypeCode())) {
-                    String agencyLabel = SpringServiceLocator.getDataDictionaryService().getAttributeErrorLabel(propertyClass, KFSPropertyConstants.AGENCY_NUMBER);
-                    putFieldError(KFSPropertyConstants.AGENCY_NUMBER, KFSKeyConstants.ERROR_AGENCY_FEDERAL_AND_FEDERAL_PASS_THROUGH_INDICATOR_CHECKED, new String[] { primaryAgency.getAgencyNumber(), AGENCY_TYPE_CODE_FEDERAL});
-                    success = false;
-                }
+            if(!StringUtils.isBlank(federalPassThroughAgencyNumber)) {
+                // fpt agency number should be blank if primary agency is federal
+                putFieldError(KFSPropertyConstants.FEDERAL_PASS_THROUGH_AGENCY_NUMBER, KFSKeyConstants.ERROR_PRIMARY_AGENCY_IS_FEDERAL_AND_FPT_AGENCY_IS_NOT_BLANK, new String[] { primaryAgency.getAgencyNumber(), AGENCY_TYPE_CODE_FEDERAL});
+                success = false;
             }
         }
+        else {
+            if(federalPassThroughIndicator && StringUtils.isBlank(federalPassThroughAgencyNumber)) {
+                // fpt agency number is required if fpt indicator is checked
+                putFieldError(KFSPropertyConstants.FEDERAL_PASS_THROUGH_AGENCY_NUMBER, KFSKeyConstants.ERROR_FPT_AGENCY_NUMBER_REQUIRED);
+                success = false;
+            }
+            else if(!federalPassThroughIndicator && !StringUtils.isBlank(federalPassThroughAgencyNumber)) {
+                // fpt agency number should be blank if fpt indicator is not checked
+                putFieldError(KFSPropertyConstants.FEDERAL_PASS_THROUGH_AGENCY_NUMBER, KFSKeyConstants.ERROR_FPT_AGENCY_NUMBER_NOT_BLANK);
+                success = false;
+            }
+        }
+        
         return success;
     }
 

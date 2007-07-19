@@ -99,7 +99,7 @@
 	              <c:if test="${not empty KualiForm.document.paymentRequestDocument.recurringPaymentTypeCode}">
 	                Recurring PO
 	              </c:if>			
-              	</c:if>		
+              </c:if>		
 			</td>
 		</tr>
 		<!-- END TOTAL SECTION -->

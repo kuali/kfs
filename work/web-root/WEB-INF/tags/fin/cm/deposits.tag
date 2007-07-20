@@ -40,8 +40,8 @@
         </logic:iterate>
         
         <c:if test="${KualiForm.lastInterimDepositFinalizable}">
-          <div align="left" style="padding=left: 10px">
-            <html:image src="${ConfigProperties.externalizable.images.url}buttonsmall_makeLastInterimDepositFinal.gif" style="border: none" property="methodToCall.finalizeLastInterimDeposit" title="make last interim deposit final" alt="make last interim deposit final" />
+          <div align="left" style="padding-left: 10px">
+            <html:image src="${ConfigProperties.externalizable.images.url}buttonsmall_finalizedepos.gif" style="border: none" property="methodToCall.finalizeLastInterimDeposit" title="make last interim deposit final" alt="make last interim deposit final" />
           </div>
         </c:if>
     </div>

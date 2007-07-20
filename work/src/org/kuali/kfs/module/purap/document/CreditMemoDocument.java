@@ -32,6 +32,7 @@ import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.PurapPropertyConstants;
 //import org.kuali.module.purap.PurapConstants.CREDIT_MEMO_TYPES;
+import org.kuali.module.purap.PurapConstants.CREDIT_MEMO_TYPE_LABELS;
 import org.kuali.module.purap.bo.CreditMemoItem;
 import org.kuali.module.purap.bo.CreditMemoStatusHistory;
 import org.kuali.module.purap.bo.PurchasingApItem;
@@ -112,24 +113,23 @@ public class CreditMemoDocument extends AccountsPayableDocumentBase {
         setPaymentRequestIdentifier(null);
     }
 
-//    /**
-//     * This returns the type of the Credit Memo that was selected on the init screen. It is based on them entering the Vendor, PO or
-//     * PREQ #.
-//     * 
-//     * @return Vendor, PO or PREQ
-//     */
-//    public String getCreditMemoType() {
-//        if (getPaymentRequestIdentifier() != null) {
-//            return CREDIT_MEMO_TYPES.TYPE_PREQ;
-//        }
-//        else if (getPurchaseOrderIdentifier() != null) {
-//            return CREDIT_MEMO_TYPES.TYPE_PO;
-//        }
-//        else {
-//            return CREDIT_MEMO_TYPES.TYPE_VENDOR;
-//        }
-//    }
-//
+    /**
+     * This returns the type of the Credit Memo that was selected on the init screen. It is based on them entering the Vendor, PO or
+     * PREQ #.
+     * 
+     * @return Vendor, PO or PREQ
+     */
+    public String getCreditMemoType() {
+        String type = CREDIT_MEMO_TYPE_LABELS.TYPE_VENDOR;
+        if (isSourceDocumentPaymentRequest()) {
+            type = CREDIT_MEMO_TYPE_LABELS.TYPE_PREQ;
+        }
+        else if (isSourceDocumentPurchaseOrder()) {
+            type = CREDIT_MEMO_TYPE_LABELS.TYPE_PO;
+        }
+        return type;
+    }
+
     /**
      * @see org.kuali.core.bo.PersistableBusinessObjectBase#isBoNotesSupport()
      */

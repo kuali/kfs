@@ -100,6 +100,7 @@ public class KualiWorkflowUtils extends WorkflowUtils {
     public static final String C_G_AWARD_DOC_TYPE = "AwardMaintenanceDocument";
     public static final String C_G_PROPOSAL_DOC_TYPE = "ProposalMaintenanceDocument";
     public static final String USER_DOC_TYPE = "UniversalUserMaintenanceDocument";
+    public static final String CHART_ORG_WORKGROUP_DOC_TYPE = "ChartOrgWorkgroup";
 	public static final String ACCOUNTS_PAYABLE_CREDIT_MEMO_DOCUMENT_TYPE = PurapConstants.CREDIT_MEMO_DOCUMENT;
     public static final String ACCOUNTS_PAYABLE_PAYMENT_REQUEST_DOCUMENT_TYPE = PurapConstants.PAYMENT_REQUEST_DOCUMENT;
     public static final String FINANCIAL_DOCUMENT_HEADER_DOCUMENT_NUMBER = xstreamSafeXPath(XSTREAM_MATCH_ANYWHERE_PREFIX + "documentHeader/documentNumber");
@@ -129,7 +130,7 @@ public class KualiWorkflowUtils extends WorkflowUtils {
         public static final String ALIEN_INDICATOR_PAYMENT_REASON = "Alien Indicator+Payment Reason";
         public static final String PAYMENT_METHOD = "Payment Method";
         public static final String ACCOUNT_REVIEW_FULL_EDIT = "Account Review Full Edit";
-        
+
     }
 
     public static final Set SOURCE_LINE_ONLY_DOCUMENT_TYPES = new HashSet();
@@ -252,10 +253,10 @@ public class KualiWorkflowUtils extends WorkflowUtils {
             throw new RuntimeException("getTargetAccountingLineClassName method of KualiWorkflowUtils caught IllegalAccessException while try to create instance of class: " + documentClass);
         }
     }
-    
+
     /**
      * This method returns a label from the data dictionary service
-     * 
+     *
      * @param businessObjectClass - class where the label should come from
      * @param attributeName - name of the attribute you need the label for
      * @return the label from the data dictionary for the given Class and attributeName or null if not found
@@ -400,10 +401,10 @@ public class KualiWorkflowUtils extends WorkflowUtils {
         chartFields.add(new Field("", "", Field.QUICKFINDER, false, "", "", null, lookupableName)); // quickfinder/lookup icon
         return new Row(chartFields);
     }
-    
+
     /**
-     * This method gets the document total amount from the DocumentHeader 
-     * 
+     * This method gets the document total amount from the DocumentHeader
+     *
      * If an XPathExpressionException is thrown, this will be re-thrown within a RuntimeException.
      *
      * @param routeContext The RouteContext object from the workflow system
@@ -415,7 +416,7 @@ public class KualiWorkflowUtils extends WorkflowUtils {
     }
 
     /**
-     * This method gets the document total amount from the DocumentHeader 
+     * This method gets the document total amount from the DocumentHeader
      * <br>
      * If an XPathExpressionException is thrown, this will be re-thrown within a RuntimeException.
      * @param document - the document object from the workflow system

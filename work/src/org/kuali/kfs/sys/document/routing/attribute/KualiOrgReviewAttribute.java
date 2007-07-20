@@ -445,8 +445,12 @@ public class KualiOrgReviewAttribute implements WorkflowAttribute, MassRuleAttri
                 }
                 else if (KualiWorkflowUtils.USER_DOC_TYPE.equals(docType.getName())){
                     //TODO: fix this xpath to use the central stuff after document xml is modified to remove string element
-                    chart = xpath.evaluate("//newMaintainableObject/businessObject/moduleProperties/entry[string=\"chart\"]/map/entry[string=\"chartOfAccountsCode\"]/string[2]", docContent.getDocument());    
+                    chart = xpath.evaluate("//newMaintainableObject/businessObject/moduleProperties/entry[string=\"chart\"]/map/entry[string=\"chartOfAccountsCode\"]/string[2]", docContent.getDocument());
                     org = xpath.evaluate("//newMaintainableObject/businessObject/moduleProperties/entry[string=\"chart\"]/map/entry[string=\"organizationCode\"]/string[2]", docContent.getDocument());
+                }
+                else if (KualiWorkflowUtils.CHART_ORG_WORKGROUP_DOC_TYPE.equals(docType.getName())) {
+                    chart = xpath.evaluate("//workgroup/extensions/extension/data[@key='"+KFSConstants.CHART_OF_ACCOUNTS_CODE_PROPERTY_NAME+"']", docContent.getDocument());
+                    org = xpath.evaluate("//workgroup/extensions/extension/data[@key='"+KFSConstants.ORGANIZATION_CODE_PROPERTY_NAME+"']", docContent.getDocument());
                 }
                 if (!StringUtils.isEmpty(chart) && !StringUtils.isEmpty(org)) {
                     Org docOrg = SpringServiceLocator.getOrganizationService().getByPrimaryIdWithCaching(chart, org);

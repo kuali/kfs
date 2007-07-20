@@ -271,11 +271,8 @@ public class PurchaseOrderAction extends PurchasingActionBase {
             success = false;
         }
         else {
-            success = SpringServiceLocator.getPurchaseOrderService().updateFlagsAndRoute(kualiDocumentFormBase.getDocument().getDocumentNumber(), documentType, kualiDocumentFormBase.getAnnotation(), combineAdHocRecipients(kualiDocumentFormBase));
-        }
-        if (!success) {
-            return mapping.findForward(KFSConstants.MAPPING_BASIC);
-            //return mapping.findForward(KFSConstants.MAPPING_ERROR);
+            po = SpringServiceLocator.getPurchaseOrderService().updateFlagsAndRoute(kualiDocumentFormBase.getDocument().getDocumentNumber(), documentType, kualiDocumentFormBase.getAnnotation(), combineAdHocRecipients(kualiDocumentFormBase));
+            kualiDocumentFormBase.setDocument(po);
         }
 
         Note newNote = new Note();
@@ -403,7 +400,8 @@ public class PurchaseOrderAction extends PurchasingActionBase {
             response.setHeader("Cache-Control", "max-age=30");
             response.setContentType("application/pdf");
             StringBuffer sbContentDispValue = new StringBuffer();
-            sbContentDispValue.append("inline");
+            //sbContentDispValue.append("inline");
+            sbContentDispValue.append("attachment");
             sbContentDispValue.append("; filename=");
             sbContentDispValue.append(sbFilename);
 
@@ -555,15 +553,13 @@ public class PurchaseOrderAction extends PurchasingActionBase {
                 GlobalVariables.getErrorMap().putError(PurapPropertyConstants.PURCHASE_ORDER_IDENTIFIER, PurapKeyConstants.ERROR_PURCHASE_ORDER_IS_PENDING);
             }
             else {
-                success = SpringServiceLocator.getPurchaseOrderService().updateFlagsAndRoute(kualiDocumentFormBase.getDocument().getDocumentNumber(), documentType, kualiDocumentFormBase.getAnnotation(), combineAdHocRecipients(kualiDocumentFormBase));
+                po = SpringServiceLocator.getPurchaseOrderService().updateFlagsAndRoute(kualiDocumentFormBase.getDocument().getDocumentNumber(), documentType, kualiDocumentFormBase.getAnnotation(), combineAdHocRecipients(kualiDocumentFormBase));
             }
-            if (!success) {
-                return mapping.findForward(KFSConstants.MAPPING_ERROR);
-            }
-            else {
-                ((PurchaseOrderForm) kualiDocumentFormBase).addButtons();
-                return mapping.findForward(KFSConstants.MAPPING_BASIC);
-            }
+
+            kualiDocumentFormBase.setDocument(po);
+            ((PurchaseOrderForm) kualiDocumentFormBase).addButtons();
+            return mapping.findForward(KFSConstants.MAPPING_BASIC);
+
         }
         else {
             // This is a PurchaseOrderRetransmitDocument, so we'll display the pdf now

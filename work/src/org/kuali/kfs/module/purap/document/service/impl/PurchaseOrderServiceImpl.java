@@ -295,7 +295,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
         boolean isRetransmit = false;
         boolean result = true;
         po.setPurchaseOrderFirstTransmissionDate(dateTimeService.getCurrentSqlDate());
-        result = updateFlagsAndRoute(po.getDocumentNumber(), docType, annotation, adhocRoutingRecipients);
+        po = updateFlagsAndRoute(po.getDocumentNumber(), docType, annotation, adhocRoutingRecipients);
         Collection<String> generatePDFErrors = printService.generatePurchaseOrderPdf(po, baosPDF, isRetransmit, environment);
 
         if (generatePDFErrors.size() > 0) {
@@ -377,16 +377,16 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
      * @see org.kuali.module.purap.service.PurchaseOrderService#updateFlagsAndRoute(org.kuali.module.purap.document.PurchaseOrderDocument,
      *      java.lang.String, java.lang.String, java.util.List)
      */
-    public boolean updateFlagsAndRoute(String documentNumber, String docType, String annotation, List adhocRoutingRecipients) {
+    public PurchaseOrderDocument updateFlagsAndRoute(String documentNumber, String docType, String annotation, List adhocRoutingRecipients) {
         try {
             PurchaseOrderDocument po = SpringServiceLocator.getPurchaseOrderService().getPurchaseOrderByDocumentNumber(documentNumber);
-
+            po.refreshAccountSummary();
             po.setPendingActionIndicator(true);
 
             businessObjectService.save(po);
 
             PurchaseOrderDocument newPO = (PurchaseOrderDocument)documentService.getNewDocument(docType);
-            
+            newPO.refreshAccountSummary();
             PurApObjectUtils.populateFromBaseWithSuper(po, newPO);
             newPO.refreshNonUpdateableReferences();
             newPO.setPurchaseOrderCurrentIndicator(false);
@@ -397,7 +397,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
             if (!rulePassed) {
                 po.setPendingActionIndicator(false);
                 saveDocumentWithoutValidation(po);
-                return false;
+                return po;
             }
             else {
                 if (docType.equals(PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_AMENDMENT_DOCUMENT)) {
@@ -413,6 +413,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
                     documentService.routeDocument(newPO, annotation, adhocRoutingRecipients);
                 }
             }
+            return newPO;
         }
         catch (WorkflowException we) {
             LOG.error("Error during updateFlagsAndRoute on PO document: " + we);
@@ -420,14 +421,12 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
         }
         catch (OjbOperationException ooe) {
             LOG.error("Error during updateFlagsAndRoute on PO document: " + ooe);
-            GlobalVariables.getErrorMap().putError(PurapPropertyConstants.PURCHASE_ORDER_IDENTIFIER, PurapKeyConstants.ERROR_PURCHASE_ORDER_CANNOT_AMEND);
-            return false;
+            throw new RuntimeException("Error during updateFlagsAndRoute on PO document: " + ooe.getMessage());
         }
         catch (Exception e) {
             LOG.error("Error during updateFlagsAndRoute on PO document: " + e);
             throw new RuntimeException("Error during updateFlagsAndRoute on PO document: " + e.getMessage());
         }
-        return true;
     }
 
     /* We don't need to lock the PO during amendment routing anymore, we'll lock it in updateFlagsAndRoute()

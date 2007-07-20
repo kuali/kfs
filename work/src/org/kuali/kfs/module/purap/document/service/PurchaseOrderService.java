@@ -38,7 +38,7 @@ public interface PurchaseOrderService {
     public PurchaseOrderDocument createPurchaseOrderDocument(RequisitionDocument reqDocument);
     public PurchaseOrderPostProcessorService convertDocTypeToService(String documentTypeId);  
     
-    public boolean updateFlagsAndRoute(String documentNumber, String docType, String annotation, List adhocRoutingRecipients);
+    public PurchaseOrderDocument updateFlagsAndRoute(String documentNumber, String docType, String annotation, List adhocRoutingRecipients);
     //public boolean routePurchaseOrderAmendmentDocument(KualiDocumentFormBase kualiDocumentFormBase, String annotation, List adhocRoutingRecipients);
     public KualiDecimal getInternalPurchasingDollarLimit(PurchasingDocumentBase po, String chartCode, String orgCode);
     public boolean firstPurchaseOrderTransmitViaPrint (PurchaseOrderDocument po, String docType, String annotation, List adhocRoutingRecipients,

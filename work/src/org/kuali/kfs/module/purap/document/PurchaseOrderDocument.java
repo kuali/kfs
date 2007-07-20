@@ -178,11 +178,17 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase {
     
     @Override
     public void prepareForSave(KualiDocumentEvent event) {
-        if (ObjectUtils.isNull(getPurapDocumentIdentifier())) {
-            //need to save to generate PO id to save in GL entries
-            SpringServiceLocator.getBusinessObjectService().save(this);
+        if (!getDocumentHeader().getWorkflowDocument().stateIsProcessed() && !getDocumentHeader().getWorkflowDocument().stateIsFinal()) {
+            if (ObjectUtils.isNull(getPurapDocumentIdentifier())) {
+                //need to save to generate PO id to save in GL entries
+                SpringServiceLocator.getBusinessObjectService().save(this);
+            }
+            super.prepareForSave(event);
         }
-        super.prepareForSave(event);
+        else {
+            //if doc is PROCESSED or FINAL, saving should not be creating GL entries
+            setGeneralLedgerPendingEntries(null);
+        }
     }
 
     public void setDefaultValuesForAPO() {
@@ -708,8 +714,8 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase {
     
         this.setAlternateVendorNumber(vendorDetail.getVendorHeaderGeneratedIdentifier() + VendorConstants.DASH + vendorDetail.getVendorDetailAssignedIdentifier());
         this.setAlternateVendorName(vendorDetail.getVendorName());
-    } 
-            
+    }
+    
     /**
      * Overriding this from the super class so that Note will use only the oldest
      * PurchaseOrderDocument as the documentBusinessObject.

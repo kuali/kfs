@@ -143,7 +143,8 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 
     public void saveDocumentWithoutValidation(PurchaseOrderDocument purchaseOrderDocument) {
         try {
-            purchaseOrderDocument.getDocumentHeader().getWorkflowDocument().saveRoutingData();
+        //FIXME this is causing problems at the moment; commenting out per david's request (hjs)
+//            purchaseOrderDocument.getDocumentHeader().getWorkflowDocument().saveRoutingData();
             documentService.validateAndPersistDocument(purchaseOrderDocument, new SaveOnlyDocumentEvent(purchaseOrderDocument));
         }
         catch (WorkflowException we) {
@@ -331,7 +332,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
             po.setPurchaseOrderLastTransmitDate(currentSqlDate);
             po.setPurchaseOrderCurrentIndicator(true);
             purapService.updateStatusAndStatusHistory(po, PurchaseOrderStatuses.OPEN);
-            //saveDocumentWithoutValidation(po);
+            saveDocumentWithoutValidation(po);
         }
         return result;
     }

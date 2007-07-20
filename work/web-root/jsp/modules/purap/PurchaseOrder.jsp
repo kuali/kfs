@@ -93,11 +93,12 @@
     <purap:accountsummary
         itemAttributes="${DataDictionary.PurchaseOrderItem.attributes}"
     	documentAttributes="${DataDictionary.SourceAccountingLine.attributes}" />  
-
-    <purap:quotes
+	
+	<!--  TODO this tab has been hided per KULPURAP-1063 -->
+    <!--  purap:quotes
         documentAttributes="${DataDictionary.PurchaseOrderDocument.attributes}"
         vendorQuoteAttributes="${DataDictionary.PurchaseOrderVendorQuote.attributes}"
-        isPurchaseOrderAwarded="${KualiForm.document.purchaseOrderAwarded}" /> 
+        isPurchaseOrderAwarded="${KualiForm.document.purchaseOrderAwarded}" / --> 
 
     <purap:relatedDocuments
             documentAttributes="${DataDictionary.RelatedDocuments.attributes}" />

@@ -18,10 +18,10 @@ package org.kuali.module.kra.budget.rules;
 import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase;
 import org.kuali.core.util.GlobalVariables;
+import org.kuali.core.util.ObjectUtils;
 import org.kuali.module.kra.KraKeyConstants;
 import org.kuali.module.kra.KraPropertyConstants;
 import org.kuali.module.kra.budget.bo.AppointmentType;
-import org.kuali.module.kra.budget.bo.IndirectCostLookup;
 
 
 /**
@@ -54,7 +54,7 @@ public class AppointmentTypeMaintenanceDocumentRule extends MaintenanceDocumentR
     private boolean validateAppointmentTypes(AppointmentType appointmentType) {
         boolean success = true;
 
-        if (appointmentType.getRelatedAppointmentTypeCode().equals(appointmentType.getAppointmentTypeCode())) {
+        if (ObjectUtils.isNotNull(appointmentType.getRelatedAppointmentTypeCode()) &&  appointmentType.getRelatedAppointmentTypeCode().equals(appointmentType.getAppointmentTypeCode())) {
             String propertyName = KraPropertyConstants.DOCUMENT + "." + KraPropertyConstants.NEW_MAINTAINABLE_OBJECT + "." + "relatedAppointmentTypeCode";
             GlobalVariables.getErrorMap().putError(propertyName, KraKeyConstants.ERROR_APPOINTMENT_TYPE_RELATED_TYPE_CODE);
             success = false;

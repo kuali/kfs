@@ -636,13 +636,13 @@ public class PurapConstants extends JstlConstants {
         public static String REMOVE_HOLD_NOTE_PREFIX = "Note entered while removing hold on Credit Memo: ";
     }
     
-//    public static class CREDIT_MEMO_TYPES {
-//
-//        public static final String TYPE_PO = "PO";
-//        public static final String TYPE_PREQ = "PREQ";
-//        public static final String TYPE_VENDOR = "Vendor";
-//        
-//    }
+    public static class CREDIT_MEMO_TYPE_LABELS {
+
+        public static final String TYPE_PO = "PO";
+        public static final String TYPE_PREQ = "PREQ";
+        public static final String TYPE_VENDOR = "Vendor";
+        
+    }
     
     private static HashMap<String,String> uncopyableFields() {
         HashMap<String,String> fields = new HashMap<String,String>();

@@ -15,14 +15,20 @@
  */
 package org.kuali.module.financial.rules;
 
+import java.util.Map;
+
+import org.kuali.core.authorization.AuthorizationConstants;
+import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.document.Document;
 import org.kuali.core.rules.PreRulesContinuationBase;
 import org.kuali.core.service.KualiConfigurationService;
+import org.kuali.core.util.GlobalVariables;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSKeyConstants;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.kfs.web.struts.form.KualiAccountingDocumentFormBase;
 import org.kuali.module.financial.document.BudgetAdjustmentDocument;
+import org.kuali.module.financial.document.authorization.BudgetAdjustmentDocumentAuthorizer;
 
 /**
  * Checks warnings and prompt conditions for ba document.
@@ -54,8 +60,14 @@ public class BudgetAdjustmentDocumentPreRules extends PreRulesContinuationBase {
     private boolean askLaborBenefitsGeneration(BudgetAdjustmentDocument budgetDocument) {
         // before prompting, check the document contains one or more labor object codes
         boolean hasLaborObjectCodes = SpringServiceLocator.getBudgetAdjustmentLaborBenefitsService().hasLaborObjectCodes(budgetDocument);
-
-        if (hasLaborObjectCodes) {
+        
+        // and check that the user can edit the document
+        String documentTypeName = SpringServiceLocator.getDataDictionaryService().getDocumentTypeNameByClass(BudgetAdjustmentDocument.class);
+        BudgetAdjustmentDocumentAuthorizer budgetAdjustmentDocumentAuthorizer = (BudgetAdjustmentDocumentAuthorizer) SpringServiceLocator.getDocumentAuthorizationService().getDocumentAuthorizer(documentTypeName);
+        UniversalUser universalUser = GlobalVariables.getUserSession().getUniversalUser();
+        Map map = budgetAdjustmentDocumentAuthorizer.getEditMode(budgetDocument, universalUser, budgetDocument.getSourceAccountingLines(), budgetDocument.getTargetAccountingLines());
+        
+        if (map.containsKey(AuthorizationConstants.EditMode.FULL_ENTRY) && hasLaborObjectCodes) {
             String questionText = SpringServiceLocator.getKualiConfigurationService().getPropertyString(KFSKeyConstants.QUESTION_GENERATE_LABOR_BENEFIT_LINES);
             boolean generateBenefits = super.askOrAnalyzeYesNoQuestion(KFSConstants.BudgetAdjustmentDocumentConstants.GENERATE_BENEFITS_QUESTION_ID, questionText);
             if (generateBenefits) {

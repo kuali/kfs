@@ -24,6 +24,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.ArrayUtils;
 import org.kuali.core.rule.KualiParameterRule;
 import org.kuali.core.service.DateTimeService;
 import org.kuali.core.service.KualiConfigurationService;
@@ -93,7 +94,7 @@ public class OrganizationReversionProcess {
 
     private boolean endOfYear;
 
-    public final KualiParameterRule ORGANIZATION_REVERSION_COA;
+    public final String[] ORGANIZATION_REVERSION_COA;
     public final String CARRY_FORWARD_OBJECT_CODE;
     public final String DEFAULT_FINANCIAL_DOCUMENT_TYPE_CODE;
     public final String DEFAULT_FINANCIAL_SYSTEM_ORIGINATION_CODE;
@@ -105,7 +106,7 @@ public class OrganizationReversionProcess {
         super();
 
         KualiConfigurationService kualiConfigurationService = SpringServiceLocator.getKualiConfigurationService();
-        this.ORGANIZATION_REVERSION_COA = kualiConfigurationService.getApplicationParameterRule(GLConstants.GL_ORGANIZATION_REVERSION_PROCESS_GROUP, GLConstants.OrganizationReversionProcess.ORGANIZATION_REVERSION_COA);
+        this.ORGANIZATION_REVERSION_COA = kualiConfigurationService.getApplicationParameterValues(GLConstants.GL_ORGANIZATION_REVERSION_PROCESS_GROUP, GLConstants.OrganizationReversionProcess.ORGANIZATION_REVERSION_COA);
         this.CARRY_FORWARD_OBJECT_CODE = kualiConfigurationService.getApplicationParameterValue(GLConstants.GL_ORGANIZATION_REVERSION_PROCESS_GROUP, GLConstants.OrganizationReversionProcess.CARRY_FORWARD_OBJECT_CODE);
         this.DEFAULT_FINANCIAL_DOCUMENT_TYPE_CODE = kualiConfigurationService.getApplicationParameterValue(GLConstants.GL_ORGANIZATION_REVERSION_PROCESS_GROUP, GLConstants.OrganizationReversionProcess.DEFAULT_FINANCIAL_DOCUMENT_TYPE_CODE);
         this.DEFAULT_FINANCIAL_SYSTEM_ORIGINATION_CODE = kualiConfigurationService.getApplicationParameterValue(GLConstants.GL_ORGANIZATION_REVERSION_PROCESS_GROUP, GLConstants.OrganizationReversionProcess.DEFAULT_FINANCIAL_SYSTEM_ORIGINATION_CODE);
@@ -431,7 +432,7 @@ public class OrganizationReversionProcess {
                 OriginEntry entry = getEntry();
                 entry.setUniversityFiscalYear(paramUniversityFiscalYear + 1);
                 entry.setChartOfAccountsCode(unitOfWork.chartOfAccountsCode);
-                if (ORGANIZATION_REVERSION_COA.succeedsRule(unitOfWork.chartOfAccountsCode)) {
+                if (ArrayUtils.contains(ORGANIZATION_REVERSION_COA, unitOfWork.chartOfAccountsCode)) {
                     entry.setAccountNumber(organizationReversion.getBudgetReversionAccountNumber());
                     entry.setSubAccountNumber(KFSConstants.DASHES_SUB_ACCOUNT_NUMBER);
                 }
@@ -506,7 +507,7 @@ public class OrganizationReversionProcess {
         entry.setUniversityFiscalYear(paramUniversityFiscalYear + 1);
         entry.setChartOfAccountsCode(unitOfWork.chartOfAccountsCode);
 
-        if (ORGANIZATION_REVERSION_COA.succeedsRule(unitOfWork.chartOfAccountsCode)) {
+        if (ArrayUtils.contains(ORGANIZATION_REVERSION_COA, unitOfWork.chartOfAccountsCode)) {
             entry.setAccountNumber(organizationReversion.getBudgetReversionAccountNumber());
         }
         else {

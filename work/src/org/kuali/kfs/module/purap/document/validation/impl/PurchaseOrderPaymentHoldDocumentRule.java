@@ -59,7 +59,7 @@ public class PurchaseOrderPaymentHoldDocumentRule extends TransactionalDocumentR
         return isValid;
     }
 
-    private boolean processValidation(PurchaseOrderDocument document) {
+    boolean processValidation(PurchaseOrderDocument document) {
         boolean valid = true;
 
         // Check that the PO is not null.

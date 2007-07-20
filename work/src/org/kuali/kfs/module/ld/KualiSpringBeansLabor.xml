@@ -481,6 +481,12 @@
             <ref bean="laborReportService" />
         </property>
     </bean>  
+         
+	<bean id="createLaborBackupGroupStep" class="org.kuali.module.labor.batch.CreateLaborBackupGroupStep" parent="step">
+		<property name="originEntryGroupService">
+            <ref bean="glOriginEntryGroupService" />
+        </property>
+	</bean>         
            
 	<bean id="laborScrubberStep" class="org.kuali.module.labor.batch.LaborScrubberStep" parent="step">
 		<property name="laborScrubberService">
@@ -563,6 +569,7 @@
 		<property name="steps">
 			<list>
 				<ref bean="laborNightlyOutStep"/>
+				<ref bean="createLaborBackupGroupStep"/>
 				<ref bean="laborScrubberStep"/>
 				<ref bean="laborPosterStep"/>
 			</list>
@@ -765,4 +772,29 @@
 			<bean parent="platformAwareDao" class="org.kuali.module.labor.dao.ojb.ExpenseTransferAccountingLineDaoOjb" />
 		</property>
 	</bean>
+	
+	
+	<!--  Batch manual   -->
+	<bean id="laborBatchManualJob" parent="unscheduledJobDescriptor">
+		<property name="steps">
+			<list>
+				<ref bean="laborNightlyOutStep"/>
+				<ref bean="createLaborBackupGroupStep"/>
+				<ref bean="laborScrubberStep"/>
+				<ref bean="laborPosterStep"/>
+			</list>
+		</property>
+	</bean>
+	
+	<!--  Batch manual   -->
+	<bean id="glModule" class="org.kuali.core.KualiModule">
+    <property name="moduleId" value="labor" />
+    <property name="jobNames">
+        <list>
+            <value>laborBatchManualJob</value>
+        </list>
+    </property>
+	</bean>
+	
+	
 </beans>

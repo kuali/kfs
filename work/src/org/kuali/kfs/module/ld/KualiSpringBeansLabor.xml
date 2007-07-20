@@ -775,6 +775,7 @@
 	
 	
 	<!--  Batch manual   -->
+<!-- 
 	<bean id="laborBatchManualJob" parent="unscheduledJobDescriptor">
 		<property name="steps">
 			<list>
@@ -785,8 +786,6 @@
 			</list>
 		</property>
 	</bean>
-	
-	<!--  Batch manual   -->
 	<bean id="glModule" class="org.kuali.core.KualiModule">
     <property name="moduleId" value="labor" />
     <property name="jobNames">
@@ -795,6 +794,6 @@
         </list>
     </property>
 	</bean>
-	
+-->
 	
 </beans>

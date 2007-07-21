@@ -27,6 +27,7 @@ import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.exceptions.UserNotFoundException;
 import org.kuali.core.rule.event.KualiDocumentEvent;
 import org.kuali.core.rule.event.RouteDocumentEvent;
+import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.purap.PurapConstants;
@@ -132,8 +133,45 @@ public abstract class AccountsPayableDocumentBase extends PurchasingAccountsPaya
      * 
      * @param docType
      */
-    public void processCloseReopenPo(String docType){
-        SpringServiceLocator.getPurchaseOrderService().updateFlagsAndRoute(this.getPurchaseOrderDocument().getDocumentNumber(), docType, "", new ArrayList());
+    public void processCloseReopenPo(String docType, String identifier){
+        
+        SpringServiceLocator.getPurchaseOrderService().updateFlagsAndRoute(
+                this.getPurchaseOrderDocument().getDocumentNumber(), docType, createCloseReopenPoNote(docType, identifier), new ArrayList());
+    }
+    
+    /**
+     * This method generates a note for the close/reopen po method.
+     * 
+     * @param docType
+     * @param preqId
+     * @return
+     */
+    private String createCloseReopenPoNote(String docType, String identifier){
+        StringBuffer closeReopenNote = new StringBuffer("");
+        String closedReopenedText = "";
+        String userName = GlobalVariables.getUserSession().getUniversalUser().getPersonName();
+        String docName = "";
+        
+        if(PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_CLOSE_DOCUMENT.equals(docType)){
+            closedReopenedText = "closed";
+            docName = "PREQ";
+        }else if(PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_REOPEN_DOCUMENT.equals(docType)){
+            closedReopenedText = "reopened";
+            docName = "CREDIT MEMO";
+        }
+            
+        closeReopenNote.append("PO was manually ");
+        closeReopenNote.append(closedReopenedText);
+        closeReopenNote.append(" by ");
+        closeReopenNote.append(userName);
+        closeReopenNote.append(" when approving ");
+        closeReopenNote.append(docName);
+        closeReopenNote.append(" with ");
+        closeReopenNote.append(docName);
+        closeReopenNote.append(" ID ");
+        closeReopenNote.append(identifier);
+                
+        return closeReopenNote.toString();
     }
     
     /**

@@ -1079,7 +1079,7 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
      */
     @Override
     public void processCloseReopenPo(){
-       processCloseReopenPo(PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_CLOSE_DOCUMENT); 
+       processCloseReopenPo(PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_CLOSE_DOCUMENT, this.getRequisitionIdentifier().toString()); 
     }
 
 }

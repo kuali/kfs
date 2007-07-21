@@ -529,6 +529,6 @@ public class CreditMemoDocument extends AccountsPayableDocumentBase {
      */
     @Override
     public void processCloseReopenPo(){
-       processCloseReopenPo(PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_REOPEN_DOCUMENT); 
+       processCloseReopenPo(PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_REOPEN_DOCUMENT, this.getCreditMemoNumber()); 
     }
 }

@@ -35,7 +35,7 @@
 				<entry key="org.kuali.kfs.batch.JobDescriptor">
 					<list>
 						<value>scheduleJob</value>
-						<value>corePurgeJob</value>
+						<value>purgeJob</value>
 					</list>
 				</entry>
 				<entry key="org.kuali.kfs.batch.TriggerDescriptor">
@@ -170,17 +170,17 @@
 		</property>
 	</bean>
 
-	<bean id="corePurgeJob" parent="scheduledJobDescriptor">
+	<bean id="purgeJob" parent="scheduledJobDescriptor">
 		<property name="steps">
 			<list>
-				<ref bean="corePurgeDocumentContentsStep" />
+				<ref bean="purgeDocumentContentsStep" />
 				<ref bean="purgePendingAttachmentsStep" />
 				<ref bean="purgeOldLookupResultsStep" />
 			</list>
 		</property>
 	</bean>
 
-	<bean id="corePurgeDocumentContentsStep" class="org.kuali.kfs.batch.PurgeDocumentContentsStep" parent="step">
+	<bean id="purgeDocumentContentsStep" class="org.kuali.kfs.batch.PurgeDocumentContentsStep" parent="step">
 		<property name="documentService">
 			<ref bean="documentService" />
 		</property>

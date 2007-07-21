@@ -36,8 +36,9 @@ import org.kuali.test.suite.RelatesTo;
 @WithTestSpringContext
 public class DataDictionaryConfigurationTest extends KualiTestBase {
     private static final Logger LOG = Logger.getLogger(DataDictionaryConfigurationTest.class);
-    private static final String BASE_MODULE_PACKAGE_PREFIX = "org.kuali.module.";
-    private static final String KFS_CORE_PACKAGE_PREFIX = "org.kuali.kfs.";
+    private static final String BASE_PACKAGE_PREFIX = "org.kuali.";
+    private static final String BASE_MODULE_PACKAGE_PREFIX = BASE_PACKAGE_PREFIX + "module.";
+    private static final String KFS_CORE_PACKAGE_PREFIX = BASE_PACKAGE_PREFIX + KFSConstants.KFS_MODULE_ID + ".";
     private DataDictionary dataDictionary;
     private Map <String,Exception> dataDictionaryLoadFailures;
     private Map<String,String> dataDictionaryWarnings;
@@ -138,15 +139,15 @@ public class DataDictionaryConfigurationTest extends KualiTestBase {
         dataDictionaryWarnings = new TreeMap();
         modules = new HashMap();
         coreModule = new KualiModule();
-        coreModule.setModuleId("core");
+        coreModule.setModuleId(KFSConstants.CROSS_MODULE_ID);
         coreModule.setModuleCode(KFSConstants.CROSS_MODULE_CODE);
         coreModule.setModuleName(KFSConstants.CROSS_MODULE_NAME);
         modules.put(coreModule.getModuleId(), coreModule);
         componentNamesByModule.put(coreModule.getModuleId(), new TreeSet());
         kfsModule = new KualiModule();
-        kfsModule.setModuleId("kfs");
-        kfsModule.setModuleCode("FS");
-        kfsModule.setModuleName("Financial System");
+        kfsModule.setModuleId(KFSConstants.KFS_MODULE_ID);
+        kfsModule.setModuleCode(KFSConstants.KFS_MODULE_CODE);
+        kfsModule.setModuleName(KFSConstants.KFS_MODULE_NAME);
         modules.put(kfsModule.getModuleId(), kfsModule);
         componentNamesByModule.put(kfsModule.getModuleId(), new TreeSet());
         for (KualiModule module : SpringServiceLocator.getKualiModuleService().getInstalledModules()) {

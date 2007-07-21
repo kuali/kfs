@@ -59,8 +59,12 @@ public class KFSConstants {
     public static final String JOB_NAMES_LIST_NAME = "jobNames";
     public static final String TRIGGER_NAMES_LIST_NAME = "triggerNames";
     
+    public static final String CROSS_MODULE_ID = "core";
     public static final String CROSS_MODULE_CODE = "CF";
     public static final String CROSS_MODULE_NAME = "Core Functionality";
+    public static final String KFS_MODULE_ID = "kfs";
+    public static final String KFS_MODULE_CODE = "FS";
+    public static final String KFS_MODULE_NAME = "Financial Systems";
 
     public static final String LOOKUP_RESULTS_LIMIT_URL_KEY = "lookup.results.limit";
     public static final String DOCHANDLER_DO_URL = "/DocHandler.do?docId=";

@@ -116,12 +116,30 @@ public class PaymentRequestDocumentAuthorizer extends AccountingDocumentAuthoriz
         } else {
             flags.setCanSave(true);
             
-            if(paymentRequestDocument.isHoldIndicator()){
+            PaymentRequestDocumentActionAuthorizer preqDocAuth = 
+                new PaymentRequestDocumentActionAuthorizer(
+                        paymentRequestDocument.getStatusCode(), 
+                        user, 
+                        paymentRequestDocument.getPaymentRequestedCancelIndicator(), 
+                        paymentRequestDocument.isHoldIndicator());
+            
+            if( preqDocAuth.canApprove() ){
+                flags.setCanApprove(true);                
+            }else{
                 flags.setCanApprove(false);
-                flags.setCanBlanketApprove(false);
-                flags.setCanRoute(false);
             }
-            //flags.setCanContinue(false);
+            
+            if( preqDocAuth.canCancel() ){
+                flags.setCanCancel(true);
+            }else{
+                flags.setCanCancel(false);
+            }
+            
+            if( preqDocAuth.canSave()){
+                flags.setCanRoute(true);
+            }else{
+                flags.setCanRoute(false);
+            }            
         }         
         
         // not sure if we need this one or not.

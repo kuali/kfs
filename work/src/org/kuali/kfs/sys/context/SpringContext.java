@@ -1,12 +1,12 @@
 /*
  * Copyright 2007 The Kuali Foundation.
- * 
+ *
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl1.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -33,6 +33,7 @@ import org.kuali.core.util.cache.MethodCacheInterceptor;
 import org.kuali.kfs.service.SchedulerService;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.rice.KNSServiceLocator;
+import org.kuali.rice.RiceConstants;
 import org.kuali.rice.core.Core;
 import org.kuali.rice.resourceloader.BaseResourceLoader;
 import org.kuali.rice.resourceloader.GlobalResourceLoader;
@@ -78,7 +79,7 @@ public class SpringContext {
             }
         }
     }
-    
+
     @SuppressWarnings("unchecked")
     public static <T> T getBean(Class<T> type, String name) {
         checkProperInitialization();
@@ -96,7 +97,7 @@ public class SpringContext {
             }
         }
     }
-    
+
     @SuppressWarnings("unchecked")
     public static <T> List<T> getBeansOfType(Class<T> type) {
         checkProperInitialization();
@@ -104,12 +105,12 @@ public class SpringContext {
         beansOfType.addAll(KNSServiceLocator.getBeansOfType(type));
         return beansOfType;
     }
-    
+
     protected static String[] getBeanNames() {
         checkProperInitialization();
         return instance.applicationContext.getBeanDefinitionNames();
     }
-    
+
     protected static void initializeApplicationContext() {
         initializeApplicationContext(getSpringConfigurationFiles(new String [] {SPRING_SOURCE_FILES_KEY}));
     }
@@ -117,15 +118,15 @@ public class SpringContext {
     protected static void close() {
         instance.applicationContext.close();
     }
-    
+
     protected static String getStringConfigurationProperty(String propertyName) {
         return ResourceBundle.getBundle(PropertyLoadingFactoryBean.CONFIGURATION_FILE_NAME).getString(propertyName);
     }
-    
+
     protected static List<String> getListConfigurationProperty(String propertyName) {
         return Arrays.asList(getStringConfigurationProperty(propertyName).split(","));
     }
-    
+
     private static void checkProperInitialization() {
         if (hideSpringFromTestsMessage != null) {
             throw new RuntimeException(hideSpringFromTestsMessage);
@@ -134,7 +135,7 @@ public class SpringContext {
             throw new RuntimeException("Spring not initialized properly.  Initialization has begun and the application context is null." + "Probably spring loaded bean is trying to use KNSServiceLocator before the application context is initialized.");
         }
     }
-    
+
     private static String[] getSpringConfigurationFiles(String[] propertyNames) {
         List<String> springConfigurationFiles = new ArrayList<String>();
         springConfigurationFiles.add(APPLICATION_CONTEXT_DEFINITION);
@@ -143,7 +144,7 @@ public class SpringContext {
         }
         return springConfigurationFiles.toArray(new String[] {});
     }
-        
+
     private static void initializeApplicationContext(String[] springFiles) {
         instance.applicationContext = new ClassPathXmlApplicationContext(springFiles);
 
@@ -234,7 +235,7 @@ public class SpringContext {
             TRANSACTION_STATUS = null;
         }
     }
-    
+
     protected static void transitionTestApplicationContext(String hideSpringFromTestsMessage) {
         endTestTransaction();
         // Prevent subsequent tests from using this framework without proper initialization, so they can also succeed when run
@@ -248,8 +249,8 @@ public class SpringContext {
     }
 
     private static void setSynchronousWorkflow(boolean synchronous) {
-        String persistence = synchronous ? EdenConstants.MESSAGING_SYNCHRONOUS : null;
-        Core.getCurrentContextConfig().overrideProperty(EdenConstants.MESSAGE_PERSISTENCE, persistence);
+        String persistence = synchronous ? RiceConstants.MESSAGING_SYNCHRONOUS : null;
+        Core.getCurrentContextConfig().overrideProperty(RiceConstants.MESSAGE_DELIVERY, persistence);
         // This is a real drag, because of the fake hierarchy that is being modeled in our configuration system, we have to manually
         // walk down
         // to the Embedded Plugin's configuration and set the synchronous message persistence as well, ugh.

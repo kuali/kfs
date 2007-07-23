@@ -10,7 +10,7 @@
 	<target name="echo-properties" depends="init-properties" description="Print all build properties that have been set">
 		<echoproperties />
 	</target>
-	
+
 	<target name="clean" depends="clean-project,clean-local" description="Remove all build output" />
 
 	<target name="init-property-files">
@@ -23,10 +23,10 @@
 		</condition>
 		<!-- todo: remove dev.mode and message.persistence - fix for workflow bug introduced with the 2.4 upgrade -->
 		<condition property="dev.mode" value="true"><equals arg1="${is.local.build}" arg2="true" /></condition>
-		<condition property="message.persistence" value="synchronous"><equals arg1="${is.local.build}" arg2="true" /></condition>
+		<condition property="message.persistence" value="false"><equals arg1="${is.local.build}" arg2="true" /></condition>
 		<property file="build.properties" />
 	</target>
-	
+
 	<target name="init-properties" depends="init-property-files">
 		<tstamp><format property="project.cvs.tag" pattern="MM/dd/yyyy hh:mm aa" /></tstamp>
 		<condition property="context.docbase" value=' docBase="${basedir}${file.separator}work${file.separator}web-root"'><equals arg1="${is.local.build}" arg2="true" /></condition>
@@ -61,11 +61,11 @@
 		<loadfile property="p6spy" srcfile="${build.project.directory}/${p6spy.file}"><filterchain><expandproperties/></filterchain></loadfile>
 		<loadfile property="web" srcfile="${build.project.directory}/${web.file}"><filterchain><expandproperties/></filterchain></loadfile>
 		<loadfile property="context" srcfile="${build.appserver.directory}/${context.file}"><filterchain><expandproperties/></filterchain></loadfile>
-		<loadfile property="log4j" srcfile="${user.home}/${log4j.file}" failonerror="false"><filterchain><expandproperties/></filterchain></loadfile>	
-		<loadfile property="log4j" srcfile="${build.external.config.directory}/${log4j.file}"><filterchain><expandproperties/></filterchain></loadfile>	
-		<loadfile property="security" srcfile="${build.external.config.directory}/${security.file}"><filterchain><expandproperties/></filterchain></loadfile>	
+		<loadfile property="log4j" srcfile="${user.home}/${log4j.file}" failonerror="false"><filterchain><expandproperties/></filterchain></loadfile>
+		<loadfile property="log4j" srcfile="${build.external.config.directory}/${log4j.file}"><filterchain><expandproperties/></filterchain></loadfile>
+		<loadfile property="security" srcfile="${build.external.config.directory}/${security.file}"><filterchain><expandproperties/></filterchain></loadfile>
 	</target>
-	
+
 	<target name="init-batch-properties">
 		<property name="appserver.home" value="${user.home}/.securedir/java" />
 		<property file="${appserver.home}/build.properties" />
@@ -89,7 +89,7 @@
 			<include name="**/*.xsd" />
 		</patternset>
 	</target>
-	
+
 	<target name="clean-project" depends="init-property-files">
 		<delete failonerror="false">
 			<fileset dir="${basedir}" includes="${source.directory}/${configuration.file},${source.directory}/${ojb.file},${source.directory}/${spring.file},${source.directory}/${p6spy.file},${webinf.directory}/${web.file},${lib.directory}/${log4j.library.file},${war.directory}/**/**,${test.directory}/**/**,*.war,*.zip,${webroot.directory}/${rice.application}/**/**,${webroot.directory}/${tags.directory}/${rice.application}/**/**,${webroot.directory}/${workflow.application}/**/**,${database.directory}/${rice.name}/**/**,${licenses.directory}/${rice.name}/**/**" />
@@ -125,17 +125,17 @@
 			<fileset dir="${appserver.work.dir}" includes="${ant.project.name}-*/**" />
 		</delete> -->
 	</target>
-	
+
 	<target name="clean-batch" depends="init-batch-properties,clean" />
 
 	<target name="filter-project-log4j" unless="use.p6spy.local" depends="init-properties">
 		<copy file="${build.directory}/${log4j.library.file}" todir="${lib.directory}"/>
 	</target>
-	
+
 	<target name="filter-project-p6spy" if="use.p6spy.local" depends="filter-project-log4j">
 		<copy file="${build.directory}/${log4j.library.file}" todir="${appserver.lib.dir}"/>
 	</target>
-	
+
 	<target name="filter-project" depends="filter-project-p6spy">
 		<unzip dest="${webroot.directory}" src="${build.project.directory}/${rice.name}-${rice.version}${rice.output.web.suffix}" />
 		<unzip dest="${database.directory}/${rice.name}" src="${build.project.directory}/${rice.name}-${rice.version}${rice.output.ddl.suffix}" />
@@ -167,7 +167,7 @@
 			<fileset dir="${build.static.directory}" />
 		</copy>
 	</target>
-	
+
 	<target name="make-source" depends="init-make-references,filter-project">
 		<mkdir dir="${make-source.target.directory}" />
 		<javac destdir="${make-source.target.directory}" srcdir="${source.directory}" debug="true" optimize="true" fork="true" memoryinitialsize="${compile.min.memory}" memorymaximumsize="${compile.max.memory}">
@@ -191,7 +191,7 @@
 			<fileset dir="${test.source.directory}">
 				<patternset refid="non.java.resources" />
 				<include name="**/*.txt" />
-			</fileset>  
+			</fileset>
 		</copy>
 		<copy todir="${test.classes.directory}">
 			<fileset dir="${source.directory}">
@@ -199,13 +199,13 @@
 			</fileset>
 		</copy>
 	</target>
-	
+
 	<target name="make-zips" depends="filter-local">
 		<zip destfile="settings.zip" basedir="${settings.directory}" />
 		<zip destfile="security.zip" basedir="${security.directory}" />
 		<zip destfile="skel.zip" basedir="${static.directory}" />
 	</target>
-	
+
 	<target name="make-batch" depends="clean-batch,dist-local,make-source">
 		<property file="${appserver.home}/brte-script-build.properties" />
 		<copy todir="${batch.script.distribution.directory}" overwrite="true">
@@ -217,21 +217,21 @@
 			</filterset>
 		</copy>
 	</target>
-	
+
 	<!-- please be careful if you muck with these settings - you can seriously hose the continuous integration process -->
 	<target name="test">
 		<mkdir dir="${test.temp.directory}" />
 		<mkdir dir="${test.xml.results.directory}" />
 		<junit showoutput="true" fork="true" forkmode="once" failureproperty="tests.failed" errorproperty="tests.errored" tempdir="${test.temp.directory}" maxmemory="512M">
-			<jvmarg value="-Dorg.kuali.test.KualiTestBase.skipOpenOrInProgressOrReopenedJiraIssues"/> 
+			<jvmarg value="-Dorg.kuali.test.KualiTestBase.skipOpenOrInProgressOrReopenedJiraIssues"/>
 			<classpath>
 				<path refid="compile.tests.classpath" />
 				<pathelement location="${test.classes.directory}" />
 			</classpath>
 			<formatter type="xml" />
 			<batchtest todir="${test.xml.results.directory}">
-				<fileset dir="${test.source.directory}"> 
-					<include name="${tests.includes}" />	
+				<fileset dir="${test.source.directory}">
+					<include name="${tests.includes}" />
 					<exclude name="**/TransactionalDocumentRuleTest.java" />
 					<exclude name="**/${test.spring.shutdown}.java" />
 				</fileset>
@@ -247,27 +247,27 @@
 		</junitreport>
 		<echo message="Generated test results: ${test.html.results.directory}/index.html" />
 	</target>
-	
+
 	<target name="dist" depends="make-source">
 		<copy todir="${war.directory}">
 			<fileset dir="${webroot.directory}" excludes="WEB-INF/classes/**/**" />
 		</copy>
 		<jar jarfile="${ant.project.name}-${build.environment}.war" basedir="${war.directory}" compress="false" />
 	</target>
-		
+
 	<target name="continuous-integration" depends="clean,make-tests,test">
 		<fail if="tests.failed" message="Tests failed" />
 	</target>
-	
+
 	<target name="help" description="Describe public targets">
 		<echo>--- OVERVIEW ---
-			 
+
 	the following configuration files are involved in the build process
 			- build.xml
 			- build.properties
 			- build/*
 			- ${user.home}\${ant.project.name}-build.properties
-			
+
 	you should start using this build script as follows
 			- copy build/userHome/${ant.project.name}-build.properties to ${user.home}
 			- obtain the values for ${datasource.username}, ${datasource.password} and ${encryption.key} for the
@@ -280,34 +280,34 @@
 			- click the "Run/Stop/Restart MyEclipse Application Servers" button in the "Java (default)" perspective in
 			eclipse to start tomcat
 			- launch a browser and access http://localhost:8080/kuali-dev
-			
-	you can override the default log4j settings for your local deployments by copying 
+
+	you can override the default log4j settings for your local deployments by copying
 		build/configurationFiles/externalConfigDirectory/settings/${log4j.settings.file} to
 			${user.home}/${log4j.settings.file} and modifying as desired.  you will also need to run the dist-local target
 			for this change to take effect.
-			
+
 			if you would like to suggest a configuration change, enter a Jira issue in the KULCFG project with the details
-			
+
 			--- TARGETS ---
 
 			dist-local: prepares tokenized resources and local configuration files and deploys tomcat context file on development workstation
 			- this target should be run each time you update the project, change property values in ${user.home}\${ant.project.name}-build.properties,
 			or make a change that you want to apply to the application workflow plugin
 			- tomcat should not be running when you are executing this target
-			
+
 			test-local: runs all project tests and generates results
              - criteria for running dist-local must be met before running this target
 			- you can customize the set of tests that run by modifying the value of tests.includes in ${user.home}\${ant.project.name}-build.propertie
 			- tomcat should not be running when you execute this target
-			
+
 			echo-properties: executes ant echoproperties task, thereby printing out all the properties that have been set
-			
+
 			clean: removes all build output
 		</echo>
 	</target>
-	
+
 	<!-- CONFIGURATION MANAGEMENT TARGETS -->
-	
+
 	<target name="setup-rice" depends="init-property-files">
 		<maven goals="install:install-file" options="-U -DgroupId=com.oracle -DartifactId=ojdbc14 -Dversion=10.1.0.3.0 -Dpackaging=jar -Dfile=${drivers.directory}/ojdbc14.jar" />
 		<copy todir="${user.home}/kuali">
@@ -320,7 +320,7 @@
 		<maven goals="clean:clean install source:jar javadoc:jar" options="-U -Pinstall-kns-dev -Dpackaging=jar" />
 		<touch file="${rice.project.directory}/pom.xml" />
 	</target>
-	
+
 	<target name="update-rice-dev" depends="update-rice-basic,dist-local" />
 
 	<target name="update-rice" depends="update-rice-basic,update-rice-extended,dist-local" />
@@ -339,7 +339,7 @@
 		</delete>
 		<zip compress="true" destfile="${build.project.directory}/${rice.name}-${rice.version}${rice.output.web.suffix}" basedir="${rice.sampleapp.directory}" includes="${rice.application}/**/**,${tags.directory}/${rice.application}/**/*.tag,${workflow.application}/**/**" excludes="**/CVS" />
 	</target>
-	
+
 	<target name="update-rice-extended" depends="init-property-files">
 		<delete>
 			<fileset dir="${dependencies.project.directory}" includes="${rice.output.file.prefix}" />
@@ -356,7 +356,7 @@
 				<globmapper from="*.jar" to="*.zip" />
 			</chainedmapper>
 		</copy>
-		
+
 		<mkdir dir="temp" />
 		<copy todir="temp">
 			<fileset dir="${rice.project.directory}" includes="${rice.ddl.files}" excludes="${rice.excludes},**/CVS" />
@@ -367,7 +367,7 @@
 		<!-- todo fix this when licenses are moved to rice -->
 		<!--<zip compress="true" destfile="${build.project.directory}/${rice.name}-${rice.version}-licenses.zip" basedir="${workflow.project.directory}/${licenses.directory}" excludes="**/CVS" />-->
 	</target>
-	
+
 	<macrodef name="maven">
 		<attribute name="goals" />
 		<attribute name="options" default="--offline" />

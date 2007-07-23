@@ -73,7 +73,6 @@
 	<classpathentry kind="lib" path="work/web-root/WEB-INF/lib/oscache-2.3.2.jar"/>
 	<classpathentry kind="lib" path="work/web-root/WEB-INF/lib/jdom-1.0.jar"/>
 	<classpathentry kind="lib" path="work/web-root/WEB-INF/lib/xstream-1.2.2.jar"/>
-	<classpathentry kind="lib" path="work/web-root/WEB-INF/lib/rice-kew-2.4.1-RC2.jar"/>
 	<classpathentry kind="lib" path="work/web-root/WEB-INF/lib/rice-shared-0.9.0.1-SNAPSHOT.jar"/>
 	<classpathentry kind="lib" path="work/web-root/WEB-INF/lib/rice-ksb-0.9.0.1-SNAPSHOT.jar"/>
 	<classpathentry kind="lib" path="work/web-root/WEB-INF/lib/rice-kns-0.9.0.1-SNAPSHOT.jar"/>
@@ -92,5 +91,6 @@
 	<classpathentry kind="lib" path="build/appserverHome/commons-logging.jar"/>
 	<classpathentry kind="lib" path="build/appserverHome/commons-cli-1.0.jar"/>
 	<classpathentry kind="lib" path="build/log4j-1.2.9.jar"/>
+	<classpathentry kind="lib" path="work/web-root/WEB-INF/lib/rice-kew-2.4.1-RC3.jar"/>
 	<classpathentry kind="output" path="work/web-root/WEB-INF/classes"/>
 </classpath>

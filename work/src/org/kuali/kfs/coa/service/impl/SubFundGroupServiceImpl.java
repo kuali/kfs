@@ -53,6 +53,15 @@ public class SubFundGroupServiceImpl implements SubFundGroupService {
             return dataDictionaryService.getAttributeLabel(SubFundGroup.class, KFSConstants.SUB_FUND_GROUP_CODE_PROPERTY_NAME);
         }
     }
+
+    public String getContractsAndGrantsDenotingValue( SubFundGroup subFundGroup ) {
+        if (fundGroupDenotesContractsAndGrants()) {
+            return subFundGroup.getFundGroupCode();
+        } else {
+            return subFundGroup.getSubFundGroupCode();
+        }
+    }
+    
     
     /**
      * @see org.kuali.module.chart.service.SubFundGroupService#getContractsAndGrantsDenotingValue()

@@ -1359,8 +1359,8 @@ private void disableBeginBalanceLoadInd(){
         // run the rule
         result = rule.checkCgIncomeStreamRequired(newAccount);
         assertEquals("CG Account with no Income Stream data should fail.", false, result);
-        assertFieldErrorExists("incomeStreamFinancialCoaCode", KFSKeyConstants.ERROR_REQUIRED);
-        assertFieldErrorExists("incomeStreamAccountNumber", KFSKeyConstants.ERROR_REQUIRED);
+        assertFieldErrorExists("incomeStreamFinancialCoaCode", KFSKeyConstants.ERROR_DOCUMENT_ACCMAINT_INCOME_STREAM_ACCT_COA_CANNOT_BE_EMPTY);
+        assertFieldErrorExists("incomeStreamAccountNumber", KFSKeyConstants.ERROR_DOCUMENT_ACCMAINT_INCOME_STREAM_ACCT_NBR_CANNOT_BE_EMPTY);
         assertGlobalErrorMapSize(2);
 
     }
@@ -1422,8 +1422,8 @@ private void disableBeginBalanceLoadInd(){
         // run the rule
         result = rule.checkCgIncomeStreamRequired(newAccount);
         assertEquals("GF Account with no Income Stream data should fail.", false, result);
-        assertFieldErrorExists("incomeStreamFinancialCoaCode", KFSKeyConstants.ERROR_REQUIRED);
-        assertFieldErrorExists("incomeStreamAccountNumber", KFSKeyConstants.ERROR_REQUIRED);
+        assertFieldErrorExists("incomeStreamFinancialCoaCode", KFSKeyConstants.ERROR_DOCUMENT_ACCMAINT_INCOME_STREAM_ACCT_COA_CANNOT_BE_EMPTY);
+        assertFieldErrorExists("incomeStreamAccountNumber", KFSKeyConstants.ERROR_DOCUMENT_ACCMAINT_INCOME_STREAM_ACCT_NBR_CANNOT_BE_EMPTY);
         assertGlobalErrorMapSize(2);
 
     }

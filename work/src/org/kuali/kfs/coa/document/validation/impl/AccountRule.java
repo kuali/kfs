@@ -38,12 +38,11 @@ import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.AccountGuideline;
 import org.kuali.module.chart.bo.ChartUser;
+import org.kuali.module.chart.bo.FundGroup;
 import org.kuali.module.chart.bo.IcrAutomatedEntry;
 import org.kuali.module.chart.bo.SubFundGroup;
 import org.kuali.module.chart.service.AccountService;
-import org.kuali.module.chart.service.SubFundGroupService;
 import org.kuali.module.gl.service.BalanceService;
-import org.kuali.module.kra.KraKeyConstants;
 import org.kuali.module.labor.service.LaborLedgerPendingEntryService;
 
 /**
@@ -656,9 +655,14 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
         String subFundGroupCode = newAccount.getSubFundGroupCode().trim();
         String fundGroupCode = newAccount.getSubFundGroup().getFundGroupCode().trim();
 
+        String requiredByValue = "";
+        String requiredByLabel = "";
+        
         // if this is a CG fund group, then its required
         if (SpringServiceLocator.getSubFundGroupService().isForContractsAndGrants(newAccount.getSubFundGroup())) {
             required = true;
+            requiredByLabel = SpringServiceLocator.getSubFundGroupService().getContractsAndGrantsDenotingAttributeLabel();
+            requiredByValue = SpringServiceLocator.getSubFundGroupService().getContractsAndGrantsDenotingValue();
         }
 
         // if this is a general fund group, then its required
@@ -666,6 +670,8 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
             // unless its part of the MPRACT subfundgroup
             if (!SUB_FUND_GROUP_MEDICAL_PRACTICE_FUNDS.equalsIgnoreCase(subFundGroupCode)) {
                 required = true;
+                requiredByLabel = getDdService().getAttributeLabel(FundGroup.class, KFSConstants.FUND_GROUP_CODE_PROPERTY_NAME);
+                requiredByValue = GENERAL_FUND_CD;
             }
         }
 
@@ -675,8 +681,15 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
         }
 
         // make sure both coaCode and accountNumber are filled out
-        boolean incomeStreamAccountIsValid = checkEmptyBOField("incomeStreamAccountNumber", newAccount.getIncomeStreamAccountNumber(), replaceTokens(KFSKeyConstants.ERROR_DOCUMENT_ACCMAINT_INCOME_STREAM_ACCT_NBR_CANNOT_BE_EMPTY));
-        incomeStreamAccountIsValid &= checkEmptyBOField("incomeStreamFinancialCoaCode", newAccount.getIncomeStreamFinancialCoaCode(), replaceTokens(KFSKeyConstants.ERROR_DOCUMENT_ACCMAINT_INCOME_STREAM_ACCT_COA_CANNOT_BE_EMPTY));
+        boolean incomeStreamAccountIsValid = true;
+        if ( !checkEmptyValue( newAccount.getIncomeStreamFinancialCoaCode() ) ) {
+        	putFieldError( "incomeStreamFinancialCoaCode", KFSKeyConstants.ERROR_DOCUMENT_ACCMAINT_INCOME_STREAM_ACCT_COA_CANNOT_BE_EMPTY, new String[] { requiredByLabel, requiredByValue } );
+        	incomeStreamAccountIsValid = false;
+        }
+        if ( !checkEmptyValue( newAccount.getIncomeStreamAccountNumber() ) ) {
+        	putFieldError( "incomeStreamAccountNumber", KFSKeyConstants.ERROR_DOCUMENT_ACCMAINT_INCOME_STREAM_ACCT_NBR_CANNOT_BE_EMPTY, new String[] { requiredByLabel, requiredByValue } );
+        	incomeStreamAccountIsValid = false;
+        }
 
         // if both fields arent present, then we're done
         if (incomeStreamAccountIsValid) {

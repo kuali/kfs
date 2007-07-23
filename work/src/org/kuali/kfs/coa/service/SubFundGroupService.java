@@ -40,5 +40,13 @@ public interface SubFundGroupService {
     
     public String getContractsAndGrantsDenotingAttributeLabel();
     
+    /**
+     * Extracts the appropriate value from the sub fund group for the C&G method selected. 
+     * 
+     * @param subFundGroup
+     * @return
+     */
+    public String getContractsAndGrantsDenotingValue( SubFundGroup subFundGroup );
+    
     public String getContractsAndGrantsDenotingValue();
 }

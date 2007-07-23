@@ -568,17 +568,17 @@ public class PurapConstants extends JstlConstants {
     {
         HashMap<String, String> map;
         map = new HashMap<String, String>();
-        map.put("RequisitionDocument", "Kuali.FinancialTransactionProcessing.RequisitionDocument");
-        map.put("PurchaseOrderDocument", "Kuali.FinancialTransactionProcessing.PurchaseOrderDocument");
-        map.put("PurchaseOrderCloseDocument", "Kuali.FinancialTransactionProcessing.PurchaseOrderDocument");
-        map.put("PurchaseOrderReopenDocument", "Kuali.FinancialTransactionProcessing.PurchaseOrderDocument");
-        map.put("PurchaseOrderAmendmentDocument", "Kuali.FinancialTransactionProcessing.PurchaseOrderDocument");
-        map.put("PurchaseOrderPaymentHoldDocument", "Kuali.FinancialTransactionProcessing.PurchaseOrderDocument");
-        map.put("PurchaseOrderRemoveHoldDocument", "Kuali.FinancialTransactionProcessing.PurchaseOrderDocument");
-        map.put("PurchaseOrderRetransmitDocument", "Kuali.FinancialTransactionProcessing.PurchaseOrderDocument");
-        map.put("PurchaseOrderVoidDocument", "Kuali.FinancialTransactionProcessing.PurchaseOrderDocument");
-        map.put("PaymentRequestDocument", "Kuali.FinancialTransactionProcessing.PaymentRequestDocument");
-        map.put("CreditMemoDocument", "Kuali.FinancialTransactionProcessing.CreditMemoDocument");
+        map.put("RequisitionDocument", "Kuali.PURAP.RequisitionDocument");
+        map.put("PurchaseOrderDocument", "Kuali.PURAP.PurchaseOrderDocument");
+        map.put("PurchaseOrderCloseDocument", "Kuali.PURAP.PurchaseOrderDocument");
+        map.put("PurchaseOrderReopenDocument", "Kuali.PURAP.PurchaseOrderDocument");
+        map.put("PurchaseOrderAmendmentDocument", "Kuali.PURAP.PurchaseOrderDocument");
+        map.put("PurchaseOrderPaymentHoldDocument", "Kuali.PURAP.PurchaseOrderDocument");
+        map.put("PurchaseOrderRemoveHoldDocument", "Kuali.PURAP.PurchaseOrderDocument");
+        map.put("PurchaseOrderRetransmitDocument", "Kuali.PURAP.PurchaseOrderDocument");
+        map.put("PurchaseOrderVoidDocument", "Kuali.PURAP.PurchaseOrderDocument");
+        map.put("PaymentRequestDocument", "Kuali.PURAP.PaymentRequestDocument");
+        map.put("CreditMemoDocument", "Kuali.PURAP.CreditMemoDocument");
         return map;
     }
     public final static HashMap<String,String> ITEM_TYPE_SYSTEM_PARAMETERS_SECURITY_MAP =

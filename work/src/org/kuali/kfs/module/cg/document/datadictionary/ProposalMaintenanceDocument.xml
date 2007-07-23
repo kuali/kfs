@@ -166,7 +166,7 @@
                         <maintainableField name="researchRiskTypeCode" />
                         <summaryFields>
                             <summaryField name="researchRiskType.researchRiskTypeDescription" />
-                            <summaryField name="isActive" />
+                            <summaryField name="active" />
                         </summaryFields>
                     </maintainableCollection>
                 </maintainableItems>

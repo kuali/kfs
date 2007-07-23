@@ -129,7 +129,6 @@ public class KualiPurApDocumentTaxReviewAttribute extends AbstractWorkflowAttrib
     public List<RuleExtensionValue> getRuleExtensionValues() {
         List extensions = new ArrayList();
         extensions.add(new RuleExtensionValue(VENDOR_ROUTE_AS_ATTRIBUTE_KEY, getVendorRouteAsTypeKey()));
-        extensions.add(new RuleExtensionValue(VENDOR_HEADER_GENERATED_ID_KEY, getVendorHeaderGeneratedId()));
         return extensions;
     }
 

@@ -85,7 +85,7 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
     private Map<SourceAccountingLine, List<PurchasingApItem>> summaryAccountsWithItems;
     private List<SourceAccountingLine> summaryAccountsWithItemsKey;
     private List<List<PurchasingApItem>> summaryAccountsWithItemsValue;
-    
+
     // REFERENCE OBJECTS
     private Status status;
     private VendorDetail vendorDetail;
@@ -100,20 +100,10 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
         this.statusHistories = new ManageableArrayList();
     }
 
-    /**
-     * This method is to allow child classes to customize the prepareForSave method.  Most need to call the super to get the GL entry creation, 
-     * but they each need to do different things to prepare for those entries to be created.
-     * 
-     * @param event
-     */
-    public void customPrepareForSave(KualiDocumentEvent event) {
-    }
-
     @Override
     public void prepareForSave(KualiDocumentEvent event) {
         refreshNonUpdateableReferences();
         SpringServiceLocator.getPurapAccountingService().updateAccountAmounts(this);
-        customPrepareForSave(event);
         super.prepareForSave(event);
     }
 

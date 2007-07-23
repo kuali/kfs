@@ -3197,7 +3197,7 @@
     <field-descriptor name="totalAmount" column="TOTAL_AMOUNT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
 </class-descriptor>
 
-<class-descriptor class="org.kuali.module.purap.bo.PurchasingGeneralLedgerPendingEntry" table="PUR_GL_PENDING_ENTRY_T" proxy="dynamic">
+<class-descriptor class="org.kuali.module.purap.bo.PurapGeneralLedgerPendingEntry" table="PUR_GL_PENDING_ENTRY_T" proxy="dynamic">
     <field-descriptor name="financialSystemOriginationCode" column="FS_ORIGIN_CD" jdbc-type="VARCHAR" primarykey="true" index="true" />
     <field-descriptor name="documentNumber" column="FDOC_NBR" jdbc-type="VARCHAR" primarykey="true" index="true" />
     <field-descriptor name="transactionLedgerEntrySequenceNumber" column="TRN_ENTR_SEQ_NBR" jdbc-type="INTEGER" primarykey="true" index="true" />

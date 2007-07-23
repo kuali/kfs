@@ -15,8 +15,13 @@
  */
 package org.kuali.module.purap.rules;
 
+import static org.kuali.kfs.KFSConstants.GL_CREDIT_CODE;
+import static org.kuali.kfs.KFSConstants.GL_DEBIT_CODE;
+import static org.kuali.module.purap.PurapConstants.PurapDocTypeCodes;
+
 import java.math.BigDecimal;
 import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
@@ -29,16 +34,23 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.core.document.Document;
 import org.kuali.core.rule.KualiParameterRule;
 import org.kuali.core.service.DataDictionaryService;
+import org.kuali.core.service.DateTimeService;
+import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSKeyConstants;
+import org.kuali.kfs.bo.AccountingLine;
+import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
+import org.kuali.kfs.document.AccountingDocument;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.financial.service.UniversityDateService;
+import org.kuali.module.gl.bo.UniversityDate;
 import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.PurapKeyConstants;
 import org.kuali.module.purap.PurapPropertyConstants;
+import org.kuali.module.purap.PurapRuleConstants;
 import org.kuali.module.purap.PurapConstants.ItemFields;
 import org.kuali.module.purap.PurapConstants.PREQDocumentsStrings;
 import org.kuali.module.purap.bo.PaymentRequestItem;
@@ -52,6 +64,7 @@ import org.kuali.module.purap.document.PurchasingAccountsPayableDocument;
 import org.kuali.module.purap.exceptions.PurError;
 import org.kuali.module.purap.rule.CalculateAccountsPayableRule;
 import org.kuali.module.purap.rule.ContinueAccountsPayableRule;
+import org.kuali.module.purap.service.PurapGeneralLedgerService;
 
 public class PaymentRequestDocumentRule extends AccountsPayableDocumentRuleBase implements ContinueAccountsPayableRule, CalculateAccountsPayableRule {
 
@@ -589,4 +602,23 @@ public class PaymentRequestDocumentRule extends AccountsPayableDocumentRuleBase 
         }
     }
 
+    @Override
+    protected void customizeExplicitGeneralLedgerPendingEntry(AccountingDocument accountingDocument, AccountingLine accountingLine, GeneralLedgerPendingEntry explicitEntry) {
+        super.customizeExplicitGeneralLedgerPendingEntry(accountingDocument, accountingLine, explicitEntry);
+
+        PaymentRequestDocument preq = (PaymentRequestDocument)accountingDocument;
+        
+        if (preq.isGenerateEncumbranceEntries()) {
+            ((PurapGeneralLedgerService)SpringServiceLocator.getService(SpringServiceLocator.PURAP_GENERAL_LEDGER_SERVICE)).customizeGeneralLedgerPendingEntry(preq, 
+                    accountingLine, explicitEntry, preq.getPurchaseOrderIdentifier(), GL_CREDIT_CODE, PurapDocTypeCodes.PAYMENT_REQUEST_DOCUMENT, true);
+        }
+        else {
+            ((PurapGeneralLedgerService)SpringServiceLocator.getService(SpringServiceLocator.PURAP_GENERAL_LEDGER_SERVICE)).customizeGeneralLedgerPendingEntry(preq, 
+                    accountingLine, explicitEntry, preq.getPurchaseOrderIdentifier(), GL_DEBIT_CODE, PurapDocTypeCodes.PAYMENT_REQUEST_DOCUMENT, false);
+        }
+        
+        //PREQs do not wait for document final approval to post GL entries to the real table; here we are forcing them to be APPROVED
+        explicitEntry.setFinancialDocumentApprovedCode(KFSConstants.DocumentStatusCodes.APPROVED);
+
+    }
 }

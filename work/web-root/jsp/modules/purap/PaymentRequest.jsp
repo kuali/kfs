@@ -66,10 +66,11 @@
 	</c:if>
 	
 	<c:if test="${not KualiForm.editingMode['displayInitTab']}" >
-		<purap:vendor
+		< purap:vendor
 	        documentAttributes="${DataDictionary.PaymentRequestDocument.attributes}" 
 	        displayPurchaseOrderFields="false" displayPaymentRequestFields="true"/>
-		<!--  c:out value="${KualiForm.paymentRequestInitiated}" / -->		
+		<!--  c:out value="${KualiForm.paymentRequestInitiated}" / -->
+		
 	
 		<purap:paymentRequestInvoiceInfo documentAttributes="${DataDictionary.PaymentRequestDocument.attributes}"
 	 		 displayPaymentRequestInvoiceInfoFields="true" />        
@@ -81,14 +82,16 @@
 		   
 	    <kul:notes notesBo="${KualiForm.document.documentBusinessObject.boNotes}" noteType="${Constants.NoteTypeEnum.BUSINESS_OBJECT_NOTE_TYPE}"  allowsNoteFYI="true"/> 
 	    	
-	    <kul:adHocRecipients />
+	    < kul:adHocRecipients />
 	
 	    <kul:routeLog />
-	
+
+        <gl:generalLedgerPendingEntries />
+
 	    <purap:accountsummary
             itemAttributes="${DataDictionary.PaymentRequestItem.attributes}"
     	    documentAttributes="${DataDictionary.SourceAccountingLine.attributes}" />  
-
+	
 		<purap:relatedDocuments documentAttributes="${DataDictionary.RelatedDocuments.attributes}"/>
            	
 	    <purap:paymentHistory documentAttributes="${DataDictionary.RelatedDocuments.attributes}" />

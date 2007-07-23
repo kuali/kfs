@@ -28,6 +28,10 @@ import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.PurapParameterConstants;
 import org.kuali.module.purap.document.PurchaseOrderDocument;
 
+/**
+ * This class is purposely not extending PurchaseOrderDocumentRule becuase it does not need to since 
+ * it does not allow the PO to be edited nor should it create GL entries.
+ */
 public class PurchaseOrderRetransmitDocumentRule extends TransactionalDocumentRuleBase {
 
     /**

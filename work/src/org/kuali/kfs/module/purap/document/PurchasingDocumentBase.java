@@ -19,8 +19,10 @@ import java.sql.Date;
 import java.util.List;
 
 import org.kuali.core.bo.Campus;
+import org.kuali.core.rule.event.KualiDocumentEvent;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
+import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.Chart;
 import org.kuali.module.chart.bo.Org;
@@ -128,6 +130,21 @@ public abstract class PurchasingDocumentBase extends PurchasingAccountsPayableDo
         super();
     }
 
+    /**
+     * This method is to allow child PO classes to customize the prepareForSave method.  Most need to call the super to get the GL entry creation, 
+     * but they each need to do different things to prepare for those entries to be created.  This is only for PO since it has children classes
+     * that need different prep work for GL creation.
+     * 
+     * @param event
+     */
+    public void customPrepareForSave(KualiDocumentEvent event) {
+    }
+
+    @Override
+    public void prepareForSave(KualiDocumentEvent event) {
+        customPrepareForSave(event);
+        super.prepareForSave(event);
+    }
 
     /**
      * Retrieve all references common to purchasing

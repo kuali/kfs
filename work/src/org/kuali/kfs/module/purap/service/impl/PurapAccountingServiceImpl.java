@@ -500,7 +500,10 @@ public class PurapAccountingServiceImpl implements PurapAccountingService {
                     throwRuntimeException(methodName, "Invalid parameter and list of items found while trying to find processable items for dealing with purchasing/accounts payable accounts");
                 }
             }
-            if ( (ZERO_TOTALS_NOT_RETURNED_VALUE.equals(useZeroTotals)) && ((KualiDecimal.ZERO.compareTo(currentItem.getExtendedPrice())) == 0) ) {
+            //TODO check to see if we should be allowing null in the extendedPrice (hjs)
+            if ( (ZERO_TOTALS_NOT_RETURNED_VALUE.equals(useZeroTotals)) && 
+                    (ObjectUtils.isNull(currentItem.getExtendedPrice()) ||
+                    ((KualiDecimal.ZERO.compareTo(currentItem.getExtendedPrice())) == 0)) ) {
                 // if we don't return zero dollar items then skip this one
                 continue;
             }

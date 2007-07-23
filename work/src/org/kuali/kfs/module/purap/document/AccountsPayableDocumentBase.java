@@ -37,7 +37,6 @@ import edu.iu.uis.eden.clientapp.vo.DocumentRouteLevelChangeVO;
 import edu.iu.uis.eden.clientapp.vo.ReportCriteriaVO;
 import edu.iu.uis.eden.exception.WorkflowException;
 
-
 /**
  * Accounts Payable Document Base
  * 
@@ -56,7 +55,7 @@ public abstract class AccountsPayableDocumentBase extends PurchasingAccountsPaya
     private String noteLine1Text;
     private String noteLine2Text;
     private String noteLine3Text;
-    
+
     // NOT PERSISTED IN DB
     // BELOW USED BY ROUTING
     private String chartOfAccountsCode;
@@ -71,7 +70,7 @@ public abstract class AccountsPayableDocumentBase extends PurchasingAccountsPaya
     public AccountsPayableDocumentBase() {
         super();
     }
-
+    
     //  TODO: Remove this function:
     /**
      * Retrieve all references common to AccountsPayable
@@ -87,10 +86,10 @@ public abstract class AccountsPayableDocumentBase extends PurchasingAccountsPaya
         } else {
             setChartOfAccountsCode(null);
             setOrganizationCode(null);
-        }
+    }
     }
 */
-  
+
     public boolean requiresAccountsPayableReviewRouting() {
         List boNotes = this.getDocumentHeader().getBoNotes();
         if (ObjectUtils.isNotNull(boNotes)) {
@@ -103,19 +102,19 @@ public abstract class AccountsPayableDocumentBase extends PurchasingAccountsPaya
         }
         return true;
     }
-
+    
     /**
      * 
-     * @see org.kuali.module.purap.document.PurchasingAccountsPayableDocumentBase#customPrepareForSave(org.kuali.core.rule.event.KualiDocumentEvent)
+     * @see org.kuali.module.purap.document.PurchasingAccountsPayableDocumentBase#prepareForSave(org.kuali.core.rule.event.KualiDocumentEvent)
      */
     @Override
-    public void customPrepareForSave(KualiDocumentEvent event) {
-        
+    public void prepareForSave(KualiDocumentEvent event) {
         //if routing and closereopen po indicator set, call closereopen po method
         if((event instanceof RouteDocumentEvent) && this.isCloseReopenPoIndicator()){
             processCloseReopenPo();
             this.setCloseReopenPoIndicator(false);
         }
+        super.prepareForSave(event);
     }
 
     /**
@@ -329,15 +328,15 @@ public abstract class AccountsPayableDocumentBase extends PurchasingAccountsPaya
         }
         return purchaseOrderDocument;
     }
-    
+
     public void setPurchaseOrderDocument(PurchaseOrderDocument purchaseOrderDocument) {
         if (ObjectUtils.isNull(purchaseOrderDocument)) {
             setPurchaseOrderIdentifier(null);
             this.purchaseOrderDocument = null;
         } else {
             setPurchaseOrderIdentifier(purchaseOrderDocument.getPurapDocumentIdentifier());
-            this.purchaseOrderDocument = purchaseOrderDocument;
-        }
+        this.purchaseOrderDocument = purchaseOrderDocument;
+    }
     }
 
     public boolean isCloseReopenPoIndicator() {

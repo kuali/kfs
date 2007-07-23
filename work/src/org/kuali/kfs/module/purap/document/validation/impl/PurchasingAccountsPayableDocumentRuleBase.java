@@ -15,14 +15,6 @@
  */
 package org.kuali.module.purap.rules;
 
-import static org.kuali.kfs.KFSConstants.BALANCE_TYPE_EXTERNAL_ENCUMBRANCE;
-import static org.kuali.kfs.KFSConstants.ENCUMB_UPDT_DOCUMENT_CD;
-import static org.kuali.kfs.KFSConstants.ENCUMB_UPDT_REFERENCE_DOCUMENT_CD;
-import static org.kuali.kfs.KFSConstants.GL_CREDIT_CODE;
-import static org.kuali.kfs.KFSConstants.GL_DEBIT_CODE;
-import static org.kuali.module.purap.PurapConstants.PURAP_ORIGIN_CODE;
-import static org.kuali.module.purap.PurapConstants.PurchaseOrderDocumentTypeCodes.PO;
-
 import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.HashSet;
@@ -42,14 +34,10 @@ import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
 import org.kuali.kfs.document.AccountingDocument;
 import org.kuali.kfs.rules.AccountingDocumentRuleBase;
 import org.kuali.kfs.util.SpringServiceLocator;
-import org.kuali.module.chart.bo.ObjectCode;
 import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.PurapKeyConstants;
 import org.kuali.module.purap.bo.PurApAccountingLine;
 import org.kuali.module.purap.bo.PurchasingApItem;
-import org.kuali.module.purap.document.CreditMemoDocument;
-import org.kuali.module.purap.document.PaymentRequestDocument;
-import org.kuali.module.purap.document.PurchaseOrderDocument;
 import org.kuali.module.purap.document.PurchasingAccountsPayableDocument;
 import org.kuali.module.purap.rule.AddPurchasingAccountsPayableItemRule;
 import org.kuali.module.purap.util.PurApItemUtils;
@@ -365,49 +353,42 @@ public class PurchasingAccountsPayableDocumentRuleBase extends AccountingDocumen
     protected void purapCustomizeGeneralLedgerPendingEntry(PurchasingAccountsPayableDocument purapDocument, AccountingLine accountingLine, GeneralLedgerPendingEntry explicitEntry,
             Integer referenceDocumentNumber, String debitCreditCode, boolean isEncumbrance) {
         
-        explicitEntry.setFinancialSystemOriginationCode(PURAP_ORIGIN_CODE);
-        explicitEntry.setReferenceFinancialSystemOriginationCode(PURAP_ORIGIN_CODE);
-        explicitEntry.setReferenceFinancialDocumentTypeCode(PO);
-        if (ObjectUtils.isNotNull(referenceDocumentNumber)) {
-            explicitEntry.setReferenceFinancialDocumentNumber(referenceDocumentNumber.toString());
-        }
-
-        //TODO should we be doing it like this or storing the FY in the acct table in which case we wouldn't need this at all we'd inherit it from the accountingdocument
-        ObjectCode objectCode = SpringServiceLocator.getObjectCodeService().getByPrimaryId(explicitEntry.getUniversityFiscalYear(), explicitEntry.getChartOfAccountsCode(), explicitEntry.getFinancialObjectCode());
-        if (ObjectUtils.isNotNull(objectCode)) {
-            explicitEntry.setFinancialObjectTypeCode(objectCode.getFinancialObjectTypeCode());
-        }
-
-        if (isEncumbrance) {
-            explicitEntry.setFinancialBalanceTypeCode(BALANCE_TYPE_EXTERNAL_ENCUMBRANCE);
-
-            // D - means the encumbrance is based on the document number
-            // R - means the encumbrance is based on the referring document number
-            // Encumbrances are created on the PO. They are updated by PREQ's and CM's.
-            // So PO encumbrances are D, PREQ & CM's are R.
-            if (purapDocument instanceof PurchaseOrderDocument) {
-                explicitEntry.setTransactionEncumbranceUpdateCode(ENCUMB_UPDT_DOCUMENT_CD);
-            }
-            else if (purapDocument instanceof PaymentRequestDocument) {
-                explicitEntry.setTransactionEncumbranceUpdateCode(ENCUMB_UPDT_REFERENCE_DOCUMENT_CD);
-            }
-            else if (purapDocument instanceof CreditMemoDocument) {
-                explicitEntry.setTransactionEncumbranceUpdateCode(ENCUMB_UPDT_REFERENCE_DOCUMENT_CD);
-            }
-        }
-        
-        // if the amount is negative, flip the D/C indicator
-        if (accountingLine.getAmount().doubleValue() < 0) {
-            if (GL_CREDIT_CODE.equals(debitCreditCode)) {
-                explicitEntry.setTransactionDebitCreditCode(GL_DEBIT_CODE);
-            }
-            else {
-                explicitEntry.setTransactionDebitCreditCode(GL_CREDIT_CODE);
-            }
-        } else {
-            explicitEntry.setTransactionDebitCreditCode(debitCreditCode);
-        }
-
+//        explicitEntry.setFinancialSystemOriginationCode(PURAP_ORIGIN_CODE);
+//        explicitEntry.setReferenceFinancialSystemOriginationCode(PURAP_ORIGIN_CODE);
+//        explicitEntry.setReferenceFinancialDocumentTypeCode(PO);
+//        if (ObjectUtils.isNotNull(referenceDocumentNumber)) {
+//            explicitEntry.setReferenceFinancialDocumentNumber(referenceDocumentNumber.toString());
+//        }
+//
+//        //TODO should we be doing it like this or storing the FY in the acct table in which case we wouldn't need this at all we'd inherit it from the accountingdocument
+//        ObjectCode objectCode = SpringServiceLocator.getObjectCodeService().getByPrimaryId(explicitEntry.getUniversityFiscalYear(), explicitEntry.getChartOfAccountsCode(), explicitEntry.getFinancialObjectCode());
+//        if (ObjectUtils.isNotNull(objectCode)) {
+//            explicitEntry.setFinancialObjectTypeCode(objectCode.getFinancialObjectTypeCode());
+//        }
+//
+//        if (isEncumbrance) {
+//            explicitEntry.setFinancialBalanceTypeCode(BALANCE_TYPE_EXTERNAL_ENCUMBRANCE);
+//
+//            // D - means the encumbrance is based on the document number
+//            // R - means the encumbrance is based on the referring document number
+//            // Encumbrances are created on the PO. They are updated by PREQ's and CM's.
+//            // So PO encumbrances are D, PREQ & CM's are R.  
+//            // Default to PO and when entries are created by PREQ or CM this will be overrided.
+//            explicitEntry.setTransactionEncumbranceUpdateCode(ENCUMB_UPDT_DOCUMENT_CD);
+//        }
+//        
+//        // if the amount is negative, flip the D/C indicator
+//        if (accountingLine.getAmount().doubleValue() < 0) {
+//            if (GL_CREDIT_CODE.equals(debitCreditCode)) {
+//                explicitEntry.setTransactionDebitCreditCode(GL_DEBIT_CODE);
+//            }
+//            else {
+//                explicitEntry.setTransactionDebitCreditCode(GL_CREDIT_CODE);
+//            }
+//        } else {
+//            explicitEntry.setTransactionDebitCreditCode(debitCreditCode);
+//        }
+//
     }//end purapCustomizeGeneralLedgerPendingEntry()
 
     /**

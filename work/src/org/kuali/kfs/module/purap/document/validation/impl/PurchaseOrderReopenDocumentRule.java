@@ -16,8 +16,6 @@
 package org.kuali.module.purap.rules;
 
 import static org.kuali.kfs.KFSConstants.GL_DEBIT_CODE;
-import static org.kuali.kfs.KFSConstants.MONTH1;
-import static org.kuali.module.purap.PurapConstants.PurchaseOrderDocumentTypeCodes.PO_REOPEN;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.bo.user.UniversalUser;
@@ -32,12 +30,13 @@ import org.kuali.kfs.bo.AccountingLine;
 import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
 import org.kuali.kfs.document.AccountingDocument;
 import org.kuali.kfs.util.SpringServiceLocator;
-import org.kuali.module.gl.bo.UniversityDate;
 import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.PurapKeyConstants;
 import org.kuali.module.purap.PurapParameterConstants;
 import org.kuali.module.purap.PurapPropertyConstants;
+import org.kuali.module.purap.PurapConstants.PurapDocTypeCodes;
 import org.kuali.module.purap.document.PurchaseOrderDocument;
+import org.kuali.module.purap.service.PurapGeneralLedgerService;
 
 public class PurchaseOrderReopenDocumentRule extends PurchasingDocumentRuleBase {
 
@@ -102,24 +101,28 @@ public class PurchaseOrderReopenDocumentRule extends PurchasingDocumentRuleBase 
     protected void customizeExplicitGeneralLedgerPendingEntry(AccountingDocument accountingDocument, AccountingLine accountingLine, GeneralLedgerPendingEntry explicitEntry) {
         super.customizeExplicitGeneralLedgerPendingEntry(accountingDocument, accountingLine, explicitEntry);
         PurchaseOrderDocument po = (PurchaseOrderDocument)accountingDocument;
+        ((PurapGeneralLedgerService)SpringServiceLocator.getService(SpringServiceLocator.PURAP_GENERAL_LEDGER_SERVICE)).customizeGeneralLedgerPendingEntry(po, 
+                accountingLine, explicitEntry, po.getPurapDocumentIdentifier(), GL_DEBIT_CODE, PurapDocTypeCodes.PO_DOCUMENT, true);
+        explicitEntry.setFinancialDocumentTypeCode(PurapDocTypeCodes.PO_REOPEN_DOCUMENT);  //don't think i should have to override this, but default isn't getting the right PO doc
 
-        purapCustomizeGeneralLedgerPendingEntry(po, accountingLine, explicitEntry, po.getPurapDocumentIdentifier(), GL_DEBIT_CODE, true);
-        
-        explicitEntry.setTransactionLedgerEntryDescription(entryDescription(po.getVendorName()));
-        explicitEntry.setFinancialDocumentTypeCode(PO_REOPEN);  //don't think i should have to override this, but default isn't getting the right PO doc
-        
-        UniversityDate uDate = SpringServiceLocator.getUniversityDateService().getCurrentUniversityDate();
-        if (po.getPostingYear().compareTo(uDate.getUniversityFiscalYear()) > 0) {
-            //USE NEXT AS SET ON PO; POs can be forward dated to not encumber until next fiscal year
-            explicitEntry.setUniversityFiscalYear(po.getPostingYear());
-            explicitEntry.setUniversityFiscalPeriodCode(MONTH1);
-        }
-        else {
-            //USE CURRENT; don't use FY on PO in case it's a prior year
-            explicitEntry.setUniversityFiscalYear(uDate.getUniversityFiscalYear());
-            explicitEntry.setUniversityFiscalPeriodCode(uDate.getUniversityFiscalAccountingPeriod());
-            //TODO do we need to update the doc posting year?
-        }
+
+//        purapCustomizeGeneralLedgerPendingEntry(po, accountingLine, explicitEntry, po.getPurapDocumentIdentifier(), GL_DEBIT_CODE, true);
+//        
+//        explicitEntry.setTransactionLedgerEntryDescription(entryDescription(po.getVendorName()));
+//        explicitEntry.setFinancialDocumentTypeCode(PO_REOPEN);  //don't think i should have to override this, but default isn't getting the right PO doc
+//        
+//        UniversityDate uDate = SpringServiceLocator.getUniversityDateService().getCurrentUniversityDate();
+//        if (po.getPostingYear().compareTo(uDate.getUniversityFiscalYear()) > 0) {
+//            //USE NEXT AS SET ON PO; POs can be forward dated to not encumber until next fiscal year
+//            explicitEntry.setUniversityFiscalYear(po.getPostingYear());
+//            explicitEntry.setUniversityFiscalPeriodCode(MONTH1);
+//        }
+//        else {
+//            //USE CURRENT; don't use FY on PO in case it's a prior year
+//            explicitEntry.setUniversityFiscalYear(uDate.getUniversityFiscalYear());
+//            explicitEntry.setUniversityFiscalPeriodCode(uDate.getUniversityFiscalAccountingPeriod());
+//            //TODO do we need to update the doc posting year?
+//        }
     }
 
 }

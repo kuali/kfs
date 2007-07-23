@@ -683,13 +683,14 @@ public class PurapConstants extends JstlConstants {
     
     public final static String PURAP_ORIGIN_CODE = "EP";
 
-    public static class PurchaseOrderDocumentTypeCodes {
-        public final static String PO = "PO";
-        public final static String PO_AMENDMENT = "POA";
-        public final static String PO_CLOSE = "POC";
-        public final static String PO_REOPEN = "POR";
-        public final static String PO_VOID = "POV";
-    }
-    
+    public static class PurapDocTypeCodes {
+        public final static String PAYMENT_REQUEST_DOCUMENT = "PREQ";
+        public final static String CREDIT_MEMO_DOCUMENT = "CM";
+        public final static String PO_DOCUMENT = "PO";
+        public final static String PO_AMENDMENT_DOCUMENT = "POA";
+        public final static String PO_CLOSE_DOCUMENT = "POC";
+        public final static String PO_REOPEN_DOCUMENT = "POR";
+        public final static String PO_VOID_DOCUMENT = "POV";
+    }    
     
 }

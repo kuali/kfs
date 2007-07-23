@@ -334,8 +334,8 @@ public class ObjectCodeRule extends MaintenanceDocumentRuleBase {
         // (rpts_to_fin_obj_cd) fiscal year, and chart code must exist in the object code table
     	
     	// if the chart and object are the same, then skip the check
-    	// this assumes that the valiidity of the reports-to object code has already been tested (and corrected if necessary)
-    	if ( reportsToChartCode.equals( chart ) && reportsToObjectCode.equals( objectCode ) ) {
+    	// this assumes that the validity of the reports-to object code has already been tested (and corrected if necessary)
+    	if ( StringUtils.equals( reportsToChartCode, chart ) && StringUtils.equals( reportsToObjectCode, objectCode ) ) {
     		return true;
     	}
 

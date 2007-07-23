@@ -46,7 +46,8 @@
                 <lookupField attributeName="universalUser.personUserIdentifier" required="false" />
                 <lookupField attributeName="personUniversalIdentifier" required="false" />
                 <lookupField attributeName="universalUser.personPayrollIdentifier" required="false" />
-                <lookupField attributeName="universalUser.personName" required="false" />
+                <lookupField attributeName="universalUser.personLastName" required="false" />
+                <lookupField attributeName="universalUser.personFirstName" required="false" />
                 <lookupField attributeName="universalUser.primaryDepartmentCode" required="false" />
                 <lookupField attributeName="universalUser.employeeStatusCode" required="false" />
                 <lookupField attributeName="universalUser.employeeTypeCode" required="false" />
@@ -98,6 +99,24 @@
 					This is the full name of the Project Director.  The field is in LAST,FIRST MIDDLE format.
 				</description>
             </attributeReference>
+
+			<attributeReference name="universalUser.personLastName" sourceClassName="org.kuali.core.bo.user.UniversalUser" sourceAttributeName="personLastName">
+                <label>Project Director Last Name</label>
+                <shortLabel>Proj Dir Last Name</shortLabel>
+                <summary>Project Director Last Name</summary>
+                <description>
+					This is the last name of the Project Director.
+				</description>
+			</attributeReference>
+
+			<attributeReference name="universalUser.personFirstName" sourceClassName="org.kuali.core.bo.user.UniversalUser" sourceAttributeName="personFirstName">
+                <label>Project Director First Name</label>
+                <shortLabel>Proj Dir First Name</shortLabel>
+                <summary>Project Director First Name</summary>
+                <description>
+					This is the first name of the Project Director.
+				</description>
+			</attributeReference>
 
 			<attributeReference name="universalUser.campusCode" sourceClassName="org.kuali.core.bo.Campus" sourceAttributeName="campusCode">
 				<summary>Campus Code</summary>

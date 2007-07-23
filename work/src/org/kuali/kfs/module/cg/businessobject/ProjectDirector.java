@@ -98,6 +98,30 @@ public class ProjectDirector extends PersistableBusinessObjectBase implements In
         universalUser.setPersonName( personName );
     }
 
+    public String getPersonFirstName() {
+        UniversalUser u = getUniversalUser();
+        return u == null ? "" : u.getPersonFirstName();
+    }
+
+    public void setPersonFirstName(String personFirstName) {
+        if ( universalUser == null ) {
+            universalUser = new UniversalUser();
+        }
+        universalUser.setPersonFirstName( personFirstName );
+    }
+
+    public String getPersonLastName() {
+        UniversalUser u = getUniversalUser();
+        return u == null ? "" : u.getPersonLastName();
+    }
+
+    public void setPersonLastName(String personLastName) {
+        if ( universalUser == null ) {
+            universalUser = new UniversalUser();
+        }
+        universalUser.setPersonName( personLastName );
+    }
+
     public String getPersonUserIdentifier() {
         if (personUserIdentifier != null) {
             return personUserIdentifier;

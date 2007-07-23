@@ -33,6 +33,7 @@ import org.kuali.core.util.TypedArrayList;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSKeyConstants;
 import org.kuali.kfs.context.KualiTestBase;
+import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.test.WithTestSpringContext;
 
 import edu.iu.uis.eden.exception.WorkflowException;
@@ -72,7 +73,7 @@ public abstract class MaintenanceRuleTestBase extends KualiTestBase {
             // get a new MaintenanceDocument from Spring
             MaintenanceDocument document = null;
             try {
-                document = (MaintenanceDocument) getDocumentService().getNewDocument(newBo.getClass().getSimpleName() + "MaintenanceDocument");
+            	document = (MaintenanceDocument) getDocumentService().getNewDocument( SpringServiceLocator.getMaintenanceDocumentDictionaryService().getDocumentTypeName( newBo.getClass() ) );
             }
             catch (WorkflowException e) {
                 throw new RuntimeException(e);
@@ -213,7 +214,7 @@ public abstract class MaintenanceRuleTestBase extends KualiTestBase {
          */
         protected void assertFieldErrorExistence(String fieldName, String errorKey, boolean expectedResult) {
             boolean result = doesFieldErrorExist(fieldName, errorKey);
-            assertEquals("Existence check for Error on fieldName/errorKey: " + fieldName + "/" + errorKey, expectedResult, result);
+            assertEquals("Existence check for Error on fieldName/errorKey: " + fieldName + "/" + errorKey+". "+GlobalVariables.getErrorMap(), expectedResult, result);
         }
 
         /**
@@ -230,7 +231,7 @@ public abstract class MaintenanceRuleTestBase extends KualiTestBase {
          */
         protected void assertFieldErrorDoesNotExist(String fieldName, String errorKey) {
             boolean result = doesFieldErrorExist(fieldName, errorKey);
-            assertTrue("FieldName (" + fieldName + ") should NOT contain errorKey: " + errorKey, result);
+            assertTrue("FieldName (" + fieldName + ") should NOT contain errorKey: " + errorKey, !result);
         }
 
         /**

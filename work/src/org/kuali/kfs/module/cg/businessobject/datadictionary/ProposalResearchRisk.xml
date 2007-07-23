@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
  Copyright 2007 The Kuali Foundation.
- 
+
  Licensed under the Educational Community License, Version 1.0 (the "License");
  you may not use this file except in compliance with the License.
  You may obtain a copy of the License at
- 
+
  http://www.opensource.org/licenses/ecl1.php
- 
+
  Unless required by applicable law or agreed to in writing, software
  distributed under the License is distributed on an "AS IS" BASIS,
  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -20,26 +20,26 @@
 <dictionaryEntry>
     <businessObject businessObjectClass="org.kuali.module.cg.bo.ProposalResearchRisk">
 
-		
+
         <attributes>
-			
+
             <attributeReference name="researchRiskTypeCode" sourceClassName="org.kuali.module.kra.routingform.bo.ResearchRiskType" sourceAttributeName="researchRiskTypeCode" >
                 <control>
                     <hidden/>
                 </control>
             </attributeReference>
             <attributeReference name="proposalNumber" sourceClassName="org.kuali.module.cg.bo.Proposal" sourceAttributeName="proposalNumber" />
-            <attributeReference name="isActive" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericBoolean" >
+            <attributeReference name="active" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericBoolean" >
                 <label>Required</label>
                 <shortLabel>Required</shortLabel>
             </attributeReference>
-            
-            <attributeReference name="newCollectionRecord" 
+
+            <attributeReference name="newCollectionRecord"
                                 sourceClassName="org.kuali.core.bo.AttributeReferenceDummy"
                                 sourceAttributeName="newCollectionRecord" />
-                                
+
             <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
-            
+
             <attributeReference name="researchRiskType.researchRiskTypeDescription" sourceClassName="org.kuali.module.kra.routingform.bo.ResearchRiskType" sourceAttributeName="researchRiskTypeDescription">
                 <label>Type</label>
             </attributeReference>

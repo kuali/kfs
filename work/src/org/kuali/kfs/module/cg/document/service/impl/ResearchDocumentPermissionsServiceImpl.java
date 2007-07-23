@@ -26,9 +26,9 @@ import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.module.kra.KraConstants;
 import org.kuali.module.kra.bo.AdhocOrg;
 import org.kuali.module.kra.bo.AdhocPerson;
+import org.kuali.module.kra.bo.AdhocWorkgroup;
 import org.kuali.module.kra.bo.ResearchAdhocPermissionType;
 import org.kuali.module.kra.service.ResearchDocumentPermissionsService;
-import org.kuali.workflow.KualiWorkflowUtils;
 import org.springframework.transaction.annotation.Transactional;
 
 import edu.iu.uis.eden.clientapp.WorkflowInfo;
@@ -49,6 +49,22 @@ public class ResearchDocumentPermissionsServiceImpl implements ResearchDocumentP
      */
     public AdhocPerson getAdHocPerson(String documentNumber, String personUniversalIdentifier) {
         return (AdhocPerson) businessObjectService .retrieve(new AdhocPerson(documentNumber, personUniversalIdentifier));
+    }
+    
+    /**
+     * @see org.kuali.module.kra.budget.service.BudgetPermissionsService#getAdHocWorkgroup(String documentNumber, String workgroupName)
+     */
+    public AdhocWorkgroup getAdHocWorkgroup(String documentNumber, String workgroupName) {
+        return (AdhocWorkgroup) businessObjectService .retrieve(new AdhocWorkgroup(documentNumber, workgroupName));
+    }
+    
+    /**
+     * @see org.kuali.module.kra.budget.service.BudgetPermissionsService#getAssAdHocWorkgroups(String documentNumber)
+     */
+    public List<AdhocWorkgroup> getAllAdHocWorkgroups(String documentNumber) {
+        Map fieldValues = new HashMap();
+        fieldValues.put(KFSPropertyConstants.DOCUMENT_NUMBER, documentNumber);
+        return new ArrayList(businessObjectService.findMatching(AdhocWorkgroup.class, fieldValues));
     }
     
     /**

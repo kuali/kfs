@@ -16,21 +16,32 @@
 package org.kuali.module.kra.document;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.kuali.core.authorization.AuthorizationConstants;
+import org.kuali.core.bo.user.KualiGroup;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.document.authorization.DocumentAuthorizerBase;
 import org.kuali.core.service.KualiConfigurationService;
+import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.workflow.service.KualiWorkflowDocument;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.kra.KraConstants;
 import org.kuali.module.kra.bo.AdhocPerson;
+import org.kuali.module.kra.bo.AdhocWorkgroup;
 import org.kuali.module.kra.service.ResearchDocumentPermissionsService;
 import org.kuali.workflow.KualiWorkflowUtils;
+
+import edu.iu.uis.eden.clientapp.WorkflowInfo;
+import edu.iu.uis.eden.clientapp.vo.ActionRequestVO;
+import edu.iu.uis.eden.clientapp.vo.ReportCriteriaVO;
+import edu.iu.uis.eden.clientapp.vo.UserVO;
+import edu.iu.uis.eden.clientapp.vo.WorkgroupVO;
+import edu.iu.uis.eden.exception.WorkflowException;
 
 public class ResearchDocumentAuthorizer extends DocumentAuthorizerBase {
     private static Log LOG = LogFactory.getLog(ResearchDocumentAuthorizer.class);
@@ -54,6 +65,51 @@ public class ResearchDocumentAuthorizer extends DocumentAuthorizerBase {
             } else {
                 permissionCode = getPermissionCodeByPrecedence(permissionCode, AuthorizationConstants.EditMode.VIEW_ONLY);
             }
+        }
+        
+        // check ad-hoc workgroup permissions
+        List<AdhocWorkgroup> adhocWorkgroups = permissionsService.getAllAdHocWorkgroups(researchDocument.getDocumentNumber());
+        WorkflowInfo info2 = new WorkflowInfo();
+        List<KualiGroup> personGroups = SpringServiceLocator.getUniversalUserService().getUsersGroups(u);
+        
+        for (AdhocWorkgroup adhocWorkgroup: adhocWorkgroups) {
+            WorkgroupVO workgroup;
+            try {
+                workgroup = SpringServiceLocator.getWorkflowGroupService().getWorkgroupByGroupName(adhocWorkgroup.getWorkgroupName());
+            } catch (WorkflowException ex) {
+                throw new RuntimeException("Caught workflow exception: " + ex);
+            }
+            
+            if (!ObjectUtils.isNull(workgroup)) {
+                if (kualiGroupsContainWorkgroup(workgroup.getWorkgroupName(), personGroups)) {
+                    if (adhocWorkgroup.getPermissionCode().equals(KraConstants.PERMISSION_MOD_CODE)) {
+                        permissionCode = getPermissionCodeByPrecedence(permissionCode, AuthorizationConstants.EditMode.FULL_ENTRY);
+                        break;
+                    } else {
+                        permissionCode = getPermissionCodeByPrecedence(permissionCode, AuthorizationConstants.EditMode.VIEW_ONLY);
+                    }
+                }
+            }
+        }
+        
+        // now check ad-hoc workgroups in route log
+        ReportCriteriaVO criteria = new ReportCriteriaVO();
+        try {
+            criteria.setRouteHeaderId(workflowDocument.getRouteHeaderId());
+            WorkflowInfo info = new WorkflowInfo();
+            ActionRequestVO[] requests = info.getActionRequests(workflowDocument.getRouteHeaderId());
+            for (int i = 0; i < requests.length; i++) {
+                ActionRequestVO request = (ActionRequestVO) requests[i];
+                if (request.isWorkgroupRequest()) {
+                    WorkgroupVO workgroup = request.getWorkgroupVO();
+                    if (kualiGroupsContainWorkgroup(workgroup.getWorkgroupName(), personGroups)) {
+                        permissionCode = getPermissionCodeByPrecedence(permissionCode, AuthorizationConstants.EditMode.VIEW_ONLY);
+                        break;
+                    }
+                }
+            }
+        } catch (WorkflowException ex) {
+            throw new RuntimeException("Caught workflow exception: " + ex);
         }
         
         // Check ad-hoc org permissions (mod first, then read)
@@ -113,6 +169,15 @@ public class ResearchDocumentAuthorizer extends DocumentAuthorizerBase {
         Map editModeMap = new HashMap();
         editModeMap.put(permissionCode, "TRUE");
         return editModeMap;
+    }
+    
+    private boolean kualiGroupsContainWorkgroup(String workgroupId, List<KualiGroup> groups) {
+        for (KualiGroup group: groups) {
+            if (group.getGroupName().equals(workgroupId)) {
+                return true;
+            }
+        }
+        return false;
     }
     
     /**

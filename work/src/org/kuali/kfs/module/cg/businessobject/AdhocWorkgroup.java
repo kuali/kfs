@@ -37,6 +37,12 @@ public class AdhocWorkgroup extends AbstractAdhoc {
         this.workgroupName = workgroupName;
     }
     
+    public AdhocWorkgroup(String workgroupName, String documentNumber) {
+        this();
+        this.workgroupName = workgroupName;
+        this.setDocumentNumber(documentNumber);
+    }
+    
     /**
      * Gets the workgroupName attribute. 
      * @return Returns the workgroupName.

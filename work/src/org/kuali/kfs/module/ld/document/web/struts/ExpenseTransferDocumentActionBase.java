@@ -42,8 +42,10 @@ import org.kuali.core.util.UrlFactory;
 import org.kuali.core.web.struts.form.KualiForm;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSPropertyConstants;
+import org.kuali.kfs.bo.AccountingLineOverride;
 import org.kuali.kfs.rule.event.AddAccountingLineEvent;
 import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.module.chart.bo.Account;
 import org.kuali.module.gl.GLConstants;
 import org.kuali.module.labor.bo.ExpenseTransferAccountingLine;
 import org.kuali.module.labor.bo.LedgerBalance;
@@ -210,13 +212,18 @@ public class ExpenseTransferDocumentActionBase extends LaborDocumentActionBase {
                 for (String selectedPropertyName : segmentedSelection.get(bo.getObjectId())) {
                     if (periodCodeMapping.containsKey(selectedPropertyName)) {
                         String periodCode = periodCodeMapping.get(selectedPropertyName);
-                        ExpenseTransferAccountingLine line = (ExpenseTransferAccountingLine) expenseTransferDocumentForm.getFinancialDocument().getSourceAccountingLineClass().newInstance();
+                        LaborExpenseTransferDocumentBase financialDocument = (LaborExpenseTransferDocumentBase) expenseTransferDocumentForm.getDocument();
+                        ExpenseTransferAccountingLine line = (ExpenseTransferAccountingLine) financialDocument.getSourceAccountingLineClass().newInstance();
                         try {
                             KualiDecimal lineAmount = (KualiDecimal) getProperty(bo, selectedPropertyName);
                             if (KFSConstants.ZERO.compareTo(lineAmount) != 0) {
                                 buildAccountingLineFromLedgerBalance((LedgerBalance) bo, line, (KualiDecimal) getProperty(bo, selectedPropertyName), periodCode);
+                                
+                                rulePassed &= SpringServiceLocator.getKualiRuleService().applyRules(new AddAccountingLineEvent(KFSConstants.NEW_SOURCE_ACCT_LINE_PROPERTY_NAME, financialDocument, line));
                                 SpringServiceLocator.getPersistenceService().retrieveNonKeyFields(line);
-                                insertAccountingLine(true, expenseTransferDocumentForm, line);
+                                insertAccountingLine(true, expenseTransferDocumentForm, line);                              
+                                updateAccountOverrideCode(line);
+                                processAccountingLineOverrides(line);
                             }
                         }
                         catch (Exception e) {
@@ -250,6 +257,7 @@ public class ExpenseTransferDocumentActionBase extends LaborDocumentActionBase {
                 SpringServiceLocator.getPersistenceService().retrieveNonKeyFields(line);
                 insertAccountingLine(false, financialDocumentForm, to);
             }
+            processAccountingLineOverrides(to);
         }
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
@@ -285,6 +293,7 @@ public class ExpenseTransferDocumentActionBase extends LaborDocumentActionBase {
         int index = getSelectedLine(request);
 
         ExpenseTransferAccountingLine line = (ExpenseTransferAccountingLine) financialDocumentForm.getFinancialDocument().getTargetAccountingLineClass().newInstance();
+
         copyAccountingLine((ExpenseTransferAccountingLine) financialDocument.getSourceAccountingLine(index), line);
 
         boolean rulePassed = runRule(new AddAccountingLineEvent(KFSConstants.NEW_TARGET_ACCT_LINE_PROPERTY_NAME, financialDocumentForm.getDocument(), line));
@@ -295,6 +304,7 @@ public class ExpenseTransferDocumentActionBase extends LaborDocumentActionBase {
             SpringServiceLocator.getPersistenceService().retrieveNonKeyFields(line);
             insertAccountingLine(false, financialDocumentForm, line);
         }
+        processAccountingLineOverrides(line);
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
@@ -329,6 +339,7 @@ public class ExpenseTransferDocumentActionBase extends LaborDocumentActionBase {
         target.setEmplid(source.getEmplid());
         target.setPayrollEndDateFiscalPeriodCode(source.getPayrollEndDateFiscalPeriodCode());
         target.setObjectTypeCode(source.getObjectTypeCode());
+        target.setOverrideCode(source.getOverrideCode());
     }
 
     /**
@@ -359,6 +370,13 @@ public class ExpenseTransferDocumentActionBase extends LaborDocumentActionBase {
         line.setAmount(amount);
         line.setEmplid(bo.getEmplid());
         line.setPayrollEndDateFiscalPeriodCode(periodCode);
+    }
+    
+    private void updateAccountOverrideCode(ExpenseTransferAccountingLine line){
+        Account account = line.getAccount();
+        if(account != null && account.isExpired()){
+            line.setOverrideCode(AccountingLineOverride.CODE.EXPIRED_ACCOUNT);
+        }
     }
 
     /**

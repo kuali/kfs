@@ -17,6 +17,7 @@ package org.kuali.module.labor.rules;
 
 import static org.kuali.kfs.bo.AccountingLineOverride.CODE.EXPIRED_ACCOUNT_AND_NON_FRINGE_ACCOUNT_USED;
 import static org.kuali.kfs.bo.AccountingLineOverride.CODE.NON_FRINGE_ACCOUNT_USED;
+import static org.kuali.kfs.bo.AccountingLineOverride.CODE.EXPIRED_ACCOUNT;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -36,6 +37,7 @@ import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.bo.AccountingLine;
 import org.kuali.kfs.document.AccountingDocument;
 import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.AccountingPeriod;
 import org.kuali.module.labor.LaborConstants;
 import org.kuali.module.labor.bo.ExpenseTransferAccountingLine;
@@ -106,6 +108,13 @@ public class BenefitExpenseTransferDocumentRule extends LaborExpenseTransferDocu
             reportError(KFSPropertyConstants.SOURCE_ACCOUNTING_LINES, KFSKeyConstants.Labor.ERROR_DUPLICATE_SOURCE_ACCOUNTING_LINE);
             return false;
         }
+               
+        // determine if an expired account can be used to accept amount transfer
+        boolean canExpiredAccountBeUsed = canExpiredAccountBeUsed(accountingLine);
+        if (!canExpiredAccountBeUsed) {
+            reportError(KFSPropertyConstants.ACCOUNT, KFSKeyConstants.ERROR_ACCOUNT_EXPIRED);
+            return false;
+        }
 
         return true;
     }
@@ -131,14 +140,14 @@ public class BenefitExpenseTransferDocumentRule extends LaborExpenseTransferDocu
 
         // verify if the accounts in target accounting lines accept fringe benefits
         if (!this.isAccountsAcceptFringeBenefit(benefitExpenseTransferDocument)) {
-            reportError(KFSPropertyConstants.SOURCE_ACCOUNTING_LINES, KFSKeyConstants.Labor.ERROR_ACCOUNT_NOT_ACCEPT_FRINGES);
+            reportError(KFSPropertyConstants.TARGET_ACCOUNTING_LINES, KFSKeyConstants.Labor.ERROR_ACCOUNT_NOT_ACCEPT_FRINGES);
             return false;
         }
 
         // benefit transfers cannot be made between two different fringe benefit labor object codes.
         boolean hasSameFringeBenefitObjectCodes = this.hasSameFringeBenefitObjectCodes(benefitExpenseTransferDocument);
         if (!hasSameFringeBenefitObjectCodes) {
-            reportError(KFSPropertyConstants.SOURCE_ACCOUNTING_LINES, KFSKeyConstants.Labor.DISTINCT_OBJECT_CODE_ERROR);
+            reportError(KFSPropertyConstants.TARGET_ACCOUNTING_LINES, KFSKeyConstants.Labor.DISTINCT_OBJECT_CODE_ERROR);
             isValid = false;
         }
 
@@ -204,6 +213,7 @@ public class BenefitExpenseTransferDocumentRule extends LaborExpenseTransferDocu
      * @return true if target accouting lines have the same fringe benefit object codes as source accounting lines; otherwise, false
      */
     private boolean hasSameFringeBenefitObjectCodes(AccountingDocument accountingDocument) {
+        LOG.debug("started hasSameFringeBenefitObjectCodes");
         BenefitExpenseTransferDocument benefitExpenseTransferDocument = (BenefitExpenseTransferDocument) accountingDocument;
 
         Set<String> objectCodesFromSourceLine = new HashSet<String>();
@@ -232,6 +242,7 @@ public class BenefitExpenseTransferDocumentRule extends LaborExpenseTransferDocu
      *         false
      */
     private boolean isValidAmountTransferredByObjectCode(AccountingDocument accountingDocument) {
+        LOG.debug("started isValidAmountTransferredByObjectCode");
         BenefitExpenseTransferDocument benefitExpenseTransferDocument = (BenefitExpenseTransferDocument) accountingDocument;
         Map<String, KualiDecimal> amountsFromSourceLine = summerizeByObjectCode(benefitExpenseTransferDocument.getSourceAccountingLines());
         Map<String, KualiDecimal> amountsFromTargetLine = summerizeByObjectCode(benefitExpenseTransferDocument.getTargetAccountingLines());
@@ -285,6 +296,7 @@ public class BenefitExpenseTransferDocumentRule extends LaborExpenseTransferDocu
      *         otherwise, false
      */
     private boolean hasSameFringeBenefitObjectCodes(AccountingDocument accountingDocument, AccountingLine accountingLine) {
+        LOG.debug("started hasSameFringeBenefitObjectCodes");
         BenefitExpenseTransferDocument benefitExpenseTransferDocument = (BenefitExpenseTransferDocument) accountingDocument;
 
         List<String> objectCodesFromSourceLine = new ArrayList<String>();
@@ -304,6 +316,8 @@ public class BenefitExpenseTransferDocumentRule extends LaborExpenseTransferDocu
      * @return true if the given accounting line has already been in the given document; otherwise, false
      */
     private boolean isDuplicateSourceAccountingLine(AccountingDocument accountingDocument, AccountingLine accountingLine) {
+        LOG.debug("started isDuplicateSourceAccountingLine");
+        
         // only check source accounting lines
         if (!(accountingLine instanceof ExpenseTransferSourceAccountingLine)) {
             return false;
@@ -332,6 +346,7 @@ public class BenefitExpenseTransferDocumentRule extends LaborExpenseTransferDocu
      * @return true if the object code of given accounting line is a fringe benefit labor object code; otherwise, false
      */
     private boolean isFringeBenefitObjectCode(AccountingLine accountingLine) {
+        LOG.debug("started isFringeBenefitObjectCode");
         ExpenseTransferAccountingLine expenseTransferAccountingLine = (ExpenseTransferAccountingLine) accountingLine;
 
         LaborObject laborObject = expenseTransferAccountingLine.getLaborObject();
@@ -350,6 +365,7 @@ public class BenefitExpenseTransferDocumentRule extends LaborExpenseTransferDocu
      * @return true if the pay fiscal year of the given accounting line is valid; otherwise, false
      */
     private boolean isValidPayFiscalYear(AccountingLine accountingLine) {
+        LOG.debug("started isValidPayFiscalYear");
         ExpenseTransferAccountingLine expenseTransferAccountingLine = (ExpenseTransferAccountingLine) accountingLine;
 
         Integer payrollFiscalYear = expenseTransferAccountingLine.getPayrollEndDateFiscalYear();
@@ -370,6 +386,7 @@ public class BenefitExpenseTransferDocumentRule extends LaborExpenseTransferDocu
      * @return true if the period code of the given accounting line is valid; otherwise, false
      */
     private boolean isValidPayFiscalPeriod(AccountingLine accountingLine) {
+        LOG.debug("started isValidPayFiscalPeriod");
         ExpenseTransferAccountingLine expenseTransferAccountingLine = (ExpenseTransferAccountingLine) accountingLine;
 
         Integer payrollFiscalYear = expenseTransferAccountingLine.getPayrollEndDateFiscalYear();
@@ -391,10 +408,12 @@ public class BenefitExpenseTransferDocumentRule extends LaborExpenseTransferDocu
      * @return true if the accounts in the target accounting lines accept fringe benefits; otherwise, false
      */
     private boolean isAccountsAcceptFringeBenefit(AccountingDocument accountingDocument) {
+        LOG.debug("started isAccountsAcceptFringeBenefit");
         List<AccountingLine> accountingLines = accountingDocument.getTargetAccountingLines();
 
         for (AccountingLine accountingLine : accountingLines) {
-            if (!accountingLine.getAccount().isAccountsFringesBnftIndicator()) {
+            Account account = accountingLine.getAccount();
+            if (account!=null && !account.isAccountsFringesBnftIndicator()) {
                 String overrideCode = accountingLine.getOverrideCode();
                 boolean canNonFringeAccountUsed = NON_FRINGE_ACCOUNT_USED.equals(overrideCode);
                 canNonFringeAccountUsed = canNonFringeAccountUsed || EXPIRED_ACCOUNT_AND_NON_FRINGE_ACCOUNT_USED.equals(overrideCode);

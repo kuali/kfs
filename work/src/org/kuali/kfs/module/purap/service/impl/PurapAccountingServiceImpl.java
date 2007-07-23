@@ -515,7 +515,7 @@ public class PurapAccountingServiceImpl implements PurapAccountingService {
      * @param document the document
      */
     public void updateAccountAmounts(PurchasingAccountsPayableDocument document) {
-
+        //TODO: Chris - make sure this is never called after payment request goes to fiscal!!!!
         for (PurchasingApItem item : document.getItems()) {
             if ( (item.getExtendedPrice()!=null) && 
                  KualiDecimal.ZERO.compareTo(item.getExtendedPrice()) != 0 ) {

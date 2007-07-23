@@ -588,6 +588,9 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
         }
         
         distributeAccounting(paymentRequest);
+        
+        //update the amounts on the accounts
+        SpringServiceLocator.getPurapAccountingService().updateAccountAmounts(paymentRequest);
         //refresh account summary
         paymentRequest.refreshAccountSummary();
     }

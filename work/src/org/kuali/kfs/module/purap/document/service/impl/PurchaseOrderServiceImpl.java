@@ -380,12 +380,15 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
     public PurchaseOrderDocument updateFlagsAndRoute(String documentNumber, String docType, String annotation, List adhocRoutingRecipients) {
         try {
             PurchaseOrderDocument po = SpringServiceLocator.getPurchaseOrderService().getPurchaseOrderByDocumentNumber(documentNumber);
+            //TODO: Chris - RESEARCH: does this have any effect?  I think it may be lost before the po is brought up again.
             po.refreshAccountSummary();
+            
             po.setPendingActionIndicator(true);
 
             businessObjectService.save(po);
 
             PurchaseOrderDocument newPO = (PurchaseOrderDocument)documentService.getNewDocument(docType);
+            //TODO: Chris - RESEARCH: does this have any effect?  I think it may be lost before the po is brought up again.
             newPO.refreshAccountSummary();
             PurApObjectUtils.populateFromBaseWithSuper(po, newPO);
             newPO.refreshNonUpdateableReferences();

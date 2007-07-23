@@ -25,7 +25,7 @@ public class ProposalResearchRisk extends PersistableBusinessObjectBase implemen
     
     private String researchRiskTypeCode;
     private Long proposalNumber;
-    private boolean isActive;
+    private boolean active;
     
     private Proposal proposal;
     private ResearchRiskType researchRiskType;
@@ -40,7 +40,7 @@ public class ProposalResearchRisk extends PersistableBusinessObjectBase implemen
         LinkedHashMap m = new LinkedHashMap();
         m.put("proposalNumber", proposalNumber);
         m.put("researchRiskTypeCode", researchRiskTypeCode);
-        m.put("isActive", Boolean.toString(isActive));
+        m.put("active", Boolean.toString(active));
         
         return m;
     }
@@ -70,11 +70,11 @@ public class ProposalResearchRisk extends PersistableBusinessObjectBase implemen
     }
     
     public boolean isActive() {
-        return isActive;
+        return active;
     }
 
     public void setActive(boolean isActive) {
-        this.isActive = isActive;
+        this.active = isActive;
     }
 
     public Long getProposalNumber() {

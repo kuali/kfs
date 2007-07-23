@@ -44,6 +44,12 @@
         <lockingKeys>
             <field attributeName="chartOfAccountsCode" />
         </lockingKeys>
+        
+      	<defaultExistenceChecks>
+			<reference attributeName="chartOfAccounts" attributeToHighlightOnFail="chartOfAccountsCode" />
+			<reference attributeName="organization" attributeToHighlightOnFail="organizationCode" />
+			<reference attributeName="account" attributeToHighlightOnFail="accountNumber" />
+		</defaultExistenceChecks>
 
         <maintainableSections>
             <maintainableSection title="Edit Negative PREQ Approval Limit">

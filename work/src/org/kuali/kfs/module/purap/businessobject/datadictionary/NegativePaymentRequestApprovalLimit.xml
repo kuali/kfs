@@ -25,8 +25,8 @@
             <title>Negative Payment Request Approval Limit Inquiry</title>
 
             <inquirySections><inquirySection title="Header Text"><inquiryFields>
+            	<field attributeName="chartOfAccountsCode" />
                 <field attributeName="accountNumber" />
-                <field attributeName="chartOfAccountsCode" />
                 <field attributeName="negativePaymentRequestApprovalLimitAmount" />
                 <field attributeName="negativePaymentRequestApprovalLimitIdentifier" />
                 <field attributeName="organizationCode" />
@@ -45,16 +45,16 @@
             </defaultSort>
 
             <lookupFields>
-                <lookupField attributeName="accountNumber" required="false" />
-                <lookupField attributeName="chartOfAccountsCode" required="false" />
+            	<lookupField attributeName="chartOfAccountsCode" required="false" />
+                <lookupField attributeName="accountNumber" required="false" />               
                 <lookupField attributeName="negativePaymentRequestApprovalLimitAmount" required="false" />
                 <lookupField attributeName="negativePaymentRequestApprovalLimitIdentifier" required="false" />
                 <lookupField attributeName="organizationCode" required="false" />
             </lookupFields>
 
             <resultFields>
-                <field attributeName="accountNumber" />
-                <field attributeName="chartOfAccountsCode" />
+            	<field attributeName="chartOfAccountsCode" />
+                <field attributeName="accountNumber" />               
                 <field attributeName="negativePaymentRequestApprovalLimitAmount" />
                 <field attributeName="negativePaymentRequestApprovalLimitIdentifier" />
                 <field attributeName="organizationCode" />
@@ -62,21 +62,6 @@
         </lookup>
 
         <attributes>
-
-            <attribute name="accountNumber" forceUppercase="true">
-                <label>Account Number</label>
-                <shortLabel>Number</shortLabel>
-
-                <maxLength>7</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="9" />
-                </control>
-
-                <summary>accountNumber</summary>
-                <description>accountNumber description...</description>
-			</attribute>
 
             <attribute name="chartOfAccountsCode" forceUppercase="true">
                 <label>Chart Of Accounts Code</label>
@@ -91,6 +76,21 @@
 
                 <summary>chartOfAccountsCode</summary>
                 <description>chartOfAccountsCode description...</description>
+			</attribute>
+			
+			<attribute name="accountNumber" forceUppercase="true">
+                <label>Account Number</label>
+                <shortLabel>Number</shortLabel>
+
+                <maxLength>7</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="9" />
+                </control>
+
+                <summary>accountNumber</summary>
+                <description>accountNumber description...</description>
 			</attribute>
 
             <attribute name="negativePaymentRequestApprovalLimitAmount" forceUppercase="true">

@@ -305,7 +305,6 @@ public class ExpenseTransferDocumentActionBase extends LaborDocumentActionBase {
             insertAccountingLine(false, financialDocumentForm, line);
         }
         processAccountingLineOverrides(line);
-
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
@@ -372,11 +371,9 @@ public class ExpenseTransferDocumentActionBase extends LaborDocumentActionBase {
         line.setPayrollEndDateFiscalPeriodCode(periodCode);
     }
     
-    private void updateAccountOverrideCode(ExpenseTransferAccountingLine line){
-        Account account = line.getAccount();
-        if(account != null && account.isExpired()){
-            line.setOverrideCode(AccountingLineOverride.CODE.EXPIRED_ACCOUNT);
-        }
+    private void updateAccountOverrideCode(ExpenseTransferAccountingLine line){        
+        AccountingLineOverride override = AccountingLineOverride.determineNeededOverrides(line);
+        line.setOverrideCode(override.getCode());
     }
 
     /**

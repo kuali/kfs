@@ -225,14 +225,16 @@
         />
 </c:if>
 <c:if test="${!empty overrideField}">
-    <fin:accountingLineOverrideField
-        overrideField="${overrideField}"
-        attributes="${attributes}"
-        readOnly="${readOnly}"
-        accountingLine="${accountingLine}"
-        baselineAccountingLine="${baselineAccountingLine}"
-        displayHidden="${displayHidden}"
-        />
+	<c:forTokens var="currentField" items="${overrideField}" delims=","> 
+	    <fin:accountingLineOverrideField
+	        overrideField="${currentField}"
+	        attributes="${attributes}"
+	        readOnly="${readOnly}"
+	        accountingLine="${accountingLine}"
+	        baselineAccountingLine="${baselineAccountingLine}"
+	        displayHidden="${displayHidden}"
+	        />
+	 </c:forTokens>
 </c:if>
 <fin:accountingLineDataCellDetail
     detailField="${detailField}"

@@ -55,6 +55,8 @@ public abstract class AccountingLineBase extends PersistableBusinessObjectBase i
     private String overrideCode = AccountingLineOverride.CODE.NONE;
     private boolean accountExpiredOverride; // for the UI, persisted in overrideCode
     private boolean accountExpiredOverrideNeeded; // for the UI, not persisted
+    private boolean nonFringeAccountOverride; // for the UI, persisted in overrideCode
+    private boolean nonFringeAccountOverrideNeeded; // for the UI, not persisted
     private boolean objectBudgetOverride;
     private boolean objectBudgetOverrideNeeded;
     private String organizationReferenceId;
@@ -103,7 +105,7 @@ public abstract class AccountingLineBase extends PersistableBusinessObjectBase i
         // of Actual, except for JV which allows a choice and PE which uses "PE"
         balanceTyp = SpringServiceLocator.getBalanceTypService().getActualBalanceTyp();
         objectType = new ObjectType();
-        //salesTax = new SalesTax();
+        // salesTax = new SalesTax();
         salesTaxRequired = false;
     }
 
@@ -369,10 +371,9 @@ public abstract class AccountingLineBase extends PersistableBusinessObjectBase i
     public void setSubObjectCode(SubObjCd subObjectCode) {
         this.subObjectCode = subObjectCode;
     }
-    
-    
+
+
     /**
-     * 
      * @see org.kuali.kfs.bo.AccountingLine#getSalesTax()
      */
     public SalesTax getSalesTax() {
@@ -380,16 +381,14 @@ public abstract class AccountingLineBase extends PersistableBusinessObjectBase i
     }
 
     /**
-     * 
      * @see org.kuali.kfs.bo.AccountingLine#setSalesTax(org.kuali.module.financial.bo.SalesTax)
      * @deprecated
      */
     public void setSalesTax(SalesTax salesTax) {
         this.salesTax = salesTax;
     }
-    
+
     /**
-     * 
      * @see org.kuali.kfs.bo.AccountingLine#isSalesTaxRequired()
      */
     public boolean isSalesTaxRequired() {
@@ -397,7 +396,6 @@ public abstract class AccountingLineBase extends PersistableBusinessObjectBase i
     }
 
     /**
-     * 
      * @see org.kuali.kfs.bo.AccountingLine#setSalesTaxRequired(boolean)
      */
     public void setSalesTaxRequired(boolean salesTaxRequired) {
@@ -704,23 +702,24 @@ public abstract class AccountingLineBase extends PersistableBusinessObjectBase i
             setProjectCode(other.getProjectCode());
             setBalanceTypeCode(other.getBalanceTypeCode());
             setObjectTypeCode(other.getObjectTypeCode());
-            
-            //sales tax
-            if(ObjectUtils.isNotNull(other.getSalesTax())) {
+
+            // sales tax
+            if (ObjectUtils.isNotNull(other.getSalesTax())) {
                 SalesTax salesTax = getSalesTax();
                 SalesTax origSalesTax = other.getSalesTax();
-                if(salesTax != null) {
+                if (salesTax != null) {
                     salesTax.setAccountNumber(origSalesTax.getAccountNumber());
                     salesTax.setChartOfAccountsCode(origSalesTax.getChartOfAccountsCode());
                     salesTax.setFinancialDocumentGrossSalesAmount(origSalesTax.getFinancialDocumentGrossSalesAmount());
                     salesTax.setFinancialDocumentTaxableSalesAmount(origSalesTax.getFinancialDocumentTaxableSalesAmount());
                     salesTax.setFinancialDocumentSaleDate(origSalesTax.getFinancialDocumentSaleDate());
-                    
-                    //primary keys
+
+                    // primary keys
                     salesTax.setDocumentNumber(other.getDocumentNumber());
                     salesTax.setFinancialDocumentLineNumber(other.getSequenceNumber());
                     salesTax.setFinancialDocumentLineTypeCode(other.getFinancialDocumentLineTypeCode());
-                } else {
+                }
+                else {
                     salesTax = origSalesTax;
                 }
             }
@@ -837,6 +836,34 @@ public abstract class AccountingLineBase extends PersistableBusinessObjectBase i
      */
     public void setObjectBudgetOverrideNeeded(boolean objectBudgetOverrideNeeded) {
         this.objectBudgetOverrideNeeded = objectBudgetOverrideNeeded;
+    }
+    
+    /**
+     * @see org.kuali.kfs.bo.AccountingLine#isNonFringeAccountOverride()
+     */
+    public boolean getNonFringeAccountOverride() {
+        return nonFringeAccountOverride;
+    }
+
+    /**
+     * @see org.kuali.kfs.bo.AccountingLine#setNonFringeAccountOverride(boolean)
+     */
+    public void setNonFringeAccountOverride(boolean nonFringeAccountOverride) {
+        this.nonFringeAccountOverride = nonFringeAccountOverride;
+    }
+
+    /**
+     * @see org.kuali.kfs.bo.AccountingLine#isNonFringeAccountOverrideNeeded()
+     */
+    public boolean getNonFringeAccountOverrideNeeded() {
+        return nonFringeAccountOverrideNeeded;
+    }
+
+    /**
+     * @see org.kuali.kfs.bo.AccountingLine#setNonFringeAccountOverrideNeeded(boolean)
+     */
+    public void setNonFringeAccountOverrideNeeded(boolean nonFringeAccountOverrideNeeded) {
+        this.nonFringeAccountOverrideNeeded = nonFringeAccountOverrideNeeded;
     }
 
     /**

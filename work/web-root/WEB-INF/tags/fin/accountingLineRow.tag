@@ -185,7 +185,7 @@
 		boClassSimpleName="Account"
 		readOnly="${(readOnly&&(empty editableFields['accountNumber']))||!(empty forcedReadOnlyFields['accountNumber'])}"
 		displayHidden="${displayHidden}"
-		overrideField="accountExpiredOverride"
+		overrideField="accountExpiredOverride,nonFringeAccountOverride"
 		lookupOrInquiryKeys="chartOfAccountsCode"
 		accountingLineValuesMap="${accountingLineValuesMap}" />
 

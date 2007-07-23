@@ -34,8 +34,6 @@ import org.kuali.module.financial.bo.SalesTax;
  * An AccountLine contains all the accounting items typically necessary to create a pending entry to the G/L. All transaction
  * documents will use this business object inherently. Specific accounting line business rules should exist not in this
  * implementation, but rather in the document business object that uses it.
- * 
- * 
  */
 public interface AccountingLine extends PersistableBusinessObject {
 
@@ -383,29 +381,27 @@ public interface AccountingLine extends PersistableBusinessObject {
      * @param financialDocumentLineDescription The financialDocumentLineDescription to set.
      */
     public abstract void setFinancialDocumentLineDescription(String financialDocumentLineDescription);
-    
+
     /**
      * @return the sales tax associated with this line if any
      */
     public abstract SalesTax getSalesTax();
-    
+
     /**
      * @param salesTax The sales tax associated with this AccountingLine
      */
     public abstract void setSalesTax(SalesTax salesTax);
-    
+
     /**
+     * This method checks to see if sales tax is required for this accounting line or not
      * 
-     * This method checks to see if sales tax is required for this accounting line
-     * or not
      * @return true if it is required, false otherwise
      */
     public boolean isSalesTaxRequired();
 
     /**
+     * You can set whether or not sales tax is required for this accounting line or not
      * 
-     * You can set whether or not sales tax is required for this accounting line
-     * or not
      * @param salesTaxRequired - true if required
      */
     public void setSalesTaxRequired(boolean salesTaxRequired);
@@ -498,6 +494,34 @@ public interface AccountingLine extends PersistableBusinessObject {
      * @param b the objectBudgetOverride to set
      */
     public void setObjectBudgetOverrideNeeded(boolean b);
+
+    /**
+     * Gets the nonFringeAccountOverride attribute.
+     * 
+     * @return Returns the nonFringeAccountOverride.
+     */
+    public boolean getNonFringeAccountOverride();
+
+    /**
+     * Sets the nonFringeAccountOverride attribute value.
+     * 
+     * @param nonFringeAccountOverride The nonFringeAccountOverride to set.
+     */
+    public void setNonFringeAccountOverride(boolean nonFringeAccountOverride);
+
+    /**
+     * Gets the nonFringeAccountOverrideNeeded attribute.
+     * 
+     * @return Returns the nonFringeAccountOverrideNeeded.
+     */
+    public boolean getNonFringeAccountOverrideNeeded();
+
+    /**
+     * Sets the nonFringeAccountOverrideNeeded attribute value.
+     * 
+     * @param nonFringeAccountOverrideNeeded The nonFringeAccountOverrideNeeded to set.
+     */
+    public void setNonFringeAccountOverrideNeeded(boolean nonFringeAccountOverrideNeeded);
 
     /**
      * Returns a Map with the accounting line primitive field names as the key of the map and the primitive values as the value.

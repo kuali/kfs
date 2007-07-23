@@ -76,6 +76,8 @@ public class KualiAccountAttribute implements RoleAttribute, WorkflowAttribute {
 
     private static final String REPORT_XML_BASE_TAG_NAME = "report";
 
+    private static final String GENERATED_CONTENT = "generatedContent";
+
     private static final String FIN_COA_CD_KEY = "fin_coa_cd";
 
     private static final String ACCOUNT_NBR_KEY = "account_nbr";
@@ -101,7 +103,7 @@ public class KualiAccountAttribute implements RoleAttribute, WorkflowAttribute {
     private static final String ACCOUNT_ATTRIBUTE = "KUALI_ACCOUNT_ATTRIBUTE";
 
     private static final String ROLE_STRING_DELIMITER = "~!~!~";
-    
+
     // below map is used to signify that a document will route to delegates based on a different document type's code
     private static final Map<String,String> DOCUMENT_TYPE_TRANSLATION = new HashMap<String,String>();
     static {
@@ -225,7 +227,7 @@ public class KualiAccountAttribute implements RoleAttribute, WorkflowAttribute {
         if (Utilities.isEmpty(getFinCoaCd()) || Utilities.isEmpty(getAccountNbr())) {
             return "";
         }
-        return new StringBuffer("<" + REPORT_XML_BASE_TAG_NAME + "><chart>").append(getFinCoaCd()).append("</chart><accountNumber>").append(getAccountNbr()).append("</accountNumber><totalDollarAmount>").append(getTotalDollarAmount()).append("</totalDollarAmount></" + REPORT_XML_BASE_TAG_NAME + ">").toString();
+        return new StringBuffer("<" + GENERATED_CONTENT + "><" + REPORT_XML_BASE_TAG_NAME + "><chart>").append(getFinCoaCd()).append("</chart><accountNumber>").append(getAccountNbr()).append("</accountNumber><totalDollarAmount>").append(getTotalDollarAmount()).append("</totalDollarAmount></" + REPORT_XML_BASE_TAG_NAME + "></" + GENERATED_CONTENT + ">").toString();
     }
 
     public String getAttributeLabel() {
@@ -376,10 +378,10 @@ public class KualiAccountAttribute implements RoleAttribute, WorkflowAttribute {
             if (FISCAL_OFFICER_ROLE_KEY.equals(roleName) || FISCAL_OFFICER_PRIMARY_DELEGATE_ROLE_KEY.equals(roleName) || FISCAL_OFFICER_SECONDARY_DELEGATE_ROLE_KEY.equals(roleName)) {
                 Set fiscalOfficers = new HashSet();
                 // TODO delyea - fix report xpath expressions problem
-                if (((Boolean) xpath.evaluate(KualiWorkflowUtils.xstreamSafeXPath(KualiWorkflowUtils.XSTREAM_MATCH_ANYWHERE_PREFIX + REPORT_XML_BASE_TAG_NAME), docContent.getDocument(), XPathConstants.BOOLEAN)).booleanValue()) {
-                    String chart = xpath.evaluate(KualiWorkflowUtils.xstreamSafeXPath(KualiWorkflowUtils.XSTREAM_MATCH_ANYWHERE_PREFIX + REPORT_XML_BASE_TAG_NAME + "/chart"), docContent.getDocument());
-                    String accountNumber = xpath.evaluate(KualiWorkflowUtils.xstreamSafeXPath(KualiWorkflowUtils.XSTREAM_MATCH_ANYWHERE_PREFIX + REPORT_XML_BASE_TAG_NAME + "/accountNumber"), docContent.getDocument());
-                    String totalDollarAmount = xpath.evaluate(KualiWorkflowUtils.xstreamSafeXPath(KualiWorkflowUtils.XSTREAM_MATCH_ANYWHERE_PREFIX + REPORT_XML_BASE_TAG_NAME + "/totalDollarAmount"), docContent.getDocument());
+                if (((Boolean) xpath.evaluate(KualiWorkflowUtils.xstreamSafeXPath(KualiWorkflowUtils.XSTREAM_MATCH_ANYWHERE_PREFIX + GENERATED_CONTENT + "/" + REPORT_XML_BASE_TAG_NAME), docContent.getDocument(), XPathConstants.BOOLEAN)).booleanValue()) {
+                    String chart = xpath.evaluate(KualiWorkflowUtils.xstreamSafeXPath(KualiWorkflowUtils.XSTREAM_MATCH_ANYWHERE_PREFIX + GENERATED_CONTENT + "/" + REPORT_XML_BASE_TAG_NAME + "/chart"), docContent.getDocument());
+                    String accountNumber = xpath.evaluate(KualiWorkflowUtils.xstreamSafeXPath(KualiWorkflowUtils.XSTREAM_MATCH_ANYWHERE_PREFIX + GENERATED_CONTENT + "/" + REPORT_XML_BASE_TAG_NAME + "/accountNumber"), docContent.getDocument());
+                    String totalDollarAmount = xpath.evaluate(KualiWorkflowUtils.xstreamSafeXPath(KualiWorkflowUtils.XSTREAM_MATCH_ANYWHERE_PREFIX + GENERATED_CONTENT + "/" + REPORT_XML_BASE_TAG_NAME + "/totalDollarAmount"), docContent.getDocument());
                     FiscalOfficerRole role = new FiscalOfficerRole(roleName);
                     role.chart = chart;
                     role.accountNumber = accountNumber;

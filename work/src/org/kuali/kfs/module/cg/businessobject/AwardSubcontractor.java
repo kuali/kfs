@@ -18,13 +18,14 @@ package org.kuali.module.cg.bo;
 
 import java.util.LinkedHashMap;
 
+import org.kuali.core.bo.Inactivateable;
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.util.KualiDecimal;
 
 /**
  * This class defines a financial award subcontractor.
  */
-public class AwardSubcontractor extends PersistableBusinessObjectBase {
+public class AwardSubcontractor extends PersistableBusinessObjectBase implements Inactivateable {
 
     private String awardSubcontractorAmendmentNumber;
     private String awardSubcontractorNumber;
@@ -235,6 +236,22 @@ public class AwardSubcontractor extends PersistableBusinessObjectBase {
         this.subcontractor = subcontractor;
     }
 
+    /**
+     * 
+     * @see org.kuali.core.bo.Inactivateable#setActive(boolean)
+     */
+    public void setActive(boolean active) {
+        subcontractor.setActive(active);
+    }
+
+    /**
+     * 
+     * @see org.kuali.core.bo.Inactivateable#isActive()
+     */
+    public boolean isActive() {
+        return subcontractor.isActive();
+    }
+    
     /**
      * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
      */

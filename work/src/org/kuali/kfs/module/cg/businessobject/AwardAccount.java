@@ -18,6 +18,7 @@ package org.kuali.module.cg.bo;
 
 import java.util.LinkedHashMap;
 
+import org.kuali.core.bo.Inactivateable;
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.Chart;
@@ -25,7 +26,7 @@ import org.kuali.module.chart.bo.Chart;
 /**
  * This class represents a financial award account.
  */
-public class AwardAccount extends PersistableBusinessObjectBase implements CGProjectDirector {
+public class AwardAccount extends PersistableBusinessObjectBase implements CGProjectDirector, Inactivateable {
 
     private Long proposalNumber;
     private String chartOfAccountsCode;
@@ -217,4 +218,19 @@ public class AwardAccount extends PersistableBusinessObjectBase implements CGPro
         this.award = award;
     }
 
+    /**
+     * 
+     * @see org.kuali.core.bo.Inactivateable#isActive()
+     */
+    public boolean isActive() {
+        return account.isAccountClosedIndicator();
+    }
+
+    /**
+     * 
+     * @see org.kuali.core.bo.Inactivateable#setActive(boolean)
+     */
+    public void setActive(boolean active) {
+        account.setAccountClosedIndicator(active);
+    }
 }

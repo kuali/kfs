@@ -18,15 +18,15 @@ package org.kuali.module.cg.bo;
 
 import java.util.LinkedHashMap;
 
+import org.kuali.core.bo.Inactivateable;
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
-import org.kuali.module.kra.routingform.bo.RoutingFormSubcontractor;
 
 /**
  * 
  */
-public class ProposalSubcontractor extends PersistableBusinessObjectBase {
+public class ProposalSubcontractor extends PersistableBusinessObjectBase implements Inactivateable {
 
     private String proposalSubcontractorNumber;
     private Long proposalNumber;

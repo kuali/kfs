@@ -18,15 +18,15 @@ package org.kuali.module.cg.bo;
 
 import java.util.LinkedHashMap;
 
+import org.kuali.core.bo.Inactivateable;
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.module.chart.bo.Chart;
 import org.kuali.module.chart.bo.Org;
-import org.kuali.module.kra.routingform.bo.RoutingFormOrganization;
 
 /**
  * 
  */
-public class ProposalOrganization extends PersistableBusinessObjectBase implements Primaryable {
+public class ProposalOrganization extends PersistableBusinessObjectBase implements Primaryable, Inactivateable {
 
     private String chartOfAccountsCode;
     private String organizationCode;

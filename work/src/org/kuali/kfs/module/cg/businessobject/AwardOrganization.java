@@ -18,6 +18,7 @@ package org.kuali.module.cg.bo;
 
 import java.util.LinkedHashMap;
 
+import org.kuali.core.bo.Inactivateable;
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.module.chart.bo.Chart;
 import org.kuali.module.chart.bo.Org;
@@ -26,7 +27,7 @@ import org.kuali.module.chart.bo.Org;
  * 
  * This class represents a financial award organization.
  */
-public class AwardOrganization extends PersistableBusinessObjectBase implements Primaryable {
+public class AwardOrganization extends PersistableBusinessObjectBase implements Primaryable, Inactivateable {
 
     private String chartOfAccountsCode;
     private String organizationCode;
@@ -162,6 +163,22 @@ public class AwardOrganization extends PersistableBusinessObjectBase implements 
      */
     public boolean isPrimary() {
         return isAwardPrimaryOrganizationIndicator();
+    }
+    
+    /**
+     * 
+     * @see org.kuali.core.bo.Inactivateable#isActive()
+     */
+    public boolean isActive() {
+        return organization.isActive();
+    }
+
+    /**
+     * 
+     * @see org.kuali.core.bo.Inactivateable#setActive(boolean)
+     */
+    public void setActive(boolean active) {
+        organization.setActive(active);
     }
 
     /**

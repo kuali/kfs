@@ -18,12 +18,13 @@ package org.kuali.module.cg.bo;
 
 import java.util.LinkedHashMap;
 
+import org.kuali.core.bo.Inactivateable;
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 
 /**
  * This class represents a financial awards project director.
  */
-public class AwardProjectDirector extends PersistableBusinessObjectBase implements Primaryable, CGProjectDirector {
+public class AwardProjectDirector extends PersistableBusinessObjectBase implements Primaryable, CGProjectDirector, Inactivateable {
 
     private String personUniversalIdentifier;
     private Long proposalNumber;
@@ -129,6 +130,22 @@ public class AwardProjectDirector extends PersistableBusinessObjectBase implemen
         return isAwardPrimaryProjectDirectorIndicator();
     }
 
+    /**
+     * 
+     * @see org.kuali.core.bo.Inactivateable#isActive()
+     */
+    public boolean isActive() {
+        return projectDirector.isActive();
+    }
+
+    /**
+     * 
+     * @see org.kuali.core.bo.Inactivateable#setActive(boolean)
+     */
+    public void setActive(boolean active) {
+        projectDirector.setActive(active);
+    }
+    
     /**
      * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
      */

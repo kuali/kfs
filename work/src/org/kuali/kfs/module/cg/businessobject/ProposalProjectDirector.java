@@ -18,14 +18,14 @@ package org.kuali.module.cg.bo;
 
 import java.util.LinkedHashMap;
 
+import org.kuali.core.bo.Inactivateable;
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.util.ObjectUtils;
-import org.kuali.module.kra.routingform.bo.RoutingFormPersonnel;
 
 /**
  * 
  */
-public class ProposalProjectDirector extends PersistableBusinessObjectBase implements Primaryable, CGProjectDirector {
+public class ProposalProjectDirector extends PersistableBusinessObjectBase implements Primaryable, CGProjectDirector, Inactivateable {
 
     private String personUniversalIdentifier;
     private Long proposalNumber;

@@ -388,13 +388,14 @@ public class CollectorHelperServiceImpl implements CollectorHelperService {
     private String generateOriginEntryDetailKey(OriginEntry entry, String delimiter) {
         return StringUtils.join(new String[] { entry.getUniversityFiscalYear().toString(), entry.getUniversityFiscalPeriodCode(), entry.getChartOfAccountsCode(), entry.getAccountNumber(),
                 entry.getSubAccountNumber(), entry.getFinancialObjectCode(), entry.getFinancialSubObjectCode(), entry.getFinancialBalanceTypeCode(),
-                entry.getFinancialObjectTypeCode() }, delimiter);
+                entry.getFinancialObjectTypeCode(), entry.getDocumentNumber(), entry.getFinancialDocumentTypeCode(), entry.getFinancialSystemOriginationCode() }, delimiter);
     }
 
     private String generateCollectorDetailKey(CollectorDetail collectorDetail, String delimiter) {
         return StringUtils.join(new String[] { collectorDetail.getUniversityFiscalYear().toString(), collectorDetail.getUniversityFiscalPeriodCode(),collectorDetail.getChartOfAccountsCode(),
                 collectorDetail.getAccountNumber(), collectorDetail.getSubAccountNumber(), collectorDetail.getFinancialObjectCode(), collectorDetail.getFinancialSubObjectCode(),
-                collectorDetail.getFinancialBalanceTypeCode(), collectorDetail.getFinancialObjectTypeCode() }, delimiter);
+                collectorDetail.getFinancialBalanceTypeCode(), collectorDetail.getFinancialObjectTypeCode(), collectorDetail.getDocumentNumber(), collectorDetail.getFinancialDocumentTypeCode(),
+                collectorDetail.getFinancialSystemOriginationCode()}, delimiter);
     }
 
     /**

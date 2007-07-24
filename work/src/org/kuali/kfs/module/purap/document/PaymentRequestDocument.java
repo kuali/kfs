@@ -765,6 +765,7 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
             PaymentRequestItem itemToUse = null;
             for (Iterator iter = getItems().iterator(); iter.hasNext();) {
                 PaymentRequestItem item = (PaymentRequestItem) iter.next();
+                // TODO delyea/ckirschenman - how to identify an item that has been 'entered'
                 if ( (item.getSourceAccountingLines() != null) && (!item.getSourceAccountingLines().isEmpty()) ) {
                     // accounting lines are not empty so pick the first account
                     PurApAccountingLine accountLine = item.getSourceAccountingLine(0);

@@ -118,9 +118,9 @@ public class KualiOrgReviewAttribute implements WorkflowAttribute, MassRuleAttri
         List fields = new ArrayList();
 
         ruleRows = new ArrayList();
-        ruleRows.add(KualiWorkflowUtils.buildTextRowWithLookup(Chart.class, KFSConstants.CHART_OF_ACCOUNTS_CODE_PROPERTY_NAME, FIN_COA_CD_KEY));
-        ruleRows.add(KualiWorkflowUtils.buildTextRowWithLookup(Org.class, KFSConstants.ORGANIZATION_CODE_PROPERTY_NAME, ORG_CD_KEY));
-        ruleRows.add(KualiWorkflowUtils.buildTextRow(SourceAccountingLine.class, "overrideCode", OVERRIDE_CD_KEY));
+        ruleRows.add(getChartRowUsingKualiWorkflowUtils());
+        ruleRows.add(getOrgRowUsingKualiWorkflowUtils());
+        ruleRows.add(getOverrideCodeRowUsingKualiWorkflowUtils());
 
         fields = new ArrayList();
         fields.add(new Field("From Amount", "", Field.TEXT, true, FROM_AMOUNT_KEY, "", null, null, FROM_AMOUNT_KEY));
@@ -130,9 +130,9 @@ public class KualiOrgReviewAttribute implements WorkflowAttribute, MassRuleAttri
         ruleRows.add(new Row(fields));
 
         routingDataRows = new ArrayList();
-        routingDataRows.add(KualiWorkflowUtils.buildTextRowWithLookup(Chart.class, KFSConstants.CHART_OF_ACCOUNTS_CODE_PROPERTY_NAME, FIN_COA_CD_KEY));
-        routingDataRows.add(KualiWorkflowUtils.buildTextRowWithLookup(Org.class, KFSConstants.ORGANIZATION_CODE_PROPERTY_NAME, ORG_CD_KEY));
-        routingDataRows.add(KualiWorkflowUtils.buildTextRow(SourceAccountingLine.class, "overrideCode", OVERRIDE_CD_KEY));
+        routingDataRows.add(getChartRowUsingKualiWorkflowUtils());
+        routingDataRows.add(getOrgRowUsingKualiWorkflowUtils());
+        routingDataRows.add(getOverrideCodeRowUsingKualiWorkflowUtils());
 
         fields = new ArrayList();
         fields.add(KualiWorkflowUtils.buildTextRow(DocumentHeader.class, KFSPropertyConstants.FINANCIAL_DOCUMENT_TOTAL_AMOUNT, TOTAL_AMOUNT_KEY));
@@ -143,7 +143,7 @@ public class KualiOrgReviewAttribute implements WorkflowAttribute, MassRuleAttri
     /**
      * This method produces a chart row.
      * @return
-     * @deprecated Use KualiWorkflowUtils.buildTextRow or buildTextRowWithLookup instead
+     * @deprecated Use getChartRowUsingKualiWorkflowUtils() instead
      */
     public edu.iu.uis.eden.lookupable.Row getChartRow() {
         org.kuali.core.web.ui.Field kualiChartField = FieldUtils.getPropertyField(Chart.class, KFSConstants.CHART_OF_ACCOUNTS_CODE_PROPERTY_NAME, false);
@@ -152,24 +152,34 @@ public class KualiOrgReviewAttribute implements WorkflowAttribute, MassRuleAttri
         chartFields.add(new Field("", "", Field.QUICKFINDER, false, "", "", null, WorkflowLookupableImpl.getLookupableName(WorkflowLookupableImpl.getLookupableImplName(Chart.class), new StringBuffer(WorkflowLookupableImpl.LOOKUPABLE_IMPL_NAME_PREFIX).append(KFSConstants.CHART_OF_ACCOUNTS_CODE_PROPERTY_NAME).append(":").append(FIN_COA_CD_KEY).toString())));
         return new Row(chartFields);
     }
+    
+    public edu.iu.uis.eden.lookupable.Row getChartRowUsingKualiWorkflowUtils() {
+        return KualiWorkflowUtils.buildTextRowWithLookup(Chart.class, KFSConstants.CHART_OF_ACCOUNTS_CODE_PROPERTY_NAME, FIN_COA_CD_KEY);
+    }
 
     /**
      * This method produces an org row.
      * @return
-     * @deprecated Use KualiWorkflowUtils.buildTextRow or buildTextRowWithLookup instead
+     * @deprecated Use getOrgRowUsingKualiWorkflowUtils() instead
      */
     public edu.iu.uis.eden.lookupable.Row getOrgRow() {
         org.kuali.core.web.ui.Field kualiOrgField = FieldUtils.getPropertyField(Org.class, KFSConstants.ORGANIZATION_CODE_PROPERTY_NAME, false);
         List orgFields = new ArrayList();
         orgFields.add(new Field(kualiOrgField.getFieldLabel(), KualiWorkflowUtils.getHelpUrl(kualiOrgField), Field.TEXT, true, ORG_CD_KEY, kualiOrgField.getPropertyValue(), kualiOrgField.getFieldValidValues(), WorkflowLookupableImpl.getLookupableImplName(Org.class), ORG_CD_KEY));
-        orgFields.add(new Field("", "", Field.QUICKFINDER, false, "", "", null, WorkflowLookupableImpl.getLookupableName(WorkflowLookupableImpl.getLookupableImplName(Org.class), new StringBuffer(WorkflowLookupableImpl.LOOKUPABLE_IMPL_NAME_PREFIX).append(KFSConstants.ORGANIZATION_CODE_PROPERTY_NAME).append(":").append(ORG_CD_KEY).toString())));
+        orgFields.add(new Field("", "", Field.QUICKFINDER, false, "", "", null, WorkflowLookupableImpl.getLookupableName(WorkflowLookupableImpl.getLookupableImplName(Org.class), new StringBuffer("").append(WorkflowLookupableImpl.LOOKUPABLE_IMPL_NAME_PREFIX).append(KFSConstants.ORGANIZATION_CODE_PROPERTY_NAME).append(":").append(ORG_CD_KEY).append(",").append(WorkflowLookupableImpl.LOOKUPABLE_IMPL_NAME_PREFIX).append(KFSConstants.CHART_OF_ACCOUNTS_CODE_PROPERTY_NAME).append(":").append(FIN_COA_CD_KEY).toString())));
         return new Row(orgFields);
+    }
+
+    public edu.iu.uis.eden.lookupable.Row getOrgRowUsingKualiWorkflowUtils() {
+        Map fieldConversionMap = new HashMap();
+        fieldConversionMap.put(KFSConstants.CHART_OF_ACCOUNTS_CODE_PROPERTY_NAME, FIN_COA_CD_KEY);
+        return KualiWorkflowUtils.buildTextRowWithLookup(Org.class, KFSConstants.ORGANIZATION_CODE_PROPERTY_NAME, ORG_CD_KEY, fieldConversionMap);
     }
 
     /**
      * This method produces an overrideCode row.
      * @return
-     * @deprecated Use KualiWorkflowUtils.buildTextRow or buildTextRowWithLookup instead
+     * @deprecated Use getOverrideCodeRowUsingKualiWorkflowUtils() instead
      */
     public edu.iu.uis.eden.lookupable.Row getOverrideCodeRow() {
         org.kuali.core.web.ui.Field kualiOverrideCodeField;
@@ -177,6 +187,10 @@ public class KualiOrgReviewAttribute implements WorkflowAttribute, MassRuleAttri
         List orgFields = new ArrayList();
         orgFields.add(new Field(kualiOverrideCodeField.getFieldLabel(), KualiWorkflowUtils.getHelpUrl(kualiOverrideCodeField), Field.TEXT, true, OVERRIDE_CD_KEY, kualiOverrideCodeField.getPropertyValue(), kualiOverrideCodeField.getFieldValidValues(), null, OVERRIDE_CD_KEY));
         return new Row(orgFields);
+    }
+    
+    public edu.iu.uis.eden.lookupable.Row getOverrideCodeRowUsingKualiWorkflowUtils() {
+        return KualiWorkflowUtils.buildTextRow(SourceAccountingLine.class, "overrideCode", OVERRIDE_CD_KEY);
     }
 
     /**

@@ -17,6 +17,7 @@
 package org.kuali.workflow.attribute;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -56,7 +57,9 @@ public class ChartOrgExtensionAttribute implements ExtensionAttribute {
 	public ChartOrgExtensionAttribute() {
         rows = new ArrayList<Row>();
         rows.add(KualiWorkflowUtils.buildTextRowWithLookup(Chart.class, CHART, CHART));
-        rows.add(KualiWorkflowUtils.buildTextRowWithLookup(Org.class, ORG, ORG));
+        Map fieldConversionMap = new HashMap();
+        fieldConversionMap.put(CHART, CHART);
+        rows.add(KualiWorkflowUtils.buildTextRowWithLookup(Org.class, ORG, ORG, fieldConversionMap));
 	}
 
 	public List<Row> getRows() {

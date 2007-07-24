@@ -89,8 +89,10 @@ public class KualiPurchaseOrderContractAndGrantsAttribute implements WorkflowAtt
         routingDataRows = new ArrayList<edu.iu.uis.eden.lookupable.Row>();
         routingDataRows.add(KualiWorkflowUtils.buildTextRowWithLookup(Options.class, KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, UNIVERSITY_FISCAL_YEAR_KEY));
         routingDataRows.add(KualiWorkflowUtils.buildTextRowWithLookup(Chart.class, KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, CHART_CODE_KEY));
-        routingDataRows.add(KualiWorkflowUtils.buildTextRowWithLookup(Account.class, KFSPropertyConstants.ACCOUNT_NUMBER, ACCOUNT_NUMBER_KEY));
-        routingDataRows.add(KualiWorkflowUtils.buildTextRowWithLookup(ObjectCode.class, KFSPropertyConstants.FINANCIAL_OBJECT_CODE, OBJECT_CODE_KEY));
+        Map fieldConversionMap = new HashMap();
+        fieldConversionMap.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, CHART_CODE_KEY);
+        routingDataRows.add(KualiWorkflowUtils.buildTextRowWithLookup(Account.class, KFSPropertyConstants.ACCOUNT_NUMBER, ACCOUNT_NUMBER_KEY, fieldConversionMap));
+        routingDataRows.add(KualiWorkflowUtils.buildTextRowWithLookup(ObjectCode.class, KFSPropertyConstants.FINANCIAL_OBJECT_CODE, OBJECT_CODE_KEY, fieldConversionMap));
     }
 
     /**

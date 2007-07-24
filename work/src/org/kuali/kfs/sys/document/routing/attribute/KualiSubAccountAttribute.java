@@ -16,6 +16,7 @@
 package org.kuali.workflow.attribute;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -89,14 +90,20 @@ public class KualiSubAccountAttribute implements WorkflowAttribute, MassRuleAttr
     public KualiSubAccountAttribute() {
         ruleRows = new ArrayList();
         ruleRows.add(KualiWorkflowUtils.buildTextRowWithLookup(Chart.class, KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, FIN_COA_CD_KEY));
-        ruleRows.add(KualiWorkflowUtils.buildTextRowWithLookup(Account.class, KFSPropertyConstants.ACCOUNT_NUMBER, ACCOUNT_NBR_KEY));
-        ruleRows.add(KualiWorkflowUtils.buildTextRowWithLookup(Org.class, KFSPropertyConstants.ORGANIZATION_CODE, ORG_CD_KEY));
-        ruleRows.add(KualiWorkflowUtils.buildTextRowWithLookup(SubAccount.class, KFSPropertyConstants.SUB_ACCOUNT_NUMBER, SUB_ACCOUNT_NBR_KEY));
+        Map fieldConversionMap = new HashMap();
+        fieldConversionMap.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, FIN_COA_CD_KEY);
+        ruleRows.add(KualiWorkflowUtils.buildTextRowWithLookup(Account.class, KFSPropertyConstants.ACCOUNT_NUMBER, ACCOUNT_NBR_KEY, fieldConversionMap));
+        ruleRows.add(KualiWorkflowUtils.buildTextRowWithLookup(Org.class, KFSPropertyConstants.ORGANIZATION_CODE, ORG_CD_KEY, fieldConversionMap));
+        fieldConversionMap.put(KFSPropertyConstants.ACCOUNT_NUMBER, ACCOUNT_NBR_KEY);
+        ruleRows.add(KualiWorkflowUtils.buildTextRowWithLookup(SubAccount.class, KFSPropertyConstants.SUB_ACCOUNT_NUMBER, SUB_ACCOUNT_NBR_KEY, fieldConversionMap));
 
         routingDataRows = new ArrayList();
         routingDataRows.add(KualiWorkflowUtils.buildTextRowWithLookup(Chart.class, KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, FIN_COA_CD_KEY));
+        fieldConversionMap = new HashMap();
+        fieldConversionMap.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, FIN_COA_CD_KEY);
         routingDataRows.add(KualiWorkflowUtils.buildTextRowWithLookup(Account.class, KFSPropertyConstants.ACCOUNT_NUMBER, ACCOUNT_NBR_KEY));
         routingDataRows.add(KualiWorkflowUtils.buildTextRowWithLookup(Org.class, KFSPropertyConstants.ORGANIZATION_CODE, ORG_CD_KEY));
+        fieldConversionMap.put(KFSPropertyConstants.ACCOUNT_NUMBER, ACCOUNT_NBR_KEY);
         routingDataRows.add(KualiWorkflowUtils.buildTextRowWithLookup(SubAccount.class, KFSPropertyConstants.SUB_ACCOUNT_NUMBER, SUB_ACCOUNT_NBR_KEY));
     }
 

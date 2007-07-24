@@ -799,19 +799,10 @@ public class CashManagementServiceTest extends KualiTestBase {
         assertTrue(failedAsExpected);
     }
 
-
     private CashReceiptDocument lookupCR(String documentId) throws WorkflowException {
         CashReceiptDocument crDoc = (CashReceiptDocument) SpringServiceLocator.getDocumentService().getByDocumentHeaderId(documentId);
 
         return crDoc;
-    }
-
-    public void testMoneyInTotal() {
-        assertTrue(true);
-    }
-    
-    public void testMoneyOutTotal() {
-        assertTrue(true);
     }
 
     private void deleteIfExists(String workgroupName) {

@@ -47,7 +47,17 @@
 	    </c:forTokens>    
     </c:if>
     <c:if test="${!empty detailField && empty detailFields}">
-            <bean:write name="KualiForm" property="${accountingLine}.${detailField}"/>&nbsp;
+<%--    
+           <bean:write name="KualiForm" property="${accountingLine}.${detailField}"/>&nbsp;
+--%>    
+	<logic:notEmpty name="KualiForm" property="${accountingLine}.${detailField}">
+		<c:set var="temp1">
+			<bean:write name="KualiForm" property="${accountingLine}.${detailField}"/>
+		</c:set>
+		<c:set value = "${fn:replace(temp1, '[br]', '<br/>')}" var="temp2"  />
+		${temp2}
+	</logic:notEmpty>
+
     </c:if>
   </div>
 </c:if>

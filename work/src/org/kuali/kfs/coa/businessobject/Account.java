@@ -1905,12 +1905,12 @@ public class Account extends PersistableBusinessObjectBase implements AccountInt
             if (accountExtension.getProgram() != null){
                 program = accountExtension.getProgram();
                 resultString = accountName + 
-                " Program=" + 
+                "[br]Program=" + 
                 program.getProgramCode() + "-" + 
                 program.getProgramName();
             }         
         }      
-        return  resultString;
+      return  resultString;
     }
 
     /**

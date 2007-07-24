@@ -120,7 +120,12 @@ function loadAccountNameAndExtensionInfo( accountCodeFieldName, accountNameField
 		var dwrReply = {
 			callback:function(data) {
 			if ( data != null && typeof data == 'object' ) {
-				setRecipientValue( accountNameFieldName, data.accountNameAndExtensionDescription );
+ 				var temp = data.accountNameAndExtensionDescription;
+// Replace the line break indicator with html line breaks							
+ 				var regexp = /\[br\]/g;
+ 				var temp3 = temp.replace( regexp, "<br />") ;
+ // Note third parameter below = true to prevent escaping special html characters.				
+ 				setRecipientValue( accountNameFieldName, temp3, true);
 			} else {
 				setRecipientValue( accountNameFieldName, wrapError( "account not found" ), true );			
 			} },

@@ -17,11 +17,10 @@ package org.kuali.module.cg.bo;
 
 import java.util.LinkedHashMap;
 
-import org.kuali.core.bo.Inactivateable;
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.module.kra.routingform.bo.ResearchRiskType;
 
-public class ProposalResearchRisk extends PersistableBusinessObjectBase implements Inactivateable {
+public class ProposalResearchRisk extends PersistableBusinessObjectBase {
     
     private String researchRiskTypeCode;
     private Long proposalNumber;
@@ -65,16 +64,12 @@ public class ProposalResearchRisk extends PersistableBusinessObjectBase implemen
     }
 
 
-    public boolean getActive() {
-        return isActive();
-    }
-    
     public boolean isActive() {
         return active;
     }
 
-    public void setActive(boolean isActive) {
-        this.active = isActive;
+    public void setActive(boolean active) {
+        this.active = active;
     }
 
     public Long getProposalNumber() {

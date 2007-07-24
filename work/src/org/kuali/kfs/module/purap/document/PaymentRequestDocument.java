@@ -103,19 +103,6 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
         super();
     }
 
-    // TODO: remove this method:
-    /*
-    @Override
-    public void refreshAllReferences() {
-        super.refreshAllReferences();
-        this.refreshReferenceObject("vendorPaymentTerms");
-        this.refreshReferenceObject("vendorShippingPaymentTerms");
-        this.refreshReferenceObject("paymentRequestCostSource");
-    }
-   */     
-    
-
-
     
     /**
      * @see org.kuali.core.bo.PersistableBusinessObjectBase#isBoNotesSupport()

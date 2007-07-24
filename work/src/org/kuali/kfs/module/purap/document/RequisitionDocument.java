@@ -84,13 +84,7 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
     public boolean isBoNotesSupport() {
         return true;
     }
-    
-    // TODO: Remove this method:
-    /*
-    public void refreshAllReferences() {
-        super.refreshAllReferences();
-    }
-  */ 
+   
     /**
      * Perform logic needed to initiate Requisition Document
      */

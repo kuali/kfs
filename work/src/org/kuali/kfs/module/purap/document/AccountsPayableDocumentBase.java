@@ -70,27 +70,8 @@ public abstract class AccountsPayableDocumentBase extends PurchasingAccountsPaya
     public AccountsPayableDocumentBase() {
         super();
     }
-    
-    //  TODO: Remove this function:
-    /**
-     * Retrieve all references common to AccountsPayable
-     */
-    /*
-    @Override
-    public void refreshAllReferences() {
-        super.refreshAllReferences();
-        this.refreshReferenceObject("processingCampus");
-        if (ObjectUtils.isNotNull(getPurchaseOrderDocument())) {
-            setChartOfAccountsCode(getPurchaseOrderDocument().getChartOfAccountsCode());
-            setOrganizationCode(getPurchaseOrderDocument().getOrganizationCode());
-        } else {
-            setChartOfAccountsCode(null);
-            setOrganizationCode(null);
-    }
-    }
-*/
-
-    public boolean requiresAccountsPayableReviewRouting() {
+  
+     public boolean requiresAccountsPayableReviewRouting() {
         List boNotes = this.getDocumentHeader().getBoNotes();
         if (ObjectUtils.isNotNull(boNotes)) {
             for (Object obj : boNotes) {

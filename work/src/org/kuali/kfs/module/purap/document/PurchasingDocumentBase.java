@@ -146,24 +146,7 @@ public abstract class PurchasingDocumentBase extends PurchasingAccountsPayableDo
         super.prepareForSave(event);
     }
 
-    /**
-     * Retrieve all references common to purchasing
-     */
-    // TODO: Remove This Function:
-    /*
-    public void refreshAllReferences() {
-        super.refreshAllReferences();
-        this.refreshReferenceObject("fundingSource");
-        this.refreshReferenceObject("requisitionSource");
-        this.refreshReferenceObject("purchaseOrderCostSource");
-        this.refreshReferenceObject("purchaseOrderTransmissionMethod");
-        this.refreshReferenceObject("chartOfAccounts");
-        this.refreshReferenceObject("organization");
-        this.refreshReferenceObject("deliveryCampus");
-        this.refreshReferenceObject("vendorContract");
-        this.refreshReferenceObject("contractManager");
-    }
-*/
+ 
     /**
      * @see org.kuali.module.purap.document.PurchasingDocument#templateVendorDetail(org.kuali.module.vendor.bo.VendorDetail)
      */

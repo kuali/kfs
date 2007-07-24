@@ -18,6 +18,10 @@
 
 <c:set var="balanceInquiryAttributes"
 	value="${DataDictionary.LedgerBalanceForBenefitExpenseTransfer.attributes}" />
+	
+<c:set var="readOnly"
+	value="${!empty KualiForm.editingMode['viewOnly']}" />
+		
 <kul:documentPage showDocumentInfo="true"
     documentTypeName="KualiSalaryExpenseTransferDocument"
     htmlFormAction="laborSalaryExpenseTransfer" renderMultipart="true"
@@ -43,10 +47,14 @@
 	
 					<td class="datacell-nowrap"><kul:htmlControlAttribute
 						attributeEntry="${balanceInquiryAttributes.universityFiscalYear}"
-						property="universityFiscalYear" readOnly="${readOnly}" /> <kul:lookup
-						boClassName="org.kuali.kfs.bo.Options"
-						lookupParameters="universityFiscalYear:universityFiscalYear"
-						fieldLabel="${balanceInquiryAttributes.universityFiscalYear.label}" /></td>
+						property="universityFiscalYear" readOnly="${readOnly}" /> 
+						
+						<c:if test="${!readOnly}">
+							<kul:lookup	boClassName="org.kuali.kfs.bo.Options"
+							lookupParameters="universityFiscalYear:universityFiscalYear"
+							fieldLabel="${balanceInquiryAttributes.universityFiscalYear.label}" />
+						</c:if>
+					</td>
 				</tr>			
 	
               <tr>
@@ -62,17 +70,18 @@
                                   lookupParameters="emplid:personPayrollIdentifier,universityFiscalYear:universityFiscalYear"
                                   hasErrors="${hasErrors}"
                                   onblur="${onblur}"
-                                  highlight="${addHighlighting}">
+                                  highlight="${addHighlighting}" readOnly="${readOnly}" >
                         <jsp:attribute name="helpLink" trim="true">
                                 <kul:help
                                     businessObjectClassName="${field.businessObjectClassName}"
                                     attributeName="${field.fieldHelpName}"
-                                    altText="${field.fieldHelpSummary}" />      
-                            </jsp:attribute>
+                                    altText="${field.fieldHelpSummary}" />     
+                        </jsp:attribute>
                       </ld:employee>
                 </td>
               </tr>
 	            
+	            <c:if test="${!readOnly}">
 	            <tr>
 	            	<td height="30" class="infoline">&nbsp;</td>
 	            	<td height="30" class="infoline">
@@ -83,6 +92,7 @@
                         hideReturnLink="false" image="buttonsmall_search.gif"/>
 					</td>
 				</tr>
+				</c:if>
 	
 			</table>
 			</div>

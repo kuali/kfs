@@ -22,7 +22,7 @@
 
 
         <inquiry>
-            <title>Labor Object Benefits Inquiry</title>
+            <title>Labor Object Code Benefits Inquiry</title>
 
             <inquirySections><inquirySection title="Header Text"><inquiryFields>
                 <field attributeName="universityFiscalYear" />
@@ -33,9 +33,9 @@
         </inquiry>
 
         <lookup>
-            <title>Labor Position Object Benefits Lookup</title>
+            <title>Labor Object Benefits Lookup</title>
 
-            <instructions>Lookup a Labor Position Object Benefit</instructions>
+            <instructions>Lookup a Labor Object Code Benefit</instructions>
 
             <defaultSort sortAscending="true">
                 <sortAttributes>

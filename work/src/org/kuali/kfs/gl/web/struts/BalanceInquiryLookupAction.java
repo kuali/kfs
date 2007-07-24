@@ -28,6 +28,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.RiceConstants;
 import org.kuali.core.lookup.CollectionIncomplete;
 import org.kuali.core.lookup.LookupResultsService;
 import org.kuali.core.lookup.Lookupable;
@@ -247,6 +248,33 @@ public class BalanceInquiryLookupAction extends KualiMultipleValueLookupAction {
         String backUrl = UrlFactory.parameterizeUrl(multipleValueLookupForm.getBackLocation(), parameters);
         return new ActionForward(backUrl, true);
     }
+    
+    /**
+     * @see org.kuali.core.web.struts.action.KualiMultipleValueLookupAction#sort(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     */
+    @Override
+    public ActionForward sort(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        request.setAttribute(GLConstants.LookupableBeanKeys.SEGMENTED_LOOKUP_FLAG_NAME, Boolean.TRUE);
+        return super.sort(mapping, form, request, response);
+    }
+    
+    /**
+     * @see org.kuali.core.web.struts.action.KualiMultipleValueLookupAction#selectAll(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     */
+    @Override
+    public ActionForward selectAll(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        request.setAttribute(GLConstants.LookupableBeanKeys.SEGMENTED_LOOKUP_FLAG_NAME, Boolean.TRUE);
+        return super.selectAll(mapping, form, request, response);
+    }
+    
+    /**
+     * @see org.kuali.core.web.struts.action.KualiMultipleValueLookupAction#unselectAll(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     */
+    @Override
+    public ActionForward unselectAll(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        request.setAttribute(GLConstants.LookupableBeanKeys.SEGMENTED_LOOKUP_FLAG_NAME, Boolean.TRUE);
+        return super.unselectAll(mapping, form, request, response);
+    }
 
     /**
      * This method performs the lookup and returns a collection of lookup items.  Also initializes values in the form
@@ -304,5 +332,4 @@ public class BalanceInquiryLookupAction extends KualiMultipleValueLookupAction {
         
         return displayList;
     }
-
 }

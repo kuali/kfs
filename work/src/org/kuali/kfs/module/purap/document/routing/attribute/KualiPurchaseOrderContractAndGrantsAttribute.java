@@ -63,8 +63,6 @@ import edu.iu.uis.eden.routetemplate.RuleExtensionValue;
 public class KualiPurchaseOrderContractAndGrantsAttribute implements WorkflowAttribute {
     private static Logger LOG = Logger.getLogger(KualiPurchaseOrderContractAndGrantsAttribute.class);
 
-    private static final String REPORT_XML_BASE_TAG_NAME = "report";
-
     private static final String SUB_FUND_GROUP_CODE_KEY = "sub_fund_grp_cd";
     private static final String UNIVERSITY_FISCAL_YEAR_KEY = "univ_fiscal_year";
     private static final String CHART_CODE_KEY = "fin_coa_cd";
@@ -102,12 +100,12 @@ public class KualiPurchaseOrderContractAndGrantsAttribute implements WorkflowAtt
         if ( (StringUtils.isBlank(getFiscalYear())) && (StringUtils.isBlank(getChartCode())) && (StringUtils.isBlank(getAccountNumber())) && (StringUtils.isBlank(getObjectCode())) ) {
             return "";
         } // attributeContent
-        StringBuffer returnValue = new StringBuffer("<" + REPORT_XML_BASE_TAG_NAME + ">");
+        StringBuffer returnValue = new StringBuffer(KualiWorkflowUtils.XML_REPORT_DOC_CONTENT_PREFIX);
         returnValue.append("<" + KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR + ">").append(getFiscalYear()).append("</" + KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR + ">");
         returnValue.append("<" + KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE + ">").append(getChartCode()).append("</" + KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE + ">");
         returnValue.append("<" + KFSPropertyConstants.ACCOUNT_NUMBER + ">").append(getAccountNumber()).append("</" + KFSPropertyConstants.ACCOUNT_NUMBER + ">");
         returnValue.append("<" + KFSPropertyConstants.FINANCIAL_OBJECT_CODE + ">").append(getObjectCode()).append("</" + KFSPropertyConstants.FINANCIAL_OBJECT_CODE + ">");
-        return returnValue.append("</" + REPORT_XML_BASE_TAG_NAME + ">").toString();
+        return returnValue.append(KualiWorkflowUtils.XML_REPORT_DOC_CONTENT_SUFFIX).toString();
     }
 
     /**
@@ -164,7 +162,6 @@ public class KualiPurchaseOrderContractAndGrantsAttribute implements WorkflowAtt
                 KualiParameterRule rule = parameterRulesByChart.get(accountContainer.account.getChartOfAccountsCode());
                 if ( (rule != null) && (rule.failsRule(accountContainer.objectCode.getFinancialObjectCode())) ) {
                     if (StringUtils.isBlank(accountContainer.account.getSubFundGroupCode())) {
-                        // TODO delyea - USER QUESTION - what to do when account is C&G but has no sub fund group code?
                         // sub fund is blank
                         String errorMsg = "SubFund not found for account '" + accountContainer.account.getChartOfAccountsCode() + "-" + accountContainer.account.getAccountNumber() + "'";
                         LOG.error(errorMsg);
@@ -220,37 +217,22 @@ public class KualiPurchaseOrderContractAndGrantsAttribute implements WorkflowAtt
             String finAccount = null;
             String finObjectCode = null;
             String finFiscalYear = null;
-            currentXPath = new StringBuffer(KualiWorkflowUtils.XSTREAM_SAFE_PREFIX).append(KualiWorkflowUtils.XSTREAM_MATCH_ANYWHERE_PREFIX).append(EdenConstants.ATTRIBUTE_CONTENT_ELEMENT + "/" + REPORT_XML_BASE_TAG_NAME).append(KualiWorkflowUtils.XSTREAM_SAFE_SUFFIX).toString();
+            currentXPath = new StringBuffer(KualiWorkflowUtils.XSTREAM_SAFE_PREFIX).append(KualiWorkflowUtils.XSTREAM_MATCH_ANYWHERE_PREFIX).append(KualiWorkflowUtils.XML_REPORT_DOC_CONTENT_XPATH_PREFIX).append(KualiWorkflowUtils.XSTREAM_SAFE_SUFFIX).toString();
             boolean isReport = ((Boolean) xpath.evaluate(currentXPath, docContent.getDocument(), XPathConstants.BOOLEAN)).booleanValue();
             if (isReport) {
-                currentXPath = new StringBuffer(KualiWorkflowUtils.XSTREAM_SAFE_PREFIX).append(KualiWorkflowUtils.XSTREAM_MATCH_ANYWHERE_PREFIX).append(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE).append(KualiWorkflowUtils.XSTREAM_SAFE_SUFFIX).toString();
+                currentXPath = new StringBuffer(KualiWorkflowUtils.XSTREAM_SAFE_PREFIX).append(KualiWorkflowUtils.XSTREAM_MATCH_ANYWHERE_PREFIX).append(KualiWorkflowUtils.XML_REPORT_DOC_CONTENT_XPATH_PREFIX).append(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE).append(KualiWorkflowUtils.XSTREAM_SAFE_SUFFIX).toString();
                 finChart = xpath.evaluate(currentXPath, docContent.getDocument());
-                currentXPath = new StringBuffer(KualiWorkflowUtils.XSTREAM_SAFE_PREFIX).append(KualiWorkflowUtils.XSTREAM_MATCH_ANYWHERE_PREFIX).append(KFSPropertyConstants.ACCOUNT_NUMBER).append(KualiWorkflowUtils.XSTREAM_SAFE_SUFFIX).toString();
+                currentXPath = new StringBuffer(KualiWorkflowUtils.XSTREAM_SAFE_PREFIX).append(KualiWorkflowUtils.XSTREAM_MATCH_ANYWHERE_PREFIX).append(KualiWorkflowUtils.XML_REPORT_DOC_CONTENT_XPATH_PREFIX).append(KFSPropertyConstants.ACCOUNT_NUMBER).append(KualiWorkflowUtils.XSTREAM_SAFE_SUFFIX).toString();
                 finAccount = xpath.evaluate(currentXPath, docContent.getDocument());
-                currentXPath = new StringBuffer(KualiWorkflowUtils.XSTREAM_SAFE_PREFIX).append(KualiWorkflowUtils.XSTREAM_MATCH_ANYWHERE_PREFIX).append(KFSPropertyConstants.FINANCIAL_OBJECT_CODE).append(KualiWorkflowUtils.XSTREAM_SAFE_SUFFIX).toString();
+                currentXPath = new StringBuffer(KualiWorkflowUtils.XSTREAM_SAFE_PREFIX).append(KualiWorkflowUtils.XSTREAM_MATCH_ANYWHERE_PREFIX).append(KualiWorkflowUtils.XML_REPORT_DOC_CONTENT_XPATH_PREFIX).append(KFSPropertyConstants.FINANCIAL_OBJECT_CODE).append(KualiWorkflowUtils.XSTREAM_SAFE_SUFFIX).toString();
                 finObjectCode = xpath.evaluate(currentXPath, docContent.getDocument());
-                currentXPath = new StringBuffer(KualiWorkflowUtils.XSTREAM_SAFE_PREFIX).append(KualiWorkflowUtils.XSTREAM_MATCH_ANYWHERE_PREFIX).append(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR).append(KualiWorkflowUtils.XSTREAM_SAFE_SUFFIX).toString();
+                currentXPath = new StringBuffer(KualiWorkflowUtils.XSTREAM_SAFE_PREFIX).append(KualiWorkflowUtils.XSTREAM_MATCH_ANYWHERE_PREFIX).append(KualiWorkflowUtils.XML_REPORT_DOC_CONTENT_XPATH_PREFIX).append(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR).append(KualiWorkflowUtils.XSTREAM_SAFE_SUFFIX).toString();
                 finFiscalYear = xpath.evaluate(currentXPath, docContent.getDocument());
                 AccountContainer ac = getValidAccountContainer(finFiscalYear, finChart, finAccount, finObjectCode);
                 if (ObjectUtils.isNotNull(ac)) {
                     accounts.add(ac);
                 }
             }
-//            if (StringUtils.isNotEmpty(finChart) && StringUtils.isNotEmpty(finAccount) && StringUtils.isNotEmpty(finObjectCode) && StringUtils.isNotEmpty(finFiscalYear)) {
-//                Account testAccount = getValidAccount(finChart, finAccount);
-//                ObjectCode testObjectCode = getValidObjectCode(finFiscalYear, finChart, finObjectCode);
-//                if (ObjectUtils.isNull(testAccount)) {
-//                    String errorMsg = "Account not found for values " + finChart + " and " + finAccount;
-//                    LOG.error(errorMsg);
-//                    throw new RuntimeException(errorMsg);
-//                }
-//                if (ObjectUtils.isNull(testObjectCode)) {
-//                    String errorMsg = "Valid Object Code not found for values " + finFiscalYear + ", " + finChart + ", and " + finObjectCode;
-//                    LOG.error(errorMsg);
-//                    throw new RuntimeException(errorMsg);
-//                }
-//                accounts.add(new AccountContainer(testAccount,testObjectCode));
-//            }
             else {
                 // now look at the global documents
                 String docTypeName = docContent.getRouteContext().getDocument().getDocumentType().getName();
@@ -278,11 +260,6 @@ public class KualiPurchaseOrderContractAndGrantsAttribute implements WorkflowAtt
             Set<AccountContainer> accountContainers = new HashSet();
             for (int i = 0; i < accountingLineNodes.getLength(); i++) {
                 Node accountingLineNode = accountingLineNodes.item(i);
-//                String referenceString = xpath.evaluate("@reference", accountingLineNode);
-//                if (!StringUtils.isEmpty(referenceString)) {
-//                    currentXPath = referenceString;
-//                    accountingLineNode = (Node) xpath.evaluate(currentXPath, accountingLineNode, XPathConstants.NODE);
-//                }
                 currentXPath = KualiWorkflowUtils.XSTREAM_MATCH_RELATIVE_PREFIX + KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE;
                 String finChart = xpath.evaluate(currentXPath, accountingLineNode);
                 currentXPath = KualiWorkflowUtils.XSTREAM_MATCH_RELATIVE_PREFIX + KFSPropertyConstants.ACCOUNT_NUMBER;

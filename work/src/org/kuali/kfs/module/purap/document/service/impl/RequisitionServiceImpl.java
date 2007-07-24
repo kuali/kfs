@@ -67,18 +67,19 @@ public class RequisitionServiceImpl implements RequisitionService {
 
     public void saveDocumentWithoutValidation(RequisitionDocument requisitionDocument) {
         try {
-            documentService.validateAndPersistDocument(requisitionDocument, new SaveOnlyDocumentEvent(requisitionDocument));
+//            documentService.validateAndPersistDocument(requisitionDocument, new SaveOnlyDocumentEvent(requisitionDocument));
+            documentService.saveDocumentWithoutRunningValidation(requisitionDocument);
         }
         catch (WorkflowException we) {
-            String errorMsg = "Error persisting document # " + requisitionDocument.getDocumentHeader().getDocumentNumber() + " " + we.getMessage(); 
+            String errorMsg = "Error saving document # " + requisitionDocument.getDocumentHeader().getDocumentNumber() + " " + we.getMessage(); 
             LOG.error(errorMsg, we);
             throw new RuntimeException(errorMsg, we);
         }
-        catch (ValidationException ve) {
-            String errorMsg = "Error persisting document # " + requisitionDocument.getDocumentHeader().getDocumentNumber() + " " + ve.getMessage(); 
-            LOG.error(errorMsg, ve);
-            throw new RuntimeException(errorMsg, ve);
-        }
+//        catch (ValidationException ve) {
+//            String errorMsg = "Error saving document # " + requisitionDocument.getDocumentHeader().getDocumentNumber() + " " + ve.getMessage(); 
+//            LOG.error(errorMsg, ve);
+//            throw new RuntimeException(errorMsg, ve);
+//        }
     }
     
     public RequisitionDocument getRequisitionById(Integer id) {
@@ -88,7 +89,7 @@ public class RequisitionServiceImpl implements RequisitionService {
                 RequisitionDocument doc = (RequisitionDocument)documentService.getByDocumentHeaderId(documentNumber);
                 if (ObjectUtils.isNotNull(doc)) {
                     doc.refreshNonUpdateableReferences();
-            }
+                }
                 return doc;
             }
             catch (WorkflowException e) {

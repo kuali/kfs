@@ -107,11 +107,11 @@ public class KualiPurApDocumentTaxReviewAttribute extends AbstractWorkflowAttrib
      */
     public String getDocContent() {
         if ( (StringUtils.isNotBlank(getVendorRouteAsTypeKey())) || (StringUtils.isNotBlank(getVendorHeaderGeneratedId())) ) {
-            StringBuffer returnValue = new StringBuffer("<" + KualiWorkflowUtils.REPORT_XML_BASE_TAG_NAME + ">");
+            StringBuffer returnValue = new StringBuffer(KualiWorkflowUtils.XML_REPORT_DOC_CONTENT_PREFIX);
             String xmlKey = "vendorRouteTypeCode";
             returnValue.append("<" + VENDOR_ROUTE_AS_ATTRIBUTE_KEY + ">").append(getVendorRouteAsTypeKey()).append("</" + VENDOR_ROUTE_AS_ATTRIBUTE_KEY + ">");
             returnValue.append("<" + VENDOR_HEADER_GENERATED_ID_KEY + ">").append(getVendorHeaderGeneratedId()).append("</" + VENDOR_HEADER_GENERATED_ID_KEY + ">");
-            return returnValue.append("</" + KualiWorkflowUtils.REPORT_XML_BASE_TAG_NAME + ">").toString();
+            return returnValue.append(KualiWorkflowUtils.XML_REPORT_DOC_CONTENT_SUFFIX).toString();
         }
         return "";
     }
@@ -148,10 +148,10 @@ public class KualiPurApDocumentTaxReviewAttribute extends AbstractWorkflowAttrib
         String vendorHeaderGeneratedId = null;
         try {
             XPath xPath = KualiWorkflowUtils.getXPath(documentContent.getDocument());
-            currentXpathExpression = KualiWorkflowUtils.xstreamSafeXPath(KualiWorkflowUtils.XSTREAM_MATCH_ANYWHERE_PREFIX + KualiWorkflowUtils.REPORT_XML_BASE_TAG_NAME);
+            currentXpathExpression = KualiWorkflowUtils.xstreamSafeXPath(KualiWorkflowUtils.XSTREAM_MATCH_ANYWHERE_PREFIX + KualiWorkflowUtils.XML_REPORT_DOC_CONTENT_XPATH_PREFIX);
             boolean isReport = ((Boolean)xPath.evaluate(currentXpathExpression, documentContent.getDocument(), XPathConstants.BOOLEAN)).booleanValue();
             if (isReport) {
-                currentXpathExpression = KualiWorkflowUtils.XSTREAM_MATCH_ANYWHERE_PREFIX + KualiWorkflowUtils.REPORT_XML_BASE_TAG_NAME + "/" + VENDOR_HEADER_GENERATED_ID_KEY;
+                currentXpathExpression = KualiWorkflowUtils.XSTREAM_MATCH_ANYWHERE_PREFIX + KualiWorkflowUtils.XML_REPORT_DOC_CONTENT_XPATH_PREFIX + "/" + VENDOR_HEADER_GENERATED_ID_KEY;
             } else {
                 currentXpathExpression = KualiWorkflowUtils.XSTREAM_MATCH_ANYWHERE_PREFIX + KFSPropertyConstants.DOCUMENT + "/" + PurapPropertyConstants.VENDOR_HEADER_GENERATED_ID;
             }

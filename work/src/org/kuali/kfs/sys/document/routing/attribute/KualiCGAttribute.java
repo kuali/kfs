@@ -123,7 +123,7 @@ public class KualiCGAttribute implements RoleAttribute, WorkflowAttribute {
         if (Utilities.isEmpty(getFinCoaCd()) || Utilities.isEmpty(getAccountNbr())) {
             return "";
         }
-        return new StringBuffer("<report><chart>").append(getFinCoaCd()).append("</chart><accountNumber>").append(getAccountNbr()).append("</accountNumber></report>").toString();
+        return new StringBuffer(KualiWorkflowUtils.XML_REPORT_DOC_CONTENT_PREFIX).append("<chart>").append(getFinCoaCd()).append("</chart><accountNumber>").append(getAccountNbr()).append("</accountNumber>").append(KualiWorkflowUtils.XML_REPORT_DOC_CONTENT_SUFFIX).toString();
 
     }
 
@@ -133,9 +133,9 @@ public class KualiCGAttribute implements RoleAttribute, WorkflowAttribute {
         String docTypeName = docContent.getRouteContext().getDocument().getDocumentType().getName();
         List qualifiedRoleNames = new ArrayList();
         try {
-            if (((Boolean) xpath.evaluate(KualiWorkflowUtils.xstreamSafeXPath("//report"), docContent.getDocument(), XPathConstants.BOOLEAN)).booleanValue()) {
-                String chart = xpath.evaluate(KualiWorkflowUtils.xstreamSafeXPath("//report/chart"), docContent.getDocument());
-                String accountNumber = xpath.evaluate(KualiWorkflowUtils.xstreamSafeXPath("//report/accountNumber"), docContent.getDocument());
+            if (((Boolean) xpath.evaluate(KualiWorkflowUtils.xstreamSafeXPath(KualiWorkflowUtils.XSTREAM_MATCH_ANYWHERE_PREFIX + KualiWorkflowUtils.XML_REPORT_DOC_CONTENT_XPATH_PREFIX), docContent.getDocument(), XPathConstants.BOOLEAN)).booleanValue()) {
+                String chart = xpath.evaluate(KualiWorkflowUtils.xstreamSafeXPath(KualiWorkflowUtils.XSTREAM_MATCH_ANYWHERE_PREFIX + KualiWorkflowUtils.XML_REPORT_DOC_CONTENT_XPATH_PREFIX + "/chart"), docContent.getDocument());
+                String accountNumber = xpath.evaluate(KualiWorkflowUtils.xstreamSafeXPath(KualiWorkflowUtils.XSTREAM_MATCH_ANYWHERE_PREFIX + KualiWorkflowUtils.XML_REPORT_DOC_CONTENT_XPATH_PREFIX + "/accountNumber"), docContent.getDocument());
                 AwardWorkgroupRole role = new AwardWorkgroupRole(roleName);
                 role.chart = chart;
                 role.accountNumber = accountNumber;

@@ -21,7 +21,6 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Properties;
 import java.util.Set;
 
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -33,11 +32,8 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.core.util.FieldUtils;
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.core.util.UrlFactory;
 import org.kuali.core.workflow.WorkflowUtils;
 import org.kuali.core.workflow.attribute.WorkflowLookupableImpl;
-import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.bo.SourceAccountingLine;
 import org.kuali.kfs.bo.TargetAccountingLine;
 import org.kuali.kfs.document.AccountingDocument;
@@ -63,8 +59,11 @@ public class KualiWorkflowUtils extends WorkflowUtils {
     /* the following is so verbose because most times the match anywhere prefix is used and the
      * verboseness prevents bad matching if a document has an attribute named 'report'
      */
-    
-    public static final String REPORT_XML_BASE_TAG_NAME = "report_for_routing_purposes";  // this is 
+    private static final String GENERATED_CONTENT_MAIN_TAG = "generatedContent";
+    private static final String GENERATED_CONTENT_SUB_TAG = "report_for_routing_purposes";
+    public static final String XML_REPORT_DOC_CONTENT_PREFIX = "<" + GENERATED_CONTENT_MAIN_TAG + "><" + GENERATED_CONTENT_SUB_TAG + ">";
+    public static final String XML_REPORT_DOC_CONTENT_SUFFIX = "</" + GENERATED_CONTENT_SUB_TAG + "></" + GENERATED_CONTENT_MAIN_TAG + ">";
+    public static final String XML_REPORT_DOC_CONTENT_XPATH_PREFIX = GENERATED_CONTENT_MAIN_TAG + "/" + GENERATED_CONTENT_SUB_TAG;
 
     // no trailing slash
     public static final String NEW_MAINTAINABLE_PREFIX_NTS = KualiWorkflowUtils.XSTREAM_MATCH_ANYWHERE_PREFIX + "newMaintainableObject/businessObject";

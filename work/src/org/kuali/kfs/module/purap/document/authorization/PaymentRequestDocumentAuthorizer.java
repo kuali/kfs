@@ -34,7 +34,6 @@ import org.kuali.module.purap.PurapAuthorizationConstants;
 import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.PurapRuleConstants;
 import org.kuali.module.purap.document.PaymentRequestDocument;
-import org.kuali.workflow.KualiWorkflowUtils.RouteLevelNames;
 
 /**
  * Document Authorizer for the PREQ document.
@@ -76,7 +75,7 @@ public class PaymentRequestDocumentAuthorizer extends AccountingDocumentAuthoriz
             List currentRouteLevels = getCurrentRouteLevels(workflowDocument);
             editMode = AuthorizationConstants.EditMode.FULL_ENTRY;
 
-            if (currentRouteLevels.contains(RouteLevelNames.ACCOUNT_REVIEW)) {
+            if (currentRouteLevels.contains(PurapConstants.WorkflowConstants.PaymentRequestDocument.NodeDetails.ACCOUNT_REVIEW)) {
                 editModeMap.remove(AuthorizationConstants.EditMode.FULL_ENTRY);
                 //expense_entry was already added above
 //                editMode = AuthorizationConstants.TransactionalEditMode.EXPENSE_ENTRY;

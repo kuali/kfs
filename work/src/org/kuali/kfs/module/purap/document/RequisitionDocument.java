@@ -304,27 +304,35 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
         LOG.debug("handleRouteLevelChange() started");
         super.handleRouteLevelChange(change);
         try {
-            String nodeName = change.getNewNodeName();
-            if (StringUtils.isNotBlank(nodeName)) {
-                int indexOfNode = PurapConstants.WorkflowConstants.RequisitionDocument.NodeDetails.ORDERED_NODE_NAME_LIST.indexOf(nodeName);
-                int indexOfNextNode = indexOfNode + 1;
-                if ((indexOfNode != -1) && (indexOfNextNode < PurapConstants.WorkflowConstants.RequisitionDocument.NodeDetails.ORDERED_NODE_NAME_LIST.size())) {
-                    // we can find a valid next node name
-                    String nextNodeName = (String) PurapConstants.WorkflowConstants.RequisitionDocument.NodeDetails.ORDERED_NODE_NAME_LIST.get(indexOfNextNode);
-                    ReportCriteriaVO reportCriteriaVO = new ReportCriteriaVO(Long.valueOf(getDocumentNumber()));
-                    reportCriteriaVO.setTargetNodeName(nextNodeName);
-                    if (SpringServiceLocator.getWorkflowInfoService().documentWillHaveAtLeastOneActionRequest(reportCriteriaVO, new String[] { EdenConstants.ACTION_REQUEST_APPROVE_REQ, EdenConstants.ACTION_REQUEST_COMPLETE_REQ })) {
-                        String statusCode = PurapConstants.WorkflowConstants.RequisitionDocument.NodeDetails.STATUS_BY_NODE_NAME.get(nextNodeName);
-                        if (StringUtils.isNotBlank(statusCode)) {
-                            updateStatusAndStatusHistoryAndSave(statusCode);
-//                            SpringServiceLocator.getPurapService().updateStatusAndStatusHistory(this, statusCode);
-//                            populateDocumentForRouting();
-//                            SpringServiceLocator.getRequisitionService().saveDocumentWithoutValidation(this);
-                        }
+            String newNodeName = change.getNewNodeName();
+            if (StringUtils.isNotBlank(newNodeName)) {
+//                int indexOfNode = PurapConstants.WorkflowConstants.RequisitionDocument.NodeDetails.ORDERED_NODE_NAME_LIST.indexOf(nodeName);
+//                int indexOfNextNode = indexOfNode + 1;
+//                if ((indexOfNode != -1) && (indexOfNextNode < PurapConstants.WorkflowConstants.RequisitionDocument.NodeDetails.ORDERED_NODE_NAME_LIST.size())) {
+//                    // we can find a valid next node name
+//                    String nextNodeName = (String) PurapConstants.WorkflowConstants.RequisitionDocument.NodeDetails.ORDERED_NODE_NAME_LIST.get(indexOfNextNode);
+//                    ReportCriteriaVO reportCriteriaVO = new ReportCriteriaVO(Long.valueOf(getDocumentNumber()));
+//                    reportCriteriaVO.setTargetNodeName(nextNodeName);
+//                    if (SpringServiceLocator.getWorkflowInfoService().documentWillHaveAtLeastOneActionRequest(reportCriteriaVO, new String[] { EdenConstants.ACTION_REQUEST_APPROVE_REQ, EdenConstants.ACTION_REQUEST_COMPLETE_REQ })) {
+//                        String statusCode = PurapConstants.WorkflowConstants.RequisitionDocument.NodeDetails.STATUS_BY_NODE_NAME.get(nextNodeName);
+//                        if (StringUtils.isNotBlank(statusCode)) {
+//                            updateStatusAndStatusHistoryAndSave(statusCode);
+//                        }
+//                    }
+//                    else {
+//                        LOG.debug("Document with id " + getDocumentNumber() + " will not stop in route node '" + nextNodeName + "'");
+//                    }
+//                }
+                ReportCriteriaVO reportCriteriaVO = new ReportCriteriaVO(Long.valueOf(getDocumentNumber()));
+                reportCriteriaVO.setTargetNodeName(newNodeName);
+                if (SpringServiceLocator.getWorkflowInfoService().documentWillHaveAtLeastOneActionRequest(reportCriteriaVO, new String[] { EdenConstants.ACTION_REQUEST_APPROVE_REQ, EdenConstants.ACTION_REQUEST_COMPLETE_REQ })) {
+                    String statusCode = PurapConstants.WorkflowConstants.RequisitionDocument.NodeDetails.STATUS_BY_NODE_NAME.get(newNodeName);
+                    if (StringUtils.isNotBlank(statusCode)) {
+                        updateStatusAndStatusHistoryAndSave(statusCode);
                     }
-                    else {
-                        LOG.debug("Document with id " + getDocumentNumber() + " will not stop in route node '" + nextNodeName + "'");
-                    }
+                }
+                else {
+                    LOG.debug("Document with id " + getDocumentNumber() + " will not stop in route node '" + newNodeName + "'");
                 }
             }
         }

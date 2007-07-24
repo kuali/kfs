@@ -138,7 +138,6 @@ public class CreditMemoDocument extends AccountsPayableDocumentBase {
         return true;
     }
 
-      
     /**
      * Determines if the purchase order has notes.
      * 
@@ -182,10 +181,11 @@ public class CreditMemoDocument extends AccountsPayableDocumentBase {
     /**
      * @see org.kuali.module.purap.document.AccountsPayableDocumentBase#preProcessNodeChange(java.lang.String, java.lang.String)
      */
-    public void preProcessNodeChange(String newNodeName, String oldNodeName) {
+    public boolean processNodeChange(String newNodeName, String oldNodeName) {
         if (PurapConstants.WorkflowConstants.CreditMemoDocument.NodeDetails.ACCOUNTS_PAYABLE_REVIEW.equals(oldNodeName)) {
             setAccountsPayableApprovalDate(SpringServiceLocator.getDateTimeService().getCurrentSqlDate());
         }
+        return true;
     }
     
     /**

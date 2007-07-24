@@ -22,6 +22,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.kuali.RiceConstants;
 import org.kuali.core.JstlConstants;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.KFSConstants;
@@ -32,6 +33,9 @@ import org.kuali.workflow.KualiWorkflowUtils;
  */
 public class PurapConstants extends JstlConstants {
 
+    // special user used in the special ap cancel action
+    public static final String SYSTEM_AP_USER = RiceConstants.SYSTEM_USER;
+    
     public static final KualiDecimal HUNDRED = new KualiDecimal(100);
     
     // STANDARD PARAMETER PREFIXES
@@ -52,12 +56,12 @@ public class PurapConstants extends JstlConstants {
         public static class RequisitionDocument {
             public static class NodeDetails {
             // Node Names
-                public static final String ADHOC_REVIEW = "Adhoc Routing";
+                public static final String ADHOC_REVIEW = DOC_ADHOC_NODE_NAME;
                 public static final String CONTENT_REVIEW = "Content Review";
                 public static final String SUB_ACCOUNT_REVIEW = KualiWorkflowUtils.RouteLevelNames.SUB_ACCOUNT_REVIEW;
                 public static final String ACCOUNT_REVIEW = KualiWorkflowUtils.RouteLevelNames.ACCOUNT_REVIEW;
                 public static final String ORG_REVIEW = KualiWorkflowUtils.RouteLevelNames.ORG_REVIEW;
-                public static final String SEPARAION_OF_DUTIES_REVIEW = "Separation of Duties";
+                public static final String SEPARATION_OF_DUTIES_REVIEW = "Separation of Duties";
 
                 public static final List ORDERED_NODE_NAME_LIST = Arrays.asList(new String[] {
                         ADHOC_REVIEW,
@@ -65,7 +69,7 @@ public class PurapConstants extends JstlConstants {
                         SUB_ACCOUNT_REVIEW,
                         ACCOUNT_REVIEW,
                         ORG_REVIEW,
-                        SEPARAION_OF_DUTIES_REVIEW
+                        SEPARATION_OF_DUTIES_REVIEW
                         });
 
                 public static Map<String,String> STATUS_BY_NODE_NAME = new HashMap<String,String>();
@@ -75,14 +79,14 @@ public class PurapConstants extends JstlConstants {
                     STATUS_BY_NODE_NAME.put(SUB_ACCOUNT_REVIEW, PurapConstants.RequisitionStatuses.AWAIT_SUB_ACCT_REVIEW);
                     STATUS_BY_NODE_NAME.put(ACCOUNT_REVIEW, PurapConstants.RequisitionStatuses.AWAIT_FISCAL_REVIEW);
                     STATUS_BY_NODE_NAME.put(ORG_REVIEW, PurapConstants.RequisitionStatuses.AWAIT_CHART_REVIEW);
-                    STATUS_BY_NODE_NAME.put(SEPARAION_OF_DUTIES_REVIEW, PurapConstants.RequisitionStatuses.AWAIT_SEP_OF_DUTY_REVIEW);
+                    STATUS_BY_NODE_NAME.put(SEPARATION_OF_DUTIES_REVIEW, PurapConstants.RequisitionStatuses.AWAIT_SEP_OF_DUTY_REVIEW);
 
                     DISAPPROVAL_STATUS_BY_NODE_NAME.put(CONTENT_REVIEW, PurapConstants.RequisitionStatuses.DAPRVD_CONTENT);
                     DISAPPROVAL_STATUS_BY_NODE_NAME.put(SUB_ACCOUNT_REVIEW, PurapConstants.RequisitionStatuses.DAPRVD_SUB_ACCT);
                     DISAPPROVAL_STATUS_BY_NODE_NAME.put(ACCOUNT_REVIEW, PurapConstants.RequisitionStatuses.DAPRVD_FISCAL);
                     DISAPPROVAL_STATUS_BY_NODE_NAME.put(ORG_REVIEW, PurapConstants.RequisitionStatuses.DAPRVD_CHART);
-                    DISAPPROVAL_STATUS_BY_NODE_NAME.put(SEPARAION_OF_DUTIES_REVIEW, PurapConstants.RequisitionStatuses.DAPRVD_SEP_OF_DUTY);
-}
+                    DISAPPROVAL_STATUS_BY_NODE_NAME.put(SEPARATION_OF_DUTIES_REVIEW, PurapConstants.RequisitionStatuses.DAPRVD_SEP_OF_DUTY);
+                }
             }
             
             public static final String SEPARATION_OF_DUTIES_DOLLAR_AMOUNT = PURAP_PARAM_PREFIX + STANDARD_SEPARATOR + "SEPARATION_OF_DUTIES_DOLLAR_AMOUNT";
@@ -94,7 +98,7 @@ public class PurapConstants extends JstlConstants {
         public static class PurchaseOrderDocument {
 
             public static class NodeDetails {
-                public static final String ADHOC_REVIEW = "Adhoc Routing";
+                public static final String ADHOC_REVIEW = DOC_ADHOC_NODE_NAME;
                 public static final String INTERNAL_PURCHASING_REVIEW = "Internal Purchasing Review";
                 public static final String CONTRACTS_AND_GRANTS_REVIEW = "Contracts and Grants Review";
                 public static final String BUDGET_OFFICE_REVIEW = "Budget Office Review";
@@ -128,14 +132,11 @@ public class PurapConstants extends JstlConstants {
             public static final String CG_RESTRICTED_OBJECT_CODE_RULE_GROUP_NAME = "PurAp.CG_Restricted_Object_Codes";
             // Workgroups
             public static final String INTERNAL_PURCHASING_WORKGROUP_NAME = PURAP_PARAM_PREFIX + STANDARD_SEPARATOR + "INTERNAL_PURCHASING_REVIEWERS";
-            public static final String VENDOR_EMPLOYEE_WORKGROUP_NAME = PURAP_PARAM_PREFIX + STANDARD_SEPARATOR + "PO_EMPLOYEE_VENDOR_REVIEWERS";
-            public static final String VENDOR_NRA_WORKGROUP_NAME = PURAP_PARAM_PREFIX + STANDARD_SEPARATOR + "PO_NRA_VENDOR_REVIEWERS";
-            public static final String VENDOR_NRA_EMPLOYEE_WORKGROUP_NAME = PURAP_PARAM_PREFIX + STANDARD_SEPARATOR + "PO_NRA_EMPLOYEE_VENDOR_REVIEWERS";
         }
 
         public static class PaymentRequestDocument {
             public static class NodeDetails {
-                public static final String ADHOC_REVIEW = "Adhoc Routing";
+                public static final String ADHOC_REVIEW = DOC_ADHOC_NODE_NAME;
                 public static final String ACCOUNTS_PAYABLE_REVIEW = "Accounts Payable Review";
                 public static final String SUB_ACCOUNT_REVIEW = KualiWorkflowUtils.RouteLevelNames.SUB_ACCOUNT_REVIEW;
                 public static final String ACCOUNT_REVIEW = KualiWorkflowUtils.RouteLevelNames.ACCOUNT_REVIEW;
@@ -160,24 +161,18 @@ public class PurapConstants extends JstlConstants {
                     STATUS_BY_NODE_NAME.put(ORG_REVIEW, PurapConstants.PaymentRequestStatuses.AWAITING_ORG_REVIEW);
                     STATUS_BY_NODE_NAME.put(VENDOR_TAX_REVIEW, PurapConstants.PaymentRequestStatuses.AWAITING_TAX_REVIEW);
 
-                    DISAPPROVAL_STATUS_BY_NODE_NAME.put(ACCOUNTS_PAYABLE_REVIEW, PurapConstants.PaymentRequestStatuses.CANCELLED_POST_APPROVE);
-                    DISAPPROVAL_STATUS_BY_NODE_NAME.put(SUB_ACCOUNT_REVIEW, PurapConstants.PaymentRequestStatuses.CANCELLED_POST_APPROVE);
-                    DISAPPROVAL_STATUS_BY_NODE_NAME.put(ACCOUNT_REVIEW, PurapConstants.PaymentRequestStatuses.CANCELLED_POST_APPROVE);
-                    DISAPPROVAL_STATUS_BY_NODE_NAME.put(ORG_REVIEW, PurapConstants.PaymentRequestStatuses.CANCELLED_POST_APPROVE);
-                    DISAPPROVAL_STATUS_BY_NODE_NAME.put(VENDOR_TAX_REVIEW, PurapConstants.PaymentRequestStatuses.CANCELLED_POST_APPROVE);
+                    DISAPPROVAL_STATUS_BY_NODE_NAME.put(ACCOUNTS_PAYABLE_REVIEW, PurapConstants.PaymentRequestStatuses.CANCELLED_PRIOR_TO_AP_APPROVAL);
+                    DISAPPROVAL_STATUS_BY_NODE_NAME.put(SUB_ACCOUNT_REVIEW, PurapConstants.PaymentRequestStatuses.CANCELLED_POST_AP_APPROVE);
+                    DISAPPROVAL_STATUS_BY_NODE_NAME.put(ACCOUNT_REVIEW, PurapConstants.PaymentRequestStatuses.CANCELLED_POST_AP_APPROVE);
+                    DISAPPROVAL_STATUS_BY_NODE_NAME.put(ORG_REVIEW, PurapConstants.PaymentRequestStatuses.CANCELLED_POST_AP_APPROVE);
+                    DISAPPROVAL_STATUS_BY_NODE_NAME.put(VENDOR_TAX_REVIEW, PurapConstants.PaymentRequestStatuses.CANCELLED_POST_AP_APPROVE);
                 }
             }
-            
-            // Workgroups
-            public static final String VENDOR_EMPLOYEE_WORKGROUP_NAME = PURAP_PARAM_PREFIX + STANDARD_SEPARATOR + "PREQ_EMPLOYEE_VENDOR_REVIEWERS";
-            public static final String VENDOR_NRA_WORKGROUP_NAME = PURAP_PARAM_PREFIX + STANDARD_SEPARATOR + "PREQ_NRA_VENDOR_REVIEWERS";
-            public static final String VENDOR_NRA_EMPLOYEE_WORKGROUP_NAME = PURAP_PARAM_PREFIX + STANDARD_SEPARATOR + "PREQ_NRA_EMPLOYEE_VENDOR_REVIEWERS";
-            public static final String ACCOUNTS_PAYABLE_REVIEWER_WORKGROUP_NAME = PURAP_PARAM_PREFIX + STANDARD_SEPARATOR + "PREQ_AP_REVIEWERS";
         }
 
         public static class CreditMemoDocument {
             public static class NodeDetails {
-                public static final String ADHOC_REVIEW = "Adhoc Routing";
+                public static final String ADHOC_REVIEW = DOC_ADHOC_NODE_NAME;
                 public static final String ACCOUNTS_PAYABLE_REVIEW = "Accounts Payable Review";
                 public static final String ACCOUNT_REVIEW = KualiWorkflowUtils.RouteLevelNames.ACCOUNT_REVIEW;
 
@@ -197,9 +192,6 @@ public class PurapConstants extends JstlConstants {
                     DISAPPROVAL_STATUS_BY_NODE_NAME.put(ACCOUNT_REVIEW, PurapConstants.CreditMemoStatuses.CANCELLED);
                 }
             }
-            
-            // Workgroups
-            public static final String ACCOUNTS_PAYABLE_REVIEWER_WORKGROUP_NAME = PURAP_PARAM_PREFIX + STANDARD_SEPARATOR + "CM_AP_REVIEWERS";
         }
     }
 
@@ -282,6 +274,7 @@ public class PurapConstants extends JstlConstants {
         public static String DAPRVD_FISCAL = "DFIS";
         public static String DAPRVD_CHART = "DCHA";
         public static String DAPRVD_SEP_OF_DUTY = "DSOD";
+        public static String DAPRVD_SPECIAL = "DGEN"; // TODO delyea - added
         public static String AWAIT_CONTRACT_MANAGER_ASSGN = "ACMR";
         public static String CONTRACT_MANAGER_ASSGN = "CMRA";
     }
@@ -343,6 +336,7 @@ public class PurapConstants extends JstlConstants {
         public static String AWAIT_BUDGET_REVIEW = "WBUD";
         public static String AWAIT_CONTRACTS_GRANTS_REVIEW = "WCG";
         public static String AWAIT_PURCHASING_REVIEW = "WPUR";
+        @Deprecated
         public static String AWAIT_SPECIAL_REVIEW = "WSPC";
         public static String DAPRVD_TAX = "DTAX";
         public static String DAPRVD_BUDGET = "DBUD";
@@ -356,6 +350,7 @@ public class PurapConstants extends JstlConstants {
         public static String QUOTE = "QUOT";
         public static String VOID = "VOID";
         public static String AMENDMENT = "AMND";
+        // TODO delyea - add statuses for awaiting and disapproved 'change' docs?
         
         public static Set<String> INCOMPLETE_STATUSES = new HashSet<String>();
         public static Map<String,String> STATUSES_BY_TRANSMISSION_TYPE = new HashMap<String,String>();
@@ -489,17 +484,18 @@ public class PurapConstants extends JstlConstants {
     }
     
     public static class PaymentRequestStatuses {
-        public static String INITIATE = "INIT";
+        public static String INITIATE = "INIT"; 
         public static String IN_PROCESS = "INPR";
-        public static String CANCELLED_IN_PROCESS = "VOID";
+        public static String CANCELLED_IN_PROCESS = "CIPR";
+        public static String CANCELLED_PRIOR_TO_AP_APPROVAL = "VOID";
+        public static String CANCELLED_POST_AP_APPROVE = "CANC";
         public static String DEPARTMENT_APPROVED = "DPTA";
         public static String AUTO_APPROVED = "AUTO";        
-        public static String AWAITING_ACCOUNTS_PAYABLE_REVIEW = "AAPA";   // Waiting for Accounts Payable approval
+        public static String AWAITING_ACCOUNTS_PAYABLE_REVIEW = "APAD";   // Waiting for Accounts Payable approval
         public static String AWAITING_SUB_ACCT_MGR_REVIEW = "ASAA";   // Waiting for Sub Acct Manager approval
         public static String AWAITING_FISCAL_REVIEW = "AFOA";   // Waiting for Fiscal Officer approval
         public static String AWAITING_ORG_REVIEW = "ACHA";   // Waiting for Chart/Org approval
         public static String AWAITING_TAX_REVIEW = "ATAX";   // Waiting for Vendor Tax approval
-        public static String CANCELLED_POST_APPROVE = "CANC";
 
         public static String[] PREQ_STATUSES_FOR_AUTO_APPROVE = {
             AWAITING_SUB_ACCT_MGR_REVIEW,
@@ -507,18 +503,28 @@ public class PurapConstants extends JstlConstants {
             AWAITING_ORG_REVIEW
             };
 
+        public static String[] STATUSES_ALLOWED_FOR_EXTRACTION = {
+            AUTO_APPROVED,
+            DEPARTMENT_APPROVED
+            };
+
+        public static Set CANCELLED_STATUSES = new HashSet();
         public static Set STATUSES_DISALLOWING_HOLD = new HashSet();
         public static Set STATUSES_DISALLOWING_REQUEST_CANCEL = new HashSet();
         static {
+            CANCELLED_STATUSES.add(CANCELLED_IN_PROCESS);
+            CANCELLED_STATUSES.add(CANCELLED_PRIOR_TO_AP_APPROVAL);
+            CANCELLED_STATUSES.add(CANCELLED_POST_AP_APPROVE);
+            
             STATUSES_DISALLOWING_HOLD.add(INITIATE);
             STATUSES_DISALLOWING_HOLD.add(IN_PROCESS);
-            STATUSES_DISALLOWING_HOLD.add(CANCELLED_IN_PROCESS);
-            STATUSES_DISALLOWING_HOLD.add(CANCELLED_POST_APPROVE);
+            STATUSES_DISALLOWING_HOLD.addAll(Arrays.asList(CANCELLED_STATUSES.toArray(new String[CANCELLED_STATUSES.size()])));
 
             STATUSES_DISALLOWING_REQUEST_CANCEL.add(INITIATE);
             STATUSES_DISALLOWING_REQUEST_CANCEL.add(IN_PROCESS);
-            STATUSES_DISALLOWING_REQUEST_CANCEL.add(CANCELLED_IN_PROCESS);
-            STATUSES_DISALLOWING_REQUEST_CANCEL.add(CANCELLED_POST_APPROVE);
+            STATUSES_DISALLOWING_REQUEST_CANCEL.add(DEPARTMENT_APPROVED);
+            STATUSES_DISALLOWING_REQUEST_CANCEL.add(AUTO_APPROVED);
+            STATUSES_DISALLOWING_REQUEST_CANCEL.addAll(Arrays.asList(CANCELLED_STATUSES.toArray(new String[CANCELLED_STATUSES.size()])));
         }
         /*
          * Modify as required: public static String CANCELLED = "CANC"; public static String CLOSED = "CLOS"; public static String
@@ -607,23 +613,31 @@ public class PurapConstants extends JstlConstants {
     public static class CreditMemoStatuses {
         public static String INITIATE = "INIT";
         public static String IN_PROCESS = "INPR";
+        public static String CANCELLED_IN_PROCESS = "CIPR";
         public static String CANCELLED = "CANC";
         public static String COMPLETE = "CMPT";
-        public static String AP_APPROVED = "APAD";
-        public static String AWAITING_ACCOUNTS_PAYABLE_REVIEW = "AAPA";   // Waiting for Accounts Payable approval
+        public static String AWAITING_ACCOUNTS_PAYABLE_REVIEW = "APAD";   // Waiting for Accounts Payable approval
         public static String AWAITING_FISCAL_REVIEW = "AFOA";   // Waiting for Fiscal Officer approval
         
+        public static String[] STATUSES_ALLOWED_FOR_EXTRACTION = {
+            COMPLETE
+            };
+
+        public static Set CANCELLED_STATUSES = new HashSet();
         public static Set STATUSES_DISALLOWING_HOLD = new HashSet();
         public static Set STATUSES_NOT_REQUIRING_ENTRY_REVERSAL = new HashSet();
         static {
+            CANCELLED_STATUSES.add(CANCELLED_IN_PROCESS);
+            CANCELLED_STATUSES.add(CANCELLED);
+
             STATUSES_DISALLOWING_HOLD.add(INITIATE);
             STATUSES_DISALLOWING_HOLD.add(IN_PROCESS);
-            STATUSES_DISALLOWING_HOLD.add(CANCELLED);
+            STATUSES_DISALLOWING_HOLD.addAll(Arrays.asList(CANCELLED_STATUSES.toArray(new String[CANCELLED_STATUSES.size()])));
             
             STATUSES_NOT_REQUIRING_ENTRY_REVERSAL.add(INITIATE);
             STATUSES_NOT_REQUIRING_ENTRY_REVERSAL.add(IN_PROCESS);
-            STATUSES_NOT_REQUIRING_ENTRY_REVERSAL.add(CANCELLED);
-    }
+            STATUSES_NOT_REQUIRING_ENTRY_REVERSAL.addAll(Arrays.asList(CANCELLED_STATUSES.toArray(new String[CANCELLED_STATUSES.size()])));
+        }
     }
     
     public static class CMDocumentsStrings {

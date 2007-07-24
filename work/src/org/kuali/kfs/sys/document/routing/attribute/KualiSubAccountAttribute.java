@@ -72,8 +72,6 @@ public class KualiSubAccountAttribute implements WorkflowAttribute, MassRuleAttr
 
     private static final String DOCUMENT_SUB_ACCOUNT_VALUES_KEY = "subAccounts";
     
-    private static final String REPORT_XML_BASE_TAG_NAME = "report";
-
     private String finCoaCd;
     private String accountNbr;
     private String subAccountNbr;
@@ -120,7 +118,7 @@ public class KualiSubAccountAttribute implements WorkflowAttribute, MassRuleAttr
             chartCode.append("<" + KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE + ">").append(getFinCoaCd()).append("</" + KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE + ">");
             accountOrOrg.append("<" + KFSPropertyConstants.ACCOUNT_NUMBER + ">").append(getAccountNbr()).append("</" + KFSPropertyConstants.ACCOUNT_NUMBER + ">");
         }
-        return new StringBuffer("<" + REPORT_XML_BASE_TAG_NAME + ">").append(chartCode).append(accountOrOrg).append("<" + KFSPropertyConstants.SUB_ACCOUNT_NUMBER + ">").append(getSubAccountNbr()).append("</" + KFSPropertyConstants.SUB_ACCOUNT_NUMBER + "></" + REPORT_XML_BASE_TAG_NAME + ">").toString();
+        return new StringBuffer(KualiWorkflowUtils.XML_REPORT_DOC_CONTENT_PREFIX).append(chartCode).append(accountOrOrg).append("<" + KFSPropertyConstants.SUB_ACCOUNT_NUMBER + ">").append(getSubAccountNbr()).append("</" + KFSPropertyConstants.SUB_ACCOUNT_NUMBER + ">" + KualiWorkflowUtils.XML_REPORT_DOC_CONTENT_SUFFIX).toString();
     }
 
     /**
@@ -328,31 +326,18 @@ public class KualiSubAccountAttribute implements WorkflowAttribute, MassRuleAttr
                 String account = null;
                 String org = null;
                 String subAccount = null;
-                // TODO delyea - fix report xpath expression problem
-                boolean isReport = ((Boolean) xpath.evaluate(new StringBuffer(KualiWorkflowUtils.XSTREAM_SAFE_PREFIX).append(KualiWorkflowUtils.XSTREAM_MATCH_ANYWHERE_PREFIX).append(REPORT_XML_BASE_TAG_NAME).append(KualiWorkflowUtils.XSTREAM_SAFE_SUFFIX).toString(), docContent.getDocument(), XPathConstants.BOOLEAN)).booleanValue();
+                boolean isReport = ((Boolean) xpath.evaluate(new StringBuffer(KualiWorkflowUtils.XSTREAM_SAFE_PREFIX).append(KualiWorkflowUtils.XSTREAM_MATCH_ANYWHERE_PREFIX).append(KualiWorkflowUtils.XML_REPORT_DOC_CONTENT_XPATH_PREFIX).append(KualiWorkflowUtils.XSTREAM_SAFE_SUFFIX).toString(), docContent.getDocument(), XPathConstants.BOOLEAN)).booleanValue();
                 if (isReport) {
-                    account = xpath.evaluate(new StringBuffer(KualiWorkflowUtils.XSTREAM_SAFE_PREFIX).append(KualiWorkflowUtils.XSTREAM_MATCH_ANYWHERE_PREFIX).append(KFSPropertyConstants.ACCOUNT_NUMBER).append(KualiWorkflowUtils.XSTREAM_SAFE_SUFFIX).toString(), docContent.getDocument());
-                    org = xpath.evaluate(new StringBuffer(KualiWorkflowUtils.XSTREAM_SAFE_PREFIX).append(KualiWorkflowUtils.XSTREAM_MATCH_ANYWHERE_PREFIX).append(KFSPropertyConstants.ORGANIZATION_CODE).append(KualiWorkflowUtils.XSTREAM_SAFE_SUFFIX).toString(), docContent.getDocument());
-                    subAccount = xpath.evaluate(new StringBuffer(KualiWorkflowUtils.XSTREAM_SAFE_PREFIX).append(KualiWorkflowUtils.XSTREAM_MATCH_ANYWHERE_PREFIX).append(KFSPropertyConstants.SUB_ACCOUNT_NUMBER).append(KualiWorkflowUtils.XSTREAM_SAFE_SUFFIX).toString(), docContent.getDocument());
+                    account = xpath.evaluate(new StringBuffer(KualiWorkflowUtils.XSTREAM_SAFE_PREFIX).append(KualiWorkflowUtils.XSTREAM_MATCH_ANYWHERE_PREFIX).append(KualiWorkflowUtils.XML_REPORT_DOC_CONTENT_XPATH_PREFIX).append(KFSPropertyConstants.ACCOUNT_NUMBER).append(KualiWorkflowUtils.XSTREAM_SAFE_SUFFIX).toString(), docContent.getDocument());
+                    org = xpath.evaluate(new StringBuffer(KualiWorkflowUtils.XSTREAM_SAFE_PREFIX).append(KualiWorkflowUtils.XSTREAM_MATCH_ANYWHERE_PREFIX).append(KualiWorkflowUtils.XML_REPORT_DOC_CONTENT_XPATH_PREFIX).append(KFSPropertyConstants.ORGANIZATION_CODE).append(KualiWorkflowUtils.XSTREAM_SAFE_SUFFIX).toString(), docContent.getDocument());
+                    subAccount = xpath.evaluate(new StringBuffer(KualiWorkflowUtils.XSTREAM_SAFE_PREFIX).append(KualiWorkflowUtils.XSTREAM_MATCH_ANYWHERE_PREFIX).append(KualiWorkflowUtils.XML_REPORT_DOC_CONTENT_XPATH_PREFIX).append(KFSPropertyConstants.SUB_ACCOUNT_NUMBER).append(KualiWorkflowUtils.XSTREAM_SAFE_SUFFIX).toString(), docContent.getDocument());
                     String chartFieldName = KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE;
                     if (StringUtils.isBlank(account)) {
                         chartFieldName = KFSPropertyConstants.FINANCIAL_REPORT_CHART_CODE;
                     }
-                    chart = xpath.evaluate(new StringBuffer(KualiWorkflowUtils.XSTREAM_SAFE_PREFIX).append(KualiWorkflowUtils.XSTREAM_MATCH_ANYWHERE_PREFIX).append(chartFieldName).append(KualiWorkflowUtils.XSTREAM_SAFE_SUFFIX).toString(), docContent.getDocument());
+                    chart = xpath.evaluate(new StringBuffer(KualiWorkflowUtils.XSTREAM_SAFE_PREFIX).append(KualiWorkflowUtils.XSTREAM_MATCH_ANYWHERE_PREFIX).append(KualiWorkflowUtils.XML_REPORT_DOC_CONTENT_XPATH_PREFIX).append(chartFieldName).append(KualiWorkflowUtils.XSTREAM_SAFE_SUFFIX).toString(), docContent.getDocument());
                     subAccountValues.addAll(attemptSubAccountRetrieval(chart, account, org, subAccount));
                 }
-//                if ( StringUtils.isNotBlank(chart) && StringUtils.isNotBlank(subAccount) && (StringUtils.isNotBlank(account) || StringUtils.isNotBlank(org)) ) {
-//                    List subAccounts = getSubAccounts(chart,account,org,subAccount);
-//                    if ( (subAccounts == null) || (subAccounts.isEmpty()) ) {
-//                        // TODO delyea - labels here
-//                        throw new RuntimeException("Sub Account declared on the document cannot be found in the system, routing cannot continue.");
-//                    }
-//                    //  possibly duplicate add, but this is safe in a HashSet
-//                    for (Iterator iter = subAccounts.iterator(); iter.hasNext();) {
-//                        SubAccount subAccountToAdd = (SubAccount) iter.next();
-//                        subAccountValues.add(subAccountToAdd);
-//                    }
-//                }
                 else {
                     String xpathExp = null;
                     if (KualiWorkflowUtils.isSourceLineOnly(docTypeName)) {
@@ -367,11 +352,6 @@ public class KualiSubAccountAttribute implements WorkflowAttribute, MassRuleAttr
                     NodeList nodes = (NodeList) xpath.evaluate(xpathExp, docContent.getDocument(), XPathConstants.NODESET);
                     for (int i = 0; i < nodes.getLength(); i++) {
                         Node subAccountNode = nodes.item(i);
-                        // TODO: xstreamsafe should be handling this, but is not, therefore this code block (this task copied from KualiOrgReviewAttribute)
-//                        String referenceString = xpath.evaluate("@reference", subAccountNode);
-//                        if (!StringUtils.isEmpty(referenceString)) {
-//                            subAccountNode = (Node) xpath.evaluate(referenceString, subAccountNode, XPathConstants.NODE);
-//                        }
                         account = xpath.evaluate(KualiWorkflowUtils.XSTREAM_MATCH_RELATIVE_PREFIX + KFSPropertyConstants.ACCOUNT_NUMBER, subAccountNode);
                         org = xpath.evaluate(KualiWorkflowUtils.XSTREAM_MATCH_RELATIVE_PREFIX + KFSPropertyConstants.FIN_REPORT_ORGANIZATION_CODE, subAccountNode);
                         String chartFieldName = KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE;
@@ -381,18 +361,6 @@ public class KualiSubAccountAttribute implements WorkflowAttribute, MassRuleAttr
                         chart = xpath.evaluate(KualiWorkflowUtils.XSTREAM_MATCH_RELATIVE_PREFIX + chartFieldName, subAccountNode);
                         subAccount = xpath.evaluate(KualiWorkflowUtils.XSTREAM_MATCH_RELATIVE_PREFIX + KFSPropertyConstants.SUB_ACCOUNT_NUMBER, subAccountNode);
                         subAccountValues.addAll(attemptSubAccountRetrieval(chart, account, org, subAccount));
-//                        if ( StringUtils.isNotBlank(chart) && StringUtils.isNotBlank(subAccount) && (StringUtils.isNotBlank(account) || StringUtils.isNotBlank(org)) ) {
-//                            List subAccounts = getSubAccounts(chart,account,org,subAccount);
-//                            if ( (subAccounts == null) || (subAccounts.isEmpty()) ) {
-//                                // TODO delyea - labels here
-//                                throw new RuntimeException("Sub Account declared on the document cannot be found in the system, routing cannot continue.");
-//                            }
-//                            //  possibly duplicate add, but this is safe in a HashSet
-//                            for (Iterator iter = subAccounts.iterator(); iter.hasNext();) {
-//                                SubAccount subAccountToAdd = (SubAccount) iter.next();
-//                                subAccountValues.add(subAccountToAdd);
-//                            }
-//                        }
                     }
                 }
             }

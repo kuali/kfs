@@ -24,9 +24,8 @@ import java.util.List;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.bo.Note;
 import org.kuali.core.bo.user.UniversalUser;
-import org.kuali.core.exceptions.ValidationException;
 import org.kuali.core.rule.event.RouteDocumentEvent;
-import org.kuali.core.rule.event.SaveOnlyDocumentEvent;
+import org.kuali.core.rule.event.SaveDocumentEvent;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DateTimeService;
 import org.kuali.core.service.DocumentService;
@@ -44,15 +43,14 @@ import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.PurapKeyConstants;
-import org.kuali.module.purap.PurapPropertyConstants;
 import org.kuali.module.purap.PurapConstants.POTransmissionMethods;
 import org.kuali.module.purap.PurapConstants.PurchaseOrderDocTypes;
 import org.kuali.module.purap.PurapConstants.PurchaseOrderStatuses;
 import org.kuali.module.purap.PurapConstants.RequisitionSources;
-import org.kuali.module.purap.PurapConstants.RequisitionStatuses;
 import org.kuali.module.purap.PurapConstants.VendorChoice;
 import org.kuali.module.purap.bo.PurchaseOrderItem;
 import org.kuali.module.purap.bo.PurchaseOrderQuoteStatus;
+import org.kuali.module.purap.bo.PurchaseOrderVendorQuote;
 import org.kuali.module.purap.dao.PurchaseOrderDao;
 import org.kuali.module.purap.document.PurchaseOrderDocument;
 import org.kuali.module.purap.document.PurchasingDocumentBase;
@@ -143,20 +141,20 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 
     public void saveDocumentWithoutValidation(PurchaseOrderDocument purchaseOrderDocument) {
         try {
-        //FIXME this is causing problems at the moment; commenting out per david's request (hjs)
 //            purchaseOrderDocument.getDocumentHeader().getWorkflowDocument().saveRoutingData();
-            documentService.validateAndPersistDocument(purchaseOrderDocument, new SaveOnlyDocumentEvent(purchaseOrderDocument));
+//            documentService.validateAndPersistDocument(purchaseOrderDocument, new SaveOnlyDocumentEvent(purchaseOrderDocument));
+            documentService.saveDocumentWithoutRunningValidation(purchaseOrderDocument);
         }
         catch (WorkflowException we) {
-            String errorMsg = "Error persisting document # " + purchaseOrderDocument.getDocumentHeader().getDocumentNumber() + " " + we.getMessage(); 
+            String errorMsg = "Error saving document # " + purchaseOrderDocument.getDocumentHeader().getDocumentNumber() + " " + we.getMessage(); 
             LOG.error(errorMsg, we);
             throw new RuntimeException(errorMsg, we);
         }
-        catch (ValidationException ve) {
-            String errorMsg = "Error persisting document # " + purchaseOrderDocument.getDocumentHeader().getDocumentNumber() + " " + ve.getMessage(); 
-            LOG.error(errorMsg, ve);
-            throw new RuntimeException(errorMsg, ve);
-        }
+//        catch (ValidationException ve) {
+//            String errorMsg = "Error saving document # " + purchaseOrderDocument.getDocumentHeader().getDocumentNumber() + " " + ve.getMessage(); 
+//            LOG.error(errorMsg, ve);
+//            throw new RuntimeException(errorMsg, ve);
+//        }
     }
 
     /**
@@ -167,6 +165,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
      * @return PurchaseOrderDocument
      */
     public PurchaseOrderDocument createAutomaticPurchaseOrderDocument(RequisitionDocument reqDocument) {
+        // TODO delyea - override user session so fiscal approver does not become PO initiator
         // update REQ data
         reqDocument.setPurchaseOrderAutomaticIndicator(Boolean.TRUE);
         reqDocument.setContractManagerCode(PurapConstants.APO_CONTRACT_MANAGER);
@@ -289,22 +288,22 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
         }
     }
     
-    public boolean firstPurchaseOrderTransmitViaPrint (PurchaseOrderDocument po, String docType, String annotation, List adhocRoutingRecipients,
-        ByteArrayOutputStream baosPDF,  String environment) {
+    public boolean printPurchaseOrderQuotePDF(PurchaseOrderDocument po, PurchaseOrderVendorQuote povq, ByteArrayOutputStream baosPDF) {
 
-        boolean isRetransmit = false;
-        boolean result = true;
-        po.setPurchaseOrderFirstTransmissionDate(dateTimeService.getCurrentSqlDate());
-        po = updateFlagsAndRoute(po.getDocumentNumber(), docType, annotation, adhocRoutingRecipients);
-        Collection<String> generatePDFErrors = printService.generatePurchaseOrderPdf(po, baosPDF, isRetransmit, environment);
+        String environment = kualiConfigurationService.getPropertyString(KFSConstants.ENVIRONMENT_KEY);
+        Collection<String> generatePDFErrors = printService.generatePurchaseOrderQuotePdf(po, povq, baosPDF, environment);
 
         if (generatePDFErrors.size() > 0) {
             for (String error : generatePDFErrors) {
                 GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_ERRORS, PurapKeyConstants.ERROR_PURCHASE_ORDER_PDF, error);
             }
-            result = false;
+            return false;
         }
-        return result;
+        else {
+            // TODO QUOTE - update PurchaseOrderVendorQuote here
+            saveDocumentWithoutValidation(po);
+            return true;
+        }
     }
 
     /**
@@ -395,27 +394,51 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
             newPO.setPurchaseOrderCurrentIndicator(false);
             newPO.setPendingActionIndicator(false);
 
-            // Before Routing, I think we ought to check the rules first
-            boolean rulePassed = kualiRuleService.applyRules(new RouteDocumentEvent(newPO));
-            if (!rulePassed) {
-                po.setPendingActionIndicator(false);
-                saveDocumentWithoutValidation(po);
-                return po;
+            // check the rules before taking action
+            if (docType.equals(PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_AMENDMENT_DOCUMENT)) {
+                boolean rulePassed = kualiRuleService.applyRules(new SaveDocumentEvent(newPO));
+                if (!rulePassed) {
+                    po.setPendingActionIndicator(false);
+                    saveDocumentWithoutValidation(po);
+                    return po;
+                }
+                else {
+                    newPO.setStatusCode(PurapConstants.PurchaseOrderStatuses.AMENDMENT);
+                    documentService.saveDocument(newPO);
+                }
             }
             else {
-                if (docType.equals(PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_AMENDMENT_DOCUMENT)) {
-                    newPO.setStatusCode(PurapConstants.PurchaseOrderStatuses.AMENDMENT);
-                }
-                saveDocumentWithoutValidation(po);
-                //kualiDocumentFormBase.setDocument(newPO);
-                
-                if (docType.equals(PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_AMENDMENT_DOCUMENT)) {
-                    documentService.saveDocument(newPO);
+                boolean rulePassed = kualiRuleService.applyRules(new RouteDocumentEvent(newPO));
+                if (!rulePassed) {
+                    po.setPendingActionIndicator(false);
+                    saveDocumentWithoutValidation(po);
+                    return po;
                 }
                 else {
                     documentService.routeDocument(newPO, annotation, adhocRoutingRecipients);
                 }
             }
+            
+//            boolean rulePassed = kualiRuleService.applyRules(new RouteDocumentEvent(newPO));
+//            if (!rulePassed) {
+//                po.setPendingActionIndicator(false);
+//                saveDocumentWithoutValidation(po);
+//                return po;
+//            }
+//            else {
+//                if (docType.equals(PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_AMENDMENT_DOCUMENT)) {
+//                    newPO.setStatusCode(PurapConstants.PurchaseOrderStatuses.AMENDMENT);
+//                }
+//                saveDocumentWithoutValidation(po);
+//                //kualiDocumentFormBase.setDocument(newPO);
+//                
+//                if (docType.equals(PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_AMENDMENT_DOCUMENT)) {
+//                    documentService.saveDocument(newPO);
+//                }
+//                else {
+//                    documentService.routeDocument(newPO, annotation, adhocRoutingRecipients);
+//                }
+//            }
             return newPO;
         }
         catch (WorkflowException we) {
@@ -581,8 +604,8 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
                 return doc;
             }
             catch (WorkflowException e) {
-                String errorMessage = "Error getting requisition document from document service";
-                LOG.error("getRequisitionById() " + errorMessage,e);
+                String errorMessage = "Error getting purchase order document from document service";
+                LOG.error("getPurchaseOrderByDocumentNumber() " + errorMessage,e);
                 throw new RuntimeException(errorMessage,e);
             }
         }

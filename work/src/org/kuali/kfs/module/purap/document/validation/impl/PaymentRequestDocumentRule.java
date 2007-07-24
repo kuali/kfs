@@ -438,7 +438,7 @@ public class PaymentRequestDocumentRule extends AccountsPayableDocumentRuleBase 
         Collection c = new ArrayList();
         boolean valid = true;
         PaymentRequestDocument pr = (PaymentRequestDocument)purapDocument;
-        if ((PurapConstants.PaymentRequestStatuses.CANCELLED_IN_PROCESS.equals(pr.getStatusCode())) || (PurapConstants.PaymentRequestStatuses.CANCELLED_POST_APPROVE.equals(pr.getStatusCode()))) {
+        if (PurapConstants.PaymentRequestStatuses.CANCELLED_STATUSES.contains(pr.getStatusCode())) {
             // send ERROR: PREQ is already cancelled
             valid = false;
             GlobalVariables.getErrorMap().putError(PurapPropertyConstants.PURAP_DOC_ID, PurapKeyConstants.ERROR_CANCEL_CANCELLED);

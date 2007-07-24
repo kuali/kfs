@@ -60,41 +60,15 @@ public interface PaymentRequestDao {
      */
     public Iterator<PaymentRequestDocument> getEligibleForAutoApproval();
 
-    public void save(PaymentRequestDocument paymentRequestDocument);
-   
     /**
-     * Get a payment request by id
+     * Get a payment request document number by id
      * 
      * @param id PaymentRequest Id
      * @return PaymentRequest or null if not found
      */
-    public PaymentRequestDocument getPaymentRequestById(Integer id);
-    public List<PaymentRequestDocument> getPaymentRequestsByPurchaseOrderId(Integer poDocId);
+    public String getDocumentNumberByPaymentRequestId(Integer id);
 
-
-    /**
-     * Get a payment request by document id
-     * 
-     * @param id workflow document Id
-     * @return PaymentRequest or null if not found
-     */
-    public PaymentRequestDocument getPaymentRequestByDocId(Long id);
-
-    /**
-     * Save a pay req.  This saves it to the
-     * tables.  
-     * 
-     * @param pr PaymentRequest to save
-     */
-    public PaymentRequestDocument savePaymentRequestRetriveReferences(PaymentRequestDocument pr);
-
-    /**
-     * Save a pay req.  This saves it to the
-     * tables.  
-     * 
-     * @param pr PaymentRequest to save
-     */
-    public PaymentRequestDocument savePaymentRequest(PaymentRequestDocument pr);
+    public List<String> getDocumentNumbersByPurchaseOrderId(Integer id);
 
     /**
      * Retreives a list of Pay Reqs with the given Req Id.
@@ -102,7 +76,7 @@ public interface PaymentRequestDao {
      * @param id
      * @return List of Pay Reqs.
      */
-    public List getPaymentRequestsByRequisitionId(Integer id);
+//    public List getPaymentRequestsByRequisitionId(Integer id);
 
     /**
      * Retreives a list of Pay Reqs with the given PO Id.
@@ -110,7 +84,7 @@ public interface PaymentRequestDao {
      * @param id
      * @return List of Pay Reqs.
      */
-    public List getPaymentRequestsByPOId(Integer id);
+//    public List getPaymentRequestsByPOId(Integer id);
     
     /**
      * Retreives a list of Pay Reqs with the given PO Id.
@@ -118,7 +92,7 @@ public interface PaymentRequestDao {
      * @param id
      * @return List of Pay Reqs.
      */
-    public List getPaymentRequestsByPOId(Integer id, Integer returnListMax);
+//    public List getPaymentRequestsByPOId(Integer id, Integer returnListMax);
     
     /**
      * Retreives a list of Pay Reqs with the given vendor id and invoice number.
@@ -131,7 +105,7 @@ public interface PaymentRequestDao {
     public List getActivePaymentRequestsByVendorNumberInvoiceNumber(Integer vendorHeaderGeneratedId,
         Integer vendorDetailAssignedId,String invoiceNumber);
     
-    public List getAllPREQsByPOIdAndStatus(Integer purchaseOrderID,Collection statusCodes);
+//    public List getAllPREQsByPOIdAndStatus(Integer purchaseOrderID,Collection statusCodes);
     
     /**
      * Retreives a list of Pay Reqs with the given PO Id, invoice amount, and invoice date.
@@ -149,16 +123,6 @@ public interface PaymentRequestDao {
      * @param statuses
      * @return
      */
-    public Collection getByStatuses(String statuses[]);
+//    public Collection getByStatuses(String statuses[]);
     
- //   public PaymentRequestStatusHistory savePaymentRequestStatusHistory(PaymentRequestStatusHistory prsh);
-    
-    /**
-     * Method to get current database values of Status History
-     * for given PREQ id
-     * 
-     * @param preqId  id of preq to check
-     * @return  List of payment request status history records
-     */
- //   public List getPaymentRequestStatusHistories(Integer preqId);
 }

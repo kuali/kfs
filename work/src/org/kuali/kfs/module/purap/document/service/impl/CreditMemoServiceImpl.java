@@ -40,6 +40,7 @@ import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.PurapKeyConstants;
 import org.kuali.module.purap.PurapParameterConstants;
 import org.kuali.module.purap.PurapPropertyConstants;
+import org.kuali.module.purap.PurapConstants.CreditMemoStatuses;
 import org.kuali.module.purap.bo.CreditMemoItem;
 import org.kuali.module.purap.bo.PurchaseOrderItem;
 import org.kuali.module.purap.dao.CreditMemoDao;
@@ -188,21 +189,22 @@ public class CreditMemoServiceImpl implements CreditMemoService {
      */
     public void saveDocumentWithoutValidation(CreditMemoDocument creditMemoDocument) {
         try {
-            creditMemoDocument.getDocumentHeader().getWorkflowDocument().saveRoutingData();
-            creditMemoDocument.prepareForSave();
-            documentService.validateAndPersistDocument(creditMemoDocument, new SaveOnlyDocumentEvent(creditMemoDocument));
+//            creditMemoDocument.getDocumentHeader().getWorkflowDocument().saveRoutingData();
+//            creditMemoDocument.prepareForSave();
+//            documentService.validateAndPersistDocument(creditMemoDocument, new SaveOnlyDocumentEvent(creditMemoDocument));
+            documentService.saveDocumentWithoutRunningValidation(creditMemoDocument);
             creditMemoDocument.refreshNonUpdateableReferences();
         }
         catch (WorkflowException we) {
-            String errorMsg = "Error persisting document # " + creditMemoDocument.getDocumentHeader().getDocumentNumber() + " " + we.getMessage(); 
+            String errorMsg = "Error saving document # " + creditMemoDocument.getDocumentHeader().getDocumentNumber() + " " + we.getMessage(); 
             LOG.error(errorMsg, we);
             throw new RuntimeException(errorMsg, we);
         }
-        catch (ValidationException ve) {
-            String errorMsg = "Error persisting document # " + creditMemoDocument.getDocumentHeader().getDocumentNumber() + " " + ve.getMessage(); 
-            LOG.error(errorMsg, ve);
-            throw new RuntimeException(errorMsg, ve);
-        }
+//        catch (ValidationException ve) {
+//            String errorMsg = "Error saving document # " + creditMemoDocument.getDocumentHeader().getDocumentNumber() + " " + ve.getMessage(); 
+//            LOG.error(errorMsg, ve);
+//            throw new RuntimeException(errorMsg, ve);
+//        }
     }
 
     /**
@@ -220,10 +222,6 @@ public class CreditMemoServiceImpl implements CreditMemoService {
 
         // run rules and route, throws exception if errors were found
         documentService.routeDocument(cmDocument, annotation, adHocRecipients);
-
-//        purapService.updateStatusAndStatusHistory(cmDocument, PurapConstants.CreditMemoStatuses.AP_APPROVED);
-//        cmDocument.setAccountsPayableApprovalDate(dateTimeService.getCurrentSqlDate());
-//        saveDocumentWithoutValidation(cmDocument);
 
         // TODO CHRIS/DELYEA - THIS SHOULD HAPPEN WITH GL AND PERCENT CONVERT AT 'Leaving AP Review Level'
         // reopen PO if closed
@@ -275,12 +273,12 @@ public class CreditMemoServiceImpl implements CreditMemoService {
         // retrieve and save with hold indicator set to true
         CreditMemoDocument cmDoc = getCreditMemoDocumentById(cmDocument.getPurapDocumentIdentifier());
         cmDoc.setHoldIndicator(true);
-        cmDoc.setAccountsPayableHoldIdentifier(GlobalVariables.getUserSession().getUniversalUser().getPersonUniversalIdentifier());
+        cmDoc.setLastActionPerformedByUniversalUserId(GlobalVariables.getUserSession().getUniversalUser().getPersonUniversalIdentifier());
         saveDocumentWithoutValidation(cmDoc);
 
         // must also save it on the incoming document
         cmDocument.setHoldIndicator(true);
-        cmDocument.setAccountsPayableHoldIdentifier(GlobalVariables.getUserSession().getUniversalUser().getPersonUniversalIdentifier());
+        cmDocument.setLastActionPerformedByUniversalUserId(GlobalVariables.getUserSession().getUniversalUser().getPersonUniversalIdentifier());
     }
 
     /**
@@ -293,7 +291,7 @@ public class CreditMemoServiceImpl implements CreditMemoService {
         boolean canRemoveHold = false;
 
         String accountsPayableSupervisorGroup = SpringServiceLocator.getKualiConfigurationService().getApplicationParameterValue(PurapParameterConstants.PURAP_ADMIN_GROUP, PurapConstants.Workgroups.WORKGROUP_ACCOUNTS_PAYABLE_SUPERVISOR);
-        if (cmDocument.isHoldIndicator() && (user.getPersonUniversalIdentifier().equals(cmDocument.getAccountsPayableHoldIdentifier()) || user.isMember(accountsPayableSupervisorGroup))) {
+        if (cmDocument.isHoldIndicator() && (user.getPersonUniversalIdentifier().equals(cmDocument.getLastActionPerformedByUniversalUserId()) || user.isMember(accountsPayableSupervisorGroup))) {
             canRemoveHold = true;
         }
 
@@ -313,12 +311,12 @@ public class CreditMemoServiceImpl implements CreditMemoService {
         // retrieve and save with hold indicator set to false
         CreditMemoDocument cmDoc = getCreditMemoDocumentById(cmDocument.getPurapDocumentIdentifier());
         cmDoc.setHoldIndicator(false);
-        cmDoc.setAccountsPayableHoldIdentifier(null);
+        cmDoc.setLastActionPerformedByUniversalUserId(null);
         saveDocumentWithoutValidation(cmDoc);
 
         // must also save it on the incoming document
         cmDocument.setHoldIndicator(false);
-        cmDocument.setAccountsPayableHoldIdentifier(null);
+        cmDocument.setLastActionPerformedByUniversalUserId(null);
     }
 
 
@@ -333,7 +331,7 @@ public class CreditMemoServiceImpl implements CreditMemoService {
         boolean canCancel = false;
 
         String accountsPayableGroup = SpringServiceLocator.getKualiConfigurationService().getApplicationParameterValue(PurapParameterConstants.PURAP_ADMIN_GROUP, PurapConstants.Workgroups.WORKGROUP_ACCOUNTS_PAYABLE);
-        if (!StringUtils.equals(cmDocument.getStatusCode(), PurapConstants.CreditMemoStatuses.CANCELLED) && cmDocument.getExtractedDate() == null && !cmDocument.isHoldIndicator() && user.isMember(accountsPayableGroup)) {
+        if ( (!CreditMemoStatuses.CANCELLED_STATUSES.contains(cmDocument.getStatusCode())) && cmDocument.getExtractedDate() == null && !cmDocument.isHoldIndicator() && user.isMember(accountsPayableGroup)) {
             canCancel = true;
         }
 

@@ -147,7 +147,7 @@ public class KualiChartAttribute implements RoleAttribute, WorkflowAttribute {
         if (Utilities.isEmpty(getFinCoaCd())) {
             return "";
         }
-        return "<report><" + CHART_ATTRIBUTE + ">" + "<" + FIN_COA_CD_KEY + ">" + getFinCoaCd() + "</" + FIN_COA_CD_KEY + ">" + "</" + CHART_ATTRIBUTE + "></report>";
+        return KualiWorkflowUtils.XML_REPORT_DOC_CONTENT_PREFIX + "<" + CHART_ATTRIBUTE + ">" + "<" + FIN_COA_CD_KEY + ">" + getFinCoaCd() + "</" + FIN_COA_CD_KEY + ">" + "</" + CHART_ATTRIBUTE + ">" + KualiWorkflowUtils.XML_REPORT_DOC_CONTENT_SUFFIX;
     }
 
     /**
@@ -265,9 +265,9 @@ public class KualiChartAttribute implements RoleAttribute, WorkflowAttribute {
             try {
                 // the report business is to support Routing Reports, which we
                 // need to work on Chart
-                boolean isReport = ((Boolean) xpath.evaluate("wf:xstreamsafe('//report')", docContent.getDocument(), XPathConstants.BOOLEAN)).booleanValue();
+                boolean isReport = ((Boolean) xpath.evaluate(KualiWorkflowUtils.XSTREAM_SAFE_PREFIX + KualiWorkflowUtils.XSTREAM_MATCH_ANYWHERE_PREFIX + KualiWorkflowUtils.XML_REPORT_DOC_CONTENT_XPATH_PREFIX + KualiWorkflowUtils.XSTREAM_SAFE_SUFFIX, docContent.getDocument(), XPathConstants.BOOLEAN)).booleanValue();
                 if (isReport) {
-                    chartXPaths.add("wf:xstreamsafe('//report/" + CHART_ATTRIBUTE + "/" + FIN_COA_CD_KEY + "')");
+                    chartXPaths.add(KualiWorkflowUtils.XSTREAM_SAFE_PREFIX + KualiWorkflowUtils.XSTREAM_MATCH_ANYWHERE_PREFIX + KualiWorkflowUtils.XML_REPORT_DOC_CONTENT_XPATH_PREFIX + "/" + CHART_ATTRIBUTE + "/" + FIN_COA_CD_KEY + KualiWorkflowUtils.XSTREAM_SAFE_SUFFIX);
                 } else if (KualiWorkflowUtils.ACCOUNT_DELEGATE_GLOBAL_DOC_TYPE.equals(docTypeName)) {
                     chartXPaths.add(ACCOUNT_GLOBAL_DETAIL_XPATH);
                 } else if (KualiWorkflowUtils.ACCOUNT_CHANGE_DOC_TYPE.equals(docTypeName)) {
@@ -282,7 +282,7 @@ public class KualiChartAttribute implements RoleAttribute, WorkflowAttribute {
                 }
                 //  this is the typical path during normal workflow operation
                 else {
-                    chartXPaths.add("wf:xstreamsafe('" + KualiWorkflowUtils.NEW_MAINTAINABLE_PREFIX + "chartOfAccountsCode')");
+                    chartXPaths.add(KualiWorkflowUtils.XSTREAM_SAFE_PREFIX + KualiWorkflowUtils.NEW_MAINTAINABLE_PREFIX + "chartOfAccountsCode" + KualiWorkflowUtils.XSTREAM_SAFE_SUFFIX);
                 }
                 for (String chartXPath : chartXPaths) {
                     NodeList chartNodes = (NodeList)xpath.evaluate(chartXPath, docContent.getDocument(), XPathConstants.NODESET);

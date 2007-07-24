@@ -28,18 +28,22 @@ import org.apache.log4j.Logger;
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.Query;
 import org.apache.ojb.broker.query.QueryByCriteria;
+import org.apache.ojb.broker.query.ReportQueryByCriteria;
 import org.kuali.core.dao.ojb.PlatformAwareDaoBaseOjb;
 import org.kuali.core.service.DateTimeService;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.bo.SourceAccountingLine;
 import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.PurapParameterConstants;
 import org.kuali.module.purap.PurapPropertyConstants;
+import org.kuali.module.purap.PurapConstants.PaymentRequestStatuses;
 import org.kuali.module.purap.bo.NegativePaymentRequestApprovalLimit;
 import org.kuali.module.purap.dao.NegativePaymentRequestApprovalLimitDao;
 import org.kuali.module.purap.dao.PaymentRequestDao;
 import org.kuali.module.purap.document.PaymentRequestDocument;
+import org.kuali.module.purap.document.RequisitionDocument;
 import org.kuali.module.purap.service.PurapAccountingService;
 
 public class PaymentRequestDaoOjb extends PlatformAwareDaoBaseOjb implements PaymentRequestDao {
@@ -70,15 +74,11 @@ public class PaymentRequestDaoOjb extends PlatformAwareDaoBaseOjb implements Pay
     public Iterator<PaymentRequestDocument> getPaymentRequestsToExtract(boolean onlySpecialPayments,String chartCode) {
         LOG.debug("getPaymentRequestsToExtract() started");
 
-        List statuses = new ArrayList();
-        statuses.add(PurapConstants.PaymentRequestStatuses.AUTO_APPROVED);
-        statuses.add(PurapConstants.PaymentRequestStatuses.DEPARTMENT_APPROVED);
-
         Criteria criteria = new Criteria();
         if ( chartCode != null ) {
             criteria.addEqualTo("processingCampusCode", chartCode);
         }
-        criteria.addIn("statusCode",statuses);
+        criteria.addIn("statusCode",Arrays.asList(PaymentRequestStatuses.STATUSES_ALLOWED_FOR_EXTRACTION));
         criteria.addIsNull("extractedDate");
         criteria.addEqualTo("holdIndicator", Boolean.FALSE);
 
@@ -243,27 +243,23 @@ public class PaymentRequestDaoOjb extends PlatformAwareDaoBaseOjb implements Pay
         return minimumAmount;
     }
     
-    /**
-     * 
-     * @param paymentRequestDocument - a populated REQUISITION object to be saved
-     * @throws IllegalObjectStateException
-     * @throws ValidationErrorList
-     */
-    public void save(PaymentRequestDocument paymentRequestDocument) {
-        getPersistenceBrokerTemplate().store(paymentRequestDocument);
-    }
-
-    public PaymentRequestDocument getPaymentRequestById(Integer id) {
+    public String getDocumentNumberByPaymentRequestId(Integer id) {
         Criteria criteria = new Criteria();
         criteria.addEqualTo(PurapPropertyConstants.PURAP_DOC_ID, id);
-
-        PaymentRequestDocument pReq = (PaymentRequestDocument) getPersistenceBrokerTemplate().getObjectByQuery(
-            new QueryByCriteria(PaymentRequestDocument.class, criteria));
-        if (pReq != null) {
-            pReq.refreshNonUpdateableReferences();
+        return getDocumentNumberOfPaymentRequestByCriteria(criteria);
+    }
+    
+    public List<String> getDocumentNumbersByPurchaseOrderId(Integer poPurApId) {
+        List<String> returnList = new ArrayList<String>();
+        Criteria criteria = new Criteria();
+        criteria.addEqualTo( PurapPropertyConstants.PURCHASE_ORDER_IDENTIFIER, poPurApId );
+        Iterator<Object[]> iter = getDocumentNumbersOfPaymentRequestByCriteria(criteria, false);
+        while (iter.hasNext()) {
+            Object[] cols = (Object[])iter.next();
+            returnList.add((String)cols[0]);
         }
-        return pReq;
-      }
+        return returnList;
+    }
     
     public List<PaymentRequestDocument> getPaymentRequestsByPurchaseOrderId(Integer poDocId) {
         Criteria criteria = new Criteria();
@@ -275,141 +271,39 @@ public class PaymentRequestDaoOjb extends PlatformAwareDaoBaseOjb implements Pay
         return pReqs; 
     }
     
-    private PaymentRequestDocument getPaymentRequestByCriteria(Criteria criteria) {
-        LOG.debug("getPaymentRequestByCriteria() started");
-        PaymentRequestDocument p = (PaymentRequestDocument) getPersistenceBrokerTemplate().getObjectByQuery(
-            new QueryByCriteria(PaymentRequestDocument.class, criteria));
-        if (p != null) {
-  //        updateUser(p);
+    private String getDocumentNumberOfPaymentRequestByCriteria(Criteria criteria) {
+        LOG.debug("getDocumentNumberOfPaymentRequestByCriteria() started");
+        Iterator<Object[]> iter = getDocumentNumbersOfPaymentRequestByCriteria(criteria, false);
+        if (iter.hasNext()) {
+            Object[] cols = (Object[])iter.next();
+            if (iter.hasNext()) {
+                // the iterator should have held only a single doc id of data but it holds 2 or more
+                String errorMsg = "Expected single document number for given criteria but multiple (at least 2) were returned";
+                LOG.error(errorMsg);
+                throw new RuntimeException();
+            }
+            return (String)cols[0];
         }
-        return p;
-      }
+        return null;
+    }
+    
+    private Iterator<Object[]> getDocumentNumbersOfPaymentRequestByCriteria(Criteria criteria, boolean orderByAscending) {
+        LOG.debug("getDocumentNumberOfPaymentRequestByCriteria() started");
+        ReportQueryByCriteria rqbc = new ReportQueryByCriteria(RequisitionDocument.class, criteria);
+        rqbc.setAttributes(new String[] {KFSPropertyConstants.DOCUMENT_NUMBER});
+        if (orderByAscending) {
+            rqbc.addOrderByAscending(KFSPropertyConstants.DOCUMENT_NUMBER);
+        }
+        else {
+            rqbc.addOrderByDescending(KFSPropertyConstants.DOCUMENT_NUMBER);
+        }
+        return getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(rqbc);
+    }
       
-    /**
-     * Get a payment request by id
-     * 
-     * @param id PaymentRequest Id
-     * @return PaymentRequest or null if not found
-     */
- /*  
-    public PaymentRequestDocument getPaymentRequestById(Integer id) {
-        LOG.debug("getPaymentRequestById() started");
-
-        Criteria criteria = new Criteria();
-        criteria.addEqualTo("purapDocumentIdentifier", id);
-        return this.getPaymentRequestByCriteria(criteria);
-      }
-*/
-      /**
-       * Get a payment request by Workflow id
-       * 
-       * @param id workflow document Id
-       * @return PaymentRequest or null if not found
-       */
-      public PaymentRequestDocument getPaymentRequestByDocId(Long id) {
-        LOG.debug("getPaymentRequestByDocId() started");
-
-        Criteria criteria = new Criteria();
-        criteria.addEqualTo("documentHeaderId", id);
-        return this.getPaymentRequestByCriteria(criteria);
-      }
-
-      /**
-       * Save a pay req.  This saves it to the
-       * tables.  
-       * 
-       * @param pr PaymentRequest to save
-       */
-      public PaymentRequestDocument savePaymentRequestRetriveReferences(PaymentRequestDocument pr) {
-        LOG.debug("savePaymentRequestRetriveReferences() started");
-
-        getPersistenceBrokerTemplate().store(pr);
-//        getPersistenceBroker(true).commitTransaction();
-        getPersistenceBroker(true).retrieveAllReferences(pr);
-
-        //loop through the items to retrieveAllReferences for accounts in each item
-        Collection items = pr.getItems();
-        /*
-        for (Iterator itemsIt = items.iterator(); itemsIt.hasNext();) {
-          PaymentRequestItem item = (PaymentRequestItem)itemsIt.next();
-          getPersistenceBroker(true).retrieveAllReferences(item);
-          Collection accounts = item.getAccounts();
-          for (Iterator accountsIt = accounts.iterator(); accountsIt.hasNext();){
-            PaymentRequestAccount pra = (PaymentRequestAccount)accountsIt.next();
-            getPersistenceBroker(true).retrieveAllReferences(pra);
-          }
-        }
-        */
-
-        return pr;
-      }
-
-      /**
-       * Save a pay req.  This saves it to the
-       * tables.  
-       * 
-       * @param pr PaymentRequest to save
-       */
-      public PaymentRequestDocument savePaymentRequest(PaymentRequestDocument pr) {
-        LOG.debug("savePaymentRequest() started");
-
-        getPersistenceBrokerTemplate().store(pr);
-        return pr;
-      }
-
       private List getPaymentRequestsByQueryByCriteria(QueryByCriteria qbc) {
         LOG.debug("getPaymentRequestsByQueryByCriteria() started");
         List l = (List) getPersistenceBrokerTemplate().getCollectionByQuery(qbc);
-        updateUser(l);
         return l;
-      }
-      
-      /**
-       * Retreives a list of Pay Reqs with the given Req Id.
-       * 
-       * @param id
-       * @return List of Pay Reqs.
-       */
-      public List getPaymentRequestsByRequisitionId(Integer reqId) {
-        LOG.debug("getPaymentRequestsByRequisitionId() started");
-
-        Criteria criteria = new Criteria();
-        criteria.addEqualTo("requisitionNumber", reqId);
-        QueryByCriteria qbc = new QueryByCriteria(PaymentRequestDocument.class,criteria);
-        qbc.addOrderByDescending("id");
-        qbc.addOrderBy("purchaseOrder.id",true);
-        return this.getPaymentRequestsByQueryByCriteria(qbc);
-      }
-
-      /**
-       * Retreives a list of Pay Reqs with the given PO Id.
-       * 
-       * @param id
-       * @return List of Pay Reqs.
-       */
-      public List getPaymentRequestsByPOId(Integer poId) {
-        LOG.debug("getPaymentRequestsByPOId() started");
-        Criteria criteria = new Criteria();
-        criteria.addEqualTo(PurapPropertyConstants.PURCHASE_ORDER_IDENTIFIER, poId);
-        QueryByCriteria qbc = new QueryByCriteria(PaymentRequestDocument.class,criteria);
-        qbc.addOrderByDescending("id");
-        return this.getPaymentRequestsByQueryByCriteria(qbc);
-      }
-      
-      /**
-       * Retreives a list of Pay Reqs with the given PO Id.
-       * 
-       * @param id
-       * @return List of Pay Reqs.
-       */
-      public List getPaymentRequestsByPOId(Integer poId, Integer returnListMax) {
-        LOG.debug("getPaymentRequestsByPOId(Integer) started");
-        Criteria criteria = new Criteria();
-        criteria.addEqualTo(PurapPropertyConstants.PURCHASE_ORDER_IDENTIFIER, poId);
-        QueryByCriteria qbc = new QueryByCriteria(PaymentRequestDocument.class,criteria);
-        qbc.setEndAtIndex(returnListMax.intValue());
-        qbc.addOrderByDescending("id");
-        return this.getPaymentRequestsByQueryByCriteria(qbc);
       }
       
       /**
@@ -430,63 +324,19 @@ public class PaymentRequestDaoOjb extends PlatformAwareDaoBaseOjb implements Pay
         return this.getPaymentRequestsByQueryByCriteria(qbc);
       }
       
-      /**
-       * Retreives a list of Pay Reqs with the given PO Id, invoice amount, and invoice date.
-       * 
-       * @param poId           purchase order ID
-       * @param invoiceAmount  amount of the invoice as entered by AP
-       * @param invoiceDate    date of the invoice as entered by AP
-       * @return List of Pay Reqs.
-       */
-      public List getActivePaymentRequestsByPOIdInvoiceAmountInvoiceDate(Integer poId, KualiDecimal vendorInvoiceAmount, Date invoiceDate) {
+    /**
+     * @see org.kuali.module.purap.dao.PaymentRequestDao#getActivePaymentRequestsByPOIdInvoiceAmountInvoiceDate(java.lang.Integer, org.kuali.core.util.KualiDecimal, java.sql.Date)
+     */
+    public List getActivePaymentRequestsByPOIdInvoiceAmountInvoiceDate(Integer poId, KualiDecimal vendorInvoiceAmount, Date invoiceDate) {
         LOG.debug("getActivePaymentRequestsByVendorNumberInvoiceNumber() started");
         Criteria criteria = new Criteria();
         criteria.addEqualTo("purchaseOrderIdentifier", poId);
         criteria.addEqualTo("vendorInvoiceAmount", vendorInvoiceAmount);
         criteria.addEqualTo("invoiceDate", invoiceDate);
-        QueryByCriteria qbc = new QueryByCriteria(PaymentRequestDocument.class,criteria);
+        QueryByCriteria qbc = new QueryByCriteria(PaymentRequestDocument.class, criteria);
         return this.getPaymentRequestsByQueryByCriteria(qbc);
-      }
+    }
       
-      public List getAllPREQsByPOIdAndStatus(Integer purchaseOrderID,Collection statusCodes) {
-        LOG.debug("getAllPREQsByPOIdAndStatus() started");
-        Criteria criteria = new Criteria();
-        criteria.addEqualTo("purchaseOrder.id",purchaseOrderID);
-        criteria.addIn("status.code", statusCodes);
-        QueryByCriteria qbc = new QueryByCriteria(PaymentRequestDocument.class,criteria);
-        return this.getPaymentRequestsByQueryByCriteria(qbc);
-      }
-
-      private void updateUser(Collection l) {
-        for (Iterator iter = l.iterator(); iter.hasNext();) {
-          updateUser((PaymentRequestDocument) iter.next());
-        }    
-      }
-
-      private void updateUser(PaymentRequestDocument p) {
-       /*
-          UserRequired ur = (UserRequired) p;
-        ur.updateUser(userService);
-        */
-      }
-
-      /**
-       * Get all the payment requests for a set of statuses
-       */
-      public Collection getByStatuses(String statuses[]) {
-        LOG.debug("getByStatuses() started");
-
-        Collection stati = new ArrayList();
-        Criteria criteria = new Criteria();
-        for (int i = 0; i < statuses.length; i++) {
-          stati.add(statuses[i]);
-        }
-        criteria.addIn("paymentRequestStatusCode",stati);
-
-        QueryByCriteria qbc = new QueryByCriteria(PaymentRequestDocument.class,criteria);
-        return this.getPaymentRequestsByQueryByCriteria(qbc);
-      }
-
     public void setNegativePaymentRequestApprovalLimitDao(NegativePaymentRequestApprovalLimitDao negativePaymentRequestApprovalLimitDao) {
         this.negativePaymentRequestApprovalLimitDao = negativePaymentRequestApprovalLimitDao;
     }
@@ -503,25 +353,4 @@ public class PaymentRequestDaoOjb extends PlatformAwareDaoBaseOjb implements Pay
         this.kualiConfigurationService = kualiConfigurationService;
     }
           
-  /*     
-      public PaymentRequestStatusHistory savePaymentRequestStatusHistory(PaymentRequestStatusHistory prsh) {
-        LOG.debug("savePaymentRequestStatusHistory() ");
-        getPersistenceBrokerTemplate().store(prsh);
-        return prsh;
-      }
-    */  
-      /* (non-Javadoc)
-       * @see edu.iu.uis.pur.pmt.dao.PaymentRequestDao#getPaymentRequestStatusHistories(java.lang.Integer)
-       */
- /*
-      public List getPaymentRequestStatusHistories(Integer preqId) {
-        LOG.debug("getPaymentRequestStatusHistories() started");
-        Criteria criteria = new Criteria();
-        criteria.addEqualTo("paymentRequestNumber", preqId);
-        List l = (List) getPersistenceBrokerTemplate().getCollectionByQuery(new QueryByCriteria(PaymentRequestStatusHistory.class,criteria));
-        return l;
-      }
-      */
-      
-      
 }

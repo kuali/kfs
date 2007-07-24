@@ -35,9 +35,9 @@ public interface AccountsPayableDocument extends PurchasingAccountsPayableDocume
 
     public void setAccountsPayableProcessorIdentifier(String accountsPayableProcessorIdentifier);
 
-    public String getAccountsPayableHoldIdentifier();
+    public String getLastActionPerformedByUniversalUserId();
 
-    public void setAccountsPayableHoldIdentifier(String accountsPayableHoldIdentifier);
+    public void setLastActionPerformedByUniversalUserId(String lastActionPerformedByUniversalUserId);
 
     public String getProcessingCampusCode();
 

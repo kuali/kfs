@@ -18,6 +18,7 @@ package org.kuali.module.purap.document;
 
 import java.sql.Date;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -31,11 +32,13 @@ import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.workflow.service.KualiWorkflowDocument;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.purap.PurapConstants;
-import org.kuali.module.purap.PurapConstants.WorkflowConstants.PaymentRequestDocument.NodeDetails;
+import org.kuali.module.purap.PurapConstants.PaymentRequestStatuses;
+import org.kuali.module.purap.PurapConstants.WorkflowConstants;
 import org.kuali.module.purap.bo.ItemType;
 import org.kuali.module.purap.bo.PaymentRequestItem;
 import org.kuali.module.purap.bo.PaymentRequestStatusHistory;
 import org.kuali.module.purap.bo.PaymentRequestView;
+import org.kuali.module.purap.bo.PurApAccountingLine;
 import org.kuali.module.purap.bo.PurchaseOrderItem;
 import org.kuali.module.purap.bo.RecurringPaymentType;
 import org.kuali.module.purap.service.PurapGeneralLedgerService;
@@ -103,7 +106,7 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
         super();
     }
 
-    
+
     /**
      * @see org.kuali.core.bo.PersistableBusinessObjectBase#isBoNotesSupport()
      */
@@ -316,6 +319,16 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
      * 
      */
     public boolean getPaymentRequestedCancelIndicator() { 
+        return paymentRequestedCancelIndicator;
+    }
+
+    /**
+     * Gets the paymentRequestedCancelIndicator attribute.
+     * 
+     * @return Returns the paymentRequestedCancelIndicator
+     * 
+     */
+    public boolean isPaymentRequestedCancelIndicator() { 
         return paymentRequestedCancelIndicator;
     }
 
@@ -707,6 +720,78 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
     
    
     /**
+     * @see org.kuali.core.document.DocumentBase#getDocumentTitle()
+     */
+//    @Override
+//    public String getDocumentTitle() {
+//        return getCustomDocumentTitle();
+//    }
+    
+    private String getCustomDocumentTitle() {
+        try{
+            //set the workflow document title
+            String poNumber = getPurchaseOrderIdentifier().toString();
+            String vendorName = StringUtils.trimToEmpty( getVendorName() );
+            String preqAmount = getGrandTotal().toString();
+            String indicator = getTitleIndicator();        
+            
+            String documentTitle = new StringBuffer("PO: ").append(poNumber).append(" Vendor: ").append(vendorName).append(" Amount: ").append(preqAmount).append(" ").append(indicator).toString();
+            String[] nodeNames = getDocumentHeader().getWorkflowDocument().getNodeNames();
+            if ( (nodeNames.length == 1) && (nodeNames[0].equals(WorkflowConstants.PaymentRequestDocument.NodeDetails.VENDOR_TAX_REVIEW)) ) {
+                // tax review
+                //grab the first account
+                PurApAccountingLine theAccount = getFirstAccount();
+                //setup variables
+                String deliveryCampus = StringUtils.trimToEmpty( (getProcessingCampus() != null ? getProcessingCampus().getCampusShortName() : "") );        
+                String accountNumber = (theAccount != null ? StringUtils.trimToEmpty(theAccount.getAccountNumber()) : "");
+                String department = (theAccount != null ? StringUtils.trimToEmpty((( (theAccount.getAccount() != null) && (theAccount.getAccount().getOrganization() != null) ) ? theAccount.getAccount().getOrganization().getOrganizationName() : "")) : "");
+                documentTitle = new StringBuffer("Vendor: ").append(vendorName).append(" PO: ").append(poNumber).append(" Account Number: ").append(accountNumber).append(" Dept: ").append(department).append(" Delivery Campus: ").append(deliveryCampus).toString();
+            }
+            return documentTitle;
+        }catch (WorkflowException e) {
+            LOG.error("Error updating Payment Request document: " + e.getMessage());
+            throw new RuntimeException("Error updating Payment Request document: " + e.getMessage());
+        }
+    }
+
+    /**
+     * This method returns the first payment item's first account (assuming the item list is sequentially ordered).
+     * 
+     * @return
+     */
+    private PurApAccountingLine getFirstAccount(){
+        // loop through items, and pick the first item
+        if ( (getItems() != null) && (!getItems().isEmpty()) ) {
+            PaymentRequestItem itemToUse = null;
+            for (Iterator iter = getItems().iterator(); iter.hasNext();) {
+                PaymentRequestItem item = (PaymentRequestItem) iter.next();
+                if ( (item.getSourceAccountingLines() != null) && (!item.getSourceAccountingLines().isEmpty()) ) {
+                    // accounting lines are not empty so pick the first account
+                    PurApAccountingLine accountLine = item.getSourceAccountingLine(0);
+                    accountLine.refreshNonUpdateableReferences();
+                    return accountLine;
+                }
+            }
+        }
+        return null;
+    }
+
+    /**
+     * This method determines the indicator text that will appear in the workflow document title
+     * 
+     * @return
+     */
+    private String getTitleIndicator(){
+        if (isHoldIndicator()) {
+            return PurapConstants.PaymentRequestIndicatorText.HOLD;
+        }
+        else if (isPaymentRequestedCancelIndicator()) {
+            return PurapConstants.PaymentRequestIndicatorText.REQUEST_CANCEL;
+        }
+        return "";
+    }
+
+    /**
      * @see org.kuali.core.document.DocumentBase#handleRouteStatusChange()
      */
     @Override
@@ -716,55 +801,45 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
         try {
             // DOCUMENT PROCESSED
             if (this.getDocumentHeader().getWorkflowDocument().stateIsProcessed()) {
-                SpringServiceLocator.getPurapService().updateStatusAndStatusHistory(this, PurapConstants.PaymentRequestStatuses.DEPARTMENT_APPROVED);
-                populateDocumentForRouting();
-                SpringServiceLocator.getPaymentRequestService().save(this);
+                if (!PaymentRequestStatuses.AUTO_APPROVED.equals(getStatusCode())) {
+                    SpringServiceLocator.getPurapService().updateStatusAndStatusHistory(this, PurapConstants.PaymentRequestStatuses.DEPARTMENT_APPROVED);
+                    populateDocumentForRouting();
+                    SpringServiceLocator.getPaymentRequestService().saveDocumentWithoutValidation(this);
+                }
             }
             // DOCUMENT DISAPPROVED
             else if (this.getDocumentHeader().getWorkflowDocument().stateIsDisapproved()) {
                 String nodeName = SpringServiceLocator.getWorkflowDocumentService().getCurrentRouteLevelName(getDocumentHeader().getWorkflowDocument());
-                String statusCode = PurapConstants.WorkflowConstants.PaymentRequestDocument.NodeDetails.DISAPPROVAL_STATUS_BY_NODE_NAME.get(nodeName);
-                if (StringUtils.isNotBlank(statusCode)) {
-                    SpringServiceLocator.getPurapService().updateStatusAndStatusHistory(this, statusCode);
-                    populateDocumentForRouting();
-                    SpringServiceLocator.getPaymentRequestService().save(this);
+                String statusCode = WorkflowConstants.PaymentRequestDocument.NodeDetails.DISAPPROVAL_STATUS_BY_NODE_NAME.get(nodeName);
+                if (StringUtils.isBlank(statusCode)) {
+                    if ( (PaymentRequestStatuses.INITIATE.equals(getStatusCode())) || (PaymentRequestStatuses.IN_PROCESS.equals(getStatusCode())) ) {
+                        statusCode = PaymentRequestStatuses.CANCELLED_IN_PROCESS;
+                    }
+                    else {
+                        logAndThrowRuntimeException("No status found to set for pre-routed document being disapproved in node '" + nodeName + "'");
+                    }
                 }
-                else {
-                    // TODO PURAP/delyea - what to do in a disapproval where no status to set exists?
-                    logAndThrowRuntimeException("No status found to set for document being disapproved in node '" + nodeName + "'");
-                }
+                SpringServiceLocator.getPurapService().updateStatusAndStatusHistory(this, statusCode);
+                populateDocumentForRouting();
+                SpringServiceLocator.getPaymentRequestService().saveDocumentWithoutValidation(this);
             }
             // DOCUMENT CANCELED
             else if (this.getDocumentHeader().getWorkflowDocument().stateIsCanceled()) {
-                // TODO: Chris I know this cancel isn't correct check with David for the correct one!!!!! (and additional scenarios
-                SpringServiceLocator.getPurapService().updateStatusAndStatusHistory(this, PurapConstants.PaymentRequestStatuses.CANCELLED_IN_PROCESS);
+                String cancelledStatusCode = PaymentRequestStatuses.CANCELLED_IN_PROCESS;
+                String currentNodeName = SpringServiceLocator.getWorkflowDocumentService().getCurrentRouteLevelName(this.getDocumentHeader().getWorkflowDocument());
+                if (WorkflowConstants.PaymentRequestDocument.NodeDetails.ACCOUNTS_PAYABLE_REVIEW.equals(currentNodeName)) {
+                    cancelledStatusCode = PaymentRequestStatuses.CANCELLED_PRIOR_TO_AP_APPROVAL;
+                } else if ( (!PaymentRequestStatuses.INITIATE.equals(this.getStatusCode())) && (!PaymentRequestStatuses.IN_PROCESS.equals(this.getStatusCode())) ) {
+                    cancelledStatusCode = PaymentRequestStatuses.CANCELLED_POST_AP_APPROVE;
+                }
+                SpringServiceLocator.getPurapService().updateStatusAndStatusHistory(this, cancelledStatusCode);
                 populateDocumentForRouting();
-                SpringServiceLocator.getPaymentRequestService().save(this);
+                SpringServiceLocator.getPaymentRequestService().saveDocumentWithoutValidation(this);
             }
         }
         catch (WorkflowException e) {
             logAndThrowRuntimeException("Error saving routing data while saving document with id " + getDocumentNumber(), e);
         }
-
-        // set back to default workflow title if state is final
-        if (getDocumentHeader().getWorkflowDocument().stateIsFinal()) {
-            // set the node name to something other then vendor tax so it uses
-            // the default
-            DocumentRouteLevelChangeVO levelChangeEvent = new DocumentRouteLevelChangeVO();
-            levelChangeEvent.setNewNodeName("");
-            SpringServiceLocator.getPaymentRequestService().updateWorkflowDocumentTitle(this, levelChangeEvent);
-        }
-    }
-    
-    /**
-     * @see org.kuali.core.document.Document#handleRouteLevelChange(edu.iu.uis.eden.clientapp.vo.DocumentRouteLevelChangeVO)
-     */
-    @Override
-    public void handleRouteLevelChange(DocumentRouteLevelChangeVO levelChangeEvent) {
-        LOG.debug("handleRouteLevelChange() started");
-        super.handleRouteLevelChange(levelChangeEvent);
-        
-        SpringServiceLocator.getPaymentRequestService().updateWorkflowDocumentTitle(this, levelChangeEvent);
     }
 
     @Override
@@ -773,7 +848,7 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
         KualiWorkflowDocument workflowDocument = getDocumentHeader().getWorkflowDocument();
         try {
             // at approve in fiscal level...adjust GL entries
-            if (NodeDetails.ACCOUNT_REVIEW.equals(workflowDocument.getNodeNames()[0])) {
+            if (WorkflowConstants.PaymentRequestDocument.NodeDetails.ACCOUNT_REVIEW.equals(workflowDocument.getNodeNames()[0])) {
                 // TODO code me
             }
         }
@@ -785,32 +860,37 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
     /**
      * @see org.kuali.module.purap.document.AccountsPayableDocumentBase#preProcessNodeChange(java.lang.String, java.lang.String)
      */
-    public void preProcessNodeChange(String newNodeName, String oldNodeName) {
-        if (PurapConstants.WorkflowConstants.PaymentRequestDocument.NodeDetails.ACCOUNTS_PAYABLE_REVIEW.equals(oldNodeName)) {
+    public boolean processNodeChange(String newNodeName, String oldNodeName) {
+        if (PaymentRequestStatuses.AUTO_APPROVED.equals(getStatusCode())) {
+            // do nothing for an auto approval
+            return false;
+        }
+        if (WorkflowConstants.PaymentRequestDocument.NodeDetails.ACCOUNTS_PAYABLE_REVIEW.equals(oldNodeName)) {
             setAccountsPayableApprovalDate(SpringServiceLocator.getDateTimeService().getCurrentSqlDate());
             ((PurapGeneralLedgerService) SpringServiceLocator.getService(SpringServiceLocator.PURAP_GENERAL_LEDGER_SERVICE)).generateEntriesCreatePreq(this);
         }
+        return true;
     }
     
     /**
      * @see org.kuali.module.purap.document.AccountsPayableDocumentBase#getNodeDetailsOrderedNodeNameList()
      */
     public List<String> getNodeDetailsOrderedNodeNameList() {
-        return PurapConstants.WorkflowConstants.PaymentRequestDocument.NodeDetails.ORDERED_NODE_NAME_LIST;
+        return WorkflowConstants.PaymentRequestDocument.NodeDetails.ORDERED_NODE_NAME_LIST;
     }
     
     /**
      * @see org.kuali.module.purap.document.AccountsPayableDocumentBase#getNodeDetailsStatusByNodeNameMap()
      */
     public Map<String, String> getNodeDetailsStatusByNodeNameMap() {
-        return PurapConstants.WorkflowConstants.PaymentRequestDocument.NodeDetails.STATUS_BY_NODE_NAME;
+        return WorkflowConstants.PaymentRequestDocument.NodeDetails.STATUS_BY_NODE_NAME;
     }
     
     /**
      * @see org.kuali.module.purap.document.AccountsPayableDocumentBase#saveDocumentFromPostProcessing()
      */
     public void saveDocumentFromPostProcessing() {
-        SpringServiceLocator.getPaymentRequestService().save(this);
+        SpringServiceLocator.getPaymentRequestService().saveDocumentWithoutValidation(this);
     }
 
     /**

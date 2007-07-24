@@ -34,13 +34,6 @@ public interface CreditMemoDao {
     public Iterator<CreditMemoDocument> getCreditMemosToExtract(String chartCode);
 
     /**
-     * Persists the credit memo document and updates the last use fields.
-     * 
-     * @param cmDocument - credit memo document to save
-     */
-    public void save(CreditMemoDocument cmDocument);
-
-    /**
      * This method tests for a duplicate entry of a credit memo by the combination of vendorNumber and creditMemoNumber. This method
      * accepts the two values as arguments, and returns a boolean, describing whether a duplicate exists in the system or not.
      * 

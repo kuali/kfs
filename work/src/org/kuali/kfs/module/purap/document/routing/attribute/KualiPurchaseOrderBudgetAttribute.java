@@ -31,7 +31,6 @@ import org.kuali.core.service.DocumentTypeService;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.bo.Options;
-import org.kuali.kfs.bo.SourceAccountingLine;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.chart.bo.Chart;
 import org.kuali.module.gl.util.SufficientFundsItem;
@@ -45,15 +44,12 @@ import edu.iu.uis.eden.plugin.attributes.WorkflowAttribute;
 import edu.iu.uis.eden.routeheader.DocumentContent;
 import edu.iu.uis.eden.routetemplate.RuleExtension;
 import edu.iu.uis.eden.routetemplate.RuleExtensionValue;
-import edu.iu.uis.eden.util.Utilities;
 
 /**
  * TODO delyea - documentation
  */
 public class KualiPurchaseOrderBudgetAttribute implements WorkflowAttribute {
     private static Logger LOG = Logger.getLogger(KualiPurchaseOrderBudgetAttribute.class);
-
-    private static final String REPORT_XML_BASE_TAG_NAME = "report";
 
     public static final String FIN_COA_CD_KEY = "fin_coa_cd";
     private static final String UNIVERSITY_FISCAL_YEAR_KEY = "univ_fiscal_year";
@@ -91,10 +87,10 @@ public class KualiPurchaseOrderBudgetAttribute implements WorkflowAttribute {
         if ( (StringUtils.isBlank(getFinCoaCd())) && (StringUtils.isBlank(getFiscalYear())) ) {
             return "";
         }
-        StringBuffer returnValue = new StringBuffer("<" + REPORT_XML_BASE_TAG_NAME + ">");
+        StringBuffer returnValue = new StringBuffer(KualiWorkflowUtils.XML_REPORT_DOC_CONTENT_PREFIX);
         returnValue.append("<" + KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR + ">").append(getFiscalYear()).append("</" + KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR + ">");
         returnValue.append("<" + KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE + ">").append(getFinCoaCd()).append("</" + KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE + ">");
-        return returnValue.append("</" + REPORT_XML_BASE_TAG_NAME + ">").toString();
+        return returnValue.append(KualiWorkflowUtils.XML_REPORT_DOC_CONTENT_SUFFIX).toString();
     }
 
     /**
@@ -136,7 +132,6 @@ public class KualiPurchaseOrderBudgetAttribute implements WorkflowAttribute {
         String documentHeaderId = null;
         String currentXpathExpression = null;
         try {
-            // TODO delyea - fix report xpath expression problem
             String ruleChartCode = getRuleExtentionValue(FIN_COA_CD_KEY, ruleExtensions);
             if ( (StringUtils.isBlank(ruleChartCode)) || (KFSConstants.WILDCARD_CHARACTER.equalsIgnoreCase(ruleChartCode)) ) {
                 // if rule extension is blank or the Wildcard character... always match this rule if criteria is true
@@ -146,10 +141,10 @@ public class KualiPurchaseOrderBudgetAttribute implements WorkflowAttribute {
 //                throw new RuntimeException(errorMsg);
             }
             XPath xPath = KualiWorkflowUtils.getXPath(docContent.getDocument());
-            currentXpathExpression = KualiWorkflowUtils.xstreamSafeXPath(KualiWorkflowUtils.XSTREAM_MATCH_ANYWHERE_PREFIX + REPORT_XML_BASE_TAG_NAME);
+            currentXpathExpression = KualiWorkflowUtils.xstreamSafeXPath(KualiWorkflowUtils.XSTREAM_MATCH_ANYWHERE_PREFIX + KualiWorkflowUtils.XML_REPORT_DOC_CONTENT_XPATH_PREFIX);
             boolean isReport = ((Boolean)xPath.evaluate(currentXpathExpression, docContent.getDocument(), XPathConstants.BOOLEAN)).booleanValue();
             if (isReport) {
-                currentXpathExpression = KualiWorkflowUtils.XSTREAM_MATCH_ANYWHERE_PREFIX + REPORT_XML_BASE_TAG_NAME + "/" + KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR;
+                currentXpathExpression = KualiWorkflowUtils.XSTREAM_MATCH_ANYWHERE_PREFIX + KualiWorkflowUtils.XML_REPORT_DOC_CONTENT_XPATH_PREFIX + "/" + KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR;
             } else {
                 currentXpathExpression = KualiWorkflowUtils.XSTREAM_MATCH_ANYWHERE_PREFIX + "document/postingYear";
             }
@@ -158,7 +153,7 @@ public class KualiPurchaseOrderBudgetAttribute implements WorkflowAttribute {
             if ( SpringServiceLocator.getUniversityDateService().getCurrentFiscalYear().compareTo(Integer.valueOf(documentFiscalYearString)) >= 0 ) {
                 if (alwaysRoutes) { return true; }
                 if (isReport) {
-                    currentXpathExpression = KualiWorkflowUtils.XSTREAM_MATCH_ANYWHERE_PREFIX + REPORT_XML_BASE_TAG_NAME + "/" + KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE;
+                    currentXpathExpression = KualiWorkflowUtils.XSTREAM_MATCH_ANYWHERE_PREFIX + KualiWorkflowUtils.XML_REPORT_DOC_CONTENT_XPATH_PREFIX + "/" + KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE;
                     return ruleChartCode.equalsIgnoreCase(KualiWorkflowUtils.xstreamSafeEval(xPath, currentXpathExpression, docContent.getDocContent()));
                 } else {
                     documentHeaderId = KualiWorkflowUtils.getDocumentHeaderDocumentNumber(docContent.getDocument());

@@ -97,22 +97,6 @@ public class KualiContractsAndGrantsDocSearchGenerator extends StandardDocumentS
         }
     }
     
-    /**
-     * Method being overriden to ignore search type attribute because it has no relevance for searching of actual values at this point
-     * 
-     * @see edu.iu.uis.eden.docsearch.StandardDocumentSearchGenerator#generateSearchableAttributeSql(edu.iu.uis.eden.docsearch.SearchAttributeCriteriaComponent, java.lang.String, int)
-     */
-    @Override
-    // TODO delyea - remove this once workflow is upgraded
-    protected QueryComponent generateSearchableAttributeSql(SearchAttributeCriteriaComponent criteriaComponent, String whereSqlStarter, int tableIndex) {
-        QueryComponent qc = new QueryComponent();
-        // the search type attribute is not used in the actual search so we must ignore it
-        if (!SEARCH_TYPE_ATTRIBUTE_FIELD_DEF_NAME.equals(criteriaComponent.getFormKey())) {
-            qc = super.generateSearchableAttributeSql(criteriaComponent, whereSqlStarter, tableIndex);
-        }
-        return qc;
-    }
-
     private List<String> getDocTypeNames(String criteriaKeyName) {
         List documentTypes = new ArrayList();
         SearchAttributeCriteriaComponent criteriaComponent = getSearchableAttributeByFieldName(criteriaKeyName);

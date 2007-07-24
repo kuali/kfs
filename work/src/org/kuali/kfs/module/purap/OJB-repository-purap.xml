@@ -2168,7 +2168,7 @@
     <field-descriptor name="extractedDate" column="PMT_EXTRT_DT" jdbc-type="DATE"/>
     <field-descriptor name="accountsPayableProcessorIdentifier" column="AP_PRCSR_ID" jdbc-type="VARCHAR"/>
     <field-descriptor name="accountsPayableRequestCancelIdentifier" column="AP_RQST_CNCL_ID" jdbc-type="VARCHAR"/>
-    <field-descriptor name="accountsPayableHoldIdentifier" column="AP_HLD_ID" jdbc-type="VARCHAR"/>
+    <field-descriptor name="lastActionPerformedByUniversalUserId" column="AP_HLD_ID" jdbc-type="VARCHAR"/>
     <field-descriptor name="processingCampusCode" column="PRCS_CMP_CD" jdbc-type="VARCHAR"/>
     <field-descriptor name="accountsPayableApprovalDate" column="AP_APRVL_DT" jdbc-type="DATE"/>
     <field-descriptor name="originalVendorHeaderGeneratedIdentifier" column="ORIG_VNDR_HDR_GNRTD_ID" jdbc-type="INTEGER"/>
@@ -3062,7 +3062,7 @@
     <field-descriptor name="itemMiscellaneousCreditDescription" column="ITM_MISC_CRDT_DESC" jdbc-type="VARCHAR"/>
     <field-descriptor name="extractedDate" column="CRDT_MEMO_EXTRT_DT" jdbc-type="DATE"/>
     <field-descriptor name="accountsPayablePurchasingDocumentLinkIdentifier" column="AP_PUR_DOC_LNK_ID" jdbc-type="INTEGER"/>
-    <field-descriptor name="accountsPayableHoldIdentifier" column="AP_HLD_ID" jdbc-type="VARCHAR"/>
+    <field-descriptor name="lastActionPerformedByUniversalUserId" column="AP_HLD_ID" jdbc-type="VARCHAR"/>
     <reference-descriptor name="documentHeader" class-ref="org.kuali.core.bo.DocumentHeader" auto-retrieve="true" auto-update="object" auto-delete="object">
         <foreignkey field-ref="documentNumber" />
     </reference-descriptor>
@@ -3070,12 +3070,14 @@
         <foreignkey field-ref="vendorHeaderGeneratedIdentifier" />
         <foreignkey field-ref="vendorDetailAssignedIdentifier" />
     </reference-descriptor>
+<!--
     <reference-descriptor name="purchaseOrderDocument" class-ref="org.kuali.module.purap.document.PurchaseOrderDocument" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="purchaseOrderIdentifier" />
     </reference-descriptor>
     <reference-descriptor name="paymentRequestDocument" class-ref="org.kuali.module.purap.document.PaymentRequestDocument" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="paymentRequestIdentifier" />
     </reference-descriptor>
+-->
     <reference-descriptor name="processingCampus" class-ref="org.kuali.core.bo.Campus" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="processingCampusCode" />
     </reference-descriptor>

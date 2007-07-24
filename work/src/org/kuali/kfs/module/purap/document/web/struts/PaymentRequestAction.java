@@ -16,17 +16,16 @@
 package org.kuali.module.purap.web.struts.action;
 
 import java.util.HashMap;
-import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.core.UserSession;
+import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.question.ConfirmationQuestion;
-import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.web.struts.form.KualiDocumentFormBase;
@@ -37,10 +36,8 @@ import org.kuali.module.purap.PurapKeyConstants;
 import org.kuali.module.purap.PurapConstants.PREQDocumentsStrings;
 import org.kuali.module.purap.document.AccountsPayableDocument;
 import org.kuali.module.purap.document.PaymentRequestDocument;
-import org.kuali.module.purap.document.PurchaseOrderDocument;
 import org.kuali.module.purap.rule.event.CalculateAccountsPayableEvent;
 import org.kuali.module.purap.rule.event.ContinueAccountsPayableEvent;
-import org.kuali.module.purap.service.PaymentRequestService;
 import org.kuali.module.purap.util.PurQuestionCallback;
 import org.kuali.module.purap.web.struts.form.PaymentRequestForm;
 
@@ -52,7 +49,7 @@ import edu.iu.uis.eden.exception.WorkflowException;
  */
 public class PaymentRequestAction extends AccountsPayableActionBase {
     static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PaymentRequestAction.class);
-    
+
     /**
      * Do initialization for a new requisition
      * 
@@ -60,9 +57,9 @@ public class PaymentRequestAction extends AccountsPayableActionBase {
      */
     @Override
     protected void createDocument(KualiDocumentFormBase kualiDocumentFormBase) throws WorkflowException {
-        
+
         super.createDocument(kualiDocumentFormBase);
-        
+
         ((PaymentRequestDocument) kualiDocumentFormBase.getDocument()).initiateDocument();
 
     }
@@ -73,32 +70,32 @@ public class PaymentRequestAction extends AccountsPayableActionBase {
      */
     @Override
     public ActionForward refresh(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
- 
+
         PaymentRequestForm preqForm = (PaymentRequestForm) form;
         PaymentRequestDocument document = (PaymentRequestDocument) preqForm.getDocument();
-                
+
         return super.refresh(mapping, form, request, response);
     }
-    
-    
+
+
     public ActionForward continuePREQ(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         LOG.debug("continuePREQ() method");
 
         PaymentRequestForm preqForm = (PaymentRequestForm) form;
         PaymentRequestDocument paymentRequestDocument = (PaymentRequestDocument) preqForm.getDocument();
-        
+
         // preform duplicate check which will forward to a question prompt if one is found
         ActionForward forward = performDuplicatePaymentRequestCheck(mapping, form, request, response, paymentRequestDocument);
         if (forward != null) {
             return forward;
-                } 
-                
+        }
+
         // If we are here either there was no duplicate or there was a duplicate and the user hits continue, in either case we need
         // to validate the business rules
         /// paymentRequestDocument.getDocumentHeader().setFinancialDocumentDescription("dummy data to pass the business rule");
-        boolean rulePassed = SpringServiceLocator.getKualiRuleService().applyRules(new ContinueAccountsPayableEvent(paymentRequestDocument));        
-        
-        if (rulePassed) {           
+        boolean rulePassed = SpringServiceLocator.getKualiRuleService().applyRules(new ContinueAccountsPayableEvent(paymentRequestDocument));
+
+        if (rulePassed) {
             paymentRequestDocument.setStatusCode(PurapConstants.PaymentRequestStatuses.IN_PROCESS);
             SpringServiceLocator.getPaymentRequestService().populatePaymentRequest(paymentRequestDocument);
             //TODO: Naser you can replace this with your call when you complete KULPURAP-1003 for now I need this here as a workaround for Jay
@@ -107,15 +104,15 @@ public class PaymentRequestAction extends AccountsPayableActionBase {
         else {
             paymentRequestDocument.setStatusCode(PurapConstants.PaymentRequestStatuses.INITIATE);
         }
-        
+
         paymentRequestDocument.refreshNonUpdateableReferences();
         //force calculation
         preqForm.setCalculated(false);
-        
+
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
-                
+
     }
-    
+
     public ActionForward clearInitFields(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         LOG.debug("clearInitValues() method");
 
@@ -134,10 +131,10 @@ public class PaymentRequestAction extends AccountsPayableActionBase {
     private ActionForward performDuplicatePaymentRequestCheck(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response, PaymentRequestDocument paymentRequestDocument) throws Exception {
         ActionForward forward = null;
         HashMap<String, String> duplicateMessages = SpringServiceLocator.getPaymentRequestService().paymentRequestDuplicateMessages(paymentRequestDocument);
-        if (!duplicateMessages.isEmpty()){
+        if (!duplicateMessages.isEmpty()) {
             Object question = request.getParameter(KFSConstants.QUESTION_INST_ATTRIBUTE_NAME);
             if (question == null) {
-                return this.performQuestionWithoutInput(mapping, form, request, response, PREQDocumentsStrings.DUPLICATE_INVOICE_QUESTION, duplicateMessages.get(PREQDocumentsStrings.DUPLICATE_INVOICE_QUESTION) , KFSConstants.CONFIRMATION_QUESTION, KFSConstants.ROUTE_METHOD, "");
+                return this.performQuestionWithoutInput(mapping, form, request, response, PREQDocumentsStrings.DUPLICATE_INVOICE_QUESTION, duplicateMessages.get(PREQDocumentsStrings.DUPLICATE_INVOICE_QUESTION), KFSConstants.CONFIRMATION_QUESTION, KFSConstants.ROUTE_METHOD, "");
             }
 
             Object buttonClicked = request.getParameter(KFSConstants.QUESTION_CLICKED_BUTTON);
@@ -149,9 +146,8 @@ public class PaymentRequestAction extends AccountsPayableActionBase {
 
         return forward;
     }
-    
-    
-    
+
+
     /**
      * The execute method is being overriden to reevaluate on each call 
      * which extra buttons to display.
@@ -160,9 +156,9 @@ public class PaymentRequestAction extends AccountsPayableActionBase {
      */
     @Override
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-                                       
+
         ActionForward action = super.execute(mapping, form, request, response);
-                
+
         //generate the extra buttons
         PaymentRequestForm preqForm = (PaymentRequestForm) form;
         PaymentRequestDocument preq = preqForm.getPaymentRequestDocument();
@@ -171,10 +167,10 @@ public class PaymentRequestAction extends AccountsPayableActionBase {
         //once we get the constraints removed to allow saving on continue
         //see KULPURAP-825 for some related comments
         preq.fixPreqItemReference();
-        
+
         return action;
     }
-    
+
     /**
      * This action puts a payment on hold, prompting for a reason before hand.
      * This stops further approvals or routing.
@@ -186,18 +182,18 @@ public class PaymentRequestAction extends AccountsPayableActionBase {
      * @return
      * @throws Exception
      */
-    public ActionForward addHoldOnPayment(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {    
+    public ActionForward addHoldOnPayment(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         String operation = "Hold ";
 
         PurQuestionCallback callback = new PurQuestionCallback() {
             public void doPostQuestion(AccountsPayableDocument document, String noteText) throws Exception {
                 SpringServiceLocator.getPaymentRequestService().addHoldOnPaymentRequest((PaymentRequestDocument) document, noteText);
-    }
+            }
         };
-    
+
         return askQuestionWithInput(mapping, form, request, response, PREQDocumentsStrings.HOLD_PREQ_QUESTION, PREQDocumentsStrings.HOLD_NOTE_PREFIX, operation, PurapKeyConstants.PAYMENT_REQUEST_MESSAGE_HOLD_DOCUMENT, callback);
     }
-    
+
     /**
      * This action removes a hold on the PREQ.
      * 
@@ -208,15 +204,15 @@ public class PaymentRequestAction extends AccountsPayableActionBase {
      * @return
      * @throws Exception
      */
-    public ActionForward removeHoldFromPayment(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {        
+    public ActionForward removeHoldFromPayment(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         String operation = "Remove ";
-        
+
         PurQuestionCallback callback = new PurQuestionCallback() {
             public void doPostQuestion(AccountsPayableDocument document, String noteText) throws Exception {
                 SpringServiceLocator.getPaymentRequestService().removeHoldOnPaymentRequest((PaymentRequestDocument) document, noteText);
-    }
+            }
         };
-        
+
         return askQuestionWithInput(mapping, form, request, response, PREQDocumentsStrings.REMOVE_HOLD_PREQ_QUESTION, PREQDocumentsStrings.REMOVE_HOLD_NOTE_PREFIX, operation, PurapKeyConstants.PAYMENT_REQUEST_MESSAGE_REMOVE_HOLD_DOCUMENT, callback);
     }
 
@@ -231,13 +227,13 @@ public class PaymentRequestAction extends AccountsPayableActionBase {
      * @return
      * @throws Exception
      */
-    public ActionForward requestCancelOnPayment(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {    
+    public ActionForward requestCancelOnPayment(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         String operation = "Cancel ";
-    
+
         PurQuestionCallback callback = new PurQuestionCallback() {
             public void doPostQuestion(AccountsPayableDocument document, String noteText) throws Exception {
                 SpringServiceLocator.getPaymentRequestService().requestCancelOnPaymentRequest((PaymentRequestDocument) document, noteText);
-    }
+            }
         };
 
         return askQuestionWithInput(mapping, form, request, response, PREQDocumentsStrings.CANCEL_PREQ_QUESTION, PREQDocumentsStrings.CANCEL_NOTE_PREFIX, operation, PurapKeyConstants.PAYMENT_REQUEST_MESSAGE_CANCEL_DOCUMENT, callback);
@@ -259,42 +255,86 @@ public class PaymentRequestAction extends AccountsPayableActionBase {
         PurQuestionCallback callback = new PurQuestionCallback() {
             public void doPostQuestion(AccountsPayableDocument document, String noteText) throws Exception {
                 SpringServiceLocator.getPaymentRequestService().removeRequestCancelOnPaymentRequest((PaymentRequestDocument) document, noteText);
-        }
+            }
         };
-    
+
         return askQuestionWithInput(mapping, form, request, response, PREQDocumentsStrings.REMOVE_CANCEL_PREQ_QUESTION, PREQDocumentsStrings.REMOVE_CANCEL_NOTE_PREFIX, operation, PurapKeyConstants.PAYMENT_REQUEST_MESSAGE_REMOVE_CANCEL_DOCUMENT, callback);
+    }
+
+    /**
+     * @see org.kuali.core.web.struts.action.KualiDocumentActionBase#cancel(org.apache.struts.action.ActionMapping,
+     *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     */
+    @Override
+    public ActionForward cancel(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        UserSession originalUserSession = GlobalVariables.getUserSession();
+        PaymentRequestForm preqForm = (PaymentRequestForm) form;
+        PaymentRequestDocument document = (PaymentRequestDocument) preqForm.getDocument();
+        if (document.getDocumentHeader().hasWorkflowDocument()) {
+            if ((document.getDocumentHeader().getWorkflowDocument().stateIsProcessed()) || (document.getDocumentHeader().getWorkflowDocument().stateIsFinal())) {
+                // TODO delyea - call custom cancel in the service
+            }
+            else if (document.getDocumentHeader().getWorkflowDocument().stateIsEnroute()) {
+                // need to run a disapprove to cancel the document
+                if (document.isPaymentRequestedCancelIndicator()) {
+                    UniversalUser user = document.getLastActionPerformedByUser();
+                    if (ObjectUtils.isNull(user)) {
+                        // throw error
+                        String errorMsg = "Could not find valid 'last action performed' user for universal user id " + document.getLastActionPerformedByUniversalUserId();
+                        LOG.error("cancel() " + errorMsg);
+                        throw new RuntimeException(errorMsg);
                     }
-        
+                    UserSession newUserSession = new UserSession(user.getPersonUserIdentifier());
+                    // should objects from existing user session be copied over
+                    GlobalVariables.setUserSession(newUserSession);
+                    PaymentRequestForm newPreqForm = (PaymentRequestForm)ObjectUtils.deepCopy(preqForm);
+                    newPreqForm.setDocument(SpringServiceLocator.getDocumentService().getByDocumentHeaderId(document.getDocumentNumber()));
+                    ActionForward actionForward = super.disapprove(mapping, newPreqForm, request, response);
+                    GlobalVariables.setUserSession(originalUserSession);
+                    return actionForward;
+                }
+                else {
+                    UserSession newUserSession = new UserSession(PurapConstants.SYSTEM_AP_USER);
+                    // should objects from existing user session be copied over
+                    GlobalVariables.setUserSession(newUserSession);
+                    SpringServiceLocator.getDocumentService().superUserCancelDocument(SpringServiceLocator.getDocumentService().getByDocumentHeaderId(document.getDocumentNumber()), "Document Cancelled by user " + originalUserSession.getUniversalUser().getPersonName() + " (" + originalUserSession.getUniversalUser().getPersonUserIdentifier() + ")");
+                    GlobalVariables.setUserSession(originalUserSession);
+                    return mapping.findForward(KFSConstants.MAPPING_BASIC);
+                }
+            }
+        }
+        return super.cancel(mapping, form, request, response);
+    }
+
     /**
      * calls a service method to calculate for a payment request document
      */
     @Override
     protected void customCalculate(AccountsPayableDocument apDoc) {
-        PaymentRequestDocument preqDoc = (PaymentRequestDocument)apDoc;
+        PaymentRequestDocument preqDoc = (PaymentRequestDocument) apDoc;
         //set amounts on any empty
         preqDoc.updateExtendedPriceOnItems();
         //notice we're ignoring whether the boolean, because these are just warnings they shouldn't halt anything
-        SpringServiceLocator.getKualiRuleService().applyRules(new CalculateAccountsPayableEvent(preqDoc));        
+        SpringServiceLocator.getKualiRuleService().applyRules(new CalculateAccountsPayableEvent(preqDoc));
 
         SpringServiceLocator.getPaymentRequestService().calculatePaymentRequest(preqDoc, true);
     }
 
-        
 
     /**
      * @see org.kuali.core.web.struts.action.KualiDocumentActionBase#save(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
     /*
-    @Override
-    public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        // TODO Auto-generated method stub
-        LOG.debug("save() method");
+     @Override
+     public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+     // TODO Auto-generated method stub
+     LOG.debug("save() method");
 
-        PaymentRequestForm preqForm = (PaymentRequestForm) form;
-        PaymentRequestDocument document = (PaymentRequestDocument) preqForm.getDocument();
-        
-        SpringServiceLocator.getPaymentRequestService().save(document);
-        return super.save(mapping, form, request, response);
-    }
-    */
+     PaymentRequestForm preqForm = (PaymentRequestForm) form;
+     PaymentRequestDocument document = (PaymentRequestDocument) preqForm.getDocument();
+     
+     SpringServiceLocator.getPaymentRequestService().save(document);
+     return super.save(mapping, form, request, response);
+     }
+     */
 }

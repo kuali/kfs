@@ -224,7 +224,7 @@ public class PdpExtractServiceImpl implements PdpExtractService {
 
     private void updatePaymentRequest(PaymentRequestDocument prd,PdpUser puser,Date processRunDate) {
         prd.setExtractedDate(new java.sql.Date(processRunDate.getTime()));
-        paymentRequestService.save(prd);
+        paymentRequestService.saveDocumentWithoutValidation(prd);
     }
 
     private PaymentGroup buildPaymentGroup(List<PaymentRequestDocument> prds,List<CreditMemoDocument> cmds,Batch batch) {

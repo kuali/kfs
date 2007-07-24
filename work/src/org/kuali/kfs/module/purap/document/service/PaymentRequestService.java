@@ -32,17 +32,8 @@ import edu.iu.uis.eden.exception.WorkflowException;
 
 public interface PaymentRequestService {
 
-    public void save(PaymentRequestDocument paymentRequestDocument);
+    public void saveDocumentWithoutValidation(PaymentRequestDocument paymentRequestDocument);
     
-    /**
-     * Persists the payment request without business rule checks as well as updating
-     * the workflow document by calling {@link org.kuali.core.workflow.service.KualiWorkflowDocument#saveRoutingData()}
-     * 
-     * @param paymentRequestDocument - payment request document to save
-     * @throws WorkflowException - when WorkflowDocument data is unable to be saved
-     */
-    public void saveWithWorkflowDocumentUpdate(PaymentRequestDocument paymentRequestDocument) throws WorkflowException;
-
     public List<PaymentRequestDocument> getPaymentRequestsByPurchaseOrderId(Integer poDocId);
     
     public List getPaymentRequestsByPOIdInvoiceAmountInvoiceDate(Integer poId, KualiDecimal invoiceAmount, Date invoiceDate);
@@ -131,15 +122,7 @@ public interface PaymentRequestService {
      */
     public void populatePaymentRequest(PaymentRequestDocument preq);
     
-    /**
-     * This method updates the workflow document title.
-     * 
-     * @param preqDoc
-     */
-    public void updateWorkflowDocumentTitle(PaymentRequestDocument preqDoc, DocumentRouteLevelChangeVO levelChangeEvent);
-    
-    
-    
+   
     
     /* Start Paste from EPIC */
      

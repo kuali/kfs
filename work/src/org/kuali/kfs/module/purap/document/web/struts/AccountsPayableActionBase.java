@@ -140,8 +140,8 @@ public class AccountsPayableActionBase extends PurchasingAccountsPayableActionBa
 
     @Override
     public ActionForward route(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        PaymentRequestForm preqForm = (PaymentRequestForm) form;
-        if (preqForm.isCalculated()) {
+        AccountsPayableFormBase apForm = (AccountsPayableFormBase) form;
+        if (apForm.isCalculated()) {
             return super.route(mapping, form, request, response);
         }
         GlobalVariables.getErrorMap().putError(KFSConstants.DOCUMENT_ERRORS, PurapKeyConstants.ERROR_APPROVE_REQUIRES_CALCULATE);

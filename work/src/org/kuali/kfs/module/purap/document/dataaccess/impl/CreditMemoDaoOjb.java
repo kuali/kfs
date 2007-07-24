@@ -17,15 +17,14 @@ package org.kuali.module.purap.dao.ojb;
 
 
 import java.sql.Date;
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Iterator;
-import java.util.List;
 
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryByCriteria;
 import org.kuali.core.dao.ojb.PlatformAwareDaoBaseOjb;
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.module.purap.PurapConstants;
+import org.kuali.module.purap.PurapConstants.CreditMemoStatuses;
 import org.kuali.module.purap.dao.CreditMemoDao;
 import org.kuali.module.purap.document.CreditMemoDocument;
 
@@ -45,24 +44,13 @@ public class CreditMemoDaoOjb extends PlatformAwareDaoBaseOjb implements CreditM
     public Iterator<CreditMemoDocument> getCreditMemosToExtract(String chartCode) {
         LOG.debug("getCreditMemosToExtract() started");
 
-        List statuses = new ArrayList();
-        statuses.add(PurapConstants.CreditMemoStatuses.AP_APPROVED);
-        statuses.add(PurapConstants.CreditMemoStatuses.COMPLETE);
-
         Criteria criteria = new Criteria();
         criteria.addEqualTo("processingCampusCode", chartCode);
-        criteria.addIn("statusCode",statuses);
+        criteria.addIn("statusCode",Arrays.asList(CreditMemoStatuses.STATUSES_ALLOWED_FOR_EXTRACTION));
         criteria.addIsNull("extractedDate");
         criteria.addEqualTo("holdIndicator", Boolean.FALSE);
 
         return getPersistenceBrokerTemplate().getIteratorByQuery(new QueryByCriteria(CreditMemoDocument.class,criteria));
-    }
-
-    /**
-     * @see org.kuali.module.purap.dao.CreditMemoDao#save(org.kuali.module.purap.document.CreditMemoDocument)
-     */
-    public void save(CreditMemoDocument cmDocument) {
-        getPersistenceBrokerTemplate().store(cmDocument);
     }
 
     /**

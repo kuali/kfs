@@ -30,9 +30,12 @@ import org.kuali.core.rule.event.RouteDocumentEvent;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.module.labor.util.ObjectUtil;
 import org.kuali.module.purap.PurapConstants;
+import org.kuali.module.purap.service.PurapService;
 
 import edu.iu.uis.eden.EdenConstants;
+import edu.iu.uis.eden.clientapp.vo.ActionTakenEventVO;
 import edu.iu.uis.eden.clientapp.vo.DocumentRouteLevelChangeVO;
 import edu.iu.uis.eden.clientapp.vo.ReportCriteriaVO;
 import edu.iu.uis.eden.exception.WorkflowException;
@@ -46,7 +49,7 @@ public abstract class AccountsPayableDocumentBase extends PurchasingAccountsPaya
     
     // SHARED FIELDS BETWEEN PAYMENT REQUEST AND CREDIT MEMO
     private Date accountsPayableApprovalDate;
-    private String accountsPayableHoldIdentifier;
+    private String lastActionPerformedByUniversalUserId;
     private String accountsPayableProcessorIdentifier;
     private boolean holdIndicator;
     private Date extractedDate;
@@ -70,8 +73,8 @@ public abstract class AccountsPayableDocumentBase extends PurchasingAccountsPaya
     public AccountsPayableDocumentBase() {
         super();
     }
-  
-     public boolean requiresAccountsPayableReviewRouting() {
+
+    public boolean requiresAccountsPayableReviewRouting() {
         List boNotes = this.getDocumentHeader().getBoNotes();
         if (ObjectUtils.isNotNull(boNotes)) {
             for (Object obj : boNotes) {
@@ -83,7 +86,7 @@ public abstract class AccountsPayableDocumentBase extends PurchasingAccountsPaya
         }
         return true;
     }
-    
+
     /**
      * 
      * @see org.kuali.module.purap.document.PurchasingAccountsPayableDocumentBase#prepareForSave(org.kuali.core.rule.event.KualiDocumentEvent)
@@ -163,27 +166,28 @@ public abstract class AccountsPayableDocumentBase extends PurchasingAccountsPaya
         super.handleRouteLevelChange(levelChangeEvent);
         try {
             String newNodeName = levelChangeEvent.getNewNodeName();
-            if (StringUtils.isNotBlank(newNodeName)) {
-                List orderedNodeNameList = getNodeDetailsOrderedNodeNameList();
-                preProcessNodeChange(newNodeName, levelChangeEvent.getOldNodeName());
-                ReportCriteriaVO reportCriteriaVO = new ReportCriteriaVO(Long.valueOf(getDocumentNumber()));
-                int indexOfNode = orderedNodeNameList.indexOf(newNodeName);
-                int indexOfNextNode = indexOfNode + 1;
-                if ( (indexOfNode != -1) && (indexOfNextNode < orderedNodeNameList.size()) ) {
-                    // we can find a valid next node name
-                    String nextNodeName = (String)orderedNodeNameList.get(indexOfNextNode);
-                    reportCriteriaVO.setTargetNodeName(nextNodeName);
-                    if (SpringServiceLocator.getWorkflowInfoService().documentWillHaveAtLeastOneActionRequest(
-                            reportCriteriaVO, new String[]{EdenConstants.ACTION_REQUEST_APPROVE_REQ,EdenConstants.ACTION_REQUEST_COMPLETE_REQ})) {
-                        String statusCode = getNodeDetailsStatusByNodeNameMap().get(nextNodeName);
-                        if (StringUtils.isNotBlank(statusCode)) {
-                            SpringServiceLocator.getPurapService().updateStatusAndStatusHistory(this, statusCode);
-                            populateDocumentForRouting();
-                            saveDocumentFromPostProcessing();
-                        }
-                    } else {
-                        if (LOG.isDebugEnabled()) {
-                            LOG.debug("Document with id " + getDocumentNumber() + " will not stop in route node '" + nextNodeName + "'");
+            if (processNodeChange(newNodeName, levelChangeEvent.getOldNodeName())) {
+                if (StringUtils.isNotBlank(newNodeName)) {
+                    List orderedNodeNameList = getNodeDetailsOrderedNodeNameList();
+                    ReportCriteriaVO reportCriteriaVO = new ReportCriteriaVO(Long.valueOf(getDocumentNumber()));
+                    int indexOfNode = orderedNodeNameList.indexOf(newNodeName);
+                    int indexOfNextNode = indexOfNode + 1;
+                    if ( (indexOfNode != -1) && (indexOfNextNode < orderedNodeNameList.size()) ) {
+                        // we can find a valid next node name
+                        String nextNodeName = (String)orderedNodeNameList.get(indexOfNextNode);
+                        reportCriteriaVO.setTargetNodeName(nextNodeName);
+                        if (SpringServiceLocator.getWorkflowInfoService().documentWillHaveAtLeastOneActionRequest(
+                                reportCriteriaVO, new String[]{EdenConstants.ACTION_REQUEST_APPROVE_REQ,EdenConstants.ACTION_REQUEST_COMPLETE_REQ})) {
+                            String statusCode = getNodeDetailsStatusByNodeNameMap().get(nextNodeName);
+                            if (StringUtils.isNotBlank(statusCode)) {
+                                SpringServiceLocator.getPurapService().updateStatusAndStatusHistory(this, statusCode);
+                                populateDocumentForRouting();
+                                saveDocumentFromPostProcessing();
+                            }
+                        } else {
+                            if (LOG.isDebugEnabled()) {
+                                LOG.debug("Document with id " + getDocumentNumber() + " will not stop in route node '" + nextNodeName + "'");
+                            }
                         }
                     }
                 }
@@ -194,7 +198,7 @@ public abstract class AccountsPayableDocumentBase extends PurchasingAccountsPaya
         }
     }
     
-    public abstract void preProcessNodeChange(String newNodeName, String oldNodeName);
+    public abstract boolean processNodeChange(String newNodeName, String oldNodeName);
     
     public abstract List<String> getNodeDetailsOrderedNodeNameList();
     
@@ -219,12 +223,12 @@ public abstract class AccountsPayableDocumentBase extends PurchasingAccountsPaya
         this.accountsPayableProcessorIdentifier = accountsPayableProcessorIdentifier;
     }
 
-    public String getAccountsPayableHoldIdentifier() { 
-        return accountsPayableHoldIdentifier;
+    public String getLastActionPerformedByUniversalUserId() {
+        return lastActionPerformedByUniversalUserId;
     }
 
-    public void setAccountsPayableHoldIdentifier(String accountsPayableHoldIdentifier) {
-        this.accountsPayableHoldIdentifier = accountsPayableHoldIdentifier;
+    public void setLastActionPerformedByUniversalUserId(String lastActionPerformedByUniversalUserId) {
+        this.lastActionPerformedByUniversalUserId = lastActionPerformedByUniversalUserId;
     }
 
     public String getProcessingCampusCode() { 
@@ -316,8 +320,8 @@ public abstract class AccountsPayableDocumentBase extends PurchasingAccountsPaya
             this.purchaseOrderDocument = null;
         } else {
             setPurchaseOrderIdentifier(purchaseOrderDocument.getPurapDocumentIdentifier());
-        this.purchaseOrderDocument = purchaseOrderDocument;
-    }
+            this.purchaseOrderDocument = purchaseOrderDocument;
+        }
     }
 
     public boolean isCloseReopenPoIndicator() {
@@ -329,16 +333,24 @@ public abstract class AccountsPayableDocumentBase extends PurchasingAccountsPaya
     }
 
     //Helper methods
-    public String getAccountsPayableHoldPersonName(){
-        String personName = null;
+    public UniversalUser getLastActionPerformedByUser(){
         try {
-            UniversalUser user = SpringServiceLocator.getUniversalUserService().getUniversalUser(getAccountsPayableHoldIdentifier());
-            personName = user.getPersonName();
+            UniversalUser user = SpringServiceLocator.getUniversalUserService().getUniversalUser(getLastActionPerformedByUniversalUserId());
+            return user;
         }
         catch (UserNotFoundException unfe) {
-            personName = "";
+            return null;
         }
-        
-        return personName;
     }
+
+    public String getLastActionPerformedByPersonName(){
+        UniversalUser user = getLastActionPerformedByUser();
+        if (ObjectUtils.isNull(user)) {
+            return "";
+        }
+        else {
+            return user.getPersonName();
+        }
+    }
+
 }

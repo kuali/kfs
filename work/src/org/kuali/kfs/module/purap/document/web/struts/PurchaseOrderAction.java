@@ -426,14 +426,14 @@ public class PurchaseOrderAction extends PurchasingActionBase {
         return null;
     }
 
-    public ActionForward firstTransmitPo(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+    public ActionForward transmitPurchaseOrderQuote(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         KualiDocumentFormBase kualiDocumentFormBase = (KualiDocumentFormBase) form;
         PurchaseOrderDocument po = (PurchaseOrderDocument) kualiDocumentFormBase.getDocument();
         ByteArrayOutputStream baosPDF = new ByteArrayOutputStream();
         try {
             String environment = "dev";
             StringBuffer sbFilename = new StringBuffer();
-            sbFilename.append("PURAP_PO_");
+            sbFilename.append("PURAP_PO_QUOTE_VENDOR_");
             sbFilename.append(po.getPurapDocumentIdentifier());
             sbFilename.append("_");
             sbFilename.append(System.currentTimeMillis());
@@ -441,7 +441,7 @@ public class PurchaseOrderAction extends PurchasingActionBase {
 
             // for testing Generate PO PDF, set the APO to true
             po.setPurchaseOrderAutomaticIndicator(true);
-            boolean success = SpringServiceLocator.getPurchaseOrderService().firstPurchaseOrderTransmitViaPrint(po, PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_PRINT_DOCUMENT, kualiDocumentFormBase.getAnnotation(), combineAdHocRecipients(kualiDocumentFormBase), baosPDF, environment);
+            boolean success = SpringServiceLocator.getPurchaseOrderService().printPurchaseOrderQuotePDF(po, null, baosPDF);
 
             if (!success) {
                 if (baosPDF != null) {

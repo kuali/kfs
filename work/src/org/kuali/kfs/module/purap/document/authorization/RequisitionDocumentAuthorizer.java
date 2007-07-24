@@ -90,7 +90,7 @@ public class RequisitionDocumentAuthorizer extends AccountingDocumentAuthorizerB
             /**
              * SEP of DUTIES ROUTE LEVEL - Approvers can only approve or diapprove.
              */
-            else if (currentRouteLevels.contains(NodeDetails.SEPARAION_OF_DUTIES_REVIEW)) {
+            else if (currentRouteLevels.contains(NodeDetails.SEPARATION_OF_DUTIES_REVIEW)) {
                 editModeMap.remove(AuthorizationConstants.EditMode.FULL_ENTRY);
                 editMode = AuthorizationConstants.TransactionalEditMode.VIEW_ONLY;
             }

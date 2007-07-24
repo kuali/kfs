@@ -86,34 +86,34 @@ public class KualiAttributeXPathTest extends KualiTestBase {
         String valueForFalse = "No";
         
         // test campus active indicator field translation to 'Yes'
-        String xpathConditionStatement = "(" + KUALI_CAMPUS_TYPE_ACTIVE_INDICATOR_XSTREAMSAFE + " = 'true')";
+        String xpathConditionStatement = KUALI_CAMPUS_TYPE_ACTIVE_INDICATOR_XSTREAMSAFE + " = 'true'";
         String xpathExpression = constructXpathExpression(valueForTrue, valueForFalse, xpathConditionStatement);
         String xpathResult = (String) xpath.evaluate(xpathExpression, docContent.getDocument(), XPathConstants.STRING);
         assertEquals("Using translated xpath expression '" + xpathExpression +"'", valueForTrue, xpathResult);
 
         // test user student indicator translation to 'No'
-        xpathConditionStatement = "(" + KUALI_INITIATOR_UNIVERSAL_USER_STUDENT_INDICATOR_XSTREAMSAFE + " = 'true')";
+        xpathConditionStatement = KUALI_INITIATOR_UNIVERSAL_USER_STUDENT_INDICATOR_XSTREAMSAFE + " = 'true'";
         xpathExpression = constructXpathExpression(valueForTrue, valueForFalse, xpathConditionStatement);
         xpathResult = (String) xpath.evaluate(xpathExpression, docContent.getDocument(), XPathConstants.STRING);
         assertEquals("Using translated xpath expression '" + xpathExpression +"'", valueForFalse, xpathResult);
         
         // test filled in date field translates to 'Yes'
         String expression = KualiWorkflowUtils.XSTREAM_SAFE_PREFIX + KualiWorkflowUtils.XSTREAM_MATCH_ANYWHERE_PREFIX + "document/purchaseOrderCreateDate" + KualiWorkflowUtils.XSTREAM_SAFE_SUFFIX;
-        xpathConditionStatement = "(boolean(" + expression + ") and not(" + expression + " = ''))";
+        xpathConditionStatement = "boolean(" + expression + ") and not(" + expression + " = '')";
         xpathExpression = constructXpathExpression(valueForTrue, valueForFalse, xpathConditionStatement);
         xpathResult = (String) xpath.evaluate(xpathExpression, docContent.getDocument(), XPathConstants.STRING);
         assertEquals("Using translated xpath expression '" + xpathExpression +"'", valueForTrue, xpathResult);
         
         // test empty date field translates to 'No'
         expression = KualiWorkflowUtils.XSTREAM_SAFE_PREFIX + KualiWorkflowUtils.XSTREAM_MATCH_ANYWHERE_PREFIX + "document/oldPurchaseOrderCreateDate" + KualiWorkflowUtils.XSTREAM_SAFE_SUFFIX;
-        xpathConditionStatement = "(boolean(" + expression + ") and not(" + expression + " = ''))";
+        xpathConditionStatement = "boolean(" + expression + ") and not(" + expression + " = '')";
         xpathExpression = constructXpathExpression(valueForTrue, valueForFalse, xpathConditionStatement);
         xpathResult = (String) xpath.evaluate(xpathExpression, docContent.getDocument(), XPathConstants.STRING);
         assertEquals("Using translated xpath expression '" + xpathExpression +"'", valueForFalse, xpathResult);
         
         // test non-existant date field translates to 'No'
         expression = KualiWorkflowUtils.XSTREAM_SAFE_PREFIX + KualiWorkflowUtils.XSTREAM_MATCH_ANYWHERE_PREFIX + "document/newPurchaseOrderCreateDate" + KualiWorkflowUtils.XSTREAM_SAFE_SUFFIX;
-        xpathConditionStatement = "(boolean(" + expression + ") and not(" + expression + " = ''))";
+        xpathConditionStatement = "boolean(" + expression + ") and not(" + expression + " = '')";
         xpathExpression = constructXpathExpression(valueForTrue, valueForFalse, xpathConditionStatement);
         xpathResult = (String) xpath.evaluate(xpathExpression, docContent.getDocument(), XPathConstants.STRING);
         assertEquals("Using translated xpath expression '" + xpathExpression +"'", valueForFalse, xpathResult);

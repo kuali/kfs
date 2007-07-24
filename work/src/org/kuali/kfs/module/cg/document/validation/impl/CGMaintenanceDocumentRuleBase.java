@@ -161,7 +161,7 @@ public class CGMaintenanceDocumentRuleBase extends MaintenanceDocumentRuleBase {
         if(primaryAgencyIsFederal) {
             if(federalPassThroughIndicator) {
                 // fpt indicator should not be checked if primary agency is federal
-                putFieldError(KFSPropertyConstants.FEDERAL_PASS_THROUGH_AGENCY_NUMBER, KFSKeyConstants.ERROR_PRIMARY_AGENCY_IS_FEDERAL_AND_FPT_INDICATOR_IS_CHECKED, new String[] { primaryAgency.getAgencyNumber(), AGENCY_TYPE_CODE_FEDERAL});
+                putFieldError(federalPassThroughIndicatorFieldName, KFSKeyConstants.ERROR_PRIMARY_AGENCY_IS_FEDERAL_AND_FPT_INDICATOR_IS_CHECKED, new String[] { primaryAgency.getAgencyNumber(), AGENCY_TYPE_CODE_FEDERAL});
                 success = false;
             }
             if(!StringUtils.isBlank(federalPassThroughAgencyNumber)) {

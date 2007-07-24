@@ -121,7 +121,11 @@ public class SalaryExpenseTransferForm extends ExpenseTransferDocumentFormBase {
         getSalaryExpenseTransferDocument().setEmplid(id);
 
         if (id != null) {
-            setUser(((LaborUserService) SpringServiceLocator.getService(LABOR_USER_SERVICE_NAME)).getLaborUserByPersonPayrollIdentifier(id));
+            try {
+                setUser(((LaborUserService) SpringServiceLocator.getService(LABOR_USER_SERVICE_NAME)).getLaborUserByPersonPayrollIdentifier(id));    
+            } catch (UserNotFoundException e){
+            }
+            
         }
     }
 
@@ -133,8 +137,14 @@ public class SalaryExpenseTransferForm extends ExpenseTransferDocumentFormBase {
      */
     public String getEmplid() throws UserNotFoundException {
         if (user == null) {
-            setUser(((LaborUserService) SpringServiceLocator.getService(LABOR_USER_SERVICE_NAME))
-                    .getLaborUserByPersonPayrollIdentifier(getSalaryExpenseTransferDocument().getEmplid()));
+            
+            try {
+                setUser(((LaborUserService) SpringServiceLocator.getService(LABOR_USER_SERVICE_NAME))
+                        .getLaborUserByPersonPayrollIdentifier(getSalaryExpenseTransferDocument().getEmplid()));
+                
+            } catch (UserNotFoundException e){
+            }
+            
         }
         return getSalaryExpenseTransferDocument().getEmplid();
     }

@@ -26,14 +26,19 @@ import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.UnitTestSqlDao;
+import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSKeyConstants;
 import org.kuali.kfs.KFSConstants.ParameterGroups;
 import org.kuali.kfs.KFSConstants.SystemGroupParameterNames;
 import org.kuali.kfs.context.KualiTestBase;
 import org.kuali.kfs.service.MockCollectorBatch;
 import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.module.gl.GLConstants;
 import org.kuali.module.gl.bo.CollectorDetail;
 import org.kuali.module.gl.bo.OriginEntry;
+import org.kuali.module.gl.bo.OriginEntryGroup;
+import org.kuali.module.gl.bo.OriginEntrySource;
+import org.kuali.module.gl.util.CollectorReportData;
 import org.kuali.module.gl.util.CollectorScrubberStatus;
 import org.kuali.test.WithTestSpringContext;
 import org.kuali.test.suite.RelatesTo;
@@ -103,15 +108,17 @@ public class CollectorServiceTest extends KualiTestBase {
      * to be valid, only need to be different from the gl record to the detail
      */
     @RelatesTo(RelatesTo.JiraIssue.KULUT31)
-    public final void testPerformValidation_unmatchedDetialKey() throws Exception {
+    public final void testPerformValidation_unmatchedDetailKey() throws Exception {
         MockCollectorBatch collectorBatch = new MockCollectorBatch();
 
         OriginEntry entry = new OriginEntry();
+        entry.setUniversityFiscalYear(new Integer(2007));
         entry.setChartOfAccountsCode("BA");
         entry.setAccountNumber("1912610");
         collectorBatch.addOriginEntry(entry);
 
         CollectorDetail collectorDetail = new CollectorDetail();
+        collectorDetail.setUniversityFiscalYear(new Integer(2007));
         collectorDetail.setChartOfAccountsCode("UA");
         collectorDetail.setAccountNumber("1912660");
         collectorBatch.addCollectorDetail(collectorDetail);
@@ -148,42 +155,41 @@ public class CollectorServiceTest extends KualiTestBase {
      * @throws Exception
      */
     @RelatesTo(RelatesTo.JiraIssue.KULUT31)
-    public final void testNegativeIDBillingAmounts() throws Exception {
+    public final void testNegativeCollectorDetailBillingAmounts() throws Exception {
         String collectorDirectoryName = SpringServiceLocator.getCollectorInputFileType().getDirectoryPath();
         String fileName = collectorDirectoryName + File.separator + "gl_collector3.xml";
         
         UnitTestSqlDao unitTestSqlDao = (UnitTestSqlDao) SpringServiceLocator.getService("unitTestSqlDao");
         unitTestSqlDao.sqlCommand("delete from GL_ID_BILL_T");
         
-        collectorHelperService.loadCollectorFile(fileName, null, null, new ArrayList<CollectorScrubberStatus>());
+        OriginEntryGroup group = SpringServiceLocator.getOriginEntryGroupService().createGroup(SpringServiceLocator.getDateTimeService().getCurrentSqlDate(), 
+                OriginEntrySource.COLLECTOR, true, false, true);
+        collectorHelperService.loadCollectorFile(fileName, group, new CollectorReportData(), new ArrayList<CollectorScrubberStatus>());
         
         Map<String, String> criteria = new HashMap<String, String>();
         // empty criteria, so return everything
-        Collection<CollectorDetail> allIDBs = SpringServiceLocator.getBusinessObjectService().findMatching(CollectorDetail.class, criteria);
+        Collection<CollectorDetail> allCollectorDetails = SpringServiceLocator.getBusinessObjectService().findMatching(CollectorDetail.class, criteria);
         
-        assertEquals("Incorrect number of CollectorDetail records found", 2, allIDBs.size());
+        assertEquals("Incorrect number of CollectorDetail records found", 3, allCollectorDetails.size());
         
-        boolean objCode3000Found = false;
-        boolean objCode9760Found = false;
         
-        for (CollectorDetail collectorDetail : allIDBs) {
-            if (collectorDetail.getUniversityFiscalYear().equals(new Integer(2006)) && collectorDetail.getChartOfAccountsCode().equals("BL")
-                    && collectorDetail.getFinancialObjectCode().equals("3000")) {
-                objCode3000Found = true;
-                assertEquals("Collector detail amount for obj code 3000 must be negative (obj type is debit)", new KualiDecimal("-1000000"), collectorDetail.getCollectorDetailItemAmount());
+        // this code assumes that all values in the details start off as positive, so that if it were negated, then
+        // the values would be negative.
+        
+        for (CollectorDetail collectorDetail : allCollectorDetails) {
+            if (KFSConstants.GL_DEBIT_CODE.equals(collectorDetail.getObjectType().getFinObjectTypeDebitcreditCd())) {
+                assertTrue("Collector detail amount for obj code with debit object type must be negated (assuming initial value is positive)", 
+                        collectorDetail.getCollectorDetailItemAmount().compareTo(KualiDecimal.ZERO) < 0);
             }
-            else if (collectorDetail.getUniversityFiscalYear().equals(new Integer(2006)) && collectorDetail.getChartOfAccountsCode().equals("BL")
-                    && collectorDetail.getFinancialObjectCode().equals("9760")) {
-                objCode9760Found = true;
-                assertEquals("Collector detail amount for obj code 9760 must be positive (obj type is credit)", new KualiDecimal("123"), collectorDetail.getCollectorDetailItemAmount());
+            else if (KFSConstants.GL_CREDIT_CODE.equals(collectorDetail.getObjectType().getFinObjectTypeDebitcreditCd())) {
+                assertTrue("Collector detail amount for obj code with credit object type must not be negated (assuming initial value is positive)", 
+                        collectorDetail.getCollectorDetailItemAmount().compareTo(KualiDecimal.ZERO) > 0);
             }
             else {
+                // not sure if we need to take into account the blank debit/credit indicator for the object type
                 fail("Unrecognized ID Billing detail object code information " + collectorDetail);
             }
         }
-        
-        assertTrue("Collector detail for object code 3000 not found", objCode3000Found);
-        assertTrue("Collector detail for object code 9760 not found", objCode9760Found);
     }
     
     public void testPrintFiles() throws Exception {

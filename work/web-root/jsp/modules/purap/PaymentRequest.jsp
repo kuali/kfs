@@ -35,6 +35,7 @@
 	<html:hidden property="document.statusCode" />
 	<html:hidden property="document.vendorHeaderGeneratedIdentifier" />
 	<html:hidden property="document.vendorDetailAssignedIdentifier" />
+	<html:hidden property="document.accountsPayablePurchasingDocumentLinkIdentifier" />
    
     <!-- html:hidden property="document.purchaseOrderEncumbranceFiscalYear" / --> 
     <html:hidden property="document.paymentRequestCostSourceCode" />

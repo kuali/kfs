@@ -155,7 +155,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 //            LOG.error(errorMsg, ve);
 //            throw new RuntimeException(errorMsg, ve);
 //        }
-        }
+    }
 
     /**
      * Creates an automatic PurchaseOrderDocument from given RequisitionDocument. Both documents need to be saved after this method
@@ -303,7 +303,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
             // TODO QUOTE - update PurchaseOrderVendorQuote here
             saveDocumentWithoutValidation(po);
             return true;
-    }
+        }
     }
 
     /**
@@ -404,6 +404,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
                 }
                 else {
                     newPO.setStatusCode(PurapConstants.PurchaseOrderStatuses.AMENDMENT);
+                    saveDocumentWithoutValidation(po);
                     documentService.saveDocument(newPO);
                 }
             }
@@ -415,6 +416,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
                     return po;
                 }
                 else {
+                    saveDocumentWithoutValidation(po);
                     documentService.routeDocument(newPO, annotation, adhocRoutingRecipients);
                 }
             }

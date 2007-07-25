@@ -92,20 +92,33 @@ public class RoutingFormAuditRule {
      */
     private static boolean processRoutingFormMainPageAuditChecks(RoutingFormDocument routingFormDocument) {
         boolean valid = true;
-        List<AuditError> auditErrors = new ArrayList<AuditError>();
+        List<AuditError> hardAuditErrors = new ArrayList<AuditError>();
+        List<AuditError> softAuditErrors = new ArrayList<AuditError>();
+
+        // Perform all validation checks for potential hard audit errors
         
         // Agency/Delivery Info
-        valid &= processRoutingFormMainPageAgencyDeliveryAuditChecks(auditErrors, routingFormDocument);
+        valid &= processRoutingFormMainPageAgencyDeliveryAuditChecks(hardAuditErrors, routingFormDocument);
         
         // Personnel and Units/Orgs
-        valid &= processRoutingFormMainPagePersonnelUnitsAuditChecks(auditErrors, routingFormDocument);
+        valid &= processRoutingFormMainPagePersonnelUnitsAuditChecks(hardAuditErrors, routingFormDocument);
         
         // Submission Details
-        valid &= processRoutingFormMainPageSubmissionDetailsAuditChecks(auditErrors, routingFormDocument);
+        valid &= processRoutingFormMainPageSubmissionDetailsAuditChecks(hardAuditErrors, routingFormDocument);
         
         // Done, finish up
-        if (!auditErrors.isEmpty()) {
-            GlobalVariables.getAuditErrorMap().put("mainPageAuditErrors", new AuditCluster("Main Page", auditErrors));
+        if (!hardAuditErrors.isEmpty()) {
+            GlobalVariables.getAuditErrorMap().put("mainPageAuditErrors", new AuditCluster("Main Page", hardAuditErrors));
+        }
+
+        // Perform all validation checks for potential soft audit errors
+
+        // Soft audit error check
+        processRoutingFormMainPageSoftErrors(softAuditErrors, routingFormDocument);
+
+        // Done, finish soft errors
+        if (!softAuditErrors.isEmpty()) {
+            GlobalVariables.getAuditErrorMap().put("mainPageAuditErrors", new AuditCluster("Main Page", softAuditErrors, true));
         }
         
         return valid;
@@ -415,16 +428,6 @@ public class RoutingFormAuditRule {
         }
         
         // logic data relation on each row (not relation between the two)
-        if(routingFormBudget.getRoutingFormBudgetDirectAmount() != null && routingFormBudget.getRoutingFormBudgetIndirectCostAmount() != null &&
-                routingFormBudget.getRoutingFormBudgetDirectAmount().isLessThan(routingFormBudget.getRoutingFormBudgetIndirectCostAmount())){
-            valid = false;
-            auditErrors.add(new AuditError("document.routingFormBudget.routingFormBudgetDirectAmount", KraKeyConstants.AUDIT_MAIN_PAGE_DIRECT_LESS_INDIRECT, "mainpage.anchor3"));
-        }
-        if(routingFormBudget.getRoutingFormBudgetTotalDirectAmount() != null && routingFormBudget.getRoutingFormBudgetTotalIndirectCostAmount() != null &&
-                routingFormBudget.getRoutingFormBudgetTotalDirectAmount().isLessThan(routingFormBudget.getRoutingFormBudgetTotalIndirectCostAmount())){
-            valid = false;
-            auditErrors.add(new AuditError("document.routingFormBudget.routingFormBudgetTotalDirectAmount", KraKeyConstants.AUDIT_MAIN_PAGE_TOTAL_DIRECT_LESS_TOTAL_INDIRECT, "mainpage.anchor3"));
-        }
         if(routingFormBudget.getRoutingFormBudgetStartDate() != null && routingFormBudget.getRoutingFormBudgetEndDate() != null &&
                 routingFormBudget.getRoutingFormBudgetStartDate().compareTo(routingFormBudget.getRoutingFormBudgetEndDate()) >= 0){
             valid = false;
@@ -467,4 +470,28 @@ public class RoutingFormAuditRule {
         
         return valid;
     }
+    
+    /**
+     * 
+     * This method reviews the provided routing form document and validates it for any potential soft audit errors.
+     * @param auditErrors Collection of audit errors to be added to the routing form document as soft audit errors.
+     * @param routingFormDocument Instance of the routing form document being validated.
+     */
+    private static void processRoutingFormMainPageSoftErrors(List<AuditError> auditErrors, RoutingFormDocument routingFormDocument) {
+        
+        RoutingFormBudget routingFormBudget = routingFormDocument.getRoutingFormBudget();
+
+        // Amount validation checks
+        if(routingFormBudget.getRoutingFormBudgetDirectAmount() != null && routingFormBudget.getRoutingFormBudgetIndirectCostAmount() != null &&
+                routingFormBudget.getRoutingFormBudgetDirectAmount().isLessThan(routingFormBudget.getRoutingFormBudgetIndirectCostAmount())){
+            auditErrors.add(new AuditError("document.routingFormBudget.routingFormBudgetDirectAmount", KraKeyConstants.AUDIT_MAIN_PAGE_DIRECT_LESS_INDIRECT, "mainpage.anchor3"));
+        }
+        
+        if(routingFormBudget.getRoutingFormBudgetTotalDirectAmount() != null && routingFormBudget.getRoutingFormBudgetTotalIndirectCostAmount() != null &&
+                routingFormBudget.getRoutingFormBudgetTotalDirectAmount().isLessThan(routingFormBudget.getRoutingFormBudgetTotalIndirectCostAmount())){
+            auditErrors.add(new AuditError("document.routingFormBudget.routingFormBudgetTotalDirectAmount", KraKeyConstants.AUDIT_MAIN_PAGE_TOTAL_DIRECT_LESS_TOTAL_INDIRECT, "mainpage.anchor3"));
+        }
+        
+    }
+    
 }

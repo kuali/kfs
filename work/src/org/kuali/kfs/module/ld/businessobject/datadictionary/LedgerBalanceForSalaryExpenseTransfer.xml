@@ -70,13 +70,14 @@
             </defaultSort>
 
             <lookupFields>
+                 
                 <lookupField attributeName="universityFiscalYear" required="true">
                     <defaultValueFinderClass>org.kuali.kfs.lookup.valuefinder.FiscalYearFinder</defaultValueFinderClass>
                 </lookupField>
                 <lookupField attributeName="laborObject.financialObjectFringeOrSalaryCode" required="true">
                     <defaultValue>S</defaultValue>
-                </lookupField>
-                <lookupField attributeName="emplid" required="true" />
+				</lookupField>
+                <lookupField attributeName="emplid" required="true" />                
                 <lookupField attributeName="financialBalanceTypeCode" required="true" />
 			</lookupFields>
 
@@ -116,9 +117,7 @@
 			</attribute>
 
             <attributeReference name="emplid" sourceClassName="org.kuali.core.bo.user.UniversalUser" sourceAttributeName="personPayrollIdentifier">
-                <control>
-                    <hidden />
-                </control>
+
             </attributeReference>
 
             <attributeReference name="ledgerPerson.personUniversalIdentifier" sourceClassName="org.kuali.core.bo.user.UniversalUser" sourceAttributeName="personUniversalIdentifier">

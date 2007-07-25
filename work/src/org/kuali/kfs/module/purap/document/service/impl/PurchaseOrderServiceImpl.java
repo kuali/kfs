@@ -155,7 +155,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 //            LOG.error(errorMsg, ve);
 //            throw new RuntimeException(errorMsg, ve);
 //        }
-    }
+        }
 
     /**
      * Creates an automatic PurchaseOrderDocument from given RequisitionDocument. Both documents need to be saved after this method
@@ -303,7 +303,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
             // TODO QUOTE - update PurchaseOrderVendorQuote here
             saveDocumentWithoutValidation(po);
             return true;
-        }
+    }
     }
 
     /**

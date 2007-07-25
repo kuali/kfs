@@ -323,8 +323,8 @@ public class BudgetPersonnelServiceImpl implements BudgetPersonnelService {
                 userAppointmentTaskPeriod.setTotalFringeAmount(new KualiInteger(0));
                 
 
-                BigDecimal costShareFringeRateDecimalMultiplier = budgetFringeRate.getInstitutionCostShareFringeRateAmount().bigDecimalValue().divide(BigDecimal.valueOf(100), 8, BigDecimal.ROUND_HALF_EVEN);
-                BigDecimal agnecyFringeRateDecimalMultiplier = budgetFringeRate.getContractsAndGrantsFringeRateAmount().bigDecimalValue().divide(BigDecimal.valueOf(100), 8, BigDecimal.ROUND_HALF_EVEN);
+                BigDecimal costShareFringeRateDecimalMultiplier = budgetFringeRate.getInstitutionCostShareFringeRateAmount().bigDecimalValue().divide(BigDecimal.valueOf(100), 8, BigDecimal.ROUND_HALF_UP);
+                BigDecimal agnecyFringeRateDecimalMultiplier = budgetFringeRate.getContractsAndGrantsFringeRateAmount().bigDecimalValue().divide(BigDecimal.valueOf(100), 8, BigDecimal.ROUND_HALF_UP);
 
                 if (StringUtils.equals(getAppointmentTypeMappings().get(KraConstants.ACADEMIC_SUMMER).toString(), userAppointmentTask.getInstitutionAppointmentTypeCode())) {
                     PeriodSalary periodSalary = userAppointmentTaskPeriod.getPeriodSalary() != null ? userAppointmentTaskPeriod.getPeriodSalary() : new PeriodSalary(new KualiInteger(0), 0);
@@ -337,7 +337,7 @@ public class BudgetPersonnelServiceImpl implements BudgetPersonnelService {
 
                     BigDecimal workWeeksPercent = weeks > 0 && workWeeks > 0 ? new BigDecimal(workWeeks / weeks) : new BigDecimal(0);
 
-                    BigDecimal userBudgetPeriodSalaryAmount = userAppointmentTaskPeriod.getUserBudgetPeriodSalaryAmount().bigDecimalValue().multiply(workWeeksPercent).setScale(0, BigDecimal.ROUND_HALF_EVEN);
+                    BigDecimal userBudgetPeriodSalaryAmount = userAppointmentTaskPeriod.getUserBudgetPeriodSalaryAmount().bigDecimalValue().multiply(workWeeksPercent).setScale(0, BigDecimal.ROUND_HALF_UP);
 
                     userAppointmentTaskPeriod.setUserBudgetPeriodSalaryAmount(new KualiInteger(userBudgetPeriodSalaryAmount));
                     
@@ -348,10 +348,10 @@ public class BudgetPersonnelServiceImpl implements BudgetPersonnelService {
 
                 if (StringUtils.contains(getAppointmentTypeMappings().get(KraConstants.FULL_YEAR).toString(), userAppointmentTask.getInstitutionAppointmentTypeCode()) || StringUtils.contains(getAppointmentTypeMappings().get(KraConstants.ACADEMIC_YEAR_SUMMER).toString(), userAppointmentTask.getInstitutionAppointmentTypeCode())) {
 
-                    KualiInteger agencyRequestSalary = userAppointmentTaskPeriod.getUserBudgetPeriodSalaryAmount().multiply(userAppointmentTaskPeriod.getAgencyPercentEffortAmount().bigDecimalValue().divide(BigDecimal.valueOf(100), 8, BigDecimal.ROUND_HALF_EVEN));
+                    KualiInteger agencyRequestSalary = userAppointmentTaskPeriod.getUserBudgetPeriodSalaryAmount().multiply(userAppointmentTaskPeriod.getAgencyPercentEffortAmount().bigDecimalValue().divide(BigDecimal.valueOf(100), 8, BigDecimal.ROUND_HALF_UP));
                     KualiInteger agencyRequestFringe = agencyRequestSalary.multiply(agnecyFringeRateDecimalMultiplier);
 
-                    KualiInteger institutionCostShareRequestSalary = userAppointmentTaskPeriod.getUserBudgetPeriodSalaryAmount().multiply(userAppointmentTaskPeriod.getInstitutionCostSharePercentEffortAmount().bigDecimalValue().divide(BigDecimal.valueOf(100), 8, BigDecimal.ROUND_HALF_EVEN));
+                    KualiInteger institutionCostShareRequestSalary = userAppointmentTaskPeriod.getUserBudgetPeriodSalaryAmount().multiply(userAppointmentTaskPeriod.getInstitutionCostSharePercentEffortAmount().bigDecimalValue().divide(BigDecimal.valueOf(100), 8, BigDecimal.ROUND_HALF_UP));
                     KualiInteger institutionCostShareRequestFringe = institutionCostShareRequestSalary.multiply(costShareFringeRateDecimalMultiplier);
 
                     userAppointmentTaskPeriod.setAgencyRequestTotalAmount(agencyRequestSalary);

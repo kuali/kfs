@@ -107,7 +107,7 @@ public class BudgetNonpersonnelCopyOverBoHelper extends BudgetNonpersonnel {
         // calculate inflation based on origin amounts per method specification.
         // Can always be done because of t=0 then it's the original value.
         // details here: http://en.wikipedia.org/wiki/Interest
-        BigDecimal inflationFactor = budgetNonpersonnelInflationRate.bigDecimalValue().divide(BigDecimal.valueOf(100), 8, BigDecimal.ROUND_HALF_EVEN).add(BigDecimal.valueOf(1));
+        BigDecimal inflationFactor = budgetNonpersonnelInflationRate.bigDecimalValue().divide(BigDecimal.valueOf(100), 8, BigDecimal.ROUND_HALF_UP).add(BigDecimal.valueOf(1));
 
         KualiInteger tmpBudgetAgencyAmount = this.getBudgetOriginAgencyAmount().multiply(new BigDecimal(Math.pow(inflationFactor.doubleValue(), inflationLength)));
         this.setBudgetInflatedAgencyAmount(tmpBudgetAgencyAmount);
@@ -175,7 +175,7 @@ public class BudgetNonpersonnelCopyOverBoHelper extends BudgetNonpersonnel {
         // 7. Note: Does not use origin amounts like inflation calculation in other constructor.
 
         // calculate inflation based on amounts per method specification
-        BigDecimal inflationFactor = budgetNonpersonnelInflationRate.bigDecimalValue().divide(BigDecimal.valueOf(100), 8, BigDecimal.ROUND_HALF_EVEN).add(BigDecimal.valueOf(1));
+        BigDecimal inflationFactor = budgetNonpersonnelInflationRate.bigDecimalValue().divide(BigDecimal.valueOf(100), 8, BigDecimal.ROUND_HALF_UP).add(BigDecimal.valueOf(1));
 
         KualiInteger tmpBudgetAgencyAmount = this.getBudgetOriginAgencyAmount().multiply(new BigDecimal(Math.pow(inflationFactor.doubleValue(), inflationLength)));
         this.setBudgetInflatedAgencyAmount(tmpBudgetAgencyAmount);

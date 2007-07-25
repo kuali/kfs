@@ -92,7 +92,7 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
         this.setRequisitionSourceCode( PurapConstants.RequisitionSources.STANDARD_ORDER );
         this.setStatusCode( PurapConstants.RequisitionStatuses.IN_PROCESS );
         this.setPurchaseOrderCostSourceCode( PurapConstants.POCostSources.ESTIMATE );
-        this.setPurchaseOrderTransmissionMethodCode( PurapConstants.POTransmissionMethods.FAX );
+        this.setPurchaseOrderTransmissionMethodCode( determinePurchaseOrderTransmissionMethod() );
 
         // set the default funding source
         this.setFundingSourceCode(SpringServiceLocator.getKualiConfigurationService().getApplicationParameterValue(PurapParameterConstants.PURAP_ADMIN_GROUP,"PURAP.REQUISITION_DEFAULT_FUNDING_SOURCE"));
@@ -118,6 +118,16 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
         this.refreshNonUpdateableReferences();
     }
 
+    /**
+     * This method determines what PO transmission method to use.
+     *  
+     * @return
+     */
+    private String determinePurchaseOrderTransmissionMethod(){
+        //KULPURAP-826: Return a value based on a sys param. Perhaps later change it to more dynamic logic
+        return SpringServiceLocator.getKualiConfigurationService().getApplicationParameterValue(PurapParameterConstants.PURAP_ADMIN_GROUP, PurapParameterConstants.PURAP_DEFAULT_PO_TRANSMISSION_CODE);
+    }
+    
     /**
      * A method in which to do checks as to whether copying of this document should be allowed.
      * Copying is not to be allowed if this is a B2B req. and more than a set number of days

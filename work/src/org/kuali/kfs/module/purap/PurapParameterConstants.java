@@ -32,4 +32,5 @@ public class PurapParameterConstants {
     public static final String PURAP_PDP_EPIC_ORG_CODE = "PURAP.PDP.EPIC.ORG.CODE";
     public static final String PURAP_PDP_EPIC_SBUNT_CODE = "PURAP.PDP.EPIC.SBUNT.CODE";
     public static final String PURAP_PDP_USER_ID = "PURAP.PDP.USER.ID";
+    public static final String PURAP_DEFAULT_PO_TRANSMISSION_CODE = "PURAP.DEFAULT_PO_TRANSMISSION_CODE";
 }

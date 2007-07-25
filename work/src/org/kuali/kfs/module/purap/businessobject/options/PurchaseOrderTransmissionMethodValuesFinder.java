@@ -39,8 +39,7 @@ public class PurchaseOrderTransmissionMethodValuesFinder extends KeyValuesBase {
 
         KeyValuesService boService = SpringServiceLocator.getKeyValuesService();
         Collection codes = boService.findAll(PurchaseOrderTransmissionMethod.class);
-        List labels = new ArrayList();
-        labels.add(new KeyLabelPair("", ""));
+        List labels = new ArrayList();       
         for (Iterator iter = codes.iterator(); iter.hasNext();) {
             PurchaseOrderTransmissionMethod PurchaseOrderTransmissionMethod = (PurchaseOrderTransmissionMethod) iter.next();
             labels.add(new KeyLabelPair(PurchaseOrderTransmissionMethod.getPurchaseOrderTransmissionMethodCode(), PurchaseOrderTransmissionMethod.getPurchaseOrderTransmissionMethodDescription()));

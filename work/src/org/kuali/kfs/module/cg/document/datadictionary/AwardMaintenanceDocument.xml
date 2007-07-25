@@ -63,18 +63,18 @@
             <reference attributeName="agency" activeIndicatorAttributeName="historicalIndicator" attributeToHighlightOnFail="agencyNumber" />
             <reference attributeName="federalPassThroughAgency" activeIndicatorAttributeName="historicalIndicator" attributeToHighlightOnFail="federalPassThroughAgencyNumber" />
             <reference attributeName="awardPurpose" activeIndicatorAttributeName="rowActiveIndicator" attributeToHighlightOnFail="awardPurposeCode" />
-            
 			<reference collection="awardAccounts" attributeName="account" activeIndicatorAttributeName="accountClosedIndicator" activeIndicatorReversed="true" attributeToHighlightOnFail="accountNumber" />
 			<reference collection="awardOrganizations" attributeName="organization" activeIndicatorAttributeName="organizationActiveIndicator" attributeToHighlightOnFail="organizationCode" />
 			<reference collection="awardSubcontractors" attributeName="subcontractor" activeIndicatorAttributeName="active" attributeToHighlightOnFail="subcontractorNumber" />
- 
-		</defaultExistenceChecks>
+ 		</defaultExistenceChecks>
 
         <maintainableSections>
             <maintainableSection title="Award Maintenance">
                 <maintainableItems>
                     <maintainableField name="proposalNumber" required="true" readOnlyAfterAdd="true"/>
-                    <maintainableField name="awardStatusCode" required="true" />
+                    <maintainableField name="awardStatusCode" required="true">
+                        <defaultValue>A</defaultValue>
+                    </maintainableField>
                     <maintainableField name="agencyNumber" required="true" webUILeaveFieldFunction="onblur_agencyNumber"/>
                     <maintainableField name="agency.fullName" readOnly="true" />
                     <maintainableField name="awardProjectTitle" required="true" />

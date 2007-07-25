@@ -445,15 +445,15 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
         }
         catch (WorkflowException we) {
             LOG.error("Error during updateFlagsAndRoute on PO document: " + we);
-            throw new RuntimeException("Error during updateFlagsAndRoute on PO document: " + we.getMessage());
+            throw new RuntimeException("Error during updateFlagsAndRoute on PO document: " + we.getMessage(),we);
         }
         catch (OjbOperationException ooe) {
             LOG.error("Error during updateFlagsAndRoute on PO document: " + ooe);
-            throw new RuntimeException("Error during updateFlagsAndRoute on PO document: " + ooe.getMessage());
+            throw new RuntimeException("Error during updateFlagsAndRoute on PO document: " + ooe.getMessage(),ooe);
         }
         catch (Exception e) {
             LOG.error("Error during updateFlagsAndRoute on PO document: " + e);
-            throw new RuntimeException("Error during updateFlagsAndRoute on PO document: " + e.getMessage());
+            throw new RuntimeException("Error during updateFlagsAndRoute on PO document: " + e.getMessage(),e);
         }
     }
 

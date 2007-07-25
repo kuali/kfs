@@ -124,7 +124,7 @@
                 </control>
 
                 <summary>objectId summary...</summary>
-                <description>Da period for da budget. Duh.</description>
+                <description>Budget period object identifier</description>
             </attribute>
 
             <attribute name="versionNumber" forceUppercase="true">

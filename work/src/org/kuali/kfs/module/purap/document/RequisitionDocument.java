@@ -34,6 +34,7 @@ import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.workflow.service.KualiWorkflowDocument;
 import org.kuali.kfs.KFSConstants;
+import org.kuali.kfs.bo.SourceAccountingLine;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.chart.bo.ChartUser;
 import org.kuali.module.purap.PurapConstants;
@@ -42,6 +43,7 @@ import org.kuali.module.purap.PurapParameterConstants;
 import org.kuali.module.purap.PurapConstants.RequisitionStatuses;
 import org.kuali.module.purap.bo.BillingAddress;
 import org.kuali.module.purap.bo.PurApAccountingLine;
+import org.kuali.module.purap.bo.PurchasingApItem;
 import org.kuali.module.purap.bo.RequisitionAccount;
 import org.kuali.module.purap.bo.RequisitionItem;
 import org.kuali.module.purap.bo.RequisitionStatusHistory;
@@ -167,7 +169,9 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
     public void toCopy() throws WorkflowException, ValidationException {
         // Need to clear this identifier before copy so that related documents appear to be none
         this.setAccountsPayablePurchasingDocumentLinkIdentifier(null);
-        
+        // TODO: Added for KULPURAP-1133.  Need to replace with hidden fields for the account summary.
+        this.refreshAccountSummary();
+                
         super.toCopy();
 
         ChartUser currentUser = (ChartUser)GlobalVariables.getUserSession().getUniversalUser().getModuleUser( ChartUser.MODULE_ID );

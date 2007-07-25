@@ -251,6 +251,9 @@
 <attributeReference name="deliveryRequiredDateReasonCode" sourceClassName="org.kuali.module.purap.bo.DeliveryRequiredDateReason" sourceAttributeName="deliveryRequiredDateReasonCode">
     <label>Date Required Reason</label>
     <shortLabel>Date Reason</shortLabel>
+    <control>
+		<select valuesFinderClass="org.kuali.module.purap.lookup.keyvalues.DateRequiredReasonValuesFinder"/>
+	</control>    
     <summary>deliveryRequiredDateReasonCode</summary>
     <description>deliveryRequiredDateReasonCode description...</description>
 </attributeReference>

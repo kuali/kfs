@@ -85,6 +85,8 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
     private Map<SourceAccountingLine, List<PurchasingApItem>> summaryAccountsWithItems;
     private List<SourceAccountingLine> summaryAccountsWithItemsKey;
     private List<List<PurchasingApItem>> summaryAccountsWithItemsValue;
+    
+    private List<SourceAccountingLine> accountsForRouting;  //don't use me for anything else!!
 
     // REFERENCE OBJECTS
     private Status status;
@@ -121,7 +123,7 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
     
     public void refreshAccountSummary() {
         //setSummaryAccounts(SpringServiceLocator.getPurapService().generateSummary(getItems()));
-        this.setSummaryAccountsWithItems(SpringServiceLocator.getPurapService().generateSummaryWithItems(getItems()));
+//        this.setSummaryAccountsWithItems(SpringServiceLocator.getPurapService().generateSummaryWithItems(getItems()));
     }
 
     /**
@@ -135,6 +137,10 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
         refreshNonUpdateableReferences();
         SpringServiceLocator.getPurapAccountingService().updateAccountAmounts(this);
         refreshAccountSummary();
+        
+        //this is only temporary until we find out what's going on with refreshAccountSummary() (hjs)
+        setAccountsForRouting(SpringServiceLocator.getPurapAccountingService().generateSummary(getItems()));
+        
         super.populateDocumentForRouting();
     }
 
@@ -701,5 +707,13 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
         // return
         // SpringServiceLocator.getWorkflowInfoService().routeNodeHasApproverActionRequest(this.getDocumentHeader().getWorkflowDocument().getDocumentType(),
         // getDocumentHeader().getWorkflowDocument().getApplicationContent(), routeNodeName);
+    }
+
+    public List<SourceAccountingLine> getAccountsForRouting() {
+        return accountsForRouting;
+    }
+
+    public void setAccountsForRouting(List<SourceAccountingLine> accountsForRouting) {
+        this.accountsForRouting = accountsForRouting;
     }
 }

@@ -90,9 +90,10 @@
     <purap:additional
         documentAttributes="${DataDictionary.PurchaseOrderDocument.attributes}" />
         
-    <purap:accountsummary
+    <!-- TEMPORARILY DISABLING ACCOUNT SUMMARY FUNCTIONALITY -->
+    <!-- purap:accountsummary
         itemAttributes="${DataDictionary.PurchaseOrderItem.attributes}"
-    	documentAttributes="${DataDictionary.SourceAccountingLine.attributes}" />  
+    	documentAttributes="${DataDictionary.SourceAccountingLine.attributes}" / -->  
 	
 	<!--  TODO this tab has been hided per KULPURAP-1063 -->
     <!--  purap:quotes

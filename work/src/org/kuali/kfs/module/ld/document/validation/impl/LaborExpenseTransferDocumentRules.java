@@ -19,6 +19,7 @@ import static org.kuali.kfs.KFSConstants.BALANCE_TYPE_A21;
 import static org.kuali.kfs.KFSConstants.BALANCE_TYPE_ACTUAL;
 import static org.kuali.kfs.bo.AccountingLineOverride.CODE.EXPIRED_ACCOUNT;
 import static org.kuali.kfs.bo.AccountingLineOverride.CODE.EXPIRED_ACCOUNT_AND_NON_FRINGE_ACCOUNT_USED;
+import static org.kuali.kfs.bo.AccountingLineOverride.CODE.NON_FRINGE_ACCOUNT_USED;
 import static org.kuali.module.labor.LaborConstants.LABOR_LEDGER_PENDING_ENTRY_CODE;
 import static org.kuali.module.labor.LaborConstants.LABOR_LEDGER_CHART_OF_ACCOUNT_CODE;
 
@@ -1668,6 +1669,13 @@ public class LaborExpenseTransferDocumentRules extends AccountingDocumentRuleBas
             reportError(KFSPropertyConstants.SOURCE_ACCOUNTING_LINES, KFSKeyConstants.Labor.ERROR_TRANSFER_AMOUNT_EXCEED_MAXIMUM);
             isValid = false;
         }
+        
+        // benefit transfers cannot be made between two different fringe benefit labor object codes.
+        boolean hasSameFringeBenefitObjectCodes = this.hasSameFringeBenefitObjectCodes(expenseTransferDocument);
+        if (!hasSameFringeBenefitObjectCodes) {
+            reportError(KFSPropertyConstants.TARGET_ACCOUNTING_LINES, KFSKeyConstants.Labor.DISTINCT_OBJECT_CODE_ERROR);
+            isValid = false;
+        }
 
         // allow a negative amount to be moved from one account to another but do not allow a negative amount to be created when the
         // balance is positive
@@ -1682,6 +1690,12 @@ public class LaborExpenseTransferDocumentRules extends AccountingDocumentRuleBas
         if (!canExpiredAccountBeUsed) {
             reportError(KFSPropertyConstants.TARGET_ACCOUNTING_LINES, KFSKeyConstants.ERROR_ACCOUNT_EXPIRED);
             isValid = false;
+        }     
+
+        // verify if the accounts in target accounting lines accept fringe benefits
+        if (!this.isAccountsAcceptFringeBenefit(expenseTransferDocument)) {
+            reportError(KFSPropertyConstants.TARGET_ACCOUNTING_LINES, KFSKeyConstants.Labor.ERROR_ACCOUNT_NOT_ACCEPT_FRINGES);
+            return false;
         }
 
         return isValid;
@@ -1779,7 +1793,6 @@ public class LaborExpenseTransferDocumentRules extends AccountingDocumentRuleBas
         return true;
     }
 
-
     /**
      * determine whether the expired accounts in the target accounting lines can be used.
      * 
@@ -1823,39 +1836,6 @@ public class LaborExpenseTransferDocumentRules extends AccountingDocumentRuleBas
     }
 
     /**
-     * build the field-value maps throught the given accouting line
-     * 
-     * @param accountingLine the given accounting line
-     * @return the field-value maps built from the given accouting line
-     */
-    protected Map<String, Object> buildFieldValueMap(ExpenseTransferAccountingLine accountingLine) {
-        Map<String, Object> fieldValues = new HashMap<String, Object>();
-
-        fieldValues.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, accountingLine.getPostingYear());
-        fieldValues.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, accountingLine.getChartOfAccountsCode());
-        fieldValues.put(KFSPropertyConstants.ACCOUNT_NUMBER, accountingLine.getAccountNumber());
-
-        String subAccountNumber = accountingLine.getSubAccountNumber();
-        subAccountNumber = StringUtils.isBlank(subAccountNumber) ? KFSConstants.DASHES_SUB_ACCOUNT_NUMBER : subAccountNumber;
-        fieldValues.put(KFSPropertyConstants.SUB_ACCOUNT_NUMBER, subAccountNumber);
-
-        fieldValues.put(KFSPropertyConstants.FINANCIAL_BALANCE_TYPE_CODE, accountingLine.getBalanceTypeCode());
-        fieldValues.put(KFSPropertyConstants.FINANCIAL_OBJECT_CODE, accountingLine.getFinancialObjectCode());
-        
-        Options options = SpringServiceLocator.getOptionsService().getOptions(accountingLine.getPostingYear());
-        fieldValues.put(KFSPropertyConstants.FINANCIAL_OBJECT_TYPE_CODE, options.getFinObjTypeExpenditureexpCd());
-
-        String subObjectCode = accountingLine.getFinancialSubObjectCode();
-        subObjectCode = StringUtils.isBlank(subObjectCode) ? KFSConstants.DASHES_SUB_OBJECT_CODE : subObjectCode;
-        fieldValues.put(KFSPropertyConstants.FINANCIAL_SUB_OBJECT_CODE, subObjectCode);
-
-        fieldValues.put(KFSPropertyConstants.EMPLID, accountingLine.getEmplid());
-        fieldValues.put(KFSPropertyConstants.POSITION_NUMBER, accountingLine.getPositionNumber());
-
-        return fieldValues;
-    }
-
-    /**
      * group the accounting lines by the specified key fields
      * 
      * @param accountingLines the given accounting lines that are stored in a list
@@ -1887,6 +1867,80 @@ public class LaborExpenseTransferDocumentRules extends AccountingDocumentRuleBas
         }
         return accountingLineGroupMap;
     }
+    
+    /**
+     * determine whether the accounts in the target accounting lines accept fringe benefits.
+     * 
+     * @param accountingDocument the given accounting document
+     * @return true if the accounts in the target accounting lines accept fringe benefits; otherwise, false
+     */
+    protected boolean isAccountsAcceptFringeBenefit(AccountingDocument accountingDocument) {
+        LOG.debug("started isAccountsAcceptFringeBenefit");
+        List<AccountingLine> accountingLines = accountingDocument.getTargetAccountingLines();
+
+        for (AccountingLine accountingLine : accountingLines) {
+            Account account = accountingLine.getAccount();
+            if (account!=null && !account.isAccountsFringesBnftIndicator()) {
+                String overrideCode = accountingLine.getOverrideCode();
+                boolean canNonFringeAccountUsed = NON_FRINGE_ACCOUNT_USED.equals(overrideCode);
+                canNonFringeAccountUsed = canNonFringeAccountUsed || EXPIRED_ACCOUNT_AND_NON_FRINGE_ACCOUNT_USED.equals(overrideCode);
+
+                if (!canNonFringeAccountUsed) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+    
+    /**
+     * Determine whether target accouting lines have the same fringe benefit object codes as source accounting lines
+     * 
+     * @param accountingDocument the given accounting document
+     * @return true if target accouting lines have the same fringe benefit object codes as source accounting lines; otherwise, false
+     */
+    protected boolean hasSameFringeBenefitObjectCodes(AccountingDocument accountingDocument) {
+        LOG.debug("started hasSameFringeBenefitObjectCodes(accountingDocument)");
+        LaborExpenseTransferDocumentBase expenseTransferDocument = (LaborExpenseTransferDocumentBase) accountingDocument;
+
+        Set<String> objectCodesFromSourceLine = new HashSet<String>();
+        for (Object sourceAccountingLine : expenseTransferDocument.getSourceAccountingLines()) {
+            AccountingLine line = (AccountingLine) sourceAccountingLine;
+            objectCodesFromSourceLine.add(line.getFinancialObjectCode());
+        }
+
+        Set<String> objectCodesFromTargetLine = new HashSet<String>();
+        for (Object targetAccountingLine : expenseTransferDocument.getTargetAccountingLines()) {
+            AccountingLine line = (AccountingLine) targetAccountingLine;
+            objectCodesFromTargetLine.add(line.getFinancialObjectCode());
+        }
+
+        if (objectCodesFromSourceLine.size() != objectCodesFromTargetLine.size()) {
+            return false;
+        }
+        return objectCodesFromSourceLine.containsAll(objectCodesFromTargetLine);
+    }
+    
+    /**
+     * Determine whether the object code of the given accouting line is one of fringe benefit objects of source accounting lines
+     * 
+     * @param accountingDocument the given accounting document
+     * @param accountingLine the given accounting line
+     * @return true if the object code of the given accouting line is one of fringe benefit objects of source accounting lines;
+     *         otherwise, false
+     */
+    protected boolean hasSameFringeBenefitObjectCodes(AccountingDocument accountingDocument, AccountingLine accountingLine) {
+        LOG.debug("started hasSameFringeBenefitObjectCodes(accountingDocument, accountingLine)");
+        LaborExpenseTransferDocumentBase expenseTransferDocument = (LaborExpenseTransferDocumentBase) accountingDocument;
+
+        List<String> objectCodesFromSourceLine = new ArrayList<String>();
+        for (Object sourceAccountingLine : expenseTransferDocument.getSourceAccountingLines()) {
+            AccountingLine line = (AccountingLine) sourceAccountingLine;
+            objectCodesFromSourceLine.add(line.getFinancialObjectCode());
+        }
+
+        return objectCodesFromSourceLine.contains(accountingLine.getFinancialObjectCode());
+    }
 
     /**
      * get the default key of ExpenseTransferAccountingLine
@@ -1913,5 +1967,38 @@ public class LaborExpenseTransferDocumentRules extends AccountingDocumentRuleBas
         defaultKey.add(KFSPropertyConstants.PAYROLL_END_DATE_FISCAL_PERIOD_CODE);
 
         return defaultKey;
+    }
+    
+    /**
+     * build the field-value maps throught the given accouting line
+     * 
+     * @param accountingLine the given accounting line
+     * @return the field-value maps built from the given accouting line
+     */
+    protected Map<String, Object> buildFieldValueMap(ExpenseTransferAccountingLine accountingLine) {
+        Map<String, Object> fieldValues = new HashMap<String, Object>();
+
+        fieldValues.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, accountingLine.getPostingYear());
+        fieldValues.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, accountingLine.getChartOfAccountsCode());
+        fieldValues.put(KFSPropertyConstants.ACCOUNT_NUMBER, accountingLine.getAccountNumber());
+
+        String subAccountNumber = accountingLine.getSubAccountNumber();
+        subAccountNumber = StringUtils.isBlank(subAccountNumber) ? KFSConstants.DASHES_SUB_ACCOUNT_NUMBER : subAccountNumber;
+        fieldValues.put(KFSPropertyConstants.SUB_ACCOUNT_NUMBER, subAccountNumber);
+
+        fieldValues.put(KFSPropertyConstants.FINANCIAL_BALANCE_TYPE_CODE, accountingLine.getBalanceTypeCode());
+        fieldValues.put(KFSPropertyConstants.FINANCIAL_OBJECT_CODE, accountingLine.getFinancialObjectCode());
+        
+        Options options = SpringServiceLocator.getOptionsService().getOptions(accountingLine.getPostingYear());
+        fieldValues.put(KFSPropertyConstants.FINANCIAL_OBJECT_TYPE_CODE, options.getFinObjTypeExpenditureexpCd());
+
+        String subObjectCode = accountingLine.getFinancialSubObjectCode();
+        subObjectCode = StringUtils.isBlank(subObjectCode) ? KFSConstants.DASHES_SUB_OBJECT_CODE : subObjectCode;
+        fieldValues.put(KFSPropertyConstants.FINANCIAL_SUB_OBJECT_CODE, subObjectCode);
+
+        fieldValues.put(KFSPropertyConstants.EMPLID, accountingLine.getEmplid());
+        fieldValues.put(KFSPropertyConstants.POSITION_NUMBER, accountingLine.getPositionNumber());
+
+        return fieldValues;
     }
 }

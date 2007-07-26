@@ -138,19 +138,6 @@ public class BenefitExpenseTransferDocumentRule extends LaborExpenseTransferDocu
         // check to ensure totals of accounting lines in source and target sections match by pay FY + pay period
         isValid = isValid && isAccountingLineTotalsMatchByPayFYAndPayPeriod(sourceLines, targetLines);
 
-        // verify if the accounts in target accounting lines accept fringe benefits
-        if (!this.isAccountsAcceptFringeBenefit(benefitExpenseTransferDocument)) {
-            reportError(KFSPropertyConstants.TARGET_ACCOUNTING_LINES, KFSKeyConstants.Labor.ERROR_ACCOUNT_NOT_ACCEPT_FRINGES);
-            return false;
-        }
-
-        // benefit transfers cannot be made between two different fringe benefit labor object codes.
-        boolean hasSameFringeBenefitObjectCodes = this.hasSameFringeBenefitObjectCodes(benefitExpenseTransferDocument);
-        if (!hasSameFringeBenefitObjectCodes) {
-            reportError(KFSPropertyConstants.TARGET_ACCOUNTING_LINES, KFSKeyConstants.Labor.DISTINCT_OBJECT_CODE_ERROR);
-            isValid = false;
-        }
-
         // target accouting lines must have the same amounts as source accounting lines for each object code
         boolean isValidAmountTransferredByObjectCode = isValidAmountTransferredByObjectCode(benefitExpenseTransferDocument);
         if (!isValidAmountTransferredByObjectCode) {
@@ -207,34 +194,6 @@ public class BenefitExpenseTransferDocumentRule extends LaborExpenseTransferDocu
     }
 
     /**
-     * Determine whether target accouting lines have the same fringe benefit object codes as source accounting lines
-     * 
-     * @param accountingDocument the given accounting document
-     * @return true if target accouting lines have the same fringe benefit object codes as source accounting lines; otherwise, false
-     */
-    private boolean hasSameFringeBenefitObjectCodes(AccountingDocument accountingDocument) {
-        LOG.debug("started hasSameFringeBenefitObjectCodes");
-        BenefitExpenseTransferDocument benefitExpenseTransferDocument = (BenefitExpenseTransferDocument) accountingDocument;
-
-        Set<String> objectCodesFromSourceLine = new HashSet<String>();
-        for (Object sourceAccountingLine : benefitExpenseTransferDocument.getSourceAccountingLines()) {
-            AccountingLine line = (AccountingLine) sourceAccountingLine;
-            objectCodesFromSourceLine.add(line.getFinancialObjectCode());
-        }
-
-        Set<String> objectCodesFromTargetLine = new HashSet<String>();
-        for (Object targetAccountingLine : benefitExpenseTransferDocument.getTargetAccountingLines()) {
-            AccountingLine line = (AccountingLine) targetAccountingLine;
-            objectCodesFromTargetLine.add(line.getFinancialObjectCode());
-        }
-
-        if (objectCodesFromSourceLine.size() != objectCodesFromTargetLine.size()) {
-            return false;
-        }
-        return objectCodesFromSourceLine.containsAll(objectCodesFromTargetLine);
-    }
-
-    /**
      * Determine whether target accouting lines have the same amounts as source accounting lines for each object code
      * 
      * @param accountingDocument the given accounting document
@@ -285,27 +244,6 @@ public class BenefitExpenseTransferDocumentRule extends LaborExpenseTransferDocu
             amountByObjectCode.put(objectCode, amount);
         }
         return amountByObjectCode;
-    }
-
-    /**
-     * Determine whether the object code of the given accouting line is one of fringe benefit objects of source accounting lines
-     * 
-     * @param accountingDocument the given accounting document
-     * @param accountingLine the given accounting line
-     * @return true if the object code of the given accouting line is one of fringe benefit objects of source accounting lines;
-     *         otherwise, false
-     */
-    private boolean hasSameFringeBenefitObjectCodes(AccountingDocument accountingDocument, AccountingLine accountingLine) {
-        LOG.debug("started hasSameFringeBenefitObjectCodes");
-        BenefitExpenseTransferDocument benefitExpenseTransferDocument = (BenefitExpenseTransferDocument) accountingDocument;
-
-        List<String> objectCodesFromSourceLine = new ArrayList<String>();
-        for (Object sourceAccountingLine : benefitExpenseTransferDocument.getSourceAccountingLines()) {
-            AccountingLine line = (AccountingLine) sourceAccountingLine;
-            objectCodesFromSourceLine.add(line.getFinancialObjectCode());
-        }
-
-        return objectCodesFromSourceLine.contains(accountingLine.getFinancialObjectCode());
     }
 
     /**
@@ -399,30 +337,5 @@ public class BenefitExpenseTransferDocumentRule extends LaborExpenseTransferDocu
         fieldValues.put(KFSPropertyConstants.UNIVERSITY_FISCAL_PERIOD_CODE, expenseTransferAccountingLine.getPayrollEndDateFiscalPeriodCode());
 
         return businessObjectService.countMatching(AccountingPeriod.class, fieldValues) > 0;
-    }
-
-    /**
-     * determine whether the accounts in the target accounting lines accept fringe benefits.
-     * 
-     * @param accountingDocument the given accounting document
-     * @return true if the accounts in the target accounting lines accept fringe benefits; otherwise, false
-     */
-    private boolean isAccountsAcceptFringeBenefit(AccountingDocument accountingDocument) {
-        LOG.debug("started isAccountsAcceptFringeBenefit");
-        List<AccountingLine> accountingLines = accountingDocument.getTargetAccountingLines();
-
-        for (AccountingLine accountingLine : accountingLines) {
-            Account account = accountingLine.getAccount();
-            if (account!=null && !account.isAccountsFringesBnftIndicator()) {
-                String overrideCode = accountingLine.getOverrideCode();
-                boolean canNonFringeAccountUsed = NON_FRINGE_ACCOUNT_USED.equals(overrideCode);
-                canNonFringeAccountUsed = canNonFringeAccountUsed || EXPIRED_ACCOUNT_AND_NON_FRINGE_ACCOUNT_USED.equals(overrideCode);
-
-                if (!canNonFringeAccountUsed) {
-                    return false;
-                }
-            }
-        }
-        return true;
     }
 }

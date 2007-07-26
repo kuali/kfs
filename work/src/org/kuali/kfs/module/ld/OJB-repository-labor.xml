@@ -601,6 +601,10 @@
 	<reference-descriptor name="positionObjectGroup" class-ref="org.kuali.module.labor.bo.PositionObjectGroup" auto-retrieve="true" auto-update="none" auto-delete="none">
 		<foreignkey field-ref="positionObjectGroupCode" />
 	</reference-descriptor>
+	
+	<reference-descriptor name="option" class-ref="org.kuali.kfs.bo.Options" auto-retrieve="true" auto-update="none" auto-delete="none">
+        <foreignkey field-ref="universityFiscalYear" />
+    </reference-descriptor>
 </class-descriptor>
 
 <class-descriptor class="org.kuali.module.labor.bo.PositionObjectGroup" table="LD_POS_OBJ_GRP_T">
@@ -1099,6 +1103,10 @@
 		<foreignkey field-ref="financialObjectCode" />
 		<foreignkey field-ref="financialSubObjectCode" />
 	</reference-descriptor>
+	
+	<reference-descriptor name="option" class-ref="org.kuali.kfs.bo.Options" auto-retrieve="true" auto-update="none" auto-delete="none">
+        <foreignkey field-ref="universityFiscalYear" />
+    </reference-descriptor>
 </class-descriptor>
 
 <class-descriptor class="org.kuali.module.labor.bo.BalanceByGeneralLedgerKey" table="LD_BAL_BY_GL_KEY_T">
@@ -1170,6 +1178,10 @@
 		<foreignkey field-ref="financialObjectCode" />
 		<foreignkey field-ref="financialSubObjectCode" />
 	</reference-descriptor>
+	
+	<reference-descriptor name="option" class-ref="org.kuali.kfs.bo.Options" auto-retrieve="true" auto-update="none" auto-delete="none">
+        <foreignkey field-ref="universityFiscalYear" />
+    </reference-descriptor>
 </class-descriptor>
 		
 	<class-descriptor class="org.kuali.module.labor.bo.LaborLedgerPendingEntry" table="LD_PND_LDGR_ENTR_T">

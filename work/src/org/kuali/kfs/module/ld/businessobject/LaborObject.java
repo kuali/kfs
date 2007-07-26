@@ -19,6 +19,7 @@ package org.kuali.module.labor.bo;
 import java.util.LinkedHashMap;
 
 import org.kuali.core.bo.PersistableBusinessObjectBase;
+import org.kuali.kfs.bo.Options;
 import org.kuali.module.chart.bo.Chart;
 import org.kuali.module.chart.bo.ObjectCode;
 
@@ -39,6 +40,7 @@ public class LaborObject extends PersistableBusinessObjectBase {
     private ObjectCode financialObject;
 	private Chart chartOfAccounts;
     private PositionObjectGroup positionObjectGroup;
+    private Options option;
     
 	/**
 	 * Default constructor.

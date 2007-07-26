@@ -133,8 +133,13 @@
                 <th align=right valign=middle class="bord-l-b">
                     <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.vendorCustomerNumber}" /></div>
                 </th>
+
                 <td align=left valign=middle class="datacell">
                     <kul:htmlControlAttribute attributeEntry="${documentAttributes.vendorCustomerNumber}" property="document.vendorCustomerNumber" readOnly="${not (fullEntryMode or amendmentEntry) or displayCreditMemoFields}" />
+                    <c:if test="${(fullEntryMode or amendmentEntry) and vendorReadOnly}">
+                        <kul:lookup  boClassName="org.kuali.module.vendor.bo.VendorCustomerNumber" readOnlyFields="vendorHeaderGeneratedIdentifier,vendorDetailAssignedIdentifier" autoSearch="yes"
+                        lookupParameters="document.vendorHeaderGeneratedIdentifier:vendorHeaderGeneratedIdentifier,document.vendorDetailAssignedIdentifier:vendorDetailAssignedIdentifier" fieldConversions="vendorCustomerNumber:document.vendorCustomerNumber"/>
+                    </c:if>
                 </td>
 
                 <c:if test="false">

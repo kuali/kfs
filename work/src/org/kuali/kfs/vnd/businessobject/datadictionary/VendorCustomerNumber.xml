@@ -19,7 +19,35 @@
     "../dataDictionary-1_0.dtd">
 <dictionaryEntry>
     <businessObject businessObjectClass="org.kuali.module.vendor.bo.VendorCustomerNumber">
+	<lookup>
+            <lookupableID>vendorCustomerNumberLookupable</lookupableID>
+            
+            <title>Vendor Customer Number Lookup</title>
 
+            <instructions>Lookup an Vendor Customer Number</instructions>
+
+            <defaultSort sortAscending="true">
+                <sortAttributes>
+                    <sortAttribute attributeName="vendorCustomerNumber" />
+                </sortAttributes>
+            </defaultSort>
+
+            <lookupFields>
+                <lookupField attributeName="vendorHeaderGeneratedIdentifier" required="true" />
+                <lookupField attributeName="vendorDetailAssignedIdentifier" required="true" />
+                <lookupField attributeName="vendorCustomerNumber" required="false" />
+                <lookupField attributeName="chartOfAccountsCode" required="false" />
+                <lookupField attributeName="vendorOrganizationCode" required="false" />
+                <lookupField attributeName="active" required="false" /> 
+            </lookupFields>
+
+            <resultFields>
+                <field attributeName="vendorCustomerNumber" />
+                <field attributeName="chartOfAccountsCode" />
+                <field attributeName="vendorOrganizationCode" />
+                <field attributeName="active" />
+            </resultFields>
+        </lookup>	
         <attributes>
             <attribute name="vendorCustomerNumber" forceUppercase="true">
                 <label>Customer Number</label>

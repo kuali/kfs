@@ -22,7 +22,6 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.core.datadictionary.AttributeDefinition;
 import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.bo.OriginationCode;
-import org.kuali.kfs.bo.TargetAccountingLine;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.chart.bo.A21SubAccount;
 import org.kuali.module.chart.bo.ObjectCode;
@@ -223,7 +222,7 @@ public class GLConstants {
     private static String SPACE_DEBIT_CREDIT_CODE = null; 
     public static String getSpaceDebitCreditCode() {
         if (SPACE_DEBIT_CREDIT_CODE == null) {
-            SPACE_DEBIT_CREDIT_CODE = StringUtils.rightPad("", SpringServiceLocator.getDataDictionaryService().getAttributeSize(TargetAccountingLine.class, KFSPropertyConstants.DEBIT_CREDIT_CODE), ' ');
+            SPACE_DEBIT_CREDIT_CODE = StringUtils.rightPad("", SpringServiceLocator.getDataDictionaryService().getAttributeSize(OriginEntry.class, KFSPropertyConstants.TRANSACTION_DEBIT_CREDIT_CODE), ' ');
         }
         return SPACE_DEBIT_CREDIT_CODE;
     }

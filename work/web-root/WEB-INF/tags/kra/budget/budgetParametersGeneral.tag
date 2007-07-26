@@ -102,6 +102,7 @@
     		<c:when test="${!viewOnly && KualiForm.document.budget.budgetAgency.agencyTypeCode != Constants.AGENCY_TYPE_CODE_FEDERAL}">
     			<c:if test="${empty KualiForm.document.budget.federalPassThroughAgencyNumber}">&nbsp;</c:if>
     			<kul:lookup boClassName="org.kuali.module.cg.bo.Agency" fieldConversions="agencyNumber:document.budget.federalPassThroughAgencyNumber,fullName:document.budget.federalPassThroughAgency.fullName" tabindexOverride="5110" anchor="${currentTabIndex}" />
+          <c:if test="${not empty KualiForm.document.budget.federalPassThroughAgencyNumber}"><html:image src="${ConfigProperties.externalizable.images.url}tinybutton-clearfptagency.jpg" styleClass="tinybutton" property="methodToCall.clearFedPassthrough.anchor${currentTabIndex}" alt="clear fed passthrough"/></c:if>
     		</c:when>
     		<c:otherwise>
     			N/A

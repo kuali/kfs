@@ -321,6 +321,7 @@ public class AccountBalanceServiceImpl implements AccountBalanceService {
         }
         else {
             Iterator recordCountIterator = accountBalanceDao.findConsolidatedAvailableAccountBalance(fieldValues);
+            // TODO: WL: why build a list and waste time/memory when we can just iterate through the iterator and do a count?
             List recordCountList = IteratorUtils.toList(recordCountIterator);
             recordCount = recordCountList.size();
         }

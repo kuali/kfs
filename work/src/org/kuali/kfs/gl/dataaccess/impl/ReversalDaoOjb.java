@@ -82,6 +82,12 @@ public class ReversalDaoOjb extends PlatformAwareDaoBaseOjb implements ReversalD
         if (iter.hasNext()) {
             Object[] data = (Object[]) iter.next();
             BigDecimal max = (BigDecimal) data[0]; // Don't know why OJB returns a BigDecimal, but it does
+            
+            // finish up the iterator so that the underlying database cursor is closed
+            while (iter.hasNext()) {
+                iter.next();
+            }
+            
             if (max == null) {
                 return 0;
             }

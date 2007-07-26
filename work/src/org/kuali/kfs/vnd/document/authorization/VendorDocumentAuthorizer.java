@@ -44,7 +44,9 @@ public class VendorDocumentAuthorizer extends MaintenanceDocumentAuthorizerBase 
     public MaintenanceDocumentAuthorizations getFieldAuthorizations(MaintenanceDocument document, UniversalUser user) {
         MaintenanceDocumentAuthorizations auths = new MaintenanceDocumentAuthorizations();
         VendorDetail vendor = (VendorDetail)document.getNewMaintainableObject().getBusinessObject();
+        VendorDetail oldVendor = (VendorDetail)document.getOldMaintainableObject().getBusinessObject();
         VendorHeader vendorHeader = vendor.getVendorHeader();
+        VendorHeader oldVendorHeader = oldVendor.getVendorHeader();
         
         //If the vendor is not a parent, there are certain fields that should be readOnly
         if (!vendor.isVendorParentIndicator()) {
@@ -75,8 +77,8 @@ public class VendorDocumentAuthorizer extends MaintenanceDocumentAuthorizerBase 
         //N in the vendor type maintenance table, then we have to set the vendor type as readOnly field.
         else if (ObjectUtils.isNotNull(vendor.getVendorHeaderGeneratedIdentifier()) &&
                  ObjectUtils.isNotNull(vendorHeader) &&
-                 ObjectUtils.isNotNull(vendorHeader.getVendorType()) && 
-                 !vendorHeader.getVendorType().isVendorTypeChangeAllowedIndicator()) {
+                 ObjectUtils.isNotNull(oldVendorHeader.getVendorType()) && 
+                 !oldVendorHeader.getVendorType().isVendorTypeChangeAllowedIndicator()) {
             auths.addReadonlyAuthField(VendorPropertyConstants.VENDOR_TYPE_CODE);
         }
         setVendorContractFieldsAuthorization(vendor, auths, user);

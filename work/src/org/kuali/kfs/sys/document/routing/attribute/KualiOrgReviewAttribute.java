@@ -134,10 +134,10 @@ public class KualiOrgReviewAttribute implements WorkflowAttribute, MassRuleAttri
         routingDataRows.add(getOrgRowUsingKualiWorkflowUtils());
         routingDataRows.add(getOverrideCodeRowUsingKualiWorkflowUtils());
 
-        fields = new ArrayList();
-        fields.add(KualiWorkflowUtils.buildTextRow(DocumentHeader.class, KFSPropertyConstants.FINANCIAL_DOCUMENT_TOTAL_AMOUNT, TOTAL_AMOUNT_KEY));
+//        fields = new ArrayList();
 //        fields.add(new Field("Total Amount", "", Field.TEXT, true, TOTAL_AMOUNT_KEY, "", null, null, TOTAL_AMOUNT_KEY));
-        routingDataRows.add(new Row(fields));
+//        routingDataRows.add(new Row(fields));
+        routingDataRows.add(KualiWorkflowUtils.buildTextRow(DocumentHeader.class, KFSPropertyConstants.FINANCIAL_DOCUMENT_TOTAL_AMOUNT, TOTAL_AMOUNT_KEY));
     }
 
     /**

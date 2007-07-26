@@ -19,6 +19,7 @@ import java.io.ByteArrayOutputStream;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
@@ -380,8 +381,9 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
         try {
             PurchaseOrderDocument po = SpringServiceLocator.getPurchaseOrderService().getPurchaseOrderByDocumentNumber(documentNumber);
             //TODO: Chris - RESEARCH: does this have any effect?  I think it may be lost before the po is brought up again.
-            po.refreshAccountSummary();
-            
+            po.setSummaryAccountsWithItems(new HashMap());
+            po.setSummaryAccountsWithItemsKey(new ArrayList());
+            po.setSummaryAccountsWithItemsValue(new ArrayList());
             po.setPendingActionIndicator(true);
 
             businessObjectService.save(po);

@@ -571,6 +571,8 @@ public class ReportServiceImpl implements ReportService {
     }
 
     /**
+     * NOTE: the implementation of this method only determines whether an iterator has a next element (using hasNext()).  It does not iterate
+     * through the array.
      * 
      * @see org.kuali.module.gl.service.ReportService#generatePosterReversalLedgerSummaryReport(java.util.Date,
      *      java.util.Iterator)

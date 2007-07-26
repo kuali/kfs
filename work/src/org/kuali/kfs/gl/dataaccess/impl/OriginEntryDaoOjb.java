@@ -109,6 +109,12 @@ public class OriginEntryDaoOjb extends PlatformAwareDaoBaseOjb implements Origin
         Iterator i = getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(q);
         if ( i.hasNext() ) {
             Object[] data = (Object[])i.next();
+
+            // finish up the iterator so that the underlying database cursor is closed
+            while (i.hasNext()) {
+                i.next();
+            }
+            
             if (data[0] instanceof BigDecimal) {
                 return ((BigDecimal)data[0]).intValue();
             } else {

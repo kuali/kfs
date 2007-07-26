@@ -422,27 +422,6 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
                     documentService.routeDocument(newPO, annotation, adhocRoutingRecipients);
                 }
             }
-            
-//            boolean rulePassed = kualiRuleService.applyRules(new RouteDocumentEvent(newPO));
-//            if (!rulePassed) {
-//                po.setPendingActionIndicator(false);
-//                saveDocumentWithoutValidation(po);
-//                return po;
-//            }
-//            else {
-//                if (docType.equals(PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_AMENDMENT_DOCUMENT)) {
-//                    newPO.setStatusCode(PurapConstants.PurchaseOrderStatuses.AMENDMENT);
-//                }
-//                saveDocumentWithoutValidation(po);
-//                //kualiDocumentFormBase.setDocument(newPO);
-//                
-//                if (docType.equals(PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_AMENDMENT_DOCUMENT)) {
-//                    documentService.saveDocument(newPO);
-//                }
-//                else {
-//                    documentService.routeDocument(newPO, annotation, adhocRoutingRecipients);
-//                }
-//            }
             return newPO;
         }
         catch (WorkflowException we) {

@@ -91,6 +91,6 @@
 	<classpathentry kind="lib" path="build/appserverHome/commons-logging.jar"/>
 	<classpathentry kind="lib" path="build/appserverHome/commons-cli-1.0.jar"/>
 	<classpathentry kind="lib" path="build/log4j-1.2.9.jar"/>
-	<classpathentry kind="lib" path="work/web-root/WEB-INF/lib/rice-kew-2.4.1-RC3.jar"/>
+	<classpathentry kind="lib" path="work/web-root/WEB-INF/lib/rice-kew-2.4.1-RC4.jar"/>
 	<classpathentry kind="output" path="work/web-root/WEB-INF/classes"/>
 </classpath>

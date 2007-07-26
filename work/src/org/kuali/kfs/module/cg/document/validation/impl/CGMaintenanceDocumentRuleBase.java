@@ -153,7 +153,11 @@ public class CGMaintenanceDocumentRuleBase extends MaintenanceDocumentRuleBase {
         boolean success = true;
 
         // check if primary agency is federal
-        boolean primaryAgencyIsFederal = AGENCY_TYPE_CODE_FEDERAL.equalsIgnoreCase(primaryAgency.getAgencyTypeCode());
+        boolean primaryAgencyIsFederal = false;
+        
+        if(ObjectUtils.isNotNull(primaryAgency)) {
+            primaryAgencyIsFederal = AGENCY_TYPE_CODE_FEDERAL.equalsIgnoreCase(primaryAgency.getAgencyTypeCode());
+        }
         
         String indicatorLabel = SpringServiceLocator.getDataDictionaryService().getAttributeErrorLabel(propertyClass, federalPassThroughIndicatorFieldName);
         String agencyLabel = SpringServiceLocator.getDataDictionaryService().getAttributeErrorLabel(propertyClass, KFSPropertyConstants.FEDERAL_PASS_THROUGH_AGENCY_NUMBER);

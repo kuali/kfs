@@ -16,7 +16,11 @@
 package org.kuali.module.purap.document.authorization;
 
 import org.kuali.core.bo.user.UniversalUser;
+import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.module.purap.PurapConstants;
+import org.kuali.module.purap.PurapParameterConstants;
 import org.kuali.module.purap.PurapConstants.PaymentRequestStatuses;
+import org.kuali.module.purap.document.PaymentRequestDocument;
 
 /**
  * This class determines permissions for a user
@@ -26,17 +30,37 @@ public class PaymentRequestDocumentActionAuthorizer {
     private String docStatus;    
     private boolean requestCancelIndicator;
     private boolean holdIndicator;
+    private boolean extracted;
+    private boolean canRemoveHold;
+    private boolean canRemoveRequestCancel;
     
     private boolean apUser;
     private boolean fiscalOfficerDelegateUser;
     private boolean approver;
         
-    public PaymentRequestDocumentActionAuthorizer(String docStatus, UniversalUser user, boolean requestCancelIndicator, boolean holdIndicator){
+    public PaymentRequestDocumentActionAuthorizer(PaymentRequestDocument preq, UniversalUser user){
         
-        this.docStatus = docStatus;        
-        this.requestCancelIndicator = requestCancelIndicator;
-        this.holdIndicator = holdIndicator;
-                
+        //doc indicators
+        this.docStatus = preq.getStatusCode();        
+        this.requestCancelIndicator = preq.getPaymentRequestedCancelIndicator();
+        this.holdIndicator = preq.isHoldIndicator();
+        this.extracted = (preq.getExtractedDate() ==  null ? false : true);
+        
+        //special indicators
+        canRemoveHold = SpringServiceLocator.getPaymentRequestService().canRemoveHoldPaymentRequest(preq, user);
+        canRemoveRequestCancel = SpringServiceLocator.getPaymentRequestService().canUserRemoveRequestCancelOnPaymentRequest(preq, user);
+        
+        //user indicators
+        this.approver = preq.getDocumentHeader().getWorkflowDocument().isApprovalRequested();
+        
+        String apGroup = SpringServiceLocator.getKualiConfigurationService().getApplicationParameterValue(PurapParameterConstants.PURAP_ADMIN_GROUP, PurapConstants.Workgroups.WORKGROUP_ACCOUNTS_PAYABLE);        
+        if( user.isMember(apGroup) ){
+            this.apUser = true;
+        }
+        
+        if( PaymentRequestStatuses.AWAITING_FISCAL_REVIEW.equals( getDocStatus()) && isApprover() ){
+            this.fiscalOfficerDelegateUser = true;
+        }                
     }
     
     private String getDocStatus(){
@@ -51,6 +75,18 @@ public class PaymentRequestDocumentActionAuthorizer {
         return holdIndicator;        
     }
     
+    private boolean isExtracted(){
+        return extracted;
+    }
+
+    public boolean isCanRemoveHold() {
+        return canRemoveHold;
+    }
+
+    public boolean isCanRemoveRequestCancel() {
+        return canRemoveRequestCancel;
+    }
+
     private boolean isApUser(){
         return apUser;
     }
@@ -66,12 +102,12 @@ public class PaymentRequestDocumentActionAuthorizer {
     public boolean canCalculate(){
         boolean hasPermission = false;
         
-        if( PaymentRequestStatuses.AWAITING_TAX_REVIEW.equals( getDocStatus() ) && isApprover() ){
+        //Phase 2B Rule: (PaymentRequestStatuses.AWAITING_TAX_REVIEW.equals( getDocStatus() ) && isApprover()) ||
+        
+        if( ( PaymentRequestStatuses.AWAITING_ACCOUNTS_PAYABLE_REVIEW.equals( getDocStatus() ) && isApUser()) ||
+            ( PaymentRequestStatuses.IN_PROCESS.equals( getDocStatus()) && isApUser() ) ){
             hasPermission = true;
         }
-        
-        //TODO: specs missing behavior for status of Saved 
-        hasPermission = true;
         
         return hasPermission;
     }
@@ -90,25 +126,23 @@ public class PaymentRequestDocumentActionAuthorizer {
              hasPermission = true;
          }
 
-         //TODO: specs missing behavior for status of Saved 
-         hasPermission = true;
-
         return hasPermission;        
     }
     
     public boolean canSave(){
         boolean hasPermission = false;
         
+        //TODO: 
         if( (PaymentRequestStatuses.AWAITING_SUB_ACCT_MGR_REVIEW.equals( getDocStatus()) && isApUser()) ||
             (PaymentRequestStatuses.AWAITING_FISCAL_REVIEW.equals( getDocStatus()) && isApUser()) ||
             (PaymentRequestStatuses.AWAITING_ORG_REVIEW.equals( getDocStatus()) && isApUser()) ||
             (PaymentRequestStatuses.AWAITING_TAX_REVIEW.equals( getDocStatus()) && isApUser()) ||
-            (PaymentRequestStatuses.DEPARTMENT_APPROVED.equals( getDocStatus()) && isApUser()) ){
+            (PaymentRequestStatuses.DEPARTMENT_APPROVED.equals( getDocStatus()) && isApUser() && isExtracted() == false) ||            
+            (PaymentRequestStatuses.AUTO_APPROVED.equals( getDocStatus()) && isApUser() && isExtracted() == false) ||
+            (PaymentRequestStatuses.AWAITING_ACCOUNTS_PAYABLE_REVIEW.equals( getDocStatus() ) && isApUser()) ||
+            (PaymentRequestStatuses.IN_PROCESS.equals( getDocStatus()) && isApUser()) ){
             hasPermission = true;
         }
-
-        //TODO: specs missing behavior for status of Saved 
-        hasPermission = true;
 
         return hasPermission;        
     }
@@ -125,7 +159,9 @@ public class PaymentRequestDocumentActionAuthorizer {
                 ( PaymentRequestStatuses.AWAITING_TAX_REVIEW.equals( getDocStatus() ) && isApUser() &&
                   isRequestCancelIndicator() == false && isHoldIndicator() == false ) ||
                 ( PaymentRequestStatuses.DEPARTMENT_APPROVED.equals( getDocStatus() ) && isApUser() &&
-                  isRequestCancelIndicator() == false && isHoldIndicator() == false ) ||
+                  isRequestCancelIndicator() == false && isHoldIndicator() == false && isExtracted() == false) ||
+                ( PaymentRequestStatuses.AUTO_APPROVED.equals( getDocStatus() ) && isApUser() &&
+                  isRequestCancelIndicator() == false && isHoldIndicator() == false && isExtracted() == false) ||                  
                 ( PaymentRequestStatuses.AWAITING_FISCAL_REVIEW.equals( getDocStatus() ) && isFiscalOfficerDelegateUser() &&
                   isRequestCancelIndicator() == false && isHoldIndicator() == false ) ||
                 ( PaymentRequestStatuses.AWAITING_SUB_ACCT_MGR_REVIEW.equals( getDocStatus() ) && isApprover() &&
@@ -137,16 +173,14 @@ public class PaymentRequestDocumentActionAuthorizer {
                 hasPermission = true;
         }
    
-        //TODO: specs missing behavior for status of Saved 
-        hasPermission = true;
-
         return hasPermission;        
     }
     
     public boolean canRemoveHold(){
         boolean hasPermission = false;
 
-        if( ( PaymentRequestStatuses.AWAITING_SUB_ACCT_MGR_REVIEW.equals( getDocStatus() ) && isApUser() &&
+        if(   isCanRemoveHold() ||
+              ( PaymentRequestStatuses.AWAITING_SUB_ACCT_MGR_REVIEW.equals( getDocStatus() ) && isApUser() &&
                 isHoldIndicator() == true ) ||
               ( PaymentRequestStatuses.AWAITING_FISCAL_REVIEW.equals( getDocStatus() ) && isApUser() &&
                 isHoldIndicator() == true ) ||
@@ -155,7 +189,9 @@ public class PaymentRequestDocumentActionAuthorizer {
               ( PaymentRequestStatuses.AWAITING_TAX_REVIEW.equals( getDocStatus() ) && isApUser() &&
                 isHoldIndicator() == true ) ||
               ( PaymentRequestStatuses.DEPARTMENT_APPROVED.equals( getDocStatus() ) && isApUser() &&
-                isHoldIndicator() == true ) ||
+                isHoldIndicator() == true && isExtracted() == false) ||
+              ( PaymentRequestStatuses.AUTO_APPROVED.equals( getDocStatus() ) && isApUser() &&
+                isHoldIndicator() == true && isExtracted() == false) ||                
               ( PaymentRequestStatuses.AWAITING_FISCAL_REVIEW.equals( getDocStatus() ) && isFiscalOfficerDelegateUser() &&
                 isHoldIndicator() == true ) ||
               ( PaymentRequestStatuses.AWAITING_SUB_ACCT_MGR_REVIEW.equals( getDocStatus() ) && isApprover() &&
@@ -167,9 +203,6 @@ public class PaymentRequestDocumentActionAuthorizer {
               hasPermission = true;
           }
 
-        //TODO: specs missing behavior for status of Saved 
-        hasPermission = true;
-
         return hasPermission;        
     }
     
@@ -180,12 +213,13 @@ public class PaymentRequestDocumentActionAuthorizer {
             ( PaymentRequestStatuses.AWAITING_FISCAL_REVIEW.equals( getDocStatus() ) && isApUser() && isRequestCancelIndicator()) ||
             ( PaymentRequestStatuses.AWAITING_ORG_REVIEW.equals( getDocStatus() ) && isApUser() && isRequestCancelIndicator()) ||
             ( PaymentRequestStatuses.AWAITING_TAX_REVIEW.equals( getDocStatus() ) && isApUser() && isRequestCancelIndicator()) ||
+            ( PaymentRequestStatuses.DEPARTMENT_APPROVED.equals( getDocStatus() ) && isApUser() && 
+              isRequestCancelIndicator() == false && isHoldIndicator() == false && isExtracted() == false) ||
+            ( PaymentRequestStatuses.AUTO_APPROVED.equals( getDocStatus() ) && isApUser() && 
+              isRequestCancelIndicator() == false && isHoldIndicator() == false && isExtracted() == false) ||              
             ( PaymentRequestStatuses.AWAITING_SUB_ACCT_MGR_REVIEW.equals( getDocStatus() ) && isApUser() && isHoldIndicator() == false) ){
             hasPermission = true;
         }
-
-        //TODO: specs missing behavior for status of Saved 
-        hasPermission = true;
 
         return hasPermission;        
     }
@@ -204,16 +238,14 @@ public class PaymentRequestDocumentActionAuthorizer {
             hasPermission = true;
         }
   
-        //TODO: specs missing behavior for status of Saved 
-        hasPermission = true;
-
         return hasPermission;        
     }
     
     public boolean canRemoveRequestCancel(){
         boolean hasPermission = false;
         
-        if( ( PaymentRequestStatuses.AWAITING_SUB_ACCT_MGR_REVIEW.equals( getDocStatus() ) && isApUser() && isRequestCancelIndicator() ) ||
+        if(  isCanRemoveRequestCancel() ||                
+            ( PaymentRequestStatuses.AWAITING_SUB_ACCT_MGR_REVIEW.equals( getDocStatus() ) && isApUser() && isRequestCancelIndicator() ) ||
             ( PaymentRequestStatuses.AWAITING_FISCAL_REVIEW.equals( getDocStatus() ) && isApUser() && isRequestCancelIndicator() ) ||
             ( PaymentRequestStatuses.AWAITING_ORG_REVIEW.equals( getDocStatus() ) && isApUser() && isRequestCancelIndicator() ) ||
             ( PaymentRequestStatuses.AWAITING_TAX_REVIEW.equals( getDocStatus() ) && isApUser() && isRequestCancelIndicator() ) ||
@@ -228,9 +260,6 @@ public class PaymentRequestDocumentActionAuthorizer {
             hasPermission = true;
         }
   
-        //TODO: specs missing behavior for status of Saved 
-        hasPermission = true;
-
         return hasPermission;        
     }
     

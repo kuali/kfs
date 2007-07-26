@@ -109,25 +109,18 @@ public class PaymentRequestDocumentAuthorizer extends AccountingDocumentAuthoriz
            flags.setCanSave(false);
            flags.setCanClose(false);
            flags.setCanCancel(true);
+           flags.setCanDisapprove(false);
            // If there was a way to add custom flags for our new buttons, we could avoid having the logic in jsp pag and have it here
            //flags.setCanContinue(true);
            
-        } else {
-            flags.setCanSave(true);
+        } else {            
+            flags.setCanDisapprove(false);
             
             PaymentRequestDocumentActionAuthorizer preqDocAuth = 
-                new PaymentRequestDocumentActionAuthorizer(
-                        paymentRequestDocument.getStatusCode(), 
-                        user, 
-                        paymentRequestDocument.getPaymentRequestedCancelIndicator(), 
-                        paymentRequestDocument.isHoldIndicator());
-            
-            if( preqDocAuth.canApprove() ){
-                flags.setCanApprove(true);                
-            }else{
-                flags.setCanApprove(false);
-            }
-            
+                new PaymentRequestDocumentActionAuthorizer(                        
+                        paymentRequestDocument,
+                        user);
+                                    
             if( preqDocAuth.canCancel() ){
                 flags.setCanCancel(true);
             }else{
@@ -135,9 +128,9 @@ public class PaymentRequestDocumentAuthorizer extends AccountingDocumentAuthoriz
             }
             
             if( preqDocAuth.canSave()){
-                flags.setCanRoute(true);
+                flags.setCanSave(true);
             }else{
-                flags.setCanRoute(false);
+                flags.setCanSave(false);
             }            
         }         
         

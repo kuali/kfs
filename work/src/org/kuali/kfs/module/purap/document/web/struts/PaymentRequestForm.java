@@ -159,11 +159,8 @@ public class PaymentRequestForm extends AccountsPayableFormBase {
             else {
                 PaymentRequestDocumentActionAuthorizer preqDocAuth = 
                     new PaymentRequestDocumentActionAuthorizer(
-                            preqDoc.getStatusCode(), 
-                            GlobalVariables.getUserSession().getUniversalUser(), 
-                            preqDoc.getPaymentRequestedCancelIndicator(), 
-                            preqDoc.isHoldIndicator());
-
+                            preqDoc, 
+                            GlobalVariables.getUserSession().getUniversalUser());
                 //if preq holdable and user can put on hold, show button
                 if (preqDocAuth.canHold()){
                     if (SpringServiceLocator.getPaymentRequestService().isPaymentRequestHoldable(preqDoc)) {

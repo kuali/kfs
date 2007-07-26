@@ -33,6 +33,7 @@ import org.kuali.core.bo.AdHocRouteWorkgroup;
 import org.kuali.core.bo.user.AuthenticationUserId;
 import org.kuali.core.question.ConfirmationQuestion;
 import org.kuali.core.service.KualiConfigurationService;
+import org.kuali.core.service.PersistenceService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.util.SpringServiceLocator;
@@ -234,6 +235,8 @@ public class BudgetAction extends ResearchDocumentActionBase {
         BudgetForm budgetForm = (BudgetForm) form;
 
         setupNonpersonnelCategories(budgetForm);
+        PersistenceService persistenceService = SpringServiceLocator.getBean(PersistenceService.class);
+        persistenceService.retrieveReferenceObject(budgetForm.getBudgetDocument().getBudget(), "nonpersonnelItems");
         budgetForm.setBudgetNonpersonnelFormHelper(new BudgetNonpersonnelFormHelper(budgetForm));
 
         return mapping.findForward("nonpersonnel");

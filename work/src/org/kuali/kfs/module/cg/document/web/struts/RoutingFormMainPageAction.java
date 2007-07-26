@@ -32,6 +32,8 @@ import org.kuali.core.bo.PersistableBusinessObject;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.module.kra.budget.bo.Budget;
+import org.kuali.module.kra.budget.web.struts.form.BudgetForm;
 import org.kuali.module.kra.routingform.bo.Keyword;
 import org.kuali.module.kra.routingform.bo.RoutingFormKeyword;
 import org.kuali.module.kra.routingform.bo.RoutingFormOrganizationCreditPercent;
@@ -157,6 +159,16 @@ public class RoutingFormMainPageAction extends RoutingFormAction {
         return super.save(mapping, form, request, response);
     }
 
+    public ActionForward clearFedPassthrough(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        RoutingForm routingForm = (RoutingForm) form;
+        RoutingFormDocument routingFormDocument = routingForm.getRoutingFormDocument();
+        
+        routingFormDocument.setAgencyFederalPassThroughNumber(null);
+        SpringServiceLocator.getPersistenceService().retrieveReferenceObject(routingFormDocument, "federalPassThroughAgency");
+
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
+    }
+    
     /**
      * Refresh method on Main Page does several things for lookups:
      * <ul>
@@ -198,6 +210,7 @@ public class RoutingFormMainPageAction extends RoutingFormAction {
             if (request.getParameter("document.routingFormAgency.agencyNumber") != null) {
                 // coming back from an Agency lookup - Agency selected
                 routingFormDocument.setRoutingFormAgencyToBeNamedIndicator(false);
+                routingFormDocument.getRoutingFormAgency().refreshReferenceObject("agency");
             }
             else if ("true".equals(request.getParameter("document.routingFormAgencyToBeNamedIndicator"))) {
                 // coming back from Agency lookup - To Be Named selected

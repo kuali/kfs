@@ -292,6 +292,16 @@ public class BudgetParametersAction extends BudgetAction {
         budget.setAgencyModularIndicator(false);
     }
 
+    public ActionForward clearFedPassthrough(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        BudgetForm budgetForm = (BudgetForm) form;
+        Budget budget = budgetForm.getBudgetDocument().getBudget();
+        
+        budget.setFederalPassThroughAgencyNumber(null);
+        budget.setFederalPassThroughAgency(null);
+
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
+    }
+    
     public ActionForward basic(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }

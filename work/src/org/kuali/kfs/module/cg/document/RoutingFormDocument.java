@@ -1220,11 +1220,11 @@ public class RoutingFormDocument extends ResearchDocumentBase {
         this.routingFormAgency = routingFormAgency;
     }
 
-    public Cfda getCatalogOfFederalDomesticAssistanceReference() {
+    public Cfda getCfda() {
         return cfda;
     }
 
-    public void setCatalogOfFederalDomesticAssistanceReference(Cfda cfda) {
+    public void setCfda(Cfda cfda) {
         this.cfda = cfda;
     }
     

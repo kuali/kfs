@@ -2969,7 +2969,7 @@
     <field-descriptor name="paymentRequestPayDate" column="PMT_RQST_PAY_DT" jdbc-type="DATE"/>  
     <field-descriptor name="paymentExtractedDate" column="PMT_EXTRT_DT" jdbc-type="DATE"/>      
     <field-descriptor name="paymentPaidDate" column="PMT_PD_DT" jdbc-type="DATE"/>
-    <field-descriptor name="totalAmount" column="TOTAL_AMOUNT" jdbc-type="DECIMAL"/>
+    <field-descriptor name="totalAmount" column="TOTAL_AMOUNT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion" />
 </class-descriptor>
 
 <class-descriptor class="org.kuali.module.purap.bo.UnitOfMeasure" table="PUR_AP_UOM_T">

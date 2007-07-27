@@ -226,7 +226,8 @@ public class CreditMemoServiceImpl implements CreditMemoService {
         // TODO CHRIS/DELYEA - THIS SHOULD HAPPEN WITH GL AND PERCENT CONVERT AT 'Leaving AP Review Level'
         // reopen PO if closed
         Integer purchaseOrderDocumentId = cmDocument.getPurchaseOrderIdentifier();
-        if (ObjectUtils.isNull(purchaseOrderDocumentId)) {
+        if (cmDocument.isSourceDocumentPaymentRequest() && 
+            ObjectUtils.isNull(purchaseOrderDocumentId)) {
             PaymentRequestDocument paymentRequestDocument = paymentRequestService.getPaymentRequestById(cmDocument.getPaymentRequestIdentifier());
             purchaseOrderDocumentId = paymentRequestDocument.getPurchaseOrderIdentifier();
         }

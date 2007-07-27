@@ -37,6 +37,7 @@ import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.PurapParameterConstants;
 import org.kuali.module.purap.PurapConstants.PaymentRequestStatuses;
 import org.kuali.module.purap.PurapConstants.WorkflowConstants;
+import org.kuali.module.purap.PurapConstants.WorkflowConstants.PaymentRequestDocument.NodeDetails;
 import org.kuali.module.purap.bo.ItemType;
 import org.kuali.module.purap.bo.PaymentRequestItem;
 import org.kuali.module.purap.bo.PaymentRequestStatusHistory;
@@ -744,7 +745,7 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
             
             String documentTitle = new StringBuffer("PO: ").append(poNumber).append(" Vendor: ").append(vendorName).append(" Amount: ").append(preqAmount).append(" ").append(indicator).toString();
             String[] nodeNames = getDocumentHeader().getWorkflowDocument().getNodeNames();
-            if ( (nodeNames.length == 1) && (nodeNames[0].equals(WorkflowConstants.PaymentRequestDocument.NodeDetails.VENDOR_TAX_REVIEW)) ) {
+            if ( (nodeNames.length == 1) && (nodeNames[0].equals(NodeDetails.VENDOR_TAX_REVIEW)) ) {
                 // tax review
                 //grab the first account
                 PurApAccountingLine theAccount = getFirstAccount();
@@ -1087,61 +1088,6 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
                 break;
             }
         }
-    }
-
-    /**
-     * This method constructs a default title for the workflow document title.
-     *  
-     * @param poNumber
-     * @param vendorName
-     * @param preqAmount
-     * @param indicator
-     * @return
-     */
-    public String constructPaymentRequestDefaultTitle(String poNumber, String vendorName, 
-            String preqAmount, String indicator){
-        
-        StringBuffer docTitle = new StringBuffer("");
-        
-        docTitle.append("PO: ");
-        docTitle.append(poNumber);
-        docTitle.append(" Vendor: ");
-        docTitle.append(vendorName);
-        docTitle.append(" Amount: ");
-        docTitle.append(preqAmount);
-        docTitle.append(" ");
-        docTitle.append(indicator);
-        
-        return docTitle.toString();
-    }
-
-    /**
-     * This method constructs a special version of the workflow document title for tax review.
-     * 
-     * @param vendorName
-     * @param poNumber
-     * @param accountNumber
-     * @param department
-     * @param deliveryCampus
-     * @return
-     */
-    public String constructPaymentRequestTaxReviewTitle(String vendorName, String poNumber, 
-            String accountNumber, String department, String deliveryCampus){
-        
-        StringBuffer docTitle = new StringBuffer("");
-        
-        docTitle.append("Vendor: ");
-        docTitle.append(vendorName);
-        docTitle.append(" PO: ");
-        docTitle.append(poNumber);
-        docTitle.append(" Account Number: ");
-        docTitle.append(accountNumber);
-        docTitle.append(" Dept: ");
-        docTitle.append(department);
-        docTitle.append(" Delivery Campus: ");
-        docTitle.append(deliveryCampus);
-        
-        return docTitle.toString();
     }
         
     /**

@@ -29,13 +29,9 @@ import java.util.Set;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.UserSession;
 import org.kuali.core.bo.DocumentHeader;
 import org.kuali.core.bo.Note;
 import org.kuali.core.bo.user.UniversalUser;
-import org.kuali.core.exceptions.UserNotFoundException;
-import org.kuali.core.exceptions.ValidationException;
-import org.kuali.core.rule.event.SaveOnlyDocumentEvent;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DateTimeService;
 import org.kuali.core.service.DocumentService;
@@ -47,7 +43,6 @@ import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.workflow.service.WorkflowDocumentService;
-import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.bo.SourceAccountingLine;
 import org.kuali.kfs.util.SpringServiceLocator;
@@ -57,7 +52,7 @@ import org.kuali.module.purap.PurapKeyConstants;
 import org.kuali.module.purap.PurapParameterConstants;
 import org.kuali.module.purap.PurapConstants.PREQDocumentsStrings;
 import org.kuali.module.purap.PurapConstants.PaymentRequestStatuses;
-import org.kuali.module.purap.PurapConstants.WorkflowConstants;
+import org.kuali.module.purap.bo.NegativePaymentRequestApprovalLimit;
 import org.kuali.module.purap.bo.PaymentRequestAccount;
 import org.kuali.module.purap.bo.PaymentRequestItem;
 import org.kuali.module.purap.bo.PurApAccountingLine;
@@ -68,16 +63,16 @@ import org.kuali.module.purap.document.PaymentRequestDocument;
 import org.kuali.module.purap.document.PurchaseOrderDocument;
 import org.kuali.module.purap.exceptions.PurError;
 import org.kuali.module.purap.service.GeneralLedgerService;
+import org.kuali.module.purap.service.NegativePaymentRequestApprovalLimitService;
 import org.kuali.module.purap.service.PaymentRequestService;
+import org.kuali.module.purap.service.PurapAccountingService;
 import org.kuali.module.purap.service.PurapService;
 import org.kuali.module.purap.service.PurchaseOrderService;
 import org.kuali.module.purap.util.PurApItemUtils;
 import org.kuali.module.vendor.bo.PaymentTermType;
 import org.kuali.module.vendor.service.VendorService;
-import org.kuali.workflow.KualiWorkflowUtils.RouteLevelNames;
 import org.springframework.transaction.annotation.Transactional;
 
-import edu.iu.uis.eden.clientapp.vo.DocumentRouteLevelChangeVO;
 import edu.iu.uis.eden.exception.WorkflowException;
 
 
@@ -193,6 +188,14 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
     public void setPurchaseOrderService(PurchaseOrderService purchaseOrderService) {
         this.purchaseOrderService = purchaseOrderService;
     }
+    
+    public NegativePaymentRequestApprovalLimitService getNegativePaymentRequestApprovalLimitService() {
+        return (NegativePaymentRequestApprovalLimitService)SpringServiceLocator.getNegativePaymentRequestApprovalLimitService();
+    }
+    
+    public PurapAccountingService getPurapAccountingService() {
+        return (PurapAccountingService) SpringServiceLocator.getPurapAccountingService();
+    }
 
     /*
      public void setAutoApproveExclusionService(AutoApproveExclusionService aaeService) {
@@ -285,29 +288,92 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
     public boolean autoApprovePaymentRequests() {
         boolean hadErrorAtLeastOneError = true;
         // should objects from existing user session be copied over
-        Iterator<PaymentRequestDocument> docs = getPaymentRequestsEligibleForAutoApproval();
+        Iterator<PaymentRequestDocument> docs = paymentRequestDao.getEligibleForAutoApproval();
         if (docs.hasNext()) {
+            String samt = kualiConfigurationService.getApplicationParameterValue(
+                    PurapParameterConstants.PURAP_ADMIN_GROUP, 
+                    PurapParameterConstants.PURAP_DEFAULT_NEGATIVE_PAYMENT_REQUEST_APPROVAL_LIMIT);
+            KualiDecimal defaultMinimumLimit = new KualiDecimal(samt);
+            
             while (docs.hasNext()) {
                 PaymentRequestDocument doc = docs.next();
-                // TODO PURAP/delyea/ckirschenman - do 'approve' validation here in case fiscal office has edited?
-                try {
-                    purapService.updateStatusAndStatusHistory(doc, PaymentRequestStatuses.AUTO_APPROVED);
-                    documentService.blanketApproveDocument(doc, "auto-approving: Total is below threshold.", new ArrayList());
-                }
-                catch (WorkflowException we) {
-                    LOG.error("Exception encountered when approving document number " + doc.getDocumentNumber() + ".", we);
-                    hadErrorAtLeastOneError = false;
+                if (isEligibleForAutoApproval(doc, defaultMinimumLimit)) {
+                    try {
+                        purapService.updateStatusAndStatusHistory(doc, PaymentRequestStatuses.AUTO_APPROVED);
+                        documentService.blanketApproveDocument(doc, "auto-approving: Total is below threshold.", new ArrayList());
+                    }
+                    catch (WorkflowException we) {
+                        LOG.error("Exception encountered when approving document number " + doc.getDocumentNumber() + ".", we);
+                        hadErrorAtLeastOneError = false;
+                    }
                 }
             }
         }
         return hadErrorAtLeastOneError;
     }
     
-    private Iterator<PaymentRequestDocument> getPaymentRequestsEligibleForAutoApproval() {
-        // TODO move logic from DAO to here
-        return paymentRequestDao.getEligibleForAutoApproval();
-    }
+    /**
+     * This method determines whether or not a payment request document can be
+     * automatically approved. 
+     */
+    private boolean isEligibleForAutoApproval(PaymentRequestDocument document, KualiDecimal defaultMinimumLimit) {
+        // TODO PURAP/delyea/ckirschenman - do 'approve' validation here in case fiscal office has edited?
 
+        // This minimum will be set to the minimum limit derived from all
+        // accounting lines on the document. If no limit is determined, the 
+        // default will be used.
+        KualiDecimal minimumAmount = null;
+        
+        // Iterate all source accounting lines on the document, deriving a 
+        // minimum limit from each according to chart, chart and account, and 
+        // chart and organization. 
+        for (SourceAccountingLine line : getPurapAccountingService().generateSummary(document.getItems())) {
+            minimumAmount = getMinimumLimitAmount(
+                    getNegativePaymentRequestApprovalLimitService().findByChart(
+                            line.getChartOfAccountsCode()), minimumAmount);
+            minimumAmount = getMinimumLimitAmount(
+                    getNegativePaymentRequestApprovalLimitService().findByChartAndAccount(
+                            line.getChartOfAccountsCode(), line.getAccountNumber()), minimumAmount);
+            minimumAmount = getMinimumLimitAmount(
+                    getNegativePaymentRequestApprovalLimitService().findByChartAndOrganization(
+                            line.getChartOfAccountsCode(), line.getOrganizationReferenceId()), minimumAmount);
+        }
+        
+        // If no limit was found, the default limit is used.
+        if(null == minimumAmount) {
+            minimumAmount = defaultMinimumLimit;
+        }
+        
+        // The document is eligible for auto-approval if the document total is below the limit. 
+        if(document.getDocumentHeader().getFinancialDocumentTotalAmount().isLessThan(minimumAmount)) {
+            return true;
+        }
+        
+        return false;
+    }
+    
+    /**
+     * This method iterates a collection of negative payment request approval 
+     * limits and returns the minimum of a given minimum amount and the least
+     * among the limits in the collection.
+     * 
+     * @param limits
+     * @param minimumAmount
+     * @return
+     */
+    private KualiDecimal getMinimumLimitAmount(Collection<NegativePaymentRequestApprovalLimit> limits, KualiDecimal minimumAmount) {
+        for (NegativePaymentRequestApprovalLimit limit : limits) {
+            KualiDecimal amount = limit.getNegativePaymentRequestApprovalLimitAmount();
+            if (null == minimumAmount) {
+                minimumAmount = amount;
+            }
+            else if (minimumAmount.isGreaterThan(amount)) {
+                minimumAmount = amount;
+            }
+        }
+        return minimumAmount;
+    }
+    
     /**
      * Retreives a list of Pay Reqs with the given vendor id and invoice number.
      * 

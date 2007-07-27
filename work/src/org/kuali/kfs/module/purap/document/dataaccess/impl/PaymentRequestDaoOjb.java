@@ -150,11 +150,11 @@ public class PaymentRequestDaoOjb extends PlatformAwareDaoBaseOjb implements Pay
         
         Date todayAtMidnight = dateTimeService.getCurrentSqlDateMidnight();
         
-        String samt = kualiConfigurationService.getApplicationParameterValue(
-                PurapParameterConstants.PURAP_ADMIN_GROUP, 
-                PurapParameterConstants.PURAP_DEFAULT_NEGATIVE_PAYMENT_REQUEST_APPROVAL_LIMIT);
-        KualiDecimal defaultMinimumAmount = new KualiDecimal(samt);
-        
+//        String samt = kualiConfigurationService.getApplicationParameterValue(
+//                PurapParameterConstants.PURAP_ADMIN_GROUP, 
+//                PurapParameterConstants.PURAP_DEFAULT_NEGATIVE_PAYMENT_REQUEST_APPROVAL_LIMIT);
+//        KualiDecimal defaultMinimumAmount = new KualiDecimal(samt);
+//        
         Criteria criteria = new Criteria();
         criteria.addLessThan(PurapPropertyConstants.PAYMENT_REQUEST_PAY_DATE, todayAtMidnight);
         criteria.addNotEqualTo("holdIndicator", "Y");
@@ -162,85 +162,20 @@ public class PaymentRequestDaoOjb extends PlatformAwareDaoBaseOjb implements Pay
         criteria.addIn("status", Arrays.asList(PurapConstants.PaymentRequestStatuses.PREQ_STATUSES_FOR_AUTO_APPROVE));
         
         Query query = new QueryByCriteria(PaymentRequestDocument.class, criteria);
-        Iterator<PaymentRequestDocument> iterator = 
-            (Iterator<PaymentRequestDocument>) getPersistenceBrokerTemplate().getIteratorByQuery(query);
-        
-        Set<PaymentRequestDocument> eligibleDocuments = new HashSet<PaymentRequestDocument>();
-        while(iterator.hasNext()) {
-            PaymentRequestDocument document = iterator.next();
-            //document.getDocumentHeader().getDocumentStatus().
-            if(isEligibleForAutoApproval(document, defaultMinimumAmount)) {
-                eligibleDocuments.add(document);
-            }
-        }
-        
-        return eligibleDocuments.iterator();
-    }
-    
-    /**
-     * This method determines whether or not a payment request document can be
-     * automatically approved. 
-     * 
-     * @param document
-     * @return
-     */
-    private boolean isEligibleForAutoApproval(PaymentRequestDocument document, KualiDecimal defaultMinimumLimit) {
-        boolean isEligible = false;
-        
-        // This minimum will be set to the minimum limit derived from all
-        // accounting lines on the document. If no limit is determined, the 
-        // default will be used.
-        KualiDecimal minimumAmount = null;
-        
-        // Iterate all source accounting lines on the document, deriving a 
-        // minimum limit from each according to chart, chart and account, and 
-        // chart and organization. 
-        for (SourceAccountingLine line : purapAccountingService.generateSummary(document.getItems())) {
-            minimumAmount = minimumLimitAmount(
-                    negativePaymentRequestApprovalLimitDao.findByChart(
-                            line.getChartOfAccountsCode()), minimumAmount);
-            minimumAmount = minimumLimitAmount(
-                    negativePaymentRequestApprovalLimitDao.findByChartAndAccount(
-                            line.getChartOfAccountsCode(), line.getAccountNumber()), minimumAmount);
-            minimumAmount = minimumLimitAmount(
-                    negativePaymentRequestApprovalLimitDao.findByChartAndOrganization(
-                            line.getChartOfAccountsCode(), line.getOrganizationReferenceId()), minimumAmount);
-        }
-        
-        // If no limit was found, the default limit is used.
-        if(null == minimumAmount) {
-            minimumAmount = defaultMinimumLimit;
-        }
-        
-        // The document is eligible for auto-approval if the document total is 
-        // below the limit. 
-        if(document.getDocumentHeader().getFinancialDocumentTotalAmount().isLessThan(minimumAmount)) {
-            isEligible = true;
-        }
-        
-        return isEligible;
-    }
-    
-    /**
-     * This method iterates a collection of negative payment request approval 
-     * limits and returns the minimum of a given minimum amount and the least
-     * among the limits in the collection.
-     * 
-     * @param limits
-     * @param minimumAmount
-     * @return
-     */
-    private KualiDecimal minimumLimitAmount(Collection<NegativePaymentRequestApprovalLimit> limits, KualiDecimal minimumAmount) {
-        for (NegativePaymentRequestApprovalLimit limit : limits) {
-            KualiDecimal amount = limit.getNegativePaymentRequestApprovalLimitAmount();
-            if (null == minimumAmount) {
-                minimumAmount = amount;
-            }
-            else if (minimumAmount.isGreaterThan(amount)) {
-                minimumAmount = amount;
-            }
-        }
-        return minimumAmount;
+        return (Iterator<PaymentRequestDocument>) getPersistenceBrokerTemplate().getIteratorByQuery(query);
+//        Iterator<PaymentRequestDocument> iterator = 
+//            (Iterator<PaymentRequestDocument>) getPersistenceBrokerTemplate().getIteratorByQuery(query);
+//        
+//        Set<PaymentRequestDocument> eligibleDocuments = new HashSet<PaymentRequestDocument>();
+//        while(iterator.hasNext()) {
+//            PaymentRequestDocument document = iterator.next();
+//            //document.getDocumentHeader().getDocumentStatus().
+//            if(isEligibleForAutoApproval(document, defaultMinimumAmount)) {
+//                eligibleDocuments.add(document);
+//            }
+//        }
+//        
+//        return eligibleDocuments.iterator();
     }
     
     public String getDocumentNumberByPaymentRequestId(Integer id) {

@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 import org.apache.log4j.Logger;
+import org.apache.ojb.broker.metadata.MetadataManager;
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.Query;
 import org.apache.ojb.broker.query.QueryByCriteria;
@@ -30,7 +31,6 @@ import org.kuali.kfs.bo.SourceAccountingLine;
 import org.kuali.kfs.bo.TargetAccountingLine;
 import org.kuali.kfs.dao.AccountingLineDao;
 import org.kuali.module.chart.dao.ojb.ChartDaoOjb;
-import org.kuali.module.financial.bo.GECSourceAccountingLine;
 import org.springframework.dao.DataAccessException;
 
 /**
@@ -75,14 +75,15 @@ public class AccountingLineDaoOjb extends PlatformAwareDaoBaseOjb implements Acc
     public ArrayList findByDocumentHeaderId(Class clazz, String documentHeaderId) throws DataAccessException {
         Criteria criteria = new Criteria();
         criteria.addEqualTo("FDOC_NBR", documentHeaderId);
-        if (SourceAccountingLine.class.isAssignableFrom(clazz)) {
-            criteria.addEqualTo("FDOC_LN_TYP_CD", KFSConstants.SOURCE_ACCT_LINE_TYPE_CODE);
-        } else if (TargetAccountingLine.class.isAssignableFrom(clazz)) {
-            criteria.addEqualTo("FDOC_LN_TYP_CD", KFSConstants.TARGET_ACCT_LINE_TYPE_CODE);
+        if (MetadataManager.getInstance().getRepository().getDescriptorFor(clazz).getFieldDescriptorByName("financialDocumentLineTypeCode") != null) {
+            if (SourceAccountingLine.class.isAssignableFrom(clazz)) {
+                criteria.addEqualTo("FDOC_LN_TYP_CD", KFSConstants.SOURCE_ACCT_LINE_TYPE_CODE);
+            } else if (TargetAccountingLine.class.isAssignableFrom(clazz)) {
+                criteria.addEqualTo("FDOC_LN_TYP_CD", KFSConstants.TARGET_ACCT_LINE_TYPE_CODE);
+            }
         }
-
+        
         QueryByCriteria query = QueryFactory.newQuery(clazz, criteria);
-
         Collection lines = findCollection(query);
 
         return new ArrayList(lines);

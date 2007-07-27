@@ -51,6 +51,7 @@ public class VendorPropertyConstants {
     public static final String VENDOR_TYPE_CODE = "vendorHeader.vendorTypeCode";
     public static final String VENDOR_W9_RECEIVED_INDICATOR = "vendorHeader.vendorW9ReceivedIndicator";
     public static final String VENDOR_W8_BEN_RECEIVED_INDICATOR = "vendorHeader.vendorW8BenReceivedIndicator";
+    public static final String VENDOR_RESTRICTED_REASON_TEXT = "vendorRestrictedReasonText";
     public static final String VENDOR_DEBARRED_INDICATOR = "vendorHeader.vendorDebarredIndicator";
     public static final String VENDOR_FOREIGN_INDICATOR = "vendorHeader.vendorForeignIndicator";
     public static final String VENDOR_INACTIVE_REASON = "vendorInactiveReasonCode";

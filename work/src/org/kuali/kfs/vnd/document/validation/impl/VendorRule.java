@@ -362,6 +362,7 @@ public class VendorRule extends MaintenanceDocumentRuleBase implements VendorRul
         valid &= validateParentVendorTaxNumber(vendorDetail);
         valid &= validateOwnershipTypeAllowed(vendorDetail);
         valid &= validateTaxNumberFromTaxNumberService(vendorDetail);
+        valid &= validateRestrictedReasonRequiredness(vendorDetail);
         valid &= validateInactiveReasonRequiredness(vendorDetail);
 
         if (ObjectUtils.isNotNull(vendorDetail.getVendorHeader().getVendorType())) {
@@ -404,6 +405,20 @@ public class VendorRule extends MaintenanceDocumentRuleBase implements VendorRul
             else {
                 putFieldError(VendorPropertyConstants.VENDOR_TAX_NUMBER, VendorKeyConstants.ERROR_VENDOR_PARENT_NEEDS_CHANGED);
             }
+            return false;
+        }
+        return true;
+    }
+    
+    /**
+     * This method validates that, if the vendor is set to be restricted, the restricted reason is required.
+     * 
+     * @param vendorDetail      The VendorDetail object to be validated
+     * @return  False if the vendor is restricted and the restricted reason is empty
+     */
+    boolean validateRestrictedReasonRequiredness(VendorDetail vendorDetail) {
+        if (vendorDetail.getVendorRestrictedIndicator() && StringUtils.isEmpty(vendorDetail.getVendorRestrictedReasonText() )) {
+            putFieldError(VendorPropertyConstants.VENDOR_RESTRICTED_REASON_TEXT, VendorKeyConstants.ERROR_RESTRICTED_REASON_REQUIRED);
             return false;
         }
         return true;

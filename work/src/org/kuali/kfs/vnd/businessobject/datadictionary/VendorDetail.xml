@@ -60,9 +60,9 @@
                         <field attributeName="vendorRestrictedDate" />
                         <field attributeName="vendorRestrictedPerson.personName" />
                         <field attributeName="vendorRestrictedReasonText" />
-                        <field attributeName="vendorRemitName" />
-                        <field attributeName="vendorInactiveReasonCode" />
-                        <field attributeName="activeIndicator"/>               
+                        <field attributeName="vendorRemitName" />                       
+                        <field attributeName="activeIndicator"/>
+                        <field attributeName="vendorInactiveReasonCode" />               
                     </inquiryFields>
                 </inquirySection>
                 

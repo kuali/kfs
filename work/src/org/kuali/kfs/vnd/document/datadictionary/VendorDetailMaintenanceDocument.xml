@@ -101,13 +101,13 @@
                     <maintainableField name="vendorRestrictedDate" readOnly="true"/>
                     <maintainableField name="vendorRestrictedPersonIdentifier" />
                     <maintainableField name="vendorRestrictedPerson.personName" readOnly="true"/>
-                    <maintainableField name="vendorRestrictedPerson.personUserIdentifier"/>                    
+                    <maintainableField name="vendorRestrictedPerson.personUserIdentifier"/>                   
                     <maintainableField name="vendorRestrictedReasonText" />
                     <maintainableField name="vendorRemitName" />
-                    <maintainableField name="vendorInactiveReasonCode" />
                     <maintainableField name="activeIndicator">
                         <defaultValue>true</defaultValue>
                     </maintainableField>
+                    <maintainableField name="vendorInactiveReasonCode" />
                     <maintainableField name="versionNumber" />
                     <maintainableField name="vendorHeader.versionNumber" />
                     <maintainableField name="vendorParentIndicator">

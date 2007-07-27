@@ -156,7 +156,7 @@ public class KualiPurchaseOrderBudgetAttribute implements WorkflowAttribute {
                     currentXpathExpression = KualiWorkflowUtils.XSTREAM_MATCH_ANYWHERE_PREFIX + KualiWorkflowUtils.XML_REPORT_DOC_CONTENT_XPATH_PREFIX + "/" + KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE;
                     return ruleChartCode.equalsIgnoreCase(KualiWorkflowUtils.xstreamSafeEval(xPath, currentXpathExpression, docContent.getDocContent()));
                 } else {
-                    documentHeaderId = KualiWorkflowUtils.getDocumentHeaderDocumentNumber(docContent.getDocument());
+                    documentHeaderId = docContent.getRouteContext().getDocument().getRouteHeaderId().toString();
                     PurchaseOrderDocument po = (PurchaseOrderDocument) SpringServiceLocator.getDocumentService().getByDocumentHeaderId(documentHeaderId);
                     DocumentTypeService docTypeService = SpringServiceLocator.getDocumentTypeService();
                     String financialDocumentTypeCode = docTypeService.getDocumentTypeCodeByClass(po.getClass());

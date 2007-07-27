@@ -82,7 +82,7 @@ public class PurApSourceDocumentRouteUserRoleAttribute extends UnqualifiedRoleAt
     public ResolvedQualifiedRole resolveRole(RouteContext routeContext, String roleName) throws EdenUserNotFoundException {
         String documentNumber = null;
         try {
-            documentNumber = KualiWorkflowUtils.getDocumentHeaderDocumentNumber(routeContext);
+            documentNumber = routeContext.getDocument().getRouteHeaderId().toString();
             PurchasingAccountsPayableDocument document = (PurchasingAccountsPayableDocument)SpringServiceLocator.getDocumentService().getByDocumentHeaderId(documentNumber);
             assertDocumentNotNull(document);
             document.refreshNonUpdateableReferences();

@@ -36,12 +36,9 @@ import edu.iu.uis.eden.routetemplate.RuleExtension;
 public class KualiAccountsPayableReviewAttribute extends AbstractWorkflowAttribute {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(KualiAccountsPayableReviewAttribute.class);
 
-    private AccountsPayableDocument getAccountsPayableDocument(Document doc) {
-        String documentNumber = null;
-        AccountsPayableDocument document = null;
+    private AccountsPayableDocument getAccountsPayableDocument(String documentNumber) {
         try {
-            documentNumber = KualiWorkflowUtils.getDocumentHeaderDocumentNumber(doc);
-            document = (AccountsPayableDocument)SpringServiceLocator.getDocumentService().getByDocumentHeaderId(documentNumber);
+            AccountsPayableDocument document = (AccountsPayableDocument)SpringServiceLocator.getDocumentService().getByDocumentHeaderId(documentNumber);
             if (ObjectUtils.isNull(document)) {
                 String errorMsg = "Error trying to get document using doc id '" + documentNumber + "'";
                 LOG.error("getAccountsPayableDocument() " + errorMsg);
@@ -61,7 +58,7 @@ public class KualiAccountsPayableReviewAttribute extends AbstractWorkflowAttribu
      * @see edu.iu.uis.eden.plugin.attributes.WorkflowAttribute#isMatch(edu.iu.uis.eden.routeheader.DocumentContent, java.util.List)
      */
     public boolean isMatch(DocumentContent docContent, List<RuleExtension> ruleExtensions) {
-        AccountsPayableDocument document = getAccountsPayableDocument(docContent.getDocument());
+        AccountsPayableDocument document = getAccountsPayableDocument(docContent.getRouteContext().getDocument().getRouteHeaderId().toString());
         return document.requiresAccountsPayableReviewRouting();
     }
 

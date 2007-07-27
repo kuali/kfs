@@ -375,22 +375,4 @@ public class KualiXmlAttributeImplTest extends KualiTestBase {
             throw new AssertionFailedError("testLabelSource failed");
     }
 
-    /**
-     * This method sets all of the label in Constants.STAND_IN_BUSINESS_OBJECT_FOR_ATTRIBUTES business object to the nonsenseString.
-     * It is only called from the testLabelSource method. Since testConfirmLabels makes sure the label is correct, the fact that
-     * this is overkill doesn't matter, since the test is only confirming the source is the datadictionary. Otherwise the logic gets
-     * very complex and cumbersome
-     *
-     * @param nonsenseString
-     */
-//    private void setTitleForStandInBusinessObject(String nonsenseString) {
-//        DataDictionaryEntry theEntry = SpringServiceLocator.getDataDictionaryService().getDataDictionary().getDictionaryObjectEntry(KFSConstants.STAND_IN_BUSINESS_OBJECT_FOR_ATTRIBUTES);
-//        Object mapEntry;
-//        Iterator mapIterator = ((BusinessObjectEntry) theEntry).getAttributes().keySet().iterator();
-//        while (mapIterator.hasNext()) {
-//            mapEntry = mapIterator.next();
-//            ((BusinessObjectEntry) theEntry).getAttributeDefinition((String) mapEntry).setLabel(nonsenseString);
-//        }
-//
-//    }
 }

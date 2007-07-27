@@ -85,11 +85,9 @@ public class KualiInternalPurchasingRoleAttribute extends UnqualifiedRoleAttribu
      */
     @Override
     public boolean isMatch(DocumentContent docContent, List<RuleExtension> ruleExtensions) {
-        String documentNumber = null;
+        String documentNumber = docContent.getRouteContext().getDocument().getRouteHeaderId().toString();
         try {
-            String documentContent = docContent.getDocContent();
             // get the document id number from the routeContext doc content
-            documentNumber = KualiWorkflowUtils.getDocumentHeaderDocumentNumber(docContent.getDocument());
             PurchasingDocumentBase document = (PurchasingDocumentBase)SpringServiceLocator.getDocumentService().getByDocumentHeaderId(documentNumber);
             document.refreshNonUpdateableReferences();
             KualiDecimal internalPurchasingLimit = SpringServiceLocator.getPurchaseOrderService().getInternalPurchasingDollarLimit(document, document.getChartOfAccountsCode(), document.getOrganizationCode());

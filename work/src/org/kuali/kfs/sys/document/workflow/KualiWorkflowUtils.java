@@ -103,7 +103,6 @@ public class KualiWorkflowUtils extends WorkflowUtils {
     public static final String CHART_ORG_WORKGROUP_DOC_TYPE = "ChartOrgWorkgroup";
 	public static final String ACCOUNTS_PAYABLE_CREDIT_MEMO_DOCUMENT_TYPE = PurapConstants.CREDIT_MEMO_DOCUMENT;
     public static final String ACCOUNTS_PAYABLE_PAYMENT_REQUEST_DOCUMENT_TYPE = PurapConstants.PAYMENT_REQUEST_DOCUMENT;
-    public static final String FINANCIAL_DOCUMENT_HEADER_DOCUMENT_NUMBER = xstreamSafeXPath(XSTREAM_MATCH_ANYWHERE_PREFIX + "documentHeader/documentNumber");
     public static final String FINANCIAL_DOCUMENT_TOTAL_AMOUNT_XPATH = xstreamSafeXPath(XSTREAM_MATCH_ANYWHERE_PREFIX + "documentHeader/financialDocumentTotalAmount/value");
     public static final String ACCOUNT_GLOBAL_DETAILS_XPATH = xstreamSafeXPath(NEW_MAINTAINABLE_PREFIX + "accountGlobalDetails/list/org.kuali.module.chart.bo.AccountGlobalDetail");
     public static final String ORG_REVERSION_GLOBALS_XPATH = xstreamSafeXPath(NEW_MAINTAINABLE_PREFIX + "organizationReversionGlobalOrganizations/list/org.kuali.module.chart.bo.OrganizationReversionGlobalOrganization");
@@ -466,40 +465,4 @@ public class KualiWorkflowUtils extends WorkflowUtils {
         }
     }
 
-    /**
-     * This method...
-     * TODO delyea - documentation
-     * @param routeContext
-     * @return
-     */
-    public static String getDocumentHeaderDocumentNumber(RouteContext routeContext) {
-        Document document = routeContext.getDocumentContent().getDocument();
-        return getDocumentHeaderDocumentNumber(document);
-    }
-
-    /**
-     * This method...
-     * TODO delyea - documentation
-     * @param document
-     * @return
-     */
-    public static String getDocumentHeaderDocumentNumber(Document document) {
-        XPath xpath = getXPath(document);
-        String docHeaderNumber = null;
-        String xpathXpression = FINANCIAL_DOCUMENT_HEADER_DOCUMENT_NUMBER;
-        try {
-            docHeaderNumber = (String) xpath.evaluate(xpathXpression, document, XPathConstants.STRING);
-            if (StringUtils.isEmpty(docHeaderNumber)) {
-                String message = "Cannot find financial document header document number";
-                LOG.error("getDocumentHeaderDocumentNumber() " + message);
-                throw new RuntimeException (message);
-            }
-            return docHeaderNumber;
-        }
-        catch (XPathExpressionException xe) {
-            String errorMsg = "Error executing XPath expression - '" + xpathXpression + "'";
-            LOG.error(errorMsg,xe);
-            throw new RuntimeException (errorMsg,xe);
-        }
-    }
 }

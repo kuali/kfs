@@ -35,11 +35,16 @@ import edu.iu.uis.eden.routeheader.DocumentContent;
 @WithTestSpringContext
 public class KualiWorkflowUtilsTest extends KualiTestBase {
     
-    public void testTemp() throws IOException, InvalidXmlException, XPathExpressionException {
+    public void testGetFinancialDocumentTotalAmount() throws Exception {
+        KualiDecimal validAmount = new KualiDecimal(3.00);
         DocumentContent docContent = KualiAttributeTestUtil.getDocumentContentFromXmlFileAndPath(KualiAttributeTestUtil.PURCHASE_ORDER_DOCUMENT, KualiAttributeTestUtil.RELATIVE_PATH_IN_PROJECT_WORKFLOW,"PurchaseOrderDocument");
 
         KualiDecimal testAmount = KualiWorkflowUtils.getFinancialDocumentTotalAmount(docContent.getDocument());
-        assertEquals(new KualiDecimal(3.00), testAmount);
+        assertEquals(validAmount, testAmount);
+        
+        // TODO delyea - investigate why routeContext doesn't work
+//      KualiDecimal testAmount = KualiWorkflowUtils.getFinancialDocumentTotalAmount(docContent.getRouteContext());
+//      assertEquals(validAmount, testAmount);
     }
 
 }

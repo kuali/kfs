@@ -725,10 +725,14 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
     /**
      * @see org.kuali.core.document.DocumentBase#getDocumentTitle()
      */
-//    @Override
-//    public String getDocumentTitle() {
-//        return getCustomDocumentTitle();
-//    }
+    @Override
+    public String getDocumentTitle() {
+        String specificTitle = SpringServiceLocator.getKualiConfigurationService().getApplicationParameterValue(PurapParameterConstants.PURAP_ADMIN_GROUP,PurapParameterConstants.PURAP_OVERRIDE_PREQ_DOC_TITLE);
+        if (StringUtils.equalsIgnoreCase(specificTitle,Boolean.TRUE.toString())) {
+            return getCustomDocumentTitle();
+        }
+        return super.getDocumentTitle();
+    }
     
     private String getCustomDocumentTitle() {
         try{
@@ -1083,49 +1087,6 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
                 break;
             }
         }
-    }
-
-    /**
-     * Overriding the document title.
-     * 
-     * @see org.kuali.core.document.Document#getDocumentTitle()
-     */
-    @Override
-    public String getDocumentTitle(){
-        
-        String documentTitle = "";
-
-        String specificTitle = SpringServiceLocator.getKualiConfigurationService().getApplicationParameterValue(PurapParameterConstants.PURAP_ADMIN_GROUP,PurapParameterConstants.PURAP_OVERRIDE_PREQ_DOC_TITLE);
-        if (StringUtils.equalsIgnoreCase(specificTitle,Boolean.TRUE.toString())) {
-            //grab the first account
-            Account theAccount = getFirstAccount().getAccount();
-            
-            //setup variables
-            String poNumber = this.getPurchaseOrderIdentifier().toString();
-            String vendorName = StringUtils.trimToEmpty( this.getVendorName() );
-            String preqAmount = this.getGrandTotal().toString();
-            String indicator = getTitleIndicator();        
-            String deliveryCampus = StringUtils.trimToEmpty( (this.getProcessingCampus() != null ? this.getProcessingCampus().getCampusShortName() : "") );        
-            String accountNumber = (theAccount != null ? StringUtils.trimToEmpty( theAccount.getAccountNumber() ) : "");
-            String department = (theAccount != null ? StringUtils.trimToEmpty( (theAccount.getOrganization() != null ? theAccount.getOrganization().getOrganizationName() : "") ) : "");
-                           
-            //now construct the appropriate message after evaluating the route level
-            List currentRouteLevels = this.getCurrentRouteLevels(this.getDocumentHeader().getWorkflowDocument());
-                    
-            //if( currentRouteLevels.contains(RouteLevelNames.VENDOR_TAX_REVIEW) ){
-                //tax review
-            //    documentTitle = constructPaymentRequestTaxReviewTitle(vendorName, poNumber, accountNumber, department, deliveryCampus);            
-            //}else{
-                //default
-            //    documentTitle = constructPaymentRequestDefaultTitle(poNumber, vendorName, preqAmount, indicator);
-            //}
-            documentTitle = constructPaymentRequestDefaultTitle(poNumber, vendorName, preqAmount, indicator);
-        } 
-        else {
-            documentTitle = super.getDocumentTitle();
-        } 
-        
-        return documentTitle;
     }
 
     /**

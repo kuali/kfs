@@ -349,23 +349,24 @@ public class CreditMemoDocumentRule extends AccountsPayableDocumentRuleBase impl
                 GlobalVariables.getErrorMap().putError(errorKey, PurapKeyConstants.ERROR_CREDIT_MEMO_ITEM_AMOUNT_NONPOSITIVE, label);
                 valid = false;
             }
+            if(!cmDocument.isSourceVendor()) {
+                // check cm extended price is not greater than total invoiced amount
+                KualiDecimal invoicedAmount = null;
+                if (cmDocument.isSourceDocumentPurchaseOrder()) {
+                    invoicedAmount = item.getPoExtendedPrice();
+                }
+                else {
+                    invoicedAmount = item.getPreqExtendedPrice();
+                }
 
-            // check cm extended price is not greater than total invoiced amount
-            KualiDecimal invoicedAmount = null;
-            if (cmDocument.isSourceDocumentPurchaseOrder()) {
-                invoicedAmount = item.getPoExtendedPrice();
-            }
-            else {
-                invoicedAmount = item.getPreqExtendedPrice();
-            }
+                if (invoicedAmount == null) {
+                    invoicedAmount = KualiDecimal.ZERO;
+                }
 
-            if (invoicedAmount == null) {
-                invoicedAmount = KualiDecimal.ZERO;
-            }
-
-            if (item.getExtendedPrice().isGreaterThan(invoicedAmount)) {
-                GlobalVariables.getErrorMap().putError(errorKey, PurapKeyConstants.ERROR_CREDIT_MEMO_ITEM_EXTENDEDPRICE_TOOMUCH);
-                valid = false;
+                if (item.getExtendedPrice().isGreaterThan(invoicedAmount)) {
+                    GlobalVariables.getErrorMap().putError(errorKey, PurapKeyConstants.ERROR_CREDIT_MEMO_ITEM_EXTENDEDPRICE_TOOMUCH);
+                    valid = false;
+                }
             }
 
         }

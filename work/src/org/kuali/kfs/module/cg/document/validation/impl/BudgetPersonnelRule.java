@@ -26,6 +26,7 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.core.document.Document;
 import org.kuali.core.service.DataDictionaryService;
 import org.kuali.core.util.GlobalVariables;
+import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.KualiInteger;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.KFSKeyConstants;
@@ -101,6 +102,7 @@ public class BudgetPersonnelRule {
 
         valid &= verifyPersonnelChartOrg(personnel);
         valid &= verifyGradAssistantFeeRemission(personnel);
+        valid &= validateGradAssistantPerCreditHour(personnel);
 
         GlobalVariables.getErrorMap().removeFromErrorPath("document");
 
@@ -164,6 +166,49 @@ public class BudgetPersonnelRule {
         return valid;
     }
 
+    /**
+     * 
+     * This method...
+     * @param personnelList
+     * @return
+     */
+    private boolean validateGradAssistantPerCreditHour(List personnelList) {
+        boolean valid = true;
+        
+        int personnelListIndex = 0;
+
+        for (Iterator budgetUserIter = personnelList.iterator(); budgetUserIter.hasNext(); personnelListIndex++) {
+            BudgetUser budgetUser = (BudgetUser) budgetUserIter.next();
+
+            GlobalVariables.getErrorMap().addToErrorPath("budget.personFromList[" + personnelListIndex + "]");
+
+            int userAppointmentTaskListIndex = 0;
+
+            for (Iterator userAppointmentTaskIter = budgetUser.getUserAppointmentTasks().iterator(); userAppointmentTaskIter.hasNext(); userAppointmentTaskListIndex++) {
+                int userAppointmentTaskPeriodIndex = 0;
+
+                for (Iterator userAppointmentTaskPeriodIter = ((UserAppointmentTask) userAppointmentTaskIter.next()).getUserAppointmentTaskPeriods().iterator(); userAppointmentTaskPeriodIter.hasNext(); userAppointmentTaskPeriodIndex++) {
+
+                    GlobalVariables.getErrorMap().addToErrorPath("userAppointmentTask[" + userAppointmentTaskListIndex + "].userAppointmentTaskPeriod[" + userAppointmentTaskPeriodIndex + "]");
+
+                    UserAppointmentTaskPeriod userAppointmentTaskPeriod = (UserAppointmentTaskPeriod) userAppointmentTaskPeriodIter.next();
+
+                    if (ObjectUtils.isNotNull(userAppointmentTaskPeriod.getUserCreditHourAmount()) && 
+                            userAppointmentTaskPeriod.getUserCreditHourAmount().isGreaterEqual(new KualiDecimal(10000.00))) {
+                        GlobalVariables.getErrorMap().putError("userCreditHourAmount", KraKeyConstants.ERROR_PER_CREDIT_HOUR_AMOUNT_ABOVE_MAXIMUM, userAppointmentTaskPeriod.getUserCreditHourAmount().toString());
+                        valid = false;
+                    }
+
+                    GlobalVariables.getErrorMap().removeFromErrorPath("userAppointmentTask[" + userAppointmentTaskListIndex + "].userAppointmentTaskPeriod[" + userAppointmentTaskPeriodIndex + "]");
+                }
+            }
+
+            GlobalVariables.getErrorMap().removeFromErrorPath("budget.personFromList[" + personnelListIndex + "]");
+        }
+        
+        return valid;
+    }
+    
     protected boolean processInsertPersonnelBusinessRules(List personnelList, BudgetUser newBudgetUser, boolean isToBeNamed) {
         boolean valid = true;
 

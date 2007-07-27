@@ -18,7 +18,7 @@
 <%@ attribute name="documentAttributes" required="true" type="java.util.Map" 
               description="The DataDictionary entry containing attributes for this row's fields."%>
 
-<kul:tab tabTitle="View Payment History" defaultOpen="false" tabErrorKey="${PurapConstants.ADDITIONAL_TAB_ERRORS}">
+<kul:tab tabTitle="View Payment History" defaultOpen="false" tabErrorKey="${PurapConstants.PAYMENT_HISTORY_TAB_ERRORS}">
     <div class="tab-container" align=center>
         <div class="h2-container">
             <h2>Payment History	- Payment Requests</h2>

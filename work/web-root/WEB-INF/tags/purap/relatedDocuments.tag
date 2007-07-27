@@ -18,7 +18,7 @@
 <%@ attribute name="documentAttributes" required="true" type="java.util.Map" 
               description="The DataDictionary entry containing attributes for this row's fields."%>
 
-<kul:tab tabTitle="View Related Documents" defaultOpen="false" tabErrorKey="${PurapConstants.ADDITIONAL_TAB_ERRORS}">
+<kul:tab tabTitle="View Related Documents" defaultOpen="false" tabErrorKey="${PurapConstants.RELATED_DOCS_TAB_ERRORS}">
     <div class="tab-container" align=center>
         <div class="h2-container">
             <h2>Related Documents</h2>

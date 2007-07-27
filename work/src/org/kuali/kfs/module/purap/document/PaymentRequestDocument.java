@@ -18,6 +18,7 @@ package org.kuali.module.purap.document;
 
 import java.sql.Date;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -31,7 +32,9 @@ import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.workflow.service.KualiWorkflowDocument;
 import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.module.chart.bo.Account;
 import org.kuali.module.purap.PurapConstants;
+import org.kuali.module.purap.PurapParameterConstants;
 import org.kuali.module.purap.PurapConstants.PaymentRequestStatuses;
 import org.kuali.module.purap.PurapConstants.WorkflowConstants;
 import org.kuali.module.purap.bo.ItemType;
@@ -47,9 +50,9 @@ import org.kuali.module.vendor.bo.PaymentTermType;
 import org.kuali.module.vendor.bo.PurchaseOrderCostSource;
 import org.kuali.module.vendor.bo.ShippingPaymentTerms;
 import org.kuali.module.vendor.bo.VendorAddress;
+import org.kuali.workflow.KualiWorkflowUtils.RouteLevelNames;
 
 import edu.iu.uis.eden.clientapp.vo.ActionTakenEventVO;
-import edu.iu.uis.eden.clientapp.vo.DocumentRouteLevelChangeVO;
 import edu.iu.uis.eden.exception.WorkflowException;
 
 
@@ -1082,6 +1085,120 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
         }
     }
 
+    /**
+     * Overriding the document title.
+     * 
+     * @see org.kuali.core.document.Document#getDocumentTitle()
+     */
+    @Override
+    public String getDocumentTitle(){
+        
+        String documentTitle = "";
+
+        String specificTitle = SpringServiceLocator.getKualiConfigurationService().getApplicationParameterValue(PurapParameterConstants.PURAP_ADMIN_GROUP,PurapParameterConstants.PURAP_OVERRIDE_PREQ_DOC_TITLE);
+        if (StringUtils.equalsIgnoreCase(specificTitle,Boolean.TRUE.toString())) {
+            //grab the first account
+            Account theAccount = getFirstAccount().getAccount();
+            
+            //setup variables
+            String poNumber = this.getPurchaseOrderIdentifier().toString();
+            String vendorName = StringUtils.trimToEmpty( this.getVendorName() );
+            String preqAmount = this.getGrandTotal().toString();
+            String indicator = getTitleIndicator();        
+            String deliveryCampus = StringUtils.trimToEmpty( (this.getProcessingCampus() != null ? this.getProcessingCampus().getCampusShortName() : "") );        
+            String accountNumber = (theAccount != null ? StringUtils.trimToEmpty( theAccount.getAccountNumber() ) : "");
+            String department = (theAccount != null ? StringUtils.trimToEmpty( (theAccount.getOrganization() != null ? theAccount.getOrganization().getOrganizationName() : "") ) : "");
+                           
+            //now construct the appropriate message after evaluating the route level
+            List currentRouteLevels = this.getCurrentRouteLevels(this.getDocumentHeader().getWorkflowDocument());
+                    
+            //if( currentRouteLevels.contains(RouteLevelNames.VENDOR_TAX_REVIEW) ){
+                //tax review
+            //    documentTitle = constructPaymentRequestTaxReviewTitle(vendorName, poNumber, accountNumber, department, deliveryCampus);            
+            //}else{
+                //default
+            //    documentTitle = constructPaymentRequestDefaultTitle(poNumber, vendorName, preqAmount, indicator);
+            //}
+            documentTitle = constructPaymentRequestDefaultTitle(poNumber, vendorName, preqAmount, indicator);
+        } 
+        else {
+            documentTitle = super.getDocumentTitle();
+        } 
+        
+        return documentTitle;
+    }
+
+    /**
+     * This method constructs a default title for the workflow document title.
+     *  
+     * @param poNumber
+     * @param vendorName
+     * @param preqAmount
+     * @param indicator
+     * @return
+     */
+    public String constructPaymentRequestDefaultTitle(String poNumber, String vendorName, 
+            String preqAmount, String indicator){
+        
+        StringBuffer docTitle = new StringBuffer("");
+        
+        docTitle.append("PO: ");
+        docTitle.append(poNumber);
+        docTitle.append(" Vendor: ");
+        docTitle.append(vendorName);
+        docTitle.append(" Amount: ");
+        docTitle.append(preqAmount);
+        docTitle.append(" ");
+        docTitle.append(indicator);
+        
+        return docTitle.toString();
+    }
+
+    /**
+     * This method constructs a special version of the workflow document title for tax review.
+     * 
+     * @param vendorName
+     * @param poNumber
+     * @param accountNumber
+     * @param department
+     * @param deliveryCampus
+     * @return
+     */
+    public String constructPaymentRequestTaxReviewTitle(String vendorName, String poNumber, 
+            String accountNumber, String department, String deliveryCampus){
+        
+        StringBuffer docTitle = new StringBuffer("");
+        
+        docTitle.append("Vendor: ");
+        docTitle.append(vendorName);
+        docTitle.append(" PO: ");
+        docTitle.append(poNumber);
+        docTitle.append(" Account Number: ");
+        docTitle.append(accountNumber);
+        docTitle.append(" Dept: ");
+        docTitle.append(department);
+        docTitle.append(" Delivery Campus: ");
+        docTitle.append(deliveryCampus);
+        
+        return docTitle.toString();
+    }
+        
+    /**
+     * A helper method for determining the route levels for a given document.
+     * 
+     * @param workflowDocument
+     * @return List
+     */
+    protected List getCurrentRouteLevels(KualiWorkflowDocument workflowDocument) {
+        try {
+            return Arrays.asList(workflowDocument.getNodeNames());
+        }
+        catch (WorkflowException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    
     public void updateExtendedPriceOnItems() {
         for (PaymentRequestItem item : (List<PaymentRequestItem>)this.getItems()) {
             if(ObjectUtils.isNull(item.getExtendedPrice())) {

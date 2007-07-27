@@ -19,6 +19,10 @@ import java.util.LinkedHashMap;
 
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.bo.PersistableBusinessObjectBase;
+import org.kuali.module.chart.bo.Account;
+import org.kuali.module.chart.bo.Chart;
+import org.kuali.module.chart.bo.SubAccount;
+import org.kuali.module.chart.bo.OrganizationReversionCategory;
 
 public class OrgReversionUnitOfWorkCategoryAmount extends PersistableBusinessObjectBase {
     private String chartOfAccountsCode;
@@ -30,6 +34,12 @@ public class OrgReversionUnitOfWorkCategoryAmount extends PersistableBusinessObj
     private KualiDecimal encumbrance = KualiDecimal.ZERO;
     private KualiDecimal carryForward = KualiDecimal.ZERO;
     private KualiDecimal available = KualiDecimal.ZERO;
+    
+    private Chart chartOfAccounts;
+    private Account account;
+    private SubAccount subAccount;
+    private OrganizationReversionCategory organizationReversionCategory;
+    private OrgReversionUnitOfWork organizationReversionUnitOfWork;
 
     public OrgReversionUnitOfWorkCategoryAmount(String chartOfAccountsCode, String accountNbr, String subAccountNbr, String cat) {
         this.chartOfAccountsCode = chartOfAccountsCode;
@@ -152,6 +162,86 @@ public class OrgReversionUnitOfWorkCategoryAmount extends PersistableBusinessObj
      */
     public void setSubAccountNumber(String subAccountNbr) {
         this.subAccountNumber = subAccountNbr;
+    }
+
+    /**
+     * Gets the account attribute. 
+     * @return Returns the account.
+     */
+    public Account getAccount() {
+        return account;
+    }
+
+    /**
+     * Sets the account attribute value.
+     * @param account The account to set.
+     */
+    public void setAccount(Account account) {
+        this.account = account;
+    }
+
+    /**
+     * Gets the chartOfAccounts attribute. 
+     * @return Returns the chartOfAccounts.
+     */
+    public Chart getChartOfAccounts() {
+        return chartOfAccounts;
+    }
+
+    /**
+     * Sets the chartOfAccounts attribute value.
+     * @param chartOfAccounts The chartOfAccounts to set.
+     */
+    public void setChartOfAccounts(Chart chartOfAccounts) {
+        this.chartOfAccounts = chartOfAccounts;
+    }
+
+    /**
+     * Gets the organizationReversionCategory attribute. 
+     * @return Returns the organizationReversionCategory.
+     */
+    public OrganizationReversionCategory getOrganizationReversionCategory() {
+        return organizationReversionCategory;
+    }
+
+    /**
+     * Sets the organizationReversionCategory attribute value.
+     * @param organizationReversionCategory The organizationReversionCategory to set.
+     */
+    public void setOrganizationReversionCategory(OrganizationReversionCategory organizationReversionCategory) {
+        this.organizationReversionCategory = organizationReversionCategory;
+    }
+
+    /**
+     * Gets the organizationReversionUnitOfWork attribute. 
+     * @return Returns the organizationReversionUnitOfWork.
+     */
+    public OrgReversionUnitOfWork getOrganizationReversionUnitOfWork() {
+        return organizationReversionUnitOfWork;
+    }
+
+    /**
+     * Sets the organizationReversionUnitOfWork attribute value.
+     * @param organizationReversionUnitOfWork The organizationReversionUnitOfWork to set.
+     */
+    public void setOrganizationReversionUnitOfWork(OrgReversionUnitOfWork organizationReversionUnitOfWork) {
+        this.organizationReversionUnitOfWork = organizationReversionUnitOfWork;
+    }
+
+    /**
+     * Gets the subAccount attribute. 
+     * @return Returns the subAccount.
+     */
+    public SubAccount getSubAccount() {
+        return subAccount;
+    }
+
+    /**
+     * Sets the subAccount attribute value.
+     * @param subAccount The subAccount to set.
+     */
+    public void setSubAccount(SubAccount subAccount) {
+        this.subAccount = subAccount;
     }
 
     /**

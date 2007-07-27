@@ -1026,7 +1026,7 @@
 		<foreignkey field-ref="accountNumber" />
 	</reference-descriptor>
     <reference-descriptor name="organizationReversionCategory" class-ref="org.kuali.module.chart.bo.OrganizationReversionCategory" auto-retrieve="true" auto-update="none" auto-delete="none">
-        <foreignkey field-ref="organizationReversionCategoryCode" />
+        <foreignkey field-ref="categoryCode" />
     </reference-descriptor>
 	<reference-descriptor name="organizationReversionUnitOfWork" class-ref="org.kuali.module.gl.bo.OrgReversionUnitOfWork" auto-retrieve="true" auto-update="none" auto-delete="none">
 		<foreignkey field-ref="chartOfAccountsCode" />

@@ -325,7 +325,9 @@
 
 	<target name="update-rice" depends="update-rice-basic,update-rice-extended,dist-local" />
 
-	<target name="update-rice-basic" depends="init-property-files">
+	<target name="update-rice-basic" depends="init-property-files,update-rice-jars,update-rice-web" />
+
+	<target name="update-rice-jars" depends="init-property-files">
 		<delete>
 			<fileset dir="${basedir}" includes="${lib.directory}/${rice.output.file.prefix}${rice.output.lib.suffix}" />
 		</delete>
@@ -334,19 +336,20 @@
 			<fileset dir="${rice.project.directory}" includes="${rice.output.directories}${rice.output.file.prefix}${rice.version}${rice.output.lib.suffix}" excludes="${rice.excludes}" />
 		</copy>
 		<get src="https://onestart.iu.edu/dav/MY/maven-mirror/maven2/${workflow.name}/${workflow.name}/${workflow.version}/${workflow.name}-${workflow.version}.jar" dest="${basedir}/${lib.directory}/${rice.name}-${workflow.name}-${workflow.version}.jar" />
+	</target>
+	
+	<target name="update-rice-web" depends="init-property-files">
 		<delete>
 			<fileset dir="${build.project.directory}" includes="${rice.name}*${rice.output.web.suffix}" />
 		</delete>
 		<zip compress="true" destfile="${build.project.directory}/${rice.name}-${rice.version}${rice.output.web.suffix}" basedir="${rice.sampleapp.directory}" includes="${rice.application}/**/**,${tags.directory}/${rice.application}/**/*.tag,${workflow.application}/**/**" excludes="**/CVS" />
 	</target>
 
-	<target name="update-rice-extended" depends="init-property-files">
+	<target name="update-rice-extended" depends="init-property-files,update-rice-kuali-dependencies,update-rice-ddl,update-rice-licenses" />
+
+	<target name="update-rice-kuali-dependencies" depends="init-property-files">
 		<delete>
 			<fileset dir="${dependencies.project.directory}" includes="${rice.output.file.prefix}" />
-		</delete>
-		<!-- todo fix this when licenses are moved to rice -->
-		<delete>
-			<fileset dir="${build.project.directory}" includes="${rice.name}*${rice.output.ddl.suffix}" />
 		</delete>
 		<maven goals="source:jar javadoc:jar" />
 		<copy todir="${dependencies.project.directory}">
@@ -356,7 +359,12 @@
 				<globmapper from="*.jar" to="*.zip" />
 			</chainedmapper>
 		</copy>
+	</target>
 
+	<target name="update-rice-ddl" depends="init-property-files">
+		<delete>
+			<fileset dir="${build.project.directory}" includes="${rice.name}*${rice.output.ddl.suffix}" />
+		</delete>
 		<mkdir dir="temp" />
 		<copy todir="temp">
 			<fileset dir="${rice.project.directory}" includes="${rice.ddl.files}" excludes="${rice.excludes},**/CVS" />
@@ -364,10 +372,13 @@
 		</copy>
 		<zip compress="true" destfile="${build.project.directory}/${rice.name}-${rice.version}-ddl.zip" basedir="temp" />
 		<delete dir="temp" />
+	</target>
+
+	<target name="update-rice-licenses" depends="init-property-files">
 		<!-- todo fix this when licenses are moved to rice -->
 		<!--<zip compress="true" destfile="${build.project.directory}/${rice.name}-${rice.version}-licenses.zip" basedir="${workflow.project.directory}/${licenses.directory}" excludes="**/CVS" />-->
 	</target>
-
+	
 	<macrodef name="maven">
 		<attribute name="goals" />
 		<attribute name="options" default="--offline" />

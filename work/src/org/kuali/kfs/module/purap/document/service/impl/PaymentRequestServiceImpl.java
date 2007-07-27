@@ -710,7 +710,10 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
             if(item.getItemType().isItemTypeAboveTheLineIndicator() &&
                 !item.getItemType().isQuantityBasedGeneralLedgerIndicator()) {
                 PurchaseOrderItem poi = (PurchaseOrderItem)paymentRequest.getPurchaseOrderDocument().getItem(item.getItemLineNumber().intValue());
-                item.setItemUnitPrice(new BigDecimal(item.getExtendedPrice().toString()));
+                if(ObjectUtils.isNotNull(item.getExtendedPrice()) &&
+                   !(KualiDecimal.ZERO.compareTo(item.getExtendedPrice())==0)) {
+                    item.setItemUnitPrice(new BigDecimal(item.getExtendedPrice().toString()));
+                }
             }
         }
         

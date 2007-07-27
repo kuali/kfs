@@ -1108,7 +1108,8 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
     
     public void updateExtendedPriceOnItems() {
         for (PaymentRequestItem item : (List<PaymentRequestItem>)this.getItems()) {
-            if(ObjectUtils.isNull(item.getExtendedPrice())) {
+            if(ObjectUtils.isNull(item.getExtendedPrice()) &&
+               item.getItemType().isQuantityBasedGeneralLedgerIndicator()) {
                 KualiDecimal newExtendedPrice = item.calculateExtendedPrice();
                 item.setExtendedPrice(newExtendedPrice);
             }

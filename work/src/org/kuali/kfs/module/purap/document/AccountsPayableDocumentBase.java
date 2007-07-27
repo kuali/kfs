@@ -168,26 +168,19 @@ public abstract class AccountsPayableDocumentBase extends PurchasingAccountsPaya
             String newNodeName = levelChangeEvent.getNewNodeName();
             if (processNodeChange(newNodeName, levelChangeEvent.getOldNodeName())) {
                 if (StringUtils.isNotBlank(newNodeName)) {
-                    List orderedNodeNameList = getNodeDetailsOrderedNodeNameList();
                     ReportCriteriaVO reportCriteriaVO = new ReportCriteriaVO(Long.valueOf(getDocumentNumber()));
-                    int indexOfNode = orderedNodeNameList.indexOf(newNodeName);
-                    int indexOfNextNode = indexOfNode + 1;
-                    if ( (indexOfNode != -1) && (indexOfNextNode < orderedNodeNameList.size()) ) {
-                        // we can find a valid next node name
-                        String nextNodeName = (String)orderedNodeNameList.get(indexOfNextNode);
-                        reportCriteriaVO.setTargetNodeName(nextNodeName);
-                        if (SpringServiceLocator.getWorkflowInfoService().documentWillHaveAtLeastOneActionRequest(
-                                reportCriteriaVO, new String[]{EdenConstants.ACTION_REQUEST_APPROVE_REQ,EdenConstants.ACTION_REQUEST_COMPLETE_REQ})) {
-                            String statusCode = getNodeDetailsStatusByNodeNameMap().get(nextNodeName);
-                            if (StringUtils.isNotBlank(statusCode)) {
-                                SpringServiceLocator.getPurapService().updateStatusAndStatusHistory(this, statusCode);
-                                populateDocumentForRouting();
-                                saveDocumentFromPostProcessing();
-                            }
-                        } else {
-                            if (LOG.isDebugEnabled()) {
-                                LOG.debug("Document with id " + getDocumentNumber() + " will not stop in route node '" + nextNodeName + "'");
-                            }
+                    reportCriteriaVO.setTargetNodeName(newNodeName);
+                    if (SpringServiceLocator.getWorkflowInfoService().documentWillHaveAtLeastOneActionRequest(
+                            reportCriteriaVO, new String[]{EdenConstants.ACTION_REQUEST_APPROVE_REQ,EdenConstants.ACTION_REQUEST_COMPLETE_REQ})) {
+                        String statusCode = getNodeDetailsStatusByNodeNameMap().get(newNodeName);
+                        if (StringUtils.isNotBlank(statusCode)) {
+                            SpringServiceLocator.getPurapService().updateStatusAndStatusHistory(this, statusCode);
+                            populateDocumentForRouting();
+                            saveDocumentFromPostProcessing();
+                        }
+                    } else {
+                        if (LOG.isDebugEnabled()) {
+                            LOG.debug("Document with id " + getDocumentNumber() + " will not stop in route node '" + newNodeName + "'");
                         }
                     }
                 }
@@ -199,8 +192,6 @@ public abstract class AccountsPayableDocumentBase extends PurchasingAccountsPaya
     }
     
     public abstract boolean processNodeChange(String newNodeName, String oldNodeName);
-    
-    public abstract List<String> getNodeDetailsOrderedNodeNameList();
     
     public abstract Map<String, String> getNodeDetailsStatusByNodeNameMap();
     

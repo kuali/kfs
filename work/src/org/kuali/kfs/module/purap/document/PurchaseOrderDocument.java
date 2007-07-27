@@ -56,6 +56,7 @@ import org.kuali.module.vendor.bo.ShippingPaymentTerms;
 import org.kuali.module.vendor.bo.ShippingTitle;
 import org.kuali.module.vendor.bo.VendorDetail;
 
+import edu.iu.uis.eden.clientapp.vo.ActionTakenEventVO;
 import edu.iu.uis.eden.clientapp.vo.DocumentRouteLevelChangeVO;
 
 /**
@@ -292,7 +293,7 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase {
     }
 
     /**
-     * @see org.kuali.core.document.DocumentBase#handleRouteStatusChange()
+     * @see org.kuali.kfs.document.GeneralLedgerPostingDocumentBase#handleRouteStatusChange()
      */
     @Override
     public void handleRouteStatusChange() {
@@ -300,8 +301,7 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase {
         super.handleRouteStatusChange();
 
         // additional processing
-        PurchaseOrderPostProcessorService popp = 
-            SpringServiceLocator.getPurchaseOrderService().convertDocTypeToService(getDocumentHeader().getWorkflowDocument().getDocumentType());
+        PurchaseOrderPostProcessorService popp = getPurchaseOrderPostProcessorService();
         // null if defined as empty string in map
         if (popp != null) {
             popp.handleRouteStatusChange(this);
@@ -317,12 +317,29 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase {
         super.handleRouteLevelChange(levelChangeEvent);
 
         // additional processing
-        PurchaseOrderPostProcessorService popp = 
-            SpringServiceLocator.getPurchaseOrderService().convertDocTypeToService(getDocumentHeader().getWorkflowDocument().getDocumentType());
+        PurchaseOrderPostProcessorService popp = getPurchaseOrderPostProcessorService();
         // null if defined as empty string in map
         if (popp != null) {
-            popp.handleRouteLevelChange(new DocumentRouteLevelChangeVO(), this);
+            popp.handleRouteLevelChange(levelChangeEvent, this);
         }
+    }
+    
+    /**
+     * @see org.kuali.core.document.DocumentBase#doActionTaken(edu.iu.uis.eden.clientapp.vo.ActionTakenEventVO)
+     */
+    @Override
+    public void doActionTaken(ActionTakenEventVO event) {
+        super.doActionTaken(event);
+        // additional processing
+        PurchaseOrderPostProcessorService popp = getPurchaseOrderPostProcessorService();
+        // null if defined as empty string in map
+        if (popp != null) {
+            popp.doActionTaken(event, this);
+        }
+    }
+    
+    private PurchaseOrderPostProcessorService getPurchaseOrderPostProcessorService() {
+        return SpringServiceLocator.getPurchaseOrderService().convertDocTypeToService(getDocumentHeader().getWorkflowDocument().getDocumentType());
     }
 
     public List getItemsActiveOnly() {

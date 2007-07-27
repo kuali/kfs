@@ -105,14 +105,14 @@ public class PurapConstants extends JstlConstants {
                 public static final String VENDOR_TAX_REVIEW = "Vendor Tax Review";
                 public static final String DOCUMENT_TRANSMISSION = "Document Transmission";
 
-                public static final List ORDERED_NODE_NAME_LIST = Arrays.asList(new String[] {
-                        ADHOC_REVIEW,
-                        INTERNAL_PURCHASING_REVIEW,
-                        CONTRACTS_AND_GRANTS_REVIEW,
-                        BUDGET_OFFICE_REVIEW,
-                        VENDOR_TAX_REVIEW,
-                        DOCUMENT_TRANSMISSION
-                        });
+//                public static final List ORDERED_NODE_NAME_LIST = Arrays.asList(new String[] {
+//                        ADHOC_REVIEW,
+//                        INTERNAL_PURCHASING_REVIEW,
+//                        CONTRACTS_AND_GRANTS_REVIEW,
+//                        BUDGET_OFFICE_REVIEW,
+//                        VENDOR_TAX_REVIEW,
+//                        DOCUMENT_TRANSMISSION
+//                        });
 
                 public static Map<String,String> STATUS_BY_NODE_NAME = new HashMap<String,String>();
                 public static Map<String,String> DISAPPROVAL_STATUS_BY_NODE_NAME = new HashMap<String,String>();
@@ -142,15 +142,17 @@ public class PurapConstants extends JstlConstants {
                 public static final String ACCOUNT_REVIEW = KualiWorkflowUtils.RouteLevelNames.ACCOUNT_REVIEW;
                 public static final String ORG_REVIEW = KualiWorkflowUtils.RouteLevelNames.ORG_REVIEW;
                 public static final String VENDOR_TAX_REVIEW = "Vendor Tax Review";
+                
+                public static final List<String> CORRECTING_ENTRIES_REQUIRED_NODES = Arrays.asList(new String[]{ACCOUNT_REVIEW});
 
-                public static final List ORDERED_NODE_NAME_LIST = Arrays.asList(new String[] {
-                        ADHOC_REVIEW,
-                        ACCOUNTS_PAYABLE_REVIEW,
-                        SUB_ACCOUNT_REVIEW,
-                        ACCOUNT_REVIEW,
-                        ORG_REVIEW,
-                        VENDOR_TAX_REVIEW
-                        });
+//                public static final List ORDERED_NODE_NAME_LIST = Arrays.asList(new String[] {
+//                        ADHOC_REVIEW,
+//                        ACCOUNTS_PAYABLE_REVIEW,
+//                        SUB_ACCOUNT_REVIEW,
+//                        ACCOUNT_REVIEW,
+//                        ORG_REVIEW,
+//                        VENDOR_TAX_REVIEW
+//                        });
 
                 public static Map<String,String> STATUS_BY_NODE_NAME = new HashMap<String,String>();
                 public static Map<String,String> DISAPPROVAL_STATUS_BY_NODE_NAME = new HashMap<String,String>();
@@ -176,11 +178,11 @@ public class PurapConstants extends JstlConstants {
                 public static final String ACCOUNTS_PAYABLE_REVIEW = "Accounts Payable Review";
                 public static final String ACCOUNT_REVIEW = KualiWorkflowUtils.RouteLevelNames.ACCOUNT_REVIEW;
 
-                public static final List ORDERED_NODE_NAME_LIST = Arrays.asList(new String[] {
-                        ADHOC_REVIEW,
-                        ACCOUNTS_PAYABLE_REVIEW,
-                        ACCOUNT_REVIEW
-                        });
+//                public static final List ORDERED_NODE_NAME_LIST = Arrays.asList(new String[] {
+//                        ADHOC_REVIEW,
+//                        ACCOUNTS_PAYABLE_REVIEW,
+//                        ACCOUNT_REVIEW
+//                        });
 
                 public static Map<String,String> STATUS_BY_NODE_NAME = new HashMap<String,String>();
                 public static Map<String,String> DISAPPROVAL_STATUS_BY_NODE_NAME = new HashMap<String,String>();

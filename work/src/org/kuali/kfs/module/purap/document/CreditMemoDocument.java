@@ -189,13 +189,6 @@ public class CreditMemoDocument extends AccountsPayableDocumentBase {
     }
     
     /**
-     * @see org.kuali.module.purap.document.AccountsPayableDocumentBase#getNodeDetailsOrderedNodeNameList()
-     */
-    public List<String> getNodeDetailsOrderedNodeNameList() {
-        return PurapConstants.WorkflowConstants.CreditMemoDocument.NodeDetails.ORDERED_NODE_NAME_LIST;
-    }
-    
-    /**
      * @see org.kuali.module.purap.document.AccountsPayableDocumentBase#getNodeDetailsStatusByNodeNameMap()
      */
     public Map<String, String> getNodeDetailsStatusByNodeNameMap() {

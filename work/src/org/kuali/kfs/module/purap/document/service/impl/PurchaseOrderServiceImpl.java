@@ -621,16 +621,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
         return notes;
     }
 
-    public void setCurrentAndPendingIndicatorsInPostProcessor(PurchaseOrderDocument newPO) {
-        // TODO delyea - ask about if this is best status/place to set indicators
-        if (newPO.getDocumentHeader().getWorkflowDocument().stateIsProcessed()) {
-            setCurrentAndPendingIndicatorsForApprovedPODocuments(newPO);
-        } else if (newPO.getDocumentHeader().getWorkflowDocument().stateIsDisapproved()) {
-            setCurrentAndPendingIndicatorsForDisapprovedPODocuments(newPO);
-        }
-    }
-
-    private void setCurrentAndPendingIndicatorsForApprovedPODocuments(PurchaseOrderDocument newPO) {
+    public void setCurrentAndPendingIndicatorsForApprovedPODocuments(PurchaseOrderDocument newPO) {
         // Get the "current PO" that's in the database, i.e. the PO row that contains current indicator = Y
         PurchaseOrderDocument oldPO = getCurrentPurchaseOrder(newPO.getPurapDocumentIdentifier());
         // First, we set the indicators for the oldPO to : Current = N and Pending = N
@@ -642,7 +633,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
         newPO.setPendingActionIndicator(false);
     }
 
-    private void setCurrentAndPendingIndicatorsForDisapprovedPODocuments(PurchaseOrderDocument newPO) {
+    public void setCurrentAndPendingIndicatorsForDisapprovedPODocuments(PurchaseOrderDocument newPO) {
         // Get the "current PO" that's in the database, i.e. the PO row that contains current indicator = Y
         PurchaseOrderDocument oldPO = getCurrentPurchaseOrder(newPO.getPurapDocumentIdentifier());
         // Set the Pending indicator for the oldPO to N

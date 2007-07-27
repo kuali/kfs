@@ -220,6 +220,12 @@
         <property name="kualiRuleService">
             <ref bean="kualiRuleService" />
         </property>	        
+        <property name="negativePaymentRequestApprovalLimitService">
+            <ref bean="negativePaymentRequestApprovalLimitService" />
+        </property>	        
+        <property name="purapAccountingService">
+            <ref bean="purapAccountingService" />
+        </property>	        
     
     </bean>
 	

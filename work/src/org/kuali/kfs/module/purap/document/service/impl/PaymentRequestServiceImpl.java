@@ -97,6 +97,8 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
     private UniversalUserService universalUserService;
     private KualiConfigurationService kualiConfigurationService;
     private KualiRuleService kualiRuleService;
+    private NegativePaymentRequestApprovalLimitService negativePaymentRequestApprovalLimitService;
+    private PurapAccountingService purapAccountingService;
 
     /*
      private static BigDecimal zero = new BigDecimal(0);
@@ -189,12 +191,12 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
         this.purchaseOrderService = purchaseOrderService;
     }
     
-    public NegativePaymentRequestApprovalLimitService getNegativePaymentRequestApprovalLimitService() {
-        return (NegativePaymentRequestApprovalLimitService)SpringServiceLocator.getNegativePaymentRequestApprovalLimitService();
+    public void setNegativePaymentRequestApprovalLimitService(NegativePaymentRequestApprovalLimitService negativePaymentRequestApprovalLimitService) {
+        this.negativePaymentRequestApprovalLimitService = negativePaymentRequestApprovalLimitService;
     }
     
-    public PurapAccountingService getPurapAccountingService() {
-        return (PurapAccountingService) SpringServiceLocator.getPurapAccountingService();
+    public void setPurapAccountingService(PurapAccountingService purapAccountingService) {
+        this.purapAccountingService = purapAccountingService;
     }
 
     /*
@@ -327,15 +329,15 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
         // Iterate all source accounting lines on the document, deriving a 
         // minimum limit from each according to chart, chart and account, and 
         // chart and organization. 
-        for (SourceAccountingLine line : getPurapAccountingService().generateSummary(document.getItems())) {
+        for (SourceAccountingLine line : purapAccountingService.generateSummary(document.getItems())) {
             minimumAmount = getMinimumLimitAmount(
-                    getNegativePaymentRequestApprovalLimitService().findByChart(
+                    negativePaymentRequestApprovalLimitService.findByChart(
                             line.getChartOfAccountsCode()), minimumAmount);
             minimumAmount = getMinimumLimitAmount(
-                    getNegativePaymentRequestApprovalLimitService().findByChartAndAccount(
+                    negativePaymentRequestApprovalLimitService.findByChartAndAccount(
                             line.getChartOfAccountsCode(), line.getAccountNumber()), minimumAmount);
             minimumAmount = getMinimumLimitAmount(
-                    getNegativePaymentRequestApprovalLimitService().findByChartAndOrganization(
+                    negativePaymentRequestApprovalLimitService.findByChartAndOrganization(
                             line.getChartOfAccountsCode(), line.getOrganizationReferenceId()), minimumAmount);
         }
         

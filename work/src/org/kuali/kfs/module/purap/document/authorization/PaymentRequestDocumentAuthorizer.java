@@ -33,6 +33,7 @@ import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.purap.PurapAuthorizationConstants;
 import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.PurapRuleConstants;
+import org.kuali.module.purap.PurapConstants.WorkflowConstants;
 import org.kuali.module.purap.document.PaymentRequestDocument;
 
 /**
@@ -49,7 +50,7 @@ public class PaymentRequestDocumentAuthorizer extends AccountingDocumentAuthoriz
             return SpringServiceLocator.getKualiGroupService().getByGroupName(authorizedWorkgroup).hasMember(user);
         }
         catch (GroupNotFoundException e) {
-            throw new RuntimeException("Workgroup " + authorizedWorkgroup + " not found",e);
+            throw new RuntimeException("Workgroup " + authorizedWorkgroup + " not found", e);
         }
     }
 
@@ -58,11 +59,11 @@ public class PaymentRequestDocumentAuthorizer extends AccountingDocumentAuthoriz
      */
     @Override
     public Map getEditMode(Document document, UniversalUser user, List sourceAccountingLines, List targetAccountingLines) {
-        PaymentRequestDocument preq = (PaymentRequestDocument)document;
+        PaymentRequestDocument preq = (PaymentRequestDocument) document;
         //use a generated source list since the main doc one isn't necessarily correct
         List localSourceAccountingLines = SpringServiceLocator.getPurapAccountingService().generateSummary(preq.getItems());
         Map editModeMap = super.getEditMode(document, user, localSourceAccountingLines, targetAccountingLines);
-        
+
         String editMode = AuthorizationConstants.EditMode.VIEW_ONLY;
 
         KualiWorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
@@ -78,19 +79,20 @@ public class PaymentRequestDocumentAuthorizer extends AccountingDocumentAuthoriz
             if (currentRouteLevels.contains(PurapConstants.WorkflowConstants.PaymentRequestDocument.NodeDetails.ACCOUNT_REVIEW)) {
                 editModeMap.remove(AuthorizationConstants.EditMode.FULL_ENTRY);
                 //expense_entry was already added above
-//                editMode = AuthorizationConstants.TransactionalEditMode.EXPENSE_ENTRY;
+                //                editMode = AuthorizationConstants.TransactionalEditMode.EXPENSE_ENTRY;
                 //TODO: add another edit mode here to show amount instead of percent
-                editMode=PurapAuthorizationConstants.PaymentRequestEditMode.ALLOW_ACCOUNT_AMOUNT_ENTRY;
+                editMode = PurapAuthorizationConstants.PaymentRequestEditMode.ALLOW_ACCOUNT_AMOUNT_ENTRY;
             }
         }
 
-        editModeMap.put(editMode, "TRUE"); 
+        editModeMap.put(editMode, "TRUE");
 
         //Map editModeMap = super.getEditMode(document, user, sourceAccountingLines, targetAccountingLines);
-        PaymentRequestDocument paymentRequestDocument = (PaymentRequestDocument)document;
-        if (StringUtils.equals(paymentRequestDocument.getStatusCode(),PurapConstants.PaymentRequestStatuses.INITIATE)){
+        PaymentRequestDocument paymentRequestDocument = (PaymentRequestDocument) document;
+        if (StringUtils.equals(paymentRequestDocument.getStatusCode(), PurapConstants.PaymentRequestStatuses.INITIATE)) {
             editModeMap.put(PurapAuthorizationConstants.PaymentRequestEditMode.DISPLAY_INIT_TAB, "TRUE");
-        } else {
+        }
+        else {
             editModeMap.put(PurapAuthorizationConstants.PaymentRequestEditMode.DISPLAY_INIT_TAB, "FALSE");
         }
         if (ObjectUtils.isNotNull(paymentRequestDocument.getVendorHeaderGeneratedIdentifier())) {
@@ -98,46 +100,31 @@ public class PaymentRequestDocumentAuthorizer extends AccountingDocumentAuthoriz
         }
         return editModeMap;
     }
-    
+
     @Override
     public DocumentActionFlags getDocumentActionFlags(Document document, UniversalUser user) {
         DocumentActionFlags flags = super.getDocumentActionFlags(document, user);
         KualiWorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
-        
-        PaymentRequestDocument paymentRequestDocument = (PaymentRequestDocument)document;
-        if (StringUtils.equals(paymentRequestDocument.getStatusCode(),PurapConstants.PaymentRequestStatuses.INITIATE)){
-           flags.setCanSave(false);
-           flags.setCanClose(false);
-           flags.setCanCancel(true);
-           flags.setCanDisapprove(false);
-           // If there was a way to add custom flags for our new buttons, we could avoid having the logic in jsp pag and have it here
-           //flags.setCanContinue(true);
-           
-        } else {            
+
+        PaymentRequestDocument paymentRequestDocument = (PaymentRequestDocument) document;
+        if (StringUtils.equals(paymentRequestDocument.getStatusCode(), PurapConstants.PaymentRequestStatuses.INITIATE)) {
+            flags.setCanSave(false);
+            flags.setCanClose(false);
+            flags.setCanCancel(true);
             flags.setCanDisapprove(false);
-            
-            PaymentRequestDocumentActionAuthorizer preqDocAuth = 
-                new PaymentRequestDocumentActionAuthorizer(                        
-                        paymentRequestDocument,
-                        user);
-                                    
-            if( preqDocAuth.canCancel() ){
-                flags.setCanCancel(true);
-            }else{
-                flags.setCanCancel(false);
+            // If there was a way to add custom flags for our new buttons, we could avoid having the logic in jsp pag and have it here
+            //flags.setCanContinue(true);
+
+        }
+        else {
+            if (!getCurrentRouteLevels(workflowDocument).contains(WorkflowConstants.PaymentRequestDocument.NodeDetails.ACCOUNTS_PAYABLE_REVIEW)) {
+                flags.setCanDisapprove(false);
             }
-            
-            if( preqDocAuth.canSave()){
-                flags.setCanSave(true);
-            }else{
-                flags.setCanSave(false);
-            }            
-        }         
-        
-        // not sure if we need this one or not.
-        if (workflowDocument.stateIsInitiated() || workflowDocument.stateIsSaved()) {
-            //do not allow this document to be saved; once initiated, it must be routed or canceled
-        //    flags.setCanSave(false);
+
+            PaymentRequestDocumentActionAuthorizer preqDocAuth = new PaymentRequestDocumentActionAuthorizer(paymentRequestDocument, user);
+
+            flags.setCanCancel(preqDocAuth.canCancel());
+            flags.setCanSave(preqDocAuth.canSave());
         }
 
         // NEED TO REDO ANNOTATE CHECK SINCE CHANGED THE VALUE OF FLAGS
@@ -145,5 +132,5 @@ public class PaymentRequestDocumentAuthorizer extends AccountingDocumentAuthoriz
 
         return flags;
     }
-    
+
 }

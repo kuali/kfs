@@ -50,7 +50,8 @@ public interface PurchaseOrderService {
     public void completePurchaseOrder(PurchaseOrderDocument po);
     public PurchaseOrderDocument getCurrentPurchaseOrder(Integer id);
     public PurchaseOrderDocument getPurchaseOrderByDocumentNumber(String documentNumber);
-    public void setCurrentAndPendingIndicatorsInPostProcessor(PurchaseOrderDocument newPO);
+    public void setCurrentAndPendingIndicatorsForApprovedPODocuments(PurchaseOrderDocument newPO);
+    public void setCurrentAndPendingIndicatorsForDisapprovedPODocuments(PurchaseOrderDocument newPO);
 
     public PurchaseOrderDocument getOldestPurchaseOrder(PurchaseOrderDocument po);
     public ArrayList<Note> getPurchaseOrderNotes(Integer id);

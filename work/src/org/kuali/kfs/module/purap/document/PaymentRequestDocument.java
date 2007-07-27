@@ -848,8 +848,8 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
         super.doActionTaken(event);
         KualiWorkflowDocument workflowDocument = getDocumentHeader().getWorkflowDocument();
         try {
-            // at approve in fiscal level...adjust GL entries
-            if (WorkflowConstants.PaymentRequestDocument.NodeDetails.ACCOUNT_REVIEW.equals(workflowDocument.getNodeNames()[0])) {
+            // everything in the below list requires correcting entries to be written to the GL
+            if (WorkflowConstants.PaymentRequestDocument.NodeDetails.CORRECTING_ENTRIES_REQUIRED_NODES.contains(workflowDocument.getNodeNames()[0])) {
                 // TODO code me
             }
         }
@@ -871,13 +871,6 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
             ((PurapGeneralLedgerService) SpringServiceLocator.getService(SpringServiceLocator.PURAP_GENERAL_LEDGER_SERVICE)).generateEntriesCreatePreq(this);
         }
         return true;
-    }
-    
-    /**
-     * @see org.kuali.module.purap.document.AccountsPayableDocumentBase#getNodeDetailsOrderedNodeNameList()
-     */
-    public List<String> getNodeDetailsOrderedNodeNameList() {
-        return WorkflowConstants.PaymentRequestDocument.NodeDetails.ORDERED_NODE_NAME_LIST;
     }
     
     /**

@@ -52,6 +52,7 @@ public class KraKeyConstants {
     public static final String ERROR_UNRECOVERED_INDIRECT_COST_NOT_POSSIBLE = "error.unrecoveredIndirectCostNotPossible";
     public static final String ERROR_INDIRECT_COST_MANUAL_JUSTIFICATION_REQUIRED = "error.indirectCostManualJustificationRequired";
     public static final String ERROR_FEE_REMISSION_DISTRIBUTION = "error.feeRemissionDistribution";
+    public static final String ERROR_PER_CREDIT_HOUR_AMOUNT_ABOVE_MAXIMUM = "error.perCreditHourAmount.aboveMaximum";
     public static final String ERROR_NO_PERSON_SELECTED = "error.noPermissionSelected";
     public static final String ERROR_NO_ORG_SELECTED = "error.noOrgSelected";
     public static final String ERROR_INDIRECT_COST_MANUAL_RATE_TOO_BIG = "error.indirectCost.manualRate.tooBig";

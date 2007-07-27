@@ -161,39 +161,26 @@ public class PaymentRequestForm extends AccountsPayableFormBase {
                     new PaymentRequestDocumentActionAuthorizer(
                             preqDoc, 
                             GlobalVariables.getUserSession().getUniversalUser());
+                
                 //if preq holdable and user can put on hold, show button
                 if (preqDocAuth.canHold()){
-                    if (SpringServiceLocator.getPaymentRequestService().isPaymentRequestHoldable(preqDoc)) {
-                        if (SpringServiceLocator.getPaymentRequestService().canHoldPaymentRequest(preqDoc, GlobalVariables.getUserSession().getUniversalUser())) {                        
-                            addExtraButton("methodToCall.addHoldOnPayment", appExternalImageURL + "buttonsmall_hold.gif", "Hold");
-                        }
-                    }
+                    addExtraButton("methodToCall.addHoldOnPayment", appExternalImageURL + "buttonsmall_hold.gif", "Hold");
                 }
-                else {
-                    //if person can remove hold
-                    if (preqDocAuth.canRemoveHold() ){
-                        if (SpringServiceLocator.getPaymentRequestService().canRemoveHoldPaymentRequest(preqDoc, GlobalVariables.getUserSession().getUniversalUser())) {
-                            addExtraButton("methodToCall.removeHoldFromPayment", appExternalImageURL + "buttonsmall_removehold.gif", "Remove");
-                        }
-                    }
+
+                //if person can remove hold
+                if (preqDocAuth.canRemoveHold() ){
+                        addExtraButton("methodToCall.removeHoldFromPayment", appExternalImageURL + "buttonsmall_removehold.gif", "Remove");
                 }
 
                 //if preq can have a cancel request and user can submit request cancel, show button
                 if (preqDocAuth.canRequestCancel()){
-                    if (SpringServiceLocator.getPaymentRequestService().canRequestCancelOnPaymentRequest(preqDoc)) {
-                        if (SpringServiceLocator.getPaymentRequestService().canUserRequestCancelOnPaymentRequest(preqDoc, GlobalVariables.getUserSession().getUniversalUser())) {
-                            addExtraButton("methodToCall.requestCancelOnPayment", appExternalImageURL + "buttonsmall_requestcancel.gif", "Cancel");
-                        }
-                    }
+                    addExtraButton("methodToCall.requestCancelOnPayment", appExternalImageURL + "buttonsmall_requestcancel.gif", "Cancel");
                 }
-                else {
-                    //if person can remove request cancel
-                    if (preqDocAuth.canRemoveRequestCancel()){
-                        if (SpringServiceLocator.getPaymentRequestService().canUserRemoveRequestCancelOnPaymentRequest(preqDoc, GlobalVariables.getUserSession().getUniversalUser())) {
-                            addExtraButton("methodToCall.removeCancelRequestFromPayment", appExternalImageURL + "buttonsmall_remreqcanc.gif", "Remove");
-                        }
-                    }
-                }
+                
+                //if person can remove request cancel
+                if (preqDocAuth.canRemoveRequestCancel()){
+                    addExtraButton("methodToCall.removeCancelRequestFromPayment", appExternalImageURL + "buttonsmall_remreqcanc.gif", "Remove");
+                }                
 
                 //add the calcuate button
                 if(preqDocAuth.canCalculate()){

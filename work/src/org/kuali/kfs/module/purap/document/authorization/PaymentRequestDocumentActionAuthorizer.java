@@ -16,6 +16,7 @@
 package org.kuali.module.purap.document.authorization;
 
 import org.kuali.core.bo.user.UniversalUser;
+import org.kuali.core.util.GlobalVariables;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.PurapParameterConstants;
@@ -33,6 +34,8 @@ public class PaymentRequestDocumentActionAuthorizer {
     private boolean extracted;
     private boolean canRemoveHold;
     private boolean canRemoveRequestCancel;
+    private boolean canHold;
+    private boolean canRequestCancel;
     
     private boolean apUser;
     private boolean fiscalOfficerDelegateUser;
@@ -47,8 +50,25 @@ public class PaymentRequestDocumentActionAuthorizer {
         this.extracted = (preq.getExtractedDate() ==  null ? false : true);
         
         //special indicators
-        canRemoveHold = SpringServiceLocator.getPaymentRequestService().canRemoveHoldPaymentRequest(preq, user);
-        canRemoveRequestCancel = SpringServiceLocator.getPaymentRequestService().canUserRemoveRequestCancelOnPaymentRequest(preq, user);
+        if (SpringServiceLocator.getPaymentRequestService().isPaymentRequestHoldable(preq) &&
+            SpringServiceLocator.getPaymentRequestService().canHoldPaymentRequest(preq, user) ) {                        
+            canHold = true;
+        }
+        
+        if (SpringServiceLocator.getPaymentRequestService().canRequestCancelOnPaymentRequest(preq) &&
+            SpringServiceLocator.getPaymentRequestService().canUserRequestCancelOnPaymentRequest(preq, user) ) {
+            canRequestCancel = true;
+        }
+        
+        if(SpringServiceLocator.getPaymentRequestService().isPaymentRequestHoldable(preq) == false &&
+             SpringServiceLocator.getPaymentRequestService().canRemoveHoldPaymentRequest(preq, user)){
+            canRemoveHold = true;
+        }
+        
+        if( SpringServiceLocator.getPaymentRequestService().canRequestCancelOnPaymentRequest(preq) == false && 
+            SpringServiceLocator.getPaymentRequestService().canUserRemoveRequestCancelOnPaymentRequest(preq, user) ){
+            canRemoveRequestCancel = true;
+        }
         
         //user indicators
         this.approver = preq.getDocumentHeader().getWorkflowDocument().isApprovalRequested();
@@ -85,6 +105,14 @@ public class PaymentRequestDocumentActionAuthorizer {
 
     public boolean isCanRemoveRequestCancel() {
         return canRemoveRequestCancel;
+    }
+
+    public boolean isCanHold() {
+        return canHold;
+    }
+
+    public boolean isCanRequestCancel() {
+        return canRequestCancel;
     }
 
     private boolean isApUser(){
@@ -150,7 +178,8 @@ public class PaymentRequestDocumentActionAuthorizer {
     public boolean canHold(){
         boolean hasPermission = false;
         
-        if( ( PaymentRequestStatuses.AWAITING_SUB_ACCT_MGR_REVIEW.equals( getDocStatus() ) && isApUser() &&
+        if(     isCanHold() && (
+                ( PaymentRequestStatuses.AWAITING_SUB_ACCT_MGR_REVIEW.equals( getDocStatus() ) && isApUser() &&
                   isRequestCancelIndicator() == false && isHoldIndicator() == false ) ||
                 ( PaymentRequestStatuses.AWAITING_FISCAL_REVIEW.equals( getDocStatus() ) && isApUser() &&
                   isRequestCancelIndicator() == false && isHoldIndicator() == false ) ||
@@ -169,7 +198,7 @@ public class PaymentRequestDocumentActionAuthorizer {
                 ( PaymentRequestStatuses.AWAITING_ORG_REVIEW.equals( getDocStatus() ) && isApprover() &&
                   isRequestCancelIndicator() == false && isHoldIndicator() == false ) ||
                 ( PaymentRequestStatuses.AWAITING_TAX_REVIEW.equals( getDocStatus() ) && isApprover() &&
-                  isRequestCancelIndicator() == false && isHoldIndicator() == false ) ){
+                  isRequestCancelIndicator() == false && isHoldIndicator() == false ) )){
                 hasPermission = true;
         }
    
@@ -179,7 +208,7 @@ public class PaymentRequestDocumentActionAuthorizer {
     public boolean canRemoveHold(){
         boolean hasPermission = false;
 
-        if(   isCanRemoveHold() ||
+        if(   isCanRemoveHold() && (
               ( PaymentRequestStatuses.AWAITING_SUB_ACCT_MGR_REVIEW.equals( getDocStatus() ) && isApUser() &&
                 isHoldIndicator() == true ) ||
               ( PaymentRequestStatuses.AWAITING_FISCAL_REVIEW.equals( getDocStatus() ) && isApUser() &&
@@ -199,7 +228,7 @@ public class PaymentRequestDocumentActionAuthorizer {
               ( PaymentRequestStatuses.AWAITING_ORG_REVIEW.equals( getDocStatus() ) && isApprover() &&
                 isHoldIndicator() == true ) ||
               ( PaymentRequestStatuses.AWAITING_TAX_REVIEW.equals( getDocStatus() ) && isApprover() &&
-                isHoldIndicator() == true ) ){
+                isHoldIndicator() == true ) )){
               hasPermission = true;
           }
 
@@ -227,14 +256,15 @@ public class PaymentRequestDocumentActionAuthorizer {
     public boolean canRequestCancel(){
         boolean hasPermission = false;
         
-        if( ( PaymentRequestStatuses.AWAITING_FISCAL_REVIEW.equals( getDocStatus() ) && isFiscalOfficerDelegateUser() && 
+        if( isCanRequestCancel() && (
+            ( PaymentRequestStatuses.AWAITING_FISCAL_REVIEW.equals( getDocStatus() ) && isFiscalOfficerDelegateUser() && 
               isRequestCancelIndicator() == false && isHoldIndicator() == false) ||
             ( PaymentRequestStatuses.AWAITING_SUB_ACCT_MGR_REVIEW.equals( getDocStatus() ) && isApprover() && 
               isRequestCancelIndicator() == false && isHoldIndicator() == false) ||              
             ( PaymentRequestStatuses.AWAITING_ORG_REVIEW.equals( getDocStatus() ) && isApprover() && 
               isRequestCancelIndicator() == false && isHoldIndicator() == false) ||              
             ( PaymentRequestStatuses.AWAITING_TAX_REVIEW.equals( getDocStatus() ) && isApprover() && 
-              isRequestCancelIndicator() == false && isHoldIndicator() == false) ){
+              isRequestCancelIndicator() == false && isHoldIndicator() == false) )){
             hasPermission = true;
         }
   
@@ -244,7 +274,7 @@ public class PaymentRequestDocumentActionAuthorizer {
     public boolean canRemoveRequestCancel(){
         boolean hasPermission = false;
         
-        if(  isCanRemoveRequestCancel() ||                
+        if(  isCanRemoveRequestCancel() && (                
             ( PaymentRequestStatuses.AWAITING_SUB_ACCT_MGR_REVIEW.equals( getDocStatus() ) && isApUser() && isRequestCancelIndicator() ) ||
             ( PaymentRequestStatuses.AWAITING_FISCAL_REVIEW.equals( getDocStatus() ) && isApUser() && isRequestCancelIndicator() ) ||
             ( PaymentRequestStatuses.AWAITING_ORG_REVIEW.equals( getDocStatus() ) && isApUser() && isRequestCancelIndicator() ) ||
@@ -256,7 +286,7 @@ public class PaymentRequestDocumentActionAuthorizer {
             ( PaymentRequestStatuses.AWAITING_ORG_REVIEW.equals( getDocStatus() ) && isApprover() && 
               isRequestCancelIndicator() ) ||
             ( PaymentRequestStatuses.AWAITING_TAX_REVIEW.equals( getDocStatus() ) && isApprover() && 
-              isRequestCancelIndicator() ) ){
+              isRequestCancelIndicator() ) )){
             hasPermission = true;
         }
   

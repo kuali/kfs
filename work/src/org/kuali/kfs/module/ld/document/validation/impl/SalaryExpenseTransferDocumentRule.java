@@ -28,10 +28,13 @@ import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.bo.AccountingLine;
 import org.kuali.kfs.document.AccountingDocument;
 import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.AccountingPeriod;
 import org.kuali.module.labor.LaborConstants;
 import org.kuali.module.labor.bo.ExpenseTransferAccountingLine;
+import org.kuali.module.labor.bo.ExpenseTransferSourceAccountingLine;
 import org.kuali.module.labor.bo.LaborObject;
+import org.kuali.module.labor.document.LaborExpenseTransferDocumentBase;
 import org.kuali.module.labor.document.LaborLedgerPostingDocument;
 import org.kuali.module.labor.document.SalaryExpenseTransferDocument;
 import org.kuali.module.labor.rule.GenerateLaborLedgerBenefitClearingPendingEntriesRule;
@@ -114,6 +117,12 @@ public class SalaryExpenseTransferDocumentRule extends LaborExpenseTransferDocum
             reportError(KFSPropertyConstants.ACCOUNT,KFSKeyConstants.Labor.INVALID_PAY_PERIOD_CODE, salaryExpenseTransferAccountingLine.getPayrollEndDateFiscalPeriodCode());
             return false;
         }
+              
+        // ensure the employee ids in the source accounting lines are same 
+        if(!this.hasSameEmployee(accountingDocument)){
+            reportError(KFSPropertyConstants.SOURCE_ACCOUNTING_LINES, KFSKeyConstants.Labor.ERROR_EMPLOYEE_ID_NOT_SAME);
+            return false;
+        }
         return true;
     }
     
@@ -147,8 +156,40 @@ public class SalaryExpenseTransferDocumentRule extends LaborExpenseTransferDocum
             isValid = isAccountingLineTotalsMatchByPayFYAndPayPeriod(sourceLines, targetLines);
         }
         
+        // ensure the employee ids in the source accounting lines are same 
+        if(!this.hasSameEmployee(setDoc)){
+            reportError(KFSPropertyConstants.SOURCE_ACCOUNTING_LINES, KFSKeyConstants.Labor.ERROR_EMPLOYEE_ID_NOT_SAME);
+            isValid = false;
+        }
+        
         return isValid;        
     }
   
+    /**
+     * determine whether the employees in the source accouting lines are same
+     * 
+     * @param accountingDocument the given accouting document
+     * @return true if the employees in the source accouting lines are same; otherwise, false
+     */
+    private boolean hasSameEmployee(AccountingDocument accountingDocument) {
+        LOG.debug("started hasSameEmployee");
+
+        LaborExpenseTransferDocumentBase expenseTransferDocument = (LaborExpenseTransferDocumentBase) accountingDocument;
+        List<ExpenseTransferSourceAccountingLine> sourceAccountingLines = expenseTransferDocument.getSourceAccountingLines();
+        
+        String cachedEmplid = null;
+        for (ExpenseTransferSourceAccountingLine sourceAccountingLine : sourceAccountingLines) {
+            String emplid = sourceAccountingLine.getEmplid();
+            if(emplid == null){
+                return false;
+            }
+            
+            cachedEmplid = cachedEmplid == null ? emplid : cachedEmplid;
+            if(!emplid.equals(cachedEmplid)){
+                return false;
+            }            
+        }
+        return true;
+    }
     
 }

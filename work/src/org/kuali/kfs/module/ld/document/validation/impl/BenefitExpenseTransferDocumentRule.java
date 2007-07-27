@@ -45,6 +45,7 @@ import org.kuali.module.labor.bo.ExpenseTransferSourceAccountingLine;
 import org.kuali.module.labor.bo.LaborLedgerPendingEntry;
 import org.kuali.module.labor.bo.LaborObject;
 import org.kuali.module.labor.document.BenefitExpenseTransferDocument;
+import org.kuali.module.labor.document.LaborExpenseTransferDocumentBase;
 import org.kuali.module.labor.document.LaborLedgerPostingDocument;
 import org.kuali.module.labor.util.ObjectUtil;
 
@@ -115,6 +116,12 @@ public class BenefitExpenseTransferDocumentRule extends LaborExpenseTransferDocu
             reportError(KFSPropertyConstants.ACCOUNT, KFSKeyConstants.ERROR_ACCOUNT_EXPIRED);
             return false;
         }
+        
+        // ensure the accounts in source accounting lines are same
+        if(!hasSameAccount(accountingDocument)){
+            reportError(KFSPropertyConstants.SOURCE_ACCOUNTING_LINES, KFSKeyConstants.Labor.ERROR_ACCOUNT_NOT_SAME);
+            return false;
+        }
 
         return true;
     }
@@ -144,7 +151,13 @@ public class BenefitExpenseTransferDocumentRule extends LaborExpenseTransferDocu
             reportError(KFSPropertyConstants.TARGET_ACCOUNTING_LINES, KFSKeyConstants.Labor.ERROR_TRANSFER_AMOUNT_NOT_BALANCED_BY_OBJECT);
             isValid = false;
         }
-
+      
+        // ensure the accounts in source accounting lines are same
+        if(!hasSameAccount(benefitExpenseTransferDocument)){
+            reportError(KFSPropertyConstants.SOURCE_ACCOUNTING_LINES, KFSKeyConstants.Labor.ERROR_ACCOUNT_NOT_SAME);
+            isValid = false;
+        }
+        
         return isValid;
     }
 
@@ -337,5 +350,32 @@ public class BenefitExpenseTransferDocumentRule extends LaborExpenseTransferDocu
         fieldValues.put(KFSPropertyConstants.UNIVERSITY_FISCAL_PERIOD_CODE, expenseTransferAccountingLine.getPayrollEndDateFiscalPeriodCode());
 
         return businessObjectService.countMatching(AccountingPeriod.class, fieldValues) > 0;
+    }
+    
+    /**
+     * determine whether the accounts in the source accouting lines are same
+     * 
+     * @param accountingDocument the given accouting document
+     * @return true if the accounts in the source accouting lines are same; otherwise, false
+     */
+    private boolean hasSameAccount(AccountingDocument accountingDocument) {
+        LOG.debug("started hasSameAccount");
+
+        LaborExpenseTransferDocumentBase expenseTransferDocument = (LaborExpenseTransferDocumentBase) accountingDocument;
+        List<ExpenseTransferSourceAccountingLine> sourceAccountingLines = expenseTransferDocument.getSourceAccountingLines();
+        
+        Account cachedAccount = null;
+        for (AccountingLine sourceAccountingLine : sourceAccountingLines) {
+            Account account = sourceAccountingLine.getAccount();
+            if(account == null){
+                return false;
+            }
+            
+            cachedAccount = cachedAccount == null ? account : cachedAccount;
+            if(!account.equals(cachedAccount)){
+                return false;
+            }            
+        }
+        return true;
     }
 }

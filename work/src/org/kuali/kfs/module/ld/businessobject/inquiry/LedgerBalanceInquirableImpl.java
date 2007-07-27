@@ -38,10 +38,6 @@ import org.kuali.module.labor.bo.LedgerEntry;
 public class LedgerBalanceInquirableImpl extends AbstractLaborInquirableImpl {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(LedgerBalanceInquirableImpl.class);
 
-    private BusinessObjectDictionaryService dataDictionary;
-    private LookupService lookupService;
-    private Class businessObjectClass;
-
     /**
      * @see org.kuali.module.gl.web.inquirable.AbstractGLInquirableImpl#buildUserDefinedAttributeKeyList()
      */
@@ -51,11 +47,11 @@ public class LedgerBalanceInquirableImpl extends AbstractLaborInquirableImpl {
         keys.add(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR);
         keys.add(KFSPropertyConstants.ACCOUNT_NUMBER);
         keys.add(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE);
-        keys.add(KFSPropertyConstants.BALANCE_TYPE_CODE);
+        keys.add(KFSPropertyConstants.FINANCIAL_BALANCE_TYPE_CODE);
         keys.add(KFSPropertyConstants.SUB_ACCOUNT_NUMBER);
-        keys.add(KFSPropertyConstants.OBJECT_CODE);
-        keys.add(KFSPropertyConstants.SUB_OBJECT_CODE);
-        keys.add(KFSPropertyConstants.OBJECT_TYPE_CODE);
+        keys.add(KFSPropertyConstants.FINANCIAL_OBJECT_CODE);
+        keys.add(KFSPropertyConstants.FINANCIAL_SUB_OBJECT_CODE);
+        keys.add(KFSPropertyConstants.FINANCIAL_OBJECT_TYPE_CODE);
         keys.add(KFSPropertyConstants.EMPLID);
         keys.add(KFSPropertyConstants.POSITION_NUMBER);
 
@@ -112,7 +108,6 @@ public class LedgerBalanceInquirableImpl extends AbstractLaborInquirableImpl {
      * @see org.kuali.module.gl.web.inquirable.AbstractGLInquirableImpl#getKeyName(java.lang.String)
      */
     protected String getKeyName(String keyName) {
-        keyName = BusinessObjectFieldConverter.convertToTransactionPropertyName(keyName);
         return keyName;
     }
 

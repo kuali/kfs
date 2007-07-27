@@ -21,6 +21,10 @@
 	
 <c:set var="readOnly"
 	value="${!empty KualiForm.editingMode['viewOnly']}" />
+	
+<c:if test="${fn:length(KualiForm.document.sourceAccountingLines)>0 || readOnly}">
+	<c:set var="disabled" value="true"/>
+</c:if>
 		
 <kul:documentPage showDocumentInfo="true"
     documentTypeName="KualiSalaryExpenseTransferDocument"
@@ -31,72 +35,71 @@
     <kul:hiddenDocumentFields />
     <kul:documentOverview editingMode="${KualiForm.editingMode}" />
  
-		<kul:tab tabTitle="Ledger Balance Importing" defaultOpen="true"
-			tabErrorKey="${Constants.EMPLOYEE_LOOKUP_ERRORS}">
-			<div class="tab-container" align=center>
-			<div class="h2-container">
-			<h2>Ledger Balance Importing</h2>
-			</div>
-			<table cellpadding="0" cellspacing="0" class="datatable"
-				summary="Ledger Balance Importing">
-	
-				<tr>
-					<kul:htmlAttributeHeaderCell
-						attributeEntry="${balanceInquiryAttributes.universityFiscalYear}"
-						horizontal="true" width="35%"  forceRequired="true"/>
-	
-					<td class="datacell-nowrap"><kul:htmlControlAttribute
-						attributeEntry="${balanceInquiryAttributes.universityFiscalYear}"
-						property="universityFiscalYear" readOnly="${readOnly}" /> 
-						
-						<c:if test="${!readOnly}">
-							<kul:lookup	boClassName="org.kuali.kfs.bo.Options"
-							lookupParameters="universityFiscalYear:universityFiscalYear"
-							fieldLabel="${balanceInquiryAttributes.universityFiscalYear.label}" />
-						</c:if>
-					</td>
-				</tr>			
-	
-              <tr>
-                <kul:htmlAttributeHeaderCell
-                    attributeEntry="${DataDictionary.UniversalUser.attributes.personPayrollIdentifier}"
-                    horizontal="true"
-                    forceRequired="true"
-                    />
-                <td>
-                      <ld:employee userIdFieldName="emplid" 
-                                  userNameFieldName="user.personName" 
-                                  fieldConversions="personPayrollIdentifier:emplid"
-                                  lookupParameters="emplid:personPayrollIdentifier,universityFiscalYear:universityFiscalYear"
-                                  hasErrors="${hasErrors}"
-                                  onblur="${onblur}"
-                                  highlight="${addHighlighting}" readOnly="${readOnly}" >
-                        <jsp:attribute name="helpLink" trim="true">
-                                <kul:help
-                                    businessObjectClassName="${field.businessObjectClassName}"
-                                    attributeName="${field.fieldHelpName}"
-                                    altText="${field.fieldHelpSummary}" />     
-                        </jsp:attribute>
-                      </ld:employee>
-                </td>
-              </tr>
-	            
-	            <c:if test="${!readOnly}">
-	            <tr>
-	            	<td height="30" class="infoline">&nbsp;</td>
-	            	<td height="30" class="infoline">
-                    <gl:balanceInquiryLookup
-                        boClassName="org.kuali.module.labor.bo.LedgerBalanceForSalaryExpenseTransfer"
-                        actionPath="glBalanceInquiryLookup.do"
-                        lookupParameters="universityFiscalYear:universityFiscalYear,emplid:emplid,financialBalanceTypeCode:financialBalanceTypeCode"
-                        hideReturnLink="false" image="buttonsmall_search.gif"/>
-					</td>
-				</tr>
-				</c:if>
-	
-			</table>
-			</div>
-		</kul:tab>
+	<kul:tab tabTitle="Ledger Balance Importing" defaultOpen="true"
+		tabErrorKey="${Constants.EMPLOYEE_LOOKUP_ERRORS}">
+		<div class="tab-container" align=center>
+		<div class="h2-container">
+		<h2>Ledger Balance Importing</h2>
+		</div>
+		<table cellpadding="0" cellspacing="0" class="datatable"
+			summary="Ledger Balance Importing">
+
+			<tr>
+				<kul:htmlAttributeHeaderCell
+					attributeEntry="${balanceInquiryAttributes.universityFiscalYear}"
+					horizontal="true" width="35%"  forceRequired="true"/>
+
+				<td class="datacell-nowrap"><kul:htmlControlAttribute
+					attributeEntry="${balanceInquiryAttributes.universityFiscalYear}"
+					property="universityFiscalYear" readOnly="${readOnly}" /> 
+					
+					<c:if test="${!readOnly}">
+						<kul:lookup	boClassName="org.kuali.kfs.bo.Options"
+						lookupParameters="universityFiscalYear:universityFiscalYear"
+						fieldLabel="${balanceInquiryAttributes.universityFiscalYear.label}" />
+					</c:if>
+				</td>
+			</tr>			
+
+             <tr>
+               <kul:htmlAttributeHeaderCell
+                   attributeEntry="${DataDictionary.UniversalUser.attributes.personPayrollIdentifier}"
+                   horizontal="true"
+                   forceRequired="true"
+                   />
+               <td>
+                     <ld:employee userIdFieldName="emplid" 
+                                 userNameFieldName="user.personName" 
+                                 fieldConversions="personPayrollIdentifier:emplid"
+                                 lookupParameters="emplid:personPayrollIdentifier,universityFiscalYear:universityFiscalYear"
+                                 hasErrors="${hasErrors}"
+                                 onblur="${onblur}"
+                                 highlight="${addHighlighting}" readOnly="${disabled}" >
+                       <jsp:attribute name="helpLink" trim="true">
+                               <kul:help
+                                   businessObjectClassName="${field.businessObjectClassName}"
+                                   attributeName="${field.fieldHelpName}"
+                                   altText="${field.fieldHelpSummary}" />     
+                       </jsp:attribute>
+                     </ld:employee>
+               </td>
+             </tr>
+            
+            <tr>
+            	<td height="30" class="infoline">&nbsp;</td>
+            	<td height="30" class="infoline">
+            		<c:if test="${!readOnly}">
+	                   <gl:balanceInquiryLookup
+	                       boClassName="org.kuali.module.labor.bo.LedgerBalanceForSalaryExpenseTransfer"
+	                       actionPath="glBalanceInquiryLookup.do"
+	                       lookupParameters="universityFiscalYear:universityFiscalYear,emplid:emplid,financialBalanceTypeCode:financialBalanceTypeCode"
+	                       hideReturnLink="false" image="buttonsmall_search.gif"/>
+	                </c:if>
+				</td>
+			</tr>
+		</table>
+		</div>
+	</kul:tab>
 
       <c:set var="copyMethod" value="" scope="request"/>
       <c:set var="actionInfixVar" value="" scope="request"/>

@@ -912,6 +912,8 @@ public class KFSKeyConstants {
         public static final String ERROR_TRANSFER_AMOUNT_NOT_BALANCED_BY_OBJECT = "error.labor.transferAmountNotBalancedByObject";
         public static final String ERROR_DUPLICATE_SOURCE_ACCOUNTING_LINE = "error.labor.duplicateSourceAccountingLine";
         public static final String ERROR_LABOR_ERROR_CORRECTION_PERSISTED_ORIGIN_ENTRIES_MISSING = "error.labor.correction.persisted.origin.entries.missing";
+        public static final String ERROR_ACCOUNT_NOT_SAME = "error.labor.accountNotSame";
+        public static final String ERROR_EMPLOYEE_ID_NOT_SAME = "error.labor.employeeIdNotSame";
     }
 
     public static final class ContractsAndGrants {

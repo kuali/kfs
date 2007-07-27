@@ -43,8 +43,6 @@ import org.kuali.module.gl.web.Constant;
 
 /**
  * This class is the template class for the customized inqurable implementations used to generate balance inquiry screens.
- * 
- * 
  */
 public abstract class AbstractLaborInquirableImpl extends KualiInquirableImpl {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AbstractLaborInquirableImpl.class);
@@ -66,7 +64,7 @@ public abstract class AbstractLaborInquirableImpl extends KualiInquirableImpl {
 
         Object attributeValue = null;
         Class inquiryBusinessObjectClass = null;
-        String attributeRefName = "";
+        String attributeRefName = Constant.EMPTY_STRING;
         boolean isPkReference = false;
 
         Map userDefinedAttributeMap = getUserDefinedAttributeMap();
@@ -83,12 +81,7 @@ public abstract class AbstractLaborInquirableImpl extends KualiInquirableImpl {
             isPkReference = true;
         }
         else if (ObjectUtils.isNestedAttribute(attributeName)) {
-            if (!"financialObject.financialObjectType.financialReportingSortCode".equals(attributeName)) {
-                inquiryBusinessObjectClass = LookupUtils.getNestedReferenceClass(businessObject, attributeName);
-            }
-            else {
-                return "";
-            }
+            return Constant.EMPTY_STRING;
         }
         else {
             Map primitiveReference = LookupUtils.getPrimitiveReference(businessObject, attributeName);
@@ -103,11 +96,11 @@ public abstract class AbstractLaborInquirableImpl extends KualiInquirableImpl {
         // process the business object class if the attribute name is not user-defined
         if (!isUserDefinedAttribute) {
             if (isExclusiveField(attributeName, attributeValue)) {
-                return "";
+                return Constant.EMPTY_STRING;
             }
 
             if (inquiryBusinessObjectClass == null || businessDictionary.isInquirable(inquiryBusinessObjectClass) == null || !businessDictionary.isInquirable(inquiryBusinessObjectClass).booleanValue()) {
-                return "";
+                return Constant.EMPTY_STRING;
             }
 
             if (KualiSystemCode.class.isAssignableFrom(inquiryBusinessObjectClass)) {
@@ -158,7 +151,7 @@ public abstract class AbstractLaborInquirableImpl extends KualiInquirableImpl {
                 }
 
                 Object keyValue = ObjectUtils.getPropertyValue(businessObject, keyConversion);
-                keyValue = (keyValue == null) ? "" : keyValue.toString();
+                keyValue = (keyValue == null) ? Constant.EMPTY_STRING : keyValue.toString();
 
                 // convert the key value and name into the given ones
                 Object tempKeyValue = this.getKeyValue(keyName, keyValue);
@@ -170,19 +163,6 @@ public abstract class AbstractLaborInquirableImpl extends KualiInquirableImpl {
                 // add the key-value pair into the parameter map
                 if (keyName != null)
                     parameters.put(keyName, keyValue);
-            }
-        }
-
-        // Hack to make this work. I don't know why it doesn't pick up the whole primary key for these. The last big change to
-        // KualiInquirableImpl
-        // broke all of this
-        if (businessObject instanceof AccountBalance) {
-            AccountBalance ab = (AccountBalance) businessObject;
-            if ("financialObject.financialObjectLevel.financialConsolidationObject.finConsolidationObjectCode".equals(attributeName)) {
-                parameters.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, ab.getChartOfAccountsCode());
-            }
-            else if ("financialObject.financialObjectLevel.financialObjectLevelCode".equals(attributeName)) {
-                parameters.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, ab.getChartOfAccountsCode());
             }
         }
 
@@ -286,86 +266,10 @@ public abstract class AbstractLaborInquirableImpl extends KualiInquirableImpl {
             else if (convertedKeyName.equals(KFSPropertyConstants.PROJECT_CODE) && keyValue.equals(KFSConstants.DASHES_PROJECT_CODE)) {
                 return true;
             }
+            else if (convertedKeyName.equals(KFSPropertyConstants.POSITION_NUMBER) && keyValue.equals(KFSConstants.DASHES_POSITION_NUMBER)) {
+                return true;
+            }
         }
         return false;
-    }
-
-    /**
-     * This method recovers the values of the given keys
-     * 
-     * @param fieldValues
-     * @param keyName
-     * @param keyValue
-     * @return
-     */
-    protected String recoverFieldValueFromConsolidation(Map fieldValues, Object keyName, Object keyValue) {
-        if (fieldValues == null || keyName == null || keyValue == null) {
-            return Constant.EMPTY_STRING;
-        }
-
-        Map convertedFieldValues = BusinessObjectFieldConverter.convertFromTransactionFieldValues(fieldValues);
-        String convertedKeyName = BusinessObjectFieldConverter.convertFromTransactionPropertyName(keyName.toString());
-
-        if (convertedKeyName.equals(KFSPropertyConstants.SUB_ACCOUNT_NUMBER) && keyValue.equals(Constant.CONSOLIDATED_SUB_ACCOUNT_NUMBER)) {
-            return this.getValueFromFieldValues(convertedFieldValues, keyName);
-        }
-        else if (convertedKeyName.equals(KFSPropertyConstants.SUB_OBJECT_CODE) && keyValue.equals(Constant.CONSOLIDATED_SUB_OBJECT_CODE)) {
-            return this.getValueFromFieldValues(convertedFieldValues, keyName);
-        }
-        else if (convertedKeyName.equals(KFSPropertyConstants.OBJECT_TYPE_CODE) && keyValue.equals(Constant.CONSOLIDATED_OBJECT_TYPE_CODE)) {
-            return this.getValueFromFieldValues(convertedFieldValues, keyName);
-        }
-
-        return Constant.EMPTY_STRING;
-    }
-
-    // get the value of the given key from the field values
-    private String getValueFromFieldValues(Map fieldValues, Object keyName) {
-        String keyValue = Constant.EMPTY_STRING;
-
-        if (fieldValues.containsKey(keyName)) {
-            keyValue = (String) fieldValues.get(keyName);
-        }
-        return keyValue;
-    }
-
-    public Map getFieldValues(Map fieldValues) {
-        return fieldValues;
-    }
-
-    // TODO: not finished
-    public Class getNestedInquiryBusinessObjectClass(BusinessObject businessObject, String attributeName) {
-        Class inquiryBusinessObjectClass = null;
-        String entryName = businessObject.getClass().getName();
-        LOG.debug("businessObject: " + entryName);
-        LOG.debug("attributeName: " + attributeName);
-
-        DataDictionaryService dataDictionary = SpringServiceLocator.getDataDictionaryService();
-        AttributeDefinition attributeDefinition = null;
-
-        if (StringUtils.isBlank(attributeName)) {
-            throw new IllegalArgumentException("invalid (blank) attributeName");
-        }
-
-        DataDictionaryEntryBase entry = (DataDictionaryEntryBase) dataDictionary.getDataDictionary().getDictionaryObjectEntry(entryName);
-        if (entry != null) {
-            attributeDefinition = entry.getAttributeDefinition(attributeName);
-            inquiryBusinessObjectClass = LookupUtils.getNestedReferenceClass(businessObject, attributeName);
-        }
-
-        if (attributeDefinition instanceof AttributeReferenceDefinition) {
-            AttributeReferenceDefinition attributeReferenceDefinition = (AttributeReferenceDefinition) attributeDefinition;
-            LOG.debug("Source Classname = " + attributeReferenceDefinition.getSourceClassName());
-            LOG.debug("Source Attribute = " + attributeReferenceDefinition.getSourceAttributeName());
-
-            try {
-                inquiryBusinessObjectClass = Class.forName(attributeReferenceDefinition.getSourceClassName());
-            }
-            catch (Exception e) {
-                throw new IllegalArgumentException("fail to construct a Class");
-            }
-        }
-
-        return inquiryBusinessObjectClass;
     }
 }

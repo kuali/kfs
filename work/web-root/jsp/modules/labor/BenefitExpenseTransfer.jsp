@@ -21,6 +21,10 @@
 
 <c:set var="readOnly"
 	value="${!empty KualiForm.editingMode['viewOnly']}" />
+	
+<c:if test="${fn:length(KualiForm.document.sourceAccountingLines)>0 || readOnly}">
+	<c:set var="disabled" value="true"/>
+</c:if>	
 
 <kul:documentPage showDocumentInfo="true"
 	documentTypeName="KualiBenefitExpenseTransferDocument"
@@ -30,96 +34,111 @@
 	<kul:hiddenDocumentFields />
 	<kul:documentOverview editingMode="${KualiForm.editingMode}" />
 	
-	<c:if test="${!readOnly}">
-		<kul:tab tabTitle="Ledger Balance Importing" defaultOpen="true"
-			tabErrorKey="${Constants.EMPLOYEE_LOOKUP_ERRORS}">
-			<div class="tab-container" align=center>
-			<div class="h2-container">
-			<h2>Ledger Balance Importing</h2>
-			</div>
-			<table cellpadding="0" cellspacing="0" class="datatable"
-				summary="Ledger Balance Importing">
-	
-				<tr>
-					<kul:htmlAttributeHeaderCell
-						attributeEntry="${balanceInquiryAttributes.universityFiscalYear}"
-						horizontal="true" width="35%"  forceRequired="true"/>
-	
-					<td class="datacell-nowrap"><kul:htmlControlAttribute
-						attributeEntry="${balanceInquiryAttributes.universityFiscalYear}"
-						property="universityFiscalYear" readOnly="${readOnly}" /> <kul:lookup
-						boClassName="org.kuali.kfs.bo.Options"
+	<kul:tab tabTitle="Ledger Balance Importing" defaultOpen="true"
+		tabErrorKey="${Constants.EMPLOYEE_LOOKUP_ERRORS}">
+		<div class="tab-container" align=center>
+		<div class="h2-container">
+		<h2>Ledger Balance Importing</h2>
+		</div>
+		<table cellpadding="0" cellspacing="0" class="datatable"
+			summary="Ledger Balance Importing">
+
+			<tr>
+				<kul:htmlAttributeHeaderCell
+					attributeEntry="${balanceInquiryAttributes.universityFiscalYear}"
+					horizontal="true" width="35%"  forceRequired="true"/>
+
+				<td class="datacell-nowrap"><kul:htmlControlAttribute
+					attributeEntry="${balanceInquiryAttributes.universityFiscalYear}"
+					property="universityFiscalYear" readOnly="${readOnly}" /> 
+					<c:if test="${!readOnly}">
+						<kul:lookup	boClassName="org.kuali.kfs.bo.Options"
 						lookupParameters="universityFiscalYear:universityFiscalYear"
-						fieldLabel="${balanceInquiryAttributes.universityFiscalYear.label}" /></td>
-				</tr>	
-														
-				<tr>
-					<kul:htmlAttributeHeaderCell
-						attributeEntry="${balanceInquiryAttributes.chartOfAccountsCode}"
-						horizontal="true" forceRequired="true" />
-	
-					<td class="datacell-nowrap"><kul:htmlControlAttribute
-						attributeEntry="${balanceInquiryAttributes.chartOfAccountsCode}"
-						property="chartOfAccountsCode" readOnly="${readOnly}" /> <kul:lookup
-						boClassName="org.kuali.module.chart.bo.Chart"
+						fieldLabel="${balanceInquiryAttributes.universityFiscalYear.label}" />
+					</c:if>
+				</td>
+			</tr>	
+													
+			<tr>
+				<kul:htmlAttributeHeaderCell
+					attributeEntry="${balanceInquiryAttributes.chartOfAccountsCode}"
+					horizontal="true" forceRequired="true" />
+
+				<td class="datacell-nowrap"><kul:htmlControlAttribute
+					attributeEntry="${balanceInquiryAttributes.chartOfAccountsCode}"
+					property="chartOfAccountsCode" readOnly="${disabled}" /> 
+					
+					<c:if test="${!disabled}">
+						<kul:lookup	boClassName="org.kuali.module.chart.bo.Chart"
 						lookupParameters="chartOfAccountsCode:chartOfAccountsCode"
-						fieldLabel="${balanceInquiryAttributes.chartOfAccountsCode.label}" /></td>
-				</tr>		
-	
-				<tr>
-					<kul:htmlAttributeHeaderCell
-						attributeEntry="${balanceInquiryAttributes.accountNumber}"
-						horizontal="true" forceRequired="true"/>
-						
-					<td class="datacell-nowrap"><kul:htmlControlAttribute
-						attributeEntry="${balanceInquiryAttributes.accountNumber}"
-						property="accountNumber" readOnly="${readOnly}" /> <kul:lookup
-						boClassName="org.kuali.module.chart.bo.Account"
+						fieldLabel="${balanceInquiryAttributes.chartOfAccountsCode.label}" />
+					</c:if>
+				</td>
+					
+			</tr>		
+
+			<tr>			 
+				<kul:htmlAttributeHeaderCell
+					attributeEntry="${balanceInquiryAttributes.accountNumber}"
+					horizontal="true" forceRequired="true"/>
+					
+				<td class="datacell-nowrap"><kul:htmlControlAttribute
+					attributeEntry="${balanceInquiryAttributes.accountNumber}"
+					property="accountNumber" readOnly="${disabled}" />
+					
+					<c:if test="${!disabled}">
+						 <kul:lookup boClassName="org.kuali.module.chart.bo.Account"
 						lookupParameters="accountNumber:accountNumber,chartOfAccountsCode:chartOfAccountsCode"
-						fieldLabel="${balanceInquiryAttributes.accountNumber.label}" /></td>
-				</tr>
-	
-				<tr>
-					<kul:htmlAttributeHeaderCell
-						attributeEntry="${balanceInquiryAttributes.subAccountNumber}"
-						horizontal="true" forceRequired="false"  hideRequiredAsterisk="true"/>
-						
-					<td class="datacell-nowrap"><kul:htmlControlAttribute
-						attributeEntry="${balanceInquiryAttributes.subAccountNumber}"
-						property="subAccountNumber" readOnly="${readOnly}" /> <kul:lookup
-						boClassName="org.kuali.module.chart.bo.SubAccount"
+						fieldLabel="${balanceInquiryAttributes.accountNumber.label}" />
+					</c:if>
+				</td>
+			</tr>
+
+			<tr>
+				<kul:htmlAttributeHeaderCell
+					attributeEntry="${balanceInquiryAttributes.subAccountNumber}"
+					horizontal="true" forceRequired="false"  hideRequiredAsterisk="true"/>
+					
+				<td class="datacell-nowrap"><kul:htmlControlAttribute
+					attributeEntry="${balanceInquiryAttributes.subAccountNumber}"
+					property="subAccountNumber" readOnly="${readOnly}" /> 
+					<c:if test="${!readOnly}">
+						<kul:lookup	boClassName="org.kuali.module.chart.bo.SubAccount"
 						lookupParameters="accountNumber:accountNumber,subAccountNumber:subAccountNumber,chartOfAccountsCode:chartOfAccountsCode"
-						fieldLabel="${balanceInquiryAttributes.subAccountNumber.label}" /></td>
-				</tr>
-				
-				<tr>
-					<kul:htmlAttributeHeaderCell
-	                    attributeEntry="${balanceInquiryAttributes.emplid}" horizontal="true" forceRequired="false"/>
-	                    
-					<td class="datacell-nowrap"><kul:htmlControlAttribute
-						attributeEntry="${balanceInquiryAttributes.emplid}"
-						property="emplid" readOnly="${readOnly}" /> <kul:lookup
-						boClassName="org.kuali.core.bo.user.UniversalUser"
-						fieldConversions="personPayrollIdentifier:emplid"
-						lookupParameters="emplid:personPayrollIdentifier"
-						fieldLabel="${balanceInquiryAttributes.personPayrollIdentifier.label}" /></td>
-	            </tr>
-	            
-	            <tr>
-	            	<td height="30" class="infoline">&nbsp;</td>
-	            	<td height="30" class="infoline">
-	                <gl:balanceInquiryLookup
-							boClassName="org.kuali.module.labor.bo.LedgerBalanceForBenefitExpenseTransfer"
-							actionPath="glBalanceInquiryLookup.do"
-							lookupParameters="universityFiscalYear:universityFiscalYear,accountNumber:accountNumber,subAccountNumber:subAccountNumber,chartOfAccountsCode:chartOfAccountsCode,emplid:emplid"
-							hideReturnLink="false" image="buttonsmall_search.gif"/>
-					</td>
-				</tr>
-	
-			</table>
-			</div>
-		</kul:tab>
-	</c:if>
+						fieldLabel="${balanceInquiryAttributes.subAccountNumber.label}" />
+					</c:if>
+				</td>
+			</tr>
+			
+			<tr>
+				<kul:htmlAttributeHeaderCell
+                    attributeEntry="${balanceInquiryAttributes.emplid}" horizontal="true" forceRequired="false"/>
+                    
+				<td class="datacell-nowrap"><kul:htmlControlAttribute
+					attributeEntry="${balanceInquiryAttributes.emplid}"
+					property="emplid" readOnly="${readOnly}" /> <kul:lookup
+					boClassName="org.kuali.core.bo.user.UniversalUser"
+					fieldConversions="personPayrollIdentifier:emplid"
+					lookupParameters="emplid:personPayrollIdentifier"
+					fieldLabel="${balanceInquiryAttributes.personPayrollIdentifier.label}" /></td>
+            </tr>
+            
+            <tr>
+            	<td height="30" class="infoline">&nbsp;</td>
+            	<td height="30" class="infoline">
+	            	<c:if test="${!readOnly}">
+		                <gl:balanceInquiryLookup
+								boClassName="org.kuali.module.labor.bo.LedgerBalanceForBenefitExpenseTransfer"
+								actionPath="glBalanceInquiryLookup.do"
+								lookupParameters="universityFiscalYear:universityFiscalYear,accountNumber:accountNumber,subAccountNumber:subAccountNumber,chartOfAccountsCode:chartOfAccountsCode,emplid:emplid"
+								hideReturnLink="false" image="buttonsmall_search.gif"/>
+					</c:if>
+				</td>				
+			</tr>
+
+		</table>
+		</div>
+	</kul:tab>
 
 	<c:set var="copyMethod" value="" scope="request" />
 	<c:set var="actionInfixVar" value="" scope="request" />

@@ -68,7 +68,7 @@ public abstract class AccountsPayableDocumentBase extends PurchasingAccountsPaya
     
     // REFERENCE OBJECTS
     private Campus processingCampus;
-    private PurchaseOrderDocument purchaseOrderDocument;
+    private transient PurchaseOrderDocument purchaseOrderDocument;
 
     public AccountsPayableDocumentBase() {
         super();

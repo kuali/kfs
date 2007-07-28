@@ -78,13 +78,13 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
 
     // COLLECTIONS
     private List<PurchasingApItem> items;
-    private List<RequisitionView> relatedRequisitionViews;
-    private List<PurchaseOrderView> relatedPurchaseOrderViews;
-    private List<PaymentRequestView> relatedPaymentRequestViews;
-    private List<CreditMemoView> relatedCreditMemoViews;
-    private Map<SourceAccountingLine, List<PurchasingApItem>> summaryAccountsWithItems;
-    private List<SourceAccountingLine> summaryAccountsWithItemsKey;
-    private List<List<PurchasingApItem>> summaryAccountsWithItemsValue;
+    private transient List<RequisitionView> relatedRequisitionViews;
+    private transient List<PurchaseOrderView> relatedPurchaseOrderViews;
+    private transient List<PaymentRequestView> relatedPaymentRequestViews;
+    private transient List<CreditMemoView> relatedCreditMemoViews;
+    private transient Map<SourceAccountingLine, List<PurchasingApItem>> summaryAccountsWithItems;
+    private transient List<SourceAccountingLine> summaryAccountsWithItemsKey;
+    private transient List<List<PurchasingApItem>> summaryAccountsWithItemsValue;
     
     private List<SourceAccountingLine> accountsForRouting;  //don't use me for anything else!!
 

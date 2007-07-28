@@ -47,7 +47,7 @@ public class PaymentRequestItem extends AccountsPayableItemBase {
     private KualiDecimal itemOutstandingInvoiceQuantity;
     private KualiDecimal itemOutstandingInvoiceAmount;
     
-    private PaymentRequestDocument paymentRequest;
+    private transient PaymentRequestDocument paymentRequest;
 
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PaymentRequestItem.class);
 

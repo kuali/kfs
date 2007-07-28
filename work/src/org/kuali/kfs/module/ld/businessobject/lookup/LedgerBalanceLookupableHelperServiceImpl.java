@@ -414,12 +414,15 @@ public class LedgerBalanceLookupableHelperServiceImpl extends AbstractLookupable
                         columns.add(setupResultsColumn(element, propertyName));
 
                         ResultRow row = new ResultRow((List<Column>) columns, returnUrl, getActionUrls(element));
-                        row.setObjectId(((PersistableBusinessObject) element).getObjectId() + "." + propertyName);
+                     
+                        String extraReturnData = ((SegmentedBusinessObject) element).getAdditionalReturnData(propertyName);
+                        row.setObjectId(((PersistableBusinessObject) element).getObjectId() + "." + propertyName + "." + extraReturnData);
                         resultTable.add(row);
                     }
                 }
                 else {
                     Collection<Column> columns = getColumns(element);
+                 
                     ResultRow row = new ResultRow((List<Column>) columns, returnUrl, getActionUrls(element));
                     row.setObjectId(((PersistableBusinessObject) element).getObjectId());
                     resultTable.add(row);

@@ -19,9 +19,11 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
 import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.module.labor.LaborPropertyConstants;
+import org.kuali.module.labor.bo.LedgerBalance;
 
 /**
  * Utility class for helping DAOs deal with building queries for the consolidation option
@@ -122,4 +124,69 @@ public class ConsolidationUtil {
     public static Collection<String> buildGroupByCollection(String ... extraFields) {
         return buildGroupByCollection(Arrays.asList(extraFields));
     }    
+    
+    /**
+     * Consolidates a collection of actual balances with a collection of A2 balances. The A2 balances are changed
+     * to AC, then matched by balance key with balances from the actual collection.
+     * 
+     * @param actualBalances - collection of actual balances (consolidatedBalanceTypeCode)
+     * @param effortBalances - collection of effort balances ('A2')
+     * @param consolidatedBalanceTypeCode - balance type to change A2 records to
+     * @return Collection<LedgerBalance> - collection with consolidated balance records
+     */
+    public static Collection<LedgerBalance> consolidateA2Balances(Collection<LedgerBalance> actualBalances, Collection<LedgerBalance> effortBalances, String consolidatedBalanceTypeCode) {
+        Collection<LedgerBalance> consolidatedBalances = new ArrayList<LedgerBalance>();
+        
+        // first change a2 balance to given balance type code and add to consolidated list
+        for (LedgerBalance balance : effortBalances) {
+            balance.setBalanceTypeCode(consolidatedBalanceTypeCode);
+            consolidatedBalances.add(balance);
+        }
+
+        // look for a matching a2 balance for each ac, if found add the amount of the ac to the a2 record, if not add the full ac record
+        for (LedgerBalance actualBalance : actualBalances) {
+            boolean matchFound = false;
+            for (LedgerBalance effortBalance : consolidatedBalances) {
+                String effortKey = ObjectUtil.buildPropertyMap(effortBalance, effortBalance.getPrimaryKeyList()).toString();
+                String actualKey = ObjectUtil.buildPropertyMap(actualBalance, actualBalance.getPrimaryKeyList()).toString();
+
+                // if found matching effort record, sum the amount fields of the actual and effort
+                if (StringUtils.equals(effortKey, actualKey)) {
+                    sumLedgerBalances(effortBalance, actualBalance);
+                    matchFound = true;
+                }
+            }
+
+            if (!matchFound) {
+                consolidatedBalances.add(actualBalance);
+            }
+        }
+        
+        return consolidatedBalances;
+    }
+    
+    /**
+     * Adds the amounts fields of the second balance record to the first.
+     * 
+     * @param balance1 - LedgerBalance
+     * @param balance2 - LedgerBalance
+     */
+    public static void sumLedgerBalances(LedgerBalance balance1, LedgerBalance balance2) {
+        balance1.setAccountLineAnnualBalanceAmount(balance1.getAccountLineAnnualBalanceAmount().add(balance2.getAccountLineAnnualBalanceAmount()));
+        balance1.setBeginningBalanceLineAmount(balance1.getBeginningBalanceLineAmount().add(balance2.getBeginningBalanceLineAmount()));
+        balance1.setContractsGrantsBeginningBalanceAmount(balance1.getContractsGrantsBeginningBalanceAmount().add(balance2.getContractsGrantsBeginningBalanceAmount()));
+        balance1.setMonth1Amount(balance1.getMonth1Amount().add(balance2.getMonth1Amount()));
+        balance1.setMonth2Amount(balance1.getMonth2Amount().add(balance2.getMonth2Amount()));
+        balance1.setMonth3Amount(balance1.getMonth3Amount().add(balance2.getMonth3Amount()));
+        balance1.setMonth4Amount(balance1.getMonth4Amount().add(balance2.getMonth4Amount()));
+        balance1.setMonth5Amount(balance1.getMonth5Amount().add(balance2.getMonth5Amount()));
+        balance1.setMonth6Amount(balance1.getMonth6Amount().add(balance2.getMonth6Amount()));
+        balance1.setMonth7Amount(balance1.getMonth7Amount().add(balance2.getMonth7Amount()));
+        balance1.setMonth8Amount(balance1.getMonth8Amount().add(balance2.getMonth8Amount()));
+        balance1.setMonth9Amount(balance1.getMonth9Amount().add(balance2.getMonth9Amount()));
+        balance1.setMonth10Amount(balance1.getMonth10Amount().add(balance2.getMonth10Amount()));
+        balance1.setMonth11Amount(balance1.getMonth11Amount().add(balance2.getMonth11Amount()));
+        balance1.setMonth12Amount(balance1.getMonth12Amount().add(balance2.getMonth12Amount()));
+        balance1.setMonth13Amount(balance1.getMonth13Amount().add(balance2.getMonth13Amount()));
+    }
 }

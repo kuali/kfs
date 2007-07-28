@@ -15,156 +15,75 @@
  */
 package org.kuali.module.labor.rules;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
-import org.kuali.core.document.Document;
-import org.kuali.core.util.ErrorMap;
-import org.kuali.core.util.GlobalVariables;
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.KFSKeyConstants;
 import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.bo.AccountingLine;
 import org.kuali.kfs.document.AccountingDocument;
-import org.kuali.kfs.util.SpringServiceLocator;
-import org.kuali.module.chart.bo.Account;
-import org.kuali.module.chart.bo.AccountingPeriod;
 import org.kuali.module.labor.LaborConstants;
 import org.kuali.module.labor.bo.ExpenseTransferAccountingLine;
 import org.kuali.module.labor.bo.ExpenseTransferSourceAccountingLine;
 import org.kuali.module.labor.bo.LaborObject;
 import org.kuali.module.labor.document.LaborExpenseTransferDocumentBase;
 import org.kuali.module.labor.document.LaborLedgerPostingDocument;
-import org.kuali.module.labor.document.SalaryExpenseTransferDocument;
 import org.kuali.module.labor.rule.GenerateLaborLedgerBenefitClearingPendingEntriesRule;
 
 
 /**
  * Business rule(s) applicable to Salary Expense Transfer documents.
  */
-public class SalaryExpenseTransferDocumentRule extends LaborExpenseTransferDocumentRules implements GenerateLaborLedgerBenefitClearingPendingEntriesRule<LaborLedgerPostingDocument>{
-    // LLPE KFSConstants
-    public static final String LABOR_LEDGER_ACCOUNT_NUMBER = "9712700";
-   
-        
+public class SalaryExpenseTransferDocumentRule extends LaborExpenseTransferDocumentRules implements GenerateLaborLedgerBenefitClearingPendingEntriesRule<LaborLedgerPostingDocument> {
+
     /**
      * Constructor
      */
     public SalaryExpenseTransferDocumentRule() {
-        super();        
-    }   
-        
-    /** 
-     * The following criteria will be validated here:
-     * Account must be valid.
-     * Object code must be valid.
-     * Object code must be a labor object code.
-            Object code must exist in the ld_labor_obj_t table.
-            The field finobj_frngslry_cd for the object code in the ld_labor_obj_t table must have a value of "S".
-     * Sub-account, if specified, must be valid for account.
-     * Sub-object, if specified, must be valid for account and object code.
-     * Enforce the A21-report-related business rules for the "SAVE" action.
-     * Position must be valid for fiscal year. FIS enforces this by a direct lookup of the PeopleSoft HRMS position data table. Kuali cannot do this. (See issue 12.)
-     * Employee ID exists.
-     * Employee does not have pending salary transfers.
-     * Amount must not be zero. 
-     * 
-     * @see org.kuali.module.financial.rules.TransactionalDocumentRuleBase#processCustomAddAccountingLineBusinessRules(org.kuali.core.document.TransactionalDocument,
-     *      org.kuali.core.bo.AccountingLine)
-     *      
-     * @param TransactionalDocument
-     * @param AccountingLine
-     * @return
+        super();
+    }
+
+    /**
+     * @see org.kuali.kfs.rules.AccountingDocumentRuleBase#processCustomAddAccountingLineBusinessRules(org.kuali.kfs.document.AccountingDocument,
+     *      org.kuali.kfs.bo.AccountingLine)
      */
     @Override
     protected boolean processCustomAddAccountingLineBusinessRules(AccountingDocument accountingDocument, AccountingLine accountingLine) {
+        boolean isValid = super.processCustomAddAccountingLineBusinessRules(accountingDocument, accountingLine);
 
-        // Retrieve the Fringe or Salary Code for the object code in the ld_labor_obj_t table. 
-        // It must have a value of "S".
-        
-        ErrorMap errorMap = GlobalVariables.getErrorMap();
-        Map fieldValues = new HashMap();
-        fieldValues.put(KFSPropertyConstants.FINANCIAL_OBJECT_CODE, accountingLine.getFinancialObjectCode().toString());
-        ArrayList laborObjects = (ArrayList) SpringServiceLocator.getBusinessObjectService().findMatching(LaborObject.class, fieldValues);
-        if (laborObjects.size() == 0) {
-            reportError(KFSPropertyConstants.ACCOUNT, KFSKeyConstants.Labor.LABOR_OBJECT_MISSING_OBJECT_CODE_ERROR, accountingLine.getAccountNumber());
+        // only salary labor object codes are allowed on the salary expense transfer document
+        if (!isSalaryObjectCode(accountingLine)) {
+            reportError(KFSPropertyConstants.ACCOUNT, KFSKeyConstants.Labor.INVALID_SALARY_OBJECT_CODE_ERROR, accountingLine.getAccountNumber());
             return false;
         }
-        LaborObject laborObject = (LaborObject) laborObjects.get(0);    
-        String FringeOrSalaryCode = laborObject.getFinancialObjectFringeOrSalaryCode();
 
-        if (!FringeOrSalaryCode.equals(LaborConstants.SalaryExpenseTransfer.LABOR_LEDGER_SALARY_CODE)) {
-              reportError(KFSPropertyConstants.ACCOUNT, KFSKeyConstants.Labor.INVALID_SALARY_OBJECT_CODE_ERROR, accountingLine.getAccountNumber());
-            return false;
-        }            
-
-        ExpenseTransferAccountingLine salaryExpenseTransferAccountingLine = (ExpenseTransferAccountingLine)accountingLine;
-        // Validate the accounting year
-        fieldValues.clear();
-        fieldValues.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, salaryExpenseTransferAccountingLine.getPayrollEndDateFiscalYear());
-        AccountingPeriod accountingPeriod = new AccountingPeriod();        
-        if (SpringServiceLocator.getBusinessObjectService().countMatching(AccountingPeriod.class, fieldValues) == 0) {
-            reportError(KFSPropertyConstants.ACCOUNT,KFSKeyConstants.Labor.INVALID_PAY_YEAR, salaryExpenseTransferAccountingLine.getPayrollEndDateFiscalYear().toString());
-            return false;
-        }
-       
-        // Validate the accounting period code
-        fieldValues.clear();
-        fieldValues.put(KFSPropertyConstants.UNIVERSITY_FISCAL_PERIOD_CODE, salaryExpenseTransferAccountingLine.getPayrollEndDateFiscalPeriodCode());
-        accountingPeriod = new AccountingPeriod();        
-        if (SpringServiceLocator.getBusinessObjectService().countMatching(AccountingPeriod.class, fieldValues) == 0) {
-            reportError(KFSPropertyConstants.ACCOUNT,KFSKeyConstants.Labor.INVALID_PAY_PERIOD_CODE, salaryExpenseTransferAccountingLine.getPayrollEndDateFiscalPeriodCode());
-            return false;
-        }
-              
-        // ensure the employee ids in the source accounting lines are same 
-        if(!this.hasSameEmployee(accountingDocument)){
+        // ensure the employee ids in the source accounting lines are same
+        if (!this.hasSameEmployee(accountingDocument)) {
             reportError(KFSPropertyConstants.SOURCE_ACCOUNTING_LINES, KFSKeyConstants.Labor.ERROR_EMPLOYEE_ID_NOT_SAME);
             return false;
         }
-        return true;
+
+        return isValid;
     }
-    
+
     /**
-     * This document specific routing business rule check calls the check that makes sure that the budget year is consistent for all
-     * accounting lines.
+     * Determine whether the object code of given accounting line is a salary labor object code
      * 
-     * @see org.kuali.core.rule.DocumentRuleBase#processCustomRouteDocumentBusinessRules(org.kuali.core.document.Document)
+     * @param accountingLine the given accounting line
+     * @return true if the object code of given accounting line is a salary; otherwise, false
      */
-    @Override
-    protected boolean processCustomRouteDocumentBusinessRules(Document document) {
-        
-        boolean isValid = super.processCustomRouteDocumentBusinessRules(document);
+    private boolean isSalaryObjectCode(AccountingLine accountingLine) {
+        ExpenseTransferAccountingLine expenseTransferAccountingLine = (ExpenseTransferAccountingLine) accountingLine;
 
-        SalaryExpenseTransferDocument setDoc = (SalaryExpenseTransferDocument) document;
-
-        List sourceLines = new ArrayList();
-        List targetLines = new ArrayList();
-
-        //set source and target accounting lines
-        sourceLines.addAll(setDoc.getSourceAccountingLines());
-        targetLines.addAll(setDoc.getTargetAccountingLines());
-
-        //check to ensure totals of accounting lines in source and target sections match
-        if (isValid) {
-            isValid = isAccountingLineTotalsMatch(sourceLines, targetLines);            
+        LaborObject laborObject = expenseTransferAccountingLine.getLaborObject();
+        if (laborObject == null) {
+            return false;
         }
 
-        //check to ensure totals of accounting lines in source and target sections match by pay FY + pay period
-        if (isValid) {
-            isValid = isAccountingLineTotalsMatchByPayFYAndPayPeriod(sourceLines, targetLines);
-        }
-        
-        // ensure the employee ids in the source accounting lines are same 
-        if(!this.hasSameEmployee(setDoc)){
-            reportError(KFSPropertyConstants.SOURCE_ACCOUNTING_LINES, KFSKeyConstants.Labor.ERROR_EMPLOYEE_ID_NOT_SAME);
-            isValid = false;
-        }
-        
-        return isValid;        
+        String fringeOrSalaryCode = laborObject.getFinancialObjectFringeOrSalaryCode();
+        return StringUtils.equals(LaborConstants.SalaryExpenseTransfer.LABOR_LEDGER_SALARY_CODE, fringeOrSalaryCode);
     }
-  
+
     /**
      * determine whether the employees in the source accouting lines are same
      * 
@@ -176,20 +95,19 @@ public class SalaryExpenseTransferDocumentRule extends LaborExpenseTransferDocum
 
         LaborExpenseTransferDocumentBase expenseTransferDocument = (LaborExpenseTransferDocumentBase) accountingDocument;
         List<ExpenseTransferSourceAccountingLine> sourceAccountingLines = expenseTransferDocument.getSourceAccountingLines();
-        
+
         String cachedEmplid = null;
         for (ExpenseTransferSourceAccountingLine sourceAccountingLine : sourceAccountingLines) {
             String emplid = sourceAccountingLine.getEmplid();
-            if(emplid == null){
+            if (emplid == null) {
                 return false;
             }
-            
+
             cachedEmplid = cachedEmplid == null ? emplid : cachedEmplid;
-            if(!emplid.equals(cachedEmplid)){
+            if (!emplid.equals(cachedEmplid)) {
                 return false;
-            }            
+            }
         }
         return true;
     }
-    
 }

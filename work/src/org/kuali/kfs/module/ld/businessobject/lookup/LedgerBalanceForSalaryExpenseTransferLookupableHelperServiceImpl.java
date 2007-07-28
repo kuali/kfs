@@ -28,6 +28,7 @@ import org.kuali.module.gl.util.OJBUtility;
 import org.kuali.module.gl.web.Constant;
 import org.kuali.module.labor.LaborConstants.SalaryExpenseTransfer;
 import org.kuali.module.labor.bo.LedgerBalance;
+import org.kuali.module.labor.util.ConsolidationUtil;
 import org.kuali.module.labor.web.inquirable.LedgerBalanceInquirableImpl;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -63,12 +64,18 @@ public class LedgerBalanceForSalaryExpenseTransferLookupableHelperServiceImpl ex
 
         // get the ledger balances with actual balance type code
         fieldValues.put(KFSPropertyConstants.FINANCIAL_BALANCE_TYPE_CODE, options.getActualFinancialBalanceTypeCd());
-        Collection cashBalances = buildDetailedBalanceCollection(getBalanceService().findBalance(fieldValues, false), Constant.NO_PENDING_ENTRY);
+        Collection actualBalances = buildDetailedBalanceCollection(getBalanceService().findBalance(fieldValues, false), Constant.NO_PENDING_ENTRY);
+        
+        // get the ledger balances with effort balance type code
+        fieldValues.put(KFSPropertyConstants.FINANCIAL_BALANCE_TYPE_CODE, KFSConstants.BALANCE_TYPE_A21);
+        Collection effortBalances = buildDetailedBalanceCollection(getBalanceService().findBalance(fieldValues, false), Constant.NO_PENDING_ENTRY);
+        
+        Collection<LedgerBalance> consolidatedBalances = ConsolidationUtil.consolidateA2Balances(actualBalances, effortBalances, options.getActualFinancialBalanceTypeCd());
 
         Integer recordCount = getBalanceService().getBalanceRecordCount(fieldValues, true);
-        Long actualSize = OJBUtility.getResultActualSize(cashBalances, recordCount, fieldValues, new LedgerBalance());
+        Long actualSize = OJBUtility.getResultActualSize(consolidatedBalances, recordCount, fieldValues, new LedgerBalance());
 
-        return buildSearchResultList(cashBalances, actualSize);
+        return buildSearchResultList(consolidatedBalances, actualSize);
     }
 
     /**

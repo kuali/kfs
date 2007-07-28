@@ -15,8 +15,6 @@
  */
 package org.kuali.module.labor.web.struts.action;
 
-import static org.apache.commons.beanutils.PropertyUtils.getProperty;
-
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
@@ -41,16 +39,15 @@ import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.UrlFactory;
 import org.kuali.core.web.struts.form.KualiForm;
 import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.bo.AccountingLineOverride;
 import org.kuali.kfs.rule.event.AddAccountingLineEvent;
 import org.kuali.kfs.util.SpringServiceLocator;
-import org.kuali.module.chart.bo.Account;
 import org.kuali.module.gl.GLConstants;
+import org.kuali.module.labor.LaborConstants;
 import org.kuali.module.labor.bo.ExpenseTransferAccountingLine;
 import org.kuali.module.labor.bo.LedgerBalance;
 import org.kuali.module.labor.document.LaborExpenseTransferDocumentBase;
-import org.kuali.module.labor.rule.event.EmployeeIdChangedEvent; 
+import org.kuali.module.labor.rule.event.EmployeeIdChangedEvent;
 import org.kuali.module.labor.service.SegmentedLookupResultsService;
 import org.kuali.module.labor.web.struts.form.ExpenseTransferDocumentFormBase;
 
@@ -59,23 +56,6 @@ import org.kuali.module.labor.web.struts.form.ExpenseTransferDocumentFormBase;
  */
 public class ExpenseTransferDocumentActionBase extends LaborDocumentActionBase {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ExpenseTransferDocumentActionBase.class);
-
-    private static final Map<String, String> periodCodeMapping = new HashMap<String, String>();
-    static {
-        periodCodeMapping.put(KFSPropertyConstants.MONTH1_AMOUNT, KFSConstants.MONTH1);
-        periodCodeMapping.put(KFSPropertyConstants.MONTH2_AMOUNT, KFSConstants.MONTH2);
-        periodCodeMapping.put(KFSPropertyConstants.MONTH3_AMOUNT, KFSConstants.MONTH3);
-        periodCodeMapping.put(KFSPropertyConstants.MONTH4_AMOUNT, KFSConstants.MONTH4);
-        periodCodeMapping.put(KFSPropertyConstants.MONTH5_AMOUNT, KFSConstants.MONTH5);
-        periodCodeMapping.put(KFSPropertyConstants.MONTH6_AMOUNT, KFSConstants.MONTH6);
-        periodCodeMapping.put(KFSPropertyConstants.MONTH7_AMOUNT, KFSConstants.MONTH7);
-        periodCodeMapping.put(KFSPropertyConstants.MONTH8_AMOUNT, KFSConstants.MONTH8);
-        periodCodeMapping.put(KFSPropertyConstants.MONTH9_AMOUNT, KFSConstants.MONTH9);
-        periodCodeMapping.put(KFSPropertyConstants.MONTH10_AMOUNT, KFSConstants.MONTH10);
-        periodCodeMapping.put(KFSPropertyConstants.MONTH11_AMOUNT, KFSConstants.MONTH11);
-        periodCodeMapping.put(KFSPropertyConstants.MONTH12_AMOUNT, KFSConstants.MONTH12);
-        periodCodeMapping.put(KFSPropertyConstants.MONTH13_AMOUNT, KFSConstants.MONTH13);
-    }
 
     /**
      * Takes care of storing the action form in the user session and forwarding to the balance inquiry lookup action.
@@ -158,6 +138,12 @@ public class ExpenseTransferDocumentActionBase extends LaborDocumentActionBase {
     }
 
     /**
+     * Populates the lines of the ST or BT document from a balance lookup. First, the data must be retrieved based on the selected
+     * ids persisted from the framework. The basic steps are: 1) Retrieve selected (row) ids that were persisted 2) Each id has
+     * form: {db object id}.{period name}.{line amount} 3) Retrieve the balance records associated with the object ids 4)Build an
+     * accounting line from the retrieved balance record, using parsed period name as the pay period, and parsed amount as the new
+     * line amount. 5) Call insertAccountingLine
+     * 
      * @see org.kuali.core.web.struts.action.KualiDocumentActionBase#refresh(ActionMapping, ActionForm, HttpServletRequest,
      *      HttpServletResponse)
      */
@@ -165,83 +151,79 @@ public class ExpenseTransferDocumentActionBase extends LaborDocumentActionBase {
     public ActionForward refresh(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ExpenseTransferDocumentFormBase expenseTransferDocumentForm = (ExpenseTransferDocumentFormBase) form;
 
-        // Needed to be executed for each accounting line that may have been added.
-        boolean rulePassed = runRule(new EmployeeIdChangedEvent(expenseTransferDocumentForm.getDocument()));
-        Map<String, String> requestParams = (Map<String, String>) request.getParameterMap();
-
         Collection<PersistableBusinessObject> rawValues = null;
         Map<String, Set<String>> segmentedSelection = new HashMap<String, Set<String>>();
+
         if (StringUtils.equals(KFSConstants.MULTIPLE_VALUE, expenseTransferDocumentForm.getRefreshCaller())) {
             String lookupResultsSequenceNumber = expenseTransferDocumentForm.getLookupResultsSequenceNumber();
+
             if (StringUtils.isNotBlank(lookupResultsSequenceNumber)) {
                 // actually returning from a multiple value lookup
-                Set<String> selectedObjIds = getSegmentedLookupResultsService().retrieveSetOfSelectedObjectIds(lookupResultsSequenceNumber, 
-                                                                                                               GlobalVariables.getUserSession().getUniversalUser().getPersonUniversalIdentifier());
-                for (String selectedObjId : selectedObjIds) {
-                    Integer propertyNameIdx = selectedObjId.lastIndexOf(".");
-                    String selectedPropertyName = new String();
-                    if (propertyNameIdx > -1) {
-                        selectedPropertyName = selectedObjId.substring(propertyNameIdx + 1);
-                        selectedObjId = selectedObjId.substring(0, propertyNameIdx);
-                        LOG.debug("Selected property " + selectedPropertyName);
-                        LOG.debug("Selected object id " + selectedObjId);
-                        
-                        if (!segmentedSelection.containsKey(selectedObjId)) {
-                            segmentedSelection.put(selectedObjId, new HashSet<String>());
-                        }
-                        segmentedSelection.get(selectedObjId).add(selectedPropertyName);
+                Set<String> selectedIds = getSegmentedLookupResultsService().retrieveSetOfSelectedObjectIds(lookupResultsSequenceNumber, GlobalVariables.getUserSession().getUniversalUser().getPersonUniversalIdentifier());
+                for (String selectedId : selectedIds) {
+                    String selectedObjId = StringUtils.substringBefore(selectedId, ".");
+                    String selectedMonthData = StringUtils.substringAfter(selectedId, ".");
+
+                    if (!segmentedSelection.containsKey(selectedObjId)) {
+                        segmentedSelection.put(selectedObjId, new HashSet<String>());
                     }
+                    segmentedSelection.get(selectedObjId).add(selectedMonthData);
                 }
-                
+
                 LOG.debug("Asking segmentation service for object ids " + segmentedSelection.keySet());
-                rawValues = getSegmentedLookupResultsService().retrieveSelectedResultBOs(lookupResultsSequenceNumber, segmentedSelection.keySet(), LedgerBalance.class, 
-                                                                                         GlobalVariables.getUserSession().getUniversalUser().getPersonUniversalIdentifier());
+                rawValues = getSegmentedLookupResultsService().retrieveSelectedResultBOs(lookupResultsSequenceNumber, segmentedSelection.keySet(), LedgerBalance.class, GlobalVariables.getUserSession().getUniversalUser().getPersonUniversalIdentifier());
             }
-        }
 
-        if (rawValues != null) {
-            boolean isFirstBalance = true;
-            for (PersistableBusinessObject bo : rawValues) {
+            if (rawValues != null) {
+                boolean isFirstBalance = true;
+                for (PersistableBusinessObject bo : rawValues) {
 
-                // reset the form with the first leadge balance
-                if (isFirstBalance) {
-                    resetLookupFields(expenseTransferDocumentForm, (LedgerBalance) bo);
-                    isFirstBalance = false;
-                }
+                    // reset the form with the first leadge balance
+                    if (isFirstBalance) {
+                        resetLookupFields(expenseTransferDocumentForm, (LedgerBalance) bo);
+                        isFirstBalance = false;
+                    }
 
-                for (String selectedPropertyName : segmentedSelection.get(bo.getObjectId())) {
-                    if (periodCodeMapping.containsKey(selectedPropertyName)) {
-                        String periodCode = periodCodeMapping.get(selectedPropertyName);
-                        LaborExpenseTransferDocumentBase financialDocument = (LaborExpenseTransferDocumentBase) expenseTransferDocumentForm.getDocument();
-                        ExpenseTransferAccountingLine line = (ExpenseTransferAccountingLine) financialDocument.getSourceAccountingLineClass().newInstance();
-                        try {
-                            KualiDecimal lineAmount = (KualiDecimal) getProperty(bo, selectedPropertyName);
-                            if (KFSConstants.ZERO.compareTo(lineAmount) != 0) {
-                                buildAccountingLineFromLedgerBalance((LedgerBalance) bo, line, (KualiDecimal) getProperty(bo, selectedPropertyName), periodCode);
-                                
-                                rulePassed &= SpringServiceLocator.getKualiRuleService().applyRules(new AddAccountingLineEvent(KFSConstants.NEW_SOURCE_ACCT_LINE_PROPERTY_NAME, financialDocument, line));
-                                SpringServiceLocator.getPersistenceService().retrieveNonKeyFields(line);
-                                insertAccountingLine(true, expenseTransferDocumentForm, line);                              
-                                updateAccountOverrideCode(line);
-                                processAccountingLineOverrides(line);
+                    for (String selectedMonthData : segmentedSelection.get(bo.getObjectId())) {
+                        String selectedPeriodName = StringUtils.substringBefore(selectedMonthData, ".");
+                        String selectedPeriodAmount = StringUtils.substringAfter(selectedMonthData, ".");
+
+                        if (LaborConstants.periodCodeMapping.containsKey(selectedPeriodName)) {
+                            String periodCode = LaborConstants.periodCodeMapping.get(selectedPeriodName);
+                            ExpenseTransferAccountingLine line = (ExpenseTransferAccountingLine) expenseTransferDocumentForm.getFinancialDocument().getSourceAccountingLineClass().newInstance();
+                            LaborExpenseTransferDocumentBase financialDocument = (LaborExpenseTransferDocumentBase) expenseTransferDocumentForm.getDocument();
+                        
+                            try {
+                                KualiDecimal lineAmount = (new KualiDecimal(selectedPeriodAmount)).divide(new KualiDecimal(100));
+                                if (KFSConstants.ZERO.compareTo(lineAmount) != 0) {
+                                    buildAccountingLineFromLedgerBalance((LedgerBalance) bo, line, lineAmount, periodCode);
+
+                                    SpringServiceLocator.getKualiRuleService().applyRules(new AddAccountingLineEvent(KFSConstants.NEW_SOURCE_ACCT_LINE_PROPERTY_NAME, financialDocument, line));
+                                    SpringServiceLocator.getPersistenceService().retrieveNonKeyFields(line);
+                                   
+                                    insertAccountingLine(true, expenseTransferDocumentForm, line);
+                                    updateAccountOverrideCode(line);
+                                    processAccountingLineOverrides(line);
+                                }
+                            }
+                            catch (Exception e) {
+                                // No way to recover gracefully, so throw it back as a RuntimeException
+                                throw new RuntimeException(e);
                             }
                         }
-                        catch (Exception e) {
-                            // IllegalAccessException thrown by getProperty() call
-                            // No way to recover gracefully, so throw it back as a RuntimeException
-                            throw new RuntimeException(e);
-                        }
                     }
                 }
+
+                Collections.sort((List<Comparable>) expenseTransferDocumentForm.getFinancialDocument().getSourceAccountingLines());
             }
-            Collections.sort((List<Comparable>) expenseTransferDocumentForm.getFinancialDocument().getSourceAccountingLines());
         }
+
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
     /**
-     * @see org.kuali.core.web.struts.action.KualiDocumentActionBase#copyAllAccountingLines(ActionMapping, ActionForm, HttpServletRequest,
-     *      HttpServletResponse)
+     * @see org.kuali.core.web.struts.action.KualiDocumentActionBase#copyAllAccountingLines(ActionMapping, ActionForm,
+     *      HttpServletRequest, HttpServletResponse)
      */
     public ActionForward copyAllAccountingLines(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ExpenseTransferDocumentFormBase financialDocumentForm = (ExpenseTransferDocumentFormBase) form;
@@ -282,8 +264,8 @@ public class ExpenseTransferDocumentActionBase extends LaborDocumentActionBase {
     }
 
     /**
-     * @see org.kuali.core.web.struts.action.KualiDocumentActionBase#copyAccountingLine(ActionMapping, ActionForm, HttpServletRequest,
-     *      HttpServletResponse)
+     * @see org.kuali.core.web.struts.action.KualiDocumentActionBase#copyAccountingLine(ActionMapping, ActionForm,
+     *      HttpServletRequest, HttpServletResponse)
      */
     public ActionForward copyAccountingLine(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ExpenseTransferDocumentFormBase financialDocumentForm = (ExpenseTransferDocumentFormBase) form;
@@ -293,7 +275,6 @@ public class ExpenseTransferDocumentActionBase extends LaborDocumentActionBase {
         int index = getSelectedLine(request);
 
         ExpenseTransferAccountingLine line = (ExpenseTransferAccountingLine) financialDocumentForm.getFinancialDocument().getTargetAccountingLineClass().newInstance();
-
         copyAccountingLine((ExpenseTransferAccountingLine) financialDocument.getSourceAccountingLine(index), line);
 
         boolean rulePassed = runRule(new AddAccountingLineEvent(KFSConstants.NEW_TARGET_ACCT_LINE_PROPERTY_NAME, financialDocumentForm.getDocument(), line));
@@ -370,7 +351,7 @@ public class ExpenseTransferDocumentActionBase extends LaborDocumentActionBase {
         line.setEmplid(bo.getEmplid());
         line.setPayrollEndDateFiscalPeriodCode(periodCode);
     }
-    
+
     private void updateAccountOverrideCode(ExpenseTransferAccountingLine line){        
         AccountingLineOverride override = AccountingLineOverride.determineNeededOverrides(line);
         line.setOverrideCode(override.getCode());
@@ -397,9 +378,8 @@ public class ExpenseTransferDocumentActionBase extends LaborDocumentActionBase {
     protected String getLookupResultsBOClassName(ExpenseTransferDocumentFormBase expenseTransferDocumentForm) {
         return expenseTransferDocumentForm.getLookupResultsBOClassName();
     }
-    
+
     /**
-     *
      * @return SegmentedLookupResultsService
      */
     private SegmentedLookupResultsService getSegmentedLookupResultsService() {

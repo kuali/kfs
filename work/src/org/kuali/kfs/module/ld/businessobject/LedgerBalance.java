@@ -18,36 +18,26 @@ package org.kuali.module.labor.bo;
 
 import static org.kuali.module.labor.LaborConstants.LABOR_USER_SERVICE_NAME;
 
-import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import java.util.List;
 
-import org.kuali.core.bo.user.PersonPayrollId;
 import org.kuali.core.bo.user.UniversalUser;
-import org.kuali.core.bo.user.UserId;
 import org.kuali.core.exceptions.UserNotFoundException;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.util.SpringServiceLocator;
-import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.Chart;
-import org.kuali.module.chart.bo.ObjectCode;
 import org.kuali.module.chart.bo.ObjectType;
-import org.kuali.module.chart.bo.SubAccount;
-import org.kuali.module.chart.bo.SubObjCd;
-import org.kuali.module.chart.bo.codes.BalanceTyp;
 import org.kuali.module.gl.bo.Balance;
-import org.kuali.module.labor.bo.LaborObject;
 import org.kuali.module.labor.service.LaborUserService;
 
 /**
- * 
+ * Represents a balance from labor ledger balance table.
  */
 public class LedgerBalance extends Balance {
-    
+
     private String financialObjectCode;
     private String financialSubObjectCode;
     private String financialBalanceTypeCode;
@@ -76,7 +66,8 @@ public class LedgerBalance extends Balance {
     }
 
     /**
-     * Gets the emplid attribute. 
+     * Gets the emplid attribute.
+     * 
      * @return Returns the emplid.
      */
     public String getEmplid() {
@@ -85,15 +76,15 @@ public class LedgerBalance extends Balance {
 
     /**
      * Sets the emplid attribute value.
+     * 
      * @param emplid The emplid to set.
      */
-    public void setEmplid(String emplid) {      
+    public void setEmplid(String emplid) {
         this.emplid = emplid;
 
         // Try to find a ledger person for this emplid if one exists
         try {
-            setLedgerPerson(((LaborUserService) SpringServiceLocator.getService(LABOR_USER_SERVICE_NAME))
-                            .getLaborUserByPersonPayrollIdentifier(emplid).getUniversalUser());
+            setLedgerPerson(((LaborUserService) SpringServiceLocator.getService(LABOR_USER_SERVICE_NAME)).getLaborUserByPersonPayrollIdentifier(emplid).getUniversalUser());
         }
         catch (UserNotFoundException unfe) {
             // The user is not valid. We don't have a user
@@ -102,7 +93,8 @@ public class LedgerBalance extends Balance {
     }
 
     /**
-     * Gets the financialBalance attribute. 
+     * Gets the financialBalance attribute.
+     * 
      * @return Returns the financialBalance.
      */
     public Balance getFinancialBalance() {
@@ -111,6 +103,7 @@ public class LedgerBalance extends Balance {
 
     /**
      * Sets the financialBalance attribute value.
+     * 
      * @param financialBalance The financialBalance to set.
      */
     public void setFinancialBalance(Balance financialBalance) {
@@ -118,7 +111,8 @@ public class LedgerBalance extends Balance {
     }
 
     /**
-     * Gets the financialBalanceTypeCode attribute. 
+     * Gets the financialBalanceTypeCode attribute.
+     * 
      * @return Returns the financialBalanceTypeCode.
      */
     public String getFinancialBalanceTypeCode() {
@@ -127,6 +121,7 @@ public class LedgerBalance extends Balance {
 
     /**
      * Sets the financialBalanceTypeCode attribute value.
+     * 
      * @param financialBalanceTypeCode The financialBalanceTypeCode to set.
      */
     public void setFinancialBalanceTypeCode(String financialBalanceTypeCode) {
@@ -134,7 +129,8 @@ public class LedgerBalance extends Balance {
     }
 
     /**
-     * Gets the financialBeginningBalanceLineAmount attribute. 
+     * Gets the financialBeginningBalanceLineAmount attribute.
+     * 
      * @return Returns the financialBeginningBalanceLineAmount.
      */
     public KualiDecimal getFinancialBeginningBalanceLineAmount() {
@@ -143,6 +139,7 @@ public class LedgerBalance extends Balance {
 
     /**
      * Sets the financialBeginningBalanceLineAmount attribute value.
+     * 
      * @param financialBeginningBalanceLineAmount The financialBeginningBalanceLineAmount to set.
      */
     public void setFinancialBeginningBalanceLineAmount(KualiDecimal financialBeginningBalanceLineAmount) {
@@ -150,7 +147,8 @@ public class LedgerBalance extends Balance {
     }
 
     /**
-     * Gets the financialObjectCode attribute. 
+     * Gets the financialObjectCode attribute.
+     * 
      * @return Returns the financialObjectCode.
      */
     public String getFinancialObjectCode() {
@@ -159,6 +157,7 @@ public class LedgerBalance extends Balance {
 
     /**
      * Sets the financialObjectCode attribute value.
+     * 
      * @param financialObjectCode The financialObjectCode to set.
      */
     public void setFinancialObjectCode(String financialObjectCode) {
@@ -166,7 +165,8 @@ public class LedgerBalance extends Balance {
     }
 
     /**
-     * Gets the financialObjectTypeCode attribute. 
+     * Gets the financialObjectTypeCode attribute.
+     * 
      * @return Returns the financialObjectTypeCode.
      */
     public String getFinancialObjectTypeCode() {
@@ -175,6 +175,7 @@ public class LedgerBalance extends Balance {
 
     /**
      * Sets the financialObjectTypeCode attribute value.
+     * 
      * @param financialObjectTypeCode The financialObjectTypeCode to set.
      */
     public void setFinancialObjectTypeCode(String financialObjectTypeCode) {
@@ -182,7 +183,8 @@ public class LedgerBalance extends Balance {
     }
 
     /**
-     * Gets the financialSubObjectCode attribute. 
+     * Gets the financialSubObjectCode attribute.
+     * 
      * @return Returns the financialSubObjectCode.
      */
     public String getFinancialSubObjectCode() {
@@ -191,6 +193,7 @@ public class LedgerBalance extends Balance {
 
     /**
      * Sets the financialSubObjectCode attribute value.
+     * 
      * @param financialSubObjectCode The financialSubObjectCode to set.
      */
     public void setFinancialSubObjectCode(String financialSubObjectCode) {
@@ -199,7 +202,8 @@ public class LedgerBalance extends Balance {
 
 
     /**
-     * Gets the positionNumber attribute. 
+     * Gets the positionNumber attribute.
+     * 
      * @return Returns the positionNumber.
      */
     public String getPositionNumber() {
@@ -208,6 +212,7 @@ public class LedgerBalance extends Balance {
 
     /**
      * Sets the positionNumber attribute value.
+     * 
      * @param positionNumber The positionNumber to set.
      */
     public void setPositionNumber(String positionNumber) {
@@ -215,7 +220,8 @@ public class LedgerBalance extends Balance {
     }
 
     /**
-     * Gets the transactionDateTimeStamp attribute. 
+     * Gets the transactionDateTimeStamp attribute.
+     * 
      * @return Returns the transactionDateTimeStamp.
      */
     public Timestamp getTransactionDateTimeStamp() {
@@ -224,6 +230,7 @@ public class LedgerBalance extends Balance {
 
     /**
      * Sets the transactionDateTimeStamp attribute value.
+     * 
      * @param transactionDateTimeStamp The transactionDateTimeStamp to set.
      */
     public void setTransactionDateTimeStamp(Timestamp transactionDateTimeStamp) {
@@ -251,7 +258,8 @@ public class LedgerBalance extends Balance {
     }
 
     /**
-     * Gets the chartOfAccounts attribute. 
+     * Gets the chartOfAccounts attribute.
+     * 
      * @return Returns the chartOfAccounts.
      */
     public Chart getChartOfAccounts() {
@@ -260,6 +268,7 @@ public class LedgerBalance extends Balance {
 
     /**
      * Sets the chartOfAccounts attribute value.
+     * 
      * @param chartOfAccounts The chartOfAccounts to set.
      */
     public void setChartOfAccounts(Chart chartOfAccounts) {
@@ -267,7 +276,8 @@ public class LedgerBalance extends Balance {
     }
 
     /**
-     * Gets the financialObjectType attribute. 
+     * Gets the financialObjectType attribute.
+     * 
      * @return Returns the financialObjectType.
      */
     public ObjectType getFinancialObjectType() {
@@ -276,13 +286,14 @@ public class LedgerBalance extends Balance {
 
     /**
      * Sets the financialObjectType attribute value.
+     * 
      * @param financialObjectType The financialObjectType to set.
      */
     public void setFinancialObjectType(ObjectType financialObjectType) {
         this.financialObjectType = financialObjectType;
     }
 
-    
+
     @Override
     public void addAmount(String period, KualiDecimal amount) {
         if (KFSConstants.ANNUAL_BALANCE.equals(period)) {
@@ -347,26 +358,27 @@ public class LedgerBalance extends Balance {
             this.setAccountLineAnnualBalanceAmount(this.getAccountLineAnnualBalanceAmount().add(amount));
         }
     }
-    
+
     /**
-     * Retrieve the associated <code>{@link LaborObject}</code> linked by chart of accounts code, financial object code, and university fiscal year
-     *
+     * Retrieve the associated <code>{@link LaborObject}</code> linked by chart of accounts code, financial object code, and
+     * university fiscal year
+     * 
      * @return Labor Object
      */
     public LaborObject getLaborObject() {
         return laborObject;
     }
-    
+
     /**
      * For OJB to assign a Labor Object association
-     *
+     * 
      * @param lobj
      */
     @Deprecated
     public void setLaborObject(LaborObject lobj) {
         laborObject = lobj;
     }
-    
+
     public UniversalUser getLedgerPerson() {
         return ledgerPerson;
     }
@@ -382,6 +394,7 @@ public class LedgerBalance extends Balance {
 
     /**
      * construct the primary key list of the business object
+     * 
      * @return the primary key list of the business object
      */
     public List<String> getPrimaryKeyList() {

@@ -136,11 +136,10 @@ public class LaborExpenseTransferDocumentRules extends AccountingDocumentRuleBas
         // check to ensure totals of accounting lines in source and target sections match by pay FY + pay period
         isValid = isValid & isAccountingLineTotalsMatchByPayFYAndPayPeriod(sourceLines, targetLines);
 
-        // only allow a transfer of benefit dollars up to the amount that already exist in labor ledger detail for a given pay
-        // period
+        // only allow a transfer of benefit dollars up to the amount that already exist in labor ledger detail for a given pay period
         Map<String, ExpenseTransferAccountingLine> accountingLineGroupMap = this.getAccountingLineGroupMap(sourceLines, ExpenseTransferSourceAccountingLine.class);
         if (isValid) {
-            boolean isValidTransferAmount = this.isValidTransferAmount(accountingLineGroupMap);
+            boolean isValidTransferAmount = isValidTransferAmount(accountingLineGroupMap);
             if (!isValidTransferAmount) {
                 reportError(KFSPropertyConstants.SOURCE_ACCOUNTING_LINES, KFSKeyConstants.Labor.ERROR_TRANSFER_AMOUNT_EXCEED_MAXIMUM);
                 isValid = false;
@@ -155,12 +154,14 @@ public class LaborExpenseTransferDocumentRules extends AccountingDocumentRuleBas
                 isValid = false;
             }
         }
-        
+
         // benefit transfers cannot be made between two different fringe benefit labor object codes.
-        boolean hasSameFringeBenefitObjectCodes = this.hasSameFringeBenefitObjectCodes(expenseTransferDocument);
-        if (!hasSameFringeBenefitObjectCodes) {
-            reportError(KFSPropertyConstants.TARGET_ACCOUNTING_LINES, KFSKeyConstants.Labor.DISTINCT_OBJECT_CODE_ERROR);
-            isValid = false;
+        if (isValid) {
+            boolean hasSameFringeBenefitObjectCodes = hasSameFringeBenefitObjectCodes(expenseTransferDocument);
+            if (!hasSameFringeBenefitObjectCodes) {
+                reportError(KFSPropertyConstants.TARGET_ACCOUNTING_LINES, KFSKeyConstants.Labor.DISTINCT_OBJECT_CODE_ERROR);
+                isValid = false;
+            }
         }
 
         // allow a negative amount to be moved from one account to another but do not allow a negative amount to be created when the
@@ -174,16 +175,18 @@ public class LaborExpenseTransferDocumentRules extends AccountingDocumentRuleBas
         }
 
         // determine if an expired account can be used to accept amount transfer
-        boolean canExpiredAccountBeUsed = canExpiredAccountBeUsed(expenseTransferDocument);
-        if (!canExpiredAccountBeUsed) {
-            reportError(KFSPropertyConstants.TARGET_ACCOUNTING_LINES, KFSKeyConstants.ERROR_ACCOUNT_EXPIRED);
-            isValid = false;
-        }
-        
-        // verify if the accounts in target accounting lines accept fringe benefits
-        if (!this.isAccountsAcceptFringeBenefit(expenseTransferDocument)) {
-            reportError(KFSPropertyConstants.TARGET_ACCOUNTING_LINES, KFSKeyConstants.Labor.ERROR_ACCOUNT_NOT_ACCEPT_FRINGES);
-            return false;
+        if (isValid) {
+            boolean canExpiredAccountBeUsed = canExpiredAccountBeUsed(expenseTransferDocument);
+            if (!canExpiredAccountBeUsed) {
+                reportError(KFSPropertyConstants.TARGET_ACCOUNTING_LINES, KFSKeyConstants.ERROR_ACCOUNT_EXPIRED);
+                isValid = false;
+            }
+
+            // verify if the accounts in target accounting lines accept fringe benefits
+            if (!this.isAccountsAcceptFringeBenefit(expenseTransferDocument)) {
+                reportError(KFSPropertyConstants.TARGET_ACCOUNTING_LINES, KFSKeyConstants.Labor.ERROR_ACCOUNT_NOT_ACCEPT_FRINGES);
+                return false;
+            }
         }
 
         return isValid;

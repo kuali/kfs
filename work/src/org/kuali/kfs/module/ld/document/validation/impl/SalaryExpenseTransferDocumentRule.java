@@ -58,7 +58,7 @@ public class SalaryExpenseTransferDocumentRule extends LaborExpenseTransferDocum
         }
 
         // ensure the employee ids in the source accounting lines are same
-        if (!this.hasSameEmployee(accountingDocument)) {
+        if (!hasSameEmployee(accountingDocument)) {
             reportError(KFSPropertyConstants.SOURCE_ACCOUNTING_LINES, KFSKeyConstants.Labor.ERROR_EMPLOYEE_ID_NOT_SAME);
             return false;
         }

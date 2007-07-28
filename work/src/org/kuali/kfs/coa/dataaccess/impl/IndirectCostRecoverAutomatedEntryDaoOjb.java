@@ -21,6 +21,7 @@ import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryByCriteria;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.kuali.core.dao.ojb.PlatformAwareDaoBaseOjb;
+import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.module.chart.bo.IcrAutomatedEntry;
 import org.kuali.module.chart.dao.IcrAutomatedEntryDao;
 
@@ -31,12 +32,12 @@ public class IcrAutomatedEntryDaoOjb extends PlatformAwareDaoBaseOjb implements 
         LOG.debug("getEntriesBySeries() started");
 
         Criteria crit = new Criteria();
-        crit.addEqualTo("universityFiscalYear", universityFiscalYear);
-        crit.addEqualTo("financialIcrSeriesIdentifier", financialIcrSeriesIdentifier);
-        crit.addEqualTo("balanceTypeCode", balanceTypeCode);
+        crit.addEqualTo(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, universityFiscalYear);
+        crit.addEqualTo(KFSPropertyConstants.FINANCIAL_ICR_SERIES_IDENTIFIER, financialIcrSeriesIdentifier);
+        crit.addEqualTo(KFSPropertyConstants.BALANCE_TYPE_CODE, balanceTypeCode);
 
         QueryByCriteria qbc = QueryFactory.newQuery(IcrAutomatedEntry.class, crit);
-        qbc.addOrderByAscending("awardIndrCostRcvyEntryNbr");
+        qbc.addOrderByAscending(KFSPropertyConstants.AWARD_INDR_COST_RCVY_ENTRY_NBR);
 
         return getPersistenceBrokerTemplate().getCollectionByQuery(qbc);
     }

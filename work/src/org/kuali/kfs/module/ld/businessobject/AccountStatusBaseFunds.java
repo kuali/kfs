@@ -16,25 +16,17 @@
 
 package org.kuali.module.labor.bo;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.kfs.util.SpringServiceLocator;
-import org.kuali.module.labor.LaborConstants;
-import org.kuali.module.labor.dao.LaborDao;
 
+/**
+ * Report business object for Account Status (Base Funds).
+ */
 public class AccountStatusBaseFunds extends LedgerBalance {
-
-    private Integer universityFiscalYear;
-
     private KualiDecimal accountLineAnnualBalanceAmount;
     private KualiDecimal financialBeginningBalanceLineAmount;
     private KualiDecimal contractsGrantsBeginningBalanceAmount;
     private KualiDecimal csfAmount;
     private KualiDecimal baseCSFVarianceAmount;
-
-    private LaborDao laborDao;
 
     /**
      * Default constructor.
@@ -45,7 +37,6 @@ public class AccountStatusBaseFunds extends LedgerBalance {
         this.setFinancialBeginningBalanceLineAmount(KualiDecimal.ZERO);
         this.setBaseCSFVarianceAmount(KualiDecimal.ZERO);
     }
-
 
     /**
      * This method calculates the Salary Foundation Amount and returns it
@@ -94,9 +85,10 @@ public class AccountStatusBaseFunds extends LedgerBalance {
      * @return
      */
     public KualiDecimal getBaseCSFVarianceAmount() {
-        if ((this.accountLineAnnualBalanceAmount != null) && (this.csfAmount != null))
-            
-            baseCSFVarianceAmount = (this.accountLineAnnualBalanceAmount.subtract(this.csfAmount));
+        if (this.accountLineAnnualBalanceAmount != null && this.csfAmount != null) {
+            baseCSFVarianceAmount = this.accountLineAnnualBalanceAmount.subtract(this.csfAmount);
+        }
+        
         return baseCSFVarianceAmount;
     }
 
@@ -127,20 +119,4 @@ public class AccountStatusBaseFunds extends LedgerBalance {
     public void setContractsGrantsBeginningBalanceAmount(KualiDecimal contractsGrantsBeginningBalanceAmount) {
         this.contractsGrantsBeginningBalanceAmount = contractsGrantsBeginningBalanceAmount;
     }
-
-    /**
-     * @see org.kuali.module.gl.bo.Balance#getUniversityFiscalYear()
-     */
-    public Integer getUniversityFiscalYear() {
-        return universityFiscalYear;
-    }
-
-    /**
-     * @see org.kuali.module.gl.bo.Balance#setUniversityFiscalYear(java.lang.Integer)
-     */
-    public void setUniversityFiscalYear(Integer universityFiscalYear) {
-        this.universityFiscalYear = universityFiscalYear;
-    }
-
-
 }

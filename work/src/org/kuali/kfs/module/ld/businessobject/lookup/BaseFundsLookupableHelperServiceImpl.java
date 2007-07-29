@@ -15,26 +15,23 @@
  */
 package org.kuali.module.labor.web.lookupable;
 
+import static org.apache.commons.collections.IteratorUtils.toList;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
 import org.kuali.core.bo.BusinessObject;
 import org.kuali.core.lookup.AbstractLookupableHelperServiceImpl;
 import org.kuali.core.lookup.CollectionIncomplete;
-import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.BeanPropertyComparator;
-import org.kuali.core.util.TransactionalServiceUtils;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.web.ui.Row;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.module.gl.bo.TransientBalanceInquiryAttributes;
-import org.kuali.module.gl.service.BalanceService;
 import org.kuali.module.gl.web.Constant;
-import org.kuali.module.labor.LaborConstants;
 import org.kuali.module.labor.bo.AccountStatusBaseFunds;
 import org.kuali.module.labor.bo.LedgerBalance;
 import org.kuali.module.labor.dao.LaborDao;
@@ -42,8 +39,6 @@ import org.kuali.module.labor.service.LaborInquiryOptionsService;
 import org.kuali.module.labor.service.LaborLedgerBalanceService;
 import org.kuali.module.labor.web.inquirable.BaseFundsInquirableImpl;
 import org.springframework.transaction.annotation.Transactional;
-
-import static org.apache.commons.collections.IteratorUtils.toList;
 
 /**
  * The BaseFundsLookupableHelperServiceImpl class is the front-end for all Base Fund balance inquiry processing.
@@ -69,9 +64,6 @@ public class BaseFundsLookupableHelperServiceImpl extends AbstractLookupableHelp
      */
     @Override
     public List getSearchResults(Map fieldValues) {
-
-        boolean unbounded = false;
-
         setBackLocation((String) fieldValues.get(KFSConstants.BACK_LOCATION));
         setDocFormKey((String) fieldValues.get(KFSConstants.DOC_FORM_KEY));
 

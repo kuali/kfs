@@ -22,7 +22,7 @@ import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.exceptions.UserNotFoundException;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.service.UniversalUserService;
-import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.pdp.PdpConstants;
 import org.kuali.module.pdp.bo.PdpUser;
 import org.kuali.module.pdp.service.PdpSecurityService;
@@ -63,10 +63,6 @@ public abstract class BaseAction extends Action {
     protected PdpSecurityService securityService = null;
 
     public BaseAction() {
-        setUniversalUserService( SpringServiceLocator.getUniversalUserService() );
-        setKualiConfigurationService( SpringServiceLocator.getKualiConfigurationService() );
-        setWebAuthenticationService( SpringServiceLocator.getWebAuthenticationService() );
-        setSecurityService( (PdpSecurityService)SpringServiceLocator.getService("pdpPdpSecurityService") );
     }
 
     /**
@@ -75,6 +71,15 @@ public abstract class BaseAction extends Action {
      */
     public ActionForward execute(ActionMapping mapping,ActionForm form,HttpServletRequest request,HttpServletResponse response) throws Exception {
         LOG.debug("execute() started");
+
+        // For some reason, these don't always get set when they are in the constructor.  We'll get them here
+        // the first time they are needed.
+        if ( userService == null ) {
+            setUniversalUserService( SpringContext.getBean(UniversalUserService.class,"universalUserService") );
+            setKualiConfigurationService( SpringContext.getBean(KualiConfigurationService.class) );
+            setWebAuthenticationService( SpringContext.getBean(WebAuthenticationService.class,"webAuthenticationService") );
+            setSecurityService( SpringContext.getBean(PdpSecurityService.class) );
+        }
 
         ActionForward forward = null;
 

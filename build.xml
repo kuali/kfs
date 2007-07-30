@@ -51,6 +51,8 @@
 		<property name="use.quartz.scheduling" value="true" />
 		<condition property="use.quartz.jdbc.jobstore" value="false"><equals arg1="${is.local.build}" arg2="true" /></condition>
 		<property name="use.quartz.jdbc.jobstore" value="true" />
+		<condition property="Routing.ImmediateExceptionRouting" value="true"><equals arg1="${use.quartz.scheduling}" arg2="false" /></condition>
+		<property name="Routing.ImmediateExceptionRouting" value="false" />
 		<!-- todo this is hosed - need to figure out quartz solution or adapt p1 brte solution -->
 		<condition property="database.file.directory" value="${batch.program.directory}/db"><equals arg1="${is.batch.dist}" arg2="true" /></condition>
 		<path id="database.file.directory.temp" location="${basedir}/${database.directory}" />

@@ -17,8 +17,10 @@ package org.kuali.module.budget.service.impl;
 
 import java.sql.SQLException;
 
+import org.kuali.RiceConstants;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSConstants.*;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.kfs.util.SpringServiceLocator.*;
 import org.kuali.module.chart.service.*;
@@ -34,7 +36,13 @@ import java.lang.reflect.*;
 
 // import these things to handle the configuration
 import org.kuali.core.service.KualiConfigurationService;
+
+import org.kuali.rice.config.spring.*;
+import org.kuali.rice.kns.config.*;
+import org.kuali.rice.resourceloader.*;
+import javax.xml.namespace.QName;
 import org.springframework.beans.factory.BeanFactory;
+import java.lang.Throwable.*;
 //  handle workflow
 import edu.iu.uis.eden.exception.WorkflowException;
 import org.kuali.core.exceptions.UserNotFoundException;
@@ -56,13 +64,27 @@ public class GenesisTest {
       //    this supposedly configures a logger that everybody can fetch and use
       PropertyConfigurator.configure(ResourceBundle.getBundle(
               "configuration").getString(KFSConstants.LOG4J_SETTINGS_FILE_KEY));
-  //  get one for this routine
+     //  get one for this routine
       LOG = org.apache.log4j.Logger.getLogger(GenesisTest.class);
      
+      // does this initialize the spring context?
+     QName dummyQName = null; 
+     SpringResourceLoader springResourceLoader =
+         new SpringResourceLoader(dummyQName, "SpringBeans.xml");
+     try
+     {
+     springResourceLoader.start();
+     }
+     catch (Exception ex)
+     {
+        ex.printStackTrace();      
+     };
   //    this supposedly configures spring/ojb
   //   SpringServiceLocator.initializeDDGeneratorApplicationContext();
-     configService = 
-            SpringServiceLocator.getKualiConfigurationService();
+  //   configService = 
+  //          SpringServiceLocator.getKualiConfigurationService();
+  //  (07/06/07) try using the new look-up bean
+  //   GlobalResourceLoader.getService("initializeDDGeneratorApplicationContext");
      genesisTestService = SpringServiceLocator.getGenesisService();
      dateMakerTestService = 
           SpringServiceLocator.getDateMakerService();
@@ -102,12 +124,12 @@ public class GenesisTest {
       //
       //
       // update current positions
-//        genesisTestService.testPositionBuild(2011);
-      LOG.warn("\nstarting fiscalYearMakers\n");
-      dateMakerTestService.fiscalYearMakers(2013,false);
+        genesisTestService.testPositionBuild(2011);
+// 7/6/07      LOG.warn("\nstarting fiscalYearMakers\n");
+// 7/6/07      dateMakerTestService.fiscalYearMakers(2013,false);
         //dateMakerTestService.fiscalYearMakers(2009,false);
         //dateMakerTestService.testRoutine(); 
-      LOG.warn("\nfiscalYearMakers finished\n");
+// 7/6/07      LOG.warn("\nfiscalYearMakers finished\n");
       // create the proxy BC headers
       /*
  //     genesisTestService.clearDBForGenesis(2009);

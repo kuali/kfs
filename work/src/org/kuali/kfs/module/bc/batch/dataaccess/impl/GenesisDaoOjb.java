@@ -4333,11 +4333,11 @@ public class GenesisDaoOjb extends PlatformAwareDaoBaseOjb
 //                                      annotateDoc.toString(),null);
 //        newBCHdr.getDocumentHeader().getWorkflowDocument().saveDocument(annotateDoc.toString());
 //  this is Eric Westfall's suggestion of 01/18/2007
-        newBCHdr.getDocumentHeader().getWorkflowDocument().logDocumentAction(annotateDoc.toString());
-        newBCHdr.getDocumentHeader().getWorkflowDocument().routeDocument(annotateDoc.append(": passed to route").toString());
+//        newBCHdr.getDocumentHeader().getWorkflowDocument().logDocumentAction(annotateDoc.toString());
+//        newBCHdr.getDocumentHeader().getWorkflowDocument().routeDocument(annotateDoc.append(": passed to route").toString());
 //  end of Eric's suggestion
 //  this complete works, but does not fill in some of the dates        
-//        newBCHdr.getDocumentHeader().getWorkflowDocument().complete(annotateDoc.toString());
+        newBCHdr.getDocumentHeader().getWorkflowDocument().complete(annotateDoc.toString());
 //
 //        
 //        KHUNTLEY does not have superuser privileges

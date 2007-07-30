@@ -43,6 +43,7 @@
                 <th align=right valign=middle width="25%">Budget Document Number:</th>
                 <td colspan="3" align=left valign=middle nowrap >
                   <kul:htmlControlAttribute property="document.routingFormBudgetNumber" attributeEntry="${routingFormDocumentAttributes.routingFormBudgetNumber}" />
+	    		  <kul:lookup boClassName="org.kuali.module.kra.budget.bo.Budget" lookupParameters="document.routingFormBudgetNumber:documentNumber" fieldConversions="documentNumber:document.routingFormBudgetNumber" anchor="${currentTabIndex}" />
                 </td>
               </tr>
               <tr>

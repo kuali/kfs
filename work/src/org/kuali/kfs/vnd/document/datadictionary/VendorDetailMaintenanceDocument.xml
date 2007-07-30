@@ -101,7 +101,7 @@
                     <maintainableField name="vendorRestrictedDate" readOnly="true"/>
                     <maintainableField name="vendorRestrictedPersonIdentifier" />
                     <maintainableField name="vendorRestrictedPerson.personName" readOnly="true"/>
-                    <maintainableField name="vendorRestrictedPerson.personUserIdentifier"/>                   
+                    <maintainableField name="vendorRestrictedPerson.personUserIdentifier" readOnly="true"/>                   
                     <maintainableField name="vendorRestrictedReasonText" />
                     <maintainableField name="vendorRemitName" />
                     <maintainableField name="activeIndicator">

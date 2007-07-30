@@ -476,11 +476,11 @@
             </attributeReference>
             
             <attributeReference name="vendorRestrictedPerson.personUserIdentifier" sourceClassName="org.kuali.core.bo.user.UniversalUser" sourceAttributeName="personUserIdentifier">
-                <label>Restricted Person Identifier</label>
-                <shortLabel>Restricted Person ID</shortLabel>
+                <label>Restricted By</label>
+                <shortLabel>Restricted By</shortLabel>
                 <required>false</required>
                 <control>
-                    <hidden />
+                    <kualiUser universalIdAttributeName="vendorRestrictedPersonIdentifier" userIdAttributeName="vendorRestrictedPerson.personUserIdentifier" personNameAttributeName="vendorRestrictedPerson.personName"/>
                 </control>
                 <summary>Restricted Person Identifier</summary>
                 <description>Restricted Person Identifier</description>
@@ -490,9 +490,6 @@
                 <label>Restricted Person Name</label>
                 <shortLabel>Restricted Person Name</shortLabel>
                 <required>false</required>
-                <control>
-                    <kualiUser universalIdAttributeName="vendorRestrictedPersonIdentifier" userIdAttributeName="vendorRestrictedPerson.personUserIdentifier" personNameAttributeName="vendorRestrictedPerson.personName"/>
-                </control>
                 <summary>
                     <![CDATA[&nbsp;]]>
                 </summary>

@@ -23,7 +23,6 @@ import org.kuali.module.purap.PurapConstants.ItemFields;
 import org.kuali.module.purap.bo.PaymentRequestItem;
 import org.kuali.module.purap.bo.PurchasingApItem;
 import org.kuali.module.purap.document.PurchasingAccountsPayableDocument;
-import org.kuali.module.purap.document.PurchasingDocument;
 
 public class AccountsPayableDocumentRuleBase extends PurchasingAccountsPayableDocumentRuleBase {
     @Override

@@ -42,9 +42,8 @@ public class KualiWorkflowUtilsTest extends KualiTestBase {
         KualiDecimal testAmount = KualiWorkflowUtils.getFinancialDocumentTotalAmount(docContent.getDocument());
         assertEquals(validAmount, testAmount);
         
-        // TODO delyea - investigate why routeContext doesn't work
-//      KualiDecimal testAmount = KualiWorkflowUtils.getFinancialDocumentTotalAmount(docContent.getRouteContext());
-//      assertEquals(validAmount, testAmount);
+        testAmount = KualiWorkflowUtils.getFinancialDocumentTotalAmount(docContent.getRouteContext());
+        assertEquals(validAmount, testAmount);
     }
 
 }

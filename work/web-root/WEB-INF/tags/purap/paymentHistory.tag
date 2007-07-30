@@ -44,7 +44,7 @@
 				<logic:iterate id="preqHistory" name="KualiForm" property="document.relatedPaymentRequestViews" indexId="ctr">
 	        		<tr>
 	        			<td align="left" valign="middle" class="datacell">
-	        				<c:out value="${preqHistory.getPurapDocumentIdentifier}" />
+	        				<c:out value="${preqHistory.purapDocumentIdentifier}" />
 		        		</td>
 		        		<td align="left" valign="middle" class="datacell">
 	        				<c:out value="${preqHistory.invoiceNumber}" />

@@ -402,7 +402,7 @@ public class RoutingFormServiceImpl implements RoutingFormService {
             
             newProposalResearchRisk.setProposalNumber(newProposalNumber);
             newProposalResearchRisk.setResearchRiskTypeCode(routingFormResearchRisk.getResearchRiskTypeCode());
-            newProposalResearchRisk.setActive(routingFormResearchRisk.getResearchRiskStudies() != null && routingFormResearchRisk.getResearchRiskStudies().size() > 0 || routingFormResearchRisk.getResearchRiskDescription() != null);
+            newProposalResearchRisk.setResearchRiskTypeIndicator(routingFormResearchRisk.getResearchRiskStudies() != null && routingFormResearchRisk.getResearchRiskStudies().size() > 0 || routingFormResearchRisk.getResearchRiskDescription() != null);
             newProposalResearchRisk.setResearchRiskType(routingFormResearchRisk.getResearchRiskType());
 
             proposal.getProposalResearchRisks().add(newProposalResearchRisk);

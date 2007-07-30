@@ -24,7 +24,7 @@ public class ProposalResearchRisk extends PersistableBusinessObjectBase {
     
     private String researchRiskTypeCode;
     private Long proposalNumber;
-    private boolean active;
+    private boolean researchRiskTypeIndicator;
     
     private Proposal proposal;
     private ResearchRiskType researchRiskType;
@@ -39,7 +39,7 @@ public class ProposalResearchRisk extends PersistableBusinessObjectBase {
         LinkedHashMap m = new LinkedHashMap();
         m.put("proposalNumber", proposalNumber);
         m.put("researchRiskTypeCode", researchRiskTypeCode);
-        m.put("active", Boolean.toString(active));
+        m.put("active", Boolean.toString(researchRiskTypeIndicator));
         
         return m;
     }
@@ -64,12 +64,12 @@ public class ProposalResearchRisk extends PersistableBusinessObjectBase {
     }
 
 
-    public boolean isActive() {
-        return active;
+    public boolean isResearchRiskTypeIndicator() {
+        return researchRiskTypeIndicator;
     }
 
-    public void setActive(boolean active) {
-        this.active = active;
+    public void setResearchRiskTypeIndicator(boolean researchRiskTypeIndicator) {
+        this.researchRiskTypeIndicator = researchRiskTypeIndicator;
     }
 
     public Long getProposalNumber() {

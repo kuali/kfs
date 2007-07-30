@@ -31,6 +31,31 @@
             </inquiryFields></inquirySection></inquirySections>
         </inquiry>
 
+		<lookup>
+            <title>Budget Lookup</title>
+
+            <instructions>Look up a Budget</instructions>
+
+            <defaultSort attributeName="documentNumber" sortAscending="true" />
+
+            <lookupFields>
+                <lookupField attributeName="documentNumber" required="false" />
+                <lookupField attributeName="budgetName" required="false" />
+                <lookupField attributeName="budgetProjectDirectorUniversalIdentifier" required="false" />
+                <lookupField attributeName="budgetAgency" required="false" />
+            </lookupFields>
+
+            <resultFields>
+                <field attributeName="documentNumber" />
+                <field attributeName="budgetName" />
+                <field attributeName="budgetParentTrackNumber" />
+                <field attributeName="electronicResearchAdministrationGrantNumber" />
+                <field attributeName="budgetTypeCodeText" />
+                <field attributeName="budgetProjectDirectorUniversalIdentifier" />
+                <field attributeName="budgetAgencyNumber" />
+            </resultFields>
+		</lookup>
+
         <attributes>
             <attribute name="documentNumber" forceUppercase="true">
                 <label>Document Header ID</label>
@@ -276,11 +301,18 @@
             </attribute>
 
             <attributeReference name="budgetAgency" sourceClassName="org.kuali.module.cg.bo.Agency" sourceAttributeName="agencyNumber">
-                <label>Agency</label>
+                <label>Budget Agency</label>
                 <shortLabel>Agency</shortLabel>
                 <summary>Budget Agency</summary>
                 <description>Budget Agency...</description>
             </attributeReference>
+
+			<attributeReference name="budgetAgencyNumber" sourceClassName="org.kuali.module.cg.bo.Agency" sourceAttributeName="agencyNumber">
+				<label>Budget Agency Number</label>
+				<shortLabel>Budget Ag Num</shortLabel>
+				<summary>Budget Agency Number</summary>
+				<description>BudgetAgencyNumber...</description>
+			</attributeReference>
 
             <attributeReference name="federalPassThroughAgency" sourceClassName="org.kuali.module.cg.bo.Agency" sourceAttributeName="agencyNumber">
                 <label>Federal Pass Through</label>

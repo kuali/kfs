@@ -104,10 +104,10 @@
                     <inquiryFields>
                         <inquiryCollection name="proposalResearchRisks" businessObjectClass="org.kuali.module.cg.bo.ProposalResearchRisk">
                             <field attributeName="researchRiskType.researchRiskTypeDescription" />
-                            <field attributeName="isActive" />
+                            <field attributeName="active" />
                             <inquirySummaryFields>
                                 <inquirySummaryField attributeName="researchRiskType.researchRiskTypeDescription" />
-                                <inquirySummaryField attributeName="isActive" />
+                                <inquirySummaryField attributeName="active" />
                             </inquirySummaryFields>
                         </inquiryCollection>
                     </inquiryFields>

@@ -68,11 +68,6 @@
 		<loadfile property="security" srcfile="${build.external.config.directory}/${security.file}"><filterchain><expandproperties/></filterchain></loadfile>
 	</target>
 
-	<target name="init-batch-properties">
-		<property name="appserver.home" value="${user.home}/.securedir/java" />
-		<property file="${appserver.home}/build.properties" />
-	</target>
-
 	<target name="init-make-references" depends="init-properties">
 		<path id="compile.source.classpath">
 			<fileset dir="${appserver.lib.dir}" includes="*.jar" />
@@ -127,8 +122,6 @@
 			<fileset dir="${appserver.work.dir}" includes="${ant.project.name}-*/**" />
 		</delete> -->
 	</target>
-
-	<target name="clean-batch" depends="init-batch-properties,clean" />
 
 	<target name="filter-project-log4j" unless="use.p6spy.local" depends="init-properties">
 		<copy file="${build.directory}/${log4j.library.file}" todir="${lib.directory}"/>
@@ -208,7 +201,7 @@
 		<zip destfile="skel.zip" basedir="${static.directory}" />
 	</target>
 
-	<target name="make-batch" depends="clean-batch,dist-local,make-source">
+	<target name="make-batch" depends="clean,dist-local,make-source">
 		<property file="${appserver.home}/brte-script-build.properties" />
 		<copy todir="${batch.script.distribution.directory}" overwrite="true">
 			<fileset dir="${batch.script.directory}" />

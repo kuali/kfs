@@ -275,6 +275,15 @@ public class BalanceInquiryLookupAction extends KualiMultipleValueLookupAction {
         request.setAttribute(GLConstants.LookupableBeanKeys.SEGMENTED_LOOKUP_FLAG_NAME, Boolean.TRUE);
         return super.unselectAll(mapping, form, request, response);
     }
+    
+    /**
+     * @see org.kuali.core.web.struts.action.KualiMultipleValueLookupAction#switchToPage(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     */
+    @Override
+    public ActionForward switchToPage(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        request.setAttribute(GLConstants.LookupableBeanKeys.SEGMENTED_LOOKUP_FLAG_NAME, Boolean.TRUE);
+        return super.switchToPage(mapping, form, request, response);
+    }
 
     /**
      * This method performs the lookup and returns a collection of lookup items.  Also initializes values in the form

@@ -67,8 +67,9 @@ public class AccountBalanceConsolidationDaoJdbc extends
 								+ "ACLN_ENCUM_BAL_AMT, TIMESTAMP, FIN_REPORT_SORT_CD, FIN_OBJ_TYP_CD, SESID ) "
 								+ "SELECT A.UNIV_FISCAL_YR, A.FIN_COA_CD, A.ACCOUNT_NBR, A.SUB_ACCT_NBR, "
 								+ "A.FIN_OBJECT_CD, A.FIN_SUB_OBJ_CD, A.CURR_BDLN_BAL_AMT, A.ACLN_ACTLS_BAL_AMT, A.ACLN_ENCUM_BAL_AMT, A.TIMESTAMP, SUBSTR(fin_report_sort_cd, 1, 1), "
-								+ "t.fin_obj_typ_cd,?"
-								+ " FROM gl_acct_balances_t a, ca_object_code_t o, ca_obj_type_t t WHERE a.univ_fiscal_yr = ?"
+								+ "o.fin_obj_typ_cd,?"
+								+ " FROM gl_acct_balances_t a, ca_object_code_t o, ca_obj_type_t t"
+								+ " WHERE a.univ_fiscal_yr = ?"
 								+ " AND a.fin_coa_cd = ?"
 								+ " AND a.account_nbr = ?"
 								+ " AND a.univ_fiscal_yr = o.univ_fiscal_yr AND a.fin_coa_cd = o.fin_coa_cd "
@@ -188,10 +189,10 @@ public class AccountBalanceConsolidationDaoJdbc extends
 			selectSql = selectSql + "AND (p.univ_fiscal_yr is null OR p.univ_fiscal_yr = ? )";
 			params.add(  universityFiscalYear );
 		} else {
-			selectSql = selectSql + "AND p.univ_fiscal_yr = " + universityFiscalYear;
+			selectSql = selectSql + "AND p.univ_fiscal_yr = ?";
 			params.add(  universityFiscalYear );
 		}
-		getSimpleJdbcTemplate().update( insertSql = selectSql, params.toArray() );
+		getSimpleJdbcTemplate().update( insertSql + selectSql, params.toArray() );
 		
 		if ( isCostShareExcluded ) {
             purgeCostShareEntries( "gl_pending_entry_mt", "person_unvl_id" );
@@ -213,7 +214,7 @@ public class AccountBalanceConsolidationDaoJdbc extends
 			String balanceStatementSql =  
 					"SELECT CURR_BDLN_BAL_AMT,ACLN_ACTLS_BAL_AMT,ACLN_ENCUM_BAL_AMT FROM fp_interim1_cons_mt WHERE sesid = ? AND univ_fiscal_yr = ? " +
 					"AND fin_coa_cd = ? AND account_nbr = ? AND sub_acct_nbr = ? AND fin_object_cd = ? AND fin_sub_obj_cd = ? AND fin_obj_typ_cd = ?";
-
+			
 			String updateBalanceStatementSql = 
 					"UPDATE fp_interim1_cons_mt SET curr_bdln_bal_amt = ?,acln_actls_bal_amt = ?,acln_encum_bal_amt = ? WHERE "
 					+ "sesid = ? AND univ_fiscal_yr = ? AND fin_coa_cd = ? AND account_nbr = ? AND sub_acct_nbr = ? AND fin_object_cd = ? AND fin_sub_obj_cd = ? AND fin_obj_typ_cd = ?";
@@ -225,12 +226,18 @@ public class AccountBalanceConsolidationDaoJdbc extends
 					+ "?,?,?,?,"
 					+ getDbPlatform().getCurTimeFunction()
 					+ ",?,?,? )";
-
+			
 			SqlRowSet pendingEntryRowSet = getJdbcTemplate().queryForRowSet( 
-							  "SELECT b.FIN_OFFST_GNRTN_CD,t.FIN_OBJTYP_DBCR_CD,t.fin_report_sort_cd,e.* FROM gl_pending_entry_mt e,CA_OBJ_TYPE_T t,CA_BALANCE_TYPE_T b "
-							+ "WHERE e.PERSON_UNVL_ID = ?"
-							+ " AND e.FIN_OBJ_TYP_CD = t.FIN_OBJ_TYP_CD AND e.fin_balance_typ_cd = b.fin_balance_typ_cd "
-							+ "ORDER BY e.univ_fiscal_yr,e.account_nbr,e.sub_acct_nbr,e.fin_object_cd,e.fin_sub_obj_cd,e.fin_obj_typ_cd", new Object[] { Thread.currentThread().getId() } );
+                    "SELECT b.FIN_OFFST_GNRTN_CD,t.FIN_OBJTYP_DBCR_CD,t.fin_report_sort_cd,e.UNIV_FISCAL_YR, e.FIN_COA_CD, e.ACCOUNT_NBR, e.SUB_ACCT_NBR, e.FIN_OBJECT_CD, e.FIN_SUB_OBJ_CD, e.FIN_BALANCE_TYP_CD, e.TRN_DEBIT_CRDT_CD, e.TRN_LDGR_ENTR_AMT, oc.FIN_OBJ_TYP_CD " +
+                    "FROM gl_pending_entry_mt e,CA_OBJ_TYPE_T t,CA_BALANCE_TYPE_T b, ca_object_code_t oc " +
+                    "WHERE e.PERSON_UNVL_ID = ? " +
+                    "AND e.fin_coa_cd = oc.fin_coa_cd " +
+                    "AND e.fin_object_cd = oc.fin_object_cd " +
+                    "AND e.univ_fiscal_yr = oc.univ_fiscal_yr " +                    
+                    "AND oc.FIN_OBJ_TYP_CD = t.FIN_OBJ_TYP_CD " +
+                    "AND e.fin_balance_typ_cd = b.fin_balance_typ_cd " +
+                    "ORDER BY e.univ_fiscal_yr,e.account_nbr,e.sub_acct_nbr,e.fin_object_cd,e.fin_sub_obj_cd,e.fin_obj_typ_cd", new Object[] { Thread.currentThread().getId() } );
+			
 			int updateCount = 0;
 			int insertCount = 0;
 
@@ -241,7 +248,7 @@ public class AccountBalanceConsolidationDaoJdbc extends
 					sortCode = sortCode.substring( 0, 1 );
 				}
 				Map<String,Object> balance = null;
-				try {
+				try {				    
 					balance = getSimpleJdbcTemplate().queryForMap( balanceStatementSql, 
 							Thread.currentThread().getId(), 
 							pendingEntryRowSet.getInt( GLConstants.ColumnNames.UNIVERSITY_FISCAL_YEAR ),
@@ -351,7 +358,7 @@ public class AccountBalanceConsolidationDaoJdbc extends
 									.negate();
 						}
 					}
-
+				
 					// No balance exists, so we need to insert one
 					getSimpleJdbcTemplate().update( insertBalanceStatementSql, 
 							pendingEntryRowSet.getInt( GLConstants.ColumnNames.UNIVERSITY_FISCAL_YEAR ),
@@ -360,7 +367,6 @@ public class AccountBalanceConsolidationDaoJdbc extends
 							pendingEntryRowSet.getString( GLConstants.ColumnNames.SUB_ACCOUNT_NUMBER ),
 							pendingEntryRowSet.getString( GLConstants.ColumnNames.OBJECT_CODE ),
 							pendingEntryRowSet.getString( GLConstants.ColumnNames.SUB_OBJECT_CODE ),
-							pendingEntryRowSet.getString( GLConstants.ColumnNames.OBJECT_TYPE_CODE ),
 							budget,
 							actual,
 							encumb,

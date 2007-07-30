@@ -1003,6 +1003,7 @@
 	</bean>
 
 	<bean id="glAccountBalanceConsolidationDao" parent="glAccountBalanceDaoBase" class="org.kuali.module.gl.dao.jdbc.AccountBalanceConsolidationDaoJdbc">
+		<property name="dbPlatform" ref="dbPlatformDao" />
 	</bean>
 
 	<bean id="glAccountBalanceLevelDao" parent="glAccountBalanceDaoBase" class="org.kuali.module.gl.dao.jdbc.AccountBalanceLevelDaoJdbc">

@@ -386,6 +386,7 @@ public class BudgetCostShareFormHelper {
                             for(UserAppointmentTaskPeriod userAppointmentTaskPeriod : userAppointmentTask.getUserAppointmentTaskPeriods()) {
                                 int periodIndex = budgetPeriodService.getPeriodIndex(userAppointmentTaskPeriod.getBudgetPeriodSequenceNumber(), periods);
                                 KualiInteger institutionDirectPersonnelAmount = userAppointmentTaskPeriod.getInstitutionCostShareFringeBenefitTotalAmount().add(userAppointmentTaskPeriod.getInstitutionCostShareRequestTotalAmount());
+                                institutionDirectPersonnelAmount = institutionDirectPersonnelAmount.add(userAppointmentTaskPeriod.getInstitutionHealthInsuranceAmount()).add(userAppointmentTaskPeriod.getInstitutionSalaryAmount()).add(userAppointmentTaskPeriod.getInstitutionRequestedFeesAmount());
                                 
                                 // Take the value and put it into i (location of the chart / org) and j (period location).
                                 institutionDirectPersonnel[i][periodIndex] = institutionDirectPersonnel[i][periodIndex].add(institutionDirectPersonnelAmount);

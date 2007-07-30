@@ -119,7 +119,7 @@ public class BudgetPersonnelRule {
 
             GlobalVariables.getErrorMap().addToErrorPath("budget.personFromList[" + personnelListIndex + "]");
 
-            if (!StringUtils.isNotBlank(budgetUser.getFiscalCampusCode()) && !StringUtils.isNotBlank(budgetUser.getPrimaryDepartmentCode())) {
+            if (StringUtils.isBlank(budgetUser.getFiscalCampusCode()) || StringUtils.isBlank(budgetUser.getPrimaryDepartmentCode())) {
                 GlobalVariables.getErrorMap().putError("chartOrg", KraKeyConstants.ERROR_MISSING, new String[] { "Chart/Org" });
                 valid = false;
             }

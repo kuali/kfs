@@ -169,7 +169,6 @@ public class GLConstants {
     }
     
     public static class GlSummaryReport {
-        static final public String DATE_FORMAT = "DATE_FORMAT";
         static final public String CURRENT_YEAR_LOWER = "CURRENT_YEAR_LOWER";
         static final public String CURRENT_YEAR_UPPER = "CURRENT_YEAR_UPPER";
         static final public String CURRENT_AND_LAST_YEAR = "CURRENT_AND_LAST_YEAR";

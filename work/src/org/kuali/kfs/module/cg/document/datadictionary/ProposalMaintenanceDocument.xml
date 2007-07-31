@@ -159,7 +159,7 @@
                 <maintainableItems>
                     <maintainableCollection name="proposalResearchRisks" businessObjectClass="org.kuali.module.cg.bo.ProposalResearchRisk" includeAddLine="false">
                         <maintainableField name="researchRiskType.researchRiskTypeDescription" readOnly="true" />
-                        <maintainableField name="active" required="false" />
+                        <maintainableField name="researchRiskTypeIndicator" required="false" />
                         <!-- hidden fields -->
                         <maintainableField name="newCollectionRecord" />
                         <maintainableField name="versionNumber" />

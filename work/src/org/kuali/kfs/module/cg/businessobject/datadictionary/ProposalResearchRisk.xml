@@ -29,7 +29,7 @@
                 </control>
             </attributeReference>
             <attributeReference name="proposalNumber" sourceClassName="org.kuali.module.cg.bo.Proposal" sourceAttributeName="proposalNumber" />
-            <attributeReference name="active" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericBoolean" >
+            <attributeReference name="researchRiskTypeIndicator" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericBoolean" >
                 <label>Required</label>
                 <shortLabel>Required</shortLabel>
             </attributeReference>

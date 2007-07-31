@@ -39,7 +39,7 @@ public class ProposalResearchRisk extends PersistableBusinessObjectBase {
         LinkedHashMap m = new LinkedHashMap();
         m.put("proposalNumber", proposalNumber);
         m.put("researchRiskTypeCode", researchRiskTypeCode);
-        m.put("active", Boolean.toString(researchRiskTypeIndicator));
+        m.put("researchRiskTypeIndicator", Boolean.toString(researchRiskTypeIndicator));
         
         return m;
     }

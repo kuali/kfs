@@ -49,13 +49,15 @@ public abstract class PurApItemBase extends PersistableBusinessObjectBase implem
     private KualiDecimal extendedPriceForAccountSummary;
     
     private List<PurApAccountingLine> sourceAccountingLines;
+    //TODO: add transient back if that doesn't cause  a problem
+    private transient List<PurApAccountingLine> baselineSourceAccountingLines;
     private transient PurApAccountingLine newSourceLine;
+    
     
 	private CapitalAssetTransactionType capitalAssetTransactionType;
 	private ItemType itemType;
     private Integer purapDocumentIdentifier;
     private KualiDecimal itemQuantity;
-    
 
 	/**
 	 * Default constructor.
@@ -65,6 +67,7 @@ public abstract class PurApItemBase extends PersistableBusinessObjectBase implem
 //        itemTypeCode = "ITEM";
 //        this.refreshNonUpdateableReferences();
         sourceAccountingLines = new TypedArrayList(getAccountingLineClass());
+        baselineSourceAccountingLines = new TypedArrayList(getAccountingLineClass());
         resetAccount();
 	}
 
@@ -454,6 +457,22 @@ public abstract class PurApItemBase extends PersistableBusinessObjectBase implem
     }
 
     /**
+     * Gets the baselineSourceLines attribute. 
+     * @return Returns the baselineSourceLines.
+     */
+    public List<PurApAccountingLine> getBaselineSourceAccountingLines() {
+        return baselineSourceAccountingLines;
+    }
+
+    /**
+     * Sets the baselineSourceLines attribute value.
+     * @param baselineSourceLines The baselineSourceLines to set.
+     */
+    public void setBaselineSourceAccountingLines(List<PurApAccountingLine> baselineSourceLines) {
+        this.baselineSourceAccountingLines = baselineSourceLines;
+    }
+
+    /**
      * This implementation is coupled tightly with some underlying issues that the Struts PojoProcessor plugin has with how objects
      * get instantiated within lists. The first three lines are required otherwise when the PojoProcessor tries to automatically
      * inject values into the list, it will get an index out of bounds error if the instance at an index is being called and prior
@@ -472,6 +491,10 @@ public abstract class PurApItemBase extends PersistableBusinessObjectBase implem
         return (PurApAccountingLine) getSourceAccountingLines().get(index);
     }
 
+    public PurApAccountingLine getBaselineSourceAccountingLine(int index) {
+        return (PurApAccountingLine) getBaselineSourceAccountingLines().get(index);
+    }
+    
     /**
      * This method...
      * @param newAccount
@@ -504,7 +527,9 @@ public abstract class PurApItemBase extends PersistableBusinessObjectBase implem
      */
     public void resetAccount() {
         //add a blank accounting line
-        setNewSourceLine(getNewAccount());
+        PurApAccountingLine purApAccountingLine = getNewAccount();
+        setNewSourceLine(purApAccountingLine);
+        setBaselineSourceAccountingLines(new TypedArrayList(getAccountingLineClass()));
     }
     
     /**
@@ -576,8 +601,7 @@ public abstract class PurApItemBase extends PersistableBusinessObjectBase implem
     
     public KualiDecimal getExtendedPriceForAccountSummary() {
         return extendedPriceForAccountSummary;
-    }
-
+}
     public void setExtendedPriceForAccountSummary(KualiDecimal extendedPriceForAccountSummary) {
         this.extendedPriceForAccountSummary = extendedPriceForAccountSummary;
     }

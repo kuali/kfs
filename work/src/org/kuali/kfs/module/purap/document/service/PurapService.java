@@ -103,4 +103,12 @@ public interface PurapService {
      * @return List<Integer>
      */
     public List<Integer> getAllowedFiscalYears();
+    
+    /**
+     * 
+     * This method returns true if full entry mode has ended for this Payment Request
+     * @param preqDocument
+     * @return a boolean
+     */
+    public boolean isFullDocumentEntryCompleted(PurchasingAccountsPayableDocument purapDocument);
 }

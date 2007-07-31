@@ -28,6 +28,7 @@ import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.bo.AccountingLineBase;
 import org.kuali.kfs.bo.SourceAccountingLine;
+import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.purap.bo.PurApAccountingLine;
 import org.kuali.module.purap.bo.PurchasingApItem;
 import org.kuali.module.purap.document.PurchasingAccountsPayableDocument;
@@ -518,7 +519,11 @@ public class PurapAccountingServiceImpl implements PurapAccountingService {
      * @param document the document
      */
     public void updateAccountAmounts(PurchasingAccountsPayableDocument document) {
-        //TODO: Chris - make sure this is never called after payment request goes to fiscal!!!!
+        //TODO: Chris - this should probably be injected instead of using the locator I should update percent (method call)
+        //don't update if past the AP review level
+        if(SpringServiceLocator.getPurapService().isFullDocumentEntryCompleted(document)){
+            return;
+        }
         for (PurchasingApItem item : document.getItems()) {
             if ( (item.getExtendedPrice()!=null) && 
                  KualiDecimal.ZERO.compareTo(item.getExtendedPrice()) != 0 ) {

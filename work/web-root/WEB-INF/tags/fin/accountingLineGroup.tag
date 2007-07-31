@@ -277,7 +277,16 @@ It's followed by 0 or more rows for the accounting lines that have already been 
     </c:if>
 
 </c:if>
+
 <logic:iterate indexId="ctr" name="KualiForm" property="${accountPrefix}${sourceOrTarget}AccountingLines" id="currentLine">
+    
+    <c:if test="${empty newAccountPrefix}">
+		<c:set var="baselineLine" value="${baselineSourceOrTarget}AccountingLine[${ctr}]" />
+	</c:if>
+    <c:if test="${not empty newAccountPrefix}">
+		<c:set var="baselineLine" value="${newAccountPrefix}${baselineSourceOrTarget}AccountingLine[${ctr}]" />
+	</c:if>
+	<!--  baselineLine = ${baselineLine} -->
     <%-- readonlyness of accountingLines depends on editingMode and user's account-list --%>
     <c:choose>
         <c:when test="${!empty editingMode['fullEntry']}">
@@ -290,16 +299,14 @@ It's followed by 0 or more rows for the accounting lines that have already been 
             <%-- using accountKey of baseline accountingLine, so that when the user changes to an account they can't access,
                  they'll be allowed to revert or update the line to something to which they do have access --%>
             <c:set var="baselineAccountKey">
-                <bean:write name="KualiForm" property="${baselineSourceOrTarget}AccountingLine[${ctr}].accountKey" />
+                <bean:write name="KualiForm" property="${baselineLine}.accountKey" />
             </c:set>
+	        <!-- baselineAccountKey = ${baselineAccountKey} ; -->
 
             <c:set var="accountIsEditable" value="${!empty editableAccounts[baselineAccountKey]}" />
         </c:otherwise>
     </c:choose>
-    <%-- TODO: fix for now accountPrefix does not support baseline --%>
-    <c:if test="${empty newAccountPrefix}">
-		<c:set var="baselineLine" value="${baselineSourceOrTarget}AccountingLine[${ctr}]" />
-	</c:if>
+	<!-- Editable = ${accountIsEditable} ; -->
     <fin:accountingLineRow
         accountingLine="${accountPrefix}${sourceOrTarget}AccountingLine[${ctr}]"
         baselineAccountingLine="${baselineLine}"

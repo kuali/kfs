@@ -501,6 +501,36 @@ public class PurapConstants extends JstlConstants {
         public static String AWAITING_ORG_REVIEW = "ACHA";   // Waiting for Chart/Org approval
         public static String AWAITING_TAX_REVIEW = "ATAX";   // Waiting for Vendor Tax approval
 
+        //keep these in the order of potential routing
+        //Note it doesn't make much sense to compare auto_approved and dept_approved but this is 
+        //easier than two enums plus this should primarily be used for user enterred areas
+        public enum STATUS_ORDER{
+            INITIATE,
+            IN_PROCESS,
+            CANCELLED_IN_PROCESS,
+            CANCELLED_PRIOR_TO_AP_APPROVAL,
+            CANCELLED_POST_AP_APPROVE,
+            AWAITING_ACCOUNTS_PAYABLE_REVIEW,
+            AWAITING_SUB_ACCT_MGR_REVIEW,
+            AWAITING_FISCAL_REVIEW,
+            AWAITING_ORG_REVIEW,
+            AWAITING_TAX_REVIEW,
+            DEPARTMENT_APPROVED,
+            AUTO_APPROVED
+        }
+
+        public static String LAST_FULL_ENTRY_STATUS = AWAITING_ACCOUNTS_PAYABLE_REVIEW;
+
+        //TODO: remove this and use above enum and status
+        public static String[] FULL_ENTRY_STATUSES = {
+            INITIATE,
+            IN_PROCESS,
+            CANCELLED_IN_PROCESS,
+            CANCELLED_PRIOR_TO_AP_APPROVAL,
+            CANCELLED_POST_AP_APPROVE,
+            AWAITING_ACCOUNTS_PAYABLE_REVIEW
+        };
+        
         public static String[] PREQ_STATUSES_FOR_AUTO_APPROVE = {
             AWAITING_SUB_ACCT_MGR_REVIEW,
             AWAITING_FISCAL_REVIEW,
@@ -510,7 +540,7 @@ public class PurapConstants extends JstlConstants {
         public static String[] STATUSES_ALLOWED_FOR_EXTRACTION = {
             AUTO_APPROVED,
             DEPARTMENT_APPROVED
-            };
+            };        
 
         public static Set CANCELLED_STATUSES = new HashSet();
         public static Set STATUSES_DISALLOWING_HOLD = new HashSet();

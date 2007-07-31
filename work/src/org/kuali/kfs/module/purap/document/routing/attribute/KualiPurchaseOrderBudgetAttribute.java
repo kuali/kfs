@@ -158,8 +158,6 @@ public class KualiPurchaseOrderBudgetAttribute implements WorkflowAttribute {
                 } else {
                     documentHeaderId = docContent.getRouteContext().getDocument().getRouteHeaderId().toString();
                     PurchaseOrderDocument po = (PurchaseOrderDocument) SpringServiceLocator.getDocumentService().getByDocumentHeaderId(documentHeaderId);
-                    DocumentTypeService docTypeService = SpringServiceLocator.getDocumentTypeService();
-                    String financialDocumentTypeCode = docTypeService.getDocumentTypeCodeByClass(po.getClass());
                     // get list of sufficientfundItems
                     List<SufficientFundsItem> fundsItems = SpringServiceLocator.getSufficientFundsService().checkSufficientFunds(po.getPendingLedgerEntriesForSufficientFundsChecking());
                     for (SufficientFundsItem fundsItem : fundsItems) {

@@ -60,7 +60,7 @@
                         <defaultValue>true</defaultValue>
                     </maintainableField>
                     <maintainableField name="subFundGroupTypeCode" required="true" />
-                    <maintainableField name="accountRestrictedStatusCode" required="true" />
+                    <maintainableField name="accountRestrictedStatusCode" required="false" />
                     <maintainableField name="financialReportingSortCode" required="true" />
                     <maintainableField name="subFundGroupWagesIndicator"  />
                     <maintainableField name="fundGroupBudgetAdjustmentRestrictionLevelCode" required="true" />

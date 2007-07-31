@@ -426,7 +426,7 @@
 							boPackageName="org.kuali.kfs.bo"
 							conversionField="financialSystemOriginationCode"
 							detailFunction="loadOriginationInfo"
-							detailField="referenceOrigin.financialSystemServerName"
+							detailField="referenceOrigin.financialSystemDatabaseName"
 							accountingLine="${accountingLine}"
 							baselineAccountingLine="${baselineAccountingLine}"
 							attributes="${accountingLineAttributes}"

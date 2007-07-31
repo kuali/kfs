@@ -320,7 +320,7 @@ public class PurapConstants extends JstlConstants {
     public static final String PAYMENT_HISTORY_TAB_ERRORS = "";
 
     // PO/Quotes Tab Constants
-    public static final String QUOTE_TAB_ERRORS = "document.quote*,quote*";
+    public static final String QUOTE_TAB_ERRORS = "document.quote*,quote*,purchaseOrderVendorQuotes*";
 
     // Assign Contract Manager
     public static final String ASSIGN_CONTRACT_MANAGER_DEFAULT_DESC = "Contract Manager Assigned";

@@ -30,16 +30,19 @@
 	<table cellpadding="0" cellspacing="0" class="datatable"
 		summary="Items Section">
 		
-		<!-- if status is OPEN or vendor list is not empty -->
-		<c:if test="${KualiForm.document.statusCode eq 'QUOT' || isPurchaseOrderAwarded}">
+		<c:set var="quoteOpen" value="false" />
+
+		<!-- if status is OPEN or QUOT or vendor list is not empty -->
+		<c:if test="${KualiForm.document.statusCode eq 'QUOT' || KualiForm.document.statusCode eq 'OPEN' || isPurchaseOrderAwarded}">
+		<c:set var="quoteOpen" value="true" />
 		<tr>
 			<td colspan="5" class="subhead">
 				<span class="subhead-left">General Information</span>
 				<span class="subhead-right">
 					<html:image
-	property="methodToCall.loadQuoteList"
+	property="methodToCall.showPrintPoQouteList"
 	src="${ConfigProperties.externalizable.images.url}tinybutton-prntquolist.gif"
-	alt="load quote list" title="load quote list"
+	alt="print quote list" title="print quote list"
 	styleClass="tinybutton" />
 				</span>
 			</td>
@@ -221,7 +224,16 @@
 		</c:if>
 
 		</c:if>
-		<c:if test="${not (KualiForm.document.statusCode eq 'QUOT') && not isPurchaseOrderAwarded}">
+
+		<c:if test="${KualiForm.document.showPoPrintQuoteIndicator}">
+		<tr>
+			<td colspan="5">
+		  		<iframe name="printIFrame" id="printIFrame" src="purapPurchaseOrder.do?methodToCall=printPoQuote&docId=${KualiForm.document.documentHeader.documentNumber}&quoteVendorId=${KualiForm.document.selectedQuoteVendorId}" height="0" width="100" hspace='0' vspace='0' frameborder='0' title='PO Transmit - Print'></iframe>
+			</td>
+		</tr>
+		</c:if>
+
+		<c:if test="${not quoteOpen}">
 		<tr>
 			<td colspan="5" class="subhead">
 				<span class="subhead-right">

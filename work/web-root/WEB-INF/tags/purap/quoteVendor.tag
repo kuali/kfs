@@ -112,7 +112,7 @@
                 <kul:htmlControlAttribute attributeEntry="${vendorQuoteAttributes.purchaseOrderQuoteTransmitTypeCode}" property="document.purchaseOrderVendorQuote[${ctr}].purchaseOrderQuoteTransmitTypeCode" readOnly="${isPurchaseOrderAwarded}" />
             	<c:if test="${!isPurchaseOrderAwarded}">
 					<html:image
-	property="methodToCall.transmitPurchaseOrderQuote"
+	property="methodToCall.transmitPurchaseOrderQuote.line${ctr}"
 	src="${ConfigProperties.externalizable.images.url}tinybutton-transmit.gif"
 	alt="transmit quote" title="transmit quote" 
 	styleClass="tinybutton" />

@@ -324,16 +324,6 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
             }
             result = false;
         }
-        if (result) {
-            // logic can stay here because PO has a pending status for this transmission type
-            Date currentSqlDate = dateTimeService.getCurrentSqlDate();
-            po.setPurchaseOrderFirstTransmissionDate(currentSqlDate);
-            po.setPurchaseOrderInitialOpenDate(currentSqlDate);
-            po.setPurchaseOrderLastTransmitDate(currentSqlDate);
-            po.setPurchaseOrderCurrentIndicator(true);
-            purapService.updateStatusAndStatusHistory(po, PurchaseOrderStatuses.OPEN);
-            saveDocumentWithoutValidation(po);
-        }
         return result;
     }
 

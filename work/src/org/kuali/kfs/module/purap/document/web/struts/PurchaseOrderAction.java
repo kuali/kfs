@@ -43,6 +43,7 @@ import org.kuali.module.purap.PurapKeyConstants;
 import org.kuali.module.purap.PurapPropertyConstants;
 import org.kuali.module.purap.PurapConstants.PODocumentsStrings;
 import org.kuali.module.purap.PurapConstants.PurchaseOrderDocTypes;
+import org.kuali.module.purap.PurapConstants.PurchaseOrderStatuses;
 import org.kuali.module.purap.bo.PurchaseOrderItem;
 import org.kuali.module.purap.bo.PurchaseOrderQuoteList;
 import org.kuali.module.purap.bo.PurchaseOrderQuoteListVendor;
@@ -50,6 +51,7 @@ import org.kuali.module.purap.bo.PurchaseOrderVendorQuote;
 import org.kuali.module.purap.bo.PurchaseOrderVendorStipulation;
 import org.kuali.module.purap.document.PurchaseOrderDocument;
 import org.kuali.module.purap.question.SingleConfirmationQuestion;
+import org.kuali.module.purap.service.PurchaseOrderService;
 import org.kuali.module.purap.web.struts.form.PurchaseOrderForm;
 import org.kuali.module.purap.web.struts.form.PurchasingFormBase;
 import org.kuali.module.vendor.VendorConstants;
@@ -363,6 +365,7 @@ public class PurchaseOrderAction extends PurchasingActionBase {
         return askQuestionsAndRoute(mapping, form, request, response, PODocumentsStrings.VOID_QUESTION, PODocumentsStrings.VOID_CONFIRM, PurchaseOrderDocTypes.PURCHASE_ORDER_VOID_DOCUMENT, PODocumentsStrings.VOID_NOTE_PREFIX, PurapKeyConstants.PURCHASE_ORDER_MESSAGE_VOID_DOCUMENT, operation);
     }
 
+
     /**
      * This method is executed when the user click on the "print" button on a Purchase Order Print Document page. It will display
      * the PDF document on the browser window and set a few fields (transmission dates and statuses) of the original Purchase Order
@@ -376,8 +379,8 @@ public class PurchaseOrderAction extends PurchasingActionBase {
      * @throws Exception
      */
     public ActionForward printPo(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        KualiDocumentFormBase kualiDocumentFormBase = (KualiDocumentFormBase) form;
-        PurchaseOrderDocument po = (PurchaseOrderDocument) kualiDocumentFormBase.getDocument();
+        String poDocId = request.getParameter("docId");
+        PurchaseOrderDocument po = (PurchaseOrderDocument) SpringServiceLocator.getDocumentService().getByDocumentHeaderId(poDocId);
         ByteArrayOutputStream baosPDF = new ByteArrayOutputStream();
         try {
             StringBuffer sbFilename = new StringBuffer();
@@ -389,13 +392,117 @@ public class PurchaseOrderAction extends PurchasingActionBase {
 
             // for testing Generate PO PDF, set the APO to true
             po.setPurchaseOrderAutomaticIndicator(true);
-            boolean success = SpringServiceLocator.getPurchaseOrderService().printPurchaseOrderPDF(po, PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_PRINT_DOCUMENT, kualiDocumentFormBase.getAnnotation(), combineAdHocRecipients(kualiDocumentFormBase), baosPDF);
+            boolean success = SpringServiceLocator.getPurchaseOrderService().printPurchaseOrderPDF(po, PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_PRINT_DOCUMENT, null, null, baosPDF);
 
             if (!success) {
                 if (baosPDF != null) {
                     baosPDF.reset();
                 }
-                return mapping.findForward(KFSConstants.MAPPING_ERROR);
+                return mapping.findForward(KFSConstants.MAPPING_PORTAL);
+            }
+            response.setHeader("Cache-Control", "max-age=30");
+            response.setContentType("application/pdf");
+            StringBuffer sbContentDispValue = new StringBuffer();
+            //sbContentDispValue.append("inline");
+            sbContentDispValue.append("attachment");
+            sbContentDispValue.append("; filename=");
+            sbContentDispValue.append(sbFilename);
+
+            response.setHeader("Content-disposition", sbContentDispValue.toString());
+
+            response.setContentLength(baosPDF.size());
+
+            ServletOutputStream sos;
+
+            sos = response.getOutputStream();
+
+            baosPDF.writeTo(sos);
+
+            sos.flush();
+
+        }
+        finally {
+            if (baosPDF != null) {
+                baosPDF.reset();
+            }
+        }
+        return null;
+    }
+
+    public ActionForward printPoQuote(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        String poDocId = request.getParameter("docId");
+        PurchaseOrderDocument po = (PurchaseOrderDocument) SpringServiceLocator.getDocumentService().getByDocumentHeaderId(poDocId);
+        Integer poSelectedVendorId = new Integer(request.getParameter("quoteVendorId"));
+        PurchaseOrderVendorQuote poVendorQuote = po.getPurchaseOrderVendorQuotes().get(poSelectedVendorId);
+        ByteArrayOutputStream baosPDF = new ByteArrayOutputStream();
+        try {
+            StringBuffer sbFilename = new StringBuffer();
+            sbFilename.append("PURAP_PO_QUOTE_");
+            sbFilename.append(po.getPurapDocumentIdentifier());
+            sbFilename.append("_");
+            sbFilename.append(System.currentTimeMillis());
+            sbFilename.append(".pdf");
+
+            // for testing Generate PO PDF, set the APO to true
+            po.setPurchaseOrderAutomaticIndicator(true);
+            boolean success = SpringServiceLocator.getPurchaseOrderService().printPurchaseOrderQuotePDF(po, poVendorQuote, baosPDF);
+
+            if (!success) {
+                if (baosPDF != null) {
+                    baosPDF.reset();
+                }
+                return null;
+            }
+            response.setHeader("Cache-Control", "max-age=30");
+            response.setContentType("application/pdf");
+            StringBuffer sbContentDispValue = new StringBuffer();
+            //sbContentDispValue.append("inline");
+            sbContentDispValue.append("attachment");
+            sbContentDispValue.append("; filename=");
+            sbContentDispValue.append(sbFilename);
+
+            response.setHeader("Content-disposition", sbContentDispValue.toString());
+
+            response.setContentLength(baosPDF.size());
+
+            ServletOutputStream sos;
+
+            sos = response.getOutputStream();
+
+            baosPDF.writeTo(sos);
+
+            sos.flush();
+
+        }
+        finally {
+            if (baosPDF != null) {
+                baosPDF.reset();
+            }
+        }
+        return null;
+    }
+
+    public ActionForward printPoQuoteList(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        String poDocId = request.getParameter("docId");
+        PurchaseOrderDocument po = (PurchaseOrderDocument) SpringServiceLocator.getDocumentService().getByDocumentHeaderId(poDocId);
+        ByteArrayOutputStream baosPDF = new ByteArrayOutputStream();
+        try {
+            StringBuffer sbFilename = new StringBuffer();
+            sbFilename.append("PURAP_PO_QUOTE_LIST_");
+            sbFilename.append(po.getPurapDocumentIdentifier());
+            sbFilename.append("_");
+            sbFilename.append(System.currentTimeMillis());
+            sbFilename.append(".pdf");
+
+            // for testing Generate PO PDF, set the APO to true
+            po.setPurchaseOrderAutomaticIndicator(true);
+            boolean success = SpringServiceLocator.getPurchaseOrderService().printPurchaseOrderPDF(po, PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_PRINT_DOCUMENT, null, null, baosPDF);
+
+            if (!success) {
+                if (baosPDF != null) {
+                    baosPDF.reset();
+                }
+                return mapping.findForward(KFSConstants.MAPPING_PORTAL);
             }
             response.setHeader("Cache-Control", "max-age=30");
             response.setContentType("application/pdf");
@@ -429,52 +536,24 @@ public class PurchaseOrderAction extends PurchasingActionBase {
     public ActionForward transmitPurchaseOrderQuote(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         KualiDocumentFormBase kualiDocumentFormBase = (KualiDocumentFormBase) form;
         PurchaseOrderDocument po = (PurchaseOrderDocument) kualiDocumentFormBase.getDocument();
-        ByteArrayOutputStream baosPDF = new ByteArrayOutputStream();
-        try {
-            String environment = "dev";
-            StringBuffer sbFilename = new StringBuffer();
-            sbFilename.append("PURAP_PO_QUOTE_VENDOR_");
-            sbFilename.append(po.getPurapDocumentIdentifier());
-            sbFilename.append("_");
-            sbFilename.append(System.currentTimeMillis());
-            sbFilename.append(".pdf");
-
-            // for testing Generate PO PDF, set the APO to true
-            po.setPurchaseOrderAutomaticIndicator(true);
-            boolean success = SpringServiceLocator.getPurchaseOrderService().printPurchaseOrderQuotePDF(po, null, baosPDF);
-
-            if (!success) {
-                if (baosPDF != null) {
-                    baosPDF.reset();
-                }
-                return mapping.findForward(KFSConstants.MAPPING_ERROR);
-            }
-            response.setHeader("Cache-Control", "max-age=30");
-            response.setContentType("application/pdf");
-            StringBuffer sbContentDispValue = new StringBuffer();
-            sbContentDispValue.append("inline");
-            sbContentDispValue.append("; filename=");
-            sbContentDispValue.append(sbFilename);
-
-            response.setHeader("Content-disposition", sbContentDispValue.toString());
-
-            response.setContentLength(baosPDF.size());
-
-            ServletOutputStream sos;
-
-            sos = response.getOutputStream();
-
-            baosPDF.writeTo(sos);
-
-            sos.flush();
-
+        PurchaseOrderVendorQuote vendorQuote = (PurchaseOrderVendorQuote)po.getPurchaseOrderVendorQuotes().get(getSelectedLine(request));
+        if (PurapConstants.QuoteTransmitTypes.PRINT.equals(vendorQuote.getPurchaseOrderQuoteTransmitTypeCode())) {
+            po.setShowPoPrintQuoteIndicator(true);
+            po.setSelectedQuoteVendorId(getSelectedLine(request));
+            Date currentSqlDate = SpringServiceLocator.getDateTimeService().getCurrentSqlDate();
+            vendorQuote.setPurchaseOrderQuoteTransmitDate(currentSqlDate);
+            po.setPurchaseOrderFirstTransmissionDate(currentSqlDate);
+            po.setPurchaseOrderInitialOpenDate(currentSqlDate);
+            po.setPurchaseOrderLastTransmitDate(currentSqlDate);
+            po.setPurchaseOrderCurrentIndicator(true);
+            SpringServiceLocator.getPurapService().updateStatusAndStatusHistory(po, PurchaseOrderStatuses.OPEN);
+            SpringServiceLocator.getPurchaseOrderService().saveDocumentWithoutValidation(po);
         }
-        finally {
-            if (baosPDF != null) {
-                baosPDF.reset();
-            }
+        else {
+            po.setShowPoPrintQuoteIndicator(false);
+            GlobalVariables.getErrorMap().putError(PurapPropertyConstants.VENDOR_QUOTES, PurapKeyConstants.ERROR_PURCHASE_ORDER_QUOTE_TRANSMIT_TYPE_NOT_SELECTED);
         }
-        return null;
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
     /**
@@ -730,14 +809,6 @@ public class PurchaseOrderAction extends PurchasingActionBase {
         expDate.setTime(expDate.getTime() + (10 * 24 * 60 * 60 * 1000)); //add 10 days - need to move this into a DB setting
         document.setPurchaseOrderQuoteDueDate(expDate);
         document.getPurchaseOrderVendorQuotes().clear();
-        return mapping.findForward(KFSConstants.MAPPING_BASIC);
-    }
-
-    public ActionForward printQuoteList(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        PurchaseOrderForm poForm = (PurchaseOrderForm) form;
-        PurchaseOrderDocument document = (PurchaseOrderDocument) poForm.getDocument();
-        ByteArrayOutputStream baosPDF = new ByteArrayOutputStream();
-        Collection<String> generatePDFErrors = SpringServiceLocator.getPrintService().generatePurchaseOrderQuoteRequestsListPdf(document, baosPDF);
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 

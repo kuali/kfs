@@ -215,7 +215,7 @@ public class PurchaseOrderQuotePdf extends PurapPdf {
             vendorInfo.append("\n");
         }
 
-        if (! KFSConstants.COUNTRY_CODE_UNITED_STATES.equalsIgnoreCase(poqv.getVendorCountryCode())) {
+        if (! KFSConstants.COUNTRY_CODE_UNITED_STATES.equalsIgnoreCase(poqv.getVendorCountryCode()) && poqv.getVendorCountryCode() != null) {
             vendorInfo.append("     "+poqv.getVendorCountry().getPostalCountryName()+"\n\n");
         } else {
             vendorInfo.append("     \n\n");
@@ -235,9 +235,14 @@ public class PurchaseOrderQuotePdf extends PurapPdf {
         }
         p.add(new Chunk("     R.Q. Date: ", ver_8_bold));
         p.add(new Chunk(requestDate+"\n", cour_10_normal));
-        String dueDate = (new Date(po.getPurchaseOrderQuoteDueDate().getTime())).toString();
         p.add(new Chunk("     RESPONSE MUST BE RECEIVED BY: ", ver_8_bold));
-        p.add(new Chunk(dueDate+"\n\n", cour_10_normal));
+        if (po.getPurchaseOrderQuoteDueDate() != null) {
+            String dueDate = (new Date(po.getPurchaseOrderQuoteDueDate().getTime())).toString();
+            p.add(new Chunk(dueDate+"\n\n", cour_10_normal));
+        }
+        else {
+            p.add(new Chunk("N/A\n\n", cour_10_normal));
+        }
 
         //retrieve the quote stipulations
         StringBuffer quoteStipulations = getPoQuoteLanguage();

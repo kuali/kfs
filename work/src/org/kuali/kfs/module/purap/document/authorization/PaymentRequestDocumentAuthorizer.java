@@ -59,10 +59,8 @@ public class PaymentRequestDocumentAuthorizer extends AccountingDocumentAuthoriz
      */
     @Override
     public Map getEditMode(Document document, UniversalUser user, List sourceAccountingLines, List targetAccountingLines) {
+        Map editModeMap = super.getEditMode(document, user, sourceAccountingLines, targetAccountingLines);
         PaymentRequestDocument preq = (PaymentRequestDocument) document;
-        //use a generated source list since the main doc one isn't necessarily correct
-        List localSourceAccountingLines = SpringServiceLocator.getPurapAccountingService().generateSummary(preq.getItems());
-        Map editModeMap = super.getEditMode(document, user, localSourceAccountingLines, targetAccountingLines);
 
         String editMode = AuthorizationConstants.EditMode.VIEW_ONLY;
 

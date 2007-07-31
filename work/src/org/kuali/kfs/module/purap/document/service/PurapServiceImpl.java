@@ -23,6 +23,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.bo.Note;
 import org.kuali.core.service.BusinessObjectService;
@@ -39,6 +40,7 @@ import org.kuali.module.purap.bo.ItemType;
 import org.kuali.module.purap.bo.OrganizationParameter;
 import org.kuali.module.purap.bo.PurchaseOrderView;
 import org.kuali.module.purap.bo.PurchasingApItem;
+import org.kuali.module.purap.document.PaymentRequestDocument;
 import org.kuali.module.purap.document.PurchasingAccountsPayableDocument;
 import org.kuali.module.purap.service.PurapAccountingService;
 import org.kuali.module.purap.service.PurapService;
@@ -375,6 +377,22 @@ public class PurapServiceImpl implements PurapService {
             allowedYears.add(currentFY + 1);
         }
         return allowedYears;
+    }
+    
+    /**
+     * 
+     * This method returns true if full entry mode has ended for this Payment Request
+     * @param preqDocument
+     * @return a boolean
+     */
+    public boolean isFullDocumentEntryCompleted(PurchasingAccountsPayableDocument purapDocument) {
+        //for now just return true if not in one of the first few states
+        boolean value = true;
+        if(purapDocument instanceof PaymentRequestDocument) {
+            //TODO: Chris - use the ordered enum in purapconstants
+            value = !(ArrayUtils.contains(PurapConstants.PaymentRequestStatuses.FULL_ENTRY_STATUSES,purapDocument.getStatusCode()));
+        }
+        return value;
     }
 
 }

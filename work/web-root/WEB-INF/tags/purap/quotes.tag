@@ -40,7 +40,7 @@
 				<span class="subhead-left">General Information</span>
 				<span class="subhead-right">
 					<html:image
-	property="methodToCall.showPrintPoQouteList"
+	property="methodToCall.printPoQuoteList"
 	src="${ConfigProperties.externalizable.images.url}tinybutton-prntquolist.gif"
 	alt="print quote list" title="print quote list"
 	styleClass="tinybutton" />

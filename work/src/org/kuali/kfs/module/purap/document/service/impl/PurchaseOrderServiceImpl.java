@@ -289,6 +289,23 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
         }
     }
     
+    public boolean printPurchaseOrderQuoteRequestsListPDF(PurchaseOrderDocument po, ByteArrayOutputStream baosPDF) {
+        String environment = kualiConfigurationService.getPropertyString(KFSConstants.ENVIRONMENT_KEY);
+        Collection<String> generatePDFErrors = printService.generatePurchaseOrderQuoteRequestsListPdf(po, baosPDF);
+
+        if (generatePDFErrors.size() > 0) {
+            for (String error : generatePDFErrors) {
+                GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_ERRORS, PurapKeyConstants.ERROR_PURCHASE_ORDER_PDF, error);
+            }
+            return false;
+        }
+        else {
+            // TODO QUOTE - update PurchaseOrderVendorQuote here
+            saveDocumentWithoutValidation(po);
+            return true;
+        }
+    }
+
     public boolean printPurchaseOrderQuotePDF(PurchaseOrderDocument po, PurchaseOrderVendorQuote povq, ByteArrayOutputStream baosPDF) {
 
         String environment = kualiConfigurationService.getPropertyString(KFSConstants.ENVIRONMENT_KEY);

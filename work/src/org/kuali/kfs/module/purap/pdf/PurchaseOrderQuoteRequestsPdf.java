@@ -14,6 +14,7 @@ import java.util.Calendar;
 import java.util.Collection;
 import java.util.Iterator;
 
+import org.kuali.module.purap.bo.PurchaseOrderVendorQuote;
 import org.kuali.module.purap.document.PurchaseOrderDocument;
 
 import com.lowagie.text.Document;
@@ -168,7 +169,6 @@ public class PurchaseOrderQuoteRequestsPdf extends PdfPageEventHelper {
   
   private void createPOQuoteRequestsListPdf(PurchaseOrderDocument po, Document document, 
       PdfWriter writer) throws DocumentException {
-      /* TODO: Uncomment this method when we have the Quote implemented in Kuali
     LOG.debug("createPOQuoteRequestsListPdf() started for po number " + po.getPurapDocumentIdentifier());
 
     // These have to be set because they are used by the onOpenDocument() method.
@@ -217,8 +217,13 @@ public class PurchaseOrderQuoteRequestsPdf extends PdfPageEventHelper {
     cell.setHorizontalAlignment(Element.ALIGN_CENTER);
     headerTable.addCell(cell);
     
-    String dueDate = po.getPurchaseOrderQuoteDueDate().toString();
-    cell = new PdfPCell(new Paragraph("Due: "+dueDate+"\n\n", cellTextFont));
+    if (po.getPurchaseOrderQuoteDueDate() != null) {
+        String dueDate = po.getPurchaseOrderQuoteDueDate().toString();
+        cell = new PdfPCell(new Paragraph("Due: "+dueDate+"\n\n", cellTextFont));
+    }
+    else {
+        cell = new PdfPCell(new Paragraph("Due: N/A\n\n", cellTextFont));
+    }
     cell.setBorderWidth(0);
     cell.setHorizontalAlignment(Element.ALIGN_CENTER);
     headerTable.addCell(cell);
@@ -259,10 +264,7 @@ public class PurchaseOrderQuoteRequestsPdf extends PdfPageEventHelper {
     cell.setColspan(5);
     listTable.addCell(cell);
 
-    Collection vendorList = po.getQuotedVendors();
-    Iterator iter = vendorList.iterator();
-    while (iter.hasNext()) {
-      PurchaseOrderQuoteVendor poqv = (PurchaseOrderQuoteVendor)iter.next();
+    for (PurchaseOrderVendorQuote poqv : po.getPurchaseOrderVendorQuotes()) {
       cell = new PdfPCell(new Paragraph(poqv.getVendorName(), cellTextFont));
       cell.setHorizontalAlignment(Element.ALIGN_LEFT);
       cell.setBorderWidth(0);
@@ -289,7 +291,6 @@ public class PurchaseOrderQuoteRequestsPdf extends PdfPageEventHelper {
 
     document.close();
     LOG.debug("createPOQuoteRequestsListPdf()pdf document closed.");
-    */
   } // End of createQuotePdf()
 }
 /*

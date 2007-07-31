@@ -483,8 +483,8 @@ public class PurchaseOrderAction extends PurchasingActionBase {
     }
 
     public ActionForward printPoQuoteList(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        String poDocId = request.getParameter("docId");
-        PurchaseOrderDocument po = (PurchaseOrderDocument) SpringServiceLocator.getDocumentService().getByDocumentHeaderId(poDocId);
+        KualiDocumentFormBase kualiDocumentFormBase = (KualiDocumentFormBase) form;
+        PurchaseOrderDocument po = (PurchaseOrderDocument) kualiDocumentFormBase.getDocument();
         ByteArrayOutputStream baosPDF = new ByteArrayOutputStream();
         try {
             StringBuffer sbFilename = new StringBuffer();
@@ -496,7 +496,7 @@ public class PurchaseOrderAction extends PurchasingActionBase {
 
             // for testing Generate PO PDF, set the APO to true
             po.setPurchaseOrderAutomaticIndicator(true);
-            boolean success = SpringServiceLocator.getPurchaseOrderService().printPurchaseOrderPDF(po, PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_PRINT_DOCUMENT, null, null, baosPDF);
+            boolean success = SpringServiceLocator.getPurchaseOrderService().printPurchaseOrderQuoteRequestsListPDF(po,  baosPDF);
 
             if (!success) {
                 if (baosPDF != null) {

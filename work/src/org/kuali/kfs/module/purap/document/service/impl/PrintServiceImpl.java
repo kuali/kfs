@@ -4,6 +4,7 @@ import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -26,6 +27,7 @@ import org.kuali.module.purap.exceptions.PurapConfigurationException;
 import org.kuali.module.purap.pdf.PurchaseOrderPdf;
 import org.kuali.module.purap.pdf.PurchaseOrderPdfParameters;
 import org.kuali.module.purap.pdf.PurchaseOrderQuotePdf;
+import org.kuali.module.purap.pdf.PurchaseOrderQuoteRequestsPdf;
 import org.kuali.module.purap.service.PrintService;
 import org.kuali.module.vendor.bo.ContractManager;
 import org.springframework.transaction.annotation.Transactional;
@@ -72,27 +74,31 @@ public class PrintServiceImpl implements PrintService {
      * @return Collection of ServiceError objects
      */
     public Collection generatePurchaseOrderQuoteRequestsListPdf(PurchaseOrderDocument po, ByteArrayOutputStream byteArrayOutputStream) {
-    /* TODO: Uncomment this method when we find out what to do for Kuali
-      LOG.debug("generatePurchaseOrderQuoteRequestsListPdf() started");
     LOG.debug("generatePurchaseOrderQuoteRequestsListPdf() started");
+    Collection errors = new ArrayList();
 
     PurchaseOrderQuoteRequestsPdf poQuoteRequestsPdf = new PurchaseOrderQuoteRequestsPdf();
-    Collection pdfErrorsIn = new ArrayList();
-    Collection pdfErrorsOut = new ArrayList();
 
-    pdfErrorsIn = poQuoteRequestsPdf.generatePOQuoteRequestsListPdf(po, byteArrayOutputStream);
-    
-    if (!pdfErrorsIn.isEmpty()) {
-      for (Iterator iter = pdfErrorsIn.iterator(); iter.hasNext();) {
-        String errorMessage = (String) iter.next();
-        ServiceError se = new ServiceError("pdf.error", errorMessage);
-        pdfErrorsOut.add(se);
-      }
+    try {
+        PurchaseOrderPdfParameters pdfParameters = getPurchaseOrderQuoteRequestsListPdfParameters(po);
+        String deliveryCampusName = pdfParameters.getCampusParameter().getCampus().getCampusName();
+        poQuoteRequestsPdf.generatePOQuoteRequestsListPdf(po, byteArrayOutputStream);
+        if (pdfParameters.isUseImage()) {
+            imageDao.removeImages(po.getPurapDocumentIdentifier().toString(), pdfParameters.getImageTempLocation()); // Removes temporary images; only need to call once.
+        }
+    } catch (PurError pe) {
+        LOG.error("Caught exception ", pe);
+        errors.add(pe.getMessage());
+    } catch (PurapConfigurationException pce) {
+        LOG.error("Caught exception ", pce);
+        errors.add(pce.getMessage());
+    } catch (Exception e) {
+        LOG.error("Caught exception ", e);
+        errors.add(e.getMessage());
     }
+    
     LOG.debug("generatePurchaseOrderQuoteRequestsListPdf() ended");
-    return pdfErrorsOut;
-*/
-    return null;
+    return errors;
   }
   
   /**
@@ -200,6 +206,60 @@ public class PrintServiceImpl implements PrintService {
         return pdfParameters;
     }
     
+    private PurchaseOrderPdfParameters getPurchaseOrderQuoteRequestsListPdfParameters(PurchaseOrderDocument po) {
+        String key = po.getPurapDocumentIdentifier().toString(); // key can be any string; chose to use the PO number.
+        String campusCode = po.getDeliveryCampusCode().toLowerCase();
+        String imageTempLocation = "";
+        String logoImage = "";
+        boolean useImage = true;
+        try {
+            String imageAvailable = kualiConfigurationService.getApplicationParameterValue(PurapParameterConstants.PURAP_ADMIN_GROUP, PurapConstants.PDF_IMAGES_AVAILABLE_INDICATOR);
+            useImage = (imageAvailable.equalsIgnoreCase("Y") ? true : false);
+        } 
+        catch (ApplicationParameterException ape) {
+            //if ApplicationParameterException is caught, it means we assume the default case that the useImage is true
+        }
+        //We'll get the imageTempLocation and the actual images only if the useImage is true. If useImage is false, we'll leave the images as blank space
+        if (useImage) {
+            imageTempLocation = kualiConfigurationService.getApplicationParameterValue(PurapParameterConstants.PURAP_ADMIN_GROUP, PurapConstants.IMAGE_TEMP_PATH);
+        if ( imageTempLocation == null ) {
+            LOG.debug("generatePurchaseOrderQuotePdf() ended");
+            throw new PurapConfigurationException("Application Setting IMAGE_TEMP_PATH is missing");      
+        }
+        // Get logo image.
+        logoImage = imageDao.getLogo(key, campusCode, imageTempLocation); 
+        }
+        Map<String, Object> criteria = new HashMap<String, Object>();
+        criteria.put(KFSPropertyConstants.CAMPUS_CODE, po.getDeliveryCampusCode());
+        CampusParameter campusParameter = (CampusParameter)((List) businessObjectService.findMatching(CampusParameter.class, criteria)).get(0);
+
+        // Get the contract manager's campus
+        criteria.clear();
+        ContractManager contractManager = po.getContractManager();
+        criteria.put("personUserIdentifier", contractManager.getContractManagerUserIdentifier());
+        String contractManagerCampusCode = "";
+        if (contractManager.getContractManagerUserIdentifier() != null) {
+            UniversalUser contractManagerUser = (UniversalUser) ((List) businessObjectService.findMatching(UniversalUser.class, criteria)).get(0);
+            contractManagerCampusCode = contractManagerUser.getCampusCode();
+        }
+        
+        String pdfFileLocation = kualiConfigurationService.getApplicationParameterValue(PurapParameterConstants.PURAP_ADMIN_GROUP, PurapConstants.PDF_DIRECTORY);
+        if (pdfFileLocation == null) {
+            LOG.debug("savePurchaseOrderPdf() ended");
+            throw new PurapConfigurationException("Application Setting PDF_DIRECTORY is missing.");
+        }
+        
+        PurchaseOrderPdfParameters pdfParameters = new PurchaseOrderPdfParameters();
+        pdfParameters.setImageTempLocation(imageTempLocation);
+        pdfParameters.setKey(key);
+        pdfParameters.setLogoImage(logoImage);
+        pdfParameters.setCampusParameter(campusParameter);
+        pdfParameters.setContractManagerCampusCode(contractManagerCampusCode);
+        pdfParameters.setPdfFileLocation(pdfFileLocation);
+        pdfParameters.setUseImage(useImage);
+        return pdfParameters;
+    }
+ 
     /*****************************************************************
   
     /**
@@ -284,7 +344,7 @@ public class PrintServiceImpl implements PrintService {
         LOG.debug("savePurchaseOrderQuotePdf() ended");
         return errors;
     }
-   
+      
     private PurchaseOrderPdfParameters getPurchaseOrderPdfParameters(PurchaseOrderDocument po) {
         String key = po.getPurapDocumentIdentifier().toString(); // key can be any string; chose to use the PO number.
         String campusCode = po.getDeliveryCampusCode().toLowerCase();

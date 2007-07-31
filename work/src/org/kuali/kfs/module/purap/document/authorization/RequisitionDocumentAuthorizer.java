@@ -20,14 +20,18 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.core.authorization.AuthorizationConstants;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.document.Document;
+import org.kuali.core.document.authorization.DocumentActionFlags;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.workflow.service.KualiWorkflowDocument;
 import org.kuali.kfs.document.authorization.AccountingDocumentAuthorizerBase;
 import org.kuali.module.chart.bo.ChartUser;
 import org.kuali.module.purap.PurapAuthorizationConstants;
+import org.kuali.module.purap.PurapConstants;
+import org.kuali.module.purap.PurapConstants.WorkflowConstants;
 import org.kuali.module.purap.PurapConstants.WorkflowConstants.RequisitionDocument.NodeDetails;
 import org.kuali.module.purap.bo.RequisitionItem;
 import org.kuali.module.purap.document.RequisitionDocument;
@@ -108,6 +112,24 @@ public class RequisitionDocumentAuthorizer extends AccountingDocumentAuthorizerB
         }
 
         return editModeMap;
+    }
+    
+    @Override
+    public DocumentActionFlags getDocumentActionFlags(Document document, UniversalUser user) {
+        DocumentActionFlags flags = super.getDocumentActionFlags(document, user);
+        KualiWorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
+
+        RequisitionDocument requisitionDocument = (RequisitionDocument) document;
+        if (StringUtils.equals(requisitionDocument.getStatusCode(), PurapConstants.RequisitionStatuses.AWAIT_CONTENT_REVIEW)) {
+            flags.setCanSave(true);
+            // NEED TO REDO ANNOTATE CHECK SINCE CHANGED THE VALUE OF FLAGS
+            this.setAnnotateFlag(flags);
+
+            
+        }
+      
+       
+        return flags;
     }
 
 }

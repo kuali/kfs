@@ -139,7 +139,7 @@ public class KualiXmlAttributeImplTest extends KualiTestBase {
                         }
                     }
                     catch (ClassNotFoundException cnfe) {
-                        LOG.warn("Could not find class for name '" + className + "'", cnfe);
+                        LOG.debug("Could not find class for name '" + className + "'");
                     }
                 }
             }

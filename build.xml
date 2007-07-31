@@ -89,7 +89,7 @@
 
 	<target name="clean-project" depends="init-property-files">
 		<delete failonerror="false">
-			<fileset dir="${basedir}" includes="${source.directory}/${configuration.file},${source.directory}/${ojb.file},${source.directory}/${spring.file},${source.directory}/${p6spy.file},${webinf.directory}/${web.file},${lib.directory}/${log4j.library.file},${war.directory}/**/**,${test.directory}/**/**,*.war,*.zip,${webroot.directory}/${rice.application}/**/**,${webroot.directory}/${tags.directory}/${rice.application}/**/**,${webroot.directory}/${workflow.application}/**/**,${database.directory}/${rice.name}/**/**,${licenses.directory}/${rice.name}/**/**" />
+			<fileset dir="${basedir}" includes="${source.directory}/${configuration.file},${source.directory}/${ojb.file},${source.directory}/${spring.file},${source.directory}/${p6spy.file},${webinf.directory}/${web.file},${lib.directory}/${log4j.library.file},${war.directory}/**/**,${test.directory}/**/**,*.war,*.zip,${help.directory}/**/**,${webroot.directory}/${rice.application}/**/**,${webroot.directory}/${tags.directory}/${rice.application}/**/**,${webroot.directory}/${workflow.application}/**/**,${database.directory}/${rice.name}/**/**,${licenses.directory}/${rice.name}/**/**" />
 		</delete>
 	</target>
 
@@ -132,6 +132,7 @@
 	</target>
 
 	<target name="filter-project" depends="filter-project-p6spy">
+		<unzip dest="${help.directory}" src="${build.project.directory}/help.zip" />
 		<unzip dest="${webroot.directory}" src="${build.project.directory}/${rice.name}-${rice.version}${rice.output.web.suffix}" />
 		<unzip dest="${database.directory}/${rice.name}" src="${build.project.directory}/${rice.name}-${rice.version}${rice.output.ddl.suffix}" />
 		<unzip dest="${licenses.directory}/${rice.name}" src="${build.project.directory}/${rice.name}-${rice.version}${rice.output.licenses.suffix}" />
@@ -158,8 +159,8 @@
 		<echo file="${security.property.file}" message="${security}"  />
 		<mkdir dir="${logs.directory}" />
 		<echo file="${logs.directory}/${ant.project.name}.log" message="" />
-		<copy todir="${static.directory}">
-			<fileset dir="${build.static.directory}" />
+		<copy todir="${external.work.directory}">
+			<fileset dir="${build.external.work.directory}" />
 		</copy>
 	</target>
 
@@ -198,7 +199,7 @@
 	<target name="make-zips" depends="filter-local">
 		<zip destfile="settings.zip" basedir="${settings.directory}" />
 		<zip destfile="security.zip" basedir="${security.directory}" />
-		<zip destfile="skel.zip" basedir="${static.directory}" />
+		<zip destfile="skel.zip" basedir="${external.work.directory}" />
 	</target>
 
 	<target name="make-batch" depends="clean,dist-local,make-source">
@@ -337,7 +338,7 @@
 		<delete>
 			<fileset dir="${build.project.directory}" includes="${rice.name}*${rice.output.web.suffix}" />
 		</delete>
-		<zip compress="true" destfile="${build.project.directory}/${rice.name}-${rice.version}${rice.output.web.suffix}" basedir="${rice.sampleapp.directory}" includes="${rice.application}/**/**,${tags.directory}/${rice.application}/**/*.tag,${workflow.application}/**/**" excludes="**/CVS" />
+		<zip destfile="${build.project.directory}/${rice.name}-${rice.version}${rice.output.web.suffix}" basedir="${rice.sampleapp.directory}" includes="${rice.application}/**/**,${tags.directory}/${rice.application}/**/*.tag,${workflow.application}/**/**" excludes="**/CVS" />
 	</target>
 
 	<target name="update-rice-extended" depends="init-property-files,update-rice-kuali-dependencies,update-rice-ddl,update-rice-licenses" />
@@ -354,6 +355,24 @@
 				<globmapper from="*.jar" to="*.zip" />
 			</chainedmapper>
 		</copy>
+		<!--<property name="${workflow.application}.workflow.environment" value="${build.environment}" />
+		<property name="${workflow.application}.tomcat5.home" value="${appserver.home}" />
+		<property name="${workflow.application}.plugin.dir" value="${basedir}" />
+		<property name="${workflow.application}.institution" value="${ant.project.name}" />
+		<property name="${workflow.application}.src.dist.loc" value="${workflow.project.directory}/dist" />
+		<propertyset id="en-properties">
+			<propertyref prefix="${workflow.application}."/>
+			<mapper type="glob" from="${workflow.application}.*" to="*"/>
+		</propertyset>
+		<ant dir="${workflow.project.directory}" target="bundle-workflow" inheritall="false">
+			<propertyset refid="${workflow.application}-properties" />
+		</ant>
+		<copy file="${workflow.project.directory}/dist/workflow_${workflow.version}.zip" tofile="${dependencies.project.directory}/${rice.name}-${workflow.name}-${workflow.version}-src.zip" overwrite="true"/>
+		<ant dir="${workflow.project.directory}" target="clean" inheritall="false"/>
+		<ant dir="${workflow.project.directory}" target="javadoc" inheritall="false">
+			<propertyset refid="${workflow.application}-properties" />
+		</ant>
+		<zip destfile="${dependencies.project.directory}/${rice.name}-${workflow.name}-${workflow.version}-doc.zip" basedir="${workflow.project.directory}/dist/api" />-->
 	</target>
 
 	<target name="update-rice-ddl" depends="init-property-files">
@@ -365,13 +384,13 @@
 			<fileset dir="${rice.project.directory}" includes="${rice.ddl.files}" excludes="${rice.excludes},**/CVS" />
 			<regexpmapper from="^.*\${file.separator}src\${file.separator}main\${file.separator}config\${file.separator}(.*)$$" to="\1" />
 		</copy>
-		<zip compress="true" destfile="${build.project.directory}/${rice.name}-${rice.version}-ddl.zip" basedir="temp" />
+		<zip destfile="${build.project.directory}/${rice.name}-${rice.version}-ddl.zip" basedir="temp" />
 		<delete dir="temp" />
 	</target>
 
 	<target name="update-rice-licenses" depends="init-property-files">
 		<!-- todo fix this when licenses are moved to rice -->
-		<!--<zip compress="true" destfile="${build.project.directory}/${rice.name}-${rice.version}-licenses.zip" basedir="${workflow.project.directory}/${licenses.directory}" excludes="**/CVS" />-->
+		<!--<zip destfile="${build.project.directory}/${rice.name}-${rice.version}-licenses.zip" basedir="${workflow.project.directory}/${licenses.directory}" excludes="**/CVS" />-->
 	</target>
 	
 	<macrodef name="maven">

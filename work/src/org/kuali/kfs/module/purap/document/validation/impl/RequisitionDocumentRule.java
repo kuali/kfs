@@ -75,34 +75,35 @@ public class RequisitionDocumentRule extends PurchasingDocumentRuleBase {
         String documentTypeClassName = purapDocument.getClass().getName();
         String[] documentTypeArray = StringUtils.split(documentTypeClassName, ".");
         String documentType = documentTypeArray[documentTypeArray.length - 1];
-        //If it's a credit memo, we'll have to append the source of the credit memo
-        //whether it's created from a Vendor, a PO or a PREQ.
-        if (documentType.equals("CreditMemoDocument")) {
-           
+
+        for (PurchasingApItem item : purapDocument.getItems()) {
+            item.refreshNonUpdateableReferences();
+
+            // do the DD validation first, I wonder if the original one from DocumentRuleBase is broken ? 
+            getDictionaryValidationService().validateBusinessObject(item);
         }
 
-        if (SpringServiceLocator.getPurapService().isDocumentStoppingAtRouteLevel(purapDocument, PurapConstants.WorkflowConstants.RequisitionDocument.NodeDetails.ORDERED_NODE_NAME_LIST, 
-                PurapConstants.WorkflowConstants.RequisitionDocument.NodeDetails.CONTENT_REVIEW)) {
+        if (SpringServiceLocator.getPurapService().isDocumentStoppingAtRouteLevel(purapDocument, PurapConstants.WorkflowConstants.RequisitionDocument.NodeDetails.ORDERED_NODE_NAME_LIST, PurapConstants.WorkflowConstants.RequisitionDocument.NodeDetails.CONTENT_REVIEW)) {
             for (PurchasingApItem item : purapDocument.getItems()) {
                 item.refreshNonUpdateableReferences();
 
-                //only do these check for below the line items
+                // only do these check for below the line items
                 if (item.getItemType().isItemTypeAboveTheLineIndicator()) {
                     if (item.getSourceAccountingLines().size() == 0) {
                         GlobalVariables.getErrorMap().putError(KFSConstants.ITEM_LINE_ERRORS, PurapKeyConstants.ERROR_NO_ACCOUNTS);
-                    valid = false;
-                    break;
-                }
+                        valid = false;
+                        break;
+                    }
 
                     BigDecimal totalPercentage = new BigDecimal(0);
                     for (PurApAccountingLine accountingLine : item.getSourceAccountingLines()) {
                         totalPercentage = totalPercentage.add(accountingLine.getAccountLinePercent());
-            }
+                    }
                     if (!totalPercentage.equals(new BigDecimal(100))) {
                         GlobalVariables.getErrorMap().putError(KFSConstants.ITEM_LINE_ERRORS, PurapKeyConstants.ERROR_NOT_100_PERCENT);
                         valid = false;
                         break;
-        }
+                    }
                 }
             }
         }
@@ -155,6 +156,7 @@ public class RequisitionDocumentRule extends PurchasingDocumentRuleBase {
             }
         }
         return valid;
+
     }
     
     /**

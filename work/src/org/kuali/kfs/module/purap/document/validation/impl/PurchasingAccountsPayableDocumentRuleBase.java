@@ -29,6 +29,7 @@ import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.workflow.service.KualiWorkflowDocument;
+import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.bo.AccountingLine;
 import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
 import org.kuali.kfs.document.AccountingDocument;
@@ -127,6 +128,7 @@ public class PurchasingAccountsPayableDocumentRuleBase extends AccountingDocumen
      */
     public boolean processItemValidation(PurchasingAccountsPayableDocument purapDocument) {
         boolean valid = true;
+        
         // Fetch the business rules that are common to the below the line items on all purap documents
         String documentTypeClassName = purapDocument.getClass().getName();
         String[] documentTypeArray = StringUtils.split(documentTypeClassName, ".");
@@ -145,6 +147,10 @@ public class PurchasingAccountsPayableDocumentRuleBase extends AccountingDocumen
         for (PurchasingApItem item : purapDocument.getItems()) {
             //only do this check for below the line items
             item.refreshNonUpdateableReferences();
+            
+            //do the DD validation first, I wonder if the original one from DocumentRuleBase is broken ? 
+            getDictionaryValidationService().validateBusinessObject(item);
+            
             if (!item.getItemType().isItemTypeAboveTheLineIndicator()) {
                 if (ObjectUtils.isNotNull(item.getItemUnitPrice()) &&(new KualiDecimal(item.getItemUnitPrice())).isZero()) {
                     if (allowsZeroRule.getRuleActiveIndicator() &&
@@ -250,8 +256,7 @@ public class PurchasingAccountsPayableDocumentRuleBase extends AccountingDocumen
     }
     
     public boolean processAddItemBusinessRules(AccountingDocument financialDocument, PurchasingApItem item) {
-        // TODO Auto-generated method stub
-        return true;
+        return getDictionaryValidationService().isBusinessObjectValid(item, KFSPropertyConstants.NEW_ITEM);
     }
 
     /**

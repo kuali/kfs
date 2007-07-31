@@ -110,5 +110,7 @@ public interface PurapService {
      * @param preqDocument
      * @return a boolean
      */
-    public boolean isFullDocumentEntryCompleted(PurchasingAccountsPayableDocument purapDocument);
+//  FIXME Chris: Please fix this; I had to remove this method to get the project to compile (hjs)
+//    public boolean isFullDocumentEntryCompleted(PurchasingAccountsPayableDocument purapDocument);
+
 }

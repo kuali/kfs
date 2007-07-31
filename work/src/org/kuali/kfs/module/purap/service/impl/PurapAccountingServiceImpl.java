@@ -521,9 +521,10 @@ public class PurapAccountingServiceImpl implements PurapAccountingService {
     public void updateAccountAmounts(PurchasingAccountsPayableDocument document) {
         //TODO: Chris - this should probably be injected instead of using the locator I should update percent (method call)
         //don't update if past the AP review level
-        if(SpringServiceLocator.getPurapService().isFullDocumentEntryCompleted(document)){
-            return;
-        }
+//FIXME Chris: Please fix this; I had to remove this method to get the project to compile (hjs)
+//        if(SpringServiceLocator.getPurapService().isFullDocumentEntryCompleted(document)){
+//            return;
+//        }
         for (PurchasingApItem item : document.getItems()) {
             if ( (item.getExtendedPrice()!=null) && 
                  KualiDecimal.ZERO.compareTo(item.getExtendedPrice()) != 0 ) {

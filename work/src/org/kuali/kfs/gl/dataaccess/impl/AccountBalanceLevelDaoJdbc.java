@@ -122,7 +122,7 @@ public class AccountBalanceLevelDaoJdbc extends AccountBalanceDaoJdbcBase implem
             String balanceStatementSql = 
             		"SELECT CURR_BDLN_BAL_AMT,ACLN_ACTLS_BAL_AMT,ACLN_ENCUM_BAL_AMT " +
             		"FROM fp_interim1_level_mt " +
-            		"WHERE sesid = ? univ_fiscal_yr = ? AND fin_coa_cd = ? AND account_nbr = ? AND sub_acct_nbr = ?" +
+            		"WHERE sesid = ? AND univ_fiscal_yr = ? AND fin_coa_cd = ? AND account_nbr = ? AND sub_acct_nbr = ?" +
     				" AND fin_object_cd = ? AND fin_sub_obj_cd = ?";
             
             String updateBalanceStatementSql = 
@@ -323,10 +323,10 @@ public class AccountBalanceLevelDaoJdbc extends AccountBalanceDaoJdbcBase implem
 			selectSql = selectSql + "AND (p.univ_fiscal_yr is null OR p.univ_fiscal_yr = ? )";
 			params.add(  universityFiscalYear );
 		} else {
-			selectSql = selectSql + "AND p.univ_fiscal_yr = " + universityFiscalYear;
+			selectSql = selectSql + "AND p.univ_fiscal_yr = ?";
 			params.add(  universityFiscalYear );
 		}
-		getSimpleJdbcTemplate().update( insertSql = selectSql, params.toArray() );
+		getSimpleJdbcTemplate().update( insertSql + selectSql, params.toArray() );
 
         if (isCostShareExcluded) {
             purgeCostShareEntries( "gl_pending_entry_mt", "person_unvl_id" );

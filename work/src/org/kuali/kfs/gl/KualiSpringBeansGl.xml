@@ -1000,14 +1000,15 @@
 		<property name="universityDateService">
 			<ref bean="universityDateService" />
 		</property>
+		<property name="dbPlatform" ref="dbPlatformDao" />
 	</bean>
 
 	<bean id="glAccountBalanceConsolidationDao" parent="glAccountBalanceDaoBase" class="org.kuali.module.gl.dao.jdbc.AccountBalanceConsolidationDaoJdbc">
-		<property name="dbPlatform" ref="dbPlatformDao" />
 	</bean>
 
 	<bean id="glAccountBalanceLevelDao" parent="glAccountBalanceDaoBase" class="org.kuali.module.gl.dao.jdbc.AccountBalanceLevelDaoJdbc">
 	</bean>
+	
 	<bean id="glAccountBalanceObjectDao" parent="glAccountBalanceDaoBase" class="org.kuali.module.gl.dao.jdbc.AccountBalanceObjectDaoJdbc">
 	</bean>
 

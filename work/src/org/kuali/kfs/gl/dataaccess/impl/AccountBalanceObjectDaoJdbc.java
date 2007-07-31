@@ -323,11 +323,11 @@ public class AccountBalanceObjectDaoJdbc extends AccountBalanceDaoJdbcBase imple
 			selectSql = selectSql + "AND (p.univ_fiscal_yr is null OR p.univ_fiscal_yr = ? )";
 			params.add(  universityFiscalYear );
 		} else {
-			selectSql = selectSql + "AND p.univ_fiscal_yr = " + universityFiscalYear;
+			selectSql = selectSql + "AND p.univ_fiscal_yr = ?";
 			params.add(  universityFiscalYear );
 		}
 
-		getSimpleJdbcTemplate().update( insertSql = selectSql, params.toArray() );
+		getSimpleJdbcTemplate().update( insertSql + selectSql, params.toArray() );
 
         if (isCostShareExcluded) {
             purgeCostShareEntries( "gl_pending_entry_mt", "person_unvl_id" );

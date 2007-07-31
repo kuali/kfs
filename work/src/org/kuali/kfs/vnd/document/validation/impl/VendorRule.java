@@ -417,7 +417,7 @@ public class VendorRule extends MaintenanceDocumentRuleBase implements VendorRul
      * @return  False if the vendor is restricted and the restricted reason is empty
      */
     boolean validateRestrictedReasonRequiredness(VendorDetail vendorDetail) {
-        if (vendorDetail.getVendorRestrictedIndicator() && StringUtils.isEmpty(vendorDetail.getVendorRestrictedReasonText() )) {
+        if (ObjectUtils.isNotNull(vendorDetail.getVendorRestrictedIndicator()) && vendorDetail.getVendorRestrictedIndicator() && StringUtils.isEmpty(vendorDetail.getVendorRestrictedReasonText() )) {
             putFieldError(VendorPropertyConstants.VENDOR_RESTRICTED_REASON_TEXT, VendorKeyConstants.ERROR_RESTRICTED_REASON_REQUIRED);
             return false;
         }

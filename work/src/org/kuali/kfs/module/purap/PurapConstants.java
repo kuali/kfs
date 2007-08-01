@@ -315,6 +315,7 @@ public class PurapConstants extends JstlConstants {
     public static final String ADDITIONAL_TAB_ERRORS = "document.requestor*,document.purchaseOrderTransmissionMethodCode,document.chartOfAccountsCode,document.organizationCode,document.purchaseOrderCostSourceCode,document.purchaseOrderTotalLimit";
     public static final String ITEM_TAB_ERRORS = "document.item*,accountDistribution*";
     public static final String ACCOUNT_SUMMARY_TAB_ERRORS = "document.accountSummary*";
+    public static final String STATUS_HISTORY_TAB_ERRORS = "document.statusHistories*";
     public static final String ACCOUNT_DISTRIBUTION_ERROR_KEY = "accountDistribution";
     public static final String RELATED_DOCS_TAB_ERRORS = "";
     public static final String PAYMENT_HISTORY_TAB_ERRORS = "";
@@ -470,8 +471,10 @@ public class PurapConstants extends JstlConstants {
         public static String CONFIRM_CANCEL_QUESTION = "POCancelQuote";
         public static String CONFIRM_CANCEL_RETURN = "cancelQuote";
 
-        public static String SINGLE_CONFIRMATION_QUESTION = "singleConfirmationQuestion";
+        public static String SINGLE_CONFIRMATION_QUESTION = "singleConfirmationQuestion";       
     }
+    
+    public static String PO_OVERRIDE_NOT_TO_EXCEED_QUESTION = "OverrideNotToExceed";
 
     // PAYMENT REQUEST
     public static String PAYMENT_REQUEST_DOCUMENT = "PaymentRequestDocument";
@@ -540,7 +543,7 @@ public class PurapConstants extends JstlConstants {
         public static String[] STATUSES_ALLOWED_FOR_EXTRACTION = {
             AUTO_APPROVED,
             DEPARTMENT_APPROVED
-            };        
+            };
 
         public static Set CANCELLED_STATUSES = new HashSet();
         public static Set STATUSES_DISALLOWING_HOLD = new HashSet();

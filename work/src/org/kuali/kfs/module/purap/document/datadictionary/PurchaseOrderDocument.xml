@@ -24,6 +24,7 @@
     <transactionalDocument>
         <documentClass>org.kuali.module.purap.document.PurchaseOrderDocument</documentClass>
         <businessRulesClass>org.kuali.module.purap.rules.PurchaseOrderDocumentRule</businessRulesClass>
+        <preRulesCheckClass>org.kuali.module.purap.rules.PurchaseOrderDocumentPreRules</preRulesCheckClass>
         <documentAuthorizerClass>org.kuali.module.purap.document.authorization.PurchaseOrderDocumentAuthorizer</documentAuthorizerClass>
         
         <authorizations>

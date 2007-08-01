@@ -19,7 +19,7 @@
               description="The DataDictionary entry containing attributes for this row's fields." %>
 
 <c:set var="readOnly" value="${empty KualiForm.editingMode['fullEntry']}" />
-<kul:tab tabTitle="Status History" defaultOpen="false" tabErrorKey="${PurapConstants.ADDITIONAL_TAB_ERRORS}">
+<kul:tab tabTitle="Status History" defaultOpen="false" tabErrorKey="${PurapConstants.STATUS_HISTORY_TAB_ERRORS}">
     <div class="tab-container" align=center>
         <p align=left><jsp:doBody/>
         <div class="h2-container">

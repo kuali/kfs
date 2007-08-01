@@ -69,7 +69,7 @@ public class PurchaseOrderDocumentRule extends PurchasingDocumentRuleBase {
      */
     public boolean processAdditionalValidation(PurchasingDocument purDocument) {
         boolean valid = true;
-        valid = validateTotalDollarAmountIsLessThanPurchaseOrderTotalLimit(purDocument);
+        //valid = validateTotalDollarAmountIsLessThanPurchaseOrderTotalLimit(purDocument);
         return valid;
     }
 
@@ -268,7 +268,7 @@ public class PurchaseOrderDocumentRule extends PurchasingDocumentRuleBase {
             KualiDecimal totalAmount = ((AmountTotaling) purDocument).getTotalDollarAmount();
             if (((AmountTotaling) purDocument).getTotalDollarAmount().isGreaterThan(purDocument.getPurchaseOrderTotalLimit())) {
                 valid &= false;
-                GlobalVariables.getErrorMap().putError(PurapPropertyConstants.PURCHASE_ORDER_TOTAL_LIMIT, PurapKeyConstants.REQ_TOTAL_GREATER_THAN_PO_TOTAL_LIMIT);
+                GlobalVariables.getMessageList().add(PurapKeyConstants.PO_TOTAL_GREATER_THAN_PO_TOTAL_LIMIT);
             }
         }
         return valid;

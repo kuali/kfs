@@ -166,22 +166,21 @@
                 <description>csfFundingStatusCode description...</description>
 			</attribute>
 
-            <attribute name="csfTimePercent" forceUppercase="true">
-                <label>CSF Time Percent</label>
-                <shortLabel>Percent</shortLabel>
+		  <attribute name="csfTimePercent" forceUppercase="true">
 
+                <label>FTE</label>
+                <shortLabel>Percent</shortLabel>
                 <maxLength>9</maxLength>
                 <validationPattern><numeric /></validationPattern>
-
                 <control>
                     <text size="11" />
                 </control>
-
                 <summary>csfTimePercent</summary>
-                <description>csfTimePercent description...</description>
-			</attribute>
+                <description>csfTimePercent description</description>
+                <formatterClass>org.kuali.core.web.format.PercentageFormatter</formatterClass>
+           </attribute>
 
-            <attribute name="earnCode" forceUppercase="true">
+		   <attribute name="earnCode" forceUppercase="true">
                 <label>Earn Code</label>
                 <shortLabel>Code</shortLabel>
 

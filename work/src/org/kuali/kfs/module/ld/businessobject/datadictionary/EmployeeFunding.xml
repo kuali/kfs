@@ -44,6 +44,7 @@
 
             <resultFields>				
 				<field attributeName="personName" />
+				<field attributeName="emplid" />
 				<field attributeName="universityFiscalYear"/> 
                 <field attributeName="chartOfAccountsCode" />
                 <field attributeName="accountNumber" />
@@ -53,7 +54,8 @@
 				<field attributeName="positionNumber" />	
 				<field attributeName="accountLineAnnualBalanceAmount" />				
 				<field attributeName="outstandingEncum" />
-				<field attributeName="totalAmount" />								
+				<field attributeName="totalAmount" />
+												
             </resultFields>
         </lookup>
 

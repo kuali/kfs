@@ -542,11 +542,11 @@ public class PurchaseOrderAction extends PurchasingActionBase {
             po.setSelectedQuoteVendorId(getSelectedLine(request));
             Date currentSqlDate = SpringServiceLocator.getDateTimeService().getCurrentSqlDate();
             vendorQuote.setPurchaseOrderQuoteTransmitDate(currentSqlDate);
-            po.setPurchaseOrderFirstTransmissionDate(currentSqlDate);
-            po.setPurchaseOrderInitialOpenDate(currentSqlDate);
+            if (po.getPurchaseOrderFirstTransmissionDate() == null) {
+                po.setPurchaseOrderFirstTransmissionDate(currentSqlDate);
+            }
             po.setPurchaseOrderLastTransmitDate(currentSqlDate);
             po.setPurchaseOrderCurrentIndicator(true);
-            SpringServiceLocator.getPurapService().updateStatusAndStatusHistory(po, PurchaseOrderStatuses.OPEN);
             SpringServiceLocator.getPurchaseOrderService().saveDocumentWithoutValidation(po);
         }
         else {
@@ -812,10 +812,12 @@ public class PurchaseOrderAction extends PurchasingActionBase {
             return mapping.findForward(KFSConstants.MAPPING_BASIC);
         }
         document.setStatusCode(PurapConstants.PurchaseOrderStatuses.QUOTE);
-        Date expDate = SpringServiceLocator.getDateTimeService().getCurrentSqlDate();
-        expDate.setTime(expDate.getTime() + (10 * 24 * 60 * 60 * 1000)); //add 10 days - need to move this into a DB setting
+        Date currentSqlDate = SpringServiceLocator.getDateTimeService().getCurrentSqlDate();
+        document.setPurchaseOrderInitialOpenDate(currentSqlDate);
+        Date expDate = new Date(currentSqlDate.getTime() + (10 * 24 * 60 * 60 * 1000)); //add 10 days - need to move this into a DB setting
         document.setPurchaseOrderQuoteDueDate(expDate);
         document.getPurchaseOrderVendorQuotes().clear();
+        SpringServiceLocator.getDocumentService().saveDocumentWithoutRunningValidation(document);
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 

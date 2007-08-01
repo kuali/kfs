@@ -72,6 +72,10 @@ public class BaseFundsInquirableImpl extends AbstractLaborInquirableImpl {
      * @see org.kuali.module.gl.web.inquirable.AbstractGLInquirableImpl#getKeyValue(java.lang.String, java.lang.Object)
      */
     protected Object getKeyValue(String keyName, Object keyValue) {       
+        if(keyValue.toString().startsWith("-")){
+            return keyValue;
+        }
+               
         if (isExclusiveField(keyName, keyValue)) {
             keyValue = Constant.EMPTY_STRING;
         }

@@ -31,10 +31,10 @@ import org.kuali.core.document.Correctable;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.bo.AccountingLineBase;
 import org.kuali.kfs.bo.AccountingLineParser;
-import org.kuali.kfs.bo.SourceAccountingLine;
 import org.kuali.kfs.document.AccountingDocumentBase;
 import org.kuali.module.chart.bo.codes.BalanceTyp;
 import org.kuali.module.financial.bo.JournalVoucherAccountingLineParser;
+import org.kuali.module.financial.bo.VoucherSourceAccountingLine;
 import org.kuali.module.gl.util.SufficientFundsItem;
 
 import edu.iu.uis.eden.exception.WorkflowException;
@@ -73,6 +73,14 @@ public class JournalVoucherDocument extends AccountingDocumentBase implements Vo
         return new ArrayList<SufficientFundsItem>();
     }
 
+    /**
+     * @see org.kuali.kfs.document.AccountingDocumentBase#getSourceAccountingLineClass()
+     */
+    @Override
+    public Class getSourceAccountingLineClass() {
+        return VoucherSourceAccountingLine.class;
+    }
+    
     /**
      * This method retrieves the balance typ associated with this document.
      * 
@@ -198,7 +206,6 @@ public class JournalVoucherDocument extends AccountingDocumentBase implements Vo
     public KualiDecimal getTotalDollarAmount() {
 
         KualiDecimal total = new KualiDecimal(0);
-        AccountingLineBase al = null;
 
         this.refreshReferenceObject("balanceType");
 
@@ -247,7 +254,7 @@ public class JournalVoucherDocument extends AccountingDocumentBase implements Vo
         if (this.getBalanceType().isFinancialOffsetGenerationIndicator()) { // make sure this is not a single amount entered JV
             int index = 0;
             while (i.hasNext()) {
-                SourceAccountingLine sLine = (SourceAccountingLine) i.next();
+                VoucherSourceAccountingLine sLine = (VoucherSourceAccountingLine) i.next();
 
                 String debitCreditCode = sLine.getDebitCreditCode();
 

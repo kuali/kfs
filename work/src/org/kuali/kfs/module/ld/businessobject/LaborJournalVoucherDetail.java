@@ -3,16 +3,14 @@ package org.kuali.module.labor.bo;
 import java.math.BigDecimal;
 import java.sql.Date;
 
-import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.bo.Options;
-import org.kuali.kfs.bo.SourceAccountingLine;
 import org.kuali.module.chart.bo.AccountingPeriod;
-import org.kuali.module.labor.document.LaborJournalVoucherDocument;
+import org.kuali.module.financial.bo.VoucherSourceAccountingLine;
 
 /**
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  */
-public class LaborJournalVoucherDetail extends SourceAccountingLine{
+public class LaborJournalVoucherDetail extends VoucherSourceAccountingLine{
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(LaborJournalVoucherDetail.class);
     
 	private String positionNumber;

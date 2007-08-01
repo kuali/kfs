@@ -56,7 +56,6 @@ import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.bo.AccountingLine;
 import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
-import org.kuali.kfs.bo.SourceAccountingLine;
 import org.kuali.kfs.document.AccountingDocument;
 import org.kuali.kfs.rules.AccountingDocumentRuleBase;
 import org.kuali.kfs.rules.AccountingDocumentRuleUtil;
@@ -64,6 +63,7 @@ import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.chart.bo.AccountingPeriod;
 import org.kuali.module.chart.bo.ObjectType;
 import org.kuali.module.chart.bo.codes.BalanceTyp;
+import org.kuali.module.financial.bo.VoucherSourceAccountingLine;
 import org.kuali.module.financial.document.JournalVoucherDocument;
 
 /**
@@ -396,7 +396,7 @@ public class JournalVoucherDocumentRule extends AccountingDocumentRuleBase {
     private boolean isRequiredReferenceFieldsValid(AccountingLine accountingLine) {
         boolean valid = true;
 
-        BusinessObjectEntry boe = SpringServiceLocator.getDataDictionaryService().getDataDictionary().getBusinessObjectEntry(SourceAccountingLine.class.getName());
+        BusinessObjectEntry boe = SpringServiceLocator.getDataDictionaryService().getDataDictionary().getBusinessObjectEntry(VoucherSourceAccountingLine.class.getName());
         if (StringUtils.isEmpty(accountingLine.getReferenceOriginCode())) {
             putRequiredPropertyError(boe, REFERENCE_ORIGIN_CODE);
             valid = false;

@@ -43,6 +43,7 @@ import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.chart.bo.codes.BalanceTyp;
 import org.kuali.module.financial.bo.VoucherAccountingLineHelper;
 import org.kuali.module.financial.bo.VoucherAccountingLineHelperBase;
+import org.kuali.module.financial.bo.VoucherSourceAccountingLine;
 import org.kuali.module.financial.document.JournalVoucherDocument;
 import org.kuali.module.financial.document.VoucherDocument;
 import org.kuali.module.financial.web.struts.form.JournalVoucherForm;
@@ -388,9 +389,9 @@ public class JournalVoucherAction extends VoucherAction {
 
         KualiDecimal ZERO = new KualiDecimal("0.00");
         for (int i = 0; i < sourceLines.size(); i++) {
-            SourceAccountingLine sourceLine = (SourceAccountingLine) sourceLines.get(i);
+            VoucherSourceAccountingLine sourceLine = (VoucherSourceAccountingLine) sourceLines.get(i);
             sourceLine.setAmount(ZERO);
-            sourceLine.setDebitCreditCode(null); // will be needed, reset to make sure
+            sourceLine.setDebitCreditCode(KFSConstants.GL_DEBIT_CODE); // default to debit
 
             helperLines.add(new VoucherAccountingLineHelperBase()); // populate with a fresh new empty object
         }
@@ -409,7 +410,7 @@ public class JournalVoucherAction extends VoucherAction {
         ArrayList sourceLines = (ArrayList) jvDoc.getSourceAccountingLines();
 
         for (int i = 0; i < sourceLines.size(); i++) {
-            SourceAccountingLine sourceLine = (SourceAccountingLine) sourceLines.get(i);
+            VoucherSourceAccountingLine sourceLine = (VoucherSourceAccountingLine) sourceLines.get(i);
             sourceLine.setReferenceOriginCode(null); // won't be needed in this mode
             sourceLine.setReferenceNumber(null); // won't be needed in this mode
             sourceLine.setReferenceTypeCode(null); // won't be needed in this mode
@@ -433,7 +434,7 @@ public class JournalVoucherAction extends VoucherAction {
             VoucherAccountingLineHelper helperLine = (VoucherAccountingLineHelper) helperLines.get(i);
             SourceAccountingLine sourceLine = (SourceAccountingLine) sourceLines.get(i);
             sourceLine.setAmount(ZERO);
-            sourceLine.setDebitCreditCode(null);
+            sourceLine.setDebitCreditCode(KFSConstants.GL_DEBIT_CODE); // single sided is always debit
 
             helperLine.setCredit(null); // won't be needed in this mode
             helperLine.setDebit(null); // won't be needed in this mode

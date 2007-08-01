@@ -441,8 +441,8 @@ public class VoucherForm extends KualiAccountingDocumentFormBase {
             sourceLine.setDebitCreditCode(KFSConstants.GL_CREDIT_CODE);
             sourceLine.setAmount(tmpCreditAmount);
         }
-        else { // explicitly set to zero, let br eval framework pick it up
-            sourceLine.setDebitCreditCode(null);
+        else { // default to DEBIT, note the br eval framework will still pick it up
+            sourceLine.setDebitCreditCode(KFSConstants.GL_DEBIT_CODE);
             sourceLine.setAmount(KualiDecimal.ZERO);
         }
 

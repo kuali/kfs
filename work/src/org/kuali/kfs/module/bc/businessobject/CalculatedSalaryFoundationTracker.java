@@ -68,6 +68,7 @@ public class CalculatedSalaryFoundationTracker extends PersistableBusinessObject
     private SubAccount subAccount;
     private SubObjCd subObjectCode;
     private transient Options universityFiscal;
+    private final int PERCENTAGE_SCALE = 2;
 
     /**
      * Default constructor.
@@ -305,12 +306,15 @@ public class CalculatedSalaryFoundationTracker extends PersistableBusinessObject
 
 
     /**
-     * Gets the csfTimePercent attribute.
+     * Gets the csfTimePercent attribute. Returns 2 decimal places, reguardless.
      * 
      * @return Returns the csfTimePercent
      */
     public BigDecimal getCsfTimePercent() {
-        return csfTimePercent;
+
+        BigDecimal bigDecValue = (BigDecimal) this.csfTimePercent;
+        bigDecValue = bigDecValue.setScale(PERCENTAGE_SCALE, BigDecimal.ROUND_HALF_UP);
+        return bigDecValue;
     }
 
     /**

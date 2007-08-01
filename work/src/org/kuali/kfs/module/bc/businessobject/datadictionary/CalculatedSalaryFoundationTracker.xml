@@ -177,7 +177,6 @@
                 </control>
                 <summary>csfTimePercent</summary>
                 <description>csfTimePercent description</description>
-                <formatterClass>org.kuali.core.web.format.PercentageFormatter</formatterClass>
            </attribute>
 
 		   <attribute name="earnCode" forceUppercase="true">

@@ -100,7 +100,7 @@
     
     <collection-descriptor name="sourceAccountingLines" proxy="true" element-class-ref="org.kuali.module.purap.bo.PurchaseOrderAccount" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
         <orderby name="chartOfAccountsCode" sort="ASC" />
-        <orderby name="account" sort="ASC" />
+        <orderby name="accountNumber" sort="ASC" />
         <inverse-foreignkey field-ref="documentNumber" />
         <inverse-foreignkey field-ref="itemIdentifier" />
     </collection-descriptor>
@@ -205,7 +205,7 @@
     </reference-descriptor>
     <collection-descriptor name="sourceAccountingLines" proxy="true" element-class-ref="org.kuali.module.purap.bo.RequisitionAccount" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
         <orderby name="chartOfAccountsCode" sort="ASC" />
-        <orderby name="account" sort="ASC" />
+        <orderby name="accountNumber" sort="ASC" />
         <inverse-foreignkey field-ref="itemIdentifier" />
     </collection-descriptor>
 </class-descriptor>
@@ -2452,7 +2452,7 @@
     
     <collection-descriptor name="sourceAccountingLines" proxy="true" element-class-ref="org.kuali.module.purap.bo.PaymentRequestAccount" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
         <orderby name="chartOfAccountsCode" sort="ASC" />
-        <orderby name="account" sort="ASC" />
+        <orderby name="accountNumber" sort="ASC" />
         <inverse-foreignkey field-ref="itemIdentifier" />
     </collection-descriptor>
     
@@ -3124,7 +3124,7 @@
     </reference-descriptor>
     <collection-descriptor name="sourceAccountingLines" proxy="true" element-class-ref="org.kuali.module.purap.bo.CreditMemoAccount" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
         <orderby name="chartOfAccountsCode" sort="ASC" />
-        <orderby name="account" sort="ASC" />
+        <orderby name="accountNumber" sort="ASC" />
         <inverse-foreignkey field-ref="itemIdentifier" />
     </collection-descriptor>
 </class-descriptor>

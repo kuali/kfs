@@ -89,7 +89,7 @@
 									<td>Results Email Address: </td>
 									<td>
 										<input type="text" name="emailAddress" id="emailAddress" value="" />
-										<button type="button" onclick="this.form.emailAddress.value = '${userEmailAddress}';">Mail To Me</button>
+										<img src="${ConfigProperties.externalizable.images.url}tinybutton-mailtome.gif" onclick="document.getElementById('emailAddress').value = '${userEmailAddress}';" styleClass="globalbuttons" title="Mail To Me" alt="Mail To Me" />
 									</td>
 								</tr>
 								<tr>

@@ -87,6 +87,9 @@
                             <summaryField name="accountDelegatePrimaryRoutingIndicator" />
                             <summaryField name="accountDelegate.personUserIdentifier" />
                         </summaryFields>
+                        <duplicateIdentificationFields>
+                        	<duplicateIdentificationField name="accountDelegate.personUserIdentifier" />
+                        </duplicateIdentificationFields>
                     </maintainableCollection>
             	  </maintainableItems>
             </maintainableSection>

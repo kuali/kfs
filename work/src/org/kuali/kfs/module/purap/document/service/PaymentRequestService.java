@@ -67,6 +67,14 @@ public interface PaymentRequestService {
     
     public boolean canRequestCancelOnPaymentRequest(PaymentRequestDocument document);
     
+    /**
+     * 
+     * This method returns true if the payment request has been extracted
+     * @param document
+     * @return
+     */
+    public boolean isExtracted(PaymentRequestDocument document);
+    
     public boolean canUserRequestCancelOnPaymentRequest(PaymentRequestDocument document, UniversalUser user);
     
     public boolean canUserRemoveRequestCancelOnPaymentRequest(PaymentRequestDocument document, UniversalUser user);

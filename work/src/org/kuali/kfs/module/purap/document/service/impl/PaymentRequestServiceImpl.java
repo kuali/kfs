@@ -1044,6 +1044,14 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
     }
     
     /**
+     * 
+     * @see org.kuali.module.purap.service.PaymentRequestService#isExtracted(org.kuali.module.purap.document.PaymentRequestDocument)
+     */
+    public boolean isExtracted(PaymentRequestDocument document) {
+        return (ObjectUtils.isNull(document.getExtractedDate())?false:true);
+    }
+    
+    /**
      * This method determines if a user has permission to request cancel on a PREQ
      * 
      * @see org.kuali.module.purap.service.PaymentRequestService#canHoldPaymentRequest(org.kuali.module.purap.document.PaymentRequestDocument, org.kuali.core.bo.user.UniversalUser)

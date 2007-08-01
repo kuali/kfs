@@ -62,6 +62,9 @@ public class PaymentRequestDocumentAuthorizer extends AccountingDocumentAuthoriz
         Map editModeMap = super.getEditMode(document, user, sourceAccountingLines, targetAccountingLines);
         PaymentRequestDocument preq = (PaymentRequestDocument) document;
 
+        //TODO: Chris - This class should be renamed since it's not just for actions
+        PaymentRequestDocumentActionAuthorizer preqDocAuth  = new PaymentRequestDocumentActionAuthorizer(preq,user); 
+        
         String editMode = AuthorizationConstants.EditMode.VIEW_ONLY;
 
         KualiWorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
@@ -69,23 +72,25 @@ public class PaymentRequestDocumentAuthorizer extends AccountingDocumentAuthoriz
             if (hasInitiateAuthorization(document, user)) {
                 editMode = AuthorizationConstants.EditMode.FULL_ENTRY;
             }
-        }
-        else if (workflowDocument.stateIsEnroute() && workflowDocument.isApprovalRequested()) {
+        } else if (workflowDocument.stateIsEnroute() && workflowDocument.isApprovalRequested()) {
             List currentRouteLevels = getCurrentRouteLevels(workflowDocument);
             editMode = AuthorizationConstants.EditMode.FULL_ENTRY;
 
             if (currentRouteLevels.contains(PurapConstants.WorkflowConstants.PaymentRequestDocument.NodeDetails.ACCOUNT_REVIEW)) {
                 editModeMap.remove(AuthorizationConstants.EditMode.FULL_ENTRY);
-                //expense_entry was already added above
-                //                editMode = AuthorizationConstants.TransactionalEditMode.EXPENSE_ENTRY;
-                //TODO: add another edit mode here to show amount instead of percent
+                //expense_entry was already added in super
+                //add amount edit mode
                 editMode = PurapAuthorizationConstants.PaymentRequestEditMode.ALLOW_ACCOUNT_AMOUNT_ENTRY;
             }
-        }
+        } 
 
         editModeMap.put(editMode, "TRUE");
 
-        //Map editModeMap = super.getEditMode(document, user, sourceAccountingLines, targetAccountingLines);
+        //make sure ap user can edit certain fields 
+        if (preqDocAuth.canEditPreExtractFields()) {
+            editModeMap.put(PurapAuthorizationConstants.PaymentRequestEditMode.EDIT_PRE_EXTRACT, "TRUE");
+        }
+        
         PaymentRequestDocument paymentRequestDocument = (PaymentRequestDocument) document;
         if (StringUtils.equals(paymentRequestDocument.getStatusCode(), PurapConstants.PaymentRequestStatuses.INITIATE)) {
             editModeMap.put(PurapAuthorizationConstants.PaymentRequestEditMode.DISPLAY_INIT_TAB, "TRUE");

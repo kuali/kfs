@@ -112,4 +112,10 @@ public interface PurapService {
      */
     public boolean isFullDocumentEntryCompleted(PurchasingAccountsPayableDocument purapDocument);
 
+    /**
+     * 
+     * This method performs all the actions on an update document
+     * @param purapDocument
+     */
+    public  void performLogicForFullEntryCompleted(PurchasingAccountsPayableDocument purapDocument);
 }

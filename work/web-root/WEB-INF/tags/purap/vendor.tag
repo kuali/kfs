@@ -32,6 +32,7 @@
               
 <c:set var="vendorReadOnly" value="${(not empty KualiForm.editingMode['lockVendorEntry'])}" />
 <c:set var="amendmentEntry" value="${(not empty KualiForm.editingMode['amendmentEntry'])}" />
+<c:set var="editPreExtract"	value="${(not empty KualiForm.editingMode['editPreExtract'])}" />
 <c:set var="currentUserCampusCode" value="${UserSession.universalUser.campusCode}" />
 
 <kul:tab tabTitle="Vendor" defaultOpen="${not (displayRequisitionFields or displayPurchaseOrderFields)}" tabErrorKey="${PurapConstants.VENDOR_ERRORS}">
@@ -295,7 +296,7 @@
                         <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.specialHandlingInstructionLine1Text}" /></div>
                     </th>
                     <td align=left valign=middle class="datacell">
-                        <kul:htmlControlAttribute attributeEntry="${documentAttributes.specialHandlingInstructionLine1Text}" property="document.specialHandlingInstructionLine1Text" readOnly="${not (fullEntryMode or amendmentEntry)}" />
+                        <kul:htmlControlAttribute attributeEntry="${documentAttributes.specialHandlingInstructionLine1Text}" property="document.specialHandlingInstructionLine1Text" readOnly="${not (fullEntryMode or editPreExtract)}" />
                     </td>
                     <th align=right valign=middle class="bord-l-b">&nbsp;</th>
                     <td align=left valign=middle class="datacell">&nbsp;</td>
@@ -303,7 +304,7 @@
     
                 <tr>
                     <td align=left valign=middle class="datacell">
-                        <kul:htmlControlAttribute attributeEntry="${documentAttributes.specialHandlingInstructionLine2Text}" property="document.specialHandlingInstructionLine2Text" readOnly="${not (fullEntryMode or amendmentEntry)}" />
+                        <kul:htmlControlAttribute attributeEntry="${documentAttributes.specialHandlingInstructionLine2Text}" property="document.specialHandlingInstructionLine2Text" readOnly="${not (fullEntryMode or editPreExtract)}" />
                     </td>
                     <th align=right valign=middle class="bord-l-b">&nbsp;</th>
                     <td align=left valign=middle class="datacell">&nbsp;</td>
@@ -311,7 +312,7 @@
     
                 <tr>
                     <td align=left valign=middle class="datacell">
-                        <kul:htmlControlAttribute attributeEntry="${documentAttributes.specialHandlingInstructionLine3Text}" property="document.specialHandlingInstructionLine3Text" readOnly="${not (fullEntryMode or amendmentEntry)}" />
+                        <kul:htmlControlAttribute attributeEntry="${documentAttributes.specialHandlingInstructionLine3Text}" property="document.specialHandlingInstructionLine3Text" readOnly="${not (fullEntryMode or editPreExtract)}" />
                     </td>
                     <th align=right valign=middle class="bord-l-b">&nbsp;</th>
                     <td align=left valign=middle class="datacell">&nbsp;</td>

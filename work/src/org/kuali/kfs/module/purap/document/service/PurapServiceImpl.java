@@ -394,5 +394,9 @@ public class PurapServiceImpl implements PurapService {
         }
         return value;
     }
+    
+    public  void performLogicForFullEntryCompleted(PurchasingAccountsPayableDocument purapDocument) {
+        //TODO: move logic from various parts of the app to here
+    }
 
 }

@@ -293,6 +293,10 @@ public class PaymentRequestDocumentActionAuthorizer {
         return hasPermission;        
     }
     
+    public boolean canEditPreExtractFields(){
+        return !this.isExtracted()&&this.apUser;
+    }
+    
     public boolean canExit(){
         boolean hasPermission = true;        
         return hasPermission;        

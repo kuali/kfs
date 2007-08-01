@@ -22,7 +22,7 @@
               description="Boolean to indicate if Invoice Info PREQ specific fields should be displayed" %>
 
 <c:set var="purchaseOrderAttributes" value="${DataDictionary.PurchaseOrderDocument.attributes}" />
-
+<c:set var="editPreExtract"	value="${(not empty KualiForm.editingMode['editPreExtract'])}" />
 
 <kul:tab tabTitle="Invoice Info" defaultOpen="true">
     <div class="tab-container" align=center>
@@ -53,7 +53,7 @@
                    <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.paymentRequestPayDate}" /></div>
                 </th>
                 <td align=left valign=middle class="datacell">
-                   <kul:htmlControlAttribute attributeEntry="${documentAttributes.paymentRequestPayDate}" property="document.paymentRequestPayDate" datePicker="true"/>
+                   <kul:htmlControlAttribute attributeEntry="${documentAttributes.paymentRequestPayDate}" property="document.paymentRequestPayDate" datePicker="true"  readOnly="${not (fullEntryMode or editPreExtract)}"/>
                    &nbsp; &nbsp;<kul:htmlControlAttribute attributeEntry="${documentAttributes.immediatePaymentIndicator}" property="document.immediatePaymentIndicator" />
                    (immediate Pay)
                 </td>
@@ -98,10 +98,10 @@
             
             <tr>
                 <th align=right valign=middle class="bord-l-b">
-                   <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.paymentAttachmentIndicator}" /></div>
+                   <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.paymentAttachmentIndicator}"  readOnly="${not (fullEntryMode or editPreExtract)}"/></div>
                 </th>
                 <td align=left valign=middle class="datacell">
-                   <kul:htmlControlAttribute attributeEntry="${documentAttributes.paymentAttachmentIndicator}" property="document.paymentAttachmentIndicator" />
+                   <kul:htmlControlAttribute attributeEntry="${documentAttributes.paymentAttachmentIndicator}" property="document.paymentAttachmentIndicator"  readOnly="${not (fullEntryMode or editPreExtract)}"/>
                 </td>
                 <th align=right valign=middle class="bord-l-b">
 					<div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.vendorInvoiceAmount}" /></div>

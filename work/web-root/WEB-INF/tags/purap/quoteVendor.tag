@@ -24,6 +24,7 @@
 <%@ attribute name="isSysVendor" required="false" description="vendor is from system?" %>
 <%@ attribute name="isRanked" required="false" description="vendor is ranked?" %>
 <%@ attribute name="isAwarded" required="false" description="vendor has been awarded?" %>
+<%@ attribute name="isTransmitPrintDisplayed" required="false" description="vendor quote is ready to print?" %>
 
         <tr>
 			<td colspan="5" class="subhead">
@@ -116,6 +117,13 @@
 	src="${ConfigProperties.externalizable.images.url}tinybutton-transmit.gif"
 	alt="transmit quote" title="transmit quote" 
 	styleClass="tinybutton" />
+					<c:if test="${isTransmitPrintDisplayed}">
+					<html:image
+	property="methodToCall.printPoQuote.line${ctr}"
+	src="${ConfigProperties.externalizable.images.url}tinybutton-print-quote-request.gif"
+	alt="print quote request" title="print quote request" 
+	styleClass="tinybutton" />
+					</c:if>
 				</c:if>
             </td>
         </tr>

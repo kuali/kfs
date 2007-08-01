@@ -201,6 +201,7 @@
 		        isRanked="${not empty quoteLine.purchaseOrderQuoteRankNumber}"
 		        isPurchaseOrderAwarded="${isPurchaseOrderAwarded}"
 				isAwarded="${not empty quoteLine.purchaseOrderQuoteAwardDate}"
+				isTransmitPrintDisplayed="${quoteLine.transmitPrintDisplayed}"
 		        ctr="${ctr}" /> 
 		</logic:iterate>
 
@@ -223,14 +224,6 @@
 		</tr>
 		</c:if>
 
-		</c:if>
-
-		<c:if test="${KualiForm.document.showPoPrintQuoteIndicator}">
-		<tr>
-			<td colspan="5">
-		  		<iframe name="printIFrame" id="printIFrame" src="purapPurchaseOrder.do?methodToCall=printPoQuote&docId=${KualiForm.document.documentHeader.documentNumber}&quoteVendorId=${KualiForm.document.selectedQuoteVendorId}" height="0" width="100" hspace='0' vspace='0' frameborder='0' title='PO Transmit - Print'></iframe>
-			</td>
-		</tr>
 		</c:if>
 
 		<c:if test="${not quoteOpen}">

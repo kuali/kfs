@@ -40,6 +40,9 @@ public enum UserNameFixture {
     RRUFFNER,
     SEASON,
     DQPERRON,
+    AATWOOD,
+    PARKE,
+    APPLETON,
     ;
 
     static {

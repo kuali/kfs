@@ -17,6 +17,7 @@ package org.kuali.module.purap.service;
 
 import java.util.Collection;
 
+import org.kuali.core.util.KualiDecimal;
 import org.kuali.module.purap.bo.NegativePaymentRequestApprovalLimit;
 
 public interface NegativePaymentRequestApprovalLimitService {
@@ -47,4 +48,15 @@ public interface NegativePaymentRequestApprovalLimitService {
      */
     Collection<NegativePaymentRequestApprovalLimit> findByChartAndOrganization(String chartCode, String organizationCode);
     
+    /**
+     * @param limit
+     * @return
+     */
+    Collection<NegativePaymentRequestApprovalLimit> findAboveLimit(KualiDecimal limit);
+    
+    /**
+     * @param limit
+     * @return
+     */
+    Collection<NegativePaymentRequestApprovalLimit> findBelowLimit(KualiDecimal limit);
 }

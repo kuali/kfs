@@ -22,10 +22,9 @@ import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.Query;
 import org.apache.ojb.broker.query.QueryByCriteria;
 import org.kuali.core.dao.ojb.PlatformAwareDaoBaseOjb;
+import org.kuali.core.util.KualiDecimal;
 import org.kuali.module.purap.bo.NegativePaymentRequestApprovalLimit;
 import org.kuali.module.purap.dao.NegativePaymentRequestApprovalLimitDao;
-import org.kuali.module.purap.document.CreditMemoDocument;
-import org.kuali.module.purap.service.impl.NegativePaymentRequestApprovalLimitServiceImpl;
 
 public class NegativePaymentRequestApprovalLimitDaoOjb extends PlatformAwareDaoBaseOjb implements NegativePaymentRequestApprovalLimitDao {
     private static Logger LOG = Logger.getLogger(NegativePaymentRequestApprovalLimitDaoOjb.class);
@@ -46,7 +45,7 @@ public class NegativePaymentRequestApprovalLimitDaoOjb extends PlatformAwareDaoB
      * @see org.kuali.module.purap.dao.NegativePaymentRequestApprovalLimitDao#findByChartAndAccount(java.lang.String, java.lang.String)
      */
     public Collection<NegativePaymentRequestApprovalLimit> findByChartAndAccount(String chartCode, String accountNumber) {
-        LOG.debug("Entering findByChartAndAccount(String)");
+        LOG.debug("Entering findByChartAndAccount(String, String)");
         Criteria criteria = new Criteria();
         criteria.addEqualTo("chartOfAccountsCode", chartCode);
         criteria.addEqualTo("accountNumber", accountNumber);
@@ -59,12 +58,30 @@ public class NegativePaymentRequestApprovalLimitDaoOjb extends PlatformAwareDaoB
      * @see org.kuali.module.purap.dao.NegativePaymentRequestApprovalLimitDao#findByChartAndOrganization(java.lang.String, java.lang.String)
      */
     public Collection<NegativePaymentRequestApprovalLimit> findByChartAndOrganization(String chartCode, String organizationCode) {
-        LOG.debug("Entering findByChartAndOrganization(String)");
+        LOG.debug("Entering findByChartAndOrganization(String, String)");
         Criteria criteria = new Criteria();
         criteria.addEqualTo("chartOfAccountsCode", chartCode);
         criteria.addEqualTo("organizationCode", organizationCode);
         Query query = new QueryByCriteria(NegativePaymentRequestApprovalLimit.class,criteria);
         LOG.debug("Leaving findByChartAndOrganization(String, String)");
+        return getPersistenceBrokerTemplate().getCollectionByQuery(query);
+    }
+    
+    public Collection<NegativePaymentRequestApprovalLimit> findAboveLimit(KualiDecimal limit) {
+        LOG.debug("Entering findAboveLimit(KualiDecimal)");
+        Criteria criteria = new Criteria();
+        criteria.addGreaterThan("negativePaymentRequestApprovalLimitAmount", limit);
+        Query query = new QueryByCriteria(NegativePaymentRequestApprovalLimit.class,criteria);
+        LOG.debug("Leaving findAboveLimit(KualiDecimal)");
+        return getPersistenceBrokerTemplate().getCollectionByQuery(query);
+    }
+
+    public Collection<NegativePaymentRequestApprovalLimit> findBelowLimit(KualiDecimal limit) {
+        LOG.debug("Entering findBelowLimit(KualiDecimal)");
+        Criteria criteria = new Criteria();
+        criteria.addLessThan("negativePaymentRequestApprovalLimitAmount", limit);
+        Query query = new QueryByCriteria(NegativePaymentRequestApprovalLimit.class,criteria);
+        LOG.debug("Leaving findBelowLimit(KualiDecimal)");
         return getPersistenceBrokerTemplate().getCollectionByQuery(query);
     }
 

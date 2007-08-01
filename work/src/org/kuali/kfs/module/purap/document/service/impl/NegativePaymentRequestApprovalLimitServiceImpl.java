@@ -18,6 +18,7 @@ package org.kuali.module.purap.service.impl;
 import java.util.Collection;
 
 import org.apache.log4j.Logger;
+import org.kuali.core.util.KualiDecimal;
 import org.kuali.module.purap.bo.NegativePaymentRequestApprovalLimit;
 import org.kuali.module.purap.dao.NegativePaymentRequestApprovalLimitDao;
 import org.kuali.module.purap.service.NegativePaymentRequestApprovalLimitService;
@@ -59,4 +60,24 @@ public class NegativePaymentRequestApprovalLimitServiceImpl implements NegativeP
         this.dao = dao;
     }
 
+    /**
+     * @param limit
+     * @return
+     */
+    public Collection<NegativePaymentRequestApprovalLimit> findAboveLimit(KualiDecimal limit) {
+        LOG.debug("Entering findAboveLimit(KualiDecimal)");
+        LOG.debug("Leaving findAboveLimit(KualiDecimal)");
+        return dao.findAboveLimit(limit);
+    }
+    
+    /**
+     * @param limit
+     * @return
+     */
+    public Collection<NegativePaymentRequestApprovalLimit> findBelowLimit(KualiDecimal limit) {
+        LOG.debug("Entering findBelowLimit(KualiDecimal)");
+        LOG.debug("Leaving findBelowLimit(KualiDecimal)");
+        return dao.findBelowLimit(limit);
+    }
+    
 }

@@ -121,7 +121,7 @@ public class AccountBalanceObjectDaoJdbc extends AccountBalanceDaoJdbcBase imple
             String balanceStatementSql = 
 	        		"SELECT CURR_BDLN_BAL_AMT,ACLN_ACTLS_BAL_AMT,ACLN_ENCUM_BAL_AMT " +
 	        		"FROM fp_interim1_obj_mt " +
-	        		"WHERE sesid = ? univ_fiscal_yr = ? AND fin_coa_cd = ? AND account_nbr = ? AND sub_acct_nbr = ?" +
+	        		"WHERE sesid = ? AND univ_fiscal_yr = ? AND fin_coa_cd = ? AND account_nbr = ? AND sub_acct_nbr = ?" +
 					" AND fin_object_cd = ? AND fin_sub_obj_cd = ?";
         
 	        String updateBalanceStatementSql = 

@@ -139,4 +139,6 @@ public interface LaborLedgerBalanceService {
      * @param transaction the given transaction information
      */
     public void updateLedgerBalance(LedgerBalance ledgerBalance, Transaction transaction);
+    
+    
 }

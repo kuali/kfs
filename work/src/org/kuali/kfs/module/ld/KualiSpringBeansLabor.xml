@@ -655,10 +655,7 @@
 	<bean id="BaseFundsLookupableHelperService" class="org.kuali.module.labor.web.lookupable.BaseFundsLookupableHelperServiceImpl" singleton="false">
 		<property name="persistenceStructureService">
 			<ref bean="persistenceStructureService" />
-		</property>
-		<property name="laborDao">
-			<ref bean="laborDao" />
-		</property>		
+		</property>	
 		<property name="lookupService">
 			<ref bean="lookupService" />
 		</property>
@@ -671,8 +668,8 @@
 		<property name="dataDictionaryService">
 			<ref bean="dataDictionaryService" />
 		</property>
-		<property name="balanceService">
-			<ref bean="laborLedgerBalanceService" />
+		<property name="laborBaseFundsService">
+			<ref bean="laborBaseFundsService" />
 		</property>		
 		<property name="laborInquiryOptionsService">
 			<ref bean="laborInquiryOptionsService" />
@@ -773,6 +770,13 @@
 		</property>
 	</bean>
 	
+	<bean id="laborBaseFundsDao" parent="platformAwareDao" class="org.kuali.module.labor.dao.ojb.LaborBaseFundsDaoOjb" />
+	
+	<bean id="laborBaseFundsService" class="org.kuali.module.labor.service.impl.LaborBaseFundsServiceImpl">
+		<property name="laborBaseFundsDao">
+			<ref bean="laborBaseFundsDao" />
+		</property>
+	</bean>
 	
 	<!--  Batch manual   -->
 <!-- 

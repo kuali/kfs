@@ -32,18 +32,11 @@ import org.kuali.module.gl.web.Constant;
 /**
  * This class is used to generate the URL for the user-defined attributes for the Base Funds screen. It is entended the
  * KualiInquirableImpl class, so it covers both the default implementation and customized implemetnation.
- * 
- * 
  */
 public class BaseFundsInquirableImpl extends AbstractLaborInquirableImpl {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(BaseFundsInquirableImpl.class);
 
-    private BusinessObjectDictionaryService dataDictionary;
-    private LookupService lookupService;
-    private Class businessObjectClass;
-
     /**
-     * 
      * @see org.kuali.module.labor.web.inquirable.AbstractLaborInquirableImpl#buildUserDefinedAttributeKeyList()
      */
     protected List buildUserDefinedAttributeKeyList() {
@@ -53,9 +46,8 @@ public class BaseFundsInquirableImpl extends AbstractLaborInquirableImpl {
         keys.add(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE);
         keys.add(KFSPropertyConstants.ACCOUNT_NUMBER);
         keys.add(KFSPropertyConstants.SUB_ACCOUNT_NUMBER);
-        keys.add(KFSPropertyConstants.OBJECT_CODE);
-        keys.add(KFSPropertyConstants.SUB_OBJECT_CODE);
-        keys.add(KFSPropertyConstants.CSF_AMOUNT);
+        keys.add(KFSPropertyConstants.FINANCIAL_OBJECT_CODE);
+        keys.add(KFSPropertyConstants.FINANCIAL_SUB_OBJECT_CODE);
 
         return keys;
     }
@@ -79,7 +71,7 @@ public class BaseFundsInquirableImpl extends AbstractLaborInquirableImpl {
     /**
      * @see org.kuali.module.gl.web.inquirable.AbstractGLInquirableImpl#getKeyValue(java.lang.String, java.lang.Object)
      */
-    protected Object getKeyValue(String keyName, Object keyValue) {
+    protected Object getKeyValue(String keyName, Object keyValue) {       
         if (isExclusiveField(keyName, keyValue)) {
             keyValue = Constant.EMPTY_STRING;
         }
@@ -90,7 +82,6 @@ public class BaseFundsInquirableImpl extends AbstractLaborInquirableImpl {
      * @see org.kuali.module.gl.web.inquirable.AbstractGLInquirableImpl#getKeyName(java.lang.String)
      */
     protected String getKeyName(String keyName) {
-        keyName = BusinessObjectFieldConverter.convertToTransactionPropertyName(keyName);
         return keyName;
     }
 
@@ -120,9 +111,5 @@ public class BaseFundsInquirableImpl extends AbstractLaborInquirableImpl {
      * @see org.kuali.module.gl.web.inquirable.AbstractGLInquirableImpl#addMoreParameters(java.util.Properties, java.lang.String)
      */
     protected void addMoreParameters(Properties parameter, String attributeName) {
-        parameter.put(KFSConstants.LOOKUPABLE_IMPL_ATTRIBUTE_NAME, getLookupableImplAttributeName());
-
-        String periodCode = (String) getUserDefinedAttributeMap().get(attributeName);
-        parameter.put(KFSConstants.UNIVERSITY_FISCAL_PERIOD_CODE_PROPERTY_NAME, periodCode);
     }
 }

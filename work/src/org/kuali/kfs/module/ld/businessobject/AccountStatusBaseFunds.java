@@ -22,10 +22,8 @@ import org.kuali.core.util.KualiDecimal;
  * Report business object for Account Status (Base Funds).
  */
 public class AccountStatusBaseFunds extends LedgerBalance {
-    private KualiDecimal accountLineAnnualBalanceAmount;
-    private KualiDecimal financialBeginningBalanceLineAmount;
-    private KualiDecimal contractsGrantsBeginningBalanceAmount;
     private KualiDecimal csfAmount;
+    private KualiDecimal baseBudgetAmount;
     private KualiDecimal baseCSFVarianceAmount;
 
     /**
@@ -33,90 +31,141 @@ public class AccountStatusBaseFunds extends LedgerBalance {
      */
     public AccountStatusBaseFunds() {
         super();
-        this.setAccountLineAnnualBalanceAmount(KualiDecimal.ZERO);
-        this.setFinancialBeginningBalanceLineAmount(KualiDecimal.ZERO);
         this.setBaseCSFVarianceAmount(KualiDecimal.ZERO);
+        this.setCsfAmount(KualiDecimal.ZERO);
+        this.setBaseBudgetAmount(KualiDecimal.ZERO);
     }
 
     /**
-     * This method calculates the Salary Foundation Amount and returns it
+     * Gets the baseBudgetAmount attribute.
      * 
-     * @return
+     * @return Returns the baseBudgetAmount.
      */
-    public KualiDecimal getCsfAmount() {
-        return csfAmount;
+    public KualiDecimal getBaseBudgetAmount() {
+        return this.getAccountLineAnnualBalanceAmount().add(this.getFinancialBeginningBalanceLineAmount()).add(this.getContractsGrantsBeginningBalanceAmount());
     }
 
     /**
-     * This method set the calculated salary foundation amount
+     * Sets the baseBudgetAmount attribute value.
      * 
-     * @param calculatedSalaryFoundationAmount
+     * @param baseBudgetAmount The baseBudgetAmount to set.
      */
-    public void setCsfAmount(KualiDecimal csfAmount) {
-        this.csfAmount = csfAmount;
+    public void setBaseBudgetAmount(KualiDecimal baseBudgetAmount) {
+        this.baseBudgetAmount = baseBudgetAmount;
     }
 
     /**
-     * This method sets the base CSF variance
+     * Gets the baseCSFVarianceAmount attribute.
      * 
-     * @param baseCSFVarianceAmount
+     * @return Returns the baseCSFVarianceAmount.
+     */
+    public KualiDecimal getBaseCSFVarianceAmount() {
+        return this.getBaseBudgetAmount().subtract(this.getCsfAmount());
+    }
+
+    /**
+     * Sets the baseCSFVarianceAmount attribute value.
+     * 
+     * @param baseCSFVarianceAmount The baseCSFVarianceAmount to set.
      */
     public void setBaseCSFVarianceAmount(KualiDecimal baseCSFVarianceAmount) {
         this.baseCSFVarianceAmount = baseCSFVarianceAmount;
     }
 
     /**
-     * @see org.kuali.module.labor.bo.LedgerBalance#getFinancialBeginningBalanceLineAmount()
-     */
-    public KualiDecimal getFinancialBeginningBalanceLineAmount() {
-        return financialBeginningBalanceLineAmount;
-    }
-
-    /**
-     * @see org.kuali.module.labor.bo.LedgerBalance#setFinancialBeginningBalanceLineAmount(org.kuali.core.util.KualiDecimal)
-     */
-    public void setFinancialBeginningBalanceLineAmount(KualiDecimal financialBeginningBalanceLineAmount) {
-        this.financialBeginningBalanceLineAmount = financialBeginningBalanceLineAmount;
-    }
-
-    /**
-     * This method calculates the CFS variance amount
+     * Gets the csfAmount attribute.
      * 
-     * @return
+     * @return Returns the csfAmount.
      */
-    public KualiDecimal getBaseCSFVarianceAmount() {
-        if (this.accountLineAnnualBalanceAmount != null && this.csfAmount != null) {
-            baseCSFVarianceAmount = this.accountLineAnnualBalanceAmount.subtract(this.csfAmount);
-        }
+    public KualiDecimal getCsfAmount() {
+        return csfAmount;
+    }
+
+    /**
+     * Sets the csfAmount attribute value.
+     * 
+     * @param csfAmount The csfAmount to set.
+     */
+    public void setCsfAmount(KualiDecimal csfAmount) {
+        this.csfAmount = csfAmount;
+    }
+
+    /**
+     * @see java.lang.Object#hashCode()
+     */
+    @Override
+    public int hashCode() {
+        final int PRIME = 31;
+        int result = 1;
+        result = PRIME * result + ((getAccountNumber() == null) ? 0 : getAccountNumber().hashCode());
+        result = PRIME * result + ((getChartOfAccountsCode() == null) ? 0 : getChartOfAccountsCode().hashCode());
+        result = PRIME * result + ((getFinancialObjectCode() == null) ? 0 : getFinancialObjectCode().hashCode());
+        result = PRIME * result + ((getFinancialSubObjectCode() == null) ? 0 : getFinancialSubObjectCode().hashCode());
+        result = PRIME * result + ((getSubAccountNumber() == null) ? 0 : getSubAccountNumber().hashCode());
+        result = PRIME * result + ((getUniversityFiscalYear() == null) ? 0 : getUniversityFiscalYear().hashCode());
+        return result;
+    }
+
+    /**
+     * @see java.lang.Object#equals(java.lang.Object)
+     */
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
         
-        return baseCSFVarianceAmount;
-    }
+        final AccountStatusBaseFunds other = (AccountStatusBaseFunds) obj;
+        if (getAccountNumber() == null) {
+            if (other.getAccountNumber() != null)
+                return false;
+        }
+        else if (!getAccountNumber().equals(other.getAccountNumber())) {
+            return false;
+        }
 
-    /**
-     * @see org.kuali.module.gl.bo.Balance#getAccountLineAnnualBalanceAmount()
-     */
-    public KualiDecimal getAccountLineAnnualBalanceAmount() {
-        return accountLineAnnualBalanceAmount;
-    }
+        if (getChartOfAccountsCode() == null) {
+            if (other.getChartOfAccountsCode() != null)
+                return false;
+        }
+        else if (!getChartOfAccountsCode().equals(other.getChartOfAccountsCode())) {
+            return false;
+        }
 
-    /**
-     * @see org.kuali.module.gl.bo.Balance#setAccountLineAnnualBalanceAmount(org.kuali.core.util.KualiDecimal)
-     */
-    public void setAccountLineAnnualBalanceAmount(KualiDecimal accountLineAnnualBalanceAmount) {
-        this.accountLineAnnualBalanceAmount = accountLineAnnualBalanceAmount;
-    }
+        if (getFinancialObjectCode() == null) {
+            if (other.getFinancialObjectCode() != null)
+                return false;
+        }
+        else if (!getFinancialObjectCode().equals(other.getFinancialObjectCode())) {
+            return false;
+        }
 
-    /**
-     * @see org.kuali.module.gl.bo.Balance#getContractsGrantsBeginningBalanceAmount()
-     */
-    public KualiDecimal getContractsGrantsBeginningBalanceAmount() {
-        return contractsGrantsBeginningBalanceAmount;
-    }
+        if (getFinancialSubObjectCode() == null) {
+            if (other.getFinancialSubObjectCode() != null)
+                return false;
+        }
+        else if (!getFinancialSubObjectCode().equals(other.getFinancialSubObjectCode())) {
+            return false;
+        }
 
-    /**
-     * @see org.kuali.module.gl.bo.Balance#setContractsGrantsBeginningBalanceAmount(org.kuali.core.util.KualiDecimal)
-     */
-    public void setContractsGrantsBeginningBalanceAmount(KualiDecimal contractsGrantsBeginningBalanceAmount) {
-        this.contractsGrantsBeginningBalanceAmount = contractsGrantsBeginningBalanceAmount;
+        if (getSubAccountNumber() == null) {
+            if (other.getSubAccountNumber() != null)
+                return false;
+        }
+        else if (!getSubAccountNumber().equals(other.getSubAccountNumber())) {
+            return false;
+        }
+
+        if (getUniversityFiscalYear() == null) {
+            if (other.getUniversityFiscalYear() != null)
+                return false;
+        }
+        else if (!getUniversityFiscalYear().equals(other.getUniversityFiscalYear())) {
+            return false;
+        }
+        return true;
     }
 }

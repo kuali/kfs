@@ -133,7 +133,7 @@ public class LaborDaoOjb extends PlatformAwareDaoBaseOjb implements LaborDao {
     }
 
     private <T> Iterator getAccountStatus(Class<T> clazz, Map fieldValues, boolean isConsolidated) {
-        Query query = getAccountStatusQuery(AccountStatusBaseFunds.class, fieldValues, isConsolidated);
+        Query query = getAccountStatusQuery(clazz, fieldValues, isConsolidated);
         OJBUtility.limitResultSize(query);
 
         if (isConsolidated) {

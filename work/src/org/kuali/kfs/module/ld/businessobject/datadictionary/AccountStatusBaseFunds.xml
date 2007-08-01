@@ -20,7 +20,6 @@
 <dictionaryEntry>
     <businessObject businessObjectClass="org.kuali.module.labor.bo.AccountStatusBaseFunds">
 
-
         <inquiry>
             <title>Account Status (Base Funds) Balance Inquiry</title>
 
@@ -40,8 +39,11 @@
 
             <defaultSort sortAscending="true">
                 <sortAttributes>
-                    <sortAttribute attributeName="chartOfAccountsCode" />
-                    <sortAttribute attributeName="accountNumber" />
+                    <sortAttribute attributeName="subAccountNumber" />
+                    <sortAttribute attributeName="financialObjectCode" />
+                    <sortAttribute attributeName="financialSubObjectCode" />
+                    <sortAttribute attributeName="baseBudgetAmount" />
+                    <sortAttribute attributeName="csfAmount" />
                 </sortAttributes>
             </defaultSort>
 
@@ -63,11 +65,10 @@
             	<field attributeName="universityFiscalYear" />
                 <field attributeName="chartOfAccountsCode" />
                 <field attributeName="accountNumber" />
-                <field attributeName="subAccountNumber" />	
-                <field attributeName="financialBalanceTypeCode" />			
+                <field attributeName="subAccountNumber" />				
                 <field attributeName="financialObjectCode" />
                 <field attributeName="financialSubObjectCode" />
-                <field attributeName="accountLineAnnualBalanceAmount" />   
+                <field attributeName="baseBudgetAmount" />   
                 <field attributeName="csfAmount" />
                 <field attributeName="baseCSFVarianceAmount" />
             </resultFields>
@@ -101,11 +102,9 @@
 			<attributeReference name="chartOfAccountsCode" sourceClassName="org.kuali.module.chart.bo.Chart" sourceAttributeName="chartOfAccountsCode" >
                 <required>true</required>
             </attributeReference>
-			<attributeReference name="financialBalanceTypeCode" sourceClassName="org.kuali.module.chart.bo.codes.BalanceTyp" sourceAttributeName="code">
-				<control>
-					<hidden />
-				</control>
-			</attributeReference>
+            
+			<attributeReference name="financialBalanceTypeCode" sourceClassName="org.kuali.module.chart.bo.codes.BalanceTyp" sourceAttributeName="code"/>
+
 			<attributeReference name="financialObjectCode" sourceClassName="org.kuali.module.chart.bo.ObjectCode" sourceAttributeName="financialObjectCode" />
 			<attributeReference name="financialObjectTypeCode" sourceClassName="org.kuali.module.chart.bo.ObjectType" sourceAttributeName="code" />
 			<attributeReference name="financialSubObjectCode" sourceClassName="org.kuali.module.chart.bo.SubObjCd" sourceAttributeName="financialSubObjectCode" />
@@ -120,21 +119,13 @@
 
             <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
 
-			<attribute name="csfAmount" forceUppercase="true">
+			<attributeReference name="csfAmount" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericAmount">           
                 <label>CSF Account Amount</label>
-                <shortLabel>CSF Acctount Amount</shortLabel>
-
-                <maxLength>19</maxLength>
-                <validationPattern><floatingPoint /></validationPattern>
-
-                <control>
-                    <text size="21" />
-                </control>
-
+                <shortLabel>CSF Amount</shortLabel>
                 <summary>csfAmount</summary>
                 <description>csfAmountdescription...</description>
                 <formatterClass>org.kuali.core.web.format.CurrencyFormatter</formatterClass>
-			</attribute>
+			</attributeReference>
 
 			<attributeReference name="baseCSFVarianceAmount" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericAmount">
                 <label>Base/CSF Variance Amount</label>
@@ -143,6 +134,14 @@
                 <description>baseCSFVarianceAmount description</description>
                 <formatterClass>org.kuali.core.web.format.CurrencyFormatter</formatterClass>
             </attributeReference>
+            
+			<attributeReference name="baseBudgetAmount" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericAmount">
+                <label>Base Budget Amount</label>
+                <shortLabel>Budget Amount</shortLabel>
+                <summary>Base Budget Amount</summary>
+                <description>Base Budget Amount description</description>
+                <formatterClass>org.kuali.core.web.format.CurrencyFormatter</formatterClass>
+            </attributeReference>            
 			
 			<attributeReference name="financialBeginningBalanceLineAmount" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericAmount">
                 <label>Beginning Balance Line Amount</label>
@@ -150,14 +149,11 @@
                 <summary>BeginningBalanceLineAmount</summary>
                 <description>beginningBalanceLineAmount description...</description>
                 <formatterClass>org.kuali.core.web.format.CurrencyFormatter</formatterClass>
-
             </attributeReference>
 
             <attributeReference name="dummyBusinessObject.consolidationOption" sourceClassName="org.kuali.module.gl.bo.TransientBalanceInquiryAttributes" sourceAttributeName="consolidationOption">
                 <description>Radioboxes that specify either Consolidation or Detail balances. If Detail is selected, balances are displayed by Chart, Account Number, Sub-Account Number, Object Code, and Sub-Object Code. If Consolidation is selected, the amounts are aggregated by Chart, Account Number, and Object Code.</description>
             </attributeReference>
-			
-            <attributeReference name="dummyBusinessObject.pendingEntryOption" sourceClassName="org.kuali.module.gl.bo.TransientBalanceInquiryAttributes" sourceAttributeName="pendingEntryOption" />
 
         </attributes>
     </businessObject>

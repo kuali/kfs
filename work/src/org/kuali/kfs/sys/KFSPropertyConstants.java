@@ -545,6 +545,7 @@ public class KFSPropertyConstants {
     public static final String FINANCIAL_BALANCE_TYPE_CODE = "financialBalanceTypeCode";
     public static final String FINANCIAL_BALANCE_TYPE_NAME = "financialBalanceTypeName";
     public static final String FINANCIAL_BALANCE_TYPE_SHORT_NM = "financialBalanceTypeShortNm";
+    public static final String FINANCIAL_BEGINNING_BALANCE_LINE_AMOUNT = "financialBeginningBalanceLineAmount";
     public static final String FINANCIAL_BUDGET_AGGREGATION = "financialBudgetAggregation";
     public static final String FINANCIAL_BUDGET_AGGREGATION_CD = "financialBudgetAggregationCd";
     public static final String FINANCIAL_CASH_OBJECT = "financialCashObject";

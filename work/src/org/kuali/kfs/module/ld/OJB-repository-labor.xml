@@ -1780,4 +1780,83 @@
 	<field-descriptor name="positionGradeDefault" column="POS_GRADE_DFLT" jdbc-type="VARCHAR"/>
 </class-descriptor>
 
+<!-- make AccountStatusBaseFunds point to GL Balance table here in order to avoid the naming inconsistency and bundling labor object with GL -->
+<class-descriptor class="org.kuali.module.labor.bo.AccountStatusBaseFunds" table="GL_BALANCE_T">
+    <field-descriptor name="universityFiscalYear" column="UNIV_FISCAL_YR" jdbc-type="INTEGER" primarykey="true" />
+    <field-descriptor name="chartOfAccountsCode" column="FIN_COA_CD" jdbc-type="VARCHAR" primarykey="true" />
+    <field-descriptor name="accountNumber" column="ACCOUNT_NBR" jdbc-type="VARCHAR" primarykey="true" />
+    <field-descriptor name="subAccountNumber" column="SUB_ACCT_NBR" jdbc-type="VARCHAR" primarykey="true" />
+    <field-descriptor name="financialObjectCode" column="FIN_OBJECT_CD" jdbc-type="VARCHAR" primarykey="true" />
+    <field-descriptor name="financialSubObjectCode" column="FIN_SUB_OBJ_CD" jdbc-type="VARCHAR" primarykey="true" />
+    <field-descriptor name="financialBalanceTypeCode" column="FIN_BALANCE_TYP_CD" jdbc-type="VARCHAR" primarykey="true" />
+    <field-descriptor name="financialObjectTypeCode" column="FIN_OBJ_TYP_CD" jdbc-type="VARCHAR" primarykey="true" />
+    <field-descriptor name="accountLineAnnualBalanceAmount" column="ACLN_ANNL_BAL_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion" />
+    <field-descriptor name="financialBeginningBalanceLineAmount" column="FIN_BEG_BAL_LN_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion" />
+    <field-descriptor name="contractsGrantsBeginningBalanceAmount" column="CONTR_GR_BB_AC_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion" />
+    <field-descriptor name="month1Amount" column="MO1_ACCT_LN_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion" />
+    <field-descriptor name="month2Amount" column="MO2_ACCT_LN_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion" />
+    <field-descriptor name="month3Amount" column="MO3_ACCT_LN_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion" />
+    <field-descriptor name="month4Amount" column="MO4_ACCT_LN_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion" />
+    <field-descriptor name="month5Amount" column="MO5_ACCT_LN_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion" />
+    <field-descriptor name="month6Amount" column="MO6_ACCT_LN_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion" />
+    <field-descriptor name="month7Amount" column="MO7_ACCT_LN_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion" />
+    <field-descriptor name="month8Amount" column="MO8_ACCT_LN_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion" />
+    <field-descriptor name="month9Amount" column="MO9_ACCT_LN_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion" />
+    <field-descriptor name="month10Amount" column="MO10_ACCT_LN_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion" />
+    <field-descriptor name="month11Amount" column="MO11_ACCT_LN_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion" />
+    <field-descriptor name="month12Amount" column="MO12_ACCT_LN_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion" />
+    <field-descriptor name="month13Amount" column="MO13_ACCT_LN_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion" />
+    <field-descriptor name="timestamp" column="TIMESTAMP" jdbc-type="DATE" />
+    <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+    <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+
+    <reference-descriptor name="option" class-ref="org.kuali.kfs.bo.Options" auto-retrieve="true" auto-update="none" auto-delete="none">
+        <foreignkey field-ref="universityFiscalYear" />
+    </reference-descriptor>
+
+    <reference-descriptor name="chart" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="none" auto-delete="none">
+        <foreignkey field-ref="chartOfAccountsCode" />
+    </reference-descriptor>
+
+    <reference-descriptor name="account" class-ref="org.kuali.module.chart.bo.Account" auto-retrieve="true" auto-update="none" auto-delete="none">
+        <foreignkey field-ref="chartOfAccountsCode" />
+        <foreignkey field-ref="accountNumber" />
+    </reference-descriptor>
+		    
+    <reference-descriptor name="laborObject" class-ref="org.kuali.module.labor.bo.LaborObject" auto-retrieve="true" auto-update="none" auto-delete="none">
+        <foreignkey field-ref="universityFiscalYear"/>
+        <foreignkey field-ref="chartOfAccountsCode"/>
+        <foreignkey field-ref="financialObjectCode"/>
+    </reference-descriptor>	
+    
+    <reference-descriptor name="financialObject" class-ref="org.kuali.module.chart.bo.ObjectCode" auto-retrieve="true" auto-update="none" auto-delete="none">
+        <foreignkey field-ref="universityFiscalYear" />
+        <foreignkey field-ref="chartOfAccountsCode" />
+        <foreignkey field-ref="financialObjectCode" />
+    </reference-descriptor>
+
+    <reference-descriptor name="subAccount" class-ref="org.kuali.module.chart.bo.SubAccount" auto-retrieve="true" auto-update="none" auto-delete="none">
+        <foreignkey field-ref="chartOfAccountsCode" />
+        <foreignkey field-ref="accountNumber" />
+        <foreignkey field-ref="subAccountNumber" />
+    </reference-descriptor>
+
+    <reference-descriptor name="balanceType" class-ref="org.kuali.module.chart.bo.codes.BalanceTyp" auto-retrieve="true" auto-update="none" auto-delete="none">
+        <foreignkey field-ref="financialBalanceTypeCode" />
+    </reference-descriptor>
+
+    <reference-descriptor name="objectType" class-ref="org.kuali.module.chart.bo.ObjectType" auto-retrieve="true" auto-update="none" auto-delete="none">
+        <foreignkey field-ref="financialObjectTypeCode" />
+    </reference-descriptor>
+
+    <reference-descriptor name="financialSubObject" class-ref="org.kuali.module.chart.bo.SubObjCd" auto-retrieve="true" auto-update="none" auto-delete="none">
+        <foreignkey field-ref="universityFiscalYear" />
+        <foreignkey field-ref="chartOfAccountsCode" />
+        <foreignkey field-ref="accountNumber" />
+        <foreignkey field-ref="financialObjectCode" />
+        <foreignkey field-ref="financialSubObjectCode" />
+    </reference-descriptor>
+
+</class-descriptor>
+
 </descriptor-repository>

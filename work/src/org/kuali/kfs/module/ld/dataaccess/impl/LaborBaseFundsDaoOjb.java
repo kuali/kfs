@@ -41,13 +41,12 @@ public class LaborBaseFundsDaoOjb extends PlatformAwareDaoBaseOjb implements Lab
      * @see org.kuali.module.labor.dao.LaborBaseFundsDao#findCSFTrackers(java.util.Map, boolean)
      */
     public List<CalculatedSalaryFoundationTracker> findCSFTrackers(Map fieldValues, boolean isConsolidated) {
+        LOG.debug("Start findCSFTrackers()");
 
         Iterator<Object[]> queryResults = this.findCSFTrackerRawData(fieldValues, isConsolidated);
-
-        // unmarshal CalculatedSalaryFoundationTracker from the query results
         List<CalculatedSalaryFoundationTracker> CSFCollection = new ArrayList<CalculatedSalaryFoundationTracker>();
         while (queryResults != null && queryResults.hasNext()) {
-            CSFCollection.add(this.unmarshalCSFTracker(queryResults.next()));
+            CSFCollection.add(this.marshalCSFTracker(queryResults.next()));
         }
         return CSFCollection;
     }
@@ -56,12 +55,12 @@ public class LaborBaseFundsDaoOjb extends PlatformAwareDaoBaseOjb implements Lab
      * @see org.kuali.module.labor.dao.LaborBaseFundsDao#findCSFTrackersAsAccountStatusBaseFunds(java.util.Map, boolean)
      */
     public List<AccountStatusBaseFunds> findCSFTrackersAsAccountStatusBaseFunds(Map fieldValues, boolean isConsolidated) {
-        Iterator<Object[]> queryResults = this.findCSFTrackerRawData(fieldValues, isConsolidated);
+        LOG.debug("Start findCSFTrackersAsAccountStatusBaseFunds()");
 
-        // unmarshal CalculatedSalaryFoundationTracker from the query results and convert to AccountStatusBaseFunds
+        Iterator<Object[]> queryResults = this.findCSFTrackerRawData(fieldValues, isConsolidated);
         List<AccountStatusBaseFunds> BaseFundsCollection = new ArrayList<AccountStatusBaseFunds>();
         while (queryResults != null && queryResults.hasNext()) {
-            BaseFundsCollection.add(this.unmarshalCSFTrackerAsAccountStatusBaseFunds(queryResults.next()));
+            BaseFundsCollection.add(this.marshalCSFTrackerAsAccountStatusBaseFunds(queryResults.next()));
         }
         return BaseFundsCollection;
     }
@@ -70,12 +69,12 @@ public class LaborBaseFundsDaoOjb extends PlatformAwareDaoBaseOjb implements Lab
      * @see org.kuali.module.labor.dao.LaborBaseFundsDao#findLaborBaseFunds(java.util.Map, boolean)
      */
     public List<AccountStatusBaseFunds> findLaborBaseFunds(Map fieldValues, boolean isConsolidated) {
-        Iterator<Object[]> queryResults = this.findLaborBaseFundsRawData(fieldValues, isConsolidated);
+        LOG.debug("Start findLaborBaseFunds()");
 
-        // unmarshal AccountStatusBaseFunds from the query results
+        Iterator<Object[]> queryResults = this.findLaborBaseFundsRawData(fieldValues, isConsolidated);
         List<AccountStatusBaseFunds> BaseFundsCollection = new ArrayList<AccountStatusBaseFunds>();
         while (queryResults != null && queryResults.hasNext()) {
-            BaseFundsCollection.add(this.unmarshalAccountStatusBaseFunds(queryResults.next()));
+            BaseFundsCollection.add(this.marshalAccountStatusBaseFunds(queryResults.next()));
         }
         return BaseFundsCollection;
     }
@@ -116,10 +115,10 @@ public class LaborBaseFundsDaoOjb extends PlatformAwareDaoBaseOjb implements Lab
         criteria.addEqualToField(KFSPropertyConstants.LABOR_OBJECT + "." + KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR);
         criteria.addEqualToField(KFSPropertyConstants.LABOR_OBJECT + "." + KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE);
         criteria.addEqualToField(KFSPropertyConstants.LABOR_OBJECT + "." + KFSPropertyConstants.FINANCIAL_OBJECT_CODE, KFSPropertyConstants.FINANCIAL_OBJECT_CODE);
-        
+
         // this statement is used to force OJB to join LABOR_OBJECT and GL_BALANCE tables
         criteria.addNotNull(KFSPropertyConstants.LABOR_OBJECT + "." + KFSPropertyConstants.FINANCIAL_OBJECT_FRINGE_OR_SALARY_CODE);
-        
+
         ReportQueryByCriteria query = QueryFactory.newReportQuery(AccountStatusBaseFunds.class, criteria);
 
         List<String> groupByList = getGroupByList(isConsolidated);
@@ -133,8 +132,8 @@ public class LaborBaseFundsDaoOjb extends PlatformAwareDaoBaseOjb implements Lab
         return getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(query);
     }
 
-    // unmarshal CalculatedSalaryFoundationTracker from the query result
-    private CalculatedSalaryFoundationTracker unmarshalCSFTracker(Object[] queryResult) {
+    // marshal into CalculatedSalaryFoundationTracker from the query result
+    private CalculatedSalaryFoundationTracker marshalCSFTracker(Object[] queryResult) {
         CalculatedSalaryFoundationTracker CSFTracker = new CalculatedSalaryFoundationTracker();
         List<String> keyFields = this.getAttributeListForCSFTracker(false, true);
 
@@ -142,8 +141,8 @@ public class LaborBaseFundsDaoOjb extends PlatformAwareDaoBaseOjb implements Lab
         return CSFTracker;
     }
 
-    // unmarshal CalculatedSalaryFoundationTracker from the query results and convert to AccountStatusBaseFunds
-    private AccountStatusBaseFunds unmarshalCSFTrackerAsAccountStatusBaseFunds(Object[] queryResult) {
+    // marshal into AccountStatusBaseFunds from the query results
+    private AccountStatusBaseFunds marshalCSFTrackerAsAccountStatusBaseFunds(Object[] queryResult) {
         AccountStatusBaseFunds baseFunds = new AccountStatusBaseFunds();
         List<String> keyFields = this.getAttributeListForCSFTracker(false, true);
 
@@ -151,8 +150,8 @@ public class LaborBaseFundsDaoOjb extends PlatformAwareDaoBaseOjb implements Lab
         return baseFunds;
     }
 
-    // unmarshal AccountStatusBaseFunds from the query result
-    private AccountStatusBaseFunds unmarshalAccountStatusBaseFunds(Object[] queryResult) {
+    // marshal into AccountStatusBaseFunds from the query result
+    private AccountStatusBaseFunds marshalAccountStatusBaseFunds(Object[] queryResult) {
         AccountStatusBaseFunds baseFunds = new AccountStatusBaseFunds();
         List<String> keyFields = this.getAttributeListForBaseFunds(false, true);
 
@@ -160,6 +159,7 @@ public class LaborBaseFundsDaoOjb extends PlatformAwareDaoBaseOjb implements Lab
         return baseFunds;
     }
 
+    // define a list of attributes that are used as the grouping criteria
     private List<String> getGroupByList(boolean isConsolidated) {
         List<String> groupByList = new ArrayList<String>();
         groupByList.add(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR);
@@ -174,6 +174,7 @@ public class LaborBaseFundsDaoOjb extends PlatformAwareDaoBaseOjb implements Lab
         return groupByList;
     }
 
+    // define the return attribute list
     private List<String> getAttributeList(boolean isConsolidated) {
         List<String> attributeList = getGroupByList(isConsolidated);
 
@@ -184,6 +185,7 @@ public class LaborBaseFundsDaoOjb extends PlatformAwareDaoBaseOjb implements Lab
         return attributeList;
     }
 
+    // define the return attribute list for CSF traker query
     private List<String> getAttributeListForCSFTracker(boolean isConsolidated, boolean isAttributeNameNeeded) {
         List<String> attributeList = getAttributeList(isConsolidated);
 
@@ -196,6 +198,7 @@ public class LaborBaseFundsDaoOjb extends PlatformAwareDaoBaseOjb implements Lab
         return attributeList;
     }
 
+    // define the return attribute list for base funds query
     private List<String> getAttributeListForBaseFunds(boolean isConsolidated, boolean isAttributeNameNeeded) {
         List<String> attributeList = getAttributeList(isConsolidated);
 

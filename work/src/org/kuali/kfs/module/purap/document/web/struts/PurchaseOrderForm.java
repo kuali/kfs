@@ -23,6 +23,7 @@ import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.web.ui.ExtraButton;
 import org.kuali.core.web.ui.KeyLabelPair;
 import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.module.purap.PurapAuthorizationConstants;
 import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.PurapParameterConstants;
 import org.kuali.module.purap.bo.PurchaseOrderAccount;
@@ -159,6 +160,8 @@ public class PurchaseOrderForm extends PurchasingFormBase {
         
         if ((purchaseOrder.isPurchaseOrderCurrentIndicator() && purchaseOrder.getStatusCode().equals(PurapConstants.PurchaseOrderStatuses.OPEN)) || 
              (documentType.equals(PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_RETRANSMIT_DOCUMENT) &&
+              purchaseOrder.isPurchaseOrderCurrentIndicator() &&       
+              !this.getEditingMode().containsKey(PurapAuthorizationConstants.PurchaseOrderEditMode.DISPLAY_RETRANSMIT_TAB) &&
               (purchaseOrder.getStatusCode().equals(PurapConstants.PurchaseOrderStatuses.OPEN) || purchaseOrder.getDocumentHeader().getWorkflowDocument().stateIsEnroute()))) {
 
             ExtraButton retransmitButton = new ExtraButton();
@@ -166,6 +169,16 @@ public class PurchaseOrderForm extends PurchasingFormBase {
             retransmitButton.setExtraButtonSource("${externalizable.images.url}buttonsmall_retransmit.gif");
             retransmitButton.setExtraButtonAltText("Retransmit");
             this.getExtraButtons().add(retransmitButton);
+        }
+        
+        //This is the button to print the pdf on a retransmit document. We're currently sharing the same button image as 
+        //the button for creating a retransmit document but this may change someday.
+        if (this.getEditingMode().containsKey(PurapAuthorizationConstants.PurchaseOrderEditMode.DISPLAY_RETRANSMIT_TAB)) {
+            ExtraButton printingRetransmitButton = new ExtraButton();
+            printingRetransmitButton.setExtraButtonProperty("methodToCall.printingRetransmitPo");
+            printingRetransmitButton.setExtraButtonSource("${externalizable.images.url}buttonsmall_retransmit.gif");
+            printingRetransmitButton.setExtraButtonAltText("PrintingRetransmit");
+            this.getExtraButtons().add(printingRetransmitButton);
         }
         
         boolean isFYIRequested = purchaseOrder.getDocumentHeader().getWorkflowDocument().isFYIRequested();

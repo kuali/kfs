@@ -51,6 +51,7 @@ public class PurchaseOrderVendorQuote extends PersistableBusinessObjectBase {
 	private Date purchaseOrderQuoteAwardDate;
 	private String purchaseOrderQuoteRankNumber;
     private String vendorCountryCode;
+    private boolean isTransmitPrintDisplayed = false;
     
     private PurchaseOrderDocument purchaseOrder;
 	private PurchaseOrderQuoteStatus purchaseOrderQuoteStatus;
@@ -549,6 +550,14 @@ public class PurchaseOrderVendorQuote extends PersistableBusinessObjectBase {
      */
     public void setVendorCountryCode(String vendorCountryCode) {
         this.vendorCountryCode = vendorCountryCode;
+    }
+
+    public boolean isTransmitPrintDisplayed() {
+        return isTransmitPrintDisplayed;
+    }
+
+    public void setTransmitPrintDisplayed(boolean isTransmitPrintDisplayed) {
+        this.isTransmitPrintDisplayed = isTransmitPrintDisplayed;
     }
 
     /**

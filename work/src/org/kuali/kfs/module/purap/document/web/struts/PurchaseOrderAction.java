@@ -430,10 +430,12 @@ public class PurchaseOrderAction extends PurchasingActionBase {
     }
 
     public ActionForward printPoQuote(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        String poDocId = request.getParameter("docId");
-        PurchaseOrderDocument po = (PurchaseOrderDocument) SpringServiceLocator.getDocumentService().getByDocumentHeaderId(poDocId);
-        Integer poSelectedVendorId = new Integer(request.getParameter("quoteVendorId"));
-        PurchaseOrderVendorQuote poVendorQuote = po.getPurchaseOrderVendorQuotes().get(poSelectedVendorId);
+//        String poDocId = request.getParameter("docId");
+//        PurchaseOrderDocument po = (PurchaseOrderDocument) SpringServiceLocator.getDocumentService().getByDocumentHeaderId(poDocId);
+//        Integer poSelectedVendorId = new Integer(request.getParameter("quoteVendorId"));
+        KualiDocumentFormBase kualiDocumentFormBase = (KualiDocumentFormBase) form;
+        PurchaseOrderDocument po = (PurchaseOrderDocument) kualiDocumentFormBase.getDocument();
+        PurchaseOrderVendorQuote poVendorQuote = po.getPurchaseOrderVendorQuotes().get(getSelectedLine(request));
         ByteArrayOutputStream baosPDF = new ByteArrayOutputStream();
         try {
             StringBuffer sbFilename = new StringBuffer();
@@ -448,10 +450,11 @@ public class PurchaseOrderAction extends PurchasingActionBase {
             boolean success = SpringServiceLocator.getPurchaseOrderService().printPurchaseOrderQuotePDF(po, poVendorQuote, baosPDF);
 
             if (!success) {
+                poVendorQuote.setTransmitPrintDisplayed(true);
                 if (baosPDF != null) {
                     baosPDF.reset();
                 }
-                return null;
+                return mapping.findForward(KFSConstants.MAPPING_BASIC);
             }
             response.setHeader("Cache-Control", "max-age=30");
             response.setContentType("application/pdf");
@@ -538,10 +541,9 @@ public class PurchaseOrderAction extends PurchasingActionBase {
         PurchaseOrderDocument po = (PurchaseOrderDocument) kualiDocumentFormBase.getDocument();
         PurchaseOrderVendorQuote vendorQuote = (PurchaseOrderVendorQuote)po.getPurchaseOrderVendorQuotes().get(getSelectedLine(request));
         if (PurapConstants.QuoteTransmitTypes.PRINT.equals(vendorQuote.getPurchaseOrderQuoteTransmitTypeCode())) {
-            po.setShowPoPrintQuoteIndicator(true);
-            po.setSelectedQuoteVendorId(getSelectedLine(request));
             Date currentSqlDate = SpringServiceLocator.getDateTimeService().getCurrentSqlDate();
             vendorQuote.setPurchaseOrderQuoteTransmitDate(currentSqlDate);
+            vendorQuote.setTransmitPrintDisplayed(true);
             if (po.getPurchaseOrderFirstTransmissionDate() == null) {
                 po.setPurchaseOrderFirstTransmissionDate(currentSqlDate);
             }
@@ -550,7 +552,6 @@ public class PurchaseOrderAction extends PurchasingActionBase {
             SpringServiceLocator.getPurchaseOrderService().saveDocumentWithoutValidation(po);
         }
         else {
-            po.setShowPoPrintQuoteIndicator(false);
             GlobalVariables.getErrorMap().putError(PurapPropertyConstants.VENDOR_QUOTES, PurapKeyConstants.ERROR_PURCHASE_ORDER_QUOTE_TRANSMIT_TYPE_NOT_SELECTED);
         }
         return mapping.findForward(KFSConstants.MAPPING_BASIC);

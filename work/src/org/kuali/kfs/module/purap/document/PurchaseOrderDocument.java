@@ -93,8 +93,6 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase {
     private boolean purchaseOrderCurrentIndicator = false;
     private boolean pendingActionIndicator = false;
     private Date purchaseOrderFirstTransmissionDate;
-    private boolean showPoPrintQuoteIndicator = false;
-    private Integer selectedQuoteVendorId;
     
     //COLLECTIONS
     private List<PurchaseOrderVendorStipulation> purchaseOrderVendorStipulations;
@@ -644,22 +642,6 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase {
      */
     public void setPendingActionIndicator(boolean pendingActionIndicator) {
         this.pendingActionIndicator = pendingActionIndicator;
-    }
-
-    public boolean isShowPoPrintQuoteIndicator() {
-        return showPoPrintQuoteIndicator;
-    }
-
-    public void setShowPoPrintQuoteIndicator(boolean showPoPrintQuoteIndicator) {
-        this.showPoPrintQuoteIndicator = showPoPrintQuoteIndicator;
-    }
-
-    public Integer getSelectedQuoteVendorId() {
-        return selectedQuoteVendorId;
-    }
-
-    public void setSelectedQuoteVendorId(Integer selectedQuoteVendorId) {
-        this.selectedQuoteVendorId = selectedQuoteVendorId;
     }
 
     /**

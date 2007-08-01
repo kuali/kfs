@@ -122,8 +122,8 @@
             </attributeReference>
 
             <attribute name="subFundGroupTypeCode" forceUppercase="true">
-                <label>Type Code</label>
-                <shortLabel>Type Code</shortLabel>
+                <label>Sub-Fund Type Code</label>
+                <shortLabel>Sub-Fund Type Code</shortLabel>
 
                 <maxLength>1</maxLength>
                 <required>true</required>

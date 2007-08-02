@@ -27,10 +27,10 @@ import org.kuali.core.util.GeneralLedgerPendingEntrySequenceHelper;
 import org.kuali.core.util.TransactionalServiceUtils;
 import org.kuali.kfs.bo.AccountingLine;
 import org.kuali.module.chart.bo.Account;
+import org.kuali.module.chart.bo.ObjectCode;
 import org.kuali.module.labor.bo.LaborLedgerPendingEntry;
 import org.kuali.module.labor.dao.LaborLedgerPendingEntryDao;
 import org.kuali.module.labor.document.LaborLedgerPostingDocument;
-import org.kuali.module.labor.rule.event.GenerateLaborLedgerBenefitClearingPendingEntriesEvent; 
 import org.kuali.module.labor.rule.event.GenerateLaborLedgerPendingEntriesEvent;
 import org.kuali.module.labor.service.LaborLedgerPendingEntryService;
 import org.springframework.transaction.annotation.Transactional;
@@ -69,6 +69,28 @@ public class LaborLedgerPendingEntryServiceImpl implements LaborLedgerPendingEnt
         }
         return false;
     }
+    
+    public boolean hasPendingLaborLedgerEntry(String emplid, String payrollEndDateFiscalPeriodCode, String accountNumber, String objectCode) {
+        
+        Map fieldValues = new HashMap();
+        fieldValues.put("emplid", emplid);
+        fieldValues.put("payrollEndDateFiscalPeriodCode", payrollEndDateFiscalPeriodCode);
+        fieldValues.put("accountNumber", accountNumber);
+        fieldValues.put("FIN_OBJECT_CD", objectCode);
+        
+        Collection<LaborLedgerPendingEntry> pendingEntries = businessObjectService.findMatching(LaborLedgerPendingEntry.class, fieldValues);
+
+        // When the financial Document Approved Code equals 'X' it means the pending labor ledger transaction has been processed
+        for (LaborLedgerPendingEntry pendingLedgerEntry : pendingEntries) {
+            if ((pendingLedgerEntry.getFinancialDocumentApprovedCode() == null) || (!pendingLedgerEntry.getFinancialDocumentApprovedCode().trim().equals("X"))) {
+                return true;
+            }
+        }
+        return false;
+        
+    }
+    
+    
 
     /**
      * @see org.kuali.module.labor.service.LaborLedgerPendingEntryService#deleteEntriesForCancelledOrDisapprovedDocuments()

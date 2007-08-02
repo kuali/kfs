@@ -227,7 +227,7 @@
                 </description>
             </attributeReference>
 
-            <attribute name="responsibilityCenterCode" forceUppercase="false">
+            <attribute name="responsibilityCenterCode" forceUppercase="true">
                 <label>Responsibility Center Code</label>
                 <shortLabel>RC</shortLabel>
 

@@ -109,19 +109,6 @@
 					</c:if>
 				</td>
 			</tr>
-			
-			<tr>
-				<kul:htmlAttributeHeaderCell
-                    attributeEntry="${balanceInquiryAttributes.emplid}" horizontal="true" forceRequired="false"/>
-                    
-				<td class="datacell-nowrap"><kul:htmlControlAttribute
-					attributeEntry="${balanceInquiryAttributes.emplid}"
-					property="emplid" readOnly="${readOnly}" /> <kul:lookup
-					boClassName="org.kuali.core.bo.user.UniversalUser"
-					fieldConversions="personPayrollIdentifier:emplid"
-					lookupParameters="emplid:personPayrollIdentifier"
-					fieldLabel="${balanceInquiryAttributes.personPayrollIdentifier.label}" /></td>
-            </tr>
             
             <tr>
             	<td height="30" class="infoline">&nbsp;</td>

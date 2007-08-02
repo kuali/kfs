@@ -31,7 +31,6 @@ public class BenefitExpenseTransferForm extends ExpenseTransferDocumentFormBase 
     private String chartOfAccountsCode;
     private String accountNumber;
     private String subAccountNumber;
-    private String emplid;
 
     /**
      * Constructs a BenefitExpenseTransferForm instance and sets up the appropriately casted document.
@@ -121,22 +120,6 @@ public class BenefitExpenseTransferForm extends ExpenseTransferDocumentFormBase 
     @Override
     public void setUniversityFiscalYear(Integer universityFiscalYear) {
         this.universityFiscalYear = universityFiscalYear;
-    }
-
-    /**
-     * Gets the emplid attribute. 
-     * @return Returns the emplid.
-     */
-    public String getEmplid() {
-        return emplid;
-    }
-
-    /**
-     * Sets the emplid attribute value.
-     * @param emplid The emplid to set.
-     */
-    public void setEmplid(String emplid) {
-        this.emplid = emplid;
     }
     
     /**

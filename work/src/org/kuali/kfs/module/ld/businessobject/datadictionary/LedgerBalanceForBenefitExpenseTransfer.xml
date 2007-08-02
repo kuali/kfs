@@ -29,7 +29,6 @@
                 <field attributeName="accountNumber" />
                 <field attributeName="financialBeginningBalanceLineAmount" />
                 <field attributeName="chartOfAccountsCode" />
-                <field attributeName="emplid" />
                 <field attributeName="financialBalanceTypeCode" />
                 <field attributeName="contractsGrantsBeginningBalanceAmount" />
                 <field attributeName="financialObjectCode" />
@@ -76,7 +75,6 @@
                 <lookupField attributeName="chartOfAccountsCode" required="true"/>
                 <lookupField attributeName="accountNumber" required="true"/>            
                 <lookupField attributeName="subAccountNumber" />
-                <lookupField attributeName="emplid" />
 			</lookupFields>
 
             <resultFields>
@@ -89,7 +87,6 @@
                 <field attributeName="financialBalanceTypeCode" />
                 <field attributeName="positionNumber" />
                 <field attributeName="financialObjectTypeCode" />
-                <field attributeName="emplid" />
 
                 <field attributeName="financialBeginningBalanceLineAmount" />                            
                 <field attributeName="contractsGrantsBeginningBalanceAmount" />                
@@ -98,8 +95,6 @@
         </lookup>
 
         <attributes>
-
-            <attributeReference name="emplid" sourceClassName="org.kuali.core.bo.user.UniversalUser" sourceAttributeName="personPayrollIdentifier"/>
 
             <attributeReference name="ledgerPerson.personUniversalIdentifier" sourceClassName="org.kuali.core.bo.user.UniversalUser" sourceAttributeName="personUniversalIdentifier">
                 <label>Employee Univ ID</label>

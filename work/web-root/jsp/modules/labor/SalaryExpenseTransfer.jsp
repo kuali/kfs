@@ -75,12 +75,6 @@
                                  hasErrors="${hasErrors}"
                                  onblur="${onblur}"
                                  highlight="${addHighlighting}" readOnly="${disabled}" >
-                       <jsp:attribute name="helpLink" trim="true">
-                               <kul:help
-                                   businessObjectClassName="${field.businessObjectClassName}"
-                                   attributeName="${field.fieldHelpName}"
-                                   altText="${field.fieldHelpSummary}" />     
-                       </jsp:attribute>
                      </ld:employee>
                </td>
              </tr>

@@ -120,7 +120,7 @@
 					<c:if test="${isTransmitPrintDisplayed}">
 					<html:image
 	property="methodToCall.printPoQuote.line${ctr}"
-	src="${ConfigProperties.externalizable.images.url}tinybutton-print-quote-request.gif"
+	src="${ConfigProperties.externalizable.images.url}tinybutton-downldtransquoreq.gif"
 	alt="print quote request" title="print quote request" 
 	styleClass="tinybutton" />
 					</c:if>

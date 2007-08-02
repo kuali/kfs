@@ -75,6 +75,14 @@ public abstract class AccountsPayableDocumentBase extends PurchasingAccountsPaya
     }
 
     public boolean requiresAccountsPayableReviewRouting() {
+        return documentHasNoImagesAttached();
+    }
+
+    public boolean approvalAtAccountsPayableReviewAllowed() {
+        return !documentHasNoImagesAttached();
+    }
+    
+    public boolean documentHasNoImagesAttached() {
         List boNotes = this.getDocumentHeader().getBoNotes();
         if (ObjectUtils.isNotNull(boNotes)) {
             for (Object obj : boNotes) {

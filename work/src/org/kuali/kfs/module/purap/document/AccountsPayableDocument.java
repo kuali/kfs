@@ -72,4 +72,6 @@ public interface AccountsPayableDocument extends PurchasingAccountsPayableDocume
     public PurchaseOrderDocument getPurchaseOrderDocument();
     
     public boolean requiresAccountsPayableReviewRouting();
+    
+    public boolean approvalAtAccountsPayableReviewAllowed();
 }

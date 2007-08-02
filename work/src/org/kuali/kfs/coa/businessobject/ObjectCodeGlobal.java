@@ -809,7 +809,7 @@ public class ObjectCodeGlobal extends PersistableBusinessObjectBase implements G
      * @param newValue
      * @return
      */
-    private String update(String oldValue, String newValue) {
+    private String update(String newValue, String oldValue) {
         if (newValue == null || newValue.length() == 0) {
             return oldValue;
         }

@@ -27,6 +27,12 @@
     
     <kul:documentOverview editingMode="${KualiForm.editingMode}"/>
     
+    <c:if test="${!empty KualiForm.document.checks}">
+      <logic:iterate indexId="ctr" name="KualiForm" property="document.checks" id="currentCheck">
+        <fin:hiddenCheckLine propertyName="document.checks[${ctr}]" displayHidden="false" />
+      </logic:iterate>
+    </c:if>
+    
     <cm:cashDrawerActivity/>
     
     <c:if test="${!showDeposits}">
@@ -35,6 +41,8 @@
     <c:if test="${showDeposits}">
         <cm:deposits editingMode="${KualiForm.editingMode}"/>
     </c:if>
+
+    <cm:cashieringActivity />
 
     <c:if test="${KualiForm.document.bankCashOffsetEnabled}" >
         <gl:generalLedgerPendingEntries />

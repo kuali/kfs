@@ -769,6 +769,9 @@ public class KFSKeyConstants {
         public static final String ERROR_UNKNOWN_BANKACCOUNT = "error.deposit.unknownBankAccount";
         
         public static final String ERROR_NON_DEPOSITED_VERIFIED_CASH_RECEIPT = "error.deposit.nonDepositedVerifiedCashReceipt";
+        public static final String ERROR_CASH_DEPOSIT_DID_NOT_BALANCE = "error.deposit.cashDepositDidNotBalance";
+        public static final String ERROR_NOT_ENOUGH_CASH_TO_COMPLETE_DEPOSIT = "error.deposit.notEnoughCashToCompleteDeposit";
+        public static final String ERROR_CASHIERING_CHECK_MUST_BE_DEPOSITED = "error.deposit.cashieringChecksMustBeDeposited";
     }
 
     public static final class CashManagement {
@@ -784,6 +787,20 @@ public class KFSKeyConstants {
         public static final String ERROR_DOCUMENT_ALREADY_HAS_FINAL_DEPOSIT = "error.cashManagement.documentAlreadyHasFinalDeposit";
         public static final String ERROR_DOCUMENT_NO_DEPOSITS_TO_MAKE_FINAL = "error.cashManagement.documentHasNoDepositsToMakeFinal";
         public static final String ERROR_NON_DEPOSITED_VERIFIED_CASH_RECEIPTS = "error.cashManagement.nonDepositedVerifiedCashReceips";
+        public static final String ERROR_DOCUMENT_CASHIERING_TRANSACTION_AMOUNT_PAID_BACK_EXCEEDS_AMOUNT_LEFT = "error.document.cashieringTransaction.openItemInProcess.amountPaidBackExceedsAmountLeft";
+        public static final String ERROR_DOCUMENT_CASHIERING_TRANSACTION_AMOUNT_EXCEEDS_DRAWER = "error.document.cashieringTransaction.newItemInProcess.amountExceedsDrawer";
+        public static final String ERROR_DOCUMENT_CASHIERING_TRANSACTION_CASH_NOT_NEGATIVE = "error.document.cashieringTransaction.cashCountCannotBeNegative";
+        public static final String ERROR_DOCUMENT_CASHIERING_TRANSACTION_CHECK_AMOUNT_NOT_NEGATIVE = "error.document.cashieringTransaction.checkAmountCannotBeNegative";
+        public static final String ERROR_DOCUMENT_CASHIERING_TRANSACTION_NEW_ITEM_IN_PROCESS_NOT_NEGATIVE = "error.document.cashieringTransaction.newItemInProcess.amountCannotBeNegative";
+        public static final String ERROR_DOCUMENT_CASHIERING_TRANSACTION_REDUCED_ITEM_IN_PROCESS_NOT_NEGATIVE = "error.document.cashieringTransaction.openItemInProcess.reducedAmountCannotBeNegative";
+        public static final String ERROR_DOCUMENT_CASHIERING_TRANSACTION_CASH_COUNT_EXCEEDS_DRAWER = "error.document.cashieringTransaction.cashAmountExceedsDrawerAmount";
+        public static final String ERROR_DOCUMENT_CASHIERING_TRANSACTION_IN_OUT_DO_NOT_BALANCE = "error.document.cashieringTransaction.moneyInAndMoneyOutDoNotBalance";
+        public static final String ERROR_DOCUMENT_CASHIERING_TRANSACTION_CANNOT_PAY_OFF_ADVANCE_WITH_ADVANCE = "error.document.cashieringTransaction.cannotPayOffAdvanceWithAdvance";
+        public static final String ERROR_NEW_ITEM_IN_PROCESS_IN_FUTURE = "error.document.cashieringTransaction.newItemInProcessInFuture";
+        
+        public static final String ERROR_CASH_DRAWER_CORRECTION_NEGATIVE_AMOUNT = "error.cashDrawerCorrection.negativeAmount";
+        
+
     }
 
     public static final class GeneralErrorCorrection {

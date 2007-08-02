@@ -565,6 +565,8 @@ public class KFSConstants {
         public static final String CASH_RECEIPTS = "R";
         public static final String CASH_MANAGEMENT = "I";
     }
+    
+    public static final String CASHIERING_TRANSACTION_OPEN_ITEM_IN_PROCESS_PROPERTY = "document.currentTransaction.openItemInProcess";
 
     // Tab error patterns must be at the top level; JSPs do not have access to the nested classes.
     public static final String EDIT_CASH_RECEIPT_CASH_RECONCILIATION_ERRORS = "document.totalCashAmount,document.totalCheckAmount,document.totalCoinAmount,document.sumTotalAmount";

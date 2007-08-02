@@ -50,7 +50,7 @@ function checkAllOrNone() {
 	<html:hidden property="cashManagementDocId" />
 	<html:hidden property="depositTypeCode" />
 
-	<c:if test="${!empty KualiForm.depositableCashReceipts}">
+	<c:if test="${!empty KualiForm.depositableCashReceipts || !empty KualiForm.depositableCashieringChecks}">
 		<kul:tabTop tabTitle="Deposit Header" defaultOpen="true"
 			tabErrorKey="depositHeaderErrors">
 			<div class="tab-container" align=center>
@@ -116,7 +116,19 @@ function checkAllOrNone() {
 			</div>
 			</div>
 		</kul:tabTop>
+    
+    <c:if test="${KualiForm.depositFinal}">
+      <kul:tab tabTitle="Currency and Coin Detail" defaultOpen="true">
+        <div class="tab-container" align="center">
+          <div class="h2-container">
+            <h2>Currency and Coin Detail</h2>
+          </div>
+          <fin:currencyCoinLine currencyProperty="currencyDetail" coinProperty="coinDetail" readOnly="false" />
+        </div>
+      </kul:tab>
+    </c:if>
 
+    <c:if test="${!empty KualiForm.depositableCashReceipts}">
 		<kul:tab tabTitle="Cash Receipts" defaultOpen="true"
 			tabErrorKey="cashReceiptErrors">
 			<div class="tab-container" align="center">
@@ -140,9 +152,9 @@ function checkAllOrNone() {
 					<kul:htmlAttributeHeaderCell literalLabel="Description" scope="col" />
 					<kul:htmlAttributeHeaderCell literalLabel="Create Date" scope="col" />
 					<kul:htmlAttributeHeaderCell literalLabel="Check Total" scope="col" />
-					<kul:htmlAttributeHeaderCell literalLabel="Currency Total"
+					<%-- <kul:htmlAttributeHeaderCell literalLabel="Currency Total"
 						scope="col" />
-					<kul:htmlAttributeHeaderCell literalLabel="Coin Total" scope="col" />
+					<kul:htmlAttributeHeaderCell literalLabel="Coin Total" scope="col" /> --%>
 					<kul:htmlAttributeHeaderCell literalLabel="Total" scope="col" />
 				</tr>
 
@@ -191,7 +203,7 @@ function checkAllOrNone() {
 						$&nbsp;${cashReceipt.currencyFormattedTotalCheckAmount} <html:hidden
 							property="depositableCashReceipt[${ctr}].totalCheckAmount" /></div>
 						</td>
-						<td>
+						<%-- <td>
 						<div align="center">
 						$&nbsp;${cashReceipt.currencyFormattedTotalCashAmount} <html:hidden
 							property="depositableCashReceipt[${ctr}].totalCashAmount" /></div>
@@ -200,7 +212,7 @@ function checkAllOrNone() {
 						<div align="center">
 						$&nbsp;${cashReceipt.currencyFormattedTotalCoinAmount} <html:hidden
 							property="depositableCashReceipt[${ctr}].totalCoinAmount" /></div>
-						</td>
+						</td> --%>
 						<td>
 						<div align="center">
 						$&nbsp;${cashReceipt.currencyFormattedSumTotalAmount}</div>
@@ -258,7 +270,61 @@ function checkAllOrNone() {
 
 			</table>
 			</div>
-			</div>
+      </kul:tab>
+			
+    </c:if>
+    
+    <c:if test="${!empty KualiForm.depositableCashieringChecks}">
+    
+      <kul:tab tabTitle="Cashiering Transaction Checks" defaultOpen="true" tabErrorKey="cashieringCheckErrors">
+        <div class="tab-container" align="center">
+        <div width="100%" align="left" style="padding-left: 10px; padding-bottom: 10px">
+          <strong>Please select Cashiering Checks to deposit.</strong>
+        </div>
+        <div class="h2-container">
+          <h2>Cashiering Checks Available for Deposit</h2>
+        </div>
+        <div id="workarea">
+          <table cellpadding="0" cellspacing="0" class="datatable" summary="cashiering checks available for deposit">
+            <tr>
+              <td>
+                <div align="center"><input type="checkbox" name="masterCheckBox" onclick="checkAllOrNone();" /></div>
+              </td>
+              <kul:htmlAttributeHeaderCell literalLabel="#" scope="col" />
+              <kul:htmlAttributeHeaderCell literalLabel="Check Number" scope="col" />
+              <kul:htmlAttributeHeaderCell literalLabel="Description" scope="col" />
+              <kul:htmlAttributeHeaderCell literalLabel="Check Date" scope="col" />
+              <kul:htmlAttributeHeaderCell literalLabel="Check Amount" scope="col" />
+            </tr>
+
+            <logic:iterate name="KualiForm" id="cashieringCheck" property="depositableCashieringChecks" indexId="ctr">
+              <tr>
+                <td>
+                  <div style="text-align: center">
+                    <html:checkbox name="KualiForm" property="depositWizardCashieringCheckHelper[${ctr}].sequenceId" value="${cashieringCheck.sequenceId}" />
+                  </div>
+                </td>
+                <td><strong>${ctr + 1}</strong></td>
+                <td>
+                  <kul:htmlControlAttribute property="depositableCashieringCheck[${ctr}].checkNumber" attributeEntry="${checkAttributes.checkNumber}" readOnly="true" />
+                </td>
+                <td>
+                  <kul:htmlControlAttribute property="depositableCashieringCheck[${ctr}].description" attributeEntry="${checkAttributes.description}" readOnly="true" />
+                </td>
+                <td>
+                  <kul:htmlControlAttribute property="depositableCashieringCheck[${ctr}].checkDate" attributeEntry="${checkAttributes.checkDate}" readOnly="true" />
+                </td>
+                <td>
+                  <kul:htmlControlAttribute property="depositableCashieringCheck[${ctr}].amount" attributeEntry="${checkAttributes.amount}" readOnly="true" />
+                </td>
+              </tr>
+            </logic:iterate>
+          </table>
+        </div>
+      </kul:tab>
+    </c:if>
+    
+    </div>
 			<kul:panelFooter />
 
 			<div id="globalbuttons" class="globalbuttons"><html:image
@@ -269,10 +335,9 @@ function checkAllOrNone() {
 				alt="refresh" title="refresh" styleClass="tinybutton" /> <html:image
 				property="methodToCall.cancel" src="${ConfigProperties.kr.externalizable.images.url}buttonsmall_cancel.gif"
 				alt="cancel" title="cancel" styleClass="tinybutton" /></div>
-		</kul:tab>
 	</c:if>
 
-	<c:if test="${empty KualiForm.depositableCashReceipts}">
+	<c:if test="${empty KualiForm.depositableCashReceipts && empty KualiForm.depositableCashieringChecks}">
 		<%-- manually handle parameter-substitution --%>
 		<c:set var="msg0">
             ${fn:replace(ConfigProperties.depositWizard.status.noCashReceipts, "{0}", KualiForm.cashDrawerVerificationUnit )}

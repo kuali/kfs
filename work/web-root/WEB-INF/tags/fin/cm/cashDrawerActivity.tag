@@ -18,10 +18,12 @@
 <c:set var="cmDocAttributes" value="${DataDictionary.CashManagementDocument.attributes}" />
 <c:set var="drawerAttributes" value="${DataDictionary.CashManagementDocument.attributes}" />
 <c:set var="dummyAttributes" value="${DataDictionary.DummyBusinessObject.attributes}" />
+<c:set var="cashDrawerAttributes" value="${DataDictionary.CashDrawer.attributes}" />
 
 <c:set var="allowOpen" value="${(KualiForm.editingMode[AuthorizationConstants.EditMode.FULL_ENTRY]) && (KualiForm.document.rawCashDrawerStatus == Constants.CashDrawerConstants.STATUS_CLOSED)}" />
 <c:set var="allowRefresh" value="${KualiForm.document.rawCashDrawerStatus != Constants.CashDrawerConstants.STATUS_CLOSED}" />
 
+<c:set var="drawer" value="${KualiForm.document.cashDrawer}" />
 
 <style>
     td {white-space: nowrap}
@@ -37,102 +39,151 @@
 <html:hidden property="cashDrawerSummary.timeOpened" />
 <kul:tab tabTitle="Cash Drawer Activity" defaultOpen="true" tabErrorKey="${Constants.CashManagementConstants.CASH_MANAGEMENT_ERRORS}" >
     <div class="tab-container" align=center>
-        <div class="h2-container">
-            <h2>${subheading}</h2>
-        </div>
+	  <table cellspacing="0" cellpadding="0" border="0" class="datatable">
+		  <tr>
+			  <td width="50%" valign="top">
+        			  <div class="h2-container">
+            			  <h2>${subheading}</h2>
+        			  </div>
 
-        <table cellspacing=0 cellpadding=0 border=0 class="datatable">
-            <tr>
-                <td class="infoline" colspan=3>
-                    <kul:htmlAttributeLabel labelFor="document.workgroupName" attributeEntry="${cmDocAttributes.workgroupName}" readOnly="true" skipHelpUrl="true" noColon="true" />
-                </td>
-                <td colspan=2>
-                    <kul:htmlControlAttribute property="document.workgroupName" attributeEntry="${cmDocAttributes.workgroupName}" readOnly="true" />
-                </td>
-            </tr>
+        			  <table cellspacing=0 cellpadding=0 border=0 class="datatable">
+            			<tr>
+			                  <td class="infoline" colspan=3>
+                    				<kul:htmlAttributeLabel labelFor="document.workgroupName" attributeEntry="${cmDocAttributes.workgroupName}" readOnly="true" skipHelpUrl="true" noColon="true" />
+                				</td>
+                				<td colspan=2>
+                    				<kul:htmlControlAttribute property="document.workgroupName" attributeEntry="${cmDocAttributes.workgroupName}" readOnly="true" />
+                				</td>
+            			</tr>
 
-            <tr>
-                <td class="infoline" colspan=3>
-                    <kul:htmlAttributeLabel labelFor="document.cashDrawerStatus" attributeEntry="${cmDocAttributes.cashDrawerStatus}" readOnly="true" skipHelpUrl="true" noColon="true" />
-                </td>
-                <td colspan=2>
-                    <kul:htmlControlAttribute property="document.cashDrawerStatus" attributeEntry="${cmDocAttributes.cashDrawerStatus}" readOnly="true"/>
-                    <c:if test="${KualiForm.document.rawCashDrawerStatus == Constants.CashDrawerConstants.STATUS_OPEN}">
-                        (opened at ${KualiForm.cashDrawerSummary.timeOpened})
-                    </c:if>
-                </td>
-            </tr>
+            			<tr>
+                				<td class="infoline" colspan=3>
+                    				<kul:htmlAttributeLabel labelFor="document.cashDrawerStatus" attributeEntry="${cmDocAttributes.cashDrawerStatus}" readOnly="true" skipHelpUrl="true" noColon="true" />
+                				</td>
+                				<td colspan=2>
+                    				<kul:htmlControlAttribute property="document.cashDrawerStatus" attributeEntry="${cmDocAttributes.cashDrawerStatus}" readOnly="true"/>
+                    				<c:if test="${KualiForm.document.rawCashDrawerStatus == Constants.CashDrawerConstants.STATUS_OPEN}">
+                        				(opened at ${KualiForm.cashDrawerSummary.timeOpened})
+                    				</c:if>
+                				</td>
+            			</tr>
 
-            <c:if test="${KualiForm.document.rawCashDrawerStatus != Constants.CashDrawerConstants.STATUS_CLOSED}">
-                <tr>
-                    <td colspan=5 class="tab-subhead">Cash Drawer Activity: <html:hidden property="cashDrawerSummary.overallStats.receiptCount" write="true" /> available Cash Receipts</td>
-                </tr>
+            			<c:if test="${KualiForm.document.rawCashDrawerStatus != Constants.CashDrawerConstants.STATUS_CLOSED}">
+                				<tr>
+                    				<td colspan=5 class="tab-subhead">Cash Drawer Activity: <html:hidden property="cashDrawerSummary.overallReceiptStats.receiptCount" write="true" /> available Cash Receipts</td>
+                				</tr>
                 
-                <tr>
-                    <td rowspan=4 >&nbsp;&nbsp;</td>
-                    <td colspan=2 class="infoline">Checks</td>
-                    <td style="text-align: right">$<html:hidden property="cashDrawerSummary.overallStats.checkTotal" write="true" /></td>
-                    <td rowspan=4 width=100%>&nbsp;</td>
-                </tr>
-                <tr>
-                    <td colspan=2 class="infoline">Currency</td>
-                    <td style="text-align: right">$<html:hidden property="cashDrawerSummary.overallStats.currencyTotal" write="true" /></td>
-                </tr>
-                <tr>
-                    <td colspan=2 class="infoline">Coin</td>
-                    <td style="text-align: right">$<html:hidden property="cashDrawerSummary.overallStats.coinTotal" write="true" /></td>
-                </tr>
-                <tr>
-                    <th colspan=2 style="text-align: left; padding-left: 0px">TOTAL</th>
-                    <td style="text-align: right">$<html:hidden property="cashDrawerSummary.overallSumTotal" write="true" /></td>
-                </tr>
-    
-                <tr>
-                    <td colspan=5 class="tab-subhead">Deposit Activity: <html:hidden property="cashDrawerSummary.depositedReceiptCount" write="true" /> Deposited Cash Receipts</td>
-                </tr>
-                <tr>
-                    <td rowspan=7>&nbsp;&nbsp;</td>
-                    <td colspan=2 class="infoline">Operating</td>
-                    <td style="text-align: right">$<html:hidden property="cashDrawerSummary.overallSumTotal" write="true" /></td>
-                    <td rowspan=7 width=100%>&nbsp;</td>
-                </tr>
-                <tr>
-                    <td colspan=2 class="infoline">- Interim</td>
-                    <td style="text-align: right">$<html:hidden property="cashDrawerSummary.interimSumTotal" write="true" /></td>
-                </tr>
-                <tr>
-                    <td colspan=2 class="infoline">- Final</td>
-                    <td style="text-align: right">$<html:hidden property="cashDrawerSummary.finalSumTotal" write="true" /></td>
-                </tr>
-                <tr>
-                    <th colspan=2 style="text-align: left; padding-left: 0px">= Remaining</th>
-                    <td style="text-align: right">$<html:hidden property="cashDrawerSummary.remainingSumTotal" write="true" /></td>
-                </tr>
-    
-                <tr>
-                    <td rowspan=3>&nbsp;&nbsp;</td>
-                    <td class="infoline">Checks</td>
-                    <td style="text-align: right">$<html:hidden property="cashDrawerSummary.remainingCheckTotal" write="true" /></td>
-                </tr>
-                <tr>
-                    <td class="infoline">Currency</td>
-                    <td style="text-align: right">$<html:hidden property="cashDrawerSummary.remainingCurrencyTotal" write="true" /></td>
-                </tr>
-                <tr>
-                    <td class="infoline">Coin</td>
-                    <td style="text-align: right">$<html:hidden property="cashDrawerSummary.remainingCoinTotal" write="true" /></td>
-                </tr>
-            </c:if>
-        </table>
+                				<tr>
+                    				<td rowspan=4 >&nbsp;&nbsp;</td>
+                    				<td colspan=2 class="infoline">Checks</td>
+                    				<td style="text-align: right">$<html:hidden property="cashDrawerSummary.overallReceiptStats.checkTotal" write="true" /></td>
+                    				<td rowspan=4 width=100%>&nbsp;</td>
+                				</tr>
+                				<tr>
+                    				<td colspan="2" class="infoline">Currency</td>
+                    				<td style="text-align: right">$<html:hidden property="cashDrawerSummary.overallReceiptStats.currencyTotal" write="true" /></td>
+                				</tr>
+                				<tr>
+                    				<td colspan="2" class="infoline">Coin</td>
+                    					<td style="text-align: right">$<html:hidden property="cashDrawerSummary.overallReceiptStats.coinTotal" write="true" /></td>
+                				</tr>
+                				<tr>
+                    				<th colspan=2 style="text-align: left; padding-left: 0px">TOTAL</th>
+                    				<td style="text-align: right">$<html:hidden property="cashDrawerSummary.overallReceiptStats.sumTotal" write="true" /></td>
+                				</tr>
 
-        <div style="padding: 10px">
-            <c:if test="${allowOpen}">
-                <html:image src="${ConfigProperties.externalizable.images.url}buttonsmall_openCashDrawer.gif" style="border: none" property="methodToCall.openCashDrawer" title="Open Cash Drawer" alt="Open Cash Drawer" />
-            </c:if>
+		    				<%-- <tr>
+                    				<td colspan=5 class="tab-subhead">Cashiering Activity</td>
+                				</tr>
+
+		    				<tr>
+			  				<td rowspan="5">&nbsp;&nbsp;</td>
+			  				<td colspan="2" class="infoline">Miscellaneous Checks</td>
+			  				<td style="text-align: right">$<html:hidden property="cashDrawerSummary.cashieringChecksTotal" write="true" /></td>
+			  				<td rowspan="5" width="100%">&nbsp;</td>
+		    				</tr>
+
+		    				<tr>
+			  				<td colspan="2" class="infoline">Currency</td>
+			  				<td style="text-align: right">$<html:hidden property="cashDrawerSummary.cashieringCurrencyTotal" write="true" /></td>
+		    				</tr>
+
+		    				<tr>
+			  				<td colspan="2" class="infoline">Coin</td>
+			  				<td style="text-align: right">$<html:hidden property="cashDrawerSummary.cashieringCoinTotal" write="true" /></td>
+		    				</tr>
+
+		    				<tr>
+			  				<td colspan="2" class="infoline">Items in Process</td>
+			  				<td style="text-align: right">$<html:hidden property="cashDrawerSummary.cashieringItemsInProcessTotal" write="true" /></td>
+		    				</tr>
+
+		    				<tr>
+			  				<td colspan="2" class="infoline"><strong>TOTAL</strong></td>
+			  				<td style="text-align: right">$<html:hidden property="cashDrawerSummary.cashieringSubTotal" write="true" /></td>
+		    				</tr> --%>
+    
+                				<tr>
+                    				<td colspan=5 class="tab-subhead">Deposit Activity: <html:hidden property="cashDrawerSummary.depositedReceiptCount" write="true" /> Deposited Cash Receipts</td>
+                				</tr>
+                				<tr>
+                    				<td rowspan=7>&nbsp;&nbsp;</td>
+                    				<td colspan=2 class="infoline">Operating</td>
+                    				<td style="text-align: right">$<html:hidden property="cashDrawerSummary.overallReceiptSumTotal" write="true" /></td>
+                    				<td rowspan=7 width=100%>&nbsp;</td>
+                				</tr>
+                				<tr>
+                    				<td colspan=2 class="infoline">- Interim</td>
+                    				<td style="text-align: right">$<html:hidden property="cashDrawerSummary.interimReceiptSumTotal" write="true" /></td>
+                				</tr>
+                				<tr>
+                    				<td colspan=2 class="infoline">- Final</td>
+                    				<td style="text-align: right">$<html:hidden property="cashDrawerSummary.finalReceiptSumTotal" write="true" /></td>
+                				</tr>
+                				<tr>
+                    				<th colspan=2 style="text-align: left; padding-left: 0px">= Remaining</th>
+                    				<td style="text-align: right">$<html:hidden property="cashDrawerSummary.remainingSumTotal" write="true" /></td>
+                				</tr>
+    
+                				<tr>
+                    				<td rowspan=3>&nbsp;&nbsp;</td>
+                    				<td class="infoline">Checks</td>
+                    				<td style="text-align: right">$<html:hidden property="cashDrawerSummary.remainingCheckTotal" write="true" /></td>
+                				</tr>
+                				<tr>
+                   	 			<td class="infoline">Currency</td>
+                    				<td style="text-align: right">$<html:hidden property="cashDrawerSummary.remainingCurrencyTotal" write="true" /></td>
+                				</tr>
+                				<tr>
+                    				<td class="infoline">Coin</td>
+                    				<td style="text-align: right">$<html:hidden property="cashDrawerSummary.remainingCoinTotal" write="true" /></td>
+                				</tr>
+		    
+            			</c:if>
+        			</table>
+			</td>
+			<td width="50%" valign="top">
+				<cm:cashDrawerCurrencyCoin cashDrawerProperty="document.cashDrawer" readOnly="true" />
+        <c:if test="${KualiForm.editingMode[AuthorizationConstants.EditMode.FULL_ENTRY] and KualiForm.document.rawCashDrawerStatus eq Constants.CashDrawerConstants.STATUS_CLOSED}">
+          <div style="padding: 10px; text-align: center;">
+            <html:image src="${ConfigProperties.kr.externalizable.images.url}buttonsmall_correctCashDrawer.gif" style="border: none" property="methodToCall.correctCashDrawer" title="Correct Cash Drawer" alt="Correct Cash Drawer" />
+          </div>
+        </c:if>
+			</td>
+		</tr>
+		<tr>
+			<td colspan="2">
+       	 		<div style="padding: 10px; text-align: center;">
+            			<c:if test="${allowOpen}">
+                				<html:image src="${ConfigProperties.externalizable.images.url}buttonsmall_openCashDrawer.gif" style="border: none" property="methodToCall.openCashDrawer" title="Open Cash Drawer" alt="Open Cash Drawer" />
+            			</c:if>
             
-            <c:if test="${allowRefresh}">
-                <html:image src="${ConfigProperties.kr.externalizable.images.url}buttonsmall_refresh.gif" style="border: none" property="methodToCall.refreshSummary" title="Refresh Cash Drawer Summary" alt="Refresh Cash Drawer Summary" />
-            </c:if>
-        </div>
+            			<c:if test="${allowRefresh}">
+                				<html:image src="${ConfigProperties.kr.externalizable.images.url}buttonsmall_refresh.gif" style="border: none" property="methodToCall.refreshSummary" title="Refresh Cash Drawer Summary" alt="Refresh Cash Drawer Summary" />
+            			</c:if>
+        			</div>
+			</td>
+		</tr>
+	</table>
     </div>
 </kul:tab>

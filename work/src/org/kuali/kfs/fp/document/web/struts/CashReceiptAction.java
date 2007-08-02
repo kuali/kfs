@@ -36,6 +36,8 @@ import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.kfs.web.struts.action.KualiAccountingDocumentActionBase;
 import org.kuali.module.financial.bo.Check;
 import org.kuali.module.financial.bo.CheckBase;
+import org.kuali.module.financial.bo.CoinDetail;
+import org.kuali.module.financial.bo.CurrencyDetail;
 import org.kuali.module.financial.document.CashReceiptDocument;
 import org.kuali.module.financial.rule.event.AddCheckEvent;
 import org.kuali.module.financial.rule.event.DeleteCheckEvent;
@@ -312,6 +314,19 @@ public class CashReceiptAction extends KualiAccountingDocumentActionBase {
         String verificationUnit = crs.getCashReceiptVerificationUnitForUser(GlobalVariables.getUserSession().getUniversalUser());
         String campusCode = crs.getCampusCodeForCashReceiptVerificationUnit(verificationUnit);
         crDoc.setCampusLocationCode(campusCode);
+        
+        /* initialize currency and coin detail */
+        CurrencyDetail currencyDetail = new CurrencyDetail();
+        currencyDetail.setCashieringRecordSource(KFSConstants.CurrencyCoinSources.CASH_RECEIPTS);
+        currencyDetail.setFinancialDocumentTypeCode(CashReceiptDocument.DOCUMENT_TYPE);
+        currencyDetail.setDocumentNumber(crDoc.getDocumentNumber());
+        crDoc.setCurrencyDetail(currencyDetail);
+        
+        CoinDetail coinDetail = new CoinDetail();
+        coinDetail.setCashieringRecordSource(KFSConstants.CurrencyCoinSources.CASH_RECEIPTS);
+        coinDetail.setFinancialDocumentTypeCode(CashReceiptDocument.DOCUMENT_TYPE);
+        coinDetail.setDocumentNumber(crDoc.getDocumentNumber());
+        crDoc.setCoinDetail(coinDetail);
 
         initDerivedCheckValues(crForm);
     }

@@ -23,13 +23,23 @@ import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
+import org.kuali.core.rule.event.KualiDocumentEvent;
 import org.kuali.core.workflow.service.KualiWorkflowDocument;
 import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.KFSConstants.DepositConstants;
+import org.kuali.kfs.KFSConstants.CurrencyCoinSources;
 import org.kuali.kfs.document.AccountingDocumentBase;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.financial.bo.CashDrawer;
+import org.kuali.module.financial.bo.CashieringItemInProcess;
+import org.kuali.module.financial.bo.CashieringTransaction;
+import org.kuali.module.financial.bo.Check;
+import org.kuali.module.financial.bo.CheckBase;
+import org.kuali.module.financial.bo.CoinDetail;
+import org.kuali.module.financial.bo.CurrencyDetail;
 import org.kuali.module.financial.bo.Deposit;
+import org.kuali.module.financial.dao.CashManagementDao;
+import org.kuali.module.financial.service.CashDrawerService;
 
 /**
  * This class represents the CashManagementDocument.
@@ -45,7 +55,11 @@ public class CashManagementDocument extends AccountingDocumentBase {
 
     private List<Deposit> deposits;
     
+    private List<Check> checks;
+    
+    private transient CashieringTransaction currentTransaction;
     private CashDrawer cashDrawer;
+    private CashManagementDao cashManagementDao;
 
     /**
      * Default constructor.
@@ -53,6 +67,8 @@ public class CashManagementDocument extends AccountingDocumentBase {
     public CashManagementDocument() {
         super();
         deposits = new ArrayList<Deposit>();
+        checks = new ArrayList<Check>();
+        this.resetCurrentTransaction();
     }
 
 
@@ -93,10 +109,6 @@ public class CashManagementDocument extends AccountingDocumentBase {
      * Derives and returns the cash drawer status for the document's workgroup
      */
     public String getCashDrawerStatus() {
-        //CashDrawer drawer = SpringServiceLocator.getCashDrawerService().getByWorkgroupName(getWorkgroupName(), true);
-        //String statusCode = drawer.getStatusCode();
-
-        //return statusCode;
         return getCashDrawer().getStatusCode();
     }
 
@@ -233,6 +245,47 @@ public class CashManagementDocument extends AccountingDocumentBase {
     }
     
     /**
+     * Gets the currentTransaction attribute. 
+     * @return Returns the currentTransaction.
+     */
+    public CashieringTransaction getCurrentTransaction() {
+        return currentTransaction;
+    }
+
+
+    /**
+     * Sets the currentTransaction attribute value.
+     * @param currentTransaction The currentTransaction to set.
+     */
+    public void setCurrentTransaction(CashieringTransaction currentTransaction) {
+        this.currentTransaction = currentTransaction;
+    }
+
+    /**
+     * Gets the checks attribute. 
+     * @return Returns the checks.
+     */
+    public List<Check> getChecks() {
+        return checks;
+    }
+
+    /**
+     * Sets the checks attribute value.
+     * @param checks The checks to set.
+     */
+    public void setChecks(List<Check> checks) {
+        this.checks = checks;
+    }
+
+    /**
+     * Add a check to the cash management document
+     * @param check
+     */
+    public void addCheck(Check check) {
+        this.checks.add(check);
+    }
+        
+    /**
      * @see org.kuali.core.document.DocumentBase#handleRouteStatusChange()
      */
     @Override
@@ -281,7 +334,9 @@ public class CashManagementDocument extends AccountingDocumentBase {
         // grab the cash drawer
         if (this.getWorkgroupName() != null) {
             this.cashDrawer = SpringServiceLocator.getCashDrawerService().getByWorkgroupName(this.getWorkgroupName(), false);
+            this.currentTransaction.setOpenItemsInProcess(SpringServiceLocator.getCashManagementService().getOpenItemsInProcess(this));
         }
+        SpringServiceLocator.getCashManagementService().populateCashDetailsForDeposit(this);
     }
 
 
@@ -297,4 +352,40 @@ public class CashManagementDocument extends AccountingDocumentBase {
         return m;
     }
 
+    /**
+     * This method creates a clean current transaction to be the new current transaction on this document
+     */
+    public void resetCurrentTransaction() {
+        if (this.currentTransaction != null) {
+            this.currentTransaction.setTransactionEnded(SpringServiceLocator.getDateTimeService().getCurrentDate());
+        }
+        currentTransaction = new CashieringTransaction(workgroupName, referenceFinancialDocumentNumber);
+        if (this.getWorkgroupName() != null) {
+            List<CashieringItemInProcess> openItemsInProcess = SpringServiceLocator.getCashManagementService().getOpenItemsInProcess(this);
+            if (openItemsInProcess != null) {
+                currentTransaction.setOpenItemsInProcess(openItemsInProcess);
+            }
+        }
+    }
+
+    // home of the Spring-injected goodness
+    
+    /**
+     * Gets the cashManagementDao attribute. 
+     * @return Returns the cashManagementDao.
+     */
+    public CashManagementDao getCashManagementDao() {
+        return cashManagementDao;
+    }
+
+
+    /**
+     * Sets the cashManagementDao attribute value.
+     * @param cashManagementDao The cashManagementDao to set.
+     */
+    public void setCashManagementDao(CashManagementDao cashManagementDao) {
+        this.cashManagementDao = cashManagementDao;
+    }
+    
+    
 }

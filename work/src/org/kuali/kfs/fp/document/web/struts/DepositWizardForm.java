@@ -19,9 +19,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.core.web.struts.form.KualiForm;
+import org.kuali.kfs.KFSConstants;
 import org.kuali.module.financial.bo.Bank;
 import org.kuali.module.financial.bo.BankAccount;
+import org.kuali.module.financial.bo.Check;
+import org.kuali.module.financial.bo.CheckBase;
+import org.kuali.module.financial.bo.CoinDetail;
+import org.kuali.module.financial.bo.CurrencyDetail;
 import org.kuali.module.financial.bo.DepositWizardHelper;
+import org.kuali.module.financial.bo.DepositWizardCashieringCheckHelper;
 import org.kuali.module.financial.document.CashReceiptDocument;
 
 /**
@@ -35,6 +41,8 @@ public class DepositWizardForm extends KualiForm {
 
     private List depositableCashReceipts;
     private List depositWizardHelpers;
+    private List<Check> depositableCashieringChecks;
+    private List<DepositWizardCashieringCheckHelper> depositWizardCashieringCheckHelpers;
 
     // Deposit fields
     private Bank bank;
@@ -44,14 +52,18 @@ public class DepositWizardForm extends KualiForm {
 
     private String depositTypeCode;
     private String depositTicketNumber;
-
+    
+    private CurrencyDetail currencyDetail;
+    private CoinDetail coinDetail;
 
     /**
      * Constructs a DepositWizardForm class instance.
      */
     public DepositWizardForm() {
         depositableCashReceipts = new ArrayList();
+        depositableCashieringChecks = new ArrayList<Check>();
         depositWizardHelpers = new ArrayList();
+        depositWizardCashieringCheckHelpers = new ArrayList<DepositWizardCashieringCheckHelper>();
 
         setFormatterType("depositTypeCode", CashReceiptDepositTypeFormatter.class);
     }
@@ -247,5 +259,99 @@ public class DepositWizardForm extends KualiForm {
      */
     public void setBankAccount(BankAccount bankAccount) {
         this.bankAccount = bankAccount;
+    }
+
+    /**
+     * Gets the coinDetail attribute. 
+     * @return Returns the coinDetail.
+     */
+    public CoinDetail getCoinDetail() {
+        return coinDetail;
+    }
+
+
+    /**
+     * Sets the coinDetail attribute value.
+     * @param coinDetail The coinDetail to set.
+     */
+    public void setCoinDetail(CoinDetail coinDetail) {
+        this.coinDetail = coinDetail;
+    }
+
+
+    /**
+     * Gets the currencyDetail attribute. 
+     * @return Returns the currencyDetail.
+     */
+    public CurrencyDetail getCurrencyDetail() {
+        return currencyDetail;
+    }
+
+
+    /**
+     * Sets the currencyDetail attribute value.
+     * @param currencyDetail The currencyDetail to set.
+     */
+    public void setCurrencyDetail(CurrencyDetail currencyDetail) {
+        this.currencyDetail = currencyDetail;
+    }
+    
+    /**
+     * Explains if this deposit form is for creating a final deposit or not
+     * @return true if this deposit form will create a final deposit, false if it will create an interim
+     */
+    public boolean isDepositFinal() {
+        return (depositTypeCode.equals(KFSConstants.DepositConstants.DEPOSIT_TYPE_FINAL));
+    }
+
+    /**
+     * Gets the depositableCashieringChecks attribute. 
+     * @return Returns the depositableCashieringChecks.
+     */
+    public List<Check> getDepositableCashieringChecks() {
+        return depositableCashieringChecks;
+    }
+
+    /**
+     * Sets the depositableCashieringChecks attribute value.
+     * @param depositableCashieringChecks The depositableCashieringChecks to set.
+     */
+    public void setDepositableCashieringChecks(List<Check> depositableCashieringChecks) {
+        this.depositableCashieringChecks = depositableCashieringChecks;
+    }
+    
+    /**
+     * Return the deposit cashiering check at the given index
+     * @param index index of check to retrieve
+     * @return a check
+     */
+    public Check getDepositableCashieringCheck(int index) {
+        while (this.depositableCashieringChecks.size() <= index) {
+            this.depositableCashieringChecks.add(new CheckBase());
+        }
+        return this.depositableCashieringChecks.get(index);
+    }
+
+    /**
+     * Gets the depositWizardCashieringCheckHelpers attribute. 
+     * @return Returns the depositWizardCashieringCheckHelpers.
+     */
+    public List<DepositWizardCashieringCheckHelper> getDepositWizardCashieringCheckHelpers() {
+        return depositWizardCashieringCheckHelpers;
+    }
+
+    /**
+     * Sets the depositWizardCashieringCheckHelpers attribute value.
+     * @param depositWizardCashieringCheckHelpers The depositWizardCashieringCheckHelpers to set.
+     */
+    public void setDepositWizardCashieringCheckHelpers(List<DepositWizardCashieringCheckHelper> depositWizardCashieringCheckHelpers) {
+        this.depositWizardCashieringCheckHelpers = depositWizardCashieringCheckHelpers;
+    }
+    
+    public DepositWizardCashieringCheckHelper getDepositWizardCashieringCheckHelper(int index) {
+        while (this.depositWizardCashieringCheckHelpers.size() <= index) {
+            this.depositWizardCashieringCheckHelpers.add(new DepositWizardCashieringCheckHelper());
+        }
+        return this.depositWizardCashieringCheckHelpers.get(index);
     }
 }

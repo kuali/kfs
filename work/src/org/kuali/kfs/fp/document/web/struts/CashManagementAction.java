@@ -36,16 +36,22 @@ import org.kuali.core.web.struts.action.KualiDocumentActionBase;
 import org.kuali.core.web.struts.form.KualiDocumentFormBase;
 import org.kuali.core.workflow.service.KualiWorkflowDocument;
 import org.kuali.kfs.KFSConstants;
+import org.kuali.kfs.KFSKeyConstants;
 import org.kuali.kfs.KFSConstants.CashDrawerConstants;
 import org.kuali.kfs.KFSConstants.DepositConstants;
 import org.kuali.kfs.KFSKeyConstants.CashManagement;
 import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.module.financial.bo.Check;
 import org.kuali.module.financial.bo.Deposit;
 import org.kuali.module.financial.document.CashManagementDocument;
+import org.kuali.module.financial.document.CashReceiptDocument;
 import org.kuali.module.financial.document.authorization.CashManagementDocumentAuthorizer;
+import org.kuali.module.financial.rule.event.AddCheckEvent;
+import org.kuali.module.financial.rule.event.DeleteCheckEvent;
 import org.kuali.module.financial.service.CashDrawerService;
 import org.kuali.module.financial.service.CashManagementService;
 import org.kuali.module.financial.web.struts.form.CashManagementForm;
+import org.kuali.module.financial.web.struts.form.CashReceiptForm;
 import org.kuali.module.financial.web.struts.form.CashManagementForm.CashDrawerSummary;
 
 import edu.iu.uis.eden.exception.WorkflowException;
@@ -297,6 +303,11 @@ public class CashManagementAction extends KualiDocumentActionBase {
         // open the CashDrawer
         CashDrawerService cds = SpringServiceLocator.getCashDrawerService();
         cds.openCashDrawer(cmDoc.getCashDrawer(), cmDoc.getDocumentNumber());
+        // now that the cash drawer is open, let's create currency/coin detail records for this document
+        //      create and save the cumulative cash receipt, deposit, money in and money out curr/coin details
+        SpringServiceLocator.getCashManagementService().createNewCashDetails(cmDoc, KFSConstants.CurrencyCoinSources.CASH_RECEIPTS);
+        SpringServiceLocator.getCashManagementService().createNewCashDetails(cmDoc, KFSConstants.CurrencyCoinSources.CASH_MANAGEMENT_IN);
+        SpringServiceLocator.getCashManagementService().createNewCashDetails(cmDoc, KFSConstants.CurrencyCoinSources.CASH_MANAGEMENT_OUT);
         try {
             SpringServiceLocator.getDocumentService().saveDocument(cmDoc);
         }
@@ -335,6 +346,101 @@ public class CashManagementAction extends KualiDocumentActionBase {
         
         cms.finalizeLastInterimDeposit(cmDoc);
         
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
+    }
+    
+    /**
+     * This action applies the current cashiering transaction to the cash drawer
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    public ActionForward applyCashieringTransaction(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        CashManagementDocument cmDoc = ((CashManagementForm)form).getCashManagementDocument();
+        CashManagementService cmService = SpringServiceLocator.getCashManagementService();
+        
+        cmService.applyCashieringTransaction(cmDoc);
+        
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
+    }
+    
+    /**
+     * This action allows the user to go to the cash drawer correction screen
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    public ActionForward correctCashDrawer(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
+    }
+    
+    /**
+     * Adds Check instance created from the current "new check" line to the document
+     * 
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return ActionForward
+     * @throws Exception
+     */
+    public ActionForward addCheck(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        CashManagementDocument cmDoc = ((CashManagementForm)form).getCashManagementDocument();
+
+        Check newCheck = cmDoc.getCurrentTransaction().getNewCheck();
+        newCheck.setDocumentNumber(cmDoc.getDocumentNumber());
+
+        // check business rules
+        boolean rulePassed = SpringServiceLocator.getKualiRuleService().applyRules(new AddCheckEvent(KFSConstants.NEW_CHECK_PROPERTY_NAME, cmDoc, newCheck));
+        if (rulePassed) {
+            // add check
+            cmDoc.getCurrentTransaction().addCheck(newCheck);
+
+            // clear the used newCheck
+            cmDoc.getCurrentTransaction().setNewCheck(cmDoc.getCurrentTransaction().createNewCheck());
+        }
+
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
+    }
+
+    /**
+     * Deletes the selected check (line) from the document
+     * 
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return ActionForward
+     * @throws Exception
+     */
+    public ActionForward deleteCheck(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        CashManagementDocument cmDoc = ((CashManagementForm)form).getCashManagementDocument();
+
+        int deleteIndex = getLineToDelete(request);
+        Check oldCheck = cmDoc.getCurrentTransaction().getCheck(deleteIndex);
+
+
+        boolean rulePassed = SpringServiceLocator.getKualiRuleService().applyRules(new DeleteCheckEvent(KFSConstants.EXISTING_CHECK_PROPERTY_NAME, cmDoc, oldCheck));
+
+        if (rulePassed) {
+            // delete check
+            cmDoc.getCurrentTransaction().removeCheck(deleteIndex);
+
+            // delete baseline check, if any
+            if (cmDoc.getCurrentTransaction().hasBaselineCheck(deleteIndex)) {
+                cmDoc.getCurrentTransaction().getBaselineChecks().remove(deleteIndex);
+            }
+        }
+        else {
+            GlobalVariables.getErrorMap().putError("document.currentTransaction.check[" + deleteIndex + "]", KFSKeyConstants.Check.ERROR_CHECK_DELETERULE, Integer.toString(deleteIndex));
+        }
+
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 

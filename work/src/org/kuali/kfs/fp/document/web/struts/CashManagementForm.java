@@ -29,6 +29,8 @@ import org.kuali.core.web.struts.form.KualiDocumentFormBase;
 import org.kuali.kfs.KFSConstants.DocumentStatusCodes.CashReceipt;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.financial.bo.CashDrawer;
+import org.kuali.module.financial.bo.Check;
+import org.kuali.module.financial.bo.CheckBase;
 import org.kuali.module.financial.bo.Deposit;
 import org.kuali.module.financial.document.CashManagementDocument;
 import org.kuali.module.financial.document.CashReceiptDocument;
@@ -63,6 +65,8 @@ public class CashManagementForm extends KualiDocumentFormBase {
         setFormatterType("cashDrawerSummary.timeOpened", TimestampAMPMFormatter.class);
         setFormatterType("cashDrawerSummary.timeRefreshed", TimestampAMPMFormatter.class);
         setFormatterType("cashDrawerSummary.*Total", CurrencyFormatter.class);
+        
+        setFormatterType("document.currentTransaction.transactionStarted", TimestampAMPMFormatter.class);
     }
 
     /**
@@ -169,12 +173,14 @@ public class CashManagementForm extends KualiDocumentFormBase {
     public static final class DepositHelper {
         private Integer depositLineNumber;
         private List<CashReceiptSummary> cashReceiptSummarys;
+        private List<Check> cashieringChecks;
 
         /**
          * Constructs a DepositHelper - default constructor used by PojoProcessor.
          */
         public DepositHelper() {
             cashReceiptSummarys = new ArrayList<CashReceiptSummary>();
+            cashieringChecks = new ArrayList<Check>();
             depositLineNumber = new Integer(1);
         }
 
@@ -193,6 +199,8 @@ public class CashManagementForm extends KualiDocumentFormBase {
             for (CashReceiptDocument document : cashReceipts) {
                 cashReceiptSummarys.add(new CashReceiptSummary(document));
             }
+            
+            cashieringChecks = cmService.selectCashieringChecksForDeposit(deposit.getDocumentNumber(), depositLineNumber);
         }
 
         /**
@@ -220,6 +228,35 @@ public class CashManagementForm extends KualiDocumentFormBase {
         private void extendCashReceiptSummarys(int minSize) {
             while (cashReceiptSummarys.size() < minSize) {
                 cashReceiptSummarys.add(new CashReceiptSummary());
+            }
+        }
+
+        /**
+         * Gets the cashieringChecks attribute. 
+         * @return Returns the cashieringChecks.
+         */
+        public List<Check> getCashieringChecks() {
+            return cashieringChecks;
+        }
+
+        /**
+         * Get a specific cashiering check in the list of cashiering checks
+         * @param index the index of the check to retrieve
+         * @return a check
+         */
+        public Check getCashieringCheck(int index) {
+            extendCashieringChecks(index);
+            return cashieringChecks.get(index);
+        }
+        
+        /**
+         * 
+         * This method makes the cashiering checks list longer, to avoid Array Index out of bounds issues
+         * @param minSize the minimum size to make the list
+         */
+        private void extendCashieringChecks(int minSize) {
+            while (cashieringChecks.size() <= minSize) {
+                cashieringChecks.add(new CheckBase());
             }
         }
 
@@ -344,16 +381,16 @@ public class CashManagementForm extends KualiDocumentFormBase {
         private int overallReceiptCount;
         private int depositedReceiptCount;
 
-        private CashReceiptStatistics verifiedStats = new CashReceiptStatistics();
-        private CashReceiptStatistics interimStats = new CashReceiptStatistics();
-        private CashReceiptStatistics finalStats = new CashReceiptStatistics();
-        private CashReceiptStatistics overallStats = new CashReceiptStatistics();
+        private CashReceiptStatistics verifiedReceiptStats = new CashReceiptStatistics();
+        private CashReceiptStatistics interimReceiptStats = new CashReceiptStatistics();
+        private CashReceiptStatistics finalReceiptStats = new CashReceiptStatistics();
+        private CashReceiptStatistics overallReceiptStats = new CashReceiptStatistics();
 
         // derived
-        private KualiDecimal verifiedSumTotal;
-        private KualiDecimal interimSumTotal;
-        private KualiDecimal finalSumTotal;
-        private KualiDecimal overallSumTotal;
+        private KualiDecimal verifiedReceiptSumTotal;
+        private KualiDecimal interimReceiptSumTotal;
+        private KualiDecimal finalReceiptSumTotal;
+        private KualiDecimal overallReceiptSumTotal;
 
         private KualiDecimal remainingCheckTotal;
         private KualiDecimal remainingCurrencyTotal;
@@ -382,39 +419,39 @@ public class CashManagementForm extends KualiDocumentFormBase {
 
             //
             // rather than separating into lists by status, gather statistics in one fell swoop
-            overallStats.clear();
-            verifiedStats.clear();
-            interimStats.clear();
-            finalStats.clear();
+            overallReceiptStats.clear();
+            verifiedReceiptStats.clear();
+            interimReceiptStats.clear();
+            finalReceiptStats.clear();
 
             for (CashReceiptDocument receipt : interestingReceipts) {
                 String status = receipt.getDocumentHeader().getFinancialDocumentStatusCode();
-                overallStats.add(receipt);
+                overallReceiptStats.add(receipt);
                 if (status.equals(CashReceipt.VERIFIED)) {
-                    verifiedStats.add(receipt);
+                    verifiedReceiptStats.add(receipt);
                 }
                 else if (status.equals(CashReceipt.INTERIM)) {
-                    interimStats.add(receipt);
+                    interimReceiptStats.add(receipt);
                 }
                 else if (status.equals(CashReceipt.FINAL)) {
-                    finalStats.add(receipt);
+                    finalReceiptStats.add(receipt);
                 }
                 else {
                     throw new IllegalStateException("invalid (unknown) financialDocumentStatusCode '" + status + "'");
                 }
             }
 
-            overallReceiptCount = overallStats.getReceiptCount();
-            depositedReceiptCount = interimStats.getReceiptCount() + finalStats.getReceiptCount();
+            overallReceiptCount = overallReceiptStats.getReceiptCount();
+            depositedReceiptCount = interimReceiptStats.getReceiptCount() + finalReceiptStats.getReceiptCount();
 
-            verifiedSumTotal = verifiedStats.getSumTotal();
-            interimSumTotal = interimStats.getSumTotal();
-            finalSumTotal = finalStats.getSumTotal();
-            overallSumTotal = overallStats.getSumTotal();
+            verifiedReceiptSumTotal = verifiedReceiptStats.getSumTotal();
+            interimReceiptSumTotal = interimReceiptStats.getSumTotal();
+            finalReceiptSumTotal = finalReceiptStats.getSumTotal();
+            overallReceiptSumTotal = overallReceiptStats.getSumTotal();
 
-            remainingCheckTotal = overallStats.getCheckTotal().subtract(interimStats.getCheckTotal()).subtract(finalStats.getCheckTotal());
-            remainingCurrencyTotal = overallStats.getCurrencyTotal().subtract(interimStats.getCurrencyTotal()).subtract(finalStats.getCurrencyTotal());
-            remainingCoinTotal = overallStats.getCoinTotal().subtract(interimStats.getCoinTotal()).subtract(finalStats.getCoinTotal());
+            remainingCheckTotal = overallReceiptStats.getCheckTotal().subtract(interimReceiptStats.getCheckTotal()).subtract(finalReceiptStats.getCheckTotal());
+            remainingCurrencyTotal = overallReceiptStats.getCurrencyTotal().subtract(interimReceiptStats.getCurrencyTotal()).subtract(finalReceiptStats.getCurrencyTotal());
+            remainingCoinTotal = overallReceiptStats.getCoinTotal().subtract(interimReceiptStats.getCoinTotal()).subtract(finalReceiptStats.getCoinTotal());
             remainingSumTotal = remainingCheckTotal.add(remainingCurrencyTotal.add(remainingCoinTotal));
 
             timeRefreshed = SpringServiceLocator.getDateTimeService().getCurrentTimestamp();
@@ -439,36 +476,36 @@ public class CashManagementForm extends KualiDocumentFormBase {
 
 
         /**
-         * @return current value of finalSumTotal.
+         * @return current value of finalReceiptSumTotal.
          */
-        public KualiDecimal getFinalSumTotal() {
-            return finalSumTotal;
+        public KualiDecimal getFinalReceiptSumTotal() {
+            return finalReceiptSumTotal;
         }
 
         /**
-         * Sets the finalSumTotal attribute value.
+         * Sets the finalReceiptSumTotal attribute value.
          * 
-         * @param finalSumTotal The finalSumTotal to set.
+         * @param finalReceiptSumTotal The finalReceiptSumTotal to set.
          */
-        public void setFinalSumTotal(KualiDecimal finalSumTotal) {
-            this.finalSumTotal = finalSumTotal;
+        public void setFinalReceiptSumTotal(KualiDecimal finalSumTotal) {
+            this.finalReceiptSumTotal = finalSumTotal;
         }
 
 
         /**
-         * @return current value of interimSumTotal.
+         * @return current value of interimReceiptSumTotal.
          */
-        public KualiDecimal getInterimSumTotal() {
-            return interimSumTotal;
+        public KualiDecimal getInterimReceiptSumTotal() {
+            return interimReceiptSumTotal;
         }
 
         /**
-         * Sets the interimSumTotal attribute value.
+         * Sets the interimReceiptSumTotal attribute value.
          * 
-         * @param interimSumTotal The interimSumTotal to set.
+         * @param interimReceiptSumTotal The interimReceiptSumTotal to set.
          */
-        public void setInterimSumTotal(KualiDecimal interimSumTotal) {
-            this.interimSumTotal = interimSumTotal;
+        public void setInterimReceiptSumTotal(KualiDecimal interimSumTotal) {
+            this.interimReceiptSumTotal = interimSumTotal;
         }
 
 
@@ -592,65 +629,65 @@ public class CashManagementForm extends KualiDocumentFormBase {
 
 
         /**
-         * @return current value of verifiedSumTotal.
+         * @return current value of verifiedReceiptSumTotal.
          */
-        public KualiDecimal getVerifiedSumTotal() {
-            return verifiedSumTotal;
+        public KualiDecimal getVerifiedReceiptSumTotal() {
+            return verifiedReceiptSumTotal;
         }
 
         /**
-         * Sets the verifiedSumTotal attribute value.
+         * Sets the verifiedReceiptSumTotal attribute value.
          * 
-         * @param verifiedSumTotal The verifiedSumTotal to set.
+         * @param verifiedReceiptSumTotal The verifiedReceiptSumTotal to set.
          */
-        public void setVerifiedSumTotal(KualiDecimal verifiedSumTotal) {
-            this.verifiedSumTotal = verifiedSumTotal;
+        public void setVerifiedReceiptSumTotal(KualiDecimal verifiedSumTotal) {
+            this.verifiedReceiptSumTotal = verifiedSumTotal;
         }
 
 
         /**
-         * @return current value of overallSumTotal.
+         * @return current value of overallReceiptSumTotal.
          */
-        public KualiDecimal getOverallSumTotal() {
-            return overallSumTotal;
+        public KualiDecimal getOverallReceiptSumTotal() {
+            return overallReceiptSumTotal;
         }
 
         /**
-         * Sets the overallSumTotal attribute value.
+         * Sets the overallReceiptSumTotal attribute value.
          * 
-         * @param overallSumTotal The overallSumTotal to set.
+         * @param overallReceiptSumTotal The overallReceiptSumTotal to set.
          */
-        public void setOverallSumTotal(KualiDecimal overallSumTotal) {
-            this.overallSumTotal = overallSumTotal;
+        public void setOverallReceiptSumTotal(KualiDecimal overallSumTotal) {
+            this.overallReceiptSumTotal = overallSumTotal;
         }
 
 
         /**
-         * @return current value of finalStats.
+         * @return current value of finalReceiptStats.
          */
-        public CashReceiptStatistics getFinalStats() {
-            return finalStats;
+        public CashReceiptStatistics getFinalReceiptStats() {
+            return finalReceiptStats;
         }
 
         /**
-         * @return current value of interimStats.
+         * @return current value of interimReceiptStats.
          */
-        public CashReceiptStatistics getInterimStats() {
-            return interimStats;
+        public CashReceiptStatistics getInterimReceiptStats() {
+            return interimReceiptStats;
         }
 
         /**
-         * @return current value of verifiedStats.
+         * @return current value of verifiedReceiptStats.
          */
-        public CashReceiptStatistics getVerifiedStats() {
-            return verifiedStats;
+        public CashReceiptStatistics getVerifiedReceiptStats() {
+            return verifiedReceiptStats;
         }
 
         /**
          * @return current value of overalllStats.
          */
-        public CashReceiptStatistics getOverallStats() {
-            return overallStats;
+        public CashReceiptStatistics getOverallReceiptStats() {
+            return overallReceiptStats;
         }
 
 
@@ -697,6 +734,14 @@ public class CashManagementForm extends KualiDocumentFormBase {
                 KualiDecimal sumTotal = getCheckTotal().add(getCoinTotal().add(getCurrencyTotal()));
 
                 return sumTotal;
+            }
+            
+            /**
+             * This method doesn't do anything but appease the demands of POJO form population...I mean...er...this sets the sum total, now doesn't it?
+             * @param total total you want this method to ignore
+             */
+            public void setSumTotal(KualiDecimal total) {
+                // don't do anything. just be very quiet and maybe the POJO loader will be satisfied
             }
 
 

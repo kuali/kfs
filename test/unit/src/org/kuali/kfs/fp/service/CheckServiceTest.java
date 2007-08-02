@@ -41,7 +41,7 @@ public class CheckServiceTest extends KualiTestBase {
 
     private Check check;
 
-    private String documentNumber;;
+    private String documentNumber;
 
     @Override
     protected void setUp() throws Exception {

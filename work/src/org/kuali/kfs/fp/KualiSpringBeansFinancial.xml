@@ -139,6 +139,9 @@
 		<property name="documentService">
 			<ref bean="documentService" />
 		</property>
+		<property name="cashManagementDao">
+			<ref bean="cashManagementDao" />
+		</property>
 	</bean>
 
 	<bean id="flexibleOffsetAccountService" class="org.kuali.module.financial.service.impl.FlexibleOffsetAccountServiceImpl">
@@ -207,6 +210,12 @@
 		</property>
 		<property name="workflowDocumentService">
 			<ref bean="workflowDocumentService" />
+		</property>
+		<property name="cashManagementDao">
+			<ref bean="cashManagementDao" />
+		</property>
+		<property name="cashDrawerService">
+			<ref bean="cashDrawerService" />
 		</property>
 	</bean>
 	
@@ -316,4 +325,11 @@
 		</property>
 	</bean>
 	
+	<bean id="cashieringTransactionRule" class="org.kuali.module.financial.rules.CashieringTransactionRule">
+		<property name="cashDrawerService">
+			<ref bean="cashDrawerService" />
+		</property>
+	</bean>
+	
+	<bean id="cashManagementDao" class="org.kuali.module.financial.dao.ojb.CashManagementDaoOjb" parent="platformAwareDao" />
 </beans>

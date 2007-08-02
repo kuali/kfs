@@ -32,7 +32,15 @@ import org.kuali.core.workflow.service.KualiWorkflowDocument;
 import org.kuali.core.workflow.service.WorkflowDocumentService;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSPropertyConstants;
+import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.module.financial.bo.CashDrawer;
+import org.kuali.module.financial.bo.CashReceiptHeader;
+import org.kuali.module.financial.bo.CashieringTransaction;
+import org.kuali.module.financial.bo.CoinDetail;
+import org.kuali.module.financial.bo.CurrencyDetail;
+import org.kuali.module.financial.dao.CashManagementDao;
 import org.kuali.module.financial.document.CashReceiptDocument;
+import org.kuali.module.financial.service.CashDrawerService;
 import org.kuali.module.financial.service.CashReceiptService;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -43,7 +51,8 @@ public class CashReceiptServiceImpl implements CashReceiptService {
 
     private BusinessObjectService businessObjectService;
     private WorkflowDocumentService workflowDocumentService;
-
+    private CashManagementDao cashManagementDao;
+    private CashDrawerService cashDrawerService;
 
     /**
      * @see org.kuali.module.financial.service.CashReceiptService#getCashReceiptVerificationUnitWorkgroupNameByCampusCode(java.lang.String)
@@ -195,6 +204,45 @@ public class CashReceiptServiceImpl implements CashReceiptService {
         }
     }
 
+    /**
+     * @see org.kuali.module.financial.service.CashReceiptService#addCashDetailsToCashDrawer(org.kuali.module.financial.document.CashReceiptDocument)
+     */
+    public void addCashDetailsToCashDrawer(CashReceiptDocument crDoc) {
+        CashDrawer drawer = retrieveCashDrawer(crDoc);
+        // we need to to add the currency and coin to the cash management doc's cumulative CR as well
+        if (crDoc.getCurrencyDetail() != null && !crDoc.getCurrencyDetail().isEmpty()) {
+            CurrencyDetail cumulativeCurrencyDetail = cashManagementDao.findCurrencyDetailByCashieringRecordSource(drawer.getReferenceFinancialDocumentNumber(), CashieringTransaction.DETAIL_DOCUMENT_TYPE, KFSConstants.CurrencyCoinSources.CASH_RECEIPTS);
+            cumulativeCurrencyDetail.add(crDoc.getCurrencyDetail());
+            businessObjectService.save(cumulativeCurrencyDetail);
+            
+            drawer.addCurrency(crDoc.getCurrencyDetail());
+        }
+        if (crDoc.getCoinDetail() != null && !crDoc.getCoinDetail().isEmpty()) {
+            CoinDetail cumulativeCoinDetail = cashManagementDao.findCoinDetailByCashieringRecordSource(drawer.getReferenceFinancialDocumentNumber(), CashieringTransaction.DETAIL_DOCUMENT_TYPE, KFSConstants.CurrencyCoinSources.CASH_RECEIPTS);
+            cumulativeCoinDetail.add(crDoc.getCoinDetail());
+            businessObjectService.save(cumulativeCoinDetail);
+            
+            drawer.addCoin(crDoc.getCoinDetail());
+        }
+        SpringServiceLocator.getBusinessObjectService().save(drawer);
+    }
+    
+    /**
+     * This method finds the appropriate cash drawer for this cash receipt document to add cash to
+     * @return the right cash drawer, just the right one
+     */
+    private CashDrawer retrieveCashDrawer(CashReceiptDocument crDoc) {
+        String workgroupName = getCashReceiptVerificationUnitForCampusCode(crDoc.getCampusLocationCode());
+        if (workgroupName == null) {
+            throw new RuntimeException("Cannot find workgroup name for Cash Receipt document: "+crDoc.getDocumentNumber());
+        }
+        
+        CashDrawer drawer = cashDrawerService.getByWorkgroupName(workgroupName, false);
+        if (drawer == null) {
+            throw new RuntimeException("There is no Cash Drawer for Workgroup "+workgroupName);
+        }
+        return drawer;
+    }
 
     // injection-molding
     /**
@@ -229,4 +277,40 @@ public class CashReceiptServiceImpl implements CashReceiptService {
     public void setWorkflowDocumentService(WorkflowDocumentService workflowDocumentService) {
         this.workflowDocumentService = workflowDocumentService;
     }
+
+    /**
+     * Gets the cashManagementDao attribute. 
+     * @return Returns the cashManagementDao.
+     */
+    public CashManagementDao getCashManagementDao() {
+        return cashManagementDao;
+    }
+
+
+    /**
+     * Sets the cashManagementDao attribute value.
+     * @param cashManagementDao The cashManagementDao to set.
+     */
+    public void setCashManagementDao(CashManagementDao cashManagementDao) {
+        this.cashManagementDao = cashManagementDao;
+    }
+
+    /**
+     * Gets the cashDrawerService attribute. 
+     * @return Returns the cashDrawerService.
+     */
+    public CashDrawerService getCashDrawerService() {
+        return cashDrawerService;
+    }
+
+
+    /**
+     * Sets the cashDrawerService attribute value.
+     * @param cashDrawerService The cashDrawerService to set.
+     */
+    public void setCashDrawerService(CashDrawerService cashDrawerService) {
+        this.cashDrawerService = cashDrawerService;
+    }
+    
+    
 }

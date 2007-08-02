@@ -39,7 +39,7 @@
 	<c:set var="cashDrawerStatusMessage"
 		value="${KualiForm.cashDrawerStatusMessage}" />
 	<c:if test="${!empty cashDrawerStatusMessage}">
-		<div align="left"><font color="red"><b>${KualiForm.cashDrawerStatusMessage}</b></font>
+		<div align="left"><span style="color: #ff0000;"><b>${KualiForm.cashDrawerStatusMessage}</b></span>
 		</div>
 		<br>
 	</c:if>
@@ -97,13 +97,7 @@
 						attributeEntry="${cashReceiptAttributes.totalCashAmount}"
 						useShortLabel="false" /></strong></div>
 					</th>
-					<td width="35%" align="left" valign="middle"><c:if
-						test="${readOnly}"> $${KualiForm.document.currencyFormattedTotalCashAmount} <html:hidden
-							write="false" property="document.totalCashAmount" />
-					</c:if> <c:if test="${!readOnly}">
-						<kul:htmlControlAttribute property="document.totalCashAmount"
-							attributeEntry="${cashReceiptAttributes.totalCashAmount}" styleClass="amount" />
-					</c:if></td>
+					<td width="35%" align="left" valign="middle">$${KualiForm.document.currencyFormattedTotalCashAmount}</td>
 				</tr>
 				<tr>
 					<th>
@@ -111,13 +105,7 @@
 						attributeEntry="${cashReceiptAttributes.totalCoinAmount}"
 						useShortLabel="false" /></strong></div>
 					</th>
-					<td width="35%" align="left" valign="middle"><c:if
-						test="${readOnly}"> $${KualiForm.document.currencyFormattedTotalCoinAmount} <html:hidden
-							write="false" property="document.totalCoinAmount" />
-					</c:if> <c:if test="${!readOnly}">
-						<kul:htmlControlAttribute property="document.totalCoinAmount"
-							attributeEntry="${cashReceiptAttributes.totalCoinAmount}" styleClass="amount" />
-					</c:if></td>
+					<td width="35%" align="left" valign="middle">$${KualiForm.document.currencyFormattedTotalCoinAmount}</td>
 				</tr>
 				<tr>
 					<th>
@@ -135,7 +123,15 @@
 		</table>
 		</div>
 	</kul:tab>
-	<fin:checkLines checkDetailMode="${checkDetailMode}"
+  <kul:tab tabTitle="Currency and Coin Detail" defaultOpen="true">
+    <div class="tab-container" align="center">
+      <div class="h2-container">
+        <h2>Currency and Coin Detail</h2>
+      </div>
+      <fin:currencyCoinLine currencyProperty="document.currencyDetail" coinProperty="document.coinDetail" readOnly="false" editingMode="${KualiForm.editingMode}" />
+    </div>
+  </kul:tab>
+	<cr:checkLines checkDetailMode="${checkDetailMode}"
 		editingMode="${KualiForm.editingMode}"
 		totalAmount="${KualiForm.cashReceiptDocument.currencyFormattedTotalCheckAmount}"
 		displayHidden="${displayHidden}" />

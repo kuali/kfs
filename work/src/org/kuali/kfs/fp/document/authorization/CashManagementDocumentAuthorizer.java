@@ -114,6 +114,10 @@ public class CashManagementDocumentAuthorizer extends DocumentAuthorizerBase {
         if (!cmDoc.hasFinalDeposit() || !SpringServiceLocator.getCashManagementService().allVerifiedCashReceiptsAreDeposited(cmDoc)) {
             flags.setCanRoute(false);
         }
+        
+        if (!SpringServiceLocator.getCashManagementService().allowDocumentCancellation(cmDoc)) {
+            flags.setCanCancel(false);
+        }
 
         return flags;
     }
@@ -149,6 +153,4 @@ public class CashManagementDocumentAuthorizer extends DocumentAuthorizerBase {
             throw new DocumentTypeAuthorizationException(user.getPersonUserIdentifier(), "add deposits to", documentTypeName);
         }
     }
-
-
 }

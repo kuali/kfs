@@ -16,7 +16,7 @@
 <%@ include file="/jsp/kfs/kfsTldHeader.jsp"%>
 
 <%@ attribute name="propertyName" required="true" description="name of form property containing the Check" %>
-<%@ attribute name="baselinePropertyName" required="true" description="name of form property containing the baselineCheck" %>
+<%@ attribute name="baselinePropertyName" required="false" description="name of form property containing the baselineCheck" %>
 <%@ attribute name="displayHidden" required="true" %>
 
 
@@ -30,16 +30,17 @@
 <html:hidden property="${propertyName}.description" write="${displayHidden}" />
 <html:hidden property="${propertyName}.amount" write="${displayHidden}" />
 
+<c:if test="${!empty baselinePropertyName}">
+  <html:hidden property="${baselinePropertyName}.documentNumber" write="${displayHidden}" />
+  <html:hidden property="${baselinePropertyName}.sequenceId" write="${displayHidden}" />
+  <html:hidden property="${baselinePropertyName}.financialDocumentDepositLineNumber" write="${displayHidden}" />
+  <html:hidden property="${baselinePropertyName}.versionNumber" write="${displayHidden}" />
 
-<html:hidden property="${baselinePropertyName}.documentNumber" write="${displayHidden}" />
-<html:hidden property="${baselinePropertyName}.sequenceId" write="${displayHidden}" />
-<html:hidden property="${baselinePropertyName}.financialDocumentDepositLineNumber" write="${displayHidden}" />
-<html:hidden property="${baselinePropertyName}.versionNumber" write="${displayHidden}" />
-
-<html:hidden property="${baselinePropertyName}.checkNumber" write="${displayHidden}" />
-<html:hidden property="${baselinePropertyName}.checkDate" write="${displayHidden}" />
-<html:hidden property="${baselinePropertyName}.description" write="${displayHidden}" />
-<html:hidden property="${baselinePropertyName}.amount" write="${displayHidden}" />
+  <html:hidden property="${baselinePropertyName}.checkNumber" write="${displayHidden}" />
+  <html:hidden property="${baselinePropertyName}.checkDate" write="${displayHidden}" />
+  <html:hidden property="${baselinePropertyName}.description" write="${displayHidden}" />
+  <html:hidden property="${baselinePropertyName}.amount" write="${displayHidden}" />
+</c:if>
 <c:if test="${displayHidden}">
     <br>
 </c:if>

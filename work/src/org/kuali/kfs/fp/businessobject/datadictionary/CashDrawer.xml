@@ -497,7 +497,54 @@
                 </summary>
                 <description><![CDATA[&nbsp;]]></description>
     		</attribute>
-    		
+    		<attribute name="currencyTotalAmount">
+    			<label>Total Currency Amount</label>
+                <shortLabel>TtlCurrAmt</shortLabel>
+
+                <maxLength>10</maxLength>
+                <required>false</required>
+
+                <control>
+                    <currency size="10" formattedMaxLength="12" />
+                </control>
+
+                <summary>
+                    <![CDATA[&nbsp;]]>
+                </summary>
+                <description><![CDATA[&nbsp;]]></description>
+    		</attribute>
+    		<attribute name="coinTotalAmount">
+    			<label>Total Coin Amount</label>
+                <shortLabel>TtlCnAmt</shortLabel>
+
+                <maxLength>10</maxLength>
+                <required>false</required>
+
+                <control>
+                    <currency size="10" formattedMaxLength="12" />
+                </control>
+
+                <summary>
+                    <![CDATA[&nbsp;]]>
+                </summary>
+                <description><![CDATA[&nbsp;]]></description>
+    		</attribute>
+    		<attribute name="totalAmount">
+    			<label>Cash Drawer Total Amount</label>
+                <shortLabel>CDTtlAmt</shortLabel>
+
+                <maxLength>10</maxLength>
+                <required>false</required>
+
+                <control>
+                    <currency size="10" formattedMaxLength="12" />
+                </control>
+
+                <summary>
+                    <![CDATA[&nbsp;]]>
+                </summary>
+                <description><![CDATA[&nbsp;]]></description>
+    		</attribute>
     	</attributes>
    	</businessObject>
 </dictionaryEntry>

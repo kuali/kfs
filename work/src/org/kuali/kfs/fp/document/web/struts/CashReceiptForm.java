@@ -32,6 +32,8 @@ import org.kuali.module.financial.bo.Check;
 import org.kuali.module.financial.bo.CheckBase;
 import org.kuali.module.financial.document.CashManagementDocument;
 import org.kuali.module.financial.document.CashReceiptDocument;
+import org.kuali.module.financial.bo.CurrencyDetail;
+import org.kuali.module.financial.bo.CoinDetail;
 
 /**
  * This class is the action form for Cash Receipts.

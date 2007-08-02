@@ -26,6 +26,7 @@
 <c:set var="receiptAttributes" value="${DataDictionary.CashReceiptDocument.attributes}" />
 <c:set var="dummyAttributes" value="${DataDictionary.AttributeReferenceDummy.attributes}" />
 <c:set var="depositAttributes" value="${DataDictionary.Deposit.attributes}" />
+<c:set var="checkAttributes" value="${DataDictionary.CheckBase.attributes}" />
 
 <c:set var="depositPropertyBase" value="document.deposit[${depositIndex}]" />
 <c:set var="labelBase" value="document.deposit[${depositIndex}]" />
@@ -119,6 +120,20 @@
         </td>
     </tr>
     
+    <%-- currency/coin details --%>
+    <c:if test="${depositType == Constants.DepositConstants.DEPOSIT_TYPE_FINAL && !empty deposit.depositedCurrency && !empty deposit.depositedCoin}">
+      <tr>
+        <td colspan="4" class="tab-subhead">
+          Currency/Coin Details
+        </td>
+      </tr>
+      <tr>
+        <td colspan="4">
+          <fin:currencyCoinLine currencyProperty="${depositPropertyBase}.depositedCurrency" coinProperty="${depositPropertyBase}.depositedCoin" readOnly="true" />
+        </td>
+      </tr>
+    </c:if>
+    
     <%-- cashReceipts header --%>
     <tr><td colspan="4" class="tab-subhead">
         Cash Receipts
@@ -153,6 +168,33 @@
                 <kul:htmlControlAttribute property="${receiptSummaryBase}.totalAmount" attributeEntry="${dummyAttributes.genericAmount}" readOnly="true" />
             </td>
         </tr>
+    </logic:iterate>
+    
+    <%-- cashiering checks --%>
+    <tr>
+      <td colspan="4" class="tab-subhead">Cashiering Checks</td>
+    </tr>
+    <tr>
+      <kul:htmlAttributeHeaderCell attributeEntry="${checkAttributes.checkNumber}" />
+      <kul:htmlAttributeHeaderCell attributeEntry="${checkAttributes.checkDate}" />
+      <kul:htmlAttributeHeaderCell attributeEntry="${checkAttributes.description}" />
+      <kul:htmlAttributeHeaderCell attributeEntry="${checkAttributes.amount}" />
+    </tr>
+    <logic:iterate name="KualiForm" property="depositHelper[${depositIndex}].cashieringChecks" id="cashieringCheck" indexId="cashieringCheckCtr">
+      <tr>
+        <td align="left">
+          <kul:htmlControlAttribute property="depositHelper[${depositIndex}].cashieringChecks[${cashieringCheckCtr}].checkNumber" attributeEntry="${checkAttributes.checkNumber}" readOnly="true" />
+        </td>
+        <td align="left">
+          <kul:htmlControlAttribute property="depositHelper[${depositIndex}].cashieringChecks[${cashieringCheckCtr}].checkDate" attributeEntry="${checkAttributes.checkDate}" readOnly="true" />
+        </td>
+        <td align="left">
+          <kul:htmlControlAttribute property="depositHelper[${depositIndex}].cashieringChecks[${cashieringCheckCtr}].description" attributeEntry="${checkAttributes.description}" readOnly="true" />
+        </td>
+        <td align="left">
+          <kul:htmlControlAttribute property="depositHelper[${depositIndex}].cashieringChecks[${cashieringCheckCtr}].amount" attributeEntry="${checkAttributes.amount}" readOnly="true" />
+        </td>
+      </tr>
     </logic:iterate>
 
     <%-- deposit footer --%>

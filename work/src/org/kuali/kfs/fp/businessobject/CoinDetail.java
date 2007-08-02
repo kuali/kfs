@@ -42,9 +42,7 @@ public class CoinDetail extends PersistableBusinessObjectBase {
     /**
      * Default constructor.
      */
-    public CoinDetail() {
-
-    }
+    public CoinDetail() {}
 
     /**
      * Gets the documentNumber attribute.
@@ -132,16 +130,18 @@ public class CoinDetail extends PersistableBusinessObjectBase {
      * Returns the number of half-cent coins in the drawer
      * @return the count of half cent coins in the drawer
      */
-    public int getFiftyCentCount() {
-        return financialDocumentFiftyCentAmount.divide(KFSConstants.CoinTypeAmounts.FIFTY_CENT_AMOUNT).intValue();
+    public Integer getFiftyCentCount() {
+        return (financialDocumentFiftyCentAmount == null) ? new Integer(0) : new Integer(financialDocumentFiftyCentAmount.divide(KFSConstants.CoinTypeAmounts.FIFTY_CENT_AMOUNT).intValue());
     }
     
     /**
      * Sets the number of fifty cent coins in the drawer. This is useful if, you know, you're in da club, with, say a bottle full of "bub"
      * @param count the number of fifty cent coins present in the drawer
      */
-    public void setFiftyCentCount(int count) {
-        financialDocumentFiftyCentAmount = new KualiDecimal(count).multiply(KFSConstants.CoinTypeAmounts.FIFTY_CENT_AMOUNT);
+    public void setFiftyCentCount(Integer count) {
+        if (count != null) {
+            financialDocumentFiftyCentAmount = new KualiDecimal(count.intValue()).multiply(KFSConstants.CoinTypeAmounts.FIFTY_CENT_AMOUNT);
+        }
     }
 
     /**
@@ -168,16 +168,18 @@ public class CoinDetail extends PersistableBusinessObjectBase {
      * Returns the number of quarters in the drawer
      * @return the count of quarters in the drawer
      */
-    public int getTwentyFiveCentCount() {
-        return financialDocumentTwentyFiveCentAmount.divide(KFSConstants.CoinTypeAmounts.TWENTY_FIVE_CENT_AMOUNT).intValue();
+    public Integer getTwentyFiveCentCount() {
+        return (financialDocumentTwentyFiveCentAmount == null) ? new Integer(0) : new Integer(financialDocumentTwentyFiveCentAmount.divide(KFSConstants.CoinTypeAmounts.TWENTY_FIVE_CENT_AMOUNT).intValue());
     }
     
     /**
      * Sets the number of quarters in the drawer
      * @param count the number of quarters present in the drawer
      */
-    public void setTwentyFiveCentCount(int count) {
-        financialDocumentTwentyFiveCentAmount = new KualiDecimal(count).multiply(KFSConstants.CoinTypeAmounts.TWENTY_FIVE_CENT_AMOUNT);
+    public void setTwentyFiveCentCount(Integer count) {
+        if (count != null) {
+            financialDocumentTwentyFiveCentAmount = new KualiDecimal(count.intValue()).multiply(KFSConstants.CoinTypeAmounts.TWENTY_FIVE_CENT_AMOUNT);
+        }
     }
 
     /**
@@ -204,16 +206,18 @@ public class CoinDetail extends PersistableBusinessObjectBase {
      * Returns the number of dimes in the drawer
      * @return the count of dimes in the drawer
      */
-    public int getTenCentCount() {
-        return financialDocumentTenCentAmount.divide(KFSConstants.CoinTypeAmounts.TEN_CENT_AMOUNT).intValue();
+    public Integer getTenCentCount() {
+        return (financialDocumentTenCentAmount == null) ? new Integer(0) : new Integer(financialDocumentTenCentAmount.divide(KFSConstants.CoinTypeAmounts.TEN_CENT_AMOUNT).intValue());
     }
     
     /**
      * Sets the number of dimes in the drawer
      * @param count the number of dimes present in the drawer
      */
-    public void setTenCentCount(int count) {
-        financialDocumentTenCentAmount = new KualiDecimal(count).multiply(KFSConstants.CoinTypeAmounts.TEN_CENT_AMOUNT);
+    public void setTenCentCount(Integer count) {
+        if (count != null) {
+            financialDocumentTenCentAmount = new KualiDecimal(count.intValue()).multiply(KFSConstants.CoinTypeAmounts.TEN_CENT_AMOUNT);
+        }
     }
 
     /**
@@ -240,16 +244,18 @@ public class CoinDetail extends PersistableBusinessObjectBase {
      * Returns the number of nickels in the drawer
      * @return the count of nickels in the drawer
      */
-    public int getFiveCentCount() {
-        return financialDocumentFiveCentAmount.divide(KFSConstants.CoinTypeAmounts.FIVE_CENT_AMOUNT).intValue();
+    public Integer getFiveCentCount() {
+        return (financialDocumentFiveCentAmount == null) ? new Integer(0) : new Integer(financialDocumentFiveCentAmount.divide(KFSConstants.CoinTypeAmounts.FIVE_CENT_AMOUNT).intValue());
     }
     
     /**
      * Sets the number of nickels in the drawer
      * @param count the number of nickels present in the drawer
      */
-    public void setFiveCentCount(int count) {
-        financialDocumentFiveCentAmount = new KualiDecimal(count).multiply(KFSConstants.CoinTypeAmounts.FIVE_CENT_AMOUNT);
+    public void setFiveCentCount(Integer count) {
+        if (count != null) {
+            financialDocumentFiveCentAmount = new KualiDecimal(count.intValue()).multiply(KFSConstants.CoinTypeAmounts.FIVE_CENT_AMOUNT);
+        }
     }
 
     /**
@@ -276,16 +282,18 @@ public class CoinDetail extends PersistableBusinessObjectBase {
      * Returns the number of pennies in the drawer
      * @return the count of pennies in the drawer
      */
-    public int getOneCentCount() {
-        return financialDocumentOneCentAmount.divide(KFSConstants.CoinTypeAmounts.ONE_CENT_AMOUNT).intValue();
+    public Integer getOneCentCount() {
+        return (financialDocumentOneCentAmount == null) ? new Integer(0) : new Integer(financialDocumentOneCentAmount.divide(KFSConstants.CoinTypeAmounts.ONE_CENT_AMOUNT).intValue());
     }
     
     /**
      * Sets the number of pennies in the drawer
      * @param count the number of pennies present in the drawer
      */
-    public void setOneCentCount(int count) {
-        financialDocumentOneCentAmount = new KualiDecimal(count).multiply(KFSConstants.CoinTypeAmounts.ONE_CENT_AMOUNT);
+    public void setOneCentCount(Integer count) {
+        if (count != null) {
+            financialDocumentOneCentAmount = new KualiDecimal(count).multiply(KFSConstants.CoinTypeAmounts.ONE_CENT_AMOUNT);
+        }
     }
 
     /**
@@ -333,16 +341,203 @@ public class CoinDetail extends PersistableBusinessObjectBase {
      * Returns the number of dollar coins--Sacajawea, Susan B. Anthony, or otherwise--in the drawer
      * @return the count of dollar coins in the drawer
      */
-    public int getHundredCentCount() {
-        return financialDocumentHundredCentAmount.divide(KFSConstants.CoinTypeAmounts.HUNDRED_CENT_AMOUNT).intValue();
+    public Integer getHundredCentCount() {
+        return (financialDocumentHundredCentAmount == null) ? new Integer(0) : new Integer(financialDocumentHundredCentAmount.divide(KFSConstants.CoinTypeAmounts.HUNDRED_CENT_AMOUNT).intValue());
     }
     
     /**
      * Sets the number of hundred cent coins in the drawer
      * @param count the number of hundred cent coins present in the drawer
      */
-    public void setHundredCentCount(int count) {
-        financialDocumentHundredCentAmount = new KualiDecimal(count).multiply(KFSConstants.CoinTypeAmounts.HUNDRED_CENT_AMOUNT);
+    public void setHundredCentCount(Integer count) {
+        if (count != null) {
+            financialDocumentHundredCentAmount = new KualiDecimal(count.intValue()).multiply(KFSConstants.CoinTypeAmounts.HUNDRED_CENT_AMOUNT);
+        }
+    }
+    
+    /**
+     * 
+     * Returns the total amount represented by this coin detail record.
+     * @return total amount of this detail
+     */
+    public KualiDecimal getTotalAmount() {
+        KualiDecimal result = new KualiDecimal(0);
+        if (this.financialDocumentHundredCentAmount != null) {
+            result = result.add(this.financialDocumentHundredCentAmount);
+        }
+        if (this.financialDocumentFiftyCentAmount != null) {
+            result = result.add(this.financialDocumentFiftyCentAmount);
+        }
+        if (this.financialDocumentTwentyFiveCentAmount != null) {
+            result = result.add(this.financialDocumentTwentyFiveCentAmount);
+        }
+        if (this.financialDocumentTenCentAmount != null) {
+            result = result.add(this.financialDocumentTenCentAmount);
+        }
+        if (this.financialDocumentFiveCentAmount != null) {
+            result = result.add(this.financialDocumentFiveCentAmount);
+        }
+        if (this.financialDocumentOneCentAmount != null) {
+            result = result.add(this.financialDocumentOneCentAmount);
+        }
+        if (this.financialDocumentOtherCentAmount != null) {
+            result = result.add(this.financialDocumentOtherCentAmount);
+        }
+        return result;
+    }
+    
+    /**
+     * 
+     * This method sets all amounts in this record to zero
+     */
+    public void zeroOutAmounts() {
+        this.financialDocumentHundredCentAmount = new KualiDecimal(0);
+        this.financialDocumentFiftyCentAmount = new KualiDecimal(0);
+        this.financialDocumentTwentyFiveCentAmount = new KualiDecimal(0);
+        this.financialDocumentTenCentAmount = new KualiDecimal(0);
+        this.financialDocumentFiveCentAmount = new KualiDecimal(0);
+        this.financialDocumentOneCentAmount = new KualiDecimal(0);
+        this.financialDocumentOtherCentAmount = new KualiDecimal(0);
+    }
+    
+    /**
+     * 
+     * This method sets all amounts that are null to zero
+     */
+    public void zeroOutUnpopulatedAmounts() {
+        if (this.financialDocumentHundredCentAmount == null) {
+            this.financialDocumentHundredCentAmount = new KualiDecimal(0);
+        }
+        if (this.financialDocumentFiftyCentAmount == null) {
+            this.financialDocumentFiftyCentAmount = new KualiDecimal(0);
+        }
+        if (this.financialDocumentTwentyFiveCentAmount == null) {
+            this.financialDocumentTwentyFiveCentAmount = new KualiDecimal(0);
+        }
+        if (this.financialDocumentTenCentAmount == null) {
+            this.financialDocumentTenCentAmount = new KualiDecimal(0);
+        }
+        if (this.financialDocumentFiveCentAmount == null) {
+            this.financialDocumentFiveCentAmount = new KualiDecimal(0);
+        }
+        if (this.financialDocumentOneCentAmount == null) {
+            this.financialDocumentOneCentAmount = new KualiDecimal(0);
+        }
+        if (this.financialDocumentOtherCentAmount == null) {
+            this.financialDocumentOtherCentAmount = new KualiDecimal(0);
+        }
+    }
+    
+    public void add(CoinDetail detail) {
+        if (detail.financialDocumentHundredCentAmount != null) {
+            if (this.financialDocumentHundredCentAmount == null) {
+                this.financialDocumentHundredCentAmount = new KualiDecimal(0).add(detail.financialDocumentHundredCentAmount);
+            } else {
+                this.financialDocumentHundredCentAmount = this.financialDocumentHundredCentAmount.add(detail.financialDocumentHundredCentAmount);
+            }
+        }
+        if (detail.financialDocumentFiftyCentAmount != null) {
+            if (this.financialDocumentFiftyCentAmount == null) {
+                this.financialDocumentFiftyCentAmount = new KualiDecimal(0).add(detail.financialDocumentFiftyCentAmount); 
+            } else {
+                this.financialDocumentFiftyCentAmount = this.financialDocumentFiftyCentAmount.add(detail.financialDocumentFiftyCentAmount);
+            }
+        }
+        if (detail.financialDocumentTwentyFiveCentAmount != null) {
+            if (this.financialDocumentTwentyFiveCentAmount == null) {
+                this.financialDocumentTwentyFiveCentAmount = new KualiDecimal(0).add(detail.financialDocumentTwentyFiveCentAmount);
+            } else {
+                this.financialDocumentTwentyFiveCentAmount = this.financialDocumentTwentyFiveCentAmount.add(detail.financialDocumentTwentyFiveCentAmount);
+            }
+        }
+        if (detail.financialDocumentTenCentAmount != null) {
+            if (this.financialDocumentTenCentAmount == null) {
+                this.financialDocumentTenCentAmount = new KualiDecimal(0).add(detail.financialDocumentTenCentAmount);
+            } else {
+                this.financialDocumentTenCentAmount = this.financialDocumentTenCentAmount.add(detail.financialDocumentTenCentAmount);
+            }
+        }
+        if (detail.financialDocumentFiveCentAmount != null) {
+            if (this.financialDocumentFiveCentAmount == null) {
+                this.financialDocumentFiveCentAmount = new KualiDecimal(0).add(detail.financialDocumentFiveCentAmount);
+            } else {
+                this.financialDocumentFiveCentAmount = this.financialDocumentFiveCentAmount.add(detail.financialDocumentFiveCentAmount);
+            }
+        }
+        if (detail.financialDocumentOneCentAmount != null) {
+            if (this.financialDocumentOneCentAmount == null) {
+                this.financialDocumentOneCentAmount = new KualiDecimal(0).add(detail.financialDocumentOneCentAmount);
+            } else {
+                this.financialDocumentOneCentAmount = this.financialDocumentOneCentAmount.add(detail.financialDocumentOneCentAmount);
+            }
+        }
+        if (detail.financialDocumentOtherCentAmount != null) {
+            if (this.financialDocumentOtherCentAmount == null) {
+                this.financialDocumentOtherCentAmount = new KualiDecimal(0).add(detail.financialDocumentOtherCentAmount);
+            } else {
+                this.financialDocumentOtherCentAmount = this.financialDocumentOtherCentAmount.add(detail.financialDocumentOtherCentAmount);
+            }
+        }
+    }
+    
+    public void subtract(CoinDetail detail) {
+        if (detail.financialDocumentHundredCentAmount != null) {
+            if (this.financialDocumentHundredCentAmount == null) {
+                this.financialDocumentHundredCentAmount = new KualiDecimal(0).subtract(detail.financialDocumentHundredCentAmount);
+            } else {
+                this.financialDocumentHundredCentAmount = this.financialDocumentHundredCentAmount.subtract(detail.financialDocumentHundredCentAmount);
+            }
+        }
+        if (detail.financialDocumentFiftyCentAmount != null) {
+            if (this.financialDocumentFiftyCentAmount == null) {
+                this.financialDocumentFiftyCentAmount = new KualiDecimal(0).subtract(detail.financialDocumentFiftyCentAmount);
+            } else {
+                this.financialDocumentFiftyCentAmount = this.financialDocumentFiftyCentAmount.subtract(detail.financialDocumentFiftyCentAmount);
+            }
+        }
+        if (detail.financialDocumentTwentyFiveCentAmount != null) {
+            if (this.financialDocumentTwentyFiveCentAmount == null) {
+                this.financialDocumentTwentyFiveCentAmount = new KualiDecimal(0).subtract(detail.financialDocumentTwentyFiveCentAmount);
+            } else {
+                this.financialDocumentTwentyFiveCentAmount = this.financialDocumentTwentyFiveCentAmount.subtract(detail.financialDocumentTwentyFiveCentAmount);
+            }
+        }
+        if (detail.financialDocumentTenCentAmount != null) {
+            if (this.financialDocumentTenCentAmount == null) {
+                this.financialDocumentTenCentAmount = new KualiDecimal(0).subtract(detail.financialDocumentTenCentAmount);
+            } else {
+                this.financialDocumentTenCentAmount = this.financialDocumentTenCentAmount.subtract(detail.financialDocumentTenCentAmount);
+            }
+        }
+        if (detail.financialDocumentFiveCentAmount != null) {
+            if (this.financialDocumentFiveCentAmount == null) {
+                this.financialDocumentFiveCentAmount = new KualiDecimal(0).subtract(detail.financialDocumentFiveCentAmount);
+            } else {
+                this.financialDocumentFiveCentAmount = this.financialDocumentFiveCentAmount.subtract(detail.financialDocumentFiveCentAmount);
+            }
+        }
+        if (detail.financialDocumentOneCentAmount != null) {
+            if (this.financialDocumentOneCentAmount == null) {
+                this.financialDocumentOneCentAmount = new KualiDecimal(0).subtract(detail.financialDocumentOneCentAmount);
+            } else {
+                this.financialDocumentOneCentAmount = this.financialDocumentOneCentAmount.subtract(detail.financialDocumentOneCentAmount);
+            }
+        }
+        if (detail.financialDocumentOtherCentAmount != null) {
+            if (this.financialDocumentOtherCentAmount == null) {
+                this.financialDocumentOtherCentAmount = new KualiDecimal(0).subtract(detail.financialDocumentOtherCentAmount);
+            } else {
+                this.financialDocumentOtherCentAmount = this.financialDocumentOtherCentAmount.subtract(detail.financialDocumentOtherCentAmount);
+            }
+        }
+    }
+
+    /**
+     * Is this coin detail empty of any value?
+     * @return true if any field at all is neither null nor the amount is zero
+     */
+    public boolean isEmpty() {
+        return ((this.financialDocumentHundredCentAmount == null || this.financialDocumentHundredCentAmount.equals(KualiDecimal.ZERO)) && (this.financialDocumentFiftyCentAmount == null || this.financialDocumentFiftyCentAmount.equals(KualiDecimal.ZERO)) && (this.financialDocumentTwentyFiveCentAmount == null || this.financialDocumentTwentyFiveCentAmount.equals(KualiDecimal.ZERO)) && (this.financialDocumentTenCentAmount == null || this.financialDocumentTenCentAmount.equals(KualiDecimal.ZERO)) && (this.financialDocumentFiveCentAmount == null || this.financialDocumentFiveCentAmount.equals(KualiDecimal.ZERO)) && (this.financialDocumentOneCentAmount == null || this.financialDocumentOneCentAmount.equals(KualiDecimal.ZERO)) && (this.financialDocumentOtherCentAmount == null || this.financialDocumentOtherCentAmount.equals(KualiDecimal.ZERO)));
     }
 
     /**

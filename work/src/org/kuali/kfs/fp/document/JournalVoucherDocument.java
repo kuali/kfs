@@ -31,6 +31,7 @@ import org.kuali.core.document.Correctable;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.bo.AccountingLineBase;
 import org.kuali.kfs.bo.AccountingLineParser;
+import org.kuali.kfs.bo.SourceAccountingLine;
 import org.kuali.kfs.document.AccountingDocumentBase;
 import org.kuali.module.chart.bo.codes.BalanceTyp;
 import org.kuali.module.financial.bo.JournalVoucherAccountingLineParser;
@@ -254,7 +255,7 @@ public class JournalVoucherDocument extends AccountingDocumentBase implements Vo
         if (this.getBalanceType().isFinancialOffsetGenerationIndicator()) { // make sure this is not a single amount entered JV
             int index = 0;
             while (i.hasNext()) {
-                VoucherSourceAccountingLine sLine = (VoucherSourceAccountingLine) i.next();
+                SourceAccountingLine sLine = (SourceAccountingLine) i.next();
 
                 String debitCreditCode = sLine.getDebitCreditCode();
 

@@ -36,7 +36,6 @@ import org.kuali.kfs.bo.TargetAccountingLine;
 import org.kuali.kfs.context.KualiTestBase;
 import org.kuali.kfs.document.AccountingDocument;
 import org.kuali.kfs.util.SpringServiceLocator;
-import org.kuali.module.financial.bo.VoucherSourceAccountingLine;
 import org.kuali.test.DocumentTestUtils;
 import org.kuali.test.TestsWorkflowViaDatabase;
 import org.kuali.test.WithTestSpringContext;
@@ -160,7 +159,7 @@ public class JournalVoucherDocumentTest extends KualiTestBase {
         KualiDecimal balance = new KualiDecimal("21.12");
         ArrayList sourceLines = new ArrayList();
         {
-            VoucherSourceAccountingLine sourceLine = new VoucherSourceAccountingLine();
+            SourceAccountingLine sourceLine = new SourceAccountingLine();
             sourceLine.setDocumentNumber(document.getDocumentNumber());
             sourceLine.setSequenceNumber(new Integer(0));
             sourceLine.setChartOfAccountsCode("BL");

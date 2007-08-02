@@ -28,16 +28,16 @@
 			    <table cellpadding="0" cellspacing="0" class="datatable" summary="Notes">
 			    	<c:if test="${view.notes != null}">
 						<tr>
-							<kul:htmlAttributeHeaderCell scope="col">Date</kul:htmlAttributeHeaderCell>
-							<kul:htmlAttributeHeaderCell scope="col">User</kul:htmlAttributeHeaderCell>
-							<kul:htmlAttributeHeaderCell scope="col">Note</kul:htmlAttributeHeaderCell>
+							<kul:htmlAttributeHeaderCell scope="col" width="15%">Date</kul:htmlAttributeHeaderCell>
+							<kul:htmlAttributeHeaderCell scope="col" width="15%">User</kul:htmlAttributeHeaderCell>
+							<kul:htmlAttributeHeaderCell scope="col" width="70%">Note</kul:htmlAttributeHeaderCell>
 			        	</tr>
 						<c:forEach items="${view.notes}" var="note" >
 			        		<tr>
-			        			<td align="left" valign="middle" class="datacell">
+			        			<td align="center" valign="middle" class="datacell">
 			        				<c:out value="${note.notePostedTimestamp}" />
 				        		</td>
-				        		<td align="left" valign="middle" class="datacell">
+				        		<td align="center" valign="middle" class="datacell">
 			        				<c:out value="${note.authorUniversal.personName}" />
 				        		</td>
 				        		<td align="left" valign="middle" class="datacell">

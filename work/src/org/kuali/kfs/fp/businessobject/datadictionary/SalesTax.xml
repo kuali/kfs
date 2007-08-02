@@ -74,6 +74,7 @@
                 <summary>Financial Document Sale Date</summary>
                 <description>Financial Document Sale Date...</description>
             </attributeReference>
+			<attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
 
         </attributes>
     </businessObject>

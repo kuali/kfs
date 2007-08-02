@@ -18,6 +18,8 @@ package org.kuali.module.purap.web.struts.form;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.kuali.core.document.authorization.DocumentAuthorizer;
+import org.kuali.core.exceptions.GroupNotFoundException;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.web.ui.ExtraButton;
@@ -26,6 +28,7 @@ import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.purap.PurapAuthorizationConstants;
 import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.PurapParameterConstants;
+import org.kuali.module.purap.PurapRuleConstants;
 import org.kuali.module.purap.bo.PurchaseOrderAccount;
 import org.kuali.module.purap.bo.PurchaseOrderItem;
 import org.kuali.module.purap.bo.PurchaseOrderVendorQuote;
@@ -153,12 +156,22 @@ public class PurchaseOrderForm extends PurchasingFormBase {
         // which condition e.g. we might not want to display the close button
         // on a PO with status CLOSE or the open button on a PO with status OPEN, etc.
 
-
         String documentType = this.getDocument().getDocumentHeader().getWorkflowDocument().getDocumentType();
         PurchaseOrderDocument purchaseOrder = (PurchaseOrderDocument) this.getDocument();
-
         
-        if ((purchaseOrder.isPurchaseOrderCurrentIndicator() && purchaseOrder.getStatusCode().equals(PurapConstants.PurchaseOrderStatuses.OPEN)) || 
+        boolean isFYIRequested = purchaseOrder.getDocumentHeader().getWorkflowDocument().isFYIRequested();
+
+        String authorizedWorkgroup = SpringServiceLocator.getKualiConfigurationService().getApplicationParameterValue(PurapRuleConstants.PURAP_ADMIN_GROUP, PurapRuleConstants.PURAP_DOCUMENT_PO_ACTIONS);
+        boolean isUserAuthorized = false;
+        try {
+            isUserAuthorized = SpringServiceLocator.getKualiGroupService().getByGroupName(authorizedWorkgroup).hasMember(GlobalVariables.getUserSession().getUniversalUser());
+        }
+        catch (GroupNotFoundException e) {
+            throw new RuntimeException("Workgroup " + authorizedWorkgroup + " not found",e);
+        }
+        
+        
+        if (isUserAuthorized &&(purchaseOrder.isPurchaseOrderCurrentIndicator() && purchaseOrder.getStatusCode().equals(PurapConstants.PurchaseOrderStatuses.OPEN)) || 
              (documentType.equals(PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_RETRANSMIT_DOCUMENT) &&
               purchaseOrder.isPurchaseOrderCurrentIndicator() &&       
               !this.getEditingMode().containsKey(PurapAuthorizationConstants.PurchaseOrderEditMode.DISPLAY_RETRANSMIT_TAB) &&
@@ -173,7 +186,7 @@ public class PurchaseOrderForm extends PurchasingFormBase {
         
         //This is the button to print the pdf on a retransmit document. We're currently sharing the same button image as 
         //the button for creating a retransmit document but this may change someday.
-        if (this.getEditingMode().containsKey(PurapAuthorizationConstants.PurchaseOrderEditMode.DISPLAY_RETRANSMIT_TAB)) {
+        if (isUserAuthorized && this.getEditingMode().containsKey(PurapAuthorizationConstants.PurchaseOrderEditMode.DISPLAY_RETRANSMIT_TAB)) {
             ExtraButton printingRetransmitButton = new ExtraButton();
             printingRetransmitButton.setExtraButtonProperty("methodToCall.printingRetransmitPo");
             printingRetransmitButton.setExtraButtonSource("${externalizable.images.url}buttonsmall_retransmit.gif");
@@ -181,9 +194,6 @@ public class PurchaseOrderForm extends PurchasingFormBase {
             this.getExtraButtons().add(printingRetransmitButton);
         }
         
-        boolean isFYIRequested = purchaseOrder.getDocumentHeader().getWorkflowDocument().isFYIRequested();
-        String purchasingGroup = SpringServiceLocator.getKualiConfigurationService().getApplicationParameterValue(PurapParameterConstants.PURAP_ADMIN_GROUP, PurapConstants.Workgroups.WORKGROUP_PURCHASING);
-        boolean isPurchasingMember = GlobalVariables.getUserSession().getUniversalUser().isMember(purchasingGroup);
         String currentRouteLevel = new String();
         try {
             currentRouteLevel = SpringServiceLocator.getWorkflowDocumentService().getCurrentRouteLevelName(purchaseOrder.getDocumentHeader().getWorkflowDocument());
@@ -193,7 +203,7 @@ public class PurchaseOrderForm extends PurchasingFormBase {
         }
         
         if ( currentRouteLevel.equals(PurapConstants.WorkflowConstants.PurchaseOrderDocument.NodeDetails.DOCUMENT_TRANSMISSION) && 
-             (isPurchasingMember || isFYIRequested) ) {
+             (isUserAuthorized || isFYIRequested) ) {
             ExtraButton printButton = new ExtraButton();
             printButton.setExtraButtonProperty("methodToCall.printPo");
             printButton.setExtraButtonSource("${externalizable.images.url}buttonsmall_print.gif");
@@ -205,14 +215,14 @@ public class PurchaseOrderForm extends PurchasingFormBase {
             paymentHoldButton.setExtraButtonAltText("Payment Hold");
             this.getExtraButtons().add(paymentHoldButton);
         }
-        if (purchaseOrder.getStatusCode().equals(PurapConstants.PurchaseOrderStatuses.CLOSED) && purchaseOrder.isPurchaseOrderCurrentIndicator() && !purchaseOrder.isPendingActionIndicator()) {
+        if (purchaseOrder.getStatusCode().equals(PurapConstants.PurchaseOrderStatuses.CLOSED) && purchaseOrder.isPurchaseOrderCurrentIndicator() && !purchaseOrder.isPendingActionIndicator() && isUserAuthorized) {
             ExtraButton reopenButton = new ExtraButton();
             reopenButton.setExtraButtonProperty("methodToCall.reopenPo");
             reopenButton.setExtraButtonSource("${externalizable.images.url}buttonsmall_openorder.gif");
             reopenButton.setExtraButtonAltText("Reopen");
             this.getExtraButtons().add(reopenButton);
         }
-        if (purchaseOrder.getStatusCode().equals(PurapConstants.PurchaseOrderStatuses.OPEN) && purchaseOrder.isPurchaseOrderCurrentIndicator() && !purchaseOrder.isPendingActionIndicator()) {
+        if (purchaseOrder.getStatusCode().equals(PurapConstants.PurchaseOrderStatuses.OPEN) && purchaseOrder.isPurchaseOrderCurrentIndicator() && !purchaseOrder.isPendingActionIndicator() && isUserAuthorized) {
             ExtraButton closeButton = new ExtraButton();
             closeButton.setExtraButtonProperty("methodToCall.closePo");
             closeButton.setExtraButtonSource("${externalizable.images.url}buttonsmall_closeorder.gif");
@@ -234,7 +244,7 @@ public class PurchaseOrderForm extends PurchasingFormBase {
             amendButton.setExtraButtonAltText("Amend");
             this.getExtraButtons().add(amendButton);
         }
-        if (purchaseOrder.getStatusCode().equals(PurapConstants.PurchaseOrderStatuses.PAYMENT_HOLD) && purchaseOrder.isPurchaseOrderCurrentIndicator() && !purchaseOrder.isPendingActionIndicator()) {
+        if (purchaseOrder.getStatusCode().equals(PurapConstants.PurchaseOrderStatuses.PAYMENT_HOLD) && purchaseOrder.isPurchaseOrderCurrentIndicator() && !purchaseOrder.isPendingActionIndicator() && isUserAuthorized) {
             ExtraButton removeHoldButton = new ExtraButton();
             removeHoldButton.setExtraButtonProperty("methodToCall.removeHoldPo");
             removeHoldButton.setExtraButtonSource("${externalizable.images.url}buttonsmall_removehold.gif");

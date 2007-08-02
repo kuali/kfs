@@ -23,10 +23,11 @@ import java.util.Map;
 import java.util.Properties;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.bo.BusinessRule;
 import org.kuali.core.bo.BusinessObject;
+import org.kuali.core.bo.BusinessRule;
 import org.kuali.core.exceptions.ValidationException;
 import org.kuali.core.lookup.AbstractLookupableHelperServiceImpl;
+import org.kuali.core.lookup.CollectionIncomplete;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.BeanPropertyComparator;
 import org.kuali.core.util.GlobalVariables;
@@ -40,7 +41,6 @@ import org.kuali.module.vendor.VendorPropertyConstants;
 import org.kuali.module.vendor.VendorRuleConstants;
 import org.kuali.module.vendor.bo.VendorAddress;
 import org.kuali.module.vendor.bo.VendorDetail;
-import org.kuali.module.vendor.dao.VendorDao;
 import org.kuali.module.vendor.service.VendorService;
 
 public class VendorLookupableHelperServiceImpl extends AbstractLookupableHelperServiceImpl {
@@ -128,13 +128,23 @@ public class VendorLookupableHelperServiceImpl extends AbstractLookupableHelperS
         super.setDocFormKey((String) fieldValues.get(KFSConstants.DOC_FORM_KEY));
 
         String vendorName = fieldValues.get(VendorPropertyConstants.VENDOR_NAME);
-        if (StringUtils.isNotEmpty(vendorName)) {
-            // if searching by vendorName, also search in list of alias names
-            fieldValues.put(VendorPropertyConstants.VENDOR_ALIAS_NAME_FULL_PATH, "|" + vendorName);
-        }
 
         List<BusinessObject> searchResults = (List) getLookupService().findCollectionBySearchHelper(getBusinessObjectClass(), fieldValues, unbounded);
 
+        // re-run the query against the vendor name alias field if necessary and merge the results
+        // this could double the returned results for the search, but there is no alternative at present
+        // without refactoring of the lookup service
+        if (StringUtils.isNotEmpty(vendorName)) {
+            // if searching by vendorName, also search in list of alias names
+            fieldValues.put(VendorPropertyConstants.VENDOR_ALIAS_NAME_FULL_PATH, vendorName);
+            fieldValues.remove( VendorPropertyConstants.VENDOR_NAME );
+            List<BusinessObject> searchResults2 = (List) getLookupService().findCollectionBySearchHelper(getBusinessObjectClass(), fieldValues, unbounded);
+            searchResults.addAll( searchResults2 );
+            if ( searchResults instanceof CollectionIncomplete && searchResults2 instanceof CollectionIncomplete ) {
+            	((CollectionIncomplete)searchResults).setActualSizeIfTruncated( ((CollectionIncomplete)searchResults).getActualSizeIfTruncated().longValue() + ((CollectionIncomplete)searchResults2 ).getActualSizeIfTruncated().longValue() );
+            }
+        }        
+        
         List<BusinessObject> processedSearchResults = new ArrayList();
         
         // loop through results

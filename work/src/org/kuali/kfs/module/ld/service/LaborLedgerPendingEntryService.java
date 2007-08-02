@@ -20,6 +20,7 @@ import java.util.Iterator;
 import java.util.Map;
 
 import org.kuali.module.chart.bo.Account;
+import org.kuali.module.chart.bo.ObjectCode;
 import org.kuali.module.labor.bo.LaborLedgerPendingEntry;
 import org.kuali.module.labor.document.LaborLedgerPostingDocument;
 
@@ -44,6 +45,14 @@ public interface LaborLedgerPendingEntryService {
      * @return
      */
     public boolean hasPendingLaborLedgerEntry(String emplid);
+    
+    /**
+     * This method checks that the given employee, payrollEndDateFiscalPeriodCode, and accountNumber has any labor ledger entries?
+     * 
+     * @param emplid, payrollEndDateFiscalPeriodCode, accountNumber
+     * @return
+     */
+    public boolean hasPendingLaborLedgerEntry(String emplid, String payrollEndDateFiscalPeriodCode, String accountNumber, String objectCode);
 
     /**
      * This method clears cancelled/disapproved entries to clear pending labor entries

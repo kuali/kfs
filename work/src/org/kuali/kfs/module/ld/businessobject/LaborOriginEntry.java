@@ -32,6 +32,7 @@ import org.kuali.kfs.bo.OriginationCode;
 import org.kuali.module.chart.bo.AccountingPeriod;
 import org.kuali.module.gl.bo.OriginEntry;
 import org.kuali.module.gl.exception.LoadException;
+import org.kuali.module.labor.LaborConstants;
 import org.springframework.util.StringUtils;
 
 /**
@@ -40,6 +41,7 @@ import org.springframework.util.StringUtils;
 public class LaborOriginEntry extends OriginEntry implements LaborTransaction {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(LaborOriginEntry.class);
     private static String SPACES = "                                                                                                              ";
+    private static final String DATE_FORMAT = "yyyy-MM-dd";
     
 
     private String positionNumber;
@@ -1269,6 +1271,15 @@ public class LaborOriginEntry extends OriginEntry implements LaborTransaction {
         }        
     }
     
+    protected String formatDate(Date date) {
+        if (date == null) {
+            return LaborConstants.getSpaceTransactionDate();
+        }
+        else {
+            SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT);
+            return sdf.format(date);
+        }
+    }
     
 }
 

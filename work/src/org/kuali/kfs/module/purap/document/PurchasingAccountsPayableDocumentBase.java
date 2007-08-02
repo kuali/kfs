@@ -81,7 +81,9 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
     private transient List<RequisitionView> relatedRequisitionViews;
     private transient List<PurchaseOrderView> relatedPurchaseOrderViews;
     private transient List<PaymentRequestView> relatedPaymentRequestViews;
+    private transient List<PaymentRequestView> paymentHistoryPaymentRequestViews;
     private transient List<CreditMemoView> relatedCreditMemoViews;
+    private transient List<CreditMemoView> paymentHistoryCreditMemoViews;
     private transient Map<SourceAccountingLine, List<PurchasingApItem>> summaryAccountsWithItems;
     private transient List<SourceAccountingLine> summaryAccountsWithItemsKey;
     private transient List<List<PurchasingApItem>> summaryAccountsWithItemsValue;
@@ -588,44 +590,72 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
     }
 
     public List<RequisitionView> getRelatedRequisitionViews() {
-        if (!(this instanceof RequisitionDocument) && relatedRequisitionViews == null) {
+        if (relatedRequisitionViews == null) {
             relatedRequisitionViews = new TypedArrayList(RequisitionView.class);
             List<RequisitionView> tmpViews = SpringServiceLocator.getPurapService().getRelatedViews(RequisitionView.class, accountsPayablePurchasingDocumentLinkIdentifier);
             for (RequisitionView view : tmpViews) {
-                relatedRequisitionViews.add(view);
+                if (!this.getDocumentNumber().equals(view.getDocumentNumber())) {
+                    relatedRequisitionViews.add(view);
+                }
             }
         }
         return relatedRequisitionViews;
     }
 
     public List<CreditMemoView> getRelatedCreditMemoViews() {
-        if (!(this instanceof CreditMemoDocument) && relatedCreditMemoViews == null) {
-            relatedCreditMemoViews = new TypedArrayList(CreditMemoView.class);
-            List<CreditMemoView> tmpViews = SpringServiceLocator.getPurapService().getRelatedViews(CreditMemoView.class, accountsPayablePurchasingDocumentLinkIdentifier);
-            for (CreditMemoView view : tmpViews) {
+        relatedCreditMemoViews = new TypedArrayList(CreditMemoView.class);
+        List<CreditMemoView> tmpViews = SpringServiceLocator.getPurapService().getRelatedViews(CreditMemoView.class, accountsPayablePurchasingDocumentLinkIdentifier);
+        for (CreditMemoView view : tmpViews) {
+            if (!this.getDocumentNumber().equals(view.getDocumentNumber())) {
                 relatedCreditMemoViews.add(view);
             }
         }
         return relatedCreditMemoViews;
     }
 
+    public List<CreditMemoView> getPaymentHistoryCreditMemoViews() {
+        if (paymentHistoryCreditMemoViews == null) {
+            paymentHistoryCreditMemoViews = new TypedArrayList(CreditMemoView.class);
+            List<CreditMemoView> tmpViews = SpringServiceLocator.getPurapService().getRelatedViews(CreditMemoView.class, accountsPayablePurchasingDocumentLinkIdentifier);
+            for (CreditMemoView view : tmpViews) {
+                paymentHistoryCreditMemoViews.add(view);
+            }
+        }
+        return paymentHistoryCreditMemoViews;
+    }
+
     public List<PaymentRequestView> getRelatedPaymentRequestViews() {
-        if (!(this instanceof PaymentRequestDocument) && relatedPaymentRequestViews == null) {
+        if (relatedPaymentRequestViews == null) {
             relatedPaymentRequestViews = new TypedArrayList(PaymentRequestView.class);
             List<PaymentRequestView> tmpViews = SpringServiceLocator.getPurapService().getRelatedViews(PaymentRequestView.class, accountsPayablePurchasingDocumentLinkIdentifier);
             for (PaymentRequestView view : tmpViews) {
-                relatedPaymentRequestViews.add(view);
+                if (!this.getDocumentNumber().equals(view.getDocumentNumber())) {
+                    relatedPaymentRequestViews.add(view);
+                }
             }
         }
         return relatedPaymentRequestViews;
     }
 
+    public List<PaymentRequestView> getPaymentHistoryPaymentRequestViews() {
+        if (paymentHistoryPaymentRequestViews == null) {
+            paymentHistoryPaymentRequestViews = new TypedArrayList(PaymentRequestView.class);
+            List<PaymentRequestView> tmpViews = SpringServiceLocator.getPurapService().getRelatedViews(PaymentRequestView.class, accountsPayablePurchasingDocumentLinkIdentifier);
+            for (PaymentRequestView view : tmpViews) {
+                paymentHistoryPaymentRequestViews.add(view);
+            }
+        }
+        return paymentHistoryPaymentRequestViews;
+    }
+
     public List<PurchaseOrderView> getRelatedPurchaseOrderViews() {
-        if (!(this instanceof PurchaseOrderDocument) && relatedPurchaseOrderViews == null) {
+        if (relatedPurchaseOrderViews == null) {
             relatedPurchaseOrderViews = new TypedArrayList(PurchaseOrderView.class);
             List<PurchaseOrderView> tmpViews = SpringServiceLocator.getPurapService().getRelatedViews(PurchaseOrderView.class, accountsPayablePurchasingDocumentLinkIdentifier);
             for (PurchaseOrderView view : tmpViews) {
-                relatedPurchaseOrderViews.add(view);
+                if (!this.getDocumentNumber().equals(view.getDocumentNumber())) {
+                    relatedPurchaseOrderViews.add(view);
+                }
             }
         }
         return relatedPurchaseOrderViews;

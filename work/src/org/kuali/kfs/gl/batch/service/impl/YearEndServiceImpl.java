@@ -256,7 +256,7 @@ public class YearEndServiceImpl implements YearEndService {
 
                     }
 
-                    activityEntry.setFinancialSubObjectCode(KFSConstants.DASHES_SUB_OBJECT_CODE);
+                    activityEntry.setFinancialSubObjectCode(KFSConstants.getDashFinancialSubObjectCode());
                     activityEntry.setFinancialBalanceTypeCode(balance.getOption().getNominalFinancialBalanceTypeCd());
 
                     if (null == balance.getObjectTypeCode()) {
@@ -560,7 +560,7 @@ public class YearEndServiceImpl implements YearEndService {
                     // 1033 007110 MOVE ALL '-'
                     // 1034 007120 TO PROJECT-CD OF GLEN-RECORD.
 
-                    activityEntry.setProjectCode(KFSConstants.DASHES_PROJECT_CODE);
+                    activityEntry.setProjectCode(KFSConstants.getDashProjectCode());
 
                     // 1035 007130 MOVE SPACES
                     // 1036 007140 TO ORG-REFERENCE-ID OF GLEN-RECORD.
@@ -681,7 +681,7 @@ public class YearEndServiceImpl implements YearEndService {
                     // 1080 007550 MOVE ALL '-'
                     // 1081 007560 TO FIN-SUB-OBJ-CD OF GLEN-RECORD.
 
-                    offsetEntry.setFinancialSubObjectCode(KFSConstants.DASHES_SUB_OBJECT_CODE);
+                    offsetEntry.setFinancialSubObjectCode(KFSConstants.getDashFinancialSubObjectCode());
 
                     // 1082 007570 MOVE 'NB'
                     // 1083 007580 TO FIN-BALANCE-TYP-CD OF GLEN-RECORD.
@@ -758,7 +758,7 @@ public class YearEndServiceImpl implements YearEndService {
                     // 1118 007930 MOVE ALL '-'
                     // 1119 007940 TO PROJECT-CD OF GLEN-RECORD.
 
-                    offsetEntry.setProjectCode(KFSConstants.DASHES_PROJECT_CODE);
+                    offsetEntry.setProjectCode(KFSConstants.getDashProjectCode());
 
                     // 1120 007950 MOVE SPACES
                     // 1121 007960 TO ORG-REFERENCE-ID OF GLEN-RECORD.

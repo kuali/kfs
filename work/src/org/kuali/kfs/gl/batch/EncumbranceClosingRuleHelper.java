@@ -18,6 +18,7 @@ package org.kuali.module.gl.batch.closing.year.service.impl.helper;
 import org.apache.commons.lang.ArrayUtils;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.kfs.KFSConstants;
+import org.kuali.kfs.rules.AccountingDocumentRuleBaseConstants;
 import org.kuali.module.chart.bo.A21SubAccount;
 import org.kuali.module.chart.bo.PriorYearAccount;
 import org.kuali.module.chart.bo.SubFundGroup;
@@ -209,8 +210,8 @@ public class EncumbranceClosingRuleHelper {
 
         }
 
-        String[] expenseObjectCodeTypes = kualiConfigurationService.getApplicationParameterValues("SYSTEM", "ExpenseObjectTypeCodes");
-        String[] encumbranceBalanceTypeCodes = { "EX","IE","PE" };
+        String[] expenseObjectCodeTypes = kualiConfigurationService.getApplicationParameterValues(KFSConstants.ParameterGroups.SYSTEM, AccountingDocumentRuleBaseConstants.APPLICATION_PARAMETER.EXPENSE_OBJECT_TYPE_CODES);
+        String[] encumbranceBalanceTypeCodes = new String[] { KFSConstants.BALANCE_TYPE_EXTERNAL_ENCUMBRANCE, KFSConstants.BALANCE_TYPE_INTERNAL_ENCUMBRANCE, KFSConstants.BALANCE_TYPE_PRE_ENCUMBRANCE };
 
         // the object type code must be an expense and the encumbrance balance type code must correspond to an internal, external or
         // pre-encumbrance

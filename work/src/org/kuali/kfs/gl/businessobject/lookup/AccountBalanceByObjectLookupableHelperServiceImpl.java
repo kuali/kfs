@@ -92,7 +92,7 @@ public class AccountBalanceByObjectLookupableHelperServiceImpl extends AbstractL
         String financialReportingSortCode = (String) fieldValues.get(GLConstants.BalanceInquiryDrillDowns.REPORTING_SORT_CODE);
 
         // Dashes means no sub account number
-        if (KFSConstants.DASHES_SUB_ACCOUNT_NUMBER.equals(subAccountNumber)) {
+        if (KFSConstants.getDashSubAccountNumber().equals(subAccountNumber)) {
             subAccountNumber = "";
         }
 

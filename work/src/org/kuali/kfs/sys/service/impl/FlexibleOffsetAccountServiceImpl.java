@@ -126,8 +126,8 @@ public class FlexibleOffsetAccountServiceImpl implements FlexibleOffsetAccountSe
         originEntry.setChartOfAccountsCode(offsetChartOfAccountsCode);
 
         // blank out the sub account and sub object since the account has been replaced
-        originEntry.setSubAccountNumber(KFSConstants.DASHES_SUB_ACCOUNT_NUMBER);
-        originEntry.setFinancialSubObjectCode(KFSConstants.DASHES_SUB_OBJECT_CODE);
+        originEntry.setSubAccountNumber(KFSConstants.getDashSubAccountNumber());
+        originEntry.setFinancialSubObjectCode(KFSConstants.getDashFinancialSubObjectCode());
         return true;
     }
 

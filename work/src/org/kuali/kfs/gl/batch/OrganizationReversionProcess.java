@@ -271,7 +271,7 @@ public class OrganizationReversionProcess {
         entry.setTransactionLedgerEntrySequenceNumber(1);
         entry.setTransactionDebitCreditCode(KFSConstants.GL_BUDGET_CODE);
         entry.setTransactionDate(paramTransactionDate);
-        entry.setProjectCode(KFSConstants.DASHES_PROJECT_CODE);
+        entry.setProjectCode(KFSConstants.getDashProjectCode());
         return entry;
     }
 
@@ -282,7 +282,7 @@ public class OrganizationReversionProcess {
         entry.setAccountNumber(unitOfWork.accountNumber);
         entry.setSubAccountNumber(unitOfWork.subAccountNumber);
         entry.setFinancialObjectCode(organizationReversion.getChartOfAccounts().getFinancialCashObjectCode());
-        entry.setFinancialSubObjectCode(KFSConstants.DASHES_SUB_OBJECT_CODE);
+        entry.setFinancialSubObjectCode(KFSConstants.getDashFinancialSubObjectCode());
         entry.setFinancialBalanceTypeCode(entry.getOption().getNominalFinancialBalanceTypeCd());
 
         persistenceService.retrieveReferenceObject(entry, KFSPropertyConstants.FINANCIAL_OBJECT);
@@ -317,7 +317,7 @@ public class OrganizationReversionProcess {
         entry.setAccountNumber(unitOfWork.accountNumber);
         entry.setSubAccountNumber(unitOfWork.subAccountNumber);
         entry.setFinancialObjectCode(paramFundBalanceObjectCode);
-        entry.setFinancialSubObjectCode(KFSConstants.DASHES_SUB_OBJECT_CODE);
+        entry.setFinancialSubObjectCode(KFSConstants.getDashFinancialSubObjectCode());
         entry.setFinancialBalanceTypeCode(DEFAULT_FINANCIAL_BALANCE_TYPE_CODE);
 
         persistenceService.retrieveReferenceObject(entry, KFSPropertyConstants.FINANCIAL_OBJECT);
@@ -348,9 +348,9 @@ public class OrganizationReversionProcess {
         entry = getEntry();
         entry.setChartOfAccountsCode(unitOfWork.chartOfAccountsCode);
         entry.setAccountNumber(organizationReversion.getCashReversionAccountNumber());
-        entry.setSubAccountNumber(KFSConstants.DASHES_SUB_ACCOUNT_NUMBER);
+        entry.setSubAccountNumber(KFSConstants.getDashSubAccountNumber());
         entry.setFinancialObjectCode(organizationReversion.getChartOfAccounts().getFinancialCashObjectCode());
-        entry.setFinancialSubObjectCode(KFSConstants.DASHES_SUB_OBJECT_CODE);
+        entry.setFinancialSubObjectCode(KFSConstants.getDashFinancialSubObjectCode());
         entry.setFinancialBalanceTypeCode(DEFAULT_FINANCIAL_BALANCE_TYPE_CODE);
 
         persistenceService.retrieveReferenceObject(entry, KFSPropertyConstants.FINANCIAL_OBJECT);
@@ -383,9 +383,9 @@ public class OrganizationReversionProcess {
         entry = getEntry();
         entry.setChartOfAccountsCode(unitOfWork.chartOfAccountsCode);
         entry.setAccountNumber(organizationReversion.getCashReversionAccountNumber());
-        entry.setSubAccountNumber(KFSConstants.DASHES_SUB_ACCOUNT_NUMBER);
+        entry.setSubAccountNumber(KFSConstants.getDashSubAccountNumber());
         entry.setFinancialObjectCode(paramFundBalanceObjectCode);
-        entry.setFinancialSubObjectCode(KFSConstants.DASHES_SUB_OBJECT_CODE);
+        entry.setFinancialSubObjectCode(KFSConstants.getDashFinancialSubObjectCode());
         entry.setFinancialBalanceTypeCode(DEFAULT_FINANCIAL_BALANCE_TYPE_CODE);
 
         persistenceService.retrieveReferenceObject(entry, KFSPropertyConstants.FINANCIAL_OBJECT);
@@ -434,14 +434,14 @@ public class OrganizationReversionProcess {
                 entry.setChartOfAccountsCode(unitOfWork.chartOfAccountsCode);
                 if (ArrayUtils.contains(ORGANIZATION_REVERSION_COA, unitOfWork.chartOfAccountsCode)) {
                     entry.setAccountNumber(organizationReversion.getBudgetReversionAccountNumber());
-                    entry.setSubAccountNumber(KFSConstants.DASHES_SUB_ACCOUNT_NUMBER);
+                    entry.setSubAccountNumber(KFSConstants.getDashSubAccountNumber());
                 }
                 else {
                     entry.setAccountNumber(unitOfWork.accountNumber);
                     entry.setSubAccountNumber(unitOfWork.subAccountNumber);
                 }
                 entry.setFinancialObjectCode(paramBegBudgetCashObjectCode);
-                entry.setFinancialSubObjectCode(KFSConstants.DASHES_SUB_OBJECT_CODE);
+                entry.setFinancialSubObjectCode(KFSConstants.getDashFinancialSubObjectCode());
                 entry.setFinancialBalanceTypeCode(KFSConstants.BALANCE_TYPE_CURRENT_BUDGET);
 
                 persistenceService.retrieveReferenceObject(entry, KFSPropertyConstants.FINANCIAL_OBJECT);
@@ -472,7 +472,7 @@ public class OrganizationReversionProcess {
                 entry.setSubAccountNumber(unitOfWork.subAccountNumber);
 
                 entry.setFinancialObjectCode(commonObject);
-                entry.setFinancialSubObjectCode(KFSConstants.DASHES_SUB_OBJECT_CODE);
+                entry.setFinancialSubObjectCode(KFSConstants.getDashFinancialSubObjectCode());
                 entry.setFinancialBalanceTypeCode(KFSConstants.BALANCE_TYPE_CURRENT_BUDGET);
 
                 persistenceService.retrieveReferenceObject(entry, KFSPropertyConstants.FINANCIAL_OBJECT);
@@ -515,7 +515,7 @@ public class OrganizationReversionProcess {
         }
         entry.setSubAccountNumber(unitOfWork.subAccountNumber);
         entry.setFinancialObjectCode(paramBegBudgetCashObjectCode);
-        entry.setFinancialSubObjectCode(KFSConstants.DASHES_SUB_OBJECT_CODE);
+        entry.setFinancialSubObjectCode(KFSConstants.getDashFinancialSubObjectCode());
         entry.setFinancialBalanceTypeCode(KFSConstants.BALANCE_TYPE_CURRENT_BUDGET);
 
         persistenceService.retrieveReferenceObject(entry, KFSPropertyConstants.FINANCIAL_OBJECT);
@@ -534,7 +534,7 @@ public class OrganizationReversionProcess {
         entry.setTransactionLedgerEntryDescription(kualiConfigurationService.getPropertyString(KFSKeyConstants.OrganizationReversionProcess.FUND_CARRIED) + paramUniversityFiscalYear);
         entry.setTransactionLedgerEntryAmount(unitOfWork.getTotalCarryForward());
         entry.setTransactionDate(paramTransactionDate);
-        entry.setProjectCode(KFSConstants.DASHES_PROJECT_CODE);
+        entry.setProjectCode(KFSConstants.getDashProjectCode());
         // 2995 MOVE TRN-LDGR-ENTR-AMT TO WS-AMT-W-PERIOD
         // 2996 WS-AMT-N.
         // 2997 MOVE WS-AMT-X TO TRN-AMT-RED-X.
@@ -559,7 +559,7 @@ public class OrganizationReversionProcess {
 
         objectCode = entry.getFinancialObject();
         entry.setFinancialObjectTypeCode(objectCode.getFinancialObjectTypeCode());
-        entry.setFinancialSubObjectCode(KFSConstants.DASHES_SUB_OBJECT_CODE);
+        entry.setFinancialSubObjectCode(KFSConstants.getDashFinancialSubObjectCode());
         entry.setFinancialBalanceTypeCode(KFSConstants.BALANCE_TYPE_CURRENT_BUDGET);
         entry.setUniversityFiscalPeriodCode(KFSConstants.MONTH1);
         entry.setDocumentNumber(DEFAULT_DOCUMENT_NUMBER_PREFIX + unitOfWork.accountNumber);
@@ -587,7 +587,7 @@ public class OrganizationReversionProcess {
         entry.setAccountNumber(unitOfWork.accountNumber);
         entry.setSubAccountNumber(unitOfWork.subAccountNumber);
         entry.setFinancialObjectCode(paramUnallocObjectCode);
-        entry.setFinancialSubObjectCode(KFSConstants.DASHES_SUB_OBJECT_CODE);
+        entry.setFinancialSubObjectCode(KFSConstants.getDashFinancialSubObjectCode());
         entry.setFinancialBalanceTypeCode(DEFAULT_FINANCIAL_BALANCE_TYPE_CODE_YEAR_END);
 
         persistenceService.retrieveReferenceObject(entry, KFSPropertyConstants.FINANCIAL_OBJECT);
@@ -618,9 +618,9 @@ public class OrganizationReversionProcess {
         entry = getEntry();
         entry.setChartOfAccountsCode(unitOfWork.chartOfAccountsCode);
         entry.setAccountNumber(organizationReversion.getBudgetReversionAccountNumber());
-        entry.setSubAccountNumber(KFSConstants.DASHES_SUB_ACCOUNT_NUMBER);
+        entry.setSubAccountNumber(KFSConstants.getDashSubAccountNumber());
         entry.setFinancialObjectCode(paramUnallocObjectCode);
-        entry.setFinancialSubObjectCode(KFSConstants.DASHES_SUB_OBJECT_CODE);
+        entry.setFinancialSubObjectCode(KFSConstants.getDashFinancialSubObjectCode());
         entry.setFinancialBalanceTypeCode(DEFAULT_FINANCIAL_BALANCE_TYPE_CODE_YEAR_END);
         entry.setFinancialObjectTypeCode(objectCode.getFinancialObjectTypeCode());
         entry.setUniversityFiscalPeriodCode(KFSConstants.MONTH13);

@@ -16,12 +16,9 @@
 package org.kuali.module.chart.rules;
 
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
-import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.bo.PersistableBusinessObject;
 import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase;
 import org.kuali.core.util.GlobalVariables;
@@ -83,8 +80,8 @@ public class IcrAutomatedEntryRule extends MaintenanceDocumentRuleBase {
         
         if (success) {
             // because of check above, we know that:
-            // if any of these are wildcards: chart, account, or subaccount, then they are all wildcards (except for subaccount, which may be 3 dashes i.e. KFSConstants.DASHES_SUB_ACCOUNT_NUMBER)
-            // if any of these are wildcards: chart, object, or subobject, then they are all wildcards (except for subobject, which may be 5 dashes i.e. KFSConstants.DASHES_SUB_OBJECT_CODE)
+            // if any of these are wildcards: chart, account, or subaccount, then they are all wildcards (except for subaccount, which may be 3 dashes i.e. KFSConstants.getDashSubAccountNumber()())
+            // if any of these are wildcards: chart, object, or subobject, then they are all wildcards (except for subobject, which may be 5 dashes i.e. KFSConstants.getDashFinancialSubObjectCode())
             
             // a consequence of this rule is that all 6 of these fields must have wildcards if any of the fields have a wildcard, unless the field is allowed to have dashes
             
@@ -124,8 +121,8 @@ public class IcrAutomatedEntryRule extends MaintenanceDocumentRuleBase {
             // Sub-Account Number Rule
             if (subAccountNumber != null) {
                 // checkCorrectWildcards makes sure that the wildcard is appropriate for the sub account number
-                // we allow any string of only dashes to be a valid value for the sub acct, but to bypass validation, it must be equal to KFSConstants.DASHES_SUB_ACCOUNT_NUMBER
-                if (isWildcard(subAccountNumber) || StringUtils.equals(subAccountNumber, KFSConstants.DASHES_SUB_ACCOUNT_NUMBER)) {
+                // we allow any string of only dashes to be a valid value for the sub acct, but to bypass validation, it must be equal to KFSConstants.getDashSubAccountNumber()()
+                if (isWildcard(subAccountNumber) || StringUtils.equals(subAccountNumber, KFSConstants.getDashSubAccountNumber())) {
     
                 }
                 else {
@@ -157,8 +154,8 @@ public class IcrAutomatedEntryRule extends MaintenanceDocumentRuleBase {
     
             // Financial SubObjectCode Rule
             if (financialSubObjectCode != null) {
-                // we allow any string of only dashes to be a valid value for the sub object, but to bypass validation, it must be equal to KFSConstants.DASHES_SUB_OBJECT_CODE
-                if (isWildcard(financialSubObjectCode) || StringUtils.equals(financialSubObjectCode, KFSConstants.DASHES_SUB_OBJECT_CODE)) {
+                // we allow any string of only dashes to be a valid value for the sub object, but to bypass validation, it must be equal to KFSConstants.getDashFinancialSubObjectCode()
+                if (isWildcard(financialSubObjectCode) || StringUtils.equals(financialSubObjectCode, KFSConstants.getDashFinancialSubObjectCode())) {
     
                 }
                 else {

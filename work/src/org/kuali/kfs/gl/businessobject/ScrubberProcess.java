@@ -783,7 +783,7 @@ public class ScrubberProcess {
         OriginEntry costShareEntry = new OriginEntry(scrubbedEntry);
 
         costShareEntry.setFinancialObjectCode((getParameter(GLConstants.GlScrubberGroupParameters.COST_SHARE_OBJECT_CODE)).getFinancialSystemParameterText());
-        costShareEntry.setFinancialSubObjectCode(KFSConstants.DASHES_SUB_OBJECT_CODE);
+        costShareEntry.setFinancialSubObjectCode(KFSConstants.getDashFinancialSubObjectCode());
         costShareEntry.setFinancialObjectTypeCode(scrubbedEntry.getOption().getFinancialObjectTypeTransferExpenseCd());
         costShareEntry.setTransactionLedgerEntrySequenceNumber(new Integer(0));
 
@@ -804,7 +804,7 @@ public class ScrubberProcess {
 
         costShareEntry.setTransactionDate(runDate);
         costShareEntry.setOrganizationDocumentNumber(null);
-        costShareEntry.setProjectCode(KFSConstants.DASHES_PROJECT_CODE);
+        costShareEntry.setProjectCode(KFSConstants.getDashProjectCode());
         costShareEntry.setOrganizationReferenceId(null);
         costShareEntry.setReferenceFinancialDocumentTypeCode(null);
         costShareEntry.setReferenceFinancialSystemOriginationCode(null);
@@ -833,7 +833,7 @@ public class ScrubberProcess {
 
             costShareOffsetEntry.setFinancialObjectCode(offsetDefinition.getFinancialObjectCode());
             costShareOffsetEntry.setFinancialObject(offsetDefinition.getFinancialObject());
-            costShareOffsetEntry.setFinancialSubObjectCode(KFSConstants.DASHES_SUB_OBJECT_CODE);
+            costShareOffsetEntry.setFinancialSubObjectCode(KFSConstants.getDashFinancialSubObjectCode());
 
         }
         else {
@@ -888,10 +888,10 @@ public class ScrubberProcess {
         costShareSourceAccountEntry.setSubAccountNumber(scrubbedEntry.getA21SubAccount().getCostShareSourceSubAccountNumber());
 
         if (StringHelper.isNullOrEmpty(costShareSourceAccountEntry.getSubAccountNumber())) {
-            costShareSourceAccountEntry.setSubAccountNumber(KFSConstants.DASHES_SUB_ACCOUNT_NUMBER);
+            costShareSourceAccountEntry.setSubAccountNumber(KFSConstants.getDashSubAccountNumber());
         }
 
-        costShareSourceAccountEntry.setFinancialSubObjectCode(KFSConstants.DASHES_SUB_OBJECT_CODE);
+        costShareSourceAccountEntry.setFinancialSubObjectCode(KFSConstants.getDashFinancialSubObjectCode());
         costShareSourceAccountEntry.setFinancialObjectTypeCode(scrubbedEntry.getOption().getFinancialObjectTypeTransferExpenseCd());
         costShareSourceAccountEntry.setTransactionLedgerEntrySequenceNumber(new Integer(0));
 
@@ -906,7 +906,7 @@ public class ScrubberProcess {
 
         costShareSourceAccountEntry.setTransactionDate(runDate);
         costShareSourceAccountEntry.setOrganizationDocumentNumber(null);
-        costShareSourceAccountEntry.setProjectCode(KFSConstants.DASHES_PROJECT_CODE);
+        costShareSourceAccountEntry.setProjectCode(KFSConstants.getDashProjectCode());
         costShareSourceAccountEntry.setOrganizationReferenceId(null);
         costShareSourceAccountEntry.setReferenceFinancialDocumentTypeCode(null);
         costShareSourceAccountEntry.setReferenceFinancialSystemOriginationCode(null);
@@ -939,7 +939,7 @@ public class ScrubberProcess {
 
             costShareSourceAccountOffsetEntry.setFinancialObjectCode(offsetDefinition.getFinancialObjectCode());
             costShareSourceAccountOffsetEntry.setFinancialObject(offsetDefinition.getFinancialObject());
-            costShareSourceAccountOffsetEntry.setFinancialSubObjectCode(KFSConstants.DASHES_SUB_OBJECT_CODE);
+            costShareSourceAccountOffsetEntry.setFinancialSubObjectCode(KFSConstants.getDashFinancialSubObjectCode());
         }
         else {
             Map<Transaction, List<Message>> errors = new HashMap<Transaction, List<Message>>();
@@ -1137,7 +1137,7 @@ public class ScrubberProcess {
             plantIndebtednessEntry.setTransactionDebitCreditCode(scrubbedEntry.getTransactionDebitCreditCode());
 
             plantIndebtednessEntry.setTransactionScrubberOffsetGenerationIndicator(true);
-            plantIndebtednessEntry.setFinancialSubObjectCode(KFSConstants.DASHES_SUB_OBJECT_CODE);
+            plantIndebtednessEntry.setFinancialSubObjectCode(KFSConstants.getDashFinancialSubObjectCode());
 
             try {
                 flexibleOffsetAccountService.updateOffset(plantIndebtednessEntry);
@@ -1172,8 +1172,8 @@ public class ScrubberProcess {
                 plantIndebtednessEntry.setChartOfAccountsCode(scrubbedEntry.getAccount().getOrganization().getCampusPlantChartCode());
             }
 
-            plantIndebtednessEntry.setSubAccountNumber(KFSConstants.DASHES_SUB_ACCOUNT_NUMBER);
-            plantIndebtednessEntry.setFinancialSubObjectCode(KFSConstants.DASHES_SUB_OBJECT_CODE);
+            plantIndebtednessEntry.setSubAccountNumber(KFSConstants.getDashSubAccountNumber());
+            plantIndebtednessEntry.setFinancialSubObjectCode(KFSConstants.getDashFinancialSubObjectCode());
 
             StringBuffer litGenPlantXferFrom = new StringBuffer();
             litGenPlantXferFrom.append(transferDescription + " ");
@@ -1190,7 +1190,7 @@ public class ScrubberProcess {
 
             plantIndebtednessEntry.setFinancialObjectCode(scrubbedEntry.getChart().getFundBalanceObjectCode());
             plantIndebtednessEntry.setFinancialObjectTypeCode(scrubbedEntry.getOption().getFinObjectTypeFundBalanceCd());
-            plantIndebtednessEntry.setFinancialSubObjectCode(KFSConstants.DASHES_SUB_OBJECT_CODE);
+            plantIndebtednessEntry.setFinancialSubObjectCode(KFSConstants.getDashFinancialSubObjectCode());
 
             if (scrubbedEntry.isDebit()) {
                 plantIndebtednessEntry.setTransactionDebitCreditCode(KFSConstants.GL_CREDIT_CODE);
@@ -1288,7 +1288,7 @@ public class ScrubberProcess {
         KualiParameterRule campusObjSubTypeCodes = getRule(GLConstants.GlScrubberGroupRules.PLANT_FUND_CAMPUS_OBJECT_SUB_TYPE_CODES);
         KualiParameterRule orgObjSubTypeCodes = getRule(GLConstants.GlScrubberGroupRules.PLANT_FUND_ORG_OBJECT_SUB_TYPE_CODES);
 
-        liabilityEntry.setSubAccountNumber(KFSConstants.DASHES_SUB_ACCOUNT_NUMBER);
+        liabilityEntry.setSubAccountNumber(KFSConstants.getDashSubAccountNumber());
         persistenceService.retrieveReferenceObject(liabilityEntry, KFSPropertyConstants.ACCOUNT);
 
         if (liabilityEntry.getChartOfAccountsCode().equals(liabilityEntry.getAccount().getOrganization().getChartOfAccountsCode()) && scrubbedEntry.getAccount().getOrganizationCode().equals(liabilityEntry.getAccount().getOrganization().getOrganizationCode()) && liabilityEntry.getAccountNumber().equals(liabilityEntry.getAccount().getAccountNumber()) && liabilityEntry.getChartOfAccountsCode().equals(liabilityEntry.getAccount().getChartOfAccountsCode())) {
@@ -1347,12 +1347,12 @@ public class ScrubberProcess {
         costShareEncumbranceEntry.setSubAccountNumber(scrubbedEntry.getA21SubAccount().getCostShareSourceSubAccountNumber());
 
         if (!StringUtils.hasText(costShareEncumbranceEntry.getSubAccountNumber())) {
-            costShareEncumbranceEntry.setSubAccountNumber(KFSConstants.DASHES_SUB_ACCOUNT_NUMBER);
+            costShareEncumbranceEntry.setSubAccountNumber(KFSConstants.getDashSubAccountNumber());
         }
 
         costShareEncumbranceEntry.setFinancialBalanceTypeCode(scrubbedEntry.getOption().getCostShareEncumbranceBalanceTypeCd());
         setCostShareObjectCode(costShareEncumbranceEntry, scrubbedEntry);
-        costShareEncumbranceEntry.setFinancialSubObjectCode(KFSConstants.DASHES_SUB_OBJECT_CODE);
+        costShareEncumbranceEntry.setFinancialSubObjectCode(KFSConstants.getDashFinancialSubObjectCode());
         costShareEncumbranceEntry.setTransactionLedgerEntrySequenceNumber(new Integer(0));
 
         if (!StringUtils.hasText(scrubbedEntry.getTransactionDebitCreditCode())) {
@@ -1391,7 +1391,7 @@ public class ScrubberProcess {
             }
             costShareEncumbranceOffsetEntry.setFinancialObjectCode(offset.getFinancialObjectCode());
             costShareEncumbranceOffsetEntry.setFinancialObject(offset.getFinancialObject());
-            costShareEncumbranceOffsetEntry.setFinancialSubObjectCode(KFSConstants.DASHES_SUB_OBJECT_CODE);
+            costShareEncumbranceOffsetEntry.setFinancialSubObjectCode(KFSConstants.getDashFinancialSubObjectCode());
         }
         else {
             StringBuffer offsetKey = new StringBuffer("Cost share encumbrance ");
@@ -1418,7 +1418,7 @@ public class ScrubberProcess {
 
         costShareEncumbranceOffsetEntry.setTransactionDate(runDate);
         costShareEncumbranceOffsetEntry.setOrganizationDocumentNumber(null);
-        costShareEncumbranceOffsetEntry.setProjectCode(KFSConstants.DASHES_PROJECT_CODE);
+        costShareEncumbranceOffsetEntry.setProjectCode(KFSConstants.getDashProjectCode());
         costShareEncumbranceOffsetEntry.setOrganizationReferenceId(null);
         costShareEncumbranceOffsetEntry.setReferenceFinancialDocumentTypeCode(null);
         costShareEncumbranceOffsetEntry.setReferenceFinancialSystemOriginationCode(null);
@@ -1554,7 +1554,7 @@ public class ScrubberProcess {
             offsetEntry.setFinancialObjectCode(offsetDefinition.getFinancialObjectCode());
 
             offsetEntry.setFinancialSubObject(null);
-            offsetEntry.setFinancialSubObjectCode(KFSConstants.DASHES_SUB_OBJECT_CODE);
+            offsetEntry.setFinancialSubObjectCode(KFSConstants.getDashFinancialSubObjectCode());
         }
         else {
             StringBuffer sb = new StringBuffer("Unit of work offset ");
@@ -1591,7 +1591,7 @@ public class ScrubberProcess {
         offsetEntry.setReferenceFinancialSystemOriginationCode(null);
         offsetEntry.setReferenceFinancialDocumentNumber(null);
         offsetEntry.setTransactionEncumbranceUpdateCode(null);
-        offsetEntry.setProjectCode(KFSConstants.DASHES_PROJECT_CODE);
+        offsetEntry.setProjectCode(KFSConstants.getDashProjectCode());
         offsetEntry.setTransactionDate(runDate);
 
         try {

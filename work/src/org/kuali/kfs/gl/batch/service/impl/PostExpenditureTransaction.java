@@ -82,7 +82,7 @@ public class PostExpenditureTransaction implements IcrTransaction, PostTransacti
 
         // Is the ICR indicator set and the ICR Series identifier set?
         // Is the period code a non-balance period? If so, continue, if not, we aren't posting this transaction
-        if (objectType.isFinObjectTypeIcrSelectionIndicator() && StringUtils.hasText(account.getFinancialIcrSeriesIdentifier()) && (!KFSConstants.PERIOD_CODE_ANNUAL_BALNCE.equals(universityFiscalPeriodCode)) && (!KFSConstants.PERIOD_CODE_BEGINNING_BALNCE.equals(universityFiscalPeriodCode)) && (!KFSConstants.PERIOD_CODE_CG_BEGINNING_BALNCE.equals(universityFiscalPeriodCode))) {
+        if (objectType.isFinObjectTypeIcrSelectionIndicator() && StringUtils.hasText(account.getFinancialIcrSeriesIdentifier()) && (!KFSConstants.PERIOD_CODE_ANNUAL_BALANCE.equals(universityFiscalPeriodCode)) && (!KFSConstants.PERIOD_CODE_BEGINNING_BALANCE.equals(universityFiscalPeriodCode)) && (!KFSConstants.PERIOD_CODE_CG_BEGINNING_BALANCE.equals(universityFiscalPeriodCode))) {
             // Continue on the posting process
 
             // Check the sub account type code. A21 subaccounts with the type of CS don't get posted

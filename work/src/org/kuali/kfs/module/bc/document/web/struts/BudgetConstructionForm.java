@@ -17,29 +17,18 @@ package org.kuali.module.budget.web.struts.form;
 
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.util.KualiDecimal;
-import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.web.struts.form.KualiTransactionalDocumentFormBase;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.budget.BCConstants;
-import org.kuali.module.budget.bo.BudgetConstructionHeader;
-import org.kuali.module.budget.bo.BudgetConstructionMonthly;
 import org.kuali.module.budget.bo.PendingBudgetConstructionGeneralLedger;
-import org.kuali.module.budget.dao.ojb.BudgetConstructionDaoOjb;
 import org.kuali.module.budget.document.BudgetConstructionDocument;
-import org.kuali.module.chart.bo.ObjectCode;
-import org.kuali.module.chart.bo.SubAccount;
-import org.kuali.module.chart.bo.SubObjCd;
-import org.kuali.module.labor.bo.LaborObject;
 
 
 
@@ -90,7 +79,7 @@ public class BudgetConstructionForm extends KualiTransactionalDocumentFormBase {
 
                 // null subobj must be set to dashes
                 if (StringUtils.isBlank(revLine.getFinancialSubObjectCode())){
-                    revLine.setFinancialSubObjectCode(KFSConstants.DASHES_SUB_OBJECT_CODE);
+                    revLine.setFinancialSubObjectCode(KFSConstants.getDashFinancialSubObjectCode());
                 }
                 populateRevenueLine(bcDoc, this.getNewRevenueLine());
 
@@ -106,7 +95,7 @@ public class BudgetConstructionForm extends KualiTransactionalDocumentFormBase {
 
                 // null subobj must be set to dashes
                 if (StringUtils.isBlank(expLine.getFinancialSubObjectCode())){
-                    expLine.setFinancialSubObjectCode(KFSConstants.DASHES_SUB_OBJECT_CODE);
+                    expLine.setFinancialSubObjectCode(KFSConstants.getDashFinancialSubObjectCode());
                 }
                 populateExpenditureLine(bcDoc, this.getNewExpenditureLine());
 

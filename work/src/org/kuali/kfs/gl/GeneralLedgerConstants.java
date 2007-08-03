@@ -107,6 +107,7 @@ public class GLConstants {
     public static final String GL_ORGANIZATION_REVERSION_PROCESS_GROUP = "GL.ORGANIZATION_REVERSION_PROCESS";
     public static final String GL_ORGANIZATION_REVERSION_SELECTION_GROUP = "GL.ORGANIZATION_REVERSION_SELECTION";
     public static final String GL_POSTER_OUTPUT_SUMMARY_ENTRY_GROUP = "GL.POSTER_OUTPUT_SUMMARY_ENTRY";
+    public static final String GL_ENCUMBRANCE_CLOSING_ORIGIN_ENTRY = "GL.ENCUMBRANCE_CLOSING_ORIGIN_ENTRY";
     
     public static class GlAccountBalanceGroupParameters {
         static final public String EXPENSE_OBJECT_TYPE_CODES = "EXPENSE_OBJECT_TYPE_CODES";
@@ -193,6 +194,14 @@ public class GLConstants {
         static final public String ASSET_EXPENSE_OBJECT_TYPE_CODES = "ASSET_EXPENSE_OBJECT_TYPE_CODES";
     }
 
+    public static class EncumbranceClosingOriginEntry {
+        static final public String GENERATED_TRANSACTION_LEDGER_ENTRY_DESCRIPTION = "GENERATED_TRANSACTION_LEDGER_ENTRY_DESCRIPTION";
+        static final public String BEGINNING_FUND_TRANSACTION_LEDGER_ENTRY_DESCRIPTION = "BEGINNING_FUND_TRANSACTION_LEDGER_ENTRY_DESCRIPTION";
+        static final public String OBJECT_CODE_FOR_BALANCE_TYPE_INTERNAL_ENCUMBRANCE = "OBJECT_CODE_FOR_BALANCE_TYPE_INTERNAL_ENCUMBRANCE";
+        static final public String OBJECT_CODE_FOR_BALANCE_TYPE_PRE_ENCUMBRANCE = "OBJECT_CODE_FOR_BALANCE_TYPE_PRE_ENCUMBRANCE";
+        static final public String OBJECT_CODE_FOR_BALANCE_TYPE_EXTERNAL_ENCUMBRANCE = "OBJECT_CODE_FOR_BALANCE_TYPE_EXTERNAL_ENCUMBRANCE";
+    }
+    
     // Some static method calls below that could be done in static variables instead but isn't safe to do during class loading w/SpringServiceLocator.
     private static String SPACE_UNIVERSITY_FISCAL_PERIOD_CODE = null;
     public static String getSpaceUniversityFiscalPeriodCode() {

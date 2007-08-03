@@ -21,15 +21,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
-import org.apache.commons.lang.StringUtils;
 import org.kuali.core.bo.BusinessObject;
-import org.kuali.core.datadictionary.AttributeDefinition;
-import org.kuali.core.datadictionary.AttributeReferenceDefinition;
-import org.kuali.core.datadictionary.DataDictionaryEntryBase;
 import org.kuali.core.inquiry.KualiInquirableImpl;
 import org.kuali.core.lookup.LookupUtils;
 import org.kuali.core.service.BusinessObjectDictionaryService;
-import org.kuali.core.service.DataDictionaryService;
 import org.kuali.core.service.PersistenceStructureService;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.util.UrlFactory;
@@ -37,7 +32,6 @@ import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.chart.bo.KualiSystemCode;
-import org.kuali.module.gl.bo.AccountBalance;
 import org.kuali.module.gl.util.BusinessObjectFieldConverter;
 import org.kuali.module.gl.web.Constant;
 
@@ -257,16 +251,16 @@ public abstract class AbstractLaborInquirableImpl extends KualiInquirableImpl {
             else if (convertedKeyName.equals(KFSPropertyConstants.OBJECT_TYPE_CODE) && keyValue.equals(Constant.CONSOLIDATED_OBJECT_TYPE_CODE)) {
                 return true;
             }
-            if (convertedKeyName.equals(KFSPropertyConstants.SUB_ACCOUNT_NUMBER) && keyValue.equals(KFSConstants.DASHES_SUB_ACCOUNT_NUMBER)) {
+            if (convertedKeyName.equals(KFSPropertyConstants.SUB_ACCOUNT_NUMBER) && keyValue.equals(KFSConstants.getDashSubAccountNumber())) {
                 return true;
             }
-            else if (convertedKeyName.equals(KFSPropertyConstants.SUB_OBJECT_CODE) && keyValue.equals(KFSConstants.DASHES_SUB_OBJECT_CODE)) {
+            else if (convertedKeyName.equals(KFSPropertyConstants.SUB_OBJECT_CODE) && keyValue.equals(KFSConstants.getDashFinancialSubObjectCode())) {
                 return true;
             }
-            else if (convertedKeyName.equals(KFSPropertyConstants.PROJECT_CODE) && keyValue.equals(KFSConstants.DASHES_PROJECT_CODE)) {
+            else if (convertedKeyName.equals(KFSPropertyConstants.PROJECT_CODE) && keyValue.equals(KFSConstants.getDashProjectCode())) {
                 return true;
             }
-            else if (convertedKeyName.equals(KFSPropertyConstants.POSITION_NUMBER) && keyValue.equals(KFSConstants.DASHES_POSITION_NUMBER)) {
+            else if (convertedKeyName.equals(KFSPropertyConstants.POSITION_NUMBER) && keyValue.equals(KFSConstants.getDashPositionNumber())) {
                 return true;
             }
         }

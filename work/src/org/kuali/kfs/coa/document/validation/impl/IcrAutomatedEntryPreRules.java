@@ -65,14 +65,14 @@ public class IcrAutomatedEntryPreRules extends MaintenancePreRulesBase {
     protected void setSubAccountToDashesIfBlank() {
         String newSubAccount = newAccount.getSubAccountNumber();
         if (StringUtils.isBlank(newSubAccount)) {
-            newAccount.setSubAccountNumber(KFSConstants.DASHES_SUB_ACCOUNT_NUMBER);
+            newAccount.setSubAccountNumber(KFSConstants.getDashSubAccountNumber());
         }
     }
     
     protected void setSubObjectToDashesIfBlank() {
         String newSubObject = newAccount.getFinancialSubObjectCode();
         if (StringUtils.isBlank(newSubObject)) {
-            newAccount.setFinancialSubObjectCode(KFSConstants.DASHES_SUB_OBJECT_CODE);
+            newAccount.setFinancialSubObjectCode(KFSConstants.getDashFinancialSubObjectCode());
         }
     }
     

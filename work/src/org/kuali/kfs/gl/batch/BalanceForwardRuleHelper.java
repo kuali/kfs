@@ -547,6 +547,7 @@ public class BalanceForwardRuleHelper {
                         // 1148 006750 MOVE 'N' TO TRN-ENCUM-UPDT-CD
                         // 1149 006760 WS-TRN-ENCUM-UPDT-CD
 
+                        // TODO: technical thing, KFSConstant
                         entry.setTransactionEncumbranceUpdateCode("N");
 
                         // 1150 006770 ELSE
@@ -861,7 +862,7 @@ public class BalanceForwardRuleHelper {
                     // 1281 008080 MOVE ALL '-'
                     // 1282 008090 TO PROJECT-CD.
 
-                    entry.setProjectCode(KFSConstants.DASHES_PROJECT_CODE);
+                    entry.setProjectCode(KFSConstants.getDashProjectCode());
 
                     // 1283 008100 MOVE SPACES
                     // 1284 008110 TO ORG-REFERENCE-ID.
@@ -1191,7 +1192,7 @@ public class BalanceForwardRuleHelper {
                     // 1389 009110 MOVE ALL '-'
                     // 1390 009120 TO PROJECT-CD OF GLEN-RECORD.
 
-                    activeEntry.setProjectCode(KFSConstants.DASHES_PROJECT_CODE);
+                    activeEntry.setProjectCode(KFSConstants.getDashProjectCode());
 
                     // 1391 009130 MOVE SPACES
                     // 1392 009140 TO ORG-REFERENCE-ID OF GLEN-RECORD.

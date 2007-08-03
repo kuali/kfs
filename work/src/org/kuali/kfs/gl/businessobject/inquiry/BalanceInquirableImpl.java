@@ -84,8 +84,8 @@ public class BalanceInquirableImpl extends AbstractGLInquirableImpl {
         userDefinedAttributeMap.put(KFSPropertyConstants.MONTH12_AMOUNT, KFSConstants.MONTH12);
         userDefinedAttributeMap.put(KFSPropertyConstants.MONTH13_AMOUNT, KFSConstants.MONTH13);
 
-        userDefinedAttributeMap.put(KFSPropertyConstants.BEGINNING_BALANCE_LINE_AMOUNT, KFSConstants.BEGINNING_BALANCE);
-        userDefinedAttributeMap.put(KFSPropertyConstants.CONTRACTS_GRANTS_BEGINNING_BALANCE_AMOUNT, KFSConstants.CG_BEGINNING_BALANCE);
+        userDefinedAttributeMap.put(KFSPropertyConstants.BEGINNING_BALANCE_LINE_AMOUNT, KFSConstants.PERIOD_CODE_BEGINNING_BALANCE);
+        userDefinedAttributeMap.put(KFSPropertyConstants.CONTRACTS_GRANTS_BEGINNING_BALANCE_AMOUNT, KFSConstants.PERIOD_CODE_CG_BEGINNING_BALANCE);
 
         return userDefinedAttributeMap;
     }

@@ -94,7 +94,7 @@ public class GeneralLedgerPostingDocumentRuleBase extends LedgerPostingDocumentR
         }
 
         offsetEntry.setFinancialObjectTypeCode(getOffsetFinancialObjectTypeCode(offsetDefinition));
-        offsetEntry.setFinancialSubObjectCode(KFSConstants.DASHES_SUB_OBJECT_CODE);
+        offsetEntry.setFinancialSubObjectCode(KFSConstants.getDashFinancialSubObjectCode());
         offsetEntry.setTransactionEntryOffsetIndicator(true);
         offsetEntry.setTransactionLedgerEntryDescription(KFSConstants.GL_PE_OFFSET_STRING);
 
@@ -128,7 +128,7 @@ public class GeneralLedgerPostingDocumentRuleBase extends LedgerPostingDocumentR
         offsetEntry.setChartOfAccountsCode(flexCoa);
         offsetEntry.setAccountNumber(flexAccountNumber);
         // COA and account number are part of the sub-account's key, so the original sub-account would be invalid.
-        offsetEntry.setSubAccountNumber(KFSConstants.DASHES_SUB_ACCOUNT_NUMBER);
+        offsetEntry.setSubAccountNumber(KFSConstants.getDashSubAccountNumber());
 
         LOG.debug("flexOffsetAccountIfNecessary(OffsetAccount, GeneralLedgerPendingEntry) - end");
     }

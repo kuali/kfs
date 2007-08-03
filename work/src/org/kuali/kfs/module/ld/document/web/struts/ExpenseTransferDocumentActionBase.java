@@ -341,7 +341,7 @@ public class ExpenseTransferDocumentActionBase extends LaborDocumentActionBase {
         line.setChartOfAccountsCode(bo.getChartOfAccountsCode());
         line.setAccountNumber(bo.getAccountNumber());
 
-        if (!KFSConstants.DASHES_SUB_ACCOUNT_NUMBER.equals(bo.getSubAccountNumber())) {
+        if (!KFSConstants.getDashSubAccountNumber().equals(bo.getSubAccountNumber())) {
             line.setSubAccountNumber(bo.getSubAccountNumber());
         }
 
@@ -350,7 +350,7 @@ public class ExpenseTransferDocumentActionBase extends LaborDocumentActionBase {
         line.setFinancialObjectCode(bo.getFinancialObjectCode());
         line.setObjectTypeCode(bo.getFinancialObjectTypeCode());
 
-        if (!KFSConstants.DASHES_SUB_OBJECT_CODE.equals(bo.getFinancialSubObjectCode())) {
+        if (!KFSConstants.getDashFinancialSubObjectCode().equals(bo.getFinancialSubObjectCode())) {
             line.setFinancialSubObjectCode(bo.getFinancialSubObjectCode());
         }
 

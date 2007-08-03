@@ -17,7 +17,11 @@ package org.kuali.kfs;
 
 import java.util.HashMap;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.module.gl.bo.OriginEntry;
+import org.kuali.module.labor.bo.LaborOriginEntry;
 
 /**
  * This class is used to define global constants.
@@ -182,9 +186,6 @@ public class KFSConstants {
     public static final String FINANCIAL_DOCUMENT_TYPE_CODE = "financialDocumentTypeCode";
     public static final String ORGANIZATION_CODE_PROPERTY_NAME = "organizationCode";
     public static final String ORIGIN_CODE_KUALI = "01";
-    public static final String PERIOD_CODE_ANNUAL_BALNCE = "AB";
-    public static final String PERIOD_CODE_BEGINNING_BALNCE = "BB";
-    public static final String PERIOD_CODE_CG_BEGINNING_BALNCE = "CB";
     public static final String TRANSFER_FUNDS = "TF";
     public static final String[] ENCUMBRANCE_BALANCE_TYPE = new String[] { BALANCE_TYPE_EXTERNAL_ENCUMBRANCE, BALANCE_TYPE_INTERNAL_ENCUMBRANCE, BALANCE_TYPE_PRE_ENCUMBRANCE };
     public static final String LABOR_DISTRIBUTION_ORIGIN_CODE = "LD";
@@ -513,12 +514,6 @@ public class KFSConstants {
     public static final String NAVIGATE_TO = "navigateTo.";
     public static final String HEADER_DISPATCH = "headerDispatch.";
 
-    public static final String DASHES_SUB_OBJECT_CODE = "---";
-    public static final String DASHES_SUB_ACCOUNT_NUMBER = "-----";
-    public static final String DASHES_PROJECT_CODE = "----------";
-    public static final String DASHES_POSITION_NUMBER = "--------";
-    public static final String DASHES_EMPL_ID = "-----------";
-
     public static final String APC_ALLOWED_OPERATOR = "A";
     public static final String APC_DENIED_OPERATOR = "D";
     // country
@@ -844,9 +839,9 @@ public class KFSConstants {
     public static final String MONTH11 = "11";
     public static final String MONTH12 = "12";
     public static final String MONTH13 = "13";
-    public static final String ANNUAL_BALANCE = "AB";
-    public static final String BEGINNING_BALANCE = "BB";
-    public static final String CG_BEGINNING_BALANCE = "CB";
+    public static final String PERIOD_CODE_ANNUAL_BALANCE = "AB";
+    public static final String PERIOD_CODE_BEGINNING_BALANCE = "BB";
+    public static final String PERIOD_CODE_CG_BEGINNING_BALANCE = "CB";
 
     public static final String REQUEST_SEARCH_RESULTS = "reqSearchResults";
     public static final String REQUEST_SEARCH_RESULTS_SIZE = "reqSearchResultsSize";
@@ -1024,4 +1019,45 @@ public class KFSConstants {
     public static final String ENTERPRISE_FEEDER_STATUS_DESCRIPTION_PREFIX = "gl.EnterpriseFeeder.StatusDescription.";
     
     public static final String BATCH_STEP_RUNNER_JOB_NAME = "stepRunByBatchStepRunner";
+    
+    // Some static method calls below that could be done in static variables instead but isn't safe to do during class loading w/SpringServiceLocator.
+    private static String DASH_FINANCIAL_SUB_OBJECT_CODE = null;
+    public static String getDashFinancialSubObjectCode() {
+        if (DASH_FINANCIAL_SUB_OBJECT_CODE == null) {
+            DASH_FINANCIAL_SUB_OBJECT_CODE = StringUtils.rightPad("", SpringServiceLocator.getDataDictionaryService().getAttributeSize(OriginEntry.class, KFSPropertyConstants.FINANCIAL_SUB_OBJECT_CODE), '-');
+        }
+        return DASH_FINANCIAL_SUB_OBJECT_CODE;
+    }
+    
+    private static String DASH_SUB_ACCOUNT_NUMBER = null;
+    public static String getDashSubAccountNumber() {
+        if (DASH_SUB_ACCOUNT_NUMBER == null) {
+            DASH_SUB_ACCOUNT_NUMBER = StringUtils.rightPad("", SpringServiceLocator.getDataDictionaryService().getAttributeSize(OriginEntry.class, KFSPropertyConstants.SUB_ACCOUNT_NUMBER), '-');
+        }
+        return DASH_SUB_ACCOUNT_NUMBER;
+    }
+    
+    private static String DASH_PROJECT_CODE = null;
+    public static String getDashProjectCode() {
+        if (DASH_PROJECT_CODE == null) {
+            DASH_PROJECT_CODE = StringUtils.rightPad("", SpringServiceLocator.getDataDictionaryService().getAttributeSize(OriginEntry.class, KFSPropertyConstants.PROJECT_CODE), '-');
+        }
+        return DASH_PROJECT_CODE;
+    }
+    
+    private static String DASH_POSITION_NUMBER = null;
+    public static String getDashPositionNumber() {
+        if (DASH_POSITION_NUMBER == null) {
+            DASH_POSITION_NUMBER = StringUtils.rightPad("", SpringServiceLocator.getDataDictionaryService().getAttributeSize(LaborOriginEntry.class, KFSPropertyConstants.POSITION_NUMBER), '-');
+        }
+        return DASH_POSITION_NUMBER;
+    }
+    
+    private static String DASH_EMPLID_LOWER_CASE = null;
+    public static String getDashEmplIdLowerCase() {
+        if (DASH_EMPLID_LOWER_CASE == null) {
+            DASH_EMPLID_LOWER_CASE = StringUtils.rightPad("", SpringServiceLocator.getDataDictionaryService().getAttributeSize(LaborOriginEntry.class, KFSPropertyConstants.EMPLID), '-');
+        }
+        return DASH_EMPLID_LOWER_CASE;
+    }
 }

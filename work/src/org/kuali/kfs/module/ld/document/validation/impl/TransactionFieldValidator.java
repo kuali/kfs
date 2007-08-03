@@ -94,7 +94,7 @@ public class TransactionFieldValidator {
             return MessageBuilder.buildErrorMessage(KFSKeyConstants.ERROR_SUB_ACCOUNT_NOT_FOUND, subAccountKey, Message.TYPE_FATAL);
         }
 
-        if (!KFSConstants.DASHES_SUB_ACCOUNT_NUMBER.equals(subAccountNumber)) {
+        if (!KFSConstants.getDashSubAccountNumber().equals(subAccountNumber)) {
             if (transaction.getSubAccount() == null) {
                 return MessageBuilder.buildErrorMessage(KFSKeyConstants.ERROR_SUB_ACCOUNT_NOT_FOUND, subAccountKey, Message.TYPE_FATAL);
             }
@@ -146,7 +146,7 @@ public class TransactionFieldValidator {
             return MessageBuilder.buildErrorMessage(KFSKeyConstants.ERROR_SUB_OBJECT_CODE_NOT_BE_NULL, subObjectCodeKey, Message.TYPE_FATAL);
         }
 
-        if (!KFSConstants.DASHES_SUB_OBJECT_CODE.equals(subObjectCode)) {
+        if (!KFSConstants.getDashFinancialSubObjectCode().equals(subObjectCode)) {
             if (transaction.getFinancialSubObject() == null) {
                 return MessageBuilder.buildErrorMessage(KFSKeyConstants.ERROR_SUB_OBJECT_CODE_NOT_BE_NULL, subObjectCodeKey, Message.TYPE_FATAL);
             }

@@ -62,8 +62,8 @@ public class CollectorDetail extends PersistableBusinessObjectBase {
      * Default constructor.
      */
     public CollectorDetail() {
-        setSubAccountNumber(KFSConstants.DASHES_SUB_ACCOUNT_NUMBER);
-        setFinancialSubObjectCode(KFSConstants.DASHES_SUB_OBJECT_CODE);
+        setSubAccountNumber(KFSConstants.getDashSubAccountNumber());
+        setFinancialSubObjectCode(KFSConstants.getDashFinancialSubObjectCode());
     }
 
     /**

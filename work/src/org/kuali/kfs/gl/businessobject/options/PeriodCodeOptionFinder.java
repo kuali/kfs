@@ -61,9 +61,9 @@ public class GLPeriodCodeOptionFinder extends KeyValuesBase implements ValueFind
         labels.add(new KeyLabelPair(KFSConstants.MONTH12, KFSConstants.MONTH12));
 
         labels.add(new KeyLabelPair(KFSConstants.MONTH13, KFSConstants.MONTH13));
-        labels.add(new KeyLabelPair(KFSConstants.ANNUAL_BALANCE, KFSConstants.ANNUAL_BALANCE));
-        labels.add(new KeyLabelPair(KFSConstants.BEGINNING_BALANCE, KFSConstants.BEGINNING_BALANCE));
-        labels.add(new KeyLabelPair(KFSConstants.CG_BEGINNING_BALANCE, KFSConstants.CG_BEGINNING_BALANCE));
+        labels.add(new KeyLabelPair(KFSConstants.PERIOD_CODE_ANNUAL_BALANCE, KFSConstants.PERIOD_CODE_ANNUAL_BALANCE));
+        labels.add(new KeyLabelPair(KFSConstants.PERIOD_CODE_BEGINNING_BALANCE, KFSConstants.PERIOD_CODE_BEGINNING_BALANCE));
+        labels.add(new KeyLabelPair(KFSConstants.PERIOD_CODE_CG_BEGINNING_BALANCE, KFSConstants.PERIOD_CODE_CG_BEGINNING_BALANCE));
 
         return labels;
     }

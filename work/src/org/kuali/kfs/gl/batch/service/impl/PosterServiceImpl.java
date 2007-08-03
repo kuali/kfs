@@ -441,7 +441,7 @@ public class PosterServiceImpl implements PosterService {
         else if (GLConstants.PosterService.SYMBOL_USE_IRC_FROM_ACCOUNT.equals(icrEntry.getAccountNumber())) {
             e.setAccountNumber(et.getAccount().getIndirectCostRecoveryAcctNbr());
             e.setChartOfAccountsCode(et.getAccount().getIndirectCostRcvyFinCoaCode());
-            e.setSubAccountNumber(KFSConstants.DASHES_SUB_ACCOUNT_NUMBER);
+            e.setSubAccountNumber(KFSConstants.getDashSubAccountNumber());
         }
         else {
             e.setAccountNumber(icrEntry.getAccountNumber());
@@ -508,7 +508,7 @@ public class PosterServiceImpl implements PosterService {
         else {
             e.setTransactionDebitCreditCode(KFSConstants.GL_DEBIT_CODE);
         }
-        e.setFinancialSubObjectCode(KFSConstants.DASHES_SUB_OBJECT_CODE);
+        e.setFinancialSubObjectCode(KFSConstants.getDashFinancialSubObjectCode());
         e.setFinancialObjectCode(icrEntry.getOffsetBalanceSheetObjectCodeNumber());
 
         ObjectCode balSheetObjectCode = objectCodeService.getByPrimaryId(icrEntry.getUniversityFiscalYear(), e.getChartOfAccountsCode(), icrEntry.getOffsetBalanceSheetObjectCodeNumber());

@@ -615,7 +615,7 @@ public class PdpExtractServiceImpl implements PdpExtractService {
 
         public void setProjectCode(String projectCode) {
             if ( projectCode == null ) {
-                this.projectCode = KFSConstants.DASHES_PROJECT_CODE;
+                this.projectCode = KFSConstants.getDashProjectCode();
             } else {
                 this.projectCode = projectCode;
             }
@@ -623,7 +623,7 @@ public class PdpExtractServiceImpl implements PdpExtractService {
 
         public void setSubAccount(String subAccount) {
             if ( subAccount == null ) {
-                this.subAccount = KFSConstants.DASHES_SUB_ACCOUNT_NUMBER;
+                this.subAccount = KFSConstants.getDashSubAccountNumber();
             } else {
                 this.subAccount = subAccount;
             }
@@ -631,7 +631,7 @@ public class PdpExtractServiceImpl implements PdpExtractService {
 
         public void setSubObjectCode(String subObjectCode) {
             if ( subObjectCode == null ) {
-                this.subObjectCode = KFSConstants.DASHES_SUB_OBJECT_CODE;
+                this.subObjectCode = KFSConstants.getDashFinancialSubObjectCode();
             } else {
                 this.subObjectCode = subObjectCode;
             }

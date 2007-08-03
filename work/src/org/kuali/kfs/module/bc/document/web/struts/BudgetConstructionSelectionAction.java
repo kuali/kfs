@@ -112,7 +112,7 @@ public class BudgetConstructionSelectionAction extends KualiAction {
         String accountNumber = bcHeader.getAccountNumber() ;
         String subAccountNumber;
         if (StringUtils.isBlank(bcHeader.getSubAccountNumber())){
-            subAccountNumber = KFSConstants.DASHES_SUB_ACCOUNT_NUMBER;
+            subAccountNumber = KFSConstants.getDashSubAccountNumber();
         } else {
             subAccountNumber = bcHeader.getSubAccountNumber();
         }

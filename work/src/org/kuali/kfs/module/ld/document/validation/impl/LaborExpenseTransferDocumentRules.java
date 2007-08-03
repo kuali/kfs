@@ -1726,7 +1726,7 @@ public class LaborExpenseTransferDocumentRules extends AccountingDocumentRuleBas
         offsetEntry.setChartOfAccountsCode(flexCoa);
         offsetEntry.setAccountNumber(flexAccountNumber);
         // COA and account number are part of the sub-account's key, so the original sub-account would be invalid.
-        offsetEntry.setSubAccountNumber(KFSConstants.DASHES_SUB_ACCOUNT_NUMBER);
+        offsetEntry.setSubAccountNumber(KFSConstants.getDashSubAccountNumber());
     }
 
 
@@ -2134,7 +2134,7 @@ public class LaborExpenseTransferDocumentRules extends AccountingDocumentRuleBas
         fieldValues.put(KFSPropertyConstants.ACCOUNT_NUMBER, accountingLine.getAccountNumber());
 
         String subAccountNumber = accountingLine.getSubAccountNumber();
-        subAccountNumber = StringUtils.isBlank(subAccountNumber) ? KFSConstants.DASHES_SUB_ACCOUNT_NUMBER : subAccountNumber;
+        subAccountNumber = StringUtils.isBlank(subAccountNumber) ? KFSConstants.getDashSubAccountNumber() : subAccountNumber;
         fieldValues.put(KFSPropertyConstants.SUB_ACCOUNT_NUMBER, subAccountNumber);
 
         fieldValues.put(KFSPropertyConstants.FINANCIAL_BALANCE_TYPE_CODE, accountingLine.getBalanceTypeCode());
@@ -2144,7 +2144,7 @@ public class LaborExpenseTransferDocumentRules extends AccountingDocumentRuleBas
         fieldValues.put(KFSPropertyConstants.FINANCIAL_OBJECT_TYPE_CODE, options.getFinObjTypeExpenditureexpCd());
 
         String subObjectCode = accountingLine.getFinancialSubObjectCode();
-        subObjectCode = StringUtils.isBlank(subObjectCode) ? KFSConstants.DASHES_SUB_OBJECT_CODE : subObjectCode;
+        subObjectCode = StringUtils.isBlank(subObjectCode) ? KFSConstants.getDashFinancialSubObjectCode() : subObjectCode;
         fieldValues.put(KFSPropertyConstants.FINANCIAL_SUB_OBJECT_CODE, subObjectCode);
 
         fieldValues.put(KFSPropertyConstants.EMPLID, accountingLine.getEmplid());

@@ -90,7 +90,7 @@ public class AccountBalanceByConsolidationLookupableHelperServiceImpl extends Ab
         String ufy = (String) fieldValues.get(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR);
 
         // Dashes means no sub account number
-        if (KFSConstants.DASHES_SUB_ACCOUNT_NUMBER.equals(subAccountNumber)) {
+        if (KFSConstants.getDashSubAccountNumber().equals(subAccountNumber)) {
             subAccountNumber = "";
         }
 

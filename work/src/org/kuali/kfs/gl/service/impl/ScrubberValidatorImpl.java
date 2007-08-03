@@ -84,13 +84,13 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
         }
 
         if ((entry.getSubAccountNumber() == null) || (!StringUtils.hasText(entry.getSubAccountNumber()))) {
-            entry.setSubAccountNumber(KFSConstants.DASHES_SUB_ACCOUNT_NUMBER);
+            entry.setSubAccountNumber(KFSConstants.getDashSubAccountNumber());
         }
         if ((entry.getFinancialSubObjectCode() == null) || (!StringUtils.hasText(entry.getFinancialSubObjectCode()))) {
-            entry.setFinancialSubObjectCode(KFSConstants.DASHES_SUB_OBJECT_CODE);
+            entry.setFinancialSubObjectCode(KFSConstants.getDashFinancialSubObjectCode());
         }
         if ((entry.getProjectCode() == null) || (!StringUtils.hasText(entry.getProjectCode()))) {
-            entry.setProjectCode(KFSConstants.DASHES_PROJECT_CODE);
+            entry.setProjectCode(KFSConstants.getDashProjectCode());
         }
     }
 
@@ -413,7 +413,7 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
         // sub account number of the input origin entry.
         if (StringUtils.hasText(originEntry.getSubAccountNumber())) {
             // sub account IS specified
-            if (!KFSConstants.DASHES_SUB_ACCOUNT_NUMBER.equals(originEntry.getSubAccountNumber())) {
+            if (!KFSConstants.getDashSubAccountNumber().equals(originEntry.getSubAccountNumber())) {
                 if (originEntry.getSubAccount() == null) {
                     // sub account is not valid
                     return new Message(kualiConfigurationService.getPropertyString(KFSKeyConstants.ERROR_SUB_ACCOUNT_NOT_FOUND) + "(" + originEntry.getChartOfAccountsCode() + "-" + originEntry.getAccountNumber() + "-" + originEntry.getSubAccountNumber() + ")", Message.TYPE_FATAL);
@@ -441,13 +441,13 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
             }
             else {
                 // the sub account is dashes
-                workingEntry.setSubAccountNumber(KFSConstants.DASHES_SUB_ACCOUNT_NUMBER);
+                workingEntry.setSubAccountNumber(KFSConstants.getDashSubAccountNumber());
                 workingEntry.setSubAccount(null);
             }
         }
         else {
             // No sub account is specified.
-            workingEntry.setSubAccountNumber(KFSConstants.DASHES_SUB_ACCOUNT_NUMBER);
+            workingEntry.setSubAccountNumber(KFSConstants.getDashSubAccountNumber());
             workingEntry.setSubAccount(null);
         }
         return null;
@@ -456,7 +456,7 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
     private Message validateProjectCode(OriginEntry originEntry, OriginEntry workingEntry) {
         LOG.debug("validateProjectCode() started");
 
-        if (StringUtils.hasText(originEntry.getProjectCode()) && !KFSConstants.DASHES_PROJECT_CODE.equals(originEntry.getProjectCode())) {
+        if (StringUtils.hasText(originEntry.getProjectCode()) && !KFSConstants.getDashProjectCode().equals(originEntry.getProjectCode())) {
             if (originEntry.getProject() == null) {
                 return new Message(kualiConfigurationService.getPropertyString(KFSKeyConstants.ERROR_PROJECT_CODE_NOT_FOUND) + " (" + originEntry.getProjectCode() + ")", Message.TYPE_FATAL);
             }
@@ -471,7 +471,7 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
             }
         }
         else {
-            workingEntry.setProjectCode(KFSConstants.DASHES_PROJECT_CODE);
+            workingEntry.setProjectCode(KFSConstants.getDashProjectCode());
         }
 
         return null;
@@ -654,24 +654,24 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
         LOG.debug("validateFinancialSubObjectCode() started");
 
         if (!StringUtils.hasText(originEntry.getFinancialSubObjectCode())) {
-            workingEntry.setFinancialSubObjectCode(KFSConstants.DASHES_SUB_OBJECT_CODE);
+            workingEntry.setFinancialSubObjectCode(KFSConstants.getDashFinancialSubObjectCode());
             workingEntry.setFinancialSubObject(null);
             return null;
         }
 
-        if (!KFSConstants.DASHES_SUB_OBJECT_CODE.equals(originEntry.getFinancialSubObjectCode())) {
+        if (!KFSConstants.getDashFinancialSubObjectCode().equals(originEntry.getFinancialSubObjectCode())) {
             if (originEntry.getFinancialSubObject() != null) {
                 // Exists
                 if (!originEntry.getFinancialSubObject().isFinancialSubObjectActiveIndicator()) {
                     // if NOT active, set it to dashes
-                    workingEntry.setFinancialSubObjectCode(KFSConstants.DASHES_SUB_OBJECT_CODE);
+                    workingEntry.setFinancialSubObjectCode(KFSConstants.getDashFinancialSubObjectCode());
                     workingEntry.setFinancialSubObject(null);
                     return null;
                 }
             }
             else {
                 // Doesn't exist
-                workingEntry.setFinancialSubObjectCode(KFSConstants.DASHES_SUB_OBJECT_CODE);
+                workingEntry.setFinancialSubObjectCode(KFSConstants.getDashFinancialSubObjectCode());
                 workingEntry.setFinancialSubObject(null);
                 return null;
             }

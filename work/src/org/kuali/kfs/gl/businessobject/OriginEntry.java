@@ -137,14 +137,14 @@ public class OriginEntry extends PersistableBusinessObjectBase implements Transa
 
         setChartOfAccountsCode(KFSConstants.EMPTY_STRING);
         setAccountNumber(KFSConstants.EMPTY_STRING);
-        setSubAccountNumber(KFSConstants.DASHES_SUB_ACCOUNT_NUMBER);
-        setProjectCode(KFSConstants.DASHES_PROJECT_CODE);
+        setSubAccountNumber(KFSConstants.getDashSubAccountNumber());
+        setProjectCode(KFSConstants.getDashProjectCode());
 
         setFinancialDocumentTypeCode(financialDocumentTypeCode);
         setFinancialSystemOriginationCode(financialSystemOriginationCode);
 
         setFinancialObjectCode(KFSConstants.EMPTY_STRING);
-        setFinancialSubObjectCode(KFSConstants.DASHES_SUB_OBJECT_CODE);
+        setFinancialSubObjectCode(KFSConstants.getDashFinancialSubObjectCode());
         setFinancialBalanceTypeCode(KFSConstants.EMPTY_STRING);
         setFinancialObjectTypeCode(KFSConstants.EMPTY_STRING);
         setDocumentNumber(KFSConstants.EMPTY_STRING);

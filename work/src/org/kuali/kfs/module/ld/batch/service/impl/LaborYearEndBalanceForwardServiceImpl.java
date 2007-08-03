@@ -215,8 +215,8 @@ public class LaborYearEndBalanceForwardServiceImpl implements LaborYearEndBalanc
             originEntry.setEmplid(balance.getEmplid());
             originEntry.setDocumentNumber(balance.getFinancialBalanceTypeCode() + balance.getAccountNumber());
 
-            originEntry.setProjectCode(KFSConstants.DASHES_PROJECT_CODE);
-            originEntry.setUniversityFiscalPeriodCode(KFSConstants.CG_BEGINNING_BALANCE);
+            originEntry.setProjectCode(KFSConstants.getDashProjectCode());
+            originEntry.setUniversityFiscalPeriodCode(KFSConstants.PERIOD_CODE_CG_BEGINNING_BALANCE);
 
             originEntry.setFinancialDocumentTypeCode(this.getDocumentTypeCode());
             originEntry.setFinancialSystemOriginationCode(this.getOriginationCode());

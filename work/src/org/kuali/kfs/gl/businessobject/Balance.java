@@ -135,13 +135,13 @@ public class Balance extends PersistableBusinessObjectBase {
     }
 
     public KualiDecimal getAmount(String period) {
-        if (KFSConstants.ANNUAL_BALANCE.equals(period)) {
+        if (KFSConstants.PERIOD_CODE_ANNUAL_BALANCE.equals(period)) {
             return getAccountLineAnnualBalanceAmount();
         }
-        else if (KFSConstants.BEGINNING_BALANCE.equals(period)) {
+        else if (KFSConstants.PERIOD_CODE_BEGINNING_BALANCE.equals(period)) {
             return getBeginningBalanceLineAmount();
         }
-        else if (KFSConstants.CG_BEGINNING_BALANCE.equals(period)) {
+        else if (KFSConstants.PERIOD_CODE_CG_BEGINNING_BALANCE.equals(period)) {
             return getContractsGrantsBeginningBalanceAmount();
         }
         else if (KFSConstants.MONTH1.equals(period)) {
@@ -190,13 +190,13 @@ public class Balance extends PersistableBusinessObjectBase {
 
     public void addAmount(String period, KualiDecimal amount) {
 
-        if (KFSConstants.ANNUAL_BALANCE.equals(period)) {
+        if (KFSConstants.PERIOD_CODE_ANNUAL_BALANCE.equals(period)) {
             accountLineAnnualBalanceAmount = accountLineAnnualBalanceAmount.add(amount);
         }
-        else if (KFSConstants.BEGINNING_BALANCE.equals(period)) {
+        else if (KFSConstants.PERIOD_CODE_BEGINNING_BALANCE.equals(period)) {
             beginningBalanceLineAmount = beginningBalanceLineAmount.add(amount);
         }
-        else if (KFSConstants.CG_BEGINNING_BALANCE.equals(period)) {
+        else if (KFSConstants.PERIOD_CODE_CG_BEGINNING_BALANCE.equals(period)) {
             contractsGrantsBeginningBalanceAmount = contractsGrantsBeginningBalanceAmount.add(amount);
         }
         else if (KFSConstants.MONTH1.equals(period)) {

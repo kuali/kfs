@@ -296,13 +296,13 @@ public class LedgerBalance extends Balance {
 
     @Override
     public void addAmount(String period, KualiDecimal amount) {
-        if (KFSConstants.ANNUAL_BALANCE.equals(period)) {
+        if (KFSConstants.PERIOD_CODE_ANNUAL_BALANCE.equals(period)) {
             this.setAccountLineAnnualBalanceAmount(this.getAccountLineAnnualBalanceAmount().add(amount));
         }
-        else if (KFSConstants.BEGINNING_BALANCE.equals(period)) {
+        else if (KFSConstants.PERIOD_CODE_BEGINNING_BALANCE.equals(period)) {
             this.setFinancialBeginningBalanceLineAmount(this.getFinancialBeginningBalanceLineAmount().add(amount));
         }
-        else if (KFSConstants.CG_BEGINNING_BALANCE.equals(period)) {
+        else if (KFSConstants.PERIOD_CODE_CG_BEGINNING_BALANCE.equals(period)) {
             this.setContractsGrantsBeginningBalanceAmount(this.getContractsGrantsBeginningBalanceAmount().add(amount));
         }
         else if (KFSConstants.MONTH1.equals(period)) {

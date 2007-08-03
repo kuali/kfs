@@ -277,13 +277,13 @@ public abstract class AbstractGLInquirableImpl extends KualiInquirableImpl {
             else if (convertedKeyName.equals(KFSPropertyConstants.OBJECT_TYPE_CODE) && keyValue.equals(Constant.CONSOLIDATED_OBJECT_TYPE_CODE)) {
                 return true;
             }
-            if (convertedKeyName.equals(KFSPropertyConstants.SUB_ACCOUNT_NUMBER) && keyValue.equals(KFSConstants.DASHES_SUB_ACCOUNT_NUMBER)) {
+            if (convertedKeyName.equals(KFSPropertyConstants.SUB_ACCOUNT_NUMBER) && keyValue.equals(KFSConstants.getDashSubAccountNumber())) {
                 return true;
             }
-            else if (convertedKeyName.equals(KFSPropertyConstants.SUB_OBJECT_CODE) && keyValue.equals(KFSConstants.DASHES_SUB_OBJECT_CODE)) {
+            else if (convertedKeyName.equals(KFSPropertyConstants.SUB_OBJECT_CODE) && keyValue.equals(KFSConstants.getDashFinancialSubObjectCode())) {
                 return true;
             }
-            else if (convertedKeyName.equals(KFSPropertyConstants.PROJECT_CODE) && keyValue.equals(KFSConstants.DASHES_PROJECT_CODE)) {
+            else if (convertedKeyName.equals(KFSPropertyConstants.PROJECT_CODE) && keyValue.equals(KFSConstants.getDashProjectCode())) {
                 return true;
             }
         }

@@ -418,18 +418,7 @@ public class DelegateGlobalRule extends GlobalDocumentRuleBase {
         String errorPath = "";
         Integer result = null;
         for (DelegateGlobalDetail delegateGlobal : delegateGlobals) {
-            result = checkPrimaryRouteOnlyAllowOneAllDocType(delegateGlobalToTest, delegateGlobals, lineNum);
-            if (result != null) {
-                if (add) {
-                    errorPath = KFSConstants.MAINTENANCE_ADD_PREFIX + DELEGATE_GLOBALS_PREFIX + "." + "financialDocumentTypeCode";
-                    putFieldError(errorPath, KFSKeyConstants.ERROR_DOCUMENT_GLOBAL_DELEGATEMAINT_PRIMARY_ROUTE_ALL_TYPES_ALREADY_EXISTS);
-                }
-                else {
-                    errorPath = DELEGATE_GLOBALS_PREFIX + "[" + lineNum.toString() + "]." + "financialDocumentTypeCode";
-                    putFieldError(errorPath, KFSKeyConstants.ERROR_DOCUMENT_GLOBAL_DELEGATEMAINT_PRIMARY_ROUTE_ALL_TYPES_ALREADY_EXISTS);
-                }
-                success &= false;
-            }
+            
             result = checkPrimaryRoutePerDocType(delegateGlobalToTest, delegateGlobals, lineNum);
             if (result != null) {
                 if (add) {

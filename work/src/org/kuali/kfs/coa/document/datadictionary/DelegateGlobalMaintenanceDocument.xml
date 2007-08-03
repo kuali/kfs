@@ -78,7 +78,8 @@
                         </summaryFields>
                         <duplicateIdentificationFields>
                             <duplicateIdentificationField name="accountDelegate.personUserIdentifier"/>
-                        </duplicateIdentificationFields>   
+                            <duplicateIdentificationField name="financialDocumentTypeCode"/>
+                        </duplicateIdentificationFields>
                     </maintainableCollection>
 	            </maintainableItems>
             </maintainableSection>

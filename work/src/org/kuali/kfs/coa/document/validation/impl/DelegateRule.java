@@ -267,110 +267,25 @@ public class DelegateRule extends MaintenanceDocumentRuleBase {
             return success;
         }
 
-        // okay, so if we get here, then the new value wants to be a primary,
-        // and if an edit, its changed from the old value. in other words,
-        // we need to check it.
-
-        /*
-         * check if there is an ALL primary, if so then the rule fails, we're done
-         * 
-         * check if this doctype is already defined with a primary, if so then the rule fails, we're done
-         * 
-         */
-
-        // **********************************************
-        // TESTING FOR AN ALL PRIMARY IN THE DB
-        //
-        // WHERE = an ALL primary route for this account/chart
-        Map whereMap;
-        whereMap = new HashMap();
+        // if a primary already exists for a document type (including ALL), throw an error.  However, current business rules
+        // should allow a primary for other document types, even if a primary for ALL already exists.
+        
+        Map whereMap = new HashMap();
         whereMap.put("chartOfAccountsCode", newDelegate.getChartOfAccountsCode());
         whereMap.put("accountNumber", newDelegate.getAccountNumber());
-        whereMap.put("financialDocumentTypeCode", "ALL");
         whereMap.put("accountsDelegatePrmrtIndicator", Boolean.valueOf(true));
+        whereMap.put("financialDocumentTypeCode", newDelegate.getFinancialDocumentTypeCode());
         whereMap.put("accountDelegateActiveIndicator", Boolean.valueOf(true));
 
         // find all the matching records
-        Collection primaryRoutes;
-        primaryRoutes = getBoService().findMatching(Delegate.class, whereMap);
+        Collection primaryRoutes = getBoService().findMatching(Delegate.class, whereMap);
 
         // if there is at least one result, then this business rule is tripped
         if (primaryRoutes.size() > 0) {
-            putGlobalError(KFSKeyConstants.ERROR_DOCUMENT_ACCTDELEGATEMAINT_PRIMARY_ROUTE_ALL_TYPES_ALREADY_EXISTS);
+            putGlobalError(KFSKeyConstants.ERROR_DOCUMENT_ACCTDELEGATEMAINT_PRIMARY_ROUTE_ALREADY_EXISTS_FOR_DOCTYPE);
             success &= false;
-            return success; // we're done, no sense in continuing
         }
-        //
-        // **********************************************
-
-        // **********************************************
-        // TESTING FOR ANY PRIMARY IF THIS IS ALL
-        //
-        if ("ALL".equalsIgnoreCase(newDelegate.getFinancialDocumentTypeCode())) {
-
-            // WHERE = any primary route for this account/chart
-            whereMap = new HashMap();
-            whereMap.put("chartOfAccountsCode", newDelegate.getChartOfAccountsCode());
-            whereMap.put("accountNumber", newDelegate.getAccountNumber());
-            whereMap.put("accountsDelegatePrmrtIndicator", Boolean.valueOf(true));
-            whereMap.put("accountDelegateActiveIndicator", Boolean.valueOf(true));
-
-            // find all the matching records
-            primaryRoutes = getBoService().findMatching(Delegate.class, whereMap);
-
-            // if there is at least one result, then this business rule is tripped
-            if (primaryRoutes.size() > 0) {
-
-                // get the docType of the primary route that is blocking this
-                String blockingDocType = "";
-                blockingDocumentExists = false;
-                for (Iterator iter = primaryRoutes.iterator(); iter.hasNext();) {
-                    Delegate delegate = (Delegate) iter.next();
-
-                    // don't consider as blocking if document group corresponding to document type = "EX"
-                    documentType = delegate.getDocumentType();
-                    if (ObjectUtils.isNotNull(documentType)) {
-                        if (!(documentType.getFinancialDocumentGroupCode()).equals("EX")) {
-                            blockingDocumentExists = true;
-                            blockingDocType = delegate.getFinancialDocumentTypeCode();
-                        }
-                    }
-                }
-
-                // add the error if blocking document found
-
-                if (blockingDocumentExists == true) {
-                    putGlobalError(KFSKeyConstants.ERROR_DOCUMENT_ACCTDELEGATEMAINT_PRIMARY_ROUTE_ALREADY_EXISTS_FOR_NEW_ALL, blockingDocType);
-                    success &= false;
-                    return success; // we're done, no sense in continuing
-                }
-            }
-        }
-        //
-        // **********************************************
-
-        // **********************************************
-        // TESTING FOR SAME DOCTYPE PRIMARY IF THIS IS NOT ALL
-        else {
-
-            // WHERE = primary route for this docType for this account/chart
-            whereMap = new HashMap();
-            whereMap.put("chartOfAccountsCode", newDelegate.getChartOfAccountsCode());
-            whereMap.put("accountNumber", newDelegate.getAccountNumber());
-            whereMap.put("accountsDelegatePrmrtIndicator", Boolean.valueOf(true));
-            whereMap.put("financialDocumentTypeCode", newDelegate.getFinancialDocumentTypeCode());
-            whereMap.put("accountDelegateActiveIndicator", Boolean.valueOf(true));
-
-            // find all the matching records
-            primaryRoutes = getBoService().findMatching(Delegate.class, whereMap);
-
-            // if there is at least one result, then this business rule is tripped
-            if (primaryRoutes.size() > 0) {
-                putGlobalError(KFSKeyConstants.ERROR_DOCUMENT_ACCTDELEGATEMAINT_PRIMARY_ROUTE_ALREADY_EXISTS_FOR_DOCTYPE);
-                success &= false;
-                return success; // we're done, no sense in continuing
-            }
-        }
+        
         return success;
     }
 

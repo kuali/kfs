@@ -188,7 +188,9 @@ public class LaborExpenseTransferDocumentRules extends AccountingDocumentRuleBas
                 return false;
             }
         }
-
+        //We must not have any pending labor ledger entries with same emplId, periodCode, accountNumber, objectCode
+        isValid = validatePendingExpenseTransfer(expenseTransferDocument.getEmplid(), sourceLines); 
+        
         return isValid;
     }
 
@@ -2064,19 +2066,28 @@ public class LaborExpenseTransferDocumentRules extends AccountingDocumentRuleBas
     /**
      * Verify that the selected employee does not have other pending salary transfers that have not been processed.
      * 
-     * @param Employee ID
+     * @param Employee ID, sourceLines
      * @return true if the employee does not have any pending salary transfers.
      */
-    public boolean validatePendingExpenseTransfer(String emplid) {
+    public boolean validatePendingExpenseTransfer(String emplid, List sourceLines) {
 
         // We must not have any pending labor ledger entries
-        if (SpringServiceLocator.getLaborLedgerPendingEntryService().hasPendingLaborLedgerEntry(emplid)) {
-            reportError(KFSConstants.EMPLOYEE_LOOKUP_ERRORS, KFSKeyConstants.Labor.PENDING_SALARY_TRANSFER_ERROR, emplid);
-            return false;
+        
+        for (Object oj : sourceLines){
+            ExpenseTransferAccountingLine etal = (ExpenseTransferAccountingLine) oj;
+            String payPeriod = etal.getPayrollEndDateFiscalPeriodCode();
+            String accountNumber = etal.getAccountNumber();
+            String objectCode = etal.getObjectCode().getCode();
+        
+            if (SpringServiceLocator.getLaborLedgerPendingEntryService().hasPendingLaborLedgerEntry(emplid, payPeriod, accountNumber, objectCode)) {
+                reportError(KFSConstants.EMPLOYEE_LOOKUP_ERRORS, KFSKeyConstants.Labor.PENDING_SALARY_TRANSFER_ERROR, emplid, payPeriod, accountNumber, objectCode);
+                return false;
+            }
+            
         }
+        
         return true;
     }
-
 
     /**
      * determine whether the expired accounts in the target accounting lines can be used.

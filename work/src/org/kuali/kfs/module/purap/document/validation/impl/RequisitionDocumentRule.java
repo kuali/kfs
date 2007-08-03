@@ -19,6 +19,7 @@ import java.math.BigDecimal;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.RicePropertyConstants;
 import org.kuali.core.datadictionary.validation.fieldlevel.ZipcodeValidationPattern;
 import org.kuali.core.document.AmountTotaling;
 import org.kuali.core.rule.KualiParameterRule;
@@ -193,6 +194,8 @@ public class RequisitionDocumentRule extends PurchasingDocumentRuleBase {
     @Override
     public boolean processVendorValidation(PurchasingAccountsPayableDocument purapDocument) {
         ErrorMap errorMap = GlobalVariables.getErrorMap();
+        errorMap.clearErrorPath();
+        errorMap.addToErrorPath(RicePropertyConstants.DOCUMENT);
         boolean valid = super.processVendorValidation(purapDocument);
         RequisitionDocument reqDocument = (RequisitionDocument)purapDocument;
         if (reqDocument.getRequisitionSourceCode().equals(PurapConstants.RequisitionSources.STANDARD_ORDER)) { 
@@ -206,6 +209,7 @@ public class RequisitionDocumentRule extends PurchasingDocumentRuleBase {
                 }
             }
         }
+        errorMap.clearErrorPath();
         return valid;
     }
     
@@ -217,12 +221,15 @@ public class RequisitionDocumentRule extends PurchasingDocumentRuleBase {
      */
     public boolean validateTotalDollarAmountIsLessThanPurchaseOrderTotalLimit(PurchasingDocument purDocument) {
         boolean valid = true;
+        GlobalVariables.getErrorMap().clearErrorPath();
+        GlobalVariables.getErrorMap().addToErrorPath(RicePropertyConstants.DOCUMENT);
         if (ObjectUtils.isNotNull(purDocument.getPurchaseOrderTotalLimit()) && ObjectUtils.isNotNull(((AmountTotaling) purDocument).getTotalDollarAmount())) {
             if (((AmountTotaling) purDocument).getTotalDollarAmount().isGreaterThan(purDocument.getPurchaseOrderTotalLimit())) {
                 valid &= false;
                 GlobalVariables.getErrorMap().putError(PurapPropertyConstants.PURCHASE_ORDER_TOTAL_LIMIT, PurapKeyConstants.ERROR_PURCHASE_ORDER_EXCEEDING_TOTAL_LIMIT);                
             }
         }
+        GlobalVariables.getErrorMap().clearErrorPath();
         return valid;
     }
 

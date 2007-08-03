@@ -29,6 +29,7 @@ import java.util.List;
 import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.RicePropertyConstants;
 import org.kuali.core.document.Document;
 import org.kuali.core.rule.KualiParameterRule;
 import org.kuali.core.service.DataDictionaryService;
@@ -131,12 +132,15 @@ public class PaymentRequestDocumentRule extends AccountsPayableDocumentRuleBase 
 
     public boolean processCalculateAccountsPayableBusinessRules(AccountsPayableDocument apDocument) {
         boolean valid = true;
+        GlobalVariables.getErrorMap().clearErrorPath();
+        GlobalVariables.getErrorMap().addToErrorPath(RicePropertyConstants.DOCUMENT);
         PaymentRequestDocument paymentRequestDocument = (PaymentRequestDocument)apDocument;
         validateTotals(paymentRequestDocument);
         if (isPayDateInThePast(paymentRequestDocument.getPaymentRequestPayDate())) {
             valid &= false;
             GlobalVariables.getErrorMap().putError(PurapPropertyConstants.PAYMENT_REQUEST_PAY_DATE, PurapKeyConstants.ERROR_INVALID_PAY_DATE);
         }
+        GlobalVariables.getErrorMap().clearErrorPath();
         return valid;
     }
 
@@ -148,9 +152,11 @@ public class PaymentRequestDocumentRule extends AccountsPayableDocumentRuleBase 
      */
     public boolean processInvoiceValidation(PaymentRequestDocument preqDocument) {
         boolean valid = true;
+        GlobalVariables.getErrorMap().clearErrorPath();
+        GlobalVariables.getErrorMap().addToErrorPath(RicePropertyConstants.DOCUMENT);
         DataDictionaryService dataDictionaryService = SpringServiceLocator.getDataDictionaryService();
         if (ObjectUtils.isNull(preqDocument.getPurchaseOrderIdentifier())) {
-            GlobalVariables.getErrorMap().putError(PurapPropertyConstants.ERROR_PROPERTY_PURCHASE_ORDER_IDENTIFIER, KFSKeyConstants.ERROR_REQUIRED, PREQDocumentsStrings.PURCHASE_ORDER_ID);
+            GlobalVariables.getErrorMap().putError(PurapPropertyConstants.PURCHASE_ORDER_IDENTIFIER, KFSKeyConstants.ERROR_REQUIRED, PREQDocumentsStrings.PURCHASE_ORDER_ID);
             valid &= false;
         }
         if (ObjectUtils.isNull(preqDocument.getInvoiceDate())) {
@@ -165,12 +171,14 @@ public class PaymentRequestDocumentRule extends AccountsPayableDocumentRuleBase 
             GlobalVariables.getErrorMap().putError(PurapPropertyConstants.VENDOR_INVOICE_AMOUNT, KFSKeyConstants.ERROR_REQUIRED, PREQDocumentsStrings.VENDOR_INVOICE_AMOUNT);
             valid &= false;
         }
+        GlobalVariables.getErrorMap().clearErrorPath();
         return valid;
     }
     
     boolean processPurchaseOrderIDValidation(PaymentRequestDocument document) {
-       
         boolean valid = true;
+        GlobalVariables.getErrorMap().clearErrorPath();
+        GlobalVariables.getErrorMap().addToErrorPath(RicePropertyConstants.DOCUMENT);
        
         Integer POID = document.getPurchaseOrderIdentifier();
        
@@ -181,11 +189,11 @@ public class PaymentRequestDocumentRule extends AccountsPayableDocumentRuleBase 
         // need to check this rule against the current PO, Correct?
         PurchaseOrderDocument purchaseOrderDocument = SpringServiceLocator.getPurchaseOrderService().getCurrentPurchaseOrder(document.getPurchaseOrderIdentifier());
         if (ObjectUtils.isNull(purchaseOrderDocument)) {    
-            GlobalVariables.getErrorMap().putError(PurapPropertyConstants.ERROR_PROPERTY_PURCHASE_ORDER_IDENTIFIER, PurapKeyConstants.ERROR_PURCHASE_ORDER_NOT_EXIST);
+            GlobalVariables.getErrorMap().putError(PurapPropertyConstants.PURCHASE_ORDER_IDENTIFIER, PurapKeyConstants.ERROR_PURCHASE_ORDER_NOT_EXIST);
             valid &= false;
         } 
         else if (!StringUtils.equals(purchaseOrderDocument.getStatusCode(),PurapConstants.PurchaseOrderStatuses.OPEN)){
-            GlobalVariables.getErrorMap().putError(PurapPropertyConstants.ERROR_PROPERTY_PURCHASE_ORDER_IDENTIFIER, PurapKeyConstants.ERROR_PURCHASE_ORDER_NOT_OPEN);
+            GlobalVariables.getErrorMap().putError(PurapPropertyConstants.PURCHASE_ORDER_IDENTIFIER, PurapKeyConstants.ERROR_PURCHASE_ORDER_NOT_OPEN);
             valid &= false;
             // if the PO is pending and it is not a Retransmit, we cannot generate a Payment Request for it:
             // 2007-04-19 15:50:40,750 [http-8080-Processor23] ERROR
@@ -211,11 +219,14 @@ public class PaymentRequestDocumentRule extends AccountsPayableDocumentRuleBase 
             valid &= encumberedItemExistsForInvoicing(purchaseOrderDocument);
             valid = true;
         }
+        GlobalVariables.getErrorMap().clearErrorPath();
         return valid;
     }
         
     public boolean encumberedItemExistsForInvoicing(PurchaseOrderDocument document) {
         boolean zeroDollar = true;
+        GlobalVariables.getErrorMap().clearErrorPath();
+        GlobalVariables.getErrorMap().addToErrorPath(RicePropertyConstants.DOCUMENT);
         for (Iterator itemIter = document.getItems().iterator(); itemIter.hasNext();) {
             PurchaseOrderItem poi = (PurchaseOrderItem) itemIter.next();
             KualiDecimal encumberedQuantity = poi.getItemOutstandingEncumberedQuantity() == null ? zero : poi.getItemOutstandingEncumberedQuantity();
@@ -225,24 +236,30 @@ public class PaymentRequestDocumentRule extends AccountsPayableDocumentRuleBase 
             }
         }
         if (zeroDollar) {
-            GlobalVariables.getErrorMap().putError(PurapPropertyConstants.ERROR_PROPERTY_PURCHASE_ORDER_IDENTIFIER, PurapKeyConstants.ERROR_NO_ITEMS_TO_INVOICE);
+            GlobalVariables.getErrorMap().putError(PurapPropertyConstants.PURCHASE_ORDER_IDENTIFIER, PurapKeyConstants.ERROR_NO_ITEMS_TO_INVOICE);
         }
+        GlobalVariables.getErrorMap().clearErrorPath();
         return zeroDollar;
     }
     
     boolean processPaymentRequestDateValidationForContinue(PaymentRequestDocument document){       
         boolean valid = true;
+        GlobalVariables.getErrorMap().clearErrorPath();
+        GlobalVariables.getErrorMap().addToErrorPath(RicePropertyConstants.DOCUMENT);
         //invoice date validation
         java.sql.Date invoiceDate = document.getInvoiceDate();
         if (ObjectUtils.isNotNull(invoiceDate) && SpringServiceLocator.getPaymentRequestService().isInvoiceDateAfterToday(invoiceDate)) {
             GlobalVariables.getErrorMap().putError(PurapPropertyConstants.INVOICE_DATE, PurapKeyConstants.ERROR_INVALID_INVOICE_DATE);
             valid &= false;
         }
+        GlobalVariables.getErrorMap().clearErrorPath();
         return valid;
     }
     
     boolean validatePaymentRequestDates(PaymentRequestDocument document) {
         boolean valid = true;
+        GlobalVariables.getErrorMap().clearErrorPath();
+        GlobalVariables.getErrorMap().addToErrorPath(RicePropertyConstants.DOCUMENT);
         //pay date in the past validation
         if (isPayDateInThePast(document.getPaymentRequestPayDate())) {
             valid &= false;
@@ -252,6 +269,7 @@ public class PaymentRequestDocumentRule extends AccountsPayableDocumentRuleBase 
         if (isPayDateOver60Days(document)) {
             GlobalVariables.getMessageList().add(PurapKeyConstants.WARNING_PAYMENT_REQUEST_PAYDATE_OVER_60_DAYS);
         }
+        GlobalVariables.getErrorMap().clearErrorPath();
         return valid;
     }
     

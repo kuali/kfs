@@ -160,7 +160,7 @@ public class PaymentRequestDaoOjb extends PlatformAwareDaoBaseOjb implements Pay
     public List<String> getDocumentNumbersByPurchaseOrderId(Integer poPurApId) {
         List<String> returnList = new ArrayList<String>();
         Criteria criteria = new Criteria();
-        criteria.addEqualTo( PurapPropertyConstants.PREQ_PURCHASE_ORDER_ID, poPurApId );
+        criteria.addEqualTo( PurapPropertyConstants.PURCHASE_ORDER_IDENTIFIER, poPurApId );
         Iterator<Object[]> iter = getDocumentNumbersOfPaymentRequestByCriteria(criteria, false);
         while (iter.hasNext()) {
             Object[] cols = (Object[])iter.next();

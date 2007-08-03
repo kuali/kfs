@@ -24,6 +24,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.RicePropertyConstants;
 import org.kuali.core.question.ConfirmationQuestion;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.util.GlobalVariables;
@@ -79,7 +80,7 @@ public class PurchasingActionBase extends PurchasingAccountsPayableActionBase {
 
         if (StringUtils.equals(refreshCaller, KFSConstants.KUALI_LOOKUPABLE_IMPL)) {
 
-            if (StringUtils.isNotEmpty(request.getParameter(PurapPropertyConstants.VENDOR_CONTRACT_ID))) {
+            if (StringUtils.isNotEmpty(request.getParameter(RicePropertyConstants.DOCUMENT + "." + PurapPropertyConstants.VENDOR_CONTRACT_ID))) {
                 Integer vendorContractGeneratedId = document.getVendorContractGeneratedIdentifier();
                 VendorContract refreshVendorContract = new VendorContract();
                 refreshVendorContract.setVendorContractGeneratedIdentifier(vendorContractGeneratedId);
@@ -95,7 +96,7 @@ public class PurchasingActionBase extends PurchasingAccountsPayableActionBase {
                 populateDefaultAddress(refreshVendorDetail, document);
 
             }
-            if (StringUtils.isNotEmpty(request.getParameter(PurapPropertyConstants.VENDOR_ADDRESS_ID))) {
+            if (StringUtils.isNotEmpty(request.getParameter(RicePropertyConstants.DOCUMENT + "." + PurapPropertyConstants.VENDOR_ADDRESS_ID))) {
                 Integer vendorAddressGeneratedId = document.getVendorAddressGeneratedIdentifier();
                 VendorAddress refreshVendorAddress = new VendorAddress();
                 refreshVendorAddress.setVendorAddressGeneratedIdentifier(vendorAddressGeneratedId);

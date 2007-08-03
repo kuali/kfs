@@ -20,6 +20,7 @@ import static org.kuali.kfs.KFSConstants.GL_DEBIT_CODE;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.RicePropertyConstants;
 import org.kuali.core.datadictionary.validation.fieldlevel.ZipcodeValidationPattern;
 import org.kuali.core.document.AmountTotaling;
 import org.kuali.core.util.ErrorMap;
@@ -211,6 +212,8 @@ public class PurchaseOrderDocumentRule extends PurchasingDocumentRuleBase {
     @Override
     public boolean processVendorValidation(PurchasingAccountsPayableDocument purapDocument) {
         ErrorMap errorMap = GlobalVariables.getErrorMap();
+        errorMap.clearErrorPath();
+        errorMap.addToErrorPath(RicePropertyConstants.DOCUMENT);
         boolean valid = super.processVendorValidation(purapDocument);
         PurchaseOrderDocument poDocument = (PurchaseOrderDocument) purapDocument;
         if (StringUtils.isBlank(poDocument.getVendorCountryCode())) {
@@ -233,6 +236,7 @@ public class PurchaseOrderDocumentRule extends PurchasingDocumentRuleBase {
                 errorMap.putError(PurapPropertyConstants.VENDOR_POSTAL_CODE, PurapKeyConstants.ERROR_POSTAL_CODE_INVALID);
             }
         }
+        errorMap.clearErrorPath();
         return valid;
     }
 
@@ -247,12 +251,15 @@ public class PurchaseOrderDocumentRule extends PurchasingDocumentRuleBase {
      */
     private boolean validateFaxNumberIfTransmissionTypeIsFax(PurchasingDocument purDocument) {
         boolean valid = true;
+        GlobalVariables.getErrorMap().clearErrorPath();
+        GlobalVariables.getErrorMap().addToErrorPath(RicePropertyConstants.DOCUMENT);
         if (ObjectUtils.isNotNull(purDocument.getVendorHeaderGeneratedIdentifier()) && purDocument.getPurchaseOrderTransmissionMethodCode().equals(PurapConstants.POTransmissionMethods.FAX)) {
             if (ObjectUtils.isNull(purDocument.getVendorFaxNumber()) || !SpringServiceLocator.getPhoneNumberService().isValidPhoneNumber(purDocument.getVendorFaxNumber())) {
-                GlobalVariables.getErrorMap().putError(PurapPropertyConstants.REQUISITION_VENDOR_FAX_NUMBER, PurapKeyConstants.ERROR_FAX_NUMBER_PO_TRANSMISSION_TYPE);
+                GlobalVariables.getErrorMap().putError(PurapPropertyConstants.VENDOR_FAX_NUMBER, PurapKeyConstants.ERROR_FAX_NUMBER_PO_TRANSMISSION_TYPE);
                 valid &= false;
             }
         }
+        GlobalVariables.getErrorMap().clearErrorPath();
         return valid;
     }
 

@@ -16,6 +16,7 @@
 package org.kuali.module.purap;
 
 import org.kuali.RicePropertyConstants;
+import org.kuali.core.util.GlobalVariables;
 
 /**
  * Property name constants.
@@ -39,49 +40,60 @@ public class PurapPropertyConstants {
     
     public static final String DATA_OBJ_MAINT_CD_ACTIVE_IND = "dataObjectMaintenanceCodeActiveIndicator";
     
-    // Purchase Order & Requisition
+    // PURCHASING AND ACCOUNTS PAYABLE DOCUMENT BASE
     public static final String PURAP_DOC_ID = "purapDocumentIdentifier";
-    public static final String RECURRING_PAYMENT_TYPE_CODE = "recurringPaymentTypeCode";
-    public static final String PURCHASE_ORDER_BEGIN_DATE = "purchaseOrderBeginDate";
-    public static final String PURCHASE_ORDER_CURRENT_INDICATOR = "purchaseOrderCurrentIndicator";
-    public static final String PURCHASE_ORDER_END_DATE = "purchaseOrderEndDate";
-    public static final String VENDOR_POSTAL_CODE = "document.vendorPostalCode";
-    public static final String VENDOR_COUNTRY_CODE = "document.vendorCountryCode";
-    public static final String VENDOR_STATE_CODE = "document.vendorStateCode";
-    public static final String PURCHASE_ORDER_TOTAL_LIMIT = "document.purchaseOrderTotalLimit";
-    public static final String REQUISITION_VENDOR_FAX_NUMBER = "document.vendorFaxNumber";
     public static final String STATUS_CODE = "statusCode";
     public static final String STATUS = "status";
-    public static final String DOCUMENT_NUMBER = "documentNumber";
+    public static final String VENDOR_NUMBER = "vendorNumber";
+//    public static final String VENDOR_POSTAL_CODE = "document.vendorPostalCode";
+    public static final String VENDOR_POSTAL_CODE = "vendorPostalCode";
+//    public static final String VENDOR_COUNTRY_CODE = "document.vendorCountryCode";
+    public static final String VENDOR_COUNTRY_CODE = "vendorCountryCode";
+//    public static final String VENDOR_STATE_CODE = "document.vendorStateCode";
+    public static final String VENDOR_STATE_CODE = "vendorStateCode";
+//    public static final String VENDOR_ADDRESS_ID = "document.vendorAddressGeneratedIdentifier";
+    public static final String VENDOR_ADDRESS_ID = "vendorAddressGeneratedIdentifier";
+
+    // PURCHASING DOCUMENT BASE
+    public static final String RECURRING_PAYMENT_TYPE_CODE = "recurringPaymentTypeCode";
+    public static final String PURCHASE_ORDER_BEGIN_DATE = "purchaseOrderBeginDate";
+    public static final String PURCHASE_ORDER_END_DATE = "purchaseOrderEndDate";
+//    public static final String PURCHASE_ORDER_TOTAL_LIMIT = "document.purchaseOrderTotalLimit";
+    public static final String PURCHASE_ORDER_TOTAL_LIMIT = "purchaseOrderTotalLimit";
+//    public static final String REQUISITION_VENDOR_FAX_NUMBER = "document.vendorFaxNumber";
+    public static final String VENDOR_FAX_NUMBER = "vendorFaxNumber";
     public static final String CONTRACT_MANAGER_CODE = "contractManagerCode";
-    public static final String VENDOR_STIPULATION = "purchaseOrderVendorStipulations";
-    public static final String VENDOR_STIPULATION_DESCRIPTION = "vendorStipulationDescription";
-    public static final String VENDOR_CONTRACT_ID = "document.vendorContractGeneratedIdentifier";
-    public static final String VENDOR_ADDRESS_ID = "document.vendorAddressGeneratedIdentifier";
-    public static final String QUOTE_TRANSMITTED = "purchaseOrderQuoteTransmitted";
-    public static final String VENDOR_QUOTES = "purchaseOrderVendorQuotes";
+//   public static final String VENDOR_CONTRACT_ID = "document.vendorContractGeneratedIdentifier";
+    public static final String VENDOR_CONTRACT_ID = "vendorContractGeneratedIdentifier";
     
-    // Payment Request
-    public static final String PREQ_RULE_PURCHASE_ORDER_ID = "document.purchaseOrderIdentifier";
-    public static final String PREQ_PURCHASE_ORDER_ID = "purchaseOrderIdentifier";
+    // AP DOCUMENT BASE
 //    public static final String PURCHASE_ORDER_IDENTIFIER = "document.purchaseOrderIdentifier";
     public static final String PURCHASE_ORDER_IDENTIFIER = "purchaseOrderIdentifier";
-    public static final String ERROR_PROPERTY_PURCHASE_ORDER_IDENTIFIER = RicePropertyConstants.DOCUMENT + "." + PURCHASE_ORDER_IDENTIFIER;
-    public static final String INVOICE_DATE = "document.invoiceDate";
-    public static final String INVOICE_NUMBER = "document.invoiceNumber";
-    public static final String VENDOR_INVOICE_AMOUNT = "document.vendorInvoiceAmount";
-    public static final String PAYMENT_REQUEST_PAY_DATE = "document.paymentRequestPayDate";
-
-
+    
+    // REQUISITION DOCUMENT
+    
+    // PURCHASE ORDER DOCUMENT
+    public static final String PURCHASE_ORDER_CURRENT_INDICATOR = "purchaseOrderCurrentIndicator";
+    public static final String VENDOR_STIPULATION = "purchaseOrderVendorStipulations";
+    public static final String QUOTE_TRANSMITTED = "purchaseOrderQuoteTransmitted";
+    public static final String VENDOR_QUOTES = "purchaseOrderVendorQuotes";
     // Quote Language
     public static final String PURCHASE_ORDER_QUOTE_LANGUAGE_ID = "purchaseOrderQuoteLanguageIdentifier";
+    // Stipulations
+    public static final String VENDOR_STIPULATION_DESCRIPTION = "vendorStipulationDescription";
     
-    // Credit Memo
-    public static final String CREDIT_MEMO_INIT_REQUIRED_FIELDS = "purchaseOrderIdentifier";
-    public static final String CREDIT_MEMO_RULE_PURCHASE_ORDER_ID = "document.purchaseOrderIdentifier";
-    public static final String CREDIT_MEMO_PURCHASE_ORDER_ID = "purchaseOrderIdentifier";
-    public static final String CREDIT_MEMO_PAYMENT_REQUEST_ID = "paymentRequestIdentifier";
-    public static final String CREDIT_MEMO_VENDOR_NUMBER = "vendorNumber";
+    // PAYMENT REQUEST DOCUMENT
+//    public static final String INVOICE_DATE = "document.invoiceDate";
+    public static final String INVOICE_DATE = "invoiceDate";
+//    public static final String INVOICE_NUMBER = "document.invoiceNumber";
+    public static final String INVOICE_NUMBER = "invoiceNumber";
+//    public static final String VENDOR_INVOICE_AMOUNT = "document.vendorInvoiceAmount";
+    public static final String VENDOR_INVOICE_AMOUNT = "vendorInvoiceAmount";
+//    public static final String PAYMENT_REQUEST_PAY_DATE = "document.paymentRequestPayDate";
+    public static final String PAYMENT_REQUEST_PAY_DATE = "paymentRequestPayDate";
+
+    // CREDIT MEMO DOCUMENT
+    public static final String PAYMENT_REQUEST_ID = "paymentRequestIdentifier";
     public static final String CREDIT_MEMO_DATE = "creditMemoDate";
     public static final String CREDIT_MEMO_NUMBER = "creditMemoNumber";
     public static final String CREDIT_MEMO_AMOUNT = "creditMemoAmount";

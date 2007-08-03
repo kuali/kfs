@@ -37,14 +37,14 @@
 	value="${(!empty KualiForm.editingMode['amendmentEntry'])}" />
 
 <tr>
-	<td colspan="10" class="subhead"><span class="subhead-left"><c:out value="${overrideTitle}" /></span></td>
+	<td colspan="11" class="subhead"><span class="subhead-left"><c:out value="${overrideTitle}" /></span></td>
 </tr>
 <tr>
 	<kul:htmlAttributeHeaderCell colspan="5"
 		attributeEntry="${itemAttributes.itemTypeCode}" />
 	<kul:htmlAttributeHeaderCell colspan="2"
 		attributeEntry="${itemAttributes.extendedPrice}" />
-	<kul:htmlAttributeHeaderCell colspan="2"
+	<kul:htmlAttributeHeaderCell colspan="3"
 		attributeEntry="${itemAttributes.itemDescription}" />
 </tr>
 
@@ -53,7 +53,7 @@
 	<%-- to ensure order this should pull out items from APC instead of this--%>
 	<c:if test="${itemLine.itemType.itemTypeAboveTheLineIndicator != true}">
 		<tr>
-			<td colspan="10" class="tab-subhead" style="border-right: none;">
+			<td colspan="11" class="tab-subhead" style="border-right: none;">
 			<kul:htmlControlAttribute
 				attributeEntry="${itemAttributes.itemTypeCode}"
 				property="document.item[${ctr}].itemType.itemTypeDescription"
@@ -85,7 +85,7 @@
 				property="document.item[${ctr}].itemUnitPrice"
 				readOnly="${not (fullEntryMode or amendmentEntry)}" styleClass="amount" /></div>
 			</td>
-			<td class="infoline" colspan="2"><kul:htmlControlAttribute
+			<td class="infoline" colspan="3"><kul:htmlControlAttribute
 				attributeEntry="${itemAttributes.itemDescription}"
 				property="document.item[${ctr}].itemDescription"
 				readOnly="${not (fullEntryMode or amendmentEntry)}" /></td>

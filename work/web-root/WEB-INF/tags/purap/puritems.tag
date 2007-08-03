@@ -21,6 +21,7 @@
 <%@ attribute name="camsAttributes" required="true" type="java.util.Map" description="The DataDictionary entry containing attributes for this row's fields."%>
 
 <c:set var="amendmentEntry"	value="${(not empty KualiForm.editingMode['amendmentEntry'])}" />
+<c:set var="documentType" value="${KualiForm.document.documentHeader.workflowDocument.documentType}" />
 
 <kul:tab tabTitle="Items" defaultOpen="false" tabErrorKey="${PurapConstants.ITEM_TAB_ERRORS}">
 	<div class="tab-container" align=center>
@@ -28,7 +29,7 @@
 	<table cellpadding="0" cellspacing="0" class="datatable" summary="Items Section">
 		<c:if test="${(fullEntryMode or amendmentEntry)}">
 			<tr>
-				<td colspan="10" class="subhead"><span class="subhead-left">Add Item</span></td>
+				<td colspan="11" class="subhead"><span class="subhead-left">Add Item</span></td>
 			</tr>
 			<tr>
 				<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemLineNumber}" />
@@ -44,7 +45,7 @@
 				</c:if>
 				<!--  kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemAssignedToTradeInIndicator}" / -->
 				<!-- TODO: PHASE 2B -->
-				<kul:htmlAttributeHeaderCell literalLabel="Actions" />
+				<kul:htmlAttributeHeaderCell literalLabel="Actions" colspan="2"/>
 			</tr>
 			<tr>
                 <td class="infoline">
@@ -86,7 +87,7 @@
 				<!-- td class="infoline"><div align="center"><kul:htmlControlAttribute
 					attributeEntry="${itemAttributes.itemAssignedToTradeInIndicator}"
 					property="newPurchasingItemLine.itemAssignedToTradeInIndicator" /></div></td -->
-				<td class="infoline">
+				<td class="infoline" colspan="2">
 				    <div align="center">
 				        <html:image property="methodToCall.addItem" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-add1.gif" alt="Insert an Item" title="Add an Item" styleClass="tinybutton" />
 				    </div>
@@ -98,7 +99,7 @@
 
 
 		<tr>
-			<th height=30 colspan="10">
+			<th height=30 colspan="11">
 			    <purap:accountdistribution accountingLineAttributes="${accountingLineAttributes}" />
 		    </th>
 		</tr>
@@ -106,7 +107,7 @@
 
 		<!-- what is the purpose of this c:if? would it be better to still dipslay the section header with message that there are not items -->
 		<tr>
-			<td colspan="10" class="subhead">
+			<td colspan="11" class="subhead">
 			    <span class="subhead-left">Current Items</span>
 			</td>
 		</tr>
@@ -126,13 +127,16 @@
 				</c:if>
 				<!--  kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemAssignedToTradeInIndicator}" / -->
 				<!-- TODO: PHASE 2B -->
-				<kul:htmlAttributeHeaderCell literalLabel="Inactive" />
+				<kul:htmlAttributeHeaderCell literalLabel="Inactive"/>
+				<c:if test="${((documentType == 'PurchaseOrderDocument') or (documentType == 'PurchaseOrderAmendmentDocument') or (documentType == 'PurchaseOrderCloseDocument') or (documentType == 'PurchaseOrderPaymentHoldDocument') or (documentType == 'PurchaseOrderRemoveHoldDocument') or (documentType == 'PurchaseOrderReopenDocument') or (documentType == 'PurchaseOrderRetransmitDocument') or (documentType == 'PurchaseOrderVoidDocument'))}">
+                    <kul:htmlAttributeHeaderCell literalLabel="Amount Paid" />
+                </c:if>
 			</tr>
 		</c:if>
 
 		<c:if test="${!(fn:length(KualiForm.document.items) > fn:length(KualiForm.document.belowTheLineTypes))}">
 			<tr>
-				<th height=30 colspan="10">No items added to document</th>
+				<th height=30 colspan="11">No items added to document</th>
 			</tr>
 		</c:if>
 
@@ -171,7 +175,7 @@
 				<html:hidden property="tabStates(${tabKey})" value="${(isOpen ? 'OPEN' : 'CLOSE')}" />
 
 				<tr>
-					<td colspan="10" class="tab-subhead" style="border-right: none;">
+					<td colspan="11" class="tab-subhead" style="border-right: none;">
 					    Item ${ctr+1} 
 					    <c:if test="${isOpen == 'true' || isOpen == 'TRUE'}">
 						    <html:image
@@ -206,7 +210,7 @@
 					    <html:hidden property="document.item[${ctr}].itemType.itemTypeCode" /> 
 					    <html:hidden property="document.item[${ctr}].itemType.itemTypeDescription" />
 
-					    <c:if test="${((KualiForm.document.documentHeader.workflowDocument.documentType == 'PurchaseOrderDocument') or (KualiForm.document.documentHeader.workflowDocument.documentType == 'PurchaseOrderAmendmentDocument'))}">
+					    <c:if test="${((documentType == 'PurchaseOrderDocument') or (documentType == 'PurchaseOrderAmendmentDocument') or (documentType == 'PurchaseOrderCloseDocument') or (documentType == 'PurchaseOrderPaymentHoldDocument') or (documentType == 'PurchaseOrderRemoveHoldDocument') or (documentType == 'PurchaseOrderReopenDocument') or (documentType == 'PurchaseOrderRetransmitDocument') or (documentType == 'PurchaseOrderVoidDocument'))}">
 						    <html:hidden property="document.item[${ctr}].itemActiveIndicator" />
 						    <html:hidden property="document.item[${ctr}].documentNumber" />
   					    </c:if> 
@@ -318,6 +322,15 @@
 						    <div align="center">&nbsp;</div>
 						</td>
 					</c:if>
+					<c:if test="${((documentType == 'PurchaseOrderDocument') or (documentType == 'PurchaseOrderAmendmentDocument') or (documentType == 'PurchaseOrderCloseDocument') or (documentType == 'PurchaseOrderPaymentHoldDocument') or (documentType == 'PurchaseOrderRemoveHoldDocument') or (documentType == 'PurchaseOrderReopenDocument') or (documentType == 'PurchaseOrderRetransmitDocument') or (documentType == 'PurchaseOrderVoidDocument'))}">
+					    <td class="infoline">
+					        <div align="right">
+					            <kul:htmlControlAttribute
+						            attributeEntry="${itemAttributes.itemInvoicedTotalAmount}"
+						            property="document.item[${ctr}].itemInvoicedTotalAmount" readOnly="${true}" />
+					        </div>
+					    </td>
+					</c:if>
 				</tr>
 
 <!-- TODO PHASE 2b: Remove "suppressCams" and "overrideTitle" attributes -->
@@ -371,7 +384,7 @@
 		</logic:iterate>
 
 		<tr>
-			<th height=30 colspan="10">&nbsp;</th>
+			<th height=30 colspan="11">&nbsp;</th>
 		</tr>
 
 		<purap:miscitems itemAttributes="${itemAttributes}" accountingLineAttributes="${accountingLineAttributes}" />
@@ -379,11 +392,11 @@
 
 		<!-- BEGIN TOTAL SECTION -->
 		<tr>
-			<th height=30 colspan="10">&nbsp;</th>
+			<th height=30 colspan="11">&nbsp;</th>
 		</tr>
 
 		<tr>
-			<td colspan="10" class="subhead">
+			<td colspan="11" class="subhead">
                 <span class="subhead-left">Totals</span>
                 <span class="subhead-right">&nbsp;</span>
             </td>
@@ -399,7 +412,7 @@
                     html:hidden property="document.totalDollarAmount" / -->
 			    <div align="right"><b>$${KualiForm.document.totalDollarAmount}</b></div>
 			</td>
-			<td colspan=2 class="datacell">&nbsp;</td>
+			<td colspan=3 class="datacell">&nbsp;</td>
 		</tr>
 
 		<tr>
@@ -427,7 +440,7 @@
 				    <div align="right">&nbsp;<!-- TODO - get limit --></div>
 			    </c:if>
 			</td>
-			<td colspan=2 class="datacell">&nbsp;</td>
+			<td colspan=3 class="datacell">&nbsp;</td>
 		</tr>
 		<!-- END TOTAL SECTION -->
 

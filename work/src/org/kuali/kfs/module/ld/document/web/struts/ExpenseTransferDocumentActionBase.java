@@ -15,6 +15,10 @@
  */
 package org.kuali.module.labor.web.struts.action;
 
+import static org.kuali.kfs.KFSConstants.AMOUNT_PROPERTY_NAME;
+import static org.kuali.kfs.KFSConstants.ZERO;
+import static org.kuali.kfs.KFSKeyConstants.ERROR_ZERO_AMOUNT;
+
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
@@ -39,6 +43,7 @@ import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.UrlFactory;
 import org.kuali.core.web.struts.form.KualiForm;
 import org.kuali.kfs.KFSConstants;
+import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.bo.AccountingLineOverride;
 import org.kuali.kfs.rule.event.AddAccountingLineEvent;
 import org.kuali.kfs.util.SpringServiceLocator;
@@ -195,12 +200,16 @@ public class ExpenseTransferDocumentActionBase extends LaborDocumentActionBase {
                         
                             try {
                                 KualiDecimal lineAmount = (new KualiDecimal(selectedPeriodAmount)).divide(new KualiDecimal(100));
-                                if (KFSConstants.ZERO.compareTo(lineAmount) != 0) {
+                                
+                                //Notice that user tried to import an accounting line which has Zero amount
+                                if (KFSConstants.ZERO.compareTo(lineAmount) == 0) { 
+                                    GlobalVariables.getErrorMap().putError(KFSPropertyConstants.SOURCE_ACCOUNTING_LINES, ERROR_ZERO_AMOUNT, "an accounting line");
+                                } else {
                                     buildAccountingLineFromLedgerBalance((LedgerBalance) bo, line, lineAmount, periodCode);
 
                                     SpringServiceLocator.getKualiRuleService().applyRules(new AddAccountingLineEvent(KFSConstants.NEW_SOURCE_ACCT_LINE_PROPERTY_NAME, financialDocument, line));
                                     SpringServiceLocator.getPersistenceService().retrieveNonKeyFields(line);
-                                   
+                                       
                                     insertAccountingLine(true, expenseTransferDocumentForm, line);
                                     updateAccountOverrideCode(line);
                                     processAccountingLineOverrides(line);

@@ -411,7 +411,8 @@ public class CreditMemoDocument extends AccountsPayableDocumentBase {
     
     public void setPaymentRequestDocument(PaymentRequestDocument paymentRequestDocument) {
         if (ObjectUtils.isNull(paymentRequestDocument)) {
-            setPaymentRequestIdentifier(null);
+            //KULPURAP-1185 - do not blank out input, instead throw an error
+            //setPaymentRequestIdentifier(null);            
             this.paymentRequestDocument = null;
         } else {
             setPaymentRequestIdentifier(paymentRequestDocument.getPurapDocumentIdentifier());

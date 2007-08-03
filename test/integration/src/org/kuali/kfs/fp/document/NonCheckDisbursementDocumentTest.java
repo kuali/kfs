@@ -38,8 +38,8 @@ import org.kuali.kfs.bo.SourceAccountingLine;
 import org.kuali.kfs.bo.TargetAccountingLine;
 import org.kuali.kfs.context.KualiTestBase;
 import org.kuali.test.DocumentTestUtils;
-import org.kuali.test.TestsWorkflowViaDatabase;
-import org.kuali.test.WithTestSpringContext;
+import org.kuali.test.ShouldCommitTransactions;
+import org.kuali.test.RequiresSpringContext;
 import org.kuali.test.fixtures.AccountingLineFixture;
 
 /**
@@ -47,7 +47,7 @@ import org.kuali.test.fixtures.AccountingLineFixture;
  * 
  * 
  */
-@WithTestSpringContext(session = KHUNTLEY)
+@RequiresSpringContext(session = KHUNTLEY)
 public class NonCheckDisbursementDocumentTest extends KualiTestBase {
     public static final Class<NonCheckDisbursementDocument> DOCUMENT_CLASS = NonCheckDisbursementDocument.class;
 
@@ -91,16 +91,16 @@ public class NonCheckDisbursementDocumentTest extends KualiTestBase {
     public final void testConvertIntoErrorCorrection_invalidYear() throws Exception {
         AccountingDocumentTestUtils.testConvertIntoErrorCorrection_invalidYear(buildDocument(), getTransactionalDocumentDictionaryService(), getAccountingPeriodService());
       }
-    @TestsWorkflowViaDatabase
+    @ShouldCommitTransactions
     public final void testRouteDocument() throws Exception {
         AccountingDocumentTestUtils.testRouteDocument(buildDocument(), getDocumentService());
     }
     
-    @TestsWorkflowViaDatabase
+    @ShouldCommitTransactions
     public void testSaveDocument() throws Exception {
         AccountingDocumentTestUtils.testSaveDocument(buildDocument(), getDocumentService());
     }
-    @TestsWorkflowViaDatabase
+    @ShouldCommitTransactions
     public void testConvertIntoCopy() throws Exception {
         AccountingDocumentTestUtils.testConvertIntoCopy(buildDocument(), getDocumentService(), getExpectedPrePeCount());
     }

@@ -34,8 +34,8 @@ import org.kuali.module.chart.bo.AccountGlobalDetail;
 import org.kuali.module.chart.bo.AccountGlobal;
 import org.kuali.module.chart.bo.DelegateGlobal;
 import org.kuali.module.chart.bo.DelegateGlobalDetail;
-import org.kuali.test.TestsWorkflowViaDatabase;
-import org.kuali.test.WithTestSpringContext;
+import org.kuali.test.ShouldCommitTransactions;
+import org.kuali.test.RequiresSpringContext;
 import org.kuali.test.suite.AnnotationTestSuite;
 import org.kuali.test.suite.CrossSectionSuite;
 import static org.kuali.test.fixtures.UserNameFixture.KHUNTLEY;
@@ -43,7 +43,7 @@ import static org.kuali.test.fixtures.UserNameFixture.KHUNTLEY;
 import edu.iu.uis.eden.exception.WorkflowException;
 
 @SuppressWarnings("deprecation")
-@WithTestSpringContext(session = KHUNTLEY)
+@RequiresSpringContext(session = KHUNTLEY)
 public class GlobalDocumentTest extends KualiTestBase {
 
     private static final Log LOG = LogFactory.getLog(GlobalDocumentTest.class);
@@ -103,7 +103,7 @@ public class GlobalDocumentTest extends KualiTestBase {
         assertEquals("New BO should be of the correct class.", AccountGlobal.class, newBo.getClass());
     }
 
-    @TestsWorkflowViaDatabase
+    @ShouldCommitTransactions
     public final void testSaveDocument_globalDelegate() throws Exception {
 
         MaintenanceDocument document = (MaintenanceDocument) getDocumentService().getNewDocument(GLOBAL_DELEGATE_TYPENAME);
@@ -156,7 +156,7 @@ public class GlobalDocumentTest extends KualiTestBase {
     }
 
     @AnnotationTestSuite(CrossSectionSuite.class)
-    @TestsWorkflowViaDatabase
+    @ShouldCommitTransactions
     public final void testSaveAndLoadDocument_globalDelegate() throws Exception {
 
         MaintenanceDocument document = (MaintenanceDocument) getDocumentService().getNewDocument(GLOBAL_DELEGATE_TYPENAME);

@@ -44,9 +44,9 @@ import org.kuali.kfs.context.KualiTestBase;
 import org.kuali.kfs.document.AccountingDocument;
 import org.kuali.module.financial.document.NonCheckDisbursementDocument;
 import org.kuali.test.DocumentTestUtils;
-import org.kuali.test.WithTestSpringContext;
+import org.kuali.test.RequiresSpringContext;
 
-@WithTestSpringContext(session = KHUNTLEY)
+@RequiresSpringContext(session = KHUNTLEY)
 public class NonCheckDisbursementDocumentRuleTest extends KualiTestBase {
     public static final Class<NonCheckDisbursementDocument> DOCUMENT_CLASS = NonCheckDisbursementDocument.class;
 

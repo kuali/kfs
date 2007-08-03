@@ -30,14 +30,14 @@ import org.kuali.kfs.context.KualiTestBase;
 import org.kuali.kfs.document.AccountingDocument;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.financial.document.ServiceBillingDocument;
-import org.kuali.test.WithTestSpringContext;
+import org.kuali.test.RequiresSpringContext;
 
 /**
  * 
  * This class tests the business rules of the service billing document. This is not implemented yet and needs to extend
  * AccountingDocumentRuleTestBase.
  */
-@WithTestSpringContext(session = DFOGLE)
+@RequiresSpringContext(session = DFOGLE)
 public class ServiceBillingDocumentRuleTest extends KualiTestBase {
 
 

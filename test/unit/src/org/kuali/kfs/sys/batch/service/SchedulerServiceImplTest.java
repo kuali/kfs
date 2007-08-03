@@ -22,10 +22,10 @@ import org.kuali.kfs.batch.BatchJobStatus;
 import org.kuali.kfs.context.KualiTestBase;
 import org.kuali.kfs.service.SchedulerService;
 import org.kuali.kfs.util.SpringServiceLocator;
-import org.kuali.test.WithTestSpringContext;
+import org.kuali.test.RequiresSpringContext;
 import org.kuali.test.fixtures.UserNameFixture;
 
-@WithTestSpringContext(session=UserNameFixture.KULUSER)
+@RequiresSpringContext(session=UserNameFixture.KULUSER)
 public class SchedulerServiceImplTest extends KualiTestBase {
 
     // tests added to make sure that the scheduler was available during the tests 

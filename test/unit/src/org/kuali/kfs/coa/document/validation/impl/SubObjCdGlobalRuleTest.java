@@ -26,9 +26,9 @@ import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.AccountGlobalDetail;
 import org.kuali.module.chart.bo.SubObjCdGlobalDetail;
 import org.kuali.module.chart.bo.SubObjCdGlobal;
-import org.kuali.test.WithTestSpringContext;
+import org.kuali.test.RequiresSpringContext;
 
-@WithTestSpringContext
+@RequiresSpringContext
 public class SubObjCdGlobalRuleTest extends ChartRuleTestBase {
     private class SOCDocument {
         private class ChartCode {

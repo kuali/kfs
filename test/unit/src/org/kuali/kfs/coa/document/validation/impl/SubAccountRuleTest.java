@@ -29,11 +29,11 @@ import org.kuali.kfs.KFSKeyConstants;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.chart.bo.A21SubAccount;
 import org.kuali.module.chart.bo.SubAccount;
-import org.kuali.test.WithTestSpringContext;
+import org.kuali.test.RequiresSpringContext;
 import org.kuali.test.fixtures.SubAccountFixture;
 import org.kuali.test.fixtures.UserNameFixture;
 
-@WithTestSpringContext(session = KHUNTLEY)
+@RequiresSpringContext(session = KHUNTLEY)
 public class SubAccountRuleTest extends ChartRuleTestBase {
 
     protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(SubAccountRuleTest.class);

@@ -22,14 +22,14 @@ import static org.kuali.test.fixtures.ObjectCodeFixture.OBJECT_CODE_NON_BUDGET_O
 
 import org.kuali.kfs.context.KualiTestBase;
 import org.kuali.kfs.util.SpringServiceLocator;
-import org.kuali.test.WithTestSpringContext;
+import org.kuali.test.RequiresSpringContext;
 
 /**
  * This class tests the AccountPresenceService.
  * 
  * 
  */
-@WithTestSpringContext
+@RequiresSpringContext
 public class AccountPresenceServiceTest extends KualiTestBase {
 
     /**

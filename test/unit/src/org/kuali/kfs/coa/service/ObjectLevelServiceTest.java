@@ -19,14 +19,14 @@ import static org.kuali.kfs.util.SpringServiceLocator.getObjectLevelService;
 
 import org.kuali.kfs.context.KualiTestBase;
 import org.kuali.module.chart.bo.ObjLevel;
-import org.kuali.test.WithTestSpringContext;
+import org.kuali.test.RequiresSpringContext;
 
 /**
  * This class tests the ObjLevel service.
  * 
  * 
  */
-@WithTestSpringContext
+@RequiresSpringContext
 public class ObjectLevelServiceTest extends KualiTestBase {
 
     public void testFindById() {

@@ -39,8 +39,8 @@ import org.kuali.kfs.context.KualiTestBase;
 import org.kuali.kfs.document.AccountingDocument;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.test.DocumentTestUtils;
-import org.kuali.test.TestsWorkflowViaDatabase;
-import org.kuali.test.WithTestSpringContext;
+import org.kuali.test.ShouldCommitTransactions;
+import org.kuali.test.RequiresSpringContext;
 import org.kuali.test.fixtures.AccountingLineFixture;
 import org.kuali.test.fixtures.UserNameFixture;
 import org.kuali.test.suite.AnnotationTestSuite;
@@ -51,7 +51,7 @@ import org.kuali.test.suite.CrossSectionSuite;
  * 
  * 
  */
-@WithTestSpringContext(session = KHUNTLEY)
+@RequiresSpringContext(session = KHUNTLEY)
 public class InternalBillingDocumentTest extends KualiTestBase {
     public static final Class<InternalBillingDocument> DOCUMENT_CLASS = InternalBillingDocument.class;
 
@@ -80,7 +80,7 @@ public class InternalBillingDocumentTest extends KualiTestBase {
         return 12;
     }
 
-    @TestsWorkflowViaDatabase
+    @ShouldCommitTransactions
     public final void testApprove_addAccessibleAccount_ChangingTotals() throws Exception {
         AccountingDocument retrieved;
         AccountingDocument original;
@@ -115,7 +115,7 @@ public class InternalBillingDocumentTest extends KualiTestBase {
         assertTrue(failedAsExpected);
     }
 
-    @TestsWorkflowViaDatabase
+    @ShouldCommitTransactions
     public final void testApprove_addInaccessibleAccount_sourceLine() throws Exception {
         // switch user to WESPRICE, build and route document with
         // accountingLines
@@ -151,7 +151,7 @@ public class InternalBillingDocumentTest extends KualiTestBase {
         assertTrue(failedAsExpected);
     }
 
-    @TestsWorkflowViaDatabase
+    @ShouldCommitTransactions
     public final void testApprove_addInaccessibleAccount_targetLine() throws Exception {
         AccountingDocument retrieved;
         AccountingDocument original;
@@ -188,7 +188,7 @@ public class InternalBillingDocumentTest extends KualiTestBase {
         assertTrue(failedAsExpected);
     }
 
-    @TestsWorkflowViaDatabase
+    @ShouldCommitTransactions
     public final void testApprove_deleteAccessibleAccount() throws Exception {
         // switch user to WESPRICE, build and route document with
         // accountingLines
@@ -225,7 +225,7 @@ public class InternalBillingDocumentTest extends KualiTestBase {
         assertTrue(failedAsExpected);
     }
 
-    @TestsWorkflowViaDatabase
+    @ShouldCommitTransactions
     public final void testApprove_deleteLastAccessibleAccount() throws Exception {
         // switch user to WESPRICE, build and route document with
         // accountingLines
@@ -265,7 +265,7 @@ public class InternalBillingDocumentTest extends KualiTestBase {
 
 
     @AnnotationTestSuite(CrossSectionSuite.class)
-    @TestsWorkflowViaDatabase
+    @ShouldCommitTransactions
     public final void testApprove_updateAccessibleAccount() throws Exception {
         // switch user to WESPRICE, build and route document with
         // accountingLines
@@ -311,7 +311,7 @@ public class InternalBillingDocumentTest extends KualiTestBase {
         }
     }
 
-    @TestsWorkflowViaDatabase
+    @ShouldCommitTransactions
     public final void testApprove_updateInaccessibleAccount_sourceLine() throws Exception {
         AccountingDocument retrieved;
         AccountingDocument original;
@@ -348,7 +348,7 @@ public class InternalBillingDocumentTest extends KualiTestBase {
         assertTrue(failedAsExpected);
     }
 
-    @TestsWorkflowViaDatabase
+    @ShouldCommitTransactions
     public final void testApprove_updateInaccessibleAccount_targetLine() throws Exception {
         // switch user to WESPRICE, build and route document with
         // accountingLines
@@ -412,22 +412,22 @@ public class InternalBillingDocumentTest extends KualiTestBase {
         AccountingDocumentTestUtils.testConvertIntoErrorCorrection_errorCorrectionDisallowed(buildDocument(), SpringServiceLocator.getDataDictionaryService());
     }
 
-    @TestsWorkflowViaDatabase
+    @ShouldCommitTransactions
     public final void testConvertIntoErrorCorrection() throws Exception {
         AccountingDocumentTestUtils.testConvertIntoErrorCorrection(buildDocument(), getExpectedPrePeCount(), SpringServiceLocator.getDocumentService(), SpringServiceLocator.getTransactionalDocumentDictionaryService());
     }
 
-    @TestsWorkflowViaDatabase
+    @ShouldCommitTransactions
     public final void testRouteDocument() throws Exception {
         AccountingDocumentTestUtils.testRouteDocument(buildDocument(), SpringServiceLocator.getDocumentService());
     }
 
-    @TestsWorkflowViaDatabase
+    @ShouldCommitTransactions
     public final void testSaveDocument() throws Exception {
         AccountingDocumentTestUtils.testSaveDocument(buildDocument(), SpringServiceLocator.getDocumentService());
     }
 
-    @TestsWorkflowViaDatabase
+    @ShouldCommitTransactions
     public final void testConvertIntoCopy() throws Exception {
         AccountingDocumentTestUtils.testConvertIntoCopy(buildDocument(), SpringServiceLocator.getDocumentService(), getExpectedPrePeCount());
     }

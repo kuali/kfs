@@ -29,7 +29,7 @@ import org.kuali.kfs.batch.BatchInputFileType;
 import org.kuali.kfs.context.KualiTestBase;
 import org.kuali.kfs.exceptions.FileStorageException;
 import org.kuali.kfs.util.SpringServiceLocator;
-import org.kuali.test.WithTestSpringContext;
+import org.kuali.test.RequiresSpringContext;
 import org.kuali.test.KualiTestConstants.TestConstants.Data4;
 
 /**
@@ -51,7 +51,7 @@ import org.kuali.test.KualiTestConstants.TestConstants.Data4;
  * @see org.kuali.kfs.service.BatchInputServiceParseTest
  * @see org.kuali.kfs.service.BatchInputServiceSystemParametersTest
  */
-@WithTestSpringContext
+@RequiresSpringContext
 public class BatchInputFileServiceTest extends KualiTestBase {
     private static final String TEST_BATCH_XML_DIRECTORY = "org/kuali/kfs/batch/xml/";
 

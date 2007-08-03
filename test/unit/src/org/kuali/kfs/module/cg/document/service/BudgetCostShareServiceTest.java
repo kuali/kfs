@@ -27,7 +27,7 @@ import org.kuali.module.kra.budget.bo.BudgetThirdPartyCostShare;
 import org.kuali.module.kra.budget.bo.BudgetInstitutionCostShare;
 import org.kuali.module.kra.budget.bo.BudgetUser;
 import org.kuali.module.kra.budget.bo.InstitutionCostSharePersonnel;
-import org.kuali.test.WithTestSpringContext;
+import org.kuali.test.RequiresSpringContext;
 import org.kuali.test.suite.AnnotationTestSuite;
 import org.kuali.test.suite.CrossSectionSuite;
 import static org.kuali.test.util.KualiTestAssertionUtils.assertEquality;
@@ -38,7 +38,7 @@ import static org.kuali.test.util.KualiTestAssertionUtils.assertEquality;
  * 
  */
 @AnnotationTestSuite(CrossSectionSuite.class)
-@WithTestSpringContext
+@RequiresSpringContext
 public class BudgetCostShareServiceTest extends KualiTestBase {
 
     public void testCleanseCostShare() {

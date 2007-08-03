@@ -26,14 +26,14 @@ import org.kuali.kfs.context.KualiTestBase;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.Chart;
-import org.kuali.test.WithTestSpringContext;
+import org.kuali.test.RequiresSpringContext;
 
 /**
  * various tests for BalanceService, especially as it supports Account business rules; using hardcoded SQL for bootstrapping
  * 
  * 
  */
-@WithTestSpringContext
+@RequiresSpringContext
 public class BalanceServiceTest extends KualiTestBase {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(BalanceServiceTest.class);
     private final static String ACCOUNT_NUMBER = "6812735";

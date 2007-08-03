@@ -32,7 +32,7 @@ import org.kuali.module.cg.bo.Proposal;
 import org.kuali.module.cg.bo.Close;
 import org.kuali.module.cg.lookup.valuefinder.NextProposalNumberFinder;
 import static org.kuali.module.financial.document.AccountingDocumentTestUtils.routeDocument;
-import org.kuali.test.WithTestSpringContext;
+import org.kuali.test.RequiresSpringContext;
 import org.kuali.test.DocumentTestUtils;
 import org.kuali.test.monitor.DocumentWorkflowStatusMonitor;
 import org.kuali.test.monitor.ChangeMonitor;
@@ -42,7 +42,7 @@ import org.kuali.workflow.WorkflowTestUtils;
 import org.kuali.workflow.KualiWorkflowUtils;
 import edu.iu.uis.eden.exception.WorkflowException;
 
-@WithTestSpringContext(session = KHUNTLEY)
+@RequiresSpringContext(session = KHUNTLEY)
 public class CloseServiceTest extends KualiTestBase {
 
     private static final String VALID_AWARD_STATUS_CODE = "R";

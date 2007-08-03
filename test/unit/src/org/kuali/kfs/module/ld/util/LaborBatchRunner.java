@@ -11,10 +11,10 @@ import org.kuali.kfs.batch.JobDescriptor;
 import org.kuali.kfs.batch.Step;
 import org.kuali.kfs.context.KualiTestBase;
 import org.kuali.kfs.util.SpringServiceLocator;
-import org.kuali.test.WithTestSpringContext;
+import org.kuali.test.RequiresSpringContext;
 import org.kuali.test.fixtures.UserNameFixture;
 
-@WithTestSpringContext(session=UserNameFixture.KULUSER)
+@RequiresSpringContext(session=UserNameFixture.KULUSER)
 public class LaborBatchRunner extends KualiTestBase {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(LaborBatchRunner.class);
 

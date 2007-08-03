@@ -23,14 +23,14 @@ import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
 import org.kuali.kfs.context.KualiTestBase;
 import org.kuali.kfs.service.GeneralLedgerPendingEntryService;
 import org.kuali.kfs.util.SpringServiceLocator;
-import org.kuali.test.WithTestSpringContext;
+import org.kuali.test.RequiresSpringContext;
 
 /**
  * This class tests the GeneralLedgerPending service.
  * 
  * 
  */
-@WithTestSpringContext
+@RequiresSpringContext
 public class GeneralLedgerPendingEntryServiceTest extends KualiTestBase {
     private GeneralLedgerPendingEntryService generalLedgerPendingEntryService;
     private final String docHeaderId = "1003";

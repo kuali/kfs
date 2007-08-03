@@ -22,7 +22,7 @@ import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.kfs.context.KualiTestBase;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.gl.batch.collector.CollectorBatch;
-import org.kuali.test.WithTestSpringContext;
+import org.kuali.test.RequiresSpringContext;
 import org.kuali.test.KualiTestConstants.TestConstants.Data4;
 
 /**
@@ -30,7 +30,7 @@ import org.kuali.test.KualiTestConstants.TestConstants.Data4;
  * 
  * @see org.kuali.kfs.batch.BatchInputFileType
  */
-@WithTestSpringContext
+@RequiresSpringContext
 public class BatchInputFileTypeTest extends KualiTestBase {
     private static final String TEST_BATCH_XML_DIRECTORY = "org/kuali/kfs/batch/xml/";
     

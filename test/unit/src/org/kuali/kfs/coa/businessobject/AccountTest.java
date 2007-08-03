@@ -21,14 +21,14 @@ import java.sql.Timestamp;
 import java.text.ParseException;
 
 import org.kuali.kfs.context.KualiTestBase;
-import org.kuali.test.WithTestSpringContext;
+import org.kuali.test.RequiresSpringContext;
 
 /**
  * This class...
  * 
  * 
  */
-@WithTestSpringContext
+@RequiresSpringContext
 public class AccountTest extends KualiTestBase {
 
     private static final String TEST_DATE_1_TODAY = "04/22/2002 07:48 PM";

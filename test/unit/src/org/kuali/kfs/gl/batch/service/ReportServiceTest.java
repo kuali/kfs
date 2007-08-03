@@ -21,12 +21,12 @@ import java.util.UUID;
 import org.kuali.core.util.UnitTestSqlDao;
 import org.kuali.kfs.context.KualiTestBase;
 import org.kuali.kfs.util.SpringServiceLocator;
-import org.kuali.test.WithTestSpringContext;
+import org.kuali.test.RequiresSpringContext;
 
 /**
  * 
  */
-@WithTestSpringContext
+@RequiresSpringContext
 public class ReportServiceTest extends KualiTestBase {
 
     private NightlyOutService nightlyOutService;

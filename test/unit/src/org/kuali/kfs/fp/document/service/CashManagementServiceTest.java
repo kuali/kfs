@@ -44,15 +44,15 @@ import org.kuali.module.financial.document.CashReceiptDocument;
 import org.kuali.module.financial.exceptions.CashDrawerStateException;
 import org.kuali.module.financial.exceptions.InvalidCashReceiptState;
 import org.kuali.module.financial.util.CashReceiptFamilyTestUtil;
-import org.kuali.test.TestsWorkflowViaDatabase;
-import org.kuali.test.WithTestSpringContext;
+import org.kuali.test.ShouldCommitTransactions;
+import org.kuali.test.RequiresSpringContext;
 import org.kuali.test.fixtures.UserNameFixture;
 import org.kuali.test.monitor.ChangeMonitor;
 import org.kuali.test.monitor.DocumentWorkflowStatusMonitor;
 
 import edu.iu.uis.eden.exception.WorkflowException;
 
-@WithTestSpringContext(session = KHUNTLEY)
+@RequiresSpringContext(session = KHUNTLEY)
 public class CashManagementServiceTest extends KualiTestBase {
     static final String CMST_WORKGROUP = "CashManagementServiceTest";
     
@@ -82,7 +82,7 @@ public class CashManagementServiceTest extends KualiTestBase {
         assertTrue(failedAsExpected);
     }
 
-    @TestsWorkflowViaDatabase
+    @ShouldCommitTransactions
     final public void testCreateCashManagementDocument_valid() throws Exception {
         String testDocumentId = null;
 
@@ -112,7 +112,7 @@ public class CashManagementServiceTest extends KualiTestBase {
         }
     }
 
-    @TestsWorkflowViaDatabase
+    @ShouldCommitTransactions
     final public void testCreateCashManagementDocument_cashDrawerAlreadyOpen() throws Exception {
         
         String testDocumentId = null;
@@ -157,7 +157,7 @@ public class CashManagementServiceTest extends KualiTestBase {
         }
     }
 
-    @TestsWorkflowViaDatabase
+    @ShouldCommitTransactions
     final public void testCancelCashManagementDocument_validEmpty() throws Exception {
         String testDocumentId = null;
 
@@ -202,7 +202,7 @@ public class CashManagementServiceTest extends KualiTestBase {
     }
 
 
-    @TestsWorkflowViaDatabase
+    @ShouldCommitTransactions
     final public void testCancelCashManagementDocument_valid_interimOnly() throws Exception {
         String testDocumentId = null;
 
@@ -330,7 +330,7 @@ public class CashManagementServiceTest extends KualiTestBase {
         assertTrue(failedAsExpected);
     }
 
-    @TestsWorkflowViaDatabase
+    @ShouldCommitTransactions
     final public void testAddInterimDeposit_nullCashReceiptList() throws Exception {
         boolean failedAsExpected = false;
 
@@ -360,7 +360,7 @@ public class CashManagementServiceTest extends KualiTestBase {
         assertTrue(failedAsExpected);
     }
 
-    @TestsWorkflowViaDatabase
+    @ShouldCommitTransactions
     final public void testAddInterimDeposit_emptyCashReceiptList() throws Exception {
         boolean failedAsExpected = false;
 
@@ -390,7 +390,7 @@ public class CashManagementServiceTest extends KualiTestBase {
         assertTrue(failedAsExpected);
     }
 
-    @TestsWorkflowViaDatabase
+    @ShouldCommitTransactions
     final public void testAddInterimDeposit_nullBank() throws Exception {
         boolean failedAsExpected = false;
 
@@ -420,7 +420,7 @@ public class CashManagementServiceTest extends KualiTestBase {
         assertTrue(failedAsExpected);
     }
 
-    @TestsWorkflowViaDatabase
+    @ShouldCommitTransactions
     final public void testAddInterimDeposit_nonverifiedCashReceipt() throws Exception {
         boolean failedAsExpected = false;
 
@@ -473,7 +473,7 @@ public class CashManagementServiceTest extends KualiTestBase {
         assertTrue(failedAsExpected);
     }
 
-    @TestsWorkflowViaDatabase
+    @ShouldCommitTransactions
     final public void testAddInterimDeposit_unsavedCMDoc() throws Exception {
         boolean failedAsExpected = false;
 
@@ -520,7 +520,7 @@ public class CashManagementServiceTest extends KualiTestBase {
     }
 
 
-    @TestsWorkflowViaDatabase
+    @ShouldCommitTransactions
     final public void testAddInterimDeposit_valid() throws Exception {
         String testDocumentId = null;
 
@@ -619,7 +619,7 @@ public class CashManagementServiceTest extends KualiTestBase {
     }
 
 
-    @TestsWorkflowViaDatabase
+    @ShouldCommitTransactions
     public void testCancelDeposit_cancelSingleInterim() throws Exception {
         String testDocumentId = null;
 
@@ -763,7 +763,7 @@ public class CashManagementServiceTest extends KualiTestBase {
         }
     }
 
-    @TestsWorkflowViaDatabase
+    @ShouldCommitTransactions
     public void testKULEDOCS_1475_existentDocument() throws Exception {
         boolean failedAsExpected = false;
 

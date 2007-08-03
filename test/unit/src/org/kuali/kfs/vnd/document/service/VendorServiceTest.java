@@ -31,9 +31,9 @@ import org.kuali.module.vendor.bo.VendorDetail;
 import org.kuali.module.vendor.bo.VendorHeader;
 import org.kuali.module.vendor.fixtures.VendorAddressFixture;
 import org.kuali.module.vendor.fixtures.VendorRoutingChangesFixture;
-import org.kuali.test.WithTestSpringContext;
+import org.kuali.test.RequiresSpringContext;
 
-@WithTestSpringContext(session = KHUNTLEY)
+@RequiresSpringContext(session = KHUNTLEY)
 public class VendorServiceTest extends KualiTestBase {
     
     public VendorDetail oldVDtl;

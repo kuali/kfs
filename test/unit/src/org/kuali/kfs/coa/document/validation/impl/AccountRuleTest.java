@@ -34,9 +34,9 @@ import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.AccountGuideline;
 import org.kuali.module.chart.bo.SubFundGroup;
-import org.kuali.test.WithTestSpringContext;
+import org.kuali.test.RequiresSpringContext;
 
-@WithTestSpringContext(session = KHUNTLEY)
+@RequiresSpringContext(session = KHUNTLEY)
 public class AccountRuleTest extends ChartRuleTestBase {
 
     private class Accounts {

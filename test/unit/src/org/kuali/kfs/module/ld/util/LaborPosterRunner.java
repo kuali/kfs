@@ -19,10 +19,10 @@ import org.kuali.kfs.batch.Step;
 import org.kuali.kfs.context.KualiTestBase;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.labor.service.LaborPosterService;
-import org.kuali.test.WithTestSpringContext;
+import org.kuali.test.RequiresSpringContext;
 import org.kuali.test.fixtures.UserNameFixture;
 
-@WithTestSpringContext(session=UserNameFixture.KULUSER)
+@RequiresSpringContext(session=UserNameFixture.KULUSER)
 public class LaborPosterRunner extends KualiTestBase {
     private LaborPosterService laborPosterService;
     

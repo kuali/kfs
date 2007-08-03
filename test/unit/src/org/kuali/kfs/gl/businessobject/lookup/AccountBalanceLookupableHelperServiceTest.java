@@ -26,14 +26,14 @@ import org.kuali.module.gl.bo.AccountBalance;
 import org.kuali.module.gl.bo.AccountBalanceByConsolidation;
 import org.kuali.module.gl.service.AccountBalanceService;
 import org.kuali.module.gl.web.Constant;
-import org.kuali.test.WithTestSpringContext;
+import org.kuali.test.RequiresSpringContext;
 
 /**
  * This class contains the test cases that can be applied to the method in AccountBalanceLookupableImpl class.
  * 
  * 
  */
-@WithTestSpringContext
+@RequiresSpringContext
 public class AccountBalanceLookupableHelperServiceTest extends AbstractGLLookupableHelperServiceTestBase {
 
     private AccountBalanceService accountBalanceService;

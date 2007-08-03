@@ -28,12 +28,12 @@ import org.kuali.module.financial.bo.ProcurementCardTransaction;
 import org.kuali.module.gl.batch.collector.CollectorBatch;
 import org.kuali.module.gl.bo.CollectorDetail;
 import org.kuali.module.gl.bo.OriginEntry;
-import org.kuali.test.WithTestSpringContext;
+import org.kuali.test.RequiresSpringContext;
 
 /**
  * Tests for the service parse method.
  */
-@WithTestSpringContext
+@RequiresSpringContext
 public class BatchInputServiceParseTest extends KualiTestBase {
     private static final String TEST_BATCH_XML_DIRECTORY = "org/kuali/kfs/batch/xml/";
     

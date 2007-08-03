@@ -17,7 +17,7 @@ package org.kuali.module.budget.service;
 
 import java.util.List;
 
-import org.kuali.test.WithTestSpringContext;
+import org.kuali.test.RequiresSpringContext;
 import org.kuali.kfs.context.KualiTestBase;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.chart.bo.Org;
@@ -25,7 +25,7 @@ import org.kuali.module.chart.bo.Org;
 /**
  * This class tests the BC PermissionService class
  */
-@WithTestSpringContext
+@RequiresSpringContext
 public class PermissionServiceTest extends KualiTestBase {
 
     private PermissionService permissionService;

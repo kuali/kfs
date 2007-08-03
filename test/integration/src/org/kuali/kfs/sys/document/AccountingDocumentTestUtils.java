@@ -175,8 +175,8 @@ public final class AccountingDocumentTestUtils extends KualiTestBase {
     }
 
     /**
-     * @TestsWorkflowViaDatabase needed for this test
-     * @see TestsWorkflowViaDatabase
+     * @ShouldCommitTransactions needed for this test
+     * @see ShouldCommitTransactions
      */
     public static void testRouteDocument(AccountingDocument document, DocumentService documentService) throws Exception {
         document.prepareForSave();
@@ -189,8 +189,8 @@ public final class AccountingDocumentTestUtils extends KualiTestBase {
     }
 
     /**
-     * @TestsWorkflowViaDatabase needed for this test
-     * @see TestsWorkflowViaDatabase
+     * @ShouldCommitTransactions needed for this test
+     * @see ShouldCommitTransactions
      * 
      */
 
@@ -270,8 +270,8 @@ public final class AccountingDocumentTestUtils extends KualiTestBase {
     }
 
     /**
-     * @TestsWorkflowViaDatabase needed for this test
-     * @see TestsWorkflowViaDatabase
+     * @ShouldCommitTransactions needed for this test
+     * @see ShouldCommitTransactions
      */
     public static void testSaveDocument(AccountingDocument document, DocumentService documentService) throws Exception {
         // get document parameter
@@ -287,8 +287,8 @@ public final class AccountingDocumentTestUtils extends KualiTestBase {
     }
 
     /**
-     * @TestsWorkflowViaDatabase needed for this test
-     * @see TestsWorkflowViaDatabase
+     * @ShouldCommitTransactions needed for this test
+     * @see ShouldCommitTransactions
      */
     public static void testConvertIntoCopy(AccountingDocument document, DocumentService documentService, int expectedPrePECount) throws Exception {
         // save the original doc, wait for status change

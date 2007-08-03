@@ -22,14 +22,14 @@ import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.context.KualiTestBase;
 import org.kuali.module.kra.budget.bo.BudgetPeriod;
 import org.kuali.module.kra.budget.bo.BudgetUser;
-import org.kuali.test.WithTestSpringContext;
+import org.kuali.test.RequiresSpringContext;
 
 /**
  * This class...
  * 
  * 
  */
-@WithTestSpringContext
+@RequiresSpringContext
 public class BudgetPersonnelServiceTest extends KualiTestBase {
 
     private SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");

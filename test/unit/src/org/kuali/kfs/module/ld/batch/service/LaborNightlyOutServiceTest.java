@@ -34,9 +34,9 @@ import org.kuali.module.labor.util.ObjectUtil;
 import org.kuali.module.labor.util.TestDataPreparator;
 import org.kuali.module.labor.util.testobject.LaborOriginEntryForTesting;
 import org.kuali.module.labor.util.testobject.PendingLedgerEntryForTesting;
-import org.kuali.test.WithTestSpringContext;
+import org.kuali.test.RequiresSpringContext;
 
-@WithTestSpringContext
+@RequiresSpringContext
 public class LaborNightlyOutServiceTest extends KualiTestBase {
     private Properties properties;
     private String fieldNames, documentFieldNames;

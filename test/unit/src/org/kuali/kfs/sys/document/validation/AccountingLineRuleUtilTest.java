@@ -40,14 +40,14 @@ import org.kuali.kfs.context.KualiTestBase;
 import org.kuali.kfs.rules.AccountingLineRuleUtil;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.ObjectCode;
-import org.kuali.test.WithTestSpringContext;
+import org.kuali.test.RequiresSpringContext;
 
 /**
  * This class tests some methods of AccountingLineRuleUtil.
  * 
  * 
  */
-@WithTestSpringContext
+@RequiresSpringContext
 public class AccountingLineRuleUtilTest extends KualiTestBase {
 
     public void testLabelsAreInDataDictionary() {

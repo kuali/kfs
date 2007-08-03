@@ -24,14 +24,14 @@ import org.kuali.core.util.Guid;
 import org.kuali.core.util.UnitTestSqlDao;
 import org.kuali.kfs.context.KualiTestBase;
 import org.kuali.kfs.util.SpringServiceLocator;
-import org.kuali.test.WithTestSpringContext;
+import org.kuali.test.RequiresSpringContext;
 
 /**
  * This class...
  * 
  * 
  */
-@WithTestSpringContext
+@RequiresSpringContext
 public class NightlyOutServiceTest extends KualiTestBase {
 
     private NightlyOutService nightlyOutService;

@@ -24,14 +24,14 @@ import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.context.KualiTestBase;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.financial.bo.CashDrawer;
-import org.kuali.test.WithTestSpringContext;
+import org.kuali.test.RequiresSpringContext;
 
 /**
  * This class tests the Check service.
  * 
  * 
  */
-@WithTestSpringContext
+@RequiresSpringContext
 public class CashDrawerServiceTest extends KualiTestBase {
     private static final String BLANK_WORKGROUP_NAME = "";
     private static final String VALID_WORKGROUP_NAME = "testWorkgroup";

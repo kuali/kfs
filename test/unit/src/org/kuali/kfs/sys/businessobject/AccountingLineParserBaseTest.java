@@ -31,7 +31,7 @@ import org.kuali.kfs.document.AccountingDocument;
 import org.kuali.kfs.exceptions.AccountingLineParserException;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.financial.document.InternalBillingDocument;
-import org.kuali.test.WithTestSpringContext;
+import org.kuali.test.RequiresSpringContext;
 import org.kuali.test.suite.AnnotationTestSuite;
 import org.kuali.test.suite.CrossSectionSuite;
 
@@ -39,7 +39,7 @@ import org.kuali.test.suite.CrossSectionSuite;
  * Test class for testing <code>{@link AccountingLineParserBase}</code>
  */
 @AnnotationTestSuite(CrossSectionSuite.class)
-@WithTestSpringContext(session = KHUNTLEY)
+@RequiresSpringContext(session = KHUNTLEY)
 public class AccountingLineParserBaseTest extends KualiTestBase {
 
     private AccountingDocument accountingDocument;

@@ -23,9 +23,9 @@ import org.kuali.module.chart.bo.ObjectCode;
 import org.kuali.module.chart.service.ObjectCodeService;
 import org.kuali.module.chart.service.OrganizationReversionService;
 import org.kuali.module.gl.service.OrganizationReversionCategoryLogic;
-import org.kuali.test.WithTestSpringContext;
+import org.kuali.test.RequiresSpringContext;
 
-@WithTestSpringContext
+@RequiresSpringContext
 public class OrganizationReversionCategoryTest extends KualiTestBase {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(OrganizationReversionCategoryTest.class);
 

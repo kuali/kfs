@@ -37,8 +37,8 @@ import org.kuali.kfs.context.KualiTestBase;
 import org.kuali.kfs.document.AccountingDocument;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.test.DocumentTestUtils;
-import org.kuali.test.TestsWorkflowViaDatabase;
-import org.kuali.test.WithTestSpringContext;
+import org.kuali.test.ShouldCommitTransactions;
+import org.kuali.test.RequiresSpringContext;
 import org.kuali.test.fixtures.AccountingLineFixture;
 import org.kuali.test.monitor.ChangeMonitor;
 import org.kuali.test.monitor.DocumentStatusMonitor;
@@ -54,7 +54,7 @@ import edu.iu.uis.eden.EdenConstants;
  * 
  * 
  */
-@WithTestSpringContext(session = DFOGLE)
+@RequiresSpringContext(session = DFOGLE)
 public class JournalVoucherDocumentTest extends KualiTestBase {
 
     public static final Class<JournalVoucherDocument> DOCUMENT_CLASS = JournalVoucherDocument.class;
@@ -82,7 +82,7 @@ public class JournalVoucherDocumentTest extends KualiTestBase {
      * @see org.kuali.core.document.AccountingDocumentTestBase#testConvertIntoCopy()
      */
     @RelatesTo(JiraIssue.KULRNE4926)
-    @TestsWorkflowViaDatabase
+    @ShouldCommitTransactions
     public void testConvertIntoCopy() throws Exception {
         // save the original doc, wait for status change
         AccountingDocument document = buildDocument();
@@ -151,7 +151,7 @@ public class JournalVoucherDocumentTest extends KualiTestBase {
      * @see org.kuali.core.document.AccountingDocumentTestBase#testConvertIntoErrorCorrection()
      */
     @RelatesTo(JiraIssue.KULRNE4926)
-    @TestsWorkflowViaDatabase
+    @ShouldCommitTransactions
     public void testConvertIntoErrorCorrection() throws Exception {
         AccountingDocument document = buildDocument();
 
@@ -243,7 +243,7 @@ public class JournalVoucherDocumentTest extends KualiTestBase {
      * @see org.kuali.core.document.DocumentTestBase#testRouteDocument()
      */
     @RelatesTo(JiraIssue.KULRNE4926)
-    @TestsWorkflowViaDatabase
+    @ShouldCommitTransactions
     public void testRouteDocument() throws Exception {
         // save the original doc, wait for status change
         Document document = buildDocument();
@@ -305,7 +305,7 @@ public class JournalVoucherDocumentTest extends KualiTestBase {
     }
 
     @RelatesTo(JiraIssue.KULRNE4926)
-    @TestsWorkflowViaDatabase
+    @ShouldCommitTransactions
     public final void testSaveDocument() throws Exception {
         AccountingDocumentTestUtils.testSaveDocument(buildDocument(), SpringServiceLocator.getDocumentService());
     }

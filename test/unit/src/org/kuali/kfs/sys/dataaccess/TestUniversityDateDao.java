@@ -22,9 +22,9 @@ import org.kuali.kfs.context.KualiTestBase;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.gl.bo.UniversityDate;
 import org.kuali.module.gl.dao.UniversityDateDao;
-import org.kuali.test.WithTestSpringContext;
+import org.kuali.test.RequiresSpringContext;
 
-@WithTestSpringContext
+@RequiresSpringContext
 public class TestUniversityDateDao extends KualiTestBase {
 
     private SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");

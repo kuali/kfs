@@ -22,7 +22,7 @@ import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpressionException;
 
 import org.kuali.kfs.context.KualiTestBase;
-import org.kuali.test.WithTestSpringContext;
+import org.kuali.test.RequiresSpringContext;
 import org.kuali.workflow.KualiWorkflowUtils;
 
 import edu.iu.uis.eden.exception.InvalidXmlException;
@@ -33,7 +33,7 @@ import edu.iu.uis.eden.routeheader.DocumentContent;
  * 
  * 
  */
-@WithTestSpringContext
+@RequiresSpringContext
 public class KualiAttributeXPathTest extends KualiTestBase {
 
     private static final String KUALI_SUBFUND_GROUP_ATTRIBUTE_SOURCE = "//org.kuali.kfs.bo.SourceAccountingLine/account/subFundGroupCode";

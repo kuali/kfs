@@ -19,9 +19,9 @@ import java.util.Calendar;
 
 import org.kuali.kfs.context.KualiTestBase;
 import org.kuali.kfs.util.SpringServiceLocator;
-import org.kuali.test.WithTestSpringContext;
+import org.kuali.test.RequiresSpringContext;
 
-@WithTestSpringContext
+@RequiresSpringContext
 public class UniversityDateServiceTest extends KualiTestBase {
 
     public final void testGetCurrentFiscalYear() {

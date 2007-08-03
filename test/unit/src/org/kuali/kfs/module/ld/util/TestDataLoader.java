@@ -40,10 +40,10 @@ import org.kuali.module.labor.bo.LaborOriginEntry;
 import org.kuali.module.labor.bo.LedgerEntry;
 import org.kuali.module.labor.service.LaborOriginEntryService;
 import org.kuali.module.labor.util.testobject.PendingLedgerEntryForTesting;
-import org.kuali.test.TestsWorkflowViaDatabase;
-import org.kuali.test.WithTestSpringContext;
+import org.kuali.test.ShouldCommitTransactions;
+import org.kuali.test.RequiresSpringContext;
 
-@WithTestSpringContext
+@RequiresSpringContext
 public class TestDataLoader extends KualiTestBase {
     private Properties properties;
     private String fieldNames;
@@ -77,14 +77,14 @@ public class TestDataLoader extends KualiTestBase {
         persistenceService = (PersistenceService) SpringServiceLocator.getService("persistenceService");
     }
 
-    @TestsWorkflowViaDatabase
+    @ShouldCommitTransactions
     public void testLoadTransactionIntoPendingEntryTable() {
         int numberOfInputData = Integer.valueOf(properties.getProperty("numOfData"));
         int[] fieldLength = this.getFieldLength(fieldLengthList);
         System.out.println("Loaded transactions into pending entry table: " + this.loadInputData("data", numberOfInputData, keyFieldList, fieldLength));
     }
 
-    @TestsWorkflowViaDatabase
+    @ShouldCommitTransactions
     public void testLoadTransactionIntoOriginEntryTable() {
         int numberOfInputData = Integer.valueOf(properties.getProperty("numOfData"));
            
@@ -101,7 +101,7 @@ public class TestDataLoader extends KualiTestBase {
         System.out.println("Loaded transactions into origin entry table: " + originEntries.size());
     }
     
-    @TestsWorkflowViaDatabase
+    @ShouldCommitTransactions
     public void testLoadTransactionIntoGLOriginEntryTable() {
         int numberOfInputData = Integer.valueOf(properties.getProperty("numOfData"));
            
@@ -118,7 +118,7 @@ public class TestDataLoader extends KualiTestBase {
         System.out.println("Loaded transactions into gl origin entry table: " + originEntries.size());
     }
     
-    @TestsWorkflowViaDatabase
+    @ShouldCommitTransactions
     public void testGenerateLedgerEntryTestData() {
         int numberOfInputData = Integer.valueOf(properties.getProperty("numOfData"));
 

@@ -24,7 +24,7 @@ import static org.kuali.kfs.util.SpringServiceLocator.getBudgetFringeRateService
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.context.KualiTestBase;
 import org.kuali.module.kra.budget.bo.BudgetFringeRate;
-import org.kuali.test.WithTestSpringContext;
+import org.kuali.test.RequiresSpringContext;
 
 /**
  * 
@@ -32,7 +32,7 @@ import org.kuali.test.WithTestSpringContext;
  * 
  * 
  */
-@WithTestSpringContext
+@RequiresSpringContext
 public class BudgetFringeRateServiceTest extends KualiTestBase {
 
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(BudgetFringeRateServiceTest.class);

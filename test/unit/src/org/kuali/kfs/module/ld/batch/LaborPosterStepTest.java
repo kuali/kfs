@@ -17,9 +17,9 @@ package org.kuali.module.labor.batch;
 
 import org.kuali.kfs.context.KualiTestBase;
 import org.kuali.kfs.util.SpringServiceLocator;
-import org.kuali.test.WithTestSpringContext;
+import org.kuali.test.RequiresSpringContext;
 
-@WithTestSpringContext
+@RequiresSpringContext
 public class LaborPosterStepTest extends KualiTestBase {
     private LaborPosterStep laborPosterStep;
 

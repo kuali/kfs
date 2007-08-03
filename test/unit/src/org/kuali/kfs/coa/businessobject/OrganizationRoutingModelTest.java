@@ -25,9 +25,9 @@ import java.util.Map;
 
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.context.KualiTestBase;
-import org.kuali.test.WithTestSpringContext;
+import org.kuali.test.RequiresSpringContext;
 
-@WithTestSpringContext
+@RequiresSpringContext
 public class OrganizationRoutingModelTest extends KualiTestBase {
 
     OrganizationRoutingModel model;

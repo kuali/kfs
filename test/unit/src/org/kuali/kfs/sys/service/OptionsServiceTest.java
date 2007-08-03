@@ -22,14 +22,14 @@ import org.kuali.kfs.context.KualiTestBase;
 
 import static org.kuali.kfs.util.SpringServiceLocator.*;
 
-import org.kuali.test.WithTestSpringContext;
+import org.kuali.test.RequiresSpringContext;
 
 /**
  * This class tests the Options service.
  * 
  * 
  */
-@WithTestSpringContext
+@RequiresSpringContext
 public class OptionsServiceTest extends KualiTestBase {
     private static final Log LOG = LogFactory.getLog(OptionsServiceTest.class);
 

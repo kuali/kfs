@@ -37,13 +37,13 @@ import org.kuali.module.labor.bo.AccountStatusBaseFunds;
 import org.kuali.module.labor.bo.LedgerBalance;
 import org.kuali.module.labor.service.LaborInquiryOptionsService;
 import org.kuali.module.labor.util.ObjectUtil;
-import org.kuali.test.WithTestSpringContext;
+import org.kuali.test.RequiresSpringContext;
 import org.kuali.test.suite.RelatesTo;
 
 /**
  * This class contains test cases that can be applied to methods in Account Status Base Funds class.
  */
-@WithTestSpringContext
+@RequiresSpringContext
 public class BaseFundsLookupableHelperServiceTest extends KualiTestBase {
     private BusinessObjectService businessObjectService;
     private LookupableHelperService lookupableHelperService;

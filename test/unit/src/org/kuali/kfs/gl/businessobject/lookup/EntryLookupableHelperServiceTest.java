@@ -26,14 +26,14 @@ import org.kuali.module.gl.GLSpringBeansRegistry;
 import org.kuali.module.gl.bo.Entry;
 import org.kuali.module.gl.bo.Transaction;
 import org.kuali.module.gl.dao.EntryDao;
-import org.kuali.test.WithTestSpringContext;
+import org.kuali.test.RequiresSpringContext;
 
 /**
  * This class contains the test cases that can be applied to the method in EntryLookupableImpl class.
  * 
  * 
  */
-@WithTestSpringContext
+@RequiresSpringContext
 public class EntryLookupableHelperServiceTest extends AbstractGLLookupableHelperServiceTestBase {
 
     private EntryDao entryDao;

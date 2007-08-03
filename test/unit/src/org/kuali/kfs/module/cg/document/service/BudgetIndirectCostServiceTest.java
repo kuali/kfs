@@ -33,9 +33,9 @@ import org.kuali.module.kra.budget.bo.BudgetTask;
 import org.kuali.module.kra.budget.bo.BudgetTaskPeriodIndirectCost;
 import org.kuali.module.kra.budget.bo.UserAppointmentTaskPeriod;
 import org.kuali.module.kra.budget.document.BudgetDocument;
-import org.kuali.test.WithTestSpringContext;
+import org.kuali.test.RequiresSpringContext;
 
-@WithTestSpringContext
+@RequiresSpringContext
 public class BudgetIndirectCostServiceTest extends KualiTestBase {
 
     protected void populateBudgetTasksPeriods(BudgetDocument budgetDocument) {

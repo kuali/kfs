@@ -23,14 +23,14 @@ import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.gl.GLSpringBeansRegistry;
 import org.kuali.module.gl.OriginEntryTestBase;
 import org.kuali.module.gl.bo.OriginEntrySource;
-import org.kuali.test.WithTestSpringContext;
+import org.kuali.test.RequiresSpringContext;
 
 /**
  * Test Flexible Offset in the scrubber
  * 
  * 
  */
-@WithTestSpringContext
+@RequiresSpringContext
 public class ScrubberFlexibleOffsetTest extends OriginEntryTestBase {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ScrubberFlexibleOffsetTest.class);
 

@@ -30,12 +30,12 @@ import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.gl.web.TestDataGenerator;
 import org.kuali.module.labor.bo.LedgerBalance;
 import org.kuali.module.labor.util.ObjectUtil;
-import org.kuali.test.WithTestSpringContext;
+import org.kuali.test.RequiresSpringContext;
 
 /**
  * This class contains the test cases that can be applied to the method in LedgerBalanceLookupableImpl class.
  */
-@WithTestSpringContext
+@RequiresSpringContext
 public class LedgerBalanceLookupableHelperServiceTest extends KualiTestBase {
     private BusinessObjectService businessObjectService;
     private LookupableHelperService lookupableHelperService;

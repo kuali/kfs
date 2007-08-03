@@ -22,7 +22,7 @@ import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpressionException;
 
 import org.kuali.kfs.context.KualiTestBase;
-import org.kuali.test.WithTestSpringContext;
+import org.kuali.test.RequiresSpringContext;
 import org.kuali.workflow.KualiWorkflowUtils;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -35,7 +35,7 @@ import edu.iu.uis.eden.routeheader.DocumentContent;
  * 
  * 
  */
-@WithTestSpringContext
+@RequiresSpringContext
 public class KualiAccountAttributeTest extends KualiTestBase {
 
     public void testGetFiscalOfficerCriteria_TOFOneLiner() throws IOException, InvalidXmlException, XPathExpressionException {

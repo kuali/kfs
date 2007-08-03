@@ -21,12 +21,12 @@ import java.util.ArrayList;
 import org.kuali.kfs.context.KualiTestBase;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.chart.bo.AccountingPeriod;
-import org.kuali.test.WithTestSpringContext;
+import org.kuali.test.RequiresSpringContext;
 
 /**
  * This class tests the AccountingPeriod business object.
  */
-@WithTestSpringContext
+@RequiresSpringContext
 public class AccountingPeriodTest extends KualiTestBase {
     AccountingPeriod ap;
     public static final boolean BUDGET_ROLLOVER_IND = true;

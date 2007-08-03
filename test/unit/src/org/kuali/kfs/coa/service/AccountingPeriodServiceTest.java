@@ -27,14 +27,14 @@ import java.util.Map;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.context.KualiTestBase;
 import org.kuali.module.chart.bo.AccountingPeriod;
-import org.kuali.test.WithTestSpringContext;
+import org.kuali.test.RequiresSpringContext;
 
 /**
  * This class tests the AccountingPeriod business object from a persistence standpoint using the BusinessObjectService.
  * 
  * 
  */
-@WithTestSpringContext
+@RequiresSpringContext
 public class AccountingPeriodServiceTest extends KualiTestBase {
 
     protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AccountingPeriodServiceTest.class);

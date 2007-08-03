@@ -33,8 +33,8 @@ import org.kuali.core.util.AssertionUtils;
 /**
  * Utility class that builds test suites dynamically.
  *
- * @see org.kuali.test.suite.WithTestSpringContextSuite
- * @see org.kuali.test.suite.TestsWorkflowViaDatabaseSuite
+ * @see org.kuali.test.suite.RequiresSpringContextSuite
+ * @see org.kuali.test.suite.ShouldCommitTransactionsSuite
  * @see org.kuali.test.suite.CrossSectionSuite
  */
 public class TestSuiteBuilder {
@@ -157,7 +157,7 @@ public class TestSuiteBuilder {
 
     /**
      * Unconditionally excludes the annotated test class (and all its methods) from any suite built by this class.
-     * This is useful with negative matching strategies, e.g., all test methods without the {@code @TestsWorkflowViaDatabase} annotation,
+     * This is useful with negative matching strategies, e.g., all test methods without the {@code @ShouldCommitTransactions} annotation,
      * except the ones in SpringShutdownTest.
      */
     @Retention(RetentionPolicy.RUNTIME)

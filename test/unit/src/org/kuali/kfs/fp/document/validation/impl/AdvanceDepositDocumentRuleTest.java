@@ -28,7 +28,7 @@ import org.kuali.kfs.bo.SourceAccountingLine;
 import org.kuali.kfs.context.KualiTestBase;
 import org.kuali.kfs.document.AccountingDocument;
 import org.kuali.module.financial.document.AdvanceDepositDocument;
-import org.kuali.test.WithTestSpringContext;
+import org.kuali.test.RequiresSpringContext;
 
 
 /**
@@ -36,7 +36,7 @@ import org.kuali.test.WithTestSpringContext;
  * 
  * 
  */
-@WithTestSpringContext(session = KHUNTLEY)
+@RequiresSpringContext(session = KHUNTLEY)
 public class AdvanceDepositDocumentRuleTest extends KualiTestBase {
 
     /**

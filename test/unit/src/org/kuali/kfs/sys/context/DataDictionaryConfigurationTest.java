@@ -30,10 +30,10 @@ import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.batch.JobDescriptor;
 import org.kuali.kfs.context.KualiTestBase;
 import org.kuali.kfs.util.SpringServiceLocator;
-import org.kuali.test.WithTestSpringContext;
+import org.kuali.test.RequiresSpringContext;
 import org.kuali.test.suite.RelatesTo;
 
-@WithTestSpringContext
+@RequiresSpringContext
 public class DataDictionaryConfigurationTest extends KualiTestBase {
     private static final Logger LOG = Logger.getLogger(DataDictionaryConfigurationTest.class);
     private static final String BASE_PACKAGE_PREFIX = "org.kuali.";

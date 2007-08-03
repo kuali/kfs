@@ -19,14 +19,14 @@ import static org.kuali.kfs.util.SpringServiceLocator.*;
 
 import org.kuali.kfs.context.KualiTestBase;
 import org.kuali.module.chart.bo.OffsetDefinition;
-import org.kuali.test.WithTestSpringContext;
+import org.kuali.test.RequiresSpringContext;
 
 /**
  * This class tests the OffsetDefinition service.
  * 
  * 
  */
-@WithTestSpringContext
+@RequiresSpringContext
 public class OffsetDefinitionServiceTest extends KualiTestBase {
 
     public void testValidateAccount() {

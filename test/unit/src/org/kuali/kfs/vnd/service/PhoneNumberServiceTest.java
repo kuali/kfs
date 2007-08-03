@@ -23,9 +23,9 @@ import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.vendor.bo.VendorDetail;
 import org.kuali.module.vendor.rules.VendorRule;
 import org.kuali.module.vendor.service.PhoneNumberService;
-import org.kuali.test.WithTestSpringContext;
+import org.kuali.test.RequiresSpringContext;
 
-@WithTestSpringContext(session = KHUNTLEY)
+@RequiresSpringContext(session = KHUNTLEY)
 public class PhoneNumberServiceTest extends KualiTestBase {
     
     private PhoneNumberService phoneNumberService;

@@ -46,8 +46,8 @@ import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.financial.bo.DisbursementVoucherNonResidentAlienTax;
 import org.kuali.module.financial.bo.DisbursementVoucherPayeeDetail;
 import org.kuali.test.DocumentTestUtils;
-import org.kuali.test.TestsWorkflowViaDatabase;
-import org.kuali.test.WithTestSpringContext;
+import org.kuali.test.ShouldCommitTransactions;
+import org.kuali.test.RequiresSpringContext;
 import org.kuali.test.fixtures.AccountingLineFixture;
 import org.kuali.test.suite.RelatesTo;
 import org.kuali.workflow.WorkflowTestUtils;
@@ -59,7 +59,7 @@ import edu.iu.uis.eden.EdenConstants;
  * 
  * 
  */
-@WithTestSpringContext(session = HSCHREIN)
+@RequiresSpringContext(session = HSCHREIN)
 public class DisbursementVoucherDocumentTest extends KualiTestBase {
 
     public static final Class<DisbursementVoucherDocument> DOCUMENT_CLASS = DisbursementVoucherDocument.class;
@@ -115,7 +115,7 @@ public class DisbursementVoucherDocumentTest extends KualiTestBase {
 
     }
 
-    @TestsWorkflowViaDatabase
+    @ShouldCommitTransactions
     @RelatesTo(RelatesTo.JiraIssue.KULRNE4834)
     public final void testWorkflowRouting() throws Exception {
         // save and route the document
@@ -248,12 +248,12 @@ public class DisbursementVoucherDocumentTest extends KualiTestBase {
 
     }
 
-    @TestsWorkflowViaDatabase
+    @ShouldCommitTransactions
     public final void testRouteDocument() throws Exception {
         AccountingDocumentTestUtils.testRouteDocument(buildDocument(), getDocumentService());
     }
 
-    @TestsWorkflowViaDatabase
+    @ShouldCommitTransactions
     public final void testSaveDocument() throws Exception {
         // get document parameter
         AccountingDocument document = buildDocument();
@@ -269,7 +269,7 @@ public class DisbursementVoucherDocumentTest extends KualiTestBase {
 
     }
 
-    @TestsWorkflowViaDatabase
+    @ShouldCommitTransactions
     public final void testConvertIntoCopy() throws Exception {
         AccountingDocumentTestUtils.testConvertIntoCopy(buildDocument(), getDocumentService(), getExpectedPrePeCount());
     }

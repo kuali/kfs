@@ -40,8 +40,8 @@ import org.kuali.kfs.bo.TargetAccountingLine;
 import org.kuali.kfs.context.KualiTestBase;
 import org.kuali.kfs.document.AccountingDocument;
 import org.kuali.test.DocumentTestUtils;
-import org.kuali.test.TestsWorkflowViaDatabase;
-import org.kuali.test.WithTestSpringContext;
+import org.kuali.test.ShouldCommitTransactions;
+import org.kuali.test.RequiresSpringContext;
 import org.kuali.test.fixtures.AccountingLineFixture;
 import org.kuali.test.fixtures.UserNameFixture;
 import org.kuali.workflow.WorkflowTestUtils;
@@ -54,7 +54,7 @@ import edu.iu.uis.eden.EdenConstants;
  * 
  * 
  */
-@WithTestSpringContext(session = KHUNTLEY)
+@RequiresSpringContext(session = KHUNTLEY)
 public class TransferOfFundsDocumentTest extends KualiTestBase {
     public static final Class<TransferOfFundsDocument> DOCUMENT_CLASS = TransferOfFundsDocument.class;
 
@@ -84,7 +84,7 @@ public class TransferOfFundsDocumentTest extends KualiTestBase {
     }
 
 
-    @TestsWorkflowViaDatabase
+    @ShouldCommitTransactions
     @RelatesTo(RelatesTo.JiraIssue.KULRNE4834)
     public void testWorkflowRouting() throws Exception {
         // save and route the document
@@ -155,22 +155,22 @@ public class TransferOfFundsDocumentTest extends KualiTestBase {
         AccountingDocumentTestUtils.testConvertIntoErrorCorrection_invalidYear(buildDocument(), getTransactionalDocumentDictionaryService(), getAccountingPeriodService());
     }
 
-    @TestsWorkflowViaDatabase
+    @ShouldCommitTransactions
     public final void testConvertIntoErrorCorrection() throws Exception {
         AccountingDocumentTestUtils.testConvertIntoErrorCorrection(buildDocument(), getExpectedPrePeCount(), getDocumentService(), getTransactionalDocumentDictionaryService());
     }
 
-    @TestsWorkflowViaDatabase
+    @ShouldCommitTransactions
     public final void testRouteDocument() throws Exception {
         AccountingDocumentTestUtils.testRouteDocument(buildDocument(), getDocumentService());
     }
 
-    @TestsWorkflowViaDatabase
+    @ShouldCommitTransactions
     public final void testSaveDocument() throws Exception {
         AccountingDocumentTestUtils.testSaveDocument(buildDocument(), getDocumentService());
     }
 
-    @TestsWorkflowViaDatabase
+    @ShouldCommitTransactions
     public final void testConvertIntoCopy() throws Exception {
         AccountingDocumentTestUtils.testConvertIntoCopy(buildDocument(), getDocumentService(), getExpectedPrePeCount());
     }

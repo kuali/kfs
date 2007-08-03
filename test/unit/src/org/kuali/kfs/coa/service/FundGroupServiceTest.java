@@ -19,7 +19,7 @@ import static org.kuali.kfs.util.SpringServiceLocator.getKualiCodeService;
 
 import org.kuali.kfs.context.KualiTestBase;
 import org.kuali.module.chart.bo.FundGroup;
-import org.kuali.test.WithTestSpringContext;
+import org.kuali.test.RequiresSpringContext;
 
 /**
  * This class tests the FundGroup service.
@@ -27,7 +27,7 @@ import org.kuali.test.WithTestSpringContext;
  * 
  */
 
-@WithTestSpringContext
+@RequiresSpringContext
 public class FundGroupServiceTest extends KualiTestBase {
 
     public void testGetByCode_knownCode1() {

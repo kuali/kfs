@@ -18,14 +18,14 @@ package org.kuali.module.kra.web.struts.form;
 import org.kuali.core.util.KualiInteger;
 import org.kuali.kfs.context.KualiTestBase;
 import org.kuali.module.kra.budget.web.struts.form.BudgetOverviewFormHelper;
-import org.kuali.test.WithTestSpringContext;
+import org.kuali.test.RequiresSpringContext;
 
 /**
  * This class tests methods in BudgetOverviewFormHelper.
  * 
  * 
  */
-@WithTestSpringContext
+@RequiresSpringContext
 public class BudgetOverviewFormHelperTest extends KualiTestBase {
 
     public void testBudgetOverviewFormHelper() {

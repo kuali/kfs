@@ -19,13 +19,13 @@ import static org.kuali.kfs.util.SpringServiceLocator.getProcurementCardCreateDo
 import static org.kuali.test.fixtures.UserNameFixture.KULUSER;
 
 import org.kuali.kfs.context.KualiTestBase;
-import org.kuali.test.WithTestSpringContext;
+import org.kuali.test.RequiresSpringContext;
 /**
  * This class tests the services used to create ProcurementCard documents.
  * 
  * 
  */
-@WithTestSpringContext(session = KULUSER)
+@RequiresSpringContext(session = KULUSER)
 public class ProcurementCardDocumentServiceTest extends KualiTestBase {
 
     public void testCreatePCardDocuments() throws Exception {

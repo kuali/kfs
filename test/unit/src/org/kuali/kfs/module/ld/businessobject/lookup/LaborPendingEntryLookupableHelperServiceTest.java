@@ -29,13 +29,13 @@ import org.kuali.module.labor.bo.LaborLedgerPendingEntry;
 import org.kuali.module.labor.service.LaborLedgerPendingEntryService;
 import org.kuali.module.labor.web.lookupable.LaborPendingEntryLookupableHelperServiceImpl;
 import org.kuali.kfs.context.KualiTestBase;
-import org.kuali.test.WithTestSpringContext;
+import org.kuali.test.RequiresSpringContext;
 
 /**
  * Unit tests for the Lookup Helper Service of the <code>{@link LaborLedgerPendingEntry}</code> business object
  * 
  */
-@WithTestSpringContext
+@RequiresSpringContext
 public class LaborPendingEntryLookupableHelperServiceTest extends KualiTestBase {
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(LaborPendingEntryLookupableHelperServiceTest.class);
 

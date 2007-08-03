@@ -6,14 +6,14 @@ import java.io.IOException;
 
 import org.kuali.kfs.context.KualiTestBase;
 import org.kuali.module.cg.service.CfdaUpdateResults;
-import org.kuali.test.WithTestSpringContext;
+import org.kuali.test.RequiresSpringContext;
 
 /**
  * User: Laran Evans <lc278@cornell.edu>
  * Date: May 8, 2007
  * Time: 2:04:06 PM
  */
-@WithTestSpringContext
+@RequiresSpringContext
 public class CfdaServiceTest extends KualiTestBase {
 
     public void testPatternExtraction() {

@@ -17,9 +17,9 @@ package org.kuali.module.financial.util;
 
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.bo.SourceAccountingLine;
-import org.kuali.test.WithTestSpringContext;
+import org.kuali.test.RequiresSpringContext;
 
-@WithTestSpringContext
+@RequiresSpringContext
 public class CashReceiptFamilyTestUtil {
 
     public static SourceAccountingLine buildSourceAccountingLine(String documentNumber, Integer postingYear, Integer sequenceNumber) {

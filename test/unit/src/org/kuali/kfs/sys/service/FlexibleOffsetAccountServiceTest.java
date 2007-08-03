@@ -27,13 +27,13 @@ import org.kuali.kfs.context.KualiTestBase;
 import org.kuali.kfs.context.TestUtils;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.financial.bo.OffsetAccount;
-import org.kuali.test.WithTestSpringContext;
+import org.kuali.test.RequiresSpringContext;
 import org.kuali.test.suite.RelatesTo;
 
 /**
  * This class...
  */
-@WithTestSpringContext
+@RequiresSpringContext
 public class FlexibleOffsetAccountServiceTest extends KualiTestBase {
 
     public void testGetByPrimaryId_valid() throws Exception {

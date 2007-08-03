@@ -35,10 +35,10 @@ import org.kuali.core.exceptions.InfrastructureException;
 import org.kuali.core.exceptions.UserNotFoundException;
 import org.kuali.core.util.ErrorMap;
 import org.kuali.core.util.GlobalVariables;
-import org.kuali.test.WithTestSpringContext;
+import org.kuali.test.RequiresSpringContext;
 import org.kuali.test.KualiTestConstants;
-import org.kuali.test.TestsWorkflowViaDatabase;
-import org.kuali.test.WithTestSpringContext;
+import org.kuali.test.ShouldCommitTransactions;
+import org.kuali.test.RequiresSpringContext;
 import org.kuali.test.fixtures.UserNameFixture;
 import org.kuali.test.suite.JiraRelatedSuite;
 import org.kuali.test.suite.RelatesTo;
@@ -68,8 +68,8 @@ import edu.iu.uis.eden.exception.WorkflowException;
  * to the time it takes for the whole Anthill build.  But, developers will probably not want to add this system property
  * to their own environments, because of this delay and so that they can still work on those tests.
  * 
- * @see WithTestSpringContext
- * @see TestsWorkflowViaDatabase
+ * @see RequiresSpringContext
+ * @see ShouldCommitTransactions
  * @see RelatesTo
  * 
  * 
@@ -77,8 +77,8 @@ import edu.iu.uis.eden.exception.WorkflowException;
 
 public abstract class KualiTestBase extends TestCase implements KualiTestConstants {
     private static final Logger LOG = Logger.getLogger(KualiTestBase.class);
-    private static final String HIDE_SPRING_FROM_TESTS_MESSAGE = "This test class needs the " + WithTestSpringContext.class.getSimpleName() + " annotation to access Spring.";
-    private static final String HIDE_SESSION_FROM_TESTS_MESSAGE = "this test class needs the " + WithTestSpringContext.class.getSimpleName() + " annotation with its 'session' element to initialize the user in the session.";
+    private static final String HIDE_SPRING_FROM_TESTS_MESSAGE = "This test class needs the " + RequiresSpringContext.class.getSimpleName() + " annotation to access Spring.";
+    private static final String HIDE_SESSION_FROM_TESTS_MESSAGE = "this test class needs the " + RequiresSpringContext.class.getSimpleName() + " annotation with its 'session' element to initialize the user in the session.";
     public static final String SKIP_OPEN_OR_IN_PROGRESS_OR_REOPENED_JIRA_ISSUES = "org.kuali.test.KualiTestBase.skipOpenOrInProgressOrReopenedJiraIssues";
 
     private static final Map<String, Level> changedLogLevels = new HashMap<String, Level>();
@@ -144,7 +144,7 @@ public abstract class KualiTestBase extends TestCase implements KualiTestConstan
         }
         LOG.info("entering test '" + testName + "'");
 
-        final boolean needsSpring = getClass().isAnnotationPresent(WithTestSpringContext.class);
+        final boolean needsSpring = getClass().isAnnotationPresent(RequiresSpringContext.class);
         hideSession();
         GlobalVariables.setErrorMap(new ErrorMap());
         if (needsSpring) {
@@ -245,11 +245,11 @@ public abstract class KualiTestBase extends TestCase implements KualiTestConstan
 
     private boolean canUseTestTransaction() {
         boolean can = true;
-        can &= !getSetUpOrTearDownMethod(true).isAnnotationPresent(TestsWorkflowViaDatabase.class);
-        can &= !getSetUpOrTearDownMethod(false).isAnnotationPresent(TestsWorkflowViaDatabase.class);
+        can &= !getSetUpOrTearDownMethod(true).isAnnotationPresent(ShouldCommitTransactions.class);
+        can &= !getSetUpOrTearDownMethod(false).isAnnotationPresent(ShouldCommitTransactions.class);
         try {
             // Test methods must be public, so we can use getMethod(), which handles inheritence.  (I recommend not inheriting test methods, however.)
-            can &= !getClass().getMethod(getName()).isAnnotationPresent(TestsWorkflowViaDatabase.class);
+            can &= !getClass().getMethod(getName()).isAnnotationPresent(ShouldCommitTransactions.class);
         }
         catch (NoSuchMethodException e) {
             throw new AssertionError("Impossible because tests are named after their test method.");
@@ -278,7 +278,7 @@ public abstract class KualiTestBase extends TestCase implements KualiTestConstan
     private void initializeSessionIfAnnotated()
         throws UserNotFoundException
     {
-        UserNameFixture sessionUser = getClass().getAnnotation(WithTestSpringContext.class).session();
+        UserNameFixture sessionUser = getClass().getAnnotation(RequiresSpringContext.class).session();
         if (sessionUser != UserNameFixture.NO_SESSION) {
             // reset the userSession between tests, iff it was changed during the preceding test
             changeCurrentUser(sessionUser);
@@ -289,15 +289,15 @@ public abstract class KualiTestBase extends TestCase implements KualiTestConstan
     /**
      * Creates a userSession for the given username into GlobalVariables, if and only if the given username doesn't match the
      * username used to create the current userSession.  Tests that call this method or use the global UserSession at all
-     * must be annotated WithTestSpringContext with a session element of the default UserNameFixture to use before changing.
-     * For example, {@code @WithTestSpringContext(session = UserNameFixture.KHUNTLEY) public class MyTest extends KualiTestBase}
-     * The UserNameFixture may be imported statically to reduce verbosity: {@code @WithTestSpringContext(session = KHUNTLEY)}.
+     * must be annotated RequiresSpringContext with a session element of the default UserNameFixture to use before changing.
+     * For example, {@code @RequiresSpringContext(session = UserNameFixture.KHUNTLEY) public class MyTest extends KualiTestBase}
+     * The UserNameFixture may be imported statically to reduce verbosity: {@code @RequiresSpringContext(session = KHUNTLEY)}.
      * 
      * @param fixture the fixture of the user name to change the session to
      * @throws org.kuali.core.exceptions.UserNotFoundException if Workflow doesn't know that user
      */
     protected synchronized void changeCurrentUser(UserNameFixture fixture) throws UserNotFoundException {
-        WithTestSpringContext annotation = getClass().getAnnotation(WithTestSpringContext.class);
+        RequiresSpringContext annotation = getClass().getAnnotation(RequiresSpringContext.class);
         if (annotation == null || annotation.session() == UserNameFixture.NO_SESSION) {
             throw new RuntimeException("To change the user, " + HIDE_SESSION_FROM_TESTS_MESSAGE);
         }

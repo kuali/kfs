@@ -22,10 +22,10 @@ import java.util.Map;
 import java.util.TreeSet;
 
 import org.kuali.kfs.util.SpringServiceLocator;
-import org.kuali.test.WithTestSpringContext;
+import org.kuali.test.RequiresSpringContext;
 import org.springframework.aop.framework.AopProxyUtils;
 
-@WithTestSpringContext
+@RequiresSpringContext
 public class TransactionalAnnotationTest extends KualiTestBase {
 
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(TransactionalAnnotationTest.class);

@@ -21,10 +21,10 @@ import org.kuali.core.service.PersistenceService;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.gl.bo.OriginEntrySource;
 import org.kuali.module.labor.service.LaborScrubberService;
-import org.kuali.test.WithTestSpringContext;
+import org.kuali.test.RequiresSpringContext;
 
 
-@WithTestSpringContext
+@RequiresSpringContext
 public class LaborScrubberServiceTest extends LaborOriginEntryTestBase {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(LaborScrubberServiceTest.class);
 

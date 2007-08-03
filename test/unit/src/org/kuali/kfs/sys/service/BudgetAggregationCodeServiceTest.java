@@ -19,14 +19,14 @@ import static org.kuali.kfs.util.SpringServiceLocator.getKualiCodeService;
 
 import org.kuali.kfs.context.KualiTestBase;
 import org.kuali.module.chart.bo.codes.BudgetAggregationCode;
-import org.kuali.test.WithTestSpringContext;
+import org.kuali.test.RequiresSpringContext;
 
 /**
  * This class tests the BudgetAggregationCode service.
  * 
  * 
  */
-@WithTestSpringContext
+@RequiresSpringContext
 public class BudgetAggregationCodeServiceTest extends KualiTestBase {
 
     /**

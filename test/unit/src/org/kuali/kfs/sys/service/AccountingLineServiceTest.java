@@ -30,22 +30,22 @@ import org.kuali.kfs.context.KualiTestBase;
 import org.kuali.kfs.document.AccountingDocument;
 import org.kuali.module.financial.document.TransferOfFundsDocument;
 import org.kuali.test.DocumentTestUtils;
-import org.kuali.test.TestsWorkflowViaDatabase;
-import org.kuali.test.WithTestSpringContext;
+import org.kuali.test.ShouldCommitTransactions;
+import org.kuali.test.RequiresSpringContext;
 
 /**
  * This class tests the AccountingLine service.
  * 
  * 
  */
-@WithTestSpringContext(session = KHUNTLEY)
+@RequiresSpringContext(session = KHUNTLEY)
 public class AccountingLineServiceTest extends KualiTestBase {
 
     private SourceAccountingLine sline;
     private TargetAccountingLine tline;
     private AccountingDocument document;
 
-    @TestsWorkflowViaDatabase
+    @ShouldCommitTransactions
     @Override
     protected void setUp() throws Exception {
         super.setUp();

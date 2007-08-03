@@ -29,14 +29,14 @@ import org.kuali.module.gl.bo.Balance;
 import org.kuali.module.gl.service.BalanceService;
 import org.kuali.module.gl.util.BusinessObjectFieldConverter;
 import org.kuali.module.gl.web.Constant;
-import org.kuali.test.WithTestSpringContext;
+import org.kuali.test.RequiresSpringContext;
 
 /**
  * This class contains the test cases that can be applied to the method in BalanceLookupableImpl class.
  * 
  * 
  */
-@WithTestSpringContext
+@RequiresSpringContext
 public class BalanceLookupableHelperServiceTest extends AbstractGLLookupableHelperServiceTestBase {
 
     private BalanceService balanceService;

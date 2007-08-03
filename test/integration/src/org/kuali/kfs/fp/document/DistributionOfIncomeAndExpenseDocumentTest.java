@@ -31,8 +31,8 @@ import static org.kuali.kfs.util.SpringServiceLocator.getTransactionalDocumentDi
 import static org.kuali.module.financial.document.AccountingDocumentTestUtils.testGetNewDocument_byDocumentClass;
 
 import org.kuali.test.DocumentTestUtils;
-import org.kuali.test.TestsWorkflowViaDatabase;
-import org.kuali.test.WithTestSpringContext;
+import org.kuali.test.ShouldCommitTransactions;
+import org.kuali.test.RequiresSpringContext;
 import org.kuali.test.fixtures.AccountingLineFixture;
 import static org.kuali.test.fixtures.AccountingLineFixture.LINE2;
 import static org.kuali.test.fixtures.UserNameFixture.KHUNTLEY;
@@ -46,7 +46,7 @@ import static org.kuali.test.suite.RelatesTo.JiraIssue.KULRNE1612;
  * 
  * 
  */
-@WithTestSpringContext(session = KHUNTLEY)
+@RequiresSpringContext(session = KHUNTLEY)
 public class DistributionOfIncomeAndExpenseDocumentTest extends KualiTestBase {
     private static final Log LOG = LogFactory.getLog(DistributionOfIncomeAndExpenseDocumentTest.class);
     public static final Class<DistributionOfIncomeAndExpenseDocument> DOCUMENT_CLASS = DistributionOfIncomeAndExpenseDocument.class;
@@ -73,7 +73,7 @@ public class DistributionOfIncomeAndExpenseDocumentTest extends KualiTestBase {
      */
     @RelatesTo(KULRNE1612)
     @AnnotationTestSuite(OftenUsefulSuite.class)
-    @TestsWorkflowViaDatabase
+    @ShouldCommitTransactions
     public final void testKULEDOCS_1401() throws Exception {
         String testDocId = null;
 
@@ -145,22 +145,22 @@ public class DistributionOfIncomeAndExpenseDocumentTest extends KualiTestBase {
         AccountingDocumentTestUtils.testConvertIntoErrorCorrection_errorCorrectionDisallowed(buildDocument(), getDataDictionaryService());
     }
 
-    @TestsWorkflowViaDatabase
+    @ShouldCommitTransactions
     public final void testConvertIntoErrorCorrection() throws Exception {
         AccountingDocumentTestUtils.testConvertIntoErrorCorrection(buildDocument(), getExpectedPrePeCount(), getDocumentService(), getTransactionalDocumentDictionaryService());
     }
 
-    @TestsWorkflowViaDatabase
+    @ShouldCommitTransactions
     public final void testRouteDocument() throws Exception {
         AccountingDocumentTestUtils.testRouteDocument(buildDocument(), getDocumentService());
     }
 
-    @TestsWorkflowViaDatabase
+    @ShouldCommitTransactions
     public final void testSaveDocument() throws Exception {
         AccountingDocumentTestUtils.testSaveDocument(buildDocument(), getDocumentService());
     }
 
-    @TestsWorkflowViaDatabase
+    @ShouldCommitTransactions
     public void testConvertIntoCopy() throws Exception {
         AccountingDocumentTestUtils.testConvertIntoCopy(buildDocument(), getDocumentService(), getExpectedPrePeCount());
     }

@@ -19,14 +19,14 @@ import static org.kuali.kfs.util.SpringServiceLocator.getSubFundGroupService;
 
 import org.kuali.kfs.context.KualiTestBase;
 import org.kuali.module.chart.bo.SubFundGroup;
-import org.kuali.test.WithTestSpringContext;
+import org.kuali.test.RequiresSpringContext;
 
 /**
  * This class tests the subFundGroup service.
  * 
  * 
  */
-@WithTestSpringContext
+@RequiresSpringContext
 public class SubFundGroupServiceTest extends KualiTestBase {
 
 

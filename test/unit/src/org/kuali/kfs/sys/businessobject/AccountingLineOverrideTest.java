@@ -22,14 +22,14 @@ import org.kuali.kfs.bo.AccountingLineOverride;
 import org.kuali.kfs.bo.SourceAccountingLine;
 import org.kuali.kfs.context.KualiTestBase;
 import org.kuali.module.chart.bo.Account;
-import org.kuali.test.WithTestSpringContext;
+import org.kuali.test.RequiresSpringContext;
 
 /**
  * This class tests AccountingLineOverride.
  * 
  * 
  */
-@WithTestSpringContext
+@RequiresSpringContext
 public class AccountingLineOverrideTest extends KualiTestBase {
     private static final AccountingLineOverride EXPIRED = AccountingLineOverride.valueOf(AccountingLineOverride.CODE.EXPIRED_ACCOUNT);
     private static final AccountingLineOverride NONE = AccountingLineOverride.valueOf(AccountingLineOverride.CODE.NONE);

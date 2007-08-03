@@ -32,21 +32,21 @@ import org.kuali.module.budget.bo.BudgetConstructionPosition;
 import org.kuali.module.budget.bo.PendingBudgetConstructionAppointmentFunding;
 import org.kuali.module.budget.dao.ojb.BudgetConstructionDaoOjb;
 import org.kuali.module.budget.service.impl.BudgetConstructionLockStatus;
-import org.kuali.test.TestsWorkflowViaDatabase;
-import org.kuali.test.WithTestSpringContext;
+import org.kuali.test.ShouldCommitTransactions;
+import org.kuali.test.RequiresSpringContext;
 
 /**
  * 
  * This class tests the Lock Service
  */
-@WithTestSpringContext
+@RequiresSpringContext
 public class LockServiceTest extends KualiTestBase {
 
     private boolean runTests() { // change this to return false to prevent running tests
         return false;
     }
 
-    @TestsWorkflowViaDatabase
+    @ShouldCommitTransactions
     public void testOne() {
 
         LockService lockService;
@@ -196,7 +196,7 @@ public class LockServiceTest extends KualiTestBase {
         // account unlock by other - needs account lock in previous test
         // this tests opimistic lock exception catch
         // this configuration of the test must run in a test method that
-        // is annotated as TestsWorkflowViaDatabase 
+        // is annotated as ShouldCommitTransactions 
         lockService.unlockAccount(bcHeaderTwo);
         assertFalse(lockService.isAccountLocked(bcHeaderTwo));
         assertTrue(lockService.unlockAccount(bcHeader) == LockStatus.OPTIMISTIC_EX);

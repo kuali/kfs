@@ -19,9 +19,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.module.chart.bo.DelegateGlobalDetail;
-import org.kuali.test.WithTestSpringContext;
+import org.kuali.test.RequiresSpringContext;
 
-@WithTestSpringContext
+@RequiresSpringContext
 public class DelegateGlobalRuleTest extends ChartRuleTestBase {
 
     private DelegateGlobalDetail delegateGlobal;

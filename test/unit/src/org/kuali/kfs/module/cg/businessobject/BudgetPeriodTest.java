@@ -23,14 +23,14 @@ import java.util.List;
 
 import org.kuali.kfs.context.KualiTestBase;
 import org.kuali.module.kra.budget.bo.BudgetPeriod;
-import org.kuali.test.WithTestSpringContext;
+import org.kuali.test.RequiresSpringContext;
 
 /**
  * This class tests methods in BudgetNonpersonnelCopyOverFormHelper.
  * 
  * 
  */
-@WithTestSpringContext
+@RequiresSpringContext
 public class BudgetPeriodTest extends KualiTestBase {
 
     public void testBudgetPeriod() {

@@ -22,12 +22,12 @@ import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.chart.bo.Org;
-import org.kuali.test.WithTestSpringContext;
+import org.kuali.test.RequiresSpringContext;
 import static org.kuali.test.fixtures.UserNameFixture.KHUNTLEY;
 import static org.kuali.test.util.KualiTestAssertionUtils.assertGlobalErrorMapEmpty;
 
 
-@WithTestSpringContext(session=KHUNTLEY)
+@RequiresSpringContext(session=KHUNTLEY)
 public class OrgRuleTest extends ChartRuleTestBase {
 
     private static final String GOOD_CHART = "UA";

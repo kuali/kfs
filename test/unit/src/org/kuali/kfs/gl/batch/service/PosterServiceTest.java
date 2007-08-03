@@ -27,10 +27,10 @@ import org.kuali.core.util.Guid;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.gl.OriginEntryTestBase;
 import org.kuali.module.gl.bo.OriginEntrySource;
-import org.kuali.test.WithTestSpringContext;
+import org.kuali.test.RequiresSpringContext;
 import org.kuali.test.suite.RelatesTo;
 
-@WithTestSpringContext
+@RequiresSpringContext
 public class PosterServiceTest extends OriginEntryTestBase {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PosterServiceTest.class);
 

@@ -51,10 +51,6 @@ public class PaymentRequestServiceTest extends KualiTestBase {
     private NegativePaymentRequestApprovalLimitService npras;
     private PaymentRequestService paymentRequestService;
     
-    public PaymentRequestServiceTest() {
-        super();
-    }
-    
     @Override
     public void setUp() throws Exception {
         super.setUp();
@@ -76,11 +72,11 @@ public class PaymentRequestServiceTest extends KualiTestBase {
         }
     }
     
-    public void cancelDocument(Document document) throws WorkflowException {
+    private void cancelDocument(Document document) throws WorkflowException {
         documentService.cancelDocument(document, "testing complete");
     }
     
-    public PaymentRequestDocument createBasicDocument() throws WorkflowException {
+    private PaymentRequestDocument createBasicDocument() throws WorkflowException {
         PaymentRequestDocument _document = 
             (PaymentRequestDocument) documentService.getNewDocument(
                     PaymentRequestDocument.class);

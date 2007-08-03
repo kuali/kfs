@@ -503,11 +503,10 @@ public class CreditMemoDocument extends AccountsPayableDocumentBase {
     }
 
     /**
-     * 
-     * @see org.kuali.module.purap.document.AccountsPayableDocumentBase#processCloseReopenPo()
+     * @see org.kuali.module.purap.document.AccountsPayableDocumentBase#getPoDocumentTypeForAccountsPayableDocumentApprove()
      */
-    @Override
-    public void processCloseReopenPo(){
-       processCloseReopenPo(PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_REOPEN_DOCUMENT, this.getCreditMemoNumber()); 
+    public String getPoDocumentTypeForAccountsPayableDocumentApprove() {
+        return PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_REOPEN_DOCUMENT;
     }
+
 }

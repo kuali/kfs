@@ -275,12 +275,18 @@ public class PurchaseOrderAction extends PurchasingActionBase {
             success = false;
         }
         else {
-            po = SpringServiceLocator.getPurchaseOrderService().updateFlagsAndRoute(kualiDocumentFormBase.getDocument().getDocumentNumber(), documentType, kualiDocumentFormBase.getAnnotation(), combineAdHocRecipients(kualiDocumentFormBase));
+            if (documentType.equals(PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_AMENDMENT_DOCUMENT)) {
+                po = SpringServiceLocator.getPurchaseOrderService().createAndSavePotentialChangeDocument(kualiDocumentFormBase.getDocument().getDocumentNumber(), documentType, PurchaseOrderStatuses.AMENDMENT);
+            }
+            else {
+                po = SpringServiceLocator.getPurchaseOrderService().createAndRoutePotentialChangeDocument(kualiDocumentFormBase.getDocument().getDocumentNumber(), documentType, kualiDocumentFormBase.getAnnotation(), combineAdHocRecipients(kualiDocumentFormBase));
+            }
+//            po = SpringServiceLocator.getPurchaseOrderService().updateFlagsAndRoute(kualiDocumentFormBase.getDocument().getDocumentNumber(), documentType, kualiDocumentFormBase.getAnnotation(), combineAdHocRecipients(kualiDocumentFormBase));
             kualiDocumentFormBase.setDocument(po);
         }
 
         Note newNote = new Note();
-        if (documentType.equalsIgnoreCase(PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_AMENDMENT_DOCUMENT)) {
+        if (documentType.equals(PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_AMENDMENT_DOCUMENT)) {
             noteText = noteText + " (Previous Document Id is " + kualiDocumentFormBase.getDocId() + ")";
         }
         newNote.setNoteText(noteText);
@@ -624,16 +630,15 @@ public class PurchaseOrderAction extends PurchasingActionBase {
         KualiDocumentFormBase kualiDocumentFormBase = (KualiDocumentFormBase) form;
         PurchaseOrderDocument po = (PurchaseOrderDocument) kualiDocumentFormBase.getDocument();
 
-            String documentType = PurchaseOrderDocTypes.PURCHASE_ORDER_RETRANSMIT_DOCUMENT;
-
-            boolean success;
-            if (po.isPendingActionIndicator()) {
-                success = false;
-                GlobalVariables.getErrorMap().putError(PurapPropertyConstants.PREQ_RULE_PURCHASE_ORDER_ID, PurapKeyConstants.ERROR_PURCHASE_ORDER_IS_PENDING);
-            }
-            else {
-                po = SpringServiceLocator.getPurchaseOrderService().updateFlagsAndRoute(kualiDocumentFormBase.getDocument().getDocumentNumber(), documentType, kualiDocumentFormBase.getAnnotation(), combineAdHocRecipients(kualiDocumentFormBase));
-            }
+        boolean success;
+        if (po.isPendingActionIndicator()) {
+            success = false;
+            GlobalVariables.getErrorMap().putError(PurapPropertyConstants.ERROR_PROPERTY_PURCHASE_ORDER_IDENTIFIER, PurapKeyConstants.ERROR_PURCHASE_ORDER_IS_PENDING);
+        }
+        else {
+            po = SpringServiceLocator.getPurchaseOrderService().createAndRoutePotentialChangeDocument(kualiDocumentFormBase.getDocument().getDocumentNumber(), PurchaseOrderDocTypes.PURCHASE_ORDER_RETRANSMIT_DOCUMENT, kualiDocumentFormBase.getAnnotation(), combineAdHocRecipients(kualiDocumentFormBase));
+//            po = SpringServiceLocator.getPurchaseOrderService().updateFlagsAndRoute(kualiDocumentFormBase.getDocument().getDocumentNumber(), PurchaseOrderDocTypes.PURCHASE_ORDER_RETRANSMIT_DOCUMENT, kualiDocumentFormBase.getAnnotation(), combineAdHocRecipients(kualiDocumentFormBase));
+        }
 
             kualiDocumentFormBase.setDocument(po);
         //we only need to set the editing mode to displayRetransmitTab if it's not yet 

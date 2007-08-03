@@ -16,8 +16,9 @@
 package org.kuali.workflow.attribute;
 
 import java.io.IOException;
-import java.util.Iterator;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import javax.xml.xpath.XPath;
@@ -25,10 +26,10 @@ import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpressionException;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.context.KualiTestBase;
 import org.kuali.module.chart.bo.SubAccount;
 import org.kuali.test.WithTestSpringContext;
+import org.kuali.test.fixtures.SubAccountFixture;
 import org.kuali.workflow.KualiWorkflowUtils;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -39,6 +40,56 @@ import edu.iu.uis.eden.routeheader.DocumentContent;
 
 @WithTestSpringContext
 public class KualiSubAccountAttributeTest extends KualiTestBase {
+    
+    private static Map VALID_SUB_ACCOUNT_PARAM_MAP = new HashMap();
+    private static Map VALID_SUB_ACCOUNT_REPORTS_TO_PARAM_MAP = new HashMap();
+    private static Map INVALID_SUB_ACCOUNT_PARAM_MAP = new HashMap();
+    static {
+        SubAccount valid = SubAccountFixture.SUB_ACCOUNT_WITHOUT_REPORTS_TO_ORGANIZATION.createSubAccount();
+        VALID_SUB_ACCOUNT_PARAM_MAP.put(KualiSubAccountAttribute.FIN_COA_CD_KEY, valid.getChartOfAccountsCode());
+        VALID_SUB_ACCOUNT_PARAM_MAP.put(KualiSubAccountAttribute.ACCOUNT_NBR_KEY, valid.getAccountNumber());
+        VALID_SUB_ACCOUNT_PARAM_MAP.put(KualiSubAccountAttribute.SUB_ACCOUNT_NBR_KEY, valid.getSubAccountNumber());
+
+        SubAccount validReportsTo = SubAccountFixture.SUB_ACCOUNT_WITH_REPORTS_TO_ORGANIZATION.createSubAccount();
+        VALID_SUB_ACCOUNT_REPORTS_TO_PARAM_MAP.put(KualiSubAccountAttribute.FIN_COA_CD_KEY, validReportsTo.getFinancialReportChartCode());
+        VALID_SUB_ACCOUNT_REPORTS_TO_PARAM_MAP.put(KualiSubAccountAttribute.ORG_CD_KEY, validReportsTo.getFinReportOrganizationCode());
+        VALID_SUB_ACCOUNT_REPORTS_TO_PARAM_MAP.put(KualiSubAccountAttribute.SUB_ACCOUNT_NBR_KEY, validReportsTo.getSubAccountNumber());
+
+        SubAccount invalid = SubAccountFixture.INVALID_SUB_ACCOUNT.createSubAccount();
+        INVALID_SUB_ACCOUNT_PARAM_MAP.put(KualiSubAccountAttribute.FIN_COA_CD_KEY, invalid.getChartOfAccountsCode());
+        INVALID_SUB_ACCOUNT_PARAM_MAP.put(KualiSubAccountAttribute.ACCOUNT_NBR_KEY, invalid.getAccountNumber());
+        INVALID_SUB_ACCOUNT_PARAM_MAP.put(KualiSubAccountAttribute.SUB_ACCOUNT_NBR_KEY, invalid.getSubAccountNumber());
+    }
+    
+    public void testValidateRuleData() {
+        KualiSubAccountAttribute attribute = new KualiSubAccountAttribute();
+        List errors = attribute.validateRuleData(VALID_SUB_ACCOUNT_PARAM_MAP);
+        assertTrue("No errors should be returned but found " + errors.size(), errors.isEmpty());
+
+        attribute = new KualiSubAccountAttribute();
+        errors = attribute.validateRuleData(VALID_SUB_ACCOUNT_REPORTS_TO_PARAM_MAP);
+        assertTrue("No errors should be returned but found " + errors.size(), errors.isEmpty());
+
+        attribute = new KualiSubAccountAttribute();
+        errors = attribute.validateRuleData(INVALID_SUB_ACCOUNT_PARAM_MAP);
+        assertFalse("At least one error should have been found but we found none",errors.isEmpty());
+        assertEquals("Exactly one error should have been found", 1, errors.size());
+    }
+
+    public void testValidateRoutingData() {
+        KualiSubAccountAttribute attribute = new KualiSubAccountAttribute();
+        List errors = attribute.validateRoutingData(VALID_SUB_ACCOUNT_PARAM_MAP);
+        assertTrue("No errors should be returned but found " + errors.size(), errors.isEmpty());
+        
+        attribute = new KualiSubAccountAttribute();
+        errors = attribute.validateRoutingData(VALID_SUB_ACCOUNT_REPORTS_TO_PARAM_MAP);
+        assertTrue("No errors should be returned but found " + errors.size(), errors.isEmpty());
+
+        attribute = new KualiSubAccountAttribute();
+        errors = attribute.validateRoutingData(INVALID_SUB_ACCOUNT_PARAM_MAP);
+        assertFalse("At least one error should have been found but we found none",errors.isEmpty());
+        assertEquals("Exactly one error should have been found", 1, errors.size());
+    }
 
     public void testGetSubAccountValuesFromDocContentData() throws IOException, InvalidXmlException, XPathExpressionException {
         String documentTypeName = "TransferOfFundsDocument";

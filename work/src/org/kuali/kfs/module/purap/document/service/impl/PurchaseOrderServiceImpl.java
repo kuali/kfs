@@ -16,15 +16,19 @@
 package org.kuali.module.purap.service.impl;
 
 import java.io.ByteArrayOutputStream;
-import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.RiceConstants;
+import org.kuali.core.UserSession;
 import org.kuali.core.bo.Note;
 import org.kuali.core.bo.user.UniversalUser;
+import org.kuali.core.exceptions.UserNotFoundException;
+import org.kuali.core.exceptions.ValidationException;
+import org.kuali.core.rule.event.KualiDocumentEvent;
 import org.kuali.core.rule.event.RouteDocumentEvent;
 import org.kuali.core.rule.event.SaveDocumentEvent;
 import org.kuali.core.service.BusinessObjectService;
@@ -142,8 +146,6 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 
     public void saveDocumentWithoutValidation(PurchaseOrderDocument purchaseOrderDocument) {
         try {
-//            purchaseOrderDocument.getDocumentHeader().getWorkflowDocument().saveRoutingData();
-//            documentService.validateAndPersistDocument(purchaseOrderDocument, new SaveOnlyDocumentEvent(purchaseOrderDocument));
             documentService.saveDocumentWithoutRunningValidation(purchaseOrderDocument);
         }
         catch (WorkflowException we) {
@@ -151,11 +153,6 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
             LOG.error(errorMsg, we);
             throw new RuntimeException(errorMsg, we);
         }
-//        catch (ValidationException ve) {
-//            String errorMsg = "Error saving document # " + purchaseOrderDocument.getDocumentHeader().getDocumentNumber() + " " + ve.getMessage(); 
-//            LOG.error(errorMsg, ve);
-//            throw new RuntimeException(errorMsg, ve);
-//        }
     }
 
     /**
@@ -166,22 +163,37 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
      * @return PurchaseOrderDocument
      */
     public PurchaseOrderDocument createAutomaticPurchaseOrderDocument(RequisitionDocument reqDocument) {
-        // TODO delyea - override user session so fiscal approver does not become PO initiator
-        // update REQ data
-        reqDocument.setPurchaseOrderAutomaticIndicator(Boolean.TRUE);
-        reqDocument.setContractManagerCode(PurapConstants.APO_CONTRACT_MANAGER);
-
+        String newSessionUserId = RiceConstants.SYSTEM_USER;
         try {
+            UserSession actualUserSession = null;
+            if (!StringUtils.equals(RiceConstants.SYSTEM_USER, GlobalVariables.getUserSession().getUniversalUser().getPersonUserIdentifier())) {
+                actualUserSession = GlobalVariables.getUserSession();
+                GlobalVariables.setUserSession(new UserSession(RiceConstants.SYSTEM_USER));
+            }
+    
+            // update REQ data
+            reqDocument.setPurchaseOrderAutomaticIndicator(Boolean.TRUE);
+            reqDocument.setContractManagerCode(PurapConstants.APO_CONTRACT_MANAGER);
             // create PO and populate with default data
             PurchaseOrderDocument poDocument = createPurchaseOrderDocument(reqDocument);
             poDocument.setDefaultValuesForAPO();
             documentService.routeDocument(poDocument, null, null);
+            
+            if (ObjectUtils.isNotNull(actualUserSession)) {
+                GlobalVariables.setUserSession(actualUserSession);
+            }
 
             return poDocument;
         }
         catch (WorkflowException e) {
-            LOG.error("Error creating PO document: " + e.getMessage(),e);
-            throw new RuntimeException("Error creating PO document: " + e.getMessage(),e);
+            String errorMsg = "Workflow Exception caught: " + e.getLocalizedMessage();
+            LOG.error(errorMsg, e);
+            throw new RuntimeException(errorMsg, e);
+        }
+        catch (UserNotFoundException e) {
+            String errorMsg = "User not found for PersonUserIdentifier '" + newSessionUserId + "'";
+            LOG.error(errorMsg, e);
+            throw new RuntimeException(errorMsg, e);
         }
     }
 
@@ -384,64 +396,188 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
      * @see org.kuali.module.purap.service.PurchaseOrderService#updateFlagsAndRoute(org.kuali.module.purap.document.PurchaseOrderDocument,
      *      java.lang.String, java.lang.String, java.util.List)
      */
-    public PurchaseOrderDocument updateFlagsAndRoute(String documentNumber, String docType, String annotation, List adhocRoutingRecipients) {
+//    public PurchaseOrderDocument updateFlagsAndRoute(String documentNumber, String docType, String annotation, List adhocRoutingRecipients) {
+//        try {
+//            PurchaseOrderDocument po = SpringServiceLocator.getPurchaseOrderService().getPurchaseOrderByDocumentNumber(documentNumber);
+//            //TODO: Chris - RESEARCH: does this have any effect?  I think it may be lost before the po is brought up again.
+//            po.setSummaryAccountsWithItems(new HashMap());
+//            po.setSummaryAccountsWithItemsKey(new ArrayList());
+//            po.setSummaryAccountsWithItemsValue(new ArrayList());
+//            po.setPendingActionIndicator(true);
+//
+//            businessObjectService.save(po);
+//
+//            PurchaseOrderDocument newPO = (PurchaseOrderDocument)documentService.getNewDocument(docType);
+//            //TODO: Chris - RESEARCH: does this have any effect?  I think it may be lost before the po is brought up again.
+//            newPO.refreshAccountSummary();
+//            PurApObjectUtils.populateFromBaseWithSuper(po, newPO);
+//            newPO.refreshNonUpdateableReferences();
+//            newPO.setPurchaseOrderCurrentIndicator(false);
+//            newPO.setPendingActionIndicator(false);
+//
+//            // check the rules before taking action
+//            if (docType.equals(PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_AMENDMENT_DOCUMENT)) {
+//                boolean rulePassed = kualiRuleService.applyRules(new SaveDocumentEvent(newPO));
+//                if (!rulePassed) {
+//                    po.setPendingActionIndicator(false);
+//                    saveDocumentWithoutValidation(po);
+//                    return po;
+//                }
+//                else {
+//                    newPO.setStatusCode(PurapConstants.PurchaseOrderStatuses.AMENDMENT);
+//                    saveDocumentWithoutValidation(po);
+//                    documentService.saveDocument(newPO);
+//                }
+//            }
+//            else {
+//                boolean rulePassed = kualiRuleService.applyRules(new RouteDocumentEvent(newPO));
+//                if (!rulePassed) {
+//                    po.setPendingActionIndicator(false);
+//                    saveDocumentWithoutValidation(po);
+//                    return po;
+//                }
+//                else {
+//                    saveDocumentWithoutValidation(po);
+//                    documentService.routeDocument(newPO, annotation, adhocRoutingRecipients);
+//                }
+//            }
+//            return newPO;
+//        }
+//        catch (WorkflowException we) {
+//            LOG.error("Error during updateFlagsAndRoute on PO document: " + we);
+//            throw new RuntimeException("Error during updateFlagsAndRoute on PO document: " + we.getMessage(),we);
+//        }
+//        catch (OjbOperationException ooe) {
+//            LOG.error("Error during updateFlagsAndRoute on PO document: " + ooe);
+//            throw new RuntimeException("Error during updateFlagsAndRoute on PO document: " + ooe.getMessage(),ooe);
+//        }
+//        catch (Exception e) {
+//            LOG.error("Error during updateFlagsAndRoute on PO document: " + e);
+//            throw new RuntimeException("Error during updateFlagsAndRoute on PO document: " + e.getMessage(),e);
+//        }
+//    }
+    
+    /**
+     * This method creates a new Purchase Order Document using the given document type based off the given source document.  This method will
+     * return null if the source document given is null.<br>
+     * <br>
+     *  ** THIS METHOD DOES NOT SAVE EITHER THE GIVEN SOURCE DOCUMENT OR THE NEW DOCUMENT CREATED
+     * 
+     * @param sourceDocument - document the new Purchase Order Document should be based off of in terms of data
+     * @param docType - document type of the potential new Purchase Order Document
+     * @return the new Purchase Order Document of the given document type or null if the given source document is null
+     * @throws WorkflowException if a new document cannot be created using the given type
+     */
+    private PurchaseOrderDocument createPurchaseOrderDocumentFromSourceDocument(PurchaseOrderDocument sourceDocument, String docType) throws WorkflowException {
+        if (ObjectUtils.isNull(sourceDocument)) {
+            return null;
+        }
+        //TODO: Chris - RESEARCH: does this have any effect?  I think it may be lost before the po is brought up again.
+        sourceDocument.setSummaryAccountsWithItems(new HashMap());
+        sourceDocument.setSummaryAccountsWithItemsKey(new ArrayList());
+        sourceDocument.setSummaryAccountsWithItemsValue(new ArrayList());
+
+        PurchaseOrderDocument newPurchaseOrderChangeDocument = (PurchaseOrderDocument)documentService.getNewDocument(docType);
+        //TODO: Chris - RESEARCH: does this have any effect?  I think it may be lost before the po is brought up again.
+        newPurchaseOrderChangeDocument.refreshAccountSummary();
+        PurApObjectUtils.populateFromBaseWithSuper(sourceDocument, newPurchaseOrderChangeDocument);
+        newPurchaseOrderChangeDocument.refreshNonUpdateableReferences();
+        newPurchaseOrderChangeDocument.setPurchaseOrderCurrentIndicator(false);
+        newPurchaseOrderChangeDocument.setPendingActionIndicator(false);
+        return newPurchaseOrderChangeDocument;
+    }
+    
+    /**
+     * This method validate the new document created against the document even passed in.  If the new document is valid the following will occur:<br>
+     * <ol>
+     * <li>The new status code given is set on the new document (if the status code is given)
+     * <li>The current document has the pending action indicator set to true to indicate that the new PO is proceeding as planned
+     * </ol>
+     * 
+     * @param event - the Document event that will be processed for business rules
+     * @param newDocumentStatusCode - 
+     * @param currentDocument
+     * @param newDocument
+     * @return
+     */
+    private boolean validateAndSetUpCurrentAndNewDocuments(KualiDocumentEvent event, String newDocumentStatusCode, PurchaseOrderDocument currentDocument, PurchaseOrderDocument newDocument) {
+        if (ObjectUtils.isNotNull(newDocument)) {
+            if (kualiRuleService.applyRules(event)) {
+                // new document is valid
+                if (StringUtils.isNotBlank(newDocumentStatusCode)) {
+                    // set status if possible
+                    newDocument.setStatusCode(newDocumentStatusCode);
+                }
+                currentDocument.setPendingActionIndicator(true);
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public PurchaseOrderDocument createAndSavePotentialChangeDocument(String documentNumber, String docType, String newDocumentStatusCode) {
+        PurchaseOrderDocument currentDocument = SpringServiceLocator.getPurchaseOrderService().getPurchaseOrderByDocumentNumber(documentNumber);
         try {
-            PurchaseOrderDocument po = SpringServiceLocator.getPurchaseOrderService().getPurchaseOrderByDocumentNumber(documentNumber);
-            //TODO: Chris - RESEARCH: does this have any effect?  I think it may be lost before the po is brought up again.
-            po.setSummaryAccountsWithItems(new HashMap());
-            po.setSummaryAccountsWithItemsKey(new ArrayList());
-            po.setSummaryAccountsWithItemsValue(new ArrayList());
-            po.setPendingActionIndicator(true);
-
-            businessObjectService.save(po);
-
-            PurchaseOrderDocument newPO = (PurchaseOrderDocument)documentService.getNewDocument(docType);
-            //TODO: Chris - RESEARCH: does this have any effect?  I think it may be lost before the po is brought up again.
-            newPO.refreshAccountSummary();
-            PurApObjectUtils.populateFromBaseWithSuper(po, newPO);
-            newPO.refreshNonUpdateableReferences();
-            newPO.setPurchaseOrderCurrentIndicator(false);
-            newPO.setPendingActionIndicator(false);
-
-            // check the rules before taking action
-            if (docType.equals(PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_AMENDMENT_DOCUMENT)) {
-                boolean rulePassed = kualiRuleService.applyRules(new SaveDocumentEvent(newPO));
-                if (!rulePassed) {
-                    po.setPendingActionIndicator(false);
-                    saveDocumentWithoutValidation(po);
-                    return po;
+            PurchaseOrderDocument newDocument = createPurchaseOrderDocumentFromSourceDocument(currentDocument, docType);
+            boolean valid = validateAndSetUpCurrentAndNewDocuments(new SaveDocumentEvent(newDocument), newDocumentStatusCode, currentDocument, newDocument);
+            if (valid) {
+                /*
+                 *  TODO PURAP/delyea -  BELOW SECTION HAVE TRY/CATCH BLOCK REMOVED (LEAVING CODE INSIDE THE TRY) AFTER RICE IS UPDATED
+                 * 
+                 */
+                try {
+                    saveDocumentWithoutValidation(currentDocument);
                 }
-                else {
-                    newPO.setStatusCode(PurapConstants.PurchaseOrderStatuses.AMENDMENT);
-                    saveDocumentWithoutValidation(po);
-                    documentService.saveDocument(newPO);
+                catch (ValidationException ve) {
+                    LOG.error("Caught Validation Exception trying to save old PO... calling save in BO Service", ve);
+                    businessObjectService.save(currentDocument);
                 }
+                /*
+                 *  TODO PURAP/delyea -  ABOVE SECTION HAVE TRY/CATCH BLOCK REMOVED (LEAVING CODE INSIDE THE TRY) AFTER RICE IS UPDATED
+                 * 
+                 */
+                documentService.saveDocument(newDocument);
+                return newDocument;
             }
-            else {
-                boolean rulePassed = kualiRuleService.applyRules(new RouteDocumentEvent(newPO));
-                if (!rulePassed) {
-                    po.setPendingActionIndicator(false);
-                    saveDocumentWithoutValidation(po);
-                    return po;
-                }
-                else {
-                    saveDocumentWithoutValidation(po);
-                    documentService.routeDocument(newPO, annotation, adhocRoutingRecipients);
-                }
-            }
-            return newPO;
+            return currentDocument;
         }
         catch (WorkflowException we) {
-            LOG.error("Error during updateFlagsAndRoute on PO document: " + we);
-            throw new RuntimeException("Error during updateFlagsAndRoute on PO document: " + we.getMessage(),we);
+            String errorMsg = "Workflow Exception caught trying to create and save PO document of type '" + docType + "' using source document with doc id '" + documentNumber + "'";
+            LOG.error(errorMsg, we);
+            throw new RuntimeException(errorMsg, we);
         }
-        catch (OjbOperationException ooe) {
-            LOG.error("Error during updateFlagsAndRoute on PO document: " + ooe);
-            throw new RuntimeException("Error during updateFlagsAndRoute on PO document: " + ooe.getMessage(),ooe);
+    }
+
+    public PurchaseOrderDocument createAndRoutePotentialChangeDocument(String documentNumber, String docType, String annotation, List adhocRoutingRecipients) {
+        PurchaseOrderDocument currentDocument = SpringServiceLocator.getPurchaseOrderService().getPurchaseOrderByDocumentNumber(documentNumber);
+        try {
+            PurchaseOrderDocument newDocument = createPurchaseOrderDocumentFromSourceDocument(currentDocument, docType);
+            boolean valid = validateAndSetUpCurrentAndNewDocuments(new RouteDocumentEvent(newDocument), null, currentDocument, newDocument);
+            if (valid) {
+                /*
+                 *  TODO PURAP/delyea -  BELOW SECTION HAVE TRY/CATCH BLOCK REMOVED (LEAVING CODE INSIDE THE TRY) AFTER RICE IS UPDATED
+                 * 
+                 */
+                try {
+                    saveDocumentWithoutValidation(currentDocument);
+                }
+                catch (ValidationException ve) {
+                    LOG.error("Caught Validation Exception trying to save old PO... calling save in BO Service", ve);
+                    businessObjectService.save(currentDocument);
+                }
+                /*
+                 *  TODO PURAP/delyea -  ABOVE SECTION HAVE TRY/CATCH BLOCK REMOVED (LEAVING CODE INSIDE THE TRY) AFTER RICE IS UPDATED
+                 * 
+                 */
+                documentService.routeDocument(newDocument, annotation, adhocRoutingRecipients);
+                return newDocument;
+            }
+            return currentDocument;
         }
-        catch (Exception e) {
-            LOG.error("Error during updateFlagsAndRoute on PO document: " + e);
-            throw new RuntimeException("Error during updateFlagsAndRoute on PO document: " + e.getMessage(),e);
+        catch (WorkflowException we) {
+            String errorMsg = "Workflow Exception caught trying to create and route PO document of type '" + docType + "' using source document with doc id '" + documentNumber + "'";
+            LOG.error(errorMsg, we);
+            throw new RuntimeException(errorMsg, we);
         }
     }
 

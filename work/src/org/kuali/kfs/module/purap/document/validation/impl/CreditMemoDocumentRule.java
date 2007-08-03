@@ -209,11 +209,11 @@ public class CreditMemoDocumentRule extends AccountsPayableDocumentRuleBase impl
         if (ObjectUtils.isNotNull(purchaseOrderID)) {
             PurchaseOrderDocument purchaseOrder = SpringServiceLocator.getPurchaseOrderService().getCurrentPurchaseOrder(purchaseOrderID);
             if (ObjectUtils.isNull(purchaseOrder)) {
-                GlobalVariables.getErrorMap().putError(PurapPropertyConstants.CREDIT_MEMO_RULE_PURCHASE_ORDER_ID, PurapKeyConstants.ERROR_CREDIT_MEMO_PURCHASE_ORDER_INVALID, purchaseOrderID.toString());
+                GlobalVariables.getErrorMap().putError(PurapPropertyConstants.ERROR_PROPERTY_PURCHASE_ORDER_IDENTIFIER, PurapKeyConstants.ERROR_CREDIT_MEMO_PURCHASE_ORDER_INVALID, purchaseOrderID.toString());
                 valid = false;
             }
             else if (!(StringUtils.equals(purchaseOrder.getStatusCode(), PurapConstants.PurchaseOrderStatuses.OPEN) || StringUtils.equals(purchaseOrder.getStatusCode(), PurapConstants.PurchaseOrderStatuses.CLOSED))) {
-                GlobalVariables.getErrorMap().putError(PurapPropertyConstants.CREDIT_MEMO_RULE_PURCHASE_ORDER_ID, PurapKeyConstants.ERROR_CREDIT_MEMO_PURCAHSE_ORDER_INVALID_STATUS, purchaseOrderID.toString());
+                GlobalVariables.getErrorMap().putError(PurapPropertyConstants.ERROR_PROPERTY_PURCHASE_ORDER_IDENTIFIER, PurapKeyConstants.ERROR_CREDIT_MEMO_PURCAHSE_ORDER_INVALID_STATUS, purchaseOrderID.toString());
                 valid = false;
             }
         }
@@ -409,7 +409,7 @@ public class CreditMemoDocumentRule extends AccountsPayableDocumentRuleBase impl
         List<PurchaseOrderItem> invoicedItems = SpringServiceLocator.getCreditMemoService().getPOInvoicedItems(poDocument);
 
         if (invoicedItems == null || invoicedItems.isEmpty()) {
-            GlobalVariables.getErrorMap().putError(PurapPropertyConstants.CREDIT_MEMO_RULE_PURCHASE_ORDER_ID, PurapKeyConstants.ERROR_CREDIT_MEMO_PURCAHSE_ORDER_NOITEMS);
+            GlobalVariables.getErrorMap().putError(PurapPropertyConstants.ERROR_PROPERTY_PURCHASE_ORDER_IDENTIFIER, PurapKeyConstants.ERROR_CREDIT_MEMO_PURCAHSE_ORDER_NOITEMS);
             hasInvoicedItems = false;
         }
 

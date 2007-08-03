@@ -1171,13 +1171,11 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
     }
 
     /**
-     * 
-     * @see org.kuali.module.purap.document.AccountsPayableDocumentBase#processCloseReopenPo()
+     * @see org.kuali.module.purap.document.AccountsPayableDocumentBase#getPoDocumentTypeForAccountsPayableDocumentApprove()
      */
-    @Override
-    public void processCloseReopenPo(){
-       processCloseReopenPo(PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_CLOSE_DOCUMENT, this.getRequisitionIdentifier().toString()); 
-}
+    public String getPoDocumentTypeForAccountsPayableDocumentApprove() {
+        return PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_CLOSE_DOCUMENT;
+    }
 
     public boolean isGenerateEncumbranceEntries() {
         return generateEncumbranceEntries;

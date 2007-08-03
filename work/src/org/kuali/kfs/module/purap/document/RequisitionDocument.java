@@ -259,7 +259,6 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
 
     private void updateStatusAndStatusHistoryAndSave(String statusCode) {
         SpringServiceLocator.getPurapService().updateStatusAndStatusHistory(this, statusCode);
-        populateDocumentForRouting();
         SpringServiceLocator.getRequisitionService().saveDocumentWithoutValidation(this);
     }
 
@@ -279,9 +278,6 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
                     PurchaseOrderDocument poDocument = SpringServiceLocator.getPurchaseOrderService().createAutomaticPurchaseOrderDocument(this);
                 }
                 updateStatusAndStatusHistoryAndSave(newRequisitionStatus);
-//                SpringServiceLocator.getPurapService().updateStatusAndStatusHistory(this, newRequisitionStatus);
-//                populateDocumentForRouting();
-//                SpringServiceLocator.getRequisitionService().saveDocumentWithoutValidation(this);
             }
             // DOCUMENT DISAPPROVED
             else if (this.getDocumentHeader().getWorkflowDocument().stateIsDisapproved()) {
@@ -289,9 +285,6 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
                 String statusCode = PurapConstants.WorkflowConstants.RequisitionDocument.NodeDetails.DISAPPROVAL_STATUS_BY_NODE_NAME.get(nodeName);
                 if (StringUtils.isNotBlank(statusCode)) {
                     updateStatusAndStatusHistoryAndSave(statusCode);
-//                    SpringServiceLocator.getPurapService().updateStatusAndStatusHistory(this, statusCode);
-//                    populateDocumentForRouting();
-//                    SpringServiceLocator.getRequisitionService().saveDocumentWithoutValidation(this);
                 }
                 else {
                     // TODO PURAP/delyea - what to do in a disapproval where no status to set exists?
@@ -301,14 +294,12 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
             // DOCUMENT CANCELED
             else if (this.getDocumentHeader().getWorkflowDocument().stateIsCanceled()) {
                 updateStatusAndStatusHistoryAndSave(RequisitionStatuses.CANCELLED);
-//                SpringServiceLocator.getPurapService().updateStatusAndStatusHistory(this, PurapConstants.RequisitionStatuses.CANCELLED);
-//                populateDocumentForRouting();
-//                SpringServiceLocator.getRequisitionService().saveDocumentWithoutValidation(this);
             }
         }
         catch (WorkflowException e) {
             logAndThrowRuntimeException("Error saving routing data while saving document with id " + getDocumentNumber(), e);
         }
+        LOG.debug("handleRouteStatusChange() ending");
     }
     
     /**

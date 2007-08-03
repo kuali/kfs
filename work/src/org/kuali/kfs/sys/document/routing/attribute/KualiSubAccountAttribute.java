@@ -31,9 +31,6 @@ import org.apache.log4j.Logger;
 import org.kuali.core.lookup.LookupUtils;
 import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.util.SpringServiceLocator;
-import org.kuali.module.chart.bo.Account;
-import org.kuali.module.chart.bo.Chart;
-import org.kuali.module.chart.bo.Org;
 import org.kuali.module.chart.bo.SubAccount;
 import org.kuali.module.chart.service.SubAccountService;
 import org.kuali.workflow.KualiWorkflowUtils;
@@ -73,6 +70,16 @@ public class KualiSubAccountAttribute implements WorkflowAttribute, MassRuleAttr
 
     private static final String DOCUMENT_SUB_ACCOUNT_VALUES_KEY = "subAccounts";
     
+    // defined here so field creation matches rule errors
+    private static final Class SUB_ACCOUNT_NUMBER_FIELD_CLASS = SubAccount.class;
+    private static final String SUB_ACCOUNT_NUMBER_FIELD_PROPERTY = KFSPropertyConstants.SUB_ACCOUNT_NUMBER;
+    private static final Class ACCOUNT_NUMBER_FIELD_CLASS = SUB_ACCOUNT_NUMBER_FIELD_CLASS;
+    private static final String ACCOUNT_NUMBER_FIELD_PROPERTY = KFSPropertyConstants.ACCOUNT_NUMBER;
+    private static final Class ORG_CODE_FIELD_CLASS = SUB_ACCOUNT_NUMBER_FIELD_CLASS;
+    private static final String ORG_CODE_FIELD_PROPERTY = KFSPropertyConstants.ORGANIZATION_CODE;
+    private static final Class CHART_CODE_FIELD_CLASS = SUB_ACCOUNT_NUMBER_FIELD_CLASS;
+    private static final String CHART_CODE_FIELD_PROPERTY = KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE;
+    
     private String finCoaCd;
     private String accountNbr;
     private String subAccountNbr;
@@ -89,22 +96,22 @@ public class KualiSubAccountAttribute implements WorkflowAttribute, MassRuleAttr
      */
     public KualiSubAccountAttribute() {
         ruleRows = new ArrayList();
-        ruleRows.add(KualiWorkflowUtils.buildTextRowWithLookup(Chart.class, KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, FIN_COA_CD_KEY));
+        ruleRows.add(KualiWorkflowUtils.buildTextRowWithLookup(CHART_CODE_FIELD_CLASS, CHART_CODE_FIELD_PROPERTY, FIN_COA_CD_KEY));
         Map fieldConversionMap = new HashMap();
-        fieldConversionMap.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, FIN_COA_CD_KEY);
-        ruleRows.add(KualiWorkflowUtils.buildTextRowWithLookup(Account.class, KFSPropertyConstants.ACCOUNT_NUMBER, ACCOUNT_NBR_KEY, fieldConversionMap));
-        ruleRows.add(KualiWorkflowUtils.buildTextRowWithLookup(Org.class, KFSPropertyConstants.ORGANIZATION_CODE, ORG_CD_KEY, fieldConversionMap));
-        fieldConversionMap.put(KFSPropertyConstants.ACCOUNT_NUMBER, ACCOUNT_NBR_KEY);
-        ruleRows.add(KualiWorkflowUtils.buildTextRowWithLookup(SubAccount.class, KFSPropertyConstants.SUB_ACCOUNT_NUMBER, SUB_ACCOUNT_NBR_KEY, fieldConversionMap));
+        fieldConversionMap.put(CHART_CODE_FIELD_PROPERTY, FIN_COA_CD_KEY);
+        ruleRows.add(KualiWorkflowUtils.buildTextRowWithLookup(ACCOUNT_NUMBER_FIELD_CLASS, ACCOUNT_NUMBER_FIELD_PROPERTY, ACCOUNT_NBR_KEY, fieldConversionMap));
+        ruleRows.add(KualiWorkflowUtils.buildTextRowWithLookup(ORG_CODE_FIELD_CLASS, ORG_CODE_FIELD_PROPERTY, ORG_CD_KEY, fieldConversionMap));
+        fieldConversionMap.put(ACCOUNT_NUMBER_FIELD_PROPERTY, ACCOUNT_NBR_KEY);
+        ruleRows.add(KualiWorkflowUtils.buildTextRowWithLookup(SUB_ACCOUNT_NUMBER_FIELD_CLASS, SUB_ACCOUNT_NUMBER_FIELD_PROPERTY, SUB_ACCOUNT_NBR_KEY, fieldConversionMap));
 
         routingDataRows = new ArrayList();
-        routingDataRows.add(KualiWorkflowUtils.buildTextRowWithLookup(Chart.class, KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, FIN_COA_CD_KEY));
+        routingDataRows.add(KualiWorkflowUtils.buildTextRowWithLookup(CHART_CODE_FIELD_CLASS, CHART_CODE_FIELD_PROPERTY, FIN_COA_CD_KEY));
         fieldConversionMap = new HashMap();
-        fieldConversionMap.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, FIN_COA_CD_KEY);
-        routingDataRows.add(KualiWorkflowUtils.buildTextRowWithLookup(Account.class, KFSPropertyConstants.ACCOUNT_NUMBER, ACCOUNT_NBR_KEY));
-        routingDataRows.add(KualiWorkflowUtils.buildTextRowWithLookup(Org.class, KFSPropertyConstants.ORGANIZATION_CODE, ORG_CD_KEY));
-        fieldConversionMap.put(KFSPropertyConstants.ACCOUNT_NUMBER, ACCOUNT_NBR_KEY);
-        routingDataRows.add(KualiWorkflowUtils.buildTextRowWithLookup(SubAccount.class, KFSPropertyConstants.SUB_ACCOUNT_NUMBER, SUB_ACCOUNT_NBR_KEY));
+        fieldConversionMap.put(CHART_CODE_FIELD_PROPERTY, FIN_COA_CD_KEY);
+        routingDataRows.add(KualiWorkflowUtils.buildTextRowWithLookup(ACCOUNT_NUMBER_FIELD_CLASS, ACCOUNT_NUMBER_FIELD_PROPERTY, ACCOUNT_NBR_KEY));
+        routingDataRows.add(KualiWorkflowUtils.buildTextRowWithLookup(ORG_CODE_FIELD_CLASS, ORG_CODE_FIELD_PROPERTY, ORG_CD_KEY));
+        fieldConversionMap.put(ACCOUNT_NUMBER_FIELD_PROPERTY, ACCOUNT_NBR_KEY);
+        routingDataRows.add(KualiWorkflowUtils.buildTextRowWithLookup(SUB_ACCOUNT_NUMBER_FIELD_CLASS, SUB_ACCOUNT_NUMBER_FIELD_PROPERTY, SUB_ACCOUNT_NBR_KEY));
     }
 
     /**
@@ -176,14 +183,17 @@ public class KualiSubAccountAttribute implements WorkflowAttribute, MassRuleAttr
      * @see edu.iu.uis.eden.plugin.attributes.WorkflowAttribute#validateRoutingData(java.util.Map)
      */
     public List validateRoutingData(Map paramMap) {
-        return validateRuleData(paramMap);
+        return validateSubAccountValues(paramMap);
     }
 
     /**
      * @see edu.iu.uis.eden.plugin.attributes.WorkflowAttribute#validateRuleData(java.util.Map)
      */
     public List validateRuleData(Map paramMap) {
-        List errors = new ArrayList();
+        return validateSubAccountValues(paramMap);
+    }
+    
+    private List validateSubAccountValues(Map paramMap) {
         setAccountNbr(LookupUtils.forceUppercase(SubAccount.class, KFSPropertyConstants.ACCOUNT_NUMBER, (String) paramMap.get(ACCOUNT_NBR_KEY)));
         setOrgCd(LookupUtils.forceUppercase(SubAccount.class, KFSPropertyConstants.FIN_REPORT_ORGANIZATION_CODE, (String) paramMap.get(ORG_CD_KEY)));
         String chartFieldName = KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE;
@@ -192,33 +202,35 @@ public class KualiSubAccountAttribute implements WorkflowAttribute, MassRuleAttr
         }
         setFinCoaCd(LookupUtils.forceUppercase(SubAccount.class, chartFieldName, (String) paramMap.get(FIN_COA_CD_KEY)));
         setSubAccountNbr(LookupUtils.forceUppercase(SubAccount.class, KFSPropertyConstants.SUB_ACCOUNT_NUMBER, (String) paramMap.get(SUB_ACCOUNT_NBR_KEY)));
-        validateSubAccountValues(errors);
-        return errors;
-    }
-    
-    // TODO delyea - labels below
-    private void validateSubAccountValues(List errors) {
+        List errors = new ArrayList();
         if ( (!isRequired()) && (StringUtils.isBlank(getFinCoaCd()) && StringUtils.isBlank(getSubAccountNbr()) && (StringUtils.isBlank(getAccountNbr()) && StringUtils.isBlank(getOrgCd()))) ) {
             // attribute is not required and no fields are filled in
-            return;
-        } else if ( (isRequired()) && (StringUtils.isBlank(getFinCoaCd()) || StringUtils.isBlank(getSubAccountNbr()) || ((StringUtils.isBlank(getAccountNbr())) && (StringUtils.isBlank(getOrgCd())))) ) {
+            return new ArrayList();
+        }
+        else if ( (isRequired()) && (StringUtils.isBlank(getFinCoaCd()) || StringUtils.isBlank(getSubAccountNbr()) || ((StringUtils.isBlank(getAccountNbr())) && (StringUtils.isBlank(getOrgCd())))) ) {
             // attribute is required and at least one needed field is blank
-            errors.add(new WorkflowServiceErrorImpl("Chart, Sub Account, and one of Org or Account Number is required.", "routetemplate.xmlattribute.error"));
-        } else if (StringUtils.isNotBlank(getAccountNbr()) && StringUtils.isNotBlank(getOrgCd())) {
+            String error = KualiWorkflowUtils.getBusinessObjectAttributeLabel(CHART_CODE_FIELD_CLASS, CHART_CODE_FIELD_PROPERTY) + ", " + KualiWorkflowUtils.getBusinessObjectAttributeLabel(SUB_ACCOUNT_NUMBER_FIELD_CLASS, SUB_ACCOUNT_NUMBER_FIELD_PROPERTY) + ", and one of " + KualiWorkflowUtils.getBusinessObjectAttributeLabel(ACCOUNT_NUMBER_FIELD_CLASS, ACCOUNT_NUMBER_FIELD_PROPERTY) + " or " + KualiWorkflowUtils.getBusinessObjectAttributeLabel(ORG_CODE_FIELD_CLASS, ORG_CODE_FIELD_PROPERTY) + " is required";
+            errors.add(new WorkflowServiceErrorImpl(error, "routetemplate.xmlattribute.error", error));
+        }
+        else if (StringUtils.isNotBlank(getAccountNbr()) && StringUtils.isNotBlank(getOrgCd())) {
             // you cannot have both fields filled in
-            errors.add(new WorkflowServiceErrorImpl("Account and Org cannot be entered together.  You must enter a value for Account or Org.","routetemplate.xmlattribute.error"));
+            String error = KualiWorkflowUtils.getBusinessObjectAttributeLabel(ACCOUNT_NUMBER_FIELD_CLASS, ACCOUNT_NUMBER_FIELD_PROPERTY) + " and " + KualiWorkflowUtils.getBusinessObjectAttributeLabel(ORG_CODE_FIELD_CLASS, ORG_CODE_FIELD_PROPERTY) + " cannot be entered together.  You must enter a value for " + KualiWorkflowUtils.getBusinessObjectAttributeLabel(ACCOUNT_NUMBER_FIELD_CLASS, ACCOUNT_NUMBER_FIELD_PROPERTY) + " or " + KualiWorkflowUtils.getBusinessObjectAttributeLabel(ORG_CODE_FIELD_CLASS, ORG_CODE_FIELD_PROPERTY) + " but not both";
+            errors.add(new WorkflowServiceErrorImpl(error,"routetemplate.xmlattribute.error",error));
         }
         else {
             // may or may not be required but we have values to check
             List subAccounts = getSubAccounts(getFinCoaCd(),getAccountNbr(),getOrgCd(),getSubAccountNbr());
             if ( (subAccounts == null) || (subAccounts.isEmpty()) ) {
                 if (StringUtils.isNotBlank(getAccountNbr())) {
-                    errors.add(new WorkflowServiceErrorImpl("Chart, Account, and Sub Account combination is invalid.","routetemplate.xmlattribute.error"));
+                    String error = KualiWorkflowUtils.getBusinessObjectAttributeLabel(CHART_CODE_FIELD_CLASS, CHART_CODE_FIELD_PROPERTY) + ", " + KualiWorkflowUtils.getBusinessObjectAttributeLabel(ACCOUNT_NUMBER_FIELD_CLASS, ACCOUNT_NUMBER_FIELD_PROPERTY) + ", and " + KualiWorkflowUtils.getBusinessObjectAttributeLabel(SUB_ACCOUNT_NUMBER_FIELD_CLASS, SUB_ACCOUNT_NUMBER_FIELD_PROPERTY) + " combination is invalid";
+                    errors.add(new WorkflowServiceErrorImpl(error,"routetemplate.xmlattribute.error",error));
                 } else {
-                    errors.add(new WorkflowServiceErrorImpl("Chart, Org, and Sub Account combination is invalid.","routetemplate.xmlattribute.error"));
+                    String error = KualiWorkflowUtils.getBusinessObjectAttributeLabel(CHART_CODE_FIELD_CLASS, CHART_CODE_FIELD_PROPERTY) + ", " + KualiWorkflowUtils.getBusinessObjectAttributeLabel(ORG_CODE_FIELD_CLASS, ORG_CODE_FIELD_PROPERTY) + ", and " + KualiWorkflowUtils.getBusinessObjectAttributeLabel(SUB_ACCOUNT_NUMBER_FIELD_CLASS, SUB_ACCOUNT_NUMBER_FIELD_PROPERTY) + " combination is invalid";
+                    errors.add(new WorkflowServiceErrorImpl(error,"routetemplate.xmlattribute.error",error));
                 }
             }
         }
+        return errors;
     }
     
     private List getSubAccounts(String chartCode, String accountNumber, String orgCode, String subAccountNumer) {

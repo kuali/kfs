@@ -54,12 +54,6 @@ public class RequisitionDaoOjb extends PlatformAwareDaoBaseOjb implements Requis
             return (String)cols[0];
         }
         return null;
-//        RequisitionDocument r = (RequisitionDocument) getPersistenceBrokerTemplate().getObjectByQuery(
-//            new QueryByCriteria(RequisitionDocument.class, criteria));
-//        if (r != null) {
-//            return r.getDocumentNumber();
-//        }
-//        return null;
     }
 
 }

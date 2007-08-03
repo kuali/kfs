@@ -15,9 +15,7 @@
  */
 package org.kuali.module.purap.dao.ojb;
 
-import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.List;
 
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;

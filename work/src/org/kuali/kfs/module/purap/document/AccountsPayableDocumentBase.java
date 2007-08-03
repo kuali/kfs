@@ -32,6 +32,7 @@ import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.labor.util.ObjectUtil;
 import org.kuali.module.purap.PurapConstants;
+import org.kuali.module.purap.PurapPropertyConstants;
 import org.kuali.module.purap.service.PurapService;
 
 import edu.iu.uis.eden.EdenConstants;
@@ -113,23 +114,30 @@ public abstract class AccountsPayableDocumentBase extends PurchasingAccountsPaya
      * Helper method to be called from custom prepare for save and to be
      * overriden by sub class.
      */
-    public void processCloseReopenPo(){        
-        //do nothing, override in subclass, make a call to the processCloseReopenPo with a parameter
-    }
+    public abstract String getPoDocumentTypeForAccountsPayableDocumentApprove();
     
     /**
-     * This method should be called from child class from overridden
-     * processCloseReopenPo(), it will pass the action it will take,
+     * This method should be called from child class from overridden processCloseReopenPo(), it will pass the action it will take,
      * which is document specific.
      * 
      * @param docType
      */
-    public void processCloseReopenPo(String docType, String identifier){
-        
-        SpringServiceLocator.getPurchaseOrderService().updateFlagsAndRoute(
-                this.getPurchaseOrderDocument().getDocumentNumber(), docType, createCloseReopenPoNote(docType, identifier), new ArrayList());
+    public void processCloseReopenPo() {
+        String docType = getPoDocumentTypeForAccountsPayableDocumentApprove();
+        String action = null;
+        if (PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_CLOSE_DOCUMENT.equals(docType)) {
+            action = "closed";
+        }
+        else if (PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_REOPEN_DOCUMENT.equals(docType)) {
+            action = "reopened";
+        }
+        else {
+            logAndThrowRuntimeException("Method processCloseReopenPo called using ID + '" + getPurapDocumentIdentifier() + "' and invalid doc type '" + docType + "'");
+        }
+//        SpringServiceLocator.getPurchaseOrderService().updateFlagsAndRoute(this.getPurchaseOrderDocument().getDocumentNumber(), docType, assemblePurchaseOrderNote(docType, identifier, action, docName), new ArrayList());
+        SpringServiceLocator.getPurchaseOrderService().createAndRoutePotentialChangeDocument(this.getPurchaseOrderDocument().getDocumentNumber(), docType, assemblePurchaseOrderNote(docType, action), new ArrayList());
     }
-    
+
     /**
      * This method generates a note for the close/reopen po method.
      * 
@@ -137,31 +145,22 @@ public abstract class AccountsPayableDocumentBase extends PurchasingAccountsPaya
      * @param preqId
      * @return
      */
-    private String createCloseReopenPoNote(String docType, String identifier){
+    private String assemblePurchaseOrderNote(String docType, String action) {
+        String documentLabel = SpringServiceLocator.getDataDictionaryService().getDocumentLabelByClass(getClass());
         StringBuffer closeReopenNote = new StringBuffer("");
-        String closedReopenedText = "";
         String userName = GlobalVariables.getUserSession().getUniversalUser().getPersonName();
-        String docName = "";
-        
-        if(PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_CLOSE_DOCUMENT.equals(docType)){
-            closedReopenedText = "closed";
-            docName = "PREQ";
-        }else if(PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_REOPEN_DOCUMENT.equals(docType)){
-            closedReopenedText = "reopened";
-            docName = "CREDIT MEMO";
-        }
-            
-        closeReopenNote.append("PO was manually ");
-        closeReopenNote.append(closedReopenedText);
+        closeReopenNote.append(SpringServiceLocator.getDataDictionaryService().getDocumentLabelByClass(PurchaseOrderDocument.class));
+        closeReopenNote.append(" will be manually ");
+        closeReopenNote.append(action);
         closeReopenNote.append(" by ");
         closeReopenNote.append(userName);
         closeReopenNote.append(" when approving ");
-        closeReopenNote.append(docName);
+        closeReopenNote.append(documentLabel);
         closeReopenNote.append(" with ");
-        closeReopenNote.append(docName);
-        closeReopenNote.append(" ID ");
-        closeReopenNote.append(identifier);
-                
+        closeReopenNote.append(SpringServiceLocator.getDataDictionaryService().getAttributeLabel(getClass(), PurapPropertyConstants.PURAP_DOC_ID));
+        closeReopenNote.append(" ");
+        closeReopenNote.append(getPurapDocumentIdentifier());
+
         return closeReopenNote.toString();
     }
     

@@ -22,6 +22,7 @@ import org.kuali.kfs.context.KualiTestBase;
 import org.kuali.module.chart.bo.A21SubAccount;
 import org.kuali.module.chart.bo.SubAccount;
 import org.kuali.test.WithTestSpringContext;
+import org.kuali.test.fixtures.SubAccountFixture;
 
 /**
  * This class tests the SubAccount service.
@@ -30,15 +31,12 @@ import org.kuali.test.WithTestSpringContext;
 public class SubAccountServiceTest extends KualiTestBase {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(SubAccountServiceTest.class);
 
-    private final static String CHART = "BA";
-    private final static String ACCOUNT = "6044900";
-    private final static String SUB_ACCOUNT = "ARREC";
-
+    private final static SubAccount subAccount = SubAccountFixture.VALID_SUB_ACCOUNT.createSubAccount();
 
     public void testA21SubAccount() {
-        SubAccount sa = getSubAccountService().getByPrimaryId(CHART, ACCOUNT, SUB_ACCOUNT);
+        SubAccount sa = getSubAccountService().getByPrimaryId(subAccount.getChartOfAccountsCode(), subAccount.getAccountNumber(), subAccount.getSubAccountNumber());
 
-        assertTrue("expect to find this sub account: " + CHART + "/" + ACCOUNT + "/" + SUB_ACCOUNT, ObjectUtils.isNotNull(sa));
+        assertTrue("expect to find this sub account: " + subAccount.getChartOfAccountsCode() + "/" + subAccount.getAccountNumber() + "/" + subAccount.getSubAccountNumber(), ObjectUtils.isNotNull(sa));
         A21SubAccount a21 = sa.getA21SubAccount();
         assertTrue("expect this to have a21subaccount", ObjectUtils.isNotNull(a21));
         a21.getIndirectCostRecoveryAccount();
@@ -46,28 +44,28 @@ public class SubAccountServiceTest extends KualiTestBase {
 
     public void testGetByPrimaryId() throws Exception {
         SubAccount sa = new SubAccount();
-        sa.setAccountNumber(ACCOUNT);
-        sa.setChartOfAccountsCode(CHART);
-        sa.setSubAccountNumber(SUB_ACCOUNT);
+        sa.setAccountNumber(subAccount.getAccountNumber());
+        sa.setChartOfAccountsCode(subAccount.getChartOfAccountsCode());
+        sa.setSubAccountNumber(subAccount.getSubAccountNumber());
 
-        SubAccount retrieved = getSubAccountService().getByPrimaryId(CHART, ACCOUNT, SUB_ACCOUNT);
+        SubAccount retrieved = getSubAccountService().getByPrimaryId(subAccount.getChartOfAccountsCode(), subAccount.getAccountNumber(), subAccount.getSubAccountNumber());
         assertTrue("Didn't retrieve sub account", ObjectUtils.isNotNull(retrieved));
-        assertEquals("Wrong chart", CHART, retrieved.getChartOfAccountsCode());
-        assertEquals("Wrong account", ACCOUNT, retrieved.getAccountNumber());
-        assertEquals("Wrong Sub account number", SUB_ACCOUNT, retrieved.getSubAccountNumber());
+        assertEquals("Wrong chart", subAccount.getChartOfAccountsCode(), retrieved.getChartOfAccountsCode());
+        assertEquals("Wrong account", subAccount.getAccountNumber(), retrieved.getAccountNumber());
+        assertEquals("Wrong Sub account number", subAccount.getSubAccountNumber(), retrieved.getSubAccountNumber());
     }
 
     public void testGetByPrimaryIdWithCaching() throws Exception {
         SubAccount sa = new SubAccount();
-        sa.setAccountNumber(ACCOUNT);
-        sa.setChartOfAccountsCode(CHART);
-        sa.setSubAccountNumber(SUB_ACCOUNT);
+        sa.setAccountNumber(subAccount.getAccountNumber());
+        sa.setChartOfAccountsCode(subAccount.getChartOfAccountsCode());
+        sa.setSubAccountNumber(subAccount.getSubAccountNumber());
 
-        SubAccount retrieved = getSubAccountService().getByPrimaryIdWithCaching(CHART, ACCOUNT, SUB_ACCOUNT);
+        SubAccount retrieved = getSubAccountService().getByPrimaryIdWithCaching(subAccount.getChartOfAccountsCode(), subAccount.getAccountNumber(), subAccount.getSubAccountNumber());
         assertTrue("Didn't retrieve sub account", ObjectUtils.isNotNull(retrieved));
-        assertEquals("Wrong chart", CHART, retrieved.getChartOfAccountsCode());
-        assertEquals("Wrong account", ACCOUNT, retrieved.getAccountNumber());
-        assertEquals("Wrong Sub account number", SUB_ACCOUNT, retrieved.getSubAccountNumber());
+        assertEquals("Wrong chart", subAccount.getChartOfAccountsCode(), retrieved.getChartOfAccountsCode());
+        assertEquals("Wrong account", subAccount.getAccountNumber(), retrieved.getAccountNumber());
+        assertEquals("Wrong Sub account number", subAccount.getSubAccountNumber(), retrieved.getSubAccountNumber());
     }
 
 

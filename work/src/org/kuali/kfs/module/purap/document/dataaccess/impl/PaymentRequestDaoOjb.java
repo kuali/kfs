@@ -140,14 +140,7 @@ public class PaymentRequestDaoOjb extends PlatformAwareDaoBaseOjb implements Pay
      * @see org.kuali.module.purap.dao.PaymentRequestDao#getEligibleForAutoApproval()
      */
     public Iterator<PaymentRequestDocument> getEligibleForAutoApproval() {
-        
         Date todayAtMidnight = dateTimeService.getCurrentSqlDateMidnight();
-        
-//        String samt = kualiConfigurationService.getApplicationParameterValue(
-//                PurapParameterConstants.PURAP_ADMIN_GROUP, 
-//                PurapParameterConstants.PURAP_DEFAULT_NEGATIVE_PAYMENT_REQUEST_APPROVAL_LIMIT);
-//        KualiDecimal defaultMinimumAmount = new KualiDecimal(samt);
-//        
         Criteria criteria = new Criteria();
         criteria.addLessThan(PurapPropertyConstants.PAYMENT_REQUEST_PAY_DATE, todayAtMidnight);
         criteria.addNotEqualTo("holdIndicator", "Y");
@@ -156,19 +149,6 @@ public class PaymentRequestDaoOjb extends PlatformAwareDaoBaseOjb implements Pay
         
         Query query = new QueryByCriteria(PaymentRequestDocument.class, criteria);
         return (Iterator<PaymentRequestDocument>) getPersistenceBrokerTemplate().getIteratorByQuery(query);
-//        Iterator<PaymentRequestDocument> iterator = 
-//            (Iterator<PaymentRequestDocument>) getPersistenceBrokerTemplate().getIteratorByQuery(query);
-//        
-//        Set<PaymentRequestDocument> eligibleDocuments = new HashSet<PaymentRequestDocument>();
-//        while(iterator.hasNext()) {
-//            PaymentRequestDocument document = iterator.next();
-//            //document.getDocumentHeader().getDocumentStatus().
-//            if(isEligibleForAutoApproval(document, defaultMinimumAmount)) {
-//                eligibleDocuments.add(document);
-//            }
-//        }
-//        
-//        return eligibleDocuments.iterator();
     }
     
     public String getDocumentNumberByPaymentRequestId(Integer id) {
@@ -187,16 +167,6 @@ public class PaymentRequestDaoOjb extends PlatformAwareDaoBaseOjb implements Pay
             returnList.add((String)cols[0]);
         }
         return returnList;
-    }
-    
-    public List<PaymentRequestDocument> getPaymentRequestsByPurchaseOrderId(Integer poDocId) {
-        Criteria criteria = new Criteria();
-        criteria.addEqualTo( PurapPropertyConstants.PREQ_PURCHASE_ORDER_ID, poDocId );
-
-        List<PaymentRequestDocument> pReqs = (List<PaymentRequestDocument>)this.getPersistenceBrokerTemplate().getCollectionByQuery(
-                new QueryByCriteria(PaymentRequestDocument.class, criteria));
- 
-        return pReqs; 
     }
     
     private String getDocumentNumberOfPaymentRequestByCriteria(Criteria criteria) {

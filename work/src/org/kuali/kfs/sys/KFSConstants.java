@@ -1026,7 +1026,7 @@ public class KFSConstants {
     private static String DASH_FINANCIAL_SUB_OBJECT_CODE = null;
     public static String getDashFinancialSubObjectCode() {
         if (DASH_FINANCIAL_SUB_OBJECT_CODE == null) {
-            DASH_FINANCIAL_SUB_OBJECT_CODE = StringUtils.rightPad("", SpringContext.getBean(DataDictionaryService.class).getAttributeSize(OriginEntry.class, KFSPropertyConstants.FINANCIAL_SUB_OBJECT), '-');
+            DASH_FINANCIAL_SUB_OBJECT_CODE = StringUtils.rightPad("", SpringContext.getBean(DataDictionaryService.class).getAttributeSize(OriginEntry.class, KFSPropertyConstants.FINANCIAL_SUB_OBJECT_CODE), '-');
         }
         return DASH_FINANCIAL_SUB_OBJECT_CODE;
     }

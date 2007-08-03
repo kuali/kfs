@@ -225,9 +225,9 @@ public class CashManagementServiceTest extends KualiTestBase {
 
             // create CashReceipts
             changeCurrentUser(UserNameFixture.INEFF);
-            CashReceiptDocument cr1 = buildCashReceiptDoc(CMST_WORKGROUP, "CMST CR1", KFSConstants.DocumentStatusCodes.CashReceipt.VERIFIED, new KualiDecimal("25.00"), KualiDecimal.ZERO);
-            CashReceiptDocument cr2 = buildCashReceiptDoc(CMST_WORKGROUP, "CMST CR2", KFSConstants.DocumentStatusCodes.CashReceipt.VERIFIED, KualiDecimal.ZERO, new KualiDecimal("25.00"));
-            CashReceiptDocument cr3 = buildCashReceiptDoc(CMST_WORKGROUP, "CMST CR3", KFSConstants.DocumentStatusCodes.CashReceipt.VERIFIED, new KualiDecimal("27.00"), new KualiDecimal("23.00"));
+            CashReceiptDocument cr1 = buildCashReceiptDoc(CMST_WORKGROUP, "CMST CR1", KFSConstants.DocumentStatusCodes.CashReceipt.VERIFIED, new KualiDecimal("25.00"));
+            CashReceiptDocument cr2 = buildCashReceiptDoc(CMST_WORKGROUP, "CMST CR2", KFSConstants.DocumentStatusCodes.CashReceipt.VERIFIED, new KualiDecimal("25.00"));
+            CashReceiptDocument cr3 = buildCashReceiptDoc(CMST_WORKGROUP, "CMST CR3", KFSConstants.DocumentStatusCodes.CashReceipt.VERIFIED, new KualiDecimal("23.00"));
 
             List crList = new ArrayList();
             crList.add(cr1);
@@ -266,48 +266,15 @@ public class CashManagementServiceTest extends KualiTestBase {
                 assertEquals(KFSConstants.DocumentStatusCodes.CashReceipt.INTERIM, lookupCR(cr2.getDocumentNumber()).getDocumentHeader().getFinancialDocumentStatusCode());
                 assertEquals(KFSConstants.DocumentStatusCodes.CashReceipt.INTERIM, lookupCR(cr3.getDocumentNumber()).getDocumentHeader().getFinancialDocumentStatusCode());
             }
-
-            //
-            // cancel document
-            SpringServiceLocator.getDocumentService().cancelDocument(depositedDoc, "testing CMS.cancel");
-
-            DocumentWorkflowStatusMonitor m = new DocumentWorkflowStatusMonitor(SpringServiceLocator.getDocumentService(), testDocumentId, "X");
-            assertTrue(ChangeMonitor.waitUntilChange(m, 300, 5));
-
-
-            {
-                //
-                // verify cancellation
-                CashManagementDocument postCanceledDoc = (CashManagementDocument) SpringServiceLocator.getDocumentService().getByDocumentHeaderId(testDocumentId);
-
-
-                // document state is canceled
-                assertEquals("X", postCanceledDoc.getDocumentHeader().getWorkflowDocument().getRouteHeader().getDocRouteStatus());
-
-
-                // 0 deposits in document
-                List deposits = postCanceledDoc.getDeposits();
-                assertEquals(0, deposits.size());
-
-                // deposit doesn't exist in database
-                Map depositPK = new HashMap();
-                depositPK.put(KFSPropertyConstants.DOCUMENT_NUMBER, testDocumentId);
-                depositPK.put("financialDocumentDepositLineNumber", new Integer(0));
-
-                assertEquals(0, SpringServiceLocator.getBusinessObjectService().countMatching(Deposit.class, depositPK));
-
-                // cash receipts have been restored to appropriate state
-                assertEquals(KFSConstants.DocumentStatusCodes.CashReceipt.VERIFIED, lookupCR(cr1.getDocumentNumber()).getDocumentHeader().getFinancialDocumentStatusCode());
-                assertEquals(KFSConstants.DocumentStatusCodes.CashReceipt.VERIFIED, lookupCR(cr2.getDocumentNumber()).getDocumentHeader().getFinancialDocumentStatusCode());
-                assertEquals(KFSConstants.DocumentStatusCodes.CashReceipt.VERIFIED, lookupCR(cr3.getDocumentNumber()).getDocumentHeader().getFinancialDocumentStatusCode());
-            }
+            
         }
         finally {
-            // cancel CMDoc
-            cleanupCancel(testDocumentId);
 
             // clean up CRdoc
             denatureCashReceipts(CMST_WORKGROUP);
+            
+            // cancel CMDoc; now we can
+            cleanupCancel(testDocumentId);
 
             // delete the cashDrawer which was created as a side-effect above
             deleteIfExists(CMST_WORKGROUP);
@@ -329,67 +296,7 @@ public class CashManagementServiceTest extends KualiTestBase {
 
         assertTrue(failedAsExpected);
     }
-
-    @ShouldCommitTransactions
-    final public void testAddInterimDeposit_nullCashReceiptList() throws Exception {
-        boolean failedAsExpected = false;
-
-        String docId = null;
-        try {
-            CashManagementDocument createdDoc = getCashManagementService().createCashManagementDocument(CMST_WORKGROUP, "CMST_testAddID_nCRL", null);
-            docId = createdDoc.getDocumentNumber();
-
-            getCashDrawerService().openCashDrawer(createdDoc.getCashDrawer(), docId);
-            saveDocument(createdDoc);
-
-            getCashManagementService().addDeposit(createdDoc, VALID_DEPOSIT_TICKET, lookupBankAccount(), null, null, false);
-        }
-        catch (IllegalArgumentException e) {
-            failedAsExpected = true;
-        }
-        finally {
-            if (docId != null) {
-                Document testDoc = SpringServiceLocator.getDocumentService().getByDocumentHeaderId(docId);
-                SpringServiceLocator.getDocumentService().cancelDocument(testDoc, "CMST cleanup");
-            }
-
-            // delete the cashDrawer which was created as a side-effect above
-            deleteIfExists(CMST_WORKGROUP);
-        }
-
-        assertTrue(failedAsExpected);
-    }
-
-    @ShouldCommitTransactions
-    final public void testAddInterimDeposit_emptyCashReceiptList() throws Exception {
-        boolean failedAsExpected = false;
-
-        String docId = null;
-        try {
-            CashManagementDocument createdDoc = getCashManagementService().createCashManagementDocument(CMST_WORKGROUP, "CMST_testAddID_eCRL", null);
-            docId = createdDoc.getDocumentNumber();
-
-            getCashDrawerService().openCashDrawer(createdDoc.getCashDrawer(), docId);
-            saveDocument(createdDoc);
-
-            getCashManagementService().addDeposit(createdDoc, VALID_DEPOSIT_TICKET, lookupBankAccount(), new ArrayList(), new ArrayList(), false);
-        }
-        catch (IllegalArgumentException e) {
-            failedAsExpected = true;
-        }
-        finally {
-            if (docId != null) {
-                Document testDoc = SpringServiceLocator.getDocumentService().getByDocumentHeaderId(docId);
-                SpringServiceLocator.getDocumentService().cancelDocument(testDoc, "CMST cleanup");
-            }
-
-            // delete the cashDrawer which was created as a side-effect above
-            deleteIfExists(CMST_WORKGROUP);
-        }
-
-        assertTrue(failedAsExpected);
-    }
-
+    
     @ShouldCommitTransactions
     final public void testAddInterimDeposit_nullBank() throws Exception {
         boolean failedAsExpected = false;
@@ -408,6 +315,9 @@ public class CashManagementServiceTest extends KualiTestBase {
             failedAsExpected = true;
         }
         finally {
+            // clean up CRdoc
+            denatureCashReceipts(CMST_WORKGROUP);
+            
             if (docId != null) {
                 Document testDoc = SpringServiceLocator.getDocumentService().getByDocumentHeaderId(docId);
                 SpringServiceLocator.getDocumentService().cancelDocument(testDoc, "CMST cleanup");
@@ -447,7 +357,7 @@ public class CashManagementServiceTest extends KualiTestBase {
 
             // create CashReceipt
             changeCurrentUser(UserNameFixture.INEFF);
-            CashReceiptDocument cr = buildCashReceiptDoc(CMST_WORKGROUP, "CMST nonverified CR", KFSConstants.DocumentStatusCodes.CashReceipt.INTERIM, new KualiDecimal("25.00"), new KualiDecimal("75.00"));
+            CashReceiptDocument cr = buildCashReceiptDoc(CMST_WORKGROUP, "CMST nonverified CR", KFSConstants.DocumentStatusCodes.CashReceipt.INTERIM, new KualiDecimal("75.00"));
             changeCurrentUser(KHUNTLEY);
 
             List crList = new ArrayList();
@@ -460,11 +370,11 @@ public class CashManagementServiceTest extends KualiTestBase {
             failedAsExpected = true;
         }
         finally {
-            // cancel CMDoc
-            cleanupCancel(testDocumentId);
-
             // clean up CRdoc
             denatureCashReceipts(CMST_WORKGROUP);
+            
+            // cancel CMDoc
+            cleanupCancel(testDocumentId);
 
             // delete the cashDrawer which was created as a side-effect above
             deleteIfExists(CMST_WORKGROUP);
@@ -495,7 +405,7 @@ public class CashManagementServiceTest extends KualiTestBase {
 
             // create CashReceipt
             changeCurrentUser(UserNameFixture.INEFF);
-            CashReceiptDocument cr = buildCashReceiptDoc(CMST_WORKGROUP, "CMST noncheck CR", KFSConstants.DocumentStatusCodes.CashReceipt.VERIFIED, new KualiDecimal("25.00"), KualiDecimal.ZERO);
+            CashReceiptDocument cr = buildCashReceiptDoc(CMST_WORKGROUP, "CMST noncheck CR", KFSConstants.DocumentStatusCodes.CashReceipt.VERIFIED, new KualiDecimal("25.00"));
             changeCurrentUser(KHUNTLEY);
             changeCurrentUser(KHUNTLEY);
 
@@ -547,9 +457,9 @@ public class CashManagementServiceTest extends KualiTestBase {
 
             // create CashReceipts
             changeCurrentUser(UserNameFixture.INEFF);
-            CashReceiptDocument cr1 = buildCashReceiptDoc(CMST_WORKGROUP, "CMST CR1", KFSConstants.DocumentStatusCodes.CashReceipt.VERIFIED, new KualiDecimal("25.00"), KualiDecimal.ZERO);
-            CashReceiptDocument cr2 = buildCashReceiptDoc(CMST_WORKGROUP, "CMST CR2", KFSConstants.DocumentStatusCodes.CashReceipt.VERIFIED, KualiDecimal.ZERO, new KualiDecimal("25.00"));
-            CashReceiptDocument cr3 = buildCashReceiptDoc(CMST_WORKGROUP, "CMST CR3", KFSConstants.DocumentStatusCodes.CashReceipt.VERIFIED, new KualiDecimal("27.00"), new KualiDecimal("23.00"));
+            CashReceiptDocument cr1 = buildCashReceiptDoc(CMST_WORKGROUP, "CMST CR1", KFSConstants.DocumentStatusCodes.CashReceipt.VERIFIED, new KualiDecimal("10.00"));
+            CashReceiptDocument cr2 = buildCashReceiptDoc(CMST_WORKGROUP, "CMST CR2", KFSConstants.DocumentStatusCodes.CashReceipt.VERIFIED, new KualiDecimal("25.00"));
+            CashReceiptDocument cr3 = buildCashReceiptDoc(CMST_WORKGROUP, "CMST CR3", KFSConstants.DocumentStatusCodes.CashReceipt.VERIFIED, new KualiDecimal("23.00"));
 
             List crList = new ArrayList();
             crList.add(cr1);
@@ -590,14 +500,14 @@ public class CashManagementServiceTest extends KualiTestBase {
             assertEquals(KFSConstants.DocumentStatusCodes.CashReceipt.INTERIM, lookupCR(cr3.getDocumentNumber()).getDocumentHeader().getFinancialDocumentStatusCode());
 
             // total value of the deposit is the sum of the values of the 3 CRs
-            assertEquals(new KualiDecimal("100.00"), deposit.getDepositAmount());
+            assertEquals(new KualiDecimal("58.00"), deposit.getDepositAmount());
         }
         finally {
-            // cancel CMDoc
-            cleanupCancel(testDocumentId);
-
             // clean up CRdoc
             denatureCashReceipts(CMST_WORKGROUP);
+            
+            // cancel CMDoc
+            cleanupCancel(testDocumentId);
 
             // delete the cashDrawer which was created as a side-effect above
             deleteIfExists(CMST_WORKGROUP);
@@ -642,9 +552,9 @@ public class CashManagementServiceTest extends KualiTestBase {
 
             // create CashReceipts
             changeCurrentUser(UserNameFixture.INEFF);
-            CashReceiptDocument cr1 = buildCashReceiptDoc(CMST_WORKGROUP, "CMST CR1", KFSConstants.DocumentStatusCodes.CashReceipt.VERIFIED, new KualiDecimal("25.00"), KualiDecimal.ZERO);
-            CashReceiptDocument cr2 = buildCashReceiptDoc(CMST_WORKGROUP, "CMST CR2", KFSConstants.DocumentStatusCodes.CashReceipt.VERIFIED, KualiDecimal.ZERO, new KualiDecimal("25.00"));
-            CashReceiptDocument cr3 = buildCashReceiptDoc(CMST_WORKGROUP, "CMST CR3", KFSConstants.DocumentStatusCodes.CashReceipt.VERIFIED, new KualiDecimal("27.00"), new KualiDecimal("23.00"));
+            CashReceiptDocument cr1 = buildCashReceiptDoc(CMST_WORKGROUP, "CMST CR1", KFSConstants.DocumentStatusCodes.CashReceipt.VERIFIED, new KualiDecimal("25.00"));
+            CashReceiptDocument cr2 = buildCashReceiptDoc(CMST_WORKGROUP, "CMST CR2", KFSConstants.DocumentStatusCodes.CashReceipt.VERIFIED, new KualiDecimal("25.00"));
+            CashReceiptDocument cr3 = buildCashReceiptDoc(CMST_WORKGROUP, "CMST CR3", KFSConstants.DocumentStatusCodes.CashReceipt.VERIFIED, new KualiDecimal("25.00"));
 
             List crList = new ArrayList();
             crList.add(cr1);
@@ -713,11 +623,11 @@ public class CashManagementServiceTest extends KualiTestBase {
             }
         }
         finally {
-            // cancel CMDoc
-            cleanupCancel(testDocumentId);
-
             // clean up CRdoc
             denatureCashReceipts(CMST_WORKGROUP);
+            
+            // cancel CMDoc
+            cleanupCancel(testDocumentId);
 
             // delete the cashDrawer which was created as a side-effect above
             deleteIfExists(CMST_WORKGROUP);
@@ -823,14 +733,14 @@ public class CashManagementServiceTest extends KualiTestBase {
         }
     }
 
-    private CashReceiptDocument buildCashReceiptDoc(String workgroupName, String description, String status, KualiDecimal cashAmount, KualiDecimal checkAmount) throws WorkflowException {
+    private CashReceiptDocument buildCashReceiptDoc(String workgroupName, String description, String status, KualiDecimal checkAmount) throws WorkflowException {
         CashReceiptDocument crDoc = (CashReceiptDocument) SpringServiceLocator.getDocumentService().getNewDocument(CashReceiptDocument.class);
 
         crDoc.getDocumentHeader().setFinancialDocumentDescription(description);
         crDoc.getDocumentHeader().setFinancialDocumentStatusCode(status);
 
         crDoc.setCheckEntryMode(CashReceiptDocument.CHECK_ENTRY_TOTAL);
-        crDoc.setTotalCashAmount(cashAmount);
+        crDoc.setTotalCashAmount(KualiDecimal.ZERO); // cash amounts are now calculated differently
         crDoc.setTotalCheckAmount(checkAmount);
 
         crDoc.setCampusLocationCode(getCashReceiptService().getCampusCodeForCashReceiptVerificationUnit(workgroupName));

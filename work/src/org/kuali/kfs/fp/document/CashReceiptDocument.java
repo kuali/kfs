@@ -77,6 +77,8 @@ public class CashReceiptDocument extends CashReceiptFamilyBase implements Copyab
         super();
 
         setCampusLocationCode(KFSConstants.CashReceiptConstants.DEFAULT_CASH_RECEIPT_CAMPUS_LOCATION_CODE);
+        currencyDetail = new CurrencyDetail();
+        coinDetail = new CoinDetail();
     }
 
     /**

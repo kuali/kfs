@@ -25,6 +25,9 @@
 <html:hidden property="${cashDrawerProperty}.statusCode" />
 <html:hidden property="${cashDrawerProperty}.objectId" />
 <html:hidden property="${cashDrawerProperty}.versionNumber" />
+<html:hidden property="${cashDrawerProperty}.cashDrawerTotalAmount" />
+<html:hidden property="${cashDrawerProperty}.financialDocumentMiscellaneousAdvanceAmount" />
+<html:hidden property="${cashDrawerProperty}.referenceFinancialDocumentNumber" />
 
 <table border="0" cellspacing="0" cellpadding="0" class="datatable">
   <tr>

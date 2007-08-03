@@ -59,13 +59,13 @@ import org.kuali.module.gl.service.CorrectionDocumentService;
 import org.kuali.module.gl.util.CorrectionDocumentUtils;
 import org.kuali.module.gl.web.struts.action.CorrectionAction;
 import org.kuali.module.gl.web.struts.form.CorrectionForm;
+import org.kuali.module.labor.LaborConstants;
 import org.kuali.module.labor.bo.LaborOriginEntry;
 import org.kuali.module.labor.document.LaborCorrectionDocument;
 import org.kuali.module.labor.service.LaborCorrectionDocumentService;
 import org.kuali.module.labor.service.LaborOriginEntryService;
 import org.kuali.module.labor.web.optionfinder.LaborOriginEntryFieldFinder;
 import org.kuali.module.labor.web.struts.form.LaborCorrectionForm;
-import org.kuali.kfs.util.SpringServiceLocator;
 
 public class LaborCorrectionAction extends CorrectionAction{
 
@@ -216,6 +216,13 @@ public class LaborCorrectionAction extends CorrectionAction{
                 lineNumber++;
                 if (!StringUtils.isEmpty(currentLine)) {
                     try {
+                        
+                        // Check for short lines - Skip the record
+                        if (currentLine.length() < LaborConstants.LLCP_MAX_LENGTH) {
+                            GlobalVariables.getErrorMap().putError("systemAndEditMethod", KFSKeyConstants.Labor.LLCP_UPLOAD_FILE_INVALID_RECORD_SIZE_ERROR);                            
+                            errorsLoading = true;
+                            break;
+                        }                        
                         LaborOriginEntry entryFromFile = new LaborOriginEntry();
                         entryFromFile.setFromTextFile(currentLine, lineNumber);
                         entryFromFile.setEntryGroupId(newOriginEntryGroup.getId());

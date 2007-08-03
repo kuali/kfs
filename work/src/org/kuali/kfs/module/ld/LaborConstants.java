@@ -215,6 +215,7 @@ public class LaborConstants {
     public static final String CURRENT_FUNDS_LOOKUP_HELPER_SRVICE_NAME = "CurrentFundsLookupableHelperService";
     public static final String EXPENSE_TRANSFER_ACCOUNTING_LINE_SERVIOCE_NAME = "expenseTransferAccountingLineService";
     public static final String DASHES_DELETE_CODE = "-";
+    public static final int LLCP_MAX_LENGTH = 294;    
     private static String SPACE_TRANSACTION_DATE = null;
     public static String getSpaceTransactionDate() {
         if (SPACE_TRANSACTION_DATE == null) {

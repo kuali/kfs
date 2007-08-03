@@ -60,7 +60,8 @@ public class PurapPropertyConstants {
     public static final String VENDOR_QUOTES = "purchaseOrderVendorQuotes";
     
     // Payment Request
-    public static final String PURCHASE_ORDER_IDENTIFIER = "document.purchaseOrderIdentifier";
+    public static final String PREQ_RULE_PURCHASE_ORDER_ID = "document.purchaseOrderIdentifier";
+    public static final String PREQ_PURCHASE_ORDER_ID = "purchaseOrderIdentifier";
     public static final String INVOICE_DATE = "document.invoiceDate";
     public static final String INVOICE_NUMBER = "document.invoiceNumber";
     public static final String VENDOR_INVOICE_AMOUNT = "document.vendorInvoiceAmount";
@@ -71,6 +72,7 @@ public class PurapPropertyConstants {
     
     // Credit Memo
     public static final String CREDIT_MEMO_INIT_REQUIRED_FIELDS = "purchaseOrderIdentifier";
+    public static final String CREDIT_MEMO_RULE_PURCHASE_ORDER_ID = "document.purchaseOrderIdentifier";
     public static final String CREDIT_MEMO_PURCHASE_ORDER_ID = "purchaseOrderIdentifier";
     public static final String CREDIT_MEMO_PAYMENT_REQUEST_ID = "paymentRequestIdentifier";
     public static final String CREDIT_MEMO_VENDOR_NUMBER = "vendorNumber";

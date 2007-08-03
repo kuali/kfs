@@ -150,7 +150,7 @@ public class PaymentRequestDocumentRule extends AccountsPayableDocumentRuleBase 
         boolean valid = true;
         DataDictionaryService dataDictionaryService = SpringServiceLocator.getDataDictionaryService();
         if (ObjectUtils.isNull(preqDocument.getPurchaseOrderIdentifier())) {
-            GlobalVariables.getErrorMap().putError(PurapPropertyConstants.PURCHASE_ORDER_IDENTIFIER, KFSKeyConstants.ERROR_REQUIRED, PREQDocumentsStrings.PURCHASE_ORDER_ID);
+            GlobalVariables.getErrorMap().putError(PurapPropertyConstants.PREQ_RULE_PURCHASE_ORDER_ID, KFSKeyConstants.ERROR_REQUIRED, PREQDocumentsStrings.PURCHASE_ORDER_ID);
             valid &= false;
         }
         if (ObjectUtils.isNull(preqDocument.getInvoiceDate())) {
@@ -181,11 +181,11 @@ public class PaymentRequestDocumentRule extends AccountsPayableDocumentRuleBase 
         // need to check this rule against the current PO, Correct?
         PurchaseOrderDocument purchaseOrderDocument = SpringServiceLocator.getPurchaseOrderService().getCurrentPurchaseOrder(document.getPurchaseOrderIdentifier());
         if (ObjectUtils.isNull(purchaseOrderDocument)) {    
-            GlobalVariables.getErrorMap().putError(PurapPropertyConstants.PURCHASE_ORDER_IDENTIFIER, PurapKeyConstants.ERROR_PURCHASE_ORDER_NOT_EXIST);
+            GlobalVariables.getErrorMap().putError(PurapPropertyConstants.PREQ_RULE_PURCHASE_ORDER_ID, PurapKeyConstants.ERROR_PURCHASE_ORDER_NOT_EXIST);
             valid &= false;
         } 
         else if (!StringUtils.equals(purchaseOrderDocument.getStatusCode(),PurapConstants.PurchaseOrderStatuses.OPEN)){
-            GlobalVariables.getErrorMap().putError(PurapPropertyConstants.PURCHASE_ORDER_IDENTIFIER, PurapKeyConstants.ERROR_PURCHASE_ORDER_NOT_OPEN);
+            GlobalVariables.getErrorMap().putError(PurapPropertyConstants.PREQ_RULE_PURCHASE_ORDER_ID, PurapKeyConstants.ERROR_PURCHASE_ORDER_NOT_OPEN);
             valid &= false;
             // if the PO is pending and it is not a Retransmit, we cannot generate a Payment Request for it:
             // 2007-04-19 15:50:40,750 [http-8080-Processor23] ERROR
@@ -225,7 +225,7 @@ public class PaymentRequestDocumentRule extends AccountsPayableDocumentRuleBase 
             }
         }
         if (zeroDollar) {
-            GlobalVariables.getErrorMap().putError(PurapPropertyConstants.PURCHASE_ORDER_IDENTIFIER, PurapKeyConstants.ERROR_NO_ITEMS_TO_INVOICE);
+            GlobalVariables.getErrorMap().putError(PurapPropertyConstants.PREQ_RULE_PURCHASE_ORDER_ID, PurapKeyConstants.ERROR_NO_ITEMS_TO_INVOICE);
         }
         return zeroDollar;
     }

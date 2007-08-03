@@ -37,6 +37,7 @@ import org.kuali.kfs.web.ui.AccountingLineDecorator;
 import org.kuali.module.purap.PurapPropertyConstants;
 import org.kuali.module.purap.bo.PurApAccountingLine;
 import org.kuali.module.purap.bo.PurchasingApItem;
+import org.kuali.module.purap.document.AccountsPayableDocument;
 import org.kuali.module.purap.document.PurchasingAccountsPayableDocument;
 import org.kuali.module.purap.web.struts.form.PurchasingAccountsPayableFormBase;
 import org.kuali.module.purap.web.struts.form.PurchasingFormBase;
@@ -55,11 +56,26 @@ public class PurchasingAccountsPayableActionBase extends KualiAccountingDocument
         SpringServiceLocator.getPurapAccountingService().updateAccountAmounts(document);
         document.refreshAccountSummary();
         
+        updateBaseline(document,(PurchasingAccountsPayableFormBase)kualiDocumentFormBase);
+    }
+
+    /**
+     * This method updates the baseline accounts on form and doc
+     * @param document
+     */
+     private <T extends PurchasingAccountsPayableDocument, V extends KualiAccountingDocumentFormBase> void updateBaseline(T document, V form) {
         //update baseline accounts for purap
+
+        //clear out the old lines first
+        form.getBaselineSourceAccountingLines().clear();
         for (PurchasingApItem item : document.getItems()) {
+            //clear out the old lines first
+            item.getBaselineSourceAccountingLines().clear();
+            
             for (PurApAccountingLine sourceAccount : item.getSourceAccountingLines()) {
                 PurApAccountingLine baselineAccount = (PurApAccountingLine)ObjectUtils.deepCopy(sourceAccount);
                 item.getBaselineSourceAccountingLines().add(baselineAccount);
+                form.getBaselineSourceAccountingLines().add(baselineAccount);
             }
         }
     }
@@ -91,7 +107,7 @@ public class PurchasingAccountsPayableActionBase extends KualiAccountingDocument
         if (processCustomInsertAccountingLine(purapForm, request) == false) {
 
             item = (PurchasingApItem) ((PurchasingAccountsPayableDocument) purapForm.getDocument()).getItem((itemIndex));
-            PurApAccountingLine line = item.getNewSourceLine();
+            PurApAccountingLine line = (PurApAccountingLine)ObjectUtils.deepCopy(item.getNewSourceLine());
 
             String errorPrefix = KFSPropertyConstants.DOCUMENT + "." + PurapPropertyConstants.ITEM + "[" + Integer.toString(itemIndex) + "]." + KFSConstants.NEW_SOURCE_ACCT_LINE_PROPERTY_NAME;
             boolean rulePassed = SpringServiceLocator.getKualiRuleService().applyRules(new AddAccountingLineEvent(errorPrefix, purapForm.getDocument(), (AccountingLine) line));
@@ -110,6 +126,7 @@ public class PurchasingAccountsPayableActionBase extends KualiAccountingDocument
     }
 
     protected void insertAccountingLine(PurchasingAccountsPayableFormBase financialDocumentForm, PurchasingApItem item, PurApAccountingLine line) {
+        PurchasingAccountsPayableDocument preq = (PurchasingAccountsPayableDocument)financialDocumentForm.getDocument();
         // this decorator stuff should be moved out in parent class so we don't need to copy it here
         // create and init a decorator
         AccountingLineDecorator decorator = new AccountingLineDecorator();
@@ -117,11 +134,12 @@ public class PurchasingAccountsPayableActionBase extends KualiAccountingDocument
 
         // add it to the item
         item.getSourceAccountingLines().add(line);
-
+        // add it to the baseline on item
+        item.getBaselineSourceAccountingLines().add(line);
+        
         // add it to the baseline, to prevent generation of spurious update events
         financialDocumentForm.getBaselineSourceAccountingLines().add(line);
-        //TODO: Chris we should probabl also add to baselineSourceList on form  
-
+        
         // add the decorator
         financialDocumentForm.getSourceLineDecorators().add(decorator);
 

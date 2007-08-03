@@ -529,7 +529,6 @@ public abstract class PurApItemBase extends PersistableBusinessObjectBase implem
         //add a blank accounting line
         PurApAccountingLine purApAccountingLine = getNewAccount();
         setNewSourceLine(purApAccountingLine);
-        setBaselineSourceAccountingLines(new TypedArrayList(getAccountingLineClass()));
     }
     
     /**

@@ -22,7 +22,7 @@
 
 
         <inquiry>
-            <title>Owner Type Inquiry</title>
+            <title>Ownership Type Inquiry</title>
 
             <inquirySections><inquirySection title="Header Text"><inquiryFields>
                 <field attributeName="vendorOwnershipCode" />

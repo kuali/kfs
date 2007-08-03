@@ -15,10 +15,7 @@
  */
 package org.kuali.module.purap.service;
 
-import java.math.BigDecimal;
 import java.sql.Date;
-import java.util.Collection;
-import java.util.HashSet;
 
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.document.Document;
@@ -30,17 +27,13 @@ import org.kuali.kfs.context.KualiTestBase;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.PurapParameterConstants;
-import org.kuali.module.purap.bo.NegativePaymentRequestApprovalLimit;
-import org.kuali.module.purap.bo.PaymentRequestItem;
-import org.kuali.module.purap.bo.PurchasingApItem;
 import org.kuali.module.purap.document.PaymentRequestDocument;
-import org.kuali.module.purap.service.impl.PaymentRequestServiceImpl;
-import org.kuali.test.WithTestSpringContext;
+import org.kuali.test.RequiresSpringContext;
 import org.kuali.test.fixtures.UserNameFixture;
 
 import edu.iu.uis.eden.exception.WorkflowException;
 
-@WithTestSpringContext(session=UserNameFixture.APPLETON)
+@RequiresSpringContext(session=UserNameFixture.APPLETON)
 public class PaymentRequestServiceTest extends KualiTestBase {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PaymentRequestServiceTest.class);
     

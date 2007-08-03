@@ -15,33 +15,31 @@
  */
 package org.kuali.module.financial.rules;
 
-import static org.kuali.test.fixtures.UserNameFixture.KHUNTLEY;
-
 import java.sql.Date;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.context.KualiTestBase;
 import org.kuali.kfs.util.SpringServiceLocator;
-import org.kuali.module.financial.document.CashManagementDocument;
-import org.kuali.module.financial.bo.CashieringTransaction;
-import org.kuali.module.financial.bo.CurrencyDetail;
-import org.kuali.module.financial.bo.CoinDetail;
 import org.kuali.module.financial.bo.CashDrawer;
+import org.kuali.module.financial.bo.CashDrawerTest;
 import org.kuali.module.financial.bo.CashieringItemInProcess;
+import org.kuali.module.financial.bo.CashieringTransaction;
 import org.kuali.module.financial.bo.Check;
 import org.kuali.module.financial.bo.CheckBase;
-import org.kuali.module.financial.rules.CashieringTransactionRule;
-import org.kuali.module.financial.bo.CurrencyDetailTest;
+import org.kuali.module.financial.bo.CoinDetail;
 import org.kuali.module.financial.bo.CoinDetailTest;
-import org.kuali.module.financial.bo.CashDrawerTest;
-import org.kuali.test.WithTestSpringContext;
+import org.kuali.module.financial.bo.CurrencyDetail;
+import org.kuali.module.financial.bo.CurrencyDetailTest;
+import org.kuali.module.financial.document.CashManagementDocument;
+import org.kuali.test.RequiresSpringContext;
+import org.kuali.test.fixtures.UserNameFixture;
 
-@WithTestSpringContext(session = KHUNTLEY)
+@RequiresSpringContext(session = UserNameFixture.KHUNTLEY)
 public class CashieringTransactionRuleTest extends KualiTestBase {
     static final String CMST_WORKGROUP = "CashManagementServiceTest";
     

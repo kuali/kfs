@@ -18,7 +18,9 @@ package org.kuali.kfs;
 import java.util.HashMap;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.core.service.DataDictionaryService;
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.gl.bo.OriginEntry;
 import org.kuali.module.labor.bo.LaborOriginEntry;
@@ -1024,7 +1026,7 @@ public class KFSConstants {
     private static String DASH_FINANCIAL_SUB_OBJECT_CODE = null;
     public static String getDashFinancialSubObjectCode() {
         if (DASH_FINANCIAL_SUB_OBJECT_CODE == null) {
-            DASH_FINANCIAL_SUB_OBJECT_CODE = StringUtils.rightPad("", SpringServiceLocator.getDataDictionaryService().getAttributeSize(OriginEntry.class, KFSPropertyConstants.FINANCIAL_SUB_OBJECT_CODE), '-');
+            DASH_FINANCIAL_SUB_OBJECT_CODE = StringUtils.rightPad("", SpringContext.getBean(DataDictionaryService.class).getAttributeSize(OriginEntry.class, KFSPropertyConstants.FINANCIAL_SUB_OBJECT), '-');
         }
         return DASH_FINANCIAL_SUB_OBJECT_CODE;
     }
@@ -1032,7 +1034,7 @@ public class KFSConstants {
     private static String DASH_SUB_ACCOUNT_NUMBER = null;
     public static String getDashSubAccountNumber() {
         if (DASH_SUB_ACCOUNT_NUMBER == null) {
-            DASH_SUB_ACCOUNT_NUMBER = StringUtils.rightPad("", SpringServiceLocator.getDataDictionaryService().getAttributeSize(OriginEntry.class, KFSPropertyConstants.SUB_ACCOUNT_NUMBER), '-');
+            DASH_SUB_ACCOUNT_NUMBER = StringUtils.rightPad("", SpringContext.getBean(DataDictionaryService.class).getAttributeSize(OriginEntry.class, KFSPropertyConstants.SUB_ACCOUNT_NUMBER), '-');
         }
         return DASH_SUB_ACCOUNT_NUMBER;
     }
@@ -1040,7 +1042,7 @@ public class KFSConstants {
     private static String DASH_PROJECT_CODE = null;
     public static String getDashProjectCode() {
         if (DASH_PROJECT_CODE == null) {
-            DASH_PROJECT_CODE = StringUtils.rightPad("", SpringServiceLocator.getDataDictionaryService().getAttributeSize(OriginEntry.class, KFSPropertyConstants.PROJECT_CODE), '-');
+            DASH_PROJECT_CODE = StringUtils.rightPad("", SpringContext.getBean(DataDictionaryService.class).getAttributeSize(OriginEntry.class, KFSPropertyConstants.PROJECT_CODE), '-');
         }
         return DASH_PROJECT_CODE;
     }
@@ -1048,7 +1050,7 @@ public class KFSConstants {
     private static String DASH_POSITION_NUMBER = null;
     public static String getDashPositionNumber() {
         if (DASH_POSITION_NUMBER == null) {
-            DASH_POSITION_NUMBER = StringUtils.rightPad("", SpringServiceLocator.getDataDictionaryService().getAttributeSize(LaborOriginEntry.class, KFSPropertyConstants.POSITION_NUMBER), '-');
+            DASH_POSITION_NUMBER = StringUtils.rightPad("", SpringContext.getBean(DataDictionaryService.class).getAttributeMaxLength(LaborOriginEntry.class, KFSPropertyConstants.POSITION_NUMBER), '-');
         }
         return DASH_POSITION_NUMBER;
     }
@@ -1056,7 +1058,7 @@ public class KFSConstants {
     private static String DASH_EMPLID_LOWER_CASE = null;
     public static String getDashEmplIdLowerCase() {
         if (DASH_EMPLID_LOWER_CASE == null) {
-            DASH_EMPLID_LOWER_CASE = StringUtils.rightPad("", SpringServiceLocator.getDataDictionaryService().getAttributeSize(LaborOriginEntry.class, KFSPropertyConstants.EMPLID), '-');
+            DASH_EMPLID_LOWER_CASE = StringUtils.rightPad("", SpringContext.getBean(DataDictionaryService.class).getAttributeMaxLength(LaborOriginEntry.class, KFSPropertyConstants.EMPLID), '-');
         }
         return DASH_EMPLID_LOWER_CASE;
     }

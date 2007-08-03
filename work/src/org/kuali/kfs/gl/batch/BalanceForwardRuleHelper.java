@@ -547,8 +547,7 @@ public class BalanceForwardRuleHelper {
                         // 1148 006750 MOVE 'N' TO TRN-ENCUM-UPDT-CD
                         // 1149 006760 WS-TRN-ENCUM-UPDT-CD
 
-                        // TODO: technical thing, KFSConstant
-                        entry.setTransactionEncumbranceUpdateCode("N");
+                        entry.setTransactionEncumbranceUpdateCode(KFSConstants.ENCUMB_UPDT_NO_ENCUMBRANCE_CD);
 
                         // 1150 006770 ELSE
 

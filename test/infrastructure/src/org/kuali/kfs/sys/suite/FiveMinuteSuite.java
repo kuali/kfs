@@ -29,7 +29,7 @@ public class FiveMinuteSuite {
         TestSuite suite = new TestSuite(FiveMinuteSuite.class.getName());
         suite.addTest(CrossSectionSuite.suite());
         suite.addTest(OftenUsefulSuite.suite());
-        suite.addTest(RequiresSpringContextSuite.Not.suite());
+        suite.addTest(ContextConfiguredSuite.Not.suite());
         return suite;
     }
 }

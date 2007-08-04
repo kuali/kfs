@@ -22,14 +22,14 @@ import java.util.ArrayList;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.context.KualiTestBase;
 import org.kuali.kfs.util.SpringServiceLocator;
-import org.kuali.test.RequiresSpringContext;
+import org.kuali.test.ConfigureContext;
 
 /**
  * This class...
  * 
  * 
  */
-@RequiresSpringContext
+@ConfigureContext
 public class CheckBaseTest extends KualiTestBase {
     private CheckBase crchk = null;
     private static final KualiDecimal AMOUNT = new KualiDecimal("100.27");

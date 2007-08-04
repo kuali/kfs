@@ -31,14 +31,14 @@ import org.kuali.kfs.context.KualiTestBase;
 import org.kuali.kfs.document.AccountingDocument;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.financial.document.IndirectCostAdjustmentDocument;
-import org.kuali.test.RequiresSpringContext;
+import org.kuali.test.ConfigureContext;
 
 /**
  * This class tests the <code>{@link IndirectCostAdjustmentDocument}</code>'s rules and PE generation. This is not currently
  * implemented properly. When we get to building this document, we would need to extend AccountingDocumentRuleTestBase. For now
  * it contains commented out old fixtures code that will need to be fitted to the new xml based fixtures framework.
  */
-@RequiresSpringContext(session = KHUNTLEY)
+@ConfigureContext(session = KHUNTLEY)
 public class IndirectCostAdjustmentDocumentRuleTest extends KualiTestBase {
     // ////////////////////////////////////////////////////////////////////////
     // Test methods start here //

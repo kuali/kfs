@@ -23,14 +23,14 @@ import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.context.KualiTestBase;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.financial.document.DisbursementVoucherDocument;
-import org.kuali.test.RequiresSpringContext;
+import org.kuali.test.ConfigureContext;
 
 /**
  * This class tests the DisbursementVoucherTravel service.
  * 
  * 
  */
-@RequiresSpringContext
+@ConfigureContext
 public class DisbursementVoucherTravelServiceTest extends KualiTestBase {
     private DisbursementVoucherDocument dvDocument;
 

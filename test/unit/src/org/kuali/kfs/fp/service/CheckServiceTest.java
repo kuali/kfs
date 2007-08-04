@@ -29,14 +29,13 @@ import org.kuali.module.financial.bo.Check;
 import org.kuali.module.financial.bo.CheckBase;
 import org.kuali.module.financial.document.CashReceiptDocument;
 import org.kuali.test.DocumentTestUtils;
-import org.kuali.test.ShouldCommitTransactions;
-import org.kuali.test.RequiresSpringContext;
+import org.kuali.test.ConfigureContext;
 /**
  * This class tests the Check service.
  * 
  * 
  */
-@RequiresSpringContext(session = MHKOZLOW)
+@ConfigureContext(session = MHKOZLOW)
 public class CheckServiceTest extends KualiTestBase {
 
     private Check check;
@@ -63,7 +62,7 @@ public class CheckServiceTest extends KualiTestBase {
         clearTestData();
     }
 
-    @ShouldCommitTransactions
+    @ConfigureContext(session = MHKOZLOW, shouldCommitTransactions=true)
     public void testLifecycle() throws Exception {
         boolean deleteSucceeded = false;
         List retrievedChecks = getCheckService().getByDocumentHeaderId(documentNumber);

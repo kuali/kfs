@@ -21,7 +21,7 @@ import javax.xml.xpath.XPathExpressionException;
 
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.context.KualiTestBase;
-import org.kuali.test.RequiresSpringContext;
+import org.kuali.test.ConfigureContext;
 import org.kuali.workflow.attribute.KualiAttributeTestUtil;
 
 import edu.iu.uis.eden.exception.InvalidXmlException;
@@ -32,7 +32,7 @@ import edu.iu.uis.eden.routeheader.DocumentContent;
  * 
  * 
  */
-@RequiresSpringContext
+@ConfigureContext
 public class KualiWorkflowUtilsTest extends KualiTestBase {
     
     public void testGetFinancialDocumentTotalAmount() throws Exception {

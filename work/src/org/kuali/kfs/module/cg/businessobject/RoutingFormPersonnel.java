@@ -113,8 +113,8 @@ public class RoutingFormPersonnel extends PersistableBusinessObjectBase {
         UniversalUser user = universalUserService.updateUniversalUserIfNecessary(this.getPersonUniversalIdentifier(), this.getUser());
         
         // set chart / org for new person
-        this.setChartOfAccountsCode(chartUserService.getDefaultChartOfAccountsCode( (ChartUser)user.getModuleUser(ChartUser.MODULE_ID) ));
-        this.setOrganizationCode(chartUserService.getDefaultOrganizationCode( (ChartUser)user.getModuleUser(ChartUser.MODULE_ID) ));
+        this.setChartOfAccountsCode(chartUserService.getDefaultChartCode(user));
+        this.setOrganizationCode(chartUserService.getDefaultOrganizationCode(user));
         
         // set email address, campus address, and phone
         this.setPersonEmailAddress(user.getPersonEmailAddress());

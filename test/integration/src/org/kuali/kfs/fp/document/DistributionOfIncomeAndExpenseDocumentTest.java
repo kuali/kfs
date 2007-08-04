@@ -15,6 +15,14 @@
  */
 package org.kuali.module.financial.document;
 
+import static org.kuali.module.financial.document.AccountingDocumentTestUtils.testGetNewDocument_byDocumentClass;
+import static org.kuali.rice.KNSServiceLocator.getDataDictionaryService;
+import static org.kuali.rice.KNSServiceLocator.getDocumentService;
+import static org.kuali.rice.KNSServiceLocator.getTransactionalDocumentDictionaryService;
+import static org.kuali.test.fixtures.AccountingLineFixture.LINE2;
+import static org.kuali.test.fixtures.UserNameFixture.KHUNTLEY;
+import static org.kuali.test.suite.RelatesTo.JiraIssue.KULRNE1612;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,29 +32,19 @@ import org.kuali.core.document.Document;
 import org.kuali.kfs.bo.SourceAccountingLine;
 import org.kuali.kfs.bo.TargetAccountingLine;
 import org.kuali.kfs.context.KualiTestBase;
-
-import static org.kuali.kfs.util.SpringServiceLocator.getDataDictionaryService;
-import static org.kuali.kfs.util.SpringServiceLocator.getDocumentService;
-import static org.kuali.kfs.util.SpringServiceLocator.getTransactionalDocumentDictionaryService;
-import static org.kuali.module.financial.document.AccountingDocumentTestUtils.testGetNewDocument_byDocumentClass;
-
 import org.kuali.test.DocumentTestUtils;
-import org.kuali.test.ShouldCommitTransactions;
-import org.kuali.test.RequiresSpringContext;
+import org.kuali.test.ConfigureContext;
 import org.kuali.test.fixtures.AccountingLineFixture;
-import static org.kuali.test.fixtures.AccountingLineFixture.LINE2;
-import static org.kuali.test.fixtures.UserNameFixture.KHUNTLEY;
 import org.kuali.test.suite.AnnotationTestSuite;
 import org.kuali.test.suite.OftenUsefulSuite;
 import org.kuali.test.suite.RelatesTo;
-import static org.kuali.test.suite.RelatesTo.JiraIssue.KULRNE1612;
 
 /**
  * This class is used to test DistributionOfIncomeAndExpenseDocument.
  * 
  * 
  */
-@RequiresSpringContext(session = KHUNTLEY)
+@ConfigureContext(session = KHUNTLEY)
 public class DistributionOfIncomeAndExpenseDocumentTest extends KualiTestBase {
     private static final Log LOG = LogFactory.getLog(DistributionOfIncomeAndExpenseDocumentTest.class);
     public static final Class<DistributionOfIncomeAndExpenseDocument> DOCUMENT_CLASS = DistributionOfIncomeAndExpenseDocument.class;
@@ -73,7 +71,7 @@ public class DistributionOfIncomeAndExpenseDocumentTest extends KualiTestBase {
      */
     @RelatesTo(KULRNE1612)
     @AnnotationTestSuite(OftenUsefulSuite.class)
-    @ShouldCommitTransactions
+    @ConfigureContext(session = KHUNTLEY, shouldCommitTransactions=true)
     public final void testKULEDOCS_1401() throws Exception {
         String testDocId = null;
 
@@ -145,22 +143,22 @@ public class DistributionOfIncomeAndExpenseDocumentTest extends KualiTestBase {
         AccountingDocumentTestUtils.testConvertIntoErrorCorrection_errorCorrectionDisallowed(buildDocument(), getDataDictionaryService());
     }
 
-    @ShouldCommitTransactions
+    @ConfigureContext(session = KHUNTLEY, shouldCommitTransactions=true)
     public final void testConvertIntoErrorCorrection() throws Exception {
         AccountingDocumentTestUtils.testConvertIntoErrorCorrection(buildDocument(), getExpectedPrePeCount(), getDocumentService(), getTransactionalDocumentDictionaryService());
     }
 
-    @ShouldCommitTransactions
+    @ConfigureContext(session = KHUNTLEY, shouldCommitTransactions=true)
     public final void testRouteDocument() throws Exception {
         AccountingDocumentTestUtils.testRouteDocument(buildDocument(), getDocumentService());
     }
 
-    @ShouldCommitTransactions
+    @ConfigureContext(session = KHUNTLEY, shouldCommitTransactions=true)
     public final void testSaveDocument() throws Exception {
         AccountingDocumentTestUtils.testSaveDocument(buildDocument(), getDocumentService());
     }
 
-    @ShouldCommitTransactions
+    @ConfigureContext(session = KHUNTLEY, shouldCommitTransactions=true)
     public void testConvertIntoCopy() throws Exception {
         AccountingDocumentTestUtils.testConvertIntoCopy(buildDocument(), getDocumentService(), getExpectedPrePeCount());
     }

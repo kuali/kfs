@@ -53,11 +53,11 @@ import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.chart.bo.AccountingPeriod;
 import org.kuali.module.financial.document.AuxiliaryVoucherDocument;
 import org.kuali.test.DocumentTestUtils;
-import org.kuali.test.RequiresSpringContext;
+import org.kuali.test.ConfigureContext;
 import org.kuali.test.fixtures.AccountingLineFixture;
 import org.kuali.test.suite.RelatesTo;
 
-@RequiresSpringContext(session = KHUNTLEY)
+@ConfigureContext(session = KHUNTLEY)
 public class AuxiliaryVoucherDocumentRuleTest extends KualiTestBase {
 
     public static final Class<AuxiliaryVoucherDocument> DOCUMENT_CLASS = AuxiliaryVoucherDocument.class;

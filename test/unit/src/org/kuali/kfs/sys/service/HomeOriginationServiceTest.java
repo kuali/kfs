@@ -19,12 +19,12 @@ import static org.kuali.kfs.util.SpringServiceLocator.getHomeOriginationService;
 
 import org.kuali.kfs.bo.HomeOrigination;
 import org.kuali.kfs.context.KualiTestBase;
-import org.kuali.test.RequiresSpringContext;
+import org.kuali.test.ConfigureContext;
 
 /**
  * This class tests the Home Origination service.
  */
-@RequiresSpringContext
+@ConfigureContext
 public class HomeOriginationServiceTest extends KualiTestBase {
 
     public void testGetHomeOrigination() {

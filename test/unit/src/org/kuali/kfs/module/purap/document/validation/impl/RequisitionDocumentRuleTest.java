@@ -20,9 +20,9 @@ import static org.kuali.test.fixtures.UserNameFixture.KHUNTLEY;
 import org.kuali.module.purap.document.RequisitionDocument;
 import org.kuali.module.purap.fixtures.AmountsLimitsFixture;
 import org.kuali.module.purap.rules.RequisitionDocumentRule;
-import org.kuali.test.RequiresSpringContext;
+import org.kuali.test.ConfigureContext;
 
-@RequiresSpringContext(session = KHUNTLEY)
+@ConfigureContext(session = KHUNTLEY)
 public class RequisitionDocumentRuleTest extends PurapRuleTestBase {
  
     RequisitionDocumentRule rule;

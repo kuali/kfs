@@ -19,9 +19,9 @@ import static org.kuali.test.util.KualiTestAssertionUtils.assertGlobalErrorMapEm
 
 import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.module.chart.bo.AccountGlobal;
-import org.kuali.test.RequiresSpringContext;
+import org.kuali.test.ConfigureContext;
 
-@RequiresSpringContext
+@ConfigureContext
 public class AccountGlobalRuleTest extends ChartRuleTestBase {
 
     private class Accounts {

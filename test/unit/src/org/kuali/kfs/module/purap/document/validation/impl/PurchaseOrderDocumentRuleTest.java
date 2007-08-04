@@ -26,9 +26,9 @@ import org.kuali.module.purap.document.PurchaseOrderDocument;
 import org.kuali.module.purap.fixtures.AmountsLimitsFixture;
 import org.kuali.module.purap.fixtures.ItemAccountsFixture;
 import org.kuali.module.purap.fixtures.ItemTypesFixture;
-import org.kuali.test.RequiresSpringContext;
+import org.kuali.test.ConfigureContext;
 
-@RequiresSpringContext(session = KHUNTLEY)
+@ConfigureContext(session = KHUNTLEY)
 public class PurchaseOrderDocumentRuleTest extends PurapRuleTestBase {
 
     PurchaseOrderDocumentRule rule;

@@ -37,14 +37,14 @@ import org.kuali.module.kra.budget.bo.BudgetModularPeriod;
 import org.kuali.module.kra.budget.bo.BudgetNonpersonnel;
 import org.kuali.module.kra.budget.bo.BudgetPeriod;
 import org.kuali.module.kra.budget.bo.UserAppointmentTaskPeriod;
-import org.kuali.test.RequiresSpringContext;
+import org.kuali.test.ConfigureContext;
 
 /**
  * This class tests service methods in BudgetModularService.
  * 
  * 
  */
-@RequiresSpringContext
+@ConfigureContext
 public class BudgetModularServiceTest extends KualiTestBase {
     
     protected Budget setupBudget() {

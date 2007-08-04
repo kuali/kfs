@@ -29,13 +29,13 @@ import org.kuali.module.vendor.fixtures.VendorContractPurchaseOrderLimitAmountPr
 import org.kuali.module.vendor.fixtures.VendorRuleAddressStateZipFixture;
 import org.kuali.module.vendor.fixtures.VendorRuleAddressTypeFixture;
 import org.kuali.module.vendor.fixtures.VendorRuleFaxNumberFixture;
-import org.kuali.test.RequiresSpringContext;
+import org.kuali.test.ConfigureContext;
 
 /**
  * This class should contain all tests of methods implementing Vendor rules.  For this
  * purpose, we need to set up the parts of a MaintenanceDocument.
  */
-@RequiresSpringContext(session = KHUNTLEY)
+@ConfigureContext(session = KHUNTLEY)
 public class VendorRuleTest extends MaintenanceRuleTestBase {
 
     private VendorDetail oldVendor;

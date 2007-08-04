@@ -28,7 +28,7 @@ import org.kuali.kfs.bo.SourceAccountingLine;
 import org.kuali.kfs.context.KualiTestBase;
 import org.kuali.kfs.document.AccountingDocument;
 import org.kuali.module.financial.document.CashReceiptDocument;
-import org.kuali.test.RequiresSpringContext;
+import org.kuali.test.ConfigureContext;
 
 
 /**
@@ -36,7 +36,7 @@ import org.kuali.test.RequiresSpringContext;
  * 
  * 
  */
-@RequiresSpringContext(session = MHKOZLOW)
+@ConfigureContext(session = MHKOZLOW)
 public class CashReceiptDocumentRuleTest extends KualiTestBase {
 
     /**

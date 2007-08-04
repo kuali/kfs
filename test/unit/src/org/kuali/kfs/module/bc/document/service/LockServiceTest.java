@@ -15,13 +15,13 @@
  */
 package org.kuali.module.budget.service;
 
+import static org.kuali.kfs.util.SpringServiceLocator.getLockService;
+import static org.kuali.rice.KNSServiceLocator.getBusinessObjectService;
+
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.SortedSet;
-
-import static org.kuali.kfs.util.SpringServiceLocator.getBusinessObjectService;
-import static org.kuali.kfs.util.SpringServiceLocator.getLockService;
 
 import org.kuali.core.bo.DocumentHeader;
 import org.kuali.kfs.KFSConstants.BudgetConstructionConstants.LockStatus;
@@ -32,21 +32,20 @@ import org.kuali.module.budget.bo.BudgetConstructionPosition;
 import org.kuali.module.budget.bo.PendingBudgetConstructionAppointmentFunding;
 import org.kuali.module.budget.dao.ojb.BudgetConstructionDaoOjb;
 import org.kuali.module.budget.service.impl.BudgetConstructionLockStatus;
-import org.kuali.test.ShouldCommitTransactions;
-import org.kuali.test.RequiresSpringContext;
+import org.kuali.test.ConfigureContext;
 
 /**
  * 
  * This class tests the Lock Service
  */
-@RequiresSpringContext
+@ConfigureContext
 public class LockServiceTest extends KualiTestBase {
 
     private boolean runTests() { // change this to return false to prevent running tests
         return false;
     }
 
-    @ShouldCommitTransactions
+    @ConfigureContext(shouldCommitTransactions=true)
     public void testOne() {
 
         LockService lockService;

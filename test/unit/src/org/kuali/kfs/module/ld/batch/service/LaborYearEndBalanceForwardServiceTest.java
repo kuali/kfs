@@ -38,9 +38,9 @@ import org.kuali.module.labor.bo.LedgerBalance;
 import org.kuali.module.labor.util.ObjectUtil;
 import org.kuali.module.labor.util.TestDataPreparator;
 import org.kuali.module.labor.util.testobject.LaborOriginEntryForTesting;
-import org.kuali.test.RequiresSpringContext;
+import org.kuali.test.ConfigureContext;
 
-@RequiresSpringContext
+@ConfigureContext
 public class LaborYearEndBalanceForwardServiceTest extends KualiTestBase {
     private Properties properties;
     private String fieldNames, transactionFieldNames;

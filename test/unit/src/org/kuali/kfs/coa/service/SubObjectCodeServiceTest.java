@@ -19,14 +19,14 @@ import static org.kuali.kfs.util.SpringServiceLocator.getSubObjectCodeService;
 
 import org.kuali.kfs.context.KualiTestBase;
 import org.kuali.module.chart.bo.SubObjCd;
-import org.kuali.test.RequiresSpringContext;
+import org.kuali.test.ConfigureContext;
 
 /**
  * This class tests the SubObjectCode service.
  * 
  * 
  */
-@RequiresSpringContext
+@ConfigureContext
 public class SubObjectCodeServiceTest extends KualiTestBase {
 
     /**

@@ -26,12 +26,12 @@ import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.budget.dao.GenesisDao;
 import org.kuali.module.budget.service.GenesisService;
 import org.kuali.module.chart.service.DateMakerService;
-import org.kuali.test.RequiresSpringContext;
+import org.kuali.test.ConfigureContext;
 import org.kuali.test.fixtures.UserNameFixture;
 
 import edu.iu.uis.eden.exception.WorkflowException;
 
-@RequiresSpringContext(session=UserNameFixture.KULUSER)
+@ConfigureContext(session=UserNameFixture.KULUSER)
 public class TestGenesis extends KualiTestBase {
     
   private static GenesisService            genesisTestService;

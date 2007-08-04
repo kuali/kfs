@@ -31,12 +31,12 @@ import org.kuali.kfs.context.KualiTestBase;
 
 import static org.kuali.kfs.util.SpringServiceLocator.*;
 
-import org.kuali.test.RequiresSpringContext;
+import org.kuali.test.ConfigureContext;
 import static org.kuali.test.fixtures.UserNameFixture.KHUNTLEY;
 
 import edu.iu.uis.eden.exception.WorkflowException;
 
-@RequiresSpringContext(session = KHUNTLEY)
+@ConfigureContext(session = KHUNTLEY)
 public class DelegateGlobalTest extends KualiTestBase {
 
     private static final String GLOBAL_DELEGATE_TYPENAME = "DelegateGlobalMaintenanceDocument";

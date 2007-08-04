@@ -21,14 +21,14 @@ import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.exceptions.UserNotFoundException;
 import org.kuali.kfs.context.KualiTestBase;
 import org.kuali.module.chart.bo.Account;
-import org.kuali.test.RequiresSpringContext;
+import org.kuali.test.ConfigureContext;
 
 /**
  * This class tests the Account service.
  * 
  * 
  */
-@RequiresSpringContext
+@ConfigureContext
 public class AccountServiceTest extends KualiTestBase {
     org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AccountServiceTest.class);
 

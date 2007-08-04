@@ -47,9 +47,9 @@ import org.kuali.module.labor.util.testobject.LaborGeneralLedgerEntryForTesting;
 import org.kuali.module.labor.util.testobject.LedgerBalanceForTesting;
 import org.kuali.module.labor.util.testobject.LedgerEntryForTesting;
 import org.kuali.module.labor.util.testobject.OriginEntryGroupForTesting;
-import org.kuali.test.RequiresSpringContext;
+import org.kuali.test.ConfigureContext;
 
-@RequiresSpringContext
+@ConfigureContext
 public class LaborPosterServiceTest extends KualiTestBase {
 
     private Properties properties;

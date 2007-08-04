@@ -24,7 +24,7 @@ import java.util.Set;
 
 import org.kuali.core.ConfigProperties;
 import org.kuali.kfs.context.KualiTestBase;
-import org.kuali.test.RequiresSpringContext;
+import org.kuali.test.ConfigureContext;
 import org.springframework.beans.BeanUtils;
 
 /**
@@ -32,7 +32,7 @@ import org.springframework.beans.BeanUtils;
  * 
  *
  */
-@RequiresSpringContext
+@ConfigureContext
 public class ConfigPropertiesTest extends KualiTestBase {
     private static final String SIMPLE_TESTING_KEY = "simpleTestingKey";
     private static final String SIMPLE_TESTING_VALUE = "simpleTestingValue";

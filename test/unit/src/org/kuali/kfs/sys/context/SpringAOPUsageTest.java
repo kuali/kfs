@@ -27,7 +27,7 @@ import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.chart.service.BalanceTypService;
 import org.kuali.module.chart.service.PriorYearAccountService;
 import org.kuali.module.chart.service.impl.BalanceTypServiceImpl;
-import org.kuali.test.RequiresSpringContext;
+import org.kuali.test.ConfigureContext;
 import org.springframework.aop.Advisor;
 import org.springframework.aop.support.AopUtils;
 import org.springframework.transaction.TransactionDefinition;
@@ -35,7 +35,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.interceptor.TransactionAttribute;
 import org.springframework.transaction.interceptor.TransactionAttributeSource;
 
-@RequiresSpringContext
+@ConfigureContext
 public class SpringAOPUsageTest extends KualiTestBase {
 
     public void testCaching() throws Exception {

@@ -27,14 +27,14 @@ import org.kuali.kfs.context.KualiTestBase;
 import org.kuali.module.financial.bo.DisbursementVoucherNonResidentAlienTax;
 import org.kuali.module.financial.bo.DisbursementVoucherPayeeDetail;
 import org.kuali.module.financial.document.DisbursementVoucherDocument;
-import org.kuali.test.RequiresSpringContext;
+import org.kuali.test.ConfigureContext;
 
 /**
  * This class tests the DisbursementVoucherTax service.
  * 
  * 
  */
-@RequiresSpringContext
+@ConfigureContext
 public class DisbursementVoucherTaxServiceTest extends KualiTestBase {
     private DisbursementVoucherDocument dvDocument;
 

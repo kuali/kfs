@@ -25,14 +25,14 @@ import org.apache.commons.beanutils.PropertyUtils;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.context.KualiTestBase;
 import org.kuali.module.chart.bo.ObjectCode;
-import org.kuali.test.RequiresSpringContext;
+import org.kuali.test.ConfigureContext;
 
 /**
  * This class tests the ObjectCode service.
  * 
  * 
  */
-@RequiresSpringContext
+@ConfigureContext
 public class ObjectCodeServiceTest extends KualiTestBase {
     public static final String CHART_CODE = TestConstants.Data4.CHART_CODE;
 

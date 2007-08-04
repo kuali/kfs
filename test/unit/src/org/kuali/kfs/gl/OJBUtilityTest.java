@@ -24,14 +24,14 @@ import org.kuali.kfs.context.KualiTestBase;
 import org.kuali.module.gl.bo.AccountBalance;
 import org.kuali.module.gl.bo.TransientBalanceInquiryAttributes;
 import org.kuali.module.gl.web.Constant;
-import org.kuali.test.RequiresSpringContext;
+import org.kuali.test.ConfigureContext;
 
 /**
  * This class is the JUnit test case applied on the BusinessObjectHandler class
  * 
  * 
  */
-@RequiresSpringContext
+@ConfigureContext
 public class OJBUtilityTest extends KualiTestBase {
 
     // test cases for buildPropertyMap method

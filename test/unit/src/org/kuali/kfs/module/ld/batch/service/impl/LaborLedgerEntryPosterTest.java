@@ -40,9 +40,9 @@ import org.kuali.module.labor.bo.LedgerEntry;
 import org.kuali.module.labor.service.LaborLedgerEntryService;
 import org.kuali.module.labor.util.ObjectUtil;
 import org.kuali.module.labor.util.TestDataPreparator;
-import org.kuali.test.RequiresSpringContext;
+import org.kuali.test.ConfigureContext;
 
-@RequiresSpringContext
+@ConfigureContext
 public class LaborLedgerEntryPosterTest extends KualiTestBase {
     
     private Properties properties;

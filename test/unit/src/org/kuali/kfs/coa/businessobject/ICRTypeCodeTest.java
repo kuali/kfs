@@ -17,12 +17,12 @@ package org.kuali.module.chart.bo.codes;
 
 import org.kuali.kfs.context.KualiTestBase;
 import org.kuali.kfs.util.SpringServiceLocator;
-import org.kuali.test.RequiresSpringContext;
+import org.kuali.test.ConfigureContext;
 
 /**
  * Tests of the ICRTypeCode BO.
  */
-@RequiresSpringContext
+@ConfigureContext
 public class ICRTypeCodeTest extends KualiTestBase {
 
     /**

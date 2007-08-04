@@ -21,14 +21,14 @@ import java.util.HashMap;
 
 import org.kuali.kfs.context.KualiTestBase;
 import org.kuali.module.chart.bo.codes.BalanceTyp;
-import org.kuali.test.RequiresSpringContext;
+import org.kuali.test.ConfigureContext;
 
 /**
  * This class tests the BalanceType service.
  * 
  * 
  */
-@RequiresSpringContext
+@ConfigureContext
 public class BalanceTypServiceTest extends KualiTestBase {
     private static final boolean ACTIVE = true;
     private static final boolean BAL_TYPE_ENCUMB = true;

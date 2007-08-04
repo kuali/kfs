@@ -39,7 +39,7 @@ import org.kuali.module.gl.bo.OriginEntry;
 import org.kuali.module.gl.bo.OriginEntryGroup;
 import org.kuali.module.gl.bo.OriginEntrySource;
 import org.kuali.module.gl.service.impl.FileEnterpriseFeederServiceImpl;
-import org.kuali.test.RequiresSpringContext;
+import org.kuali.test.ConfigureContext;
 import org.kuali.test.suite.RelatesTo;
 
 /**
@@ -73,7 +73,7 @@ import org.kuali.test.suite.RelatesTo;
  * </ul>
  * 
  */
-@RequiresSpringContext
+@ConfigureContext
 public class FileEnterpriseFeederTest extends OriginEntryTestBase {
     // to be populated in setUp
     private List<String> prerequisiteDataFiles;

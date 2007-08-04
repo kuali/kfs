@@ -21,13 +21,13 @@ import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.context.KualiTestBase;
 import org.kuali.module.chart.bo.A21SubAccount;
 import org.kuali.module.chart.bo.SubAccount;
-import org.kuali.test.RequiresSpringContext;
+import org.kuali.test.ConfigureContext;
 import org.kuali.test.fixtures.SubAccountFixture;
 
 /**
  * This class tests the SubAccount service.
  */
-@RequiresSpringContext
+@ConfigureContext
 public class SubAccountServiceTest extends KualiTestBase {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(SubAccountServiceTest.class);
 

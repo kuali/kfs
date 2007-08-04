@@ -15,8 +15,8 @@
  */
 package org.kuali.module.chart.bo;
 
-import static org.kuali.kfs.util.SpringServiceLocator.getBusinessObjectService;
-import static org.kuali.kfs.util.SpringServiceLocator.getDocumentService;
+import static org.kuali.rice.KNSServiceLocator.getBusinessObjectService;
+import static org.kuali.rice.KNSServiceLocator.getDocumentService;
 import static org.kuali.test.fixtures.UserNameFixture.KHUNTLEY;
 
 import java.util.ArrayList;
@@ -26,14 +26,12 @@ import org.kuali.kfs.context.KualiTestBase;
 import org.kuali.kfs.document.AccountingDocument;
 import org.kuali.module.financial.document.TransferOfFundsDocument;
 import org.kuali.test.DocumentTestUtils;
-import org.kuali.test.ShouldCommitTransactions;
-import org.kuali.test.RequiresSpringContext;
+import org.kuali.test.ConfigureContext;
 
-@RequiresSpringContext(session = KHUNTLEY)
+@ConfigureContext(session = KHUNTLEY, shouldCommitTransactions=true)
 public class ObjectCodeGlobalDetailTest extends KualiTestBase {
     private AccountingDocument document;
 
-    @ShouldCommitTransactions
     @Override
     protected void setUp() throws Exception {
         super.setUp();

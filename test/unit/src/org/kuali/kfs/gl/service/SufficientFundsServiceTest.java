@@ -25,9 +25,9 @@ import org.kuali.kfs.context.KualiTestBase;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.gl.bo.OriginEntry;
 import org.kuali.module.gl.util.SufficientFundsItem;
-import org.kuali.test.RequiresSpringContext;
+import org.kuali.test.ConfigureContext;
 
-@RequiresSpringContext
+@ConfigureContext
 public class SufficientFundsServiceTest extends KualiTestBase {
 
     private SufficientFundsService sufficientFundsService = null;

@@ -21,9 +21,9 @@ import java.util.Collections;
 import java.util.List;
 
 import org.kuali.kfs.context.KualiTestBase;
-import org.kuali.test.RequiresSpringContext;
+import org.kuali.test.ConfigureContext;
 
-@RequiresSpringContext
+@ConfigureContext
 public class OrganizationService2Test extends KualiTestBase {
 
     private static final String GOOD_CHART = "BL";

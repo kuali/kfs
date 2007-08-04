@@ -15,6 +15,9 @@
  */
 package org.kuali.module.chart.globals;
 
+import static org.kuali.rice.KNSServiceLocator.getDocumentService;
+import static org.kuali.test.fixtures.UserNameFixture.KHUNTLEY;
+
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -26,24 +29,17 @@ import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.core.maintenance.Maintainable;
 import org.kuali.core.util.DateUtils;
 import org.kuali.core.util.KualiDecimal;
-
-import static org.kuali.kfs.util.SpringServiceLocator.getDocumentService;
-
 import org.kuali.kfs.context.KualiTestBase;
-import org.kuali.module.chart.bo.AccountGlobalDetail;
 import org.kuali.module.chart.bo.AccountGlobal;
+import org.kuali.module.chart.bo.AccountGlobalDetail;
 import org.kuali.module.chart.bo.DelegateGlobal;
 import org.kuali.module.chart.bo.DelegateGlobalDetail;
-import org.kuali.test.ShouldCommitTransactions;
-import org.kuali.test.RequiresSpringContext;
+import org.kuali.test.ConfigureContext;
 import org.kuali.test.suite.AnnotationTestSuite;
 import org.kuali.test.suite.CrossSectionSuite;
-import static org.kuali.test.fixtures.UserNameFixture.KHUNTLEY;
-
-import edu.iu.uis.eden.exception.WorkflowException;
 
 @SuppressWarnings("deprecation")
-@RequiresSpringContext(session = KHUNTLEY)
+@ConfigureContext(session = KHUNTLEY)
 public class GlobalDocumentTest extends KualiTestBase {
 
     private static final Log LOG = LogFactory.getLog(GlobalDocumentTest.class);
@@ -103,7 +99,7 @@ public class GlobalDocumentTest extends KualiTestBase {
         assertEquals("New BO should be of the correct class.", AccountGlobal.class, newBo.getClass());
     }
 
-    @ShouldCommitTransactions
+    @ConfigureContext(session = KHUNTLEY, shouldCommitTransactions=true)
     public final void testSaveDocument_globalDelegate() throws Exception {
 
         MaintenanceDocument document = (MaintenanceDocument) getDocumentService().getNewDocument(GLOBAL_DELEGATE_TYPENAME);
@@ -156,7 +152,7 @@ public class GlobalDocumentTest extends KualiTestBase {
     }
 
     @AnnotationTestSuite(CrossSectionSuite.class)
-    @ShouldCommitTransactions
+    @ConfigureContext(session = KHUNTLEY, shouldCommitTransactions=true)
     public final void testSaveAndLoadDocument_globalDelegate() throws Exception {
 
         MaintenanceDocument document = (MaintenanceDocument) getDocumentService().getNewDocument(GLOBAL_DELEGATE_TYPENAME);

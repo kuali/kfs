@@ -1906,7 +1906,7 @@ public class RoutingFormDocument extends ResearchDocumentBase {
                 xml.append(projectDirector.getChartOfAccountsCode());
                 xml.append("</chartOfAccountsCode><organizationCode>");
                 if (StringUtils.isBlank(projectDirector.getOrganizationCode())) {
-                    xml.append(SpringServiceLocator.getChartUserService().getDefaultOrganizationCode(new ChartUser(projectDirector.getUser())));
+                    xml.append(SpringServiceLocator.getChartUserService().getDefaultOrganizationCode(projectDirector.getUser()));
                 } else {
                     xml.append(projectDirector.getOrganizationCode());
                 }

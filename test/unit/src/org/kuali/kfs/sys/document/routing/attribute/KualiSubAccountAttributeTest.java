@@ -28,7 +28,7 @@ import javax.xml.xpath.XPathExpressionException;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.context.KualiTestBase;
 import org.kuali.module.chart.bo.SubAccount;
-import org.kuali.test.RequiresSpringContext;
+import org.kuali.test.ConfigureContext;
 import org.kuali.test.fixtures.SubAccountFixture;
 import org.kuali.workflow.KualiWorkflowUtils;
 import org.w3c.dom.Node;
@@ -38,7 +38,7 @@ import edu.iu.uis.eden.engine.RouteContext;
 import edu.iu.uis.eden.exception.InvalidXmlException;
 import edu.iu.uis.eden.routeheader.DocumentContent;
 
-@RequiresSpringContext
+@ConfigureContext
 public class KualiSubAccountAttributeTest extends KualiTestBase {
 
     private static Map VALID_SUB_ACCOUNT_PARAM_MAP = new HashMap();

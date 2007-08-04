@@ -24,13 +24,13 @@ import org.kuali.core.service.KualiModuleService;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.context.KualiTestBase;
 import org.kuali.kfs.context.SpringContext;
-import org.kuali.test.RequiresSpringContext;
+import org.kuali.test.ConfigureContext;
 import org.springframework.beans.factory.NoSuchBeanDefinitionException;
 
 /**
  * Tests the spring configuration for batch jobs.
  */
-@RequiresSpringContext
+@ConfigureContext
 public class BatchConfigurationTest extends KualiTestBase {
     private List<KualiModule> modules;
     private List<String> kfsJobNames;

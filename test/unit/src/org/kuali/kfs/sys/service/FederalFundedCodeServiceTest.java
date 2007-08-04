@@ -19,7 +19,7 @@ import static org.kuali.kfs.util.SpringServiceLocator.getKualiCodeService;
 
 import org.kuali.kfs.context.KualiTestBase;
 import org.kuali.module.chart.bo.codes.FederalFundedCode;
-import org.kuali.test.RequiresSpringContext;
+import org.kuali.test.ConfigureContext;
 
 /**
  * This class tests the FederalFundedCode service.
@@ -27,7 +27,7 @@ import org.kuali.test.RequiresSpringContext;
  * 
  */
 
-@RequiresSpringContext
+@ConfigureContext
 public class FederalFundedCodeServiceTest extends KualiTestBase {
 
     private FederalFundedCode ffc;

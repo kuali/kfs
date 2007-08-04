@@ -27,7 +27,7 @@ import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.chart.bo.AccountingPeriod;
 import org.kuali.module.chart.bo.codes.BalanceTyp;
 import org.kuali.module.financial.document.JournalVoucherDocument;
-import org.kuali.test.RequiresSpringContext;
+import org.kuali.test.ConfigureContext;
 import org.kuali.test.suite.RelatesTo;
 import org.kuali.test.suite.RelatesTo.JiraIssue;
 /**
@@ -35,7 +35,7 @@ import org.kuali.test.suite.RelatesTo.JiraIssue;
  * 
  * 
  */
-@RequiresSpringContext
+@ConfigureContext
 public class TransactionalDocumentRuleUtilTest extends KualiTestBase {
 
     private static final String DOES_NOT_MATTER = "doesNotMatter";

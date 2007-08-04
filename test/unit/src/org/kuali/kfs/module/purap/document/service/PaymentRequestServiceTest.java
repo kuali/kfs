@@ -28,12 +28,12 @@ import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.PurapParameterConstants;
 import org.kuali.module.purap.document.PaymentRequestDocument;
-import org.kuali.test.RequiresSpringContext;
+import org.kuali.test.ConfigureContext;
 import org.kuali.test.fixtures.UserNameFixture;
 
 import edu.iu.uis.eden.exception.WorkflowException;
 
-@RequiresSpringContext(session=UserNameFixture.APPLETON)
+@ConfigureContext(session=UserNameFixture.APPLETON)
 public class PaymentRequestServiceTest extends KualiTestBase {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PaymentRequestServiceTest.class);
     

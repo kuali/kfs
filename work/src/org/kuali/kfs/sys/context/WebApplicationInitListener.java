@@ -26,7 +26,7 @@ public class WebApplicationInitListener extends JstlConstantsInitListener implem
     private Logger log;
     
     public void contextInitialized(ServletContextEvent sce) {
-        Log4jConfigurer.configureLogging();
+        Log4jConfigurer.configureLogging(true);
         log = Logger.getLogger(WebApplicationInitListener.class);
         SpringContext.initializeApplicationContext();
         for (String jstlConstantsClassname : SpringContext.getListConfigurationProperty(JSTL_CONSTANTS_CLASSNAMES_KEY)) {
@@ -40,6 +40,7 @@ public class WebApplicationInitListener extends JstlConstantsInitListener implem
         }
         super.contextInitialized(sce);
         log.info("Finished web application context initialization");
+        Log4jConfigurer.completeStartupLogging();
     }
 
     public void contextDestroyed(ServletContextEvent sce) {

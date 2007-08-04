@@ -727,6 +727,11 @@ public class KFSConstants {
         
         public static final String ACCOUNT_FUND_GROUP_DENOTES_CG = "Account.FundGroupDenotesCG";
         public static final String ACCOUNT_CG_DENOTING_VALUE = "Account.CGDenotingValue";
+        
+        public static final String DEFAULT_USER_CHART_CODE_SOURCE_ATTRIBUTE = "Default.User.ChartCode.Source.Attribute";
+        public static final String DEFAULT_USER_CHART_CODE_EXTRACTION_REGEXP = "Default.User.ChartCode.Extraction.RegExp";
+        public static final String DEFAULT_USER_ORGANIZATION_CODE_SOURCE_ATTRIBUTE = "Default.User.OrganizationCode.Source.Attribute";
+        public static final String DEFAULT_USER_ORGANIZATION_CODE_EXTRACTION_REGEXP = "Default.User.OrganizationCode.Extraction.RegExp";
     }
 
     public static class FinancialApcParms {

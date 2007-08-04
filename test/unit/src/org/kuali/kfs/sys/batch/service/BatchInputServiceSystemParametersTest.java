@@ -24,14 +24,14 @@ import org.kuali.kfs.batch.BatchInputFileType;
 import org.kuali.kfs.context.KualiTestBase;
 import org.kuali.kfs.context.TestUtils;
 import org.kuali.kfs.util.SpringServiceLocator;
-import org.kuali.test.RequiresSpringContext;
+import org.kuali.test.ConfigureContext;
 import org.kuali.test.KualiTestConstants.TestConstants.Data2;
 import org.kuali.test.KualiTestConstants.TestConstants.Data4;
 
 /**
  * Tests system parameters are setup and methods on the batch input types are correctly using them.
  */
-@RequiresSpringContext
+@ConfigureContext
 public class BatchInputServiceSystemParametersTest extends KualiTestBase {
     private KualiConfigurationService configurationService;
     private BatchInputFileService batchInputFileService;

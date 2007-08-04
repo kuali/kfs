@@ -645,8 +645,8 @@ public class RoutingFormXml {
         }
         
         approverElement.setAttribute("TITLE", ObjectUtils.toString(nodeName));
-        approverElement.setAttribute("CHART", ObjectUtils.toString(chartUserService.getDefaultChartOfAccountsCode((ChartUser) kualiUser.getModuleUser(ChartUser.MODULE_ID))));
-        approverElement.setAttribute("ORG", ObjectUtils.toString(chartUserService.getDefaultOrganizationCode((ChartUser) kualiUser.getModuleUser(ChartUser.MODULE_ID))));
+        approverElement.setAttribute("CHART", ObjectUtils.toString(chartUserService.getDefaultChartCode(kualiUser)));
+        approverElement.setAttribute("ORG", ObjectUtils.toString(chartUserService.getDefaultOrganizationCode(kualiUser)));
         approverElement.setAttribute("ACTION", ObjectUtils.toString(actionName));
         approverElement.setAttribute("ACTION_DATE", ObjectUtils.toString(actionDate));
         

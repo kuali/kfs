@@ -40,10 +40,9 @@ import org.kuali.module.labor.bo.LaborOriginEntry;
 import org.kuali.module.labor.bo.LedgerEntry;
 import org.kuali.module.labor.service.LaborOriginEntryService;
 import org.kuali.module.labor.util.testobject.PendingLedgerEntryForTesting;
-import org.kuali.test.ShouldCommitTransactions;
-import org.kuali.test.RequiresSpringContext;
+import org.kuali.test.ConfigureContext;
 
-@RequiresSpringContext
+@ConfigureContext(shouldCommitTransactions=true)
 public class TestDataLoader extends KualiTestBase {
     private Properties properties;
     private String fieldNames;
@@ -77,14 +76,12 @@ public class TestDataLoader extends KualiTestBase {
         persistenceService = (PersistenceService) SpringServiceLocator.getService("persistenceService");
     }
 
-    @ShouldCommitTransactions
     public void testLoadTransactionIntoPendingEntryTable() {
         int numberOfInputData = Integer.valueOf(properties.getProperty("numOfData"));
         int[] fieldLength = this.getFieldLength(fieldLengthList);
         System.out.println("Loaded transactions into pending entry table: " + this.loadInputData("data", numberOfInputData, keyFieldList, fieldLength));
     }
 
-    @ShouldCommitTransactions
     public void testLoadTransactionIntoOriginEntryTable() {
         int numberOfInputData = Integer.valueOf(properties.getProperty("numOfData"));
            
@@ -101,7 +98,6 @@ public class TestDataLoader extends KualiTestBase {
         System.out.println("Loaded transactions into origin entry table: " + originEntries.size());
     }
     
-    @ShouldCommitTransactions
     public void testLoadTransactionIntoGLOriginEntryTable() {
         int numberOfInputData = Integer.valueOf(properties.getProperty("numOfData"));
            
@@ -118,7 +114,6 @@ public class TestDataLoader extends KualiTestBase {
         System.out.println("Loaded transactions into gl origin entry table: " + originEntries.size());
     }
     
-    @ShouldCommitTransactions
     public void testGenerateLedgerEntryTestData() {
         int numberOfInputData = Integer.valueOf(properties.getProperty("numOfData"));
 

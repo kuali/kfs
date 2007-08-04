@@ -29,13 +29,13 @@ import org.kuali.kfs.bo.TargetAccountingLine;
 import org.kuali.kfs.context.KualiTestBase;
 import org.kuali.kfs.document.AccountingDocument;
 import org.kuali.module.financial.document.DistributionOfIncomeAndExpenseDocument;
-import org.kuali.test.RequiresSpringContext;
+import org.kuali.test.ConfigureContext;
 
 
 /**
  * This class tests the <code>DistributionOfIncomeAndExpenseDocumentRule</code>s
  */
-@RequiresSpringContext(session = KHUNTLEY)
+@ConfigureContext(session = KHUNTLEY)
 public class DistributionOfIncomeAndExpenseDocumentRuleTest extends KualiTestBase {
 
 

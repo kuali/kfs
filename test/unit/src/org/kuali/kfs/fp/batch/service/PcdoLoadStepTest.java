@@ -22,7 +22,7 @@ import org.kuali.kfs.context.KualiTestBase;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.financial.batch.pcard.PcdoLoadStep;
 import org.kuali.module.financial.bo.ProcurementCardTransaction;
-import org.kuali.test.RequiresSpringContext;
+import org.kuali.test.ConfigureContext;
 
 /**
  * Tests the PcdoLoadStep.
@@ -32,7 +32,7 @@ import org.kuali.test.RequiresSpringContext;
  * this file can be obtained by running the project's ant dist-local, or copying from
  * build/externalConfigDirectory/static/staging/PCDO/
  */
-@RequiresSpringContext
+@ConfigureContext
 public class PcdoLoadStepTest extends KualiTestBase {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PcdoLoadStepTest.class);
     

@@ -28,11 +28,11 @@ import org.kuali.kfs.bo.SourceAccountingLine;
 import org.kuali.kfs.context.KualiTestBase;
 import org.kuali.kfs.document.AccountingDocument;
 import org.kuali.module.financial.document.DisbursementVoucherDocument;
-import org.kuali.test.RequiresSpringContext;
+import org.kuali.test.ConfigureContext;
 /**
  * This class tests the DisbursementVoucherDocumentRule
  */
-@RequiresSpringContext(session = LRAAB)
+@ConfigureContext(session = LRAAB)
 public class DisbursementVoucherDocumentRuleTest extends KualiTestBase {
 
     /**

@@ -34,11 +34,11 @@ import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSKeyConstants;
 import org.kuali.kfs.context.KualiTestBase;
 import org.kuali.kfs.util.SpringServiceLocator;
-import org.kuali.test.RequiresSpringContext;
+import org.kuali.test.ConfigureContext;
 
 import edu.iu.uis.eden.exception.WorkflowException;
 
-@RequiresSpringContext
+@ConfigureContext
 public abstract class MaintenanceRuleTestBase extends KualiTestBase {
         /**
          * 

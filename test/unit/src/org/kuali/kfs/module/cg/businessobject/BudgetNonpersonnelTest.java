@@ -22,14 +22,14 @@ import org.kuali.core.util.KualiInteger;
 import org.kuali.kfs.context.KualiTestBase;
 import org.kuali.module.kra.budget.bo.BudgetNonpersonnel;
 import org.kuali.module.kra.budget.bo.NonpersonnelObjectCode;
-import org.kuali.test.RequiresSpringContext;
+import org.kuali.test.ConfigureContext;
 
 /**
  * This class tests methods in BudgetNonpersonnelCopyOverFormHelper.
  * 
  * 
  */
-@RequiresSpringContext
+@ConfigureContext
 public class BudgetNonpersonnelTest extends KualiTestBase {
 
     public void testBudgetNonpersonnel() {

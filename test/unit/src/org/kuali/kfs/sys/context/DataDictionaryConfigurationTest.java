@@ -15,9 +15,7 @@
  */
 package org.kuali.core.datadictionary;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
@@ -29,11 +27,11 @@ import org.kuali.core.KualiModule;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.batch.JobDescriptor;
 import org.kuali.kfs.context.KualiTestBase;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.util.SpringServiceLocator;
-import org.kuali.test.RequiresSpringContext;
-import org.kuali.test.suite.RelatesTo;
+import org.kuali.test.ConfigureContext;
 
-@RequiresSpringContext
+@ConfigureContext
 public class DataDictionaryConfigurationTest extends KualiTestBase {
     private static final Logger LOG = Logger.getLogger(DataDictionaryConfigurationTest.class);
     private static final String BASE_PACKAGE_PREFIX = "org.kuali.";
@@ -69,7 +67,7 @@ public class DataDictionaryConfigurationTest extends KualiTestBase {
         for (String componentClassName : componentNamesByClassName.keySet()) {
             componentNamesByModule.get(getComponentModuleId(componentClassName)).addAll(componentNamesByClassName.get(componentClassName));
         }
-        for (JobDescriptor jobDescriptor : SpringServiceLocator.getJobDescriptors()) {
+        for (JobDescriptor jobDescriptor : SpringContext.getBeansOfType(JobDescriptor.class)) {
             componentNamesByModule.get(getComponentModuleId(jobDescriptor.getSteps().get(0).getClass().getName())).add(getNiceJobName(jobDescriptor));
         }
         StringBuffer output = new StringBuffer("Components By Module:");

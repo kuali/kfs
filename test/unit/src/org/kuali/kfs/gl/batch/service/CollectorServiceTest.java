@@ -40,13 +40,13 @@ import org.kuali.module.gl.bo.OriginEntryGroup;
 import org.kuali.module.gl.bo.OriginEntrySource;
 import org.kuali.module.gl.util.CollectorReportData;
 import org.kuali.module.gl.util.CollectorScrubberStatus;
-import org.kuali.test.RequiresSpringContext;
+import org.kuali.test.ConfigureContext;
 import org.kuali.test.suite.RelatesTo;
 
 /**
  * Test the CollectorService.
  */
-@RequiresSpringContext
+@ConfigureContext
 public class CollectorServiceTest extends KualiTestBase {
     private KualiConfigurationService configurationService;
     private CollectorHelperService collectorHelperService;

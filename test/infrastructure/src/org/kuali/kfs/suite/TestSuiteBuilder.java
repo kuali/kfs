@@ -33,7 +33,7 @@ import org.kuali.core.util.AssertionUtils;
 /**
  * Utility class that builds test suites dynamically.
  *
- * @see org.kuali.test.suite.RequiresSpringContextSuite
+ * @see org.kuali.test.suite.ContextConfiguredSuite
  * @see org.kuali.test.suite.ShouldCommitTransactionsSuite
  * @see org.kuali.test.suite.CrossSectionSuite
  */

@@ -37,13 +37,13 @@ import org.kuali.module.labor.bo.AccountStatusCurrentFunds;
 import org.kuali.module.labor.bo.LedgerBalance;
 import org.kuali.module.labor.service.LaborInquiryOptionsService;
 import org.kuali.module.labor.util.ObjectUtil;
-import org.kuali.test.RequiresSpringContext;
+import org.kuali.test.ConfigureContext;
 import org.kuali.test.suite.RelatesTo;
 
 /**
  * This class contains test cases that can be applied to methods in Account Status Current Funds class.
  */
-@RequiresSpringContext
+@ConfigureContext
 public class CurrentFundsLookupableHelperServiceTest extends KualiTestBase {
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(CurrentFundsLookupableHelperServiceTest.class);
     private BusinessObjectService businessObjectService;

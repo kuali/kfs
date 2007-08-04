@@ -51,7 +51,7 @@ import org.kuali.kfs.context.KualiTestBase;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.rice.definition.ObjectDefinition;
 import org.kuali.rice.resourceloader.GlobalResourceLoader;
-import org.kuali.test.RequiresSpringContext;
+import org.kuali.test.ConfigureContext;
 import org.kuali.workflow.KualiWorkflowUtils;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
@@ -70,7 +70,7 @@ import edu.iu.uis.eden.xml.XmlConstants;
  * that the xpath will also fail to find the element in the document xml.  The fact that the name and title are unique for each
  * field within the attribute is also verfied.
  */
-@RequiresSpringContext
+@ConfigureContext
 public class KualiXmlAttributeImplTest extends KualiTestBase {
 
     private static Log LOG = LogFactory.getLog(KualiXmlRuleAttributeImpl.class);

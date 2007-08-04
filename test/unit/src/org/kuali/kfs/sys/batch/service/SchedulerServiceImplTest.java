@@ -15,17 +15,16 @@
  */
 package org.kuali.core.service.impl;
 
-import java.util.Calendar;
 import java.util.List;
 
 import org.kuali.kfs.batch.BatchJobStatus;
 import org.kuali.kfs.context.KualiTestBase;
 import org.kuali.kfs.service.SchedulerService;
 import org.kuali.kfs.util.SpringServiceLocator;
-import org.kuali.test.RequiresSpringContext;
+import org.kuali.test.ConfigureContext;
 import org.kuali.test.fixtures.UserNameFixture;
 
-@RequiresSpringContext(session=UserNameFixture.KULUSER)
+@ConfigureContext(session=UserNameFixture.KULUSER, initializeBatchSchedule=true)
 public class SchedulerServiceImplTest extends KualiTestBase {
 
     // tests added to make sure that the scheduler was available during the tests 

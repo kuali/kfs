@@ -444,7 +444,7 @@ public class BudgetDocument extends ResearchDocumentBase {
                 xml.append(projectDirector.getFiscalCampusCode());
                 xml.append("</chartOfAccountsCode><organizationCode>");
                 if (StringUtils.isBlank(projectDirector.getPrimaryDepartmentCode())) {
-                    xml.append(SpringServiceLocator.getChartUserService().getDefaultOrganizationCode(new ChartUser(projectDirector.getUser())));
+                    xml.append(SpringServiceLocator.getChartUserService().getDefaultOrganizationCode(projectDirector.getUser()));
                 } else {
                     xml.append(projectDirector.getPrimaryDepartmentCode());
                 }

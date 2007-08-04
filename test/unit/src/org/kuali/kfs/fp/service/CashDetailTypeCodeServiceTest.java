@@ -22,13 +22,13 @@ import java.util.ArrayList;
 import org.kuali.kfs.context.KualiTestBase;
 import org.kuali.module.financial.bo.CashDetailTypeCode;
 import org.kuali.module.financial.service.impl.CashDetailTypeCodeServiceImpl;
-import org.kuali.test.RequiresSpringContext;
+import org.kuali.test.ConfigureContext;
 /**
  * This class tests the CashDetailTypeCode service.
  * 
  * 
  */
-@RequiresSpringContext
+@ConfigureContext
 public class CashDetailTypeCodeServiceTest extends KualiTestBase {
     private ArrayList validCashDetailTypeCodes;
 

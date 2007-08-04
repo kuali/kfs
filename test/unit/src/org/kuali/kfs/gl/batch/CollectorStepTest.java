@@ -24,7 +24,7 @@ import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.context.KualiTestBase;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.gl.batch.collector.CollectorStep;
-import org.kuali.test.RequiresSpringContext;
+import org.kuali.test.ConfigureContext;
 import org.kuali.test.suite.RelatesTo;
 
 /**
@@ -35,7 +35,7 @@ import org.kuali.test.suite.RelatesTo;
  * this file can be obtained by running the project's ant dist-local, or copying from
  * build/externalConfigDirectory/static/staging/collector/
  */
-@RequiresSpringContext
+@ConfigureContext
 public class CollectorStepTest extends KualiTestBase {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CollectorStepTest.class);
     

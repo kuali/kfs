@@ -19,7 +19,7 @@ import static org.kuali.kfs.util.SpringServiceLocator.getKualiCodeService;
 
 import org.kuali.kfs.context.KualiTestBase;
 import org.kuali.module.chart.bo.codes.MandatoryTransferEliminationCode;
-import org.kuali.test.RequiresSpringContext;
+import org.kuali.test.ConfigureContext;
 import org.kuali.test.suite.AnnotationTestSuite;
 import org.kuali.test.suite.CrossSectionSuite;
 
@@ -29,7 +29,7 @@ import org.kuali.test.suite.CrossSectionSuite;
  * 
  */
 @AnnotationTestSuite(CrossSectionSuite.class)
-@RequiresSpringContext
+@ConfigureContext
 public class MandatoryTransferEliminationCodeServiceTest extends KualiTestBase {
 
     private static final String GOOD_CODE="N";

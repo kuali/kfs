@@ -25,9 +25,9 @@ import org.kuali.module.kra.budget.bo.BudgetPeriod;
 import org.kuali.module.kra.budget.bo.BudgetTask;
 import org.kuali.module.kra.budget.bo.BudgetTaskPeriodIndirectCost;
 import org.kuali.module.kra.budget.web.struts.form.BudgetIndirectCostFormHelper;
-import org.kuali.test.RequiresSpringContext;
+import org.kuali.test.ConfigureContext;
 
-@RequiresSpringContext
+@ConfigureContext
 public class BudgetIndirectCostFormHelperTest extends KualiTestBase {
 
     public void testInitializeTotals() {

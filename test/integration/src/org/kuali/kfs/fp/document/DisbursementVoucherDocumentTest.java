@@ -15,12 +15,10 @@
  */
 package org.kuali.module.financial.document;
 
-import static org.kuali.kfs.util.SpringServiceLocator.getDataDictionaryService;
-import static org.kuali.kfs.util.SpringServiceLocator.getDocumentService;
-import static org.kuali.kfs.util.SpringServiceLocator.getTransactionalDocumentDictionaryService;
-import static org.kuali.kfs.util.SpringServiceLocator.getAccountingPeriodService;
-import static org.kuali.module.financial.document.AccountingDocumentTestUtils.testGetNewDocument_byDocumentClass;
 import static org.kuali.module.financial.document.AccountingDocumentTestUtils.saveDocument;
+import static org.kuali.module.financial.document.AccountingDocumentTestUtils.testGetNewDocument_byDocumentClass;
+import static org.kuali.rice.KNSServiceLocator.getDataDictionaryService;
+import static org.kuali.rice.KNSServiceLocator.getDocumentService;
 import static org.kuali.test.fixtures.AccountingLineFixture.LINE7;
 import static org.kuali.test.fixtures.UserNameFixture.CSWINSON;
 import static org.kuali.test.fixtures.UserNameFixture.HSCHREIN;
@@ -35,7 +33,6 @@ import java.util.List;
 import junit.framework.Assert;
 
 import org.kuali.core.document.Document;
-import org.kuali.core.document.TransactionalDocument;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.bo.SourceAccountingLine;
@@ -46,8 +43,7 @@ import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.financial.bo.DisbursementVoucherNonResidentAlienTax;
 import org.kuali.module.financial.bo.DisbursementVoucherPayeeDetail;
 import org.kuali.test.DocumentTestUtils;
-import org.kuali.test.ShouldCommitTransactions;
-import org.kuali.test.RequiresSpringContext;
+import org.kuali.test.ConfigureContext;
 import org.kuali.test.fixtures.AccountingLineFixture;
 import org.kuali.test.suite.RelatesTo;
 import org.kuali.workflow.WorkflowTestUtils;
@@ -59,7 +55,7 @@ import edu.iu.uis.eden.EdenConstants;
  * 
  * 
  */
-@RequiresSpringContext(session = HSCHREIN)
+@ConfigureContext(session = HSCHREIN)
 public class DisbursementVoucherDocumentTest extends KualiTestBase {
 
     public static final Class<DisbursementVoucherDocument> DOCUMENT_CLASS = DisbursementVoucherDocument.class;
@@ -115,7 +111,7 @@ public class DisbursementVoucherDocumentTest extends KualiTestBase {
 
     }
 
-    @ShouldCommitTransactions
+    @ConfigureContext(session = HSCHREIN, shouldCommitTransactions=true)
     @RelatesTo(RelatesTo.JiraIssue.KULRNE4834)
     public final void testWorkflowRouting() throws Exception {
         // save and route the document
@@ -248,12 +244,12 @@ public class DisbursementVoucherDocumentTest extends KualiTestBase {
 
     }
 
-    @ShouldCommitTransactions
+    @ConfigureContext(session = HSCHREIN, shouldCommitTransactions=true)
     public final void testRouteDocument() throws Exception {
         AccountingDocumentTestUtils.testRouteDocument(buildDocument(), getDocumentService());
     }
 
-    @ShouldCommitTransactions
+    @ConfigureContext(session = HSCHREIN, shouldCommitTransactions=true)
     public final void testSaveDocument() throws Exception {
         // get document parameter
         AccountingDocument document = buildDocument();
@@ -269,7 +265,7 @@ public class DisbursementVoucherDocumentTest extends KualiTestBase {
 
     }
 
-    @ShouldCommitTransactions
+    @ConfigureContext(session = HSCHREIN, shouldCommitTransactions=true)
     public final void testConvertIntoCopy() throws Exception {
         AccountingDocumentTestUtils.testConvertIntoCopy(buildDocument(), getDocumentService(), getExpectedPrePeCount());
     }

@@ -29,13 +29,12 @@ import org.kuali.kfs.context.KualiTestBase;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.financial.document.CashReceiptDocument;
 import org.kuali.module.financial.util.CashReceiptFamilyTestUtil;
-import org.kuali.test.ShouldCommitTransactions;
-import org.kuali.test.RequiresSpringContext;
+import org.kuali.test.ConfigureContext;
 import org.kuali.test.fixtures.UserNameFixture;
 
 import edu.iu.uis.eden.exception.WorkflowException;
 
-@RequiresSpringContext(session = KHUNTLEY)
+@ConfigureContext(session = KHUNTLEY)
 public class CashReceiptServiceTest extends KualiTestBase {
     // TODO: once we stop returning default campusCode for unknown verificationUnit, need a test for unknown verificationUnit
     private static final String TEST_CAMPUS_CD = KFSConstants.CashReceiptConstants.TEST_CASH_RECEIPT_CAMPUS_LOCATION_CODE;
@@ -179,7 +178,7 @@ public class CashReceiptServiceTest extends KualiTestBase {
     }
 
 
-    @ShouldCommitTransactions
+    @ConfigureContext(session = KHUNTLEY, shouldCommitTransactions=true)
     public final void testGetCashReceipts1_knownVerificationUnit_interimReceipts() throws Exception {
         final String workgroup = TEST_UNIT_NAME;
 
@@ -204,7 +203,7 @@ public class CashReceiptServiceTest extends KualiTestBase {
         denatureCashReceipts(workgroup);
     }
 
-    @ShouldCommitTransactions
+    @ConfigureContext(session = KHUNTLEY, shouldCommitTransactions=true)
     public final void testGetCashReceipts1_knownVerificationUnit_verifiedReceipts() throws Exception {
         final String workgroup = TEST_UNIT_NAME;
 
@@ -229,7 +228,7 @@ public class CashReceiptServiceTest extends KualiTestBase {
         denatureCashReceipts(workgroup);
     }
 
-    @ShouldCommitTransactions
+    @ConfigureContext(session = KHUNTLEY, shouldCommitTransactions=true)
     public final void testGetCashReceipts1_knownVerificationUnit_mixedReceipts() throws Exception {
         final String workgroup = TEST_UNIT_NAME;
 
@@ -338,7 +337,7 @@ public class CashReceiptServiceTest extends KualiTestBase {
     }
 
 
-    @ShouldCommitTransactions
+    @ConfigureContext(session = KHUNTLEY, shouldCommitTransactions=true)
     public final void testGetCashReceipts2_knownVerificationUnit_interimReceipts() throws Exception {
         final String workgroup = TEST_UNIT_NAME;
 
@@ -363,7 +362,7 @@ public class CashReceiptServiceTest extends KualiTestBase {
         denatureCashReceipts(workgroup);
     }
 
-    @ShouldCommitTransactions
+    @ConfigureContext(session = KHUNTLEY, shouldCommitTransactions=true)
     public final void testGetCashReceipts2_knownVerificationUnit_verifiedReceipts() throws Exception {
         final String workgroup = TEST_UNIT_NAME;
 
@@ -388,7 +387,7 @@ public class CashReceiptServiceTest extends KualiTestBase {
         denatureCashReceipts(workgroup);
     }
 
-    @ShouldCommitTransactions
+    @ConfigureContext(session = KHUNTLEY, shouldCommitTransactions=true)
     public final void testGetCashReceipts2_knownVerificationUnit_mixedReceipts() throws Exception {
         final String workgroup = TEST_UNIT_NAME;
 

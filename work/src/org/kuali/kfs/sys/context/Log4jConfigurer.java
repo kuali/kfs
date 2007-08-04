@@ -28,7 +28,7 @@ public class Log4jConfigurer {
     private static final long MILLISECONDS_CONVERSION_MULTIPLIER = 60 * 1000;
     private static StartupTimeStatsMailAppender NDC_APPENDER = new StartupTimeStatsMailAppender(new Date().getTime());
 
-    public static final void configureLogging() {
+    public static final void configureLogging(boolean doStartupStatsLogging) {
         String settingsFile = SpringContext.getStringConfigurationProperty(KFSConstants.LOG4J_SETTINGS_FILE_KEY);
         String reloadMinutes = SpringContext.getStringConfigurationProperty(KFSConstants.LOG4J_RELOAD_MINUTES_KEY);
         long reloadMilliseconds = 5 * MILLISECONDS_CONVERSION_MULTIPLIER;
@@ -40,7 +40,9 @@ public class Log4jConfigurer {
         }
         PropertyConfigurator.configureAndWatch(settingsFile, reloadMilliseconds);
         Logger.getRootLogger().addAppender(NDC_APPENDER);
-        setStartupNdc();
+        if (doStartupStatsLogging) {
+            setStartupNdc();
+        }
         printClasspath();
     }
 

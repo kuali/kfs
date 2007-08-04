@@ -289,11 +289,6 @@ public class TestUtils {
             TestRunner.run(tests);
         }
     }
-    
-    public static boolean testTransactionIsRollbackOnly() {
-        return SpringContext.testTransactionIsRollbackOnly();
-    }
-    
 
     /**
      * This sets a given system parameter and clears the method cache for retrieving the parameter.

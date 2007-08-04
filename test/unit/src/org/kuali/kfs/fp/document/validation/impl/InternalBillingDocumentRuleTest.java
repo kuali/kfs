@@ -38,14 +38,14 @@ import org.kuali.kfs.context.KualiTestBase;
 import org.kuali.kfs.document.AccountingDocument;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.financial.document.InternalBillingDocument;
-import org.kuali.test.RequiresSpringContext;
+import org.kuali.test.ConfigureContext;
 /**
  * This class tests the business rules of the internal billing document. This is not implemented yet and needs to extend
  * AccountingDocumentRuleTestBase. We'll fully implement this when we get to this document during development.
  * 
  * 
  */
-@RequiresSpringContext(session = KHUNTLEY)
+@ConfigureContext(session = KHUNTLEY)
 public class InternalBillingDocumentRuleTest extends KualiTestBase {
 
     // ////////////////////////////////////////////////////////////////////////

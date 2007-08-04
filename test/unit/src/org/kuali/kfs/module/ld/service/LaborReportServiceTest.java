@@ -45,12 +45,12 @@ import org.kuali.module.labor.util.ObjectUtil;
 import org.kuali.module.labor.util.PayrollAccrualSummaryTable;
 import org.kuali.module.labor.util.ReportRegistry;
 import org.kuali.module.labor.util.TestDataPreparator;
-import org.kuali.test.RequiresSpringContext;
+import org.kuali.test.ConfigureContext;
 
 /**
  * This class...
  */
-@RequiresSpringContext
+@ConfigureContext
 public class LaborReportServiceTest extends KualiTestBase {
 
     private Properties properties;

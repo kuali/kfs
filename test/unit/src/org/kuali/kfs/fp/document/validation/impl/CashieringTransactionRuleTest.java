@@ -36,10 +36,10 @@ import org.kuali.module.financial.bo.CoinDetailTest;
 import org.kuali.module.financial.bo.CurrencyDetail;
 import org.kuali.module.financial.bo.CurrencyDetailTest;
 import org.kuali.module.financial.document.CashManagementDocument;
-import org.kuali.test.RequiresSpringContext;
+import org.kuali.test.ConfigureContext;
 import org.kuali.test.fixtures.UserNameFixture;
 
-@RequiresSpringContext(session = UserNameFixture.KHUNTLEY)
+@ConfigureContext(session = UserNameFixture.KHUNTLEY)
 public class CashieringTransactionRuleTest extends KualiTestBase {
     static final String CMST_WORKGROUP = "CashManagementServiceTest";
     

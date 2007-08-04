@@ -23,9 +23,9 @@ import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.purap.PurapRuleConstants;
 import org.kuali.module.vendor.VendorConstants;
 import org.kuali.module.vendor.VendorRuleConstants;
-import org.kuali.test.RequiresSpringContext;
+import org.kuali.test.ConfigureContext;
 
-@RequiresSpringContext
+@ConfigureContext
 public class TaxNumberServiceTest extends KualiTestBase {
     
     private TaxNumberService taxNumberService;

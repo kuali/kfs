@@ -19,14 +19,14 @@ import static org.kuali.kfs.util.SpringServiceLocator.*;
 
 import org.kuali.kfs.context.KualiTestBase;
 import org.kuali.module.chart.bo.Chart;
-import org.kuali.test.RequiresSpringContext;
+import org.kuali.test.ConfigureContext;
 
 /**
  * This class tests the Chart service.
  * 
  * 
  */
-@RequiresSpringContext
+@ConfigureContext
 public class ChartServiceTest extends KualiTestBase {
 
     public void testFindById() {

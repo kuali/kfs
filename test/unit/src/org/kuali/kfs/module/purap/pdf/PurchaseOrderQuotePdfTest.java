@@ -33,9 +33,9 @@ import org.kuali.module.purap.bo.PurchaseOrderItem;
 import org.kuali.module.purap.bo.PurchaseOrderVendorQuote;
 import org.kuali.module.purap.document.PurchaseOrderDocument;
 import org.kuali.module.vendor.bo.ContractManager;
-import org.kuali.test.RequiresSpringContext;
+import org.kuali.test.ConfigureContext;
 
-@RequiresSpringContext
+@ConfigureContext
 public class PurchaseOrderQuotePdfTest extends KualiTestBase {
     PurchaseOrderVendorQuote poqv;
     PurchaseOrderDocument po;

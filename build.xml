@@ -255,20 +255,20 @@
 		<fail if="tests.failed" message="Tests failed" />
 	</target>
 
-	<target name="help" description="Describe public targets">
+	<target name="help" depends="init-properties" description="Describe public targets">
 		<echo>--- OVERVIEW ---
 
 	the following configuration files are involved in the build process
 			- build.xml
 			- build.properties
 			- build/*
-			- ${user.home}\${ant.project.name}-build.properties
+			- ${user.home}/${ant.project.name}-build.properties
 
 	you should start using this build script as follows
-			- copy build/userHome/${ant.project.name}-build.properties to ${user.home}
+			- copy ${basedir}/${build.user.directory}/${ant.project.name}-build.properties to ${user.home}
 			- obtain the values for ${datasource.username}, ${datasource.password} and ${encryption.key} for the
-			  dev environment from someone on the project, and put them in ${user.home}\${ant.project.name}-build.properties
-			- override other property values in ${user.home}\${ant.project.name}-build.properties to permanently
+			  dev environment from someone on the project, and put them in ${user.home}/${ant.project.name}-build.properties
+			- override other property values in ${user.home}/${ant.project.name}-build.properties to permanently
 			  customize the build process for your machine or temporarily customize the process for execution of a
 			  given build target
 			- follow the instructions associated with the dist-local target and run that target
@@ -278,8 +278,8 @@
 			- launch a browser and access http://localhost:8080/kuali-dev
 
 	you can override the default log4j settings for your local deployments by copying
-		build/configurationFiles/externalConfigDirectory/settings/${log4j.settings.file} to
-			${user.home}/${log4j.settings.file} and modifying as desired.  you will also need to run the dist-local target
+		${basedir}/${build.external.directory}/${log4j.file} to
+			${user.home}/${log4j.file} and modifying as desired.  you will also need to run the dist-local target
 			for this change to take effect.
 
 			if you would like to suggest a configuration change, enter a Jira issue in the KULCFG project with the details
@@ -287,13 +287,13 @@
 			--- TARGETS ---
 
 			dist-local: prepares tokenized resources and local configuration files and deploys tomcat context file on development workstation
-			- this target should be run each time you update the project, change property values in ${user.home}\${ant.project.name}-build.properties,
+			- this target should be run each time you update the project, change property values in ${user.home}/${ant.project.name}-build.properties,
 			or make a change that you want to apply to the application workflow plugin
 			- tomcat should not be running when you are executing this target
 
 			test-local: runs all project tests and generates results
              - criteria for running dist-local must be met before running this target
-			- you can customize the set of tests that run by modifying the value of tests.includes in ${user.home}\${ant.project.name}-build.propertie
+			- you can customize the set of tests that run by modifying the value of tests.includes in ${user.home}/${ant.project.name}-build.propertie
 			- tomcat should not be running when you execute this target
 
 			echo-properties: executes ant echoproperties task, thereby printing out all the properties that have been set

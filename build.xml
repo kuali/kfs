@@ -51,8 +51,8 @@
 		<property name="use.quartz.scheduling" value="true" />
 		<condition property="use.quartz.jdbc.jobstore" value="false"><equals arg1="${is.local.build}" arg2="true" /></condition>
 		<property name="use.quartz.jdbc.jobstore" value="true" />
-		<condition property="Routing.ImmediateExceptionRouting" value="true"><equals arg1="${use.quartz.scheduling}" arg2="false" /></condition>
-		<property name="Routing.ImmediateExceptionRouting" value="false" />
+		<condition property="rice.exception.routing.immediate" value="true"><equals arg1="${use.quartz.scheduling}" arg2="false" /></condition>
+		<property name="rice.exception.routing.immediate" value="false" />
 		<!-- todo this is hosed - need to figure out quartz solution or adapt p1 brte solution -->
 		<condition property="database.file.directory" value="${batch.program.directory}/db"><equals arg1="${is.batch.dist}" arg2="true" /></condition>
 		<path id="database.file.directory.temp" location="${basedir}/${database.directory}" />
@@ -64,8 +64,8 @@
 		<loadfile property="web" srcfile="${build.project.directory}/${web.file}"><filterchain><expandproperties/></filterchain></loadfile>
 		<loadfile property="context" srcfile="${build.appserver.directory}/${context.file}"><filterchain><expandproperties/></filterchain></loadfile>
 		<loadfile property="log4j" srcfile="${user.home}/${log4j.file}" failonerror="false"><filterchain><expandproperties/></filterchain></loadfile>
-		<loadfile property="log4j" srcfile="${build.external.config.directory}/${log4j.file}"><filterchain><expandproperties/></filterchain></loadfile>
-		<loadfile property="security" srcfile="${build.external.config.directory}/${security.file}"><filterchain><expandproperties/></filterchain></loadfile>
+		<loadfile property="log4j" srcfile="${build.external.directory}/${log4j.file}"><filterchain><expandproperties/></filterchain></loadfile>
+		<loadfile property="security" srcfile="${build.external.directory}/${security.file}"><filterchain><expandproperties/></filterchain></loadfile>
 	</target>
 
 	<target name="init-make-references" depends="init-properties">
@@ -160,7 +160,7 @@
 		<mkdir dir="${logs.directory}" />
 		<echo file="${logs.directory}/${ant.project.name}.log" message="" />
 		<copy todir="${external.work.directory}">
-			<fileset dir="${build.external.work.directory}" />
+			<fileset dir="${build.work.directory}" />
 		</copy>
 	</target>
 

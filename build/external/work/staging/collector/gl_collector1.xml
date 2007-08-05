@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Copyright 2005-2006 The Kuali Foundation.
+	
+	Licensed under the Educational Community License, Version 1.0 (the "License");
+	you may not use this file except in compliance with the License.
+	You may obtain a copy of the License at
+	
+	http://www.opensource.org/licenses/ecl1.php
+	
+	Unless required by applicable law or agreed to in writing, software
+	distributed under the License is distributed on an "AS IS" BASIS,
+	WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+	See the License for the specific language governing permissions and
+	limitations under the License.
+-->
+<batch xmlns="http://www.kuali.org/modules/gl/collector"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" >
+	<header>
+		<chartOfAccountsCode>IN</chartOfAccountsCode>
+		<organizationCode>MDEP</organizationCode>
+		<transmissionDate>2005-10-05</transmissionDate>
+		<batchSequenceNumber>0</batchSequenceNumber>
+		<personUserId>kul</personUserId>
+		<workgroupName>@batch-mailing-list@</workgroupName>
+	</header>
+	<glEntry>
+		<universityFiscalYear>2006</universityFiscalYear>
+		<chartOfAccountsCode>BL</chartOfAccountsCode>
+		<accountNumber>1031400</accountNumber>
+		<subAccountNumber>CS001</subAccountNumber>
+		<objectCode>3000</objectCode>
+		<subObjectCode>WAC</subObjectCode>
+		<balanceTypeCode>AC</balanceTypeCode>
+		<objectTypeCode>EX</objectTypeCode>
+		<universityFiscalAccountingPeriod>04</universityFiscalAccountingPeriod>
+		<documentTypeCode>REQ</documentTypeCode>
+		<originCode>01</originCode>
+		<documentNumber>1000000</documentNumber>
+		<transactionEntrySequenceId>1</transactionEntrySequenceId>
+		<transactionLedgerEntryDescription>Description</transactionLedgerEntryDescription>
+		<transactionLedgerEntryAmount>300.00</transactionLedgerEntryAmount>
+		<debitOrCreditCode>C</debitOrCreditCode>
+		<transactionDate>2005-10-05</transactionDate>
+		<organizationDocumentNumber>ODN</organizationDocumentNumber>
+		<projectCode>BAT</projectCode>
+		<organizationReferenceId>ORI</organizationReferenceId>
+		<referenceDocumentTypeCode>REQ</referenceDocumentTypeCode>
+		<referenceOriginCode>01</referenceOriginCode>
+		<referenceDocumentNumber>1234</referenceDocumentNumber>
+		<documentReversalDate>2005-10-31</documentReversalDate>
+		<encumbranceUpdateCode>D</encumbranceUpdateCode>
+	</glEntry>
+	<detail>
+		<universityFiscalAccountingPeriod>06</universityFiscalAccountingPeriod>
+		<universityFiscalYear>2006</universityFiscalYear>
+		<createSequence>2006</createSequence>
+		<chartOfAccountsCode>BL</chartOfAccountsCode>
+		<accountNumber>1031400</accountNumber>
+		<subAccountNumber>CS001</subAccountNumber>
+		<objectCode>3000</objectCode>
+		<subObjectCode>WAC</subObjectCode>
+		<interDepartmentalBillingSequenceNumber>47</interDepartmentalBillingSequenceNumber>
+		<originationCode>01</originationCode>
+		<documentTypeCode>REQ</documentTypeCode>
+		<documentNumber>1000000</documentNumber>
+		<amount>1000000</amount>
+		<detailText>Line 1b</detailText>
+	</detail>
+	<trailer>
+		<totalRecords>2</totalRecords>
+		<totalAmount>300.00</totalAmount>
+	</trailer>
+</batch>

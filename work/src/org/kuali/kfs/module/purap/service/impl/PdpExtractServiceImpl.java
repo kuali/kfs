@@ -316,6 +316,7 @@ public class PdpExtractServiceImpl implements PdpExtractService {
         if ( prd.getPurapDocumentIdentifier() != null ) {
             pd.setPurchaseOrderNbr(prd.getPurapDocumentIdentifier().toString());
         }
+        LOG.debug("populatePaymentDetail() po id:  " + prd.getPurchaseOrderIdentifier());
         if ( prd.getPurchaseOrderDocument().getRequisitionIdentifier() != null ) {
             pd.setRequisitionNbr(prd.getPurchaseOrderDocument().getRequisitionIdentifier().toString());
         }
@@ -442,6 +443,7 @@ public class PdpExtractServiceImpl implements PdpExtractService {
     }
 
     private PaymentGroup populatePaymentGroup(PaymentRequestDocument prd,Batch batch)  {
+        LOG.debug("populatePaymentGroup() documentNumber: " + prd.getDocumentNumber());
         PaymentGroup pg = new PaymentGroup();
         pg.setBatch(batch);
 

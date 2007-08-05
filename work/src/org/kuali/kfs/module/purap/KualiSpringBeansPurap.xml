@@ -88,6 +88,9 @@
 		<property name="paymentDetailService">
 			<ref bean="pdpPaymentDetailService"/>
 		</property>
+		<property name="creditMemoService">
+			<ref bean="creditMemoService"/>
+		</property>
 	</bean>
 
 	<bean id="requisitionService" class="org.kuali.module.purap.service.impl.RequisitionServiceImpl">

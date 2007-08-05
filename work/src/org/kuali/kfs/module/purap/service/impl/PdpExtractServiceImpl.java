@@ -28,6 +28,7 @@ import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.exceptions.UserNotFoundException;
+import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DateTimeService;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.service.UniversalUserService;
@@ -65,6 +66,7 @@ public class PdpExtractServiceImpl implements PdpExtractService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PdpExtractServiceImpl.class);
 
     private PaymentRequestService paymentRequestService;
+    private BusinessObjectService businessObjectService;
     private PaymentFileService paymentFileService;
     private KualiConfigurationService kualiConfigurationService;
     private CustomerProfileService customerProfileService;
@@ -219,12 +221,12 @@ public class PdpExtractServiceImpl implements PdpExtractService {
 
     private void updateCreditMemo(CreditMemoDocument cmd,PdpUser puser,Date processRunDate) {
         cmd.setExtractedDate(new java.sql.Date(processRunDate.getTime()));
-        creditMemoService.saveDocumentWithoutValidation(cmd);
+        businessObjectService.save(cmd);
     }
 
     private void updatePaymentRequest(PaymentRequestDocument prd,PdpUser puser,Date processRunDate) {
         prd.setExtractedDate(new java.sql.Date(processRunDate.getTime()));
-        paymentRequestService.saveDocumentWithoutValidation(prd);
+        businessObjectService.save(prd);
     }
 
     private PaymentGroup buildPaymentGroup(List<PaymentRequestDocument> prds,List<CreditMemoDocument> cmds,Batch batch) {
@@ -475,7 +477,9 @@ public class PdpExtractServiceImpl implements PdpExtractService {
         pg.setZipCd(postalCode);
         pg.setCountry(prd.getVendorCountryCode());
         pg.setCampusAddress(Boolean.FALSE);
-        pg.setPaymentDate(new Timestamp(prd.getPaymentPaidDate().getTime()));
+        if ( prd.getPaymentRequestPayDate() != null ) {
+            pg.setPaymentDate(new Timestamp(prd.getPaymentRequestPayDate().getTime()));
+        }
         pg.setPymtAttachment(prd.getPaymentAttachmentIndicator());
         pg.setProcessImmediate(prd.getImmediatePaymentIndicator());
         pg.setPymtSpecialHandling( (prd.getSpecialHandlingInstructionLine1Text() != null) || (prd.getSpecialHandlingInstructionLine2Text() != null) || (prd.getSpecialHandlingInstructionLine3Text() != null) );
@@ -692,5 +696,8 @@ public class PdpExtractServiceImpl implements PdpExtractService {
 
     public void setCreditMemoService(CreditMemoService cms) {
         this.creditMemoService = cms;
+    }
+    public void setBusinessObjectService(BusinessObjectService bos) {
+        this.businessObjectService = bos;
     }
 }

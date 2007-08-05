@@ -64,6 +64,9 @@
 	</bean>
 
 	<bean id="pdpExtractService" class="org.kuali.module.purap.service.impl.PdpExtractServiceImpl">
+		<property name="businessObjectService">
+			<ref bean="businessObjectService"/>
+		</property>
 		<property name="paymentRequestService">
 			<ref bean="paymentRequestService"/>
 		</property>

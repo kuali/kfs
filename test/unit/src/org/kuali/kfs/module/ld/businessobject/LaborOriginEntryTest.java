@@ -17,7 +17,11 @@ package org.kuali.module.labor.bo;
 
 import junit.framework.TestCase;
 
-public class LaborOriginEntryTest extends TestCase {
+import org.kuali.kfs.context.KualiTestBase;
+import org.kuali.test.ConfigureContext;
+
+@ConfigureContext
+public class LaborOriginEntryTest extends KualiTestBase {
 
     public LaborOriginEntryTest() {
         super();

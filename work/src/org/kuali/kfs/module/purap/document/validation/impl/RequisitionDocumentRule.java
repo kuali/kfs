@@ -84,14 +84,14 @@ public class RequisitionDocumentRule extends PurchasingDocumentRuleBase {
             getDictionaryValidationService().validateBusinessObject(item);
         }
 
-        if (SpringServiceLocator.getPurapService().isDocumentStoppingAtRouteLevel(purapDocument, PurapConstants.WorkflowConstants.RequisitionDocument.NodeDetails.ORDERED_NODE_NAME_LIST, PurapConstants.WorkflowConstants.RequisitionDocument.NodeDetails.CONTENT_REVIEW)) {
+        if (!SpringServiceLocator.getPurapService().isDocumentStoppingAtRouteLevel(purapDocument, PurapConstants.WorkflowConstants.RequisitionDocument.NodeDetails.ORDERED_NODE_NAME_LIST, PurapConstants.WorkflowConstants.RequisitionDocument.NodeDetails.CONTENT_REVIEW)) {
             for (PurchasingApItem item : purapDocument.getItems()) {
                 item.refreshNonUpdateableReferences();
 
-                // only do these check for below the line items
+                // only do these check for above the line items
                 if (item.getItemType().isItemTypeAboveTheLineIndicator()) {
                     if (item.getSourceAccountingLines().size() == 0) {
-                        GlobalVariables.getErrorMap().putError(KFSConstants.ITEM_LINE_ERRORS, PurapKeyConstants.ERROR_NO_ACCOUNTS);
+                        GlobalVariables.getErrorMap().putError(PurapConstants.ITEM_TAB_ERROR_PROPERTY, PurapKeyConstants.ERROR_NO_ACCOUNTS);
                         valid = false;
                         break;
                     }
@@ -101,7 +101,7 @@ public class RequisitionDocumentRule extends PurchasingDocumentRuleBase {
                         totalPercentage = totalPercentage.add(accountingLine.getAccountLinePercent());
                     }
                     if (!totalPercentage.equals(new BigDecimal(100))) {
-                        GlobalVariables.getErrorMap().putError(KFSConstants.ITEM_LINE_ERRORS, PurapKeyConstants.ERROR_NOT_100_PERCENT);
+                        GlobalVariables.getErrorMap().putError(PurapConstants.ITEM_TAB_ERROR_PROPERTY, PurapKeyConstants.ERROR_NOT_100_PERCENT);
                         valid = false;
                         break;
                     }
@@ -111,7 +111,7 @@ public class RequisitionDocumentRule extends PurchasingDocumentRuleBase {
 
         List<PurchasingApItem> itemList = purapDocument.getItems();
         if (itemList.size() <= purapDocument.getBelowTheLineTypes().length) {
-            GlobalVariables.getErrorMap().putError(KFSConstants.ITEM_LINE_ERRORS, PurapKeyConstants.ERROR_NO_ITEMS);
+            GlobalVariables.getErrorMap().putError(PurapConstants.ITEM_TAB_ERROR_PROPERTY, PurapKeyConstants.ERROR_NO_ITEMS);
             valid = false;
         }
 
@@ -130,28 +130,28 @@ public class RequisitionDocumentRule extends PurchasingDocumentRuleBase {
                     if (allowsZeroRule.getRuleActiveIndicator() &&
                         !allowsZeroRule.getParameterValueSet().contains(item.getItemTypeCode())) {
                         valid = false;
-                        GlobalVariables.getErrorMap().putError("newPurchasingItemLine", PurapKeyConstants.ERROR_ITEM_BELOW_THE_LINE, item.getItemType().getItemTypeDescription(), "zero");
+                        GlobalVariables.getErrorMap().putError(PurapConstants.ITEM_TAB_ERROR_PROPERTY, PurapKeyConstants.ERROR_ITEM_BELOW_THE_LINE, item.getItemType().getItemTypeDescription(), "zero");
                     }
                 }
                 else if (ObjectUtils.isNotNull(item.getItemUnitPrice()) && (new KualiDecimal(item.getItemUnitPrice())).isPositive()) {
                     if (allowsPositiveRule.getRuleActiveIndicator() &&
                         !allowsPositiveRule.getParameterValueSet().contains(item.getItemTypeCode())) {
                         valid = false;
-                        GlobalVariables.getErrorMap().putError("newPurchasingItemLine", PurapKeyConstants.ERROR_ITEM_BELOW_THE_LINE, item.getItemType().getItemTypeDescription(), "positive");
+                        GlobalVariables.getErrorMap().putError(PurapConstants.ITEM_TAB_ERROR_PROPERTY, PurapKeyConstants.ERROR_ITEM_BELOW_THE_LINE, item.getItemType().getItemTypeDescription(), "positive");
                     }
                 }
                 else if (ObjectUtils.isNotNull(item.getItemUnitPrice()) && (new KualiDecimal(item.getItemUnitPrice())).isNegative()) {
                     if (allowsNegativeRule.getRuleActiveIndicator() &&
                         !allowsNegativeRule.getParameterValueSet().contains(item.getItemTypeCode())) {
                         valid = false;
-                        GlobalVariables.getErrorMap().putError("newPurchasingItemLine", PurapKeyConstants.ERROR_ITEM_BELOW_THE_LINE, item.getItemType().getItemTypeDescription(), "negative");
+                        GlobalVariables.getErrorMap().putError(PurapConstants.ITEM_TAB_ERROR_PROPERTY, PurapKeyConstants.ERROR_ITEM_BELOW_THE_LINE, item.getItemType().getItemTypeDescription(), "negative");
                     }
                 }
                 if (ObjectUtils.isNotNull(item.getItemUnitPrice()) && (new KualiDecimal(item.getItemUnitPrice())).isNonZero() && StringUtils.isEmpty(item.getItemDescription())) {
                     if (requiresDescriptionRule.getRuleActiveIndicator() &&
                         requiresDescriptionRule.getParameterValueSet().contains(item.getItemTypeCode())) {
                         valid = false;
-                        GlobalVariables.getErrorMap().putError("newPurchasingItemLine", PurapKeyConstants.ERROR_ITEM_BELOW_THE_LINE, "The item description of " + item.getItemType().getItemTypeDescription(), "empty");
+                        GlobalVariables.getErrorMap().putError(PurapConstants.ITEM_TAB_ERROR_PROPERTY, PurapKeyConstants.ERROR_ITEM_BELOW_THE_LINE, "The item description of " + item.getItemType().getItemTypeDescription(), "empty");
                     }
                 }
             }

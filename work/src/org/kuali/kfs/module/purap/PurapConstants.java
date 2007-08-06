@@ -314,6 +314,7 @@ public class PurapConstants extends JstlConstants {
     public static final String VENDOR_ERRORS = "document.vendor*";
     public static final String ADDITIONAL_TAB_ERRORS = "document.requestor*,document.purchaseOrderTransmissionMethodCode,document.chartOfAccountsCode,document.organizationCode,document.purchaseOrderCostSourceCode,document.purchaseOrderTotalLimit";
     public static final String ITEM_TAB_ERRORS = "document.item*,accountDistribution*";
+    public static final String ITEM_TAB_ERROR_PROPERTY = ITEM_TAB_ERRORS;  // used to be "newPurchasingItemLine"
     public static final String ACCOUNT_SUMMARY_TAB_ERRORS = "document.accountSummary*";
     public static final String STATUS_HISTORY_TAB_ERRORS = "document.statusHistories*";
     public static final String ACCOUNT_DISTRIBUTION_ERROR_KEY = "accountDistribution";
@@ -620,8 +621,8 @@ public class PurapConstants extends JstlConstants {
         map.put("PurchaseOrderRemoveHoldDocument", "Kuali.PURAP.PurchaseOrderDocument");
         map.put("PurchaseOrderRetransmitDocument", "Kuali.PURAP.PurchaseOrderDocument");
         map.put("PurchaseOrderVoidDocument", "Kuali.PURAP.PurchaseOrderDocument");
-        map.put("PaymentRequestDocument", "Kuali.PURAP.PaymentRequestDocument");
-        map.put("CreditMemoDocument", "Kuali.PURAP.CreditMemoDocument");
+        map.put(PAYMENT_REQUEST_DOCUMENT_DOC_TYPE, "Kuali.PURAP.PaymentRequestDocument");
+        map.put(CREDIT_MEMO_DOCUMENT_DOC_TYPE, "Kuali.PURAP.CreditMemoDocument");
         return map;
     }
     public final static HashMap<String,String> ITEM_TYPE_SYSTEM_PARAMETERS_SECURITY_MAP =
@@ -634,6 +635,7 @@ public class PurapConstants extends JstlConstants {
     public static final String ITEM_REQUIRES_USER_ENTERED_DESCRIPTION = "REQUIRES_USER_ENTERED_DESCRIPTION";
 
     public static class ItemFields {
+        // TODO - can we not use the DataDictionaryService to get the labels (either standard, short, or error) instead of using these below
         public static final String QUANTITY = "Quantity";
         public static final String UNIT_OF_MEASURE = "Unit of Measure";
         public static final String DESCRIPTION = "Description";

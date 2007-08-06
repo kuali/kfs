@@ -15,23 +15,23 @@
 --%>
 <%@ include file="/jsp/kfs/kfsTldHeader.jsp"%>
 
-<kul:documentPage showDocumentInfo="true" htmlFormAction="correctCashDrawer" documentTypeName="CashManagementDocument" renderMultipart="true" showTabButtons="true">
-    <kul:hiddenDocumentFields isTransactionalDocument="false"/>
+<kul:page showDocumentInfo="false" headerTitle="Cash Drawer Correction" docTitle="Cash Drawer Correction" htmlFormAction="cashDrawerCorrection" transactionalDocument="false">
     
-    <kul:documentOverview editingMode="${KualiForm.editingMode}"/>
+    <html:hidden property="workgroupName" />
     
-    <kul:tab tabTitle="Cash Drawer Corrections" defaultOpen="true" tabErrorKey="cashDrawerErrors">
+    <kul:tabTop tabTitle="Cash Drawer Corrections" defaultOpen="true" tabErrorKey="cashDrawerErrors">
       <div class="tab-container" align="center">
         <div class="h2-container">
           <h2>Cash Drawer for ${KualiForm.cashDrawer.workgroupName}</h2>
         </div>
         <cm:cashDrawerCurrencyCoin cashDrawerProperty="cashDrawer" readOnly="false" />
       </div>
-    </kul:tab>
+    </kul:tabTop>
     
     <kul:panelFooter/>
     
     <div id="globalbuttons" class="globalbuttons">
       <html:image property="methodToCall.saveCashDrawer" src="${ConfigProperties.kr.externalizable.images.url}buttonsmall_save.gif" alt="save cash drawer corrections" title="save corrections" styleClass="tinybutton" />
-      <html:image property="methodToCall.cancelCorrections" src="${ConfigProperties.kr.externalizable.images.url}buttonsmall_cancel.gif" alt="cancel" title="cancel" styleClass="tinybutton" /></div>
-</kul:documentPage>
+      <html:image property="methodToCall.cancelCorrections" src="${ConfigProperties.kr.externalizable.images.url}buttonsmall_cancel.gif" alt="cancel" title="cancel" styleClass="tinybutton" />
+    </div>
+</kul:page>

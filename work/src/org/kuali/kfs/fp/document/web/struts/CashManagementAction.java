@@ -377,7 +377,20 @@ public class CashManagementAction extends KualiDocumentActionBase {
      * @throws Exception
      */
     public ActionForward correctCashDrawer(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        return mapping.findForward(KFSConstants.MAPPING_BASIC);
+        return new ActionForward("CashDrawerCorrectionForm", buildCashDrawerCorrectionUrl(((CashManagementForm)form).getCashManagementDocument()), true);
+    }
+    
+    /**
+     * @param cmDoc
+     * @param depositTypeCode
+     * @return URL for passing control to the DepositWizard
+     */
+    private String buildCashDrawerCorrectionUrl(CashManagementDocument cmDoc) {
+        Properties params = new Properties();
+        params.setProperty("methodToCall", "startCorrections");
+        params.setProperty("wrkgrpNm", cmDoc.getWorkgroupName());
+
+        return UrlFactory.parameterizeUrl("cashDrawerCorrection.do", params);
     }
     
     /**

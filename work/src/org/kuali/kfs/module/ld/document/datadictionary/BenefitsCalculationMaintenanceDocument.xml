@@ -62,8 +62,8 @@
 	            	<maintainableField name="universityFiscalYear" required="true" />
 	            	<maintainableField name="chartOfAccountsCode" required="true" />
 	            	<maintainableField name="positionBenefitTypeCode" required="true"/>
-	            	<maintainableField name="positionFringeBenefitObjectCode" required="false"/>
-	            	<maintainableField name="positionFringeBenefitPercent" required="false"/>
+	            	<maintainableField name="positionFringeBenefitObjectCode" required="true"/>
+	            	<maintainableField name="positionFringeBenefitPercent" required="true"/>
 	            	<maintainableField name="versionNumber" />
 	         	</maintainableItems>
 	        </maintainableSection>

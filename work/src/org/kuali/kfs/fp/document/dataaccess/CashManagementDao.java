@@ -32,6 +32,13 @@ public interface CashManagementDao {
     public List<CashieringItemInProcess> findOpenItemsInProcessByWorkgroupName(String wrkgrpName);
     
     /**
+     * This finds items in process associated with the given workgroup closed within the past 30 days.
+     * @param workgroupName the workgroup name that the found items in process should be associated with
+     * @return a list of CashieringItemInProcess records
+     */
+    public List<CashieringItemInProcess> findRecentlyClosedItemsInProcess(String workgroupName);
+    
+    /**
      * 
      * Retrieves all currency detail records with the given document number, document type code, and cashiering record source
      * @param documentNumber the document number this currency detail was associated with

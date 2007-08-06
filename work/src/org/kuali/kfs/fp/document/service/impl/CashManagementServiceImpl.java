@@ -768,6 +768,13 @@ public class CashManagementServiceImpl implements CashManagementService {
     }
 
     /**
+     * @see org.kuali.module.financial.service.CashManagementService#getRecentlyClosedItemsInProcess(org.kuali.module.financial.document.CashManagementDocument)
+     */
+    public List<CashieringItemInProcess> getRecentlyClosedItemsInProcess(CashManagementDocument cmDoc) {
+        return cashManagementDao.findRecentlyClosedItemsInProcess(cmDoc.getWorkgroupName());
+    }
+
+    /**
      * @see org.kuali.module.financial.service.CashManagementService#generateMasterCoinDetail(org.kuali.module.financial.document.CashManagementDocument)
      */
     public CoinDetail generateMasterCoinDetail(CashManagementDocument cmDoc) {

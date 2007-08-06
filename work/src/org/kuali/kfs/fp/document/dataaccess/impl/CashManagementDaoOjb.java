@@ -15,6 +15,8 @@
  */
 package org.kuali.module.financial.dao.ojb;
 
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -26,6 +28,7 @@ import org.springframework.dao.DataAccessException;
 
 import org.kuali.core.dao.ojb.PlatformAwareDaoBaseOjb;
 import org.kuali.kfs.KFSConstants;
+import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.module.financial.bo.CashieringItemInProcess;
 import org.kuali.module.financial.bo.Check;
 import org.kuali.module.financial.bo.CheckBase;
@@ -56,6 +59,27 @@ public class CashManagementDaoOjb extends PlatformAwareDaoBaseOjb implements Cas
             openItems.add((CashieringItemInProcess)iter.next());
         }
         return openItems;
+    }
+
+    /**
+     * @see org.kuali.module.financial.dao.CashManagementDao#findRecentlyClosedItemsInProcess(java.lang.String)
+     */
+    public List<CashieringItemInProcess> findRecentlyClosedItemsInProcess(String workgroupName) {
+        List<CashieringItemInProcess> closedItems = new ArrayList<CashieringItemInProcess>();
+        
+        Criteria criteria = new Criteria();
+        criteria.addEqualTo("workgroupName", workgroupName);
+        criteria.addColumnNotNull("ITM_CLOSED_DT");
+        Calendar thirtyDaysAgo = new GregorianCalendar();
+        thirtyDaysAgo.add(Calendar.DAY_OF_YEAR, -30);
+        criteria.addGreaterThan("itemClosedDate", new java.sql.Date(thirtyDaysAgo.getTimeInMillis()));
+
+        QueryByCriteria closedItemsQuery = QueryFactory.newQuery(CashieringItemInProcess.class, criteria);
+        Iterator iter = getPersistenceBrokerTemplate().getIteratorByQuery(closedItemsQuery);
+        while (iter.hasNext()) {
+            closedItems.add((CashieringItemInProcess)iter.next());
+        }
+        return closedItems;
     }
 
     /**

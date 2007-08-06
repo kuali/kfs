@@ -43,6 +43,10 @@
     </c:if>
 
     <cm:cashieringActivity />
+    
+    <c:if test="${!empty KualiForm.recentlyClosedItemsInProcess}">
+      <cm:recentlyClosedMiscAdvances />
+    </c:if>
 
     <c:if test="${KualiForm.document.bankCashOffsetEnabled}" >
         <gl:generalLedgerPendingEntries />

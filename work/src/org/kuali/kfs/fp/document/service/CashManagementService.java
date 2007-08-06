@@ -123,6 +123,13 @@ public interface CashManagementService {
     public List<CashieringItemInProcess> getOpenItemsInProcess(CashManagementDocument cmDoc);
     
     /**
+     * Returns all items in process associated with this workgroup, closed within the past 30 days
+     * @param cmDoc the cash management document which is associated with the workgroup that the closed items in process would have also been associated with 
+     * @return a list of any items in process recently closed
+     */
+    public List<CashieringItemInProcess> getRecentlyClosedItemsInProcess(CashManagementDocument cmDoc);
+    
+    /**
      * Generates the master currency detail, which sounds bad, but which is really just okay.
      * A master currency detail is the composite effect of all the transactions of a cash
      * management document on a cash drawer

@@ -154,6 +154,8 @@ public class CashReceiptCoverSheetServiceImpl implements CashReceiptCoverSheetSe
             // populate form with document values
             PdfStamper stamper = new PdfStamper(new PdfReader(searchPath + File.separator + templateName), returnStream);
             AcroFields populatedCoverSheet = stamper.getAcroFields();
+            
+            SpringServiceLocator.getCashReceiptService().addCashDetailsToCashDrawer(document);
 
             populatedCoverSheet.setField(DOCUMENT_NUMBER_FIELD, document.getDocumentNumber());
             populatedCoverSheet.setField(INITIATOR_FIELD, document.getDocumentHeader().getWorkflowDocument().getInitiatorNetworkId());

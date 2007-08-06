@@ -29,6 +29,7 @@ import org.kuali.core.web.struts.form.KualiDocumentFormBase;
 import org.kuali.kfs.KFSConstants.DocumentStatusCodes.CashReceipt;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.financial.bo.CashDrawer;
+import org.kuali.module.financial.bo.CashieringItemInProcess;
 import org.kuali.module.financial.bo.Check;
 import org.kuali.module.financial.bo.CheckBase;
 import org.kuali.module.financial.bo.Deposit;
@@ -49,6 +50,7 @@ public class CashManagementForm extends KualiDocumentFormBase {
 
     private List depositHelpers;
     private CashDrawerSummary cashDrawerSummary;
+    private List<CashieringItemInProcess> recentlyClosedItemsInProcess;
 
     /**
      * Constructs a CashManagementForm.
@@ -140,6 +142,22 @@ public class CashManagementForm extends KualiDocumentFormBase {
      */
     public List getDepositHelpers() {
         return depositHelpers;
+    }
+
+    /**
+     * Gets the recentlyClosedItemsInProcess attribute. 
+     * @return Returns the recentlyClosedItemsInProcess.
+     */
+    public List<CashieringItemInProcess> getRecentlyClosedItemsInProcess() {
+        return recentlyClosedItemsInProcess;
+    }
+
+    /**
+     * Sets the recentlyClosedItemsInProcess attribute value.
+     * @param recentlyClosedItemsInProcess The recentlyClosedItemsInProcess to set.
+     */
+    public void setRecentlyClosedItemsInProcess(List<CashieringItemInProcess> recentlyClosedItemsInProcess) {
+        this.recentlyClosedItemsInProcess = recentlyClosedItemsInProcess;
     }
 
     /**

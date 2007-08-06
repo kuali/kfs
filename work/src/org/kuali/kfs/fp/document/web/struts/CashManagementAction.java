@@ -95,6 +95,8 @@ public class CashManagementAction extends KualiDocumentActionBase {
                 cmf.populateCashDrawerSummary();
             }
         }
+        // put any recently closed items in process in the form
+        cmf.setRecentlyClosedItemsInProcess(SpringServiceLocator.getCashManagementService().getRecentlyClosedItemsInProcess(cmf.getCashManagementDocument()));
 
         return dest;
     }

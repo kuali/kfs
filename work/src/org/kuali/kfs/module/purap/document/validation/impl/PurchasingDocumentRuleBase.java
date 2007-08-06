@@ -100,7 +100,7 @@ public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumen
         String documentType = SpringServiceLocator.getDataDictionaryService().getDataDictionary().getDocumentEntry(purDocument.getDocumentHeader().getWorkflowDocument().getDocumentType()).getLabel();
         
         if (! valid) {
-            GlobalVariables.getErrorMap().putError("newPurchasingItemLine", PurapKeyConstants.ERROR_ITEM_REQUIRED, documentType);
+            GlobalVariables.getErrorMap().putError(PurapConstants.ITEM_TAB_ERROR_PROPERTY, PurapKeyConstants.ERROR_ITEM_REQUIRED, documentType);
         }
         return valid;
     }
@@ -131,7 +131,6 @@ public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumen
                 valid = false;
             }
             else if ((zero.compareTo(item.getItemUnitPrice()) < 0) && ((item.getItemTypeCode().equals(ItemTypeCodes.ITEM_TYPE_ORDER_DISCOUNT_CODE)) || (item.getItemTypeCode().equals(ItemTypeCodes.ITEM_TYPE_TRADE_IN_CODE)))) {
-
                 // If the item type is full order discount or trade in items, its unit price must be negative.
                 GlobalVariables.getErrorMap().putError("newPurchasingItemLine.itemUnitPrice", PurapKeyConstants.ERROR_ITEM_AMOUNT_NOT_BELOW_ZERO, ItemFields.UNIT_COST, identifierString);
                 valid = false;
@@ -154,7 +153,7 @@ public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumen
 //        for (PurApAccountingLine accountingLine : accountingLines) {
 //            if (accountingStringSet.contains(accountingLine.toString())) {
 //                valid = false;
-//                GlobalVariables.getErrorMap().putError("newPurchasingItemLine", PurapKeyConstants.ERROR_ITEM_ACCOUNTING_NOT_UNIQUE, identifierString);
+//                GlobalVariables.getErrorMap().putError(PurapConstants.ITEM_TAB_ERROR_PROPERTY, PurapKeyConstants.ERROR_ITEM_ACCOUNTING_NOT_UNIQUE, identifierString);
 //            }
 //            else {
 //                accountingStringSet.add(accountingLine.toString());
@@ -173,7 +172,7 @@ public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumen
         boolean valid = true;
         if (purDocument.getTotalDollarAmount().isLessThan(new KualiDecimal(zero))) {
             valid = false;
-            GlobalVariables.getErrorMap().putError("newPurchasingItemLine", PurapKeyConstants.ERROR_ITEM_TOTAL_NEGATIVE);
+            GlobalVariables.getErrorMap().putError(PurapConstants.ITEM_TAB_ERROR_PROPERTY, PurapKeyConstants.ERROR_ITEM_TOTAL_NEGATIVE);
         }
         return valid;
     }
@@ -193,7 +192,7 @@ public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumen
         if (purItem.getItemTypeCode().equals(ItemTypeCodes.ITEM_TYPE_ITEM_CODE)) {
             if (StringUtils.isEmpty(purItem.getItemUnitOfMeasureCode())) {
                 valid = false;
-                GlobalVariables.getErrorMap().putError("newPurchasingItemLine", PurapKeyConstants.ERROR_ITEM_QUANTITY_NOT_ZERO, ItemFields.UNIT_OF_MEASURE + " in ", identifierString);
+                GlobalVariables.getErrorMap().putError(PurapConstants.ITEM_TAB_ERROR_PROPERTY, PurapKeyConstants.ERROR_ITEM_QUANTITY_NOT_ZERO, ItemFields.UNIT_OF_MEASURE + " in ", identifierString);
             }
         }
         return valid;
@@ -212,12 +211,12 @@ public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumen
              ( ObjectUtils.isNull(purItem.getItemQuantity()) || 
                ( ObjectUtils.isNotNull(purItem.getItemQuantity()) && purItem.getItemQuantity().isZero())) )   {
             valid = false;
-            GlobalVariables.getErrorMap().putError("newPurchasingItemLine", KFSKeyConstants.ERROR_REQUIRED, ItemFields.QUANTITY + " in " + identifierString);
+            GlobalVariables.getErrorMap().putError(PurapConstants.ITEM_TAB_ERROR_PROPERTY, KFSKeyConstants.ERROR_REQUIRED, ItemFields.QUANTITY + " in " + identifierString);
         }
         else if ( purItem.getItemTypeCode().equals(ItemTypeCodes.ITEM_TYPE_SERVICE_CODE) &&
         		  ObjectUtils.isNotNull(purItem.getItemQuantity())) {
         	valid = false;
-        	GlobalVariables.getErrorMap().putError("newPurchasingItemLine", PurapKeyConstants.ERROR_ITEM_QUANTITY_NOT_ALLOWED );
+        	GlobalVariables.getErrorMap().putError(PurapConstants.ITEM_TAB_ERROR_PROPERTY, PurapKeyConstants.ERROR_ITEM_QUANTITY_NOT_ALLOWED );
         }
         return valid;
     }

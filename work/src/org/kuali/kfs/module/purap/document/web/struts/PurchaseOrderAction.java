@@ -29,6 +29,7 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.action.ActionMessage;
 import org.apache.struts.action.ActionMessages;
+import org.kuali.RicePropertyConstants;
 import org.kuali.core.bo.Note;
 import org.kuali.core.document.authorization.DocumentAuthorizer;
 import org.kuali.core.question.ConfirmationQuestion;
@@ -175,7 +176,7 @@ public class PurchaseOrderAction extends PurchasingActionBase {
             document.getPurchaseOrderVendorQuotes().add(newPOVendorQuote);
         }
 
-        String newStipulation = request.getParameter("document.vendorStipulationDescription");
+        String newStipulation = request.getParameter(RicePropertyConstants.DOCUMENT + "." + PurapPropertyConstants.VENDOR_STIPULATION_DESCRIPTION);
         if (StringUtils.isNotEmpty(newStipulation)) {
             poForm.getNewPurchaseOrderVendorStipulationLine().setVendorStipulationDescription(newStipulation);
         }
@@ -641,7 +642,7 @@ public class PurchaseOrderAction extends PurchasingActionBase {
 //            po = SpringServiceLocator.getPurchaseOrderService().updateFlagsAndRoute(kualiDocumentFormBase.getDocument().getDocumentNumber(), PurchaseOrderDocTypes.PURCHASE_ORDER_RETRANSMIT_DOCUMENT, kualiDocumentFormBase.getAnnotation(), combineAdHocRecipients(kualiDocumentFormBase));
         }
 
-            kualiDocumentFormBase.setDocument(po);
+        kualiDocumentFormBase.setDocument(po);
         //we only need to set the editing mode to displayRetransmitTab if it's not yet 
         //in the editingMode.
         if (!kualiDocumentFormBase.getEditingMode().containsKey(PurapAuthorizationConstants.PurchaseOrderEditMode.DISPLAY_RETRANSMIT_TAB)) {

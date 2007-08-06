@@ -322,8 +322,7 @@ public class PaymentRequestDocumentRule extends AccountsPayableDocumentRuleBase 
             PaymentRequestItem item = (PaymentRequestItem)purApItem;
             if (item.getItemQuantity()!= null) {
                 if(item.calculateExtendedPrice().compareTo(item.getExtendedPrice())!=0) {
-                //FIXME: all these should not be newPurchasingItem fix this after jira dealing with error messages
-                    GlobalVariables.getErrorMap().putError("newPurchasingItemLine", PurapKeyConstants.ERROR_PAYMENT_REQUEST_ITEM_TOTAL_NOT_EQUAL, item.getItemIdentifierString());
+                GlobalVariables.getErrorMap().putError(PurapConstants.ITEM_TAB_ERROR_PROPERTY, PurapKeyConstants.ERROR_PAYMENT_REQUEST_ITEM_TOTAL_NOT_EQUAL, item.getItemIdentifierString());
             }
         }
     }
@@ -377,11 +376,11 @@ public class PaymentRequestDocumentRule extends AccountsPayableDocumentRuleBase 
             if (item.getItemQuantity().isNegative()) {
                 // if quantity is negative give an error
                 valid = false;
-                GlobalVariables.getErrorMap().putError("newPurchasingItemLine", PurapKeyConstants.ERROR_ITEM_AMOUNT_BELOW_ZERO, ItemFields.INVOICE_QUANTITY, identifierString);
+                GlobalVariables.getErrorMap().putError(PurapConstants.ITEM_TAB_ERROR_PROPERTY, PurapKeyConstants.ERROR_ITEM_AMOUNT_BELOW_ZERO, ItemFields.INVOICE_QUANTITY, identifierString);
             }
             if (item.getPoOutstandingQuantity().isLessThan(item.getItemQuantity())) {
                 valid = false;
-                GlobalVariables.getErrorMap().putError("newPurchasingItemLine", PurapKeyConstants.ERROR_ITEM_QUANTITY_TOO_MANY, ItemFields.INVOICE_QUANTITY, identifierString, ItemFields.OPEN_QUANTITY);
+                GlobalVariables.getErrorMap().putError(PurapConstants.ITEM_TAB_ERROR_PROPERTY, PurapKeyConstants.ERROR_ITEM_QUANTITY_TOO_MANY, ItemFields.INVOICE_QUANTITY, identifierString, ItemFields.OPEN_QUANTITY);
             }
         }
         if (ObjectUtils.isNotNull(item.getExtendedPrice())&&item.getExtendedPrice().isPositive() && ObjectUtils.isNotNull(item.getPoOutstandingQuantity()) && item.getPoOutstandingQuantity().isPositive()) {
@@ -391,7 +390,7 @@ public class PaymentRequestDocumentRule extends AccountsPayableDocumentRuleBase 
                 // here we have a user not entering a quantity with an extended amount but the PO has a quantity... require user to
                 // enter a quantity
                 valid = false;
-                GlobalVariables.getErrorMap().putError("newPurchasingItemLine", PurapKeyConstants.ERROR_ITEM_QUANTITY_REQUIRED, ItemFields.INVOICE_QUANTITY, identifierString, ItemFields.OPEN_QUANTITY);
+                GlobalVariables.getErrorMap().putError(PurapConstants.ITEM_TAB_ERROR_PROPERTY, PurapKeyConstants.ERROR_ITEM_QUANTITY_REQUIRED, ItemFields.INVOICE_QUANTITY, identifierString, ItemFields.OPEN_QUANTITY);
             }
         }
 
@@ -404,7 +403,7 @@ public class PaymentRequestDocumentRule extends AccountsPayableDocumentRuleBase 
                  ((item.getExtendedPrice() != null) && item.getExtendedPrice().isNonZero()) ) {
                 if (item.getPoOutstandingAmount() == null || item.getPoOutstandingAmount().isZero()) {
                     valid = false;
-                    GlobalVariables.getErrorMap().putError("newPurchasingItemLine", PurapKeyConstants.ERROR_ITEM_AMOUNT_ALREADY_PAID, identifierString);
+                    GlobalVariables.getErrorMap().putError(PurapConstants.ITEM_TAB_ERROR_PROPERTY, PurapKeyConstants.ERROR_ITEM_AMOUNT_ALREADY_PAID, identifierString);
                 }
             }
         }
@@ -418,7 +417,7 @@ public class PaymentRequestDocumentRule extends AccountsPayableDocumentRuleBase 
              item.getItemUnitPrice().compareTo(KualiDecimal.ZERO.bigDecimalValue()) != 0 &&
              StringUtils.isBlank(item.getItemDescription()) ) {
             valid = false;
-            GlobalVariables.getErrorMap().putError("newPurchasingItemLine", KFSKeyConstants.ERROR_REQUIRED, PurapConstants.ItemFields.DESCRIPTION + " of " + identifierString + KFSConstants.BLANK_SPACE);
+            GlobalVariables.getErrorMap().putError(PurapConstants.ITEM_TAB_ERROR_PROPERTY, KFSKeyConstants.ERROR_REQUIRED, PurapConstants.ItemFields.DESCRIPTION + " of " + identifierString + KFSConstants.BLANK_SPACE);
         }
         return valid;
     }
@@ -433,7 +432,7 @@ public class PaymentRequestDocumentRule extends AccountsPayableDocumentRuleBase 
         boolean valid = true;
         if (ObjectUtils.isNotNull(item.getItemUnitPrice()) && (new KualiDecimal(item.getItemUnitPrice())).isNonZero() && item.isAccountListEmpty()) {
             valid = false;
-            GlobalVariables.getErrorMap().putError("newPurchasingItemLine", PurapKeyConstants.ERROR_ITEM_ACCOUNTING_INCOMPLETE, identifierString);
+            GlobalVariables.getErrorMap().putError(PurapConstants.ITEM_TAB_ERROR_PROPERTY, PurapKeyConstants.ERROR_ITEM_ACCOUNTING_INCOMPLETE, identifierString);
         }
         return valid;
     }

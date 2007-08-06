@@ -65,7 +65,7 @@ public class PurchaseOrderAmendmentDocumentRule extends PurchaseOrderDocumentRul
         }
         String documentType = SpringServiceLocator.getDataDictionaryService().getDataDictionary().getDocumentEntry(purapDocument.getDocumentHeader().getWorkflowDocument().getDocumentType()).getLabel();
         
-        GlobalVariables.getErrorMap().putError("newPurchasingItemLine", PurapKeyConstants.ERROR_ITEM_REQUIRED, documentType);
+        GlobalVariables.getErrorMap().putError(PurapConstants.ITEM_TAB_ERROR_PROPERTY, PurapKeyConstants.ERROR_ITEM_REQUIRED, documentType);
         return false;
     }
 

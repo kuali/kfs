@@ -1000,6 +1000,7 @@ public class VendorRule extends MaintenanceDocumentRuleBase implements VendorRul
             String errorPath = MAINTAINABLE_ERROR_PREFIX + VendorPropertyConstants.VENDOR_CONTRACT + "[0]";
             GlobalVariables.getErrorMap().addToErrorPath(errorPath);
             GlobalVariables.getErrorMap().putError( VendorPropertyConstants.VENDOR_CONTRACT_NAME, VendorKeyConstants.ERROR_VENDOR_CONTRACT_NOT_ALLOWED );
+            GlobalVariables.getErrorMap().removeFromErrorPath(errorPath);
             return valid;
         }
         

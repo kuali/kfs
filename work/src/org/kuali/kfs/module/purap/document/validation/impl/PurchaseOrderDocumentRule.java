@@ -98,11 +98,11 @@ public class PurchaseOrderDocumentRule extends PurchasingDocumentRuleBase {
         if ((item.getItemInvoicedTotalQuantity() != null) && (!(item.getItemInvoicedTotalQuantity()).isZero())) {
             if (item.getItemQuantity() == null) {
                 valid = false;
-                GlobalVariables.getErrorMap().putError("newPurchasingItemLine" , PurapKeyConstants.ERROR_ITEM_AMND_NULL, "Item Quantity", identifierString);
+                GlobalVariables.getErrorMap().putError(PurapConstants.ITEM_TAB_ERROR_PROPERTY , PurapKeyConstants.ERROR_ITEM_AMND_NULL, "Item Quantity", identifierString);
             }
             else if (item.getItemQuantity().compareTo(item.getItemInvoicedTotalQuantity()) < 0) {
                 valid = false;
-                GlobalVariables.getErrorMap().putError("newPurchasingItemLine" , PurapKeyConstants.ERROR_ITEM_AMND_INVALID, "Item Quantity", identifierString);
+                GlobalVariables.getErrorMap().putError(PurapConstants.ITEM_TAB_ERROR_PROPERTY , PurapKeyConstants.ERROR_ITEM_AMND_INVALID, "Item Quantity", identifierString);
             }
         }
 
@@ -110,7 +110,7 @@ public class PurchaseOrderDocumentRule extends PurchasingDocumentRuleBase {
             KualiDecimal total = item.getExtendedPrice();
             if ((total == null) || total.compareTo(item.getItemInvoicedTotalAmount()) < 0) {
                 valid = false;
-                GlobalVariables.getErrorMap().putError("newPurchasingItemLine" , PurapKeyConstants.ERROR_ITEM_AMND_INVALID_AMT, "Item Extended Price", identifierString);
+                GlobalVariables.getErrorMap().putError(PurapConstants.ITEM_TAB_ERROR_PROPERTY , PurapKeyConstants.ERROR_ITEM_AMND_INVALID_AMT, "Item Extended Price", identifierString);
             }
         }
         return valid;
@@ -126,7 +126,7 @@ public class PurchaseOrderDocumentRule extends PurchasingDocumentRuleBase {
         boolean valid = true;
         if (item.getItemTypeCode().equals(PurapConstants.ItemTypeCodes.ITEM_TYPE_ITEM_CODE) && item.isItemDetailEmpty() && !item.isAccountListEmpty()) {
             valid = false;
-            GlobalVariables.getErrorMap().putError("newPurchasingItemLine", PurapKeyConstants.ERROR_ITEM_ACCOUNTING_NOT_ALLOWED, identifierString);
+            GlobalVariables.getErrorMap().putError(PurapConstants.ITEM_TAB_ERROR_PROPERTY, PurapKeyConstants.ERROR_ITEM_ACCOUNTING_NOT_ALLOWED, identifierString);
         }
         return valid;
     }
@@ -141,7 +141,7 @@ public class PurchaseOrderDocumentRule extends PurchasingDocumentRuleBase {
         boolean valid = true;
         if (ObjectUtils.isNotNull(item.getItemUnitPrice()) && (new KualiDecimal(item.getItemUnitPrice())).isNonZero() && item.isAccountListEmpty()) {
             valid = false;
-            GlobalVariables.getErrorMap().putError("newPurchasingItemLine", PurapKeyConstants.ERROR_ITEM_ACCOUNTING_INCOMPLETE, identifierString);
+            GlobalVariables.getErrorMap().putError(PurapConstants.ITEM_TAB_ERROR_PROPERTY, PurapKeyConstants.ERROR_ITEM_ACCOUNTING_INCOMPLETE, identifierString);
         }
         return valid;
     }
@@ -156,7 +156,7 @@ public class PurchaseOrderDocumentRule extends PurchasingDocumentRuleBase {
         boolean valid = true;
         if (item.getItemTypeCode().equals(ItemTypeCodes.ITEM_TYPE_ITEM_CODE) && StringUtils.isEmpty(item.getItemUnitOfMeasureCode())) {
             valid = false;
-            GlobalVariables.getErrorMap().putError("newPurchasingItemLine", PurapKeyConstants.ERROR_ITEM_UNIT_OF_MEASURE_REQUIRED, identifierString);
+            GlobalVariables.getErrorMap().putError(PurapConstants.ITEM_TAB_ERROR_PROPERTY, PurapKeyConstants.ERROR_ITEM_UNIT_OF_MEASURE_REQUIRED, identifierString);
         }
         return valid;
     }
@@ -175,14 +175,14 @@ public class PurchaseOrderDocumentRule extends PurchasingDocumentRuleBase {
             if (item.getItemTypeCode().equals(ItemTypeCodes.ITEM_TYPE_ORDER_DISCOUNT_CODE)) {
                 discountExists = true;
                 if (tradeInExists) {
-                    GlobalVariables.getErrorMap().putError("newPurchasingItemLine", PurapKeyConstants.ERROR_ITEM_TRADEIN_DISCOUNT_COEXISTENCE);
+                    GlobalVariables.getErrorMap().putError(PurapConstants.ITEM_TAB_ERROR_PROPERTY, PurapKeyConstants.ERROR_ITEM_TRADEIN_DISCOUNT_COEXISTENCE);
                     return false;
                 }
             }
             else if (item.getItemTypeCode().equals(ItemTypeCodes.ITEM_TYPE_TRADE_IN_CODE)) {
                 tradeInExists = true;
                 if (discountExists) {
-                    GlobalVariables.getErrorMap().putError("newPurchasingItemLine", PurapKeyConstants.ERROR_ITEM_TRADEIN_DISCOUNT_COEXISTENCE);
+                    GlobalVariables.getErrorMap().putError(PurapConstants.ITEM_TAB_ERROR_PROPERTY, PurapKeyConstants.ERROR_ITEM_TRADEIN_DISCOUNT_COEXISTENCE);
                     return false;
                 }
             }

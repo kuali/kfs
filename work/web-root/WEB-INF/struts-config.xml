@@ -47,6 +47,7 @@
         <form-bean name="DisbursementVoucherForm" type="org.kuali.module.financial.web.struts.form.DisbursementVoucherForm" />
         <form-bean name="CashManagementForm" type="org.kuali.module.financial.web.struts.form.CashManagementForm" />
         <form-bean name="CashManagementStatusForm" type="org.kuali.module.financial.web.struts.form.CashManagementStatusForm" />
+        <form-bean name="CashDrawerCorrectionForm" type="org.kuali.module.financial.web.struts.form.CashDrawerCorrectionForm" />
         <form-bean name="ProcurementCardForm" type="org.kuali.module.financial.web.struts.form.ProcurementCardForm" />
         <form-bean name="BudgetAdjustmentForm" type="org.kuali.module.financial.web.struts.form.BudgetAdjustmentForm" />
         <form-bean name="YearEndBudgetAdjustmentForm" type="org.kuali.module.financial.web.struts.form.YearEndBudgetAdjustmentForm" />
@@ -175,6 +176,11 @@
             <set-property property="cancellable" value="true" />
             <forward name="basic" path="/jsp/modules/financial/DepositWizard.jsp" />
         </action>
+        
+        <action path="/cashDrawerCorrection" name="CashDrawerCorrectionForm" scope="request" attribute="KualiForm" parameter="methodToCall" type="org.kuali.module.financial.web.struts.action.CashDrawerCorrectionAction">
+          <set-property property="cancellable" value="false" />
+          <forward name="basic" path="/jsp/modules/financial/CashDrawerCorrection.jsp" />
+      </action>
 
         <action path="/generalLedger*" name="{1}Form" input="/jsp/modules/generalLedger/{1}.jsp" type="org.kuali.module.gl.web.struts.action.{1}Action" scope="request" parameter="methodToCall" validate="true" attribute="KualiForm">
             <set-property property="cancellable" value="true" />

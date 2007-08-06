@@ -15,15 +15,6 @@
 
 	<target name="init-property-files">
 		<property file="${user.home}/${ant.project.name}-build.properties" />
-		<condition property="use.p6spy.local">
-			<and>
-				<equals arg1="${is.local.build}" arg2="true" />
-				<equals arg1="${use.p6spy}" arg2="true" />
-			</and>
-		</condition>
-		<!-- todo: remove dev.mode and message.persistence - fix for workflow bug introduced with the 2.4 upgrade -->
-		<condition property="dev.mode" value="true"><equals arg1="${is.local.build}" arg2="true" /></condition>
-		<condition property="message.persistence" value="false"><equals arg1="${is.local.build}" arg2="true" /></condition>
 		<property file="build.properties" />
 	</target>
 
@@ -36,6 +27,12 @@
 		<condition property="driver.class" value="${p6spy.driver.class}"><equals arg1="${use.p6spy.local}" arg2="true"/></condition>
 		<condition property="driver.class" value="${mysql.driver.clas s}"><equals arg1="${ojb.platform}" arg2="${mysql.ojb.platform}" /></condition>
 		<property name="driver.class" value="${oracle.driver.class}" />
+		<condition property="use.p6spy.local">
+			<and>
+				<equals arg1="${is.local.build}" arg2="true" />
+				<equals arg1="${use.p6spy}" arg2="true" />
+			</and>
+		</condition>
 		<condition property="p6spy.real.driver.class" value="${mysql.driver.class}"><equals arg1="${ojb.platform}" arg2="${mysql.ojb.platform}" /></condition>
 		<property name="p6spy.real.driver.class" value="${oracle.driver.class}" />
 		<condition property="ojb.sequencemanager.class" value="${mysql.sequence.manager.class}"><equals arg1="${ojb.platform}" arg2="${mysql.ojb.platform}" /></condition>
@@ -48,15 +45,14 @@
 		<property name="appenders" value="INFO, LogFile" />
 		<condition property="startup.stats.mailing.list" value="${configuration.manager.mailing.list}"><equals arg1="${build.environment}" arg2="cnv" /></condition>
 		<property name="startup.stats.mailing.list" value="" />
-		<property name="use.quartz.scheduling" value="true" />
 		<condition property="use.quartz.jdbc.jobstore" value="false"><equals arg1="${is.local.build}" arg2="true" /></condition>
 		<property name="use.quartz.jdbc.jobstore" value="true" />
+		<condition property="rice.dev.mode" value="true"><equals arg1="${is.local.build}" arg2="true" /></condition>
+		<property name="rice.dev.mode" value="false" />
+		<condition property="rice.message.persistence" value="false"><equals arg1="${is.local.build}" arg2="true" /></condition>
+		<property name="rice.message.persistence" value="true" />
 		<condition property="rice.exception.routing.immediate" value="true"><equals arg1="${use.quartz.scheduling}" arg2="false" /></condition>
 		<property name="rice.exception.routing.immediate" value="false" />
-		<!-- todo this is hosed - need to figure out quartz solution or adapt p1 brte solution -->
-		<condition property="database.file.directory" value="${batch.program.directory}/db"><equals arg1="${is.batch.dist}" arg2="true" /></condition>
-		<path id="database.file.directory.temp" location="${basedir}/${database.directory}" />
-		<pathconvert property="database.file.directory" targetos="unix" refid="database.file.directory.temp" />
 		<loadfile property="configuration" srcfile="${build.project.directory}/${configuration.file}"><filterchain><expandproperties/></filterchain></loadfile>
 		<loadfile property="ojb" srcfile="${build.project.directory}/${ojb.file}"><filterchain><expandproperties/></filterchain></loadfile>
 		<loadfile property="spring" srcfile="${build.project.directory}/${spring.file}"><filterchain><expandproperties/></filterchain></loadfile>
@@ -262,27 +258,32 @@
 			- build.xml
 			- build.properties
 			- build/*
-			- ${user.home}/${ant.project.name}-build.properties
+			- ${ant.project.name}-build.properties in ${user.home}
 
 	you should start using this build script as follows
-			- copy ${basedir}/${build.user.directory}/${ant.project.name}-build.properties to ${user.home}
-			- obtain the values for ${datasource.username}, ${datasource.password} and ${encryption.key} for the
-			  dev environment from someone on the project, and put them in ${user.home}/${ant.project.name}-build.properties
-			- override other property values in ${user.home}/${ant.project.name}-build.properties to permanently
-			  customize the build process for your machine or temporarily customize the process for execution of a
-			  given build target
-			- follow the instructions associated with the dist-local target and run that target
-			- run the echo-properties target and review the results
-			- click the "Run/Stop/Restart MyEclipse Application Servers" button in the "Java (default)" perspective in
+
+			1. copy the ${ant.project.name}-build.properties from ${build.user.directory} in
+			${basedir} to ${user.home}
+			    - fill in the missing values in the sections related to tempoarily and permanently customizing the
+			      build for your machine (you do not need to worry about the rice development section)
+			    - override other property values in ${user.home}/${ant.project.name}-build.properties as needed
+			    - save your changes
+			
+			2. run the echo-properties target and review the results
+
+			3. follow the instructions associated with the dist-local target and run that target
+						
+			4. right click on the root project directory and select "Refresh"
+			
+			5. click the "Run/Stop/Restart MyEclipse Application Servers" button in the "Java (default)" perspective in
 			eclipse to start tomcat
-			- launch a browser and access http://localhost:8080/kuali-dev
+			
+			6. launch a browser and access http://localhost:8080/kuali-dev
 
 	you can override the default log4j settings for your local deployments by copying
 		${basedir}/${build.external.directory}/${log4j.file} to
 			${user.home}/${log4j.file} and modifying as desired.  you will also need to run the dist-local target
 			for this change to take effect.
-
-			if you would like to suggest a configuration change, enter a Jira issue in the KULCFG project with the details
 
 			--- TARGETS ---
 

@@ -209,11 +209,11 @@
 		</init-param>
 		<init-param>
 			<param-name>config/kr</param-name>
-			<param-value>${struts.rice.config.files}</param-value>
+			<param-value>${rice.struts.config.files}</param-value>
 		</init-param>
 		<init-param>
 			<param-name>config/en</param-name>
-			<param-value>${struts.workflow.config.files}</param-value>
+			<param-value>${rice.workflow.struts.config.files}</param-value>
 		</init-param>
 		<load-on-startup>2</load-on-startup>
 	</servlet>

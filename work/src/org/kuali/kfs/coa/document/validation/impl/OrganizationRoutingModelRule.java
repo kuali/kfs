@@ -124,7 +124,6 @@ public class OrganizationRoutingModelRule extends MaintenanceDocumentRuleBase {
             success &= checkDelegateToAmountNotNull(delegateModel);
             success &= checkDelegateToAmountGreaterThanFromAmount(delegateModel);
             success &= checkDelegateUserRules(delegateModel);
-            success &= checkPrimaryRouteOnlyAllowOneAllDocType(globalDelegateTemplate, delegateModel);
             success &= checkPrimaryRoutePerDocType(globalDelegateTemplate, delegateModel);
         }
     
@@ -132,7 +131,7 @@ public class OrganizationRoutingModelRule extends MaintenanceDocumentRuleBase {
     }
     
     /**
-     * This method makes certain that the collection of account delegates in the "model"
+     * This method makes certain that the collection of account delegates in the "mo itdel"
      * has at least one account delegate template in it.
      * 
      * @param globalDelegateTemplate the account delegate model to check
@@ -263,47 +262,6 @@ public class OrganizationRoutingModelRule extends MaintenanceDocumentRuleBase {
             if (apcRuleFails(KFSConstants.ChartApcParms.GROUP_CHART_MAINT_EDOCS, KFSConstants.ChartApcParms.DELEGATE_USER_EMP_TYPES, user.getEmployeeTypeCode())) {
                 GlobalVariables.getErrorMap().putError("accountDelegate.personUserIdentifier", KFSKeyConstants.ERROR_DOCUMENT_ACCTDELEGATEMAINT_USER_NOT_PROFESSIONAL, new String[0]);
                 success = false;
-            }
-        }
-
-        return success;
-    }
-    
-    /**
-     * 
-     * This method validates the rule that says there can be only one PrimaryRoute delegate on a Global Delegate document if the
-     * docType is ALL. It checks the delegateGlobalToTest against the list, to determine whether adding this new
-     * delegateGlobalToTest would violate any PrimaryRoute business rule violations.
-     * 
-     * If any of the incoming variables is null or empty, the method will do nothing, and return Null. It will only process the
-     * business rules if there is sufficient data to do so.
-     * 
-     * @param delegateGlobalToTest A delegateGlobal line that you want to test agains the list.
-     * @param delegateGlobals A List of delegateGlobal items that is being tested against.
-     * @return Null if the business rule passes, or an Integer value greater than zero, representing the line that the new line is
-     *         conflicting with
-     * 
-     */
-    protected boolean checkPrimaryRouteOnlyAllowOneAllDocType(OrganizationRoutingModelName globalDelegateTemplate, OrganizationRoutingModel delegateModel) {
-        boolean success = true;
-        
-        // exit immediately if the adding line isnt both Primary and ALL docTypes
-        if (delegateModel == null || globalDelegateTemplate == null || globalDelegateTemplate.getOrganizationRoutingModel().isEmpty()) {
-            return success;
-        }
-        if (!delegateModel.getAccountDelegatePrimaryRoutingIndicator()) {
-            return success;
-        }
-        if (!"ALL".equalsIgnoreCase(delegateModel.getFinancialDocumentTypeCode())) {
-            return success;
-        }
-
-        // at this point, the delegateGlobal being added is a Primary for ALL docTypes, so we need to
-        // test whether any in the existing list are also Primary, regardless of docType
-        for (OrganizationRoutingModel currDelegateModel: globalDelegateTemplate.getOrganizationRoutingModel()) {
-            if (currDelegateModel.isActive() && !delegateModel.equals(currDelegateModel) && currDelegateModel.getAccountDelegatePrimaryRoutingIndicator()) {
-                success = false;
-                GlobalVariables.getErrorMap().putError("accountDelegatePrimaryRoutingIndicator", KFSKeyConstants.ERROR_DOCUMENT_GLOBAL_DELEGATEMAINT_PRIMARY_ROUTE_ALL_TYPES_ALREADY_EXISTS, new String[0]);
             }
         }
 

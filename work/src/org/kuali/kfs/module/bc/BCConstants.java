@@ -22,6 +22,10 @@ public class BCConstants extends JstlConstants {
     public static final String BC_SELECTION_ACTION="budgetBudgetConstructionSelection.do";
     public static final String BC_SELECTION_REFRESH_METHOD="refresh";
 
+    public static final String ORG_SEL_TREE_REFRESH_CALLER="BudgetConstruction";
+    public static final String ORG_SEL_TREE_ACTION="budgetOrganizationSelectionTree.do";
+    public static final String ORG_SEL_TREE_METHOD="loadExpansionScreen";
+
     public static final String BC_DOCUMENT_REFRESH_CALLER="BudgetConstruction";
     public static final String BC_DOCUMENT_ACTION="budgetBudgetConstruction.do";
     public static final String BC_DOCUMENT_REFRESH_METHOD="refresh";

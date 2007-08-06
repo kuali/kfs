@@ -54,8 +54,6 @@
 		<condition property="rice.exception.routing.immediate" value="true"><equals arg1="${use.quartz.scheduling}" arg2="false" /></condition>
 		<property name="rice.exception.routing.immediate" value="false" />
 		<loadfile property="configuration" srcfile="${build.project.directory}/${configuration.file}"><filterchain><expandproperties/></filterchain></loadfile>
-		<loadfile property="ojb" srcfile="${build.project.directory}/${ojb.file}"><filterchain><expandproperties/></filterchain></loadfile>
-		<loadfile property="spring" srcfile="${build.project.directory}/${spring.file}"><filterchain><expandproperties/></filterchain></loadfile>
 		<loadfile property="p6spy" srcfile="${build.project.directory}/${p6spy.file}"><filterchain><expandproperties/></filterchain></loadfile>
 		<loadfile property="web" srcfile="${build.project.directory}/${web.file}"><filterchain><expandproperties/></filterchain></loadfile>
 		<loadfile property="context" srcfile="${build.appserver.directory}/${context.file}"><filterchain><expandproperties/></filterchain></loadfile>
@@ -85,7 +83,7 @@
 
 	<target name="clean-project" depends="init-property-files">
 		<delete failonerror="false">
-			<fileset dir="${basedir}" includes="${source.directory}/${configuration.file},${source.directory}/${ojb.file},${source.directory}/${spring.file},${source.directory}/${p6spy.file},${webinf.directory}/${web.file},${lib.directory}/${log4j.library.file},${war.directory}/**/**,${test.directory}/**/**,*.war,*.zip,${help.directory}/**/**,${webroot.directory}/${rice.application}/**/**,${webroot.directory}/${tags.directory}/${rice.application}/**/**,${webroot.directory}/${workflow.application}/**/**,${database.directory}/${rice.name}/**/**,${licenses.directory}/${rice.name}/**/**" />
+			<fileset dir="${basedir}" includes="${source.directory}/${configuration.file},${source.directory}/${p6spy.file},${webinf.directory}/${web.file},${lib.directory}/${log4j.library.file},${war.directory}/**/**,${test.directory}/**/**,*.war,*.zip,${help.directory}/**/**,${webroot.directory}/${rice.application}/**/**,${webroot.directory}/${tags.directory}/${rice.application}/**/**,${webroot.directory}/${workflow.application}/**/**,${database.directory}/${rice.name}/**/**,${licenses.directory}/${rice.name}/**/**" />
 		</delete>
 	</target>
 
@@ -133,8 +131,6 @@
 		<unzip dest="${database.directory}/${rice.name}" src="${build.project.directory}/${rice.name}-${rice.version}${rice.output.ddl.suffix}" />
 		<unzip dest="${licenses.directory}/${rice.name}" src="${build.project.directory}/${rice.name}-${rice.version}${rice.output.licenses.suffix}" />
 		<echo file="${source.directory}/${configuration.file}" message="${configuration}" />
-		<echo file="${source.directory}/${ojb.file}" message="${ojb}" />
-		<echo file="${source.directory}/${spring.file}" message="${spring}" />
 		<echo file="${source.directory}/${p6spy.file}" message="${p6spy}" />
 		<echo file="${webinf.directory}/${web.file}" message="${web}" />
 		<mkdir dir="${metainf.directory}" />

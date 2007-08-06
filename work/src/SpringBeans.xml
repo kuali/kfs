@@ -1,0 +1,423 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans>
+	<bean id="properties" class="org.kuali.kfs.context.PropertyLoadingFactoryBean" />
+
+	<bean id="propertyPlaceholderConfigurer" class="org.springframework.beans.factory.config.PreferencesPlaceholderConfigurer">
+		<property name="ignoreUnresolvablePlaceholders" value="true"></property>
+		<property name="properties" ref="properties" />
+	</bean>
+
+	<bean id="jotm" class="org.springframework.transaction.jta.JotmFactoryBean">
+        <property name="defaultTimeout" value="${transaction.timeout}"/>
+    </bean>
+
+	<bean id="dataSource" class="org.kuali.rice.database.XAPoolDataSource">
+		<property name="transactionManager" ref="jotm" />
+		<property name="driverClassName" value="${dataSource.driverClassName}" />
+		<property name="maxSize" value="${dataSource.maxSize}" />
+		<property name="minSize" value="${dataSource.minSize}" />
+		<property name="maxWait" value="${dataSource.maxWait}" />
+		<property name="validationQuery" value="${dataSource.validationQuery}" />
+		<property name="url" value="${dataSource.url}" />
+		<property name="username" value="${dataSource.username}" />
+		<property name="password" value="${dataSource.password}" />
+	</bean>
+
+	<bean id="kfsRootResourceLoader" class="org.kuali.core.workflow.KFSResourceLoader">
+		<property name="overridableServices">
+			<set>
+				<value>webAuthenticationService</value>
+				<value>universalUserService</value>
+				<value>noteService</value>
+				<value>singleConfirmationQuestion</value>
+				<value>enUserService</value>
+				<value>enWebAuthenticationService</value>
+				<value>enEncryptionService</value>
+			</set>
+		</property>
+	</bean>
+
+	<bean id="rice" class="org.kuali.rice.config.RiceConfigurer">
+		<property name="dataSource" ref="dataSource" />
+		<property name="transactionManager" ref="jotm" />
+		<property name="userTransaction" ref="jotm" />
+		<property name="messageEntity" value="KFS" />
+		<property name="environment">
+			<value>${build.environment}</value>
+		</property>
+		<property name="properties" ref="properties" />
+		<property name="rootResourceLoader" ref="kfsRootResourceLoader" />
+		<property name="modules">
+			<list>
+				<bean class="edu.iu.uis.eden.messaging.config.KSBConfigurer">
+					<property name="serviceServletUrl" value="${workflow.url}/remote" />
+                    <property name="exceptionMessagingScheduler" ref="scheduler"/>
+				</bean>
+				<bean class="org.kuali.workflow.config.KEWConfigurer">
+					<property name="clientProtocol" value="local" />
+				</bean>
+				<bean class="org.kuali.rice.kns.config.KNSConfigurer">
+					<property name="suppressAutoModuleConfiguration" value="true"></property>
+				</bean>
+			</list>
+		</property>
+	</bean>
+
+	<alias name="universalUserService" alias="enUserService" />
+	<alias name="webAuthenticationService" alias="enWebAuthenticationService" />
+	<alias name="encryptionService" alias="enEncryptionService" />
+
+	<bean id="transactionManager" class="org.springframework.transaction.jta.JtaTransactionManager" lazy-init="true">
+		<property name="userTransaction">
+			<ref local="jotm" />
+		</property>
+		<property name="transactionManager">
+			<ref local="jotm" />
+		</property>
+	</bean>
+
+	<bean class="org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator" />
+
+	<bean id="transactionAdvisor" class="org.springframework.transaction.interceptor.TransactionAttributeSourceAdvisor">
+		<property name="classFilter" ref="transactionAdvisorClassFilter" />
+		<property name="transactionInterceptor" ref="transactionInterceptor" />
+	</bean>
+
+	<bean id="transactionAdvisorClassFilter" class="org.kuali.core.util.spring.ClassOrMethodAnnotationFilter">
+		<constructor-arg value="org.springframework.transaction.annotation.Transactional" />
+	</bean>
+
+	<bean id="transactionInterceptor" class="org.springframework.transaction.interceptor.TransactionInterceptor">
+		<property name="transactionManager" ref="transactionManager" />
+		<property name="transactionAttributeSource" ref="transactionAttributeSource" />
+	</bean>
+
+	<bean id="transactionAttributeSource" class="org.kuali.core.util.spring.AnnotationAndNameMatchingTransactionAttributeSource">
+		<property name="annotationTransactionAttributeSource" ref="annotationTransactionAttributeSource" />
+		<property name="transactionTimeout" value="${transaction.timeout}" />
+	</bean>
+
+	<bean id="annotationTransactionAttributeSource" class="org.springframework.transaction.annotation.AnnotationTransactionAttributeSource" />
+
+ 	<bean id="methodCacheAdvisor" class="org.springframework.aop.support.DefaultPointcutAdvisor">
+		<property name="advice" ref="methodCacheInterceptor" />
+		<property name="pointcut" ref="methodCachePointcut" />
+	</bean>
+
+	<bean id="methodCacheInterceptor" class="org.kuali.core.util.cache.MethodCacheInterceptor">
+		<property name="cache" ref="methodCache" />
+		<property name="expirationTimeInSeconds">
+			<value>10</value>
+		</property>
+	</bean>
+
+	<bean id="methodCache" factory-bean="methodResultsCacheAdministrator" factory-method="getCache" />
+
+	<bean id="methodResultsCacheAdministrator" class="com.opensymphony.oscache.general.GeneralCacheAdministrator" destroy-method="destroy">
+		<constructor-arg index="0">
+			<props>
+				<prop key="cache.memory">true</prop>
+				<prop key="cache.key">__oscache_mrcache</prop>
+				<prop key="cache.persistence.overflow.only">false</prop>
+				<prop key="cache.capacity">1000</prop>
+				<prop key="cache.event.listeners">org.kuali.core.util.cache.MethodResultsCacheMonitor</prop>
+			</props>
+		</constructor-arg>
+	</bean>
+
+	<bean id="methodCachePointcut" class="org.kuali.core.util.spring.ClassOrMethodAnnotationPointcut">
+		<constructor-arg value="org.kuali.core.util.spring.Cached" />
+	</bean>
+
+	<bean id="methodLoggingAdvisor" class="org.springframework.aop.support.DefaultPointcutAdvisor">
+		<property name="advice" ref="methodLoggingInterceptor" />
+		<property name="pointcut" ref="methodLoggingPointcut" />
+	</bean>
+
+	<bean id="methodLoggingInterceptor" class="org.kuali.core.util.spring.MethodLoggingInterceptor" />
+
+	<bean id="methodLoggingPointcut" class="org.kuali.core.util.spring.ClassOrMethodAnnotationPointcut">
+		<constructor-arg value="org.kuali.core.util.spring.Logged" />
+	</bean>
+
+	<bean id="dbPlatformDaoFactory" class="org.kuali.core.dbplatform.ConfigurableKualiDBPlatformFactory">
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+
+	<bean id="dbPlatformDao" factory-bean="dbPlatformDaoFactory" factory-method="getPlatformDao" />
+	
+	<bean id="platformAwareDao" abstract="true" class="org.kuali.core.dao.ojb.PlatformAwareDaoBaseOjb">
+		<property name="jcdAlias" value="knsDataSource" />
+		<property name="dbPlatform" ref="dbPlatformDao" />
+	</bean>
+
+	<bean id="platformAwareDaoJdbc" class="org.kuali.core.dao.jdbc.PlatformAwareDaoBaseJdbc" abstract="true">
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+
+	<bean id="webAuthenticationService" class="org.kuali.kfs.service.impl.WebAuthenticationServiceCas">
+		<property name="validatePassword" value="${validate.password}" />
+	</bean>
+
+	<bean id="universalUserDao" parent="platformAwareDao" class="org.kuali.core.dao.ojb.UniversalUserDaoOjb" />
+
+	<bean id="universalUserService" class="org.kuali.core.service.impl.UniversalUserServiceImpl">
+		<property name="universalUserDao">
+			<ref bean="universalUserDao" />
+		</property>
+		<property name="dataDictionaryService">
+			<ref bean="dataDictionaryService" />
+		</property>
+		<property name="kualiGroupService">
+			<ref bean="kualiGroupService" />
+		</property>
+		<property name="lookupDao">
+			<ref bean="lookupDao" />
+		</property>
+		<property name="kualiModuleService">
+			<ref bean="kualiModuleService" />
+		</property>
+		<property name="dateTimeService">
+			<ref bean="dateTimeService" />
+		</property>
+		<property name="moduleUserPropertyService">
+			<ref bean="kualiModuleUserPropertyService" />
+		</property>
+		<property name="businessObjectMetaDataService">
+			<ref bean="businessObjectMetaDataService" />
+		</property>
+		<property name="maintenanceDocumentDictionaryService">
+			<ref bean="maintenanceDocumentDictionaryService" />
+		</property>
+	</bean>
+
+	<bean id="kualiModuleUserServiceBase" class="org.kuali.core.service.impl.KualiModuleUserServiceBaseImpl" abstract="true">
+		<property name="universalUserService">
+			<ref bean="universalUserService" />
+		</property>
+		<property name="configService">
+			<ref bean="kualiConfigurationService" />
+		</property>
+		<property name="kualiModuleUserDao">
+			<bean id="kualiModuleUserDao" class="org.kuali.rice.kns.config.GlobalResourceLoaderServiceFactoryBean">
+				<property name="serviceName" value="kualiModuleUserDao" />
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="encryptionService" class="org.kuali.core.service.impl.DemonstrationGradeEncryptionServiceImpl">
+		<property name="secretKey">
+			<value>${encryption.key}</value>
+		</property>
+	</bean>
+
+	<bean id="noteService" class="org.kuali.core.service.impl.NoteServiceImpl">
+		<property name="noteDao">
+			<ref bean="noteDao" />
+		</property>
+		<property name="universalUserService">
+			<ref bean="universalUserService" />
+		</property>
+		<property name="workflowDocumentService">
+			<ref bean="workflowDocumentService" />
+		</property>
+		<property name="kualiConfigurationService">
+			<ref bean="kualiConfigurationService" />
+		</property>
+	</bean>
+
+	<bean id="kualiLookupableHelperService" class="org.kuali.core.lookup.KualiLookupableHelperServiceImpl" singleton="false">
+		<property name="persistenceStructureService">
+			<ref bean="persistenceStructureService" />
+		</property>
+		<property name="businessObjectDictionaryService">
+			<ref bean="businessObjectDictionaryService" />
+		</property>
+		<property name="dataDictionaryService">
+			<ref bean="dataDictionaryService" />
+		</property>
+		<property name="encryptionService">
+			<ref bean="encryptionService" />
+		</property>
+		<property name="universalUserService">
+			<ref bean="universalUserService" />
+		</property>
+		<property name="lookupService">
+			<ref bean="lookupService" />
+		</property>
+		<property name="businessObjectMetaDataService">
+			<ref bean="businessObjectMetaDataService" />
+		</property>
+		<property name="sequenceAccessorService">
+			<ref bean="sequenceAccessorService" />
+		</property>
+		<property name="businessObjectService">
+			<ref bean="businessObjectService" />
+		</property>
+		<property name="lookupResultsService">
+			<ref bean="lookupResultsService" />
+		</property>
+	</bean>
+
+	<bean id="workflowLookupable" class="org.kuali.core.workflow.attribute.WorkflowLookupableImpl" singleton="false">
+		<property name="configurationService">
+			<ref bean="kualiConfigurationService" />
+		</property>
+		<property name="businessObjectDictionaryService">
+			<ref bean="businessObjectDictionaryService" />
+		</property>
+	</bean>
+
+	<bean id="maintenanceDocumentRuleBase" class="org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase" abstract="true">
+		<property name="configService">
+			<ref bean="kualiConfigurationService" />
+		</property>
+		<property name="persistenceStructureService">
+			<ref bean="persistenceStructureService" />
+		</property>
+		<property name="dictionaryValidationService">
+			<ref bean="dictionaryValidationService" />
+		</property>
+		<property name="documentAuthorizationService">
+			<ref bean="documentAuthorizationService" />
+		</property>
+		<property name="workflowDocumentService">
+			<ref bean="workflowDocumentService" />
+		</property>
+		<property name="boDictionaryService">
+			<ref bean="businessObjectDictionaryService" />
+		</property>
+		<property name="ddService">
+			<ref bean="dataDictionaryService" />
+		</property>
+		<property name="boService">
+			<ref bean="businessObjectService" />
+		</property>
+		<property name="maintDocDictionaryService">
+			<ref bean="maintenanceDocumentDictionaryService" />
+		</property>
+		<property name="persistenceService">
+			<ref bean="persistenceService" />
+		</property>
+		<property name="universalUserService">
+			<ref bean="universalUserService" />
+		</property>
+	</bean>
+
+	<bean id="dateTimeService" class="org.kuali.rice.kns.config.GlobalResourceLoaderServiceFactoryBean">
+		<property name="serviceName" value="dateTimeService" />
+	</bean>
+
+	<bean id="businessObjectMetaDataService" class="org.kuali.rice.kns.config.GlobalResourceLoaderServiceFactoryBean">
+		<property name="serviceName" value="businessObjectMetaDataService" />
+	</bean>
+
+	<bean id="kualiModuleUserPropertyService" class="org.kuali.rice.kns.config.GlobalResourceLoaderServiceFactoryBean">
+		<property name="serviceName" value="kualiModuleUserPropertyService" />
+	</bean>
+
+	<bean id="sequenceAccessorService" class="org.kuali.rice.kns.config.GlobalResourceLoaderServiceFactoryBean">
+		<property name="serviceName" value="sequenceAccessorService" />
+	</bean>
+
+	<bean id="noteDao" class="org.kuali.rice.kns.config.GlobalResourceLoaderServiceFactoryBean">
+		<property name="serviceName" value="noteDao" />
+	</bean>
+
+	<bean id="lookupService" class="org.kuali.rice.kns.config.GlobalResourceLoaderServiceFactoryBean">
+		<property name="serviceName" value="lookupService" />
+	</bean>
+
+	<bean id="lookupDao" class="org.kuali.rice.kns.config.GlobalResourceLoaderServiceFactoryBean">
+		<property name="serviceName" value="lookupDao" />
+	</bean>
+
+	<bean id="kualiConfigurationService" class="org.kuali.rice.kns.config.GlobalResourceLoaderServiceFactoryBean">
+		<property name="serviceName" value="kualiConfigurationService" />
+	</bean>
+
+	<bean id="kualiRuleService" class="org.kuali.rice.kns.config.GlobalResourceLoaderServiceFactoryBean">
+		<property name="serviceName" value="kualiRuleService" />
+	</bean>
+
+	<bean id="businessObjectService" class="org.kuali.rice.kns.config.GlobalResourceLoaderServiceFactoryBean">
+		<property name="serviceName" value="businessObjectService" />
+	</bean>
+
+	<bean id="mailService" class="org.kuali.rice.kns.config.GlobalResourceLoaderServiceFactoryBean">
+		<property name="serviceName" value="mailService" />
+	</bean>
+
+	<bean id="kualiModuleService" class="org.kuali.rice.kns.config.GlobalResourceLoaderServiceFactoryBean">
+		<property name="serviceName" value="kualiModuleService" />
+	</bean>
+
+	<bean id="databaseImportExportService" class="org.kuali.rice.kns.config.GlobalResourceLoaderServiceFactoryBean">
+		<property name="serviceName" value="databaseImportExportService" />
+	</bean>
+
+	<bean id="lookupResultsService" class="org.kuali.rice.kns.config.GlobalResourceLoaderServiceFactoryBean">
+		<property name="serviceName" value="lookupResultsService" />
+	</bean>
+
+	<bean id="documentService" class="org.kuali.rice.kns.config.GlobalResourceLoaderServiceFactoryBean">
+		<property name="serviceName" value="documentService" />
+	</bean>
+
+	<bean id="attachmentService" class="org.kuali.rice.kns.config.GlobalResourceLoaderServiceFactoryBean">
+		<property name="serviceName" value="attachmentService" />
+	</bean>
+
+	<bean id="workflowDocumentService" class="org.kuali.rice.kns.config.GlobalResourceLoaderServiceFactoryBean">
+		<property name="serviceName" value="workflowDocumentService" />
+	</bean>
+
+	<bean id="persistenceStructureService" class="org.kuali.rice.kns.config.GlobalResourceLoaderServiceFactoryBean">
+		<property name="serviceName" value="persistenceStructureService" />
+	</bean>
+
+	<bean id="kualiGroupService" class="org.kuali.rice.kns.config.GlobalResourceLoaderServiceFactoryBean">
+		<property name="serviceName" value="kualiGroupService" />
+	</bean>
+
+	<bean id="dataDictionaryService" class="org.kuali.rice.kns.config.GlobalResourceLoaderServiceFactoryBean">
+		<property name="serviceName" value="dataDictionaryService" />
+	</bean>
+
+	<bean id="dictionaryValidationService" class="org.kuali.rice.kns.config.GlobalResourceLoaderServiceFactoryBean">
+		<property name="serviceName" value="dictionaryValidationService" />
+	</bean>
+
+	<bean id="maintenanceDocumentDictionaryService" class="org.kuali.rice.kns.config.GlobalResourceLoaderServiceFactoryBean">
+		<property name="serviceName" value="maintenanceDocumentDictionaryService" />
+	</bean>
+
+	<bean id="documentAuthorizationService" class="org.kuali.rice.kns.config.GlobalResourceLoaderServiceFactoryBean">
+		<property name="serviceName" value="documentAuthorizationService" />
+	</bean>
+
+	<bean id="businessObjectDictionaryService" class="org.kuali.rice.kns.config.GlobalResourceLoaderServiceFactoryBean">
+		<property name="serviceName" value="businessObjectDictionaryService" />
+	</bean>
+
+	<bean id="persistenceService" class="org.kuali.rice.kns.config.GlobalResourceLoaderServiceFactoryBean">
+		<property name="serviceName" value="persistenceService" />
+	</bean>
+
+	<bean id="maintenanceDocumentService" class="org.kuali.rice.kns.config.GlobalResourceLoaderServiceFactoryBean">
+		<property name="serviceName" value="maintenanceDocumentService" />
+	</bean>
+
+	<bean id="documentTypeService" class="org.kuali.rice.kns.config.GlobalResourceLoaderServiceFactoryBean">
+		<property name="serviceName" value="documentTypeService" />
+	</bean>
+
+	<bean id="documentDao" class="org.kuali.rice.kns.config.GlobalResourceLoaderServiceFactoryBean">
+		<property name="serviceName" value="documentDao" />
+	</bean>
+
+	<bean id="mailSender" class="org.kuali.rice.kns.config.GlobalResourceLoaderServiceFactoryBean">
+		<property name="serviceName" value="mailSender" />
+	</bean>
+</beans>

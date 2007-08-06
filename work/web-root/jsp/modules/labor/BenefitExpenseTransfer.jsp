@@ -155,6 +155,9 @@
 					forcedReadOnlyFields="${KualiForm.forcedReadOnlySourceFields}"
 					accountingLineAttributes="${accountingLineAttributesMap}">
 					<jsp:attribute name="importRowOverride">
+					
+					<%-- When data exists show the copy or delete buttons --%>
+		            <c:if test="${disabled}">
 						<html:image property="methodToCall.copyAllAccountingLines"
 							src="${ConfigProperties.externalizable.images.url}tinybutton-copyall.gif"
 							title="Copy all Source Accounting Lines"
@@ -163,6 +166,8 @@
 							src="${ConfigProperties.externalizable.images.url}tinybutton-deleteall.gif"
 							title="Delete all Source Accounting Lines"
 							alt="Delete all Source Lines" styleClass="tinybutton" />
+					</c:if>							
+							
                     </jsp:attribute>
 					<jsp:attribute name="customActions">
 						<c:set var="copyMethod"

@@ -95,16 +95,6 @@ public class RequisitionDocumentRule extends PurchasingDocumentRuleBase {
                         valid = false;
                         break;
                     }
-
-                    BigDecimal totalPercentage = new BigDecimal(0);
-                    for (PurApAccountingLine accountingLine : item.getSourceAccountingLines()) {
-                        totalPercentage = totalPercentage.add(accountingLine.getAccountLinePercent());
-                    }
-                    if (!totalPercentage.equals(new BigDecimal(100))) {
-                        GlobalVariables.getErrorMap().putError(PurapConstants.ITEM_TAB_ERROR_PROPERTY, PurapKeyConstants.ERROR_NOT_100_PERCENT);
-                        valid = false;
-                        break;
-                    }
                 }
             }
         }
@@ -124,6 +114,19 @@ public class RequisitionDocumentRule extends PurchasingDocumentRuleBase {
         for (PurchasingApItem item : purapDocument.getItems()) {
             item.refreshNonUpdateableReferences();
 
+            //The account total must equal to 100% if the account is not empty.
+            if (item.getSourceAccountingLines() != null && item.getSourceAccountingLines().size() > 0) {
+                BigDecimal totalPercentage = new BigDecimal(0);
+                for (PurApAccountingLine accountingLine : item.getSourceAccountingLines()) {
+                    totalPercentage = totalPercentage.add(accountingLine.getAccountLinePercent());
+                }
+                if (!totalPercentage.equals(new BigDecimal(100))) {
+                    GlobalVariables.getErrorMap().putError(PurapConstants.ITEM_TAB_ERROR_PROPERTY, PurapKeyConstants.ERROR_NOT_100_PERCENT);
+                    valid = false;
+                    break;
+                }
+            }
+            
             //only do this check for below the line items
             if (!item.getItemType().isItemTypeAboveTheLineIndicator()) {
                 if (ObjectUtils.isNotNull(item.getItemUnitPrice()) &&(new KualiDecimal(item.getItemUnitPrice())).isZero()) {

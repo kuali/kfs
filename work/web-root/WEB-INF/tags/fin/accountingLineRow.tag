@@ -51,6 +51,9 @@
 <%@ attribute name="hiddenFields" required="true"
 	description="A comma separated list of names of accounting line fields
               to be put in hidden fields on this form."%>
+<%@ attribute name="salesTaxHiddenFields" required="false"
+	description="A comma separated list of names of sales tax line fields
+              to be put in hidden fields on this form."%>
 <%@ attribute name="columnCountUntilAmount" required="true"
 	description="the number of columns to the left of the amount column(s) in the
               accounting lines table.  This depends on the number
@@ -146,6 +149,9 @@
 <tr>
 	<kul:htmlAttributeHeaderCell literalLabel="${rowHeader}:" scope="row" rowspan="${rowspan}">
 		<%-- these hidden fields are inside a table cell to keep the HTML valid --%>
+		<c:if test="${salesTaxNeeded}">
+			<c:set var="hiddenFields" value="${hiddenFields},salesTax.versionNumber"/>
+		</c:if>
 		<c:forTokens var="hiddenField" items="${hiddenFields}" delims=",">
 			<fin:hiddenAccountingLineField accountingLine="${accountingLine}"
 				hiddenField="${hiddenField}" displayHidden="${displayHidden}" />

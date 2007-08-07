@@ -68,6 +68,21 @@ public class PaymentRequestDocumentRule extends AccountsPayableDocumentRuleBase 
     private static BigDecimal ONE_HUNDRED = BigDecimal.valueOf(100);
     
 	/**
+     * @see org.kuali.kfs.rules.AccountingDocumentRuleBase#accountIsAccessible(org.kuali.kfs.document.AccountingDocument, org.kuali.kfs.bo.AccountingLine)
+     */
+    @Override
+    protected boolean accountIsAccessible(AccountingDocument financialDocument, AccountingLine accountingLine) {
+        PaymentRequestDocument preq = (PaymentRequestDocument)financialDocument;
+        //We are overriding the accessibility of the accounts only in the case where awaiting ap review, that is because the super checks enroute
+        //and checks if it is the owner while we allow "full entry" until past this stage
+        if(StringUtils.equals(PurapConstants.PaymentRequestStatuses.AWAITING_ACCOUNTS_PAYABLE_REVIEW, preq.getStatusCode())) {
+            return true;
+        } else {
+            return super.accountIsAccessible(financialDocument, accountingLine);
+        }
+    }
+
+    /**
      * Tabs included on Payment Request Documents are: Invoice
      * 
      * @see org.kuali.module.purap.rules.PurchasingAccountsPayableDocumentRuleBase#processValidation(org.kuali.module.purap.document.PurchasingAccountsPayableDocument)

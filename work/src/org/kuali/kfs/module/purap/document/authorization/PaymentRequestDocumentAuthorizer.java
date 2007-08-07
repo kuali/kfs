@@ -81,6 +81,9 @@ public class PaymentRequestDocumentAuthorizer extends AccountingDocumentAuthoriz
                 //expense_entry was already added in super
                 //add amount edit mode
                 editMode = PurapAuthorizationConstants.PaymentRequestEditMode.ALLOW_ACCOUNT_AMOUNT_ENTRY;
+            } else if (currentRouteLevels.contains(PurapConstants.WorkflowConstants.PaymentRequestDocument.NodeDetails.ACCOUNTS_PAYABLE_REVIEW)){
+                //is in ap review remove the view only that was added by super
+                editModeMap.remove(AuthorizationConstants.EditMode.VIEW_ONLY);
             }
         } 
 

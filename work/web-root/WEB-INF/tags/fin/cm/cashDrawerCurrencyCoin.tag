@@ -29,12 +29,7 @@
 <html:hidden property="${cashDrawerProperty}.financialDocumentMiscellaneousAdvanceAmount" />
 <html:hidden property="${cashDrawerProperty}.referenceFinancialDocumentNumber" />
 
-<table border="0" cellspacing="0" cellpadding="0" class="datatable">
-  <tr>
-    <th colspan="4">
-      Currency/Coin
-    </th>
-  </tr>
+<table border="0" cellspacing="0" cellpadding="0" style="margin:0px">
 	<tr>
 		<td valign="top">
       <table border="0" cellspacing="0" cellpadding="0" class="datatable" width="100%">

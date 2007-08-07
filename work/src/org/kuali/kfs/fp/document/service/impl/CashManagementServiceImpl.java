@@ -210,7 +210,6 @@ public class CashManagementServiceImpl implements CashManagementService {
         // lock the cashDrawer
         cashDrawerService.lockCashDrawer(cashManagementDoc.getCashDrawer(), cashManagementDoc.getDocumentNumber());
 
-
         //
         // create the Deposit
         Deposit deposit = buildDeposit(cashManagementDoc, depositTypeCode, depositTicketNumber, bankAccount, selectedCashReceipts);
@@ -290,9 +289,6 @@ public class CashManagementServiceImpl implements CashManagementService {
 
         if (selectedCashReceipts == null) {
             throw new IllegalArgumentException("invalid (null) cashReceipts list");
-        }
-        else if (selectedCashReceipts.isEmpty()) {
-            throw new IllegalArgumentException("invalid (empty) cashReceipts list");
         }
         else {
             for (CashReceiptDocument cashReceipt : selectedCashReceipts) {
@@ -487,7 +483,7 @@ public class CashManagementServiceImpl implements CashManagementService {
         }
 
         String workgroupName = cmDoc.getWorkgroupName();
-        cashDrawerService.closeCashDrawer(cmDoc.getCashDrawer());
+        cashDrawerService.closeCashDrawer(workgroupName);
         CashDrawer cd = cashDrawerService.getByWorkgroupName(workgroupName, false);
 
 
@@ -615,7 +611,10 @@ public class CashManagementServiceImpl implements CashManagementService {
     /**
      * @see org.kuali.module.financial.service.CashManagementService#applyCashieringTransaction(org.kuali.module.financial.document.CashManagementDocument, org.kuali.module.financial.bo.CashieringTransaction)
      */
-    public void applyCashieringTransaction(CashManagementDocument cmDoc) {  
+    public void applyCashieringTransaction(CashManagementDocument cmDoc) {
+        if (cmDoc.getCashDrawer() == null) {
+            cmDoc.setCashDrawer(cashDrawerService.getByWorkgroupName(cmDoc.getWorkgroupName(), false));
+        }
         CashieringTransactionRule transactionRule = new CashieringTransactionRule();
         transactionRule.setCashDrawerService(cashDrawerService);
         if (transactionRule.processCashieringTransactionApplicationRules(cmDoc)) {
@@ -641,12 +640,22 @@ public class CashManagementServiceImpl implements CashManagementService {
      */
     private void updateCashDrawer(CashDrawer drawer, CashieringTransaction trans) {
         // add money in to cash drawer
-        drawer.addCurrency(trans.getMoneyInCurrency());
-        drawer.addCoin(trans.getMoneyInCoin());
+        if (!trans.getMoneyInCurrency().isEmpty()) {
+            drawer.addCurrency(trans.getMoneyInCurrency());
+        }
+        if (!trans.getMoneyInCoin().isEmpty()) {
+            drawer.addCoin(trans.getMoneyInCoin());
+        }
         
         // subtract money out from cash drawer
-        drawer.removeCurrency(trans.getMoneyOutCurrency());
-        drawer.removeCoin(trans.getMoneyOutCoin());
+        if (!trans.getMoneyOutCurrency().isEmpty()) {
+            drawer.removeCurrency(trans.getMoneyOutCurrency());
+        }
+        if (!trans.getMoneyOutCoin().isEmpty()) {
+            drawer.removeCoin(trans.getMoneyOutCoin());
+        }
+        
+        businessObjectService.save(drawer);
     }
     
     private void completeNewItemInProcess(CashieringTransaction trans) {
@@ -693,15 +702,11 @@ public class CashManagementServiceImpl implements CashManagementService {
             trans.getOpenItemsInProcess().add(trans.getNewItemInProcess());
             
             CashDrawer drawer = cmDoc.getCashDrawer();
-            if (drawer == null) {
-                drawer = cashDrawerService.getByWorkgroupName(cmDoc.getWorkgroupName(), false);
-            }
             if (drawer.getFinancialDocumentMiscellaneousAdvanceAmount() == null) {
                 drawer.setFinancialDocumentMiscellaneousAdvanceAmount(trans.getNewItemInProcess().getItemAmount());
             } else {
                 drawer.setFinancialDocumentMiscellaneousAdvanceAmount(drawer.getFinancialDocumentMiscellaneousAdvanceAmount().add(trans.getNewItemInProcess().getItemAmount()));
             }
-            businessObjectService.save(drawer);
         }
     }
     
@@ -714,9 +719,6 @@ public class CashManagementServiceImpl implements CashManagementService {
     private void saveExisingItemsInProcess(CashManagementDocument cmDoc, CashieringTransaction trans) {
         if (trans.getOpenItemsInProcess() != null) {
             CashDrawer drawer = cmDoc.getCashDrawer();
-            if (drawer == null) {
-                drawer = cashDrawerService.getByWorkgroupName(cmDoc.getWorkgroupName(), false);
-            }
             
             for (CashieringItemInProcess itemInProc: trans.getOpenItemsInProcess()) {
                 if (itemInProc.getCurrentPayment() != null && !itemInProc.getCurrentPayment().equals(KualiDecimal.ZERO)) {
@@ -732,7 +734,6 @@ public class CashManagementServiceImpl implements CashManagementService {
                     businessObjectService.save(itemInProc);
                 }
             }
-            businessObjectService.save(drawer);
         }
     }
     
@@ -921,14 +922,14 @@ public class CashManagementServiceImpl implements CashManagementService {
         List<CurrencyDetail> currencyDetails = cashManagementDao.getAllCurrencyDetails(cmDoc.getDocumentNumber());
         if (currencyDetails != null && currencyDetails.size() > 0) {
             for (CurrencyDetail detail: currencyDetails) {
-                result &= !detail.isEmpty();
+                result |= !detail.isEmpty();
             }
         }
         if (!result) {
             List<CoinDetail> coinDetails = cashManagementDao.getAllCoinDetails(cmDoc.getDocumentNumber());
             if (coinDetails != null && coinDetails.size() > 0) {
                 for (CoinDetail detail: coinDetails) {
-                    result &= !detail.isEmpty();
+                    result |= !detail.isEmpty();
                 }
             }
         }
@@ -945,6 +946,13 @@ public class CashManagementServiceImpl implements CashManagementService {
         List<Check> undepositedChecks = this.selectUndepositedCashieringChecks(cmDoc.getDocumentNumber());
         List<Check> depositedChecks = cashManagementDao.selectDepositedCashieringChecks(cmDoc.getDocumentNumber());
         return (undepositedChecks != null && undepositedChecks.size() > 0) || (depositedChecks != null && depositedChecks.size() > 0);
+    }
+
+    /**
+     * @see org.kuali.module.financial.service.CashManagementService#selectNextAvailableCheckLineNumber(java.lang.String)
+     */
+    public Integer selectNextAvailableCheckLineNumber(String documentNumber) {
+        return cashManagementDao.selectNextAvailableCheckLineNumber(documentNumber);
     }
 
 

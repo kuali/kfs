@@ -15,7 +15,7 @@
 --%>
 <%@ include file="/jsp/kfs/kfsTldHeader.jsp"%>
 
-<kul:tab tabTitle="Recently Closed Miscellaneous Advances" defaultOpen="true" tabErrorKey="recentlyClosedItemsInProcess" >
+<kul:tab tabTitle="Recently Closed Miscellaneous Advances" defaultOpen="false" tabErrorKey="recentlyClosedItemsInProcess" >
   <div class="tab-container" align="center">
     <table border="0" cellspacing="3" cellpadding="3" class="datatable">
       <tr>

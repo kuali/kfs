@@ -59,7 +59,6 @@ public class CashManagementDocument extends AccountingDocumentBase {
     
     private transient CashieringTransaction currentTransaction;
     private CashDrawer cashDrawer;
-    private CashManagementDao cashManagementDao;
 
     /**
      * Default constructor.
@@ -334,7 +333,7 @@ public class CashManagementDocument extends AccountingDocumentBase {
         // grab the cash drawer
         if (this.getWorkgroupName() != null) {
             this.cashDrawer = SpringServiceLocator.getCashDrawerService().getByWorkgroupName(this.getWorkgroupName(), false);
-            this.currentTransaction.setOpenItemsInProcess(SpringServiceLocator.getCashManagementService().getOpenItemsInProcess(this));
+            this.resetCurrentTransaction();
         }
         SpringServiceLocator.getCashManagementService().populateCashDetailsForDeposit(this);
     }
@@ -365,27 +364,8 @@ public class CashManagementDocument extends AccountingDocumentBase {
             if (openItemsInProcess != null) {
                 currentTransaction.setOpenItemsInProcess(openItemsInProcess);
             }
+            currentTransaction.setNextCheckSequenceId(SpringServiceLocator.getCashManagementService().selectNextAvailableCheckLineNumber(this.documentNumber));
         }
     }
-
-    // home of the Spring-injected goodness
-    
-    /**
-     * Gets the cashManagementDao attribute. 
-     * @return Returns the cashManagementDao.
-     */
-    public CashManagementDao getCashManagementDao() {
-        return cashManagementDao;
-    }
-
-
-    /**
-     * Sets the cashManagementDao attribute value.
-     * @param cashManagementDao The cashManagementDao to set.
-     */
-    public void setCashManagementDao(CashManagementDao cashManagementDao) {
-        this.cashManagementDao = cashManagementDao;
-    }
-    
     
 }

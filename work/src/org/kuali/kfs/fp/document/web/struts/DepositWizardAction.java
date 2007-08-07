@@ -285,7 +285,10 @@ public class DepositWizardAction extends KualiAction {
         if (GlobalVariables.getErrorMap().isEmpty()) {
             try {
                 // retrieve selected receipts
-                List selectedReceipts = SpringServiceLocator.getDocumentService().getDocumentsByListOfDocumentHeaderIds(CashReceiptDocument.class, selectedIds);
+                List selectedReceipts = new ArrayList();
+                if (selectedIds != null && !selectedIds.isEmpty()) {
+                    selectedReceipts = SpringServiceLocator.getDocumentService().getDocumentsByListOfDocumentHeaderIds(CashReceiptDocument.class, selectedIds);
+                }
                 
                 boolean depositIsFinal = (StringUtils.equals(dform.getDepositTypeCode(), KFSConstants.DepositConstants.DEPOSIT_TYPE_FINAL));
                 if (depositIsFinal) {

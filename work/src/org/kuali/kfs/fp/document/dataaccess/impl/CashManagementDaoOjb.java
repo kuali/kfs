@@ -239,4 +239,29 @@ public class CashManagementDaoOjb extends PlatformAwareDaoBaseOjb implements Cas
         criteria.addEqualTo("financialDocumentTypeCode", CashieringTransaction.DETAIL_DOCUMENT_TYPE);
         return criteria;
     }
+
+    /**
+     * @see org.kuali.module.financial.dao.CashManagementDao#selectNextAvailableCheckLineNumber(java.lang.String)
+     */
+    public Integer selectNextAvailableCheckLineNumber(String documentNumber) {
+        if (documentNumber != null) {
+            // select all cashiering checks associated with document
+            Criteria criteria = new Criteria();
+            criteria.addEqualTo("documentNumber", documentNumber);
+            criteria.addEqualTo("cashieringRecordSource", KFSConstants.CheckSources.CASH_MANAGEMENT);
+            criteria.addEqualTo("financialDocumentTypeCode", CashieringTransaction.DETAIL_DOCUMENT_TYPE);
+            
+            QueryByCriteria cmChecksQuery = QueryFactory.newQuery(CheckBase.class, criteria);
+            cmChecksQuery.addOrderByDescending("sequenceId");
+            Iterator allChecksIter = getPersistenceBrokerTemplate().getIteratorByQuery(cmChecksQuery);
+            if (allChecksIter.hasNext()) {
+                return new Integer((((Check)allChecksIter.next()).getSequenceId()).intValue() + 1);
+            } else {
+                return new Integer(1);
+            }
+        } else {
+            return null;
+        }
+    }
+    
 }

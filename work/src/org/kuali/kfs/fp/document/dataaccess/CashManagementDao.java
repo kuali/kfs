@@ -93,4 +93,11 @@ public interface CashManagementDao {
      * @return hopefully, a bunch of coin details
      */
     public List<CoinDetail> getAllCoinDetails(String documentNumber);
+    
+    /**
+     * Select the next available check line number for the given cash management document
+     * @param documentNumber the document number of a cash management document
+     * @return the next available check line number for cashiering checks
+     */
+    public Integer selectNextAvailableCheckLineNumber(String documentNumber);
 }

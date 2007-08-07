@@ -22,7 +22,7 @@
 		<div class="tab-container" align="center">
 			<cm:cashieringTransaction />
       <p style="padding: 10px">
-        <html:image src="${ConfigProperties.externalizable.images.url}buttonsmall_applyCashieringTransaction.gif" style="border: none" property="methodToCall.applyCashieringTransaction" title="Apply Cashiering Transaction" alt="Apply Cashiering Transaction" />
+        <html:image src="${ConfigProperties.externalizable.images.url}buttonsmall_applytrans.gif" style="border: none" property="methodToCall.applyCashieringTransaction" title="Apply Cashiering Transaction" alt="Apply Cashiering Transaction" />
       </p>
 		</div>
 	</kul:tab>

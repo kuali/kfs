@@ -20,21 +20,42 @@
 </div>
 <kul:htmlControlAttribute property="document.currentTransaction.workgroupName" attributeEntry="${DataDictionary.CashieringTransaction.attributes.workgroupName}" />
 <kul:htmlControlAttribute property="document.currentTransaction.referenceFinancialDocumentNumber" attributeEntry="${DataDictionary.CashieringTransaction.attributesreferenceFinancialDocumentNumber}" />
+<html:hidden name="KualiForm" property="document.currentTransaction.nextCheckSequenceId" write="false" />
 <%-- <kul:htmlControlAttribute property="document.currentTransaction.transactionStarted" attributeEntry="${DataDictionary.CashieringTransaction.attributes.transactionStarted}" /> --%>
-<fin:currencyCoinLine currencyProperty="document.currentTransaction.moneyInCurrency" coinProperty="document.currentTransaction.moneyOutCoin" editingMode="${KualiForm.editingMode}" />
+<div style="padding: 5px;">
+  <div class="h2-container">
+    <h2>Currency/Coin</h2>
+  </div>
+  <fin:currencyCoinLine currencyProperty="document.currentTransaction.moneyInCurrency" coinProperty="document.currentTransaction.moneyOutCoin" editingMode="${KualiForm.editingMode}" />
+</div>
+<div style="padding: 5px;">
+  <div class="h2-container">
+    <h2>New Miscellaneous Advance</h2>
+  </div>
 <table border="0" cellspacing="0" cellpadding="0" class="datatable">
-  <tr>
-    <th colspan="3">
-      New Misc. Advance
-    </th>
-  </tr>
   <cm:miscAdvanceHeader itemInProcessProperty="document.currentTransaction.newItemInProcess" creatingItemInProcess="true" />
   <cm:miscAdvanceLine itemInProcessProperty="document.currentTransaction.newItemInProcess" creatingItemInProcess="true" />
 </table>
-<cm:checkLines checkDetailMode="true" editingMode="${KualiForm.editingMode}" displayHidden="false" />
+</div>
+<div style="padding: 5px;">
+  <div class="h2-container">
+    <h2>Cashiering Checks</h2>
+  </div>
+  <cm:checkLines checkDetailMode="true" editingMode="${KualiForm.editingMode}" displayHidden="false" />
+</div>
 
 <div class="h3-container">
 	<h3>Money Out</h3>
 </div>
-<fin:currencyCoinLine currencyProperty="document.currentTransaction.moneyOutCurrency" coinProperty="document.currentTransaction.moneyInCoin" editingMode="${KualiForm.editingMode}" />
-<cm:openMiscAdvanceLines />
+<div style="padding: 5px;">
+  <div class="h2-container">
+    <h2>Currency/Coin</h2>
+  </div>
+  <fin:currencyCoinLine currencyProperty="document.currentTransaction.moneyOutCurrency" coinProperty="document.currentTransaction.moneyInCoin" editingMode="${KualiForm.editingMode}" />
+</div>
+<div style="padding: 5px;">
+  <div class="h2-container">
+    <h2>Open Miscellaneous Advances</h2>
+  </div>
+  <cm:openMiscAdvanceLines />
+</div>

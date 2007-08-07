@@ -32,11 +32,6 @@
         
             <table cellpadding=0 class="datatable" summary="check detail information">
                 <tr>
-                  <td <c:choose><c:when test="${!readOnly}">colspan="6"</c:when><c:otherwise>colspan="5"</c:otherwise></c:choose>>
-                    <strong>Checks In</strong>
-                  </td>
-                </tr>
-                <tr>
                     <kul:htmlAttributeHeaderCell literalLabel="&nbsp;" />
                     <kul:htmlAttributeHeaderCell attributeEntry="${checkBaseAttributes.checkNumber}" />
                     <kul:htmlAttributeHeaderCell attributeEntry="${checkBaseAttributes.checkDate}" />

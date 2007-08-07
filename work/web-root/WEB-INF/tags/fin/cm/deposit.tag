@@ -135,6 +135,7 @@
     </c:if>
     
     <%-- cashReceipts header --%>
+    <c:if test="${!empty KualiForm.depositHelpers[depositIndex].cashReceiptSummarys}">
     <tr><td colspan="4" class="tab-subhead">
         Cash Receipts
     </td></tr>
@@ -169,8 +170,10 @@
             </td>
         </tr>
     </logic:iterate>
+    </c:if>
     
     <%-- cashiering checks --%>
+    <c:if test="${!empty KualiForm.depositHelpers[depositIndex].cashieringChecks}">
     <tr>
       <td colspan="4" class="tab-subhead">Cashiering Checks</td>
     </tr>
@@ -196,6 +199,7 @@
         </td>
       </tr>
     </logic:iterate>
+    </c:if>
 
     <%-- deposit footer --%>
     <c:if test="${(depositType == Constants.DepositConstants.DEPOSIT_TYPE_FINAL && allowCancelDeposits) || allowAdditionalDeposits}">

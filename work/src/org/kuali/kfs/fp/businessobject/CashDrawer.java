@@ -926,56 +926,56 @@ public class CashDrawer extends PersistableBusinessObjectBase {
      * @param detail the record indicating how much currency of each denomination to remove 
      */
     public void removeCurrency(CurrencyDetail detail) {
-        if (detail.getFinancialDocumentHundredDollarAmount() != null && detail.getFinancialDocumentHundredDollarAmount().isGreaterThan(KualiDecimal.ZERO)) {
+        if (detail.getFinancialDocumentHundredDollarAmount() != null) {
             if (this.getFinancialDocumentHundredDollarAmount() == null || detail.getFinancialDocumentHundredDollarAmount().isGreaterThan(this.getFinancialDocumentHundredDollarAmount())) {
                 throw new IllegalArgumentException("The requested amount of hundred dollar bills exceeds the amount in the cash drawer");
             } else {
                 setFinancialDocumentHundredDollarAmount(getFinancialDocumentHundredDollarAmount().subtract(detail.getFinancialDocumentHundredDollarAmount()));
             }
         }
-        if (detail.getFinancialDocumentFiftyDollarAmount() != null && detail.getFinancialDocumentFiftyDollarAmount().isGreaterThan(KualiDecimal.ZERO)) {
+        if (detail.getFinancialDocumentFiftyDollarAmount() != null) {
             if (this.getFinancialDocumentFiftyDollarAmount() == null || detail.getFinancialDocumentFiftyDollarAmount().isGreaterThan(this.getFinancialDocumentFiftyDollarAmount())) {
                 throw new IllegalArgumentException("The requested amount of fifty dollar bills exceeds the amount in the cash drawer");
             } else {
                 setFinancialDocumentFiftyDollarAmount(getFinancialDocumentFiftyDollarAmount().subtract(detail.getFinancialDocumentFiftyDollarAmount()));
             }
         }
-        if (detail.getFinancialDocumentTwentyDollarAmount() != null && detail.getFinancialDocumentTwentyDollarAmount().isGreaterThan(KualiDecimal.ZERO)) {
+        if (detail.getFinancialDocumentTwentyDollarAmount() != null) {
             if (this.getFinancialDocumentTwentyDollarAmount() == null || detail.getFinancialDocumentTwentyDollarAmount().isGreaterThan(this.getFinancialDocumentTwentyDollarAmount())) {
                 throw new IllegalArgumentException("The requested amount of twenty dollar bills exceeds the amount in the cash drawer");
             } else {
                 setFinancialDocumentTwentyDollarAmount(getFinancialDocumentTwentyDollarAmount().subtract(detail.getFinancialDocumentTwentyDollarAmount()));
             }
         }
-        if (detail.getFinancialDocumentTenDollarAmount() != null && detail.getFinancialDocumentTenDollarAmount().isGreaterThan(KualiDecimal.ZERO)) {
+        if (detail.getFinancialDocumentTenDollarAmount() != null) {
             if (this.getFinancialDocumentTenDollarAmount() == null || detail.getFinancialDocumentTenDollarAmount().isGreaterThan(this.getFinancialDocumentTenDollarAmount())) {
                 throw new IllegalArgumentException("The requested amount of ten dollar bills exceeds the amount in the cash drawer");
             } else {
                 setFinancialDocumentTenDollarAmount(getFinancialDocumentTenDollarAmount().subtract(detail.getFinancialDocumentTenDollarAmount()));
             }
         }
-        if (detail.getFinancialDocumentFiveDollarAmount() != null && detail.getFinancialDocumentFiveDollarAmount().isGreaterThan(KualiDecimal.ZERO)) {
+        if (detail.getFinancialDocumentFiveDollarAmount() != null) {
             if (this.getFinancialDocumentFiveDollarAmount() == null || detail.getFinancialDocumentFiveDollarAmount().isGreaterThan(this.getFinancialDocumentFiveDollarAmount())) {
                 throw new IllegalArgumentException("The requested amount of five dollar bills exceeds the amount in the cash drawer");
             } else {
                 setFinancialDocumentFiveDollarAmount(getFinancialDocumentFiveDollarAmount().subtract(detail.getFinancialDocumentFiveDollarAmount()));
             }
         }
-        if (detail.getFinancialDocumentTwoDollarAmount() != null && detail.getFinancialDocumentTwoDollarAmount().isGreaterThan(KualiDecimal.ZERO)) {
+        if (detail.getFinancialDocumentTwoDollarAmount() != null) {
             if (this.getFinancialDocumentTwoDollarAmount() == null || detail.getFinancialDocumentTwoDollarAmount().isGreaterThan(this.getFinancialDocumentTwoDollarAmount())) {
                 throw new IllegalArgumentException("The requested amount of two dollar bills exceeds the amount in the cash drawer");
             } else {
                 setFinancialDocumentTwoDollarAmount(getFinancialDocumentTwoDollarAmount().subtract(detail.getFinancialDocumentTwoDollarAmount()));
             }
         }
-        if (detail.getFinancialDocumentOneDollarAmount() != null && detail.getFinancialDocumentOneDollarAmount().isGreaterThan(KualiDecimal.ZERO)) {
+        if (detail.getFinancialDocumentOneDollarAmount() != null) {
             if (this.getFinancialDocumentOneDollarAmount() == null || detail.getFinancialDocumentOneDollarAmount().isGreaterThan(this.getFinancialDocumentOneDollarAmount())) {
                 throw new IllegalArgumentException("The requested amount of one dollar bills exceeds the amount in the cash drawer");
             } else {
                 setFinancialDocumentOneDollarAmount(getFinancialDocumentOneDollarAmount().subtract(detail.getFinancialDocumentOneDollarAmount()));
             }
         }
-        if (detail.getFinancialDocumentOtherDollarAmount() != null && detail.getFinancialDocumentOtherDollarAmount().isGreaterThan(KualiDecimal.ZERO)) {
+        if (detail.getFinancialDocumentOtherDollarAmount() != null) {
             if (this.getFinancialDocumentOtherDollarAmount() == null || detail.getFinancialDocumentOtherDollarAmount().isGreaterThan(this.getFinancialDocumentOtherDollarAmount())) {
                 throw new IllegalArgumentException("The requested other dollar amount exceeds the amount in the cash drawer");
             } else {
@@ -989,49 +989,49 @@ public class CashDrawer extends PersistableBusinessObjectBase {
      * @param detail the record indicating how much coin of each denomination to remove
      */
     public void removeCoin(CoinDetail detail) {
-        if (detail.getFinancialDocumentHundredCentAmount() != null && detail.getFinancialDocumentHundredCentAmount().isGreaterThan(KualiDecimal.ZERO)) {
+        if (detail.getFinancialDocumentHundredCentAmount() != null) {
             if (this.getFinancialDocumentHundredCentAmount() == null || detail.getFinancialDocumentHundredCentAmount().isGreaterThan(this.getFinancialDocumentHundredCentAmount())) {
                 throw new IllegalArgumentException("The requested amount of hundred cent pieces exceeds the amount in the cash drawer");
             } else {
                 setFinancialDocumentHundredCentAmount(getFinancialDocumentHundredCentAmount().subtract(detail.getFinancialDocumentHundredCentAmount()));
             }
         }
-        if (detail.getFinancialDocumentFiftyCentAmount() != null && detail.getFinancialDocumentFiftyCentAmount().isGreaterThan(KualiDecimal.ZERO)) {
+        if (detail.getFinancialDocumentFiftyCentAmount() != null) {
             if (this.getFinancialDocumentFiftyCentAmount() == null || detail.getFinancialDocumentFiftyCentAmount().isGreaterThan(this.getFinancialDocumentFiftyCentAmount())) {
                 throw new IllegalArgumentException("The requested amount of fifty cent pieces exceeds the amount in the cash drawer");
             } else {
                 setFinancialDocumentFiftyCentAmount(getFinancialDocumentFiftyCentAmount().subtract(detail.getFinancialDocumentFiftyCentAmount()));
             }
         }
-        if (detail.getFinancialDocumentTwentyFiveCentAmount() != null && detail.getFinancialDocumentTwentyFiveCentAmount().isGreaterThan(KualiDecimal.ZERO)) {
+        if (detail.getFinancialDocumentTwentyFiveCentAmount() != null) {
             if (this.getFinancialDocumentTwentyFiveCentAmount() == null || detail.getFinancialDocumentTwentyFiveCentAmount().isGreaterThan(this.getFinancialDocumentTwentyFiveCentAmount())) {
                 throw new IllegalArgumentException("The requested amount of twenty five cent pieces exceeds the amount in the cash drawer");
             } else {
                 setFinancialDocumentTwentyFiveCentAmount(getFinancialDocumentTwentyFiveCentAmount().subtract(detail.getFinancialDocumentTwentyFiveCentAmount()));
             }
         }
-        if (detail.getFinancialDocumentTenCentAmount() != null && detail.getFinancialDocumentTenCentAmount().isGreaterThan(KualiDecimal.ZERO)) {
+        if (detail.getFinancialDocumentTenCentAmount() != null) {
             if (this.getFinancialDocumentTenCentAmount() == null || detail.getFinancialDocumentTenCentAmount().isGreaterThan(this.getFinancialDocumentTenCentAmount())) {
                 throw new IllegalArgumentException("The requested amount of ten cent pieces exceeds the amount in the cash drawer");
             } else {
                 setFinancialDocumentTenCentAmount(getFinancialDocumentTenCentAmount().subtract(detail.getFinancialDocumentTenCentAmount()));
             }
         }
-        if (detail.getFinancialDocumentFiveCentAmount() != null && detail.getFinancialDocumentFiveCentAmount().isGreaterThan(KualiDecimal.ZERO)) {
+        if (detail.getFinancialDocumentFiveCentAmount() != null) {
             if (this.getFinancialDocumentFiveCentAmount() == null || detail.getFinancialDocumentFiveCentAmount().isGreaterThan(this.getFinancialDocumentFiveCentAmount())) {
                 throw new IllegalArgumentException("The requested amount of five cent pieces exceeds the amount in the cash drawer");
             } else {
                 setFinancialDocumentFiveCentAmount(getFinancialDocumentFiveCentAmount().subtract(detail.getFinancialDocumentFiveCentAmount()));
             }
         }
-        if (detail.getFinancialDocumentOneCentAmount() != null && detail.getFinancialDocumentOneCentAmount().isGreaterThan(KualiDecimal.ZERO)) {
+        if (detail.getFinancialDocumentOneCentAmount() != null) {
             if (this.getFinancialDocumentOneCentAmount() == null || detail.getFinancialDocumentOneCentAmount().isGreaterThan(this.getFinancialDocumentOneCentAmount())) {
                 throw new IllegalArgumentException("The requested amount of one cent pieces exceeds the amount in the cash drawer");
             } else {
                 setFinancialDocumentOneCentAmount(getFinancialDocumentOneCentAmount().subtract(detail.getFinancialDocumentOneCentAmount()));
             }
         }
-        if (detail.getFinancialDocumentOtherCentAmount() != null && detail.getFinancialDocumentOtherCentAmount().isGreaterThan(KualiDecimal.ZERO)) {
+        if (detail.getFinancialDocumentOtherCentAmount() != null) {
             if (this.getFinancialDocumentOtherCentAmount() == null || detail.getFinancialDocumentOtherCentAmount().isGreaterThan(this.getFinancialDocumentOtherCentAmount())) {
                 throw new IllegalArgumentException("The requested other cent amount exceeds the amount in the cash drawer");
             } else {

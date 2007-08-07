@@ -54,7 +54,7 @@ public class CashieringTransaction extends TransientBusinessObjectBase {
     private java.util.Date transactionEnded;
     
     //  incrementers for detail lines
-    private Integer nextCheckSequenceId = new Integer(1);
+    private Integer nextCheckSequenceId;
     
     
     /**
@@ -77,6 +77,7 @@ public class CashieringTransaction extends TransientBusinessObjectBase {
         newCheck = new CheckBase();
         baselineChecks = new ArrayList<Check>();
         openItemsInProcess = new ArrayList<CashieringItemInProcess>();
+        nextCheckSequenceId = new Integer(1);
     }
 
     /**

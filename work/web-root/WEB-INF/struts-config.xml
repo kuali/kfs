@@ -54,6 +54,7 @@
         
 		<!-- Labor Distribution Bean Definitions -->
    		<form-bean name="LaborSalaryExpenseTransferForm" type="org.kuali.module.labor.web.struts.form.SalaryExpenseTransferForm" />
+   		<form-bean name="LaborYearEndSalaryExpenseTransferForm" type="org.kuali.module.labor.web.struts.form.YearEndSalaryExpenseTransferForm" />
    		<form-bean name="LaborBenefitExpenseTransferForm" type="org.kuali.module.labor.web.struts.form.BenefitExpenseTransferForm" />
    		<form-bean name="LaborJournalVoucherForm" type="org.kuali.module.labor.web.struts.form.LaborJournalVoucherForm" />
    		<form-bean name="EmployeeFundingInquiryForm" type="org.kuali.module.labor.web.struts.form.EmployeeFundingInquiryForm" />

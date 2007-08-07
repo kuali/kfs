@@ -83,8 +83,12 @@
                 <description>Chart Code and Description</description>
             </attributeReference>
             
+            <!-- pointOfView selection control is used in Organization Tree Selection screens -->
             <attributeReference name="organizationCode" sourceClassName="org.kuali.module.chart.bo.Org" sourceAttributeName="organizationCode">
                 <required>true</required>
+				<control>
+					<select valuesFinderClass="org.kuali.module.budget.lookup.keyvalues.PointOfViewOrgValuesFinder" />
+				</control>
             </attributeReference>
 
             <attributeReference name="reportsToChartOfAccountsCode" sourceClassName="org.kuali.module.chart.bo.Chart" sourceAttributeName="chartOfAccountsCode">

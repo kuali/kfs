@@ -86,8 +86,6 @@ public class PaymentRequestDocumentRule extends AccountsPayableDocumentRuleBase 
     protected boolean processCustomRouteDocumentBusinessRules(Document document) {
         boolean isValid = true;
         PaymentRequestDocument paymentRequestDocument = (PaymentRequestDocument) document;
-        //TODO: this won't be required if we save at continue
-        fixItemReferences(paymentRequestDocument);
         
         //not needed, this is done on calculate if we need to warn them outside of calculate that has to be done elsewhere
         //validateTotals((PaymentRequestDocument)purapDocument);
@@ -96,31 +94,25 @@ public class PaymentRequestDocumentRule extends AccountsPayableDocumentRuleBase 
         return isValid; 
     }
       
-    @Override
-    protected boolean processCustomSaveDocumentBusinessRules(Document document) {
-        boolean isValid = true;
-        PaymentRequestDocument paymentRequestDocument = (PaymentRequestDocument) document;
-        //not needed, this is done on calculate.if we need to warn them outside of calculate that has to be done elsewhere
-        //        validateTotals(paymentRequestDocument);
-        //Had to do it this way because the processItemValidation in the superclass contains
-        //some validations that won't be needed for save (e.g. the total must be 100%), so
-        //that I couldn't call the super.processItemValidation within the processItemValidation
-        //in this class.
+// TODO: Chris - we can probably uncomment this if desired after KULPURAP-1182 however this may not be needed
+//    @Override
+//    protected boolean processCustomSaveDocumentBusinessRules(Document document) {
+//        boolean isValid = true;
+//        PaymentRequestDocument paymentRequestDocument = (PaymentRequestDocument) document;
+//        //not needed, this is done on calculate.if we need to warn them outside of calculate that has to be done elsewhere
+//        //        validateTotals(paymentRequestDocument);
+//        //Had to do it this way because the processItemValidation in the superclass contains
+//        //some validations that won't be needed for save (e.g. the total must be 100%), so
+//        //that I couldn't call the super.processItemValidation within the processItemValidation
+//        //in this class.
+//        
+//        //TODO: Chris - remove the if + contents if we can do it as a result of KULPURAP-1182
+//        
+//        isValid &= processItemValidationForSave(paymentRequestDocument);
+//        isValid &= processItemValidation(paymentRequestDocument);
+//        return isValid;
+//    }
         
-        //TODO: this won't be required if we save at continue
-        fixItemReferences(paymentRequestDocument);
-        isValid &= processItemValidationForSave(paymentRequestDocument);
-        isValid &= processItemValidation(paymentRequestDocument);
-        return isValid;
-    }
-    
-    //TODO: move this to the service until I can get rid of it
-    public void fixItemReferences(PaymentRequestDocument preq) {
-        for (PaymentRequestItem item : (List<PaymentRequestItem>)preq.getItems()) {
-            item.setPaymentRequest(preq);
-        }
-    }
-    
     public boolean processContinueAccountsPayableBusinessRules(AccountsPayableDocument apDocument) {
         boolean valid = true;
         PaymentRequestDocument paymentRequestDocument = (PaymentRequestDocument)apDocument;

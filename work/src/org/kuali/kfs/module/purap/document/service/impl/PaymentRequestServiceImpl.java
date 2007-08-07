@@ -1251,6 +1251,16 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
             return descr.toString().substring(0, noteTextMaxLength);
         }
     }
+
+    /**
+     * 
+     * @see org.kuali.module.purap.service.PaymentRequestService#populateAndSavePaymentRequest(org.kuali.module.purap.document.PaymentRequestDocument)
+     */
+    public void populateAndSavePaymentRequest(PaymentRequestDocument preq) throws WorkflowException {
+        preq.setStatusCode(PurapConstants.PaymentRequestStatuses.IN_PROCESS);
+        SpringServiceLocator.getPaymentRequestService().populatePaymentRequest(preq);
+        documentService.saveDocument(preq);
+    }
     
     /*
      public PaymentRequestInitializationValidationErrors verifyPreqInitialization(

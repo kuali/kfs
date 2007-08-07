@@ -130,7 +130,12 @@ public interface PaymentRequestService {
      */
     public void populatePaymentRequest(PaymentRequestDocument preq);
     
-   
+    /**
+     * populate and save payment request.  
+     * 
+     * @param preq paymentrequestdocument
+     */
+    public void populateAndSavePaymentRequest(PaymentRequestDocument preq) throws WorkflowException;
     
     /* Start Paste from EPIC */
      

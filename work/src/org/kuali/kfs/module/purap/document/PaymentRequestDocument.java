@@ -1184,4 +1184,14 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
     public void setGenerateEncumbranceEntries(boolean generateEncumbranceEntries) {
         this.generateEncumbranceEntries = generateEncumbranceEntries;
     }
+
+
+    /**
+     * @see org.kuali.core.document.DocumentBase#prepareForSave()
+     */
+    @Override
+    public void prepareForSave() {
+        super.prepareForSave();
+
+    }
 }

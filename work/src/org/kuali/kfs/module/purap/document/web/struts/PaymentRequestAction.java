@@ -96,13 +96,7 @@ public class PaymentRequestAction extends AccountsPayableActionBase {
         boolean rulePassed = SpringServiceLocator.getKualiRuleService().applyRules(new ContinueAccountsPayableEvent(paymentRequestDocument));
 
         if (rulePassed) {
-            paymentRequestDocument.setStatusCode(PurapConstants.PaymentRequestStatuses.IN_PROCESS);
-            SpringServiceLocator.getPaymentRequestService().populatePaymentRequest(paymentRequestDocument);
-            //TODO: Naser you can replace this with your call when you complete KULPURAP-1003 for now I need this here as a workaround for Jay
-            SpringServiceLocator.getDocumentService().saveDocument(paymentRequestDocument);
-        }
-        else {
-            paymentRequestDocument.setStatusCode(PurapConstants.PaymentRequestStatuses.INITIATE);
+            SpringServiceLocator.getPaymentRequestService().populateAndSavePaymentRequest(paymentRequestDocument);
         }
 
         paymentRequestDocument.refreshNonUpdateableReferences();

@@ -174,6 +174,7 @@ public class SalaryExpenseTransferForm extends ExpenseTransferDocumentFormBase {
         map.remove(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE);
         map.remove(KFSPropertyConstants.ACCOUNT_NUMBER);
         map.remove(KFSPropertyConstants.SUB_ACCOUNT_NUMBER);
+        map.remove(KFSPropertyConstants.FINANCIAL_OBJECT_CODE);
         return map;
     }
 }

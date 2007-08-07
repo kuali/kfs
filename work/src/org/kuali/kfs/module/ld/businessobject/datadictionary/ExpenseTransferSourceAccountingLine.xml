@@ -22,11 +22,21 @@
     <businessObject businessObjectClass="org.kuali.module.labor.bo.ExpenseTransferSourceAccountingLine">
 
 
-        <attributes>
+        <attributes>                
+            <attribute name="emplid" forceUppercase="true">
+				<label>Employee ID</label>
+				<shortLabel>Empl ID</shortLabel>
 
-            <attributeReference name="emplid" 
-                     sourceClassName="org.kuali.core.bo.user.UniversalUser"
-                 sourceAttributeName="personPayrollIdentifier"/>
+				<maxLength>11</maxLength>
+				<required>false</required>
+
+				<control>
+					<text size="13" />
+				</control>
+
+				<summary>Empl ID</summary>
+				<description>Employee ID</description>
+			</attribute>     
 
             <attributeReference name="payrollEndDateFiscalPeriodCode"
                 sourceClassName="org.kuali.core.bo.AttributeReferenceDummy"

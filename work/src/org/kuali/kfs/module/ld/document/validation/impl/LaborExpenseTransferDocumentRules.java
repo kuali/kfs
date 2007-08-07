@@ -76,7 +76,7 @@ public class LaborExpenseTransferDocumentRules extends AccountingDocumentRuleBas
     public LaborExpenseTransferDocumentRules() {
         super();
     }
-
+    
     /**
      * @see org.kuali.kfs.rules.AccountingDocumentRuleBase#processCustomAddAccountingLineBusinessRules(org.kuali.kfs.document.AccountingDocument,
      *      org.kuali.kfs.bo.AccountingLine)
@@ -123,12 +123,6 @@ public class LaborExpenseTransferDocumentRules extends AccountingDocumentRuleBas
         List targetLines = expenseTransferDocument.getTargetAccountingLines();
 
         boolean isValid = super.processCustomRouteDocumentBusinessRules(document);
-
-        // Validate employee ID
-        isValid = isValid & isValidEmplid(expenseTransferDocument.getEmplid());
-
-        // TODO: Make sure the employee does not have any pending salary transfers - Shawn
-        // isValid = validatePendingExpenseTransfer(expenseTransferDocument.getEmplid());
 
         // check to ensure totals of accounting lines in source and target sections match
         isValid = isValid & isAccountingLineTotalsMatch(sourceLines, targetLines);

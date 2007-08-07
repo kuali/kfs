@@ -24,9 +24,20 @@
 
         <attributes>
 
-            <attributeReference name="emplid" 
-                     sourceClassName="org.kuali.core.bo.user.UniversalUser"
-                 sourceAttributeName="personPayrollIdentifier"/>
+            <attribute name="emplid" forceUppercase="true">
+				<label>Employee ID</label>
+				<shortLabel>Empl ID</shortLabel>
+
+				<maxLength>11</maxLength>
+				<required>false</required>
+
+				<control>
+					<text size="13" />
+				</control>
+
+				<summary>Empl ID</summary>
+				<description>Employee ID</description>
+			</attribute>
 
             <attributeReference name="payrollEndDateFiscalPeriodCode"
                 sourceClassName="org.kuali.core.bo.AttributeReferenceDummy"

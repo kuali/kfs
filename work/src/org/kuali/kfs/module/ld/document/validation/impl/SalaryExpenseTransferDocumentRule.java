@@ -18,6 +18,8 @@ package org.kuali.module.labor.rules;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.core.document.Document;
+import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSKeyConstants;
 import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.bo.AccountingLine;
@@ -28,6 +30,7 @@ import org.kuali.module.labor.bo.ExpenseTransferSourceAccountingLine;
 import org.kuali.module.labor.bo.LaborObject;
 import org.kuali.module.labor.document.LaborExpenseTransferDocumentBase;
 import org.kuali.module.labor.document.LaborLedgerPostingDocument;
+import org.kuali.module.labor.document.SalaryExpenseTransferDocument;
 import org.kuali.module.labor.rule.GenerateLaborLedgerBenefitClearingPendingEntriesRule;
 
 
@@ -41,6 +44,20 @@ public class SalaryExpenseTransferDocumentRule extends LaborExpenseTransferDocum
      */
     public SalaryExpenseTransferDocumentRule() {
         super();
+    }
+    /**
+     * @see org.kuali.core.rules.SaveDocumentRule#processCustomSaveDocumentBusinessRules(Document)
+     */
+    @Override
+    protected boolean processCustomSaveDocumentBusinessRules(Document document) {
+        // Validate that an employee ID is enterred.
+        SalaryExpenseTransferDocument salaryExpenseTransferDocument = (SalaryExpenseTransferDocument) document;
+        String emplid = salaryExpenseTransferDocument.getEmplid();
+        if ((emplid == null) || (emplid.trim().length() == 0)) {
+            reportError(KFSConstants.EMPLOYEE_LOOKUP_ERRORS, KFSKeyConstants.Labor.MISSING_EMPLOYEE_ID, emplid);
+            return false;
+        }
+        return true;
     }
 
     /**

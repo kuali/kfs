@@ -38,6 +38,7 @@ import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSKeyConstants;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.budget.BCConstants;
+import org.kuali.module.budget.BCConstants.OrgSelOpMode;
 import org.kuali.module.budget.bo.BudgetConstructionHeader;
 import org.kuali.module.budget.dao.ojb.BudgetConstructionDaoOjb;
 import org.kuali.module.budget.web.struts.form.BudgetConstructionSelectionForm;
@@ -174,22 +175,53 @@ public class BudgetConstructionSelectionAction extends KualiAction {
         return mapping.findForward(KFSConstants.MAPPING_PORTAL);
     }
 
-    public ActionForward performOrgSalarySetting(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception{
+    public ActionForward performOrgSalarySetting(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
  
         BudgetConstructionSelectionForm budgetConstructionSelectionForm = (BudgetConstructionSelectionForm) form;  
-        GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_MESSAGES,KFSKeyConstants.ERROR_UNIMPLEMENTED, "Organization Salary Setting");
-
-        return mapping.findForward(KFSConstants.MAPPING_BASIC);
         
+        ActionForward forward = performOrgSelectionTree(OrgSelOpMode.SALSET, mapping, form, request, response);
+        
+        return forward;
+    }
+
+    /**
+     * This method sets up to forward to the BC Organization Selection screen using a specific operating mode. The various
+     * operating modes include PULLUP, PUSHDOWN, REPORTS, SALSET, ACCOUNT. 
+     * @param opMode
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    public ActionForward performOrgSelectionTree(OrgSelOpMode opMode, ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        
+        String basePath = SpringServiceLocator.getKualiConfigurationService().getPropertyString(KFSConstants.APPLICATION_URL_KEY);
+
+        Properties parameters = new Properties();
+        parameters.put(KFSConstants.DISPATCH_REQUEST_PARAMETER, BCConstants.ORG_SEL_TREE_METHOD);
+        parameters.put("operatingMode", opMode.toString());
+
+        // anchor, if it exists
+        if (form instanceof KualiForm && StringUtils.isNotEmpty(((KualiForm) form).getAnchor())) {
+            parameters.put(BCConstants.RETURN_ANCHOR, ((KualiForm) form).getAnchor());
+        }
+
+        // the form object is retrieved and removed upon return by KualiRequestProcessor.processActionForm()
+        parameters.put(BCConstants.RETURN_FORM_KEY, GlobalVariables.getUserSession().addObject(form));
+
+        String lookupUrl = UrlFactory.parameterizeUrl(basePath + "/" + BCConstants.ORG_SEL_TREE_ACTION, parameters);
+        return new ActionForward(lookupUrl, true);
     }
 
     public ActionForward performReportDump(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception{
  
         BudgetConstructionSelectionForm budgetConstructionSelectionForm = (BudgetConstructionSelectionForm) form;  
-        GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_MESSAGES,KFSKeyConstants.ERROR_UNIMPLEMENTED, "Organization Report/Dump");
-
-        return mapping.findForward(KFSConstants.MAPPING_BASIC);
         
+        ActionForward forward = performOrgSelectionTree(OrgSelOpMode.REPORTS, mapping, form, request, response);
+        
+        return forward;
     }
 
     public ActionForward performRequestImport(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception{
@@ -204,19 +236,19 @@ public class BudgetConstructionSelectionAction extends KualiAction {
     public ActionForward performOrgPullup(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception{
  
         BudgetConstructionSelectionForm budgetConstructionSelectionForm = (BudgetConstructionSelectionForm) form;  
-        GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_MESSAGES,KFSKeyConstants.ERROR_UNIMPLEMENTED, "Organization Pull Up");
-
-        return mapping.findForward(KFSConstants.MAPPING_BASIC);
         
+        ActionForward forward = performOrgSelectionTree(OrgSelOpMode.PULLUP, mapping, form, request, response);
+        
+        return forward;
     }
 
     public ActionForward performOrgPushdown(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception{
  
         BudgetConstructionSelectionForm budgetConstructionSelectionForm = (BudgetConstructionSelectionForm) form;  
-        GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_MESSAGES,KFSKeyConstants.ERROR_UNIMPLEMENTED, "Organization Push Down");
-
-        return mapping.findForward(KFSConstants.MAPPING_BASIC);
         
+        ActionForward forward = performOrgSelectionTree(OrgSelOpMode.PUSHDOWN, mapping, form, request, response);
+        
+        return forward;
     }
 
     public ActionForward performMyAccounts(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception{
@@ -231,9 +263,9 @@ public class BudgetConstructionSelectionAction extends KualiAction {
     public ActionForward performMyOrganization(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception{
  
         BudgetConstructionSelectionForm budgetConstructionSelectionForm = (BudgetConstructionSelectionForm) form;  
-        GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_MESSAGES,KFSKeyConstants.ERROR_UNIMPLEMENTED, "Find My Organization Budgeted Accounts");
-
-        return mapping.findForward(KFSConstants.MAPPING_BASIC);
         
+        ActionForward forward = performOrgSelectionTree(OrgSelOpMode.ACCOUNT, mapping, form, request, response);
+        
+        return forward;
     }
 }

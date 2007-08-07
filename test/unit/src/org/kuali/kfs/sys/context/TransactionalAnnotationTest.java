@@ -62,7 +62,7 @@ public class TransactionalAnnotationTest extends KualiTestBase {
                 if (beanClass.getName().startsWith("$Proxy")) {
                     beanClass = AopProxyUtils.getTargetClass(bean);
                 }
-                if (beanClass.getName().startsWith("org.kuali") && !Modifier.isAbstract(beanClass.getModifiers()) && !beanClass.getName().endsWith("DaoOjb") && !isClassAnnotated(beanName,beanClass)) {
+                if (beanClass.getName().startsWith("org.kuali") && !Modifier.isAbstract(beanClass.getModifiers()) && !beanClass.getName().endsWith("DaoOjb")  && !beanClass.getName().endsWith("Factory") && !isClassAnnotated(beanName,beanClass)) {
                     nonAnnotatedTransactionalServices.put(beanName,beanClass);                    
                 }
             }

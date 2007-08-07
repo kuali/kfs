@@ -26,6 +26,10 @@ public class BCConstants extends JstlConstants {
     public static final String ORG_SEL_TREE_ACTION="budgetOrganizationSelectionTree.do";
     public static final String ORG_SEL_TREE_METHOD="loadExpansionScreen";
 
+    public enum OrgSelOpMode {
+      PULLUP, PUSHDOWN, REPORTS, SALSET, ACCOUNT
+    }
+
     public static final String BC_DOCUMENT_REFRESH_CALLER="BudgetConstruction";
     public static final String BC_DOCUMENT_ACTION="budgetBudgetConstruction.do";
     public static final String BC_DOCUMENT_REFRESH_METHOD="refresh";

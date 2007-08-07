@@ -209,10 +209,21 @@ public class CashManagementServiceImpl implements CashManagementService {
         //
         // lock the cashDrawer
         cashDrawerService.lockCashDrawer(cashManagementDoc.getCashDrawer(), cashManagementDoc.getDocumentNumber());
+        
+        // turn the list of selected check sequence ids into a list of actual check records
+        Map<Integer, Check> checks = getUndepositedChecksAsMap(cashManagementDoc);
+        List<Check> checksToSave = new ArrayList<Check>();
+        if (selectedCashieringChecks != null) {
+            for (Object o: selectedCashieringChecks) {
+                Integer sequenceId = (Integer)o;
+                Check check = checks.get(sequenceId);
+                checksToSave.add(check);
+            }
+        }
 
         //
         // create the Deposit
-        Deposit deposit = buildDeposit(cashManagementDoc, depositTypeCode, depositTicketNumber, bankAccount, selectedCashReceipts);
+        Deposit deposit = buildDeposit(cashManagementDoc, depositTypeCode, depositTicketNumber, bankAccount, selectedCashReceipts, checksToSave);
 
         // attach it to the document
         List deposits = cashManagementDoc.getDeposits();
@@ -247,15 +258,9 @@ public class CashManagementServiceImpl implements CashManagementService {
         // crHeaders get saved as side-effect of saving dccs
         businessObjectService.save(dccList);
         
-        Map<Integer, Check> checks = getUndepositedChecksAsMap(cashManagementDoc);
-        List<Check> checksToSave = new ArrayList<Check>();
-        if (selectedCashieringChecks != null) {
-            for (Object o: selectedCashieringChecks) {
-                Integer sequenceId = (Integer)o;
-                Check check = checks.get(sequenceId);
-                check.setFinancialDocumentDepositLineNumber(deposit.getFinancialDocumentDepositLineNumber());
-                checksToSave.add(check);
-            }
+        // make sure all checks have the right deposit line number
+        for (Check check: checksToSave) {
+            check.setFinancialDocumentDepositLineNumber(deposit.getFinancialDocumentDepositLineNumber());
         }
         businessObjectService.save(checksToSave);
 
@@ -300,7 +305,7 @@ public class CashManagementServiceImpl implements CashManagementService {
         }
     }
 
-    private Deposit buildDeposit(CashManagementDocument cashManagementDoc, String depositTypeCode, String depositTicketNumber, BankAccount bankAccount, List<CashReceiptDocument> selectedCashReceipts) {
+    private Deposit buildDeposit(CashManagementDocument cashManagementDoc, String depositTypeCode, String depositTicketNumber, BankAccount bankAccount, List<CashReceiptDocument> selectedCashReceipts, List selectedCashieringChecks) {
         Deposit deposit = new Deposit();
         deposit.setDocumentNumber(cashManagementDoc.getDocumentNumber());
         deposit.setCashManagementDocument(cashManagementDoc);
@@ -325,6 +330,11 @@ public class CashManagementServiceImpl implements CashManagementService {
         for (Iterator i = selectedCashReceipts.iterator(); i.hasNext();) {
             CashReceiptDocument crDoc = (CashReceiptDocument) i.next();
             total = total.add(crDoc.getTotalDollarAmount());
+        }
+        Check currCheck;
+        for (Object checkObj: selectedCashieringChecks) {
+            currCheck = (Check)checkObj;
+            total = total.add(currCheck.getAmount());
         }
         deposit.setDepositAmount(total);
 

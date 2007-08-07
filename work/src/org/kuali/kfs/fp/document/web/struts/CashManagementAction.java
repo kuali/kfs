@@ -83,9 +83,7 @@ public class CashManagementAction extends KualiDocumentActionBase {
         ActionForward dest = super.execute(mapping, form, request, response);
 
         CashManagementForm cmf = (CashManagementForm) form;
-        if (cmf.getDepositHelpers().isEmpty()) {
-            cmf.populateDepositHelpers();
-        }
+        cmf.populateDepositHelpers();
         KualiWorkflowDocument kwd = cmf.getDocument().getDocumentHeader().getWorkflowDocument();
         if (kwd.stateIsEnroute() || kwd.stateIsFinal()) {
             cmf.setCashDrawerSummary(null);

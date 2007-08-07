@@ -169,7 +169,7 @@
 				<cm:cashDrawerCurrencyCoin cashDrawerProperty="document.cashDrawer" readOnly="true" />
         <c:if test="${KualiForm.editingMode[AuthorizationConstants.EditMode.FULL_ENTRY] and KualiForm.document.rawCashDrawerStatus eq Constants.CashDrawerConstants.STATUS_CLOSED}">
           <div style="padding: 10px; text-align: center;">
-            <html:image src="${ConfigProperties.kr.externalizable.images.url}buttonsmall_correctcash.gif" style="border: none" property="methodToCall.correctCashDrawer" title="Correct Cash Drawer" alt="Correct Cash Drawer" />
+            <html:image src="${ConfigProperties.externalizable.images.url}buttonsmall_correctcash.gif" style="border: none" property="methodToCall.correctCashDrawer" title="Correct Cash Drawer" alt="Correct Cash Drawer" />
           </div>
         </c:if>
 			</td>

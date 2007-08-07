@@ -352,9 +352,6 @@ public class DepositWizardForm extends KualiForm {
         while (this.depositWizardCashieringCheckHelpers.size() <= index) {
             this.depositWizardCashieringCheckHelpers.add(new DepositWizardCashieringCheckHelper());
         }
-        if (this.depositableCashieringChecks.get(index) != null) {
-            this.depositWizardCashieringCheckHelpers.get(index).setSequenceId(this.depositableCashieringChecks.get(index).getSequenceId());
-        }
         return this.depositWizardCashieringCheckHelpers.get(index);
     }
 }

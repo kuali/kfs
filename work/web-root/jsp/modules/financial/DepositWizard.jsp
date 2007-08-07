@@ -33,11 +33,26 @@
 	headerTitle="${docTitle}" docTitle="${docTitle}"
 	transactionalDocument="false" htmlFormAction="depositWizard">
 	<script type="text/javascript">
-function checkAllOrNone() {
-  for(var i = 0; i < document.KualiForm.elements.length; i++) {
-    var e = document.KualiForm.elements[i];
-    if((e.name != 'masterCheckBox') && (e.type == 'checkbox') && (!e.disabled)) {
-      e.checked = document.KualiForm.elements['masterCheckBox'].checked;
+function checkCRAllOrNone() {
+  var masterCRCheckBox = document.getElementById('masterCRCheckBox');
+  if (masterCRCheckBox) {
+    for(var i = 0; i < document.KualiForm.elements.length; i++) {
+      var e = document.KualiForm.elements[i];
+      if((e.name.match(/^depositWizardHelper/)) && (e.type == 'checkbox') && (!e.disabled)) {
+        e.checked = masterCRCheckBox.checked;
+      }
+    }
+  }
+}
+
+function checkCheckAllOrNone() {
+  var masterCheckCheckBox = document.getElementById('masterCheckCheckBox');
+  if (masterCheckCheckBox) {
+    for(var i = 0; i < document.KualiForm.elements.length; i++) {
+      var e = document.KualiForm.elements[i];
+      if((e.name.match(/^depositWizardCashieringCheckHelper/)) && (e.type == 'checkbox') && (!e.disabled)) {
+        e.checked = masterCheckCheckBox.checked;
+      }
     }
   }
 }
@@ -143,8 +158,8 @@ function checkAllOrNone() {
 				summary="cash receipts available for deposit">
 				<tr>
 					<td>
-					<div align="center"><input type="checkbox" name="masterCheckBox"
-						onclick="checkAllOrNone();" /></div>
+					<div align="center"><input type="checkbox" name="masterCRCheckBox"
+						onclick="checkCRAllOrNone();" id="masterCRCheckBox" /></div>
 					</td>
 					<kul:htmlAttributeHeaderCell literalLabel="#" scope="col" />
 					<kul:htmlAttributeHeaderCell literalLabel="Document Number"
@@ -288,7 +303,7 @@ function checkAllOrNone() {
           <table cellpadding="0" cellspacing="0" class="datatable" summary="cashiering checks available for deposit">
             <tr>
               <td>
-                <div align="center"><input type="checkbox" name="masterCheckBox" onclick="checkAllOrNone();" /></div>
+                <div align="center"><input type="checkbox" name="masterCheckCheckBox" onclick="checkCheckAllOrNone();" id="masterCheckCheckBox" /></div>
               </td>
               <kul:htmlAttributeHeaderCell literalLabel="#" scope="col" />
               <kul:htmlAttributeHeaderCell literalLabel="Check Number" scope="col" />
@@ -301,7 +316,7 @@ function checkAllOrNone() {
               <tr>
                 <td>
                   <div style="text-align: center">
-                    <html:checkbox name="KualiForm" property="depositWizardCashieringCheckHelper[${ctr}].sequenceId" value="${cashieringCheck.sequenceId}" />
+                    <html:checkbox name="KualiForm" property="depositWizardCashieringCheckHelper[${ctr}].sequenceId" value="${KualiForm.depositableCashieringChecks[ctr].sequenceId}" />
                   </div>
                 </td>
                 <td><strong>${ctr + 1}</strong></td>

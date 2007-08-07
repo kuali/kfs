@@ -27,8 +27,8 @@
 </c:if>
 		
 <kul:documentPage showDocumentInfo="true"
-    documentTypeName="KualiSalaryExpenseTransferDocument"
-    htmlFormAction="laborSalaryExpenseTransfer" renderMultipart="true"
+    documentTypeName="KualiYearEndSalaryExpenseTransferDocument"
+    htmlFormAction="laborYearEndSalaryExpenseTransfer" renderMultipart="true"
     showTabButtons="true">
 
     <html:hidden property="financialBalanceTypeCode" />

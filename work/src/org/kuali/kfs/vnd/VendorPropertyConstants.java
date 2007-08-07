@@ -54,6 +54,7 @@ public class VendorPropertyConstants {
     public static final String VENDOR_RESTRICTED_REASON_TEXT = "vendorRestrictedReasonText";
     public static final String VENDOR_DEBARRED_INDICATOR = "vendorHeader.vendorDebarredIndicator";
     public static final String VENDOR_FOREIGN_INDICATOR = "vendorHeader.vendorForeignIndicator";
+    public static final String VENDOR_ACTIVE_INDICATOR = "vendorHeader.vendorActiveIndicator";
     public static final String VENDOR_INACTIVE_REASON = "vendorInactiveReasonCode";
     
     public static final String VENDOR_TAX_TYPE_CODE_WITHOUT_HEADER = "vendorTaxTypeCode";

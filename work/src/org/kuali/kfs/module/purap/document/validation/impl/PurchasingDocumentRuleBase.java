@@ -39,6 +39,7 @@ import org.kuali.module.purap.bo.PurchasingItemBase;
 import org.kuali.module.purap.document.PurchasingAccountsPayableDocument;
 import org.kuali.module.purap.document.PurchasingDocument;
 import org.kuali.module.vendor.VendorPropertyConstants;
+import org.kuali.module.vendor.bo.VendorDetail;
 
 public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumentRuleBase {
 
@@ -284,6 +285,12 @@ public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumen
                     errorMap.putError(KFSConstants.DOCUMENT_PROPERTY_NAME + "." + VendorPropertyConstants.VENDOR_FAX_NUMBER, PurapKeyConstants.ERROR_FAX_NUMBER_INVALID);
                 }
             }
+        }
+        
+        VendorDetail vendorDetail = SpringServiceLocator.getVendorService().getVendorDetail(purDocument.getVendorHeaderGeneratedIdentifier(), purDocument.getVendorDetailAssignedIdentifier());
+        if (!vendorDetail.isActiveIndicator()) {
+            valid &= false;
+            errorMap.putError(VendorPropertyConstants.VENDOR_NAME, PurapKeyConstants.ERROR_INACTIVE_VENDOR);
         }
         return valid;
     }

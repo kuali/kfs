@@ -37,6 +37,7 @@ public class PurapKeyConstants {
     public static final String ERROR_POSTAL_CODE_INVALID = "errors.postalCode.invalid";
     public static final String ERROR_FAX_NUMBER_INVALID = "errors.faxNumber.invalid";
     public static final String ERROR_FAX_NUMBER_PO_TRANSMISSION_TYPE = "error.faxNumber.PoTransmissionType";
+    public static final String ERROR_INACTIVE_VENDOR = "error.inactive.vendor";    
     public static final String REQ_TOTAL_GREATER_THAN_PO_TOTAL_LIMIT = "error.purchaseOrderTotalLimit";
     public static final String PO_TOTAL_GREATER_THAN_PO_TOTAL_LIMIT = "warning.purchaseOrderTotalLimit";
     public static final String INVALID_CONTRACT_MANAGER_CODE = "error.invalidContractManagerCode";

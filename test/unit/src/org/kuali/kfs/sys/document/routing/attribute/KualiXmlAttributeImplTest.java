@@ -161,6 +161,7 @@ public class KualiXmlAttributeImplTest extends KualiTestBase {
 //            transformer.setOutputProperty(OutputKeys.INDENT, "yes");
 //            transformer.transform(new DOMSource(document), result);
 //            ruleAttributeXml = writer.toString();
+            loadDataDictionaryEntries();
         }
         catch (Exception e) {
             e.printStackTrace();
@@ -375,4 +376,18 @@ public class KualiXmlAttributeImplTest extends KualiTestBase {
             throw new AssertionFailedError("testLabelSource failed");
     }
 
+    private void loadDataDictionaryEntries()throws Exception{
+        KualiXmlRuleAttributeImpl myAttribute = new KualiXmlRuleAttributeImpl();
+        NamedNodeMap fieldDefAttributes = null;
+        NodeList tempList = (NodeList) myXPath.evaluate("//ruleAttribute", new InputSource(new StringReader(ruleAttributeXml)), XPathConstants.NODESET);
+        for (int i = 0; i < tempList.getLength(); i++) {
+            Node xmlNode = configureRuleAttribute(tempList.item(i), myAttribute);
+        }
+        KualiXmlSearchableAttributeImpl mySearchAttribute = new KualiXmlSearchableAttributeImpl();
+        fieldDefAttributes = null;
+        tempList = (NodeList) myXPath.evaluate("//ruleAttribute", new InputSource(new StringReader(searchAttributeXml)), XPathConstants.NODESET);
+        for (int i = 0; i < tempList.getLength(); i++) {
+            Node xmlNode = configureRuleAttribute(tempList.item(i), mySearchAttribute);
+        }        
+    }
 }

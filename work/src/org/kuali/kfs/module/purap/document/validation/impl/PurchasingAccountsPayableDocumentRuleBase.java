@@ -247,9 +247,9 @@ public class PurchasingAccountsPayableDocumentRuleBase extends AccountingDocumen
                     }
                 }
             }
-            valid &= verifyUniqueAccountingStrings(item.getSourceAccountingLines(), item.getItemIdentifierString());
+            valid &= verifyUniqueAccountingStrings(item.getSourceAccountingLines(), PurapConstants.ITEM_TAB_ERROR_PROPERTY, item.getItemIdentifierString());
             for (PurApAccountingLine account : item.getSourceAccountingLines()) {
-                valid &= verifyAccountingStringsBetween0And100Percent(account, item.getItemIdentifierString());
+                valid &= verifyAccountingStringsBetween0And100Percent(account, PurapConstants.ITEM_TAB_ERROR_PROPERTY, item.getItemIdentifierString());
             }
         }
         return valid;
@@ -407,24 +407,24 @@ public class PurchasingAccountsPayableDocumentRuleBase extends AccountingDocumen
      * @param itemLineNumber
      * @return
      */
-    protected boolean verifyUniqueAccountingStrings(List<PurApAccountingLine> purAccounts, String itemLineNumber) {
+    protected boolean verifyUniqueAccountingStrings(List<PurApAccountingLine> purAccounts, String errorPropertyName, String itemIdentifier) {
         Set existingAccounts = new HashSet();
         for (PurApAccountingLine acct : purAccounts) {
             if (!existingAccounts.contains(acct.toString())) {
                 existingAccounts.add(acct.toString());
             }
             else {
-                GlobalVariables.getErrorMap().putError(itemLineNumber, PurapKeyConstants.ERROR_ITEM_ACCOUNTING_NOT_UNIQUE, itemLineNumber);
+                GlobalVariables.getErrorMap().putError(errorPropertyName, PurapKeyConstants.ERROR_ITEM_ACCOUNTING_NOT_UNIQUE, itemIdentifier);
                 return false;
             }
         }
         return true;
     }
     
-    protected boolean verifyAccountingStringsBetween0And100Percent(PurApAccountingLine account, String itemLineNumber) {
+    protected boolean verifyAccountingStringsBetween0And100Percent(PurApAccountingLine account, String errorPropertyName, String itemIdentifier) {
         double pct = account.getAccountLinePercent().doubleValue();
         if (pct <= 0 || pct > 100) {
-            GlobalVariables.getErrorMap().putError(itemLineNumber, PurapKeyConstants.ERROR_ITEM_PERCENT, "%", itemLineNumber);
+            GlobalVariables.getErrorMap().putError(errorPropertyName, PurapKeyConstants.ERROR_ITEM_PERCENT, "%", itemIdentifier);
             return false;
         }
         return true;

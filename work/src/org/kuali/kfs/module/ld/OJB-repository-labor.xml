@@ -590,6 +590,8 @@
 	<field-descriptor name="financialObjectPayTypeCode" column="FIN_OBJ_PAY_TYP_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="financialObjectFringeOrSalaryCode" column="FINOBJ_FRNGSLRY_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="positionObjectGroupCode" column="POS_OBJ_GRP_CD" jdbc-type="VARCHAR"/>
+	<field-descriptor name="activeIndicator" column="ROW_ACTV_IND" jdbc-type="VARCHAR"/>
+	
 	<reference-descriptor name="financialObject" class-ref="org.kuali.module.chart.bo.ObjectCode" auto-retrieve="true" auto-update="none" auto-delete="none">
 		<foreignkey field-ref="universityFiscalYear" />
 		<foreignkey field-ref="chartOfAccountsCode" />

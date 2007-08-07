@@ -206,6 +206,8 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
     public PurchaseOrderDocument createPurchaseOrderDocument(RequisitionDocument reqDocument) {
         try {
             PurchaseOrderDocument poDocument = createPurchaseOrder(reqDocument);
+            // added line below for JIRA KULOWF-294 - Purchase Order search results are not displaying the total amount on some "in process" purchase orders
+            poDocument.prepareForSave();
             documentService.updateDocument(poDocument);
             documentService.prepareWorkflowDocument(poDocument);
             workflowDocumentService.save(poDocument.getDocumentHeader().getWorkflowDocument(), "", null);
@@ -352,6 +354,9 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
                 GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_ERRORS, PurapKeyConstants.ERROR_PURCHASE_ORDER_PDF, error);
             }
             result = false;
+        }
+        else {
+            // perform workflow action if needed
         }
         return result;
     }

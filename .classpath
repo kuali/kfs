@@ -35,7 +35,6 @@
 	<classpathentry kind="lib" path="work/web-root/WEB-INF/lib/fop-0.20.5.jar"/>
 	<classpathentry kind="lib" path="work/web-root/WEB-INF/lib/batik-1.6.jar"/>
 	<classpathentry kind="lib" path="work/web-root/WEB-INF/lib/avalon-framework-cvs-20020806.jar"/>
-	<classpathentry kind="lib" path="work/web-root/WEB-INF/lib/bcprov-jdk15-133.jar"/>
 	<classpathentry kind="lib" path="work/web-root/WEB-INF/lib/velocity-1.4.jar"/>
 	<classpathentry kind="lib" path="work/web-root/WEB-INF/lib/xpp3_min-1.1.3.4.jar"/>
 	<classpathentry kind="lib" path="work/web-root/WEB-INF/lib/javamail-1.3.2.jar"/>

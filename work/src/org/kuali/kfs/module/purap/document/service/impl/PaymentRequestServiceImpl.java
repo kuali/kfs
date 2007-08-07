@@ -832,7 +832,7 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
             }
         }
     }
-    
+        
     
     
     public void addContinuationAccountsNote(PaymentRequestDocument document, HashMap<String, String> accounts) {
@@ -986,11 +986,13 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
         //retrieve and save with hold indicator set to true
         PaymentRequestDocument preqDoc = getPaymentRequestByDocumentNumber(paymentRequestDao.getDocumentNumberByPaymentRequestId(document.getPurapDocumentIdentifier()));        
         preqDoc.setPaymentRequestedCancelIndicator(true);
+        preqDoc.setLastActionPerformedByUniversalUserId( GlobalVariables.getUserSession().getUniversalUser().getPersonUniversalIdentifier() );
         preqDoc.setAccountsPayableRequestCancelIdentifier( GlobalVariables.getUserSession().getUniversalUser().getPersonUniversalIdentifier() );
         saveDocumentWithoutValidation(preqDoc);
         
         //must also save it on the incoming document
         document.setPaymentRequestedCancelIndicator(true);
+        document.setLastActionPerformedByUniversalUserId( GlobalVariables.getUserSession().getUniversalUser().getPersonUniversalIdentifier() );
         document.setAccountsPayableRequestCancelIdentifier( GlobalVariables.getUserSession().getUniversalUser().getPersonUniversalIdentifier() );
     }
     
@@ -1008,11 +1010,13 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
         //retrieve and save with hold indicator set to false
         PaymentRequestDocument preqDoc = getPaymentRequestByDocumentNumber(paymentRequestDao.getDocumentNumberByPaymentRequestId(document.getPurapDocumentIdentifier()));        
         preqDoc.setPaymentRequestedCancelIndicator(false);
+        preqDoc.setLastActionPerformedByUniversalUserId(null);
         preqDoc.setAccountsPayableRequestCancelIdentifier(null);
         saveDocumentWithoutValidation(preqDoc);
 
         //must also save it on the incoming document
         document.setPaymentRequestedCancelIndicator(false);
+        document.setLastActionPerformedByUniversalUserId(null);
         document.setAccountsPayableRequestCancelIdentifier(null);
     }   
 

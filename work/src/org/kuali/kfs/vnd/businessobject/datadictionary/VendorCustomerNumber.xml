@@ -38,7 +38,9 @@
                 <lookupField attributeName="vendorCustomerNumber" required="false" />
                 <lookupField attributeName="chartOfAccountsCode" required="false" />
                 <lookupField attributeName="vendorOrganizationCode" required="false" />
-                <lookupField attributeName="active" required="false" /> 
+                <lookupField attributeName="active" required="false">
+                	<defaultValue>Y</defaultValue>
+                </lookupField> 
             </lookupFields>
 
             <resultFields>

@@ -54,7 +54,9 @@
                 <lookupField attributeName="vendorDetailAssignedIdentifier" required="false" /> 
                 <lookupField attributeName="vendorContactTypeCode" required="false" />         
                 <lookupField attributeName="vendorContactEmailAddress" required="false" />                            
-                <lookupField attributeName="active" required="false" /> 
+                <lookupField attributeName="active" required="false">
+                	<defaultValue>Y</defaultValue>
+                </lookupField> 
             </lookupFields>
 
             <resultFields>

@@ -288,7 +288,7 @@ public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumen
         }
         
         VendorDetail vendorDetail = SpringServiceLocator.getVendorService().getVendorDetail(purDocument.getVendorHeaderGeneratedIdentifier(), purDocument.getVendorDetailAssignedIdentifier());
-        if (!vendorDetail.isActiveIndicator()) {
+        if (ObjectUtils.isNotNull(vendorDetail) && !vendorDetail.isActiveIndicator()) {       
             valid &= false;
             errorMap.putError(VendorPropertyConstants.VENDOR_NAME, PurapKeyConstants.ERROR_INACTIVE_VENDOR);
         }

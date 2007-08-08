@@ -75,7 +75,9 @@
                 <lookupField attributeName="vendorPaymentTermsCode" required="false" />
                 <lookupField attributeName="vendorShippingPaymentTermsCode" required="false" />
                 <lookupField attributeName="vendorShippingTitleCode" required="false" />
-                <lookupField attributeName="active" required="false" /> 
+                <lookupField attributeName="active" required="false">
+                	<defaultValue>Y</defaultValue>
+                </lookupField> 
             </lookupFields>
 
             <resultFields>

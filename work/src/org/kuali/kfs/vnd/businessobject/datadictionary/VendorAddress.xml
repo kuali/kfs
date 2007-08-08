@@ -72,7 +72,9 @@
                 <lookupField attributeName="vendorAddressInternationalProvinceName" required="false" />
                 <lookupField attributeName="vendorAttentionName" required="false" />
                 <lookupField attributeName="vendorBusinessToBusinessUrlAddress" required="false" />
-                <lookupField attributeName="active" required="false" /> 
+                <lookupField attributeName="active" required="false">
+                	<defaultValue>Y</defaultValue>
+                </lookupField> 
             </lookupFields>
 
             <resultFields>

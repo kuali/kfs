@@ -96,7 +96,7 @@
                 <validationPattern><numeric /></validationPattern>
 
                 <control>
-                    <text size="12" />
+                    <hidden/>
                 </control>
 
                 <summary>purchaseOrderQuoteLanguageIdentifier</summary>

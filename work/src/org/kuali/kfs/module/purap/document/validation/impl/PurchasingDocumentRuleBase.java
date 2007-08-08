@@ -65,8 +65,8 @@ public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumen
      * @return
      */
     @Override
-    public boolean processItemValidation(PurchasingAccountsPayableDocument purapDocument) {
-        boolean valid = super.processItemValidation(purapDocument);
+    public boolean processItemValidation(PurchasingAccountsPayableDocument purapDocument, boolean needAccountValidation) {
+        boolean valid = super.processItemValidation(purapDocument, needAccountValidation);
         List<PurchasingApItem> itemList = purapDocument.getItems();
         for (PurchasingApItem item : itemList) {
             SpringServiceLocator.getDictionaryValidationService().validateBusinessObject(item);

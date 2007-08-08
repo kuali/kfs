@@ -90,9 +90,10 @@ public class PurchasingAccountsPayableDocumentRuleBase extends AccountingDocumen
      */
     public boolean processValidation(PurchasingAccountsPayableDocument purapDocument) {
         boolean valid = true;
+        boolean needAccountValidation = true;
         valid &= processDocumentOverviewValidation(purapDocument);
         valid &= processVendorValidation(purapDocument);
-        valid &= processItemValidation(purapDocument);
+        valid &= processItemValidation(purapDocument, needAccountValidation);
         return valid;
     }
 
@@ -125,8 +126,20 @@ public class PurchasingAccountsPayableDocumentRuleBase extends AccountingDocumen
      * 
      * @param purapDocument
      * @return
-     */
+     */    
     public boolean processItemValidation(PurchasingAccountsPayableDocument purapDocument) {
+        //By default, we will need to do account validation unless specified.
+        return processItemValidation(purapDocument, true);
+    }
+    
+    /**
+     * This method performs any validation for the Item tab.
+     * 
+     * @param purapDocument
+     * @param needAccountValidation boolean that indicates whether we need account validation.
+     * @return
+     */
+    public boolean processItemValidation(PurchasingAccountsPayableDocument purapDocument, boolean needAccountValidation) {
         boolean valid = true;
         
         // Fetch the business rules that are common to the below the line items on all purap documents
@@ -182,7 +195,7 @@ public class PurchasingAccountsPayableDocumentRuleBase extends AccountingDocumen
                 }
             }
             
-            if(PurApItemUtils.checkItemActive(item)) {
+            if(needAccountValidation && PurApItemUtils.checkItemActive(item)) {
                 if(ObjectUtils.isNotNull(item.getExtendedPrice()) && item.getExtendedPrice().isNonZero()) {
                     processAccountValidation(purapDocument, item.getSourceAccountingLines(),item.getItemIdentifierString());
                 }

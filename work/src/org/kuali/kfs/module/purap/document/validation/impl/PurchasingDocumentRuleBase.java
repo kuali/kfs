@@ -118,22 +118,22 @@ public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumen
         if (item.getItemType().isItemTypeAboveTheLineIndicator()) {
             if (ObjectUtils.isNull(item.getItemUnitPrice())) {
                 valid = false;
-                GlobalVariables.getErrorMap().putError("newPurchasingItemLine.itemUnitPrice", KFSKeyConstants.ERROR_REQUIRED, ItemFields.UNIT_COST + " in " + identifierString);
+                GlobalVariables.getErrorMap().putError(PurapConstants.ITEM_TAB_ERROR_PROPERTY, KFSKeyConstants.ERROR_REQUIRED, ItemFields.UNIT_COST + " in " + identifierString);
             }
             if (StringUtils.isEmpty(item.getItemDescription())) {
                 valid = false;
-                GlobalVariables.getErrorMap().putError("newPurchasingItemLine.itemDescription", KFSKeyConstants.ERROR_REQUIRED, ItemFields.DESCRIPTION + " in " + identifierString);
+                GlobalVariables.getErrorMap().putError(PurapConstants.ITEM_TAB_ERROR_PROPERTY, KFSKeyConstants.ERROR_REQUIRED, ItemFields.DESCRIPTION + " in " + identifierString);
             }
         }
         if (ObjectUtils.isNotNull(item.getItemUnitPrice())) {
             if ((zero.compareTo(item.getItemUnitPrice()) > 0) && ((!item.getItemTypeCode().equals(ItemTypeCodes.ITEM_TYPE_ORDER_DISCOUNT_CODE)) && (!item.getItemTypeCode().equals(ItemTypeCodes.ITEM_TYPE_TRADE_IN_CODE)))) {
                 // If the item type is not full order discount or trade in items, don't allow negative unit price.
-                GlobalVariables.getErrorMap().putError("newPurchasingItemLine.itemUnitPrice", PurapKeyConstants.ERROR_ITEM_AMOUNT_BELOW_ZERO, ItemFields.UNIT_COST, identifierString);
+                GlobalVariables.getErrorMap().putError(PurapConstants.ITEM_TAB_ERROR_PROPERTY, PurapKeyConstants.ERROR_ITEM_AMOUNT_BELOW_ZERO, ItemFields.UNIT_COST, identifierString);
                 valid = false;
             }
             else if ((zero.compareTo(item.getItemUnitPrice()) < 0) && ((item.getItemTypeCode().equals(ItemTypeCodes.ITEM_TYPE_ORDER_DISCOUNT_CODE)) || (item.getItemTypeCode().equals(ItemTypeCodes.ITEM_TYPE_TRADE_IN_CODE)))) {
                 // If the item type is full order discount or trade in items, its unit price must be negative.
-                GlobalVariables.getErrorMap().putError("newPurchasingItemLine.itemUnitPrice", PurapKeyConstants.ERROR_ITEM_AMOUNT_NOT_BELOW_ZERO, ItemFields.UNIT_COST, identifierString);
+                GlobalVariables.getErrorMap().putError(PurapConstants.ITEM_TAB_ERROR_PROPERTY, PurapKeyConstants.ERROR_ITEM_AMOUNT_NOT_BELOW_ZERO, ItemFields.UNIT_COST, identifierString);
                 valid = false;
             }
         }

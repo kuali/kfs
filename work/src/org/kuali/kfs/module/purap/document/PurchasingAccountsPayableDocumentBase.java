@@ -788,7 +788,10 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
 
         for (PurchasingApItem item : (List<PurchasingApItem>)this.getItems()) {
             currentSourceLines.addAll(item.getSourceAccountingLines());
-            persistedSourceLines.addAll(purApAccountingService.getAccountsFromItem(item));
+            //only check items that already have been persisted since last save
+            if(ObjectUtils.isNotNull(item.getItemIdentifier())) {
+                persistedSourceLines.addAll(purApAccountingService.getAccountsFromItem(item));
+            }
         }
 //        List persistedSourceLines = SpringServiceLocator.getAccountingLineService().getByDocumentHeaderId(accountingLineClass, getDocumentNumber());
             

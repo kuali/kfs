@@ -59,7 +59,7 @@
    		<form-bean name="LaborJournalVoucherForm" type="org.kuali.module.labor.web.struts.form.LaborJournalVoucherForm" />
    		<form-bean name="EmployeeFundingInquiryForm" type="org.kuali.module.labor.web.struts.form.EmployeeFundingInquiryForm" />
 		<form-bean name="LaborCorrectionForm" type="org.kuali.module.labor.web.struts.form.LaborCorrectionForm" />
-		<form-bean name="LaborYearEndBenefitTransferForm" type="org.kuali.module.labor.web.struts.form.LaborYearEndBenefitTransferForm" />
+		<form-bean name="LaborYearEndBenefitTransferForm" type="org.kuali.module.labor.web.struts.form.YearEndBenefitTransferForm" />
 
 		<!-- Budget Construction Bean Definitions -->
    		<form-bean name="BudgetConstructionSelectionForm" type="org.kuali.module.budget.web.struts.form.BudgetConstructionSelectionForm" />

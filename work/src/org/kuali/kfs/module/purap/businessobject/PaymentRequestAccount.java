@@ -102,10 +102,6 @@ public class PaymentRequestAccount extends PurApAccountingLineBase {
         this.paymentRequestItem = paymentRequestItem;
     }
 
-    public void setPostingyear(Integer postingYear) {
-        // Do nothing
-    }
-
 //    /**
 //	 * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
 //	 */

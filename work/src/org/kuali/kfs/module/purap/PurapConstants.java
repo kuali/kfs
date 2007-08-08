@@ -621,7 +621,7 @@ public class PurapConstants extends JstlConstants {
         map.put("PurchaseOrderRetransmitDocument", "Kuali.PURAP.PurchaseOrderDocument");
         map.put("PurchaseOrderVoidDocument", "Kuali.PURAP.PurchaseOrderDocument");
         map.put(PAYMENT_REQUEST_DOCUMENT_DOC_TYPE, "Kuali.PURAP.PaymentRequestDocument");
-        map.put(CREDIT_MEMO_DOCUMENT_DOC_TYPE, "Kuali.PURAP.CreditMemoDocument");
+        map.put("CreditMemoDocument", "Kuali.PURAP.CreditMemoDocument");
         return map;
     }
     public final static HashMap<String,String> ITEM_TYPE_SYSTEM_PARAMETERS_SECURITY_MAP =
@@ -646,6 +646,9 @@ public class PurapConstants extends JstlConstants {
     
     // CREDIT MEMO DOCUMENT
     public static String CREDIT_MEMO_DOCUMENT_DOC_TYPE = "CreditMemoDocument";
+
+    public final static boolean CREATE_CREDIT_MEMO = false;
+    public final static boolean CANCEL_CREDIT_MEMO = true;
 
     public static class CreditMemoStatuses {
         public static String INITIATE = "INIT";

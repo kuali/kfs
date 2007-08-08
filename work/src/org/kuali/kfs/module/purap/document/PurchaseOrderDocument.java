@@ -49,6 +49,7 @@ import org.kuali.module.purap.bo.PurchaseOrderView;
 import org.kuali.module.purap.bo.PurchasingApItem;
 import org.kuali.module.purap.bo.RecurringPaymentFrequency;
 import org.kuali.module.purap.bo.RequisitionItem;
+import org.kuali.module.purap.service.PurapGeneralLedgerService;
 import org.kuali.module.purap.service.PurchaseOrderPostProcessorService;
 import org.kuali.module.vendor.VendorConstants;
 import org.kuali.module.vendor.bo.PaymentTermType;
@@ -130,6 +131,11 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase {
 
     @Override
     public void customPrepareForSave(KualiDocumentEvent event) {
+        if (ObjectUtils.isNull(getPurapDocumentIdentifier())) {
+            //need to save to generate PO id to save in GL entries
+            SpringServiceLocator.getBusinessObjectService().save(this);
+        }
+
         // Set outstanding encumbered quantity/amount on items
         for (Iterator items = this.getItems().iterator(); items.hasNext();) {
             PurchaseOrderItem item = (PurchaseOrderItem) items.next();
@@ -142,7 +148,7 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase {
             item.setItemInvoicedTotalAmount(ZERO);
 
             // Set amount
-            item.setItemOutstandingEncumbranceAmount(item.getExtendedPrice() == null ? ZERO : item.getExtendedPrice());
+            item.setItemOutstandingEncumberedAmount(item.getExtendedPrice() == null ? ZERO : item.getExtendedPrice());
 
             //TODO check setting of outstanding amount in the accounts
             List accounts = (List)item.getSourceAccountingLines();
@@ -181,15 +187,11 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase {
     @Override
     public void prepareForSave(KualiDocumentEvent event) {
         if (!getDocumentHeader().getWorkflowDocument().stateIsProcessed() && !getDocumentHeader().getWorkflowDocument().stateIsFinal()) {
-            if (ObjectUtils.isNull(getPurapDocumentIdentifier())) {
-                //need to save to generate PO id to save in GL entries
-                SpringServiceLocator.getBusinessObjectService().save(this);
-            }
             super.prepareForSave(event);
         }
         else {
             //if doc is PROCESSED or FINAL, saving should not be creating GL entries
-            setGeneralLedgerPendingEntries(null);
+            setGeneralLedgerPendingEntries(new ArrayList());
         }
     }
 
@@ -323,7 +325,7 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase {
             popp.handleRouteLevelChange(levelChangeEvent, this);
         }
     }
-    
+
     /**
      * @see org.kuali.core.document.DocumentBase#doActionTaken(edu.iu.uis.eden.clientapp.vo.ActionTakenEventVO)
      */
@@ -347,6 +349,21 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase {
         for (Iterator iter = getItems().iterator(); iter.hasNext();) {
             PurchaseOrderItem item = (PurchaseOrderItem) iter.next();
             if (item.isItemActiveIndicator()) {
+                returnList.add(item);
+            }
+        }
+        return returnList;
+    }
+
+    public List getItemsActiveOnlySetupAlternateAmount() {
+        List returnList = new ArrayList();
+        for (Iterator iter = getItems().iterator(); iter.hasNext();) {
+            PurchaseOrderItem item = (PurchaseOrderItem) iter.next();
+            if (item.isItemActiveIndicator()) {
+                for (Iterator iterator = item.getSourceAccountingLines().iterator(); iterator.hasNext();) {
+                    PurchaseOrderAccount account = (PurchaseOrderAccount) iterator.next();
+                    account.setAlternateAmount(account.getItemAccountOutstandingEncumbranceAmount());
+                }
                 returnList.add(item);
             }
         }
@@ -728,7 +745,7 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase {
         this.setAlternateVendorNumber(vendorDetail.getVendorHeaderGeneratedIdentifier() + VendorConstants.DASH + vendorDetail.getVendorDetailAssignedIdentifier());
         this.setAlternateVendorName(vendorDetail.getVendorName());
     }
-
+    
     /**
      * Overriding this from the super class so that Note will use only the oldest
      * PurchaseOrderDocument as the documentBusinessObject.

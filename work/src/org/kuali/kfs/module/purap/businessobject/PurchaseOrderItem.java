@@ -37,7 +37,7 @@ public class PurchaseOrderItem extends PurchasingItemBase {
     private KualiDecimal itemReceivedTotalQuantity;
     private KualiDecimal itemReturnedTotalQuantity;
     private KualiDecimal itemOutstandingEncumberedQuantity;
-    private KualiDecimal itemOutstandingEncumbranceAmount;
+    private KualiDecimal itemOutstandingEncumberedAmount;
     private boolean itemActiveIndicator=true;
     private String purchaseOrderCommodityCd;
 
@@ -180,21 +180,21 @@ public class PurchaseOrderItem extends PurchasingItemBase {
     }
 
     /**
-     * Gets the itemOutstandingEncumbranceAmount attribute.
+     * Gets the itemOutstandingEncumberedAmount attribute.
      * 
-     * @return Returns the itemOutstandingEncumbranceAmount.
+     * @return Returns the itemOutstandingEncumberedAmount.
      */
-    public KualiDecimal getItemOutstandingEncumbranceAmount() {
-        return itemOutstandingEncumbranceAmount;
+    public KualiDecimal getItemOutstandingEncumberedAmount() {
+        return itemOutstandingEncumberedAmount;
     }
 
     /**
-     * Sets the itemOutstandingEncumbranceAmount attribute value.
+     * Sets the itemOutstandingEncumberedAmount attribute value.
      * 
-     * @param itemOutstandingEncumbranceAmount The itemOutstandingEncumbranceAmount to set.
+     * @param itemOutstandingEncumberedAmount The itemOutstandingEncumberedAmount to set.
      */
-    public void setItemOutstandingEncumbranceAmount(KualiDecimal itemOutstandingEncumbranceAmount) {
-        this.itemOutstandingEncumbranceAmount = itemOutstandingEncumbranceAmount;
+    public void setItemOutstandingEncumberedAmount(KualiDecimal itemOutstandingEncumbranceAmount) {
+        this.itemOutstandingEncumberedAmount = itemOutstandingEncumbranceAmount;
     }
 
     /**

@@ -15,6 +15,9 @@
  */
 package org.kuali.module.purap.rules;
 
+import static org.kuali.kfs.KFSConstants.GL_CREDIT_CODE;
+import static org.kuali.kfs.KFSConstants.GL_DEBIT_CODE;
+
 import java.math.BigDecimal;
 import java.util.List;
 
@@ -28,6 +31,7 @@ import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSKeyConstants;
 import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.bo.AccountingLine;
+import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
 import org.kuali.kfs.document.AccountingDocument;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.chart.bo.ObjectCode;
@@ -35,6 +39,7 @@ import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.PurapKeyConstants;
 import org.kuali.module.purap.PurapPropertyConstants;
 import org.kuali.module.purap.PurapRuleConstants;
+import org.kuali.module.purap.PurapConstants.PurapDocTypeCodes;
 import org.kuali.module.purap.bo.CreditMemoAccount;
 import org.kuali.module.purap.bo.CreditMemoItem;
 import org.kuali.module.purap.bo.PurApAccountingLine;
@@ -48,6 +53,7 @@ import org.kuali.module.purap.document.PurchasingAccountsPayableDocument;
 import org.kuali.module.purap.rule.CalculateAccountsPayableRule;
 import org.kuali.module.purap.rule.ContinueAccountsPayableRule;
 import org.kuali.module.purap.rule.PreCalculateAccountsPayableRule;
+import org.kuali.module.purap.service.PurapGeneralLedgerService;
 import org.kuali.module.vendor.bo.VendorDetail;
 import org.kuali.module.vendor.util.VendorUtils;
 
@@ -611,4 +617,33 @@ public class CreditMemoDocumentRule extends AccountsPayableDocumentRuleBase impl
 
         return isValid;
     }
+
+    @Override
+    protected void customizeExplicitGeneralLedgerPendingEntry(AccountingDocument accountingDocument, AccountingLine accountingLine, GeneralLedgerPendingEntry explicitEntry) {
+        super.customizeExplicitGeneralLedgerPendingEntry(accountingDocument, accountingLine, explicitEntry);
+
+        CreditMemoDocument cm = (CreditMemoDocument)accountingDocument;
+        
+        //GENERATE ENCUMBRANCE ENTRIES (ON CREATE OR CANCEL)
+        if (cm.isGenerateEncumbranceEntries()) {
+            //even if generating encumbrance entries on cancel, call is the same because the method gets negative amounts from the map so Debits on negatives = a credit
+            ((PurapGeneralLedgerService)SpringServiceLocator.getService(SpringServiceLocator.PURAP_GENERAL_LEDGER_SERVICE)).customizeGeneralLedgerPendingEntry(cm, 
+                    accountingLine, explicitEntry, cm.getPurchaseOrderIdentifier(), GL_DEBIT_CODE, PurapDocTypeCodes.CREDIT_MEMO_DOCUMENT, true);
+        }
+        //GENERATE ACTUAL ENTRIES ON CREATE
+        else if (!cm.isGenerateCancelEntries()) {
+            ((PurapGeneralLedgerService)SpringServiceLocator.getService(SpringServiceLocator.PURAP_GENERAL_LEDGER_SERVICE)).customizeGeneralLedgerPendingEntry(cm, 
+                    accountingLine, explicitEntry, cm.getPurchaseOrderIdentifier(), GL_CREDIT_CODE, PurapDocTypeCodes.CREDIT_MEMO_DOCUMENT, false);
+        }
+        //GENERATE ACTUAL ENTRIES ON CANCEL
+        else {
+            ((PurapGeneralLedgerService)SpringServiceLocator.getService(SpringServiceLocator.PURAP_GENERAL_LEDGER_SERVICE)).customizeGeneralLedgerPendingEntry(cm, 
+                    accountingLine, explicitEntry, cm.getPurchaseOrderIdentifier(), GL_DEBIT_CODE, PurapDocTypeCodes.CREDIT_MEMO_DOCUMENT, false);
+        }
+        
+        //CMs do not wait for document final approval to post GL entries to the real table; here we are forcing them to be APPROVED
+        explicitEntry.setFinancialDocumentApprovedCode(KFSConstants.DocumentStatusCodes.APPROVED);
+
+    }
+
 }

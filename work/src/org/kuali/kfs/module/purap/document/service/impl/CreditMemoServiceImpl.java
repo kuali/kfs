@@ -25,8 +25,6 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.bo.Note;
 import org.kuali.core.bo.user.UniversalUser;
-import org.kuali.core.exceptions.ValidationException;
-import org.kuali.core.rule.event.SaveOnlyDocumentEvent;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DateTimeService;
 import org.kuali.core.service.DocumentService;
@@ -49,8 +47,8 @@ import org.kuali.module.purap.document.PaymentRequestDocument;
 import org.kuali.module.purap.document.PurchaseOrderDocument;
 import org.kuali.module.purap.document.PurchasingAccountsPayableDocument;
 import org.kuali.module.purap.service.CreditMemoService;
-import org.kuali.module.purap.service.GeneralLedgerService;
 import org.kuali.module.purap.service.PaymentRequestService;
+import org.kuali.module.purap.service.PurapGeneralLedgerService;
 import org.kuali.module.purap.service.PurapService;
 import org.kuali.module.purap.service.PurchaseOrderService;
 import org.kuali.module.vendor.util.VendorUtils;
@@ -71,7 +69,7 @@ public class CreditMemoServiceImpl implements CreditMemoService {
     private DocumentService documentService;
     private NoteService noteService;
     private PurapService purapService;
-    private GeneralLedgerService generalLedgerService;
+    private PurapGeneralLedgerService purapGeneralLedgerService;
     private PaymentRequestService paymentRequestService;
     private PurchaseOrderService purchaseOrderService;
     private DateTimeService dateTimeService;
@@ -145,7 +143,7 @@ public class CreditMemoServiceImpl implements CreditMemoService {
             }
             else {
                 BigDecimal unitPrice = (poItem.getItemUnitPrice() == null ? new BigDecimal(0) : poItem.getItemUnitPrice());
-                if (PurapConstants.ItemTypeCodes.ITEM_TYPE_SERVICE_CODE.equals(poItem.getItemType()) && (unitPrice.doubleValue() > poItem.getItemOutstandingEncumbranceAmount().doubleValue())) {
+                if (PurapConstants.ItemTypeCodes.ITEM_TYPE_SERVICE_CODE.equals(poItem.getItemType()) && (unitPrice.doubleValue() > poItem.getItemOutstandingEncumberedAmount().doubleValue())) {
                     invoicedItems.add(poItem);
                 }
             }
@@ -355,8 +353,7 @@ public class CreditMemoServiceImpl implements CreditMemoService {
         // retrieve and save with canceled status, clear gl entries
         CreditMemoDocument cmDoc = getCreditMemoDocumentById(cmDocument.getPurapDocumentIdentifier());
         if (!PurapConstants.CreditMemoStatuses.STATUSES_NOT_REQUIRING_ENTRY_REVERSAL.contains(cmDoc.getStatusCode())) {
-            generalLedgerService.generateEntriesCancelCm(cmDoc);
-//            generalLedgerService.generateEntriesCancelCm(cmDocument);
+            purapGeneralLedgerService.generateEntriesCreditMemo(cmDoc, PurapConstants.CANCEL_CREDIT_MEMO);
         }
 
         purapService.updateStatusAndStatusHistory(cmDoc, PurapConstants.CreditMemoStatuses.CANCELLED, noteObj);
@@ -445,8 +442,8 @@ public class CreditMemoServiceImpl implements CreditMemoService {
      * 
      * @param generalLedgerService The generalLedgerService to set.
      */
-    public void setGeneralLedgerService(GeneralLedgerService generalLedgerService) {
-        this.generalLedgerService = generalLedgerService;
+    public void setPurapGeneralLedgerService(PurapGeneralLedgerService purapGeneralLedgerService) {
+        this.purapGeneralLedgerService = purapGeneralLedgerService;
     }
 
     /**

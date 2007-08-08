@@ -57,7 +57,7 @@ public class PurchaseOrderCloseDocument extends PurchaseOrderDocument {
             KualiDecimal itemAmount = null;
             if (!item.getItemType().isQuantityBasedGeneralLedgerIndicator()) {
                 LOG.debug("poCloseReopen() " + logItmNbr + " Calculate based on amounts");
-                itemAmount = item.getItemOutstandingEncumbranceAmount() == null ? ZERO  : item.getItemOutstandingEncumbranceAmount();
+                itemAmount = item.getItemOutstandingEncumberedAmount() == null ? ZERO  : item.getItemOutstandingEncumberedAmount();
             }
             else {
                 LOG.debug("poCloseReopen() " + logItmNbr + " Calculate based on quantities");

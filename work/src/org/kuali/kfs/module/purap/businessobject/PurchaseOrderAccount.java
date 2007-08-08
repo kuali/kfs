@@ -19,6 +19,7 @@ package org.kuali.module.purap.bo;
 import java.util.LinkedHashMap;
 
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.core.util.ObjectUtils;
 
 /**
  * 
@@ -53,6 +54,13 @@ public class PurchaseOrderAccount extends PurApAccountingLineBase {
         this.setOrganizationReferenceId(ra.getOrganizationReferenceId());
         this.setProjectCode(ra.getProjectCode());
         this.setSubAccountNumber(ra.getSubAccountNumber());
+    }
+
+    public KualiDecimal getAlternateAmount() {
+        if (ObjectUtils.isNull(super.getAlternateAmount())) {
+            return getItemAccountOutstandingEncumbranceAmount();
+        }
+        return super.getAlternateAmount();
     }
 
     /**
@@ -122,5 +130,5 @@ public class PurchaseOrderAccount extends PurApAccountingLineBase {
 
     public void setPostingyear(Integer postingYear) {
         // Do nothing
-    }
+}
 }

@@ -31,16 +31,10 @@ import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.PurapPropertyConstants;
-//import org.kuali.module.purap.PurapConstants.CREDIT_MEMO_TYPES;
 import org.kuali.module.purap.PurapConstants.CREDIT_MEMO_TYPE_LABELS;
 import org.kuali.module.purap.bo.CreditMemoItem;
 import org.kuali.module.purap.bo.CreditMemoStatusHistory;
-import org.kuali.module.purap.bo.PurchasingApItem;
-
-import edu.iu.uis.eden.EdenConstants;
-import edu.iu.uis.eden.clientapp.vo.DocumentRouteLevelChangeVO;
-import edu.iu.uis.eden.clientapp.vo.ReportCriteriaVO;
-import edu.iu.uis.eden.exception.WorkflowException;
+import org.kuali.module.purap.service.PurapGeneralLedgerService;
 
 /**
  * Credit Memo Document Business Object. Contains the fields associated with the main document table.
@@ -184,6 +178,7 @@ public class CreditMemoDocument extends AccountsPayableDocumentBase {
     public boolean processNodeChange(String newNodeName, String oldNodeName) {
         if (PurapConstants.WorkflowConstants.CreditMemoDocument.NodeDetails.ACCOUNTS_PAYABLE_REVIEW.equals(oldNodeName)) {
             setAccountsPayableApprovalDate(SpringServiceLocator.getDateTimeService().getCurrentSqlDate());
+            ((PurapGeneralLedgerService) SpringServiceLocator.getService(SpringServiceLocator.PURAP_GENERAL_LEDGER_SERVICE)).generateEntriesCreditMemo(this, PurapConstants.CREATE_CREDIT_MEMO);
         }
         return true;
     }

@@ -120,7 +120,7 @@ public class PaymentRequestItem extends AccountsPayableItemBase {
         if ( poi == null ) {
           return KualiDecimal.ZERO;
         } else {
-          return poi.getItemOutstandingEncumbranceAmount();
+          return poi.getItemOutstandingEncumberedAmount();
         }
     }
     
@@ -183,7 +183,7 @@ public class PaymentRequestItem extends AccountsPayableItemBase {
         ItemType iT = poi.getItemType();
         //if service add the po outstanding amount to outstandingamount 
         if(StringUtils.equals(iT.getItemTypeCode(),PurapConstants.ItemTypeCodes.ITEM_TYPE_SERVICE_CODE)) {
-            outstandingAmount.add(poi.getItemOutstandingEncumbranceAmount());
+            outstandingAmount.add(poi.getItemOutstandingEncumberedAmount());
         } else {
             //else add outstanding quantity * unitprice
             BigDecimal qty = new BigDecimal(this.getPoOutstandingQuantity(poi).toString());

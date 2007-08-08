@@ -15,6 +15,8 @@
  */
 package org.kuali.module.purap.rules;
 
+import static org.kuali.kfs.KFSConstants.GL_DEBIT_CODE;
+
 import java.util.List;
 
 import org.kuali.core.bo.user.UniversalUser;
@@ -22,14 +24,20 @@ import org.kuali.core.exceptions.UserNotFoundException;
 import org.kuali.core.service.UniversalUserService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.kfs.KFSKeyConstants;
+import org.kuali.kfs.bo.AccountingLine;
+import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
+import org.kuali.kfs.document.AccountingDocument;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.PurapKeyConstants;
 import org.kuali.module.purap.PurapParameterConstants;
 import org.kuali.module.purap.PurapPropertyConstants;
+import org.kuali.module.purap.PurapConstants.PurapDocTypeCodes;
 import org.kuali.module.purap.bo.PurchaseOrderItem;
 import org.kuali.module.purap.bo.PurchasingApItem;
+import org.kuali.module.purap.document.PurchaseOrderDocument;
 import org.kuali.module.purap.document.PurchasingAccountsPayableDocument;
+import org.kuali.module.purap.service.PurapGeneralLedgerService;
 
 
 public class PurchaseOrderAmendmentDocumentRule extends PurchaseOrderDocumentRule {
@@ -67,6 +75,17 @@ public class PurchaseOrderAmendmentDocumentRule extends PurchaseOrderDocumentRul
         
         GlobalVariables.getErrorMap().putError(PurapConstants.ITEM_TAB_ERROR_PROPERTY, PurapKeyConstants.ERROR_ITEM_REQUIRED, documentType);
         return false;
+    }
+
+    @Override
+    protected void customizeExplicitGeneralLedgerPendingEntry(AccountingDocument accountingDocument, AccountingLine accountingLine, GeneralLedgerPendingEntry explicitEntry) {
+        super.customizeExplicitGeneralLedgerPendingEntry(accountingDocument, accountingLine, explicitEntry);
+        PurchaseOrderDocument po = (PurchaseOrderDocument)accountingDocument;
+
+        ((PurapGeneralLedgerService)SpringServiceLocator.getService(SpringServiceLocator.PURAP_GENERAL_LEDGER_SERVICE)).customizeGeneralLedgerPendingEntry(po, 
+                accountingLine, explicitEntry, po.getPurapDocumentIdentifier(), GL_DEBIT_CODE, PurapDocTypeCodes.PO_DOCUMENT, true);
+
+        explicitEntry.setFinancialDocumentTypeCode(PurapDocTypeCodes.PO_AMENDMENT_DOCUMENT);  //don't think i should have to override this, but default isn't getting the right PO doc
     }
 
 }

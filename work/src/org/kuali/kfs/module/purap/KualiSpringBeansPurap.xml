@@ -177,9 +177,6 @@
 		</property>
 	</bean>
 
-    <bean id="generalLedgerService" class="org.kuali.module.purap.service.impl.GeneralLedgerServiceImpl">
-    </bean>
-    
     <bean id="paymentRequestDao" parent="platformAwareDao" class="org.kuali.module.purap.dao.ojb.PaymentRequestDaoOjb">
     	<property name="dateTimeService">
     		<ref bean="dateTimeService" />
@@ -211,9 +208,6 @@
         <property name="documentService">
 			<ref bean="documentService" />
 		</property>
-        <property name="generalLedgerService">
-            <ref bean="generalLedgerService" />
-        </property>
         <property name="purapService">
             <ref bean="purapService" />
         </property>
@@ -256,8 +250,8 @@
         <property name="noteService">
             <ref bean="noteService" />
         </property>	 
-        <property name="generalLedgerService">
-            <ref bean="generalLedgerService" />
+        <property name="purapGeneralLedgerService">
+            <ref bean="purapGeneralLedgerService" />
         </property>	
         <property name="purapService">
             <ref bean="purapService" />
@@ -304,9 +298,6 @@
 		<property name="documentService">
 			<ref bean="documentService" />
 		</property>
-        <property name="generalLedgerService">
-            <ref bean="generalLedgerService" />
-        </property>
         <property name="purapService">
             <ref bean="purapService" />
         </property>
@@ -338,9 +329,9 @@
         <property name="purchaseOrderService">
             <ref bean="purchaseOrderService" />
         </property>	
-        <property name="generalLedgerService">
-            <ref bean="generalLedgerService" />
-        </property>	
+        <property name="purapGeneralLedgerService">
+            <ref bean="purapGeneralLedgerService" />
+        </property> 
         <property name="purapService">
             <ref bean="purapService" />
         </property>	

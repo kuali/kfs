@@ -60,7 +60,6 @@ import org.kuali.module.purap.dao.PurchaseOrderDao;
 import org.kuali.module.purap.document.PurchaseOrderDocument;
 import org.kuali.module.purap.document.PurchasingDocumentBase;
 import org.kuali.module.purap.document.RequisitionDocument;
-import org.kuali.module.purap.service.GeneralLedgerService;
 import org.kuali.module.purap.service.PrintService;
 import org.kuali.module.purap.service.PurapService;
 import org.kuali.module.purap.service.PurchaseOrderPostProcessorService;
@@ -70,7 +69,6 @@ import org.kuali.module.purap.util.PurApObjectUtils;
 import org.kuali.module.vendor.bo.VendorDetail;
 import org.kuali.module.vendor.service.VendorService;
 import org.springframework.transaction.annotation.Transactional;
-import org.springmodules.orm.ojb.OjbOperationException;
 
 import edu.iu.uis.eden.exception.WorkflowException;
 
@@ -82,7 +80,6 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
     private DateTimeService dateTimeService;
     private DocumentService documentService;
     private NoteService noteService;
-    private GeneralLedgerService generalLedgerService;
     private PurapService purapService;
     private PrintService printService;
     private PurchaseOrderDao purchaseOrderDao;
@@ -106,10 +103,6 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 
     public void setNoteService(NoteService noteService) {
         this.noteService = noteService;
-    }
-
-    public void setGeneralLedgerService(GeneralLedgerService generalLedgerService) {
-        this.generalLedgerService = generalLedgerService;
     }
 
     public void setPurapService(PurapService purapService) {
@@ -667,9 +660,6 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
         LOG.debug("completePurchaseOrder() started");
 
         UniversalUser user = GlobalVariables.getUserSession().getUniversalUser();
-
-        // create general ledger entries for this PO
-        generalLedgerService.generateEntriesApprovePo(po);
 
 //        if (POTransmissionMethods.PRINT.equals(po.getPurchaseOrderTransmissionMethodCode())) {
 //            LOG.debug("completePurchaseOrder() Purchase Order Transmission Type is Print");

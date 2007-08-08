@@ -15,9 +15,13 @@
  */
 package org.kuali.module.purap.service;
 
+import java.util.List;
+
 import org.kuali.kfs.bo.AccountingLine;
 import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
+import org.kuali.module.purap.document.CreditMemoDocument;
 import org.kuali.module.purap.document.PaymentRequestDocument;
+import org.kuali.module.purap.document.PurchaseOrderDocument;
 import org.kuali.module.purap.document.PurchasingAccountsPayableDocument;
 
 
@@ -28,5 +32,9 @@ public interface PurapGeneralLedgerService {
             String docType, boolean isEncumbrance);
 
     public void generateEntriesCreatePreq(PaymentRequestDocument preq);
+    
+    public void generateEntriesCreditMemo(CreditMemoDocument cm, boolean isCancel);
 
+    public void generateEntriesApproveAmendPo(PurchaseOrderDocument po);
+    
 }

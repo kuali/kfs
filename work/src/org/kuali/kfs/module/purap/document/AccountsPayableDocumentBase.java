@@ -30,13 +30,10 @@ import org.kuali.core.rule.event.RouteDocumentEvent;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.util.SpringServiceLocator;
-import org.kuali.module.labor.util.ObjectUtil;
 import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.PurapPropertyConstants;
-import org.kuali.module.purap.service.PurapService;
 
 import edu.iu.uis.eden.EdenConstants;
-import edu.iu.uis.eden.clientapp.vo.ActionTakenEventVO;
 import edu.iu.uis.eden.clientapp.vo.DocumentRouteLevelChangeVO;
 import edu.iu.uis.eden.clientapp.vo.ReportCriteriaVO;
 import edu.iu.uis.eden.exception.WorkflowException;
@@ -67,6 +64,11 @@ public abstract class AccountsPayableDocumentBase extends PurchasingAccountsPaya
 
     private boolean closeReopenPoIndicator;
     
+    // NOT PERSISTED IN DB
+    // BELOW USED BY GL ENTRY CREATION
+    private boolean generateEncumbranceEntries;
+    private boolean generateCancelEntries;
+
     // REFERENCE OBJECTS
     private Campus processingCampus;
     private transient PurchaseOrderDocument purchaseOrderDocument;
@@ -102,12 +104,19 @@ public abstract class AccountsPayableDocumentBase extends PurchasingAccountsPaya
      */
     @Override
     public void prepareForSave(KualiDocumentEvent event) {
+        
         //if routing and closereopen po indicator set, call closereopen po method
         if((event instanceof RouteDocumentEvent) && this.isCloseReopenPoIndicator()){
             processCloseReopenPo();
             this.setCloseReopenPoIndicator(false);
         }
-        super.prepareForSave(event);
+
+        //copied from super because we can't call super for AP docs
+        refreshNonUpdateableReferences();
+        SpringServiceLocator.getPurapAccountingService().updateAccountAmounts(this);
+
+        //DO NOT CALL SUPER HERE!!  Cannot call super because it will mess up the GL entry creation process (hjs)
+        //super.prepareForSave(event);
     }
 
     /**
@@ -303,6 +312,22 @@ public abstract class AccountsPayableDocumentBase extends PurchasingAccountsPaya
 
     public void setOrganizationCode(String organizationCode) {
         this.organizationCode = organizationCode;
+    }
+
+    public boolean isGenerateEncumbranceEntries() {
+        return generateEncumbranceEntries;
+    }
+
+    public void setGenerateEncumbranceEntries(boolean generateEncumbranceEntries) {
+        this.generateEncumbranceEntries = generateEncumbranceEntries;
+    }
+
+    public boolean isGenerateCancelEntries() {
+        return generateCancelEntries;
+    }
+
+    public void setGenerateCancelEntries(boolean generateCancelEntries) {
+        this.generateCancelEntries = generateCancelEntries;
     }
 
     public PurchaseOrderDocument getPurchaseOrderDocument() {

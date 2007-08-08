@@ -62,10 +62,10 @@ import org.kuali.module.purap.document.CreditMemoDocument;
 import org.kuali.module.purap.document.PaymentRequestDocument;
 import org.kuali.module.purap.document.PurchaseOrderDocument;
 import org.kuali.module.purap.exceptions.PurError;
-import org.kuali.module.purap.service.GeneralLedgerService;
 import org.kuali.module.purap.service.NegativePaymentRequestApprovalLimitService;
 import org.kuali.module.purap.service.PaymentRequestService;
 import org.kuali.module.purap.service.PurapAccountingService;
+import org.kuali.module.purap.service.PurapGeneralLedgerService;
 import org.kuali.module.purap.service.PurapService;
 import org.kuali.module.purap.service.PurchaseOrderService;
 import org.kuali.module.purap.util.PurApItemUtils;
@@ -88,7 +88,7 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
     private DateTimeService dateTimeService;
     private DocumentService documentService;
     private NoteService noteService;
-    private GeneralLedgerService generalLedgerService;
+    private PurapGeneralLedgerService purapGeneralLedgerService;
     private PurapService purapService;
     private PaymentRequestDao paymentRequestDao;
     private WorkflowDocumentService workflowDocumentService;
@@ -161,8 +161,8 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
         this.noteService = noteService;
     }
 
-    public void setGeneralLedgerService(GeneralLedgerService generalLedgerService) {
-        this.generalLedgerService = generalLedgerService;
+    public void setPurapGeneralLedgerService(PurapGeneralLedgerService purapGeneralLedgerService) {
+        this.purapGeneralLedgerService = purapGeneralLedgerService;
     }
 
     public void setPurapService(PurapService purapService) {
@@ -832,7 +832,7 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
             }
         }
     }
-        
+    
     
     
     public void addContinuationAccountsNote(PaymentRequestDocument document, HashMap<String, String> accounts) {
@@ -1169,7 +1169,9 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
             LOG.debug("cancelExtractedPaymentRequest() ended");
             return;
         }
-        generalLedgerService.generateEntriesCancelPreq(paymentRequest);
+
+        //FIXME hjs - add call to new method once added
+        //        generalLedgerService.generateEntriesCancelPreq(paymentRequest);
         try {
             Note cancelNote = documentService.createNoteFromDocument(paymentRequest,note);
             documentService.addNoteToDocument(paymentRequest,cancelNote);
@@ -1255,7 +1257,7 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
             return descr.toString().substring(0, noteTextMaxLength);
         }
     }
-
+    
     /**
      * 
      * @see org.kuali.module.purap.service.PaymentRequestService#populateAndSavePaymentRequest(org.kuali.module.purap.document.PaymentRequestDocument)

@@ -46,7 +46,7 @@
 						<field attributeName="itemLineNumber" />
 						<field attributeName="itemQuantity" />
 						<field attributeName="itemOutstandingEncumberedQuantity" />
-						<field attributeName="itemOutstandingEncumbranceAmount" />
+						<field attributeName="itemOutstandingEncumberedAmount" />
 						<field attributeName="itemReceivedTotalQuantity" />
 						<field attributeName="itemReturnedTotalQuantity" />
 						<field attributeName="itemTypeCode" />
@@ -85,7 +85,7 @@
 				<lookupField attributeName="itemLineNumber" required="false" />
 				<lookupField attributeName="itemQuantity" required="false" />
 				<lookupField attributeName="itemOutstandingEncumberedQuantity" required="false" />
-				<lookupField attributeName="itemOutstandingEncumbranceAmount" required="false" />
+				<lookupField attributeName="itemOutstandingEncumberedAmount" required="false" />
 				<lookupField attributeName="itemReceivedTotalQuantity" required="false" />
 				<lookupField attributeName="itemReturnedTotalQuantity" required="false" />
 				<lookupField attributeName="itemTypeCode" required="false" />
@@ -110,7 +110,7 @@
 				<field attributeName="itemLineNumber" />
 				<field attributeName="itemQuantity" />
 				<field attributeName="itemOutstandingEncumberedQuantity" />
-				<field attributeName="itemOutstandingEncumbranceAmount" />
+				<field attributeName="itemOutstandingEncumberedAmount" />
 				<field attributeName="itemReceivedTotalQuantity" />
 				<field attributeName="itemReturnedTotalQuantity" />
 				<field attributeName="itemTypeCode" />
@@ -161,11 +161,11 @@
 				<description>itemOutstandingEncumberedQuantity description...</description>
 			</attributeReference>
 
-			<attributeReference name="itemOutstandingEncumbranceAmount" sourceClassName="org.kuali.module.purap.bo.PurApAttributeReferenceDummy" sourceAttributeName="genericItemAmount">
-				<label>Item Outstanding Encumbrance Amount</label>
-				<shortLabel>Outstanding Encumbrance Amount</shortLabel>
-				<summary>itemOutstandingEncumbranceAmount</summary>
-				<description>itemOutstandingEncumbranceAmount description...</description>
+			<attributeReference name="itemOutstandingEncumberedAmount" sourceClassName="org.kuali.module.purap.bo.PurApAttributeReferenceDummy" sourceAttributeName="genericItemAmount">
+				<label>Item Outstanding Encumbered Amount</label>
+				<shortLabel>Outstanding Encumbered Amount</shortLabel>
+				<summary>itemOutstandingEncumberedAmount</summary>
+				<description>itemOutstandingEncumberedAmount description...</description>
 			</attributeReference>
 			
 			<attributeReference name="itemReceivedTotalQuantity" sourceClassName="org.kuali.module.purap.bo.PurApAttributeReferenceDummy" sourceAttributeName="genericItemQuantity">

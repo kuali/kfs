@@ -32,7 +32,6 @@ import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.workflow.service.KualiWorkflowDocument;
 import org.kuali.kfs.util.SpringServiceLocator;
-import org.kuali.module.chart.bo.Account;
 import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.PurapParameterConstants;
 import org.kuali.module.purap.PurapConstants.PaymentRequestStatuses;
@@ -51,7 +50,6 @@ import org.kuali.module.vendor.bo.PaymentTermType;
 import org.kuali.module.vendor.bo.PurchaseOrderCostSource;
 import org.kuali.module.vendor.bo.ShippingPaymentTerms;
 import org.kuali.module.vendor.bo.VendorAddress;
-import org.kuali.workflow.KualiWorkflowUtils.RouteLevelNames;
 
 import edu.iu.uis.eden.clientapp.vo.ActionTakenEventVO;
 import edu.iu.uis.eden.exception.WorkflowException;
@@ -91,7 +89,6 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
     private String recurringPaymentTypeCode;
     private String vendorShippingTitleCode;
     private String purchaseOrderEndDate;
-    private boolean generateEncumbranceEntries;
     
     // BELOW USED BY ROUTING
     private Integer requisitionIdentifier;
@@ -1177,15 +1174,6 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
         return PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_CLOSE_DOCUMENT;
     }
 
-    public boolean isGenerateEncumbranceEntries() {
-        return generateEncumbranceEntries;
-    }
-
-    public void setGenerateEncumbranceEntries(boolean generateEncumbranceEntries) {
-        this.generateEncumbranceEntries = generateEncumbranceEntries;
-    }
-
-
     /**
      * @see org.kuali.core.document.DocumentBase#prepareForSave()
      */
@@ -1194,4 +1182,5 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
         super.prepareForSave();
 
     }
+
 }

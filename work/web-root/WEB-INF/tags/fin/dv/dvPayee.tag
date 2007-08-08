@@ -15,7 +15,7 @@
 --%>
 <%@ include file="/jsp/kfs/kfsTldHeader.jsp"%>
 
-<kul:tab tabTitle="Payee Information" defaultOpen="true" tabErrorKey="${Constants.DV_PAYEE_TAB_ERRORS}">
+<kul:tab tabTitle="Payee Information" defaultOpen="true" tabErrorKey="${Constants.DV_PAYEE_TAB_ERRORS},document.dvPayeeDetail.disbursementVoucherPayeeTypeCode">
 	<c:set var="payeeAttributes" value="${DataDictionary.DisbursementVoucherPayeeDetail.attributes}" />
     <div class="tab-container" align=center > 
     <div class="h2-container">

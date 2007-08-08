@@ -33,6 +33,7 @@ public class PaymentMethodValuesFinder extends KeyValuesBase {
      */
     public List getKeyValues() {
         List activeLabels = new ArrayList();
+        activeLabels.add(new KeyLabelPair("", ""));
         activeLabels.add(new KeyLabelPair("P", "P - Check/ACH"));
         activeLabels.add(new KeyLabelPair("F", "F - Foreign Draft"));
         activeLabels.add(new KeyLabelPair("W", "W - Wire Transfer"));

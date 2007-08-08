@@ -107,7 +107,8 @@ public class GLConstants {
     public static final String GL_ORGANIZATION_REVERSION_PROCESS_GROUP = "GL.ORGANIZATION_REVERSION_PROCESS";
     public static final String GL_ORGANIZATION_REVERSION_SELECTION_GROUP = "GL.ORGANIZATION_REVERSION_SELECTION";
     public static final String GL_POSTER_OUTPUT_SUMMARY_ENTRY_GROUP = "GL.POSTER_OUTPUT_SUMMARY_ENTRY";
-    public static final String GL_ENCUMBRANCE_CLOSING_ORIGIN_ENTRY = "GL.ENCUMBRANCE_CLOSING_ORIGIN_ENTRY";
+    public static final String GL_BALANCE_FORWARD_PROCESS = "GL.BALANCE_FORWARD_PROCESS";
+    public static final String GL_ENCUMBRANCE_FORWARD_PROCESS = "GL.ENCUMBRANCE_FORWARD_PROCESS";
     
     public static class GlAccountBalanceGroupParameters {
         static final public String EXPENSE_OBJECT_TYPE_CODES = "EXPENSE_OBJECT_TYPE_CODES";
@@ -194,19 +195,25 @@ public class GLConstants {
         static final public String ASSET_EXPENSE_OBJECT_TYPE_CODES = "ASSET_EXPENSE_OBJECT_TYPE_CODES";
     }
 
+    public static class BalanceForwardRule {
+        static final public String BALANCE_TYPES_TO_ROLL_FORWARD_FOR_BALANCE_SHEET = "BALANCE_TYPES_TO_ROLL_FORWARD_FOR_BALANCE_SHEET";
+        static final public String BALANCE_TYPES_TO_ROLL_FORWARD_FOR_INCOME_EXPENSE = "BALANCE_TYPES_TO_ROLL_FORWARD_FOR_INCOME_EXPENSE";
+        static final public String SUB_FUND_GROUPS_FOR_INCEPTION_TO_DATE_REPORTING = "SUB_FUND_GROUPS_FOR_INCEPTION_TO_DATE_REPORTING";
+    }
+    
     public static class EncumbranceClosingOriginEntry {
         static final public String GENERATED_TRANSACTION_LEDGER_ENTRY_DESCRIPTION = "GENERATED_TRANSACTION_LEDGER_ENTRY_DESCRIPTION";
-        static final public String BEGINNING_FUND_TRANSACTION_LEDGER_ENTRY_DESCRIPTION = "BEGINNING_FUND_TRANSACTION_LEDGER_ENTRY_DESCRIPTION";
-        static final public String OBJECT_CODE_FOR_BALANCE_TYPE_INTERNAL_ENCUMBRANCE = "OBJECT_CODE_FOR_BALANCE_TYPE_INTERNAL_ENCUMBRANCE";
-        static final public String OBJECT_CODE_FOR_BALANCE_TYPE_PRE_ENCUMBRANCE = "OBJECT_CODE_FOR_BALANCE_TYPE_PRE_ENCUMBRANCE";
-        static final public String OBJECT_CODE_FOR_BALANCE_TYPE_EXTERNAL_ENCUMBRANCE = "OBJECT_CODE_FOR_BALANCE_TYPE_EXTERNAL_ENCUMBRANCE";
+        static final public String BEGINNING_FUND_BALANCE_TRANSACTION_LEDGER_ENTRY_DESCRIPTION = "BEGINNING_FUND_BALANCE_TRANSACTION_LEDGER_ENTRY_DESCRIPTION";
+        static final public String OFFSET_OBJECT_CODE_FOR_INTERNAL_ENCUMBRANCE = "OFFSET_OBJECT_CODE_FOR_INTERNAL_ENCUMBRANCE";
+        static final public String OFFSET_OBJECT_CODE_FOR_PRE_ENCUMBRANCE = "OFFSET_OBJECT_CODE_FOR_PRE_ENCUMBRANCE";
+        static final public String OFFSET_OBJECT_CODE_FOR_EXTERNAL_ENCUMBRANCE = "OFFSET_OBJECT_CODE_FOR_EXTERNAL_ENCUMBRANCE";
     }
     
     // Some static method calls below that could be done in static variables instead but isn't safe to do during class loading w/SpringServiceLocator.
     private static String SPACE_UNIVERSITY_FISCAL_PERIOD_CODE = null;
     public static String getSpaceUniversityFiscalPeriodCode() {
         if (SPACE_UNIVERSITY_FISCAL_PERIOD_CODE == null) {
-            SPACE_UNIVERSITY_FISCAL_PERIOD_CODE = StringUtils.rightPad("", SpringServiceLocator.getDataDictionaryService().getAttributeSize(OriginEntry.class, KFSPropertyConstants.UNIVERSITY_FISCAL_PERIOD_CODE), ' ');
+            SPACE_UNIVERSITY_FISCAL_PERIOD_CODE = StringUtils.rightPad("", SpringServiceLocator.getDataDictionaryService().getAttributeMaxLength(OriginEntry.class, KFSPropertyConstants.UNIVERSITY_FISCAL_PERIOD_CODE), ' ');
         }
         return SPACE_UNIVERSITY_FISCAL_PERIOD_CODE;
     }
@@ -214,7 +221,7 @@ public class GLConstants {
     private static String SPACE_BALANCE_TYPE_CODE = null; 
     public static String getSpaceBalanceTypeCode() {
         if (SPACE_BALANCE_TYPE_CODE == null) {
-            SPACE_BALANCE_TYPE_CODE = StringUtils.rightPad("", SpringServiceLocator.getDataDictionaryService().getAttributeSize(BalanceTyp.class, KFSPropertyConstants.CODE), ' ');
+            SPACE_BALANCE_TYPE_CODE = StringUtils.rightPad("", SpringServiceLocator.getDataDictionaryService().getAttributeMaxLength(BalanceTyp.class, KFSPropertyConstants.CODE), ' ');
         }
         return SPACE_BALANCE_TYPE_CODE;
     }
@@ -222,7 +229,7 @@ public class GLConstants {
     private static String SPACE_FINANCIAL_SYSTEM_ORIGINATION_CODE = null; 
     public static String getSpaceFinancialSystemOriginationCode() {
         if (SPACE_FINANCIAL_SYSTEM_ORIGINATION_CODE == null) {
-            SPACE_FINANCIAL_SYSTEM_ORIGINATION_CODE = StringUtils.rightPad("", SpringServiceLocator.getDataDictionaryService().getAttributeSize(OriginationCode.class, KFSPropertyConstants.FINANCIAL_SYSTEM_ORIGINATION_CODE), ' ');
+            SPACE_FINANCIAL_SYSTEM_ORIGINATION_CODE = StringUtils.rightPad("", SpringServiceLocator.getDataDictionaryService().getAttributeMaxLength(OriginationCode.class, KFSPropertyConstants.FINANCIAL_SYSTEM_ORIGINATION_CODE), ' ');
         }
         return SPACE_FINANCIAL_SYSTEM_ORIGINATION_CODE;
     }
@@ -230,7 +237,7 @@ public class GLConstants {
     private static String SPACE_DEBIT_CREDIT_CODE = null; 
     public static String getSpaceDebitCreditCode() {
         if (SPACE_DEBIT_CREDIT_CODE == null) {
-            SPACE_DEBIT_CREDIT_CODE = StringUtils.rightPad("", SpringServiceLocator.getDataDictionaryService().getAttributeSize(OriginEntry.class, KFSPropertyConstants.TRANSACTION_DEBIT_CREDIT_CODE), ' ');
+            SPACE_DEBIT_CREDIT_CODE = StringUtils.rightPad("", SpringServiceLocator.getDataDictionaryService().getAttributeMaxLength(OriginEntry.class, KFSPropertyConstants.TRANSACTION_DEBIT_CREDIT_CODE), ' ');
         }
         return SPACE_DEBIT_CREDIT_CODE;
     }
@@ -238,7 +245,7 @@ public class GLConstants {
     private static String SPACE_FINANCIAL_OBJECT_CODE = null;
     public static String getSpaceFinancialObjectCode() {
         if (SPACE_FINANCIAL_OBJECT_CODE == null) {
-            SPACE_FINANCIAL_OBJECT_CODE = StringUtils.rightPad("", SpringServiceLocator.getDataDictionaryService().getAttributeSize(ObjectCode.class, KFSPropertyConstants.FINANCIAL_OBJECT_CODE), ' ');
+            SPACE_FINANCIAL_OBJECT_CODE = StringUtils.rightPad("", SpringServiceLocator.getDataDictionaryService().getAttributeMaxLength(ObjectCode.class, KFSPropertyConstants.FINANCIAL_OBJECT_CODE), ' ');
         }
         return SPACE_FINANCIAL_OBJECT_CODE;
     }
@@ -246,7 +253,7 @@ public class GLConstants {
     private static String SPACE_TRANSACTION_DATE = null;
     public static String getSpaceTransactionDate() {
         if (SPACE_TRANSACTION_DATE == null) {
-            SPACE_TRANSACTION_DATE = StringUtils.rightPad("", SpringServiceLocator.getDataDictionaryService().getAttributeSize(OriginEntry.class, KFSPropertyConstants.TRANSACTION_DATE), ' ');
+            SPACE_TRANSACTION_DATE = StringUtils.rightPad("", SpringServiceLocator.getDataDictionaryService().getAttributeMaxLength(OriginEntry.class, KFSPropertyConstants.TRANSACTION_DATE), ' ');
         }
         return SPACE_TRANSACTION_DATE;
     }
@@ -254,7 +261,7 @@ public class GLConstants {
     private static String SPACE_UNIVERSITY_FISCAL_YEAR = null;
     public static String getSpaceUniversityFiscalYear() {
         if (SPACE_UNIVERSITY_FISCAL_YEAR == null) {
-            SPACE_UNIVERSITY_FISCAL_YEAR = StringUtils.rightPad("", SpringServiceLocator.getDataDictionaryService().getAttributeSize(OriginEntry.class, KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR), ' ');
+            SPACE_UNIVERSITY_FISCAL_YEAR = StringUtils.rightPad("", SpringServiceLocator.getDataDictionaryService().getAttributeMaxLength(OriginEntry.class, KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR), ' ');
         }
         return SPACE_UNIVERSITY_FISCAL_YEAR;
     }
@@ -262,7 +269,7 @@ public class GLConstants {
     private static String SPACE_TRANSACTION_ENTRY_SEQUENCE_NUMBER = null;
     public static String getSpaceTransactionEntrySequenceNumber() {
         if (SPACE_TRANSACTION_ENTRY_SEQUENCE_NUMBER == null) {
-            SPACE_TRANSACTION_ENTRY_SEQUENCE_NUMBER = StringUtils.rightPad("", SpringServiceLocator.getDataDictionaryService().getAttributeSize(OriginEntry.class, KFSPropertyConstants.TRANSACTION_ENTRY_SEQUENCE_NUMBER), ' ');
+            SPACE_TRANSACTION_ENTRY_SEQUENCE_NUMBER = StringUtils.rightPad("", SpringServiceLocator.getDataDictionaryService().getAttributeMaxLength(OriginEntry.class, KFSPropertyConstants.TRANSACTION_ENTRY_SEQUENCE_NUMBER), ' ');
         }
         return SPACE_TRANSACTION_ENTRY_SEQUENCE_NUMBER;
     }
@@ -270,7 +277,7 @@ public class GLConstants {
     private static String SPACE_TRANSACTION_LEDGER_ENTRY_DESCRIPTION = null;
     public static String getSpaceTransactionLedgetEntryDescription() {
         if (SPACE_TRANSACTION_LEDGER_ENTRY_DESCRIPTION == null) {
-            SPACE_TRANSACTION_LEDGER_ENTRY_DESCRIPTION = StringUtils.rightPad("", SpringServiceLocator.getDataDictionaryService().getAttributeSize(OriginEntry.class, KFSPropertyConstants.TRANSACTION_LEDGER_ENTRY_DESC), ' ');
+            SPACE_TRANSACTION_LEDGER_ENTRY_DESCRIPTION = StringUtils.rightPad("", SpringServiceLocator.getDataDictionaryService().getAttributeMaxLength(OriginEntry.class, KFSPropertyConstants.TRANSACTION_LEDGER_ENTRY_DESC), ' ');
         }
         return SPACE_TRANSACTION_LEDGER_ENTRY_DESCRIPTION;
     }
@@ -278,7 +285,7 @@ public class GLConstants {
     private static String SPACE_SUB_ACCOUNT_TYPE_CODE = null;
     public static String getSpaceSubAccountTypeCode() {
         if (SPACE_SUB_ACCOUNT_TYPE_CODE == null) {
-            SPACE_SUB_ACCOUNT_TYPE_CODE = StringUtils.rightPad("", SpringServiceLocator.getDataDictionaryService().getAttributeSize(A21SubAccount.class, KFSPropertyConstants.SUB_ACCOUNT_TYPE_CODE), ' ');
+            SPACE_SUB_ACCOUNT_TYPE_CODE = StringUtils.rightPad("", SpringServiceLocator.getDataDictionaryService().getAttributeMaxLength(A21SubAccount.class, KFSPropertyConstants.SUB_ACCOUNT_TYPE_CODE), ' ');
         }
         return SPACE_SUB_ACCOUNT_TYPE_CODE;
     }
@@ -311,7 +318,7 @@ public class GLConstants {
     private static String ZERO_TRANSACTION_ENTRY_SEQUENCE_NUMBER = null;
     public static String getZeroTransactionEntrySequenceNumber() {
         if (ZERO_TRANSACTION_ENTRY_SEQUENCE_NUMBER == null) {
-            ZERO_TRANSACTION_ENTRY_SEQUENCE_NUMBER = StringUtils.rightPad("", SpringServiceLocator.getDataDictionaryService().getAttributeSize(OriginEntry.class, KFSPropertyConstants.TRANSACTION_ENTRY_SEQUENCE_NUMBER), '0');
+            ZERO_TRANSACTION_ENTRY_SEQUENCE_NUMBER = StringUtils.rightPad("", SpringServiceLocator.getDataDictionaryService().getAttributeMaxLength(OriginEntry.class, KFSPropertyConstants.TRANSACTION_ENTRY_SEQUENCE_NUMBER), '0');
         }
         return ZERO_TRANSACTION_ENTRY_SEQUENCE_NUMBER;
     }
@@ -319,7 +326,7 @@ public class GLConstants {
     private static String DASH_ORGANIZATION_REFERENCE_ID = null;
     public static String getDashOrganizationReferenceId() {
         if (DASH_ORGANIZATION_REFERENCE_ID == null) {
-            DASH_ORGANIZATION_REFERENCE_ID = StringUtils.rightPad("", SpringServiceLocator.getDataDictionaryService().getAttributeSize(OriginEntry.class, KFSPropertyConstants.ORGANIZATION_REFERENCE_ID), '-');
+            DASH_ORGANIZATION_REFERENCE_ID = StringUtils.rightPad("", SpringServiceLocator.getDataDictionaryService().getAttributeMaxLength(OriginEntry.class, KFSPropertyConstants.ORGANIZATION_REFERENCE_ID), '-');
         }
         return DASH_ORGANIZATION_REFERENCE_ID;
     }

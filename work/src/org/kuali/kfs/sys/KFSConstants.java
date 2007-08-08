@@ -21,7 +21,6 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.core.service.DataDictionaryService;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.context.SpringContext;
-import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.gl.bo.OriginEntry;
 import org.kuali.module.labor.bo.LaborOriginEntry;
 
@@ -105,6 +104,7 @@ public class KFSConstants {
     public static final String BALANCE_TYPE_INTERNAL_ENCUMBRANCE = "IE";
     public static final String BALANCE_TYPE_COST_SHARE_ENCUMBRANCE = "CE";
     public static final String BALANCE_TYPE_ACTUAL = "AC";
+    public static final String BALANCE_TYPE_AUDIT_TRAIL = "NB";
     public static final String BALANCE_TYPE_A21 = "A2";
     public static final String BALANCE_TYPE_BUDGET_STATISTICS = "BS";
     public static final String BALANCE_TYPE_PRE_ENCUMBRANCE = "PE";
@@ -478,7 +478,7 @@ public class KFSConstants {
     public static final String[] QUERY_CHARACTERS = { WILDCARD_CHARACTER, "?", "%", ">", "<", "..", OR_LOGICAL_OPERATOR, NOT_LOGICAL_OPERATOR, "=" };
 
     // disbursement voucher error fields
-    public static final String DV_PAYEE_TAB_ERRORS = "DVPayeeErrors,document.dvPayeeDetail.disbVchrPayeeIdNumber,document.dvPayeeDetail.disbVchrPayeeCityName,document.dvPayeeDetail.disbVchrPayeePersonName," + "document.dvPayeeDetail.disbVchrPayeeStateCode,document.dvPayeeDetail.disbVchrPayeeLine1Addr,document.dvPayeeDetail.disbVchrPayeeZipCode,document.dvPayeeDetail.disbVchrPayeeLine2Addr,document.dvPayeeDetail.disbVchrPayeeCountryCode,";
+    public static final String DV_PAYEE_TAB_ERRORS = "DVPayeeErrors,document.dvPayeeDetail.disbVchrPayeeIdNumber,document.dvPayeeDetail.disbVchrPayeeCityName,document.dvPayeeDetail.disbVchrPayeePersonName," + "document.dvPayeeDetail.disbVchrPayeeStateCode,document.dvPayeeDetail.disbVchrPayeeLine1Addr,document.dvPayeeDetail.disbVchrPayeeZipCode,document.dvPayeeDetail.disbVchrPayeeLine2Addr,document.dvPayeeDetail.disbVchrPayeeCountryCode,document.dvPayeeDetail.disbursementVoucherPayeeTypeCode,";
     public static final String DV_PAYMENT_TAB_ERRORS = "DVPaymentErrors,document.dvPayeeDetail.disbVchrPaymentReasonCode,document.disbVchrCheckTotalAmount,document.disbursementVoucherDueDate,document.dvPayeeDetail.disbVchrAlienPaymentCode," + "document.dvPayeeDetail.disbVchrPayeeEmployeeCode,document.dvPayeeDetail.dvPayeeRevolvingFundCode,document.disbVchrAttachmentCode,document.disbVchrSpecialHandlingCode,document.disbVchrPayeeW9CompleteCode" + "document.disbVchrPaymentMethodCode,document.disbursementVoucherDocumentationLocationCode";
     public static final String DV_NRATAX_TAB_ERRORS = "DVNRATaxErrors,document.dvNonResidentAlienTax.incomeClassCode,document.dvNonResidentAlienTax.incomeTaxTreatyExemptCode,document.dvNonResidentAlienTax.federalIncomeTaxPercent," + "document.dvNonResidentAlienTax.foreignSourceIncomeCode,document.dvNonResidentAlienTax.stateIncomeTaxPercent,document.dvNonResidentAlienTax.incomeTaxGrossUpCode,document.dvNonResidentAlienTax.postalCountryCode," + "document.dvNonResidentAlienTax.referenceFinancialDocumentNumber";
     public static final String DV_FOREIGNDRAFTS_TAB_ERRORS = "DVForeignDraftErrors,document.dvWireTransfer.disbursementVoucherForeignCurrencyTypeCode,document.dvWireTransfer.disbursementVoucherForeignCurrencyTypeName";
@@ -1031,7 +1031,7 @@ public class KFSConstants {
     private static String DASH_FINANCIAL_SUB_OBJECT_CODE = null;
     public static String getDashFinancialSubObjectCode() {
         if (DASH_FINANCIAL_SUB_OBJECT_CODE == null) {
-            DASH_FINANCIAL_SUB_OBJECT_CODE = StringUtils.rightPad("", SpringContext.getBean(DataDictionaryService.class).getAttributeSize(OriginEntry.class, KFSPropertyConstants.FINANCIAL_SUB_OBJECT_CODE), '-');
+            DASH_FINANCIAL_SUB_OBJECT_CODE = StringUtils.rightPad("", SpringContext.getBean(DataDictionaryService.class).getAttributeMaxLength(OriginEntry.class, KFSPropertyConstants.FINANCIAL_SUB_OBJECT_CODE), '-');
         }
         return DASH_FINANCIAL_SUB_OBJECT_CODE;
     }
@@ -1039,7 +1039,7 @@ public class KFSConstants {
     private static String DASH_SUB_ACCOUNT_NUMBER = null;
     public static String getDashSubAccountNumber() {
         if (DASH_SUB_ACCOUNT_NUMBER == null) {
-            DASH_SUB_ACCOUNT_NUMBER = StringUtils.rightPad("", SpringContext.getBean(DataDictionaryService.class).getAttributeSize(OriginEntry.class, KFSPropertyConstants.SUB_ACCOUNT_NUMBER), '-');
+            DASH_SUB_ACCOUNT_NUMBER = StringUtils.rightPad("", SpringContext.getBean(DataDictionaryService.class).getAttributeMaxLength(OriginEntry.class, KFSPropertyConstants.SUB_ACCOUNT_NUMBER), '-');
         }
         return DASH_SUB_ACCOUNT_NUMBER;
     }
@@ -1047,7 +1047,7 @@ public class KFSConstants {
     private static String DASH_PROJECT_CODE = null;
     public static String getDashProjectCode() {
         if (DASH_PROJECT_CODE == null) {
-            DASH_PROJECT_CODE = StringUtils.rightPad("", SpringContext.getBean(DataDictionaryService.class).getAttributeSize(OriginEntry.class, KFSPropertyConstants.PROJECT_CODE), '-');
+            DASH_PROJECT_CODE = StringUtils.rightPad("", SpringContext.getBean(DataDictionaryService.class).getAttributeMaxLength(OriginEntry.class, KFSPropertyConstants.PROJECT_CODE), '-');
         }
         return DASH_PROJECT_CODE;
     }

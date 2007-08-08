@@ -92,15 +92,11 @@
                     <maintainableField name="accountExpirationDate" required="false" />
                     <maintainableField name="accountZipCode" required="true" />
                     <maintainableField name="accountCityName" required="true" />
-                    <maintainableField name="accountStateCode" required="true">
-                        <defaultValue>IN</defaultValue>
-                    </maintainableField>
+                    <maintainableField name="accountStateCode" required="true" />
                     <maintainableField name="accountStreetAddress" required="true" />
                     <maintainableField name="accountOffCampusIndicator" required="false" />
                     <maintainableField name="accountClosedIndicator" required="false" />
-                    <maintainableField name="accountTypeCode" required="true">
-                    	<defaultValue>NA</defaultValue>
-                    </maintainableField>
+                    <maintainableField name="accountTypeCode" required="true" />
                     <maintainableField name="subFundGroupCode" required="true" webUILeaveFieldFunction="onblur_subFundGroup" webUILeaveFieldCallbackFunction="checkRestrictedStatusCode_Callback" />
                     <maintainableField name="accountsFringesBnftIndicator" required="false">
                         <defaultValue>true</defaultValue>

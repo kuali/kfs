@@ -31,6 +31,7 @@ import org.kuali.kfs.bo.SourceAccountingLine;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.purap.bo.PurApAccountingLine;
 import org.kuali.module.purap.bo.PurchasingApItem;
+import org.kuali.module.purap.dao.PurApAccountingDao;
 import org.kuali.module.purap.document.PurchasingAccountsPayableDocument;
 import org.kuali.module.purap.service.PurapAccountingService;
 import org.kuali.module.purap.util.PurApItemUtils;
@@ -52,6 +53,9 @@ public class PurapAccountingServiceImpl implements PurapAccountingService {
     private static final Boolean ZERO_TOTALS_NOT_RETURNED_VALUE = Boolean.FALSE;
     private static final Boolean ALTERNATE_AMOUNT_USED = Boolean.TRUE;
     private static final Boolean ALTERNATE_AMOUNT_NOT_USED = Boolean.FALSE;
+    
+    // Spring injection
+    PurApAccountingDao purApAccountingDao;
     
     // below works perfectly for ROUND_HALF_UP
     private BigDecimal getLowestPossibleRoundUpNumber() {
@@ -555,6 +559,27 @@ public class PurapAccountingServiceImpl implements PurapAccountingService {
             }
   
         }
+
+    public List<PurApAccountingLine> getAccountsFromItem(PurchasingApItem item) {
+        // TODO Auto-generated method stub
+        return purApAccountingDao.getAccountingLinesForItem(item);
+    }
+
+    /**
+     * Gets the purApAccountingDao attribute. 
+     * @return Returns the purApAccountingDao.
+     */
+    public PurApAccountingDao getPurApAccountingDao() {
+        return purApAccountingDao;
+    }
+
+    /**
+     * Sets the purApAccountingDao attribute value.
+     * @param purApAccountingDao The purApAccountingDao to set.
+     */
+    public void setPurApAccountingDao(PurApAccountingDao purApAccountingDao) {
+        this.purApAccountingDao = purApAccountingDao;
+    }
 
     
 }

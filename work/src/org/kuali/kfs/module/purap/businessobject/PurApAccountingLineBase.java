@@ -131,4 +131,12 @@ public abstract class PurApAccountingLineBase extends SourceAccountingLine imple
     public void setAlternateAmount(KualiDecimal alternateAmount) {
         this.alternateAmount = alternateAmount;
     }
+
+    /**
+     * @see org.kuali.kfs.bo.AccountingLineBase#getSequenceNumber()
+     */
+    @Override
+    public Integer getSequenceNumber() {
+        return this.getAccountIdentifier();
+    }
 }

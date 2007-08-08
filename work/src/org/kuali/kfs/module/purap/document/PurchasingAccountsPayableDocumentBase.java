@@ -17,6 +17,7 @@ package org.kuali.module.purap.document;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -27,24 +28,34 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.ojb.broker.util.collections.ManageableArrayList;
 import org.kuali.core.bo.Note;
 import org.kuali.core.document.AmountTotaling;
+import org.kuali.core.document.TransactionalDocument;
 import org.kuali.core.rule.event.KualiDocumentEvent;
 import org.kuali.core.service.NoteService;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.util.TypedArrayList;
+import org.kuali.kfs.KFSConstants;
+import org.kuali.kfs.bo.AccountingLine;
 import org.kuali.kfs.bo.Country;
 import org.kuali.kfs.bo.SourceAccountingLine;
 import org.kuali.kfs.document.AccountingDocumentBase;
+import org.kuali.kfs.rule.event.AccountingLineEvent;
+import org.kuali.kfs.rule.event.AddAccountingLineEvent;
+import org.kuali.kfs.rule.event.DeleteAccountingLineEvent;
+import org.kuali.kfs.rule.event.ReviewAccountingLineEvent;
+import org.kuali.kfs.rule.event.UpdateAccountingLineEvent;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.purap.PurapPropertyConstants;
 import org.kuali.module.purap.bo.CreditMemoView;
 import org.kuali.module.purap.bo.ItemType;
 import org.kuali.module.purap.bo.PaymentRequestView;
+import org.kuali.module.purap.bo.PurApAccountingLine;
 import org.kuali.module.purap.bo.PurchaseOrderView;
 import org.kuali.module.purap.bo.PurchasingApItem;
 import org.kuali.module.purap.bo.RequisitionView;
 import org.kuali.module.purap.bo.Status;
 import org.kuali.module.purap.bo.StatusHistory;
+import org.kuali.module.purap.service.PurapAccountingService;
 import org.kuali.module.vendor.bo.VendorAddress;
 import org.kuali.module.vendor.bo.VendorDetail;
 
@@ -52,6 +63,14 @@ import org.kuali.module.vendor.bo.VendorDetail;
  * Purchasing-Accounts Payable Document Base
  */
 public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDocumentBase implements PurchasingAccountsPayableDocument, AmountTotaling {
+    /**
+     * @see org.kuali.module.purap.document.PurchasingAccountsPayableDocument#addToStatusHistories(java.lang.String, java.lang.String, org.kuali.core.bo.Note)
+     */
+    public void addToStatusHistories(String oldStatus, String newStatus, Note statusHistoryNote) {
+        // TODO Auto-generated method stub
+        
+    }
+
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PurchasingAccountsPayableDocumentBase.class);
 
     // SHARED FIELDS BETWEEN REQUISITION, PURCHASE ORDER, PAYMENT REQUEST, AND CREDIT MEMO
@@ -745,5 +764,147 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
 
     public void setAccountsForRouting(List<SourceAccountingLine> accountsForRouting) {
         this.accountsForRouting = accountsForRouting;
+    }
+    
+    /**
+     * @see org.kuali.kfs.document.AccountingDocumentBase#generateSaveEvents()
+     */
+    @Override
+    public List generateSaveEvents() {
+        //TODO - this is just a copy of the above method with some changes
+        
+        List events = new ArrayList();
+
+        // foreach (source, target)
+        // 1. retrieve persisted accountingLines for document
+        // 2. retrieve current accountingLines from given document
+        // 3. compare, creating add/delete/update events as needed
+        // 4. apply rules as appropriate returned events
+        
+        
+        PurapAccountingService purApAccountingService = SpringServiceLocator.getPurapAccountingService();
+        List currentSourceLines = new ArrayList();
+        List persistedSourceLines = new ArrayList();
+
+        for (PurchasingApItem item : (List<PurchasingApItem>)this.getItems()) {
+            currentSourceLines.addAll(item.getSourceAccountingLines());
+            persistedSourceLines.addAll(purApAccountingService.getAccountsFromItem(item));
+        }
+//        List persistedSourceLines = SpringServiceLocator.getAccountingLineService().getByDocumentHeaderId(accountingLineClass, getDocumentNumber());
+            
+        List sourceEvents = generateEvents(persistedSourceLines, currentSourceLines, KFSConstants.DOCUMENT_PROPERTY_NAME + "." + KFSConstants.EXISTING_SOURCE_ACCT_LINE_PROPERTY_NAME, this);
+        for (Iterator i = sourceEvents.iterator(); i.hasNext();) {
+            AccountingLineEvent sourceEvent = (AccountingLineEvent) i.next();
+            events.add(sourceEvent);
+        }
+
+//        List persistedTargetLines = SpringServiceLocator.getAccountingLineService().getByDocumentHeaderId(getTargetAccountingLineClass(), getDocumentNumber());
+//        List currentTargetLines = getTargetAccountingLines();
+//
+//        List targetEvents = generateEvents(persistedTargetLines, currentTargetLines, KFSConstants.DOCUMENT_PROPERTY_NAME + "." + KFSConstants.EXISTING_TARGET_ACCT_LINE_PROPERTY_NAME, this);
+//        for (Iterator i = targetEvents.iterator(); i.hasNext();) {
+//            AccountingLineEvent targetEvent = (AccountingLineEvent) i.next();
+//            events.add(targetEvent);
+//        }
+
+        return events;
+    }
+    
+    //TODO: Chris - the following two methods (generateEvents, buildAccountingLineMap) should be removed when I get permission to make
+    //generateEvents from super protected.
+    
+    /**
+     * Generates a List of instances of AccountingLineEvent subclasses, one for each accountingLine in the union of the
+     * persistedLines and currentLines lists. Events in the list will be grouped in order by event-type (review, update, add,
+     * delete).
+     * 
+     * @param persistedLines
+     * @param currentLines
+     * @param errorPathPrefix
+     * @param document
+     * @return List of AccountingLineEvent subclass instances
+     */
+    private List generateEvents(List persistedLines, List currentLines, String errorPathPrefix, TransactionalDocument document) {
+        List addEvents = new ArrayList();
+        List updateEvents = new ArrayList();
+        List reviewEvents = new ArrayList();
+        List deleteEvents = new ArrayList();
+
+        //
+        // generate events
+        Map persistedLineMap = buildAccountingLineMap(persistedLines);
+
+        // (iterate through current lines to detect additions and updates, removing affected lines from persistedLineMap as we go
+        // so deletions can be detected by looking at whatever remains in persistedLineMap)
+        int index = 0;
+        for (Iterator i = currentLines.iterator(); i.hasNext(); index++) {
+            String indexedErrorPathPrefix = errorPathPrefix + "[" + index + "]";
+            AccountingLine currentLine = (AccountingLine) i.next();
+            Integer key = currentLine.getSequenceNumber();
+
+            AccountingLine persistedLine = (AccountingLine) persistedLineMap.get(key);
+            // if line is both current and persisted...
+            if (persistedLine != null) {
+                // ...check for updates
+                if (!currentLine.isLike(persistedLine)) {
+                    UpdateAccountingLineEvent updateEvent = new UpdateAccountingLineEvent(indexedErrorPathPrefix, document, persistedLine, currentLine);
+                    updateEvents.add(updateEvent);
+                }
+                else {
+                    ReviewAccountingLineEvent reviewEvent = new ReviewAccountingLineEvent(indexedErrorPathPrefix, document, currentLine);
+                    reviewEvents.add(reviewEvent);
+                }
+
+                persistedLineMap.remove(key);
+            }
+            else {
+                // it must be a new addition
+                AddAccountingLineEvent addEvent = new AddAccountingLineEvent(indexedErrorPathPrefix, document, currentLine);
+                addEvents.add(addEvent);
+            }
+        }
+
+        // detect deletions
+        for (Iterator i = persistedLineMap.entrySet().iterator(); i.hasNext();) {
+            // the deleted line is not displayed on the page, so associate the error with the whole group
+            String groupErrorPathPrefix = errorPathPrefix + KFSConstants.ACCOUNTING_LINE_GROUP_SUFFIX;
+            Map.Entry e = (Map.Entry) i.next();
+            AccountingLine persistedLine = (AccountingLine) e.getValue();
+            DeleteAccountingLineEvent deleteEvent = new DeleteAccountingLineEvent(groupErrorPathPrefix, document, persistedLine, true);
+            deleteEvents.add(deleteEvent);
+        }
+
+
+        //
+        // merge the lists
+        List lineEvents = new ArrayList();
+        lineEvents.addAll(reviewEvents);
+        lineEvents.addAll(updateEvents);
+        lineEvents.addAll(addEvents);
+        lineEvents.addAll(deleteEvents);
+
+        return lineEvents;
+    }
+    
+    /**
+     * @param accountingLines
+     * @return Map containing accountingLines from the given List, indexed by their sequenceNumber
+     */
+    private Map buildAccountingLineMap(List accountingLines) {
+        Map lineMap = new HashMap();
+
+        for (Iterator i = accountingLines.iterator(); i.hasNext();) {
+            AccountingLine accountingLine = (AccountingLine) i.next();
+            Integer sequenceNumber = accountingLine.getSequenceNumber();
+
+            Object oldLine = lineMap.put(sequenceNumber, accountingLine);
+
+            // verify that sequence numbers are unique...
+            if (oldLine != null) {
+                throw new IllegalStateException("sequence number collision detected for sequence number " + sequenceNumber);
+            }
+        }
+
+        return lineMap;
     }
 }

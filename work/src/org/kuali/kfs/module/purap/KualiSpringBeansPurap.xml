@@ -172,6 +172,9 @@
     </bean>
     
 	<bean id="purapAccountingService" class="org.kuali.module.purap.service.impl.PurapAccountingServiceImpl">
+		<property name="purApAccountingDao">
+			<ref bean="purApAccountingDao" />
+		</property>
 	</bean>
 
     <bean id="generalLedgerService" class="org.kuali.module.purap.service.impl.GeneralLedgerServiceImpl">
@@ -375,6 +378,8 @@
 	<bean id="requisitionDao" parent="platformAwareDao" class="org.kuali.module.purap.dao.ojb.RequisitionDaoOjb" />
 	
 	<bean id="purchaseOrderDao" parent="platformAwareDao" class="org.kuali.module.purap.dao.ojb.PurchaseOrderDaoOjb" />
+
+	<bean id="purApAccountingDao" parent="platformAwareDao" class="org.kuali.module.purap.dao.ojb.PurApAccountingDaoOjb" />
 
 	<bean id="imageDao" parent="platformAwareDao" class="org.kuali.module.purap.dao.ojb.ImageDaoNet">
 		<property name="kualiConfigurationService">

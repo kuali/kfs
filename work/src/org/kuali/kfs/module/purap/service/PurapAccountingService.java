@@ -23,6 +23,7 @@ import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.bo.SourceAccountingLine;
 import org.kuali.module.purap.bo.PurApAccountingLine;
 import org.kuali.module.purap.bo.PurchasingApItem;
+import org.kuali.module.purap.dao.ojb.PurApAccountingDaoOjb;
 import org.kuali.module.purap.document.PurchasingAccountsPayableDocument;
 
 /**
@@ -57,4 +58,6 @@ public interface PurapAccountingService {
     public List<SourceAccountingLine> generateSummaryIncludeItemTypesAndNoZeroTotals(List<PurchasingApItem> items, Set includedItemTypeCodes);
     
     public void updateAccountAmounts(PurchasingAccountsPayableDocument document);
+    
+    public List<PurApAccountingLine> getAccountsFromItem(PurchasingApItem item);
 }

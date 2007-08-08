@@ -85,4 +85,8 @@ public class CreditMemoAccount extends PurApAccountingLineBase {
         this.creditMemoItem = creditMemoItem;
     }
 
+    public void setPostingyear(Integer postingYear) {
+        // Do nothing
+    }
+
 }

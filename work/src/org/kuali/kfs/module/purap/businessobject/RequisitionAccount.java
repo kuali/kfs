@@ -83,4 +83,8 @@ public class RequisitionAccount extends PurApAccountingLineBase {
         m.put("organizationReferenceId", this.getOrganizationReferenceId());
 	    return m;
     }
+
+    public void setPostingyear(Integer postingYear) {
+        // Do nothing
+    }
 }

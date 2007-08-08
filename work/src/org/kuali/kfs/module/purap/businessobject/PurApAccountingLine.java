@@ -48,4 +48,8 @@ public interface PurApAccountingLine extends AccountingLine {
 
     public void setAlternateAmount(KualiDecimal alternateAmount);
     
+    public abstract Integer getPostingYear();
+    
+    public abstract void setPostingyear(Integer postingYear);
+    
 }

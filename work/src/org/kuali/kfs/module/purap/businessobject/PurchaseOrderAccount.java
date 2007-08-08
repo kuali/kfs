@@ -119,4 +119,8 @@ public class PurchaseOrderAccount extends PurApAccountingLineBase {
         }
         return m;
     }
+
+    public void setPostingyear(Integer postingYear) {
+        // Do nothing
+    }
 }

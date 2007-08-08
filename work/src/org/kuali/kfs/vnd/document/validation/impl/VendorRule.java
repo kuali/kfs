@@ -691,7 +691,8 @@ public class VendorRule extends MaintenanceDocumentRuleBase implements VendorRul
 
         if (!StringUtils.isBlank(vendorTypeCode) && !StringUtils.isBlank(vendorAddressTypeRequiredCode) && !validAddressType) {
             String[] parameters = new String[] { vendorTypeCode, vendorAddressTypeRequiredCode };
-            putFieldError(VendorPropertyConstants.VENDOR_TYPE_CODE, VendorKeyConstants.ERROR_ADDRESS_TYPE, parameters);
+            //putFieldError(VendorPropertyConstants.VENDOR_TYPE_CODE, VendorKeyConstants.ERROR_ADDRESS_TYPE, parameters);
+            putFieldError(KFSConstants.ADD_PREFIX + "." + VendorPropertyConstants.VENDOR_ADDRESS + "." + VendorPropertyConstants.VENDOR_ADDRESS_TYPE_CODE, VendorKeyConstants.ERROR_ADDRESS_TYPE, parameters);
             valid = false;
 
         }

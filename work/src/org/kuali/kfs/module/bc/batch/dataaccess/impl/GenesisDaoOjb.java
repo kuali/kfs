@@ -27,10 +27,11 @@ import java.util.Iterator;
 import java.util.Map;
 
 import edu.iu.uis.eden.EdenConstants;
+import edu.iu.uis.eden.routeheader.*;
+import edu.iu.uis.eden.KEWServiceLocator;
 // @@TODO: not needed for production code
 import org.apache.commons.beanutils.PropertyUtils;
 import org.kuali.workflow.*;
-import edu.iu.uis.eden.routeheader.*;
 
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
@@ -45,6 +46,8 @@ import org.kuali.core.service.DocumentService;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.KualiInteger;
 import org.kuali.core.workflow.service.WorkflowDocumentService;
+import org.kuali.core.workflow.service.KualiWorkflowDocument;
+import org.kuali.core.util.GlobalVariables;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.KFSConstants.BudgetConstructionConstants;
@@ -154,6 +157,8 @@ public class GenesisDaoOjb extends PlatformAwareDaoBaseOjb
     private WorkflowDocumentService workflowDocumentService;
     private DateTimeService dateTimeService; 
     private DocumentDao documentDao;
+    private RouteHeaderService routeHeaderService = null;
+    
     
     public final Map<String,String> getBudgetConstructionControlFlags (Integer universityFiscalYear)
     {
@@ -735,6 +740,8 @@ public class GenesisDaoOjb extends PlatformAwareDaoBaseOjb
             // no new documents need to be created
             return;
         }
+        // get the workflow document service
+        setUpRouteHeaderService();
         // take the count of header keys from the GL
         setUpCurrentBCHeaderKeys(BaseYear);
         Integer RequestYear = BaseYear+1;
@@ -765,6 +772,19 @@ public class GenesisDaoOjb extends PlatformAwareDaoBaseOjb
           getAndStoreCurrentCSFBCHeaderCandidates(BaseYear);
         }
         createNewDocumentsCleanUp();
+    }
+    
+    private void finalizeBCDocument(BudgetConstructionDocument bcDoc) throws WorkflowException
+    {
+        // this routine reads the actual workflow tables to set the status dates and the final status code
+        // going through the routing procedure took far too much time per document
+        DocumentRouteHeaderValue routeHeader =
+            routeHeaderService.getRouteHeader(bcDoc.getDocumentHeader().getWorkflowDocument().getRouteHeaderId());
+        routeHeader.markDocumentEnroute();
+        routeHeader.markDocumentApproved();
+        routeHeader.markDocumentProcessed();
+        routeHeader.markDocumentFinalized();
+        routeHeaderService.saveRouteHeader(routeHeader);
     }
 
     //  here are the private methods that go with it      
@@ -1098,6 +1118,7 @@ public class GenesisDaoOjb extends PlatformAwareDaoBaseOjb
         // this is more efficient than route and does what we want
         // it calls a document method, not a service
         newBCHdr.getDocumentHeader().getWorkflowDocument().complete("created by Genesis");
+        finalizeBCDocument(newBCHdr);
 //        workflowDocumentService.route(newBCHdr.getDocumentHeader().getWorkflowDocument(),
 //                                      "created by Genesis",null);
    }
@@ -4221,7 +4242,8 @@ public class GenesisDaoOjb extends PlatformAwareDaoBaseOjb
          */
         try
         {
-            testANewBCDocument();
+            // testANewBCDocument();
+            logAnExistingBCDocument();
         }
         catch (WorkflowException wex)
         {
@@ -4277,6 +4299,27 @@ public class GenesisDaoOjb extends PlatformAwareDaoBaseOjb
         
     }
     
+    private void logAnExistingBCDocument()
+    throws WorkflowException
+    {
+        Long testDocumentID = new Long(306358);
+        String note1 = new String("this here doc was scoped out by Ernie '07");
+        String note2 = new String("Ernie cameback--left some goobers the first time");
+        String note3 = new String("Ernie bought another ticket--whoowee!");
+        KualiWorkflowDocument workflowDocument = 
+                              workflowDocumentService.createWorkflowDocument(testDocumentID,
+                                                      GlobalVariables.getUserSession().getUniversalUser());
+        // try to write to the log
+        workflowDocument.logDocumentAction(note1);
+        // try writing to the log again
+        workflowDocument.logDocumentAction(note2);
+        // get a fresh "flex doc" for the same ID and try writing a third message
+        workflowDocument =
+            workflowDocumentService.createWorkflowDocument(testDocumentID,
+                    GlobalVariables.getUserSession().getUniversalUser());
+        workflowDocument.logDocumentAction(note3);
+    }
+    
     private void testANewBCDocument()
     throws WorkflowException
     {
@@ -4287,6 +4330,8 @@ public class GenesisDaoOjb extends PlatformAwareDaoBaseOjb
                                                       delCriteria);
         getPersistenceBrokerTemplate().deleteByQuery(queryID);
         getPersistenceBrokerTemplate().clearCache();
+        // try to get the workflow service that deals with the actual document header
+        setUpRouteHeaderService();
         // set up the Budget Construction Header
         BudgetConstructionDocument newBCHdr;
         newBCHdr = (BudgetConstructionDocument)
@@ -4324,6 +4369,9 @@ public class GenesisDaoOjb extends PlatformAwareDaoBaseOjb
         kualiDocumentHeader.setExplanation(String.format("%s: %s",
                 BudgetConstructionConstants.BUDGET_CONSTRUCTION_DOCUMENT_DESCRIPTION,
                 newBCHdr.getDocumentHeader().getWorkflowDocument().toString()));
+//      do this for a timing check
+        LOG.info(String.format("\nstore %s",
+                 newBCHdr.getDocumentHeader().getWorkflowDocument().getRouteHeaderId()));    
         getPersistenceBrokerTemplate().store(newBCHdr);
         documentService.prepareWorkflowDocument(newBCHdr);
         StringBuffer annotateDoc = new StringBuffer("created by Genesis--test");
@@ -4338,6 +4386,16 @@ public class GenesisDaoOjb extends PlatformAwareDaoBaseOjb
 //  end of Eric's suggestion
 //  this complete works, but does not fill in some of the dates        
         newBCHdr.getDocumentHeader().getWorkflowDocument().complete(annotateDoc.toString());
+//  OK.  This should have saved the document.  Now, we are going to try to set all the dates and codes
+        finalizeBCDocument(newBCHdr);
+//  do this for a timing check
+        LOG.info(String.format("\nfinished processing %s",
+                 newBCHdr.getDocumentHeader().getWorkflowDocument().getRouteHeaderId()));  
+        Long ourDocID = newBCHdr.getDocumentHeader().getWorkflowDocument().getRouteHeaderId();
+        
+//
+//      try to change the route header itself, so it will have the correct dates and status codes
+        
 //
 //        
 //        KHUNTLEY does not have superuser privileges
@@ -4381,5 +4439,14 @@ public class GenesisDaoOjb extends PlatformAwareDaoBaseOjb
      {
          this.workflowDocumentService = workflowDocumentService;
      }
-    
+     private void setUpRouteHeaderService ()
+     {
+        if (this.routeHeaderService == null)
+        {
+          this.routeHeaderService = 
+              (RouteHeaderService) KEWServiceLocator.getService(KEWServiceLocator.DOC_ROUTE_HEADER_SRV);
+        }
+     }
+     
+     
 }

@@ -691,7 +691,7 @@ public class VendorRule extends MaintenanceDocumentRuleBase implements VendorRul
 
         if (!StringUtils.isBlank(vendorTypeCode) && !StringUtils.isBlank(vendorAddressTypeRequiredCode) && !validAddressType) {
             String[] parameters = new String[] { vendorTypeCode, vendorAddressTypeRequiredCode };
-            //putFieldError(VendorPropertyConstants.VENDOR_TYPE_CODE, VendorKeyConstants.ERROR_ADDRESS_TYPE, parameters);
+            // putFieldError(VendorPropertyConstants.VENDOR_TYPE_CODE, VendorKeyConstants.ERROR_ADDRESS_TYPE, parameters);
             putFieldError(KFSConstants.ADD_PREFIX + "." + VendorPropertyConstants.VENDOR_ADDRESS + "." + VendorPropertyConstants.VENDOR_ADDRESS_TYPE_CODE, VendorKeyConstants.ERROR_ADDRESS_TYPE, parameters);
             valid = false;
 
@@ -705,7 +705,7 @@ public class VendorRule extends MaintenanceDocumentRuleBase implements VendorRul
         fieldValues.put(VendorPropertyConstants.VENDOR_HEADER_GENERATED_ID, newVendor.getVendorHeaderGeneratedIdentifier());
         // Find all the addresses for this vendor and its divisions:
         List<VendorAddress> vendorDivisionAddresses = new ArrayList(SpringServiceLocator.getBusinessObjectService().findMatchingOrderBy(VendorAddress.class, fieldValues, VendorPropertyConstants.VENDOR_DETAIL_ASSIGNED_ID, true));
-
+        
         // This set stores the vendorDetailedAssignedIds for the vendor divisions which is
         // bascically the division numbers 0, 1, 2, ...
         HashSet<Integer> vendorDetailedIds = new HashSet();
@@ -713,11 +713,15 @@ public class VendorRule extends MaintenanceDocumentRuleBase implements VendorRul
         HashSet<Integer> vendorDivisionsIdsWithDesiredAddressType = new HashSet();
 
         for (VendorAddress vendorDivisionAddress : vendorDivisionAddresses) {
-            vendorDetailedIds.add(vendorDivisionAddress.getVendorDetailAssignedIdentifier());
-            if (vendorDivisionAddress.getVendorAddressTypeCode().equalsIgnoreCase(vendorAddressTypeRequiredCode)) {
-                vendorDivisionsIdsWithDesiredAddressType.add(vendorDivisionAddress.getVendorDetailAssignedIdentifier());
+            // We need to exclude the first one  Since we already checked for this in valid AddressType above.
+            if (vendorDivisionAddress.getVendorDetailAssignedIdentifier() != 0) {
+                vendorDetailedIds.add(vendorDivisionAddress.getVendorDetailAssignedIdentifier());
+                if (vendorDivisionAddress.getVendorAddressTypeCode().equalsIgnoreCase(vendorAddressTypeRequiredCode)) {
+                    vendorDivisionsIdsWithDesiredAddressType.add(vendorDivisionAddress.getVendorDetailAssignedIdentifier());
+                }
             }
         }
+
         // If the number of divisions with the desired address type is less than the number of divisions for his vendor
         if (vendorDivisionsIdsWithDesiredAddressType.size() < vendorDetailedIds.size()) {
 

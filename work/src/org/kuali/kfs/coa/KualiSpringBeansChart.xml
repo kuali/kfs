@@ -227,6 +227,12 @@
 	<bean id="indirectCostRecoveryExclusionTypeDao" parent="platformAwareDao" class="org.kuali.module.chart.dao.ojb.IndirectCostRecoveryExclusionTypeDaoOjb" />
 
 	<bean id="a21SubAccountDao" parent="platformAwareDao" class="org.kuali.module.chart.dao.ojb.A21SubAccountDaoOjb" />
+	
+	<bean id="workflow-org.kuali.module.chart.bo.Campus-Lookupable" parent="workflowLookupable" singleton="false">
+		<property name="businessObjectClassName">
+			<value>org.kuali.core.bo.Campus</value>
+		</property>
+	</bean> 
 
 	<bean id="workflow-org.kuali.module.chart.bo.Chart-Lookupable" parent="workflowLookupable" singleton="false">
 		<property name="businessObjectClassName">

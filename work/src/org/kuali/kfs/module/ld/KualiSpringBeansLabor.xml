@@ -777,27 +777,4 @@
 			<ref bean="laborBaseFundsDao" />
 		</property>
 	</bean>
-	
-	<!--  Batch manual   -->
-<!-- 
-	<bean id="laborBatchManualJob" parent="unscheduledJobDescriptor">
-		<property name="steps">
-			<list>
-				<ref bean="laborNightlyOutStep"/>
-				<ref bean="createLaborBackupGroupStep"/>
-				<ref bean="laborScrubberStep"/>
-				<ref bean="laborPosterStep"/>
-			</list>
-		</property>
-	</bean>
-	<bean id="glModule" class="org.kuali.core.KualiModule">
-    <property name="moduleId" value="labor" />
-    <property name="jobNames">
-        <list>
-            <value>laborBatchManualJob</value>
-        </list>
-    </property>
-	</bean>
--->
-	
 </beans>

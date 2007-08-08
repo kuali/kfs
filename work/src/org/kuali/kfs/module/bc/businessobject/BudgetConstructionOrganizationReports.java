@@ -33,6 +33,8 @@ public class BudgetConstructionOrganizationReports extends PersistableBusinessOb
 	private String reportsToChartOfAccountsCode;
 	private String reportsToOrganizationCode;
 	private String responsibilityCenterCode;
+    
+    private String selectionKeyCode;
 
     private Chart chartOfAccounts;
 	private Org organization;
@@ -250,6 +252,22 @@ public class BudgetConstructionOrganizationReports extends PersistableBusinessOb
     }
    
 	/**
+     * Gets the selectionKeyCode attribute. 
+     * @return Returns the selectionKeyCode.
+     */
+    public String getSelectionKeyCode() {
+        return selectionKeyCode;
+    }
+
+    /**
+     * Sets the selectionKeyCode attribute value.
+     * @param selectionKeyCode The selectionKeyCode to set.
+     */
+    public void setSelectionKeyCode(String selectionKeyCode) {
+        this.selectionKeyCode = selectionKeyCode;
+    }
+
+    /**
 	 * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
 	 */
 	protected LinkedHashMap toStringMapper() {

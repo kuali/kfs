@@ -83,12 +83,8 @@
                 <description>Chart Code and Description</description>
             </attributeReference>
             
-            <!-- pointOfView selection control is used in Organization Tree Selection screens -->
             <attributeReference name="organizationCode" sourceClassName="org.kuali.module.chart.bo.Org" sourceAttributeName="organizationCode">
                 <required>true</required>
-				<control>
-					<select valuesFinderClass="org.kuali.module.budget.lookup.keyvalues.PointOfViewOrgValuesFinder" />
-				</control>
             </attributeReference>
 
             <attributeReference name="reportsToChartOfAccountsCode" sourceClassName="org.kuali.module.chart.bo.Chart" sourceAttributeName="chartOfAccountsCode">
@@ -136,6 +132,21 @@
 
                 <summary>Responsibility Center Code</summary>
                 <description>The code uniquely identifying a particular Responsibility Center.</description>
+			</attribute>
+
+            <attribute name="selectionKeyCode" forceUppercase="true">
+                <label>Point Of View Key Code</label>
+                <shortLabel>Code</shortLabel>
+
+                <maxLength>7</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+				<control>
+					<select valuesFinderClass="org.kuali.module.budget.lookup.keyvalues.PointOfViewOrgValuesFinder" />
+				</control>
+
+                <summary>Point Of View Organization Selection Key</summary>
+                <description>The composite key uniquely identifying a point of view organization.</description>
 			</attribute>
 
             <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />

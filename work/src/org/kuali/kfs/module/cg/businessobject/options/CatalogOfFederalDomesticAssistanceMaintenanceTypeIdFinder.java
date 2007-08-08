@@ -26,11 +26,14 @@ import org.kuali.core.web.ui.KeyLabelPair;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.cg.bo.Cfda;
 
+/**
+ * Allows some information about persisted {@link Cfda} instances to be looked up. 
+ */
 public class CatalogOfFederalDomesticAssistanceMaintenanceTypeIdFinder extends KeyValuesBase {
 
     /**
-     * Retrieves the list of possible CFDA Maintenance Type IDs and generates a collection with all the possible
-     * valuse.
+     * Retrieves the list of possible CFDA Maintenance Type IDs and generates a 
+     * collection with all the possible values.
      * 
      * @see org.kuali.keyvalues.KeyValuesFinder#getKeyValues()
      */
@@ -54,7 +57,6 @@ public class CatalogOfFederalDomesticAssistanceMaintenanceTypeIdFinder extends K
     }
 
     /**
-     * 
      * This method determines if a value already exists in the collection.
      * 
      * @param collection The collection to be examined.

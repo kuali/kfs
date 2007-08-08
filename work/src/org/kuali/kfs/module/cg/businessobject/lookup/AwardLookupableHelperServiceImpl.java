@@ -20,12 +20,13 @@ import org.kuali.core.bo.BusinessObject;
 import org.kuali.kfs.KFSConstants;
 
 /**
- * User: Laran Evans <lc278@cornell.edu>
- * Date: Jun 5, 2007
- * Time: 10:48:15 AM
+ * Allows custom handling of Awards within the lookup framework.
  */
 public class AwardLookupableHelperServiceImpl extends KualiLookupableHelperServiceImpl {
 
+    /**
+     * @see org.kuali.core.lookup.AbstractLookupableHelperServiceImpl#getMaintenanceUrl(org.kuali.core.bo.BusinessObject, java.lang.String)
+     */
     @Override
     public String getMaintenanceUrl(BusinessObject businessObject, String methodToCall) {
         if (methodToCall.equals(KFSConstants.COPY_METHOD)) {
@@ -34,4 +35,5 @@ public class AwardLookupableHelperServiceImpl extends KualiLookupableHelperServi
             return super.getMaintenanceUrl(businessObject, methodToCall);
         }
     }
+    
 }

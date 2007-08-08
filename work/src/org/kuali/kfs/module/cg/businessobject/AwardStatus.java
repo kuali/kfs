@@ -21,7 +21,7 @@ import java.util.LinkedHashMap;
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 
 /**
- * This class defines a financial award status object.
+ * Instances of this class represent the various statuses an Award can be in. 
  */
 public class AwardStatus extends PersistableBusinessObjectBase {
 
@@ -32,9 +32,7 @@ public class AwardStatus extends PersistableBusinessObjectBase {
     /**
      * Default constructor.
      */
-    public AwardStatus() {
-
-    }
+    public AwardStatus() {}
 
     /**
      * Gets the awardStatusCode attribute.
@@ -57,11 +55,11 @@ public class AwardStatus extends PersistableBusinessObjectBase {
 
 
     /**
-     * 
-     * This method is a dummy getter that simply returns the same value as getAwardStatusCode().
-     * I needed this method so I could add an attribute reference to the DD with a different
-     * name than awardStatusCode.  This allowed me to override the input behavior and define 
-     * two different methods of input based on what type of page we're displaying.
+     * This method is a dummy getter that simply returns the same value as 
+     * getAwardStatusCode(). This method was needed so we could add an attribute 
+     * reference to the DD with a different name than awardStatusCode. This 
+     * allowed us to override the input behavior and define two different 
+     * methods of input based on what type of page we're displaying.
      * 
      * @return Returns the awardStatusCode
      */
@@ -71,8 +69,9 @@ public class AwardStatus extends PersistableBusinessObjectBase {
 
     /**
      * @param awardStatusCode
-     * @deprecated Do not use this method, it is only here for DD mapping purposes and has 
-     * no defined functionality.  See KULCG-281 for further details.
+     * @deprecated Do not use this method, it is only here for DD mapping 
+     * purposes and has no defined functionality. See KULCG-281 for further 
+     * details.
      */
     public void setAwardStatusCodeDropDown(String awardStatusCode) {
         this.awardStatusCode = awardStatusCode;

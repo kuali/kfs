@@ -21,7 +21,10 @@ import java.util.LinkedHashMap;
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 
 /**
- * This class defines a catalog of federal domestic assistance reference object.
+ * Instances of this class refer to Catalog of Federal Domestic Assistance codes.
+ * Some of these codes are taken directly from a government web-site. Additional
+ * codes can be created manually however. Codes can be updated automatically
+ * via the CfdaBatchStep.
  */
 public class Cfda extends PersistableBusinessObjectBase {
 
@@ -34,9 +37,7 @@ public class Cfda extends PersistableBusinessObjectBase {
     /**
      * Default constructor.
      */
-    public Cfda() {
-
-    }
+    public Cfda() {}
 
     /**
      * Gets the cfdaNumber attribute.
@@ -131,8 +132,8 @@ public class Cfda extends PersistableBusinessObjectBase {
     }
 
     /**
-     * 
      * This method gets the row active indicator value.
+     * 
      * @return The value of the row active indicator attribute.
      */
     public boolean isRowActiveIndicator() {
@@ -140,9 +141,10 @@ public class Cfda extends PersistableBusinessObjectBase {
     }
 
     /**
-     * 
      * This method sets the row active indicator for this object.
-     * @param rowActiveIndicator The value to be assigned to the rowActiveIndicator attribute.
+     * 
+     * @param rowActiveIndicator The value to be assigned to the 
+     * rowActiveIndicator attribute.
      */
     public void setRowActiveIndicator(boolean rowActiveIndicator) {
         this.rowActiveIndicator = rowActiveIndicator;

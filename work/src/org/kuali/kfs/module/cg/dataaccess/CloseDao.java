@@ -17,9 +17,23 @@ package org.kuali.module.cg.dao;
 
 import org.kuali.module.cg.bo.Close;
 
+/**
+ * Implementations of this interface provide access to persisted Close instances.
+ */
 public interface CloseDao {
 
+    /**
+     * Gets the persisted instance with the latest close date.
+     * 
+     * @return the persisted instance with the latest close date.
+     */
     public Close getMaxApprovedClose();
+    
+    /**
+     * Save a {@link Close} instance.
+     * 
+     * @param close the instance to persist.
+     */
     public void save(Close close);
     
 }

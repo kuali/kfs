@@ -23,7 +23,8 @@ import org.kuali.core.util.ObjectUtils;
 import org.kuali.module.kra.routingform.bo.RoutingFormPersonnel;
 
 /**
- * This interface defines all the necessary methods to define a contracts and grants project director object.
+ * This interface defines all the necessary methods to define a contracts and
+ * grants project director object.
  */
 public interface CGProjectDirector {
 
@@ -66,7 +67,8 @@ public interface CGProjectDirector {
      * Sets the projectDirector.
      * 
      * @param projectDirector the projectDirector to set
-     * @deprecated required by UniversalUserServiceImpl.isUniversalUserProperty() for PojoPropertyUtilsBean.getPropertyDescriptor()
+     * @deprecated required by UniversalUserServiceImpl.isUniversalUserProperty()
+     * for PojoPropertyUtilsBean.getPropertyDescriptor()
      */
     public void setProjectDirector(ProjectDirector projectDirector);
 

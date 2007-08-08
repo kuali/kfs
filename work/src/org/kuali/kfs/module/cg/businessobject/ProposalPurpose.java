@@ -21,7 +21,7 @@ import java.util.LinkedHashMap;
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 
 /**
- * 
+ * A generalized purpose for a proposal.
  */
 public class ProposalPurpose extends PersistableBusinessObjectBase {
 
@@ -32,15 +32,12 @@ public class ProposalPurpose extends PersistableBusinessObjectBase {
     /**
      * Default constructor.
      */
-    public ProposalPurpose() {
-
-    }
+    public ProposalPurpose() {}
 
     /**
      * Gets the proposalPurposeCode attribute.
      * 
      * @return Returns the proposalPurposeCode
-     * 
      */
     public String getProposalPurposeCode() {
         return proposalPurposeCode;
@@ -50,7 +47,6 @@ public class ProposalPurpose extends PersistableBusinessObjectBase {
      * Sets the proposalPurposeCode attribute.
      * 
      * @param proposalPurposeCode The proposalPurposeCode to set.
-     * 
      */
     public void setProposalPurposeCode(String proposalPurposeCode) {
         this.proposalPurposeCode = proposalPurposeCode;
@@ -61,7 +57,6 @@ public class ProposalPurpose extends PersistableBusinessObjectBase {
      * Gets the proposalPurposeDescription attribute.
      * 
      * @return Returns the proposalPurposeDescription
-     * 
      */
     public String getProposalPurposeDescription() {
         return proposalPurposeDescription;
@@ -71,7 +66,6 @@ public class ProposalPurpose extends PersistableBusinessObjectBase {
      * Sets the proposalPurposeDescription attribute.
      * 
      * @param proposalPurposeDescription The proposalPurposeDescription to set.
-     * 
      */
     public void setProposalPurposeDescription(String proposalPurposeDescription) {
         this.proposalPurposeDescription = proposalPurposeDescription;
@@ -79,6 +73,7 @@ public class ProposalPurpose extends PersistableBusinessObjectBase {
 
     /**
      * Gets the rowActiveIndicator attribute. 
+	 *
      * @return Returns the rowActiveIndicator.
      */
     public boolean isRowActiveIndicator() {
@@ -87,6 +82,7 @@ public class ProposalPurpose extends PersistableBusinessObjectBase {
 
     /**
      * Sets the rowActiveIndicator attribute value.
+	 * 
      * @param rowActiveIndicator The rowActiveIndicator to set.
      */
     public void setRowActiveIndicator(boolean rowActiveIndicator) {
@@ -101,4 +97,6 @@ public class ProposalPurpose extends PersistableBusinessObjectBase {
         m.put("proposalPurposeCode", this.proposalPurposeCode);
         return m;
     }
+
 }
+

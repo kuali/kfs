@@ -23,7 +23,10 @@ import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.util.KualiDecimal;
 
 /**
- * This class defines a financial award subcontractor.
+ * This class represents an association between an award and a subcontractor. 
+ * It's like a reference to the subcontractor from the award. This way an award 
+ * can maintain a collection of these references instead of owning 
+ * subcontractors directly.
  */
 public class AwardSubcontractor extends PersistableBusinessObjectBase implements Inactivateable {
 
@@ -42,9 +45,7 @@ public class AwardSubcontractor extends PersistableBusinessObjectBase implements
     /**
      * Default constructor.
      */
-    public AwardSubcontractor() {
-
-    }
+    public AwardSubcontractor() {}
 
     /**
      * Gets the awardSubcontractorAmendmentNumber attribute.
@@ -58,7 +59,8 @@ public class AwardSubcontractor extends PersistableBusinessObjectBase implements
     /**
      * Sets the awardSubcontractorAmendmentNumber attribute.
      * 
-     * @param awardSubcontractorAmendmentNumber The awardSubcontractorAmendmentNumber to set.
+     * @param awardSubcontractorAmendmentNumber The 
+     * awardSubcontractorAmendmentNumber to set.
      */
     public void setAwardSubcontractorAmendmentNumber(String awardSubcontractorAmendmentNumber) {
         this.awardSubcontractorAmendmentNumber = awardSubcontractorAmendmentNumber;
@@ -228,8 +230,9 @@ public class AwardSubcontractor extends PersistableBusinessObjectBase implements
      * Sets the subcontractor attribute.
      * 
      * @param subcontractor The subcontractor to set.
-     * @deprecated Setter is required by OJB, but should not be used to modify this attribute.  
-     * This attribute is set on the initial creation of the object and should not be changed.
+     * @deprecated Setter is required by OJB, but should not be used to modify 
+     * this attribute. This attribute is set on the initial creation of the 
+     * object and should not be changed.
      */
     @Deprecated
     public void setSubcontractor(Subcontractor subcontractor) {

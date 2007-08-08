@@ -25,7 +25,8 @@ import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.util.SpringServiceLocator;
 
 /**
- * 
+ * Instances of this class are used to signal to the CloseBatchStep that a close
+ * should occur on a particular day.
  */
 public class Close extends TransactionalDocumentBase {
 
@@ -40,10 +41,11 @@ public class Close extends TransactionalDocumentBase {
     /**
      * Default constructor.
      */
-    public Close() {
+    public Close() {}
 
-    }
-
+    /**
+     * @return whether or not this document has been approved.
+     */
     public boolean isApproved() {
         return KFSConstants.DocumentStatusCodes.APPROVED.equals(getDocumentHeader().getFinancialDocumentStatusCode());
     }
@@ -152,6 +154,9 @@ public class Close extends TransactionalDocumentBase {
         this.userInitiatedCloseDate = userInitiatedCloseDate;
     }
 
+    /**
+     * @return the {@link UniversalUser} for the personUser
+     */
     public UniversalUser getPersonUser() {
         personUser = SpringServiceLocator.getUniversalUserService().updateUniversalUserIfNecessary(personUserIdentifier, personUser);
         return personUser;
@@ -159,6 +164,7 @@ public class Close extends TransactionalDocumentBase {
 
     /**
      * @param personUser The personUser to set.
+     * 
      * @deprecated
      */
     public void setPersonUser(UniversalUser personUser) {

@@ -26,9 +26,12 @@ import org.kuali.core.web.ui.KeyLabelPair;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.cg.bo.AwardStatus;
 
+/**
+ * Allows custom handling of {@link AwardStatus} values in the UI.
+ */
 public class AwardStatusValuesFinder extends KeyValuesBase {
 
-    /*
+    /**
      * @see org.kuali.keyvalues.KeyValuesFinder#getKeyValues()
      */
     public List getKeyValues() {

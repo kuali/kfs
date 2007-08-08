@@ -41,9 +41,6 @@ import org.kuali.module.cg.service.CfdaUpdateResults;
  * managed manually are left alone. Finally an email containing a summary of
  * what was done by the step execution is sent to the member of the KUALI_CGCFDA
  * workgroup.
- * 
- * @author Laran Evans <lc278@cornell.edu>
- * @since May 8, 2007 5:42:16 PM
  */
 public class CfdaBatchStep extends AbstractStep {
 
@@ -82,9 +79,6 @@ public class CfdaBatchStep extends AbstractStep {
                 }
             }
             
-            // TODO Must remember to take this out.
-            message.addToAddress("lc278@cornell.edu");
-
             // TODO this message should come from some config file.
             StringBuilder builder = new StringBuilder();
             builder.append("The CFDA batch script is complete.\n");
@@ -132,7 +126,8 @@ public class CfdaBatchStep extends AbstractStep {
     }
 
     /**
-     * This method is a simple setter used to set the local cfdaService attribute to the value provided.
+     * Sets the {@link CfdaService}. For use by Spring.
+     * 
      * @param cfdaService The service to be assigned.
      */
     public void setCfdaService(CfdaService cfdaService) {
@@ -140,7 +135,8 @@ public class CfdaBatchStep extends AbstractStep {
     }
     
     /**
-     * This method is a simple setter used to set the local mailService attribute to the value provided.
+     * Set the {@link MailService}. For use by Spring.
+     * 
      * @param mailService The service to be assigned.
      */
     public void setMailService(MailService mailService) {
@@ -148,7 +144,8 @@ public class CfdaBatchStep extends AbstractStep {
     }
     
     /**
-     * This method is a simple setter used to set the local kualiGroupService attribute to the value provided.
+     * Sets the {@link KualiGroupService}. For use by Spring.
+     * 
      * @param kualiGroupService The service to be assigned.
      */
     public void setKualiGroupService(KualiGroupService kualiGroupService) {
@@ -156,10 +153,12 @@ public class CfdaBatchStep extends AbstractStep {
     }
 
     /**
-     * This method is a simple setter used to set the local universalUserService attribute to the value provided.
+     * Sets the {@link UniversalUserService}. For use by Spring.
+     * 
      * @param universalUserService The service to be assigned.
      */
     public void setUniversalUserService(UniversalUserService universalUserService) {
         this.universalUserService = universalUserService;
     }
+    
 }

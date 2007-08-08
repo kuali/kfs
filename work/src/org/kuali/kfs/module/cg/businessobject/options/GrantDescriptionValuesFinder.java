@@ -24,6 +24,9 @@ import org.kuali.core.web.ui.KeyLabelPair;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.cg.bo.GrantDescription;
 
+/**
+ * 
+ */
 public class GrantDescriptionValuesFinder extends KeyValuesBase {
 
     /**

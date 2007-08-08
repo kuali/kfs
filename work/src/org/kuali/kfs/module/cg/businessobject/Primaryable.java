@@ -16,13 +16,14 @@
 package org.kuali.module.cg.bo;
 
 /**
- * Interface for BO instances that may be designated as "primary", e.g., within a collection.
+ * Interface for BO instances that may be designated as "primary", e.g., within
+ * a collection.
  */
 public interface Primaryable {
 
     /**
      * @return whether this BO instance is the primary one within a collection.
-     *          This is normally exclusive of any other BOs in the same collection.
+     *         This is normally exclusive of any other BOs in the same collection.
      */
     public boolean isPrimary();
 }

@@ -26,8 +26,14 @@ import org.kuali.module.cg.bo.Close;
 import org.kuali.module.cg.dao.CloseDao;
 import org.springmodules.orm.ojb.PersistenceBrokerTemplate;
 
+/**
+ * @see CloseDao
+ */
 public class CloseDaoOjb extends PlatformAwareDaoBaseOjb implements CloseDao {
 
+    /**
+     * @see org.kuali.module.cg.dao.CloseDao#getMaxApprovedClose()
+     */
     public Close getMaxApprovedClose() {
         Criteria criteria = new Criteria();
         criteria.addEqualTo("documentHeader.financialDocumentStatusCode", KFSConstants.DocumentStatusCodes.APPROVED);
@@ -50,6 +56,9 @@ public class CloseDaoOjb extends PlatformAwareDaoBaseOjb implements CloseDao {
         return null;
     }
 
+    /**
+     * @see org.kuali.module.cg.dao.CloseDao#save(org.kuali.module.cg.bo.Close)
+     */
     public void save(Close close) {
         getPersistenceBrokerTemplate().store(close);
     }

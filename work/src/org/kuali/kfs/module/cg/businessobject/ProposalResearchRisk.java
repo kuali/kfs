@@ -20,6 +20,9 @@ import java.util.LinkedHashMap;
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.module.kra.routingform.bo.ResearchRiskType;
 
+/**
+ * Represents a relationship between a {@link Proposal} and a {@link ResearchRisk}.
+ */
 public class ProposalResearchRisk extends PersistableBusinessObjectBase {
     
     private String researchRiskTypeCode;
@@ -29,6 +32,9 @@ public class ProposalResearchRisk extends PersistableBusinessObjectBase {
     private Proposal proposal;
     private ResearchRiskType researchRiskType;
     
+	/**
+	 * Default constructor.
+	 */
     public ProposalResearchRisk() {
         super();
     }
@@ -44,46 +50,92 @@ public class ProposalResearchRisk extends PersistableBusinessObjectBase {
         return m;
     }
 
+    /**
+     * Gets the {@link Proposal}.
+	 * 
+     * @return
+     */
     public Proposal getProposal() {
         return proposal;
     }
 
-
+    /**
+     * Sets the {@link Proposal}.
+     * 
+     * @param proposal
+     */
     public void setProposal(Proposal proposal) {
         this.proposal = proposal;
     }
 
-
+    /**
+     * Gets the {@link ResearchRiskType} of the risk associated with the {@link Proposal}.
+     * 
+     * @return the {@link ResearchRiskType}.
+     */
     public ResearchRiskType getResearchRiskType() {
         return researchRiskType;
     }
 
-
+    /**
+     * Sets the {@link ResearchRiskType} associated with the {@link Proposal}.
+     * 
+     * @param researchRiskType
+     */
     public void setResearchRiskType(ResearchRiskType researchRiskType) {
         this.researchRiskType = researchRiskType;
     }
 
-
+    /**
+     * Not sure what this is.
+     * 
+     * @return true or false
+     */
     public boolean isResearchRiskTypeIndicator() {
         return researchRiskTypeIndicator;
     }
 
+    /**
+     * Not sure what this is.
+     * 
+     * @param researchRiskTypeIndicator
+     */
     public void setResearchRiskTypeIndicator(boolean researchRiskTypeIndicator) {
         this.researchRiskTypeIndicator = researchRiskTypeIndicator;
     }
 
+    /**
+     * Gets the key of the {@link Proposal} related to the {@link ResearchRisk}.
+     * 
+     * @return the id of the {@link Proposal} related to the {@link ResearchRisk}.
+     */
     public Long getProposalNumber() {
         return proposalNumber;
     }
 
+    /**
+     * Sets the key of the {@link Proposal} related to the {@link ResearchRisk}.
+     * 
+     * @param the id of the {@link Proposal} related to the {@link ResearchRisk}.
+     */
     public void setProposalNumber(Long proposalNumber) {
         this.proposalNumber = proposalNumber;
     }
 
+    /**
+     * Gets the code of the {@link ResearchRiskType} associated to the {@link Proposal}.
+     * 
+     * @return the code of the {@link ResearchRiskType} associated to the {@link Proposal}. 
+     */
     public String getResearchRiskTypeCode() {
         return researchRiskTypeCode;
     }
 
+    /**
+     * Gets the code of the {@link ResearchRiskType} associated to the {@link Proposal}.
+     * 
+     * @param the code of the type of the {@link ResearchRiskType} associated to the {@link Proposal}. 
+     */
     public void setResearchRiskTypeCode(String researchRiskTypeCode) {
         this.researchRiskTypeCode = researchRiskTypeCode;
     }

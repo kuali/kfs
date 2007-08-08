@@ -18,8 +18,6 @@ package org.kuali.module.cg.document.authorization;
 import org.kuali.core.document.authorization.TransactionalDocumentAuthorizerBase;
 
 /**
- * User: Laran Evans <lc278@cornell.edu>
- * Date: Apr 17, 2007
- * Time: 5:42:12 PM
+ * Uses defaults.
  */
 public class CloseDocumentAuthorizer extends TransactionalDocumentAuthorizerBase {}

@@ -17,11 +17,10 @@
 package org.kuali.module.cg.bo;
 
 import java.util.LinkedHashMap;
-
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 
 /**
- * 
+ * The type of {@link Award} associated with a {@link Proposal} instance.
  */
 public class ProposalAwardType extends PersistableBusinessObjectBase {
 
@@ -32,15 +31,12 @@ public class ProposalAwardType extends PersistableBusinessObjectBase {
     /**
      * Default constructor.
      */
-    public ProposalAwardType() {
-
-    }
+    public ProposalAwardType() {}
 
     /**
      * Gets the proposalAwardTypeCode attribute.
      * 
      * @return Returns the proposalAwardTypeCode
-     * 
      */
     public String getProposalAwardTypeCode() {
         return proposalAwardTypeCode;
@@ -50,7 +46,6 @@ public class ProposalAwardType extends PersistableBusinessObjectBase {
      * Sets the proposalAwardTypeCode attribute.
      * 
      * @param proposalAwardTypeCode The proposalAwardTypeCode to set.
-     * 
      */
     public void setProposalAwardTypeCode(String proposalAwardTypeCode) {
         this.proposalAwardTypeCode = proposalAwardTypeCode;
@@ -61,7 +56,6 @@ public class ProposalAwardType extends PersistableBusinessObjectBase {
      * Gets the proposalAwardTypeDescription attribute.
      * 
      * @return Returns the proposalAwardTypeDescription
-     * 
      */
     public String getProposalAwardTypeDescription() {
         return proposalAwardTypeDescription;
@@ -71,7 +65,6 @@ public class ProposalAwardType extends PersistableBusinessObjectBase {
      * Sets the proposalAwardTypeDescription attribute.
      * 
      * @param proposalAwardTypeDescription The proposalAwardTypeDescription to set.
-     * 
      */
     public void setProposalAwardTypeDescription(String proposalAwardTypeDescription) {
         this.proposalAwardTypeDescription = proposalAwardTypeDescription;
@@ -79,6 +72,7 @@ public class ProposalAwardType extends PersistableBusinessObjectBase {
 
     /**
      * Gets the rowActiveIndicator attribute. 
+	 *
      * @return Returns the rowActiveIndicator.
      */
     public boolean isRowActiveIndicator() {
@@ -87,6 +81,7 @@ public class ProposalAwardType extends PersistableBusinessObjectBase {
 
     /**
      * Sets the rowActiveIndicator attribute value.
+	 * 
      * @param rowActiveIndicator The rowActiveIndicator to set.
      */
     public void setRowActiveIndicator(boolean rowActiveIndicator) {

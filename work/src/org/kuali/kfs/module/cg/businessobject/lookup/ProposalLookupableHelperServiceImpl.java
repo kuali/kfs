@@ -26,12 +26,18 @@ import org.kuali.core.bo.BusinessObject;
 import org.kuali.core.lookup.KualiLookupableHelperServiceImpl;
 import org.kuali.module.cg.bo.ProjectDirector;
 
+/**
+ * Allows custom handling of Proposals within the lookup framework.
+ */
 public class ProposalLookupableHelperServiceImpl extends KualiLookupableHelperServiceImpl {
 
 	private static final String LOOKUP_USER_ID_FIELD = "lookupUniversalUser.personUserIdentifier";
 	private static final String LOOKUP_UNIVERSAL_USER_ID_FIELD = "proposalProjectDirectors.projectDirector.personUniversalIdentifier";
 	private static final String PROJECT_DIRECTOR_USER_ID_LOOKUP_FIELD = "universalUser.personUserIdentifier"; 
-	
+
+    /**
+     * @see org.kuali.core.lookup.KualiLookupableHelperServiceImpl#getSearchResultsHelper(java.util.Map, boolean)
+     */
 	@Override
 	protected List<? extends BusinessObject> getSearchResultsHelper(Map<String, String> fieldValues, boolean unbounded) {
 		// perform the lookup on the project director object first

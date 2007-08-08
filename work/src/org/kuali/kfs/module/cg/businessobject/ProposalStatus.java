@@ -21,7 +21,7 @@ import java.util.LinkedHashMap;
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 
 /**
- * 
+ * Represents the status of a {@link Proposal}.
  */
 public class ProposalStatus extends PersistableBusinessObjectBase {
 
@@ -32,15 +32,12 @@ public class ProposalStatus extends PersistableBusinessObjectBase {
     /**
      * Default constructor.
      */
-    public ProposalStatus() {
-
-    }
+    public ProposalStatus() {}
 
     /**
      * Gets the proposalStatusCode attribute.
      * 
      * @return Returns the proposalStatusCode
-     * 
      */
     public String getProposalStatusCode() {
         return proposalStatusCode;
@@ -50,7 +47,6 @@ public class ProposalStatus extends PersistableBusinessObjectBase {
      * Sets the proposalStatusCode attribute.
      * 
      * @param proposalStatusCode The proposalStatusCode to set.
-     * 
      */
     public void setProposalStatusCode(String proposalStatusCode) {
         this.proposalStatusCode = proposalStatusCode;
@@ -61,7 +57,6 @@ public class ProposalStatus extends PersistableBusinessObjectBase {
      * Gets the proposalStatusDescription attribute.
      * 
      * @return Returns the proposalStatusDescription
-     * 
      */
     public String getProposalStatusDescription() {
         return proposalStatusDescription;
@@ -71,7 +66,6 @@ public class ProposalStatus extends PersistableBusinessObjectBase {
      * Sets the proposalStatusDescription attribute.
      * 
      * @param proposalStatusDescription The proposalStatusDescription to set.
-     * 
      */
     public void setProposalStatusDescription(String proposalStatusDescription) {
         this.proposalStatusDescription = proposalStatusDescription;
@@ -79,6 +73,7 @@ public class ProposalStatus extends PersistableBusinessObjectBase {
 
     /**
      * Gets the rowActiveIndicator attribute. 
+	 *
      * @return Returns the rowActiveIndicator.
      */
     public boolean isRowActiveIndicator() {
@@ -87,6 +82,7 @@ public class ProposalStatus extends PersistableBusinessObjectBase {
 
     /**
      * Sets the rowActiveIndicator attribute value.
+	 *
      * @param rowActiveIndicator The rowActiveIndicator to set.
      */
     public void setRowActiveIndicator(boolean rowActiveIndicator) {
@@ -101,4 +97,6 @@ public class ProposalStatus extends PersistableBusinessObjectBase {
         m.put("proposalStatusCode", this.proposalStatusCode);
         return m;
     }
+
 }
+

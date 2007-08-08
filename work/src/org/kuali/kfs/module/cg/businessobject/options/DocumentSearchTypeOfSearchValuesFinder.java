@@ -29,6 +29,9 @@ import org.kuali.module.cg.bo.AwardStatus;
 import org.kuali.module.cg.bo.ProposalStatus;
 import org.kuali.workflow.KualiWorkflowUtils;
 
+/**
+ * 
+ */
 public class DocumentSearchTypeOfSearchValuesFinder extends KeyValuesBase {
     
     public static final String DOCUMENT_TYPE_SEPARATOR = ";";
@@ -36,7 +39,7 @@ public class DocumentSearchTypeOfSearchValuesFinder extends KeyValuesBase {
     public static final String[] PROPOSAL_DOCUMENT_TYPE_NAMES = new String[]{"ProposalMaintenanceDocument",KualiWorkflowUtils.C_G_PROPOSAL_DOC_TYPE, "ProposalMaintenanceDocument"};
     public static final String[] AWARD_DOCUMENT_TYPE_NAMES = new String[]{"AwardMaintenanceDocument",KualiWorkflowUtils.C_G_AWARD_DOC_TYPE, "AwardMaintenanceDocument"};
 
-    /*
+    /**
      * @see org.kuali.keyvalues.KeyValuesFinder#getKeyValues()
      */
     public List getKeyValues() {
@@ -46,6 +49,12 @@ public class DocumentSearchTypeOfSearchValuesFinder extends KeyValuesBase {
         return labels;
     }
     
+    /**
+     * 
+     * @param labels
+     * @param label
+     * @param docTypes
+     */
     private void generatePossibleListElement(List<KeyLabelPair> labels, String label, String[] docTypes) {
         String documentTypes = "";
         for (int i = 0; i < docTypes.length; i++) {

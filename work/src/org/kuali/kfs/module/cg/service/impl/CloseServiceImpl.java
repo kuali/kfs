@@ -38,27 +38,25 @@ public class CloseServiceImpl implements CloseService {
     private DateTimeService dateTimeService;
     
     /**
-     * -- Get the max proposal_close_number in cg_prpsl_close_t.
-     * 
-     * -- Get the Close with that max_close_number.
-     * 
-     * -- If todays date is the same as the user_initiate_date on that Close, continue. Else, break.
-     * 
-     * -- Get all proposals with a null closing_date and a submission_date <= the last_closed_date of the Close with the max_proposal_close number.
-     * 
-     * -- Save the number of proposals that come back.
-     * 
-     * -- Update each of these proposals setting the close_date to todays date.
-     * 
-     * -- Get all awards with a null closing_date, an entry_date <= the last_closed_date of the Close with the max_close number and a status_code not equal to 'U'.
-     * 
-     * -- Save the number of awards that come back.
-     * 
-     * -- Update each of these awards setting the close_date to todays date.
-     * 
-     * -- Update the Close with that max_close_number setting the proposal_closed_count to the number of proposals brought back above and the award_closed_count to the number of awards brought back above.
-     * 
-     * -- Save the Close.
+     * <ul>
+     * <li>Get the max proposal_close_number in cg_prpsl_close_t.</li>
+     * <li>Get the Close with that max_close_number.</li>
+     * <li>If todays date is the same as the user_initiate_date on that Close, 
+     * continue. Else, break.</li>
+     * <li>Get all proposals with a null closing_date and a submission_date 
+     * <= the last_closed_date of the Close with the max_proposal_close number.</li>
+     * <li>Save the number of proposals that come back.</li>
+     * <li>Update each of these proposals setting the close_date to todays date.</li>
+     * <li>Get all awards with a null closing_date, an entry_date <= the 
+     * last_closed_date of the Close with the max_close number and a 
+     * status_code not equal to 'U'.</li>
+     * <li>Save the number of awards that come back.</li>
+     * <li>Update each of these awards setting the close_date to todays date.</li>
+     * <li>Update the Close with that max_close_number setting the 
+     * proposal_closed_count to the number of proposals brought back above and 
+     * the award_closed_count to the number of awards brought back above.</li>
+     * <li>Save the Close.</li>
+     * </ul>
      * 
      * @see org.kuali.module.cg.service.CloseService#close()
      */

@@ -34,8 +34,7 @@ import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.workflow.attribute.AlternateOrgReviewRouting;
 
 /**
- * 
- * This class defines a financial award object.
+ * Defines a financial award object.
  */
 public class Award extends PersistableBusinessObjectBase implements AlternateOrgReviewRouting {
 
@@ -44,8 +43,9 @@ public class Award extends PersistableBusinessObjectBase implements AlternateOrg
     private Date awardEndingDate;
 
     /**
-     * This field is for write-only to the database via OJB, not the corresponding property of this BO. OJB uses reflection to read
-     * it, so the compiler warns because it doesn't know.
+     * This field is for write-only to the database via OJB, not the 
+     * corresponding property of this BO. OJB uses reflection to read it, so the 
+     * compiler warns because it doesn't know.
      * 
      * @see #getAwardTotalAmount
      * @see #setAwardTotalAmount
@@ -103,7 +103,6 @@ public class Award extends PersistableBusinessObjectBase implements AlternateOrg
     /**
      * Default no-args constructor.
      */
-    // todo: generify TypedArrayList and rename to something appropriate like AlwaysGettableArrayList
     public Award() {
         // Must use TypedArrayList because its get() method automatically grows the array for Struts.
         awardProjectDirectors = new TypedArrayList(AwardProjectDirector.class);
@@ -113,10 +112,10 @@ public class Award extends PersistableBusinessObjectBase implements AlternateOrg
     }
 
     /**
-     * Creates a colleciton of lists within this award object that should be aware of 
-     * when the deletion of one of their elements occurs.  This collection is used to
-     * refresh the display upon deletion of an element to ensure that the deleted element
-     * is not longer visible on the interface.
+     * Creates a colleciton of lists within this award object that should be 
+     * aware of when the deletion of one of their elements occurs.  This 
+     * collection is used to refresh the display upon deletion of an element to
+     * ensure that the deleted element is not longer visible on the interface.
      * 
      * @see org.kuali.core.bo.PersistableBusinessObjectBase#buildListOfDeletionAwareLists()
      */
@@ -131,8 +130,8 @@ public class Award extends PersistableBusinessObjectBase implements AlternateOrg
     }
 
     /**
-     * 
      * Constructs an Award.
+     * 
      * @param proposal The associated proposal that the award will be linked to.
      */
     public Award(Proposal proposal) {
@@ -141,9 +140,10 @@ public class Award extends PersistableBusinessObjectBase implements AlternateOrg
     }
 
     /**
+     * This method takes all the applicable attributes from the associated 
+     * proposal object and sets those attributes into their cooresponding award 
+     * attributes.
      * 
-     * This method takes all the applicable attributes from the associated proposal object and sets those attributes
-     * into their cooresponding award attributes.
      * @param proposal The associated proposal that the award will be linked to.
      */
     public void populateFromProposal(Proposal proposal) {
@@ -266,8 +266,9 @@ public class Award extends PersistableBusinessObjectBase implements AlternateOrg
     }
 
     /**
-     * Does nothing. This property is determined by the direct and indirect cost amounts. This setter is here only because without
-     * it, the maintenance framework won't display this attribute.
+     * Does nothing. This property is determined by the direct and indirect cost 
+     * amounts. This setter is here only because without it, the maintenance 
+     * framework won't display this attribute.
      * 
      * @param awardTotalAmount The awardTotalAmount to set.
      * @deprecated Should not be used.  See method description above.
@@ -278,9 +279,10 @@ public class Award extends PersistableBusinessObjectBase implements AlternateOrg
     }
 
     /**
-     * OJB calls this method as the first operation before this BO is inserted into the database. The database contains
-     * CGAWD_TOT_AMT, a denormalized column that Kuali does not use but needs to maintain with this method because OJB bypasses the
-     * getter.
+     * OJB calls this method as the first operation before this BO is inserted 
+     * into the database. The database contains CGAWD_TOT_AMT, a denormalized 
+     * column that Kuali does not use but needs to maintain with this method 
+     * because OJB bypasses the getter.
      * 
      * @param persistenceBroker from OJB
      * @throws PersistenceBrokerException Thrown by call to super.beforeInsert();
@@ -293,8 +295,10 @@ public class Award extends PersistableBusinessObjectBase implements AlternateOrg
     }
 
     /**
-     * OJB calls this method as the first operation before this BO is updated to the database. The database contains CGAWD_TOT_AMT,
-     * a denormalized column that Kuali does not use but needs to maintain with this method because OJB bypasses the getter.
+     * OJB calls this method as the first operation before this BO is updated 
+     * to the database. The database contains CGAWD_TOT_AMT, a denormalized 
+     * column that Kuali does not use but needs to maintain with this method 
+     * because OJB bypasses the getter.
      * 
      * @param persistenceBroker from OJB
      * @throws PersistenceBrokerException Thrown by call to super.beforeUpdate();
@@ -840,8 +844,9 @@ public class Award extends PersistableBusinessObjectBase implements AlternateOrg
      * Sets the proposal attribute.
      * 
      * @param proposal The proposal to set.
-     * @deprecated Setter is required by OJB, but should not be used to modify this attribute.  
-     * This attribute is set on the initial creation of the object and should not be changed.
+     * @deprecated Setter is required by OJB, but should not be used to modify 
+     * this attribute. This attribute is set on the initial creation of the 
+     * object and should not be changed.
      */
     @Deprecated
     public void setProposal(Proposal proposal) {
@@ -861,8 +866,9 @@ public class Award extends PersistableBusinessObjectBase implements AlternateOrg
      * Sets the proposalAwardType attribute.
      * 
      * @param proposalAwardType The proposalAwardType to set.
-     * @deprecated Setter is required by OJB, but should not be used to modify this attribute.  
-     * This attribute is set on the initial creation of the object and should not be changed.
+     * @deprecated Setter is required by OJB, but should not be used to modify
+     * this attribute. This attribute is set on the initial creation of the 
+     * object and should not be changed.
      */
     @Deprecated
     public void setProposalAwardType(ProposalAwardType proposalAwardType) {
@@ -882,8 +888,9 @@ public class Award extends PersistableBusinessObjectBase implements AlternateOrg
      * Sets the awardStatus attribute.
      * 
      * @param awardStatus The awardStatus to set.
-     * @deprecated Setter is required by OJB, but should not be used to modify this attribute.  
-     * This attribute is set on the initial creation of the object and should not be changed.
+     * @deprecated Setter is required by OJB, but should not be used to modify 
+     * this attribute. This attribute is set on the initial creation of the 
+     * object and should not be changed.
      */
     @Deprecated
     public void setAwardStatus(AwardStatus awardStatus) {
@@ -903,8 +910,9 @@ public class Award extends PersistableBusinessObjectBase implements AlternateOrg
      * Sets the letterOfCreditFundGroup attribute.
      * 
      * @param letterOfCreditFundGroup The letterOfCreditFundGroup to set.
-     * @deprecated Setter is required by OJB, but should not be used to modify this attribute.  
-     * This attribute is set on the initial creation of the object and should not be changed.
+     * @deprecated Setter is required by OJB, but should not be used to modify 
+     * this attribute. This attribute is set on the initial creation of the 
+     * object and should not be changed.
      */
     @Deprecated
     public void setLetterOfCreditFundGroup(LetterOfCreditFundGroup letterOfCreditFundGroup) {
@@ -924,8 +932,9 @@ public class Award extends PersistableBusinessObjectBase implements AlternateOrg
      * Sets the grantDescription attribute.
      * 
      * @param grantDescription The grantDescription to set.
-     * @deprecated Setter is required by OJB, but should not be used to modify this attribute.  
-     * This attribute is set on the initial creation of the object and should not be changed.
+     * @deprecated Setter is required by OJB, but should not be used to modify 
+     * this attribute. This attribute is set on the initial creation of the 
+     * object and should not be changed.
      */
     @Deprecated
     public void setGrantDescription(GrantDescription grantDescription) {
@@ -945,8 +954,9 @@ public class Award extends PersistableBusinessObjectBase implements AlternateOrg
      * Sets the agency attribute.
      * 
      * @param agency The agency to set.
-     * @deprecated Setter is required by OJB, but should not be used to modify this attribute.  
-     * This attribute is set on the initial creation of the object and should not be changed.
+     * @deprecated Setter is required by OJB, but should not be used to modify 
+     * this attribute. This attribute is set on the initial creation of the 
+     * object and should not be changed.
      */
     @Deprecated
     public void setAgency(Agency agency) {
@@ -966,8 +976,9 @@ public class Award extends PersistableBusinessObjectBase implements AlternateOrg
      * Sets the federalPassThroughAgency attribute.
      * 
      * @param federalPassThroughAgency The federalPassThroughAgency to set.
-     * @deprecated Setter is required by OJB, but should not be used to modify this attribute.  
-     * This attribute is set on the initial creation of the object and should not be changed.
+     * @deprecated Setter is required by OJB, but should not be used to modify 
+     * this attribute. This attribute is set on the initial creation of the 
+     * object and should not be changed.
      */
     @Deprecated
     public void setFederalPassThroughAgency(Agency federalPassThroughAgency) {
@@ -987,8 +998,9 @@ public class Award extends PersistableBusinessObjectBase implements AlternateOrg
      * Sets the awardPurpose attribute.
      * 
      * @param awardPurpose The awardPurpose to set.
-     * @deprecated Setter is required by OJB, but should not be used to modify this attribute.  
-     * This attribute is set on the initial creation of the object and should not be changed.
+     * @deprecated Setter is required by OJB, but should not be used to modify 
+     * this attribute. This attribute is set on the initial creation of the 
+     * object and should not be changed.
      */
     @Deprecated
     public void setAwardPurpose(ProposalPurpose awardPurpose) {
@@ -1023,6 +1035,7 @@ public class Award extends PersistableBusinessObjectBase implements AlternateOrg
 
     /**
      * Sets the awardAccounts list.
+     * 
      * @param awardAccounts The awardAccounts to set.
      */
     public void setAwardAccounts(List<AwardAccount> awardAccounts) {
@@ -1031,6 +1044,7 @@ public class Award extends PersistableBusinessObjectBase implements AlternateOrg
 
     /**
      * Gets the awardOrganizations list.
+     * 
      * @return Returns the awardOrganizations.
      */
     public List<AwardOrganization> getAwardOrganizations() {
@@ -1039,6 +1053,7 @@ public class Award extends PersistableBusinessObjectBase implements AlternateOrg
 
     /**
      * Sets the awardOrganizations list.
+     * 
      * @param awardOrganizations The awardOrganizations to set.
      */
     public void setAwardOrganizations(List<AwardOrganization> awardOrganizations) {
@@ -1047,6 +1062,7 @@ public class Award extends PersistableBusinessObjectBase implements AlternateOrg
 
     /**
      * Gets the awardSubcontractors list.
+     * 
      * @return Returns the awardSubcontractors.
      */
     public List<AwardSubcontractor> getAwardSubcontractors() {
@@ -1055,6 +1071,7 @@ public class Award extends PersistableBusinessObjectBase implements AlternateOrg
 
     /**
      * Sets the awardSubcontractors list.
+     * 
      * @param awardSubcontractors The awardSubcontractors to set.
      */
     public void setAwardSubcontractors(List<AwardSubcontractor> awardSubcontractors) {
@@ -1062,8 +1079,8 @@ public class Award extends PersistableBusinessObjectBase implements AlternateOrg
     }
     
     /**
-     * 
      * Returns a KualiGroup object whose name is defined by workgroupName.
+     * 
      * @return KualiGroup defined by workgroupName
      */
     public KualiGroup getWorkgroup() {
@@ -1071,8 +1088,9 @@ public class Award extends PersistableBusinessObjectBase implements AlternateOrg
     }
 
     /**
+     * Sets the local workgroupName attribute to the name of the passed in 
+     * workgroup object.
      * 
-     * Sets the local workgroupName attribute to the name of the passed in workgroup object.
      * @param workgroup KualiGroup object to use to set the local workgroupName attribute.
      */
     public void setWorkgroup(KualiGroup workgroup) {
@@ -1108,11 +1126,13 @@ public class Award extends PersistableBusinessObjectBase implements AlternateOrg
 
     /**
      * 
-     * Retrieves the list of users assigned to the associated workgroup and builds out a 
-     * string representation of these users for display purposes.
+     * Retrieves the list of users assigned to the associated workgroup and 
+     * builds out a string representation of these users for display purposes.
      * 
-     * NOTE: This method is used by the Account and Award Inquiry screens to display users of the associated workgroup.
-     * NOTE: This method currently has not other use outside of the Account Inquiry screen.
+     * NOTE: This method is used by the Account and Award Inquiry screens to 
+     * display users of the associated workgroup.
+     * NOTE: This method currently has not other use outside of the Account 
+     * Inquiry screen.
      * 
      * @return String representation of the users assigned to the associated workgroup.
      */
@@ -1150,17 +1170,19 @@ public class Award extends PersistableBusinessObjectBase implements AlternateOrg
     }
 
     /**
+     * Simple method that simply sets the kualiGroupNames attribute by calling 
+     * the getter, which performs all the necessary parsing to retrieve the names.
      * 
-     * Simple method that simply sets the kualiGroupNames attribute by calling the getter, which 
-     * performs all the necessary parsing to retrieve the names.
-     * @param kualiGroupNames Value to be assigned to the kualiGroupNames attribute.  This value is never actually set.
+     * @param kualiGroupNames Value to be assigned to the kualiGroupNames 
+     * attribute. This value is never actually set.
      */
     public void setKualiGroupNames(String kualiGroupNames) {
         this.kualiGroupNames = getKualiGroupNames();
     }
 
     /**
-     * This method maps the proposal number into a hash map with "proposalNumber" as the identifier.
+     * This method maps the proposal number into a hash map with 
+     * "proposalNumber" as the identifier.
      * 
      * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
      */
@@ -1191,7 +1213,6 @@ public class Award extends PersistableBusinessObjectBase implements AlternateOrg
     }
 
     /**
-     * 
      * @see org.kuali.workflow.attribute.AlternateOrgReviewRouting#getRoutingChart()
      */
     public String getRoutingChart() {
@@ -1199,7 +1220,6 @@ public class Award extends PersistableBusinessObjectBase implements AlternateOrg
     }
 
     /**
-     * 
      * @see org.kuali.workflow.attribute.AlternateOrgReviewRouting#setRoutingChart(java.lang.String)
      */
     public void setRoutingChart(String routingChart) {
@@ -1207,7 +1227,6 @@ public class Award extends PersistableBusinessObjectBase implements AlternateOrg
     }
 
     /**
-     * 
      * @see org.kuali.workflow.attribute.AlternateOrgReviewRouting#getRoutingOrg()
      */
     public String getRoutingOrg() {
@@ -1215,7 +1234,6 @@ public class Award extends PersistableBusinessObjectBase implements AlternateOrg
     }
 
     /**
-     * 
      * @see org.kuali.workflow.attribute.AlternateOrgReviewRouting#setRoutingOrg(java.lang.String)
      */
     public void setRoutingOrg(String routingOrg) {

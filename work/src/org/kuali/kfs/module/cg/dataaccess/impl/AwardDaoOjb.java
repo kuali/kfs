@@ -24,12 +24,21 @@ import org.kuali.module.cg.bo.Award;
 import org.kuali.module.cg.bo.Close;
 import org.kuali.module.cg.dao.AwardDao;
 
+/**
+ * @see AwardDao
+ */
 public class AwardDaoOjb extends PlatformAwareDaoBaseOjb implements AwardDao {
 
+    /**
+     * @see org.kuali.module.cg.dao.AwardDao#deleteAll()
+     */
     public void deleteAll() {
         getPersistenceBrokerTemplate().deleteByQuery(QueryFactory.newQuery(Award.class, new Criteria()));
     }
-    
+
+    /**
+     * @see org.kuali.module.cg.dao.AwardDao#getAwardsToClose(org.kuali.module.cg.bo.Close)
+     */
     public Collection<Award> getAwardsToClose(Close close) {
 
         Criteria criteria = new Criteria();
@@ -38,9 +47,11 @@ public class AwardDaoOjb extends PlatformAwareDaoBaseOjb implements AwardDao {
         criteria.addNotEqualTo("awardStatusCode", "U");
         
         return (Collection<Award>) getPersistenceBrokerTemplate().getCollectionByQuery(QueryFactory.newQuery(Award.class, criteria));
-        
     }
 
+    /**
+     * @see org.kuali.module.cg.dao.AwardDao#save(org.kuali.module.cg.bo.Award)
+     */
     public void save(Award award) {
         getPersistenceBrokerTemplate().store(award);
     }

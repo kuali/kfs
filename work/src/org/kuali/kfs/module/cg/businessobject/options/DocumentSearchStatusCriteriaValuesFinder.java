@@ -27,11 +27,14 @@ import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.cg.bo.AwardStatus;
 import org.kuali.module.cg.bo.ProposalStatus;
 
+/**
+ * Allows some filtering of document search criteria.
+ */
 public class DocumentSearchStatusCriteriaValuesFinder extends KeyValuesBase {
     
     private static final String STATUS_SPACE_PREFIX = "&nbsp;&nbsp;";
 
-    /*
+    /**
      * @see org.kuali.keyvalues.KeyValuesFinder#getKeyValues()
      */
     public List getKeyValues() {
@@ -56,4 +59,5 @@ public class DocumentSearchStatusCriteriaValuesFinder extends KeyValuesBase {
 
         return labels;
     }
+    
 }

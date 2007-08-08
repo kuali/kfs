@@ -24,6 +24,7 @@ import org.kuali.core.util.ObjectUtils;
 
 /**
  * 
+ * Represents a relationship between a {@link Proposal} and a {@link ProjectDirector}.
  */
 public class ProposalProjectDirector extends PersistableBusinessObjectBase implements Primaryable, CGProjectDirector, Inactivateable {
 
@@ -130,6 +131,7 @@ public class ProposalProjectDirector extends PersistableBusinessObjectBase imple
 
     /**
      * Sets the active attribute value.
+	 *
      * @param active The active to set.
      */
     public void setActive(boolean active) {

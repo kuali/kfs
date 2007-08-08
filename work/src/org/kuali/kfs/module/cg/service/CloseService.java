@@ -19,10 +19,31 @@ import org.kuali.module.cg.bo.Close;
 
 import java.sql.Date;
 
+/**
+ * Intended to be initiated periodically via a batch process. The default
+ * implementation of this service finds all unclosed Awards that are not
+ * underwritten and all unclosed Proposals. For each of those proposals and
+ * awards the close date is set to the date on which the close was executed.
+ */
 public interface CloseService {
 
+    /**
+     * See class description.
+     */
     public void close();
+    
+    /**
+     * Saves a close.
+     * 
+     * @param close The close to save.
+     */
     public void save(Close close);
+    
+    /**
+     * Gets the Close record with the greatest close date.
+     * 
+     * @return the close with the greatest close date.
+     */
     public Close getMostRecentClose();
     
 }

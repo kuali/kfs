@@ -36,10 +36,7 @@ import org.kuali.module.cg.service.CfdaUpdateResults;
 import org.kuali.module.cg.service.CloseService;
 
 /**
- * This class...
- * 
- * @author Laran Evans <lc278@cornell.edu>
- * @since Apr 6, 2007 12:58:58 PM
+ * @see CloseService#close()
  */
 public class CloseBatchStep extends AbstractStep {
 
@@ -52,6 +49,7 @@ public class CloseBatchStep extends AbstractStep {
     private UniversalUserService universalUserService;
 
     /**
+     * See the class description.
      * 
      * @see org.kuali.kfs.batch.Step#execute()
      */
@@ -99,9 +97,6 @@ public class CloseBatchStep extends AbstractStep {
                 }
             }
             
-            // TODO Must remember to take this out.
-            message.addToAddress("lc278@cornell.edu");
-
             message.setMessage(builder.toString());
             mailService.sendMessage(message);
 
@@ -117,22 +112,37 @@ public class CloseBatchStep extends AbstractStep {
     }
 
     /**
+     * Sets the {@link CloseService}. For use by Spring.
      * 
-     * This method is a simple setter used to assign a value to local attribute.
      * @param closeService The value to be used to assign to the local attribute <code>closeService</code>.
      */
     public void setCloseService(org.kuali.module.cg.service.CloseService closeService) {
         this.closeService = closeService;
     }
 
+    /**
+     * Sets the {@link KualiGroupService}. For use by Spring.
+     * 
+     * @param kualiGroupService The service to be assigned.
+     */
     public void setKualiGroupService(KualiGroupService kualiGroupService) {
         this.kualiGroupService = kualiGroupService;
     }
 
+    /**
+     * Set the {@link MailService}. For use by Spring.
+     * 
+     * @param mailService The service to be assigned.
+     */
     public void setMailService(MailService mailService) {
         this.mailService = mailService;
     }
-
+    
+    /**
+     * Sets the {@link UniversalUserService}. For use by Spring.
+     * 
+     * @param universalUserService The service to be assigned.
+     */
     public void setUniversalUserService(UniversalUserService universalUserService) {
         this.universalUserService = universalUserService;
     }

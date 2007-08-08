@@ -280,9 +280,10 @@ public class Agency extends PersistableBusinessObjectBase {
     }
     
     /**
+     * This method compares the passed in agency object against this agency 
+     * object to check for equality. Equality is defined by if the agency passed
+     * in has the same agency number as the agency being compared to.
      * 
-     * This method compares the passed in agency object against this agency object to check for equality.
-     * Currently equality is defined by if the agency passed in has the same agency number as the agency being compared to.
      * @param agency The agency object to be compared.
      * @return True if the agency passed in is determined to be equal, false otherwise.
      */

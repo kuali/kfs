@@ -41,6 +41,9 @@ public class ProjectDirector extends PersistableBusinessObjectBase implements In
     public ProjectDirector() {
     }
 
+    /**
+     * @return the {@link UniversalUser} to which the project director refers.
+     */
     public UniversalUser getUniversalUser() {
         // If personUserIdentifier is not set, then fall back to personUniversalIdentifier.
         if (personUserIdentifier == null) {
@@ -86,11 +89,17 @@ public class ProjectDirector extends PersistableBusinessObjectBase implements In
         return m;
     }
 
+    /**
+     * @return the person name
+     */
     public String getPersonName() {
         UniversalUser u = getUniversalUser();
         return u == null ? "" : u.getPersonName();
     }
 
+    /**
+     * @param personName the person name.
+     */
     public void setPersonName(String personName) {
         if ( universalUser == null ) {
             universalUser = new UniversalUser();
@@ -98,11 +107,17 @@ public class ProjectDirector extends PersistableBusinessObjectBase implements In
         universalUser.setPersonName( personName );
     }
 
+    /**
+     * @return the persons first name
+     */
     public String getPersonFirstName() {
         UniversalUser u = getUniversalUser();
         return u == null ? "" : u.getPersonFirstName();
     }
 
+    /**
+     * @param personFirstName the persons first name
+     */
     public void setPersonFirstName(String personFirstName) {
         if ( universalUser == null ) {
             universalUser = new UniversalUser();
@@ -110,11 +125,17 @@ public class ProjectDirector extends PersistableBusinessObjectBase implements In
         universalUser.setPersonFirstName( personFirstName );
     }
 
+    /**
+     * @return the persons last name
+     */
     public String getPersonLastName() {
         UniversalUser u = getUniversalUser();
         return u == null ? "" : u.getPersonLastName();
     }
 
+    /**
+     * @param personLastName the persons last name
+     */
     public void setPersonLastName(String personLastName) {
         if ( universalUser == null ) {
             universalUser = new UniversalUser();
@@ -122,6 +143,9 @@ public class ProjectDirector extends PersistableBusinessObjectBase implements In
         universalUser.setPersonName( personLastName );
     }
 
+    /**
+     * @return the userID for the person.
+     */
     public String getPersonUserIdentifier() {
         if (personUserIdentifier != null) {
             return personUserIdentifier;
@@ -130,6 +154,9 @@ public class ProjectDirector extends PersistableBusinessObjectBase implements In
         return u == null ? "" : u.getPersonUserIdentifier();
     }
 
+    /**
+     * @param personUserIdentifier the userID for the person.
+     */
     public void setPersonUserIdentifier(String personUserIdentifier) {
         this.personUserIdentifier = personUserIdentifier;
         if (universalUser == null || !personUserIdentifier.equals(universalUser.getPersonUserIdentifier())) {
@@ -141,10 +168,16 @@ public class ProjectDirector extends PersistableBusinessObjectBase implements In
         }
     }
 
+    /**
+     * @see org.kuali.core.bo.Inactivateable#isActive()
+     */
     public boolean isActive() {
         return active;
     }
 
+    /**
+     * @see org.kuali.core.bo.Inactivateable#setActive(boolean)
+     */
     public void setActive(boolean active) {
         this.active = active;
     }

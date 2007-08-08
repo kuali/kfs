@@ -32,9 +32,6 @@ import org.kuali.module.purap.PurapKeyConstants;
 import org.kuali.module.purap.document.PurchaseOrderDocument;
 import org.kuali.module.purap.document.PurchasingDocument;
 
-/**
- * @see org.kuali.module.kra.budget.rules.budget.BudgetDocumentPreRules
- */
 public class PurchaseOrderDocumentPreRules extends PreRulesContinuationBase {
 
     @Override
@@ -68,7 +65,7 @@ public class PurchaseOrderDocumentPreRules extends PreRulesContinuationBase {
             boolean confirmOverride = super.askOrAnalyzeYesNoQuestion(PurapConstants.PO_OVERRIDE_NOT_TO_EXCEED_QUESTION, questionText);
             
             // Set a marker to record that this method has been used.
-            if (StringUtils.isBlank(event.getQuestionContext())) {
+            if (confirmOverride && StringUtils.isBlank(event.getQuestionContext())) {
                 event.setQuestionContext(PurapConstants.PO_OVERRIDE_NOT_TO_EXCEED_QUESTION);
             }
         

@@ -35,6 +35,7 @@
         <tr>
             <th class="grid" colspan="7" align="left">
                 <br>
+                <html:hidden property="operatingModeTitle" value="${KualiForm.operatingModeTitle}" />
                 ${KualiForm.operatingModeTitle}
                 <br><br>
 		    </th>
@@ -50,30 +51,60 @@
 		    </th>
 	    </tr>
 	    <tr>
-            <%--point of view data line --%>
-            <%--first cell in row above spans two rows
-                lookupUnkeyedFieldConversions="appointmentDurationCode:newBCAFLine.appointmentFundingDurationCode,"
-                accountingLineValuesMap="${pointOfViewOrg.valuesMap}" --%>
+            <%-- point of view data line --%>
+            <%-- first cell in row above spans two rows 
+                                 property="pointOfViewOrg.selectionKeyCode"
             <bc:pbglLineDataCell dataCellCssClass="grid"
                 accountingLine="pointOfViewOrg"
-                field="chartOfAccountsCode"
+                field="organizationCode"
                 attributes="${pointOfViewOrgAttributes}" inquiry="false"
                 readOnly="true"
                 displayHidden="false"
                 colSpan="1" />
-            <bc:pbglLineDataCell dataCellCssClass="grid"
-                accountingLine="pointOfViewOrg"
-                field="organizationCode"
-                detailField="organization.organizationName"
-                attributes="${pointOfViewOrgAttributes}" inquiry="true"
-                boClassSimpleName="Org"
-                readOnly="false"
-                displayHidden="false" />
+            --%>
             <td class="grid" valign="center" rowspan="1" colspan="1">
-			    &nbsp;
+                <span class="nowrap">
+                <kul:htmlControlAttribute
+                     property="currentPointOfViewKeyCode"
+                     attributeEntry="${pointOfViewOrgAttributes.selectionKeyCode}"
+                     onchange="submitForm()"
+                     readOnly="false"
+                     styleClass="grid" />
+                </span>
             </td>
             <td class="grid" valign="center" rowspan="1" colspan="1">
-			    &nbsp;
+            <kul:htmlControlAttribute
+                property="pointOfViewOrg.chartOfAccountsCode"
+                attributeEntry="${pointOfViewOrgAttributes.chartOfAccountsCode}"
+                readOnly="true"
+                readOnlyBody="true">
+                <kul:inquiry
+                    boClassName="org.kuali.module.chart.bo.Chart"
+                    keyValues="chartOfAccountsCode=${pointOfViewOrg.chartOfAccountsCode}"
+                    render="${!empty KualiForm.pointOfViewOrg.chartOfAccountsCode}">
+                	<html:hidden write="true" property="pointOfViewOrg.chartOfAccountsCode" />
+                </kul:inquiry>&nbsp;
+            </kul:htmlControlAttribute>
+            </td>
+            <td class="grid" valign="center" rowspan="1" colspan="1">
+            <kul:htmlControlAttribute
+                property="pointOfViewOrg.organizationCode"
+                attributeEntry="${pointOfViewOrgAttributes.organizationCode}"
+                readOnly="true"
+                readOnlyBody="true">
+                <kul:inquiry
+                    boClassName="org.kuali.module.chart.bo.Org"
+                    keyValues="chartOfAccountsCode=${KualiForm.pointOfViewOrg.chartOfAccountsCode}&amp;organizationCode=${KualiForm.pointOfViewOrg.organizationCode}"
+                    render="${!empty KualiForm.pointOfViewOrg.organizationCode}">
+                	<html:hidden write="true" property="pointOfViewOrg.organizationCode" />
+                </kul:inquiry>&nbsp;
+	      	</kul:htmlControlAttribute>
+            </td>
+            <td class="grid" valign="center" rowspan="1" colspan="1">
+            <kul:htmlControlAttribute
+                property="pointOfViewOrg.organization.organizationName"
+                attributeEntry="${organizationAttributes.organizationName}"
+                readOnly="true"/>
             </td>
             <td class="grid" valign="center" rowspan="1" colspan="1">
 			    &nbsp;

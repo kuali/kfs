@@ -16,13 +16,17 @@
 package org.kuali.module.budget.web.struts.form;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.kuali.core.web.struts.form.KualiForm;
+import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.budget.BCConstants.OrgSelOpMode;
 import org.kuali.module.budget.bo.BudgetConstructionOrganizationReports;
+import org.kuali.module.chart.bo.Org;
 
 /**
  * This class...
@@ -33,6 +37,9 @@ public class OrganizationSelectionTreeForm extends KualiForm {
     private BudgetConstructionOrganizationReports pointOfViewOrg;
     private boolean hideDetails = false;
     private String operatingModeTitle;
+
+    private String currentPointOfViewKeyCode;
+    private String previousPointOfViewKeyCode;
 
     //passed parms
     private String returnAnchor;
@@ -54,6 +61,18 @@ public class OrganizationSelectionTreeForm extends KualiForm {
     public void populate(HttpServletRequest request) {
         // TODO Auto-generated method stub
         super.populate(request);
+        
+        // check for point of view change
+        if (getCurrentPointOfViewKeyCode() != null){
+            String[] flds = getCurrentPointOfViewKeyCode().split("[-]");
+            setPreviousPointOfViewKeyCode(getCurrentPointOfViewKeyCode());
+
+            HashMap map = new HashMap();
+            map.put("chartOfAccountsCode", flds[0]);
+            map.put("organizationCode", flds[1]);
+            pointOfViewOrg = (BudgetConstructionOrganizationReports) SpringServiceLocator.getBusinessObjectService().findByPrimaryKey(BudgetConstructionOrganizationReports.class, map);
+        }
+        
     }
 
     /**
@@ -150,6 +169,38 @@ public class OrganizationSelectionTreeForm extends KualiForm {
      */
     public void setOperatingModeTitle(String operatingModeTitle) {
         this.operatingModeTitle = operatingModeTitle;
+    }
+
+    /**
+     * Gets the currentPointOfViewKeyCode attribute. 
+     * @return Returns the currentPointOfViewKeyCode.
+     */
+    public String getCurrentPointOfViewKeyCode() {
+        return currentPointOfViewKeyCode;
+    }
+
+    /**
+     * Sets the currentPointOfViewKeyCode attribute value.
+     * @param currentPointOfViewKeyCode The currentPointOfViewKeyCode to set.
+     */
+    public void setCurrentPointOfViewKeyCode(String currentPointOfViewKeyCode) {
+        this.currentPointOfViewKeyCode = currentPointOfViewKeyCode;
+    }
+
+    /**
+     * Gets the previousPointOfViewKeyCode attribute. 
+     * @return Returns the previousPointOfViewKeyCode.
+     */
+    public String getPreviousPointOfViewKeyCode() {
+        return previousPointOfViewKeyCode;
+    }
+
+    /**
+     * Sets the previousPointOfViewKeyCode attribute value.
+     * @param previousPointOfViewKeyCode The previousPointOfViewKeyCode to set.
+     */
+    public void setPreviousPointOfViewKeyCode(String previousPointOfViewKeyCode) {
+        this.previousPointOfViewKeyCode = previousPointOfViewKeyCode;
     }
 
 

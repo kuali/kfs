@@ -302,7 +302,11 @@
 	<!-- CONFIGURATION MANAGEMENT TARGETS -->
 
 	<target name="setup-rice" depends="init-property-files">
-		<maven goals="install:install-file" options="-U -DgroupId=com.oracle -DartifactId=ojdbc14 -Dversion=10.1.0.3.0 -Dpackaging=jar -Dfile=${drivers.directory}/ojdbc14.jar" />
+		<condition property="os.safe.driver.path" value="c:${drivers.directory}/ojdbc14.jar">
+			<os family="windows"/>
+		</condition>
+		<property name="os.safe.driver.path" value="${drivers.directory}/ojdbc14.jar" />
+		<maven goals="install:install-file" options="-U -DgroupId=com.oracle -DartifactId=ojdbc14 -Dversion=10.1.0.3.0 -Dpackaging=jar -Dfile=${os.safe.driver.path}" />
 		<copy todir="${user.home}/kuali">
 			<fileset dir="${build.user.directory}/${ant.project.name}" includes="**/**" />
 			<filterset>

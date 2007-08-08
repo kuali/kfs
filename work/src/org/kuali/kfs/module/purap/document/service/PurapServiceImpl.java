@@ -16,9 +16,11 @@
 package org.kuali.module.purap.service.impl;
 
 import java.sql.Date;
+import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -266,23 +268,12 @@ public class PurapServiceImpl implements PurapService {
      * @see org.kuali.module.purap.service.PurapService#isDateAYearAfterToday(java.sql.Date)
      */
     public boolean isDateAYearBeforeToday(Date compareDate) {
-        Date today = dateTimeService.getCurrentSqlDate();
-        String todayString = today.toString();
-        
-        String todaysYear = todayString.substring(0,4);
-        String restOfToday = todayString.substring(4);
-        String lastYear = new Integer((new Integer(todaysYear)).intValue() - 1).toString();
-        Date yearAgo = null;
-        try {
-            yearAgo = dateTimeService.convertToSqlDate(lastYear+restOfToday);
-        }
-        catch (ParseException pe) {
-            throw new RuntimeException(pe);
-        }
+        Calendar calendar = dateTimeService.getCurrentCalendar();
+        calendar.add(Calendar.YEAR,-1);
+        Date yearAgo = new Date(calendar.getTimeInMillis());        
         int diffFromYearAgo = dateTimeService.dateDiff(compareDate, yearAgo, false);
         return (diffFromYearAgo > 0);
-    }
-    
+    }    
     
     /*
      *    PURCHASING DOCUMENT METHODS

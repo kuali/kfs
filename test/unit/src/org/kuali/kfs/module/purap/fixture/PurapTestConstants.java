@@ -58,4 +58,12 @@ class PurapTestConstants {
         static final String ACCOUNT_NUMBER = "9999999";
         static final BigDecimal UNIT_PRICE = new KualiDecimal(32).bigDecimalValue();
     }
+    
+    @SuppressWarnings("deprecation")
+    static class PREQInvoice {
+        static final Integer PO_ID = new Integer("9999");
+        static final Date INVOICE_DATE = new Date(108,1,1); //2008-01-01
+        static final String INVOICE_NUMBER = "123456789";
+        static final KualiDecimal AMOUNT = new KualiDecimal(32);
+    }
 }

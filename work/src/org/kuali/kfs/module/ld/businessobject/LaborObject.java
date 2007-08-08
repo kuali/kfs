@@ -36,6 +36,7 @@ public class LaborObject extends PersistableBusinessObjectBase {
 	private String financialObjectPayTypeCode;
 	private String financialObjectFringeOrSalaryCode;
 	private String positionObjectGroupCode;
+    private String activeIndicator;
 
     private ObjectCode financialObject;
 	private Chart chartOfAccounts;
@@ -286,6 +287,22 @@ public class LaborObject extends PersistableBusinessObjectBase {
         m.put("chartOfAccountsCode", this.chartOfAccountsCode);
         m.put("financialObjectCode", this.financialObjectCode);
         return m;
+    }
+
+    /**
+     * Gets the activeIndicator attribute. 
+     * @return Returns the activeIndicator.
+     */
+    public String getActiveIndicator() {
+        return activeIndicator;
+    }
+
+    /**
+     * Sets the activeIndicator attribute value.
+     * @param activeIndicator The activeIndicator to set.
+     */
+    public void setActiveIndicator(String activeIndicator) {
+        this.activeIndicator = activeIndicator;
     }    
 
 }

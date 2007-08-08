@@ -157,7 +157,7 @@ public class CorrectionDocument extends TransactionalDocumentBase implements Amo
             if (CorrectionDocumentService.CORRECTION_TYPE_REMOVE_GROUP_FROM_PROCESSING.equals(correctionType)) {
                 SpringServiceLocator.getOriginEntryGroupService().dontProcessGroup(doc.getCorrectionInputGroupId());
             }
-            else if (CorrectionDocumentService.CORRECTION_TYPE_MANUAL.equals(correctionType) || CorrectionDocumentService.CORRECTION_TYPE_MANUAL.equals(correctionType)){
+            else if (CorrectionDocumentService.CORRECTION_TYPE_MANUAL.equals(correctionType) || CorrectionDocumentService.CORRECTION_TYPE_CRITERIA.equals(correctionType)){
                 OriginEntryGroup outputGroup = originEntryGroupService.getExactMatchingEntryGroup(doc.getCorrectionOutputGroupId().intValue());
                 if (!doc.getCorrectionFileDelete()) {
                     LOG.debug("handleRouteStatusChange() Mark group as to be processed");

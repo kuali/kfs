@@ -76,11 +76,11 @@
 			</attribute>
 
             <attribute name="chartOfAccountsCode" forceUppercase="true">
-                <label>Chart Of Accounts Code</label>
+                <label>Chart Code</label>
                 <shortLabel>Code</shortLabel>
 
                 <maxLength>2</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
+                <validationPattern><alpha/></validationPattern>
                 <required>true</required>
 
                 <control>

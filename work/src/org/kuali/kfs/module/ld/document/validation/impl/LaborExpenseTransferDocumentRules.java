@@ -76,7 +76,7 @@ public class LaborExpenseTransferDocumentRules extends AccountingDocumentRuleBas
     public LaborExpenseTransferDocumentRules() {
         super();
     }
-    
+
     /**
      * @see org.kuali.kfs.rules.AccountingDocumentRuleBase#processCustomAddAccountingLineBusinessRules(org.kuali.kfs.document.AccountingDocument,
      *      org.kuali.kfs.bo.AccountingLine)
@@ -130,16 +130,6 @@ public class LaborExpenseTransferDocumentRules extends AccountingDocumentRuleBas
         // check to ensure totals of accounting lines in source and target sections match by pay FY + pay period
         isValid = isValid & isAccountingLineTotalsMatchByPayFYAndPayPeriod(sourceLines, targetLines);
 
-        // only allow a transfer of benefit dollars up to the amount that already exist in labor ledger detail for a given pay period
-        Map<String, ExpenseTransferAccountingLine> accountingLineGroupMap = this.getAccountingLineGroupMap(sourceLines, ExpenseTransferSourceAccountingLine.class);
-        if (isValid) {
-            boolean isValidTransferAmount = isValidTransferAmount(accountingLineGroupMap);
-            if (!isValidTransferAmount) {
-                reportError(KFSPropertyConstants.SOURCE_ACCOUNTING_LINES, KFSKeyConstants.Labor.ERROR_TRANSFER_AMOUNT_EXCEED_MAXIMUM);
-                isValid = false;
-            }
-        }
-
         // target accouting lines must have the same amounts as source accounting lines for each object code
         if (isValid) {
             boolean isValidAmountTransferredByObjectCode = isValidAmountTransferredByObjectCode(expenseTransferDocument);
@@ -160,6 +150,7 @@ public class LaborExpenseTransferDocumentRules extends AccountingDocumentRuleBas
 
         // allow a negative amount to be moved from one account to another but do not allow a negative amount to be created when the
         // balance is positive
+        Map<String, ExpenseTransferAccountingLine> accountingLineGroupMap = this.getAccountingLineGroupMap(sourceLines, ExpenseTransferSourceAccountingLine.class);
         if (isValid) {
             boolean canNegtiveAmountBeTransferred = canNegtiveAmountBeTransferred(accountingLineGroupMap);
             if (!canNegtiveAmountBeTransferred) {
@@ -182,9 +173,20 @@ public class LaborExpenseTransferDocumentRules extends AccountingDocumentRuleBas
                 return false;
             }
         }
-        //We must not have any pending labor ledger entries with same emplId, periodCode, accountNumber, objectCode
-        isValid = validatePendingExpenseTransfer(expenseTransferDocument.getEmplid(), sourceLines); 
         
+        // only allow a transfer of benefit dollars up to the amount that already exist in labor ledger detail for a given pay
+        // period
+        if (isValid) {
+            boolean isValidTransferAmount = isValidTransferAmount(accountingLineGroupMap);
+            if (!isValidTransferAmount) {
+                reportError(KFSPropertyConstants.SOURCE_ACCOUNTING_LINES, KFSKeyConstants.Labor.ERROR_TRANSFER_AMOUNT_EXCEED_MAXIMUM);
+                isValid = false;
+            }
+        }
+        
+        // We must not have any pending labor ledger entries with same emplId, periodCode, accountNumber, objectCode
+        isValid = validatePendingExpenseTransfer(expenseTransferDocument.getEmplid(), sourceLines);
+
         return isValid;
     }
 
@@ -497,12 +499,27 @@ public class LaborExpenseTransferDocumentRules extends AccountingDocumentRuleBas
      * @return the amount for a given period from the qualified ledger balance
      */
     protected KualiDecimal getBalanceAmount(Map<String, Object> fieldValues, String periodCode) {
-        List<LedgerBalance> ledgerBalances = (List<LedgerBalance>) SpringServiceLocator.getBusinessObjectService().findMatching(LedgerBalance.class, fieldValues);
-
-        if (!ledgerBalances.isEmpty() && periodCode != null) {
-            return ledgerBalances.get(0).getAmount(periodCode);
+        if (periodCode == null) {
+            return KualiDecimal.ZERO;
         }
-        return KualiDecimal.ZERO;
+        
+        fieldValues.put(KFSPropertyConstants.FINANCIAL_BALANCE_TYPE_CODE, KFSConstants.BALANCE_TYPE_ACTUAL);
+        KualiDecimal actualBalanceAmount = this.getBalanceAmountOfGivenPeriod(fieldValues, periodCode);
+        
+        fieldValues.put(KFSPropertyConstants.FINANCIAL_BALANCE_TYPE_CODE, KFSConstants.BALANCE_TYPE_A21);
+        KualiDecimal effortBalanceAmount = this.getBalanceAmountOfGivenPeriod(fieldValues, periodCode);
+
+        return actualBalanceAmount.add(effortBalanceAmount);
+    }
+    
+    // get the balance amount for the given period
+    private KualiDecimal getBalanceAmountOfGivenPeriod(Map<String, Object> fieldValues, String periodCode) {
+        KualiDecimal balanceAmount = KualiDecimal.ZERO;
+        List<LedgerBalance> ledgerBalances = (List<LedgerBalance>) SpringServiceLocator.getBusinessObjectService().findMatching(LedgerBalance.class, fieldValues);
+        if (!ledgerBalances.isEmpty()) {
+            balanceAmount = ledgerBalances.get(0).getAmount(periodCode);
+        }
+        return balanceAmount;
     }
 
     /**
@@ -559,7 +576,7 @@ public class LaborExpenseTransferDocumentRules extends AccountingDocumentRuleBas
         }
         return accountingLineGroupMap;
     }
-    
+
     /**
      * determine whether the accounts in the target accounting lines accept fringe benefits.
      * 
@@ -572,7 +589,7 @@ public class LaborExpenseTransferDocumentRules extends AccountingDocumentRuleBas
 
         for (AccountingLine accountingLine : accountingLines) {
             Account account = accountingLine.getAccount();
-            if (account!=null && !account.isAccountsFringesBnftIndicator()) {
+            if (account != null && !account.isAccountsFringesBnftIndicator()) {
                 String overrideCode = accountingLine.getOverrideCode();
                 boolean canNonFringeAccountUsed = NON_FRINGE_ACCOUNT_USED.equals(overrideCode);
                 canNonFringeAccountUsed = canNonFringeAccountUsed || EXPIRED_ACCOUNT_AND_NON_FRINGE_ACCOUNT_USED.equals(overrideCode);
@@ -584,7 +601,7 @@ public class LaborExpenseTransferDocumentRules extends AccountingDocumentRuleBas
         }
         return true;
     }
-    
+
     /**
      * Determine whether target accouting lines have the same fringe benefit object codes as source accounting lines
      * 
@@ -612,7 +629,7 @@ public class LaborExpenseTransferDocumentRules extends AccountingDocumentRuleBas
         }
         return objectCodesFromSourceLine.containsAll(objectCodesFromTargetLine);
     }
-    
+
     /**
      * Determine whether the object code of the given accouting line is one of fringe benefit objects of source accounting lines
      * 
@@ -2066,20 +2083,20 @@ public class LaborExpenseTransferDocumentRules extends AccountingDocumentRuleBas
     public boolean validatePendingExpenseTransfer(String emplid, List sourceLines) {
 
         // We must not have any pending labor ledger entries
-        
-        for (Object oj : sourceLines){
+
+        for (Object oj : sourceLines) {
             ExpenseTransferAccountingLine etal = (ExpenseTransferAccountingLine) oj;
             String payPeriod = etal.getPayrollEndDateFiscalPeriodCode();
             String accountNumber = etal.getAccountNumber();
             String objectCode = etal.getObjectCode().getCode();
-        
+
             if (SpringServiceLocator.getLaborLedgerPendingEntryService().hasPendingLaborLedgerEntry(emplid, payPeriod, accountNumber, objectCode)) {
                 reportError(KFSConstants.EMPLOYEE_LOOKUP_ERRORS, KFSKeyConstants.Labor.PENDING_SALARY_TRANSFER_ERROR, emplid, payPeriod, accountNumber, objectCode);
                 return false;
             }
-            
+
         }
-        
+
         return true;
     }
 
@@ -2144,7 +2161,7 @@ public class LaborExpenseTransferDocumentRules extends AccountingDocumentRuleBas
 
         fieldValues.put(KFSPropertyConstants.FINANCIAL_BALANCE_TYPE_CODE, accountingLine.getBalanceTypeCode());
         fieldValues.put(KFSPropertyConstants.FINANCIAL_OBJECT_CODE, accountingLine.getFinancialObjectCode());
-        
+
         Options options = SpringServiceLocator.getOptionsService().getOptions(accountingLine.getPostingYear());
         fieldValues.put(KFSPropertyConstants.FINANCIAL_OBJECT_TYPE_CODE, options.getFinObjTypeExpenditureexpCd());
 

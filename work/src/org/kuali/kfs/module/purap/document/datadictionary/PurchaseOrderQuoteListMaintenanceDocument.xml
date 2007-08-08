@@ -48,7 +48,6 @@
         <maintainableSections>
             <maintainableSection title="Edit Quote List">
                 <maintainableItems>
-                    <maintainableField name="purchaseOrderQuoteListIdentifier" required="true" />
                     <maintainableField name="purchaseOrderQuoteListName" required="true" />
                     <maintainableField name="contractManagerCode" required="true" />
                     <maintainableField name="versionNumber" />

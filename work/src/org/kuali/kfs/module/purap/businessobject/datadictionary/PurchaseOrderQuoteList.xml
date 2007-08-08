@@ -25,7 +25,6 @@
             <title>Purchase Order Quote List Inquiry</title>
 
             <inquirySections><inquirySection title="Header Text"><inquiryFields>
-                <field attributeName="purchaseOrderQuoteListIdentifier" />
                 <field attributeName="purchaseOrderQuoteListName" />
                 <field attributeName="contractManagerCode" />
             </inquiryFields></inquirySection></inquirySections>
@@ -43,13 +42,11 @@
             </defaultSort>
 
             <lookupFields>
-                <lookupField attributeName="purchaseOrderQuoteListIdentifier" required="false" />
                 <lookupField attributeName="purchaseOrderQuoteListName" required="false" />
                 <lookupField attributeName="contractManagerCode" required="false" />
             </lookupFields>
 
             <resultFields>
-                <field attributeName="purchaseOrderQuoteListIdentifier" />
                 <field attributeName="purchaseOrderQuoteListName" />
                 <field attributeName="contractManagerCode" />
             </resultFields>

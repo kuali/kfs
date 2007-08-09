@@ -94,7 +94,7 @@ public class ProcurementCardCreateDocumentServiceImpl implements ProcurementCard
         for (Iterator iter = documents.iterator(); iter.hasNext();) {
             ProcurementCardDocument pcardDocument = (ProcurementCardDocument) iter.next();
             try {
-                documentService.validateAndPersistDocument(pcardDocument, new SaveOnlyDocumentEvent(pcardDocument));
+                documentService.saveDocumentWithoutRunningValidation(pcardDocument);
             }
             catch (Exception e) {
                 LOG.error("Error persisting document # " + pcardDocument.getDocumentHeader().getDocumentNumber() + " " + e.getMessage());

@@ -26,6 +26,7 @@ import org.kuali.module.gl.service.impl.scrubber.DemergerReportData;
 import org.kuali.module.gl.service.impl.scrubber.ScrubberReportData;
 import org.kuali.module.gl.util.Message;
 import org.kuali.module.gl.util.Summary;
+import org.kuali.module.labor.document.LaborCorrectionDocument;
 import org.kuali.module.labor.util.ReportRegistry;
 
 /**
@@ -104,8 +105,9 @@ public interface LaborReportService {
      */
     public void generateOutputSummaryReport(OriginEntryGroup group, ReportRegistry reportInfo, String reportsDirectory, Date runDate);
     
-    
-    
+    //LLCP reports
+    public void correctionOnlineReport(LaborCorrectionDocument cDocument, String reportsDirectory, Date runDate);
+
     
     //Scrubber reports
     public void generateScrubberLedgerSummaryReportBatch(Collection groups, String reportsDirectory, Date runDate);

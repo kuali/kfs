@@ -810,7 +810,7 @@ public class LaborOriginEntry extends OriginEntry implements LaborTransaction {
         sb.append(formatDate(payPeriodEndDate));
         
         if (transactionTotalHours == null){
-            sb.append("   ");
+            sb.append("         ");
         } else {
             sb.append(getField(9, transactionTotalHours.toString()));
         }
@@ -989,7 +989,7 @@ public class LaborOriginEntry extends OriginEntry implements LaborTransaction {
             setEmployeeRecord(new Integer(0));
         } else {
             try {
-                setEmployeeRecord(new Integer(getValue(line, 239, 242)));
+                setEmployeeRecord(new Integer(getValue(line, 222, 226)));
                 
             }
             catch (NumberFormatException e) {

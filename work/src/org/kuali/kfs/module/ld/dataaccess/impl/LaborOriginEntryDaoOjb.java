@@ -231,5 +231,17 @@ public class LaborOriginEntryDaoOjb extends OriginEntryDaoOjb implements LaborOr
         return getPersistenceBrokerTemplate().getCollectionByQuery(qbc);
     }
     
+    /**
+     * @param entry the entry to save.
+     */
+    public void saveOriginEntry(LaborOriginEntry entry) {
+        LOG.debug("saveOriginEntry() started");
+
+        if ((entry != null) && (entry.getTransactionLedgerEntryDescription() != null) && (entry.getTransactionLedgerEntryDescription().length() > 40)) {
+            entry.setTransactionLedgerEntryDescription(entry.getTransactionLedgerEntryDescription().substring(0, 40));
+        }
+        getPersistenceBrokerTemplate().store(entry);
+    }
+    
   
 }

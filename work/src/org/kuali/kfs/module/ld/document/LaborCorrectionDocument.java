@@ -19,16 +19,19 @@ import java.util.Iterator;
 
 import org.kuali.core.document.AmountTotaling;
 import org.kuali.core.service.DateTimeService;
+import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.gl.bo.OriginEntryGroup;
 import org.kuali.module.gl.bo.OriginEntrySource;
 import org.kuali.module.gl.document.CorrectionDocument;
-import org.kuali.module.gl.service.CorrectionDocumentService;
-import org.kuali.module.gl.service.ReportService;
-import org.kuali.module.gl.service.ScrubberService;
+import org.kuali.module.labor.service.LaborCorrectionDocumentService;
+import org.kuali.module.gl.service.OriginEntryGroupService;
 import org.kuali.module.labor.bo.LaborOriginEntry;
 import org.kuali.module.labor.service.LaborCorrectionDocumentService;
 import org.kuali.module.labor.service.LaborOriginEntryService;
+import org.kuali.module.labor.service.LaborReportService;
+import org.kuali.module.labor.service.LaborScrubberService;
+import org.kuali.module.labor.util.ReportRegistry;
 
 import edu.iu.uis.eden.clientapp.vo.DocumentRouteLevelChangeVO;
 
@@ -48,10 +51,10 @@ public class LaborCorrectionDocument extends CorrectionDocument implements Amoun
      */
     @Override
     public void handleRouteLevelChange(DocumentRouteLevelChangeVO change) {
-        super.handleRouteLevelChange(change);
+        
         if(WORKGROUP_APPROVAL_ROUTE_LEVEL.equals(change.getNewRouteLevel())) {
             String correctionType = getCorrectionTypeCode();
-            if (CorrectionDocumentService.CORRECTION_TYPE_MANUAL.equals(correctionType) || CorrectionDocumentService.CORRECTION_TYPE_CRITERIA.equals(correctionType)){
+            if (LaborCorrectionDocumentService.CORRECTION_TYPE_MANUAL.equals(correctionType) || LaborCorrectionDocumentService.CORRECTION_TYPE_CRITERIA.equals(correctionType)){
                 String docId = getDocumentHeader().getDocumentNumber();
                 // this code is performed asynchronously
                 
@@ -68,8 +71,8 @@ public class LaborCorrectionDocument extends CorrectionDocument implements Amoun
                 OriginEntryGroup oeg = laborOriginEntryService.copyEntries(today, OriginEntrySource.LABOR_CORRECTION_PROCESS_EDOC, true, false, true, outputEntries);
                 
                 // Now, run the reports
-                ReportService reportService = SpringServiceLocator.getReportService();
-                ScrubberService scrubberService = SpringServiceLocator.getScrubberService();
+                LaborReportService reportService = SpringServiceLocator.getLaborReportService();
+                LaborScrubberService laborScrubberService = SpringServiceLocator.getLaborScrubberService();
                 
                 setCorrectionOutputGroupId(oeg.getId());
                 // not using the document service to save because it touches workflow, just save the doc BO as a regular BO
@@ -77,11 +80,60 @@ public class LaborCorrectionDocument extends CorrectionDocument implements Amoun
                 
                 LOG.debug("handleRouteStatusChange() Run reports");
     
-                reportService.correctionOnlineReport(this, today);
+                String reportsDirectory = ReportRegistry.getReportsDirectory();
+                
+                reportService.correctionOnlineReport(this, reportsDirectory, today);
     
                 // Run the scrubber on this group to generate a bunch of reports. The scrubber won't save anything when running it
                 // this way.
-                scrubberService.scrubGroupReportOnly(oeg, docId);
+                laborScrubberService.scrubGroupReportOnly(oeg, docId);
+            }
+        }
+    }
+    
+    /**
+     * If the document final, change the process flag on the output origin entry group (if necessary)
+     * 
+     * @see org.kuali.core.document.DocumentBase#handleRouteStatusChange()
+     */
+    @Override
+    public void handleRouteStatusChange() {
+        LOG.debug("handleRouteStatusChange() started");
+        
+        if (getDocumentHeader().getWorkflowDocument().stateIsCanceled()) {
+            getDocumentHeader().setFinancialDocumentStatusCode(KFSConstants.DocumentStatusCodes.CANCELLED);
+        }
+        else if (getDocumentHeader().getWorkflowDocument().stateIsEnroute()) {
+            getDocumentHeader().setFinancialDocumentStatusCode(KFSConstants.DocumentStatusCodes.ENROUTE);
+        }
+        if (getDocumentHeader().getWorkflowDocument().stateIsDisapproved()) {
+            getDocumentHeader().setFinancialDocumentStatusCode(KFSConstants.DocumentStatusCodes.DISAPPROVED);
+        }
+        if (getDocumentHeader().getWorkflowDocument().stateIsProcessed()) {
+            getDocumentHeader().setFinancialDocumentStatusCode(KFSConstants.DocumentStatusCodes.APPROVED);
+        }
+        
+        LaborCorrectionDocumentService laborCorrectionDocumentService = SpringServiceLocator.getLaborCorrectionDocumentService();
+        OriginEntryGroupService originEntryGroupService = SpringServiceLocator.getOriginEntryGroupService();
+
+        String docId = getDocumentHeader().getDocumentNumber();
+        LaborCorrectionDocument doc = laborCorrectionDocumentService.findByCorrectionDocumentHeaderId(docId);
+
+        if (getDocumentHeader().getWorkflowDocument().stateIsFinal()) {
+            String correctionType = doc.getCorrectionTypeCode();
+            if (LaborCorrectionDocumentService.CORRECTION_TYPE_REMOVE_GROUP_FROM_PROCESSING.equals(correctionType)) {
+                SpringServiceLocator.getOriginEntryGroupService().dontProcessGroup(doc.getCorrectionInputGroupId());
+            }
+            else if (LaborCorrectionDocumentService.CORRECTION_TYPE_MANUAL.equals(correctionType) || LaborCorrectionDocumentService.CORRECTION_TYPE_CRITERIA.equals(correctionType)){
+                OriginEntryGroup outputGroup = originEntryGroupService.getExactMatchingEntryGroup(doc.getCorrectionOutputGroupId().intValue());
+                if (!doc.getCorrectionFileDelete()) {
+                    LOG.debug("handleRouteStatusChange() Mark group as to be processed");
+                    outputGroup.setProcess(true);
+                    originEntryGroupService.save(outputGroup);
+                }
+            }
+            else {
+                LOG.error("GLCP doc " + doc.getDocumentNumber() + " has an unknown correction type code: " + correctionType);
             }
         }
     }

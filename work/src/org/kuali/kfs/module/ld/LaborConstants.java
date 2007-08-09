@@ -24,7 +24,7 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.util.SpringServiceLocator;
-import org.kuali.module.labor.bo.LaborOriginEntry;
+import org.kuali.module.gl.bo.OriginEntry;
 
 /**
  * This class contains the constants used by Labor Distribution.
@@ -219,7 +219,7 @@ public class LaborConstants {
     private static String SPACE_TRANSACTION_DATE = null;
     public static String getSpaceTransactionDate() {
         if (SPACE_TRANSACTION_DATE == null) {
-            SPACE_TRANSACTION_DATE = StringUtils.rightPad("", SpringServiceLocator.getDataDictionaryService().getAttributeSize(LaborOriginEntry.class, KFSPropertyConstants.TRANSACTION_DATE), ' ');
+            SPACE_TRANSACTION_DATE = StringUtils.rightPad("", SpringServiceLocator.getDataDictionaryService().getAttributeSize(OriginEntry.class, KFSPropertyConstants.TRANSACTION_DATE), ' ');
         }
         return SPACE_TRANSACTION_DATE;
     }

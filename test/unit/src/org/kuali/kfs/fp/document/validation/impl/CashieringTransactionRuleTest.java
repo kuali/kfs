@@ -51,15 +51,15 @@ public class CashieringTransactionRuleTest extends KualiTestBase {
         CashieringTransaction transaction = cmDoc.getCurrentTransaction();
         resetTransaction(transaction);
         
-        transaction.setMoneyInCurrency(CurrencyDetailTest.CurrencyDetailAmountFixture.ALL_FIVES_AMOUNT.convertoToCurrencyDetail());
+        transaction.setMoneyInCurrency(CurrencyDetailTest.CurrencyDetailAmountFixture.ALL_FIVES_AMOUNT.convertToCurrencyDetail());
         transaction.setMoneyInCoin(CoinDetailTest.CoinDetailAmountFixture.ALL_FIVES_COIN_AMOUNT.convertToCoinDetail());
-        transaction.setMoneyOutCurrency(CurrencyDetailTest.CurrencyDetailAmountFixture.ALL_FIVES_AMOUNT.convertoToCurrencyDetail());
+        transaction.setMoneyOutCurrency(CurrencyDetailTest.CurrencyDetailAmountFixture.ALL_FIVES_AMOUNT.convertToCurrencyDetail());
         transaction.setMoneyOutCoin(CoinDetailTest.CoinDetailAmountFixture.ALL_FIVES_COIN_AMOUNT.convertToCoinDetail());
         assertTrue(rule.checkMoneyInMoneyOutBalance(transaction));
         
-        transaction.setMoneyInCurrency(CurrencyDetailTest.CurrencyDetailAmountFixture.ALL_TENS_AMOUNT.convertoToCurrencyDetail());
+        transaction.setMoneyInCurrency(CurrencyDetailTest.CurrencyDetailAmountFixture.ALL_TENS_AMOUNT.convertToCurrencyDetail());
         assertFalse(rule.checkMoneyInMoneyOutBalance(transaction));
-        transaction.setMoneyInCurrency(CurrencyDetailTest.CurrencyDetailAmountFixture.ALL_FIVES_AMOUNT.convertoToCurrencyDetail());
+        transaction.setMoneyInCurrency(CurrencyDetailTest.CurrencyDetailAmountFixture.ALL_FIVES_AMOUNT.convertToCurrencyDetail());
         assertTrue(rule.checkMoneyInMoneyOutBalance(transaction));
         
         transaction.setMoneyInCoin(CoinDetailTest.CoinDetailAmountFixture.ALL_TENS_COIN_AMOUNT.convertToCoinDetail());
@@ -67,9 +67,9 @@ public class CashieringTransactionRuleTest extends KualiTestBase {
         transaction.setMoneyInCoin(CoinDetailTest.CoinDetailAmountFixture.ALL_FIVES_COIN_AMOUNT.convertToCoinDetail());
         assertTrue(rule.checkMoneyInMoneyOutBalance(transaction));
         
-        transaction.setMoneyOutCurrency(CurrencyDetailTest.CurrencyDetailAmountFixture.ALL_TENS_AMOUNT.convertoToCurrencyDetail());
+        transaction.setMoneyOutCurrency(CurrencyDetailTest.CurrencyDetailAmountFixture.ALL_TENS_AMOUNT.convertToCurrencyDetail());
         assertFalse(rule.checkMoneyInMoneyOutBalance(transaction));
-        transaction.setMoneyOutCurrency(CurrencyDetailTest.CurrencyDetailAmountFixture.ALL_FIVES_AMOUNT.convertoToCurrencyDetail());
+        transaction.setMoneyOutCurrency(CurrencyDetailTest.CurrencyDetailAmountFixture.ALL_FIVES_AMOUNT.convertToCurrencyDetail());
         assertTrue(rule.checkMoneyInMoneyOutBalance(transaction));
         
         transaction.setMoneyOutCoin(CoinDetailTest.CoinDetailAmountFixture.ALL_TENS_COIN_AMOUNT.convertToCoinDetail());
@@ -79,7 +79,7 @@ public class CashieringTransactionRuleTest extends KualiTestBase {
         
         // checks and currency
         resetTransaction(transaction);        
-        transaction.setMoneyOutCurrency(CurrencyDetailTest.CurrencyDetailAmountFixture.ALL_FIVES_AMOUNT.convertoToCurrencyDetail());
+        transaction.setMoneyOutCurrency(CurrencyDetailTest.CurrencyDetailAmountFixture.ALL_FIVES_AMOUNT.convertToCurrencyDetail());
         transaction.setMoneyOutCoin(CoinDetailTest.CoinDetailAmountFixture.ALL_FIVES_COIN_AMOUNT.convertToCoinDetail());
         Check justEnoughCheck = new CheckBase();
         justEnoughCheck.setAmount(new KualiDecimal(3530.0));
@@ -87,7 +87,7 @@ public class CashieringTransactionRuleTest extends KualiTestBase {
         assertTrue(rule.checkMoneyInMoneyOutBalance(transaction));
         
         resetTransaction(transaction);        
-        transaction.setMoneyOutCurrency(CurrencyDetailTest.CurrencyDetailAmountFixture.ALL_FIVES_AMOUNT.convertoToCurrencyDetail());
+        transaction.setMoneyOutCurrency(CurrencyDetailTest.CurrencyDetailAmountFixture.ALL_FIVES_AMOUNT.convertToCurrencyDetail());
         transaction.setMoneyOutCoin(CoinDetailTest.CoinDetailAmountFixture.ALL_FIVES_COIN_AMOUNT.convertToCoinDetail());
         Check notEnoughCheck = new CheckBase();
         notEnoughCheck.setAmount(new KualiDecimal(3.0));
@@ -95,7 +95,7 @@ public class CashieringTransactionRuleTest extends KualiTestBase {
         assertFalse(rule.checkMoneyInMoneyOutBalance(transaction));
         
         resetTransaction(transaction);        
-        transaction.setMoneyOutCurrency(CurrencyDetailTest.CurrencyDetailAmountFixture.ALL_FIVES_AMOUNT.convertoToCurrencyDetail());
+        transaction.setMoneyOutCurrency(CurrencyDetailTest.CurrencyDetailAmountFixture.ALL_FIVES_AMOUNT.convertToCurrencyDetail());
         transaction.setMoneyOutCoin(CoinDetailTest.CoinDetailAmountFixture.ALL_FIVES_COIN_AMOUNT.convertToCoinDetail());
         Check tooMuchCheck = new CheckBase();
         tooMuchCheck.setAmount(new KualiDecimal(1500000.0));
@@ -104,7 +104,7 @@ public class CashieringTransactionRuleTest extends KualiTestBase {
         
         // misc advance and currency
         resetTransaction(transaction);        
-        transaction.setMoneyOutCurrency(CurrencyDetailTest.CurrencyDetailAmountFixture.ALL_FIVES_AMOUNT.convertoToCurrencyDetail());
+        transaction.setMoneyOutCurrency(CurrencyDetailTest.CurrencyDetailAmountFixture.ALL_FIVES_AMOUNT.convertToCurrencyDetail());
         transaction.setMoneyOutCoin(CoinDetailTest.CoinDetailAmountFixture.ALL_FIVES_COIN_AMOUNT.convertToCoinDetail());
         CashieringItemInProcess currAdvance = transaction.getNewItemInProcess();
         currAdvance.setItemAmount(new KualiDecimal(3530.0));
@@ -113,7 +113,7 @@ public class CashieringTransactionRuleTest extends KualiTestBase {
         assertTrue(rule.checkMoneyInMoneyOutBalance(transaction));
         
         resetTransaction(transaction);        
-        transaction.setMoneyOutCurrency(CurrencyDetailTest.CurrencyDetailAmountFixture.ALL_FIVES_AMOUNT.convertoToCurrencyDetail());
+        transaction.setMoneyOutCurrency(CurrencyDetailTest.CurrencyDetailAmountFixture.ALL_FIVES_AMOUNT.convertToCurrencyDetail());
         transaction.setMoneyOutCoin(CoinDetailTest.CoinDetailAmountFixture.ALL_FIVES_COIN_AMOUNT.convertToCoinDetail());
         currAdvance = transaction.getNewItemInProcess();
         currAdvance.setItemAmount(new KualiDecimal(30.0));
@@ -121,7 +121,7 @@ public class CashieringTransactionRuleTest extends KualiTestBase {
         assertFalse(rule.checkMoneyInMoneyOutBalance(transaction));
         
         resetTransaction(transaction);        
-        transaction.setMoneyOutCurrency(CurrencyDetailTest.CurrencyDetailAmountFixture.ALL_FIVES_AMOUNT.convertoToCurrencyDetail());
+        transaction.setMoneyOutCurrency(CurrencyDetailTest.CurrencyDetailAmountFixture.ALL_FIVES_AMOUNT.convertToCurrencyDetail());
         transaction.setMoneyOutCoin(CoinDetailTest.CoinDetailAmountFixture.ALL_FIVES_COIN_AMOUNT.convertToCoinDetail());
         currAdvance = transaction.getNewItemInProcess();
         currAdvance.setItemAmount(new KualiDecimal(1000000.0));
@@ -136,7 +136,7 @@ public class CashieringTransactionRuleTest extends KualiTestBase {
         oldAdvance.setItemIdentifier(new Integer(58));
         oldAdvance.setItemOpenDate(new Date(new GregorianCalendar().getTimeInMillis()));
         transaction.getOpenItemsInProcess().add(oldAdvance);
-        transaction.setMoneyInCurrency(CurrencyDetailTest.CurrencyDetailAmountFixture.ALL_FIVES_AMOUNT.convertoToCurrencyDetail());
+        transaction.setMoneyInCurrency(CurrencyDetailTest.CurrencyDetailAmountFixture.ALL_FIVES_AMOUNT.convertToCurrencyDetail());
         transaction.setMoneyInCoin(CoinDetailTest.CoinDetailAmountFixture.ALL_FIVES_COIN_AMOUNT.convertToCoinDetail());
         assertTrue(rule.checkMoneyInMoneyOutBalance(transaction));
         
@@ -147,7 +147,7 @@ public class CashieringTransactionRuleTest extends KualiTestBase {
         oldAdvance.setItemIdentifier(new Integer(58));
         oldAdvance.setItemOpenDate(new Date(new GregorianCalendar().getTimeInMillis()));
         transaction.getOpenItemsInProcess().add(oldAdvance);
-        transaction.setMoneyInCurrency(CurrencyDetailTest.CurrencyDetailAmountFixture.ZERO_AMOUNT.convertoToCurrencyDetail());
+        transaction.setMoneyInCurrency(CurrencyDetailTest.CurrencyDetailAmountFixture.ZERO_AMOUNT.convertToCurrencyDetail());
         transaction.setMoneyInCoin(CoinDetailTest.CoinDetailAmountFixture.ZERO_COIN_AMOUNT.convertToCoinDetail());
         assertFalse(rule.checkMoneyInMoneyOutBalance(transaction));
         
@@ -158,7 +158,7 @@ public class CashieringTransactionRuleTest extends KualiTestBase {
         oldAdvance.setItemIdentifier(new Integer(58));
         oldAdvance.setItemOpenDate(new Date(new GregorianCalendar().getTimeInMillis()));
         transaction.getOpenItemsInProcess().add(oldAdvance);
-        transaction.setMoneyInCurrency(CurrencyDetailTest.CurrencyDetailAmountFixture.ALL_TENS_AMOUNT.convertoToCurrencyDetail());
+        transaction.setMoneyInCurrency(CurrencyDetailTest.CurrencyDetailAmountFixture.ALL_TENS_AMOUNT.convertToCurrencyDetail());
         transaction.setMoneyInCoin(CoinDetailTest.CoinDetailAmountFixture.ALL_TENS_COIN_AMOUNT.convertToCoinDetail());
         assertFalse(rule.checkMoneyInMoneyOutBalance(transaction));
         
@@ -204,11 +204,11 @@ public class CashieringTransactionRuleTest extends KualiTestBase {
         CashManagementDocument cmDoc = this.cashManagementDocumentFixture("testMoneyInNoNegatives");
         CashieringTransactionRule rule = (CashieringTransactionRule)SpringServiceLocator.getService("cashieringTransactionRule");
         
-        cmDoc.getCurrentTransaction().setMoneyInCurrency(CurrencyDetailTest.CurrencyDetailAmountFixture.ALL_FIVES_AMOUNT.convertoToCurrencyDetail());
+        cmDoc.getCurrentTransaction().setMoneyInCurrency(CurrencyDetailTest.CurrencyDetailAmountFixture.ALL_FIVES_AMOUNT.convertToCurrencyDetail());
         cmDoc.getCurrentTransaction().setMoneyInCoin(CoinDetailTest.CoinDetailAmountFixture.ALL_FIVES_COIN_AMOUNT.convertToCoinDetail());
         assertTrue(rule.checkMoneyInNoNegatives(cmDoc.getCurrentTransaction()));
         
-        cmDoc.getCurrentTransaction().setMoneyInCurrency(CurrencyDetailTest.CurrencyDetailAmountFixture.NEGATIVE_AMOUNT.convertoToCurrencyDetail());
+        cmDoc.getCurrentTransaction().setMoneyInCurrency(CurrencyDetailTest.CurrencyDetailAmountFixture.NEGATIVE_AMOUNT.convertToCurrencyDetail());
         assertFalse("Hundred Dollar", rule.checkMoneyInNoNegatives(cmDoc.getCurrentTransaction()));
         cmDoc.getCurrentTransaction().getMoneyInCurrency().setFinancialDocumentHundredDollarAmount(new KualiDecimal(100));
         assertFalse("Fifty Dollar", rule.checkMoneyInNoNegatives(cmDoc.getCurrentTransaction()));
@@ -240,12 +240,12 @@ public class CashieringTransactionRuleTest extends KualiTestBase {
         cmDoc.getCurrentTransaction().getMoneyInCoin().setFinancialDocumentOneCentAmount(new KualiDecimal(1));
         assertTrue(rule.checkMoneyInNoNegatives(cmDoc.getCurrentTransaction()));
         
-        cmDoc.getCurrentTransaction().setMoneyInCurrency(CurrencyDetailTest.CurrencyDetailAmountFixture.NULL_AMOUNT.convertoToCurrencyDetail());
+        cmDoc.getCurrentTransaction().setMoneyInCurrency(CurrencyDetailTest.CurrencyDetailAmountFixture.NULL_AMOUNT.convertToCurrencyDetail());
         assertTrue(rule.checkMoneyInNoNegatives(cmDoc.getCurrentTransaction()));
         cmDoc.getCurrentTransaction().setMoneyInCoin(CoinDetailTest.CoinDetailAmountFixture.NULL_COIN_AMOUNT.convertToCoinDetail());
         assertTrue(rule.checkMoneyInNoNegatives(cmDoc.getCurrentTransaction()));
         
-        cmDoc.getCurrentTransaction().setMoneyInCurrency(CurrencyDetailTest.CurrencyDetailAmountFixture.ZERO_AMOUNT.convertoToCurrencyDetail());
+        cmDoc.getCurrentTransaction().setMoneyInCurrency(CurrencyDetailTest.CurrencyDetailAmountFixture.ZERO_AMOUNT.convertToCurrencyDetail());
         assertTrue(rule.checkMoneyInNoNegatives(cmDoc.getCurrentTransaction()));
         cmDoc.getCurrentTransaction().setMoneyInCoin(CoinDetailTest.CoinDetailAmountFixture.ZERO_COIN_AMOUNT.convertToCoinDetail());
         assertTrue(rule.checkMoneyInNoNegatives(cmDoc.getCurrentTransaction()));
@@ -255,11 +255,11 @@ public class CashieringTransactionRuleTest extends KualiTestBase {
         CashManagementDocument cmDoc = this.cashManagementDocumentFixture("testMoneyOutNoNegatives");
         CashieringTransactionRule rule = (CashieringTransactionRule)SpringServiceLocator.getService("cashieringTransactionRule");
                 
-        cmDoc.getCurrentTransaction().setMoneyOutCurrency(CurrencyDetailTest.CurrencyDetailAmountFixture.ALL_FIVES_AMOUNT.convertoToCurrencyDetail());
+        cmDoc.getCurrentTransaction().setMoneyOutCurrency(CurrencyDetailTest.CurrencyDetailAmountFixture.ALL_FIVES_AMOUNT.convertToCurrencyDetail());
         cmDoc.getCurrentTransaction().setMoneyOutCoin(CoinDetailTest.CoinDetailAmountFixture.ALL_FIVES_COIN_AMOUNT.convertToCoinDetail());
         assertTrue(rule.checkMoneyOutNoNegatives(cmDoc.getCurrentTransaction()));
         
-        cmDoc.getCurrentTransaction().setMoneyOutCurrency(CurrencyDetailTest.CurrencyDetailAmountFixture.NEGATIVE_AMOUNT.convertoToCurrencyDetail());
+        cmDoc.getCurrentTransaction().setMoneyOutCurrency(CurrencyDetailTest.CurrencyDetailAmountFixture.NEGATIVE_AMOUNT.convertToCurrencyDetail());
         assertFalse("Hundred Dollar", rule.checkMoneyOutNoNegatives(cmDoc.getCurrentTransaction()));
         cmDoc.getCurrentTransaction().getMoneyOutCurrency().setFinancialDocumentHundredDollarAmount(new KualiDecimal(100));
         assertFalse("Fifty Dollar", rule.checkMoneyOutNoNegatives(cmDoc.getCurrentTransaction()));
@@ -291,12 +291,12 @@ public class CashieringTransactionRuleTest extends KualiTestBase {
         cmDoc.getCurrentTransaction().getMoneyOutCoin().setFinancialDocumentOneCentAmount(new KualiDecimal(1));
         assertTrue(rule.checkMoneyOutNoNegatives(cmDoc.getCurrentTransaction()));
         
-        cmDoc.getCurrentTransaction().setMoneyOutCurrency(CurrencyDetailTest.CurrencyDetailAmountFixture.NULL_AMOUNT.convertoToCurrencyDetail());
+        cmDoc.getCurrentTransaction().setMoneyOutCurrency(CurrencyDetailTest.CurrencyDetailAmountFixture.NULL_AMOUNT.convertToCurrencyDetail());
         assertTrue(rule.checkMoneyOutNoNegatives(cmDoc.getCurrentTransaction()));
         cmDoc.getCurrentTransaction().setMoneyOutCoin(CoinDetailTest.CoinDetailAmountFixture.NULL_COIN_AMOUNT.convertToCoinDetail());
         assertTrue(rule.checkMoneyOutNoNegatives(cmDoc.getCurrentTransaction()));
         
-        cmDoc.getCurrentTransaction().setMoneyOutCurrency(CurrencyDetailTest.CurrencyDetailAmountFixture.ZERO_AMOUNT.convertoToCurrencyDetail());
+        cmDoc.getCurrentTransaction().setMoneyOutCurrency(CurrencyDetailTest.CurrencyDetailAmountFixture.ZERO_AMOUNT.convertToCurrencyDetail());
         assertTrue(rule.checkMoneyOutNoNegatives(cmDoc.getCurrentTransaction()));
         cmDoc.getCurrentTransaction().setMoneyOutCoin(CoinDetailTest.CoinDetailAmountFixture.ZERO_COIN_AMOUNT.convertToCoinDetail());
         assertTrue(rule.checkMoneyOutNoNegatives(cmDoc.getCurrentTransaction()));
@@ -361,12 +361,12 @@ public class CashieringTransactionRuleTest extends KualiTestBase {
         CashManagementDocument cmDoc = this.cashManagementDocumentFixture("testEnoughCashOnHand");
         CashieringTransactionRule rule = (CashieringTransactionRule)SpringServiceLocator.getService("cashieringTransactionRule");
         
-        CurrencyDetail goodCurrency = CurrencyDetailTest.CurrencyDetailAmountFixture.ALL_FIVES_AMOUNT.convertoToCurrencyDetail();
-        CurrencyDetail excessiveCurrency = CurrencyDetailTest.CurrencyDetailAmountFixture.ALL_TENS_AMOUNT.convertoToCurrencyDetail();
+        CurrencyDetail goodCurrency = CurrencyDetailTest.CurrencyDetailAmountFixture.ALL_FIVES_AMOUNT.convertToCurrencyDetail();
+        CurrencyDetail excessiveCurrency = CurrencyDetailTest.CurrencyDetailAmountFixture.ALL_TENS_AMOUNT.convertToCurrencyDetail();
         CoinDetail goodCoin = CoinDetailTest.CoinDetailAmountFixture.ALL_FIVES_COIN_AMOUNT.convertToCoinDetail();
         CoinDetail excessiveCoin = CoinDetailTest.CoinDetailAmountFixture.ALL_TENS_COIN_AMOUNT.convertToCoinDetail();
         putFixtureDataIntoCashDrawer(cmDoc.getCashDrawer(), CashDrawerTest.CashDrawerAmountFixture.ALL_SEVENS_CASH_DRAWER);
-        cmDoc.getCurrentTransaction().setMoneyInCurrency(CurrencyDetailTest.CurrencyDetailAmountFixture.ZERO_AMOUNT.convertoToCurrencyDetail());
+        cmDoc.getCurrentTransaction().setMoneyInCurrency(CurrencyDetailTest.CurrencyDetailAmountFixture.ZERO_AMOUNT.convertToCurrencyDetail());
         cmDoc.getCurrentTransaction().setMoneyInCoin(CoinDetailTest.CoinDetailAmountFixture.ZERO_COIN_AMOUNT.convertToCoinDetail());
         
         cmDoc.getCurrentTransaction().setMoneyOutCurrency(goodCurrency);
@@ -407,9 +407,9 @@ public class CashieringTransactionRuleTest extends KualiTestBase {
         assertTrue(rule.checkEnoughCashForMoneyOut(cmDoc, cmDoc.getCurrentTransaction()));
         
         putFixtureDataIntoCashDrawer(cmDoc.getCashDrawer(), CashDrawerTest.CashDrawerAmountFixture.ZERO_CASH_DRAWER);
-        cmDoc.getCurrentTransaction().setMoneyInCurrency(CurrencyDetailTest.CurrencyDetailAmountFixture.ALL_FIVES_AMOUNT.convertoToCurrencyDetail());
+        cmDoc.getCurrentTransaction().setMoneyInCurrency(CurrencyDetailTest.CurrencyDetailAmountFixture.ALL_FIVES_AMOUNT.convertToCurrencyDetail());
         cmDoc.getCurrentTransaction().setMoneyInCoin(CoinDetailTest.CoinDetailAmountFixture.ALL_FIVES_COIN_AMOUNT.convertToCoinDetail());
-        cmDoc.getCurrentTransaction().setMoneyOutCurrency(CurrencyDetailTest.CurrencyDetailAmountFixture.ALL_FIVES_AMOUNT.convertoToCurrencyDetail());
+        cmDoc.getCurrentTransaction().setMoneyOutCurrency(CurrencyDetailTest.CurrencyDetailAmountFixture.ALL_FIVES_AMOUNT.convertToCurrencyDetail());
         cmDoc.getCurrentTransaction().setMoneyOutCoin(CoinDetailTest.CoinDetailAmountFixture.ALL_FIVES_COIN_AMOUNT.convertToCoinDetail());
         assertTrue(rule.checkEnoughCashForMoneyOut(cmDoc, cmDoc.getCurrentTransaction()));
         putFixtureDataIntoCashDrawer(cmDoc.getCashDrawer(), CashDrawerTest.CashDrawerAmountFixture.NULL_CASH_DRAWER);
@@ -481,9 +481,9 @@ public class CashieringTransactionRuleTest extends KualiTestBase {
     }
     
     private void resetTransaction(CashieringTransaction transaction) {
-        transaction.setMoneyInCurrency(CurrencyDetailTest.CurrencyDetailAmountFixture.ZERO_AMOUNT.convertoToCurrencyDetail());
+        transaction.setMoneyInCurrency(CurrencyDetailTest.CurrencyDetailAmountFixture.ZERO_AMOUNT.convertToCurrencyDetail());
         transaction.setMoneyInCoin(CoinDetailTest.CoinDetailAmountFixture.ZERO_COIN_AMOUNT.convertToCoinDetail());
-        transaction.setMoneyOutCurrency(CurrencyDetailTest.CurrencyDetailAmountFixture.ZERO_AMOUNT.convertoToCurrencyDetail());
+        transaction.setMoneyOutCurrency(CurrencyDetailTest.CurrencyDetailAmountFixture.ZERO_AMOUNT.convertToCurrencyDetail());
         transaction.setMoneyOutCoin(CoinDetailTest.CoinDetailAmountFixture.ZERO_COIN_AMOUNT.convertToCoinDetail());
         transaction.setMoneyInChecks(new ArrayList<Check>());
         transaction.setBaselineChecks(new ArrayList());

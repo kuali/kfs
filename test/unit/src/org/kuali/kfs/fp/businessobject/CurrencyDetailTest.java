@@ -49,7 +49,7 @@ public class CurrencyDetailTest extends KualiTestBase {
             this.oneDollarAmount = new KualiDecimal(oneDollarAmount);
         }
         
-        public CurrencyDetail convertoToCurrencyDetail() {
+        public CurrencyDetail convertToCurrencyDetail() {
             CurrencyDetail detail = new CurrencyDetail();
             detail.setFinancialDocumentHundredDollarAmount(this.hundredDollarAmount);
             detail.setFinancialDocumentFiftyDollarAmount(this.fiftyDollarAmount);
@@ -105,7 +105,7 @@ public class CurrencyDetailTest extends KualiTestBase {
     }
     
     public void testAmountToCountConversion() {
-        CurrencyDetail goodAmount = CurrencyDetailAmountFixture.GOOD_POSITIVE_AMOUNT.convertoToCurrencyDetail();
+        CurrencyDetail goodAmount = CurrencyDetailAmountFixture.GOOD_POSITIVE_AMOUNT.convertToCurrencyDetail();
         assertEquals(goodAmount.getHundredDollarCount(), new Integer(5));
         assertEquals(goodAmount.getFiftyDollarCount(), new Integer(5));
         assertEquals(goodAmount.getTwentyDollarCount(), new Integer(5));
@@ -127,11 +127,11 @@ public class CurrencyDetailTest extends KualiTestBase {
     }
     
     public void testZeroOutAmounts() {
-        CurrencyDetail zeroAmountControl = CurrencyDetailAmountFixture.ZERO_AMOUNT.convertoToCurrencyDetail();
-        CurrencyDetail zeroAmount = CurrencyDetailAmountFixture.ZERO_AMOUNT.convertoToCurrencyDetail();
-        CurrencyDetail nullAmount = CurrencyDetailAmountFixture.NULL_AMOUNT.convertoToCurrencyDetail();
-        CurrencyDetail goodAmount = CurrencyDetailAmountFixture.GOOD_POSITIVE_AMOUNT.convertoToCurrencyDetail();
-        CurrencyDetail negativeAmount = CurrencyDetailAmountFixture.NEGATIVE_AMOUNT.convertoToCurrencyDetail();
+        CurrencyDetail zeroAmountControl = CurrencyDetailAmountFixture.ZERO_AMOUNT.convertToCurrencyDetail();
+        CurrencyDetail zeroAmount = CurrencyDetailAmountFixture.ZERO_AMOUNT.convertToCurrencyDetail();
+        CurrencyDetail nullAmount = CurrencyDetailAmountFixture.NULL_AMOUNT.convertToCurrencyDetail();
+        CurrencyDetail goodAmount = CurrencyDetailAmountFixture.GOOD_POSITIVE_AMOUNT.convertToCurrencyDetail();
+        CurrencyDetail negativeAmount = CurrencyDetailAmountFixture.NEGATIVE_AMOUNT.convertToCurrencyDetail();
         
         zeroAmount.zeroOutAmounts();
         assertDetailAmountsEqual(zeroAmount, zeroAmountControl);
@@ -158,10 +158,10 @@ public class CurrencyDetailTest extends KualiTestBase {
     }
     
     public void testZeroOutUnpopulatedAmounts() {
-        CurrencyDetail zeroAmountControl = CurrencyDetailAmountFixture.ZERO_AMOUNT.convertoToCurrencyDetail();
-        CurrencyDetail zeroAmount = CurrencyDetailAmountFixture.ZERO_AMOUNT.convertoToCurrencyDetail();
-        CurrencyDetail nullAmount = CurrencyDetailAmountFixture.NULL_AMOUNT.convertoToCurrencyDetail();
-        CurrencyDetail goodAmount = CurrencyDetailAmountFixture.GOOD_POSITIVE_AMOUNT.convertoToCurrencyDetail();
+        CurrencyDetail zeroAmountControl = CurrencyDetailAmountFixture.ZERO_AMOUNT.convertToCurrencyDetail();
+        CurrencyDetail zeroAmount = CurrencyDetailAmountFixture.ZERO_AMOUNT.convertToCurrencyDetail();
+        CurrencyDetail nullAmount = CurrencyDetailAmountFixture.NULL_AMOUNT.convertToCurrencyDetail();
+        CurrencyDetail goodAmount = CurrencyDetailAmountFixture.GOOD_POSITIVE_AMOUNT.convertToCurrencyDetail();
         
         zeroAmount.zeroOutUnpopulatedAmounts();
         assertDetailAmountsEqual(zeroAmount, zeroAmountControl);
@@ -174,7 +174,7 @@ public class CurrencyDetailTest extends KualiTestBase {
         goodAmount.setFinancialDocumentTwentyDollarAmount(null);
         goodAmount.setFinancialDocumentFiveDollarAmount(null);
         goodAmount.setFinancialDocumentTwoDollarAmount(null);
-        CurrencyDetail semiPopulatedAmount = CurrencyDetailAmountFixture.GOOD_POSITIVE_AMOUNT.convertoToCurrencyDetail();
+        CurrencyDetail semiPopulatedAmount = CurrencyDetailAmountFixture.GOOD_POSITIVE_AMOUNT.convertToCurrencyDetail();
         semiPopulatedAmount.setFinancialDocumentHundredDollarAmount(new KualiDecimal(0));
         semiPopulatedAmount.setFinancialDocumentTwentyDollarAmount(new KualiDecimal(0));
         semiPopulatedAmount.setFinancialDocumentFiveDollarAmount(new KualiDecimal(0));
@@ -195,13 +195,13 @@ public class CurrencyDetailTest extends KualiTestBase {
     }
     
     public void testAdd() {
-        CurrencyDetail zeroAmountControl = CurrencyDetailAmountFixture.ZERO_AMOUNT.convertoToCurrencyDetail();
-        CurrencyDetail zeroAmount = CurrencyDetailAmountFixture.ZERO_AMOUNT.convertoToCurrencyDetail();
-        CurrencyDetail nullAmount = CurrencyDetailAmountFixture.NULL_AMOUNT.convertoToCurrencyDetail();
-        CurrencyDetail goodAmountControl = CurrencyDetailAmountFixture.ALL_FIVES_AMOUNT.convertoToCurrencyDetail();
-        CurrencyDetail goodAmount = CurrencyDetailAmountFixture.ALL_FIVES_AMOUNT.convertoToCurrencyDetail();
-        CurrencyDetail negativeAmountControl = CurrencyDetailAmountFixture.NEGATIVE_AMOUNT.convertoToCurrencyDetail();
-        CurrencyDetail negativeAmount = CurrencyDetailAmountFixture.NEGATIVE_AMOUNT.convertoToCurrencyDetail();
+        CurrencyDetail zeroAmountControl = CurrencyDetailAmountFixture.ZERO_AMOUNT.convertToCurrencyDetail();
+        CurrencyDetail zeroAmount = CurrencyDetailAmountFixture.ZERO_AMOUNT.convertToCurrencyDetail();
+        CurrencyDetail nullAmount = CurrencyDetailAmountFixture.NULL_AMOUNT.convertToCurrencyDetail();
+        CurrencyDetail goodAmountControl = CurrencyDetailAmountFixture.ALL_FIVES_AMOUNT.convertToCurrencyDetail();
+        CurrencyDetail goodAmount = CurrencyDetailAmountFixture.ALL_FIVES_AMOUNT.convertToCurrencyDetail();
+        CurrencyDetail negativeAmountControl = CurrencyDetailAmountFixture.NEGATIVE_AMOUNT.convertToCurrencyDetail();
+        CurrencyDetail negativeAmount = CurrencyDetailAmountFixture.NEGATIVE_AMOUNT.convertToCurrencyDetail();
         
         zeroAmount.add(zeroAmountControl);
         assertDetailAmountsEqual(zeroAmount, zeroAmountControl);
@@ -216,13 +216,13 @@ public class CurrencyDetailTest extends KualiTestBase {
     }
     
     public void testSubtract() {
-        CurrencyDetail zeroAmountControl = CurrencyDetailAmountFixture.ZERO_AMOUNT.convertoToCurrencyDetail();
-        CurrencyDetail zeroAmount = CurrencyDetailAmountFixture.ZERO_AMOUNT.convertoToCurrencyDetail();
-        CurrencyDetail nullAmount = CurrencyDetailAmountFixture.NULL_AMOUNT.convertoToCurrencyDetail();
-        CurrencyDetail goodAmountControl = CurrencyDetailAmountFixture.ALL_FIVES_AMOUNT.convertoToCurrencyDetail();
-        CurrencyDetail goodAmount = CurrencyDetailAmountFixture.ALL_FIVES_AMOUNT.convertoToCurrencyDetail();
-        CurrencyDetail negativeAmountControl = CurrencyDetailAmountFixture.NEGATIVE_AMOUNT.convertoToCurrencyDetail();
-        CurrencyDetail negativeAmount = CurrencyDetailAmountFixture.NEGATIVE_AMOUNT.convertoToCurrencyDetail();
+        CurrencyDetail zeroAmountControl = CurrencyDetailAmountFixture.ZERO_AMOUNT.convertToCurrencyDetail();
+        CurrencyDetail zeroAmount = CurrencyDetailAmountFixture.ZERO_AMOUNT.convertToCurrencyDetail();
+        CurrencyDetail nullAmount = CurrencyDetailAmountFixture.NULL_AMOUNT.convertToCurrencyDetail();
+        CurrencyDetail goodAmountControl = CurrencyDetailAmountFixture.ALL_FIVES_AMOUNT.convertToCurrencyDetail();
+        CurrencyDetail goodAmount = CurrencyDetailAmountFixture.ALL_FIVES_AMOUNT.convertToCurrencyDetail();
+        CurrencyDetail negativeAmountControl = CurrencyDetailAmountFixture.NEGATIVE_AMOUNT.convertToCurrencyDetail();
+        CurrencyDetail negativeAmount = CurrencyDetailAmountFixture.NEGATIVE_AMOUNT.convertToCurrencyDetail();
         
         zeroAmount.subtract(zeroAmountControl);
         assertDetailAmountsEqual(zeroAmount, zeroAmountControl);
@@ -244,8 +244,8 @@ public class CurrencyDetailTest extends KualiTestBase {
         goodAmount.subtract(negativeAmount);
         assertDetailAmountsEqual(goodAmount, doublePositives);
         
-        negativeAmount = CurrencyDetailAmountFixture.NEGATIVE_AMOUNT.convertoToCurrencyDetail();
-        goodAmount = CurrencyDetailAmountFixture.ALL_FIVES_AMOUNT.convertoToCurrencyDetail();
+        negativeAmount = CurrencyDetailAmountFixture.NEGATIVE_AMOUNT.convertToCurrencyDetail();
+        goodAmount = CurrencyDetailAmountFixture.ALL_FIVES_AMOUNT.convertToCurrencyDetail();
         CurrencyDetail doubleNegatives = new CurrencyDetail();
         doubleNegatives.setFinancialDocumentHundredDollarAmount(negativeAmount.getFinancialDocumentHundredDollarAmount().multiply(new KualiDecimal(2.0)));
         doubleNegatives.setFinancialDocumentFiftyDollarAmount(negativeAmount.getFinancialDocumentFiftyDollarAmount().multiply(new KualiDecimal(2.0)));
@@ -259,26 +259,26 @@ public class CurrencyDetailTest extends KualiTestBase {
     }
     
     public void testTotal() {
-        CurrencyDetail zeroAmount = CurrencyDetailAmountFixture.ZERO_AMOUNT.convertoToCurrencyDetail();
+        CurrencyDetail zeroAmount = CurrencyDetailAmountFixture.ZERO_AMOUNT.convertToCurrencyDetail();
         assertEquals(zeroAmount.getTotalAmount(), new KualiDecimal(0.0));
-        CurrencyDetail nullAmount = CurrencyDetailAmountFixture.NULL_AMOUNT.convertoToCurrencyDetail();
+        CurrencyDetail nullAmount = CurrencyDetailAmountFixture.NULL_AMOUNT.convertToCurrencyDetail();
         assertEquals(nullAmount.getTotalAmount(), new KualiDecimal(0.0));
         
-        CurrencyDetail goodAmount = CurrencyDetailAmountFixture.GOOD_POSITIVE_AMOUNT.convertoToCurrencyDetail();
+        CurrencyDetail goodAmount = CurrencyDetailAmountFixture.GOOD_POSITIVE_AMOUNT.convertToCurrencyDetail();
         assertEquals(goodAmount.getTotalAmount(), new KualiDecimal(940.0));
-        CurrencyDetail negativeAmount = CurrencyDetailAmountFixture.NEGATIVE_AMOUNT.convertoToCurrencyDetail();
+        CurrencyDetail negativeAmount = CurrencyDetailAmountFixture.NEGATIVE_AMOUNT.convertToCurrencyDetail();
         assertEquals(negativeAmount.getTotalAmount(), new KualiDecimal(-3500.0));
     }
     
     public void testIsEmpty() {
-        CurrencyDetail zeroAmount = CurrencyDetailAmountFixture.ZERO_AMOUNT.convertoToCurrencyDetail();
+        CurrencyDetail zeroAmount = CurrencyDetailAmountFixture.ZERO_AMOUNT.convertToCurrencyDetail();
         assertTrue(zeroAmount.isEmpty());
-        CurrencyDetail nullAmount = CurrencyDetailAmountFixture.NULL_AMOUNT.convertoToCurrencyDetail();
+        CurrencyDetail nullAmount = CurrencyDetailAmountFixture.NULL_AMOUNT.convertToCurrencyDetail();
         assertTrue(nullAmount.isEmpty());
         
-        CurrencyDetail goodAmount = CurrencyDetailAmountFixture.GOOD_POSITIVE_AMOUNT.convertoToCurrencyDetail();
+        CurrencyDetail goodAmount = CurrencyDetailAmountFixture.GOOD_POSITIVE_AMOUNT.convertToCurrencyDetail();
         assertFalse(goodAmount.isEmpty());
-        CurrencyDetail negativeAmount = CurrencyDetailAmountFixture.NEGATIVE_AMOUNT.convertoToCurrencyDetail();
+        CurrencyDetail negativeAmount = CurrencyDetailAmountFixture.NEGATIVE_AMOUNT.convertToCurrencyDetail();
         assertFalse(negativeAmount.isEmpty());
     }
     

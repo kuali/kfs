@@ -203,24 +203,24 @@ public class CashDrawerTest extends KualiTestBase {
     
     public void testAddCurrency() {
         CashDrawer zeroDrawer = CashDrawerAmountFixture.ZERO_CASH_DRAWER.convertToCashDrawer();
-        zeroDrawer.addCurrency(CurrencyDetailTest.CurrencyDetailAmountFixture.ZERO_AMOUNT.convertoToCurrencyDetail());
-        assertCurrencyAmountsEqual(zeroDrawer, CurrencyDetailTest.CurrencyDetailAmountFixture.ZERO_AMOUNT.convertoToCurrencyDetail());
+        zeroDrawer.addCurrency(CurrencyDetailTest.CurrencyDetailAmountFixture.ZERO_AMOUNT.convertToCurrencyDetail());
+        assertCurrencyAmountsEqual(zeroDrawer, CurrencyDetailTest.CurrencyDetailAmountFixture.ZERO_AMOUNT.convertToCurrencyDetail());
         
         CashDrawer nullDrawer = CashDrawerAmountFixture.ZERO_CASH_DRAWER.convertToCashDrawer();
-        nullDrawer.addCurrency(CurrencyDetailTest.CurrencyDetailAmountFixture.GOOD_POSITIVE_AMOUNT.convertoToCurrencyDetail());
-        assertCurrencyAmountsEqual(nullDrawer, CurrencyDetailTest.CurrencyDetailAmountFixture.GOOD_POSITIVE_AMOUNT.convertoToCurrencyDetail());
+        nullDrawer.addCurrency(CurrencyDetailTest.CurrencyDetailAmountFixture.GOOD_POSITIVE_AMOUNT.convertToCurrencyDetail());
+        assertCurrencyAmountsEqual(nullDrawer, CurrencyDetailTest.CurrencyDetailAmountFixture.GOOD_POSITIVE_AMOUNT.convertToCurrencyDetail());
         
         CashDrawer allFivesDrawerA = CashDrawerAmountFixture.ALL_FIVES_CASH_DRAWER.convertToCashDrawer();
-        allFivesDrawerA.addCurrency(CurrencyDetailTest.CurrencyDetailAmountFixture.ZERO_AMOUNT.convertoToCurrencyDetail());
-        assertCurrencyAmountsEqual(allFivesDrawerA, CurrencyDetailTest.CurrencyDetailAmountFixture.ALL_FIVES_AMOUNT.convertoToCurrencyDetail());
+        allFivesDrawerA.addCurrency(CurrencyDetailTest.CurrencyDetailAmountFixture.ZERO_AMOUNT.convertToCurrencyDetail());
+        assertCurrencyAmountsEqual(allFivesDrawerA, CurrencyDetailTest.CurrencyDetailAmountFixture.ALL_FIVES_AMOUNT.convertToCurrencyDetail());
         
         CashDrawer allFivesDrawerB = CashDrawerAmountFixture.ALL_FIVES_CASH_DRAWER.convertToCashDrawer();
-        allFivesDrawerB.addCurrency(CurrencyDetailTest.CurrencyDetailAmountFixture.NULL_AMOUNT.convertoToCurrencyDetail());
-        assertCurrencyAmountsEqual(allFivesDrawerB, CurrencyDetailTest.CurrencyDetailAmountFixture.ALL_FIVES_AMOUNT.convertoToCurrencyDetail());
+        allFivesDrawerB.addCurrency(CurrencyDetailTest.CurrencyDetailAmountFixture.NULL_AMOUNT.convertToCurrencyDetail());
+        assertCurrencyAmountsEqual(allFivesDrawerB, CurrencyDetailTest.CurrencyDetailAmountFixture.ALL_FIVES_AMOUNT.convertToCurrencyDetail());
         
         CashDrawer allFivesDrawerC = CashDrawerAmountFixture.ALL_FIVES_CASH_DRAWER.convertToCashDrawer();
-        allFivesDrawerC.addCurrency(CurrencyDetailTest.CurrencyDetailAmountFixture.ALL_FIVES_AMOUNT.convertoToCurrencyDetail());
-        assertCurrencyAmountsEqual(allFivesDrawerC, CurrencyDetailTest.CurrencyDetailAmountFixture.ALL_TENS_AMOUNT.convertoToCurrencyDetail());
+        allFivesDrawerC.addCurrency(CurrencyDetailTest.CurrencyDetailAmountFixture.ALL_FIVES_AMOUNT.convertToCurrencyDetail());
+        assertCurrencyAmountsEqual(allFivesDrawerC, CurrencyDetailTest.CurrencyDetailAmountFixture.ALL_TENS_AMOUNT.convertToCurrencyDetail());
     }
     
     public void testAddCoin() {
@@ -249,28 +249,125 @@ public class CashDrawerTest extends KualiTestBase {
         boolean caught;
         
         CashDrawer zeroDrawer = CashDrawerAmountFixture.ZERO_CASH_DRAWER.convertToCashDrawer();
-        zeroDrawer.removeCurrency(CurrencyDetailTest.CurrencyDetailAmountFixture.ZERO_AMOUNT.convertoToCurrencyDetail());
-        assertCurrencyAmountsEqual(zeroDrawer, CurrencyDetailTest.CurrencyDetailAmountFixture.ZERO_AMOUNT.convertoToCurrencyDetail());
+        zeroDrawer.removeCurrency(CurrencyDetailTest.CurrencyDetailAmountFixture.ZERO_AMOUNT.convertToCurrencyDetail());
+        assertCurrencyAmountsEqual(zeroDrawer, CurrencyDetailTest.CurrencyDetailAmountFixture.ZERO_AMOUNT.convertToCurrencyDetail());
         
-        CashDrawer nullDrawer = CashDrawerAmountFixture.NULL_CASH_DRAWER.convertToCashDrawer();
-        nullDrawer.removeCurrency(CurrencyDetailTest.CurrencyDetailAmountFixture.ZERO_AMOUNT.convertoToCurrencyDetail());
-        assertCurrencyAmountsEqual(nullDrawer, CurrencyDetailTest.CurrencyDetailAmountFixture.NULL_AMOUNT.convertoToCurrencyDetail());
+        caught = false;
+        try {
+            CashDrawer nullDrawer = CashDrawerAmountFixture.NULL_CASH_DRAWER.convertToCashDrawer();
+            nullDrawer.removeCurrency(CurrencyDetailTest.CurrencyDetailAmountFixture.ZERO_AMOUNT.convertToCurrencyDetail());
+        } catch (IllegalArgumentException iae) {
+            caught = true;
+        }
+        assertTrue("Null Drawer Hundred Dollar", caught);
+        
+        caught = false;
+        try {
+            CashDrawer nullDrawer = CashDrawerAmountFixture.NULL_CASH_DRAWER.convertToCashDrawer();
+            nullDrawer.setFinancialDocumentHundredDollarAmount(KualiDecimal.ZERO);
+            nullDrawer.removeCurrency(CurrencyDetailTest.CurrencyDetailAmountFixture.ZERO_AMOUNT.convertToCurrencyDetail());
+        } catch (IllegalArgumentException iae) {
+            caught = true;
+        }
+        assertTrue("Null Drawer Fifty Dollar", caught);
+        
+        caught = false;
+        try {
+            CashDrawer nullDrawer = CashDrawerAmountFixture.NULL_CASH_DRAWER.convertToCashDrawer();
+            nullDrawer.setFinancialDocumentHundredDollarAmount(KualiDecimal.ZERO);
+            nullDrawer.setFinancialDocumentFiftyDollarAmount(KualiDecimal.ZERO);
+            nullDrawer.removeCurrency(CurrencyDetailTest.CurrencyDetailAmountFixture.ZERO_AMOUNT.convertToCurrencyDetail());
+        } catch (IllegalArgumentException iae) {
+            caught = true;
+        }
+        assertTrue("Null Drawer Twenty Dollar", caught);
+        
+        caught = false;
+        try {
+            CashDrawer nullDrawer = CashDrawerAmountFixture.NULL_CASH_DRAWER.convertToCashDrawer();
+            nullDrawer.setFinancialDocumentHundredDollarAmount(KualiDecimal.ZERO);
+            nullDrawer.setFinancialDocumentFiftyDollarAmount(KualiDecimal.ZERO);
+            nullDrawer.setFinancialDocumentTwentyDollarAmount(KualiDecimal.ZERO);
+            nullDrawer.removeCurrency(CurrencyDetailTest.CurrencyDetailAmountFixture.ZERO_AMOUNT.convertToCurrencyDetail());
+        } catch (IllegalArgumentException iae) {
+            caught = true;
+        }
+        assertTrue("Null Drawer Ten Dollar", caught);
+        
+        caught = false;
+        try {
+            CashDrawer nullDrawer = CashDrawerAmountFixture.NULL_CASH_DRAWER.convertToCashDrawer();
+            nullDrawer.setFinancialDocumentHundredDollarAmount(KualiDecimal.ZERO);
+            nullDrawer.setFinancialDocumentFiftyDollarAmount(KualiDecimal.ZERO);
+            nullDrawer.setFinancialDocumentTwentyDollarAmount(KualiDecimal.ZERO);
+            nullDrawer.setFinancialDocumentTenDollarAmount(KualiDecimal.ZERO);
+            nullDrawer.removeCurrency(CurrencyDetailTest.CurrencyDetailAmountFixture.ZERO_AMOUNT.convertToCurrencyDetail());
+        } catch (IllegalArgumentException iae) {
+            caught = true;
+        }
+        assertTrue("Null Drawer Five Dollar", caught);
+        
+        caught = false;
+        try {
+            CashDrawer nullDrawer = CashDrawerAmountFixture.NULL_CASH_DRAWER.convertToCashDrawer();
+            nullDrawer.setFinancialDocumentHundredDollarAmount(KualiDecimal.ZERO);
+            nullDrawer.setFinancialDocumentFiftyDollarAmount(KualiDecimal.ZERO);
+            nullDrawer.setFinancialDocumentTwentyDollarAmount(KualiDecimal.ZERO);
+            nullDrawer.setFinancialDocumentTenDollarAmount(KualiDecimal.ZERO);
+            nullDrawer.setFinancialDocumentFiveDollarAmount(KualiDecimal.ZERO);
+            nullDrawer.removeCurrency(CurrencyDetailTest.CurrencyDetailAmountFixture.ZERO_AMOUNT.convertToCurrencyDetail());
+        } catch (IllegalArgumentException iae) {
+            caught = true;
+        }
+        assertTrue("Null Drawer Two Dollar", caught);
+        
+        caught = false;
+        try {
+            CashDrawer nullDrawer = CashDrawerAmountFixture.NULL_CASH_DRAWER.convertToCashDrawer();
+            nullDrawer.setFinancialDocumentHundredDollarAmount(KualiDecimal.ZERO);
+            nullDrawer.setFinancialDocumentFiftyDollarAmount(KualiDecimal.ZERO);
+            nullDrawer.setFinancialDocumentTwentyDollarAmount(KualiDecimal.ZERO);
+            nullDrawer.setFinancialDocumentTenDollarAmount(KualiDecimal.ZERO);
+            nullDrawer.setFinancialDocumentFiveDollarAmount(KualiDecimal.ZERO);
+            nullDrawer.setFinancialDocumentTwoDollarAmount(KualiDecimal.ZERO);
+            nullDrawer.removeCurrency(CurrencyDetailTest.CurrencyDetailAmountFixture.ZERO_AMOUNT.convertToCurrencyDetail());
+        } catch (IllegalArgumentException iae) {
+            caught = true;
+        }
+        assertTrue("Null Drawer One Dollar", caught);
+        
+        caught = false;
+        try {
+            CashDrawer nullDrawer = CashDrawerAmountFixture.NULL_CASH_DRAWER.convertToCashDrawer();
+            nullDrawer.setFinancialDocumentHundredDollarAmount(KualiDecimal.ZERO);
+            nullDrawer.setFinancialDocumentFiftyDollarAmount(KualiDecimal.ZERO);
+            nullDrawer.setFinancialDocumentTwentyDollarAmount(KualiDecimal.ZERO);
+            nullDrawer.setFinancialDocumentTenDollarAmount(KualiDecimal.ZERO);
+            nullDrawer.setFinancialDocumentFiveDollarAmount(KualiDecimal.ZERO);
+            nullDrawer.setFinancialDocumentTwoDollarAmount(KualiDecimal.ZERO);
+            nullDrawer.setFinancialDocumentOneDollarAmount(KualiDecimal.ZERO);
+            nullDrawer.setFinancialDocumentOtherDollarAmount(KualiDecimal.ZERO);
+            nullDrawer.removeCurrency(CurrencyDetailTest.CurrencyDetailAmountFixture.ZERO_AMOUNT.convertToCurrencyDetail());
+        } catch (IllegalArgumentException iae) {
+            caught = true;
+        }
+        assertFalse("Null Drawer now all zeroes", caught);
         
         CashDrawer allFivesDrawerA = CashDrawerAmountFixture.ALL_FIVES_CASH_DRAWER.convertToCashDrawer();
-        allFivesDrawerA.removeCurrency(CurrencyDetailTest.CurrencyDetailAmountFixture.ZERO_AMOUNT.convertoToCurrencyDetail());
-        assertCurrencyAmountsEqual(allFivesDrawerA, CurrencyDetailTest.CurrencyDetailAmountFixture.ALL_FIVES_AMOUNT.convertoToCurrencyDetail());
+        allFivesDrawerA.removeCurrency(CurrencyDetailTest.CurrencyDetailAmountFixture.ZERO_AMOUNT.convertToCurrencyDetail());
+        assertCurrencyAmountsEqual(allFivesDrawerA, CurrencyDetailTest.CurrencyDetailAmountFixture.ALL_FIVES_AMOUNT.convertToCurrencyDetail());
         
         CashDrawer allFivesDrawerB = CashDrawerAmountFixture.ALL_FIVES_CASH_DRAWER.convertToCashDrawer();
-        allFivesDrawerB.removeCurrency(CurrencyDetailTest.CurrencyDetailAmountFixture.NULL_AMOUNT.convertoToCurrencyDetail());
-        assertCurrencyAmountsEqual(allFivesDrawerB, CurrencyDetailTest.CurrencyDetailAmountFixture.ALL_FIVES_AMOUNT.convertoToCurrencyDetail());
+        allFivesDrawerB.removeCurrency(CurrencyDetailTest.CurrencyDetailAmountFixture.NULL_AMOUNT.convertToCurrencyDetail());
+        assertCurrencyAmountsEqual(allFivesDrawerB, CurrencyDetailTest.CurrencyDetailAmountFixture.ALL_FIVES_AMOUNT.convertToCurrencyDetail());
         
         CashDrawer allFivesDrawerC = CashDrawerAmountFixture.ALL_FIVES_CASH_DRAWER.convertToCashDrawer();
-        allFivesDrawerC.removeCurrency(CurrencyDetailTest.CurrencyDetailAmountFixture.ALL_FIVES_AMOUNT.convertoToCurrencyDetail());
-        assertCurrencyAmountsEqual(allFivesDrawerC, CurrencyDetailTest.CurrencyDetailAmountFixture.ZERO_AMOUNT.convertoToCurrencyDetail());
+        allFivesDrawerC.removeCurrency(CurrencyDetailTest.CurrencyDetailAmountFixture.ALL_FIVES_AMOUNT.convertToCurrencyDetail());
+        assertCurrencyAmountsEqual(allFivesDrawerC, CurrencyDetailTest.CurrencyDetailAmountFixture.ZERO_AMOUNT.convertToCurrencyDetail());
         // test excessive currency (more currency requested than in drawer)
         
         CashDrawer allFivesDrawerD = CashDrawerAmountFixture.ALL_FIVES_CASH_DRAWER.convertToCashDrawer();
-        CurrencyDetail excessiveDetail = CurrencyDetailTest.CurrencyDetailAmountFixture.ALL_TENS_AMOUNT.convertoToCurrencyDetail();
+        CurrencyDetail excessiveDetail = CurrencyDetailTest.CurrencyDetailAmountFixture.ALL_TENS_AMOUNT.convertToCurrencyDetail();
         
         caught = false;
         try {
@@ -345,13 +442,97 @@ public class CashDrawerTest extends KualiTestBase {
     }
     
     public void testSubtractCoin() {
+        boolean caught;
+        
         CashDrawer zeroDrawer = CashDrawerAmountFixture.ZERO_CASH_DRAWER.convertToCashDrawer();
         zeroDrawer.removeCoin(CoinDetailTest.CoinDetailAmountFixture.ZERO_COIN_AMOUNT.convertToCoinDetail());
         assertCoinAmountsEqual(zeroDrawer, CoinDetailTest.CoinDetailAmountFixture.ZERO_COIN_AMOUNT.convertToCoinDetail());
         
-        CashDrawer nullDrawer = CashDrawerAmountFixture.NULL_CASH_DRAWER.convertToCashDrawer();
-        nullDrawer.removeCoin(CoinDetailTest.CoinDetailAmountFixture.ZERO_COIN_AMOUNT.convertToCoinDetail());
-        assertCoinAmountsEqual(nullDrawer, CoinDetailTest.CoinDetailAmountFixture.NULL_COIN_AMOUNT.convertToCoinDetail());
+        caught = false;
+        try {
+            CashDrawer nullDrawer = CashDrawerAmountFixture.NULL_CASH_DRAWER.convertToCashDrawer();
+            nullDrawer.removeCoin(CoinDetailTest.CoinDetailAmountFixture.ZERO_COIN_AMOUNT.convertToCoinDetail());
+        } catch (IllegalArgumentException iae) {
+            caught = true;
+        }
+        assertTrue("null drawer hundred cent amount", caught);
+        
+        caught = false;
+        try {
+            CashDrawer nullDrawer = CashDrawerAmountFixture.NULL_CASH_DRAWER.convertToCashDrawer();
+            nullDrawer.setFinancialDocumentHundredCentAmount(KualiDecimal.ZERO);
+            nullDrawer.removeCoin(CoinDetailTest.CoinDetailAmountFixture.ZERO_COIN_AMOUNT.convertToCoinDetail());
+        } catch (IllegalArgumentException iae) {
+            caught = true;
+        }
+        assertTrue("null drawer fifty cent amount", caught);
+        
+        caught = false;
+        try {
+            CashDrawer nullDrawer = CashDrawerAmountFixture.NULL_CASH_DRAWER.convertToCashDrawer();
+            nullDrawer.setFinancialDocumentHundredCentAmount(KualiDecimal.ZERO);
+            nullDrawer.setFinancialDocumentFiftyCentAmount(KualiDecimal.ZERO);
+            nullDrawer.removeCoin(CoinDetailTest.CoinDetailAmountFixture.ZERO_COIN_AMOUNT.convertToCoinDetail());
+        } catch (IllegalArgumentException iae) {
+            caught = true;
+        }
+        assertTrue("null drawer twenty five cent amount", caught);
+        
+        caught = false;
+        try {
+            CashDrawer nullDrawer = CashDrawerAmountFixture.NULL_CASH_DRAWER.convertToCashDrawer();
+            nullDrawer.setFinancialDocumentHundredCentAmount(KualiDecimal.ZERO);
+            nullDrawer.setFinancialDocumentFiftyCentAmount(KualiDecimal.ZERO);
+            nullDrawer.setFinancialDocumentTwentyFiveCentAmount(KualiDecimal.ZERO);
+            nullDrawer.removeCoin(CoinDetailTest.CoinDetailAmountFixture.ZERO_COIN_AMOUNT.convertToCoinDetail());
+        } catch (IllegalArgumentException iae) {
+            caught = true;
+        }
+        assertTrue("null drawer ten cent amount", caught);
+        
+        caught = false;
+        try {
+            CashDrawer nullDrawer = CashDrawerAmountFixture.NULL_CASH_DRAWER.convertToCashDrawer();
+            nullDrawer.setFinancialDocumentHundredCentAmount(KualiDecimal.ZERO);
+            nullDrawer.setFinancialDocumentFiftyCentAmount(KualiDecimal.ZERO);
+            nullDrawer.setFinancialDocumentTwentyFiveCentAmount(KualiDecimal.ZERO);
+            nullDrawer.setFinancialDocumentTenCentAmount(KualiDecimal.ZERO);
+            nullDrawer.removeCoin(CoinDetailTest.CoinDetailAmountFixture.ZERO_COIN_AMOUNT.convertToCoinDetail());
+        } catch (IllegalArgumentException iae) {
+            caught = true;
+        }
+        assertTrue("null drawer five cent amount", caught);
+        
+        caught = false;
+        try {
+            CashDrawer nullDrawer = CashDrawerAmountFixture.NULL_CASH_DRAWER.convertToCashDrawer();
+            nullDrawer.setFinancialDocumentHundredCentAmount(KualiDecimal.ZERO);
+            nullDrawer.setFinancialDocumentFiftyCentAmount(KualiDecimal.ZERO);
+            nullDrawer.setFinancialDocumentTwentyFiveCentAmount(KualiDecimal.ZERO);
+            nullDrawer.setFinancialDocumentTenCentAmount(KualiDecimal.ZERO);
+            nullDrawer.setFinancialDocumentFiveCentAmount(KualiDecimal.ZERO);
+            nullDrawer.removeCoin(CoinDetailTest.CoinDetailAmountFixture.ZERO_COIN_AMOUNT.convertToCoinDetail());
+        } catch (IllegalArgumentException iae) {
+            caught = true;
+        }
+        assertTrue("null drawer one cent amount", caught);
+        
+        caught = false;
+        try {
+            CashDrawer nullDrawer = CashDrawerAmountFixture.NULL_CASH_DRAWER.convertToCashDrawer();
+            nullDrawer.setFinancialDocumentHundredCentAmount(KualiDecimal.ZERO);
+            nullDrawer.setFinancialDocumentFiftyCentAmount(KualiDecimal.ZERO);
+            nullDrawer.setFinancialDocumentTwentyFiveCentAmount(KualiDecimal.ZERO);
+            nullDrawer.setFinancialDocumentTenCentAmount(KualiDecimal.ZERO);
+            nullDrawer.setFinancialDocumentFiveCentAmount(KualiDecimal.ZERO);
+            nullDrawer.setFinancialDocumentOneCentAmount(KualiDecimal.ZERO);
+            nullDrawer.setFinancialDocumentOtherCentAmount(KualiDecimal.ZERO);
+            nullDrawer.removeCoin(CoinDetailTest.CoinDetailAmountFixture.ZERO_COIN_AMOUNT.convertToCoinDetail());
+        } catch (IllegalArgumentException iae) {
+            caught = true;
+            iae.printStackTrace();
+        }
+        assertFalse("null drawer all is now zero", caught);
         
         CashDrawer allFivesDrawerA = CashDrawerAmountFixture.ALL_FIVES_CASH_DRAWER.convertToCashDrawer();
         allFivesDrawerA.removeCoin(CoinDetailTest.CoinDetailAmountFixture.ZERO_COIN_AMOUNT.convertToCoinDetail());
@@ -368,7 +549,6 @@ public class CashDrawerTest extends KualiTestBase {
         // test excessive coin (more coin requested than in drawer)
         CoinDetail excessiveDetail = CoinDetailTest.CoinDetailAmountFixture.ALL_TENS_COIN_AMOUNT.convertToCoinDetail();
         CashDrawer allFivesDrawerD = CashDrawerAmountFixture.ALL_FIVES_CASH_DRAWER.convertToCashDrawer();
-        boolean caught;
         
         caught = false;
         try {

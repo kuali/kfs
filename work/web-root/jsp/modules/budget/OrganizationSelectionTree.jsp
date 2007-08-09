@@ -15,6 +15,8 @@
 --%>
 <%@ include file="/jsp/kfs/kfsTldHeader.jsp"%>
 
+<script language="JavaScript" type="text/javascript" src="scripts/budget/organizationSelectionTree.js"></script>
+
 <c:set var="pointOfViewOrgAttributes" value="${DataDictionary.BudgetConstructionOrganizationReports.attributes}" />
 <c:set var="organizationAttributes" value="${DataDictionary.Org.attributes}" />
 
@@ -61,15 +63,18 @@
                 readOnly="true"
                 displayHidden="false"
                 colSpan="1" />
+                     onchange="submitForm()"
             --%>
             <td class="grid" valign="center" rowspan="1" colspan="1">
                 <span class="nowrap">
+                <html:hidden property="previousPointOfViewKeyCode" value="${KualiForm.currentPointOfViewKeyCode}" />
                 <kul:htmlControlAttribute
                      property="currentPointOfViewKeyCode"
                      attributeEntry="${pointOfViewOrgAttributes.selectionKeyCode}"
-                     onchange="submitForm()"
+                     onchange="refreshPointOfView(this.form)"
                      readOnly="false"
                      styleClass="grid" />
+                <html:image property="methodToCall.performBuildPointOfView" src="${ConfigProperties.kr.externalizable.images.url}buttonsmall_refresh.gif" alt="refresh" title="refresh" styleClass="tinybutton"/>
                 </span>
             </td>
             <td class="grid" valign="center" rowspan="1" colspan="1">
@@ -104,10 +109,10 @@
             <kul:htmlControlAttribute
                 property="pointOfViewOrg.organization.organizationName"
                 attributeEntry="${organizationAttributes.organizationName}"
-                readOnly="true"/>
+                readOnly="true"/>&nbsp;
             </td>
             <td class="grid" valign="center" rowspan="1" colspan="1">
-			    &nbsp;
+                <html:image property="methodToCall.performBuildPointOfView" src="${ConfigProperties.kr.externalizable.images.url}buttonsmall_refresh.gif" alt="refresh" title="refresh" styleClass="tinybutton"/>
             </td>
 	    </tr>
     </table>

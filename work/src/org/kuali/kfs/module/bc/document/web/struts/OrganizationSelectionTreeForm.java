@@ -61,18 +61,7 @@ public class OrganizationSelectionTreeForm extends KualiForm {
     public void populate(HttpServletRequest request) {
         // TODO Auto-generated method stub
         super.populate(request);
-        
-        // check for point of view change
-        if (getCurrentPointOfViewKeyCode() != null){
-            String[] flds = getCurrentPointOfViewKeyCode().split("[-]");
-            setPreviousPointOfViewKeyCode(getCurrentPointOfViewKeyCode());
 
-            HashMap map = new HashMap();
-            map.put("chartOfAccountsCode", flds[0]);
-            map.put("organizationCode", flds[1]);
-            pointOfViewOrg = (BudgetConstructionOrganizationReports) SpringServiceLocator.getBusinessObjectService().findByPrimaryKey(BudgetConstructionOrganizationReports.class, map);
-        }
-        
     }
 
     /**

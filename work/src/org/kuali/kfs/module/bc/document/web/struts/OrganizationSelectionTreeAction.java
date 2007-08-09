@@ -15,6 +15,7 @@
  */
 package org.kuali.module.budget.web.struts.action;
 
+import java.util.HashMap;
 import java.util.Properties;
 
 import javax.servlet.http.HttpServletRequest;
@@ -31,6 +32,7 @@ import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.budget.BCConstants;
 import org.kuali.module.budget.BCConstants.OrgSelOpMode;
+import org.kuali.module.budget.bo.BudgetConstructionOrganizationReports;
 import org.kuali.module.budget.service.PermissionService;
 import org.kuali.module.budget.web.struts.form.OrganizationSelectionTreeForm;
 
@@ -48,6 +50,7 @@ public class OrganizationSelectionTreeAction extends KualiAction {
         ActionForward forward = super.execute(mapping, form, request, response);
         
         OrganizationSelectionTreeForm organizationSelectionTreeForm = (OrganizationSelectionTreeForm) form;  
+
 
         return forward;
     }
@@ -116,5 +119,39 @@ public class OrganizationSelectionTreeAction extends KualiAction {
         
         
         return new ActionForward(lookupUrl, true);
+    }
+
+    /**
+     * This method implements functionality behind the refresh button on the Organization Selection Tree screen.
+     * This is also called when the value of the point of view select control changed and javascript is enabled
+     * on the user's browser
+     *   
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    public ActionForward performBuildPointOfView(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+        OrganizationSelectionTreeForm organizationSelectionTreeForm = (OrganizationSelectionTreeForm) form;  
+
+        // check for point of view change
+        if (organizationSelectionTreeForm.getCurrentPointOfViewKeyCode() != null){
+            if ((organizationSelectionTreeForm.getPreviousPointOfViewKeyCode() == null) || (!organizationSelectionTreeForm.getPreviousPointOfViewKeyCode().equalsIgnoreCase(organizationSelectionTreeForm.getCurrentPointOfViewKeyCode()) == true)){
+                String[] flds = organizationSelectionTreeForm.getCurrentPointOfViewKeyCode().split("[-]");
+                organizationSelectionTreeForm.setPreviousPointOfViewKeyCode(organizationSelectionTreeForm.getCurrentPointOfViewKeyCode());
+
+                HashMap map = new HashMap();
+                map.put("chartOfAccountsCode", flds[0]);
+                map.put("organizationCode", flds[1]);
+                organizationSelectionTreeForm.setPointOfViewOrg((BudgetConstructionOrganizationReports) SpringServiceLocator.getBusinessObjectService().findByPrimaryKey(BudgetConstructionOrganizationReports.class, map));
+            }
+        } else {
+            organizationSelectionTreeForm.setPointOfViewOrg(new BudgetConstructionOrganizationReports());
+        }
+
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 }

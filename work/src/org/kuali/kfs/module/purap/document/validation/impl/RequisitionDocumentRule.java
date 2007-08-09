@@ -65,15 +65,25 @@ public class RequisitionDocumentRule extends PurchasingDocumentRuleBase {
     @Override
     public boolean processItemValidation(PurchasingAccountsPayableDocument purapDocument, boolean needAccountValidation) {
 
-        //For Requisitions only, if the requisition status is in process,
-        //then we don't need account validation.
-        if (purapDocument.getStatusCode().equals(PurapConstants.RequisitionStatuses.IN_PROCESS)) {
+        //For Requisitions only, if the requisition status is in process and the
+        //requisition does not contain account, then we don't need account validation.
+        if (purapDocument.getStatusCode().equals(PurapConstants.RequisitionStatuses.IN_PROCESS) && (!containsAccount(purapDocument))) {
             needAccountValidation = false;
         }
         boolean valid = super.processItemValidation(purapDocument, needAccountValidation);
         return valid;
     }
     
+    private boolean containsAccount(PurchasingAccountsPayableDocument purapDocument) {
+        if ( purapDocument.getItems().size() > 0) {
+            for (PurchasingApItem item : purapDocument.getItems()) {
+                if (item.getSourceAccountingLines().size() > 0) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
     
     /**
      * This method performs any validation for the Additional tab.

@@ -172,7 +172,7 @@
         </tr>
         
         <%-- cash drawer summary information --%>
-        <c:if test="${KualiForm.document.rawCashDrawerStatus != Constants.CashDrawerConstants.STATUS_CLOSED}">
+        <c:if test="${KualiForm.document.rawCashDrawerStatus != Constants.CashDrawerConstants.STATUS_CLOSED && KualiForm.cashDrawerSummary.cashDrawerTotal != null}">
         <c:choose>
           <c:when test="${KualiForm.cashDrawerSummary.depositsFinal}">
             <tr>

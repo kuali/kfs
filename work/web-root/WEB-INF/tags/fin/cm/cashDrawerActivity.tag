@@ -68,7 +68,7 @@
                 				</td>
             			</tr>
 
-            			<c:if test="${KualiForm.document.rawCashDrawerStatus != Constants.CashDrawerConstants.STATUS_CLOSED}">
+            			<c:if test="${KualiForm.document.rawCashDrawerStatus != Constants.CashDrawerConstants.STATUS_CLOSED && KualiForm.cashDrawerSummary.remainingSumTotal != null}">
                 				<tr>
                     				<td colspan=5 class="tab-subhead">Cash Drawer Activity: <html:hidden property="cashDrawerSummary.overallReceiptStats.receiptCount" write="true" /> available Cash Receipts</td>
                 				</tr>

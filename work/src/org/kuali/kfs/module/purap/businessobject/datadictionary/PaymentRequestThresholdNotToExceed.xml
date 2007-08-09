@@ -69,21 +69,6 @@
                 <description>accountsPayableThresholdNotToExceedAmount description...</description>
 			</attribute>
 
-            <attribute name="chartOfAccountsCode" forceUppercase="true">
-                <label>Chart Of Accounts Code</label>
-                <shortLabel>Code</shortLabel>
-
-                <maxLength>2</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="4" />
-                </control>
-
-                <summary>chartOfAccountsCode</summary>
-                <description>chartOfAccountsCode description...</description>
-			</attribute>
-
             <attribute name="versionNumber" forceUppercase="true">
                 <label>Version Number</label>
                 <shortLabel>Number</shortLabel>
@@ -98,6 +83,8 @@
                 <summary>versionNumber</summary>
                 <description>versionNumber description...</description>
 			</attribute>
+
+            <attributeReference name="chartOfAccountsCode" sourceClassName="org.kuali.module.chart.bo.Chart" sourceAttributeName="chartOfAccountsCode"/>
 
         </attributes>
     </businessObject>

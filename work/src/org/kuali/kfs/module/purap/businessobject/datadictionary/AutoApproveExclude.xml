@@ -28,7 +28,7 @@
                 <field attributeName="accountNumber" />
                 <field attributeName="chartOfAccountsCode" />
                 <field attributeName="active" />
-             </inquiryFields></inquirySection></inquirySections>
+            </inquiryFields></inquirySection></inquirySections>
         </inquiry>
 
         <lookup>
@@ -59,21 +59,7 @@
 
         <attributes>
 
-            <attribute name="accountNumber" forceUppercase="true">
-                <label>Account Number</label>
-                <shortLabel>Number</shortLabel>
-
-                <maxLength>7</maxLength>
-                <validationPattern><numeric /></validationPattern>
-                <required>true</required>
-
-                <control>
-                    <text size="9" />
-                </control>
-
-                <summary>accountNumber</summary>
-                <description>accountNumber description...</description>
-			</attribute>
+            <attributeReference name="accountNumber" sourceClassName="orgr.kuali.module.chart.bo.Account" sourceAttributeName="accountNumber"/>
 
             <attributeReference name="chartOfAccountsCode" sourceClassName="org.kuali.module.chart.bo.Chart" sourceAttributeName="chartOfAccountsCode"/>
 

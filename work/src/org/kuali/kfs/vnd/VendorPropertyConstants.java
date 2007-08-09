@@ -33,6 +33,9 @@ public class VendorPropertyConstants {
     public static final String VENDOR_ADDRESS_STATE_CODE = "vendorAddresses.vendorStateCode";
     public static final String VENDOR_ADDRESS_ZIP = "vendorZipCode";
     public static final String VENDOR_ADDRESS_TYPE_CODE = "vendorAddressTypeCode";
+    public static final String VENDOR_ADDRESS_LINE_1 = "vendorLine1Address";
+    public static final String VENDOR_ADDRESS_CITY = "vendorCityName";
+    public static final String VENDOR_ADDRESS_COUNTRY = "vendorCountryCode";
     public static final String VENDOR_ADDRESS_EMAIL = "vendorAddresses.vendorAddressEmailAddress";
     public static final String VENDOR_DEFAULT_ADDRESS_INDICATOR = "vendorDefaultAddressIndicator";
     public static final String VENDOR_DEFAULT_ADDRESS_CAMPUS = "vendorCampusCode";

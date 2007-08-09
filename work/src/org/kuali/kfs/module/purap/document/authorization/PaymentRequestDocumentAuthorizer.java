@@ -129,6 +129,7 @@ public class PaymentRequestDocumentAuthorizer extends AccountingDocumentAuthoriz
 
             PaymentRequestDocumentActionAuthorizer preqDocAuth = new PaymentRequestDocumentActionAuthorizer(paymentRequestDocument, user);
 
+            flags.setCanApprove(preqDocAuth.canApprove());
             flags.setCanCancel(preqDocAuth.canCancel());
             flags.setCanSave(preqDocAuth.canSave());
         }

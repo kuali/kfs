@@ -227,13 +227,13 @@ public class GenesisServiceImpl implements GenesisService {
         genesisDao.setControlFlagsAtTheStartOfGenesis(BaseYear);
         LOG.warn(String.format("\n  clear database"));
         genesisDao.clearDBForGenesis(BaseYear);
+        LOG.warn(String.format("\n  chart for budget"));
+        genesisDao.createChartForNextBudgetCycle();
         LOG.warn(String.format("\n  referential integrity for object classes"));
         genesisDao.ensureObjectClassRIForBudget(BaseYear);
         LOG.warn(String.format("\n  new BC documents"));
         genesisDao.createNewBCDocumentsFromGLCSF(BaseYear,
                 GLUpdatesAllowed(BaseYear), CSFUpdatesAllowed(BaseYear));
-        LOG.warn(String.format("\n  chart for budget"));
-        genesisDao.createChartForNextBudgetCycle();
         LOG.warn(String.format("\n  load to PBGL"));
         genesisDao.initialLoadToPBGL(BaseYear);
         LOG.warn(String.format("\n  new positions"));

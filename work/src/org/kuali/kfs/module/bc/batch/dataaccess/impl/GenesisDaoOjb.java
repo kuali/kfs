@@ -1152,10 +1152,12 @@ public class GenesisDaoOjb extends PlatformAwareDaoBaseOjb
         killOrgQuery.setCriteria(criteriaID);
         getPersistenceBrokerTemplate().deleteByQuery(killOrgQuery);
         getPersistenceBrokerTemplate().clearCache();
+      // this has moved temporarily until the data model is fixed (8/8/2007)  
+        buildNewOrganizationReportsTo();
       // build the account table
         buildNewAccountReportsTo();
       // build the organization table  
-        buildNewOrganizationReportsTo();
+      // buildNewOrganizationReportsTo();
     }
     
     //  private working methods for the BC chart update

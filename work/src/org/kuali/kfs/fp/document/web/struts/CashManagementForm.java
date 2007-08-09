@@ -20,12 +20,14 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.HashMap;
 
 import org.apache.log4j.Logger;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.web.format.CurrencyFormatter;
 import org.kuali.core.web.format.TimestampAMPMFormatter;
 import org.kuali.core.web.struts.form.KualiDocumentFormBase;
+import org.kuali.kfs.KFSConstants.DepositConstants;
 import org.kuali.kfs.KFSConstants.DocumentStatusCodes.CashReceipt;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.financial.bo.CashDrawer;
@@ -33,6 +35,8 @@ import org.kuali.module.financial.bo.CashieringItemInProcess;
 import org.kuali.module.financial.bo.Check;
 import org.kuali.module.financial.bo.CheckBase;
 import org.kuali.module.financial.bo.Deposit;
+import org.kuali.module.financial.bo.CoinDetail;
+import org.kuali.module.financial.bo.CurrencyDetail;
 import org.kuali.module.financial.document.CashManagementDocument;
 import org.kuali.module.financial.document.CashReceiptDocument;
 import org.kuali.module.financial.service.CashManagementService;
@@ -299,6 +303,7 @@ public class CashManagementForm extends KualiDocumentFormBase {
         private String description;
         private Timestamp createDate;
         private KualiDecimal totalAmount;
+        private KualiDecimal checkAmount;
 
         /**
          * Default constructor used by PojoProcessor.
@@ -315,6 +320,7 @@ public class CashManagementForm extends KualiDocumentFormBase {
             documentNumber = crd.getDocumentNumber();
             description = crd.getDocumentHeader().getFinancialDocumentDescription();
             createDate = crd.getDocumentHeader().getWorkflowDocument().getCreateDate();
+            checkAmount = crd.getTotalCheckAmount();
             totalAmount = crd.getTotalDollarAmount();
         }
 
@@ -381,6 +387,22 @@ public class CashManagementForm extends KualiDocumentFormBase {
         public void setTotalAmount(KualiDecimal totalAmount) {
             this.totalAmount = totalAmount;
         }
+        
+        /**
+         * Returns the total check amount for this CR
+         * @return a total of checks
+         */
+        public KualiDecimal getCheckAmount() {
+            return this.checkAmount;
+        }
+        
+        /**
+         * Sets the checkAmount attribute value.
+         * 
+         */
+        public void setCheckAmount(KualiDecimal checkAmount) {
+            this.checkAmount = checkAmount;
+        }
 
         /**
          * @see java.lang.Object#toString()
@@ -415,6 +437,16 @@ public class CashManagementForm extends KualiDocumentFormBase {
         private KualiDecimal remainingCoinTotal;
         private KualiDecimal remainingSumTotal;
 
+        private boolean isDepositsFinal = false;
+        private KualiDecimal cashieringChecksTotal;
+        private KualiDecimal depositedCashieringChecksTotal;
+        private KualiDecimal undepositedCashieringChecksTotal;
+        private KualiDecimal cashDrawerCurrencyTotal;
+        private KualiDecimal cashDrawerCoinTotal;
+        private KualiDecimal openItemsTotal;
+        private KualiDecimal cashDrawerTotal;
+        private KualiDecimal interimDepositedCashieringChecksTotal;
+        private KualiDecimal finalDepositedCashieringChecksTotal;
 
         public CashDrawerSummary(CashManagementDocument cmDoc) {
             timeOpened = cmDoc.getDocumentHeader().getWorkflowDocument().getCreateDate();
@@ -461,20 +493,84 @@ public class CashManagementForm extends KualiDocumentFormBase {
 
             overallReceiptCount = overallReceiptStats.getReceiptCount();
             depositedReceiptCount = interimReceiptStats.getReceiptCount() + finalReceiptStats.getReceiptCount();
+            
+            // get cash drawer summary info
+            depositedCashieringChecksTotal = calculateDepositedCashieringChecksTotal(cmDoc);
+            undepositedCashieringChecksTotal = calculateUndepositedCashieringChecksTotal(cmDoc);
+            cashieringChecksTotal = depositedCashieringChecksTotal.add(undepositedCashieringChecksTotal);
+            openItemsTotal = calculateOpenItemsTotal(cmDoc);
+            cashDrawerCurrencyTotal = cmDoc.getCashDrawer().getCurrencyTotalAmount();
+            cashDrawerCoinTotal = cmDoc.getCashDrawer().getCoinTotalAmount();
+            cashDrawerTotal = undepositedCashieringChecksTotal.add(openItemsTotal.add(cashDrawerCurrencyTotal.add(cashDrawerCoinTotal)));
+            Map<String, KualiDecimal> results = calculateDepositedCashieringChecksTotalByDepositType(cmDoc);
+            interimDepositedCashieringChecksTotal = results.get(DepositConstants.DEPOSIT_TYPE_INTERIM);
+            KualiDecimal finalDepositCashTotal = new KualiDecimal(0);
+            Map<Class, Object> finalDepositCashDetails = SpringServiceLocator.getCashManagementService().getCashDetailsForFinalDeposit(cmDoc.getDocumentNumber());
+            KualiDecimal currencyDepositAmount = KualiDecimal.ZERO;
+            if (finalDepositCashDetails.get(CurrencyDetail.class) != null) {
+                currencyDepositAmount = ((CurrencyDetail)finalDepositCashDetails.get(CurrencyDetail.class)).getTotalAmount(); 
+            }
+            KualiDecimal coinDepositAmount = KualiDecimal.ZERO;
+            if (finalDepositCashDetails.get(CoinDetail.class) != null) {
+                coinDepositAmount = ((CoinDetail)finalDepositCashDetails.get(CoinDetail.class)).getTotalAmount();
+            }
+            finalDepositCashTotal = finalDepositCashTotal.add(currencyDepositAmount).add(coinDepositAmount);
+            finalDepositedCashieringChecksTotal = results.get(DepositConstants.DEPOSIT_TYPE_FINAL).add(finalDepositCashTotal);
+
 
             verifiedReceiptSumTotal = verifiedReceiptStats.getSumTotal();
-            interimReceiptSumTotal = interimReceiptStats.getSumTotal();
-            finalReceiptSumTotal = finalReceiptStats.getSumTotal();
+            interimReceiptSumTotal = interimReceiptStats.getCheckTotal().add(interimDepositedCashieringChecksTotal);
+            finalReceiptSumTotal = finalReceiptStats.getCheckTotal().add(finalDepositedCashieringChecksTotal);
             overallReceiptSumTotal = overallReceiptStats.getSumTotal();
-
+            
             remainingCheckTotal = overallReceiptStats.getCheckTotal().subtract(interimReceiptStats.getCheckTotal()).subtract(finalReceiptStats.getCheckTotal());
-            remainingCurrencyTotal = overallReceiptStats.getCurrencyTotal().subtract(interimReceiptStats.getCurrencyTotal()).subtract(finalReceiptStats.getCurrencyTotal());
-            remainingCoinTotal = overallReceiptStats.getCoinTotal().subtract(interimReceiptStats.getCoinTotal()).subtract(finalReceiptStats.getCoinTotal());
+            remainingCurrencyTotal = overallReceiptStats.getCurrencyTotal().subtract(currencyDepositAmount).subtract(depositedCashieringChecksTotal);
+            remainingCoinTotal = overallReceiptStats.getCoinTotal().subtract(coinDepositAmount);
             remainingSumTotal = remainingCheckTotal.add(remainingCurrencyTotal.add(remainingCoinTotal));
-
+            
+            isDepositsFinal = cmDoc.hasFinalDeposit();
+            
             timeRefreshed = SpringServiceLocator.getDateTimeService().getCurrentTimestamp();
         }
 
+        private KualiDecimal calculateDepositedCashieringChecksTotal(CashManagementDocument cmDoc) {
+            return SpringServiceLocator.getCashManagementService().calculateDepositedCheckTotal(cmDoc.getDocumentNumber());
+        }
+        
+        private KualiDecimal calculateUndepositedCashieringChecksTotal(CashManagementDocument cmDoc) {
+            return SpringServiceLocator.getCashManagementService().calculateUndepositedCheckTotal(cmDoc.getDocumentNumber());
+        }
+        
+        private KualiDecimal calculateOpenItemsTotal(CashManagementDocument cmDoc) {
+            KualiDecimal total = new KualiDecimal(0);
+            for (CashieringItemInProcess itemInProcess: SpringServiceLocator.getCashManagementService().getOpenItemsInProcess(cmDoc)) {
+                if (itemInProcess.getItemRemainingAmount() != null) {
+                    total = total.add(itemInProcess.getItemRemainingAmount());
+                }
+            }
+            return total;
+        }
+        
+        private Map<String, KualiDecimal> calculateDepositedCashieringChecksTotalByDepositType(CashManagementDocument cmDoc) {
+            Map<String, KualiDecimal> result = new HashMap<String, KualiDecimal>();
+            result.put(DepositConstants.DEPOSIT_TYPE_INTERIM, new KualiDecimal(0));
+            result.put(DepositConstants.DEPOSIT_TYPE_FINAL, new KualiDecimal(0));
+            // 1. get all deposited cashiering checks
+            List<Check> checks = SpringServiceLocator.getCashManagementService().selectDepositedCashieringChecks(cmDoc.getDocumentNumber());
+            // 2. get all deposits
+            List<Deposit> deposits = cmDoc.getDeposits();
+            Map<Integer, String> depositTypes = new HashMap<Integer, String>();
+            for (Deposit deposit: deposits) {
+                depositTypes.put(deposit.getFinancialDocumentDepositLineNumber(), deposit.getDepositTypeCode());
+            }
+            // 3. now, go through all cashiering checks, totalling them to the right deposit type
+            for (Check check: checks) {
+                KualiDecimal properTotal = result.get(depositTypes.get(check.getFinancialDocumentDepositLineNumber()));
+                properTotal = properTotal.add(check.getAmount());
+                result.put(depositTypes.get(check.getFinancialDocumentDepositLineNumber()), properTotal);
+            }
+            return result;
+        }
 
         /**
          * @return current value of depositedReceiptCount.
@@ -576,7 +672,6 @@ public class CashManagementForm extends KualiDocumentFormBase {
         public void setRemainingCoinTotal(KualiDecimal remainingCoinTotal) {
             this.remainingCoinTotal = remainingCoinTotal;
         }
-
 
         /**
          * @return current value of remainingCurrencyTotal.
@@ -702,13 +797,132 @@ public class CashManagementForm extends KualiDocumentFormBase {
         }
 
         /**
+         * Gets the cashDrawerCoinTotal attribute. 
+         * @return Returns the cashDrawerCoinTotal.
+         */
+        public KualiDecimal getCashDrawerCoinTotal() {
+            return cashDrawerCoinTotal;
+        }
+
+        /**
+         * Gets the cashDrawerCurrencyTotal attribute. 
+         * @return Returns the cashDrawerCurrencyTotal.
+         */
+        public KualiDecimal getCashDrawerCurrencyTotal() {
+            return cashDrawerCurrencyTotal;
+        }
+
+        /**
+         * Gets the cashDrawerTotal attribute. 
+         * @return Returns the cashDrawerTotal.
+         */
+        public KualiDecimal getCashDrawerTotal() {
+            return cashDrawerTotal;
+        }
+
+        /**
+         * Gets the cashieringChecksTotal attribute. 
+         * @return Returns the cashieringChecksTotal.
+         */
+        public KualiDecimal getCashieringChecksTotal() {
+            return cashieringChecksTotal;
+        }
+
+        /**
+         * Sets the cashieringChecksTotal attribute value.
+         * @param cashieringChecksTotal The cashieringChecksTotal to set.
+         */
+        public void setCashieringChecksTotal(KualiDecimal cashieringChecksTotal) {
+            this.cashieringChecksTotal = cashieringChecksTotal;
+        }
+
+        /**
+         * Sets the depositedCashieringChecksTotal attribute value.
+         * @param depositedCashieringChecksTotal The depositedCashieringChecksTotal to set.
+         */
+        public void setDepositedCashieringChecksTotal(KualiDecimal depositedCashieringChecksTotal) {
+            this.depositedCashieringChecksTotal = depositedCashieringChecksTotal;
+        }
+
+        /**
+         * Gets the isDepositsFinal attribute. 
+         * @return Returns the isDepositsFinal.
+         */
+        public boolean isDepositsFinal() {
+            return isDepositsFinal;
+        }
+
+        /**
+         * Sets the cashDrawerCoinTotal attribute value.
+         * @param cashDrawerCoinTotal The cashDrawerCoinTotal to set.
+         */
+        public void setCashDrawerCoinTotal(KualiDecimal cashDrawerCoinTotal) {
+            this.cashDrawerCoinTotal = cashDrawerCoinTotal;
+        }
+
+        /**
+         * Sets the cashDrawerCurrencyTotal attribute value.
+         * @param cashDrawerCurrencyTotal The cashDrawerCurrencyTotal to set.
+         */
+        public void setCashDrawerCurrencyTotal(KualiDecimal cashDrawerCurrencyTotal) {
+            this.cashDrawerCurrencyTotal = cashDrawerCurrencyTotal;
+        }
+
+        /**
+         * Sets the cashDrawerTotal attribute value.
+         * @param cashDrawerTotal The cashDrawerTotal to set.
+         */
+        public void setCashDrawerTotal(KualiDecimal cashDrawerTotal) {
+            this.cashDrawerTotal = cashDrawerTotal;
+        }
+
+        /**
+         * Sets the openItemsTotal attribute value.
+         * @param openItemsTotal The openItemsTotal to set.
+         */
+        public void setOpenItemsTotal(KualiDecimal openItemsTotal) {
+            this.openItemsTotal = openItemsTotal;
+        }
+
+        /**
+         * Sets the undepositedCashieringChecksTotal attribute value.
+         * @param undepositedCashieringChecksTotal The undepositedCashieringChecksTotal to set.
+         */
+        public void setUndepositedCashieringChecksTotal(KualiDecimal undepositedCashieringChecksTotal) {
+            this.undepositedCashieringChecksTotal = undepositedCashieringChecksTotal;
+        }
+
+        /**
+         * Gets the openItemsTotal attribute. 
+         * @return Returns the openItemsTotal.
+         */
+        public KualiDecimal getOpenItemsTotal() {
+            return openItemsTotal;
+        }
+
+        /**
+         * Gets the depositedCashieringChecksTotal attribute. 
+         * @return Returns the depositedCashieringChecksTotal.
+         */
+        public KualiDecimal getDepositedCashieringChecksTotal() {
+            return depositedCashieringChecksTotal;
+        }
+
+        /**
+         * Gets the undepositedCashieringChecksTotal attribute. 
+         * @return Returns the undepositedCashieringChecksTotal.
+         */
+        public KualiDecimal getUndepositedCashieringChecksTotal() {
+            return undepositedCashieringChecksTotal;
+        }
+
+        /**
          * @return current value of overalllStats.
          */
         public CashReceiptStatistics getOverallReceiptStats() {
             return overallReceiptStats;
         }
-
-
+        
         public static final class CashReceiptStatistics {
             private int receiptCount;
             private KualiDecimal checkTotal;
@@ -728,6 +942,7 @@ public class CashManagementForm extends KualiDocumentFormBase {
              * @param receipt
              */
             public void add(CashReceiptDocument receipt) {
+                receipt.refreshCashDetails();
                 receiptCount++;
                 checkTotal = checkTotal.add(receipt.getTotalCheckAmount());
                 currencyTotal = currencyTotal.add(receipt.getTotalCashAmount());

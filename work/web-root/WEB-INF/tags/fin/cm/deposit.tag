@@ -166,7 +166,7 @@
             </td>
     
             <td align="left">
-                <kul:htmlControlAttribute property="${receiptSummaryBase}.totalAmount" attributeEntry="${dummyAttributes.genericAmount}" readOnly="true" />
+                <kul:htmlControlAttribute property="${receiptSummaryBase}.checkAmount" attributeEntry="${dummyAttributes.genericAmount}" readOnly="true" />
             </td>
         </tr>
     </logic:iterate>

@@ -49,6 +49,7 @@ import org.kuali.module.financial.bo.CashieringTransaction;
 import org.kuali.module.financial.bo.Check;
 import org.kuali.module.financial.bo.CurrencyDetail;
 import org.kuali.module.financial.bo.CoinDetail;
+import org.kuali.module.financial.bo.Deposit;
 import org.kuali.module.financial.bo.DepositWizardHelper;
 import org.kuali.module.financial.bo.DepositWizardCashieringCheckHelper;
 import org.kuali.module.financial.document.CashManagementDocument;
@@ -360,16 +361,20 @@ public class DepositWizardAction extends KualiAction {
                     cms.addDeposit(cashManagementDoc, dform.getDepositTicketNumber(), dform.getBankAccount(), selectedReceipts, selectedCashieringChecks, depositIsFinal);
                     
                     if (depositIsFinal) {
+                        // find the final deposit
+                        Deposit finalDeposit = findFinalDeposit(cashManagementDoc);
                         // if the currency and coin details aren't empty, save them and remove them from the cash drawer
-                        if (dform.getCurrencyDetail() != null && !dform.getCurrencyDetail().isEmpty()) {
+                        if (dform.getCurrencyDetail() != null) {
                             // do we have enough currency to allow the deposit to leave the drawer?
                             SpringServiceLocator.getBusinessObjectService().save(dform.getCurrencyDetail());
                             cashManagementDoc.getCashDrawer().removeCurrency(dform.getCurrencyDetail());
+                            finalDeposit.setDepositAmount(finalDeposit.getDepositAmount().add(dform.getCurrencyDetail().getTotalAmount()));
                         }
-                        if (dform.getCoinDetail() != null && !dform.getCoinDetail().isEmpty()) {
+                        if (dform.getCoinDetail() != null) {
                             // do we have enough coin to allow the deposit to leave the drawer?
                             SpringServiceLocator.getBusinessObjectService().save(dform.getCoinDetail());
                             cashManagementDoc.getCashDrawer().removeCoin(dform.getCoinDetail());
+                            finalDeposit.setDepositAmount(finalDeposit.getDepositAmount().add(dform.getCoinDetail().getTotalAmount()));
                         }
                         SpringServiceLocator.getBusinessObjectService().save(cashManagementDoc.getCashDrawer());
                     }
@@ -384,6 +389,17 @@ public class DepositWizardAction extends KualiAction {
         }
 
         return dest;
+    }
+    
+    private Deposit findFinalDeposit(CashManagementDocument cmDoc) {
+        Deposit finalDeposit = null;
+        for (Deposit deposit: cmDoc.getDeposits()) {
+            if (deposit.getDepositTypeCode().equals(KFSConstants.DepositConstants.DEPOSIT_TYPE_FINAL)) {
+                finalDeposit = deposit;
+                break;
+            }
+        }
+        return finalDeposit;
     }
     
     /**

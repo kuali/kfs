@@ -329,7 +329,7 @@ public class CashManagementServiceImpl implements CashManagementService {
         KualiDecimal total = KualiDecimal.ZERO;
         for (Iterator i = selectedCashReceipts.iterator(); i.hasNext();) {
             CashReceiptDocument crDoc = (CashReceiptDocument) i.next();
-            total = total.add(crDoc.getTotalDollarAmount());
+            total = total.add(crDoc.getTotalCheckAmount());
         }
         Check currCheck;
         for (Object checkObj: selectedCashieringChecks) {
@@ -615,7 +615,22 @@ public class CashManagementServiceImpl implements CashManagementService {
         List<Deposit> allDeposits = cmDoc.getDeposits();
         Deposit lastInterim = allDeposits.get(allDeposits.size() - 1);
         lastInterim.setDepositTypeCode(DepositConstants.DEPOSIT_TYPE_FINAL);
+        finalizeCashReceiptsForDeposit(lastInterim);
         documentService.updateDocument(cmDoc);
+    }
+    
+    /**
+     * 
+     * This method switches cash receipts to "final" status as opposed to "interim" status
+     * @param deposit
+     */
+    private void finalizeCashReceiptsForDeposit(Deposit deposit) {
+        List cashReceipts = this.retrieveCashReceipts(deposit);
+        for (Object o: cashReceipts) {
+            CashReceiptDocument crDoc = (CashReceiptDocument)o;
+            crDoc.getDocumentHeader().setFinancialDocumentStatusCode(KFSConstants.DocumentStatusCodes.CashReceipt.FINAL);
+            documentService.updateDocument(crDoc);
+        }
     }
     
     /**
@@ -889,6 +904,14 @@ public class CashManagementServiceImpl implements CashManagementService {
     }
     
     /**
+     * @see org.kuali.module.financial.service.CashManagementService#selectDepositedCashieringChecks(java.lang.String)
+     */
+    public List<Check> selectDepositedCashieringChecks(String documentNumber) {
+        return cashManagementDao.selectDepositedCashieringChecks(documentNumber);
+    }
+
+
+    /**
      * Total up the amounts of all checks so far deposited as part of the given cash management document
      * @param documentNumber the id of a cash management document
      * @return the total of cashiering checks deposited so far as part of that document
@@ -902,6 +925,20 @@ public class CashManagementServiceImpl implements CashManagementService {
         }
         return total;
     }
+
+    /**
+     * @see org.kuali.module.financial.service.CashManagementService#calculateUndepositedCheckTotal(java.lang.String)
+     */
+    public KualiDecimal calculateUndepositedCheckTotal(String documentNumber) {
+        KualiDecimal total = new KualiDecimal(0);
+        for (Check check: cashManagementDao.selectUndepositedCashieringChecks(documentNumber)) {
+            if (check != null && check.getAmount() != null && check.getAmount().isGreaterThan(KualiDecimal.ZERO)) {
+                total = total.add(check.getAmount());
+            }
+        }
+        return total;
+    }
+
 
     /**
      * @see org.kuali.module.financial.service.CashManagementService#allowDocumentCancellation(org.kuali.module.financial.document.CashManagementDocument)
@@ -963,6 +1000,22 @@ public class CashManagementServiceImpl implements CashManagementService {
      */
     public Integer selectNextAvailableCheckLineNumber(String documentNumber) {
         return cashManagementDao.selectNextAvailableCheckLineNumber(documentNumber);
+    }
+
+    /**
+     * @see org.kuali.module.financial.service.CashManagementService#getCashDetailsForFinalDeposit(java.lang.String)
+     */
+    public Map<Class, Object> getCashDetailsForFinalDeposit(String documentNumber) {
+        CurrencyDetail finalDepositCurrencyDetail = cashManagementDao.findCurrencyDetailByCashieringRecordSource(documentNumber, CashieringTransaction.DETAIL_DOCUMENT_TYPE, KFSConstants.CurrencyCoinSources.DEPOSITS);
+        CoinDetail finalDepositCoinDetail = cashManagementDao.findCoinDetailByCashieringRecordSource(documentNumber, CashieringTransaction.DETAIL_DOCUMENT_TYPE, KFSConstants.CurrencyCoinSources.DEPOSITS);
+        Map<Class, Object> result = new HashMap<Class, Object>();
+        if (finalDepositCurrencyDetail != null) {
+            result.put(CurrencyDetail.class, finalDepositCurrencyDetail);
+        }
+        if (finalDepositCoinDetail != null) {
+            result.put(CoinDetail.class, finalDepositCoinDetail);
+        }
+        return result;
     }
 
 

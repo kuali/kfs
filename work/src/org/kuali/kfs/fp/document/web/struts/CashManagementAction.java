@@ -346,6 +346,8 @@ public class CashManagementAction extends KualiDocumentActionBase {
         
         cms.finalizeLastInterimDeposit(cmDoc);
         
+        ((CashManagementForm)form).getCashDrawerSummary().resummarize(cmDoc);
+        
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
     
@@ -363,6 +365,8 @@ public class CashManagementAction extends KualiDocumentActionBase {
         CashManagementService cmService = SpringServiceLocator.getCashManagementService();
         
         cmService.applyCashieringTransaction(cmDoc);
+        
+        ((CashManagementForm)form).getCashDrawerSummary().resummarize(cmDoc);
         
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
@@ -417,6 +421,7 @@ public class CashManagementAction extends KualiDocumentActionBase {
 
             // clear the used newCheck
             cmDoc.getCurrentTransaction().setNewCheck(cmDoc.getCurrentTransaction().createNewCheck());
+            
         }
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
@@ -449,6 +454,7 @@ public class CashManagementAction extends KualiDocumentActionBase {
             if (cmDoc.getCurrentTransaction().hasBaselineCheck(deleteIndex)) {
                 cmDoc.getCurrentTransaction().getBaselineChecks().remove(deleteIndex);
             }
+            
         }
         else {
             GlobalVariables.getErrorMap().putError("document.currentTransaction.check[" + deleteIndex + "]", KFSKeyConstants.Check.ERROR_CHECK_DELETERULE, Integer.toString(deleteIndex));

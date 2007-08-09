@@ -16,6 +16,7 @@
 package org.kuali.module.financial.service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.module.financial.bo.BankAccount;
@@ -188,6 +189,13 @@ public interface CashManagementService {
     public List<Check> selectUndepositedCashieringChecks(String documentNumber);
     
     /**
+     * Retrieves from the database all deposited cashiering transaction checks associated with the given cash management document
+     * @param documentNumber the document number of a cash management document that cashiering transaction checks may be associated with
+     * @return a list of deposited cashiering checks associated with the document
+     */
+    public List<Check> selectDepositedCashieringChecks(String documentNumber);
+    
+    /**
      * Retrieves from the database all cashiering transaction checks deposited for a given deposit
      * @param documentNumber the document number of a cash management document that cashiering transaction checks have been deposited for
      * @param depositLineNumber the line number of the deposit to find checks deposited for
@@ -203,6 +211,13 @@ public interface CashManagementService {
     public KualiDecimal calculateDepositedCheckTotal(String documentNumber);
     
     /**
+     * Total up the amounts of all cashiering checks not yet deposited as part of the given cash management document
+     * @param documentNumber the id of a cash management document
+     * @return the total of cashiering checks not yet deposited as part of that document
+     */
+    public KualiDecimal calculateUndepositedCheckTotal(String documentNumber);
+    
+    /**
      * This method determines whether or not the given cash management document can be cancelled or not.
      * @param cmDoc the cash management document to cancel
      * @return true if cancellation is possible, false if otherwise
@@ -215,4 +230,12 @@ public interface CashManagementService {
      * @return the next available check line number for cashiering checks
      */
     public Integer selectNextAvailableCheckLineNumber(String documentNumber);
+    
+    /**
+     * 
+     * This returns the currency and coin details for the final deposit, in a map keyed on the detail class
+     * @param documentNumber the document number to find the final deposit cash details for
+     * @return a map with the cash details in it
+     */
+    public Map<Class, Object> getCashDetailsForFinalDeposit(String documentNumber);
 }

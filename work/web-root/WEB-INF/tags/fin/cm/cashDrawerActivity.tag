@@ -91,46 +91,14 @@
                     				<th colspan=2 style="text-align: left; padding-left: 0px">TOTAL</th>
                     				<td style="text-align: right">$<html:hidden property="cashDrawerSummary.overallReceiptStats.sumTotal" write="true" /></td>
                 				</tr>
-
-		    				<%-- <tr>
-                    				<td colspan=5 class="tab-subhead">Cashiering Activity</td>
-                				</tr>
-
-		    				<tr>
-			  				<td rowspan="5">&nbsp;&nbsp;</td>
-			  				<td colspan="2" class="infoline">Miscellaneous Checks</td>
-			  				<td style="text-align: right">$<html:hidden property="cashDrawerSummary.cashieringChecksTotal" write="true" /></td>
-			  				<td rowspan="5" width="100%">&nbsp;</td>
-		    				</tr>
-
-		    				<tr>
-			  				<td colspan="2" class="infoline">Currency</td>
-			  				<td style="text-align: right">$<html:hidden property="cashDrawerSummary.cashieringCurrencyTotal" write="true" /></td>
-		    				</tr>
-
-		    				<tr>
-			  				<td colspan="2" class="infoline">Coin</td>
-			  				<td style="text-align: right">$<html:hidden property="cashDrawerSummary.cashieringCoinTotal" write="true" /></td>
-		    				</tr>
-
-		    				<tr>
-			  				<td colspan="2" class="infoline">Items in Process</td>
-			  				<td style="text-align: right">$<html:hidden property="cashDrawerSummary.cashieringItemsInProcessTotal" write="true" /></td>
-		    				</tr>
-
-		    				<tr>
-			  				<td colspan="2" class="infoline"><strong>TOTAL</strong></td>
-			  				<td style="text-align: right">$<html:hidden property="cashDrawerSummary.cashieringSubTotal" write="true" /></td>
-		    				</tr> --%>
-    
                 				<tr>
                     				<td colspan=5 class="tab-subhead">Deposit Activity: <html:hidden property="cashDrawerSummary.depositedReceiptCount" write="true" /> Deposited Cash Receipts</td>
                 				</tr>
                 				<tr>
-                    				<td rowspan=7>&nbsp;&nbsp;</td>
+                    				<td rowspan="8">&nbsp;&nbsp;</td>
                     				<td colspan=2 class="infoline">Operating</td>
                     				<td style="text-align: right">$<html:hidden property="cashDrawerSummary.overallReceiptSumTotal" write="true" /></td>
-                    				<td rowspan=7 width=100%>&nbsp;</td>
+                    				<td rowspan="8" width=100%>&nbsp;</td>
                 				</tr>
                 				<tr>
                     				<td colspan=2 class="infoline">- Interim</td>
@@ -144,9 +112,8 @@
                     				<th colspan=2 style="text-align: left; padding-left: 0px">= Remaining</th>
                     				<td style="text-align: right">$<html:hidden property="cashDrawerSummary.remainingSumTotal" write="true" /></td>
                 				</tr>
-    
                 				<tr>
-                    				<td rowspan=3>&nbsp;&nbsp;</td>
+                    				<td rowspan="3">&nbsp;&nbsp;</td>
                     				<td class="infoline">Checks</td>
                     				<td style="text-align: right">$<html:hidden property="cashDrawerSummary.remainingCheckTotal" write="true" /></td>
                 				</tr>
@@ -163,9 +130,6 @@
         			</table>
 			</td>
 			<td width="50%" valign="top">
-        <div class="h2-container">
-          <h2>Cash Drawer Currency/Coin</h2>
-        </div>
 				<cm:cashDrawerCurrencyCoin cashDrawerProperty="document.cashDrawer" readOnly="true" />
         <c:if test="${KualiForm.editingMode[AuthorizationConstants.EditMode.FULL_ENTRY] and KualiForm.document.rawCashDrawerStatus eq Constants.CashDrawerConstants.STATUS_CLOSED}">
           <div style="padding: 10px; text-align: center;">

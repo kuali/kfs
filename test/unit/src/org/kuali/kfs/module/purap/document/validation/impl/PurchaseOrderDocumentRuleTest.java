@@ -70,19 +70,6 @@ public class PurchaseOrderDocumentRuleTest extends PurapRuleTestBase {
     }
     
     /*
-     * Tests of validateItemWithoutAccounts
-     */
-    public void testValidateItemWithoutAccounts_WithItemWithAccount() {
-        PurchaseOrderItem poItem = ItemAccountsFixture.WITH_DESC_WITH_UOM_WITH_PRICE_WITH_ACCOUNT.populateItem();
-        assertTrue(rule.validateItemWithoutAccounts(poItem,"Item " + poItem.getItemLineNumber().toString()));
-    }
-    
-    public void testValidateItemWithoutAccounts_WithItemWithoutAccount() {
-        PurchaseOrderItem poItem = ItemAccountsFixture.WITH_DESC_WITH_UOM_WITH_PRICE_NULL_ACCOUNT.populateItem();
-        assertFalse(rule.validateItemWithoutAccounts(poItem,"Item " + poItem.getItemLineNumber().toString()));
-    }
-    
-    /*
      * Tests of validateItemUnitOfMeasure
      */
     public void testValidateItemUnitOfMeasure_WithUOM() {

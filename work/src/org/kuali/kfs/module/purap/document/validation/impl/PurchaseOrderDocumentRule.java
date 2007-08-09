@@ -83,7 +83,6 @@ public class PurchaseOrderDocumentRule extends PurchasingDocumentRuleBase {
         for (PurchasingApItem item : purapDocument.getItems()) {
             String identifierString = (item.getItemType().isItemTypeAboveTheLineIndicator() ? "Item " + item.getItemLineNumber().toString() : item.getItemType().getItemTypeDescription());
             valid &= validateEmptyItemWithAccounts((PurchaseOrderItem) item, identifierString);
-            valid &= validateItemWithoutAccounts((PurchaseOrderItem) item, identifierString);
             valid &= validateItemUnitOfMeasure((PurchaseOrderItem) item, identifierString);
             if (purapDocument.getDocumentHeader().getWorkflowDocument() != null && purapDocument.getDocumentHeader().getWorkflowDocument().getDocumentType().equals(PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_AMENDMENT_DOCUMENT)) {
                 valid &= validateItemForAmendment((PurchaseOrderItem) item, identifierString);
@@ -127,21 +126,6 @@ public class PurchaseOrderDocumentRule extends PurchasingDocumentRuleBase {
         if (item.getItemTypeCode().equals(PurapConstants.ItemTypeCodes.ITEM_TYPE_ITEM_CODE) && item.isItemDetailEmpty() && !item.isAccountListEmpty()) {
             valid = false;
             GlobalVariables.getErrorMap().putError(PurapConstants.ITEM_TAB_ERROR_PROPERTY, PurapKeyConstants.ERROR_ITEM_ACCOUNTING_NOT_ALLOWED, identifierString);
-        }
-        return valid;
-    }
-
-    /**
-     * This method validates that the item must contain at least one account
-     * 
-     * @param item
-     * @return
-     */
-    boolean validateItemWithoutAccounts(PurchaseOrderItem item, String identifierString) {
-        boolean valid = true;
-        if (ObjectUtils.isNotNull(item.getItemUnitPrice()) && (new KualiDecimal(item.getItemUnitPrice())).isNonZero() && item.isAccountListEmpty()) {
-            valid = false;
-            GlobalVariables.getErrorMap().putError(PurapConstants.ITEM_TAB_ERROR_PROPERTY, PurapKeyConstants.ERROR_ITEM_ACCOUNTING_INCOMPLETE, identifierString);
         }
         return valid;
     }

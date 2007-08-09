@@ -390,8 +390,7 @@
 	</target>
 
 	<target name="update-rice-licenses" depends="init-property-files">
-		<!-- todo fix this when licenses are moved to rice -->
-		<!--<zip destfile="${build.project.directory}/${rice.name}-${rice.version}-licenses.zip" basedir="${workflow.project.directory}/${licenses.directory}" excludes="**/CVS" />-->
+		<zip destfile="${build.project.directory}/${rice.name}-${rice.version}-licenses.zip" basedir="${rice.project.directory}/${licenses.directory}" excludes="**/CVS" />
 	</target>
 	
 	<macrodef name="maven">

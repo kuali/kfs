@@ -18,6 +18,7 @@ package org.kuali.module.labor.bo;
 
 import java.util.LinkedHashMap;
 
+import org.kuali.core.bo.Inactivateable;
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.kfs.bo.Options;
 import org.kuali.module.chart.bo.Chart;
@@ -26,7 +27,7 @@ import org.kuali.module.chart.bo.ObjectCode;
 /**
  * 
  */
-public class LaborObject extends PersistableBusinessObjectBase {
+public class LaborObject extends PersistableBusinessObjectBase implements Inactivateable {
 
 	private Integer universityFiscalYear;
 	private String chartOfAccountsCode;
@@ -36,12 +37,12 @@ public class LaborObject extends PersistableBusinessObjectBase {
 	private String financialObjectPayTypeCode;
 	private String financialObjectFringeOrSalaryCode;
 	private String positionObjectGroupCode;
-    private String activeIndicator;
 
     private ObjectCode financialObject;
 	private Chart chartOfAccounts;
     private PositionObjectGroup positionObjectGroup;
     private Options option;
+    private boolean active;
     
 	/**
 	 * Default constructor.
@@ -287,22 +288,13 @@ public class LaborObject extends PersistableBusinessObjectBase {
         m.put("chartOfAccountsCode", this.chartOfAccountsCode);
         m.put("financialObjectCode", this.financialObjectCode);
         return m;
-    }
-
-    /**
-     * Gets the activeIndicator attribute. 
-     * @return Returns the activeIndicator.
-     */
-    public String getActiveIndicator() {
-        return activeIndicator;
-    }
-
-    /**
-     * Sets the activeIndicator attribute value.
-     * @param activeIndicator The activeIndicator to set.
-     */
-    public void setActiveIndicator(String activeIndicator) {
-        this.activeIndicator = activeIndicator;
     }    
+    
+    public boolean isActive() {
+        return this.active;
+    }
 
+    public void setActive(boolean active) {
+        this.active = active;
+    }
 }

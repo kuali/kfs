@@ -75,21 +75,7 @@
                 <description>accountNumber description...</description>
 			</attribute>
 
-            <attribute name="chartOfAccountsCode" forceUppercase="true">
-                <label>Chart Code</label>
-                <shortLabel>Code</shortLabel>
-
-                <maxLength>2</maxLength>
-                <validationPattern><alpha/></validationPattern>
-                <required>true</required>
-
-                <control>
-                    <text size="4" />
-                </control>
-
-                <summary>chartOfAccountsCode</summary>
-                <description>chartOfAccountsCode description...</description>
-			</attribute>
+            <attributeReference name="chartOfAccountsCode" sourceClassName="org.kuali.module.chart.bo.Chart" sourceAttributeName="chartOfAccountsCode"/>
 
             <attributeReference name="active" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="activeIndicator" />
 

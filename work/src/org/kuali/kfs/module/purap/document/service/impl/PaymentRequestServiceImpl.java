@@ -1094,9 +1094,7 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
         return false;
     }
 
-    //TODO: I don't think this method is needed in Kuali.  Talk to Heather about.
-    //This method was copied over from EPIC with some minor modification. Please refer to EPIC's PaymentRequestServiceImpl 
-    //convertMoneyToPercent method if you'd like to find out how it was in EPIC.
+    //FIXME: delete from PaymentRequestService(Impl), it is now in CreditMemoCreateService
     public Collection convertMoneyToPercent(PaymentRequestDocument pr) {
         LOG.debug("convertMoneyToPercent() started");
         Collection errors = new ArrayList();
@@ -1119,26 +1117,27 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
                     accountIdentifier++;
                     PaymentRequestAccount account = (PaymentRequestAccount) iterator.next();
                     KualiDecimal accountAmount = account.getAmount();
-                    KualiDecimal tmpPercent = KualiDecimal.ZERO;
-                    tmpPercent = accountAmount.divide(item.getExtendedPrice());
+                    BigDecimal tmpPercent = BigDecimal.ZERO;
+                    KualiDecimal extendedPrice = item.getExtendedPrice();
+                    tmpPercent = accountAmount.bigDecimalValue().divide(extendedPrice.bigDecimalValue(),PurapConstants.PRORATION_SCALE.intValue(), KualiDecimal.ROUND_BEHAVIOR);
                     // test that the above amount is correct, if so just check that the total of all these matches the item total
-                    // (or use rounding below?!?!?!)
-                    KualiDecimal calcAmount = tmpPercent.multiply(item.getExtendedPrice());
+
+                    KualiDecimal calcAmount = new KualiDecimal(tmpPercent.multiply(extendedPrice.bigDecimalValue()));
                     if (calcAmount.compareTo(accountAmount) != 0) {
                         // rounding error
                         LOG.debug("convertMoneyToPercent() Rounding error on " + account);
                         String param1 = identifier + "." + accountIdentifier;
-                        String param2 = calcAmount.subtract(accountAmount).toString();
+                        String param2 = calcAmount.bigDecimalValue().subtract(accountAmount.bigDecimalValue()).toString();
                         GlobalVariables.getErrorMap().putError(item.getItemIdentifierString(), PurapKeyConstants.ERROR_ITEM_ACCOUNTING_ROUNDING, param1, param2);
                         PurError se = new PurError("Rounding Error");
                         errors.add(se);
                         // fix
-                        account.setItemAccountTotalAmount(calcAmount);
+                        account.setAmount(calcAmount);
                     }
 
                     // update percent
                     LOG.debug("convertMoneyToPercent() updating percent to " + tmpPercent);
-                    account.setAccountLinePercent(tmpPercent.multiply(new KualiDecimal(100)).bigDecimalValue());
+                    account.setAccountLinePercent(tmpPercent.multiply(new BigDecimal(100)));
 
                     // check total based on adjusted amount
                     accountTotal = accountTotal.add(calcAmount);

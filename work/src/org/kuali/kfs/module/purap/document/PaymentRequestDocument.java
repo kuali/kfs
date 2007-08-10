@@ -1060,6 +1060,7 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
     }
 
     /**
+     * TODO: ckirschenman - get rid of this method!!
      * This method is a workaround for some problems we've found because the payment request is not saved
      * before dealing with related objects.  This could be removed if we either saved after continue or
      * had a reference to the actual po in the preqitems (instead of always going through the document.

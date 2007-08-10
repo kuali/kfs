@@ -15,17 +15,25 @@
  */
 package org.kuali.module.purap.service.impl;
 
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
 
-import org.apache.commons.lang.StringUtils;
 import org.kuali.core.util.GlobalVariables;
+import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.module.purap.PurapConstants;
+import org.kuali.module.purap.PurapKeyConstants;
 import org.kuali.module.purap.bo.CreditMemoItem;
+import org.kuali.module.purap.bo.PaymentRequestAccount;
 import org.kuali.module.purap.bo.PaymentRequestItem;
 import org.kuali.module.purap.bo.PurchaseOrderItem;
 import org.kuali.module.purap.document.CreditMemoDocument;
 import org.kuali.module.purap.document.PaymentRequestDocument;
 import org.kuali.module.purap.document.PurchaseOrderDocument;
+import org.kuali.module.purap.exceptions.PurError;
 import org.kuali.module.purap.service.CreditMemoCreateService;
 import org.kuali.module.purap.service.CreditMemoService;
 import org.kuali.module.vendor.VendorConstants;
@@ -34,10 +42,12 @@ import org.kuali.module.vendor.bo.VendorDetail;
 import org.kuali.module.vendor.service.VendorService;
 import org.kuali.module.vendor.util.VendorUtils;
 
+
 /**
  * Performs inital population of the credit memo document.
  */
 public class CreditMemoCreateServiceImpl implements CreditMemoCreateService {
+    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CreditMemoServiceImpl.class);
     private VendorService vendorService;
     private CreditMemoService creditMemoService;
 
@@ -81,6 +91,8 @@ public class CreditMemoCreateServiceImpl implements CreditMemoCreateService {
         cmDocument.setVendorPostalCode(paymentRequestDocument.getVendorPostalCode());
         cmDocument.setVendorCountryCode(paymentRequestDocument.getVendorCountryCode());
         
+        //prep the item lines (also collect warnings for later display) this is only done on paymentRequest
+        convertMoneyToPercent(paymentRequestDocument);
         populateItemLinesFromPreq(cmDocument);
     }
 
@@ -194,6 +206,61 @@ public class CreditMemoCreateServiceImpl implements CreditMemoCreateService {
         SpringServiceLocator.getPurapService().addBelowLineItems(cmDocument);
     }
 
+    private void convertMoneyToPercent(PaymentRequestDocument pr) {
+        LOG.debug("convertMoneyToPercent() started");
+        Collection errors = new ArrayList();
+        int itemNbr = 0;
+
+        for (Iterator iter = pr.getItems().iterator(); iter.hasNext();) {
+            PaymentRequestItem item = (PaymentRequestItem) iter.next();
+
+            itemNbr++;
+            String identifier = item.getItemIdentifierString();
+
+            if (item.getExtendedPrice().isNonZero()) {
+                // Collections.sort((List)item.getAccounts());
+
+                KualiDecimal accountTotal = KualiDecimal.ZERO;
+                // haven't decided if I'm going to round
+                /* PaymentRequestAccount lastAccount = null; */
+                int accountIdentifier = 0;
+                for (Iterator iterator = item.getSourceAccountingLines().iterator(); iterator.hasNext();) {
+                    accountIdentifier++;
+                    PaymentRequestAccount account = (PaymentRequestAccount) iterator.next();
+                    KualiDecimal accountAmount = account.getAmount();
+                    BigDecimal tmpPercent = BigDecimal.ZERO;
+                    KualiDecimal extendedPrice = item.getExtendedPrice();
+                    tmpPercent = accountAmount.bigDecimalValue().divide(extendedPrice.bigDecimalValue(),PurapConstants.PRORATION_SCALE.intValue(), KualiDecimal.ROUND_BEHAVIOR);
+                    // test that the above amount is correct, if so just check that the total of all these matches the item total
+
+                    KualiDecimal calcAmount = new KualiDecimal(tmpPercent.multiply(extendedPrice.bigDecimalValue()));
+                    if (calcAmount.compareTo(accountAmount) != 0) {
+                        // rounding error
+                        LOG.debug("convertMoneyToPercent() Rounding error on " + account);
+                        String param1 = identifier + "." + accountIdentifier;
+                        String param2 = calcAmount.bigDecimalValue().subtract(accountAmount.bigDecimalValue()).toString();
+                        GlobalVariables.getErrorMap().putError(item.getItemIdentifierString(), PurapKeyConstants.ERROR_ITEM_ACCOUNTING_ROUNDING, param1, param2);
+                        // fix
+                        account.setAmount(calcAmount);
+                    }
+
+                    // update percent
+                    LOG.debug("convertMoneyToPercent() updating percent to " + tmpPercent);
+                    account.setAccountLinePercent(tmpPercent.multiply(new BigDecimal(100)));
+
+                    // check total based on adjusted amount
+                    accountTotal = accountTotal.add(calcAmount);
+
+                }
+                if (!accountTotal.equals(item.getExtendedPrice())) {
+                    GlobalVariables.getErrorMap().putError(item.getItemIdentifierString(), PurapKeyConstants.ERROR_ITEM_ACCOUNTING_DOLLAR_TOTAL, identifier, accountTotal.toString(), item.getExtendedPrice().toString());
+                    LOG.debug("Invalid Totals");
+                }
+
+            }
+        }
+    }
+    
     /**
      * Defaults the document description based on the cm type.
      * 

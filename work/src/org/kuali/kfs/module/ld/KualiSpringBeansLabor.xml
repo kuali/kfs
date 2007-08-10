@@ -715,13 +715,24 @@
 	<bean id="laborDao" parent="platformAwareDao" class="org.kuali.module.labor.dao.ojb.LaborDaoOjb" />
 	
 	<bean id="laborCorrectionDocumentService" class="org.kuali.module.labor.service.impl.LaborCorrectionDocumentServiceImpl">
+		<property name="correctionChangeGroupDao">
+			<ref bean="glCorrectionChangeGroupDao" />
+		</property>
+		<property name="correctionChangeDao">
+			<ref bean="glCorrectionChangeDao" />
+		</property>
+		<property name="correctionCriteriaDao">
+			<ref bean="glCorrectionCriteriaDao" />
+		</property>
+		<property name="documentDao">
+			<ref bean="documentDao" />
+		</property>
 		<property name="laborOriginEntryService">
 			<ref bean="laborOriginEntryService" />
 		</property>
 			<property name="originEntryGroupService">
 			<ref bean="glOriginEntryGroupService" />
 		</property>
-		
 		<property name="llcpDirectoryName" value="${staging.directory}/GLCP"/>
 	</bean>
 	

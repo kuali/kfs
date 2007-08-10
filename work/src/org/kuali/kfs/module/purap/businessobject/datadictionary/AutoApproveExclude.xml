@@ -59,7 +59,7 @@
 
         <attributes>
 
-            <attributeReference name="accountNumber" sourceClassName="orgr.kuali.module.chart.bo.Account" sourceAttributeName="accountNumber"/>
+            <attributeReference name="accountNumber" sourceClassName="org.kuali.module.chart.bo.Account" sourceAttributeName="accountNumber"/>
 
             <attributeReference name="chartOfAccountsCode" sourceClassName="org.kuali.module.chart.bo.Chart" sourceAttributeName="chartOfAccountsCode"/>
 

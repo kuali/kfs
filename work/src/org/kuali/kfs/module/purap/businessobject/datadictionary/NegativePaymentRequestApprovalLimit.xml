@@ -94,8 +94,15 @@
 			</attribute>
 
             <attributeReference name="chartOfAccountsCode" sourceClassName="org.kuali.module.chart.bo.Chart" sourceAttributeName="chartOfAccountsCode"/>
-            <attributeReference name="accountNumber" sourceClassName="orgr.kuali.module.chart.bo.Account" sourceAttributeName="accountNumber" required="false"/>
-            <attributeReference name="organizationCode" sourceClassName="org.kuali.module.chart.bo.Org" sourceAttributeName="organizationCode" required="false"/>
+
+            <attributeReference name="accountNumber" sourceClassName="org.kuali.module.chart.bo.Account" sourceAttributeName="accountNumber">
+                <required>false</required>
+            </attributeReference>
+            
+            <attributeReference name="organizationCode" sourceClassName="org.kuali.module.chart.bo.Org" sourceAttributeName="organizationCode">
+                <required>false</required>
+            </attributeReference>
+
 			<attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
 
         </attributes>

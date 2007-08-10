@@ -230,15 +230,15 @@
 			<attributeReference name="lineItemTotal"
 				sourceClassName="org.kuali.module.purap.bo.PurApAttributeReferenceDummy"
 				sourceAttributeName="genericItemAmount">
-				<label>Total credit allowed prior to restocking fee</label>
+				<label>Total credit processed prior to restocking fee</label>
 				<shortLabel>
-					Total credit allowed prior to restocking fee
+					Total credit processed prior to restocking fee
 				</shortLabel>
 				<summary>
-					Total credit allowed prior to restocking fee
+					Total credit processed prior to restocking fee
 				</summary>
 				<description>
-					Total credit allowed prior to restocking fee
+					Total credit processed prior to restocking fee
 					description...
 				</description>
 			</attributeReference>

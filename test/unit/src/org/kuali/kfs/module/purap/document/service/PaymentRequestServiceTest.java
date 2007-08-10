@@ -15,7 +15,10 @@
  */
 package org.kuali.module.purap.service;
 
+import static org.kuali.test.fixtures.UserNameFixture.KHUNTLEY;
+
 import java.sql.Date;
+import java.util.Map;
 
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.document.Document;
@@ -73,17 +76,29 @@ public class PaymentRequestServiceTest extends KualiTestBase {
         PaymentRequestDocument _document = 
             (PaymentRequestDocument) documentService.getNewDocument(
                     PaymentRequestDocument.class);
-        _document.setStatusCode(PurapConstants.PaymentRequestStatuses.IN_PROCESS);
+        _document.setStatusCode(PurapConstants.PaymentRequestStatuses.AWAITING_ACCOUNTS_PAYABLE_REVIEW);//IN_PROCESS);
         _document.setPurchaseOrderIdentifier(1);
         Date today = SpringServiceLocator.getDateTimeService().getCurrentSqlDate();
         _document.setInvoiceDate(today);
         _document.setPaymentRequestCostSourceCode(PurapConstants.POCostSources.ESTIMATE);
         UniversalUser currentUser = (UniversalUser)GlobalVariables.getUserSession().getUniversalUser();
         _document.setAccountsPayableProcessorIdentifier(currentUser.getPersonUniversalIdentifier());
+        _document.getDocumentHeader().setFinancialDocumentDescription("test description");
         
         documentService.saveDocument(_document);
         return _document;
     }
+    
+//    @ConfigureContext(session = UserNameFixture.APPLETON)
+//    public void testFoo() throws Exception {
+//        PaymentRequestDocument document = createBasicDocument();
+//        documentService.routeDocument(document, "", null);
+//        document.setChartOfAccountsCode("BA");
+//        //changeCurrentUser(UserNameFixture.KHUNTLEY);
+//        boolean approved = SpringServiceLocator.getPaymentRequestService().autoApprovePaymentRequest(document, defaultMinimumLimit);
+//        Map map = GlobalVariables.getErrorMap();
+//        boolean breakonme = approved;
+//    }
     
     /**
      * Payment requests with a negative payment request approval limit higher

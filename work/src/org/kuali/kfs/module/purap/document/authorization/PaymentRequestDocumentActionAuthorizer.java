@@ -228,6 +228,10 @@ public class PaymentRequestDocumentActionAuthorizer {
               PaymentRequestStatuses.AWAITING_TAX_REVIEW.equals( getDocStatus() ) ) &&                                                
              (isApUser() && isRequestCancelIndicator()) ) ||
             
+            ((PaymentRequestStatuses.IN_PROCESS.equals( getDocStatus() ) ||
+              PaymentRequestStatuses.AWAITING_ACCOUNTS_PAYABLE_REVIEW.equals( getDocStatus() ) ) &&
+             (isApUser())) ||
+             
             ((PaymentRequestStatuses.DEPARTMENT_APPROVED.equals( getDocStatus() ) ||
               PaymentRequestStatuses.AUTO_APPROVED.equals( getDocStatus() ) ) &&               
              (isApUser() && isRequestCancelIndicator() == false && isHoldIndicator() == false && isExtracted() == false)) ){

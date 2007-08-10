@@ -52,16 +52,15 @@ import org.kuali.module.cg.rules.AwardRuleUtil;
 public class AwardMaintainableImpl extends KualiMaintainableImpl {
     
     /**
-     * 
-     * Constructs a AwardMaintainableImpl.java.
+     * Constructs an AwardMaintainableImpl.
      */
     public AwardMaintainableImpl() {
         super();
     }
 
     /**
+     * Constructs a AwardMaintainableImpl.
      * 
-     * Constructs a AwardMaintainableImpl.java.
      * @param award
      */
     public AwardMaintainableImpl(Award award) {
@@ -70,8 +69,9 @@ public class AwardMaintainableImpl extends KualiMaintainableImpl {
     }
 
     /**
-     * This method is called for refreshing the Agency before display to show the full name in case the agency number was changed by
-     * hand before any submit that causes a redisplay.
+     * This method is called for refreshing the Agency before display to show 
+     * the full name in case the agency number was changed by hand before any 
+     * submit that causes a redisplay.
      */
     @Override
     public void processAfterRetrieve() {
@@ -80,8 +80,9 @@ public class AwardMaintainableImpl extends KualiMaintainableImpl {
     }
 
     /**
-     * This method is called for refreshing the Agency before a save to display the full name in case the agency number was changed
-     * by hand just before the save.
+     * This method is called for refreshing the Agency before a save to display 
+     * the full name in case the agency number was changed by hand just before 
+     * the save.
      */
     @Override
     public void prepareForSave() {
@@ -99,7 +100,8 @@ public class AwardMaintainableImpl extends KualiMaintainableImpl {
     }
 
     /**
-     * This method is called for refreshing the Agency after a lookup to display its full name without AJAX.
+     * This method is called for refreshing the Agency after a lookup to display
+     * its full name without AJAX.
      * 
      * @see org.kuali.core.maintenance.KualiMaintainableImpl#refresh(java.lang.String, java.util.Map, org.kuali.core.document.MaintenanceDocument)
      */
@@ -137,8 +139,8 @@ public class AwardMaintainableImpl extends KualiMaintainableImpl {
     }
 
     /**
+     * Load related objects from the database as needed.
      * 
-     * This method...
      * @param refreshFromLookup
      */
     private void refreshAward(boolean refreshFromLookup) {
@@ -157,9 +159,10 @@ public class AwardMaintainableImpl extends KualiMaintainableImpl {
     }
 
     /**
-     * Refreshs this maintainable's AwardProjectDirectors.
+     * Refresh the collection of associated AwardProjectDirectors.
      * 
-     * @param refreshFromLookup a lookup returns only the primary key, so ignore the secondary key when true
+     * @param refreshFromLookup a lookup returns only the primary key, so ignore
+     * the secondary key when true
      */
     private void refreshAwardProjectDirectors(boolean refreshFromLookup) {
         if (refreshFromLookup) {
@@ -183,9 +186,6 @@ public class AwardMaintainableImpl extends KualiMaintainableImpl {
     }
 
     /**
-     * @todo: move to ObjectUtils?
-     * 
-     * This method...
      * @param collection
      */
     private static void refreshNonUpdateableReferences(Collection<? extends PersistableBusinessObject> collection) {
@@ -195,11 +195,14 @@ public class AwardMaintainableImpl extends KualiMaintainableImpl {
     }
 
     /**
-     * Refreshes the reference to ProjectDirector, giving priority to its secondary key. Any secondary key that it has may be user
-     * input, so that overrides the primary key, setting the primary key. If its primary key is blank or nonexistent, then leave the
-     * current reference as it is, because it may be a nonexistent instance which is holding the secondary key (the username, i.e.,
-     * personUserIdentifier) so we can redisplay it to the user for correction. If it only has a primary key then use that, because
-     * it may be coming from the database, without any user input.
+     * Refreshes the reference to ProjectDirector, giving priority to its 
+     * secondary key. Any secondary key that it has may be user input, so that 
+     * overrides the primary key, setting the primary key. If its primary key is 
+     * blank or nonexistent, then leave the current reference as it is, because 
+     * it may be a nonexistent instance which is holding the secondary key (the 
+     * username, i.e., personUserIdentifier) so we can redisplay it to the user 
+     * for correction. If it only has a primary key then use that, because it 
+     * may be coming from the database, without any user input.
      * 
      * @param director the ProjectDirector to refresh
      */
@@ -217,8 +220,8 @@ public class AwardMaintainableImpl extends KualiMaintainableImpl {
     }
 
     /**
+     * Gets the underlying Award.
      * 
-     * This method...
      * @return
      */
     public Award getAward() {
@@ -226,8 +229,10 @@ public class AwardMaintainableImpl extends KualiMaintainableImpl {
     }
 
     /**
-     * called for refreshing the subcontractor on proposalSubcontractor before adding to the proposalSubcontractors collection on
-     * the proposal. this is to ensure that the summary fields are show correctly. i.e. subcontractor name
+     * Called for refreshing the {@link Subcontractor} on 
+     * {@link ProposalSubcontractor} before adding to the proposalSubcontractors 
+     * collection on the proposal. this is to ensure that the summary fields are 
+     * show correctly. i.e. {@link Subcontractor} name
      * 
      * @see org.kuali.core.maintenance.KualiMaintainableImpl#addNewLineToCollection(java.lang.String)
      */
@@ -238,8 +243,9 @@ public class AwardMaintainableImpl extends KualiMaintainableImpl {
     }    
     
     /**
-     * This method overrides the parent method to check the status of the award document and change the linked
-     * proposal status to A if the award is now in approved status.
+     * This method overrides the parent method to check the status of the award 
+     * document and change the linked {@link ProposalStatus} to A (Approved) if 
+     * the {@link Award} is now in approved status.
      * 
      * @see org.kuali.core.maintenance.KualiMaintainableImpl#handleRouteStatusChange(org.kuali.core.bo.DocumentHeader)
      */

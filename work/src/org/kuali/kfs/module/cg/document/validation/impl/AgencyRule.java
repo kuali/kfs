@@ -29,6 +29,9 @@ import org.kuali.module.cg.bo.Agency;
 import org.kuali.module.cg.bo.AgencyType;
 import org.apache.log4j.Logger;
 
+/**
+ * Rules for processing Agency instances.
+ */
 public class AgencyRule extends MaintenanceDocumentRuleBase {
     protected static Logger LOG = org.apache.log4j.Logger.getLogger(AgencyRule.class);
 
@@ -37,6 +40,9 @@ public class AgencyRule extends MaintenanceDocumentRuleBase {
     
     BusinessObjectService businessObjectService;
     
+    /**
+     * Default constructor.
+     */
     public AgencyRule() {
         super();
         businessObjectService = SpringServiceLocator.getBusinessObjectService();
@@ -129,6 +135,9 @@ public class AgencyRule extends MaintenanceDocumentRuleBase {
         return success;
     }
 
+    /**
+     * @see org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase#setupConvenienceObjects()
+     */
     @Override
     public void setupConvenienceObjects() {
         newAgency = (Agency)super.getNewBo();

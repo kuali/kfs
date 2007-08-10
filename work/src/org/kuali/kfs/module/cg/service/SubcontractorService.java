@@ -25,15 +25,16 @@ package org.kuali.module.cg.service;
 import org.kuali.module.cg.bo.Subcontractor;
 
 /**
- * Services for Subcontractors
+ * Services for {@link Subcontractor}s
  */
 public interface SubcontractorService {
 
     /**
-     * Finds a Subcontractor by subcontractor number.
+     * Finds a {@link Subcontractor} by subcontractor number.
      *
-     * @param subcontractorNumber the primary key of the Subcontractor to get
-     * @return the corresponding Subcontractor, or null if none
+     * @param subcontractorNumber the primary key of the {@link Subcontractor} to get
+     * @return the corresponding {@link Subcontractor}, or null if none
      */
     public Subcontractor getByPrimaryId(String subcontractorNumber);
+    
 }

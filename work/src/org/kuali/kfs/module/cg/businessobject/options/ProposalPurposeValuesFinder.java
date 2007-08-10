@@ -27,7 +27,7 @@ import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.cg.bo.ProposalPurpose;
 
 /**
- * 
+ * Gets a custom-formatted list of {@link ProposalPurpose} values.
  */
 public class ProposalPurposeValuesFinder extends KeyValuesBase {
 

@@ -19,13 +19,13 @@ import org.kuali.core.lookup.valueFinder.ValueFinder;
 import org.kuali.core.util.GlobalVariables;
 
 /**
- * Created by ...
- * User: Laran Evans <lc278@cornell.edu>
- * Date: Apr 6, 2007
- * Time: 4:45:11 PM
+ * Gets the value of the user in the current session.
  */
 public class CurrentSessionUserValueFinder implements ValueFinder {
 
+    /**
+     * @see org.kuali.core.lookup.valueFinder.ValueFinder#getValue()
+     */
     public String getValue() {
         return GlobalVariables.getUserSession().getUniversalUser().getPersonUserIdentifier();
     }

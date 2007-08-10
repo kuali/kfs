@@ -27,7 +27,7 @@ import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.cg.bo.ProposalAwardType;
 
 /**
- * 
+ * Gets a custom-formatted list of {@link ProposalAwardType} values.
  */
 public class ProposalAwardTypeValuesFinder extends KeyValuesBase {
 

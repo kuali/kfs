@@ -27,7 +27,7 @@ import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.cg.bo.ProposalStatus;
 
 /**
- * 
+ * Gets a custom-formatted list of {@link ProposalStatus} values.
  */
 public class ProposalStatusValuesFinder extends KeyValuesBase {
 

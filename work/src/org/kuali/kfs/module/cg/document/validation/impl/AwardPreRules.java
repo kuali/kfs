@@ -30,8 +30,8 @@ import org.kuali.module.cg.bo.Award;
 import org.kuali.module.chart.rules.MaintenancePreRulesBase;
 
 /**
- * PreRules checks for the Account that needs to occur while still in the Struts processing. This includes defaults, confirmations,
- * etc.
+ * PreRules checks for the Account that needs to occur while still in the Struts
+ * processing. This includes defaults, confirmations, etc.
  */
 public class AwardPreRules extends MaintenancePreRulesBase {
 
@@ -42,12 +42,17 @@ public class AwardPreRules extends MaintenancePreRulesBase {
 
     private Award newAward;
 
-
+    /**
+     * Constructs a AwardPreRules.java.
+     */
     public AwardPreRules() {
         dataDictionaryService = SpringServiceLocator.getDataDictionaryService();
         configService = SpringServiceLocator.getKualiConfigurationService();
     }
 
+    /**
+     * @see org.kuali.module.chart.rules.MaintenancePreRulesBase#doCustomPreRules(org.kuali.core.document.MaintenanceDocument)
+     */
     @Override
     protected boolean doCustomPreRules(MaintenanceDocument document) {
         setupConvenienceObjects(document);
@@ -67,8 +72,9 @@ public class AwardPreRules extends MaintenancePreRulesBase {
     }
 
     /**
-     * checks if the entry date is before the begin date. if so asks the user if they want to continue validation. if no is selected
-     * further validation is aborted and the user is returned to the award document
+     * Checks if the entry date is before the begin date. if so asks the user if 
+     * they want to continue validation. if no is selected further validation is 
+     * aborted and the user is returned to the award document.
      * 
      * @return true if the user selects yes, false otherwise
      */
@@ -86,8 +92,10 @@ public class AwardPreRules extends MaintenancePreRulesBase {
     }
 
     /**
-     * checks if the subcontractor total amount is greater thant award total. if so asks the user if they want to continue
-     * validation. if no is selected further validation is aborted and the user is returned to the award document
+     * Checks if the {@link Subcontractor} total amount is greater than the  
+     * award total. If so asks the user if they want to continue validation. if  
+     * no is selected further validation is aborted and the user is returned to  
+     * the award document.
      * 
      * @return true if the user selects yes, false otherwise
      */
@@ -107,6 +115,13 @@ public class AwardPreRules extends MaintenancePreRulesBase {
         return proceed;
     }
 
+    /**
+     * Builds out the confirmation question.
+     * 
+     * @param messageKey
+     * @param parameters
+     * @return
+     */
     protected String buildConfirmationQuestion(String messageKey, String... parameters) {
         String result = configService.getPropertyString(messageKey);
         if (null != parameters) {
@@ -117,8 +132,10 @@ public class AwardPreRules extends MaintenancePreRulesBase {
         return result;
     }
 
+    /**
+     * @param document
+     */
     private void setupConvenienceObjects(MaintenanceDocument document) {
-
         // setup newAccount convenience objects, make sure all possible sub-objects are populated
         newAward = (Award) document.getNewMaintainableObject().getBusinessObject();
     }

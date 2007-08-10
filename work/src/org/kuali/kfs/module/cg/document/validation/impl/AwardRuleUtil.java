@@ -29,7 +29,7 @@ import org.kuali.module.cg.bo.Award;
  */
 public class AwardRuleUtil {
     /**
-     * determines if a proposal has already been awarded
+     * Determines if a proposal has already been awarded
      * 
      * @param award the award to check the proposal for
      * @return true if the award's proposal has already been awarded
@@ -50,10 +50,12 @@ public class AwardRuleUtil {
     }
 
     
-    /*********************************************************
-     * Per KULCG-315 - Proposals should not be designated as inactive.  This functionality is not yet implemented and this
-     * rule should not be applied at this time.  I'm leaving this code here in case the functionality gets added down the road.
-     *********************************************************/
+    /**
+     * Per KULCG-315 - Proposals should not be designated as inactive.  This 
+     * functionality is not yet implemented and this rule should not be applied 
+     * at this time.  I'm leaving this code here in case the functionality gets
+     * added down the road.
+     */
 //    /**
 //     * determines if a proposal is inactive
 //     * 

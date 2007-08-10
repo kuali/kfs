@@ -44,7 +44,6 @@ public class AwardRule extends CGMaintenanceDocumentRuleBase {
     private static final String GRANT_DESCRIPTION_OPT = "OPT";
     private static final String[] NON_FED_GRANT_DESCS = new String[] {GRANT_DESCRIPTION_NPT, GRANT_DESCRIPTION_OPT};
 
-
     @Override
     protected boolean processCustomSaveDocumentBusinessRules(MaintenanceDocument document) {
         LOG.info("Entering AwardRule.processCustomSaveDocumentBusinessRules");
@@ -139,6 +138,9 @@ public class AwardRule extends CGMaintenanceDocumentRuleBase {
         return success;
     }
 
+    /**
+     * @see org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase#setupConvenienceObjects()
+     */
     @Override
     public void setupConvenienceObjects() {
         // oldAward = (Award) super.getOldBo();

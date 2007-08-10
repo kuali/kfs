@@ -25,7 +25,7 @@ import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.cg.bo.GrantDescription;
 
 /**
- * 
+ * Gets a custom-formatted list of {@link GrantDescription} values.
  */
 public class GrantDescriptionValuesFinder extends KeyValuesBase {
 

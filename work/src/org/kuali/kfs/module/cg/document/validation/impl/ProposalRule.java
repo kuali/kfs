@@ -60,7 +60,6 @@ public class ProposalRule extends CGMaintenanceDocumentRuleBase {
 
     /**
      * 
-     * This method...
      * @return
      */
     @Override
@@ -74,9 +73,11 @@ public class ProposalRule extends CGMaintenanceDocumentRuleBase {
 
     /**
      * 
-     * This method takes a look at the new line being added and applies appropriate validation checks
-     * if the line is a new line for the subcontractor collection.  If the validation checks fail, an appropriate
-     * error message will be added to the global error map and the method will return a value of false.
+     * This method takes a look at the new line being added and applies 
+     * appropriate validation checks if the line is a new line for the 
+     * {@link Subcontractor} collection.  If the validation checks fail, an 
+     * appropriate error message will be added to the global error map and the 
+     * method will return a value of false.
      * 
      * @param addLine New business object values being added.
      * @return True is the value being added passed all applicable validation rules.
@@ -96,9 +97,10 @@ public class ProposalRule extends CGMaintenanceDocumentRuleBase {
     }
     
     /**
-     * Performs convenience cast for Maintenance framework. Note that the MaintenanceDocumentRule events provide only a deep copy of
-     * the document (from KualiDocumentEventBase), so these BOs are a copy too. The framework does this to prevent these rules from
-     * changing any data.
+     * Performs convenience cast for Maintenance framework. Note that the 
+     * {@link MaintenanceDocumentRule} events provide only a deep copy of the 
+     * document (from KualiDocumentEventBase), so these BOs are a copy too. The 
+     * framework does this to prevent these rules from changing any data.
      * 
      * @see org.kuali.core.maintenance.rules.MaintenanceDocumentRule#setupConvenienceObjects()
      */

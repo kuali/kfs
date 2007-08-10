@@ -24,17 +24,12 @@ import org.kuali.kfs.util.SpringServiceLocator;
 import java.sql.Date;
 
 /**
- * Created by IntelliJ IDEA.
- * User: evans
- * Date: Apr 6, 2007
- * Time: 1:25:50 PM
+ * 
  */
 public class ProposalCloseRule extends MaintenanceDocumentRuleBase {
 
     /**
-     *
-     * @param document
-     * @return true if
+     * @see MaintenanceDocumentRuleBase#processSaveDocument(Document)
      */
     @Override
     public boolean processSaveDocument(Document document) {

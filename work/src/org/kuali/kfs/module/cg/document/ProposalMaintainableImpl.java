@@ -51,6 +51,11 @@ public class ProposalMaintainableImpl extends KualiMaintainableImpl {
         super();
     }
 
+    /**
+     * Constructs a new ProposalMaintainableImpl from an existing {@link Proposal}.
+     * 
+     * @param proposal
+     */
     public ProposalMaintainableImpl(Proposal proposal) {
         super(proposal);
         this.setBoClass(proposal.getClass());
@@ -66,8 +71,9 @@ public class ProposalMaintainableImpl extends KualiMaintainableImpl {
     }
 
     /**
-     * This method is called for refreshing the Agency before display to show the full name in case the agency number was changed by
-     * hand before any submit that causes a redisplay.
+     * This method is called for refreshing the {@link Agency} before display to
+     * show the full name in case the agency number was changed by hand before 
+     * any submit that causes a redisplay.
      */
     @Override
     public void processAfterRetrieve() {
@@ -76,12 +82,15 @@ public class ProposalMaintainableImpl extends KualiMaintainableImpl {
     }
 
     /**
-     * This method is called for refreshing the Agency before a save to display the full name in case the agency number was changed
-     * by hand just before the save.  Also, if there is only one project director, then this method defaults it to be primary.
-     * This method can change data, unlike the rules.  It is run before the rules.
-     * <p/>
-     * This default primary is limited to save actions (including route, etc) so that when the user
-     * adds multiple project directors the first one added doesn't default to primary (so the user must choose).
+     * <p>This method is called for refreshing the {@link Agency} before a save to 
+     * display the full name in case the agency number was changed by hand just 
+     * before the save.  Also, if there is only one {@link ProjectDirector}, 
+     * then this method defaults it to be primary. This method can change data, 
+     * unlike the rules.  It is run before the rules.<p/>
+     * 
+     * This default primary is limited to save actions (including route, etc) so 
+     * that when the user adds multiple {@link ProjectDirectors} the first one 
+     * added doesn't default to primary (so the user must choose).
      */
     @Override
     public void prepareForSave() {
@@ -94,7 +103,12 @@ public class ProposalMaintainableImpl extends KualiMaintainableImpl {
     }
 
     /**
-     * This method is called for refreshing the Agency and other related BOs after a lookup, to display their full name & etc without AJAX.
+     * This method is called for refreshing the {@link Agency} and other related 
+     * BOs after a lookup, to display their full name & etc without AJAX.
+     * 
+     * @param refreshCaller
+     * @param fieldValues
+     * @param document
      */
     @Override
     public void refresh(String refreshCaller, Map fieldValues, MaintenanceDocument document) {
@@ -104,7 +118,7 @@ public class ProposalMaintainableImpl extends KualiMaintainableImpl {
 
     /**
      * This is a hook for initializing the BO from the maintenance framework.
-     * It initializes the research risk types collection.
+     * It initializes the {@link ResearchRiskType}s collection.
      *
      * @param generateDefaultValues true for initialization
      */
@@ -115,7 +129,10 @@ public class ProposalMaintainableImpl extends KualiMaintainableImpl {
         }
         super.setGenerateDefaultValues(generateDefaultValues);
     }
-    
+
+    /**
+     * 
+     */
     private void initResearchRiskTypes() {
         List<ProposalResearchRisk> risks = getProposal().getProposalResearchRisks();
         AssertionUtils.assertThat(risks.isEmpty());
@@ -130,6 +147,10 @@ public class ProposalMaintainableImpl extends KualiMaintainableImpl {
         }
     }
 
+    /**
+     * 
+     * @param refreshFromLookup
+     */
     private void refreshProposal(boolean refreshFromLookup) {
         getProposal().refreshNonUpdateableReferences();
 
@@ -143,9 +164,10 @@ public class ProposalMaintainableImpl extends KualiMaintainableImpl {
     }
 
     /**
-     * Refreshs this maintainable's ProposalProjectDirectors.
+     * Refreshes this maintainable's ProposalProjectDirectors.
      *
-     * @param refreshFromLookup a lookup returns only the primary key, so ignore the secondary key when true
+     * @param refreshFromLookup a lookup returns only the primary key, so ignore
+     * the secondary key when true
      */
     private void refreshProposalProjectDirectors(boolean refreshFromLookup) {
         if (refreshFromLookup) {
@@ -159,7 +181,10 @@ public class ProposalMaintainableImpl extends KualiMaintainableImpl {
         }
     }
 
-    // todo: move to ObjectUtils?
+    /**
+     * 
+     * @param collection
+     */
     private static void refreshNonUpdateableReferences(Collection<? extends PersistableBusinessObject> collection) {
         for (PersistableBusinessObject item : collection) {
             item.refreshNonUpdateableReferences();
@@ -167,12 +192,14 @@ public class ProposalMaintainableImpl extends KualiMaintainableImpl {
     }
 
     /**
-     * Refreshes the reference to ProjectDirector, giving priority to its secondary key.
-     * Any secondary key that it has may be user input, so that overrides the primary key, setting the primary key.
-     * If its primary key is blank or nonexistent, then leave the current reference as it is, because it may be a
-     * nonexistent instance which is holding the secondary key (the username, i.e., personUserIdentifier)
-     * so we can redisplay it to the user for correction.  If it only has a primary key then use that,
-     * because it may be coming from the database, without any user input.
+     * Refreshes the reference to ProjectDirector, giving priority to its 
+     * secondary key. Any secondary key that it has may be user input, so that 
+     * overrides the primary key, setting the primary key. If its primary key is 
+     * blank or nonexistent, then leave the current reference as it is, because 
+     * it may be a nonexistent instance which is holding the secondary key (the 
+     * username, i.e., personUserIdentifier) so we can redisplay it to the user 
+     * for correction.  If it only has a primary key then use that, because it 
+     * may be coming from the database, without any user input.
      *
      * @param ppd the ProposalProjectDirector to refresh
      */
@@ -187,13 +214,20 @@ public class ProposalMaintainableImpl extends KualiMaintainableImpl {
         }
     }
 
+    /**
+     * Gets the {@link Proposal}
+     * 
+     * @return
+     */
     public Proposal getProposal() {
         return (Proposal) getBusinessObject();
     }
 
     /**
-     * called for refreshing the subcontractor on proposalSubcontractor before adding to the proposalSubcontractors collection on
-     * the proposal. this is to ensure that the summary fields are show correctly. i.e. subcontractor name
+     * called for refreshing the {@link Subcontractor} on 
+     * {@link ProposalSubcontractor} before adding to the {@link ProposalSubcontractor}s 
+     * collection on the proposal. this is to ensure that the summary fields are 
+     * shown correctly. i.e. {@link Subcontractor} name
      *
      * @see org.kuali.core.maintenance.KualiMaintainableImpl#addNewLineToCollection(java.lang.String)
      */
@@ -204,8 +238,10 @@ public class ProposalMaintainableImpl extends KualiMaintainableImpl {
     }
     
     /**
+     * Allows customizing the maintenance document interface to hide research
+     * risks to unprivileged users.
      * 
-     * This method...
+     * @param oldMaintainable
      * @return
      */
     @Override

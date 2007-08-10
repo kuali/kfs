@@ -18,12 +18,23 @@ package org.kuali.module.cg.lookup.valuefinder;
 import org.kuali.core.lookup.valueFinder.ValueFinder;
 import org.kuali.kfs.util.SpringServiceLocator;
 
+/**
+ * Gets the next close sequence number.
+ */
 public class NextCloseNumberFinder implements ValueFinder {
 
+    /**
+     * @see org.kuali.core.lookup.valueFinder.ValueFinder#getValue()
+     */
     public String getValue() {
         return getLongValue().toString();
     }
-    
+
+    /**
+     * Gets the next sequence value as a Long.
+     * 
+     * @return
+     */
     public static Long getLongValue() {
         return SpringServiceLocator.getSequenceAccessorService().getNextAvailableSequenceNumber("CG_PRPSL_CLOSE_NBR_SEQ");
     }

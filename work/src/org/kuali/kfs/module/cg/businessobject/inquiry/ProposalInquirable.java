@@ -32,7 +32,7 @@ import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.cg.CGConstants;
 
 /**
- * This class...
+ * Used for wiring up {@link Proposal} for inquiries.
  */
 public class ProposalInquirable extends KualiInquirableImpl {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ProposalInquirable.class);
@@ -43,7 +43,6 @@ public class ProposalInquirable extends KualiInquirableImpl {
     private transient static String centralReviewWorkgroupName;
 
     /**
-     * 
      * @see org.kuali.core.inquiry.KualiInquirableImpl#getSections(org.kuali.core.bo.BusinessObject)
      */
     public List<Section> getSections(BusinessObject bo) {
@@ -75,6 +74,11 @@ public class ProposalInquirable extends KualiInquirableImpl {
         return sections;
     }
 
+    /**
+     * A non-static way to initialize the static attributes. Doing it statically
+     * would cause problems with the {@link SpringServiceLocator}. So doing it 
+     * non-statically helps by allowing the {@link SpringServiceLocator} time to load.
+     */
     private void initStatics() {
         if ( configService == null ) {
             configService = SpringServiceLocator.getKualiConfigurationService();

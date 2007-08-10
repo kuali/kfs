@@ -42,7 +42,7 @@ public class CGMaintenanceDocumentRuleBase extends MaintenanceDocumentRuleBase {
     private static final String AGENCY_TYPE_CODE_FEDERAL = "F";
     
     /**
-     * checks to see if the end date is after the begine date
+     * Checks to see if the end date is after the begin date
      * 
      * @param begin
      * @param end
@@ -58,6 +58,15 @@ public class CGMaintenanceDocumentRuleBase extends MaintenanceDocumentRuleBase {
         return success;
     }
 
+    /**
+     * 
+     * @param <E>
+     * @param primaryables
+     * @param elementClass
+     * @param collectionName
+     * @param boClass
+     * @return
+     */
     protected <E extends Primaryable> boolean checkPrimary(Collection<E> primaryables, Class<E> elementClass, String collectionName, Class<? extends BusinessObject> boClass) {
         boolean success = true;
         int count = 0;
@@ -81,6 +90,14 @@ public class CGMaintenanceDocumentRuleBase extends MaintenanceDocumentRuleBase {
         return success;
     }
 
+    /**
+     * 
+     * @param <T>
+     * @param projectDirectors
+     * @param elementClass
+     * @param collectionName
+     * @return
+     */
     protected <T extends CGProjectDirector> boolean checkProjectDirectorsExist(List<T> projectDirectors, Class<T> elementClass, String collectionName) {
         boolean success = true;
         final String personUserPropertyName = KFSPropertyConstants.PROJECT_DIRECTOR + "." + KFSPropertyConstants.PERSON_USER_IDENTIFIER;
@@ -98,12 +115,12 @@ public class CGMaintenanceDocumentRuleBase extends MaintenanceDocumentRuleBase {
     }
     
     /**
+     * This method takes in a collection of {@link ProjectDirector}s and reviews
+     * them to see if any have invalid states for being added to a {@link Proposal}.
+     * An example would be a status code of "D" which means "Deceased".
+     * Project Directors with a status of "D" cannot be added to a 
+     * {@link Proposal} or {@link Award}.
      * 
-     * This method takes in a collection of Project Directors and reviews them to see if any have invalid states for being added to
-     * a proposal.  An example would be a status code of "D" which means "Deceased".  Project Directors with a status of "D" cannot
-     * be added to a proposal or award.
-     * 
-     * @param <T>
      * @param projectDirectors Collection of project directors to be reviewed.
      * @param elementClass Type of object that the collection belongs to.
      * @param propertyName Name of field that error will be attached to.
@@ -126,9 +143,10 @@ public class CGMaintenanceDocumentRuleBase extends MaintenanceDocumentRuleBase {
     }
     
     /**
+     * This method checks to see if the two agency values passed in are the same
+     * {@link Agency}.  The agency for a C&G document cannot be the same as the
+     * Federal Pass Through Agency for that same document.
      * 
-     * This method checks to see if the two agency values passed in are the same agency.  The agency for a C&G document cannot
-     * be the same as the Federal Pass Through Agency for that same document.
      * @param agency
      * @param federalPassThroughAgency
      * @param agencyPropertyName
@@ -145,7 +163,8 @@ public class CGMaintenanceDocumentRuleBase extends MaintenanceDocumentRuleBase {
     }
 
     /**
-     * checks if the required federal pass through fields are filled in if the federal pass through indicator is yes
+     * Checks if the required federal pass through fields are filled in if the 
+     * federal pass through indicator is yes.
      *
      * @return True if all the necessary rules regarding the federal pass through agency input fields are met, false otherwise.
      */

@@ -30,7 +30,7 @@ import org.kuali.module.cg.bo.ProposalStatus;
 import org.kuali.workflow.KualiWorkflowUtils;
 
 /**
- * 
+ * Gets a custom-formatted list of types searchable via document search.
  */
 public class DocumentSearchTypeOfSearchValuesFinder extends KeyValuesBase {
     
@@ -50,6 +50,7 @@ public class DocumentSearchTypeOfSearchValuesFinder extends KeyValuesBase {
     }
     
     /**
+     * Add docTypes to labels in an appropriate String format.
      * 
      * @param labels
      * @param label

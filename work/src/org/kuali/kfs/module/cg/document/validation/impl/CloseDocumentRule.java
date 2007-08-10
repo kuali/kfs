@@ -26,9 +26,7 @@ import org.kuali.kfs.util.SpringServiceLocator;
 import java.sql.Date;
 
 /**
- * User: Laran Evans <lc278@cornell.edu>
- * Date: Apr 17, 2007
- * Time: 5:35:09 PM
+ * Rules for handling Closes.
  */
 public class CloseDocumentRule extends TransactionalDocumentRuleBase {
 

@@ -60,6 +60,11 @@ public class AgencyServiceImpl implements AgencyService {
         return primaryKeys;
     }
 
+    /**
+     * Sets the BusinessObjectService. Provides Spring compatibility.
+     * 
+     * @param businessObjectService
+     */
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
     }

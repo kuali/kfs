@@ -23,12 +23,8 @@ import org.kuali.core.util.KualiDecimal;
 import org.kuali.module.kra.budget.bo.AgencyExtension;
 
 /**
- * 
  * This class defines an agency as it is used and referenced within the Contracts and Grants portion of 
  * a college or university financial system.
- * 
- * @author Dennis Friends
- * @author Laran Evans
  */
 public class Agency extends PersistableBusinessObjectBase {
 

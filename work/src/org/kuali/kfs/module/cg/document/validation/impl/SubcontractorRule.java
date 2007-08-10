@@ -29,15 +29,16 @@ import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.cg.bo.Subcontractor;
 
 /**
- * This class...
+ * 
  */
 public class SubcontractorRule extends MaintenanceDocumentRuleBase {
 
     private Subcontractor newSubcontractor;
     
     /**
-     * This method has been overridden to add some additional validation checks to the Subcontractor maintenance document.  
-     * 
+     * This method has been overridden to add some additional validation checks 
+     * to the {@link Subcontractor} maintenance document.
+     *  
      * @param maintenanceDocument - document to be tested
      * @return whether maintenance doc passes
      * @throws org.kuali.core.exceptions.ValidationException
@@ -57,9 +58,9 @@ public class SubcontractorRule extends MaintenanceDocumentRuleBase {
 
     
     /**
-     * 
-     * This method retrieves the entered state code and checks that this value is valid by comparing it against
-     * known values in the SH_STATE_T database table.
+     * This method retrieves the entered state code and checks that this value
+     * is valid by comparing it against known values in the SH_STATE_T database
+     * table.
      * 
      * @param stateCode
      * @return Whether state code entered is valid
@@ -86,9 +87,9 @@ public class SubcontractorRule extends MaintenanceDocumentRuleBase {
     }
     
     /**
-     * 
-     * This method retrieves the entered country code and checks that this value is valid by comparing it against
-     * known values in the SH_COUNTRY_T database table.
+     * This method retrieves the entered country code and checks that this value
+     * is valid by comparing it against known values in the SH_COUNTRY_T database
+     * table.
      * 
      * @param countryCode
      * @return Whether country code entered is valid.

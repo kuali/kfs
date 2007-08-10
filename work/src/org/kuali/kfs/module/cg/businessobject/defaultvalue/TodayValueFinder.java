@@ -21,13 +21,15 @@ import org.kuali.core.web.format.DateFormatter;
 import org.kuali.kfs.util.SpringServiceLocator;
 
 /**
- * Created by ...
- * User: Laran Evans <lc278@cornell.edu>
- * Date: Apr 6, 2007
- * Time: 5:33:09 PM
+ * Gets the current date from the DateTimeService.
  */
 public class TodayValueFinder implements ValueFinder {
 
+    /**
+     * Gets the current date from the DateTimeService.
+     * 
+     * @see org.kuali.core.lookup.valueFinder.ValueFinder#getValue()
+     */
     public String getValue() {
         DateTimeService dts = SpringServiceLocator.getDateTimeService();
         DateFormatter df = new DateFormatter();

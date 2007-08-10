@@ -19,7 +19,7 @@ import org.kuali.core.lookup.valueFinder.ValueFinder;
 import org.kuali.kfs.util.SpringServiceLocator;
 
 /**
- * This class...
+ * Gets the next subcontract number from the database sequence.
  */
 public class NextSubcontractorNumberFinder implements ValueFinder {
 
@@ -31,8 +31,8 @@ public class NextSubcontractorNumberFinder implements ValueFinder {
     }
 
     /**
+     * Gets the next sequence number value as a Long.
      * 
-     * This method...
      * @return
      */
     public static Long getLongValue() {
@@ -42,7 +42,7 @@ public class NextSubcontractorNumberFinder implements ValueFinder {
     }
 
     /**
-     * 
+     * Gets the next sequence number value as a String.
      */
     public static String getStringValue() {
         return getLongValue().toString();

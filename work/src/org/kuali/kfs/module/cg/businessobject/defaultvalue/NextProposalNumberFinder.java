@@ -21,8 +21,6 @@ import org.kuali.kfs.util.SpringServiceLocator;
 
 /**
  * Returns the next Proposal number available.
- * 
- * 
  */
 public class NextProposalNumberFinder implements ValueFinder {
 
@@ -33,6 +31,11 @@ public class NextProposalNumberFinder implements ValueFinder {
         return getLongValue().toString();
     }
     
+    /**
+     * Gets the next sequence number as a long.
+     * 
+     * @return
+     */
     public static Long getLongValue() {
         // no constant because this is the only place the sequence name is used
         return SpringServiceLocator.getSequenceAccessorService().getNextAvailableSequenceNumber("CGPRPSL_NBR_SEQ");

@@ -16,7 +16,6 @@
 
 package org.kuali.module.labor.bo;
 
-import java.math.BigDecimal;
 import java.sql.Date;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -47,7 +46,7 @@ public class LaborOriginEntry extends OriginEntry implements LaborTransaction {
     private String positionNumber;
     private Date transactionPostingDate;
     private Date payPeriodEndDate;
-    private BigDecimal transactionTotalHours;
+    private KualiDecimal transactionTotalHours;
     private Integer payrollEndDateFiscalYear;
     private String payrollEndDateFiscalPeriodCode;
     private String financialDocumentApprovedCode;
@@ -213,7 +212,7 @@ public class LaborOriginEntry extends OriginEntry implements LaborTransaction {
      * @return Returns the transactionTotalHours
      * 
      */
-    public BigDecimal getTransactionTotalHours() { 
+    public KualiDecimal getTransactionTotalHours() { 
         return transactionTotalHours;
     }
 
@@ -223,7 +222,7 @@ public class LaborOriginEntry extends OriginEntry implements LaborTransaction {
      * @param transactionTotalHours The transactionTotalHours to set.
      * 
      */
-    public void setTransactionTotalHours(BigDecimal transactionTotalHours) {
+    public void setTransactionTotalHours(KualiDecimal transactionTotalHours) {
         this.transactionTotalHours = transactionTotalHours;
     }
 
@@ -955,10 +954,10 @@ public class LaborOriginEntry extends OriginEntry implements LaborTransaction {
         }
         
         if (getValue(line, 213, 222).equals("")){
-            setTransactionTotalHours(new BigDecimal(0));
+            setTransactionTotalHours(new KualiDecimal(0));
         } else {
             try {
-                setTransactionTotalHours(new BigDecimal(getValue(line, 213, 222)));
+                setTransactionTotalHours(new KualiDecimal(getValue(line, 213, 222)));
                 
             }
             catch (NumberFormatException e) {
@@ -985,11 +984,11 @@ public class LaborOriginEntry extends OriginEntry implements LaborTransaction {
         setPayrollEndDateFiscalPeriodCode(getValue(line, 226, 228));
         setEmplid(getValue(line, 228, 239));
         
-        if (getValue(line, 222, 226).equals("")){
+        if (getValue(line, 239, 242).equals("")){
             setEmployeeRecord(new Integer(0));
         } else {
             try {
-                setEmployeeRecord(new Integer(getValue(line, 222, 226)));
+                setEmployeeRecord(new Integer(getValue(line, 239, 242)));
                 
             }
             catch (NumberFormatException e) {
@@ -1222,7 +1221,7 @@ public class LaborOriginEntry extends OriginEntry implements LaborTransaction {
             }
         } else if ( "transactionTotalHours".equals(fieldName) ) {
             if ( StringUtils.hasText(fieldValue) ) {
-                setTransactionTotalHours(new BigDecimal(fieldValue));
+                setTransactionTotalHours(new KualiDecimal(fieldValue));
             } else {
                 clearTransactionTotalHours();
             }   

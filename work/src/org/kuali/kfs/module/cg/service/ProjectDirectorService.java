@@ -48,8 +48,8 @@ public interface ProjectDirectorService {
     public ProjectDirector getByPrimaryId(String universalIdentifier);
 
     /**
-     * Checks for the existence of a ProjectDirector by universal user ID number.  That's the primary key to ProjectDirector,
-     * and coincidentally to UniversalUser too.
+     * Checks for the existence of a ProjectDirector by universal user ID number.  That's the primary key
+     * to ProjectDirector, and coincidentally to UniversalUser too.
      *
      * @param universalIdentifier the universal user ID number of the ProjectDirector to get
      * @return whether the corresponding ProjectDirector exists

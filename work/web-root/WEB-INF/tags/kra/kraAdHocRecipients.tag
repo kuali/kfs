@@ -57,7 +57,7 @@
 	    		  	</tr>    
 			  	</kul:displayIfErrors>
               	<tr>
-                	<td colspan="${numCols}" class="tab-subhead">Ad Hoc Person ${adhocLabel}:</td>
+                	<td colspan="${numCols}" class="tab-subhead">Person ${adhocLabel}:</td>
               	</tr>
 	          	<tr>
 	          		<c:if test="${!excludeActionRequested}">
@@ -69,14 +69,10 @@
                   	<kul:htmlAttributeHeaderCell
                       attributeEntry="${DataDictionary.AdHocRoutePerson.attributes.id}"
                       scope="col"
+                  	  colspan="2"
                       />
                   	<kul:htmlAttributeHeaderCell
-                  	  attributeEntry="${DataDictionary.Chart.attributes.chartOfAccountsCode}"
-                  	  scope="col"
-                  	  hideRequiredAsterisk="true"
-                  	  />
-                  	<kul:htmlAttributeHeaderCell
-                  	  attributeEntry="${DataDictionary.Org.attributes.organizationCode}"
+                  	  literalLabel="Chart/Org"
                   	  scope="col"
                   	  hideRequiredAsterisk="true"
                   	  />
@@ -104,7 +100,8 @@
 	  			        	</div>
                     	</td>
                     	</c:if>
-                    	<td class="infoline">
+                    	<td class="infoline" colspan="2">
+                    	  <div align=center>
 	                    	<kul:user userIdFieldName="newAdHocRoutePerson.id" 
 	                    			  userId="${KualiForm.newAdHocRoutePerson.id}" 
 	                    			  universalIdFieldName=""
@@ -115,11 +112,11 @@
 	                    			  renderOtherFields="true"
 	                    			  fieldConversions="personUserIdentifier:newAdHocRoutePerson.id,personName:newAdHocRoutePerson.name" 
 	                    			  lookupParameters="newAdHocRoutePerson.id:personUserIdentifier" />
+	                      </div>
                     	</td>
                     	<td class="infoline"><div align=center>--</div></td>
-                    	<td class="infoline"><div align=center>--</div></td>
                     	<td class="infoline">
-							<div align="left">
+							<div align="center">
 								<kul:htmlControlAttribute property="newAdHocPerson.permissionCode" attributeEntry="${adhocPersonAttributes.permissionCode}"/>
 							</div>
 						</td>
@@ -146,16 +143,31 @@
 	  			        	</div>
 	                    </td>
 	                    </c:if>
-	                    <td class="datacell center">
-	                    	<div align=left>${person.user.personUserIdentifier}</div>
+	                    <td class="datacell center" colspan="2">
+	                    	<div align=center>
+		                    	<kul:user userIdFieldName="person[${status.index}].personUserIdentifier" 
+		                    			  userId="${KualiForm.document.adhocPersons[status.index].personUserIdentifier}" 
+		                    			  universalIdFieldName=""
+		                    			  universalId=""
+		                    			  userNameFieldName="person[${status.index}].name"
+		                    			  userName="${KualiForm.document.adhocPersons[status.index].name}"
+		                    			  readOnly="${displayReadOnly}" 
+		                    			  renderOtherFields="true"
+		                    			  fieldConversions="personUserIdentifier:person.user.personUserIdentifier,personName:person.user.personName" 
+		                    			  lookupParameters="person.user.personUserIdentifier:personUserIdentifier" />
+	                    	</div>
 	                    	<html:hidden property="document.adhocPersonItem[${status.index}].user.personUniversalIdentifier" />
 	                    	<html:hidden property="document.adhocPersonItem[${status.index}].user.personUserIdentifier" />
 	                    	<html:hidden property="document.adhocPersonItem[${status.index}].user.personFirstName" />
 	                    	<html:hidden property="document.adhocPersonItem[${status.index}].user.personLastName" />
 	                    </td>
-	                    <td>${person.user.campusCode}<html:hidden property="document.adhocPersonItem[${status.index}].user.campusCode" /></td>
-	                    <td>${person.orgCode}<html:hidden property="document.adhocPersonItem[${status.index}].user.primaryDepartmentCode" /></td>
 	                    <td>
+	                    	<div align=center>
+	                    		${person.user.campusCode}<html:hidden property="document.adhocPersonItem[${status.index}].user.campusCode" /> / ${person.orgCode}<html:hidden property="document.adhocPersonItem[${status.index}].user.primaryDepartmentCode" />
+	                    	</div>
+	                    </td>
+	                    <td>
+	                      <div align="center">
 	                    	<c:if test="${displayReadOnly}"><html:hidden property="document.adhocPersonItem[${status.index}].permissionCode" /></c:if>
 	                    	<kul:htmlControlAttribute property="document.adhocPersonItem[${status.index}].permissionCode" attributeEntry="${adhocPersonAttributes.permissionCode}" readOnly="${displayReadOnly}"/>
 							<html:hidden property="document.adhocPersonItem[${status.index}].personUniversalIdentifier" />
@@ -164,6 +176,7 @@
 							<html:hidden property="document.adhocPersonItem[${status.index}].personAddedTimestamp" />
 							<html:hidden property="document.adhocPersonItem[${status.index}].objectId" />
 							<html:hidden property="document.adhocPersonItem[${status.index}].versionNumber" />
+						  </div>
 						</td>
 						<c:if test="${not displayReadOnly}">
 		                    <td class="datacell center"><div align=center>
@@ -230,6 +243,7 @@
 	                </td>
 	                </c:if>
 					<td nowrap class="infoline" colspan="3">
+					  <div align=center>
 						<c:choose>
 							<c:when test="${empty KualiForm.newAdHocOrg.fiscalCampusCode}">&nbsp;</c:when>
 							<c:otherwise>
@@ -241,9 +255,10 @@
 						&nbsp;&nbsp;
 						<kul:lookup boClassName="org.kuali.module.chart.bo.Org" fieldConversions="chartOfAccounts.chartOfAccountsCode:newAdHocOrg.fiscalCampusCode,organizationCode:newAdHocOrg.primaryDepartmentCode" />
 						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				      </div>
 					</td>
 					<td class="infoline">
-						<div align="left">
+						<div align="center">
 							<kul:htmlControlAttribute property="newAdHocOrg.permissionCode" attributeEntry="${adhocOrgAttributes.permissionCode}"/>
 						</div>
 					</td>
@@ -273,6 +288,7 @@
 	                    </c:if>
 						<td colspan="3">${org.fiscalCampusCode}/${org.primaryDepartmentCode}</td>
 						<td>
+						  <div align="center">
 							<c:if test="${displayReadOnly}"><html:hidden property="document.adhocOrgItem[${status.index}].permissionCode" /></c:if>
 							<kul:htmlControlAttribute property="document.adhocOrgItem[${status.index}].permissionCode" attributeEntry="${adhocOrgAttributes.permissionCode}" readOnly="${displayReadOnly}"/>
 							<html:hidden property="document.adhocOrgItem[${status.index}].fiscalCampusCode" />
@@ -282,6 +298,7 @@
 							<html:hidden property="document.adhocOrgItem[${status.index}].personAddedTimestamp" />
 							<html:hidden property="document.adhocOrgItem[${status.index}].objectId" />
 							<html:hidden property="document.adhocOrgItem[${status.index}].versionNumber" />
+						  </div>
 						</td>
 						<c:if test="${not displayReadOnly}">
 						<td>
@@ -354,11 +371,13 @@
                     	</td>
                     	</c:if>
                     	<td class="infoline" colspan="3">
+                    	  <div align=center>
                         	<kul:htmlControlAttribute property="newAdHocRouteWorkgroup.id" attributeEntry="${DataDictionary.AdHocRouteWorkgroup.attributes.id}" readOnly="${displayReadOnly}" />
                         	<kul:workflowWorkgroupLookup fieldConversions="workgroupId:newAdHocRouteWorkgroup.id" />
+                          </div>
                     	</td>
                     	<td class="infoline">
-                    		<div align="left">
+                    		<div align="center">
                     			<kul:htmlControlAttribute property="newAdHocWorkgroupPermissionCode" attributeEntry="${adhocWorkgroupAttributes.permissionCode}"/>
 							</div>
 						</td>

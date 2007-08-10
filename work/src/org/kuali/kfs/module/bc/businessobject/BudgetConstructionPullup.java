@@ -32,7 +32,7 @@ public class BudgetConstructionPullup extends PersistableBusinessObjectBase {
 	private String reportsToChartOfAccountsCode;
 	private String reportsToOrganizationCode;
 	private Integer pullFlag;
-	private Long personUniversalIdentifier;
+	private String personUniversalIdentifier;
 
     private Chart chartOfAccounts;
 	private Org organization;
@@ -152,27 +152,22 @@ public class BudgetConstructionPullup extends PersistableBusinessObjectBase {
 
 
 	/**
-	 * Gets the personUniversalIdentifier attribute.
-	 * 
-	 * @return Returns the personUniversalIdentifier
-	 * 
-	 */
-	public Long getPersonUniversalIdentifier() { 
-		return personUniversalIdentifier;
-	}
+     * Gets the personUniversalIdentifier attribute. 
+     * @return Returns the personUniversalIdentifier.
+     */
+    public String getPersonUniversalIdentifier() {
+        return personUniversalIdentifier;
+    }
 
-	/**
-	 * Sets the personUniversalIdentifier attribute.
-	 * 
-	 * @param personUniversalIdentifier The personUniversalIdentifier to set.
-	 * 
-	 */
-	public void setPersonUniversalIdentifier(Long personUniversalIdentifier) {
-		this.personUniversalIdentifier = personUniversalIdentifier;
-	}
+    /**
+     * Sets the personUniversalIdentifier attribute value.
+     * @param personUniversalIdentifier The personUniversalIdentifier to set.
+     */
+    public void setPersonUniversalIdentifier(String personUniversalIdentifier) {
+        this.personUniversalIdentifier = personUniversalIdentifier;
+    }
 
-
-	/**
+    /**
 	 * Gets the chartOfAccounts attribute.
 	 * 
 	 * @return Returns the chartOfAccounts

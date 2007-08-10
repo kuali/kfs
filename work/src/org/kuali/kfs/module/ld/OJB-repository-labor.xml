@@ -1426,7 +1426,7 @@
 	<field-descriptor name="transactionEncumbranceUpdateCode" column="TRN_ENCUM_UPDT_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="transactionPostingDate" column="TRN_POST_DT" jdbc-type="DATE"/>
 	<field-descriptor name="payPeriodEndDate" column="PAY_PERIOD_END_DT" jdbc-type="DATE"/>
-	<field-descriptor name="transactionTotalHours" column="TRN_TOTAL_HR" jdbc-type="DECIMAL"/>
+	<field-descriptor name="transactionTotalHours" column="TRN_TOTAL_HR" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
 	<field-descriptor name="payrollEndDateFiscalYear" column="PYRL_DT_FSCL_YR" jdbc-type="INTEGER"/>
 	<field-descriptor name="payrollEndDateFiscalPeriodCode" column="PYRL_DT_FSCLPRD_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="financialDocumentApprovedCode" column="FDOC_APPROVED_CD" jdbc-type="VARCHAR"/>

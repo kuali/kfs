@@ -22,6 +22,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.bo.Note;
 import org.kuali.core.bo.user.UniversalUser;
@@ -33,13 +34,16 @@ import org.kuali.core.service.NoteService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
+import org.kuali.kfs.bo.SourceAccountingLine;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.PurapKeyConstants;
 import org.kuali.module.purap.PurapParameterConstants;
 import org.kuali.module.purap.PurapPropertyConstants;
 import org.kuali.module.purap.PurapConstants.CreditMemoStatuses;
+import org.kuali.module.purap.bo.CreditMemoAccount;
 import org.kuali.module.purap.bo.CreditMemoItem;
+import org.kuali.module.purap.bo.PurApAccountingLine;
 import org.kuali.module.purap.bo.PurchaseOrderItem;
 import org.kuali.module.purap.dao.CreditMemoDao;
 import org.kuali.module.purap.document.CreditMemoDocument;
@@ -170,6 +174,41 @@ public class CreditMemoServiceImpl implements CreditMemoService {
                 }
             }
         }
+
+        //proration
+      //TODO: ckirschenman - move this to the accounts payable service and call, since it is essentially the easiest case from that
+        if(cmDocument.isSourceVendor()) {
+            //no proration on vendor
+            return;
+        }
+        
+        for (CreditMemoItem item : (List<CreditMemoItem>)cmDocument.getItems()) {
+            
+            //skip above the line
+            if(item.getItemType().isItemTypeAboveTheLineIndicator()) {
+                continue;
+            }
+            
+            if((item.getSourceAccountingLines().isEmpty()) && (ObjectUtils.isNotNull(item.getExtendedPrice())) && 
+                    (KualiDecimal.ZERO.compareTo(item.getExtendedPrice())!=0)) {
+
+                KualiDecimal totalAmount = KualiDecimal.ZERO;
+                List<PurApAccountingLine> distributedAccounts = null;
+                List<SourceAccountingLine> summaryAccounts = null;
+
+                totalAmount = cmDocument.getPurApSourceDocumentIfPossible().getTotalDollarAmount();
+                //this should do nothing on preq which is fine
+                SpringServiceLocator.getPurapAccountingService().updateAccountAmounts(cmDocument.getPurApSourceDocumentIfPossible());
+                summaryAccounts = SpringServiceLocator.getPurapAccountingService().generateSummary(cmDocument.getPurApSourceDocumentIfPossible().getItems());
+                distributedAccounts = SpringServiceLocator.getPurapAccountingService().generateAccountDistributionForProration(summaryAccounts, totalAmount, PurapConstants.PRORATION_SCALE,CreditMemoAccount.class); 
+
+                if(CollectionUtils.isNotEmpty(distributedAccounts)&&
+                        CollectionUtils.isEmpty(item.getSourceAccountingLines())) {
+                    item.setSourceAccountingLines(distributedAccounts);
+                }
+            }
+        }
+        //end proration
     }
 
     /**

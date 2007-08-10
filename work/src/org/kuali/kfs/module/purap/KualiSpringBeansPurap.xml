@@ -177,6 +177,12 @@
 		</property>
 	</bean>
 
+    <bean id="accountsPayableService" class="org.kuali.module.purap.service.impl.AccountsPayableServiceImpl">
+    	<property name="purapAccountingService">
+            <ref bean="purapAccountingService" />
+        </property>
+    </bean>
+
     <bean id="paymentRequestDao" parent="platformAwareDao" class="org.kuali.module.purap.dao.ojb.PaymentRequestDaoOjb">
     	<property name="dateTimeService">
     		<ref bean="dateTimeService" />

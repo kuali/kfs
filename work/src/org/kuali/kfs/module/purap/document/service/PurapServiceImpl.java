@@ -372,13 +372,13 @@ public class PurapServiceImpl implements PurapService {
     
     /**
      * 
-     * This method returns true if full entry mode has ended for this Payment Request
+     * This method returns true if full entry mode has ended for this document
      * @param preqDocument
      * @return a boolean
      */
     public boolean isFullDocumentEntryCompleted(PurchasingAccountsPayableDocument purapDocument) {
         //for now just return true if not in one of the first few states
-        boolean value = true;
+        boolean value = false;
         if(purapDocument instanceof PaymentRequestDocument) {
             //TODO: Chris - use the ordered enum in purapconstants
             value = !(ArrayUtils.contains(PurapConstants.PaymentRequestStatuses.FULL_ENTRY_STATUSES,purapDocument.getStatusCode()));

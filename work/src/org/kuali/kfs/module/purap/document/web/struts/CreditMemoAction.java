@@ -131,9 +131,10 @@ public class CreditMemoAction extends AccountsPayableActionBase {
         CreditMemoDocument cmDocument = (CreditMemoDocument) apDoc;
 
         // check rules before doing calculation
-        boolean valid = SpringServiceLocator.getKualiRuleService().applyRules(new PreCalculateAccountsPayableEvent(cmDocument));
+//TODO: ckirschenman - the way this rule is currently implemented interferes with proration.  Either make the rules it calls simpler or remove this
+//        boolean valid = SpringServiceLocator.getKualiRuleService().applyRules(new PreCalculateAccountsPayableEvent(cmDocument));
 
-        if (valid) {
+//        if (valid) {
             // update extended price on item lines
             cmDocument.updateExtendedPriceOnItems();
 
@@ -142,7 +143,7 @@ public class CreditMemoAction extends AccountsPayableActionBase {
 
             // notice we're ignoring whether the boolean, because these are just warnings they shouldn't halt anything
             SpringServiceLocator.getKualiRuleService().applyRules(new CalculateAccountsPayableEvent(cmDocument));
-        }
+//        }
     }
 
     /**

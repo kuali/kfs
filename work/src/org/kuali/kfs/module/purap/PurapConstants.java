@@ -745,6 +745,7 @@ public class PurapConstants extends JstlConstants {
         public final static String PO_CLOSE_DOCUMENT = "POC";
         public final static String PO_REOPEN_DOCUMENT = "POR";
         public final static String PO_VOID_DOCUMENT = "POV";
-    }    
+    }
     
+    public static Integer PRORATION_SCALE = new Integer(6);
 }

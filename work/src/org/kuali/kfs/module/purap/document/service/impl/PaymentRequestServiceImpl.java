@@ -802,8 +802,7 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
                     SpringServiceLocator.getPurapAccountingService().updateAccountAmounts(paymentRequestDocument);
                     summaryAccounts = SpringServiceLocator.getPurapAccountingService().generateSummary(paymentRequestDocument.getItems());
                     
-                    // TODO: what is this 6 all about? was that the original scale keeping just in case but I need to look into this?
-                    distributedAccounts = SpringServiceLocator.getPurapAccountingService().generateAccountDistributionForProration(summaryAccounts, totalAmount, new Integer("6"),PaymentRequestAccount.class);
+                    distributedAccounts = SpringServiceLocator.getPurapAccountingService().generateAccountDistributionForProration(summaryAccounts, totalAmount, PurapConstants.PRORATION_SCALE,PaymentRequestAccount.class);
                     
                 }
                 else {

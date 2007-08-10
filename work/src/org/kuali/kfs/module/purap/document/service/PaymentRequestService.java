@@ -480,6 +480,7 @@ public interface PaymentRequestService {
      * requirements, then auto-approve them if possible.
      */
     public boolean autoApprovePaymentRequests();
+    public boolean autoApprovePaymentRequest(PaymentRequestDocument doc, KualiDecimal defaultMinimumLimit);
 
     /**
      * Retrieve all initiated PREQs and check for onbase images.  If an image is found,

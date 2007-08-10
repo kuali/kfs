@@ -299,19 +299,24 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
             
             while (docs.hasNext()) {
                 PaymentRequestDocument doc = docs.next();
-                if (isEligibleForAutoApproval(doc, defaultMinimumLimit)) {
-                    try {
-                        purapService.updateStatusAndStatusHistory(doc, PaymentRequestStatuses.AUTO_APPROVED);
-                        documentService.blanketApproveDocument(doc, "auto-approving: Total is below threshold.", new ArrayList());
-                    }
-                    catch (WorkflowException we) {
-                        LOG.error("Exception encountered when approving document number " + doc.getDocumentNumber() + ".", we);
-                        hadErrorAtLeastOneError = false;
-                    }
-                }
+                hadErrorAtLeastOneError |= !autoApprovePaymentRequest(doc, defaultMinimumLimit);
             }
         }
         return hadErrorAtLeastOneError;
+    }
+
+    public boolean autoApprovePaymentRequest(PaymentRequestDocument doc, KualiDecimal defaultMinimumLimit) {
+        if (isEligibleForAutoApproval(doc, defaultMinimumLimit)) {
+            try {
+                purapService.updateStatusAndStatusHistory(doc, PaymentRequestStatuses.AUTO_APPROVED);
+                documentService.blanketApproveDocument(doc, "auto-approving: Total is below threshold.", new ArrayList());
+            }
+            catch (WorkflowException we) {
+                LOG.error("Exception encountered when approving document number " + doc.getDocumentNumber() + ".", we);
+                return false;
+            }
+        }
+        return true;
     }
     
     /**

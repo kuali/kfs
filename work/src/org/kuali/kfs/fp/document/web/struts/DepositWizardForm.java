@@ -43,6 +43,7 @@ public class DepositWizardForm extends KualiForm {
     private List depositWizardHelpers;
     private List<Check> depositableCashieringChecks;
     private List<DepositWizardCashieringCheckHelper> depositWizardCashieringCheckHelpers;
+    private List<CashReceiptDocument> checkFreeCashReceipts;
 
     // Deposit fields
     private Bank bank;
@@ -338,6 +339,35 @@ public class DepositWizardForm extends KualiForm {
      */
     public List<DepositWizardCashieringCheckHelper> getDepositWizardCashieringCheckHelpers() {
         return depositWizardCashieringCheckHelpers;
+    }
+
+    /**
+     * Gets the checkFreeCashReceipts attribute. 
+     * @return Returns the checkFreeCashReceipts.
+     */
+    public List<CashReceiptDocument> getCheckFreeCashReceipts() {
+        return checkFreeCashReceipts;
+    }
+
+
+    /**
+     * Sets the checkFreeCashReceipts attribute value.
+     * @param checkFreeCashReceipts The checkFreeCashReceipts to set.
+     */
+    public void setCheckFreeCashReceipts(List<CashReceiptDocument> checkFreeCashReceipts) {
+        this.checkFreeCashReceipts = checkFreeCashReceipts;
+    }
+
+    /**
+     * Retreive a single check free cash receipt
+     * @param index the index of the cash receipt
+     * @return a cash receipt document
+     */
+    public CashReceiptDocument getCheckFreeCashReceipt(int index) {
+        while (this.checkFreeCashReceipts.size() <= index) {
+            this.checkFreeCashReceipts.add(new CashReceiptDocument());
+        }
+        return this.checkFreeCashReceipts.get(index);
     }
 
     /**

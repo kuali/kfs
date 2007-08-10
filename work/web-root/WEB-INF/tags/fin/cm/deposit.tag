@@ -144,7 +144,7 @@
         <kul:htmlAttributeHeaderCell literalLabel="Description" align="left" />
 
         <kul:htmlAttributeHeaderCell literalLabel="Created on" align="left" />
-        <kul:htmlAttributeHeaderCell attributeEntry="${receiptAttributes.sumTotalAmount}" align="left" />
+        <kul:htmlAttributeHeaderCell attributeEntry="${receiptAttributes.totalCheckAmount}" align="left" />
     </tr>
 
     <%-- cashReceipts data --%>

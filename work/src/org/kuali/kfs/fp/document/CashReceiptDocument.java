@@ -149,7 +149,7 @@ public class CashReceiptDocument extends CashReceiptFamilyBase implements Copyab
      */
     public int getCheckCount() {
         int count = 0;
-        if (checks != null) {
+        if (ObjectUtils.isNotNull(checks)) {
             count = checks.size();
         }
         return count;

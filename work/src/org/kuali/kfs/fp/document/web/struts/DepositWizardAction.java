@@ -154,15 +154,20 @@ public class DepositWizardAction extends KualiAction {
      */
     private void loadCashReceipts(DepositWizardForm dform) {
         List verifiedReceipts = SpringServiceLocator.getCashReceiptService().getCashReceipts(dform.getCashDrawerVerificationUnit(), KFSConstants.DocumentStatusCodes.CashReceipt.VERIFIED);
-        dform.setDepositableCashReceipts(verifiedReceipts);
+        dform.setDepositableCashReceipts(new ArrayList());
+        dform.setCheckFreeCashReceipts(new ArrayList<CashReceiptDocument>());
 
         // prepopulate DepositWizardHelpers
         int index = 0;
         for (Iterator i = verifiedReceipts.iterator(); i.hasNext();) {
             CashReceiptDocument receipt = (CashReceiptDocument) i.next();
-
-            DepositWizardHelper d = dform.getDepositWizardHelper(index++);
-            d.setCashReceiptCreateDate(receipt.getDocumentHeader().getWorkflowDocument().getCreateDate());
+            if (receipt.getCheckCount() == 0) {
+                dform.getCheckFreeCashReceipts().add(receipt);
+            } else {
+                dform.getDepositableCashReceipts().add(receipt);
+                DepositWizardHelper d = dform.getDepositWizardHelper(index++);
+                d.setCashReceiptCreateDate(receipt.getDocumentHeader().getWorkflowDocument().getCreateDate());
+            }
         }
     }
     
@@ -185,6 +190,7 @@ public class DepositWizardAction extends KualiAction {
     @Override
     public ActionForward refresh(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         loadCashReceipts((DepositWizardForm) form);
+        loadUndepositedCashieringChecks((DepositWizardForm)form);
 
         return super.refresh(mapping, form, request, response);
     }
@@ -257,7 +263,9 @@ public class DepositWizardAction extends KualiAction {
                 }
             }
         }
-
+        
+        boolean depositIsFinal = (StringUtils.equals(dform.getDepositTypeCode(), KFSConstants.DepositConstants.DEPOSIT_TYPE_FINAL));
+        
         // validate cashReceipt selection
         List selectedIds = new ArrayList();
         for (Iterator i = dform.getDepositWizardHelpers().iterator(); i.hasNext();) {
@@ -266,6 +274,19 @@ public class DepositWizardAction extends KualiAction {
             if (StringUtils.isNotBlank(checkValue) && !checkValue.equals(KFSConstants.ParameterValues.NO)) {
                 // removed apparently-unnecessary test for !checkValue.equals(KFSConstants.ParameterValues.YES)
                 selectedIds.add(checkValue);
+            }
+        }
+        
+        if (depositIsFinal) {
+            // add check free cash receipts to the selected receipts so they are automatically deposited
+            dform.setCheckFreeCashReceipts(new ArrayList<CashReceiptDocument>());
+            for (Object crDocObj: SpringServiceLocator.getCashReceiptService().getCashReceipts(dform.getCashDrawerVerificationUnit(), KFSConstants.DocumentStatusCodes.CashReceipt.VERIFIED)) {
+                CashReceiptDocument crDoc = (CashReceiptDocument)crDocObj;
+                if (crDoc.getCheckCount() == 0) {
+                    // it's check free; it is automatically deposited as part of the final deposit
+                    selectedIds.add(crDoc.getDocumentNumber());
+                    dform.getCheckFreeCashReceipts().add(crDoc);
+                }
             }
         }
         
@@ -291,7 +312,6 @@ public class DepositWizardAction extends KualiAction {
                     selectedReceipts = SpringServiceLocator.getDocumentService().getDocumentsByListOfDocumentHeaderIds(CashReceiptDocument.class, selectedIds);
                 }
                 
-                boolean depositIsFinal = (StringUtils.equals(dform.getDepositTypeCode(), KFSConstants.DepositConstants.DEPOSIT_TYPE_FINAL));
                 if (depositIsFinal) {
                     // have all verified CRs been deposited?  If not, that's an error
                     List verifiedReceipts = SpringServiceLocator.getCashReceiptService().getCashReceipts(dform.getCashDrawerVerificationUnit(), KFSConstants.DocumentStatusCodes.CashReceipt.VERIFIED);

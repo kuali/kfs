@@ -65,7 +65,7 @@ function checkCheckAllOrNone() {
 	<html:hidden property="cashManagementDocId" />
 	<html:hidden property="depositTypeCode" />
 
-	<c:if test="${!empty KualiForm.depositableCashReceipts || !empty KualiForm.depositableCashieringChecks}">
+	<c:if test="${!empty KualiForm.depositableCashReceipts || !empty KualiForm.depositableCashieringChecks || !empty KualiForm.checkFreeCashReceipts}">
 		<kul:tabTop tabTitle="Deposit Header" defaultOpen="true"
 			tabErrorKey="depositHeaderErrors">
 			<div class="tab-container" align=center>
@@ -143,7 +143,8 @@ function checkCheckAllOrNone() {
       </kul:tab>
     </c:if>
 
-    <c:if test="${!empty KualiForm.depositableCashReceipts}">
+    <c:set var="crCounter" value="0" />
+    <c:if test="${!empty KualiForm.depositableCashReceipts || !empty KualiForm.checkFreeCashReceipts}">
 		<kul:tab tabTitle="Cash Receipts" defaultOpen="true"
 			tabErrorKey="cashReceiptErrors">
 			<div class="tab-container" align="center">
@@ -173,11 +174,12 @@ function checkCheckAllOrNone() {
 					<kul:htmlAttributeHeaderCell literalLabel="Total" scope="col" />
 				</tr>
 
+      <c:if test="${!empty KualiForm.depositableCashReceipts}">
 				<logic:iterate name="KualiForm" id="cashReceipt"
 					property="depositableCashReceipts" indexId="ctr">
-
+          <c:set var="crCounter" value="${crCounter + 1}" />
 					<tr>
-						<td colspan="9"
+						<td colspan="7"
 							style="background-color: gray; border-bottom: 1px solid gray; padding: 0px"><img
 							src="${ConfigProperties.kr.externalizable.images.url}pixel_clear.gif" alt="" width="1" height="1" /></td>
 					</tr>
@@ -218,16 +220,6 @@ function checkCheckAllOrNone() {
 						$&nbsp;${cashReceipt.currencyFormattedTotalCheckAmount} <html:hidden
 							property="depositableCashReceipt[${ctr}].totalCheckAmount" /></div>
 						</td>
-						<%-- <td>
-						<div align="center">
-						$&nbsp;${cashReceipt.currencyFormattedTotalCashAmount} <html:hidden
-							property="depositableCashReceipt[${ctr}].totalCashAmount" /></div>
-						</td>
-						<td>
-						<div align="center">
-						$&nbsp;${cashReceipt.currencyFormattedTotalCoinAmount} <html:hidden
-							property="depositableCashReceipt[${ctr}].totalCoinAmount" /></div>
-						</td> --%>
 						<td>
 						<div align="center">
 						$&nbsp;${cashReceipt.currencyFormattedSumTotalAmount}</div>
@@ -276,9 +268,59 @@ function checkCheckAllOrNone() {
 						</logic:iterate>
 					</c:if>
 				</logic:iterate>
+      </c:if>
+        
+        <%-- check free cash receipts - only show on final deposit, when they are automatically deposited --%>
+        <c:if test="${!empty KualiForm.checkFreeCashReceipts && KualiForm.depositFinal}">
+        <tr>
+          <td colspan="7"><strong>The following Cash Receipts had no checks associated with them; they are automatically deposited as part of the final deposit.</strong></td> 
+        </tr>
+        <logic:iterate name="KualiForm" id="cashReceipt"
+					property="checkFreeCashReceipts" indexId="ctr">
+          <c:set var="crCounter" value="${crCounter + 1}" />
+					<tr>
+						<td colspan="7"
+							style="background-color: gray; border-bottom: 1px solid gray; padding: 0px"><img
+							src="${ConfigProperties.kr.externalizable.images.url}pixel_clear.gif" alt="" width="1" height="1" /></td>
+					</tr>
+					<tr>
+						<td>&nbsp;</td>
+						<td>
+						<div align="center"><b>${crCounter}</b></div>
+						</td>
+						<td>
+						<div align="center"><a
+							href="financialCashReceipt.do?methodToCall=docHandler&docId=${cashReceipt.documentHeader.documentNumber}&command=displayDocSearchView"
+							target="new"> <kul:htmlControlAttribute
+							property="checkFreeCashReceipt[${ctr}].documentNumber"
+							attributeEntry="${cashReceiptAttributes.documentNumber}"
+							readOnly="true" /> </a> <html:hidden
+							property="checkFreeCashReceipt[${ctr}].documentHeader.documentNumber" />
+						</div>
+						</td>
+						<td>
+						<div align="center"><kul:htmlControlAttribute
+							property="checkFreeCashReceipt[${ctr}].documentHeader.financialDocumentDescription"
+							attributeEntry="${cashReceiptAttributes.financialDocumentDescription}"
+							readOnly="true" /></div>
+						</td>
+						<td>
+						<div align="center"><kul:htmlControlAttribute
+							property="checkFreeCashReceipt[${ctr}].documentHeader.workflowDocument.createDate"
+							attributeEntry="${dummyAttributes.genericTimestamp}"
+							readOnly="true" /></div>
+						</td>
+						<td>&nbsp;</td>
+						<td>
+						<div align="center">
+						$&nbsp;${cashReceipt.currencyFormattedSumTotalAmount}</div>
+						</td>
+					</tr>
+				</logic:iterate>
+        </c:if>
 
 				<tr>
-					<td colspan="9"
+					<td colspan="7"
 						style="background-color: gray; border-bottom: 1px solid gray; padding: 0px"><img
 						src="${ConfigProperties.kr.externalizable.images.url}pixel_clear.gif" alt="" width="1" height="1" /></td>
 				</tr>
@@ -352,7 +394,7 @@ function checkCheckAllOrNone() {
 				alt="cancel" title="cancel" styleClass="tinybutton" /></div>
 	</c:if>
 
-	<c:if test="${empty KualiForm.depositableCashReceipts && empty KualiForm.depositableCashieringChecks}">
+	<c:if test="${empty KualiForm.depositableCashReceipts && empty KualiForm.depositableCashieringChecks && empty KualiForm.checkFreeCashReceipts}">
 		<%-- manually handle parameter-substitution --%>
 		<c:set var="msg0">
             ${fn:replace(ConfigProperties.depositWizard.status.noCashReceipts, "{0}", KualiForm.cashDrawerVerificationUnit )}

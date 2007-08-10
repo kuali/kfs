@@ -15,11 +15,11 @@
  */
 package org.kuali.module.labor.bo;
 
-import java.math.BigDecimal;
 import java.sql.Date;
 
 import org.kuali.core.bo.DocumentHeader;
 import org.kuali.core.bo.DocumentType;
+import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.bo.OriginationCode;
 import org.kuali.module.chart.bo.AccountingPeriod;
 import org.kuali.module.gl.bo.Transaction;
@@ -29,7 +29,7 @@ public interface LaborTransaction extends Transaction {
     public String getPositionNumber();
     public Date getTransactionPostingDate();
     public Date getPayPeriodEndDate();
-    public BigDecimal getTransactionTotalHours();
+    public KualiDecimal getTransactionTotalHours();
     public Integer getPayrollEndDateFiscalYear();
     public String getPayrollEndDateFiscalPeriodCode();
     public String getFinancialDocumentApprovedCode();

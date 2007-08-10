@@ -120,5 +120,16 @@ public interface KualiTestConstants {
             public static final String FEDERAL_FUNDED_CODE_BAD = "A";
             public static final String FEDERAL_FUNDED_NAME_BAD = "This is a bad code name";
         }
+        
+        public static class BenefitsCalculationServiceImplTest {
+            public static final String FISCAL_YEAR = "2011";
+            public static final String CHART = "BA";
+            public static final String POSITION_TYPE_CODE = "B";
+        }
+        public static class BenefitsCalculationServiceImplTestFail {
+            public static final String FISCAL_YEAR = "2011";
+            public static final String CHART = "XX";
+            public static final String POSITION_TYPE_CODE = "X";
+        }
     }
 }

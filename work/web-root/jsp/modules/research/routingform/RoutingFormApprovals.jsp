@@ -25,7 +25,7 @@
 	
 	<kra-rf:routingFormHiddenDocumentFields />
 	
-	<kra:kraAdHocRecipients adhocType="A" adhocLabel="Recipients" excludeActionRequested="false" disableActionRequested="true" actionRequestedDefault="${Constants.WORKFLOW_APPROVE_REQUEST}" editingMode="${KualiForm.editingMode}"/>
+	<kra:kraAdHocRecipients adhocType="A" adhocLabel="Requests" excludeActionRequested="false" disableActionRequested="true" actionRequestedDefault="${Constants.WORKFLOW_APPROVE_REQUEST}" editingMode="${KualiForm.editingMode}"/>
 	
 	<kul:routeLog />
 	

@@ -66,7 +66,9 @@ public class BudgetOrganizationTreeServiceTest extends KualiTestBase {
         assertTrue(bcPullup.getOrganizationCode().equalsIgnoreCase(organizationCode));
         assertTrue(bcPullup.getPersonUniversalIdentifier().equalsIgnoreCase(personUniversalIdentifier));
         
-
+        budgetOrganizationTreeService.cleanPullup(personUniversalIdentifier);
+        bcPullup = (BudgetConstructionPullup) businessObjectService.findByPrimaryKey(BudgetConstructionPullup.class, map);
+        assertTrue(bcPullup == null);
     }
 
 }

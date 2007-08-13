@@ -43,7 +43,7 @@ public class SchedulerFactoryBean extends org.springframework.scheduling.quartz.
     public void afterPropertiesSet() throws Exception {
         if (useQuartzScheduling) {
             if (useJdbcJobstore) {
-                quartzPropertiesReference.put("org.quartz.jobStore.useProperties", "true");
+                quartzPropertiesReference.put("org.quartz.jobStore.useProperties", "false");
                 setDataSource(dataSourceReference);
             }
             setQuartzProperties(quartzPropertiesReference);

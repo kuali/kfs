@@ -860,6 +860,10 @@ public class PurchaseOrderAction extends PurchasingActionBase {
         }
         else {
             poQuote = document.getPurchaseOrderVendorQuote(poForm.getAwardedVendorNumber().intValue());
+            if (poQuote.getPurchaseOrderQuoteStatusCode() == null) {
+                GlobalVariables.getErrorMap().putError(PurapPropertyConstants.VENDOR_QUOTES, PurapKeyConstants.ERROR_PURCHASE_ORDER_QUOTE_NOT_TRANSMITTED);
+                return mapping.findForward(KFSConstants.MAPPING_BASIC);
+            }
         }
         
         // use question framework to make sure they REALLY want to complete the quote...

@@ -67,7 +67,8 @@ public class RequisitionDocumentRule extends PurchasingDocumentRuleBase {
 
         //For Requisitions only, if the requisition status is in process and the
         //requisition does not contain account, then we don't need account validation.
-        if (purapDocument.getStatusCode().equals(PurapConstants.RequisitionStatuses.IN_PROCESS) && (!containsAccount(purapDocument))) {
+        if (!SpringServiceLocator.getPurapService().isDocumentStoppingAtRouteLevel(purapDocument, PurapConstants.WorkflowConstants.RequisitionDocument.NodeDetails.ORDERED_NODE_NAME_LIST, PurapConstants.WorkflowConstants.RequisitionDocument.NodeDetails.CONTENT_REVIEW) && 
+            (!containsAccount(purapDocument))) {
             needAccountValidation = false;
         }
         boolean valid = super.processItemValidation(purapDocument, needAccountValidation);

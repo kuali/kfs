@@ -123,6 +123,7 @@ public class KraKeyConstants {
     public static final String AUDIT_MAIN_PAGE_SUBCONTRACTOR_TOTAL_GREATER_DIRECT = "audit.mainPage.subcontractor.total.greater.direct";
     
     public static final String ERROR_INVALID_AMOUNT_POSITIVE_ONLY = "error.invalid.amount.positive.only";
+    public static final String ERROR_INVALID_AMOUNT_NOT_NEGATIVE = "error.invalid.amount.not.negative";
     public static final String ERROR_ORG_ALREADY_EXISTS_ON_RF = "error.org.already.exists.on.rf";
     public static final String ERROR_ACCOUNT_ALREADY_EXISTS_ON_RF = "error.account.already.exists.on.rf";
     public static final String ERROR_ORG_NOT_FOUND = "error.org.not.found";

@@ -224,7 +224,7 @@ public class PaymentRequestDocumentRule extends AccountsPayableDocumentRuleBase 
         else {            
             // Verify that there exists at least 1 item left to be invoiced
             valid &= encumberedItemExistsForInvoicing(purchaseOrderDocument);
-            valid = true;
+           // valid = true;
         }
         GlobalVariables.getErrorMap().clearErrorPath();
         return valid;

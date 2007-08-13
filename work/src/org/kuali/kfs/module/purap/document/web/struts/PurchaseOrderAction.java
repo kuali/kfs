@@ -445,6 +445,7 @@ public class PurchaseOrderAction extends PurchasingActionBase {
         PurchaseOrderDocument po = (PurchaseOrderDocument) kualiDocumentFormBase.getDocument();
         PurchaseOrderVendorQuote poVendorQuote = po.getPurchaseOrderVendorQuotes().get(getSelectedLine(request));
         ByteArrayOutputStream baosPDF = new ByteArrayOutputStream();
+        poVendorQuote.setTransmitPrintDisplayed(false);
         try {
             StringBuffer sbFilename = new StringBuffer();
             sbFilename.append("PURAP_PO_QUOTE_");
@@ -822,7 +823,7 @@ public class PurchaseOrderAction extends PurchasingActionBase {
         document.setStatusCode(PurapConstants.PurchaseOrderStatuses.QUOTE);
         Date currentSqlDate = SpringServiceLocator.getDateTimeService().getCurrentSqlDate();
         document.setPurchaseOrderInitialOpenDate(currentSqlDate);
-        Date expDate = new Date(currentSqlDate.getTime() + (10 * 24 * 60 * 60 * 1000)); //add 10 days - need to move this into a DB setting
+        Date expDate = new Date(currentSqlDate.getTime() + (10 * 24 * 60 * 60 * 1000)); //add 10 days - TODO: need to move this into a DB setting
         document.setPurchaseOrderQuoteDueDate(expDate);
         document.getPurchaseOrderVendorQuotes().clear();
         SpringServiceLocator.getDocumentService().saveDocumentWithoutRunningValidation(document);

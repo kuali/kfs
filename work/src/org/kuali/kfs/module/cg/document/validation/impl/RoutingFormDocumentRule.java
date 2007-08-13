@@ -237,10 +237,10 @@ public class RoutingFormDocumentRule extends ResearchDocumentRuleBase {
             
             errorMap.addToErrorPath("routingFormSubcontractor[" + i + "]");
             
-            if (subcontractor.getRoutingFormSubcontractorAmount() == null || !subcontractor.getRoutingFormSubcontractorAmount().isPositive()) {
-                //Amount is zero or less
+            if (subcontractor.getRoutingFormSubcontractorAmount() == null || subcontractor.getRoutingFormSubcontractorAmount().isNegative()) {
+                //Amount is negative
                 valid = false;
-                errorMap.putError("routingFormSubcontractorAmount", KraKeyConstants.ERROR_INVALID_AMOUNT_POSITIVE_ONLY);
+                errorMap.putError("routingFormSubcontractorAmount", KraKeyConstants.ERROR_INVALID_AMOUNT_NOT_NEGATIVE);
             }
 
             if (subcontractor.getRoutingFormSubcontractorNumber() != null) {

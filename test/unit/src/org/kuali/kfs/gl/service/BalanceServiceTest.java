@@ -23,6 +23,7 @@ import org.kuali.core.util.Guid;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.UnitTestSqlDao;
 import org.kuali.kfs.context.KualiTestBase;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.Chart;
@@ -65,7 +66,7 @@ public class BalanceServiceTest extends KualiTestBase {
     @Override
     protected void setUp() throws Exception {
         super.setUp();
-        unitTestSqlDao = (UnitTestSqlDao) SpringServiceLocator.getService("unitTestSqlDao");
+        unitTestSqlDao = SpringContext.getBean(UnitTestSqlDao.class);
         Integer fiscalYear = SpringServiceLocator.getUniversityDateService().getCurrentFiscalYear();
 
         if (runOnce) {

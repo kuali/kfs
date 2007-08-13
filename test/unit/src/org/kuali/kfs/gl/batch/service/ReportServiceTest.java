@@ -20,6 +20,7 @@ import java.util.UUID;
 
 import org.kuali.core.util.UnitTestSqlDao;
 import org.kuali.kfs.context.KualiTestBase;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.test.ConfigureContext;
 
@@ -39,7 +40,7 @@ public class ReportServiceTest extends KualiTestBase {
 
         nightlyOutService = SpringServiceLocator.getNightlyOutService();
         reportService = (ReportService) SpringServiceLocator.getService("glReportService");
-        unitTestSqlDao = (UnitTestSqlDao) SpringServiceLocator.getService("unitTestSqlDao");
+        unitTestSqlDao = SpringContext.getBean(UnitTestSqlDao.class);
     }
     
     /**

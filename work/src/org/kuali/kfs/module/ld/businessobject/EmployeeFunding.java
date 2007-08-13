@@ -24,6 +24,7 @@ import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.bo.user.UserId;
 import org.kuali.core.exceptions.UserNotFoundException;
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.labor.LaborConstants;
 import org.kuali.module.labor.dao.LaborDao;
@@ -93,7 +94,7 @@ public class EmployeeFunding extends LedgerBalance {
         fieldValues.put("financialSubObjectCode", getFinancialSubObjectCode());
         fieldValues.put("emplid", getEmplid());
         
-        laborDao = (LaborDao) SpringServiceLocator.getService(LaborConstants.LABOR_DAO);
+        laborDao = SpringContext.getBean(LaborDao.class);
         KualiDecimal EncumTotal = (KualiDecimal) laborDao.getEncumbranceTotal(fieldValues);
         this.outstandingEncum = EncumTotal;
         return EncumTotal;       

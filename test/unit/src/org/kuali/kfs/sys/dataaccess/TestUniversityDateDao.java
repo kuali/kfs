@@ -19,7 +19,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import org.kuali.kfs.context.KualiTestBase;
-import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.gl.bo.UniversityDate;
 import org.kuali.module.gl.dao.UniversityDateDao;
 import org.kuali.test.ConfigureContext;
@@ -30,7 +30,7 @@ public class TestUniversityDateDao extends KualiTestBase {
     private SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
 
     public void testGetByPrimaryKey() throws Exception {
-        UniversityDateDao dao = (UniversityDateDao) SpringServiceLocator.getService("universityDateDao");
+        UniversityDateDao dao = SpringContext.getBean(UniversityDateDao.class);
         assertNotNull("Dao shouldn't be null", dao);
 
         Date missing = sdf.parse("01/01/1901");
@@ -43,7 +43,7 @@ public class TestUniversityDateDao extends KualiTestBase {
     }
 
     public void testGetFirstLastFiscalYearDates() throws Exception {
-        UniversityDateDao dao = (UniversityDateDao) SpringServiceLocator.getService("universityDateDao");
+        UniversityDateDao dao = SpringContext.getBean(UniversityDateDao.class);
         assertNotNull("Dao shouldn't be null", dao);
 
         UniversityDate firstFiscalYearDate = dao.getFirstFiscalYearDate(new Integer(2007));

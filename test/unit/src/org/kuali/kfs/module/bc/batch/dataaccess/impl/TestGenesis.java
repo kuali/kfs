@@ -22,6 +22,7 @@ import org.kuali.core.service.DateTimeService;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.kfs.context.KualiTestBase;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.budget.dao.GenesisDao;
 import org.kuali.module.budget.service.GenesisService;
@@ -46,7 +47,7 @@ public class TestGenesis extends KualiTestBase {
       LOG = org.apache.log4j.Logger.getLogger(TestGenesis.class);
      configService = 
             SpringServiceLocator.getKualiConfigurationService();
-     genesisDao = (GenesisDao) SpringServiceLocator.getService("genesisDao");
+     genesisDao = SpringContext.getBean(GenesisDao.class);
   //    
      genesisTestService = SpringServiceLocator.getGenesisService();
      dateMakerTestService = 

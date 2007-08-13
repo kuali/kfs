@@ -31,9 +31,9 @@ import org.kuali.kfs.KFSKeyConstants;
 import org.kuali.kfs.KFSConstants.ParameterGroups;
 import org.kuali.kfs.KFSConstants.SystemGroupParameterNames;
 import org.kuali.kfs.context.KualiTestBase;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.service.MockCollectorBatch;
 import org.kuali.kfs.util.SpringServiceLocator;
-import org.kuali.module.gl.GLConstants;
 import org.kuali.module.gl.bo.CollectorDetail;
 import org.kuali.module.gl.bo.OriginEntry;
 import org.kuali.module.gl.bo.OriginEntryGroup;
@@ -159,7 +159,7 @@ public class CollectorServiceTest extends KualiTestBase {
         String collectorDirectoryName = SpringServiceLocator.getCollectorInputFileType().getDirectoryPath();
         String fileName = collectorDirectoryName + File.separator + "gl_collector3.xml";
         
-        UnitTestSqlDao unitTestSqlDao = (UnitTestSqlDao) SpringServiceLocator.getService("unitTestSqlDao");
+        UnitTestSqlDao unitTestSqlDao = SpringContext.getBean(UnitTestSqlDao.class);
         unitTestSqlDao.sqlCommand("delete from GL_ID_BILL_T");
         
         OriginEntryGroup group = SpringServiceLocator.getOriginEntryGroupService().createGroup(SpringServiceLocator.getDateTimeService().getCurrentSqlDate(), 

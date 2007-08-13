@@ -15,8 +15,6 @@
  */
 package org.kuali.module.labor.web.struts.form;
 
-import static org.kuali.module.labor.LaborConstants.LABOR_USER_SERVICE_NAME;
-
 import java.sql.Date;
 import java.util.Map;
 
@@ -27,6 +25,7 @@ import org.apache.commons.logging.LogFactory;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.exceptions.UserNotFoundException;
 import org.kuali.kfs.KFSPropertyConstants;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.labor.bo.LaborUser;
 import org.kuali.module.labor.bo.LedgerBalance;
@@ -122,7 +121,7 @@ public class SalaryExpenseTransferForm extends ExpenseTransferDocumentFormBase {
 
         if (id != null) {
             try {
-                setUser(((LaborUserService) SpringServiceLocator.getService(LABOR_USER_SERVICE_NAME)).getLaborUserByPersonPayrollIdentifier(id));    
+                setUser(SpringContext.getBean(LaborUserService.class).getLaborUserByPersonPayrollIdentifier(id));    
             } catch (UserNotFoundException e){
             }
             
@@ -139,7 +138,7 @@ public class SalaryExpenseTransferForm extends ExpenseTransferDocumentFormBase {
         if (user == null) {
             
             try {
-                setUser(((LaborUserService) SpringServiceLocator.getService(LABOR_USER_SERVICE_NAME))
+                setUser(SpringContext.getBean(LaborUserService.class)
                         .getLaborUserByPersonPayrollIdentifier(getSalaryExpenseTransferDocument().getEmplid()));
                 
             } catch (UserNotFoundException e){

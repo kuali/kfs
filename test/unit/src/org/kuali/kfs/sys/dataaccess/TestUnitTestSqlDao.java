@@ -22,7 +22,7 @@ import java.util.Map;
 
 import org.kuali.core.util.UnitTestSqlDao;
 import org.kuali.kfs.context.KualiTestBase;
-import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.test.ConfigureContext;
 
 @ConfigureContext
@@ -39,7 +39,7 @@ public class TestUnitTestSqlDao extends KualiTestBase {
     protected void setUp() throws Exception {
         super.setUp();
 
-        unitTestSqlDao = (UnitTestSqlDao) SpringServiceLocator.getService("unitTestSqlDao");
+        unitTestSqlDao = SpringContext.getBean(UnitTestSqlDao.class);
     }
 
     public void testSelect() throws Exception {

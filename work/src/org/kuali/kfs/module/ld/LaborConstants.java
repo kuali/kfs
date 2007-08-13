@@ -207,9 +207,7 @@ public class LaborConstants {
     }
     
     public static final String LONG_ROW_TABLE_INRUIRY_ACTION = "laborLongRowTableInquiry.do";
-    public static final String LABOR_USER_SERVICE_NAME = "laborUserService";
     public static final String LABOR_INQUIRY_OPTIONS_SERVICE = "laborInquiryOptionsService";
-    public static final String LABOR_DAO = "laborDao";
     public static final String BASE_FUNDS_LOOKUP_HELPER_SRVICE_NAME = "BaseFundsLookupableHelperService";
     public static final String CSF_TRACKER_LOOKUP_HELPER_SRVICE_NAME = "CSFTrackerBalanceLookupableHelperService";
     public static final String CURRENT_FUNDS_LOOKUP_HELPER_SRVICE_NAME = "CurrentFundsLookupableHelperService";

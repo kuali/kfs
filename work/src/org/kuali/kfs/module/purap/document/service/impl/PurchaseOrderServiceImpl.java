@@ -45,6 +45,7 @@ import org.kuali.core.web.struts.form.KualiDocumentFormBase;
 import org.kuali.core.workflow.service.KualiWorkflowDocument;
 import org.kuali.core.workflow.service.WorkflowDocumentService;
 import org.kuali.kfs.KFSConstants;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.PurapKeyConstants;
@@ -650,7 +651,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
         String docType;
         docType = (String) PurapConstants.PURCHASE_ORDER_DOC_TYPE_MAP.get(docTypeId);
         if (StringUtils.isNotEmpty(docType)) {
-            popp = (PurchaseOrderPostProcessorService) SpringServiceLocator.getService(docType);
+            popp = (PurchaseOrderPostProcessorService) SpringContext.getBean(PurchaseOrderPostProcessorServiceBase.class, docType);
         }
 
         return popp;

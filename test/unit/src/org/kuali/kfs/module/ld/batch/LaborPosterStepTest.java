@@ -16,7 +16,7 @@
 package org.kuali.module.labor.batch;
 
 import org.kuali.kfs.context.KualiTestBase;
-import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.test.ConfigureContext;
 
 @ConfigureContext
@@ -27,7 +27,7 @@ public class LaborPosterStepTest extends KualiTestBase {
     public void setUp() throws Exception {
         super.setUp();
         
-        laborPosterStep = (LaborPosterStep) SpringServiceLocator.getService("laborPosterStep");
+        laborPosterStep = SpringContext.getBean(LaborPosterStep.class);
     }
     
     public void testExecute() throws Exception{

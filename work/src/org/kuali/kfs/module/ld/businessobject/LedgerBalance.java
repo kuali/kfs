@@ -16,8 +16,6 @@
 
 package org.kuali.module.labor.bo;
 
-import static org.kuali.module.labor.LaborConstants.LABOR_USER_SERVICE_NAME;
-
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
@@ -27,7 +25,7 @@ import org.kuali.core.exceptions.UserNotFoundException;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSPropertyConstants;
-import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.chart.bo.Chart;
 import org.kuali.module.chart.bo.ObjectType;
 import org.kuali.module.gl.bo.Balance;
@@ -84,7 +82,7 @@ public class LedgerBalance extends Balance {
 
         // Try to find a ledger person for this emplid if one exists
         try {
-            setLedgerPerson(((LaborUserService) SpringServiceLocator.getService(LABOR_USER_SERVICE_NAME)).getLaborUserByPersonPayrollIdentifier(emplid).getUniversalUser());
+            setLedgerPerson(SpringContext.getBean(LaborUserService.class).getLaborUserByPersonPayrollIdentifier(emplid).getUniversalUser());
         }
         catch (UserNotFoundException unfe) {
             // The user is not valid. We don't have a user

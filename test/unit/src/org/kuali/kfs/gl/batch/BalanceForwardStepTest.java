@@ -26,6 +26,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.context.TestUtils;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.gl.OriginEntryTestBase;
@@ -72,7 +73,7 @@ public class BalanceForwardStepTest extends OriginEntryTestBase {
         BalanceTestHelper.populateBalanceTable();
         
         // Execute the step ...
-        BalanceForwardStep step = (BalanceForwardStep) SpringServiceLocator.getService("balanceForwardStep");
+        BalanceForwardStep step = SpringContext.getBean(BalanceForwardStep.class);
         step.execute(getClass().getName());
 
         // load our services.

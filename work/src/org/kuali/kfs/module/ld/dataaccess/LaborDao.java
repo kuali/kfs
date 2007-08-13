@@ -19,8 +19,11 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.Map;
 
+import org.kuali.kfs.bo.AccountingLine;
+import org.kuali.kfs.document.AccountingDocument;
+
 /**
- * This class is an interface to data access objects for labor balance inquiries 
+ * This class is an interface to data access objects for general labor related inquiries 
  */
 public interface LaborDao {
  
@@ -73,4 +76,14 @@ public interface LaborDao {
      * @return Collection
      */
     Collection getJuly1PositionFunding(Map fieldValues);
+ 
+    
+     /**
+      * 
+      * This method is used to verify if the select labor object code is active.
+      * @param String the labor object code to be checked
+      * @return
+      */
+      public boolean isActiveLaborObjectCode(AccountingDocument accountingDocument, AccountingLine accountingLine);
+    
 }

@@ -2174,4 +2174,17 @@ public class LaborExpenseTransferDocumentRules extends AccountingDocumentRuleBas
 
         return fieldValues;
     }
+    
+    /**
+     * 
+     * This method is used to verify if the select labor object code is active.
+     * @param accountingDocument
+     * @return
+     */
+    protected boolean isActiveLaborObjectCode(AccountingDocument accountingDocument) {
+        LOG.debug("started -- isActiveLaborObjectCode");
+        LOG.debug("finished -- isActiveLaborObjectCode");
+        return true;
+    }
+  
 }

@@ -29,6 +29,8 @@ import org.apache.ojb.broker.query.ReportQueryByCriteria;
 import org.kuali.core.dao.ojb.PlatformAwareDaoBaseOjb;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.KFSPropertyConstants;
+import org.kuali.kfs.bo.AccountingLine;
+import org.kuali.kfs.document.AccountingDocument;
 import org.kuali.module.budget.bo.CalculatedSalaryFoundationTracker;
 import org.kuali.module.gl.util.OJBUtility;
 import org.kuali.module.labor.LaborConstants;
@@ -37,6 +39,7 @@ import org.kuali.module.labor.bo.AccountStatusBaseFunds;
 import org.kuali.module.labor.bo.AccountStatusCurrentFunds;
 import org.kuali.module.labor.bo.EmployeeFunding;
 import org.kuali.module.labor.bo.July1PositionFunding;
+import org.kuali.module.labor.bo.LaborObject;
 import org.kuali.module.labor.dao.LaborDao;
 import org.kuali.module.labor.util.ConsolidationUtil;
 
@@ -215,4 +218,36 @@ public class LaborDaoOjb extends PlatformAwareDaoBaseOjb implements LaborDao {
         OJBUtility.limitResultSize(query);
         return getPersistenceBrokerTemplate().getCollectionByQuery(query);
     }
+    
+    /**
+     * 
+     * This method is used to verify if the select labor object code is active.
+     * @param String the labor object code to be checked
+     * @return
+     */
+     public boolean isActiveLaborObjectCode(AccountingDocument accountingDocument, AccountingLine accountingLine) {
+         
+         String chart = accountingLine.getChartOfAccountsCode();
+         int fiscalYear = accountingLine.getPostingYear();
+         String laborObjectCode = accountingLine.getFinancialObjectCode(); 
+         
+         LaborObject laborObject;
+         Criteria criteria = new Criteria();
+         criteria.addEqualTo(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, fiscalYear);
+         criteria.addEqualTo(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, chart);
+         criteria.addEqualTo(KFSPropertyConstants.FINANCIAL_OBJECT_CODE, laborObjectCode);
+         
+         QueryByCriteria query = QueryFactory.newQuery(LaborObject.class, criteria);
+         ReportQueryByCriteria query2 = QueryFactory.newReportQuery(LaborObject.class, criteria);
+        // Collection laborObjectCodes = getPersistenceBrokerTemplate().getCollectionByQuery(query2);
+         
+         
+         Object[] laborObjects = null;
+
+         Iterator<LaborObject> laborObjectCodes = getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(query2);
+//         while (laborObjectCodes != null && laborObjectCodes.hasNext()) {
+             laborObject = laborObjectCodes.next();
+         return laborObject.isActive();
+    
+     }
 }

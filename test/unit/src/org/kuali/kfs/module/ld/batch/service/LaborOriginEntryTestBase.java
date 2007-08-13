@@ -71,7 +71,7 @@ public class LaborOriginEntryTestBase extends KualiTestBase {
         unitTestSqlDao = SpringContext.getBean(UnitTestSqlDao.class);
         laborOriginEntryService = (LaborOriginEntryService) SpringServiceLocator.getService("laborOriginEntryService");
 
-        originEntryDao = SpringContext.getBean(OriginEntryDao.class);
+        originEntryDao = SpringContext.getBean(OriginEntryDao.class, "glOriginEntryDao");
         laborOriginEntryDao = SpringContext.getBean(LaborOriginEntryDao.class);
 
         originEntryGroupService = (OriginEntryGroupService) SpringServiceLocator.getService("glOriginEntryGroupService");

@@ -39,6 +39,7 @@ import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.gl.bo.OriginEntry;
 import org.kuali.module.gl.bo.OriginEntryGroup;
 import org.kuali.module.gl.dao.OriginEntryDao;
+import org.kuali.module.gl.dao.ojb.OriginEntryDaoOjb;
 import org.kuali.module.gl.service.OriginEntryGroupService;
 import org.kuali.module.gl.service.OriginEntryService;
 
@@ -71,7 +72,7 @@ public class OriginEntryTestBase extends KualiTestBase {
         persistenceService = (PersistenceService) SpringServiceLocator.getService("persistenceService");
         unitTestSqlDao = SpringContext.getBean(UnitTestSqlDao.class);
         originEntryService = (OriginEntryService) SpringServiceLocator.getService("glOriginEntryService");
-        originEntryDao = SpringContext.getBean(OriginEntryDao.class);
+        originEntryDao = SpringContext.getBean(OriginEntryDao.class, "glOriginEntryDao");
         originEntryGroupService = (OriginEntryGroupService) SpringServiceLocator.getService("glOriginEntryGroupService");
         kualiConfigurationService = (KualiConfigurationService) SpringServiceLocator.getService("kualiConfigurationService");
 

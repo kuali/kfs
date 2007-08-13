@@ -64,7 +64,7 @@
 					        </c:if>
 		                </td>
 		                <td align=left valign=middle class="datacell">
-		                    <a href="<c:out value="${acmDetail.requisition.url}" />"  target="_BLANK"><c:out value="${acmDetail.requisition.purapDocumentIdentifier}" /></a>
+		                    <a href="<c:out value="${acmDetail.requisition.url}" />"  target="_BLANK"><c:out value="${acmDetail.requisitionIdentifier}" /></a>
 		                </td>
 		                <td align=left valign=middle class="datacell">
 		                    <kul:htmlControlAttribute property="document.assignContractManagerDetail[${ctr}].requisition.deliveryCampusCode" attributeEntry="${requisitionAttributes.deliveryCampusCode}" readOnly="true" />

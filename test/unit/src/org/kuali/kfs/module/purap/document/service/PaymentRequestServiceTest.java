@@ -15,9 +15,8 @@
  */
 package org.kuali.module.purap.service;
 
-import static org.kuali.test.fixtures.UserNameFixture.KHUNTLEY;
-
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.Map;
 
 import org.kuali.core.bo.user.UniversalUser;
@@ -31,6 +30,8 @@ import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.PurapParameterConstants;
 import org.kuali.module.purap.document.PaymentRequestDocument;
+import org.kuali.module.purap.document.PurchaseOrderDocument;
+import org.kuali.module.purap.document.RequisitionDocument;
 import org.kuali.test.ConfigureContext;
 import org.kuali.test.fixtures.UserNameFixture;
 
@@ -72,33 +73,68 @@ public class PaymentRequestServiceTest extends KualiTestBase {
         documentService.cancelDocument(document, "testing complete");
     }
     
-    private PaymentRequestDocument createBasicDocument() throws WorkflowException {
-        PaymentRequestDocument _document = 
-            (PaymentRequestDocument) documentService.getNewDocument(
-                    PaymentRequestDocument.class);
-        _document.setStatusCode(PurapConstants.PaymentRequestStatuses.AWAITING_ACCOUNTS_PAYABLE_REVIEW);//IN_PROCESS);
-        _document.setPurchaseOrderIdentifier(1);
-        Date today = SpringServiceLocator.getDateTimeService().getCurrentSqlDate();
-        _document.setInvoiceDate(today);
-        _document.setPaymentRequestCostSourceCode(PurapConstants.POCostSources.ESTIMATE);
-        UniversalUser currentUser = (UniversalUser)GlobalVariables.getUserSession().getUniversalUser();
-        _document.setAccountsPayableProcessorIdentifier(currentUser.getPersonUniversalIdentifier());
-        _document.getDocumentHeader().setFinancialDocumentDescription("test description");
-        
-        documentService.saveDocument(_document);
-        return _document;
+    private void header(Document document) {
+        document.getDocumentHeader().setFinancialDocumentDescription("test");
     }
     
-//    @ConfigureContext(session = UserNameFixture.APPLETON)
-//    public void testFoo() throws Exception {
+    private PaymentRequestDocument createBasicDocument() throws WorkflowException {
+        
+        RequisitionDocument requisitionDocument = (RequisitionDocument)documentService.getNewDocument(RequisitionDocument.class);
+        requisitionDocument.initiateDocument();
+        header(requisitionDocument);
+        documentService.saveDocument(requisitionDocument);
+        requisitionDocument.refreshNonUpdateableReferences();
+        
+        PurchaseOrderDocument purchaseOrderDocument = (PurchaseOrderDocument) documentService.getNewDocument(PurchaseOrderDocument.class);
+        purchaseOrderDocument.populatePurchaseOrderFromRequisition(requisitionDocument);
+        header(purchaseOrderDocument);
+        documentService.saveDocument(purchaseOrderDocument);
+        purchaseOrderDocument.refreshNonUpdateableReferences();
+        
+        PaymentRequestDocument paymentRequestDocument = (PaymentRequestDocument) documentService.getNewDocument(PaymentRequestDocument.class);
+        Date today = SpringServiceLocator.getDateTimeService().getCurrentSqlDate();
+        //paymentRequestDocument.initiateDocument();
+        paymentRequestDocument.setInvoiceDate(today);
+        paymentRequestDocument.setStatusCode(PurapConstants.PaymentRequestStatuses.AWAITING_ACCOUNTS_PAYABLE_REVIEW);//IN_PROCESS);
+        paymentRequestDocument.setPaymentRequestCostSourceCode(PurapConstants.POCostSources.ESTIMATE);
+        purchaseOrderDocument.setPurchaseOrderCreateDate(today);
+//      purchaseOrderDocument.setDefaultValuesForAPO();
+        //purchaseOrderDocument.setP
+
+        paymentRequestDocument.populatePaymentRequestFromPurchaseOrder(purchaseOrderDocument);
+        header(paymentRequestDocument);
+        documentService.saveDocument(paymentRequestDocument);
+        paymentRequestDocument.refreshNonUpdateableReferences();
+        
+//        paymentRequestDocument.setPurchaseOrderIdentifier(1);
+//        paymentRequestDocument.setInvoiceDate(today);
+//        UniversalUser currentUser = (UniversalUser)GlobalVariables.getUserSession().getUniversalUser();
+//        paymentRequestDocument.setAccountsPayableProcessorIdentifier(currentUser.getPersonUniversalIdentifier());
+//        paymentRequestDocument.getDocumentHeader().setFinancialDocumentDescription("test description");
+        
+//        PurchaseOrderDocument purchaseOrderDocument = 
+//            (PurchaseOrderDocument)SpringServiceLocator.getDocumentService().getNewDocument(PurchaseOrderDocument.class);
+//        purchaseOrderDocument.getDocumentHeader().setFinancialDocumentDescription("test");
+//        documentService.saveDocument(purchaseOrderDocument);
+//        
+//        paymentRequestDocument.setPurchaseOrderDocument(purchaseOrderDocument);
+//        Integer poid = purchaseOrderDocument.getPurapDocumentIdentifier();
+//        paymentRequestDocument.setPurchaseOrderIdentifier(poid);
+        //documentService.saveDocument(paymentRequestDocument);
+        return paymentRequestDocument;
+    }
+    
+    @ConfigureContext(session = UserNameFixture.APPLETON)
+    public void testFoo() throws Exception {
 //        PaymentRequestDocument document = createBasicDocument();
-//        documentService.routeDocument(document, "", null);
+//        boolean isApprovalRequested = document.getDocumentHeader().getWorkflowDocument().isApprovalRequested();
+//        documentService.routeDocument(document, "", new ArrayList());
 //        document.setChartOfAccountsCode("BA");
 //        //changeCurrentUser(UserNameFixture.KHUNTLEY);
 //        boolean approved = SpringServiceLocator.getPaymentRequestService().autoApprovePaymentRequest(document, defaultMinimumLimit);
 //        Map map = GlobalVariables.getErrorMap();
 //        boolean breakonme = approved;
-//    }
+    }
     
     /**
      * Payment requests with a negative payment request approval limit higher

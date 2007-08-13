@@ -15,6 +15,9 @@
  */
 package org.kuali.module.budget.service.impl;
 
+import java.util.List;
+
+import org.apache.commons.lang.StringUtils;
 import org.kuali.module.budget.bo.BudgetConstructionOrganizationReports;
 import org.kuali.module.budget.dao.BudgetConstructionOrganizationReportsDao;
 import org.kuali.module.budget.service.BudgetConstructionOrganizationReportsService;
@@ -37,6 +40,20 @@ public class BudgetConstructionOrganizationReportsServiceImpl implements BudgetC
      */
     public BudgetConstructionOrganizationReports getByPrimaryId(String chartOfAccountsCode, String organizationCode) {
         return budgetConstructionOrganizationReportsDao.getByPrimaryId(chartOfAccountsCode, organizationCode);
+    }
+    /**
+     * @see org.kuali.module.budget.service.BudgetConstructionOrganizationReportsService#getActiveChildOrgs(java.lang.String, java.lang.String)
+     */
+    public List getActiveChildOrgs(String chartOfAccountsCode, String organizationCode) {
+
+        if (StringUtils.isBlank(chartOfAccountsCode)) {
+            throw new IllegalArgumentException("String parameter chartOfAccountsCode was null or blank.");
+        }
+        if (StringUtils.isBlank(organizationCode)) {
+            throw new IllegalArgumentException("String parameter organizationCode was null or blank.");
+        }
+
+        return budgetConstructionOrganizationReportsDao.getActiveChildOrgs(chartOfAccountsCode, organizationCode);
     }
     /**
      * Gets the budgetConstructionOrganizationReportsDao attribute. 

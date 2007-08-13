@@ -26,6 +26,7 @@ import org.kuali.core.dao.ojb.PlatformAwareDaoBaseOjb;
 import org.kuali.module.budget.bo.BudgetConstructionFundingLock;
 import org.kuali.module.budget.bo.BudgetConstructionHeader;
 import org.kuali.module.budget.bo.BudgetConstructionPosition;
+import org.kuali.module.budget.bo.BudgetConstructionPullup;
 import org.kuali.module.budget.dao.BudgetConstructionDao;
 
 /**
@@ -188,6 +189,17 @@ public class BudgetConstructionDaoOjb extends PlatformAwareDaoBaseOjb implements
      */
     public void saveBudgetConstructionPosition(BudgetConstructionPosition bcPosition) {
         getPersistenceBrokerTemplate().store(bcPosition);
+    }
+
+    /**
+     * @see org.kuali.module.budget.dao.BudgetConstructionDao#deleteBudgetConstructionPullupByUserId(java.lang.String)
+     */
+    public void deleteBudgetConstructionPullupByUserId(String personUserIdentifier) {
+
+        Criteria criteria = new Criteria();
+        criteria.addEqualTo("personUniversalIdentifier", personUserIdentifier);
+        getPersistenceBrokerTemplate().deleteByQuery(QueryFactory.newQuery(BudgetConstructionPullup.class, criteria));
+        
     }
 
 }

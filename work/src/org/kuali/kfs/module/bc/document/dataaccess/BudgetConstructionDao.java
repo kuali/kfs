@@ -105,5 +105,12 @@ public interface BudgetConstructionDao {
      * @param bcPosition
      */
     public void saveBudgetConstructionPosition(BudgetConstructionPosition bcPosition);
+    
+    /**
+     * This method deletes all BudgetConstructionPullup rows associated with a user.
+     * 
+     * @param personUserIdentifier
+     */
+    public void deleteBudgetConstructionPullupByUserId (String personUserIdentifier);
 
 }

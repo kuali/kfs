@@ -15,6 +15,10 @@
  */
 package org.kuali.module.budget.dao.ojb;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.kuali.core.dao.ojb.PlatformAwareDaoBaseOjb;
@@ -39,6 +43,26 @@ public class BudgetConstructionOrganizationReportsDaoOjb
             criteria.addEqualTo("organizationCode", organizationCode);
 
             return (BudgetConstructionOrganizationReports) getPersistenceBrokerTemplate().getObjectByQuery(QueryFactory.newQuery(BudgetConstructionOrganizationReports.class, criteria));
-        }
     }
+
+    /**
+     * @see org.kuali.module.budget.dao.BudgetConstructionOrganizationReportsDao#getActiveChildOrgs(java.lang.String, java.lang.String)
+     */
+    public List getActiveChildOrgs(String chartOfAccountsCode, String organizationCode) {
+
+        List orgs = new ArrayList();
+
+        Criteria criteria = new Criteria();
+        criteria.addEqualTo("reportsToChartOfAccountsCode", chartOfAccountsCode);
+        criteria.addEqualTo("reportsToOrganizationCode", organizationCode);
+        criteria.addEqualTo("organization.organizationActiveIndicator", Boolean.TRUE);
+
+        orgs = (List) getPersistenceBrokerTemplate().getCollectionByQuery(QueryFactory.newQuery(BudgetConstructionOrganizationReports.class, criteria));
+
+        if (orgs.isEmpty() || orgs.size() == 0) {
+            return Collections.EMPTY_LIST;
+        }
+        return orgs;
+    }
+}
 

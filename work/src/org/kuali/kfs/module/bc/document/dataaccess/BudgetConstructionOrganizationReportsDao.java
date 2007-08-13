@@ -15,8 +15,21 @@
  */
 package org.kuali.module.budget.dao;
 
+import java.util.List;
+
 import org.kuali.module.budget.bo.BudgetConstructionOrganizationReports;
 
 public interface BudgetConstructionOrganizationReportsDao {
+
     public BudgetConstructionOrganizationReports getByPrimaryId(String chartOfAccountsCode, String organizationCode);
+    
+    /**
+     * This method returns active organizations that report to the passed in organization.
+     * 
+     * @param chartOfAccountsCode
+     * @param organizationCode
+     * @return
+     */
+    public List getActiveChildOrgs(String chartOfAccountsCode, String organizationCode);
+    
 }

@@ -63,6 +63,18 @@
 		</property>
 	</bean>
 
+	<bean id="budgetOrganizationTreeService" class="org.kuali.module.budget.service.impl.BudgetOrganizationTreeServiceImpl">
+		<property name="budgetConstructionOrganizationReportsService">
+			<ref bean="budgetConstructionOrganizationReportsService" />
+		</property>
+		<property name="businessObjectService">
+			<ref bean="businessObjectService" />
+		</property>
+		<property name="budgetConstructionDao">
+			<ref bean="budgetConstructionDao" />
+		</property>
+	</bean>
+
 	<bean id="lockService" class="org.kuali.module.budget.service.impl.LockServiceImpl">
 		<property name="budgetConstructionDao">
 			<ref bean="budgetConstructionDao" />

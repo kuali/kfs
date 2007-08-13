@@ -198,10 +198,10 @@
 		        documentAttributes="${DataDictionary.KualiPurchaseOrderDocument.attributes}"
 		        vendorQuoteAttributes="${DataDictionary.PurchaseOrderVendorQuote.attributes}"
 		        isSysVendor="${not empty quoteLine.vendorHeaderGeneratedIdentifier}"
-		        isRanked="${not empty quoteLine.purchaseOrderQuoteRankNumber}"
 		        isPurchaseOrderAwarded="${isPurchaseOrderAwarded}"
 				isAwarded="${not empty quoteLine.purchaseOrderQuoteAwardDate}"
 				isTransmitPrintDisplayed="${quoteLine.transmitPrintDisplayed}"
+				isTrasnmitted="${not empty quoteLine.purchaseOrderQuoteTransmitDate}"
 		        ctr="${ctr}" /> 
 		</logic:iterate>
 

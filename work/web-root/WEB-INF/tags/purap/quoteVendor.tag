@@ -22,9 +22,9 @@
 <%@ attribute name="ctr" required="true" description="vendor count"%>
 <%@ attribute name="isPurchaseOrderAwarded" required="true" description="has the PO been awarded?" %>
 <%@ attribute name="isSysVendor" required="false" description="vendor is from system?" %>
-<%@ attribute name="isRanked" required="false" description="vendor is ranked?" %>
 <%@ attribute name="isAwarded" required="false" description="vendor has been awarded?" %>
 <%@ attribute name="isTransmitPrintDisplayed" required="false" description="vendor quote is ready to print?" %>
+<%@ attribute name="isTrasnmitted" required="false" description="PO transmitted to vendor?" %>
 
         <tr>
 			<td colspan="5" class="subhead">
@@ -49,7 +49,7 @@
                 <kul:htmlControlAttribute attributeEntry="${vendorQuoteAttributes.vendorHeaderGeneratedIdentifier}" property="document.purchaseOrderVendorQuote[${ctr}].vendorHeaderGeneratedIdentifier" readOnly="true" />-
                 <kul:htmlControlAttribute attributeEntry="${vendorQuoteAttributes.vendorHeaderGeneratedIdentifier}" property="document.purchaseOrderVendorQuote[${ctr}].vendorDetailAssignedIdentifier" readOnly="true" />
             </td>
-           	<c:if test="${!isPurchaseOrderAwarded}">
+           	<c:if test="${!isPurchaseOrderAwarded && !isTrasnmitted}">
    	         <td rowspan="9">
    	        	<html:image
 	property="methodToCall.deleteVendor.line${ctr}"
@@ -57,6 +57,11 @@
 	alt="delete vendor" title="delete vendor"
 	styleClass="tinybutton" />&nbsp;
 				</td>
+			</c:if>
+           	<c:if test="${isPurchaseOrderAwarded || isTrasnmitted}">
+   	         <td rowspan="9">
+			 	&nbsp;
+			 </td>
 			</c:if>
         </tr>
         <tr>
@@ -118,11 +123,20 @@
 	alt="transmit quote" title="transmit quote" 
 	styleClass="tinybutton" />
 					<c:if test="${isTransmitPrintDisplayed}">
-					<html:image
-	property="methodToCall.printPoQuote.line${ctr}"
-	src="${ConfigProperties.externalizable.images.url}tinybutton-downldtransquoreq.gif"
-	alt="print quote request" title="print quote request" 
-	styleClass="tinybutton" />
+							<!-- html:image
+			property="methodToCall.printPoQuote.line${ctr}"
+			src="${ConfigProperties.externalizable.images.url}tinybutton-downldtransquoreq.gif"
+			alt="print quote request" title="print quote request" 
+			styleClass="tinybutton" / -->
+						<input type="hidden" name="methodToCall.printPoQuote.line<c:out value="${ctr}" />.x" value="1" />
+						<input type="hidden" name="methodToCall.printPoQuote.line<c:out value="${ctr}" />.y" value="1" />
+						 <SCRIPT language="JavaScript">
+						function printPOQuote() {
+							var kualiForm = document.forms['KualiForm'];
+							kualiForm.submit();
+	  					}
+	  					window.onload = printPOQuote;
+						</SCRIPT>
 					</c:if>
 				</c:if>
             </td>
@@ -174,7 +188,7 @@
             	</c:if>
             </th>
             <td align=left valign=middle class="datacell">
-            	<c:if test="${isSysVendor && isRanked && not isPurchaseOrderAwarded}">
+            	<c:if test="${isSysVendor && not isPurchaseOrderAwarded}">
 	            	<html:radio property="awardedVendorNumber" value="${ctr}" />
             	</c:if>
             	<c:if test="${isPurchaseOrderAwarded}">

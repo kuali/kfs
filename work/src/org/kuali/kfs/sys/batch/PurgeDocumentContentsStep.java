@@ -1,12 +1,12 @@
 /*
  * Copyright 2006-2007 The Kuali Foundation.
- * 
+ *
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl1.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -44,7 +44,9 @@ public class PurgeDocumentContentsStep extends AbstractStep {
             Iterator finalDocumentHeaderItr = documentService.getFinalDocumentHeadersByDate(financialDocumentFinalCalendar.getTime()).iterator();
             while (finalDocumentHeaderItr.hasNext()) {
                 DocumentHeader finalDocumentHeader = (DocumentHeader) finalDocumentHeaderItr.next();
-                finalDocumentHeader.getWorkflowDocument().setApplicationContent("<final/>");
+                // Added the special XML content flag here which indicates to the KEW engine not to execute searchable attribute indexing.
+                // This allows for us to clear the content without worrying about losing our search capabilities
+                finalDocumentHeader.getWorkflowDocument().setApplicationContent("<final/><doNotExecuteSearchableAttributeIndexing/>");
                 finalDocumentHeader.getWorkflowDocument().saveRoutingData();
             }
         }
@@ -56,7 +58,7 @@ public class PurgeDocumentContentsStep extends AbstractStep {
 
     /**
      * Sets the documentService attribute value. For use by Spring.
-     * 
+     *
      * @param documentService The documentService to set.
      */
     public void setDocumentService(DocumentService documentService) {

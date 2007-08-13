@@ -133,6 +133,7 @@ public class PurchaseOrderAction extends PurchasingActionBase {
                     newPOVendorQuote.setVendorPhoneNumber(tmpPhoneNumber);
                 }
                 document.getPurchaseOrderVendorQuotes().add(newPOVendorQuote);
+                document.refreshNonUpdateableReferences();
             }
         }
         
@@ -836,6 +837,7 @@ public class PurchaseOrderAction extends PurchasingActionBase {
         poForm.getNewPurchaseOrderVendorQuote().setDocumentNumber(document.getDocumentNumber());
         document.getPurchaseOrderVendorQuotes().add(poForm.getNewPurchaseOrderVendorQuote());
         poForm.setNewPurchaseOrderVendorQuote(new PurchaseOrderVendorQuote());
+        document.refreshNonUpdateableReferences();
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
@@ -843,6 +845,7 @@ public class PurchaseOrderAction extends PurchasingActionBase {
         PurchaseOrderForm poForm = (PurchaseOrderForm) form;
         PurchaseOrderDocument document = (PurchaseOrderDocument) poForm.getDocument();
         document.getPurchaseOrderVendorQuotes().remove(getSelectedLine(request));
+        document.refreshNonUpdateableReferences();
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
@@ -900,7 +903,7 @@ public class PurchaseOrderAction extends PurchasingActionBase {
                 document.setStatusCode(PurapConstants.PurchaseOrderStatuses.IN_PROCESS);
             }
         }
-
+        SpringServiceLocator.getDocumentService().saveDocumentWithoutRunningValidation(document);
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 

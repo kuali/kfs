@@ -353,7 +353,7 @@
 
 			<attributeReference name="itemTotalPoEncumbranceAmount" sourceClassName="org.kuali.module.purap.bo.PurApAttributeReferenceDummy" sourceAttributeName="genericItemAmount">
 				<label>Total PO Encumbrance Amount</label>
-				<shortLabel>Total Encumbrance Amount</shortLabel>
+				<shortLabel>Encumbrance excluding freight &amp; s/h</shortLabel>
 				<summary>TotalEncumbranceAmount</summary>
 				<description>TotalEncumbranceAmount description...</description>
 			</attributeReference>

@@ -21,9 +21,9 @@ import java.util.List;
 import org.kuali.core.lookup.keyvalues.KeyValuesBase;
 import org.kuali.core.web.ui.KeyLabelPair;
 import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.util.SpringServiceLocator;
-import org.kuali.module.purap.PurapConstants;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.purap.bo.PurchaseOrderQuoteStatus;
+import org.kuali.module.purap.service.PurchaseOrderService;
 
 /**
  * This class returns list of ba fund restriction levels.
@@ -39,7 +39,7 @@ public class PurchaseOrderVendorQuoteStatusCodeValuesFinder extends KeyValuesBas
         List keyValues = new ArrayList();
         keyValues.add(new KeyLabelPair(KFSConstants.EMPTY_STRING, KFSConstants.EMPTY_STRING));
 
-        ArrayList<PurchaseOrderQuoteStatus> poQuoteStatuses = SpringServiceLocator.getPurchaseOrderService().getPurchaseOrderQuoteStatusCodes();
+        ArrayList<PurchaseOrderQuoteStatus> poQuoteStatuses = SpringContext.getBean(PurchaseOrderService.class).getPurchaseOrderQuoteStatusCodes();
         for (PurchaseOrderQuoteStatus status : poQuoteStatuses) {
             keyValues.add(new KeyLabelPair(status.getPurchaseOrderQuoteStatusCode(), status.getPurchaseOrderQuoteStatusDescription()));
         }

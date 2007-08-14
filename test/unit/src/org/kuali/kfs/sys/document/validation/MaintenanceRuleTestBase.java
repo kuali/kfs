@@ -15,25 +15,24 @@
  */
 package org.kuali.core.maintenance;
 
+import static org.kuali.rice.KNSServiceLocator.getDictionaryValidationService;
+import static org.kuali.rice.KNSServiceLocator.getDocumentService;
+
 import java.util.Iterator;
 import java.util.Map;
 
 import org.kuali.core.bo.PersistableBusinessObject;
 import org.kuali.core.document.MaintenanceDocument;
-import org.kuali.core.document.MaintenanceDocumentBase;
 import org.kuali.core.maintenance.rules.MaintenanceDocumentRule;
 import org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase;
+import org.kuali.core.service.MaintenanceDocumentDictionaryService;
 import org.kuali.core.util.ErrorMessage;
 import org.kuali.core.util.GlobalVariables;
-
-import static org.kuali.kfs.util.SpringServiceLocator.getDictionaryValidationService;
-import static org.kuali.kfs.util.SpringServiceLocator.getDocumentService;
-
 import org.kuali.core.util.TypedArrayList;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSKeyConstants;
 import org.kuali.kfs.context.KualiTestBase;
-import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.test.ConfigureContext;
 
 import edu.iu.uis.eden.exception.WorkflowException;
@@ -73,7 +72,7 @@ public abstract class MaintenanceRuleTestBase extends KualiTestBase {
             // get a new MaintenanceDocument from Spring
             MaintenanceDocument document = null;
             try {
-            	document = (MaintenanceDocument) getDocumentService().getNewDocument( SpringServiceLocator.getMaintenanceDocumentDictionaryService().getDocumentTypeName( newBo.getClass() ) );
+            	document = (MaintenanceDocument) getDocumentService().getNewDocument( SpringContext.getBean(MaintenanceDocumentDictionaryService.class).getDocumentTypeName( newBo.getClass() ) );
             }
             catch (WorkflowException e) {
                 throw new RuntimeException(e);

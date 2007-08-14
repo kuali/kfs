@@ -35,14 +35,17 @@ import org.kuali.core.bo.PersistableBusinessObject;
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.service.BusinessObjectService;
+import org.kuali.core.service.DateTimeService;
+import org.kuali.core.service.UniversalUserService;
 import org.kuali.kfs.bo.PostalZipCode;
 import org.kuali.kfs.bo.State;
-import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.cg.bo.AwardAccount;
 import org.kuali.module.cg.bo.Cfda;
 import org.kuali.module.chart.bo.codes.BudgetRecordingLevelCode;
 import org.kuali.module.chart.bo.codes.ICRTypeCode;
 import org.kuali.module.chart.bo.codes.SufficientFundsCode;
+import org.kuali.module.chart.service.SubFundGroupService;
 import org.kuali.module.gl.bo.SufficientFundRebuild;
 
 /**
@@ -156,14 +159,14 @@ public class Account extends PersistableBusinessObjectBase implements AccountInt
         super.afterLookup(persistenceBroker);
         // This is needed to put a value in the object so the persisted XML has a flag that
         // can be used in routing to determine if an account is a C&G Account
-        forContractsAndGrants = SpringServiceLocator.getSubFundGroupService().isForContractsAndGrants(getSubFundGroup());
+        forContractsAndGrants = SpringContext.getBean(SubFundGroupService.class).isForContractsAndGrants(getSubFundGroup());
     }
 
     /**
      * This method gathers all SubAccounts related to this account if the account is marked as closed to deactivate
      */
     public List<PersistableBusinessObject> generateDeactivationsToPersist() {
-        BusinessObjectService boService = SpringServiceLocator.getBusinessObjectService();
+        BusinessObjectService boService = SpringContext.getBean(BusinessObjectService.class);
 
         // retreive all the existing sub accounts for this
         List<SubAccount> bosToDeactivate = new ArrayList();
@@ -426,7 +429,7 @@ public class Account extends PersistableBusinessObjectBase implements AccountInt
             return false;
         }
 
-        return this.isExpired(SpringServiceLocator.getDateTimeService().getCurrentCalendar());
+        return this.isExpired(SpringContext.getBean(DateTimeService.class, "dateTimeService").getCurrentCalendar());
     }
 
     /**
@@ -1129,7 +1132,7 @@ public class Account extends PersistableBusinessObjectBase implements AccountInt
 
 
     public UniversalUser getAccountFiscalOfficerUser() {
-        accountFiscalOfficerUser = SpringServiceLocator.getUniversalUserService().updateUniversalUserIfNecessary(accountFiscalOfficerSystemIdentifier, accountFiscalOfficerUser);
+        accountFiscalOfficerUser = SpringContext.getBean(UniversalUserService.class, "universalUserService").updateUniversalUserIfNecessary(accountFiscalOfficerSystemIdentifier, accountFiscalOfficerUser);
         return accountFiscalOfficerUser;
     }
     
@@ -1151,7 +1154,7 @@ public class Account extends PersistableBusinessObjectBase implements AccountInt
     }
 
     public UniversalUser getAccountManagerUser() {
-        accountManagerUser = SpringServiceLocator.getUniversalUserService().updateUniversalUserIfNecessary(accountManagerSystemIdentifier, accountManagerUser);
+        accountManagerUser = SpringContext.getBean(UniversalUserService.class, "universalUserService").updateUniversalUserIfNecessary(accountManagerSystemIdentifier, accountManagerUser);
         return accountManagerUser;
     }
     
@@ -1173,7 +1176,7 @@ public class Account extends PersistableBusinessObjectBase implements AccountInt
 
 
     public UniversalUser getAccountSupervisoryUser() {
-        accountSupervisoryUser = SpringServiceLocator.getUniversalUserService().updateUniversalUserIfNecessary(accountsSupervisorySystemsIdentifier, accountSupervisoryUser);
+        accountSupervisoryUser = SpringContext.getBean(UniversalUserService.class, "universalUserService").updateUniversalUserIfNecessary(accountsSupervisorySystemsIdentifier, accountSupervisoryUser);
         return accountSupervisoryUser;
     }
 
@@ -1845,7 +1848,7 @@ public class Account extends PersistableBusinessObjectBase implements AccountInt
         try {
             // KULCOA-549: update the sufficient funds table
             // get the current data from the database
-            BusinessObjectService boService = SpringServiceLocator.getBusinessObjectService();
+            BusinessObjectService boService = SpringContext.getBean(BusinessObjectService.class);
             Account originalAcct = (Account) boService.retrieve(this);
 
             if (originalAcct != null) {

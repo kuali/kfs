@@ -27,9 +27,13 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.core.authorization.AuthorizationConstants;
-
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.document.authorization.DocumentAuthorizer;
+import org.kuali.core.service.DataDictionaryService;
+import org.kuali.core.service.DocumentAuthorizationService;
+import org.kuali.core.service.DocumentService;
+import org.kuali.core.service.KualiConfigurationService;
+import org.kuali.core.service.KualiRuleService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.UrlFactory;
 import org.kuali.core.web.struts.action.KualiDocumentActionBase;
@@ -40,18 +44,17 @@ import org.kuali.kfs.KFSKeyConstants;
 import org.kuali.kfs.KFSConstants.CashDrawerConstants;
 import org.kuali.kfs.KFSConstants.DepositConstants;
 import org.kuali.kfs.KFSKeyConstants.CashManagement;
-import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.financial.bo.Check;
 import org.kuali.module.financial.bo.Deposit;
 import org.kuali.module.financial.document.CashManagementDocument;
-import org.kuali.module.financial.document.CashReceiptDocument;
 import org.kuali.module.financial.document.authorization.CashManagementDocumentAuthorizer;
 import org.kuali.module.financial.rule.event.AddCheckEvent;
 import org.kuali.module.financial.rule.event.DeleteCheckEvent;
 import org.kuali.module.financial.service.CashDrawerService;
 import org.kuali.module.financial.service.CashManagementService;
+import org.kuali.module.financial.service.CashReceiptService;
 import org.kuali.module.financial.web.struts.form.CashManagementForm;
-import org.kuali.module.financial.web.struts.form.CashReceiptForm;
 import org.kuali.module.financial.web.struts.form.CashManagementForm.CashDrawerSummary;
 
 import edu.iu.uis.eden.exception.WorkflowException;
@@ -94,7 +97,7 @@ public class CashManagementAction extends KualiDocumentActionBase {
             }
         }
         // put any recently closed items in process in the form
-        cmf.setRecentlyClosedItemsInProcess(SpringServiceLocator.getCashManagementService().getRecentlyClosedItemsInProcess(cmf.getCashManagementDocument()));
+        cmf.setRecentlyClosedItemsInProcess(SpringContext.getBean(CashManagementService.class).getRecentlyClosedItemsInProcess(cmf.getCashManagementDocument()));
 
         return dest;
     }
@@ -111,14 +114,14 @@ public class CashManagementAction extends KualiDocumentActionBase {
     @Override
     protected void createDocument(KualiDocumentFormBase kualiDocumentFormBase) throws WorkflowException {
         UniversalUser user = GlobalVariables.getUserSession().getUniversalUser();
-        String workgroupName = SpringServiceLocator.getCashReceiptService().getCashReceiptVerificationUnitForUser(user);
+        String workgroupName = SpringContext.getBean(CashReceiptService.class).getCashReceiptVerificationUnitForUser(user);
 
-        String defaultDescription = SpringServiceLocator.getKualiConfigurationService().getPropertyString(CashManagement.DEFAULT_DOCUMENT_DESCRIPTION);
+        String defaultDescription = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(CashManagement.DEFAULT_DOCUMENT_DESCRIPTION);
         defaultDescription = StringUtils.replace(defaultDescription, "{0}", workgroupName);
         defaultDescription = StringUtils.substring(defaultDescription, 0, 39);
 
         // create doc
-        CashManagementDocument cmDoc = SpringServiceLocator.getCashManagementService().createCashManagementDocument(workgroupName, defaultDescription, null);
+        CashManagementDocument cmDoc = SpringContext.getBean(CashManagementService.class).createCashManagementDocument(workgroupName, defaultDescription, null);
 
         // update form
         kualiDocumentFormBase.setDocument(cmDoc);
@@ -126,8 +129,8 @@ public class CashManagementAction extends KualiDocumentActionBase {
     }
 
     private CashManagementDocumentAuthorizer getDocumentAuthorizer() {
-        String documentTypeName = SpringServiceLocator.getDataDictionaryService().getDocumentTypeNameByClass(CashManagementDocument.class);
-        DocumentAuthorizer documentAuthorizer = SpringServiceLocator.getDocumentAuthorizationService().getDocumentAuthorizer(documentTypeName);
+        String documentTypeName = SpringContext.getBean(DataDictionaryService.class).getDocumentTypeNameByClass(CashManagementDocument.class);
+        DocumentAuthorizer documentAuthorizer = SpringContext.getBean(DocumentAuthorizationService.class).getDocumentAuthorizer(documentTypeName);
 
         return (CashManagementDocumentAuthorizer) documentAuthorizer;
     }
@@ -230,7 +233,7 @@ public class CashManagementAction extends KualiDocumentActionBase {
 
         // cancel the deposit
         deposit = cmDoc.removeDeposit(depositIndex);
-        SpringServiceLocator.getCashManagementService().cancelDeposit(deposit);
+        SpringContext.getBean(CashManagementService.class).cancelDeposit(deposit);
 
         // update the form
         cmForm.removeDepositHelper(depositIndex);
@@ -301,15 +304,15 @@ public class CashManagementAction extends KualiDocumentActionBase {
         }
 
         // open the CashDrawer
-        CashDrawerService cds = SpringServiceLocator.getCashDrawerService();
+        CashDrawerService cds = SpringContext.getBean(CashDrawerService.class);
         cds.openCashDrawer(cmDoc.getCashDrawer(), cmDoc.getDocumentNumber());
         // now that the cash drawer is open, let's create currency/coin detail records for this document
         //      create and save the cumulative cash receipt, deposit, money in and money out curr/coin details
-        SpringServiceLocator.getCashManagementService().createNewCashDetails(cmDoc, KFSConstants.CurrencyCoinSources.CASH_RECEIPTS);
-        SpringServiceLocator.getCashManagementService().createNewCashDetails(cmDoc, KFSConstants.CurrencyCoinSources.CASH_MANAGEMENT_IN);
-        SpringServiceLocator.getCashManagementService().createNewCashDetails(cmDoc, KFSConstants.CurrencyCoinSources.CASH_MANAGEMENT_OUT);
+        SpringContext.getBean(CashManagementService.class).createNewCashDetails(cmDoc, KFSConstants.CurrencyCoinSources.CASH_RECEIPTS);
+        SpringContext.getBean(CashManagementService.class).createNewCashDetails(cmDoc, KFSConstants.CurrencyCoinSources.CASH_MANAGEMENT_IN);
+        SpringContext.getBean(CashManagementService.class).createNewCashDetails(cmDoc, KFSConstants.CurrencyCoinSources.CASH_MANAGEMENT_OUT);
         try {
-            SpringServiceLocator.getDocumentService().saveDocument(cmDoc);
+            SpringContext.getBean(DocumentService.class).saveDocument(cmDoc);
         }
         catch (WorkflowException e) {
             // force it closed if workflow proves recalcitrant
@@ -334,7 +337,7 @@ public class CashManagementAction extends KualiDocumentActionBase {
      */
     public ActionForward finalizeLastInterimDeposit(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         CashManagementDocument cmDoc = ((CashManagementForm)form).getCashManagementDocument();
-        CashManagementService cms = SpringServiceLocator.getCashManagementService();
+        CashManagementService cms = SpringContext.getBean(CashManagementService.class);
         
         if (cmDoc.hasFinalDeposit()) {
             GlobalVariables.getErrorMap().putError(KFSConstants.CASH_MANAGEMENT_DEPOSIT_ERRORS, CashManagement.ERROR_DOCUMENT_ALREADY_HAS_FINAL_DEPOSIT, new String[]{});
@@ -362,7 +365,7 @@ public class CashManagementAction extends KualiDocumentActionBase {
      */
     public ActionForward applyCashieringTransaction(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         CashManagementDocument cmDoc = ((CashManagementForm)form).getCashManagementDocument();
-        CashManagementService cmService = SpringServiceLocator.getCashManagementService();
+        CashManagementService cmService = SpringContext.getBean(CashManagementService.class);
         
         cmService.applyCashieringTransaction(cmDoc);
         
@@ -414,7 +417,7 @@ public class CashManagementAction extends KualiDocumentActionBase {
         newCheck.setDocumentNumber(cmDoc.getDocumentNumber());
 
         // check business rules
-        boolean rulePassed = SpringServiceLocator.getKualiRuleService().applyRules(new AddCheckEvent(KFSConstants.NEW_CHECK_PROPERTY_NAME, cmDoc, newCheck));
+        boolean rulePassed = SpringContext.getBean(KualiRuleService.class).applyRules(new AddCheckEvent(KFSConstants.NEW_CHECK_PROPERTY_NAME, cmDoc, newCheck));
         if (rulePassed) {
             // add check
             cmDoc.getCurrentTransaction().addCheck(newCheck);
@@ -444,7 +447,7 @@ public class CashManagementAction extends KualiDocumentActionBase {
         Check oldCheck = cmDoc.getCurrentTransaction().getCheck(deleteIndex);
 
 
-        boolean rulePassed = SpringServiceLocator.getKualiRuleService().applyRules(new DeleteCheckEvent(KFSConstants.EXISTING_CHECK_PROPERTY_NAME, cmDoc, oldCheck));
+        boolean rulePassed = SpringContext.getBean(KualiRuleService.class).applyRules(new DeleteCheckEvent(KFSConstants.EXISTING_CHECK_PROPERTY_NAME, cmDoc, oldCheck));
 
         if (rulePassed) {
             // delete check

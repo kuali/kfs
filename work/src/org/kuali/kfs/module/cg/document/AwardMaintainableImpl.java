@@ -30,12 +30,14 @@ import org.kuali.core.bo.DocumentHeader;
 import org.kuali.core.bo.PersistableBusinessObject;
 import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.core.maintenance.KualiMaintainableImpl;
+import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.workflow.service.KualiWorkflowDocument;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSKeyConstants;
 import org.kuali.kfs.KFSPropertyConstants;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.cg.bo.Award;
 import org.kuali.module.cg.bo.AwardAccount;
@@ -45,6 +47,7 @@ import org.kuali.module.cg.bo.CGProjectDirector;
 import org.kuali.module.cg.bo.ProjectDirector;
 import org.kuali.module.cg.bo.Proposal;
 import org.kuali.module.cg.rules.AwardRuleUtil;
+import org.kuali.module.cg.service.ProjectDirectorService;
 
 /**
  * Methods for the Award maintenance document UI.
@@ -210,10 +213,10 @@ public class AwardMaintainableImpl extends KualiMaintainableImpl {
         if (ObjectUtils.isNotNull(director.getProjectDirector())) {
             String secondaryKey = director.getProjectDirector().getPersonUserIdentifier();
             if (StringUtils.isNotBlank(secondaryKey)) {
-                ProjectDirector dir = SpringServiceLocator.getProjectDirectorService().getByPersonUserIdentifier(secondaryKey);
+                ProjectDirector dir = SpringContext.getBean(ProjectDirectorService.class).getByPersonUserIdentifier(secondaryKey);
                 director.setPersonUniversalIdentifier(dir == null ? null : dir.getPersonUniversalIdentifier());
             }
-            if (StringUtils.isNotBlank(director.getPersonUniversalIdentifier()) && SpringServiceLocator.getProjectDirectorService().primaryIdExists(director.getPersonUniversalIdentifier())) {
+            if (StringUtils.isNotBlank(director.getPersonUniversalIdentifier()) && SpringContext.getBean(ProjectDirectorService.class).primaryIdExists(director.getPersonUniversalIdentifier())) {
                 ((PersistableBusinessObject) director).refreshNonUpdateableReferences();
             }
         }
@@ -260,7 +263,7 @@ public class AwardMaintainableImpl extends KualiMaintainableImpl {
         if(workflowDoc.stateIsProcessed()) {
             Proposal proposal = award.getProposal();
             proposal.setProposalStatusCode(Proposal.AWARD_CODE);
-            SpringServiceLocator.getBusinessObjectService().save(proposal);
+            SpringContext.getBean(BusinessObjectService.class).save(proposal);
         }
         
     }

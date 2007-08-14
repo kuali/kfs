@@ -17,29 +17,32 @@ package org.kuali.module.financial.web.struts.form;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.HashMap;
 
 import org.apache.log4j.Logger;
+import org.kuali.core.service.DateTimeService;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.web.format.CurrencyFormatter;
 import org.kuali.core.web.format.TimestampAMPMFormatter;
 import org.kuali.core.web.struts.form.KualiDocumentFormBase;
 import org.kuali.kfs.KFSConstants.DepositConstants;
 import org.kuali.kfs.KFSConstants.DocumentStatusCodes.CashReceipt;
-import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.financial.bo.CashDrawer;
 import org.kuali.module.financial.bo.CashieringItemInProcess;
 import org.kuali.module.financial.bo.Check;
 import org.kuali.module.financial.bo.CheckBase;
-import org.kuali.module.financial.bo.Deposit;
 import org.kuali.module.financial.bo.CoinDetail;
 import org.kuali.module.financial.bo.CurrencyDetail;
+import org.kuali.module.financial.bo.Deposit;
 import org.kuali.module.financial.document.CashManagementDocument;
 import org.kuali.module.financial.document.CashReceiptDocument;
+import org.kuali.module.financial.service.CashDrawerService;
 import org.kuali.module.financial.service.CashManagementService;
+import org.kuali.module.financial.service.CashReceiptService;
 
 /**
  * This class is the action form for CashManagement
@@ -104,7 +107,7 @@ public class CashManagementForm extends KualiDocumentFormBase {
     public void populateCashDrawerSummary() {
         CashManagementDocument cmd = getCashManagementDocument();
         if (cmd != null) {
-            CashDrawer cd = SpringServiceLocator.getCashDrawerService().getByWorkgroupName(cmd.getWorkgroupName(), true);
+            CashDrawer cd = SpringContext.getBean(CashDrawerService.class).getByWorkgroupName(cmd.getWorkgroupName(), true);
             if (!cd.isClosed()) {
                 cashDrawerSummary = new CashDrawerSummary(cmd);
             }
@@ -122,7 +125,7 @@ public class CashManagementForm extends KualiDocumentFormBase {
         result &= !cmDoc.hasFinalDeposit();
         result &= (cmDoc.getDeposits().size() > 0);
         if (result) {
-            result &= SpringServiceLocator.getCashManagementService().allVerifiedCashReceiptsAreDeposited(cmDoc);
+            result &= SpringContext.getBean(CashManagementService.class).allVerifiedCashReceiptsAreDeposited(cmDoc);
         }
         return result;
     }
@@ -216,7 +219,7 @@ public class CashManagementForm extends KualiDocumentFormBase {
 
             cashReceiptSummarys = new ArrayList<CashReceiptSummary>();
 
-            CashManagementService cmService = SpringServiceLocator.getCashManagementService();
+            CashManagementService cmService = SpringContext.getBean(CashManagementService.class);
             List<CashReceiptDocument> cashReceipts = cmService.retrieveCashReceipts(deposit);
             for (CashReceiptDocument document : cashReceipts) {
                 cashReceiptSummarys.add(new CashReceiptSummary(document));
@@ -464,7 +467,7 @@ public class CashManagementForm extends KualiDocumentFormBase {
             //
             // get all interesting CRs
             String workgroupName = cmDoc.getWorkgroupName();
-            List<CashReceiptDocument> interestingReceipts = SpringServiceLocator.getCashReceiptService().getCashReceipts(workgroupName, INTERESTING_STATII);
+            List<CashReceiptDocument> interestingReceipts = SpringContext.getBean(CashReceiptService.class).getCashReceipts(workgroupName, INTERESTING_STATII);
 
 
             //
@@ -505,7 +508,7 @@ public class CashManagementForm extends KualiDocumentFormBase {
             Map<String, KualiDecimal> results = calculateDepositedCashieringChecksTotalByDepositType(cmDoc);
             interimDepositedCashieringChecksTotal = results.get(DepositConstants.DEPOSIT_TYPE_INTERIM);
             KualiDecimal finalDepositCashTotal = new KualiDecimal(0);
-            Map<Class, Object> finalDepositCashDetails = SpringServiceLocator.getCashManagementService().getCashDetailsForFinalDeposit(cmDoc.getDocumentNumber());
+            Map<Class, Object> finalDepositCashDetails = SpringContext.getBean(CashManagementService.class).getCashDetailsForFinalDeposit(cmDoc.getDocumentNumber());
             KualiDecimal currencyDepositAmount = KualiDecimal.ZERO;
             if (finalDepositCashDetails.get(CurrencyDetail.class) != null) {
                 currencyDepositAmount = ((CurrencyDetail)finalDepositCashDetails.get(CurrencyDetail.class)).getTotalAmount(); 
@@ -530,20 +533,20 @@ public class CashManagementForm extends KualiDocumentFormBase {
             
             isDepositsFinal = cmDoc.hasFinalDeposit();
             
-            timeRefreshed = SpringServiceLocator.getDateTimeService().getCurrentTimestamp();
+            timeRefreshed = SpringContext.getBean(DateTimeService.class, "dateTimeService").getCurrentTimestamp();
         }
 
         private KualiDecimal calculateDepositedCashieringChecksTotal(CashManagementDocument cmDoc) {
-            return SpringServiceLocator.getCashManagementService().calculateDepositedCheckTotal(cmDoc.getDocumentNumber());
+            return SpringContext.getBean(CashManagementService.class).calculateDepositedCheckTotal(cmDoc.getDocumentNumber());
         }
         
         private KualiDecimal calculateUndepositedCashieringChecksTotal(CashManagementDocument cmDoc) {
-            return SpringServiceLocator.getCashManagementService().calculateUndepositedCheckTotal(cmDoc.getDocumentNumber());
+            return SpringContext.getBean(CashManagementService.class).calculateUndepositedCheckTotal(cmDoc.getDocumentNumber());
         }
         
         private KualiDecimal calculateOpenItemsTotal(CashManagementDocument cmDoc) {
             KualiDecimal total = new KualiDecimal(0);
-            for (CashieringItemInProcess itemInProcess: SpringServiceLocator.getCashManagementService().getOpenItemsInProcess(cmDoc)) {
+            for (CashieringItemInProcess itemInProcess: SpringContext.getBean(CashManagementService.class).getOpenItemsInProcess(cmDoc)) {
                 if (itemInProcess.getItemRemainingAmount() != null) {
                     total = total.add(itemInProcess.getItemRemainingAmount());
                 }
@@ -556,7 +559,7 @@ public class CashManagementForm extends KualiDocumentFormBase {
             result.put(DepositConstants.DEPOSIT_TYPE_INTERIM, new KualiDecimal(0));
             result.put(DepositConstants.DEPOSIT_TYPE_FINAL, new KualiDecimal(0));
             // 1. get all deposited cashiering checks
-            List<Check> checks = SpringServiceLocator.getCashManagementService().selectDepositedCashieringChecks(cmDoc.getDocumentNumber());
+            List<Check> checks = SpringContext.getBean(CashManagementService.class).selectDepositedCashieringChecks(cmDoc.getDocumentNumber());
             // 2. get all deposits
             List<Deposit> deposits = cmDoc.getDeposits();
             Map<Integer, String> depositTypes = new HashMap<Integer, String>();
@@ -1070,7 +1073,7 @@ public class CashManagementForm extends KualiDocumentFormBase {
         }
         if (workgroupName != null && getCashManagementDocument() != null) {
             // use that to put the cash drawer back into the cash management document
-            getCashManagementDocument().setCashDrawer(SpringServiceLocator.getCashDrawerService().getByWorkgroupName(workgroupName, false));
+            getCashManagementDocument().setCashDrawer(SpringContext.getBean(CashDrawerService.class).getByWorkgroupName(workgroupName, false));
         }
     }
     

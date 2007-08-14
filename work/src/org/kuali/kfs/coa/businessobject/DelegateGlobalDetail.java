@@ -23,9 +23,10 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.core.bo.DocumentType;
 import org.kuali.core.bo.GlobalBusinessObjectDetailBase;
 import org.kuali.core.bo.user.UniversalUser;
+import org.kuali.core.service.UniversalUserService;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.KFSPropertyConstants;
-import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.kfs.context.SpringContext;
 
 /**
  * 
@@ -205,7 +206,7 @@ public class DelegateGlobalDetail extends GlobalBusinessObjectDetailBase {
     }
 
     public UniversalUser getAccountDelegate() {
-        accountDelegate = SpringServiceLocator.getUniversalUserService().updateUniversalUserIfNecessary(accountDelegateUniversalId, accountDelegate);
+        accountDelegate = SpringContext.getBean(UniversalUserService.class, "universalUserService").updateUniversalUserIfNecessary(accountDelegateUniversalId, accountDelegate);
         return accountDelegate;
     }
 

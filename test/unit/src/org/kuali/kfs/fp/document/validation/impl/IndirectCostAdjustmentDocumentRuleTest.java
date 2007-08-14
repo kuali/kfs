@@ -16,20 +16,21 @@
 package org.kuali.module.financial.rules;
 
 
-import static org.kuali.kfs.util.SpringServiceLocator.getDataDictionaryService;
-import static org.kuali.kfs.util.SpringServiceLocator.getDocumentService;
-import static org.kuali.kfs.util.SpringServiceLocator.getDocumentTypeService;
 import static org.kuali.module.financial.rules.IsDebitTestUtils.Amount.NEGATIVE;
 import static org.kuali.module.financial.rules.IsDebitTestUtils.Amount.POSITIVE;
+import static org.kuali.rice.KNSServiceLocator.getDataDictionaryService;
+import static org.kuali.rice.KNSServiceLocator.getDocumentService;
+import static org.kuali.rice.KNSServiceLocator.getDocumentTypeService;
 import static org.kuali.test.fixtures.UserNameFixture.KHUNTLEY;
 
+import org.kuali.core.service.DocumentService;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.bo.AccountingLine;
 import org.kuali.kfs.bo.SourceAccountingLine;
 import org.kuali.kfs.bo.TargetAccountingLine;
 import org.kuali.kfs.context.KualiTestBase;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.document.AccountingDocument;
-import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.financial.document.IndirectCostAdjustmentDocument;
 import org.kuali.test.ConfigureContext;
 
@@ -48,7 +49,7 @@ public class IndirectCostAdjustmentDocumentRuleTest extends KualiTestBase {
         boolean failedAsExpected = false;
 
         try {
-            SpringServiceLocator.getDocumentService().saveDocument(null);
+            SpringContext.getBean(DocumentService.class).saveDocument(null);
         }
         catch (IllegalArgumentException e) {
             failedAsExpected = true;

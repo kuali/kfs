@@ -19,11 +19,12 @@ import static org.kuali.kfs.util.SpringServiceLocator.getAccountingPeriodService
 import static org.kuali.kfs.util.SpringServiceLocator.getBalanceTypService;
 import static org.kuali.test.util.KualiTestAssertionUtils.assertGlobalErrorMapEmpty;
 
+import org.kuali.core.service.DateTimeService;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.context.KualiTestBase;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.rules.AccountingDocumentRuleUtil;
-import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.chart.bo.AccountingPeriod;
 import org.kuali.module.chart.bo.codes.BalanceTyp;
 import org.kuali.module.financial.document.JournalVoucherDocument;
@@ -102,21 +103,21 @@ public class TransactionalDocumentRuleUtilTest extends KualiTestBase {
      * @return Timestamp
      */
     private java.sql.Date getSqlDateYesterday() {
-        return new java.sql.Date(SpringServiceLocator.getDateTimeService().getCurrentDate().getTime() - ONE_DAY_MILLIS);
+        return new java.sql.Date(SpringContext.getBean(DateTimeService.class, "dateTimeService").getCurrentDate().getTime() - ONE_DAY_MILLIS);
     }
 
     /**
      * Fixture accessor method for getting a <code>{@link java.sql.Date}</code> instance that is in the future.
      */
     private java.sql.Date getSqlDateTomorrow() {
-        return new java.sql.Date(SpringServiceLocator.getDateTimeService().getCurrentDate().getTime() + ONE_DAY_MILLIS);
+        return new java.sql.Date(SpringContext.getBean(DateTimeService.class, "dateTimeService").getCurrentDate().getTime() + ONE_DAY_MILLIS);
     }
 
     /**
      * @return today's java.sql.Date
      */
     private java.sql.Date getSqlDateToday() {
-        return new java.sql.Date(SpringServiceLocator.getDateTimeService().getCurrentDate().getTime());
+        return new java.sql.Date(SpringContext.getBean(DateTimeService.class, "dateTimeService").getCurrentDate().getTime());
     }
 
     // /////////////////////////////////////////////////////////////////////////

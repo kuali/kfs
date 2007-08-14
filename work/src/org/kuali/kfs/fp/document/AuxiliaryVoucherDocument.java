@@ -29,14 +29,15 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.core.document.AmountTotaling;
 import org.kuali.core.document.Copyable;
 import org.kuali.core.document.Correctable;
+import org.kuali.core.service.DateTimeService;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.bo.AccountingLineBase;
 import org.kuali.kfs.bo.AccountingLineParser;
 import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
 import org.kuali.kfs.bo.SourceAccountingLine;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.document.AccountingDocumentBase;
-import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.financial.bo.AuxiliaryVoucherAccountingLineParser;
 
 import edu.iu.uis.eden.exception.WorkflowException;
@@ -206,7 +207,7 @@ public class AuxiliaryVoucherDocument extends AccountingDocumentBase implements 
      */
     private void updateReversalDate() {
         if (isAccrualType() || isRecodeType()) {
-            java.sql.Date today = SpringServiceLocator.getDateTimeService().getCurrentSqlDateMidnight();
+            java.sql.Date today = SpringContext.getBean(DateTimeService.class, "dateTimeService").getCurrentSqlDateMidnight();
             if (getReversalDate().before(today)) {
                 // set the reversal date on the document
                 setReversalDate(today);

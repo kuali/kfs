@@ -16,10 +16,10 @@
 package org.kuali.bo;
 
 import java.sql.Date;
-import java.util.ArrayList;
 
+import org.kuali.core.service.DateTimeService;
 import org.kuali.kfs.context.KualiTestBase;
-import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.chart.bo.AccountingPeriod;
 import org.kuali.test.ConfigureContext;
 
@@ -41,7 +41,7 @@ public class AccountingPeriodTest extends KualiTestBase {
     @Override
     protected void setUp() throws Exception {
         super.setUp();
-        univFiscPerdEndDate = new java.sql.Date(SpringServiceLocator.getDateTimeService().getCurrentDate().getTime());
+        univFiscPerdEndDate = new java.sql.Date(SpringContext.getBean(DateTimeService.class, "dateTimeService").getCurrentDate().getTime());
         ap = new AccountingPeriod();
         ap.setBudgetRolloverIndicator(BUDGET_ROLLOVER_IND);
         ap.setObjectId(GUID);

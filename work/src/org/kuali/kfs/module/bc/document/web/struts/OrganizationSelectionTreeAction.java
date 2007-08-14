@@ -25,15 +25,14 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.core.exceptions.AuthorizationException;
-import org.kuali.core.util.GlobalVariables;
+import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.util.UrlFactory;
 import org.kuali.core.web.struts.action.KualiAction;
 import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.budget.BCConstants;
 import org.kuali.module.budget.BCConstants.OrgSelOpMode;
 import org.kuali.module.budget.bo.BudgetConstructionOrganizationReports;
-import org.kuali.module.budget.service.PermissionService;
 import org.kuali.module.budget.web.struts.form.OrganizationSelectionTreeForm;
 
 /**
@@ -146,7 +145,7 @@ public class OrganizationSelectionTreeAction extends KualiAction {
                 HashMap map = new HashMap();
                 map.put("chartOfAccountsCode", flds[0]);
                 map.put("organizationCode", flds[1]);
-                organizationSelectionTreeForm.setPointOfViewOrg((BudgetConstructionOrganizationReports) SpringServiceLocator.getBusinessObjectService().findByPrimaryKey(BudgetConstructionOrganizationReports.class, map));
+                organizationSelectionTreeForm.setPointOfViewOrg((BudgetConstructionOrganizationReports) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(BudgetConstructionOrganizationReports.class, map));
             }
         } else {
             organizationSelectionTreeForm.setPointOfViewOrg(new BudgetConstructionOrganizationReports());

@@ -33,7 +33,7 @@ import org.kuali.core.web.struts.form.LookupForm;
 import org.kuali.core.web.ui.Column;
 import org.kuali.core.web.ui.ResultRow;
 import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.gl.web.struts.form.LookupResultsSelectable;
 
 /**
@@ -81,11 +81,11 @@ public class BalanceInquiryLookupDisplayTagSurrogate implements LookupDisplayTag
         // we just performed the lookup, so we're on the first page (indexed from 0)
         selectable.jumpToFirstPage(resultTable.size(), getMaxRowsPerPage(selectable));
         
-        SequenceAccessorService sequenceAccessorService = SpringServiceLocator.getSequenceAccessorService();
+        SequenceAccessorService sequenceAccessorService = SpringContext.getBean(SequenceAccessorService.class);
         String lookupResultsSequenceNumber = String.valueOf(sequenceAccessorService.getNextAvailableSequenceNumber(KFSConstants.LOOKUP_RESULTS_SEQUENCE));
         selectable.setLookupResultsSequenceNumber(lookupResultsSequenceNumber);
         try {
-            LookupResultsService lookupResultsService = SpringServiceLocator.getLookupResultsService();
+            LookupResultsService lookupResultsService = SpringContext.getBean(LookupResultsService.class);
             lookupResultsService.persistResultsTable(lookupResultsSequenceNumber, resultTable,
                     GlobalVariables.getUserSession().getUniversalUser().getPersonUniversalIdentifier());
         }
@@ -108,7 +108,7 @@ public class BalanceInquiryLookupDisplayTagSurrogate implements LookupDisplayTag
         
         List<ResultRow> resultTable = null;
         try {
-            resultTable = SpringServiceLocator.getLookupResultsService().retrieveResultsTable(lookupResultsSequenceNumber, GlobalVariables.getUserSession().getUniversalUser().getPersonUniversalIdentifier());
+            resultTable = SpringContext.getBean(LookupResultsService.class).retrieveResultsTable(lookupResultsSequenceNumber, GlobalVariables.getUserSession().getUniversalUser().getPersonUniversalIdentifier());
         }
         catch (Exception e) {
             LOG.error("error occured trying to retrieve multiple lookup results", e);
@@ -129,7 +129,7 @@ public class BalanceInquiryLookupDisplayTagSurrogate implements LookupDisplayTag
     public List<ResultRow> sort(LookupResultsSelectable selectable, int maxRowsPerPage) {
         String lookupResultsSequenceNumber = selectable.getLookupResultsSequenceNumber();
         
-        LookupResultsService lookupResultsService = SpringServiceLocator.getLookupResultsService();
+        LookupResultsService lookupResultsService = SpringContext.getBean(LookupResultsService.class);
         
         List<ResultRow> resultTable = null;
         try {
@@ -190,7 +190,7 @@ public class BalanceInquiryLookupDisplayTagSurrogate implements LookupDisplayTag
                 selectable.getDisplayedObjectIdSet(), selectable.getSelectedObjectIdSet());
         Set<String> compositeObjectIds = compositeObjectIdMap.keySet();
         try {
-            LookupResultsService lookupResultsService = SpringServiceLocator.getLookupResultsService();
+            LookupResultsService lookupResultsService = SpringContext.getBean(LookupResultsService.class);
             lookupResultsService.persistSelectedObjectIds(lookupResultsSequenceNumber, compositeObjectIds,
                     GlobalVariables.getUserSession().getUniversalUser().getPersonUniversalIdentifier());
         }
@@ -208,7 +208,7 @@ public class BalanceInquiryLookupDisplayTagSurrogate implements LookupDisplayTag
         try {
             if (StringUtils.isNotBlank(lookupResultsSequenceNumber)) {
                 // we're returning nothing, so we try to get rid of stuff
-                LookupResultsService lookupResultsService = SpringServiceLocator.getLookupResultsService();
+                LookupResultsService lookupResultsService = SpringContext.getBean(LookupResultsService.class);
                 lookupResultsService.clearPersistedLookupResults(lookupResultsSequenceNumber);
             }
         }
@@ -226,7 +226,7 @@ public class BalanceInquiryLookupDisplayTagSurrogate implements LookupDisplayTag
         
         List<ResultRow> resultTable = null;
         try {
-            LookupResultsService lookupResultsService = SpringServiceLocator.getLookupResultsService();
+            LookupResultsService lookupResultsService = SpringContext.getBean(LookupResultsService.class);
             resultTable = lookupResultsService.retrieveResultsTable(lookupResultsSequenceNumber, GlobalVariables.getUserSession().getUniversalUser().getPersonUniversalIdentifier());
         }
         catch (Exception e) {
@@ -245,7 +245,7 @@ public class BalanceInquiryLookupDisplayTagSurrogate implements LookupDisplayTag
         
         List<ResultRow> resultTable = null;
         try {
-            LookupResultsService lookupResultsService = SpringServiceLocator.getLookupResultsService();
+            LookupResultsService lookupResultsService = SpringContext.getBean(LookupResultsService.class);
             resultTable = lookupResultsService.retrieveResultsTable(lookupResultsSequenceNumber, GlobalVariables.getUserSession().getUniversalUser().getPersonUniversalIdentifier());
         }
         catch (Exception e) {
@@ -274,7 +274,7 @@ public class BalanceInquiryLookupDisplayTagSurrogate implements LookupDisplayTag
         
         List<ResultRow> resultTable = null;
         try {
-            LookupResultsService lookupResultsService = SpringServiceLocator.getLookupResultsService();
+            LookupResultsService lookupResultsService = SpringContext.getBean(LookupResultsService.class);
             resultTable = lookupResultsService.retrieveResultsTable(lookupResultsSequenceNumber, GlobalVariables.getUserSession().getUniversalUser().getPersonUniversalIdentifier());
         }
         catch (Exception e) {

@@ -22,7 +22,7 @@ import java.util.List;
 
 import org.kuali.core.lookup.keyvalues.KeyValuesBase;
 import org.kuali.core.web.ui.KeyLabelPair;
-import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.gl.bo.OriginEntryGroup;
 import org.kuali.module.gl.service.OriginEntryGroupService;
 
@@ -37,7 +37,7 @@ public class CorrectionGroupEntriesFinder extends KeyValuesBase {
     public List getKeyValues() {
         List activeLabels = new ArrayList();
 
-        OriginEntryGroupService originEntryGroupService = SpringServiceLocator.getOriginEntryGroupService();
+        OriginEntryGroupService originEntryGroupService = SpringContext.getBean(OriginEntryGroupService.class);
 
         Collection<OriginEntryGroup> groupList = originEntryGroupService.getAllOriginEntryGroup();
 

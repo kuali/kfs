@@ -16,8 +16,6 @@
 package org.kuali.workflow.module.purap.attribute;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -31,30 +29,21 @@ import javax.xml.xpath.XPathExpressionException;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.KFSPropertyConstants;
-import org.kuali.kfs.util.SpringServiceLocator;
-import org.kuali.module.chart.bo.Chart;
-import org.kuali.module.purap.PurapConstants;
-import org.kuali.module.purap.PurapParameterConstants;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.purap.PurapPropertyConstants;
-import org.kuali.module.purap.document.PaymentRequestDocument;
-import org.kuali.module.purap.document.PurchaseOrderDocument;
 import org.kuali.module.vendor.VendorPropertyConstants;
 import org.kuali.module.vendor.bo.VendorDetail;
 import org.kuali.module.vendor.service.VendorService;
 import org.kuali.workflow.KualiWorkflowUtils;
-import org.w3c.dom.Document;
 
-import edu.iu.uis.eden.Id;
 import edu.iu.uis.eden.WorkflowServiceErrorImpl;
 import edu.iu.uis.eden.lookupable.Field;
 import edu.iu.uis.eden.lookupable.Row;
 import edu.iu.uis.eden.routeheader.DocumentContent;
 import edu.iu.uis.eden.routetemplate.AbstractWorkflowAttribute;
-import edu.iu.uis.eden.routetemplate.ResolvedQualifiedRole;
 import edu.iu.uis.eden.routetemplate.RuleExtension;
 import edu.iu.uis.eden.routetemplate.RuleExtensionValue;
 import edu.iu.uis.eden.util.KeyLabelPair;
-import edu.iu.uis.eden.workgroup.GroupNameId;
 
 public class KualiPurApDocumentTaxReviewAttribute extends AbstractWorkflowAttribute {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(KualiPurApDocumentTaxReviewAttribute.class);
@@ -160,7 +149,7 @@ public class KualiPurApDocumentTaxReviewAttribute extends AbstractWorkflowAttrib
                 // no vendor header id so can't check for proper tax routing
                 return false;
             }
-            VendorService vendorService = SpringServiceLocator.getVendorService();
+            VendorService vendorService = SpringContext.getBean(VendorService.class);
             boolean routeDocumentAsEmployeeVendor = vendorService.isVendorInstitutionEmployee(Integer.valueOf(vendorHeaderGeneratedId));
             boolean routeDocumentAsForeignVendor = vendorService.isVendorForeign(Integer.valueOf(vendorHeaderGeneratedId));
             if ( (!routeDocumentAsEmployeeVendor) && (!routeDocumentAsForeignVendor) ) {
@@ -219,7 +208,7 @@ public class KualiPurApDocumentTaxReviewAttribute extends AbstractWorkflowAttrib
         } else if (StringUtils.isNotBlank(getVendorHeaderGeneratedId())) {
             try {
                 // check valid values?
-                VendorDetail vendor = SpringServiceLocator.getVendorService().getParentVendor(Integer.valueOf(getVendorHeaderGeneratedId()));
+                VendorDetail vendor = SpringContext.getBean(VendorService.class).getParentVendor(Integer.valueOf(getVendorHeaderGeneratedId()));
                 if (ObjectUtils.isNull(vendor)) {
                     String errorMessage = "No valid vendor found for given value of " + label;
                     errors.add(new WorkflowServiceErrorImpl(errorMessage, "routetemplate.xmlattribute.error", errorMessage));

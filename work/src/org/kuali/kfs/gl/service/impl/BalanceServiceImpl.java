@@ -27,9 +27,10 @@ import org.apache.commons.collections.IteratorUtils;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.TransactionalServiceUtils;
 import org.kuali.kfs.bo.Options;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.service.OptionsService;
-import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.chart.bo.Account;
+import org.kuali.module.financial.service.UniversityDateService;
 import org.kuali.module.gl.bo.Balance;
 import org.kuali.module.gl.bo.GlSummary;
 import org.kuali.module.gl.dao.BalanceDao;
@@ -112,7 +113,7 @@ public class BalanceServiceImpl implements BalanceService {
      */
     public boolean hasAssetLiabilityFundBalanceBalances(Account account) {
 
-        Integer fiscalYear = SpringServiceLocator.getUniversityDateService().getCurrentFiscalYear();
+        Integer fiscalYear = SpringContext.getBean(UniversityDateService.class).getCurrentFiscalYear();
         ArrayList fundBalanceObjectCodes = new ArrayList();
         fundBalanceObjectCodes.add(null == account.getChartOfAccounts() ? null : account.getChartOfAccounts().getFundBalanceObjectCode());
         Iterator balances = balanceDao.findBalances(account, fiscalYear, null, fundBalanceObjectCodes, wrap(getAssetLiabilityFundBalanceBalanceTypeCodes()), wrap(getActualBalanceCodes()));
@@ -192,7 +193,7 @@ public class BalanceServiceImpl implements BalanceService {
      */
     protected KualiDecimal incomeBalances(Account account) {
 
-        Integer fiscalYear = SpringServiceLocator.getUniversityDateService().getCurrentFiscalYear();
+        Integer fiscalYear = SpringContext.getBean(UniversityDateService.class).getCurrentFiscalYear();
 
         ArrayList fundBalanceObjectCodes = new ArrayList();
         fundBalanceObjectCodes.add(account.getChartOfAccounts().getFundBalanceObjectCode());
@@ -216,7 +217,7 @@ public class BalanceServiceImpl implements BalanceService {
 
     protected KualiDecimal expenseBalances(Account account) {
 
-        Integer fiscalYear = SpringServiceLocator.getUniversityDateService().getCurrentFiscalYear();
+        Integer fiscalYear = SpringContext.getBean(UniversityDateService.class).getCurrentFiscalYear();
         Iterator balances = balanceDao.findBalances(account, fiscalYear, null, null, wrap(getExpenseObjectTypeCodes()), wrap(getActualBalanceCodes()));
 
         return sumBalances(balances);
@@ -249,7 +250,7 @@ public class BalanceServiceImpl implements BalanceService {
      */
     public boolean hasEncumbrancesOrBaseBudgets(Account account) {
 
-        Integer fiscalYear = SpringServiceLocator.getUniversityDateService().getCurrentFiscalYear();
+        Integer fiscalYear = SpringContext.getBean(UniversityDateService.class).getCurrentFiscalYear();
         Iterator balances = balanceDao.findBalances(account, fiscalYear, null, null, null, wrap(getEncumbranceBaseBudgetBalanceTypeCodes()));
 
         return sumBalances(balances).isNonZero();

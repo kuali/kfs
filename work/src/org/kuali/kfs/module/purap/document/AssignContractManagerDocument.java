@@ -25,15 +25,20 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.document.TransactionalDocumentBase;
+import org.kuali.core.service.BusinessObjectService;
+import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.workflow.service.KualiWorkflowDocument;
-import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.PurapParameterConstants;
 import org.kuali.module.purap.PurapPropertyConstants;
 import org.kuali.module.purap.PurapWorkflowConstants;
 import org.kuali.module.purap.bo.AssignContractManagerDetail;
+import org.kuali.module.purap.service.PurapService;
+import org.kuali.module.purap.service.PurchaseOrderService;
+import org.kuali.module.purap.service.RequisitionService;
 
 import edu.iu.uis.eden.EdenConstants;
 import edu.iu.uis.eden.clientapp.vo.NetworkIdVO;
@@ -89,7 +94,7 @@ public class AssignContractManagerDocument extends TransactionalDocumentBase {
 
         Map fieldValues = new HashMap();
         fieldValues.put(PurapPropertyConstants.STATUS_CODE, PurapConstants.RequisitionStatuses.AWAIT_CONTRACT_MANAGER_ASSGN);
-        List<RequisitionDocument> unassignedRequisitions = new ArrayList(SpringServiceLocator.getBusinessObjectService().findMatchingOrderBy(RequisitionDocument.class, 
+        List<RequisitionDocument> unassignedRequisitions = new ArrayList(SpringContext.getBean(BusinessObjectService.class).findMatchingOrderBy(RequisitionDocument.class, 
                 fieldValues, PurapPropertyConstants.PURAP_DOC_ID, true));
 
         for (RequisitionDocument req : unassignedRequisitions) {
@@ -112,15 +117,15 @@ public class AssignContractManagerDocument extends TransactionalDocumentBase {
                 
                 if (ObjectUtils.isNotNull(detail.getContractManagerCode())) {
                     // Get the requisition for this AssignContractManagerDetail.
-                    RequisitionDocument req = SpringServiceLocator.getRequisitionService().getRequisitionById(detail.getRequisitionIdentifier());
+                    RequisitionDocument req = SpringContext.getBean(RequisitionService.class).getRequisitionById(detail.getRequisitionIdentifier());
 
                     if (ObjectUtils.isNull(req.getContractManagerCode()) &&
                             req.getStatusCode().equals(PurapConstants.RequisitionStatuses.AWAIT_CONTRACT_MANAGER_ASSGN)) { 
                         //only update REQ if code is empty and status is correct
                         req.setContractManagerCode(detail.getContractManagerCode());
-                        SpringServiceLocator.getPurapService().updateStatusAndStatusHistory(req, PurapConstants.RequisitionStatuses.CLOSED);
-                        SpringServiceLocator.getRequisitionService().saveDocumentWithoutValidation(req);
-                        SpringServiceLocator.getPurchaseOrderService().createPurchaseOrderDocument(req);
+                        SpringContext.getBean(PurapService.class).updateStatusAndStatusHistory(req, PurapConstants.RequisitionStatuses.CLOSED);
+                        SpringContext.getBean(RequisitionService.class).saveDocumentWithoutValidation(req);
+                        SpringContext.getBean(PurchaseOrderService.class).createPurchaseOrderDocument(req);
 
                     }
                     else {
@@ -175,7 +180,7 @@ public class AssignContractManagerDocument extends TransactionalDocumentBase {
     @Override
     public String getDocumentTitle() {
         String title = "";
-        String specificTitle = SpringServiceLocator.getKualiConfigurationService().getApplicationParameterValue(PurapParameterConstants.PURAP_ADMIN_GROUP,PurapParameterConstants.PURAP_OVERRIDE_ASSIGN_CONTRACT_MGR_DOC_TITLE);
+        String specificTitle = SpringContext.getBean(KualiConfigurationService.class).getApplicationParameterValue(PurapParameterConstants.PURAP_ADMIN_GROUP,PurapParameterConstants.PURAP_OVERRIDE_ASSIGN_CONTRACT_MGR_DOC_TITLE);
         if (StringUtils.equalsIgnoreCase(specificTitle,Boolean.TRUE.toString())) {
             title = PurapWorkflowConstants.AssignContractManagerDocument.WORKFLOW_DOCUMENT_TITLE;
         }

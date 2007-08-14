@@ -68,7 +68,12 @@ import org.kuali.core.exceptions.ValidationException;
 import org.kuali.core.rule.KualiParameterRule;
 import org.kuali.core.rule.event.ApproveDocumentEvent;
 import org.kuali.core.rule.event.BlanketApproveDocumentEvent;
+import org.kuali.core.service.DataDictionaryService;
+import org.kuali.core.service.DateTimeService;
+import org.kuali.core.service.DictionaryValidationService;
+import org.kuali.core.service.DocumentService;
 import org.kuali.core.service.DocumentTypeService;
+import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.ErrorMessage;
 import org.kuali.core.util.ExceptionUtils;
 import org.kuali.core.util.GeneralLedgerPendingEntrySequenceHelper;
@@ -82,6 +87,7 @@ import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.bo.AccountingLine;
 import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
 import org.kuali.kfs.bo.SourceAccountingLine;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.document.AccountingDocument;
 import org.kuali.kfs.rule.AddAccountingLineRule;
 import org.kuali.kfs.rule.DeleteAccountingLineRule;
@@ -89,10 +95,13 @@ import org.kuali.kfs.rule.GenerateGeneralLedgerPendingEntriesRule;
 import org.kuali.kfs.rule.ReviewAccountingLineRule;
 import org.kuali.kfs.rule.SufficientFundsCheckingPreparationRule;
 import org.kuali.kfs.rule.UpdateAccountingLineRule;
-import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.kfs.service.GeneralLedgerPendingEntryService;
+import org.kuali.kfs.service.HomeOriginationService;
+import org.kuali.kfs.service.OptionsService;
 import org.kuali.module.chart.bo.ChartUser;
 import org.kuali.module.chart.bo.ObjectCode;
 import org.kuali.module.financial.bo.SalesTax;
+import org.kuali.module.gl.service.SufficientFundsService;
 
 import edu.iu.uis.eden.exception.WorkflowException;
 
@@ -459,7 +468,7 @@ public abstract class AccountingDocumentRuleBase extends GeneralLedgerPostingDoc
         accountingLine.refresh();
 
         // validate required checks in addition to format checks
-        SpringServiceLocator.getDictionaryValidationService().validateBusinessObject(accountingLine);
+        SpringContext.getBean(DictionaryValidationService.class).validateBusinessObject(accountingLine);
 
         // check to see if any errors were reported
         int currentErrorCount = GlobalVariables.getErrorMap().getErrorCount();
@@ -508,7 +517,7 @@ public abstract class AccountingDocumentRuleBase extends GeneralLedgerPostingDoc
                                 // now replace error message
                                 error.setErrorKey(errorKey);
                                 // replace parameters
-                                params[0] = SpringServiceLocator.getDataDictionaryService().getAttributeLabel(accountingLine.getClass(), AMOUNT_PROPERTY_NAME);
+                                params[0] = SpringContext.getBean(DataDictionaryService.class).getAttributeLabel(accountingLine.getClass(), AMOUNT_PROPERTY_NAME);
                                 error.setMessageParameters(params);
                                 // put back where it came form
                                 errors.set(error);
@@ -525,7 +534,7 @@ public abstract class AccountingDocumentRuleBase extends GeneralLedgerPostingDoc
 
             // Perform the standard accounting line rule checking - checks activity
             // of each attribute in addition to existence
-            valid &= AccountingLineRuleUtil.validateAccountingLine(accountingLine, SpringServiceLocator.getDataDictionaryService());
+            valid &= AccountingLineRuleUtil.validateAccountingLine(accountingLine, SpringContext.getBean(DataDictionaryService.class));
 
             if (valid) { // the following checks assume existence, so if the above method failed, we don't want to call these
                 // Check the object code to see if it's restricted or not
@@ -739,7 +748,7 @@ public abstract class AccountingDocumentRuleBase extends GeneralLedgerPostingDoc
         AccountingDocument persistedDocument = null;
 
         try {
-            persistedDocument = (AccountingDocument) SpringServiceLocator.getDocumentService().getByDocumentHeaderId(accountingDocument.getDocumentNumber());
+            persistedDocument = (AccountingDocument) SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(accountingDocument.getDocumentNumber());
         }
         catch (WorkflowException we) {
             LOG.error("retrievePersistedDocument(AccountingDocument)", we);
@@ -959,7 +968,7 @@ public abstract class AccountingDocumentRuleBase extends GeneralLedgerPostingDoc
         LOG.debug("isDocumentBalanceValidConsideringDebitsAndCredits(AccountingDocument) - start");
 
         // generate GLPEs specifically here so that we can compare debits to credits
-        if (!SpringServiceLocator.getGeneralLedgerPendingEntryService().generateGeneralLedgerPendingEntries(accountingDocument)) {
+        if (!SpringContext.getBean(GeneralLedgerPendingEntryService.class).generateGeneralLedgerPendingEntries(accountingDocument)) {
             throw new ValidationException("general ledger GLPE generation failed");
         }
 
@@ -1000,23 +1009,23 @@ public abstract class AccountingDocumentRuleBase extends GeneralLedgerPostingDoc
     protected void populateExplicitGeneralLedgerPendingEntry(AccountingDocument accountingDocument, AccountingLine accountingLine, GeneralLedgerPendingEntrySequenceHelper sequenceHelper, GeneralLedgerPendingEntry explicitEntry) {
         LOG.debug("populateExplicitGeneralLedgerPendingEntry(AccountingDocument, AccountingLine, GeneralLedgerPendingEntrySequenceHelper, GeneralLedgerPendingEntry) - start");
 
-        explicitEntry.setFinancialDocumentTypeCode(SpringServiceLocator.getDocumentTypeService().getDocumentTypeCodeByClass(accountingDocument.getClass()));
+        explicitEntry.setFinancialDocumentTypeCode(SpringContext.getBean(DocumentTypeService.class).getDocumentTypeCodeByClass(accountingDocument.getClass()));
         explicitEntry.setVersionNumber(new Long(1));
         explicitEntry.setTransactionLedgerEntrySequenceNumber(new Integer(sequenceHelper.getSequenceCounter()));
-        Timestamp transactionTimestamp = new Timestamp(SpringServiceLocator.getDateTimeService().getCurrentDate().getTime());
+        Timestamp transactionTimestamp = new Timestamp(SpringContext.getBean(DateTimeService.class, "dateTimeService").getCurrentDate().getTime());
         explicitEntry.setTransactionDate(new java.sql.Date(transactionTimestamp.getTime()));
         explicitEntry.setTransactionEntryProcessedTs(new java.sql.Date(transactionTimestamp.getTime()));
         explicitEntry.setAccountNumber(accountingLine.getAccountNumber());
         if (accountingLine.getAccount().getAccountSufficientFundsCode() == null) {
             accountingLine.getAccount().setAccountSufficientFundsCode(KFSConstants.SF_TYPE_NO_CHECKING);
         }
-        explicitEntry.setAcctSufficientFundsFinObjCd(SpringServiceLocator.getSufficientFundsService().getSufficientFundsObjectCode(accountingLine.getObjectCode(), accountingLine.getAccount().getAccountSufficientFundsCode()));
+        explicitEntry.setAcctSufficientFundsFinObjCd(SpringContext.getBean(SufficientFundsService.class).getSufficientFundsObjectCode(accountingLine.getObjectCode(), accountingLine.getAccount().getAccountSufficientFundsCode()));
         explicitEntry.setFinancialDocumentApprovedCode(GENERAL_LEDGER_PENDING_ENTRY_CODE.NO);
         explicitEntry.setTransactionEncumbranceUpdateCode(BLANK_SPACE);
         explicitEntry.setFinancialBalanceTypeCode(BALANCE_TYPE_ACTUAL); // this is the default that most documents use
         explicitEntry.setChartOfAccountsCode(accountingLine.getChartOfAccountsCode());
         explicitEntry.setTransactionDebitCreditCode(isDebit(accountingDocument, accountingLine) ? KFSConstants.GL_DEBIT_CODE : KFSConstants.GL_CREDIT_CODE);
-        explicitEntry.setFinancialSystemOriginationCode(SpringServiceLocator.getHomeOriginationService().getHomeOrigination().getFinSystemHomeOriginationCode());
+        explicitEntry.setFinancialSystemOriginationCode(SpringContext.getBean(HomeOriginationService.class).getHomeOrigination().getFinSystemHomeOriginationCode());
         explicitEntry.setDocumentNumber(accountingLine.getDocumentNumber());
         explicitEntry.setFinancialObjectCode(accountingLine.getFinancialObjectCode());
         ObjectCode objectCode = accountingLine.getObjectCode();
@@ -1205,7 +1214,7 @@ public abstract class AccountingDocumentRuleBase extends GeneralLedgerPostingDoc
 
         String objectCode = accountingLine.getFinancialObjectCode();
 
-        KualiParameterRule restrictedObjectCodes = SpringServiceLocator.getKualiConfigurationService().getApplicationParameterRule(KUALI_TRANSACTION_PROCESSING_GLOBAL_RULES_SECURITY_GROUPING, RESTRICTED_OBJECT_CODES);
+        KualiParameterRule restrictedObjectCodes = SpringContext.getBean(KualiConfigurationService.class).getApplicationParameterRule(KUALI_TRANSACTION_PROCESSING_GLOBAL_RULES_SECURITY_GROUPING, RESTRICTED_OBJECT_CODES);
 
         if (restrictedObjectCodes.failsRule(objectCode)) {
             String objectCodeInfo = objectCode + " - " + accountingLine.getObjectCode().getFinancialObjectCodeShortName();
@@ -1302,10 +1311,10 @@ public abstract class AccountingDocumentRuleBase extends GeneralLedgerPostingDoc
      */
     private boolean isSalesTaxRequired(AccountingDocument financialDocument, AccountingLine accountingLine) {
         boolean required = false;
-        DocumentTypeService docTypeService = SpringServiceLocator.getDocumentTypeService();
+        DocumentTypeService docTypeService = SpringContext.getBean(DocumentTypeService.class);
         String docType = docTypeService.getDocumentTypeCodeByClass(financialDocument.getClass());
         //first we need to check just the doctype to see if it needs the sales tax check
-        KualiParameterRule docTypeRule = SpringServiceLocator.getKualiConfigurationService().getApplicationParameterRule(APPLICATION_PARAMETER_SECURITY_GROUP.KUALI_TRANSACTION_PROCESSING_SALES_TAX_COLLECTION_GROUPING, APPLICATION_PARAMETER.DOCTYPE_SALES_TAX_CHECK);
+        KualiParameterRule docTypeRule = SpringContext.getBean(KualiConfigurationService.class).getApplicationParameterRule(APPLICATION_PARAMETER_SECURITY_GROUP.KUALI_TRANSACTION_PROCESSING_SALES_TAX_COLLECTION_GROUPING, APPLICATION_PARAMETER.DOCTYPE_SALES_TAX_CHECK);
         
         // apply the rule, see if it fails
         if (!docTypeRule.failsRule(docType)) {
@@ -1314,7 +1323,7 @@ public abstract class AccountingDocumentRuleBase extends GeneralLedgerPostingDoc
         
         //second we need to check the account and object code combination to see if it needs sales tax
         if(required) {
-            KualiParameterRule objCdAndAccountRule = SpringServiceLocator.getKualiConfigurationService().getApplicationParameterRule(APPLICATION_PARAMETER_SECURITY_GROUP.KUALI_TRANSACTION_PROCESSING_SALES_TAX_COLLECTION_GROUPING, APPLICATION_PARAMETER.VALID_ACCOUNT_AND_OBJ_CD);
+            KualiParameterRule objCdAndAccountRule = SpringContext.getBean(KualiConfigurationService.class).getApplicationParameterRule(APPLICATION_PARAMETER_SECURITY_GROUP.KUALI_TRANSACTION_PROCESSING_SALES_TAX_COLLECTION_GROUPING, APPLICATION_PARAMETER.VALID_ACCOUNT_AND_OBJ_CD);
             //get the object code and account
             String objCd = accountingLine.getObjectCode().getCode();
             String account = accountingLine.getAccountNumber();
@@ -1435,7 +1444,7 @@ public abstract class AccountingDocumentRuleBase extends GeneralLedgerPostingDoc
     public final boolean isAssetTypeCode(String objectTypeCode) {
         LOG.debug("isAssetTypeCode(String) - start");
 
-        boolean returnboolean = SpringServiceLocator.getOptionsService().getCurrentYearOptions().getFinancialObjectTypeAssetsCd().equals(objectTypeCode);
+        boolean returnboolean = SpringContext.getBean(OptionsService.class).getCurrentYearOptions().getFinancialObjectTypeAssetsCd().equals(objectTypeCode);
         LOG.debug("isAssetTypeCode(String) - end");
         return returnboolean;
     }
@@ -1449,7 +1458,7 @@ public abstract class AccountingDocumentRuleBase extends GeneralLedgerPostingDoc
     public final boolean isLiabilityTypeCode(String objectTypeCode) {
         LOG.debug("isLiabilityTypeCode(String) - start");
 
-        boolean returnboolean = SpringServiceLocator.getOptionsService().getCurrentYearOptions().getFinObjectTypeLiabilitiesCode().equals(objectTypeCode);
+        boolean returnboolean = SpringContext.getBean(OptionsService.class).getCurrentYearOptions().getFinObjectTypeLiabilitiesCode().equals(objectTypeCode);
         LOG.debug("isLiabilityTypeCode(String) - end");
         return returnboolean;
     }
@@ -1594,7 +1603,7 @@ public abstract class AccountingDocumentRuleBase extends GeneralLedgerPostingDoc
             throw new IllegalArgumentException(EXCEPTIONS.NULL_OBJECT_SUBTYPE_MESSAGE);
         }
 
-        KualiParameterRule restrictedSubTypes = SpringServiceLocator.getKualiConfigurationService().getApplicationParameterRule(APPLICATION_PARAMETER_SECURITY_GROUP.KUALI_TRANSACTION_PROCESSING_GLOBAL_RULES_SECURITY_GROUPING, parameterName);
+        KualiParameterRule restrictedSubTypes = SpringContext.getBean(KualiConfigurationService.class).getApplicationParameterRule(APPLICATION_PARAMETER_SECURITY_GROUP.KUALI_TRANSACTION_PROCESSING_GLOBAL_RULES_SECURITY_GROUPING, parameterName);
 
 
         boolean returnboolean = (!restrictedSubTypes.failsRule(objectSubTypeCode));

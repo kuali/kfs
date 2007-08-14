@@ -24,7 +24,7 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.bo.SourceAccountingLine;
-import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.chart.bo.ObjectCode;
 import org.kuali.module.chart.bo.SubObjCd;
 import org.kuali.module.chart.bo.codes.BalanceTyp;
@@ -116,7 +116,7 @@ public class JournalVoucherForm extends VoucherForm {
         else {
             // it's the first time in, the form will be empty the first time in
             // set up default selection
-            selectedBalanceType = SpringServiceLocator.getBalanceTypService().getBalanceTypByCode(KFSConstants.BALANCE_TYPE_ACTUAL); // default
+            selectedBalanceType = SpringContext.getBean(BalanceTypService.class).getBalanceTypByCode(KFSConstants.BALANCE_TYPE_ACTUAL); // default
             // value
             setSelectedBalanceType(selectedBalanceType);
             setOriginalBalanceType(selectedBalanceType.getCode());
@@ -203,7 +203,7 @@ public class JournalVoucherForm extends VoucherForm {
      */
     private void populateBalanceTypeListForRendering() {
         // grab the list of valid balance types
-        ArrayList balanceTypes = new ArrayList(SpringServiceLocator.getBalanceTypService().getAllBalanceTyps());
+        ArrayList balanceTypes = new ArrayList(SpringContext.getBean(BalanceTypService.class).getAllBalanceTyps());
 
         // set into the form for rendering
         this.setBalanceTypes(balanceTypes);
@@ -235,7 +235,7 @@ public class JournalVoucherForm extends VoucherForm {
      */
     private BalanceTyp getPopulatedBalanceTypeInstance(String balanceTypeCode) {
         // now we have to get the code and the name of the original and new balance types
-        BalanceTypService bts = SpringServiceLocator.getBalanceTypService();
+        BalanceTypService bts = SpringContext.getBean(BalanceTypService.class);
         return bts.getBalanceTypByCode(balanceTypeCode);
     }
 

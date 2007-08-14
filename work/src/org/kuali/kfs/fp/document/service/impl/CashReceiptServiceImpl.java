@@ -32,9 +32,8 @@ import org.kuali.core.workflow.service.KualiWorkflowDocument;
 import org.kuali.core.workflow.service.WorkflowDocumentService;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSPropertyConstants;
-import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.financial.bo.CashDrawer;
-import org.kuali.module.financial.bo.CashReceiptHeader;
 import org.kuali.module.financial.bo.CashieringTransaction;
 import org.kuali.module.financial.bo.CoinDetail;
 import org.kuali.module.financial.bo.CurrencyDetail;
@@ -224,7 +223,7 @@ public class CashReceiptServiceImpl implements CashReceiptService {
             
             drawer.addCoin(crDoc.getCoinDetail());
         }
-        SpringServiceLocator.getBusinessObjectService().save(drawer);
+        SpringContext.getBean(BusinessObjectService.class).save(drawer);
     }
     
     /**

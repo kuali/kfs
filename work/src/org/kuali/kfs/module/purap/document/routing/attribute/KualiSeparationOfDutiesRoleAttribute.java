@@ -25,7 +25,7 @@ import java.util.Set;
 
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.purap.PurapParameterConstants;
 import org.kuali.module.purap.PurapWorkflowConstants;
 import org.kuali.workflow.KualiWorkflowUtils;
@@ -104,7 +104,7 @@ public class KualiSeparationOfDutiesRoleAttribute extends UnqualifiedRoleAttribu
         if (documentReviewers.size() > 1) {
             return null;
         }
-        KualiConfigurationService configService = SpringServiceLocator.getKualiConfigurationService();
+        KualiConfigurationService configService = SpringContext.getBean(KualiConfigurationService.class);
         KualiDecimal maxAllowedAmount = new KualiDecimal(configService.getApplicationParameterValue(PurapParameterConstants.PURAP_ADMIN_GROUP,PurapWorkflowConstants.RequisitionDocument.SEPARATION_OF_DUTIES_DOLLAR_AMOUNT));
         // if app param amount is greater than or equal to documentTotalAmount... no need for separation of duties
         if (maxAllowedAmount.compareTo(KualiWorkflowUtils.getFinancialDocumentTotalAmount(routeContext)) >= 0) {

@@ -33,6 +33,8 @@ import org.kuali.RicePropertyConstants;
 import org.kuali.core.document.Document;
 import org.kuali.core.rule.KualiParameterRule;
 import org.kuali.core.service.DataDictionaryService;
+import org.kuali.core.service.DateTimeService;
+import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
@@ -40,6 +42,7 @@ import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSKeyConstants;
 import org.kuali.kfs.bo.AccountingLine;
 import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.document.AccountingDocument;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.financial.service.UniversityDateService;
@@ -60,7 +63,9 @@ import org.kuali.module.purap.document.PurchasingAccountsPayableDocument;
 import org.kuali.module.purap.exceptions.PurError;
 import org.kuali.module.purap.rule.CalculateAccountsPayableRule;
 import org.kuali.module.purap.rule.ContinueAccountsPayableRule;
+import org.kuali.module.purap.service.PaymentRequestService;
 import org.kuali.module.purap.service.PurapGeneralLedgerService;
+import org.kuali.module.purap.service.PurchaseOrderService;
 
 public class PaymentRequestDocumentRule extends AccountsPayableDocumentRuleBase implements ContinueAccountsPayableRule, CalculateAccountsPayableRule {
 
@@ -161,7 +166,7 @@ public class PaymentRequestDocumentRule extends AccountsPayableDocumentRuleBase 
         boolean valid = true;
         GlobalVariables.getErrorMap().clearErrorPath();
         GlobalVariables.getErrorMap().addToErrorPath(RicePropertyConstants.DOCUMENT);
-        DataDictionaryService dataDictionaryService = SpringServiceLocator.getDataDictionaryService();
+        DataDictionaryService dataDictionaryService = SpringContext.getBean(DataDictionaryService.class);
         if (ObjectUtils.isNull(preqDocument.getPurchaseOrderIdentifier())) {
             GlobalVariables.getErrorMap().putError(PurapPropertyConstants.PURCHASE_ORDER_IDENTIFIER, KFSKeyConstants.ERROR_REQUIRED, PREQDocumentsStrings.PURCHASE_ORDER_ID);
             valid &= false;
@@ -194,7 +199,7 @@ public class PaymentRequestDocumentRule extends AccountsPayableDocumentRuleBase 
         // Pending indicator is "Y" and it is not a Retransmit doc, then we don't allow users to create a PREQ. Correct? 
         // Given a PO number, the user enters in the Init screen. For the rule "Error if the PO is not open", we also only 
         // need to check this rule against the current PO, Correct?
-        PurchaseOrderDocument purchaseOrderDocument = SpringServiceLocator.getPurchaseOrderService().getCurrentPurchaseOrder(document.getPurchaseOrderIdentifier());
+        PurchaseOrderDocument purchaseOrderDocument = SpringContext.getBean(PurchaseOrderService.class).getCurrentPurchaseOrder(document.getPurchaseOrderIdentifier());
         if (ObjectUtils.isNull(purchaseOrderDocument)) {    
             GlobalVariables.getErrorMap().putError(PurapPropertyConstants.PURCHASE_ORDER_IDENTIFIER, PurapKeyConstants.ERROR_PURCHASE_ORDER_NOT_EXIST);
             valid &= false;
@@ -255,7 +260,7 @@ public class PaymentRequestDocumentRule extends AccountsPayableDocumentRuleBase 
         GlobalVariables.getErrorMap().addToErrorPath(RicePropertyConstants.DOCUMENT);
         //invoice date validation
         java.sql.Date invoiceDate = document.getInvoiceDate();
-        if (ObjectUtils.isNotNull(invoiceDate) && SpringServiceLocator.getPaymentRequestService().isInvoiceDateAfterToday(invoiceDate)) {
+        if (ObjectUtils.isNotNull(invoiceDate) && SpringContext.getBean(PaymentRequestService.class).isInvoiceDateAfterToday(invoiceDate)) {
             GlobalVariables.getErrorMap().putError(PurapPropertyConstants.INVOICE_DATE, PurapKeyConstants.ERROR_INVALID_INVOICE_DATE);
             valid &= false;
         }
@@ -297,7 +302,7 @@ public class PaymentRequestDocumentRule extends AccountsPayableDocumentRuleBase 
      */
     public void validateTotals(PaymentRequestDocument document) {
         String securityGroup = (String)PurapConstants.ITEM_TYPE_SYSTEM_PARAMETERS_SECURITY_MAP.get(PurapConstants.PAYMENT_REQUEST_DOCUMENT_DOC_TYPE);
-        KualiParameterRule allowsNegativeRule = SpringServiceLocator.getKualiConfigurationService().getApplicationParameterRule(securityGroup, PurapConstants.ITEM_ALLOWS_NEGATIVE);
+        KualiParameterRule allowsNegativeRule = SpringContext.getBean(KualiConfigurationService.class).getApplicationParameterRule(securityGroup, PurapConstants.ITEM_ALLOWS_NEGATIVE);
         if ((ObjectUtils.isNull(document.getVendorInvoiceAmount())) || 
             (this.getTotalExcludingItemTypes(document.getItems(), allowsNegativeRule.getParameterValueSet()).compareTo(document.getVendorInvoiceAmount()) != 0)) {
             GlobalVariables.getMessageList().add(PurapKeyConstants.MESSAGE_PAYMENT_REQUEST_VENDOR_INVOICE_AMOUNT_INVALID);
@@ -500,7 +505,7 @@ public class PaymentRequestDocumentRule extends AccountsPayableDocumentRuleBase 
 
         // if FY > current FY, warn user that payment will happen in current year
         //TODO: Is this really how we should get the "fiscal year" ?
-        UniversityDateService universityDateService = SpringServiceLocator.getUniversityDateService();
+        UniversityDateService universityDateService = SpringContext.getBean(UniversityDateService.class);
         Integer fiscalYear = universityDateService.getCurrentFiscalYear();
         Date closingDate = universityDateService.getLastDateOfFiscalYear(fiscalYear);
         
@@ -573,14 +578,14 @@ public class PaymentRequestDocumentRule extends AccountsPayableDocumentRuleBase 
     private boolean isDateInPast(Date compareDate) {
         boolean valid = true;
         if (compareDate != null) {
-            Calendar c = SpringServiceLocator.getDateTimeService().getCurrentCalendar();
+            Calendar c = SpringContext.getBean(DateTimeService.class, "dateTimeService").getCurrentCalendar();
             c.set(Calendar.HOUR, 12);
             c.set(Calendar.MINUTE, 0);
             c.set(Calendar.SECOND, 0);
             c.set(Calendar.MILLISECOND, 0);
             c.set(Calendar.AM_PM, Calendar.AM);
             Timestamp timeNow = new Timestamp(c.getTime().getTime());
-            Calendar c2 = SpringServiceLocator.getDateTimeService().getCalendar(compareDate);
+            Calendar c2 = SpringContext.getBean(DateTimeService.class, "dateTimeService").getCalendar(compareDate);
             c2.set(Calendar.HOUR, 11);
             c2.set(Calendar.MINUTE, 59);
             c2.set(Calendar.SECOND, 59);
@@ -597,7 +602,7 @@ public class PaymentRequestDocumentRule extends AccountsPayableDocumentRuleBase 
     public boolean isPayDateOver60Days(PaymentRequestDocument paymentRequest) {
         if (paymentRequest.getPaymentRequestPayDate() != null) {
             // Calendar c is a holder for today's date + 60 days
-            Calendar c = SpringServiceLocator.getDateTimeService().getCurrentCalendar();
+            Calendar c = SpringContext.getBean(DateTimeService.class, "dateTimeService").getCurrentCalendar();
             c.set(Calendar.HOUR, 12);
             c.set(Calendar.MINUTE, 0);
             c.set(Calendar.SECOND, 0);
@@ -606,7 +611,7 @@ public class PaymentRequestDocumentRule extends AccountsPayableDocumentRuleBase 
             c.add(Calendar.DATE, 60);
             Timestamp testTime = new Timestamp(c.getTime().getTime());
             // Calendar c2 is a holder for the paymentRequestPayDate
-            Calendar c2 = SpringServiceLocator.getDateTimeService().getCalendar(paymentRequest.getPaymentRequestPayDate());
+            Calendar c2 = SpringContext.getBean(DateTimeService.class, "dateTimeService").getCalendar(paymentRequest.getPaymentRequestPayDate());
             c2.set(Calendar.HOUR, 11);
             c2.set(Calendar.MINUTE, 59);
             c2.set(Calendar.SECOND, 59);

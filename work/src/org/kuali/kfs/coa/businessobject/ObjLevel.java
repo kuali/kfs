@@ -21,7 +21,7 @@ import org.apache.ojb.broker.PersistenceBroker;
 import org.apache.ojb.broker.PersistenceBrokerException;
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.service.BusinessObjectService;
-import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.gl.bo.SufficientFundRebuild;
 
 /**
@@ -237,7 +237,7 @@ public class ObjLevel extends PersistableBusinessObjectBase {
         try {
             // KULCOA-549: update the sufficient funds table
             // get the current data from the database
-            BusinessObjectService boService = SpringServiceLocator.getBusinessObjectService();
+            BusinessObjectService boService = SpringContext.getBean(BusinessObjectService.class);
             ObjLevel originalObjLevel = (ObjLevel) boService.retrieve(this);
 
             if (originalObjLevel != null) {

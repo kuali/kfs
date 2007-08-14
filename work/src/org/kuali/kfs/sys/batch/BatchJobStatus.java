@@ -21,8 +21,8 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.core.bo.TransientBusinessObjectBase;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.service.SchedulerService;
-import org.kuali.kfs.util.SpringServiceLocator;
 import org.quartz.JobDetail;
 
 public class BatchJobStatus extends TransientBusinessObjectBase {
@@ -37,7 +37,7 @@ public class BatchJobStatus extends TransientBusinessObjectBase {
     
     private SchedulerService getSchedulerService() {
         if ( schedulerService == null ) {
-            schedulerService = SpringServiceLocator.getSchedulerService();
+            schedulerService = SpringContext.getBean(SchedulerService.class);
         }
         return schedulerService;
     }

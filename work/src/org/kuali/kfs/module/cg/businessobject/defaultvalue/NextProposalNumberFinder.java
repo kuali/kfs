@@ -16,8 +16,8 @@
 package org.kuali.module.cg.lookup.valuefinder;
 
 import org.kuali.core.lookup.valueFinder.ValueFinder;
-import org.kuali.kfs.bo.OriginationCode;
-import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.core.service.SequenceAccessorService;
+import org.kuali.kfs.context.SpringContext;
 
 /**
  * Returns the next Proposal number available.
@@ -38,6 +38,6 @@ public class NextProposalNumberFinder implements ValueFinder {
      */
     public static Long getLongValue() {
         // no constant because this is the only place the sequence name is used
-        return SpringServiceLocator.getSequenceAccessorService().getNextAvailableSequenceNumber("CGPRPSL_NBR_SEQ");
+        return SpringContext.getBean(SequenceAccessorService.class).getNextAvailableSequenceNumber("CGPRPSL_NBR_SEQ");
     }
 }

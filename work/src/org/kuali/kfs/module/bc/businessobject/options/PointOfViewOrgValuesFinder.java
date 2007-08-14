@@ -16,17 +16,13 @@
 package org.kuali.module.budget.lookup.keyvalues;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
-import org.kuali.core.UserSession;
 import org.kuali.core.lookup.keyvalues.KeyValuesBase;
-import org.kuali.core.service.KeyValuesService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.web.ui.KeyLabelPair;
-import org.kuali.kfs.util.SpringServiceLocator;
-import org.kuali.module.budget.bo.BudgetConstructionDuration;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.budget.service.PermissionService;
 import org.kuali.module.chart.bo.Org;
 
@@ -41,7 +37,7 @@ public class PointOfViewOrgValuesFinder extends KeyValuesBase {
      * @see org.kuali.core.lookup.keyvalues.KeyValuesFinder#getKeyValues()
      */
     public List getKeyValues() {
-        PermissionService permissionService = SpringServiceLocator.getPermissionService();
+        PermissionService permissionService = SpringContext.getBean(PermissionService.class);
         try {
             List<Org> pointOfViewOrgs = permissionService.getOrgReview(GlobalVariables.getUserSession().getNetworkId());
             pointOfViewOrgKeyLabels = new ArrayList();

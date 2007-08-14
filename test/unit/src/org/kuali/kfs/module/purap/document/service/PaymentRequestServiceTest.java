@@ -16,17 +16,14 @@
 package org.kuali.module.purap.service;
 
 import java.sql.Date;
-import java.util.ArrayList;
-import java.util.Map;
 
-import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.document.Document;
+import org.kuali.core.service.DateTimeService;
 import org.kuali.core.service.DocumentService;
 import org.kuali.core.service.KualiConfigurationService;
-import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.context.KualiTestBase;
-import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.PurapParameterConstants;
 import org.kuali.module.purap.document.PaymentRequestDocument;
@@ -52,20 +49,20 @@ public class PaymentRequestServiceTest extends KualiTestBase {
     public void setUp() throws Exception {
         super.setUp();
         if(null == documentService) {
-            documentService = SpringServiceLocator.getDocumentService();
+            documentService = SpringContext.getBean(DocumentService.class);
         }
         if(null == kualiConfigurationService) {
-            kualiConfigurationService = SpringServiceLocator.getKualiConfigurationService();
+            kualiConfigurationService = SpringContext.getBean(KualiConfigurationService.class);
             String samt = kualiConfigurationService.getApplicationParameterValue(
                     PurapParameterConstants.PURAP_ADMIN_GROUP, 
                     PurapParameterConstants.PURAP_DEFAULT_NEGATIVE_PAYMENT_REQUEST_APPROVAL_LIMIT);
             defaultMinimumLimit = new KualiDecimal(samt);
         }
         if(null == npras) {
-            npras = SpringServiceLocator.getNegativePaymentRequestApprovalLimitService();
+            npras = SpringContext.getBean(NegativePaymentRequestApprovalLimitService.class);
         }
         if(null == paymentRequestService) {
-            paymentRequestService = SpringServiceLocator.getPaymentRequestService();
+            paymentRequestService = SpringContext.getBean(PaymentRequestService.class);
         }
     }
     
@@ -92,7 +89,7 @@ public class PaymentRequestServiceTest extends KualiTestBase {
         purchaseOrderDocument.refreshNonUpdateableReferences();
         
         PaymentRequestDocument paymentRequestDocument = (PaymentRequestDocument) documentService.getNewDocument(PaymentRequestDocument.class);
-        Date today = SpringServiceLocator.getDateTimeService().getCurrentSqlDate();
+        Date today = SpringContext.getBean(DateTimeService.class, "dateTimeService").getCurrentSqlDate();
         //paymentRequestDocument.initiateDocument();
         paymentRequestDocument.setInvoiceDate(today);
         paymentRequestDocument.setStatusCode(PurapConstants.PaymentRequestStatuses.AWAITING_ACCOUNTS_PAYABLE_REVIEW);//IN_PROCESS);
@@ -131,7 +128,7 @@ public class PaymentRequestServiceTest extends KualiTestBase {
 //        documentService.routeDocument(document, "", new ArrayList());
 //        document.setChartOfAccountsCode("BA");
 //        //changeCurrentUser(UserNameFixture.KHUNTLEY);
-//        boolean approved = SpringServiceLocator.getPaymentRequestService().autoApprovePaymentRequest(document, defaultMinimumLimit);
+//        boolean approved = SpringContext.getBean(PaymentRequestService.class).autoApprovePaymentRequest(document, defaultMinimumLimit);
 //        Map map = GlobalVariables.getErrorMap();
 //        boolean breakonme = approved;
     }

@@ -27,7 +27,9 @@ import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.document.authorization.DocumentAuthorizer;
 import org.kuali.core.exceptions.InfrastructureException;
 import org.kuali.core.service.BusinessObjectService;
+import org.kuali.core.service.DataDictionaryService;
 import org.kuali.core.service.DateTimeService;
+import org.kuali.core.service.DocumentAuthorizationService;
 import org.kuali.core.service.DocumentService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
@@ -38,7 +40,7 @@ import org.kuali.kfs.KFSConstants.CurrencyCoinSources;
 import org.kuali.kfs.KFSConstants.DepositConstants;
 import org.kuali.kfs.KFSConstants.DocumentStatusCodes;
 import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
-import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.financial.bo.Bank;
 import org.kuali.module.financial.bo.BankAccount;
 import org.kuali.module.financial.bo.CashDrawer;
@@ -55,9 +57,10 @@ import org.kuali.module.financial.document.CashManagementDocument;
 import org.kuali.module.financial.document.CashReceiptDocument;
 import org.kuali.module.financial.exceptions.CashDrawerStateException;
 import org.kuali.module.financial.exceptions.InvalidCashReceiptState;
+import org.kuali.module.financial.rules.CashieringTransactionRule;
 import org.kuali.module.financial.service.CashDrawerService;
 import org.kuali.module.financial.service.CashManagementService;
-import org.kuali.module.financial.rules.CashieringTransactionRule;
+import org.kuali.module.financial.service.CashReceiptService;
 import org.kuali.module.financial.web.struts.form.CashDrawerStatusCodeFormatter;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -121,8 +124,8 @@ public class CashManagementServiceImpl implements CashManagementService {
 
         // check user authorization
         UniversalUser user = GlobalVariables.getUserSession().getUniversalUser();
-        String documentTypeName = SpringServiceLocator.getDataDictionaryService().getDocumentTypeNameByClass(CashManagementDocument.class);
-        DocumentAuthorizer documentAuthorizer = SpringServiceLocator.getDocumentAuthorizationService().getDocumentAuthorizer(documentTypeName);
+        String documentTypeName = SpringContext.getBean(DataDictionaryService.class).getDocumentTypeNameByClass(CashManagementDocument.class);
+        DocumentAuthorizer documentAuthorizer = SpringContext.getBean(DocumentAuthorizationService.class).getDocumentAuthorizer(documentTypeName);
         documentAuthorizer.canInitiate(documentTypeName, user);
 
         // check cash drawer
@@ -532,7 +535,7 @@ public class CashManagementServiceImpl implements CashManagementService {
      */
     public boolean allVerifiedCashReceiptsAreDeposited(CashManagementDocument cmDoc) {
         boolean result = true;
-        List verifiedReceipts = SpringServiceLocator.getCashReceiptService().getCashReceipts(cmDoc.getWorkgroupName(), KFSConstants.DocumentStatusCodes.CashReceipt.VERIFIED);
+        List verifiedReceipts = SpringContext.getBean(CashReceiptService.class).getCashReceipts(cmDoc.getWorkgroupName(), KFSConstants.DocumentStatusCodes.CashReceipt.VERIFIED);
         for (Object o: verifiedReceipts) {
             if (!verifyCashReceiptIsDeposited(cmDoc, (CashReceiptDocument)o)) {
                 result = false;
@@ -602,7 +605,7 @@ public class CashManagementServiceImpl implements CashManagementService {
             throw new IllegalStateException("CashManagementDocument #"+cmDoc.getDocumentNumber()+" already has a final deposit");
         }
         // if there are still verified un-deposited cash receipts, throw an IllegalStateException
-        List verifiedReceipts = SpringServiceLocator.getCashReceiptService().getCashReceipts(cmDoc.getWorkgroupName(), KFSConstants.DocumentStatusCodes.CashReceipt.VERIFIED);
+        List verifiedReceipts = SpringContext.getBean(CashReceiptService.class).getCashReceipts(cmDoc.getWorkgroupName(), KFSConstants.DocumentStatusCodes.CashReceipt.VERIFIED);
         for (Object o: verifiedReceipts) {
             CashReceiptDocument crDoc = (CashReceiptDocument)o;
             if (!verifyCashReceiptIsDeposited(cmDoc, crDoc)) {
@@ -754,7 +757,7 @@ public class CashManagementServiceImpl implements CashManagementService {
                     }
                     itemInProc.setCurrentPayment(new KualiDecimal(0));
                     if (itemInProc.getItemRemainingAmount().equals(KualiDecimal.ZERO)) {
-                        itemInProc.setItemClosedDate(new java.sql.Date(SpringServiceLocator.getDateTimeService().getCurrentDate().getTime()));
+                        itemInProc.setItemClosedDate(new java.sql.Date(SpringContext.getBean(DateTimeService.class, "dateTimeService").getCurrentDate().getTime()));
                     }
                     businessObjectService.save(itemInProc);
                 }
@@ -954,7 +957,7 @@ public class CashManagementServiceImpl implements CashManagementService {
      * @return true if there's some cash receipts that verified, interim, or final in this workgroup; false if otherwise
      */
     private boolean existCashReceipts(CashManagementDocument cmDoc) {
-        List<CashReceiptDocument> cashReceipts = SpringServiceLocator.getCashReceiptService().getCashReceipts(cmDoc.getWorkgroupName(), new String[] {KFSConstants.DocumentStatusCodes.CashReceipt.VERIFIED, KFSConstants.DocumentStatusCodes.CashReceipt.INTERIM, KFSConstants.DocumentStatusCodes.CashReceipt.FINAL} );
+        List<CashReceiptDocument> cashReceipts = SpringContext.getBean(CashReceiptService.class).getCashReceipts(cmDoc.getWorkgroupName(), new String[] {KFSConstants.DocumentStatusCodes.CashReceipt.VERIFIED, KFSConstants.DocumentStatusCodes.CashReceipt.INTERIM, KFSConstants.DocumentStatusCodes.CashReceipt.FINAL} );
         return cashReceipts != null && cashReceipts.size() > 0;
     }
     

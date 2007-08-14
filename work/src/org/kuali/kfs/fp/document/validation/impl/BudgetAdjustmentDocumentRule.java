@@ -46,6 +46,7 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.document.Document;
 import org.kuali.core.exceptions.InfrastructureException;
+import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.ErrorMap;
 import org.kuali.core.util.GeneralLedgerPendingEntrySequenceHelper;
 import org.kuali.core.util.GlobalVariables;
@@ -60,16 +61,19 @@ import org.kuali.kfs.bo.AccountingLine;
 import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
 import org.kuali.kfs.bo.Options;
 import org.kuali.kfs.bo.SourceAccountingLine;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.document.AccountingDocument;
 import org.kuali.kfs.rule.GenerateGeneralLedgerDocumentPendingEntriesRule;
 import org.kuali.kfs.rules.AccountingDocumentRuleBase;
 import org.kuali.kfs.rules.AccountingLineRuleUtil;
-import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.kfs.service.OptionsService;
 import org.kuali.module.chart.bo.SubFundGroup;
 import org.kuali.module.financial.bo.BudgetAdjustmentAccountingLine;
 import org.kuali.module.financial.bo.BudgetAdjustmentSourceAccountingLine;
 import org.kuali.module.financial.bo.BudgetAdjustmentTargetAccountingLine;
 import org.kuali.module.financial.document.BudgetAdjustmentDocument;
+import org.kuali.module.financial.service.FiscalYearFunctionControlService;
+import org.kuali.module.financial.service.UniversityDateService;
 
 /**
  * Business rule(s) applicable to Budget Adjustment Card document.
@@ -90,7 +94,7 @@ public class BudgetAdjustmentDocumentRule extends AccountingDocumentRuleBase imp
         LOG.debug("validating accounting line # " + accountingLine.getSequenceNumber());
 
         /* if they have entered a base amount for line, verify it can be adjusted for the posting year */
-        if (budgetAccountingLine.getBaseBudgetAdjustmentAmount().isNonZero() && !SpringServiceLocator.getFiscalYearFunctionControlService().isBaseAmountChangeAllowed(((BudgetAdjustmentDocument) FinancialDocument).getPostingYear())) {
+        if (budgetAccountingLine.getBaseBudgetAdjustmentAmount().isNonZero() && !SpringContext.getBean(FiscalYearFunctionControlService.class).isBaseAmountChangeAllowed(((BudgetAdjustmentDocument) FinancialDocument).getPostingYear())) {
             GlobalVariables.getErrorMap().putError(KFSPropertyConstants.BASE_BUDGET_ADJUSTMENT_AMOUNT, KFSKeyConstants.ERROR_DOCUMENT_BA_BASE_AMOUNT_CHANGE_NOT_ALLOWED);
             allow = false;
         }
@@ -147,7 +151,7 @@ public class BudgetAdjustmentDocumentRule extends AccountingDocumentRuleBase imp
         }
 
         BudgetAdjustmentAccountingLine budgetAccountingLine = (BudgetAdjustmentAccountingLine) accountingLine;
-        Integer currentFiscalYear = SpringServiceLocator.getUniversityDateService().getCurrentFiscalYear();
+        Integer currentFiscalYear = SpringContext.getBean(UniversityDateService.class).getCurrentFiscalYear();
         /* Create Base Budget GLPE if base amount != 0 */
         if (budgetAccountingLine.getBaseBudgetAdjustmentAmount().isNonZero()) {
             GeneralLedgerPendingEntry explicitEntry = new GeneralLedgerPendingEntry();
@@ -284,9 +288,9 @@ public class BudgetAdjustmentDocumentRule extends AccountingDocumentRuleBase imp
         boolean success = true;
 
         // check on-off tof flag
-        boolean generateTransfer = SpringServiceLocator.getKualiConfigurationService().getApplicationParameterIndicator(BUDGET_ADJUSTMENT_DOCUMENT_SECURITY_GROUPING, GENERATE_TOF_GLPE_ENTRIES_PARM_NM);
-        String transferObjectCode = SpringServiceLocator.getKualiConfigurationService().getApplicationParameterValue(BUDGET_ADJUSTMENT_DOCUMENT_SECURITY_GROUPING, TRANSFER_OBJECT_CODE_PARM_NM);
-        Integer currentFiscalYear = SpringServiceLocator.getUniversityDateService().getCurrentFiscalYear();
+        boolean generateTransfer = SpringContext.getBean(KualiConfigurationService.class).getApplicationParameterIndicator(BUDGET_ADJUSTMENT_DOCUMENT_SECURITY_GROUPING, GENERATE_TOF_GLPE_ENTRIES_PARM_NM);
+        String transferObjectCode = SpringContext.getBean(KualiConfigurationService.class).getApplicationParameterValue(BUDGET_ADJUSTMENT_DOCUMENT_SECURITY_GROUPING, TRANSFER_OBJECT_CODE_PARM_NM);
+        Integer currentFiscalYear = SpringContext.getBean(UniversityDateService.class).getCurrentFiscalYear();
 
         if (generateTransfer) {
             // map of income chart/accounts with balance as value
@@ -318,7 +322,7 @@ public class BudgetAdjustmentDocumentRule extends AccountingDocumentRuleBase imp
                     populateExplicitGeneralLedgerPendingEntry(FinancialDocument, accountingLine, sequenceHelper, explicitEntry);
 
                     /* override and set object type to income */
-                    Options options = SpringServiceLocator.getOptionsService().getCurrentYearOptions();
+                    Options options = SpringContext.getBean(OptionsService.class).getCurrentYearOptions();
                     explicitEntry.setFinancialObjectTypeCode(options.getFinObjectTypeIncomecashCode());
 
                     /* D/C code is empty for BA, set correct balance type, correct amount */

@@ -27,10 +27,11 @@ import org.kuali.core.bo.GlobalBusinessObject;
 import org.kuali.core.bo.GlobalBusinessObjectDetail;
 import org.kuali.core.bo.PersistableBusinessObject;
 import org.kuali.core.bo.PersistableBusinessObjectBase;
+import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.util.TypedArrayList;
 import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.bo.Options;
-import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.kfs.context.SpringContext;
 
 /**
  * 
@@ -335,7 +336,7 @@ public class SubObjCdGlobal extends PersistableBusinessObjectBase implements Glo
                         pk.put("FIN_OBJECT_CD", financialObjectCode);
                         pk.put("FIN_SUB_OBJ_CD", this.financialSubObjectCode);
         
-                        SubObjCd subObjCd = (SubObjCd) SpringServiceLocator.getBusinessObjectService().findByPrimaryKey(SubObjCd.class, pk);
+                        SubObjCd subObjCd = (SubObjCd) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(SubObjCd.class, pk);
                         if (subObjCd == null) {
                             subObjCd = new SubObjCd(this.universityFiscalYear, this.chartOfAccountsCode, accountNumber, financialObjectCode, this.financialSubObjectCode);
                         }

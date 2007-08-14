@@ -16,9 +16,10 @@
 package org.kuali.module.financial.service.impl;
 
 import org.apache.log4j.Logger;
+import org.kuali.core.service.DateTimeService;
 import org.kuali.core.util.DateUtils;
 import org.kuali.core.util.Timer;
-import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.financial.service.UniversityDateService;
 import org.kuali.module.gl.bo.UniversityDate;
 import org.kuali.module.gl.dao.UniversityDateDao;
@@ -33,7 +34,7 @@ public class UniversityDateServiceImpl implements UniversityDateService {
     
     public UniversityDate getCurrentUniversityDate() {
         LOG.debug("getCurrentUniversityDate() started");
-        java.util.Date now = SpringServiceLocator.getDateTimeService().getCurrentDate();
+        java.util.Date now = SpringContext.getBean(DateTimeService.class, "dateTimeService").getCurrentDate();
 
         return universityDateDao.getByPrimaryKey(DateUtils.clearTimeFields(now));
     }
@@ -43,7 +44,7 @@ public class UniversityDateServiceImpl implements UniversityDateService {
      */
     public Integer getCurrentFiscalYear() {
         Timer t0 = new Timer("getCurrentFiscalYear");
-        java.util.Date now = SpringServiceLocator.getDateTimeService().getCurrentDate();
+        java.util.Date now = SpringContext.getBean(DateTimeService.class, "dateTimeService").getCurrentDate();
 
         Integer result = getFiscalYear(DateUtils.clearTimeFields(now));
         t0.log();

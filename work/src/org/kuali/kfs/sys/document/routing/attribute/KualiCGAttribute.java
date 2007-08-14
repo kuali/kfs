@@ -34,15 +34,16 @@ import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.log4j.Logger;
 import org.kuali.core.lookup.LookupUtils;
 import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.kfs.context.SpringContext;
+import org.kuali.module.cg.service.AwardService;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.Chart;
+import org.kuali.module.chart.service.AccountService;
 import org.kuali.workflow.KualiWorkflowUtils;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import edu.iu.uis.eden.WorkflowServiceErrorImpl;
-import edu.iu.uis.eden.clientapp.vo.WorkgroupVO;
 import edu.iu.uis.eden.engine.RouteContext;
 import edu.iu.uis.eden.exception.EdenUserNotFoundException;
 import edu.iu.uis.eden.plugin.attributes.RoleAttribute;
@@ -53,7 +54,6 @@ import edu.iu.uis.eden.routetemplate.Role;
 import edu.iu.uis.eden.util.Utilities;
 import edu.iu.uis.eden.workgroup.GroupId;
 import edu.iu.uis.eden.workgroup.GroupNameId;
-import edu.iu.uis.eden.workgroup.WorkflowGroupId;
 
 
 public class KualiCGAttribute implements RoleAttribute, WorkflowAttribute {
@@ -112,7 +112,7 @@ public class KualiCGAttribute implements RoleAttribute, WorkflowAttribute {
             errors.add(new WorkflowServiceErrorImpl("Account is required.", "routetemplate.accountattribute.account.required"));
             return;
         }
-        Account account = SpringServiceLocator.getAccountService().getByPrimaryIdWithCaching(finCoaCd, accountNbr);
+        Account account = SpringContext.getBean(AccountService.class).getByPrimaryIdWithCaching(finCoaCd, accountNbr);
         if (account == null) {
             errors.add(new WorkflowServiceErrorImpl("Account is invalid.", "routetemplate.accountattribute.account.invalid"));
         }
@@ -201,7 +201,7 @@ public class KualiCGAttribute implements RoleAttribute, WorkflowAttribute {
         // if we dont have an ID, but we do have a chart/account, then hit Kuali to retrieve current FO
 
         if (StringUtils.isBlank(routingWorkgroupName) && StringUtils.isNotBlank(role.chart) && StringUtils.isNotBlank(role.accountNumber)) {
-            routingWorkgroupName = SpringServiceLocator.getAwardService().getAwardWorkgroupForAccount(role.chart, role.accountNumber);
+            routingWorkgroupName = SpringContext.getBean(AwardService.class).getAwardWorkgroupForAccount(role.chart, role.accountNumber);
         }
 
         // if we cant find a AwardWorkgroup, log it.

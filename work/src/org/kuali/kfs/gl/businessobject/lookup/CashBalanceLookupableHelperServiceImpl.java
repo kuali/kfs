@@ -25,7 +25,8 @@ import org.kuali.core.bo.BusinessObject;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
-import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.kfs.context.SpringContext;
+import org.kuali.module.financial.service.UniversityDateService;
 import org.kuali.module.gl.batch.poster.BalanceCalculator;
 import org.kuali.module.gl.bo.Balance;
 import org.kuali.module.gl.bo.CashBalance;
@@ -137,7 +138,7 @@ public class CashBalanceLookupableHelperServiceImpl extends AbstractGLLookupable
         // convert the field names of balance object into corresponding ones of pending entry object
         Map pendingEntryFieldValues = BusinessObjectFieldConverter.convertToTransactionFieldValues(fieldValues);
 
-        UniversityDate today = SpringServiceLocator.getUniversityDateService().getCurrentUniversityDate();
+        UniversityDate today = SpringContext.getBean(UniversityDateService.class).getCurrentUniversityDate();
         String currentFiscalPeriodCode = today.getUniversityFiscalAccountingPeriod();
         Integer currentFiscalYear = today.getUniversityFiscalYear();
 

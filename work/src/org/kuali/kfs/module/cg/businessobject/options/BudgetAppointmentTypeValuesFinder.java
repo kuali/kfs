@@ -16,13 +16,14 @@
 package org.kuali.module.kra.budget.lookup.keyvalues;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import org.kuali.core.lookup.keyvalues.KeyValuesBase;
+import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.web.ui.KeyLabelPair;
-import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.kra.budget.bo.AppointmentType;
+import org.kuali.module.kra.budget.service.BudgetFringeRateService;
 
 /**
  * This class...
@@ -45,10 +46,10 @@ public class BudgetAppointmentTypeValuesFinder extends KeyValuesBase {
      */
     public List getKeyValues() {
       if (summerAppointmentType == null) {
-        summerAppointmentType = SpringServiceLocator.getKualiConfigurationService().getApplicationParameterValue("KraDevelopmentGroup", "KraBudgetPersonnelSummerGridAppointmentType");
+        summerAppointmentType = SpringContext.getBean(KualiConfigurationService.class).getApplicationParameterValue("KraDevelopmentGroup", "KraBudgetPersonnelSummerGridAppointmentType");
     }
 
-    List<AppointmentType> appointmentTypes = (List) SpringServiceLocator.getBudgetFringeRateService().getDefaultFringeRates(); // getDefaultFringeRates is, perhaps, misnamed. It returns a list of appointment types.
+    List<AppointmentType> appointmentTypes = (List) SpringContext.getBean(BudgetFringeRateService.class).getDefaultFringeRates(); // getDefaultFringeRates is, perhaps, misnamed. It returns a list of appointment types.
     List appointmentTypeKeyLabelPairList = new ArrayList();
     for (AppointmentType element : appointmentTypes) {
         if (!element.getAppointmentTypeCode().equals(summerAppointmentType)) {

@@ -19,9 +19,10 @@ import static org.kuali.kfs.util.SpringServiceLocator.getDisbursementVoucherTrav
 
 import java.sql.Timestamp;
 
+import org.kuali.core.service.DateTimeService;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.context.KualiTestBase;
-import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.financial.document.DisbursementVoucherDocument;
 import org.kuali.test.ConfigureContext;
 
@@ -132,7 +133,7 @@ public class DisbursementVoucherTravelServiceTest extends KualiTestBase {
      * @throws Exception
      */
     public void testCalculateMileageAmount() throws Exception {
-        Timestamp effectiveDate = SpringServiceLocator.getDateTimeService().getCurrentTimestamp();
+        Timestamp effectiveDate = SpringContext.getBean(DateTimeService.class, "dateTimeService").getCurrentTimestamp();
 
         runMileageAmountTest(new Integer(0), new KualiDecimal(0), effectiveDate);
         runMileageAmountTest(new Integer(1), new KualiDecimal(.38), effectiveDate);

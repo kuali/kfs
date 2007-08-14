@@ -31,12 +31,15 @@ import org.apache.struts.action.ActionMapping;
 import org.kuali.core.authorization.AuthorizationType;
 import org.kuali.core.exceptions.AuthorizationException;
 import org.kuali.core.exceptions.ModuleAuthorizationException;
+import org.kuali.core.service.BusinessObjectService;
+import org.kuali.core.service.KualiModuleService;
+import org.kuali.core.service.PersistenceService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.UrlFactory;
 import org.kuali.core.web.struts.action.KualiAction;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSKeyConstants;
-import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.budget.BCConstants;
 import org.kuali.module.budget.bo.BudgetConstructionPosition;
 import org.kuali.module.budget.document.authorization.BudgetConstructionDocumentAuthorizer;
@@ -68,7 +71,7 @@ public class PositionSalarySettingAction extends KualiAction {
         //but each line needs to be authorized, so need to figure out how to implement this
 
         //TODO should probably use service locator and call
-        //DocumentAuthorizer documentAuthorizer = SpringServiceLocator.getDocumentAuthorizationService().getDocumentAuthorizer("<BCDoctype>");
+        //DocumentAuthorizer documentAuthorizer = SpringContext.getBean(DocumentAuthorizationService.class).getDocumentAuthorizer("<BCDoctype>");
         BudgetConstructionDocumentAuthorizer budgetConstructionDocumentAuthorizer = new BudgetConstructionDocumentAuthorizer();
         positionSalarySettingForm.populateAuthorizationFields(budgetConstructionDocumentAuthorizer);
 
@@ -82,7 +85,7 @@ public class PositionSalarySettingAction extends KualiAction {
     protected void checkAuthorization(ActionForm form, String methodToCall) throws AuthorizationException {
 
         AuthorizationType bcAuthorizationType = new AuthorizationType.Default(this.getClass());
-        if ( !SpringServiceLocator.getKualiModuleService().isAuthorized( GlobalVariables.getUserSession().getUniversalUser(), bcAuthorizationType ) ){
+        if ( !SpringContext.getBean(KualiModuleService.class).isAuthorized( GlobalVariables.getUserSession().getUniversalUser(), bcAuthorizationType ) ){
             LOG.error("User not authorized to use this action: " + this.getClass().getName() );
             throw new ModuleAuthorizationException( GlobalVariables.getUserSession().getUniversalUser().getPersonUserIdentifier(), bcAuthorizationType, getKualiModuleService().getResponsibleModule(this.getClass()) );
         }
@@ -107,7 +110,7 @@ public class PositionSalarySettingAction extends KualiAction {
         fieldValues.put("universityFiscalYear", positionSalarySettingForm.getUniversityFiscalYear());
         fieldValues.put("positionNumber", positionSalarySettingForm.getPositionNumber());
 
-        BudgetConstructionPosition budgetConstructionPosition = (BudgetConstructionPosition) SpringServiceLocator.getBusinessObjectService().findByPrimaryKey(BudgetConstructionPosition.class,fieldValues);
+        BudgetConstructionPosition budgetConstructionPosition = (BudgetConstructionPosition) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(BudgetConstructionPosition.class,fieldValues);
         if (budgetConstructionPosition == null){
             //TODO this is an RI error need to report it
         }
@@ -160,7 +163,7 @@ public class PositionSalarySettingAction extends KualiAction {
 //        if (refreshCaller != null && refreshCaller.equalsIgnoreCase(KFSConstants.KUALI_LOOKUPABLE_IMPL)){
         if (refreshCaller != null && (refreshCaller.endsWith("Lookupable") || (refreshCaller.endsWith("LOOKUPABLE")))){
             final List REFRESH_FIELDS = Collections.unmodifiableList(Arrays.asList(new String[] {"chartOfAccounts", "account", "subAccount", "financialObject", "financialSubObject", "budgetConstructionIntendedIncumbent", "budgetConstructionDuration"}));
-            SpringServiceLocator.getPersistenceService().retrieveReferenceObjects(positionSalarySettingForm.getNewBCAFLine(), REFRESH_FIELDS);            
+            SpringContext.getBean(PersistenceService.class).retrieveReferenceObjects(positionSalarySettingForm.getNewBCAFLine(), REFRESH_FIELDS);            
         }
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);

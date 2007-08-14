@@ -20,7 +20,8 @@ import java.sql.Date;
 import java.util.LinkedHashMap;
 
 import org.kuali.core.bo.PersistableBusinessObjectBase;
-import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.core.service.DateTimeService;
+import org.kuali.kfs.context.SpringContext;
 
 /**
  * 
@@ -37,7 +38,7 @@ public class PurchaseOrderContractLanguage extends PersistableBusinessObjectBase
 	 * Default constructor.
 	 */
 	public PurchaseOrderContractLanguage() {
-        this.setContractLanguageCreateDate(SpringServiceLocator.getDateTimeService().getCurrentSqlDate());
+        this.setContractLanguageCreateDate(SpringContext.getBean(DateTimeService.class, "dateTimeService").getCurrentSqlDate());
 	}
 
 	/**

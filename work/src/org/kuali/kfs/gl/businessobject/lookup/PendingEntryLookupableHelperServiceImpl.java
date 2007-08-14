@@ -24,7 +24,6 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.bo.BusinessObject;
-import org.kuali.core.bo.PersistableBusinessObject;
 import org.kuali.core.exceptions.ValidationException;
 import org.kuali.core.lookup.AbstractLookupableHelperServiceImpl;
 import org.kuali.core.lookup.CollectionIncomplete;
@@ -35,8 +34,9 @@ import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSKeyConstants;
 import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.service.GeneralLedgerPendingEntryService;
-import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.module.financial.service.UniversityDateService;
 import org.kuali.module.gl.bo.UniversityDate;
 import org.kuali.module.gl.web.Constant;
 import org.kuali.module.gl.web.inquirable.InquirableFinancialDocument;
@@ -117,7 +117,7 @@ public class PendingEntryLookupableHelperServiceImpl extends AbstractLookupableH
             }
         }
 
-        UniversityDate currentUniversityDate = SpringServiceLocator.getUniversityDateService().getCurrentUniversityDate();
+        UniversityDate currentUniversityDate = SpringContext.getBean(UniversityDateService.class).getCurrentUniversityDate();
         String currentFiscalPeriodCode = currentUniversityDate.getUniversityFiscalAccountingPeriod();
         Integer currentFiscalYear = currentUniversityDate.getUniversityFiscalYear();
 

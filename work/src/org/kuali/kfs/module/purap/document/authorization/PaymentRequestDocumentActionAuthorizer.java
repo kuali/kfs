@@ -16,12 +16,13 @@
 package org.kuali.module.purap.document.authorization;
 
 import org.kuali.core.bo.user.UniversalUser;
-import org.kuali.core.util.GlobalVariables;
-import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.core.service.KualiConfigurationService;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.PurapParameterConstants;
 import org.kuali.module.purap.PurapConstants.PaymentRequestStatuses;
 import org.kuali.module.purap.document.PaymentRequestDocument;
+import org.kuali.module.purap.service.PaymentRequestService;
 
 /**
  * This class determines permissions for a user
@@ -50,30 +51,30 @@ public class PaymentRequestDocumentActionAuthorizer {
         this.extracted = (preq.getExtractedDate() ==  null ? false : true);
         
         //special indicators
-        if (SpringServiceLocator.getPaymentRequestService().isPaymentRequestHoldable(preq) &&
-            SpringServiceLocator.getPaymentRequestService().canHoldPaymentRequest(preq, user) ) {                        
+        if (SpringContext.getBean(PaymentRequestService.class).isPaymentRequestHoldable(preq) &&
+            SpringContext.getBean(PaymentRequestService.class).canHoldPaymentRequest(preq, user) ) {                        
             canHold = true;
         }
         
-        if (SpringServiceLocator.getPaymentRequestService().canRequestCancelOnPaymentRequest(preq) &&
-            SpringServiceLocator.getPaymentRequestService().canUserRequestCancelOnPaymentRequest(preq, user) ) {
+        if (SpringContext.getBean(PaymentRequestService.class).canRequestCancelOnPaymentRequest(preq) &&
+            SpringContext.getBean(PaymentRequestService.class).canUserRequestCancelOnPaymentRequest(preq, user) ) {
             canRequestCancel = true;
         }
         
-        if(SpringServiceLocator.getPaymentRequestService().isPaymentRequestHoldable(preq) == false &&
-             SpringServiceLocator.getPaymentRequestService().canRemoveHoldPaymentRequest(preq, user)){
+        if(SpringContext.getBean(PaymentRequestService.class).isPaymentRequestHoldable(preq) == false &&
+             SpringContext.getBean(PaymentRequestService.class).canRemoveHoldPaymentRequest(preq, user)){
             canRemoveHold = true;
         }
         
-        if( SpringServiceLocator.getPaymentRequestService().canRequestCancelOnPaymentRequest(preq) == false && 
-            SpringServiceLocator.getPaymentRequestService().canUserRemoveRequestCancelOnPaymentRequest(preq, user) ){
+        if( SpringContext.getBean(PaymentRequestService.class).canRequestCancelOnPaymentRequest(preq) == false && 
+            SpringContext.getBean(PaymentRequestService.class).canUserRemoveRequestCancelOnPaymentRequest(preq, user) ){
             canRemoveRequestCancel = true;
         }
         
         //user indicators
         this.approver = preq.getDocumentHeader().getWorkflowDocument().isApprovalRequested();
         
-        String apGroup = SpringServiceLocator.getKualiConfigurationService().getApplicationParameterValue(PurapParameterConstants.PURAP_ADMIN_GROUP, PurapConstants.Workgroups.WORKGROUP_ACCOUNTS_PAYABLE);        
+        String apGroup = SpringContext.getBean(KualiConfigurationService.class).getApplicationParameterValue(PurapParameterConstants.PURAP_ADMIN_GROUP, PurapConstants.Workgroups.WORKGROUP_ACCOUNTS_PAYABLE);        
         if( user.isMember(apGroup) ){
             this.apUser = true;
         }

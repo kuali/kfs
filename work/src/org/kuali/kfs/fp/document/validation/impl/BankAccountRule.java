@@ -23,10 +23,11 @@ import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.KFSKeyConstants;
-import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.chart.bo.SubAccount;
 import org.kuali.module.chart.bo.SubObjCd;
 import org.kuali.module.financial.bo.BankAccount;
+import org.kuali.module.financial.service.UniversityDateService;
 
 /**
  * This is the rules class that is used for the default implementation of the Bank Account maintenance document.
@@ -174,7 +175,7 @@ public class BankAccountRule extends MaintenanceDocumentRuleBase {
 
         // setup the map to search on
         Map pkMap = new HashMap();
-        pkMap.put("universityFiscalYear", SpringServiceLocator.getUniversityDateService().getCurrentFiscalYear());
+        pkMap.put("universityFiscalYear", SpringContext.getBean(UniversityDateService.class).getCurrentFiscalYear());
         pkMap.put("chartOfAccountsCode", newBankAccount.getCashOffsetFinancialChartOfAccountCode());
         pkMap.put("accountNumber", newBankAccount.getCashOffsetAccountNumber());
         pkMap.put("financialObjectCode", newBankAccount.getCashOffsetObjectCode());

@@ -82,14 +82,14 @@ public class GenesisTest {
   //    this supposedly configures spring/ojb
   //   SpringServiceLocator.initializeDDGeneratorApplicationContext();
   //   configService = 
-  //          SpringServiceLocator.getKualiConfigurationService();
+  //          SpringContext.getBean(KualiConfigurationService.class);
   //  (07/06/07) try using the new look-up bean
   //   GlobalResourceLoader.getService("initializeDDGeneratorApplicationContext");
-     genesisTestService = SpringServiceLocator.getGenesisService();
+     genesisTestService = SpringContext.getBean(GenesisService.class);
      dateMakerTestService = 
-          SpringServiceLocator.getDateMakerService();
+          SpringContext.getBean(DateMakerService.class);
       dateTimeService =
-          SpringServiceLocator.getDateTimeService();
+          SpringContext.getBean(DateTimeService.class, "dateTimeService");
   //
       GlobalVariables.clear();
       try
@@ -144,7 +144,7 @@ public class GenesisTest {
      //  genesisTestService.testHierarchyCreation(2009);
      // test the changes we made to the organization service for the root organization
      //   String[] roots = 
-     //       SpringServiceLocator.getOrganizationService().getRootOrganizationCode();
+     //       SpringContext.getBean(OrganizationService.class).getRootOrganizationCode();
      //   LOG.info(String.format("\nroot chart: %s, root organization: %s", roots[0], roots[1]));
   //
   //    genesisTestService.testStep(2007);

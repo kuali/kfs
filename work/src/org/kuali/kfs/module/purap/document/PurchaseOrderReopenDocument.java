@@ -23,10 +23,11 @@ import java.util.Iterator;
 import org.kuali.core.rule.event.KualiDocumentEvent;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
-import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.bo.PurchaseOrderAccount;
 import org.kuali.module.purap.bo.PurchaseOrderItem;
+import org.kuali.module.purap.service.PurapAccountingService;
 
 /**
  * Purchase Order Document
@@ -97,7 +98,7 @@ public class PurchaseOrderReopenDocument extends PurchaseOrderDocument {
             }
         }// endfor
           
-        setSourceAccountingLines(SpringServiceLocator.getPurapAccountingService().generateSummaryWithNoZeroTotalsUsingAlternateAmount(getItemsActiveOnly()));
+        setSourceAccountingLines(SpringContext.getBean(PurapAccountingService.class).generateSummaryWithNoZeroTotalsUsingAlternateAmount(getItemsActiveOnly()));
 
     }//end customPrepareForSave()
 

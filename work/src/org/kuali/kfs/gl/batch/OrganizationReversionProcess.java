@@ -25,7 +25,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.ArrayUtils;
-import org.kuali.core.rule.KualiParameterRule;
 import org.kuali.core.service.DateTimeService;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.service.PersistenceService;
@@ -33,7 +32,7 @@ import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSKeyConstants;
 import org.kuali.kfs.KFSPropertyConstants;
-import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.chart.bo.AccountIntf;
 import org.kuali.module.chart.bo.ObjectCode;
 import org.kuali.module.chart.bo.OrganizationReversion;
@@ -105,7 +104,7 @@ public class OrganizationReversionProcess {
     public OrganizationReversionProcess() {
         super();
 
-        KualiConfigurationService kualiConfigurationService = SpringServiceLocator.getKualiConfigurationService();
+        KualiConfigurationService kualiConfigurationService = SpringContext.getBean(KualiConfigurationService.class);
         this.ORGANIZATION_REVERSION_COA = kualiConfigurationService.getApplicationParameterValues(GLConstants.GL_ORGANIZATION_REVERSION_PROCESS_GROUP, GLConstants.OrganizationReversionProcess.ORGANIZATION_REVERSION_COA);
         this.CARRY_FORWARD_OBJECT_CODE = kualiConfigurationService.getApplicationParameterValue(GLConstants.GL_ORGANIZATION_REVERSION_PROCESS_GROUP, GLConstants.OrganizationReversionProcess.CARRY_FORWARD_OBJECT_CODE);
         this.DEFAULT_FINANCIAL_DOCUMENT_TYPE_CODE = kualiConfigurationService.getApplicationParameterValue(GLConstants.GL_ORGANIZATION_REVERSION_PROCESS_GROUP, GLConstants.OrganizationReversionProcess.DEFAULT_FINANCIAL_DOCUMENT_TYPE_CODE);

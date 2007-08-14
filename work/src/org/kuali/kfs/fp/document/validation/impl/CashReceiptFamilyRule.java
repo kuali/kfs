@@ -15,9 +15,12 @@
  */
 package org.kuali.module.financial.rules;
 
+import static org.kuali.kfs.rules.AccountingDocumentRuleBaseConstants.ERROR_PATH.DOCUMENT_ERROR_PREFIX;
+
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.rule.KualiParameterRule;
 import org.kuali.core.rule.event.ApproveDocumentEvent;
+import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
@@ -27,15 +30,15 @@ import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.KFSKeyConstants.CashReceipt;
 import org.kuali.kfs.bo.AccountingLine;
 import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.document.AccountingDocument;
 import org.kuali.kfs.rules.AccountingDocumentRuleBase;
-import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.chart.bo.ObjLevel;
 import org.kuali.module.chart.bo.ObjectCode;
 import org.kuali.module.financial.bo.CashDrawer;
 import org.kuali.module.financial.document.CashReceiptFamilyBase;
-
-import static org.kuali.kfs.rules.AccountingDocumentRuleBaseConstants.ERROR_PATH.DOCUMENT_ERROR_PREFIX;
+import org.kuali.module.financial.service.CashDrawerService;
+import org.kuali.module.financial.service.CashReceiptService;
 
 /**
  * Business rule(s) shared amongst to CashReceipt-related documents.
@@ -73,8 +76,8 @@ public class CashReceiptFamilyRule extends AccountingDocumentRuleBase implements
         if (valid) {
             CashReceiptFamilyBase crd = (CashReceiptFamilyBase) approveEvent.getDocument();
 
-            String unitName = SpringServiceLocator.getCashReceiptService().getCashReceiptVerificationUnitForCampusCode(crd.getCampusLocationCode());
-            CashDrawer cd = SpringServiceLocator.getCashDrawerService().getByWorkgroupName(unitName, false);
+            String unitName = SpringContext.getBean(CashReceiptService.class).getCashReceiptVerificationUnitForCampusCode(crd.getCampusLocationCode());
+            CashDrawer cd = SpringContext.getBean(CashDrawerService.class).getByWorkgroupName(unitName, false);
             if (cd == null) {
                 throw new IllegalStateException("There is no cash drawer associated with unitName '" + unitName + "' from cash receipt " + crd.getDocumentNumber());
             }
@@ -128,7 +131,7 @@ public class CashReceiptFamilyRule extends AccountingDocumentRuleBase implements
         valid &= super.isObjectTypeAllowed(accountingLine);
 
         if (valid) {
-            KualiParameterRule rule = SpringServiceLocator.getKualiConfigurationService().getApplicationParameterRule(KUALI_TRANSACTION_PROCESSING_CASH_RECEIPT_SECURITY_GROUPING, RESTRICTED_OBJECT_TYPE_CODES);
+            KualiParameterRule rule = SpringContext.getBean(KualiConfigurationService.class).getApplicationParameterRule(KUALI_TRANSACTION_PROCESSING_CASH_RECEIPT_SECURITY_GROUPING, RESTRICTED_OBJECT_TYPE_CODES);
 
             ObjectCode objectCode = accountingLine.getObjectCode();
             if (ObjectUtils.isNull(objectCode)) {
@@ -159,7 +162,7 @@ public class CashReceiptFamilyRule extends AccountingDocumentRuleBase implements
         valid &= super.isObjectConsolidationAllowed(accountingLine);
 
         if (valid) {
-            KualiParameterRule rule = SpringServiceLocator.getKualiConfigurationService().getApplicationParameterRule(KUALI_TRANSACTION_PROCESSING_CASH_RECEIPT_SECURITY_GROUPING, RESTRICTED_CONSOLIDATED_OBJECT_CODES);
+            KualiParameterRule rule = SpringContext.getBean(KualiConfigurationService.class).getApplicationParameterRule(KUALI_TRANSACTION_PROCESSING_CASH_RECEIPT_SECURITY_GROUPING, RESTRICTED_CONSOLIDATED_OBJECT_CODES);
 
             ObjectCode objectCode = accountingLine.getObjectCode();
             if (ObjectUtils.isNull(objectCode)) {
@@ -197,7 +200,7 @@ public class CashReceiptFamilyRule extends AccountingDocumentRuleBase implements
         valid &= super.isObjectSubTypeAllowed(accountingLine);
 
         if (valid) {
-            KualiParameterRule rule = SpringServiceLocator.getKualiConfigurationService().getApplicationParameterRule(KUALI_TRANSACTION_PROCESSING_CASH_RECEIPT_SECURITY_GROUPING, RESTRICTED_OBJECT_SUB_TYPE_CODES);
+            KualiParameterRule rule = SpringContext.getBean(KualiConfigurationService.class).getApplicationParameterRule(KUALI_TRANSACTION_PROCESSING_CASH_RECEIPT_SECURITY_GROUPING, RESTRICTED_OBJECT_SUB_TYPE_CODES);
 
             ObjectCode objectCode = accountingLine.getObjectCode();
             if (ObjectUtils.isNull(objectCode)) {

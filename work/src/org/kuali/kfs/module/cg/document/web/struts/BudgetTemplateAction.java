@@ -24,11 +24,11 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.core.document.Copyable;
-import org.kuali.core.util.ObjectUtils;
-import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.kra.bo.AdhocOrg;
 import org.kuali.module.kra.bo.AdhocPerson;
 import org.kuali.module.kra.budget.document.BudgetDocument;
+import org.kuali.module.kra.budget.service.BudgetIndirectCostService;
 import org.kuali.module.kra.budget.web.struts.form.BudgetForm;
 
 /**
@@ -65,7 +65,7 @@ public class BudgetTemplateAction extends BudgetAction {
         // Check if budget fringe rates to be copied over
         if (!budgetForm.isIncludeBudgetIdcRates()) {
             budgetDoc.getBudget().getIndirectCost().setBudgetManualRateIndicator("N");
-            SpringServiceLocator.getBudgetIndirectCostService().setupIndirectCostRates(budgetDoc.getBudget());
+            SpringContext.getBean(BudgetIndirectCostService.class).setupIndirectCostRates(budgetDoc.getBudget());
         }
         
         budgetForm.setBudgetDocument(budgetDoc);

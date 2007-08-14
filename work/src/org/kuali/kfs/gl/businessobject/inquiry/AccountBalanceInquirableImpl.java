@@ -26,8 +26,8 @@ import org.kuali.core.service.LookupService;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.bo.Options;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.service.OptionsService;
-import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.gl.bo.Balance;
 import org.kuali.module.gl.web.Constant;
 
@@ -68,7 +68,7 @@ public class AccountBalanceInquirableImpl extends AbstractGLInquirableImpl {
     protected Map getUserDefinedAttributeMap() {
         Map userDefinedAttributeMap = new HashMap();
 
-        OptionsService os = SpringServiceLocator.getOptionsService();
+        OptionsService os = SpringContext.getBean(OptionsService.class);
         Options o = os.getCurrentYearOptions();
 
         userDefinedAttributeMap.put(KFSPropertyConstants.CURRENT_BUDGET_LINE_BALANCE_AMOUNT, Constant.BALANCE_TYPE_CB);

@@ -32,10 +32,10 @@ import org.apache.commons.io.IOUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.kuali.core.bo.FinancialSystemParameter;
+import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.cache.MethodCacheInterceptor;
 import org.kuali.core.util.properties.PropertyTree;
-import org.kuali.kfs.util.SpringServiceLocator;
 
 /**
  * This class provides utility methods for use during manual testing.
@@ -49,7 +49,7 @@ public class TestUtils {
      * Disables all scheduled tasks, to make debugging easier.
      */
     public static void disableScheduledTasks() {
-        Timer timer = SpringServiceLocator.getTaskTimer();
+        Timer timer = SpringContext.getBean(Timer.class);
         timer.cancel();
     }
 
@@ -299,14 +299,14 @@ public class TestUtils {
         systemParameter.setFinancialSystemScriptName(groupName);
         systemParameter.setFinancialSystemParameterName(parameterName);
 
-        systemParameter = (FinancialSystemParameter) SpringServiceLocator.getBusinessObjectService().retrieve(systemParameter);
+        systemParameter = (FinancialSystemParameter) SpringContext.getBean(BusinessObjectService.class).retrieve(systemParameter);
         if (systemParameter == null) {
             throw new RuntimeException("system parameter not found");
         }
 
         // update parameter text and store
         systemParameter.setFinancialSystemParameterText(parameterText);
-        SpringServiceLocator.getBusinessObjectService().save(systemParameter);
+        SpringContext.getBean(BusinessObjectService.class).save(systemParameter);
 
         // clear method cache
         String configMethodName = "getApplicationParameterValue";

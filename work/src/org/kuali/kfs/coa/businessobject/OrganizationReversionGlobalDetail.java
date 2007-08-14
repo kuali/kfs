@@ -25,7 +25,8 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.core.bo.GlobalBusinessObjectDetailBase;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSPropertyConstants;
-import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.kfs.context.SpringContext;
+import org.kuali.module.chart.service.ObjectCodeService;
 
 /**
  * This is a representation of an Organization Reversion Detail, made specifically
@@ -212,7 +213,7 @@ public class OrganizationReversionGlobalDetail extends GlobalBusinessObjectDetai
                     chartCodesArray[i] = chartCode;
                     i++;
                 }
-                objectCodeNames = (String)SpringServiceLocator.getObjectCodeService().getObjectCodeNamesByCharts(this.getParentGlobalOrganizationReversion().getUniversityFiscalYear(), chartCodesArray, this.getOrganizationReversionObjectCode());
+                objectCodeNames = (String)SpringContext.getBean(ObjectCodeService.class).getObjectCodeNamesByCharts(this.getParentGlobalOrganizationReversion().getUniversityFiscalYear(), chartCodesArray, this.getOrganizationReversionObjectCode());
             }
         }
         return objectCodeNames;

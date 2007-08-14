@@ -16,24 +16,16 @@
 package org.kuali.cas.auth;
 
 import java.security.GeneralSecurityException;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-
-import javax.naming.Context;
-import javax.naming.InitialContext;
-import javax.naming.NamingException;
-import javax.servlet.http.HttpServletRequest;
-import javax.sql.DataSource;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.bo.user.AuthenticationUserId;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.exceptions.UserNotFoundException;
 import org.kuali.core.service.EncryptionService;
-import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.core.service.KualiConfigurationService;
+import org.kuali.core.service.UniversalUserService;
+import org.kuali.core.service.WebAuthenticationService;
+import org.kuali.kfs.context.SpringContext;
 
 import edu.yale.its.tp.cas.auth.provider.WatchfulPasswordHandler;
 
@@ -50,22 +42,22 @@ public class KualiPasswordHandler extends WatchfulPasswordHandler {
                     // check the username and password against the db
                     // return true if they are there and have a valid password
                     //if ( LOG.isDebugEnabled() ) {
-                    //    LOG.debug( "Attempting login for user id: " + username + " and password hash: " + SpringServiceLocator.getEncryptionService().hash( password.trim() ) );
+                    //    LOG.debug( "Attempting login for user id: " + username + " and password hash: " + SpringContext.getBean(EncryptionService.class, "encryptionService").hash( password.trim() ) );
                     //}
                     // obtain the universal user record
-                    UniversalUser user = SpringServiceLocator.getUniversalUserService().getUniversalUser( new AuthenticationUserId( username.trim() ) );
+                    UniversalUser user = SpringContext.getBean(UniversalUserService.class, "universalUserService").getUniversalUser( new AuthenticationUserId( username.trim() ) );
                     //if ( LOG.isDebugEnabled() ) {
                     //    LOG.debug( "Found user " + user.getPersonName() + " with password hash: " + user.getFinancialSystemsEncryptedPasswordText() );
                     //}
                     // check if the password needs to be checked (if in a production environment or password turned on explicitly)
-                    if ( SpringServiceLocator.getKualiConfigurationService().isProductionEnvironment() || SpringServiceLocator.getWebAuthenticationService().isValidatePassword() ) {
+                    if ( SpringContext.getBean(KualiConfigurationService.class).isProductionEnvironment() || SpringContext.getBean(WebAuthenticationService.class, "webAuthenticationService").isValidatePassword() ) {
                         // if so, hash the passed in password and compare to the hash retrieved from the database
                         String hashedPassword = user.getFinancialSystemsEncryptedPasswordText();
                         if ( hashedPassword == null ) {
                             hashedPassword = "";
                         }
                         hashedPassword = StringUtils.stripEnd( hashedPassword, EncryptionService.HASH_POST_PREFIX );
-                        if ( SpringServiceLocator.getEncryptionService().hash( password.trim() ).equals( hashedPassword ) ) {
+                        if ( SpringContext.getBean(EncryptionService.class, "encryptionService").hash( password.trim() ).equals( hashedPassword ) ) {
                             return true; // password matched
                         }
                     } else {

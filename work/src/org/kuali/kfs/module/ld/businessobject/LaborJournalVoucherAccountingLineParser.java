@@ -52,7 +52,8 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.bo.AccountingLineParserBase;
 import org.kuali.kfs.bo.SourceAccountingLine;
-import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.kfs.context.SpringContext;
+import org.kuali.module.chart.service.BalanceTypService;
 
 public class LaborJournalVoucherAccountingLineParser extends AccountingLineParserBase {
     private String balanceTypeCode;
@@ -74,7 +75,7 @@ public class LaborJournalVoucherAccountingLineParser extends AccountingLineParse
     @Override
     protected void performCustomSourceAccountingLinePopulation(Map<String, String> attributeValueMap, SourceAccountingLine sourceAccountingLine, String accountingLineAsString) {
 
-        boolean isFinancialOffsetGeneration = SpringServiceLocator.getBalanceTypService().getBalanceTypByCode(balanceTypeCode).isFinancialOffsetGenerationIndicator();
+        boolean isFinancialOffsetGeneration = SpringContext.getBean(BalanceTypService.class).getBalanceTypByCode(balanceTypeCode).isFinancialOffsetGenerationIndicator();
         if (isFinancialOffsetGeneration || StringUtils.equals(balanceTypeCode, KFSConstants.BALANCE_TYPE_EXTERNAL_ENCUMBRANCE)) {
             super.performCustomSourceAccountingLinePopulation(attributeValueMap, sourceAccountingLine, accountingLineAsString);
         }

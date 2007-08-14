@@ -33,15 +33,17 @@ import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.bo.AccountingLineParser;
 import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.document.AccountingDocumentBase;
 import org.kuali.kfs.rules.AccountingDocumentRuleUtil;
-import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.financial.bo.BudgetAdjustmentAccountingLine;
 import org.kuali.module.financial.bo.BudgetAdjustmentAccountingLineParser;
 import org.kuali.module.financial.bo.BudgetAdjustmentSourceAccountingLine;
 import org.kuali.module.financial.bo.BudgetAdjustmentTargetAccountingLine;
 import org.kuali.module.financial.bo.FiscalYearFunctionControl;
 import org.kuali.module.financial.rules.BudgetAdjustmentDocumentRule;
+import org.kuali.module.financial.service.FiscalYearFunctionControlService;
+import org.kuali.module.financial.service.UniversityDateService;
 
 import edu.iu.uis.eden.exception.WorkflowException;
 
@@ -115,8 +117,8 @@ public class BudgetAdjustmentDocument extends AccountingDocumentBase implements 
         // setting default posting year. Trying to set currentYear first if it's allowed, if it isn't,
         // just set first allowed year. Note: allowedYears will never be empty because then
         // BudgetAdjustmentDocumentAuthorizer.canInitiate would have failed.
-        List allowedYears = SpringServiceLocator.getFiscalYearFunctionControlService().getBudgetAdjustmentAllowedYears();
-        Integer currentYearParam = SpringServiceLocator.getUniversityDateService().getCurrentFiscalYear();
+        List allowedYears = SpringContext.getBean(FiscalYearFunctionControlService.class).getBudgetAdjustmentAllowedYears();
+        Integer currentYearParam = SpringContext.getBean(UniversityDateService.class).getCurrentFiscalYear();
         
         FiscalYearFunctionControl fiscalYearFunctionControl = new FiscalYearFunctionControl();
         fiscalYearFunctionControl.setUniversityFiscalYear(currentYearParam);

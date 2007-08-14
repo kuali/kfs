@@ -15,19 +15,20 @@
  */
 package org.kuali.module.financial.rules;
 
-import static org.kuali.kfs.util.SpringServiceLocator.getDataDictionaryService;
-import static org.kuali.kfs.util.SpringServiceLocator.getDocumentService;
-import static org.kuali.kfs.util.SpringServiceLocator.getDocumentTypeService;
 import static org.kuali.module.financial.rules.InternalBillingDocumentRuleConstants.INTERNAL_BILLING_DOCUMENT_SECURITY_GROUPING;
 import static org.kuali.module.financial.rules.InternalBillingDocumentRuleConstants.RESTRICTED_SUB_FUND_GROUP_CODES;
 import static org.kuali.module.financial.rules.IsDebitTestUtils.Amount.NEGATIVE;
 import static org.kuali.module.financial.rules.IsDebitTestUtils.Amount.POSITIVE;
+import static org.kuali.rice.KNSServiceLocator.getDataDictionaryService;
+import static org.kuali.rice.KNSServiceLocator.getDocumentService;
+import static org.kuali.rice.KNSServiceLocator.getDocumentTypeService;
 import static org.kuali.test.fixtures.AccountingLineFixture.EXPENSE_LINE;
 import static org.kuali.test.fixtures.AccountingLineFixture.PFIP_SUB_FUND_LINE;
 import static org.kuali.test.fixtures.UserNameFixture.KHUNTLEY;
 import static org.kuali.test.util.KualiTestAssertionUtils.assertGlobalErrorMapContains;
 import static org.kuali.test.util.KualiTestAssertionUtils.assertGlobalErrorMapEmpty;
 
+import org.kuali.core.service.DocumentService;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.KFSKeyConstants;
 import org.kuali.kfs.KFSPropertyConstants;
@@ -35,8 +36,8 @@ import org.kuali.kfs.bo.AccountingLine;
 import org.kuali.kfs.bo.SourceAccountingLine;
 import org.kuali.kfs.bo.TargetAccountingLine;
 import org.kuali.kfs.context.KualiTestBase;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.document.AccountingDocument;
-import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.financial.document.InternalBillingDocument;
 import org.kuali.test.ConfigureContext;
 /**
@@ -56,7 +57,7 @@ public class InternalBillingDocumentRuleTest extends KualiTestBase {
         boolean failedAsExpected = false;
 
         try {
-            SpringServiceLocator.getDocumentService().saveDocument(null);
+            SpringContext.getBean(DocumentService.class).saveDocument(null);
         }
         catch (IllegalArgumentException e) {
             failedAsExpected = true;
@@ -1005,7 +1006,7 @@ public class InternalBillingDocumentRuleTest extends KualiTestBase {
      * ArrayList(); List targetLines = new ArrayList();
      * 
      * //This sub fund group needs to have a fund group //code of FUND_GROUP_CODE.LOAN_FUND This may not be necessary if we have an
-     * appropriate account BusinessObjectService boService = SpringServiceLocator.getBusinessObjectService(); String
+     * appropriate account BusinessObjectService boService = SpringContext.getBean(BusinessObjectService.class); String
      * subFundGroupCode = "SOME_CODE"; Map subFundGroupId = new HashMap(); subFundGroupId.put("code", subFundGroupCode);
      * SubFundGroup sfg = (SubFundGroup) boService.findByPrimaryKey(SubFundGroup.class, subFundGroupId);
      * 
@@ -1025,7 +1026,7 @@ public class InternalBillingDocumentRuleTest extends KualiTestBase {
      * ArrayList();
      * 
      * //This sub fund group needs to have a fund group //code of FUND_GROUP_CODE.LOAN_FUND This may not be necessary if we have an
-     * appropriate account BusinessObjectService boService = SpringServiceLocator.getBusinessObjectService(); String
+     * appropriate account BusinessObjectService boService = SpringContext.getBean(BusinessObjectService.class); String
      * subFundGroupCode = "SOME_CODE"; Map subFundGroupId = new HashMap(); subFundGroupId.put("code", subFundGroupCode);
      * SubFundGroup sfg = (SubFundGroup) boService.findByPrimaryKey(SubFundGroup.class, subFundGroupId);
      * 

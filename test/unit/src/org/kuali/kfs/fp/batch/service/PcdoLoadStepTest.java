@@ -16,12 +16,10 @@
 package org.kuali.module.financial.batch;
 
 import java.io.File;
-import java.util.Collection;
 
 import org.kuali.kfs.context.KualiTestBase;
-import org.kuali.kfs.util.SpringServiceLocator;
-import org.kuali.module.financial.batch.pcard.PcdoLoadStep;
-import org.kuali.module.financial.bo.ProcurementCardTransaction;
+import org.kuali.kfs.context.SpringContext;
+import org.kuali.module.financial.batch.pcard.ProcurementCardInputFileType;
 import org.kuali.test.ConfigureContext;
 
 /**
@@ -49,7 +47,7 @@ public class PcdoLoadStepTest extends KualiTestBase {
     protected void setUp() throws Exception {
         super.setUp();
         
-        String doneFileName = SpringServiceLocator.getProcurementCardInputFileType().getDirectoryPath() + "/transactions1.done";
+        String doneFileName = SpringContext.getBean(ProcurementCardInputFileType.class).getDirectoryPath() + "/transactions1.done";
         File doneFile = new File(doneFileName);
         if (!doneFile.exists()) {
             doneFile.createNewFile();
@@ -62,12 +60,12 @@ public class PcdoLoadStepTest extends KualiTestBase {
     public void testAll() throws Exception {
         assertTrue("hold until figure out staging dir!", true);
 //        
-//        PcdoLoadStep pcdoLoadStep = SpringServiceLocator.getPcdoLoadStep();
+//        PcdoLoadStep pcdoLoadStep = SpringContext.getBean(PcdoLoadStep.class);
 //        boolean goodExit = pcdoLoadStep.execute();
 //        
 //        assertTrue("pcdo load step did not exit with pass", goodExit);
 //        
-//        Collection loadedTransactions = SpringServiceLocator.getBusinessObjectService().findAll(ProcurementCardTransaction.class);
+//        Collection loadedTransactions = SpringContext.getBean(BusinessObjectService.class).findAll(ProcurementCardTransaction.class);
 //        assertNotNull("no transactions loaded ", loadedTransactions);
 //        assertEquals("incorrect number of transactions loaded ",10,loadedTransactions.size());
     }

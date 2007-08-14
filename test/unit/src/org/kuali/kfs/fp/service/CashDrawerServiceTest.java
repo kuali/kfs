@@ -20,9 +20,11 @@ import static org.kuali.kfs.util.SpringServiceLocator.getCashDrawerService;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.kuali.core.service.BusinessObjectService;
+import org.kuali.core.service.DateTimeService;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.context.KualiTestBase;
-import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.financial.bo.CashDrawer;
 import org.kuali.test.ConfigureContext;
 
@@ -364,7 +366,7 @@ public class CashDrawerServiceTest extends KualiTestBase {
 
 
     public final void testLifeCycle() {
-        final String RANDOM_WORKGROUP_NAME = "testWorkgroup-" + SpringServiceLocator.getDateTimeService().getCurrentDate().getTime();
+        final String RANDOM_WORKGROUP_NAME = "testWorkgroup-" + SpringContext.getBean(DateTimeService.class, "dateTimeService").getCurrentDate().getTime();
 
         boolean deleteSucceeded = false;
 
@@ -377,7 +379,7 @@ public class CashDrawerServiceTest extends KualiTestBase {
 
         CashDrawer retrieved = null;
         try {
-            SpringServiceLocator.getBusinessObjectService().save(created);
+            SpringContext.getBean(BusinessObjectService.class).save(created);
 
             retrieved = getCashDrawerService().getByWorkgroupName(RANDOM_WORKGROUP_NAME, false);
             assertNotNull(retrieved);
@@ -390,7 +392,7 @@ public class CashDrawerServiceTest extends KualiTestBase {
         finally {
             // delete it
             if (retrieved != null) {
-                SpringServiceLocator.getBusinessObjectService().delete(retrieved);
+                SpringContext.getBean(BusinessObjectService.class).delete(retrieved);
             }
         }
 
@@ -404,7 +406,7 @@ public class CashDrawerServiceTest extends KualiTestBase {
     private void deleteCashDrawer(String workgroupName) {
         Map deleteCriteria = new HashMap();
         deleteCriteria.put("workgroupName", workgroupName);
-        SpringServiceLocator.getBusinessObjectService().deleteMatching(CashDrawer.class, deleteCriteria);
+        SpringContext.getBean(BusinessObjectService.class).deleteMatching(CashDrawer.class, deleteCriteria);
     }
 
     private void createCashDrawer(String workgroupName) {
@@ -413,6 +415,6 @@ public class CashDrawerServiceTest extends KualiTestBase {
         CashDrawer cd = new CashDrawer();
         cd.setWorkgroupName(workgroupName);
         cd.setStatusCode(KFSConstants.CashDrawerConstants.STATUS_CLOSED);
-        SpringServiceLocator.getBusinessObjectService().save(cd);
+        SpringContext.getBean(BusinessObjectService.class).save(cd);
     }
 }

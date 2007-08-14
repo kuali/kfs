@@ -23,21 +23,20 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.apache.commons.lang.StringUtils;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.bo.user.UuId;
 import org.kuali.core.exceptions.UserNotFoundException;
-import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.core.service.KualiConfigurationService;
+import org.kuali.core.service.UniversalUserService;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.PurapParameterConstants;
 
 import edu.iu.uis.eden.WorkflowServiceError;
-import edu.iu.uis.eden.WorkflowServiceErrorImpl;
 import edu.iu.uis.eden.docsearch.DocSearchCriteriaVO;
 import edu.iu.uis.eden.docsearch.SearchAttributeCriteriaComponent;
 import edu.iu.uis.eden.docsearch.StandardDocumentSearchGenerator;
 import edu.iu.uis.eden.user.WorkflowUser;
-import edu.iu.uis.eden.util.Utilities;
 
 /**
  * This class...
@@ -80,7 +79,7 @@ public abstract class PurApDocumentSearchGenerator extends StandardDocumentSearc
         String uuid = workflowUser.getUuId().getUuId();
         try {
             String searchSpecialAccess = getSpecialAccessSearchUserWorkgroupName();
-            UniversalUser currentUser = SpringServiceLocator.getUniversalUserService().getUniversalUser(new UuId(uuid));
+            UniversalUser currentUser = SpringContext.getBean(UniversalUserService.class, "universalUserService").getUniversalUser(new UuId(uuid));
             return currentUser.isMember(searchSpecialAccess);
         }
         catch (UserNotFoundException e) {
@@ -91,7 +90,7 @@ public abstract class PurApDocumentSearchGenerator extends StandardDocumentSearc
     }
     
     public String getSpecialAccessSearchUserWorkgroupName() {
-        return SpringServiceLocator.getKualiConfigurationService().getApplicationParameterValue(PurapParameterConstants.PURAP_ADMIN_GROUP, PurapConstants.Workgroups.SEARCH_SPECIAL_ACCESS);
+        return SpringContext.getBean(KualiConfigurationService.class).getApplicationParameterValue(PurapParameterConstants.PURAP_ADMIN_GROUP, PurapConstants.Workgroups.SEARCH_SPECIAL_ACCESS);
     }
 
     /**

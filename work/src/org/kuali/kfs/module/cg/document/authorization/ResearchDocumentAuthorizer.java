@@ -25,11 +25,14 @@ import org.kuali.core.authorization.AuthorizationConstants;
 import org.kuali.core.bo.user.KualiGroup;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.document.authorization.DocumentAuthorizerBase;
+import org.kuali.core.service.AuthorizationService;
 import org.kuali.core.service.KualiConfigurationService;
+import org.kuali.core.service.UniversalUserService;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.workflow.service.KualiWorkflowDocument;
+import org.kuali.core.workflow.service.WorkflowGroupService;
 import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.kra.KraConstants;
 import org.kuali.module.kra.bo.AdhocPerson;
 import org.kuali.module.kra.bo.AdhocWorkgroup;
@@ -39,7 +42,6 @@ import org.kuali.workflow.KualiWorkflowUtils;
 import edu.iu.uis.eden.clientapp.WorkflowInfo;
 import edu.iu.uis.eden.clientapp.vo.ActionRequestVO;
 import edu.iu.uis.eden.clientapp.vo.ReportCriteriaVO;
-import edu.iu.uis.eden.clientapp.vo.UserVO;
 import edu.iu.uis.eden.clientapp.vo.WorkgroupVO;
 import edu.iu.uis.eden.exception.WorkflowException;
 
@@ -52,8 +54,8 @@ public class ResearchDocumentAuthorizer extends DocumentAuthorizerBase {
      */
     protected String getAdHocEditMode(ResearchDocument researchDocument, UniversalUser u) {
         
-        KualiConfigurationService kualiConfigurationService = SpringServiceLocator.getKualiConfigurationService();
-        ResearchDocumentPermissionsService permissionsService = SpringServiceLocator.getResearchDocumentPermissionsService();
+        KualiConfigurationService kualiConfigurationService = SpringContext.getBean(KualiConfigurationService.class);
+        ResearchDocumentPermissionsService permissionsService = SpringContext.getBean(ResearchDocumentPermissionsService.class);
         String permissionCode = AuthorizationConstants.EditMode.UNVIEWABLE;
         KualiWorkflowDocument workflowDocument = researchDocument.getDocumentHeader().getWorkflowDocument();
         
@@ -70,12 +72,12 @@ public class ResearchDocumentAuthorizer extends DocumentAuthorizerBase {
         // check ad-hoc workgroup permissions
         List<AdhocWorkgroup> adhocWorkgroups = permissionsService.getAllAdHocWorkgroups(researchDocument.getDocumentNumber());
         WorkflowInfo info2 = new WorkflowInfo();
-        List<KualiGroup> personGroups = SpringServiceLocator.getUniversalUserService().getUsersGroups(u);
+        List<KualiGroup> personGroups = SpringContext.getBean(UniversalUserService.class, "universalUserService").getUsersGroups(u);
         
         for (AdhocWorkgroup adhocWorkgroup: adhocWorkgroups) {
             WorkgroupVO workgroup;
             try {
-                workgroup = SpringServiceLocator.getWorkflowGroupService().getWorkgroupByGroupName(adhocWorkgroup.getWorkgroupName());
+                workgroup = SpringContext.getBean(WorkflowGroupService.class).getWorkgroupByGroupName(adhocWorkgroup.getWorkgroupName());
             } catch (WorkflowException ex) {
                 throw new RuntimeException("Caught workflow exception: " + ex);
             }
@@ -188,7 +190,7 @@ public class ResearchDocumentAuthorizer extends DocumentAuthorizerBase {
      * @return true if the given user is allowed to modify documents of the given document type
      */
     public boolean canModify(String documentTypeName, UniversalUser user) {
-        return SpringServiceLocator.getAuthorizationService().isAuthorized(user, KFSConstants.PERMISSION_MODIFY, documentTypeName);
+        return SpringContext.getBean(AuthorizationService.class).isAuthorized(user, KFSConstants.PERMISSION_MODIFY, documentTypeName);
     }
     
     /**
@@ -199,6 +201,6 @@ public class ResearchDocumentAuthorizer extends DocumentAuthorizerBase {
      * @return true if the given user is allowed to view documents of the given document type
      */
     public boolean canView(String documentTypeName, UniversalUser user) {
-        return SpringServiceLocator.getAuthorizationService().isAuthorized(user, KFSConstants.PERMISSION_VIEW, documentTypeName);
+        return SpringContext.getBean(AuthorizationService.class).isAuthorized(user, KFSConstants.PERMISSION_VIEW, documentTypeName);
     }
 }

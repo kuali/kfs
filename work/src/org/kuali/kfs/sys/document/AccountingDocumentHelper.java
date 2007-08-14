@@ -15,25 +15,23 @@
  */
 package org.kuali.kfs.document;
 
+import static org.apache.commons.beanutils.PropertyUtils.getProperty;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
-
-import static org.apache.commons.beanutils.PropertyUtils.getProperty;
 
 import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.document.GeneralLedgerPostingDocument;
+import org.kuali.kfs.bo.AccountingLine;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.rule.event.AccountingLineEvent;
 import org.kuali.kfs.rule.event.AddAccountingLineEvent;
 import org.kuali.kfs.rule.event.DeleteAccountingLineEvent;
 import org.kuali.kfs.rule.event.ReviewAccountingLineEvent;
 import org.kuali.kfs.rule.event.UpdateAccountingLineEvent;
 import org.kuali.kfs.service.AccountingLineService;
-import org.kuali.kfs.bo.AccountingLine;
-import org.kuali.kfs.util.SpringServiceLocator;
 
 
 /**
@@ -143,7 +141,7 @@ public class AccountingDocumentHelper<KfsDocument extends GeneralLedgerPostingDo
      * @return AccountingLineService;
      */
     protected AccountingLineService getAccountingLineService() {
-        return SpringServiceLocator.getAccountingLineService();
+        return SpringContext.getBean(AccountingLineService.class, "accountingLineService");
     }
     
     public List generateSaveEvents() {

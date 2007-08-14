@@ -25,13 +25,12 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.core.exceptions.ValidationException;
 import org.kuali.core.lookup.LookupUtils;
 import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.bo.SourceAccountingLine;
-import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.chart.bo.Chart;
 import org.kuali.module.chart.bo.Org;
+import org.kuali.module.chart.service.OrganizationService;
 import org.kuali.workflow.KualiWorkflowUtils;
 
-import edu.iu.uis.eden.WorkflowServiceErrorImpl;
 import edu.iu.uis.eden.lookupable.Row;
 import edu.iu.uis.eden.validation.ValidationContext;
 import edu.iu.uis.eden.validation.ValidationResults;
@@ -88,7 +87,7 @@ public class ChartOrgExtensionAttribute implements ExtensionAttribute {
                 results.addValidationResult("Chart/org is required.");
             }
         } else {
-            Org organization = SpringServiceLocator.getOrganizationService().getByPrimaryIdWithCaching(chart, org);
+            Org organization = SpringContext.getBean(OrganizationService.class).getByPrimaryIdWithCaching(chart, org);
             if (organization == null) {
                 results.addValidationResult("Chart/org is invalid.");
             }

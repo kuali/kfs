@@ -19,14 +19,12 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.core.document.AmountTotaling;
 import org.kuali.core.document.Document;
 import org.kuali.core.rules.PreRulesContinuationBase;
+import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.util.SpringServiceLocator;
-import org.kuali.module.kra.KraConstants;
-import org.kuali.module.kra.KraKeyConstants;
-
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.PurapKeyConstants;
 import org.kuali.module.purap.document.PurchaseOrderDocument;
@@ -59,7 +57,7 @@ public class PurchaseOrderDocumentPreRules extends PreRulesContinuationBase {
         
         // If the total exceeds the limit, ask for confirmation.
         if (!validateTotalDollarAmountIsLessThanPurchaseOrderTotalLimit(purchaseOrderDocument)) {
-            String questionText = SpringServiceLocator.getKualiConfigurationService().getPropertyString(
+            String questionText = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(
                     PurapKeyConstants.PURCHASE_ORDER_QUESTION_OVERRIDE_NOT_TO_EXCEED);
         
             boolean confirmOverride = super.askOrAnalyzeYesNoQuestion(PurapConstants.PO_OVERRIDE_NOT_TO_EXCEED_QUESTION, questionText);

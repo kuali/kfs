@@ -22,11 +22,12 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.kuali.core.exceptions.ValidationException;
+import org.kuali.core.service.DocumentService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.context.KualiTestBase;
-import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.financial.document.CashReceiptDocument;
 import org.kuali.module.financial.util.CashReceiptFamilyTestUtil;
 import org.kuali.test.ConfigureContext;
@@ -422,12 +423,12 @@ public class CashReceiptServiceTest extends KualiTestBase {
         for (Iterator i = verifiedReceipts.iterator(); i.hasNext();) {
             CashReceiptDocument receipt = (CashReceiptDocument) i.next();
             receipt.getDocumentHeader().setFinancialDocumentStatusCode("Z");
-            SpringServiceLocator.getDocumentService().updateDocument(receipt);
+            SpringContext.getBean(DocumentService.class).updateDocument(receipt);
         }
     }
 
     private CashReceiptDocument buildCashReceiptDoc(String workgroupName, String description, String status, KualiDecimal cashAmount, KualiDecimal checkAmount) throws WorkflowException {
-        CashReceiptDocument crDoc = (CashReceiptDocument) SpringServiceLocator.getDocumentService().getNewDocument(CashReceiptDocument.class);
+        CashReceiptDocument crDoc = (CashReceiptDocument) SpringContext.getBean(DocumentService.class).getNewDocument(CashReceiptDocument.class);
 
         crDoc.getDocumentHeader().setFinancialDocumentDescription(description);
         crDoc.getDocumentHeader().setFinancialDocumentStatusCode(status);
@@ -441,7 +442,7 @@ public class CashReceiptServiceTest extends KualiTestBase {
         crDoc.addSourceAccountingLine(CashReceiptFamilyTestUtil.buildSourceAccountingLine(crDoc.getDocumentNumber(), crDoc.getPostingYear(), crDoc.getNextSourceLineNumber()));
 
         try {
-            SpringServiceLocator.getDocumentService().saveDocument(crDoc);
+            SpringContext.getBean(DocumentService.class).saveDocument(crDoc);
         }
         catch(ValidationException e) {
             // If the business rule evaluation fails then give us more info for debugging this test.

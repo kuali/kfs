@@ -24,12 +24,11 @@ import java.util.Map;
 import org.kuali.core.bo.PersistableBusinessObject;
 import org.kuali.core.maintenance.KualiMaintainableImpl;
 import org.kuali.core.util.TypedArrayList;
-import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.chart.bo.OrganizationReversion;
 import org.kuali.module.chart.bo.OrganizationReversionCategory;
 import org.kuali.module.chart.bo.OrganizationReversionDetail;
 import org.kuali.module.chart.service.OrganizationReversionService;
-import org.kuali.kfs.util.SpringServiceLocator;
 
 public class OrganizationReversionMaintainableImpl extends KualiMaintainableImpl {
 
@@ -66,7 +65,7 @@ public class OrganizationReversionMaintainableImpl extends KualiMaintainableImpl
      */
     public void setBusinessObject(PersistableBusinessObject businessObject) {
 
-        OrganizationReversionService organizationReversionService = SpringServiceLocator.getOrganizationReversionService();
+        OrganizationReversionService organizationReversionService = SpringContext.getBean(OrganizationReversionService.class);
         OrganizationReversion organizationReversion = (OrganizationReversion) businessObject;
         List<OrganizationReversionDetail> details = organizationReversion.getOrganizationReversionDetail();
 

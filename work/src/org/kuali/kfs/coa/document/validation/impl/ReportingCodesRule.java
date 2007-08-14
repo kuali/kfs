@@ -22,7 +22,7 @@ import org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.KFSKeyConstants;
-import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.chart.bo.ReportingCodes;
 
 public class ReportingCodesRule extends MaintenanceDocumentRuleBase {
@@ -34,7 +34,7 @@ public class ReportingCodesRule extends MaintenanceDocumentRuleBase {
 
     public ReportingCodesRule() {
         super();
-        setBusinessObjectService((BusinessObjectService) SpringServiceLocator.getBusinessObjectService());
+        setBusinessObjectService((BusinessObjectService) SpringContext.getBean(BusinessObjectService.class));
     }
 
     /**

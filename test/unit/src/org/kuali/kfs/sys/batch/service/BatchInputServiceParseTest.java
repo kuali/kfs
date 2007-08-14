@@ -22,10 +22,12 @@ import java.util.List;
 import org.apache.commons.io.IOUtils;
 import org.kuali.kfs.batch.BatchInputFileType;
 import org.kuali.kfs.context.KualiTestBase;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.exceptions.XMLParseException;
-import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.module.financial.batch.pcard.ProcurementCardInputFileType;
 import org.kuali.module.financial.bo.ProcurementCardTransaction;
 import org.kuali.module.gl.batch.collector.CollectorBatch;
+import org.kuali.module.gl.batch.collector.CollectorInputFileType;
 import org.kuali.module.gl.bo.CollectorDetail;
 import org.kuali.module.gl.bo.OriginEntry;
 import org.kuali.test.ConfigureContext;
@@ -52,9 +54,9 @@ public class BatchInputServiceParseTest extends KualiTestBase {
     protected void setUp() throws Exception {
         super.setUp();
 
-        batchInputFileService = SpringServiceLocator.getBatchInputFileService();
-        pcdoBatchInputFileType = SpringServiceLocator.getProcurementCardInputFileType();
-        collectorBatchInputFileType = SpringServiceLocator.getCollectorInputFileType();
+        batchInputFileService = SpringContext.getBean(BatchInputFileService.class);
+        pcdoBatchInputFileType = SpringContext.getBean(ProcurementCardInputFileType.class);
+        collectorBatchInputFileType = SpringContext.getBean(CollectorInputFileType.class);
 
         InputStream pcdoValidFileStream = ClassLoader.getSystemResourceAsStream(TEST_BATCH_XML_DIRECTORY + "BatchInputValidPCDO.xml");
         validPCDOFileContents = IOUtils.toByteArray(pcdoValidFileStream);

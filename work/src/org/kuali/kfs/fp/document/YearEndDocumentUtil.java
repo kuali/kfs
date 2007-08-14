@@ -19,7 +19,8 @@ package org.kuali.module.financial.document;
 import org.kuali.core.document.TransactionalDocument;
 import org.kuali.kfs.bo.AccountingLine;
 import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
-import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.kfs.context.SpringContext;
+import org.kuali.module.financial.service.UniversityDateService;
 
 
 /**
@@ -37,7 +38,7 @@ public class YearEndDocumentUtil {
      * @return the previous fiscal year used with all GLPE
      */
     public static final Integer getPreviousFiscalYear() {
-        int i = SpringServiceLocator.getUniversityDateService().getCurrentFiscalYear().intValue() - 1;
+        int i = SpringContext.getBean(UniversityDateService.class).getCurrentFiscalYear().intValue() - 1;
         return new Integer(i);
     }
 

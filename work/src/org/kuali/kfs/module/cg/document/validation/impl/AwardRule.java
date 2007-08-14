@@ -15,22 +15,21 @@
  */
 package org.kuali.module.cg.rules;
 
-import java.util.Collection;
 import java.util.Arrays;
+import java.util.Collection;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.core.document.MaintenanceDocument;
-import org.kuali.core.document.Document;
+import org.kuali.core.service.DataDictionaryService;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.KFSKeyConstants;
 import org.kuali.kfs.KFSPropertyConstants;
-import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.cg.bo.Award;
 import org.kuali.module.cg.bo.AwardAccount;
 import org.kuali.module.cg.bo.AwardOrganization;
 import org.kuali.module.cg.bo.AwardProjectDirector;
-import org.kuali.module.cg.bo.ProposalProjectDirector;
 
 /**
  * Rules for the Award maintenance document.
@@ -80,7 +79,7 @@ public class AwardRule extends CGMaintenanceDocumentRuleBase {
         Collection<AwardAccount> awardAccounts = newAwardCopy.getAwardAccounts();
 
         if (ObjectUtils.isNull(awardAccounts) || awardAccounts.isEmpty()) {
-            String elementLabel = SpringServiceLocator.getDataDictionaryService().getCollectionElementLabel(Award.class.getName(), KFSPropertyConstants.AWARD_ACCOUNTS, AwardAccount.class);
+            String elementLabel = SpringContext.getBean(DataDictionaryService.class).getCollectionElementLabel(Award.class.getName(), KFSPropertyConstants.AWARD_ACCOUNTS, AwardAccount.class);
             putFieldError(KFSPropertyConstants.AWARD_ACCOUNTS, KFSKeyConstants.ERROR_ONE_REQUIRED, elementLabel);
             success = false;
         }
@@ -122,15 +121,15 @@ public class AwardRule extends CGMaintenanceDocumentRuleBase {
         
         if (newAwardCopy.getFederalPassThroughIndicator()) {
 
-            String indicatorLabel = SpringServiceLocator.getDataDictionaryService().getAttributeErrorLabel(Award.class, KFSPropertyConstants.FEDERAL_PASS_THROUGH_INDICATOR);
+            String indicatorLabel = SpringContext.getBean(DataDictionaryService.class).getAttributeErrorLabel(Award.class, KFSPropertyConstants.FEDERAL_PASS_THROUGH_INDICATOR);
             if (null == newAwardCopy.getFederalPassThroughFundedAmount()) {
-                String amountLabel = SpringServiceLocator.getDataDictionaryService().getAttributeErrorLabel(Award.class, KFSPropertyConstants.FEDERAL_PASS_THROUGH_FUNDED_AMOUNT);
+                String amountLabel = SpringContext.getBean(DataDictionaryService.class).getAttributeErrorLabel(Award.class, KFSPropertyConstants.FEDERAL_PASS_THROUGH_FUNDED_AMOUNT);
                 putFieldError(KFSPropertyConstants.FEDERAL_PASS_THROUGH_FUNDED_AMOUNT, KFSKeyConstants.ERROR_FPT_AGENCY_NUMBER_REQUIRED, new String[] { amountLabel, indicatorLabel });
                 success = false;
             }
             String grantDescCode = newAwardCopy.getGrantDescription().getGrantDescriptionCode();
             if (StringUtils.isBlank(grantDescCode) || !Arrays.asList(NON_FED_GRANT_DESCS).contains(grantDescCode)) {
-                String grantDescLabel = SpringServiceLocator.getDataDictionaryService().getAttributeErrorLabel(Award.class, KFSPropertyConstants.GRANT_DESCRIPTION_CODE);
+                String grantDescLabel = SpringContext.getBean(DataDictionaryService.class).getAttributeErrorLabel(Award.class, KFSPropertyConstants.GRANT_DESCRIPTION_CODE);
                 putFieldError(KFSPropertyConstants.GRANT_DESCRIPTION_CODE, KFSKeyConstants.ERROR_GRANT_DESCRIPTION_INVALID_WITH_FED_PASS_THROUGH_AGENCY_INDICATOR_SELECTED);
                 success = false;
             }

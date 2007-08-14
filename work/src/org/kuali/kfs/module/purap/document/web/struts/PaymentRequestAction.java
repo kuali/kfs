@@ -26,11 +26,13 @@ import org.apache.struts.action.ActionMapping;
 import org.kuali.core.UserSession;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.question.ConfirmationQuestion;
+import org.kuali.core.service.DocumentService;
+import org.kuali.core.service.KualiRuleService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.web.struts.form.KualiDocumentFormBase;
 import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.PurapKeyConstants;
 import org.kuali.module.purap.PurapConstants.PREQDocumentsStrings;
@@ -38,6 +40,8 @@ import org.kuali.module.purap.document.AccountsPayableDocument;
 import org.kuali.module.purap.document.PaymentRequestDocument;
 import org.kuali.module.purap.rule.event.CalculateAccountsPayableEvent;
 import org.kuali.module.purap.rule.event.ContinueAccountsPayableEvent;
+import org.kuali.module.purap.service.PaymentRequestService;
+import org.kuali.module.purap.service.PurapAccountingService;
 import org.kuali.module.purap.util.PurQuestionCallback;
 import org.kuali.module.purap.web.struts.form.PaymentRequestForm;
 
@@ -93,10 +97,10 @@ public class PaymentRequestAction extends AccountsPayableActionBase {
         // If we are here either there was no duplicate or there was a duplicate and the user hits continue, in either case we need
         // to validate the business rules
         /// paymentRequestDocument.getDocumentHeader().setFinancialDocumentDescription("dummy data to pass the business rule");
-        boolean rulePassed = SpringServiceLocator.getKualiRuleService().applyRules(new ContinueAccountsPayableEvent(paymentRequestDocument));
+        boolean rulePassed = SpringContext.getBean(KualiRuleService.class).applyRules(new ContinueAccountsPayableEvent(paymentRequestDocument));
 
         if (rulePassed) {
-            SpringServiceLocator.getPaymentRequestService().populateAndSavePaymentRequest(paymentRequestDocument);
+            SpringContext.getBean(PaymentRequestService.class).populateAndSavePaymentRequest(paymentRequestDocument);
         }
 
         paymentRequestDocument.refreshNonUpdateableReferences();
@@ -124,7 +128,7 @@ public class PaymentRequestAction extends AccountsPayableActionBase {
      */
     private ActionForward performDuplicatePaymentRequestCheck(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response, PaymentRequestDocument paymentRequestDocument) throws Exception {
         ActionForward forward = null;
-        HashMap<String, String> duplicateMessages = SpringServiceLocator.getPaymentRequestService().paymentRequestDuplicateMessages(paymentRequestDocument);
+        HashMap<String, String> duplicateMessages = SpringContext.getBean(PaymentRequestService.class).paymentRequestDuplicateMessages(paymentRequestDocument);
         if (!duplicateMessages.isEmpty()) {
             Object question = request.getParameter(KFSConstants.QUESTION_INST_ATTRIBUTE_NAME);
             if (question == null) {
@@ -181,7 +185,7 @@ public class PaymentRequestAction extends AccountsPayableActionBase {
 
         PurQuestionCallback callback = new PurQuestionCallback() {
             public void doPostQuestion(AccountsPayableDocument document, String noteText) throws Exception {
-                SpringServiceLocator.getPaymentRequestService().addHoldOnPaymentRequest((PaymentRequestDocument) document, noteText);
+                SpringContext.getBean(PaymentRequestService.class).addHoldOnPaymentRequest((PaymentRequestDocument) document, noteText);
             }
         };
 
@@ -203,7 +207,7 @@ public class PaymentRequestAction extends AccountsPayableActionBase {
 
         PurQuestionCallback callback = new PurQuestionCallback() {
             public void doPostQuestion(AccountsPayableDocument document, String noteText) throws Exception {
-                SpringServiceLocator.getPaymentRequestService().removeHoldOnPaymentRequest((PaymentRequestDocument) document, noteText);
+                SpringContext.getBean(PaymentRequestService.class).removeHoldOnPaymentRequest((PaymentRequestDocument) document, noteText);
             }
         };
 
@@ -226,7 +230,7 @@ public class PaymentRequestAction extends AccountsPayableActionBase {
 
         PurQuestionCallback callback = new PurQuestionCallback() {
             public void doPostQuestion(AccountsPayableDocument document, String noteText) throws Exception {
-                SpringServiceLocator.getPaymentRequestService().requestCancelOnPaymentRequest((PaymentRequestDocument) document, noteText);
+                SpringContext.getBean(PaymentRequestService.class).requestCancelOnPaymentRequest((PaymentRequestDocument) document, noteText);
             }
         };
 
@@ -248,7 +252,7 @@ public class PaymentRequestAction extends AccountsPayableActionBase {
 
         PurQuestionCallback callback = new PurQuestionCallback() {
             public void doPostQuestion(AccountsPayableDocument document, String noteText) throws Exception {
-                SpringServiceLocator.getPaymentRequestService().removeRequestCancelOnPaymentRequest((PaymentRequestDocument) document, noteText);
+                SpringContext.getBean(PaymentRequestService.class).removeRequestCancelOnPaymentRequest((PaymentRequestDocument) document, noteText);
             }
         };
 
@@ -282,7 +286,7 @@ public class PaymentRequestAction extends AccountsPayableActionBase {
                     // should objects from existing user session be copied over
                     GlobalVariables.setUserSession(newUserSession);
                     PaymentRequestForm newPreqForm = (PaymentRequestForm)ObjectUtils.deepCopy(preqForm);
-                    newPreqForm.setDocument(SpringServiceLocator.getDocumentService().getByDocumentHeaderId(document.getDocumentNumber()));
+                    newPreqForm.setDocument(SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(document.getDocumentNumber()));
                     ActionForward actionForward = super.disapprove(mapping, newPreqForm, request, response);
                     GlobalVariables.setUserSession(originalUserSession);
                     return actionForward;
@@ -291,7 +295,7 @@ public class PaymentRequestAction extends AccountsPayableActionBase {
                     UserSession newUserSession = new UserSession(PurapConstants.SYSTEM_AP_USER);
                     // should objects from existing user session be copied over
                     GlobalVariables.setUserSession(newUserSession);
-                    SpringServiceLocator.getDocumentService().superUserCancelDocument(SpringServiceLocator.getDocumentService().getByDocumentHeaderId(document.getDocumentNumber()), "Document Cancelled by user " + originalUserSession.getUniversalUser().getPersonName() + " (" + originalUserSession.getUniversalUser().getPersonUserIdentifier() + ")");
+                    SpringContext.getBean(DocumentService.class).superUserCancelDocument(SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(document.getDocumentNumber()), "Document Cancelled by user " + originalUserSession.getUniversalUser().getPersonName() + " (" + originalUserSession.getUniversalUser().getPersonUserIdentifier() + ")");
                     GlobalVariables.setUserSession(originalUserSession);
                     return mapping.findForward(KFSConstants.MAPPING_BASIC);
                 }
@@ -309,11 +313,11 @@ public class PaymentRequestAction extends AccountsPayableActionBase {
         //set amounts on any empty
         preqDoc.updateExtendedPriceOnItems();
         //notice we're ignoring whether the boolean, because these are just warnings they shouldn't halt anything
-        SpringServiceLocator.getKualiRuleService().applyRules(new CalculateAccountsPayableEvent(preqDoc));
+        SpringContext.getBean(KualiRuleService.class).applyRules(new CalculateAccountsPayableEvent(preqDoc));
 
-        SpringServiceLocator.getPaymentRequestService().calculatePaymentRequest(preqDoc, true);
+        SpringContext.getBean(PaymentRequestService.class).calculatePaymentRequest(preqDoc, true);
         // TODO Chris - an updateAccountAmounts is done at the end of the above method... need it here?
-        SpringServiceLocator.getPurapAccountingService().updateAccountAmounts(apDoc);
+        SpringContext.getBean(PurapAccountingService.class).updateAccountAmounts(apDoc);
     }
 
 
@@ -329,7 +333,7 @@ public class PaymentRequestAction extends AccountsPayableActionBase {
      PaymentRequestForm preqForm = (PaymentRequestForm) form;
      PaymentRequestDocument document = (PaymentRequestDocument) preqForm.getDocument();
      
-     SpringServiceLocator.getPaymentRequestService().save(document);
+     SpringContext.getBean(PaymentRequestService.class).save(document);
      return super.save(mapping, form, request, response);
      }
      */

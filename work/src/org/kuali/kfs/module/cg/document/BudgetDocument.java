@@ -27,14 +27,17 @@ import org.kuali.core.bo.user.AuthenticationUserId;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.exceptions.IllegalObjectStateException;
 import org.kuali.core.exceptions.UserNotFoundException;
+import org.kuali.core.service.KualiConfigurationService;
+import org.kuali.core.service.PersistenceService;
+import org.kuali.core.service.UniversalUserService;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.workflow.DocumentInitiator;
 import org.kuali.core.workflow.KualiDocumentXmlMaterializer;
 import org.kuali.core.workflow.KualiTransactionalDocumentInformation;
 import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.bo.AccountingLineBase;
-import org.kuali.kfs.util.SpringServiceLocator;
-import org.kuali.module.chart.bo.ChartUser;
+import org.kuali.kfs.context.SpringContext;
+import org.kuali.module.chart.service.ChartUserService;
 import org.kuali.module.kra.KraConstants;
 import org.kuali.module.kra.bo.AdhocOrg;
 import org.kuali.module.kra.budget.bo.Budget;
@@ -44,6 +47,7 @@ import org.kuali.module.kra.budget.bo.BudgetPeriod;
 import org.kuali.module.kra.budget.bo.BudgetTask;
 import org.kuali.module.kra.budget.bo.BudgetThirdPartyCostShare;
 import org.kuali.module.kra.budget.bo.BudgetUser;
+import org.kuali.module.kra.budget.service.BudgetService;
 import org.kuali.module.kra.document.ResearchDocumentBase;
 
 /**
@@ -85,7 +89,7 @@ public class BudgetDocument extends ResearchDocumentBase {
     }
 
     public void initialize() {
-        SpringServiceLocator.getBudgetService().initializeBudget(this);
+        SpringContext.getBean(BudgetService.class).initializeBudget(this);
     }
     
     //TODO Can't use this just yet - need to ensure that rules are run prior to this being called
@@ -98,7 +102,7 @@ public class BudgetDocument extends ResearchDocumentBase {
 //    public void prepareForSave() {
 //        super.prepareForSave();
 //        try {
-//            SpringServiceLocator.getBudgetService().prepareBudgetForSave(this);
+//            SpringContext.getBean(BudgetService.class).prepareBudgetForSave(this);
 //        } catch (WorkflowException e) {
 //            throw new RuntimeException("no document found for documentNumber '" + this.documentHeader + "'", e);
 //        }
@@ -382,7 +386,7 @@ public class BudgetDocument extends ResearchDocumentBase {
         DocumentInitiator initiator = new DocumentInitiator();
         String initiatorNetworkId = documentHeader.getWorkflowDocument().getInitiatorNetworkId();
         try {
-            UniversalUser initiatorUser = SpringServiceLocator.getUniversalUserService().getUniversalUser(new AuthenticationUserId(initiatorNetworkId));
+            UniversalUser initiatorUser = SpringContext.getBean(UniversalUserService.class, "universalUserService").getUniversalUser(new AuthenticationUserId(initiatorNetworkId));
             initiator.setUniversalUser(initiatorUser);
         }
         catch (UserNotFoundException e) {
@@ -399,7 +403,7 @@ public class BudgetDocument extends ResearchDocumentBase {
         List referenceObjects = new ArrayList();
         referenceObjects.add("personnel");
         referenceObjects.add("institutionCostShareItems");
-        SpringServiceLocator.getPersistenceService().retrieveReferenceObjects(budget, referenceObjects);
+        SpringContext.getBean(PersistenceService.class).retrieveReferenceObjects(budget, referenceObjects);
         this.refreshReferenceObject("adhocOrgs");
         
         StringBuffer xml = new StringBuffer("<documentContent>");
@@ -444,7 +448,7 @@ public class BudgetDocument extends ResearchDocumentBase {
                 xml.append(projectDirector.getFiscalCampusCode());
                 xml.append("</chartOfAccountsCode><organizationCode>");
                 if (StringUtils.isBlank(projectDirector.getPrimaryDepartmentCode())) {
-                    xml.append(SpringServiceLocator.getChartUserService().getDefaultOrganizationCode(projectDirector.getUser()));
+                    xml.append(SpringContext.getBean(ChartUserService.class).getDefaultOrganizationCode(projectDirector.getUser()));
                 } else {
                     xml.append(projectDirector.getPrimaryDepartmentCode());
                 }
@@ -466,7 +470,7 @@ public class BudgetDocument extends ResearchDocumentBase {
      */
     public String buildCostShareOrgReportXml(boolean encloseContent) {
         
-        String costSharePermissionCode = SpringServiceLocator.getKualiConfigurationService().getApplicationParameterValue(
+        String costSharePermissionCode = SpringContext.getBean(KualiConfigurationService.class).getApplicationParameterValue(
                 KraConstants.KRA_ADMIN_GROUP_NAME, KraConstants.BUDGET_COST_SHARE_PERMISSION_CODE);
         
         StringBuffer xml = new StringBuffer();

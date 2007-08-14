@@ -23,7 +23,7 @@ import java.util.List;
 import org.kuali.core.lookup.keyvalues.KeyValuesBase;
 import org.kuali.core.service.KeyValuesService;
 import org.kuali.core.web.ui.KeyLabelPair;
-import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.chart.bo.OrgType;
 
 public class OrgTypeValuesFinder extends KeyValuesBase {
@@ -42,7 +42,7 @@ public class OrgTypeValuesFinder extends KeyValuesBase {
     public List getKeyValues() {
 
         // get a list of all OrgTypes
-        KeyValuesService boService = SpringServiceLocator.getKeyValuesService();
+        KeyValuesService boService = SpringContext.getBean(KeyValuesService.class);
         List orgTypes = (List) boService.findAll(OrgType.class);
 
         // calling comparator.

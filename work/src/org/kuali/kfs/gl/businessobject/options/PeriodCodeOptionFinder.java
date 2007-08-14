@@ -22,7 +22,8 @@ import org.kuali.core.lookup.keyvalues.KeyValuesBase;
 import org.kuali.core.lookup.valueFinder.ValueFinder;
 import org.kuali.core.web.ui.KeyLabelPair;
 import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.kfs.context.SpringContext;
+import org.kuali.module.financial.service.UniversityDateService;
 import org.kuali.module.gl.bo.UniversityDate;
 
 /**
@@ -36,7 +37,7 @@ public class GLPeriodCodeOptionFinder extends KeyValuesBase implements ValueFind
      * @see org.kuali.core.lookup.valueFinder.ValueFinder#getValue()
      */
     public String getValue() {
-        UniversityDate ud = SpringServiceLocator.getUniversityDateService().getCurrentUniversityDate();
+        UniversityDate ud = SpringContext.getBean(UniversityDateService.class).getCurrentUniversityDate();
         return ud.getUniversityFiscalAccountingPeriod();
     }
 

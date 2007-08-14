@@ -22,11 +22,12 @@ import java.util.LinkedHashMap;
 
 import org.kuali.core.bo.DocumentType;
 import org.kuali.core.bo.PersistableBusinessObjectBase;
+import org.kuali.core.service.DateTimeService;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.bo.Options;
 import org.kuali.kfs.bo.OriginationCode;
-import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.AccountingPeriod;
 import org.kuali.module.chart.bo.Chart;
@@ -130,7 +131,7 @@ public class Entry extends PersistableBusinessObjectBase implements Transaction 
             setTransactionPostingDate(new Date(postDate.getTime()));
         }
 
-        Timestamp now = SpringServiceLocator.getDateTimeService().getCurrentTimestamp();
+        Timestamp now = SpringContext.getBean(DateTimeService.class, "dateTimeService").getCurrentTimestamp();
         setTransactionDateTimeStamp(now);
     }
 

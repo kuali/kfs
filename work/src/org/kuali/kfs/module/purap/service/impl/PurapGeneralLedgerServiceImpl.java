@@ -45,10 +45,12 @@ import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.bo.AccountingLine;
 import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
 import org.kuali.kfs.bo.SourceAccountingLine;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.rule.event.GenerateGeneralLedgerPendingEntriesEvent;
 import org.kuali.kfs.service.GeneralLedgerPendingEntryService;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.chart.bo.ObjectCode;
+import org.kuali.module.chart.service.ObjectCodeService;
 import org.kuali.module.financial.service.UniversityDateService;
 import org.kuali.module.gl.bo.UniversityDate;
 import org.kuali.module.purap.PurapRuleConstants;
@@ -108,7 +110,7 @@ public class PurapGeneralLedgerServiceImpl implements PurapGeneralLedgerService 
         }
 
         // TODO should we be doing it like this or storing the FY in the acct table in which case we wouldn't need this at all we'd inherit it from the accountingdocument
-        ObjectCode objectCode = SpringServiceLocator.getObjectCodeService().getByPrimaryId(explicitEntry.getUniversityFiscalYear(), explicitEntry.getChartOfAccountsCode(), explicitEntry.getFinancialObjectCode());
+        ObjectCode objectCode = SpringContext.getBean(ObjectCodeService.class).getByPrimaryId(explicitEntry.getUniversityFiscalYear(), explicitEntry.getChartOfAccountsCode(), explicitEntry.getFinancialObjectCode());
         if (ObjectUtils.isNotNull(objectCode)) {
             explicitEntry.setFinancialObjectTypeCode(objectCode.getFinancialObjectTypeCode());
         }

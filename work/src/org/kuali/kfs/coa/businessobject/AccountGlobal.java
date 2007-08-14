@@ -18,7 +18,6 @@ package org.kuali.module.chart.bo;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 
@@ -29,12 +28,14 @@ import org.kuali.core.bo.GlobalBusinessObjectDetail;
 import org.kuali.core.bo.PersistableBusinessObject;
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.bo.user.UniversalUser;
+import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.PersistenceStructureService;
+import org.kuali.core.service.UniversalUserService;
 import org.kuali.core.util.TypedArrayList;
 import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.bo.PostalZipCode;
 import org.kuali.kfs.bo.State;
-import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.chart.bo.codes.SufficientFundsCode;
 
 /**
@@ -109,7 +110,7 @@ public class AccountGlobal extends PersistableBusinessObjectBase implements Glob
         for (AccountGlobalDetail detail : accountGlobalDetails) {
 
             // load the object by keys
-            Account account = (Account) SpringServiceLocator.getBusinessObjectService().findByPrimaryKey(Account.class, detail.getPrimaryKeys());
+            Account account = (Account) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(Account.class, detail.getPrimaryKeys());
             
             // if we got a valid account, do the processing
             if (account != null) {
@@ -584,7 +585,7 @@ public class AccountGlobal extends PersistableBusinessObjectBase implements Glob
     }
 
     public UniversalUser getAccountFiscalOfficerUser() {
-        accountFiscalOfficerUser = SpringServiceLocator.getUniversalUserService().updateUniversalUserIfNecessary(accountFiscalOfficerSystemIdentifier, accountFiscalOfficerUser);
+        accountFiscalOfficerUser = SpringContext.getBean(UniversalUserService.class, "universalUserService").updateUniversalUserIfNecessary(accountFiscalOfficerSystemIdentifier, accountFiscalOfficerUser);
         return accountFiscalOfficerUser;
     }
 
@@ -598,7 +599,7 @@ public class AccountGlobal extends PersistableBusinessObjectBase implements Glob
     }
 
     public UniversalUser getAccountManagerUser() {
-        accountManagerUser = SpringServiceLocator.getUniversalUserService().updateUniversalUserIfNecessary(accountManagerSystemIdentifier, accountManagerUser);
+        accountManagerUser = SpringContext.getBean(UniversalUserService.class, "universalUserService").updateUniversalUserIfNecessary(accountManagerSystemIdentifier, accountManagerUser);
         return accountManagerUser;
     }
 
@@ -612,7 +613,7 @@ public class AccountGlobal extends PersistableBusinessObjectBase implements Glob
 
 
     public UniversalUser getAccountSupervisoryUser() {
-        accountSupervisoryUser = SpringServiceLocator.getUniversalUserService().updateUniversalUserIfNecessary(accountsSupervisorySystemsIdentifier, accountSupervisoryUser);
+        accountSupervisoryUser = SpringContext.getBean(UniversalUserService.class, "universalUserService").updateUniversalUserIfNecessary(accountsSupervisorySystemsIdentifier, accountSupervisoryUser);
         return accountSupervisoryUser;
     }
 
@@ -932,7 +933,7 @@ public class AccountGlobal extends PersistableBusinessObjectBase implements Glob
      * @see org.kuali.core.document.GlobalBusinessObject#isPersistable()
      */
     public boolean isPersistable() {
-        PersistenceStructureService persistenceStructureService = SpringServiceLocator.getPersistenceStructureService();
+        PersistenceStructureService persistenceStructureService = SpringContext.getBean(PersistenceStructureService.class);
 
         // fail if the PK for this object is emtpy
         if (StringUtils.isBlank(documentNumber)) {

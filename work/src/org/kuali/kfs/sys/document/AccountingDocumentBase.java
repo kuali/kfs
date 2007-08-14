@@ -23,25 +23,23 @@ import java.util.Map;
 
 import org.kuali.core.document.TransactionalDocument;
 import org.kuali.core.exceptions.ValidationException;
-import org.kuali.core.rule.event.ApproveDocumentEvent;
 import org.kuali.core.rule.event.KualiDocumentEvent;
-import org.kuali.core.rule.event.RouteDocumentEvent;
-import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.KFSKeyConstants;
 import org.kuali.kfs.bo.AccountingLine;
 import org.kuali.kfs.bo.AccountingLineBase;
 import org.kuali.kfs.bo.AccountingLineParser;
 import org.kuali.kfs.bo.AccountingLineParserBase;
 import org.kuali.kfs.bo.SourceAccountingLine;
 import org.kuali.kfs.bo.TargetAccountingLine;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.rule.event.AccountingLineEvent;
 import org.kuali.kfs.rule.event.AddAccountingLineEvent;
 import org.kuali.kfs.rule.event.DeleteAccountingLineEvent;
 import org.kuali.kfs.rule.event.ReviewAccountingLineEvent;
 import org.kuali.kfs.rule.event.UpdateAccountingLineEvent;
-import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.kfs.service.AccountingLineService;
+import org.kuali.kfs.service.GeneralLedgerPendingEntryService;
 
 import edu.iu.uis.eden.exception.WorkflowException;
 
@@ -351,7 +349,7 @@ public abstract class AccountingDocumentBase extends GeneralLedgerPostingDocumen
     }
 
     public void prepareForSave(KualiDocumentEvent event) {
-        if (!SpringServiceLocator.getGeneralLedgerPendingEntryService().generateGeneralLedgerPendingEntries(this)) {
+        if (!SpringContext.getBean(GeneralLedgerPendingEntryService.class).generateGeneralLedgerPendingEntries(this)) {
             logErrors();
             throw new ValidationException("general ledger GLPE generation failed");
         }
@@ -367,7 +365,7 @@ public abstract class AccountingDocumentBase extends GeneralLedgerPostingDocumen
         // 2. retrieve current accountingLines from given document
         // 3. compare, creating add/delete/update events as needed
         // 4. apply rules as appropriate returned events
-        List persistedSourceLines = SpringServiceLocator.getAccountingLineService().getByDocumentHeaderId(getSourceAccountingLineClass(), getDocumentNumber());
+        List persistedSourceLines = SpringContext.getBean(AccountingLineService.class, "accountingLineService").getByDocumentHeaderId(getSourceAccountingLineClass(), getDocumentNumber());
         List currentSourceLines = getSourceAccountingLines();
 
         List sourceEvents = generateEvents(persistedSourceLines, currentSourceLines, KFSConstants.DOCUMENT_PROPERTY_NAME + "." + KFSConstants.EXISTING_SOURCE_ACCT_LINE_PROPERTY_NAME, this);
@@ -376,7 +374,7 @@ public abstract class AccountingDocumentBase extends GeneralLedgerPostingDocumen
             events.add(sourceEvent);
         }
 
-        List persistedTargetLines = SpringServiceLocator.getAccountingLineService().getByDocumentHeaderId(getTargetAccountingLineClass(), getDocumentNumber());
+        List persistedTargetLines = SpringContext.getBean(AccountingLineService.class, "accountingLineService").getByDocumentHeaderId(getTargetAccountingLineClass(), getDocumentNumber());
         List currentTargetLines = getTargetAccountingLines();
 
         List targetEvents = generateEvents(persistedTargetLines, currentTargetLines, KFSConstants.DOCUMENT_PROPERTY_NAME + "." + KFSConstants.EXISTING_TARGET_ACCT_LINE_PROPERTY_NAME, this);

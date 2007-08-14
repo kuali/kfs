@@ -41,7 +41,7 @@ public class PurgeTest extends KualiTestBase {
         super.setUp();
 
         unitTestSqlDao = SpringContext.getBean(UnitTestSqlDao.class);
-        dateTimeService = SpringServiceLocator.getDateTimeService();
+        dateTimeService = SpringContext.getBean(DateTimeService.class, "dateTimeService");
     }
 
     // This will purge entries before 2002

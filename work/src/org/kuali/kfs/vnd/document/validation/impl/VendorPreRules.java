@@ -21,11 +21,12 @@ import java.util.List;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.document.Document;
 import org.kuali.core.document.MaintenanceDocument;
+import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DateTimeService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.chart.rules.MaintenancePreRulesBase;
 import org.kuali.module.vendor.VendorConstants;
 import org.kuali.module.vendor.bo.VendorDetail;
@@ -67,7 +68,7 @@ public class VendorPreRules extends MaintenancePreRulesBase {
 
     protected DateTimeService getDateTimeService() {
         if( ObjectUtils.isNull( this.dateTimeService ) ) {
-            this.dateTimeService = SpringServiceLocator.getDateTimeService();
+            this.dateTimeService = SpringContext.getBean(DateTimeService.class, "dateTimeService");
         }
         return this.dateTimeService;
     }
@@ -216,7 +217,7 @@ public class VendorPreRules extends MaintenancePreRulesBase {
         if (vendorType == null) {
             vendorType = new VendorType();
             vendorType.setVendorTypeCode(vendorDetail.getVendorHeader().getVendorTypeCode());
-            vendorType = (VendorType) SpringServiceLocator.getBusinessObjectService().retrieve(vendorType);
+            vendorType = (VendorType) SpringContext.getBean(BusinessObjectService.class).retrieve(vendorType);
         }
         if (vendorType != null && vendorType.isVendorShowReviewIndicator()) {
             String questionText = vendorType.getVendorReviewText();

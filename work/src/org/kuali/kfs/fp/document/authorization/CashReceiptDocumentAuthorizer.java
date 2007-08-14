@@ -21,21 +21,21 @@ import java.util.Map;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.document.Document;
 import org.kuali.core.document.TransactionalDocument;
 import org.kuali.core.document.authorization.DocumentActionFlags;
 import org.kuali.core.document.authorization.TransactionalDocumentActionFlags;
 import org.kuali.core.exceptions.DocumentTypeAuthorizationException;
-import org.kuali.core.exceptions.GroupNotFoundException;
 import org.kuali.core.util.Timer;
 import org.kuali.kfs.bo.AccountingLine;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.document.authorization.AccountingDocumentAuthorizerBase;
-import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.chart.bo.ChartUser;
 import org.kuali.module.financial.bo.CashDrawer;
 import org.kuali.module.financial.document.CashReceiptDocument;
+import org.kuali.module.financial.service.CashDrawerService;
+import org.kuali.module.financial.service.CashReceiptService;
 
 /**
  * Abstract base class for all TransactionalDocumentAuthorizers, since there's this one bit of common code.
@@ -62,8 +62,8 @@ public class CashReceiptDocumentAuthorizer extends AccountingDocumentAuthorizerB
         if (document.getDocumentHeader().getWorkflowDocument().isApprovalRequested()) {
             CashReceiptDocument crd = (CashReceiptDocument) document;
 
-            String unitName = SpringServiceLocator.getCashReceiptService().getCashReceiptVerificationUnitForCampusCode(crd.getCampusLocationCode());
-            CashDrawer cd = SpringServiceLocator.getCashDrawerService().getByWorkgroupName(unitName, false);
+            String unitName = SpringContext.getBean(CashReceiptService.class).getCashReceiptVerificationUnitForCampusCode(crd.getCampusLocationCode());
+            CashDrawer cd = SpringContext.getBean(CashDrawerService.class).getByWorkgroupName(unitName, false);
             if (cd == null) {
                 throw new IllegalStateException("There is no cash drawer associated with cash receipt: " + crd.getDocumentNumber());
             }
@@ -121,7 +121,7 @@ public class CashReceiptDocumentAuthorizer extends AccountingDocumentAuthorizerB
     @Override
     public void canInitiate(String documentTypeName, UniversalUser user) {
         boolean authorized = false;
-        String unitName = SpringServiceLocator.getCashReceiptService().getCashReceiptVerificationUnitForUser(user);
+        String unitName = SpringContext.getBean(CashReceiptService.class).getCashReceiptVerificationUnitForUser(user);
         if (unitName != null) {
             authorized = !user.isMember( unitName );
         }

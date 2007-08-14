@@ -21,16 +21,16 @@ import static org.kuali.kfs.KFSPropertyConstants.AMOUNT;
 import static org.kuali.kfs.KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE;
 import static org.kuali.kfs.KFSPropertyConstants.FINANCIAL_SUB_OBJECT_CODE;
 import static org.kuali.kfs.KFSPropertyConstants.ORGANIZATION_REFERENCE_ID;
-import static org.kuali.kfs.KFSPropertyConstants.OVERRIDE_CODE;
 import static org.kuali.kfs.KFSPropertyConstants.PROJECT_CODE;
 import static org.kuali.kfs.KFSPropertyConstants.SUB_ACCOUNT_NUMBER;
 
 import java.util.Map;
 
+import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.kfs.bo.AccountingLineParserBase;
 import org.kuali.kfs.bo.SourceAccountingLine;
 import org.kuali.kfs.bo.TargetAccountingLine;
-import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.financial.rules.IndirectCostAdjustmentDocumentRuleConstants;
 
 /**
@@ -67,7 +67,7 @@ public class IndirectCostAdjustmentDocumentAccountingLineParser extends Accounti
     @Override
     protected void performCustomSourceAccountingLinePopulation(Map<String, String> attributeValueMap, SourceAccountingLine sourceAccountingLine, String accountingLineAsString) {
         super.performCustomSourceAccountingLinePopulation(attributeValueMap, sourceAccountingLine, accountingLineAsString);
-        String financialObjectCode = SpringServiceLocator.getKualiConfigurationService().getApplicationParameterValue(IndirectCostAdjustmentDocumentRuleConstants.INDIRECT_COST_ADJUSTMENT_DOCUMENT_SECURITY_GROUPING, IndirectCostAdjustmentDocumentRuleConstants.GRANT_OBJECT_CODE);
+        String financialObjectCode = SpringContext.getBean(KualiConfigurationService.class).getApplicationParameterValue(IndirectCostAdjustmentDocumentRuleConstants.INDIRECT_COST_ADJUSTMENT_DOCUMENT_SECURITY_GROUPING, IndirectCostAdjustmentDocumentRuleConstants.GRANT_OBJECT_CODE);
         sourceAccountingLine.setFinancialObjectCode(financialObjectCode);
     }
 
@@ -79,7 +79,7 @@ public class IndirectCostAdjustmentDocumentAccountingLineParser extends Accounti
     @Override
     protected void performCustomTargetAccountingLinePopulation(Map<String, String> attributeValueMap, TargetAccountingLine targetAccountingLine, String accountingLineAsString) {
         super.performCustomTargetAccountingLinePopulation(attributeValueMap, targetAccountingLine, accountingLineAsString);
-        String financialObjectCode = SpringServiceLocator.getKualiConfigurationService().getApplicationParameterValue(IndirectCostAdjustmentDocumentRuleConstants.INDIRECT_COST_ADJUSTMENT_DOCUMENT_SECURITY_GROUPING, IndirectCostAdjustmentDocumentRuleConstants.RECEIPT_OBJECT_CODE);
+        String financialObjectCode = SpringContext.getBean(KualiConfigurationService.class).getApplicationParameterValue(IndirectCostAdjustmentDocumentRuleConstants.INDIRECT_COST_ADJUSTMENT_DOCUMENT_SECURITY_GROUPING, IndirectCostAdjustmentDocumentRuleConstants.RECEIPT_OBJECT_CODE);
         targetAccountingLine.setFinancialObjectCode(financialObjectCode);
     }
 

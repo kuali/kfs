@@ -20,11 +20,12 @@ import java.util.List;
 
 import org.kuali.core.document.AmountTotaling;
 import org.kuali.core.document.Copyable;
+import org.kuali.core.service.DocumentTypeService;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.web.format.CurrencyFormatter;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.bo.AccountingLineParser;
-import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.financial.bo.BasicFormatWithLineDescriptionAccountingLineParser;
 import org.kuali.module.financial.bo.CreditCardDetail;
 
@@ -131,7 +132,7 @@ public class CreditCardReceiptDocument extends CashReceiptFamilyBase implements 
         creditCardReceiptDetail.setFinancialDocumentLineNumber(this.nextCcCrLineNumber);
         creditCardReceiptDetail.setFinancialDocumentColumnTypeCode(KFSConstants.CreditCardReceiptConstants.CASH_RECEIPT_CREDIT_CARD_RECEIPT_COLUMN_TYPE_CODE);
         creditCardReceiptDetail.setDocumentNumber(this.getDocumentNumber());
-        creditCardReceiptDetail.setFinancialDocumentTypeCode(SpringServiceLocator.getDocumentTypeService().getDocumentTypeCodeByClass(this.getClass()));
+        creditCardReceiptDetail.setFinancialDocumentTypeCode(SpringContext.getBean(DocumentTypeService.class).getDocumentTypeCodeByClass(this.getClass()));
     }
 
     /**

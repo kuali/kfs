@@ -24,11 +24,13 @@ import java.util.Iterator;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.core.service.KualiRuleService;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.financial.bo.Check;
 import org.kuali.module.financial.document.CashReceiptDocument;
 import org.kuali.module.financial.rules.CashReceiptDocumentRule;
 import org.kuali.module.financial.service.CashReceiptCoverSheetService;
+import org.kuali.module.financial.service.CashReceiptService;
 
 import com.lowagie.text.Document;
 import com.lowagie.text.DocumentException;
@@ -102,7 +104,7 @@ public class CashReceiptCoverSheetServiceImpl implements CashReceiptCoverSheetSe
      * @see org.kuali.module.financial.service.CashReceiptCoverSheetService#isCoverSheetPrintingAllowed(org.kuali.module.financial.document.CashReceiptDocument)
      */
     public boolean isCoverSheetPrintingAllowed(CashReceiptDocument crDoc) {
-        CashReceiptDocumentRule rule = (CashReceiptDocumentRule) SpringServiceLocator.getKualiRuleService().getBusinessRulesInstance(crDoc, CashReceiptDocumentRule.class);
+        CashReceiptDocumentRule rule = (CashReceiptDocumentRule) SpringContext.getBean(KualiRuleService.class).getBusinessRulesInstance(crDoc, CashReceiptDocumentRule.class);
 
         return rule.isCoverSheetPrintable(crDoc);
     }
@@ -155,7 +157,7 @@ public class CashReceiptCoverSheetServiceImpl implements CashReceiptCoverSheetSe
             PdfStamper stamper = new PdfStamper(new PdfReader(searchPath + File.separator + templateName), returnStream);
             AcroFields populatedCoverSheet = stamper.getAcroFields();
             
-            SpringServiceLocator.getCashReceiptService().addCashDetailsToCashDrawer(document);
+            SpringContext.getBean(CashReceiptService.class).addCashDetailsToCashDrawer(document);
 
             populatedCoverSheet.setField(DOCUMENT_NUMBER_FIELD, document.getDocumentNumber());
             populatedCoverSheet.setField(INITIATOR_FIELD, document.getDocumentHeader().getWorkflowDocument().getInitiatorNetworkId());

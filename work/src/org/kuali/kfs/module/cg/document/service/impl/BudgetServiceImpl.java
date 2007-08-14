@@ -15,8 +15,6 @@
  */
 package org.kuali.module.kra.budget.service.impl;
 
-import java.util.Date;
-import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -25,11 +23,10 @@ import org.kuali.core.document.Document;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DateTimeService;
 import org.kuali.core.service.DocumentService;
-import org.kuali.core.util.DateUtils;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.KualiInteger;
 import org.kuali.core.util.ObjectUtils;
-import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.kra.KraConstants;
 import org.kuali.module.kra.budget.bo.Budget;
 import org.kuali.module.kra.budget.bo.BudgetFringeRate;
@@ -48,6 +45,7 @@ import org.kuali.module.kra.budget.service.BudgetFringeRateService;
 import org.kuali.module.kra.budget.service.BudgetGraduateAssistantRateService;
 import org.kuali.module.kra.budget.service.BudgetIndirectCostService;
 import org.kuali.module.kra.budget.service.BudgetModularService;
+import org.kuali.module.kra.budget.service.BudgetPeriodService;
 import org.kuali.module.kra.budget.service.BudgetPersonnelService;
 import org.kuali.module.kra.budget.service.BudgetService;
 import org.kuali.module.kra.budget.web.struts.form.BudgetNonpersonnelCopyOverBoHelper;
@@ -287,7 +285,7 @@ public class BudgetServiceImpl implements BudgetService {
                     BudgetPeriod period = (BudgetPeriod) periodsIter.next();
                     // check if this is a new (added) period or truly modified
                     if (period.getVersionNumber() == null) {
-                        int inflationLength = SpringServiceLocator.getBudgetPeriodService().getPeriodIndex(period.getBudgetPeriodSequenceNumber(), periods);
+                        int inflationLength = SpringContext.getBean(BudgetPeriodService.class).getPeriodIndex(period.getBudgetPeriodSequenceNumber(), periods);
 
                         // Create new item
                         BudgetNonpersonnelCopyOverBoHelper budgetNonpersonnelCopyOverBoHelper = new BudgetNonpersonnelCopyOverBoHelper(budgetNonpersonnel, period.getBudgetPeriodSequenceNumber(), inflationLength, budgetNonpersonnelInflationRate);
@@ -309,7 +307,7 @@ public class BudgetServiceImpl implements BudgetService {
             if (isNonpersonnelInflationRateModified && !budgetNonpersonnel.isOriginItem() && budgetNonpersonnel.isCopiedOverItem()) {
                 // Figure the inflationLength (current item period seq#) and call the constructor which will calculate inflation
                 // values for us
-                int inflationLength = SpringServiceLocator.getBudgetPeriodService().getPeriodIndex(budgetNonpersonnel.getBudgetPeriodSequenceNumber(), periods);
+                int inflationLength = SpringContext.getBean(BudgetPeriodService.class).getPeriodIndex(budgetNonpersonnel.getBudgetPeriodSequenceNumber(), periods);
                 BudgetNonpersonnelCopyOverBoHelper budgetNonpersonnelCopyOverBoHelper = new BudgetNonpersonnelCopyOverBoHelper(budgetNonpersonnel, inflationLength, budgetNonpersonnelInflationRate);
 
                 // update appropriate amounts per indicators set

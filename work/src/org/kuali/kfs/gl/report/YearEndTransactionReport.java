@@ -29,9 +29,10 @@ import java.util.SortedMap;
 import java.util.TreeMap;
 
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.kfs.util.SpringServiceLocator;
-import org.kuali.module.gl.bo.Transaction;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.gl.bo.OriginEntryGroup;
+import org.kuali.module.gl.bo.Transaction;
+import org.kuali.module.gl.service.OriginEntryService;
 
 import com.lowagie.text.Document;
 import com.lowagie.text.Element;
@@ -169,7 +170,7 @@ public class YearEndTransactionReport {
                 String reportName = (String)groupAndName[1];
                 Collection groups = new ArrayList();
                 groups.add(group);
-                LedgerEntryHolder ledgerEntryHolder = SpringServiceLocator.getOriginEntryService().getSummaryByGroupId(groups);
+                LedgerEntryHolder ledgerEntryHolder = SpringContext.getBean(OriginEntryService.class).getSummaryByGroupId(groups);
                 paragraph = new Paragraph();
                 paragraph.setSpacingBefore(SECTION_MARGIN);
                 paragraph.setSpacingAfter(SECTION_MARGIN);

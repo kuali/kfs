@@ -26,21 +26,21 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.core.authorization.AuthorizationConstants;
 import org.kuali.core.document.Document;
 import org.kuali.core.service.BusinessObjectService;
+import org.kuali.core.service.DateTimeService;
 import org.kuali.core.service.DictionaryValidationService;
 import org.kuali.core.service.DocumentService;
+import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.ErrorMap;
 import org.kuali.core.util.GlobalVariables;
-import org.kuali.core.util.KualiInteger;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.KFSKeyConstants;
-import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.kra.KraConstants;
 import org.kuali.module.kra.KraKeyConstants;
 import org.kuali.module.kra.budget.document.BudgetDocument;
 import org.kuali.module.kra.budget.document.BudgetDocumentAuthorizer;
 import org.kuali.module.kra.budget.rules.ResearchDocumentRuleBase;
 import org.kuali.module.kra.document.ResearchDocument;
-import org.kuali.module.kra.routingform.bo.RoutingFormBudget;
 import org.kuali.module.kra.routingform.bo.RoutingFormInstitutionCostShare;
 import org.kuali.module.kra.routingform.bo.RoutingFormOrganization;
 import org.kuali.module.kra.routingform.bo.RoutingFormPersonnel;
@@ -48,8 +48,6 @@ import org.kuali.module.kra.routingform.bo.RoutingFormResearchRisk;
 import org.kuali.module.kra.routingform.bo.RoutingFormResearchRiskStudy;
 import org.kuali.module.kra.routingform.bo.RoutingFormSubcontractor;
 import org.kuali.module.kra.routingform.document.RoutingFormDocument;
-import org.kuali.module.kra.util.AuditCluster;
-import org.kuali.module.kra.util.AuditError;
 
 import edu.iu.uis.eden.exception.WorkflowException;
 
@@ -76,7 +74,7 @@ public class RoutingFormDocumentRule extends ResearchDocumentRuleBase {
         RoutingFormDocument routingFormDocument = (RoutingFormDocument) researchDocument;
 
         //changing this to '0' so it doesn't validate reference objects within a list (Subcontractors was causing a problem).
-        SpringServiceLocator.getDictionaryValidationService().validateDocumentRecursively(routingFormDocument, 0);
+        SpringContext.getBean(DictionaryValidationService.class).validateDocumentRecursively(routingFormDocument, 0);
         
         valid &= processInstitutionCostShare(routingFormDocument);
         
@@ -321,14 +319,14 @@ public class RoutingFormDocumentRule extends ResearchDocumentRuleBase {
         ErrorMap errorMap = GlobalVariables.getErrorMap();
         
         String humanSubjectsActiveCode = 
-            SpringServiceLocator.getKualiConfigurationService().getApplicationParameterValue(KraConstants.KRA_DEVELOPMENT_GROUP, KraConstants.RESEARCH_RISKS_HUMAN_SUBJECTS_ACTIVE_CODE);
+            SpringContext.getBean(KualiConfigurationService.class).getApplicationParameterValue(KraConstants.KRA_DEVELOPMENT_GROUP, KraConstants.RESEARCH_RISKS_HUMAN_SUBJECTS_ACTIVE_CODE);
         
         String animalsActiveCode = 
-            SpringServiceLocator.getKualiConfigurationService().getApplicationParameterValue(KraConstants.KRA_DEVELOPMENT_GROUP, KraConstants.RESEARCH_RISKS_ANIMALS_ACTIVE_CODE);
+            SpringContext.getBean(KualiConfigurationService.class).getApplicationParameterValue(KraConstants.KRA_DEVELOPMENT_GROUP, KraConstants.RESEARCH_RISKS_ANIMALS_ACTIVE_CODE);
         
         // Setup dates.
         Date createDate = routingFormDocument.getRoutingFormCreateDate();
-        Calendar createCalendar = SpringServiceLocator.getDateTimeService().getCalendar(createDate);
+        Calendar createCalendar = SpringContext.getBean(DateTimeService.class, "dateTimeService").getCalendar(createDate);
         createCalendar.add(Calendar.YEAR, -1);
         Date humanSubjectsEarliestApprovalDate = createCalendar.getTime();
         createCalendar.add(Calendar.YEAR, -2);
@@ -383,7 +381,7 @@ public class RoutingFormDocumentRule extends ResearchDocumentRuleBase {
                 
                 // If Human Subjects approval date is more than one year prior to the routing form creation date, the user must enter a more current date, or set the status to Pending.
                 if (researchRisk.getResearchRiskTypeCode().equals(humanSubjectsActiveCode) && ObjectUtils.isNotNull(study.getResearchRiskStudyApprovalDate())) {
-                    int dateDiff = SpringServiceLocator.getDateTimeService().dateDiff(study.getResearchRiskStudyApprovalDate(), humanSubjectsEarliestApprovalDate, false);
+                    int dateDiff = SpringContext.getBean(DateTimeService.class, "dateTimeService").dateDiff(study.getResearchRiskStudyApprovalDate(), humanSubjectsEarliestApprovalDate, false);
                     if (dateDiff > 0) {
                         // Seems counterintuitive that 'before' is the proper operator here - but it is.
                         valid = false;
@@ -393,7 +391,7 @@ public class RoutingFormDocumentRule extends ResearchDocumentRuleBase {
                 
                 // If Animals approval date is more than 3 years prior to the routing form creation date, the user must enter a more current date, or set the status to Pending.
                 if (researchRisk.getResearchRiskTypeCode().equals(animalsActiveCode) && ObjectUtils.isNotNull(study.getResearchRiskStudyApprovalDate())) {
-                    int dateDiff = SpringServiceLocator.getDateTimeService().dateDiff(study.getResearchRiskStudyApprovalDate(), animalsEarliestApprovalDate, false);
+                    int dateDiff = SpringContext.getBean(DateTimeService.class, "dateTimeService").dateDiff(study.getResearchRiskStudyApprovalDate(), animalsEarliestApprovalDate, false);
                     if (dateDiff > 0) {
                         valid = false;
                         errorMap.putError("researchRiskStudyApprovalDate", KraKeyConstants.ERROR_ANIMALS_APPROVAL_DATE_TOO_OLD);
@@ -426,13 +424,13 @@ public class RoutingFormDocumentRule extends ResearchDocumentRuleBase {
         boolean valid = true;
         ErrorMap errorMap = GlobalVariables.getErrorMap();
         
-        DocumentService documentService = SpringServiceLocator.getDocumentService();
-        BusinessObjectService businessObjectService = SpringServiceLocator.getBusinessObjectService();
+        DocumentService documentService = SpringContext.getBean(DocumentService.class);
+        BusinessObjectService businessObjectService = SpringContext.getBean(BusinessObjectService.class);
 
         errorMap.addToErrorPath("document");
         
         try {
-            DictionaryValidationService dictionaryValidationService = SpringServiceLocator.getDictionaryValidationService();
+            DictionaryValidationService dictionaryValidationService = SpringContext.getBean(DictionaryValidationService.class);
             dictionaryValidationService.validateDocument(routingFormDocument);
             
             //see if the Budget Document Header ID is valid

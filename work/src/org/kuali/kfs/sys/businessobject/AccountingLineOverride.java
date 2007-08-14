@@ -24,9 +24,10 @@ import java.util.Map;
 import java.util.Set;
 
 import org.kuali.core.util.ObjectUtils;
-import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.ObjectCode;
+import org.kuali.module.financial.service.AccountPresenceService;
 
 /**
  * This class helps implement AccountingLine overrides. It is not persisted itself, but it simplifies working with the persisted
@@ -341,6 +342,6 @@ public class AccountingLineOverride {
      * @return whether the given object code needs an object budget override
      */
     public static boolean needsObjectBudgetOverride(Account account, ObjectCode objectCode) {
-        return !ObjectUtils.isNull(account) && !ObjectUtils.isNull(objectCode) && !account.isAccountClosedIndicator() && !SpringServiceLocator.getAccountPresenceService().isObjectCodeBudgetedForAccountPresence(account, objectCode);
+        return !ObjectUtils.isNull(account) && !ObjectUtils.isNull(objectCode) && !account.isAccountClosedIndicator() && !SpringContext.getBean(AccountPresenceService.class).isObjectCodeBudgetedForAccountPresence(account, objectCode);
     }
 }

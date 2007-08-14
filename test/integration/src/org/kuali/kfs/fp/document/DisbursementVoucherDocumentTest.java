@@ -33,17 +33,18 @@ import java.util.List;
 import junit.framework.Assert;
 
 import org.kuali.core.document.Document;
+import org.kuali.core.service.DateTimeService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.bo.SourceAccountingLine;
 import org.kuali.kfs.bo.TargetAccountingLine;
 import org.kuali.kfs.context.KualiTestBase;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.document.AccountingDocument;
-import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.financial.bo.DisbursementVoucherNonResidentAlienTax;
 import org.kuali.module.financial.bo.DisbursementVoucherPayeeDetail;
-import org.kuali.test.DocumentTestUtils;
 import org.kuali.test.ConfigureContext;
+import org.kuali.test.DocumentTestUtils;
 import org.kuali.test.fixtures.AccountingLineFixture;
 import org.kuali.test.suite.RelatesTo;
 import org.kuali.workflow.WorkflowTestUtils;
@@ -90,7 +91,7 @@ public class DisbursementVoucherDocumentTest extends KualiTestBase {
 
         dvParameter.setDisbVchrContactPersonName(GlobalVariables.getUserSession().getUniversalUser().getPersonName());
         // set to tomorrow
-        Calendar calendar = SpringServiceLocator.getDateTimeService().getCurrentCalendar();
+        Calendar calendar = SpringContext.getBean(DateTimeService.class, "dateTimeService").getCurrentCalendar();
         calendar.add(Calendar.DAY_OF_MONTH, 1);
         calendar.clear(Calendar.MILLISECOND);
         calendar.clear(Calendar.SECOND);

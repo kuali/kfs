@@ -24,8 +24,8 @@ import org.kuali.core.lookup.keyvalues.KeyValuesBase;
 import org.kuali.core.lookup.valueFinder.ValueFinder;
 import org.kuali.core.web.ui.KeyLabelPair;
 import org.kuali.kfs.bo.Options;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.service.OptionsService;
-import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.chart.bo.codes.BalanceTyp;
 import org.kuali.module.chart.service.BalanceTypService;
 
@@ -35,7 +35,7 @@ public class GLActualBalanceTypeOptionFinder extends KeyValuesBase implements Va
      * @see org.kuali.core.lookup.valueFinder.ValueFinder#getValue()
      */
     public String getValue() {
-        OptionsService os = SpringServiceLocator.getOptionsService();
+        OptionsService os = SpringContext.getBean(OptionsService.class);
         Options o = os.getCurrentYearOptions();
 
         return o.getActualFinancialBalanceTypeCd();
@@ -47,7 +47,7 @@ public class GLActualBalanceTypeOptionFinder extends KeyValuesBase implements Va
     public List getKeyValues() {
         List labels = new ArrayList();
 
-        BalanceTypService bts = SpringServiceLocator.getBalanceTypService();
+        BalanceTypService bts = SpringContext.getBean(BalanceTypService.class);
         Collection c = bts.getAllBalanceTyps();
 
         for (Iterator iter = c.iterator(); iter.hasNext();) {

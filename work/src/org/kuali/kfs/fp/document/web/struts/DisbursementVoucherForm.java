@@ -19,8 +19,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.kuali.core.service.KeyValuesService;
+import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.web.format.SimpleBooleanFormatter;
-import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.web.struts.form.KualiAccountingDocumentFormBase;
 import org.kuali.module.financial.bo.DisbursementVoucherNonEmployeeExpense;
 import org.kuali.module.financial.bo.DisbursementVoucherPreConferenceRegistrant;
@@ -28,6 +30,7 @@ import org.kuali.module.financial.bo.TravelPerDiem;
 import org.kuali.module.financial.document.DisbursementVoucherDocument;
 import org.kuali.module.financial.rules.DisbursementVoucherDocumentRule;
 import org.kuali.module.financial.rules.DisbursementVoucherRuleConstants;
+import org.kuali.module.financial.service.UniversityDateService;
 
 /**
  * This class is the action form for the Disbursement Voucher.
@@ -122,9 +125,9 @@ public class DisbursementVoucherForm extends KualiAccountingDocumentFormBase {
      */
     public List getTravelPerDiemCategoryCodes() {
         Map criteria = new HashMap();
-        criteria.put("fiscalYear", SpringServiceLocator.getUniversityDateService().getCurrentFiscalYear());
+        criteria.put("fiscalYear", SpringContext.getBean(UniversityDateService.class).getCurrentFiscalYear());
 
-        return (List) SpringServiceLocator.getKeyValuesService().findMatching(TravelPerDiem.class, criteria);
+        return (List) SpringContext.getBean(KeyValuesService.class).findMatching(TravelPerDiem.class, criteria);
     }
 
     /**
@@ -133,7 +136,7 @@ public class DisbursementVoucherForm extends KualiAccountingDocumentFormBase {
      * @return
      */
     public String getTravelPerDiemLinkPageMessage() {
-        return SpringServiceLocator.getKualiConfigurationService().getApplicationParameterValue(DisbursementVoucherRuleConstants.DV_DOCUMENT_PARAMETERS_GROUP_NM, DisbursementVoucherRuleConstants.TRAVEL_PER_DIEM_MESSAGE_PARM_NM);
+        return SpringContext.getBean(KualiConfigurationService.class).getApplicationParameterValue(DisbursementVoucherRuleConstants.DV_DOCUMENT_PARAMETERS_GROUP_NM, DisbursementVoucherRuleConstants.TRAVEL_PER_DIEM_MESSAGE_PARM_NM);
     }
 
 }

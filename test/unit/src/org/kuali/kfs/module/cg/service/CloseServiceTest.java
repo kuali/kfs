@@ -15,31 +15,30 @@
  */
 package org.kuali.module.cg.service.impl;
 
+import static org.kuali.test.fixtures.UserNameFixture.KHUNTLEY;
+
 import java.sql.Date;
 import java.text.DateFormat;
 import java.util.Vector;
 
-import org.kuali.core.util.KualiDecimal;
-import org.kuali.core.util.GlobalVariables;
-import org.kuali.core.service.DocumentService;
 import org.kuali.core.document.Document;
 import org.kuali.core.exceptions.ValidationException;
-import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.core.service.DateTimeService;
+import org.kuali.core.service.DocumentService;
+import org.kuali.core.util.GlobalVariables;
+import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.context.KualiTestBase;
-import org.kuali.kfs.document.AccountingDocument;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.cg.bo.Award;
-import org.kuali.module.cg.bo.Proposal;
 import org.kuali.module.cg.bo.Close;
+import org.kuali.module.cg.bo.Proposal;
 import org.kuali.module.cg.lookup.valuefinder.NextProposalNumberFinder;
-import static org.kuali.module.financial.document.AccountingDocumentTestUtils.routeDocument;
+import org.kuali.module.cg.service.AwardService;
+import org.kuali.module.cg.service.CloseService;
+import org.kuali.module.cg.service.ProposalService;
 import org.kuali.test.ConfigureContext;
 import org.kuali.test.DocumentTestUtils;
-import org.kuali.test.monitor.DocumentWorkflowStatusMonitor;
-import org.kuali.test.monitor.ChangeMonitor;
-import static org.kuali.test.fixtures.UserNameFixture.KHUNTLEY;
-import org.kuali.test.fixtures.UserNameFixture;
-import org.kuali.workflow.WorkflowTestUtils;
-import org.kuali.workflow.KualiWorkflowUtils;
+
 import edu.iu.uis.eden.exception.WorkflowException;
 
 @ConfigureContext(session = KHUNTLEY)
@@ -57,7 +56,7 @@ public class CloseServiceTest extends KualiTestBase {
     protected void setUp() throws Exception {
         super.setUp();
         dateFormat = DateFormat.getDateInstance();
-        today = SpringServiceLocator.getDateTimeService().getCurrentSqlDateMidnight();
+        today = SpringContext.getBean(DateTimeService.class, "dateTimeService").getCurrentSqlDateMidnight();
     }
 
     public void testClose_awardEntryDateLessThanCloseOnOrBeforeDate() throws Exception {
@@ -76,14 +75,14 @@ public class CloseServiceTest extends KualiTestBase {
         //
         
         Proposal proposal = createProposal(proposalBeginningDate, proposalEndingDate, proposalSubmissionDate, proposalClosingDate);
-        SpringServiceLocator.getProposalService().save(proposal);
+        SpringContext.getBean(ProposalService.class).save(proposal);
         
         Award award = createAward(proposal, awardEntryDate, awardClosingDate, VALID_AWARD_STATUS_CODE);
-        SpringServiceLocator.getAwardService().save(award);
+        SpringContext.getBean(AwardService.class).save(award);
         
         Close close = createClose(closeCloseOnOrBeforeDate);
         saveAndRoute(close);
-//        SpringServiceLocator.getCloseService().save(close);
+//        SpringContext.getBean(CloseService.class).save(close);
         
         // Verify that everything should be OK for the close.
         
@@ -94,7 +93,7 @@ public class CloseServiceTest extends KualiTestBase {
         verifyProposalWillBeIncludedInClose(proposal, close);
         
         // Run the close.
-        SpringServiceLocator.getCloseService().close();
+        SpringContext.getBean(CloseService.class).close();
         
         // Verify.
         Long one = new Long(1);
@@ -118,14 +117,14 @@ public class CloseServiceTest extends KualiTestBase {
         //
         
         Proposal proposal = createProposal(proposalBeginningDate, proposalEndingDate, proposalSubmissionDate, proposalClosingDate);
-        SpringServiceLocator.getProposalService().save(proposal);
+        SpringContext.getBean(ProposalService.class).save(proposal);
         
         Award award = createAward(proposal, awardEntryDate, awardClosingDate, VALID_AWARD_STATUS_CODE);
-        SpringServiceLocator.getAwardService().save(award);
+        SpringContext.getBean(AwardService.class).save(award);
         
         Close close = createClose(closeCloseOnOrBeforeDate);
         saveAndRoute(close);
-//        SpringServiceLocator.getCloseService().save(close);
+//        SpringContext.getBean(CloseService.class).save(close);
         
         // Verify that everything should be OK for the close.
         
@@ -136,7 +135,7 @@ public class CloseServiceTest extends KualiTestBase {
         verifyProposalWillBeIncludedInClose(proposal, close);
         
         // Run the close.
-        SpringServiceLocator.getCloseService().close();
+        SpringContext.getBean(CloseService.class).close();
 
         // Verify.
         Long one = new Long(1);
@@ -160,14 +159,14 @@ public class CloseServiceTest extends KualiTestBase {
         // Create and save objects for closing.
         
         Proposal proposal = createProposal(proposalBeginningDate, proposalEndingDate, proposalSubmissionDate, proposalClosingDate);
-        SpringServiceLocator.getProposalService().save(proposal);
+        SpringContext.getBean(ProposalService.class).save(proposal);
         
         Award award = createAward(proposal, awardEntryDate, awardClosingDate, VALID_AWARD_STATUS_CODE);
-        SpringServiceLocator.getAwardService().save(award);
+        SpringContext.getBean(AwardService.class).save(award);
         
         Close close = createClose(closeCloseOnOrBeforeDate);
         saveAndRoute(close);
-//        SpringServiceLocator.getCloseService().save(close);
+//        SpringContext.getBean(CloseService.class).save(close);
         
         // Verify that everything should be OK for the close.
         
@@ -178,7 +177,7 @@ public class CloseServiceTest extends KualiTestBase {
         verifyProposalWillBeIncludedInClose(proposal, close);
         
         // Run the close.
-        SpringServiceLocator.getCloseService().close();
+        SpringContext.getBean(CloseService.class).close();
         
         Long zero = new Long(0);
         Long one = new Long(1);
@@ -202,14 +201,14 @@ public class CloseServiceTest extends KualiTestBase {
         // Create and save objects for closing.
         
         Proposal proposal = createProposal(proposalBeginningDate, proposalEndingDate, proposalSubmissionDate, proposalClosingDate);
-        SpringServiceLocator.getProposalService().save(proposal);
+        SpringContext.getBean(ProposalService.class).save(proposal);
         
         Award award = createAward(proposal, awardEntryDate, awardClosingDate, INVALID_AWARD_STATUS_CODE);
-        SpringServiceLocator.getAwardService().save(award);
+        SpringContext.getBean(AwardService.class).save(award);
         
         Close close = createClose(closeCloseOnOrBeforeDate);
         saveAndRoute(close);
-//        SpringServiceLocator.getCloseService().save(close);
+//        SpringContext.getBean(CloseService.class).save(close);
         
         // Verify that everything should be OK for the close.
         
@@ -220,7 +219,7 @@ public class CloseServiceTest extends KualiTestBase {
         verifyProposalWillBeIncludedInClose(proposal, close);
         
         // Run the close.
-        SpringServiceLocator.getCloseService().close();
+        SpringContext.getBean(CloseService.class).close();
         
         Long zero = new Long(0);
         Long one = new Long(1);
@@ -244,14 +243,14 @@ public class CloseServiceTest extends KualiTestBase {
         // Create and save objects for closing.
         
         Proposal proposal = createProposal(proposalBeginningDate, proposalEndingDate, proposalSubmissionDate, proposalClosingDate);
-        SpringServiceLocator.getProposalService().save(proposal);
+        SpringContext.getBean(ProposalService.class).save(proposal);
         
         Award award = createAward(proposal, awardEntryDate, awardClosingDate, VALID_AWARD_STATUS_CODE);
-        SpringServiceLocator.getAwardService().save(award);
+        SpringContext.getBean(AwardService.class).save(award);
         
         Close close = createClose(closeCloseOnOrBeforeDate);
         saveAndRoute(close);
-//        SpringServiceLocator.getCloseService().save(close);
+//        SpringContext.getBean(CloseService.class).save(close);
         
         // Verify that everything should be OK for the close.
         
@@ -262,7 +261,7 @@ public class CloseServiceTest extends KualiTestBase {
         verifyProposalWillBeIncludedInClose(proposal, close);
         
         // Run the close.
-        SpringServiceLocator.getCloseService().close();
+        SpringContext.getBean(CloseService.class).close();
         
         Long zero = new Long(0);
         Long one = new Long(1);
@@ -286,14 +285,14 @@ public class CloseServiceTest extends KualiTestBase {
         // Create and save objects for closing.
         
         Proposal proposal = createProposal(proposalBeginningDate, proposalEndingDate, proposalSubmissionDate, proposalClosingDate);
-        SpringServiceLocator.getProposalService().save(proposal);
+        SpringContext.getBean(ProposalService.class).save(proposal);
         
         Award award = createAward(proposal, awardEntryDate, awardClosingDate, VALID_AWARD_STATUS_CODE);
-        SpringServiceLocator.getAwardService().save(award);
+        SpringContext.getBean(AwardService.class).save(award);
         
         Close close = createClose(closeCloseOnOrBeforeDate);
         saveAndRoute(close);
-//        SpringServiceLocator.getCloseService().save(close);
+//        SpringContext.getBean(CloseService.class).save(close);
         
         // Verify that everything should be OK for the close.
         
@@ -304,7 +303,7 @@ public class CloseServiceTest extends KualiTestBase {
         verifyProposalWillBeIncludedInClose(proposal, close, false, true);
         
         // Run the close.
-        SpringServiceLocator.getCloseService().close();
+        SpringContext.getBean(CloseService.class).close();
         
         Long zero = new Long(0);
         Long one = new Long(1);
@@ -328,14 +327,14 @@ public class CloseServiceTest extends KualiTestBase {
         // Create and save objects for closing.
         
         Proposal proposal = createProposal(proposalBeginningDate, proposalEndingDate, proposalSubmissionDate, proposalClosingDate);
-        SpringServiceLocator.getProposalService().save(proposal);
+        SpringContext.getBean(ProposalService.class).save(proposal);
         
         Award award = createAward(proposal, awardEntryDate, awardClosingDate, VALID_AWARD_STATUS_CODE);
-        SpringServiceLocator.getAwardService().save(award);
+        SpringContext.getBean(AwardService.class).save(award);
         
         Close close = createClose(closeCloseOnOrBeforeDate);
         saveAndRoute(close);
-//        SpringServiceLocator.getCloseService().save(close);
+//        SpringContext.getBean(CloseService.class).save(close);
         
         // Verify that everything should be OK for the close.
         
@@ -346,7 +345,7 @@ public class CloseServiceTest extends KualiTestBase {
         verifyProposalWillBeIncludedInClose(proposal, close, true, false);
         
         // Run the close.
-        SpringServiceLocator.getCloseService().close();
+        SpringContext.getBean(CloseService.class).close();
         
         Long zero = new Long(0);
         Long one = new Long(1);
@@ -416,15 +415,15 @@ public class CloseServiceTest extends KualiTestBase {
     }
     
     private Close createClose(Date closeCloseOnOrBeforeDate) throws WorkflowException {
-        Document document = DocumentTestUtils.createDocument(SpringServiceLocator.getDocumentService(), Close.class);
-        Close close = (Close) document;//SpringServiceLocator.getDocumentService().getNewDocument(Close.class);
+        Document document = DocumentTestUtils.createDocument(SpringContext.getBean(DocumentService.class), Close.class);
+        Close close = (Close) document;//SpringContext.getBean(DocumentService.class).getNewDocument(Close.class);
         close.setUserInitiatedCloseDate(today);
         close.setCloseOnOrBeforeDate(closeCloseOnOrBeforeDate);
         return close;
     }
 
     private void saveAndRoute(Close close) throws Exception {
-        DocumentService documentService = SpringServiceLocator.getDocumentService();
+        DocumentService documentService = SpringContext.getBean(DocumentService.class);
         saveDocument(close, documentService);
         routeDocument(close, documentService);
     }

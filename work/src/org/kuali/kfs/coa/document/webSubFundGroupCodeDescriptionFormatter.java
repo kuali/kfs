@@ -21,8 +21,9 @@ import java.util.Map;
 import java.util.Set;
 
 import org.kuali.core.bo.PersistableBusinessObject;
+import org.kuali.core.service.BusinessObjectService;
 import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.chart.bo.SubFundGroup;
 
 public class SubFundGroupCodeDescriptionFormatter extends CodeDescriptionFormatterBase {
@@ -39,7 +40,7 @@ public class SubFundGroupCodeDescriptionFormatter extends CodeDescriptionFormatt
 
         Map<String, PersistableBusinessObject> map = new HashMap<String, PersistableBusinessObject>();
 
-        Collection<SubFundGroup> coll = SpringServiceLocator.getBusinessObjectService().findMatchingOrderBy(SubFundGroup.class, criteria, "versionNumber", true);
+        Collection<SubFundGroup> coll = SpringContext.getBean(BusinessObjectService.class).findMatchingOrderBy(SubFundGroup.class, criteria, "versionNumber", true);
         for (SubFundGroup sfg : coll) {
             map.put(sfg.getSubFundGroupCode(), sfg);
         }

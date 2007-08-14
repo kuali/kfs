@@ -23,13 +23,12 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.core.KualiModule;
 import org.kuali.core.bo.BusinessObject;
 import org.kuali.core.lookup.KualiLookupableHelperServiceImpl;
+import org.kuali.core.service.BusinessObjectDictionaryService;
 import org.kuali.core.service.KualiConfigurationService;
-import org.kuali.core.util.GlobalVariables;
-import org.kuali.core.util.UrlFactory;
+import org.kuali.core.service.KualiModuleService;
 import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.batch.BatchJobStatus;
 import org.kuali.kfs.bo.KualiModuleBO;
-import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.kfs.context.SpringContext;
 
 public class ModuleLookupableHelperServiceImpl extends KualiLookupableHelperServiceImpl {
 
@@ -42,7 +41,7 @@ public class ModuleLookupableHelperServiceImpl extends KualiLookupableHelperServ
     public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues) {
         super.setBackLocation((String) fieldValues.get(KFSConstants.BACK_LOCATION));
         super.setDocFormKey((String) fieldValues.get(KFSConstants.DOC_FORM_KEY));
-        List<KualiModule> modules = SpringServiceLocator.getKualiModuleService().getInstalledModules();
+        List<KualiModule> modules = SpringContext.getBean(KualiModuleService.class).getInstalledModules();
         String codeValue = fieldValues.get("moduleCode");
         String nameValue = fieldValues.get( "moduleName");
         List<KualiModuleBO> boModules = new ArrayList();
@@ -70,7 +69,7 @@ public class ModuleLookupableHelperServiceImpl extends KualiLookupableHelperServ
             returnKeys = new ArrayList(fieldConversions.keySet());
         }
         else {
-            returnKeys = SpringServiceLocator.getBusinessObjectDictionaryService().getLookupFieldNames(org.kuali.kfs.bo.KualiModuleBO.class);
+            returnKeys = SpringContext.getBean(BusinessObjectDictionaryService.class).getLookupFieldNames(org.kuali.kfs.bo.KualiModuleBO.class);
         }
 
         return returnKeys;

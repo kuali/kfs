@@ -24,11 +24,12 @@ import java.util.List;
 
 import org.kuali.core.document.AmountTotaling;
 import org.kuali.core.document.TransactionalDocumentBase;
+import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DateTimeService;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSPropertyConstants;
-import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.gl.bo.CorrectionChangeGroup;
 import org.kuali.module.gl.bo.OriginEntry;
 import org.kuali.module.gl.bo.OriginEntryGroup;
@@ -146,8 +147,8 @@ public class CorrectionDocument extends TransactionalDocumentBase implements Amo
         LOG.debug("handleRouteStatusChange() started");
         super.handleRouteStatusChange();
 
-        CorrectionDocumentService correctionDocumentService = SpringServiceLocator.getCorrectionDocumentService();
-        OriginEntryGroupService originEntryGroupService = SpringServiceLocator.getOriginEntryGroupService();
+        CorrectionDocumentService correctionDocumentService = SpringContext.getBean(CorrectionDocumentService.class);
+        OriginEntryGroupService originEntryGroupService = SpringContext.getBean(OriginEntryGroupService.class);
 
         String docId = getDocumentHeader().getDocumentNumber();
         CorrectionDocument doc = correctionDocumentService.findByCorrectionDocumentHeaderId(docId);
@@ -155,7 +156,7 @@ public class CorrectionDocument extends TransactionalDocumentBase implements Amo
         if (getDocumentHeader().getWorkflowDocument().stateIsFinal()) {
             String correctionType = doc.getCorrectionTypeCode();
             if (CorrectionDocumentService.CORRECTION_TYPE_REMOVE_GROUP_FROM_PROCESSING.equals(correctionType)) {
-                SpringServiceLocator.getOriginEntryGroupService().dontProcessGroup(doc.getCorrectionInputGroupId());
+                SpringContext.getBean(OriginEntryGroupService.class).dontProcessGroup(doc.getCorrectionInputGroupId());
             }
             else if (CorrectionDocumentService.CORRECTION_TYPE_MANUAL.equals(correctionType) || CorrectionDocumentService.CORRECTION_TYPE_CRITERIA.equals(correctionType)){
                 OriginEntryGroup outputGroup = originEntryGroupService.getExactMatchingEntryGroup(doc.getCorrectionOutputGroupId().intValue());
@@ -190,9 +191,9 @@ public class CorrectionDocument extends TransactionalDocumentBase implements Amo
                 // this code is performed asynchronously
                 
                 // First, save the origin entries to the origin entry table
-                DateTimeService dateTimeService = SpringServiceLocator.getDateTimeService();
-                OriginEntryService originEntryService = SpringServiceLocator.getOriginEntryService();
-                CorrectionDocumentService correctionDocumentService = SpringServiceLocator.getCorrectionDocumentService();
+                DateTimeService dateTimeService = SpringContext.getBean(DateTimeService.class, "dateTimeService");
+                OriginEntryService originEntryService = SpringContext.getBean(OriginEntryService.class);
+                CorrectionDocumentService correctionDocumentService = SpringContext.getBean(CorrectionDocumentService.class);
                 
                 Iterator<OriginEntry> outputEntries = correctionDocumentService.retrievePersistedOutputOriginEntriesAsIterator(this);
                 
@@ -202,12 +203,12 @@ public class CorrectionDocument extends TransactionalDocumentBase implements Amo
                 OriginEntryGroup oeg = originEntryService.copyEntries(today, OriginEntrySource.GL_CORRECTION_PROCESS_EDOC, true, false, true, outputEntries);
                 
                 // Now, run the reports
-                ReportService reportService = SpringServiceLocator.getReportService();
-                ScrubberService scrubberService = SpringServiceLocator.getScrubberService();
+                ReportService reportService = SpringContext.getBean(ReportService.class);
+                ScrubberService scrubberService = SpringContext.getBean(ScrubberService.class);
                 
                 setCorrectionOutputGroupId(oeg.getId());
                 // not using the document service to save because it touches workflow, just save the doc BO as a regular BO
-                SpringServiceLocator.getBusinessObjectService().save(this);
+                SpringContext.getBean(BusinessObjectService.class).save(this);
                 
                 LOG.debug("handleRouteStatusChange() Run reports");
     

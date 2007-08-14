@@ -25,14 +25,15 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.core.exceptions.AuthorizationException;
+import org.kuali.core.service.DateTimeService;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.UrlFactory;
 import org.kuali.core.web.struts.action.KualiAction;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.batch.BatchJobStatus;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.service.SchedulerService;
-import org.kuali.kfs.util.SpringServiceLocator;
 
 public class KualiBatchJobModifyAction extends KualiAction {
     
@@ -49,14 +50,14 @@ public class KualiBatchJobModifyAction extends KualiAction {
     
     private SchedulerService getSchedulerService() {
         if ( schedulerService == null ) {
-            schedulerService = SpringServiceLocator.getSchedulerService();
+            schedulerService = SpringContext.getBean(SchedulerService.class);
         }
         return schedulerService;
     }
     
     public static KualiConfigurationService getConfigService() {
         if ( configService == null ) {
-            configService = SpringServiceLocator.getKualiConfigurationService();
+            configService = SpringContext.getBean(KualiConfigurationService.class);
         }
         return configService;
     }
@@ -130,7 +131,7 @@ public class KualiBatchJobModifyAction extends KualiAction {
         int endStep = Integer.parseInt(endStepStr);
         Date startTime = new Date();
         if ( !StringUtils.isBlank(startTimeStr) ) {
-            startTime = SpringServiceLocator.getDateTimeService().convertToDateTime(startTimeStr);
+            startTime = SpringContext.getBean(DateTimeService.class, "dateTimeService").convertToDateTime(startTimeStr);
         }        
         
         job.runJob( startStep, endStep, startTime, emailAddress );
@@ -174,6 +175,6 @@ public class KualiBatchJobModifyAction extends KualiAction {
     }
     
     private ActionForward getForward(BatchJobStatus job) {
-        return new ActionForward(SpringServiceLocator.getKualiConfigurationService().getPropertyString(KFSConstants.APPLICATION_URL_KEY) + "/batchModify.do?methodToCall=start&name=" + UrlFactory.encode( job.getName() ) + "&group=" + UrlFactory.encode( job.getGroup() ), true );
+        return new ActionForward(SpringContext.getBean(KualiConfigurationService.class).getPropertyString(KFSConstants.APPLICATION_URL_KEY) + "/batchModify.do?methodToCall=start&name=" + UrlFactory.encode( job.getName() ) + "&group=" + UrlFactory.encode( job.getGroup() ), true );
     }
 }

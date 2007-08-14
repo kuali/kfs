@@ -16,13 +16,10 @@
 package org.kuali.module.gl.batch;
 
 import java.io.File;
-import java.sql.Date;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 
-import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.context.KualiTestBase;
-import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.kfs.context.SpringContext;
+import org.kuali.module.gl.batch.collector.CollectorInputFileType;
 import org.kuali.module.gl.batch.collector.CollectorStep;
 import org.kuali.test.ConfigureContext;
 import org.kuali.test.suite.RelatesTo;
@@ -65,7 +62,7 @@ public class CollectorStepTest extends KualiTestBase {
             }
         }
         
-        String doneFileName = SpringServiceLocator.getCollectorInputFileType().getDirectoryPath() + "/gl_collector1.done";
+        String doneFileName = SpringContext.getBean(CollectorInputFileType.class).getDirectoryPath() + "/gl_collector1.done";
         File doneFile = new File(doneFileName);
         if (!doneFile.exists()) {
             doneFile.createNewFile();
@@ -76,7 +73,7 @@ public class CollectorStepTest extends KualiTestBase {
      */
     @RelatesTo(RelatesTo.JiraIssue.KULUT29)
     public void testAll() throws Exception {
-        CollectorStep collectorStep = SpringServiceLocator.getCollectorStep();
+        CollectorStep collectorStep = SpringContext.getBean(CollectorStep.class);
         boolean goodExit = collectorStep.execute(getClass().getName());
         
         assertTrue("collector step did not exit with pass", goodExit);

@@ -2,11 +2,10 @@ package org.kuali.module.purap.bo;
 
 import java.util.List;
 
-import org.apache.commons.lang.StringUtils;
 import org.kuali.core.bo.Note;
 import org.kuali.core.util.TypedArrayList;
-import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.kfs.context.SpringContext;
+import org.kuali.module.purap.service.PurchaseOrderService;
 
 
 /**
@@ -55,7 +54,7 @@ public class PurchaseOrderView extends AbstractRelatedView {
         if (this.isPurchaseOrderCurrentIndicator()) {
             if (notes == null) {
                 notes = new TypedArrayList(Note.class);
-                List<Note> tmpNotes = SpringServiceLocator.getPurchaseOrderService().getPurchaseOrderNotes(this.getPurapDocumentIdentifier());
+                List<Note> tmpNotes = SpringContext.getBean(PurchaseOrderService.class).getPurchaseOrderNotes(this.getPurapDocumentIdentifier());
                 for (Note note : tmpNotes) {
                     notes.add(note);
                 }

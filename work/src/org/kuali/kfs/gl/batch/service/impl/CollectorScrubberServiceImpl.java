@@ -18,37 +18,20 @@ package org.kuali.module.gl.service.impl.scrubber;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
-import org.apache.commons.lang.StringUtils;
 import org.kuali.core.service.DateTimeService;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.service.PersistenceService;
-import org.kuali.kfs.KFSKeyConstants;
-import org.kuali.kfs.KFSPropertyConstants;
-import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.gl.batch.collector.CollectorBatch;
-import org.kuali.module.gl.bo.CollectorDetail;
-import org.kuali.module.gl.bo.OriginEntry;
 import org.kuali.module.gl.bo.OriginEntryGroup;
-import org.kuali.module.gl.bo.UniversityDate;
 import org.kuali.module.gl.dao.UniversityDateDao;
 import org.kuali.module.gl.service.CollectorScrubberService;
 import org.kuali.module.gl.service.OriginEntryGroupService;
 import org.kuali.module.gl.service.OriginEntryService;
 import org.kuali.module.gl.service.ScrubberService;
-import org.kuali.module.gl.service.ScrubberValidator;
-import org.kuali.module.gl.service.impl.MemoryOriginEntryServiceImpl;
 import org.kuali.module.gl.util.CollectorReportData;
 import org.kuali.module.gl.util.CollectorScrubberStatus;
-import org.kuali.module.gl.util.DocumentGroupData;
-import org.kuali.module.gl.util.Message;
 import org.springframework.transaction.annotation.Transactional;
 
 @Transactional
@@ -63,7 +46,7 @@ public class CollectorScrubberServiceImpl implements CollectorScrubberService {
      * @see org.kuali.module.gl.service.CollectorScrubberService#scrub(org.kuali.module.gl.batch.collector.CollectorBatch, org.kuali.module.gl.util.CollectorReportData)
      */
     public CollectorScrubberStatus scrub(CollectorBatch batch, CollectorReportData collectorReportData) {
-        CollectorScrubberProcess collectorScrubberProcess = new CollectorScrubberProcess(batch, SpringServiceLocator.getOriginEntryService(), SpringServiceLocator.getOriginEntryGroupService(), 
+        CollectorScrubberProcess collectorScrubberProcess = new CollectorScrubberProcess(batch, SpringContext.getBean(OriginEntryService.class), SpringContext.getBean(OriginEntryGroupService.class), 
                 kualiConfigurationService, persistenceService, scrubberService, collectorReportData);
         return collectorScrubberProcess.scrub();
     }

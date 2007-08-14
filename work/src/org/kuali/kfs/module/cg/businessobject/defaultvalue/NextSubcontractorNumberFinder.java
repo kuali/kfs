@@ -16,7 +16,8 @@
 package org.kuali.module.cg.lookup.valuefinder;
 
 import org.kuali.core.lookup.valueFinder.ValueFinder;
-import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.core.service.SequenceAccessorService;
+import org.kuali.kfs.context.SpringContext;
 
 /**
  * Gets the next subcontract number from the database sequence.
@@ -37,7 +38,7 @@ public class NextSubcontractorNumberFinder implements ValueFinder {
      */
     public static Long getLongValue() {
         // no constant because this is the only place the sequence name is used
-        Long nextVal = SpringServiceLocator.getSequenceAccessorService().getNextAvailableSequenceNumber("CG_SUBCNR_NBR_SEQ"); 
+        Long nextVal = SpringContext.getBean(SequenceAccessorService.class).getNextAvailableSequenceNumber("CG_SUBCNR_NBR_SEQ"); 
         return nextVal;
     }
 

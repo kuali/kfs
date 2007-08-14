@@ -24,12 +24,13 @@ import java.util.TreeSet;
 
 import org.kuali.core.document.Document;
 import org.kuali.core.rule.KualiParameterRule;
+import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiInteger;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.KFSPropertyConstants;
-import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.cg.bo.ProjectDirector;
 import org.kuali.module.kra.KraConstants;
 import org.kuali.module.kra.KraKeyConstants;
@@ -163,7 +164,7 @@ public class RoutingFormAuditRule {
      * @return
      */
     private static boolean processRoutingFormMainPagePersonnelUnitsAuditChecks(List<AuditError> auditErrors, RoutingFormDocument routingFormDocument) {
-        final String PERSON_ROLE_CODE_OTHER = SpringServiceLocator.getKualiConfigurationService().getApplicationParameterValue(KraConstants.KRA_DEVELOPMENT_GROUP, "KraRoutingFormPersonRoleCodeOther");
+        final String PERSON_ROLE_CODE_OTHER = SpringContext.getBean(KualiConfigurationService.class).getApplicationParameterValue(KraConstants.KRA_DEVELOPMENT_GROUP, "KraRoutingFormPersonRoleCodeOther");
         
         boolean valid = true;
         int projectDirectorCount = 0;
@@ -180,7 +181,7 @@ public class RoutingFormAuditRule {
                 
                 Map fieldValues = new HashMap();
                 fieldValues.put(KFSPropertyConstants.PERSON_UNIVERSAL_IDENTIFIER, person.getPersonUniversalIdentifier());
-                ProjectDirector projectDirector = (ProjectDirector) SpringServiceLocator.getBusinessObjectService().findByPrimaryKey(ProjectDirector.class, fieldValues);
+                ProjectDirector projectDirector = (ProjectDirector) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(ProjectDirector.class, fieldValues);
                 if (projectDirector == null) {
                     valid = false;
                     auditErrors.add(new AuditError("document.routingFormPersonnel[" + i + "].personUniversalIdentifier", KraKeyConstants.AUDIT_MAIN_PAGE_PERSON_NOT_PD, "mainpage.anchor2"));
@@ -251,7 +252,7 @@ public class RoutingFormAuditRule {
      * @return
      */
     private static boolean processRoutingFormMainPageSubmissionDetailsAuditChecks(List<AuditError> auditErrors, RoutingFormDocument routingFormDocument) {
-        KualiConfigurationService kualiConfigurationService = SpringServiceLocator.getKualiConfigurationService();
+        KualiConfigurationService kualiConfigurationService = SpringContext.getBean(KualiConfigurationService.class);
         final String SUBMISSION_TYPE_CHANGE = kualiConfigurationService.getApplicationParameterValue(KraConstants.KRA_DEVELOPMENT_GROUP, KraConstants.SUBMISSION_TYPE_CHANGE);
         final String PROJECT_TYPE_NEW = kualiConfigurationService.getApplicationParameterValue(KraConstants.KRA_DEVELOPMENT_GROUP, "KraRoutingFormProjectTypeNew");
         final String PROJECT_TYPE_TIME_EXTENTION = kualiConfigurationService.getApplicationParameterValue(KraConstants.KRA_DEVELOPMENT_GROUP, "KraRoutingFormProjectTypeTimeExtention");
@@ -323,7 +324,7 @@ public class RoutingFormAuditRule {
                 }
             }
             
-            KualiParameterRule activeRule = SpringServiceLocator.getKualiConfigurationService().getApplicationParameterRule(KraConstants.KRA_ADMIN_GROUP_NAME, "KraRoutingFormProjectTypesValid");
+            KualiParameterRule activeRule = SpringContext.getBean(KualiConfigurationService.class).getApplicationParameterRule(KraConstants.KRA_ADMIN_GROUP_NAME, "KraRoutingFormProjectTypesValid");
             if (activeRule.failsRule(projectTypesString)) {
                 valid = false;
                 auditErrors.add(new AuditError("document.routingFormProjectTypes", KraKeyConstants.AUDIT_MAIN_PAGE_PROJECT_TYPE_INVALID, "mainpage.anchor3"));

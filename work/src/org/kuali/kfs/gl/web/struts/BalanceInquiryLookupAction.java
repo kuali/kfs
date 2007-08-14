@@ -28,7 +28,6 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.kuali.RiceConstants;
 import org.kuali.core.lookup.CollectionIncomplete;
 import org.kuali.core.lookup.LookupResultsService;
 import org.kuali.core.lookup.Lookupable;
@@ -43,7 +42,7 @@ import org.kuali.core.web.ui.ResultRow;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSKeyConstants;
 import org.kuali.kfs.KFSPropertyConstants;
-import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.gl.GLConstants;
 import org.kuali.module.gl.bo.AccountBalance;
 import org.kuali.module.gl.util.ObjectHelper;
@@ -84,7 +83,7 @@ public class BalanceInquiryLookupAction extends KualiMultipleValueLookupAction {
     
     public BalanceInquiryLookupAction() {
         super();
-        kualiConfigurationService = SpringServiceLocator.getKualiConfigurationService();
+        kualiConfigurationService = SpringContext.getBean(KualiConfigurationService.class);
     }
 
     private void setTotalTitles() {
@@ -323,11 +322,11 @@ public class BalanceInquiryLookupAction extends KualiMultipleValueLookupAction {
         // we just performed the lookup, so we're on the first page (indexed from 0)
         multipleValueLookupForm.jumpToFirstPage(resultTable.size(), maxRowsPerPage);
         
-        SequenceAccessorService sequenceAccessorService = SpringServiceLocator.getSequenceAccessorService();
+        SequenceAccessorService sequenceAccessorService = SpringContext.getBean(SequenceAccessorService.class);
         String lookupResultsSequenceNumber = String.valueOf(sequenceAccessorService.getNextAvailableSequenceNumber(KFSConstants.LOOKUP_RESULTS_SEQUENCE));
         multipleValueLookupForm.setLookupResultsSequenceNumber(lookupResultsSequenceNumber);
         try {
-            LookupResultsService lookupResultsService = SpringServiceLocator.getLookupResultsService();
+            LookupResultsService lookupResultsService = SpringContext.getBean(LookupResultsService.class);
             lookupResultsService.persistResultsTable(lookupResultsSequenceNumber, resultTable,
                     GlobalVariables.getUserSession().getUniversalUser().getPersonUniversalIdentifier());
         }

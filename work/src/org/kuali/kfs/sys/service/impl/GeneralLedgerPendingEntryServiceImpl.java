@@ -22,7 +22,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.core.service.DateTimeService;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.service.KualiRuleService;
 import org.kuali.core.util.GeneralLedgerPendingEntrySequenceHelper;
@@ -31,6 +30,7 @@ import org.kuali.core.util.TransactionalServiceUtils;
 import org.kuali.kfs.bo.AccountingLine;
 import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
 import org.kuali.kfs.bo.Options;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.dao.GeneralLedgerPendingEntryDao;
 import org.kuali.kfs.document.AccountingDocument;
 import org.kuali.kfs.document.GeneralLedgerPostingDocument;
@@ -38,12 +38,12 @@ import org.kuali.kfs.rule.event.GenerateGeneralLedgerDocumentPendingEntriesEvent
 import org.kuali.kfs.rule.event.GenerateGeneralLedgerPendingEntriesEvent;
 import org.kuali.kfs.service.GeneralLedgerPendingEntryService;
 import org.kuali.kfs.service.OptionsService;
-import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.Chart;
 import org.kuali.module.chart.bo.codes.BalanceTyp;
 import org.kuali.module.chart.service.BalanceTypService;
 import org.kuali.module.chart.service.ChartService;
+import org.kuali.module.financial.service.UniversityDateService;
 import org.kuali.module.gl.bo.Balance;
 import org.kuali.module.gl.bo.Encumbrance;
 import org.kuali.module.gl.bo.UniversityDate;
@@ -185,7 +185,7 @@ public class GeneralLedgerPendingEntryServiceImpl implements GeneralLedgerPendin
         // TODO Handle year end documents
 
         if ((glpe.getUniversityFiscalPeriodCode() == null) || (glpe.getUniversityFiscalYear() == null)) {
-            UniversityDate ud = SpringServiceLocator.getUniversityDateService().getCurrentUniversityDate();
+            UniversityDate ud = SpringContext.getBean(UniversityDateService.class).getCurrentUniversityDate();
 
             glpe.setUniversityFiscalYear(ud.getUniversityFiscalYear());
             glpe.setUniversityFiscalPeriodCode(ud.getUniversityFiscalAccountingPeriod());

@@ -25,23 +25,21 @@ import org.apache.struts.action.ActionMapping;
 import org.kuali.RicePropertyConstants;
 import org.kuali.core.bo.Note;
 import org.kuali.core.question.ConfirmationQuestion;
+import org.kuali.core.service.BusinessObjectService;
+import org.kuali.core.service.DataDictionaryService;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.web.struts.form.KualiDocumentFormBase;
 import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.util.SpringServiceLocator;
-import org.kuali.module.purap.PurapConstants;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.purap.PurapKeyConstants;
 import org.kuali.module.purap.PurapPropertyConstants;
 import org.kuali.module.purap.bo.PurchasingApItem;
 import org.kuali.module.purap.document.AccountsPayableDocument;
 import org.kuali.module.purap.document.AccountsPayableDocumentBase;
-import org.kuali.module.purap.document.CreditMemoDocument;
-import org.kuali.module.purap.document.PaymentRequestDocument;
 import org.kuali.module.purap.document.PurchasingDocument;
 import org.kuali.module.purap.util.PurQuestionCallback;
 import org.kuali.module.purap.web.struts.form.AccountsPayableFormBase;
-import org.kuali.module.purap.web.struts.form.PaymentRequestForm;
 import org.kuali.module.purap.web.struts.form.PurchasingFormBase;
 import org.kuali.module.vendor.VendorConstants;
 import org.kuali.module.vendor.bo.VendorAddress;
@@ -67,7 +65,7 @@ public class AccountsPayableActionBase extends PurchasingAccountsPayableActionBa
                 Integer vendorAddressGeneratedId = document.getVendorAddressGeneratedIdentifier();
                 VendorAddress refreshVendorAddress = new VendorAddress();
                 refreshVendorAddress.setVendorAddressGeneratedIdentifier(vendorAddressGeneratedId);
-                refreshVendorAddress = (VendorAddress) SpringServiceLocator.getBusinessObjectService().retrieve(refreshVendorAddress);
+                refreshVendorAddress = (VendorAddress) SpringContext.getBean(BusinessObjectService.class).retrieve(refreshVendorAddress);
                 document.templateVendorAddress(refreshVendorAddress);
             }
         }
@@ -171,7 +169,7 @@ public class AccountsPayableActionBase extends PurchasingAccountsPayableActionBa
         String reason = request.getParameter(KFSConstants.QUESTION_REASON_ATTRIBUTE_NAME);
         String noteText = "";
 
-        KualiConfigurationService kualiConfiguration = SpringServiceLocator.getKualiConfigurationService();
+        KualiConfigurationService kualiConfiguration = SpringContext.getBean(KualiConfigurationService.class);
 
         // Start in logic for confirming the close.
         if (question == null) {
@@ -195,7 +193,7 @@ public class AccountsPayableActionBase extends PurchasingAccountsPayableActionBa
             int noteTextLength = noteText.length();
 
             // Get note text max length from DD.
-            int noteTextMaxLength = SpringServiceLocator.getDataDictionaryService().getAttributeMaxLength(Note.class, KFSConstants.NOTE_TEXT_PROPERTY_NAME).intValue();
+            int noteTextMaxLength = SpringContext.getBean(DataDictionaryService.class).getAttributeMaxLength(Note.class, KFSConstants.NOTE_TEXT_PROPERTY_NAME).intValue();
             if (StringUtils.isBlank(reason) || (noteTextLength > noteTextMaxLength)) {
                 // Figure out exact number of characters that the user can enter.
                 int reasonLimit = noteTextMaxLength - noteTextLength;

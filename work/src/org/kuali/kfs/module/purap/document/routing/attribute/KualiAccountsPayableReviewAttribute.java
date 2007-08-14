@@ -17,11 +17,10 @@ package org.kuali.workflow.module.purap.attribute;
 
 import java.util.List;
 
+import org.kuali.core.service.DocumentService;
 import org.kuali.core.util.ObjectUtils;
-import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.purap.document.AccountsPayableDocument;
-import org.kuali.workflow.KualiWorkflowUtils;
-import org.w3c.dom.Document;
 
 import edu.iu.uis.eden.exception.WorkflowException;
 import edu.iu.uis.eden.routeheader.DocumentContent;
@@ -38,7 +37,7 @@ public class KualiAccountsPayableReviewAttribute extends AbstractWorkflowAttribu
 
     private AccountsPayableDocument getAccountsPayableDocument(String documentNumber) {
         try {
-            AccountsPayableDocument document = (AccountsPayableDocument)SpringServiceLocator.getDocumentService().getByDocumentHeaderId(documentNumber);
+            AccountsPayableDocument document = (AccountsPayableDocument) SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(documentNumber);
             if (ObjectUtils.isNull(document)) {
                 String errorMsg = "Error trying to get document using doc id '" + documentNumber + "'";
                 LOG.error("getAccountsPayableDocument() " + errorMsg);

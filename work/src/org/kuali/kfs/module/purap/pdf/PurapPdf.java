@@ -4,9 +4,10 @@ package org.kuali.module.purap.pdf;
 import java.io.File;
 
 import org.kuali.core.service.DateTimeService;
+import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
-import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.purap.document.PurchaseOrderDocument;
 
 import com.lowagie.text.Document;
@@ -67,13 +68,13 @@ public class PurapPdf extends PdfPageEventHelper {
 
     public DateTimeService getDateTimeService() {
         if (ObjectUtils.isNull(dateTimeService) ) {
-            this.dateTimeService = SpringServiceLocator.getDateTimeService();
+            this.dateTimeService = SpringContext.getBean(DateTimeService.class, "dateTimeService");
         }
         return this.dateTimeService;
     }
     
     public void onStartPage(PdfWriter writer, Document document) {
-        if (!SpringServiceLocator.getKualiConfigurationService().isProductionEnvironment()) {
+        if (!SpringContext.getBean(KualiConfigurationService.class).isProductionEnvironment()) {
             PdfContentByte cb = writer.getDirectContentUnder();
             cb.saveState();
             cb.beginText();

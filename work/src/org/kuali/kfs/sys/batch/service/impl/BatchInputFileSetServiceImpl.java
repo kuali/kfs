@@ -31,12 +31,13 @@ import java.util.Set;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.exceptions.AuthorizationException;
+import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.kfs.KFSConstants.ParameterGroups;
 import org.kuali.kfs.KFSConstants.SystemGroupParameterNames;
 import org.kuali.kfs.batch.BatchInputFileSetType;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.exceptions.FileStorageException;
 import org.kuali.kfs.service.BatchInputFileSetService;
-import org.kuali.kfs.util.SpringServiceLocator;
 
 /**
  * Base implementation to manipulate batch input file sets from the batch upload screen
@@ -119,7 +120,7 @@ public class BatchInputFileSetServiceImpl implements BatchInputFileSetService {
             throw new IllegalArgumentException("an invalid(null) argument was given");
         }
 
-        String[] activeInputTypes = SpringServiceLocator.getKualiConfigurationService().getApplicationParameterValues(ParameterGroups.BATCH_UPLOAD_SECURITY_GROUP_NAME, SystemGroupParameterNames.ACTIVE_INPUT_TYPES_PARAMETER_NAME);
+        String[] activeInputTypes = SpringContext.getBean(KualiConfigurationService.class).getApplicationParameterValues(ParameterGroups.BATCH_UPLOAD_SECURITY_GROUP_NAME, SystemGroupParameterNames.ACTIVE_INPUT_TYPES_PARAMETER_NAME);
 
         boolean activeBatchType = false;
         if (activeInputTypes.length > 0 && (Arrays.asList(activeInputTypes)).contains(batchInputFileSetType.getFileSetTypeIdentifer())) {
@@ -139,7 +140,7 @@ public class BatchInputFileSetServiceImpl implements BatchInputFileSetService {
         }
 
         String workgroupParameterName = batchInputFileSetType.getWorkgroupParameterName();
-        String authorizedWorkgroupName = SpringServiceLocator.getKualiConfigurationService().getApplicationParameterValue(ParameterGroups.BATCH_UPLOAD_SECURITY_GROUP_NAME, workgroupParameterName);
+        String authorizedWorkgroupName = SpringContext.getBean(KualiConfigurationService.class).getApplicationParameterValue(ParameterGroups.BATCH_UPLOAD_SECURITY_GROUP_NAME, workgroupParameterName);
  
         return user.isMember(authorizedWorkgroupName);
     }

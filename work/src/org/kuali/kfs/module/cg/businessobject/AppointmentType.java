@@ -17,15 +17,14 @@ package org.kuali.module.kra.budget.bo;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
 
 import org.apache.ojb.broker.PersistenceBroker;
-import org.apache.ojb.broker.PersistenceBrokerException;
 import org.kuali.core.bo.PersistableBusinessObjectBase;
+import org.kuali.core.service.DateTimeService;
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.kfs.context.SpringContext;
 
 /**
  * Account Business Object
@@ -151,12 +150,12 @@ public class AppointmentType extends PersistableBusinessObjectBase {
 
     public void beforeInsert(PersistenceBroker persistenceBroker) {
         super.beforeInsert(persistenceBroker);
-        this.lastUpdate = SpringServiceLocator.getDateTimeService().getCurrentTimestamp();
+        this.lastUpdate = SpringContext.getBean(DateTimeService.class, "dateTimeService").getCurrentTimestamp();
     }
 
     public void beforeUpdate(PersistenceBroker persistenceBroker) {
         super.beforeUpdate(persistenceBroker);
-        this.lastUpdate = SpringServiceLocator.getDateTimeService().getCurrentTimestamp();
+        this.lastUpdate = SpringContext.getBean(DateTimeService.class, "dateTimeService").getCurrentTimestamp();
     }
 
 

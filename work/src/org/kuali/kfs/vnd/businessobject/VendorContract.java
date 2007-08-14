@@ -28,8 +28,8 @@ import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.util.TypedArrayList;
-import org.kuali.kfs.util.SpringServiceLocator;
-import org.kuali.module.vendor.bo.PurchaseOrderCostSource;
+import org.kuali.kfs.context.SpringContext;
+import org.kuali.module.vendor.service.VendorService;
 import org.kuali.module.vendor.util.VendorRoutingComparable;
 
 /**
@@ -607,7 +607,7 @@ public class VendorContract extends PersistableBusinessObjectBase implements Ven
                 .append( this.getOrganizationAutomaticPurchaseOrderLimit(),
                         vc.getOrganizationAutomaticPurchaseOrderLimit() )
                 .isEquals();
-            eq &= SpringServiceLocator.getVendorService().equalMemberLists( this.getVendorContractOrganizations(),
+            eq &= SpringContext.getBean(VendorService.class).equalMemberLists( this.getVendorContractOrganizations(),
                     vc.getVendorContractOrganizations() );
             return eq;
         } 

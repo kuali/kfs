@@ -46,14 +46,14 @@ public class TestGenesis extends KualiTestBase {
   {
       LOG = org.apache.log4j.Logger.getLogger(TestGenesis.class);
      configService = 
-            SpringServiceLocator.getKualiConfigurationService();
+            SpringContext.getBean(KualiConfigurationService.class);
      genesisDao = SpringContext.getBean(GenesisDao.class);
   //    
-     genesisTestService = SpringServiceLocator.getGenesisService();
+     genesisTestService = SpringContext.getBean(GenesisService.class);
      dateMakerTestService = 
-          SpringServiceLocator.getDateMakerService();
+          SpringContext.getBean(DateMakerService.class);
       dateTimeService =
-          SpringServiceLocator.getDateTimeService();
+          SpringContext.getBean(DateTimeService.class, "dateTimeService");
   //
       GlobalVariables.clear();
       try
@@ -108,7 +108,7 @@ public class TestGenesis extends KualiTestBase {
      //  genesisTestService.testHierarchyCreation(2009);
      // test the changes we made to the organization service for the root organization
      //   String[] roots = 
-     //       SpringServiceLocator.getOrganizationService().getRootOrganizationCode();
+     //       SpringContext.getBean(OrganizationService.class).getRootOrganizationCode();
      //   LOG.info(String.format("\nroot chart: %s, root organization: %s", roots[0], roots[1]));
   //
   //    genesisTestService.testStep(2007);

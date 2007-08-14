@@ -20,7 +20,7 @@ import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.core.exceptions.UserNotFoundException;
 import org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase;
 import org.kuali.kfs.KFSKeyConstants;
-import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.chart.bo.Chart;
 import org.kuali.module.chart.bo.ChartUser;
 import org.kuali.module.chart.service.ChartService;
@@ -35,7 +35,7 @@ public class ChartRule extends MaintenanceDocumentRuleBase {
         boolean result=true;
         
         Chart chart=(Chart)document.getNewMaintainableObject().getBusinessObject();
-        ChartService chartService = SpringServiceLocator.getChartService();
+        ChartService chartService = SpringContext.getBean(ChartService.class);
         
         String chartCode=chart.getChartOfAccountsCode();
         

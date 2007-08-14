@@ -15,6 +15,9 @@
  */
 package org.kuali.module.labor.web.lookupable;
 
+import static org.kuali.kfs.KFSPropertyConstants.UNIVERSITY_FISCAL_PERIOD_CODE;
+import static org.kuali.kfs.KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -22,12 +25,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import static org.kuali.kfs.KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR;
-import static org.kuali.kfs.KFSPropertyConstants.UNIVERSITY_FISCAL_PERIOD_CODE;
-
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.bo.BusinessObject;
-import org.kuali.core.bo.PersistableBusinessObject;
 import org.kuali.core.exceptions.ValidationException;
 import org.kuali.core.lookup.AbstractLookupableHelperServiceImpl;
 import org.kuali.core.lookup.CollectionIncomplete;
@@ -37,7 +36,8 @@ import org.kuali.core.util.GlobalVariables;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSKeyConstants;
 import org.kuali.kfs.KFSPropertyConstants;
-import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.kfs.context.SpringContext;
+import org.kuali.module.financial.service.UniversityDateService;
 import org.kuali.module.gl.bo.UniversityDate;
 import org.kuali.module.gl.web.Constant;
 import org.kuali.module.gl.web.inquirable.InquirableFinancialDocument;
@@ -120,7 +120,7 @@ public class LaborPendingEntryLookupableHelperServiceImpl extends AbstractLookup
             }
         }
 
-        UniversityDate currentUniversityDate = SpringServiceLocator.getUniversityDateService().getCurrentUniversityDate();
+        UniversityDate currentUniversityDate = SpringContext.getBean(UniversityDateService.class).getCurrentUniversityDate();
         String currentFiscalPeriodCode = currentUniversityDate.getUniversityFiscalAccountingPeriod();
         Integer currentFiscalYear = currentUniversityDate.getUniversityFiscalYear();
 

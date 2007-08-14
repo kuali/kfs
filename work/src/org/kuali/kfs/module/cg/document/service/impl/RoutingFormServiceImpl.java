@@ -23,20 +23,19 @@ import java.util.Map;
 import org.kuali.core.document.Document;
 import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.core.rule.KualiParameterRule;
+import org.kuali.core.service.DateTimeService;
 import org.kuali.core.service.DocumentService;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.service.MaintenanceDocumentDictionaryService;
 import org.kuali.core.util.GlobalVariables;
-import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.KualiInteger;
 import org.kuali.core.util.ObjectUtils;
-import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.cg.bo.Proposal;
 import org.kuali.module.cg.bo.ProposalOrganization;
 import org.kuali.module.cg.bo.ProposalProjectDirector;
 import org.kuali.module.cg.bo.ProposalResearchRisk;
 import org.kuali.module.cg.bo.ProposalSubcontractor;
-import org.kuali.module.cg.dao.ProposalDao;
 import org.kuali.module.cg.lookup.valuefinder.NextProposalNumberFinder;
 import org.kuali.module.cg.maintenance.ProposalMaintainableImpl;
 import org.kuali.module.kra.KraConstants;
@@ -90,7 +89,7 @@ public class RoutingFormServiceImpl implements RoutingFormService {
     
     public void linkImportBudgetDataToRoutingForm(RoutingFormDocument routingFormDocument, String budgetDocumentHeaderId, List<BudgetOverviewFormHelper> periodOverviews) throws WorkflowException {
         
-        KualiConfigurationService kualiConfigurationService = SpringServiceLocator.getKualiConfigurationService();
+        KualiConfigurationService kualiConfigurationService = SpringContext.getBean(KualiConfigurationService.class);
         final String PERSON_ROLE_CODE_PD = kualiConfigurationService.getApplicationParameterValue(KraConstants.KRA_DEVELOPMENT_GROUP, "KraRoutingFormPersonRoleCodeProjectDirector");       
         
         Integer minPeriod = routingFormDocument.getRoutingFormBudget().getRoutingFormBudgetMinimumPeriodNumber();
@@ -320,7 +319,7 @@ public class RoutingFormServiceImpl implements RoutingFormService {
         proposal.setFederalPassThroughAgencyNumber(routingFormDocument.getAgencyFederalPassThroughNumber());
 
         //There could be multiple types on the RF, but only one of them will pass this rule, and that's the one that should be used to populate the Proposal field.
-        KualiParameterRule proposalCreateRule = SpringServiceLocator.getKualiConfigurationService().getApplicationParameterRule(KraConstants.KRA_ADMIN_GROUP_NAME, "KraRoutingFormCreateProposalProjectTypes");
+        KualiParameterRule proposalCreateRule = SpringContext.getBean(KualiConfigurationService.class).getApplicationParameterRule(KraConstants.KRA_ADMIN_GROUP_NAME, "KraRoutingFormCreateProposalProjectTypes");
         for (RoutingFormProjectType routingFormProjectType : routingFormDocument.getRoutingFormProjectTypes()) {
             if (proposalCreateRule.succeedsRule(routingFormProjectType.getProjectTypeCode())) {
                 proposal.setProposalAwardTypeCode(routingFormProjectType.getProjectTypeCode());
@@ -408,7 +407,7 @@ public class RoutingFormServiceImpl implements RoutingFormService {
             proposal.getProposalResearchRisks().add(newProposalResearchRisk);
         }
         
-        proposal.setProposalSubmissionDate(SpringServiceLocator.getDateTimeService().getCurrentSqlDate());
+        proposal.setProposalSubmissionDate(SpringContext.getBean(DateTimeService.class, "dateTimeService").getCurrentSqlDate());
         
         return proposal;
     }

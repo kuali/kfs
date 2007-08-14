@@ -16,8 +16,8 @@
 package org.kuali.module.chart.maintenance;
 
 import org.kuali.core.maintenance.KualiMaintainableImpl;
-import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.core.service.DateTimeService;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.chart.bo.Delegate;
 
 /**
@@ -43,7 +43,7 @@ public class KualiDelegateMaintainableImpl extends KualiMaintainableImpl {
     private void setStartDateDefault() {
         if (this.businessObject != null && this.businessObject instanceof Delegate) {
             Delegate delegate = (Delegate)this.businessObject;
-            delegate.setAccountDelegateStartDate(SpringServiceLocator.getDateTimeService().getCurrentTimestamp());
+            delegate.setAccountDelegateStartDate(SpringContext.getBean(DateTimeService.class, "dateTimeService").getCurrentTimestamp());
         }
     }
 }

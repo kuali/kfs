@@ -24,21 +24,21 @@ import java.util.Map;
 import org.kuali.core.document.AmountTotaling;
 import org.kuali.core.document.Copyable;
 import org.kuali.core.rule.event.KualiDocumentEvent;
+import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.web.format.CurrencyFormatter;
 import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.util.SpringServiceLocator;
-import org.kuali.module.financial.bo.CashDrawer;
-import org.kuali.module.financial.bo.CashReceiptHeader;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.financial.bo.Check;
 import org.kuali.module.financial.bo.CheckBase;
-import org.kuali.module.financial.bo.CurrencyDetail;
 import org.kuali.module.financial.bo.CoinDetail;
+import org.kuali.module.financial.bo.CurrencyDetail;
 import org.kuali.module.financial.rule.event.AddCheckEvent;
 import org.kuali.module.financial.rule.event.DeleteCheckEvent;
 import org.kuali.module.financial.rule.event.UpdateCheckEvent;
-import org.kuali.module.financial.service.CashDrawerService;
+import org.kuali.module.financial.service.CashReceiptService;
+import org.kuali.module.financial.service.CheckService;
 import org.kuali.module.gl.util.SufficientFundsItem;
 
 /**
@@ -211,7 +211,7 @@ public class CashReceiptDocument extends CashReceiptFamilyBase implements Copyab
         if (getDocumentHeader().getWorkflowDocument().stateIsProcessed()) {
             this.getDocumentHeader().setFinancialDocumentStatusCode(KFSConstants.DocumentStatusCodes.CashReceipt.VERIFIED);
             LOG.info("Adding Cash to Cash Drawer");
-            SpringServiceLocator.getCashReceiptService().addCashDetailsToCashDrawer(this);
+            SpringContext.getBean(CashReceiptService.class).addCashDetailsToCashDrawer(this);
         }
     }
 
@@ -429,8 +429,8 @@ public class CashReceiptDocument extends CashReceiptFamilyBase implements Copyab
             getCoinDetail().setCashieringRecordSource(KFSConstants.CurrencyCoinSources.CASH_RECEIPTS);
         }
         
-        SpringServiceLocator.getBusinessObjectService().save(getCurrencyDetail());
-        SpringServiceLocator.getBusinessObjectService().save(getCoinDetail());
+        SpringContext.getBean(BusinessObjectService.class).save(getCurrencyDetail());
+        SpringContext.getBean(BusinessObjectService.class).save(getCoinDetail());
     }
     
     /**
@@ -446,7 +446,7 @@ public class CashReceiptDocument extends CashReceiptFamilyBase implements Copyab
      * @return the currency detail record for this cash receipt document
      */
     private CurrencyDetail retrieveCurrencyDetail() {
-        return (CurrencyDetail)SpringServiceLocator.getBusinessObjectService().findByPrimaryKey(CurrencyDetail.class, getCashDetailPrimaryKey());
+        return (CurrencyDetail)SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(CurrencyDetail.class, getCashDetailPrimaryKey());
     }
     
     /**
@@ -454,7 +454,7 @@ public class CashReceiptDocument extends CashReceiptFamilyBase implements Copyab
      * @return the coin detail record for this cash receipt document
      */
     private CoinDetail retrieveCoinDetail() {
-        return (CoinDetail)SpringServiceLocator.getBusinessObjectService().findByPrimaryKey(CoinDetail.class, getCashDetailPrimaryKey());
+        return (CoinDetail)SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(CoinDetail.class, getCashDetailPrimaryKey());
     }
     
     /**
@@ -486,7 +486,7 @@ public class CashReceiptDocument extends CashReceiptFamilyBase implements Copyab
         // 2. retrieve current checks from given document
         // 3. compare, creating add/delete/update events as needed
         // 4. apply rules as appropriate returned events
-        List persistedChecks = SpringServiceLocator.getCheckService().getByDocumentHeaderId(getDocumentNumber());
+        List persistedChecks = SpringContext.getBean(CheckService.class).getByDocumentHeaderId(getDocumentNumber());
         List currentChecks = getChecks();
 
         List events = generateEvents(persistedChecks, currentChecks, KFSConstants.EXISTING_CHECK_PROPERTY_NAME, this);

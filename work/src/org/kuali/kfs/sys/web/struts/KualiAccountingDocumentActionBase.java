@@ -42,12 +42,16 @@ import org.kuali.core.rule.KualiParameterRule;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DictionaryValidationService;
 import org.kuali.core.service.DocumentTypeService;
+import org.kuali.core.service.KualiConfigurationService;
+import org.kuali.core.service.KualiRuleService;
+import org.kuali.core.service.PersistenceService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.util.Timer;
 import org.kuali.core.util.UrlFactory;
 import org.kuali.core.web.struts.action.KualiTransactionalDocumentActionBase;
 import org.kuali.core.web.struts.form.KualiDocumentFormBase;
+import org.kuali.core.workflow.service.WorkflowDocumentService;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSKeyConstants;
 import org.kuali.kfs.bo.AccountingLine;
@@ -55,6 +59,7 @@ import org.kuali.kfs.bo.AccountingLineOverride;
 import org.kuali.kfs.bo.AccountingLineParser;
 import org.kuali.kfs.bo.SourceAccountingLine;
 import org.kuali.kfs.bo.TargetAccountingLine;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.document.AccountingDocument;
 import org.kuali.kfs.exceptions.AccountingLineParserException;
 import org.kuali.kfs.rule.event.AddAccountingLineEvent;
@@ -62,7 +67,6 @@ import org.kuali.kfs.rule.event.DeleteAccountingLineEvent;
 import org.kuali.kfs.rule.event.UpdateAccountingLineEvent;
 import org.kuali.kfs.rules.AccountingDocumentRuleBaseConstants.APPLICATION_PARAMETER;
 import org.kuali.kfs.rules.AccountingDocumentRuleBaseConstants.APPLICATION_PARAMETER_SECURITY_GROUP;
-import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.kfs.web.struts.form.KualiAccountingDocumentFormBase;
 import org.kuali.kfs.web.ui.AccountingLineDecorator;
 import org.kuali.module.financial.bo.SalesTax;
@@ -98,7 +102,7 @@ public class KualiAccountingDocumentActionBase extends KualiTransactionalDocumen
         processAccountingLineOverrides(transForm);
 
         // this refershes if the accounting lines within the form are editable or not
-        if (ObjectUtils.isNotNull(transForm.getDocument()) && ObjectUtils.isNotNull(transForm.getDocument().getDocumentHeader()) && ObjectUtils.isNotNull(transForm.getDocument().getDocumentNumber()) && SpringServiceLocator.getWorkflowDocumentService().workflowDocumentExists(transForm.getDocument().getDocumentNumber())) {
+        if (ObjectUtils.isNotNull(transForm.getDocument()) && ObjectUtils.isNotNull(transForm.getDocument().getDocumentHeader()) && ObjectUtils.isNotNull(transForm.getDocument().getDocumentNumber()) && SpringContext.getBean(WorkflowDocumentService.class).workflowDocumentExists(transForm.getDocument().getDocumentNumber())) {
             transForm.refreshEditableAccounts();
         }
 
@@ -229,7 +233,7 @@ public class KualiAccountingDocumentActionBase extends KualiTransactionalDocumen
      */
     protected static void processAccountingLineOverrides(List accountingLines) {
         if (!accountingLines.isEmpty()) {
-            SpringServiceLocator.getPersistenceService().retrieveReferenceObjects(accountingLines, AccountingLineOverride.REFRESH_FIELDS);
+            SpringContext.getBean(PersistenceService.class).retrieveReferenceObjects(accountingLines, AccountingLineOverride.REFRESH_FIELDS);
 
             for (Iterator i = accountingLines.iterator(); i.hasNext();) {
                 AccountingLine line = (AccountingLine) i.next();
@@ -323,7 +327,7 @@ public class KualiAccountingDocumentActionBase extends KualiTransactionalDocumen
             formLine.refresh();
             clearOverridesThatBecameUnneeded(formLine);
             // the rule itself is responsible for adding error messages to the global ErrorMap
-            SpringServiceLocator.getKualiRuleService().applyRules(new UpdateAccountingLineEvent(errorPathPrefix, transDoc, baseLine, formLine));
+            SpringContext.getBean(KualiRuleService.class).applyRules(new UpdateAccountingLineEvent(errorPathPrefix, transDoc, baseLine, formLine));
         }
     }
 
@@ -417,7 +421,7 @@ public class KualiAccountingDocumentActionBase extends KualiTransactionalDocumen
     protected boolean revertAccountingLine(KualiAccountingDocumentFormBase transForm, int revertIndex, AccountingLine originalLine, AccountingLine newerLine) {
         boolean reverted = false;
 
-        SpringServiceLocator.getPersistenceService().refreshAllNonUpdatingReferences(originalLine);
+        SpringContext.getBean(PersistenceService.class).refreshAllNonUpdatingReferences(originalLine);
 
         // *always* revert (so that if someone manually changes the line to its original values, then hits revert, they won't get an
         // error message saying "couldn't revert")
@@ -454,9 +458,9 @@ public class KualiAccountingDocumentActionBase extends KualiTransactionalDocumen
         // (accountingLines without baselines haven't been persisted yet, so they can safely be deleted)
         if (financialDocumentForm.hasBaselineTargetAccountingLine(deleteIndex)) {
             TargetAccountingLine baseline = financialDocumentForm.getBaselineTargetAccountingLine(deleteIndex);
-            SpringServiceLocator.getPersistenceService().refreshAllNonUpdatingReferences(baseline);
+            SpringContext.getBean(PersistenceService.class).refreshAllNonUpdatingReferences(baseline);
 
-            rulePassed = SpringServiceLocator.getKualiRuleService().applyRules(new DeleteAccountingLineEvent(errorPath, financialDocumentForm.getDocument(), baseline, false));
+            rulePassed = SpringContext.getBean(KualiRuleService.class).applyRules(new DeleteAccountingLineEvent(errorPath, financialDocumentForm.getDocument(), baseline, false));
         }
         else {
             rulePassed = true;
@@ -498,9 +502,9 @@ public class KualiAccountingDocumentActionBase extends KualiTransactionalDocumen
         // (accountingLines without baselines haven't been persisted yet, so they can safely be deleted)
         if (financialDocumentForm.hasBaselineSourceAccountingLine(deleteIndex)) {
             SourceAccountingLine baseline = financialDocumentForm.getBaselineSourceAccountingLine(deleteIndex);
-            SpringServiceLocator.getPersistenceService().refreshAllNonUpdatingReferences(baseline);
+            SpringContext.getBean(PersistenceService.class).refreshAllNonUpdatingReferences(baseline);
 
-            rulePassed = SpringServiceLocator.getKualiRuleService().applyRules(new DeleteAccountingLineEvent(errorPath, financialDocumentForm.getDocument(), baseline, false));
+            rulePassed = SpringContext.getBean(KualiRuleService.class).applyRules(new DeleteAccountingLineEvent(errorPath, financialDocumentForm.getDocument(), baseline, false));
         }
         else {
             rulePassed = true;
@@ -668,12 +672,12 @@ public class KualiAccountingDocumentActionBase extends KualiTransactionalDocumen
         rulePassed &= checkSalesTax((AccountingDocument)financialDocumentForm.getDocument(), line, false, true, 0);
         
         // check any business rules
-        rulePassed &= SpringServiceLocator.getKualiRuleService().applyRules(new AddAccountingLineEvent(KFSConstants.NEW_TARGET_ACCT_LINE_PROPERTY_NAME, financialDocumentForm.getDocument(), line));
+        rulePassed &= SpringContext.getBean(KualiRuleService.class).applyRules(new AddAccountingLineEvent(KFSConstants.NEW_TARGET_ACCT_LINE_PROPERTY_NAME, financialDocumentForm.getDocument(), line));
 
         // if the rule evaluation passed, let's add it
         if (rulePassed) {
             // add accountingLine
-            SpringServiceLocator.getPersistenceService().refreshAllNonUpdatingReferences(line);
+            SpringContext.getBean(PersistenceService.class).refreshAllNonUpdatingReferences(line);
             insertAccountingLine(false, financialDocumentForm, line);
 
             // clear the used newTargetLine
@@ -705,11 +709,11 @@ public class KualiAccountingDocumentActionBase extends KualiTransactionalDocumen
         //accountingLine    
         rulePassed &= checkSalesTax((AccountingDocument)financialDocumentForm.getDocument(), line, true, true, 0);
         // check any business rules
-        rulePassed &= SpringServiceLocator.getKualiRuleService().applyRules(new AddAccountingLineEvent(KFSConstants.NEW_SOURCE_ACCT_LINE_PROPERTY_NAME, financialDocumentForm.getDocument(), line));
+        rulePassed &= SpringContext.getBean(KualiRuleService.class).applyRules(new AddAccountingLineEvent(KFSConstants.NEW_SOURCE_ACCT_LINE_PROPERTY_NAME, financialDocumentForm.getDocument(), line));
 
         if (rulePassed) {
             // add accountingLine
-            SpringServiceLocator.getPersistenceService().refreshAllNonUpdatingReferences(line);
+            SpringContext.getBean(PersistenceService.class).refreshAllNonUpdatingReferences(line);
             insertAccountingLine(true, financialDocumentForm, line);
 
             // clear the used newTargetLine
@@ -1000,10 +1004,10 @@ public class KualiAccountingDocumentActionBase extends KualiTransactionalDocumen
      */
     private boolean isSalesTaxRequired(AccountingDocument financialDocument, AccountingLine accountingLine) {
         boolean required = false;
-        DocumentTypeService docTypeService = SpringServiceLocator.getDocumentTypeService();
+        DocumentTypeService docTypeService = SpringContext.getBean(DocumentTypeService.class);
         String docType = docTypeService.getDocumentTypeCodeByClass(financialDocument.getClass());
         //first we need to check just the doctype to see if it needs the sales tax check
-        KualiParameterRule docTypeRule = SpringServiceLocator.getKualiConfigurationService().getApplicationParameterRule(APPLICATION_PARAMETER_SECURITY_GROUP.KUALI_TRANSACTION_PROCESSING_SALES_TAX_COLLECTION_GROUPING, APPLICATION_PARAMETER.DOCTYPE_SALES_TAX_CHECK);
+        KualiParameterRule docTypeRule = SpringContext.getBean(KualiConfigurationService.class).getApplicationParameterRule(APPLICATION_PARAMETER_SECURITY_GROUP.KUALI_TRANSACTION_PROCESSING_SALES_TAX_COLLECTION_GROUPING, APPLICATION_PARAMETER.DOCTYPE_SALES_TAX_CHECK);
         
         // apply the rule, see if it fails
         if (!docTypeRule.failsRule(docType)) {
@@ -1012,7 +1016,7 @@ public class KualiAccountingDocumentActionBase extends KualiTransactionalDocumen
         
         //second we need to check the account and object code combination to see if it needs sales tax
         if(required) {
-            KualiParameterRule objCdAndAccountRule = SpringServiceLocator.getKualiConfigurationService().getApplicationParameterRule(APPLICATION_PARAMETER_SECURITY_GROUP.KUALI_TRANSACTION_PROCESSING_SALES_TAX_COLLECTION_GROUPING, APPLICATION_PARAMETER.VALID_ACCOUNT_AND_OBJ_CD);
+            KualiParameterRule objCdAndAccountRule = SpringContext.getBean(KualiConfigurationService.class).getApplicationParameterRule(APPLICATION_PARAMETER_SECURITY_GROUP.KUALI_TRANSACTION_PROCESSING_SALES_TAX_COLLECTION_GROUPING, APPLICATION_PARAMETER.VALID_ACCOUNT_AND_OBJ_CD);
             //get the object code and account
             String objCd = accountingLine.getFinancialObjectCode();
             String account = accountingLine.getAccountNumber();
@@ -1038,8 +1042,8 @@ public class KualiAccountingDocumentActionBase extends KualiTransactionalDocumen
      */
     private boolean isValidSalesTaxEntered(AccountingLine accountingLine, boolean source, boolean newLine, int index) {
         boolean valid = true;
-        DictionaryValidationService dictionaryValidationService = SpringServiceLocator.getDictionaryValidationService();
-        BusinessObjectService boService = SpringServiceLocator.getBusinessObjectService();
+        DictionaryValidationService dictionaryValidationService = SpringContext.getBean(DictionaryValidationService.class);
+        BusinessObjectService boService = SpringContext.getBean(BusinessObjectService.class);
         String objCd = accountingLine.getFinancialObjectCode();
         String account = accountingLine.getAccountNumber();
         SalesTax salesTax = accountingLine.getSalesTax();

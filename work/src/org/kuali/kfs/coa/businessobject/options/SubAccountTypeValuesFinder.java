@@ -24,7 +24,7 @@ import org.kuali.core.rule.KualiParameterRule;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.web.ui.KeyLabelPair;
 import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.chart.rules.SubAccountRule;
 
 public class SubAccountTypeValuesFinder extends KeyValuesBase {
@@ -35,7 +35,7 @@ public class SubAccountTypeValuesFinder extends KeyValuesBase {
     public SubAccountTypeValuesFinder() {
         super();
 
-        this.setConfigService(SpringServiceLocator.getKualiConfigurationService());
+        this.setConfigService(SpringContext.getBean(KualiConfigurationService.class));
     }
 
 

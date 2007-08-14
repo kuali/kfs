@@ -25,7 +25,7 @@ import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.KFSKeyConstants;
 import org.kuali.kfs.KFSPropertyConstants;
-import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.cg.bo.Award;
 import org.kuali.module.chart.rules.MaintenancePreRulesBase;
 
@@ -46,8 +46,8 @@ public class AwardPreRules extends MaintenancePreRulesBase {
      * Constructs a AwardPreRules.java.
      */
     public AwardPreRules() {
-        dataDictionaryService = SpringServiceLocator.getDataDictionaryService();
-        configService = SpringServiceLocator.getKualiConfigurationService();
+        dataDictionaryService = SpringContext.getBean(DataDictionaryService.class);
+        configService = SpringContext.getBean(KualiConfigurationService.class);
     }
 
     /**

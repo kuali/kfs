@@ -18,27 +18,28 @@ package org.kuali.module.purap.web.struts.action;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.collections.ListUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.core.service.KualiRuleService;
+import org.kuali.core.service.PersistenceService;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.web.struts.form.KualiDocumentFormBase;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.bo.AccountingLine;
 import org.kuali.kfs.bo.SourceAccountingLine;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.rule.event.AddAccountingLineEvent;
-import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.kfs.web.struts.action.KualiAccountingDocumentActionBase;
 import org.kuali.kfs.web.struts.form.KualiAccountingDocumentFormBase;
 import org.kuali.kfs.web.ui.AccountingLineDecorator;
 import org.kuali.module.purap.PurapPropertyConstants;
 import org.kuali.module.purap.bo.PurApAccountingLine;
 import org.kuali.module.purap.bo.PurchasingApItem;
-import org.kuali.module.purap.document.AccountsPayableDocument;
 import org.kuali.module.purap.document.PurchasingAccountsPayableDocument;
+import org.kuali.module.purap.service.PurapAccountingService;
 import org.kuali.module.purap.web.struts.form.PurchasingAccountsPayableFormBase;
 import org.kuali.module.purap.web.struts.form.PurchasingFormBase;
 
@@ -53,7 +54,7 @@ public class PurchasingAccountsPayableActionBase extends KualiAccountingDocument
     protected void loadDocument(KualiDocumentFormBase kualiDocumentFormBase) throws WorkflowException {
         super.loadDocument(kualiDocumentFormBase);
         PurchasingAccountsPayableDocument document = (PurchasingAccountsPayableDocument) kualiDocumentFormBase.getDocument();
-        SpringServiceLocator.getPurapAccountingService().updateAccountAmounts(document);
+        SpringContext.getBean(PurapAccountingService.class).updateAccountAmounts(document);
         document.refreshAccountSummary();
         
         updateBaseline(document,(PurchasingAccountsPayableFormBase)kualiDocumentFormBase);
@@ -83,7 +84,7 @@ public class PurchasingAccountsPayableActionBase extends KualiAccountingDocument
     public ActionForward refreshAccountSummary(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         KualiAccountingDocumentFormBase baseForm = (KualiAccountingDocumentFormBase) form;
         PurchasingAccountsPayableDocument document = (PurchasingAccountsPayableDocument) baseForm.getDocument();
-        SpringServiceLocator.getPurapAccountingService().updateAccountAmounts(document);
+        SpringContext.getBean(PurapAccountingService.class).updateAccountAmounts(document);
         document.refreshAccountSummary();
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
@@ -110,11 +111,11 @@ public class PurchasingAccountsPayableActionBase extends KualiAccountingDocument
             PurApAccountingLine line = (PurApAccountingLine)ObjectUtils.deepCopy(item.getNewSourceLine());
 
             String errorPrefix = KFSPropertyConstants.DOCUMENT + "." + PurapPropertyConstants.ITEM + "[" + Integer.toString(itemIndex) + "]." + KFSConstants.NEW_SOURCE_ACCT_LINE_PROPERTY_NAME;
-            boolean rulePassed = SpringServiceLocator.getKualiRuleService().applyRules(new AddAccountingLineEvent(errorPrefix, purapForm.getDocument(), (AccountingLine) line));
+            boolean rulePassed = SpringContext.getBean(KualiRuleService.class).applyRules(new AddAccountingLineEvent(errorPrefix, purapForm.getDocument(), (AccountingLine) line));
 
             if (rulePassed) {
                 // add accountingLine
-                SpringServiceLocator.getPersistenceService().retrieveNonKeyFields(line);
+                SpringContext.getBean(PersistenceService.class).retrieveNonKeyFields(line);
                 insertAccountingLine(purapForm, item, line);
 
                 // clear the temp account

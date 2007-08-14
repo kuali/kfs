@@ -20,8 +20,9 @@ import java.util.HashMap;
 
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DateTimeService;
+import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.ObjectCode;
 import org.kuali.module.chart.service.AccountService;
@@ -67,7 +68,7 @@ public class FlexibleOffsetAccountServiceImpl implements FlexibleOffsetAccountSe
         LOG.debug("getEnabled() started");
 
         // KualiConfigurationService needs to be gotten dynamically here so TransferOfFundsDocumentRuleTest can mock it.
-        return SpringServiceLocator.getKualiConfigurationService().getApplicationParameterIndicator(KFSConstants.ParameterGroups.SYSTEM, KFSConstants.SystemGroupParameterNames.FLEXIBLE_OFFSET_ENABLED_FLAG);
+        return SpringContext.getBean(KualiConfigurationService.class).getApplicationParameterIndicator(KFSConstants.ParameterGroups.SYSTEM, KFSConstants.SystemGroupParameterNames.FLEXIBLE_OFFSET_ENABLED_FLAG);
     }
 
     /**

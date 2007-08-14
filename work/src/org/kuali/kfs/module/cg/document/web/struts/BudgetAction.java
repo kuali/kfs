@@ -32,10 +32,14 @@ import org.kuali.core.bo.AdHocRoutePerson;
 import org.kuali.core.bo.AdHocRouteWorkgroup;
 import org.kuali.core.bo.user.AuthenticationUserId;
 import org.kuali.core.question.ConfirmationQuestion;
+import org.kuali.core.service.DocumentAuthorizationService;
 import org.kuali.core.service.KualiConfigurationService;
+import org.kuali.core.service.KualiRuleService;
 import org.kuali.core.service.PersistenceService;
+import org.kuali.core.service.UniversalUserService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.kfs.KFSConstants;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.kra.KraConstants;
 import org.kuali.module.kra.KraKeyConstants;
@@ -45,6 +49,11 @@ import org.kuali.module.kra.budget.bo.Budget;
 import org.kuali.module.kra.budget.bo.BudgetNonpersonnel;
 import org.kuali.module.kra.budget.rules.event.EnterModularEvent;
 import org.kuali.module.kra.budget.rules.event.RunAuditEvent;
+import org.kuali.module.kra.budget.service.BudgetIndirectCostService;
+import org.kuali.module.kra.budget.service.BudgetModularService;
+import org.kuali.module.kra.budget.service.BudgetNonpersonnelService;
+import org.kuali.module.kra.budget.service.BudgetPersonnelService;
+import org.kuali.module.kra.budget.service.BudgetTypeCodeService;
 import org.kuali.module.kra.budget.web.struts.form.BudgetCostShareFormHelper;
 import org.kuali.module.kra.budget.web.struts.form.BudgetForm;
 import org.kuali.module.kra.budget.web.struts.form.BudgetIndirectCostFormHelper;
@@ -67,7 +76,7 @@ public class BudgetAction extends ResearchDocumentActionBase {
         BudgetForm budgetForm = (BudgetForm) form;
 
         if (budgetForm.isAuditActivated()) {
-            SpringServiceLocator.getKualiRuleService().applyRules(new RunAuditEvent(budgetForm.getBudgetDocument()));
+            SpringContext.getBean(KualiRuleService.class).applyRules(new RunAuditEvent(budgetForm.getBudgetDocument()));
         }
 
         if (!GlobalVariables.getErrorMap().isEmpty() && !allowsNavigate(GlobalVariables.getErrorMap())) {
@@ -103,7 +112,7 @@ public class BudgetAction extends ResearchDocumentActionBase {
         BudgetForm budgetForm = (BudgetForm) form;
 
         Object question = request.getParameter(KFSConstants.QUESTION_INST_ATTRIBUTE_NAME);
-        KualiConfigurationService kualiConfiguration = SpringServiceLocator.getKualiConfigurationService();
+        KualiConfigurationService kualiConfiguration = SpringContext.getBean(KualiConfigurationService.class);
 
         // Logic for DocCancelQuestion.
         if (question == null) {
@@ -137,7 +146,7 @@ public class BudgetAction extends ResearchDocumentActionBase {
         budgetForm.setMethodToCall(KFSConstants.SAVE_METHOD);
 
         // Check if user has permission to save
-        budgetForm.populateAuthorizationFields(SpringServiceLocator.getDocumentAuthorizationService().getDocumentAuthorizer(budgetForm.getBudgetDocument()));
+        budgetForm.populateAuthorizationFields(SpringContext.getBean(DocumentAuthorizationService.class).getDocumentAuthorizer(budgetForm.getBudgetDocument()));
         if (!"TRUE".equals(budgetForm.getEditingMode().get(AuthorizationConstants.EditMode.VIEW_ONLY))) {
             super.save(mapping, form, request, response);
         }
@@ -190,7 +199,7 @@ public class BudgetAction extends ResearchDocumentActionBase {
         BudgetForm budgetForm = (BudgetForm) form;
 
         // Set default task name
-        String DEFAULT_BUDGET_TASK_NAME = SpringServiceLocator.getKualiConfigurationService().getApplicationParameterValue(KraConstants.KRA_DEVELOPMENT_GROUP, "defaultBudgetTaskName");
+        String DEFAULT_BUDGET_TASK_NAME = SpringContext.getBean(KualiConfigurationService.class).getApplicationParameterValue(KraConstants.KRA_DEVELOPMENT_GROUP, "defaultBudgetTaskName");
         budgetForm.getNewTask().setBudgetTaskName(DEFAULT_BUDGET_TASK_NAME + " " + (budgetForm.getBudgetDocument().getTaskListSize() + 1));
         
 //      New task defaults to on campus
@@ -224,7 +233,7 @@ public class BudgetAction extends ResearchDocumentActionBase {
 
         budgetForm.setDeleteValues(new String[budgetForm.getBudgetDocument().getBudget().getPersonnel().size()]);
 
-        SpringServiceLocator.getBudgetPersonnelService().reconcileAndCalculatePersonnel(budgetForm.getBudgetDocument());
+        SpringContext.getBean(BudgetPersonnelService.class).reconcileAndCalculatePersonnel(budgetForm.getBudgetDocument());
 
         return mapping.findForward("personnel");
     }
@@ -253,9 +262,9 @@ public class BudgetAction extends ResearchDocumentActionBase {
             budgetNonpersonnel.refreshReferenceObject("nonpersonnelObjectCode");
         }
         
-        SpringServiceLocator.getBudgetModularService().generateModularBudget(budget, budgetForm.getNonpersonnelCategories());
+        SpringContext.getBean(BudgetModularService.class).generateModularBudget(budget, budgetForm.getNonpersonnelCategories());
 
-        SpringServiceLocator.getKualiRuleService().applyRules(new EnterModularEvent(budgetForm.getDocument()));
+        SpringContext.getBean(KualiRuleService.class).applyRules(new EnterModularEvent(budgetForm.getDocument()));
 
         return mapping.findForward("modular");
     }
@@ -268,7 +277,7 @@ public class BudgetAction extends ResearchDocumentActionBase {
 
         // Make sure our IDC object is properly formed. This will also perform initial calculations for BudgetTaskPeriodIndirectCost
         // objects.
-        SpringServiceLocator.getBudgetIndirectCostService().refreshIndirectCost(budgetForm.getBudgetDocument());
+        SpringContext.getBean(BudgetIndirectCostService.class).refreshIndirectCost(budgetForm.getBudgetDocument());
 
         // This will populate task and period totals in HashMaps so they can be pulled in the view.
         budgetForm.setBudgetIndirectCostFormHelper(new BudgetIndirectCostFormHelper(budgetForm));
@@ -284,7 +293,7 @@ public class BudgetAction extends ResearchDocumentActionBase {
         
         setupBudgetCostSharePermissionDisplay(budgetForm);
 
-        SpringServiceLocator.getBudgetIndirectCostService().refreshIndirectCost(budgetForm.getBudgetDocument());
+        SpringContext.getBean(BudgetIndirectCostService.class).refreshIndirectCost(budgetForm.getBudgetDocument());
         budgetForm.setBudgetIndirectCostFormHelper(new BudgetIndirectCostFormHelper(budgetForm));
         budgetForm.setBudgetCostShareFormHelper(new BudgetCostShareFormHelper(budgetForm));
         budgetForm.getNewInstitutionCostShare().setPermissionIndicator(true);
@@ -317,7 +326,7 @@ public class BudgetAction extends ResearchDocumentActionBase {
 
         BudgetForm budgetForm = (BudgetForm) form;
         
-        budgetForm.setInitiator(SpringServiceLocator.getUniversalUserService().getUniversalUser(
+        budgetForm.setInitiator(SpringContext.getBean(UniversalUserService.class, "universalUserService").getUniversalUser(
                 new AuthenticationUserId(budgetForm.getDocument().getDocumentHeader().getWorkflowDocument().getInitiatorNetworkId())));
         
         budgetForm.getBudgetDocument().populateDocumentForRouting();
@@ -345,7 +354,7 @@ public class BudgetAction extends ResearchDocumentActionBase {
      * @throws Exception
      */
     public static void setupNonpersonnelCategories(BudgetForm budgetForm) throws Exception {
-        List allNonpersonnelCategories = SpringServiceLocator.getBudgetNonpersonnelService().getAllNonpersonnelCategories();
+        List allNonpersonnelCategories = SpringContext.getBean(BudgetNonpersonnelService.class).getAllNonpersonnelCategories();
         budgetForm.setNonpersonnelCategories(allNonpersonnelCategories);
     }
 
@@ -358,9 +367,9 @@ public class BudgetAction extends ResearchDocumentActionBase {
     protected static void setupBudgetTypes(BudgetForm budgetForm) throws Exception {
 
         budgetForm.getBudgetDocument().getBudget().refreshReferenceObject("budgetAgency");
-        budgetForm.setSupportsModular(SpringServiceLocator.getBudgetModularService().agencySupportsModular(budgetForm.getBudgetDocument().getBudget().getBudgetAgency()));
+        budgetForm.setSupportsModular(SpringContext.getBean(BudgetModularService.class).agencySupportsModular(budgetForm.getBudgetDocument().getBudget().getBudgetAgency()));
 
-        List allBudgetTypes = (List) SpringServiceLocator.getBudgetTypeCodeService().getDefaultBudgetTypeCodes();
+        List allBudgetTypes = (List) SpringContext.getBean(BudgetTypeCodeService.class).getDefaultBudgetTypeCodes();
         budgetForm.setBudgetTypeCodes(allBudgetTypes);
     }
 
@@ -371,15 +380,15 @@ public class BudgetAction extends ResearchDocumentActionBase {
      * @throws Exception
      */
     protected static void setupAcademicYearSubdivisionConstants(BudgetForm budgetForm) throws Exception {
-        String[] academicYearSubdivisionNames = SpringServiceLocator.getKualiConfigurationService().getApplicationParameterValues(KraConstants.KRA_DEVELOPMENT_GROUP, KraConstants.KRA_BUDGET_ACADEMIC_YEAR_SUBDIVISION_NAMES);
+        String[] academicYearSubdivisionNames = SpringContext.getBean(KualiConfigurationService.class).getApplicationParameterValues(KraConstants.KRA_DEVELOPMENT_GROUP, KraConstants.KRA_BUDGET_ACADEMIC_YEAR_SUBDIVISION_NAMES);
         budgetForm.setAcademicYearSubdivisionNames(Arrays.asList(academicYearSubdivisionNames));
-        budgetForm.setNumberOfAcademicYearSubdivisions(Integer.parseInt(SpringServiceLocator.getKualiConfigurationService().getApplicationParameterValue(KraConstants.KRA_DEVELOPMENT_GROUP, KraConstants.KRA_BUDGET_NUMBER_OF_ACADEMIC_YEAR_SUBDIVISIONS)));
+        budgetForm.setNumberOfAcademicYearSubdivisions(Integer.parseInt(SpringContext.getBean(KualiConfigurationService.class).getApplicationParameterValue(KraConstants.KRA_DEVELOPMENT_GROUP, KraConstants.KRA_BUDGET_NUMBER_OF_ACADEMIC_YEAR_SUBDIVISIONS)));
     }
     
     private static List<AdHocRoutePerson> convertToAdHocRoutePersons(List<AdhocPerson> adHocPermissions) {
         List<AdHocRoutePerson> adHocRoutePersons = new ArrayList<AdHocRoutePerson>();
         for (AdhocPerson adHocPermission: adHocPermissions) {
-            SpringServiceLocator.getPersistenceService().refreshAllNonUpdatingReferences(adHocPermission);
+            SpringContext.getBean(PersistenceService.class).refreshAllNonUpdatingReferences(adHocPermission);
             AdHocRoutePerson adHocRoutePerson = new AdHocRoutePerson();
             adHocRoutePerson.setId(adHocPermission.getUser().getPersonUserIdentifier());
             adHocRoutePerson.setActionRequested("F");
@@ -391,7 +400,7 @@ public class BudgetAction extends ResearchDocumentActionBase {
     private static List<AdHocRouteWorkgroup> convertToAdHocRouteWorkgroups(List<AdhocWorkgroup> adHocWorkgroups) {
         List<AdHocRouteWorkgroup> adHocRouteWorkgroups = new ArrayList<AdHocRouteWorkgroup>();
         for (AdhocWorkgroup adHocWorkgroup: adHocWorkgroups) {
-            SpringServiceLocator.getPersistenceService().refreshAllNonUpdatingReferences(adHocWorkgroup);
+            SpringContext.getBean(PersistenceService.class).refreshAllNonUpdatingReferences(adHocWorkgroup);
             AdHocRouteWorkgroup adHocRouteWorkgroup = new AdHocRouteWorkgroup();
             adHocRouteWorkgroup.setId(adHocWorkgroup.getWorkgroupName());
             adHocRouteWorkgroup.setActionRequested("F");
@@ -401,7 +410,7 @@ public class BudgetAction extends ResearchDocumentActionBase {
     }
     
     protected static void setupBudgetCostSharePermissionDisplay(BudgetForm budgetForm) {
-        String costSharePermissionCode = SpringServiceLocator.getKualiConfigurationService().getApplicationParameterValue(
+        String costSharePermissionCode = SpringContext.getBean(KualiConfigurationService.class).getApplicationParameterValue(
                 KraConstants.KRA_ADMIN_GROUP_NAME, KraConstants.BUDGET_COST_SHARE_PERMISSION_CODE);
         if (costSharePermissionCode.equals(KraConstants.COST_SHARE_PERMISSION_CODE_OPTIONAL)) {
             budgetForm.setDisplayCostSharePermission(true);

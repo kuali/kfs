@@ -23,12 +23,13 @@ import org.kuali.core.document.AmountTotaling;
 import org.kuali.core.exceptions.ValidationException;
 import org.kuali.core.rule.event.KualiDocumentEvent;
 import org.kuali.kfs.bo.AccountingLineParser;
-import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.financial.document.JournalVoucherDocument;
 import org.kuali.module.labor.LaborConstants.JournalVoucherOffsetType;
 import org.kuali.module.labor.bo.LaborJournalVoucherAccountingLineParser;
 import org.kuali.module.labor.bo.LaborJournalVoucherDetail;
 import org.kuali.module.labor.bo.LaborLedgerPendingEntry;
+import org.kuali.module.labor.service.LaborLedgerPendingEntryService;
 
 // @latex.ClassSignatureStart
 /**
@@ -74,7 +75,7 @@ public class LaborJournalVoucherDocument extends JournalVoucherDocument implemen
     @Override
     public void prepareForSave(KualiDocumentEvent event) {
         super.prepareForSave(event);
-        if (!SpringServiceLocator.getLaborLedgerPendingEntryService().generateLaborLedgerPendingEntries(this)) {
+        if (!SpringContext.getBean(LaborLedgerPendingEntryService.class).generateLaborLedgerPendingEntries(this)) {
             logErrors();
             throw new ValidationException("labor ledger LLPE generation failed");
         }

@@ -16,14 +16,14 @@
 package org.kuali.module.kra.budget.bo;
 
 import java.sql.Timestamp;
-import java.util.Date;
 import java.util.LinkedHashMap;
 
 import org.apache.ojb.broker.PersistenceBroker;
 import org.kuali.core.bo.Campus;
 import org.kuali.core.bo.PersistableBusinessObjectBase;
+import org.kuali.core.service.DateTimeService;
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.kfs.context.SpringContext;
 
 /**
  * 
@@ -233,11 +233,11 @@ public class GraduateAssistantRate extends PersistableBusinessObjectBase {
     
     public void beforeInsert(PersistenceBroker persistenceBroker) {
         super.beforeInsert(persistenceBroker);
-        this.lastUpdateTimestamp = SpringServiceLocator.getDateTimeService().getCurrentTimestamp();
+        this.lastUpdateTimestamp = SpringContext.getBean(DateTimeService.class, "dateTimeService").getCurrentTimestamp();
     }
 
     public void beforeUpdate(PersistenceBroker persistenceBroker) {
         super.beforeUpdate(persistenceBroker);
-        this.lastUpdateTimestamp = SpringServiceLocator.getDateTimeService().getCurrentTimestamp();
+        this.lastUpdateTimestamp = SpringContext.getBean(DateTimeService.class, "dateTimeService").getCurrentTimestamp();
     }
 }

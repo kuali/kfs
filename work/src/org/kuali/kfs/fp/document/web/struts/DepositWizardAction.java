@@ -33,29 +33,35 @@ import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.document.authorization.DocumentAuthorizer;
 import org.kuali.core.exceptions.InfrastructureException;
 import org.kuali.core.service.BusinessObjectService;
-import org.kuali.core.util.KualiDecimal;
+import org.kuali.core.service.DataDictionaryService;
+import org.kuali.core.service.DocumentAuthorizationService;
+import org.kuali.core.service.DocumentService;
+import org.kuali.core.service.DocumentTypeService;
 import org.kuali.core.util.GlobalVariables;
+import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.UrlFactory;
 import org.kuali.core.web.struts.action.KualiAction;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSKeyConstants;
 import org.kuali.kfs.KFSConstants.CashDrawerConstants;
 import org.kuali.kfs.KFSConstants.DocumentStatusCodes.CashReceipt;
-import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.financial.bo.Bank;
 import org.kuali.module.financial.bo.BankAccount;
 import org.kuali.module.financial.bo.CashDrawer;
 import org.kuali.module.financial.bo.CashieringTransaction;
 import org.kuali.module.financial.bo.Check;
-import org.kuali.module.financial.bo.CurrencyDetail;
 import org.kuali.module.financial.bo.CoinDetail;
+import org.kuali.module.financial.bo.CurrencyDetail;
 import org.kuali.module.financial.bo.Deposit;
-import org.kuali.module.financial.bo.DepositWizardHelper;
 import org.kuali.module.financial.bo.DepositWizardCashieringCheckHelper;
+import org.kuali.module.financial.bo.DepositWizardHelper;
 import org.kuali.module.financial.document.CashManagementDocument;
 import org.kuali.module.financial.document.CashReceiptDocument;
 import org.kuali.module.financial.exceptions.CashDrawerStateException;
+import org.kuali.module.financial.service.CashDrawerService;
 import org.kuali.module.financial.service.CashManagementService;
+import org.kuali.module.financial.service.CashReceiptService;
 import org.kuali.module.financial.web.struts.form.CashDrawerStatusCodeFormatter;
 import org.kuali.module.financial.web.struts.form.DepositWizardForm;
 
@@ -84,8 +90,8 @@ public class DepositWizardAction extends KualiAction {
         ActionForward dest = super.execute(mapping, form, request, response);
 
         // check authorization manually, since the auth-check isn't inherited by this class
-        String cmDocTypeName = SpringServiceLocator.getDataDictionaryService().getDocumentTypeNameByClass(CashManagementDocument.class);
-        DocumentAuthorizer cmDocAuthorizer = SpringServiceLocator.getDocumentAuthorizationService().getDocumentAuthorizer(cmDocTypeName);
+        String cmDocTypeName = SpringContext.getBean(DataDictionaryService.class).getDocumentTypeNameByClass(CashManagementDocument.class);
+        DocumentAuthorizer cmDocAuthorizer = SpringContext.getBean(DocumentAuthorizationService.class).getDocumentAuthorizer(cmDocTypeName);
         UniversalUser luser = GlobalVariables.getUserSession().getUniversalUser();
         cmDocAuthorizer.canInitiate(cmDocTypeName, luser);
 
@@ -95,7 +101,7 @@ public class DepositWizardAction extends KualiAction {
             cmDocId = request.getParameter("cmDocId");
             String depositTypeCode = request.getParameter("depositTypeCode");
 
-            CashManagementDocument cmDoc = (CashManagementDocument) SpringServiceLocator.getDocumentService().getByDocumentHeaderId(cmDocId);
+            CashManagementDocument cmDoc = (CashManagementDocument) SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(cmDocId);
 
             initializeForm(dwForm, cmDoc, depositTypeCode);
         }
@@ -113,7 +119,7 @@ public class DepositWizardAction extends KualiAction {
     private void initializeForm(DepositWizardForm dform, CashManagementDocument cmDoc, String depositTypeCode) {
         String verificationUnit = cmDoc.getWorkgroupName();
 
-        CashDrawer cd = SpringServiceLocator.getCashDrawerService().getByWorkgroupName(verificationUnit, true);
+        CashDrawer cd = SpringContext.getBean(CashDrawerService.class).getByWorkgroupName(verificationUnit, true);
         if (!cd.isOpen()) {
             CashDrawerStatusCodeFormatter f = new CashDrawerStatusCodeFormatter();
 
@@ -153,7 +159,7 @@ public class DepositWizardAction extends KualiAction {
      * @param dform
      */
     private void loadCashReceipts(DepositWizardForm dform) {
-        List verifiedReceipts = SpringServiceLocator.getCashReceiptService().getCashReceipts(dform.getCashDrawerVerificationUnit(), KFSConstants.DocumentStatusCodes.CashReceipt.VERIFIED);
+        List verifiedReceipts = SpringContext.getBean(CashReceiptService.class).getCashReceipts(dform.getCashDrawerVerificationUnit(), KFSConstants.DocumentStatusCodes.CashReceipt.VERIFIED);
         dform.setDepositableCashReceipts(new ArrayList());
         dform.setCheckFreeCashReceipts(new ArrayList<CashReceiptDocument>());
 
@@ -176,7 +182,7 @@ public class DepositWizardAction extends KualiAction {
      * @param dform a form to load undeposited checks into
      */
     private void loadUndepositedCashieringChecks(DepositWizardForm dform) {
-        List<Check> cashieringChecks = SpringServiceLocator.getCashManagementService().selectUndepositedCashieringChecks(dform.getCashManagementDocId());
+        List<Check> cashieringChecks = SpringContext.getBean(CashManagementService.class).selectUndepositedCashieringChecks(dform.getCashManagementDocId());
         dform.setDepositableCashieringChecks(cashieringChecks);
     }
 
@@ -222,7 +228,7 @@ public class DepositWizardAction extends KualiAction {
         ActionForward dest = mapping.findForward(KFSConstants.MAPPING_BASIC);
 
         DepositWizardForm dform = (DepositWizardForm) form;
-        BusinessObjectService boService = SpringServiceLocator.getBusinessObjectService();
+        BusinessObjectService boService = SpringContext.getBean(BusinessObjectService.class);
 
         // validate Bank and BankAccount
         boolean hasBankAccountNumber = false;
@@ -280,7 +286,7 @@ public class DepositWizardAction extends KualiAction {
         if (depositIsFinal) {
             // add check free cash receipts to the selected receipts so they are automatically deposited
             dform.setCheckFreeCashReceipts(new ArrayList<CashReceiptDocument>());
-            for (Object crDocObj: SpringServiceLocator.getCashReceiptService().getCashReceipts(dform.getCashDrawerVerificationUnit(), KFSConstants.DocumentStatusCodes.CashReceipt.VERIFIED)) {
+            for (Object crDocObj: SpringContext.getBean(CashReceiptService.class).getCashReceipts(dform.getCashDrawerVerificationUnit(), KFSConstants.DocumentStatusCodes.CashReceipt.VERIFIED)) {
                 CashReceiptDocument crDoc = (CashReceiptDocument)crDocObj;
                 if (crDoc.getCheckCount() == 0) {
                     // it's check free; it is automatically deposited as part of the final deposit
@@ -309,12 +315,12 @@ public class DepositWizardAction extends KualiAction {
                 // retrieve selected receipts
                 List selectedReceipts = new ArrayList();
                 if (selectedIds != null && !selectedIds.isEmpty()) {
-                    selectedReceipts = SpringServiceLocator.getDocumentService().getDocumentsByListOfDocumentHeaderIds(CashReceiptDocument.class, selectedIds);
+                    selectedReceipts = SpringContext.getBean(DocumentService.class).getDocumentsByListOfDocumentHeaderIds(CashReceiptDocument.class, selectedIds);
                 }
                 
                 if (depositIsFinal) {
                     // have all verified CRs been deposited?  If not, that's an error
-                    List verifiedReceipts = SpringServiceLocator.getCashReceiptService().getCashReceipts(dform.getCashDrawerVerificationUnit(), KFSConstants.DocumentStatusCodes.CashReceipt.VERIFIED);
+                    List verifiedReceipts = SpringContext.getBean(CashReceiptService.class).getCashReceipts(dform.getCashDrawerVerificationUnit(), KFSConstants.DocumentStatusCodes.CashReceipt.VERIFIED);
                     for (Object o: verifiedReceipts) {
                         CashReceiptDocument crDoc = (CashReceiptDocument)o;
                         if (!selectedReceipts.contains(crDoc)) {
@@ -323,7 +329,7 @@ public class DepositWizardAction extends KualiAction {
                     }
                     KualiDecimal toBeDepositedChecksTotal = new KualiDecimal(0);
                     // have we selected the rest of the undeposited checks?
-                    for (Check check: SpringServiceLocator.getCashManagementService().selectUndepositedCashieringChecks(dform.getCashManagementDocId())) {
+                    for (Check check: SpringContext.getBean(CashManagementService.class).selectUndepositedCashieringChecks(dform.getCashManagementDocId())) {
                         if (!selectedCashieringChecks.contains(check.getSequenceId())) {
                             GlobalVariables.getErrorMap().putError(KFSConstants.DepositConstants.DEPOSIT_WIZARD_DEPOSITHEADER_ERROR, KFSKeyConstants.Deposit.ERROR_CASHIERING_CHECK_MUST_BE_DEPOSITED, new String[] { check.getCheckNumber() });
                         } else {
@@ -336,7 +342,7 @@ public class DepositWizardAction extends KualiAction {
                     checkEnoughCoinForDeposit(dform);
                     
                     // does this deposit have currency and coin to match all currency and coin from CRs?
-                    List<CashReceiptDocument> interestingReceipts = SpringServiceLocator.getCashReceiptService().getCashReceipts(dform.getCashDrawerVerificationUnit(), new String[] { CashReceipt.VERIFIED, CashReceipt.INTERIM, CashReceipt.FINAL });
+                    List<CashReceiptDocument> interestingReceipts = SpringContext.getBean(CashReceiptService.class).getCashReceipts(dform.getCashDrawerVerificationUnit(), new String[] { CashReceipt.VERIFIED, CashReceipt.INTERIM, CashReceipt.FINAL });
                     CurrencyDetail currencyTotal = new CurrencyDetail();
                     CoinDetail coinTotal = new CoinDetail();
                     for (CashReceiptDocument receipt: interestingReceipts) {
@@ -350,7 +356,7 @@ public class DepositWizardAction extends KualiAction {
                     }
                     
                     KualiDecimal cashReceiptCashTotal = currencyTotal.getTotalAmount().add(coinTotal.getTotalAmount());
-                    KualiDecimal depositedCashieringChecksTotal = SpringServiceLocator.getCashManagementService().calculateDepositedCheckTotal(dform.getCashManagementDocId());
+                    KualiDecimal depositedCashieringChecksTotal = SpringContext.getBean(CashManagementService.class).calculateDepositedCheckTotal(dform.getCashManagementDocId());
                     // remove the cashiering checks amounts from the cash receipts total; cashiering checks act as if they were CR currency/coin that gets deposited
                     cashReceiptCashTotal = cashReceiptCashTotal.subtract(depositedCashieringChecksTotal).subtract(toBeDepositedChecksTotal);
                     KualiDecimal depositedCashTotal = dform.getCurrencyDetail().getTotalAmount().add(dform.getCoinDetail().getTotalAmount());
@@ -365,7 +371,7 @@ public class DepositWizardAction extends KualiAction {
                     String cashManagementDocId = dform.getCashManagementDocId();
                     CashManagementDocument cashManagementDoc = null;
                     try {
-                        cashManagementDoc = (CashManagementDocument) SpringServiceLocator.getDocumentService().getByDocumentHeaderId(cashManagementDocId);
+                        cashManagementDoc = (CashManagementDocument) SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(cashManagementDocId);
                         if (cashManagementDoc == null) {
                             throw new IllegalStateException("unable to find cashManagementDocument with id " + cashManagementDocId);
                         }
@@ -377,7 +383,7 @@ public class DepositWizardAction extends KualiAction {
                     // create deposit
                     String cmDocId = dform.getCashManagementDocId();
     
-                    CashManagementService cms = SpringServiceLocator.getCashManagementService();
+                    CashManagementService cms = SpringContext.getBean(CashManagementService.class);
                     cms.addDeposit(cashManagementDoc, dform.getDepositTicketNumber(), dform.getBankAccount(), selectedReceipts, selectedCashieringChecks, depositIsFinal);
                     
                     if (depositIsFinal) {
@@ -386,17 +392,17 @@ public class DepositWizardAction extends KualiAction {
                         // if the currency and coin details aren't empty, save them and remove them from the cash drawer
                         if (dform.getCurrencyDetail() != null) {
                             // do we have enough currency to allow the deposit to leave the drawer?
-                            SpringServiceLocator.getBusinessObjectService().save(dform.getCurrencyDetail());
+                            SpringContext.getBean(BusinessObjectService.class).save(dform.getCurrencyDetail());
                             cashManagementDoc.getCashDrawer().removeCurrency(dform.getCurrencyDetail());
                             finalDeposit.setDepositAmount(finalDeposit.getDepositAmount().add(dform.getCurrencyDetail().getTotalAmount()));
                         }
                         if (dform.getCoinDetail() != null) {
                             // do we have enough coin to allow the deposit to leave the drawer?
-                            SpringServiceLocator.getBusinessObjectService().save(dform.getCoinDetail());
+                            SpringContext.getBean(BusinessObjectService.class).save(dform.getCoinDetail());
                             cashManagementDoc.getCashDrawer().removeCoin(dform.getCoinDetail());
                             finalDeposit.setDepositAmount(finalDeposit.getDepositAmount().add(dform.getCoinDetail().getTotalAmount()));
                         }
-                        SpringServiceLocator.getBusinessObjectService().save(cashManagementDoc.getCashDrawer());
+                        SpringContext.getBean(BusinessObjectService.class).save(cashManagementDoc.getCashDrawer());
                     }
     
                     // redirect to controlling CashManagementDocument
@@ -433,7 +439,7 @@ public class DepositWizardAction extends KualiAction {
         CurrencyDetail detail = depositForm.getCurrencyDetail();
         if (detail != null) {
             // 1. get the cash drawer
-            CashDrawer drawer = SpringServiceLocator.getCashDrawerService().getByWorkgroupName(depositForm.getCashDrawerVerificationUnit(), false);
+            CashDrawer drawer = SpringContext.getBean(CashDrawerService.class).getByWorkgroupName(depositForm.getCashDrawerVerificationUnit(), false);
             // assumptions at this point: 
             //    1. a cash drawer does exist for the unit
             //    2. we can ignore negative amounts, because if we have negative amounts, we're actually gaining money (and that will happen with cashiering checks)
@@ -500,7 +506,7 @@ public class DepositWizardAction extends KualiAction {
         CoinDetail detail = depositForm.getCoinDetail();
         if (detail != null) {
             // 1. get the cash drawer
-            CashDrawer drawer = SpringServiceLocator.getCashDrawerService().getByWorkgroupName(depositForm.getCashDrawerVerificationUnit(), false);
+            CashDrawer drawer = SpringContext.getBean(CashDrawerService.class).getByWorkgroupName(depositForm.getCashDrawerVerificationUnit(), false);
             // assumptions at this point: 
             //    1. a cash drawer does exist for the unit
             //    2. we can ignore negative amounts, because if we have negative amounts, we're actually gaining money (and that will happen with cashiering checks)
@@ -575,7 +581,7 @@ public class DepositWizardAction extends KualiAction {
      *         documentId
      */
     private ActionForward returnToSender(String cmDocId) {
-        String cmDocTypeName = SpringServiceLocator.getDocumentTypeService().getDocumentTypeNameByClass(CashManagementDocument.class);
+        String cmDocTypeName = SpringContext.getBean(DocumentTypeService.class).getDocumentTypeNameByClass(CashManagementDocument.class);
 
         Properties params = new Properties();
         params.setProperty("methodToCall", "docHandler");

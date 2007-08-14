@@ -23,7 +23,7 @@ import org.kuali.core.service.DocumentAuthorizationService;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.KFSKeyConstants;
-import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.service.AccountService;
 
@@ -40,9 +40,9 @@ public class MaintenancePreRulesBase extends PreRulesContinuationBase {
         // to spring-managed with these services injected by Spring at some later date.
         // When this happens, just remove these calls to the setters with
         // SpringServiceLocator, and configure the bean defs for spring.
-        setAccountService(SpringServiceLocator.getAccountService());
-        setConfigService(SpringServiceLocator.getKualiConfigurationService());
-        setDocumentAuthorizationService(SpringServiceLocator.getDocumentAuthorizationService());
+        setAccountService(SpringContext.getBean(AccountService.class));
+        setConfigService(SpringContext.getBean(KualiConfigurationService.class));
+        setDocumentAuthorizationService(SpringContext.getBean(DocumentAuthorizationService.class));
     }
 
     public void setAccountService(AccountService accountService) {

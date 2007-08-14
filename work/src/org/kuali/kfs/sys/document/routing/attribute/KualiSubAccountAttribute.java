@@ -30,7 +30,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.core.lookup.LookupUtils;
 import org.kuali.kfs.KFSPropertyConstants;
-import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.chart.bo.SubAccount;
 import org.kuali.module.chart.service.SubAccountService;
 import org.kuali.workflow.KualiWorkflowUtils;
@@ -235,7 +235,7 @@ public class KualiSubAccountAttribute implements WorkflowAttribute, MassRuleAttr
     
     private List getSubAccounts(String chartCode, String accountNumber, String orgCode, String subAccountNumer) {
         List subAccounts = new ArrayList();
-        SubAccountService subAccountService = SpringServiceLocator.getSubAccountService();
+        SubAccountService subAccountService = SpringContext.getBean(SubAccountService.class);
         if (StringUtils.isNotBlank(accountNumber)) {
             SubAccount subAccount = subAccountService.getByPrimaryIdWithCaching(chartCode, accountNumber, subAccountNumer);
             if (subAccount != null) {

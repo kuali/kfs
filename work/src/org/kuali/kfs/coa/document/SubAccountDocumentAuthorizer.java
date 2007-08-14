@@ -17,7 +17,6 @@ package org.kuali.module.chart.document;
 
 import org.kuali.core.bo.user.KualiGroup;
 import org.kuali.core.bo.user.UniversalUser;
-
 import org.kuali.core.document.Document;
 import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.core.document.authorization.DocumentActionFlags;
@@ -28,7 +27,7 @@ import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.service.KualiGroupService;
 import org.kuali.core.workflow.service.KualiWorkflowDocument;
 import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.kfs.context.SpringContext;
 
 /**
  * This class...
@@ -63,11 +62,11 @@ public class SubAccountDocumentAuthorizer extends MaintenanceDocumentAuthorizerB
 
         // get the group name that we need here - CGSACCT
         KualiConfigurationService configService;
-        configService = SpringServiceLocator.getKualiConfigurationService();
+        configService = SpringContext.getBean(KualiConfigurationService.class);
         String groupName = configService.getApplicationParameterValue(KFSConstants.ChartApcParms.GROUP_CHART_MAINT_EDOCS, KFSConstants.ChartApcParms.SUBACCOUNT_CG_WORKGROUP_PARM_NAME);
 
         // create a new KualiGroup instance with that name
-        KualiGroupService groupService = SpringServiceLocator.getKualiGroupService();
+        KualiGroupService groupService = SpringContext.getBean(KualiGroupService.class);
         KualiGroup group = null;
         try {
             group = groupService.getByGroupName(groupName);

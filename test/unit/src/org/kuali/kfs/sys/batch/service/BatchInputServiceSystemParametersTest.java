@@ -18,12 +18,15 @@ package org.kuali.kfs.service;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.service.KualiConfigurationService;
+import org.kuali.core.service.UniversalUserService;
 import org.kuali.kfs.KFSConstants.ParameterGroups;
 import org.kuali.kfs.KFSConstants.SystemGroupParameterNames;
 import org.kuali.kfs.batch.BatchInputFileType;
 import org.kuali.kfs.context.KualiTestBase;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.context.TestUtils;
-import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.module.financial.batch.pcard.ProcurementCardInputFileType;
+import org.kuali.module.gl.batch.collector.CollectorInputFileType;
 import org.kuali.test.ConfigureContext;
 import org.kuali.test.KualiTestConstants.TestConstants.Data2;
 import org.kuali.test.KualiTestConstants.TestConstants.Data4;
@@ -49,13 +52,13 @@ public class BatchInputServiceSystemParametersTest extends KualiTestBase {
     protected void setUp() throws Exception {
         super.setUp();
 
-        configurationService = SpringServiceLocator.getKualiConfigurationService();
-        batchInputFileService = SpringServiceLocator.getBatchInputFileService();
-        pcdoBatchInputFileType = SpringServiceLocator.getProcurementCardInputFileType();
-        collectorBatchInputFileType = SpringServiceLocator.getCollectorInputFileType();
+        configurationService = SpringContext.getBean(KualiConfigurationService.class);
+        batchInputFileService = SpringContext.getBean(BatchInputFileService.class);
+        pcdoBatchInputFileType = SpringContext.getBean(ProcurementCardInputFileType.class);
+        collectorBatchInputFileType = SpringContext.getBean(CollectorInputFileType.class);
 
-        validWorkgroupUser = SpringServiceLocator.getUniversalUserService().getUniversalUserByAuthenticationUserId(Data4.USER_ID2);
-        invalidWorkgroupUser = SpringServiceLocator.getUniversalUserService().getUniversalUserByAuthenticationUserId(Data4.USER_ID1);
+        validWorkgroupUser = SpringContext.getBean(UniversalUserService.class, "universalUserService").getUniversalUserByAuthenticationUserId(Data4.USER_ID2);
+        invalidWorkgroupUser = SpringContext.getBean(UniversalUserService.class, "universalUserService").getUniversalUserByAuthenticationUserId(Data4.USER_ID1);
     }
     
     /**
@@ -120,8 +123,8 @@ public class BatchInputServiceSystemParametersTest extends KualiTestBase {
      * Sets an invalid workgroup on system parameters and verifies user is not authorized.
      */
     public final void testIsUserAuthorizedForBatchType_invalidWorkgroupParameter() throws Exception {
-        UniversalUser nonWorkgroupUser = SpringServiceLocator.getUniversalUserService().getUniversalUserByAuthenticationUserId(Data4.USER_ID2);
-        UniversalUser workgroupUser = SpringServiceLocator.getUniversalUserService().getUniversalUserByAuthenticationUserId(Data4.USER_ID2);
+        UniversalUser nonWorkgroupUser = SpringContext.getBean(UniversalUserService.class, "universalUserService").getUniversalUserByAuthenticationUserId(Data4.USER_ID2);
+        UniversalUser workgroupUser = SpringContext.getBean(UniversalUserService.class, "universalUserService").getUniversalUserByAuthenticationUserId(Data4.USER_ID2);
 
         setWorkgroupSystemParameter(pcdoBatchInputFileType.getWorkgroupParameterName(), "foo");
         assertFalse("user is authorized for pcdo batch type but workgroup parameter is invalid", batchInputFileService.isUserAuthorizedForBatchType(pcdoBatchInputFileType, workgroupUser));
@@ -134,7 +137,7 @@ public class BatchInputServiceSystemParametersTest extends KualiTestBase {
      * Sets an valid workgroup on system parameters and verifies user is authorized.
      */
     public final void testIsUserAuthorizedForBatchType_validWorkgroupParameter() throws Exception {
-        UniversalUser workgroupUser = SpringServiceLocator.getUniversalUserService().getUniversalUserByAuthenticationUserId(Data4.USER_ID2);
+        UniversalUser workgroupUser = SpringContext.getBean(UniversalUserService.class, "universalUserService").getUniversalUserByAuthenticationUserId(Data4.USER_ID2);
         String validWorkgroup = Data2.KUALI_FMSOPS;
 
         setWorkgroupSystemParameter(pcdoBatchInputFileType.getWorkgroupParameterName(), validWorkgroup);

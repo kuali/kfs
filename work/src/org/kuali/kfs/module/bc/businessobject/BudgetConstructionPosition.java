@@ -26,11 +26,11 @@ import java.util.Map;
 
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.bo.user.UniversalUser;
+import org.kuali.core.service.UniversalUserService;
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.core.util.KualiInteger;
 import org.kuali.core.util.TypedArrayList;
 import org.kuali.kfs.bo.Options;
-import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.chart.bo.ResponsibilityCenter;
 
 /**
@@ -689,7 +689,7 @@ public class BudgetConstructionPosition extends PersistableBusinessObjectBase {
      * @return Returns the positionLockUser
      */
     public UniversalUser getPositionLockUser() {
-        positionLockUser = SpringServiceLocator.getUniversalUserService().updateUniversalUserIfNecessary(positionLockUserIdentifier, positionLockUser);
+        positionLockUser = SpringContext.getBean(UniversalUserService.class, "universalUserService").updateUniversalUserIfNecessary(positionLockUserIdentifier, positionLockUser);
         return positionLockUser;
     }
 

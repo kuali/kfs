@@ -24,10 +24,12 @@ import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.document.Document;
 import org.kuali.core.document.authorization.DocumentActionFlags;
 import org.kuali.core.exceptions.GroupNotFoundException;
+import org.kuali.core.service.KualiConfigurationService;
+import org.kuali.core.service.KualiGroupService;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.workflow.service.KualiWorkflowDocument;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.document.authorization.AccountingDocumentAuthorizerBase;
-import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.purap.PurapAuthorizationConstants;
 import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.PurapRuleConstants;
@@ -42,10 +44,10 @@ public class PaymentRequestDocumentAuthorizer extends AccountingDocumentAuthoriz
 
     @Override
     public boolean hasInitiateAuthorization(Document document, UniversalUser user) {
-        //String authorizedWorkgroup = SpringServiceLocator.getKualiConfigurationService().getApplicationParameterValue(PurapRuleConstants.PURAP_ADMIN_GROUP, PurapRuleConstants.PURAP_DOCUMENT_PREQ_ACTIONS);
-        String authorizedWorkgroup = SpringServiceLocator.getKualiConfigurationService().getApplicationParameterValue(PurapRuleConstants.PURAP_ADMIN_GROUP, PurapRuleConstants.PURAP_DOCUMENT_PO_ACTIONS);
+        //String authorizedWorkgroup = SpringContext.getBean(KualiConfigurationService.class).getApplicationParameterValue(PurapRuleConstants.PURAP_ADMIN_GROUP, PurapRuleConstants.PURAP_DOCUMENT_PREQ_ACTIONS);
+        String authorizedWorkgroup = SpringContext.getBean(KualiConfigurationService.class).getApplicationParameterValue(PurapRuleConstants.PURAP_ADMIN_GROUP, PurapRuleConstants.PURAP_DOCUMENT_PO_ACTIONS);
         try {
-            return SpringServiceLocator.getKualiGroupService().getByGroupName(authorizedWorkgroup).hasMember(user);
+            return SpringContext.getBean(KualiGroupService.class).getByGroupName(authorizedWorkgroup).hasMember(user);
         }
         catch (GroupNotFoundException e) {
             throw new RuntimeException("Workgroup " + authorizedWorkgroup + " not found", e);

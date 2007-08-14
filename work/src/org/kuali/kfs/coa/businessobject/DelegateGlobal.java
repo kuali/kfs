@@ -35,7 +35,7 @@ import org.kuali.core.service.PersistenceStructureService;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.TypedArrayList;
 import org.kuali.kfs.KFSPropertyConstants;
-import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.kfs.context.SpringContext;
 
 /**
  * This class simply acts as a container to hold the List of Delegate Changes and the list of Account entries, for the Global
@@ -130,7 +130,7 @@ public class DelegateGlobal extends PersistableBusinessObjectBase implements Glo
      * @see org.kuali.core.document.GlobalBusinessObject#getGlobalChangesToDelete()
      */
     public List<PersistableBusinessObject> generateDeactivationsToPersist() {
-        BusinessObjectService boService = SpringServiceLocator.getBusinessObjectService();
+        BusinessObjectService boService = SpringContext.getBean(BusinessObjectService.class);
 
         // retreive all the existing delegates for these accounts
         List<Delegate> bosToDeactivate = new ArrayList();
@@ -159,7 +159,7 @@ public class DelegateGlobal extends PersistableBusinessObjectBase implements Glo
     @SuppressWarnings("deprecation")
     public List<PersistableBusinessObject> generateGlobalChangesToPersist() {
 
-        BusinessObjectService boService = SpringServiceLocator.getBusinessObjectService();
+        BusinessObjectService boService = SpringContext.getBean(BusinessObjectService.class);
         List<Delegate> persistables = new ArrayList();
 
         List<DelegateGlobalDetail> changeDocuments = this.getDelegateGlobals();
@@ -296,7 +296,7 @@ public class DelegateGlobal extends PersistableBusinessObjectBase implements Glo
      * @see org.kuali.core.document.GlobalBusinessObject#isPersistable()
      */
     public boolean isPersistable() {
-        PersistenceStructureService persistenceStructureService = SpringServiceLocator.getPersistenceStructureService();
+        PersistenceStructureService persistenceStructureService = SpringContext.getBean(PersistenceStructureService.class);
 
         // fail if the PK for this object is emtpy
         if (StringUtils.isBlank(documentNumber)) {
@@ -366,7 +366,7 @@ public class DelegateGlobal extends PersistableBusinessObjectBase implements Glo
         }
         List bos = new ArrayList();
         bos.addAll(getDelegateGlobals());
-        SpringServiceLocator.getBusinessObjectService().linkUserFields(bos);
+        SpringContext.getBean(BusinessObjectService.class).linkUserFields(bos);
     }
 
     /**

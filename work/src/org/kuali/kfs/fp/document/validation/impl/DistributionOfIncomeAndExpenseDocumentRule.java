@@ -16,14 +16,15 @@
 package org.kuali.module.financial.rules;
 
 import org.kuali.core.rule.KualiParameterRule;
+import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.KFSKeyConstants;
 import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.bo.AccountingLine;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.document.AccountingDocument;
 import org.kuali.kfs.rules.AccountingDocumentRuleBase;
-import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.chart.bo.ObjectCode;
 
 /**
@@ -76,7 +77,7 @@ public class DistributionOfIncomeAndExpenseDocumentRule extends AccountingDocume
         boolean valid = super.isObjectTypeAllowed(accountingLine);
 
         if (valid) {
-            KualiParameterRule rule = SpringServiceLocator.getKualiConfigurationService().getApplicationParameterRule(DISTRIBUTION_OF_INCOME_AND_EXPENSE_DOCUMENT_SECURITY_GROUPING, RESTRICTED_OBJECT_TYPE_CODES);
+            KualiParameterRule rule = SpringContext.getBean(KualiConfigurationService.class).getApplicationParameterRule(DISTRIBUTION_OF_INCOME_AND_EXPENSE_DOCUMENT_SECURITY_GROUPING, RESTRICTED_OBJECT_TYPE_CODES);
 
             ObjectCode objectCode = accountingLine.getObjectCode();
 

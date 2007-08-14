@@ -24,11 +24,12 @@ import java.util.TreeSet;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.core.KualiModule;
+import org.kuali.core.service.DataDictionaryService;
+import org.kuali.core.service.KualiModuleService;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.batch.JobDescriptor;
 import org.kuali.kfs.context.KualiTestBase;
 import org.kuali.kfs.context.SpringContext;
-import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.test.ConfigureContext;
 
 @ConfigureContext
@@ -63,7 +64,7 @@ public class DataDictionaryConfigurationTest extends KualiTestBase {
     
     public void testGetComponentsByModule() throws Exception {
         loadDataDictionary();
-        Map<String, Set<String>> componentNamesByClassName = SpringServiceLocator.getDataDictionaryService().getDataDictionary().getComponentNamesByClassName();
+        Map<String, Set<String>> componentNamesByClassName = SpringContext.getBean(DataDictionaryService.class).getDataDictionary().getComponentNamesByClassName();
         for (String componentClassName : componentNamesByClassName.keySet()) {
             componentNamesByModule.get(getComponentModuleId(componentClassName)).addAll(componentNamesByClassName.get(componentClassName));
         }
@@ -132,7 +133,7 @@ public class DataDictionaryConfigurationTest extends KualiTestBase {
     
     protected void setUp() throws Exception {
         super.setUp();
-        dataDictionary = SpringServiceLocator.getDataDictionaryService().getDataDictionary();
+        dataDictionary = SpringContext.getBean(DataDictionaryService.class).getDataDictionary();
         dataDictionaryLoadFailures = new TreeMap();
         dataDictionaryWarnings = new TreeMap();
         modules = new HashMap();
@@ -148,7 +149,7 @@ public class DataDictionaryConfigurationTest extends KualiTestBase {
         kfsModule.setModuleName(KFSConstants.KFS_MODULE_NAME);
         modules.put(kfsModule.getModuleId(), kfsModule);
         componentNamesByModule.put(kfsModule.getModuleId(), new TreeSet());
-        for (KualiModule module : SpringServiceLocator.getKualiModuleService().getInstalledModules()) {
+        for (KualiModule module : SpringContext.getBean(KualiModuleService.class).getInstalledModules()) {
             modules.put(module.getModuleId(), module);
             componentNamesByModule.put(module.getModuleId(), new TreeSet());
         }

@@ -27,7 +27,8 @@ import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.util.TypedArrayList;
 import org.kuali.kfs.bo.Country;
 import org.kuali.kfs.bo.State;
-import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.kfs.context.SpringContext;
+import org.kuali.module.vendor.service.VendorService;
 import org.kuali.module.vendor.util.VendorRoutingComparable;
 
 /**
@@ -542,7 +543,7 @@ public class VendorAddress extends PersistableBusinessObjectBase implements Vend
                 .append( this.getVendorFaxNumber(), va.getVendorFaxNumber() )
                 .append( this.isVendorDefaultAddressIndicator(), va.isVendorDefaultAddressIndicator() )
                 .isEquals();
-            eq &= SpringServiceLocator.getVendorService().equalMemberLists( this.getVendorDefaultAddresses(),
+            eq &= SpringContext.getBean(VendorService.class).equalMemberLists( this.getVendorDefaultAddresses(),
                     va.getVendorDefaultAddresses() );
             LOG.debug( "Exiting isEqualForRouting." );
             return eq;

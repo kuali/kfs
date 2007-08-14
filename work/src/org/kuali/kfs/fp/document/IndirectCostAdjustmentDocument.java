@@ -19,12 +19,13 @@ import org.kuali.core.document.AmountTotaling;
 import org.kuali.core.document.Copyable;
 import org.kuali.core.document.Correctable;
 import org.kuali.core.exceptions.InfrastructureException;
+import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.bo.AccountingLineParser;
 import org.kuali.kfs.bo.SourceAccountingLine;
 import org.kuali.kfs.bo.TargetAccountingLine;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.document.AccountingDocumentBase;
-import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.financial.bo.IndirectCostAdjustmentDocumentAccountingLineParser;
 import org.kuali.module.financial.rules.IndirectCostAdjustmentDocumentRuleConstants;
 
@@ -83,7 +84,7 @@ public class IndirectCostAdjustmentDocument extends AccountingDocumentBase imple
             throw new InfrastructureException("unable to create a target accounting line", e);
         }
         // get apc object code value
-        String objectCode = SpringServiceLocator.getKualiConfigurationService().getApplicationParameterValue(IndirectCostAdjustmentDocumentRuleConstants.INDIRECT_COST_ADJUSTMENT_DOCUMENT_SECURITY_GROUPING, IndirectCostAdjustmentDocumentRuleConstants.RECEIPT_OBJECT_CODE);
+        String objectCode = SpringContext.getBean(KualiConfigurationService.class).getApplicationParameterValue(IndirectCostAdjustmentDocumentRuleConstants.INDIRECT_COST_ADJUSTMENT_DOCUMENT_SECURITY_GROUPING, IndirectCostAdjustmentDocumentRuleConstants.RECEIPT_OBJECT_CODE);
         targetAccountingLine.setFinancialObjectCode(objectCode);
         targetAccountingLine.setAccountNumber(line.getAccount().getIndirectCostRecoveryAcctNbr());
         targetAccountingLine.setChartOfAccountsCode(line.getChartOfAccountsCode());

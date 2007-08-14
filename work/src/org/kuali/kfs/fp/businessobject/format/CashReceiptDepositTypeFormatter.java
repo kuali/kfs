@@ -16,10 +16,11 @@
 package org.kuali.module.financial.web.struts.form;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.web.format.Formatter;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSKeyConstants;
-import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.kfs.context.SpringContext;
 
 public class CashReceiptDepositTypeFormatter extends Formatter {
     private final String INTERIM_CD;
@@ -30,10 +31,10 @@ public class CashReceiptDepositTypeFormatter extends Formatter {
 
     public CashReceiptDepositTypeFormatter() {
         INTERIM_CD = KFSConstants.DepositConstants.DEPOSIT_TYPE_INTERIM;
-        INTERIM_MSG = SpringServiceLocator.getKualiConfigurationService().getPropertyString(KFSKeyConstants.Deposit.DEPOSIT_TYPE_INTERIM);
+        INTERIM_MSG = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(KFSKeyConstants.Deposit.DEPOSIT_TYPE_INTERIM);
 
         FINAL_CD = KFSConstants.DepositConstants.DEPOSIT_TYPE_FINAL;
-        FINAL_MSG = SpringServiceLocator.getKualiConfigurationService().getPropertyString(KFSKeyConstants.Deposit.DEPOSIT_TYPE_FINAL);
+        FINAL_MSG = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(KFSKeyConstants.Deposit.DEPOSIT_TYPE_FINAL);
     }
 
 

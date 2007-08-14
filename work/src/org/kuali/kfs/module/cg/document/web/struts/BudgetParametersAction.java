@@ -16,7 +16,6 @@
 package org.kuali.module.kra.budget.web.struts.action;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -26,14 +25,14 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.core.service.KualiConfigurationService;
+import org.kuali.core.service.KualiRuleService;
+import org.kuali.core.service.PersistenceService;
 import org.kuali.core.util.GlobalVariables;
-import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.kra.KraConstants;
 import org.kuali.module.kra.budget.bo.AgencyExtension;
-import org.kuali.module.kra.budget.bo.AppointmentType;
 import org.kuali.module.kra.budget.bo.Budget;
 import org.kuali.module.kra.budget.bo.BudgetFringeRate;
 import org.kuali.module.kra.budget.bo.BudgetGraduateAssistantRate;
@@ -43,7 +42,7 @@ import org.kuali.module.kra.budget.bo.BudgetTask;
 import org.kuali.module.kra.budget.bo.GraduateAssistantRate;
 import org.kuali.module.kra.budget.rules.event.InsertPeriodLineEventBase;
 import org.kuali.module.kra.budget.service.BudgetFringeRateService;
-import org.kuali.module.kra.budget.service.BudgetGraduateAssistantRateService;
+import org.kuali.module.kra.budget.service.BudgetModularService;
 import org.kuali.module.kra.budget.web.struts.form.BudgetForm;
 
 
@@ -69,7 +68,7 @@ public class BudgetParametersAction extends BudgetAction {
         
 //      On first load, set the default task name for the initial task.
         if (budgetForm.getBudgetDocument().getTaskListSize() == 0) {
-            String DEFAULT_BUDGET_TASK_NAME = SpringServiceLocator.getKualiConfigurationService().getApplicationParameterValue(KraConstants.KRA_DEVELOPMENT_GROUP, "defaultBudgetTaskName");
+            String DEFAULT_BUDGET_TASK_NAME = SpringContext.getBean(KualiConfigurationService.class).getApplicationParameterValue(KraConstants.KRA_DEVELOPMENT_GROUP, "defaultBudgetTaskName");
             budgetForm.getNewTask().setBudgetTaskName(DEFAULT_BUDGET_TASK_NAME + " 1");
             budgetForm.getNewTask().setBudgetTaskOnCampus(true);
         }
@@ -108,25 +107,25 @@ public class BudgetParametersAction extends BudgetAction {
         referenceObjects.add("institutionCostShareItems");
         referenceObjects.add("institutionCostSharePersonnelItems");
         
-        SpringServiceLocator.getPersistenceService().retrieveReferenceObjects(budgetForm.getBudgetDocument().getBudget(), referenceObjects);
+        SpringContext.getBean(PersistenceService.class).retrieveReferenceObjects(budgetForm.getBudgetDocument().getBudget(), referenceObjects);
         
         List docReferenceObjects = new ArrayList();
         docReferenceObjects.add("adhocPersons");
         docReferenceObjects.add("adhocOrgs");
         docReferenceObjects.add("adhocWorkgroups");
 
-        SpringServiceLocator.getPersistenceService().retrieveReferenceObjects(budgetForm.getBudgetDocument(), docReferenceObjects);
+        SpringContext.getBean(PersistenceService.class).retrieveReferenceObjects(budgetForm.getBudgetDocument(), docReferenceObjects);
 
         if (budgetForm.getBudgetDocument().getBudget().isAgencyModularIndicator()) {
             if (ObjectUtils.isNull(budgetForm.getBudgetDocument().getBudget().getModularBudget())) {
                 // Modular budget with no modular data generated. So generate it.
-                SpringServiceLocator.getBudgetModularService().generateModularBudget(budgetForm.getBudgetDocument().getBudget());
+                SpringContext.getBean(BudgetModularService.class).generateModularBudget(budgetForm.getBudgetDocument().getBudget());
             }
             budgetForm.getBudgetDocument().getBudget().getModularBudget().setBudgetModularTaskNumber(budgetModularTaskNumber);
         }
 
         Object question = request.getParameter(KFSConstants.QUESTION_INST_ATTRIBUTE_NAME);
-        KualiConfigurationService kualiConfiguration = SpringServiceLocator.getKualiConfigurationService();
+        KualiConfigurationService kualiConfiguration = SpringContext.getBean(KualiConfigurationService.class);
 
         // Logic for Cost Share question.
         ActionForward preRulesForward = preRulesCheck(mapping, form, request, response, "saveParameters");
@@ -154,7 +153,7 @@ public class BudgetParametersAction extends BudgetAction {
         // get the form
         BudgetForm budgetForm = (BudgetForm) form;
 
-        BudgetFringeRateService bfrService = SpringServiceLocator.getBudgetFringeRateService();
+        BudgetFringeRateService bfrService = SpringContext.getBean(BudgetFringeRateService.class);
         for (BudgetFringeRate budgetFringeRate : budgetForm.getBudgetDocument().getBudget().getFringeRates()) {
             budgetFringeRate.setContractsAndGrantsFringeRateAmount(budgetFringeRate.getAppointmentTypeFringeRateAmount());
         }
@@ -166,7 +165,7 @@ public class BudgetParametersAction extends BudgetAction {
         // get the form
         BudgetForm budgetForm = (BudgetForm) form;
         
-        BudgetFringeRateService bfrService = SpringServiceLocator.getBudgetFringeRateService();
+        BudgetFringeRateService bfrService = SpringContext.getBean(BudgetFringeRateService.class);
         for (BudgetFringeRate budgetFringeRate : budgetForm.getBudgetDocument().getBudget().getFringeRates()) {
             budgetFringeRate.setInstitutionCostShareFringeRateAmount(budgetFringeRate.getAppointmentTypeCostShareFringeRateAmount());
         }
@@ -201,7 +200,7 @@ public class BudgetParametersAction extends BudgetAction {
         BudgetForm budgetForm = (BudgetForm) form;
 
         // check any business rules
-        boolean rulePassed = SpringServiceLocator.getKualiRuleService().applyRules(new InsertPeriodLineEventBase(budgetForm.getDocument(), budgetForm.getNewPeriod()));
+        boolean rulePassed = SpringContext.getBean(KualiRuleService.class).applyRules(new InsertPeriodLineEventBase(budgetForm.getDocument(), budgetForm.getNewPeriod()));
 
         if (rulePassed) {
             budgetForm.getBudgetDocument().addPeriod(budgetForm.getNewPeriod());

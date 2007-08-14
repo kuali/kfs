@@ -17,19 +17,18 @@
 package org.kuali.module.budget.bo;
 
 import java.math.BigDecimal;
-import java.math.BigInteger;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.kuali.core.bo.PersistableBusinessObjectBase;
+import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.KualiInteger;
 import org.kuali.core.util.TypedArrayList;
 import org.kuali.kfs.KFSPropertyConstants;
-import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.Chart;
 import org.kuali.module.chart.bo.ObjectCode;
@@ -37,7 +36,6 @@ import org.kuali.module.chart.bo.ObjectType;
 import org.kuali.module.chart.bo.SubAccount;
 import org.kuali.module.chart.bo.SubObjCd;
 import org.kuali.module.chart.bo.codes.BalanceTyp;
-import org.kuali.module.gl.bo.Balance;
 import org.kuali.module.labor.bo.LaborObject;
 import org.kuali.module.labor.bo.PositionObjectBenefit;
 
@@ -528,7 +526,7 @@ public class PendingBudgetConstructionGeneralLedger extends PersistableBusinessO
             pkeys.put("chartOfAccountsCode", getChartOfAccountsCode());
             pkeys.put("financialObjectCode", getFinancialObjectCode());
             
-            setLaborObject((LaborObject) SpringServiceLocator.getBusinessObjectService().findByPrimaryKey(LaborObject.class,pkeys));
+            setLaborObject((LaborObject) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(LaborObject.class,pkeys));
             
         }
         return laborObject;
@@ -553,7 +551,7 @@ public class PendingBudgetConstructionGeneralLedger extends PersistableBusinessO
             fieldValues.put("chartOfAccountsCode", getChartOfAccountsCode());
             fieldValues.put("financialObjectCode", getFinancialObjectCode());
             
-            setPositionObjectBenefit((List<PositionObjectBenefit>) SpringServiceLocator.getBusinessObjectService().findMatching(PositionObjectBenefit.class,fieldValues));
+            setPositionObjectBenefit((List<PositionObjectBenefit>) SpringContext.getBean(BusinessObjectService.class).findMatching(PositionObjectBenefit.class,fieldValues));
             
         }
         return positionObjectBenefit;

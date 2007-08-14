@@ -45,6 +45,7 @@ import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSKeyConstants;
 import org.kuali.kfs.batch.BatchInputFileSetType;
 import org.kuali.kfs.bo.BatchUpload;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.exceptions.FileStorageException;
 import org.kuali.kfs.service.BatchInputFileSetService;
 import org.kuali.kfs.util.SpringServiceLocator;
@@ -84,7 +85,7 @@ public class KualiBatchInputFileSetAction extends KualiAction {
             throw new ModuleAuthorizationException(GlobalVariables.getUserSession().getUniversalUser().getPersonUserIdentifier(), defaultAuthorizationType, getKualiModuleService().getResponsibleModule(batchInputFileType.getClass()));
         }
 
-        boolean isAuthorizedForType = SpringServiceLocator.getBatchInputFileSetService().isUserAuthorizedForBatchType(batchInputFileType, GlobalVariables.getUserSession().getUniversalUser());
+        boolean isAuthorizedForType = SpringContext.getBean(BatchInputFileSetService.class).isUserAuthorizedForBatchType(batchInputFileType, GlobalVariables.getUserSession().getUniversalUser());
         if (!isAuthorizedForType) {
             LOG.error("User " + GlobalVariables.getUserSession().getUniversalUser().getPersonUserIdentifier() + " is not authorized for batch type " + batchInputFileType.getFileSetTypeIdentifer());
             throw new AuthorizationException(GlobalVariables.getUserSession().getUniversalUser().getPersonUserIdentifier(), "upload", batchInputFileType.getFileSetTypeIdentifer());
@@ -118,7 +119,7 @@ public class KualiBatchInputFileSetAction extends KualiAction {
             requiredValuesForFilesMissing = true;
         }
         
-        BatchInputFileSetService batchInputFileSetService = SpringServiceLocator.getBatchInputFileSetService();
+        BatchInputFileSetService batchInputFileSetService = SpringContext.getBean(BatchInputFileSetService.class);
         
         Map<String, FormFile> uploadedFiles = ((KualiBatchInputFileSetForm) form).getUploadedFiles();
         Map<String, InputStream> typeToStreamMap = new HashMap<String, InputStream>();
@@ -168,7 +169,7 @@ public class KualiBatchInputFileSetAction extends KualiAction {
 
         BatchInputFileSetType batchType = retrieveBatchInputFileSetTypeImpl(batchUpload.getBatchInputTypeName());
         try {
-            SpringServiceLocator.getBatchInputFileSetService().delete(GlobalVariables.getUserSession().getUniversalUser(), batchType, batchUpload.getFileUserIdentifer());
+            SpringContext.getBean(BatchInputFileSetService.class).delete(GlobalVariables.getUserSession().getUniversalUser(), batchType, batchUpload.getFileUserIdentifer());
 
             GlobalVariables.getMessageList().add(KFSKeyConstants.MESSAGE_BATCH_UPLOAD_DELETE_SUCCESSFUL);
         }
@@ -201,7 +202,7 @@ public class KualiBatchInputFileSetAction extends KualiAction {
         BatchInputFileSetType batchType = retrieveBatchInputFileSetTypeImpl(batchUpload.getBatchInputTypeName());
         File batchInputFile = null;
         try {
-            batchInputFile = SpringServiceLocator.getBatchInputFileSetService().download(GlobalVariables.getUserSession().getUniversalUser(),
+            batchInputFile = SpringContext.getBean(BatchInputFileSetService.class).download(GlobalVariables.getUserSession().getUniversalUser(),
                     batchType, kualiBatchInputFileSetForm.getDownloadFileType(), batchUpload.getFileUserIdentifer());
         }
         catch (FileNotFoundException e1) {
@@ -244,12 +245,12 @@ public class KualiBatchInputFileSetAction extends KualiAction {
             throw new RuntimeException("Batch input type implementation not found for id " + form.getBatchUpload().getBatchInputTypeName());
         }
         
-        if (!SpringServiceLocator.getBatchInputFileSetService().isBatchInputTypeActive(batchInputFileSetType)) {
+        if (!SpringContext.getBean(BatchInputFileSetService.class).isBatchInputTypeActive(batchInputFileSetType)) {
             throw new RuntimeException("Batch input file set type is not active.");
         }
         form.setBatchInputFileSetType(batchInputFileSetType);
         
-        Set<String> fileUserIdentifiers = SpringServiceLocator.getBatchInputFileSetService().listBatchTypeFileUserIdentifiersForUser(batchInputFileSetType, user);
+        Set<String> fileUserIdentifiers = SpringContext.getBean(BatchInputFileSetService.class).listBatchTypeFileUserIdentifiersForUser(batchInputFileSetType, user);
 
         userFiles.add(new KeyLabelPair("", "Select a File Set Identifier"));
         for (String fileUserIdentifier : fileUserIdentifiers) {

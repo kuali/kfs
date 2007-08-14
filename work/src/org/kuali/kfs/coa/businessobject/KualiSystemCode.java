@@ -21,7 +21,8 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.core.bo.KualiCode;
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.inquiry.KualiInquirableImpl;
-import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.kfs.context.SpringContext;
+import org.kuali.kfs.service.KualiCodeService;
 
 public class KualiSystemCode extends PersistableBusinessObjectBase implements KualiCode {
 
@@ -68,7 +69,7 @@ public class KualiSystemCode extends PersistableBusinessObjectBase implements Ku
      */
     public String getName() {
         if (!codeRetrieved && getCode() != null) {
-            KualiSystemCode code = (KualiSystemCode) SpringServiceLocator.getKualiCodeService().getSystemCode(this.getClass(), getCode());
+            KualiSystemCode code = (KualiSystemCode) SpringContext.getBean(KualiCodeService.class).getSystemCode(this.getClass(), getCode());
             code.setCodeRetrieved(true);
             this.name = code.getName();
             this.active = code.isActive();
@@ -91,7 +92,7 @@ public class KualiSystemCode extends PersistableBusinessObjectBase implements Ku
      */
     public boolean isActive() {
         if (!codeRetrieved && getCode() != null) {
-            KualiSystemCode code = (KualiSystemCode) SpringServiceLocator.getKualiCodeService().getSystemCode(this.getClass(), getCode());
+            KualiSystemCode code = (KualiSystemCode) SpringContext.getBean(KualiCodeService.class).getSystemCode(this.getClass(), getCode());
             code.setCodeRetrieved(true);
             name = code.getName();
             active = code.isActive();

@@ -19,10 +19,13 @@ import java.sql.Date;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.document.TransactionalDocumentBase;
+import org.kuali.core.service.DateTimeService;
 import org.kuali.core.util.NumberUtils;
 import org.kuali.core.util.ObjectUtils;
-import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.chart.bo.AccountingPeriod;
+import org.kuali.module.chart.service.AccountingPeriodService;
+import org.kuali.module.financial.service.UniversityDateService;
 
 /**
  * Base implementation for a ledger posting document.
@@ -52,8 +55,8 @@ public class LedgerPostingDocumentBase extends TransactionalDocumentBase impleme
      * @return AccountingPeriod
      */
     private void createInitialAccountingPeriod() {
-        Date date = SpringServiceLocator.getDateTimeService().getCurrentSqlDate();
-        AccountingPeriod accountingPeriod = SpringServiceLocator.getAccountingPeriodService().getByDate(date);
+        Date date = SpringContext.getBean(DateTimeService.class, "dateTimeService").getCurrentSqlDate();
+        AccountingPeriod accountingPeriod = SpringContext.getBean(AccountingPeriodService.class).getByDate(date);
 
         setAccountingPeriod(accountingPeriod);
     }
@@ -121,7 +124,7 @@ public class LedgerPostingDocumentBase extends TransactionalDocumentBase impleme
         String code = this.tmpPostingPeriodCode;
 
         if (year != null && StringUtils.isNotBlank(code)) {
-            AccountingPeriod accountingPeriod = SpringServiceLocator.getAccountingPeriodService().getByPeriod(code, year);
+            AccountingPeriod accountingPeriod = SpringContext.getBean(AccountingPeriodService.class).getByPeriod(code, year);
             if (ObjectUtils.isNotNull(accountingPeriod)) {
                 accountingPeriod.refresh();
                 this.accountingPeriod = accountingPeriod;
@@ -141,7 +144,7 @@ public class LedgerPostingDocumentBase extends TransactionalDocumentBase impleme
     public boolean getAllowsErrorCorrection() {
         boolean allowsCorrection = super.getAllowsErrorCorrection();
         
-        Integer fiscalYear = SpringServiceLocator.getUniversityDateService().getCurrentFiscalYear();
+        Integer fiscalYear = SpringContext.getBean(UniversityDateService.class).getCurrentFiscalYear();
         if (!NumberUtils.equals(fiscalYear, getPostingYear())) {
             allowsCorrection = false;
         }

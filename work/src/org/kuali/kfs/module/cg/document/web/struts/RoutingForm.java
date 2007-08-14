@@ -22,9 +22,10 @@ import java.util.Map;
 
 import org.kuali.core.datadictionary.DataDictionary;
 import org.kuali.core.datadictionary.DocumentEntry;
+import org.kuali.core.service.DataDictionaryService;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.web.format.PhoneNumberFormatter;
-import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.kra.KraConstants;
 import org.kuali.module.kra.budget.web.struts.form.BudgetOverviewFormHelper;
 import org.kuali.module.kra.document.ResearchDocument;
@@ -82,7 +83,7 @@ public class RoutingForm extends ResearchDocumentFormBase {
     public RoutingForm() {
         super();
        
-        DataDictionary dataDictionary = SpringServiceLocator.getDataDictionaryService().getDataDictionary();
+        DataDictionary dataDictionary = SpringContext.getBean(DataDictionaryService.class).getDataDictionary();
         DocumentEntry budgetDocumentEntry = dataDictionary.getDocumentEntry(org.kuali.module.kra.routingform.document.RoutingFormDocument.class.getName());
         this.setHeaderNavigationTabs(budgetDocumentEntry.getHeaderTabNavigation());
         
@@ -262,7 +263,7 @@ public class RoutingForm extends ResearchDocumentFormBase {
         if (systemParametersMap == null) {
             systemParametersMap = new HashMap();
             
-            KualiConfigurationService kualiConfigurationService = SpringServiceLocator.getKualiConfigurationService();
+            KualiConfigurationService kualiConfigurationService = SpringContext.getBean(KualiConfigurationService.class);
             systemParametersMap.put(KraConstants.SUBMISSION_TYPE_CHANGE, kualiConfigurationService.getApplicationParameterValue(KraConstants.KRA_DEVELOPMENT_GROUP, KraConstants.SUBMISSION_TYPE_CHANGE));
             systemParametersMap.put(KraConstants.PROJECT_TYPE_OTHER, kualiConfigurationService.getApplicationParameterValue(KraConstants.KRA_DEVELOPMENT_GROUP, KraConstants.PROJECT_TYPE_OTHER));
             systemParametersMap.put(KraConstants.PURPOSE_RESEARCH, kualiConfigurationService.getApplicationParameterValue(KraConstants.KRA_DEVELOPMENT_GROUP, KraConstants.PURPOSE_RESEARCH));

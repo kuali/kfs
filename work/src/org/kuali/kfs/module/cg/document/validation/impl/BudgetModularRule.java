@@ -20,12 +20,13 @@ import java.util.Iterator;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.document.Document;
 import org.kuali.core.util.GlobalVariables;
-import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.kra.KraKeyConstants;
 import org.kuali.module.kra.budget.bo.Budget;
 import org.kuali.module.kra.budget.bo.BudgetModular;
 import org.kuali.module.kra.budget.bo.BudgetModularPeriod;
 import org.kuali.module.kra.budget.document.BudgetDocument;
+import org.kuali.module.kra.budget.service.BudgetModularService;
 
 public class BudgetModularRule {
     
@@ -53,7 +54,7 @@ public class BudgetModularRule {
                     "tooLarge", KraKeyConstants.ERROR_MODULAR_TOO_LARGE, 
                     new String[] { budget.getModularBudget().getTotalActualDirectCostAmount().toString(), 
                     Integer.toString(budget.getPeriods().size()), 
-                    SpringServiceLocator.getBudgetModularService().determineBudgetPeriodMaximumAmount(budget.getBudgetAgency()).toString() });
+                    SpringContext.getBean(BudgetModularService.class).determineBudgetPeriodMaximumAmount(budget.getBudgetAgency()).toString() });
             valid = false;
         }
 

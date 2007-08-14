@@ -27,11 +27,12 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.kuali.core.service.PersistenceService;
+import org.kuali.core.service.KualiRuleService;
 import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.kra.budget.bo.BudgetNonpersonnel;
 import org.kuali.module.kra.budget.rules.event.UpdateNonpersonnelEventBase;
+import org.kuali.module.kra.budget.service.BudgetNonpersonnelService;
 import org.kuali.module.kra.budget.web.struts.form.BudgetForm;
 import org.kuali.module.kra.budget.web.struts.form.BudgetNonpersonnelCopyOverFormHelper;
 import org.kuali.module.kra.budget.web.struts.form.BudgetNonpersonnelFormHelper;
@@ -110,7 +111,7 @@ public class BudgetNonpersonnelAction extends BudgetAction {
 
         // check any business rules. This has to be done before saving too because copy over could occur.
         // copy over can only occur when validation has taken place.
-        boolean rulePassed = SpringServiceLocator.getKualiRuleService().applyRules(new UpdateNonpersonnelEventBase(budgetForm.getDocument(), budgetForm.getBudgetDocument().getBudget().getNonpersonnelItems()));
+        boolean rulePassed = SpringContext.getBean(KualiRuleService.class).applyRules(new UpdateNonpersonnelEventBase(budgetForm.getDocument(), budgetForm.getBudgetDocument().getBudget().getNonpersonnelItems()));
 
         if (!rulePassed) {
             budgetForm.setCurrentTaskNumber(budgetForm.getPreviousTaskNumber());
@@ -126,7 +127,7 @@ public class BudgetNonpersonnelAction extends BudgetAction {
                 // based on this, and immediatly deconstruct this. By default this will copy over all
                 // checked items (= checked all) that haven't been copied over yet.
                 List nonpersonnelItems = budgetForm.getBudgetDocument().getBudget().getNonpersonnelItems();
-                SpringServiceLocator.getBudgetNonpersonnelService().refreshNonpersonnelObjectCode(nonpersonnelItems);
+                SpringContext.getBean(BudgetNonpersonnelService.class).refreshNonpersonnelObjectCode(nonpersonnelItems);
                 new BudgetNonpersonnelCopyOverFormHelper(budgetForm).deconstruct(budgetForm);
                 break;
             }
@@ -154,7 +155,7 @@ public class BudgetNonpersonnelAction extends BudgetAction {
         BudgetForm budgetForm = (BudgetForm) form;
 
         // check any business rules
-        boolean rulePassed = SpringServiceLocator.getKualiRuleService().applyRules(new UpdateNonpersonnelEventBase(budgetForm.getDocument(), budgetForm.getBudgetDocument().getBudget().getNonpersonnelItems()));
+        boolean rulePassed = SpringContext.getBean(KualiRuleService.class).applyRules(new UpdateNonpersonnelEventBase(budgetForm.getDocument(), budgetForm.getBudgetDocument().getBudget().getNonpersonnelItems()));
 
         if (rulePassed) {
             super.setupNonpersonnelCategories(budgetForm);
@@ -174,7 +175,7 @@ public class BudgetNonpersonnelAction extends BudgetAction {
         budgetForm.getBudgetNonpersonnelFormHelper().refresh(nonpersonnelItems);
 
         // check any business rules
-        boolean rulePassed = SpringServiceLocator.getKualiRuleService().applyRules(new UpdateNonpersonnelEventBase(budgetForm.getDocument(), budgetForm.getBudgetDocument().getBudget().getNonpersonnelItems()));
+        boolean rulePassed = SpringContext.getBean(KualiRuleService.class).applyRules(new UpdateNonpersonnelEventBase(budgetForm.getDocument(), budgetForm.getBudgetDocument().getBudget().getNonpersonnelItems()));
 
         if (!rulePassed) {
             budgetForm.setCurrentTaskNumber(budgetForm.getPreviousTaskNumber());
@@ -185,7 +186,7 @@ public class BudgetNonpersonnelAction extends BudgetAction {
         // Refresh reference objects so that NonpersonnelObjectCode is populated. This
         // is necessary because it maybe a new object that hasn't been saved to the
         // database yet.
-        SpringServiceLocator.getBudgetNonpersonnelService().refreshNonpersonnelObjectCode(nonpersonnelItems);
+        SpringContext.getBean(BudgetNonpersonnelService.class).refreshNonpersonnelObjectCode(nonpersonnelItems);
 
         // prepare data for NPRS copy over page
         budgetForm.setBudgetNonpersonnelCopyOverFormHelper(new BudgetNonpersonnelCopyOverFormHelper(budgetForm));

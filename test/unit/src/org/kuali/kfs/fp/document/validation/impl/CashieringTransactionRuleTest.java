@@ -22,8 +22,10 @@ import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.context.KualiTestBase;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.financial.bo.CashDrawer;
 import org.kuali.module.financial.bo.CashDrawerTest;
@@ -36,6 +38,8 @@ import org.kuali.module.financial.bo.CoinDetailTest;
 import org.kuali.module.financial.bo.CurrencyDetail;
 import org.kuali.module.financial.bo.CurrencyDetailTest;
 import org.kuali.module.financial.document.CashManagementDocument;
+import org.kuali.module.financial.service.CashDrawerService;
+import org.kuali.module.financial.service.CashManagementService;
 import org.kuali.test.ConfigureContext;
 import org.kuali.test.fixtures.UserNameFixture;
 
@@ -452,12 +456,12 @@ public class CashieringTransactionRuleTest extends KualiTestBase {
         // delete fake cash drawer if we can find it; these ideas are pretty much nicked from CashManagementServiceTest
         Map deleteCriteria = new HashMap();
         deleteCriteria.put("workgroupName", CMST_WORKGROUP);
-        SpringServiceLocator.getBusinessObjectService().deleteMatching(CashDrawer.class, deleteCriteria);
+        SpringContext.getBean(BusinessObjectService.class).deleteMatching(CashDrawer.class, deleteCriteria);
         
         // create a new cash drawer
-        CashDrawer cashDrawer = SpringServiceLocator.getCashDrawerService().getByWorkgroupName(CMST_WORKGROUP, true);
+        CashDrawer cashDrawer = SpringContext.getBean(CashDrawerService.class).getByWorkgroupName(CMST_WORKGROUP, true);
         
-        CashManagementDocument cmDoc = SpringServiceLocator.getCashManagementService().createCashManagementDocument(CMST_WORKGROUP, "Document Created for "+testName, "CMD");
+        CashManagementDocument cmDoc = SpringContext.getBean(CashManagementService.class).createCashManagementDocument(CMST_WORKGROUP, "Document Created for "+testName, "CMD");
         return cmDoc;
     }
     

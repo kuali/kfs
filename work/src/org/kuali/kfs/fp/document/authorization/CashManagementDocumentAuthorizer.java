@@ -22,7 +22,6 @@ import java.util.Map;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.kuali.core.authorization.AuthorizationConstants;
-
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.document.Document;
 import org.kuali.core.document.authorization.DocumentActionFlags;
@@ -30,15 +29,15 @@ import org.kuali.core.document.authorization.DocumentAuthorizerBase;
 import org.kuali.core.exceptions.DocumentInitiationAuthorizationException;
 import org.kuali.core.exceptions.DocumentTypeAuthorizationException;
 import org.kuali.core.exceptions.GroupNotFoundException;
-import org.kuali.core.util.GlobalVariables;
+import org.kuali.core.service.KualiGroupService;
 import org.kuali.core.workflow.service.KualiWorkflowDocument;
 import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.KFSKeyConstants;
 import org.kuali.kfs.KFSConstants.CashDrawerConstants;
-import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.financial.document.CashManagementDocument;
 import org.kuali.module.financial.document.CashReceiptDocument;
 import org.kuali.module.financial.service.CashManagementService;
+import org.kuali.module.financial.service.CashReceiptService;
 
 /**
  * DocumentAuthorizer containing authorization code for CashManagement documents
@@ -62,7 +61,7 @@ public class CashManagementDocumentAuthorizer extends DocumentAuthorizerBase {
         try {
             CashManagementDocument cmDoc = (CashManagementDocument) document;
 
-            if (SpringServiceLocator.getKualiGroupService().getByGroupName(cmDoc.getWorkgroupName()).hasMember(user)) {
+            if (SpringContext.getBean(KualiGroupService.class).getByGroupName(cmDoc.getWorkgroupName()).hasMember(user)) {
                 editModeMap.clear();
 
                 KualiWorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
@@ -111,11 +110,11 @@ public class CashManagementDocumentAuthorizer extends DocumentAuthorizerBase {
         }
 
         // CM document can only be routed if it contains a Final Deposit
-        if (!cmDoc.hasFinalDeposit() || !SpringServiceLocator.getCashManagementService().allVerifiedCashReceiptsAreDeposited(cmDoc)) {
+        if (!cmDoc.hasFinalDeposit() || !SpringContext.getBean(CashManagementService.class).allVerifiedCashReceiptsAreDeposited(cmDoc)) {
             flags.setCanRoute(false);
         }
         
-        if (!SpringServiceLocator.getCashManagementService().allowDocumentCancellation(cmDoc)) {
+        if (!SpringContext.getBean(CashManagementService.class).allowDocumentCancellation(cmDoc)) {
             flags.setCanCancel(false);
         }
 
@@ -130,8 +129,8 @@ public class CashManagementDocumentAuthorizer extends DocumentAuthorizerBase {
      */
     private boolean areAllVerifiedCashReceiptsDeposited(CashManagementDocument cmDoc) {
         boolean theyAre = true;
-        List verifiedReceipts = SpringServiceLocator.getCashReceiptService().getCashReceipts(cmDoc.getWorkgroupName(), KFSConstants.DocumentStatusCodes.CashReceipt.VERIFIED);
-        CashManagementService cms = SpringServiceLocator.getCashManagementService();
+        List verifiedReceipts = SpringContext.getBean(CashReceiptService.class).getCashReceipts(cmDoc.getWorkgroupName(), KFSConstants.DocumentStatusCodes.CashReceipt.VERIFIED);
+        CashManagementService cms = SpringContext.getBean(CashManagementService.class);
         for (Object o: verifiedReceipts) {
             if (!cms.verifyCashReceiptIsDeposited(cmDoc, (CashReceiptDocument)o)) {
                 theyAre = false;

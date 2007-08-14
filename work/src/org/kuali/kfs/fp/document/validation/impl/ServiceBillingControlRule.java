@@ -18,9 +18,10 @@ package org.kuali.module.financial.rules;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase;
+import org.kuali.core.workflow.service.KualiWorkflowInfo;
 import org.kuali.kfs.KFSKeyConstants;
 import org.kuali.kfs.KFSPropertyConstants;
-import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.financial.bo.ServiceBillingControl;
 
 import edu.iu.uis.eden.clientapp.vo.WorkgroupNameIdVO;
@@ -85,7 +86,7 @@ public class ServiceBillingControlRule extends MaintenanceDocumentRuleBase {
      */
     private static boolean workgroupExistsAndIsActive(String name) {
         try {
-            WorkgroupVO workgroupVo = SpringServiceLocator.getWorkflowInfoService().getWorkgroup(new WorkgroupNameIdVO(name));
+            WorkgroupVO workgroupVo = SpringContext.getBean(KualiWorkflowInfo.class).getWorkgroup(new WorkgroupNameIdVO(name));
             return workgroupVo != null && workgroupVo.isActiveInd();
         }
         catch (WorkflowException e) {

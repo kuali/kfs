@@ -20,8 +20,8 @@ import java.util.LinkedHashMap;
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.bo.Summarizable;
 import org.kuali.core.bo.user.UniversalUser;
-import org.kuali.core.exceptions.UserNotFoundException;
-import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.core.service.UniversalUserService;
+import org.kuali.kfs.context.SpringContext;
 
 /**
  * 
@@ -230,7 +230,7 @@ public class Chart extends PersistableBusinessObjectBase implements Summarizable
     }
 
     public UniversalUser getFinCoaManagerUniversal() {
-        finCoaManagerUniversal = SpringServiceLocator.getUniversalUserService().updateUniversalUserIfNecessary(finCoaManagerUniversalId, finCoaManagerUniversal);
+        finCoaManagerUniversal = SpringContext.getBean(UniversalUserService.class, "universalUserService").updateUniversalUserIfNecessary(finCoaManagerUniversalId, finCoaManagerUniversal);
         return finCoaManagerUniversal;
     }
 

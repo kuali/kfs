@@ -19,13 +19,16 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.kuali.core.exceptions.GroupNotFoundException;
+import org.kuali.core.service.DateTimeService;
+import org.kuali.core.service.KualiConfigurationService;
+import org.kuali.core.service.KualiGroupService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.web.ui.ExtraButton;
 import org.kuali.core.web.ui.KeyLabelPair;
 import org.kuali.core.workflow.service.KualiWorkflowDocument;
 import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.purap.PurapAuthorizationConstants;
 import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.PurapRuleConstants;
@@ -35,8 +38,6 @@ import org.kuali.module.purap.bo.PurchaseOrderVendorQuote;
 import org.kuali.module.purap.bo.PurchaseOrderVendorStipulation;
 import org.kuali.module.purap.bo.PurchasingApItem;
 import org.kuali.module.purap.document.PurchaseOrderDocument;
-
-import edu.iu.uis.eden.exception.WorkflowException;
 
 /**
  * This class is the form class for the PurchaseOrder document.
@@ -130,7 +131,7 @@ public class PurchaseOrderForm extends PurchasingFormBase {
 
         aPurchaseOrderVendorStipulationLine.setDocumentNumber(getPurchaseOrderDocument().getDocumentNumber());
         aPurchaseOrderVendorStipulationLine.setVendorStipulationAuthorEmployeeIdentifier(GlobalVariables.getUserSession().getUniversalUser().getPersonUniversalIdentifier());
-        aPurchaseOrderVendorStipulationLine.setVendorStipulationCreateDate(SpringServiceLocator.getDateTimeService().getCurrentSqlDate());
+        aPurchaseOrderVendorStipulationLine.setVendorStipulationCreateDate(SpringContext.getBean(DateTimeService.class, "dateTimeService").getCurrentSqlDate());
 
         return aPurchaseOrderVendorStipulationLine;
     }
@@ -165,10 +166,10 @@ public class PurchaseOrderForm extends PurchasingFormBase {
         
         boolean isActionRequested = (!workflowDocument.stateIsException()) && (workflowDocument.isCompletionRequested() || workflowDocument.isApprovalRequested() || workflowDocument.isAcknowledgeRequested() || workflowDocument.isFYIRequested());
 
-        String authorizedWorkgroup = SpringServiceLocator.getKualiConfigurationService().getApplicationParameterValue(PurapRuleConstants.PURAP_ADMIN_GROUP, PurapRuleConstants.PURAP_DOCUMENT_PO_ACTIONS);
+        String authorizedWorkgroup = SpringContext.getBean(KualiConfigurationService.class).getApplicationParameterValue(PurapRuleConstants.PURAP_ADMIN_GROUP, PurapRuleConstants.PURAP_DOCUMENT_PO_ACTIONS);
         boolean isUserAuthorized = false;
         try {
-            isUserAuthorized = SpringServiceLocator.getKualiGroupService().getByGroupName(authorizedWorkgroup).hasMember(GlobalVariables.getUserSession().getUniversalUser());
+            isUserAuthorized = SpringContext.getBean(KualiGroupService.class).getByGroupName(authorizedWorkgroup).hasMember(GlobalVariables.getUserSession().getUniversalUser());
         }
         catch (GroupNotFoundException e) {
             throw new RuntimeException("Workgroup " + authorizedWorkgroup + " not found",e);

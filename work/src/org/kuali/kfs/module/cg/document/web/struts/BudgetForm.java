@@ -32,8 +32,10 @@ import org.apache.struts.action.ActionMapping;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.datadictionary.DataDictionary;
 import org.kuali.core.datadictionary.DocumentEntry;
+import org.kuali.core.service.DataDictionaryService;
+import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.web.ui.KeyLabelPair;
-import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.kra.budget.bo.Budget;
 import org.kuali.module.kra.budget.bo.BudgetFringeRate;
 import org.kuali.module.kra.budget.bo.BudgetGraduateAssistantRate;
@@ -46,6 +48,9 @@ import org.kuali.module.kra.budget.bo.BudgetTypeCode;
 import org.kuali.module.kra.budget.bo.BudgetUser;
 import org.kuali.module.kra.budget.bo.NonpersonnelCategory;
 import org.kuali.module.kra.budget.document.BudgetDocument;
+import org.kuali.module.kra.budget.service.BudgetPeriodService;
+import org.kuali.module.kra.budget.service.BudgetPersonnelService;
+import org.kuali.module.kra.budget.service.BudgetTaskService;
 import org.kuali.module.kra.document.ResearchDocument;
 import org.kuali.module.kra.web.struts.form.ResearchDocumentFormBase;
 
@@ -113,8 +118,8 @@ public class BudgetForm extends ResearchDocumentFormBase {
     public BudgetForm() {
         super();
 
-        DEFAULT_BUDGET_TASK_NAME = SpringServiceLocator.getKualiConfigurationService().getApplicationParameterValue("KraDevelopmentGroup", "defaultBudgetTaskName");
-        TO_BE_NAMED_LABEL = SpringServiceLocator.getKualiConfigurationService().getApplicationParameterValue("KraDevelopmentGroup", "toBeNamedLabel");
+        DEFAULT_BUDGET_TASK_NAME = SpringContext.getBean(KualiConfigurationService.class).getApplicationParameterValue("KraDevelopmentGroup", "defaultBudgetTaskName");
+        TO_BE_NAMED_LABEL = SpringContext.getBean(KualiConfigurationService.class).getApplicationParameterValue("KraDevelopmentGroup", "toBeNamedLabel");
 
         newPeriod = new BudgetPeriod();
         newTask = new BudgetTask();
@@ -132,7 +137,7 @@ public class BudgetForm extends ResearchDocumentFormBase {
 
         academicYearSubdivisionNames = new ArrayList();
         
-        DataDictionary dataDictionary = SpringServiceLocator.getDataDictionaryService().getDataDictionary();
+        DataDictionary dataDictionary = SpringContext.getBean(DataDictionaryService.class).getDataDictionary();
         DocumentEntry budgetDocumentEntry = dataDictionary.getDocumentEntry(org.kuali.module.kra.budget.document.BudgetDocument.class.getName());
         this.setHeaderNavigationTabs(budgetDocumentEntry.getHeaderTabNavigation());
     }
@@ -556,7 +561,7 @@ public class BudgetForm extends ResearchDocumentFormBase {
      */
     public Integer getCurrentPeriodNumber() {
         if (currentPeriodNumber == null) {
-            currentPeriodNumber = SpringServiceLocator.getBudgetPeriodService().getFirstBudgetPeriod(((BudgetDocument) getDocument()).getDocumentNumber()).getBudgetPeriodSequenceNumber();
+            currentPeriodNumber = SpringContext.getBean(BudgetPeriodService.class).getFirstBudgetPeriod(((BudgetDocument) getDocument()).getDocumentNumber()).getBudgetPeriodSequenceNumber();
         }
         return currentPeriodNumber;
     }
@@ -573,7 +578,7 @@ public class BudgetForm extends ResearchDocumentFormBase {
      */
     public Integer getCurrentTaskNumber() {
         if (currentTaskNumber == null) {
-            currentTaskNumber = SpringServiceLocator.getBudgetTaskService().getFirstBudgetTask(((BudgetDocument) getDocument()).getDocumentNumber()).getBudgetTaskSequenceNumber();
+            currentTaskNumber = SpringContext.getBean(BudgetTaskService.class).getFirstBudgetTask(((BudgetDocument) getDocument()).getDocumentNumber()).getBudgetTaskSequenceNumber();
         }
         return currentTaskNumber;
     }
@@ -686,7 +691,7 @@ public class BudgetForm extends ResearchDocumentFormBase {
      */
     public HashMap getAppointmentTypeGridMappings() {
         if (this.appointmentTypeGridMappings == null) {
-            this.appointmentTypeGridMappings = SpringServiceLocator.getBudgetPersonnelService().getAppointmentTypeMappings();
+            this.appointmentTypeGridMappings = SpringContext.getBean(BudgetPersonnelService.class).getAppointmentTypeMappings();
         }
         return this.appointmentTypeGridMappings;
     }

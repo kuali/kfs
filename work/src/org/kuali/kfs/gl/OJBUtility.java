@@ -29,6 +29,7 @@ import org.apache.ojb.broker.query.Query;
 import org.kuali.core.dao.LookupDao;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.kfs.KFSConstants;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.util.SpringServiceLocator;
 
 /**
@@ -148,7 +149,7 @@ public class OJBUtility {
      */
     public static Integer getResultLimit() {
         // get the result limit number from configuration
-        KualiConfigurationService kualiConfigurationService = SpringServiceLocator.getKualiConfigurationService();
+        KualiConfigurationService kualiConfigurationService = SpringContext.getBean(KualiConfigurationService.class);
         String limitConfig = kualiConfigurationService.getApplicationParameterValue(KFSConstants.ParameterGroups.SYSTEM, KFSConstants.LOOKUP_RESULTS_LIMIT_URL_KEY);
 
         Integer limit = Integer.MAX_VALUE;

@@ -18,18 +18,16 @@ package org.kuali.module.financial.rules;
 import static org.kuali.core.util.AssertionUtils.assertThat;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.bo.user.KualiGroup;
-
 import org.kuali.core.bo.user.UniversalUser;
-import org.kuali.core.exceptions.GroupNotFoundException;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.KFSKeyConstants;
 import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.bo.AccountingLine;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.rules.AccountingDocumentRuleBase;
-import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.financial.bo.ServiceBillingControl;
+import org.kuali.module.financial.service.ServiceBillingControlService;
 
 /**
  * This class contains static helper methods for ServiceBillingDocumentRule and ServiceBillingDocumentAuthorizer.
@@ -65,7 +63,7 @@ public class ServiceBillingDocumentRuleUtil {
             // Ignore empty key because hasAccessibleAccountingLines() may not validate beforehand.
             return false;
         }
-        ServiceBillingControl control = SpringServiceLocator.getServiceBillingControlService().getByPrimaryId(chartOfAccountsCode, accountNumber);
+        ServiceBillingControl control = SpringContext.getBean(ServiceBillingControlService.class).getByPrimaryId(chartOfAccountsCode, accountNumber);
         if (ObjectUtils.isNull(control)) {
             if (action != null) {
                 GlobalVariables.getErrorMap().putError(KFSPropertyConstants.ACCOUNT_NUMBER, noServiceBillingControlErrorKey(action), accountingLine.getAccountNumber());

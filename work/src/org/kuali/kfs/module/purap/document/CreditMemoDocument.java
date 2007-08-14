@@ -20,26 +20,30 @@ import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.bo.Note;
 import org.kuali.core.bo.user.UniversalUser;
+import org.kuali.core.service.DataDictionaryService;
+import org.kuali.core.service.DateTimeService;
+import org.kuali.core.service.NoteService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
-import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.core.workflow.service.WorkflowDocumentService;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.PurapPropertyConstants;
-import org.kuali.module.purap.PurapWorkflowConstants;
 import org.kuali.module.purap.PurapConstants.CREDIT_MEMO_TYPE_LABELS;
 import org.kuali.module.purap.PurapConstants.CreditMemoStatuses;
-import org.kuali.module.purap.PurapConstants.PaymentRequestStatuses;
 import org.kuali.module.purap.PurapWorkflowConstants.NodeDetails;
 import org.kuali.module.purap.PurapWorkflowConstants.CreditMemoDocument.NodeDetailEnum;
 import org.kuali.module.purap.bo.CreditMemoItem;
 import org.kuali.module.purap.bo.CreditMemoStatusHistory;
+import org.kuali.module.purap.service.CreditMemoService;
+import org.kuali.module.purap.service.PaymentRequestService;
 import org.kuali.module.purap.service.PurapGeneralLedgerService;
+import org.kuali.module.purap.service.PurapService;
 
 import edu.iu.uis.eden.exception.WorkflowException;
 
@@ -147,7 +151,7 @@ public class CreditMemoDocument extends AccountsPayableDocumentBase {
     public boolean getPurchaseOrderNotes() {
         boolean hasNotes = false;
 
-        ArrayList poNotes = SpringServiceLocator.getNoteService().getByRemoteObjectId((this.getPurchaseOrderIdentifier()).toString());
+        ArrayList poNotes = SpringContext.getBean(NoteService.class).getByRemoteObjectId((this.getPurchaseOrderIdentifier()).toString());
         if (poNotes.size() > 0) {
             hasNotes = true;
         }
@@ -181,15 +185,15 @@ public class CreditMemoDocument extends AccountsPayableDocumentBase {
             if (this.getDocumentHeader().getWorkflowDocument().stateIsProcessed()) {
                 // TODO delyea - what goes here?
 //                if (!PaymentRequestStatuses.AUTO_APPROVED.equals(getStatusCode())) {
-//                    SpringServiceLocator.getPurapService().updateStatusAndStatusHistory(this, PurapConstants.PaymentRequestStatuses.DEPARTMENT_APPROVED);
+//                    SpringContext.getBean(PurapService.class).updateStatusAndStatusHistory(this, PurapConstants.PaymentRequestStatuses.DEPARTMENT_APPROVED);
 //                    populateDocumentForRouting();
-//                    SpringServiceLocator.getPaymentRequestService().saveDocumentWithoutValidation(this);
+//                    SpringContext.getBean(PaymentRequestService.class).saveDocumentWithoutValidation(this);
 //                    return;
 //                }
             }
             // DOCUMENT DISAPPROVED
             else if (this.getDocumentHeader().getWorkflowDocument().stateIsDisapproved()) {
-                String nodeName = SpringServiceLocator.getWorkflowDocumentService().getCurrentRouteLevelName(getDocumentHeader().getWorkflowDocument());
+                String nodeName = SpringContext.getBean(WorkflowDocumentService.class).getCurrentRouteLevelName(getDocumentHeader().getWorkflowDocument());
                 NodeDetails currentNode = NodeDetailEnum.getNodeDetailEnumByName(nodeName);
                 if (ObjectUtils.isNotNull(currentNode)) {
                     String newStatusCode = currentNode.getDisapprovedStatusCode();
@@ -198,8 +202,8 @@ public class CreditMemoDocument extends AccountsPayableDocumentBase {
                         newStatusCode = CreditMemoStatuses.CANCELLED_IN_PROCESS;
                     }
                     if (StringUtils.isNotBlank(newStatusCode)) {
-                        SpringServiceLocator.getPurapService().updateStatusAndStatusHistory(this, newStatusCode);
-                        SpringServiceLocator.getCreditMemoService().saveDocumentWithoutValidation(this);
+                        SpringContext.getBean(PurapService.class).updateStatusAndStatusHistory(this, newStatusCode);
+                        SpringContext.getBean(CreditMemoService.class).saveDocumentWithoutValidation(this);
                         return;
                     }
                 }
@@ -208,8 +212,8 @@ public class CreditMemoDocument extends AccountsPayableDocumentBase {
             }
             // DOCUMENT CANCELED
             else if (this.getDocumentHeader().getWorkflowDocument().stateIsCanceled()) {
-                String currentNodeName = SpringServiceLocator.getWorkflowDocumentService().getCurrentRouteLevelName(getDocumentHeader().getWorkflowDocument());
-                SpringServiceLocator.getCreditMemoService().cancelCreditMemo(this, currentNodeName); 
+                String currentNodeName = SpringContext.getBean(WorkflowDocumentService.class).getCurrentRouteLevelName(getDocumentHeader().getWorkflowDocument());
+                SpringContext.getBean(CreditMemoService.class).cancelCreditMemo(this, currentNodeName); 
             }
         }
         catch (WorkflowException e) {
@@ -222,8 +226,8 @@ public class CreditMemoDocument extends AccountsPayableDocumentBase {
      */
     public boolean processNodeChange(String newNodeName, String oldNodeName) {
         if (NodeDetailEnum.ACCOUNTS_PAYABLE_REVIEW.equals(oldNodeName)) {
-            setAccountsPayableApprovalDate(SpringServiceLocator.getDateTimeService().getCurrentSqlDate());
-            ((PurapGeneralLedgerService) SpringServiceLocator.getService(SpringServiceLocator.PURAP_GENERAL_LEDGER_SERVICE)).generateEntriesCreditMemo(this, PurapConstants.CREATE_CREDIT_MEMO);
+            setAccountsPayableApprovalDate(SpringContext.getBean(DateTimeService.class, "dateTimeService").getCurrentSqlDate());
+            SpringContext.getBean(PurapGeneralLedgerService.class).generateEntriesCreditMemo(this, PurapConstants.CREATE_CREDIT_MEMO);
         }
         return true;
     }
@@ -239,7 +243,7 @@ public class CreditMemoDocument extends AccountsPayableDocumentBase {
      * @see org.kuali.module.purap.document.AccountsPayableDocumentBase#saveDocumentFromPostProcessing()
      */
     public void saveDocumentFromPostProcessing() {
-        SpringServiceLocator.getCreditMemoService().saveDocumentWithoutValidation(this);
+        SpringContext.getBean(CreditMemoService.class).saveDocumentWithoutValidation(this);
     }
 
     /**
@@ -281,7 +285,7 @@ public class CreditMemoDocument extends AccountsPayableDocumentBase {
     public String getPurApSourceDocumentLabelIfPossible() {
         PurchasingAccountsPayableDocument document = getPurApSourceDocumentIfPossible();
         if (ObjectUtils.isNotNull(document)) {
-            return SpringServiceLocator.getDataDictionaryService().getDocumentLabelByClass(document.getClass());
+            return SpringContext.getBean(DataDictionaryService.class).getDocumentLabelByClass(document.getClass());
         }
         return null;
     }
@@ -444,7 +448,7 @@ public class CreditMemoDocument extends AccountsPayableDocumentBase {
 
     public PaymentRequestDocument getPaymentRequestDocument() {
         if ( (ObjectUtils.isNull(paymentRequestDocument)) && (ObjectUtils.isNotNull(getPaymentRequestIdentifier())) ) {
-            setPaymentRequestDocument(SpringServiceLocator.getPaymentRequestService().getPaymentRequestById(getPaymentRequestIdentifier()));
+            setPaymentRequestDocument(SpringContext.getBean(PaymentRequestService.class).getPaymentRequestById(getPaymentRequestIdentifier()));
         }
         return this.paymentRequestDocument;
     }

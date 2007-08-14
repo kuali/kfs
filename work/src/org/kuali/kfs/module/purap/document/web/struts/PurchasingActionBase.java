@@ -27,10 +27,12 @@ import org.apache.struts.action.ActionMapping;
 import org.kuali.RicePropertyConstants;
 import org.kuali.core.question.ConfirmationQuestion;
 import org.kuali.core.service.BusinessObjectService;
+import org.kuali.core.service.KualiConfigurationService;
+import org.kuali.core.service.KualiRuleService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.PurapKeyConstants;
 import org.kuali.module.purap.PurapPropertyConstants;
@@ -46,6 +48,7 @@ import org.kuali.module.vendor.bo.VendorAddress;
 import org.kuali.module.vendor.bo.VendorContract;
 import org.kuali.module.vendor.bo.VendorDetail;
 import org.kuali.module.vendor.service.PhoneNumberService;
+import org.kuali.module.vendor.service.VendorService;
 
 /**
  * This class handles specific Actions requests for the Purchasing Ap.
@@ -57,8 +60,8 @@ public class PurchasingActionBase extends PurchasingAccountsPayableActionBase {
         PurchasingFormBase baseForm = (PurchasingFormBase) form;
         PurchasingDocument document = (PurchasingDocument) baseForm.getDocument();
         String refreshCaller = baseForm.getRefreshCaller();
-        BusinessObjectService businessObjectService = SpringServiceLocator.getBusinessObjectService();
-        PhoneNumberService phoneNumberService = SpringServiceLocator.getPhoneNumberService();
+        BusinessObjectService businessObjectService = SpringContext.getBean(BusinessObjectService.class);
+        PhoneNumberService phoneNumberService = SpringContext.getBean(PhoneNumberService.class);
 
         // Format phone numbers
         document.setInstitutionContactPhoneNumber(phoneNumberService.formatNumberIfPossible(document.getInstitutionContactPhoneNumber()));
@@ -108,7 +111,7 @@ public class PurchasingActionBase extends PurchasingAccountsPayableActionBase {
     }
 
     private void populateDefaultAddress(VendorDetail refreshVendorDetail, PurchasingDocument document) {
-        VendorAddress defaultAddress = SpringServiceLocator.getVendorService().getVendorDefaultAddress(refreshVendorDetail.getVendorAddresses(), refreshVendorDetail.getVendorHeader().getVendorType().getAddressType().getVendorAddressTypeCode(), "");
+        VendorAddress defaultAddress = SpringContext.getBean(VendorService.class).getVendorDefaultAddress(refreshVendorDetail.getVendorAddresses(), refreshVendorDetail.getVendorHeader().getVendorType().getAddressType().getVendorAddressTypeCode(), "");
         if (defaultAddress != null && defaultAddress.getVendorState() != null) {
             refreshVendorDetail.setVendorStateForLookup(defaultAddress.getVendorState().getPostalStateName());
             refreshVendorDetail.setDefaultAddressLine1(defaultAddress.getVendorLine1Address());
@@ -172,7 +175,7 @@ public class PurchasingActionBase extends PurchasingAccountsPayableActionBase {
         // TODO: should call add line event/rules here
         PurchasingApItem item = purchasingForm.getAndResetNewPurchasingItemLine();
         PurchasingDocument purDocument = (PurchasingDocument) purchasingForm.getDocument();
-        boolean rulePassed = SpringServiceLocator.getKualiRuleService().applyRules(new AddPurchasingAccountsPayableItemEvent("item", purDocument, item));
+        boolean rulePassed = SpringContext.getBean(KualiRuleService.class).applyRules(new AddPurchasingAccountsPayableItemEvent("item", purDocument, item));
         // AddAccountingLineEvent(KFSConstants.NEW_TARGET_ACCT_LINES_PROPERTY_NAME + "[" + Integer.toString(itemIndex) + "]",
         // purchasingForm.getDocument(), (AccountingLine) line)
         if (rulePassed) {
@@ -252,7 +255,7 @@ public class PurchasingActionBase extends PurchasingAccountsPayableActionBase {
         Object buttonClicked = request.getParameter(KFSConstants.QUESTION_CLICKED_BUTTON);
 
         if (question == null) {
-            String questionText = SpringServiceLocator.getKualiConfigurationService().getPropertyString(PurapConstants.QUESTION_REMOVE_ACCOUNTS);
+            String questionText = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(PurapConstants.QUESTION_REMOVE_ACCOUNTS);
             return this.performQuestionWithoutInput(mapping, form, request, response, PurapConstants.REMOVE_ACCOUNTS_QUESTION, questionText, KFSConstants.CONFIRMATION_QUESTION, KFSConstants.ROUTE_METHOD, "0");
         }
         else if (ConfirmationQuestion.YES.equals(buttonClicked)) {

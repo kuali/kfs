@@ -23,16 +23,15 @@ import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.util.KualiInteger;
-import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.kra.KraConstants;
 import org.kuali.module.kra.budget.bo.BudgetAbstractCostShare;
 import org.kuali.module.kra.budget.bo.BudgetAbstractPeriodCostShare;
+import org.kuali.module.kra.budget.bo.BudgetInstitutionCostShare;
 import org.kuali.module.kra.budget.bo.BudgetNonpersonnel;
 import org.kuali.module.kra.budget.bo.BudgetPeriod;
-import org.kuali.module.kra.budget.bo.BudgetPeriodInstitutionCostShare;
 import org.kuali.module.kra.budget.bo.BudgetTaskPeriodIndirectCost;
 import org.kuali.module.kra.budget.bo.BudgetThirdPartyCostShare;
-import org.kuali.module.kra.budget.bo.BudgetInstitutionCostShare;
 import org.kuali.module.kra.budget.bo.BudgetUser;
 import org.kuali.module.kra.budget.bo.InstitutionCostSharePersonnel;
 import org.kuali.module.kra.budget.bo.UserAppointmentTask;
@@ -63,7 +62,7 @@ public class BudgetCostShareFormHelper {
     private KualiInteger totalTotal = new KualiInteger(0);
 
     public BudgetCostShareFormHelper() {
-        budgetPeriodService = SpringServiceLocator.getBudgetPeriodService();
+        budgetPeriodService = SpringContext.getBean(BudgetPeriodService.class);
     }
 
     /**

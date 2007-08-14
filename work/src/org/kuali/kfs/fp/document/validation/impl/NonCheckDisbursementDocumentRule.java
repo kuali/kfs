@@ -30,6 +30,7 @@ import static org.kuali.module.financial.rules.NonCheckDisbursementDocumentRuleC
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.datadictionary.BusinessObjectEntry;
+import org.kuali.core.service.DataDictionaryService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSKeyConstants;
@@ -37,9 +38,9 @@ import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.bo.AccountingLine;
 import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
 import org.kuali.kfs.bo.SourceAccountingLine;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.document.AccountingDocument;
 import org.kuali.kfs.rules.AccountingDocumentRuleBase;
-import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.chart.bo.ObjectCode;
 
 /**
@@ -267,7 +268,7 @@ public class NonCheckDisbursementDocumentRule extends AccountingDocumentRuleBase
     private boolean isRequiredReferenceFieldsValid(AccountingLine accountingLine) {
         boolean valid = true;
 
-        BusinessObjectEntry boe = SpringServiceLocator.getDataDictionaryService().getDataDictionary().getBusinessObjectEntry(SourceAccountingLine.class.getName());
+        BusinessObjectEntry boe = SpringContext.getBean(DataDictionaryService.class).getDataDictionary().getBusinessObjectEntry(SourceAccountingLine.class.getName());
         if (StringUtils.isEmpty(accountingLine.getReferenceNumber())) {
             putRequiredPropertyError(boe, REFERENCE_NUMBER);
             valid = false;

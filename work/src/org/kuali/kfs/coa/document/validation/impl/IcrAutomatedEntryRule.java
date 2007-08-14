@@ -21,11 +21,12 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase;
+import org.kuali.core.service.DataDictionaryService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiPercent;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSKeyConstants;
-import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.Chart;
 import org.kuali.module.chart.bo.IcrAutomatedEntry;
@@ -97,7 +98,7 @@ public class IcrAutomatedEntryRule extends MaintenanceDocumentRuleBase {
                     Map pkMap = new HashMap();
                     pkMap.put(KFSConstants.CHART_OF_ACCOUNTS_CODE_PROPERTY_NAME, chartOfAccountsCode);
                     success &= checkExistenceFromTable(Chart.class, pkMap, KFSConstants.CHART_OF_ACCOUNTS_CODE_PROPERTY_NAME,
-                            SpringServiceLocator.getDataDictionaryService().getAttributeLabel(icrClazz, KFSConstants.CHART_OF_ACCOUNTS_CODE_PROPERTY_NAME));
+                            SpringContext.getBean(DataDictionaryService.class).getAttributeLabel(icrClazz, KFSConstants.CHART_OF_ACCOUNTS_CODE_PROPERTY_NAME));
                 }
             }
     
@@ -113,7 +114,7 @@ public class IcrAutomatedEntryRule extends MaintenanceDocumentRuleBase {
                     pkMap.put(KFSConstants.ACCOUNT_NUMBER_PROPERTY_NAME, accountNumber);
                     pkMap.put(KFSConstants.CHART_OF_ACCOUNTS_CODE_PROPERTY_NAME, chartOfAccountsCode);
                     success &= checkExistenceFromTable(Account.class, pkMap, KFSConstants.ACCOUNT_NUMBER_PROPERTY_NAME,
-                            SpringServiceLocator.getDataDictionaryService().getAttributeLabel(icrClazz, KFSConstants.ACCOUNT_NUMBER_PROPERTY_NAME));
+                            SpringContext.getBean(DataDictionaryService.class).getAttributeLabel(icrClazz, KFSConstants.ACCOUNT_NUMBER_PROPERTY_NAME));
                 }
             }
     
@@ -132,7 +133,7 @@ public class IcrAutomatedEntryRule extends MaintenanceDocumentRuleBase {
                     pkMap.put(KFSConstants.ACCOUNT_NUMBER_PROPERTY_NAME, accountNumber);
                     pkMap.put(KFSConstants.SUB_ACCOUNT_NUMBER_PROPERTY_NAME, subAccountNumber);
                     success &= checkExistenceFromTable(SubAccount.class, pkMap, KFSConstants.SUB_ACCOUNT_NUMBER_PROPERTY_NAME,
-                            SpringServiceLocator.getDataDictionaryService().getAttributeLabel(icrClazz, KFSConstants.SUB_ACCOUNT_NUMBER_PROPERTY_NAME));
+                            SpringContext.getBean(DataDictionaryService.class).getAttributeLabel(icrClazz, KFSConstants.SUB_ACCOUNT_NUMBER_PROPERTY_NAME));
                 }
             }
     
@@ -148,7 +149,7 @@ public class IcrAutomatedEntryRule extends MaintenanceDocumentRuleBase {
                     pkMap.put(KFSConstants.CHART_OF_ACCOUNTS_CODE_PROPERTY_NAME, chartOfAccountsCode);
                     pkMap.put(KFSConstants.FINANCIAL_OBJECT_CODE_PROPERTY_NAME, financialObjectCode);
                     success &= checkExistenceFromTable(ObjectCode.class, pkMap, KFSConstants.FINANCIAL_OBJECT_CODE_PROPERTY_NAME,
-                            SpringServiceLocator.getDataDictionaryService().getAttributeLabel(icrClazz, KFSConstants.FINANCIAL_OBJECT_CODE_PROPERTY_NAME));
+                            SpringContext.getBean(DataDictionaryService.class).getAttributeLabel(icrClazz, KFSConstants.FINANCIAL_OBJECT_CODE_PROPERTY_NAME));
                 }
             }
     
@@ -167,7 +168,7 @@ public class IcrAutomatedEntryRule extends MaintenanceDocumentRuleBase {
                     pkMap.put(KFSConstants.FINANCIAL_OBJECT_CODE_PROPERTY_NAME, financialObjectCode);
                     pkMap.put(KFSConstants.FINANCIAL_SUB_OBJECT_CODE_PROPERTY_NAME, financialSubObjectCode);
                     success = checkExistenceFromTable(SubObjCd.class, pkMap, KFSConstants.FINANCIAL_SUB_OBJECT_CODE_PROPERTY_NAME,
-                            SpringServiceLocator.getDataDictionaryService().getAttributeLabel(icrClazz, KFSConstants.FINANCIAL_SUB_OBJECT_CODE_PROPERTY_NAME));
+                            SpringContext.getBean(DataDictionaryService.class).getAttributeLabel(icrClazz, KFSConstants.FINANCIAL_SUB_OBJECT_CODE_PROPERTY_NAME));
                 }
             }
         }
@@ -302,7 +303,7 @@ public class IcrAutomatedEntryRule extends MaintenanceDocumentRuleBase {
             }
         }
         putFieldError(fieldName, KFSKeyConstants.IndirectCostRecovery.ERROR_DOCUMENT_ICR_INVALID_WILDCARD,
-                new String[] {SpringServiceLocator.getDataDictionaryService().getAttributeLabel(instance.getClass(), fieldName), sb.toString()});
+                new String[] {SpringContext.getBean(DataDictionaryService.class).getAttributeLabel(instance.getClass(), fieldName), sb.toString()});
     }
     
     /**
@@ -324,9 +325,9 @@ public class IcrAutomatedEntryRule extends MaintenanceDocumentRuleBase {
             boolean success = chartOfAccountsCode.equals(accountNumber) && 
                 (chartOfAccountsCode.equals(subAccountNumber) || StringUtils.containsOnly(subAccountNumber, "-"));
             if (!success) {
-                String chartDesc = SpringServiceLocator.getDataDictionaryService().getAttributeLabel(icrAutomatedEntry.getClass(), KFSConstants.CHART_OF_ACCOUNTS_CODE_PROPERTY_NAME);
-                String accountDesc = SpringServiceLocator.getDataDictionaryService().getAttributeLabel(icrAutomatedEntry.getClass(), KFSConstants.ACCOUNT_NUMBER_PROPERTY_NAME);
-                String subAccountDesc = SpringServiceLocator.getDataDictionaryService().getAttributeLabel(icrAutomatedEntry.getClass(), KFSConstants.SUB_ACCOUNT_NUMBER_PROPERTY_NAME);
+                String chartDesc = SpringContext.getBean(DataDictionaryService.class).getAttributeLabel(icrAutomatedEntry.getClass(), KFSConstants.CHART_OF_ACCOUNTS_CODE_PROPERTY_NAME);
+                String accountDesc = SpringContext.getBean(DataDictionaryService.class).getAttributeLabel(icrAutomatedEntry.getClass(), KFSConstants.ACCOUNT_NUMBER_PROPERTY_NAME);
+                String subAccountDesc = SpringContext.getBean(DataDictionaryService.class).getAttributeLabel(icrAutomatedEntry.getClass(), KFSConstants.SUB_ACCOUNT_NUMBER_PROPERTY_NAME);
                 
                 String groupDesc = chartDesc + ", " + accountDesc + ", and " + subAccountDesc;
                 GlobalVariables.getErrorMap().putErrorWithoutFullErrorPath(KFSConstants.MAINTENANCE_NEW_MAINTAINABLE + KFSConstants.CHART_OF_ACCOUNTS_CODE_PROPERTY_NAME, 
@@ -356,9 +357,9 @@ public class IcrAutomatedEntryRule extends MaintenanceDocumentRuleBase {
             boolean success = chartOfAccountsCode.equals(financialObjectCode) && 
                     (chartOfAccountsCode.equals(financialSubObjectCode) || StringUtils.containsOnly(financialSubObjectCode, "-"));
             if (!success) {
-                String chartDesc = SpringServiceLocator.getDataDictionaryService().getAttributeLabel(icrAutomatedEntry.getClass(), KFSConstants.CHART_OF_ACCOUNTS_CODE_PROPERTY_NAME);
-                String objectDesc = SpringServiceLocator.getDataDictionaryService().getAttributeLabel(icrAutomatedEntry.getClass(), KFSConstants.FINANCIAL_OBJECT_CODE_PROPERTY_NAME);
-                String subObjectDesc = SpringServiceLocator.getDataDictionaryService().getAttributeLabel(icrAutomatedEntry.getClass(), KFSConstants.FINANCIAL_SUB_OBJECT_CODE_PROPERTY_NAME);
+                String chartDesc = SpringContext.getBean(DataDictionaryService.class).getAttributeLabel(icrAutomatedEntry.getClass(), KFSConstants.CHART_OF_ACCOUNTS_CODE_PROPERTY_NAME);
+                String objectDesc = SpringContext.getBean(DataDictionaryService.class).getAttributeLabel(icrAutomatedEntry.getClass(), KFSConstants.FINANCIAL_OBJECT_CODE_PROPERTY_NAME);
+                String subObjectDesc = SpringContext.getBean(DataDictionaryService.class).getAttributeLabel(icrAutomatedEntry.getClass(), KFSConstants.FINANCIAL_SUB_OBJECT_CODE_PROPERTY_NAME);
                 
                 String groupDesc = chartDesc + ", " + objectDesc + ", and " + subObjectDesc;
                 GlobalVariables.getErrorMap().putErrorWithoutFullErrorPath(KFSConstants.MAINTENANCE_NEW_MAINTAINABLE + KFSConstants.CHART_OF_ACCOUNTS_CODE_PROPERTY_NAME, 

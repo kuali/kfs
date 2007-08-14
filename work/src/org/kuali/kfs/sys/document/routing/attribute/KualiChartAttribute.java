@@ -31,9 +31,9 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.core.lookup.LookupUtils;
 import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.chart.bo.Chart;
-import org.kuali.module.chart.bo.OrganizationReversionGlobalOrganization;
+import org.kuali.module.chart.service.ChartService;
 import org.kuali.workflow.KualiWorkflowUtils;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
@@ -174,7 +174,7 @@ public class KualiChartAttribute implements RoleAttribute, WorkflowAttribute {
      * @return Chart
      */
     private Chart getChart(String finCoaCd) {
-        return SpringServiceLocator.getChartService().getByPrimaryId(finCoaCd);
+        return SpringContext.getBean(ChartService.class).getByPrimaryId(finCoaCd);
     }
 
     /**
@@ -335,7 +335,7 @@ public class KualiChartAttribute implements RoleAttribute, WorkflowAttribute {
             members.add(new AuthenticationUserId(getChart(getUnqualifiedChartFromString(qualifiedRole)).getFinCoaManagerUniversal().getPersonUserIdentifier()));
         }
         else if (UNIVERSITY_CHART_MANAGER_ROLE_KEY.equals(roleName)) {
-            members.add(new AuthenticationUserId(SpringServiceLocator.getChartService().getUniversityChart().getFinCoaManagerUniversal().getPersonUserIdentifier()));
+            members.add(new AuthenticationUserId(SpringContext.getBean(ChartService.class).getUniversityChart().getFinCoaManagerUniversal().getPersonUserIdentifier()));
         }
         return new ResolvedQualifiedRole(roleName, members);
     }

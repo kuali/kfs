@@ -30,6 +30,7 @@ import org.kuali.core.document.AmountTotaling;
 import org.kuali.core.document.Document;
 import org.kuali.core.document.authorization.DocumentAuthorizer;
 import org.kuali.core.question.ConfirmationQuestion;
+import org.kuali.core.service.DocumentAuthorizationService;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
@@ -39,8 +40,9 @@ import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSKeyConstants;
 import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.bo.SourceAccountingLine;
-import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.chart.bo.codes.BalanceTyp;
+import org.kuali.module.chart.service.BalanceTypService;
 import org.kuali.module.financial.bo.VoucherAccountingLineHelper;
 import org.kuali.module.financial.bo.VoucherAccountingLineHelperBase;
 import org.kuali.module.financial.bo.VoucherSourceAccountingLine;
@@ -93,7 +95,7 @@ public class JournalVoucherAction extends VoucherAction {
             // must call this here, because execute in the super method will never have control for this particular action
             // this is called in the parent by super.execute()
             Document document = journalVoucherForm.getDocument();
-            DocumentAuthorizer documentAuthorizer = SpringServiceLocator.getDocumentAuthorizationService().getDocumentAuthorizer(document);
+            DocumentAuthorizer documentAuthorizer = SpringContext.getBean(DocumentAuthorizationService.class).getDocumentAuthorizer(document);
             journalVoucherForm.populateAuthorizationFields(documentAuthorizer);
         }
         else { // otherwise call the super
@@ -278,7 +280,7 @@ public class JournalVoucherAction extends VoucherAction {
         // accouting lines, because that is the only impact
         if (jvDoc.getSourceAccountingLines().size() != 0) {
             String question = request.getParameter(KFSConstants.QUESTION_INST_ATTRIBUTE_NAME);
-            KualiConfigurationService kualiConfiguration = SpringServiceLocator.getKualiConfigurationService();
+            KualiConfigurationService kualiConfiguration = SpringContext.getBean(KualiConfigurationService.class);
 
             if (question == null) { // question hasn't been asked
                 String message = buildBalanceTypeChangeConfirmationMessage(jvForm, kualiConfiguration);
@@ -368,7 +370,7 @@ public class JournalVoucherAction extends VoucherAction {
      */
     private BalanceTyp getPopulatedBalanceTypeInstance(String balanceTypeCode) {
         // now we have to get the code and the name of the original and new balance types
-        return SpringServiceLocator.getBalanceTypService().getBalanceTypByCode(balanceTypeCode);
+        return SpringContext.getBean(BalanceTypService.class).getBalanceTypByCode(balanceTypeCode);
     }
 
     /**
@@ -505,7 +507,7 @@ public class JournalVoucherAction extends VoucherAction {
         JournalVoucherDocument jvDoc = jvForm.getJournalVoucherDocument();
 
         String question = request.getParameter(KFSConstants.QUESTION_INST_ATTRIBUTE_NAME);
-        KualiConfigurationService kualiConfiguration = SpringServiceLocator.getKualiConfigurationService();
+        KualiConfigurationService kualiConfiguration = SpringContext.getBean(KualiConfigurationService.class);
 
         if (question == null) { // question hasn't been asked
             String currencyFormattedDebitTotal = (String) new CurrencyFormatter().format(jvDoc.getDebitTotal());

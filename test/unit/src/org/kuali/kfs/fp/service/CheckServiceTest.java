@@ -22,14 +22,16 @@ import static org.kuali.test.fixtures.UserNameFixture.MHKOZLOW;
 import java.util.Iterator;
 import java.util.List;
 
+import org.kuali.core.service.DateTimeService;
+import org.kuali.core.service.DocumentService;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.context.KualiTestBase;
-import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.financial.bo.Check;
 import org.kuali.module.financial.bo.CheckBase;
 import org.kuali.module.financial.document.CashReceiptDocument;
-import org.kuali.test.DocumentTestUtils;
 import org.kuali.test.ConfigureContext;
+import org.kuali.test.DocumentTestUtils;
 /**
  * This class tests the Check service.
  * 
@@ -50,7 +52,7 @@ public class CheckServiceTest extends KualiTestBase {
         check = new CheckBase();
         check.setDocumentNumber(documentNumber);
         check.setAmount(new KualiDecimal("314.15"));
-        check.setCheckDate(SpringServiceLocator.getDateTimeService().getCurrentSqlDate());
+        check.setCheckDate(SpringContext.getBean(DateTimeService.class, "dateTimeService").getCurrentSqlDate());
         check.setCheckNumber("2112");
         check.setDescription("test check");
         check.setFinancialDocumentDepositLineNumber(new Integer(2001));
@@ -103,9 +105,9 @@ public class CheckServiceTest extends KualiTestBase {
         }
     }
     private String createDocument() throws Exception{
-        CashReceiptDocument document = DocumentTestUtils.createDocument(SpringServiceLocator.getDocumentService(), CashReceiptDocument.class);
+        CashReceiptDocument document = DocumentTestUtils.createDocument(SpringContext.getBean(DocumentService.class), CashReceiptDocument.class);
         LINE18.addAsSourceTo(document);
-        SpringServiceLocator.getDocumentService().saveDocument(document);
+        SpringContext.getBean(DocumentService.class).saveDocument(document);
         return document.getDocumentNumber();
     }
 }

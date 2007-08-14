@@ -67,7 +67,7 @@ public class BalanceServiceTest extends KualiTestBase {
     protected void setUp() throws Exception {
         super.setUp();
         unitTestSqlDao = SpringContext.getBean(UnitTestSqlDao.class);
-        Integer fiscalYear = SpringServiceLocator.getUniversityDateService().getCurrentFiscalYear();
+        Integer fiscalYear = SpringContext.getBean(UniversityDateService.class).getCurrentFiscalYear();
 
         if (runOnce) {
             DELETE_BALANCES += "UNIV_FISCAL_YR=" + fiscalYear + " AND ACCOUNT_NBR='" + ACCOUNT_NUMBER + "'";

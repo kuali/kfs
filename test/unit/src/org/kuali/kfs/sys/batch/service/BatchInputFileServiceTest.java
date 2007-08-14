@@ -25,10 +25,13 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.math.RandomUtils;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.exceptions.AuthorizationException;
+import org.kuali.core.service.UniversalUserService;
 import org.kuali.kfs.batch.BatchInputFileType;
 import org.kuali.kfs.context.KualiTestBase;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.exceptions.FileStorageException;
-import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.module.financial.batch.pcard.ProcurementCardInputFileType;
+import org.kuali.module.gl.batch.collector.CollectorInputFileType;
 import org.kuali.test.ConfigureContext;
 import org.kuali.test.KualiTestConstants.TestConstants.Data4;
 
@@ -76,16 +79,16 @@ public class BatchInputFileServiceTest extends KualiTestBase {
     protected void setUp() throws Exception {
         super.setUp();
 
-        batchInputFileService = SpringServiceLocator.getBatchInputFileService();
-        pcdoBatchInputFileType = SpringServiceLocator.getProcurementCardInputFileType();
-        collectorBatchInputFileType = SpringServiceLocator.getCollectorInputFileType();
+        batchInputFileService = SpringContext.getBean(BatchInputFileService.class);
+        pcdoBatchInputFileType = SpringContext.getBean(ProcurementCardInputFileType.class);
+        collectorBatchInputFileType = SpringContext.getBean(CollectorInputFileType.class);
 
         testFileIdentifier = "junit" + RandomUtils.nextInt();
         validPCDOFileContents = ClassLoader.getSystemResourceAsStream(TEST_BATCH_XML_DIRECTORY + "BatchInputValidPCDO.xml");
         validCollectorFileContents = ClassLoader.getSystemResourceAsStream(TEST_BATCH_XML_DIRECTORY + "BatchInputValidCollector.xml");
 
-        validWorkgroupUser = SpringServiceLocator.getUniversalUserService().getUniversalUserByAuthenticationUserId(Data4.USER_ID2);
-        invalidWorkgroupUser = SpringServiceLocator.getUniversalUserService().getUniversalUserByAuthenticationUserId(Data4.USER_ID1);
+        validWorkgroupUser = SpringContext.getBean(UniversalUserService.class, "universalUserService").getUniversalUserByAuthenticationUserId(Data4.USER_ID2);
+        invalidWorkgroupUser = SpringContext.getBean(UniversalUserService.class, "universalUserService").getUniversalUserByAuthenticationUserId(Data4.USER_ID1);
 
         createdTestFiles = new ArrayList();
     }

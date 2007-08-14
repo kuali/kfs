@@ -21,8 +21,9 @@ import java.util.LinkedHashMap;
 
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.document.TransactionalDocumentBase;
+import org.kuali.core.service.UniversalUserService;
 import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.kfs.context.SpringContext;
 
 /**
  * Instances of this class are used to signal to the CloseBatchStep that a close
@@ -158,7 +159,7 @@ public class Close extends TransactionalDocumentBase {
      * @return the {@link UniversalUser} for the personUser
      */
     public UniversalUser getPersonUser() {
-        personUser = SpringServiceLocator.getUniversalUserService().updateUniversalUserIfNecessary(personUserIdentifier, personUser);
+        personUser = SpringContext.getBean(UniversalUserService.class, "universalUserService").updateUniversalUserIfNecessary(personUserIdentifier, personUser);
         return personUser;
     }
 

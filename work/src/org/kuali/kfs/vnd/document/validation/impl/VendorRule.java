@@ -38,7 +38,10 @@ import org.kuali.core.exceptions.UnknownDocumentIdException;
 import org.kuali.core.maintenance.Maintainable;
 import org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase;
 import org.kuali.core.rule.KualiParameterRule;
+import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DocumentService;
+import org.kuali.core.service.KualiConfigurationService;
+import org.kuali.core.service.PersistenceService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
@@ -47,7 +50,7 @@ import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSKeyConstants;
 import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.bo.Country;
-import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.chart.bo.Chart;
 import org.kuali.module.chart.bo.Org;
 import org.kuali.module.vendor.VendorConstants;
@@ -63,6 +66,8 @@ import org.kuali.module.vendor.bo.VendorContractOrganization;
 import org.kuali.module.vendor.bo.VendorCustomerNumber;
 import org.kuali.module.vendor.bo.VendorDefaultAddress;
 import org.kuali.module.vendor.bo.VendorDetail;
+import org.kuali.module.vendor.service.PhoneNumberService;
+import org.kuali.module.vendor.service.TaxNumberService;
 
 import edu.iu.uis.eden.exception.WorkflowException;
 
@@ -160,7 +165,7 @@ public class VendorRule extends MaintenanceDocumentRuleBase implements VendorRul
 
         if (isApprover) {
             try {
-                DocumentService docService = SpringServiceLocator.getDocumentService();
+                DocumentService docService = SpringContext.getBean(DocumentService.class);
                 savedDoc = (MaintenanceDocument) docService.getByDocumentHeaderId(document.getDocumentNumber());
             }
             catch (WorkflowException e) {
@@ -264,7 +269,7 @@ public class VendorRule extends MaintenanceDocumentRuleBase implements VendorRul
         else {
             // Retrieve the references objects of the vendor header of this vendor.
             List<String> headerFieldNames = getObjectReferencesListFromBOClass(vendor.getVendorHeader().getClass());
-            SpringServiceLocator.getPersistenceService().retrieveReferenceObjects(vendor.getVendorHeader(), headerFieldNames);
+            SpringContext.getBean(PersistenceService.class).retrieveReferenceObjects(vendor.getVendorHeader(), headerFieldNames);
 
             // We still need to retrieve all the other references of this vendor in addition to
             // vendor header. Since this is a parent vendor, whose vendor header saving is handled manually,
@@ -272,7 +277,7 @@ public class VendorRule extends MaintenanceDocumentRuleBase implements VendorRul
             // exclude retrieving reference objects of vendor header.
             List<String> detailFieldNames = getObjectReferencesListFromBOClass(vendor.getClass());
             detailFieldNames.remove(VendorConstants.VENDOR_HEADER_ATTR);
-            SpringServiceLocator.getPersistenceService().retrieveReferenceObjects(vendor, detailFieldNames);
+            SpringContext.getBean(PersistenceService.class).retrieveReferenceObjects(vendor, detailFieldNames);
         }
 
         // refresh addresses
@@ -558,13 +563,13 @@ public class VendorRule extends MaintenanceDocumentRuleBase implements VendorRul
         String taxTypeCode = vendorDetail.getVendorHeader().getVendorTaxTypeCode();
         if (StringUtils.isNotEmpty(ownershipTypeCode) && StringUtils.isNotEmpty(taxTypeCode)) {
             if (VendorConstants.TAX_TYPE_FEIN.equals(taxTypeCode)) {
-                KualiParameterRule feinRule = SpringServiceLocator.getKualiConfigurationService().getApplicationParameterRule(PURAP_ADMIN_GROUP, PURAP_FEIN_ALLOWED_OWNERSHIP_TYPES);
+                KualiParameterRule feinRule = SpringContext.getBean(KualiConfigurationService.class).getApplicationParameterRule(PURAP_ADMIN_GROUP, PURAP_FEIN_ALLOWED_OWNERSHIP_TYPES);
                 if (feinRule.failsRule(ownershipTypeCode)) {
                     valid &= false;
                 }
             }
             else if (VendorConstants.TAX_TYPE_SSN.equals(taxTypeCode)) {
-                KualiParameterRule ssnRule = SpringServiceLocator.getKualiConfigurationService().getApplicationParameterRule(PURAP_ADMIN_GROUP, PURAP_SSN_ALLOWED_OWNERSHIP_TYPES);
+                KualiParameterRule ssnRule = SpringContext.getBean(KualiConfigurationService.class).getApplicationParameterRule(PURAP_ADMIN_GROUP, PURAP_SSN_ALLOWED_OWNERSHIP_TYPES);
                 if (ssnRule.failsRule(ownershipTypeCode)) {
                     valid &= false;
                 }
@@ -647,11 +652,11 @@ public class VendorRule extends MaintenanceDocumentRuleBase implements VendorRul
         String taxNumber = vendorDetail.getVendorHeader().getVendorTaxNumber();
         String taxType = vendorDetail.getVendorHeader().getVendorTaxTypeCode();
         if (!StringUtils.isEmpty(taxType) && !StringUtils.isEmpty(taxNumber)) {
-            valid = SpringServiceLocator.getTaxNumberService().isValidTaxNumber(taxNumber, taxType);
+            valid = SpringContext.getBean(TaxNumberService.class).isValidTaxNumber(taxNumber, taxType);
             if (!valid && isParent) {
                 putFieldError(VendorPropertyConstants.VENDOR_TAX_NUMBER, VendorKeyConstants.ERROR_TAX_NUMBER_INVALID);
             }
-            valid = SpringServiceLocator.getTaxNumberService().isAllowedTaxNumber(taxNumber);
+            valid = SpringContext.getBean(TaxNumberService.class).isAllowedTaxNumber(taxNumber);
             if (!valid && isParent) {
                 putFieldError(VendorPropertyConstants.VENDOR_TAX_NUMBER, VendorKeyConstants.ERROR_TAX_NUMBER_NOT_ALLOWED);
             }
@@ -707,7 +712,7 @@ public class VendorRule extends MaintenanceDocumentRuleBase implements VendorRul
         Map fieldValues = new HashMap();
         fieldValues.put(VendorPropertyConstants.VENDOR_HEADER_GENERATED_ID, newVendor.getVendorHeaderGeneratedIdentifier());
         // Find all the addresses for this vendor and its divisions:
-        List<VendorAddress> vendorDivisionAddresses = new ArrayList(SpringServiceLocator.getBusinessObjectService().findMatchingOrderBy(VendorAddress.class, fieldValues, VendorPropertyConstants.VENDOR_DETAIL_ASSIGNED_ID, true));
+        List<VendorAddress> vendorDivisionAddresses = new ArrayList(SpringContext.getBean(BusinessObjectService.class).findMatchingOrderBy(VendorAddress.class, fieldValues, VendorPropertyConstants.VENDOR_DETAIL_ASSIGNED_ID, true));
         
         // This set stores the vendorDetailedAssignedIds for the vendor divisions which is
         // bascically the division numbers 0, 1, 2, ...
@@ -949,7 +954,7 @@ public class VendorRule extends MaintenanceDocumentRuleBase implements VendorRul
     boolean checkFaxNumber(VendorAddress address) {
         boolean valid = true;
         String faxNumber = address.getVendorFaxNumber();
-        if (StringUtils.isNotEmpty(faxNumber) && !SpringServiceLocator.getPhoneNumberService().isValidPhoneNumber(faxNumber)) {
+        if (StringUtils.isNotEmpty(faxNumber) && !SpringContext.getBean(PhoneNumberService.class).isValidPhoneNumber(faxNumber)) {
             GlobalVariables.getErrorMap().putError(VendorPropertyConstants.VENDOR_FAX_NUMBER, VendorKeyConstants.ERROR_FAX_NUMBER);
             valid &= false;
         }
@@ -982,12 +987,12 @@ public class VendorRule extends MaintenanceDocumentRuleBase implements VendorRul
         if (!StringUtils.isBlank(chartOfAccountsCode) && !StringUtils.isBlank(orgCode)) {
             Map chartOrgMap = new HashMap();
             chartOrgMap.put("chartOfAccountsCode", chartOfAccountsCode);
-            if (SpringServiceLocator.getBusinessObjectService().countMatching(Chart.class, chartOrgMap) < 1) {
+            if (SpringContext.getBean(BusinessObjectService.class).countMatching(Chart.class, chartOrgMap) < 1) {
                 GlobalVariables.getErrorMap().putError(VendorPropertyConstants.VENDOR_CUSTOMER_NUMBER_CHART_OF_ACCOUNTS_CODE, KFSKeyConstants.ERROR_EXISTENCE, chartOfAccountsCode);
                 valid &= false;
             }
             chartOrgMap.put("organizationCode", orgCode);
-            if (SpringServiceLocator.getBusinessObjectService().countMatching(Org.class, chartOrgMap) < 1) {
+            if (SpringContext.getBean(BusinessObjectService.class).countMatching(Org.class, chartOrgMap) < 1) {
                 GlobalVariables.getErrorMap().putError(VendorPropertyConstants.VENDOR_CUSTOMER_NUMBER_ORGANIZATION_CODE, KFSKeyConstants.ERROR_EXISTENCE, orgCode);
                 valid &= false;
             }
@@ -1122,12 +1127,12 @@ public class VendorRule extends MaintenanceDocumentRuleBase implements VendorRul
         if (!StringUtils.isBlank(chartOfAccountsCode) && !StringUtils.isBlank(orgCode)) {
             Map chartOrgMap = new HashMap();
             chartOrgMap.put("chartOfAccountsCode", chartOfAccountsCode);
-            if (SpringServiceLocator.getBusinessObjectService().countMatching(Chart.class, chartOrgMap) < 1) {
+            if (SpringContext.getBean(BusinessObjectService.class).countMatching(Chart.class, chartOrgMap) < 1) {
                 GlobalVariables.getErrorMap().putError(VendorPropertyConstants.VENDOR_CONTRACT_CHART_OF_ACCOUNTS_CODE, KFSKeyConstants.ERROR_EXISTENCE, chartOfAccountsCode);
                 valid &= false;
             }
             chartOrgMap.put("organizationCode", orgCode);
-            if (SpringServiceLocator.getBusinessObjectService().countMatching(Org.class, chartOrgMap) < 1) {
+            if (SpringContext.getBean(BusinessObjectService.class).countMatching(Org.class, chartOrgMap) < 1) {
                 GlobalVariables.getErrorMap().putError(VendorPropertyConstants.VENDOR_CONTRACT_ORGANIZATION_CODE, KFSKeyConstants.ERROR_EXISTENCE, orgCode);
                 valid &= false;
             }

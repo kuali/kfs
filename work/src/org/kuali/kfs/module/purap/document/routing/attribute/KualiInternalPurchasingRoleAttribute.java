@@ -20,12 +20,16 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
+import org.kuali.core.service.DocumentService;
+import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
-import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.kfs.context.SpringContext;
+import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.PurapParameterConstants;
 import org.kuali.module.purap.PurapWorkflowConstants;
 import org.kuali.module.purap.document.PurchasingDocumentBase;
+import org.kuali.module.purap.service.PurchaseOrderService;
 import org.kuali.workflow.KualiWorkflowUtils;
 
 import edu.iu.uis.eden.Id;
@@ -80,9 +84,9 @@ public class KualiInternalPurchasingRoleAttribute extends UnqualifiedRoleAttribu
         String documentNumber = docContent.getRouteContext().getDocument().getRouteHeaderId().toString();
         try {
             // get the document id number from the routeContext doc content
-            PurchasingDocumentBase document = (PurchasingDocumentBase)SpringServiceLocator.getDocumentService().getByDocumentHeaderId(documentNumber);
+            PurchasingDocumentBase document = (PurchasingDocumentBase)SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(documentNumber);
             document.refreshNonUpdateableReferences();
-            KualiDecimal internalPurchasingLimit = SpringServiceLocator.getPurchaseOrderService().getInternalPurchasingDollarLimit(document, document.getChartOfAccountsCode(), document.getOrganizationCode());
+            KualiDecimal internalPurchasingLimit = SpringContext.getBean(PurchaseOrderService.class).getInternalPurchasingDollarLimit(document, document.getChartOfAccountsCode(), document.getOrganizationCode());
 
             return ( (ObjectUtils.isNull(internalPurchasingLimit)) || (internalPurchasingLimit.compareTo(KualiWorkflowUtils.getFinancialDocumentTotalAmount(docContent.getDocument())) < 0) );
         }
@@ -103,7 +107,7 @@ public class KualiInternalPurchasingRoleAttribute extends UnqualifiedRoleAttribu
     @Override
     public ResolvedQualifiedRole resolveRole(RouteContext routeContext, String roleName) throws EdenUserNotFoundException {
         // assume isMatch above has done it's job
-        String workgroupName = SpringServiceLocator.getKualiConfigurationService().getApplicationParameterValue(PurapParameterConstants.PURAP_ADMIN_GROUP, PurapWorkflowConstants.PurchaseOrderDocument.INTERNAL_PURCHASING_WORKGROUP_NAME);
+        String workgroupName = SpringContext.getBean(KualiConfigurationService.class).getApplicationParameterValue(PurapParameterConstants.PURAP_ADMIN_GROUP, PurapWorkflowConstants.PurchaseOrderDocument.INTERNAL_PURCHASING_WORKGROUP_NAME);
         return new ResolvedQualifiedRole(INTERNAL_PURCHASING_ROLE_LABEL, Arrays.asList(new Id[] { new GroupNameId(workgroupName) }));
     }
 }

@@ -21,13 +21,12 @@ import static org.kuali.test.util.KualiTestAssertionUtils.assertGlobalErrorMapSi
 
 import org.kuali.core.bo.user.AuthenticationUserId;
 import org.kuali.core.bo.user.UniversalUser;
-import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.core.exceptions.UserNotFoundException;
+import org.kuali.core.service.UniversalUserService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.kfs.KFSKeyConstants;
-import org.kuali.kfs.util.SpringServiceLocator;
-import org.kuali.module.chart.bo.A21SubAccount;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.chart.bo.SubAccount;
 import org.kuali.test.ConfigureContext;
 import org.kuali.test.fixtures.SubAccountFixture;
@@ -93,7 +92,7 @@ public class SubAccountRuleTest extends ChartRuleTestBase {
     private UniversalUser createKualiUser(String userid) {
         UniversalUser user = new UniversalUser();
         try {
-            user = SpringServiceLocator.getUniversalUserService().getUniversalUser(new AuthenticationUserId(userid));
+            user = SpringContext.getBean(UniversalUserService.class, "universalUserService").getUniversalUser(new AuthenticationUserId(userid));
         }
         catch (Exception e) {
             e.printStackTrace();

@@ -19,11 +19,11 @@ package org.kuali.module.labor.web.struts.form;
 import java.util.List;
 
 import org.kuali.core.web.ui.Column;
-import org.kuali.kfs.util.SpringServiceLocator;
-import org.kuali.module.gl.document.CorrectionDocument;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.gl.web.struts.form.CorrectionForm;
 import org.kuali.module.labor.bo.LaborOriginEntry;
 import org.kuali.module.labor.document.LaborCorrectionDocument;
+import org.kuali.module.labor.service.LaborCorrectionDocumentService;
 
 public class LaborCorrectionForm extends CorrectionForm {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(LaborCorrectionForm.class);
@@ -120,6 +120,6 @@ public class LaborCorrectionForm extends CorrectionForm {
         return (LaborCorrectionDocument)getDocument();
     }
     public List<Column> getTableRenderColumnMetadata() {
-        return SpringServiceLocator.getLaborCorrectionDocumentService().getTableRenderColumnMetadata(getDocument().getDocumentNumber());
+        return SpringContext.getBean(LaborCorrectionDocumentService.class).getTableRenderColumnMetadata(getDocument().getDocumentNumber());
     }
  }

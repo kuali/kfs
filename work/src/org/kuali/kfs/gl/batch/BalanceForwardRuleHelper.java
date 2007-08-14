@@ -21,7 +21,8 @@ import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.bo.Options;
-import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.kfs.context.SpringContext;
+import org.kuali.kfs.service.OptionsService;
 import org.kuali.module.chart.bo.PriorYearAccount;
 import org.kuali.module.chart.bo.SubFundGroup;
 import org.kuali.module.chart.bo.codes.BalanceTyp;
@@ -142,8 +143,8 @@ public class BalanceForwardRuleHelper {
     public BalanceForwardRuleHelper() {
         super();
         state = new BalanceForwardProcessState();
-        flexibleOffsetAccountService = SpringServiceLocator.getFlexibleOffsetAccountService();
-        kualiConfigurationService = SpringServiceLocator.getKualiConfigurationService();
+        flexibleOffsetAccountService = SpringContext.getBean(FlexibleOffsetAccountService.class);
+        kualiConfigurationService = SpringContext.getBean(KualiConfigurationService.class);
     }
 
     /**
@@ -203,7 +204,7 @@ public class BalanceForwardRuleHelper {
             // 971 004960 (GLGLBL-FIN-OBJ-TYP-CD = 'AS' OR 'LI' OR 'FB')
             // 972 004970 MOVE 'Y' TO WS-SELECT-GENERAL-SW.
 
-            Options options = SpringServiceLocator.getOptionsService().getCurrentYearOptions();
+            Options options = SpringContext.getBean(OptionsService.class).getCurrentYearOptions();
             String[] generalSwObjectTypes = new String[3];
             generalSwObjectTypes[0] = options.getFinancialObjectTypeAssetsCd();
             generalSwObjectTypes[1] = options.getFinObjectTypeLiabilitiesCode();

@@ -77,8 +77,8 @@ public class BalanceForwardStepTest extends OriginEntryTestBase {
         step.execute(getClass().getName());
 
         // load our services.
-        OriginEntryService entryService = SpringServiceLocator.getOriginEntryService();
-        OriginEntryGroupService groupService = SpringServiceLocator.getOriginEntryGroupService();
+        OriginEntryService entryService = SpringContext.getBean(OriginEntryService.class);
+        OriginEntryGroupService groupService = SpringContext.getBean(OriginEntryGroupService.class);
 
         // and verify the output.
         List fisGenerated = GeneralLedgerTestHelper.loadOutputOriginEntriesFromClasspath("org/kuali/module/gl/batch/gl_gleacbfb.data.txt", dateTimeService.getCurrentDate());

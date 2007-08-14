@@ -22,8 +22,8 @@ import org.kuali.core.lookup.keyvalues.KeyValuesBase;
 import org.kuali.core.lookup.valueFinder.ValueFinder;
 import org.kuali.core.web.ui.KeyLabelPair;
 import org.kuali.kfs.bo.Options;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.service.OptionsService;
-import org.kuali.kfs.util.SpringServiceLocator;
 
 /**
  * This class...
@@ -36,7 +36,7 @@ public class GLEncumbranceBalanceTypeOptionFinder extends KeyValuesBase implemen
      * @see org.kuali.core.lookup.valueFinder.ValueFinder#getValue()
      */
     public String getValue() {
-        OptionsService os = SpringServiceLocator.getOptionsService();
+        OptionsService os = SpringContext.getBean(OptionsService.class);
         Options o = os.getCurrentYearOptions();
 
         return o.getExtrnlEncumFinBalanceTypCd();
@@ -48,7 +48,7 @@ public class GLEncumbranceBalanceTypeOptionFinder extends KeyValuesBase implemen
     public List getKeyValues() {
         List labels = new ArrayList();
 
-        OptionsService os = SpringServiceLocator.getOptionsService();
+        OptionsService os = SpringContext.getBean(OptionsService.class);
         Options o = os.getCurrentYearOptions();
 
         labels.add(new KeyLabelPair(o.getExtrnlEncumFinBalanceTypCd(), o.getExtrnlEncumFinBalanceTypCd() + " - " + o.getExtrnlEncumFinBalanceTyp().getFinancialBalanceTypeName()));

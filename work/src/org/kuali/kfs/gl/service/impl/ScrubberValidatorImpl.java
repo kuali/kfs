@@ -31,10 +31,11 @@ import org.kuali.kfs.KFSKeyConstants;
 import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
 import org.kuali.kfs.bo.OriginationCode;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.service.OriginationCodeService;
-import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.service.AccountService;
+import org.kuali.module.financial.service.UniversityDateService;
 import org.kuali.module.gl.GLConstants;
 import org.kuali.module.gl.bo.OriginEntry;
 import org.kuali.module.gl.bo.UniversityDate;
@@ -72,13 +73,13 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
         UniversityDate today = null;
 
         if (entry.getUniversityFiscalYear() == null) {
-            today = SpringServiceLocator.getUniversityDateService().getCurrentUniversityDate();
+            today = SpringContext.getBean(UniversityDateService.class).getCurrentUniversityDate();
             entry.setUniversityFiscalYear(today.getUniversityFiscalYear());
         }
 
         if (entry.getUniversityFiscalPeriodCode() == null) {
             if (today == null) {
-                today = SpringServiceLocator.getUniversityDateService().getCurrentUniversityDate();
+                today = SpringContext.getBean(UniversityDateService.class).getCurrentUniversityDate();
             }
             entry.setUniversityFiscalPeriodCode(today.getUniversityFiscalAccountingPeriod());
         }

@@ -17,13 +17,12 @@ package org.kuali.module.cg.lookup.keyvalues;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Iterator;
 import java.util.List;
 
 import org.kuali.core.lookup.keyvalues.KeyValuesBase;
 import org.kuali.core.service.KeyValuesService;
 import org.kuali.core.web.ui.KeyLabelPair;
-import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.cg.bo.ProposalStatus;
 
 /**
@@ -36,7 +35,7 @@ public class ProposalStatusValuesFinder extends KeyValuesBase {
      */
     public List getKeyValues() {
 
-        Collection<ProposalStatus> codes = SpringServiceLocator.getKeyValuesService().findAll(ProposalStatus.class);
+        Collection<ProposalStatus> codes = SpringContext.getBean(KeyValuesService.class).findAll(ProposalStatus.class);
 
         List<KeyLabelPair> labels = new ArrayList<KeyLabelPair>();
         labels.add(new KeyLabelPair("", ""));

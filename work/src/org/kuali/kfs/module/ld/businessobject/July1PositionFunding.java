@@ -17,24 +17,16 @@
 package org.kuali.module.labor.bo;
 
 import java.math.BigDecimal;
-import java.util.LinkedHashMap;
 
-import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.bo.user.PersonPayrollId;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.bo.user.UserId;
 import org.kuali.core.exceptions.UserNotFoundException;
+import org.kuali.core.service.UniversalUserService;
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.kfs.KFSPropertyConstants;
-import org.kuali.kfs.util.SpringServiceLocator;
-import org.kuali.module.chart.bo.Account;
-import org.kuali.module.chart.bo.Chart;
-import org.kuali.module.chart.bo.ObjectCode;
-import org.kuali.module.chart.bo.SubAccount;
-import org.kuali.module.chart.bo.SubObjCd;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.gl.bo.TransientBalanceInquiryAttributes;
 import org.kuali.module.labor.LaborConstants;
-import org.kuali.module.labor.LaborPropertyConstants;
 
 /**
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
@@ -153,7 +145,7 @@ public class July1PositionFunding extends LedgerBalance {
         UniversalUser universalUser = null;
         
         try{
-            universalUser = SpringServiceLocator.getUniversalUserService().getUniversalUser(empl);
+            universalUser = SpringContext.getBean(UniversalUserService.class, "universalUserService").getUniversalUser(empl);
         }catch(UserNotFoundException e){
             return LaborConstants.BalanceInquiries.UnknownPersonName;
         }

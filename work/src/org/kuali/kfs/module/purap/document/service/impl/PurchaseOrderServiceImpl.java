@@ -397,7 +397,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
      */
 //    public PurchaseOrderDocument updateFlagsAndRoute(String documentNumber, String docType, String annotation, List adhocRoutingRecipients) {
 //        try {
-//            PurchaseOrderDocument po = SpringServiceLocator.getPurchaseOrderService().getPurchaseOrderByDocumentNumber(documentNumber);
+//            PurchaseOrderDocument po = SpringContext.getBean(PurchaseOrderService.class).getPurchaseOrderByDocumentNumber(documentNumber);
 //            //TODO: Chris - RESEARCH: does this have any effect?  I think it may be lost before the po is brought up again.
 //            po.setSummaryAccountsWithItems(new HashMap());
 //            po.setSummaryAccountsWithItemsKey(new ArrayList());
@@ -515,7 +515,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
     }
 
     public PurchaseOrderDocument createAndSavePotentialChangeDocument(String documentNumber, String docType, String newDocumentStatusCode) {
-        PurchaseOrderDocument currentDocument = SpringServiceLocator.getPurchaseOrderService().getPurchaseOrderByDocumentNumber(documentNumber);
+        PurchaseOrderDocument currentDocument = SpringContext.getBean(PurchaseOrderService.class).getPurchaseOrderByDocumentNumber(documentNumber);
         try {
             PurchaseOrderDocument newDocument = createPurchaseOrderDocumentFromSourceDocument(currentDocument, docType);
             boolean valid = validateAndSetUpCurrentAndNewDocuments(new SaveDocumentEvent(newDocument), newDocumentStatusCode, currentDocument, newDocument);
@@ -548,7 +548,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
     }
 
     public PurchaseOrderDocument createAndRoutePotentialChangeDocument(String documentNumber, String docType, String annotation, List adhocRoutingRecipients) {
-        PurchaseOrderDocument currentDocument = SpringServiceLocator.getPurchaseOrderService().getPurchaseOrderByDocumentNumber(documentNumber);
+        PurchaseOrderDocument currentDocument = SpringContext.getBean(PurchaseOrderService.class).getPurchaseOrderByDocumentNumber(documentNumber);
         try {
             PurchaseOrderDocument newDocument = createPurchaseOrderDocumentFromSourceDocument(currentDocument, docType);
             boolean valid = validateAndSetUpCurrentAndNewDocuments(new RouteDocumentEvent(newDocument), null, currentDocument, newDocument);
@@ -681,7 +681,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
             if (StringUtils.equals(oldestDocumentNumber, po.getDocumentNumber())) {
                 //manually set bo notes - this is mainly done for performance reasons (preferably we could call
                 //retrieve doc notes in PersistableBusinessObjectBase but that is private)
-                po.setBoNotes(SpringServiceLocator.getNoteService().getByRemoteObjectId(po.getObjectId()));
+                po.setBoNotes(SpringContext.getBean(NoteService.class).getByRemoteObjectId(po.getObjectId()));
                 LOG.debug("exiting getOldestPO(PurchaseOrderDocument)");
                 return po;
             }

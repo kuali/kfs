@@ -15,31 +15,25 @@
  */
 package org.kuali.module.chart.rules;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.List;
 import java.util.Iterator;
 
 import org.apache.commons.lang.StringUtils;
-
 import org.kuali.core.bo.PersistableBusinessObject;
+import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.ObjectUtils;
-import org.kuali.core.document.MaintenanceDocument;
+import org.kuali.core.web.ui.KeyLabelPair;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSKeyConstants;
-import org.kuali.kfs.KFSPropertyConstants;
-import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.chart.bo.ObjectCode;
-import org.kuali.module.chart.bo.OrganizationReversion;
 import org.kuali.module.chart.bo.OrganizationReversionGlobal;
 import org.kuali.module.chart.bo.OrganizationReversionGlobalDetail;
 import org.kuali.module.chart.bo.OrganizationReversionGlobalOrganization;
-import org.kuali.module.chart.maintenance.OrganizationReversionGlobalMaintainableImpl;
 import org.kuali.module.chart.lookup.keyvalues.OrganizationReversionCodeValuesFinder;
-import org.kuali.module.chart.service.OrganizationReversionService;
+import org.kuali.module.chart.maintenance.OrganizationReversionGlobalMaintainableImpl;
 import org.kuali.module.chart.service.ObjectCodeService;
-import org.kuali.core.web.ui.KeyLabelPair;
+import org.kuali.module.chart.service.OrganizationReversionService;
 
 public class OrganizationReversionGlobalRule extends GlobalDocumentRuleBase {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(OrganizationReversionGlobalRule.class);
@@ -49,8 +43,8 @@ public class OrganizationReversionGlobalRule extends GlobalDocumentRuleBase {
 
     public OrganizationReversionGlobalRule() {
         super();
-        setOrganizationReversionService(SpringServiceLocator.getOrganizationReversionService());
-        setObjectCodeService(SpringServiceLocator.getObjectCodeService());
+        setOrganizationReversionService(SpringContext.getBean(OrganizationReversionService.class));
+        setObjectCodeService(SpringContext.getBean(ObjectCodeService.class));
     }
 
     /**

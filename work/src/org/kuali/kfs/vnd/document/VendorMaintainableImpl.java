@@ -31,9 +31,11 @@ import org.kuali.core.document.MaintenanceLock;
 import org.kuali.core.exceptions.UserNotFoundException;
 import org.kuali.core.maintenance.KualiMaintainableImpl;
 import org.kuali.core.service.BusinessObjectService;
+import org.kuali.core.service.KualiConfigurationService;
+import org.kuali.core.service.UniversalUserService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.ObjectUtils;
-import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.purap.PurapParameterConstants;
 import org.kuali.module.vendor.VendorConstants;
 import org.kuali.module.vendor.VendorPropertyConstants;
@@ -49,7 +51,7 @@ public class VendorMaintainableImpl extends KualiMaintainableImpl {
     
     protected VendorService getVendorService() {
         if (ObjectUtils.isNull(this.vendorService)) {
-            this.vendorService = SpringServiceLocator.getVendorService();
+            this.vendorService = SpringContext.getBean(VendorService.class);
         }
         return this.vendorService;
     }
@@ -60,7 +62,7 @@ public class VendorMaintainableImpl extends KualiMaintainableImpl {
     public String getDocumentTitle(MaintenanceDocument document) {
         String documentTitle = "";
         // Check if we are choosing to override the Kuali default document title.
-        String specificTitle = SpringServiceLocator.getKualiConfigurationService().getApplicationParameterValue(PurapParameterConstants.PURAP_ADMIN_GROUP,PurapParameterConstants.PURAP_OVERRIDE_VENDOR_DOC_TITLE);
+        String specificTitle = SpringContext.getBean(KualiConfigurationService.class).getApplicationParameterValue(PurapParameterConstants.PURAP_ADMIN_GROUP,PurapParameterConstants.PURAP_OVERRIDE_VENDOR_DOC_TITLE);
         
         if (StringUtils.equals(specificTitle,Boolean.TRUE.toString())) {
             // We are overriding the standard with a Vendor-specific document title style.
@@ -72,7 +74,7 @@ public class VendorMaintainableImpl extends KualiMaintainableImpl {
             }
     
             try {
-                UniversalUser initUser = SpringServiceLocator.getUniversalUserService().getUniversalUser(new AuthenticationUserId(document.getDocumentHeader().getWorkflowDocument().getInitiatorNetworkId()));
+                UniversalUser initUser = SpringContext.getBean(UniversalUserService.class, "universalUserService").getUniversalUser(new AuthenticationUserId(document.getDocumentHeader().getWorkflowDocument().getInitiatorNetworkId()));
                 documentTitle += initUser.getCampusCode();
             }
             catch (UserNotFoundException e) {
@@ -241,7 +243,7 @@ public class VendorMaintainableImpl extends KualiMaintainableImpl {
             //Try to get the count of all the vendor whose header id is the same as this header id.
             Map criterias = new HashMap();
             criterias.put(VendorPropertyConstants.VENDOR_HEADER_GENERATED_ID, vendorDetail.getVendorHeaderGeneratedIdentifier());
-            BusinessObjectService boService = SpringServiceLocator.getBusinessObjectService();
+            BusinessObjectService boService = SpringContext.getBean(BusinessObjectService.class);
             int count = boService.countMatching(VendorDetail.class, criterias);
             boolean validId = false;
             while (!validId) {
@@ -316,7 +318,7 @@ public class VendorMaintainableImpl extends KualiMaintainableImpl {
             }
         }
         //If the user is not in Purchasing workgroup, don't include add line for vendor contract and vendor contract organization
-        String purchasingWorkgroup = SpringServiceLocator.getKualiConfigurationService().getApplicationParameterValue( VendorRuleConstants.PURAP_ADMIN_GROUP, VendorConstants.Workgroups.WORKGROUP_PURCHASING); 
+        String purchasingWorkgroup = SpringContext.getBean(KualiConfigurationService.class).getApplicationParameterValue( VendorRuleConstants.PURAP_ADMIN_GROUP, VendorConstants.Workgroups.WORKGROUP_PURCHASING); 
         if (!currentUser.isMember(purchasingWorkgroup) &&
             (collectionDefinition.getName().equals(VendorPropertyConstants.VENDOR_CONTRACT) ||
              collectionDefinition.getName().equals(VendorPropertyConstants.VENDOR_CONTRACT_ORGANIZATION))) {

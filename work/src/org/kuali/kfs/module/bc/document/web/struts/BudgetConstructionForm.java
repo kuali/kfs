@@ -23,9 +23,11 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.core.service.BusinessObjectDictionaryService;
+import org.kuali.core.service.PersistenceService;
 import org.kuali.core.web.struts.form.KualiTransactionalDocumentFormBase;
 import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.budget.BCConstants;
 import org.kuali.module.budget.bo.PendingBudgetConstructionGeneralLedger;
 import org.kuali.module.budget.document.BudgetConstructionDocument;
@@ -75,7 +77,7 @@ public class BudgetConstructionForm extends KualiTransactionalDocumentFormBase {
                 // do uppercase on added lines only, since users can only update amounts on existing lines
                 // this should only affect the line since the DD has auto-update=false on refs and collections
                 // and only affect fields where xml attribute has forceUppercase="true"
-                SpringServiceLocator.getBusinessObjectDictionaryService().performForceUppercase(revLine);
+                SpringContext.getBean(BusinessObjectDictionaryService.class).performForceUppercase(revLine);
 
                 // null subobj must be set to dashes
                 if (StringUtils.isBlank(revLine.getFinancialSubObjectCode())){
@@ -91,7 +93,7 @@ public class BudgetConstructionForm extends KualiTransactionalDocumentFormBase {
                 // do uppercase on added lines only, since users can only update amounts on existing lines
                 // this should only affect the line since the DD has auto-update=false on refs and collections
                 // and only affect fields where xml attribute has forceUppercase="true"
-                SpringServiceLocator.getBusinessObjectDictionaryService().performForceUppercase(expLine);
+                SpringContext.getBean(BusinessObjectDictionaryService.class).performForceUppercase(expLine);
 
                 // null subobj must be set to dashes
                 if (StringUtils.isBlank(expLine.getFinancialSubObjectCode())){
@@ -174,8 +176,8 @@ public class BudgetConstructionForm extends KualiTransactionalDocumentFormBase {
 
 //        final List REFRESH_FIELDS = Collections.unmodifiableList(Arrays.asList(new String[] { "financialObject", "financialSubObject", "laborObject", "budgetConstructionMonthly"}));
       final List REFRESH_FIELDS = Collections.unmodifiableList(Arrays.asList(new String[] { "financialObject", "financialSubObject", "budgetConstructionMonthly"}));
-//        SpringServiceLocator.getPersistenceService().retrieveReferenceObjects(line, REFRESH_FIELDS);
-        SpringServiceLocator.getPersistenceService().retrieveReferenceObjects(line, REFRESH_FIELDS);
+//        SpringContext.getBean(PersistenceService.class).retrieveReferenceObjects(line, REFRESH_FIELDS);
+        SpringContext.getBean(PersistenceService.class).retrieveReferenceObjects(line, REFRESH_FIELDS);
 
     }
 

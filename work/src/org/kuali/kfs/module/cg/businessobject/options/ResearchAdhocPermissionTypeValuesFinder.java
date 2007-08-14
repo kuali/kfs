@@ -20,9 +20,9 @@ import java.util.List;
 
 import org.kuali.core.lookup.keyvalues.KeyValuesBase;
 import org.kuali.core.web.ui.KeyLabelPair;
-import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.kra.bo.ResearchAdhocPermissionType;
-import org.kuali.module.kra.budget.bo.BudgetBaseCode;
+import org.kuali.module.kra.service.ResearchDocumentPermissionsService;
 
 public class ResearchAdhocPermissionTypeValuesFinder extends KeyValuesBase {
     
@@ -32,7 +32,7 @@ public class ResearchAdhocPermissionTypeValuesFinder extends KeyValuesBase {
 
     public List getKeyValues() {
         
-        List<ResearchAdhocPermissionType> permissionTypeCodes = new ArrayList(SpringServiceLocator.getResearchDocumentPermissionsService().getPermissionTypes());
+        List<ResearchAdhocPermissionType> permissionTypeCodes = new ArrayList(SpringContext.getBean(ResearchDocumentPermissionsService.class).getPermissionTypes());
         List permissionTypeKeyLabelPairList = new ArrayList();
         for (ResearchAdhocPermissionType element: permissionTypeCodes) {
             permissionTypeKeyLabelPairList.add(new KeyLabelPair(element.getPermissionTypeCode(), element.getPermissionTypeDescription()));

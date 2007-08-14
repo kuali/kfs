@@ -18,13 +18,13 @@ package org.kuali.module.labor.document;
 import java.util.Iterator;
 
 import org.kuali.core.document.AmountTotaling;
+import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DateTimeService;
 import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.gl.bo.OriginEntryGroup;
 import org.kuali.module.gl.bo.OriginEntrySource;
 import org.kuali.module.gl.document.CorrectionDocument;
-import org.kuali.module.labor.service.LaborCorrectionDocumentService;
 import org.kuali.module.gl.service.OriginEntryGroupService;
 import org.kuali.module.labor.bo.LaborOriginEntry;
 import org.kuali.module.labor.service.LaborCorrectionDocumentService;
@@ -59,9 +59,9 @@ public class LaborCorrectionDocument extends CorrectionDocument implements Amoun
                 // this code is performed asynchronously
                 
                 // First, save the origin entries to the origin entry table
-                DateTimeService dateTimeService = SpringServiceLocator.getDateTimeService();
-                LaborOriginEntryService laborOriginEntryService = SpringServiceLocator.getLaborOriginEntryService();
-                LaborCorrectionDocumentService laborCorrectionDocumentService = SpringServiceLocator.getLaborCorrectionDocumentService();
+                DateTimeService dateTimeService = SpringContext.getBean(DateTimeService.class, "dateTimeService");
+                LaborOriginEntryService laborOriginEntryService = SpringContext.getBean(LaborOriginEntryService.class);
+                LaborCorrectionDocumentService laborCorrectionDocumentService = SpringContext.getBean(LaborCorrectionDocumentService.class);
                 
                 Iterator<LaborOriginEntry> outputEntries = laborCorrectionDocumentService.retrievePersistedOutputOriginEntriesAsIterator(this);
                 
@@ -71,12 +71,12 @@ public class LaborCorrectionDocument extends CorrectionDocument implements Amoun
                 OriginEntryGroup oeg = laborOriginEntryService.copyEntries(today, OriginEntrySource.LABOR_CORRECTION_PROCESS_EDOC, true, false, true, outputEntries);
                 
                 // Now, run the reports
-                LaborReportService reportService = SpringServiceLocator.getLaborReportService();
-                LaborScrubberService laborScrubberService = SpringServiceLocator.getLaborScrubberService();
+                LaborReportService reportService = SpringContext.getBean(LaborReportService.class);
+                LaborScrubberService laborScrubberService = SpringContext.getBean(LaborScrubberService.class);
                 
                 setCorrectionOutputGroupId(oeg.getId());
                 // not using the document service to save because it touches workflow, just save the doc BO as a regular BO
-                SpringServiceLocator.getBusinessObjectService().save(this);
+                SpringContext.getBean(BusinessObjectService.class).save(this);
                 
                 LOG.debug("handleRouteStatusChange() Run reports");
     
@@ -113,8 +113,8 @@ public class LaborCorrectionDocument extends CorrectionDocument implements Amoun
             getDocumentHeader().setFinancialDocumentStatusCode(KFSConstants.DocumentStatusCodes.APPROVED);
         }
         
-        LaborCorrectionDocumentService laborCorrectionDocumentService = SpringServiceLocator.getLaborCorrectionDocumentService();
-        OriginEntryGroupService originEntryGroupService = SpringServiceLocator.getOriginEntryGroupService();
+        LaborCorrectionDocumentService laborCorrectionDocumentService = SpringContext.getBean(LaborCorrectionDocumentService.class);
+        OriginEntryGroupService originEntryGroupService = SpringContext.getBean(OriginEntryGroupService.class);
 
         String docId = getDocumentHeader().getDocumentNumber();
         LaborCorrectionDocument doc = laborCorrectionDocumentService.findByCorrectionDocumentHeaderId(docId);
@@ -122,7 +122,7 @@ public class LaborCorrectionDocument extends CorrectionDocument implements Amoun
         if (getDocumentHeader().getWorkflowDocument().stateIsFinal()) {
             String correctionType = doc.getCorrectionTypeCode();
             if (LaborCorrectionDocumentService.CORRECTION_TYPE_REMOVE_GROUP_FROM_PROCESSING.equals(correctionType)) {
-                SpringServiceLocator.getOriginEntryGroupService().dontProcessGroup(doc.getCorrectionInputGroupId());
+                SpringContext.getBean(OriginEntryGroupService.class).dontProcessGroup(doc.getCorrectionInputGroupId());
             }
             else if (LaborCorrectionDocumentService.CORRECTION_TYPE_MANUAL.equals(correctionType) || LaborCorrectionDocumentService.CORRECTION_TYPE_CRITERIA.equals(correctionType)){
                 OriginEntryGroup outputGroup = originEntryGroupService.getExactMatchingEntryGroup(doc.getCorrectionOutputGroupId().intValue());

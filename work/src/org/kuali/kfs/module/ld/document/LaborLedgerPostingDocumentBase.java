@@ -18,15 +18,12 @@ package org.kuali.module.labor.document;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.core.document.TransactionalDocument;
 import org.kuali.core.exceptions.ValidationException;
 import org.kuali.core.rule.event.KualiDocumentEvent;
-import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.bo.SourceAccountingLine;
-import org.kuali.kfs.bo.TargetAccountingLine;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.document.AccountingDocumentBase;
-import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.labor.bo.LaborLedgerPendingEntry;
+import org.kuali.module.labor.service.LaborLedgerPendingEntryService;
 
 
 /**
@@ -80,7 +77,7 @@ public abstract class LaborLedgerPostingDocumentBase extends AccountingDocumentB
      */
     @Override
     public void prepareForSave(KualiDocumentEvent event) {
-        if (!SpringServiceLocator.getLaborLedgerPendingEntryService().generateLaborLedgerPendingEntries(this)) {
+        if (!SpringContext.getBean(LaborLedgerPendingEntryService.class).generateLaborLedgerPendingEntries(this)) {
             logErrors();
             throw new ValidationException("labor ledger LLPE generation failed");
         }

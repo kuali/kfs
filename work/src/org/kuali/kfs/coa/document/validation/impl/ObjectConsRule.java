@@ -18,7 +18,7 @@ package org.kuali.module.chart.rules;
 import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase;
 import org.kuali.kfs.KFSKeyConstants;
-import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.chart.bo.ObjLevel;
 import org.kuali.module.chart.bo.ObjectCode;
 import org.kuali.module.chart.bo.ObjectCons;
@@ -34,9 +34,9 @@ public class ObjectConsRule extends MaintenanceDocumentRuleBase {
 	
 	public ObjectConsRule() {
 		if ( chartService == null  ) {
-			objectLevelService = SpringServiceLocator.getObjectLevelService();
-			objectCodeService = SpringServiceLocator.getObjectCodeService();
-			chartService = SpringServiceLocator.getChartService();
+			objectLevelService = SpringContext.getBean(ObjectLevelService.class);
+			objectCodeService = SpringContext.getBean(ObjectCodeService.class);
+			chartService = SpringContext.getBean(ChartService.class);
 		}
 	}
 	

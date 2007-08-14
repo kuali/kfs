@@ -22,17 +22,18 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.document.Document;
+import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.KFSKeyConstants;
 import org.kuali.kfs.bo.AccountingLine;
 import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
 import org.kuali.kfs.bo.Options;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.document.AccountingDocument;
 import org.kuali.kfs.rules.AccountingDocumentRuleBase;
 import org.kuali.kfs.rules.AccountingDocumentRuleUtil;
-import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.kfs.service.OptionsService;
 import org.kuali.module.financial.document.TransferOfFundsDocument;
 
 /**
@@ -59,7 +60,7 @@ public class TransferOfFundsDocumentRule extends AccountingDocumentRuleBase impl
      *      org.kuali.core.bo.AccountingLine, org.kuali.module.gl.bo.GeneralLedgerPendingEntry)
      */
     protected void customizeExplicitGeneralLedgerPendingEntry(AccountingDocument financialDocument, AccountingLine accountingLine, GeneralLedgerPendingEntry explicitEntry) {
-        Options options = SpringServiceLocator.getOptionsService().getCurrentYearOptions();
+        Options options = SpringContext.getBean(OptionsService.class).getCurrentYearOptions();
 
         explicitEntry.setFinancialBalanceTypeCode(BALANCE_TYPE_ACTUAL);
         if (isExpense(accountingLine)) {
@@ -138,7 +139,7 @@ public class TransferOfFundsDocumentRule extends AccountingDocumentRuleBase impl
      * @return boolean
      */
     private boolean isFundGroupsBalanceValid(TransferOfFundsDocument tofDoc) {
-        String[] fundGroupCodes = SpringServiceLocator.getKualiConfigurationService().getApplicationParameterValues(KUALI_TRANSACTION_PROCESSING_TRANSFER_OF_FUNDS_SECURITY_GROUPING, APPLICATION_PARAMETER.FUND_GROUP_BALANCING_SET);
+        String[] fundGroupCodes = SpringContext.getBean(KualiConfigurationService.class).getApplicationParameterValues(KUALI_TRANSACTION_PROCESSING_TRANSFER_OF_FUNDS_SECURITY_GROUPING, APPLICATION_PARAMETER.FUND_GROUP_BALANCING_SET);
         return isFundGroupSetBalanceValid(tofDoc, fundGroupCodes);
     }
 

@@ -17,16 +17,16 @@ package org.kuali.module.financial.rules;
 
 import static org.kuali.kfs.KFSConstants.GL_CREDIT_CODE;
 import static org.kuali.kfs.KFSConstants.GL_DEBIT_CODE;
-import static org.kuali.kfs.util.SpringServiceLocator.getDataDictionaryService;
-import static org.kuali.kfs.util.SpringServiceLocator.getDocumentService;
-import static org.kuali.kfs.util.SpringServiceLocator.getDocumentTypeService;
 import static org.kuali.module.financial.rules.AccountingDocumentRuleTestUtils.testAddAccountingLineRule_IsObjectCodeAllowed;
 import static org.kuali.module.financial.rules.AccountingDocumentRuleTestUtils.testAddAccountingLineRule_IsObjectTypeAllowed;
+import static org.kuali.module.financial.rules.AccountingDocumentRuleTestUtils.testAddAccountingLineRule_ProcessAddAccountingLineBusinessRules;
 import static org.kuali.module.financial.rules.AccountingDocumentRuleTestUtils.testAddAccountingLine_IsObjectSubTypeAllowed;
 import static org.kuali.module.financial.rules.AccountingDocumentRuleTestUtils.testGenerateGeneralLedgerPendingEntriesRule_ProcessGenerateGeneralLedgerPendingEntries;
 import static org.kuali.module.financial.rules.AccountingDocumentRuleTestUtils.testRouteDocumentRule_processRouteDocument;
 import static org.kuali.module.financial.rules.AccountingDocumentRuleTestUtils.testSaveDocumentRule_ProcessSaveDocument;
-import static org.kuali.module.financial.rules.AccountingDocumentRuleTestUtils.testAddAccountingLineRule_ProcessAddAccountingLineBusinessRules;
+import static org.kuali.rice.KNSServiceLocator.getDataDictionaryService;
+import static org.kuali.rice.KNSServiceLocator.getDocumentService;
+import static org.kuali.rice.KNSServiceLocator.getDocumentTypeService;
 import static org.kuali.test.fixtures.AccountingLineFixture.ACCRUED_INCOME_LINE;
 import static org.kuali.test.fixtures.AccountingLineFixture.ACCRUED_SICK_PAY_LINE;
 import static org.kuali.test.fixtures.AccountingLineFixture.EXPENSE_GEC_LINE;
@@ -48,14 +48,14 @@ import org.kuali.kfs.bo.AccountingLine;
 import org.kuali.kfs.bo.SourceAccountingLine;
 import org.kuali.kfs.bo.TargetAccountingLine;
 import org.kuali.kfs.context.KualiTestBase;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.document.AccountingDocument;
-import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.chart.bo.AccountingPeriod;
+import org.kuali.module.chart.service.AccountingPeriodService;
 import org.kuali.module.financial.document.AuxiliaryVoucherDocument;
-import org.kuali.test.DocumentTestUtils;
 import org.kuali.test.ConfigureContext;
+import org.kuali.test.DocumentTestUtils;
 import org.kuali.test.fixtures.AccountingLineFixture;
-import org.kuali.test.suite.RelatesTo;
 
 @ConfigureContext(session = KHUNTLEY)
 public class AuxiliaryVoucherDocumentRuleTest extends KualiTestBase {
@@ -292,13 +292,13 @@ public class AuxiliaryVoucherDocumentRuleTest extends KualiTestBase {
      * period grace periods correctly.
      */
     public void testWithinGracePeriod() {
-        AccountingPeriod firstPeriod = SpringServiceLocator.getAccountingPeriodService().getByPeriod("10", new Integer(2007));
+        AccountingPeriod firstPeriod = SpringContext.getBean(AccountingPeriodService.class).getByPeriod("10", new Integer(2007));
         java.util.Calendar firstPeriodInside = new java.util.GregorianCalendar(2007, java.util.Calendar.MAY, 8);
         java.util.Calendar firstPeriodOutside = new java.util.GregorianCalendar(2007, java.util.Calendar.MAY, 23);
         assertTrue(AuxiliaryVoucherDocumentRule.calculateIfWithinGracePeriod(new java.sql.Date(firstPeriodInside.getTimeInMillis()), firstPeriod));
         assertFalse(AuxiliaryVoucherDocumentRule.calculateIfWithinGracePeriod(new java.sql.Date(firstPeriodOutside.getTimeInMillis()), firstPeriod));
         
-        AccountingPeriod secondPeriod = SpringServiceLocator.getAccountingPeriodService().getByPeriod("13", new Integer(2006));
+        AccountingPeriod secondPeriod = SpringContext.getBean(AccountingPeriodService.class).getByPeriod("13", new Integer(2006));
         java.util.Calendar secondPeriodInside = new java.util.GregorianCalendar(2006, java.util.Calendar.JULY, 20);
         java.util.Calendar secondPeriodOutside = new java.util.GregorianCalendar(2007, java.util.Calendar.JULY, 21);
         assertTrue(AuxiliaryVoucherDocumentRule.calculateIfWithinGracePeriod(new java.sql.Date(secondPeriodInside.getTimeInMillis()), secondPeriod));

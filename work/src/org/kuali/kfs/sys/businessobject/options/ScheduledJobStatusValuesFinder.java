@@ -20,7 +20,8 @@ import java.util.List;
 
 import org.kuali.core.lookup.keyvalues.KeyValuesBase;
 import org.kuali.core.web.ui.KeyLabelPair;
-import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.kfs.context.SpringContext;
+import org.kuali.kfs.service.SchedulerService;
 
 
 public class ScheduledJobStatusValuesFinder extends KeyValuesBase {
@@ -28,7 +29,7 @@ public class ScheduledJobStatusValuesFinder extends KeyValuesBase {
     public List getKeyValues() {
         List labels = new ArrayList();
 
-        for ( String status : SpringServiceLocator.getSchedulerService().getJobStatuses() ) {
+        for ( String status : SpringContext.getBean(SchedulerService.class).getJobStatuses() ) {
             labels.add( new KeyLabelPair( status, status ) );
         }
         return labels;

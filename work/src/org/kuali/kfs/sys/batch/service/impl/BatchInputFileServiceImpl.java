@@ -28,11 +28,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import javax.xml.XMLConstants;
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.Source;
-import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamSource;
 import javax.xml.validation.Schema;
 import javax.xml.validation.SchemaFactory;
@@ -41,23 +37,20 @@ import javax.xml.validation.Validator;
 import org.apache.commons.digester.Digester;
 import org.apache.commons.digester.Rules;
 import org.apache.commons.digester.xmlrules.DigesterLoader;
-import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.bo.user.KualiGroup;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.datadictionary.exception.InitException;
 import org.kuali.core.exceptions.AuthorizationException;
-import org.kuali.core.exceptions.GroupNotFoundException;
+import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.kfs.KFSConstants.ParameterGroups;
 import org.kuali.kfs.KFSConstants.SystemGroupParameterNames;
 import org.kuali.kfs.batch.BatchInputFileType;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.exceptions.FileStorageException;
 import org.kuali.kfs.exceptions.XMLParseException;
 import org.kuali.kfs.exceptions.XmlErrorHandler;
 import org.kuali.kfs.service.BatchInputFileService;
-import org.kuali.kfs.util.SpringServiceLocator;
 import org.springframework.core.io.ClassPathResource;
-import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
 
 /**
@@ -309,7 +302,7 @@ public class BatchInputFileServiceImpl implements BatchInputFileService {
             throw new IllegalArgumentException("an invalid(null) argument was given");
         }
 
-        String[] activeInputTypes = SpringServiceLocator.getKualiConfigurationService().getApplicationParameterValues(ParameterGroups.BATCH_UPLOAD_SECURITY_GROUP_NAME, SystemGroupParameterNames.ACTIVE_INPUT_TYPES_PARAMETER_NAME);
+        String[] activeInputTypes = SpringContext.getBean(KualiConfigurationService.class).getApplicationParameterValues(ParameterGroups.BATCH_UPLOAD_SECURITY_GROUP_NAME, SystemGroupParameterNames.ACTIVE_INPUT_TYPES_PARAMETER_NAME);
 
         boolean activeBatchType = false;
         if (activeInputTypes.length > 0 && (Arrays.asList(activeInputTypes)).contains(batchInputFileType.getFileTypeIdentifer())) {
@@ -330,7 +323,7 @@ public class BatchInputFileServiceImpl implements BatchInputFileService {
         }
 
         String workgroupParameterName = batchInputFileType.getWorkgroupParameterName();
-        String authorizedWorkgroupName = SpringServiceLocator.getKualiConfigurationService().getApplicationParameterValue(ParameterGroups.BATCH_UPLOAD_SECURITY_GROUP_NAME, workgroupParameterName);
+        String authorizedWorkgroupName = SpringContext.getBean(KualiConfigurationService.class).getApplicationParameterValue(ParameterGroups.BATCH_UPLOAD_SECURITY_GROUP_NAME, workgroupParameterName);
  
         return user.isMember(authorizedWorkgroupName);
     }

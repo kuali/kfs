@@ -19,7 +19,7 @@ import org.apache.commons.lang.ArrayUtils;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.gl.GLConstants;
 
 public class PosterOutputSummaryEntry implements Comparable {
@@ -41,7 +41,7 @@ public class PosterOutputSummaryEntry implements Comparable {
         budgetAmount = KualiDecimal.ZERO;
         netAmount = KualiDecimal.ZERO;
 
-        KualiConfigurationService kualiConfigurationService = SpringServiceLocator.getKualiConfigurationService();
+        KualiConfigurationService kualiConfigurationService = SpringContext.getBean(KualiConfigurationService.class);
         assetExpenseObjectTypeCodes = kualiConfigurationService.getApplicationParameterValues(GLConstants.GL_POSTER_OUTPUT_SUMMARY_ENTRY_GROUP, GLConstants.PosterOutputSummaryEntry.ASSET_EXPENSE_OBJECT_TYPE_CODES);
     }
 

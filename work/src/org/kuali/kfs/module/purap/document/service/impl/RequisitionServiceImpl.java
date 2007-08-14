@@ -23,8 +23,6 @@ import org.kuali.core.bo.Note;
 import org.kuali.core.bo.user.AuthenticationUserId;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.exceptions.UserNotFoundException;
-import org.kuali.core.exceptions.ValidationException;
-import org.kuali.core.rule.event.SaveOnlyDocumentEvent;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DateTimeService;
 import org.kuali.core.service.DocumentService;
@@ -33,7 +31,7 @@ import org.kuali.core.service.UniversalUserService;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.chart.service.ObjectCodeService;
 import org.kuali.module.financial.service.UniversityDateService;
 import org.kuali.module.purap.PurapConstants;
@@ -193,7 +191,7 @@ public class RequisitionServiceImpl implements RequisitionService {
             if ((!PurapConstants.RequisitionSources.B2B.equals(requisitionSource)) && (requisition.getVendorContractGeneratedIdentifier() == null)) {
                 UniversalUser initiator = null;
                 try {
-                    initiator = SpringServiceLocator.getUniversalUserService().getUniversalUser(new AuthenticationUserId(requisition.getDocumentHeader().getWorkflowDocument().getInitiatorNetworkId()));
+                    initiator = SpringContext.getBean(UniversalUserService.class, "universalUserService").getUniversalUser(new AuthenticationUserId(requisition.getDocumentHeader().getWorkflowDocument().getInitiatorNetworkId()));
                 }
                 catch (UserNotFoundException e) {
                     throw new RuntimeException("Document Initiator not found " + e.getMessage());

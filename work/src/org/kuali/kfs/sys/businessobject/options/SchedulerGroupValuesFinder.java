@@ -20,7 +20,8 @@ import java.util.List;
 
 import org.kuali.core.lookup.keyvalues.KeyValuesBase;
 import org.kuali.core.web.ui.KeyLabelPair;
-import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.kfs.context.SpringContext;
+import org.kuali.kfs.service.SchedulerService;
 
 
 public class SchedulerGroupValuesFinder extends KeyValuesBase {
@@ -29,7 +30,7 @@ public class SchedulerGroupValuesFinder extends KeyValuesBase {
         List labels = new ArrayList();
         //labels.add(new KeyLabelPair("", ""));
 
-        for ( String group : SpringServiceLocator.getSchedulerService().getSchedulerGroups() ) {
+        for ( String group : SpringContext.getBean(SchedulerService.class).getSchedulerGroups() ) {
             labels.add( new KeyLabelPair( group, group ) );
         }
         return labels;

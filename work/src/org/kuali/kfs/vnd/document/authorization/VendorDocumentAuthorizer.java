@@ -25,8 +25,9 @@ import org.kuali.core.document.authorization.DocumentActionFlags;
 import org.kuali.core.document.authorization.MaintenanceDocumentActionFlags;
 import org.kuali.core.document.authorization.MaintenanceDocumentAuthorizations;
 import org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase;
+import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.ObjectUtils;
-import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.vendor.VendorAuthorizationConstants;
 import org.kuali.module.vendor.VendorConstants;
 import org.kuali.module.vendor.VendorPropertyConstants;
@@ -93,7 +94,7 @@ public class VendorDocumentAuthorizer extends MaintenanceDocumentAuthorizerBase 
     public Map getEditMode(Document document, UniversalUser user) {
         Map editMode = super.getEditMode(document, user);
         VendorDetail vendor = (VendorDetail)((MaintenanceDocument)document).getNewMaintainableObject().getBusinessObject();
-        String taxNbrAccessibleWorkgroup = SpringServiceLocator.getKualiConfigurationService().getApplicationParameterValue( VendorRuleConstants.PURAP_ADMIN_GROUP, VendorConstants.Workgroups.WORKGROUP_TAXNBR_ACCESSIBLE );
+        String taxNbrAccessibleWorkgroup = SpringContext.getBean(KualiConfigurationService.class).getApplicationParameterValue( VendorRuleConstants.PURAP_ADMIN_GROUP, VendorConstants.Workgroups.WORKGROUP_TAXNBR_ACCESSIBLE );
 
         if (user.isMember(taxNbrAccessibleWorkgroup)) {
             editMode.put(VendorAuthorizationConstants.VendorEditMode.TAX_ENTRY, "TRUE");
@@ -121,7 +122,7 @@ public class VendorDocumentAuthorizer extends MaintenanceDocumentAuthorizerBase 
      * @param user
      */
     private void setVendorContractFieldsAuthorization(VendorDetail vendor, MaintenanceDocumentAuthorizations auths, UniversalUser user) {
-        String purchasingWorkgroup = SpringServiceLocator.getKualiConfigurationService().getApplicationParameterValue( VendorRuleConstants.PURAP_ADMIN_GROUP, VendorConstants.Workgroups.WORKGROUP_PURCHASING); 
+        String purchasingWorkgroup = SpringContext.getBean(KualiConfigurationService.class).getApplicationParameterValue( VendorRuleConstants.PURAP_ADMIN_GROUP, VendorConstants.Workgroups.WORKGROUP_PURCHASING); 
         if (!user.isMember(purchasingWorkgroup)) {
             List<VendorContract> contracts = vendor.getVendorContracts();
             int i = 0;

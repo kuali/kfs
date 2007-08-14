@@ -20,7 +20,8 @@ import java.util.LinkedHashMap;
 
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.bo.user.UniversalUser;
-import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.core.service.UniversalUserService;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.Chart;
 import org.kuali.module.chart.bo.SubAccount;
@@ -330,7 +331,7 @@ public class BudgetConstructionFundingLock extends PersistableBusinessObjectBase
      * @return Returns the appointmentFundingLockUser. 
      */
     public UniversalUser getAppointmentFundingLockUser() {
-        appointmentFundingLockUser = SpringServiceLocator.getUniversalUserService().updateUniversalUserIfNecessary(appointmentFundingLockUserId, appointmentFundingLockUser);
+        appointmentFundingLockUser = SpringContext.getBean(UniversalUserService.class, "universalUserService").updateUniversalUserIfNecessary(appointmentFundingLockUserId, appointmentFundingLockUser);
         return appointmentFundingLockUser;
     }
 

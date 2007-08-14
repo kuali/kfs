@@ -33,7 +33,7 @@ import org.apache.commons.io.filefilter.SuffixFileFilter;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.gl.OriginEntryTestBase;
 import org.kuali.module.gl.bo.OriginEntry;
 import org.kuali.module.gl.bo.OriginEntryGroup;
@@ -115,7 +115,7 @@ public class FileEnterpriseFeederTest extends OriginEntryTestBase {
         
         assertNoExtraDoneFilesExistAndCreateDoneFilesForSets(fileSets);
 
-        FeederStep feederStep = SpringServiceLocator.getEnterpriseFeedStep();
+        FeederStep feederStep = SpringContext.getBean(FeederStep.class);
         feederStep.execute(getClass().getName());
         
         assertDoneFilesDeleted(fileSets);
@@ -141,7 +141,7 @@ public class FileEnterpriseFeederTest extends OriginEntryTestBase {
         initializeDatabaseForTest();
         assertNoExtraDoneFilesExistAndCreateDoneFilesForSets(fileSets);
 
-        FeederStep feederStep = SpringServiceLocator.getEnterpriseFeedStep();
+        FeederStep feederStep = SpringContext.getBean(FeederStep.class);
         assertTrue("Step should have returned true", feederStep.execute(getClass().getName()));
         
         assertDoneFilesDeleted(fileSets);
@@ -169,7 +169,7 @@ public class FileEnterpriseFeederTest extends OriginEntryTestBase {
         initializeDatabaseForTest();
         assertNoExtraDoneFilesExistAndCreateDoneFilesForSets(fileSets);
 
-        FeederStep feederStep = SpringServiceLocator.getEnterpriseFeedStep();
+        FeederStep feederStep = SpringContext.getBean(FeederStep.class);
         assertTrue("Step should have returned true", feederStep.execute(getClass().getName()));
         
         assertDoneFilesDeleted(fileSets);
@@ -193,7 +193,7 @@ public class FileEnterpriseFeederTest extends OriginEntryTestBase {
         initializeDatabaseForTest();
         assertNoExtraDoneFilesExistAndCreateDoneFilesForSets(fileSets);
 
-        FeederStep feederStep = SpringServiceLocator.getEnterpriseFeedStep();
+        FeederStep feederStep = SpringContext.getBean(FeederStep.class);
         assertTrue("Step should have returned true", feederStep.execute(getClass().getName()));
         
         assertDoneFilesDeleted(fileSets);
@@ -216,7 +216,7 @@ public class FileEnterpriseFeederTest extends OriginEntryTestBase {
         initializeDatabaseForTest();
         assertNoExtraDoneFilesExistAndCreateDoneFilesForSets(fileSets);
 
-        FeederStep feederStep = SpringServiceLocator.getEnterpriseFeedStep();
+        FeederStep feederStep = SpringContext.getBean(FeederStep.class);
         assertTrue("Step should have returned true", feederStep.execute(getClass().getName()));
         
         assertDoneFilesDeleted(fileSets);
@@ -284,23 +284,23 @@ public class FileEnterpriseFeederTest extends OriginEntryTestBase {
     }
     
     protected String generateDataFilename(int fileSetId) {
-        String directoryPrefix = ((FileEnterpriseFeederServiceImpl)SpringServiceLocator.getOriginEntryEnterpriseFeederService()).getDirectoryName() + File.separator;
+        String directoryPrefix = ((FileEnterpriseFeederServiceImpl)SpringContext.getBean(FileEnterpriseFeederServiceImpl.class)).getDirectoryName() + File.separator;
         return directoryPrefix + TEST_FILE_PREFIX + convertIntToString(fileSetId) + FileEnterpriseFeederServiceImpl.DATA_FILE_SUFFIX;
     }
     
     protected String generateReconFilename(int fileSetId) {
-        String directoryPrefix = ((FileEnterpriseFeederServiceImpl)SpringServiceLocator.getOriginEntryEnterpriseFeederService()).getDirectoryName() + File.separator;
+        String directoryPrefix = ((FileEnterpriseFeederServiceImpl)SpringContext.getBean(FileEnterpriseFeederServiceImpl.class)).getDirectoryName() + File.separator;
         return directoryPrefix + TEST_FILE_PREFIX + convertIntToString(fileSetId) + FileEnterpriseFeederServiceImpl.RECON_FILE_SUFFIX;
     }
     
     protected String generateDoneFilename(int fileSetId) {
-        String directoryPrefix = ((FileEnterpriseFeederServiceImpl)SpringServiceLocator.getOriginEntryEnterpriseFeederService()).getDirectoryName() + File.separator;
+        String directoryPrefix = ((FileEnterpriseFeederServiceImpl)SpringContext.getBean(FileEnterpriseFeederServiceImpl.class)).getDirectoryName() + File.separator;
         return directoryPrefix + TEST_FILE_PREFIX + convertIntToString(fileSetId) + FileEnterpriseFeederServiceImpl.DONE_FILE_SUFFIX;
     }
     
     protected void assertNoExtraDoneFilesExistAndCreateDoneFilesForSets(List<Integer> fileSets) throws IOException {
         FileFilter fileFilter = new SuffixFileFilter(FileEnterpriseFeederServiceImpl.DONE_FILE_SUFFIX);
-        File directory = new File(((FileEnterpriseFeederServiceImpl)SpringServiceLocator.getOriginEntryEnterpriseFeederService()).getDirectoryName());
+        File directory = new File(((FileEnterpriseFeederServiceImpl)SpringContext.getBean(FileEnterpriseFeederServiceImpl.class)).getDirectoryName());
         File[] doneFiles = directory.listFiles(fileFilter);
         
         StringBuilder sb = new StringBuilder();
@@ -326,7 +326,7 @@ public class FileEnterpriseFeederTest extends OriginEntryTestBase {
      */
     protected void assertNoExtraTestDoneFilesExistAfterTest( ) throws IOException {
         FileFilter fileFilter = new AndFileFilter(new PrefixFileFilter( TEST_FILE_PREFIX ), new SuffixFileFilter( FileEnterpriseFeederServiceImpl.DONE_FILE_SUFFIX) );
-        File directory = new File(((FileEnterpriseFeederServiceImpl)SpringServiceLocator.getOriginEntryEnterpriseFeederService()).getDirectoryName());
+        File directory = new File(((FileEnterpriseFeederServiceImpl)SpringContext.getBean(FileEnterpriseFeederServiceImpl.class)).getDirectoryName());
         File[] doneFiles = directory.listFiles(fileFilter);
         
         StringBuilder buf = new StringBuilder();
@@ -408,7 +408,7 @@ public class FileEnterpriseFeederTest extends OriginEntryTestBase {
      * Throws an exception if running on production
      */
     protected void checkNotOnProduction() {
-        KualiConfigurationService kualiConfigurationService = SpringServiceLocator.getKualiConfigurationService();
+        KualiConfigurationService kualiConfigurationService = SpringContext.getBean(KualiConfigurationService.class);
         
         if (StringUtils.equals(kualiConfigurationService.getPropertyString(KFSConstants.PROD_ENVIRONMENT_CODE_KEY), kualiConfigurationService.getPropertyString(KFSConstants.ENVIRONMENT_KEY))) {
             throw new RuntimeException("Can't run on production");

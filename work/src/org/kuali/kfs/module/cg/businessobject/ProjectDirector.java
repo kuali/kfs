@@ -22,7 +22,8 @@ import org.kuali.core.bo.Inactivateable;
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.exceptions.UserNotFoundException;
-import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.core.service.UniversalUserService;
+import org.kuali.kfs.context.SpringContext;
 
 /**
  * 
@@ -47,7 +48,7 @@ public class ProjectDirector extends PersistableBusinessObjectBase implements In
     public UniversalUser getUniversalUser() {
         // If personUserIdentifier is not set, then fall back to personUniversalIdentifier.
         if (personUserIdentifier == null) {
-            universalUser = SpringServiceLocator.getUniversalUserService().updateUniversalUserIfNecessary(personUniversalIdentifier, universalUser);
+            universalUser = SpringContext.getBean(UniversalUserService.class, "universalUserService").updateUniversalUserIfNecessary(personUniversalIdentifier, universalUser);
         }
         return universalUser;
     }
@@ -161,7 +162,7 @@ public class ProjectDirector extends PersistableBusinessObjectBase implements In
         this.personUserIdentifier = personUserIdentifier;
         if (universalUser == null || !personUserIdentifier.equals(universalUser.getPersonUserIdentifier())) {
             try {
-                universalUser = SpringServiceLocator.getUniversalUserService().getUniversalUserByAuthenticationUserId( personUserIdentifier );
+                universalUser = SpringContext.getBean(UniversalUserService.class, "universalUserService").getUniversalUserByAuthenticationUserId( personUserIdentifier );
             } catch ( UserNotFoundException ex ) {
                 universalUser = null;
             }

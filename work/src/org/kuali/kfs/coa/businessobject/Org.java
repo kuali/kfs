@@ -27,11 +27,14 @@ import org.kuali.core.bo.Campus;
 import org.kuali.core.bo.Inactivateable;
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.bo.user.UniversalUser;
+import org.kuali.core.service.KualiConfigurationService;
+import org.kuali.core.service.UniversalUserService;
 import org.kuali.core.util.UrlFactory;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.bo.Country;
 import org.kuali.kfs.bo.PostalZipCode;
-import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.kfs.context.SpringContext;
+import org.kuali.module.chart.service.OrganizationService;
 
 /**
  * 
@@ -323,7 +326,7 @@ public class Org extends PersistableBusinessObjectBase implements Inactivateable
     }
 
     public UniversalUser getOrganizationManagerUniversal() {
-        organizationManagerUniversal = SpringServiceLocator.getUniversalUserService().updateUniversalUserIfNecessary(organizationManagerUniversalId, organizationManagerUniversal);
+        organizationManagerUniversal = SpringContext.getBean(UniversalUserService.class, "universalUserService").updateUniversalUserIfNecessary(organizationManagerUniversalId, organizationManagerUniversal);
         return organizationManagerUniversal;
     }
 
@@ -879,7 +882,7 @@ public class Org extends PersistableBusinessObjectBase implements Inactivateable
             String rOrg = org.getReportsToOrganizationCode();
 
             seen.add(org);
-            org = SpringServiceLocator.getOrganizationService().getByPrimaryId(rChart, rOrg);
+            org = SpringContext.getBean(OrganizationService.class).getByPrimaryId(rChart, rOrg);
 
             result.append(rChart + "/" + rOrg + " " + ((org == null) ? "" : org.getOrganizationName()) + "\n");
         }
@@ -900,7 +903,7 @@ public class Org extends PersistableBusinessObjectBase implements Inactivateable
         params.put("active_ind", "true");
         params.put("ruleTemplateName", "KualiOrgReviewTemplate");
 
-        return UrlFactory.parameterizeUrl(SpringServiceLocator.getKualiConfigurationService().getPropertyString(KFSConstants.WORKFLOW_URL_KEY) + "/Lookup.do", params);
+        return UrlFactory.parameterizeUrl(SpringContext.getBean(KualiConfigurationService.class).getPropertyString(KFSConstants.WORKFLOW_URL_KEY) + "/Lookup.do", params);
     }
 
     /**

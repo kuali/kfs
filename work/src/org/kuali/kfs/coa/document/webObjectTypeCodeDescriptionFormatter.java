@@ -21,8 +21,9 @@ import java.util.Map;
 import java.util.Set;
 
 import org.kuali.core.bo.PersistableBusinessObject;
+import org.kuali.core.service.BusinessObjectService;
 import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.chart.bo.ObjectType;
 
 public class ObjectTypeCodeDescriptionFormatter extends CodeDescriptionFormatterBase {
@@ -41,7 +42,7 @@ public class ObjectTypeCodeDescriptionFormatter extends CodeDescriptionFormatter
         criteria.put(KFSConstants.GENERIC_CODE_PROPERTY_NAME, values);
 
         Map<String, PersistableBusinessObject> results = new HashMap<String, PersistableBusinessObject>();
-        Collection<ObjectType> coll = SpringServiceLocator.getBusinessObjectService().findMatchingOrderBy(ObjectType.class, criteria, "versionNumber", true);
+        Collection<ObjectType> coll = SpringContext.getBean(BusinessObjectService.class).findMatchingOrderBy(ObjectType.class, criteria, "versionNumber", true);
         // by sorting on ver #, we can guarantee that the most recent value will remain in the map (assuming the iterator returns
         // BOs in order)
         for (ObjectType ot : coll) {

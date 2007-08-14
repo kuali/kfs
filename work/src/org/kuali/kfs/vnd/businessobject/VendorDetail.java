@@ -25,10 +25,11 @@ import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.log4j.Logger;
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.bo.user.UniversalUser;
+import org.kuali.core.service.UniversalUserService;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.util.TypedArrayList;
-import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.vendor.util.VendorRoutingComparable;
 
 /**
@@ -906,7 +907,7 @@ public class VendorDetail extends PersistableBusinessObjectBase implements Vendo
     }
 
     public UniversalUser getVendorRestrictedPerson() {
-        vendorRestrictedPerson = SpringServiceLocator.getUniversalUserService().updateUniversalUserIfNecessary(vendorRestrictedPersonIdentifier, vendorRestrictedPerson);
+        vendorRestrictedPerson = SpringContext.getBean(UniversalUserService.class, "universalUserService").updateUniversalUserIfNecessary(vendorRestrictedPersonIdentifier, vendorRestrictedPerson);
         return vendorRestrictedPerson;
     }
 

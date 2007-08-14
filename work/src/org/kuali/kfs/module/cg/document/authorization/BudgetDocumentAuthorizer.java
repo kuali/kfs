@@ -25,7 +25,7 @@ import org.kuali.core.document.Document;
 import org.kuali.core.document.authorization.DocumentActionFlags;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.workflow.service.KualiWorkflowDocument;
-import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.kra.KraConstants;
 import org.kuali.module.kra.document.ResearchDocumentAuthorizer;
 import org.kuali.module.kra.service.ResearchDocumentPermissionsService;
@@ -43,8 +43,8 @@ public class BudgetDocumentAuthorizer extends ResearchDocumentAuthorizer {
      */
     public Map getEditMode(Document d, UniversalUser u) {
         
-        KualiConfigurationService kualiConfigurationService = SpringServiceLocator.getKualiConfigurationService();
-        ResearchDocumentPermissionsService permissionsService = SpringServiceLocator.getResearchDocumentPermissionsService();
+        KualiConfigurationService kualiConfigurationService = SpringContext.getBean(KualiConfigurationService.class);
+        ResearchDocumentPermissionsService permissionsService = SpringContext.getBean(ResearchDocumentPermissionsService.class);
         BudgetDocument budgetDocument = (BudgetDocument) d;
         String permissionCode = AuthorizationConstants.EditMode.UNVIEWABLE;
         KualiWorkflowDocument workflowDocument = budgetDocument.getDocumentHeader().getWorkflowDocument();

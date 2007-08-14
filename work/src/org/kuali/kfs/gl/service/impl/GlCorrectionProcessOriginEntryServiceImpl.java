@@ -15,8 +15,6 @@
  */
 package org.kuali.module.gl.service.impl;
 
-import java.util.Collection;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -24,15 +22,14 @@ import java.util.Map;
 import org.apache.commons.codec.binary.Base64;
 import org.kuali.core.bo.LookupResults;
 import org.kuali.core.service.BusinessObjectService;
+import org.kuali.core.service.DateTimeService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.KFSPropertyConstants;
-import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.gl.bo.OriginEntry;
 import org.kuali.module.gl.service.GlCorrectionProcessOriginEntryService;
 import org.springframework.transaction.annotation.Transactional;
-import sun.font.GlyphLayout.GVData;
 
 /**
  * This implementation of GlCorrectionProcessOriginEntryService uses the database to temporarily store lists of origin entries.
@@ -58,7 +55,7 @@ public class GlCorrectionProcessOriginEntryServiceImpl implements GlCorrectionPr
             lookupResults.setLookupResultsSequenceNumber(glcpSearchResuiltsSequenceNumber);
             lookupResults.setLookupUniversalUserId(GlobalVariables.getUserSession().getUniversalUser().getPersonUniversalIdentifier());
         }
-        lookupResults.setLookupDate(SpringServiceLocator.getDateTimeService().getCurrentTimestamp());
+        lookupResults.setLookupDate(SpringContext.getBean(DateTimeService.class, "dateTimeService").getCurrentTimestamp());
         lookupResults.setSerializedLookupResults(serializedOriginEntries);
         businessObjectService.save(lookupResults);
     }

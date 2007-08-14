@@ -23,11 +23,12 @@ import java.util.List;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
-import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.document.PaymentRequestDocument;
 import org.kuali.module.purap.document.PurchaseOrderDocument;
 import org.kuali.module.purap.exceptions.PurError;
+import org.kuali.module.purap.service.PurapService;
 import org.kuali.module.purap.util.PurApObjectUtils;
 
 
@@ -96,7 +97,7 @@ public class PaymentRequestItem extends AccountsPayableItemBase {
           if(this.getItemType().isItemTypeAboveTheLineIndicator()) {
               poi = (PurchaseOrderItem)po.getItem(this.getItemLineNumber().intValue() - 1);
           } else {
-              poi = (PurchaseOrderItem)SpringServiceLocator.getPurapService().getBelowTheLineByType(po, this.getItemType());
+              poi = (PurchaseOrderItem)SpringContext.getBean(PurapService.class).getBelowTheLineByType(po, this.getItemType());
           }
           if (poi != null) {
             return poi;

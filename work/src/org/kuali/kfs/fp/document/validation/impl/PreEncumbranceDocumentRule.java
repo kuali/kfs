@@ -27,17 +27,19 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.core.datadictionary.BusinessObjectEntry;
 import org.kuali.core.document.Document;
 import org.kuali.core.rule.KualiParameterRule;
+import org.kuali.core.service.DataDictionaryService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSKeyConstants;
 import org.kuali.kfs.bo.AccountingLine;
 import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
 import org.kuali.kfs.bo.TargetAccountingLine;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.document.AccountingDocument;
 import org.kuali.kfs.rules.AccountingDocumentRuleBase;
 import org.kuali.kfs.rules.AccountingDocumentRuleUtil;
 import org.kuali.kfs.rules.AttributeReference;
-import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.kfs.service.HomeOriginationService;
 import org.kuali.module.financial.document.PreEncumbranceDocument;
 
 
@@ -86,7 +88,7 @@ public class PreEncumbranceDocumentRule extends AccountingDocumentRuleBase {
         boolean valid = true;
 
         if (accountingLine.isTargetAccountingLine()) {
-            BusinessObjectEntry boe = SpringServiceLocator.getDataDictionaryService().getDataDictionary().getBusinessObjectEntry(TargetAccountingLine.class.getName());
+            BusinessObjectEntry boe = SpringContext.getBean(DataDictionaryService.class).getDataDictionary().getBusinessObjectEntry(TargetAccountingLine.class.getName());
             if (StringUtils.isEmpty(accountingLine.getReferenceNumber())) {
                 putRequiredPropertyError(boe, REFERENCE_NUMBER);
                 valid = false;
@@ -189,7 +191,7 @@ public class PreEncumbranceDocumentRule extends AccountingDocumentRuleBase {
         else {
             assertThat(accountingLine.isTargetAccountingLine(), accountingLine);
             explicitEntry.setTransactionEncumbranceUpdateCode(KFSConstants.ENCUMB_UPDT_REFERENCE_DOCUMENT_CD);
-            explicitEntry.setReferenceFinancialSystemOriginationCode(SpringServiceLocator.getHomeOriginationService().getHomeOrigination().getFinSystemHomeOriginationCode());
+            explicitEntry.setReferenceFinancialSystemOriginationCode(SpringContext.getBean(HomeOriginationService.class).getHomeOrigination().getFinSystemHomeOriginationCode());
             explicitEntry.setReferenceFinancialDocumentNumber(accountingLine.getReferenceNumber());
             explicitEntry.setReferenceFinancialDocumentTypeCode(explicitEntry.getFinancialDocumentTypeCode()); // "PE"
         }

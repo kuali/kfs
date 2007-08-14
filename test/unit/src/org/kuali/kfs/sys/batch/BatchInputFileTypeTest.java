@@ -19,9 +19,12 @@ import java.io.File;
 import java.util.ArrayList;
 
 import org.kuali.core.bo.user.UniversalUser;
+import org.kuali.core.service.UniversalUserService;
 import org.kuali.kfs.context.KualiTestBase;
-import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.kfs.context.SpringContext;
+import org.kuali.module.financial.batch.pcard.ProcurementCardInputFileType;
 import org.kuali.module.gl.batch.collector.CollectorBatch;
+import org.kuali.module.gl.batch.collector.CollectorInputFileType;
 import org.kuali.test.ConfigureContext;
 import org.kuali.test.KualiTestConstants.TestConstants.Data4;
 
@@ -44,8 +47,8 @@ public class BatchInputFileTypeTest extends KualiTestBase {
     protected void setUp() throws Exception {
         super.setUp();
 
-        pcdoBatchInputFileType = SpringServiceLocator.getProcurementCardInputFileType();
-        collectorBatchInputFileType = SpringServiceLocator.getCollectorInputFileType();
+        pcdoBatchInputFileType = SpringContext.getBean(ProcurementCardInputFileType.class);
+        collectorBatchInputFileType = SpringContext.getBean(CollectorInputFileType.class);
     }
 
     /**
@@ -64,8 +67,8 @@ public class BatchInputFileTypeTest extends KualiTestBase {
      */
     public final void testCheckAuthorization_pcdo() throws Exception {
         Object parsedContents = new ArrayList();
-        UniversalUser createUser = SpringServiceLocator.getUniversalUserService().getUniversalUserByAuthenticationUserId(Data4.USER_ID2);
-        UniversalUser nonCreateUser = SpringServiceLocator.getUniversalUserService().getUniversalUserByAuthenticationUserId(Data4.USER_ID1);
+        UniversalUser createUser = SpringContext.getBean(UniversalUserService.class, "universalUserService").getUniversalUserByAuthenticationUserId(Data4.USER_ID2);
+        UniversalUser nonCreateUser = SpringContext.getBean(UniversalUserService.class, "universalUserService").getUniversalUserByAuthenticationUserId(Data4.USER_ID1);
         
         String saveFileName = pcdoBatchInputFileType.getFileName(createUser, parsedContents, "testFile.xml");
         File batchFile = new File(saveFileName);
@@ -79,8 +82,8 @@ public class BatchInputFileTypeTest extends KualiTestBase {
      */
     public final void testCheckAuthorization_collector() throws Exception {
         Object parsedContents = new CollectorBatch();
-        UniversalUser createUser = SpringServiceLocator.getUniversalUserService().getUniversalUserByAuthenticationUserId(Data4.USER_ID2);
-        UniversalUser nonCreateUser = SpringServiceLocator.getUniversalUserService().getUniversalUserByAuthenticationUserId(Data4.USER_ID1);
+        UniversalUser createUser = SpringContext.getBean(UniversalUserService.class, "universalUserService").getUniversalUserByAuthenticationUserId(Data4.USER_ID2);
+        UniversalUser nonCreateUser = SpringContext.getBean(UniversalUserService.class, "universalUserService").getUniversalUserByAuthenticationUserId(Data4.USER_ID1);
 
         String saveFileName = collectorBatchInputFileType.getFileName(createUser, parsedContents, "testFile.xml");
         File batchFile = new File(saveFileName);

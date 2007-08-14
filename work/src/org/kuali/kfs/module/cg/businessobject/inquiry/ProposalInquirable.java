@@ -24,11 +24,12 @@ import org.kuali.core.bo.BusinessObject;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.datadictionary.InquirySectionDefinition;
 import org.kuali.core.inquiry.KualiInquirableImpl;
+import org.kuali.core.service.BusinessObjectDictionaryService;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.web.ui.Section;
 import org.kuali.core.web.ui.SectionBridge;
-import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.cg.CGConstants;
 
 /**
@@ -55,7 +56,7 @@ public class ProposalInquirable extends KualiInquirableImpl {
             throw new RuntimeException("Business object class not set in inquirable.");
         }
 
-        Collection inquirySections = SpringServiceLocator.getBusinessObjectDictionaryService().getInquirySections(getBusinessObjectClass());
+        Collection inquirySections = SpringContext.getBean(BusinessObjectDictionaryService.class).getInquirySections(getBusinessObjectClass());
         for (Iterator iter = inquirySections.iterator(); iter.hasNext();) {
 
             UniversalUser user = GlobalVariables.getUserSession().getUniversalUser();
@@ -81,7 +82,7 @@ public class ProposalInquirable extends KualiInquirableImpl {
      */
     private void initStatics() {
         if ( configService == null ) {
-            configService = SpringServiceLocator.getKualiConfigurationService();
+            configService = SpringContext.getBean(KualiConfigurationService.class);
         }
         // get the group name that we need here
         if ( centralPreAwardWorkgroupName == null ) {

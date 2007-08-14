@@ -17,16 +17,17 @@ package org.kuali.module.financial.service;
 
 import java.util.Calendar;
 
+import org.kuali.core.service.DateTimeService;
 import org.kuali.kfs.context.KualiTestBase;
-import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.test.ConfigureContext;
 
 @ConfigureContext
 public class UniversityDateServiceTest extends KualiTestBase {
 
     public final void testGetCurrentFiscalYear() {
-        int currentFiscalYearAccordingToUniversityDateService = SpringServiceLocator.getUniversityDateService().getCurrentFiscalYear();
-        Calendar today = SpringServiceLocator.getDateTimeService().getCurrentCalendar();
+        int currentFiscalYearAccordingToUniversityDateService = SpringContext.getBean(UniversityDateService.class).getCurrentFiscalYear();
+        Calendar today = SpringContext.getBean(DateTimeService.class, "dateTimeService").getCurrentCalendar();
         int currentFiscalYearAccordingToTest = today.get(Calendar.YEAR); 
         if (today.get(Calendar.MONTH) >= Calendar.JULY) {
             currentFiscalYearAccordingToTest++;
@@ -38,7 +39,7 @@ public class UniversityDateServiceTest extends KualiTestBase {
         boolean failedAsExpected = false;
 
         try {
-            SpringServiceLocator.getUniversityDateService().getFiscalYear(null);
+            SpringContext.getBean(UniversityDateService.class).getFiscalYear(null);
         }
         catch (IllegalArgumentException e) {
             failedAsExpected = true;
@@ -48,11 +49,11 @@ public class UniversityDateServiceTest extends KualiTestBase {
     }
 
     public final void testGetFiscalYear_pastDate() throws Exception {
-        java.sql.Timestamp badTimestamp = SpringServiceLocator.getDateTimeService().convertToSqlTimestamp("01/10/1989 12:00 AM");
-        java.sql.Timestamp goodTimestamp = SpringServiceLocator.getDateTimeService().convertToSqlTimestamp("08/19/1993 12:00 AM");
+        java.sql.Timestamp badTimestamp = SpringContext.getBean(DateTimeService.class, "dateTimeService").convertToSqlTimestamp("01/10/1989 12:00 AM");
+        java.sql.Timestamp goodTimestamp = SpringContext.getBean(DateTimeService.class, "dateTimeService").convertToSqlTimestamp("08/19/1993 12:00 AM");
 
-        assertNull("This date shouldn't be in sh_univ_date_t", SpringServiceLocator.getUniversityDateService().getFiscalYear(badTimestamp));
-        assertEquals("This date should be in sh_univ_date_t", new Integer(1994), SpringServiceLocator.getUniversityDateService().getFiscalYear(goodTimestamp));
+        assertNull("This date shouldn't be in sh_univ_date_t", SpringContext.getBean(UniversityDateService.class).getFiscalYear(badTimestamp));
+        assertEquals("This date should be in sh_univ_date_t", new Integer(1994), SpringContext.getBean(UniversityDateService.class).getFiscalYear(goodTimestamp));
     }
     
 }

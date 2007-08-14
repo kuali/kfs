@@ -42,7 +42,7 @@ import org.kuali.core.web.ui.Row;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSKeyConstants;
 import org.kuali.kfs.KFSPropertyConstants;
-import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.gl.bo.AccountBalance;
 import org.kuali.module.gl.util.ObjectHelper;
 import org.kuali.module.gl.web.lookupable.AccountBalanceByConsolidationLookupableHelperServiceImpl;
@@ -64,7 +64,7 @@ public class BalanceInquiryAction extends KualiAction {
 
     public BalanceInquiryAction() {
         super();
-        kualiConfigurationService = SpringServiceLocator.getKualiConfigurationService();
+        kualiConfigurationService = SpringContext.getBean(KualiConfigurationService.class);
     }
 
     private void setTotalTitles() {

@@ -26,6 +26,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.document.AmountTotaling;
+import org.kuali.core.service.DateTimeService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
@@ -34,11 +35,12 @@ import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSKeyConstants;
 import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.bo.SourceAccountingLine;
-import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.web.struts.form.KualiAccountingDocumentFormBase;
 import org.kuali.module.chart.bo.AccountingPeriod;
 import org.kuali.module.chart.bo.ObjectCode;
 import org.kuali.module.chart.bo.SubObjCd;
+import org.kuali.module.chart.service.AccountingPeriodService;
 import org.kuali.module.financial.bo.VoucherAccountingLineHelper;
 import org.kuali.module.financial.bo.VoucherAccountingLineHelperBase;
 import org.kuali.module.financial.document.VoucherDocument;
@@ -73,8 +75,8 @@ public class VoucherForm extends KualiAccountingDocumentFormBase {
      * 
      */
     private void populateDefaultSelectedAccountingPeriod() {
-        Date date = SpringServiceLocator.getDateTimeService().getCurrentSqlDate();
-        AccountingPeriod accountingPeriod = SpringServiceLocator.getAccountingPeriodService().getByDate(date);
+        Date date = SpringContext.getBean(DateTimeService.class, "dateTimeService").getCurrentSqlDate();
+        AccountingPeriod accountingPeriod = SpringContext.getBean(AccountingPeriodService.class).getByDate(date);
 
         StringBuffer sb = new StringBuffer();
         sb.append(accountingPeriod.getUniversityFiscalPeriodCode());
@@ -220,7 +222,7 @@ public class VoucherForm extends KualiAccountingDocumentFormBase {
         AccountingPeriod period = null;
 
         if (!StringUtils.isBlank(getSelectedAccountingPeriod())) {
-            period = SpringServiceLocator.getAccountingPeriodService().getByPeriod(getSelectedPostingPeriodCode(), getSelectedPostingYear());
+            period = SpringContext.getBean(AccountingPeriodService.class).getByPeriod(getSelectedPostingPeriodCode(), getSelectedPostingYear());
         }
 
         return period;
@@ -337,7 +339,7 @@ public class VoucherForm extends KualiAccountingDocumentFormBase {
      */
     protected void populateAccountingPeriodListForRendering() {
         // grab the list of valid accounting periods
-        ArrayList accountingPeriods = new ArrayList(SpringServiceLocator.getAccountingPeriodService().getOpenAccountingPeriods());
+        ArrayList accountingPeriods = new ArrayList(SpringContext.getBean(AccountingPeriodService.class).getOpenAccountingPeriods());
         // set into the form for rendering
         setAccountingPeriods(accountingPeriods);
         // set the chosen accounting period into the form

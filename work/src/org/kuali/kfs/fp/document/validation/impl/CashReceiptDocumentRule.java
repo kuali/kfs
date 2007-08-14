@@ -18,19 +18,20 @@ package org.kuali.module.financial.rules;
 import static org.kuali.kfs.KFSKeyConstants.ERROR_DOCUMENT_ACCOUNTING_LINE_INVALID_ACCT_OBJ_CD;
 
 import java.util.List;
-import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.document.Document;
 import org.kuali.core.rule.KualiParameterRule;
+import org.kuali.core.service.DictionaryValidationService;
+import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.workflow.service.KualiWorkflowDocument;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSKeyConstants;
 import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.bo.AccountingLine;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.document.AccountingDocument;
-import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.financial.bo.Check;
 import org.kuali.module.financial.document.CashReceiptDocument;
 import org.kuali.module.financial.document.CashReceiptFamilyBase;
@@ -118,7 +119,7 @@ public class CashReceiptDocumentRule extends CashReceiptFamilyRule implements Ad
      */
     private boolean validateCheck(Check check) {
         // validate the specific check coming in
-        SpringServiceLocator.getDictionaryValidationService().validateBusinessObject(check);
+        SpringContext.getBean(DictionaryValidationService.class).validateBusinessObject(check);
 
         boolean isValid = GlobalVariables.getErrorMap().isEmpty();
 
@@ -179,7 +180,7 @@ public class CashReceiptDocumentRule extends CashReceiptFamilyRule implements Ad
      */
     private boolean validateAccountAndObjectCode(AccountingLine accountingLine, boolean source, boolean newLine, int index) {
         boolean isValid = true;
-        KualiParameterRule objCdAndAccountRule = SpringServiceLocator.getKualiConfigurationService().getApplicationParameterRule(APPLICATION_PARAMETER_SECURITY_GROUP.KUALI_TRANSACTION_PROCESSING_SALES_TAX_COLLECTION_GROUPING, APPLICATION_PARAMETER.VALID_ACCOUNT_AND_OBJ_CD);
+        KualiParameterRule objCdAndAccountRule = SpringContext.getBean(KualiConfigurationService.class).getApplicationParameterRule(APPLICATION_PARAMETER_SECURITY_GROUP.KUALI_TRANSACTION_PROCESSING_SALES_TAX_COLLECTION_GROUPING, APPLICATION_PARAMETER.VALID_ACCOUNT_AND_OBJ_CD);
         //get the object code and account
         String objCd = accountingLine.getFinancialObjectCode();
         String account = accountingLine.getAccountNumber();

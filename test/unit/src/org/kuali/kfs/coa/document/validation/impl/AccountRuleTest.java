@@ -27,10 +27,14 @@ import org.kuali.core.bo.user.AuthenticationUserId;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.core.exceptions.UserNotFoundException;
+import org.kuali.core.service.BusinessObjectService;
+import org.kuali.core.service.DateTimeService;
+import org.kuali.core.service.UniversalUserService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.kfs.KFSKeyConstants;
 import org.kuali.kfs.bo.Options;
-import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.kfs.context.SpringContext;
+import org.kuali.kfs.service.OptionsService;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.AccountGuideline;
 import org.kuali.module.chart.bo.SubFundGroup;
@@ -338,7 +342,7 @@ public class AccountRuleTest extends ChartRuleTestBase {
         AccountRule rule = (AccountRule) setupMaintDocRule(maintDoc, AccountRule.class);
 
         // setup a var with today's date
-        Timestamp today = SpringServiceLocator.getDateTimeService().getCurrentTimestamp();
+        Timestamp today = SpringContext.getBean(DateTimeService.class, "dateTimeService").getCurrentTimestamp();
         today.setTime(DateUtils.truncate(today, Calendar.DAY_OF_MONTH).getTime());
         account.setAccountExpirationDate(today);
         result = rule.areGuidelinesRequired(account);
@@ -399,7 +403,7 @@ public class AccountRuleTest extends ChartRuleTestBase {
         AuthenticationUserId userId = new AuthenticationUserId(userName);
         UniversalUser user = null;
         try {
-            user = SpringServiceLocator.getUniversalUserService().getUniversalUser(userId);
+            user = SpringContext.getBean(UniversalUserService.class, "universalUserService").getUniversalUser(userId);
         }
         catch (UserNotFoundException e) {
             assertTrue("An Exception should not be thrown.", false);
@@ -536,7 +540,7 @@ public class AccountRuleTest extends ChartRuleTestBase {
 
         // restricted status code == T, date set
         newAccount.setAccountRestrictedStatusCode("T");
-        newAccount.setAccountRestrictedStatusDate(SpringServiceLocator.getDateTimeService().getCurrentTimestamp());
+        newAccount.setAccountRestrictedStatusDate(SpringContext.getBean(DateTimeService.class, "dateTimeService").getCurrentTimestamp());
         result = rule.hasTemporaryRestrictedStatusCodeButNoRestrictedStatusDate(newAccount);
         assertEquals("No error should be thrown if code is T but date is null.", false, result);
 
@@ -962,7 +966,7 @@ public class AccountRuleTest extends ChartRuleTestBase {
 
         // get today's date (or whatever's provided by the DateTimeService)
         testCalendar = Calendar.getInstance();
-        testCalendar.setTime(SpringServiceLocator.getDateTimeService().getCurrentDate());
+        testCalendar.setTime(SpringContext.getBean(DateTimeService.class, "dateTimeService").getCurrentDate());
         testCalendar = DateUtils.truncate(testCalendar, Calendar.DAY_OF_MONTH);
         testTimestamp = new Timestamp(testCalendar.getTimeInMillis());
 
@@ -998,9 +1002,9 @@ public class AccountRuleTest extends ChartRuleTestBase {
 
     }
 private void disableBeginBalanceLoadInd(){
-    Options options=SpringServiceLocator.getOptionsService().getCurrentYearOptions();
+    Options options=SpringContext.getBean(OptionsService.class).getCurrentYearOptions();
     options.setFinancialBeginBalanceLoadInd(true);
-    SpringServiceLocator.getBusinessObjectService().save(options);
+    SpringContext.getBean(BusinessObjectService.class).save(options);
 }
     public void testCheckCloseAccountContinuation_NullContinuationCoaCode() {
 
@@ -1015,7 +1019,7 @@ private void disableBeginBalanceLoadInd(){
         // account must be being closed
         oldAccount.setAccountClosedIndicator(false);
         newAccount.setAccountClosedIndicator(true);
-        newAccount.setAccountExpirationDate(SpringServiceLocator.getDateTimeService().getCurrentTimestamp());
+        newAccount.setAccountExpirationDate(SpringContext.getBean(DateTimeService.class, "dateTimeService").getCurrentTimestamp());
 
         // continuation coa code null
         newAccount.setContinuationFinChrtOfAcctCd(null);
@@ -1040,7 +1044,7 @@ private void disableBeginBalanceLoadInd(){
         // account must be being closed
         oldAccount.setAccountClosedIndicator(false);
         newAccount.setAccountClosedIndicator(true);
-        newAccount.setAccountExpirationDate(SpringServiceLocator.getDateTimeService().getCurrentTimestamp());
+        newAccount.setAccountExpirationDate(SpringContext.getBean(DateTimeService.class, "dateTimeService").getCurrentTimestamp());
 
         // continuation coa code null
         newAccount.setContinuationFinChrtOfAcctCd(Accounts.ChartCode.GOOD1);
@@ -1063,7 +1067,7 @@ private void disableBeginBalanceLoadInd(){
         // account must be being closed
         oldAccount.setAccountClosedIndicator(true);
         newAccount.setAccountClosedIndicator(true);
-        newAccount.setAccountExpirationDate(SpringServiceLocator.getDateTimeService().getCurrentTimestamp());
+        newAccount.setAccountExpirationDate(SpringContext.getBean(DateTimeService.class, "dateTimeService").getCurrentTimestamp());
 
         // continuation coa code null
         newAccount.setContinuationFinChrtOfAcctCd(Accounts.ChartCode.GOOD1);
@@ -1454,7 +1458,7 @@ private void disableBeginBalanceLoadInd(){
         boolean result;
 
         // get today's date
-        Timestamp todaysDate = SpringServiceLocator.getDateTimeService().getCurrentTimestamp();
+        Timestamp todaysDate = SpringContext.getBean(DateTimeService.class, "dateTimeService").getCurrentTimestamp();
 
         // set both expiration dates to null
         oldAccount.setAccountExpirationDate(todaysDate);
@@ -1474,7 +1478,7 @@ private void disableBeginBalanceLoadInd(){
         boolean result;
 
         // get today's date
-        Timestamp todaysDate = SpringServiceLocator.getDateTimeService().getCurrentTimestamp();
+        Timestamp todaysDate = SpringContext.getBean(DateTimeService.class, "dateTimeService").getCurrentTimestamp();
 
         // set both expiration dates to null
         oldAccount.setAccountExpirationDate(todaysDate);
@@ -1496,7 +1500,7 @@ private void disableBeginBalanceLoadInd(){
 
         // get today's date
         Calendar calendar;
-        Timestamp todaysDate = SpringServiceLocator.getDateTimeService().getCurrentTimestamp();
+        Timestamp todaysDate = SpringContext.getBean(DateTimeService.class, "dateTimeService").getCurrentTimestamp();
 
         // old exp date
         calendar = Calendar.getInstance();
@@ -1531,7 +1535,7 @@ private void disableBeginBalanceLoadInd(){
 
         // get today's date
         Calendar calendar;
-        Timestamp todaysDate = SpringServiceLocator.getDateTimeService().getCurrentTimestamp();
+        Timestamp todaysDate = SpringContext.getBean(DateTimeService.class, "dateTimeService").getCurrentTimestamp();
 
         // old exp date
         calendar = Calendar.getInstance();
@@ -1573,7 +1577,7 @@ private void disableBeginBalanceLoadInd(){
 
         // get today's date
         Calendar calendar;
-        Timestamp todaysDate = SpringServiceLocator.getDateTimeService().getCurrentTimestamp();
+        Timestamp todaysDate = SpringContext.getBean(DateTimeService.class, "dateTimeService").getCurrentTimestamp();
 
         // old exp date
         calendar = Calendar.getInstance();

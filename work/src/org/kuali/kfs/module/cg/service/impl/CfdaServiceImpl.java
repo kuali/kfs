@@ -1,18 +1,23 @@
 package org.kuali.module.cg.service.impl;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.URL;
+import java.util.Collection;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.SortedMap;
+import java.util.TreeMap;
+
+import org.kuali.core.service.BusinessObjectService;
+import org.kuali.core.service.LookupService;
+import org.kuali.kfs.context.SpringContext;
+import org.kuali.module.cg.bo.Cfda;
 import org.kuali.module.cg.service.CfdaService;
 import org.kuali.module.cg.service.CfdaUpdateResults;
-import org.kuali.module.cg.bo.Cfda;
-import org.kuali.kfs.util.SpringServiceLocator;
-import org.kuali.kfs.service.impl.HomeOriginationServiceImpl;
-import org.kuali.core.service.BusinessObjectService;
-import org.apache.log4j.Logger;
-
-import java.net.URL;
-import java.net.MalformedURLException;
-import java.io.*;
-import java.util.regex.Pattern;
-import java.util.*;
 
 /**
  * User: Laran Evans <lc278@cornell.edu>
@@ -131,7 +136,7 @@ public class CfdaServiceImpl implements CfdaService {
      * @throws IOException
      */
     public static SortedMap<String, Cfda> getKfsCodes() throws IOException {
-        Collection allCodes = SpringServiceLocator.getLookupService().findCollectionBySearch(Cfda.class, new HashMap());
+        Collection allCodes = SpringContext.getBean(LookupService.class).findCollectionBySearch(Cfda.class, new HashMap());
 
         SortedMap<String, Cfda> kfsMapAll = new TreeMap<String, Cfda>(cfdaComparator);
         for(Object o : allCodes) {

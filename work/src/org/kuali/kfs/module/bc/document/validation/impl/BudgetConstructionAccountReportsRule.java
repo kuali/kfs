@@ -19,7 +19,7 @@ import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.kfs.KFSKeyConstants;
-import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.budget.bo.BudgetConstructionAccountReports;
 import org.kuali.module.chart.service.ChartService;
 
@@ -43,7 +43,7 @@ public class BudgetConstructionAccountReportsRule extends MaintenanceDocumentRul
         // to spring-managed with these services injected by Spring at some later date.
         // When this happens, just remove these calls to the setters with
         // SpringServiceLocator, and configure the bean defs for spring.
-        this.setChartService(SpringServiceLocator.getChartService()); 
+        this.setChartService(SpringContext.getBean(ChartService.class)); 
     }
 
     /**

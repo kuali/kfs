@@ -27,12 +27,16 @@ import javax.xml.xpath.XPathExpressionException;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.core.lookup.LookupUtils;
-import org.kuali.core.service.DocumentTypeService;
+import org.kuali.core.service.DocumentService;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.bo.Options;
-import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.kfs.context.SpringContext;
+import org.kuali.kfs.service.OptionsService;
 import org.kuali.module.chart.bo.Chart;
+import org.kuali.module.chart.service.ChartService;
+import org.kuali.module.financial.service.UniversityDateService;
+import org.kuali.module.gl.service.SufficientFundsService;
 import org.kuali.module.gl.util.SufficientFundsItem;
 import org.kuali.module.purap.document.PurchaseOrderDocument;
 import org.kuali.workflow.KualiWorkflowUtils;
@@ -150,16 +154,16 @@ public class KualiPurchaseOrderBudgetAttribute implements WorkflowAttribute {
             }
             String documentFiscalYearString = KualiWorkflowUtils.xstreamSafeEval(xPath, currentXpathExpression, docContent.getDocContent());
             // if document's fiscal year is less than or equal to the current fiscal year
-            if ( SpringServiceLocator.getUniversityDateService().getCurrentFiscalYear().compareTo(Integer.valueOf(documentFiscalYearString)) >= 0 ) {
+            if ( SpringContext.getBean(UniversityDateService.class).getCurrentFiscalYear().compareTo(Integer.valueOf(documentFiscalYearString)) >= 0 ) {
                 if (alwaysRoutes) { return true; }
                 if (isReport) {
                     currentXpathExpression = KualiWorkflowUtils.XSTREAM_MATCH_ANYWHERE_PREFIX + KualiWorkflowUtils.XML_REPORT_DOC_CONTENT_XPATH_PREFIX + "/" + KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE;
                     return ruleChartCode.equalsIgnoreCase(KualiWorkflowUtils.xstreamSafeEval(xPath, currentXpathExpression, docContent.getDocContent()));
                 } else {
                     documentHeaderId = docContent.getRouteContext().getDocument().getRouteHeaderId().toString();
-                    PurchaseOrderDocument po = (PurchaseOrderDocument) SpringServiceLocator.getDocumentService().getByDocumentHeaderId(documentHeaderId);
+                    PurchaseOrderDocument po = (PurchaseOrderDocument) SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(documentHeaderId);
                     // get list of sufficientfundItems
-                    List<SufficientFundsItem> fundsItems = SpringServiceLocator.getSufficientFundsService().checkSufficientFunds(po.getPendingLedgerEntriesForSufficientFundsChecking());
+                    List<SufficientFundsItem> fundsItems = SpringContext.getBean(SufficientFundsService.class).checkSufficientFunds(po.getPendingLedgerEntriesForSufficientFundsChecking());
                     for (SufficientFundsItem fundsItem : fundsItems) {
                         if (ruleChartCode.equalsIgnoreCase(fundsItem.getAccount().getChartOfAccountsCode())) {
                             LOG.debug("Chart code of rule extension matches chart code of at least one Sufficient Funds Item");
@@ -210,7 +214,7 @@ public class KualiPurchaseOrderBudgetAttribute implements WorkflowAttribute {
             errors.add(new WorkflowServiceErrorImpl(errorMessage, "routetemplate.xmlattribute.error", errorMessage));
         } else {
             // not blank so check value for validity
-            Chart chart = SpringServiceLocator.getChartService().getByPrimaryId(getFinCoaCd());
+            Chart chart = SpringContext.getBean(ChartService.class).getByPrimaryId(getFinCoaCd());
             if (chart == null) {
                 String errorMessage = label + " entered is invalid";
                 errors.add(new WorkflowServiceErrorImpl(errorMessage, "routetemplate.xmlattribute.error", errorMessage));
@@ -222,7 +226,7 @@ public class KualiPurchaseOrderBudgetAttribute implements WorkflowAttribute {
             errors.add(new WorkflowServiceErrorImpl(errorMessage, "routetemplate.xmlattribute.error", errorMessage));
         } else {
             // not blank so check value for validity
-            Options options = SpringServiceLocator.getOptionsService().getOptions(Integer.valueOf(getFiscalYear()));
+            Options options = SpringContext.getBean(OptionsService.class).getOptions(Integer.valueOf(getFiscalYear()));
             if (options == null) {
                 String errorMessage = label + " entered is invalid";
                 errors.add(new WorkflowServiceErrorImpl(errorMessage, "routetemplate.xmlattribute.error", errorMessage));
@@ -244,7 +248,7 @@ public class KualiPurchaseOrderBudgetAttribute implements WorkflowAttribute {
             errors.add(new WorkflowServiceErrorImpl(errorMessage, "routetemplate.xmlattribute.error", errorMessage));
         } else if (StringUtils.isNotBlank(getFinCoaCd())) {
             // not blank so check value for validity
-            Chart chart = SpringServiceLocator.getChartService().getByPrimaryId(getFinCoaCd());
+            Chart chart = SpringContext.getBean(ChartService.class).getByPrimaryId(getFinCoaCd());
             if (chart == null) {
                 String errorMessage = label + " entered is invalid";
                 errors.add(new WorkflowServiceErrorImpl(errorMessage, "routetemplate.xmlattribute.error", errorMessage));

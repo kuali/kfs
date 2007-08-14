@@ -19,9 +19,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.KFSPropertyConstants;
-import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.cg.bo.Award;
 
 /**
@@ -42,7 +43,7 @@ public class AwardRuleUtil {
         Long proposalNumber = award.getProposalNumber();
         Map<String, Object> awardPrimaryKeys = new HashMap<String, Object>();
         awardPrimaryKeys.put(KFSPropertyConstants.PROPOSAL_NUMBER, proposalNumber);
-        Award result = (Award) SpringServiceLocator.getBusinessObjectService().findByPrimaryKey(Award.class, awardPrimaryKeys);
+        Award result = (Award) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(Award.class, awardPrimaryKeys);
 
         boolean awarded = ObjectUtils.isNotNull(result) && !StringUtils.equals(award.getObjectId(), result.getObjectId());
 
@@ -70,7 +71,7 @@ public class AwardRuleUtil {
 //        Long proposalNumber = award.getProposalNumber();
 //        Map<String, Object> awardPrimaryKeys = new HashMap<String, Object>();
 //        awardPrimaryKeys.put(KFSPropertyConstants.PROPOSAL_NUMBER, proposalNumber);
-//        Award result = (Award) SpringServiceLocator.getBusinessObjectService().findByPrimaryKey(Award.class, awardPrimaryKeys);
+//        Award result = (Award) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(Award.class, awardPrimaryKeys);
 //
 //        boolean inactive = ObjectUtils.isNotNull(result) && !result.isActive();
 //

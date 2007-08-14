@@ -27,6 +27,7 @@ import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.bo.AccountingLine;
 import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.document.AccountingDocument;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.purap.PurapKeyConstants;
@@ -36,6 +37,7 @@ import org.kuali.module.purap.PurapConstants.PurapDocTypeCodes;
 import org.kuali.module.purap.PurapConstants.PurchaseOrderStatuses;
 import org.kuali.module.purap.document.PaymentRequestDocument;
 import org.kuali.module.purap.document.PurchaseOrderDocument;
+import org.kuali.module.purap.service.PaymentRequestService;
 import org.kuali.module.purap.service.PurapGeneralLedgerService;
 
 public class PurchaseOrderCloseDocumentRule extends PurchasingDocumentRuleBase {
@@ -88,7 +90,7 @@ public class PurchaseOrderCloseDocumentRule extends PurchasingDocumentRuleBase {
         boolean valid = true;
         // The PO must have at least one PREQ against it.
         Integer poDocId = document.getPurapDocumentIdentifier();
-        List<PaymentRequestDocument> pReqs = SpringServiceLocator.getPaymentRequestService().getPaymentRequestsByPurchaseOrderId(poDocId);
+        List<PaymentRequestDocument> pReqs = SpringContext.getBean(PaymentRequestService.class).getPaymentRequestsByPurchaseOrderId(poDocId);
         if (ObjectUtils.isNotNull(pReqs)) {
             if (pReqs.size() == 0) {
                 valid = false;

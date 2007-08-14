@@ -34,7 +34,7 @@ import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSKeyConstants;
 import org.kuali.kfs.KFSConstants.SystemGroupParameterNames;
 import org.kuali.kfs.batch.BatchInputFileSetType;
-import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.gl.service.EnterpriseFeederService;
 
 /**
@@ -51,7 +51,7 @@ public class EnterpriseFeederFileSetType implements BatchInputFileSetType {
      */
     public String getDirectoryPath(String fileType) {
         // all files in the file set go into the same directory
-        return SpringServiceLocator.getOriginEntryEnterpriseFeederService().getDirectoryName();
+        return SpringContext.getBean(EnterpriseFeederService.class).getDirectoryName();
     }
 
     /**
@@ -150,7 +150,7 @@ public class EnterpriseFeederFileSetType implements BatchInputFileSetType {
      * @see org.kuali.kfs.batch.BatchInputFileSetType#getDoneFileDirectoryPath()
      */
     public String getDoneFileDirectoryPath() {
-        return SpringServiceLocator.getOriginEntryEnterpriseFeederService().getDirectoryName();
+        return SpringContext.getBean(EnterpriseFeederService.class).getDirectoryName();
     }
 
     /**

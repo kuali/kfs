@@ -33,6 +33,7 @@ import org.kuali.core.bo.DocumentHeader;
 import org.kuali.core.bo.Note;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.service.BusinessObjectService;
+import org.kuali.core.service.DataDictionaryService;
 import org.kuali.core.service.DateTimeService;
 import org.kuali.core.service.DocumentService;
 import org.kuali.core.service.KualiConfigurationService;
@@ -44,7 +45,7 @@ import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.workflow.service.WorkflowDocumentService;
 import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.bo.SourceAccountingLine;
-import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.PurapKeyConstants;
@@ -529,6 +530,23 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
         }
     }
 
+//    public void save(PaymentRequestDocument paymentRequestDocument) {
+//
+//        // Integer poId = paymentRequestDocument.getPurchaseOrderIdentifier();
+//        // PurchaseOrderDocument purchaseOrderDocument = SpringContext.getBean(PurchaseOrderService.class).getCurrentPurchaseOrder(paymentRequestDocument.getPurchaseOrderIdentifier());
+//        // paymentRequestDocument.populatePaymentRequestFormPurchaseOrder(purchaseOrderDocument);
+//
+//        paymentRequestDao.save(paymentRequestDocument);
+//    }
+//
+//    /**
+//     * @see org.kuali.module.purap.service.PaymentRequestService#saveWithWorkflowDocumentUpdate(org.kuali.module.purap.document.PaymentRequestDocument)
+//     */
+//    public void saveWithWorkflowDocumentUpdate(PaymentRequestDocument paymentRequestDocument) throws WorkflowException {
+//        paymentRequestDocument.getDocumentHeader().getWorkflowDocument().saveRoutingData();
+//        this.save(paymentRequestDocument);
+//    }
+    
     /**
      * Retreives a list of Pay Reqs with the given PO Id, invoice amount, and invoice date.
      * 
@@ -566,10 +584,10 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
 
         HashMap<String, String> list = new HashMap<String, String>();
         Integer POID = document.getPurchaseOrderIdentifier();
-        java.util.Date currentDate = SpringServiceLocator.getDateTimeService().getCurrentDate();
+        java.util.Date currentDate = SpringContext.getBean(DateTimeService.class, "dateTimeService").getCurrentDate();
         
         //TODO: Why not rely on ojb here?  You should have a po already from the mapping Actually it looks like the mapping isn't correct.  I'll fix this later
-        PurchaseOrderDocument po = SpringServiceLocator.getPurchaseOrderService().getCurrentPurchaseOrder(document.getPurchaseOrderIdentifier());
+        PurchaseOrderDocument po = SpringContext.getBean(PurchaseOrderService.class).getCurrentPurchaseOrder(document.getPurchaseOrderIdentifier());
         
         //TODO: check for po not be null
         //TODO: also, this method should not call po.getSourceAccountingLines; that method is not reliable for PURAP docs. (hjs)
@@ -591,7 +609,7 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
                 // 2.  if the account is expired and the current date is <= 30 days from the expiration date, do nothing 
                 // 3.  if the account is expired and the current date is > 30 days from the expiration date, get the continuation account and add it to the list
                 //TODO: check to see if there is a constant defiend for this number of days (30) in the system and use it instead of 30. If not we need to define a new one 
-            } else if (account.isExpired() & SpringServiceLocator.getDateTimeService().dateDiff(account.getAccountExpirationDate(), SpringServiceLocator.getDateTimeService().getCurrentDate(), true) > 30) {
+            } else if (account.isExpired() & SpringContext.getBean(DateTimeService.class, "dateTimeService").dateDiff(account.getAccountExpirationDate(), SpringContext.getBean(DateTimeService.class, "dateTimeService").getCurrentDate(), true) > 30) {
                 Account continuationAccount = account.getContinuationAccount();
                 //TODO: Do we need to check for not being null and what to do??  Yes see above
                 list.put(account.getAccountNumber(), continuationAccount.getAccountNumber());
@@ -694,7 +712,7 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
         distributeAccounting(paymentRequest);
         
         //update the amounts on the accounts
-        SpringServiceLocator.getPurapAccountingService().updateAccountAmounts(paymentRequest);
+        SpringContext.getBean(PurapAccountingService.class).updateAccountAmounts(paymentRequest);
         //refresh account summary
         paymentRequest.refreshAccountSummary();
     }
@@ -711,7 +729,7 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
             if(discountItem==null) {
                 //set discountItem and add to items
                 //this is probably not the best way of doing it but should work for now if we start excluding discount from below we will need to manually add
-                SpringServiceLocator.getPurapService().addBelowLineItems(paymentRequestDocument);
+                SpringContext.getBean(PurapService.class).addBelowLineItems(paymentRequestDocument);
                 discountItem = findDiscountItem(paymentRequestDocument);
             }
             KualiDecimal totalCost = paymentRequestDocument.getTotalDollarAmountAboveLineItems();
@@ -769,10 +787,10 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
 
                     totalAmount = paymentRequestDocument.getGrandTotal();
                     
-                    SpringServiceLocator.getPurapAccountingService().updateAccountAmounts(paymentRequestDocument);
-                    summaryAccounts = SpringServiceLocator.getPurapAccountingService().generateSummary(paymentRequestDocument.getItems());
+                    SpringContext.getBean(PurapAccountingService.class).updateAccountAmounts(paymentRequestDocument);
+                    summaryAccounts = SpringContext.getBean(PurapAccountingService.class).generateSummary(paymentRequestDocument.getItems());
                     
-                    distributedAccounts = SpringServiceLocator.getPurapAccountingService().generateAccountDistributionForProration(summaryAccounts, totalAmount, PurapConstants.PRORATION_SCALE,PaymentRequestAccount.class);
+                    distributedAccounts = SpringContext.getBean(PurapAccountingService.class).generateAccountDistributionForProration(summaryAccounts, totalAmount, PurapConstants.PRORATION_SCALE,PaymentRequestAccount.class);
                     
                 }
                 else {
@@ -788,9 +806,9 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
                         item.generateAccountListFromPoItemAccounts(poi.getSourceAccountingLines());
                     }else { 
                          totalAmount = paymentRequestDocument.getPurchaseOrderDocument().getTotalDollarAmountAboveLineItems();
-                         SpringServiceLocator.getPurapAccountingService().updateAccountAmounts(paymentRequestDocument.getPurchaseOrderDocument());
-                         summaryAccounts = SpringServiceLocator.getPurapAccountingService().generateSummary(PurApItemUtils.getAboveTheLineOnly(paymentRequestDocument.getPurchaseOrderDocument().getItems()));
-                         distributedAccounts = SpringServiceLocator.getPurapAccountingService().generateAccountDistributionForProration(summaryAccounts, totalAmount, new Integer("6"),PaymentRequestAccount.class); 
+                         SpringContext.getBean(PurapAccountingService.class).updateAccountAmounts(paymentRequestDocument.getPurchaseOrderDocument());
+                         summaryAccounts = SpringContext.getBean(PurapAccountingService.class).generateSummary(PurApItemUtils.getAboveTheLineOnly(paymentRequestDocument.getPurchaseOrderDocument().getItems()));
+                         distributedAccounts = SpringContext.getBean(PurapAccountingService.class).generateAccountDistributionForProration(summaryAccounts, totalAmount, new Integer("6"),PaymentRequestAccount.class); 
                     }
                          
                 }
@@ -902,7 +920,7 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
     public boolean canHoldPaymentRequest(PaymentRequestDocument document, UniversalUser user){
         boolean canHold = false;
         
-        String accountsPayableGroup = SpringServiceLocator.getKualiConfigurationService().getApplicationParameterValue(PurapParameterConstants.PURAP_ADMIN_GROUP, PurapConstants.Workgroups.WORKGROUP_ACCOUNTS_PAYABLE);
+        String accountsPayableGroup = SpringContext.getBean(KualiConfigurationService.class).getApplicationParameterValue(PurapParameterConstants.PURAP_ADMIN_GROUP, PurapConstants.Workgroups.WORKGROUP_ACCOUNTS_PAYABLE);
         
         /* The user is an approver of the document,
          * The user is a member of the Accounts Payable group
@@ -927,7 +945,7 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
     public boolean canRemoveHoldPaymentRequest(PaymentRequestDocument document, UniversalUser user){
         boolean canRemoveHold = false;
         
-        String accountsPayableSupervisorGroup = SpringServiceLocator.getKualiConfigurationService().getApplicationParameterValue(PurapParameterConstants.PURAP_ADMIN_GROUP, PurapConstants.Workgroups.WORKGROUP_ACCOUNTS_PAYABLE_SUPERVISOR);
+        String accountsPayableSupervisorGroup = SpringContext.getBean(KualiConfigurationService.class).getApplicationParameterValue(PurapParameterConstants.PURAP_ADMIN_GROUP, PurapConstants.Workgroups.WORKGROUP_ACCOUNTS_PAYABLE_SUPERVISOR);
         
         /* The user is the person who put the preq on hold
          * The user is a member of the AP Supervisor group
@@ -1030,7 +1048,7 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
      * @see org.kuali.module.purap.service.PaymentRequestService#canHoldPaymentRequest(org.kuali.module.purap.document.PaymentRequestDocument, org.kuali.core.bo.user.UniversalUser)
      */
     public boolean canUserRequestCancelOnPaymentRequest(PaymentRequestDocument document, UniversalUser user){
-        String accountsPayableGroup = SpringServiceLocator.getKualiConfigurationService().getApplicationParameterValue(PurapParameterConstants.PURAP_ADMIN_GROUP, PurapConstants.Workgroups.WORKGROUP_ACCOUNTS_PAYABLE);
+        String accountsPayableGroup = SpringContext.getBean(KualiConfigurationService.class).getApplicationParameterValue(PurapParameterConstants.PURAP_ADMIN_GROUP, PurapConstants.Workgroups.WORKGROUP_ACCOUNTS_PAYABLE);
         
         /* The user is an approver of the document,
          * The user is a member of the Accounts Payable group
@@ -1051,7 +1069,7 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
      * @see org.kuali.module.purap.service.PaymentRequestService#canRemoveHoldPaymentRequest(org.kuali.module.purap.document.PaymentRequestDocument, org.kuali.core.bo.user.UniversalUser)
      */
     public boolean canUserRemoveRequestCancelOnPaymentRequest(PaymentRequestDocument document, UniversalUser user){
-        String accountsPayableSupervisorGroup = SpringServiceLocator.getKualiConfigurationService().getApplicationParameterValue(PurapParameterConstants.PURAP_ADMIN_GROUP, PurapConstants.Workgroups.WORKGROUP_ACCOUNTS_PAYABLE_SUPERVISOR);
+        String accountsPayableSupervisorGroup = SpringContext.getBean(KualiConfigurationService.class).getApplicationParameterValue(PurapParameterConstants.PURAP_ADMIN_GROUP, PurapConstants.Workgroups.WORKGROUP_ACCOUNTS_PAYABLE_SUPERVISOR);
         
         /* The user is the person who requested a cancel on the preq
          * The user is a member of the AP Supervisor group
@@ -1185,7 +1203,7 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
      */
     public void populatePaymentRequest(PaymentRequestDocument paymentRequestDocument) {
 
-        PurchaseOrderDocument purchaseOrderDocument = SpringServiceLocator.getPurchaseOrderService().getCurrentPurchaseOrder(paymentRequestDocument.getPurchaseOrderIdentifier());
+        PurchaseOrderDocument purchaseOrderDocument = SpringContext.getBean(PurchaseOrderService.class).getCurrentPurchaseOrder(paymentRequestDocument.getPurchaseOrderIdentifier());
 
         paymentRequestDocument.populatePaymentRequestFromPurchaseOrder(purchaseOrderDocument);
 
@@ -1217,7 +1235,7 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
         descr.append(" Vendor: ");
         descr.append( StringUtils.trimToEmpty(vendorName) );
 
-        int noteTextMaxLength = SpringServiceLocator.getDataDictionaryService().getAttributeMaxLength(DocumentHeader.class, KFSPropertyConstants.FINANCIAL_DOCUMENT_DESCRIPTION).intValue();
+        int noteTextMaxLength = SpringContext.getBean(DataDictionaryService.class).getAttributeMaxLength(DocumentHeader.class, KFSPropertyConstants.FINANCIAL_DOCUMENT_DESCRIPTION).intValue();
         if(noteTextMaxLength >= descr.length()) {
             return descr.toString();
         }
@@ -1232,7 +1250,7 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
      */
     public void populateAndSavePaymentRequest(PaymentRequestDocument preq) throws WorkflowException {
         preq.setStatusCode(PurapConstants.PaymentRequestStatuses.IN_PROCESS);
-        SpringServiceLocator.getPaymentRequestService().populatePaymentRequest(preq);
+        SpringContext.getBean(PaymentRequestService.class).populatePaymentRequest(preq);
         documentService.saveDocument(preq);
     }
     

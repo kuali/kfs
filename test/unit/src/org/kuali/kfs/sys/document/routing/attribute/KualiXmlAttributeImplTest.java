@@ -22,7 +22,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.Set;
 
 import javax.sql.DataSource;
@@ -43,11 +42,10 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.kuali.core.datadictionary.AttributeDefinition;
 import org.kuali.core.datadictionary.BusinessObjectEntry;
-import org.kuali.core.datadictionary.DataDictionaryEntry;
 import org.kuali.core.datadictionary.DocumentEntry;
 import org.kuali.core.service.DataDictionaryService;
-import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.context.KualiTestBase;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.rice.definition.ObjectDefinition;
 import org.kuali.rice.resourceloader.GlobalResourceLoader;
@@ -342,7 +340,7 @@ public class KualiXmlAttributeImplTest extends KualiTestBase {
      */
 //    @RelatesTo(RelatesTo.JiraIssue.KULOWF281)
     public void testLabelSource() {
-        DataDictionaryService myDDService = SpringServiceLocator.getDataDictionaryService();
+        DataDictionaryService myDDService = SpringContext.getBean(DataDictionaryService.class);
         XPath xpath = XPathHelper.newXPath();
         String nonsenseString = "BananaRama";
         for (Object tempEntity : myDDService.getDataDictionary().getBusinessObjectEntries().values()) {

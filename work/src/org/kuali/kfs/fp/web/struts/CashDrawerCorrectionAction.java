@@ -23,17 +23,18 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.kuali.core.web.struts.action.KualiAction;
-import org.kuali.core.bo.user.UniversalUser;
+import org.kuali.core.service.BusinessObjectService;
+import org.kuali.core.service.DocumentTypeService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.UrlFactory;
+import org.kuali.core.web.struts.action.KualiAction;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSKeyConstants;
-import org.kuali.kfs.util.SpringServiceLocator;
-
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.financial.bo.CashDrawer;
 import org.kuali.module.financial.document.CashManagementDocument;
+import org.kuali.module.financial.service.CashDrawerService;
 import org.kuali.module.financial.web.struts.form.CashDrawerCorrectionForm;
 
 public class CashDrawerCorrectionAction extends KualiAction {
@@ -58,7 +59,7 @@ public class CashDrawerCorrectionAction extends KualiAction {
         CashDrawerCorrectionForm cdcForm = (CashDrawerCorrectionForm)form;
         if (cdcForm.getCashDrawer().getWorkgroupName() == null) {
             String workgroupName = request.getParameter("wrkgrpNm");
-            cdcForm.setCashDrawer(SpringServiceLocator.getCashDrawerService().getByWorkgroupName(workgroupName, false));
+            cdcForm.setCashDrawer(SpringContext.getBean(CashDrawerService.class).getByWorkgroupName(workgroupName, false));
         }
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
@@ -119,7 +120,7 @@ public class CashDrawerCorrectionAction extends KualiAction {
             return mapping.findForward(KFSConstants.MAPPING_BASIC);
         }
         // save the drawer 
-        SpringServiceLocator.getBusinessObjectService().save(drawer);
+        SpringContext.getBean(BusinessObjectService.class).save(drawer);
         return returnToSender();
     }
     
@@ -128,7 +129,7 @@ public class CashDrawerCorrectionAction extends KualiAction {
     }
     
     private ActionForward returnToSender() {
-        String cmDocTypeName = SpringServiceLocator.getDocumentTypeService().getDocumentTypeNameByClass(CashManagementDocument.class);
+        String cmDocTypeName = SpringContext.getBean(DocumentTypeService.class).getDocumentTypeNameByClass(CashManagementDocument.class);
 
         Properties params = new Properties();
         params.setProperty("methodToCall", "docHandler");

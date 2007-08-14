@@ -22,7 +22,7 @@ import java.util.List;
 import org.kuali.core.lookup.keyvalues.KeyValuesBase;
 import org.kuali.core.service.KeyValuesService;
 import org.kuali.core.web.ui.KeyLabelPair;
-import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.purap.bo.ItemType;
 
 /**
@@ -36,7 +36,7 @@ public class ItemTypeValuesFinder extends KeyValuesBase {
 
     public List getKeyValues() {
 
-        KeyValuesService boService = SpringServiceLocator.getKeyValuesService();
+        KeyValuesService boService = SpringContext.getBean(KeyValuesService.class);
         Collection codes = boService.findAll(ItemType.class);
         List labels = new ArrayList();
         for (Object code : codes) {

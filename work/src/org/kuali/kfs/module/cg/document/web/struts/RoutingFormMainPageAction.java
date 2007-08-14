@@ -29,17 +29,16 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.core.bo.PersistableBusinessObject;
+import org.kuali.core.lookup.LookupResultsService;
+import org.kuali.core.service.PersistenceService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.util.SpringServiceLocator;
-import org.kuali.module.kra.budget.bo.Budget;
-import org.kuali.module.kra.budget.web.struts.form.BudgetForm;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.kra.routingform.bo.Keyword;
 import org.kuali.module.kra.routingform.bo.RoutingFormKeyword;
 import org.kuali.module.kra.routingform.bo.RoutingFormOrganizationCreditPercent;
 import org.kuali.module.kra.routingform.bo.RoutingFormPersonnel;
 import org.kuali.module.kra.routingform.document.RoutingFormDocument;
-import org.kuali.module.kra.routingform.rules.event.RunRoutingFormAuditEvent;
 import org.kuali.module.kra.routingform.web.struts.form.RoutingForm;
 
 public class RoutingFormMainPageAction extends RoutingFormAction {
@@ -164,7 +163,7 @@ public class RoutingFormMainPageAction extends RoutingFormAction {
         RoutingFormDocument routingFormDocument = routingForm.getRoutingFormDocument();
         
         routingFormDocument.setAgencyFederalPassThroughNumber(null);
-        SpringServiceLocator.getPersistenceService().retrieveReferenceObject(routingFormDocument, "federalPassThroughAgency");
+        SpringContext.getBean(PersistenceService.class).retrieveReferenceObject(routingFormDocument, "federalPassThroughAgency");
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
@@ -192,7 +191,7 @@ public class RoutingFormMainPageAction extends RoutingFormAction {
             String lookupResultsSequenceNumber = routingForm.getLookupResultsSequenceNumber();
             if (StringUtils.isNotBlank(lookupResultsSequenceNumber)) {
                 Class lookupResultsBOClass = Class.forName(routingForm.getLookupResultsBOClassName());
-                Collection<PersistableBusinessObject> rawValues = SpringServiceLocator.getLookupResultsService().retrieveSelectedResultBOs(lookupResultsSequenceNumber, lookupResultsBOClass, GlobalVariables.getUserSession().getUniversalUser().getPersonUniversalIdentifier());
+                Collection<PersistableBusinessObject> rawValues = SpringContext.getBean(LookupResultsService.class).retrieveSelectedResultBOs(lookupResultsSequenceNumber, lookupResultsBOClass, GlobalVariables.getUserSession().getUniversalUser().getPersonUniversalIdentifier());
                 
                 if(lookupResultsBOClass.isAssignableFrom(Keyword.class)) {
                     for(Iterator iter = rawValues.iterator(); iter.hasNext(); ) {
@@ -301,6 +300,6 @@ public class RoutingFormMainPageAction extends RoutingFormAction {
         referenceObjects.add("adhocOrgs");
         referenceObjects.add("adhocWorkgroups");
 
-        SpringServiceLocator.getPersistenceService().retrieveReferenceObjects(routingFormDocument, referenceObjects);
+        SpringContext.getBean(PersistenceService.class).retrieveReferenceObjects(routingFormDocument, referenceObjects);
     }
 }

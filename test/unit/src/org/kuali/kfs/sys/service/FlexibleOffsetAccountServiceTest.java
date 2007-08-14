@@ -19,16 +19,13 @@ import static org.kuali.kfs.util.SpringServiceLocator.getFlexibleOffsetAccountSe
 import static org.kuali.test.fixtures.OffsetAccountFixture.OFFSET_ACCOUNT1;
 import static org.kuali.test.util.KualiTestAssertionUtils.assertSparselyEqualBean;
 
-import java.lang.reflect.InvocationTargetException;
-
-import org.kuali.core.bo.FinancialSystemParameter;
+import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.context.KualiTestBase;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.context.TestUtils;
-import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.financial.bo.OffsetAccount;
 import org.kuali.test.ConfigureContext;
-import org.kuali.test.suite.RelatesTo;
 
 /**
  * This class...
@@ -37,7 +34,7 @@ import org.kuali.test.suite.RelatesTo;
 public class FlexibleOffsetAccountServiceTest extends KualiTestBase {
 
     public void testGetByPrimaryId_valid() throws Exception {
-        boolean enabled = SpringServiceLocator.getKualiConfigurationService().getApplicationParameterIndicator(KFSConstants.ParameterGroups.SYSTEM, KFSConstants.SystemGroupParameterNames.FLEXIBLE_OFFSET_ENABLED_FLAG);
+        boolean enabled = SpringContext.getBean(KualiConfigurationService.class).getApplicationParameterIndicator(KFSConstants.ParameterGroups.SYSTEM, KFSConstants.SystemGroupParameterNames.FLEXIBLE_OFFSET_ENABLED_FLAG);
    
         TestUtils.setSystemParameter(KFSConstants.ParameterGroups.SYSTEM, KFSConstants.SystemGroupParameterNames.FLEXIBLE_OFFSET_ENABLED_FLAG, "Y", true, false);
         OffsetAccount offsetAccount = getFlexibleOffsetAccountService().getByPrimaryIdIfEnabled(OFFSET_ACCOUNT1.chartOfAccountsCode, OFFSET_ACCOUNT1.accountNumber, OFFSET_ACCOUNT1.financialOffsetObjectCode);

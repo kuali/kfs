@@ -26,15 +26,18 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.bo.PersistableBusinessObject;
 import org.kuali.core.bo.user.AuthenticationUserId;
-import org.kuali.core.bo.user.KualiGroup;
-
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.document.Document;
 import org.kuali.core.exceptions.UserNotFoundException;
 import org.kuali.core.rule.KualiParameterRule;
 import org.kuali.core.rule.event.ApproveDocumentEvent;
 import org.kuali.core.rules.RulesUtils;
+import org.kuali.core.service.BusinessObjectService;
+import org.kuali.core.service.DictionaryValidationService;
+import org.kuali.core.service.DocumentAuthorizationService;
+import org.kuali.core.service.KeyValuesService;
 import org.kuali.core.service.KualiConfigurationService;
+import org.kuali.core.service.UniversalUserService;
 import org.kuali.core.util.ErrorMap;
 import org.kuali.core.util.GeneralLedgerPendingEntrySequenceHelper;
 import org.kuali.core.util.GlobalVariables;
@@ -46,10 +49,11 @@ import org.kuali.kfs.KFSKeyConstants;
 import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.bo.AccountingLine;
 import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.document.AccountingDocument;
 import org.kuali.kfs.rule.GenerateGeneralLedgerDocumentPendingEntriesRule;
 import org.kuali.kfs.rules.AccountingDocumentRuleBase;
-import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.kfs.service.OptionsService;
 import org.kuali.module.chart.bo.ChartUser;
 import org.kuali.module.chart.bo.ObjectCode;
 import org.kuali.module.financial.bo.DisbursementVoucherPayeeDetail;
@@ -59,6 +63,9 @@ import org.kuali.module.financial.bo.PaymentReasonCode;
 import org.kuali.module.financial.bo.WireCharge;
 import org.kuali.module.financial.document.DisbursementVoucherDocument;
 import org.kuali.module.financial.document.authorization.DisbursementVoucherDocumentAuthorizer;
+import org.kuali.module.financial.service.DisbursementVoucherTaxService;
+import org.kuali.module.financial.service.DisbursementVoucherTravelService;
+import org.kuali.module.financial.service.UniversityDateService;
 import org.kuali.module.financial.util.CodeDescriptionFormatter;
 import org.kuali.module.financial.util.DocumentationLocationCodeDescriptionFormatter;
 import org.kuali.module.financial.util.ObjectCodeDescriptionFormatter;
@@ -99,7 +106,7 @@ public class DisbursementVoucherDocumentRule extends AccountingDocumentRuleBase 
         // get the authorizer class to check for special conditions routing and if the user is part of a particular workgroup
         // but only if the document is enroute
         if (!isAccessible && FinancialDocument.getDocumentHeader().getWorkflowDocument().stateIsEnroute()) {
-            DisbursementVoucherDocumentAuthorizer dvAuthorizer = (DisbursementVoucherDocumentAuthorizer) SpringServiceLocator.getDocumentAuthorizationService().getDocumentAuthorizer(FinancialDocument);
+            DisbursementVoucherDocumentAuthorizer dvAuthorizer = (DisbursementVoucherDocumentAuthorizer) SpringContext.getBean(DocumentAuthorizationService.class).getDocumentAuthorizer(FinancialDocument);
             // if approval is requested and it is special conditions routing and the user is in a special conditions routing
             // workgroup then
             // the line is accessible
@@ -137,7 +144,7 @@ public class DisbursementVoucherDocumentRule extends AccountingDocumentRuleBase 
         DisbursementVoucherDocument dvDocument = (DisbursementVoucherDocument) approveEvent.getDocument();
 
         // amounts can only decrease
-        DisbursementVoucherDocumentAuthorizer dvAuthorizer = (DisbursementVoucherDocumentAuthorizer) SpringServiceLocator.getDocumentAuthorizationService().getDocumentAuthorizer(dvDocument);
+        DisbursementVoucherDocumentAuthorizer dvAuthorizer = (DisbursementVoucherDocumentAuthorizer) SpringContext.getBean(DocumentAuthorizationService.class).getDocumentAuthorizer(dvDocument);
         if (dvAuthorizer.isSpecialRouting(dvDocument, GlobalVariables.getUserSession().getUniversalUser()) && (isUserInTaxGroup() || isUserInTravelGroup() || isUserInFRNGroup() || isUserInWireGroup())) {
             boolean approveOK = true;
 
@@ -178,7 +185,7 @@ public class DisbursementVoucherDocumentRule extends AccountingDocumentRuleBase 
 
         // don't validate generated tax lines
         if (((DisbursementVoucherDocument) FinancialDocument).getDvNonResidentAlienTax() != null) {
-            List taxLineNumbers = SpringServiceLocator.getDisbursementVoucherTaxService().getNRATaxLineNumbers(((DisbursementVoucherDocument) FinancialDocument).getDvNonResidentAlienTax().getFinancialDocumentAccountingLineText());
+            List taxLineNumbers = SpringContext.getBean(DisbursementVoucherTaxService.class).getNRATaxLineNumbers(((DisbursementVoucherDocument) FinancialDocument).getDvNonResidentAlienTax().getFinancialDocumentAccountingLineText());
             if (taxLineNumbers.contains(accountingLine.getSequenceNumber())) {
                 return true;
             }
@@ -267,7 +274,7 @@ public class DisbursementVoucherDocumentRule extends AccountingDocumentRuleBase 
         // non-employee travel
 
         // retrieve nonemployee travel payment reasons
-        String[] travelNonEmplPaymentReasonCodes = SpringServiceLocator.getKualiConfigurationService().getApplicationParameterValues(DV_DOCUMENT_PARAMETERS_GROUP_NM, NONEMPLOYEE_TRAVEL_PAY_REASONS_PARM_NM);
+        String[] travelNonEmplPaymentReasonCodes = SpringContext.getBean(KualiConfigurationService.class).getApplicationParameterValues(DV_DOCUMENT_PARAMETERS_GROUP_NM, NONEMPLOYEE_TRAVEL_PAY_REASONS_PARM_NM);
         if (RulesUtils.makeSet(travelNonEmplPaymentReasonCodes).contains(dvDocument.getDvPayeeDetail().getDisbVchrPaymentReasonCode())) {
             LOG.debug("validating non employee travel");
             validateNonEmployeeTravel(dvDocument);
@@ -276,7 +283,7 @@ public class DisbursementVoucherDocumentRule extends AccountingDocumentRuleBase 
         // pre-paid travel
 
         // retrieve prepaid travel payment reasons
-        String[] travelPrepaidPaymentReasonCodes = SpringServiceLocator.getKualiConfigurationService().getApplicationParameterValues(DV_DOCUMENT_PARAMETERS_GROUP_NM, PREPAID_TRAVEL_PAY_REASONS_PARM_NM);
+        String[] travelPrepaidPaymentReasonCodes = SpringContext.getBean(KualiConfigurationService.class).getApplicationParameterValues(DV_DOCUMENT_PARAMETERS_GROUP_NM, PREPAID_TRAVEL_PAY_REASONS_PARM_NM);
         if (RulesUtils.makeSet(travelPrepaidPaymentReasonCodes).contains(dvDocument.getDvPayeeDetail().getDisbVchrPaymentReasonCode())) {
             LOG.debug("validating pre paid travel");
             validatePrePaidTravel(dvDocument);
@@ -368,7 +375,7 @@ public class DisbursementVoucherDocumentRule extends AccountingDocumentRuleBase 
         explicitEntry.setTransactionLedgerEntrySequenceNumber(new Integer(sequenceHelper.getSequenceCounter()));
         explicitEntry.setFinancialObjectCode(wireCharge.getExpenseFinancialObjectCode());
         explicitEntry.setFinancialSubObjectCode(GENERAL_LEDGER_PENDING_ENTRY_CODE.BLANK_SUB_OBJECT_CODE);
-        explicitEntry.setFinancialObjectTypeCode(SpringServiceLocator.getOptionsService().getCurrentYearOptions().getFinObjTypeExpenditureexpCd());
+        explicitEntry.setFinancialObjectTypeCode(SpringContext.getBean(OptionsService.class).getCurrentYearOptions().getFinObjTypeExpenditureexpCd());
         explicitEntry.setTransactionDebitCreditCode(GL_DEBIT_CODE);
 
         if (KFSConstants.COUNTRY_CODE_UNITED_STATES.equals(dvDocument.getDvWireTransfer().getDisbVchrBankCountryCode())) {
@@ -420,7 +427,7 @@ public class DisbursementVoucherDocumentRule extends AccountingDocumentRuleBase 
         objectCode.setUniversityFiscalYear(explicitEntry.getUniversityFiscalYear());
         objectCode.setChartOfAccountsCode(wireCharge.getChartOfAccountsCode());
         objectCode.setFinancialObjectCode(wireCharge.getIncomeFinancialObjectCode());
-        objectCode = (ObjectCode) SpringServiceLocator.getBusinessObjectService().retrieve(objectCode);
+        objectCode = (ObjectCode) SpringContext.getBean(BusinessObjectService.class).retrieve(objectCode);
 
         explicitEntry.setFinancialObjectTypeCode(objectCode.getFinancialObjectTypeCode());
         explicitEntry.setTransactionDebitCreditCode(GL_CREDIT_CODE);
@@ -453,9 +460,9 @@ public class DisbursementVoucherDocumentRule extends AccountingDocumentRuleBase 
         ErrorMap errors = GlobalVariables.getErrorMap();
 
         // validate document required fields, and payee fields, and formatting
-        SpringServiceLocator.getDictionaryValidationService().validateDocument(document);
+        SpringContext.getBean(DictionaryValidationService.class).validateDocument(document);
         errors.addToErrorPath(KFSPropertyConstants.DV_PAYEE_DETAIL);
-        SpringServiceLocator.getDictionaryValidationService().validateBusinessObject(document.getDvPayeeDetail());
+        SpringContext.getBean(DictionaryValidationService.class).validateBusinessObject(document.getDvPayeeDetail());
         errors.removeFromErrorPath(KFSPropertyConstants.DV_PAYEE_DETAIL);
         if (!errors.isEmpty()) {
             return;
@@ -520,7 +527,7 @@ public class DisbursementVoucherDocumentRule extends AccountingDocumentRuleBase 
         ErrorMap errors = GlobalVariables.getErrorMap();
 
         errors.addToErrorPath(KFSPropertyConstants.DV_WIRE_TRANSFER);
-        SpringServiceLocator.getDictionaryValidationService().validateBusinessObject(document.getDvWireTransfer());
+        SpringContext.getBean(DictionaryValidationService.class).validateBusinessObject(document.getDvWireTransfer());
 
         if (KFSConstants.COUNTRY_CODE_UNITED_STATES.equals(document.getDvWireTransfer().getDisbVchrBankCountryCode()) && StringUtils.isBlank(document.getDvWireTransfer().getDisbVchrBankRoutingNumber())) {
             errors.putError(KFSPropertyConstants.DISB_VCHR_BANK_ROUTING_NUMBER, KFSKeyConstants.ERROR_DV_BANK_ROUTING_NUMBER);
@@ -605,7 +612,7 @@ public class DisbursementVoucherDocumentRule extends AccountingDocumentRuleBase 
                     taxPercent.setIncomeTaxTypeCode(FEDERAL_TAX_TYPE_CODE);
                     taxPercent.setIncomeTaxPercent(document.getDvNonResidentAlienTax().getFederalIncomeTaxPercent());
 
-                    PersistableBusinessObject retrievedPercent = SpringServiceLocator.getBusinessObjectService().retrieve(taxPercent);
+                    PersistableBusinessObject retrievedPercent = SpringContext.getBean(BusinessObjectService.class).retrieve(taxPercent);
                     if (retrievedPercent == null) {
                         errors.putError(KFSPropertyConstants.FEDERAL_INCOME_TAX_PERCENT, KFSKeyConstants.ERROR_DV_INVALID_FED_TAX_PERCENT, new String[] { document.getDvNonResidentAlienTax().getFederalIncomeTaxPercent().toString(), document.getDvNonResidentAlienTax().getIncomeClassCode() });
                     }
@@ -620,7 +627,7 @@ public class DisbursementVoucherDocumentRule extends AccountingDocumentRuleBase 
                     taxPercent.setIncomeTaxTypeCode(STATE_TAX_TYPE_CODE);
                     taxPercent.setIncomeTaxPercent(document.getDvNonResidentAlienTax().getStateIncomeTaxPercent());
 
-                    PersistableBusinessObject retrievedPercent = SpringServiceLocator.getBusinessObjectService().retrieve(taxPercent);
+                    PersistableBusinessObject retrievedPercent = SpringContext.getBean(BusinessObjectService.class).retrieve(taxPercent);
                     if (retrievedPercent == null) {
                         errors.putError(KFSPropertyConstants.STATE_INCOME_TAX_PERCENT, KFSKeyConstants.ERROR_DV_INVALID_STATE_TAX_PERCENT, new String[] { document.getDvNonResidentAlienTax().getStateIncomeTaxPercent().toString(), document.getDvNonResidentAlienTax().getIncomeClassCode() });
                     }
@@ -645,7 +652,7 @@ public class DisbursementVoucherDocumentRule extends AccountingDocumentRuleBase 
         ErrorMap errors = GlobalVariables.getErrorMap();
 
         errors.addToErrorPath(KFSPropertyConstants.DV_NON_EMPLOYEE_TRAVEL);
-        SpringServiceLocator.getDictionaryValidationService().validateBusinessObjectsRecursively(document.getDvNonEmployeeTravel(), 1);
+        SpringContext.getBean(DictionaryValidationService.class).validateBusinessObjectsRecursively(document.getDvNonEmployeeTravel(), 1);
 
         /* travel from and to state required if country is us */
         if (KFSConstants.COUNTRY_CODE_UNITED_STATES.equals(document.getDvNonEmployeeTravel().getDvTravelFromCountryCode()) && StringUtils.isBlank(document.getDvNonEmployeeTravel().getDisbVchrTravelFromStateCode())) {
@@ -675,7 +682,7 @@ public class DisbursementVoucherDocumentRule extends AccountingDocumentRuleBase 
 
         /* make sure per diem fields have not changed since the per diem amount calculation */
         if (perDiemSectionComplete) { // Only validate if per diem section is filled in
-            KualiDecimal calculatedPerDiem = SpringServiceLocator.getDisbursementVoucherTravelService().calculatePerDiemAmount(document.getDvNonEmployeeTravel().getDvPerdiemStartDttmStamp(), document.getDvNonEmployeeTravel().getDvPerdiemEndDttmStamp(), document.getDvNonEmployeeTravel().getDisbVchrPerdiemRate());
+            KualiDecimal calculatedPerDiem = SpringContext.getBean(DisbursementVoucherTravelService.class).calculatePerDiemAmount(document.getDvNonEmployeeTravel().getDvPerdiemStartDttmStamp(), document.getDvNonEmployeeTravel().getDvPerdiemEndDttmStamp(), document.getDvNonEmployeeTravel().getDisbVchrPerdiemRate());
             if (calculatedPerDiem.compareTo(document.getDvNonEmployeeTravel().getDisbVchrPerdiemCalculatedAmt()) != 0) {
                 errors.putErrorWithoutFullErrorPath(KFSConstants.GENERAL_NONEMPLOYEE_TAB_ERRORS, KFSKeyConstants.ERROR_DV_PER_DIEM_CALC_CHANGE);
             }
@@ -684,7 +691,7 @@ public class DisbursementVoucherDocumentRule extends AccountingDocumentRuleBase 
         /* total on nonemployee travel must equal Check Total */
         /* if tax has been take out, need to add back in the tax amount for the check */
         KualiDecimal paidAmount = document.getDisbVchrCheckTotalAmount();
-        paidAmount = paidAmount.add(SpringServiceLocator.getDisbursementVoucherTaxService().getNonResidentAlienTaxAmount(document));
+        paidAmount = paidAmount.add(SpringContext.getBean(DisbursementVoucherTaxService.class).getNonResidentAlienTaxAmount(document));
         if (paidAmount.compareTo(document.getDvNonEmployeeTravel().getTotalTravelAmount()) != 0) {
             errors.putErrorWithoutFullErrorPath(KFSConstants.DV_CHECK_TRAVEL_TOTAL_ERROR, KFSKeyConstants.ERROR_DV_TRAVEL_CHECK_TOTAL);
         }
@@ -694,13 +701,13 @@ public class DisbursementVoucherDocumentRule extends AccountingDocumentRuleBase 
             KualiDecimal currentCalcAmt = document.getDvNonEmployeeTravel().getDisbVchrMileageCalculatedAmt();
             KualiDecimal currentActualAmt = document.getDvNonEmployeeTravel().getDisbVchrPersonalCarAmount();
             if (ObjectUtils.isNotNull(currentCalcAmt) && ObjectUtils.isNotNull(currentActualAmt)) {
-                KualiDecimal calculatedMileageAmount = SpringServiceLocator.getDisbursementVoucherTravelService().calculateMileageAmount(document.getDvNonEmployeeTravel().getDvPersonalCarMileageAmount(), document.getDvNonEmployeeTravel().getDvPerdiemStartDttmStamp());
+                KualiDecimal calculatedMileageAmount = SpringContext.getBean(DisbursementVoucherTravelService.class).calculateMileageAmount(document.getDvNonEmployeeTravel().getDvPersonalCarMileageAmount(), document.getDvNonEmployeeTravel().getDvPerdiemStartDttmStamp());
                 if (calculatedMileageAmount.compareTo(document.getDvNonEmployeeTravel().getDisbVchrMileageCalculatedAmt()) != 0) {
                     errors.putErrorWithoutFullErrorPath(KFSConstants.GENERAL_NONEMPLOYEE_TAB_ERRORS, KFSKeyConstants.ERROR_DV_MILEAGE_CALC_CHANGE);
                 }
 
                 // determine if the rule is flagged off in the parm setting
-                boolean performTravelMileageLimitInd = SpringServiceLocator.getKualiConfigurationService().getApplicationParameterIndicator(DV_DOCUMENT_PARAMETERS_GROUP_NM, NONEMPLOYEE_TRAVEL_ACTUAL_MILEAGE_LIMIT_PARM_NM);
+                boolean performTravelMileageLimitInd = SpringContext.getBean(KualiConfigurationService.class).getApplicationParameterIndicator(DV_DOCUMENT_PARAMETERS_GROUP_NM, NONEMPLOYEE_TRAVEL_ACTUAL_MILEAGE_LIMIT_PARM_NM);
                 if (performTravelMileageLimitInd) {
                     // if actual amount is greater than calculated amount
                     if (currentCalcAmt.subtract(currentActualAmt).isNegative()) {
@@ -817,7 +824,7 @@ public class DisbursementVoucherDocumentRule extends AccountingDocumentRuleBase 
         ErrorMap errors = GlobalVariables.getErrorMap();
 
         errors.addToErrorPath(KFSPropertyConstants.DV_PRE_CONFERENCE_DETAIL);
-        SpringServiceLocator.getDictionaryValidationService().validateBusinessObjectsRecursively(document.getDvPreConferenceDetail(), 1);
+        SpringContext.getBean(DictionaryValidationService.class).validateBusinessObjectsRecursively(document.getDvPreConferenceDetail(), 1);
         if (!errors.isEmpty()) {
             errors.removeFromErrorPath(KFSPropertyConstants.DV_PRE_CONFERENCE_DETAIL);
             return;
@@ -831,7 +838,7 @@ public class DisbursementVoucherDocumentRule extends AccountingDocumentRuleBase 
         /* total on prepaid travel must equal Check Total */
         /* if tax has been take out, need to add back in the tax amount for the check */
         KualiDecimal paidAmount = document.getDisbVchrCheckTotalAmount();
-        paidAmount = paidAmount.add(SpringServiceLocator.getDisbursementVoucherTaxService().getNonResidentAlienTaxAmount(document));
+        paidAmount = paidAmount.add(SpringContext.getBean(DisbursementVoucherTaxService.class).getNonResidentAlienTaxAmount(document));
         if (paidAmount.compareTo(document.getDvPreConferenceDetail().getDisbVchrConferenceTotalAmt()) != 0) {
             errors.putErrorWithoutFullErrorPath(KFSConstants.GENERAL_PREPAID_TAB_ERRORS, KFSKeyConstants.ERROR_DV_PREPAID_CHECK_TOTAL);
         }
@@ -858,8 +865,8 @@ public class DisbursementVoucherDocumentRule extends AccountingDocumentRuleBase 
      */
     private boolean executePaymentReasonRestriction(String parameterGroupName, String parameterName, String restrictedFieldValue, String errorField, String errorParameter, String paymentReasonCode, CodeDescriptionFormatter restrictedFieldDescFormatter) {
         boolean rulePassed = true;
-        if (SpringServiceLocator.getKualiConfigurationService().hasApplicationParameterRule(parameterGroupName, parameterName)) {
-            KualiParameterRule rule = SpringServiceLocator.getKualiConfigurationService().getApplicationParameterRule(parameterGroupName, parameterName);
+        if (SpringContext.getBean(KualiConfigurationService.class).hasApplicationParameterRule(parameterGroupName, parameterName)) {
+            KualiParameterRule rule = SpringContext.getBean(KualiConfigurationService.class).getApplicationParameterRule(parameterGroupName, parameterName);
             if (rule.failsRule(restrictedFieldValue)) {
                 String errorMsgKey = null;
                 String endConjunction = null;
@@ -875,7 +882,7 @@ public class DisbursementVoucherDocumentRule extends AccountingDocumentRuleBase 
                 Map<String, String> paymentReasonParams = new HashMap<String, String>();
                 paymentReasonParams.put("code", paymentReasonCode);
                 // TODO: should we not ignore active flag?
-                Collection<PaymentReasonCode> paymentReasons = SpringServiceLocator.getKeyValuesService().findMatching(PaymentReasonCode.class, paymentReasonParams);
+                Collection<PaymentReasonCode> paymentReasons = SpringContext.getBean(KeyValuesService.class).findMatching(PaymentReasonCode.class, paymentReasonParams);
 
                 String prName = "(Description unavailable)";
 
@@ -936,14 +943,14 @@ public class DisbursementVoucherDocumentRule extends AccountingDocumentRuleBase 
 
         /* check revolving fund restrictions */
         // retrieve revolving fund payment reasons
-        String[] revolvingFundPaymentReasonCodes = SpringServiceLocator.getKualiConfigurationService().getApplicationParameterValues(DV_DOCUMENT_PARAMETERS_GROUP_NM, REVOLVING_FUND_PAY_REASONS_PARM_NM);
+        String[] revolvingFundPaymentReasonCodes = SpringContext.getBean(KualiConfigurationService.class).getApplicationParameterValues(DV_DOCUMENT_PARAMETERS_GROUP_NM, REVOLVING_FUND_PAY_REASONS_PARM_NM);
 
         if (RulesUtils.makeSet(revolvingFundPaymentReasonCodes).contains(paymentReasonCode) && !document.getDvPayeeDetail().isDvPayeeRevolvingFundCode() && !document.getDvPayeeDetail().isVendor()) {
             errors.putError(errorKey, KFSKeyConstants.ERROR_DV_REVOLVING_PAYMENT_REASON, paymentReasonCode);
         }
 
         /* if payment reason is moving, payee must be an employee or have payee ownership type I (individual) */
-        String[] movingPaymentReasonCodes = SpringServiceLocator.getKualiConfigurationService().getApplicationParameterValues(DV_DOCUMENT_PARAMETERS_GROUP_NM, MOVING_PAY_REASONS_PARM_NM);
+        String[] movingPaymentReasonCodes = SpringContext.getBean(KualiConfigurationService.class).getApplicationParameterValues(DV_DOCUMENT_PARAMETERS_GROUP_NM, MOVING_PAY_REASONS_PARM_NM);
 
         if (RulesUtils.makeSet(movingPaymentReasonCodes).contains(document.getDvPayeeDetail().getDisbVchrPaymentReasonCode())) {
             if (!document.getDvPayeeDetail().isEmployee()) {
@@ -968,9 +975,9 @@ public class DisbursementVoucherDocumentRule extends AccountingDocumentRuleBase 
 
 
         /* for research payments over a certain limit the payee must be a vendor */
-        String[] researchPaymentReasonCodes = SpringServiceLocator.getKualiConfigurationService().getApplicationParameterValues(DV_DOCUMENT_PARAMETERS_GROUP_NM, RESEARCH_PAY_REASONS_PARM_NM);
+        String[] researchPaymentReasonCodes = SpringContext.getBean(KualiConfigurationService.class).getApplicationParameterValues(DV_DOCUMENT_PARAMETERS_GROUP_NM, RESEARCH_PAY_REASONS_PARM_NM);
 
-        KualiParameterRule researchPayRule = SpringServiceLocator.getKualiConfigurationService().getApplicationParameterRule(DV_DOCUMENT_PARAMETERS_GROUP_NM, RESEARCH_CHECK_LIMIT_AMOUNT_PARM_NM);
+        KualiParameterRule researchPayRule = SpringContext.getBean(KualiConfigurationService.class).getApplicationParameterRule(DV_DOCUMENT_PARAMETERS_GROUP_NM, RESEARCH_CHECK_LIMIT_AMOUNT_PARM_NM);
         String researchPayLimit = researchPayRule.getParameterText();
         KualiDecimal payLimit = new KualiDecimal(researchPayLimit);
 
@@ -998,7 +1005,7 @@ public class DisbursementVoucherDocumentRule extends AccountingDocumentRuleBase 
                 // check ssn against employee table
                 UniversalUser user = new UniversalUser();
                 user.setPersonTaxIdentifier(dvPayee.getTaxIdNumber());
-                user = (UniversalUser) SpringServiceLocator.getBusinessObjectService().retrieve(user);
+                user = (UniversalUser) SpringContext.getBean(BusinessObjectService.class).retrieve(user);
                 if (user != null) {
                     uuid = user.getPersonUniversalIdentifier();
                 }
@@ -1056,11 +1063,11 @@ public class DisbursementVoucherDocumentRule extends AccountingDocumentRuleBase 
         if (TAX_TYPE_SSN.equals(dvPayee.getTaxpayerTypeCode())) {
             if (isActiveEmployeeSSN(dvPayee.getTaxIdNumber()) || true) {
                 // determine if the rule is flagged off in the parm setting
-                boolean performPrepaidEmployeeInd = SpringServiceLocator.getKualiConfigurationService().getApplicationParameterIndicator(DV_DOCUMENT_PARAMETERS_GROUP_NM, PERFORM_PREPAID_EMPL_PARM_NM);
+                boolean performPrepaidEmployeeInd = SpringContext.getBean(KualiConfigurationService.class).getApplicationParameterIndicator(DV_DOCUMENT_PARAMETERS_GROUP_NM, PERFORM_PREPAID_EMPL_PARM_NM);
 
                 if (performPrepaidEmployeeInd) {
                     /* active payee employees cannot be paid for prepaid travel */
-                    String[] travelPrepaidPaymentReasonCodes = SpringServiceLocator.getKualiConfigurationService().getApplicationParameterValues(DV_DOCUMENT_PARAMETERS_GROUP_NM, PREPAID_TRAVEL_PAY_REASONS_PARM_NM);
+                    String[] travelPrepaidPaymentReasonCodes = SpringContext.getBean(KualiConfigurationService.class).getApplicationParameterValues(DV_DOCUMENT_PARAMETERS_GROUP_NM, PREPAID_TRAVEL_PAY_REASONS_PARM_NM);
                     if (RulesUtils.makeSet(travelPrepaidPaymentReasonCodes).contains(payeeDetail.getDisbVchrPaymentReasonCode())) {
                         errors.putError(KFSPropertyConstants.DISB_VCHR_PAYEE_ID_NUMBER, KFSKeyConstants.ERROR_ACTIVE_EMPLOYEE_PREPAID_TRAVEL);
                     }
@@ -1069,7 +1076,7 @@ public class DisbursementVoucherDocumentRule extends AccountingDocumentRuleBase 
             }
             else if (isEmployeeSSN(dvPayee.getTaxIdNumber())) {
                 // check parm setting for paid outside payroll check
-                boolean performPaidOutsidePayrollInd = SpringServiceLocator.getKualiConfigurationService().getApplicationParameterIndicator(DV_DOCUMENT_PARAMETERS_GROUP_NM, PERFORM_PREPAID_EMPL_PARM_NM);
+                boolean performPaidOutsidePayrollInd = SpringContext.getBean(KualiConfigurationService.class).getApplicationParameterIndicator(DV_DOCUMENT_PARAMETERS_GROUP_NM, PERFORM_PREPAID_EMPL_PARM_NM);
 
                 if (performPaidOutsidePayrollInd) {
                     /* If payee is type payee and employee, payee record must be flagged as paid outside of payroll */
@@ -1277,7 +1284,7 @@ public class DisbursementVoucherDocumentRule extends AccountingDocumentRuleBase 
     @Override
     public boolean isAmountValid(AccountingDocument document, AccountingLine accountingLine) {
         if (((DisbursementVoucherDocument) document).getDvNonResidentAlienTax() != null) {
-            List taxLineNumbers = SpringServiceLocator.getDisbursementVoucherTaxService().getNRATaxLineNumbers(((DisbursementVoucherDocument) document).getDvNonResidentAlienTax().getFinancialDocumentAccountingLineText());
+            List taxLineNumbers = SpringContext.getBean(DisbursementVoucherTaxService.class).getNRATaxLineNumbers(((DisbursementVoucherDocument) document).getDvNonResidentAlienTax().getFinancialDocumentAccountingLineText());
             if (taxLineNumbers.contains(accountingLine.getSequenceNumber())) {
                 return true;
             }
@@ -1293,7 +1300,7 @@ public class DisbursementVoucherDocumentRule extends AccountingDocumentRuleBase 
      */
     private boolean isUserInTaxGroup() {
         if ( taxGroupName == null ) {
-            taxGroupName = SpringServiceLocator.getKualiConfigurationService().getApplicationParameterValue( KFSConstants.FinancialApcParms.GROUP_DV_DOCUMENT, KFSConstants.FinancialApcParms.DV_TAX_WORKGROUP );
+            taxGroupName = SpringContext.getBean(KualiConfigurationService.class).getApplicationParameterValue( KFSConstants.FinancialApcParms.GROUP_DV_DOCUMENT, KFSConstants.FinancialApcParms.DV_TAX_WORKGROUP );
         }
         return GlobalVariables.getUserSession().getUniversalUser().isMember( taxGroupName );
     }
@@ -1305,7 +1312,7 @@ public class DisbursementVoucherDocumentRule extends AccountingDocumentRuleBase 
      */
     private boolean isUserInTravelGroup() {
         if ( travelGroupName == null ) {
-            travelGroupName = SpringServiceLocator.getKualiConfigurationService().getApplicationParameterValue( KFSConstants.FinancialApcParms.GROUP_DV_DOCUMENT, KFSConstants.FinancialApcParms.DV_TRAVEL_WORKGROUP );
+            travelGroupName = SpringContext.getBean(KualiConfigurationService.class).getApplicationParameterValue( KFSConstants.FinancialApcParms.GROUP_DV_DOCUMENT, KFSConstants.FinancialApcParms.DV_TRAVEL_WORKGROUP );
         }
         return GlobalVariables.getUserSession().getUniversalUser().isMember( travelGroupName );
     }
@@ -1317,7 +1324,7 @@ public class DisbursementVoucherDocumentRule extends AccountingDocumentRuleBase 
      */
     private boolean isUserInFRNGroup() {
         if ( frnGroupName == null ) {
-            frnGroupName = SpringServiceLocator.getKualiConfigurationService().getApplicationParameterValue( KFSConstants.FinancialApcParms.GROUP_DV_DOCUMENT, KFSConstants.FinancialApcParms.DV_FOREIGNDRAFT_WORKGROUP );
+            frnGroupName = SpringContext.getBean(KualiConfigurationService.class).getApplicationParameterValue( KFSConstants.FinancialApcParms.GROUP_DV_DOCUMENT, KFSConstants.FinancialApcParms.DV_FOREIGNDRAFT_WORKGROUP );
         }
         return GlobalVariables.getUserSession().getUniversalUser().isMember( frnGroupName );
     }
@@ -1329,7 +1336,7 @@ public class DisbursementVoucherDocumentRule extends AccountingDocumentRuleBase 
      */
     private boolean isUserInWireGroup() {
         if ( wireTransferGroupName == null ) {
-            wireTransferGroupName = SpringServiceLocator.getKualiConfigurationService().getApplicationParameterValue( KFSConstants.FinancialApcParms.GROUP_DV_DOCUMENT, KFSConstants.FinancialApcParms.DV_WIRETRANSFER_WORKGROUP );
+            wireTransferGroupName = SpringContext.getBean(KualiConfigurationService.class).getApplicationParameterValue( KFSConstants.FinancialApcParms.GROUP_DV_DOCUMENT, KFSConstants.FinancialApcParms.DV_WIRETRANSFER_WORKGROUP );
         }
         return GlobalVariables.getUserSession().getUniversalUser().isMember( wireTransferGroupName );
     }
@@ -1341,7 +1348,7 @@ public class DisbursementVoucherDocumentRule extends AccountingDocumentRuleBase 
      */
     private boolean isUserInDvAdminGroup() {
         if ( adminGroupName == null ) {
-            adminGroupName = SpringServiceLocator.getKualiConfigurationService().getApplicationParameterValue( KFSConstants.FinancialApcParms.GROUP_DV_DOCUMENT, KFSConstants.FinancialApcParms.DV_ADMIN_WORKGROUP );
+            adminGroupName = SpringContext.getBean(KualiConfigurationService.class).getApplicationParameterValue( KFSConstants.FinancialApcParms.GROUP_DV_DOCUMENT, KFSConstants.FinancialApcParms.DV_ADMIN_WORKGROUP );
         }
         return GlobalVariables.getUserSession().getUniversalUser().isMember( adminGroupName );
     }
@@ -1356,7 +1363,7 @@ public class DisbursementVoucherDocumentRule extends AccountingDocumentRuleBase 
         UniversalUser initUser = null;
         try {
 
-            initUser = SpringServiceLocator.getUniversalUserService().getUniversalUser(new AuthenticationUserId(document.getDocumentHeader().getWorkflowDocument().getInitiatorNetworkId()));
+            initUser = SpringContext.getBean(UniversalUserService.class, "universalUserService").getUniversalUser(new AuthenticationUserId(document.getDocumentHeader().getWorkflowDocument().getInitiatorNetworkId()));
         }
         catch (UserNotFoundException e) {
             throw new RuntimeException("Document Initiator not found " + e.getMessage());
@@ -1372,9 +1379,9 @@ public class DisbursementVoucherDocumentRule extends AccountingDocumentRuleBase 
      */
     private WireCharge retrieveWireCharge() {
         WireCharge wireCharge = new WireCharge();
-        wireCharge.setUniversityFiscalYear(SpringServiceLocator.getUniversityDateService().getCurrentFiscalYear());
+        wireCharge.setUniversityFiscalYear(SpringContext.getBean(UniversityDateService.class).getCurrentFiscalYear());
 
-        wireCharge = (WireCharge) SpringServiceLocator.getBusinessObjectService().retrieve(wireCharge);
+        wireCharge = (WireCharge) SpringContext.getBean(BusinessObjectService.class).retrieve(wireCharge);
         if (wireCharge == null) {
             LOG.error("Wire charge information not found for current fiscal year.");
             throw new RuntimeException("Wire charge information not found for current fiscal year.");
@@ -1392,7 +1399,7 @@ public class DisbursementVoucherDocumentRule extends AccountingDocumentRuleBase 
     private Payee retrievePayee(String payeeIdNumber) {
         Payee payee = new Payee();
         payee.setPayeeIdNumber(payeeIdNumber);
-        return (Payee) SpringServiceLocator.getBusinessObjectService().retrieve(payee);
+        return (Payee) SpringContext.getBean(BusinessObjectService.class).retrieve(payee);
     }
 
     /**
@@ -1404,7 +1411,7 @@ public class DisbursementVoucherDocumentRule extends AccountingDocumentRuleBase 
     private UniversalUser retrieveEmployee(String uuid) {
         UniversalUser employee = new UniversalUser();
         employee.setPersonUniversalIdentifier(uuid);
-        return (UniversalUser) SpringServiceLocator.getBusinessObjectService().retrieve(employee);
+        return (UniversalUser) SpringContext.getBean(BusinessObjectService.class).retrieve(employee);
     }
 
     /**
@@ -1418,7 +1425,7 @@ public class DisbursementVoucherDocumentRule extends AccountingDocumentRuleBase 
 
         UniversalUser employee = new UniversalUser();
         employee.setPersonTaxIdentifier(ssnNumber);
-        UniversalUser foundEmployee = (UniversalUser) SpringServiceLocator.getBusinessObjectService().retrieve(employee);
+        UniversalUser foundEmployee = (UniversalUser) SpringContext.getBean(BusinessObjectService.class).retrieve(employee);
 
         if (foundEmployee != null) {
             isEmployee = true;
@@ -1438,7 +1445,7 @@ public class DisbursementVoucherDocumentRule extends AccountingDocumentRuleBase 
 
         UniversalUser employee = new UniversalUser();
         employee.setPersonTaxIdentifier(ssnNumber);
-        UniversalUser foundEmployee = (UniversalUser) SpringServiceLocator.getBusinessObjectService().retrieve(employee);
+        UniversalUser foundEmployee = (UniversalUser) SpringContext.getBean(BusinessObjectService.class).retrieve(employee);
 
         if (foundEmployee != null && KFSConstants.EMPLOYEE_ACTIVE_STATUS.equals(foundEmployee.getEmployeeStatusCode())) {
             isActiveEmployee = true;

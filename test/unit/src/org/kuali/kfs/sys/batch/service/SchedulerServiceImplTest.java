@@ -19,8 +19,8 @@ import java.util.List;
 
 import org.kuali.kfs.batch.BatchJobStatus;
 import org.kuali.kfs.context.KualiTestBase;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.service.SchedulerService;
-import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.test.ConfigureContext;
 import org.kuali.test.fixtures.UserNameFixture;
 
@@ -29,7 +29,7 @@ public class SchedulerServiceImplTest extends KualiTestBase {
 
     // tests added to make sure that the scheduler was available during the tests 
     public void testGetJobs_unscheduled() {
-        SchedulerService s = SpringServiceLocator.getSchedulerService();
+        SchedulerService s = SpringContext.getBean(SchedulerService.class);
         List<BatchJobStatus> jobs = s.getJobs( "unscheduled" );
         for ( BatchJobStatus job : jobs ) {
             System.out.println( job );
@@ -37,7 +37,7 @@ public class SchedulerServiceImplTest extends KualiTestBase {
     }
 
     public void testGetJobs_scheduled() {
-        SchedulerService s = SpringServiceLocator.getSchedulerService();
+        SchedulerService s = SpringContext.getBean(SchedulerService.class);
         List<BatchJobStatus> jobs = s.getJobs( "scheduled" );
         for ( BatchJobStatus job : jobs ) {
             System.out.println( job );
@@ -46,7 +46,7 @@ public class SchedulerServiceImplTest extends KualiTestBase {
     
     /* // this job seems to be missing from the system during the test runs 
     public void testScheduledJobTrigger() throws Exception {
-    	SchedulerService s = SpringServiceLocator.getSchedulerService();
+    	SchedulerService s = SpringContext.getBean(SchedulerService.class);
     	BatchJobStatus job = s.getJob( "scheduled", "scheduleJob" );
     	assertNotNull( "job must not be null", job );
     	System.out.println( "scheduleJob Next Run Time: " + job.getNextRunDate() );
@@ -62,7 +62,7 @@ public class SchedulerServiceImplTest extends KualiTestBase {
      */
    
     public void testRunJob() throws Exception {
-        SchedulerService s = SpringServiceLocator.getSchedulerService();
+        SchedulerService s = SpringContext.getBean(SchedulerService.class);
         BatchJobStatus job = s.getJob(SchedulerService.UNSCHEDULED_GROUP, "scrubberJob" );
         assertNotNull( "job must not be null", job );
         System.out.println( job );
@@ -93,7 +93,7 @@ public class SchedulerServiceImplTest extends KualiTestBase {
      */
     
     public void testUnscheduleJob() throws Exception {
-        SchedulerService s = SpringServiceLocator.getSchedulerService();
+        SchedulerService s = SpringContext.getBean(SchedulerService.class);
         BatchJobStatus job = s.getJob(SchedulerService.SCHEDULED_GROUP, "scrubberJob" );
         assertNotNull( "job must not be null", job );
 
@@ -116,7 +116,7 @@ public class SchedulerServiceImplTest extends KualiTestBase {
      */
     
     public void testScheduleJob() throws Exception {
-        SchedulerService s = SpringServiceLocator.getSchedulerService();
+        SchedulerService s = SpringContext.getBean(SchedulerService.class);
         BatchJobStatus job = s.getJob(SchedulerService.UNSCHEDULED_GROUP, "clearOldOriginEntriesJob" );
         assertNotNull( "job must not be null", job );
 
@@ -139,7 +139,7 @@ public class SchedulerServiceImplTest extends KualiTestBase {
      */
     /*
     public void testJobInterrupt() throws Exception{
-        SchedulerService s = SpringServiceLocator.getSchedulerService();
+        SchedulerService s = SpringContext.getBean(SchedulerService.class);
         
         BatchJobStatus job = s.getJob(SchedulerService.UNSCHEDULED_GROUP, "scrubberJob" );
         job.runJob( null );

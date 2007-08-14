@@ -22,10 +22,11 @@ import java.util.Map;
 
 import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase;
+import org.kuali.core.service.BusinessObjectService;
 import org.kuali.kfs.KFSKeyConstants;
 import org.kuali.kfs.bo.Country;
 import org.kuali.kfs.bo.State;
-import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.cg.bo.Subcontractor;
 
 /**
@@ -75,7 +76,7 @@ public class SubcontractorRule extends MaintenanceDocumentRuleBase {
         criteria.put("postalStateCode", criteriaValues);
 
         // Perform lookup for state code provided
-        List boList = (List) SpringServiceLocator.getBusinessObjectService().findMatching(State.class, criteria);
+        List boList = (List) SpringContext.getBean(BusinessObjectService.class).findMatching(State.class, criteria);
 
         // If no values returned, state code is invalid, throw error
         if(boList.size() < 1) {
@@ -105,7 +106,7 @@ public class SubcontractorRule extends MaintenanceDocumentRuleBase {
         criteria.put("postalCountryCode", criteriaValues);
 
         // Perform lookup for country code provided
-        List boList = (List) SpringServiceLocator.getBusinessObjectService().findMatching(Country.class, criteria);
+        List boList = (List) SpringContext.getBean(BusinessObjectService.class).findMatching(Country.class, criteria);
 
         // If no values returned, country code is invalid, throw error
         if(boList.size() < 1) {

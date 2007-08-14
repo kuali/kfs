@@ -21,20 +21,23 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.bo.Note;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.exceptions.UserNotFoundException;
+import org.kuali.core.service.DataDictionaryService;
+import org.kuali.core.service.DateTimeService;
+import org.kuali.core.service.KualiConfigurationService;
+import org.kuali.core.service.UniversalUserService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.workflow.service.KualiWorkflowDocument;
-import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.core.workflow.service.WorkflowDocumentService;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.PurapParameterConstants;
-import org.kuali.module.purap.PurapWorkflowConstants;
 import org.kuali.module.purap.PurapConstants.PaymentRequestStatuses;
 import org.kuali.module.purap.PurapWorkflowConstants.NodeDetails;
 import org.kuali.module.purap.PurapWorkflowConstants.PaymentRequestDocument.NodeDetailEnum;
@@ -45,12 +48,16 @@ import org.kuali.module.purap.bo.PaymentRequestView;
 import org.kuali.module.purap.bo.PurApAccountingLine;
 import org.kuali.module.purap.bo.PurchaseOrderItem;
 import org.kuali.module.purap.bo.RecurringPaymentType;
+import org.kuali.module.purap.service.PaymentRequestService;
 import org.kuali.module.purap.service.PurapGeneralLedgerService;
+import org.kuali.module.purap.service.PurapService;
+import org.kuali.module.purap.service.PurchaseOrderService;
 import org.kuali.module.vendor.VendorConstants;
 import org.kuali.module.vendor.bo.PaymentTermType;
 import org.kuali.module.vendor.bo.PurchaseOrderCostSource;
 import org.kuali.module.vendor.bo.ShippingPaymentTerms;
 import org.kuali.module.vendor.bo.VendorAddress;
+import org.kuali.module.vendor.service.VendorService;
 
 import edu.iu.uis.eden.clientapp.vo.ActionTakenEventVO;
 import edu.iu.uis.eden.exception.WorkflowException;
@@ -690,7 +697,7 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
 
         // populate preq vendor address with the default remit address type for the vendor if found
         String userCampus = GlobalVariables.getUserSession().getUniversalUser().getCampusCode();
-        VendorAddress vendorAddress = SpringServiceLocator.getVendorService().getVendorDefaultAddress(po.getVendorHeaderGeneratedIdentifier(), po.getVendorDetailAssignedIdentifier(), VendorConstants.AddressTypes.REMIT, userCampus);
+        VendorAddress vendorAddress = SpringContext.getBean(VendorService.class).getVendorDefaultAddress(po.getVendorHeaderGeneratedIdentifier(), po.getVendorDetailAssignedIdentifier(), VendorConstants.AddressTypes.REMIT, userCampus);
         if (vendorAddress != null) {
             this.templateVendorAddress(vendorAddress);
             this.setVendorAddressGeneratedIdentifier(vendorAddress.getVendorAddressGeneratedIdentifier());
@@ -713,7 +720,7 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
             this.setVendorPaymentTermsCode(po.getVendorPaymentTermsCode());
             this.setVendorPaymentTerms(po.getVendorPaymentTerms());
         }
-        this.setPaymentRequestPayDate(SpringServiceLocator.getPaymentRequestService().calculatePayDate(this.getInvoiceDate(), this.getVendorPaymentTerms()));
+        this.setPaymentRequestPayDate(SpringContext.getBean(PaymentRequestService.class).calculatePayDate(this.getInvoiceDate(), this.getVendorPaymentTerms()));
         for (PurchaseOrderItem poi : (List<PurchaseOrderItem>)po.getItems()) {
             //TODO: still needs to be tested but this should work now
             if(poi.isItemActiveIndicator()) {
@@ -721,7 +728,7 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
             }
         }
         //add missing below the line
-        SpringServiceLocator.getPurapService().addBelowLineItems(this);
+        SpringContext.getBean(PurapService.class).addBelowLineItems(this);
         this.setAccountsPayablePurchasingDocumentLinkIdentifier(po.getAccountsPayablePurchasingDocumentLinkIdentifier());
 
         this.refreshNonUpdateableReferences();
@@ -733,7 +740,7 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
      */
     @Override
     public String getDocumentTitle() {
-        String specificTitle = SpringServiceLocator.getKualiConfigurationService().getApplicationParameterValue(PurapParameterConstants.PURAP_ADMIN_GROUP,PurapParameterConstants.PURAP_OVERRIDE_PREQ_DOC_TITLE);
+        String specificTitle = SpringContext.getBean(KualiConfigurationService.class).getApplicationParameterValue(PurapParameterConstants.PURAP_ADMIN_GROUP,PurapParameterConstants.PURAP_OVERRIDE_PREQ_DOC_TITLE);
         if (StringUtils.equalsIgnoreCase(specificTitle,Boolean.TRUE.toString())) {
             return getCustomDocumentTitle();
         }
@@ -816,15 +823,15 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
             // DOCUMENT PROCESSED
             if (this.getDocumentHeader().getWorkflowDocument().stateIsProcessed()) {
                 if (!PaymentRequestStatuses.AUTO_APPROVED.equals(getStatusCode())) {
-                    SpringServiceLocator.getPurapService().updateStatusAndStatusHistory(this, PurapConstants.PaymentRequestStatuses.DEPARTMENT_APPROVED);
+                    SpringContext.getBean(PurapService.class).updateStatusAndStatusHistory(this, PurapConstants.PaymentRequestStatuses.DEPARTMENT_APPROVED);
                     populateDocumentForRouting();
-                    SpringServiceLocator.getPaymentRequestService().saveDocumentWithoutValidation(this);
+                    SpringContext.getBean(PaymentRequestService.class).saveDocumentWithoutValidation(this);
                     return;
                 }
             }
             // DOCUMENT DISAPPROVED
             else if (this.getDocumentHeader().getWorkflowDocument().stateIsDisapproved()) {
-                String nodeName = SpringServiceLocator.getWorkflowDocumentService().getCurrentRouteLevelName(getDocumentHeader().getWorkflowDocument());
+                String nodeName = SpringContext.getBean(WorkflowDocumentService.class).getCurrentRouteLevelName(getDocumentHeader().getWorkflowDocument());
                 NodeDetails currentNode = NodeDetailEnum.getNodeDetailEnumByName(nodeName);
                 if (ObjectUtils.isNotNull(currentNode)) {
                     String newStatusCode = currentNode.getDisapprovedStatusCode();
@@ -833,8 +840,8 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
                         newStatusCode = PaymentRequestStatuses.CANCELLED_IN_PROCESS;
                     }
                     if (StringUtils.isNotBlank(newStatusCode)) {
-                        SpringServiceLocator.getPurapService().updateStatusAndStatusHistory(this, newStatusCode);
-                        SpringServiceLocator.getPaymentRequestService().saveDocumentWithoutValidation(this);
+                        SpringContext.getBean(PurapService.class).updateStatusAndStatusHistory(this, newStatusCode);
+                        SpringContext.getBean(PaymentRequestService.class).saveDocumentWithoutValidation(this);
                         return;
                     }
                 }
@@ -843,13 +850,13 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
             }
             // DOCUMENT CANCELED
             else if (this.getDocumentHeader().getWorkflowDocument().stateIsCanceled()) {
-                String currentNodeName = SpringServiceLocator.getWorkflowDocumentService().getCurrentRouteLevelName(this.getDocumentHeader().getWorkflowDocument());
+                String currentNodeName = SpringContext.getBean(WorkflowDocumentService.class).getCurrentRouteLevelName(this.getDocumentHeader().getWorkflowDocument());
                 NodeDetails currentNode = NodeDetailEnum.getNodeDetailEnumByName(currentNodeName);
                 if (ObjectUtils.isNotNull(currentNode)) {
                     String cancelledStatusCode = currentNode.getDisapprovedStatusCode();
                     if (StringUtils.isNotBlank(cancelledStatusCode)) {
-                        SpringServiceLocator.getPurapService().updateStatusAndStatusHistory(this, cancelledStatusCode);
-                        SpringServiceLocator.getPaymentRequestService().saveDocumentWithoutValidation(this);
+                        SpringContext.getBean(PurapService.class).updateStatusAndStatusHistory(this, cancelledStatusCode);
+                        SpringContext.getBean(PaymentRequestService.class).saveDocumentWithoutValidation(this);
                         return;
                     }
                 }
@@ -886,8 +893,8 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
             return false;
         }
         if (NodeDetailEnum.ACCOUNTS_PAYABLE_REVIEW.getName().equals(oldNodeName)) {
-            setAccountsPayableApprovalDate(SpringServiceLocator.getDateTimeService().getCurrentSqlDate());
-            ((PurapGeneralLedgerService) SpringServiceLocator.getService(SpringServiceLocator.PURAP_GENERAL_LEDGER_SERVICE)).generateEntriesCreatePreq(this);
+            setAccountsPayableApprovalDate(SpringContext.getBean(DateTimeService.class, "dateTimeService").getCurrentSqlDate());
+            SpringContext.getBean(PurapGeneralLedgerService.class).generateEntriesCreatePreq(this);
         }
         return true;
     }
@@ -903,7 +910,7 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
      * @see org.kuali.module.purap.document.AccountsPayableDocumentBase#saveDocumentFromPostProcessing()
      */
     public void saveDocumentFromPostProcessing() {
-        SpringServiceLocator.getPaymentRequestService().saveDocumentWithoutValidation(this);
+        SpringContext.getBean(PaymentRequestService.class).saveDocumentWithoutValidation(this);
     }
 
     /**
@@ -928,7 +935,7 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
      */
     @Override
     public String getPurApSourceDocumentLabelIfPossible() {
-        return SpringServiceLocator.getDataDictionaryService().getDocumentLabelByClass(PurchaseOrderDocument.class);
+        return SpringContext.getBean(DataDictionaryService.class).getDocumentLabelByClass(PurchaseOrderDocument.class);
     }
 
     /**
@@ -937,7 +944,7 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
      */
     public String getPurchaseOrderNotes() {
         
-        ArrayList poNotes = SpringServiceLocator.getPurchaseOrderService().getPurchaseOrderNotes(this.getPurchaseOrderIdentifier());
+        ArrayList poNotes = SpringContext.getBean(PurchaseOrderService.class).getPurchaseOrderNotes(this.getPurchaseOrderIdentifier());
         
         if (poNotes.size() > 0) {
             return "Yes";
@@ -1039,7 +1046,7 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
     public String getAccountsPayableRequestCancelPersonName(){
         String personName = null;
         try {
-            UniversalUser user = SpringServiceLocator.getUniversalUserService().getUniversalUser(getAccountsPayableRequestCancelIdentifier());
+            UniversalUser user = SpringContext.getBean(UniversalUserService.class, "universalUserService").getUniversalUser(getAccountsPayableRequestCancelIdentifier());
             personName = user.getPersonName();
         }
         catch (UserNotFoundException unfe) {

@@ -26,7 +26,7 @@ import org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSKeyConstants;
-import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.chart.bo.ObjLevel;
 import org.kuali.module.chart.bo.ObjectCode;
 import org.kuali.module.chart.bo.ObjectCons;
@@ -34,6 +34,7 @@ import org.kuali.module.chart.service.ChartService;
 import org.kuali.module.chart.service.ObjectCodeService;
 import org.kuali.module.chart.service.ObjectConsService;
 import org.kuali.module.chart.service.ObjectLevelService;
+import org.kuali.module.financial.service.UniversityDateService;
 
 /**
  * 
@@ -62,16 +63,16 @@ public class ObjectCodeRule extends MaintenanceDocumentRuleBase {
     public ObjectCodeRule() {
 
     	if ( objectConsService == null ) {
-	        configService = SpringServiceLocator.getKualiConfigurationService();
+	        configService = SpringContext.getBean(KualiConfigurationService.class);
 	
 	        illegalValues = retrieveParameterSet(OBJECT_CODE_ILLEGAL_VALUES);
 	        validBudgetAggregationCodes = retrieveParameterSet(OBJECT_CODE_VALID_BUDGET_AGGREGATION_CODES);
 	        validFederalFundedCodes = retrieveParameterSet(OBJECT_CODE_VALID_FEDERAL_FUNDED_CODES);
 	
-	        objectLevelService = SpringServiceLocator.getObjectLevelService();
-	        objectCodeService = SpringServiceLocator.getObjectCodeService();
-	        chartService = SpringServiceLocator.getChartService();
-	        objectConsService = SpringServiceLocator.getObjectConsService();
+	        objectLevelService = SpringContext.getBean(ObjectLevelService.class);
+	        objectCodeService = SpringContext.getBean(ObjectCodeService.class);
+	        chartService = SpringContext.getBean(ChartService.class);
+	        objectConsService = SpringContext.getBean(ObjectConsService.class);
     	}
         reportsTo = chartService.getReportsToHierarchy();
     }
@@ -266,7 +267,7 @@ public class ObjectCodeRule extends MaintenanceDocumentRuleBase {
     public boolean isValidYear(Integer year) {
         if (year==null) return false;
         int enteredYear = year.intValue();
-        int currentYear = SpringServiceLocator.getUniversityDateService().getCurrentFiscalYear().intValue();
+        int currentYear = SpringContext.getBean(UniversityDateService.class).getCurrentFiscalYear().intValue();
         if ((enteredYear-currentYear) == 0 || (enteredYear-currentYear) == 1)
             return true;
         return false;

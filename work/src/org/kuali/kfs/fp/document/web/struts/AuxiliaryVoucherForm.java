@@ -20,15 +20,16 @@ import static org.kuali.kfs.KFSConstants.AuxiliaryVoucher.ADJUSTMENT_DOC_TYPE;
 import static org.kuali.kfs.KFSConstants.AuxiliaryVoucher.RECODE_DOC_TYPE;
 
 import java.util.ArrayList;
-import org.apache.commons.collections.CollectionUtils;
-import org.apache.commons.collections.Predicate; 
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.collections.Predicate;
 import org.kuali.core.document.Document;
+import org.kuali.core.service.DateTimeService;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.chart.bo.AccountingPeriod;
 import org.kuali.module.chart.service.AccountingPeriodService;
 import org.kuali.module.financial.document.AuxiliaryVoucherDocument;
@@ -82,7 +83,7 @@ public class AuxiliaryVoucherForm extends VoucherForm {
      * Handles special case display rules for displaying Reversal Date at UI layer
      */
     public void populateReversalDateForRendering() {
-        java.sql.Date today = SpringServiceLocator.getDateTimeService().getCurrentSqlDateMidnight();
+        java.sql.Date today = SpringContext.getBean(DateTimeService.class, "dateTimeService").getCurrentSqlDateMidnight();
 
         if (getAuxiliaryVoucherDocument().getTypeCode().equals(ACCRUAL_DOC_TYPE) && (getAuxiliaryVoucherDocument().getReversalDate() == null || getAuxiliaryVoucherDocument().getReversalDate().before(today))) {
             getAuxiliaryVoucherDocument().setReversalDate(today);
@@ -152,7 +153,7 @@ public class AuxiliaryVoucherForm extends VoucherForm {
     @Override
     protected void populateAccountingPeriodListForRendering() {
         // grab the list of valid accounting periods
-        ArrayList accountingPeriods = new ArrayList(SpringServiceLocator.getAccountingPeriodService().getOpenAccountingPeriods());
+        ArrayList accountingPeriods = new ArrayList(SpringContext.getBean(AccountingPeriodService.class).getOpenAccountingPeriods());
         // now, validate further, based on the rules from AuxiliaryVoucherDocumentRule
         ArrayList filteredAccountingPeriods = new ArrayList();
         filteredAccountingPeriods.addAll(CollectionUtils.select(accountingPeriods, new OpenAuxiliaryVoucherPredicate(this.getDocument())));
@@ -182,9 +183,9 @@ public class AuxiliaryVoucherForm extends VoucherForm {
         private AccountingPeriod currPeriod;
         
         public OpenAuxiliaryVoucherPredicate(Document doc) {
-            this.configService = SpringServiceLocator.getKualiConfigurationService();
-            this.dateService = SpringServiceLocator.getUniversityDateService();
-            this.acctPeriodService = SpringServiceLocator.getAccountingPeriodService();
+            this.configService = SpringContext.getBean(KualiConfigurationService.class);
+            this.dateService = SpringContext.getBean(UniversityDateService.class);
+            this.acctPeriodService = SpringContext.getBean(AccountingPeriodService.class);
             this.auxiliaryVoucherDocument = doc;
             this.currPeriod = acctPeriodService.getByDate(new java.sql.Date(new java.util.GregorianCalendar().getTimeInMillis()));
         }

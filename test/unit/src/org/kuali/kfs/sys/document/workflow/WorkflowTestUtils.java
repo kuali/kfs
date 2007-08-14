@@ -21,8 +21,9 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.document.Document;
+import org.kuali.core.service.DocumentService;
 import org.kuali.core.workflow.service.KualiWorkflowDocument;
-import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.test.monitor.ChangeMonitor;
 import org.kuali.test.monitor.DocumentWorkflowNodeMonitor;
 import org.kuali.test.monitor.DocumentWorkflowRequestMonitor;
@@ -56,7 +57,7 @@ public class WorkflowTestUtils {
 
     public static void waitForStatusChange(int numSeconds, KualiWorkflowDocument document, String desiredStatus) throws Exception {
         LOG.info( "Entering: waitForStatusChange("+numSeconds+","+document.getRouteHeaderId()+","+desiredStatus+")");
-        DocumentWorkflowStatusMonitor monitor = new DocumentWorkflowStatusMonitor(SpringServiceLocator.getDocumentService(), "" + document.getRouteHeaderId(), desiredStatus);
+        DocumentWorkflowStatusMonitor monitor = new DocumentWorkflowStatusMonitor(SpringContext.getBean(DocumentService.class), "" + document.getRouteHeaderId(), desiredStatus);
         Assert.assertTrue( "waitForStatusChange("+numSeconds+","+document.getRouteHeaderId()+","+desiredStatus+") timed out", ChangeMonitor.waitUntilChange(monitor, numSeconds, 5));
     }
 

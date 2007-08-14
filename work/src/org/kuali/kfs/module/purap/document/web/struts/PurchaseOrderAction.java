@@ -34,13 +34,15 @@ import org.kuali.core.bo.Note;
 import org.kuali.core.document.authorization.DocumentAuthorizer;
 import org.kuali.core.question.ConfirmationQuestion;
 import org.kuali.core.service.BusinessObjectService;
+import org.kuali.core.service.DataDictionaryService;
+import org.kuali.core.service.DateTimeService;
+import org.kuali.core.service.DocumentAuthorizationService;
+import org.kuali.core.service.DocumentService;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.web.struts.form.KualiDocumentFormBase;
 import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.bo.AccountingLine;
-import org.kuali.kfs.rule.event.AddAccountingLineEvent;
-import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.purap.PurapAuthorizationConstants;
 import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.PurapKeyConstants;
@@ -55,6 +57,7 @@ import org.kuali.module.purap.bo.PurchaseOrderVendorQuote;
 import org.kuali.module.purap.bo.PurchaseOrderVendorStipulation;
 import org.kuali.module.purap.document.PurchaseOrderDocument;
 import org.kuali.module.purap.question.SingleConfirmationQuestion;
+import org.kuali.module.purap.service.PurchaseOrderService;
 import org.kuali.module.purap.web.struts.form.PurchaseOrderForm;
 import org.kuali.module.purap.web.struts.form.PurchasingFormBase;
 import org.kuali.module.vendor.VendorConstants;
@@ -62,6 +65,7 @@ import org.kuali.module.vendor.VendorConstants.AddressTypes;
 import org.kuali.module.vendor.bo.VendorAddress;
 import org.kuali.module.vendor.bo.VendorDetail;
 import org.kuali.module.vendor.bo.VendorPhoneNumber;
+import org.kuali.module.vendor.service.VendorService;
 
 /**
  * This class handles specific Actions requests for the Requisition.
@@ -78,7 +82,7 @@ public class PurchaseOrderAction extends PurchasingActionBase {
 
         PurchaseOrderForm poForm = (PurchaseOrderForm) form;
         PurchaseOrderDocument document = (PurchaseOrderDocument) poForm.getDocument();
-        BusinessObjectService businessObjectService = SpringServiceLocator.getBusinessObjectService();
+        BusinessObjectService businessObjectService = SpringContext.getBean(BusinessObjectService.class);
 
         // Handling lookups for alternate vendor for escrow payment that are only specific to Purchase Order
         if (request.getParameter("document.alternateVendorHeaderGeneratedIdentifier") != null && request.getParameter("document.alternateVendorDetailAssignedIdentifier") != null) {
@@ -140,7 +144,7 @@ public class PurchaseOrderAction extends PurchasingActionBase {
         // Handling lookups for quote vendor search that is specific to Purchase Order
         if (request.getParameter("document.newQuoteVendorHeaderGeneratedIdentifier") != null && request.getParameter("document.newQuoteVendorDetailAssignedIdentifier") != null) {
             // retrieve this vendor from DB and add it to the end of the list
-            VendorDetail newVendor = SpringServiceLocator.getVendorService().getVendorDetail(document.getNewQuoteVendorHeaderGeneratedIdentifier(), document.getNewQuoteVendorDetailAssignedIdentifier());
+            VendorDetail newVendor = SpringContext.getBean(VendorService.class).getVendorDetail(document.getNewQuoteVendorHeaderGeneratedIdentifier(), document.getNewQuoteVendorDetailAssignedIdentifier());
             PurchaseOrderVendorQuote newPOVendorQuote = new PurchaseOrderVendorQuote();
             newPOVendorQuote.setVendorName(newVendor.getVendorName());
             newPOVendorQuote.setVendorHeaderGeneratedIdentifier(newVendor.getVendorHeaderGeneratedIdentifier());
@@ -228,7 +232,7 @@ public class PurchaseOrderAction extends PurchasingActionBase {
         String reason = request.getParameter(KFSConstants.QUESTION_REASON_ATTRIBUTE_NAME);
         String noteText = "";
 
-        KualiConfigurationService kualiConfiguration = SpringServiceLocator.getKualiConfigurationService();
+        KualiConfigurationService kualiConfiguration = SpringContext.getBean(KualiConfigurationService.class);
 
         // Start in logic for confirming the close.
         if (question == null) {
@@ -258,7 +262,7 @@ public class PurchaseOrderAction extends PurchasingActionBase {
                 int noteTextLength = noteText.length();
 
                 // Get note text max length from DD.
-                int noteTextMaxLength = SpringServiceLocator.getDataDictionaryService().getAttributeMaxLength(Note.class, KFSConstants.NOTE_TEXT_PROPERTY_NAME).intValue();
+                int noteTextMaxLength = SpringContext.getBean(DataDictionaryService.class).getAttributeMaxLength(Note.class, KFSConstants.NOTE_TEXT_PROPERTY_NAME).intValue();
 
                 if (StringUtils.isBlank(reason) || (noteTextLength > noteTextMaxLength)) {
                     // Figure out exact number of characters that the user can enter.
@@ -278,12 +282,12 @@ public class PurchaseOrderAction extends PurchasingActionBase {
         }
         else {
             if (documentType.equals(PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_AMENDMENT_DOCUMENT)) {
-                po = SpringServiceLocator.getPurchaseOrderService().createAndSavePotentialChangeDocument(kualiDocumentFormBase.getDocument().getDocumentNumber(), documentType, PurchaseOrderStatuses.AMENDMENT);
+                po = SpringContext.getBean(PurchaseOrderService.class).createAndSavePotentialChangeDocument(kualiDocumentFormBase.getDocument().getDocumentNumber(), documentType, PurchaseOrderStatuses.AMENDMENT);
             }
             else {
-                po = SpringServiceLocator.getPurchaseOrderService().createAndRoutePotentialChangeDocument(kualiDocumentFormBase.getDocument().getDocumentNumber(), documentType, kualiDocumentFormBase.getAnnotation(), combineAdHocRecipients(kualiDocumentFormBase));
+                po = SpringContext.getBean(PurchaseOrderService.class).createAndRoutePotentialChangeDocument(kualiDocumentFormBase.getDocument().getDocumentNumber(), documentType, kualiDocumentFormBase.getAnnotation(), combineAdHocRecipients(kualiDocumentFormBase));
             }
-//            po = SpringServiceLocator.getPurchaseOrderService().updateFlagsAndRoute(kualiDocumentFormBase.getDocument().getDocumentNumber(), documentType, kualiDocumentFormBase.getAnnotation(), combineAdHocRecipients(kualiDocumentFormBase));
+//            po = SpringContext.getBean(PurchaseOrderService.class).updateFlagsAndRoute(kualiDocumentFormBase.getDocument().getDocumentNumber(), documentType, kualiDocumentFormBase.getAnnotation(), combineAdHocRecipients(kualiDocumentFormBase));
             kualiDocumentFormBase.setDocument(po);
         }
 
@@ -326,8 +330,8 @@ public class PurchaseOrderAction extends PurchasingActionBase {
         // KualiDocumentFormBase kualiDocumentFormBase = (KualiDocumentFormBase) form;
         // PurchaseOrderDocument po = (PurchaseOrderDocument) kualiDocumentFormBase.getDocument();
         // WorkgroupVO workgroupVO =
-        // SpringServiceLocator.getWorkflowGroupService().getWorkgroupByGroupName(PurapConstants.Workgroups.WORKGROUP_ACCOUNTS_PAYABLE);
-        // SpringServiceLocator.getPurchaseOrderService().sendFYItoWorkgroup(po, kualiDocumentFormBase.getAnnotation(),
+        // SpringContext.getBean(WorkflowGroupService.class).getWorkgroupByGroupName(PurapConstants.Workgroups.WORKGROUP_ACCOUNTS_PAYABLE);
+        // SpringContext.getBean(PurchaseOrderService.class).sendFYItoWorkgroup(po, kualiDocumentFormBase.getAnnotation(),
         // workgroupVO.getWorkgroupId() );
 
         return forward;
@@ -389,7 +393,7 @@ public class PurchaseOrderAction extends PurchasingActionBase {
      */
     public ActionForward printPo(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         String poDocId = request.getParameter("docId");
-        PurchaseOrderDocument po = (PurchaseOrderDocument) SpringServiceLocator.getDocumentService().getByDocumentHeaderId(poDocId);
+        PurchaseOrderDocument po = (PurchaseOrderDocument) SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(poDocId);
         ByteArrayOutputStream baosPDF = new ByteArrayOutputStream();
         try {
             StringBuffer sbFilename = new StringBuffer();
@@ -399,7 +403,7 @@ public class PurchaseOrderAction extends PurchasingActionBase {
             sbFilename.append(System.currentTimeMillis());
             sbFilename.append(".pdf");
 
-            boolean success = SpringServiceLocator.getPurchaseOrderService().printPurchaseOrderPDF(po, PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_PRINT_DOCUMENT, null, null, baosPDF);
+            boolean success = SpringContext.getBean(PurchaseOrderService.class).printPurchaseOrderPDF(po, PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_PRINT_DOCUMENT, null, null, baosPDF);
 
             if (!success) {
                 if (baosPDF != null) {
@@ -438,7 +442,7 @@ public class PurchaseOrderAction extends PurchasingActionBase {
 
     public ActionForward printPoQuote(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
 //        String poDocId = request.getParameter("docId");
-//        PurchaseOrderDocument po = (PurchaseOrderDocument) SpringServiceLocator.getDocumentService().getByDocumentHeaderId(poDocId);
+//        PurchaseOrderDocument po = (PurchaseOrderDocument) SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(poDocId);
 //        Integer poSelectedVendorId = new Integer(request.getParameter("quoteVendorId"));
         KualiDocumentFormBase kualiDocumentFormBase = (KualiDocumentFormBase) form;
         PurchaseOrderDocument po = (PurchaseOrderDocument) kualiDocumentFormBase.getDocument();
@@ -455,7 +459,7 @@ public class PurchaseOrderAction extends PurchasingActionBase {
 
             // for testing Generate PO PDF, set the APO to true
             po.setPurchaseOrderAutomaticIndicator(true);
-            boolean success = SpringServiceLocator.getPurchaseOrderService().printPurchaseOrderQuotePDF(po, poVendorQuote, baosPDF);
+            boolean success = SpringContext.getBean(PurchaseOrderService.class).printPurchaseOrderQuotePDF(po, poVendorQuote, baosPDF);
 
             if (!success) {
                 poVendorQuote.setTransmitPrintDisplayed(true);
@@ -507,7 +511,7 @@ public class PurchaseOrderAction extends PurchasingActionBase {
 
             // for testing Generate PO PDF, set the APO to true
             po.setPurchaseOrderAutomaticIndicator(true);
-            boolean success = SpringServiceLocator.getPurchaseOrderService().printPurchaseOrderQuoteRequestsListPDF(po,  baosPDF);
+            boolean success = SpringContext.getBean(PurchaseOrderService.class).printPurchaseOrderQuoteRequestsListPDF(po,  baosPDF);
 
             if (!success) {
                 if (baosPDF != null) {
@@ -549,7 +553,7 @@ public class PurchaseOrderAction extends PurchasingActionBase {
         PurchaseOrderDocument po = (PurchaseOrderDocument) kualiDocumentFormBase.getDocument();
         PurchaseOrderVendorQuote vendorQuote = (PurchaseOrderVendorQuote)po.getPurchaseOrderVendorQuotes().get(getSelectedLine(request));
         if (PurapConstants.QuoteTransmitTypes.PRINT.equals(vendorQuote.getPurchaseOrderQuoteTransmitTypeCode())) {
-            Date currentSqlDate = SpringServiceLocator.getDateTimeService().getCurrentSqlDate();
+            Date currentSqlDate = SpringContext.getBean(DateTimeService.class, "dateTimeService").getCurrentSqlDate();
             vendorQuote.setPurchaseOrderQuoteTransmitDate(currentSqlDate);
             vendorQuote.setTransmitPrintDisplayed(true);
             if (po.getPurchaseOrderFirstTransmissionDate() == null) {
@@ -557,7 +561,7 @@ public class PurchaseOrderAction extends PurchasingActionBase {
             }
             po.setPurchaseOrderLastTransmitDate(currentSqlDate);
             po.setPurchaseOrderCurrentIndicator(true);
-            SpringServiceLocator.getPurchaseOrderService().saveDocumentWithoutValidation(po);
+            SpringContext.getBean(PurchaseOrderService.class).saveDocumentWithoutValidation(po);
         }
         else {
             GlobalVariables.getErrorMap().putError(PurapPropertyConstants.VENDOR_QUOTES, PurapKeyConstants.ERROR_PURCHASE_ORDER_QUOTE_TRANSMIT_TYPE_NOT_SELECTED);
@@ -638,15 +642,15 @@ public class PurchaseOrderAction extends PurchasingActionBase {
             GlobalVariables.getErrorMap().putError(PurapPropertyConstants.PURCHASE_ORDER_IDENTIFIER, PurapKeyConstants.ERROR_PURCHASE_ORDER_IS_PENDING);
         }
         else {
-            po = SpringServiceLocator.getPurchaseOrderService().createAndRoutePotentialChangeDocument(kualiDocumentFormBase.getDocument().getDocumentNumber(), PurchaseOrderDocTypes.PURCHASE_ORDER_RETRANSMIT_DOCUMENT, kualiDocumentFormBase.getAnnotation(), combineAdHocRecipients(kualiDocumentFormBase));
-//            po = SpringServiceLocator.getPurchaseOrderService().updateFlagsAndRoute(kualiDocumentFormBase.getDocument().getDocumentNumber(), PurchaseOrderDocTypes.PURCHASE_ORDER_RETRANSMIT_DOCUMENT, kualiDocumentFormBase.getAnnotation(), combineAdHocRecipients(kualiDocumentFormBase));
+            po = SpringContext.getBean(PurchaseOrderService.class).createAndRoutePotentialChangeDocument(kualiDocumentFormBase.getDocument().getDocumentNumber(), PurchaseOrderDocTypes.PURCHASE_ORDER_RETRANSMIT_DOCUMENT, kualiDocumentFormBase.getAnnotation(), combineAdHocRecipients(kualiDocumentFormBase));
+//            po = SpringContext.getBean(PurchaseOrderService.class).updateFlagsAndRoute(kualiDocumentFormBase.getDocument().getDocumentNumber(), PurchaseOrderDocTypes.PURCHASE_ORDER_RETRANSMIT_DOCUMENT, kualiDocumentFormBase.getAnnotation(), combineAdHocRecipients(kualiDocumentFormBase));
         }
 
         kualiDocumentFormBase.setDocument(po);
         //we only need to set the editing mode to displayRetransmitTab if it's not yet 
         //in the editingMode.
         if (!kualiDocumentFormBase.getEditingMode().containsKey(PurapAuthorizationConstants.PurchaseOrderEditMode.DISPLAY_RETRANSMIT_TAB)) {
-            DocumentAuthorizer documentAuthorizer = SpringServiceLocator.getDocumentAuthorizationService().getDocumentAuthorizer(po);
+            DocumentAuthorizer documentAuthorizer = SpringContext.getBean(DocumentAuthorizationService.class).getDocumentAuthorizer(po);
             kualiDocumentFormBase.populateAuthorizationFields(documentAuthorizer);
         }
             ((PurchaseOrderForm) kualiDocumentFormBase).addButtons();
@@ -660,7 +664,7 @@ public class PurchaseOrderAction extends PurchasingActionBase {
 
             List items = po.getItems();
             String retransmitHeader = po.getRetransmitHeader();
-            po = SpringServiceLocator.getPurchaseOrderService().getPurchaseOrderByDocumentNumber(po.getDocumentNumber());
+            po = SpringContext.getBean(PurchaseOrderService.class).getPurchaseOrderByDocumentNumber(po.getDocumentNumber());
             po.setItems(items);
             po.setRetransmitHeader(retransmitHeader);
             ByteArrayOutputStream baosPDF = new ByteArrayOutputStream();
@@ -672,7 +676,7 @@ public class PurchaseOrderAction extends PurchasingActionBase {
                 sbFilename.append(System.currentTimeMillis());
                 sbFilename.append(".pdf");
 
-                boolean success = SpringServiceLocator.getPurchaseOrderService().retransmitPurchaseOrderPDF(po, PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_PRINT_DOCUMENT, kualiDocumentFormBase.getAnnotation(), combineAdHocRecipients(kualiDocumentFormBase), baosPDF);
+                boolean success = SpringContext.getBean(PurchaseOrderService.class).retransmitPurchaseOrderPDF(po, PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_PRINT_DOCUMENT, kualiDocumentFormBase.getAnnotation(), combineAdHocRecipients(kualiDocumentFormBase), baosPDF);
 
                 if (!success) {
                     if (baosPDF != null) {
@@ -820,12 +824,12 @@ public class PurchaseOrderAction extends PurchasingActionBase {
             return mapping.findForward(KFSConstants.MAPPING_BASIC);
         }
         document.setStatusCode(PurapConstants.PurchaseOrderStatuses.QUOTE);
-        Date currentSqlDate = SpringServiceLocator.getDateTimeService().getCurrentSqlDate();
+        Date currentSqlDate = SpringContext.getBean(DateTimeService.class, "dateTimeService").getCurrentSqlDate();
         document.setPurchaseOrderInitialOpenDate(currentSqlDate);
         Date expDate = new Date(currentSqlDate.getTime() + (10 * 24 * 60 * 60 * 1000)); //add 10 days - TODO: need to move this into a DB setting
         document.setPurchaseOrderQuoteDueDate(expDate);
         document.getPurchaseOrderVendorQuotes().clear();
-        SpringServiceLocator.getDocumentService().saveDocumentWithoutRunningValidation(document);
+        SpringContext.getBean(DocumentService.class).saveDocumentWithoutRunningValidation(document);
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
@@ -865,10 +869,10 @@ public class PurchaseOrderAction extends PurchasingActionBase {
         }
         
         // use question framework to make sure they REALLY want to complete the quote...
-        String message = SpringServiceLocator.getKualiConfigurationService().getPropertyString(PurapKeyConstants.PURCHASE_ORDER_QUESTION_CONFIRM_AWARD);
+        String message = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(PurapKeyConstants.PURCHASE_ORDER_QUESTION_CONFIRM_AWARD);
         message = StringUtils.replace(message, "{0}", poQuote.getVendorName());
         if (poQuote.getPurchaseOrderQuoteAwardDate() == null) {
-            message = StringUtils.replace(message, "{1}", SpringServiceLocator.getDateTimeService().getCurrentSqlDate().toString());
+            message = StringUtils.replace(message, "{1}", SpringContext.getBean(DateTimeService.class, "dateTimeService").getCurrentSqlDate().toString());
         }
         else {
             message = StringUtils.replace(message, "{1}", poQuote.getPurchaseOrderQuoteAwardDate().toString());
@@ -886,7 +890,7 @@ public class PurchaseOrderAction extends PurchasingActionBase {
             Object buttonClicked = request.getParameter(KFSConstants.QUESTION_CLICKED_BUTTON);
             if ((PODocumentsStrings.CONFIRM_AWARD_QUESTION.equals(question)) && ConfirmationQuestion.YES.equals(buttonClicked)) {
                 // set awarded date
-                poQuote.setPurchaseOrderQuoteAwardDate(SpringServiceLocator.getDateTimeService().getCurrentSqlDate());
+                poQuote.setPurchaseOrderQuoteAwardDate(SpringContext.getBean(DateTimeService.class, "dateTimeService").getCurrentSqlDate());
 
                 // PO vendor information updated with awarded vendor
                 document.setVendorName(poQuote.getVendorName());
@@ -905,7 +909,7 @@ public class PurchaseOrderAction extends PurchasingActionBase {
                 document.setStatusCode(PurapConstants.PurchaseOrderStatuses.IN_PROCESS);
             }
         }
-        SpringServiceLocator.getDocumentService().saveDocumentWithoutRunningValidation(document);
+        SpringContext.getBean(DocumentService.class).saveDocumentWithoutRunningValidation(document);
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
@@ -920,7 +924,7 @@ public class PurchaseOrderAction extends PurchasingActionBase {
             }
         }
 
-        String message = SpringServiceLocator.getKualiConfigurationService().getPropertyString(PurapKeyConstants.PURCHASE_ORDER_QUESTION_CONFIRM_CANCEL_QUOTE);
+        String message = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(PurapKeyConstants.PURCHASE_ORDER_QUESTION_CONFIRM_CANCEL_QUOTE);
         Object question = request.getParameter(KFSConstants.QUESTION_INST_ATTRIBUTE_NAME);
 
         if (question == null) {
@@ -938,7 +942,7 @@ public class PurchaseOrderAction extends PurchasingActionBase {
                 document.getPurchaseOrderVendorQuotes().clear();
                 Note cancelNote = new Note();
                 cancelNote.setAuthorUniversalIdentifier(GlobalVariables.getUserSession().getUniversalUser().getPersonUniversalIdentifier());
-                String reasonPrefix = SpringServiceLocator.getKualiConfigurationService().getPropertyString(PurapKeyConstants.PURCHASE_ORDER_CANCEL_QUOTE_NOTE_TEXT);
+                String reasonPrefix = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(PurapKeyConstants.PURCHASE_ORDER_CANCEL_QUOTE_NOTE_TEXT);
                 cancelNote.setNoteText(reasonPrefix + reason);
                 document.addNote(cancelNote);
                 document.setStatusCode(PurapConstants.PurchaseOrderStatuses.IN_PROCESS);
@@ -952,7 +956,7 @@ public class PurchaseOrderAction extends PurchasingActionBase {
     public ActionForward cancel(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         Object question = request.getParameter(KFSConstants.QUESTION_INST_ATTRIBUTE_NAME);
         // this should probably be moved into a private instance variable
-        KualiConfigurationService kualiConfiguration = SpringServiceLocator.getKualiConfigurationService();
+        KualiConfigurationService kualiConfiguration = SpringContext.getBean(KualiConfigurationService.class);
 
         // logic for cancel question
         if (question == null) {
@@ -969,7 +973,7 @@ public class PurchaseOrderAction extends PurchasingActionBase {
         }
 
         KualiDocumentFormBase kualiDocumentFormBase = (KualiDocumentFormBase) form;
-        SpringServiceLocator.getDocumentService().cancelDocument(kualiDocumentFormBase.getDocument(), kualiDocumentFormBase.getAnnotation());
+        SpringContext.getBean(DocumentService.class).cancelDocument(kualiDocumentFormBase.getDocument(), kualiDocumentFormBase.getAnnotation());
 
         return returnToSender(mapping, kualiDocumentFormBase);
     }

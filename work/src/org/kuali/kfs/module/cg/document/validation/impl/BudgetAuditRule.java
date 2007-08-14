@@ -22,10 +22,11 @@ import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.document.Document;
+import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiInteger;
 import org.kuali.core.util.ObjectUtils;
-import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.kra.KraConstants;
 import org.kuali.module.kra.KraKeyConstants;
 import org.kuali.module.kra.budget.bo.Budget;
@@ -74,7 +75,7 @@ public class BudgetAuditRule {
     
     private boolean runParametersSoftAuditErrors(BudgetDocument budgetDocument) {
         // Need to setup IDC values
-        BudgetIndirectCostService idcService = SpringServiceLocator.getBudgetIndirectCostService();
+        BudgetIndirectCostService idcService = SpringContext.getBean(BudgetIndirectCostService.class);
         idcService.refreshIndirectCost(budgetDocument);
         
         if (ObjectUtils.isNotNull(budgetDocument.getBudget().getIndirectCost())) {
@@ -119,7 +120,7 @@ public class BudgetAuditRule {
 
     private boolean runNonpersonnelAuditErrors(List<BudgetNonpersonnel> nonpersonnelItems) {
         List<AuditError> nonpersonnelAuditErrors = new ArrayList<AuditError>();
-        List first25kSubcategoryCodes = Arrays.asList(SpringServiceLocator.getKualiConfigurationService().getApplicationParameterValues("KraDevelopmentGroup", "first25kSubcategoryCodes"));
+        List first25kSubcategoryCodes = Arrays.asList(SpringContext.getBean(KualiConfigurationService.class).getApplicationParameterValues("KraDevelopmentGroup", "first25kSubcategoryCodes"));
         
         HashMap<String, BudgetNonpersonnel> hashMap = new HashMap();
         

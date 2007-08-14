@@ -42,7 +42,7 @@ import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSKeyConstants;
 import org.kuali.kfs.bo.AccountingLine;
 import org.kuali.kfs.bo.SourceAccountingLine;
-import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.financial.bo.DisbursementVoucherNonResidentAlienTax;
 import org.kuali.module.financial.bo.Payee;
 import org.kuali.module.financial.document.DisbursementVoucherDocument;
@@ -191,9 +191,9 @@ public class DisbursementVoucherTaxServiceImpl implements DisbursementVoucherTax
             String federalTaxAccount;
             String federalTaxObjectCode;
             try {
-                federalTaxChart = SpringServiceLocator.getKualiConfigurationService().getApplicationParameterValue(DisbursementVoucherRuleConstants.NRA_TAX_PARM_GROUP_NM, DisbursementVoucherRuleConstants.FEDERAL_TAX_CHART_PARM_NM);
-                federalTaxAccount = SpringServiceLocator.getKualiConfigurationService().getApplicationParameterValue(DisbursementVoucherRuleConstants.NRA_TAX_PARM_GROUP_NM, DisbursementVoucherRuleConstants.FEDERAL_TAX_ACCOUNT_PARM_NM);
-                federalTaxObjectCode = SpringServiceLocator.getKualiConfigurationService().getApplicationParameterValue(DisbursementVoucherRuleConstants.NRA_TAX_PARM_GROUP_NM, DisbursementVoucherRuleConstants.FEDERAL_OBJECT_CODE_PARM_PREFIX + document.getDvNonResidentAlienTax().getIncomeClassCode());
+                federalTaxChart = SpringContext.getBean(KualiConfigurationService.class).getApplicationParameterValue(DisbursementVoucherRuleConstants.NRA_TAX_PARM_GROUP_NM, DisbursementVoucherRuleConstants.FEDERAL_TAX_CHART_PARM_NM);
+                federalTaxAccount = SpringContext.getBean(KualiConfigurationService.class).getApplicationParameterValue(DisbursementVoucherRuleConstants.NRA_TAX_PARM_GROUP_NM, DisbursementVoucherRuleConstants.FEDERAL_TAX_ACCOUNT_PARM_NM);
+                federalTaxObjectCode = SpringContext.getBean(KualiConfigurationService.class).getApplicationParameterValue(DisbursementVoucherRuleConstants.NRA_TAX_PARM_GROUP_NM, DisbursementVoucherRuleConstants.FEDERAL_OBJECT_CODE_PARM_PREFIX + document.getDvNonResidentAlienTax().getIncomeClassCode());
             }
             catch (ApplicationParameterException e) {
                 LOG.error("Unable to retrieve federal tax parameters.");
@@ -220,9 +220,9 @@ public class DisbursementVoucherTaxServiceImpl implements DisbursementVoucherTax
             String stateTaxAccount;
             String stateTaxObjectCode;
             try {
-                stateTaxChart = SpringServiceLocator.getKualiConfigurationService().getApplicationParameterValue(DisbursementVoucherRuleConstants.NRA_TAX_PARM_GROUP_NM, DisbursementVoucherRuleConstants.STATE_TAX_CHART_PARM_NM);
-                stateTaxAccount = SpringServiceLocator.getKualiConfigurationService().getApplicationParameterValue(DisbursementVoucherRuleConstants.NRA_TAX_PARM_GROUP_NM, DisbursementVoucherRuleConstants.STATE_TAX_ACCOUNT_PARM_NM);
-                stateTaxObjectCode = SpringServiceLocator.getKualiConfigurationService().getApplicationParameterValue(DisbursementVoucherRuleConstants.NRA_TAX_PARM_GROUP_NM, DisbursementVoucherRuleConstants.STATE_OBJECT_CODE_PARM_PREFIX + document.getDvNonResidentAlienTax().getIncomeClassCode());
+                stateTaxChart = SpringContext.getBean(KualiConfigurationService.class).getApplicationParameterValue(DisbursementVoucherRuleConstants.NRA_TAX_PARM_GROUP_NM, DisbursementVoucherRuleConstants.STATE_TAX_CHART_PARM_NM);
+                stateTaxAccount = SpringContext.getBean(KualiConfigurationService.class).getApplicationParameterValue(DisbursementVoucherRuleConstants.NRA_TAX_PARM_GROUP_NM, DisbursementVoucherRuleConstants.STATE_TAX_ACCOUNT_PARM_NM);
+                stateTaxObjectCode = SpringContext.getBean(KualiConfigurationService.class).getApplicationParameterValue(DisbursementVoucherRuleConstants.NRA_TAX_PARM_GROUP_NM, DisbursementVoucherRuleConstants.STATE_OBJECT_CODE_PARM_PREFIX + document.getDvNonResidentAlienTax().getIncomeClassCode());
             }
             catch (ApplicationParameterException e) {
                 LOG.error("Unable to retrieve state tax parameters.");

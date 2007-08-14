@@ -5,9 +5,11 @@ import java.util.List;
 
 import org.kuali.core.bo.Note;
 import org.kuali.core.bo.PersistableBusinessObjectBase;
+import org.kuali.core.service.KualiConfigurationService;
+import org.kuali.core.service.NoteService;
 import org.kuali.core.util.TypedArrayList;
 import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.kfs.context.SpringContext;
 
 /**
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
@@ -83,7 +85,7 @@ abstract class AbstractRelatedView extends PersistableBusinessObjectBase {
     public List<Note> getNotes() {
         if (notes == null) {
             notes = new TypedArrayList(Note.class);
-            List<Note> tmpNotes = SpringServiceLocator.getNoteService().getByRemoteObjectId(this.getObjectId());
+            List<Note> tmpNotes = SpringContext.getBean(NoteService.class).getByRemoteObjectId(this.getObjectId());
             for (Note note : tmpNotes) {
                 notes.add(note);
             }
@@ -92,7 +94,7 @@ abstract class AbstractRelatedView extends PersistableBusinessObjectBase {
     }
     
     public String getUrl() {
-        return SpringServiceLocator.getKualiConfigurationService().getPropertyString(KFSConstants.WORKFLOW_URL_KEY) + "/DocHandler.do?docId=" + getDocumentNumber() + "&command=displayDocSearchView";
+        return SpringContext.getBean(KualiConfigurationService.class).getPropertyString(KFSConstants.WORKFLOW_URL_KEY) + "/DocHandler.do?docId=" + getDocumentNumber() + "&command=displayDocSearchView";
     }
 
  }

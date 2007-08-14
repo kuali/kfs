@@ -15,12 +15,11 @@
  */
 package org.kuali.module.labor.web.struts.form;
 
-import java.sql.Date;
 import java.util.Map;
 
-import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.kfs.KFSPropertyConstants;
-import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.kfs.context.SpringContext;
+import org.kuali.kfs.service.OptionsService;
 import org.kuali.module.labor.document.BenefitExpenseTransferDocument;
 
 /**
@@ -38,7 +37,7 @@ public class BenefitExpenseTransferForm extends ExpenseTransferDocumentFormBase 
     public BenefitExpenseTransferForm() {
         super();
         setDocument(new BenefitExpenseTransferDocument());
-        setUniversityFiscalYear(SpringServiceLocator.getOptionsService().getCurrentYearOptions().getUniversityFiscalYear());
+        setUniversityFiscalYear(SpringContext.getBean(OptionsService.class).getCurrentYearOptions().getUniversityFiscalYear());
     }
 
     /**

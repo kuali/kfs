@@ -25,10 +25,11 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.kra.budget.bo.BudgetNonpersonnel;
 import org.kuali.module.kra.budget.bo.NonpersonnelCategory;
 import org.kuali.module.kra.budget.document.BudgetDocument;
+import org.kuali.module.kra.budget.service.BudgetNonpersonnelService;
 import org.kuali.module.kra.budget.service.BudgetPeriodService;
 
 /**
@@ -273,7 +274,7 @@ public class BudgetNonpersonnelCopyOverFormHelper {
                         NonpersonnelCopyOverLineItemHelper nprsCopyOverLineItemHelper = (NonpersonnelCopyOverLineItemHelper) nprsCopyOverLineItemHelpers.get(budgetNonpersonnel.getBudgetOriginSequenceNumber());
 
                         // new item with inflation rate, and add it to list (appropriate spot of period number)
-                        int inflationLength = SpringServiceLocator.getBudgetPeriodService().getPeriodsRange(nprsCopyOverLineItemHelper.getOriginBudgetPeriodSequenceNumber(), budgetNonpersonnel.getBudgetPeriodSequenceNumber(), periods);
+                        int inflationLength = SpringContext.getBean(BudgetPeriodService.class).getPeriodsRange(nprsCopyOverLineItemHelper.getOriginBudgetPeriodSequenceNumber(), budgetNonpersonnel.getBudgetPeriodSequenceNumber(), periods);
                         BudgetNonpersonnelCopyOverBoHelper nonpersonnelCopyOverBoHelper = new BudgetNonpersonnelCopyOverBoHelper(budgetNonpersonnel, inflationLength, budgetNonpersonnelInflationRate);
                         nprsCopyOverLineItemHelper.add(nonpersonnelCopyOverBoHelper, periods);
                     }
@@ -427,7 +428,7 @@ public class BudgetNonpersonnelCopyOverFormHelper {
                 BudgetNonpersonnelCopyOverBoHelper[] periodAmountsArr = new BudgetNonpersonnelCopyOverBoHelper[periods.size()];
 
                 // Place the origin item
-                int originItemIndex = SpringServiceLocator.getBudgetPeriodService().getPeriodIndex(budgetNonpersonnelCopyOverBoHelper.getBudgetPeriodSequenceNumber(), periods);
+                int originItemIndex = SpringContext.getBean(BudgetPeriodService.class).getPeriodIndex(budgetNonpersonnelCopyOverBoHelper.getBudgetPeriodSequenceNumber(), periods);
                 periodAmountsArr[originItemIndex] = budgetNonpersonnelCopyOverBoHelper;
 
                 // Fill the items before the origin item.
@@ -466,7 +467,7 @@ public class BudgetNonpersonnelCopyOverFormHelper {
 
                             // find nonpersonnelItem that is to be updated
                             List nonpersonnelItems = budgetDocument.getBudget().getNonpersonnelItems();
-                            BudgetNonpersonnel budgetNonpersonnel = SpringServiceLocator.getBudgetNonpersonnelService().findBudgetNonpersonnel(budgetNonpersonnelCopyOverBoHelper.getBudgetNonpersonnelSequenceNumber(), nonpersonnelItems);
+                            BudgetNonpersonnel budgetNonpersonnel = SpringContext.getBean(BudgetNonpersonnelService.class).findBudgetNonpersonnel(budgetNonpersonnelCopyOverBoHelper.getBudgetNonpersonnelSequenceNumber(), nonpersonnelItems);
 
                             // update indicators
                             budgetNonpersonnel.setAgencyCopyIndicator(budgetNonpersonnelCopyOverBoHelper.getAgencyCopyIndicator());
@@ -565,7 +566,7 @@ public class BudgetNonpersonnelCopyOverFormHelper {
                 for (int i = originItemIndex + 1; i < periodAmountsArr.length; i++) {
 
                     // Retrieve a few variables that we need to create the new forward filling object
-                    BudgetPeriodService budgetPeriodService = SpringServiceLocator.getBudgetPeriodService();
+                    BudgetPeriodService budgetPeriodService = SpringContext.getBean(BudgetPeriodService.class);
                     Integer budgetPeriodSequenceNumberOverride = budgetPeriodService.getPeriodAfterOffset(originItem.getBudgetPeriodSequenceNumber(), i - originItemIndex, periods).getBudgetPeriodSequenceNumber();
                     int inflationLength = budgetPeriodService.getPeriodsRange(originItem.getBudgetPeriodSequenceNumber(), budgetPeriodSequenceNumberOverride, periods);
 
@@ -590,7 +591,7 @@ public class BudgetNonpersonnelCopyOverFormHelper {
                 // solution.
                 BudgetNonpersonnelCopyOverBoHelper[] periodAmountsArr = (BudgetNonpersonnelCopyOverBoHelper[]) periodAmounts.toArray();
 
-                int targetIndex = SpringServiceLocator.getBudgetPeriodService().getPeriodIndex(budgetNonpersonnelCopyOverBoHelper.getBudgetPeriodSequenceNumber(), periods);
+                int targetIndex = SpringContext.getBean(BudgetPeriodService.class).getPeriodIndex(budgetNonpersonnelCopyOverBoHelper.getBudgetPeriodSequenceNumber(), periods);
 
                 periodAmountsArr[targetIndex] = budgetNonpersonnelCopyOverBoHelper;
                 periodAmounts = Arrays.asList(periodAmountsArr);

@@ -23,9 +23,10 @@ import java.util.Map;
 import org.kuali.core.document.Document;
 import org.kuali.core.rule.event.ApproveDocumentEvent;
 import org.kuali.core.rules.TransactionalDocumentRuleBase;
+import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.ObjectUtils;
-import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.PurapKeyConstants;
 import org.kuali.module.purap.PurapPropertyConstants;
@@ -90,7 +91,7 @@ public class AssignContractManagerDocumentRule extends TransactionalDocumentRule
             if ( ObjectUtils.isNotNull( detail.getContractManagerCode() ) ) {
                 Map fieldValues = new HashMap();
                 fieldValues.put(PurapPropertyConstants.CONTRACT_MANAGER_CODE, detail.getContractManagerCode());
-                if ( SpringServiceLocator.getBusinessObjectService().countMatching(ContractManager.class, fieldValues) != 1 ) {
+                if ( SpringContext.getBean(BusinessObjectService.class).countMatching(ContractManager.class, fieldValues) != 1 ) {
                     GlobalVariables.getErrorMap().putError(PurapConstants.ASSIGN_CONTRACT_MANAGER_TAB_ERRORS,
                             PurapKeyConstants.INVALID_CONTRACT_MANAGER_CODE);
                     isValid = false;

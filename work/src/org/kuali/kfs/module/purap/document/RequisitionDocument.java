@@ -17,9 +17,7 @@
 package org.kuali.module.purap.document;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Calendar;
-import java.util.Currency;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -31,14 +29,20 @@ import org.kuali.core.bo.DocumentHeader;
 import org.kuali.core.bo.Note;
 import org.kuali.core.document.Copyable;
 import org.kuali.core.exceptions.ValidationException;
+import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DateTimeService;
+import org.kuali.core.service.KualiConfigurationService;
+import org.kuali.core.service.PersistenceService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.workflow.service.KualiWorkflowDocument;
+import org.kuali.core.workflow.service.KualiWorkflowInfo;
+import org.kuali.core.workflow.service.WorkflowDocumentService;
 import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.chart.bo.ChartUser;
+import org.kuali.module.financial.service.UniversityDateService;
 import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.PurapKeyConstants;
 import org.kuali.module.purap.PurapParameterConstants;
@@ -51,8 +55,13 @@ import org.kuali.module.purap.bo.RequisitionAccount;
 import org.kuali.module.purap.bo.RequisitionItem;
 import org.kuali.module.purap.bo.RequisitionStatusHistory;
 import org.kuali.module.purap.bo.RequisitionView;
+import org.kuali.module.purap.service.PurapService;
+import org.kuali.module.purap.service.PurchaseOrderService;
+import org.kuali.module.purap.service.RequisitionService;
 import org.kuali.module.vendor.bo.VendorContract;
 import org.kuali.module.vendor.bo.VendorDetail;
+import org.kuali.module.vendor.service.PhoneNumberService;
+import org.kuali.module.vendor.service.VendorService;
 
 import edu.iu.uis.eden.EdenConstants;
 import edu.iu.uis.eden.clientapp.vo.DocumentRouteLevelChangeVO;
@@ -100,7 +109,7 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
         this.setPurchaseOrderTransmissionMethodCode( determinePurchaseOrderTransmissionMethod() );
 
         // set the default funding source
-        this.setFundingSourceCode(SpringServiceLocator.getKualiConfigurationService().getApplicationParameterValue(PurapParameterConstants.PURAP_ADMIN_GROUP,"PURAP.REQUISITION_DEFAULT_FUNDING_SOURCE"));
+        this.setFundingSourceCode(SpringContext.getBean(KualiConfigurationService.class).getApplicationParameterValue(PurapParameterConstants.PURAP_ADMIN_GROUP,"PURAP.REQUISITION_DEFAULT_FUNDING_SOURCE"));
 
         ChartUser currentUser = (ChartUser)GlobalVariables.getUserSession().getUniversalUser().getModuleUser( ChartUser.MODULE_ID );
         this.setChartOfAccountsCode(currentUser.getChartOfAccountsCode());
@@ -108,18 +117,18 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
         this.setDeliveryCampusCode(currentUser.getUniversalUser().getCampusCode());
         this.setRequestorPersonName(currentUser.getUniversalUser().getPersonName());
         this.setRequestorPersonEmailAddress(currentUser.getUniversalUser().getPersonEmailAddress());
-        this.setRequestorPersonPhoneNumber(SpringServiceLocator.getPhoneNumberService().formatNumberIfPossible(currentUser.getUniversalUser().getPersonLocalPhoneNumber()));
+        this.setRequestorPersonPhoneNumber(SpringContext.getBean(PhoneNumberService.class).formatNumberIfPossible(currentUser.getUniversalUser().getPersonLocalPhoneNumber()));
         
         // set the APO limit
-        this.setOrganizationAutomaticPurchaseOrderLimit(SpringServiceLocator.getPurapService().getApoLimit(this.getVendorContractGeneratedIdentifier(), this.getChartOfAccountsCode(), this.getOrganizationCode()));
+        this.setOrganizationAutomaticPurchaseOrderLimit(SpringContext.getBean(PurapService.class).getApoLimit(this.getVendorContractGeneratedIdentifier(), this.getChartOfAccountsCode(), this.getOrganizationCode()));
 
         BillingAddress billingAddress = new BillingAddress();
         billingAddress.setBillingCampusCode(this.getDeliveryCampusCode());
-        Map keys = SpringServiceLocator.getPersistenceService().getPrimaryKeyFieldValues(billingAddress);
-        billingAddress = (BillingAddress) SpringServiceLocator.getBusinessObjectService().findByPrimaryKey(BillingAddress.class, keys);
+        Map keys = SpringContext.getBean(PersistenceService.class).getPrimaryKeyFieldValues(billingAddress);
+        billingAddress = (BillingAddress) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(BillingAddress.class, keys);
         this.templateBillingAddress(billingAddress);
 
-        SpringServiceLocator.getPurapService().addBelowLineItems(this);
+        SpringContext.getBean(PurapService.class).addBelowLineItems(this);
         this.refreshNonUpdateableReferences();
     }
 
@@ -130,7 +139,7 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
      */
     private String determinePurchaseOrderTransmissionMethod(){
         //KULPURAP-826: Return a value based on a sys param. Perhaps later change it to more dynamic logic
-        return SpringServiceLocator.getKualiConfigurationService().getApplicationParameterValue(PurapParameterConstants.PURAP_ADMIN_GROUP, PurapParameterConstants.PURAP_DEFAULT_PO_TRANSMISSION_CODE);
+        return SpringContext.getBean(KualiConfigurationService.class).getApplicationParameterValue(PurapParameterConstants.PURAP_ADMIN_GROUP, PurapParameterConstants.PURAP_DEFAULT_PO_TRANSMISSION_CODE);
     }
     
     /**
@@ -145,7 +154,7 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
     public boolean getAllowsCopy() {
         boolean allowsCopy = super.getAllowsCopy();
         if (this.getRequisitionSourceCode().equals(PurapConstants.RequisitionSources.B2B)) {
-            DateTimeService dateTimeService = SpringServiceLocator.getDateTimeService();            
+            DateTimeService dateTimeService = SpringContext.getBean(DateTimeService.class, "dateTimeService");            
             Calendar c = Calendar.getInstance();
             DocumentHeader dh = this.getDocumentHeader();
             KualiWorkflowDocument wd = dh.getWorkflowDocument();
@@ -153,7 +162,7 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
             // The allowed copy date is the document creation date plus a set number of days.                      
             Date createDate = wd.getCreateDate();
             c.setTime(createDate);
-            String allowedCopyDays = SpringServiceLocator.getKualiConfigurationService().getApplicationParameterValue(PurapParameterConstants.PURAP_ADMIN_GROUP,"PURAP.REQ_B2B_ALLOW_COPY_DAYS");
+            String allowedCopyDays = SpringContext.getBean(KualiConfigurationService.class).getApplicationParameterValue(PurapParameterConstants.PURAP_ADMIN_GROUP,"PURAP.REQ_B2B_ALLOW_COPY_DAYS");
             c.add(Calendar.DATE, Integer.parseInt(allowedCopyDays));
             Date allowedCopyDate = c.getTime();
 
@@ -190,24 +199,24 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
         this.setChartOfAccountsCode(currentUser.getChartOfAccountsCode());
         this.setOrganizationCode(currentUser.getOrganizationCode());
 
-        this.setPostingYear(SpringServiceLocator.getUniversityDateService().getCurrentFiscalYear());
+        this.setPostingYear(SpringContext.getBean(UniversityDateService.class).getCurrentFiscalYear());
 
         boolean activeVendor = true;
         boolean activeContract = true;
 
-        Date today = SpringServiceLocator.getDateTimeService().getCurrentDate();
+        Date today = SpringContext.getBean(DateTimeService.class, "dateTimeService").getCurrentDate();
 
         VendorContract vendorContract = new VendorContract();
         vendorContract.setVendorContractGeneratedIdentifier(this.getVendorContractGeneratedIdentifier());
-        Map keys = SpringServiceLocator.getPersistenceService().getPrimaryKeyFieldValues(vendorContract);
-        vendorContract = (VendorContract) SpringServiceLocator.getBusinessObjectService().findByPrimaryKey(VendorContract.class, keys);
+        Map keys = SpringContext.getBean(PersistenceService.class).getPrimaryKeyFieldValues(vendorContract);
+        vendorContract = (VendorContract) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(VendorContract.class, keys);
         if (!(vendorContract != null && 
                 today.after(vendorContract.getVendorContractBeginningDate()) && 
                 today.before(vendorContract.getVendorContractEndDate()))) {
             activeContract = false;
         }
 
-        VendorDetail vendorDetail = SpringServiceLocator.getVendorService().getVendorDetail(this.getVendorHeaderGeneratedIdentifier(), this.getVendorDetailAssignedIdentifier());
+        VendorDetail vendorDetail = SpringContext.getBean(VendorService.class).getVendorDetail(this.getVendorHeaderGeneratedIdentifier(), this.getVendorDetailAssignedIdentifier());
         if (!(vendorDetail != null && vendorDetail.isActiveIndicator())) {
             activeVendor = false;
         }
@@ -254,16 +263,16 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
                 account.setItemIdentifier(null);
             }
         }
-        SpringServiceLocator.getPurapService().addBelowLineItems(this);
+        SpringContext.getBean(PurapService.class).addBelowLineItems(this);
 
-        this.setOrganizationAutomaticPurchaseOrderLimit(SpringServiceLocator.getPurapService().getApoLimit(this.getVendorContractGeneratedIdentifier(), this.getChartOfAccountsCode(), this.getOrganizationCode()));
+        this.setOrganizationAutomaticPurchaseOrderLimit(SpringContext.getBean(PurapService.class).getApoLimit(this.getVendorContractGeneratedIdentifier(), this.getChartOfAccountsCode(), this.getOrganizationCode()));
       
         this.refreshNonUpdateableReferences();
 	}
 
     private void updateStatusAndStatusHistoryAndSave(String statusCode) {
-        SpringServiceLocator.getPurapService().updateStatusAndStatusHistory(this, statusCode);
-        SpringServiceLocator.getRequisitionService().saveDocumentWithoutValidation(this);
+        SpringContext.getBean(PurapService.class).updateStatusAndStatusHistory(this, statusCode);
+        SpringContext.getBean(RequisitionService.class).saveDocumentWithoutValidation(this);
     }
     
 	/**
@@ -277,15 +286,15 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
             // DOCUMENT PROCESSED
             if (this.getDocumentHeader().getWorkflowDocument().stateIsProcessed()) {
                 String newRequisitionStatus = PurapConstants.RequisitionStatuses.AWAIT_CONTRACT_MANAGER_ASSGN;
-                if (SpringServiceLocator.getRequisitionService().isAutomaticPurchaseOrderAllowed(this)) {
+                if (SpringContext.getBean(RequisitionService.class).isAutomaticPurchaseOrderAllowed(this)) {
                     newRequisitionStatus = PurapConstants.RequisitionStatuses.CLOSED;
-                    PurchaseOrderDocument poDocument = SpringServiceLocator.getPurchaseOrderService().createAutomaticPurchaseOrderDocument(this);
+                    PurchaseOrderDocument poDocument = SpringContext.getBean(PurchaseOrderService.class).createAutomaticPurchaseOrderDocument(this);
                 }
                 updateStatusAndStatusHistoryAndSave(newRequisitionStatus);
             }
             // DOCUMENT DISAPPROVED
             else if (this.getDocumentHeader().getWorkflowDocument().stateIsDisapproved()) {
-                String nodeName = SpringServiceLocator.getWorkflowDocumentService().getCurrentRouteLevelName(getDocumentHeader().getWorkflowDocument());
+                String nodeName = SpringContext.getBean(WorkflowDocumentService.class).getCurrentRouteLevelName(getDocumentHeader().getWorkflowDocument());
                 NodeDetails currentNode = NodeDetailEnum.getNodeDetailEnumByName(nodeName);
                 if (ObjectUtils.isNotNull(currentNode)) {
                     if (StringUtils.isNotBlank(currentNode.getDisapprovedStatusCode())) {
@@ -319,7 +328,7 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
             if (StringUtils.isNotBlank(newNodeName)) {
                 ReportCriteriaVO reportCriteriaVO = new ReportCriteriaVO(Long.valueOf(getDocumentNumber()));
                 reportCriteriaVO.setTargetNodeName(newNodeName);
-                if (SpringServiceLocator.getWorkflowInfoService().documentWillHaveAtLeastOneActionRequest(reportCriteriaVO, new String[] { EdenConstants.ACTION_REQUEST_APPROVE_REQ, EdenConstants.ACTION_REQUEST_COMPLETE_REQ })) {
+                if (SpringContext.getBean(KualiWorkflowInfo.class).documentWillHaveAtLeastOneActionRequest(reportCriteriaVO, new String[] { EdenConstants.ACTION_REQUEST_APPROVE_REQ, EdenConstants.ACTION_REQUEST_COMPLETE_REQ })) {
                     NodeDetails currentNode = NodeDetailEnum.getNodeDetailEnumByName(newNodeName);
                     if (ObjectUtils.isNotNull(currentNode)) {
                         if (StringUtils.isNotBlank(currentNode.getAwaitingStatusCode())) {
@@ -606,7 +615,7 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
     @Override
     public String getDocumentTitle() {
         String title = "";
-        String specificTitle = SpringServiceLocator.getKualiConfigurationService().getApplicationParameterValue(PurapParameterConstants.PURAP_ADMIN_GROUP,PurapParameterConstants.PURAP_OVERRIDE_REQ_DOC_TITLE);
+        String specificTitle = SpringContext.getBean(KualiConfigurationService.class).getApplicationParameterValue(PurapParameterConstants.PURAP_ADMIN_GROUP,PurapParameterConstants.PURAP_OVERRIDE_REQ_DOC_TITLE);
         if (StringUtils.equalsIgnoreCase(specificTitle,Boolean.TRUE.toString())) {
             String docIdStr = "";
             if ( (this.getPurapDocumentIdentifier() != null) && (StringUtils.isNotBlank(this.getPurapDocumentIdentifier().toString())) ) {
@@ -647,7 +656,7 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
     }
 	
 	public String getUrl() {
-        return SpringServiceLocator.getKualiConfigurationService().getPropertyString(KFSConstants.WORKFLOW_URL_KEY) + "/DocHandler.do?docId=" + getDocumentNumber() + "&command=displayDocSearchView";
+        return SpringContext.getBean(KualiConfigurationService.class).getPropertyString(KFSConstants.WORKFLOW_URL_KEY) + "/DocHandler.do?docId=" + getDocumentNumber() + "&command=displayDocSearchView";
     }
     
     /**

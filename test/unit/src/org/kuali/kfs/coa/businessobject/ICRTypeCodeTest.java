@@ -15,8 +15,9 @@
  */
 package org.kuali.module.chart.bo.codes;
 
+import org.kuali.core.service.BusinessObjectService;
 import org.kuali.kfs.context.KualiTestBase;
-import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.test.ConfigureContext;
 
 /**
@@ -29,7 +30,7 @@ public class ICRTypeCodeTest extends KualiTestBase {
      * The isActive method should always return true, at least until a phase 2 task adds active indicators to all BOs.
      */
     public void testIsActive() {
-        ICRTypeCode bo = (ICRTypeCode) (SpringServiceLocator.getBusinessObjectService().findAll(ICRTypeCode.class).toArray()[0]);
+        ICRTypeCode bo = (ICRTypeCode) (SpringContext.getBean(BusinessObjectService.class).findAll(ICRTypeCode.class).toArray()[0]);
         assertEquals(true, bo.isActive());
     }
 }

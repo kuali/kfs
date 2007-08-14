@@ -27,13 +27,15 @@ import org.kuali.core.bo.GlobalBusinessObject;
 import org.kuali.core.bo.GlobalBusinessObjectDetail;
 import org.kuali.core.bo.PersistableBusinessObject;
 import org.kuali.core.bo.PersistableBusinessObjectBase;
+import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.util.TypedArrayList;
 import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.bo.Options;
-import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.chart.bo.codes.BudgetAggregationCode;
-import org.kuali.module.chart.bo.codes.MandatoryTransferEliminationCode;
 import org.kuali.module.chart.bo.codes.FederalFundedCode;
+import org.kuali.module.chart.bo.codes.MandatoryTransferEliminationCode;
+import org.kuali.module.chart.service.ChartService;
 
 /**
  * 
@@ -767,13 +769,13 @@ public class ObjectCodeGlobal extends PersistableBusinessObjectBase implements G
                 pk.put("FIN_COA_CD", chart);
                 pk.put("FIN_OBJECT_CD", financialObjectCode);
 
-                ObjectCode objectCode = (ObjectCode) SpringServiceLocator.getBusinessObjectService().findByPrimaryKey(ObjectCode.class, pk);
+                ObjectCode objectCode = (ObjectCode) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(ObjectCode.class, pk);
                 if (objectCode == null) {
                     objectCode = new ObjectCode(fiscalYear, chart, financialObjectCode);
                     objectCode.setFinancialObjectActiveCode(true);
                 }
                 populate(objectCode, detail);
-                Map<String, String> hierarchy = SpringServiceLocator.getChartService().getReportsToHierarchy();
+                Map<String, String> hierarchy = SpringContext.getBean(ChartService.class).getReportsToHierarchy();
                 objectCode.setReportsToChartOfAccountsCode(hierarchy.get(chart));
 
                 result.add(objectCode);

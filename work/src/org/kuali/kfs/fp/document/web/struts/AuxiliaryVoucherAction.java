@@ -24,8 +24,9 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.core.document.Document;
 import org.kuali.core.document.authorization.DocumentAuthorizer;
+import org.kuali.core.service.DocumentAuthorizationService;
 import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.financial.document.AuxiliaryVoucherDocument;
 import org.kuali.module.financial.web.struts.form.AuxiliaryVoucherForm;
 
@@ -58,7 +59,7 @@ public class AuxiliaryVoucherAction extends VoucherAction {
             // must call this here, because execute in the super method will never have control for this particular action
             // this is called in the parent by super.execute()
             Document document = avForm.getDocument();
-            DocumentAuthorizer documentAuthorizer = SpringServiceLocator.getDocumentAuthorizationService().getDocumentAuthorizer(document);
+            DocumentAuthorizer documentAuthorizer = SpringContext.getBean(DocumentAuthorizationService.class).getDocumentAuthorizer(document);
             avForm.populateAuthorizationFields(documentAuthorizer);
         }
         else { // otherwise call the super

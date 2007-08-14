@@ -24,12 +24,14 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.bo.BusinessObject;
 import org.kuali.core.exceptions.ValidationException;
+import org.kuali.core.service.DateTimeService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSKeyConstants;
 import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
-import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.kfs.context.SpringContext;
+import org.kuali.module.financial.service.UniversityDateService;
 import org.kuali.module.gl.bo.Entry;
 import org.kuali.module.gl.bo.UniversityDate;
 import org.kuali.module.gl.service.EntryService;
@@ -113,10 +115,10 @@ public class EntryLookupableHelperServiceImpl extends AbstractGLLookupableHelper
         Iterator pendingEntryIterator = getGeneralLedgerPendingEntryService().findPendingLedgerEntriesForEntry(pendingEntryFieldValues, isApproved);
 
         String pendingOption = isApproved ? Constant.APPROVED_PENDING_ENTRY : Constant.ALL_PENDING_ENTRY;
-        UniversityDate today = SpringServiceLocator.getUniversityDateService().getCurrentUniversityDate();
+        UniversityDate today = SpringContext.getBean(UniversityDateService.class).getCurrentUniversityDate();
         String currentFiscalPeriodCode = today.getUniversityFiscalAccountingPeriod();
         Integer currentFiscalYear = today.getUniversityFiscalYear();
-        Date postDate = SpringServiceLocator.getDateTimeService().getCurrentSqlDate();
+        Date postDate = SpringContext.getBean(DateTimeService.class, "dateTimeService").getCurrentSqlDate();
 
         while (pendingEntryIterator.hasNext()) {
             GeneralLedgerPendingEntry pendingEntry = (GeneralLedgerPendingEntry) pendingEntryIterator.next();

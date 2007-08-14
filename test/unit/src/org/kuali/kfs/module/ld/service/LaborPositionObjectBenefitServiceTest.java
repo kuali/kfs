@@ -19,9 +19,8 @@ import java.util.Collection;
 import java.util.Iterator;
 
 import org.kuali.kfs.context.KualiTestBase;
-import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.labor.bo.PositionObjectBenefit;
-import org.kuali.module.labor.service.impl.LaborPositionObjectBenefitServiceImpl;
 import org.kuali.test.ConfigureContext;
 import org.kuali.test.KualiTestConstants.TestConstants.PositionObjectTestData;
 
@@ -39,7 +38,7 @@ public class LaborPositionObjectBenefitServiceTest extends KualiTestBase {
     @Override
     protected void setUp() throws Exception {
         super.setUp();
-        laborPositionObjectBenefitService = SpringServiceLocator.getLaborPositionObjectBenefitService();
+        laborPositionObjectBenefitService = SpringContext.getBean(LaborPositionObjectBenefitService.class);
     }
 
     /**

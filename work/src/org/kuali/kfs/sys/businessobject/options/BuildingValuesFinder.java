@@ -24,13 +24,13 @@ import org.kuali.core.lookup.keyvalues.KeyValuesBase;
 import org.kuali.core.service.KeyValuesService;
 import org.kuali.core.web.ui.KeyLabelPair;
 import org.kuali.kfs.bo.Building;
-import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.kfs.context.SpringContext;
 
 public class BuildingValuesFinder extends KeyValuesBase {
 
     public List getKeyValues() {
 
-        KeyValuesService boService = SpringServiceLocator.getKeyValuesService();
+        KeyValuesService boService = SpringContext.getBean(KeyValuesService.class);
         Collection buildings = boService.findAll(Building.class);
         List labels = new ArrayList();
         labels.add(new KeyLabelPair("", ""));

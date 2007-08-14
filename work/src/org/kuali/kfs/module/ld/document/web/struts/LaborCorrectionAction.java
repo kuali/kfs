@@ -36,6 +36,8 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.upload.FormFile;
 import org.kuali.core.authorization.AuthorizationConstants;
+import org.kuali.core.service.DateTimeService;
+import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.service.SequenceAccessorService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.web.struts.form.KualiTableRenderFormMetadata;
@@ -45,7 +47,7 @@ import org.kuali.core.workflow.service.KualiWorkflowDocument;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSKeyConstants;
 import org.kuali.kfs.KFSPropertyConstants;
-import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.gl.bo.CorrectionChange;
 import org.kuali.module.gl.bo.CorrectionChangeGroup;
 import org.kuali.module.gl.bo.CorrectionCriteria;
@@ -56,6 +58,9 @@ import org.kuali.module.gl.document.CorrectionDocument;
 import org.kuali.module.gl.document.CorrectionDocumentAuthorizer;
 import org.kuali.module.gl.exception.LoadException;
 import org.kuali.module.gl.service.CorrectionDocumentService;
+import org.kuali.module.gl.service.GlCorrectionProcessOriginEntryService;
+import org.kuali.module.gl.service.OriginEntryGroupService;
+import org.kuali.module.gl.service.OriginEntryService;
 import org.kuali.module.gl.util.CorrectionDocumentUtils;
 import org.kuali.module.gl.web.struts.action.CorrectionAction;
 import org.kuali.module.gl.web.struts.form.CorrectionForm;
@@ -69,7 +74,7 @@ import org.kuali.module.labor.web.struts.form.LaborCorrectionForm;
 
 public class LaborCorrectionAction extends CorrectionAction{
 
-    LaborOriginEntryService laborOriginEntryService = SpringServiceLocator.getLaborOriginEntryService();
+    LaborOriginEntryService laborOriginEntryService = SpringContext.getBean(LaborOriginEntryService.class);
   
     
     
@@ -83,10 +88,10 @@ public class LaborCorrectionAction extends CorrectionAction{
 
         // Init our services once
         if (originEntryGroupService == null) {
-            CorrectionAction.originEntryGroupService = SpringServiceLocator.getOriginEntryGroupService();
-            CorrectionAction.originEntryService = SpringServiceLocator.getOriginEntryService();
-            CorrectionAction.dateTimeService = SpringServiceLocator.getDateTimeService();
-            CorrectionAction.kualiConfigurationService = SpringServiceLocator.getKualiConfigurationService();
+            CorrectionAction.originEntryGroupService = SpringContext.getBean(OriginEntryGroupService.class);
+            CorrectionAction.originEntryService = SpringContext.getBean(OriginEntryService.class);
+            CorrectionAction.dateTimeService = SpringContext.getBean(DateTimeService.class, "dateTimeService");
+            CorrectionAction.kualiConfigurationService = SpringContext.getBean(KualiConfigurationService.class);
         }
 
         request.setAttribute("debug", Boolean.valueOf(kualiConfigurationService.getApplicationParameterIndicator("GL.GLCP", "GL.DEBUG")));
@@ -103,7 +108,7 @@ public class LaborCorrectionAction extends CorrectionAction{
             restoreInputGroupSelectionForDatabaseEdits(rForm);
             if (!rForm.isRestrictedFunctionalityMode()) {
                 if (StringUtils.isNotBlank(rForm.getGlcpSearchResultsSequenceNumber())) {
-                    rForm.setAllEntries(SpringServiceLocator.getGlCorrectionProcessOriginEntryService().retrieveAllEntries(rForm.getGlcpSearchResultsSequenceNumber()));
+                    rForm.setAllEntries(SpringContext.getBean(GlCorrectionProcessOriginEntryService.class).retrieveAllEntries(rForm.getGlcpSearchResultsSequenceNumber()));
                     if (rForm.getAllEntries() == null) { 
                         rForm.setDisplayEntries(null);
                     }
@@ -122,7 +127,7 @@ public class LaborCorrectionAction extends CorrectionAction{
                         // if sorting, we'll let the action take care of the sorting
                         KualiTableRenderFormMetadata originEntrySearchResultTableMetadata = rForm.getOriginEntrySearchResultTableMetadata();
                         if (originEntrySearchResultTableMetadata.getPreviouslySortedColumnIndex() != -1) {
-                            List<Column> columns = SpringServiceLocator.getLaborCorrectionDocumentService().getTableRenderColumnMetadata(rForm.getDocument().getDocumentNumber());
+                            List<Column> columns = SpringContext.getBean(LaborCorrectionDocumentService.class).getTableRenderColumnMetadata(rForm.getDocument().getDocumentNumber());
                              
                             String propertyToSortName = columns.get(originEntrySearchResultTableMetadata.getPreviouslySortedColumnIndex()).getPropertyName();
                             Comparator valueComparator = columns.get(originEntrySearchResultTableMetadata.getPreviouslySortedColumnIndex()).getValueComparator();
@@ -180,7 +185,7 @@ public class LaborCorrectionAction extends CorrectionAction{
         }
         document.setCorrectionOutputGroupId(null);
 
-        SpringServiceLocator.getLaborCorrectionDocumentService().persistOriginEntryGroupsForDocumentSave(document, laborCorrectionForm);
+        SpringContext.getBean(LaborCorrectionDocumentService.class).persistOriginEntryGroupsForDocumentSave(document, laborCorrectionForm);
         
         LOG.debug("save() doc type name: " + laborCorrectionForm.getDocTypeName());
         return super.save(mapping, form, request, response);
@@ -308,10 +313,10 @@ public class LaborCorrectionAction extends CorrectionAction{
             updateDocumentSummary(document, correctionForm.getAllEntries(), correctionForm.isRestrictedFunctionalityMode());
             
             // if not in restricted functionality mode, then we can store these results temporarily in the GLCP origin entry service
-            SequenceAccessorService sequenceAccessorService = SpringServiceLocator.getSequenceAccessorService();
+            SequenceAccessorService sequenceAccessorService = SpringContext.getBean(SequenceAccessorService.class);
             String glcpSearchResultsSequenceNumber = String.valueOf(sequenceAccessorService.getNextAvailableSequenceNumber(KFSConstants.LOOKUP_RESULTS_SEQUENCE));
             
-            SpringServiceLocator.getGlCorrectionProcessOriginEntryService().persistAllEntries(glcpSearchResultsSequenceNumber, searchResults);
+            SpringContext.getBean(GlCorrectionProcessOriginEntryService.class).persistAllEntries(glcpSearchResultsSequenceNumber, searchResults);
             correctionForm.setGlcpSearchResultsSequenceNumber(glcpSearchResultsSequenceNumber);
         
             int maxRowsPerPage = CorrectionDocumentUtils.getRecordsPerPage();
@@ -346,7 +351,7 @@ public class LaborCorrectionAction extends CorrectionAction{
             laborCorrectionForm.getAllEntries().add(laborCorrectionForm.getLaborEntryForManualEdit());
 
             // we've modified the list of all entries, so repersist it
-            SpringServiceLocator.getGlCorrectionProcessOriginEntryService().persistAllEntries(laborCorrectionForm.getGlcpSearchResultsSequenceNumber(), laborCorrectionForm.getAllEntries());
+            SpringContext.getBean(GlCorrectionProcessOriginEntryService.class).persistAllEntries(laborCorrectionForm.getGlcpSearchResultsSequenceNumber(), laborCorrectionForm.getAllEntries());
             //laborCorrectionForm.setDisplayEntries(null);
             laborCorrectionForm.setDisplayEntries(laborCorrectionForm.getAllEntries());
             
@@ -381,7 +386,7 @@ public class LaborCorrectionAction extends CorrectionAction{
             laborCorrectionForm.updateLaborEntryForManualEdit();
 
             // new entryId is always 0, so give it a unique Id, SequenceAccessorService is used.
-            Long newEntryId = SpringServiceLocator.getSequenceAccessorService().getNextAvailableSequenceNumber("GL_ORIGIN_ENTRY_T_SEQ");
+            Long newEntryId = SpringContext.getBean(SequenceAccessorService.class).getNextAvailableSequenceNumber("GL_ORIGIN_ENTRY_T_SEQ");
             laborCorrectionForm.getLaborEntryForManualEdit().setEntryId(new Integer(newEntryId.intValue()));
 
             laborCorrectionForm.getAllEntries().add(laborCorrectionForm.getLaborEntryForManualEdit());
@@ -397,7 +402,7 @@ public class LaborCorrectionAction extends CorrectionAction{
         laborCorrectionForm.setShowSummaryOutputFlag(true);
 
         // we've modified the list of all entries, so repersist it
-        SpringServiceLocator.getGlCorrectionProcessOriginEntryService().persistAllEntries(laborCorrectionForm.getGlcpSearchResultsSequenceNumber(), laborCorrectionForm.getAllEntries());
+        SpringContext.getBean(GlCorrectionProcessOriginEntryService.class).persistAllEntries(laborCorrectionForm.getGlcpSearchResultsSequenceNumber(), laborCorrectionForm.getAllEntries());
         laborCorrectionForm.setDisplayEntries(new ArrayList<OriginEntry>(laborCorrectionForm.getAllEntries()));
         if (laborCorrectionForm.getShowOutputFlag()) {
             removeNonMatchingEntries(laborCorrectionForm.getDisplayEntries(), document.getCorrectionChangeGroup());
@@ -566,7 +571,7 @@ public class LaborCorrectionAction extends CorrectionAction{
         LaborCorrectionDocument document = laborCorrectionForm.getLaborCorrectionDocument();
 
         int recordCountFunctionalityLimit = CorrectionDocumentUtils.getRecordCountFunctionalityLimit();
-        LaborCorrectionDocumentService laborCorrectionDocumentService = SpringServiceLocator.getLaborCorrectionDocumentService();
+        LaborCorrectionDocumentService laborCorrectionDocumentService = SpringContext.getBean(LaborCorrectionDocumentService.class);
         
         if (!laborCorrectionDocumentService.areInputOriginEntriesPersisted(document)) {
             // the input origin entry group has been purged from the system
@@ -591,10 +596,10 @@ public class LaborCorrectionAction extends CorrectionAction{
             updateDocumentSummary(document, laborCorrectionForm.getAllEntries(), false);
             
             // if not in restricted functionality mode, then we can store these results temporarily in the GLCP origin entry service
-            SequenceAccessorService sequenceAccessorService = SpringServiceLocator.getSequenceAccessorService();
+            SequenceAccessorService sequenceAccessorService = SpringContext.getBean(SequenceAccessorService.class);
             String glcpSearchResultsSequenceNumber = String.valueOf(sequenceAccessorService.getNextAvailableSequenceNumber(KFSConstants.LOOKUP_RESULTS_SEQUENCE));
             
-            SpringServiceLocator.getGlCorrectionProcessOriginEntryService().persistAllEntries(glcpSearchResultsSequenceNumber, searchResults);
+            SpringContext.getBean(GlCorrectionProcessOriginEntryService.class).persistAllEntries(glcpSearchResultsSequenceNumber, searchResults);
             laborCorrectionForm.setGlcpSearchResultsSequenceNumber(glcpSearchResultsSequenceNumber);
         
             int maxRowsPerPage = CorrectionDocumentUtils.getRecordsPerPage();
@@ -608,7 +613,7 @@ public class LaborCorrectionAction extends CorrectionAction{
         LaborCorrectionForm laborCorrectionForm = (LaborCorrectionForm) correctionForm; 
         LaborCorrectionDocument document = laborCorrectionForm.getLaborCorrectionDocument();
 
-        LaborCorrectionDocumentService laborCorrectionDocumentService = SpringServiceLocator.getLaborCorrectionDocumentService();
+        LaborCorrectionDocumentService laborCorrectionDocumentService = SpringContext.getBean(LaborCorrectionDocumentService.class);
         if (!laborCorrectionDocumentService.areOutputOriginEntriesPersisted(document)) {
             // the input origin entry group has been purged from the system
             laborCorrectionForm.setPersistedOriginEntriesMissing(true);
@@ -658,10 +663,10 @@ public class LaborCorrectionAction extends CorrectionAction{
             updateDocumentSummary(document, laborCorrectionForm.getAllEntries(), false);
             
             // if not in restricted functionality mode, then we can store these results temporarily in the GLCP origin entry service
-            SequenceAccessorService sequenceAccessorService = SpringServiceLocator.getSequenceAccessorService();
+            SequenceAccessorService sequenceAccessorService = SpringContext.getBean(SequenceAccessorService.class);
             String glcpSearchResultsSequenceNumber = String.valueOf(sequenceAccessorService.getNextAvailableSequenceNumber(KFSConstants.LOOKUP_RESULTS_SEQUENCE));
             
-            SpringServiceLocator.getGlCorrectionProcessOriginEntryService().persistAllEntries(glcpSearchResultsSequenceNumber, searchResults);
+            SpringContext.getBean(GlCorrectionProcessOriginEntryService.class).persistAllEntries(glcpSearchResultsSequenceNumber, searchResults);
             laborCorrectionForm.setGlcpSearchResultsSequenceNumber(glcpSearchResultsSequenceNumber);
         
             int maxRowsPerPage = CorrectionDocumentUtils.getRecordsPerPage();
@@ -755,7 +760,7 @@ public class LaborCorrectionAction extends CorrectionAction{
         // we'll populate the output group id when the doc has a route level change
         document.setCorrectionOutputGroupId(null);
 
-        SpringServiceLocator.getLaborCorrectionDocumentService().persistOriginEntryGroupsForDocumentSave(document, laborCorrectionForm);
+        SpringContext.getBean(LaborCorrectionDocumentService.class).persistOriginEntryGroupsForDocumentSave(document, laborCorrectionForm);
         
         return true;
     }
@@ -783,7 +788,7 @@ public class LaborCorrectionAction extends CorrectionAction{
                     
                     BufferedOutputStream bw = new BufferedOutputStream(response.getOutputStream());
                     
-                    SpringServiceLocator.getCorrectionDocumentService().writePersistedInputOriginEntriesToStream((CorrectionDocument) laborCorrectionForm.getDocument(), bw);
+                    SpringContext.getBean(CorrectionDocumentService.class).writePersistedInputOriginEntriesToStream((CorrectionDocument) laborCorrectionForm.getDocument(), bw);
                     
                     bw.flush();
                     bw.close();
@@ -825,7 +830,7 @@ public class LaborCorrectionAction extends CorrectionAction{
 
         KualiTableRenderFormMetadata originEntrySearchResultTableMetadata = correctionForm.getOriginEntrySearchResultTableMetadata();
 
-        List<Column> columns = SpringServiceLocator.getLaborCorrectionDocumentService().getTableRenderColumnMetadata(correctionForm.getDocument().getDocumentNumber());
+        List<Column> columns = SpringContext.getBean(LaborCorrectionDocumentService.class).getTableRenderColumnMetadata(correctionForm.getDocument().getDocumentNumber());
         
         String propertyToSortName = columns.get(originEntrySearchResultTableMetadata.getColumnToSortIndex()).getPropertyName();
         Comparator valueComparator = columns.get(originEntrySearchResultTableMetadata.getColumnToSortIndex()).getValueComparator();
@@ -852,7 +857,7 @@ public class LaborCorrectionAction extends CorrectionAction{
         KualiTableRenderFormMetadata originEntrySearchResultTableMetadata = laborCorrectionForm.getOriginEntrySearchResultTableMetadata();
         if (originEntrySearchResultTableMetadata.getPreviouslySortedColumnIndex() != -1) {
             
-            List<Column> columns = SpringServiceLocator.getLaborCorrectionDocumentService().getTableRenderColumnMetadata(laborCorrectionForm.getDocument().getDocumentNumber());
+            List<Column> columns = SpringContext.getBean(LaborCorrectionDocumentService.class).getTableRenderColumnMetadata(laborCorrectionForm.getDocument().getDocumentNumber());
             
             String propertyToSortName = columns.get(originEntrySearchResultTableMetadata.getPreviouslySortedColumnIndex()).getPropertyName();
             Comparator valueComparator = columns.get(originEntrySearchResultTableMetadata.getPreviouslySortedColumnIndex()).getValueComparator();
@@ -872,7 +877,7 @@ public class LaborCorrectionAction extends CorrectionAction{
             present = originEntryGroupService.getGroupExists(((LaborCorrectionDocument) laborCorrectionForm.getDocument()).getCorrectionInputGroupId()); 
         }
         else {
-            present = SpringServiceLocator.getCorrectionDocumentService().areInputOriginEntriesPersisted((LaborCorrectionDocument) laborCorrectionForm.getDocument());
+            present = SpringContext.getBean(CorrectionDocumentService.class).areInputOriginEntriesPersisted((LaborCorrectionDocument) laborCorrectionForm.getDocument());
         }
         if (!present) {
             GlobalVariables.getErrorMap().putError(SYSTEM_AND_EDIT_METHOD_ERROR_KEY, KFSKeyConstants.ERROR_GL_ERROR_CORRECTION_PERSISTED_ORIGIN_ENTRIES_MISSING);

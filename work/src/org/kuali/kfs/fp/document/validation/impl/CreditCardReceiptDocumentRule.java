@@ -15,11 +15,15 @@
  */
 package org.kuali.module.financial.rules;
 
+import static org.kuali.kfs.KFSConstants.DOCUMENT_PROPERTY_NAME;
+
 import java.util.HashMap;
 import java.util.Map;
 
 import org.kuali.core.document.Document;
 import org.kuali.core.exceptions.ApplicationParameterException;
+import org.kuali.core.service.BusinessObjectService;
+import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.GeneralLedgerPendingEntrySequenceHelper;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
@@ -28,17 +32,13 @@ import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSKeyConstants;
 import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.document.AccountingDocument;
 import org.kuali.kfs.rule.GenerateGeneralLedgerDocumentPendingEntriesRule;
 import org.kuali.kfs.rules.AccountingDocumentRuleUtil;
-import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.financial.bo.BankAccount;
 import org.kuali.module.financial.document.CashReceiptFamilyBase;
 import org.kuali.module.financial.document.CreditCardReceiptDocument;
-
-import static org.kuali.kfs.KFSConstants.DOCUMENT_PROPERTY_NAME;
-import static org.kuali.kfs.KFSKeyConstants.CreditCardReceipt.ERROR_DOCUMENT_CREDIT_CARD_RECEIPT_TOTAL_INVALID;
-import static org.kuali.kfs.KFSPropertyConstants.CREDIT_CARD_RECEIPTS_TOTAL;
 
 /**
  * Business rules applicable to Credit Card Receipt documents.
@@ -168,7 +168,7 @@ public class CreditCardReceiptDocumentRule extends CashReceiptFamilyRule impleme
     private BankAccount getOffsetBankAccount() {
         final String scriptName = CreditCardReceiptDocumentRuleConstants.KUALI_TRANSACTION_PROCESSING_CREDIT_CARD_RECEIPT_SECURITY_GROUPING;
         final String parameter = CreditCardReceiptDocumentRuleConstants.CASH_OFFSET_BANK_ACCOUNT;
-        final String[] parameterValues = SpringServiceLocator.getKualiConfigurationService().getApplicationParameterValues(scriptName, parameter);
+        final String[] parameterValues = SpringContext.getBean(KualiConfigurationService.class).getApplicationParameterValues(scriptName, parameter);
         if (parameterValues.length != 2) {
             throw new ApplicationParameterException(scriptName, parameter, "invalid parameter format: must be 'bankCode;bankAccountNumber'");
         }
@@ -177,6 +177,6 @@ public class CreditCardReceiptDocumentRule extends CashReceiptFamilyRule impleme
         final Map<String, Object> primaryKeys = new HashMap<String, Object>();
         primaryKeys.put(KFSPropertyConstants.FINANCIAL_DOCUMENT_BANK_CODE, bankCode);
         primaryKeys.put(KFSPropertyConstants.FIN_DOCUMENT_BANK_ACCOUNT_NUMBER, bankAccountNumber);
-        return (BankAccount) SpringServiceLocator.getBusinessObjectService().findByPrimaryKey(BankAccount.class, primaryKeys);
+        return (BankAccount) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(BankAccount.class, primaryKeys);
     }
 }

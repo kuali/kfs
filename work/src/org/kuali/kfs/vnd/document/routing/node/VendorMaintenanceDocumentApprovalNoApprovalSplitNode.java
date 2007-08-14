@@ -18,7 +18,8 @@ package org.kuali.workflow.module.vendor.node;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.kfs.context.SpringContext;
+import org.kuali.module.vendor.service.VendorService;
 
 import edu.iu.uis.eden.engine.RouteContext;
 import edu.iu.uis.eden.engine.RouteHelper;
@@ -35,7 +36,7 @@ import edu.iu.uis.eden.engine.node.SplitResult;
 public class VendorMaintenanceDocumentApprovalNoApprovalSplitNode implements SplitNode {
 
     public SplitResult process(RouteContext routeContext, RouteHelper routeHelper) throws Exception {
-        boolean shouldVendorRoute = SpringServiceLocator.getVendorService().shouldVendorRouteForApproval(routeContext.getDocument().getRouteHeaderId().toString());
+        boolean shouldVendorRoute = SpringContext.getBean(VendorService.class).shouldVendorRouteForApproval(routeContext.getDocument().getRouteHeaderId().toString());
         List branchNames = new ArrayList();
         if (shouldVendorRoute) {
             branchNames.add("ApprovalBranch");

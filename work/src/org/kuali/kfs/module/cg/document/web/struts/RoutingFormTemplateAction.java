@@ -26,10 +26,11 @@ import org.apache.struts.action.ActionMapping;
 import org.kuali.core.document.Copyable;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.kra.KraConstants;
 import org.kuali.module.kra.routingform.bo.RoutingFormResearchRisk;
 import org.kuali.module.kra.routingform.document.RoutingFormDocument;
+import org.kuali.module.kra.routingform.service.RoutingFormProjectDetailsService;
 import org.kuali.module.kra.routingform.web.struts.form.RoutingForm;
 
 /**
@@ -68,7 +69,7 @@ public class RoutingFormTemplateAction extends RoutingFormAction {
         routingForm.getRoutingFormDocument().getRoutingFormBudget().setRoutingFormBudgetMinimumPeriodNumber(null);
         routingForm.getRoutingFormDocument().getRoutingFormBudget().setRoutingFormBudgetMaximumPeriodNumber(null);
         
-        SpringServiceLocator.getRoutingFormProjectDetailsService().reconcileOtherProjectDetailsQuestions(routingFormDoc);
+        SpringContext.getBean(RoutingFormProjectDetailsService.class).reconcileOtherProjectDetailsQuestions(routingFormDoc);
 
         // Check if delivery address to be copied over
         if (!routingForm.isTemplateAddress()) {

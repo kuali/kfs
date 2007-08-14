@@ -21,7 +21,7 @@ import java.sql.Date;
 import java.util.Calendar;
 
 import org.kuali.core.service.DateTimeService;
-import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.purap.document.PaymentRequestDocument;
 import org.kuali.module.purap.fixtures.PaymentRequestInvoiceTabFixture;
 import org.kuali.test.ConfigureContext;
@@ -84,7 +84,7 @@ public class PaymentRequestDocumentRuleTest extends PurapRuleTestBase {
      * Tests of processPaymentRequestDateValidationForContinue
      */
     private Date getDateFromOffsetFromToday(int offsetDays){
-        Calendar calendar = SpringServiceLocator.getDateTimeService().getCurrentCalendar();
+        Calendar calendar = SpringContext.getBean(DateTimeService.class, "dateTimeService").getCurrentCalendar();
         calendar.add(Calendar.DATE,offsetDays);
         return new Date(calendar.getTimeInMillis());
     }
@@ -105,7 +105,7 @@ public class PaymentRequestDocumentRuleTest extends PurapRuleTestBase {
     
     public void testProcessPaymentRequestDateValidationForContinue_Today() {
         preq = PaymentRequestInvoiceTabFixture.WITH_POID_WITH_DATE_WITH_NUMBER_WITH_AMOUNT.populate( preq );
-        Date today = SpringServiceLocator.getDateTimeService().getCurrentSqlDate();
+        Date today = SpringContext.getBean(DateTimeService.class, "dateTimeService").getCurrentSqlDate();
         preq.setInvoiceDate(today);
         assertTrue(rule.processPaymentRequestDateValidationForContinue(preq));
     }

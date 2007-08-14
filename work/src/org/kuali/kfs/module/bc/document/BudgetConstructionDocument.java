@@ -18,7 +18,6 @@ package org.kuali.module.budget.document;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.ListIterator;
@@ -26,13 +25,14 @@ import java.util.Map;
 
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.document.TransactionalDocumentBase;
+import org.kuali.core.service.BusinessObjectService;
+import org.kuali.core.service.UniversalUserService;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.KualiInteger;
 import org.kuali.core.util.TypedArrayList;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSPropertyConstants;
-import org.kuali.kfs.KFSConstants.BudgetConstructionConstants;
-import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.budget.bo.BudgetConstructionAccountReports;
 import org.kuali.module.budget.bo.PendingBudgetConstructionGeneralLedger;
 import org.kuali.module.chart.bo.Account;
@@ -123,7 +123,7 @@ public class BudgetConstructionDocument extends TransactionalDocumentBase {
         // this needs to do query FIN_OBJ_TYP_CD IN ('IN','IC','IN') or equivalent
         fieldValues.put("FIN_OBJ_TYP_CD", "IN");
         
-        pendingBudgetConstructionGeneralLedgerRevenueLines = (ArrayList) SpringServiceLocator.getBusinessObjectService().findMatchingOrderBy(PendingBudgetConstructionGeneralLedger.class, fieldValues, "FIN_OBJECT_CD", true);
+        pendingBudgetConstructionGeneralLedgerRevenueLines = (ArrayList) SpringContext.getBean(BusinessObjectService.class).findMatchingOrderBy(PendingBudgetConstructionGeneralLedger.class, fieldValues, "FIN_OBJECT_CD", true);
         if (LOG.isDebugEnabled()) {
             LOG.debug("pendingBudgetConstructionGeneralLedgerRevenue is: "+pendingBudgetConstructionGeneralLedgerRevenueLines);
         }
@@ -132,7 +132,7 @@ public class BudgetConstructionDocument extends TransactionalDocumentBase {
         fieldValues.remove("FIN_OBJ_TYP_CD");
         fieldValues.put("FIN_OBJ_TYP_CD", "EX");
 
-        pendingBudgetConstructionGeneralLedgerExpenditureLines = (ArrayList) SpringServiceLocator.getBusinessObjectService().findMatchingOrderBy(PendingBudgetConstructionGeneralLedger.class, fieldValues, "FIN_OBJECT_CD", true);
+        pendingBudgetConstructionGeneralLedgerExpenditureLines = (ArrayList) SpringContext.getBean(BusinessObjectService.class).findMatchingOrderBy(PendingBudgetConstructionGeneralLedger.class, fieldValues, "FIN_OBJECT_CD", true);
         if (LOG.isDebugEnabled()) {
             LOG.debug("pendingBudgetConstructionGeneralLedgerExpenditure is: "+pendingBudgetConstructionGeneralLedgerExpenditureLines);
         }
@@ -413,7 +413,7 @@ public class BudgetConstructionDocument extends TransactionalDocumentBase {
     }
     
     public UniversalUser getBudgetLockUser() {
-        budgetLockUser = SpringServiceLocator.getUniversalUserService().updateUniversalUserIfNecessary(budgetLockUserIdentifier, budgetLockUser);
+        budgetLockUser = SpringContext.getBean(UniversalUserService.class, "universalUserService").updateUniversalUserIfNecessary(budgetLockUserIdentifier, budgetLockUser);
         return budgetLockUser;
     }
 
@@ -428,7 +428,7 @@ public class BudgetConstructionDocument extends TransactionalDocumentBase {
     }
 
     public UniversalUser getBudgetTransactionLockUser() {
-        budgetTransactionLockUser = SpringServiceLocator.getUniversalUserService().updateUniversalUserIfNecessary(budgetTransactionLockUserIdentifier, budgetTransactionLockUser);
+        budgetTransactionLockUser = SpringContext.getBean(UniversalUserService.class, "universalUserService").updateUniversalUserIfNecessary(budgetTransactionLockUserIdentifier, budgetTransactionLockUser);
         return budgetTransactionLockUser;
     }
 

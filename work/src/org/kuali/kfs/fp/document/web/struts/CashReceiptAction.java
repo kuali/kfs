@@ -25,6 +25,8 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.core.service.DocumentService;
+import org.kuali.core.service.KualiRuleService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.Timer;
 import org.kuali.core.util.WebUtils;
@@ -32,10 +34,9 @@ import org.kuali.core.web.struts.form.KualiDocumentFormBase;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSKeyConstants;
 import org.kuali.kfs.KFSPropertyConstants;
-import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.web.struts.action.KualiAccountingDocumentActionBase;
 import org.kuali.module.financial.bo.Check;
-import org.kuali.module.financial.bo.CheckBase;
 import org.kuali.module.financial.bo.CoinDetail;
 import org.kuali.module.financial.bo.CurrencyDetail;
 import org.kuali.module.financial.document.CashReceiptDocument;
@@ -106,7 +107,7 @@ public class CashReceiptAction extends KualiAccountingDocumentActionBase {
         // retrieve document
         String documentNumber = request.getParameter(KFSPropertyConstants.DOCUMENT_NUMBER);
 
-        CashReceiptDocument document = (CashReceiptDocument) SpringServiceLocator.getDocumentService().getByDocumentHeaderId(documentNumber);
+        CashReceiptDocument document = (CashReceiptDocument) SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(documentNumber);
 
         // since this action isn't triggered by a post, we don't have the normal document data
         // so we have to set the document into the form manually so that later authz processing
@@ -115,7 +116,7 @@ public class CashReceiptAction extends KualiAccountingDocumentActionBase {
         crForm.setDocument(document);
 
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        CashReceiptCoverSheetService coverSheetService = SpringServiceLocator.getCashReceiptCoverSheetService();
+        CashReceiptCoverSheetService coverSheetService = SpringContext.getBean(CashReceiptCoverSheetService.class);
         coverSheetService.generateCoverSheet(document, directory, baos);
         String fileName = documentNumber + "_cover_sheet.pdf";
         WebUtils.saveMimeOutputStreamAsFile(response, "application/pdf", baos, fileName);
@@ -178,7 +179,7 @@ public class CashReceiptAction extends KualiAccountingDocumentActionBase {
             // only generate update events for specific action methods
             String methodToCall = cform.getMethodToCall();
             if (UPDATE_EVENT_ACTIONS.contains(methodToCall)) {
-                SpringServiceLocator.getKualiRuleService().applyRules(new UpdateCheckEvent(KFSPropertyConstants.DOCUMENT + "." + KFSPropertyConstants.CHECK + "[" + index + "]", cdoc, formCheck));
+                SpringContext.getBean(KualiRuleService.class).applyRules(new UpdateCheckEvent(KFSPropertyConstants.DOCUMENT + "." + KFSPropertyConstants.CHECK + "[" + index + "]", cdoc, formCheck));
             }
             index++;
         }
@@ -202,7 +203,7 @@ public class CashReceiptAction extends KualiAccountingDocumentActionBase {
         newCheck.setDocumentNumber(crDoc.getDocumentNumber());
 
         // check business rules
-        boolean rulePassed = SpringServiceLocator.getKualiRuleService().applyRules(new AddCheckEvent(KFSConstants.NEW_CHECK_PROPERTY_NAME, crDoc, newCheck));
+        boolean rulePassed = SpringContext.getBean(KualiRuleService.class).applyRules(new AddCheckEvent(KFSConstants.NEW_CHECK_PROPERTY_NAME, crDoc, newCheck));
         if (rulePassed) {
             // add check
             crDoc.addCheck(newCheck);
@@ -232,7 +233,7 @@ public class CashReceiptAction extends KualiAccountingDocumentActionBase {
         Check oldCheck = crDoc.getCheck(deleteIndex);
 
 
-        boolean rulePassed = SpringServiceLocator.getKualiRuleService().applyRules(new DeleteCheckEvent(KFSConstants.EXISTING_CHECK_PROPERTY_NAME, crDoc, oldCheck));
+        boolean rulePassed = SpringContext.getBean(KualiRuleService.class).applyRules(new DeleteCheckEvent(KFSConstants.EXISTING_CHECK_PROPERTY_NAME, crDoc, oldCheck));
 
         if (rulePassed) {
             // delete check
@@ -310,7 +311,7 @@ public class CashReceiptAction extends KualiAccountingDocumentActionBase {
         CashReceiptForm crForm = (CashReceiptForm) kualiDocumentFormBase;
         CashReceiptDocument crDoc = crForm.getCashReceiptDocument();
 
-        CashReceiptService crs = SpringServiceLocator.getCashReceiptService();
+        CashReceiptService crs = SpringContext.getBean(CashReceiptService.class);
         String verificationUnit = crs.getCashReceiptVerificationUnitForUser(GlobalVariables.getUserSession().getUniversalUser());
         String campusCode = crs.getCampusCodeForCashReceiptVerificationUnit(verificationUnit);
         crDoc.setCampusLocationCode(campusCode);

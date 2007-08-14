@@ -27,7 +27,7 @@ import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.KFSPropertyConstants;
-import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.Chart;
 import org.kuali.module.chart.bo.ObjectCode;
@@ -36,7 +36,9 @@ import org.kuali.module.chart.bo.ProjectCode;
 import org.kuali.module.chart.bo.SubAccount;
 import org.kuali.module.chart.bo.SubObjCd;
 import org.kuali.module.chart.bo.codes.BalanceTyp;
+import org.kuali.module.chart.service.BalanceTypService;
 import org.kuali.module.financial.bo.SalesTax;
+import org.kuali.module.financial.service.UniversityDateService;
 
 /**
  * This is the generic class which contains all the elements on a typical line of accounting elements. These are all the accounting
@@ -99,11 +101,11 @@ public abstract class AccountingLineBase extends PersistableBusinessObjectBase i
         subAccount = new SubAccount();
         subObjectCode = new SubObjCd();
         project = new ProjectCode();
-        postingYear = SpringServiceLocator.getUniversityDateService().getCurrentFiscalYear();
+        postingYear = SpringContext.getBean(UniversityDateService.class).getCurrentFiscalYear();
         objectCode.setUniversityFiscalYear(postingYear);
         // all Financial Transaction Processing accounting lines (those extending from this) should use a balance type
         // of Actual, except for JV which allows a choice and PE which uses "PE"
-        balanceTyp = SpringServiceLocator.getBalanceTypService().getActualBalanceTyp();
+        balanceTyp = SpringContext.getBean(BalanceTypService.class).getActualBalanceTyp();
         objectType = new ObjectType();
         // salesTax = new SalesTax();
         salesTaxRequired = false;

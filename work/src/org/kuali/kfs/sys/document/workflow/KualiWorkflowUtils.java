@@ -32,14 +32,15 @@ import javax.xml.xpath.XPathExpressionException;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.RicePropertyConstants;
+import org.kuali.core.service.DataDictionaryService;
 import org.kuali.core.util.FieldUtils;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.workflow.WorkflowUtils;
 import org.kuali.core.workflow.attribute.WorkflowLookupableImpl;
 import org.kuali.kfs.bo.SourceAccountingLine;
 import org.kuali.kfs.bo.TargetAccountingLine;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.document.AccountingDocument;
-import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.purap.PurapConstants;
 import org.w3c.dom.Document;
 import org.xml.sax.InputSource;
@@ -199,7 +200,7 @@ public class KualiWorkflowUtils extends WorkflowUtils {
      * @return the name of the source accounting line class associated with the specified workflow document type name
      */
     public static final String getSourceAccountingLineClassName(String documentTypeName) {
-        Class documentClass = SpringServiceLocator.getDataDictionaryService().getDocumentClassByTypeName(documentTypeName);
+        Class documentClass = SpringContext.getBean(DataDictionaryService.class).getDocumentClassByTypeName(documentTypeName);
         if (!AccountingDocument.class.isAssignableFrom(documentClass)) {
             throw new IllegalArgumentException("getSourceAccountingLineClassName method of KualiWorkflowUtils requires a documentTypeName String that corresponds to a class that implments AccountingDocument");
         }
@@ -231,7 +232,7 @@ public class KualiWorkflowUtils extends WorkflowUtils {
      * @return the name of the target accounting line class associated with the specified workflow document type name
      */
     public static final String getTargetAccountingLineClassName(String documentTypeName) {
-        Class documentClass = SpringServiceLocator.getDataDictionaryService().getDocumentClassByTypeName(documentTypeName);
+        Class documentClass = SpringContext.getBean(DataDictionaryService.class).getDocumentClassByTypeName(documentTypeName);
         if (!AccountingDocument.class.isAssignableFrom(documentClass)) {
             throw new IllegalArgumentException("getTargetAccountingLineClassName method of KualiWorkflowUtils requires a documentTypeName String that corresponds to a class that implments AccountingDocument");
         }
@@ -262,7 +263,7 @@ public class KualiWorkflowUtils extends WorkflowUtils {
      * @return the label from the data dictionary for the given Class and attributeName or null if not found
      */
     public static final String getBusinessObjectAttributeLabel(Class businessObjectClass, String attributeName) {
-        return SpringServiceLocator.getDataDictionaryService().getAttributeLabel(businessObjectClass, attributeName);
+        return SpringContext.getBean(DataDictionaryService.class).getAttributeLabel(businessObjectClass, attributeName);
     }
 
     /**

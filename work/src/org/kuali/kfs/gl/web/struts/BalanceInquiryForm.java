@@ -25,11 +25,13 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.lookup.LookupUtils;
 import org.kuali.core.lookup.Lookupable;
+import org.kuali.core.service.BusinessObjectDictionaryService;
 import org.kuali.core.web.struts.form.LookupForm;
 import org.kuali.core.web.ui.Field;
 import org.kuali.core.web.ui.Row;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.gl.GLConstants;
 import org.kuali.module.gl.bo.Entry;
@@ -75,7 +77,7 @@ public class BalanceInquiryForm extends LookupForm {
                 }
 
                 // call data dictionary service to get lookup impl for bo class
-                String lookupImplID = SpringServiceLocator.getBusinessObjectDictionaryService().getLookupableID(Class.forName(localBusinessObjectClassName));
+                String lookupImplID = SpringContext.getBean(BusinessObjectDictionaryService.class).getLookupableID(Class.forName(localBusinessObjectClassName));
                 if (lookupImplID == null) {
                     lookupImplID = "kualiLookupable";
                 }

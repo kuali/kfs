@@ -25,15 +25,18 @@ import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase;
 import org.kuali.core.rule.KualiParameterRule;
+import org.kuali.core.service.DataDictionaryService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSKeyConstants;
 import org.kuali.kfs.KFSPropertyConstants;
-import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.chart.bo.A21SubAccount;
 import org.kuali.module.chart.bo.IcrAutomatedEntry;
 import org.kuali.module.chart.bo.SubAccount;
+import org.kuali.module.chart.service.SubFundGroupService;
+import org.kuali.module.financial.service.UniversityDateService;
 
 /**
  * This class...
@@ -258,15 +261,15 @@ public class SubAccountRule extends MaintenanceDocumentRuleBase {
             if (ObjectUtils.isNotNull(newSubAccount.getAccount().getSubFundGroup())) {
 
                 // compare them, exit if the account isn't for contracts and grants
-                if (!SpringServiceLocator.getSubFundGroupService().isForContractsAndGrants(newSubAccount.getAccount().getSubFundGroup())) {
+                if (!SpringContext.getBean(SubFundGroupService.class).isForContractsAndGrants(newSubAccount.getAccount().getSubFundGroup())) {
 
                     // KULCOA-1116 - Check if CG CS and CG ICR are empty, if not throw an error
                     if (checkCgCostSharingIsEmpty() == false) {
-                        putFieldError("a21SubAccount.costShareChartOfAccountCode", KFSKeyConstants.ERROR_DOCUMENT_SUBACCTMAINT_NON_FUNDED_ACCT_CS_INVALID, new String[] { SpringServiceLocator.getSubFundGroupService().getContractsAndGrantsDenotingAttributeLabel() , SpringServiceLocator.getSubFundGroupService().getContractsAndGrantsDenotingValue() });
+                        putFieldError("a21SubAccount.costShareChartOfAccountCode", KFSKeyConstants.ERROR_DOCUMENT_SUBACCTMAINT_NON_FUNDED_ACCT_CS_INVALID, new String[] { SpringContext.getBean(SubFundGroupService.class).getContractsAndGrantsDenotingAttributeLabel() , SpringContext.getBean(SubFundGroupService.class).getContractsAndGrantsDenotingValue() });
                     }
 
                     if (checkCgIcrIsEmpty() == false) {
-                        putFieldError("a21SubAccount.indirectCostRecoveryTypeCode", KFSKeyConstants.ERROR_DOCUMENT_SUBACCTMAINT_NON_FUNDED_ACCT_ICR_INVALID, new String[] { SpringServiceLocator.getSubFundGroupService().getContractsAndGrantsDenotingAttributeLabel() , SpringServiceLocator.getSubFundGroupService().getContractsAndGrantsDenotingValue() });
+                        putFieldError("a21SubAccount.indirectCostRecoveryTypeCode", KFSKeyConstants.ERROR_DOCUMENT_SUBACCTMAINT_NON_FUNDED_ACCT_ICR_INVALID, new String[] { SpringContext.getBean(SubFundGroupService.class).getContractsAndGrantsDenotingAttributeLabel() , SpringContext.getBean(SubFundGroupService.class).getContractsAndGrantsDenotingValue() });
                     }
 
                     // KULRNE-4660 - this isn't the child of a CG account; sub account must be ICR type
@@ -274,7 +277,7 @@ public class SubAccountRule extends MaintenanceDocumentRuleBase {
                         newSubAccount.getA21SubAccount().refresh();
                         a21SubAccountRefreshed = true;
                         if (StringUtils.isEmpty(newSubAccount.getA21SubAccount().getSubAccountTypeCode()) || !newSubAccount.getA21SubAccount().getSubAccountTypeCode().equals(SubAccountRule.CG_A21_TYPE_ICR)) {
-                            putFieldError("a21SubAccount.subAccountTypeCode", KFSKeyConstants.ERROR_DOCUMENT_SUBACCTMAINT_NON_FUNDED_ACCT_SUB_ACCT_TYPE_CODE_INVALID, new String[] { SpringServiceLocator.getSubFundGroupService().getContractsAndGrantsDenotingAttributeLabel() , SpringServiceLocator.getSubFundGroupService().getContractsAndGrantsDenotingValue() });
+                            putFieldError("a21SubAccount.subAccountTypeCode", KFSKeyConstants.ERROR_DOCUMENT_SUBACCTMAINT_NON_FUNDED_ACCT_SUB_ACCT_TYPE_CODE_INVALID, new String[] { SpringContext.getBean(SubFundGroupService.class).getContractsAndGrantsDenotingAttributeLabel() , SpringContext.getBean(SubFundGroupService.class).getContractsAndGrantsDenotingValue() });
                         }
                     }
 
@@ -356,7 +359,7 @@ public class SubAccountRule extends MaintenanceDocumentRuleBase {
         if (ObjectUtils.isNotNull(a21.getCostShareAccount())) {
             if (ObjectUtils.isNotNull(a21.getCostShareAccount().getSubFundGroup())) {
                 if (a21.getCostShareAccount().isForContractsAndGrants()) {
-                    putFieldError("a21SubAccount.costShareSourceAccountNumber", KFSKeyConstants.ERROR_DOCUMENT_SUBACCTMAINT_COST_SHARE_ACCOUNT_MAY_NOT_BE_CG_FUNDGROUP, new String[] { SpringServiceLocator.getSubFundGroupService().getContractsAndGrantsDenotingAttributeLabel() , SpringServiceLocator.getSubFundGroupService().getContractsAndGrantsDenotingValue() });
+                    putFieldError("a21SubAccount.costShareSourceAccountNumber", KFSKeyConstants.ERROR_DOCUMENT_SUBACCTMAINT_COST_SHARE_ACCOUNT_MAY_NOT_BE_CG_FUNDGROUP, new String[] { SpringContext.getBean(SubFundGroupService.class).getContractsAndGrantsDenotingAttributeLabel() , SpringContext.getBean(SubFundGroupService.class).getContractsAndGrantsDenotingValue() });
                     success &= false;
                 }
             }
@@ -393,7 +396,7 @@ public class SubAccountRule extends MaintenanceDocumentRuleBase {
         // existence check for Financial Series ID
         if (StringUtils.isNotEmpty(a21.getFinancialIcrSeriesIdentifier())) {
 
-            Integer fiscalYear = SpringServiceLocator.getUniversityDateService().getCurrentFiscalYear();
+            Integer fiscalYear = SpringContext.getBean(UniversityDateService.class).getCurrentFiscalYear();
 
             Map fieldValues = new HashMap();
             fieldValues.put("financialIcrSeriesIdentifier", a21.getFinancialIcrSeriesIdentifier());
@@ -423,7 +426,7 @@ public class SubAccountRule extends MaintenanceDocumentRuleBase {
 
             // if one isnt found at all, complain about that
             if (!anyFound) {
-                String label = SpringServiceLocator.getDataDictionaryService().getAttributeLabel(A21SubAccount.class, KFSPropertyConstants.FINANCIAL_ICR_SERIES_IDENTIFIER);
+                String label = SpringContext.getBean(DataDictionaryService.class).getAttributeLabel(A21SubAccount.class, KFSPropertyConstants.FINANCIAL_ICR_SERIES_IDENTIFIER);
                 putFieldError(KFSPropertyConstants.A21_SUB_ACCOUNT+"."+KFSPropertyConstants.FINANCIAL_ICR_SERIES_IDENTIFIER, KFSKeyConstants.ERROR_EXISTENCE, label + " (" + a21.getFinancialIcrSeriesIdentifier() + ")");
             }
         }

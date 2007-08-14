@@ -33,7 +33,7 @@ import org.kuali.core.service.PersistenceService;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSKeyConstants;
-import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.chart.bo.AccountingPeriod;
 import org.kuali.module.chart.bo.IcrAutomatedEntry;
 import org.kuali.module.chart.bo.ObjectCode;
@@ -260,7 +260,7 @@ public class PosterServiceImpl implements PosterService {
                 errors.add(kualiConfigurationService.getPropertyString(KFSKeyConstants.ERROR_REVERSAL_DATE_NOT_IN_UNIV_DATE_TABLE));
             }
 
-            PersistenceService ps = SpringServiceLocator.getPersistenceService();
+            PersistenceService ps = SpringContext.getBean(PersistenceService.class);
             ps.retrieveNonKeyFields(reversal);
             tran = reversal;
         }

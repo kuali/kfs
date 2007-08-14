@@ -21,10 +21,8 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Set;
 
 import org.apache.commons.lang.ObjectUtils;
 import org.apache.commons.lang.StringUtils;
@@ -33,8 +31,7 @@ import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.exceptions.UserNotFoundException;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.service.UniversalUserService;
-import org.kuali.kfs.util.SpringServiceLocator;
-import org.kuali.module.chart.bo.ChartUser;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.chart.service.ChartUserService;
 import org.kuali.module.kra.KraConstants;
 import org.kuali.module.kra.routingform.bo.RoutingFormAgency;
@@ -179,10 +176,10 @@ public class RoutingFormXml {
     private static Element createPrinciplesElement(RoutingFormDocument routingFormDocument, Document xmlDoc) {
         Element principlesElement = xmlDoc.createElement("PRINCIPLES");
         
-        KualiConfigurationService kualiConfigurationService = SpringServiceLocator.getKualiConfigurationService();
+        KualiConfigurationService kualiConfigurationService = SpringContext.getBean(KualiConfigurationService.class);
         final String PERSON_ROLE_CODE_COPD = kualiConfigurationService.getApplicationParameterValue(KraConstants.KRA_DEVELOPMENT_GROUP, "KraRoutingFormPersonRoleCodeCoProjectDirector");
         
-        RoutingFormMainPageService routingFormMainPageService = SpringServiceLocator.getRoutingFormMainPageService();
+        RoutingFormMainPageService routingFormMainPageService = SpringContext.getBean(RoutingFormMainPageService.class);
         List<RoutingFormPersonnel> routingFormPersonnel = routingFormDocument.getRoutingFormPersonnel();
         RoutingFormPersonnel projectDirector = routingFormMainPageService.getProjectDirector(routingFormPersonnel);
 
@@ -635,8 +632,8 @@ public class RoutingFormXml {
         Element approverElement = xmlDoc.createElement("APPROVER");
         
         UniversalUser kualiUser;
-        UniversalUserService universalUserService = SpringServiceLocator.getUniversalUserService();
-        ChartUserService chartUserService = SpringServiceLocator.getChartUserService();
+        UniversalUserService universalUserService = SpringContext.getBean(UniversalUserService.class, "universalUserService");
+        ChartUserService chartUserService = SpringContext.getBean(ChartUserService.class);
         try {
             kualiUser =  universalUserService.getUniversalUser(workflowUser.getUuId());
         } catch (UserNotFoundException e) {

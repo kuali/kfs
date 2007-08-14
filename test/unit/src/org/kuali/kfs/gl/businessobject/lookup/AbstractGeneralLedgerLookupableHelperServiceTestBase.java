@@ -22,8 +22,10 @@ import java.util.Map;
 
 import org.apache.commons.beanutils.PropertyUtils;
 import org.kuali.core.bo.PersistableBusinessObjectBase;
+import org.kuali.core.service.DateTimeService;
 import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
 import org.kuali.kfs.context.KualiTestBase;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.service.GeneralLedgerPendingEntryService;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.gl.GLSpringBeansRegistry;
@@ -44,7 +46,7 @@ public abstract class AbstractGLLookupableHelperServiceTestBase extends KualiTes
     protected void setUp() throws Exception {
         super.setUp();
 
-        date = SpringServiceLocator.getDateTimeService().getCurrentDate();
+        date = SpringContext.getBean(DateTimeService.class, "dateTimeService").getCurrentDate();
         pendingEntry = new GeneralLedgerPendingEntry();
         testDataGenerator = new TestDataGenerator();
 

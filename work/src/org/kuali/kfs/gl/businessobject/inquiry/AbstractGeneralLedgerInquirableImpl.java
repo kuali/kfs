@@ -35,7 +35,7 @@ import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.util.UrlFactory;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSPropertyConstants;
-import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.chart.bo.KualiSystemCode;
 import org.kuali.module.gl.bo.AccountBalance;
 import org.kuali.module.gl.util.BusinessObjectFieldConverter;
@@ -57,8 +57,8 @@ public abstract class AbstractGLInquirableImpl extends KualiInquirableImpl {
      * @return String url to inquiry
      */
     public String getInquiryUrl(BusinessObject businessObject, String attributeName) {
-        BusinessObjectDictionaryService businessDictionary = SpringServiceLocator.getBusinessObjectDictionaryService();
-        PersistenceStructureService persistenceStructureService = SpringServiceLocator.getPersistenceStructureService();
+        BusinessObjectDictionaryService businessDictionary = SpringContext.getBean(BusinessObjectDictionaryService.class);
+        PersistenceStructureService persistenceStructureService = SpringContext.getBean(PersistenceStructureService.class);
 
         String baseUrl = KFSConstants.INQUIRY_ACTION;
         Properties parameters = new Properties();
@@ -340,7 +340,7 @@ public abstract class AbstractGLInquirableImpl extends KualiInquirableImpl {
         LOG.debug("businessObject: " + entryName);
         LOG.debug("attributeName: " + attributeName);
 
-        DataDictionaryService dataDictionary = SpringServiceLocator.getDataDictionaryService();
+        DataDictionaryService dataDictionary = SpringContext.getBean(DataDictionaryService.class);
         AttributeDefinition attributeDefinition = null;
 
         if (StringUtils.isBlank(attributeName)) {

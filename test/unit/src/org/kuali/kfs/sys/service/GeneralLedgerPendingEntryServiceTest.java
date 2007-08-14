@@ -17,12 +17,13 @@ package org.kuali.module.gl.service;
 
 import java.util.Iterator;
 
+import org.kuali.core.service.DateTimeService;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
 import org.kuali.kfs.context.KualiTestBase;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.service.GeneralLedgerPendingEntryService;
-import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.test.ConfigureContext;
 
 /**
@@ -40,7 +41,7 @@ public class GeneralLedgerPendingEntryServiceTest extends KualiTestBase {
         super.setUp();
 
         if (generalLedgerPendingEntryService == null) {
-            generalLedgerPendingEntryService = SpringServiceLocator.getGeneralLedgerPendingEntryService();
+            generalLedgerPendingEntryService = SpringContext.getBean(GeneralLedgerPendingEntryService.class);
         }
         // Make sure the document doesn't exist before each test
         generalLedgerPendingEntryService.delete(docHeaderId);
@@ -107,7 +108,7 @@ public class GeneralLedgerPendingEntryServiceTest extends KualiTestBase {
         generalLedgerPendingEntry.setTransactionLedgerEntryAmount(new KualiDecimal("8.8"));
         generalLedgerPendingEntry.setTransactionLedgerEntryDescription("9");
         generalLedgerPendingEntry.setTransactionDebitCreditCode("D");
-        generalLedgerPendingEntry.setTransactionDate(new java.sql.Date(SpringServiceLocator.getDateTimeService().getCurrentDate().getTime()));
+        generalLedgerPendingEntry.setTransactionDate(new java.sql.Date(SpringContext.getBean(DateTimeService.class, "dateTimeService").getCurrentDate().getTime()));
         generalLedgerPendingEntry.setFinancialDocumentTypeCode("12");
         generalLedgerPendingEntry.setTransactionLedgerEntrySequenceNumber(new Integer(1));
         generalLedgerPendingEntry.setFinancialDocumentApprovedCode(KFSConstants.PENDING_ENTRY_APPROVED_STATUS_CODE.APPROVED);

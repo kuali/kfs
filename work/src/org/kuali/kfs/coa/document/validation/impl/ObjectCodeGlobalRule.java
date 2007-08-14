@@ -25,12 +25,11 @@ import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSKeyConstants;
 import org.kuali.kfs.KFSPropertyConstants;
-import org.kuali.kfs.util.SpringServiceLocator;
-import org.kuali.module.chart.bo.Chart;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.chart.bo.ObjLevel;
 import org.kuali.module.chart.bo.ObjectCode;
-import org.kuali.module.chart.bo.ObjectCodeGlobalDetail;
 import org.kuali.module.chart.bo.ObjectCodeGlobal;
+import org.kuali.module.chart.bo.ObjectCodeGlobalDetail;
 import org.kuali.module.chart.service.ObjectCodeService;
 import org.kuali.module.chart.service.ObjectLevelService;
 
@@ -41,8 +40,8 @@ public class ObjectCodeGlobalRule extends MaintenanceDocumentRuleBase {
     
     public ObjectCodeGlobalRule() {
         super();
-        setObjectCodeService(SpringServiceLocator.getObjectCodeService());
-        setObjectLevelService(SpringServiceLocator.getObjectLevelService());
+        setObjectCodeService(SpringContext.getBean(ObjectCodeService.class));
+        setObjectLevelService(SpringContext.getBean(ObjectLevelService.class));
     }
 
 

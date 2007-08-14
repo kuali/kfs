@@ -21,9 +21,10 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.core.service.DataDictionaryService;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSPropertyConstants;
-import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.gl.bo.OriginEntry;
 
 /**
@@ -217,7 +218,7 @@ public class LaborConstants {
     private static String SPACE_TRANSACTION_DATE = null;
     public static String getSpaceTransactionDate() {
         if (SPACE_TRANSACTION_DATE == null) {
-            SPACE_TRANSACTION_DATE = StringUtils.rightPad("", SpringServiceLocator.getDataDictionaryService().getAttributeSize(OriginEntry.class, KFSPropertyConstants.TRANSACTION_DATE), ' ');
+            SPACE_TRANSACTION_DATE = StringUtils.rightPad("", SpringContext.getBean(DataDictionaryService.class).getAttributeSize(OriginEntry.class, KFSPropertyConstants.TRANSACTION_DATE), ' ');
         }
         return SPACE_TRANSACTION_DATE;
     }

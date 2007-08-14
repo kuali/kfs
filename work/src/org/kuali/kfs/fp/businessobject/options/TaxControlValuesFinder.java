@@ -20,8 +20,9 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.kuali.core.lookup.keyvalues.KeyValuesBase;
+import org.kuali.core.service.KeyValuesService;
 import org.kuali.core.web.ui.KeyLabelPair;
-import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.financial.bo.TaxControlCode;
 
 /**
@@ -35,7 +36,7 @@ public class TaxControlValuesFinder extends KeyValuesBase {
      * @see org.kuali.keyvalues.KeyValuesFinder#getKeyValues()
      */
     public List getKeyValues() {
-        List boList = (List) SpringServiceLocator.getKeyValuesService().findAll(TaxControlCode.class);
+        List boList = (List) SpringContext.getBean(KeyValuesService.class).findAll(TaxControlCode.class);
         List keyValues = new ArrayList();
         keyValues.add(new KeyLabelPair("", ""));
         for (Iterator iter = boList.iterator(); iter.hasNext();) {

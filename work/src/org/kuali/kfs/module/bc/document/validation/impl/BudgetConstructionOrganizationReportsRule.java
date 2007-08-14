@@ -21,7 +21,7 @@ import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSKeyConstants;
-import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.budget.bo.BudgetConstructionOrganizationReports;
 import org.kuali.module.budget.service.BudgetConstructionOrganizationReportsService;
 import org.kuali.module.chart.bo.Org;
@@ -52,9 +52,9 @@ public class BudgetConstructionOrganizationReportsRule extends MaintenanceDocume
         // to spring-managed with these services injected by Spring at some later date.
         // When this happens, just remove these calls to the setters with
         // SpringServiceLocator, and configure the bean defs for spring.
-        this.setOrgService(SpringServiceLocator.getOrganizationService());
-        this.setChartService(SpringServiceLocator.getChartService());
-        this.setBCOrgReportsService(SpringServiceLocator.getBudgetConstructionOrganizationReportsService());
+        this.setOrgService(SpringContext.getBean(OrganizationService.class));
+        this.setChartService(SpringContext.getBean(ChartService.class));
+        this.setBCOrgReportsService(SpringContext.getBean(BudgetConstructionOrganizationReportsService.class));
     }
 
     /**

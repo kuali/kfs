@@ -36,9 +36,10 @@ import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.dao.GeneralLedgerPendingEntryDao;
-import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.chart.bo.Account;
+import org.kuali.module.financial.service.UniversityDateService;
 import org.kuali.module.gl.bo.Balance;
 import org.kuali.module.gl.bo.Encumbrance;
 import org.kuali.module.gl.bo.UniversityDate;
@@ -558,7 +559,7 @@ public class GeneralLedgerPendingEntryDaoOjb extends PlatformAwareDaoBaseOjb imp
     public Criteria buildCriteriaFromMap(Map fieldValues, Object businessObject) {
         Criteria criteria = new Criteria();
 
-        UniversityDate currentUniversityDate = SpringServiceLocator.getUniversityDateService().getCurrentUniversityDate();
+        UniversityDate currentUniversityDate = SpringContext.getBean(UniversityDateService.class).getCurrentUniversityDate();
         String currentFiscalPeriodCode = currentUniversityDate.getUniversityFiscalAccountingPeriod();
         Integer currentFiscalYear = currentUniversityDate.getUniversityFiscalYear();
 

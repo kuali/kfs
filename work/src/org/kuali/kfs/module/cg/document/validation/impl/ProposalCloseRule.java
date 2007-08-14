@@ -15,13 +15,14 @@
  */
 package org.kuali.module.cg.rules;
 
-import org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase;
-import org.kuali.core.document.Document;
-import org.kuali.module.cg.bo.Close;
-import org.kuali.kfs.KFSKeyConstants;
-import org.kuali.kfs.util.SpringServiceLocator;
-
 import java.sql.Date;
+
+import org.kuali.core.document.Document;
+import org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase;
+import org.kuali.core.service.DateTimeService;
+import org.kuali.kfs.KFSKeyConstants;
+import org.kuali.kfs.context.SpringContext;
+import org.kuali.module.cg.bo.Close;
 
 /**
  * 
@@ -39,7 +40,7 @@ public class ProposalCloseRule extends MaintenanceDocumentRuleBase {
         }
         Close close = (Close) document.getDocumentBusinessObject();
         Date userDate = close.getUserInitiatedCloseDate();
-        Date today = SpringServiceLocator.getDateTimeService().getCurrentSqlDateMidnight();
+        Date today = SpringContext.getBean(DateTimeService.class, "dateTimeService").getCurrentSqlDateMidnight();
         isOk = today.getTime() <= userDate.getTime();
         if(!isOk) {
             putFieldError("userInitiatedCloseDate", KFSKeyConstants.ContractsAndGrants.USER_INITIATED_DATE_TOO_EARLY, userDate.toString());

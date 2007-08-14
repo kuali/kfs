@@ -43,7 +43,7 @@ import org.apache.struts.action.ActionMapping;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.WebUtils;
 import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.kra.KraConstants;
 import org.kuali.module.kra.budget.web.struts.action.BudgetOutputAction;
 import org.kuali.module.kra.document.ResearchDocument;
@@ -103,7 +103,7 @@ public class RoutingFormOutputAction extends RoutingFormAction {
         driver.render(foDocument);
 
         // Retrieve the environment we're in.
-        KualiConfigurationService kualiConfigurationService = SpringServiceLocator.getKualiConfigurationService();
+        KualiConfigurationService kualiConfigurationService = SpringContext.getBean(KualiConfigurationService.class);
         String env = kualiConfigurationService.getPropertyString(KFSConstants.ENVIRONMENT_KEY);
 
         WebUtils.saveMimeOutputStreamAsFile(response, "application/pdf", baos, "kraRoutingForm-" + env + researchDocument.getDocumentNumber() + ".pdf");
@@ -144,7 +144,7 @@ public class RoutingFormOutputAction extends RoutingFormAction {
         transformer.transform(src, dest);
 
         // Retrieve the environment we're in.
-        KualiConfigurationService kualiConfigurationService = SpringServiceLocator.getKualiConfigurationService();
+        KualiConfigurationService kualiConfigurationService = SpringContext.getBean(KualiConfigurationService.class);
         String env = kualiConfigurationService.getPropertyString(KFSConstants.ENVIRONMENT_KEY);
         
         WebUtils.saveMimeOutputStreamAsFile(response, "text/xml", baos, "kraRoutingForm-" + env + researchDocument.getDocumentNumber() + ".xml");
@@ -183,7 +183,7 @@ public class RoutingFormOutputAction extends RoutingFormAction {
     private StreamSource pickStylesheet() throws IOException {
         String urlString = "";
         
-        KualiConfigurationService kualiConfigurationService = SpringServiceLocator.getKualiConfigurationService();
+        KualiConfigurationService kualiConfigurationService = SpringContext.getBean(KualiConfigurationService.class);
         String STYLESHEET_URL_OR_PATH = kualiConfigurationService.getApplicationParameterValue(KraConstants.KRA_DEVELOPMENT_GROUP, "outputRoutingFormStylesheetUrlOrPath");
         
         // following checks if STYLESHEET_URL_OR_PATH is a URL already or path within the project

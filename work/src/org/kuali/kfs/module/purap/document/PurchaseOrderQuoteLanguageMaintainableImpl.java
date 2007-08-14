@@ -16,7 +16,8 @@
 package org.kuali.module.purap.maintenance;
 
 import org.kuali.core.maintenance.KualiMaintainableImpl;
-import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.core.service.DateTimeService;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.purap.bo.PurchaseOrderQuoteLanguage;
 
 public class PurchaseOrderQuoteLanguageMaintainableImpl extends KualiMaintainableImpl {
@@ -29,6 +30,6 @@ public class PurchaseOrderQuoteLanguageMaintainableImpl extends KualiMaintainabl
     private void intializePoQuoteLangauge(){        
         //set create date
         PurchaseOrderQuoteLanguage poql = (PurchaseOrderQuoteLanguage)super.getBusinessObject();
-        poql.setPurchaseOrderQuoteLanguageCreateDate(SpringServiceLocator.getDateTimeService().getCurrentSqlDate());        
+        poql.setPurchaseOrderQuoteLanguageCreateDate(SpringContext.getBean(DateTimeService.class, "dateTimeService").getCurrentSqlDate());        
     }
 }

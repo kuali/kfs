@@ -23,7 +23,7 @@ import java.util.List;
 import org.kuali.core.lookup.keyvalues.KeyValuesBase;
 import org.kuali.core.service.KeyValuesService;
 import org.kuali.core.web.ui.KeyLabelPair;
-import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.chart.bo.Chart;
 
 /**
@@ -37,7 +37,7 @@ public class ChartValuesFinder extends KeyValuesBase {
      * @see org.kuali.keyvalues.KeyValuesFinder#getKeyValues()
      */
     public List getKeyValues() {
-        KeyValuesService boService = SpringServiceLocator.getKeyValuesService();
+        KeyValuesService boService = SpringContext.getBean(KeyValuesService.class);
         Collection chartCodes = boService.findAll(Chart.class);
         List chartKeyLabels = new ArrayList();
         chartKeyLabels.add(new KeyLabelPair("", ""));

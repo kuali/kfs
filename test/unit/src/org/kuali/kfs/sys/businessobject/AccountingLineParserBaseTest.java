@@ -21,15 +21,16 @@ import java.io.ByteArrayInputStream;
 import java.util.Arrays;
 import java.util.List;
 
+import org.kuali.core.service.DocumentService;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.KFSKeyConstants;
 import org.kuali.kfs.bo.AccountingLineParser;
 import org.kuali.kfs.bo.SourceAccountingLine;
 import org.kuali.kfs.bo.TargetAccountingLine;
 import org.kuali.kfs.context.KualiTestBase;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.document.AccountingDocument;
 import org.kuali.kfs.exceptions.AccountingLineParserException;
-import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.financial.document.InternalBillingDocument;
 import org.kuali.test.ConfigureContext;
 import org.kuali.test.suite.AnnotationTestSuite;
@@ -48,7 +49,7 @@ public class AccountingLineParserBaseTest extends KualiTestBase {
     @Override
     protected void setUp() throws Exception {
         super.setUp();
-        accountingDocument = (AccountingDocument) SpringServiceLocator.getDocumentService().getNewDocument(InternalBillingDocument.class);
+        accountingDocument = (AccountingDocument) SpringContext.getBean(DocumentService.class).getNewDocument(InternalBillingDocument.class);
         parser = accountingDocument.getAccountingLineParser();
     }
 

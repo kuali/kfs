@@ -21,11 +21,14 @@ import java.util.List;
 
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.exceptions.UserNotFoundException;
+import org.kuali.core.service.DataDictionaryService;
+import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.service.UniversalUserService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.kfs.KFSKeyConstants;
 import org.kuali.kfs.bo.AccountingLine;
 import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.document.AccountingDocument;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.purap.PurapConstants;
@@ -47,11 +50,11 @@ public class PurchaseOrderAmendmentDocumentRule extends PurchaseOrderDocumentRul
         boolean valid = super.processValidation(purapDocument);
         // Check that the user is in purchasing workgroup.
         String initiatorNetworkId = purapDocument.getDocumentHeader().getWorkflowDocument().getInitiatorNetworkId();
-        UniversalUserService uus = SpringServiceLocator.getUniversalUserService();
+        UniversalUserService uus = SpringContext.getBean(UniversalUserService.class, "universalUserService");
         UniversalUser user = null;
         try {
             user = uus.getUniversalUserByAuthenticationUserId(initiatorNetworkId);
-            String purchasingGroup = SpringServiceLocator.getKualiConfigurationService().getApplicationParameterValue(PurapParameterConstants.PURAP_ADMIN_GROUP, PurapConstants.Workgroups.WORKGROUP_PURCHASING);
+            String purchasingGroup = SpringContext.getBean(KualiConfigurationService.class).getApplicationParameterValue(PurapParameterConstants.PURAP_ADMIN_GROUP, PurapConstants.Workgroups.WORKGROUP_PURCHASING);
             if (!uus.isMember(user, purchasingGroup)) {
                 valid = false;
                 GlobalVariables.getErrorMap().putError(PurapPropertyConstants.PURAP_DOC_ID , KFSKeyConstants.AUTHORIZATION_ERROR_DOCUMENT, initiatorNetworkId, "amend", PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_DOCUMENT);
@@ -71,7 +74,7 @@ public class PurchaseOrderAmendmentDocumentRule extends PurchaseOrderDocumentRul
                 return true;
             }
         }
-        String documentType = SpringServiceLocator.getDataDictionaryService().getDataDictionary().getDocumentEntry(purapDocument.getDocumentHeader().getWorkflowDocument().getDocumentType()).getLabel();
+        String documentType = SpringContext.getBean(DataDictionaryService.class).getDataDictionary().getDocumentEntry(purapDocument.getDocumentHeader().getWorkflowDocument().getDocumentType()).getLabel();
         
         GlobalVariables.getErrorMap().putError(PurapConstants.ITEM_TAB_ERROR_PROPERTY, PurapKeyConstants.ERROR_ITEM_REQUIRED, documentType);
         return false;

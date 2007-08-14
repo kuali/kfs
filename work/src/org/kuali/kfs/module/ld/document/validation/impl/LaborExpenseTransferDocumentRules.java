@@ -35,6 +35,9 @@ import java.util.Set;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.document.Document;
 import org.kuali.core.exceptions.ReferentialIntegrityException;
+import org.kuali.core.service.BusinessObjectService;
+import org.kuali.core.service.DateTimeService;
+import org.kuali.core.service.DocumentTypeService;
 import org.kuali.core.util.GeneralLedgerPendingEntrySequenceHelper;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
@@ -44,12 +47,15 @@ import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.bo.AccountingLine;
 import org.kuali.kfs.bo.Options;
 import org.kuali.kfs.bo.SourceAccountingLine;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.document.AccountingDocument;
 import org.kuali.kfs.rules.AccountingDocumentRuleBase;
-import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.kfs.service.HomeOriginationService;
+import org.kuali.kfs.service.OptionsService;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.AccountingPeriod;
 import org.kuali.module.chart.bo.ObjectCode;
+import org.kuali.module.chart.service.ObjectCodeService;
 import org.kuali.module.financial.bo.OffsetAccount;
 import org.kuali.module.labor.LaborConstants;
 import org.kuali.module.labor.LaborConstants.LABOR_LEDGER_PENDING_ENTRY_CODE;
@@ -63,6 +69,10 @@ import org.kuali.module.labor.bo.PositionObjectBenefit;
 import org.kuali.module.labor.document.LaborExpenseTransferDocumentBase;
 import org.kuali.module.labor.document.LaborLedgerPostingDocument;
 import org.kuali.module.labor.rule.GenerateLaborLedgerPendingEntriesRule;
+import org.kuali.module.labor.service.LaborBenefitsCalculationService;
+import org.kuali.module.labor.service.LaborBenefitsTypeService;
+import org.kuali.module.labor.service.LaborLedgerPendingEntryService;
+import org.kuali.module.labor.service.LaborPositionObjectBenefitService;
 import org.kuali.module.labor.util.ObjectUtil;
 
 /**
@@ -357,7 +367,7 @@ public class LaborExpenseTransferDocumentRules extends AccountingDocumentRuleBas
         Map<String, String> fieldValues = new HashMap<String, String>();
         fieldValues.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, payrollFiscalYear.toString());
 
-        return SpringServiceLocator.getBusinessObjectService().countMatching(AccountingPeriod.class, fieldValues) > 0;
+        return SpringContext.getBean(BusinessObjectService.class).countMatching(AccountingPeriod.class, fieldValues) > 0;
     }
 
     /**
@@ -378,7 +388,7 @@ public class LaborExpenseTransferDocumentRules extends AccountingDocumentRuleBas
         fieldValues.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, payrollFiscalYear.toString());
         fieldValues.put(KFSPropertyConstants.UNIVERSITY_FISCAL_PERIOD_CODE, expenseTransferAccountingLine.getPayrollEndDateFiscalPeriodCode());
 
-        return SpringServiceLocator.getBusinessObjectService().countMatching(AccountingPeriod.class, fieldValues) > 0;
+        return SpringContext.getBean(BusinessObjectService.class).countMatching(AccountingPeriod.class, fieldValues) > 0;
     }
 
     /**
@@ -515,7 +525,7 @@ public class LaborExpenseTransferDocumentRules extends AccountingDocumentRuleBas
     // get the balance amount for the given period
     private KualiDecimal getBalanceAmountOfGivenPeriod(Map<String, Object> fieldValues, String periodCode) {
         KualiDecimal balanceAmount = KualiDecimal.ZERO;
-        List<LedgerBalance> ledgerBalances = (List<LedgerBalance>) SpringServiceLocator.getBusinessObjectService().findMatching(LedgerBalance.class, fieldValues);
+        List<LedgerBalance> ledgerBalances = (List<LedgerBalance>) SpringContext.getBean(BusinessObjectService.class).findMatching(LedgerBalance.class, fieldValues);
         if (!ledgerBalances.isEmpty()) {
             balanceAmount = ledgerBalances.get(0).getAmount(periodCode);
         }
@@ -862,7 +872,7 @@ public class LaborExpenseTransferDocumentRules extends AccountingDocumentRuleBas
         // if AL object code is a salary object code
         if (StringUtils.equals(accountingLine.getLaborObject().getFinancialObjectFringeOrSalaryCode(), LaborConstants.SalaryExpenseTransfer.LABOR_LEDGER_SALARY_CODE)) {
             // get benefits
-            positionObjectBenefits = SpringServiceLocator.getLaborPositionObjectBenefitService().getPositionObjectBenefits(accountingLine.getPayrollEndDateFiscalYear(), accountingLine.getChartOfAccountsCode(), accountingLine.getFinancialObjectCode());
+            positionObjectBenefits = SpringContext.getBean(LaborPositionObjectBenefitService.class).getPositionObjectBenefits(accountingLine.getPayrollEndDateFiscalYear(), accountingLine.getChartOfAccountsCode(), accountingLine.getFinancialObjectCode());
 
             // for each row in the ld_lbr_obj_bene_t table for the labor ledger AL's pay FY, chart and object code
             for (PositionObjectBenefit pob : positionObjectBenefits) {
@@ -927,7 +937,7 @@ public class LaborExpenseTransferDocumentRules extends AccountingDocumentRuleBas
         Collection<BenefitsType> benefitsType;
 
         // retrieve all benefits type
-        benefitsType = SpringServiceLocator.getLaborBenefitsTypeService().getBenefitsType();
+        benefitsType = SpringContext.getBean(LaborBenefitsTypeService.class).getBenefitsType();
 
         KualiDecimal amount = new KualiDecimal(0);
 
@@ -947,7 +957,7 @@ public class LaborExpenseTransferDocumentRules extends AccountingDocumentRuleBas
                 }
 
                 // get related benefit objects
-                positionObjectBenefits = SpringServiceLocator.getLaborPositionObjectBenefitService().getPositionObjectBenefits(line.getPayrollEndDateFiscalYear(), line.getChartOfAccountsCode(), line.getFinancialObjectCode());
+                positionObjectBenefits = SpringContext.getBean(LaborPositionObjectBenefitService.class).getPositionObjectBenefits(line.getPayrollEndDateFiscalYear(), line.getChartOfAccountsCode(), line.getFinancialObjectCode());
 
                 // loop through all of this accounting lines benefit type objects, matching with the outer benefit object
                 for (PositionObjectBenefit pob : positionObjectBenefits) {
@@ -1103,8 +1113,8 @@ public class LaborExpenseTransferDocumentRules extends AccountingDocumentRuleBas
             accountingLine.refreshReferenceObject("objectCode");
         }
         defaultEntry.setFinancialObjectTypeCode(accountingLine.getObjectCode().getFinancialObjectTypeCode());
-        defaultEntry.setFinancialDocumentTypeCode(SpringServiceLocator.getDocumentTypeService().getDocumentTypeCodeByClass(transactionalDocument.getClass()));
-        defaultEntry.setFinancialSystemOriginationCode(SpringServiceLocator.getHomeOriginationService().getHomeOrigination().getFinSystemHomeOriginationCode());
+        defaultEntry.setFinancialDocumentTypeCode(SpringContext.getBean(DocumentTypeService.class).getDocumentTypeCodeByClass(transactionalDocument.getClass()));
+        defaultEntry.setFinancialSystemOriginationCode(SpringContext.getBean(HomeOriginationService.class).getHomeOrigination().getFinSystemHomeOriginationCode());
         defaultEntry.setDocumentNumber(accountingLine.getDocumentNumber());
         defaultEntry.setTransactionLedgerEntryDescription(getEntryValue(accountingLine.getFinancialDocumentLineDescription(), transactionalDocument.getDocumentHeader().getFinancialDocumentDescription()));
         defaultEntry.setOrganizationDocumentNumber(transactionalDocument.getDocumentHeader().getOrganizationDocumentNumber());
@@ -1179,7 +1189,7 @@ public class LaborExpenseTransferDocumentRules extends AccountingDocumentRuleBas
         originalEntry.setTransactionLedgerEntrySequenceNumber(getNextSequenceNumber(sequenceHelper));
         originalEntry.setTransactionLedgerEntryAmount(getGeneralLedgerPendingEntryAmountForAccountingLine(accountingLine));
         originalEntry.setTransactionDebitCreditCode(accountingLine.isSourceAccountingLine() ? KFSConstants.GL_CREDIT_CODE : KFSConstants.GL_DEBIT_CODE);
-        Timestamp transactionTimestamp = new Timestamp(SpringServiceLocator.getDateTimeService().getCurrentDate().getTime());
+        Timestamp transactionTimestamp = new Timestamp(SpringContext.getBean(DateTimeService.class, "dateTimeService").getCurrentDate().getTime());
         originalEntry.setTransactionDate(new java.sql.Date(transactionTimestamp.getTime()));
         originalEntry.setProjectCode(getEntryValue(accountingLine.getProjectCode(), LABOR_LEDGER_PENDING_ENTRY_CODE.BLANK_PROJECT_STRING));
         originalEntry.setOrganizationReferenceId(accountingLine.getOrganizationReferenceId());
@@ -1254,7 +1264,7 @@ public class LaborExpenseTransferDocumentRules extends AccountingDocumentRuleBas
         a21Entry.setTransactionLedgerEntrySequenceNumber(getNextSequenceNumber(sequenceHelper));
         a21Entry.setTransactionLedgerEntryAmount(getGeneralLedgerPendingEntryAmountForAccountingLine(accountingLine));
         a21Entry.setTransactionDebitCreditCode(accountingLine.isSourceAccountingLine() ? KFSConstants.GL_DEBIT_CODE : KFSConstants.GL_CREDIT_CODE);
-        Timestamp transactionTimestamp = new Timestamp(SpringServiceLocator.getDateTimeService().getCurrentDate().getTime());
+        Timestamp transactionTimestamp = new Timestamp(SpringContext.getBean(DateTimeService.class, "dateTimeService").getCurrentDate().getTime());
         a21Entry.setTransactionDate(new java.sql.Date(transactionTimestamp.getTime()));
         a21Entry.setProjectCode(getEntryValue(accountingLine.getProjectCode(), LABOR_LEDGER_PENDING_ENTRY_CODE.BLANK_PROJECT_STRING));
         a21Entry.setOrganizationReferenceId(accountingLine.getOrganizationReferenceId());
@@ -1334,7 +1344,7 @@ public class LaborExpenseTransferDocumentRules extends AccountingDocumentRuleBas
             a21RevEntry.setTransactionDebitCreditCode(accountingLine.isSourceAccountingLine() ? KFSConstants.GL_CREDIT_CODE : KFSConstants.GL_DEBIT_CODE);
         }
 
-        Timestamp transactionTimestamp = new Timestamp(SpringServiceLocator.getDateTimeService().getCurrentDate().getTime());
+        Timestamp transactionTimestamp = new Timestamp(SpringContext.getBean(DateTimeService.class, "dateTimeService").getCurrentDate().getTime());
         a21RevEntry.setTransactionDate(new java.sql.Date(transactionTimestamp.getTime()));
         a21RevEntry.setProjectCode(getEntryValue(accountingLine.getProjectCode(), LABOR_LEDGER_PENDING_ENTRY_CODE.BLANK_PROJECT_STRING));
         a21RevEntry.setOrganizationReferenceId(accountingLine.getOrganizationReferenceId());
@@ -1416,7 +1426,7 @@ public class LaborExpenseTransferDocumentRules extends AccountingDocumentRuleBas
         benefitEntry.setFinancialBalanceTypeCode(BALANCE_TYPE_ACTUAL);
         benefitEntry.setTransactionLedgerEntrySequenceNumber(getNextSequenceNumber(sequenceHelper));
         benefitEntry.setTransactionDebitCreditCode(accountingLine.isSourceAccountingLine() ? KFSConstants.GL_CREDIT_CODE : KFSConstants.GL_DEBIT_CODE);
-        Timestamp transactionTimestamp = new Timestamp(SpringServiceLocator.getDateTimeService().getCurrentDate().getTime());
+        Timestamp transactionTimestamp = new Timestamp(SpringContext.getBean(DateTimeService.class, "dateTimeService").getCurrentDate().getTime());
         benefitEntry.setTransactionDate(new java.sql.Date(transactionTimestamp.getTime()));
         benefitEntry.setProjectCode(getEntryValue(accountingLine.getProjectCode(), LABOR_LEDGER_PENDING_ENTRY_CODE.BLANK_PROJECT_STRING));
         benefitEntry.setOrganizationReferenceId(accountingLine.getOrganizationReferenceId());
@@ -1498,7 +1508,7 @@ public class LaborExpenseTransferDocumentRules extends AccountingDocumentRuleBas
         benefitA21Entry.setFinancialBalanceTypeCode(BALANCE_TYPE_A21);
         benefitA21Entry.setTransactionLedgerEntrySequenceNumber(getNextSequenceNumber(sequenceHelper));
         benefitA21Entry.setTransactionDebitCreditCode(accountingLine.isSourceAccountingLine() ? KFSConstants.GL_DEBIT_CODE : KFSConstants.GL_CREDIT_CODE);
-        Timestamp transactionTimestamp = new Timestamp(SpringServiceLocator.getDateTimeService().getCurrentDate().getTime());
+        Timestamp transactionTimestamp = new Timestamp(SpringContext.getBean(DateTimeService.class, "dateTimeService").getCurrentDate().getTime());
         benefitA21Entry.setTransactionDate(new java.sql.Date(transactionTimestamp.getTime()));
         benefitA21Entry.setProjectCode(getEntryValue(accountingLine.getProjectCode(), LABOR_LEDGER_PENDING_ENTRY_CODE.BLANK_PROJECT_STRING));
         benefitA21Entry.setOrganizationReferenceId(accountingLine.getOrganizationReferenceId());
@@ -1582,7 +1592,7 @@ public class LaborExpenseTransferDocumentRules extends AccountingDocumentRuleBas
         benefitA21RevEntry.setFinancialBalanceTypeCode(BALANCE_TYPE_A21);
         benefitA21RevEntry.setTransactionLedgerEntrySequenceNumber(getNextSequenceNumber(sequenceHelper));
         benefitA21RevEntry.setTransactionDebitCreditCode(accountingLine.isSourceAccountingLine() ? KFSConstants.GL_DEBIT_CODE : KFSConstants.GL_CREDIT_CODE);
-        Timestamp transactionTimestamp = new Timestamp(SpringServiceLocator.getDateTimeService().getCurrentDate().getTime());
+        Timestamp transactionTimestamp = new Timestamp(SpringContext.getBean(DateTimeService.class, "dateTimeService").getCurrentDate().getTime());
         benefitA21RevEntry.setTransactionDate(new java.sql.Date(transactionTimestamp.getTime()));
         benefitA21RevEntry.setProjectCode(getEntryValue(accountingLine.getProjectCode(), LABOR_LEDGER_PENDING_ENTRY_CODE.BLANK_PROJECT_STRING));
         benefitA21RevEntry.setOrganizationReferenceId(accountingLine.getOrganizationReferenceId());
@@ -1659,7 +1669,7 @@ public class LaborExpenseTransferDocumentRules extends AccountingDocumentRuleBas
 
         // special handling
         AccountingPeriod ap = accountingDocument.getAccountingPeriod();
-        BenefitsCalculation bc = SpringServiceLocator.getLaborBenefitsCalculationService().getBenefitsCalculation(ap.getUniversityFiscalYear(), "UA", benefitTypeCode);
+        BenefitsCalculation bc = SpringContext.getBean(LaborBenefitsCalculationService.class).getBenefitsCalculation(ap.getUniversityFiscalYear(), "UA", benefitTypeCode);
         benefitClearingEntry.setFinancialObjectCode(bc.getPositionFringeBenefitObjectCode());
 
         benefitClearingEntry.setFinancialSubObjectCode(LABOR_LEDGER_PENDING_ENTRY_CODE.BLANK_SUB_OBJECT_CODE);
@@ -1677,7 +1687,7 @@ public class LaborExpenseTransferDocumentRules extends AccountingDocumentRuleBas
         }
         benefitClearingEntry.setTransactionDebitCreditCode(debitCreditCode);
 
-        Timestamp transactionTimestamp = new Timestamp(SpringServiceLocator.getDateTimeService().getCurrentDate().getTime());
+        Timestamp transactionTimestamp = new Timestamp(SpringContext.getBean(DateTimeService.class, "dateTimeService").getCurrentDate().getTime());
         benefitClearingEntry.setTransactionDate(new java.sql.Date(transactionTimestamp.getTime()));
         benefitClearingEntry.setProjectCode(LABOR_LEDGER_PENDING_ENTRY_CODE.BLANK_PROJECT_STRING);
         benefitClearingEntry.setOrganizationReferenceId(null);
@@ -1691,12 +1701,12 @@ public class LaborExpenseTransferDocumentRules extends AccountingDocumentRuleBas
         benefitClearingEntry.setReferenceFinancialDocumentTypeCode(null);
 
         // special handling
-        ObjectCode oc = SpringServiceLocator.getObjectCodeService().getByPrimaryId(ap.getUniversityFiscalYear(), LABOR_LEDGER_CHART_OF_ACCOUNT_CODE, bc.getPositionFringeBenefitObjectCode());
+        ObjectCode oc = SpringContext.getBean(ObjectCodeService.class).getByPrimaryId(ap.getUniversityFiscalYear(), LABOR_LEDGER_CHART_OF_ACCOUNT_CODE, bc.getPositionFringeBenefitObjectCode());
         benefitClearingEntry.setFinancialObjectTypeCode(oc.getFinancialObjectTypeCode());
 
         // defaults
-        benefitClearingEntry.setFinancialDocumentTypeCode(SpringServiceLocator.getDocumentTypeService().getDocumentTypeCodeByClass(accountingDocument.getClass()));
-        benefitClearingEntry.setFinancialSystemOriginationCode(SpringServiceLocator.getHomeOriginationService().getHomeOrigination().getFinSystemHomeOriginationCode());
+        benefitClearingEntry.setFinancialDocumentTypeCode(SpringContext.getBean(DocumentTypeService.class).getDocumentTypeCodeByClass(accountingDocument.getClass()));
+        benefitClearingEntry.setFinancialSystemOriginationCode(SpringContext.getBean(HomeOriginationService.class).getHomeOrigination().getFinSystemHomeOriginationCode());
         benefitClearingEntry.setDocumentNumber(accountingDocument.getDocumentNumber());
         benefitClearingEntry.setTransactionLedgerEntryDescription(accountingDocument.getDocumentHeader().getFinancialDocumentDescription());
         benefitClearingEntry.setOrganizationDocumentNumber(accountingDocument.getDocumentHeader().getOrganizationDocumentNumber());
@@ -2090,7 +2100,7 @@ public class LaborExpenseTransferDocumentRules extends AccountingDocumentRuleBas
             String accountNumber = etal.getAccountNumber();
             String objectCode = etal.getObjectCode().getCode();
 
-            if (SpringServiceLocator.getLaborLedgerPendingEntryService().hasPendingLaborLedgerEntry(emplid, payPeriod, accountNumber, objectCode)) {
+            if (SpringContext.getBean(LaborLedgerPendingEntryService.class).hasPendingLaborLedgerEntry(emplid, payPeriod, accountNumber, objectCode)) {
                 reportError(KFSConstants.EMPLOYEE_LOOKUP_ERRORS, KFSKeyConstants.Labor.PENDING_SALARY_TRANSFER_ERROR, emplid, payPeriod, accountNumber, objectCode);
                 return false;
             }
@@ -2162,7 +2172,7 @@ public class LaborExpenseTransferDocumentRules extends AccountingDocumentRuleBas
         fieldValues.put(KFSPropertyConstants.FINANCIAL_BALANCE_TYPE_CODE, accountingLine.getBalanceTypeCode());
         fieldValues.put(KFSPropertyConstants.FINANCIAL_OBJECT_CODE, accountingLine.getFinancialObjectCode());
 
-        Options options = SpringServiceLocator.getOptionsService().getOptions(accountingLine.getPostingYear());
+        Options options = SpringContext.getBean(OptionsService.class).getOptions(accountingLine.getPostingYear());
         fieldValues.put(KFSPropertyConstants.FINANCIAL_OBJECT_TYPE_CODE, options.getFinObjTypeExpenditureexpCd());
 
         String subObjectCode = accountingLine.getFinancialSubObjectCode();

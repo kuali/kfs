@@ -36,7 +36,7 @@ public class CashDetailTypeCodeServiceTest extends KualiTestBase {
     protected void setUp() throws Exception {
         super.setUp();
         // this.validCashDetailTypeCodes = (ArrayList)
-        // SpringServiceLocator.getBusinessObjectService().findAll(CashDetailTypeCodeService.class);
+        // SpringContext.getBean(BusinessObjectService.class).findAll(CashDetailTypeCodeService.class);
         // TODO - uncomment the above line of code when the database table for cash detail type codes is put in place and populated;
         // remove the line below
         populateValidCashDetailTypeCodes();

@@ -30,7 +30,6 @@ import static org.kuali.kfs.KFSConstants.SQUARE_BRACKET_RIGHT;
 import static org.kuali.kfs.KFSConstants.VOUCHER_LINE_HELPER_CREDIT_PROPERTY_NAME;
 import static org.kuali.kfs.KFSConstants.VOUCHER_LINE_HELPER_DEBIT_PROPERTY_NAME;
 import static org.kuali.kfs.KFSKeyConstants.ERROR_DOCUMENT_ACCOUNTING_PERIOD_CLOSED;
-import static org.kuali.kfs.KFSKeyConstants.ERROR_DOCUMENT_ACCOUNTING_PERIOD_THREE_OPEN;
 import static org.kuali.kfs.KFSKeyConstants.ERROR_DOCUMENT_ACCOUNTING_TWO_PERIODS;
 import static org.kuali.kfs.KFSKeyConstants.ERROR_DOCUMENT_AV_INCORRECT_FISCAL_YEAR_AVRC;
 import static org.kuali.kfs.KFSKeyConstants.ERROR_DOCUMENT_AV_INCORRECT_POST_PERIOD_AVRC;
@@ -47,12 +46,12 @@ import static org.kuali.kfs.KFSPropertyConstants.FINANCIAL_OBJECT_CODE;
 import static org.kuali.kfs.KFSPropertyConstants.REVERSAL_DATE;
 import static org.kuali.kfs.rules.AccountingDocumentRuleBaseConstants.ERROR_PATH.DOCUMENT_ERROR_PREFIX;
 import static org.kuali.kfs.util.SpringServiceLocator.getAccountingPeriodService;
+import static org.kuali.module.financial.rules.AuxiliaryVoucherDocumentRuleConstants.AUXILIARY_VOUCHER_ACCOUNTING_PERIOD_GRACE_PERIOD;
 import static org.kuali.module.financial.rules.AuxiliaryVoucherDocumentRuleConstants.AUXILIARY_VOUCHER_SECURITY_GROUPING;
 import static org.kuali.module.financial.rules.AuxiliaryVoucherDocumentRuleConstants.GENERAL_LEDGER_PENDING_ENTRY_OFFSET_CODE;
 import static org.kuali.module.financial.rules.AuxiliaryVoucherDocumentRuleConstants.RESTRICTED_COMBINED_CODES;
 import static org.kuali.module.financial.rules.AuxiliaryVoucherDocumentRuleConstants.RESTRICTED_OBJECT_SUB_TYPE_CODES;
 import static org.kuali.module.financial.rules.AuxiliaryVoucherDocumentRuleConstants.RESTRICTED_PERIOD_CODES;
-import static org.kuali.module.financial.rules.AuxiliaryVoucherDocumentRuleConstants.AUXILIARY_VOUCHER_ACCOUNTING_PERIOD_GRACE_PERIOD;
 
 import java.sql.Date;
 import java.sql.Timestamp;
@@ -63,6 +62,8 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.kuali.core.document.Document;
 import org.kuali.core.exceptions.ValidationException;
+import org.kuali.core.service.DocumentTypeService;
+import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.GeneralLedgerPendingEntrySequenceHelper;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
@@ -72,14 +73,17 @@ import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.bo.AccountingLine;
 import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
 import org.kuali.kfs.bo.Options;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.document.AccountingDocument;
 import org.kuali.kfs.rules.AccountingDocumentRuleBase;
-import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.kfs.service.GeneralLedgerPendingEntryService;
+import org.kuali.kfs.service.OptionsService;
 import org.kuali.module.chart.bo.AccountingPeriod;
 import org.kuali.module.chart.bo.ObjectCode;
 import org.kuali.module.financial.document.AuxiliaryVoucherDocument;
 import org.kuali.module.financial.document.DistributionOfIncomeAndExpenseDocument;
 import org.kuali.module.financial.service.UniversityDateService;
+import org.kuali.module.gl.service.SufficientFundsService;
 
 /**
  * Business rule(s) applicable to <code>{@link AuxiliaryVoucherDocument}</code>.
@@ -302,7 +306,7 @@ public class AuxiliaryVoucherDocumentRule extends AccountingDocumentRuleBase {
         // since these offsets are
         // specific to Distrib. of Income and Expense documents - we need to do a deep copy though so we don't do this by reference
         GeneralLedgerPendingEntry explicitEntryDeepCopy = (GeneralLedgerPendingEntry) ObjectUtils.deepCopy(explicitEntry);
-        explicitEntryDeepCopy.setFinancialDocumentTypeCode(SpringServiceLocator.getDocumentTypeService().getDocumentTypeCodeByClass(DistributionOfIncomeAndExpenseDocument.class));
+        explicitEntryDeepCopy.setFinancialDocumentTypeCode(SpringContext.getBean(DocumentTypeService.class).getDocumentTypeCodeByClass(DistributionOfIncomeAndExpenseDocument.class));
 
         // call the super to process an offset entry; see the customize method below for AVRC specific attribute values
         // pass in the explicit deep copy
@@ -382,13 +386,13 @@ public class AuxiliaryVoucherDocumentRule extends AccountingDocumentRuleBase {
 
         // set the document type to that of a Distrib. Of Income and Expense if it's a recode
         if (auxDoc.isRecodeType()) {
-            offsetEntry.setFinancialDocumentTypeCode(SpringServiceLocator.getDocumentTypeService().getDocumentTypeCodeByClass(DistributionOfIncomeAndExpenseDocument.class));
+            offsetEntry.setFinancialDocumentTypeCode(SpringContext.getBean(DocumentTypeService.class).getDocumentTypeCodeByClass(DistributionOfIncomeAndExpenseDocument.class));
         }
 
         // now set the offset entry to the specific offset object code for the AV generated offset fund balance; only if it's an
         // accrual or adjustment
         if (auxDoc.isAccrualType() || auxDoc.isAdjustmentType()) {
-            String glpeOffsetObjectCode = SpringServiceLocator.getKualiConfigurationService().getApplicationParameterValue(getDefaultSecurityGrouping(), getGeneralLedgerPendingEntryOffsetObjectCode());
+            String glpeOffsetObjectCode = SpringContext.getBean(KualiConfigurationService.class).getApplicationParameterValue(getDefaultSecurityGrouping(), getGeneralLedgerPendingEntryOffsetObjectCode());
             offsetEntry.setFinancialObjectCode(glpeOffsetObjectCode);
         }
 
@@ -403,7 +407,7 @@ public class AuxiliaryVoucherDocumentRule extends AccountingDocumentRuleBase {
         offsetEntry.setTransactionEntryOffsetIndicator(false);
 
         offsetEntry.refresh(); // may have changed foreign keys here; need accurate object code and account BOs at least
-        offsetEntry.setAcctSufficientFundsFinObjCd(SpringServiceLocator.getSufficientFundsService().getSufficientFundsObjectCode(offsetEntry.getFinancialObject(), offsetEntry.getAccount().getAccountSufficientFundsCode()));
+        offsetEntry.setAcctSufficientFundsFinObjCd(SpringContext.getBean(SufficientFundsService.class).getSufficientFundsObjectCode(offsetEntry.getFinancialObject(), offsetEntry.getAccount().getAccountSufficientFundsCode()));
 
         return true;
     }
@@ -425,7 +429,7 @@ public class AuxiliaryVoucherDocumentRule extends AccountingDocumentRuleBase {
         recodeGlpe.setTransactionLedgerEntrySequenceNumber(new Integer(sequenceHelper.getSequenceCounter()));
 
         // set the document type to that of a Distrib. Of Income and Expense
-        recodeGlpe.setFinancialDocumentTypeCode(SpringServiceLocator.getDocumentTypeService().getDocumentTypeCodeByClass(DistributionOfIncomeAndExpenseDocument.class));
+        recodeGlpe.setFinancialDocumentTypeCode(SpringContext.getBean(DocumentTypeService.class).getDocumentTypeCodeByClass(DistributionOfIncomeAndExpenseDocument.class));
 
         // set the object type code base on the value of the explicit entry
         recodeGlpe.setFinancialObjectTypeCode(getObjectTypeCodeForRecodeDistributionOfIncomeAndExpenseEntry(explicitEntry));
@@ -450,7 +454,7 @@ public class AuxiliaryVoucherDocumentRule extends AccountingDocumentRuleBase {
      * @return object type for an AuxiliaryVoucher document
      */
     protected String getObjectTypeCode(AccountingLine line) {
-        Options options = SpringServiceLocator.getOptionsService().getCurrentYearOptions();
+        Options options = SpringContext.getBean(OptionsService.class).getCurrentYearOptions();
         String objectTypeCode = line.getObjectCode().getFinancialObjectTypeCode();
 
         if (options.getFinObjTypeExpenditureexpCd().equals(objectTypeCode) || options.getFinObjTypeExpendNotExpCode().equals(objectTypeCode)) {
@@ -471,7 +475,7 @@ public class AuxiliaryVoucherDocumentRule extends AccountingDocumentRuleBase {
      * @return object type code
      */
     protected String getObjectTypeCodeForRecodeDistributionOfIncomeAndExpenseEntry(GeneralLedgerPendingEntry explicitEntry) {
-        Options options = SpringServiceLocator.getOptionsService().getCurrentYearOptions();
+        Options options = SpringContext.getBean(OptionsService.class).getCurrentYearOptions();
         String objectTypeCode = explicitEntry.getFinancialObjectTypeCode();
 
         if (options.getFinObjTypeExpNotExpendCode().equals(objectTypeCode)) {
@@ -668,7 +672,7 @@ public class AuxiliaryVoucherDocumentRule extends AccountingDocumentRuleBase {
      */
     private boolean glpesBalance(AuxiliaryVoucherDocument avDoc) {
         // generate GLPEs specifically here so that we can compare debits to credits
-        if (!SpringServiceLocator.getGeneralLedgerPendingEntryService().generateGeneralLedgerPendingEntries(avDoc)) {
+        if (!SpringContext.getBean(GeneralLedgerPendingEntryService.class).generateGeneralLedgerPendingEntries(avDoc)) {
             throw new ValidationException("general ledger GLPE generation failed");
         }
 
@@ -678,7 +682,7 @@ public class AuxiliaryVoucherDocumentRule extends AccountingDocumentRuleBase {
 
         for (GeneralLedgerPendingEntry glpe : avDoc.getGeneralLedgerPendingEntries()) {
             // make sure we are looking at only the explicit entries that aren't DI types
-            if (!glpe.isTransactionEntryOffsetIndicator() && !glpe.getFinancialDocumentTypeCode().equals(SpringServiceLocator.getDocumentTypeService().getDocumentTypeCodeByClass(DistributionOfIncomeAndExpenseDocument.class))) {
+            if (!glpe.isTransactionEntryOffsetIndicator() && !glpe.getFinancialDocumentTypeCode().equals(SpringContext.getBean(DocumentTypeService.class).getDocumentTypeCodeByClass(DistributionOfIncomeAndExpenseDocument.class))) {
                 if (GL_CREDIT_CODE.equals(glpe.getTransactionDebitCreditCode())) {
                     creditAmount = creditAmount.add(glpe.getTransactionLedgerEntryAmount());
                 }
@@ -759,7 +763,7 @@ public class AuxiliaryVoucherDocumentRule extends AccountingDocumentRuleBase {
         Timestamp ts = new Timestamp(new java.util.Date().getTime());
         AccountingPeriod currPeriod = getAccountingPeriodService().getByDate(new Date(ts.getTime()));
         
-        if (acctPeriod.getUniversityFiscalYear().equals(SpringServiceLocator.getUniversityDateService().getCurrentFiscalYear())) {
+        if (acctPeriod.getUniversityFiscalYear().equals(SpringContext.getBean(UniversityDateService.class).getCurrentFiscalYear())) {
             if (getAccountingPeriodService().compareAccountingPeriodsByDate(acctPeriod, currPeriod) < 0) {
                 // we've only got problems if the av's accounting period is earlier than now
                 
@@ -815,7 +819,7 @@ public class AuxiliaryVoucherDocumentRule extends AccountingDocumentRuleBase {
         int todayAsComparableDate = AuxiliaryVoucherDocumentRule.comparableDateForm(today);
         int periodClose = new Integer(AuxiliaryVoucherDocumentRule.comparableDateForm(periodToCheck.getUniversityFiscalPeriodEndDate()));
         int periodBegin = AuxiliaryVoucherDocumentRule.comparableDateForm(AuxiliaryVoucherDocumentRule.calculateFirstDayOfMonth(periodToCheck.getUniversityFiscalPeriodEndDate())); 
-        int gracePeriodClose = periodClose + new Integer(SpringServiceLocator.getKualiConfigurationService().getApplicationParameterValue(AUXILIARY_VOUCHER_SECURITY_GROUPING, AUXILIARY_VOUCHER_ACCOUNTING_PERIOD_GRACE_PERIOD)).intValue();
+        int gracePeriodClose = periodClose + new Integer(SpringContext.getBean(KualiConfigurationService.class).getApplicationParameterValue(AUXILIARY_VOUCHER_SECURITY_GROUPING, AUXILIARY_VOUCHER_ACCOUNTING_PERIOD_GRACE_PERIOD)).intValue();
         return (todayAsComparableDate >= periodBegin && todayAsComparableDate <= gracePeriodClose);
     }
     
@@ -851,7 +855,7 @@ public class AuxiliaryVoucherDocumentRule extends AccountingDocumentRuleBase {
      * @return true if the accounting period ends with the fiscal year, false if otherwise
      */
     public static boolean isEndOfPreviousFiscalYear(AccountingPeriod acctPeriod) {
-        UniversityDateService dateService = SpringServiceLocator.getUniversityDateService();
+        UniversityDateService dateService = SpringContext.getBean(UniversityDateService.class);
         Date firstDayOfCurrFiscalYear = new Date(dateService.getFirstDateOfFiscalYear(dateService.getCurrentFiscalYear()).getTime());
         Date periodClose = acctPeriod.getUniversityFiscalPeriodEndDate();
         java.util.Calendar cal = new java.util.GregorianCalendar();

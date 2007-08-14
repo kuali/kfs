@@ -25,10 +25,13 @@ import org.kuali.core.bo.AdHocRouteWorkgroup;
 import org.kuali.core.document.Copyable;
 import org.kuali.core.document.TransactionalDocumentBase;
 import org.kuali.core.rule.event.KualiDocumentEvent;
+import org.kuali.core.service.PersistenceService;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.kra.bo.AdhocOrg;
 import org.kuali.module.kra.bo.AdhocPerson;
 import org.kuali.module.kra.bo.AdhocWorkgroup;
+import org.kuali.module.kra.service.ResearchDocumentPermissionsService;
 import org.kuali.module.kra.service.ResearchDocumentService;
 
 import edu.iu.uis.eden.exception.WorkflowException;
@@ -180,7 +183,7 @@ public abstract class ResearchDocumentBase extends TransactionalDocumentBase imp
     public List<AdHocRoutePerson> convertKraAdhocsToAdHocRoutePersons() {
         List<AdHocRoutePerson> adHocRoutePersons = new ArrayList<AdHocRoutePerson>();
         for (AdhocPerson kraAdhocPerson: this.adhocPersons) {
-            SpringServiceLocator.getPersistenceService().refreshAllNonUpdatingReferences(kraAdhocPerson);
+            SpringContext.getBean(PersistenceService.class).refreshAllNonUpdatingReferences(kraAdhocPerson);
             AdHocRoutePerson adHocRoutePerson = new AdHocRoutePerson();
             adHocRoutePerson.setId(kraAdhocPerson.getUser().getPersonUserIdentifier());
             adHocRoutePerson.setActionRequested(kraAdhocPerson.getActionRequested());
@@ -197,7 +200,7 @@ public abstract class ResearchDocumentBase extends TransactionalDocumentBase imp
     public List<AdHocRouteWorkgroup> convertKraAdhocsToAdHocRouteWorkgroups() {
         List<AdHocRouteWorkgroup> adHocRouteWorkgroups = new ArrayList<AdHocRouteWorkgroup>();
         for (AdhocWorkgroup kraAdhocWorkgroup: this.adhocWorkgroups) {
-            SpringServiceLocator.getPersistenceService().refreshAllNonUpdatingReferences(kraAdhocWorkgroup);
+            SpringContext.getBean(PersistenceService.class).refreshAllNonUpdatingReferences(kraAdhocWorkgroup);
             AdHocRouteWorkgroup adHocRouteWorkgroup = new AdHocRouteWorkgroup();
             adHocRouteWorkgroup.setId(kraAdhocWorkgroup.getWorkgroupName());
             adHocRouteWorkgroup.setActionRequested(kraAdhocWorkgroup.getActionRequested());
@@ -218,7 +221,7 @@ public abstract class ResearchDocumentBase extends TransactionalDocumentBase imp
         if (encloseContent) {
             xml.append("<documentContent>");
         }
-        List<AdhocOrg> orgs = SpringServiceLocator.getResearchDocumentPermissionsService().getAdHocOrgs(this.getDocumentNumber(), permissionTypeCode);
+        List<AdhocOrg> orgs = SpringContext.getBean(ResearchDocumentPermissionsService.class).getAdHocOrgs(this.getDocumentNumber(), permissionTypeCode);
         for (AdhocOrg org : orgs) {
             xml.append("<chartOrg><chartOfAccountsCode>");
             xml.append(org.getFiscalCampusCode());

@@ -16,11 +16,11 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSPropertyConstants;
-import org.kuali.kfs.util.SpringServiceLocator;
-import org.kuali.module.labor.bo.LaborObject;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.PurapPropertyConstants;
 import org.kuali.module.purap.bo.CampusParameter;
@@ -487,7 +487,7 @@ public class PurchaseOrderQuotePdf extends PurapPdf {
         Map<String, Object> criteria = new HashMap<String, Object>();
         
         //retrieve list of purchase order quote language objects sorted by PO Quote Language Identifier
-        Collection<PurchaseOrderQuoteLanguage>poqlList = SpringServiceLocator.getBusinessObjectService().findMatchingOrderBy(PurchaseOrderQuoteLanguage.class, criteria, PurapPropertyConstants.PURCHASE_ORDER_QUOTE_LANGUAGE_ID, true);
+        Collection<PurchaseOrderQuoteLanguage>poqlList = SpringContext.getBean(BusinessObjectService.class).findMatchingOrderBy(PurchaseOrderQuoteLanguage.class, criteria, PurapPropertyConstants.PURCHASE_ORDER_QUOTE_LANGUAGE_ID, true);
 
         //append in string buffer
         for (PurchaseOrderQuoteLanguage poql : poqlList){
@@ -541,7 +541,7 @@ public class PurchaseOrderQuotePdf extends PurapPdf {
     private CampusParameter getCampusParameter(String contractManagerCampusCode) {
         Map<String, Object> criteria = new HashMap<String, Object>();
         criteria.put(KFSPropertyConstants.CAMPUS_CODE, po.getDeliveryCampusCode());
-        CampusParameter campusParameter = (CampusParameter)((List) SpringServiceLocator.getBusinessObjectService().findMatching(CampusParameter.class, criteria)).get(0);
+        CampusParameter campusParameter = (CampusParameter)((List) SpringContext.getBean(BusinessObjectService.class).findMatching(CampusParameter.class, criteria)).get(0);
         
         return campusParameter;
     }

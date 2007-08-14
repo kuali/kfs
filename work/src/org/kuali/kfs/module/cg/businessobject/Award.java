@@ -27,10 +27,12 @@ import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.bo.user.KualiGroup;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.exceptions.UserNotFoundException;
+import org.kuali.core.service.UniversalUserService;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.util.TypedArrayList;
-import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.kfs.context.SpringContext;
+import org.kuali.module.cg.service.AwardService;
 import org.kuali.workflow.attribute.AlternateOrgReviewRouting;
 
 /**
@@ -1084,7 +1086,7 @@ public class Award extends PersistableBusinessObjectBase implements AlternateOrg
      * @return KualiGroup defined by workgroupName
      */
     public KualiGroup getWorkgroup() {
-        return SpringServiceLocator.getAwardService().getKualiGroup(workgroupName);
+        return SpringContext.getBean(AwardService.class).getKualiGroup(workgroupName);
     }
 
     /**
@@ -1151,7 +1153,7 @@ public class Award extends PersistableBusinessObjectBase implements AlternateOrg
                 int i = 0;
                 for(String userName : users) {
                     try {
-                        UniversalUser user = SpringServiceLocator.getUniversalUserService().getUniversalUserByAuthenticationUserId(userName);
+                        UniversalUser user = SpringContext.getBean(UniversalUserService.class, "universalUserService").getUniversalUserByAuthenticationUserId(userName);
                         names.append(user.getPersonName());
                     } catch(UserNotFoundException unfe) {
                         names.append("No User Name Found ("+userName+")");

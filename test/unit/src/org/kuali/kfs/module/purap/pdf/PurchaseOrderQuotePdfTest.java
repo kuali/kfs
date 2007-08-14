@@ -23,11 +23,13 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.kuali.core.service.BusinessObjectService;
+import org.kuali.core.service.DateTimeService;
+import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.bo.Country;
 import org.kuali.kfs.context.KualiTestBase;
-import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.purap.bo.ItemType;
 import org.kuali.module.purap.bo.PurchaseOrderItem;
 import org.kuali.module.purap.bo.PurchaseOrderVendorQuote;
@@ -46,7 +48,7 @@ public class PurchaseOrderQuotePdfTest extends KualiTestBase {
     @Override
     protected void setUp() throws Exception {
         super.setUp();     
-        BusinessObjectService businessObjectService = SpringServiceLocator.getBusinessObjectService();
+        BusinessObjectService businessObjectService = SpringContext.getBean(BusinessObjectService.class);
         //Map poCriteria = new HashMap();
         //poCriteria.put("documentNumber", new Integer(291190));
         //Iterator resultIter = (businessObjectService.findMatching(PurchaseOrderDocument.class, poCriteria)).iterator();
@@ -67,7 +69,7 @@ public class PurchaseOrderQuotePdfTest extends KualiTestBase {
         po.setDeliveryStateCode("CA");
         po.setDeliveryCampusCode("BL");
         poqv = new PurchaseOrderVendorQuote();
-        po.setPurchaseOrderQuoteDueDate(SpringServiceLocator.getDateTimeService().getCurrentSqlDate());
+        po.setPurchaseOrderQuoteDueDate(SpringContext.getBean(DateTimeService.class, "dateTimeService").getCurrentSqlDate());
         poqv.setPurchaseOrder(po);
         poqv.setPurchaseOrderVendorQuoteIdentifier(1000);
         poqv.setVendorName("Dusty's Cellar");
@@ -118,7 +120,7 @@ public class PurchaseOrderQuotePdfTest extends KualiTestBase {
      */
     public void testGeneratePOQuotePDF() throws Exception {
 
-        String environment = SpringServiceLocator.getKualiConfigurationService().getPropertyString(KFSConstants.ENVIRONMENT_KEY);
+        String environment = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(KFSConstants.ENVIRONMENT_KEY);
         
         poQuotePdf.generatePOQuotePDF(po, poqv, "East Lansing", "EL", getLogoImageName(), bao, environment);
         bao.writeTo(fo);

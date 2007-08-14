@@ -18,13 +18,11 @@ package org.kuali.module.gl.web.optionfinder;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.kuali.core.lookup.keyvalues.KeyValuesBase;
 import org.kuali.core.web.ui.KeyLabelPair;
-import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.gl.bo.OriginEntryGroup;
 import org.kuali.module.gl.service.OriginEntryGroupService;
 
@@ -43,7 +41,7 @@ public class ProcessingCorrectionGroupEntriesFinder extends KeyValuesBase {
     public List<KeyLabelPair> getKeyValues() {
         List<KeyLabelPair> activeLabels = new ArrayList<KeyLabelPair>();
 
-        OriginEntryGroupService originEntryGroupService = SpringServiceLocator.getOriginEntryGroupService();
+        OriginEntryGroupService originEntryGroupService = SpringContext.getBean(OriginEntryGroupService.class);
 
             
         Collection<OriginEntryGroup> groupList = originEntryGroupService.getAllOriginEntryGroup();

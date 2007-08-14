@@ -23,9 +23,10 @@ import java.util.Map;
 
 import org.apache.log4j.Logger;
 import org.kuali.core.bo.GlobalBusinessObjectDetailBase;
+import org.kuali.core.service.PersistenceStructureService;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.KFSPropertyConstants;
-import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.kfs.context.SpringContext;
 
 /**
  * Business Object representing the account change details entity
@@ -55,7 +56,7 @@ public class AccountGlobalDetail extends GlobalBusinessObjectDetailBase {
      */
     public Map<String, Object> getPrimaryKeys() {
         try {
-            List<String> keys = SpringServiceLocator.getPersistenceStructureService().getPrimaryKeys( Account.class );
+            List<String> keys = SpringContext.getBean(PersistenceStructureService.class).getPrimaryKeys( Account.class );
             HashMap<String,Object> pks = new HashMap<String,Object>( keys.size() );
             for ( String key : keys ) {
                 // attempt to read the property of the current object

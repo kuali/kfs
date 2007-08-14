@@ -17,11 +17,11 @@ package org.kuali.module.financial.bo;
 
 
 import java.sql.Date;
-import java.util.ArrayList;
 
+import org.kuali.core.service.DateTimeService;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.context.KualiTestBase;
-import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.test.ConfigureContext;
 
 /**
@@ -47,7 +47,7 @@ public class CheckBaseTest extends KualiTestBase {
     @Override
     protected void setUp() throws Exception {
         super.setUp();
-        date = new Date(SpringServiceLocator.getDateTimeService().getCurrentDate().getTime());
+        date = new Date(SpringContext.getBean(DateTimeService.class, "dateTimeService").getCurrentDate().getTime());
         crchk = new CheckBase();
         crchk.setAmount(AMOUNT);
         crchk.setCheckDate(date);

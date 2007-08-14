@@ -21,10 +21,9 @@ import org.kuali.core.document.authorization.MaintenanceDocumentAuthorizations;
 import org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.util.ObjectUtils;
-import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.kra.KraPropertyConstants;
 import org.kuali.module.kra.routingform.bo.QuestionType;
-import org.kuali.module.kra.routingform.bo.ResearchRiskType;
 
 public class QuestionTypeMaintenanceDocumentAuthorizer extends MaintenanceDocumentAuthorizerBase {
     
@@ -33,7 +32,7 @@ public class QuestionTypeMaintenanceDocumentAuthorizer extends MaintenanceDocume
         
         MaintenanceDocumentAuthorizations auths = new MaintenanceDocumentAuthorizations();
         QuestionType question = (QuestionType) document.getNewMaintainableObject().getBusinessObject();
-        BusinessObjectService service = SpringServiceLocator.getBusinessObjectService();
+        BusinessObjectService service = SpringContext.getBean(BusinessObjectService.class);
         QuestionType persistedQuestion = (QuestionType) service.retrieve(question);
         
         //If the question exists in db, set read-only fields

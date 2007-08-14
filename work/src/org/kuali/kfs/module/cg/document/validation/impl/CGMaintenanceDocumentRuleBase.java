@@ -23,13 +23,15 @@ import java.util.List;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.bo.BusinessObject;
 import org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase;
+import org.kuali.core.service.DataDictionaryService;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.KFSKeyConstants;
 import org.kuali.kfs.KFSPropertyConstants;
-import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.cg.bo.Agency;
 import org.kuali.module.cg.bo.CGProjectDirector;
 import org.kuali.module.cg.bo.Primaryable;
+import org.kuali.module.cg.service.ProjectDirectorService;
 
 /**
  * Rules for the Proposal/Award maintenance document.
@@ -77,7 +79,7 @@ public class CGMaintenanceDocumentRuleBase extends MaintenanceDocumentRuleBase {
         }
         if (count != 1) {
             success = false;
-            String elementLabel = SpringServiceLocator.getDataDictionaryService().getCollectionElementLabel(boClass.getName(), collectionName, elementClass);
+            String elementLabel = SpringContext.getBean(DataDictionaryService.class).getCollectionElementLabel(boClass.getName(), collectionName, elementClass);
             switch (count) {
                 case 0:
                     putFieldError(collectionName, KFSKeyConstants.ERROR_NO_PRIMARY, elementLabel);
@@ -101,12 +103,12 @@ public class CGMaintenanceDocumentRuleBase extends MaintenanceDocumentRuleBase {
     protected <T extends CGProjectDirector> boolean checkProjectDirectorsExist(List<T> projectDirectors, Class<T> elementClass, String collectionName) {
         boolean success = true;
         final String personUserPropertyName = KFSPropertyConstants.PROJECT_DIRECTOR + "." + KFSPropertyConstants.PERSON_USER_IDENTIFIER;
-        String label = SpringServiceLocator.getDataDictionaryService().getAttributeLabel(elementClass, personUserPropertyName);
+        String label = SpringContext.getBean(DataDictionaryService.class).getAttributeLabel(elementClass, personUserPropertyName);
         int i = 0;
         for (T pd : projectDirectors) {
             String propertyName = collectionName + "[" + (i++) + "]." + personUserPropertyName;
             String id = pd.getPersonUniversalIdentifier();
-            if (StringUtils.isBlank(id) || !SpringServiceLocator.getProjectDirectorService().primaryIdExists(id)) {
+            if (StringUtils.isBlank(id) || !SpringContext.getBean(ProjectDirectorService.class).primaryIdExists(id)) {
                 putFieldError(propertyName, KFSKeyConstants.ERROR_EXISTENCE, label);
                 success = false;
             }
@@ -129,7 +131,7 @@ public class CGMaintenanceDocumentRuleBase extends MaintenanceDocumentRuleBase {
     protected <T extends CGProjectDirector> boolean checkProjectDirectorsStatuses(List<T> projectDirectors, Class<T> elementClass, String propertyName) {
         boolean success = true;
         final String personUserPropertyName = KFSPropertyConstants.PROJECT_DIRECTOR + "." + KFSPropertyConstants.PERSON_USER_IDENTIFIER;
-        String label = SpringServiceLocator.getDataDictionaryService().getAttributeLabel(elementClass, personUserPropertyName);
+        String label = SpringContext.getBean(DataDictionaryService.class).getAttributeLabel(elementClass, personUserPropertyName);
         for(T pd : projectDirectors) {
             String pdEmplStatusCode = pd.getProjectDirector().getUniversalUser().getEmployeeStatusCode();
             String pdEmplStatusName = pd.getProjectDirector().getUniversalUser().getEmployeeStatus().getName();
@@ -178,8 +180,8 @@ public class CGMaintenanceDocumentRuleBase extends MaintenanceDocumentRuleBase {
             primaryAgencyIsFederal = AGENCY_TYPE_CODE_FEDERAL.equalsIgnoreCase(primaryAgency.getAgencyTypeCode());
         }
         
-        String indicatorLabel = SpringServiceLocator.getDataDictionaryService().getAttributeErrorLabel(propertyClass, federalPassThroughIndicatorFieldName);
-        String agencyLabel = SpringServiceLocator.getDataDictionaryService().getAttributeErrorLabel(propertyClass, KFSPropertyConstants.FEDERAL_PASS_THROUGH_AGENCY_NUMBER);
+        String indicatorLabel = SpringContext.getBean(DataDictionaryService.class).getAttributeErrorLabel(propertyClass, federalPassThroughIndicatorFieldName);
+        String agencyLabel = SpringContext.getBean(DataDictionaryService.class).getAttributeErrorLabel(propertyClass, KFSPropertyConstants.FEDERAL_PASS_THROUGH_AGENCY_NUMBER);
 
         if(primaryAgencyIsFederal) {
             if(federalPassThroughIndicator) {

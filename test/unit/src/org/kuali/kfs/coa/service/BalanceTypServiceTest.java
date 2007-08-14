@@ -76,7 +76,7 @@ public class BalanceTypServiceTest extends KualiTestBase {
      * Disable this test because no data in database yet RO 9-22-05
      * 
      * public void testActualBalanceTypeLookup() { //test known-good byCode BalanceTyp bal =
-     * SpringServiceLocator.getBalanceTypService().getActualBalanceTyp(); assertNotNull("Should be a valid object.", bal);
+     * SpringContext.getBean(BalanceTypService.class).getActualBalanceTyp(); assertNotNull("Should be a valid object.", bal);
      * assertEquals(ACTUAL_BAL_TYPE_CODE, bal.getCode()); }
      */
 }

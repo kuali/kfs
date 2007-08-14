@@ -15,20 +15,18 @@
  */
 package org.kuali.module.financial.bo;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.List;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
-import java.util.ArrayList;
 
 import org.kuali.core.bo.TransientBusinessObjectBase;
+import org.kuali.core.service.DateTimeService;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.util.SpringServiceLocator;
-import org.kuali.module.financial.bo.Check;
-import org.kuali.module.financial.bo.CoinDetail;
-import org.kuali.module.financial.bo.CurrencyDetail;
+import org.kuali.kfs.context.SpringContext;
 
 public class CashieringTransaction extends TransientBusinessObjectBase {
     public static final String DETAIL_DOCUMENT_TYPE = "CM";
@@ -64,7 +62,7 @@ public class CashieringTransaction extends TransientBusinessObjectBase {
         super();
         this.workgroupName = workgroupName;
         this.referenceFinancialDocumentNumber = referenceFinancialDocumentNumber;
-        this.transactionStarted = SpringServiceLocator.getDateTimeService().getCurrentDate();
+        this.transactionStarted = SpringContext.getBean(DateTimeService.class, "dateTimeService").getCurrentDate();
         
         moneyInCoin = new CoinDetail();
         moneyInCurrency = new CurrencyDetail();

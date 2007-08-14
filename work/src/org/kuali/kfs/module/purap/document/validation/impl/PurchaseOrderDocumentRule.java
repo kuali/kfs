@@ -32,6 +32,7 @@ import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSKeyConstants;
 import org.kuali.kfs.bo.AccountingLine;
 import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.document.AccountingDocument;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.purap.PurapConstants;
@@ -47,6 +48,7 @@ import org.kuali.module.purap.document.PurchaseOrderDocument;
 import org.kuali.module.purap.document.PurchasingAccountsPayableDocument;
 import org.kuali.module.purap.document.PurchasingDocument;
 import org.kuali.module.purap.service.PurapGeneralLedgerService;
+import org.kuali.module.vendor.service.PhoneNumberService;
 
 public class PurchaseOrderDocumentRule extends PurchasingDocumentRuleBase {
 
@@ -239,7 +241,7 @@ public class PurchaseOrderDocumentRule extends PurchasingDocumentRuleBase {
         GlobalVariables.getErrorMap().clearErrorPath();
         GlobalVariables.getErrorMap().addToErrorPath(RicePropertyConstants.DOCUMENT);
         if (ObjectUtils.isNotNull(purDocument.getVendorHeaderGeneratedIdentifier()) && purDocument.getPurchaseOrderTransmissionMethodCode().equals(PurapConstants.POTransmissionMethods.FAX)) {
-            if (ObjectUtils.isNull(purDocument.getVendorFaxNumber()) || !SpringServiceLocator.getPhoneNumberService().isValidPhoneNumber(purDocument.getVendorFaxNumber())) {
+            if (ObjectUtils.isNull(purDocument.getVendorFaxNumber()) || !SpringContext.getBean(PhoneNumberService.class).isValidPhoneNumber(purDocument.getVendorFaxNumber())) {
                 GlobalVariables.getErrorMap().putError(PurapPropertyConstants.VENDOR_FAX_NUMBER, PurapKeyConstants.ERROR_FAX_NUMBER_PO_TRANSMISSION_TYPE);
                 valid &= false;
             }

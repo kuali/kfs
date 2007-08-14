@@ -38,7 +38,7 @@ public class ReportServiceTest extends KualiTestBase {
     protected void setUp() throws Exception {
         super.setUp();
 
-        nightlyOutService = SpringServiceLocator.getNightlyOutService();
+        nightlyOutService = SpringContext.getBean(NightlyOutService.class);
         reportService = (ReportService) SpringServiceLocator.getService("glReportService");
         unitTestSqlDao = SpringContext.getBean(UnitTestSqlDao.class);
     }

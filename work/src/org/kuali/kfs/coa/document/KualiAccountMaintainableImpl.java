@@ -15,13 +15,13 @@
  */
 package org.kuali.module.chart.maintenance;
 
-import java.sql.Timestamp;
 import java.util.List;
 
 import org.kuali.core.bo.PersistableBusinessObject;
 import org.kuali.core.maintenance.KualiMaintainableImpl;
 import org.kuali.core.service.BusinessObjectService;
-import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.core.service.DateTimeService;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.chart.bo.Account;
 
 /**
@@ -41,7 +41,7 @@ public class KualiAccountMaintainableImpl extends KualiMaintainableImpl {
     public void saveBusinessObject() {
         // make sure we save account first
         super.saveBusinessObject();
-        BusinessObjectService boService = SpringServiceLocator.getBusinessObjectService();
+        BusinessObjectService boService = SpringContext.getBean(BusinessObjectService.class);
         Account acct = (Account) businessObject;
 
         // deactivate any indicated BOs
@@ -61,7 +61,7 @@ public class KualiAccountMaintainableImpl extends KualiMaintainableImpl {
     public void processAfterCopy() {
         Account account = (Account) this.getBusinessObject();
         account.setAccountCreateDate(null); // account's pre-rules will fill this field in
-        account.setAccountEffectiveDate(SpringServiceLocator.getDateTimeService().getCurrentTimestamp());
+        account.setAccountEffectiveDate(SpringContext.getBean(DateTimeService.class, "dateTimeService").getCurrentTimestamp());
         account.setAccountClosedIndicator(false);
         super.processAfterCopy();
     }

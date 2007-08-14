@@ -16,17 +16,17 @@
 package org.kuali.kfs.lookup.keyvalues;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
 import org.kuali.core.lookup.keyvalues.KeyValuesBase;
+import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.web.ui.KeyLabelPair;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.bo.Country;
-import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.kfs.context.SpringContext;
 
 /**
  * This class returns list of country value pairs.
@@ -47,7 +47,7 @@ public class CountryNotRestrictedValuesFinder extends KeyValuesBase {
         criteriaValues.add("N");
         
         criteria.put("postalCountryRestrictedIndicator", criteriaValues);
-       	List boList = (List) SpringServiceLocator.getBusinessObjectService().findMatchingOrderBy(Country.class,criteria,"postalCountryName", true);
+       	List boList = (List) SpringContext.getBean(BusinessObjectService.class).findMatchingOrderBy(Country.class,criteria,"postalCountryName", true);
         List keyValues = new ArrayList();
 
         Country usCountry = null;

@@ -19,7 +19,8 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.core.service.BusinessObjectDictionaryService;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.web.struts.form.KualiAccountingDocumentFormBase;
 import org.kuali.module.financial.bo.CreditCardDetail;
 import org.kuali.module.financial.document.CreditCardReceiptDocument;
@@ -72,11 +73,11 @@ public class CreditCardReceiptForm extends KualiAccountingDocumentFormBase {
 
         //
         // now run through all of the accounting lines and make sure they've been uppercased and populated appropriately
-        SpringServiceLocator.getBusinessObjectDictionaryService().performForceUppercase(getNewCreditCardReceipt());
+        SpringContext.getBean(BusinessObjectDictionaryService.class).performForceUppercase(getNewCreditCardReceipt());
 
         List<CreditCardDetail> creditCardReceipts = getCreditCardReceiptDocument().getCreditCardReceipts();
         for (CreditCardDetail detail : creditCardReceipts) {
-            SpringServiceLocator.getBusinessObjectDictionaryService().performForceUppercase(detail);
+            SpringContext.getBean(BusinessObjectDictionaryService.class).performForceUppercase(detail);
         }
 
     }

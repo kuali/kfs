@@ -15,16 +15,31 @@
  */
 package edu.yale.its.tp.cas.servlet;
 
-import java.io.*;
-import java.util.*;
-import javax.servlet.*;
-import javax.servlet.http.*;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.Date;
 
-import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.util.SpringServiceLocator;
+import javax.servlet.ServletConfig;
+import javax.servlet.ServletContext;
+import javax.servlet.ServletException;
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
-import edu.yale.its.tp.cas.ticket.*;
-import edu.yale.its.tp.cas.auth.*;
+import org.kuali.core.service.KualiConfigurationService;
+import org.kuali.core.service.WebAuthenticationService;
+import org.kuali.kfs.context.SpringContext;
+
+import edu.yale.its.tp.cas.auth.AuthHandler;
+import edu.yale.its.tp.cas.auth.PasswordHandler;
+import edu.yale.its.tp.cas.auth.TrustHandler;
+import edu.yale.its.tp.cas.ticket.GrantorCache;
+import edu.yale.its.tp.cas.ticket.LoginTicketCache;
+import edu.yale.its.tp.cas.ticket.ServiceTicket;
+import edu.yale.its.tp.cas.ticket.ServiceTicketCache;
+import edu.yale.its.tp.cas.ticket.TicketException;
+import edu.yale.its.tp.cas.ticket.TicketGrantingTicket;
 
 /**
  * Handles logins for the Central Authentication Service.
@@ -207,7 +222,7 @@ public class Login extends HttpServlet {
             throw new ServletException(ex);
         }
         // check if the password field should be shown and set a flag to be used by the JSP
-        request.setAttribute( "showPasswordField", SpringServiceLocator.getKualiConfigurationService().isProductionEnvironment() || SpringServiceLocator.getWebAuthenticationService().isValidatePassword() );
+        request.setAttribute( "showPasswordField", SpringContext.getBean(KualiConfigurationService.class).isProductionEnvironment() || SpringContext.getBean(WebAuthenticationService.class, "webAuthenticationService").isValidatePassword() );
         app.getRequestDispatcher(loginForm).forward(request, response);
     }
 

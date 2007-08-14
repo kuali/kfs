@@ -29,7 +29,7 @@ import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.bo.AccountResponsibility;
-import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.Delegate;
 import org.kuali.module.chart.dao.AccountDao;
@@ -133,7 +133,7 @@ public class AccountDaoOjb extends PlatformAwareDaoBaseOjb implements AccountDao
         docTypeOrCriteria.addOrCriteria(docTypeAllCriteria);
         criteria.addAndCriteria(docTypeOrCriteria);
         criteria.addEqualTo("accountDelegateActiveIndicator", "Y");
-        criteria.addLessOrEqualThan("accountDelegateStartDate", SpringServiceLocator.getDateTimeService().getCurrentTimestamp());
+        criteria.addLessOrEqualThan("accountDelegateStartDate", SpringContext.getBean(DateTimeService.class, "dateTimeService").getCurrentTimestamp());
         criteria.addEqualTo("accountsDelegatePrmrtIndicator", accountsDelegatePrmrtIndicator);
         if (totalDollarAmount != null) {
             Criteria totalDollarAmountInRangeCriteria = new Criteria();

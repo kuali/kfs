@@ -25,9 +25,8 @@ import org.kuali.core.util.KualiInteger;
 import org.kuali.kfs.bo.Country;
 import org.kuali.kfs.bo.PostalZipCode;
 import org.kuali.kfs.bo.State;
-import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.chart.bo.Chart;
-import org.kuali.module.chart.bo.ChartUser;
 import org.kuali.module.chart.bo.Org;
 import org.kuali.module.chart.service.ChartUserService;
 import org.kuali.module.kra.KraConstants;
@@ -108,8 +107,8 @@ public class RoutingFormPersonnel extends PersistableBusinessObjectBase {
      */
     public void populateWithUserServiceFields() {
         // retrieve services and refresh UniversalUser objects (it's empty after returning from a kul:lookup)
-        UniversalUserService universalUserService = SpringServiceLocator.getUniversalUserService();
-        ChartUserService chartUserService = SpringServiceLocator.getChartUserService();
+        UniversalUserService universalUserService = SpringContext.getBean(UniversalUserService.class, "universalUserService");
+        ChartUserService chartUserService = SpringContext.getBean(ChartUserService.class);
         UniversalUser user = universalUserService.updateUniversalUserIfNecessary(this.getPersonUniversalIdentifier(), this.getUser());
         
         // set chart / org for new person
@@ -764,14 +763,14 @@ public class RoutingFormPersonnel extends PersistableBusinessObjectBase {
     }
 
     public boolean isProjectDirector() {
-       KualiConfigurationService kualiConfigurationService = SpringServiceLocator.getKualiConfigurationService();
+       KualiConfigurationService kualiConfigurationService = SpringContext.getBean(KualiConfigurationService.class);
        final String PERSON_ROLE_CODE_PD = kualiConfigurationService.getApplicationParameterValue(KraConstants.KRA_DEVELOPMENT_GROUP, "KraRoutingFormPersonRoleCodeProjectDirector");
         
        return PERSON_ROLE_CODE_PD.equals(this.getPersonRoleCode());
     }
     
     public boolean isContactPerson() {
-        KualiConfigurationService kualiConfigurationService = SpringServiceLocator.getKualiConfigurationService();
+        KualiConfigurationService kualiConfigurationService = SpringContext.getBean(KualiConfigurationService.class);
         final String PERSON_ROLE_CODE_CP = kualiConfigurationService.getApplicationParameterValue(KraConstants.KRA_DEVELOPMENT_GROUP, "KraRoutingFormPersonRoleCodeContactPerson");
          
         return PERSON_ROLE_CODE_CP.equals(this.getPersonRoleCode());

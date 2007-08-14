@@ -19,10 +19,7 @@ import static org.kuali.test.fixtures.UserNameFixture.KHUNTLEY;
 
 import org.kuali.core.web.format.FormatException;
 import org.kuali.kfs.context.KualiTestBase;
-import org.kuali.kfs.util.SpringServiceLocator;
-import org.kuali.module.vendor.bo.VendorDetail;
-import org.kuali.module.vendor.rules.VendorRule;
-import org.kuali.module.vendor.service.PhoneNumberService;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.test.ConfigureContext;
 
 @ConfigureContext(session = KHUNTLEY)
@@ -43,7 +40,7 @@ public class PhoneNumberServiceTest extends KualiTestBase {
     
     protected void setUp() throws Exception {
         super.setUp();
-        phoneNumberService = SpringServiceLocator.getPhoneNumberService();
+        phoneNumberService = SpringContext.getBean(PhoneNumberService.class);
     }
     
     protected void tearDown() throws Exception {

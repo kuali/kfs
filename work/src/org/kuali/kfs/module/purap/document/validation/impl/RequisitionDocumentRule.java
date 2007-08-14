@@ -29,8 +29,8 @@ import org.kuali.core.workflow.service.KualiWorkflowDocument;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.bo.AccountingLine;
 import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.document.AccountingDocument;
-import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.PurapKeyConstants;
 import org.kuali.module.purap.PurapPropertyConstants;
@@ -38,6 +38,7 @@ import org.kuali.module.purap.PurapWorkflowConstants.RequisitionDocument.NodeDet
 import org.kuali.module.purap.document.PurchasingAccountsPayableDocument;
 import org.kuali.module.purap.document.PurchasingDocument;
 import org.kuali.module.purap.document.RequisitionDocument;
+import org.kuali.module.purap.service.PurapService;
 
 public class RequisitionDocumentRule extends PurchasingDocumentRuleBase {
 
@@ -57,7 +58,7 @@ public class RequisitionDocumentRule extends PurchasingDocumentRuleBase {
     public boolean requiresAccountValidationOnAllItems(PurchasingAccountsPayableDocument document) {
         //For Requisitions only, if the requisition status is in process,
         //then we don't need account validation.
-        if (SpringServiceLocator.getPurapService().isDocumentStoppingAtRouteLevel(document, NodeDetailEnum.CONTENT_REVIEW)) {
+        if (SpringContext.getBean(PurapService.class).isDocumentStoppingAtRouteLevel(document, NodeDetailEnum.CONTENT_REVIEW)) {
             return false;
         }
         return super.requiresAccountValidationOnAllItems(document);

@@ -18,14 +18,14 @@ package org.kuali.module.financial.document;
 import java.sql.Timestamp;
 import java.util.Iterator;
 
-import org.kuali.core.document.TransactionalDocumentBase;
+import org.kuali.core.service.KualiRuleService;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.bo.AccountingLineBase;
 import org.kuali.kfs.bo.AccountingLineParser;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.document.AccountingDocumentBase;
 import org.kuali.kfs.rule.AccountingLineRule;
-import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.financial.bo.BasicFormatWithLineDescriptionAccountingLineParser;
 import org.kuali.module.financial.rules.CashReceiptFamilyRule;
 
@@ -101,7 +101,7 @@ abstract public class CashReceiptFamilyBase extends AccountingDocumentBase {
      */
     @Override
     public KualiDecimal getSourceTotal() {
-        CashReceiptFamilyRule crFamilyRule = (CashReceiptFamilyRule) SpringServiceLocator.getKualiRuleService().getBusinessRulesInstance(this, AccountingLineRule.class);
+        CashReceiptFamilyRule crFamilyRule = (CashReceiptFamilyRule) SpringContext.getBean(KualiRuleService.class).getBusinessRulesInstance(this, AccountingLineRule.class);
         KualiDecimal total = KualiDecimal.ZERO;
         AccountingLineBase al = null;
         Iterator iter = sourceAccountingLines.iterator();

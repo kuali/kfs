@@ -27,20 +27,23 @@ import java.util.Locale;
 
 import org.apache.commons.lang.ObjectUtils;
 import org.kuali.core.util.KualiInteger;
-import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.kra.KraConstants;
 import org.kuali.module.kra.budget.bo.Budget;
+import org.kuali.module.kra.budget.bo.BudgetInstitutionCostShare;
 import org.kuali.module.kra.budget.bo.BudgetModular;
 import org.kuali.module.kra.budget.bo.BudgetModularPeriod;
 import org.kuali.module.kra.budget.bo.BudgetNonpersonnel;
 import org.kuali.module.kra.budget.bo.BudgetPeriod;
-import org.kuali.module.kra.budget.bo.BudgetPeriodThirdPartyCostShare;
 import org.kuali.module.kra.budget.bo.BudgetPeriodInstitutionCostShare;
+import org.kuali.module.kra.budget.bo.BudgetPeriodThirdPartyCostShare;
 import org.kuali.module.kra.budget.bo.BudgetTask;
 import org.kuali.module.kra.budget.bo.BudgetTaskPeriodIndirectCost;
 import org.kuali.module.kra.budget.bo.BudgetThirdPartyCostShare;
-import org.kuali.module.kra.budget.bo.BudgetInstitutionCostShare;
 import org.kuali.module.kra.budget.document.BudgetDocument;
+import org.kuali.module.kra.budget.service.BudgetIndirectCostService;
+import org.kuali.module.kra.budget.service.BudgetModularService;
+import org.kuali.module.kra.budget.service.BudgetNonpersonnelService;
 import org.kuali.module.kra.budget.web.struts.form.BudgetCostShareFormHelper;
 import org.kuali.module.kra.budget.web.struts.form.BudgetIndirectCostFormHelper;
 import org.kuali.module.kra.budget.web.struts.form.BudgetNonpersonnelFormHelper;
@@ -58,7 +61,7 @@ public class BudgetXml {
 
     // The following field is hard coded as checks in nih-2590, nih-398, nih-modular, and NSFSummaryProposalBudget. Hence if
     // this field name is changed, the XLTs have to be updated. This also prevents us from using the more elegant:
-    // SpringServiceLocator.getKualiConfigurationService().getApplicationParameterValue("KraDevelopmentGroup", "toBeNamedLabel");
+    // SpringContext.getBean(KualiConfigurationService.class).getApplicationParameterValue("KraDevelopmentGroup", "toBeNamedLabel");
     private static final String TO_BE_NAMED = "To Be Named";
     
     private static final String OUTPUT_PERCENT_SYMBOL = "%";
@@ -77,11 +80,11 @@ public class BudgetXml {
 
         // Initialize data needed. This is data true for the budget as global. There is some data in createTaskPeriodsElement
         // that is only true for a certain task / period.
-        List nonpersonnelCategories = SpringServiceLocator.getBudgetNonpersonnelService().getAllNonpersonnelCategories();
+        List nonpersonnelCategories = SpringContext.getBean(BudgetNonpersonnelService.class).getAllNonpersonnelCategories();
         if (budget.isAgencyModularIndicator()) {
-            SpringServiceLocator.getBudgetModularService().generateModularBudget(budget, nonpersonnelCategories);
+            SpringContext.getBean(BudgetModularService.class).generateModularBudget(budget, nonpersonnelCategories);
         }
-        SpringServiceLocator.getBudgetIndirectCostService().refreshIndirectCost(budgetDoc);
+        SpringContext.getBean(BudgetIndirectCostService.class).refreshIndirectCost(budgetDoc);
         BudgetIndirectCostFormHelper budgetIndirectCostFormHelper = new BudgetIndirectCostFormHelper(budget.getTasks(), budget.getPeriods(), budget.getIndirectCost().getBudgetTaskPeriodIndirectCostItems());
 
         // Start of XML elements

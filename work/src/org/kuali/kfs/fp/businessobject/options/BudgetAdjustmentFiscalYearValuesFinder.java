@@ -21,8 +21,9 @@ import java.util.List;
 
 import org.kuali.core.lookup.keyvalues.KeyValuesBase;
 import org.kuali.core.web.ui.KeyLabelPair;
-import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.financial.bo.FiscalYearFunctionControl;
+import org.kuali.module.financial.service.FiscalYearFunctionControlService;
 
 /**
  * This class...
@@ -37,7 +38,7 @@ public class BudgetAdjustmentFiscalYearValuesFinder extends KeyValuesBase {
     public List getKeyValues() {
 
         List returnControls = new ArrayList();
-        List controls = SpringServiceLocator.getFiscalYearFunctionControlService().getBudgetAdjustmentAllowedYears();
+        List controls = SpringContext.getBean(FiscalYearFunctionControlService.class).getBudgetAdjustmentAllowedYears();
 
         for (Iterator iter = controls.iterator(); iter.hasNext();) {
             FiscalYearFunctionControl control = (FiscalYearFunctionControl) iter.next();

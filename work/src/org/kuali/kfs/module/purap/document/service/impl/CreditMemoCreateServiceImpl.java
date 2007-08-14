@@ -23,7 +23,7 @@ import java.util.List;
 
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.PurapKeyConstants;
 import org.kuali.module.purap.bo.CreditMemoItem;
@@ -33,9 +33,11 @@ import org.kuali.module.purap.bo.PurchaseOrderItem;
 import org.kuali.module.purap.document.CreditMemoDocument;
 import org.kuali.module.purap.document.PaymentRequestDocument;
 import org.kuali.module.purap.document.PurchaseOrderDocument;
-import org.kuali.module.purap.exceptions.PurError;
 import org.kuali.module.purap.service.CreditMemoCreateService;
 import org.kuali.module.purap.service.CreditMemoService;
+import org.kuali.module.purap.service.PaymentRequestService;
+import org.kuali.module.purap.service.PurapService;
+import org.kuali.module.purap.service.PurchaseOrderService;
 import org.kuali.module.vendor.VendorConstants;
 import org.kuali.module.vendor.bo.VendorAddress;
 import org.kuali.module.vendor.bo.VendorDetail;
@@ -74,7 +76,7 @@ public class CreditMemoCreateServiceImpl implements CreditMemoCreateService {
      * @param cmDocument - Credit Memo Document to Populate
      */
     protected void populateDocumentFromPreq(CreditMemoDocument cmDocument) {
-        PaymentRequestDocument paymentRequestDocument = SpringServiceLocator.getPaymentRequestService().getPaymentRequestById(cmDocument.getPaymentRequestIdentifier());
+        PaymentRequestDocument paymentRequestDocument = SpringContext.getBean(PaymentRequestService.class).getPaymentRequestById(cmDocument.getPaymentRequestIdentifier());
         cmDocument.setPaymentRequestDocument(paymentRequestDocument);
         cmDocument.setPurchaseOrderDocument(paymentRequestDocument.getPurchaseOrderDocument());
 
@@ -116,7 +118,7 @@ public class CreditMemoCreateServiceImpl implements CreditMemoCreateService {
         }
 
         // add below the line items
-        SpringServiceLocator.getPurapService().addBelowLineItems(cmDocument);
+        SpringContext.getBean(PurapService.class).addBelowLineItems(cmDocument);
     }
 
     /**
@@ -125,7 +127,7 @@ public class CreditMemoCreateServiceImpl implements CreditMemoCreateService {
      * @param cmDocument - Credit Memo Document to Populate
      */
     protected void populateDocumentFromPO(CreditMemoDocument cmDocument) {
-        PurchaseOrderDocument purchaseOrderDocument = (SpringServiceLocator.getPurchaseOrderService().getCurrentPurchaseOrder(cmDocument.getPurchaseOrderIdentifier()));
+        PurchaseOrderDocument purchaseOrderDocument = (SpringContext.getBean(PurchaseOrderService.class).getCurrentPurchaseOrder(cmDocument.getPurchaseOrderIdentifier()));
         cmDocument.setPurchaseOrderDocument(purchaseOrderDocument);
 
         cmDocument.setVendorHeaderGeneratedIdentifier(purchaseOrderDocument.getVendorHeaderGeneratedIdentifier());
@@ -168,7 +170,7 @@ public class CreditMemoCreateServiceImpl implements CreditMemoCreateService {
         }
 
         // add below the line items
-        SpringServiceLocator.getPurapService().addBelowLineItems(cmDocument);
+        SpringContext.getBean(PurapService.class).addBelowLineItems(cmDocument);
         
         // TODO: account distribution?
     }
@@ -182,7 +184,7 @@ public class CreditMemoCreateServiceImpl implements CreditMemoCreateService {
         Integer vendorHeaderId = VendorUtils.getVendorHeaderId(cmDocument.getVendorNumber());
         Integer vendorDetailId = VendorUtils.getVendorDetailId(cmDocument.getVendorNumber());
 
-        VendorDetail vendorDetail = SpringServiceLocator.getVendorService().getVendorDetail(vendorHeaderId, vendorDetailId);
+        VendorDetail vendorDetail = SpringContext.getBean(VendorService.class).getVendorDetail(vendorHeaderId, vendorDetailId);
         cmDocument.setVendorDetail(vendorDetail);
 
         cmDocument.setVendorHeaderGeneratedIdentifier(vendorDetail.getVendorHeaderGeneratedIdentifier());
@@ -203,7 +205,7 @@ public class CreditMemoCreateServiceImpl implements CreditMemoCreateService {
         cmDocument.templateVendorAddress(vendorAddress);
         
         // add below the line items
-        SpringServiceLocator.getPurapService().addBelowLineItems(cmDocument);
+        SpringContext.getBean(PurapService.class).addBelowLineItems(cmDocument);
     }
 
     private void convertMoneyToPercent(PaymentRequestDocument pr) {

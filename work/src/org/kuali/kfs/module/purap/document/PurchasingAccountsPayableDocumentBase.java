@@ -40,13 +40,13 @@ import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.bo.AccountingLine;
 import org.kuali.kfs.bo.Country;
 import org.kuali.kfs.bo.SourceAccountingLine;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.document.AccountingDocumentBase;
 import org.kuali.kfs.rule.event.AccountingLineEvent;
 import org.kuali.kfs.rule.event.AddAccountingLineEvent;
 import org.kuali.kfs.rule.event.DeleteAccountingLineEvent;
 import org.kuali.kfs.rule.event.ReviewAccountingLineEvent;
 import org.kuali.kfs.rule.event.UpdateAccountingLineEvent;
-import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.purap.PurapPropertyConstants;
 import org.kuali.module.purap.PurapWorkflowConstants.NodeDetails;
 import org.kuali.module.purap.bo.CreditMemoView;
@@ -58,6 +58,7 @@ import org.kuali.module.purap.bo.RequisitionView;
 import org.kuali.module.purap.bo.Status;
 import org.kuali.module.purap.bo.StatusHistory;
 import org.kuali.module.purap.service.PurapAccountingService;
+import org.kuali.module.purap.service.PurapService;
 import org.kuali.module.vendor.bo.VendorAddress;
 import org.kuali.module.vendor.bo.VendorDetail;
 
@@ -130,7 +131,7 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
     @Override
     public void prepareForSave(KualiDocumentEvent event) {
         refreshNonUpdateableReferences();
-        SpringServiceLocator.getPurapAccountingService().updateAccountAmounts(this);
+        SpringContext.getBean(PurapAccountingService.class).updateAccountAmounts(this);
         super.prepareForSave(event);
     }
 
@@ -147,8 +148,8 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
     }
     
     public void refreshAccountSummary() {
-        //setSummaryAccounts(SpringServiceLocator.getPurapService().generateSummary(getItems()));
-//        this.setSummaryAccountsWithItems(SpringServiceLocator.getPurapService().generateSummaryWithItems(getItems()));
+        //setSummaryAccounts(SpringContext.getBean(PurapService.class).generateSummary(getItems()));
+//        this.setSummaryAccountsWithItems(SpringContext.getBean(PurapService.class).generateSummaryWithItems(getItems()));
     }
 
     /**
@@ -160,11 +161,11 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
          * document search results display of status description
          */
         refreshNonUpdateableReferences();
-        SpringServiceLocator.getPurapAccountingService().updateAccountAmounts(this);
+        SpringContext.getBean(PurapAccountingService.class).updateAccountAmounts(this);
         refreshAccountSummary();
         
         //this is only temporary until we find out what's going on with refreshAccountSummary() (hjs)
-        setAccountsForRouting(SpringServiceLocator.getPurapAccountingService().generateSummary(getItems()));
+        setAccountsForRouting(SpringContext.getBean(PurapAccountingService.class).generateSummary(getItems()));
         
         super.populateDocumentForRouting();
     }
@@ -270,7 +271,7 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
      */
     protected void addStatusHistoryNote(StatusHistory statusHistory, Note note) {
         if (ObjectUtils.isNotNull(null)) {
-            NoteService noteService = SpringServiceLocator.getNoteService();
+            NoteService noteService = SpringContext.getBean(NoteService.class);
             try {
                 note = noteService.createNote(note, statusHistory);
                 noteService.save(note);
@@ -538,7 +539,7 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
 //    @Override
 //    public List getSourceAccountingLines() {
 //        
-//        return SpringServiceLocator.getPurapAccountingService().generateSummary(this.getItems());
+//        return SpringContext.getBean(PurapAccountingService.class).generateSummary(this.getItems());
 //
 //        // TODO: Chris loop through items and get accounts
 ////        TypedArrayList accounts = null;
@@ -636,7 +637,7 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
     public List<RequisitionView> getRelatedRequisitionViews() {
         if (relatedRequisitionViews == null) {
             relatedRequisitionViews = new TypedArrayList(RequisitionView.class);
-            List<RequisitionView> tmpViews = SpringServiceLocator.getPurapService().getRelatedViews(RequisitionView.class, accountsPayablePurchasingDocumentLinkIdentifier);
+            List<RequisitionView> tmpViews = SpringContext.getBean(PurapService.class).getRelatedViews(RequisitionView.class, accountsPayablePurchasingDocumentLinkIdentifier);
             for (RequisitionView view : tmpViews) {
                 if (!this.getDocumentNumber().equals(view.getDocumentNumber())) {
                     relatedRequisitionViews.add(view);
@@ -648,7 +649,7 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
 
     public List<CreditMemoView> getRelatedCreditMemoViews() {
         relatedCreditMemoViews = new TypedArrayList(CreditMemoView.class);
-        List<CreditMemoView> tmpViews = SpringServiceLocator.getPurapService().getRelatedViews(CreditMemoView.class, accountsPayablePurchasingDocumentLinkIdentifier);
+        List<CreditMemoView> tmpViews = SpringContext.getBean(PurapService.class).getRelatedViews(CreditMemoView.class, accountsPayablePurchasingDocumentLinkIdentifier);
         for (CreditMemoView view : tmpViews) {
             if (!this.getDocumentNumber().equals(view.getDocumentNumber())) {
                 relatedCreditMemoViews.add(view);
@@ -660,7 +661,7 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
     public List<CreditMemoView> getPaymentHistoryCreditMemoViews() {
         if (paymentHistoryCreditMemoViews == null) {
             paymentHistoryCreditMemoViews = new TypedArrayList(CreditMemoView.class);
-            List<CreditMemoView> tmpViews = SpringServiceLocator.getPurapService().getRelatedViews(CreditMemoView.class, accountsPayablePurchasingDocumentLinkIdentifier);
+            List<CreditMemoView> tmpViews = SpringContext.getBean(PurapService.class).getRelatedViews(CreditMemoView.class, accountsPayablePurchasingDocumentLinkIdentifier);
             for (CreditMemoView view : tmpViews) {
                 paymentHistoryCreditMemoViews.add(view);
             }
@@ -671,7 +672,7 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
     public List<PaymentRequestView> getRelatedPaymentRequestViews() {
         if (relatedPaymentRequestViews == null) {
             relatedPaymentRequestViews = new TypedArrayList(PaymentRequestView.class);
-            List<PaymentRequestView> tmpViews = SpringServiceLocator.getPurapService().getRelatedViews(PaymentRequestView.class, accountsPayablePurchasingDocumentLinkIdentifier);
+            List<PaymentRequestView> tmpViews = SpringContext.getBean(PurapService.class).getRelatedViews(PaymentRequestView.class, accountsPayablePurchasingDocumentLinkIdentifier);
             for (PaymentRequestView view : tmpViews) {
                 if (!this.getDocumentNumber().equals(view.getDocumentNumber())) {
                     relatedPaymentRequestViews.add(view);
@@ -684,7 +685,7 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
     public List<PaymentRequestView> getPaymentHistoryPaymentRequestViews() {
         if (paymentHistoryPaymentRequestViews == null) {
             paymentHistoryPaymentRequestViews = new TypedArrayList(PaymentRequestView.class);
-            List<PaymentRequestView> tmpViews = SpringServiceLocator.getPurapService().getRelatedViews(PaymentRequestView.class, accountsPayablePurchasingDocumentLinkIdentifier);
+            List<PaymentRequestView> tmpViews = SpringContext.getBean(PurapService.class).getRelatedViews(PaymentRequestView.class, accountsPayablePurchasingDocumentLinkIdentifier);
             for (PaymentRequestView view : tmpViews) {
                 paymentHistoryPaymentRequestViews.add(view);
             }
@@ -695,7 +696,7 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
     public List<PurchaseOrderView> getRelatedPurchaseOrderViews() {
         if (relatedPurchaseOrderViews == null) {
             relatedPurchaseOrderViews = new TypedArrayList(PurchaseOrderView.class);
-            List<PurchaseOrderView> tmpViews = SpringServiceLocator.getPurapService().getRelatedViews(PurchaseOrderView.class, accountsPayablePurchasingDocumentLinkIdentifier);
+            List<PurchaseOrderView> tmpViews = SpringContext.getBean(PurapService.class).getRelatedViews(PurchaseOrderView.class, accountsPayablePurchasingDocumentLinkIdentifier);
             for (PurchaseOrderView view : tmpViews) {
                 if (!this.getDocumentNumber().equals(view.getDocumentNumber())) {
                     relatedPurchaseOrderViews.add(view);
@@ -712,7 +713,7 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
      */
     public String[] getBelowTheLineTypes() {
         if (this.belowTheLineTypes == null) {
-            this.belowTheLineTypes = SpringServiceLocator.getPurapService().getBelowTheLineForDocument(this);
+            this.belowTheLineTypes = SpringContext.getBean(PurapService.class).getBelowTheLineForDocument(this);
         }
         return belowTheLineTypes;
     }
@@ -779,7 +780,7 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
         populateDocumentForRouting();
         return false;
         // return
-        // SpringServiceLocator.getWorkflowInfoService().routeNodeHasApproverActionRequest(this.getDocumentHeader().getWorkflowDocument().getDocumentType(),
+        // SpringContext.getBean(WorkflowInfoService.class).routeNodeHasApproverActionRequest(this.getDocumentHeader().getWorkflowDocument().getDocumentType(),
         // getDocumentHeader().getWorkflowDocument().getApplicationContent(), routeNodeName);
     }
 
@@ -807,7 +808,7 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
         // 4. apply rules as appropriate returned events
         
         
-        PurapAccountingService purApAccountingService = SpringServiceLocator.getPurapAccountingService();
+        PurapAccountingService purApAccountingService = SpringContext.getBean(PurapAccountingService.class);
         List currentSourceLines = new ArrayList();
         List persistedSourceLines = new ArrayList();
 
@@ -818,7 +819,7 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
                 persistedSourceLines.addAll(purApAccountingService.getAccountsFromItem(item));
             }
         }
-//        List persistedSourceLines = SpringServiceLocator.getAccountingLineService().getByDocumentHeaderId(accountingLineClass, getDocumentNumber());
+//        List persistedSourceLines = SpringContext.getBean(AccountingLineService.class, "accountingLineService").getByDocumentHeaderId(accountingLineClass, getDocumentNumber());
             
         List sourceEvents = generateEvents(persistedSourceLines, currentSourceLines, KFSConstants.DOCUMENT_PROPERTY_NAME + "." + KFSConstants.EXISTING_SOURCE_ACCT_LINE_PROPERTY_NAME, this);
         for (Iterator i = sourceEvents.iterator(); i.hasNext();) {
@@ -826,7 +827,7 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
             events.add(sourceEvent);
         }
 
-//        List persistedTargetLines = SpringServiceLocator.getAccountingLineService().getByDocumentHeaderId(getTargetAccountingLineClass(), getDocumentNumber());
+//        List persistedTargetLines = SpringContext.getBean(AccountingLineService.class, "accountingLineService").getByDocumentHeaderId(getTargetAccountingLineClass(), getDocumentNumber());
 //        List currentTargetLines = getTargetAccountingLines();
 //
 //        List targetEvents = generateEvents(persistedTargetLines, currentTargetLines, KFSConstants.DOCUMENT_PROPERTY_NAME + "." + KFSConstants.EXISTING_TARGET_ACCT_LINE_PROPERTY_NAME, this);

@@ -20,17 +20,17 @@ import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.commons.lang.math.RandomUtils;
 import org.kuali.core.service.BusinessObjectDictionaryService;
+import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DataDictionaryService;
+import org.kuali.core.service.DateTimeService;
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.kfs.KFSKeyConstants;
 import org.kuali.kfs.KFSPropertyConstants;
-import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.chart.bo.Chart;
 import org.kuali.module.chart.bo.Org;
-import org.kuali.module.gl.bo.CollectorHeader;
 import org.kuali.module.gl.bo.CollectorDetail;
+import org.kuali.module.gl.bo.CollectorHeader;
 import org.kuali.module.gl.bo.OriginEntry;
 import org.kuali.module.gl.bo.OriginEntryGroup;
 import org.kuali.module.gl.bo.OriginEntrySource;
@@ -242,7 +242,7 @@ public class CollectorBatch implements Serializable {
         // checkHeader is used to check whether a record with the same PK values exist already (i.e. only PK values are filled in).
         CollectorHeader checkHeader = createCollectorHeaderWithPKValuesOnly();
         
-        CollectorHeader foundHeader = (CollectorHeader) SpringServiceLocator.getBusinessObjectService().retrieve(checkHeader);
+        CollectorHeader foundHeader = (CollectorHeader) SpringContext.getBean(BusinessObjectService.class).retrieve(checkHeader);
         return foundHeader;
     }
     
@@ -263,13 +263,13 @@ public class CollectorBatch implements Serializable {
             // update the version number to prevent OptimisticLockingExceptions
             persistHeader.setVersionNumber(foundHeader.getVersionNumber());
         }
-        SpringServiceLocator.getBusinessObjectService().save(persistHeader);
+        SpringContext.getBean(BusinessObjectService.class).save(persistHeader);
         
-        OriginEntryService originEntryService = SpringServiceLocator.getOriginEntryService();
+        OriginEntryService originEntryService = SpringContext.getBean(OriginEntryService.class);
         for(OriginEntry entry: this.originEntries) {
             entry.setGroup(originEntryGroup);
             if (entry.getFinancialDocumentReversalDate() == null) {
-                entry.setFinancialDocumentReversalDate(SpringServiceLocator.getDateTimeService().getCurrentSqlDate());
+                entry.setFinancialDocumentReversalDate(SpringContext.getBean(DateTimeService.class, "dateTimeService").getCurrentSqlDate());
             }
             // don't need to worry about previous origin entries existing in the DB because there'll never be a
             // duplicate record because a sequence # is a key
@@ -277,11 +277,11 @@ public class CollectorBatch implements Serializable {
             originEntryService.save(entry);
         }
         
-        CollectorDetailService collectorDetailService = SpringServiceLocator.getCollectorDetailService();
+        CollectorDetailService collectorDetailService = SpringContext.getBean(CollectorDetailService.class);
         int numSavedDetails = 0;
         for(CollectorDetail idDetail: this.collectorDetails) {
             setDefaultsCollectorDetail(idDetail);
-            CollectorDetail foundIdDetail = (CollectorDetail) SpringServiceLocator.getBusinessObjectService().retrieve(idDetail);
+            CollectorDetail foundIdDetail = (CollectorDetail) SpringContext.getBean(BusinessObjectService.class).retrieve(idDetail);
             if (foundIdDetail != null) {
                 idDetail.setVersionNumber(foundIdDetail.getVersionNumber());
             }
@@ -296,8 +296,8 @@ public class CollectorBatch implements Serializable {
      * 
      */
     public void prepareDataForStorage() {
-        BusinessObjectDictionaryService businessObjectDictionaryService = SpringServiceLocator.getBusinessObjectDictionaryService();
-        DataDictionaryService dataDictionaryService = SpringServiceLocator.getDataDictionaryService();
+        BusinessObjectDictionaryService businessObjectDictionaryService = SpringContext.getBean(BusinessObjectDictionaryService.class);
+        DataDictionaryService dataDictionaryService = SpringContext.getBean(DataDictionaryService.class);
         
         // uppercase the data used to generate the collector header
         if (dataDictionaryService.getAttributeForceUppercase(Chart.class, KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE)) {
@@ -326,7 +326,7 @@ public class CollectorBatch implements Serializable {
         OriginEntryGroup group = new OriginEntryGroup();
         
         group.setSourceCode(OriginEntrySource.COLLECTOR);
-        group.setDate(new java.sql.Date(SpringServiceLocator.getDateTimeService().getCurrentDate().getTime()));
+        group.setDate(new java.sql.Date(SpringContext.getBean(DateTimeService.class, "dateTimeService").getCurrentDate().getTime()));
         group.setProcess(new Boolean(true));
         group.setScrub(new Boolean(true));
         group.setValid(new Boolean(true));
@@ -381,7 +381,7 @@ public class CollectorBatch implements Serializable {
 //        idBilling.setUniversityFiscalPeriodCode(String.valueOf(RandomUtils.nextInt(2)));
 //        idBilling.setCreateSequence(String.valueOf(RandomUtils.nextInt(2)));
 //        idBilling.setInterDepartmentalBillingSequenceNumber(String.valueOf(RandomUtils.nextInt(2)));
-        idDetail.setCreateDate(new Date(SpringServiceLocator.getDateTimeService().getCurrentDate().getTime()));
+        idDetail.setCreateDate(new Date(SpringContext.getBean(DateTimeService.class, "dateTimeService").getCurrentDate().getTime()));
     }
 
     /**

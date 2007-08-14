@@ -40,10 +40,12 @@ import org.kuali.core.workflow.attribute.WorkflowLookupableImpl;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.bo.SourceAccountingLine;
-import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.Chart;
 import org.kuali.module.chart.bo.Org;
+import org.kuali.module.chart.service.AccountService;
+import org.kuali.module.chart.service.OrganizationService;
 import org.kuali.workflow.KualiWorkflowUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -263,7 +265,7 @@ public class KualiOrgReviewAttribute implements WorkflowAttribute, MassRuleAttri
             errors.add(new WorkflowServiceErrorImpl("Chart/org is required.", "routetemplate.chartorgattribute.chartorg.required"));
         }
         else {
-            Org org = SpringServiceLocator.getOrganizationService().getByPrimaryIdWithCaching(finCoaCd, orgCd);
+            Org org = SpringContext.getBean(OrganizationService.class).getByPrimaryIdWithCaching(finCoaCd, orgCd);
             if (org == null) {
                 errors.add(new WorkflowServiceErrorImpl("Chart/org is invalid.", "routetemplate.chartorgattribute.chartorg.invalid"));
             }
@@ -386,7 +388,7 @@ public class KualiOrgReviewAttribute implements WorkflowAttribute, MassRuleAttri
                 return;
             }
         }
-        Org reportsToOrg = SpringServiceLocator.getOrganizationService().getByPrimaryIdWithCaching(startOrg.getReportsToChartOfAccountsCode(), startOrg.getReportsToOrganizationCode());
+        Org reportsToOrg = SpringContext.getBean(OrganizationService.class).getByPrimaryIdWithCaching(startOrg.getReportsToChartOfAccountsCode(), startOrg.getReportsToOrganizationCode());
         if (reportsToOrg == null) {
             throw new RuntimeException("Org " + startOrg.getChartOfAccountsCode() + "-" + startOrg.getOrganizationCode() +
                     " has a reportsToOrganization (" + startOrg.getReportsToChartOfAccountsCode() + "-" + startOrg.getReportsToOrganizationCode() + ") " +
@@ -448,7 +450,7 @@ public class KualiOrgReviewAttribute implements WorkflowAttribute, MassRuleAttri
                     // these documents don't have the organization code on them so it must be looked up
                     chart = xpath.evaluate(new StringBuffer(KualiWorkflowUtils.XSTREAM_SAFE_PREFIX).append(KualiWorkflowUtils.NEW_MAINTAINABLE_PREFIX).append(KFSConstants.CHART_OF_ACCOUNTS_CODE_PROPERTY_NAME).append(KualiWorkflowUtils.XSTREAM_SAFE_SUFFIX).toString(), docContent.getDocument());
                     String accountNumber = xpath.evaluate(new StringBuffer(KualiWorkflowUtils.XSTREAM_SAFE_PREFIX).append(KualiWorkflowUtils.NEW_MAINTAINABLE_PREFIX).append(KFSConstants.ACCOUNT_NUMBER_PROPERTY_NAME).append(KualiWorkflowUtils.XSTREAM_SAFE_SUFFIX).toString(), docContent.getDocument());
-                    Account account = SpringServiceLocator.getAccountService().getByPrimaryIdWithCaching(chart, accountNumber);
+                    Account account = SpringContext.getBean(AccountService.class).getByPrimaryIdWithCaching(chart, accountNumber);
                     org = account.getOrganizationCode();
                 }
                 else if (KualiWorkflowUtils.C_G_AWARD_DOC_TYPE.equals(docType.getName()) || KualiWorkflowUtils.C_G_PROPOSAL_DOC_TYPE.equals(docType.getName())){
@@ -465,7 +467,7 @@ public class KualiOrgReviewAttribute implements WorkflowAttribute, MassRuleAttri
                     org = xpath.evaluate("//workgroup/extensions/extension/data[@key='"+KFSConstants.ORGANIZATION_CODE_PROPERTY_NAME+"']", docContent.getDocument());
                 }
                 if (!StringUtils.isEmpty(chart) && !StringUtils.isEmpty(org)) {
-                    Org docOrg = SpringServiceLocator.getOrganizationService().getByPrimaryIdWithCaching(chart, org);
+                    Org docOrg = SpringContext.getBean(OrganizationService.class).getByPrimaryIdWithCaching(chart, org);
                     if (docOrg == null) {
                         throw new RuntimeException("Org declared on the document cannot be found in the system, routing cannot continue.");
                     }
@@ -508,7 +510,7 @@ public class KualiOrgReviewAttribute implements WorkflowAttribute, MassRuleAttri
                         String finCoaCd = xpath.evaluate(KualiWorkflowUtils.XSTREAM_MATCH_RELATIVE_PREFIX + KFSConstants.CHART_OF_ACCOUNTS_CODE_PROPERTY_NAME, accountingLineNode);
                         String orgCd = xpath.evaluate(KualiWorkflowUtils.XSTREAM_MATCH_RELATIVE_PREFIX + KFSConstants.ORGANIZATION_CODE_PROPERTY_NAME, accountingLineNode);
                         if (!StringUtils.isEmpty(finCoaCd) && !StringUtils.isEmpty(orgCd)) {
-                            Org organization = SpringServiceLocator.getOrganizationService().getByPrimaryIdWithCaching(finCoaCd, orgCd);
+                            Org organization = SpringContext.getBean(OrganizationService.class).getByPrimaryIdWithCaching(finCoaCd, orgCd);
                             chartOrgValues.add(organization);
                             buildOrgReviewHierarchy(0, chartOrgValues, organization);
                         }
@@ -533,7 +535,7 @@ public class KualiOrgReviewAttribute implements WorkflowAttribute, MassRuleAttri
                 Element accountGlobalDetail = (Element)accountGlobalDetails.item(index);
                 String chartOfAccountsCode = getChildElementValue(accountGlobalDetail, KFSConstants.CHART_OF_ACCOUNTS_CODE_PROPERTY_NAME);
                 String accountNumber = getChildElementValue(accountGlobalDetail, KFSConstants.ACCOUNT_NUMBER_PROPERTY_NAME);
-                Account account = SpringServiceLocator.getAccountService().getByPrimaryIdWithCaching(chartOfAccountsCode, accountNumber);
+                Account account = SpringContext.getBean(AccountService.class).getByPrimaryIdWithCaching(chartOfAccountsCode, accountNumber);
                 orgs.add(account.getOrganization());
             }
         }
@@ -543,7 +545,7 @@ public class KualiOrgReviewAttribute implements WorkflowAttribute, MassRuleAttri
                 Element orgReversionChangeDetail = (Element)orgReversionChangeDetails.item(index);
                 String chartOfAccountsCode = getChildElementValue(orgReversionChangeDetail, KFSConstants.CHART_OF_ACCOUNTS_CODE_PROPERTY_NAME);
                 String orgCode = getChildElementValue(orgReversionChangeDetail, KFSConstants.ORGANIZATION_CODE_PROPERTY_NAME);
-                Org org = SpringServiceLocator.getOrganizationService().getByPrimaryIdWithCaching(chartOfAccountsCode, orgCode);
+                Org org = SpringContext.getBean(OrganizationService.class).getByPrimaryIdWithCaching(chartOfAccountsCode, orgCode);
                 orgs.add(org);
             }
         }
@@ -734,8 +736,8 @@ public class KualiOrgReviewAttribute implements WorkflowAttribute, MassRuleAttri
             String chart2 = rule2.getRuleExtensionValue(FIN_COA_CD_KEY).getValue();
             String org1 = rule1.getRuleExtensionValue(ORG_CD_KEY).getValue();
             String org2 = rule2.getRuleExtensionValue(ORG_CD_KEY).getValue();
-            Org docOrg1 = SpringServiceLocator.getOrganizationService().getByPrimaryIdWithCaching(chart1, org1);
-            Org docOrg2 = SpringServiceLocator.getOrganizationService().getByPrimaryIdWithCaching(chart2, org2);
+            Org docOrg1 = SpringContext.getBean(OrganizationService.class).getByPrimaryIdWithCaching(chart1, org1);
+            Org docOrg2 = SpringContext.getBean(OrganizationService.class).getByPrimaryIdWithCaching(chart2, org2);
             int distanceFromRoot1 = getDistanceFromRoot(docOrg1);
             int distanceFromRoot2 = getDistanceFromRoot(docOrg2);
             if (distanceFromRoot1 == distanceFromRoot2) {
@@ -752,7 +754,7 @@ public class KualiOrgReviewAttribute implements WorkflowAttribute, MassRuleAttri
                     return 0;
                 }
             }
-            Org reportsToOrg = SpringServiceLocator.getOrganizationService().getByPrimaryIdWithCaching(org.getReportsToChartOfAccountsCode(), org.getReportsToOrganizationCode());
+            Org reportsToOrg = SpringContext.getBean(OrganizationService.class).getByPrimaryIdWithCaching(org.getReportsToChartOfAccountsCode(), org.getReportsToOrganizationCode());
             if (reportsToOrg == null) {
                 throw new RuntimeException("Org " + org.getChartOfAccountsCode() + "-" + org.getOrganizationCode() +
                         " has a reportsToOrganization (" + org.getReportsToChartOfAccountsCode() + "-" + org.getReportsToOrganizationCode() + ") " +

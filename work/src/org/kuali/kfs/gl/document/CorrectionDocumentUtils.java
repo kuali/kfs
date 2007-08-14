@@ -21,9 +21,10 @@ import java.util.Date;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.gl.bo.CorrectionChange;
 import org.kuali.module.gl.bo.CorrectionChangeGroup;
 import org.kuali.module.gl.bo.CorrectionCriteria;
@@ -50,7 +51,7 @@ public class CorrectionDocumentUtils {
     public static final int DEFAULT_RECORDS_PER_PAGE = 10;
     
     public static int getRecordCountFunctionalityLimit() {
-        String limitString = SpringServiceLocator.getKualiConfigurationService().getApplicationParameterValue(KFSConstants.ParameterGroups.GENERAL_LEDGER_CORRECTION_PROCESS,
+        String limitString = SpringContext.getBean(KualiConfigurationService.class).getApplicationParameterValue(KFSConstants.ParameterGroups.GENERAL_LEDGER_CORRECTION_PROCESS,
                 KFSConstants.GeneralLedgerCorrectionProcessApplicationParameterKeys.RECORD_COUNT_FUNCTIONALITY_LIMIT);
         if (limitString != null) {
             return Integer.valueOf(limitString);
@@ -60,7 +61,7 @@ public class CorrectionDocumentUtils {
     }
     
     public static int getRecordsPerPage() {
-        String limitString = SpringServiceLocator.getKualiConfigurationService().getApplicationParameterValue(KFSConstants.ParameterGroups.GENERAL_LEDGER_CORRECTION_PROCESS,
+        String limitString = SpringContext.getBean(KualiConfigurationService.class).getApplicationParameterValue(KFSConstants.ParameterGroups.GENERAL_LEDGER_CORRECTION_PROCESS,
                 KFSConstants.GeneralLedgerCorrectionProcessApplicationParameterKeys.RECORDS_PER_PAGE);
         if (limitString != null) {
             return Integer.valueOf(limitString);

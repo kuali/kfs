@@ -28,6 +28,7 @@ import org.kuali.core.exceptions.UserNotFoundException;
 import org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase;
 import org.kuali.core.service.DataDictionaryService;
 import org.kuali.core.service.DictionaryValidationService;
+import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.ErrorMap;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.ObjectUtils;
@@ -35,8 +36,8 @@ import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSKeyConstants;
 import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.bo.Building;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.service.GeneralLedgerPendingEntryService;
-import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.AccountDescription;
 import org.kuali.module.chart.bo.AccountGuideline;
@@ -45,8 +46,8 @@ import org.kuali.module.chart.bo.FundGroup;
 import org.kuali.module.chart.bo.IcrAutomatedEntry;
 import org.kuali.module.chart.bo.SubFundGroup;
 import org.kuali.module.chart.service.AccountService;
+import org.kuali.module.chart.service.SubFundGroupService;
 import org.kuali.module.gl.service.BalanceService;
-import org.kuali.module.kra.KraPropertyConstants;
 import org.kuali.module.labor.service.LaborLedgerPendingEntryService;
 
 /**
@@ -88,10 +89,10 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
         // to spring-managed with these services injected by Spring at some later date.
         // When this happens, just remove these calls to the setters with
         // SpringServiceLocator, and configure the bean defs for spring.
-        this.setGeneralLedgerPendingEntryService(SpringServiceLocator.getGeneralLedgerPendingEntryService());
-        this.setBalanceService(SpringServiceLocator.getBalanceService());
-        this.setAccountService(SpringServiceLocator.getAccountService());
-        this.setLaborLedgerPendingEntryService(SpringServiceLocator.getLaborLedgerPendingEntryService());
+        this.setGeneralLedgerPendingEntryService(SpringContext.getBean(GeneralLedgerPendingEntryService.class));
+        this.setBalanceService(SpringContext.getBean(BalanceService.class));
+        this.setAccountService(SpringContext.getBean(AccountService.class));
+        this.setLaborLedgerPendingEntryService(SpringContext.getBean(LaborLedgerPendingEntryService.class));
     }
 
     /**
@@ -663,10 +664,10 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
         String requiredByLabel = "";
         
         // if this is a CG fund group, then its required
-        if (SpringServiceLocator.getSubFundGroupService().isForContractsAndGrants(newAccount.getSubFundGroup())) {
+        if (SpringContext.getBean(SubFundGroupService.class).isForContractsAndGrants(newAccount.getSubFundGroup())) {
             required = true;
-            requiredByLabel = SpringServiceLocator.getSubFundGroupService().getContractsAndGrantsDenotingAttributeLabel();
-            requiredByValue = SpringServiceLocator.getSubFundGroupService().getContractsAndGrantsDenotingValue();
+            requiredByLabel = SpringContext.getBean(SubFundGroupService.class).getContractsAndGrantsDenotingAttributeLabel();
+            requiredByValue = SpringContext.getBean(SubFundGroupService.class).getContractsAndGrantsDenotingValue();
         }
 
         // if this is a general fund group, then its required
@@ -725,7 +726,7 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
 
         // Certain C&G fields are required if the Account belongs to the CG Fund Group
         if (ObjectUtils.isNotNull(newAccount.getSubFundGroup())) {
-            if (SpringServiceLocator.getSubFundGroupService().isForContractsAndGrants(newAccount.getSubFundGroup())) {
+            if (SpringContext.getBean(SubFundGroupService.class).isForContractsAndGrants(newAccount.getSubFundGroup())) {
                 result &= checkEmptyBOField("acctIndirectCostRcvyTypeCd", newAccount.getAcctIndirectCostRcvyTypeCd(), replaceTokens(KFSKeyConstants.ERROR_DOCUMENT_ACCMAINT_ICR_TYPE_CODE_CANNOT_BE_EMPTY));
                 result &= checkEmptyBOField("financialIcrSeriesIdentifier", newAccount.getFinancialIcrSeriesIdentifier(), replaceTokens(KFSKeyConstants.ERROR_DOCUMENT_ACCMAINT_ICR_SERIES_IDENTIFIER_CANNOT_BE_EMPTY));
                 
@@ -754,9 +755,9 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
     }
 
     private String replaceTokens(String errorConstant){
-        String cngLabel = SpringServiceLocator.getSubFundGroupService().getContractsAndGrantsDenotingAttributeLabel();
-        String cngValue = SpringServiceLocator.getSubFundGroupService().getContractsAndGrantsDenotingValue();
-        String result = SpringServiceLocator.getKualiConfigurationService().getPropertyString(errorConstant);
+        String cngLabel = SpringContext.getBean(SubFundGroupService.class).getContractsAndGrantsDenotingAttributeLabel();
+        String cngValue = SpringContext.getBean(SubFundGroupService.class).getContractsAndGrantsDenotingValue();
+        String result = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(errorConstant);
         result = StringUtils.replace(result, "{0}", cngLabel);
         result = StringUtils.replace(result, "{1}", cngValue);
         return result;
@@ -1007,7 +1008,7 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
             if (!StringUtils.isBlank(campusCode) && !StringUtils.isBlank(buildingCode)) {
                                 
                 //make sure that primary key fields are upper case
-                DataDictionaryService dds = SpringServiceLocator.getDataDictionaryService();
+                DataDictionaryService dds = SpringContext.getBean(DataDictionaryService.class);
                 Boolean buildingCodeForceUppercase = dds.getAttributeForceUppercase(AccountDescription.class, KFSPropertyConstants.BUILDING_CODE );
                 if (StringUtils.isNotBlank(buildingCode) && buildingCodeForceUppercase != null && buildingCodeForceUppercase.booleanValue() == true ) {
                     buildingCode = buildingCode.toUpperCase();

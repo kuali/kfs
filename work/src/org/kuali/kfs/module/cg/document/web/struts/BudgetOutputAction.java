@@ -47,7 +47,7 @@ import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.WebUtils;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSKeyConstants;
-import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.kra.KraConstants;
 import org.kuali.module.kra.budget.document.BudgetDocument;
 import org.kuali.module.kra.budget.web.struts.form.BudgetForm;
@@ -123,7 +123,7 @@ public class BudgetOutputAction extends BudgetAction {
         driver.render(foDocument);
 
         // Retrieve the environment we're in.
-        KualiConfigurationService kualiConfigurationService = SpringServiceLocator.getKualiConfigurationService();
+        KualiConfigurationService kualiConfigurationService = SpringContext.getBean(KualiConfigurationService.class);
         String env = kualiConfigurationService.getPropertyString(KFSConstants.ENVIRONMENT_KEY);
 
         WebUtils.saveMimeOutputStreamAsFile(response, "application/pdf", baos, "kraBudget-" + env + budgetDoc.getBudget().getDocumentNumber() + ".pdf");
@@ -164,7 +164,7 @@ public class BudgetOutputAction extends BudgetAction {
         transformer.transform(src, dest);
 
         // Retrieve the environment we're in.
-        KualiConfigurationService kualiConfigurationService = SpringServiceLocator.getKualiConfigurationService();
+        KualiConfigurationService kualiConfigurationService = SpringContext.getBean(KualiConfigurationService.class);
         String env = kualiConfigurationService.getPropertyString(KFSConstants.ENVIRONMENT_KEY);
 
         WebUtils.saveMimeOutputStreamAsFile(response, "text/xml", baos, "kraBudget-" + env + budgetDoc.getBudget().getDocumentNumber() + ".xml");
@@ -246,7 +246,7 @@ public class BudgetOutputAction extends BudgetAction {
     private StreamSource pickStylesheet(String currentOutputReportType, String currentOutputAgencyType, HttpServletRequest request) throws IOException {
         String urlString = "";
         
-        KualiConfigurationService kualiConfigurationService = SpringServiceLocator.getKualiConfigurationService();
+        KualiConfigurationService kualiConfigurationService = SpringContext.getBean(KualiConfigurationService.class);
         String STYLESHEET_URL_OR_PATH = kualiConfigurationService.getApplicationParameterValue(KraConstants.KRA_DEVELOPMENT_GROUP, "outputStylesheetUrlOrPath");
 
         // following checks if STYLESHEET_URL_OR_PATH is a URL already or path within the project

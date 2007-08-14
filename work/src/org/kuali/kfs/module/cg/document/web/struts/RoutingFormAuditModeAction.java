@@ -21,8 +21,9 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.core.service.KualiRuleService;
 import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.kra.routingform.rules.event.RunRoutingFormAuditEvent;
 import org.kuali.module.kra.routingform.web.struts.form.RoutingForm;
 
@@ -46,7 +47,7 @@ public class RoutingFormAuditModeAction extends RoutingFormAction {
         RoutingForm routingForm = (RoutingForm) form;
         routingForm.setAuditActivated(true);
         
-        SpringServiceLocator.getKualiRuleService().applyRules(new RunRoutingFormAuditEvent(routingForm.getRoutingFormDocument()));
+        SpringContext.getBean(KualiRuleService.class).applyRules(new RunRoutingFormAuditEvent(routingForm.getRoutingFormDocument()));
 
         return mapping.findForward((KFSConstants.MAPPING_BASIC));
     }

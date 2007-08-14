@@ -17,8 +17,6 @@ package org.kuali.module.purap.service.impl;
 
 import java.security.InvalidParameterException;
 import java.sql.Date;
-import java.sql.Timestamp;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -32,10 +30,12 @@ import org.kuali.core.bo.Note;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DateTimeService;
 import org.kuali.core.service.KualiConfigurationService;
+import org.kuali.core.service.PersistenceService;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
+import org.kuali.core.workflow.service.KualiWorkflowInfo;
 import org.kuali.kfs.bo.SourceAccountingLine;
-import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.financial.service.UniversityDateService;
 import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.PurapRuleConstants;
@@ -51,6 +51,7 @@ import org.kuali.module.purap.document.PurchasingAccountsPayableDocument;
 import org.kuali.module.purap.document.RequisitionDocument;
 import org.kuali.module.purap.service.PurapAccountingService;
 import org.kuali.module.purap.service.PurapService;
+import org.kuali.module.vendor.service.VendorService;
 
 import edu.iu.uis.eden.EdenConstants;
 import edu.iu.uis.eden.clientapp.vo.ReportCriteriaVO;
@@ -284,7 +285,7 @@ public class PurapServiceImpl implements PurapService {
      * 
      */
     public KualiDecimal getApoLimit(Integer vendorContractGeneratedIdentifier, String chart, String org) {
-        KualiDecimal purchaseOrderTotalLimit = SpringServiceLocator.getVendorService().getApoLimitFromContract(
+        KualiDecimal purchaseOrderTotalLimit = SpringContext.getBean(VendorService.class).getApoLimitFromContract(
                 vendorContractGeneratedIdentifier, chart, org);
         if (ObjectUtils.isNull(purchaseOrderTotalLimit)) {
             // We didn't find the limit on the vendor contract, get it from the org parameter table.
@@ -294,7 +295,7 @@ public class PurapServiceImpl implements PurapService {
             OrganizationParameter organizationParameter = new OrganizationParameter();
             organizationParameter.setChartOfAccountsCode(chart);
             organizationParameter.setOrganizationCode(org);
-            Map orgParamKeys = SpringServiceLocator.getPersistenceService().getPrimaryKeyFieldValues(organizationParameter);
+            Map orgParamKeys = SpringContext.getBean(PersistenceService.class).getPrimaryKeyFieldValues(organizationParameter);
             organizationParameter = (OrganizationParameter) businessObjectService.findByPrimaryKey(OrganizationParameter.class, orgParamKeys);
             purchaseOrderTotalLimit = (organizationParameter == null) ? null : organizationParameter.getOrganizationAutomaticPurchaseOrderLimit();
         }
@@ -314,7 +315,7 @@ public class PurapServiceImpl implements PurapService {
             if (isGivenNodeEqualToOrAfterCurrentNode(givenNodeDetail.getNodeDetailByName(activeNode), givenNodeDetail)) {
                 ReportCriteriaVO reportCriteriaVO = new ReportCriteriaVO(Long.valueOf(document.getDocumentNumber()));
                 reportCriteriaVO.setTargetNodeName(givenNodeDetail.getName());
-                boolean value = SpringServiceLocator.getWorkflowInfoService().documentWillHaveAtLeastOneActionRequest(
+                boolean value = SpringContext.getBean(KualiWorkflowInfo.class).documentWillHaveAtLeastOneActionRequest(
                         reportCriteriaVO, new String[]{EdenConstants.ACTION_REQUEST_APPROVE_REQ,EdenConstants.ACTION_REQUEST_COMPLETE_REQ});
                  return value;
             }

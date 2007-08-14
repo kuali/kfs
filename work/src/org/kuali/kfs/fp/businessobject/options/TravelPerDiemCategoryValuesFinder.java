@@ -22,9 +22,11 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.core.lookup.keyvalues.KeyValuesBase;
+import org.kuali.core.service.KeyValuesService;
 import org.kuali.core.web.ui.KeyLabelPair;
-import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.financial.bo.TravelPerDiem;
+import org.kuali.module.financial.service.UniversityDateService;
 
 /**
  * This class returns list of per diem category value pairs.
@@ -38,9 +40,9 @@ public class TravelPerDiemCategoryValuesFinder extends KeyValuesBase {
      */
     public List getKeyValues() {
         Map criteria = new HashMap();
-        criteria.put("fiscalYear", SpringServiceLocator.getUniversityDateService().getCurrentFiscalYear());
+        criteria.put("fiscalYear", SpringContext.getBean(UniversityDateService.class).getCurrentFiscalYear());
 
-        List boList = (List) SpringServiceLocator.getKeyValuesService().findMatching(TravelPerDiem.class, criteria);
+        List boList = (List) SpringContext.getBean(KeyValuesService.class).findMatching(TravelPerDiem.class, criteria);
         List keyValues = new ArrayList();
         keyValues.add(new KeyLabelPair("", ""));
         for (Iterator iter = boList.iterator(); iter.hasNext();) {

@@ -65,7 +65,7 @@ public class BatchStepRunner {
         GlobalVariables.setErrorMap(new ErrorMap());
         GlobalVariables.setMessageList(new ArrayList());
         String stepUserParameter = stepName + "_USER";
-        KualiConfigurationService configService = SpringServiceLocator.getKualiConfigurationService();
+        KualiConfigurationService configService = SpringContext.getBean(KualiConfigurationService.class);
         try {
 	        if (configService.hasApplicationParameter(KFSConstants.ParameterGroups.SYSTEM, stepUserParameter)) {
 	            GlobalVariables.setUserSession(new UserSession(configService.getApplicationParameterValue(KFSConstants.ParameterGroups.SYSTEM, stepUserParameter)));

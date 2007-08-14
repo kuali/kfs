@@ -24,14 +24,12 @@ import java.util.LinkedHashMap;
 import java.util.List;
 
 import org.kuali.core.bo.PersistableBusinessObjectBase;
+import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.KFSPropertyConstants;
-import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.cg.bo.Agency;
 import org.kuali.module.cg.bo.ProjectDirector;
-import org.kuali.module.kra.bo.AdhocOrg;
-import org.kuali.module.kra.bo.AdhocPerson;
-import org.kuali.module.kra.bo.AdhocWorkgroup;
 
 /**
  * 
@@ -90,8 +88,8 @@ public class Budget extends PersistableBusinessObjectBase {
     public Budget() {
         super();
 
-        budgetPersonnelInflationRate = new KualiDecimal(SpringServiceLocator.getKualiConfigurationService().getApplicationParameterValue("KraDevelopmentGroup", "defaultPersonnelInflationRate"));
-        budgetNonpersonnelInflationRate = new KualiDecimal(SpringServiceLocator.getKualiConfigurationService().getApplicationParameterValue("KraDevelopmentGroup", "defaultNonpersonnelInflationRate"));
+        budgetPersonnelInflationRate = new KualiDecimal(SpringContext.getBean(KualiConfigurationService.class).getApplicationParameterValue("KraDevelopmentGroup", "defaultPersonnelInflationRate"));
+        budgetNonpersonnelInflationRate = new KualiDecimal(SpringContext.getBean(KualiConfigurationService.class).getApplicationParameterValue("KraDevelopmentGroup", "defaultNonpersonnelInflationRate"));
 
         tasks = new ArrayList();
         periods = new ArrayList();

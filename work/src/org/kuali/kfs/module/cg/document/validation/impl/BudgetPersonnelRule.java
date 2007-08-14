@@ -25,12 +25,14 @@ import java.util.TreeMap;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.document.Document;
 import org.kuali.core.service.DataDictionaryService;
+import org.kuali.core.service.DictionaryValidationService;
+import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.KualiInteger;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.KFSKeyConstants;
-import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.kra.KraConstants;
 import org.kuali.module.kra.KraKeyConstants;
 import org.kuali.module.kra.budget.bo.Budget;
@@ -38,6 +40,7 @@ import org.kuali.module.kra.budget.bo.BudgetUser;
 import org.kuali.module.kra.budget.bo.UserAppointmentTask;
 import org.kuali.module.kra.budget.bo.UserAppointmentTaskPeriod;
 import org.kuali.module.kra.budget.document.BudgetDocument;
+import org.kuali.module.kra.budget.service.BudgetPersonnelService;
 import org.kuali.module.kra.util.AuditCluster;
 import org.kuali.module.kra.util.AuditError;
 
@@ -45,7 +48,7 @@ public class BudgetPersonnelRule {
 
     protected boolean runPersonnelAuditErrors(List personnel) {
         List<AuditError> personnelAuditErrors = new ArrayList<AuditError>();
-        String INVALID_STATUSES = SpringServiceLocator.getKualiConfigurationService().getApplicationParameterValue("KraDevelopmentGroup", "invalidPersonnelStatuses");
+        String INVALID_STATUSES = SpringContext.getBean(KualiConfigurationService.class).getApplicationParameterValue("KraDevelopmentGroup", "invalidPersonnelStatuses");
         for (Iterator iter = personnel.iterator(); iter.hasNext();) {
             BudgetUser person = (BudgetUser) iter.next();
             if (ObjectUtils.isNotNull(person.getUser()) && person.getUser().getEmployeeStatusCode() != null && StringUtils.contains(INVALID_STATUSES, person.getUser().getEmployeeStatusCode())) {
@@ -67,7 +70,7 @@ public class BudgetPersonnelRule {
     protected boolean isPersonnelListValid(Budget budget) {
         boolean valid = true;
 
-        HashMap appointmentTypeMappings = SpringServiceLocator.getBudgetPersonnelService().getAppointmentTypeMappings();
+        HashMap appointmentTypeMappings = SpringContext.getBean(BudgetPersonnelService.class).getAppointmentTypeMappings();
 
         valid &= verifyPersonnelEffortAmounts(budget, false, appointmentTypeMappings);
         valid &= verifySummerAppointmentLength(budget, appointmentTypeMappings);
@@ -84,7 +87,7 @@ public class BudgetPersonnelRule {
         BudgetDocument budgetDocument = (BudgetDocument) document;
         Budget budget = budgetDocument.getBudget();
 
-        HashMap appointmentTypeMappings = SpringServiceLocator.getBudgetPersonnelService().getAppointmentTypeMappings();
+        HashMap appointmentTypeMappings = SpringContext.getBean(BudgetPersonnelService.class).getAppointmentTypeMappings();
 
         valid &= verifySummerAppointmentLength(budget, appointmentTypeMappings);
         valid &= verifyPersonnelEffortAmounts(budget, true, appointmentTypeMappings);
@@ -315,7 +318,7 @@ public class BudgetPersonnelRule {
 
                         UserAppointmentTaskPeriod userAppointmentTaskPeriod = (UserAppointmentTaskPeriod) userAppointmentTaskPeriodIter.next();
 
-                        valid &= SpringServiceLocator.getDictionaryValidationService().isBusinessObjectValid(userAppointmentTaskPeriod, "userAppointmentTaskPeriod[" + userAppointmentTaskPeriodIndex + "]");
+                        valid &= SpringContext.getBean(DictionaryValidationService.class).isBusinessObjectValid(userAppointmentTaskPeriod, "userAppointmentTaskPeriod[" + userAppointmentTaskPeriodIndex + "]");
                         
                         if (!StringUtils.equals(userAppointmentTaskPeriod.getInstitutionAppointmentTypeCode(), appointmentTypeMappings.get("academicSummer").toString()) &&
                                 !StringUtils.contains(appointmentTypeMappings.get("gradResAssistant").toString(), userAppointmentTaskPeriod.getInstitutionAppointmentTypeCode()) &&
@@ -366,8 +369,8 @@ public class BudgetPersonnelRule {
     protected boolean verifyRequiredFields(Document document) {
         Budget budget = ((BudgetDocument)document).getBudget();
         
-        DataDictionaryService dataDictionaryService = SpringServiceLocator.getDataDictionaryService();
-        HashMap appointmentTypeMappings = SpringServiceLocator.getBudgetPersonnelService().getAppointmentTypeMappings();
+        DataDictionaryService dataDictionaryService = SpringContext.getBean(DataDictionaryService.class);
+        HashMap appointmentTypeMappings = SpringContext.getBean(BudgetPersonnelService.class).getAppointmentTypeMappings();
         
         boolean valid = true;
 

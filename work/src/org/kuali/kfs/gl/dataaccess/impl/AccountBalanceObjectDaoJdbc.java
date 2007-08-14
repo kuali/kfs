@@ -22,7 +22,8 @@ import java.util.Map;
 
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.bo.Options;
-import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.kfs.context.SpringContext;
+import org.kuali.module.financial.service.UniversityDateService;
 import org.kuali.module.gl.GLConstants;
 import org.kuali.module.gl.bo.UniversityDate;
 import org.kuali.module.gl.dao.AccountBalanceObjectDao;
@@ -282,7 +283,7 @@ public class AccountBalanceObjectDaoJdbc extends AccountBalanceDaoJdbcBase imple
         // without the nulls (because we will post eDocs
         // with blank years tonight most probably.
 
-        UniversityDate today = SpringServiceLocator.getUniversityDateService().getCurrentUniversityDate();
+        UniversityDate today = SpringContext.getBean(UniversityDateService.class).getCurrentUniversityDate();
 
         clearTempTable( "gl_pending_entry_mt", "PERSON_UNVL_ID" );
 

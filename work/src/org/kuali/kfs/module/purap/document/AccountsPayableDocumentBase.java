@@ -26,12 +26,18 @@ import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.exceptions.UserNotFoundException;
 import org.kuali.core.rule.event.KualiDocumentEvent;
 import org.kuali.core.rule.event.RouteDocumentEvent;
+import org.kuali.core.service.DataDictionaryService;
+import org.kuali.core.service.UniversalUserService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.ObjectUtils;
-import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.core.workflow.service.KualiWorkflowInfo;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.PurapPropertyConstants;
 import org.kuali.module.purap.PurapWorkflowConstants.NodeDetails;
+import org.kuali.module.purap.service.PurapAccountingService;
+import org.kuali.module.purap.service.PurapService;
+import org.kuali.module.purap.service.PurchaseOrderService;
 
 import edu.iu.uis.eden.EdenConstants;
 import edu.iu.uis.eden.clientapp.vo.DocumentRouteLevelChangeVO;
@@ -122,7 +128,7 @@ public abstract class AccountsPayableDocumentBase extends PurchasingAccountsPaya
 
         //copied from super because we can't call super for AP docs
         refreshNonUpdateableReferences();
-        SpringServiceLocator.getPurapAccountingService().updateAccountAmounts(this);
+        SpringContext.getBean(PurapAccountingService.class).updateAccountAmounts(this);
 
         //DO NOT CALL SUPER HERE!!  Cannot call super because it will mess up the GL entry creation process (hjs)
         //super.prepareForSave(event);
@@ -152,8 +158,8 @@ public abstract class AccountsPayableDocumentBase extends PurchasingAccountsPaya
         else {
             logAndThrowRuntimeException("Method processCloseReopenPo called using ID + '" + getPurapDocumentIdentifier() + "' and invalid doc type '" + docType + "'");
         }
-//        SpringServiceLocator.getPurchaseOrderService().updateFlagsAndRoute(this.getPurchaseOrderDocument().getDocumentNumber(), docType, assemblePurchaseOrderNote(docType, identifier, action, docName), new ArrayList());
-        SpringServiceLocator.getPurchaseOrderService().createAndRoutePotentialChangeDocument(this.getPurchaseOrderDocument().getDocumentNumber(), docType, assemblePurchaseOrderNote(docType, action), new ArrayList());
+//        SpringContext.getBean(PurchaseOrderService.class).updateFlagsAndRoute(this.getPurchaseOrderDocument().getDocumentNumber(), docType, assemblePurchaseOrderNote(docType, identifier, action, docName), new ArrayList());
+        SpringContext.getBean(PurchaseOrderService.class).createAndRoutePotentialChangeDocument(this.getPurchaseOrderDocument().getDocumentNumber(), docType, assemblePurchaseOrderNote(docType, action), new ArrayList());
     }
 
     /**
@@ -164,10 +170,10 @@ public abstract class AccountsPayableDocumentBase extends PurchasingAccountsPaya
      * @return
      */
     private String assemblePurchaseOrderNote(String docType, String action) {
-        String documentLabel = SpringServiceLocator.getDataDictionaryService().getDocumentLabelByClass(getClass());
+        String documentLabel = SpringContext.getBean(DataDictionaryService.class).getDocumentLabelByClass(getClass());
         StringBuffer closeReopenNote = new StringBuffer("");
         String userName = GlobalVariables.getUserSession().getUniversalUser().getPersonName();
-        closeReopenNote.append(SpringServiceLocator.getDataDictionaryService().getDocumentLabelByClass(PurchaseOrderDocument.class));
+        closeReopenNote.append(SpringContext.getBean(DataDictionaryService.class).getDocumentLabelByClass(PurchaseOrderDocument.class));
         closeReopenNote.append(" will be manually ");
         closeReopenNote.append(action);
         closeReopenNote.append(" by ");
@@ -175,7 +181,7 @@ public abstract class AccountsPayableDocumentBase extends PurchasingAccountsPaya
         closeReopenNote.append(" when approving ");
         closeReopenNote.append(documentLabel);
         closeReopenNote.append(" with ");
-        closeReopenNote.append(SpringServiceLocator.getDataDictionaryService().getAttributeLabel(getClass(), PurapPropertyConstants.PURAP_DOC_ID));
+        closeReopenNote.append(SpringContext.getBean(DataDictionaryService.class).getAttributeLabel(getClass(), PurapPropertyConstants.PURAP_DOC_ID));
         closeReopenNote.append(" ");
         closeReopenNote.append(getPurapDocumentIdentifier());
 
@@ -195,13 +201,13 @@ public abstract class AccountsPayableDocumentBase extends PurchasingAccountsPaya
                 if (StringUtils.isNotBlank(newNodeName)) {
                     ReportCriteriaVO reportCriteriaVO = new ReportCriteriaVO(Long.valueOf(getDocumentNumber()));
                     reportCriteriaVO.setTargetNodeName(newNodeName);
-                    if (SpringServiceLocator.getWorkflowInfoService().documentWillHaveAtLeastOneActionRequest(
+                    if (SpringContext.getBean(KualiWorkflowInfo.class).documentWillHaveAtLeastOneActionRequest(
                             reportCriteriaVO, new String[]{EdenConstants.ACTION_REQUEST_APPROVE_REQ,EdenConstants.ACTION_REQUEST_COMPLETE_REQ})) {
                         NodeDetails nodeDetailEnum = getNodeDetailEnum(newNodeName);
                         if (ObjectUtils.isNotNull(nodeDetailEnum)) {
                             String statusCode = nodeDetailEnum.getAwaitingStatusCode();
                             if (StringUtils.isNotBlank(statusCode)) {
-                                SpringServiceLocator.getPurapService().updateStatusAndStatusHistory(this, statusCode);
+                                SpringContext.getBean(PurapService.class).updateStatusAndStatusHistory(this, statusCode);
                                 saveDocumentFromPostProcessing();
                             }
                             else {
@@ -349,7 +355,7 @@ public abstract class AccountsPayableDocumentBase extends PurchasingAccountsPaya
 
     public PurchaseOrderDocument getPurchaseOrderDocument() {
         if ( (ObjectUtils.isNull(purchaseOrderDocument)) && (ObjectUtils.isNotNull(getPurchaseOrderIdentifier())) ) {
-            setPurchaseOrderDocument(SpringServiceLocator.getPurchaseOrderService().getCurrentPurchaseOrder(this.getPurchaseOrderIdentifier()));
+            setPurchaseOrderDocument(SpringContext.getBean(PurchaseOrderService.class).getCurrentPurchaseOrder(this.getPurchaseOrderIdentifier()));
         }
         return purchaseOrderDocument;
     }
@@ -376,7 +382,7 @@ public abstract class AccountsPayableDocumentBase extends PurchasingAccountsPaya
     //Helper methods
     public UniversalUser getLastActionPerformedByUser(){
         try {
-            UniversalUser user = SpringServiceLocator.getUniversalUserService().getUniversalUser(getLastActionPerformedByUniversalUserId());
+            UniversalUser user = SpringContext.getBean(UniversalUserService.class, "universalUserService").getUniversalUser(getLastActionPerformedByUniversalUserId());
             return user;
         }
         catch (UserNotFoundException unfe) {

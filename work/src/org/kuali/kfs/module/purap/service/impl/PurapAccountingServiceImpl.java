@@ -28,13 +28,14 @@ import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.bo.AccountingLineBase;
 import org.kuali.kfs.bo.SourceAccountingLine;
-import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.purap.bo.PurApAccountingLine;
 import org.kuali.module.purap.bo.PurchasingApItem;
 import org.kuali.module.purap.dao.PurApAccountingDao;
 import org.kuali.module.purap.document.PaymentRequestDocument;
 import org.kuali.module.purap.document.PurchasingAccountsPayableDocument;
 import org.kuali.module.purap.service.PurapAccountingService;
+import org.kuali.module.purap.service.PurapService;
 import org.kuali.module.purap.util.PurApItemUtils;
 import org.kuali.module.purap.util.PurApObjectUtils;
 import org.springframework.transaction.annotation.Transactional;
@@ -546,7 +547,7 @@ public class PurapAccountingServiceImpl implements PurapAccountingService {
     public void updateAccountAmounts(PurchasingAccountsPayableDocument document) {
         //TODO: Chris - this should probably be injected instead of using the locator (or put in doc) also don't forget to update the percent at fiscal approve
         //don't update if past the AP review level
-        if((document instanceof PaymentRequestDocument) && SpringServiceLocator.getPurapService().isFullDocumentEntryCompleted(document)){
+        if((document instanceof PaymentRequestDocument) && SpringContext.getBean(PurapService.class).isFullDocumentEntryCompleted(document)){
             return;
         }
         for (PurchasingApItem item : document.getItems()) {

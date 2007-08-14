@@ -16,7 +16,6 @@
 package org.kuali.module.kra.routingform.web.struts.action;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
@@ -26,12 +25,15 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.core.service.KualiRuleService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.kra.KraConstants;
 import org.kuali.module.kra.budget.bo.BudgetPeriod;
 import org.kuali.module.kra.budget.document.BudgetDocument;
+import org.kuali.module.kra.budget.service.BudgetIndirectCostService;
+import org.kuali.module.kra.budget.service.BudgetNonpersonnelService;
 import org.kuali.module.kra.budget.web.struts.form.BudgetIndirectCostFormHelper;
 import org.kuali.module.kra.budget.web.struts.form.BudgetOverviewFormHelper;
 import org.kuali.module.kra.routingform.rules.event.RoutingFormBudgetLinkEvent;
@@ -64,7 +66,7 @@ public class RoutingFormLinkAction extends RoutingFormAction {
         
         String[] selectedBudgetPeriods = (String[])selectedBudgetPeriodsList.toArray(new String[selectedBudgetPeriodsList.size()]);
 
-        boolean isBudgetValidForLink = SpringServiceLocator.getKualiRuleService().applyRules(new RoutingFormBudgetLinkEvent(routingForm.getRoutingFormDocument(), selectedBudgetPeriods, routingForm.getAllPeriodsSelected(), true));
+        boolean isBudgetValidForLink = SpringContext.getBean(KualiRuleService.class).applyRules(new RoutingFormBudgetLinkEvent(routingForm.getRoutingFormDocument(), selectedBudgetPeriods, routingForm.getAllPeriodsSelected(), true));
         
         //if no errors, proceed with the link and return to the RF Main Page
         if (isBudgetValidForLink) {
@@ -79,7 +81,7 @@ public class RoutingFormLinkAction extends RoutingFormAction {
 
             
             //service method to link budget data
-            SpringServiceLocator.getRoutingFormService().linkImportBudgetDataToRoutingForm(routingForm.getRoutingFormDocument(), routingForm.getRoutingFormDocument().getRoutingFormBudgetNumber(), routingForm.getPeriodBudgetOverviewFormHelpers());
+            SpringContext.getBean(RoutingFormService.class).linkImportBudgetDataToRoutingForm(routingForm.getRoutingFormDocument(), routingForm.getRoutingFormDocument().getRoutingFormBudgetNumber(), routingForm.getPeriodBudgetOverviewFormHelpers());
 
             //save the new budget data into the RF
             super.save(mapping, form, request, response);
@@ -110,7 +112,7 @@ public class RoutingFormLinkAction extends RoutingFormAction {
         RoutingForm routingForm = (RoutingForm)form;
 
         if (routingForm.getRoutingFormDocument().getRoutingFormBudgetNumber() != null) {
-            boolean isBudgetValidForLink = SpringServiceLocator.getKualiRuleService().applyRules(new RoutingFormBudgetLinkEvent(routingForm.getRoutingFormDocument(), null, false, false));
+            boolean isBudgetValidForLink = SpringContext.getBean(KualiRuleService.class).applyRules(new RoutingFormBudgetLinkEvent(routingForm.getRoutingFormDocument(), null, false, false));
             if (isBudgetValidForLink) {
                 setupBudgetPeriodData(routingForm);
             } else {
@@ -146,14 +148,14 @@ public class RoutingFormLinkAction extends RoutingFormAction {
      * @throws WorkflowException
      */
     protected void setupBudgetPeriodData(RoutingForm routingForm) throws WorkflowException {
-        RoutingFormService routingFormService = SpringServiceLocator.getRoutingFormService();
+        RoutingFormService routingFormService = SpringContext.getBean(RoutingFormService.class);
    
         BudgetDocument budgetDocument = routingFormService.retrieveBudgetForLinking(routingForm.getRoutingFormDocument().getRoutingFormBudgetNumber());
    
         if (budgetDocument != null) {
-            SpringServiceLocator.getBudgetIndirectCostService().refreshIndirectCost(budgetDocument);
+            SpringContext.getBean(BudgetIndirectCostService.class).refreshIndirectCost(budgetDocument);
       
-            List allNonpersonnelCategories = SpringServiceLocator.getBudgetNonpersonnelService().getAllNonpersonnelCategories();
+            List allNonpersonnelCategories = SpringContext.getBean(BudgetNonpersonnelService.class).getAllNonpersonnelCategories();
       
             BudgetIndirectCostFormHelper budgetIndirectCostFormHelper = new BudgetIndirectCostFormHelper(budgetDocument.getBudget());
       

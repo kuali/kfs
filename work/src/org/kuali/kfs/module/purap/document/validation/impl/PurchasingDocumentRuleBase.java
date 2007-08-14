@@ -21,14 +21,16 @@ import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.datadictionary.validation.fieldlevel.PhoneNumberValidationPattern;
+import org.kuali.core.service.DataDictionaryService;
 import org.kuali.core.service.DateTimeService;
+import org.kuali.core.service.DictionaryValidationService;
 import org.kuali.core.util.ErrorMap;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSKeyConstants;
-import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.PurapKeyConstants;
 import org.kuali.module.purap.PurapPropertyConstants;
@@ -40,6 +42,7 @@ import org.kuali.module.purap.document.PurchasingAccountsPayableDocument;
 import org.kuali.module.purap.document.PurchasingDocument;
 import org.kuali.module.vendor.VendorPropertyConstants;
 import org.kuali.module.vendor.bo.VendorDetail;
+import org.kuali.module.vendor.service.VendorService;
 
 public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumentRuleBase {
 
@@ -69,7 +72,7 @@ public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumen
         boolean valid = super.processItemValidation(purapDocument);
         List<PurchasingApItem> itemList = purapDocument.getItems();
         for (PurchasingApItem item : itemList) {
-            SpringServiceLocator.getDictionaryValidationService().validateBusinessObject(item);
+            SpringContext.getBean(DictionaryValidationService.class).validateBusinessObject(item);
             String identifierString = (item.getItemType().isItemTypeAboveTheLineIndicator() ?  "Item " + item.getItemLineNumber().toString() : item.getItemType().getItemTypeDescription());
             valid &= validateItemUnitPrice(item, identifierString);
             valid &= validateUniqueAccountingString(item, identifierString);
@@ -98,7 +101,7 @@ public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumen
                 return true;
             }
         }
-        String documentType = SpringServiceLocator.getDataDictionaryService().getDataDictionary().getDocumentEntry(purDocument.getDocumentHeader().getWorkflowDocument().getDocumentType()).getLabel();
+        String documentType = SpringContext.getBean(DataDictionaryService.class).getDataDictionary().getDocumentEntry(purDocument.getDocumentHeader().getWorkflowDocument().getDocumentType()).getLabel();
         
         if (! valid) {
             GlobalVariables.getErrorMap().putError(PurapConstants.ITEM_TAB_ERROR_PROPERTY, PurapKeyConstants.ERROR_ITEM_REQUIRED, documentType);
@@ -287,7 +290,7 @@ public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumen
             }
         }
         
-        VendorDetail vendorDetail = SpringServiceLocator.getVendorService().getVendorDetail(purDocument.getVendorHeaderGeneratedIdentifier(), purDocument.getVendorDetailAssignedIdentifier());
+        VendorDetail vendorDetail = SpringContext.getBean(VendorService.class).getVendorDetail(purDocument.getVendorHeaderGeneratedIdentifier(), purDocument.getVendorDetailAssignedIdentifier());
         if (ObjectUtils.isNotNull(vendorDetail) && !vendorDetail.isActiveIndicator()) {       
             valid &= false;
             errorMap.putError(VendorPropertyConstants.VENDOR_NAME, PurapKeyConstants.ERROR_INACTIVE_VENDOR);
@@ -307,7 +310,7 @@ public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumen
      */
     private boolean checkBeginDateBeforeEndDate(PurchasingDocument purDocument) {
         boolean valid = true;
-        DateTimeService dateTimeService = SpringServiceLocator.getDateTimeService();
+        DateTimeService dateTimeService = SpringContext.getBean(DateTimeService.class, "dateTimeService");
 
         Date beginDate = purDocument.getPurchaseOrderBeginDate();
         Date endDate = purDocument.getPurchaseOrderEndDate();

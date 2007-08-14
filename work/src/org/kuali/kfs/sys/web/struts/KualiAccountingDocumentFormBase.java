@@ -29,6 +29,8 @@ import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.document.authorization.DocumentAuthorizer;
 import org.kuali.core.exceptions.InfrastructureException;
 import org.kuali.core.service.KualiConfigurationService;
+import org.kuali.core.service.BusinessObjectDictionaryService;
+import org.kuali.core.service.DocumentAuthorizationService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.web.format.CurrencyFormatter;
@@ -43,7 +45,6 @@ import org.kuali.kfs.bo.TargetAccountingLine;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.document.AccountingDocument;
 import org.kuali.kfs.document.authorization.AccountingDocumentAuthorizer;
-import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.kfs.web.ui.AccountingLineDecorator;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.ChartUser;
@@ -200,7 +201,7 @@ public class KualiAccountingDocumentFormBase extends KualiTransactionalDocumentF
      * @param line
      */
     private void populateAccountingLine(AccountingLineBase line) {
-        SpringServiceLocator.getBusinessObjectDictionaryService().performForceUppercase(line);
+        SpringContext.getBean(BusinessObjectDictionaryService.class).performForceUppercase(line);
 
         line.setDocumentNumber(getDocument().getDocumentNumber());
 
@@ -659,7 +660,7 @@ public class KualiAccountingDocumentFormBase extends KualiTransactionalDocumentF
      * the map of editable accounts, based on the current accounting lines.
      */
     public void refreshEditableAccounts() {
-        AccountingDocumentAuthorizer authorizer = (AccountingDocumentAuthorizer)SpringServiceLocator.getDocumentAuthorizationService().getDocumentAuthorizer(this.getDocument());
+        AccountingDocumentAuthorizer authorizer = (AccountingDocumentAuthorizer) SpringContext.getBean(DocumentAuthorizationService.class).getDocumentAuthorizer(this.getDocument());
         this.setEditableAccounts(authorizer.getEditableAccounts(glomBaselineAccountingLines(), (ChartUser)GlobalVariables.getUserSession().getUniversalUser().getModuleUser( ChartUser.MODULE_ID )));
     }
     

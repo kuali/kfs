@@ -32,15 +32,20 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.core.lookup.LookupUtils;
 import org.kuali.core.rule.KualiParameterRule;
+import org.kuali.core.service.KualiConfigurationService;
+import org.kuali.core.service.LookupService;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.bo.Options;
-import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.Chart;
 import org.kuali.module.chart.bo.ObjectCode;
 import org.kuali.module.chart.bo.SubFundGroup;
+import org.kuali.module.chart.service.AccountService;
+import org.kuali.module.chart.service.ObjectCodeService;
+import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.PurapWorkflowConstants;
 import org.kuali.workflow.KualiWorkflowUtils;
 import org.w3c.dom.Node;
@@ -155,7 +160,7 @@ public class KualiPurchaseOrderContractAndGrantsAttribute implements WorkflowAtt
         }
         ruleSubFundGroupCode = LookupUtils.forceUppercase(SubFundGroup.class, KFSPropertyConstants.SUB_FUND_GROUP_CODE, ruleSubFundGroupCode);
         Set<AccountContainer> accountContainers = populateFromDocContent(docContent);
-        Map<String,KualiParameterRule> parameterRulesByChart = SpringServiceLocator.getKualiConfigurationService().getRulesByGroup(PurapWorkflowConstants.PurchaseOrderDocument.CG_RESTRICTED_OBJECT_CODE_RULE_GROUP_NAME);
+        Map<String,KualiParameterRule> parameterRulesByChart = SpringContext.getBean(KualiConfigurationService.class).getRulesByGroup(PurapWorkflowConstants.PurchaseOrderDocument.CG_RESTRICTED_OBJECT_CODE_RULE_GROUP_NAME);
         for (AccountContainer accountContainer : accountContainers) {
             // check to see if account is a C&G account
             if (accountContainer.account.isForContractsAndGrants()) {
@@ -312,8 +317,8 @@ public class KualiPurchaseOrderContractAndGrantsAttribute implements WorkflowAtt
      */
     private AccountContainer getPotentialAccountContainer(String finFiscalYear, String finChart, String finAccount, String finObjectCode) {
         if (StringUtils.isNotEmpty(finChart) && StringUtils.isNotEmpty(finAccount) && StringUtils.isNotEmpty(finObjectCode) && StringUtils.isNotEmpty(finFiscalYear)) {
-            Account testAccount = SpringServiceLocator.getAccountService().getByPrimaryIdWithCaching(finChart, finAccount);
-            ObjectCode testObjectCode = SpringServiceLocator.getObjectCodeService().getByPrimaryId(Integer.valueOf(finFiscalYear), finChart, finObjectCode);
+            Account testAccount = SpringContext.getBean(AccountService.class).getByPrimaryIdWithCaching(finChart, finAccount);
+            ObjectCode testObjectCode = SpringContext.getBean(ObjectCodeService.class).getByPrimaryId(Integer.valueOf(finFiscalYear), finChart, finObjectCode);
             return new AccountContainer(testAccount,testObjectCode);
         }
         return null;
@@ -361,7 +366,7 @@ public class KualiPurchaseOrderContractAndGrantsAttribute implements WorkflowAtt
             // value is not blank so check value for validity of value
             Map formProps = new HashMap();
             formProps.put(KFSPropertyConstants.SUB_FUND_GROUP_CODE, getSubFundGroupCode());
-            Collection subFundGroups = SpringServiceLocator.getLookupService().findCollectionBySearchUnbounded(SubFundGroup.class, formProps);
+            Collection subFundGroups = SpringContext.getBean(LookupService.class).findCollectionBySearchUnbounded(SubFundGroup.class, formProps);
             if (subFundGroups.isEmpty()) {
                 String errorMessage = KualiWorkflowUtils.getBusinessObjectAttributeLabel(SubFundGroup.class, KFSPropertyConstants.SUB_FUND_GROUP_CODE) + " value does not correspond to any valid entries in the system";
                 errors.add(new WorkflowServiceErrorImpl(errorMessage, "routetemplate.xmlattribute.error", errorMessage));

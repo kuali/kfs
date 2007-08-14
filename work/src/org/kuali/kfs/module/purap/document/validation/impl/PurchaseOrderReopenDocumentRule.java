@@ -23,11 +23,13 @@ import org.kuali.core.document.Document;
 import org.kuali.core.exceptions.UserNotFoundException;
 import org.kuali.core.exceptions.ValidationException;
 import org.kuali.core.rule.event.ApproveDocumentEvent;
+import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.service.UniversalUserService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.bo.AccountingLine;
 import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.document.AccountingDocument;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.purap.PurapConstants;
@@ -80,11 +82,11 @@ public class PurchaseOrderReopenDocumentRule extends PurchasingDocumentRuleBase 
             
             // Check that the user is in purchasing workgroup.
             String initiatorNetworkId = document.getDocumentHeader().getWorkflowDocument().getInitiatorNetworkId();
-            UniversalUserService uus = SpringServiceLocator.getUniversalUserService();
+            UniversalUserService uus = SpringContext.getBean(UniversalUserService.class, "universalUserService");
             UniversalUser user = null;
             try {
                 user = uus.getUniversalUserByAuthenticationUserId(initiatorNetworkId);
-                String purchasingGroup = SpringServiceLocator.getKualiConfigurationService().getApplicationParameterValue(PurapParameterConstants.PURAP_ADMIN_GROUP, PurapConstants.Workgroups.WORKGROUP_PURCHASING);
+                String purchasingGroup = SpringContext.getBean(KualiConfigurationService.class).getApplicationParameterValue(PurapParameterConstants.PURAP_ADMIN_GROUP, PurapConstants.Workgroups.WORKGROUP_PURCHASING);
                 if (!uus.isMember(user, purchasingGroup)) {
                     valid = false;
                     GlobalVariables.getErrorMap().putError(PurapPropertyConstants.PURAP_DOC_ID, PurapKeyConstants.ERROR_USER_NONPURCHASING);
@@ -111,7 +113,7 @@ public class PurchaseOrderReopenDocumentRule extends PurchasingDocumentRuleBase 
 //        explicitEntry.setTransactionLedgerEntryDescription(entryDescription(po.getVendorName()));
 //        explicitEntry.setFinancialDocumentTypeCode(PO_REOPEN);  //don't think i should have to override this, but default isn't getting the right PO doc
 //        
-//        UniversityDate uDate = SpringServiceLocator.getUniversityDateService().getCurrentUniversityDate();
+//        UniversityDate uDate = SpringContext.getBean(UniversityDateService.class).getCurrentUniversityDate();
 //        if (po.getPostingYear().compareTo(uDate.getUniversityFiscalYear()) > 0) {
 //            //USE NEXT AS SET ON PO; POs can be forward dated to not encumber until next fiscal year
 //            explicitEntry.setUniversityFiscalYear(po.getPostingYear());

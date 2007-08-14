@@ -23,7 +23,7 @@ import java.util.List;
 import org.kuali.core.lookup.keyvalues.KeyValuesBase;
 import org.kuali.core.service.KeyValuesService;
 import org.kuali.core.web.ui.KeyLabelPair;
-import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.chart.bo.codes.MandatoryTransferEliminationCode;
 
 /**
@@ -39,7 +39,7 @@ public class MandatoryTransferEliminationCodeValuesFinder extends KeyValuesBase 
     public List getKeyValues() {
 
         // get a list of all Mandatory Transfer Elimination Codes
-        KeyValuesService boService = SpringServiceLocator.getKeyValuesService();
+        KeyValuesService boService = SpringContext.getBean(KeyValuesService.class);
         List mteCodes = (List) boService.findAll(MandatoryTransferEliminationCode.class);
 
         // calling comparator.

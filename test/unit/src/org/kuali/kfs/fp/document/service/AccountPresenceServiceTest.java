@@ -20,8 +20,9 @@ import static org.kuali.test.fixtures.AccountFixture.ACCOUNT_PRESENCE_ACCOUNT;
 import static org.kuali.test.fixtures.ObjectCodeFixture.OBJECT_CODE_BUDGETED_OBJECT_CODE;
 import static org.kuali.test.fixtures.ObjectCodeFixture.OBJECT_CODE_NON_BUDGET_OBJECT_CODE;
 
+import org.kuali.core.service.BusinessObjectService;
 import org.kuali.kfs.context.KualiTestBase;
-import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.test.ConfigureContext;
 
 /**
@@ -38,7 +39,7 @@ public class AccountPresenceServiceTest extends KualiTestBase {
      * @throws Exception
      */
     public void testAccountPresenceNonBudgetedObject() throws Exception {
-        assertFalse("Non budgeded object code passed ", getAccountPresenceService().isObjectCodeBudgetedForAccountPresence(ACCOUNT_PRESENCE_ACCOUNT.createAccount(SpringServiceLocator.getBusinessObjectService()), OBJECT_CODE_NON_BUDGET_OBJECT_CODE.createObjectCode(SpringServiceLocator.getBusinessObjectService())));
+        assertFalse("Non budgeded object code passed ", getAccountPresenceService().isObjectCodeBudgetedForAccountPresence(ACCOUNT_PRESENCE_ACCOUNT.createAccount(SpringContext.getBean(BusinessObjectService.class)), OBJECT_CODE_NON_BUDGET_OBJECT_CODE.createObjectCode(SpringContext.getBean(BusinessObjectService.class))));
 
     }
 
@@ -59,7 +60,7 @@ public class AccountPresenceServiceTest extends KualiTestBase {
      * @throws Exception
      */
     public void testAccountNonPresenceNonBudgetedObject() throws Exception {
-        assertTrue("non budgeted object code failed on account without presence control ", getAccountPresenceService().isObjectCodeBudgetedForAccountPresence(ACCOUNT_NON_PRESENCE_ACCOUNT.createAccount(SpringServiceLocator.getBusinessObjectService()), OBJECT_CODE_NON_BUDGET_OBJECT_CODE.createObjectCode(SpringServiceLocator.getBusinessObjectService())));
+        assertTrue("non budgeted object code failed on account without presence control ", getAccountPresenceService().isObjectCodeBudgetedForAccountPresence(ACCOUNT_NON_PRESENCE_ACCOUNT.createAccount(SpringContext.getBean(BusinessObjectService.class)), OBJECT_CODE_NON_BUDGET_OBJECT_CODE.createObjectCode(SpringContext.getBean(BusinessObjectService.class))));
 
     }
 
@@ -69,7 +70,7 @@ public class AccountPresenceServiceTest extends KualiTestBase {
      * @throws Exception
      */
     public void testAccountNonPresenceBudgetedObject() throws Exception {
-        assertTrue("budgeted object code failed on account without presence control ", getAccountPresenceService().isObjectCodeBudgetedForAccountPresence(ACCOUNT_NON_PRESENCE_ACCOUNT.createAccount(SpringServiceLocator.getBusinessObjectService()), OBJECT_CODE_BUDGETED_OBJECT_CODE.createObjectCode(SpringServiceLocator.getBusinessObjectService())));
+        assertTrue("budgeted object code failed on account without presence control ", getAccountPresenceService().isObjectCodeBudgetedForAccountPresence(ACCOUNT_NON_PRESENCE_ACCOUNT.createAccount(SpringContext.getBean(BusinessObjectService.class)), OBJECT_CODE_BUDGETED_OBJECT_CODE.createObjectCode(SpringContext.getBean(BusinessObjectService.class))));
 
     }
 }

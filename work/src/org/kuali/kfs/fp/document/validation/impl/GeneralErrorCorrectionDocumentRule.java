@@ -30,14 +30,15 @@ import static org.kuali.module.financial.rules.GeneralErrorCorrectionDocumentRul
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.datadictionary.BusinessObjectEntry;
+import org.kuali.core.service.DataDictionaryService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.kfs.bo.AccountingLine;
 import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
 import org.kuali.kfs.bo.SourceAccountingLine;
 import org.kuali.kfs.bo.TargetAccountingLine;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.document.AccountingDocument;
 import org.kuali.kfs.rules.AccountingDocumentRuleBase;
-import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.chart.bo.ObjectCode;
 
 /**
@@ -248,7 +249,7 @@ public class GeneralErrorCorrectionDocumentRule extends AccountingDocumentRuleBa
             alclass = TargetAccountingLine.class;
         }
 
-        boe = SpringServiceLocator.getDataDictionaryService().getDataDictionary().getBusinessObjectEntry(alclass.getName());
+        boe = SpringContext.getBean(DataDictionaryService.class).getDataDictionary().getBusinessObjectEntry(alclass.getName());
         if (StringUtils.isEmpty(accountingLine.getReferenceOriginCode())) {
             putRequiredPropertyError(boe, REFERENCE_ORIGIN_CODE);
             valid = false;

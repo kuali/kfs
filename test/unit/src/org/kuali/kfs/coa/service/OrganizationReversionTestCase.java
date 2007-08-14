@@ -16,7 +16,7 @@
 package org.kuali.module.chart.service;
 
 import org.kuali.kfs.context.KualiTestBase;
-import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.chart.bo.OrganizationReversion;
 
 /**
@@ -27,7 +27,7 @@ import org.kuali.module.chart.bo.OrganizationReversion;
 public class OrganizationReversionTestCase extends KualiTestBase {
 
     public void testGetByPrimaryKey() throws Exception {
-        OrganizationReversionService organizationReversionService = SpringServiceLocator.getOrganizationReversionService();
+        OrganizationReversionService organizationReversionService = SpringContext.getBean(OrganizationReversionService.class);
         assertNotNull("Service shouldn't be null", organizationReversionService);
 
         Integer fiscalYear = new Integer("2004");

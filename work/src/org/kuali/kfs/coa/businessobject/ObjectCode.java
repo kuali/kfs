@@ -20,12 +20,11 @@ import java.util.LinkedHashMap;
 import org.apache.ojb.broker.PersistenceBroker;
 import org.apache.ojb.broker.PersistenceBrokerException;
 import org.kuali.core.bo.PersistableBusinessObjectBase;
-import org.kuali.core.bo.KualiCode;
 import org.kuali.core.bo.Summarizable;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.impl.PersistenceStructureServiceImpl;
 import org.kuali.kfs.bo.Options;
-import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.chart.bo.codes.BudgetAggregationCode;
 import org.kuali.module.chart.bo.codes.FederalFundedCode;
 import org.kuali.module.chart.bo.codes.MandatoryTransferEliminationCode;
@@ -79,7 +78,7 @@ public class ObjectCode extends PersistableBusinessObjectBase implements Summari
      */
     public ObjectCode() {
         // initialize the object fiscal year to the current fiscal year
-        // universityFiscalYear = SpringServiceLocator.getDateTimeService().getCurrentFiscalYear();
+        // universityFiscalYear = SpringContext.getBean(DateTimeService.class, "dateTimeService").getCurrentFiscalYear();
 
         // construct the referenced objects for the calling of the referencing object
         this.financialObjectLevel = new ObjLevel();
@@ -610,7 +609,7 @@ public class ObjectCode extends PersistableBusinessObjectBase implements Summari
         try {
             // KULCOA-549: update the sufficient funds table
             // get the current data from the database
-            BusinessObjectService boService = SpringServiceLocator.getBusinessObjectService();
+            BusinessObjectService boService = SpringContext.getBean(BusinessObjectService.class);
             ObjectCode originalObjectCode = (ObjectCode) boService.retrieve(this);
 
             if (originalObjectCode != null) {

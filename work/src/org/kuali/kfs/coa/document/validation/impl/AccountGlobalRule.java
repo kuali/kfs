@@ -26,16 +26,18 @@ import org.apache.commons.lang.time.DateUtils;
 import org.kuali.core.bo.PersistableBusinessObject;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.document.MaintenanceDocument;
+import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DictionaryValidationService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSKeyConstants;
-import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.chart.bo.Account;
-import org.kuali.module.chart.bo.AccountGlobalDetail;
 import org.kuali.module.chart.bo.AccountGlobal;
+import org.kuali.module.chart.bo.AccountGlobalDetail;
 import org.kuali.module.chart.bo.SubFundGroup;
+import org.kuali.module.chart.service.SubFundGroupService;
 
 public class AccountGlobalRule extends GlobalDocumentRuleBase {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AccountGlobalRule.class);
@@ -420,7 +422,7 @@ public class AccountGlobalRule extends GlobalDocumentRuleBase {
         // the acct_expiration_dt must be changed to a date that is today or later
         if (ObjectUtils.isNotNull(newExpDate)) {
             if (ObjectUtils.isNotNull(newAccountGlobal.getSubFundGroup())) {
-                if (!SpringServiceLocator.getSubFundGroupService().isForContractsAndGrants(newAccountGlobal.getSubFundGroup())) {
+                if (!SpringContext.getBean(SubFundGroupService.class).isForContractsAndGrants(newAccountGlobal.getSubFundGroup())) {
                     if (!newExpDate.after(today) && !newExpDate.equals(today)) {
                         putGlobalError(KFSKeyConstants.ERROR_DOCUMENT_ACCMAINT_EXP_DATE_TODAY_LATER);
                         success &= false;
@@ -460,7 +462,7 @@ public class AccountGlobalRule extends GlobalDocumentRuleBase {
         Timestamp newExpDate = newAccountGlobal.getAccountExpirationDate();
 
         // load the object by keys
-        Account account = (Account) SpringServiceLocator.getBusinessObjectService().findByPrimaryKey(Account.class, detail.getPrimaryKeys());
+        Account account = (Account) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(Account.class, detail.getPrimaryKeys());
         if ( account != null ) {
             Timestamp oldExpDate = account.getAccountExpirationDate();
 
@@ -560,7 +562,7 @@ public class AccountGlobalRule extends GlobalDocumentRuleBase {
 
         // if the account is part of the CG fund group, then this rule does not
         // apply, so we're done
-        if (SpringServiceLocator.getSubFundGroupService().isForContractsAndGrants(newAccountGlobal.getSubFundGroup())) {
+        if (SpringContext.getBean(SubFundGroupService.class).isForContractsAndGrants(newAccountGlobal.getSubFundGroup())) {
             return false;
         }
 
@@ -649,7 +651,7 @@ public class AccountGlobalRule extends GlobalDocumentRuleBase {
         String fundGroupCode = accountGlobals.getSubFundGroup().getFundGroupCode().trim();
 
         // if this is a CG fund group, then its required
-        if (SpringServiceLocator.getSubFundGroupService().isForContractsAndGrants(accountGlobals.getSubFundGroup())) {
+        if (SpringContext.getBean(SubFundGroupService.class).isForContractsAndGrants(accountGlobals.getSubFundGroup())) {
             required = true;
         }
 

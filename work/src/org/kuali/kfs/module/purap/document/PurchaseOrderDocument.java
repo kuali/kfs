@@ -28,10 +28,13 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.core.bo.Note;
 import org.kuali.core.bo.PersistableBusinessObject;
 import org.kuali.core.rule.event.KualiDocumentEvent;
+import org.kuali.core.service.BusinessObjectService;
+import org.kuali.core.service.DataDictionaryService;
+import org.kuali.core.service.DateTimeService;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.util.TypedArrayList;
-import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.PurapConstants.CreditMemoStatuses;
 import org.kuali.module.purap.PurapConstants.RequisitionSources;
@@ -49,8 +52,10 @@ import org.kuali.module.purap.bo.PurchaseOrderView;
 import org.kuali.module.purap.bo.PurchasingApItem;
 import org.kuali.module.purap.bo.RecurringPaymentFrequency;
 import org.kuali.module.purap.bo.RequisitionItem;
-import org.kuali.module.purap.service.PurapGeneralLedgerService;
+import org.kuali.module.purap.service.PurapAccountingService;
 import org.kuali.module.purap.service.PurchaseOrderPostProcessorService;
+import org.kuali.module.purap.service.PurchaseOrderService;
+import org.kuali.module.purap.service.RequisitionService;
 import org.kuali.module.vendor.VendorConstants;
 import org.kuali.module.vendor.bo.PaymentTermType;
 import org.kuali.module.vendor.bo.ShippingPaymentTerms;
@@ -133,7 +138,7 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase {
     public void customPrepareForSave(KualiDocumentEvent event) {
         if (ObjectUtils.isNull(getPurapDocumentIdentifier())) {
             //need to save to generate PO id to save in GL entries
-            SpringServiceLocator.getBusinessObjectService().save(this);
+            SpringContext.getBean(BusinessObjectService.class).save(this);
         }
 
         // Set outstanding encumbered quantity/amount on items
@@ -181,7 +186,7 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase {
 //          }
         }//endfor items
 
-        this.setSourceAccountingLines(SpringServiceLocator.getPurapAccountingService().generateSummaryWithNoZeroTotals(this.getItems()));
+        this.setSourceAccountingLines(SpringContext.getBean(PurapAccountingService.class).generateSummaryWithNoZeroTotals(this.getItems()));
     }//end customPrepareForSave()
     
     @Override
@@ -206,7 +211,7 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase {
     public void populatePurchaseOrderFromRequisition(RequisitionDocument requisitionDocument) {
 // TODO fix this (is this data correct?  is there a better way of doing this?
 //        this.setPurchaseOrderCreateDate(requisitionDocument.getDocumentHeader().getWorkflowDocument().getCreateDate());
-        this.setPurchaseOrderCreateDate(SpringServiceLocator.getDateTimeService().getCurrentSqlDate());
+        this.setPurchaseOrderCreateDate(SpringContext.getBean(DateTimeService.class, "dateTimeService").getCurrentSqlDate());
         
         this.getDocumentHeader().setOrganizationDocumentNumber(requisitionDocument.getDocumentHeader().getOrganizationDocumentNumber());
         this.getDocumentHeader().setFinancialDocumentDescription(requisitionDocument.getDocumentHeader().getFinancialDocumentDescription());
@@ -341,7 +346,7 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase {
     }
     
     private PurchaseOrderPostProcessorService getPurchaseOrderPostProcessorService() {
-        return SpringServiceLocator.getPurchaseOrderService().convertDocTypeToService(getDocumentHeader().getWorkflowDocument().getDocumentType());
+        return SpringContext.getBean(PurchaseOrderService.class).convertDocTypeToService(getDocumentHeader().getWorkflowDocument().getDocumentType());
     }
 
     public List getItemsActiveOnly() {
@@ -761,7 +766,7 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase {
     }
     
     public void refreshDocumentBusinessObject() {
-        documentBusinessObject = SpringServiceLocator.getPurchaseOrderService().getOldestPurchaseOrder(this);
+        documentBusinessObject = SpringContext.getBean(PurchaseOrderService.class).getOldestPurchaseOrder(this);
     }
 
     @Override
@@ -784,7 +789,7 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase {
     public RequisitionDocument getPurApSourceDocumentIfPossible() {
         RequisitionDocument sourceDoc = null;
         if (ObjectUtils.isNotNull(getRequisitionIdentifier())) {
-            sourceDoc = SpringServiceLocator.getRequisitionService().getRequisitionById(getRequisitionIdentifier());
+            sourceDoc = SpringContext.getBean(RequisitionService.class).getRequisitionById(getRequisitionIdentifier());
         }
         return sourceDoc;
     }
@@ -794,7 +799,7 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase {
      */
     @Override
     public String getPurApSourceDocumentLabelIfPossible() {
-        return SpringServiceLocator.getDataDictionaryService().getDocumentLabelByClass(RequisitionDocument.class);
+        return SpringContext.getBean(DataDictionaryService.class).getDocumentLabelByClass(RequisitionDocument.class);
     }
 
     public Integer getNewQuoteVendorDetailAssignedIdentifier() {

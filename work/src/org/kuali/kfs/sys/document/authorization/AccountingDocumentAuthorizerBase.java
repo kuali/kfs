@@ -33,10 +33,9 @@ import org.kuali.core.document.TransactionalDocument;
 import org.kuali.core.document.authorization.TransactionalDocumentAuthorizerBase;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.workflow.service.KualiWorkflowDocument;
-import org.kuali.kfs.bo.AccountResponsibility;
 import org.kuali.kfs.bo.AccountingLine;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.document.AccountingDocument;
-import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.ChartUser;
 import org.kuali.module.chart.service.AccountService;
@@ -186,7 +185,7 @@ public class AccountingDocumentAuthorizerBase extends TransactionalDocumentAutho
         
         Map editableAccounts = new HashMap();
         AccountingDocument acctDoc = (AccountingDocument)document;
-        AccountResponsibilityClosure accountResponsibilityClosure = new AccountResponsibilityClosure(editableAccounts, user, SpringServiceLocator.getAccountService());
+        AccountResponsibilityClosure accountResponsibilityClosure = new AccountResponsibilityClosure(editableAccounts, user, SpringContext.getBean(AccountService.class));
 
         // for every source accounting line, decide if account should be in map
         CollectionUtils.forAllDo(acctDoc.getSourceAccountingLines(), accountResponsibilityClosure);
@@ -202,7 +201,7 @@ public class AccountingDocumentAuthorizerBase extends TransactionalDocumentAutho
      */
     public Map getEditableAccounts(List<AccountingLine> lines, ChartUser user) {
         Map editableAccounts = new HashMap();
-        AccountResponsibilityClosure accountResponsibilityClosure = new AccountResponsibilityClosure(editableAccounts, user, SpringServiceLocator.getAccountService());
+        AccountResponsibilityClosure accountResponsibilityClosure = new AccountResponsibilityClosure(editableAccounts, user, SpringContext.getBean(AccountService.class));
         
         CollectionUtils.forAllDo(lines, accountResponsibilityClosure);
         

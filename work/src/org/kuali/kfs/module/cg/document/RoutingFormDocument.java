@@ -27,6 +27,11 @@ import org.kuali.core.bo.user.AuthenticationUserId;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.exceptions.UserNotFoundException;
 import org.kuali.core.rule.KualiParameterRule;
+import org.kuali.core.service.BusinessObjectService;
+import org.kuali.core.service.DateTimeService;
+import org.kuali.core.service.KualiConfigurationService;
+import org.kuali.core.service.PersistenceService;
+import org.kuali.core.service.UniversalUserService;
 import org.kuali.core.util.KualiInteger;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.util.TypedArrayList;
@@ -34,10 +39,10 @@ import org.kuali.core.workflow.DocumentInitiator;
 import org.kuali.core.workflow.KualiDocumentXmlMaterializer;
 import org.kuali.core.workflow.KualiTransactionalDocumentInformation;
 import org.kuali.kfs.KFSPropertyConstants;
-import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.cg.bo.Agency;
 import org.kuali.module.cg.bo.Cfda;
-import org.kuali.module.chart.bo.ChartUser;
+import org.kuali.module.chart.service.ChartUserService;
 import org.kuali.module.kra.KraConstants;
 import org.kuali.module.kra.bo.AdhocOrg;
 import org.kuali.module.kra.bo.AdhocPerson;
@@ -63,6 +68,10 @@ import org.kuali.module.kra.routingform.bo.RoutingFormStatus;
 import org.kuali.module.kra.routingform.bo.RoutingFormSubcontractor;
 import org.kuali.module.kra.routingform.bo.RoutingFormSubmissionType;
 import org.kuali.module.kra.routingform.bo.SubmissionType;
+import org.kuali.module.kra.routingform.service.RoutingFormMainPageService;
+import org.kuali.module.kra.routingform.service.RoutingFormProjectDetailsService;
+import org.kuali.module.kra.routingform.service.RoutingFormResearchRiskService;
+import org.kuali.module.kra.routingform.service.RoutingFormService;
 
 /**
  * 
@@ -174,9 +183,9 @@ public class RoutingFormDocument extends ResearchDocumentBase {
 	}
 
     public void initialize() {
-        this.setRoutingFormCreateDate(SpringServiceLocator.getDateTimeService().getCurrentSqlDate());
+        this.setRoutingFormCreateDate(SpringContext.getBean(DateTimeService.class, "dateTimeService").getCurrentSqlDate());
         
-        SpringServiceLocator.getRoutingFormMainPageService().setupMainPageMaintainables(this);
+        SpringContext.getBean(RoutingFormMainPageService.class).setupMainPageMaintainables(this);
     }
 
     @Override
@@ -187,7 +196,7 @@ public class RoutingFormDocument extends ResearchDocumentBase {
             this.refreshReferenceObject("contractGrantProposal");
             if (this.getContractGrantProposal().getProposalNumber() == null) {
                 boolean createProposal = false;
-                KualiParameterRule proposalCreateRule = SpringServiceLocator.getKualiConfigurationService().getApplicationParameterRule(KraConstants.KRA_ADMIN_GROUP_NAME, "KraRoutingFormCreateProposalProjectTypes");
+                KualiParameterRule proposalCreateRule = SpringContext.getBean(KualiConfigurationService.class).getApplicationParameterRule(KraConstants.KRA_ADMIN_GROUP_NAME, "KraRoutingFormCreateProposalProjectTypes");
                 
                 for (RoutingFormProjectType routingFormProjectType : this.getRoutingFormProjectTypes()) {
                     if (proposalCreateRule.succeedsRule(routingFormProjectType.getProjectTypeCode())) {
@@ -197,10 +206,10 @@ public class RoutingFormDocument extends ResearchDocumentBase {
         }
                 
                 if (createProposal) {
-                    Long newProposalNumber = SpringServiceLocator.getRoutingFormService().createAndRouteProposalMaintenanceDocument(this);
+                    Long newProposalNumber = SpringContext.getBean(RoutingFormService.class).createAndRouteProposalMaintenanceDocument(this);
 
                     this.getContractGrantProposal().setProposalNumber(newProposalNumber);
-                    SpringServiceLocator.getBusinessObjectService().save(this.getContractGrantProposal());
+                    SpringContext.getBean(BusinessObjectService.class).save(this.getContractGrantProposal());
     }
 
             }
@@ -222,12 +231,12 @@ public class RoutingFormDocument extends ResearchDocumentBase {
         
         // Setup research risks if this is the first save
         if (this.routingFormResearchRisks.isEmpty()) {
-            SpringServiceLocator.getRoutingFormResearchRiskService().setupResearchRisks(this);
+            SpringContext.getBean(RoutingFormResearchRiskService.class).setupResearchRisks(this);
         }
         
         // Setup project details questions if this is the first save
         if (this.routingFormQuestions.isEmpty()) {
-            SpringServiceLocator.getRoutingFormProjectDetailsService().setupOtherProjectDetailsQuestions(this);
+            SpringContext.getBean(RoutingFormProjectDetailsService.class).setupOtherProjectDetailsQuestions(this);
         }
     }
 
@@ -1837,7 +1846,7 @@ public class RoutingFormDocument extends ResearchDocumentBase {
         DocumentInitiator initiator = new DocumentInitiator();
         String initiatorNetworkId = documentHeader.getWorkflowDocument().getInitiatorNetworkId();
         try {
-            UniversalUser initiatorUser = SpringServiceLocator.getUniversalUserService().getUniversalUser(new AuthenticationUserId(initiatorNetworkId));
+            UniversalUser initiatorUser = SpringContext.getBean(UniversalUserService.class, "universalUserService").getUniversalUser(new AuthenticationUserId(initiatorNetworkId));
             initiator.setUniversalUser(initiatorUser);
         }
         catch (UserNotFoundException e) {
@@ -1856,7 +1865,7 @@ public class RoutingFormDocument extends ResearchDocumentBase {
         referenceObjects.add("adhocOrgs");
         referenceObjects.add("adhocWorkgroups");
         referenceObjects.add("routingFormInstitutionCostShares");
-        SpringServiceLocator.getPersistenceService().retrieveReferenceObjects(this, referenceObjects);
+        SpringContext.getBean(PersistenceService.class).retrieveReferenceObjects(this, referenceObjects);
         
         StringBuffer xml = new StringBuffer("<documentContent>");
         xml.append(buildProjectDirectorReportXml(false));
@@ -1882,7 +1891,7 @@ public class RoutingFormDocument extends ResearchDocumentBase {
         }
         RoutingFormPersonnel projectDirector = null;
         
-        SpringServiceLocator.getPersistenceService().retrieveReferenceObject(this, "routingFormPersonnel");
+        SpringContext.getBean(PersistenceService.class).retrieveReferenceObject(this, "routingFormPersonnel");
         for (RoutingFormPersonnel user : this.getRoutingFormPersonnel()) {
             if (ObjectUtils.isNotNull(user.getPersonRoleCode()) && user.isProjectDirector()) {
                 projectDirector = user;
@@ -1906,7 +1915,7 @@ public class RoutingFormDocument extends ResearchDocumentBase {
                 xml.append(projectDirector.getChartOfAccountsCode());
                 xml.append("</chartOfAccountsCode><organizationCode>");
                 if (StringUtils.isBlank(projectDirector.getOrganizationCode())) {
-                    xml.append(SpringServiceLocator.getChartUserService().getDefaultOrganizationCode(projectDirector.getUser()));
+                    xml.append(SpringContext.getBean(ChartUserService.class).getDefaultOrganizationCode(projectDirector.getUser()));
                 } else {
                     xml.append(projectDirector.getOrganizationCode());
                 }
@@ -1938,7 +1947,7 @@ public class RoutingFormDocument extends ResearchDocumentBase {
      */
     public String buildCostShareOrgReportXml(boolean encloseContent) {
         
-        String costSharePermissionCode = SpringServiceLocator.getKualiConfigurationService().getApplicationParameterValue(
+        String costSharePermissionCode = SpringContext.getBean(KualiConfigurationService.class).getApplicationParameterValue(
                 KraConstants.KRA_ADMIN_GROUP_NAME, KraConstants.ROUTING_FORM_COST_SHARE_PERMISSION_CODE);
         
         StringBuffer xml = new StringBuffer();

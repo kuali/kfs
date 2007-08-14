@@ -20,13 +20,11 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-import org.kuali.core.bo.DocumentHeader;
 import org.kuali.core.service.DataDictionaryService;
+import org.kuali.core.service.DocumentService;
 import org.kuali.core.util.ObjectUtils;
-import org.kuali.kfs.KFSPropertyConstants;
-import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.purap.document.PurchasingAccountsPayableDocument;
-import org.kuali.workflow.KualiWorkflowUtils;
 
 import edu.iu.uis.eden.Id;
 import edu.iu.uis.eden.engine.RouteContext;
@@ -83,14 +81,14 @@ public class PurApSourceDocumentRouteUserRoleAttribute extends UnqualifiedRoleAt
         String documentNumber = null;
         try {
             documentNumber = routeContext.getDocument().getRouteHeaderId().toString();
-            PurchasingAccountsPayableDocument document = (PurchasingAccountsPayableDocument)SpringServiceLocator.getDocumentService().getByDocumentHeaderId(documentNumber);
+            PurchasingAccountsPayableDocument document = (PurchasingAccountsPayableDocument)SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(documentNumber);
             assertDocumentNotNull(document);
             document.refreshNonUpdateableReferences();
             PurchasingAccountsPayableDocument sourceDocument = document.getPurApSourceDocumentIfPossible();
             // method getSourceDocumentIfPossible() could return null but for using this instance we should get something back
             assertDocumentNotNull(sourceDocument);
             // return the user who routed the source document
-            DataDictionaryService dataDictionaryService = SpringServiceLocator.getDataDictionaryService();
+            DataDictionaryService dataDictionaryService = SpringContext.getBean(DataDictionaryService.class);
             String label = "User Who Routed " + sourceDocument.getPurApSourceDocumentLabelIfPossible() + " " + sourceDocument.getPurapDocumentIdentifier();
             return new ResolvedQualifiedRole(label, Arrays.asList(new Id[] {new AuthenticationUserId(sourceDocument.getDocumentHeader().getWorkflowDocument().getRoutedByUserNetworkId())}));
         }

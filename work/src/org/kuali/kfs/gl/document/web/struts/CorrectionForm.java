@@ -16,32 +16,20 @@
 
 package org.kuali.module.gl.web.struts.form;
 
-import java.io.Serializable;
-import java.sql.Date;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Enumeration;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
-import java.util.TreeMap;
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.struts.action.ActionErrors;
-import org.apache.struts.action.ActionMapping;
 import org.apache.struts.upload.FormFile;
 import org.kuali.core.document.authorization.TransactionalDocumentActionFlags;
-import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.web.struts.form.KualiDocumentFormBase;
 import org.kuali.core.web.struts.form.KualiTableRenderFormMetadata;
 import org.kuali.core.web.ui.Column;
 import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.util.SpringServiceLocator;
-import org.kuali.module.gl.bo.CorrectionChange;
-import org.kuali.module.gl.bo.CorrectionChangeGroup;
-import org.kuali.module.gl.bo.CorrectionCriteria;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.gl.bo.OriginEntry;
 import org.kuali.module.gl.document.CorrectionDocument;
 import org.kuali.module.gl.service.CorrectionDocumentService;
@@ -455,7 +443,7 @@ public class CorrectionForm extends KualiDocumentFormBase implements CorrectionD
     }
     
     public List<Column> getTableRenderColumnMetadata() {
-        return SpringServiceLocator.getCorrectionDocumentService().getTableRenderColumnMetadata(getDocument().getDocumentNumber());
+        return SpringContext.getBean(CorrectionDocumentService.class).getTableRenderColumnMetadata(getDocument().getDocumentNumber());
     }
     
     /**

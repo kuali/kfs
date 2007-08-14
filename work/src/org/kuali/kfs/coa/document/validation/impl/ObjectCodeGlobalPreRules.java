@@ -18,9 +18,10 @@ package org.kuali.module.chart.rules;
 import java.util.List;
 
 import org.kuali.core.document.MaintenanceDocument;
-import org.kuali.kfs.util.SpringServiceLocator;
-import org.kuali.module.chart.bo.ObjectCodeGlobalDetail;
+import org.kuali.core.service.MaintenanceDocumentDictionaryService;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.chart.bo.ObjectCodeGlobal;
+import org.kuali.module.chart.bo.ObjectCodeGlobalDetail;
 
 
 public class ObjectCodeGlobalPreRules extends MaintenancePreRulesBase {
@@ -41,7 +42,7 @@ public class ObjectCodeGlobalPreRules extends MaintenancePreRulesBase {
                 if ( LOG.isDebugEnabled() ) {
                     LOG.debug( "setting fiscal year on ObjectCodeGlobalDetail: " + detail );
                 }
-                detail.setUniversityFiscalYear( new Integer( SpringServiceLocator.getMaintenanceDocumentDictionaryService().getCollectionFieldDefaultValue(
+                detail.setUniversityFiscalYear( new Integer( SpringContext.getBean(MaintenanceDocumentDictionaryService.class).getCollectionFieldDefaultValue(
                         maintenanceDocument.getDocumentHeader().getWorkflowDocument().getDocumentType(),
                         "objectCodeGlobalDetails", "universityFiscalYear" ) ) );
             }

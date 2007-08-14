@@ -19,30 +19,18 @@ package org.kuali.module.cg.bo;
 import java.sql.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.HashMap;
 
 import org.apache.ojb.broker.PersistenceBroker;
 import org.apache.ojb.broker.PersistenceBrokerException;
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.bo.user.UniversalUser;
-import org.kuali.core.rule.KualiParameterRule;
+import org.kuali.core.service.LookupService;
+import org.kuali.core.service.UniversalUserService;
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.core.util.KualiInteger;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.util.TypedArrayList;
-import org.kuali.core.service.LookupService;
-import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.workflow.attribute.AlternateOrgReviewRouting;
-import org.kuali.module.cg.lookup.valuefinder.NextProposalNumberFinder;
-import org.kuali.module.kra.KraConstants;
-import org.kuali.module.kra.routingform.bo.RoutingFormBudget;
-import org.kuali.module.kra.routingform.bo.RoutingFormOrganization;
-import org.kuali.module.kra.routingform.bo.RoutingFormPersonnel;
-import org.kuali.module.kra.routingform.bo.RoutingFormProjectType;
-import org.kuali.module.kra.routingform.bo.RoutingFormResearchRisk;
-import org.kuali.module.kra.routingform.bo.RoutingFormSubcontractor;
-import org.kuali.module.kra.routingform.document.RoutingFormDocument;
 
 /**
  * See functional documentation.
@@ -830,7 +818,7 @@ public class Proposal extends PersistableBusinessObjectBase implements Alternate
 	 * @return the id of the lookup person
 	 */
 	public String getLookupPersonUniversalIdentifier() {
-		lookupUniversalUser = SpringServiceLocator.getUniversalUserService().updateUniversalUserIfNecessary(lookupPersonUniversalIdentifier, lookupUniversalUser);
+		lookupUniversalUser = SpringContext.getBean(UniversalUserService.class, "universalUserService").updateUniversalUserIfNecessary(lookupPersonUniversalIdentifier, lookupUniversalUser);
 		return lookupPersonUniversalIdentifier;
 	}
 

@@ -23,10 +23,9 @@ import org.kuali.core.rule.BusinessRule;
 import org.kuali.core.rule.event.KualiDocumentEventBase;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.kfs.KFSKeyConstants;
-import org.kuali.kfs.document.AccountingDocument;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.document.GeneralLedgerPostingDocument;
 import org.kuali.kfs.rule.SufficientFundsCheckingPreparationRule;
-import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.gl.service.SufficientFundsService;
 import org.kuali.module.gl.util.SufficientFundsItem;
 
@@ -67,7 +66,7 @@ public final class SufficientFundsCheckingPreparationEvent extends KualiDocument
 
             GeneralLedgerPostingDocument doc = (GeneralLedgerPostingDocument) document;
 
-            SufficientFundsService sufficientFundsService = SpringServiceLocator.getSufficientFundsService();
+            SufficientFundsService sufficientFundsService = SpringContext.getBean(SufficientFundsService.class);
 
             List<SufficientFundsItem> items = sufficientFundsService.checkSufficientFunds(doc);
 

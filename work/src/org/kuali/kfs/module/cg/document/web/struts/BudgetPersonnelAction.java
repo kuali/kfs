@@ -28,9 +28,10 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.core.rule.event.KualiDocumentEventBase;
+import org.kuali.core.service.KualiRuleService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.kra.budget.bo.BudgetUser;
 import org.kuali.module.kra.budget.bo.UserAppointmentTask;
 import org.kuali.module.kra.budget.bo.UserAppointmentTaskPeriod;
@@ -38,6 +39,7 @@ import org.kuali.module.kra.budget.rules.event.CalculatePersonnelEvent;
 import org.kuali.module.kra.budget.rules.event.InsertPersonnelEventBase;
 import org.kuali.module.kra.budget.rules.event.SavePersonnelEventBase;
 import org.kuali.module.kra.budget.rules.event.UpdatePersonnelEventBase;
+import org.kuali.module.kra.budget.service.BudgetPersonnelService;
 import org.kuali.module.kra.budget.web.struts.form.BudgetForm;
 
 
@@ -64,7 +66,7 @@ public class BudgetPersonnelAction extends BudgetAction {
         boolean rulePassed = runRule(budgetForm, new CalculatePersonnelEvent(budgetForm.getDocument()));
         
         if (rulePassed) {
-            SpringServiceLocator.getBudgetPersonnelService().calculateAllPersonnelCompensation(budgetForm.getBudgetDocument());
+            SpringContext.getBean(BudgetPersonnelService.class).calculateAllPersonnelCompensation(budgetForm.getBudgetDocument());
             return super.execute(mapping, form, request, response);
         } else if (StringUtils.equals(KFSConstants.RELOAD_METHOD_TO_CALL, budgetForm.getMethodToCall())) {
             GlobalVariables.getErrorMap().clear();
@@ -123,7 +125,7 @@ public class BudgetPersonnelAction extends BudgetAction {
         budgetForm.getBudgetDocument().getBudget().setPersonnel(personnelList);
 
         // check any business rules that are specific to saving from this page only.
-        SpringServiceLocator.getKualiRuleService().applyRules(new SavePersonnelEventBase(budgetForm.getDocument(), budgetForm.getBudgetDocument().getBudget().getPersonnel()));
+        SpringContext.getBean(KualiRuleService.class).applyRules(new SavePersonnelEventBase(budgetForm.getDocument(), budgetForm.getBudgetDocument().getBudget().getPersonnel()));
 
 
         // Super save
@@ -175,14 +177,14 @@ public class BudgetPersonnelAction extends BudgetAction {
 
         Collections.sort(budgetForm.getBudgetDocument().getBudget().getPersonnel());
         
-        SpringServiceLocator.getBudgetPersonnelService().calculateAllPersonnelCompensation(budgetForm.getBudgetDocument());
+        SpringContext.getBean(BudgetPersonnelService.class).calculateAllPersonnelCompensation(budgetForm.getBudgetDocument());
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
     private boolean runRule(BudgetForm budgetForm, KualiDocumentEventBase event) {
         // check any business rules
-        boolean rulePassed = SpringServiceLocator.getKualiRuleService().applyRules(event);
+        boolean rulePassed = SpringContext.getBean(KualiRuleService.class).applyRules(event);
 
         if (!rulePassed) {
             // have to reset all of the tasks and appointment types of everyone on the page.

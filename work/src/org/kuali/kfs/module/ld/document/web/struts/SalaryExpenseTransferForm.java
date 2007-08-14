@@ -26,7 +26,7 @@ import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.exceptions.UserNotFoundException;
 import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.context.SpringContext;
-import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.module.chart.service.AccountingPeriodService;
 import org.kuali.module.labor.bo.LaborUser;
 import org.kuali.module.labor.bo.LedgerBalance;
 import org.kuali.module.labor.document.SalaryExpenseTransferDocument;
@@ -54,7 +54,7 @@ public class SalaryExpenseTransferForm extends ExpenseTransferDocumentFormBase {
         setDocument(new SalaryExpenseTransferDocument());
         setFinancialBalanceTypeCode("AC");
         setLookupResultsBOClassName(LedgerBalance.class.getName());
-        setUniversityFiscalYear(SpringServiceLocator.getAccountingPeriodService().getByDate(new Date(System.currentTimeMillis())).getUniversityFiscalYear());
+        setUniversityFiscalYear(SpringContext.getBean(AccountingPeriodService.class).getByDate(new Date(System.currentTimeMillis())).getUniversityFiscalYear());
     }
 
     /**

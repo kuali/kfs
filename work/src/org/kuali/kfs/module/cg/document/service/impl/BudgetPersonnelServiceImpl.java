@@ -27,11 +27,13 @@ import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.service.BusinessObjectService;
+import org.kuali.core.service.DateTimeService;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.KualiInteger;
 import org.kuali.core.util.ObjectUtils;
-import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.kfs.context.SpringContext;
+import org.kuali.module.financial.service.UniversityDateService;
 import org.kuali.module.kra.KraConstants;
 import org.kuali.module.kra.budget.bo.AppointmentType;
 import org.kuali.module.kra.budget.bo.AppointmentTypeEffectiveDate;
@@ -151,8 +153,8 @@ public class BudgetPersonnelServiceImpl implements BudgetPersonnelService {
 
         boolean calculateCalendarYear = StringUtils.equals(budgetFringeRate.getInstitutionAppointmentTypeCode(), getAppointmentTypeMappings().get(KraConstants.ACADEMIC_SUMMER).toString());
 
-        Integer periodStartDateEvaluationYear = SpringServiceLocator.getUniversityDateService().getFiscalYear(period.getBudgetPeriodBeginDate());
-        Integer periodEndDateEvaluationYear = SpringServiceLocator.getUniversityDateService().getFiscalYear(period.getBudgetPeriodEndDate());
+        Integer periodStartDateEvaluationYear = SpringContext.getBean(UniversityDateService.class).getFiscalYear(period.getBudgetPeriodBeginDate());
+        Integer periodEndDateEvaluationYear = SpringContext.getBean(UniversityDateService.class).getFiscalYear(period.getBudgetPeriodEndDate());
 
         if (calculateCalendarYear) { // currently only used for Academic Summer appointments
             Calendar startDateCalendar = Calendar.getInstance();
@@ -192,7 +194,7 @@ public class BudgetPersonnelServiceImpl implements BudgetPersonnelService {
 
             double inflationFactor = inflationRate.doubleValue() / 100 + 1;
 
-            int compareToYear = SpringServiceLocator.getUniversityDateService().getCurrentFiscalYear().intValue();
+            int compareToYear = SpringContext.getBean(UniversityDateService.class).getCurrentFiscalYear().intValue();
 
             if (budgetUser.getBudgetSalaryFiscalYear() !=  null) {
                 compareToYear = budgetUser.getBudgetSalaryFiscalYear().intValue();
@@ -220,14 +222,14 @@ public class BudgetPersonnelServiceImpl implements BudgetPersonnelService {
             }
 
 
-            BigDecimal dailySalaryForAppointmentTypeDuration = fullSalaryForAppointmentTypeDuration.divide(new BigDecimal(SpringServiceLocator.getDateTimeService().dateDiff(dailySalaryStartDate, dailySalaryEndDate, true)));
+            BigDecimal dailySalaryForAppointmentTypeDuration = fullSalaryForAppointmentTypeDuration.divide(new BigDecimal(SpringContext.getBean(DateTimeService.class, "dateTimeService").dateDiff(dailySalaryStartDate, dailySalaryEndDate, true)));
 
             // Step 2 - find out the number of days in the period
             Date workStartDate = (period.getBudgetPeriodBeginDate().before(evalStartDate) ? evalStartDate : period.getBudgetPeriodBeginDate());
             Date workEndDate = (period.getBudgetPeriodEndDate().after(evalEndDate) ? evalEndDate : period.getBudgetPeriodEndDate());
 
             //method can return a negative - this may occur in cases when we are modifying the dates to calcualte based on.  For example, summer appointments in periods that 
-            int dateDiff = SpringServiceLocator.getDateTimeService().dateDiff(workStartDate, workEndDate, true);
+            int dateDiff = SpringContext.getBean(DateTimeService.class, "dateTimeService").dateDiff(workStartDate, workEndDate, true);
             int daysInPeriod = dateDiff > 0 ? dateDiff : 0;
 
             // Step 3 - multiply the number of days in the period (Step 2) by the daily salary (Step 1)
@@ -777,7 +779,7 @@ public class BudgetPersonnelServiceImpl implements BudgetPersonnelService {
             return appointmentTypeEffectiveDate.getAppointmentTypeBeginDate();
         }
         else {
-            return SpringServiceLocator.getUniversityDateService().getFirstDateOfFiscalYear(fiscalYear);
+            return SpringContext.getBean(UniversityDateService.class).getFirstDateOfFiscalYear(fiscalYear);
         }
     }
 
@@ -790,7 +792,7 @@ public class BudgetPersonnelServiceImpl implements BudgetPersonnelService {
             return appointmentTypeEffectiveDate.getAppointmentTypeEndDate();
         }
         else {
-            return SpringServiceLocator.getUniversityDateService().getLastDateOfFiscalYear(fiscalYear);
+            return SpringContext.getBean(UniversityDateService.class).getLastDateOfFiscalYear(fiscalYear);
         }
     }
 

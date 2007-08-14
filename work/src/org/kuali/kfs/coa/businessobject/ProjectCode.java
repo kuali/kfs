@@ -16,10 +16,9 @@
 package org.kuali.module.chart.bo;
 
 import org.kuali.core.bo.KualiCodeBase;
-
 import org.kuali.core.bo.user.UniversalUser;
-import org.kuali.core.exceptions.UserNotFoundException;
-import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.core.service.UniversalUserService;
+import org.kuali.kfs.context.SpringContext;
 
 /**
  * 
@@ -64,7 +63,7 @@ public class ProjectCode extends KualiCodeBase {
     }
 
     public UniversalUser getProjectManagerUniversal() {
-        projectManagerUniversal = SpringServiceLocator.getUniversalUserService().updateUniversalUserIfNecessary(projectManagerUniversalId, projectManagerUniversal);
+        projectManagerUniversal = SpringContext.getBean(UniversalUserService.class, "universalUserService").updateUniversalUserIfNecessary(projectManagerUniversalId, projectManagerUniversal);
         return projectManagerUniversal;
     }
 

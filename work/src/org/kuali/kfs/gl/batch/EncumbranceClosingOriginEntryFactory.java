@@ -19,7 +19,8 @@ import java.sql.Date;
 
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.kfs.context.SpringContext;
+import org.kuali.kfs.service.OptionsService;
 import org.kuali.module.chart.bo.A21SubAccount;
 import org.kuali.module.chart.bo.ObjectCode;
 import org.kuali.module.chart.bo.OffsetDefinition;
@@ -52,7 +53,7 @@ public class EncumbranceClosingOriginEntryFactory {
      */
     static final public OriginEntryOffsetPair createCostShareBeginningBalanceEntryOffsetPair(Encumbrance encumbrance, String debitCreditCode) {
 
-        KualiConfigurationService kualiConfigurationService = SpringServiceLocator.getKualiConfigurationService();
+        KualiConfigurationService kualiConfigurationService = SpringContext.getBean(KualiConfigurationService.class);
         final String GL_ACLO = kualiConfigurationService.getApplicationParameterValue(KFSConstants.ParameterGroups.SYSTEM, KFSConstants.SystemGroupParameterNames.GL_ACLO);
         final String GL_ORIGINATION_CODE = kualiConfigurationService.getApplicationParameterValue(KFSConstants.ParameterGroups.SYSTEM, KFSConstants.SystemGroupParameterNames.GL_ORIGINATION_CODE);
         
@@ -67,7 +68,7 @@ public class EncumbranceClosingOriginEntryFactory {
         entry.setTransactionLedgerEntryDescription(description);
 
         // SpringServiceLocator is used because this method is static.
-        A21SubAccountService a21SubAccountService = SpringServiceLocator.getA21SubAccountService();
+        A21SubAccountService a21SubAccountService = SpringContext.getBean(A21SubAccountService.class);
         A21SubAccount a21SubAccount = a21SubAccountService.getByPrimaryKey(encumbrance.getChartOfAccountsCode(), encumbrance.getAccountNumber(), encumbrance.getSubAccountNumber());
 
         entry.setChartOfAccountsCode(a21SubAccount.getCostShareChartOfAccountCode());
@@ -117,7 +118,7 @@ public class EncumbranceClosingOriginEntryFactory {
 
         // Lookup the offset definition for the explicit entry we just created.
         // SpringServiceLocator is used because this method is static.
-        OffsetDefinitionService offsetDefinitionService = SpringServiceLocator.getOffsetDefinitionService();
+        OffsetDefinitionService offsetDefinitionService = SpringContext.getBean(OffsetDefinitionService.class);
         OffsetDefinition offsetDefinition = offsetDefinitionService.getByPrimaryId(entry.getUniversityFiscalYear(), entry.getChartOfAccountsCode(), entry.getFinancialDocumentTypeCode(), entry.getFinancialBalanceTypeCode());
 
         // Set values from the offset definition if it was found.
@@ -136,7 +137,7 @@ public class EncumbranceClosingOriginEntryFactory {
 
         // Validate the object code for the explicit entry.
         // SpringServiceLocator is used because this method is static.
-        ObjectCodeService objectCodeService = SpringServiceLocator.getObjectCodeService();
+        ObjectCodeService objectCodeService = SpringContext.getBean(ObjectCodeService.class);
         ObjectCode objectCode = objectCodeService.getByPrimaryId(entry.getUniversityFiscalYear(), entry.getChartOfAccountsCode(), entry.getFinancialObjectCode());
 
         if (null != objectCode) {
@@ -189,7 +190,7 @@ public class EncumbranceClosingOriginEntryFactory {
      */
     static final public OriginEntryOffsetPair createBeginningBalanceEntryOffsetPair(Encumbrance encumbrance, Integer closingFiscalYear, Date transactionDate) {
 
-        KualiConfigurationService kualiConfigurationService = SpringServiceLocator.getKualiConfigurationService();
+        KualiConfigurationService kualiConfigurationService = SpringContext.getBean(KualiConfigurationService.class);
         final String GL_ACLO = kualiConfigurationService.getApplicationParameterValue(KFSConstants.ParameterGroups.SYSTEM, KFSConstants.SystemGroupParameterNames.GL_ACLO);
         final String GL_ORIGINATION_CODE = kualiConfigurationService.getApplicationParameterValue(KFSConstants.ParameterGroups.SYSTEM, KFSConstants.SystemGroupParameterNames.GL_ORIGINATION_CODE);
         
@@ -205,7 +206,7 @@ public class EncumbranceClosingOriginEntryFactory {
         entry.setSubAccountNumber(encumbrance.getSubAccountNumber());
 
         // SpringServiceLocator is used because this method is static.
-        ObjectCodeService objectCodeService = SpringServiceLocator.getObjectCodeService();
+        ObjectCodeService objectCodeService = SpringContext.getBean(ObjectCodeService.class);
         ObjectCode objectCode = objectCodeService.getByPrimaryId(encumbrance.getUniversityFiscalYear(), encumbrance.getChartOfAccountsCode(), encumbrance.getObjectCode());
 
         if (null != objectCode) {
@@ -233,7 +234,7 @@ public class EncumbranceClosingOriginEntryFactory {
         }
 
         // SpringServiceLocator is used because this method is static.
-        SubObjectCodeService subObjectCodeService = SpringServiceLocator.getSubObjectCodeService();
+        SubObjectCodeService subObjectCodeService = SpringContext.getBean(SubObjectCodeService.class);
         SubObjCd subObjectCode = subObjectCodeService.getByPrimaryId(encumbrance.getUniversityFiscalYear(), encumbrance.getChartOfAccountsCode(), encumbrance.getAccountNumber(), encumbrance.getObjectCode(), encumbrance.getSubObjectCode());
 
         if (null != subObjectCode) {
@@ -302,7 +303,7 @@ public class EncumbranceClosingOriginEntryFactory {
 
         }
 
-        offset.setFinancialObjectTypeCode(SpringServiceLocator.getOptionsService().getCurrentYearOptions().getFinObjectTypeFundBalanceCd());
+        offset.setFinancialObjectTypeCode(SpringContext.getBean(OptionsService.class).getCurrentYearOptions().getFinObjectTypeFundBalanceCd());
         offset.setTransactionLedgerEntryDescription(BEGINNING_FUND_TRANSACTION_LEDGER_ENTRY_DESCRIPTION);
 
         if (KFSConstants.GL_DEBIT_CODE.equals(entry.getTransactionDebitCreditCode())) {

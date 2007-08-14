@@ -21,9 +21,10 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.core.service.DictionaryValidationService;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSPropertyConstants;
-import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.web.struts.action.KualiAccountingDocumentActionBase;
 import org.kuali.module.financial.bo.InternalBillingItem;
 import org.kuali.module.financial.web.struts.form.InternalBillingForm;
@@ -59,7 +60,7 @@ public class InternalBillingAction extends KualiAccountingDocumentActionBase {
      * @return whether the new item is valid
      */
     private static boolean validateNewItem(InternalBillingForm internalBillingForm) {
-        return SpringServiceLocator.getDictionaryValidationService().isBusinessObjectValid(internalBillingForm.getNewItem(), KFSPropertyConstants.NEW_ITEM);
+        return SpringContext.getBean(DictionaryValidationService.class).isBusinessObjectValid(internalBillingForm.getNewItem(), KFSPropertyConstants.NEW_ITEM);
     }
 
     /**

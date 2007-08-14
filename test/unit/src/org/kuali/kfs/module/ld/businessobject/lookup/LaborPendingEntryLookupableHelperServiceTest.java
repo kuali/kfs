@@ -21,14 +21,14 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.beanutils.PropertyUtils;
-
 import org.kuali.core.bo.PersistableBusinessObject;
+import org.kuali.core.service.DateTimeService;
+import org.kuali.kfs.context.KualiTestBase;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.gl.web.TestDataGenerator;
 import org.kuali.module.labor.bo.LaborLedgerPendingEntry;
 import org.kuali.module.labor.service.LaborLedgerPendingEntryService;
-import org.kuali.module.labor.web.lookupable.LaborPendingEntryLookupableHelperServiceImpl;
-import org.kuali.kfs.context.KualiTestBase;
 import org.kuali.test.ConfigureContext;
 
 /**
@@ -67,7 +67,7 @@ public class LaborPendingEntryLookupableHelperServiceTest extends KualiTestBase 
 
         messageFileName = "test/src/org/kuali/module/labor/web/testdata/message.properties";
         propertiesFileName = "test/src/org/kuali/module/labor/web/testdata/laborLedgerPendingEntry.properties";
-        date = SpringServiceLocator.getDateTimeService().getCurrentDate();
+        date = SpringContext.getBean(DateTimeService.class, "dateTimeService").getCurrentDate();
         pendingEntry = new LaborLedgerPendingEntry();
         testDataGenerator = new TestDataGenerator(propertiesFileName, messageFileName);
         lookupableHelperServiceImpl = (LaborPendingEntryLookupableHelperServiceImpl) SpringServiceLocator.getService("laborPendingEntryLookupableHelperService");

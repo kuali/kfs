@@ -37,12 +37,13 @@ import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSKeyConstants;
 import org.kuali.kfs.bo.AccountingLine;
 import org.kuali.kfs.bo.SourceAccountingLine;
-import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.web.struts.action.KualiAccountingDocumentActionBase;
 import org.kuali.kfs.web.struts.form.KualiAccountingDocumentFormBase;
 import org.kuali.module.financial.bo.VoucherAccountingLineHelper;
 import org.kuali.module.financial.bo.VoucherAccountingLineHelperBase;
 import org.kuali.module.financial.document.VoucherDocument;
+import org.kuali.module.financial.service.UniversityDateService;
 import org.kuali.module.financial.web.struts.form.VoucherForm;
 
 import edu.iu.uis.eden.exception.WorkflowException;
@@ -184,7 +185,7 @@ public class VoucherAction extends KualiAccountingDocumentActionBase {
                 selectedAccountingPeriod += voucherDocument.getPostingYear().toString();
             }
             else {
-                selectedAccountingPeriod += SpringServiceLocator.getUniversityDateService().getCurrentFiscalYear().toString();
+                selectedAccountingPeriod += SpringContext.getBean(UniversityDateService.class).getCurrentFiscalYear().toString();
             }
             voucherForm.setSelectedAccountingPeriod(selectedAccountingPeriod);
         }
@@ -274,7 +275,7 @@ public class VoucherAction extends KualiAccountingDocumentActionBase {
         VoucherDocument avDoc = vForm.getVoucherDocument();
 
         String question = request.getParameter(KFSConstants.QUESTION_INST_ATTRIBUTE_NAME);
-        KualiConfigurationService kualiConfiguration = SpringServiceLocator.getKualiConfigurationService();
+        KualiConfigurationService kualiConfiguration = SpringContext.getBean(KualiConfigurationService.class);
 
         if (question == null) { // question hasn't been asked
             String currencyFormattedDebitTotal = (String) new CurrencyFormatter().format(avDoc.getDebitTotal());

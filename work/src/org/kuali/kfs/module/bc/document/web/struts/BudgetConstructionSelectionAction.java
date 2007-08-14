@@ -30,17 +30,20 @@ import org.apache.struts.action.ActionMapping;
 import org.kuali.core.authorization.AuthorizationType;
 import org.kuali.core.exceptions.AuthorizationException;
 import org.kuali.core.exceptions.ModuleAuthorizationException;
+import org.kuali.core.service.KualiConfigurationService;
+import org.kuali.core.service.KualiModuleService;
+import org.kuali.core.service.PersistenceService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.UrlFactory;
 import org.kuali.core.web.struts.action.KualiAction;
 import org.kuali.core.web.struts.form.KualiForm;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSKeyConstants;
-import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.budget.BCConstants;
 import org.kuali.module.budget.BCConstants.OrgSelOpMode;
 import org.kuali.module.budget.bo.BudgetConstructionHeader;
-import org.kuali.module.budget.dao.ojb.BudgetConstructionDaoOjb;
+import org.kuali.module.budget.service.BudgetDocumentService;
 import org.kuali.module.budget.web.struts.form.BudgetConstructionSelectionForm;
 
 
@@ -66,7 +69,7 @@ public class BudgetConstructionSelectionAction extends KualiAction {
 //TODO will eventually need to setup some sort of authorization for typical user versus BC root approver
 //root approvers have more controls present on the page
         //TODO should probably use service locator and call
-        //DocumentAuthorizer documentAuthorizer = SpringServiceLocator.getDocumentAuthorizationService().getDocumentAuthorizer("<BCDoctype>");
+        //DocumentAuthorizer documentAuthorizer = SpringContext.getBean(DocumentAuthorizationService.class).getDocumentAuthorizer("<BCDoctype>");
 //        BudgetConstructionDocumentAuthorizer budgetConstructionDocumentAuthorizer = new BudgetConstructionDocumentAuthorizer();
 //        budgetConstructionSelectionForm.populateAuthorizationFields(budgetConstructionDocumentAuthorizer);
 
@@ -80,7 +83,7 @@ public class BudgetConstructionSelectionAction extends KualiAction {
     protected void checkAuthorization(ActionForm form, String methodToCall) throws AuthorizationException {
  
         AuthorizationType bcAuthorizationType = new AuthorizationType.Default(this.getClass());
-        if ( !SpringServiceLocator.getKualiModuleService().isAuthorized( GlobalVariables.getUserSession().getUniversalUser(), bcAuthorizationType ) ){
+        if ( !SpringContext.getBean(KualiModuleService.class).isAuthorized( GlobalVariables.getUserSession().getUniversalUser(), bcAuthorizationType ) ){
             LOG.error("User not authorized to use this action: " + this.getClass().getName() );
             throw new ModuleAuthorizationException( GlobalVariables.getUserSession().getUniversalUser().getPersonUserIdentifier(), bcAuthorizationType, getKualiModuleService().getResponsibleModule(this.getClass()) );
         }
@@ -118,14 +121,14 @@ public class BudgetConstructionSelectionAction extends KualiAction {
             subAccountNumber = bcHeader.getSubAccountNumber();
         }
 
-        BudgetConstructionHeader tHeader = (BudgetConstructionHeader) SpringServiceLocator.getBudgetDocumentService().getByCandidateKey(chartOfAccountsCode, accountNumber, subAccountNumber, universityFiscalYear);
+        BudgetConstructionHeader tHeader = (BudgetConstructionHeader) SpringContext.getBean(BudgetDocumentService.class).getByCandidateKey(chartOfAccountsCode, accountNumber, subAccountNumber, universityFiscalYear);
         if (tHeader == null){
             //error ERROR_EXISTENCE
             GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_MESSAGES,KFSKeyConstants.ERROR_EXISTENCE, "BC Document");
             return mapping.findForward(KFSConstants.MAPPING_BASIC);
         } else {
             // TODO abyrne changed this to reference config property, but not sure where this is being used
-            String basePath = SpringServiceLocator.getKualiConfigurationService().getPropertyString(KFSConstants.APPLICATION_URL_KEY);
+            String basePath = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(KFSConstants.APPLICATION_URL_KEY);
 
             Properties parameters = new Properties();
             parameters.put(KFSConstants.DISPATCH_REQUEST_PARAMETER, BCConstants.BC_DOCUMENT_METHOD);
@@ -162,7 +165,7 @@ public class BudgetConstructionSelectionAction extends KualiAction {
 //              if (refreshCaller != null && refreshCaller.equalsIgnoreCase(KFSConstants.KUALI_LOOKUPABLE_IMPL)){
         if (refreshCaller != null && (refreshCaller.endsWith("Lookupable") || (refreshCaller.endsWith("LOOKUPABLE")))){
             final List REFRESH_FIELDS = Collections.unmodifiableList(Arrays.asList(new String[] {"chartOfAccounts", "account", "subAccount", "budgetConstructionAccountReports"}));
-            SpringServiceLocator.getPersistenceService().retrieveReferenceObjects(budgetConstructionSelectionForm.getBudgetConstructionHeader(), REFRESH_FIELDS);            
+            SpringContext.getBean(PersistenceService.class).retrieveReferenceObjects(budgetConstructionSelectionForm.getBudgetConstructionHeader(), REFRESH_FIELDS);            
         }
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
@@ -197,7 +200,7 @@ public class BudgetConstructionSelectionAction extends KualiAction {
      */
     public ActionForward performOrgSelectionTree(OrgSelOpMode opMode, ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         
-        String basePath = SpringServiceLocator.getKualiConfigurationService().getPropertyString(KFSConstants.APPLICATION_URL_KEY);
+        String basePath = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(KFSConstants.APPLICATION_URL_KEY);
 
         Properties parameters = new Properties();
         parameters.put(KFSConstants.DISPATCH_REQUEST_PARAMETER, BCConstants.ORG_SEL_TREE_METHOD);

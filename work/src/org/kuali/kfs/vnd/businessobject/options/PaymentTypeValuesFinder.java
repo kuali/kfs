@@ -16,18 +16,14 @@
 package org.kuali.module.vendor.lookup.keyvalues;
 
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Iterator;
 import java.util.List;
 
 import org.kuali.core.lookup.keyvalues.KeyValuesBase;
 import org.kuali.core.lookup.valueFinder.ValueFinder;
-import org.kuali.core.service.KeyValuesService;
+import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.web.ui.KeyLabelPair;
-import org.kuali.kfs.util.SpringServiceLocator;
-import org.kuali.module.vendor.VendorConstants;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.vendor.VendorParameterConstants;
-import org.kuali.module.vendor.bo.ContactType;
 
 /**
  * This class...
@@ -40,7 +36,7 @@ public class PaymentTypeValuesFinder extends KeyValuesBase implements ValueFinde
      */
     public List getKeyValues() {
 
-        String[] descValues = SpringServiceLocator.getKualiConfigurationService().getApplicationParameterValues(
+        String[] descValues = SpringContext.getBean(KualiConfigurationService.class).getApplicationParameterValues(
                 VendorParameterConstants.PURAP_ADMIN_GROUP, VendorParameterConstants.PAYMENT_TERMS_DUE_TYPE_DESC);
         List keyValues = new ArrayList();
         for (String desc : descValues) {

@@ -15,46 +15,16 @@
  */
 package org.kuali.module.chart.rules;
 
-import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Collections;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 
-import org.apache.commons.lang.StringUtils;
-import org.apache.commons.lang.time.DateUtils;
-import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.document.MaintenanceDocument;
-import org.kuali.core.exceptions.UserNotFoundException;
 import org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase;
-import org.kuali.core.service.DictionaryValidationService;
 import org.kuali.core.service.KeyValuesService;
-import org.kuali.core.util.GlobalVariables;
-import org.kuali.core.util.ObjectUtils;
-import org.kuali.core.web.ui.KeyLabelPair;
-import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSKeyConstants;
-import org.kuali.kfs.bo.Building;
 import org.kuali.kfs.bo.Options;
-import org.kuali.kfs.lookup.keyvalues.FiscalYearComparator;
-import org.kuali.kfs.lookup.valuefinder.FiscalYearFinder;
-import org.kuali.kfs.service.GeneralLedgerPendingEntryService;
-import org.kuali.kfs.util.SpringServiceLocator;
-import org.kuali.module.chart.bo.Account;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.chart.bo.AccountingPeriod;
-import org.kuali.module.chart.bo.ChartUser;
-import org.kuali.module.chart.bo.IcrAutomatedEntry;
-import org.kuali.module.chart.bo.SubFundGroup;
-import org.kuali.module.chart.service.AccountService;
-import org.kuali.module.chart.service.SubFundGroupService;
-import org.kuali.module.financial.bo.FiscalYearFunctionControl;
-import org.kuali.module.financial.service.impl.FiscalYearFunctionControlServiceImpl;
-import org.kuali.module.gl.service.BalanceService;
-import org.kuali.module.kra.KraKeyConstants;
-import org.kuali.module.labor.service.LaborLedgerPendingEntryService;
 
 /**
  * Business rule(s) applicable to AccountMaintenance documents.
@@ -126,7 +96,7 @@ public class AccountingPeriodRule extends MaintenanceDocumentRuleBase {
         
         Boolean foundYear = false;
         
-        KeyValuesService boService = SpringServiceLocator.getKeyValuesService();
+        KeyValuesService boService = SpringContext.getBean(KeyValuesService.class);
         List optionList = (List) boService.findAll(Options.class);
         for (Iterator iter = optionList.iterator(); iter.hasNext();) {
             Options options = (Options) iter.next();

@@ -29,13 +29,14 @@ import org.apache.ojb.broker.PersistenceBrokerException;
 import org.kuali.core.bo.Campus;
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.bo.user.UniversalUser;
-import org.kuali.core.exceptions.UserNotFoundException;
-import org.kuali.kfs.KFSConstants;
+import org.kuali.core.service.DateTimeService;
+import org.kuali.core.service.UniversalUserService;
 import org.kuali.kfs.bo.PostalZipCode;
 import org.kuali.kfs.bo.State;
-import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.chart.bo.codes.BudgetRecordingLevelCode;
 import org.kuali.module.chart.bo.codes.SufficientFundsCode;
+import org.kuali.module.chart.service.SubFundGroupService;
 
 /**
  * 
@@ -145,7 +146,7 @@ public class PriorYearAccount extends PersistableBusinessObjectBase implements A
         super.afterLookup(persistenceBroker);
         // This is needed to put a value in the object so the persisted XML has a flag that
         // can be used in routing to determine if an account is a C&G Account
-        forContractsAndGrants = SpringServiceLocator.getSubFundGroupService().isForContractsAndGrants(getSubFundGroup());
+        forContractsAndGrants = SpringContext.getBean(SubFundGroupService.class).isForContractsAndGrants(getSubFundGroup());
     }
     
     /**
@@ -388,7 +389,7 @@ public class PriorYearAccount extends PersistableBusinessObjectBase implements A
             return false;
         }
 
-        return this.isExpired(SpringServiceLocator.getDateTimeService().getCurrentCalendar());
+        return this.isExpired(SpringContext.getBean(DateTimeService.class, "dateTimeService").getCurrentCalendar());
     }
 
     /**
@@ -1082,7 +1083,7 @@ public class PriorYearAccount extends PersistableBusinessObjectBase implements A
     }
 
     public UniversalUser getAccountFiscalOfficerUser() {
-        accountFiscalOfficerUser = SpringServiceLocator.getUniversalUserService().updateUniversalUserIfNecessary(accountFiscalOfficerSystemIdentifier, accountFiscalOfficerUser);
+        accountFiscalOfficerUser = SpringContext.getBean(UniversalUserService.class, "universalUserService").updateUniversalUserIfNecessary(accountFiscalOfficerSystemIdentifier, accountFiscalOfficerUser);
         return accountFiscalOfficerUser;
     }
 
@@ -1096,7 +1097,7 @@ public class PriorYearAccount extends PersistableBusinessObjectBase implements A
     }
 
     public UniversalUser getAccountManagerUser() {
-        accountManagerUser = SpringServiceLocator.getUniversalUserService().updateUniversalUserIfNecessary(accountManagerSystemIdentifier, accountManagerUser);
+        accountManagerUser = SpringContext.getBean(UniversalUserService.class, "universalUserService").updateUniversalUserIfNecessary(accountManagerSystemIdentifier, accountManagerUser);
         return accountManagerUser;
     }
 
@@ -1110,7 +1111,7 @@ public class PriorYearAccount extends PersistableBusinessObjectBase implements A
 
 
     public UniversalUser getAccountSupervisoryUser() {
-        accountSupervisoryUser = SpringServiceLocator.getUniversalUserService().updateUniversalUserIfNecessary(accountsSupervisorySystemsIdentifier, accountSupervisoryUser);
+        accountSupervisoryUser = SpringContext.getBean(UniversalUserService.class, "universalUserService").updateUniversalUserIfNecessary(accountsSupervisorySystemsIdentifier, accountSupervisoryUser);
         return accountSupervisoryUser;
     }
 

@@ -21,7 +21,8 @@ import java.util.LinkedHashMap;
 
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.bo.user.UniversalUser;
-import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.core.service.UniversalUserService;
+import org.kuali.kfs.context.SpringContext;
 
 /**
  * 
@@ -174,7 +175,7 @@ public class VendorTaxChange extends PersistableBusinessObjectBase {
 	}
 
 	public UniversalUser getVendorTaxChangePerson() {
-        vendorTaxChangePerson = SpringServiceLocator.getUniversalUserService().updateUniversalUserIfNecessary(vendorTaxChangePersonIdentifier, vendorTaxChangePerson);
+        vendorTaxChangePerson = SpringContext.getBean(UniversalUserService.class, "universalUserService").updateUniversalUserIfNecessary(vendorTaxChangePersonIdentifier, vendorTaxChangePerson);
         return vendorTaxChangePerson;
     }
 

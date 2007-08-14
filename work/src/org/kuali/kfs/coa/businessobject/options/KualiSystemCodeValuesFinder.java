@@ -22,7 +22,8 @@ import java.util.List;
 
 import org.kuali.core.lookup.keyvalues.KeyValuesBase;
 import org.kuali.core.web.ui.KeyLabelPair;
-import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.kfs.context.SpringContext;
+import org.kuali.kfs.service.KualiCodeService;
 import org.kuali.module.chart.bo.KualiSystemCode;
 
 /**
@@ -43,7 +44,7 @@ public abstract class KualiSystemCodeValuesFinder extends KeyValuesBase {
 
 
         // get all the KualiCodeService objects that are associated with this class
-        Collection keys = SpringServiceLocator.getKualiCodeService().getAll(this.getValuesClass());
+        Collection keys = SpringContext.getBean(KualiCodeService.class).getAll(this.getValuesClass());
         List keyLabels = new ArrayList();
 
         // add a blank pair for the first/default key/value pair

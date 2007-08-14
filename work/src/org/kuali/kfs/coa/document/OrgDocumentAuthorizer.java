@@ -18,7 +18,6 @@ package org.kuali.module.chart.document;
 import org.apache.log4j.Logger;
 import org.kuali.core.bo.user.KualiGroup;
 import org.kuali.core.bo.user.UniversalUser;
-
 import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.core.document.authorization.MaintenanceDocumentAuthorizations;
 import org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase;
@@ -27,7 +26,7 @@ import org.kuali.core.exceptions.GroupNotFoundException;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.service.KualiGroupService;
 import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.kfs.context.SpringContext;
 
 /**
  * Org/Organization specific authorization rules.
@@ -66,13 +65,13 @@ public class OrgDocumentAuthorizer extends MaintenanceDocumentAuthorizerBase {
 
         // get the group name that we need here - ORG
         KualiConfigurationService configService;
-        configService = SpringServiceLocator.getKualiConfigurationService();
+        configService = SpringContext.getBean(KualiConfigurationService.class);
         KualiGroup group = null;
         try {
             String groupName = configService.getApplicationParameterValue(KFSConstants.ChartApcParms.GROUP_CHART_MAINT_EDOCS, KFSConstants.ChartApcParms.ORG_PLANT_WORKGROUP_PARM_NAME);
 
             // create a new KualiGroup instance with that name
-            KualiGroupService groupService = SpringServiceLocator.getKualiGroupService();
+            KualiGroupService groupService = SpringContext.getBean(KualiGroupService.class);
             try {
                 group = groupService.getByGroupName(groupName);
             }

@@ -15,8 +15,6 @@
  */
 package org.kuali.module.labor.web.struts.action;
 
-import static org.kuali.kfs.KFSConstants.AMOUNT_PROPERTY_NAME;
-import static org.kuali.kfs.KFSConstants.ZERO;
 import static org.kuali.kfs.KFSKeyConstants.ERROR_ZERO_AMOUNT;
 
 import java.util.Collection;
@@ -38,6 +36,8 @@ import org.apache.struts.action.ActionMapping;
 import org.kuali.core.bo.PersistableBusinessObject;
 import org.kuali.core.document.TransactionalDocument;
 import org.kuali.core.rule.event.KualiDocumentEventBase;
+import org.kuali.core.service.KualiRuleService;
+import org.kuali.core.service.PersistenceService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.UrlFactory;
@@ -45,6 +45,7 @@ import org.kuali.core.web.struts.form.KualiForm;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.bo.AccountingLineOverride;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.rule.event.AddAccountingLineEvent;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.gl.GLConstants;
@@ -52,7 +53,6 @@ import org.kuali.module.labor.LaborConstants;
 import org.kuali.module.labor.bo.ExpenseTransferAccountingLine;
 import org.kuali.module.labor.bo.LedgerBalance;
 import org.kuali.module.labor.document.LaborExpenseTransferDocumentBase;
-import org.kuali.module.labor.rule.event.EmployeeIdChangedEvent;
 import org.kuali.module.labor.service.SegmentedLookupResultsService;
 import org.kuali.module.labor.web.struts.form.ExpenseTransferDocumentFormBase;
 
@@ -207,8 +207,8 @@ public class ExpenseTransferDocumentActionBase extends LaborDocumentActionBase {
                                 } else {
                                     buildAccountingLineFromLedgerBalance((LedgerBalance) bo, line, lineAmount, periodCode);
 
-                                    SpringServiceLocator.getKualiRuleService().applyRules(new AddAccountingLineEvent(KFSConstants.NEW_SOURCE_ACCT_LINE_PROPERTY_NAME, financialDocument, line));
-                                    SpringServiceLocator.getPersistenceService().retrieveNonKeyFields(line);
+                                    SpringContext.getBean(KualiRuleService.class).applyRules(new AddAccountingLineEvent(KFSConstants.NEW_SOURCE_ACCT_LINE_PROPERTY_NAME, financialDocument, line));
+                                    SpringContext.getBean(PersistenceService.class).retrieveNonKeyFields(line);
                                        
                                     insertAccountingLine(true, expenseTransferDocumentForm, line);
                                     updateAccountOverrideCode(line);
@@ -245,7 +245,7 @@ public class ExpenseTransferDocumentActionBase extends LaborDocumentActionBase {
             // if the rule evaluation passed, let's add it
             if (rulePassed) {
                 // add accountingLine
-                SpringServiceLocator.getPersistenceService().retrieveNonKeyFields(line);
+                SpringContext.getBean(PersistenceService.class).retrieveNonKeyFields(line);
                 insertAccountingLine(false, financialDocumentForm, to);
             }
             processAccountingLineOverrides(to);
@@ -291,7 +291,7 @@ public class ExpenseTransferDocumentActionBase extends LaborDocumentActionBase {
         // if the rule evaluation passed, let's add it
         if (rulePassed) {
             // add accountingLine
-            SpringServiceLocator.getPersistenceService().retrieveNonKeyFields(line);
+            SpringContext.getBean(PersistenceService.class).retrieveNonKeyFields(line);
             insertAccountingLine(false, financialDocumentForm, line);
         }
         processAccountingLineOverrides(line);
@@ -374,7 +374,7 @@ public class ExpenseTransferDocumentActionBase extends LaborDocumentActionBase {
     private boolean runRule(KualiDocumentEventBase event) {
         // check any business rules
 
-        boolean rulePassed = SpringServiceLocator.getKualiRuleService().applyRules(event);
+        boolean rulePassed = SpringContext.getBean(KualiRuleService.class).applyRules(event);
         return rulePassed;
     }
 

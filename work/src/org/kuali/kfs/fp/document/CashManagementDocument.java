@@ -23,23 +23,19 @@ import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
-import org.kuali.core.rule.event.KualiDocumentEvent;
+import org.kuali.core.service.DateTimeService;
 import org.kuali.core.workflow.service.KualiWorkflowDocument;
 import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.KFSConstants.DepositConstants;
-import org.kuali.kfs.KFSConstants.CurrencyCoinSources;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.document.AccountingDocumentBase;
-import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.financial.bo.CashDrawer;
 import org.kuali.module.financial.bo.CashieringItemInProcess;
 import org.kuali.module.financial.bo.CashieringTransaction;
 import org.kuali.module.financial.bo.Check;
-import org.kuali.module.financial.bo.CheckBase;
-import org.kuali.module.financial.bo.CoinDetail;
-import org.kuali.module.financial.bo.CurrencyDetail;
 import org.kuali.module.financial.bo.Deposit;
-import org.kuali.module.financial.dao.CashManagementDao;
 import org.kuali.module.financial.service.CashDrawerService;
+import org.kuali.module.financial.service.CashManagementService;
 
 /**
  * This class represents the CashManagementDocument.
@@ -299,11 +295,11 @@ public class CashManagementDocument extends AccountingDocumentBase {
 
         if (kwd.stateIsProcessed()) {
             // all approvals have been processed, finalize everything
-            SpringServiceLocator.getCashManagementService().finalizeCashManagementDocument(this);
+            SpringContext.getBean(CashManagementService.class).finalizeCashManagementDocument(this);
         }
         else if (kwd.stateIsCanceled() || kwd.stateIsDisapproved()) {
             // document has been canceled or disapproved
-            SpringServiceLocator.getCashManagementService().cancelCashManagementDocument(this);
+            SpringContext.getBean(CashManagementService.class).cancelCashManagementDocument(this);
         }
     }
 
@@ -332,10 +328,10 @@ public class CashManagementDocument extends AccountingDocumentBase {
         super.processAfterRetrieve();
         // grab the cash drawer
         if (this.getWorkgroupName() != null) {
-            this.cashDrawer = SpringServiceLocator.getCashDrawerService().getByWorkgroupName(this.getWorkgroupName(), false);
+            this.cashDrawer = SpringContext.getBean(CashDrawerService.class).getByWorkgroupName(this.getWorkgroupName(), false);
             this.resetCurrentTransaction();
         }
-        SpringServiceLocator.getCashManagementService().populateCashDetailsForDeposit(this);
+        SpringContext.getBean(CashManagementService.class).populateCashDetailsForDeposit(this);
     }
 
 
@@ -356,15 +352,15 @@ public class CashManagementDocument extends AccountingDocumentBase {
      */
     public void resetCurrentTransaction() {
         if (this.currentTransaction != null) {
-            this.currentTransaction.setTransactionEnded(SpringServiceLocator.getDateTimeService().getCurrentDate());
+            this.currentTransaction.setTransactionEnded(SpringContext.getBean(DateTimeService.class, "dateTimeService").getCurrentDate());
         }
         currentTransaction = new CashieringTransaction(workgroupName, referenceFinancialDocumentNumber);
         if (this.getWorkgroupName() != null) {
-            List<CashieringItemInProcess> openItemsInProcess = SpringServiceLocator.getCashManagementService().getOpenItemsInProcess(this);
+            List<CashieringItemInProcess> openItemsInProcess = SpringContext.getBean(CashManagementService.class).getOpenItemsInProcess(this);
             if (openItemsInProcess != null) {
                 currentTransaction.setOpenItemsInProcess(openItemsInProcess);
             }
-            currentTransaction.setNextCheckSequenceId(SpringServiceLocator.getCashManagementService().selectNextAvailableCheckLineNumber(this.documentNumber));
+            currentTransaction.setNextCheckSequenceId(SpringContext.getBean(CashManagementService.class).selectNextAvailableCheckLineNumber(this.documentNumber));
         }
     }
     

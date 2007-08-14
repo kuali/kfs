@@ -26,11 +26,11 @@ import org.kuali.core.document.MaintenanceLock;
 import org.kuali.core.maintenance.KualiGlobalMaintainableImpl;
 import org.kuali.core.util.TypedArrayList;
 import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.chart.bo.OrganizationReversion;
 import org.kuali.module.chart.bo.OrganizationReversionCategory;
-import org.kuali.module.chart.bo.OrganizationReversionGlobalDetail;
 import org.kuali.module.chart.bo.OrganizationReversionGlobal;
+import org.kuali.module.chart.bo.OrganizationReversionGlobalDetail;
 import org.kuali.module.chart.bo.OrganizationReversionGlobalOrganization;
 import org.kuali.module.chart.service.OrganizationReversionService;
 
@@ -97,7 +97,7 @@ public class OrganizationReversionGlobalMaintainableImpl extends KualiGlobalMain
     @Override
     public void setBusinessObject(PersistableBusinessObject businessObject) {
         super.setBusinessObject(businessObject);
-        OrganizationReversionService organizationReversionService = SpringServiceLocator.getOrganizationReversionService();
+        OrganizationReversionService organizationReversionService = SpringContext.getBean(OrganizationReversionService.class);
         OrganizationReversionGlobal globalOrgRev = (OrganizationReversionGlobal) businessObject;
         List<OrganizationReversionGlobalDetail> details = globalOrgRev.getOrganizationReversionGlobalDetails();
         LOG.debug("Details size before adding categories = "+details.size());

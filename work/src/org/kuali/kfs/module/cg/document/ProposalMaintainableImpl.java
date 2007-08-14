@@ -29,10 +29,12 @@ import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.core.maintenance.KualiMaintainableImpl;
 import org.kuali.core.maintenance.Maintainable;
+import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.AssertionUtils;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.web.ui.Section;
 import org.kuali.kfs.KFSConstants;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.cg.CGConstants;
 import org.kuali.module.cg.bo.ProjectDirector;
@@ -40,7 +42,9 @@ import org.kuali.module.cg.bo.Proposal;
 import org.kuali.module.cg.bo.ProposalProjectDirector;
 import org.kuali.module.cg.bo.ProposalResearchRisk;
 import org.kuali.module.cg.lookup.valuefinder.NextProposalNumberFinder;
+import org.kuali.module.cg.service.ProjectDirectorService;
 import org.kuali.module.kra.routingform.bo.ResearchRiskType;
+import org.kuali.module.kra.routingform.service.RoutingFormResearchRiskService;
 
 /**
  * Methods for the Proposal maintenance document UI.
@@ -138,7 +142,7 @@ public class ProposalMaintainableImpl extends KualiMaintainableImpl {
         AssertionUtils.assertThat(risks.isEmpty());
         // no requirement to exclude any risk types (except inactive ones, which the service excludes anyway)
         final String[] riskTypeCodesToExclude = new String[0];
-        List<ResearchRiskType> researchRiskTypes = SpringServiceLocator.getRoutingFormResearchRiskService().getResearchRiskTypes(riskTypeCodesToExclude);
+        List<ResearchRiskType> researchRiskTypes = SpringContext.getBean(RoutingFormResearchRiskService.class).getResearchRiskTypes(riskTypeCodesToExclude);
         for (ResearchRiskType type : researchRiskTypes) {
             ProposalResearchRisk ppr = new ProposalResearchRisk();
             ppr.setResearchRiskTypeCode(type.getResearchRiskTypeCode());
@@ -206,10 +210,10 @@ public class ProposalMaintainableImpl extends KualiMaintainableImpl {
     private static void refreshWithSecondaryKey(ProposalProjectDirector ppd) {
         String secondaryKey = ppd.getProjectDirector().getPersonUserIdentifier();
         if (StringUtils.isNotBlank(secondaryKey)) {
-            ProjectDirector dir = SpringServiceLocator.getProjectDirectorService().getByPersonUserIdentifier(secondaryKey);
+            ProjectDirector dir = SpringContext.getBean(ProjectDirectorService.class).getByPersonUserIdentifier(secondaryKey);
             ppd.setPersonUniversalIdentifier(dir == null ? null : dir.getPersonUniversalIdentifier());
         }
-        if (StringUtils.isNotBlank(ppd.getPersonUniversalIdentifier()) && SpringServiceLocator.getProjectDirectorService().primaryIdExists(ppd.getPersonUniversalIdentifier())) {
+        if (StringUtils.isNotBlank(ppd.getPersonUniversalIdentifier()) && SpringContext.getBean(ProjectDirectorService.class).primaryIdExists(ppd.getPersonUniversalIdentifier())) {
             ppd.refreshNonUpdateableReferences();
         }
     }
@@ -250,8 +254,8 @@ public class ProposalMaintainableImpl extends KualiMaintainableImpl {
         
         List<Section> coreSections = getCoreSections(oldMaintainable);
         
-        String preAwardWorkgroupName = SpringServiceLocator.getKualiConfigurationService().getApplicationParameterValue(CGConstants.GROUP_CG_MAINT_EDOCS, "Kuali-Document.PreAward.Workgroup");
-        String postAwardWorkgroupName = SpringServiceLocator.getKualiConfigurationService().getApplicationParameterValue(CGConstants.GROUP_CG_MAINT_EDOCS, "Kuali-Document.PostAward.Workgroup");
+        String preAwardWorkgroupName = SpringContext.getBean(KualiConfigurationService.class).getApplicationParameterValue(CGConstants.GROUP_CG_MAINT_EDOCS, "Kuali-Document.PreAward.Workgroup");
+        String postAwardWorkgroupName = SpringContext.getBean(KualiConfigurationService.class).getApplicationParameterValue(CGConstants.GROUP_CG_MAINT_EDOCS, "Kuali-Document.PostAward.Workgroup");
         
         UniversalUser user = GlobalVariables.getUserSession().getUniversalUser();
         if(!user.isMember(preAwardWorkgroupName) && !user.isMember(postAwardWorkgroupName)) {

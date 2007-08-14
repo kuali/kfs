@@ -15,16 +15,13 @@
  */
 package org.kuali.module.chart.bo;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.ArrayList;
 import java.util.Map;
-import java.util.HashMap;
 
 import org.apache.commons.lang.StringUtils;
-
-import org.kuali.kfs.KFSPropertyConstants;
-import org.kuali.kfs.bo.Options;
 import org.kuali.core.bo.GlobalBusinessObject;
 import org.kuali.core.bo.GlobalBusinessObjectDetail;
 import org.kuali.core.bo.PersistableBusinessObject;
@@ -32,7 +29,10 @@ import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.PersistenceStructureService;
 import org.kuali.core.util.TypedArrayList;
-import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.kfs.KFSPropertyConstants;
+import org.kuali.kfs.bo.Options;
+import org.kuali.kfs.context.SpringContext;
+import org.kuali.module.chart.service.OrganizationReversionService;
 
 /**
  * 
@@ -339,12 +339,12 @@ public class OrganizationReversionGlobal extends PersistableBusinessObjectBase i
     public List<PersistableBusinessObject> generateGlobalChangesToPersist() {
         List<PersistableBusinessObject> persistingChanges = new ArrayList<PersistableBusinessObject>();
         
-        BusinessObjectService boService = SpringServiceLocator.getBusinessObjectService();
+        BusinessObjectService boService = SpringContext.getBean(BusinessObjectService.class);
         Map<OrganizationReversionCategory, OrganizationReversionGlobalDetail> detailsMap = this.rearrangeOrganizationReversionDetailsAsMap();
         
         for (OrganizationReversionGlobalOrganization orgRevOrg: this.getOrganizationReversionGlobalOrganizations()) {
             // 1. find that organization reversion
-            OrganizationReversion currOrgRev = SpringServiceLocator.getOrganizationReversionService().getByPrimaryId(this.getUniversityFiscalYear(), orgRevOrg.getChartOfAccountsCode(), orgRevOrg.getOrganizationCode());
+            OrganizationReversion currOrgRev = SpringContext.getBean(OrganizationReversionService.class).getByPrimaryId(this.getUniversityFiscalYear(), orgRevOrg.getChartOfAccountsCode(), orgRevOrg.getOrganizationCode());
 
             if (currOrgRev != null) { // only proceed if there's a pre-existing org reversion; we don't want to insert any new records
                 if (!StringUtils.isBlank(this.getBudgetReversionChartOfAccountsCode())) {
@@ -420,7 +420,7 @@ public class OrganizationReversionGlobal extends PersistableBusinessObjectBase i
      * their appropriate primary keys set.
      */
     public boolean isPersistable() {
-        PersistenceStructureService persistenceStructureService = SpringServiceLocator.getPersistenceStructureService();
+        PersistenceStructureService persistenceStructureService = SpringContext.getBean(PersistenceStructureService.class);
         
         if (!persistenceStructureService.hasPrimaryKeyFieldValues(this)) {
             return false;

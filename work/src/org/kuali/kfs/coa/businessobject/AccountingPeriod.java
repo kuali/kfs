@@ -24,7 +24,7 @@ import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.service.DateTimeService;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.bo.Options;
-import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.kfs.context.SpringContext;
 
 /**
  * 
@@ -202,7 +202,7 @@ public class AccountingPeriod extends PersistableBusinessObjectBase {
      * @return the actual month (1 - 12) that this period represents
      */
     public int getMonth() {
-        DateTimeService dateTimeService = SpringServiceLocator.getDateTimeService();
+        DateTimeService dateTimeService = SpringContext.getBean(DateTimeService.class, "dateTimeService");
         Calendar cal = dateTimeService.getCalendar(new Date(this.universityFiscalPeriodEndDate.getTime()));
         return cal.get(Calendar.MONTH) + 1;
     }

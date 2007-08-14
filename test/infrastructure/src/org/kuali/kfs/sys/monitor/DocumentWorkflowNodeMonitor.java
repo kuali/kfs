@@ -16,8 +16,10 @@
 package org.kuali.test.monitor;
 
 import org.kuali.core.bo.user.AuthenticationUserId;
+import org.kuali.core.service.UniversalUserService;
 import org.kuali.core.workflow.service.KualiWorkflowDocument;
-import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.core.workflow.service.WorkflowDocumentService;
+import org.kuali.kfs.context.SpringContext;
 
 import edu.iu.uis.eden.exception.WorkflowException;
 
@@ -40,7 +42,7 @@ public class DocumentWorkflowNodeMonitor extends ChangeMonitor {
     }
 
     public boolean valueChanged() throws Exception {
-        KualiWorkflowDocument document = SpringServiceLocator.getWorkflowDocumentService().createWorkflowDocument(docHeaderId, SpringServiceLocator.getUniversalUserService().getUniversalUser(new AuthenticationUserId(networkId)));
+        KualiWorkflowDocument document = SpringContext.getBean(WorkflowDocumentService.class).createWorkflowDocument(docHeaderId, SpringContext.getBean(UniversalUserService.class, "universalUserService").getUniversalUser(new AuthenticationUserId(networkId)));
         String currentNodeName = document.getNodeNames()[0];
         // currently in Kuali there is no parallel branching so we can only ever be at one node
         return desiredNodeName.equals(currentNodeName);

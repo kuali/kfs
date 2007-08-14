@@ -24,6 +24,7 @@ import java.util.List;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.RicePropertyConstants;
 import org.kuali.core.bo.BusinessObject;
+import org.kuali.core.service.DataDictionaryService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
@@ -32,6 +33,7 @@ import org.kuali.kfs.KFSKeyConstants;
 import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.bo.AccountingLine;
 import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.document.AccountingDocument;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.chart.bo.ObjectCode;
@@ -53,8 +55,12 @@ import org.kuali.module.purap.document.PurchasingAccountsPayableDocument;
 import org.kuali.module.purap.rule.CalculateAccountsPayableRule;
 import org.kuali.module.purap.rule.ContinueAccountsPayableRule;
 import org.kuali.module.purap.rule.PreCalculateAccountsPayableRule;
+import org.kuali.module.purap.service.CreditMemoService;
+import org.kuali.module.purap.service.PaymentRequestService;
 import org.kuali.module.purap.service.PurapGeneralLedgerService;
+import org.kuali.module.purap.service.PurchaseOrderService;
 import org.kuali.module.vendor.bo.VendorDetail;
+import org.kuali.module.vendor.service.VendorService;
 import org.kuali.module.vendor.util.VendorUtils;
 
 
@@ -172,8 +178,8 @@ public class CreditMemoDocumentRule extends AccountsPayableDocumentRuleBase impl
         boolean creditMemoDateExist = validateRequiredField(cmDocument, PurapPropertyConstants.CREDIT_MEMO_DATE);
 
         if (creditMemoDateExist) {
-            if (SpringServiceLocator.getPaymentRequestService().isInvoiceDateAfterToday(cmDocument.getCreditMemoDate())) {
-                String label = SpringServiceLocator.getDataDictionaryService().getAttributeErrorLabel(CreditMemoDocument.class, PurapPropertyConstants.CREDIT_MEMO_DATE);
+            if (SpringContext.getBean(PaymentRequestService.class).isInvoiceDateAfterToday(cmDocument.getCreditMemoDate())) {
+                String label = SpringContext.getBean(DataDictionaryService.class).getAttributeErrorLabel(CreditMemoDocument.class, PurapPropertyConstants.CREDIT_MEMO_DATE);
                 GlobalVariables.getErrorMap().putError(PurapPropertyConstants.CREDIT_MEMO_DATE, PurapKeyConstants.ERROR_INVALID_INVOICE_DATE, label);
                 valid = false;
             }
@@ -202,7 +208,7 @@ public class CreditMemoDocumentRule extends AccountsPayableDocumentRuleBase impl
             // Make sure PREQ is valid if entered
             Integer preqNumber = cmDocument.getPaymentRequestIdentifier();
             if (ObjectUtils.isNotNull(preqNumber)) {
-                PaymentRequestDocument preq = SpringServiceLocator.getPaymentRequestService().getPaymentRequestById(preqNumber);
+                PaymentRequestDocument preq = SpringContext.getBean(PaymentRequestService.class).getPaymentRequestById(preqNumber);
                 if (ObjectUtils.isNull(preq)) {
                     GlobalVariables.getErrorMap().putErrorWithoutFullErrorPath(PurapPropertyConstants.PAYMENT_REQUEST_ID, PurapKeyConstants.ERROR_CREDIT_MEMO_PAYMENT_REQEUEST_INVALID, preqNumber.toString());
                     valid = false;
@@ -216,7 +222,7 @@ public class CreditMemoDocumentRule extends AccountsPayableDocumentRuleBase impl
             // Make sure PO # is valid if entered
             Integer purchaseOrderID = cmDocument.getPurchaseOrderIdentifier();
             if (ObjectUtils.isNotNull(purchaseOrderID)) {
-                PurchaseOrderDocument purchaseOrder = SpringServiceLocator.getPurchaseOrderService().getCurrentPurchaseOrder(purchaseOrderID);
+                PurchaseOrderDocument purchaseOrder = SpringContext.getBean(PurchaseOrderService.class).getCurrentPurchaseOrder(purchaseOrderID);
                 if (ObjectUtils.isNull(purchaseOrder)) {
                     GlobalVariables.getErrorMap().putError(PurapPropertyConstants.PURCHASE_ORDER_IDENTIFIER, PurapKeyConstants.ERROR_CREDIT_MEMO_PURCHASE_ORDER_INVALID, purchaseOrderID.toString());
                     valid = false;
@@ -230,7 +236,7 @@ public class CreditMemoDocumentRule extends AccountsPayableDocumentRuleBase impl
             // Make sure vendorNumber is valid if entered
             String vendorNumber = cmDocument.getVendorNumber();
             if (StringUtils.isNotEmpty(vendorNumber)) {
-                VendorDetail vendor = SpringServiceLocator.getVendorService().getVendorDetail(VendorUtils.getVendorHeaderId(vendorNumber), VendorUtils.getVendorDetailId(vendorNumber));
+                VendorDetail vendor = SpringContext.getBean(VendorService.class).getVendorDetail(VendorUtils.getVendorHeaderId(vendorNumber), VendorUtils.getVendorDetailId(vendorNumber));
                 if (ObjectUtils.isNull(vendor)) {
                     GlobalVariables.getErrorMap().putErrorWithoutFullErrorPath(PurapPropertyConstants.VENDOR_NUMBER, PurapKeyConstants.ERROR_CREDIT_MEMO_VENDOR_NUMBER_INVALID, vendorNumber);
                     valid = false;
@@ -287,7 +293,7 @@ public class CreditMemoDocumentRule extends AccountsPayableDocumentRuleBase impl
 
         if (item.getItemQuantity() != null) {
             if (item.getItemQuantity().isNegative()) {
-                String label = SpringServiceLocator.getDataDictionaryService().getAttributeErrorLabel(CreditMemoItem.class, PurapPropertyConstants.QUANTITY);
+                String label = SpringContext.getBean(DataDictionaryService.class).getAttributeErrorLabel(CreditMemoItem.class, PurapPropertyConstants.QUANTITY);
                 GlobalVariables.getErrorMap().putError(errorKey, PurapKeyConstants.ERROR_CREDIT_MEMO_ITEM_AMOUNT_NONPOSITIVE, label);
                 valid = false;
             }
@@ -303,7 +309,7 @@ public class CreditMemoDocumentRule extends AccountsPayableDocumentRuleBase impl
             // check if quantity should be required
             KualiDecimal invoicedQuantity = getSourceTotalInvoiceQuantity(cmDocument, item);
             if (item.getItemType().isQuantityBasedGeneralLedgerIndicator() && invoicedQuantity.isGreaterThan(KualiDecimal.ZERO) && (item.getExtendedPrice() != null && item.getExtendedPrice().isGreaterThan(KualiDecimal.ZERO))) {
-                String label = SpringServiceLocator.getDataDictionaryService().getAttributeErrorLabel(CreditMemoItem.class, PurapPropertyConstants.QUANTITY);
+                String label = SpringContext.getBean(DataDictionaryService.class).getAttributeErrorLabel(CreditMemoItem.class, PurapPropertyConstants.QUANTITY);
                 GlobalVariables.getErrorMap().putError(errorKey, KFSKeyConstants.ERROR_REQUIRED, label);
                 valid = false;
             }
@@ -327,7 +333,7 @@ public class CreditMemoDocumentRule extends AccountsPayableDocumentRuleBase impl
         if (item.getItemUnitPrice() != null) {
             // verify unit price is not negative
             if (item.getItemUnitPrice().signum() == -1) {
-                String label = SpringServiceLocator.getDataDictionaryService().getAttributeErrorLabel(CreditMemoItem.class, PurapPropertyConstants.ITEM_UNIT_PRICE);
+                String label = SpringContext.getBean(DataDictionaryService.class).getAttributeErrorLabel(CreditMemoItem.class, PurapPropertyConstants.ITEM_UNIT_PRICE);
                 GlobalVariables.getErrorMap().putError(errorKey, PurapKeyConstants.ERROR_CREDIT_MEMO_ITEM_AMOUNT_NONPOSITIVE, label);
                 valid = false;
             }
@@ -355,7 +361,7 @@ public class CreditMemoDocumentRule extends AccountsPayableDocumentRuleBase impl
 
         if (item.getExtendedPrice() != null) {
             if (item.getExtendedPrice().isNegative()) {
-                String label = SpringServiceLocator.getDataDictionaryService().getAttributeErrorLabel(CreditMemoItem.class, PurapPropertyConstants.EXTENDED_PRICE);
+                String label = SpringContext.getBean(DataDictionaryService.class).getAttributeErrorLabel(CreditMemoItem.class, PurapPropertyConstants.EXTENDED_PRICE);
                 GlobalVariables.getErrorMap().putError(errorKey, PurapKeyConstants.ERROR_CREDIT_MEMO_ITEM_AMOUNT_NONPOSITIVE, label);
                 valid = false;
             }
@@ -417,8 +423,8 @@ public class CreditMemoDocumentRule extends AccountsPayableDocumentRuleBase impl
         GlobalVariables.getErrorMap().clearErrorPath();
         GlobalVariables.getErrorMap().addToErrorPath(RicePropertyConstants.DOCUMENT);
 
-        PurchaseOrderDocument poDocument = SpringServiceLocator.getPurchaseOrderService().getCurrentPurchaseOrder(cmDocument.getPurchaseOrderIdentifier());
-        List<PurchaseOrderItem> invoicedItems = SpringServiceLocator.getCreditMemoService().getPOInvoicedItems(poDocument);
+        PurchaseOrderDocument poDocument = SpringContext.getBean(PurchaseOrderService.class).getCurrentPurchaseOrder(cmDocument.getPurchaseOrderIdentifier());
+        List<PurchaseOrderItem> invoicedItems = SpringContext.getBean(CreditMemoService.class).getPOInvoicedItems(poDocument);
 
         if (invoicedItems == null || invoicedItems.isEmpty()) {
             GlobalVariables.getErrorMap().putError(PurapPropertyConstants.PURCHASE_ORDER_IDENTIFIER, PurapKeyConstants.ERROR_CREDIT_MEMO_PURCAHSE_ORDER_NOITEMS);
@@ -442,7 +448,7 @@ public class CreditMemoDocumentRule extends AccountsPayableDocumentRuleBase impl
 
         Object fieldValue = ObjectUtils.getPropertyValue(businessObject, fieldName);
         if (fieldValue == null || (fieldValue instanceof String && StringUtils.isBlank(fieldName))) {
-            String label = SpringServiceLocator.getDataDictionaryService().getAttributeErrorLabel(businessObject.getClass(), fieldName);
+            String label = SpringContext.getBean(DataDictionaryService.class).getAttributeErrorLabel(businessObject.getClass(), fieldName);
             GlobalVariables.getErrorMap().putError(fieldName, KFSKeyConstants.ERROR_REQUIRED, label);
             valid = false;
         }
@@ -513,7 +519,7 @@ public class CreditMemoDocumentRule extends AccountsPayableDocumentRuleBase impl
         account.refreshReferenceObject(KFSPropertyConstants.OBJECT_CODE);
         ObjectCode objectCode = account.getObjectCode();
 
-        String objectCodeLabel = SpringServiceLocator.getDataDictionaryService().getAttributeLabel(account.getClass(), KFSPropertyConstants.FINANCIAL_OBJECT_CODE);
+        String objectCodeLabel = SpringContext.getBean(DataDictionaryService.class).getAttributeLabel(account.getClass(), KFSPropertyConstants.FINANCIAL_OBJECT_CODE);
 
         // check object type restrictions
         valid = executeApplicationParameterRestriction(PurapRuleConstants.CREDIT_MEMO_RULES_GROUP, PurapRuleConstants.RESTRICTED_OBJECT_TYPE_PARM_NM, objectCode.getFinancialObjectTypeCode(), KFSPropertyConstants.FINANCIAL_OBJECT_CODE, objectCodeLabel);

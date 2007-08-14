@@ -15,16 +15,15 @@
  */
 package org.kuali.module.chart.rules;
 
-import java.sql.Timestamp;
-import java.util.Date;
 import java.util.HashMap;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.document.MaintenanceDocument;
+import org.kuali.core.service.BusinessObjectService;
+import org.kuali.core.service.DateTimeService;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.bo.PostalZipCode;
-import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.Org;
 import org.kuali.module.chart.bo.OrganizationExtension;
@@ -86,15 +85,15 @@ public class OrgPreRules extends MaintenancePreRulesBase {
             OrganizationExtension newExt = newData.getOrganizationExtension();
             if (oldExt != null) {
                 if (!ObjectUtils.nullSafeEquals(oldExt.getHrmsCompany(), newExt.getHrmsCompany()) || !ObjectUtils.nullSafeEquals(oldExt.getHrmsIuOrganizationAddress2(), newExt.getHrmsIuOrganizationAddress2()) || !ObjectUtils.nullSafeEquals(oldExt.getHrmsIuOrganizationAddress3(), newExt.getHrmsIuOrganizationAddress3()) || !ObjectUtils.nullSafeEquals(oldExt.getHrmsIuCampusCode(), newExt.getHrmsIuCampusCode()) || !ObjectUtils.nullSafeEquals(oldExt.getHrmsIuCampusBuilding(), newExt.getHrmsIuCampusBuilding()) || !ObjectUtils.nullSafeEquals(oldExt.getHrmsIuCampusRoom(), newExt.getHrmsIuCampusRoom()) || oldExt.isHrmsIuPositionAllowedFlag() != newExt.isHrmsIuPositionAllowedFlag() || oldExt.isHrmsIuTenureAllowedFlag() != newExt.isHrmsIuTenureAllowedFlag() || oldExt.isHrmsIuTitleAllowedFlag() != newExt.isHrmsIuTitleAllowedFlag() || oldExt.isHrmsIuOccupationalUnitAllowedFlag() != newExt.isHrmsIuOccupationalUnitAllowedFlag() || !ObjectUtils.nullSafeEquals(oldExt.getHrmsPersonnelApproverUniversalId(), newExt.getHrmsPersonnelApproverUniversalId()) || !ObjectUtils.nullSafeEquals(oldExt.getFiscalApproverUniversalId(), newExt.getFiscalApproverUniversalId())) {
-                    newExt.setHrmsLastUpdateDate(SpringServiceLocator.getDateTimeService().getCurrentTimestamp());
+                    newExt.setHrmsLastUpdateDate(SpringContext.getBean(DateTimeService.class, "dateTimeService").getCurrentTimestamp());
                 }
             }
             else {
-                newExt.setHrmsLastUpdateDate(SpringServiceLocator.getDateTimeService().getCurrentTimestamp());
+                newExt.setHrmsLastUpdateDate(SpringContext.getBean(DateTimeService.class, "dateTimeService").getCurrentTimestamp());
             }
         }
         else {
-            newData.getOrganizationExtension().setHrmsLastUpdateDate(SpringServiceLocator.getDateTimeService().getCurrentTimestamp());
+            newData.getOrganizationExtension().setHrmsLastUpdateDate(SpringContext.getBean(DateTimeService.class, "dateTimeService").getCurrentTimestamp());
         }
     }
     private void setLocationFromZip(MaintenanceDocument maintenanceDocument) {
@@ -105,7 +104,7 @@ public class OrgPreRules extends MaintenancePreRulesBase {
 
             HashMap primaryKeys = new HashMap();
             primaryKeys.put("postalZipCode", copyOrg.getOrganizationZipCode());
-            PostalZipCode zip = (PostalZipCode) SpringServiceLocator.getBusinessObjectService().findByPrimaryKey(PostalZipCode.class, primaryKeys);
+            PostalZipCode zip = (PostalZipCode) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(PostalZipCode.class, primaryKeys);
 
             // If user enters a valid zip code, override city name and state code entered by user
             if (ObjectUtils.isNotNull(zip)) { // override old user inputs

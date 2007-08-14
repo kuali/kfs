@@ -31,7 +31,7 @@ import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSKeyConstants;
-import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.Org;
 import org.kuali.module.chart.service.OrganizationService;
@@ -59,7 +59,7 @@ public class OrgRule extends MaintenanceDocumentRuleBase {
         // When this happens, just remove these calls to the setters with
         // SpringServiceLocator, and configure the bean defs for spring.
         if ( orgService == null ) {
-        	orgService = SpringServiceLocator.getOrganizationService();
+        	orgService = SpringContext.getBean(OrganizationService.class);
         }
     }
 

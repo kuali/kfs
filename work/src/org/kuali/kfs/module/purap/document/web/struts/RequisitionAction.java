@@ -22,10 +22,9 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.core.web.struts.form.KualiDocumentFormBase;
-import org.kuali.kfs.util.SpringServiceLocator;
-import org.kuali.kfs.web.struts.form.KualiAccountingDocumentFormBase;
-import org.kuali.module.purap.document.PurchasingAccountsPayableDocument;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.purap.document.RequisitionDocument;
+import org.kuali.module.purap.service.PurapService;
 import org.kuali.module.purap.web.struts.form.RequisitionForm;
 
 import edu.iu.uis.eden.exception.WorkflowException;
@@ -59,7 +58,7 @@ public class RequisitionAction extends PurchasingActionBase {
         RequisitionDocument document = (RequisitionDocument) rqForm.getDocument();
     	
         // super.refresh() must occur before this line to get the correct APO limit
-        document.setOrganizationAutomaticPurchaseOrderLimit(SpringServiceLocator.getPurapService().getApoLimit(document.getVendorContractGeneratedIdentifier(), document.getChartOfAccountsCode(), document.getOrganizationCode()));
+        document.setOrganizationAutomaticPurchaseOrderLimit(SpringContext.getBean(PurapService.class).getApoLimit(document.getVendorContractGeneratedIdentifier(), document.getChartOfAccountsCode(), document.getOrganizationCode()));
         return forward;
     }
 

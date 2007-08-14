@@ -17,9 +17,10 @@ package org.kuali.module.vendor.service;
 
 
 import org.kuali.core.bo.BusinessRule;
+import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.context.KualiTestBase;
-import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.purap.PurapRuleConstants;
 import org.kuali.module.vendor.VendorConstants;
 import org.kuali.module.vendor.VendorRuleConstants;
@@ -45,7 +46,7 @@ public class TaxNumberServiceTest extends KualiTestBase {
     
     protected void setUp() throws Exception {
         super.setUp();
-        taxNumberService = SpringServiceLocator.getTaxNumberService();
+        taxNumberService = SpringContext.getBean(TaxNumberService.class);
     }
     
     protected void tearDown() throws Exception {
@@ -61,7 +62,7 @@ public class TaxNumberServiceTest extends KualiTestBase {
 
     private String[] getNotAllowedTaxNumbers() {
         if (ObjectUtils.isNull(notAllowedTaxNumberRule)) {
-            notAllowedTaxNumberRule = SpringServiceLocator.getKualiConfigurationService().getApplicationRule(
+            notAllowedTaxNumberRule = SpringContext.getBean(KualiConfigurationService.class).getApplicationRule(
                     PurapRuleConstants.PURAP_ADMIN_GROUP,VendorRuleConstants.PURAP_NOT_ALLOWED_TAX_NUMBERS);
         }
         String[] notAllowedTaxNumbers = notAllowedTaxNumberRule.getRuleText().split(";");

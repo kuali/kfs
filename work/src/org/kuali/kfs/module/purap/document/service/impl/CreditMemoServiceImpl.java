@@ -35,7 +35,7 @@ import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.bo.SourceAccountingLine;
-import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.PurapKeyConstants;
 import org.kuali.module.purap.PurapParameterConstants;
@@ -54,6 +54,7 @@ import org.kuali.module.purap.document.PurchaseOrderDocument;
 import org.kuali.module.purap.document.PurchasingAccountsPayableDocument;
 import org.kuali.module.purap.service.CreditMemoService;
 import org.kuali.module.purap.service.PaymentRequestService;
+import org.kuali.module.purap.service.PurapAccountingService;
 import org.kuali.module.purap.service.PurapGeneralLedgerService;
 import org.kuali.module.purap.service.PurapService;
 import org.kuali.module.purap.service.PurchaseOrderService;
@@ -200,9 +201,9 @@ public class CreditMemoServiceImpl implements CreditMemoService {
 
                 totalAmount = cmDocument.getPurApSourceDocumentIfPossible().getTotalDollarAmount();
                 //this should do nothing on preq which is fine
-                SpringServiceLocator.getPurapAccountingService().updateAccountAmounts(cmDocument.getPurApSourceDocumentIfPossible());
-                summaryAccounts = SpringServiceLocator.getPurapAccountingService().generateSummary(cmDocument.getPurApSourceDocumentIfPossible().getItems());
-                distributedAccounts = SpringServiceLocator.getPurapAccountingService().generateAccountDistributionForProration(summaryAccounts, totalAmount, PurapConstants.PRORATION_SCALE,CreditMemoAccount.class); 
+                SpringContext.getBean(PurapAccountingService.class).updateAccountAmounts(cmDocument.getPurApSourceDocumentIfPossible());
+                summaryAccounts = SpringContext.getBean(PurapAccountingService.class).generateSummary(cmDocument.getPurApSourceDocumentIfPossible().getItems());
+                distributedAccounts = SpringContext.getBean(PurapAccountingService.class).generateAccountDistributionForProration(summaryAccounts, totalAmount, PurapConstants.PRORATION_SCALE,CreditMemoAccount.class); 
 
                 if(CollectionUtils.isNotEmpty(distributedAccounts)&&
                         CollectionUtils.isEmpty(item.getSourceAccountingLines())) {
@@ -284,7 +285,7 @@ public class CreditMemoServiceImpl implements CreditMemoService {
     public boolean canHoldCreditMemo(CreditMemoDocument cmDocument, UniversalUser user) {
         boolean canHold = false;
 
-        String accountsPayableGroup = SpringServiceLocator.getKualiConfigurationService().getApplicationParameterValue(PurapParameterConstants.PURAP_ADMIN_GROUP, PurapConstants.Workgroups.WORKGROUP_ACCOUNTS_PAYABLE);
+        String accountsPayableGroup = SpringContext.getBean(KualiConfigurationService.class).getApplicationParameterValue(PurapParameterConstants.PURAP_ADMIN_GROUP, PurapConstants.Workgroups.WORKGROUP_ACCOUNTS_PAYABLE);
         if ( (!cmDocument.isHoldIndicator()) && user.isMember(accountsPayableGroup) && ObjectUtils.isNull(cmDocument.getExtractedDate()) && 
              (!PurapConstants.CreditMemoStatuses.STATUSES_DISALLOWING_HOLD.contains(cmDocument.getStatusCode())) ) {
             canHold = true;
@@ -323,7 +324,7 @@ public class CreditMemoServiceImpl implements CreditMemoService {
     public boolean canRemoveHoldCreditMemo(CreditMemoDocument cmDocument, UniversalUser user) {
         boolean canRemoveHold = false;
 
-        String accountsPayableSupervisorGroup = SpringServiceLocator.getKualiConfigurationService().getApplicationParameterValue(PurapParameterConstants.PURAP_ADMIN_GROUP, PurapConstants.Workgroups.WORKGROUP_ACCOUNTS_PAYABLE_SUPERVISOR);
+        String accountsPayableSupervisorGroup = SpringContext.getBean(KualiConfigurationService.class).getApplicationParameterValue(PurapParameterConstants.PURAP_ADMIN_GROUP, PurapConstants.Workgroups.WORKGROUP_ACCOUNTS_PAYABLE_SUPERVISOR);
         if (cmDocument.isHoldIndicator() && (user.getPersonUniversalIdentifier().equals(cmDocument.getLastActionPerformedByUniversalUserId()) || user.isMember(accountsPayableSupervisorGroup))) {
             canRemoveHold = true;
         }
@@ -363,7 +364,7 @@ public class CreditMemoServiceImpl implements CreditMemoService {
     public boolean canCancelCreditMemo(CreditMemoDocument cmDocument, UniversalUser user) {
         boolean canCancel = false;
 
-        String accountsPayableGroup = SpringServiceLocator.getKualiConfigurationService().getApplicationParameterValue(PurapParameterConstants.PURAP_ADMIN_GROUP, PurapConstants.Workgroups.WORKGROUP_ACCOUNTS_PAYABLE);
+        String accountsPayableGroup = SpringContext.getBean(KualiConfigurationService.class).getApplicationParameterValue(PurapParameterConstants.PURAP_ADMIN_GROUP, PurapConstants.Workgroups.WORKGROUP_ACCOUNTS_PAYABLE);
         if ( (!CreditMemoStatuses.CANCELLED_STATUSES.contains(cmDocument.getStatusCode())) && cmDocument.getExtractedDate() == null && !cmDocument.isHoldIndicator() && user.isMember(accountsPayableGroup)) {
             canCancel = true;
         }

@@ -15,13 +15,13 @@
  */
 package org.kuali.module.cg.web.struts.form;
 
-import org.kuali.core.web.struts.form.KualiTransactionalDocumentFormBase;
-import org.kuali.core.web.format.DateFormatter;
-import org.kuali.module.cg.document.CloseDocument;
-import org.kuali.module.cg.bo.Close;
-import org.kuali.kfs.util.SpringServiceLocator;
-
 import java.util.Date;
+
+import org.kuali.core.web.format.DateFormatter;
+import org.kuali.core.web.struts.form.KualiTransactionalDocumentFormBase;
+import org.kuali.kfs.context.SpringContext;
+import org.kuali.module.cg.bo.Close;
+import org.kuali.module.cg.service.CloseService;
 
 /**
  * User: Laran Evans <lc278@cornell.edu>
@@ -38,7 +38,7 @@ public class CloseForm extends KualiTransactionalDocumentFormBase {
     }
 
     public Close getMostRecentClose() {
-        return SpringServiceLocator.getCloseService().getMostRecentClose();
+        return SpringContext.getBean(CloseService.class).getMostRecentClose();
     }
 
     public Close getCloseDocument() {

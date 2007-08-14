@@ -27,10 +27,13 @@ import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.core.exceptions.UserNotFoundException;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DocumentService;
+import org.kuali.core.service.KualiConfigurationService;
+import org.kuali.core.service.PersistenceService;
+import org.kuali.core.service.UniversalUserService;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.vendor.VendorConstants;
 import org.kuali.module.vendor.VendorPropertyConstants;
 import org.kuali.module.vendor.bo.VendorAddress;
@@ -91,14 +94,14 @@ public class VendorServiceImpl implements VendorService {
             exampleContractOrg.setVendorContractGeneratedIdentifier(contractId);
             exampleContractOrg.setChartOfAccountsCode(chart);
             exampleContractOrg.setOrganizationCode(org);
-            Map orgKeys = SpringServiceLocator.getPersistenceService().getPrimaryKeyFieldValues(exampleContractOrg);
-            contractOrg = (VendorContractOrganization) SpringServiceLocator.getBusinessObjectService().findByPrimaryKey(VendorContractOrganization.class, orgKeys);
+            Map orgKeys = SpringContext.getBean(PersistenceService.class).getPrimaryKeyFieldValues(exampleContractOrg);
+            contractOrg = (VendorContractOrganization) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(VendorContractOrganization.class, orgKeys);
         }
         else if (ObjectUtils.isNotNull(contractId)) {
             VendorContract exampleContract = new VendorContract();
             exampleContract.setVendorContractGeneratedIdentifier(contractId);
-            Map contractKeys = SpringServiceLocator.getPersistenceService().getPrimaryKeyFieldValues(exampleContract);
-            contract = (VendorContract) SpringServiceLocator.getBusinessObjectService().findByPrimaryKey(VendorContract.class, contractKeys);
+            Map contractKeys = SpringContext.getBean(PersistenceService.class).getPrimaryKeyFieldValues(exampleContract);
+            contract = (VendorContract) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(VendorContract.class, contractKeys);
         }
         
         if (ObjectUtils.isNotNull(contractOrg)) {
@@ -119,7 +122,7 @@ public class VendorServiceImpl implements VendorService {
         LOG.debug("Entering getParentVendor for vendorHeaderGeneratedIdentifier:"+vendorHeaderGeneratedIdentifier);
         Map criterion = new HashMap();
         criterion.put("vendorHeaderGeneratedIdentifier", vendorHeaderGeneratedIdentifier);
-        List<VendorDetail> vendors = (List<VendorDetail>)SpringServiceLocator.getBusinessObjectService().findMatching(
+        List<VendorDetail> vendors = (List<VendorDetail>)SpringContext.getBean(BusinessObjectService.class).findMatching(
                 VendorDetail.class, criterion);
         VendorDetail result = null;
         if (ObjectUtils.isNull(vendors)){
@@ -290,8 +293,8 @@ public class VendorServiceImpl implements VendorService {
             String ssnTaxId = vendorToUse.getVendorHeader().getVendorTaxNumber();
             if (StringUtils.isNotBlank(ssnTaxId)) {
                 try {
-                    UniversalUser user = SpringServiceLocator.getUniversalUserService().getUniversalUser(new PersonTaxId(ssnTaxId));
-                    return (user.isFaculty() || user.isStaff() || user.isAffiliate()) && !SpringServiceLocator.getKualiConfigurationService().getApplicationParameterRule(KFSConstants.ADMIN_GROUP, KFSConstants.ALLOWED_EMPLOYEE_STATUS_RULE).failsRule(user.getEmployeeStatusCode());
+                    UniversalUser user = SpringContext.getBean(UniversalUserService.class, "universalUserService").getUniversalUser(new PersonTaxId(ssnTaxId));
+                    return (user.isFaculty() || user.isStaff() || user.isAffiliate()) && !SpringContext.getBean(KualiConfigurationService.class).getApplicationParameterRule(KFSConstants.ADMIN_GROUP, KFSConstants.ALLOWED_EMPLOYEE_STATUS_RULE).failsRule(user.getEmployeeStatusCode());
                 }
                 catch (UserNotFoundException e) {
                     // user is not in the system... assume non-employee

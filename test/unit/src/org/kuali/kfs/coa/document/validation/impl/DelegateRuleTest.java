@@ -24,9 +24,10 @@ import java.util.Calendar;
 
 import org.apache.commons.lang.time.DateUtils;
 import org.kuali.core.document.MaintenanceDocument;
+import org.kuali.core.service.DateTimeService;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.KFSKeyConstants;
-import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.chart.bo.Delegate;
 import org.kuali.test.ConfigureContext;
 
@@ -113,7 +114,7 @@ public class DelegateRuleTest extends ChartRuleTestBase {
         delegate.setFinancialDocumentTypeCode(DOCTYPE_GOOD_1);
         delegate.setAccountDelegateSystemId(USERID_GOOD_1);
 
-        Timestamp today = SpringServiceLocator.getDateTimeService().getCurrentTimestamp();
+        Timestamp today = SpringContext.getBean(DateTimeService.class, "dateTimeService").getCurrentTimestamp();
         delegate.setAccountDelegateStartDate(today);
 
         delegate.refresh();
@@ -330,7 +331,7 @@ public class DelegateRuleTest extends ChartRuleTestBase {
 
     public void testCheckSimpleRulesStartDateRule_startDateTomorrow() {
         DelegateRule rule = new DelegateRule();
-        Calendar cal = SpringServiceLocator.getDateTimeService().getCurrentCalendar();
+        Calendar cal = SpringContext.getBean(DateTimeService.class, "dateTimeService").getCurrentCalendar();
         cal.add(Calendar.DATE, 1);
         Timestamp ts = newTimestamp(cal.get(Calendar.YEAR), cal.get(Calendar.MONTH), cal.get(Calendar.DATE));
 
@@ -356,7 +357,7 @@ public class DelegateRuleTest extends ChartRuleTestBase {
 
     public void testCheckSimpleRulesStartDateRule_startDateYesterday() {
         DelegateRule rule = new DelegateRule();
-        Calendar cal = SpringServiceLocator.getDateTimeService().getCurrentCalendar();
+        Calendar cal = SpringContext.getBean(DateTimeService.class, "dateTimeService").getCurrentCalendar();
         cal.add(Calendar.DATE, -1);
         Timestamp ts = newTimestamp(cal.get(Calendar.YEAR), cal.get(Calendar.MONTH), cal.get(Calendar.DATE));
 

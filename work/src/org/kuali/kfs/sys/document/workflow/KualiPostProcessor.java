@@ -19,7 +19,8 @@ package org.kuali.workflow.postprocessor;
 import java.rmi.RemoteException;
 
 import org.apache.log4j.Logger;
-import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.core.service.PostProcessorService;
+import org.kuali.kfs.context.SpringContext;
 
 import edu.iu.uis.eden.clientapp.PostProcessorRemote;
 import edu.iu.uis.eden.clientapp.vo.ActionTakenEventVO;
@@ -51,7 +52,7 @@ public class KualiPostProcessor implements PostProcessorRemote {
      * @see edu.iu.uis.eden.clientapp.PostProcessorRemote#doRouteStatusChange(edu.iu.uis.eden.clientapp.vo.DocumentRouteStatusChangeVO)
      */
     public boolean doRouteStatusChange(DocumentRouteStatusChangeVO statusChangeEvent) throws RemoteException {
-        return SpringServiceLocator.getPostProcessorService().doRouteStatusChange(statusChangeEvent);
+        return SpringContext.getBean(PostProcessorService.class).doRouteStatusChange(statusChangeEvent);
     }
 
     /**
@@ -59,7 +60,7 @@ public class KualiPostProcessor implements PostProcessorRemote {
      * @see edu.iu.uis.eden.clientapp.PostProcessorRemote#doActionTaken(edu.iu.uis.eden.clientapp.vo.ActionTakenEventVO)
      */
     public boolean doActionTaken(ActionTakenEventVO event) throws RemoteException {
-        return SpringServiceLocator.getPostProcessorService().doActionTaken(event);
+        return SpringContext.getBean(PostProcessorService.class).doActionTaken(event);
     }
 
     /**
@@ -67,7 +68,7 @@ public class KualiPostProcessor implements PostProcessorRemote {
      * @see edu.iu.uis.eden.clientapp.PostProcessorRemote#doDeleteRouteHeader(edu.iu.uis.eden.clientapp.vo.DeleteEventVO)
      */
     public boolean doDeleteRouteHeader(DeleteEventVO event) throws RemoteException {
-        return SpringServiceLocator.getPostProcessorService().doDeleteRouteHeader(event);
+        return SpringContext.getBean(PostProcessorService.class).doDeleteRouteHeader(event);
     }
 
     /**
@@ -75,7 +76,7 @@ public class KualiPostProcessor implements PostProcessorRemote {
      * @see edu.iu.uis.eden.clientapp.PostProcessorRemote#doRouteLevelChange(edu.iu.uis.eden.clientapp.vo.DocumentRouteLevelChangeVO)
      */
     public boolean doRouteLevelChange(DocumentRouteLevelChangeVO levelChangeEvent) throws RemoteException {
-        return SpringServiceLocator.getPostProcessorService().doRouteLevelChange(levelChangeEvent);
+        return SpringContext.getBean(PostProcessorService.class).doRouteLevelChange(levelChangeEvent);
     }
 
  }

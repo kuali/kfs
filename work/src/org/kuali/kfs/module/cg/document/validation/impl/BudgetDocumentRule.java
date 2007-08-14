@@ -22,9 +22,10 @@ import java.util.List;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.document.Document;
 import org.kuali.core.service.DataDictionaryService;
+import org.kuali.core.service.DictionaryValidationService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.kfs.KFSKeyConstants;
-import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.kra.budget.bo.Budget;
 import org.kuali.module.kra.budget.bo.BudgetIndirectCost;
 import org.kuali.module.kra.budget.bo.BudgetNonpersonnel;
@@ -69,7 +70,7 @@ public class BudgetDocumentRule extends ResearchDocumentRuleBase {
         for (Iterator iter = nonpersonnelItems.iterator(); iter.hasNext(); i++) {
             BudgetNonpersonnel budgetNonpersonnel = (BudgetNonpersonnel) iter.next();
             
-            DataDictionaryService dataDictionaryService = SpringServiceLocator.getDataDictionaryService();
+            DataDictionaryService dataDictionaryService = SpringContext.getBean(DataDictionaryService.class);
 
             if (StringUtils.isEmpty(budgetNonpersonnel.getBudgetNonpersonnelSubCategoryCode())) {
                 GlobalVariables.getErrorMap().putError("document.budget.nonpersonnelItem[" + i + "].budgetNonpersonnelSubCategoryCode", KFSKeyConstants.ERROR_REQUIRED, dataDictionaryService.getAttributeErrorLabel(budgetNonpersonnel.getClass(), "budgetNonpersonnelSubCategoryCode"));
@@ -115,7 +116,7 @@ public class BudgetDocumentRule extends ResearchDocumentRuleBase {
         budgetDocument.getBudget().setAllUserAppointmentTasks(new ArrayList());
         budgetDocument.getBudget().setAllUserAppointmentTaskPeriods(new ArrayList());
 
-        SpringServiceLocator.getDictionaryValidationService().validateDocumentRecursively(budgetDocument, 0);
+        SpringContext.getBean(DictionaryValidationService.class).validateDocumentRecursively(budgetDocument, 0);
 
         valid &= GlobalVariables.getErrorMap().isEmpty();
         valid &= budgetParametersRule.isParametersValid(budgetDocument);

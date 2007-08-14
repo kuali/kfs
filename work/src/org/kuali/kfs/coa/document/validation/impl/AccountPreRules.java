@@ -20,10 +20,11 @@ import java.util.HashMap;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.document.MaintenanceDocument;
+import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.bo.PostalZipCode;
-import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.SubFundGroup;
 import org.kuali.module.chart.service.AccountService;
@@ -61,8 +62,8 @@ public class AccountPreRules extends MaintenancePreRulesBase {
 
 
     public AccountPreRules() {
-        accountService = SpringServiceLocator.getAccountService();
-        configService = SpringServiceLocator.getKualiConfigurationService();
+        accountService = SpringContext.getBean(AccountService.class);
+        configService = SpringContext.getBean(KualiConfigurationService.class);
     }
 
     protected boolean doCustomPreRules(MaintenanceDocument document) {
@@ -210,7 +211,7 @@ public class AccountPreRules extends MaintenancePreRulesBase {
 
             HashMap primaryKeys = new HashMap();
             primaryKeys.put("postalZipCode", copyAccount.getAccountZipCode());
-            PostalZipCode zip = (PostalZipCode) SpringServiceLocator.getBusinessObjectService().findByPrimaryKey(PostalZipCode.class, primaryKeys);
+            PostalZipCode zip = (PostalZipCode) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(PostalZipCode.class, primaryKeys);
 
             // If user enters a valid zip code, override city name and state code entered by user
             if (ObjectUtils.isNotNull(zip)) { // override old user inputs

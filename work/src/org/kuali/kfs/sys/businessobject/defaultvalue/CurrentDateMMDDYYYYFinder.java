@@ -21,13 +21,14 @@ import java.util.Date;
 import org.apache.commons.lang.time.DateFormatUtils;
 import org.apache.commons.lang.time.DateUtils;
 import org.kuali.core.lookup.valueFinder.ValueFinder;
-import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.core.service.DateTimeService;
+import org.kuali.kfs.context.SpringContext;
 
 public class CurrentDateMMDDYYYYFinder implements ValueFinder {
 
     public String getValue() {
         // get the current date from the service
-        Date date = SpringServiceLocator.getDateTimeService().getCurrentDate();
+        Date date = SpringContext.getBean(DateTimeService.class, "dateTimeService").getCurrentDate();
 
         // remove the time component
         date = DateUtils.truncate(date, Calendar.DAY_OF_MONTH);

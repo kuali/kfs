@@ -21,7 +21,7 @@ import java.util.List;
 import org.kuali.core.lookup.keyvalues.KeyValuesBase;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.web.ui.KeyLabelPair;
-import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.kra.KraConstants;
 
 public class BudgetManualRateIndicatorValuesFinder extends KeyValuesBase {
@@ -33,7 +33,7 @@ public class BudgetManualRateIndicatorValuesFinder extends KeyValuesBase {
     public List getKeyValues() {
         List ret = new ArrayList();
 
-        KualiConfigurationService kualiConfigurationService = SpringServiceLocator.getKualiConfigurationService();
+        KualiConfigurationService kualiConfigurationService = SpringContext.getBean(KualiConfigurationService.class);
         
         ret.add(new KeyLabelPair("N", kualiConfigurationService.getApplicationParameterValue(KraConstants.KRA_DEVELOPMENT_GROUP, KraConstants.KRA_BUDGET_INDIRECT_COST_PROVIDED_SYSTEM)));
         ret.add(new KeyLabelPair("Y", kualiConfigurationService.getApplicationParameterValue(KraConstants.KRA_DEVELOPMENT_GROUP, KraConstants.KRA_BUDGET_INDIRECT_COST_PROVIDED_MANUALLY)));

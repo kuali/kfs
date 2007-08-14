@@ -17,7 +17,8 @@ package org.kuali.test.monitor;
 
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.workflow.service.KualiWorkflowDocument;
-import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.core.workflow.service.WorkflowDocumentService;
+import org.kuali.kfs.context.SpringContext;
 
 import edu.iu.uis.eden.EdenConstants;
 import edu.iu.uis.eden.exception.WorkflowException;
@@ -37,7 +38,7 @@ public class DocumentWorkflowRequestMonitor extends ChangeMonitor {
     public boolean valueChanged()
         throws WorkflowException
     {
-        KualiWorkflowDocument document = SpringServiceLocator.getWorkflowDocumentService().createWorkflowDocument(docHeaderId, user);
+        KualiWorkflowDocument document = SpringContext.getBean(WorkflowDocumentService.class).createWorkflowDocument(docHeaderId, user);
         if (EdenConstants.ACTION_REQUEST_COMPLETE_REQ.equals(actionRequestedCode)) {
             return document.isCompletionRequested();
         }

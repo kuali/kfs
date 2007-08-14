@@ -22,6 +22,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.core.service.BusinessObjectService;
+import org.kuali.core.service.DateTimeService;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
@@ -33,7 +35,7 @@ import org.kuali.kfs.KFSConstants.SystemGroupParameterNames;
 import org.kuali.kfs.context.KualiTestBase;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.service.MockCollectorBatch;
-import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.module.gl.batch.collector.CollectorInputFileType;
 import org.kuali.module.gl.bo.CollectorDetail;
 import org.kuali.module.gl.bo.OriginEntry;
 import org.kuali.module.gl.bo.OriginEntryGroup;
@@ -58,8 +60,8 @@ public class CollectorServiceTest extends KualiTestBase {
     protected void setUp() throws Exception {
         super.setUp();
 
-        configurationService = SpringServiceLocator.getKualiConfigurationService();
-        collectorHelperService = SpringServiceLocator.getCollectorHelperService();
+        configurationService = SpringContext.getBean(KualiConfigurationService.class);
+        collectorHelperService = SpringContext.getBean(CollectorHelperService.class);
     }
 
     /**
@@ -156,19 +158,19 @@ public class CollectorServiceTest extends KualiTestBase {
      */
     @RelatesTo(RelatesTo.JiraIssue.KULUT31)
     public final void testNegativeCollectorDetailBillingAmounts() throws Exception {
-        String collectorDirectoryName = SpringServiceLocator.getCollectorInputFileType().getDirectoryPath();
+        String collectorDirectoryName = SpringContext.getBean(CollectorInputFileType.class).getDirectoryPath();
         String fileName = collectorDirectoryName + File.separator + "gl_collector3.xml";
         
         UnitTestSqlDao unitTestSqlDao = SpringContext.getBean(UnitTestSqlDao.class);
         unitTestSqlDao.sqlCommand("delete from GL_ID_BILL_T");
         
-        OriginEntryGroup group = SpringServiceLocator.getOriginEntryGroupService().createGroup(SpringServiceLocator.getDateTimeService().getCurrentSqlDate(), 
+        OriginEntryGroup group = SpringContext.getBean(OriginEntryGroupService.class).createGroup(SpringContext.getBean(DateTimeService.class, "dateTimeService").getCurrentSqlDate(), 
                 OriginEntrySource.COLLECTOR, true, false, true);
         collectorHelperService.loadCollectorFile(fileName, group, new CollectorReportData(), new ArrayList<CollectorScrubberStatus>());
         
         Map<String, String> criteria = new HashMap<String, String>();
         // empty criteria, so return everything
-        Collection<CollectorDetail> allCollectorDetails = SpringServiceLocator.getBusinessObjectService().findMatching(CollectorDetail.class, criteria);
+        Collection<CollectorDetail> allCollectorDetails = SpringContext.getBean(BusinessObjectService.class).findMatching(CollectorDetail.class, criteria);
         
         assertEquals("Incorrect number of CollectorDetail records found", 3, allCollectorDetails.size());
         

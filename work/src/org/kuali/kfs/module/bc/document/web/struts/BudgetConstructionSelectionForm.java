@@ -21,8 +21,9 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.kuali.core.service.PersistenceService;
 import org.kuali.core.web.struts.form.KualiForm;
-import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.budget.bo.BudgetConstructionHeader;
 
 
@@ -52,7 +53,7 @@ public class BudgetConstructionSelectionForm extends KualiForm {
         super.populate(request);
         
         final List REFRESH_FIELDS = Collections.unmodifiableList(Arrays.asList(new String[] {"chartOfAccounts", "account", "subAccount", "budgetConstructionAccountReports"}));
-        SpringServiceLocator.getPersistenceService().retrieveReferenceObjects(this.getBudgetConstructionHeader(), REFRESH_FIELDS);
+        SpringContext.getBean(PersistenceService.class).retrieveReferenceObjects(this.getBudgetConstructionHeader(), REFRESH_FIELDS);
         
     }
 

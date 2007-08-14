@@ -23,8 +23,9 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.document.MaintenanceLock;
 import org.kuali.core.maintenance.KualiGlobalMaintainableImpl;
+import org.kuali.core.service.BusinessObjectService;
 import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.chart.bo.AccountGlobalDetail;
 import org.kuali.module.chart.bo.Delegate;
 import org.kuali.module.chart.bo.DelegateGlobal;
@@ -50,7 +51,7 @@ public class DelegateGlobalMaintainableImpl extends KualiGlobalMaintainableImpl 
             pkMap.put("chartOfAccountsCode", globalDelegate.getModelChartOfAccountsCode());
             pkMap.put("organizationCode", globalDelegate.getModelOrganizationCode());
             
-            OrganizationRoutingModelName globalDelegateTemplate = (OrganizationRoutingModelName)SpringServiceLocator.getBusinessObjectService().findByPrimaryKey(OrganizationRoutingModelName.class, pkMap);
+            OrganizationRoutingModelName globalDelegateTemplate = (OrganizationRoutingModelName)SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(OrganizationRoutingModelName.class, pkMap);
             if (globalDelegateTemplate != null) {
                 // 2. if there is a model record, then let's populate the global delegate
                 //    based on that

@@ -21,11 +21,10 @@ import java.util.LinkedHashMap;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.bo.DocumentType;
 import org.kuali.core.bo.PersistableBusinessObjectBase;
-
 import org.kuali.core.bo.user.UniversalUser;
-import org.kuali.core.exceptions.UserNotFoundException;
+import org.kuali.core.service.UniversalUserService;
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.kfs.context.SpringContext;
 
 /**
  * 
@@ -270,7 +269,7 @@ public class Delegate extends PersistableBusinessObjectBase {
     }
 
     public UniversalUser getAccountDelegate() {
-        accountDelegate = SpringServiceLocator.getUniversalUserService().updateUniversalUserIfNecessary(accountDelegateSystemId, accountDelegate);
+        accountDelegate = SpringContext.getBean(UniversalUserService.class, "universalUserService").updateUniversalUserIfNecessary(accountDelegateSystemId, accountDelegate);
         return accountDelegate;
     }
 

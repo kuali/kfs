@@ -18,13 +18,13 @@ package org.kuali.module.gl.util;
 import java.util.Arrays;
 
 import org.kuali.core.service.DocumentTypeService;
-import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.chart.service.BalanceTypService;
 import org.kuali.module.gl.bo.OriginEntry;
 
 public class OriginEntryKey {
-    static BalanceTypService balanceTypService = (BalanceTypService) SpringServiceLocator.getBalanceTypService();
-    static DocumentTypeService documentTypeService = (DocumentTypeService) SpringServiceLocator.getDocumentTypeService();
+    static BalanceTypService balanceTypService = (BalanceTypService) SpringContext.getBean(BalanceTypService.class);
+    static DocumentTypeService documentTypeService = (DocumentTypeService) SpringContext.getBean(DocumentTypeService.class);
 
     /*
      * (non-Javadoc)

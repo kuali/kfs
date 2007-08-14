@@ -21,9 +21,10 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.core.document.Document;
 import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.core.rules.PreRulesContinuationBase;
+import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSKeyConstants;
-import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.chart.bo.ObjLevel;
 import org.kuali.module.chart.bo.ObjectCode;
 import org.kuali.module.chart.service.ChartService;
@@ -39,8 +40,8 @@ public class ObjectCodePreRules extends PreRulesContinuationBase {
 
     public ObjectCodePreRules() {
     	if ( objectLevelService == null ) {
-    		objectLevelService = SpringServiceLocator.getObjectLevelService();
-    		chartService = SpringServiceLocator.getChartService();
+    		objectLevelService = SpringContext.getBean(ObjectLevelService.class);
+    		chartService = SpringContext.getBean(ChartService.class);
     	}
     	
         reportsTo = chartService.getReportsToHierarchy();
@@ -75,7 +76,7 @@ public class ObjectCodePreRules extends PreRulesContinuationBase {
                 String objectLevelChartOfAccountCode = financialObjectLevel.getChartOfAccountsCode();
                 String objectLevelFinancialObjectLevelCode = financialObjectLevel.getFinancialObjectLevelCode();
                 String objectLevelFinancialObjectLevelName = financialObjectLevel.getFinancialObjectLevelName();
-                String questionText = SpringServiceLocator.getKualiConfigurationService().getPropertyString(
+                String questionText = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(
                         KFSKeyConstants.ObjectCode.QUESTION_INACTIVE_OBJECT_LEVEL_CONFIRMATION);
                 questionText = StringUtils.replace(questionText, "{0}", objectLevelChartOfAccountCode);
                 questionText = StringUtils.replace(questionText, "{1}", objectLevelFinancialObjectLevelCode);

@@ -26,13 +26,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map;
 
-import edu.iu.uis.eden.EdenConstants;
-import edu.iu.uis.eden.routeheader.*;
-import edu.iu.uis.eden.KEWServiceLocator;
-// @@TODO: not needed for production code
 import org.apache.commons.beanutils.PropertyUtils;
-import org.kuali.workflow.*;
-
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.apache.ojb.broker.query.Criteria;
@@ -43,16 +37,16 @@ import org.kuali.core.dao.DocumentDao;
 import org.kuali.core.dao.ojb.PlatformAwareDaoBaseOjb;
 import org.kuali.core.service.DateTimeService;
 import org.kuali.core.service.DocumentService;
+import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.KualiInteger;
-import org.kuali.core.workflow.service.WorkflowDocumentService;
 import org.kuali.core.workflow.service.KualiWorkflowDocument;
-import org.kuali.core.util.GlobalVariables;
+import org.kuali.core.workflow.service.WorkflowDocumentService;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.KFSConstants.BudgetConstructionConstants;
 import org.kuali.kfs.KFSConstants.ParameterValues;
-import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.budget.bo.BudgetConstructionAccountOrganizationHierarchy;
 import org.kuali.module.budget.bo.BudgetConstructionAccountReports;
 import org.kuali.module.budget.bo.BudgetConstructionCalculatedSalaryFoundationTracker;
@@ -69,13 +63,18 @@ import org.kuali.module.budget.document.BudgetConstructionDocument;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.ObjectCode;
 import org.kuali.module.chart.bo.Org;
+import org.kuali.module.chart.service.OrganizationService;
 import org.kuali.module.financial.bo.FiscalYearFunctionControl;
 import org.kuali.module.financial.bo.FunctionControlCode;
 import org.kuali.module.gl.GLConstants.ColumnNames;
 import org.kuali.module.gl.bo.Balance;
 import org.kuali.module.labor.bo.LaborObject;
 
+import edu.iu.uis.eden.EdenConstants;
+import edu.iu.uis.eden.KEWServiceLocator;
 import edu.iu.uis.eden.exception.WorkflowException;
+import edu.iu.uis.eden.routeheader.DocumentRouteHeaderValue;
+import edu.iu.uis.eden.routeheader.RouteHeaderService;
 
 
 public class GenesisDaoOjb extends PlatformAwareDaoBaseOjb 
@@ -1331,7 +1330,7 @@ public class GenesisDaoOjb extends PlatformAwareDaoBaseOjb
         //
         // now we fetch the root of the organization tree
         String[] rootNode = 
-            SpringServiceLocator.getOrganizationService().getRootOrganizationCode();
+            SpringContext.getBean(OrganizationService.class).getRootOrganizationCode();
         rootChart = rootNode[0];
         rootOrganization = rootNode[1];
         //

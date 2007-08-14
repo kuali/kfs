@@ -30,7 +30,7 @@ import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.util.UrlFactory;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSPropertyConstants;
-import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.chart.bo.KualiSystemCode;
 import org.kuali.module.gl.util.BusinessObjectFieldConverter;
 import org.kuali.module.gl.web.Constant;
@@ -49,8 +49,8 @@ public abstract class AbstractLaborInquirableImpl extends KualiInquirableImpl {
      * @return String url to inquiry
      */
     public String getInquiryUrl(BusinessObject businessObject, String attributeName) {
-        BusinessObjectDictionaryService businessDictionary = SpringServiceLocator.getBusinessObjectDictionaryService();
-        PersistenceStructureService persistenceStructureService = SpringServiceLocator.getPersistenceStructureService();
+        BusinessObjectDictionaryService businessDictionary = SpringContext.getBean(BusinessObjectDictionaryService.class);
+        PersistenceStructureService persistenceStructureService = SpringContext.getBean(PersistenceStructureService.class);
 
         String baseUrl = KFSConstants.INQUIRY_ACTION;
         Properties parameters = new Properties();

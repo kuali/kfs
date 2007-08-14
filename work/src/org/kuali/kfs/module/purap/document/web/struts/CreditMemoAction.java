@@ -26,11 +26,13 @@ import org.kuali.core.bo.Note;
 import org.kuali.core.exceptions.ValidationException;
 import org.kuali.core.question.ConfirmationQuestion;
 import org.kuali.core.service.DocumentService;
+import org.kuali.core.service.KualiRuleService;
+import org.kuali.core.service.NoteService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.web.struts.form.KualiDocumentFormBase;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSKeyConstants;
-import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.PurapKeyConstants;
 import org.kuali.module.purap.PurapConstants.CMDocumentsStrings;
@@ -38,6 +40,8 @@ import org.kuali.module.purap.document.AccountsPayableDocument;
 import org.kuali.module.purap.document.CreditMemoDocument;
 import org.kuali.module.purap.rule.event.CalculateAccountsPayableEvent;
 import org.kuali.module.purap.rule.event.ContinueAccountsPayableEvent;
+import org.kuali.module.purap.service.CreditMemoCreateService;
+import org.kuali.module.purap.service.CreditMemoService;
 import org.kuali.module.purap.util.PurQuestionCallback;
 import org.kuali.module.purap.web.struts.form.CreditMemoForm;
 
@@ -75,14 +79,14 @@ public class CreditMemoAction extends AccountsPayableActionBase {
         }
 
         // perform validation of init tab
-        boolean isValid = SpringServiceLocator.getKualiRuleService().applyRules(new ContinueAccountsPayableEvent(creditMemoDocument));
+        boolean isValid = SpringContext.getBean(KualiRuleService.class).applyRules(new ContinueAccountsPayableEvent(creditMemoDocument));
         if (!isValid) {
             creditMemoDocument.setStatusCode(PurapConstants.CreditMemoStatuses.INITIATE);
         }
         else {
             creditMemoDocument.setStatusCode(PurapConstants.CreditMemoStatuses.IN_PROCESS);
-            SpringServiceLocator.getCreditMemoCreateService().populateDocumentAfterInit(creditMemoDocument);
-            SpringServiceLocator.getCreditMemoService().saveDocumentWithoutValidation(creditMemoDocument);
+            SpringContext.getBean(CreditMemoCreateService.class).populateDocumentAfterInit(creditMemoDocument);
+            SpringContext.getBean(CreditMemoService.class).saveDocumentWithoutValidation(creditMemoDocument);
         }
 
         creditMemoDocument.refreshNonUpdateableReferences();
@@ -108,7 +112,7 @@ public class CreditMemoAction extends AccountsPayableActionBase {
      */
     private ActionForward performDuplicateCreditMemoCheck(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response, CreditMemoDocument creditMemoDocument) throws Exception {
         ActionForward forward = null;
-        String duplicateMessage = SpringServiceLocator.getCreditMemoService().creditMemoDuplicateMessages(creditMemoDocument);
+        String duplicateMessage = SpringContext.getBean(CreditMemoService.class).creditMemoDuplicateMessages(creditMemoDocument);
         if (StringUtils.isNotBlank(duplicateMessage)) {
             Object question = request.getParameter(KFSConstants.QUESTION_INST_ATTRIBUTE_NAME);
             if (question == null) {
@@ -133,17 +137,17 @@ public class CreditMemoAction extends AccountsPayableActionBase {
 
         // check rules before doing calculation
 //TODO: ckirschenman - the way this rule is currently implemented interferes with proration.  Either make the rules it calls simpler or remove this
-//        boolean valid = SpringServiceLocator.getKualiRuleService().applyRules(new PreCalculateAccountsPayableEvent(cmDocument));
+//        boolean valid = SpringContext.getBean(KualiRuleService.class).applyRules(new PreCalculateAccountsPayableEvent(cmDocument));
 
 //        if (valid) {
             // update extended price on item lines
             cmDocument.updateExtendedPriceOnItems();
 
             // call service method to finish up calculation
-            SpringServiceLocator.getCreditMemoService().calculateCreditMemo(cmDocument);
+            SpringContext.getBean(CreditMemoService.class).calculateCreditMemo(cmDocument);
 
             // notice we're ignoring whether the boolean, because these are just warnings they shouldn't halt anything
-            SpringServiceLocator.getKualiRuleService().applyRules(new CalculateAccountsPayableEvent(cmDocument));
+            SpringContext.getBean(KualiRuleService.class).applyRules(new CalculateAccountsPayableEvent(cmDocument));
 //        }
     }
 
@@ -155,7 +159,7 @@ public class CreditMemoAction extends AccountsPayableActionBase {
         
         PurQuestionCallback callback = new PurQuestionCallback() {
             public void doPostQuestion(AccountsPayableDocument document, String noteText) throws Exception {
-                SpringServiceLocator.getCreditMemoService().addHoldOnCreditMemo((CreditMemoDocument) document, noteText);
+                SpringContext.getBean(CreditMemoService.class).addHoldOnCreditMemo((CreditMemoDocument) document, noteText);
             }
         };
         
@@ -170,7 +174,7 @@ public class CreditMemoAction extends AccountsPayableActionBase {
         
         PurQuestionCallback callback = new PurQuestionCallback() {
             public void doPostQuestion(AccountsPayableDocument document, String noteText) throws Exception {
-                SpringServiceLocator.getCreditMemoService().removeHoldOnCreditMemo((CreditMemoDocument) document, noteText);
+                SpringContext.getBean(CreditMemoService.class).removeHoldOnCreditMemo((CreditMemoDocument) document, noteText);
             }
         };
         
@@ -188,13 +192,12 @@ public class CreditMemoAction extends AccountsPayableActionBase {
         PurQuestionCallback callback = new PurQuestionCallback() {
             public void doPostQuestion(AccountsPayableDocument document, String noteText) throws Exception {
                 CreditMemoDocument cmDocument = (CreditMemoDocument)document;
-                DocumentService documentService = SpringServiceLocator.getDocumentService();
+                DocumentService documentService = SpringContext.getBean(DocumentService.class);
                 // save the note
                 Note noteObj = documentService.createNoteFromDocument(cmDocument, noteText);
                 documentService.addNoteToDocument(cmDocument, noteObj);
-                SpringServiceLocator.getNoteService().save(noteObj);
-                documentService.cancelDocument(cmDocument, noteText);
-            }
+                SpringContext.getBean(NoteService.class).save(noteObj);
+                documentService.cancelDocument(cmDocument, noteText);            }
         };
         
         return askQuestionWithInput(mapping, form, request, response, CMDocumentsStrings.CANCEL_CM_QUESTION, CMDocumentsStrings.CANCEL_NOTE_PREFIX, operation, PurapKeyConstants.CREDIT_MEMO_QUESTION_CANCEL_DOCUMENT, callback);
@@ -220,7 +223,7 @@ public class CreditMemoAction extends AccountsPayableActionBase {
         // route and catch validation errors to check for unmatched total error
         try {
             creditMemoDocument.updateExtendedPriceOnItems();
-            SpringServiceLocator.getCreditMemoService().calculateCreditMemo(creditMemoDocument);
+            SpringContext.getBean(CreditMemoService.class).calculateCreditMemo(creditMemoDocument);
             super.route(mapping, form, request, response);
 
 //            SpringServiceLocator.getCreditMemoService().route(creditMemoDocument, cmForm.getAnnotation(), combineAdHocRecipients(cmForm));

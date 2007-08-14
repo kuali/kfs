@@ -18,16 +18,15 @@ package org.kuali.module.kra.budget.bo;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.apache.ojb.broker.PersistenceBroker;
 import org.apache.ojb.broker.PersistenceBrokerException;
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.bo.user.UniversalUser;
+import org.kuali.core.service.KualiModuleService;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.KFSPropertyConstants;
-import org.kuali.kfs.util.SpringServiceLocator;
-import org.kuali.module.chart.bo.ChartUser;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.chart.service.ChartUserService;
 import org.kuali.module.kra.budget.document.BudgetDocument;
 import org.kuali.module.kra.budget.service.BudgetPersonnelService;
@@ -78,8 +77,8 @@ public class BudgetUser extends PersistableBusinessObjectBase implements Compara
      */
     public BudgetUser() {
         super();
-        budgetPersonnelService = SpringServiceLocator.getBudgetPersonnelService();
-        chartUserService = (ChartUserService) SpringServiceLocator.getKualiModuleService().getModule("chart").getModuleUserService();
+        budgetPersonnelService = SpringContext.getBean(BudgetPersonnelService.class);
+        chartUserService = (ChartUserService) SpringContext.getBean(KualiModuleService.class).getModule("chart").getModuleUserService();
     }
     
     public BudgetUser(String documentNumber, Integer budgetUserSequenceNumber) {

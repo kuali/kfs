@@ -23,11 +23,13 @@ import org.kuali.core.document.Document;
 import org.kuali.core.exceptions.UserNotFoundException;
 import org.kuali.core.exceptions.ValidationException;
 import org.kuali.core.rule.event.ApproveDocumentEvent;
+import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.service.UniversalUserService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.bo.AccountingLine;
 import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.document.AccountingDocument;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.purap.PurapConstants;
@@ -82,11 +84,11 @@ public class PurchaseOrderVoidDocumentRule extends PurchasingDocumentRuleBase {
 
             // Check that the user is in purchasing workgroup.
             String initiatorNetworkId = document.getDocumentHeader().getWorkflowDocument().getInitiatorNetworkId();
-            UniversalUserService uus = SpringServiceLocator.getUniversalUserService();
+            UniversalUserService uus = SpringContext.getBean(UniversalUserService.class, "universalUserService");
             UniversalUser user = null;
             try {
                 user = uus.getUniversalUserByAuthenticationUserId(initiatorNetworkId);
-                String purchasingGroup = SpringServiceLocator.getKualiConfigurationService().getApplicationParameterValue(PurapParameterConstants.PURAP_ADMIN_GROUP, PurapConstants.Workgroups.WORKGROUP_PURCHASING);
+                String purchasingGroup = SpringContext.getBean(KualiConfigurationService.class).getApplicationParameterValue(PurapParameterConstants.PURAP_ADMIN_GROUP, PurapConstants.Workgroups.WORKGROUP_PURCHASING);
                 if (!uus.isMember(user, purchasingGroup)) {
                     valid = false;
                 }

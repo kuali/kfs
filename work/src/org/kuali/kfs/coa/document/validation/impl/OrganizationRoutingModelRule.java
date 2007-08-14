@@ -21,12 +21,13 @@ import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.core.exceptions.UserNotFoundException;
 import org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase;
+import org.kuali.core.service.UniversalUserService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSKeyConstants;
-import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.chart.bo.OrganizationRoutingModel;
 import org.kuali.module.chart.bo.OrganizationRoutingModelName;
 
@@ -235,7 +236,7 @@ public class OrganizationRoutingModelRule extends MaintenanceDocumentRuleBase {
         
         // refresh account delegate
         try {
-            delegateModel.setAccountDelegate(SpringServiceLocator.getUniversalUserService().getUniversalUser(delegateModel.getAccountDelegateUniversalId()));
+            delegateModel.setAccountDelegate(SpringContext.getBean(UniversalUserService.class, "universalUserService").getUniversalUser(delegateModel.getAccountDelegateUniversalId()));
         }
         catch (UserNotFoundException e) {
             if (LOG.isDebugEnabled()) {

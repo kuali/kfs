@@ -59,7 +59,7 @@ public class DelegateRuleTest extends ChartRuleTestBase {
     private static final String USERID_BAD_1 = "2419205388"; // SROOD=ROOD,SAM N : status=D
 
     // one that has A for status and something else for type
-    private static final String USERID_BAD_2 = "2049507878"; // AJPAYNTE=PAYNTER,AUBREY J
+    private static final String USERID_BAD_2 = "1659102154"; // AAVILES=AVILES,ANTON F
 
     // one that has neither A nor P for status and type
     private static final String USERID_BAD_3 = "4533105209"; // AIAUCOIN=AUCOIN,AMELIA I

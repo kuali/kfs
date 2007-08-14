@@ -42,6 +42,7 @@ import org.kuali.module.labor.bo.LedgerBalance;
 import org.kuali.module.labor.dao.LaborDao;
 import org.kuali.module.labor.service.LaborInquiryOptionsService;
 import org.kuali.module.labor.service.LaborLedgerBalanceService;
+import org.kuali.module.labor.util.ObjectUtil;
 import org.kuali.module.labor.web.inquirable.CurrentFundsInquirableImpl;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -202,7 +203,8 @@ public class CurrentFundsLookupableHelperServiceImpl extends AbstractLookupableH
         Collection<AccountStatusCurrentFunds> retval = new ArrayList<AccountStatusCurrentFunds>();
 
         for (LedgerBalance balance : ((Collection<LedgerBalance>) collection)) {
-            AccountStatusCurrentFunds cf = balanceService.copyLedgerBalance(balance, AccountStatusCurrentFunds.class);
+            AccountStatusCurrentFunds cf = new AccountStatusCurrentFunds();
+            ObjectUtil.buildObject(cf, balance);
 
             cf.setDummyBusinessObject(new TransientBalanceInquiryAttributes());
             cf.getDummyBusinessObject().setPendingEntryOption(pendingEntryOption);

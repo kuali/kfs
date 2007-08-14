@@ -52,6 +52,7 @@ public class LaborDaoOjb extends PlatformAwareDaoBaseOjb implements LaborDao {
     /**
      * @see org.kuali.module.labor.dao.LaborDao#getCSFTrackerData(java.util.Map)
      */
+    @Deprecated
     public Object getCSFTrackerTotal(Map fieldValues) {
 
         Criteria criteria = new Criteria();
@@ -122,6 +123,7 @@ public class LaborDaoOjb extends PlatformAwareDaoBaseOjb implements LaborDao {
     /**
      * @see org.kuali.module.labor.dao.LaborDao#getBaseFunds(java.util.Map)
      */
+    @Deprecated
     public Iterator getBaseFunds(Map fieldValues, boolean isConsolidated) {
         fieldValues.put(KFSPropertyConstants.FINANCIAL_BALANCE_TYPE_CODE, LaborConstants.BalanceInquiries.BALANCE_CODE);
         return getAccountStatus(AccountStatusBaseFunds.class, fieldValues, isConsolidated);
@@ -249,5 +251,5 @@ public class LaborDaoOjb extends PlatformAwareDaoBaseOjb implements LaborDao {
              laborObject = laborObjectCodes.next();
          return laborObject.isActive();
     
-     }
+}
 }

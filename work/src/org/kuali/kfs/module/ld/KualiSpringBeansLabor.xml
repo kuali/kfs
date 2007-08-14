@@ -263,11 +263,8 @@
 	</bean>	
 	
 	<bean id="laborLedgerBalanceService" class="org.kuali.module.labor.service.impl.LaborLedgerBalanceServiceImpl">
-		<property name="balanceDao">
+		<property name="laborLedgerBalanceDao">
 			<ref bean="laborLedgerBalanceDao" />
-		</property>
-		<property name="optionsService">
-			<ref bean="optionsService" />
 		</property>
 	</bean>
 	
@@ -293,7 +290,22 @@
 		<property name="lookupableHelperService">
 			<ref bean="laborPositionDataLookupableHelperService" />
 		</property>
-	</bean>		
+	</bean>	
+	
+	<bean id="laborCalculatedSalaryFoundationTrackerService" class="org.kuali.module.labor.service.impl.LaborCalculatedSalaryFoundationTrackerServiceImpl">
+		<property name="laborCalculatedSalaryFoundationTrackerDao">
+			<ref bean="laborCalculatedSalaryFoundationTrackerDao" />
+		</property>
+	</bean>	
+			
+	<bean id="laborBaseFundsService" class="org.kuali.module.labor.service.impl.LaborBaseFundsServiceImpl">
+		<property name="laborBaseFundsDao">
+			<ref bean="laborBaseFundsDao" />
+		</property>
+		<property name="laborCalculatedSalaryFoundationTrackerService">
+			<ref bean="laborCalculatedSalaryFoundationTrackerService" />
+		</property>
+	</bean>	
 	
     <!-- Section 2: Spring Beans for DAO -->
 
@@ -314,6 +326,9 @@
 			<ref bean="kualiConfigurationService" />
 		</property>
 	</bean>
+			
+	<bean id="laborBaseFundsDao" parent="platformAwareDao" class="org.kuali.module.labor.dao.ojb.LaborBaseFundsDaoOjb" />
+	<bean id="laborCalculatedSalaryFoundationTrackerDao" parent="platformAwareDao" class="org.kuali.module.labor.dao.ojb.LaborCalculatedSalaryFoundationTrackerDaoOjb" />
 	
     <!-- Section 3: Spring Bean for Batch processes -->
     
@@ -778,14 +793,6 @@
 	<bean id="expenseTransferAccountingLineService" class="org.kuali.kfs.service.impl.AccountingLineServiceImpl">
 		<property name="accountingLineDao">
 			<bean parent="platformAwareDao" class="org.kuali.module.labor.dao.ojb.ExpenseTransferAccountingLineDaoOjb" />
-		</property>
-	</bean>
-	
-	<bean id="laborBaseFundsDao" parent="platformAwareDao" class="org.kuali.module.labor.dao.ojb.LaborBaseFundsDaoOjb" />
-	
-	<bean id="laborBaseFundsService" class="org.kuali.module.labor.service.impl.LaborBaseFundsServiceImpl">
-		<property name="laborBaseFundsDao">
-			<ref bean="laborBaseFundsDao" />
 		</property>
 	</bean>
 </beans>

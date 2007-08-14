@@ -15,14 +15,13 @@
  */
 package org.kuali.module.labor.service.impl;
 
-import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.module.budget.bo.CalculatedSalaryFoundationTracker;
 import org.kuali.module.labor.bo.AccountStatusBaseFunds;
 import org.kuali.module.labor.dao.LaborBaseFundsDao;
 import org.kuali.module.labor.service.LaborBaseFundsService;
+import org.kuali.module.labor.service.LaborCalculatedSalaryFoundationTrackerService;
 import org.springframework.transaction.annotation.Transactional;
 
 @Transactional
@@ -30,20 +29,7 @@ public class LaborBaseFundsServiceImpl implements LaborBaseFundsService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(LaborBaseFundsServiceImpl.class);
 
     private LaborBaseFundsDao laborBaseFundsDao;
-
-    /**
-     * @see org.kuali.module.labor.service.LaborBaseFundsService#findCSFTracker(java.util.Map, boolean)
-     */
-    public List<CalculatedSalaryFoundationTracker> findCSFTracker(Map fieldValues, boolean isConsolidated) {
-        return laborBaseFundsDao.findCSFTrackers(fieldValues, isConsolidated);
-    }
-
-    /**
-     * @see org.kuali.module.labor.service.LaborBaseFundsService#findCSFTrackersAsAccountStatusBaseFunds(java.util.Map, boolean)
-     */
-    public List<AccountStatusBaseFunds> findCSFTrackersAsAccountStatusBaseFunds(Map fieldValues, boolean isConsolidated) {
-        return laborBaseFundsDao.findCSFTrackersAsAccountStatusBaseFunds(fieldValues, isConsolidated);
-    }
+    private LaborCalculatedSalaryFoundationTrackerService laborCalculatedSalaryFoundationTrackerService;
 
     /**
      * @see org.kuali.module.labor.service.LaborBaseFundsService#findLaborBaseFunds(java.util.Map, boolean)
@@ -57,14 +43,14 @@ public class LaborBaseFundsServiceImpl implements LaborBaseFundsService {
      */
     public List<AccountStatusBaseFunds> findAccountStatusBaseFundsWithCSFTracker(Map fieldValues, boolean isConsolidated) {
         List<AccountStatusBaseFunds> baseFundsCollection = this.findLaborBaseFunds(fieldValues, isConsolidated);
-        List<AccountStatusBaseFunds> CSFTrackersCollection = this.findCSFTrackersAsAccountStatusBaseFunds(fieldValues, isConsolidated);
+        List<AccountStatusBaseFunds> CSFTrackersCollection = laborCalculatedSalaryFoundationTrackerService.findCSFTrackersAsAccountStatusBaseFunds(fieldValues, isConsolidated);
 
         for (AccountStatusBaseFunds CSFTracker : CSFTrackersCollection) {
-            if(baseFundsCollection.contains(CSFTracker)){
+            if (baseFundsCollection.contains(CSFTracker)) {
                 int index = baseFundsCollection.indexOf(CSFTracker);
                 baseFundsCollection.get(index).setCsfAmount(CSFTracker.getCsfAmount());
             }
-            else{
+            else {
                 baseFundsCollection.add(CSFTracker);
             }
         }
@@ -78,5 +64,14 @@ public class LaborBaseFundsServiceImpl implements LaborBaseFundsService {
      */
     public void setLaborBaseFundsDao(LaborBaseFundsDao laborBaseFundsDao) {
         this.laborBaseFundsDao = laborBaseFundsDao;
+    }
+
+    /**
+     * Sets the laborCalculatedSalaryFoundationTrackerService attribute value.
+     * 
+     * @param laborCalculatedSalaryFoundationTrackerService The laborCalculatedSalaryFoundationTrackerService to set.
+     */
+    public void setLaborCalculatedSalaryFoundationTrackerService(LaborCalculatedSalaryFoundationTrackerService laborCalculatedSalaryFoundationTrackerService) {
+        this.laborCalculatedSalaryFoundationTrackerService = laborCalculatedSalaryFoundationTrackerService;
     }
 }

@@ -33,6 +33,7 @@ public interface LaborDao {
      * @param fieldValues
      * @return
      */
+    @Deprecated
     Object getCSFTrackerTotal(Map fieldValues);
 
     /**
@@ -50,6 +51,7 @@ public interface LaborDao {
      * @param isConsolidated
      * @return Collection
      */
+    @Deprecated
     Iterator getBaseFunds(Map fieldValues, boolean isConsolidated);
     
     /**

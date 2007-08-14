@@ -18,27 +18,9 @@ package org.kuali.module.labor.service;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.module.budget.bo.CalculatedSalaryFoundationTracker;
 import org.kuali.module.labor.bo.AccountStatusBaseFunds;
 
 public interface LaborBaseFundsService {
-    /**
-     * This method finds the CSF trackers according to input fields and values
-     * 
-     * @param fieldValues the input fields and values
-     * @param isConsolidated consolidation option is applied or not
-     * @return a collection of CSF trackers
-     */
-    List<CalculatedSalaryFoundationTracker> findCSFTracker(Map fieldValues, boolean isConsolidated);
-    
-    /**
-     * This method finds the CSF trackers according to input fields and values and converts the trackers into AccountStatusBaseFunds
-     * 
-     * @param fieldValues the input fields and values
-     * @param isConsolidated consolidation option is applied or not
-     * @return a collection of base budgets for Labor objects
-     */
-    List<AccountStatusBaseFunds> findCSFTrackersAsAccountStatusBaseFunds(Map fieldValues, boolean isConsolidated);
     
     /**
      * This method finds the records of base budget for each Labor object according to input fields and values

@@ -15,34 +15,29 @@
  */
 package org.kuali.module.labor.dao;
 
-import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
-import org.kuali.module.labor.bo.LedgerBalance;
+import org.kuali.module.budget.bo.CalculatedSalaryFoundationTracker;
+import org.kuali.module.labor.bo.AccountStatusBaseFunds;
 
-public interface LaborLedgerBalanceDao {
-
+public interface LaborCalculatedSalaryFoundationTrackerDao {
+    
     /**
-     * This method finds the records of balance entries according to input fields and values
+     * This method finds the CSF trackers according to input fields and values
      * 
      * @param fieldValues the input fields and values
      * @param isConsolidated consolidation option is applied or not
-     * @return the records of balance entries
+     * @return a collection of CSF trackers
      */
-    public Iterator findBalance(Map fieldValues, boolean isConsolidated);
+    List<CalculatedSalaryFoundationTracker> findCSFTrackers(Map fieldValues, boolean isConsolidated);
 
     /**
-     * This method gets the size collection of balance entry groups according to input fields and values if the entries are required
-     * to be consolidated
+     * This method finds the CSF trackers according to input fields and values and converts the trackers into AccountStatusBaseFunds
      * 
      * @param fieldValues the input fields and values
-     * @return the size collection of balance entry groups
+     * @param isConsolidated consolidation option is applied or not
+     * @return a collection of base budgets for Labor objects
      */
-    public Iterator getConsolidatedBalanceRecordCount(Map fieldValues);
-
-    /**
-     * @param year
-     * @return an iterator over all balances for a given fiscal year
-     */
-    public Iterator<LedgerBalance> findBalancesForFiscalYear(Integer year);
+    List<AccountStatusBaseFunds> findCSFTrackersAsAccountStatusBaseFunds(Map fieldValues, boolean isConsolidated);
 }

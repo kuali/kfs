@@ -251,7 +251,7 @@
       <foreignkey field-ref="paymentDetailId"/>
     </reference-descriptor>
 
-    <collection-descriptor name="accountHistory" element-class-ref="org.kuali.module.pdp.bo.PaymentAccountHistory" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-update="object" auto-delete="object">
+    <collection-descriptor name="accountHistory" element-class-ref="org.kuali.module.pdp.bo.PaymentAccountHistory" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
        <orderby name="accountingChange.code" sort="ASC"/>
        <inverse-foreignkey field-ref="paymentAccountDetailId"/>
     </collection-descriptor>
@@ -388,11 +388,11 @@
       <foreignkey field-ref="paymentGroupId"/>
     </reference-descriptor>
 
-    <collection-descriptor name="accountDetail" proxy="true" element-class-ref="org.kuali.module.pdp.bo.PaymentAccountDetail" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-update="object" auto-delete="object">
+    <collection-descriptor name="accountDetail" proxy="true" element-class-ref="org.kuali.module.pdp.bo.PaymentAccountDetail" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
        <inverse-foreignkey field-ref="paymentDetailId"/>
     </collection-descriptor>
 
-    <collection-descriptor name="notes" proxy="true" element-class-ref="org.kuali.module.pdp.bo.PaymentNoteText" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-update="object" auto-delete="object">
+    <collection-descriptor name="notes" proxy="true" element-class-ref="org.kuali.module.pdp.bo.PaymentNoteText" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
        <orderby name="customerNoteLineNbr" sort="ASC"/>
        <inverse-foreignkey field-ref="paymentDetailId"/>
     </collection-descriptor>

@@ -52,9 +52,16 @@ public class BudgetConstructionOrganizationReportsDaoOjb
 
         List orgs = new ArrayList();
 
+        Criteria cycleCheckCriteria = new Criteria();
+        cycleCheckCriteria.addEqualToField("chartOfAccountsCode", "reportsToChartOfAccountsCode");
+        cycleCheckCriteria.addEqualToField("organizationCode", "reportsToOrganizationCode");
+        cycleCheckCriteria.setEmbraced(true);
+        cycleCheckCriteria.setNegative(true);
+
         Criteria criteria = new Criteria();
         criteria.addEqualTo("reportsToChartOfAccountsCode", chartOfAccountsCode);
         criteria.addEqualTo("reportsToOrganizationCode", organizationCode);
+        criteria.addAndCriteria(cycleCheckCriteria);
         criteria.addEqualTo("organization.organizationActiveIndicator", Boolean.TRUE);
 
         orgs = (List) getPersistenceBrokerTemplate().getCollectionByQuery(QueryFactory.newQuery(BudgetConstructionOrganizationReports.class, criteria));

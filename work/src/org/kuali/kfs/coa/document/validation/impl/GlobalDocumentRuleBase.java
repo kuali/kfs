@@ -17,6 +17,7 @@ package org.kuali.module.chart.rules;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase;
+import org.kuali.core.util.GlobalVariables;
 import org.kuali.kfs.KFSKeyConstants;
 import org.kuali.module.chart.bo.AccountGlobalDetail;
 
@@ -161,11 +162,14 @@ public class GlobalDocumentRuleBase extends MaintenanceDocumentRuleBase {
     protected boolean checkOnlyOneChartAddLineErrorWrapper(AccountGlobalDetail newAccountLine, List<AccountGlobalDetail> accountGlobalDetails) {
         boolean success = checkOnlyOneChartAddLine(newAccountLine, accountGlobalDetails);
         if (!success) {
-            putGlobalError(KFSKeyConstants.ERROR_DOCUMENT_GLOBAL_ACCOUNT_ONE_CHART_ONLY_ADDNEW);
+            //putGlobalError(KFSKeyConstants.ERROR_DOCUMENT_GLOBAL_ACCOUNT_ONE_CHART_ONLY_ADDNEW);
             // TODO: KULCOA-1091 Need to add this error to the add line, but this doesnt work right, as the
             // error message comes out at the bottom, and the field doesnt get highlighted.
             // putFieldError("newAccountGlobalDetail.chartOfAccountsCode",
             // KFSKeyConstants.ERROR_DOCUMENT_GLOBAL_ACCOUNT_ONE_CHART_ONLY);
+            
+            //added to prevent error from showing at the top of the document, but rather in the Account Detail Edit section
+            GlobalVariables.getErrorMap().putError( "chartOfAccountsCode", KFSKeyConstants.ERROR_DOCUMENT_GLOBAL_ACCOUNT_ONE_CHART_ONLY_ADDNEW );
         }
         return success;
     }

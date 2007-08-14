@@ -229,7 +229,8 @@ public class PaymentRequestDocumentRule extends AccountsPayableDocumentRuleBase 
         else {            
             // Verify that there exists at least 1 item left to be invoiced
             valid &= encumberedItemExistsForInvoicing(purchaseOrderDocument);
-           // valid = true;
+            //FIXME: This valid = true;  is causing the clear button do not work properly in case of this error. Remvoing it will stop preq generation 
+            valid = true;
         }
         GlobalVariables.getErrorMap().clearErrorPath();
         return valid;

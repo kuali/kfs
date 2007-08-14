@@ -635,7 +635,7 @@ public class ReportServiceImpl implements ReportService {
         
         YearEndTransactionReport transactionReport = new YearEndTransactionReport(YearEndTransactionReport.YearEndReportType.ORGANIZATION_REVERSION_PROCESS_REPORT);
         String title = "Organization Reversion Process Report ";
-        transactionReport.generateReport(jobParameters, null, reportSummary, runDate, title, "org_reversion_process", reportsDirectory, new Object[] { new Object[] { orgReversionOriginEntryGroup, "Organization Reversion Statistics"} });
+        transactionReport.generateReport(jobParameters, null, reportSummary, runDate, title, "year_end_org_reversion_process", reportsDirectory, new Object[] { new Object[] { orgReversionOriginEntryGroup, "Organization Reversion Statistics"} });
     }
 
     /**

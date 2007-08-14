@@ -104,25 +104,11 @@ public class OrgReversionUnitOfWork extends PersistableBusinessObjectBase {
      * This method updates the category amount keys for the current unit of work
      */
     public void cascadeCategoryAmountKeys() {
-        CollectionUtils.forAllDo(amounts.keySet(), new CategoryAmountKeyCascadingClosure(this));
-    }
-    
-    /**
-     * Inner class to actually perform the category amount updating.
-     */
-    class CategoryAmountKeyCascadingClosure implements Closure {
-        private OrgReversionUnitOfWork unitOfWork;
-        
-        public CategoryAmountKeyCascadingClosure(OrgReversionUnitOfWork unitOfWork) {
-            this.unitOfWork = unitOfWork;
-        }
-        
-        public void execute(Object o) {
-            String category = (String)o;
+        for (String category: amounts.keySet()) {
             OrgReversionUnitOfWorkCategoryAmount catAmt = amounts.get(category);
-            catAmt.setChartOfAccountsCode(unitOfWork.chartOfAccountsCode);
-            catAmt.setAccountNumber(unitOfWork.accountNumber);
-            catAmt.setSubAccountNumber(unitOfWork.subAccountNumber);
+            catAmt.setChartOfAccountsCode(this.chartOfAccountsCode);
+            catAmt.setAccountNumber(this.accountNumber);
+            catAmt.setSubAccountNumber(this.subAccountNumber);
         }
     }
 

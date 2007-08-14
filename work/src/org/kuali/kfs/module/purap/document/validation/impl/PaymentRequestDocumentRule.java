@@ -373,9 +373,6 @@ public class PaymentRequestDocumentRule extends AccountsPayableDocumentRuleBase 
         if (item.getItemTypeCode().equals(PurapConstants.ItemTypeCodes.ITEM_TYPE_ITEM_CODE)) { 
             valid &= validateItemTypeItems(item, identifierString); 
         } 
-        else {
-            valid &= validateNonItemTypeItems(item, identifierString);
-        }
         valid &= validateItemWithoutAccounts(item, identifierString);
         valid &= validateItemAccounts(paymentRequestDocument, item, identifierString);
         return valid;
@@ -421,17 +418,6 @@ public class PaymentRequestDocumentRule extends AccountsPayableDocumentRuleBase 
             }
         }
 
-        return valid;
-    }
-    
-    private boolean validateNonItemTypeItems(PaymentRequestItem item, String identifierString) {
-        boolean valid = true;
-        if ( ObjectUtils.isNotNull(item.getItemUnitPrice()) && 
-             item.getItemUnitPrice().compareTo(KualiDecimal.ZERO.bigDecimalValue()) != 0 &&
-             StringUtils.isBlank(item.getItemDescription()) ) {
-            valid = false;
-            GlobalVariables.getErrorMap().putError(PurapConstants.ITEM_TAB_ERROR_PROPERTY, KFSKeyConstants.ERROR_REQUIRED, PurapConstants.ItemFields.DESCRIPTION + " of " + identifierString + KFSConstants.BLANK_SPACE);
-        }
         return valid;
     }
     

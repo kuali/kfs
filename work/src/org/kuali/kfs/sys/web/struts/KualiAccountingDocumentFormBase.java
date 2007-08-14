@@ -26,21 +26,21 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.commons.lang.StringUtils;
 import org.apache.struts.upload.FormFile;
 import org.kuali.core.bo.user.UniversalUser;
-import org.kuali.core.document.TransactionalDocument;
 import org.kuali.core.document.authorization.DocumentAuthorizer;
 import org.kuali.core.exceptions.InfrastructureException;
+import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.web.format.CurrencyFormatter;
 import org.kuali.core.web.format.SimpleBooleanFormatter;
 import org.kuali.core.web.struts.form.KualiTransactionalDocumentFormBase;
 import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.KFSKeyConstants;
 import org.kuali.kfs.bo.AccountingLine;
 import org.kuali.kfs.bo.AccountingLineBase;
 import org.kuali.kfs.bo.AccountingLineOverride;
 import org.kuali.kfs.bo.SourceAccountingLine;
 import org.kuali.kfs.bo.TargetAccountingLine;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.document.AccountingDocument;
 import org.kuali.kfs.document.authorization.AccountingDocumentAuthorizer;
 import org.kuali.kfs.util.SpringServiceLocator;
@@ -614,11 +614,10 @@ public class KualiAccountingDocumentFormBase extends KualiTransactionalDocumentF
     }
 
     /**
-     * TODO this has to be fixed for p2a: KULRNE-4552
      * @return String
      */
     public String getAccountingLineImportInstructionsUrl() {
-        return "https://test.kuali.org/confluence/display/KULRNE/Accounting+Line+Import+Instructions";
+        return SpringContext.getBean(KualiConfigurationService.class).getPropertyString(KFSConstants.EXTERNALIZABLE_HELP_URL_KEY) + SpringContext.getBean(KualiConfigurationService.class).getApplicationParameterValue(KFSConstants.ParameterGroups.FP_GLOBAL_PARAMETERS, KFSConstants.FinancialApcParms.ACCOUNTING_LINE_IMPORT_HELP);
     }
 
     /**

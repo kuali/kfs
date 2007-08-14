@@ -742,10 +742,12 @@ public class KFSConstants {
         public static final String DV_FOREIGNDRAFT_WORKGROUP = "Workgroup.ForeignDraft"; 
         public static final String DV_WIRETRANSFER_WORKGROUP = "Workgroup.WireTransfer"; 
         public static final String DV_TRAVEL_WORKGROUP = "Workgroup.Travel"; 
+        public static final String ACCOUNTING_LINE_IMPORT_HELP = "ACCOUNTING_LINE_IMPORT_HELP";
     }
     
     public static class ParameterGroups {
         public static final String SYSTEM = "SYSTEM";
+        public static final String FP_GLOBAL_PARAMETERS = "Kuali.FinancialTransactionProcessing.GlobalRules";
         public static final String GENERAL_LEDGER_CORRECTION_PROCESS = "Kuali.FinancialTransactionProcessing.GeneralLedgerCorrectionProcessDocument";
         public static final String BATCH_UPLOAD_SECURITY_GROUP_NAME = "Kuali.Batch.BatchInputFileUpload";
         public static final String COLLECTOR_SECURITY_GROUP_NAME = "Kuali.GeneralLedger.Collector";

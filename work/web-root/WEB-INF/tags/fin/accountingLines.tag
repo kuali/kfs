@@ -135,7 +135,7 @@
     <table width="100%" border="0" cellpadding="0" cellspacing="0" class="datatable">
       <fin:subheadingWithDetailToggleRow
           columnCount="${columnCount}"
-          subheading="Accounting Lines"/>
+          subheading='Accounting Lines <a href="${KualiForm.accountingLineImportInstructionsUrl}" target="helpWindow"><img src="${ConfigProperties.kr.externalizable.images.url}my_cp_inf.gif" title="Accounting Lines Help" alt="Accounting Lines Help" hspace=5 border=0 align="middle"></a>' />
       <fin:accountingLineGroup
           isSource="true"
           columnCountUntilAmount="${columnCountUntilAmount}"

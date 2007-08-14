@@ -59,7 +59,6 @@
                       '     width=72 height=15 border=0 align="middle" class="det-button">' +
                     '<\/a>' +
                     '<div id="${uploadDiv}" style="display:none;" >' +
-                      '<a href="${KualiForm.accountingLineImportInstructionsUrl}" target="helpWindow"><img src="${ConfigProperties.kr.externalizable.images.url}my_cp_inf.gif" alt="${altText}" hspace=5 border=0  align="middle"><\/a>&nbsp;' +
                       '<html:file size="30" property="${file}" />' +
                       '<html:image property="methodToCall.${uploadLines}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-add1.gif"
                                     styleClass="tinybutton" alt="insert ${sourceOrTarget} accounting lines" title="insert ${sourceOrTarget} accounting lines" />' +
@@ -69,7 +68,7 @@
                 //-->
             </SCRIPT>
             <NOSCRIPT>
-                Import lines <a href="${KualiForm.accountingLineImportInstructionsUrl}" />" target="helpWindow"><img src="${ConfigProperties.kr.externalizable.images.url}my_cp_inf.gif" title="${altText}" alt="${altText}" hspace=5 border=0  align="middle"></a>&nbsp;
+                Import lines
                 <html:file size="30" property="${file}" style="font:10px;height:16px;"/>
                 <html:image property="methodToCall.${uploadLines}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-add1.gif"
                             alt="insert ${sourceOrTarget} accounting lines" title="insert ${sourceOrTarget} accounting lines"/>

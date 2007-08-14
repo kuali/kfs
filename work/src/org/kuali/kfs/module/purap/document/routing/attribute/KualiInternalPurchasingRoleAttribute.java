@@ -18,22 +18,13 @@ package org.kuali.workflow.module.purap.attribute;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
-import javax.xml.xpath.XPath;
-import javax.xml.xpath.XPathConstants;
-import javax.xml.xpath.XPathExpressionException;
-
-import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
-import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.util.SpringServiceLocator;
-import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.PurapParameterConstants;
-import org.kuali.module.purap.document.PurchasingAccountsPayableDocument;
+import org.kuali.module.purap.PurapWorkflowConstants;
 import org.kuali.module.purap.document.PurchasingDocumentBase;
 import org.kuali.workflow.KualiWorkflowUtils;
 
@@ -112,7 +103,7 @@ public class KualiInternalPurchasingRoleAttribute extends UnqualifiedRoleAttribu
     @Override
     public ResolvedQualifiedRole resolveRole(RouteContext routeContext, String roleName) throws EdenUserNotFoundException {
         // assume isMatch above has done it's job
-        String workgroupName = SpringServiceLocator.getKualiConfigurationService().getApplicationParameterValue(PurapParameterConstants.PURAP_ADMIN_GROUP, PurapConstants.WorkflowConstants.PurchaseOrderDocument.INTERNAL_PURCHASING_WORKGROUP_NAME);
+        String workgroupName = SpringServiceLocator.getKualiConfigurationService().getApplicationParameterValue(PurapParameterConstants.PURAP_ADMIN_GROUP, PurapWorkflowConstants.PurchaseOrderDocument.INTERNAL_PURCHASING_WORKGROUP_NAME);
         return new ResolvedQualifiedRole(INTERNAL_PURCHASING_ROLE_LABEL, Arrays.asList(new Id[] { new GroupNameId(workgroupName) }));
     }
 }

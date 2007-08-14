@@ -184,6 +184,7 @@ public class PurapAccountingServiceImpl implements PurapAccountingService {
             PurApAccountingLine slushAccount = (PurApAccountingLine)newAccounts.get(newAccounts.size() - 1);
             slushAccount.setAccountLinePercent((slushAccount.getAccountLinePercent().add(difference)).stripTrailingZeros());
         }
+        LOG.debug(methodName + " ended");
         return newAccounts;
     }
 
@@ -235,6 +236,7 @@ public class PurapAccountingServiceImpl implements PurapAccountingService {
             logDisplayOnlyTotal = logDisplayOnlyTotal.add(newAccountingLine.getAccountLinePercent());
             LOG.debug(methodName + " total = " + logDisplayOnlyTotal);
         }
+        LOG.debug(methodName + " ended");
         return newAccounts;
     }
 
@@ -246,13 +248,17 @@ public class PurapAccountingServiceImpl implements PurapAccountingService {
     public List<SourceAccountingLine> generateSummary(List<PurchasingApItem> items) {
         String methodName = "generateSummary()";
         LOG.debug(methodName + " started");
-        return generateAccountSummary(items, null, ITEM_TYPES_EXCLUDED_VALUE, ZERO_TOTALS_RETURNED_VALUE, ALTERNATE_AMOUNT_NOT_USED);
+        List<SourceAccountingLine> returnList = generateAccountSummary(items, null, ITEM_TYPES_EXCLUDED_VALUE, ZERO_TOTALS_RETURNED_VALUE, ALTERNATE_AMOUNT_NOT_USED);
+        LOG.debug(methodName + " ended");
+        return returnList;
     }
 
     public Map<SourceAccountingLine, List<PurchasingApItem>> generateSummaryWithItems(List<PurchasingApItem> items) {
         String methodName = "generateSummaryWithItems()";
         LOG.debug(methodName + " started");
-        return generateAccountSummaryWithItems(items, null, ITEM_TYPES_EXCLUDED_VALUE, ZERO_TOTALS_RETURNED_VALUE, ALTERNATE_AMOUNT_NOT_USED);
+        Map<SourceAccountingLine, List<PurchasingApItem>> returnList = generateAccountSummaryWithItems(items, null, ITEM_TYPES_EXCLUDED_VALUE, ZERO_TOTALS_RETURNED_VALUE, ALTERNATE_AMOUNT_NOT_USED);
+        LOG.debug(methodName + " ended");
+        return returnList;
     }
     
     /**
@@ -263,7 +269,9 @@ public class PurapAccountingServiceImpl implements PurapAccountingService {
     public List<SourceAccountingLine> generateSummaryWithNoZeroTotals(List<PurchasingApItem> items) {
         String methodName = "generateSummaryWithNoZeroTotals()";
         LOG.debug(methodName + " started");
-        return generateAccountSummary(items, null, ITEM_TYPES_EXCLUDED_VALUE, ZERO_TOTALS_NOT_RETURNED_VALUE, ALTERNATE_AMOUNT_NOT_USED);
+        List<SourceAccountingLine> returnList = generateAccountSummary(items, null, ITEM_TYPES_EXCLUDED_VALUE, ZERO_TOTALS_NOT_RETURNED_VALUE, ALTERNATE_AMOUNT_NOT_USED);
+        LOG.debug(methodName + " ended");
+        return returnList;
     }
 
     /**
@@ -274,7 +282,9 @@ public class PurapAccountingServiceImpl implements PurapAccountingService {
     public List<SourceAccountingLine> generateSummaryWithNoZeroTotalsUsingAlternateAmount(List<PurchasingApItem> items) {
         String methodName = "generateSummaryWithNoZeroTotals()";
         LOG.debug(methodName + " started");
-        return generateAccountSummary(items, null, ITEM_TYPES_EXCLUDED_VALUE, ZERO_TOTALS_NOT_RETURNED_VALUE, ALTERNATE_AMOUNT_USED);
+        List<SourceAccountingLine> returnList = generateAccountSummary(items, null, ITEM_TYPES_EXCLUDED_VALUE, ZERO_TOTALS_NOT_RETURNED_VALUE, ALTERNATE_AMOUNT_USED);
+        LOG.debug(methodName + " ended");
+        return returnList;
     }
 
     /**
@@ -285,7 +295,9 @@ public class PurapAccountingServiceImpl implements PurapAccountingService {
     public List<SourceAccountingLine> generateSummaryExcludeItemTypes(List<PurchasingApItem> items, Set excludedItemTypeCodes) {
         String methodName = "generateSummaryExcludeItemTypes()";
         LOG.debug(methodName + " started");
-        return generateAccountSummary(items, excludedItemTypeCodes, ITEM_TYPES_EXCLUDED_VALUE, ZERO_TOTALS_RETURNED_VALUE, ALTERNATE_AMOUNT_NOT_USED);
+        List<SourceAccountingLine> returnList = generateAccountSummary(items, excludedItemTypeCodes, ITEM_TYPES_EXCLUDED_VALUE, ZERO_TOTALS_RETURNED_VALUE, ALTERNATE_AMOUNT_NOT_USED);
+        LOG.debug(methodName + " ended");
+        return returnList;
     }
 
     /**
@@ -296,7 +308,9 @@ public class PurapAccountingServiceImpl implements PurapAccountingService {
     public List<SourceAccountingLine> generateSummaryIncludeItemTypesAndNoZeroTotals(List<PurchasingApItem> items, Set includedItemTypeCodes) {
         String methodName = "generateSummaryExcludeItemTypesAndNoZeroTotals()";
         LOG.debug(methodName + " started");
-        return generateAccountSummary(items, includedItemTypeCodes, ITEM_TYPES_INCLUDED_VALUE, ZERO_TOTALS_NOT_RETURNED_VALUE, ALTERNATE_AMOUNT_NOT_USED);
+        List<SourceAccountingLine> returnList = generateAccountSummary(items, includedItemTypeCodes, ITEM_TYPES_INCLUDED_VALUE, ZERO_TOTALS_NOT_RETURNED_VALUE, ALTERNATE_AMOUNT_NOT_USED);
+        LOG.debug(methodName + " ended");
+        return returnList;
     }
     
     /**
@@ -307,7 +321,9 @@ public class PurapAccountingServiceImpl implements PurapAccountingService {
     public List<SourceAccountingLine> generateSummaryIncludeItemTypes(List<PurchasingApItem> items, Set includedItemTypeCodes) {
         String methodName = "generateSummaryIncludeItemTypes()";
         LOG.debug(methodName + " started");
-        return generateAccountSummary(items, includedItemTypeCodes, ITEM_TYPES_INCLUDED_VALUE, ZERO_TOTALS_RETURNED_VALUE, ALTERNATE_AMOUNT_NOT_USED);
+        List<SourceAccountingLine> returnList = generateAccountSummary(items, includedItemTypeCodes, ITEM_TYPES_INCLUDED_VALUE, ZERO_TOTALS_RETURNED_VALUE, ALTERNATE_AMOUNT_NOT_USED);
+        LOG.debug(methodName + " ended");
+        return returnList;
     }
 
     /**
@@ -318,7 +334,9 @@ public class PurapAccountingServiceImpl implements PurapAccountingService {
     public List<SourceAccountingLine> generateSummaryExcludeItemTypesAndNoZeroTotals(List<PurchasingApItem> items, Set excludedItemTypeCodes) {
         String methodName = "generateSummaryIncludeItemTypesAndNoZeroTotals()";
         LOG.debug(methodName + " started");
-        return generateAccountSummary(items, excludedItemTypeCodes, ITEM_TYPES_EXCLUDED_VALUE, ZERO_TOTALS_NOT_RETURNED_VALUE, ALTERNATE_AMOUNT_NOT_USED);
+        List<SourceAccountingLine> returnList = generateAccountSummary(items, excludedItemTypeCodes, ITEM_TYPES_EXCLUDED_VALUE, ZERO_TOTALS_NOT_RETURNED_VALUE, ALTERNATE_AMOUNT_NOT_USED);
+        LOG.debug(methodName + " ended");
+        return returnList;
     }
     
     /**

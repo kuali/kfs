@@ -17,7 +17,9 @@
 package org.kuali.module.purap.document;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Currency;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -41,6 +43,8 @@ import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.PurapKeyConstants;
 import org.kuali.module.purap.PurapParameterConstants;
 import org.kuali.module.purap.PurapConstants.RequisitionStatuses;
+import org.kuali.module.purap.PurapWorkflowConstants.NodeDetails;
+import org.kuali.module.purap.PurapWorkflowConstants.RequisitionDocument.NodeDetailEnum;
 import org.kuali.module.purap.bo.BillingAddress;
 import org.kuali.module.purap.bo.PurApAccountingLine;
 import org.kuali.module.purap.bo.RequisitionAccount;
@@ -261,7 +265,7 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
         SpringServiceLocator.getPurapService().updateStatusAndStatusHistory(this, statusCode);
         SpringServiceLocator.getRequisitionService().saveDocumentWithoutValidation(this);
     }
-
+    
 	/**
      * @see org.kuali.core.document.DocumentBase#handleRouteStatusChange()
      */
@@ -282,14 +286,15 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
             // DOCUMENT DISAPPROVED
             else if (this.getDocumentHeader().getWorkflowDocument().stateIsDisapproved()) {
                 String nodeName = SpringServiceLocator.getWorkflowDocumentService().getCurrentRouteLevelName(getDocumentHeader().getWorkflowDocument());
-                String statusCode = PurapConstants.WorkflowConstants.RequisitionDocument.NodeDetails.DISAPPROVAL_STATUS_BY_NODE_NAME.get(nodeName);
-                if (StringUtils.isNotBlank(statusCode)) {
-                    updateStatusAndStatusHistoryAndSave(statusCode);
+                NodeDetails currentNode = NodeDetailEnum.getNodeDetailEnumByName(nodeName);
+                if (ObjectUtils.isNotNull(currentNode)) {
+                    if (StringUtils.isNotBlank(currentNode.getDisapprovedStatusCode())) {
+                        updateStatusAndStatusHistoryAndSave(currentNode.getDisapprovedStatusCode());
+                        return;
+                    }
                 }
-                else {
-                    // TODO PURAP/delyea - what to do in a disapproval where no status to set exists?
-                    logAndThrowRuntimeException("No status found to set for document being disapproved in node '" + nodeName + "'");
-                }
+                // TODO PURAP/delyea - what to do in a disapproval where no status to set exists?
+                logAndThrowRuntimeException("No status found to set for document being disapproved in node '" + nodeName + "'");
             }
             // DOCUMENT CANCELED
             else if (this.getDocumentHeader().getWorkflowDocument().stateIsCanceled()) {
@@ -315,9 +320,11 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
                 ReportCriteriaVO reportCriteriaVO = new ReportCriteriaVO(Long.valueOf(getDocumentNumber()));
                 reportCriteriaVO.setTargetNodeName(newNodeName);
                 if (SpringServiceLocator.getWorkflowInfoService().documentWillHaveAtLeastOneActionRequest(reportCriteriaVO, new String[] { EdenConstants.ACTION_REQUEST_APPROVE_REQ, EdenConstants.ACTION_REQUEST_COMPLETE_REQ })) {
-                    String statusCode = PurapConstants.WorkflowConstants.RequisitionDocument.NodeDetails.STATUS_BY_NODE_NAME.get(newNodeName);
-                    if (StringUtils.isNotBlank(statusCode)) {
-                        updateStatusAndStatusHistoryAndSave(statusCode);
+                    NodeDetails currentNode = NodeDetailEnum.getNodeDetailEnumByName(newNodeName);
+                    if (ObjectUtils.isNotNull(currentNode)) {
+                        if (StringUtils.isNotBlank(currentNode.getAwaitingStatusCode())) {
+                            updateStatusAndStatusHistoryAndSave(currentNode.getAwaitingStatusCode());
+                        }
                     }
                 }
                 else {
@@ -326,7 +333,8 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
             }
         }
         catch (WorkflowException e) {
-            logAndThrowRuntimeException("Error getting node names for document with id " + getDocumentNumber(), e);
+            String errorMsg = "Workflow Error found checking actions requests on document with id " + getDocumentNumber() + ". *** WILL NOT UPDATE PURAP STATUS ***";
+            LOG.warn(errorMsg, e);
         }
     }
     

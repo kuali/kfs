@@ -32,6 +32,7 @@ import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.PurapParameterConstants;
 import org.kuali.module.purap.PurapPropertyConstants;
+import org.kuali.module.purap.PurapWorkflowConstants;
 import org.kuali.module.purap.bo.AssignContractManagerDetail;
 
 import edu.iu.uis.eden.EdenConstants;
@@ -119,7 +120,7 @@ public class AssignContractManagerDocument extends TransactionalDocumentBase {
                         req.setContractManagerCode(detail.getContractManagerCode());
                         SpringServiceLocator.getPurapService().updateStatusAndStatusHistory(req, PurapConstants.RequisitionStatuses.CLOSED);
                         SpringServiceLocator.getRequisitionService().saveDocumentWithoutValidation(req);
-                        PurchaseOrderDocument poDocument = SpringServiceLocator.getPurchaseOrderService().createPurchaseOrderDocument(req);
+                        SpringServiceLocator.getPurchaseOrderService().createPurchaseOrderDocument(req);
 
                     }
                     else {
@@ -139,14 +140,14 @@ public class AssignContractManagerDocument extends TransactionalDocumentBase {
                 KualiWorkflowDocument workflowDoc = this.getDocumentHeader().getWorkflowDocument();
                 String currentNodeName = null;
                 try {
-                    currentNodeName = PurapConstants.WorkflowConstants.DOC_ADHOC_NODE_NAME;
+                    currentNodeName = PurapWorkflowConstants.DOC_ADHOC_NODE_NAME;
                     if (!(EdenConstants.ROUTE_HEADER_INITIATED_CD.equals(workflowDoc.getRouteHeader().getDocRouteStatus()))) {
                         if (this.getCurrentRouteNodeName(workflowDoc) != null) {
                             currentNodeName = this.getCurrentRouteNodeName(workflowDoc);
                         }
                     }
                     workflowDoc.appSpecificRouteDocumentToUser(EdenConstants.ACTION_REQUEST_FYI_REQ, currentNodeName, 0, 
-                            PurapConstants.WorkflowConstants.AssignContractManagerDocument.ASSIGN_CONTRACT_DOC_ERROR_COMPLETING_POST_PROCESSING + failedReqs, 
+                            PurapWorkflowConstants.AssignContractManagerDocument.ASSIGN_CONTRACT_DOC_ERROR_COMPLETING_POST_PROCESSING + failedReqs, 
                             new NetworkIdVO(workflowDoc.getInitiatorNetworkId()), "Initiator", true);
                 }
                 catch (WorkflowException e) {
@@ -176,7 +177,7 @@ public class AssignContractManagerDocument extends TransactionalDocumentBase {
         String title = "";
         String specificTitle = SpringServiceLocator.getKualiConfigurationService().getApplicationParameterValue(PurapParameterConstants.PURAP_ADMIN_GROUP,PurapParameterConstants.PURAP_OVERRIDE_ASSIGN_CONTRACT_MGR_DOC_TITLE);
         if (StringUtils.equalsIgnoreCase(specificTitle,Boolean.TRUE.toString())) {
-            title = PurapConstants.WorkflowConstants.AssignContractManagerDocument.WORKFLOW_DOCUMENT_TITLE;
+            title = PurapWorkflowConstants.AssignContractManagerDocument.WORKFLOW_DOCUMENT_TITLE;
         }
         else {
             title = super.getDocumentTitle();

@@ -90,10 +90,9 @@ public class PurchasingAccountsPayableDocumentRuleBase extends AccountingDocumen
      */
     public boolean processValidation(PurchasingAccountsPayableDocument purapDocument) {
         boolean valid = true;
-        boolean needAccountValidation = true;
         valid &= processDocumentOverviewValidation(purapDocument);
         valid &= processVendorValidation(purapDocument);
-        valid &= processItemValidation(purapDocument, needAccountValidation);
+        valid &= processItemValidation(purapDocument);
         return valid;
     }
 
@@ -121,15 +120,8 @@ public class PurchasingAccountsPayableDocumentRuleBase extends AccountingDocumen
         return valid;
     }
 
-    /**
-     * This method performs any validation for the Item tab.
-     * 
-     * @param purapDocument
-     * @return
-     */    
-    public boolean processItemValidation(PurchasingAccountsPayableDocument purapDocument) {
-        //By default, we will need to do account validation unless specified.
-        return processItemValidation(purapDocument, true);
+    public boolean requiresAccountValidationOnAllItems(PurchasingAccountsPayableDocument document) {
+        return true;
     }
     
     /**
@@ -139,7 +131,7 @@ public class PurchasingAccountsPayableDocumentRuleBase extends AccountingDocumen
      * @param needAccountValidation boolean that indicates whether we need account validation.
      * @return
      */
-    public boolean processItemValidation(PurchasingAccountsPayableDocument purapDocument, boolean needAccountValidation) {
+    public boolean processItemValidation(PurchasingAccountsPayableDocument purapDocument) {
         boolean valid = true;
         
         // Fetch the business rules that are common to the below the line items on all purap documents
@@ -157,6 +149,7 @@ public class PurchasingAccountsPayableDocumentRuleBase extends AccountingDocumen
         KualiParameterRule allowsNegativeRule = SpringServiceLocator.getKualiConfigurationService().getApplicationParameterRule(securityGroup, PurapConstants.ITEM_ALLOWS_NEGATIVE);
         KualiParameterRule requiresDescriptionRule = SpringServiceLocator.getKualiConfigurationService().getApplicationParameterRule(securityGroup, PurapConstants.ITEM_REQUIRES_USER_ENTERED_DESCRIPTION);
 
+        boolean requiresAccountValidationOnAllItems = requiresAccountValidationOnAllItems(purapDocument);
         for (PurchasingApItem item : purapDocument.getItems()) {
             //only do this check for below the line items
             item.refreshNonUpdateableReferences();
@@ -195,9 +188,11 @@ public class PurchasingAccountsPayableDocumentRuleBase extends AccountingDocumen
                 }
             }
             
-            if(needAccountValidation && PurApItemUtils.checkItemActive(item)) {
-                if(ObjectUtils.isNotNull(item.getExtendedPrice()) && item.getExtendedPrice().isNonZero()) {
-                    processAccountValidation(purapDocument, item.getSourceAccountingLines(),item.getItemIdentifierString());
+            // only check active items
+            if(PurApItemUtils.checkItemActive(item)) {
+                // check account validation if we require it on all items or if there is at least one account on the item
+                if (requiresAccountValidationOnAllItems || (!item.getSourceAccountingLines().isEmpty())) {
+                    processAccountValidation(item.getSourceAccountingLines(),item.getItemIdentifierString());
                 }
             }
         }
@@ -316,7 +311,7 @@ public class PurchasingAccountsPayableDocumentRuleBase extends AccountingDocumen
      * @param purapDocument
      * @return
      */
-    public boolean processAccountValidation(PurchasingAccountsPayableDocument purapDocument, List<PurApAccountingLine> purAccounts, String itemLineNumber) {
+    public boolean processAccountValidation(List<PurApAccountingLine> purAccounts, String itemLineNumber) {
         boolean valid = true;
         valid = valid & verifyHasAccounts(purAccounts,itemLineNumber);
         valid = valid & verifyAccountPercent(purAccounts,itemLineNumber);

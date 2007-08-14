@@ -34,9 +34,10 @@ import org.kuali.core.workflow.service.KualiWorkflowDocument;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.PurapParameterConstants;
+import org.kuali.module.purap.PurapWorkflowConstants;
 import org.kuali.module.purap.PurapConstants.PaymentRequestStatuses;
-import org.kuali.module.purap.PurapConstants.WorkflowConstants;
-import org.kuali.module.purap.PurapConstants.WorkflowConstants.PaymentRequestDocument.NodeDetails;
+import org.kuali.module.purap.PurapWorkflowConstants.NodeDetails;
+import org.kuali.module.purap.PurapWorkflowConstants.PaymentRequestDocument.NodeDetailEnum;
 import org.kuali.module.purap.bo.ItemType;
 import org.kuali.module.purap.bo.PaymentRequestItem;
 import org.kuali.module.purap.bo.PaymentRequestStatusHistory;
@@ -116,7 +117,6 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
         return true;
     }
 
-
     /**
      * Gets the requisitionIdentifier attribute. 
      * @return Returns the requisitionIdentifier.
@@ -131,6 +131,15 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
      */
     public void setRequisitionIdentifier(Integer requisitionIdentifier) {
         this.requisitionIdentifier = requisitionIdentifier;
+    }
+    
+    /**
+     * @see org.kuali.module.purap.document.AccountsPayableDocumentBase#populateDocumentForRouting()
+     */
+    @Override
+    public void populateDocumentForRouting() {
+        this.setRequisitionIdentifier(getPurchaseOrderDocument().getRequisitionIdentifier());
+        super.populateDocumentForRouting();
     }
 
     /**
@@ -658,7 +667,6 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
      */
     public void populatePaymentRequestFromPurchaseOrder(PurchaseOrderDocument po) {
         this.setPurchaseOrderIdentifier(po.getPurapDocumentIdentifier());
-        this.setRequisitionIdentifier(getPurchaseOrderDocument().getRequisitionIdentifier());
         this.setPostingYear(po.getPostingYear());
         this.setVendorCustomerNumber(po.getVendorCustomerNumber());
         if (po.getPurchaseOrderCostSource() != null ){
@@ -742,7 +750,7 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
             
             String documentTitle = new StringBuffer("PO: ").append(poNumber).append(" Vendor: ").append(vendorName).append(" Amount: ").append(preqAmount).append(" ").append(indicator).toString();
             String[] nodeNames = getDocumentHeader().getWorkflowDocument().getNodeNames();
-            if ( (nodeNames.length == 1) && (nodeNames[0].equals(NodeDetails.VENDOR_TAX_REVIEW)) ) {
+            if ( (nodeNames.length == 1) && (NodeDetailEnum.VENDOR_TAX_REVIEW.getName().equals(nodeNames[0])) ) {
                 // tax review
                 //grab the first account
                 PurApAccountingLine theAccount = getFirstAccount();
@@ -811,36 +819,42 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
                     SpringServiceLocator.getPurapService().updateStatusAndStatusHistory(this, PurapConstants.PaymentRequestStatuses.DEPARTMENT_APPROVED);
                     populateDocumentForRouting();
                     SpringServiceLocator.getPaymentRequestService().saveDocumentWithoutValidation(this);
+                    return;
                 }
             }
             // DOCUMENT DISAPPROVED
             else if (this.getDocumentHeader().getWorkflowDocument().stateIsDisapproved()) {
                 String nodeName = SpringServiceLocator.getWorkflowDocumentService().getCurrentRouteLevelName(getDocumentHeader().getWorkflowDocument());
-                String statusCode = WorkflowConstants.PaymentRequestDocument.NodeDetails.DISAPPROVAL_STATUS_BY_NODE_NAME.get(nodeName);
-                if (StringUtils.isBlank(statusCode)) {
-                    if ( (PaymentRequestStatuses.INITIATE.equals(getStatusCode())) || (PaymentRequestStatuses.IN_PROCESS.equals(getStatusCode())) ) {
-                        statusCode = PaymentRequestStatuses.CANCELLED_IN_PROCESS;
+                NodeDetails currentNode = NodeDetailEnum.getNodeDetailEnumByName(nodeName);
+                if (ObjectUtils.isNotNull(currentNode)) {
+                    String newStatusCode = currentNode.getDisapprovedStatusCode();
+                    if ( (StringUtils.isBlank(newStatusCode)) && 
+                         ( (StringUtils.isBlank(currentNode.getDisapprovedStatusCode())) && ( (PaymentRequestStatuses.INITIATE.equals(getStatusCode())) || (PaymentRequestStatuses.IN_PROCESS.equals(getStatusCode())) ) ) ) {
+                        newStatusCode = PaymentRequestStatuses.CANCELLED_IN_PROCESS;
                     }
-                    else {
-                        logAndThrowRuntimeException("No status found to set for pre-routed document being disapproved in node '" + nodeName + "'");
+                    if (StringUtils.isNotBlank(newStatusCode)) {
+                        SpringServiceLocator.getPurapService().updateStatusAndStatusHistory(this, newStatusCode);
+                        SpringServiceLocator.getPaymentRequestService().saveDocumentWithoutValidation(this);
+                        return;
                     }
                 }
-                SpringServiceLocator.getPurapService().updateStatusAndStatusHistory(this, statusCode);
-                populateDocumentForRouting();
-                SpringServiceLocator.getPaymentRequestService().saveDocumentWithoutValidation(this);
+                // TODO PURAP/delyea - what to do in a disapproval where no status to set exists?
+                logAndThrowRuntimeException("No status found to set for document being disapproved in node '" + nodeName + "'");
             }
             // DOCUMENT CANCELED
             else if (this.getDocumentHeader().getWorkflowDocument().stateIsCanceled()) {
-                String cancelledStatusCode = PaymentRequestStatuses.CANCELLED_IN_PROCESS;
                 String currentNodeName = SpringServiceLocator.getWorkflowDocumentService().getCurrentRouteLevelName(this.getDocumentHeader().getWorkflowDocument());
-                if (WorkflowConstants.PaymentRequestDocument.NodeDetails.ACCOUNTS_PAYABLE_REVIEW.equals(currentNodeName)) {
-                    cancelledStatusCode = PaymentRequestStatuses.CANCELLED_PRIOR_TO_AP_APPROVAL;
-                } else if ( (!PaymentRequestStatuses.INITIATE.equals(this.getStatusCode())) && (!PaymentRequestStatuses.IN_PROCESS.equals(this.getStatusCode())) ) {
-                    cancelledStatusCode = PaymentRequestStatuses.CANCELLED_POST_AP_APPROVE;
+                NodeDetails currentNode = NodeDetailEnum.getNodeDetailEnumByName(currentNodeName);
+                if (ObjectUtils.isNotNull(currentNode)) {
+                    String cancelledStatusCode = currentNode.getDisapprovedStatusCode();
+                    if (StringUtils.isNotBlank(cancelledStatusCode)) {
+                        SpringServiceLocator.getPurapService().updateStatusAndStatusHistory(this, cancelledStatusCode);
+                        SpringServiceLocator.getPaymentRequestService().saveDocumentWithoutValidation(this);
+                        return;
+                    }
                 }
-                SpringServiceLocator.getPurapService().updateStatusAndStatusHistory(this, cancelledStatusCode);
-                populateDocumentForRouting();
-                SpringServiceLocator.getPaymentRequestService().saveDocumentWithoutValidation(this);
+                // TODO PURAP/delyea - what to do in a cancel where no status to set exists?
+                LOG.warn("No status found to set for document being disapproved in node '" + currentNodeName + "'");
             }
         }
         catch (WorkflowException e) {
@@ -854,7 +868,7 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
         KualiWorkflowDocument workflowDocument = getDocumentHeader().getWorkflowDocument();
         try {
             // everything in the below list requires correcting entries to be written to the GL
-            if (WorkflowConstants.PaymentRequestDocument.NodeDetails.CORRECTING_ENTRIES_REQUIRED_NODES.contains(workflowDocument.getNodeNames()[0])) {
+            if (NodeDetailEnum.getNodesRequiringCorrectingGeneralLedgerEntries().contains(workflowDocument.getNodeNames()[0])) {
                 // TODO code me
             }
         }
@@ -871,7 +885,7 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
             // do nothing for an auto approval
             return false;
         }
-        if (WorkflowConstants.PaymentRequestDocument.NodeDetails.ACCOUNTS_PAYABLE_REVIEW.equals(oldNodeName)) {
+        if (NodeDetailEnum.ACCOUNTS_PAYABLE_REVIEW.getName().equals(oldNodeName)) {
             setAccountsPayableApprovalDate(SpringServiceLocator.getDateTimeService().getCurrentSqlDate());
             ((PurapGeneralLedgerService) SpringServiceLocator.getService(SpringServiceLocator.PURAP_GENERAL_LEDGER_SERVICE)).generateEntriesCreatePreq(this);
         }
@@ -879,10 +893,10 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
     }
     
     /**
-     * @see org.kuali.module.purap.document.AccountsPayableDocumentBase#getNodeDetailsStatusByNodeNameMap()
+     * @see org.kuali.module.purap.document.AccountsPayableDocumentBase#getNodeDetailEnum(java.lang.String)
      */
-    public Map<String, String> getNodeDetailsStatusByNodeNameMap() {
-        return WorkflowConstants.PaymentRequestDocument.NodeDetails.STATUS_BY_NODE_NAME;
+    public NodeDetails getNodeDetailEnum(String nodeName) {
+        return NodeDetailEnum.getNodeDetailEnumByName(nodeName);
     }
     
     /**
@@ -1173,15 +1187,6 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
      */
     public String getPoDocumentTypeForAccountsPayableDocumentApprove() {
         return PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_CLOSE_DOCUMENT;
-    }
-
-    /**
-     * @see org.kuali.core.document.DocumentBase#prepareForSave()
-     */
-    @Override
-    public void prepareForSave() {
-        super.prepareForSave();
-
     }
 
 }

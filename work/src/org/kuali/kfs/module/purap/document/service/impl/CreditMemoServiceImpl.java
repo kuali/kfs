@@ -41,6 +41,8 @@ import org.kuali.module.purap.PurapKeyConstants;
 import org.kuali.module.purap.PurapParameterConstants;
 import org.kuali.module.purap.PurapPropertyConstants;
 import org.kuali.module.purap.PurapConstants.CreditMemoStatuses;
+import org.kuali.module.purap.PurapWorkflowConstants.NodeDetails;
+import org.kuali.module.purap.PurapWorkflowConstants.CreditMemoDocument.NodeDetailEnum;
 import org.kuali.module.purap.bo.CreditMemoAccount;
 import org.kuali.module.purap.bo.CreditMemoItem;
 import org.kuali.module.purap.bo.PurApAccountingLine;
@@ -226,9 +228,6 @@ public class CreditMemoServiceImpl implements CreditMemoService {
      */
     public void saveDocumentWithoutValidation(CreditMemoDocument creditMemoDocument) {
         try {
-//            creditMemoDocument.getDocumentHeader().getWorkflowDocument().saveRoutingData();
-//            creditMemoDocument.prepareForSave();
-//            documentService.validateAndPersistDocument(creditMemoDocument, new SaveOnlyDocumentEvent(creditMemoDocument));
             documentService.saveDocumentWithoutRunningValidation(creditMemoDocument);
             creditMemoDocument.refreshNonUpdateableReferences();
         }
@@ -237,11 +236,6 @@ public class CreditMemoServiceImpl implements CreditMemoService {
             LOG.error(errorMsg, we);
             throw new RuntimeException(errorMsg, we);
         }
-//        catch (ValidationException ve) {
-//            String errorMsg = "Error saving document # " + creditMemoDocument.getDocumentHeader().getDocumentNumber() + " " + ve.getMessage(); 
-//            LOG.error(errorMsg, ve);
-//            throw new RuntimeException(errorMsg, ve);
-//        }
     }
 
     /**
@@ -250,6 +244,7 @@ public class CreditMemoServiceImpl implements CreditMemoService {
      * 
      * @see org.kuali.module.purap.service.CreditMemoService#approve(org.kuali.module.purap.document.CreditMemoDocument)
      */
+    // TODO delyea/Chris - clean this up to user proper post processing and Kuali methods
     public void route(CreditMemoDocument cmDocument, String annotation, List adHocRecipients) throws WorkflowException {
         // recalculate
         cmDocument.updateExtendedPriceOnItems();
@@ -383,24 +378,27 @@ public class CreditMemoServiceImpl implements CreditMemoService {
      * @see org.kuali.module.purap.service.CreditMemoService#cancelCreditMemo(org.kuali.module.purap.document.CreditMemoDocument,
      *      java.lang.String)
      */
-    public void cancelCreditMemo(CreditMemoDocument cmDocument, String note) throws Exception {
-        // save the note
-        Note noteObj = documentService.createNoteFromDocument(cmDocument, note);
-        documentService.addNoteToDocument(cmDocument, noteObj);
-        noteService.save(noteObj);
-
+    public void cancelCreditMemo(CreditMemoDocument cmDocument, String currentNodeName) {
         // retrieve and save with canceled status, clear gl entries
         CreditMemoDocument cmDoc = getCreditMemoDocumentById(cmDocument.getPurapDocumentIdentifier());
         if (!PurapConstants.CreditMemoStatuses.STATUSES_NOT_REQUIRING_ENTRY_REVERSAL.contains(cmDoc.getStatusCode())) {
             purapGeneralLedgerService.generateEntriesCreditMemo(cmDoc, PurapConstants.CANCEL_CREDIT_MEMO);
         }
-
-        purapService.updateStatusAndStatusHistory(cmDoc, PurapConstants.CreditMemoStatuses.CANCELLED, noteObj);
-        saveDocumentWithoutValidation(cmDoc);
-
-        // must also save it on the incoming document
-        cmDocument.setStatusCode(PurapConstants.CreditMemoStatuses.CANCELLED);
-        cmDocument.refreshReferenceObject(PurapPropertyConstants.STATUS);
+        
+        // update the status on the document
+        NodeDetails currentNode = NodeDetailEnum.getNodeDetailEnumByName(currentNodeName);
+        if (ObjectUtils.isNotNull(currentNode)) {
+            String cancelledStatusCode = currentNode.getDisapprovedStatusCode();
+            if (StringUtils.isNotBlank(cancelledStatusCode)) {
+                purapService.updateStatusAndStatusHistory(cmDoc, cancelledStatusCode);
+                saveDocumentWithoutValidation(cmDoc);
+                cmDocument.setStatusCode(cancelledStatusCode);
+                cmDocument.refreshReferenceObject(PurapPropertyConstants.STATUS);
+                return;
+            }
+        }
+        // TODO PURAP/delyea - what to do in a cancel where no status to set exists?
+        LOG.warn("No status found to set for document being disapproved in node '" + currentNodeName + "'");
     }
 
     /**

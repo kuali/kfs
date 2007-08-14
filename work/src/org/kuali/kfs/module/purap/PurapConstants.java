@@ -15,13 +15,18 @@
  */
 package org.kuali.module.purap;
 
+import java.security.InvalidParameterException;
 import java.util.Arrays;
+import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.apache.commons.collections.EnumerationUtils;
+import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.enums.EnumUtils;
 import org.kuali.RiceConstants;
 import org.kuali.core.JstlConstants;
 import org.kuali.core.util.KualiDecimal;
@@ -39,163 +44,225 @@ public class PurapConstants extends JstlConstants {
     public static final KualiDecimal HUNDRED = new KualiDecimal(100);
     
     // STANDARD PARAMETER PREFIXES
-    private static final String PURAP_PARAM_PREFIX = "PURAP";
-    private static final String STANDARD_SEPARATOR = ".";
+    public static final String PURAP_PARAM_PREFIX = "PURAP";
+    public static final String STANDARD_SEPARATOR = ".";
 
-    public static class WorkflowConstants {
-        // PARAMETER NAMES
-
-        // Global
-        public static final String DOC_ADHOC_NODE_NAME = "Adhoc Routing";
-
-        public static class AssignContractManagerDocument {
-            public static final String WORKFLOW_DOCUMENT_TITLE = "Contract Manager Assignment";
-            public static final String ASSIGN_CONTRACT_DOC_ERROR_COMPLETING_POST_PROCESSING = "Unable to save the contract manager for the following Requisitions: ";
-        }
-
-        public static class RequisitionDocument {
-            public static class NodeDetails {
-            // Node Names
-                public static final String ADHOC_REVIEW = DOC_ADHOC_NODE_NAME;
-                public static final String CONTENT_REVIEW = "Content Review";
-                public static final String SUB_ACCOUNT_REVIEW = KualiWorkflowUtils.RouteLevelNames.SUB_ACCOUNT_REVIEW;
-                public static final String ACCOUNT_REVIEW = KualiWorkflowUtils.RouteLevelNames.ACCOUNT_REVIEW;
-                public static final String ORG_REVIEW = KualiWorkflowUtils.RouteLevelNames.ORG_REVIEW;
-                public static final String SEPARATION_OF_DUTIES_REVIEW = "Separation of Duties";
-
-                public static final List ORDERED_NODE_NAME_LIST = Arrays.asList(new String[] {
-                        ADHOC_REVIEW,
-                        CONTENT_REVIEW,
-                        SUB_ACCOUNT_REVIEW,
-                        ACCOUNT_REVIEW,
-                        ORG_REVIEW,
-                        SEPARATION_OF_DUTIES_REVIEW
-                        });
-
-                public static Map<String,String> STATUS_BY_NODE_NAME = new HashMap<String,String>();
-                public static Map<String,String> DISAPPROVAL_STATUS_BY_NODE_NAME = new HashMap<String,String>();
-                static {
-                    STATUS_BY_NODE_NAME.put(CONTENT_REVIEW, PurapConstants.RequisitionStatuses.AWAIT_CONTENT_REVIEW);
-                    STATUS_BY_NODE_NAME.put(SUB_ACCOUNT_REVIEW, PurapConstants.RequisitionStatuses.AWAIT_SUB_ACCT_REVIEW);
-                    STATUS_BY_NODE_NAME.put(ACCOUNT_REVIEW, PurapConstants.RequisitionStatuses.AWAIT_FISCAL_REVIEW);
-                    STATUS_BY_NODE_NAME.put(ORG_REVIEW, PurapConstants.RequisitionStatuses.AWAIT_CHART_REVIEW);
-                    STATUS_BY_NODE_NAME.put(SEPARATION_OF_DUTIES_REVIEW, PurapConstants.RequisitionStatuses.AWAIT_SEP_OF_DUTY_REVIEW);
-
-                    DISAPPROVAL_STATUS_BY_NODE_NAME.put(CONTENT_REVIEW, PurapConstants.RequisitionStatuses.DAPRVD_CONTENT);
-                    DISAPPROVAL_STATUS_BY_NODE_NAME.put(SUB_ACCOUNT_REVIEW, PurapConstants.RequisitionStatuses.DAPRVD_SUB_ACCT);
-                    DISAPPROVAL_STATUS_BY_NODE_NAME.put(ACCOUNT_REVIEW, PurapConstants.RequisitionStatuses.DAPRVD_FISCAL);
-                    DISAPPROVAL_STATUS_BY_NODE_NAME.put(ORG_REVIEW, PurapConstants.RequisitionStatuses.DAPRVD_CHART);
-                    DISAPPROVAL_STATUS_BY_NODE_NAME.put(SEPARATION_OF_DUTIES_REVIEW, PurapConstants.RequisitionStatuses.DAPRVD_SEP_OF_DUTY);
-                }
-            }
-            
-            public static final String SEPARATION_OF_DUTIES_DOLLAR_AMOUNT = PURAP_PARAM_PREFIX + STANDARD_SEPARATOR + "SEPARATION_OF_DUTIES_DOLLAR_AMOUNT";
-
-            // Workgroups
-            public static final String SEPARATION_OF_DUTIES_WORKGROUP_NAME = PURAP_PARAM_PREFIX + STANDARD_SEPARATOR + "WORKGROUP.SEPARATION_OF_DUTIES";
-        }
-
-        public static class PurchaseOrderDocument {
-
-            public static class NodeDetails {
-                public static final String ADHOC_REVIEW = DOC_ADHOC_NODE_NAME;
-                public static final String INTERNAL_PURCHASING_REVIEW = "Internal Purchasing Review";
-                public static final String CONTRACTS_AND_GRANTS_REVIEW = "Contracts and Grants Review";
-                public static final String BUDGET_OFFICE_REVIEW = "Budget Office Review";
-                public static final String VENDOR_TAX_REVIEW = "Vendor Tax Review";
-                public static final String DOCUMENT_TRANSMISSION = "Document Transmission";
-
-//                public static final List ORDERED_NODE_NAME_LIST = Arrays.asList(new String[] {
-//                        ADHOC_REVIEW,
-//                        INTERNAL_PURCHASING_REVIEW,
-//                        CONTRACTS_AND_GRANTS_REVIEW,
-//                        BUDGET_OFFICE_REVIEW,
-//                        VENDOR_TAX_REVIEW,
-//                        DOCUMENT_TRANSMISSION
-//                        });
-
-                public static Map<String,String> STATUS_BY_NODE_NAME = new HashMap<String,String>();
-                public static Map<String,String> DISAPPROVAL_STATUS_BY_NODE_NAME = new HashMap<String,String>();
-                static {
-                    STATUS_BY_NODE_NAME.put(INTERNAL_PURCHASING_REVIEW, PurapConstants.PurchaseOrderStatuses.AWAIT_PURCHASING_REVIEW);
-                    STATUS_BY_NODE_NAME.put(CONTRACTS_AND_GRANTS_REVIEW, PurapConstants.PurchaseOrderStatuses.AWAIT_CONTRACTS_GRANTS_REVIEW);
-                    STATUS_BY_NODE_NAME.put(BUDGET_OFFICE_REVIEW, PurapConstants.PurchaseOrderStatuses.AWAIT_BUDGET_REVIEW);
-                    STATUS_BY_NODE_NAME.put(VENDOR_TAX_REVIEW, PurapConstants.PurchaseOrderStatuses.AWAIT_TAX_REVIEW);
-
-                    DISAPPROVAL_STATUS_BY_NODE_NAME.put(INTERNAL_PURCHASING_REVIEW, PurapConstants.PurchaseOrderStatuses.DAPRVD_PURCHASING);
-                    DISAPPROVAL_STATUS_BY_NODE_NAME.put(CONTRACTS_AND_GRANTS_REVIEW, PurapConstants.PurchaseOrderStatuses.DAPRVD_CONTRACTS_GRANTS);
-                    DISAPPROVAL_STATUS_BY_NODE_NAME.put(BUDGET_OFFICE_REVIEW, PurapConstants.PurchaseOrderStatuses.DAPRVD_BUDGET);
-                    DISAPPROVAL_STATUS_BY_NODE_NAME.put(VENDOR_TAX_REVIEW, PurapConstants.PurchaseOrderStatuses.DAPRVD_TAX);
-                }
-            }
-
-            public static final String CG_RESTRICTED_OBJECT_CODE_RULE_GROUP_NAME = "PurAp.CG_Restricted_Object_Codes";
-            // Workgroups
-            public static final String INTERNAL_PURCHASING_WORKGROUP_NAME = PURAP_PARAM_PREFIX + STANDARD_SEPARATOR + "INTERNAL_PURCHASING_REVIEWERS";
-        }
-
-        public static class PaymentRequestDocument {
-            public static class NodeDetails {
-                public static final String ADHOC_REVIEW = DOC_ADHOC_NODE_NAME;
-                public static final String ACCOUNTS_PAYABLE_REVIEW = "Accounts Payable Review";
-                public static final String SUB_ACCOUNT_REVIEW = KualiWorkflowUtils.RouteLevelNames.SUB_ACCOUNT_REVIEW;
-                public static final String ACCOUNT_REVIEW = KualiWorkflowUtils.RouteLevelNames.ACCOUNT_REVIEW;
-                public static final String ORG_REVIEW = KualiWorkflowUtils.RouteLevelNames.ORG_REVIEW;
-                public static final String VENDOR_TAX_REVIEW = "Vendor Tax Review";
-                
-                public static final List<String> CORRECTING_ENTRIES_REQUIRED_NODES = Arrays.asList(new String[]{ACCOUNT_REVIEW});
-
-//                public static final List ORDERED_NODE_NAME_LIST = Arrays.asList(new String[] {
-//                        ADHOC_REVIEW,
-//                        ACCOUNTS_PAYABLE_REVIEW,
-//                        SUB_ACCOUNT_REVIEW,
-//                        ACCOUNT_REVIEW,
-//                        ORG_REVIEW,
-//                        VENDOR_TAX_REVIEW
-//                        });
-
-                public static Map<String,String> STATUS_BY_NODE_NAME = new HashMap<String,String>();
-                public static Map<String,String> DISAPPROVAL_STATUS_BY_NODE_NAME = new HashMap<String,String>();
-                static {
-                    STATUS_BY_NODE_NAME.put(ACCOUNTS_PAYABLE_REVIEW, PurapConstants.PaymentRequestStatuses.AWAITING_ACCOUNTS_PAYABLE_REVIEW);
-                    STATUS_BY_NODE_NAME.put(SUB_ACCOUNT_REVIEW, PurapConstants.PaymentRequestStatuses.AWAITING_SUB_ACCT_MGR_REVIEW);
-                    STATUS_BY_NODE_NAME.put(ACCOUNT_REVIEW, PurapConstants.PaymentRequestStatuses.AWAITING_FISCAL_REVIEW);
-                    STATUS_BY_NODE_NAME.put(ORG_REVIEW, PurapConstants.PaymentRequestStatuses.AWAITING_ORG_REVIEW);
-                    STATUS_BY_NODE_NAME.put(VENDOR_TAX_REVIEW, PurapConstants.PaymentRequestStatuses.AWAITING_TAX_REVIEW);
-
-                    DISAPPROVAL_STATUS_BY_NODE_NAME.put(ACCOUNTS_PAYABLE_REVIEW, PurapConstants.PaymentRequestStatuses.CANCELLED_PRIOR_TO_AP_APPROVAL);
-                    DISAPPROVAL_STATUS_BY_NODE_NAME.put(SUB_ACCOUNT_REVIEW, PurapConstants.PaymentRequestStatuses.CANCELLED_POST_AP_APPROVE);
-                    DISAPPROVAL_STATUS_BY_NODE_NAME.put(ACCOUNT_REVIEW, PurapConstants.PaymentRequestStatuses.CANCELLED_POST_AP_APPROVE);
-                    DISAPPROVAL_STATUS_BY_NODE_NAME.put(ORG_REVIEW, PurapConstants.PaymentRequestStatuses.CANCELLED_POST_AP_APPROVE);
-                    DISAPPROVAL_STATUS_BY_NODE_NAME.put(VENDOR_TAX_REVIEW, PurapConstants.PaymentRequestStatuses.CANCELLED_POST_AP_APPROVE);
-                }
-            }
-        }
-
-        public static class CreditMemoDocument {
-            public static class NodeDetails {
-                public static final String ADHOC_REVIEW = DOC_ADHOC_NODE_NAME;
-                public static final String ACCOUNTS_PAYABLE_REVIEW = "Accounts Payable Review";
-                public static final String ACCOUNT_REVIEW = KualiWorkflowUtils.RouteLevelNames.ACCOUNT_REVIEW;
-
-//                public static final List ORDERED_NODE_NAME_LIST = Arrays.asList(new String[] {
-//                        ADHOC_REVIEW,
-//                        ACCOUNTS_PAYABLE_REVIEW,
-//                        ACCOUNT_REVIEW
-//                        });
-
-                public static Map<String,String> STATUS_BY_NODE_NAME = new HashMap<String,String>();
-                public static Map<String,String> DISAPPROVAL_STATUS_BY_NODE_NAME = new HashMap<String,String>();
-                static {
-                    STATUS_BY_NODE_NAME.put(ACCOUNTS_PAYABLE_REVIEW, PurapConstants.CreditMemoStatuses.AWAITING_ACCOUNTS_PAYABLE_REVIEW);
-                    STATUS_BY_NODE_NAME.put(ACCOUNT_REVIEW, PurapConstants.CreditMemoStatuses.AWAITING_FISCAL_REVIEW);
-
-                    DISAPPROVAL_STATUS_BY_NODE_NAME.put(ACCOUNTS_PAYABLE_REVIEW, PurapConstants.CreditMemoStatuses.CANCELLED);
-                    DISAPPROVAL_STATUS_BY_NODE_NAME.put(ACCOUNT_REVIEW, PurapConstants.CreditMemoStatuses.CANCELLED);
-                }
-            }
-        }
-    }
+//    public static class WorkflowConstants {
+//        public interface NodeDetails {
+//            public String getName();
+//            public String getAwaitingStatusCode();
+//            public String getDisapprovedStatusCode();
+//            public NodeDetails getPreviousNodeDetails();
+//            public NodeDetails getNextNodeDetails();
+//            public NodeDetails getNodeDetailByName(String name);
+//            public int getOrdinal();
+//        }
+//
+//        // Global
+//        public static final String DOC_ADHOC_NODE_NAME = "Adhoc Routing";
+//
+//        public static class AssignContractManagerDocument {
+//            public static final String WORKFLOW_DOCUMENT_TITLE = "Contract Manager Assignment";
+//            public static final String ASSIGN_CONTRACT_DOC_ERROR_COMPLETING_POST_PROCESSING = "Unable to save the contract manager for the following Requisitions: ";
+//        }
+//        
+//        public static class RequisitionDocument {
+//            public enum NodeDetailEnum implements NodeDetails {
+//                ADHOC_REVIEW (DOC_ADHOC_NODE_NAME, null, null),
+//                CONTENT_REVIEW("Content Review", PurapConstants.RequisitionStatuses.AWAIT_CONTENT_REVIEW, PurapConstants.RequisitionStatuses.DAPRVD_CONTENT),
+//                SUB_ACCOUNT_REVIEW (KualiWorkflowUtils.RouteLevelNames.SUB_ACCOUNT_REVIEW, PurapConstants.RequisitionStatuses.AWAIT_SUB_ACCT_REVIEW, PurapConstants.RequisitionStatuses.DAPRVD_SUB_ACCT),
+//                ACCOUNT_REVIEW (KualiWorkflowUtils.RouteLevelNames.ACCOUNT_REVIEW, PurapConstants.RequisitionStatuses.AWAIT_FISCAL_REVIEW, PurapConstants.RequisitionStatuses.DAPRVD_FISCAL),
+//                ORG_REVIEW (KualiWorkflowUtils.RouteLevelNames.ORG_REVIEW, PurapConstants.RequisitionStatuses.AWAIT_CHART_REVIEW, PurapConstants.RequisitionStatuses.DAPRVD_CHART),
+//                SEPARATION_OF_DUTIES_REVIEW ("Separation of Duties", PurapConstants.RequisitionStatuses.AWAIT_SEP_OF_DUTY_REVIEW, PurapConstants.RequisitionStatuses.DAPRVD_SEP_OF_DUTY),
+//                ;
+//                
+//                private final String name;
+//                private final String awaitingStatusCode;
+//                private final String disapprovedStatusCode;
+//                NodeDetailEnum(String name, String awaitingStatusCode, String disapprovedStatusCode) {
+//                    this.name = name;
+//                    this.awaitingStatusCode = awaitingStatusCode;
+//                    this.disapprovedStatusCode = disapprovedStatusCode;
+//                }
+//                public String getName() {
+//                    return name;
+//                }
+//                public String getAwaitingStatusCode() {
+//                    return awaitingStatusCode;
+//                }
+//                public String getDisapprovedStatusCode() {
+//                    return disapprovedStatusCode;
+//                }
+//                public NodeDetails getPreviousNodeDetails() {
+//                    if (this.ordinal() > 0) {
+//                        return NodeDetailEnum.values()[this.ordinal() - 1];
+//                    }
+//                    return null;
+//                }
+//                public NodeDetails getNextNodeDetails() {
+//                    if (this.ordinal() < (NodeDetailEnum.values().length - 1)) {
+//                        return NodeDetailEnum.values()[this.ordinal() + 1];
+//                    }
+//                    return null;
+//                }
+//                public NodeDetails getNodeDetailByName(String name) {
+//                    return getNodeDetailEnumByName(name);
+//                }
+//                public static NodeDetails getNodeDetailEnumByName(String name) {
+//                    for (NodeDetailEnum nodeDetailEnum : NodeDetailEnum.values()) {
+//                        if (nodeDetailEnum.name.equals(name)) {
+//                            return nodeDetailEnum;
+//                        }
+//                    }
+//                    throw new InvalidParameterException("Cannot find node with name '" + name + "'");
+//                }
+//                public int getOrdinal() {
+//                    return this.ordinal();
+//                }
+//            }
+//            
+////            public static class NodeDetails {
+////            // Node Names
+////                public static final String ADHOC_REVIEW = DOC_ADHOC_NODE_NAME;
+////                public static final String CONTENT_REVIEW = "Content Review";
+////                public static final String SUB_ACCOUNT_REVIEW = KualiWorkflowUtils.RouteLevelNames.SUB_ACCOUNT_REVIEW;
+////                public static final String ACCOUNT_REVIEW = KualiWorkflowUtils.RouteLevelNames.ACCOUNT_REVIEW;
+////                public static final String ORG_REVIEW = KualiWorkflowUtils.RouteLevelNames.ORG_REVIEW;
+////                public static final String SEPARATION_OF_DUTIES_REVIEW = "Separation of Duties";
+////
+////                public static final List ORDERED_NODE_NAME_LIST = Arrays.asList(new String[] {
+////                        ADHOC_REVIEW,
+////                        CONTENT_REVIEW,
+////                        SUB_ACCOUNT_REVIEW,
+////                        ACCOUNT_REVIEW,
+////                        ORG_REVIEW,
+////                        SEPARATION_OF_DUTIES_REVIEW
+////                        });
+////
+////                public static Map<String,String> STATUS_BY_NODE_NAME = new HashMap<String,String>();
+////                public static Map<String,String> DISAPPROVAL_STATUS_BY_NODE_NAME = new HashMap<String,String>();
+////                static {
+////                    STATUS_BY_NODE_NAME.put(CONTENT_REVIEW, PurapConstants.RequisitionStatuses.AWAIT_CONTENT_REVIEW);
+////                    STATUS_BY_NODE_NAME.put(SUB_ACCOUNT_REVIEW, PurapConstants.RequisitionStatuses.AWAIT_SUB_ACCT_REVIEW);
+////                    STATUS_BY_NODE_NAME.put(ACCOUNT_REVIEW, PurapConstants.RequisitionStatuses.AWAIT_FISCAL_REVIEW);
+////                    STATUS_BY_NODE_NAME.put(ORG_REVIEW, PurapConstants.RequisitionStatuses.AWAIT_CHART_REVIEW);
+////                    STATUS_BY_NODE_NAME.put(SEPARATION_OF_DUTIES_REVIEW, PurapConstants.RequisitionStatuses.AWAIT_SEP_OF_DUTY_REVIEW);
+////
+////                    DISAPPROVAL_STATUS_BY_NODE_NAME.put(CONTENT_REVIEW, PurapConstants.RequisitionStatuses.DAPRVD_CONTENT);
+////                    DISAPPROVAL_STATUS_BY_NODE_NAME.put(SUB_ACCOUNT_REVIEW, PurapConstants.RequisitionStatuses.DAPRVD_SUB_ACCT);
+////                    DISAPPROVAL_STATUS_BY_NODE_NAME.put(ACCOUNT_REVIEW, PurapConstants.RequisitionStatuses.DAPRVD_FISCAL);
+////                    DISAPPROVAL_STATUS_BY_NODE_NAME.put(ORG_REVIEW, PurapConstants.RequisitionStatuses.DAPRVD_CHART);
+////                    DISAPPROVAL_STATUS_BY_NODE_NAME.put(SEPARATION_OF_DUTIES_REVIEW, PurapConstants.RequisitionStatuses.DAPRVD_SEP_OF_DUTY);
+////                }
+////            }
+//            
+//            public static final String SEPARATION_OF_DUTIES_DOLLAR_AMOUNT = PURAP_PARAM_PREFIX + STANDARD_SEPARATOR + "SEPARATION_OF_DUTIES_DOLLAR_AMOUNT";
+//
+//            // Workgroups
+//            public static final String SEPARATION_OF_DUTIES_WORKGROUP_NAME = PURAP_PARAM_PREFIX + STANDARD_SEPARATOR + "WORKGROUP.SEPARATION_OF_DUTIES";
+//        }
+//
+//        public static class PurchaseOrderDocument {
+//
+//            public static class NodeDetails {
+//                public static final String ADHOC_REVIEW = DOC_ADHOC_NODE_NAME;
+//                public static final String INTERNAL_PURCHASING_REVIEW = "Internal Purchasing Review";
+//                public static final String CONTRACTS_AND_GRANTS_REVIEW = "Contracts and Grants Review";
+//                public static final String BUDGET_OFFICE_REVIEW = "Budget Office Review";
+//                public static final String VENDOR_TAX_REVIEW = "Vendor Tax Review";
+//                public static final String DOCUMENT_TRANSMISSION = "Document Transmission";
+//
+////                public static final List ORDERED_NODE_NAME_LIST = Arrays.asList(new String[] {
+////                        ADHOC_REVIEW,
+////                        INTERNAL_PURCHASING_REVIEW,
+////                        CONTRACTS_AND_GRANTS_REVIEW,
+////                        BUDGET_OFFICE_REVIEW,
+////                        VENDOR_TAX_REVIEW,
+////                        DOCUMENT_TRANSMISSION
+////                        });
+//
+//                public static Map<String,String> STATUS_BY_NODE_NAME = new HashMap<String,String>();
+//                public static Map<String,String> DISAPPROVAL_STATUS_BY_NODE_NAME = new HashMap<String,String>();
+//                static {
+//                    STATUS_BY_NODE_NAME.put(INTERNAL_PURCHASING_REVIEW, PurapConstants.PurchaseOrderStatuses.AWAIT_PURCHASING_REVIEW);
+//                    STATUS_BY_NODE_NAME.put(CONTRACTS_AND_GRANTS_REVIEW, PurapConstants.PurchaseOrderStatuses.AWAIT_CONTRACTS_GRANTS_REVIEW);
+//                    STATUS_BY_NODE_NAME.put(BUDGET_OFFICE_REVIEW, PurapConstants.PurchaseOrderStatuses.AWAIT_BUDGET_REVIEW);
+//                    STATUS_BY_NODE_NAME.put(VENDOR_TAX_REVIEW, PurapConstants.PurchaseOrderStatuses.AWAIT_TAX_REVIEW);
+//
+//                    DISAPPROVAL_STATUS_BY_NODE_NAME.put(INTERNAL_PURCHASING_REVIEW, PurapConstants.PurchaseOrderStatuses.DAPRVD_PURCHASING);
+//                    DISAPPROVAL_STATUS_BY_NODE_NAME.put(CONTRACTS_AND_GRANTS_REVIEW, PurapConstants.PurchaseOrderStatuses.DAPRVD_CONTRACTS_GRANTS);
+//                    DISAPPROVAL_STATUS_BY_NODE_NAME.put(BUDGET_OFFICE_REVIEW, PurapConstants.PurchaseOrderStatuses.DAPRVD_BUDGET);
+//                    DISAPPROVAL_STATUS_BY_NODE_NAME.put(VENDOR_TAX_REVIEW, PurapConstants.PurchaseOrderStatuses.DAPRVD_TAX);
+//                }
+//            }
+//
+//            public static final String CG_RESTRICTED_OBJECT_CODE_RULE_GROUP_NAME = "PurAp.CG_Restricted_Object_Codes";
+//            // Workgroups
+//            public static final String INTERNAL_PURCHASING_WORKGROUP_NAME = PURAP_PARAM_PREFIX + STANDARD_SEPARATOR + "INTERNAL_PURCHASING_REVIEWERS";
+//        }
+//
+//        public static class PaymentRequestDocument {
+//            public static class NodeDetails {
+//                public static final String ADHOC_REVIEW = DOC_ADHOC_NODE_NAME;
+//                public static final String ACCOUNTS_PAYABLE_REVIEW = "Accounts Payable Review";
+//                public static final String SUB_ACCOUNT_REVIEW = KualiWorkflowUtils.RouteLevelNames.SUB_ACCOUNT_REVIEW;
+//                public static final String ACCOUNT_REVIEW = KualiWorkflowUtils.RouteLevelNames.ACCOUNT_REVIEW;
+//                public static final String ORG_REVIEW = KualiWorkflowUtils.RouteLevelNames.ORG_REVIEW;
+//                public static final String VENDOR_TAX_REVIEW = "Vendor Tax Review";
+//                
+//                public static final List<String> CORRECTING_ENTRIES_REQUIRED_NODES = Arrays.asList(new String[]{ACCOUNT_REVIEW});
+//
+////                public static final List ORDERED_NODE_NAME_LIST = Arrays.asList(new String[] {
+////                        ADHOC_REVIEW,
+////                        ACCOUNTS_PAYABLE_REVIEW,
+////                        SUB_ACCOUNT_REVIEW,
+////                        ACCOUNT_REVIEW,
+////                        ORG_REVIEW,
+////                        VENDOR_TAX_REVIEW
+////                        });
+//
+//                public static Map<String,String> STATUS_BY_NODE_NAME = new HashMap<String,String>();
+//                public static Map<String,String> DISAPPROVAL_STATUS_BY_NODE_NAME = new HashMap<String,String>();
+//                static {
+//                    STATUS_BY_NODE_NAME.put(ACCOUNTS_PAYABLE_REVIEW, PurapConstants.PaymentRequestStatuses.AWAITING_ACCOUNTS_PAYABLE_REVIEW);
+//                    STATUS_BY_NODE_NAME.put(SUB_ACCOUNT_REVIEW, PurapConstants.PaymentRequestStatuses.AWAITING_SUB_ACCT_MGR_REVIEW);
+//                    STATUS_BY_NODE_NAME.put(ACCOUNT_REVIEW, PurapConstants.PaymentRequestStatuses.AWAITING_FISCAL_REVIEW);
+//                    STATUS_BY_NODE_NAME.put(ORG_REVIEW, PurapConstants.PaymentRequestStatuses.AWAITING_ORG_REVIEW);
+//                    STATUS_BY_NODE_NAME.put(VENDOR_TAX_REVIEW, PurapConstants.PaymentRequestStatuses.AWAITING_TAX_REVIEW);
+//
+//                    DISAPPROVAL_STATUS_BY_NODE_NAME.put(ACCOUNTS_PAYABLE_REVIEW, PurapConstants.PaymentRequestStatuses.CANCELLED_PRIOR_TO_AP_APPROVAL);
+//                    DISAPPROVAL_STATUS_BY_NODE_NAME.put(SUB_ACCOUNT_REVIEW, PurapConstants.PaymentRequestStatuses.CANCELLED_POST_AP_APPROVE);
+//                    DISAPPROVAL_STATUS_BY_NODE_NAME.put(ACCOUNT_REVIEW, PurapConstants.PaymentRequestStatuses.CANCELLED_POST_AP_APPROVE);
+//                    DISAPPROVAL_STATUS_BY_NODE_NAME.put(ORG_REVIEW, PurapConstants.PaymentRequestStatuses.CANCELLED_POST_AP_APPROVE);
+//                    DISAPPROVAL_STATUS_BY_NODE_NAME.put(VENDOR_TAX_REVIEW, PurapConstants.PaymentRequestStatuses.CANCELLED_POST_AP_APPROVE);
+//                }
+//            }
+//        }
+//
+//        public static class CreditMemoDocument {
+//            public static class NodeDetails {
+//                public static final String ADHOC_REVIEW = DOC_ADHOC_NODE_NAME;
+//                public static final String ACCOUNTS_PAYABLE_REVIEW = "Accounts Payable Review";
+//                public static final String ACCOUNT_REVIEW = KualiWorkflowUtils.RouteLevelNames.ACCOUNT_REVIEW;
+//
+////                public static final List ORDERED_NODE_NAME_LIST = Arrays.asList(new String[] {
+////                        ADHOC_REVIEW,
+////                        ACCOUNTS_PAYABLE_REVIEW,
+////                        ACCOUNT_REVIEW
+////                        });
+//
+//                public static Map<String,String> STATUS_BY_NODE_NAME = new HashMap<String,String>();
+//                public static Map<String,String> DISAPPROVAL_STATUS_BY_NODE_NAME = new HashMap<String,String>();
+//                static {
+//                    STATUS_BY_NODE_NAME.put(ACCOUNTS_PAYABLE_REVIEW, PurapConstants.CreditMemoStatuses.AWAITING_ACCOUNTS_PAYABLE_REVIEW);
+//                    STATUS_BY_NODE_NAME.put(ACCOUNT_REVIEW, PurapConstants.CreditMemoStatuses.AWAITING_FISCAL_REVIEW);
+//
+//                    DISAPPROVAL_STATUS_BY_NODE_NAME.put(ACCOUNTS_PAYABLE_REVIEW, PurapConstants.CreditMemoStatuses.CANCELLED);
+//                    DISAPPROVAL_STATUS_BY_NODE_NAME.put(ACCOUNT_REVIEW, PurapConstants.CreditMemoStatuses.CANCELLED);
+//                }
+//            }
+//        }
+//    }
 
     public static class QuoteTypes {
         public static final String COMPETITIVE = "COMP";
@@ -621,7 +688,7 @@ public class PurapConstants extends JstlConstants {
         map.put("PurchaseOrderRetransmitDocument", "Kuali.PURAP.PurchaseOrderDocument");
         map.put("PurchaseOrderVoidDocument", "Kuali.PURAP.PurchaseOrderDocument");
         map.put(PAYMENT_REQUEST_DOCUMENT_DOC_TYPE, "Kuali.PURAP.PaymentRequestDocument");
-        map.put("CreditMemoDocument", "Kuali.PURAP.CreditMemoDocument");
+        map.put(CREDIT_MEMO_DOCUMENT_DOC_TYPE, "Kuali.PURAP.CreditMemoDocument");
         return map;
     }
     public final static HashMap<String,String> ITEM_TYPE_SYSTEM_PARAMETERS_SECURITY_MAP =
@@ -654,7 +721,8 @@ public class PurapConstants extends JstlConstants {
         public static String INITIATE = "INIT";
         public static String IN_PROCESS = "INPR";
         public static String CANCELLED_IN_PROCESS = "CIPR";
-        public static String CANCELLED = "CANC";
+        public static String CANCELLED_PRIOR_TO_AP_APPROVAL = "VOID";
+        public static String CANCELLED_POST_AP_APPROVE = "CANC";
         public static String COMPLETE = "CMPT";
         public static String AWAITING_ACCOUNTS_PAYABLE_REVIEW = "APAD";   // Waiting for Accounts Payable approval
         public static String AWAITING_FISCAL_REVIEW = "AFOA";   // Waiting for Fiscal Officer approval
@@ -668,7 +736,8 @@ public class PurapConstants extends JstlConstants {
         public static Set STATUSES_NOT_REQUIRING_ENTRY_REVERSAL = new HashSet();
         static {
             CANCELLED_STATUSES.add(CANCELLED_IN_PROCESS);
-            CANCELLED_STATUSES.add(CANCELLED);
+            CANCELLED_STATUSES.add(CANCELLED_PRIOR_TO_AP_APPROVAL);
+            CANCELLED_STATUSES.add(CANCELLED_POST_AP_APPROVE);
 
             STATUSES_DISALLOWING_HOLD.add(INITIATE);
             STATUSES_DISALLOWING_HOLD.add(IN_PROCESS);

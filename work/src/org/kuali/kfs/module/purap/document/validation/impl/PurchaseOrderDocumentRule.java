@@ -39,6 +39,7 @@ import org.kuali.module.purap.PurapKeyConstants;
 import org.kuali.module.purap.PurapPropertyConstants;
 import org.kuali.module.purap.PurapConstants.ItemTypeCodes;
 import org.kuali.module.purap.PurapConstants.PurapDocTypeCodes;
+import org.kuali.module.purap.PurapWorkflowConstants.PurchaseOrderDocument.NodeDetailEnum;
 import org.kuali.module.purap.bo.PurchaseOrderItem;
 import org.kuali.module.purap.bo.PurchaseOrderVendorStipulation;
 import org.kuali.module.purap.bo.PurchasingApItem;
@@ -270,11 +271,11 @@ public class PurchaseOrderDocumentRule extends PurchasingDocumentRuleBase {
         KualiWorkflowDocument workflowDocument = financialDocument.getDocumentHeader().getWorkflowDocument();
         List currentRouteLevels = getCurrentRouteLevels(workflowDocument);
 
-        if (currentRouteLevels.contains(PurapConstants.WorkflowConstants.PurchaseOrderDocument.NodeDetails.INTERNAL_PURCHASING_REVIEW) && workflowDocument.isApprovalRequested()) {
+        if (((PurchaseOrderDocument)financialDocument).isDocumentStoppedInRouteNode(NodeDetailEnum.INTERNAL_PURCHASING_REVIEW)) {
+//        if (currentRouteLevels.contains(PurapWorkflowConstants.PurchaseOrderDocument.NodeDetailEnum.INTERNAL_PURCHASING_REVIEW.getName()) && workflowDocument.isApprovalRequested()) {
             // DO NOTHING: do not check that user owns acct lines; at this level, approvers can edit all detail on PO
             return true;
         }
-        
         else {
             return super.checkAccountingLineAccountAccessibility(financialDocument, accountingLine, action);
         }

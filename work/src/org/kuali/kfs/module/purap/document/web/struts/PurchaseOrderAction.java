@@ -399,8 +399,6 @@ public class PurchaseOrderAction extends PurchasingActionBase {
             sbFilename.append(System.currentTimeMillis());
             sbFilename.append(".pdf");
 
-            // for testing Generate PO PDF, set the APO to true
-            po.setPurchaseOrderAutomaticIndicator(true);
             boolean success = SpringServiceLocator.getPurchaseOrderService().printPurchaseOrderPDF(po, PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_PRINT_DOCUMENT, null, null, baosPDF);
 
             if (!success) {
@@ -971,7 +969,6 @@ public class PurchaseOrderAction extends PurchasingActionBase {
         }
 
         KualiDocumentFormBase kualiDocumentFormBase = (KualiDocumentFormBase) form;
-        SpringServiceLocator.getPurchaseOrderService().cancelAmendment(kualiDocumentFormBase);
         SpringServiceLocator.getDocumentService().cancelDocument(kualiDocumentFormBase.getDocument(), kualiDocumentFormBase.getAnnotation());
 
         return returnToSender(mapping, kualiDocumentFormBase);

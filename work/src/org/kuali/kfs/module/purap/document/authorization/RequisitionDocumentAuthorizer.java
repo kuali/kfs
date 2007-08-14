@@ -31,9 +31,9 @@ import org.kuali.kfs.document.authorization.AccountingDocumentAuthorizerBase;
 import org.kuali.module.chart.bo.ChartUser;
 import org.kuali.module.purap.PurapAuthorizationConstants;
 import org.kuali.module.purap.PurapConstants;
-import org.kuali.module.purap.PurapConstants.WorkflowConstants;
-import org.kuali.module.purap.PurapConstants.WorkflowConstants.RequisitionDocument.NodeDetails;
+import org.kuali.module.purap.PurapWorkflowConstants.RequisitionDocument.NodeDetailEnum;
 import org.kuali.module.purap.bo.RequisitionItem;
+import org.kuali.module.purap.document.PurchaseOrderDocument;
 import org.kuali.module.purap.document.RequisitionDocument;
 import org.kuali.workflow.KualiWorkflowUtils.RouteLevelNames;
 
@@ -63,13 +63,14 @@ public class RequisitionDocumentAuthorizer extends AccountingDocumentAuthorizerB
         
         if (workflowDocument.stateIsEnroute()) {
             ChartUser chartUser = (ChartUser) user.getModuleUser(ChartUser.MODULE_ID);
-            List currentRouteLevels = getCurrentRouteLevels(workflowDocument);
+            List<String> currentRouteLevels = getCurrentRouteLevels(workflowDocument);
             String editMode = AuthorizationConstants.TransactionalEditMode.VIEW_ONLY;
 
             /**
              * CONTENT ROUTE LEVEL - Approvers can edit full detail on Requisition except they cannot change the CHART/ORG.
              */
-            if (currentRouteLevels.contains(NodeDetails.CONTENT_REVIEW) && workflowDocument.isApprovalRequested()) {
+            if (reqDocument.isDocumentStoppedInRouteNode(NodeDetailEnum.CONTENT_REVIEW)) {
+//            if (currentRouteLevels.contains(NodeDetailEnum.CONTENT_REVIEW.getName()) && workflowDocument.isApprovalRequested()) {
                 // FULL_ENTRY will be set by super which is fine; also set content lock
                 editMode = PurapAuthorizationConstants.RequisitionEditMode.LOCK_CONTENT_ENTRY;
             }
@@ -77,14 +78,15 @@ public class RequisitionDocumentAuthorizer extends AccountingDocumentAuthorizerB
             /**
              * FISCAL OFFICER ROUTE LEVEL - Approvers can edit only the accounting lines that they own and no other detail on REQ.
              */
-            else if (currentRouteLevels.contains(NodeDetails.ACCOUNT_REVIEW)) {
+            else if (reqDocument.isDocumentStoppedInRouteNode(NodeDetailEnum.ACCOUNT_REVIEW)) {
+//            else if (currentRouteLevels.contains(NodeDetailEnum.ACCOUNT_REVIEW.getName())) {
                 List lineList = new ArrayList();
                 for (Iterator iter = reqDocument.getItems().iterator(); iter.hasNext();) {
                     RequisitionItem item = (RequisitionItem) iter.next();
                     lineList.addAll(item.getSourceAccountingLines());
                 }
 
-                if (workflowDocument.isApprovalRequested() && userOwnsAnyAccountingLine(chartUser, lineList)) {
+                if (userOwnsAnyAccountingLine(chartUser, lineList)) {
                     // remove FULL_ENTRY because FO cannot edit rest of doc; only their own acct lines
                     editModeMap.remove(AuthorizationConstants.EditMode.FULL_ENTRY);
                     editMode = AuthorizationConstants.TransactionalEditMode.EXPENSE_ENTRY;
@@ -92,9 +94,10 @@ public class RequisitionDocumentAuthorizer extends AccountingDocumentAuthorizerB
             }
             
             /**
-             * SEP of DUTIES ROUTE LEVEL - Approvers can only approve or diapprove.
+             * SEP of DUTIES ROUTE LEVEL - Approvers can only approve or disapprove.
              */
-            else if (currentRouteLevels.contains(NodeDetails.SEPARATION_OF_DUTIES_REVIEW)) {
+            else if (reqDocument.isDocumentStoppedInRouteNode(NodeDetailEnum.SEPARATION_OF_DUTIES_REVIEW)) {
+//            else if (currentRouteLevels.contains(NodeDetailEnum.SEPARATION_OF_DUTIES_REVIEW.getName())) {
                 editModeMap.remove(AuthorizationConstants.EditMode.FULL_ENTRY);
                 editMode = AuthorizationConstants.TransactionalEditMode.VIEW_ONLY;
             }
@@ -120,15 +123,11 @@ public class RequisitionDocumentAuthorizer extends AccountingDocumentAuthorizerB
         KualiWorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
 
         RequisitionDocument requisitionDocument = (RequisitionDocument) document;
-        if (StringUtils.equals(requisitionDocument.getStatusCode(), PurapConstants.RequisitionStatuses.AWAIT_CONTENT_REVIEW)) {
+        if (requisitionDocument.isDocumentStoppedInRouteNode(NodeDetailEnum.CONTENT_REVIEW)) {
             flags.setCanSave(true);
             // NEED TO REDO ANNOTATE CHECK SINCE CHANGED THE VALUE OF FLAGS
             this.setAnnotateFlag(flags);
-
-            
         }
-      
-       
         return flags;
     }
 

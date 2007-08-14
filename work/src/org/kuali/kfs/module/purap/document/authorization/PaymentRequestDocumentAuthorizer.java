@@ -15,11 +15,9 @@
  */
 package org.kuali.module.purap.document.authorization;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.authorization.AuthorizationConstants;
 import org.kuali.core.bo.user.UniversalUser;
@@ -33,7 +31,7 @@ import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.purap.PurapAuthorizationConstants;
 import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.PurapRuleConstants;
-import org.kuali.module.purap.PurapConstants.WorkflowConstants;
+import org.kuali.module.purap.PurapWorkflowConstants.PaymentRequestDocument.NodeDetailEnum;
 import org.kuali.module.purap.document.PaymentRequestDocument;
 
 /**
@@ -76,12 +74,12 @@ public class PaymentRequestDocumentAuthorizer extends AccountingDocumentAuthoriz
             List currentRouteLevels = getCurrentRouteLevels(workflowDocument);
             editMode = AuthorizationConstants.EditMode.FULL_ENTRY;
 
-            if (currentRouteLevels.contains(PurapConstants.WorkflowConstants.PaymentRequestDocument.NodeDetails.ACCOUNT_REVIEW)) {
+            if (currentRouteLevels.contains(NodeDetailEnum.ACCOUNT_REVIEW)) {
                 editModeMap.remove(AuthorizationConstants.EditMode.FULL_ENTRY);
                 //expense_entry was already added in super
                 //add amount edit mode
                 editMode = PurapAuthorizationConstants.PaymentRequestEditMode.ALLOW_ACCOUNT_AMOUNT_ENTRY;
-            } else if (currentRouteLevels.contains(PurapConstants.WorkflowConstants.PaymentRequestDocument.NodeDetails.ACCOUNTS_PAYABLE_REVIEW)){
+            } else if (currentRouteLevels.contains(NodeDetailEnum.ACCOUNTS_PAYABLE_REVIEW)){
                 //is in ap review remove the view only that was added by super
                 editModeMap.remove(AuthorizationConstants.EditMode.VIEW_ONLY);
             }
@@ -123,7 +121,7 @@ public class PaymentRequestDocumentAuthorizer extends AccountingDocumentAuthoriz
 
         }
         else {
-            if (!getCurrentRouteLevels(workflowDocument).contains(WorkflowConstants.PaymentRequestDocument.NodeDetails.ACCOUNTS_PAYABLE_REVIEW)) {
+            if (!getCurrentRouteLevels(workflowDocument).contains(NodeDetailEnum.ACCOUNTS_PAYABLE_REVIEW.getName())) {
                 flags.setCanDisapprove(false);
             }
 

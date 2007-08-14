@@ -36,7 +36,6 @@ import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DateTimeService;
 import org.kuali.core.service.DocumentService;
 import org.kuali.core.service.KualiConfigurationService;
-import org.kuali.core.service.KualiRuleService;
 import org.kuali.core.service.NoteService;
 import org.kuali.core.service.UniversalUserService;
 import org.kuali.core.util.GlobalVariables;
@@ -96,7 +95,6 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
     private PurchaseOrderService purchaseOrderService;
     private UniversalUserService universalUserService;
     private KualiConfigurationService kualiConfigurationService;
-    private KualiRuleService kualiRuleService;
     private NegativePaymentRequestApprovalLimitService negativePaymentRequestApprovalLimitService;
     private PurapAccountingService purapAccountingService;
 
@@ -135,14 +133,6 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
      */
     public void setKualiConfigurationService(KualiConfigurationService kualiConfigurationService) {
         this.kualiConfigurationService = kualiConfigurationService;
-    }
-
-    /**
-     * Sets the kualiRuleService attribute value.
-     * @param kualiRuleService The kualiRuleService to set.
-     */
-    public void setKualiRuleService(KualiRuleService kualiRuleService) {
-        this.kualiRuleService = kualiRuleService;
     }
 
     /**
@@ -529,9 +519,6 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
      */
     public void saveDocumentWithoutValidation(PaymentRequestDocument document) {
         try {
-//            document.getDocumentHeader().getWorkflowDocument().saveRoutingData();
-//            document.prepareForSave();
-//            documentService.validateAndPersistDocument(document, new SaveOnlyDocumentEvent(document));
             documentService.saveDocumentWithoutRunningValidation(document);
             document.refreshNonUpdateableReferences();
         }
@@ -540,30 +527,8 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
             LOG.error(errorMsg, we);
             throw new RuntimeException(errorMsg, we);
         }
-//        catch (ValidationException ve) {
-//            String errorMsg = "Error saving document # " + document.getDocumentHeader().getDocumentNumber() + " " + ve.getMessage(); 
-//            LOG.error(errorMsg, ve);
-//            throw new RuntimeException(errorMsg, ve);
-//        }
     }
 
-//    public void save(PaymentRequestDocument paymentRequestDocument) {
-//
-//        // Integer poId = paymentRequestDocument.getPurchaseOrderIdentifier();
-//        // PurchaseOrderDocument purchaseOrderDocument = SpringServiceLocator.getPurchaseOrderService().getCurrentPurchaseOrder(paymentRequestDocument.getPurchaseOrderIdentifier());
-//        // paymentRequestDocument.populatePaymentRequestFormPurchaseOrder(purchaseOrderDocument);
-//
-//        paymentRequestDao.save(paymentRequestDocument);
-//    }
-//
-//    /**
-//     * @see org.kuali.module.purap.service.PaymentRequestService#saveWithWorkflowDocumentUpdate(org.kuali.module.purap.document.PaymentRequestDocument)
-//     */
-//    public void saveWithWorkflowDocumentUpdate(PaymentRequestDocument paymentRequestDocument) throws WorkflowException {
-//        paymentRequestDocument.getDocumentHeader().getWorkflowDocument().saveRoutingData();
-//        this.save(paymentRequestDocument);
-//    }
-    
     /**
      * Retreives a list of Pay Reqs with the given PO Id, invoice amount, and invoice date.
      * 

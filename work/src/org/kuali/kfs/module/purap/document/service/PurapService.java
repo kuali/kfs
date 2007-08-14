@@ -22,6 +22,7 @@ import java.util.Map;
 import org.kuali.core.bo.Note;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.bo.SourceAccountingLine;
+import org.kuali.module.purap.PurapWorkflowConstants.NodeDetails;
 import org.kuali.module.purap.bo.ItemType;
 import org.kuali.module.purap.bo.PurchasingApItem;
 import org.kuali.module.purap.document.PurchasingAccountsPayableDocument;
@@ -87,13 +88,13 @@ public interface PurapService {
 
     
     /**
-     * This method...
+     * TODO delyea - documentation
      * @param document
-     * @param orderedNodeNames
+     * @param nodeDetail
      * @param routeNodeName
      * @return
      */
-    public boolean isDocumentStoppingAtRouteLevel(PurchasingAccountsPayableDocument document, List orderedNodeNames, String routeNodeName);
+    public boolean isDocumentStoppingAtRouteLevel(PurchasingAccountsPayableDocument document, NodeDetails givenNodeDetail);
 
     /**
      * This method returns a list of fiscal years that can be selected from on the document (built for Requisition and Purchase Order).  Typically

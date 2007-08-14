@@ -120,14 +120,7 @@ public interface CreditMemoService {
      */
     public boolean canRemoveHoldCreditMemo(CreditMemoDocument cmDocument, UniversalUser user);
 
-    /**
-     * Cancels a credit memo document. Any gl entries or any incremented PO open quantities will be reversed.
-     * 
-     * @param cmDocument - credit memo document to cancel
-     * @param note - note explaining why the document is being canceled
-     * @throws Exception
-     */
-    public void cancelCreditMemo(CreditMemoDocument cmDocument, String note) throws Exception;
+    public void cancelCreditMemo(CreditMemoDocument cmDocument, String currentNodeName);
 
     /**
      * Determines if the document can be canceled and if the given user has permission to do so.

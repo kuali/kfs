@@ -226,9 +226,6 @@
         <property name="kualiConfigurationService">
             <ref bean="kualiConfigurationService" />
         </property>	        
-        <property name="kualiRuleService">
-            <ref bean="kualiRuleService" />
-        </property>	        
         <property name="negativePaymentRequestApprovalLimitService">
             <ref bean="negativePaymentRequestApprovalLimitService" />
         </property>	        

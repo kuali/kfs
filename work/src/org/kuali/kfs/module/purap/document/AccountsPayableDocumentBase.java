@@ -18,7 +18,6 @@ package org.kuali.module.purap.document;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.bo.Campus;
@@ -32,6 +31,7 @@ import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.PurapPropertyConstants;
+import org.kuali.module.purap.PurapWorkflowConstants.NodeDetails;
 
 import edu.iu.uis.eden.EdenConstants;
 import edu.iu.uis.eden.clientapp.vo.DocumentRouteLevelChangeVO;
@@ -85,7 +85,7 @@ public abstract class AccountsPayableDocumentBase extends PurchasingAccountsPaya
         return !documentHasNoImagesAttached();
     }
     
-    public boolean documentHasNoImagesAttached() {
+    private boolean documentHasNoImagesAttached() {
         List boNotes = this.getDocumentHeader().getBoNotes();
         if (ObjectUtils.isNotNull(boNotes)) {
             for (Object obj : boNotes) {
@@ -99,12 +99,21 @@ public abstract class AccountsPayableDocumentBase extends PurchasingAccountsPaya
     }
 
     /**
+     * @see org.kuali.module.purap.document.PurchasingAccountsPayableDocumentBase#populateDocumentForRouting()
+     */
+    @Override
+    public void populateDocumentForRouting() {
+        this.setChartOfAccountsCode(getPurchaseOrderDocument().getChartOfAccountsCode());
+        this.setOrganizationCode(getPurchaseOrderDocument().getOrganizationCode());
+        super.populateDocumentForRouting();
+    }
+
+    /**
      * 
      * @see org.kuali.module.purap.document.PurchasingAccountsPayableDocumentBase#prepareForSave(org.kuali.core.rule.event.KualiDocumentEvent)
      */
     @Override
     public void prepareForSave(KualiDocumentEvent event) {
-        
         //if routing and closereopen po indicator set, call closereopen po method
         if((event instanceof RouteDocumentEvent) && this.isCloseReopenPoIndicator()){
             processCloseReopenPo();
@@ -188,28 +197,36 @@ public abstract class AccountsPayableDocumentBase extends PurchasingAccountsPaya
                     reportCriteriaVO.setTargetNodeName(newNodeName);
                     if (SpringServiceLocator.getWorkflowInfoService().documentWillHaveAtLeastOneActionRequest(
                             reportCriteriaVO, new String[]{EdenConstants.ACTION_REQUEST_APPROVE_REQ,EdenConstants.ACTION_REQUEST_COMPLETE_REQ})) {
-                        String statusCode = getNodeDetailsStatusByNodeNameMap().get(newNodeName);
-                        if (StringUtils.isNotBlank(statusCode)) {
-                            SpringServiceLocator.getPurapService().updateStatusAndStatusHistory(this, statusCode);
-                            populateDocumentForRouting();
-                            saveDocumentFromPostProcessing();
+                        NodeDetails nodeDetailEnum = getNodeDetailEnum(newNodeName);
+                        if (ObjectUtils.isNotNull(nodeDetailEnum)) {
+                            String statusCode = nodeDetailEnum.getAwaitingStatusCode();
+                            if (StringUtils.isNotBlank(statusCode)) {
+                                SpringServiceLocator.getPurapService().updateStatusAndStatusHistory(this, statusCode);
+                                saveDocumentFromPostProcessing();
+                            }
+                            else {
+                                LOG.debug("Document with id " + getDocumentNumber() + " will stop in route node '" + newNodeName + "' but no awaiting status found to set");
+                            }
                         }
-                    } else {
-                        if (LOG.isDebugEnabled()) {
-                            LOG.debug("Document with id " + getDocumentNumber() + " will not stop in route node '" + newNodeName + "'");
+                        else {
+                            LOG.debug("Document with id " + getDocumentNumber() + " will not stop in route node '" + newNodeName + "' but node cannot be found to get awaiting status");
                         }
+                    } 
+                    else {
+                        LOG.debug("Document with id " + getDocumentNumber() + " will not stop in route node '" + newNodeName + "'");
                     }
                 }
             }
         }
         catch (WorkflowException e) {
-            logAndThrowRuntimeException("Error getting node names for document with id " + getDocumentNumber(), e);
+            String errorMsg = "Workflow Error found checking actions requests on document with id " + getDocumentNumber() + ". *** WILL NOT UPDATE PURAP STATUS ***";
+            LOG.warn(errorMsg, e);
         }
     }
     
     public abstract boolean processNodeChange(String newNodeName, String oldNodeName);
     
-    public abstract Map<String, String> getNodeDetailsStatusByNodeNameMap();
+    public abstract NodeDetails getNodeDetailEnum(String nodeName);
     
     public abstract void saveDocumentFromPostProcessing();
 

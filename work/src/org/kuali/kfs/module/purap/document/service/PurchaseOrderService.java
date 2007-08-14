@@ -21,46 +21,59 @@ import java.util.List;
 
 import org.kuali.core.bo.Note;
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.core.web.struts.form.KualiDocumentFormBase;
 import org.kuali.module.purap.bo.PurchaseOrderQuoteStatus;
 import org.kuali.module.purap.bo.PurchaseOrderVendorQuote;
 import org.kuali.module.purap.document.PurchaseOrderDocument;
 import org.kuali.module.purap.document.PurchasingDocumentBase;
 import org.kuali.module.purap.document.RequisitionDocument;
 
-import edu.iu.uis.eden.exception.WorkflowException;
-
 
 public interface PurchaseOrderService {
 
     public void saveDocumentWithoutValidation(PurchaseOrderDocument purchaseOrderDocument);
-    
-    public PurchaseOrderDocument createAutomaticPurchaseOrderDocument(RequisitionDocument reqDocument);
-    public PurchaseOrderDocument createPurchaseOrderDocument(RequisitionDocument reqDocument);
-    public PurchaseOrderPostProcessorService convertDocTypeToService(String documentTypeId);  
-    //public boolean routePurchaseOrderAmendmentDocument(KualiDocumentFormBase kualiDocumentFormBase, String annotation, List adhocRoutingRecipients);
 
-//    public PurchaseOrderDocument updateFlagsAndRoute(String documentNumber, String docType, String annotation, List adhocRoutingRecipients);
+    public PurchaseOrderDocument createAutomaticPurchaseOrderDocument(RequisitionDocument reqDocument);
+
+    public PurchaseOrderDocument createPurchaseOrderDocument(RequisitionDocument reqDocument);
+
+    public PurchaseOrderPostProcessorService convertDocTypeToService(String documentTypeId);
+
+    // public boolean routePurchaseOrderAmendmentDocument(KualiDocumentFormBase kualiDocumentFormBase, String annotation, List adhocRoutingRecipients);
+
+    // public PurchaseOrderDocument updateFlagsAndRoute(String documentNumber, String docType, String annotation, List adhocRoutingRecipients);
+
     public PurchaseOrderDocument createAndSavePotentialChangeDocument(String documentNumber, String docType, String newDocumentStatusCode);
+
     public PurchaseOrderDocument createAndRoutePotentialChangeDocument(String documentNumber, String docType, String annotation, List adhocRoutingRecipients);
-    
+
     public KualiDecimal getInternalPurchasingDollarLimit(PurchasingDocumentBase po, String chartCode, String orgCode);
+
     public boolean printPurchaseOrderQuoteRequestsListPDF(PurchaseOrderDocument po, ByteArrayOutputStream baosPDF);
+
     public boolean printPurchaseOrderQuotePDF(PurchaseOrderDocument po, PurchaseOrderVendorQuote povq, ByteArrayOutputStream baosPDF);
-    public boolean printPurchaseOrderPDF (PurchaseOrderDocument po, String docType, String annotation, List adhocRoutingRecipients,
-            ByteArrayOutputStream baosPDF);
-    public boolean retransmitPurchaseOrderPDF (PurchaseOrderDocument po, String docType, String annotation, List adhocRoutingRecipients,
-            ByteArrayOutputStream baosPDF);
+
+    public boolean printPurchaseOrderPDF(PurchaseOrderDocument po, String docType, String annotation, List adhocRoutingRecipients, ByteArrayOutputStream baosPDF);
+
+    public boolean retransmitPurchaseOrderPDF(PurchaseOrderDocument po, String docType, String annotation, List adhocRoutingRecipients, ByteArrayOutputStream baosPDF);
+
     public void completePurchaseOrder(PurchaseOrderDocument po);
+
     public PurchaseOrderDocument getCurrentPurchaseOrder(Integer id);
+
     public PurchaseOrderDocument getPurchaseOrderByDocumentNumber(String documentNumber);
+
     public void setCurrentAndPendingIndicatorsForApprovedPODocuments(PurchaseOrderDocument newPO);
+
     public void setCurrentAndPendingIndicatorsForDisapprovedPODocuments(PurchaseOrderDocument newPO);
 
     public PurchaseOrderDocument getOldestPurchaseOrder(PurchaseOrderDocument po);
+
     public ArrayList<Note> getPurchaseOrderNotes(Integer id);
+
     //public void sendFYItoWorkgroup(PurchaseOrderDocument po, String annotation, Long workgroupId);
-    public void cancelAmendment(KualiDocumentFormBase kualiDocumentFormBase);
+
+    public void cancelAmendment(PurchaseOrderDocument document);
+
     public ArrayList<PurchaseOrderQuoteStatus> getPurchaseOrderQuoteStatusCodes();
 
     public void setupDocumentForPendingFirstTransmission(PurchaseOrderDocument po, boolean hasActionRequestForDocumentTransmission);

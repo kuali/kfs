@@ -22,6 +22,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.core.bo.BusinessObject;
+import org.kuali.core.document.DocumentBase;
 import org.kuali.core.document.TransactionalDocumentBase;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.document.AccountingDocumentBase;
@@ -82,6 +83,17 @@ public class PurApObjectUtils {
      * @param newPO
      */
     public static void populateFromBaseWithSuper(PurchaseOrderDocument po, PurchaseOrderDocument newPO) {
+//        List<Class> classesToCopy = new ArrayList<Class>();
+//        Class sourceObjectClass = po.getClass();
+//        classesToCopy.add(sourceObjectClass);
+//        while (sourceObjectClass.getSuperclass() != null) {
+//            sourceObjectClass = sourceObjectClass.getSuperclass();
+//            classesToCopy.add(sourceObjectClass);
+//        }
+//        for (int i = (classesToCopy.size() - 1); i > 0; i--) {
+//            Class temp = classesToCopy.get(i);
+//            populateFromBaseClass(temp, po, newPO);
+//        }
         //FIXME this doesn't seem quite right (hstaplet)
 //        PurApObjectUtils.populateFromBaseClass(DocumentBase.class, po, newPO);
         newPO.getDocumentHeader().setFinancialDocumentDescription(po.getDocumentHeader().getFinancialDocumentDescription());

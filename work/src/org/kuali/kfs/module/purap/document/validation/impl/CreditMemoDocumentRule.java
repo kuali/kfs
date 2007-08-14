@@ -266,7 +266,7 @@ public class CreditMemoDocumentRule extends AccountsPayableDocumentRuleBase impl
             valid &= validateItemExtendedPrice(cmDocument, item, errorKeyPrefix + PurapPropertyConstants.EXTENDED_PRICE);
 
             if (item.getExtendedPrice() != null && item.getExtendedPrice().isNonZero()) {
-                valid &= processAccountValidation(purapDocument, item.getSourceAccountingLines(), errorKeyPrefix);
+                valid &= processAccountValidation(item.getSourceAccountingLines(), errorKeyPrefix);
             }
         }
 
@@ -542,7 +542,7 @@ public class CreditMemoDocumentRule extends AccountsPayableDocumentRuleBase impl
      * @return boolean - true if lines are valid, false if errors were found
      */
     @Override
-    public boolean processAccountValidation(PurchasingAccountsPayableDocument purapDocument, List<PurApAccountingLine> purAccounts, String errorPrefix) {
+    public boolean processAccountValidation(List<PurApAccountingLine> purAccounts, String errorPrefix) {
         boolean valid = true;
 
         valid = valid & verifyHasAccounts(purAccounts, errorPrefix);

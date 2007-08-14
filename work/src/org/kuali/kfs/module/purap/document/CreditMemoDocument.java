@@ -31,10 +31,17 @@ import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.PurapPropertyConstants;
+import org.kuali.module.purap.PurapWorkflowConstants;
 import org.kuali.module.purap.PurapConstants.CREDIT_MEMO_TYPE_LABELS;
+import org.kuali.module.purap.PurapConstants.CreditMemoStatuses;
+import org.kuali.module.purap.PurapConstants.PaymentRequestStatuses;
+import org.kuali.module.purap.PurapWorkflowConstants.NodeDetails;
+import org.kuali.module.purap.PurapWorkflowConstants.CreditMemoDocument.NodeDetailEnum;
 import org.kuali.module.purap.bo.CreditMemoItem;
 import org.kuali.module.purap.bo.CreditMemoStatusHistory;
 import org.kuali.module.purap.service.PurapGeneralLedgerService;
+
+import edu.iu.uis.eden.exception.WorkflowException;
 
 /**
  * Credit Memo Document Business Object. Contains the fields associated with the main document table.
@@ -169,14 +176,52 @@ public class CreditMemoDocument extends AccountsPayableDocumentBase {
     public void handleRouteStatusChange() {
         LOG.debug("handleRouteStatusChange() started");
         super.handleRouteStatusChange();
-
+        try {
+            // DOCUMENT PROCESSED
+            if (this.getDocumentHeader().getWorkflowDocument().stateIsProcessed()) {
+                // TODO delyea - what goes here?
+//                if (!PaymentRequestStatuses.AUTO_APPROVED.equals(getStatusCode())) {
+//                    SpringServiceLocator.getPurapService().updateStatusAndStatusHistory(this, PurapConstants.PaymentRequestStatuses.DEPARTMENT_APPROVED);
+//                    populateDocumentForRouting();
+//                    SpringServiceLocator.getPaymentRequestService().saveDocumentWithoutValidation(this);
+//                    return;
+//                }
+            }
+            // DOCUMENT DISAPPROVED
+            else if (this.getDocumentHeader().getWorkflowDocument().stateIsDisapproved()) {
+                String nodeName = SpringServiceLocator.getWorkflowDocumentService().getCurrentRouteLevelName(getDocumentHeader().getWorkflowDocument());
+                NodeDetails currentNode = NodeDetailEnum.getNodeDetailEnumByName(nodeName);
+                if (ObjectUtils.isNotNull(currentNode)) {
+                    String newStatusCode = currentNode.getDisapprovedStatusCode();
+                    if ( (StringUtils.isBlank(newStatusCode)) && 
+                         ( (StringUtils.isBlank(currentNode.getDisapprovedStatusCode())) && ( (CreditMemoStatuses.INITIATE.equals(getStatusCode())) || (CreditMemoStatuses.IN_PROCESS.equals(getStatusCode())) ) ) ) {
+                        newStatusCode = CreditMemoStatuses.CANCELLED_IN_PROCESS;
+                    }
+                    if (StringUtils.isNotBlank(newStatusCode)) {
+                        SpringServiceLocator.getPurapService().updateStatusAndStatusHistory(this, newStatusCode);
+                        SpringServiceLocator.getCreditMemoService().saveDocumentWithoutValidation(this);
+                        return;
+                    }
+                }
+                // TODO PURAP/delyea - what to do in a disapproval where no status to set exists?
+                logAndThrowRuntimeException("No status found to set for document being disapproved in node '" + nodeName + "'");
+            }
+            // DOCUMENT CANCELED
+            else if (this.getDocumentHeader().getWorkflowDocument().stateIsCanceled()) {
+                String currentNodeName = SpringServiceLocator.getWorkflowDocumentService().getCurrentRouteLevelName(getDocumentHeader().getWorkflowDocument());
+                SpringServiceLocator.getCreditMemoService().cancelCreditMemo(this, currentNodeName); 
+            }
+        }
+        catch (WorkflowException e) {
+            logAndThrowRuntimeException("Error saving routing data while saving document with id " + getDocumentNumber(), e);
+        }
     }
     
     /**
      * @see org.kuali.module.purap.document.AccountsPayableDocumentBase#preProcessNodeChange(java.lang.String, java.lang.String)
      */
     public boolean processNodeChange(String newNodeName, String oldNodeName) {
-        if (PurapConstants.WorkflowConstants.CreditMemoDocument.NodeDetails.ACCOUNTS_PAYABLE_REVIEW.equals(oldNodeName)) {
+        if (NodeDetailEnum.ACCOUNTS_PAYABLE_REVIEW.equals(oldNodeName)) {
             setAccountsPayableApprovalDate(SpringServiceLocator.getDateTimeService().getCurrentSqlDate());
             ((PurapGeneralLedgerService) SpringServiceLocator.getService(SpringServiceLocator.PURAP_GENERAL_LEDGER_SERVICE)).generateEntriesCreditMemo(this, PurapConstants.CREATE_CREDIT_MEMO);
         }
@@ -184,10 +229,10 @@ public class CreditMemoDocument extends AccountsPayableDocumentBase {
     }
     
     /**
-     * @see org.kuali.module.purap.document.AccountsPayableDocumentBase#getNodeDetailsStatusByNodeNameMap()
+     * @see org.kuali.module.purap.document.AccountsPayableDocumentBase#getNodeDetailEnum(java.lang.String)
      */
-    public Map<String, String> getNodeDetailsStatusByNodeNameMap() {
-        return PurapConstants.WorkflowConstants.CreditMemoDocument.NodeDetails.STATUS_BY_NODE_NAME;
+    public NodeDetails getNodeDetailEnum(String nodeName) {
+        return NodeDetailEnum.getNodeDetailEnumByName(nodeName);
     }
     
     /**

@@ -562,7 +562,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
                 }
                 catch (ValidationException ve) {
                     LOG.error("Caught Validation Exception trying to save old PO... calling save in BO Service", ve);
-                    businessObjectService.save(currentDocument);
+                    documentService.updateDocument(currentDocument);
                 }
                 /*
                  *  TODO PURAP/delyea -  ABOVE SECTION HAVE TRY/CATCH BLOCK REMOVED (LEAVING CODE INSIDE THE TRY) AFTER RICE IS UPDATED
@@ -580,59 +580,10 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
         }
     }
 
-    /* We don't need to lock the PO during amendment routing anymore, we'll lock it in updateFlagsAndRoute()
-    public boolean routePurchaseOrderAmendmentDocument(KualiDocumentFormBase kualiDocumentFormBase, String annotation, List adhocRoutingRecipients) {
-        PurchaseOrderDocument document = (PurchaseOrderDocument) kualiDocumentFormBase.getDocument();
-        try {
-            // get the previous PO, i.e. the PO with the same PO_ID but the current indicator is Y.
-            PurchaseOrderDocument oldPO = getCurrentPurchaseOrder(document.getPurapDocumentIdentifier());
-            if (oldPO.isPendingActionIndicator()) {
-                GlobalVariables.getErrorMap().putError(PurapPropertyConstants.PURCHASE_ORDER_IDENTIFIER, PurapKeyConstants.ERROR_PURCHASE_ORDER_CANNOT_AMEND);
-                return false;
-            }
-            oldPO.setPendingActionIndicator(true);
-            save(oldPO);
-            documentService.routeDocument(document, kualiDocumentFormBase.getAnnotation(), adhocRoutingRecipients);
-            GlobalVariables.getMessageList().add(KeyConstants.MESSAGE_ROUTE_SUCCESSFUL);
-        }
-        catch (WorkflowException we) {
-            LOG.error("Error during updateFlagsAndRoute on PO document: " + we);
-            throw new RuntimeException("Error during updateFlagsAndRoute on PO document: " + we.getMessage());
-        }
-        catch (OjbOperationException ooe) {
-            LOG.error("Error during updateFlagsAndRoute on PO document: " + ooe);
-            GlobalVariables.getErrorMap().putError(PurapPropertyConstants.PURCHASE_ORDER_IDENTIFIER, PurapKeyConstants.ERROR_PURCHASE_ORDER_CANNOT_AMEND);
-            return false;
-        }
-        catch (Exception e) {
-            LOG.error("Error during updateFlagsAndRoute on PO document: " + e);
-            throw new RuntimeException("Error during updateFlagsAndRoute on PO document: " + e.getMessage());
-        }
-        return true;
-    }
-    */
-    
-    public void cancelAmendment(KualiDocumentFormBase kualiDocumentFormBase) {
-        PurchaseOrderDocument document = (PurchaseOrderDocument) kualiDocumentFormBase.getDocument();
-        PurchaseOrderDocument oldPO = getCurrentPurchaseOrder(document.getPurapDocumentIdentifier());
-        oldPO.setPendingActionIndicator(false);
-        saveDocumentWithoutValidation(oldPO);
+    public void cancelAmendment(PurchaseOrderDocument document) {
+        updateCurrentDocumentForNoPendingAction(document);
     }
     
-    /*
-     * public void sendFYItoWorkgroup(PurchaseOrderDocument po, String annotation, Long workgroupId) { LOG.debug("SendFYI started
-     * with annotation: "+ annotation); try { KualiWorkflowDocument workflowDoc = po.getDocumentHeader().getWorkflowDocument();
-     * String currentNodeName = PurapConstants.DOC_ADHOC_NODE_NAME; if
-     * (!(EdenConstants.ROUTE_HEADER_INITIATED_CD.equals(workflowDoc.getRouteHeader().getDocRouteStatus()))) { if
-     * (getCurrentRouteNodeName(workflowDoc) != null) { currentNodeName = getCurrentRouteNodeName(workflowDoc); } } //We can't do
-     * this because we can't instantiate a new WorkgroupIdVO.
-     * //workflowDoc.appSpecificRouteDocumentToWorkgroup(EdenConstants.ACTION_REQUEST_FYI_REQ, currentNodeName, 0, // annotation,
-     * new WorkgroupIdVO(workgroupId), "Initiator", true); } catch (WorkflowException we) { LOG.error("Error during sendFYI on PO
-     * document: " + we.getMessage()); throw new RuntimeException("Error during sendFYI on PO document: " + we.getMessage()); }
-     * catch (Exception e) { LOG.error("Error during sendFYI on PO document: " + e.getMessage()); throw new RuntimeException("Error
-     * during sendFYI on PO document: " + e.getMessage()); } LOG.debug("SendFYI ended."); }
-     */
-
     private String getCurrentRouteNodeName(KualiWorkflowDocument wd) throws WorkflowException {
         String[] nodeNames = wd.getNodeNames();
         if ((nodeNames == null) || (nodeNames.length == 0)) {
@@ -662,17 +613,6 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 
         UniversalUser user = GlobalVariables.getUserSession().getUniversalUser();
 
-//        if (POTransmissionMethods.PRINT.equals(po.getPurchaseOrderTransmissionMethodCode())) {
-//            LOG.debug("completePurchaseOrder() Purchase Order Transmission Type is Print");
-//            po.setPurchaseOrderCurrentIndicator(true);
-//            po.setPendingActionIndicator(true);
-//            purapService.updateStatusAndStatusHistory(po, PurchaseOrderStatuses.PENDING_PRINT);
-//        }
-//        else {
-//            LOG.info("completePurchaseOrder() Unhandled Transmission Status: " + po.getPurchaseOrderTransmissionMethodCode() + " -- Defaulting Status to OPEN");
-//            purapService.updateStatusAndStatusHistory(po, PurchaseOrderStatuses.OPEN);
-//            po.setPurchaseOrderInitialOpenDate(dateTimeService.getCurrentSqlDate());
-//        }
         if (!PurchaseOrderStatuses.OPEN.equals(po.getStatusCode())) {
             String statusCode = PurchaseOrderStatuses.OPEN;
             LOG.info("completePurchaseOrder() Setting po document id " + po.getDocumentNumber() + " status from '" + po.getStatusCode() + "' to '" + statusCode + "'" );
@@ -773,6 +713,10 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
     }
 
     public void setCurrentAndPendingIndicatorsForDisapprovedPODocuments(PurchaseOrderDocument newPO) {
+        updateCurrentDocumentForNoPendingAction(newPO);
+    }
+    
+    private void updateCurrentDocumentForNoPendingAction(PurchaseOrderDocument newPO) {
         // Get the "current PO" that's in the database, i.e. the PO row that contains current indicator = Y
         PurchaseOrderDocument oldPO = getCurrentPurchaseOrder(newPO.getPurapDocumentIdentifier());
         // Set the Pending indicator for the oldPO to N

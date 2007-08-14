@@ -18,16 +18,16 @@ package org.kuali.module.purap.web.struts.form;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.kuali.core.document.authorization.DocumentAuthorizer;
 import org.kuali.core.exceptions.GroupNotFoundException;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.web.ui.ExtraButton;
 import org.kuali.core.web.ui.KeyLabelPair;
+import org.kuali.core.workflow.service.KualiWorkflowDocument;
+import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.purap.PurapAuthorizationConstants;
 import org.kuali.module.purap.PurapConstants;
-import org.kuali.module.purap.PurapParameterConstants;
 import org.kuali.module.purap.PurapRuleConstants;
 import org.kuali.module.purap.bo.PurchaseOrderAccount;
 import org.kuali.module.purap.bo.PurchaseOrderItem;
@@ -155,11 +155,15 @@ public class PurchaseOrderForm extends PurchasingFormBase {
         // TODO: Find out and add logic about which buttons to appear in
         // which condition e.g. we might not want to display the close button
         // on a PO with status CLOSE or the open button on a PO with status OPEN, etc.
+        
+        // TODO: Think about using a MAP with key of 'methodToCall' string and value of ExtraButton object so that button duplication never occurs
+        //       Only problem would be if same 'methodToCall' string was used on two different button images... in which case an if-else could be fix
 
         String documentType = this.getDocument().getDocumentHeader().getWorkflowDocument().getDocumentType();
         PurchaseOrderDocument purchaseOrder = (PurchaseOrderDocument) this.getDocument();
+        KualiWorkflowDocument workflowDocument = purchaseOrder.getDocumentHeader().getWorkflowDocument();
         
-        boolean isFYIRequested = purchaseOrder.getDocumentHeader().getWorkflowDocument().isFYIRequested();
+        boolean isActionRequested = (!workflowDocument.stateIsException()) && (workflowDocument.isCompletionRequested() || workflowDocument.isApprovalRequested() || workflowDocument.isAcknowledgeRequested() || workflowDocument.isFYIRequested());
 
         String authorizedWorkgroup = SpringServiceLocator.getKualiConfigurationService().getApplicationParameterValue(PurapRuleConstants.PURAP_ADMIN_GROUP, PurapRuleConstants.PURAP_DOCUMENT_PO_ACTIONS);
         boolean isUserAuthorized = false;
@@ -179,7 +183,7 @@ public class PurchaseOrderForm extends PurchasingFormBase {
 
             ExtraButton retransmitButton = new ExtraButton();
             retransmitButton.setExtraButtonProperty("methodToCall.retransmitPo");
-            retransmitButton.setExtraButtonSource("${externalizable.images.url}buttonsmall_retransmit.gif");
+            retransmitButton.setExtraButtonSource("${" + KFSConstants.EXTERNALIZABLE_IMAGES_URL_KEY + "}buttonsmall_retransmit.gif");
             retransmitButton.setExtraButtonAltText("Retransmit");
             this.getExtraButtons().add(retransmitButton);
         }
@@ -189,65 +193,64 @@ public class PurchaseOrderForm extends PurchasingFormBase {
         if (isUserAuthorized && this.getEditingMode().containsKey(PurapAuthorizationConstants.PurchaseOrderEditMode.DISPLAY_RETRANSMIT_TAB)) {
             ExtraButton printingRetransmitButton = new ExtraButton();
             printingRetransmitButton.setExtraButtonProperty("methodToCall.printingRetransmitPo");
-            printingRetransmitButton.setExtraButtonSource("${externalizable.images.url}buttonsmall_retransmit.gif");
+            printingRetransmitButton.setExtraButtonSource("${" + KFSConstants.EXTERNALIZABLE_IMAGES_URL_KEY + "}buttonsmall_retransmit.gif");
             printingRetransmitButton.setExtraButtonAltText("PrintingRetransmit");
             this.getExtraButtons().add(printingRetransmitButton);
         }
         
-        String currentRouteLevel = new String();
-        try {
-            currentRouteLevel = SpringServiceLocator.getWorkflowDocumentService().getCurrentRouteLevelName(purchaseOrder.getDocumentHeader().getWorkflowDocument());
-        }
-        catch (WorkflowException we) {
-            //do something
-        }
-        
-        if ( currentRouteLevel.equals(PurapConstants.WorkflowConstants.PurchaseOrderDocument.NodeDetails.DOCUMENT_TRANSMISSION) && 
-             (isUserAuthorized || isFYIRequested) ) {
+        // show the PO Print button if the status is Pending Print and the user is either authorized or an action is requested of them
+        // for the document transmission route node
+        // TODO delyea - adjust isActionRequested to be specific to Pending Transmission Node Name once RICE changes are in
+        if ( PurapConstants.PurchaseOrderStatuses.PENDING_PRINT.equals(purchaseOrder.getStatusCode()) &&
+                (isUserAuthorized ||  isActionRequested) ) {
             ExtraButton printButton = new ExtraButton();
             printButton.setExtraButtonProperty("methodToCall.printPo");
-            printButton.setExtraButtonSource("${externalizable.images.url}buttonsmall_print.gif");
+            printButton.setExtraButtonSource("${" + KFSConstants.EXTERNALIZABLE_IMAGES_URL_KEY + "}buttonsmall_print.gif");
             printButton.setExtraButtonAltText("Print");
             this.getExtraButtons().add(printButton);
+        }
+        // show the payment hold button
+        if ( PurapConstants.PurchaseOrderStatuses.STATUSES_BY_TRANSMISSION_TYPE.values().contains(purchaseOrder.getStatusCode()) &&
+                (isUserAuthorized ||  isActionRequested) ) {
             ExtraButton paymentHoldButton = new ExtraButton();
             paymentHoldButton.setExtraButtonProperty("methodToCall.paymentHoldPo");
-            paymentHoldButton.setExtraButtonSource("${externalizable.images.url}buttonsmall_paymenthold.gif");
+            paymentHoldButton.setExtraButtonSource("${" + KFSConstants.EXTERNALIZABLE_IMAGES_URL_KEY + "}buttonsmall_paymenthold.gif");
             paymentHoldButton.setExtraButtonAltText("Payment Hold");
             this.getExtraButtons().add(paymentHoldButton);
         }
         if (purchaseOrder.getStatusCode().equals(PurapConstants.PurchaseOrderStatuses.CLOSED) && purchaseOrder.isPurchaseOrderCurrentIndicator() && !purchaseOrder.isPendingActionIndicator() && isUserAuthorized) {
             ExtraButton reopenButton = new ExtraButton();
             reopenButton.setExtraButtonProperty("methodToCall.reopenPo");
-            reopenButton.setExtraButtonSource("${externalizable.images.url}buttonsmall_openorder.gif");
+            reopenButton.setExtraButtonSource("${" + KFSConstants.EXTERNALIZABLE_IMAGES_URL_KEY + "}buttonsmall_openorder.gif");
             reopenButton.setExtraButtonAltText("Reopen");
             this.getExtraButtons().add(reopenButton);
         }
         if (purchaseOrder.getStatusCode().equals(PurapConstants.PurchaseOrderStatuses.OPEN) && purchaseOrder.isPurchaseOrderCurrentIndicator() && !purchaseOrder.isPendingActionIndicator() && isUserAuthorized) {
             ExtraButton closeButton = new ExtraButton();
             closeButton.setExtraButtonProperty("methodToCall.closePo");
-            closeButton.setExtraButtonSource("${externalizable.images.url}buttonsmall_closeorder.gif");
+            closeButton.setExtraButtonSource("${" + KFSConstants.EXTERNALIZABLE_IMAGES_URL_KEY + "}buttonsmall_closeorder.gif");
             closeButton.setExtraButtonAltText("Close PO");
             this.getExtraButtons().add(closeButton);
             ExtraButton voidButton = new ExtraButton();
             voidButton.setExtraButtonProperty("methodToCall.voidPo");
-            voidButton.setExtraButtonSource("${externalizable.images.url}buttonsmall_voidorder.gif");
+            voidButton.setExtraButtonSource("${" + KFSConstants.EXTERNALIZABLE_IMAGES_URL_KEY + "}buttonsmall_voidorder.gif");
             voidButton.setExtraButtonAltText("Void PO");
             this.getExtraButtons().add(voidButton);
             ExtraButton paymentHoldButton = new ExtraButton();
             paymentHoldButton.setExtraButtonProperty("methodToCall.paymentHoldPo");
-            paymentHoldButton.setExtraButtonSource("${externalizable.images.url}buttonsmall_paymenthold.gif");
+            paymentHoldButton.setExtraButtonSource("${" + KFSConstants.EXTERNALIZABLE_IMAGES_URL_KEY + "}buttonsmall_paymenthold.gif");
             paymentHoldButton.setExtraButtonAltText("Payment Hold");
             this.getExtraButtons().add(paymentHoldButton);
             ExtraButton amendButton = new ExtraButton();
             amendButton.setExtraButtonProperty("methodToCall.amendPo");
-            amendButton.setExtraButtonSource("${externalizable.images.url}buttonsmall_amend.gif");
+            amendButton.setExtraButtonSource("${" + KFSConstants.EXTERNALIZABLE_IMAGES_URL_KEY + "}buttonsmall_amend.gif");
             amendButton.setExtraButtonAltText("Amend");
             this.getExtraButtons().add(amendButton);
         }
         if (purchaseOrder.getStatusCode().equals(PurapConstants.PurchaseOrderStatuses.PAYMENT_HOLD) && purchaseOrder.isPurchaseOrderCurrentIndicator() && !purchaseOrder.isPendingActionIndicator() && isUserAuthorized) {
             ExtraButton removeHoldButton = new ExtraButton();
             removeHoldButton.setExtraButtonProperty("methodToCall.removeHoldPo");
-            removeHoldButton.setExtraButtonSource("${externalizable.images.url}buttonsmall_removehold.gif");
+            removeHoldButton.setExtraButtonSource("${" + KFSConstants.EXTERNALIZABLE_IMAGES_URL_KEY + "}buttonsmall_removehold.gif");
             removeHoldButton.setExtraButtonAltText("Remove Hold");
             this.getExtraButtons().add(removeHoldButton);
         }

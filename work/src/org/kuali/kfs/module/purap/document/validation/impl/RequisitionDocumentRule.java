@@ -15,41 +15,32 @@
  */
 package org.kuali.module.purap.rules;
 
-import java.math.BigDecimal;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.RicePropertyConstants;
 import org.kuali.core.datadictionary.validation.fieldlevel.ZipcodeValidationPattern;
 import org.kuali.core.document.AmountTotaling;
-import org.kuali.core.rule.KualiParameterRule;
 import org.kuali.core.util.ErrorMap;
 import org.kuali.core.util.GeneralLedgerPendingEntrySequenceHelper;
 import org.kuali.core.util.GlobalVariables;
-import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.workflow.service.KualiWorkflowDocument;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.bo.AccountingLine;
 import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
-import org.kuali.kfs.bo.SourceAccountingLine;
 import org.kuali.kfs.document.AccountingDocument;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.PurapKeyConstants;
 import org.kuali.module.purap.PurapPropertyConstants;
-import org.kuali.module.purap.PurapConstants.ItemFields;
-import org.kuali.module.purap.PurapConstants.WorkflowConstants;
-import org.kuali.module.purap.bo.PurApAccountingLine;
-import org.kuali.module.purap.bo.PurchasingApItem;
+import org.kuali.module.purap.PurapWorkflowConstants.RequisitionDocument.NodeDetailEnum;
 import org.kuali.module.purap.document.PurchasingAccountsPayableDocument;
 import org.kuali.module.purap.document.PurchasingDocument;
 import org.kuali.module.purap.document.RequisitionDocument;
-import org.kuali.module.purap.util.PurApItemUtils;
-import org.kuali.workflow.KualiWorkflowUtils.RouteLevelNames;
 
 public class RequisitionDocumentRule extends PurchasingDocumentRuleBase {
-   
+
     /**
      * Tabs included on Purchasing Documents are: Payment Info Delivery Additional
      * 
@@ -63,27 +54,13 @@ public class RequisitionDocumentRule extends PurchasingDocumentRuleBase {
     }
     
     @Override
-    public boolean processItemValidation(PurchasingAccountsPayableDocument purapDocument, boolean needAccountValidation) {
-
-        //For Requisitions only, if the requisition status is in process and the
-        //requisition does not contain account, then we don't need account validation.
-        if (!SpringServiceLocator.getPurapService().isDocumentStoppingAtRouteLevel(purapDocument, PurapConstants.WorkflowConstants.RequisitionDocument.NodeDetails.ORDERED_NODE_NAME_LIST, PurapConstants.WorkflowConstants.RequisitionDocument.NodeDetails.CONTENT_REVIEW) && 
-            (!containsAccount(purapDocument))) {
-            needAccountValidation = false;
+    public boolean requiresAccountValidationOnAllItems(PurchasingAccountsPayableDocument document) {
+        //For Requisitions only, if the requisition status is in process,
+        //then we don't need account validation.
+        if (SpringServiceLocator.getPurapService().isDocumentStoppingAtRouteLevel(document, NodeDetailEnum.CONTENT_REVIEW)) {
+            return false;
         }
-        boolean valid = super.processItemValidation(purapDocument, needAccountValidation);
-        return valid;
-    }
-    
-    private boolean containsAccount(PurchasingAccountsPayableDocument purapDocument) {
-        if ( purapDocument.getItems().size() > 0) {
-            for (PurchasingApItem item : purapDocument.getItems()) {
-                if (item.getSourceAccountingLines().size() > 0) {
-                    return true;
-                }
-            }
-        }
-        return false;
+        return super.requiresAccountValidationOnAllItems(document);
     }
     
     /**
@@ -164,11 +141,11 @@ public class RequisitionDocumentRule extends PurchasingDocumentRuleBase {
         KualiWorkflowDocument workflowDocument = financialDocument.getDocumentHeader().getWorkflowDocument();
         List currentRouteLevels = getCurrentRouteLevels(workflowDocument);
 
-        if (currentRouteLevels.contains(WorkflowConstants.RequisitionDocument.NodeDetails.CONTENT_REVIEW) && workflowDocument.isApprovalRequested()) {
+        if (((RequisitionDocument)financialDocument).isDocumentStoppedInRouteNode(NodeDetailEnum.CONTENT_REVIEW)) {
+//        if (currentRouteLevels.contains(NodeDetailEnum.CONTENT_REVIEW.getName()) && workflowDocument.isApprovalRequested()) {
             // DO NOTHING: do not check that user owns acct lines; at this level, approvers can edit all detail on REQ
             return true;
         }
-        
         else {
             return super.checkAccountingLineAccountAccessibility(financialDocument, accountingLine, action);
         }

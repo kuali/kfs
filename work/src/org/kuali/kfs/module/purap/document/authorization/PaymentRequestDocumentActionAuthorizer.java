@@ -80,7 +80,7 @@ public class PaymentRequestDocumentActionAuthorizer {
         
         if( PaymentRequestStatuses.AWAITING_FISCAL_REVIEW.equals( getDocStatus()) && isApprover() ){
             this.fiscalOfficerDelegateUser = true;
-        }                
+        }
     }
     
     private String getDocStatus(){

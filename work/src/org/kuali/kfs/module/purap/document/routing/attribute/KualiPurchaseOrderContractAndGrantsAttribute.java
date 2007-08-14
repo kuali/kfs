@@ -41,12 +41,11 @@ import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.Chart;
 import org.kuali.module.chart.bo.ObjectCode;
 import org.kuali.module.chart.bo.SubFundGroup;
-import org.kuali.module.purap.PurapConstants;
+import org.kuali.module.purap.PurapWorkflowConstants;
 import org.kuali.workflow.KualiWorkflowUtils;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-import edu.iu.uis.eden.EdenConstants;
 import edu.iu.uis.eden.WorkflowServiceErrorImpl;
 import edu.iu.uis.eden.lookupable.Row;
 import edu.iu.uis.eden.plugin.attributes.WorkflowAttribute;
@@ -156,7 +155,7 @@ public class KualiPurchaseOrderContractAndGrantsAttribute implements WorkflowAtt
         }
         ruleSubFundGroupCode = LookupUtils.forceUppercase(SubFundGroup.class, KFSPropertyConstants.SUB_FUND_GROUP_CODE, ruleSubFundGroupCode);
         Set<AccountContainer> accountContainers = populateFromDocContent(docContent);
-        Map<String,KualiParameterRule> parameterRulesByChart = SpringServiceLocator.getKualiConfigurationService().getRulesByGroup(PurapConstants.WorkflowConstants.PurchaseOrderDocument.CG_RESTRICTED_OBJECT_CODE_RULE_GROUP_NAME);
+        Map<String,KualiParameterRule> parameterRulesByChart = SpringServiceLocator.getKualiConfigurationService().getRulesByGroup(PurapWorkflowConstants.PurchaseOrderDocument.CG_RESTRICTED_OBJECT_CODE_RULE_GROUP_NAME);
         for (AccountContainer accountContainer : accountContainers) {
             // check to see if account is a C&G account
             if (accountContainer.account.isForContractsAndGrants()) {

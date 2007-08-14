@@ -15,6 +15,7 @@
  */
 package org.kuali.module.purap.service.impl;
 
+import java.security.InvalidParameterException;
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.text.ParseException;
@@ -38,12 +39,16 @@ import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.financial.service.UniversityDateService;
 import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.PurapRuleConstants;
+import org.kuali.module.purap.PurapWorkflowConstants.NodeDetails;
+import org.kuali.module.purap.PurapWorkflowConstants.RequisitionDocument.NodeDetailEnum;
 import org.kuali.module.purap.bo.ItemType;
 import org.kuali.module.purap.bo.OrganizationParameter;
 import org.kuali.module.purap.bo.PurchaseOrderView;
 import org.kuali.module.purap.bo.PurchasingApItem;
+import org.kuali.module.purap.document.CreditMemoDocument;
 import org.kuali.module.purap.document.PaymentRequestDocument;
 import org.kuali.module.purap.document.PurchasingAccountsPayableDocument;
+import org.kuali.module.purap.document.RequisitionDocument;
 import org.kuali.module.purap.service.PurapAccountingService;
 import org.kuali.module.purap.service.PurapService;
 
@@ -162,7 +167,7 @@ public class PurapServiceImpl implements PurapService {
 
         success = true;
         if (success) {
-            LOG.debug("StatusHistory of document #"+document.getDocumentNumber()+" has been changed from "
+            LOG.debug("StatusHistory record for document #"+document.getDocumentNumber()+" has added to show change from "
                     +oldStatus+" to "+newStatus);
         }
         LOG.debug("updateStatusHistory(): leaving method.");
@@ -170,13 +175,12 @@ public class PurapServiceImpl implements PurapService {
     }
 
     public List getRelatedViews(Class clazz, Integer accountsPayablePurchasingDocumentLinkIdentifier) {
-        BusinessObjectService boService = SpringServiceLocator.getBusinessObjectService();
         Map criteria = new HashMap();
         criteria.put("accountsPayablePurchasingDocumentLinkIdentifier", accountsPayablePurchasingDocumentLinkIdentifier);
         if (clazz == PurchaseOrderView.class) {
             criteria.put("purchaseOrderCurrentIndicator", true);
         }
-        List boList = (List) boService.findMatching(clazz, criteria);
+        List boList = (List) businessObjectService.findMatching(clazz, criteria);
         return boList;
     }
 
@@ -291,52 +295,48 @@ public class PurapServiceImpl implements PurapService {
             organizationParameter.setChartOfAccountsCode(chart);
             organizationParameter.setOrganizationCode(org);
             Map orgParamKeys = SpringServiceLocator.getPersistenceService().getPrimaryKeyFieldValues(organizationParameter);
-            organizationParameter = (OrganizationParameter) SpringServiceLocator.getBusinessObjectService().findByPrimaryKey(OrganizationParameter.class, orgParamKeys);
+            organizationParameter = (OrganizationParameter) businessObjectService.findByPrimaryKey(OrganizationParameter.class, orgParamKeys);
             purchaseOrderTotalLimit = (organizationParameter == null) ? null : organizationParameter.getOrganizationAutomaticPurchaseOrderLimit();
         }
         return purchaseOrderTotalLimit;
     }
 
-    public boolean isDocumentStoppingAtRouteLevel(PurchasingAccountsPayableDocument document, List orderedNodeNames, String routeNodeName) {
+    public boolean isDocumentStoppingAtRouteLevel(PurchasingAccountsPayableDocument document, NodeDetails givenNodeDetail) {
+        if (givenNodeDetail == null) {
+            throw new InvalidParameterException("Given Node Detail object was null");
+        }
         try {
             String activeNode = null;
             String[] nodeNames = document.getDocumentHeader().getWorkflowDocument().getNodeNames();
             if (nodeNames.length == 1) {
                 activeNode = nodeNames[0];
             }
-            if (isGivenNodeEqualToOrAfterCurrentNode(orderedNodeNames, routeNodeName, activeNode)) {
+            if (isGivenNodeEqualToOrAfterCurrentNode(givenNodeDetail.getNodeDetailByName(activeNode), givenNodeDetail)) {
                 ReportCriteriaVO reportCriteriaVO = new ReportCriteriaVO(Long.valueOf(document.getDocumentNumber()));
-                reportCriteriaVO.setTargetNodeName(routeNodeName);
-                return SpringServiceLocator.getWorkflowInfoService().documentWillHaveAtLeastOneActionRequest(
+                reportCriteriaVO.setTargetNodeName(givenNodeDetail.getName());
+                boolean value = SpringServiceLocator.getWorkflowInfoService().documentWillHaveAtLeastOneActionRequest(
                         reportCriteriaVO, new String[]{EdenConstants.ACTION_REQUEST_APPROVE_REQ,EdenConstants.ACTION_REQUEST_COMPLETE_REQ});
+                 return value;
             }
             return false;
         }
         catch (WorkflowException e) {
-            String errorMessage = "Error trying to test document id '" + document.getDocumentNumber() + "' for action requests at node name '" + routeNodeName + "'";
+            String errorMessage = "Error trying to test document id '" + document.getDocumentNumber() + "' for action requests at node name '" + givenNodeDetail.getName() + "'";
             LOG.error("isDocumentStoppingAtRouteLevel() " + errorMessage,e);
             throw new RuntimeException(errorMessage,e);
         }
     }
     
-    private boolean isGivenNodeEqualToOrAfterCurrentNode(List orderedNodeNames, String givenNode, String currentNode) {
-        if (StringUtils.isBlank(givenNode)) {
-            // given node is empty
+    private boolean isGivenNodeEqualToOrAfterCurrentNode(NodeDetails currentNodeDetail, NodeDetails givenNodeDetail) {
+        if (ObjectUtils.isNull(givenNodeDetail)) {
+            // given node does not exist
             return false;
-        } else if (StringUtils.isBlank(currentNode)) {
-            // current node is empty
+        }
+        if (ObjectUtils.isNull(currentNodeDetail)) {
+            // current node does not exist
             return true;
         }
-        boolean foundCurrentNode = false;
-        int indexOfGivenNode = orderedNodeNames.indexOf(givenNode);
-        int indexOfCurrentNode = orderedNodeNames.indexOf(currentNode);
-        if ( (indexOfCurrentNode < 0) || (indexOfGivenNode < 0) ) {
-            String errorMsg = "Could not find instance of node name '" + ((indexOfGivenNode < 0) ? givenNode : "") + " " +
-                    ((indexOfCurrentNode < 0) ? currentNode : "") + "' in ordered node name list";
-            LOG.error("isGivenNodeAfterCurrentNode() " + errorMsg);
-            throw new RuntimeException(errorMsg);
-        }
-        return indexOfGivenNode >= indexOfCurrentNode;
+        return givenNodeDetail.getOrdinal() >= currentNodeDetail.getOrdinal();
     }
     
     private boolean allowEncumberNextFiscalYear() {
@@ -386,8 +386,18 @@ public class PurapServiceImpl implements PurapService {
         return value;
     }
     
-    public  void performLogicForFullEntryCompleted(PurchasingAccountsPayableDocument purapDocument) {
+    public void performLogicForFullEntryCompleted(PurchasingAccountsPayableDocument purapDocument) {
         //TODO: move logic from various parts of the app to here
+        if (purapDocument instanceof RequisitionDocument) {
+            
+        }
+        else if (purapDocument instanceof PaymentRequestDocument) {
+            
+        }
+        else if (purapDocument instanceof CreditMemoDocument) {
+                
+        }
+        throw new RuntimeException("Attempted to perform full entry logic for unhandled document type '" + purapDocument.getClass().getName() + "'");
     }
 
 }

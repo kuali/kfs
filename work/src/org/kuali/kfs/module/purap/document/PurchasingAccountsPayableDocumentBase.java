@@ -17,6 +17,7 @@ package org.kuali.module.purap.document;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
@@ -34,6 +35,7 @@ import org.kuali.core.service.NoteService;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.util.TypedArrayList;
+import org.kuali.core.workflow.service.KualiWorkflowDocument;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.bo.AccountingLine;
 import org.kuali.kfs.bo.Country;
@@ -46,10 +48,10 @@ import org.kuali.kfs.rule.event.ReviewAccountingLineEvent;
 import org.kuali.kfs.rule.event.UpdateAccountingLineEvent;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.purap.PurapPropertyConstants;
+import org.kuali.module.purap.PurapWorkflowConstants.NodeDetails;
 import org.kuali.module.purap.bo.CreditMemoView;
 import org.kuali.module.purap.bo.ItemType;
 import org.kuali.module.purap.bo.PaymentRequestView;
-import org.kuali.module.purap.bo.PurApAccountingLine;
 import org.kuali.module.purap.bo.PurchaseOrderView;
 import org.kuali.module.purap.bo.PurchasingApItem;
 import org.kuali.module.purap.bo.RequisitionView;
@@ -58,6 +60,8 @@ import org.kuali.module.purap.bo.StatusHistory;
 import org.kuali.module.purap.service.PurapAccountingService;
 import org.kuali.module.vendor.bo.VendorAddress;
 import org.kuali.module.vendor.bo.VendorDetail;
+
+import edu.iu.uis.eden.exception.WorkflowException;
 
 /**
  * Purchasing-Accounts Payable Document Base
@@ -163,6 +167,21 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
         setAccountsForRouting(SpringServiceLocator.getPurapAccountingService().generateSummary(getItems()));
         
         super.populateDocumentForRouting();
+    }
+
+    public boolean isDocumentStoppedInRouteNode(NodeDetails nodeDetails) {
+        List<String> currentRouteLevels = new ArrayList<String>();
+        try {
+            KualiWorkflowDocument workflowDoc = getDocumentHeader().getWorkflowDocument();
+            currentRouteLevels = Arrays.asList(getDocumentHeader().getWorkflowDocument().getNodeNames());
+            if (currentRouteLevels.contains(nodeDetails.getName()) && workflowDoc.isApprovalRequested()) {
+                return true;
+            }
+            return false;
+        }
+        catch (WorkflowException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     protected void logAndThrowRuntimeException(String errorMessage) {
@@ -503,8 +522,14 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
     
     public abstract Class getItemClass();
     
+    /**
+     * @see org.kuali.module.purap.document.PurchasingAccountsPayableDocument#getPurApSourceDocumentIfPossible()
+     */
     public abstract PurchasingAccountsPayableDocument getPurApSourceDocumentIfPossible();
 
+    /**
+     * @see org.kuali.module.purap.document.PurchasingAccountsPayableDocument#getPurApSourceDocumentLabelIfPossible()
+     */
     public abstract String getPurApSourceDocumentLabelIfPossible();
 
 //    /**

@@ -312,6 +312,7 @@ public class PaymentRequestAction extends AccountsPayableActionBase {
         SpringServiceLocator.getKualiRuleService().applyRules(new CalculateAccountsPayableEvent(preqDoc));
 
         SpringServiceLocator.getPaymentRequestService().calculatePaymentRequest(preqDoc, true);
+        // TODO Chris - an updateAccountAmounts is done at the end of the above method... need it here?
         SpringServiceLocator.getPurapAccountingService().updateAccountAmounts(apDoc);
     }
 

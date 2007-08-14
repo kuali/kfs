@@ -22,8 +22,10 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.core.bo.Note;
 import org.kuali.core.exceptions.ValidationException;
 import org.kuali.core.question.ConfirmationQuestion;
+import org.kuali.core.service.DocumentService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.web.struts.form.KualiDocumentFormBase;
 import org.kuali.kfs.KFSConstants;
@@ -36,7 +38,6 @@ import org.kuali.module.purap.document.AccountsPayableDocument;
 import org.kuali.module.purap.document.CreditMemoDocument;
 import org.kuali.module.purap.rule.event.CalculateAccountsPayableEvent;
 import org.kuali.module.purap.rule.event.ContinueAccountsPayableEvent;
-import org.kuali.module.purap.rule.event.PreCalculateAccountsPayableEvent;
 import org.kuali.module.purap.util.PurQuestionCallback;
 import org.kuali.module.purap.web.struts.form.CreditMemoForm;
 
@@ -186,7 +187,13 @@ public class CreditMemoAction extends AccountsPayableActionBase {
         
         PurQuestionCallback callback = new PurQuestionCallback() {
             public void doPostQuestion(AccountsPayableDocument document, String noteText) throws Exception {
-                SpringServiceLocator.getCreditMemoService().cancelCreditMemo((CreditMemoDocument) document, noteText); 
+                CreditMemoDocument cmDocument = (CreditMemoDocument)document;
+                DocumentService documentService = SpringServiceLocator.getDocumentService();
+                // save the note
+                Note noteObj = documentService.createNoteFromDocument(cmDocument, noteText);
+                documentService.addNoteToDocument(cmDocument, noteObj);
+                SpringServiceLocator.getNoteService().save(noteObj);
+                documentService.cancelDocument(cmDocument, noteText);
             }
         };
         
@@ -212,7 +219,11 @@ public class CreditMemoAction extends AccountsPayableActionBase {
 
         // route and catch validation errors to check for unmatched total error
         try {
-            SpringServiceLocator.getCreditMemoService().route(creditMemoDocument, cmForm.getAnnotation(), combineAdHocRecipients(cmForm));
+            creditMemoDocument.updateExtendedPriceOnItems();
+            SpringServiceLocator.getCreditMemoService().calculateCreditMemo(creditMemoDocument);
+            super.route(mapping, form, request, response);
+
+//            SpringServiceLocator.getCreditMemoService().route(creditMemoDocument, cmForm.getAnnotation(), combineAdHocRecipients(cmForm));
         }
         catch (ValidationException e) {
             // check for needed override

@@ -13,11 +13,8 @@ import org.kuali.module.gl.web.Constant;
  */
 public class PositionData extends PersistableBusinessObjectBase {
 
-	private Integer positionIdentifierSequence;
 	private String positionNumber;
 	private String jobCode;
-	private String payGroup;
-	private String employeeType;
 	private Date effectiveDate;
 	private String positionEffectiveStatus;
 	private String description;
@@ -44,27 +41,6 @@ public class PositionData extends PersistableBusinessObjectBase {
         this.dummyBusinessObject = new TransientBalanceInquiryAttributes();
         this.dummyBusinessObject.setLinkButtonOption(Constant.LOOKUP_BUTTON_VALUE);
 	}
-
-	/**
-	 * Gets the positionIdentifierSequence attribute.
-	 * 
-	 * @return Returns the positionIdentifierSequence
-	 * 
-	 */
-	public Integer getPositionIdentifierSequence() { 
-		return positionIdentifierSequence;
-	}
-
-	/**
-	 * Sets the positionIdentifierSequence attribute.
-	 * 
-	 * @param positionIdentifierSequence The positionIdentifierSequence to set.
-	 * 
-	 */
-	public void setPositionIdentifierSequence(Integer positionIdentifierSequence) {
-		this.positionIdentifierSequence = positionIdentifierSequence;
-	}
-
 
 	/**
 	 * Gets the positionNumber attribute.
@@ -106,49 +82,6 @@ public class PositionData extends PersistableBusinessObjectBase {
 	public void setJobCode(String jobCode) {
 		this.jobCode = jobCode;
 	}
-
-
-	/**
-	 * Gets the payGroup attribute.
-	 * 
-	 * @return Returns the payGroup
-	 * 
-	 */
-	public String getPayGroup() { 
-		return payGroup;
-	}
-
-	/**
-	 * Sets the payGroup attribute.
-	 * 
-	 * @param payGroup The payGroup to set.
-	 * 
-	 */
-	public void setPayGroup(String payGroup) {
-		this.payGroup = payGroup;
-	}
-
-
-	/**
-	 * Gets the employeeType attribute.
-	 * 
-	 * @return Returns the employeeType
-	 * 
-	 */
-	public String getEmployeeType() { 
-		return employeeType;
-	}
-
-	/**
-	 * Sets the employeeType attribute.
-	 * 
-	 * @param employeeType The employeeType to set.
-	 * 
-	 */
-	public void setEmployeeType(String employeeType) {
-		this.employeeType = employeeType;
-	}
-
 
 	/**
 	 * Gets the effectiveDate attribute.
@@ -470,8 +403,9 @@ public class PositionData extends PersistableBusinessObjectBase {
 	 */
 	protected LinkedHashMap toStringMapper() {
 	    LinkedHashMap m = new LinkedHashMap();	    
-        if (this.positionIdentifierSequence != null) {
-            m.put("positionIdentifierSequence", this.positionIdentifierSequence.toString());
+        m.put("positionNumber", this.positionNumber);
+        if (this.effectiveDate != null) {
+            m.put("effectiveDate", this.effectiveDate.toString());
         }
 	    return m;
     }

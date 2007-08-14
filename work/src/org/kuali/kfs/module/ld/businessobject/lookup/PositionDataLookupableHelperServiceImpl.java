@@ -38,7 +38,7 @@ public class PositionDataLookupableHelperServiceImpl extends AbstractLookupableH
      */
     @Override
     public String getInquiryUrl(BusinessObject businessObject, String propertyName) {
-        if (KFSPropertyConstants.POSITION_IDENTIFIER_SEQUENCE.equals(propertyName)) {
+        if (KFSPropertyConstants.POSITION_NUMBER.equals(propertyName)) {
             return (new PositionDataDetailsInquirableImpl()).getInquiryUrl(businessObject, propertyName);
         }
         return (new PositionDataInquirableImpl()).getInquiryUrl(businessObject, propertyName);

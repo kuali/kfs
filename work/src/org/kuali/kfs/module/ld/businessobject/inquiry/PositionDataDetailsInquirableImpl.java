@@ -35,14 +35,14 @@ public class PositionDataDetailsInquirableImpl extends AbstractLaborInquirableIm
     @Override
     protected List buildUserDefinedAttributeKeyList() {
         List keys = new ArrayList();
-        keys.add(KFSPropertyConstants.POSITION_IDENTIFIER_SEQUENCE);
+        keys.add(KFSPropertyConstants.POSITION_NUMBER);
 
         return keys;
     }
 
     @Override
     protected String getAttributeName(String attributeName) {
-        return KFSPropertyConstants.POSITION_IDENTIFIER_SEQUENCE;
+        return KFSPropertyConstants.POSITION_NUMBER;
     }
 
     @Override
@@ -73,7 +73,7 @@ public class PositionDataDetailsInquirableImpl extends AbstractLaborInquirableIm
     @Override
     protected Map getUserDefinedAttributeMap() {
         Map userDefinedAttributeMap = new HashMap();
-        userDefinedAttributeMap.put(KFSPropertyConstants.POSITION_IDENTIFIER_SEQUENCE, KFSPropertyConstants.POSITION_IDENTIFIER_SEQUENCE);
+        userDefinedAttributeMap.put(KFSPropertyConstants.POSITION_NUMBER, KFSPropertyConstants.POSITION_NUMBER);
         
         return userDefinedAttributeMap;
     }

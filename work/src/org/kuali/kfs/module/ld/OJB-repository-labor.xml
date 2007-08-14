@@ -1846,14 +1846,11 @@
 </class-descriptor>
 
 <class-descriptor class="org.kuali.module.labor.bo.PositionData" table="PS_POSITION_DATA">
-	<field-descriptor name="positionIdentifierSequence" column="POS_ID_SEQ" jdbc-type="INTEGER" primarykey="true" index="true" autoincrement="true" sequence-name="POS_ID_SEQ"/>
+	<field-descriptor name="positionNumber" column="POSITION_NBR" jdbc-type="VARCHAR" primarykey="true" index="true"/>
+	<field-descriptor name="effectiveDate" column="EFFDT" jdbc-type="DATE" primarykey="true" index="true"/>
 	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
-	<field-descriptor name="positionNumber" column="POSITION_NBR" jdbc-type="VARCHAR" index="true"/>
 	<field-descriptor name="jobCode" column="JOBCODE" jdbc-type="VARCHAR" index="true"/>
-	<field-descriptor name="payGroup" column="PAYGROUP" jdbc-type="VARCHAR"/>
-	<field-descriptor name="employeeType" column="EMPL_TYPE" jdbc-type="VARCHAR"/>
-	<field-descriptor name="effectiveDate" column="EFFDT" jdbc-type="DATE"/>
 	<field-descriptor name="positionEffectiveStatus" column="POS_EFF_STATUS" jdbc-type="VARCHAR"/>
 	<field-descriptor name="description" column="DESCR" jdbc-type="VARCHAR"/>
 	<field-descriptor name="shortDescription" column="DESCRSHORT" jdbc-type="VARCHAR"/>

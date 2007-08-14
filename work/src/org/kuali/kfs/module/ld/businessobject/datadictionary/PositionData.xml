@@ -16,13 +16,10 @@
                         <field attributeName="departmentId" />
                         <field attributeName="description" />
                         <field attributeName="effectiveDate" />
-                        <field attributeName="employeeType" />
                         <field attributeName="jobCode" />
-                        <field attributeName="payGroup" />
                         <field attributeName="positionEffectiveStatus" />
                         <field attributeName="positionFullTimeEquivalency" />
                         <field attributeName="positionGradeDefault" />
-                        <field attributeName="positionIdentifierSequence" />
                         <field attributeName="positionNumber" />
                         <field attributeName="positionRegularTemporary" />
                         <field attributeName="positionSalaryPlanDefault" />
@@ -62,7 +59,6 @@
             </lookupFields>
 
             <resultFields>
-            	<field attributeName="positionIdentifierSequence"/>
                 <field attributeName="positionNumber"/>
                 <field attributeName="effectiveDate"/>
                 <field attributeName="description"/>
@@ -77,10 +73,8 @@
                 <field attributeName="dummyBusinessObject.linkButtonOption" />
                 
                 <!-- 
-                <field attributeName="payGroup" />
                 <field attributeName="positionEffectiveStatus" />
                 <field attributeName="positionFullTimeEquivalency" />
-                <field attributeName="positionIdentifierSequence" />
                 <field attributeName="positionRegularTemporary" />
 
                 <field attributeName="shortDescription" />
@@ -168,21 +162,6 @@
                 <description>effectiveDate description...</description>
 			</attribute>
 
-            <attribute name="employeeType" forceUppercase="true">
-                <label>Employee Type</label>
-                <shortLabel>Type</shortLabel>
-
-                <maxLength>1</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="3" />
-                </control>
-
-                <summary>employeeType</summary>
-                <description>employeeType description...</description>
-			</attribute>
-
             <attribute name="jobCode" forceUppercase="true">
                 <label>Job Code</label>
                 <shortLabel>Code</shortLabel>
@@ -196,21 +175,6 @@
 
                 <summary>jobCode</summary>
                 <description>jobCode description...</description>
-			</attribute>
-
-            <attribute name="payGroup" forceUppercase="true">
-                <label>Pay Group</label>
-                <shortLabel>Group</shortLabel>
-
-                <maxLength>3</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="5" />
-                </control>
-
-                <summary>payGroup</summary>
-                <description>payGroup description...</description>
 			</attribute>
 
             <attribute name="positionEffectiveStatus" forceUppercase="true">
@@ -256,21 +220,6 @@
 
                 <summary>positionGradeDefault</summary>
                 <description>positionGradeDefault description...</description>
-			</attribute>
-
-            <attribute name="positionIdentifierSequence" forceUppercase="true">
-                <label>Position Identifier Sequence</label>
-                <shortLabel>Sequence</shortLabel>
-
-                <maxLength>10</maxLength>
-                <validationPattern><numeric /></validationPattern>
-
-                <control>
-                    <text size="12" />
-                </control>
-
-                <summary>positionIdentifierSequence</summary>
-                <description>positionIdentifierSequence description...</description>
 			</attribute>
 
             <attribute name="positionNumber" forceUppercase="true">

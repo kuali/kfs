@@ -51,6 +51,13 @@
 		<property name="rice.dev.mode" value="false" />
 		<condition property="rice.message.persistence" value="false"><equals arg1="${is.local.build}" arg2="true" /></condition>
 		<property name="rice.message.persistence" value="true" />
+		<condition property="rice.use.quartz.database" value="true">
+			<and>
+				<not><equals arg1="${use.quartz.scheduling}" arg2="true" /></not>
+				<not><equals arg1="${is.local.build}" arg2="true" /></not>
+			</and>
+		</condition>
+		<property name="rice.use.quartz.database" value="false" />
 		<condition property="rice.exception.routing.immediate" value="true"><equals arg1="${use.quartz.scheduling}" arg2="false" /></condition>
 		<property name="rice.exception.routing.immediate" value="false" />
 		<loadfile property="configuration" srcfile="${build.project.directory}/${configuration.file}"><filterchain><expandproperties/></filterchain></loadfile>

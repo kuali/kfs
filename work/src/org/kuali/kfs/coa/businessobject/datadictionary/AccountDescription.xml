@@ -95,7 +95,7 @@
                 <description>Campus Code that the Building belongs to.</description>
             </attribute>
 
-            <attribute name="buildingCode" forceUppercase="false">
+            <attribute name="buildingCode" forceUppercase="true">
                 <label>Building Code</label>
                 <shortLabel>BldgCd</shortLabel>
 

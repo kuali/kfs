@@ -26,16 +26,19 @@ import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.core.exceptions.UserNotFoundException;
 import org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase;
+import org.kuali.core.service.DataDictionaryService;
 import org.kuali.core.service.DictionaryValidationService;
 import org.kuali.core.util.ErrorMap;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSKeyConstants;
+import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.bo.Building;
 import org.kuali.kfs.service.GeneralLedgerPendingEntryService;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.chart.bo.Account;
+import org.kuali.module.chart.bo.AccountDescription;
 import org.kuali.module.chart.bo.AccountGuideline;
 import org.kuali.module.chart.bo.ChartUser;
 import org.kuali.module.chart.bo.FundGroup;
@@ -43,6 +46,7 @@ import org.kuali.module.chart.bo.IcrAutomatedEntry;
 import org.kuali.module.chart.bo.SubFundGroup;
 import org.kuali.module.chart.service.AccountService;
 import org.kuali.module.gl.service.BalanceService;
+import org.kuali.module.kra.KraPropertyConstants;
 import org.kuali.module.labor.service.LaborLedgerPendingEntryService;
 
 /**
@@ -1001,9 +1005,22 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
 
             // the building object (campusCode & buildingCode) must exist in the DB
             if (!StringUtils.isBlank(campusCode) && !StringUtils.isBlank(buildingCode)) {
+                                
+                //make sure that primary key fields are upper case
+                DataDictionaryService dds = SpringServiceLocator.getDataDictionaryService();
+                Boolean buildingCodeForceUppercase = dds.getAttributeForceUppercase(AccountDescription.class, KFSPropertyConstants.BUILDING_CODE );
+                if (StringUtils.isNotBlank(buildingCode) && buildingCodeForceUppercase != null && buildingCodeForceUppercase.booleanValue() == true ) {
+                    buildingCode = buildingCode.toUpperCase();
+                }
+                
+                Boolean campusCodeForceUppercase = dds.getAttributeForceUppercase(AccountDescription.class, KFSPropertyConstants.CAMPUS_CODE );
+                if (StringUtils.isNotBlank(campusCode) && campusCodeForceUppercase != null && campusCodeForceUppercase.booleanValue() == true ) {
+                    campusCode = campusCode.toUpperCase();
+                }   
+                
                 Map pkMap = new HashMap();
                 pkMap.put("campusCode", campusCode);
-                pkMap.put("buildingCode", buildingCode);
+                pkMap.put("buildingCode", buildingCode);                
 
                 Building building = (Building) getBoService().findByPrimaryKey(Building.class, pkMap);
                 if (building == null) {

@@ -297,6 +297,7 @@ public class OrganizationReversionProcess {
     private int writeCash() throws FatalErrorException {
         int entriesWritten = 0;
         OriginEntry entry = getEntry();
+        entry.refreshReferenceObject("option");
         entry.setChartOfAccountsCode(unitOfWork.chartOfAccountsCode);
         entry.setAccountNumber(unitOfWork.accountNumber);
         entry.setSubAccountNumber(unitOfWork.subAccountNumber);

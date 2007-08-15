@@ -257,7 +257,6 @@
                 <lookupField attributeName="activeIndicator" required="false">
                 	<defaultValue>Y</defaultValue>
                 </lookupField> 
-                <lookupField attributeName="vendorHeader.vendorDebarredIndicator" required="false" />         
                 <lookupField attributeName="vendorHeader.vendorTypeCode" required="false" />         
                 <lookupField attributeName="vendorAddresses.vendorStateCode" required="false" />                   
                 <lookupField attributeName="vendorHeader.vendorSupplierDiversities.vendorSupplierDiversityCode" required="false" />         

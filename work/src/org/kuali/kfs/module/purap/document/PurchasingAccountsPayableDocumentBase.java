@@ -271,7 +271,7 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
      */
     protected void addStatusHistoryNote(StatusHistory statusHistory, Note note) {
         if (ObjectUtils.isNotNull(null)) {
-            NoteService noteService = SpringContext.getBean(NoteService.class);
+            NoteService noteService = SpringContext.getBean(NoteService.class, "noteService");
             try {
                 note = noteService.createNote(note, statusHistory);
                 noteService.save(note);

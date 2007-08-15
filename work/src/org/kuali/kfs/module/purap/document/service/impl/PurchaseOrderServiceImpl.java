@@ -681,7 +681,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
             if (StringUtils.equals(oldestDocumentNumber, po.getDocumentNumber())) {
                 //manually set bo notes - this is mainly done for performance reasons (preferably we could call
                 //retrieve doc notes in PersistableBusinessObjectBase but that is private)
-                po.setBoNotes(SpringContext.getBean(NoteService.class).getByRemoteObjectId(po.getObjectId()));
+                po.setBoNotes(SpringContext.getBean(NoteService.class, "noteService").getByRemoteObjectId(po.getObjectId()));
                 LOG.debug("exiting getOldestPO(PurchaseOrderDocument)");
                 return po;
             }

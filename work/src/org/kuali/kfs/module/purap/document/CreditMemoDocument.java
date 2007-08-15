@@ -151,7 +151,7 @@ public class CreditMemoDocument extends AccountsPayableDocumentBase {
     public boolean getPurchaseOrderNotes() {
         boolean hasNotes = false;
 
-        ArrayList poNotes = SpringContext.getBean(NoteService.class).getByRemoteObjectId((this.getPurchaseOrderIdentifier()).toString());
+        ArrayList poNotes = SpringContext.getBean(NoteService.class, "noteService").getByRemoteObjectId((this.getPurchaseOrderIdentifier()).toString());
         if (poNotes.size() > 0) {
             hasNotes = true;
         }

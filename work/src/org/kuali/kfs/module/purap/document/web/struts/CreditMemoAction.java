@@ -196,7 +196,7 @@ public class CreditMemoAction extends AccountsPayableActionBase {
                 // save the note
                 Note noteObj = documentService.createNoteFromDocument(cmDocument, noteText);
                 documentService.addNoteToDocument(cmDocument, noteObj);
-                SpringContext.getBean(NoteService.class).save(noteObj);
+                SpringContext.getBean(NoteService.class, "noteService").save(noteObj);
                 documentService.cancelDocument(cmDocument, noteText);            }
         };
         

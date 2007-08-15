@@ -128,13 +128,17 @@ public class PurchaseOrderAccount extends PurApAccountingLineBase {
         return m;
     }
 
-//    /**
-//     * @see org.kuali.module.purap.bo.PurApAccountingLineBase#getSequenceNumber()
-//     */
-//    @Override
-//    public Integer getSequenceNumber() {
-//        //FIXME:this shouldn't be here after accounting line refactor
-//        return super.getSequenceNumber()+this.getDocumentNumber().hashCode();
-//    }
+    /**
+     * @see org.kuali.module.purap.bo.PurApAccountingLineBase#getSequenceNumber()
+     */
+    @Override
+    public Integer getSequenceNumber() {
+        //FIXME:this shouldn't be here after accounting line refactor
+        if(ObjectUtils.isNotNull(super.getSequenceNumber())) {
+            return super.getSequenceNumber()+this.getDocumentNumber().hashCode();
+        } else {
+            return super.getSequenceNumber();
+        }
+    }
 
 }

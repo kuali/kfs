@@ -30,11 +30,13 @@
 <%@ attribute name="displayCreditMemoFields" required="false"
               description="Boolean to indicate if CM specific fields should be displayed" %>              
               
+<%@ attribute name="purchaseOrderAwarded" required="false"
+              description="Boolean to indicate if this is a PO that has been awarded" %>              
+
 <c:set var="vendorReadOnly" value="${(not empty KualiForm.editingMode['lockVendorEntry'])}" />
 <c:set var="amendmentEntry" value="${(not empty KualiForm.editingMode['amendmentEntry'])}" />
 <c:set var="editPreExtract"	value="${(not empty KualiForm.editingMode['editPreExtract'])}" />
 <c:set var="currentUserCampusCode" value="${UserSession.universalUser.campusCode}" />
-<c:set var="poAwarded"	value="${KualiForm.document.purchaseOrderAwarded}" />
 
 <kul:tab tabTitle="Vendor" defaultOpen="${not (displayRequisitionFields or displayPurchaseOrderFields)}" tabErrorKey="${PurapConstants.VENDOR_ERRORS}">
     <div class="tab-container" align=center>
@@ -51,8 +53,8 @@
                     <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.vendorName}" /></div>
                 </th>
                 <td align=left valign=middle class="datacell" width="25%">
-                    <kul:htmlControlAttribute attributeEntry="${documentAttributes.vendorName}" property="document.vendorName" readOnly="${not (fullEntryMode or amendmentEntry) or vendorReadOnly or displayPaymentRequestFields or displayCreditMemoFields or poAwarded}" />
-                    <c:if test="${(fullEntryMode or amendmentEntry) and (displayRequisitionFields or displayPurchaseOrderFields) and (!poAwarded)}" >
+                    <kul:htmlControlAttribute attributeEntry="${documentAttributes.vendorName}" property="document.vendorName" readOnly="${not (fullEntryMode or amendmentEntry) or vendorReadOnly or displayPaymentRequestFields or displayCreditMemoFields or purchaseOrderAwarded}" />
+                    <c:if test="${(fullEntryMode or amendmentEntry) and (displayRequisitionFields or displayPurchaseOrderFields) and (!purchaseOrderAwarded)}" >
                         <kul:lookup  boClassName="org.kuali.module.vendor.bo.VendorDetail" 
                         lookupParameters="'Y':activeIndicator, 'PO':vendorHeader.vendorTypeCode"
                         fieldConversions="vendorHeaderGeneratedIdentifier:document.vendorHeaderGeneratedIdentifier,vendorDetailAssignedIdentifier:document.vendorDetailAssignedIdentifier,defaultAddressLine1:document.vendorLine1Address,defaultAddressLine2:document.vendorLine2Address,defaultAddressCity:document.vendorCityName,defaultAddressPostalCode:document.vendorPostalCode,defaultAddressStateCode:document.vendorStateCode,defaultAddressCountryCode:document.vendorCountryCode"/>
@@ -62,7 +64,7 @@
                     <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.vendorCityName}" /></div>
                 </th>
                 <td align=left valign=middle class="datacell" width="25%">
-                    <kul:htmlControlAttribute attributeEntry="${documentAttributes.vendorCityName}" property="document.vendorCityName" readOnly="${not (fullEntryMode or amendmentEntry) or displayCreditMemoFields or poAwarded}" />
+                    <kul:htmlControlAttribute attributeEntry="${documentAttributes.vendorCityName}" property="document.vendorCityName" readOnly="${not (fullEntryMode or amendmentEntry) or displayCreditMemoFields}" />
                 </td>
             </tr>
 
@@ -77,7 +79,7 @@
                     <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.vendorStateCode}" /></div>
                 </th>
                 <td align=left valign=middle class="datacell">
-                    <kul:htmlControlAttribute attributeEntry="${documentAttributes.vendorStateCode}" property="document.vendorStateCode" readOnly="${not (fullEntryMode or amendmentEntry) or displayCreditMemoFields or poAwarded}" />
+                    <kul:htmlControlAttribute attributeEntry="${documentAttributes.vendorStateCode}" property="document.vendorStateCode" readOnly="${not (fullEntryMode or amendmentEntry) or displayCreditMemoFields}" />
                 </td>
             </tr>
 

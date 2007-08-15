@@ -26,6 +26,7 @@ import org.kuali.core.web.struts.form.KualiForm;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.budget.BCConstants.OrgSelOpMode;
 import org.kuali.module.budget.bo.BudgetConstructionOrganizationReports;
+import org.kuali.module.budget.bo.BudgetConstructionPullup;
 import org.kuali.module.chart.bo.Org;
 
 /**
@@ -35,6 +36,7 @@ public class OrganizationSelectionTreeForm extends KualiForm {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(OrganizationSelectionTreeForm.class);
     
     private BudgetConstructionOrganizationReports pointOfViewOrg;
+    private List <BudgetConstructionPullup> selectionSubTree; 
     private boolean hideDetails = false;
     private String operatingModeTitle;
 
@@ -190,6 +192,22 @@ public class OrganizationSelectionTreeForm extends KualiForm {
      */
     public void setPreviousPointOfViewKeyCode(String previousPointOfViewKeyCode) {
         this.previousPointOfViewKeyCode = previousPointOfViewKeyCode;
+    }
+
+    /**
+     * Gets the selectionSubTree attribute. 
+     * @return Returns the selectionSubTree.
+     */
+    public List<BudgetConstructionPullup> getSelectionSubTree() {
+        return selectionSubTree;
+    }
+
+    /**
+     * Sets the selectionSubTree attribute value.
+     * @param selectionSubTree The selectionSubTree to set.
+     */
+    public void setSelectionSubTree(List<BudgetConstructionPullup> selectionSubTree) {
+        this.selectionSubTree = selectionSubTree;
     }
 
 

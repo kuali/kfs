@@ -40,7 +40,6 @@ import org.kuali.module.financial.service.UniversityDateService;
 import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.PurapRuleConstants;
 import org.kuali.module.purap.PurapWorkflowConstants.NodeDetails;
-import org.kuali.module.purap.PurapWorkflowConstants.RequisitionDocument.NodeDetailEnum;
 import org.kuali.module.purap.bo.ItemType;
 import org.kuali.module.purap.bo.OrganizationParameter;
 import org.kuali.module.purap.bo.PurchaseOrderView;
@@ -313,7 +312,8 @@ public class PurapServiceImpl implements PurapService {
                 activeNode = nodeNames[0];
             }
             if (isGivenNodeEqualToOrAfterCurrentNode(givenNodeDetail.getNodeDetailByName(activeNode), givenNodeDetail)) {
-                ReportCriteriaVO reportCriteriaVO = new ReportCriteriaVO(Long.valueOf(document.getDocumentNumber()));
+                ReportCriteriaVO reportCriteriaVO = new ReportCriteriaVO(document.getDocumentHeader().getWorkflowDocument().getDocumentType());
+                reportCriteriaVO.setXmlContent(document.serializeDocumentToXml());
                 reportCriteriaVO.setTargetNodeName(givenNodeDetail.getName());
                 boolean value = SpringContext.getBean(KualiWorkflowInfo.class).documentWillHaveAtLeastOneActionRequest(
                         reportCriteriaVO, new String[]{EdenConstants.ACTION_REQUEST_APPROVE_REQ,EdenConstants.ACTION_REQUEST_COMPLETE_REQ});

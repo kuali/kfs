@@ -50,7 +50,7 @@ public class LedgerBalance extends Balance {
     private ObjectType financialObjectType;
     private Balance financialBalance;
 
-    private UniversalUser ledgerPerson; // follow naming convention?
+    private UniversalUser ledgerPerson;
     private LaborObject laborObject;
 
     /**

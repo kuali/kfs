@@ -266,6 +266,9 @@
 		<property name="laborLedgerBalanceDao">
 			<ref bean="laborLedgerBalanceDao" />
 		</property>
+		<property name="laborCalculatedSalaryFoundationTrackerService">
+			<ref bean="laborCalculatedSalaryFoundationTrackerService" />
+		</property>
 	</bean>
 	
 	<bean id="laborPositionDataLookupableHelperService" class="org.kuali.module.labor.web.lookupable.PositionDataLookupableHelperServiceImpl" singleton="false">
@@ -713,9 +716,9 @@
 		<property name="dataDictionaryService">
 			<ref bean="dataDictionaryService" />
 		</property>
-		<property name="laborDao">
-			<ref bean="laborDao" />
-		</property>
+		<property name="laborLedgerBalanceService">
+			<ref bean="laborLedgerBalanceService" />
+		</property>	
 	</bean>
 
 	<bean id="segmentedLookupResultsService" class="org.kuali.module.labor.service.impl.SegmentedLookupResultsServiceImpl">

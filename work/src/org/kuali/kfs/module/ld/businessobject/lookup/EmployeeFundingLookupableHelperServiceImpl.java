@@ -16,6 +16,8 @@
 package org.kuali.module.labor.web.lookupable;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -23,10 +25,12 @@ import java.util.Map;
 import org.kuali.core.bo.BusinessObject;
 import org.kuali.core.lookup.AbstractLookupableHelperServiceImpl;
 import org.kuali.core.lookup.CollectionIncomplete;
+import org.kuali.core.util.BeanPropertyComparator;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.module.labor.bo.EmployeeFunding;
 import org.kuali.module.labor.dao.LaborDao;
+import org.kuali.module.labor.service.LaborLedgerBalanceService;
 import org.kuali.module.labor.web.inquirable.EmployeeFundingInquirableImpl;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -38,7 +42,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class EmployeeFundingLookupableHelperServiceImpl extends AbstractLookupableHelperServiceImpl {
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(EmployeeFundingLookupableHelperServiceImpl.class);
-    private LaborDao laborDao;
+    private LaborLedgerBalanceService laborLedgerBalanceService;
 
     /**
      * @see org.kuali.core.lookup.Lookupable#getInquiryUrl(org.kuali.core.bo.BusinessObject, java.lang.String)
@@ -53,41 +57,41 @@ public class EmployeeFundingLookupableHelperServiceImpl extends AbstractLookupab
      */
     @Override
     public List getSearchResults(Map fieldValues) {
-
         setBackLocation((String) fieldValues.get(KFSConstants.BACK_LOCATION));
         setDocFormKey((String) fieldValues.get(KFSConstants.DOC_FORM_KEY));
 
-        // Parse the map and call the DAO to process the inquiry
-        Iterator searchResultsCollection = laborDao.getEmployeeFunding(fieldValues);
+        Collection searchResultsCollection = laborLedgerBalanceService.findEmployeeFundingWithCSFTracker(fieldValues);
 
-        List balanceInquiryCollection = new ArrayList();
-        while (searchResultsCollection.hasNext()) {
-            Object collectionEntry = searchResultsCollection.next();
+        // get the actual size of all qualified search results
+        Long actualSize = new Long(searchResultsCollection.size());
 
-            if (collectionEntry.getClass().isArray()) {
-                int i = 0;
-                Object[] array = (Object[]) collectionEntry;
-                EmployeeFunding employeeFunding = new EmployeeFunding();
-                employeeFunding.setAccountLineAnnualBalanceAmount(new KualiDecimal(array[i++].toString()));
-                employeeFunding.setUniversityFiscalYear(new Integer(array[i++].toString()));
-                employeeFunding.setChartOfAccountsCode(array[i++].toString());
-                employeeFunding.setAccountNumber(array[i++].toString());
-                employeeFunding.setSubAccountNumber(array[i++].toString());
-                employeeFunding.setFinancialObjectCode(array[i++].toString());
-                employeeFunding.setFinancialSubObjectCode(array[i++].toString());
-                employeeFunding.setPositionNumber(array[i++].toString());
-                employeeFunding.setEmplid(array[i++].toString());
-                balanceInquiryCollection.add(employeeFunding);
-            }
-        }
-        return new CollectionIncomplete(balanceInquiryCollection, new Long(0));
+        return this.buildSearchResultList(searchResultsCollection, actualSize);
     }
 
     /**
-     * Sets the laborDao attribute value.
-     * @param laborDao The laborDao to set.
+     * build the serach result list from the given collection and the number of all qualified search results
+     * 
+     * @param searchResultsCollection the given search results, which may be a subset of the qualified search results
+     * @param actualSize the number of all qualified search results
+     * @return the serach result list with the given results and actual size
      */
-    public void setLaborDao(LaborDao laborDao) {
-        this.laborDao = laborDao;
+    protected List buildSearchResultList(Collection searchResultsCollection, Long actualSize) {
+        CollectionIncomplete results = new CollectionIncomplete(searchResultsCollection, actualSize);
+
+        // sort list if default sort column given
+        List searchResults = (List) results;
+        List defaultSortColumns = getDefaultSortColumns();
+        if (defaultSortColumns.size() > 0) {
+            Collections.sort(results, new BeanPropertyComparator(defaultSortColumns, true));
+        }
+        return searchResults;
+    }
+
+    /**
+     * Sets the laborLedgerBalanceService attribute value.
+     * @param laborLedgerBalanceService The laborLedgerBalanceService to set.
+     */
+    public void setLaborLedgerBalanceService(LaborLedgerBalanceService laborLedgerBalanceService) {
+        this.laborLedgerBalanceService = laborLedgerBalanceService;
     }
 }

@@ -520,7 +520,6 @@ public class GeneralLedgerPendingEntryDaoOjb extends PlatformAwareDaoBaseOjb imp
         if (isOnlyApproved) {
             criteria.addIn("documentHeader.financialDocumentStatusCode", this.buildApprovalCodeList());
         }
-        criteria.addNotIn("documentHeader.financialDocumentStatusCode", this.buildExcludedStatusCodeList());
         criteria.addNotEqualTo("financialDocumentApprovedCode", KFSConstants.PENDING_ENTRY_APPROVED_STATUS_CODE.PROCESSED);
     }
 
@@ -534,19 +533,6 @@ public class GeneralLedgerPendingEntryDaoOjb extends PlatformAwareDaoBaseOjb imp
 
         approvalCodeList.add(KFSConstants.DocumentStatusCodes.APPROVED);
         return approvalCodeList;
-    }
-
-    /**
-     * build a status code list including the codes that will not be processed
-     * 
-     * @return a status code list including the codes that will not be processed
-     */
-    private List buildExcludedStatusCodeList() {
-        List exclusiveCodeList = new ArrayList();
-
-        exclusiveCodeList.add(KFSConstants.DocumentStatusCodes.CANCELLED);
-        exclusiveCodeList.add(KFSConstants.DocumentStatusCodes.DISAPPROVED);
-        return exclusiveCodeList;
     }
 
     /**

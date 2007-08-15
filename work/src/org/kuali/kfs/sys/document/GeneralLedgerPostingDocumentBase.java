@@ -29,6 +29,7 @@ import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSKeyConstants;
 import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
 import org.kuali.kfs.context.SpringContext;
+import org.kuali.kfs.service.GeneralLedgerPendingEntryService;
 import org.kuali.module.gl.service.SufficientFundsService;
 import org.kuali.module.gl.util.SufficientFundsItem;
 
@@ -119,18 +120,28 @@ public class GeneralLedgerPostingDocumentBase extends LedgerPostingDocumentBase 
     @Override
     public void handleRouteStatusChange() {
         super.handleRouteStatusChange();
-        changeGeneralLedgerPendingEntriesApprovedStatusCode(); // update all glpes for doc and set their status to approved
+        if (getDocumentHeader().getWorkflowDocument().stateIsProcessed()) {
+            changeGeneralLedgerPendingEntriesApprovedStatusCode(); // update all glpes for doc and set their status to approved
+        } else if (getDocumentHeader().getWorkflowDocument().stateIsCanceled() || getDocumentHeader().getWorkflowDocument().stateIsDisapproved()) {
+            removeGeneralLedgerPendingEntries();
+        }
     }
 
     /**
      * This method iterates over all of the GLPEs for a document and sets their approved status code to APPROVED "A".
      */
     private void changeGeneralLedgerPendingEntriesApprovedStatusCode() {
-        if (getDocumentHeader().getWorkflowDocument().stateIsProcessed()) {
-            for (GeneralLedgerPendingEntry glpe : getGeneralLedgerPendingEntries()) {
-                glpe.setFinancialDocumentApprovedCode(KFSConstants.DocumentStatusCodes.APPROVED);
-            }
+        for (GeneralLedgerPendingEntry glpe : getGeneralLedgerPendingEntries()) {
+            glpe.setFinancialDocumentApprovedCode(KFSConstants.DocumentStatusCodes.APPROVED);
         }
+    }
+    
+    /**
+     * This method calls the service to remove all of the GLPE's associated with this document
+     */
+    private void removeGeneralLedgerPendingEntries() {
+        GeneralLedgerPendingEntryService glpeService = SpringContext.getBean(GeneralLedgerPendingEntryService.class);
+        glpeService.delete(getDocumentHeader().getDocumentNumber());
     }
 
     /**

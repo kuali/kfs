@@ -1164,6 +1164,8 @@
 				<ref bean="posterReversalStep" />
 				<ref bean="posterIcrGenerationStep" />
 				<ref bean="posterIcrEntriesStep" />
+				<ref bean="icrEncumbranceGenerationStep" />
+				<ref bean="icrEncumbranceReversalStep" />
 			</list>
 		</property>
 		<property name="dependencies">

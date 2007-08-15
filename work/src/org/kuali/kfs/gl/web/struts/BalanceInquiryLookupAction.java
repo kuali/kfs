@@ -326,7 +326,7 @@ public class BalanceInquiryLookupAction extends KualiMultipleValueLookupAction {
         String lookupResultsSequenceNumber = String.valueOf(sequenceAccessorService.getNextAvailableSequenceNumber(KFSConstants.LOOKUP_RESULTS_SEQUENCE));
         multipleValueLookupForm.setLookupResultsSequenceNumber(lookupResultsSequenceNumber);
         try {
-            LookupResultsService lookupResultsService = SpringContext.getBean(LookupResultsService.class);
+            LookupResultsService lookupResultsService = SpringContext.getBean(LookupResultsService.class, "lookupResultsService");
             lookupResultsService.persistResultsTable(lookupResultsSequenceNumber, resultTable,
                     GlobalVariables.getUserSession().getUniversalUser().getPersonUniversalIdentifier());
         }

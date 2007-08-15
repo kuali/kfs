@@ -351,9 +351,9 @@ public class SubObjCdGlobal extends PersistableBusinessObjectBase implements Glo
     }
 
     public void populate(SubObjCd old, AccountGlobalDetail accountGlobalDetail, SubObjCdGlobalDetail subObjCdGlobalDetail) {
-        old.setFinancialSubObjectCodeName(update(financialSubObjectCodeName, old.getFinancialSubObjectCodeName()));
-        old.setFinancialSubObjectCdshortNm(update(financialSubObjectCodeShortName, old.getFinancialSubObjectCdshortNm()));
-        old.setFinancialSubObjectActiveIndicator(update(financialSubObjectActiveIndicator, old.isFinancialSubObjectActiveIndicator()));
+        old.setFinancialSubObjectCodeName(update(old.getFinancialSubObjectCodeName(),financialSubObjectCodeName));
+        old.setFinancialSubObjectCdshortNm(update(old.getFinancialSubObjectCdshortNm(),financialSubObjectCodeShortName));
+        old.setFinancialSubObjectActiveIndicator(update(old.isFinancialSubObjectActiveIndicator(),financialSubObjectActiveIndicator));        
     }
 
 

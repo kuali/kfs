@@ -27,10 +27,13 @@
             <inquirySections><inquirySection title="Header Text"><inquiryFields>
                 <field attributeName="vendorTypeCode" />
                 <field attributeName="vendorTypeDescription" />
+                <field attributeName="vendorAddressTypeRequiredCode" />
                 <field attributeName="vendorTaxNumberRequiredIndicator" />
                 <field attributeName="vendorTypeChangeAllowedIndicator" />
                 <field attributeName="vendorContractAllowedIndicator" />
-                <field attributeName="vendorAddressTypeRequiredCode" />
+                <field attributeName="vendorShowReviewIndicator" />
+                <field attributeName="vendorReviewText" />
+                <field attributeName="versionNumber" />
                 <field attributeName="active" />
             </inquiryFields></inquirySection></inquirySections>
         </inquiry>
@@ -49,22 +52,27 @@
             <lookupFields>
                 <lookupField attributeName="vendorTypeCode" required="false"/>
                 <lookupField attributeName="vendorTypeDescription" required="false" />
+                <lookupField attributeName="vendorAddressTypeRequiredCode" required="false" />
                 <lookupField attributeName="vendorTaxNumberRequiredIndicator" required="false" />
                 <lookupField attributeName="vendorTypeChangeAllowedIndicator" required="false" />
                 <lookupField attributeName="vendorContractAllowedIndicator" required="false" />
-                <lookupField attributeName="vendorAddressTypeRequiredCode" required="false" />
+                <lookupField attributeName="vendorShowReviewIndicator" />
+                <lookupField attributeName="vendorReviewText" />
+                <lookupField attributeName="versionNumber" />
                 <lookupField attributeName="active" required="false"/>               
             </lookupFields>
 
             <resultFields>
                 <field attributeName="vendorTypeCode" />
                 <field attributeName="vendorTypeDescription" />
+                <field attributeName="addressType.vendorAddressTypeDescription" />
                 <field attributeName="vendorTaxNumberRequiredIndicator" />
                 <field attributeName="vendorTypeChangeAllowedIndicator" />
                 <field attributeName="vendorContractAllowedIndicator" />
-                <field attributeName="addressType.vendorAddressTypeDescription" />
-                <field attributeName="active" />
                 <field attributeName="vendorShowReviewIndicator" />
+                <field attributeName="vendorReviewText" />
+                <field attributeName="versionNumber" />
+                <field attributeName="active" />
             </resultFields>
         </lookup>
 

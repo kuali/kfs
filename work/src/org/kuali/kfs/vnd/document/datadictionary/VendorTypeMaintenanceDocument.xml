@@ -50,14 +50,14 @@
                 <maintainableItems>
                     <maintainableField name="vendorTypeCode" required="true" />
                     <maintainableField name="vendorTypeDescription" required="true" />                   
+                    <maintainableField name="vendorAddressTypeRequiredCode" required="true" />
                     <maintainableField name="vendorTaxNumberRequiredIndicator" />
                     <maintainableField name="vendorTypeChangeAllowedIndicator" />
                     <maintainableField name="vendorContractAllowedIndicator" />
-                    <maintainableField name="vendorAddressTypeRequiredCode" required="true" />
-                    <maintainableField name="active" />
                     <maintainableField name="vendorShowReviewIndicator" />
                     <maintainableField name="vendorReviewText" />
                     <maintainableField name="versionNumber" />
+                    <maintainableField name="active" />
                 </maintainableItems>
             </maintainableSection>
         </maintainableSections>

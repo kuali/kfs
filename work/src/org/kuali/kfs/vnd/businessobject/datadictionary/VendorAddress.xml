@@ -60,18 +60,18 @@
             <lookupFields>
                 <lookupField attributeName="vendorHeaderGeneratedIdentifier" required="true" />
                 <lookupField attributeName="vendorDetailAssignedIdentifier" required="true" />
-                <lookupField attributeName="vendorAddressEmailAddress" required="false" />
                 <lookupField attributeName="vendorAddressTypeCode" required="false" />
                 <lookupField attributeName="vendorLine1Address" required="false" />
                 <lookupField attributeName="vendorLine2Address" required="false" />
-                <lookupField attributeName="vendorStateCode" required="false" />
                 <lookupField attributeName="vendorCityName" required="false" />
+                <lookupField attributeName="vendorStateCode" required="false" />
                 <lookupField attributeName="vendorZipCode" required="false" />
-                <lookupField attributeName="vendorFaxNumber" required="false" />
-                <lookupField attributeName="vendorCountryCode" required="false" />
                 <lookupField attributeName="vendorAddressInternationalProvinceName" required="false" />
+                <lookupField attributeName="vendorCountryCode" required="false" />
                 <lookupField attributeName="vendorAttentionName" required="false" />
                 <lookupField attributeName="vendorBusinessToBusinessUrlAddress" required="false" />
+                <lookupField attributeName="vendorFaxNumber" required="false" />
+                <lookupField attributeName="vendorAddressEmailAddress" required="false" />
                 <lookupField attributeName="active" required="false">
                 	<defaultValue>Y</defaultValue>
                 </lookupField> 

@@ -53,8 +53,8 @@
                     <maintainableField name="purchaseOrderContractLanguageIdentifier"/>
                 	<maintainableField name="campusCode" required="true"/>
                 	<maintainableField name="purchaseOrderContractLanguageDescription" required="true"/>
-                    <maintainableField name="active" />
                     <maintainableField name="contractLanguageCreateDate" readOnly="true"/>
+                    <maintainableField name="active" />
                 </maintainableItems>
             </maintainableSection>
         </maintainableSections>

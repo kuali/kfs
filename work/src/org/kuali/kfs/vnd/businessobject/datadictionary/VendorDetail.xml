@@ -173,7 +173,7 @@
     			<inquirySection title="Shipping Special Conditions">
                     <inquiryFields>
                         <inquiryCollection name="vendorShippingSpecialConditions" businessObjectClass="org.kuali.module.vendor.bo.VendorShippingSpecialCondition" summaryTitle="Shipping Special Condition" >
-                        	<field attributeName="vendorShippingSpecialCondition.vendorShippingSpecialConditionCode"/>
+                        	<field attributeName="vendorShippingSpecialConditionCode"/>
 							<field attributeName="active" />
                             <inquirySummaryFields>
            		       		    <inquirySummaryField attributeName="vendorShippingSpecialConditionCode" />
@@ -254,9 +254,7 @@
                 <lookupField attributeName="vendorName" required="false" />
                 <lookupField attributeName="vendorHeader.vendorTaxNumber" required="false" />
                 <lookupField attributeName="vendorNumber" required="false" />      
-                <lookupField attributeName="activeIndicator" required="false">
-                	<defaultValue>Y</defaultValue>
-                </lookupField> 
+                <lookupField attributeName="activeIndicator" required="false" />
                 <lookupField attributeName="vendorHeader.vendorTypeCode" required="false" />         
                 <lookupField attributeName="vendorAddresses.vendorStateCode" required="false" />                   
                 <lookupField attributeName="vendorHeader.vendorSupplierDiversities.vendorSupplierDiversityCode" required="false" />         

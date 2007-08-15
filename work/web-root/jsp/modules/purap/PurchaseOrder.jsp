@@ -71,7 +71,8 @@
 <c:if test="${not retransmitMode}" >
     <purap:vendor
         documentAttributes="${DataDictionary.PurchaseOrderDocument.attributes}" 
-        displayPurchaseOrderFields="true" />
+        displayPurchaseOrderFields="true"
+        purchaseOrderAwarded="${KualiForm.document.purchaseOrderAwarded}" />
 
     <purap:stipulationsAndInfo
         documentAttributes="${DataDictionary.PurchaseOrderDocument.attributes}" />

@@ -22,7 +22,11 @@
 		<transmissionDate>2005-10-05</transmissionDate>
 		<batchSequenceNumber>0</batchSequenceNumber>
 		<personUserId>kul</personUserId>
-		<workgroupName>@batch-mailing-list@</workgroupName>
+		<workgroupName>liangw@indiana.edu</workgroupName>
+		<campusCode>BL</campusCode>
+		<phoneNumber>123-456-7890</phoneNumber>
+		<mailingAddress>1500 Berkeley</mailingAddress>
+		<departmentName>Kuali Developers</departmentName>
 	</header>
 	<glEntry>
 		<universityFiscalYear>2006</universityFiscalYear>
@@ -33,9 +37,9 @@
 		<subObjectCode>WAC</subObjectCode>
 		<balanceTypeCode>AC</balanceTypeCode>
 		<objectTypeCode>EX</objectTypeCode>
-		<universityFiscalAccountingPeriod>04</universityFiscalAccountingPeriod>
+		<universityFiscalAccountingPeriod>06</universityFiscalAccountingPeriod>
 		<documentTypeCode>REQ</documentTypeCode>
-		<originCode>01</originCode>
+		<originationCode>01</originationCode>
 		<documentNumber>1000000</documentNumber>
 		<transactionEntrySequenceId>1</transactionEntrySequenceId>
 		<transactionLedgerEntryDescription>Description</transactionLedgerEntryDescription>
@@ -46,7 +50,7 @@
 		<projectCode>BAT</projectCode>
 		<organizationReferenceId>ORI</organizationReferenceId>
 		<referenceDocumentTypeCode>REQ</referenceDocumentTypeCode>
-		<referenceOriginCode>01</referenceOriginCode>
+		<referenceOriginationCode>01</referenceOriginationCode>
 		<referenceDocumentNumber>1234</referenceDocumentNumber>
 		<documentReversalDate>2005-10-31</documentReversalDate>
 		<encumbranceUpdateCode>D</encumbranceUpdateCode>
@@ -60,12 +64,15 @@
 		<subAccountNumber>CS001</subAccountNumber>
 		<objectCode>3000</objectCode>
 		<subObjectCode>WAC</subObjectCode>
-		<interDepartmentalBillingSequenceNumber>47</interDepartmentalBillingSequenceNumber>
+		<collectorDetailSequenceNumber>47</collectorDetailSequenceNumber>
 		<originationCode>01</originationCode>
 		<documentTypeCode>REQ</documentTypeCode>
 		<documentNumber>1000000</documentNumber>
 		<amount>1000000</amount>
 		<detailText>Line 1b</detailText>
+		<createDate>2007-08-01</createDate>
+		<balanceTypeCode>AC</balanceTypeCode>
+		<objectTypeCode>EX</objectTypeCode>
 	</detail>
 	<trailer>
 		<totalRecords>2</totalRecords>

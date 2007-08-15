@@ -26,6 +26,8 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.core.exceptions.AuthorizationException;
 import org.kuali.core.service.BusinessObjectService;
+import org.kuali.core.service.UniversalUserService;
+import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.UrlFactory;
 import org.kuali.core.web.struts.action.KualiAction;
 import org.kuali.kfs.KFSConstants;
@@ -33,6 +35,7 @@ import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.budget.BCConstants;
 import org.kuali.module.budget.BCConstants.OrgSelOpMode;
 import org.kuali.module.budget.bo.BudgetConstructionOrganizationReports;
+import org.kuali.module.budget.service.BudgetOrganizationTreeService;
 import org.kuali.module.budget.web.struts.form.OrganizationSelectionTreeForm;
 
 /**
@@ -105,7 +108,12 @@ public class OrganizationSelectionTreeAction extends KualiAction {
 
     public ActionForward returnToCaller(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-        OrganizationSelectionTreeForm orgSelTreeForm = (OrganizationSelectionTreeForm) form; 
+        OrganizationSelectionTreeForm orgSelTreeForm = (OrganizationSelectionTreeForm) form;
+        
+        // depopulate any selection subtrees for the user
+        String personUserIdentifier = GlobalVariables.getUserSession().getUniversalUser().getPersonUniversalIdentifier();
+        SpringContext.getBean(BudgetOrganizationTreeService.class).cleanPullup(personUserIdentifier);
+
         
         // setup the return parms for the document and anchor
         Properties parameters = new Properties();
@@ -146,6 +154,10 @@ public class OrganizationSelectionTreeAction extends KualiAction {
                 map.put("chartOfAccountsCode", flds[0]);
                 map.put("organizationCode", flds[1]);
                 organizationSelectionTreeForm.setPointOfViewOrg((BudgetConstructionOrganizationReports) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(BudgetConstructionOrganizationReports.class, map));
+                
+                // build a new selection subtree
+                String personUserIdentifier = GlobalVariables.getUserSession().getUniversalUser().getPersonUniversalIdentifier();
+                SpringContext.getBean(BudgetOrganizationTreeService.class).buildPullup(personUserIdentifier, flds[0], flds[1]);
             }
         } else {
             organizationSelectionTreeForm.setPointOfViewOrg(new BudgetConstructionOrganizationReports());

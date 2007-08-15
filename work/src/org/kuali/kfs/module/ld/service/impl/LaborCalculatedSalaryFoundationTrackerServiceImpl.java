@@ -20,6 +20,7 @@ import java.util.Map;
 
 import org.kuali.module.budget.bo.CalculatedSalaryFoundationTracker;
 import org.kuali.module.labor.bo.AccountStatusBaseFunds;
+import org.kuali.module.labor.bo.EmployeeFunding;
 import org.kuali.module.labor.dao.LaborCalculatedSalaryFoundationTrackerDao;
 import org.kuali.module.labor.service.LaborCalculatedSalaryFoundationTrackerService;
 import org.springframework.transaction.annotation.Transactional;
@@ -42,6 +43,14 @@ public class LaborCalculatedSalaryFoundationTrackerServiceImpl implements LaborC
      */
     public List<AccountStatusBaseFunds> findCSFTrackersAsAccountStatusBaseFunds(Map fieldValues, boolean isConsolidated) {
         return laborCalculatedSalaryFoundationTrackerDao.findCSFTrackersAsAccountStatusBaseFunds(fieldValues, isConsolidated);
+    }
+
+    /**
+     * @see org.kuali.module.labor.service.LaborCalculatedSalaryFoundationTrackerService#findCSFTrackersAsEmployeeFunding(java.util.Map,
+     *      boolean)
+     */
+    public List<EmployeeFunding> findCSFTrackersAsEmployeeFunding(Map fieldValues, boolean isConsolidated) {
+        return laborCalculatedSalaryFoundationTrackerDao.findCSFTrackersAsEmployeeFunding(fieldValues, isConsolidated);
     }
 
     /**

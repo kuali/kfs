@@ -20,11 +20,11 @@ import java.util.List;
 
 import org.kuali.core.exceptions.ValidationException;
 import org.kuali.core.rule.event.KualiDocumentEvent;
+import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.document.AccountingDocumentBase;
 import org.kuali.module.labor.bo.LaborLedgerPendingEntry;
 import org.kuali.module.labor.service.LaborLedgerPendingEntryService;
-
 
 /**
  * This is the base class implementation for all labor eDocs that are transactional, meaning implementing TransactionalDocumentBase.
@@ -55,7 +55,39 @@ public abstract class LaborLedgerPostingDocumentBase extends AccountingDocumentB
     public void setLaborLedgerPendingEntries(List<LaborLedgerPendingEntry> laborLedgerPendingEntries) {
         this.laborLedgerPendingEntries = laborLedgerPendingEntries;
     }
+   
+    /**
+     * Override to call super and then iterate over all GLPEs and update the approved code appropriately.
+     * 
+     * @see Document#handleRouteStatusChange()
+     */
+    @Override
+    public void handleRouteStatusChange() {
+        super.handleRouteStatusChange();
+        if (getDocumentHeader().getWorkflowDocument().stateIsProcessed()) {
+            changeLedgerPendingEntriesApprovedStatusCode();
+        } else if (getDocumentHeader().getWorkflowDocument().stateIsCanceled() || getDocumentHeader().getWorkflowDocument().stateIsDisapproved()) {
+            removeLedgerPendingEntries();
+        }
+    }
 
+    /**
+     * This method iterates over all of the pending entries for a document and sets their approved status code to APPROVED "A".
+     */
+    private void changeLedgerPendingEntriesApprovedStatusCode() {
+        for (LaborLedgerPendingEntry pendingEntry : laborLedgerPendingEntries) {
+            pendingEntry.setFinancialDocumentApprovedCode(KFSConstants.DocumentStatusCodes.APPROVED);
+        }
+    }
+    
+    /**
+     * This method calls the service to remove all of the pending entries associated with this document
+     */
+    private void removeLedgerPendingEntries() {
+        LaborLedgerPendingEntryService laborLedgerPendingEntryService = SpringContext.getBean(LaborLedgerPendingEntryService.class);
+        laborLedgerPendingEntryService.delete(getDocumentHeader().getDocumentNumber());
+    }
+    
     /**
      * This implementation is coupled tightly with some underlying issues that the Struts PojoProcessor plugin has with how objects
      * get instantiated within lists. The first three lines are required otherwise when the PojoProcessor tries to automatically

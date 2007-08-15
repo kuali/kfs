@@ -17,15 +17,17 @@ package org.kuali.module.labor.service;
 
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 import org.kuali.module.gl.bo.Transaction;
+import org.kuali.module.labor.bo.EmployeeFunding;
 import org.kuali.module.labor.bo.LedgerBalance;
 
 public interface LaborLedgerBalanceService {
 
     /**
-     * @param fiscalYear
+     * @param fiscalYear the given fiscal year
      * @return an Iterator over all balances for a given year
      */
     public Iterator<LedgerBalance> findBalancesForFiscalYear(Integer fiscalYear);
@@ -73,4 +75,20 @@ public interface LaborLedgerBalanceService {
      * @param transaction the given transaction information
      */
     public void updateLedgerBalance(LedgerBalance ledgerBalance, Transaction transaction);
+
+    /**
+     * find the funding by employee
+     * 
+     * @param fieldValues the given field values
+     * @return the funding by employee
+     */
+    public List<EmployeeFunding> findEmployeeFunding(Map fieldValues);
+    
+    /**
+     * find the employee funding with the corresponding CSF trakers
+     * 
+     * @param fieldValues the given field values
+     * @return the employee funding with the corresponding CSF trakers
+     */
+    public List<EmployeeFunding> findEmployeeFundingWithCSFTracker(Map fieldValues);
 }

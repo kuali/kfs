@@ -20,6 +20,7 @@ import java.util.Map;
 
 import org.kuali.module.budget.bo.CalculatedSalaryFoundationTracker;
 import org.kuali.module.labor.bo.AccountStatusBaseFunds;
+import org.kuali.module.labor.bo.EmployeeFunding;
 
 public interface LaborCalculatedSalaryFoundationTrackerDao {
     
@@ -40,4 +41,13 @@ public interface LaborCalculatedSalaryFoundationTrackerDao {
      * @return a collection of base budgets for Labor objects
      */
     List<AccountStatusBaseFunds> findCSFTrackersAsAccountStatusBaseFunds(Map fieldValues, boolean isConsolidated);
+
+    /**
+     * This method finds the CSF trackers according to input fields and values and converts the trackers into EmployeeFunding
+     * 
+     * @param fieldValues the input fields and values
+     * @param isConsolidated consolidation option is applied or not
+     * @return a collection of CSF trackers as EmployeeFunding
+     */    
+    List<EmployeeFunding> findCSFTrackersAsEmployeeFunding(Map fieldValues, boolean isConsolidated);
 }

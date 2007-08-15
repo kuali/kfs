@@ -16,11 +16,13 @@
 package org.kuali.module.labor.dao.ojb;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.ojb.broker.query.Criteria;
+import org.apache.ojb.broker.query.Query;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
 import org.kuali.core.dao.ojb.PlatformAwareDaoBaseOjb;
@@ -30,6 +32,7 @@ import org.kuali.module.gl.util.OJBUtility;
 import org.kuali.module.gl.web.Constant;
 import org.kuali.module.labor.LaborConstants;
 import org.kuali.module.labor.bo.AccountStatusBaseFunds;
+import org.kuali.module.labor.bo.EmployeeFunding;
 import org.kuali.module.labor.dao.LaborCalculatedSalaryFoundationTrackerDao;
 import org.kuali.module.labor.util.ConsolidationUtil;
 import org.kuali.module.labor.util.ObjectUtil;
@@ -43,12 +46,21 @@ public class LaborCalculatedSalaryFoundationTrackerDaoOjb extends PlatformAwareD
     public List<CalculatedSalaryFoundationTracker> findCSFTrackers(Map fieldValues, boolean isConsolidated) {
         LOG.debug("Start findCSFTrackers()");
 
-        Iterator<Object[]> queryResults = this.findCSFTrackerRawData(fieldValues, isConsolidated);
-        List<CalculatedSalaryFoundationTracker> CSFCollection = new ArrayList<CalculatedSalaryFoundationTracker>();
-        while (queryResults != null && queryResults.hasNext()) {
-            CSFCollection.add(this.marshalCSFTracker(queryResults.next()));
+        List<CalculatedSalaryFoundationTracker> csfTrackerCollection = new ArrayList<CalculatedSalaryFoundationTracker>();
+        if (isConsolidated) {
+            List<String> groupByList = getGroupByList(isConsolidated);
+            List<String> attributeList = getAttributeListForCSFTracker(isConsolidated, false);
+
+            Iterator<Object[]> queryResults = this.findConsolidatedCSFTrackerRawData(fieldValues, groupByList, attributeList);
+
+            while (queryResults != null && queryResults.hasNext()) {
+                csfTrackerCollection.add(this.marshalCSFTracker(queryResults.next()));
+            }
         }
-        return CSFCollection;
+        else{
+            csfTrackerCollection.addAll(findDetailedCSFTrackerRawData(fieldValues));
+        }
+        return csfTrackerCollection;
     }
 
     /**
@@ -57,16 +69,36 @@ public class LaborCalculatedSalaryFoundationTrackerDaoOjb extends PlatformAwareD
     public List<AccountStatusBaseFunds> findCSFTrackersAsAccountStatusBaseFunds(Map fieldValues, boolean isConsolidated) {
         LOG.debug("Start findCSFTrackersAsAccountStatusBaseFunds()");
 
-        Iterator<Object[]> queryResults = this.findCSFTrackerRawData(fieldValues, isConsolidated);
-        List<AccountStatusBaseFunds> BaseFundsCollection = new ArrayList<AccountStatusBaseFunds>();
+        List<String> groupByList = getGroupByList(isConsolidated);
+        List<String> attributeList = getAttributeListForCSFTracker(isConsolidated, false);
+
+        Iterator<Object[]> queryResults = this.findConsolidatedCSFTrackerRawData(fieldValues, groupByList, attributeList);
+        List<AccountStatusBaseFunds> baseFundsCollection = new ArrayList<AccountStatusBaseFunds>();
         while (queryResults != null && queryResults.hasNext()) {
-            BaseFundsCollection.add(this.marshalCSFTrackerAsAccountStatusBaseFunds(queryResults.next()));
+            baseFundsCollection.add(this.marshalCSFTrackerAsAccountStatusBaseFunds(queryResults.next()));
         }
-        return BaseFundsCollection;
+        return baseFundsCollection;
     }
-    
-    // get the CSF trackers according to the given criteria
-    private Iterator<Object[]> findCSFTrackerRawData(Map fieldValues, boolean isConsolidated) {
+
+    /**
+     * @see org.kuali.module.labor.dao.LaborCalculatedSalaryFoundationTrackerDao#findCSFTrackersAsEmployeeFunding(java.util.Map,
+     *      boolean)
+     */
+    public List<EmployeeFunding> findCSFTrackersAsEmployeeFunding(Map fieldValues, boolean isConsolidated) {
+        LOG.debug("Start findCSFTrackersAsEmployeeFunding()");
+
+        List<CalculatedSalaryFoundationTracker> csfTrackerCollection = findCSFTrackers(fieldValues, isConsolidated);
+        List<EmployeeFunding> employeeFundingCollection = new ArrayList<EmployeeFunding>();
+        for (CalculatedSalaryFoundationTracker csfTracker : csfTrackerCollection) {
+            EmployeeFunding employeeFunding = new EmployeeFunding();
+            ObjectUtil.buildObject(employeeFunding, csfTracker);
+            employeeFundingCollection.add(employeeFunding);
+        }
+        return employeeFundingCollection;
+    }
+
+    // get the Consolidated CSF trackers according to the given criteria
+    private Iterator<Object[]> findConsolidatedCSFTrackerRawData(Map fieldValues, List<String> groupByList, List<String> attributeList) {
 
         Criteria tempCriteria1 = new Criteria();
         tempCriteria1.addEqualTo(KFSPropertyConstants.CSF_DELETE_CODE, LaborConstants.DASHES_DELETE_CODE);
@@ -82,17 +114,34 @@ public class LaborCalculatedSalaryFoundationTrackerDaoOjb extends PlatformAwareD
 
         ReportQueryByCriteria query = QueryFactory.newReportQuery(CalculatedSalaryFoundationTracker.class, criteria);
 
-        List<String> groupByList = getGroupByList(isConsolidated);
         String[] groupBy = (String[]) groupByList.toArray(new String[groupByList.size()]);
         query.addGroupBy(groupBy);
 
-        List<String> getAttributeList = getAttributeListForCSFTracker(isConsolidated, false);
-        String[] attributes = (String[]) getAttributeList.toArray(new String[getAttributeList.size()]);
+        String[] attributes = (String[]) attributeList.toArray(new String[attributeList.size()]);
         query.setAttributes(attributes);
 
         return getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(query);
     }
     
+    // get the detailed CSF trackers according to the given criteria
+    private Collection<CalculatedSalaryFoundationTracker> findDetailedCSFTrackerRawData(Map fieldValues) {
+
+        Criteria tempCriteria1 = new Criteria();
+        tempCriteria1.addEqualTo(KFSPropertyConstants.CSF_DELETE_CODE, LaborConstants.DASHES_DELETE_CODE);
+
+        Criteria tempCriteria2 = new Criteria();
+        tempCriteria2.addIsNull(KFSPropertyConstants.CSF_DELETE_CODE);
+
+        /* KFSPropertyConstants.CSF_DELETE_CODE = "-" OR is null */
+        tempCriteria2.addOrCriteria(tempCriteria1);
+
+        Criteria criteria = OJBUtility.buildCriteriaFromMap(fieldValues, new CalculatedSalaryFoundationTracker());
+        criteria.addAndCriteria(tempCriteria2);
+
+        Query query = QueryFactory.newQuery(CalculatedSalaryFoundationTracker.class, criteria);
+        return getPersistenceBrokerTemplate().getCollectionByQuery(query);
+    }
+
     // marshal into CalculatedSalaryFoundationTracker from the query result
     private CalculatedSalaryFoundationTracker marshalCSFTracker(Object[] queryResult) {
         CalculatedSalaryFoundationTracker CSFTracker = new CalculatedSalaryFoundationTracker();
@@ -110,7 +159,16 @@ public class LaborCalculatedSalaryFoundationTrackerDaoOjb extends PlatformAwareD
         ObjectUtil.buildObject(baseFunds, queryResult, keyFields);
         return baseFunds;
     }
-    
+
+    // marshal into EmployeeFunding from the query results
+    private EmployeeFunding marshalCSFTrackerAsEmployeeFunding(Object[] queryResult) {
+        EmployeeFunding employeeFunding = new EmployeeFunding();
+        List<String> keyFields = this.getAttributeListForCSFTracker(false, true);
+
+        ObjectUtil.buildObject(employeeFunding, queryResult, keyFields);
+        return employeeFunding;
+    }
+
     // define a list of attributes that are used as the grouping criteria
     private List<String> getGroupByList(boolean isConsolidated) {
         List<String> groupByList = new ArrayList<String>();

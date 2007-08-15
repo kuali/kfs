@@ -51,38 +51,26 @@
                 <field attributeName="subAccountNumber" />
                 <field attributeName="financialObjectCode" />
                 <field attributeName="financialSubObjectCode" />
-				<field attributeName="positionNumber" />	
-				<field attributeName="accountLineAnnualBalanceAmount" />				
-				<field attributeName="outstandingEncum" />
+				<field attributeName="positionNumber" />
+				<field attributeName="csfDeleteCode" />				
+				<field attributeName="csfFundingStatusCode" />
+				<field attributeName="csfTimePercent" />	
+				<field attributeName="csfAmount" />	
+				<field attributeName="currentAmount" />				
+				<field attributeName="outstandingEncumbrance" />
 				<field attributeName="totalAmount" />
 												
             </resultFields>
         </lookup>
 
         <attributes>
-            <attribute name="positionNumber" forceUppercase="true">
-                <label>Position</label>
-                <shortLabel>Number</shortLabel>
+            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
+            <attributeReference name="emplid" sourceClassName="org.kuali.core.bo.user.UniversalUser" sourceAttributeName="personPayrollIdentifier"/>
+            <attributeReference name="personName" sourceClassName="org.kuali.core.bo.user.UniversalUser" sourceAttributeName="personName" />
+            <attributeReference name="positionNumber" sourceClassName="org.kuali.module.labor.bo.PositionData" sourceAttributeName="positionNumber"/>
 
-                <maxLength>8</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="10" />
-                </control>
-
-                <summary>positionNumber</summary>
-                <description>positionNumber description...</description>
-			</attribute>
-
-            <attributeReference name="universityFiscalYear" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericFiscalYear">
-                <label>Fiscal Year</label>
-                <shortLabel>Fiscal Year</shortLabel>
-                <description>Identifies the Fiscal Year to which the balances apply.</description>
-            </attributeReference>
-
+            <attributeReference name="universityFiscalYear" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericFiscalYear"/>
             <attributeReference name="subAccountNumber" sourceClassName="org.kuali.module.chart.bo.SubAccount" sourceAttributeName="subAccountNumber" />          
-
 			<attributeReference name="accountNumber" sourceClassName="org.kuali.module.chart.bo.Account" sourceAttributeName="accountNumber" />
 			<attributeReference name="chartOfAccountsCode" sourceClassName="org.kuali.module.chart.bo.Chart" sourceAttributeName="chartOfAccountsCode" />
 			<attributeReference name="financialBalanceTypeCode" sourceClassName="org.kuali.module.chart.bo.codes.BalanceTyp" sourceAttributeName="code">
@@ -90,86 +78,21 @@
 					<hidden />
 				</control>
 			</attributeReference>
+			
 			<attributeReference name="financialObjectCode" sourceClassName="org.kuali.module.chart.bo.ObjectCode" sourceAttributeName="financialObjectCode" />
 			<attributeReference name="financialObjectTypeCode" sourceClassName="org.kuali.module.chart.bo.ObjectType" sourceAttributeName="code" />
 			<attributeReference name="financialSubObjectCode" sourceClassName="org.kuali.module.chart.bo.SubObjCd" sourceAttributeName="financialSubObjectCode" />
 
-            <attributeReference name="financialBeginningBalanceLineAmount" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericAmount">
-                <label>Total</label>
-                <shortLabel>Total</shortLabel>
-                <summary>Total</summary>
-                <description>beginningBalanceLineAmount description...</description>
-                <formatterClass>org.kuali.core.web.format.CurrencyFormatter</formatterClass>
-            </attributeReference>
-			
-            <attributeReference name="month1Amount" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericAmount">
-                <label>YTD Actual</label>
-                <formatterClass>org.kuali.core.web.format.CurrencyFormatter</formatterClass>
-            </attributeReference>
-
-            <attributeReference name="outstandingEncum" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericAmount">
-                <label>Encumb</label>
+            <attributeReference name="outstandingEncumbrance" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericAmount">
+                <label>Encumbance Amount</label>
                 <shortLabel>Encumb</shortLabel>
                 <summary>Outstanding Encumberances</summary>
                 <description>OutstandingEncum description...</description>
                 <formatterClass>org.kuali.core.web.format.CurrencyFormatter</formatterClass>
             </attributeReference>
 			
-            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
-
-            <attributeReference name="dummyBusinessObject.genericAmount" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericAmount">
-                <label>Year End Close</label>
-                <shortLabel>Year End Close</shortLabel>
-                <summary>Year End Close</summary>
-                <description>Year End Close Amount...</description>
-                <formatterClass>org.kuali.core.web.format.CurrencyFormatter</formatterClass>
-            </attributeReference>
-
-            <attributeReference name="emplid" 
-                     sourceClassName="org.kuali.core.bo.user.UniversalUser" 
-                 sourceAttributeName="personPayrollIdentifier">
-                <required>true</required>
-            </attributeReference>
-
-
-            <attributeReference name="ledgerPerson.personUniversalIdentifier" sourceClassName="org.kuali.core.bo.user.UniversalUser" sourceAttributeName="personUniversalIdentifier">
-                <label>Employee Univ ID</label>
-                <shortLabel>EmplUnvId</shortLabel>
-                <displayLabelAttribute>ledgerPerson.personUserIdentifier</displayLabelAttribute>
-                <required>false</required>
-                <control>
-                    <hidden />
-                </control>
-            </attributeReference>
-                        
-            <attributeReference name="ledgerPerson.personUserIdentifier" sourceClassName="org.kuali.core.bo.user.UniversalUser" sourceAttributeName="personUserIdentifier">
-                <label>Employee User ID</label>
-                <shortLabel>UserID</shortLabel>
-                <required>false</required>
-                <control>
-                    <kualiUser universalIdAttributeName="ledgerPerson.personUniversalIdentifier" userIdAttributeName="ledgerPerson.personUserIdentifier" personNameAttributeName="ledgerPerson.personName" />
-                </control>
-                <summary>
-                    <![CDATA[&nbsp;]]>
-                </summary>
-                <description>Employee User Name</description>
-            </attributeReference>
-
-            <attributeReference name="ledgerPerson.personName" sourceClassName="org.kuali.core.bo.user.UniversalUser" sourceAttributeName="personName">
-                <label>Employee Name</label>
-                <shortLabel>Name</shortLabel>
-                <required>false</required>
-                <control>
-                    <hidden />
-                </control>
-                <summary>
-                    <![CDATA[&nbsp;]]>
-                </summary>
-                <description>Employee Name</description>
-            </attributeReference>
-
-		    <attributeReference name="accountLineAnnualBalanceAmount" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericAmount">
-                <label>Current</label>
+		    <attributeReference name="currentAmount" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericAmount">
+                <label>Current Amount</label>
                 <shortLabel>Current</shortLabel>
                 <summary>accountLineAnnualBalanceAmount</summary>
                 <description>accountLineAnnualBalanceAmount description...</description>
@@ -177,21 +100,22 @@
             </attributeReference>
 
 			<attributeReference name="totalAmount" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericAmount">
-                <label>Total</label>
-                <shortLabel>Current</shortLabel>
+                <label>Total Amount</label>
+                <shortLabel>Total</shortLabel>
                 <summary>totalAmount</summary>
                 <description>totalAmount description...</description>
                 <formatterClass>org.kuali.core.web.format.CurrencyFormatter</formatterClass>
-            </attributeReference>			
-        </attributes>
+            </attributeReference>	
 
-        <relationships>
-            <relationship objectAttributeName="ledgerPerson" >
-                <primitiveAttribute sourceName="ledgerPerson.personUniversalIdentifier" targetName="personUniversalIdentifier" />
-				<supportAttribute sourceName="emplid" targetName="personPayrollIdentifier" identifier="true" />
-				<supportAttribute sourceName="ledgerPerson.personUserIdentifier" targetName="personUserIdentifier" identifier="true"/>
-				<supportAttribute sourceName="ledgerPerson.personName" targetName="personName" />
-            </relationship>
-        </relationships>
+            <attributeReference name="month1Amount" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericAmount">
+                <label>YTD Actual</label>
+                <formatterClass>org.kuali.core.web.format.CurrencyFormatter</formatterClass>
+            </attributeReference>		
+        
+	        <attributeReference name="csfAmount" sourceClassName="org.kuali.module.budget.bo.CalculatedSalaryFoundationTracker" sourceAttributeName="csfAmount"/>	
+	        <attributeReference name="csfDeleteCode" sourceClassName="org.kuali.module.budget.bo.CalculatedSalaryFoundationTracker" sourceAttributeName="csfDeleteCode"/>	
+	        <attributeReference name="csfTimePercent" sourceClassName="org.kuali.module.budget.bo.CalculatedSalaryFoundationTracker" sourceAttributeName="csfTimePercent"/>
+	        <attributeReference name="csfFundingStatusCode" sourceClassName="org.kuali.module.budget.bo.CalculatedSalaryFoundationTracker" sourceAttributeName="csfFundingStatusCode"/>
+		</attributes>
     </businessObject>
 </dictionaryEntry>

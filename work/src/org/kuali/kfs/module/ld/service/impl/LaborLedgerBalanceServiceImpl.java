@@ -21,25 +21,33 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.collections.IteratorUtils;
+import org.kuali.core.bo.user.PersonPayrollId;
+import org.kuali.core.bo.user.UniversalUser;
+import org.kuali.core.bo.user.UserId;
+import org.kuali.core.exceptions.UserNotFoundException;
+import org.kuali.core.service.UniversalUserService;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.TransactionalServiceUtils;
 import org.kuali.kfs.KFSConstants;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.gl.bo.Transaction;
 import org.kuali.module.gl.util.OJBUtility;
+import org.kuali.module.labor.LaborConstants;
+import org.kuali.module.labor.bo.AccountStatusBaseFunds;
+import org.kuali.module.labor.bo.EmployeeFunding;
 import org.kuali.module.labor.bo.LedgerBalance;
 import org.kuali.module.labor.dao.LaborLedgerBalanceDao;
+import org.kuali.module.labor.service.LaborCalculatedSalaryFoundationTrackerService;
 import org.kuali.module.labor.service.LaborLedgerBalanceService;
 import org.kuali.module.labor.util.ObjectUtil;
 import org.springframework.transaction.annotation.Transactional;
 
-/**
- * This class is the OJB implementation of the Balance Service
- */
 @Transactional
 public class LaborLedgerBalanceServiceImpl implements LaborLedgerBalanceService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(LaborLedgerBalanceServiceImpl.class);
 
     private LaborLedgerBalanceDao laborLedgerBalanceDao;
+    private LaborCalculatedSalaryFoundationTrackerService laborCalculatedSalaryFoundationTrackerService;
 
     /**
      * @see org.kuali.module.labor.service.LaborLedgerBalanceService#findBalancesForFiscalYear(java.lang.Integer)
@@ -117,10 +125,84 @@ public class LaborLedgerBalanceServiceImpl implements LaborLedgerBalanceService 
     }
 
     /**
+     * @see org.kuali.module.labor.service.LaborLedgerBalanceService#findEmployeeFunding(java.util.Map)
+     */
+    public List<EmployeeFunding> findEmployeeFunding(Map fieldValues) {
+        List<EmployeeFunding> currentFundsCollection = laborLedgerBalanceDao.findCurrentEmployeeFunds(fieldValues);
+        List<EmployeeFunding> encumbranceFundsCollection = laborLedgerBalanceDao.findEncumbranceEmployeeFunds(fieldValues);
+        
+        // merge encumberance with the current funds
+        for (EmployeeFunding encumbranceFunding : encumbranceFundsCollection) {
+            KualiDecimal encumbrance = encumbranceFunding.getAccountLineAnnualBalanceAmount().add(encumbranceFunding.getContractsGrantsBeginningBalanceAmount());
+            encumbranceFunding.setOutstandingEncumbrance(encumbrance);
+
+            if (currentFundsCollection.contains(encumbranceFunding)) {
+                int index = currentFundsCollection.indexOf(encumbranceFunding);
+                currentFundsCollection.get(index).setOutstandingEncumbrance(encumbranceFunding.getOutstandingEncumbrance());
+            }
+            else {
+                currentFundsCollection.add(encumbranceFunding);
+            }
+        }
+
+        // update the employee fundings
+        for (EmployeeFunding employeeFunding : currentFundsCollection) {
+            employeeFunding.setPersonName(employeeFunding.getEmplid());
+            employeeFunding.setCurrentAmount(employeeFunding.getAccountLineAnnualBalanceAmount());
+        }
+        return currentFundsCollection;
+    }
+
+    /**
+     * @see org.kuali.module.labor.service.LaborLedgerBalanceService#findEmployeeFundingWithCSFTracker(java.util.Map)
+     */
+    public List<EmployeeFunding> findEmployeeFundingWithCSFTracker(Map fieldValues) {
+        List<EmployeeFunding> currentFundsCollection = this.findEmployeeFunding(fieldValues);
+        List<EmployeeFunding> CSFTrackersCollection = laborCalculatedSalaryFoundationTrackerService.findCSFTrackersAsEmployeeFunding(fieldValues, false);
+
+        for (EmployeeFunding employeeFunding : currentFundsCollection) {
+            if (CSFTrackersCollection.contains(employeeFunding)) {
+                int index = CSFTrackersCollection.indexOf(employeeFunding);
+                EmployeeFunding CSFTracker = CSFTrackersCollection.get(index);
+                
+                // TODO: make sure if there are multiple csf trackers for a single employee funding 
+                employeeFunding.setCsfDeleteCode(CSFTracker.getCsfDeleteCode());
+                employeeFunding.setCsfTimePercent(CSFTracker.getCsfTimePercent());
+                employeeFunding.setCsfFundingStatusCode(CSFTracker.getCsfFundingStatusCode());
+                employeeFunding.setCsfAmount(CSFTracker.getCsfAmount());
+            }
+        }               
+        return currentFundsCollection;
+    }
+
+    // get the person name through employee id
+    private String getPersonName(String emplid) {
+        UserId empl = new PersonPayrollId(emplid);
+        UniversalUser universalUser = null;
+
+        try {
+            universalUser = SpringContext.getBean(UniversalUserService.class, "universalUserService").getUniversalUser(empl);
+        }
+        catch (UserNotFoundException e) {
+            return LaborConstants.BalanceInquiries.UnknownPersonName;
+        }
+        return universalUser.getPersonName();
+    }
+
+    /**
      * Sets the laborLedgerBalanceDao attribute value.
+     * 
      * @param laborLedgerBalanceDao The laborLedgerBalanceDao to set.
      */
     public void setLaborLedgerBalanceDao(LaborLedgerBalanceDao laborLedgerBalanceDao) {
         this.laborLedgerBalanceDao = laborLedgerBalanceDao;
+    }
+
+    /**
+     * Sets the laborCalculatedSalaryFoundationTrackerService attribute value.
+     * @param laborCalculatedSalaryFoundationTrackerService The laborCalculatedSalaryFoundationTrackerService to set.
+     */
+    public void setLaborCalculatedSalaryFoundationTrackerService(LaborCalculatedSalaryFoundationTrackerService laborCalculatedSalaryFoundationTrackerService) {
+        this.laborCalculatedSalaryFoundationTrackerService = laborCalculatedSalaryFoundationTrackerService;
     }
 }

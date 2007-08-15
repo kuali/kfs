@@ -15,10 +15,8 @@
  */
 package org.kuali.module.labor.web.lookupable;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -26,10 +24,7 @@ import org.kuali.core.bo.BusinessObject;
 import org.kuali.core.lookup.AbstractLookupableHelperServiceImpl;
 import org.kuali.core.lookup.CollectionIncomplete;
 import org.kuali.core.util.BeanPropertyComparator;
-import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.KFSConstants;
-import org.kuali.module.labor.bo.EmployeeFunding;
-import org.kuali.module.labor.dao.LaborDao;
 import org.kuali.module.labor.service.LaborLedgerBalanceService;
 import org.kuali.module.labor.web.inquirable.EmployeeFundingInquirableImpl;
 import org.springframework.transaction.annotation.Transactional;
@@ -89,6 +84,7 @@ public class EmployeeFundingLookupableHelperServiceImpl extends AbstractLookupab
 
     /**
      * Sets the laborLedgerBalanceService attribute value.
+     * 
      * @param laborLedgerBalanceService The laborLedgerBalanceService to set.
      */
     public void setLaborLedgerBalanceService(LaborLedgerBalanceService laborLedgerBalanceService) {

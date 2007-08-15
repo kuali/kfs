@@ -96,4 +96,10 @@ public interface LaborLedgerPendingEntryService {
      * @param isApproved Retrieve approved or unapproved entries?
      */
     public Collection findPendingEntries(Map fieldValues, boolean isApproved);
+    
+    /**
+     * delete pending entries with the given document header id 
+     * @param documentHeaderId
+     */
+    public void delete(String documentHeaderId);
 }

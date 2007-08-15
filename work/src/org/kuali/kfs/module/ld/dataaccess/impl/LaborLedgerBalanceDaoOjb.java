@@ -32,6 +32,7 @@ import static org.kuali.module.labor.util.ConsolidationUtil.buildConsolidatedQue
 import static org.kuali.module.labor.util.ConsolidationUtil.buildGroupByCollection;
 import static org.kuali.module.labor.util.ConsolidationUtil.sum;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
@@ -49,8 +50,12 @@ import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.module.gl.util.OJBUtility;
+import org.kuali.module.labor.LaborConstants;
+import org.kuali.module.labor.bo.EmployeeFunding;
 import org.kuali.module.labor.bo.LedgerBalance;
 import org.kuali.module.labor.dao.LaborLedgerBalanceDao;
+import org.kuali.module.labor.util.ConsolidationUtil;
+import org.kuali.module.labor.util.ObjectUtil;
 
 public class LaborLedgerBalanceDaoOjb extends PlatformAwareDaoBaseOjb implements LaborLedgerBalanceDao {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(LaborLedgerBalanceDaoOjb.class);
@@ -170,7 +175,151 @@ public class LaborLedgerBalanceDaoOjb extends PlatformAwareDaoBaseOjb implements
     }
 
     /**
-     * @param kualiConfigurationService
+     * @see org.kuali.module.labor.dao.LaborLedgerBalanceDao#findCurrentFunds(java.util.Map)
+     */
+    public List<LedgerBalance> findCurrentFunds(Map fieldValues) {
+        LOG.debug("Start findCurrentFunds()");
+
+        Iterator<Object[]> queryResults = this.findCurrentFundsRawData(fieldValues);
+        List<LedgerBalance> currentFundsCollection = new ArrayList<LedgerBalance>();
+        while (queryResults != null && queryResults.hasNext()) {
+            currentFundsCollection.add(this.marshalFundsAsLedgerBalance(queryResults.next()));
+        }
+        return currentFundsCollection;
+    }
+
+    /**
+     * @see org.kuali.module.labor.dao.LaborLedgerBalanceDao#findEncumbranceFunds(java.util.Map)
+     */
+    public List<LedgerBalance> findEncumbranceFunds(Map fieldValues) {
+        LOG.debug("Start findEncumbranceFunds()");
+
+        Iterator<Object[]> queryResults = this.findEncumbranceFundsRawData(fieldValues);
+        List<LedgerBalance> currentFundsCollection = new ArrayList<LedgerBalance>();
+        while (queryResults != null && queryResults.hasNext()) {
+            currentFundsCollection.add(this.marshalFundsAsLedgerBalance(queryResults.next()));
+        }
+        return currentFundsCollection;
+    }
+
+    /**
+     * @see org.kuali.module.labor.dao.LaborLedgerBalanceDao#findCurrentEmployeeFunds(java.util.Map)
+     */
+    public List<EmployeeFunding> findCurrentEmployeeFunds(Map fieldValues) {
+        LOG.debug("Start findCurrentEmployeeFunds()");
+
+        Iterator<Object[]> queryResults = this.findCurrentFundsRawData(fieldValues);
+        List<EmployeeFunding> currentFundsCollection = new ArrayList<EmployeeFunding>();
+        while (queryResults != null && queryResults.hasNext()) {
+            currentFundsCollection.add(this.marshalFundsAsEmployeeFunding(queryResults.next()));
+        }
+        return currentFundsCollection;
+    }
+
+    /**
+     * @see org.kuali.module.labor.dao.LaborLedgerBalanceDao#findEncumbranceEmployeeFunds(java.util.Map)
+     */
+    public List<EmployeeFunding> findEncumbranceEmployeeFunds(Map fieldValues) {
+        LOG.debug("Start findCurrentEmployeeFunds()");
+
+        Iterator<Object[]> queryResults = this.findEncumbranceFundsRawData(fieldValues);
+        List<EmployeeFunding> currentFundsCollection = new ArrayList<EmployeeFunding>();
+        while (queryResults != null && queryResults.hasNext()) {
+            currentFundsCollection.add(this.marshalFundsAsEmployeeFunding(queryResults.next()));
+        }
+        return currentFundsCollection;
+    }
+
+    // get the current funds according to the given criteria
+    private Iterator<Object[]> findCurrentFundsRawData(Map fieldValues) {
+        Criteria criteria = OJBUtility.buildCriteriaFromMap(fieldValues, new LedgerBalance());
+        criteria.addEqualTo(KFSPropertyConstants.FINANCIAL_BALANCE_TYPE_CODE, LaborConstants.BalanceInquiries.ACTUALS_CODE);
+
+        List<String> objectTypeCodes = new ArrayList<String>();
+        objectTypeCodes.add(LaborConstants.BalanceInquiries.EMPLOYEE_FUNDING_EXPENSE_OBJECT_TYPE_CODE);
+        objectTypeCodes.add(LaborConstants.BalanceInquiries.EMPLOYEE_FUNDING_NORMAL_OP_EXPENSE_OBJECT_TYPE_CODE);
+        criteria.addIn(KFSPropertyConstants.FINANCIAL_OBJECT_TYPE_CODE, objectTypeCodes);
+
+        return this.findFundsRawData(criteria);
+    }
+
+    // get the encumbrance funds according to the given criteria
+    private Iterator<Object[]> findEncumbranceFundsRawData(Map fieldValues) {
+        Criteria criteria = OJBUtility.buildCriteriaFromMap(fieldValues, new LedgerBalance());
+        criteria.addEqualTo(KFSPropertyConstants.FINANCIAL_BALANCE_TYPE_CODE, LaborConstants.BalanceInquiries.ENCUMBERENCE_CODE);
+
+        return this.findFundsRawData(criteria);
+    }
+
+    // get the funds based on the given criteria
+    private Iterator<Object[]> findFundsRawData(Criteria criteria) {
+        ReportQueryByCriteria query = QueryFactory.newReportQuery(LedgerBalance.class, criteria);
+
+        List<String> groupByList = this.getGroupByListForFundingInquiry();
+        String[] groupBy = (String[]) groupByList.toArray(new String[groupByList.size()]);
+        query.addGroupBy(groupBy);
+
+        List<String> getAttributeList = getAttributeListForFundingInquiry(false);
+        String[] attributes = (String[]) getAttributeList.toArray(new String[getAttributeList.size()]);
+        query.setAttributes(attributes);
+        
+        OJBUtility.limitResultSize(query);        
+        return getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(query);
+    }
+
+    // marshal into AccountStatusBaseFunds from the query result
+    private LedgerBalance marshalFundsAsLedgerBalance(Object[] queryResult) {
+        LedgerBalance ledgerBalance = new LedgerBalance();
+        List<String> keyFields = this.getAttributeListForFundingInquiry(true);
+
+        ObjectUtil.buildObject(ledgerBalance, queryResult, keyFields);
+        return ledgerBalance;
+    }
+
+    // marshal into AccountStatusBaseFunds from the query result
+    private EmployeeFunding marshalFundsAsEmployeeFunding(Object[] queryResult) {
+        EmployeeFunding employeeFunding = new EmployeeFunding();
+        List<String> keyFields = this.getAttributeListForFundingInquiry(true);
+
+        ObjectUtil.buildObject(employeeFunding, queryResult, keyFields);
+        return employeeFunding;
+    }
+
+    // define the attribute list that can be used to group the search results
+    private List<String> getGroupByListForFundingInquiry() {
+        List<String> groupByList = new ArrayList<String>();
+        groupByList.add(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR);
+        groupByList.add(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE);
+        groupByList.add(KFSPropertyConstants.ACCOUNT_NUMBER);
+        groupByList.add(KFSPropertyConstants.SUB_ACCOUNT_NUMBER);
+        groupByList.add(KFSPropertyConstants.FINANCIAL_OBJECT_CODE);
+        groupByList.add(KFSPropertyConstants.FINANCIAL_SUB_OBJECT_CODE);
+        groupByList.add(KFSPropertyConstants.POSITION_NUMBER);
+        groupByList.add(KFSPropertyConstants.EMPLID);
+        return groupByList;
+    }
+
+    // define the return attribute list for funding query
+    private List<String> getAttributeListForFundingInquiry(boolean isAttributeNameNeeded) {
+        List<String> attributeList = getGroupByListForFundingInquiry();
+
+        if (!isAttributeNameNeeded) {
+            attributeList.add(ConsolidationUtil.sum(KFSPropertyConstants.ACCOUNTING_LINE_ANNUAL_BALANCE_AMOUNT));
+            attributeList.add(ConsolidationUtil.sum(KFSPropertyConstants.FINANCIAL_BEGINNING_BALANCE_LINE_AMOUNT));
+            attributeList.add(ConsolidationUtil.sum(KFSPropertyConstants.CONTRACTS_GRANTS_BEGINNING_BALANCE_AMOUNT));
+        }
+        else {
+            attributeList.add(KFSPropertyConstants.ACCOUNTING_LINE_ANNUAL_BALANCE_AMOUNT);
+            attributeList.add(KFSPropertyConstants.FINANCIAL_BEGINNING_BALANCE_LINE_AMOUNT);
+            attributeList.add(KFSPropertyConstants.CONTRACTS_GRANTS_BEGINNING_BALANCE_AMOUNT);
+        }
+        return attributeList;
+    }
+
+    /**
+     * Sets the kualiConfigurationService attribute value.
+     * 
+     * @param kualiConfigurationService The kualiConfigurationService to set.
      */
     public void setKualiConfigurationService(KualiConfigurationService kualiConfigurationService) {
         this.kualiConfigurationService = kualiConfigurationService;

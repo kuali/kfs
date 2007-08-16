@@ -33,9 +33,9 @@
         </inquiry>
 
         <lookup>
-            <title>Owner Type Lookup</title>
+            <title>Ownership Type Lookup</title>
 
-            <instructions>Lookup an Owner Type</instructions>
+            <instructions>Lookup an Ownership Type</instructions>
 
             <defaultSort sortAscending="true">
                 <sortAttributes>

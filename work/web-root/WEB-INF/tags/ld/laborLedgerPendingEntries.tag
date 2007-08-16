@@ -28,7 +28,7 @@
 		</tr>
 	</c:if>
 	<c:if test="${!empty KualiForm.document.laborLedgerPendingEntries}">
-        <c:set var="entryAttributes" value="${DataDictionary.PendingLedgerEntry.attributes}" />
+        <c:set var="entryAttributes" value="${DataDictionary.LaborLedgerPendingEntry.attributes}" />
 		<tr>
             <kul:htmlAttributeHeaderCell attributeEntry="${entryAttributes.transactionLedgerEntrySequenceNumber}" hideRequiredAsterisk="true" scope="col"/>
             <kul:htmlAttributeHeaderCell attributeEntry="${entryAttributes.universityFiscalYear}" hideRequiredAsterisk="true" scope="col"/>

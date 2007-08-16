@@ -20,6 +20,7 @@ import java.math.BigDecimal;
 import java.util.LinkedHashMap;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
@@ -70,7 +71,7 @@ public abstract class PurApItemBase extends PersistableBusinessObjectBase implem
         baselineSourceAccountingLines = new TypedArrayList(getAccountingLineClass());
         resetAccount();
 	}
-
+	
     public String getItemIdentifierString() {
         String identifierString = (getItemType().isItemTypeAboveTheLineIndicator() ? "Item " + getItemLineNumber().toString() : getItemType().getItemTypeDescription()); 
         return identifierString;

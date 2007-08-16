@@ -55,13 +55,13 @@ public class RequisitionDocumentRule extends PurchasingDocumentRuleBase {
     }
     
     @Override
-    public boolean requiresAccountValidationOnAllItems(PurchasingAccountsPayableDocument document) {
+    public boolean requiresAccountValidationOnAllEnteredItems(PurchasingAccountsPayableDocument document) {
         //For Requisitions only, if the requisition status is in process,
         //then we don't need account validation.
         if (SpringContext.getBean(PurapService.class).isDocumentStoppingAtRouteLevel(document, NodeDetailEnum.CONTENT_REVIEW)) {
             return false;
         }
-        return super.requiresAccountValidationOnAllItems(document);
+        return super.requiresAccountValidationOnAllEnteredItems(document);
     }
     
     /**

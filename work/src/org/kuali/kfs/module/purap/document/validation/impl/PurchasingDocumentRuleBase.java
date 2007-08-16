@@ -36,6 +36,7 @@ import org.kuali.module.purap.PurapKeyConstants;
 import org.kuali.module.purap.PurapPropertyConstants;
 import org.kuali.module.purap.PurapConstants.ItemFields;
 import org.kuali.module.purap.PurapConstants.ItemTypeCodes;
+import org.kuali.module.purap.bo.PurchaseOrderItem;
 import org.kuali.module.purap.bo.PurchasingApItem;
 import org.kuali.module.purap.bo.PurchasingItemBase;
 import org.kuali.module.purap.document.PurchasingAccountsPayableDocument;
@@ -45,8 +46,6 @@ import org.kuali.module.vendor.bo.VendorDetail;
 import org.kuali.module.vendor.service.VendorService;
 
 public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumentRuleBase {
-
-    BigDecimal zero = new BigDecimal("0.00");
 
     /**
      * Tabs included on Purchasing Documents are: Payment Info Delivery Additional
@@ -129,12 +128,12 @@ public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumen
             }
         }
         if (ObjectUtils.isNotNull(item.getItemUnitPrice())) {
-            if ((zero.compareTo(item.getItemUnitPrice()) > 0) && ((!item.getItemTypeCode().equals(ItemTypeCodes.ITEM_TYPE_ORDER_DISCOUNT_CODE)) && (!item.getItemTypeCode().equals(ItemTypeCodes.ITEM_TYPE_TRADE_IN_CODE)))) {
+            if ((BigDecimal.ZERO.compareTo(item.getItemUnitPrice()) > 0) && ((!item.getItemTypeCode().equals(ItemTypeCodes.ITEM_TYPE_ORDER_DISCOUNT_CODE)) && (!item.getItemTypeCode().equals(ItemTypeCodes.ITEM_TYPE_TRADE_IN_CODE)))) {
                 // If the item type is not full order discount or trade in items, don't allow negative unit price.
                 GlobalVariables.getErrorMap().putError(PurapConstants.ITEM_TAB_ERROR_PROPERTY, PurapKeyConstants.ERROR_ITEM_AMOUNT_BELOW_ZERO, ItemFields.UNIT_COST, identifierString);
                 valid = false;
             }
-            else if ((zero.compareTo(item.getItemUnitPrice()) < 0) && ((item.getItemTypeCode().equals(ItemTypeCodes.ITEM_TYPE_ORDER_DISCOUNT_CODE)) || (item.getItemTypeCode().equals(ItemTypeCodes.ITEM_TYPE_TRADE_IN_CODE)))) {
+            else if ((BigDecimal.ZERO.compareTo(item.getItemUnitPrice()) < 0) && ((item.getItemTypeCode().equals(ItemTypeCodes.ITEM_TYPE_ORDER_DISCOUNT_CODE)) || (item.getItemTypeCode().equals(ItemTypeCodes.ITEM_TYPE_TRADE_IN_CODE)))) {
                 // If the item type is full order discount or trade in items, its unit price must be negative.
                 GlobalVariables.getErrorMap().putError(PurapConstants.ITEM_TAB_ERROR_PROPERTY, PurapKeyConstants.ERROR_ITEM_AMOUNT_NOT_BELOW_ZERO, ItemFields.UNIT_COST, identifierString);
                 valid = false;
@@ -174,7 +173,7 @@ public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumen
      */
     private boolean validateTotalCost(PurchasingDocument purDocument) {
         boolean valid = true;
-        if (purDocument.getTotalDollarAmount().isLessThan(new KualiDecimal(zero))) {
+        if (purDocument.getTotalDollarAmount().isLessThan(new KualiDecimal(BigDecimal.ZERO))) {
             valid = false;
             GlobalVariables.getErrorMap().putError(PurapConstants.ITEM_TAB_ERROR_PROPERTY, PurapKeyConstants.ERROR_ITEM_TOTAL_NEGATIVE);
         }

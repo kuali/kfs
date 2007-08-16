@@ -15,6 +15,7 @@
  */
 package org.kuali.module.purap.rules;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.module.purap.PurapConstants;
@@ -25,6 +26,7 @@ import org.kuali.module.purap.bo.PurchasingApItem;
 import org.kuali.module.purap.document.PurchasingAccountsPayableDocument;
 
 public class AccountsPayableDocumentRuleBase extends PurchasingAccountsPayableDocumentRuleBase {
+    
     @Override
     public boolean processValidation(PurchasingAccountsPayableDocument purapDocument) {
         boolean valid = super.processValidation(purapDocument);

@@ -15,11 +15,38 @@
  */
 package org.kuali.module.purap.bo;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
 
 public abstract class AccountsPayableItemBase extends PurApItemBase implements AccountsPayableItem {
     private KualiDecimal extendedPrice;
+    
+    public boolean isConsideredEmpty() {
+        // TODO delyea/Chris - IMPLEMENT ME
+        return false;
+    }
+    
+    public boolean isConsideredEntered() {
+        if (getItemType().isItemTypeAboveTheLineIndicator()) {
+            if ( (getItemType().isQuantityBasedGeneralLedgerIndicator())) {
+                if ( (ObjectUtils.isNull(getItemQuantity())) && (ObjectUtils.isNull(getItemUnitPrice())) && (ObjectUtils.isNull(getExtendedPrice())) ) {
+                    return false;
+                }
+            }
+            else {
+                if ( (ObjectUtils.isNull(getItemUnitPrice())) && (ObjectUtils.isNull(getExtendedPrice())) ) {
+                    return false;
+                }
+            }
+        }
+        else {
+            if ( (ObjectUtils.isNull(getItemUnitPrice())) && (StringUtils.isBlank(getItemDescription())) ) {
+                return false;
+            }
+        }
+        return true;
+    }
 
     /**
      * Gets the extendedPrice attribute. 

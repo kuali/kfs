@@ -109,9 +109,11 @@ public abstract class AccountsPayableDocumentBase extends PurchasingAccountsPaya
      */
     @Override
     public void populateDocumentForRouting() {
-        this.setChartOfAccountsCode(getPurchaseOrderDocument().getChartOfAccountsCode());
-        this.setOrganizationCode(getPurchaseOrderDocument().getOrganizationCode());
-        super.populateDocumentForRouting();
+        if(ObjectUtils.isNotNull(getPurchaseOrderDocument())) {
+            this.setChartOfAccountsCode(getPurchaseOrderDocument().getChartOfAccountsCode());
+            this.setOrganizationCode(getPurchaseOrderDocument().getOrganizationCode());
+            super.populateDocumentForRouting();
+        }
     }
 
     /**

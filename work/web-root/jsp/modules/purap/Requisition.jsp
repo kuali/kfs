@@ -34,7 +34,8 @@
 
     	<purap:purapDocumentDetail
 	    	documentAttributes="${DataDictionary.RequisitionDocument.attributes}"
-	    	detailSectionLabel="Requisition Detail" />
+	    	detailSectionLabel="Requisition Detail"
+	    	editableFundingSource="true" />
     </kul:documentOverview>
 	
     <purap:vendor

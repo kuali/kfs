@@ -297,6 +297,9 @@
 <attributeReference name="fundingSourceCode" sourceClassName="org.kuali.module.purap.bo.FundingSource" sourceAttributeName="fundingSourceCode">
     <label>Funding Source</label>
     <shortLabel>Funding Source</shortLabel>
+    <control>
+        <select valuesFinderClass="org.kuali.module.purap.lookup.keyvalues.FundingSourceValuesFinder" />
+    </control>
     <summary>fundingSourceCode</summary>
     <description>fundingSourceCode description...</description>
 </attributeReference>

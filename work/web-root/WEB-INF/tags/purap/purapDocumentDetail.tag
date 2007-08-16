@@ -38,6 +38,11 @@
                 property="document.contractManager.contractManagerName" 
                 attributeEntry="${documentAttributes.contractManagerName}" 
                 readOnly="true" />
+            <c:if test="${contractManagerChangeMode}" >
+	            <kul:lookup
+	            	boClassName="org.kuali.module.vendor.bo.ContractManager"
+	            	fieldConversions="contractManagerName:document.contractManager.contractManagerName" />
+	        </c:if>
         </td>
         <th align=right valign=middle class="bord-l-b">
             <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.fundingSourceCode}" /></div>

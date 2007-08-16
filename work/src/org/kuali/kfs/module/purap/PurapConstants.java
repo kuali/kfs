@@ -426,6 +426,7 @@ public class PurapConstants extends JstlConstants {
         // TODO delyea - add statuses for awaiting and disapproved 'change' docs?
         
         public static Set<String> INCOMPLETE_STATUSES = new HashSet<String>();
+        public static Set<String> CONTRACT_MANAGER_CHANGEABLE_STATUSES = new HashSet<String>();
         public static Map<String,String> STATUSES_BY_TRANSMISSION_TYPE = new HashMap<String,String>();
         static {
             INCOMPLETE_STATUSES.add(AWAIT_TAX_REVIEW);
@@ -442,6 +443,10 @@ public class PurapConstants extends JstlConstants {
             INCOMPLETE_STATUSES.add(PENDING_PRINT);
             INCOMPLETE_STATUSES.add(WAITING_FOR_VENDOR);
             INCOMPLETE_STATUSES.add(WAITING_FOR_DEPARTMENT);
+            
+            CONTRACT_MANAGER_CHANGEABLE_STATUSES.add(IN_PROCESS);
+            CONTRACT_MANAGER_CHANGEABLE_STATUSES.add(WAITING_FOR_VENDOR);
+            CONTRACT_MANAGER_CHANGEABLE_STATUSES.add(WAITING_FOR_DEPARTMENT);
             
             STATUSES_BY_TRANSMISSION_TYPE.put(PurapConstants.POTransmissionMethods.PRINT, PENDING_PRINT);
             STATUSES_BY_TRANSMISSION_TYPE.put(PurapConstants.POTransmissionMethods.ELECTRONIC, PENDING_CXML);

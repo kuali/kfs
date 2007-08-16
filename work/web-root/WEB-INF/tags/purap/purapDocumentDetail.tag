@@ -21,6 +21,12 @@
               description="A boolean as to whether the document is a Purchase Order."%>
 <%@ attribute name="detailSectionLabel" required="true"
 			  description="The label of the detail section."%>
+<%@ attribute name="editableFundingSource" required="false"
+			  description="Is fundingsourcecode editable?."%>
+
+<c:if test="${empty editableFundingSource}">
+	<c:set var="editableFundingSource" value="false" />
+</c:if>
 
 <div class="h2-container">
 	<h2><c:out value="${detailSectionLabel}"/></h2>
@@ -48,10 +54,18 @@
             <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.fundingSourceCode}" /></div>
         </th>
         <td align=left valign=middle class="datacell">
+		    <c:if test="${editableFundingSource}">
+            <kul:htmlControlAttribute
+                property="document.fundingSourceCode"
+                attributeEntry="${documentAttributes.fundingSourceCode}"
+                readOnly="${not fullEntryMode}"/>
+			</c:if>
+		    <c:if test="${!editableFundingSource}">
             <kul:htmlControlAttribute
                 property="document.fundingSource.fundingSourceDescription"
                 attributeEntry="${documentAttributes.fundingSourceCode}"
                 readOnly="true"/>
+			</c:if>
         </td>
     </tr>
     <c:if test="${purchaseOrder}">

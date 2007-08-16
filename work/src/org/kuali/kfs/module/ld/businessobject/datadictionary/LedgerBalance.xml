@@ -58,7 +58,7 @@
 
         <lookup>
 	        <lookupableID>laborLedgerBalanceLookupable</lookupableID>	        
-            <title>Ledger Balance Lookup</title>
+            <title>Labor Ledger View</title>
 
             <instructions>Look up a Ledger Balance</instructions>
 

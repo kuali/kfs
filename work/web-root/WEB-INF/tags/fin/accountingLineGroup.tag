@@ -98,7 +98,11 @@ It's followed by 0 or more rows for the accounting lines that have already been 
 			  description="index for multiple add new source lines"%>
 <%@ attribute name="nestedIndex" required="false"
 			  description="A boolean whether we'll need a nested index that includes item index and account index or if we just need one index for the accountingLineIndex"%>
-			  
+<%@ attribute name="suppressBaseline" required="false" type="java.lang.Boolean"
+              description="indicate if we should suppress the baseline account, this allows the accounting line to be used in places where
+              we don't need the baseline"%> 
+
+		  
 <c:set var="sourceOrTarget" value="${isSource ? 'source' : 'target'}"/>
 <c:set var="baselineSourceOrTarget" value="${isSource ? 'baselineSource' : 'baselineTarget'}"/>
 <c:set var="capitalSourceOrTarget" value="${isSource ? 'Source' : 'Target'}"/>
@@ -286,6 +290,12 @@ It's followed by 0 or more rows for the accounting lines that have already been 
     <c:if test="${not empty newAccountPrefix}">
 		<c:set var="baselineLine" value="${newAccountPrefix}${baselineSourceOrTarget}AccountingLine[${ctr}]" />
 	</c:if>
+	
+	<%-- regardless of what was set above clear out if supress baseline --%>
+	<c:if test="${suppressBaseline}">
+		<c:set var="baselineLine" value="" />
+	</c:if>
+	
 	<!--  baselineLine = ${baselineLine} -->
     <%-- readonlyness of accountingLines depends on editingMode and user's account-list --%>
     <c:choose>

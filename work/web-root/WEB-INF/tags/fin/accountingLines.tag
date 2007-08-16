@@ -90,6 +90,9 @@
               description="comma delimited list of fields to hide for this type of accounting line" %>
 <%@ attribute name="accountingAddLineIndex" required="false"
 			  description="index for multiple add new source lines"%>
+<%@ attribute name="suppressBaseline" required="false" type="java.lang.Boolean"
+              description="indicate if we should suppress the baseline account, this allows the accounting line to be used in places where
+              we don't need the baseline"%> 
 
 <c:if test="${!accountingLineScriptsLoaded}">
 	<script type='text/javascript' src="dwr/interface/ChartService.js"></script>
@@ -156,6 +159,7 @@
           accountingLineAttributes="${accountingLineAttributes}"
           accountPrefix="${accountPrefix}"
           hideTotalLine="${hideTotalLine}"
+          suppressBaseline="${suppressBaseline}"
           hideFields="${hideFields}"
           accountingAddLineIndex="${accountingAddLineIndex}"
           />
@@ -180,6 +184,7 @@
             accountingLineAttributes="${accountingLineAttributes}"
             accountPrefix="${accountPrefix}"
             hideTotalLine="${hideTotalLine}"
+            suppressBaseline="${suppressBaseline}"
             hideFields="${hideFields}"      
             />
       </c:if>

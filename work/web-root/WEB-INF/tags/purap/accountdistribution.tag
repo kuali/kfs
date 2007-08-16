@@ -52,7 +52,7 @@
 		optionalFields="accountLinePercent"
 		accountingLineAttributes="${accountingLineAttributes}"
 		accountPrefix="accountDistribution" hideTotalLine="true"
-		hideFields="amount" accountingAddLineIndex="-2" />
+		hideFields="amount" accountingAddLineIndex="-2" suppressBaseline="true"/>
 
 	<div align="center">
 		<html:image

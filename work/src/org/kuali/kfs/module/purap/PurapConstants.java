@@ -550,7 +550,7 @@ public class PurapConstants extends JstlConstants {
     public static String PO_OVERRIDE_NOT_TO_EXCEED_QUESTION = "OverrideNotToExceed";
 
     // PAYMENT REQUEST
-    public static String PAYMENT_REQUEST_DOCUMENT_DOC_TYPE = "PaymentRequestDocument";
+    public static final String PAYMENT_REQUEST_DOCUMENT_DOC_TYPE = "PaymentRequestDocument";
     
     public static int PREQ_PAY_DATE_CALCULATION_DAYS = 28;
 
@@ -717,7 +717,7 @@ public class PurapConstants extends JstlConstants {
     }
     
     // CREDIT MEMO DOCUMENT
-    public static String CREDIT_MEMO_DOCUMENT_DOC_TYPE = "CreditMemoDocument";
+    public static final String CREDIT_MEMO_DOCUMENT_DOC_TYPE = "CreditMemoDocument";
 
     public final static boolean CREATE_CREDIT_MEMO = false;
     public final static boolean CANCEL_CREDIT_MEMO = true;

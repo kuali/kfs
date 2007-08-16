@@ -18,6 +18,7 @@ package org.kuali.module.kra.budget.rules;
 import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase;
 import org.kuali.core.util.GlobalVariables;
+import org.kuali.core.util.KualiDecimal;
 import org.kuali.module.kra.KraKeyConstants;
 import org.kuali.module.kra.KraPropertyConstants;
 import org.kuali.module.kra.budget.bo.IndirectCostLookup;
@@ -53,7 +54,8 @@ public class IndirectCostLookupRule extends MaintenanceDocumentRuleBase {
     private boolean validateIndirectCostRate(IndirectCostLookup icLookup) {
         boolean success = true;
         
-        String costRate = icLookup.getBudgetIndirectCostRate().toString();
+        KualiDecimal rate = icLookup.getBudgetIndirectCostRate();
+        String costRate = null == rate? "" : rate.toString();
         // If the cost rate value does not already contain a decimal and two zeros, append them.
         if(costRate.indexOf('.') < 0) {
             costRate = costRate + ".00";

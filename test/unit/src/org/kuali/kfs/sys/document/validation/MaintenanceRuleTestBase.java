@@ -15,9 +15,6 @@
  */
 package org.kuali.core.maintenance;
 
-import static org.kuali.rice.KNSServiceLocator.getDictionaryValidationService;
-import static org.kuali.rice.KNSServiceLocator.getDocumentService;
-
 import java.util.Iterator;
 import java.util.Map;
 
@@ -25,6 +22,8 @@ import org.kuali.core.bo.PersistableBusinessObject;
 import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.core.maintenance.rules.MaintenanceDocumentRule;
 import org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase;
+import org.kuali.core.service.DictionaryValidationService;
+import org.kuali.core.service.DocumentService;
 import org.kuali.core.service.MaintenanceDocumentDictionaryService;
 import org.kuali.core.util.ErrorMessage;
 import org.kuali.core.util.GlobalVariables;
@@ -72,7 +71,7 @@ public abstract class MaintenanceRuleTestBase extends KualiTestBase {
             // get a new MaintenanceDocument from Spring
             MaintenanceDocument document = null;
             try {
-            	document = (MaintenanceDocument) getDocumentService().getNewDocument( SpringContext.getBean(MaintenanceDocumentDictionaryService.class).getDocumentTypeName( newBo.getClass() ) );
+            	document = (MaintenanceDocument) SpringContext.getBean(DocumentService.class).getNewDocument( SpringContext.getBean(MaintenanceDocumentDictionaryService.class).getDocumentTypeName( newBo.getClass() ) );
             }
             catch (WorkflowException e) {
                 throw new RuntimeException(e);
@@ -164,7 +163,7 @@ public abstract class MaintenanceRuleTestBase extends KualiTestBase {
             GlobalVariables.getErrorMap().addToErrorPath("document.newMaintainableObject");
 
             // run the dataDictionary validation
-            getDictionaryValidationService().validateDefaultExistenceChecks(bo);
+            SpringContext.getBean(DictionaryValidationService.class).validateDefaultExistenceChecks(bo);
 
             // clear the error path
             GlobalVariables.getErrorMap().removeFromErrorPath("document.newMaintainableObject");

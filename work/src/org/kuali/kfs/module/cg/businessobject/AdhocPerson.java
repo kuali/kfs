@@ -18,11 +18,11 @@ package org.kuali.module.kra.bo;
 import java.util.LinkedHashMap;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.bo.user.AuthenticationUserId;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.exceptions.UserNotFoundException;
+import org.kuali.core.service.UniversalUserService;
 import org.kuali.kfs.KFSPropertyConstants;
-import org.kuali.rice.KNSServiceLocator;
+import org.kuali.kfs.context.SpringContext;
 
 /**
  * This class represents an ad-hoc person.
@@ -93,7 +93,7 @@ public class AdhocPerson extends AbstractAdhoc {
         if ( user == null || user.getPersonUserIdentifier() == null ) {
             user = null;
             try {
-                user = KNSServiceLocator.getUniversalUserService().getUniversalUser( getPersonUniversalIdentifier() );
+                user = SpringContext.getBean(UniversalUserService.class, "universalUserService").getUniversalUser( getPersonUniversalIdentifier() );
             } catch (UserNotFoundException ex) {
                 // do nothing, leave user as null
             }
@@ -122,7 +122,7 @@ public class AdhocPerson extends AbstractAdhoc {
         if ( user == null || user.getPersonName() == null  ) {
             user = null;
             try {
-                user = KNSServiceLocator.getUniversalUserService().getUniversalUser( getPersonUniversalIdentifier() );
+                user = SpringContext.getBean(UniversalUserService.class, "universalUserService").getUniversalUser( getPersonUniversalIdentifier() );
             } catch ( UserNotFoundException ex ) {
                 // do nothing, leave UU as null
             }

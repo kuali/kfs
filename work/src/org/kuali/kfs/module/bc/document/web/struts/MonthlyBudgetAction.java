@@ -15,8 +15,6 @@
  */
 package org.kuali.module.budget.web.struts.action;
 
-import static org.kuali.rice.KNSServiceLocator.getBusinessObjectService;
-
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
@@ -166,7 +164,7 @@ public class MonthlyBudgetAction extends KualiAction {
         BudgetConstructionMonthly budgetConstructionMonthly = monthlyBudgetForm.getBudgetConstructionMonthly();
         
         // TODO validate and store monthly changes, for now save using BOService
-        getBusinessObjectService().save(budgetConstructionMonthly);
+        SpringContext.getBean(BusinessObjectService.class).save(budgetConstructionMonthly);
         GlobalVariables.getMessageList().add(KFSKeyConstants.MESSAGE_SAVED);
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
@@ -194,7 +192,7 @@ public class MonthlyBudgetAction extends KualiAction {
 
                     //SpringContext.getBean(DocumentService.class).saveDocument(docForm.getDocument());
                     // TODO for now just do trivial save eventually need to add validation, routelog stuff, etc
-                    getBusinessObjectService().save(budgetConstructionMonthly);
+                    SpringContext.getBean(BusinessObjectService.class).save(budgetConstructionMonthly);
                     
                 }
                 // else go to close logic below

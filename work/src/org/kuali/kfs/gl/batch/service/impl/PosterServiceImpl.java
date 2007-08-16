@@ -193,11 +193,11 @@ public class PosterServiceImpl implements PosterService {
 
                 postTransaction(tran, mode, reportSummary, reportError, invalidGroup, validGroup, runUniversityDate);
 
-                // Report Reversal poster valid transactions
-                reportService.generatePosterReversalTransactionsListing(runDate, validGroup);
-
                 LOG.info("postEntries() Posted Entry " + (++ecount));
             }
+
+            // Report Reversal poster valid transactions
+            reportService.generatePosterReversalTransactionsListing(runDate, validGroup);
         }
 
         // Generate the reports

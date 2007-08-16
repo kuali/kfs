@@ -31,7 +31,7 @@
 			</and>
 		</condition>
 		<condition property="driver.class" value="${p6spy.driver.class}"><equals arg1="${use.p6spy.local}" arg2="true"/></condition>
-		<condition property="driver.class" value="${mysql.driver.clas s}"><equals arg1="${ojb.platform}" arg2="${mysql.ojb.platform}" /></condition>
+		<condition property="driver.class" value="${mysql.driver.class}"><equals arg1="${ojb.platform}" arg2="${mysql.ojb.platform}" /></condition>
 		<property name="driver.class" value="${oracle.driver.class}" />
 		<condition property="p6spy.real.driver.class" value="${mysql.driver.class}"><equals arg1="${ojb.platform}" arg2="${mysql.ojb.platform}" /></condition>
 		<property name="p6spy.real.driver.class" value="${oracle.driver.class}" />

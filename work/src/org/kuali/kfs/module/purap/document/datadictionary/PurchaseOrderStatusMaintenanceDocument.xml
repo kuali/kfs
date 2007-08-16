@@ -50,7 +50,7 @@
                 <maintainableItems>
                     <maintainableField name="statusCode" required="true" />
                     <maintainableField name="statusDescription" required="true" />
-                	<maintainableField name="active" />
+                	<maintainableField name="active" readOnly="true" />
                 	<maintainableField name="versionNumber" />
                 </maintainableItems>
             </maintainableSection>

@@ -35,11 +35,9 @@ import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.context.KualiTestBase;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.context.TestUtils;
-import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.gl.bo.OriginEntry;
 import org.kuali.module.gl.bo.OriginEntryGroup;
 import org.kuali.module.gl.dao.OriginEntryDao;
-import org.kuali.module.gl.dao.ojb.OriginEntryDaoOjb;
 import org.kuali.module.gl.service.OriginEntryGroupService;
 import org.kuali.module.gl.service.OriginEntryService;
 
@@ -65,16 +63,16 @@ public class OriginEntryTestBase extends KualiTestBase {
 
         LOG.debug("setUp() starting");
 
-        dateTimeService = (ConfigurableDateService) SpringServiceLocator.getService("testDateTimeService");
+        dateTimeService = SpringContext.getBean(ConfigurableDateService.class, "testDateTimeService");
         date = dateTimeService.getCurrentDate();
         
         // Other objects needed for the tests
-        persistenceService = (PersistenceService) SpringServiceLocator.getService("persistenceService");
+        persistenceService = SpringContext.getBean(PersistenceService.class);
         unitTestSqlDao = SpringContext.getBean(UnitTestSqlDao.class);
-        originEntryService = (OriginEntryService) SpringServiceLocator.getService("glOriginEntryService");
+        originEntryService = SpringContext.getBean(OriginEntryService.class, "glOriginEntryService");
         originEntryDao = SpringContext.getBean(OriginEntryDao.class, "glOriginEntryDao");
-        originEntryGroupService = (OriginEntryGroupService) SpringServiceLocator.getService("glOriginEntryGroupService");
-        kualiConfigurationService = (KualiConfigurationService) SpringServiceLocator.getService("kualiConfigurationService");
+        originEntryGroupService = SpringContext.getBean(OriginEntryGroupService.class, "glOriginEntryGroupService");
+        kualiConfigurationService = SpringContext.getBean(KualiConfigurationService.class);
 
         // Set all enhancements to off
         resetAllEnhancementFlags();

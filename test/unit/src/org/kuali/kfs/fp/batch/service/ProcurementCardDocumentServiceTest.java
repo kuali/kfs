@@ -15,10 +15,10 @@
  */
 package org.kuali.module.financial.service;
 
-import static org.kuali.kfs.util.SpringServiceLocator.getProcurementCardCreateDocumentService;
 import static org.kuali.test.fixtures.UserNameFixture.KULUSER;
 
 import org.kuali.kfs.context.KualiTestBase;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.test.ConfigureContext;
 /**
  * This class tests the services used to create ProcurementCard documents.
@@ -29,12 +29,12 @@ import org.kuali.test.ConfigureContext;
 public class ProcurementCardDocumentServiceTest extends KualiTestBase {
 
     public void testCreatePCardDocuments() throws Exception {
-        boolean documentsCreated = getProcurementCardCreateDocumentService().createProcurementCardDocuments();
+        boolean documentsCreated = SpringContext.getBean(ProcurementCardCreateDocumentService.class).createProcurementCardDocuments();
         assertTrue("problem creating documents",documentsCreated);
     }
 
      public void testRoutePCardDocuments() throws Exception {
-        boolean routeSuccessful = getProcurementCardCreateDocumentService().routeProcurementCardDocuments();
+        boolean routeSuccessful = SpringContext.getBean(ProcurementCardCreateDocumentService.class).routeProcurementCardDocuments();
     }
 
 }

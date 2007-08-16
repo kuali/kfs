@@ -15,7 +15,6 @@
  */
 package org.kuali.module.chart.globals;
 
-import static org.kuali.rice.KNSServiceLocator.getDocumentService;
 import static org.kuali.test.fixtures.UserNameFixture.KHUNTLEY;
 
 import java.util.ArrayList;
@@ -27,9 +26,11 @@ import org.apache.commons.logging.LogFactory;
 import org.kuali.core.bo.PersistableBusinessObject;
 import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.core.maintenance.Maintainable;
+import org.kuali.core.service.DocumentService;
 import org.kuali.core.util.DateUtils;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.context.KualiTestBase;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.chart.bo.AccountGlobal;
 import org.kuali.module.chart.bo.AccountGlobalDetail;
 import org.kuali.module.chart.bo.DelegateGlobal;
@@ -50,7 +51,7 @@ public class GlobalDocumentTest extends KualiTestBase {
 
 
     public void testGlobalDelegateMaintenanceDocumentCreation_goodDocTypeName() throws Exception {
-        MaintenanceDocument doc = (MaintenanceDocument) getDocumentService().getNewDocument(KNOWN_DOCUMENT_TYPENAME);
+        MaintenanceDocument doc = (MaintenanceDocument) SpringContext.getBean(DocumentService.class).getNewDocument(KNOWN_DOCUMENT_TYPENAME);
         assertNotNull(doc);
         assertNotNull(doc.getNewMaintainableObject());
         assertEquals("org.kuali.module.chart.bo.DelegateGlobal", doc.getNewMaintainableObject().getBoClass().getName());
@@ -58,7 +59,7 @@ public class GlobalDocumentTest extends KualiTestBase {
 
     public final void testGetNewDocument_globalDelegateMaintDoc() throws Exception {
 
-        MaintenanceDocument document = (MaintenanceDocument) getDocumentService().getNewDocument(GLOBAL_DELEGATE_TYPENAME);
+        MaintenanceDocument document = (MaintenanceDocument) SpringContext.getBean(DocumentService.class).getNewDocument(GLOBAL_DELEGATE_TYPENAME);
 
         // make sure the doc is setup
         assertNotNull(document);
@@ -80,7 +81,7 @@ public class GlobalDocumentTest extends KualiTestBase {
 
     public final void testGetNewDocument_globalAccountMaintDoc() throws Exception {
 
-        MaintenanceDocument document = (MaintenanceDocument) getDocumentService().getNewDocument(GLOBAL_ACCOUNT_TYPENAME);
+        MaintenanceDocument document = (MaintenanceDocument) SpringContext.getBean(DocumentService.class).getNewDocument(GLOBAL_ACCOUNT_TYPENAME);
 
         // make sure the doc is setup
         assertNotNull(document);
@@ -102,7 +103,7 @@ public class GlobalDocumentTest extends KualiTestBase {
     @ConfigureContext(session = KHUNTLEY, shouldCommitTransactions=true)
     public final void testSaveDocument_globalDelegate() throws Exception {
 
-        MaintenanceDocument document = (MaintenanceDocument) getDocumentService().getNewDocument(GLOBAL_DELEGATE_TYPENAME);
+        MaintenanceDocument document = (MaintenanceDocument) SpringContext.getBean(DocumentService.class).getNewDocument(GLOBAL_DELEGATE_TYPENAME);
 
         // get local references to the Maintainable and the BO
         Maintainable newMaintainable = document.getNewMaintainableObject();
@@ -144,10 +145,10 @@ public class GlobalDocumentTest extends KualiTestBase {
         account.setChartOfAccountsCode("BL");
         account.setAccountNumber("1031467");
         bo.addAccount(account);
-        getDocumentService().saveDocument(document);
+        SpringContext.getBean(DocumentService.class).saveDocument(document);
 
         // now that it worked, lets cancel the doc so it doesnt lock for others
-        getDocumentService().cancelDocument(document, "cancelling test document");
+        SpringContext.getBean(DocumentService.class).cancelDocument(document, "cancelling test document");
 
     }
 
@@ -155,7 +156,7 @@ public class GlobalDocumentTest extends KualiTestBase {
     @ConfigureContext(session = KHUNTLEY, shouldCommitTransactions=true)
     public final void testSaveAndLoadDocument_globalDelegate() throws Exception {
 
-        MaintenanceDocument document = (MaintenanceDocument) getDocumentService().getNewDocument(GLOBAL_DELEGATE_TYPENAME);
+        MaintenanceDocument document = (MaintenanceDocument) SpringContext.getBean(DocumentService.class).getNewDocument(GLOBAL_DELEGATE_TYPENAME);
 
         // get local references to the Maintainable and the BO
         Maintainable newMaintainable = document.getNewMaintainableObject();
@@ -195,11 +196,11 @@ public class GlobalDocumentTest extends KualiTestBase {
         account.setAccountNumber("1031467");
         bo.addAccount(account);
 
-        getDocumentService().saveDocument(document);
+        SpringContext.getBean(DocumentService.class).saveDocument(document);
 
         // clear the document, and re-load it from the DB
         document = null;
-        document = (MaintenanceDocument) getDocumentService().getByDocumentHeaderId(finDocNumber);
+        document = (MaintenanceDocument) SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(finDocNumber);
         assertNotNull("Document should not be null after loaded from the DB.", document);
         assertNotNull("Document Header should not be null after loaded from the DB.", document.getDocumentHeader());
         assertNotNull("Document FinDocNumber should not be null after loaded from the DB.", document.getDocumentHeader().getDocumentNumber());
@@ -234,7 +235,7 @@ public class GlobalDocumentTest extends KualiTestBase {
         }
 
         // now that it worked, lets cancel the doc so it doesnt lock for others
-        getDocumentService().cancelDocument(document, "cancelling test document");
+        SpringContext.getBean(DocumentService.class).cancelDocument(document, "cancelling test document");
 
     }
 }

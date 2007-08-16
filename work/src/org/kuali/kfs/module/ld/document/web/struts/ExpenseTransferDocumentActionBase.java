@@ -47,7 +47,6 @@ import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.bo.AccountingLineOverride;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.rule.event.AddAccountingLineEvent;
-import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.gl.GLConstants;
 import org.kuali.module.labor.LaborConstants;
 import org.kuali.module.labor.bo.ExpenseTransferAccountingLine;
@@ -392,6 +391,6 @@ public class ExpenseTransferDocumentActionBase extends LaborDocumentActionBase {
      * @return SegmentedLookupResultsService
      */
     private SegmentedLookupResultsService getSegmentedLookupResultsService() {
-        return (SegmentedLookupResultsService) SpringServiceLocator.getService("segmentedLookupResultsService");
+        return SpringContext.getBean(SegmentedLookupResultsService.class);
     }
 }

@@ -22,19 +22,18 @@
  */
 package org.kuali.module.cg.service.impl;
 
-import org.kuali.module.cg.service.ProjectDirectorService;
-import org.kuali.module.cg.bo.ProjectDirector;
-import org.kuali.kfs.KFSPropertyConstants;
-import org.kuali.kfs.util.SpringServiceLocator;
-import org.kuali.core.exceptions.UserNotFoundException;
-import org.kuali.core.bo.user.UniversalUser;
-import org.kuali.core.service.UniversalUserService;
-import org.kuali.core.service.BusinessObjectService;
-import org.kuali.core.util.spring.Cached;
-import org.springframework.transaction.annotation.Transactional;
-
-import java.util.Map;
 import java.util.HashMap;
+import java.util.Map;
+
+import org.kuali.core.bo.user.UniversalUser;
+import org.kuali.core.exceptions.UserNotFoundException;
+import org.kuali.core.service.BusinessObjectService;
+import org.kuali.core.service.UniversalUserService;
+import org.kuali.core.util.spring.Cached;
+import org.kuali.kfs.KFSPropertyConstants;
+import org.kuali.module.cg.bo.ProjectDirector;
+import org.kuali.module.cg.service.ProjectDirectorService;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * Implementation of the ProjectDirector service.

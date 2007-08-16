@@ -26,7 +26,7 @@ import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DateTimeService;
 import org.kuali.core.service.PersistenceService;
 import org.kuali.kfs.context.KualiTestBase;
-import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.gl.batch.poster.VerifyTransaction;
 import org.kuali.module.gl.bo.OriginEntryGroup;
 import org.kuali.module.gl.service.OriginEntryGroupService;
@@ -61,13 +61,13 @@ public class LaborPosterTransactionValidatorTest extends KualiTestBase {
         fieldNames = properties.getProperty("fieldNames");
         deliminator = properties.getProperty("deliminator");
 
-        laborPosterTransactionValidator = (VerifyTransaction) SpringServiceLocator.getService("laborPosterTransactionValidator");
-        laborOriginEntryService = (LaborOriginEntryService) SpringServiceLocator.getService("laborOriginEntryService");
-        originEntryGroupService = (OriginEntryGroupService) SpringServiceLocator.getService("glOriginEntryGroupService");
-        businessObjectService = (BusinessObjectService) SpringServiceLocator.getService("businessObjectService");
-        persistenceService = (PersistenceService) SpringServiceLocator.getService("persistenceService");
+        laborPosterTransactionValidator = SpringContext.getBean(VerifyTransaction.class, "laborPosterTransactionValidator");
+        laborOriginEntryService = SpringContext.getBean(LaborOriginEntryService.class, "laborOriginEntryService");
+        originEntryGroupService = SpringContext.getBean(OriginEntryGroupService.class, "glOriginEntryGroupService");
+        businessObjectService = SpringContext.getBean(BusinessObjectService.class);
+        persistenceService = SpringContext.getBean(PersistenceService.class);
         
-        Date today = ((DateTimeService) SpringServiceLocator.getService("dateTimeService")).getCurrentSqlDate();
+        Date today = (SpringContext.getBean(DateTimeService.class, "dateTimeService")).getCurrentSqlDate();
         group1 = originEntryGroupService.createGroup(today, LABOR_MAIN_POSTER_VALID, true, true, false);
     }
 

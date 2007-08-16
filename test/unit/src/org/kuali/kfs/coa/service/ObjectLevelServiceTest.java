@@ -15,9 +15,8 @@
  */
 package org.kuali.module.chart.service;
 
-import static org.kuali.kfs.util.SpringServiceLocator.getObjectLevelService;
-
 import org.kuali.kfs.context.KualiTestBase;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.chart.bo.ObjLevel;
 import org.kuali.test.ConfigureContext;
 
@@ -30,7 +29,7 @@ import org.kuali.test.ConfigureContext;
 public class ObjectLevelServiceTest extends KualiTestBase {
 
     public void testFindById() {
-        ObjLevel objectLevel = getObjectLevelService().getByPrimaryId("UA", "BASE");
+        ObjLevel objectLevel = SpringContext.getBean(ObjectLevelService.class).getByPrimaryId("UA", "BASE");
         assertEquals("Object Level Code should be BASE", objectLevel.getFinancialObjectLevelCode(), "BASE");
     }
 }

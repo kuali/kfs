@@ -15,16 +15,16 @@
  */
 package org.kuali.module.chart.bo;
 
-import static org.kuali.kfs.util.SpringServiceLocator.getBusinessObjectService;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.kuali.core.service.BusinessObjectService;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.context.KualiTestBase;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.test.ConfigureContext;
 
 @ConfigureContext
@@ -38,7 +38,7 @@ public class OrganizationRoutingModelTest extends KualiTestBase {
         Map<String,String> fieldValues=new HashMap<String, String>();
         fieldValues.put(KFSConstants.CHART_OF_ACCOUNTS_CODE_PROPERTY_NAME, "BL");
         fieldValues.put(KFSConstants.ORGANIZATION_CODE_PROPERTY_NAME,"CLAS");
-        List<OrganizationRoutingModel> results = (List<OrganizationRoutingModel>)getBusinessObjectService().findMatching(OrganizationRoutingModel.class, fieldValues);
+        List<OrganizationRoutingModel> results = (List<OrganizationRoutingModel>)SpringContext.getBean(BusinessObjectService.class).findMatching(OrganizationRoutingModel.class, fieldValues);
         assertFalse("no models found", results.isEmpty());
 
         model=results.get(0);
@@ -52,7 +52,7 @@ public class OrganizationRoutingModelTest extends KualiTestBase {
         routingModel.setOrganizationCode(model.getOrganizationCode());
         routingModel.setAccountDelegateUniversalId(model.getAccountDelegateUniversalId());
         routingModel.setFinancialDocumentTypeCode("xx");
-        getBusinessObjectService().save(routingModel);
+        SpringContext.getBean(BusinessObjectService.class).save(routingModel);
 
         assertTrue(loadModel(name, model.getClass()));
     }
@@ -62,7 +62,7 @@ public class OrganizationRoutingModelTest extends KualiTestBase {
         Map<String, String> fieldValues = new HashMap<String, String>();
         fieldValues.put("ORG_RTNG_MDL_NM", name);
 
-        Collection<OrganizationRoutingModel> foundModel = getBusinessObjectService().findMatching(clazz, fieldValues);
+        Collection<OrganizationRoutingModel> foundModel = SpringContext.getBean(BusinessObjectService.class).findMatching(clazz, fieldValues);
 
         List<DelegateGlobalDetail> delegateGlobals = new ArrayList<DelegateGlobalDetail>();
 

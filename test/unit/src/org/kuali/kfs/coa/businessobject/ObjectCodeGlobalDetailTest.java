@@ -15,18 +15,19 @@
  */
 package org.kuali.module.chart.bo;
 
-import static org.kuali.rice.KNSServiceLocator.getBusinessObjectService;
-import static org.kuali.rice.KNSServiceLocator.getDocumentService;
 import static org.kuali.test.fixtures.UserNameFixture.KHUNTLEY;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import org.kuali.core.service.BusinessObjectService;
+import org.kuali.core.service.DocumentService;
 import org.kuali.kfs.context.KualiTestBase;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.document.AccountingDocument;
 import org.kuali.module.financial.document.TransferOfFundsDocument;
-import org.kuali.test.DocumentTestUtils;
 import org.kuali.test.ConfigureContext;
+import org.kuali.test.DocumentTestUtils;
 
 @ConfigureContext(session = KHUNTLEY, shouldCommitTransactions=true)
 public class ObjectCodeGlobalDetailTest extends KualiTestBase {
@@ -35,8 +36,8 @@ public class ObjectCodeGlobalDetailTest extends KualiTestBase {
     @Override
     protected void setUp() throws Exception {
         super.setUp();
-        document = DocumentTestUtils.createDocument(getDocumentService(), TransferOfFundsDocument.class);
-        getDocumentService().saveDocument(document);
+        document = DocumentTestUtils.createDocument(SpringContext.getBean(DocumentService.class), TransferOfFundsDocument.class);
+        SpringContext.getBean(DocumentService.class).saveDocument(document);
     }
 
     public void testSave() {
@@ -54,7 +55,7 @@ public class ObjectCodeGlobalDetailTest extends KualiTestBase {
         list.add(detail);
         doc.setObjectCodeGlobalDetails(list);
 
-        getBusinessObjectService().save(doc);
+        SpringContext.getBean(BusinessObjectService.class).save(doc);
     }
 
 }

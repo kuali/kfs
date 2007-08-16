@@ -19,11 +19,11 @@
  */
 package org.kuali.module.kra.service;
 
-import static org.kuali.kfs.util.SpringServiceLocator.getBudgetFringeRateService;
-
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.context.KualiTestBase;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.kra.budget.bo.BudgetFringeRate;
+import org.kuali.module.kra.budget.service.BudgetFringeRateService;
 import org.kuali.test.ConfigureContext;
 
 /**
@@ -55,27 +55,27 @@ public class BudgetFringeRateServiceTest extends KualiTestBase {
 
         budgetFringeRate.setContractsAndGrantsFringeRateAmount(GOOD_FRINGE_RATE);
 
-        assertTrue(getBudgetFringeRateService().isValidFringeRate(budgetFringeRate.getContractsAndGrantsFringeRateAmount()));
+        assertTrue(SpringContext.getBean(BudgetFringeRateService.class).isValidFringeRate(budgetFringeRate.getContractsAndGrantsFringeRateAmount()));
     }
 
     public void testValidContractsAndGrantsCostShare() throws Exception {
         BudgetFringeRate budgetFringeRate = new BudgetFringeRate();
 
         budgetFringeRate.setInstitutionCostShareFringeRateAmount(GOOD_COST_SHARE);
-        assertTrue(getBudgetFringeRateService().isValidCostShare(budgetFringeRate.getInstitutionCostShareFringeRateAmount()));
+        assertTrue(SpringContext.getBean(BudgetFringeRateService.class).isValidCostShare(budgetFringeRate.getInstitutionCostShareFringeRateAmount()));
     }
 
     public void testInvalidContractsAndGrantsFringeRate() throws Exception {
         BudgetFringeRate budgetFringeRate = new BudgetFringeRate();
 
         budgetFringeRate.setContractsAndGrantsFringeRateAmount(BAD_FRINGE_RATE);
-        assertTrue(getBudgetFringeRateService().isValidFringeRate(budgetFringeRate.getContractsAndGrantsFringeRateAmount()));
+        assertTrue(SpringContext.getBean(BudgetFringeRateService.class).isValidFringeRate(budgetFringeRate.getContractsAndGrantsFringeRateAmount()));
     }
 
     public void testInvalidContractsAndGrantsCostShare() throws Exception {
         BudgetFringeRate budgetFringeRate = new BudgetFringeRate();
 
         budgetFringeRate.setInstitutionCostShareFringeRateAmount(BAD_COST_SHARE);
-        assertTrue(getBudgetFringeRateService().isValidCostShare(budgetFringeRate.getInstitutionCostShareFringeRateAmount()));
+        assertTrue(SpringContext.getBean(BudgetFringeRateService.class).isValidCostShare(budgetFringeRate.getInstitutionCostShareFringeRateAmount()));
     }
 }

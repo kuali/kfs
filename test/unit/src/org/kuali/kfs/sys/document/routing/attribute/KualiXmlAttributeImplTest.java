@@ -46,7 +46,6 @@ import org.kuali.core.datadictionary.DocumentEntry;
 import org.kuali.core.service.DataDictionaryService;
 import org.kuali.kfs.context.KualiTestBase;
 import org.kuali.kfs.context.SpringContext;
-import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.rice.definition.ObjectDefinition;
 import org.kuali.rice.resourceloader.GlobalResourceLoader;
 import org.kuali.test.ConfigureContext;
@@ -87,7 +86,7 @@ public class KualiXmlAttributeImplTest extends KualiTestBase {
         if ( (StringUtils.isNotBlank(ruleAttributeXml)) && (StringUtils.isNotBlank(searchAttributeXml)) ) {
             return;
         }
-        DataSource mySource = (DataSource) SpringServiceLocator.getService("dataSource");
+        DataSource mySource = SpringContext.getBean(DataSource.class, "dataSource");
         ruleAttributeXml = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<data >\n<ruleAttributes>\n";
         searchAttributeXml = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<data >\n<ruleAttributes>\n";
         Connection dbCon = null;

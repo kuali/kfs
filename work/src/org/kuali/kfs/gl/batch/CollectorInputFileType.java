@@ -19,19 +19,14 @@ import java.io.File;
 import java.sql.Timestamp;
 import java.text.FieldPosition;
 import java.text.SimpleDateFormat;
-import java.util.Arrays;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.bo.user.KualiGroup;
 import org.kuali.core.bo.user.UniversalUser;
-import org.kuali.core.exceptions.GroupNotFoundException;
 import org.kuali.core.service.DateTimeService;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSKeyConstants;
-import org.kuali.kfs.KFSConstants.ParameterGroups;
 import org.kuali.kfs.KFSConstants.SystemGroupParameterNames;
 import org.kuali.kfs.batch.BatchInputFileTypeBase;
-import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.gl.service.CollectorHelperService;
 
 /**

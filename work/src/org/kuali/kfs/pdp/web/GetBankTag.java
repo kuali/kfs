@@ -7,7 +7,7 @@ package org.kuali.module.pdp.tag;
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.tagext.TagSupport;
 
-import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.pdp.dao.BankDao;
 
 
@@ -53,7 +53,7 @@ public class GetBankTag extends TagSupport {
   public int doEndTag() throws JspException {
     LOG.info("doEndTag() starting");
 
-    BankDao cpd = (BankDao)SpringServiceLocator.getService("pdpBankDao");
+    BankDao cpd = SpringContext.getBean(BankDao.class);
 
     if ( "".equals(active) ) {
       pageContext.setAttribute("BankList",cpd.getAll());

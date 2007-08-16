@@ -28,9 +28,8 @@ import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.PersistenceService;
 import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.context.KualiTestBase;
-import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.budget.bo.CalculatedSalaryFoundationTracker;
-import org.kuali.module.gl.web.Constant;
 import org.kuali.module.gl.web.TestDataGenerator;
 import org.kuali.module.labor.LaborConstants;
 import org.kuali.module.labor.bo.AccountStatusBaseFunds;
@@ -38,7 +37,6 @@ import org.kuali.module.labor.bo.LedgerBalance;
 import org.kuali.module.labor.service.LaborInquiryOptionsService;
 import org.kuali.module.labor.util.ObjectUtil;
 import org.kuali.test.ConfigureContext;
-import org.kuali.test.suite.RelatesTo;
 
 /**
  * This class contains test cases that can be applied to methods in Account Status Base Funds class.
@@ -65,9 +63,9 @@ public class BaseFundsLookupableHelperServiceTest extends KualiTestBase {
     protected void setUp() throws Exception {
         super.setUp();
 
-        businessObjectService = (BusinessObjectService) SpringServiceLocator.getService("businessObjectService");
+        businessObjectService = SpringContext.getBean(BusinessObjectService.class);
 
-        lookupableHelperService = (LookupableHelperService) SpringServiceLocator.getService(LaborConstants.BASE_FUNDS_LOOKUP_HELPER_SRVICE_NAME);
+        lookupableHelperService = SpringContext.getBean(LookupableHelperService.class, LaborConstants.BASE_FUNDS_LOOKUP_HELPER_SRVICE_NAME);
         lookupableHelperService.setBusinessObjectClass(AccountStatusBaseFunds.class);
 
         // Clear up the database so that any existing data cannot affact your test result
@@ -215,8 +213,8 @@ public class BaseFundsLookupableHelperServiceTest extends KualiTestBase {
 
         TestDataGenerator testDataGenerator = new TestDataGenerator(propertiesFileName, messageFileName);
 
-        businessObjectService = (BusinessObjectService) SpringServiceLocator.getService("businessObjectService");
-        persistenceService = (PersistenceService) SpringServiceLocator.getService("persistenceService");
+        businessObjectService = SpringContext.getBean(BusinessObjectService.class);
+        persistenceService = SpringContext.getBean(PersistenceService.class);
 
         int numberOfDocuments = Integer.valueOf(properties.getProperty("getCSFTracker.numberOfDocuments"));
         List<CalculatedSalaryFoundationTracker> inputDataList = new ArrayList<CalculatedSalaryFoundationTracker>();
@@ -248,8 +246,8 @@ public class BaseFundsLookupableHelperServiceTest extends KualiTestBase {
 
         TestDataGenerator testDataGenerator = new TestDataGenerator(propertiesFileName, messageFileName);
 
-        businessObjectService = (BusinessObjectService) SpringServiceLocator.getService("businessObjectService");
-        persistenceService = (PersistenceService) SpringServiceLocator.getService("persistenceService");
+        businessObjectService = SpringContext.getBean(BusinessObjectService.class);
+        persistenceService = SpringContext.getBean(PersistenceService.class);
 
         int numberOfDocuments = Integer.valueOf(properties.getProperty("getAccountStatusBaseFunds.numOfData"));
         List<LedgerBalance> inputDataList = new ArrayList<LedgerBalance>();
@@ -266,6 +264,6 @@ public class BaseFundsLookupableHelperServiceTest extends KualiTestBase {
     }  
 
     private LaborInquiryOptionsService getInquiryOptionsService() {
-        return (LaborInquiryOptionsService) SpringServiceLocator.getService("laborInquiryOptionsService");
+        return SpringContext.getBean(LaborInquiryOptionsService.class);
     }
 }

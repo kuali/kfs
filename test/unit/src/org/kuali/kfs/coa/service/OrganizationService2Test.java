@@ -15,12 +15,11 @@
  */
 package org.kuali.module.chart.service;
 
-import static org.kuali.kfs.util.SpringServiceLocator.getOrganizationService;
-
 import java.util.Collections;
 import java.util.List;
 
 import org.kuali.kfs.context.KualiTestBase;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.test.ConfigureContext;
 
 @ConfigureContext
@@ -36,7 +35,7 @@ public class OrganizationService2Test extends KualiTestBase {
 
         List accounts;
 
-        accounts = getOrganizationService().getActiveAccountsByOrg(GOOD_CHART, GOOD_ORG);
+        accounts = SpringContext.getBean(OrganizationService.class).getActiveAccountsByOrg(GOOD_CHART, GOOD_ORG);
 
         assertFalse("List of Accounts should not contain no elements.", accounts.size() == 0);
         assertFalse("List of Accounts should not be empty.", accounts.isEmpty());
@@ -47,7 +46,7 @@ public class OrganizationService2Test extends KualiTestBase {
 
         List accounts;
 
-        accounts = getOrganizationService().getActiveAccountsByOrg(BAD_CHART, BAD_ORG);
+        accounts = SpringContext.getBean(OrganizationService.class).getActiveAccountsByOrg(BAD_CHART, BAD_ORG);
 
         assertEquals(Collections.EMPTY_LIST, accounts);
         assertTrue("List of Accounts should contain no elements.", accounts.size() == 0);
@@ -59,7 +58,7 @@ public class OrganizationService2Test extends KualiTestBase {
 
         List orgs;
 
-        orgs = getOrganizationService().getActiveChildOrgs(GOOD_CHART, GOOD_ORG2);
+        orgs = SpringContext.getBean(OrganizationService.class).getActiveChildOrgs(GOOD_CHART, GOOD_ORG2);
 
         assertFalse("List of Orgs should not contain no elements.", orgs.size() == 0);
         assertFalse("List of Orgs should not be empty.", orgs.isEmpty());
@@ -70,7 +69,7 @@ public class OrganizationService2Test extends KualiTestBase {
 
         List orgs;
 
-        orgs = getOrganizationService().getActiveChildOrgs(BAD_CHART, BAD_ORG);
+        orgs = SpringContext.getBean(OrganizationService.class).getActiveChildOrgs(BAD_CHART, BAD_ORG);
 
         assertEquals(Collections.EMPTY_LIST, orgs);
         assertTrue("List of Orgs should contain no elements.", orgs.size() == 0);

@@ -15,10 +15,9 @@
  */
 package org.kuali.module.chart.service;
 
-import static org.kuali.kfs.util.SpringServiceLocator.getSubAccountService;
-
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.context.KualiTestBase;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.chart.bo.A21SubAccount;
 import org.kuali.module.chart.bo.SubAccount;
 import org.kuali.test.ConfigureContext;
@@ -35,7 +34,7 @@ public class SubAccountServiceTest extends KualiTestBase {
 
 
     public void testA21SubAccount() {
-        SubAccount sa = getSubAccountService().getByPrimaryId(subAccount.getChartOfAccountsCode(), subAccount.getAccountNumber(), subAccount.getSubAccountNumber());
+        SubAccount sa = SpringContext.getBean(SubAccountService.class).getByPrimaryId(subAccount.getChartOfAccountsCode(), subAccount.getAccountNumber(), subAccount.getSubAccountNumber());
 
         assertTrue("expect to find this sub account: " + subAccount.getChartOfAccountsCode() + "/" + subAccount.getAccountNumber() + "/" + subAccount.getSubAccountNumber(), ObjectUtils.isNotNull(sa));
         A21SubAccount a21 = sa.getA21SubAccount();
@@ -49,7 +48,7 @@ public class SubAccountServiceTest extends KualiTestBase {
         sa.setChartOfAccountsCode(subAccount.getChartOfAccountsCode());
         sa.setSubAccountNumber(subAccount.getSubAccountNumber());
 
-        SubAccount retrieved = getSubAccountService().getByPrimaryId(subAccount.getChartOfAccountsCode(), subAccount.getAccountNumber(), subAccount.getSubAccountNumber());
+        SubAccount retrieved = SpringContext.getBean(SubAccountService.class).getByPrimaryId(subAccount.getChartOfAccountsCode(), subAccount.getAccountNumber(), subAccount.getSubAccountNumber());
         assertTrue("Didn't retrieve sub account", ObjectUtils.isNotNull(retrieved));
         assertEquals("Wrong chart", subAccount.getChartOfAccountsCode(), retrieved.getChartOfAccountsCode());
         assertEquals("Wrong account", subAccount.getAccountNumber(), retrieved.getAccountNumber());
@@ -62,7 +61,7 @@ public class SubAccountServiceTest extends KualiTestBase {
         sa.setChartOfAccountsCode(subAccount.getChartOfAccountsCode());
         sa.setSubAccountNumber(subAccount.getSubAccountNumber());
 
-        SubAccount retrieved = getSubAccountService().getByPrimaryIdWithCaching(subAccount.getChartOfAccountsCode(), subAccount.getAccountNumber(), subAccount.getSubAccountNumber());
+        SubAccount retrieved = SpringContext.getBean(SubAccountService.class).getByPrimaryIdWithCaching(subAccount.getChartOfAccountsCode(), subAccount.getAccountNumber(), subAccount.getSubAccountNumber());
         assertTrue("Didn't retrieve sub account", ObjectUtils.isNotNull(retrieved));
         assertEquals("Wrong chart", subAccount.getChartOfAccountsCode(), retrieved.getChartOfAccountsCode());
         assertEquals("Wrong account", subAccount.getAccountNumber(), retrieved.getAccountNumber());

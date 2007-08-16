@@ -15,11 +15,11 @@
  */
 package org.kuali.module.chart.service;
 
-import static org.kuali.kfs.util.SpringServiceLocator.*;
-
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.exceptions.UserNotFoundException;
+import org.kuali.core.service.UniversalUserService;
 import org.kuali.kfs.context.KualiTestBase;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.test.ConfigureContext;
 
@@ -34,29 +34,29 @@ public class AccountServiceTest extends KualiTestBase {
 
     public void testValidateAccount() {
         Account account = null;
-        account = getAccountService().getByPrimaryId("BA", "6044900");
+        account = SpringContext.getBean(AccountService.class).getByPrimaryId("BA", "6044900");
         assertNotNull(account);
         // assertNotNull(account.getSubAccounts());
         // assertEquals("sub account list should contain 27 subaccounts", 27, account.getSubAccounts().size());
 
         account = null;
-        account = getAccountService().getByPrimaryId("XX", "0000000");
+        account = SpringContext.getBean(AccountService.class).getByPrimaryId("XX", "0000000");
         assertNull(account);
 
         account = null;
-        account = getAccountService().getByPrimaryId("KO", "");
+        account = SpringContext.getBean(AccountService.class).getByPrimaryId("KO", "");
         assertNull(account);
 
         account = null;
-        account = getAccountService().getByPrimaryId("UA", null);
+        account = SpringContext.getBean(AccountService.class).getByPrimaryId("UA", null);
         assertNull(account);
 
         account = null;
-        account = getAccountService().getByPrimaryId(null, "1912610");
+        account = SpringContext.getBean(AccountService.class).getByPrimaryId(null, "1912610");
         assertNull(account);
 
         account = null;
-        account = getAccountService().getByPrimaryId(null, null);
+        account = SpringContext.getBean(AccountService.class).getByPrimaryId(null, null);
         assertNull(account);
     }
 
@@ -68,22 +68,22 @@ public class AccountServiceTest extends KualiTestBase {
     // TODO this test uses hardcoded tests...how do we move to fixtures
     public void testAccountResponsibility() {
         try {
-            UniversalUser rorenfro = getUniversalUserService().getUniversalUserByAuthenticationUserId("rorenfro");
-            UniversalUser jaraujo = getUniversalUserService().getUniversalUserByAuthenticationUserId("jaraujo");
-            UniversalUser rmunroe = getUniversalUserService().getUniversalUserByAuthenticationUserId("rmunroe");
-            UniversalUser kcopley = getUniversalUserService().getUniversalUserByAuthenticationUserId("kcopley");
+            UniversalUser rorenfro = SpringContext.getBean(UniversalUserService.class, "universalUserService").getUniversalUserByAuthenticationUserId("rorenfro");
+            UniversalUser jaraujo = SpringContext.getBean(UniversalUserService.class, "universalUserService").getUniversalUserByAuthenticationUserId("jaraujo");
+            UniversalUser rmunroe = SpringContext.getBean(UniversalUserService.class, "universalUserService").getUniversalUserByAuthenticationUserId("rmunroe");
+            UniversalUser kcopley = SpringContext.getBean(UniversalUserService.class, "universalUserService").getUniversalUserByAuthenticationUserId("kcopley");
             
-            Account bl1031400 = getAccountService().getByPrimaryId("BL", "1031400");
-            Account ba9021104 = getAccountService().getByPrimaryId("BA", "9021104");
+            Account bl1031400 = SpringContext.getBean(AccountService.class).getByPrimaryId("BL", "1031400");
+            Account ba9021104 = SpringContext.getBean(AccountService.class).getByPrimaryId("BA", "9021104");
             
             // 1. RORENFRO is fiscal officer for BL-1031400, so she has responsibility
-            assertTrue(getAccountService().hasResponsibilityOnAccount(rorenfro, bl1031400));
+            assertTrue(SpringContext.getBean(AccountService.class).hasResponsibilityOnAccount(rorenfro, bl1031400));
             // 2. JARAUJO is account supervisor for BL-1031400...no responsibility
-            assertFalse(getAccountService().hasResponsibilityOnAccount(jaraujo, bl1031400));
+            assertFalse(SpringContext.getBean(AccountService.class).hasResponsibilityOnAccount(jaraujo, bl1031400));
             // 3. RMUNROE is a delegate of BA-901104...has responsibility
-            assertTrue(getAccountService().hasResponsibilityOnAccount(rmunroe, ba9021104));
+            assertTrue(SpringContext.getBean(AccountService.class).hasResponsibilityOnAccount(rmunroe, ba9021104));
             // 4. KCOPLEY is not a delegate or fiscal officer of BL-1031400...no responsibility
-            assertFalse(getAccountService().hasResponsibilityOnAccount(kcopley, bl1031400));
+            assertFalse(SpringContext.getBean(AccountService.class).hasResponsibilityOnAccount(kcopley, bl1031400));
         }
         catch (UserNotFoundException e) {
             // TODO Auto-generated catch block

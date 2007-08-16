@@ -15,9 +15,8 @@
  */
 package org.kuali.module.chart.service;
 
-import static org.kuali.kfs.util.SpringServiceLocator.*;
-
 import org.kuali.kfs.context.KualiTestBase;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.chart.bo.OffsetDefinition;
 import org.kuali.test.ConfigureContext;
 
@@ -31,12 +30,12 @@ public class OffsetDefinitionServiceTest extends KualiTestBase {
 
     public void testValidateAccount() {
         OffsetDefinition offsetDefinition = null;
-        offsetDefinition = getOffsetDefinitionService().getByPrimaryId(new Integer(2004), "BA", "IB", "AC");
+        offsetDefinition = SpringContext.getBean(OffsetDefinitionService.class).getByPrimaryId(new Integer(2004), "BA", "IB", "AC");
         assertNotNull("offset object code not found", offsetDefinition.getFinancialObject());
         assertEquals("offset object code should have been 8000", "8000", offsetDefinition.getFinancialObject().getFinancialObjectCode());
 
         offsetDefinition = null;
-        offsetDefinition = getOffsetDefinitionService().getByPrimaryId(new Integer(2004), "XX", "XX", "XX");
+        offsetDefinition = SpringContext.getBean(OffsetDefinitionService.class).getByPrimaryId(new Integer(2004), "XX", "XX", "XX");
         assertNull(offsetDefinition);
     }
 }

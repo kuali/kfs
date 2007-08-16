@@ -24,7 +24,6 @@ import org.kuali.core.util.Guid;
 import org.kuali.core.util.UnitTestSqlDao;
 import org.kuali.kfs.context.KualiTestBase;
 import org.kuali.kfs.context.SpringContext;
-import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.gl.bo.SufficientFundBalances;
 import org.kuali.module.gl.bo.SufficientFundRebuild;
 import org.kuali.module.gl.dao.SufficientFundBalancesDao;
@@ -46,10 +45,10 @@ public class SufficientFundsRebuilderServiceTest extends KualiTestBase {
         super.setUp();
         LOG.debug("setUp() started");
 
-        sufficientFundsRebuilderService = (SufficientFundsRebuilderService) SpringServiceLocator.getService("glSufficientFundsRebuilderService");
+        sufficientFundsRebuilderService = SpringContext.getBean(SufficientFundsRebuilderService.class);
         sufficientFundRebuildDao = SpringContext.getBean(SufficientFundRebuildDao.class);
         sufficientFundBalancesDao = SpringContext.getBean(SufficientFundBalancesDao.class);
-        persistenceService = (PersistenceService) SpringServiceLocator.getService("persistenceService");
+        persistenceService = SpringContext.getBean(PersistenceService.class);
         unitTestSqlDao = SpringContext.getBean(UnitTestSqlDao.class);
     }
 

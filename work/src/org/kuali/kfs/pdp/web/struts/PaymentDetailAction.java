@@ -18,7 +18,7 @@ import javax.servlet.http.HttpSession;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.pdp.action.BaseAction;
 import org.kuali.module.pdp.bo.PaymentDetail;
 import org.kuali.module.pdp.bo.PaymentGroup;
@@ -39,8 +39,8 @@ public class PaymentDetailAction extends BaseAction {
     private Map payees;
 
     public PaymentDetailAction() {
-        setPaymentGroupService( (PaymentGroupService)SpringServiceLocator.getService("pdpPaymentGroupService") );
-        setPaymentDetailService( (PaymentDetailService)SpringServiceLocator.getService("pdpPaymentDetailService") );
+        setPaymentGroupService( SpringContext.getBean(PaymentGroupService.class) );
+        setPaymentDetailService( SpringContext.getBean(PaymentDetailService.class) );
 
         // TODO Fix this
         payees = new HashMap();

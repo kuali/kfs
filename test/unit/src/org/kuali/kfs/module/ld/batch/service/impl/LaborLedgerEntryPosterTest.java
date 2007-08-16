@@ -30,7 +30,7 @@ import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DateTimeService;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.context.KualiTestBase;
-import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.gl.batch.poster.PostTransaction;
 import org.kuali.module.gl.bo.OriginEntryGroup;
 import org.kuali.module.gl.service.OriginEntryGroupService;
@@ -69,11 +69,11 @@ public class LaborLedgerEntryPosterTest extends KualiTestBase {
         deliminator = properties.getProperty("deliminator");
         keyFieldList = Arrays.asList(StringUtils.split(fieldNames, deliminator));
         
-        laborLedgerEntryPoster = (PostTransaction) SpringServiceLocator.getService("laborLedgerEntryPoster");
-        businessObjectService = (BusinessObjectService) SpringServiceLocator.getService("businessObjectService");
-        originEntryGroupService = (OriginEntryGroupService) SpringServiceLocator.getService("glOriginEntryGroupService");
-        laborLedgerEntryService = (LaborLedgerEntryService) SpringServiceLocator.getService("laborLedgerEntryService");
-        DateTimeService dateTimeService = (DateTimeService)SpringServiceLocator.getService("dateTimeService");
+        laborLedgerEntryPoster = SpringContext.getBean(PostTransaction.class, "laborLedgerEntryPoster");
+        businessObjectService = SpringContext.getBean(BusinessObjectService.class);
+        originEntryGroupService = SpringContext.getBean(OriginEntryGroupService.class, "glOriginEntryGroupService");
+        laborLedgerEntryService = SpringContext.getBean(LaborLedgerEntryService.class);
+        DateTimeService dateTimeService = SpringContext.getBean(DateTimeService.class, "dateTimeService");
         
         group1 = originEntryGroupService.createGroup(dateTimeService.getCurrentSqlDate(), LABOR_MAIN_POSTER_VALID, false, false, false);        
         today = dateTimeService.getCurrentDate();

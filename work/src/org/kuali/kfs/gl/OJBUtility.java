@@ -30,7 +30,6 @@ import org.kuali.core.dao.LookupDao;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.context.SpringContext;
-import org.kuali.kfs.util.SpringServiceLocator;
 
 /**
  * This class provides a set of utilities that can handle common tasks related to business objects.
@@ -138,7 +137,7 @@ public class OJBUtility {
      * @return the size of a result set from the given search criteria
      */
     public static Long getResultSizeFromMap(Map fieldValues, Object businessObject) {
-        LookupDao lookupDao = (LookupDao) SpringServiceLocator.getService(LOOKUP_DAO);
+        LookupDao lookupDao = SpringContext.getBean(LookupDao.class);
         return lookupDao.findCountByMap(businessObject, fieldValues);
     }
 
@@ -163,7 +162,7 @@ public class OJBUtility {
      * This method build OJB criteria from the given property value and name
      */
     public static boolean createCriteria(Object businessObject, String propertyValue, String propertyName, Criteria criteria) {
-        LookupDao lookupDao = (LookupDao) SpringServiceLocator.getService(LOOKUP_DAO);
+        LookupDao lookupDao = SpringContext.getBean(LookupDao.class);
         return lookupDao.createCriteria(businessObject, propertyValue, propertyName, criteria);
     }
 }

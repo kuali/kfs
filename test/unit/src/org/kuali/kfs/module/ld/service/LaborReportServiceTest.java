@@ -32,7 +32,7 @@ import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DateTimeService;
 import org.kuali.core.service.PersistenceService;
 import org.kuali.kfs.context.KualiTestBase;
-import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.gl.batch.poster.VerifyTransaction;
 import org.kuali.module.gl.bo.OriginEntryGroup;
 import org.kuali.module.gl.bo.Transaction;
@@ -78,16 +78,16 @@ public class LaborReportServiceTest extends KualiTestBase {
         fieldNames = properties.getProperty("fieldNames");
         deliminator = properties.getProperty("deliminator");
 
-        laborOriginEntryService = (LaborOriginEntryService) SpringServiceLocator.getService("laborOriginEntryService");
-        originEntryGroupService = (OriginEntryGroupService) SpringServiceLocator.getService("glOriginEntryGroupService");
-        businessObjectService = (BusinessObjectService) SpringServiceLocator.getService("businessObjectService");
-        persistenceService = (PersistenceService) SpringServiceLocator.getService("persistenceService");
+        laborOriginEntryService = SpringContext.getBean(LaborOriginEntryService.class);
+        originEntryGroupService = SpringContext.getBean(OriginEntryGroupService.class, "glOriginEntryGroupService");
+        businessObjectService = SpringContext.getBean(BusinessObjectService.class);
+        persistenceService = SpringContext.getBean(PersistenceService.class);
 
-        laborReportService = (LaborReportService) SpringServiceLocator.getService("laborReportService");
-        laborPosterTransactionValidator = (VerifyTransaction) SpringServiceLocator.getService("laborPosterTransactionValidator");
+        laborReportService = SpringContext.getBean(LaborReportService.class);
+        laborPosterTransactionValidator = SpringContext.getBean(VerifyTransaction.class, "laborPosterTransactionValidator");
         reportsDirectory = ReportRegistry.getReportsDirectory();
 
-        today = ((DateTimeService) SpringServiceLocator.getService("dateTimeService")).getCurrentSqlDate();
+        today = (SpringContext.getBean(DateTimeService.class, "dateTimeService")).getCurrentSqlDate();
         group1 = originEntryGroupService.createGroup(today, LABOR_MAIN_POSTER_VALID, true, true, false);
         group2 = originEntryGroupService.createGroup(today, LABOR_MAIN_POSTER_VALID, true, true, false);
         invalidGroup = originEntryGroupService.createGroup(today, LABOR_MAIN_POSTER_ERROR, false, true, false);

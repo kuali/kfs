@@ -15,12 +15,12 @@
  */
 package org.kuali.module.chart.bo;
 
-import static org.kuali.kfs.util.SpringServiceLocator.getDateTimeService;
-
 import java.sql.Timestamp;
 import java.text.ParseException;
 
+import org.kuali.core.service.DateTimeService;
 import org.kuali.kfs.context.KualiTestBase;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.test.ConfigureContext;
 
 /**
@@ -47,7 +47,7 @@ public class AccountTest extends KualiTestBase {
     private Timestamp getTimestamp(String timestampString) {
         Timestamp timestamp;
         try {
-            timestamp = getDateTimeService().convertToSqlTimestamp(timestampString);
+            timestamp = SpringContext.getBean(DateTimeService.class, "dateTimeService").convertToSqlTimestamp(timestampString);
         }
         catch (ParseException e) {
             assertNull("Timestamp String was not parseable", e);
@@ -67,7 +67,7 @@ public class AccountTest extends KualiTestBase {
         account.setAccountExpirationDate(expirationDate);
 
         // test against isExpired, and get the result
-        boolean actualResult = account.isExpired(getDateTimeService().getCalendar(testDate));
+        boolean actualResult = account.isExpired(SpringContext.getBean(DateTimeService.class, "dateTimeService").getCalendar(testDate));
 
         // compare the result to what was expected
         assertEquals(expectedResult, actualResult);

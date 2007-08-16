@@ -18,11 +18,7 @@ package org.kuali.workflow.module.purap.docsearch.attribute;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.core.service.KualiConfigurationService;
-import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.purap.PurapConstants;
-import org.kuali.module.purap.PurapParameterConstants;
-import org.kuali.module.purap.service.impl.PurapServiceImpl;
 import org.kuali.workflow.attribute.KualiXmlSearchableAttributeImpl;
 
 import edu.iu.uis.eden.docsearch.SearchableAttributeStringValue;

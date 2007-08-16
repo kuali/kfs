@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.pdp.action.BaseAction;
 import org.kuali.module.pdp.bo.DisbursementNumberRange;
 import org.kuali.module.pdp.form.disbursementnumbermaintenance.DisbursementNumberMaintenanceForm;
@@ -32,7 +32,7 @@ public class DisbursementNumberMaintenanceAction extends BaseAction {
 
     public DisbursementNumberMaintenanceAction() {
         super();
-        setDisbursementNumberRangeService( (DisbursementNumberRangeService)SpringServiceLocator.getService("pdpDisbursementNumberRangeService") );
+        setDisbursementNumberRangeService( SpringContext.getBean(DisbursementNumberRangeService.class ));
     }
 
     public void setDisbursementNumberRangeService(DisbursementNumberRangeService d) {

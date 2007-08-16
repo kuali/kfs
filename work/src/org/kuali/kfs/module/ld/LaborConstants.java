@@ -31,7 +31,6 @@ import org.kuali.module.gl.bo.OriginEntry;
  * This class contains the constants used by Labor Distribution.
  */
 public class LaborConstants {
-    public static final String EXPENSE_TRANSFER_ACCOUNTING_LINE_SERVICE_NAME = "expenseTransferAccountingLineService";
     public static class PayrollDocumentTypeCode {
         public static final String NORMAL_PAY = "PAY";
         public static final String RETROACTIVE_ADJUSTMENT = "RETR";

@@ -22,8 +22,6 @@ import java.util.Map;
 
 import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.context.SpringContext;
-import org.kuali.kfs.util.SpringServiceLocator;
-import org.kuali.module.gl.GLSpringBeansRegistry;
 import org.kuali.module.gl.bo.Entry;
 import org.kuali.module.gl.bo.Transaction;
 import org.kuali.module.gl.dao.EntryDao;
@@ -47,7 +45,7 @@ public class EntryLookupableHelperServiceTest extends AbstractGLLookupableHelper
         super.setUp();
 
         entryDao = SpringContext.getBean(EntryDao.class);
-        lookupableHelperServiceImpl = (EntryLookupableHelperServiceImpl) SpringServiceLocator.getService(GLSpringBeansRegistry.glEntryLookupableHelperService);
+        lookupableHelperServiceImpl = SpringContext.getBean(EntryLookupableHelperServiceImpl.class, "glEntryLookupableHelperService");
         lookupableHelperServiceImpl.setBusinessObjectClass(Entry.class);
     }
 

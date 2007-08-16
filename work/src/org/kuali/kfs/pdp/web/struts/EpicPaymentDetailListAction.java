@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.pdp.action.BaseAction;
 import org.kuali.module.pdp.bo.PaymentDetail;
 import org.kuali.module.pdp.service.PaymentGroupService;
@@ -26,7 +26,7 @@ public class EpicPaymentDetailListAction extends BaseAction {
   private PaymentGroupService paymentGroupService;
 
   public EpicPaymentDetailListAction() {
-      setPaymentGroupService( (PaymentGroupService)SpringServiceLocator.getService("pdpPaymentGroupSerivce") );
+      setPaymentGroupService( SpringContext.getBean(PaymentGroupService.class) );
   }
 
   protected ActionForward executeLogic(ActionMapping mapping, ActionForm form,

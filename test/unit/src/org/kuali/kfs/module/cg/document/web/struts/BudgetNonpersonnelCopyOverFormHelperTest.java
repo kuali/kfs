@@ -15,16 +15,17 @@
  */
 package org.kuali.module.kra.web.struts.form;
 
-import static org.kuali.kfs.util.SpringServiceLocator.getBudgetNonpersonnelService;
 import static org.kuali.test.util.KualiTestAssertionUtils.assertEquality;
 
 import java.util.List;
 
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.context.KualiTestBase;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.kra.bo.BudgetNonpersonnelTest;
 import org.kuali.module.kra.bo.BudgetPeriodTest;
 import org.kuali.module.kra.budget.bo.BudgetNonpersonnel;
+import org.kuali.module.kra.budget.service.BudgetNonpersonnelService;
 import org.kuali.module.kra.budget.web.struts.form.BudgetForm;
 import org.kuali.module.kra.budget.web.struts.form.BudgetNonpersonnelCopyOverFormHelper;
 import org.kuali.module.kra.budget.web.struts.form.BudgetNonpersonnelCopyOverFormHelper.NonpersonnelCopyOverCategoryHelper;
@@ -46,7 +47,7 @@ public class BudgetNonpersonnelCopyOverFormHelperTest extends KualiTestBase {
         super.setUp();
         budgetForm = new BudgetForm();
 
-        budgetForm.setNonpersonnelCategories(getBudgetNonpersonnelService().getAllNonpersonnelCategories());
+        budgetForm.setNonpersonnelCategories(SpringContext.getBean(BudgetNonpersonnelService.class).getAllNonpersonnelCategories());
 
         String[] categories = { "CO", "CO", "FL" };
         String[] subCategories = { "C1", "C1", "F5" };

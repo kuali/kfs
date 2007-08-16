@@ -18,7 +18,6 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.action.ActionMessage;
 import org.kuali.kfs.context.SpringContext;
-import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.ObjectCode;
 import org.kuali.module.chart.bo.SubAccount;
@@ -59,9 +58,9 @@ public class CustomerProfileSaveAction extends BaseAction {
 
   public CustomerProfileSaveAction() {
       super();
-      setCustomerProfileService( (CustomerProfileService)SpringServiceLocator.getService("pdpCustomerProfileService") );
-      setReferenceService( (ReferenceService)SpringServiceLocator.getService("pdpReferenceService") );
-      setBankService( (BankService)SpringServiceLocator.getService("pdpBankService") );
+      setCustomerProfileService( SpringContext.getBean(CustomerProfileService.class) );
+      setReferenceService( SpringContext.getBean(ReferenceService.class) );
+      setBankService( SpringContext.getBean(BankService.class) );
       setAccountService( SpringContext.getBean(AccountService.class) );
       setSubAccountService( SpringContext.getBean(SubAccountService.class) );
       setObjectCodeService( SpringContext.getBean(ObjectCodeService.class) );

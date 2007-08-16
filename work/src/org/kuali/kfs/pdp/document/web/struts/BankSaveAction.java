@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.pdp.action.BaseAction;
 import org.kuali.module.pdp.bo.Bank;
 import org.kuali.module.pdp.bo.DisbursementType;
@@ -32,8 +32,8 @@ public class BankSaveAction extends BaseAction {
 
   public BankSaveAction() {
       super();
-      setBankService( (BankService)SpringServiceLocator.getService("pdpBankService") );
-      setReferenceService( (ReferenceService)SpringServiceLocator.getService("pdpReferenceService") );
+      setBankService( SpringContext.getBean(BankService.class) );
+      setReferenceService( SpringContext.getBean(ReferenceService.class) );
   }
 
   public void setBankService(BankService b) {

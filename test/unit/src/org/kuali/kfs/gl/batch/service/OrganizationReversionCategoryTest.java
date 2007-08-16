@@ -19,7 +19,6 @@ import java.util.Map;
 
 import org.kuali.kfs.context.KualiTestBase;
 import org.kuali.kfs.context.SpringContext;
-import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.chart.bo.ObjectCode;
 import org.kuali.module.chart.service.ObjectCodeService;
 import org.kuali.module.chart.service.OrganizationReversionService;
@@ -38,7 +37,7 @@ public class OrganizationReversionCategoryTest extends KualiTestBase {
     public void setUp() throws Exception {
         super.setUp();
 
-        organizationReversionService = (OrganizationReversionService) SpringServiceLocator.getService("organizationReversionService");
+        organizationReversionService = SpringContext.getBean(OrganizationReversionService.class);
         categories = organizationReversionService.getCategories();
         objectCodeService = SpringContext.getBean(ObjectCodeService.class);
     }

@@ -14,7 +14,7 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.action.ActionMessage;
-import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.pdp.action.BaseAction;
 import org.kuali.module.pdp.bo.Batch;
 import org.kuali.module.pdp.form.paymentmaintenance.PaymentMaintenanceForm;
@@ -32,7 +32,7 @@ public class BatchMaintenanceAction extends BaseAction {
   private BatchMaintenanceService batchMaintenanceService;
 
   public BatchMaintenanceAction() {
-      setBatchMaintenanceService( (BatchMaintenanceService)SpringServiceLocator.getService("pdpBatchMaintenanceService") );
+      setBatchMaintenanceService( SpringContext.getBean(BatchMaintenanceService.class) );
   }
 
   public void setBatchMaintenanceService(BatchMaintenanceService p) {

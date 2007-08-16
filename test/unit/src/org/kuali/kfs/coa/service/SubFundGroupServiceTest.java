@@ -15,9 +15,8 @@
  */
 package org.kuali.module.chart.service;
 
-import static org.kuali.kfs.util.SpringServiceLocator.getSubFundGroupService;
-
 import org.kuali.kfs.context.KualiTestBase;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.chart.bo.SubFundGroup;
 import org.kuali.test.ConfigureContext;
 
@@ -32,26 +31,26 @@ public class SubFundGroupServiceTest extends KualiTestBase {
 
     public final void testGetByCode_knownCode() {
         // known-good code
-        SubFundGroup subFundGroup = getSubFundGroupService().getByPrimaryId("LOANFD");
+        SubFundGroup subFundGroup = SpringContext.getBean(SubFundGroupService.class).getByPrimaryId("LOANFD");
         assertEquals("Known code does not produce expected name.", "LOAN FUNDS", subFundGroup.getSubFundGroupDescription());
     }
 
     public final void testGetByCode_knownCode2() {
         // known-good code
-        SubFundGroup subFundGroup = getSubFundGroupService().getByPrimaryId("CLEAR");
+        SubFundGroup subFundGroup = SpringContext.getBean(SubFundGroupService.class).getByPrimaryId("CLEAR");
         assertEquals("Known code does not produce expected name.", "CLEARING AND ROTATING FUNDS", subFundGroup.getSubFundGroupDescription());
     }
 
     public final void testGetByCode_unknownCode() {
         // known-bad code
-        SubFundGroup subFundGroup = getSubFundGroupService().getByPrimaryId("SMELL");
+        SubFundGroup subFundGroup = SpringContext.getBean(SubFundGroupService.class).getByPrimaryId("SMELL");
         assertNull("Known-bad code does not produce expected null object.", subFundGroup);
     }
 
     public final void testGetByChartAndAccount() {
         String chartCode = "BL";
         String accountNumber = "1031420";
-        SubFundGroup subFundGroup = getSubFundGroupService().getByChartAndAccount(chartCode, accountNumber);
+        SubFundGroup subFundGroup = SpringContext.getBean(SubFundGroupService.class).getByChartAndAccount(chartCode, accountNumber);
         assertNotNull(subFundGroup);
         assertEquals("Foo", "GENFND", subFundGroup.getSubFundGroupCode());
     }

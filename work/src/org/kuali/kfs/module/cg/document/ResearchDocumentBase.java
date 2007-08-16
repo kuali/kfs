@@ -27,7 +27,6 @@ import org.kuali.core.document.TransactionalDocumentBase;
 import org.kuali.core.rule.event.KualiDocumentEvent;
 import org.kuali.core.service.PersistenceService;
 import org.kuali.kfs.context.SpringContext;
-import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.kra.bo.AdhocOrg;
 import org.kuali.module.kra.bo.AdhocPerson;
 import org.kuali.module.kra.bo.AdhocWorkgroup;
@@ -254,7 +253,7 @@ public abstract class ResearchDocumentBase extends TransactionalDocumentBase imp
     public void prepareForSave(KualiDocumentEvent event) {
         super.prepareForSave(event);
         try {
-            ((ResearchDocumentService) SpringServiceLocator.getService("researchDocumentService")).prepareResearchDocumentForSave(this);
+            SpringContext.getBean(ResearchDocumentService.class).prepareResearchDocumentForSave(this);
         }
         catch (Exception e) {
             throw new RuntimeException("Error preparing ResearchDocument for save", e);

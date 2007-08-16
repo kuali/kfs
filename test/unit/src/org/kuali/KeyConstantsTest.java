@@ -18,18 +18,11 @@ package org.kuali;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 
-import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.KFSKeyConstants;
 import org.kuali.kfs.context.KualiTestBase;
-import org.kuali.kfs.util.SpringServiceLocator;
-
-import com.opensymphony.oscache.util.StringUtil;
-
-import junit.framework.TestCase;
 
 public class KeyConstantsTest extends KualiTestBase {
 

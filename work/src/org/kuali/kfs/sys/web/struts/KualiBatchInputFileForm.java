@@ -15,14 +15,12 @@
  */
 package org.kuali.kfs.web.struts.form;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.struts.upload.FormFile;
 import org.kuali.core.web.struts.form.KualiForm;
 import org.kuali.core.web.ui.KeyLabelPair;
 import org.kuali.kfs.bo.BatchUpload;
-import org.kuali.kfs.util.SpringServiceLocator;
 
 /**
  * Struts action form for the batch upload screen.

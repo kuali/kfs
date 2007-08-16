@@ -15,9 +15,8 @@
  */
 package org.kuali.module.chart.service;
 
-import static org.kuali.kfs.util.SpringServiceLocator.*;
-
 import org.kuali.kfs.context.KualiTestBase;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.chart.bo.Chart;
 import org.kuali.test.ConfigureContext;
 
@@ -30,7 +29,7 @@ import org.kuali.test.ConfigureContext;
 public class ChartServiceTest extends KualiTestBase {
 
     public void testFindById() {
-        Chart chart = getChartService().getByPrimaryId("UA");
+        Chart chart = SpringContext.getBean(ChartService.class).getByPrimaryId("UA");
         assertEquals("Chart Code should be UA", chart.getChartOfAccountsCode(), "UA");
     }
 }

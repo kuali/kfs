@@ -13,7 +13,7 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.action.ActionMessage;
-import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.pdp.action.BaseAction;
 import org.kuali.module.pdp.bo.Batch;
 import org.kuali.module.pdp.bo.PaymentDetail;
@@ -34,8 +34,8 @@ public class PaymentMaintenanceAction extends BaseAction {
   private BatchMaintenanceService batchMaintenanceService;
 
   public PaymentMaintenanceAction() {
-      setPaymentMaintenanceService( (PaymentMaintenanceService)SpringServiceLocator.getService("pdpPaymentMaintenanceService") );
-      setBatchMaintenanceService( (BatchMaintenanceService)SpringServiceLocator.getService("pdpBatchMaintenanceService") );
+      setPaymentMaintenanceService( SpringContext.getBean(PaymentMaintenanceService.class) );
+      setBatchMaintenanceService( SpringContext.getBean(BatchMaintenanceService.class) );
   }
 
   public void setPaymentMaintenanceService(PaymentMaintenanceService p) {

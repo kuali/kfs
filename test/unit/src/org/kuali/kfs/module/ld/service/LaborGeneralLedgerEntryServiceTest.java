@@ -24,7 +24,7 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.context.KualiTestBase;
-import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.gl.web.TestDataGenerator;
 import org.kuali.module.labor.bo.LaborGeneralLedgerEntry;
 import org.kuali.module.labor.util.ObjectUtil;
@@ -52,8 +52,8 @@ public class LaborGeneralLedgerEntryServiceTest extends KualiTestBase {
         deliminator = properties.getProperty("deliminator");
         keyFieldList = Arrays.asList(StringUtils.split(fieldNames, deliminator));
 
-        laborGeneralLedgerEntryService = (LaborGeneralLedgerEntryService) SpringServiceLocator.getService("laborGeneralLedgerEntryService");
-        businessObjectService = (BusinessObjectService) SpringServiceLocator.getService("businessObjectService");
+        laborGeneralLedgerEntryService = SpringContext.getBean(LaborGeneralLedgerEntryService.class);
+        businessObjectService = SpringContext.getBean(BusinessObjectService.class);
     }
 
     public void testSave() throws Exception {

@@ -15,9 +15,6 @@
  */
 package org.kuali.module.kra.service;
 
-import static org.kuali.kfs.util.SpringServiceLocator.getBudgetModularService;
-import static org.kuali.kfs.util.SpringServiceLocator.getBudgetNonpersonnelService;
-
 import java.sql.Date;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -27,9 +24,9 @@ import java.util.List;
 
 import org.kuali.core.util.KualiInteger;
 import org.kuali.kfs.context.KualiTestBase;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.cg.bo.Agency;
 import org.kuali.module.kra.bo.BudgetNonpersonnelTest;
-import org.kuali.module.kra.bo.BudgetPeriodTest;
 import org.kuali.module.kra.budget.bo.AgencyExtension;
 import org.kuali.module.kra.budget.bo.Budget;
 import org.kuali.module.kra.budget.bo.BudgetModular;
@@ -37,6 +34,8 @@ import org.kuali.module.kra.budget.bo.BudgetModularPeriod;
 import org.kuali.module.kra.budget.bo.BudgetNonpersonnel;
 import org.kuali.module.kra.budget.bo.BudgetPeriod;
 import org.kuali.module.kra.budget.bo.UserAppointmentTaskPeriod;
+import org.kuali.module.kra.budget.service.BudgetModularService;
+import org.kuali.module.kra.budget.service.BudgetNonpersonnelService;
 import org.kuali.test.ConfigureContext;
 
 /**
@@ -86,12 +85,12 @@ public class BudgetModularServiceTest extends KualiTestBase {
 
 
     public void testGenerateModularBudget() {
-        List nonpersonnelCategories = getBudgetNonpersonnelService().getAllNonpersonnelCategories();
+        List nonpersonnelCategories = SpringContext.getBean(BudgetNonpersonnelService.class).getAllNonpersonnelCategories();
         KualiInteger zeroValue = new KualiInteger(0);
 
         // Case 1: Budget with no costs
         Budget budget = setupBudget();
-        getBudgetModularService().generateModularBudget(budget, nonpersonnelCategories);
+        SpringContext.getBean(BudgetModularService.class).generateModularBudget(budget, nonpersonnelCategories);
         BudgetModular modularBudget = budget.getModularBudget();
 
         assertFalse(modularBudget.isInvalidMode());
@@ -152,7 +151,7 @@ public class BudgetModularServiceTest extends KualiTestBase {
 
         budget.setAllUserAppointmentTaskPeriods(userAppointmentTaskPeriods);
 
-        getBudgetModularService().generateModularBudget(budget, nonpersonnelCategories);
+        SpringContext.getBean(BudgetModularService.class).generateModularBudget(budget, nonpersonnelCategories);
         modularBudget = budget.getModularBudget();
 
         assertFalse(modularBudget.isInvalidMode());
@@ -191,7 +190,7 @@ public class BudgetModularServiceTest extends KualiTestBase {
         userAppointmentTaskPeriods.add(taskPeriod4);
         budget.setAllUserAppointmentTaskPeriods(userAppointmentTaskPeriods);
 
-        getBudgetModularService().generateModularBudget(budget, nonpersonnelCategories);
+        SpringContext.getBean(BudgetModularService.class).generateModularBudget(budget, nonpersonnelCategories);
         modularBudget = budget.getModularBudget();
 
         assertTrue(modularBudget.isInvalidMode());
@@ -224,7 +223,7 @@ public class BudgetModularServiceTest extends KualiTestBase {
 
         // Case 1: Budget with no costs
         Budget budget = setupBudget();
-        getBudgetModularService().resetModularBudget(budget);
+        SpringContext.getBean(BudgetModularService.class).resetModularBudget(budget);
         BudgetModular modularBudget = budget.getModularBudget();
 
         assertFalse(modularBudget.isInvalidMode());
@@ -272,7 +271,7 @@ public class BudgetModularServiceTest extends KualiTestBase {
 
         budget.setAllUserAppointmentTaskPeriods(userAppointmentTaskPeriods);
 
-        getBudgetModularService().resetModularBudget(budget);
+        SpringContext.getBean(BudgetModularService.class).resetModularBudget(budget);
         modularBudget = budget.getModularBudget();
 
         assertFalse(modularBudget.isInvalidMode());
@@ -295,7 +294,7 @@ public class BudgetModularServiceTest extends KualiTestBase {
         userAppointmentTaskPeriods.add(taskPeriod4);
         budget.setAllUserAppointmentTaskPeriods(userAppointmentTaskPeriods);
 
-        getBudgetModularService().resetModularBudget(budget);
+        SpringContext.getBean(BudgetModularService.class).resetModularBudget(budget);
         modularBudget = budget.getModularBudget();
 
         BudgetModularPeriod modularPeriodInvalid1 = (BudgetModularPeriod) modularBudget.getBudgetModularPeriods().get(0);
@@ -309,21 +308,21 @@ public class BudgetModularServiceTest extends KualiTestBase {
     public void testAgencySupportsModular() {
 
         // Case 1: Agency is null.
-        assertFalse(getBudgetModularService().agencySupportsModular(null));
+        assertFalse(SpringContext.getBean(BudgetModularService.class).agencySupportsModular(null));
 
         // Case 2: Supports modular is true.
         Agency agency = new Agency();
         AgencyExtension agencyExtension = new AgencyExtension();
         agencyExtension.setAgencyModularIndicator(true);
         agency.setAgencyExtension(agencyExtension);
-        assertTrue(getBudgetModularService().agencySupportsModular(agency));
+        assertTrue(SpringContext.getBean(BudgetModularService.class).agencySupportsModular(agency));
 
         // Case 3: Supports modular is false.
         agency.getAgencyExtension().setAgencyModularIndicator(false);
-        assertFalse(getBudgetModularService().agencySupportsModular(agency));
+        assertFalse(SpringContext.getBean(BudgetModularService.class).agencySupportsModular(agency));
 
         // Case 5: Agency extension and reports to agency both null.
         agency.setAgencyExtension(null);
-        assertFalse(getBudgetModularService().agencySupportsModular(agency));
+        assertFalse(SpringContext.getBean(BudgetModularService.class).agencySupportsModular(agency));
     }
 }

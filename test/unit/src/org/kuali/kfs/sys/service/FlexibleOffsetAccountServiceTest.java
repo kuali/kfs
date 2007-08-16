@@ -15,7 +15,6 @@
  */
 package org.kuali.module.financial.service;
 
-import static org.kuali.kfs.util.SpringServiceLocator.getFlexibleOffsetAccountService;
 import static org.kuali.test.fixtures.OffsetAccountFixture.OFFSET_ACCOUNT1;
 import static org.kuali.test.util.KualiTestAssertionUtils.assertSparselyEqualBean;
 
@@ -37,7 +36,7 @@ public class FlexibleOffsetAccountServiceTest extends KualiTestBase {
         boolean enabled = SpringContext.getBean(KualiConfigurationService.class).getApplicationParameterIndicator(KFSConstants.ParameterGroups.SYSTEM, KFSConstants.SystemGroupParameterNames.FLEXIBLE_OFFSET_ENABLED_FLAG);
    
         TestUtils.setSystemParameter(KFSConstants.ParameterGroups.SYSTEM, KFSConstants.SystemGroupParameterNames.FLEXIBLE_OFFSET_ENABLED_FLAG, "Y", true, false);
-        OffsetAccount offsetAccount = getFlexibleOffsetAccountService().getByPrimaryIdIfEnabled(OFFSET_ACCOUNT1.chartOfAccountsCode, OFFSET_ACCOUNT1.accountNumber, OFFSET_ACCOUNT1.financialOffsetObjectCode);
+        OffsetAccount offsetAccount = SpringContext.getBean(FlexibleOffsetAccountService.class).getByPrimaryIdIfEnabled(OFFSET_ACCOUNT1.chartOfAccountsCode, OFFSET_ACCOUNT1.accountNumber, OFFSET_ACCOUNT1.financialOffsetObjectCode);
         if (offsetAccount == null) {
            throw new RuntimeException("Offset Account came back null, cannot perform asserts.");
         }
@@ -51,12 +50,12 @@ public class FlexibleOffsetAccountServiceTest extends KualiTestBase {
 
     public void testGetByPrimaryId_validDisabled() throws Exception {
         TestUtils.setSystemParameter(KFSConstants.ParameterGroups.SYSTEM, KFSConstants.SystemGroupParameterNames.FLEXIBLE_OFFSET_ENABLED_FLAG, "N", false, false);
-        assertNull(getFlexibleOffsetAccountService().getByPrimaryIdIfEnabled(OFFSET_ACCOUNT1.chartOfAccountsCode, OFFSET_ACCOUNT1.accountNumber, OFFSET_ACCOUNT1.financialOffsetAccountNumber));
+        assertNull(SpringContext.getBean(FlexibleOffsetAccountService.class).getByPrimaryIdIfEnabled(OFFSET_ACCOUNT1.chartOfAccountsCode, OFFSET_ACCOUNT1.accountNumber, OFFSET_ACCOUNT1.financialOffsetAccountNumber));
     }
 
     public void testGetByPrimaryId_invalid() throws Exception {
         TestUtils.setSystemParameter(KFSConstants.ParameterGroups.SYSTEM, KFSConstants.SystemGroupParameterNames.FLEXIBLE_OFFSET_ENABLED_FLAG,"N", true, false);
-        assertNull(getFlexibleOffsetAccountService().getByPrimaryIdIfEnabled("XX", "XX", "XX"));
+        assertNull(SpringContext.getBean(FlexibleOffsetAccountService.class).getByPrimaryIdIfEnabled("XX", "XX", "XX"));
     }
 
     /**
@@ -65,6 +64,6 @@ public class FlexibleOffsetAccountServiceTest extends KualiTestBase {
     public void testGetEnabled() {
         // This tests that no RuntimeException is thrown because the parameter is missing from the database
         // or contains a value other than Y or N.
-        getFlexibleOffsetAccountService().getEnabled();
+        SpringContext.getBean(FlexibleOffsetAccountService.class).getEnabled();
     }
 }

@@ -44,7 +44,6 @@ import org.kuali.kfs.bo.AccountingLine;
 import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.document.AccountingDocument;
-import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.financial.service.UniversityDateService;
 import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.PurapKeyConstants;
@@ -620,11 +619,11 @@ public class PaymentRequestDocumentRule extends AccountsPayableDocumentRuleBase 
         PaymentRequestDocument preq = (PaymentRequestDocument)accountingDocument;
         
         if (preq.isGenerateEncumbranceEntries()) {
-            ((PurapGeneralLedgerService)SpringServiceLocator.getService(SpringServiceLocator.PURAP_GENERAL_LEDGER_SERVICE)).customizeGeneralLedgerPendingEntry(preq, 
+            SpringContext.getBean(PurapGeneralLedgerService.class).customizeGeneralLedgerPendingEntry(preq, 
                     accountingLine, explicitEntry, preq.getPurchaseOrderIdentifier(), GL_CREDIT_CODE, PurapDocTypeCodes.PAYMENT_REQUEST_DOCUMENT, true);
         }
         else {
-            ((PurapGeneralLedgerService)SpringServiceLocator.getService(SpringServiceLocator.PURAP_GENERAL_LEDGER_SERVICE)).customizeGeneralLedgerPendingEntry(preq, 
+            SpringContext.getBean(PurapGeneralLedgerService.class).customizeGeneralLedgerPendingEntry(preq, 
                     accountingLine, explicitEntry, preq.getPurchaseOrderIdentifier(), GL_DEBIT_CODE, PurapDocTypeCodes.PAYMENT_REQUEST_DOCUMENT, false);
         }
         

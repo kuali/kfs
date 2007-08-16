@@ -26,7 +26,6 @@ import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.context.KualiTestBase;
 import org.kuali.kfs.context.SpringContext;
-import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.financial.bo.CashDrawer;
 import org.kuali.module.financial.bo.CashDrawerTest;
 import org.kuali.module.financial.bo.CashieringItemInProcess;
@@ -49,7 +48,7 @@ public class CashieringTransactionRuleTest extends KualiTestBase {
     
     public void testMoneyInOutBalanceRule() {
         CashManagementDocument cmDoc = this.cashManagementDocumentFixture("testMoneyInNoNegatives");
-        CashieringTransactionRule rule = (CashieringTransactionRule)SpringServiceLocator.getService("cashieringTransactionRule");
+        CashieringTransactionRule rule = SpringContext.getBean(CashieringTransactionRule.class);
         
         // currency and currency
         CashieringTransaction transaction = cmDoc.getCurrentTransaction();
@@ -206,7 +205,7 @@ public class CashieringTransactionRuleTest extends KualiTestBase {
     
     public void testMoneyInNoNegatives() {
         CashManagementDocument cmDoc = this.cashManagementDocumentFixture("testMoneyInNoNegatives");
-        CashieringTransactionRule rule = (CashieringTransactionRule)SpringServiceLocator.getService("cashieringTransactionRule");
+        CashieringTransactionRule rule = SpringContext.getBean(CashieringTransactionRule.class);
         
         cmDoc.getCurrentTransaction().setMoneyInCurrency(CurrencyDetailTest.CurrencyDetailAmountFixture.ALL_FIVES_AMOUNT.convertToCurrencyDetail());
         cmDoc.getCurrentTransaction().setMoneyInCoin(CoinDetailTest.CoinDetailAmountFixture.ALL_FIVES_COIN_AMOUNT.convertToCoinDetail());
@@ -257,7 +256,7 @@ public class CashieringTransactionRuleTest extends KualiTestBase {
     
     public void testMoneyOutNoNegatives() {
         CashManagementDocument cmDoc = this.cashManagementDocumentFixture("testMoneyOutNoNegatives");
-        CashieringTransactionRule rule = (CashieringTransactionRule)SpringServiceLocator.getService("cashieringTransactionRule");
+        CashieringTransactionRule rule = SpringContext.getBean(CashieringTransactionRule.class);
                 
         cmDoc.getCurrentTransaction().setMoneyOutCurrency(CurrencyDetailTest.CurrencyDetailAmountFixture.ALL_FIVES_AMOUNT.convertToCurrencyDetail());
         cmDoc.getCurrentTransaction().setMoneyOutCoin(CoinDetailTest.CoinDetailAmountFixture.ALL_FIVES_COIN_AMOUNT.convertToCoinDetail());
@@ -309,7 +308,7 @@ public class CashieringTransactionRuleTest extends KualiTestBase {
     
     public void testCheckNewItemInProcessDoesNotExceedCashDrawer() {
         CashManagementDocument cmDoc = this.cashManagementDocumentFixture("testCheckNewItemInProcessDoesNotExceedCashDrawer");
-        CashieringTransactionRule rule = (CashieringTransactionRule)SpringServiceLocator.getService("cashieringTransactionRule");
+        CashieringTransactionRule rule = SpringContext.getBean(CashieringTransactionRule.class);
         
         putFixtureDataIntoCashDrawer(cmDoc.getCashDrawer(), CashDrawerTest.CashDrawerAmountFixture.ALL_FIVES_CASH_DRAWER);
         resetTransaction(cmDoc.getCurrentTransaction());
@@ -325,7 +324,7 @@ public class CashieringTransactionRuleTest extends KualiTestBase {
     
     public void testCheckTransactionCheckTotalDoesNotExceedCashDrawer() {
         CashManagementDocument cmDoc = this.cashManagementDocumentFixture("testCheckTransactionCheckTotalDoesNotExceedCashDrawer");
-        CashieringTransactionRule rule = (CashieringTransactionRule)SpringServiceLocator.getService("cashieringTransactionRule");
+        CashieringTransactionRule rule = SpringContext.getBean(CashieringTransactionRule.class);
 
         putFixtureDataIntoCashDrawer(cmDoc.getCashDrawer(), CashDrawerTest.CashDrawerAmountFixture.ALL_FIVES_CASH_DRAWER);
         resetTransaction(cmDoc.getCurrentTransaction());
@@ -347,7 +346,7 @@ public class CashieringTransactionRuleTest extends KualiTestBase {
     
     public void testCheckPaidBackItemInProcessDoesNotExceedTotal() {
         CashManagementDocument cmDoc = this.cashManagementDocumentFixture("testCheckPaidBackItemInProcessDoesNotExceedTotal");
-        CashieringTransactionRule rule = (CashieringTransactionRule)SpringServiceLocator.getService("cashieringTransactionRule");
+        CashieringTransactionRule rule = SpringContext.getBean(CashieringTransactionRule.class);
 
         CashieringItemInProcess oldAdvance = new CashieringItemInProcess();
         oldAdvance.setCurrentPayment(new KualiDecimal(3530.0));
@@ -363,7 +362,7 @@ public class CashieringTransactionRuleTest extends KualiTestBase {
     
     public void testEnoughCashOnHand() {
         CashManagementDocument cmDoc = this.cashManagementDocumentFixture("testEnoughCashOnHand");
-        CashieringTransactionRule rule = (CashieringTransactionRule)SpringServiceLocator.getService("cashieringTransactionRule");
+        CashieringTransactionRule rule = SpringContext.getBean(CashieringTransactionRule.class);
         
         CurrencyDetail goodCurrency = CurrencyDetailTest.CurrencyDetailAmountFixture.ALL_FIVES_AMOUNT.convertToCurrencyDetail();
         CurrencyDetail excessiveCurrency = CurrencyDetailTest.CurrencyDetailAmountFixture.ALL_TENS_AMOUNT.convertToCurrencyDetail();
@@ -422,7 +421,7 @@ public class CashieringTransactionRuleTest extends KualiTestBase {
     
     public void testAdvancesDoNotPayOffOtherAdvances() {
         CashManagementDocument cmDoc = this.cashManagementDocumentFixture("testAdvancesDoNotPayOffOtherAdvances");
-        CashieringTransactionRule rule = (CashieringTransactionRule)SpringServiceLocator.getService("cashieringTransactionRule");
+        CashieringTransactionRule rule = SpringContext.getBean(CashieringTransactionRule.class);
 
         assertTrue(rule.checkItemInProcessIsNotPayingOffItemInProcess(cmDoc, cmDoc.getCurrentTransaction()));
         CashieringItemInProcess openAdvance = new CashieringItemInProcess();
@@ -442,7 +441,7 @@ public class CashieringTransactionRuleTest extends KualiTestBase {
     
     public void testNewAdvanceNotInFuture() {
         CashManagementDocument cmDoc = this.cashManagementDocumentFixture("testAdvancesDoNotPayOffOtherAdvances");
-        CashieringTransactionRule rule = (CashieringTransactionRule)SpringServiceLocator.getService("cashieringTransactionRule");
+        CashieringTransactionRule rule = SpringContext.getBean(CashieringTransactionRule.class);
         
         cmDoc.getCurrentTransaction().getNewItemInProcess().setItemIdentifier(new Integer(80));
         cmDoc.getCurrentTransaction().getNewItemInProcess().setItemAmount(new KualiDecimal(52));

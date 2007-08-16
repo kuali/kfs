@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.log4j.Logger;
-import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.ObjectCode;
 import org.kuali.module.chart.bo.ProjectCode;
@@ -102,14 +102,14 @@ public class DataLoadHandler implements PdpFileHandler {
   //
 
   public DataLoadHandler(XmlTrailer t) {
-      customerDao = (CustomerProfileDao)SpringServiceLocator.getService("pdpCustomerProfileDao");
-      loadDao = (PaymentFileLoadDao)SpringServiceLocator.getService("pdpPaymentFileLoadDao");
-      referenceDao = (ReferenceDao)SpringServiceLocator.getService("pdpReferenceDao");
-      accountService = (AccountService)SpringServiceLocator.getService("accountService");
-      subAccountService = (SubAccountService)SpringServiceLocator.getService("subAccountService");
-      objectCodeService = (ObjectCodeService)SpringServiceLocator.getService("objectCodeService");
-      subObjectCodeService = (SubObjectCodeService)SpringServiceLocator.getService("subObjectCodeService");
-      projectCodeService = (ProjectCodeService)SpringServiceLocator.getService("projectCodeService");
+      customerDao = SpringContext.getBean(CustomerProfileDao.class);
+      loadDao = SpringContext.getBean(PaymentFileLoadDao.class);
+      referenceDao = SpringContext.getBean(ReferenceDao.class);
+      accountService = SpringContext.getBean(AccountService.class);
+      subAccountService = SpringContext.getBean(SubAccountService.class);
+      objectCodeService = SpringContext.getBean(ObjectCodeService.class);
+      subObjectCodeService = SpringContext.getBean(SubObjectCodeService.class);
+      projectCodeService = SpringContext.getBean(ProjectCodeService.class);
       fileThreshold = new Boolean(false);
       detailThreshold = new Boolean(false);
       detailThresholdMessages = new ArrayList();

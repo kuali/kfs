@@ -15,9 +15,9 @@
  */
 package org.kuali.module.chart.service;
 
-import static org.kuali.kfs.util.SpringServiceLocator.getKualiCodeService;
-
 import org.kuali.kfs.context.KualiTestBase;
+import org.kuali.kfs.context.SpringContext;
+import org.kuali.kfs.service.KualiCodeService;
 import org.kuali.module.chart.bo.codes.MandatoryTransferEliminationCode;
 import org.kuali.test.ConfigureContext;
 import org.kuali.test.suite.AnnotationTestSuite;
@@ -51,37 +51,37 @@ public class MandatoryTransferEliminationCodeServiceTest extends KualiTestBase {
      */
     public void testByCode_valid_name() {
         // test known-good byCode
-        MandatoryTransferEliminationCode mtec = (MandatoryTransferEliminationCode) getKualiCodeService().getByCode(MandatoryTransferEliminationCode.class, GOOD_CODE);
+        MandatoryTransferEliminationCode mtec = (MandatoryTransferEliminationCode) SpringContext.getBean(KualiCodeService.class).getByCode(MandatoryTransferEliminationCode.class, GOOD_CODE);
         assertEquals("Known-good code results in expected returned Name.", GOOD_NAME, mtec.getName());
     }
 
     public void testByName_valid_name() {
         // test known-good byName
-        MandatoryTransferEliminationCode mtec = (MandatoryTransferEliminationCode) getKualiCodeService().getByName(MandatoryTransferEliminationCode.class, GOOD_NAME);
+        MandatoryTransferEliminationCode mtec = (MandatoryTransferEliminationCode) SpringContext.getBean(KualiCodeService.class).getByName(MandatoryTransferEliminationCode.class, GOOD_NAME);
         assertEquals("Known-good name results in expected returned code.", GOOD_CODE, mtec.getCode());
     }
 
     public void stestByCode_invalid_name() {
         // test known-bad byCode
-        MandatoryTransferEliminationCode mtec = (MandatoryTransferEliminationCode) getKualiCodeService().getByCode(MandatoryTransferEliminationCode.class, NONEXISTENT_CODE);
+        MandatoryTransferEliminationCode mtec = (MandatoryTransferEliminationCode) SpringContext.getBean(KualiCodeService.class).getByCode(MandatoryTransferEliminationCode.class, NONEXISTENT_CODE);
         assertNull("Known-bad code returns null object.", mtec);
     }
 
     public void testByName_invalid_name() {
         // test known-bad byName
-        MandatoryTransferEliminationCode mtec = (MandatoryTransferEliminationCode) getKualiCodeService().getByName(MandatoryTransferEliminationCode.class, NONEXISTENT_NAME);
+        MandatoryTransferEliminationCode mtec = (MandatoryTransferEliminationCode) SpringContext.getBean(KualiCodeService.class).getByName(MandatoryTransferEliminationCode.class, NONEXISTENT_NAME);
         assertNull("Known-bad code returns null object.", mtec);
     }
 
     public void testByCode_empty() {
         // test known-bad byCode
-        MandatoryTransferEliminationCode mtec = (MandatoryTransferEliminationCode) getKualiCodeService().getByCode(MandatoryTransferEliminationCode.class, "");
+        MandatoryTransferEliminationCode mtec = (MandatoryTransferEliminationCode) SpringContext.getBean(KualiCodeService.class).getByCode(MandatoryTransferEliminationCode.class, "");
         assertNull("Known-empty code returns null object.", mtec);
     }
 
     public void testByCode_null() {
         // test known-bad byCode
-        MandatoryTransferEliminationCode mtec = (MandatoryTransferEliminationCode) getKualiCodeService().getByCode(MandatoryTransferEliminationCode.class, null);
+        MandatoryTransferEliminationCode mtec = (MandatoryTransferEliminationCode) SpringContext.getBean(KualiCodeService.class).getByCode(MandatoryTransferEliminationCode.class, null);
         assertNull("Known-null code returns null object.", mtec);
     }
 
@@ -90,7 +90,7 @@ public class MandatoryTransferEliminationCodeServiceTest extends KualiTestBase {
         String newName;
 
         // get the existing value
-        MandatoryTransferEliminationCode mtec = (MandatoryTransferEliminationCode) getKualiCodeService().getByCode(MandatoryTransferEliminationCode.class, GOOD_CODE);
+        MandatoryTransferEliminationCode mtec = (MandatoryTransferEliminationCode) SpringContext.getBean(KualiCodeService.class).getByCode(MandatoryTransferEliminationCode.class, GOOD_CODE);
 
         // cache the old value, create a new value, and modify the object
         oldName = mtec.getName();
@@ -98,43 +98,43 @@ public class MandatoryTransferEliminationCodeServiceTest extends KualiTestBase {
         mtec.setName(newName);
 
         // attempt to save the modified object
-        getKualiCodeService().save(mtec);
+        SpringContext.getBean(KualiCodeService.class).save(mtec);
 
         // open the object byCode() and confirm that the changes were saved
         mtec = null;
-        mtec = (MandatoryTransferEliminationCode) getKualiCodeService().getByCode(MandatoryTransferEliminationCode.class, GOOD_CODE);
+        mtec = (MandatoryTransferEliminationCode) SpringContext.getBean(KualiCodeService.class).getByCode(MandatoryTransferEliminationCode.class, GOOD_CODE);
         assertEquals("Changes to the document were not persisted to the database.", newName, mtec.getName());
 
         // revert back to the old name if it worked
         mtec.setName(oldName);
-        getKualiCodeService().save(mtec);
+        SpringContext.getBean(KualiCodeService.class).save(mtec);
 
 
         mtec = null;
-        mtec = (MandatoryTransferEliminationCode) getKualiCodeService().getByCode(MandatoryTransferEliminationCode.class, GOOD_CODE);
+        mtec = (MandatoryTransferEliminationCode) SpringContext.getBean(KualiCodeService.class).getByCode(MandatoryTransferEliminationCode.class, GOOD_CODE);
         assertEquals("Changes to the document were not persisted to the database.", oldName, mtec.getName());
     }
 
     public void testActive() {
 
         // test known-good active code
-        MandatoryTransferEliminationCode mtec = (MandatoryTransferEliminationCode) getKualiCodeService().getByCode(MandatoryTransferEliminationCode.class, GOOD_CODE);
+        MandatoryTransferEliminationCode mtec = (MandatoryTransferEliminationCode) SpringContext.getBean(KualiCodeService.class).getByCode(MandatoryTransferEliminationCode.class, GOOD_CODE);
         assertEquals("The active code associated with this field is incorrect", true, mtec.isActive());
 
     }
 
     private void validateTestFixtures() {
-        MandatoryTransferEliminationCode code = (MandatoryTransferEliminationCode) getKualiCodeService().getByCode(MandatoryTransferEliminationCode.class, GOOD_CODE);
+        MandatoryTransferEliminationCode code = (MandatoryTransferEliminationCode) SpringContext.getBean(KualiCodeService.class).getByCode(MandatoryTransferEliminationCode.class, GOOD_CODE);
         assertEquals(GOOD_CODE,code.getCode());
         assertEquals(GOOD_NAME,code.getName());
 
-        code = (MandatoryTransferEliminationCode) getKualiCodeService().getByName(MandatoryTransferEliminationCode.class, GOOD_NAME);
+        code = (MandatoryTransferEliminationCode) SpringContext.getBean(KualiCodeService.class).getByName(MandatoryTransferEliminationCode.class, GOOD_NAME);
         assertEquals(GOOD_CODE,code.getCode());
         assertEquals(GOOD_NAME,code.getName());
         
-        code = (MandatoryTransferEliminationCode) getKualiCodeService().getByCode(MandatoryTransferEliminationCode.class, NONEXISTENT_CODE);
+        code = (MandatoryTransferEliminationCode) SpringContext.getBean(KualiCodeService.class).getByCode(MandatoryTransferEliminationCode.class, NONEXISTENT_CODE);
         assertNull(code);
-        code = (MandatoryTransferEliminationCode) getKualiCodeService().getByName(MandatoryTransferEliminationCode.class, NONEXISTENT_CODE);
+        code = (MandatoryTransferEliminationCode) SpringContext.getBean(KualiCodeService.class).getByName(MandatoryTransferEliminationCode.class, NONEXISTENT_CODE);
         assertNull(code);
     }
 }

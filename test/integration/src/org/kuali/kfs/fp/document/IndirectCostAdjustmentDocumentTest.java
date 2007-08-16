@@ -16,9 +16,6 @@
 package org.kuali.module.financial.document;
 
 import static org.kuali.module.financial.document.AccountingDocumentTestUtils.testGetNewDocument_byDocumentClass;
-import static org.kuali.rice.KNSServiceLocator.getDataDictionaryService;
-import static org.kuali.rice.KNSServiceLocator.getDocumentService;
-import static org.kuali.rice.KNSServiceLocator.getTransactionalDocumentDictionaryService;
 import static org.kuali.test.fixtures.AccountingLineFixture.ICA_LINE;
 import static org.kuali.test.fixtures.UserNameFixture.KHUNTLEY;
 
@@ -26,11 +23,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.core.document.Document;
+import org.kuali.core.service.DataDictionaryService;
+import org.kuali.core.service.DocumentService;
+import org.kuali.core.service.TransactionalDocumentDictionaryService;
 import org.kuali.kfs.bo.SourceAccountingLine;
 import org.kuali.kfs.bo.TargetAccountingLine;
 import org.kuali.kfs.context.KualiTestBase;
-import org.kuali.test.DocumentTestUtils;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.test.ConfigureContext;
+import org.kuali.test.DocumentTestUtils;
 import org.kuali.test.fixtures.AccountingLineFixture;
 
 /**
@@ -43,7 +44,7 @@ public class IndirectCostAdjustmentDocumentTest extends KualiTestBase {
     public static final Class<IndirectCostAdjustmentDocument> DOCUMENT_CLASS = IndirectCostAdjustmentDocument.class;
 
     private Document getDocumentParameterFixture() throws Exception {
-        return DocumentTestUtils.createDocument(getDocumentService(), IndirectCostAdjustmentDocument.class);
+        return DocumentTestUtils.createDocument(SpringContext.getBean(DocumentService.class), IndirectCostAdjustmentDocument.class);
     }
 
     private List<AccountingLineFixture> getTargetAccountingLineParametersFromFixtures() {
@@ -64,39 +65,39 @@ public class IndirectCostAdjustmentDocumentTest extends KualiTestBase {
         List<TargetAccountingLine> targetLines = generateTargetAccountingLines();
         int expectedSourceTotal = sourceLines.size();
         int expectedTargetTotal = targetLines.size()+expectedSourceTotal;
-        AccountingDocumentTestUtils.testAddAccountingLine(DocumentTestUtils.createDocument(getDocumentService(), DOCUMENT_CLASS), sourceLines, targetLines, expectedSourceTotal, expectedTargetTotal);
+        AccountingDocumentTestUtils.testAddAccountingLine(DocumentTestUtils.createDocument(SpringContext.getBean(DocumentService.class), DOCUMENT_CLASS), sourceLines, targetLines, expectedSourceTotal, expectedTargetTotal);
     }
 
     public final void testGetNewDocument() throws Exception {
-        testGetNewDocument_byDocumentClass(DOCUMENT_CLASS, getDocumentService());
+        testGetNewDocument_byDocumentClass(DOCUMENT_CLASS, SpringContext.getBean(DocumentService.class));
     }
     public final void testConvertIntoCopy_copyDisallowed() throws Exception {
-        AccountingDocumentTestUtils.testConvertIntoCopy_copyDisallowed(buildDocument(), getDataDictionaryService());
+        AccountingDocumentTestUtils.testConvertIntoCopy_copyDisallowed(buildDocument(), SpringContext.getBean(DataDictionaryService.class));
        
     }
 
     public final void testConvertIntoErrorCorrection_documentAlreadyCorrected() throws Exception {
-        AccountingDocumentTestUtils.testConvertIntoErrorCorrection_documentAlreadyCorrected(buildDocument(), getTransactionalDocumentDictionaryService());
+        AccountingDocumentTestUtils.testConvertIntoErrorCorrection_documentAlreadyCorrected(buildDocument(), SpringContext.getBean(TransactionalDocumentDictionaryService.class));
     }
     public final void testConvertIntoErrorCorrection_errorCorrectionDisallowed() throws Exception {
-        AccountingDocumentTestUtils.testConvertIntoErrorCorrection_errorCorrectionDisallowed(buildDocument(), getDataDictionaryService());
+        AccountingDocumentTestUtils.testConvertIntoErrorCorrection_errorCorrectionDisallowed(buildDocument(), SpringContext.getBean(DataDictionaryService.class));
     }
     @ConfigureContext(session = KHUNTLEY, shouldCommitTransactions=true)
     public final void testConvertIntoErrorCorrection() throws Exception {
-        AccountingDocumentTestUtils.testConvertIntoErrorCorrection(buildDocument(), getExpectedPrePeCount(), getDocumentService(), getTransactionalDocumentDictionaryService());
+        AccountingDocumentTestUtils.testConvertIntoErrorCorrection(buildDocument(), getExpectedPrePeCount(), SpringContext.getBean(DocumentService.class), SpringContext.getBean(TransactionalDocumentDictionaryService.class));
     }
     @ConfigureContext(session = KHUNTLEY, shouldCommitTransactions=true)
     public final void testRouteDocument() throws Exception {
-        AccountingDocumentTestUtils.testRouteDocument(buildDocument(), getDocumentService());
+        AccountingDocumentTestUtils.testRouteDocument(buildDocument(), SpringContext.getBean(DocumentService.class));
     }
     
     @ConfigureContext(session = KHUNTLEY, shouldCommitTransactions=true)
     public final void testSaveDocument() throws Exception {
-        AccountingDocumentTestUtils.testSaveDocument(buildDocument(), getDocumentService());
+        AccountingDocumentTestUtils.testSaveDocument(buildDocument(), SpringContext.getBean(DocumentService.class));
     }
     @ConfigureContext(session = KHUNTLEY, shouldCommitTransactions=true)
     public final void testConvertIntoCopy() throws Exception {
-        AccountingDocumentTestUtils.testConvertIntoCopy(buildDocument(), getDocumentService(), getExpectedPrePeCount());
+        AccountingDocumentTestUtils.testConvertIntoCopy(buildDocument(), SpringContext.getBean(DocumentService.class), getExpectedPrePeCount());
     }
     
     

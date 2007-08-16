@@ -1,10 +1,10 @@
 package org.kuali.module.cg.service.impl;
 
-import static org.kuali.kfs.util.SpringServiceLocator.getCfdaService;
-
 import java.io.IOException;
 
 import org.kuali.kfs.context.KualiTestBase;
+import org.kuali.kfs.context.SpringContext;
+import org.kuali.module.cg.service.CfdaService;
 import org.kuali.module.cg.service.CfdaUpdateResults;
 import org.kuali.test.ConfigureContext;
 
@@ -34,7 +34,7 @@ public class CfdaServiceTest extends KualiTestBase {
     }
 
     public void testUpdate() throws IOException {
-        CfdaUpdateResults results = getCfdaService().update();
+        CfdaUpdateResults results = SpringContext.getBean(CfdaService.class).update();
     }
 
 }

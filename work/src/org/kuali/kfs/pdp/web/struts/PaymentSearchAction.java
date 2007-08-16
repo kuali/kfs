@@ -17,7 +17,7 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.action.ActionMessage;
-import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.pdp.PdpConstants;
 import org.kuali.module.pdp.action.BaseAction;
 import org.kuali.module.pdp.bo.PaymentDetailSearch;
@@ -38,7 +38,7 @@ public class PaymentSearchAction extends BaseAction {
     private PaymentDetailSearchService paymentDetailSearchService;
 
     public PaymentSearchAction() {
-        setPaymentDetailSearchService( (PaymentDetailSearchService)SpringServiceLocator.getService("pdpPaymentDetailSearchService") );
+        setPaymentDetailSearchService( SpringContext.getBean(PaymentDetailSearchService.class) );
     }
 
     protected boolean isAuthorized(ActionMapping mapping, ActionForm form, HttpServletRequest request,HttpServletResponse response) {

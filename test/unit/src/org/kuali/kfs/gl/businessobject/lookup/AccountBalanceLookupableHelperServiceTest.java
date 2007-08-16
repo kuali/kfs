@@ -20,7 +20,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.kfs.KFSPropertyConstants;
-import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.gl.GLSpringBeansRegistry;
 import org.kuali.module.gl.bo.AccountBalance;
 import org.kuali.module.gl.bo.AccountBalanceByConsolidation;
@@ -41,8 +41,8 @@ public class AccountBalanceLookupableHelperServiceTest extends AbstractGLLookupa
     protected void setUp() throws Exception {
         super.setUp();
 
-        setAccountBalanceService((AccountBalanceService) SpringServiceLocator.getService(GLSpringBeansRegistry.glAccountBalanceService));
-        lookupableHelperServiceImpl = (AccountBalanceLookupableHelperServiceImpl) SpringServiceLocator.getService(GLSpringBeansRegistry.glAccountBalanceLookupableHelperService);
+        setAccountBalanceService(SpringContext.getBean(AccountBalanceService.class));
+        lookupableHelperServiceImpl = SpringContext.getBean(AccountBalanceLookupableHelperServiceImpl.class, GLSpringBeansRegistry.glAccountBalanceLookupableHelperService);
         lookupableHelperServiceImpl.setBusinessObjectClass(AccountBalanceByConsolidation.class);
     }
 

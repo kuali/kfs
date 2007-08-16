@@ -17,7 +17,7 @@ import javax.servlet.http.HttpSession;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.pdp.action.BaseAction;
 import org.kuali.module.pdp.form.format.FormatProcessForm;
 import org.kuali.module.pdp.form.format.FormatSelectionForm;
@@ -38,7 +38,7 @@ public class FormatPrepareAction extends BaseAction {
 
   public FormatPrepareAction() {
       super();
-      setFormatService( (FormatService)SpringServiceLocator.getService("pdpFormatService") );
+      setFormatService( SpringContext.getBean(FormatService.class) );
   }
 
   public void setFormatService(FormatService fs) {

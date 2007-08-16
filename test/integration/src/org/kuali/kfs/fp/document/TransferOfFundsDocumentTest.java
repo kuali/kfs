@@ -15,12 +15,8 @@
  */
 package org.kuali.module.financial.document;
 
-import static org.kuali.kfs.util.SpringServiceLocator.getAccountingPeriodService;
 import static org.kuali.module.financial.document.AccountingDocumentTestUtils.routeDocument;
 import static org.kuali.module.financial.document.AccountingDocumentTestUtils.testGetNewDocument_byDocumentClass;
-import static org.kuali.rice.KNSServiceLocator.getDataDictionaryService;
-import static org.kuali.rice.KNSServiceLocator.getDocumentService;
-import static org.kuali.rice.KNSServiceLocator.getTransactionalDocumentDictionaryService;
 import static org.kuali.test.fixtures.AccountingLineFixture.LINE1;
 import static org.kuali.test.fixtures.UserNameFixture.CSWINSON;
 import static org.kuali.test.fixtures.UserNameFixture.DFOGLE;
@@ -34,12 +30,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.core.document.Document;
+import org.kuali.core.service.DataDictionaryService;
+import org.kuali.core.service.DocumentService;
+import org.kuali.core.service.TransactionalDocumentDictionaryService;
 import org.kuali.kfs.bo.SourceAccountingLine;
 import org.kuali.kfs.bo.TargetAccountingLine;
 import org.kuali.kfs.context.KualiTestBase;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.document.AccountingDocument;
-import org.kuali.test.DocumentTestUtils;
+import org.kuali.module.chart.service.AccountingPeriodService;
 import org.kuali.test.ConfigureContext;
+import org.kuali.test.DocumentTestUtils;
 import org.kuali.test.fixtures.AccountingLineFixture;
 import org.kuali.test.fixtures.UserNameFixture;
 import org.kuali.test.suite.RelatesTo;
@@ -62,7 +63,7 @@ public class TransferOfFundsDocumentTest extends KualiTestBase {
 
 
     private Document getDocumentParameterFixture() throws Exception {
-        return DocumentTestUtils.createDocument(getDocumentService(), TransferOfFundsDocument.class);
+        return DocumentTestUtils.createDocument(SpringContext.getBean(DocumentService.class), TransferOfFundsDocument.class);
     }
 
     private List<AccountingLineFixture> getTargetAccountingLineParametersFromFixtures() {
@@ -88,7 +89,7 @@ public class TransferOfFundsDocumentTest extends KualiTestBase {
         // save and route the document
         AccountingDocument document = (AccountingDocument) buildDocumentForWorkflowRoutingTest();
         final String docHeaderId = document.getDocumentNumber();
-        routeDocument(document, getDocumentService());
+        routeDocument(document, SpringContext.getBean(DocumentService.class));
 
         // the document should now be routed to VPUTMAN and RORENFRO as Fiscal Officers
         WorkflowTestUtils.waitForNodeChange(document.getDocumentHeader().getWorkflowDocument(), ACCOUNT_REVIEW);
@@ -107,13 +108,13 @@ public class TransferOfFundsDocumentTest extends KualiTestBase {
         WorkflowTestUtils.waitForStatusChange(document.getDocumentHeader().getWorkflowDocument(), EdenConstants.ROUTE_HEADER_FINAL_CD);
 
         changeCurrentUser(VPUTMAN);
-        document = (AccountingDocument) getDocumentService().getByDocumentHeaderId(docHeaderId);
+        document = (AccountingDocument) SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(docHeaderId);
         assertTrue("Document should now be final.", document.getDocumentHeader().getWorkflowDocument().stateIsFinal());
     }
 
     private void approve(String docHeaderId, UserNameFixture user, String expectedNode) throws Exception {
         changeCurrentUser(user);
-        AccountingDocumentTestUtils.approve(docHeaderId, user, expectedNode, getDocumentService());
+        AccountingDocumentTestUtils.approve(docHeaderId, user, expectedNode, SpringContext.getBean(DocumentService.class));
     }
 
     private Document buildDocumentForWorkflowRoutingTest() throws Exception {
@@ -129,48 +130,48 @@ public class TransferOfFundsDocumentTest extends KualiTestBase {
         List<TargetAccountingLine> targetLines = generateTargetAccountingLines();
         int expectedSourceTotal = sourceLines.size();
         int expectedTargetTotal = targetLines.size();
-        AccountingDocumentTestUtils.testAddAccountingLine(DocumentTestUtils.createDocument(getDocumentService(), DOCUMENT_CLASS), sourceLines, targetLines, expectedSourceTotal, expectedTargetTotal);
+        AccountingDocumentTestUtils.testAddAccountingLine(DocumentTestUtils.createDocument(SpringContext.getBean(DocumentService.class), DOCUMENT_CLASS), sourceLines, targetLines, expectedSourceTotal, expectedTargetTotal);
     }
 
     public final void testGetNewDocument() throws Exception {
-        testGetNewDocument_byDocumentClass(DOCUMENT_CLASS, getDocumentService());
+        testGetNewDocument_byDocumentClass(DOCUMENT_CLASS, SpringContext.getBean(DocumentService.class));
     }
 
     public final void testConvertIntoCopy_copyDisallowed() throws Exception {
-        AccountingDocumentTestUtils.testConvertIntoCopy_copyDisallowed(buildDocument(), getDataDictionaryService());
+        AccountingDocumentTestUtils.testConvertIntoCopy_copyDisallowed(buildDocument(), SpringContext.getBean(DataDictionaryService.class));
 
     }
 
     public final void testConvertIntoErrorCorrection_documentAlreadyCorrected() throws Exception {
-        AccountingDocumentTestUtils.testConvertIntoErrorCorrection_documentAlreadyCorrected(buildDocument(), getTransactionalDocumentDictionaryService());
+        AccountingDocumentTestUtils.testConvertIntoErrorCorrection_documentAlreadyCorrected(buildDocument(), SpringContext.getBean(TransactionalDocumentDictionaryService.class));
     }
 
     public final void testConvertIntoErrorCorrection_errorCorrectionDisallowed() throws Exception {
-        AccountingDocumentTestUtils.testConvertIntoErrorCorrection_errorCorrectionDisallowed(buildDocument(), getDataDictionaryService());
+        AccountingDocumentTestUtils.testConvertIntoErrorCorrection_errorCorrectionDisallowed(buildDocument(), SpringContext.getBean(DataDictionaryService.class));
     }
 
     public final void testConvertIntoErrorCorrection_invalidYear() throws Exception {
-        AccountingDocumentTestUtils.testConvertIntoErrorCorrection_invalidYear(buildDocument(), getTransactionalDocumentDictionaryService(), getAccountingPeriodService());
+        AccountingDocumentTestUtils.testConvertIntoErrorCorrection_invalidYear(buildDocument(), SpringContext.getBean(TransactionalDocumentDictionaryService.class), SpringContext.getBean(AccountingPeriodService.class));
     }
 
     @ConfigureContext(session = KHUNTLEY, shouldCommitTransactions=true)
     public final void testConvertIntoErrorCorrection() throws Exception {
-        AccountingDocumentTestUtils.testConvertIntoErrorCorrection(buildDocument(), getExpectedPrePeCount(), getDocumentService(), getTransactionalDocumentDictionaryService());
+        AccountingDocumentTestUtils.testConvertIntoErrorCorrection(buildDocument(), getExpectedPrePeCount(), SpringContext.getBean(DocumentService.class), SpringContext.getBean(TransactionalDocumentDictionaryService.class));
     }
 
     @ConfigureContext(session = KHUNTLEY, shouldCommitTransactions=true)
     public final void testRouteDocument() throws Exception {
-        AccountingDocumentTestUtils.testRouteDocument(buildDocument(), getDocumentService());
+        AccountingDocumentTestUtils.testRouteDocument(buildDocument(), SpringContext.getBean(DocumentService.class));
     }
 
     @ConfigureContext(session = KHUNTLEY, shouldCommitTransactions=true)
     public final void testSaveDocument() throws Exception {
-        AccountingDocumentTestUtils.testSaveDocument(buildDocument(), getDocumentService());
+        AccountingDocumentTestUtils.testSaveDocument(buildDocument(), SpringContext.getBean(DocumentService.class));
     }
 
     @ConfigureContext(session = KHUNTLEY, shouldCommitTransactions=true)
     public final void testConvertIntoCopy() throws Exception {
-        AccountingDocumentTestUtils.testConvertIntoCopy(buildDocument(), getDocumentService(), getExpectedPrePeCount());
+        AccountingDocumentTestUtils.testConvertIntoCopy(buildDocument(), SpringContext.getBean(DocumentService.class), getExpectedPrePeCount());
     }
 
     // test util methods

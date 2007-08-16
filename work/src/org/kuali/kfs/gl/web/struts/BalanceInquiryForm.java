@@ -32,7 +32,6 @@ import org.kuali.core.web.ui.Row;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
 import org.kuali.kfs.context.SpringContext;
-import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.gl.GLConstants;
 import org.kuali.module.gl.bo.Entry;
 
@@ -84,7 +83,7 @@ public class BalanceInquiryForm extends LookupForm {
 
                 setLookupableImplServiceName(lookupImplID);
             }
-            setLookupable(SpringServiceLocator.getLookupable(getLookupableImplServiceName()));
+            setLookupable(SpringContext.getBean(Lookupable.class, getLookupableImplServiceName()));
             
             if (getLookupable() == null) {
                 LOG.error("Lookup impl not found for lookup impl name " + getLookupableImplServiceName());
@@ -93,7 +92,7 @@ public class BalanceInquiryForm extends LookupForm {
 
             // (laran) I put this here to allow the Exception to be thrown if the localLookupable is null.
             if (Entry.class.getName().equals(getBusinessObjectClassName())) {
-                setPendingEntryLookupable(SpringServiceLocator.getLookupable(GLConstants.LookupableBeanKeys.PENDING_ENTRY));
+                setPendingEntryLookupable(SpringContext.getBean(Lookupable.class, GLConstants.LookupableBeanKeys.PENDING_ENTRY));
             }
 
             if (request.getParameter(KFSConstants.LOOKUPABLE_IMPL_ATTRIBUTE_NAME) != null) {

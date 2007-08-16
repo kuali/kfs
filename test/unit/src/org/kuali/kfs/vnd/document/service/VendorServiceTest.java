@@ -15,7 +15,6 @@
  */
 package org.kuali.module.vendor.service;
 
-import static org.kuali.kfs.util.SpringServiceLocator.getVendorService;
 import static org.kuali.module.vendor.fixtures.VendorAddressFixture.address1;
 import static org.kuali.module.vendor.fixtures.VendorAddressFixture.address2;
 import static org.kuali.module.vendor.fixtures.VendorAddressFixture.address3;
@@ -26,6 +25,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.kfs.context.KualiTestBase;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.vendor.bo.VendorAddress;
 import org.kuali.module.vendor.bo.VendorDetail;
 import org.kuali.module.vendor.bo.VendorHeader;
@@ -62,7 +62,7 @@ public class VendorServiceTest extends KualiTestBase {
     private List addresses;
     
     private void testGetVendorDefaultAddress(Integer expectedDefaultId, List addresses, String addressType, String campus) {
-        VendorAddress address = getVendorService().getVendorDefaultAddress(addresses, addressType, campus);
+        VendorAddress address = SpringContext.getBean(VendorService.class).getVendorDefaultAddress(addresses, addressType, campus);
         Integer resultDefaultId = null;
         if (address != null) {
             resultDefaultId = address.getVendorAddressGeneratedIdentifier();
@@ -111,48 +111,48 @@ public class VendorServiceTest extends KualiTestBase {
     public void testNoRouteSignificantChangeOccurred_Complete_No_Changes() {
         VendorRoutingChangesFixture fixture = VendorRoutingChangesFixture.COMPLETE_NO_CHANGES;
         fixture.populate( oldVDtl, oldVHdr, newVDtl, newVHdr );
-        assertTrue( getVendorService().noRouteSignificantChangeOccurred( oldVDtl, oldVHdr, newVDtl, newVHdr ) );
+        assertTrue( SpringContext.getBean(VendorService.class).noRouteSignificantChangeOccurred( oldVDtl, oldVHdr, newVDtl, newVHdr ) );
     }
     
     public void testNoRouteSignificantChangeOccurred_Complete_VH_Change() {
         VendorRoutingChangesFixture fixture = VendorRoutingChangesFixture.COMPLETE_VH_CHANGE;
         fixture.populate( oldVDtl, oldVHdr, newVDtl, newVHdr );
-        assertFalse( getVendorService().noRouteSignificantChangeOccurred( oldVDtl, oldVHdr, newVDtl, newVHdr ) );
+        assertFalse( SpringContext.getBean(VendorService.class).noRouteSignificantChangeOccurred( oldVDtl, oldVHdr, newVDtl, newVHdr ) );
     }
     
     public void testNoRouteSignificantChangeOccurred_Complete_VSD1_Change() {
         VendorRoutingChangesFixture fixture = VendorRoutingChangesFixture.COMPLETE_VSD1_CHANGE;
         fixture.populate( oldVDtl, oldVHdr, newVDtl, newVHdr );
-        assertFalse( getVendorService().noRouteSignificantChangeOccurred( oldVDtl, oldVHdr, newVDtl, newVHdr ) );
+        assertFalse( SpringContext.getBean(VendorService.class).noRouteSignificantChangeOccurred( oldVDtl, oldVHdr, newVDtl, newVHdr ) );
     }
     
     public void testNoRouteSignificantChangeOccurred_Complete_VSSC1_Change() {
         VendorRoutingChangesFixture fixture = VendorRoutingChangesFixture.COMPLETE_VSSC1_CHANGE;
         fixture.populate( oldVDtl, oldVHdr, newVDtl, newVHdr );
-        assertFalse( getVendorService().noRouteSignificantChangeOccurred( oldVDtl, oldVHdr, newVDtl, newVHdr ) );
+        assertFalse( SpringContext.getBean(VendorService.class).noRouteSignificantChangeOccurred( oldVDtl, oldVHdr, newVDtl, newVHdr ) );
     }
     
     public void testNoRouteSignificantChangeOccurred_Complete_VA2_Change() {
         VendorRoutingChangesFixture fixture = VendorRoutingChangesFixture.COMPLETE_VA2_CHANGE;
         fixture.populate( oldVDtl, oldVHdr, newVDtl, newVHdr );
-        assertFalse( getVendorService().noRouteSignificantChangeOccurred( oldVDtl, oldVHdr, newVDtl, newVHdr ) );
+        assertFalse( SpringContext.getBean(VendorService.class).noRouteSignificantChangeOccurred( oldVDtl, oldVHdr, newVDtl, newVHdr ) );
     }
     
     public void testNoRouteSignificantChangeOccurred_Null_Olds() {
         VendorRoutingChangesFixture fixture = VendorRoutingChangesFixture.NULL_OLDS;
         fixture.populate( oldVDtl, oldVHdr, newVDtl, newVHdr );
-        assertFalse( getVendorService().noRouteSignificantChangeOccurred( oldVDtl, oldVHdr, newVDtl, newVHdr ) );
+        assertFalse( SpringContext.getBean(VendorService.class).noRouteSignificantChangeOccurred( oldVDtl, oldVHdr, newVDtl, newVHdr ) );
     }
     
     public void testNoRouteSignificantChangeOccurred_Null_News() {
         VendorRoutingChangesFixture fixture = VendorRoutingChangesFixture.NULL_NEWS;
         fixture.populate( oldVDtl, oldVHdr, newVDtl, newVHdr );
-        assertFalse( getVendorService().noRouteSignificantChangeOccurred( oldVDtl, oldVHdr, newVDtl, newVHdr ) );
+        assertFalse( SpringContext.getBean(VendorService.class).noRouteSignificantChangeOccurred( oldVDtl, oldVHdr, newVDtl, newVHdr ) );
     }
     
     public void testNoRouteSignificantChangeOccurred_Null_All() {
         VendorRoutingChangesFixture fixture = VendorRoutingChangesFixture.NULL_ALL;
         fixture.populate( oldVDtl, oldVHdr, newVDtl, newVHdr );
-        assertTrue( getVendorService().noRouteSignificantChangeOccurred( oldVDtl, oldVHdr, newVDtl, newVHdr ) );
+        assertTrue( SpringContext.getBean(VendorService.class).noRouteSignificantChangeOccurred( oldVDtl, oldVHdr, newVDtl, newVHdr ) );
     }    
 }

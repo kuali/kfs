@@ -16,7 +16,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.pdp.action.BaseAction;
 import org.kuali.module.pdp.bo.CustomerBank;
 import org.kuali.module.pdp.bo.CustomerProfile;
@@ -40,8 +40,8 @@ public class CustomerProfileAction extends BaseAction {
 
     public CustomerProfileAction() {
         super();
-        setCustomerProfileService( (CustomerProfileService)SpringServiceLocator.getService("pdpCustomerProfileService") );
-        setReferenceService( (ReferenceService)SpringServiceLocator.getService("pdpReferenceService") );
+        setCustomerProfileService( SpringContext.getBean(CustomerProfileService.class) );
+        setReferenceService( SpringContext.getBean(ReferenceService.class) );
     }
 
     public void setCustomerProfileService(CustomerProfileService c) {

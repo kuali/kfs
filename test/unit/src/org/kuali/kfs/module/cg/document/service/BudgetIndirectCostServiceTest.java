@@ -15,14 +15,13 @@
  */
 package org.kuali.module.kra.service;
 
-import static org.kuali.kfs.util.SpringServiceLocator.getBudgetIndirectCostService;
-
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
 import org.kuali.core.util.KualiInteger;
 import org.kuali.kfs.context.KualiTestBase;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.kra.bo.BudgetNonpersonnelTest;
 import org.kuali.module.kra.bo.BudgetPeriodTest;
 import org.kuali.module.kra.budget.bo.Budget;
@@ -33,6 +32,7 @@ import org.kuali.module.kra.budget.bo.BudgetTask;
 import org.kuali.module.kra.budget.bo.BudgetTaskPeriodIndirectCost;
 import org.kuali.module.kra.budget.bo.UserAppointmentTaskPeriod;
 import org.kuali.module.kra.budget.document.BudgetDocument;
+import org.kuali.module.kra.budget.service.BudgetIndirectCostService;
 import org.kuali.test.ConfigureContext;
 
 @ConfigureContext
@@ -72,7 +72,7 @@ public class BudgetIndirectCostServiceTest extends KualiTestBase {
         // Test new document
         populateBudgetTasksPeriods(budgetDocument);
 
-        getBudgetIndirectCostService().reconcileIndirectCost(budgetDocument);
+        SpringContext.getBean(BudgetIndirectCostService.class).reconcileIndirectCost(budgetDocument);
 
         BudgetIndirectCost indirectCost = budgetDocument.getBudget().getIndirectCost();
         assertEquals(indirectCost.getDocumentNumber(), "1234");
@@ -109,7 +109,7 @@ public class BudgetIndirectCostServiceTest extends KualiTestBase {
         budgetDocument.getBudget().getPeriods().remove(0);
         budgetDocument.getBudget().getTasks().remove(1);
 
-        getBudgetIndirectCostService().reconcileIndirectCost(budgetDocument);
+        SpringContext.getBean(BudgetIndirectCostService.class).reconcileIndirectCost(budgetDocument);
 
         indirectCost = budgetDocument.getBudget().getIndirectCost();
         assertFalse(indirectCost.getBudgetIndirectCostCostShareIndicator());

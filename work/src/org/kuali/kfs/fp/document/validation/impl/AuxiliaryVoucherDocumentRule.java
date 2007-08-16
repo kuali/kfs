@@ -45,7 +45,6 @@ import static org.kuali.kfs.KFSKeyConstants.AuxiliaryVoucher.ERROR_INVALID_ACCRU
 import static org.kuali.kfs.KFSPropertyConstants.FINANCIAL_OBJECT_CODE;
 import static org.kuali.kfs.KFSPropertyConstants.REVERSAL_DATE;
 import static org.kuali.kfs.rules.AccountingDocumentRuleBaseConstants.ERROR_PATH.DOCUMENT_ERROR_PREFIX;
-import static org.kuali.kfs.util.SpringServiceLocator.getAccountingPeriodService;
 import static org.kuali.module.financial.rules.AuxiliaryVoucherDocumentRuleConstants.AUXILIARY_VOUCHER_ACCOUNTING_PERIOD_GRACE_PERIOD;
 import static org.kuali.module.financial.rules.AuxiliaryVoucherDocumentRuleConstants.AUXILIARY_VOUCHER_SECURITY_GROUPING;
 import static org.kuali.module.financial.rules.AuxiliaryVoucherDocumentRuleConstants.GENERAL_LEDGER_PENDING_ENTRY_OFFSET_CODE;
@@ -80,6 +79,7 @@ import org.kuali.kfs.service.GeneralLedgerPendingEntryService;
 import org.kuali.kfs.service.OptionsService;
 import org.kuali.module.chart.bo.AccountingPeriod;
 import org.kuali.module.chart.bo.ObjectCode;
+import org.kuali.module.chart.service.AccountingPeriodService;
 import org.kuali.module.financial.document.AuxiliaryVoucherDocument;
 import org.kuali.module.financial.document.DistributionOfIncomeAndExpenseDocument;
 import org.kuali.module.financial.service.UniversityDateService;
@@ -747,7 +747,7 @@ public class AuxiliaryVoucherDocumentRule extends AccountingDocumentRuleBase {
          */
         // first we need to get the period itself to check these things
         boolean valid = true;
-        AccountingPeriod acctPeriod = getAccountingPeriodService().getByPeriod(document.getPostingPeriodCode(), document.getPostingYear());
+        AccountingPeriod acctPeriod = SpringContext.getBean(AccountingPeriodService.class).getByPeriod(document.getPostingPeriodCode(), document.getPostingYear());
         
         valid = succeedsRule(RESTRICTED_PERIOD_CODES, document.getPostingPeriodCode());
         if (!valid) {
@@ -761,10 +761,10 @@ public class AuxiliaryVoucherDocumentRule extends AccountingDocumentRuleBase {
         }
         
         Timestamp ts = new Timestamp(new java.util.Date().getTime());
-        AccountingPeriod currPeriod = getAccountingPeriodService().getByDate(new Date(ts.getTime()));
+        AccountingPeriod currPeriod = SpringContext.getBean(AccountingPeriodService.class).getByDate(new Date(ts.getTime()));
         
         if (acctPeriod.getUniversityFiscalYear().equals(SpringContext.getBean(UniversityDateService.class).getCurrentFiscalYear())) {
-            if (getAccountingPeriodService().compareAccountingPeriodsByDate(acctPeriod, currPeriod) < 0) {
+            if (SpringContext.getBean(AccountingPeriodService.class).compareAccountingPeriodsByDate(acctPeriod, currPeriod) < 0) {
                 // we've only got problems if the av's accounting period is earlier than now
                 
                 // are we in the grace period for this accounting period?

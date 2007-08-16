@@ -27,8 +27,6 @@ import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
 import org.kuali.kfs.context.KualiTestBase;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.service.GeneralLedgerPendingEntryService;
-import org.kuali.kfs.util.SpringServiceLocator;
-import org.kuali.module.gl.GLSpringBeansRegistry;
 import org.kuali.module.gl.web.TestDataGenerator;
 
 /**
@@ -50,7 +48,7 @@ public abstract class AbstractGLLookupableHelperServiceTestBase extends KualiTes
         pendingEntry = new GeneralLedgerPendingEntry();
         testDataGenerator = new TestDataGenerator();
 
-        setPendingEntryService((GeneralLedgerPendingEntryService) SpringServiceLocator.getService(GLSpringBeansRegistry.generalLedgerPendingEntryService));
+        setPendingEntryService(SpringContext.getBean(GeneralLedgerPendingEntryService.class));
     }
 
     /**

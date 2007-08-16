@@ -30,7 +30,7 @@ import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DateTimeService;
 import org.kuali.core.service.PersistenceService;
 import org.kuali.kfs.context.KualiTestBase;
-import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.gl.bo.OriginEntry;
 import org.kuali.module.gl.bo.OriginEntryGroup;
 import org.kuali.module.gl.service.OriginEntryGroupService;
@@ -69,11 +69,11 @@ public class TestDataLoader extends KualiTestBase {
 
         keyFieldList = Arrays.asList(StringUtils.split(fieldNames, deliminator));
         fieldLengthList = Arrays.asList(StringUtils.split(fieldLength, deliminator));
-        businessObjectService = (BusinessObjectService) SpringServiceLocator.getService("businessObjectService");
+        businessObjectService = SpringContext.getBean(BusinessObjectService.class);
 
-        laborOriginEntryService = (LaborOriginEntryService) SpringServiceLocator.getService("laborOriginEntryService");
-        originEntryGroupService = (OriginEntryGroupService) SpringServiceLocator.getService("glOriginEntryGroupService");
-        persistenceService = (PersistenceService) SpringServiceLocator.getService("persistenceService");
+        laborOriginEntryService = SpringContext.getBean(LaborOriginEntryService.class);
+        originEntryGroupService = SpringContext.getBean(OriginEntryGroupService.class, "glOriginEntryGroupService");
+        persistenceService = SpringContext.getBean(PersistenceService.class);
     }
 
     public void testLoadTransactionIntoPendingEntryTable() {
@@ -85,7 +85,7 @@ public class TestDataLoader extends KualiTestBase {
     public void testLoadTransactionIntoOriginEntryTable() {
         int numberOfInputData = Integer.valueOf(properties.getProperty("numOfData"));
            
-        Date today = ((DateTimeService) SpringServiceLocator.getService("dateTimeService")).getCurrentSqlDate();
+        Date today = SpringContext.getBean(DateTimeService.class, "dateTimeService").getCurrentSqlDate();
         OriginEntryGroup groupToPost = originEntryGroupService.createGroup(today, LABOR_SCRUBBER_VALID, true, true, false);
 
         int[] fieldLength = this.getFieldLength(fieldLengthList);
@@ -101,7 +101,7 @@ public class TestDataLoader extends KualiTestBase {
     public void testLoadTransactionIntoGLOriginEntryTable() {
         int numberOfInputData = Integer.valueOf(properties.getProperty("numOfData"));
            
-        Date today = ((DateTimeService) SpringServiceLocator.getService("dateTimeService")).getCurrentSqlDate();
+        Date today = SpringContext.getBean(DateTimeService.class, "dateTimeService").getCurrentSqlDate();
         OriginEntryGroup groupToPost = originEntryGroupService.createGroup(today, SCRUBBER_VALID, true, true, false);
 
         int[] fieldLength = this.getFieldLength(fieldLengthList);

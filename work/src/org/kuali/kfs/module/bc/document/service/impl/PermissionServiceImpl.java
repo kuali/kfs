@@ -16,17 +16,13 @@
 package org.kuali.module.budget.service.impl;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 import org.apache.log4j.Logger;
-import org.kuali.core.bo.DocumentType;
-import org.kuali.core.bo.user.UniversalUser;
+import org.kuali.kfs.KFSConstants.BudgetConstructionConstants;
 import org.kuali.module.budget.service.PermissionService;
 import org.kuali.module.chart.bo.Org;
 import org.kuali.module.chart.service.OrganizationService;
-import org.kuali.kfs.KFSConstants.BudgetConstructionConstants;
-import org.kuali.kfs.util.SpringServiceLocator;
 import org.springframework.transaction.annotation.Transactional;
 
 import edu.iu.uis.eden.EdenConstants;

@@ -15,18 +15,11 @@
  */
 package org.kuali.module.purap.document.authorization;
 
-import java.util.HashMap;
-import java.util.Map;
-
-import org.kuali.core.authorization.AuthorizationConstants;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.document.Document;
 import org.kuali.core.document.authorization.DocumentActionFlags;
 import org.kuali.core.document.authorization.TransactionalDocumentAuthorizerBase;
-import org.kuali.core.exceptions.GroupNotFoundException;
 import org.kuali.core.workflow.service.KualiWorkflowDocument;
-import org.kuali.kfs.util.SpringServiceLocator;
-import org.kuali.module.purap.PurapRuleConstants;
 
 /**
  * Document Authorizer for the PO document.

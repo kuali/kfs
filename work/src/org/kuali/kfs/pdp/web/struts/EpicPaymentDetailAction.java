@@ -17,7 +17,7 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.action.ActionMessage;
-import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.pdp.action.BaseAction;
 import org.kuali.module.pdp.bo.PaymentDetail;
 import org.kuali.module.pdp.bo.PaymentGroup;
@@ -37,8 +37,8 @@ public class EpicPaymentDetailAction extends BaseAction {
   private Map payees;
 
   public EpicPaymentDetailAction() {
-      setPaymentDetailService( (PaymentDetailService)SpringServiceLocator.getService("pdpPaymentDetailService") );
-      setPaymentGroupService( (PaymentGroupService)SpringServiceLocator.getService("pdpPaymentGroupService") );
+      setPaymentDetailService( SpringContext.getBean(PaymentDetailService.class) );
+      setPaymentGroupService( SpringContext.getBean(PaymentGroupService.class) );
   }
 
   protected ActionForward executeLogic(ActionMapping mapping, ActionForm form,

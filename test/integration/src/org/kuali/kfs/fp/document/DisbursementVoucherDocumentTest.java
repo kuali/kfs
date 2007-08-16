@@ -17,8 +17,6 @@ package org.kuali.module.financial.document;
 
 import static org.kuali.module.financial.document.AccountingDocumentTestUtils.saveDocument;
 import static org.kuali.module.financial.document.AccountingDocumentTestUtils.testGetNewDocument_byDocumentClass;
-import static org.kuali.rice.KNSServiceLocator.getDataDictionaryService;
-import static org.kuali.rice.KNSServiceLocator.getDocumentService;
 import static org.kuali.test.fixtures.AccountingLineFixture.LINE7;
 import static org.kuali.test.fixtures.UserNameFixture.CSWINSON;
 import static org.kuali.test.fixtures.UserNameFixture.HSCHREIN;
@@ -33,7 +31,9 @@ import java.util.List;
 import junit.framework.Assert;
 
 import org.kuali.core.document.Document;
+import org.kuali.core.service.DataDictionaryService;
 import org.kuali.core.service.DateTimeService;
+import org.kuali.core.service.DocumentService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.bo.SourceAccountingLine;
@@ -118,40 +118,40 @@ public class DisbursementVoucherDocumentTest extends KualiTestBase {
         // save and route the document
         Document document = buildDocument();
         final String docId = document.getDocumentNumber();
-        getDocumentService().routeDocument(document, "routing test doc", null);
+        SpringContext.getBean(DocumentService.class).routeDocument(document, "routing test doc", null);
 
         WorkflowTestUtils.waitForNodeChange(document.getDocumentHeader().getWorkflowDocument(), ACCOUNT_REVIEW);
 
         // the document should now be routed to VPUTMAN as Fiscal Officer
         changeCurrentUser(VPUTMAN);
-        document = getDocumentService().getByDocumentHeaderId(docId);
+        document = SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(docId);
         assertTrue("At incorrect node.", WorkflowTestUtils.isAtNode(document, ACCOUNT_REVIEW));
         assertTrue("Document should be enroute.", document.getDocumentHeader().getWorkflowDocument().stateIsEnroute());
         assertTrue("VPUTMAN should have an approve request.", document.getDocumentHeader().getWorkflowDocument().isApprovalRequested());
-        getDocumentService().approveDocument(document, "Test approving as VPUTMAN", null); 
+        SpringContext.getBean(DocumentService.class).approveDocument(document, "Test approving as VPUTMAN", null); 
 
         WorkflowTestUtils.waitForNodeChange(document.getDocumentHeader().getWorkflowDocument(), ORG_REVIEW);
         // now doc should be in Org Review routing to CSWINSON
         changeCurrentUser(CSWINSON);
-        document = getDocumentService().getByDocumentHeaderId(docId);
+        document = SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(docId);
         assertTrue("At incorrect node.", WorkflowTestUtils.isAtNode(document, ORG_REVIEW));
         assertTrue("CSWINSON should have an approve request.", document.getDocumentHeader().getWorkflowDocument().isApprovalRequested());
-        getDocumentService().approveDocument(document, "Test approving as CSWINSON", null);
+        SpringContext.getBean(DocumentService.class).approveDocument(document, "Test approving as CSWINSON", null);
 
         // this is going to skip a bunch of other routing and end up at campus code
         WorkflowTestUtils.waitForNodeChange(document.getDocumentHeader().getWorkflowDocument(), CAMPUS_CODE);
 
         // doc should be in "Campus Code" routing to MYLARGE
         changeCurrentUser(MYLARGE);
-        document = getDocumentService().getByDocumentHeaderId(docId);
+        document = SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(docId);
         assertTrue("At incorrect node.", WorkflowTestUtils.isAtNode(document, CAMPUS_CODE));
         assertTrue("Should have an approve request.", document.getDocumentHeader().getWorkflowDocument().isApprovalRequested());
-        getDocumentService().approveDocument(document, "Approve", null);
+        SpringContext.getBean(DocumentService.class).approveDocument(document, "Approve", null);
 
         WorkflowTestUtils.waitForStatusChange(document.getDocumentHeader().getWorkflowDocument(), EdenConstants.ROUTE_HEADER_FINAL_CD);
 
         changeCurrentUser(VPUTMAN);
-        document = getDocumentService().getByDocumentHeaderId(docId);
+        document = SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(docId);
         assertTrue("Document should now be final.", document.getDocumentHeader().getWorkflowDocument().stateIsFinal());
     }
 
@@ -160,7 +160,7 @@ public class DisbursementVoucherDocumentTest extends KualiTestBase {
     }
 
     private Document getDocumentParameterFixture() throws Exception {
-        DisbursementVoucherDocument document = DocumentTestUtils.createDocument(getDocumentService(), DisbursementVoucherDocument.class);
+        DisbursementVoucherDocument document = DocumentTestUtils.createDocument(SpringContext.getBean(DocumentService.class), DisbursementVoucherDocument.class);
         DisbursementVoucherPayeeDetail payeeDetail = new DisbursementVoucherPayeeDetail();
         payeeDetail.setDisbVchrPayeeIdNumber("P000178071");
         payeeDetail.setDisbVchrPayeePersonName("Jerry Neal");
@@ -233,21 +233,21 @@ public class DisbursementVoucherDocumentTest extends KualiTestBase {
         List<TargetAccountingLine> targetLines = generateTargetAccountingLines();
         int expectedSourceTotal = sourceLines.size();
         int expectedTargetTotal = targetLines.size();
-        AccountingDocumentTestUtils.testAddAccountingLine(DocumentTestUtils.createDocument(getDocumentService(), DOCUMENT_CLASS), sourceLines, targetLines, expectedSourceTotal, expectedTargetTotal);
+        AccountingDocumentTestUtils.testAddAccountingLine(DocumentTestUtils.createDocument(SpringContext.getBean(DocumentService.class), DOCUMENT_CLASS), sourceLines, targetLines, expectedSourceTotal, expectedTargetTotal);
     }
 
     public final void testGetNewDocument() throws Exception {
-        testGetNewDocument_byDocumentClass(DOCUMENT_CLASS, getDocumentService());
+        testGetNewDocument_byDocumentClass(DOCUMENT_CLASS, SpringContext.getBean(DocumentService.class));
     }
 
     public final void testConvertIntoCopy_copyDisallowed() throws Exception {
-        AccountingDocumentTestUtils.testConvertIntoCopy_copyDisallowed(buildDocument(), getDataDictionaryService());
+        AccountingDocumentTestUtils.testConvertIntoCopy_copyDisallowed(buildDocument(), SpringContext.getBean(DataDictionaryService.class));
 
     }
 
     @ConfigureContext(session = HSCHREIN, shouldCommitTransactions=true)
     public final void testRouteDocument() throws Exception {
-        AccountingDocumentTestUtils.testRouteDocument(buildDocument(), getDocumentService());
+        AccountingDocumentTestUtils.testRouteDocument(buildDocument(), SpringContext.getBean(DocumentService.class));
     }
 
     @ConfigureContext(session = HSCHREIN, shouldCommitTransactions=true)
@@ -257,10 +257,10 @@ public class DisbursementVoucherDocumentTest extends KualiTestBase {
         document.prepareForSave();
 
         // save
-        saveDocument(document, getDocumentService());
+        saveDocument(document, SpringContext.getBean(DocumentService.class));
 
         // retrieve
-        AccountingDocument result = (AccountingDocument) getDocumentService().getByDocumentHeaderId(document.getDocumentNumber());
+        AccountingDocument result = (AccountingDocument) SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(document.getDocumentNumber());
         // verify
         assertMatch(document, result);
 
@@ -268,7 +268,7 @@ public class DisbursementVoucherDocumentTest extends KualiTestBase {
 
     @ConfigureContext(session = HSCHREIN, shouldCommitTransactions=true)
     public final void testConvertIntoCopy() throws Exception {
-        AccountingDocumentTestUtils.testConvertIntoCopy(buildDocument(), getDocumentService(), getExpectedPrePeCount());
+        AccountingDocumentTestUtils.testConvertIntoCopy(buildDocument(), SpringContext.getBean(DocumentService.class), getExpectedPrePeCount());
     }
 
     // test util methods

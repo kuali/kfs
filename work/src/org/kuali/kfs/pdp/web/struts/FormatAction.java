@@ -17,7 +17,7 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.action.ActionMessage;
 import org.apache.struts.action.ActionMessages;
-import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.pdp.action.BaseAction;
 import org.kuali.module.pdp.form.format.FormatProcessForm;
 import org.kuali.module.pdp.service.DisbursementRangeExhaustedException;
@@ -38,7 +38,7 @@ public class FormatAction extends BaseAction {
 
   public FormatAction() {
       super();
-      setFormatService( (FormatService)SpringServiceLocator.getService("pdpFormatService") );
+      setFormatService( SpringContext.getBean(FormatService.class) );
   }
 
   public void setFormatService(FormatService fs) {

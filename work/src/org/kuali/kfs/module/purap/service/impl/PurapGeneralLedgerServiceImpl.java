@@ -48,7 +48,6 @@ import org.kuali.kfs.bo.SourceAccountingLine;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.rule.event.GenerateGeneralLedgerPendingEntriesEvent;
 import org.kuali.kfs.service.GeneralLedgerPendingEntryService;
-import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.chart.bo.ObjectCode;
 import org.kuali.module.chart.service.ObjectCodeService;
 import org.kuali.module.financial.service.UniversityDateService;
@@ -469,14 +468,14 @@ public class PurapGeneralLedgerServiceImpl implements PurapGeneralLedgerService 
             }
         }
 
-        PurchaseOrderDocument oldPO = ((PurchaseOrderService) SpringServiceLocator.getService(SpringServiceLocator.PURCHASE_ORDER_SERVICE)).getCurrentPurchaseOrder(po.getPurapDocumentIdentifier());
+        PurchaseOrderDocument oldPO = SpringContext.getBean(PurchaseOrderService.class).getCurrentPurchaseOrder(po.getPurapDocumentIdentifier());
 
         if (oldPO == null) {
             throw new IllegalArgumentException("Current Purchase Order not found - poId = " + oldPO.getPurapDocumentIdentifier());
         }
 
-        List newAccounts = ((PurapAccountingService) SpringServiceLocator.getService(SpringServiceLocator.PURAP_ACCOUNTING_SERVICE)).generateSummaryWithNoZeroTotalsUsingAlternateAmount(po.getItemsActiveOnly());
-        List oldAccounts = ((PurapAccountingService) SpringServiceLocator.getService(SpringServiceLocator.PURAP_ACCOUNTING_SERVICE)).generateSummaryWithNoZeroTotalsUsingAlternateAmount(oldPO.getItemsActiveOnlySetupAlternateAmount());
+        List newAccounts = SpringContext.getBean(PurapAccountingService.class).generateSummaryWithNoZeroTotalsUsingAlternateAmount(po.getItemsActiveOnly());
+        List oldAccounts = SpringContext.getBean(PurapAccountingService.class).generateSummaryWithNoZeroTotalsUsingAlternateAmount(oldPO.getItemsActiveOnlySetupAlternateAmount());
 
         Map combination = new HashMap();
 

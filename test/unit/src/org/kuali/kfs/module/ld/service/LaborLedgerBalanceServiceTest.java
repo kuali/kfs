@@ -15,24 +15,16 @@
  */
 package org.kuali.module.labor.service;
 
-import java.util.Arrays;
-import java.util.Collection;
 import java.util.List;
-import java.util.Map;
 import java.util.Properties;
 
-import org.apache.commons.lang.StringUtils;
-import org.kuali.core.service.BusinessObjectService;
-import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.context.KualiTestBase;
-import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.gl.bo.Transaction;
 import org.kuali.module.gl.web.TestDataGenerator;
 import org.kuali.module.labor.bo.LaborOriginEntry;
 import org.kuali.module.labor.bo.LedgerBalance;
-import org.kuali.module.labor.util.ObjectUtil;
 import org.kuali.module.labor.util.TestDataPreparator;
-import org.kuali.module.labor.util.testobject.LedgerBalanceForTesting;
 import org.kuali.test.ConfigureContext;
 
 @ConfigureContext
@@ -53,7 +45,7 @@ public class LaborLedgerBalanceServiceTest extends KualiTestBase {
         fieldNames = properties.getProperty("fieldNames");
         transactionFieldNames = properties.getProperty("transactionFieldNames");
         deliminator = properties.getProperty("deliminator");
-        laborLedgerBalanceService = (LaborLedgerBalanceService) SpringServiceLocator.getService("laborLedgerBalanceService");
+        laborLedgerBalanceService = SpringContext.getBean(LaborLedgerBalanceService.class);
     }
 
     public void testFindLedgerBalance_Found() throws Exception{

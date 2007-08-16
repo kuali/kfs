@@ -15,8 +15,6 @@
  */
 package org.kuali.module.financial.service;
 
-import static org.kuali.kfs.util.SpringServiceLocator.getDisbursementVoucherTravelService;
-
 import java.sql.Timestamp;
 
 import org.kuali.core.service.DateTimeService;
@@ -121,7 +119,7 @@ public class DisbursementVoucherTravelServiceTest extends KualiTestBase {
     }
 
     private void runPerDiemTest(Timestamp startTime, Timestamp endTime, KualiDecimal perDiemRate, KualiDecimal expectedPerDiemAmount) {
-        assertEquals("Per diem amount not correct ", expectedPerDiemAmount, getDisbursementVoucherTravelService().calculatePerDiemAmount(startTime, endTime, perDiemRate));
+        assertEquals("Per diem amount not correct ", expectedPerDiemAmount, SpringContext.getBean(DisbursementVoucherTravelService.class).calculatePerDiemAmount(startTime, endTime, perDiemRate));
     }
 
     /**
@@ -154,7 +152,7 @@ public class DisbursementVoucherTravelServiceTest extends KualiTestBase {
     }
 
     private void runMileageAmountTest(Integer totalMiles, KualiDecimal expectedMileageAmount, Timestamp effectiveDate) {
-        assertEquals("Mileage amount not correct ", expectedMileageAmount, getDisbursementVoucherTravelService().calculateMileageAmount(totalMiles, effectiveDate));
+        assertEquals("Mileage amount not correct ", expectedMileageAmount, SpringContext.getBean(DisbursementVoucherTravelService.class).calculateMileageAmount(totalMiles, effectiveDate));
     }
 
 

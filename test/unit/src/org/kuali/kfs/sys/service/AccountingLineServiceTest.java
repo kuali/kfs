@@ -15,8 +15,6 @@
  */
 package org.kuali.core.service;
 
-import static org.kuali.kfs.util.SpringServiceLocator.getAccountingLineService;
-import static org.kuali.rice.KNSServiceLocator.getDocumentService;
 import static org.kuali.test.fixtures.AccountingLineFixture.LINE2_TOF;
 import static org.kuali.test.fixtures.UserNameFixture.KHUNTLEY;
 
@@ -27,10 +25,12 @@ import org.kuali.kfs.bo.AccountingLine;
 import org.kuali.kfs.bo.SourceAccountingLine;
 import org.kuali.kfs.bo.TargetAccountingLine;
 import org.kuali.kfs.context.KualiTestBase;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.document.AccountingDocument;
+import org.kuali.kfs.service.AccountingLineService;
 import org.kuali.module.financial.document.TransferOfFundsDocument;
-import org.kuali.test.DocumentTestUtils;
 import org.kuali.test.ConfigureContext;
+import org.kuali.test.DocumentTestUtils;
 
 /**
  * This class tests the AccountingLine service.
@@ -47,8 +47,8 @@ public class AccountingLineServiceTest extends KualiTestBase {
     @Override
     protected void setUp() throws Exception {
         super.setUp();
-        document = DocumentTestUtils.createDocument(getDocumentService(), TransferOfFundsDocument.class);
-        getDocumentService().saveDocument(document);
+        document = DocumentTestUtils.createDocument(SpringContext.getBean(DocumentService.class), TransferOfFundsDocument.class);
+        SpringContext.getBean(DocumentService.class).saveDocument(document);
         LINE2_TOF.addAsSourceTo(document);
         LINE2_TOF.addAsTargetTo(document);
 
@@ -64,9 +64,9 @@ public class AccountingLineServiceTest extends KualiTestBase {
     public void testPersistence() throws Exception {
 
 
-        getAccountingLineService().save(sline);
+        SpringContext.getBean(AccountingLineService.class, "accountingLineService").save(sline);
 
-        List<? extends SourceAccountingLine> sourceLines = getAccountingLineService().getByDocumentHeaderId(SourceAccountingLine.class, document.getDocumentNumber());
+        List<? extends SourceAccountingLine> sourceLines = SpringContext.getBean(AccountingLineService.class, "accountingLineService").getByDocumentHeaderId(SourceAccountingLine.class, document.getDocumentNumber());
         assertTrue(sourceLines.size() > 0);
 
         AccountingLine line = sourceLines.get(0);
@@ -77,7 +77,7 @@ public class AccountingLineServiceTest extends KualiTestBase {
         assertEquals(LINE2_TOF.financialObjectCode, line.getFinancialObjectCode());
         assertEquals(LINE2_TOF.financialSubObjectCode, line.getFinancialSubObjectCode());
 
-        getAccountingLineService().deleteAccountingLine((AccountingLine) line);
+        SpringContext.getBean(AccountingLineService.class, "accountingLineService").deleteAccountingLine((AccountingLine) line);
 
     }
 
@@ -110,17 +110,17 @@ public class AccountingLineServiceTest extends KualiTestBase {
     public void testLifecycle() throws Exception {
         String docNumber = document.getDocumentNumber();
         // make sure they dont' exist
-        assertEquals(0, getAccountingLineService().getByDocumentHeaderId(SourceAccountingLine.class, docNumber).size());
-        assertEquals(0, getAccountingLineService().getByDocumentHeaderId(TargetAccountingLine.class, docNumber).size());
+        assertEquals(0, SpringContext.getBean(AccountingLineService.class, "accountingLineService").getByDocumentHeaderId(SourceAccountingLine.class, docNumber).size());
+        assertEquals(0, SpringContext.getBean(AccountingLineService.class, "accountingLineService").getByDocumentHeaderId(TargetAccountingLine.class, docNumber).size());
         List sourceLines = null;
         List targetLines = null;
 
         // save 'em
-        getAccountingLineService().save(sline);
-        getAccountingLineService().save(tline);
+        SpringContext.getBean(AccountingLineService.class, "accountingLineService").save(sline);
+        SpringContext.getBean(AccountingLineService.class, "accountingLineService").save(tline);
 
-        sourceLines = getAccountingLineService().getByDocumentHeaderId(SourceAccountingLine.class, docNumber);
-        targetLines = getAccountingLineService().getByDocumentHeaderId(TargetAccountingLine.class, docNumber);
+        sourceLines = SpringContext.getBean(AccountingLineService.class, "accountingLineService").getByDocumentHeaderId(SourceAccountingLine.class, docNumber);
+        targetLines = SpringContext.getBean(AccountingLineService.class, "accountingLineService").getByDocumentHeaderId(TargetAccountingLine.class, docNumber);
 
         // make sure they got saved
         assertTrue(sourceLines.size() > 0);
@@ -128,17 +128,17 @@ public class AccountingLineServiceTest extends KualiTestBase {
         // delete 'em
         if (sourceLines != null) {
             for (Iterator i = sourceLines.iterator(); i.hasNext();) {
-                getAccountingLineService().deleteAccountingLine((AccountingLine) i.next());
+                SpringContext.getBean(AccountingLineService.class, "accountingLineService").deleteAccountingLine((AccountingLine) i.next());
             }
         }
         if (targetLines != null) {
             for (Iterator i = targetLines.iterator(); i.hasNext();) {
-                getAccountingLineService().deleteAccountingLine((AccountingLine) i.next());
+                SpringContext.getBean(AccountingLineService.class, "accountingLineService").deleteAccountingLine((AccountingLine) i.next());
             }
         }
 
         // make sure they got deleted
-        assertEquals(0, getAccountingLineService().getByDocumentHeaderId(SourceAccountingLine.class, docNumber).size());
-        assertEquals(0, getAccountingLineService().getByDocumentHeaderId(TargetAccountingLine.class, docNumber).size());
+        assertEquals(0, SpringContext.getBean(AccountingLineService.class, "accountingLineService").getByDocumentHeaderId(SourceAccountingLine.class, docNumber).size());
+        assertEquals(0, SpringContext.getBean(AccountingLineService.class, "accountingLineService").getByDocumentHeaderId(TargetAccountingLine.class, docNumber).size());
     }
 }

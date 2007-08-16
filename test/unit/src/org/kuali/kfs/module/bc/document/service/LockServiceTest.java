@@ -15,17 +15,16 @@
  */
 package org.kuali.module.budget.service;
 
-import static org.kuali.kfs.util.SpringServiceLocator.getLockService;
-import static org.kuali.rice.KNSServiceLocator.getBusinessObjectService;
-
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.SortedSet;
 
 import org.kuali.core.bo.DocumentHeader;
+import org.kuali.core.service.BusinessObjectService;
 import org.kuali.kfs.KFSConstants.BudgetConstructionConstants.LockStatus;
 import org.kuali.kfs.context.KualiTestBase;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.budget.bo.BudgetConstructionFundingLock;
 import org.kuali.module.budget.bo.BudgetConstructionHeader;
 import org.kuali.module.budget.bo.BudgetConstructionPosition;
@@ -83,17 +82,17 @@ public class LockServiceTest extends KualiTestBase {
         if (!runTests()) return;
         
         // do some setup and initialize the state of things
-        lockService = getLockService();
+        lockService = SpringContext.getBean(LockService.class);
         bcHeaderDao = new BudgetConstructionDaoOjb();
         
         docHeader = null;
         Map dockey = new HashMap();
         dockey.put("documentNumber", fdocNumber);
-        docHeader = (DocumentHeader) getBusinessObjectService().findByPrimaryKey(DocumentHeader.class, dockey);
+        docHeader = (DocumentHeader) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(DocumentHeader.class, dockey);
         if (docHeader == null){
             docHeader = new DocumentHeader();
             docHeader.setDocumentNumber(fdocNumber);
-            getBusinessObjectService().save(docHeader);
+            SpringContext.getBean(BusinessObjectService.class).save(docHeader);
         } else {
             docHdrExist = true;
         }
@@ -146,7 +145,7 @@ public class LockServiceTest extends KualiTestBase {
         map.put("financialSubObjectCode", financialSubObjectCode);
         map.put("positionNumber", positionNumber);
         map.put("emplid", emplid);
-        bcAFunding = (PendingBudgetConstructionAppointmentFunding) getBusinessObjectService().findByPrimaryKey(PendingBudgetConstructionAppointmentFunding.class, map);
+        bcAFunding = (PendingBudgetConstructionAppointmentFunding) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(PendingBudgetConstructionAppointmentFunding.class, map);
         if (bcAFunding == null){
             bcAFunding = new PendingBudgetConstructionAppointmentFunding();
             bcAFunding.setUniversityFiscalYear(universityFiscalYear);
@@ -157,7 +156,7 @@ public class LockServiceTest extends KualiTestBase {
             bcAFunding.setFinancialSubObjectCode(financialSubObjectCode);
             bcAFunding.setPositionNumber(positionNumber);
             bcAFunding.setEmplid(emplid);
-            getBusinessObjectService().save(bcAFunding);
+            SpringContext.getBean(BusinessObjectService.class).save(bcAFunding);
         } else {
             bcafExist = true;    
         }
@@ -346,14 +345,14 @@ public class LockServiceTest extends KualiTestBase {
             bcHeaderDao.getPersistenceBrokerTemplate().delete(bcHeader);
         }
         if (!docHdrExist){
-            getBusinessObjectService().delete(docHeader);
+            SpringContext.getBean(BusinessObjectService.class).delete(docHeader);
         }
         if (!posExist) {
             bcPosition = bcHeaderDao.getByPrimaryId(positionNumber, universityFiscalYear);
             bcHeaderDao.getPersistenceBrokerTemplate().delete(bcPosition);
         }
         if (!bcafExist) {
-            getBusinessObjectService().delete(bcAFunding);
+            SpringContext.getBean(BusinessObjectService.class).delete(bcAFunding);
         }
     }
 }

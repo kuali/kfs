@@ -24,7 +24,6 @@ import org.kuali.core.util.ErrorMap;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.batch.Step;
-import org.kuali.kfs.util.SpringServiceLocator;
 
 public class BatchStepRunner {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(BatchStepRunner.class);
@@ -75,7 +74,7 @@ public class BatchStepRunner {
         	LOG.warn( "error checking application parameter", ex );
         }
         LOG.debug("runStep() Retrieving step " + stepName);
-        Step step = (Step) SpringServiceLocator.getService(stepName);
+        Step step = SpringContext.getBean(Step.class, stepName);
         String stepRunIndicatorParameter = stepName + "_FLAG";
         boolean skipStep = false;
         try {

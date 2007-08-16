@@ -26,10 +26,10 @@ import org.kuali.core.bo.DocumentHeader;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.PersistenceService;
 import org.kuali.kfs.context.KualiTestBase;
-import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.gl.web.TestDataGenerator;
-import org.kuali.module.labor.bo.LaborOriginEntry;
 import org.kuali.module.labor.bo.LaborLedgerPendingEntry;
+import org.kuali.module.labor.bo.LaborOriginEntry;
 import org.kuali.module.labor.util.ObjectUtil;
 import org.kuali.module.labor.util.TestDataPreparator;
 import org.kuali.module.labor.util.testobject.LaborOriginEntryForTesting;
@@ -59,9 +59,9 @@ public class LaborNightlyOutServiceTest extends KualiTestBase {
         documentFieldNames = properties.getProperty("documentFieldNames");
         deliminator = properties.getProperty("deliminator");
 
-        businessObjectService = (BusinessObjectService) SpringServiceLocator.getService("businessObjectService");
-        laborNightlyOutService = (LaborNightlyOutService)SpringServiceLocator.getService("laborNightlyOutService");
-        persistenceService = (PersistenceService) SpringServiceLocator.getService("persistenceService");
+        businessObjectService = SpringContext.getBean(BusinessObjectService.class);
+        laborNightlyOutService = SpringContext.getBean(LaborNightlyOutService.class);
+        persistenceService = SpringContext.getBean(PersistenceService.class);
         
         int numberOfDocuments = Integer.valueOf(properties.getProperty("document.numOfData"));
         List inputDataList = TestDataPreparator.buildTestDataList(DocumentHeader.class, properties, "document.testData", documentFieldNames, deliminator, numberOfDocuments);

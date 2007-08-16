@@ -40,7 +40,6 @@ import org.kuali.core.service.UniversalUserService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.context.SpringContext;
-import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.kra.KraConstants;
 import org.kuali.module.kra.KraKeyConstants;
 import org.kuali.module.kra.bo.AdhocPerson;
@@ -244,7 +243,7 @@ public class BudgetAction extends ResearchDocumentActionBase {
         BudgetForm budgetForm = (BudgetForm) form;
 
         setupNonpersonnelCategories(budgetForm);
-        PersistenceService persistenceService = SpringServiceLocator.getBean(PersistenceService.class);
+        PersistenceService persistenceService = SpringContext.getBean(PersistenceService.class);
         persistenceService.retrieveReferenceObject(budgetForm.getBudgetDocument().getBudget(), "nonpersonnelItems");
         budgetForm.setBudgetNonpersonnelFormHelper(new BudgetNonpersonnelFormHelper(budgetForm));
 

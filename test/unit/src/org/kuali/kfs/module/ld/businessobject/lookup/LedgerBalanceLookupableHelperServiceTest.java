@@ -26,7 +26,7 @@ import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.PersistenceService;
 import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.context.KualiTestBase;
-import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.gl.web.TestDataGenerator;
 import org.kuali.module.labor.bo.LedgerBalance;
 import org.kuali.module.labor.util.ObjectUtil;
@@ -51,9 +51,9 @@ public class LedgerBalanceLookupableHelperServiceTest extends KualiTestBase {
     protected void setUp() throws Exception {
         super.setUp();
 
-        businessObjectService = (BusinessObjectService) SpringServiceLocator.getService("businessObjectService");
+        businessObjectService = SpringContext.getBean(BusinessObjectService.class);
 
-        lookupableHelperService = (LookupableHelperService) SpringServiceLocator.getService("laborLedgerBalanceLookupableHelperService");
+        lookupableHelperService = SpringContext.getBean(LookupableHelperService.class, "laborLedgerBalanceLookupableHelperService");
         lookupableHelperService.setBusinessObjectClass(LedgerBalance.class);
 
         // Clear up the database so that any existing data cannot affact your test result
@@ -118,8 +118,8 @@ public class LedgerBalanceLookupableHelperServiceTest extends KualiTestBase {
 
         TestDataGenerator testDataGenerator = new TestDataGenerator(propertiesFileName, messageFileName);
 
-        businessObjectService = (BusinessObjectService) SpringServiceLocator.getService("businessObjectService");
-        persistenceService = (PersistenceService) SpringServiceLocator.getService("persistenceService");
+        businessObjectService = SpringContext.getBean(BusinessObjectService.class);
+        persistenceService = SpringContext.getBean(PersistenceService.class);
 
         int numberOfDocuments = Integer.valueOf(properties.getProperty("getLedgerBalance.numOfData"));
         List<LedgerBalance> inputDataList = new ArrayList<LedgerBalance>();

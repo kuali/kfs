@@ -15,8 +15,6 @@
  */
 package org.kuali.module.financial.service;
 
-import static org.kuali.kfs.util.SpringServiceLocator.getBalanceService;
-
 import java.util.List;
 
 import org.kuali.core.util.Guid;
@@ -24,9 +22,9 @@ import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.UnitTestSqlDao;
 import org.kuali.kfs.context.KualiTestBase;
 import org.kuali.kfs.context.SpringContext;
-import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.Chart;
+import org.kuali.module.gl.service.BalanceService;
 import org.kuali.test.ConfigureContext;
 
 /**
@@ -95,33 +93,33 @@ public class BalanceServiceTest extends KualiTestBase {
         List results;
         purgeTestData();
 
-        assertTrue("should net to zero when no rows exist", getBalanceService().fundBalanceWillNetToZero(account));
+        assertTrue("should net to zero when no rows exist", SpringContext.getBean(BalanceService.class).fundBalanceWillNetToZero(account));
 
         insertBalance("EE", "TR", "9899", new KualiDecimal(1.5), new KualiDecimal(2.5));
         results = unitTestSqlDao.sqlSelect(RAW_BALANCES);
         assertNotNull("List shouldn't be null", results);
         assertEquals("Should return 1 result", 1, results.size());
 
-        assertTrue("should net to zero with non-AC balance Type Code", getBalanceService().fundBalanceWillNetToZero(account));
+        assertTrue("should net to zero with non-AC balance Type Code", SpringContext.getBean(BalanceService.class).fundBalanceWillNetToZero(account));
 
         insertBalance("CH", "AC", "9899", new KualiDecimal(1.5), new KualiDecimal(2.5));
-        assertFalse(getBalanceService().fundBalanceWillNetToZero(account));
+        assertFalse(SpringContext.getBean(BalanceService.class).fundBalanceWillNetToZero(account));
 
         // Negate the income balance with an equal expense balance
         insertBalance("EE", "AC", "9899", new KualiDecimal(2), new KualiDecimal(2));
-        assertTrue("should net to zero after adding corresponding expenses", getBalanceService().fundBalanceWillNetToZero(account));
+        assertTrue("should net to zero after adding corresponding expenses", SpringContext.getBean(BalanceService.class).fundBalanceWillNetToZero(account));
         purgeTestData();
     }
 
     public void testHasAssetLiabilityFundBalanceBalances() {
         List results;
         purgeTestData();
-        assertFalse("no rows means no balances", getBalanceService().hasAssetLiabilityFundBalanceBalances(account));
+        assertFalse("no rows means no balances", SpringContext.getBean(BalanceService.class).hasAssetLiabilityFundBalanceBalances(account));
         String fundBalanceObjectCode = "9899"; // TODO - get this from Service? Or System Options?
         insertBalance("LI", "AC", "9899", new KualiDecimal(1.5), new KualiDecimal(2.5));
-        assertFalse("should ignore 9899 balance", getBalanceService().hasAssetLiabilityFundBalanceBalances(account));
+        assertFalse("should ignore 9899 balance", SpringContext.getBean(BalanceService.class).hasAssetLiabilityFundBalanceBalances(account));
         insertBalance("LI", "AC", "9900", new KualiDecimal(1.5), new KualiDecimal(2.5));
-        assertTrue("expect nonzero balance for non-9899 balance", getBalanceService().hasAssetLiabilityFundBalanceBalances(account));
+        assertTrue("expect nonzero balance for non-9899 balance", SpringContext.getBean(BalanceService.class).hasAssetLiabilityFundBalanceBalances(account));
 
 
     }

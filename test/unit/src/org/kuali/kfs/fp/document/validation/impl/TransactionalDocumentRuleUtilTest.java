@@ -15,8 +15,6 @@
  */
 package org.kuali.module.financial.rules;
 
-import static org.kuali.kfs.util.SpringServiceLocator.getAccountingPeriodService;
-import static org.kuali.kfs.util.SpringServiceLocator.getBalanceTypService;
 import static org.kuali.test.util.KualiTestAssertionUtils.assertGlobalErrorMapEmpty;
 
 import org.kuali.core.service.DateTimeService;
@@ -27,6 +25,8 @@ import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.rules.AccountingDocumentRuleUtil;
 import org.kuali.module.chart.bo.AccountingPeriod;
 import org.kuali.module.chart.bo.codes.BalanceTyp;
+import org.kuali.module.chart.service.AccountingPeriodService;
+import org.kuali.module.chart.service.BalanceTypService;
 import org.kuali.module.financial.document.JournalVoucherDocument;
 import org.kuali.test.ConfigureContext;
 import org.kuali.test.suite.RelatesTo;
@@ -85,7 +85,7 @@ public class TransactionalDocumentRuleUtilTest extends KualiTestBase {
      * @return AccountingPeriod
      */
     public AccountingPeriod getAnnualBalanceAccountingPeriod() {
-        return getAccountingPeriodService().getByPeriod(ANNUAL_BALANCE_PERIOD_CODE, CURRENT_FISCAL_YEAR);
+        return SpringContext.getBean(AccountingPeriodService.class).getByPeriod(ANNUAL_BALANCE_PERIOD_CODE, CURRENT_FISCAL_YEAR);
     }
 
     /**
@@ -166,7 +166,7 @@ public class TransactionalDocumentRuleUtilTest extends KualiTestBase {
         BalanceTyp balanceType = null;
 
         if (btStr != null) {
-            balanceType = getBalanceTypService().getBalanceTypByCode(btStr);
+            balanceType = SpringContext.getBean(BalanceTypService.class).getBalanceTypByCode(btStr);
         }
         assertGlobalErrorMapEmpty();
         boolean result = AccountingDocumentRuleUtil.isValidBalanceType(balanceType,"code");

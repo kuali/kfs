@@ -29,7 +29,7 @@ import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.PersistenceService;
 import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.context.KualiTestBase;
-import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.gl.bo.OriginEntryGroup;
 import org.kuali.module.gl.service.OriginEntryGroupService;
 import org.kuali.module.gl.web.TestDataGenerator;
@@ -65,10 +65,10 @@ public class LaborYearEndBalanceForwardServiceTest extends KualiTestBase {
         deliminator = properties.getProperty("deliminator");
         fiscalYear = Integer.valueOf(properties.getProperty("oldFiscalYear"));
 
-        originEntryGroupService = (OriginEntryGroupService) SpringServiceLocator.getService("glOriginEntryGroupService");
-        businessObjectService = (BusinessObjectService) SpringServiceLocator.getService("businessObjectService");
-        laborYearEndBalanceForwardService = (LaborYearEndBalanceForwardService) SpringServiceLocator.getService("laborYearEndBalanceForwardService");
-        persistenceService = (PersistenceService) SpringServiceLocator.getService("persistenceService");
+        originEntryGroupService = SpringContext.getBean(OriginEntryGroupService.class, "glOriginEntryGroupService");
+        businessObjectService = SpringContext.getBean(BusinessObjectService.class);
+        laborYearEndBalanceForwardService = SpringContext.getBean(LaborYearEndBalanceForwardService.class);
+        persistenceService = SpringContext.getBean(PersistenceService.class);
 
         groupFieldValues = new HashMap();
         groupFieldValues.put(KFSPropertyConstants.SOURCE_CODE, LABOR_YEAR_END_BALANCE_FORWARD);

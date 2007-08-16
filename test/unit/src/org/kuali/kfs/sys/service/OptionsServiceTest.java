@@ -19,9 +19,8 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.kuali.kfs.bo.Options;
 import org.kuali.kfs.context.KualiTestBase;
-
-import static org.kuali.kfs.util.SpringServiceLocator.*;
-
+import org.kuali.kfs.context.SpringContext;
+import org.kuali.kfs.service.OptionsService;
 import org.kuali.test.ConfigureContext;
 
 /**
@@ -34,7 +33,7 @@ public class OptionsServiceTest extends KualiTestBase {
     private static final Log LOG = LogFactory.getLog(OptionsServiceTest.class);
 
     public void testGetOptions() {
-        Options options = getOptionsService().getCurrentYearOptions();
+        Options options = SpringContext.getBean(OptionsService.class).getCurrentYearOptions();
 
         assertNotNull(options);
 

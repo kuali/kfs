@@ -15,15 +15,9 @@
  */
 package org.kuali.kfs.bo;
 
-import java.util.Date;
 import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
 
 import org.kuali.core.bo.TransientBusinessObjectBase;
-import org.kuali.kfs.service.SchedulerService;
-import org.kuali.kfs.util.SpringServiceLocator;
-import org.quartz.JobDetail;
 
 public class KualiModuleBO extends TransientBusinessObjectBase {
 

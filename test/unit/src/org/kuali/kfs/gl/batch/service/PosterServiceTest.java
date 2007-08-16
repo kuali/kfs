@@ -24,7 +24,7 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.util.Guid;
-import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.gl.OriginEntryTestBase;
 import org.kuali.module.gl.bo.OriginEntrySource;
 import org.kuali.test.ConfigureContext;
@@ -49,7 +49,7 @@ public class PosterServiceTest extends OriginEntryTestBase {
         // Set the run date of the job
         dateTimeService.setCurrentDate(date);
 
-        posterService = (PosterService) SpringServiceLocator.getService("glPosterService");
+        posterService = SpringContext.getBean(PosterService.class);
         posterService.setDateTimeService(dateTimeService);
     }
 

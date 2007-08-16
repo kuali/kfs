@@ -21,7 +21,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.TreeSet;
 
-import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.test.ConfigureContext;
 import org.springframework.aop.framework.AopProxyUtils;
 
@@ -52,7 +51,7 @@ public class TransactionalAnnotationTest extends KualiTestBase {
         for (String beanName : beanNames) {
             Object bean = null;
             try {
-                bean = SpringServiceLocator.getService(beanName);
+                bean = SpringContext.getBean(Object.class, beanName);
             }
             catch (Exception e) {
                 LOG.warn("Caught exception while trying to obtain service: " + beanName);

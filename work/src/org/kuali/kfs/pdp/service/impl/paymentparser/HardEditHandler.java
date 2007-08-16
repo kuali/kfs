@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.pdp.bo.CustomerProfile;
 import org.kuali.module.pdp.bo.PdpUser;
 import org.kuali.module.pdp.dao.CustomerProfileDao;
@@ -43,8 +43,8 @@ public class HardEditHandler implements PdpFileHandler {
   private List errorMessageList = new ArrayList();
 
   public HardEditHandler() {
-    customerDao = (CustomerProfileDao)SpringServiceLocator.getService("pdpCustomerProfileDao");
-    loadDao = (PaymentFileLoadDao)SpringServiceLocator.getService("pdpPaymentFileLoadDao");
+    customerDao = SpringContext.getBean(CustomerProfileDao.class);
+    loadDao = SpringContext.getBean(PaymentFileLoadDao.class);
   }
 
   public void clear() {

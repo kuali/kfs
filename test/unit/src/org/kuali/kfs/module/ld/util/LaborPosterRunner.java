@@ -18,7 +18,6 @@ package org.kuali.module.labor.util;
 import org.kuali.kfs.batch.JobDescriptor;
 import org.kuali.kfs.context.KualiTestBase;
 import org.kuali.kfs.context.SpringContext;
-import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.labor.service.LaborPosterService;
 import org.kuali.test.ConfigureContext;
 import org.kuali.test.fixtures.UserNameFixture;
@@ -29,7 +28,7 @@ public class LaborPosterRunner extends KualiTestBase {
     
     protected void setUp() throws Exception {
         super.setUp();
-        laborPosterService = (LaborPosterService) SpringServiceLocator.getService("laborPosterService");
+        laborPosterService = SpringContext.getBean(LaborPosterService.class);
     }
 
     public void testPoster() throws Exception {

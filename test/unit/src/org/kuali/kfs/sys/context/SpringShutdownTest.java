@@ -15,8 +15,6 @@
  */
 package org.kuali.kfs.context;
 
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.test.suite.TestSuiteBuilder;
 
 /**

@@ -15,6 +15,8 @@
  */
 package org.kuali.module.chart.bo;
 
+import static org.kuali.test.fixtures.UserNameFixture.KHUNTLEY;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,14 +27,12 @@ import org.kuali.core.bo.PersistableBusinessObject;
 import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.core.exceptions.BusinessObjectNotFoundException;
 import org.kuali.core.maintenance.Maintainable;
+import org.kuali.core.service.DocumentService;
 import org.kuali.core.util.DateUtils;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.context.KualiTestBase;
-
-import static org.kuali.kfs.util.SpringServiceLocator.*;
-
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.test.ConfigureContext;
-import static org.kuali.test.fixtures.UserNameFixture.KHUNTLEY;
 
 import edu.iu.uis.eden.exception.WorkflowException;
 
@@ -68,7 +68,7 @@ public class DelegateGlobalTest extends KualiTestBase {
     public void testApplyGlobalChanges_Empty() throws WorkflowException {
 
         MaintenanceDocument document;
-        document = (MaintenanceDocument) getDocumentService().getNewDocument(GLOBAL_DELEGATE_TYPENAME);
+        document = (MaintenanceDocument) SpringContext.getBean(DocumentService.class).getNewDocument(GLOBAL_DELEGATE_TYPENAME);
         document.getDocumentHeader().setFinancialDocumentDescription("blah");
 
         // get local references to the Maintainable and the BO
@@ -91,7 +91,7 @@ public class DelegateGlobalTest extends KualiTestBase {
     public void testApplyGlobalChanges1() throws WorkflowException {
 
         MaintenanceDocument document;
-        document = (MaintenanceDocument) getDocumentService().getNewDocument(GLOBAL_DELEGATE_TYPENAME);
+        document = (MaintenanceDocument) SpringContext.getBean(DocumentService.class).getNewDocument(GLOBAL_DELEGATE_TYPENAME);
         document.getDocumentHeader().setFinancialDocumentDescription("blah");
 
         // get local references to the Maintainable and the BO
@@ -150,7 +150,7 @@ public class DelegateGlobalTest extends KualiTestBase {
     public void testApplyGlobalChanges2() throws WorkflowException {
 
         MaintenanceDocument document;
-        document = (MaintenanceDocument) getDocumentService().getNewDocument(GLOBAL_DELEGATE_TYPENAME);
+        document = (MaintenanceDocument) SpringContext.getBean(DocumentService.class).getNewDocument(GLOBAL_DELEGATE_TYPENAME);
         document.getDocumentHeader().setFinancialDocumentDescription("blah");
 
         // get local references to the Maintainable and the BO
@@ -220,7 +220,7 @@ public class DelegateGlobalTest extends KualiTestBase {
     public void testApplyGlobalChanges3() throws WorkflowException {
 
         MaintenanceDocument document;
-        document = (MaintenanceDocument) getDocumentService().getNewDocument(GLOBAL_DELEGATE_TYPENAME);
+        document = (MaintenanceDocument) SpringContext.getBean(DocumentService.class).getNewDocument(GLOBAL_DELEGATE_TYPENAME);
         document.getDocumentHeader().setFinancialDocumentDescription("blah");
 
         // get local references to the Maintainable and the BO

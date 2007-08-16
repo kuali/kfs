@@ -26,7 +26,6 @@ import org.apache.log4j.Logger;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.MemoryMonitor;
 import org.kuali.kfs.service.SchedulerService;
-import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.rice.KNSServiceLocator;
 import org.quartz.Scheduler;
 import org.quartz.SchedulerException;
@@ -37,7 +36,7 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 import uk.ltd.getahead.dwr.create.SpringCreator;
 
 public class SpringContext {
-    private static final Logger LOG = Logger.getLogger(SpringServiceLocator.class);
+    private static final Logger LOG = Logger.getLogger(SpringContext.class);
     private static final String APPLICATION_CONTEXT_DEFINITION = "SpringBeans.xml";
     private static final String SPRING_SOURCE_FILES_KEY = "spring.source.files";
     private static final String SPRING_TEST_FILES_KEY = "spring.test.files";

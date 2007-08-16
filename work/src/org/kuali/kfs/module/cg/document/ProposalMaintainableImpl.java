@@ -35,7 +35,6 @@ import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.web.ui.Section;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.context.SpringContext;
-import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.cg.CGConstants;
 import org.kuali.module.cg.bo.ProjectDirector;
 import org.kuali.module.cg.bo.Proposal;
@@ -116,7 +115,7 @@ public class ProposalMaintainableImpl extends KualiMaintainableImpl {
      */
     @Override
     public void refresh(String refreshCaller, Map fieldValues, MaintenanceDocument document) {
-        refreshProposal(SpringServiceLocator.KUALI_LOOKUPABLE.equals(fieldValues.get(KFSConstants.REFRESH_CALLER)));
+        refreshProposal(KFSConstants.KUALI_LOOKUPABLE_IMPL.equals(fieldValues.get(KFSConstants.REFRESH_CALLER)));
         super.refresh(refreshCaller, fieldValues, document);
     }
 

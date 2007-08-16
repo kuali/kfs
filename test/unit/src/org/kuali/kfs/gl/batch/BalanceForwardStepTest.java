@@ -28,7 +28,6 @@ import java.util.Map;
 
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.context.TestUtils;
-import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.gl.OriginEntryTestBase;
 import org.kuali.module.gl.bo.OriginEntry;
 import org.kuali.module.gl.bo.OriginEntryGroup;

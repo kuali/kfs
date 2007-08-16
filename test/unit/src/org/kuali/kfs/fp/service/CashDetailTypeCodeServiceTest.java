@@ -15,11 +15,10 @@
  */
 package org.kuali.module.financial.service;
 
-import static org.kuali.kfs.util.SpringServiceLocator.getCashDetailTypeCodeService;
-
 import java.util.ArrayList;
 
 import org.kuali.kfs.context.KualiTestBase;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.financial.bo.CashDetailTypeCode;
 import org.kuali.module.financial.service.impl.CashDetailTypeCodeServiceImpl;
 import org.kuali.test.ConfigureContext;
@@ -43,7 +42,7 @@ public class CashDetailTypeCodeServiceTest extends KualiTestBase {
     }
 
     public void testGetCashReceiptTypeCode() {
-        assertEquals(true, validCashDetailTypeCodes.contains(getCashDetailTypeCodeService().getCashReceiptCheckTypeCode()));
+        assertEquals(true, validCashDetailTypeCodes.contains(SpringContext.getBean(CashDetailTypeCodeService.class).getCashReceiptCheckTypeCode()));
     }
 
     private CashDetailTypeCode getDummyInstance(String cashDetailTypeCodeCode) {

@@ -16,17 +16,6 @@
 package org.kuali.module.cg.web.struts.action;
 
 import org.kuali.core.web.struts.action.KualiTransactionalDocumentActionBase;
-import org.kuali.module.cg.bo.Close;
-import org.kuali.module.cg.document.CloseDocument;
-import org.kuali.module.cg.web.struts.form.CloseForm;
-import org.kuali.module.cg.lookup.valuefinder.NextCloseNumberFinder;
-import org.kuali.kfs.util.SpringServiceLocator;
-import org.apache.struts.action.ActionForward;
-import org.apache.struts.action.ActionMapping;
-import org.apache.struts.action.ActionForm;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 /**
  * User: Laran Evans <lc278@cornell.edu>

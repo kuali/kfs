@@ -16,17 +16,6 @@
 package org.kuali.module.budget.dao.ojb;
 
 
-import org.apache.commons.beanutils.PropertyUtils;
-import org.apache.log4j.Logger;
-import org.apache.ojb.broker.query.Criteria;
-import org.apache.ojb.broker.query.ReportQueryByCriteria;
-
-import org.kuali.core.dao.ojb.PlatformAwareDaoBaseOjb;
-import org.kuali.core.service.PersistenceStructureService;
-import org.kuali.kfs.util.SpringServiceLocator;
-import org.kuali.kfs.KFSConstants;
-import org.kuali.module.budget.dao.*;
-
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -35,10 +24,14 @@ import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import java.beans.PropertyDescriptor;
-
-import org.apache.ojb.broker.metadata.ClassDescriptor;
-import org.apache.ojb.broker.metadata.ObjectReferenceDescriptor;
+import org.apache.commons.beanutils.PropertyUtils;
+import org.apache.log4j.Logger;
+import org.apache.ojb.broker.query.Criteria;
+import org.apache.ojb.broker.query.ReportQueryByCriteria;
+import org.kuali.core.dao.ojb.PlatformAwareDaoBaseOjb;
+import org.kuali.core.service.PersistenceStructureService;
+import org.kuali.kfs.KFSConstants;
+import org.kuali.module.budget.dao.FiscalYearInitiatorRIRelationshipsDao;
 
 public class FiscalYearInitiatorRIRelationshipsDaoOjb 
              extends PlatformAwareDaoBaseOjb

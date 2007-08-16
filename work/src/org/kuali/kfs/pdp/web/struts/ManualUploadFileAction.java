@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.pdp.action.BaseAction;
 import org.kuali.module.pdp.exception.PaymentLoadException;
 import org.kuali.module.pdp.form.upload.UploadForm;
@@ -33,7 +33,7 @@ public class ManualUploadFileAction extends BaseAction {
   private String tmpDir = "/tmp";
 
   public ManualUploadFileAction() {
-      setPaymentFileService( (PaymentFileService)SpringServiceLocator.getService("pdpPaymentFileService") );
+      setPaymentFileService( SpringContext.getBean(PaymentFileService.class) );
   }
 
   // TODO Fix this

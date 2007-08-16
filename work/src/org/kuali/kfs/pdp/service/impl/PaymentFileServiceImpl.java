@@ -12,7 +12,7 @@ import org.kuali.core.mail.InvalidAddressException;
 import org.kuali.core.mail.MailMessage;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.service.MailService;
-import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.pdp.PdpConstants;
 import org.kuali.module.pdp.bo.Batch;
 import org.kuali.module.pdp.bo.CustomerProfile;
@@ -96,7 +96,7 @@ public class PaymentFileServiceImpl implements PaymentFileService {
   // the batch directory. The batch job will actually load the file into the
   // database
   public LoadPaymentStatus loadPayments(String filename, PdpUser user) throws PaymentLoadException {
-    PaymentFileParser paymentFileParser = (PaymentFileParser)SpringServiceLocator.getService("pdpPaymentFileParser");
+    PaymentFileParser paymentFileParser = SpringContext.getBean(PaymentFileParser.class);
     
     HardEditHandler hardEditHandler;
 

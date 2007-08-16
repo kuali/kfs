@@ -23,7 +23,6 @@ import org.kuali.core.service.impl.KualiConfigurationServiceImpl;
 import org.kuali.core.service.impl.PersistenceStructureServiceImpl;
 import org.kuali.core.util.spring.Cached;
 import org.kuali.core.util.spring.ClassOrMethodAnnotationFilter;
-import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.chart.service.BalanceTypService;
 import org.kuali.module.chart.service.PriorYearAccountService;
 import org.kuali.module.chart.service.impl.BalanceTypServiceImpl;
@@ -78,12 +77,12 @@ public class SpringAOPUsageTest extends KualiTestBase {
         }
         assertNotNull(exception);
         assertEquals("The @Transactional annotation should be specified at the class level and overriden at the method level, if need be.", exception.getMessage());
-        Advisor transactionAdvisor = (Advisor) SpringServiceLocator.getService("transactionAdvisor");
+        Advisor transactionAdvisor = SpringContext.getBean(Advisor.class, "transactionAdvisor");
         // should be transaction applicable because the class has the annotation
         assertTrue(AopUtils.canApply(transactionAdvisor, DocumentServiceImpl.class));
         // should not be transaction applicable since there's no annotation in the class hierarchy
         assertFalse(AopUtils.canApply(transactionAdvisor, PersistenceStructureServiceImpl.class));
-        TransactionAttributeSource transactionAttributeSource = (TransactionAttributeSource) SpringServiceLocator.getService("transactionAttributeSource");
+        TransactionAttributeSource transactionAttributeSource = SpringContext.getBean(TransactionAttributeSource.class, "transactionAttributeSource");
         // should be transactionalized because the class that defines it has the transactional annotation
         TransactionAttribute documentServiceSaveDocumentAttribute = transactionAttributeSource.getTransactionAttribute(DocumentService.class.getMethod("saveDocument", new Class[] { Document.class }), DocumentServiceImpl.class);
         assertNotNull(documentServiceSaveDocumentAttribute);

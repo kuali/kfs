@@ -15,8 +15,6 @@
  */
 package org.kuali.module.chart.service;
 
-import static org.kuali.kfs.util.SpringServiceLocator.getObjectCodeService;
-
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 import java.util.Map;
@@ -24,6 +22,7 @@ import java.util.Map;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.context.KualiTestBase;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.chart.bo.ObjectCode;
 import org.kuali.test.ConfigureContext;
 
@@ -44,7 +43,7 @@ public class ObjectCodeServiceTest extends KualiTestBase {
     public void testGetYersList() {
         ObjectCode objectCode = new ObjectCode();
         // objectCode = ObjectCodeDao.
-        List list = getObjectCodeService().getYearList("BL", "5050");
+        List list = SpringContext.getBean(ObjectCodeService.class).getYearList("BL", "5050");
         assertNotNull("interface garuentee not returning Null", list);
 
         assertTrue("expect more than one result", list.size() > 0);
@@ -54,7 +53,7 @@ public class ObjectCodeServiceTest extends KualiTestBase {
     public void testGetYersListEmpty() {
         ObjectCode objectCode = new ObjectCode();
         // objectCode = ObjectCodeDao.
-        List list = getObjectCodeService().getYearList("BL", "asdfasdf");
+        List list = SpringContext.getBean(ObjectCodeService.class).getYearList("BL", "asdfasdf");
         assertNotNull("interface garuentee not returning Null", list);
         assertTrue("expect more than one result", list.size() == 0);
 
@@ -62,41 +61,41 @@ public class ObjectCodeServiceTest extends KualiTestBase {
 
 
     public void testFindById() {
-        ObjectCode objectCode = getObjectCodeService().getByPrimaryId(new Integer(2004), CHART_CODE, "5000");
+        ObjectCode objectCode = SpringContext.getBean(ObjectCodeService.class).getByPrimaryId(new Integer(2004), CHART_CODE, "5000");
         assertNotNull(objectCode);
     }
 
     public void testFindById2() {
-        ObjectCode objectCode = getObjectCodeService().getByPrimaryId(new Integer(2006), CHART_CODE, "none");
+        ObjectCode objectCode = SpringContext.getBean(ObjectCodeService.class).getByPrimaryId(new Integer(2006), CHART_CODE, "none");
         assertNull(objectCode);
     }
 
     public void testObjectTypeRetrieval() {
-        ObjectCode objectCode = getObjectCodeService().getByPrimaryId(new Integer(2004), CHART_CODE, "5000");
+        ObjectCode objectCode = SpringContext.getBean(ObjectCodeService.class).getByPrimaryId(new Integer(2004), CHART_CODE, "5000");
         assertTrue("ObjectType Object should be valid.", ObjectUtils.isNotNull(objectCode.getFinancialObjectType()));
         assertEquals("Object Type should be EE", objectCode.getFinancialObjectType().getCode(), "EX");
     }
 
     public void testObjectSubTypeRetrieval() {
-        ObjectCode objectCode = getObjectCodeService().getByPrimaryId(new Integer(2004), CHART_CODE, "5000");
+        ObjectCode objectCode = SpringContext.getBean(ObjectCodeService.class).getByPrimaryId(new Integer(2004), CHART_CODE, "5000");
         assertTrue("ObjSubTyp Object should be valid.", ObjectUtils.isNotNull(objectCode.getFinancialObjectSubType()));
         assertEquals("Object Type", "NA", objectCode.getFinancialObjectSubType().getCode());
     }
 
     public void testBudgetAggregationCodeRetrieval() {
-        ObjectCode objectCode = getObjectCodeService().getByPrimaryId(new Integer(2004), CHART_CODE, "5000");
+        ObjectCode objectCode = SpringContext.getBean(ObjectCodeService.class).getByPrimaryId(new Integer(2004), CHART_CODE, "5000");
         assertTrue("BudgetAggregationCode Object should be valid.", ObjectUtils.isNotNull(objectCode.getFinancialBudgetAggregation()));
         assertEquals("Budget Aggregation Code should be something", objectCode.getFinancialBudgetAggregation().getCode(), "O");
     }
 
     public void testMandatoryTransferEliminationCodeRetrieval() {
-        ObjectCode objectCode = getObjectCodeService().getByPrimaryId(new Integer(2004), CHART_CODE, "5000");
+        ObjectCode objectCode = SpringContext.getBean(ObjectCodeService.class).getByPrimaryId(new Integer(2004), CHART_CODE, "5000");
         assertTrue("MandatoryTransferEliminationCode Object should be valid.", ObjectUtils.isNotNull(objectCode.getFinObjMandatoryTrnfrelim()));
         assertEquals("Mandatory Transfer Elimination Code should be something", objectCode.getFinObjMandatoryTrnfrelim().getCode(), "N");
     }
 
     public void testFederalFundedCodeRetrieval() {
-        ObjectCode objectCode = getObjectCodeService().getByPrimaryId(new Integer(2004), CHART_CODE, "5000");
+        ObjectCode objectCode = SpringContext.getBean(ObjectCodeService.class).getByPrimaryId(new Integer(2004), CHART_CODE, "5000");
         assertTrue("FederalFundedCode Object should be valid.", ObjectUtils.isNotNull(objectCode.getFinancialFederalFunded()));
         assertEquals("Federal Funded Code should be something", objectCode.getFinancialFederalFunded().getCode(), "N");
     }

@@ -35,7 +35,6 @@ import org.kuali.kfs.bo.AccountingLine;
 import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.document.AccountingDocument;
-import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.chart.bo.ObjectCode;
 import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.PurapKeyConstants;
@@ -633,17 +632,17 @@ public class CreditMemoDocumentRule extends AccountsPayableDocumentRuleBase impl
         //GENERATE ENCUMBRANCE ENTRIES (ON CREATE OR CANCEL)
         if (cm.isGenerateEncumbranceEntries()) {
             //even if generating encumbrance entries on cancel, call is the same because the method gets negative amounts from the map so Debits on negatives = a credit
-            ((PurapGeneralLedgerService)SpringServiceLocator.getService(SpringServiceLocator.PURAP_GENERAL_LEDGER_SERVICE)).customizeGeneralLedgerPendingEntry(cm, 
+            SpringContext.getBean(PurapGeneralLedgerService.class).customizeGeneralLedgerPendingEntry(cm, 
                     accountingLine, explicitEntry, cm.getPurchaseOrderIdentifier(), GL_DEBIT_CODE, PurapDocTypeCodes.CREDIT_MEMO_DOCUMENT, true);
         }
         //GENERATE ACTUAL ENTRIES ON CREATE
         else if (!cm.isGenerateCancelEntries()) {
-            ((PurapGeneralLedgerService)SpringServiceLocator.getService(SpringServiceLocator.PURAP_GENERAL_LEDGER_SERVICE)).customizeGeneralLedgerPendingEntry(cm, 
+            SpringContext.getBean(PurapGeneralLedgerService.class).customizeGeneralLedgerPendingEntry(cm, 
                     accountingLine, explicitEntry, cm.getPurchaseOrderIdentifier(), GL_CREDIT_CODE, PurapDocTypeCodes.CREDIT_MEMO_DOCUMENT, false);
         }
         //GENERATE ACTUAL ENTRIES ON CANCEL
         else {
-            ((PurapGeneralLedgerService)SpringServiceLocator.getService(SpringServiceLocator.PURAP_GENERAL_LEDGER_SERVICE)).customizeGeneralLedgerPendingEntry(cm, 
+            SpringContext.getBean(PurapGeneralLedgerService.class).customizeGeneralLedgerPendingEntry(cm, 
                     accountingLine, explicitEntry, cm.getPurchaseOrderIdentifier(), GL_DEBIT_CODE, PurapDocTypeCodes.CREDIT_MEMO_DOCUMENT, false);
         }
         

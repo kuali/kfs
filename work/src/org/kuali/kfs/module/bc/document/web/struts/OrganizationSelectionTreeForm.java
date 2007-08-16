@@ -15,11 +15,21 @@
  */
 package org.kuali.module.budget.web.struts.form;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.kuali.core.service.PersistenceService;
+import org.kuali.core.util.TypedArrayList;
 import org.kuali.core.web.struts.form.KualiForm;
+import org.kuali.kfs.context.SpringContext;
+import org.kuali.module.budget.BCConstants.OrgSelOpMode;
 import org.kuali.module.budget.bo.BudgetConstructionOrganizationReports;
 import org.kuali.module.budget.bo.BudgetConstructionPullup;
 
@@ -30,7 +40,7 @@ public class OrganizationSelectionTreeForm extends KualiForm {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(OrganizationSelectionTreeForm.class);
     
     private BudgetConstructionOrganizationReports pointOfViewOrg;
-    private List <BudgetConstructionPullup> selectionSubTree; 
+    private List <BudgetConstructionPullup> selectionSubTreeOrgs; 
     private boolean hideDetails = false;
     private String operatingModeTitle;
 
@@ -48,6 +58,7 @@ public class OrganizationSelectionTreeForm extends KualiForm {
     public OrganizationSelectionTreeForm() {
         super();
         this.setPointOfViewOrg(new BudgetConstructionOrganizationReports());
+        this.setSelectionSubTreeOrgs(new TypedArrayList(BudgetConstructionPullup.class));
     }
 
     /**
@@ -58,6 +69,17 @@ public class OrganizationSelectionTreeForm extends KualiForm {
         // TODO Auto-generated method stub
         super.populate(request);
 
+    }
+
+    public void populateSelectionSubTreeOrgs(){
+        
+        Iterator selectionOrgs = getSelectionSubTreeOrgs().iterator();
+        while (selectionOrgs.hasNext()){
+            BudgetConstructionPullup selectionOrg = (BudgetConstructionPullup) selectionOrgs.next();
+            final List REFRESH_FIELDS = Collections.unmodifiableList(Arrays.asList(new String[] { "organization" }));
+            SpringContext.getBean(PersistenceService.class).retrieveReferenceObjects(selectionOrg, REFRESH_FIELDS);
+        }
+        
     }
 
     /**
@@ -192,16 +214,16 @@ public class OrganizationSelectionTreeForm extends KualiForm {
      * Gets the selectionSubTree attribute. 
      * @return Returns the selectionSubTree.
      */
-    public List<BudgetConstructionPullup> getSelectionSubTree() {
-        return selectionSubTree;
+    public List<BudgetConstructionPullup> getSelectionSubTreeOrgs() {
+        return selectionSubTreeOrgs;
     }
 
     /**
      * Sets the selectionSubTree attribute value.
      * @param selectionSubTree The selectionSubTree to set.
      */
-    public void setSelectionSubTree(List<BudgetConstructionPullup> selectionSubTree) {
-        this.selectionSubTree = selectionSubTree;
+    public void setSelectionSubTreeOrgs(List<BudgetConstructionPullup> selectionSubTree) {
+        this.selectionSubTreeOrgs = selectionSubTree;
     }
 
 

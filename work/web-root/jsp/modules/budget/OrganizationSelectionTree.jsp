@@ -18,6 +18,7 @@
 <script language="JavaScript" type="text/javascript" src="scripts/budget/organizationSelectionTree.js"></script>
 
 <c:set var="pointOfViewOrgAttributes" value="${DataDictionary.BudgetConstructionOrganizationReports.attributes}" />
+<c:set var="pullupOrgAttributes" value="${DataDictionary.BudgetConstructionPullup.attributes}" />
 <c:set var="organizationAttributes" value="${DataDictionary.Org.attributes}" />
 
 <kul:page showDocumentInfo="false"
@@ -35,7 +36,7 @@
 
     <table align="center" cellpadding="0" cellspacing="0" class="datatable-100">
         <tr>
-            <th class="grid" colspan="7" align="left">
+            <th class="grid" colspan="6" align="left">
                 <br>
                 <html:hidden property="operatingModeTitle" value="${KualiForm.operatingModeTitle}" />
                 ${KualiForm.operatingModeTitle}
@@ -44,29 +45,19 @@
         </tr>
 	    <tr>
             <%--point of view header --%>
-            <th class="grid" colspan="2" rowspan="2">&nbsp;</th>
-		    <th class="grid" align="left" colspan="4">
-		        Current Point Of View Organization
-		    </th>
-		    <th class="grid" align="center" colspan="1">
-			    Action
-		    </th>
+            <th class="grid" colspan="1" rowspan="1">&nbsp;</th>
+		    <th class="grid" align="left" colspan="5"><br>Current Point Of View Organization</th>
 	    </tr>
 	    <tr>
             <%-- point of view data line --%>
-            <%-- first cell in row above spans two rows 
-                                 property="pointOfViewOrg.selectionKeyCode"
-            <bc:pbglLineDataCell dataCellCssClass="grid"
-                accountingLine="pointOfViewOrg"
-                field="organizationCode"
-                attributes="${pointOfViewOrgAttributes}" inquiry="false"
-                readOnly="true"
-                displayHidden="false"
-                colSpan="1" />
-                     onchange="submitForm()"
+            <%-- first cell in row above spans two rows
+                             <span class="nowrap">
+                </span>
+            <div align="right">
+            </div>
             --%>
             <td class="grid" valign="center" rowspan="1" colspan="1">
-                <span class="nowrap">
+            <div align="right">
                 <html:hidden property="previousPointOfViewKeyCode" value="${KualiForm.currentPointOfViewKeyCode}" />
                 <kul:htmlControlAttribute
                      property="currentPointOfViewKeyCode"
@@ -75,7 +66,7 @@
                      readOnly="false"
                      styleClass="grid" />
                 <html:image property="methodToCall.performBuildPointOfView" src="${ConfigProperties.kr.externalizable.images.url}buttonsmall_refresh.gif" alt="refresh" title="refresh" styleClass="tinybutton"/>
-                </span>
+            </div>
             </td>
             <td class="grid" valign="center" rowspan="1" colspan="1">
             <kul:htmlControlAttribute
@@ -105,16 +96,84 @@
                 </kul:inquiry>&nbsp;
 	      	</kul:htmlControlAttribute>
             </td>
-            <td class="grid" valign="center" rowspan="1" colspan="1">
+            <td class="grid" valign="center" rowspan="1" colspan="3">
             <kul:htmlControlAttribute
                 property="pointOfViewOrg.organization.organizationName"
                 attributeEntry="${organizationAttributes.organizationName}"
                 readOnly="true"/>&nbsp;
             </td>
+	    </tr>
+	    <tr>
+            <%--pullup selection header --%>
+            <th class="grid" colspan="1" rowspan="1">&nbsp;</th>
+		    <th class="grid" align="left" colspan="4"><br>Organization Selection Sub-Tree</th>
+		    <th class="grid" align="center" colspan="1"><br>Action</th>
+	    </tr>
+
+        <%--pullup selection data lines 
+            <kul:htmlControlAttribute
+                property="KualiForm.selectionSubTreeOrgs.(${status.index}).chartOfAccountsCode"
+                attributeEntry="${pullupOrgAttributes.chartOfAccountsCode}"
+                readOnly="true"
+                readOnlyBody="true">
+                <kul:inquiry
+                    boClassName="org.kuali.module.chart.bo.Chart"
+                    keyValues="chartOfAccountsCode="KualiForm.selectionSubTreeOrgs.(0).chartOfAccountsCode}"
+                    render="${!empty KualiForm.selectionSubTreeOrgs.(0).chartOfAccountsCode}">
+                	<html:hidden write="true" property="selectionSubTreeOrgs.(${status.index}).chartOfAccountsCode" />
+                </kul:inquiry>&nbsp;
+            </kul:htmlControlAttribute>
+        --%>
+        <c:forEach items="${KualiForm.selectionSubTreeOrgs}" var="item" varStatus="status" >
+
+	    <tr>
             <td class="grid" valign="center" rowspan="1" colspan="1">
-                <html:image property="methodToCall.performBuildPointOfView" src="${ConfigProperties.kr.externalizable.images.url}buttonsmall_refresh.gif" alt="refresh" title="refresh" styleClass="tinybutton"/>
+                <span class="nowrap">&nbsp;
+                </span>
+            </td>
+            <td class="grid" valign="center" rowspan="1" colspan="1">
+            <kul:htmlControlAttribute
+                property="selectionSubTreeOrgs[${status.index}].chartOfAccountsCode"
+                attributeEntry="${pullupOrgAttributes.chartOfAccountsCode}"
+                readOnly="true"
+                readOnlyBody="true">
+                <kul:inquiry
+                    boClassName="org.kuali.module.chart.bo.Chart"
+                    keyValues="chartOfAccountsCode=${item.chartOfAccountsCode}"
+                    render="${!empty KualiForm.selectionSubTreeOrgs[0].chartOfAccountsCode}">
+                	<html:hidden write="true" property="selectionSubTreeOrgs[${status.index}].chartOfAccountsCode" />
+                </kul:inquiry>&nbsp;
+            </kul:htmlControlAttribute>
+            </td>
+            <td class="grid" valign="center" rowspan="1" colspan="1">
+            <kul:htmlControlAttribute
+                property="selectionSubTreeOrgs[${status.index}].organizationCode"
+                attributeEntry="${pullupOrgAttributes.organizationCode}"
+                readOnly="true"
+                readOnlyBody="true">
+                <kul:inquiry
+                    boClassName="org.kuali.module.chart.bo.Org"
+                    keyValues="chartOfAccountsCode=${item.chartOfAccountsCode}&amp;organizationCode=${item.organizationCode}"
+                    render="${!empty KualiForm.selectionSubTreeOrgs[0].organizationCode}">
+                	<html:hidden write="true" property="selectionSubTreeOrgs[${status.index}].organizationCode" />
+                </kul:inquiry>&nbsp;
+	      	</kul:htmlControlAttribute>
+            </td>
+            <td class="grid" valign="center" rowspan="1" colspan="2">
+            <kul:htmlControlAttribute
+                property="selectionSubTreeOrgs[${status.index}].organization.organizationName"
+                attributeEntry="${organizationAttributes.organizationName}"
+                readOnly="true"/>&nbsp;
+            </td>
+            <td class="grid" valign="center" rowspan="1" colspan="1">
+            <div align="center">
+                <html:image property="methodToCall.drillDown.line${status.index}.anchorselectionSubTreeOrgsAnchor${status.index}" src="${ConfigProperties.externalizable.images.url}purap-down.gif" title="Drill Down" alt="Drill Down" styleClass="tinybutton" />
+            </div>
             </td>
 	    </tr>
+
+        </c:forEach>
+
     </table>
 
     <div id="globalbuttons" class="globalbuttons">

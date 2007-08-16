@@ -16,6 +16,7 @@
 package org.kuali.module.budget.web.struts.action;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Properties;
 
 import javax.servlet.http.HttpServletRequest;
@@ -35,6 +36,7 @@ import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.budget.BCConstants;
 import org.kuali.module.budget.BCConstants.OrgSelOpMode;
 import org.kuali.module.budget.bo.BudgetConstructionOrganizationReports;
+import org.kuali.module.budget.bo.BudgetConstructionPullup;
 import org.kuali.module.budget.service.BudgetOrganizationTreeService;
 import org.kuali.module.budget.web.struts.form.OrganizationSelectionTreeForm;
 
@@ -154,15 +156,25 @@ public class OrganizationSelectionTreeAction extends KualiAction {
                 map.put("chartOfAccountsCode", flds[0]);
                 map.put("organizationCode", flds[1]);
                 organizationSelectionTreeForm.setPointOfViewOrg((BudgetConstructionOrganizationReports) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(BudgetConstructionOrganizationReports.class, map));
-                
+
                 // build a new selection subtree
                 String personUserIdentifier = GlobalVariables.getUserSession().getUniversalUser().getPersonUniversalIdentifier();
                 SpringContext.getBean(BudgetOrganizationTreeService.class).buildPullup(personUserIdentifier, flds[0], flds[1]);
+
+                // initialize the selection tool to the root
+                map.put("personUniversalIdentifier", personUserIdentifier);
+                organizationSelectionTreeForm.setSelectionSubTreeOrgs((List<BudgetConstructionPullup>) SpringContext.getBean(BusinessObjectService.class).findMatching(BudgetConstructionPullup.class, map));
+                organizationSelectionTreeForm.populateSelectionSubTreeOrgs();
             }
         } else {
             organizationSelectionTreeForm.setPointOfViewOrg(new BudgetConstructionOrganizationReports());
         }
 
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
+    }
+    
+    public ActionForward drillDown (ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 }

@@ -29,6 +29,7 @@ import org.kuali.core.service.DateTimeService;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.service.PersistenceService;
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSKeyConstants;
 import org.kuali.kfs.KFSPropertyConstants;
@@ -298,6 +299,8 @@ public class OrganizationReversionProcess {
         int entriesWritten = 0;
         OriginEntry entry = getEntry();
         entry.refreshReferenceObject("option");
+        LOG.info("writing cash; unit of work = "+unitOfWork);
+        LOG.info("writing cash; organization reversion = "+organizationReversion);
         entry.setChartOfAccountsCode(unitOfWork.chartOfAccountsCode);
         entry.setAccountNumber(unitOfWork.accountNumber);
         entry.setSubAccountNumber(unitOfWork.subAccountNumber);

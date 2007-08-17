@@ -47,7 +47,10 @@ import org.kuali.module.purap.document.PurchaseOrderDocument;
 import org.kuali.module.purap.document.PurchasingAccountsPayableDocument;
 import org.kuali.module.purap.document.PurchasingDocument;
 import org.kuali.module.purap.service.PurapGeneralLedgerService;
+import org.kuali.module.vendor.VendorPropertyConstants;
+import org.kuali.module.vendor.bo.VendorDetail;
 import org.kuali.module.vendor.service.PhoneNumberService;
+import org.kuali.module.vendor.service.VendorService;
 
 public class PurchaseOrderDocumentRule extends PurchasingDocumentRuleBase {
 
@@ -202,6 +205,12 @@ public class PurchaseOrderDocumentRule extends PurchasingDocumentRuleBase {
         errorMap.addToErrorPath(RicePropertyConstants.DOCUMENT);
         boolean valid = super.processVendorValidation(purapDocument);
         PurchaseOrderDocument poDocument = (PurchaseOrderDocument) purapDocument;
+        // check to see if the vendor exists in the database, i.e. its ID is not null
+        Integer vendorHeaderID = poDocument.getVendorHeaderGeneratedIdentifier();
+        if (ObjectUtils.isNull(vendorHeaderID)) {
+            valid = false;
+            errorMap.putError(VendorPropertyConstants.VENDOR_NAME, PurapKeyConstants.ERROR_NONEXIST_VENDOR);
+        }
         if (StringUtils.isBlank(poDocument.getVendorCountryCode())) {
             // TODO can't this be done by the data dictionary?
             valid = false;

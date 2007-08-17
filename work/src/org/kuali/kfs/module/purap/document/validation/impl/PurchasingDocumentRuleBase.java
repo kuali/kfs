@@ -24,6 +24,7 @@ import org.kuali.core.datadictionary.validation.fieldlevel.PhoneNumberValidation
 import org.kuali.core.service.DataDictionaryService;
 import org.kuali.core.service.DateTimeService;
 import org.kuali.core.service.DictionaryValidationService;
+import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.ErrorMap;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
@@ -34,6 +35,7 @@ import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.PurapKeyConstants;
 import org.kuali.module.purap.PurapPropertyConstants;
+import org.kuali.module.purap.PurapRuleConstants;
 import org.kuali.module.purap.PurapConstants.ItemFields;
 import org.kuali.module.purap.PurapConstants.ItemTypeCodes;
 import org.kuali.module.purap.bo.PurchaseOrderItem;
@@ -287,9 +289,19 @@ public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumen
                     errorMap.putError(KFSConstants.DOCUMENT_PROPERTY_NAME + "." + VendorPropertyConstants.VENDOR_FAX_NUMBER, PurapKeyConstants.ERROR_FAX_NUMBER_INVALID);
                 }
             }
-        }
-        
+        }                
+                
         VendorDetail vendorDetail = SpringContext.getBean(VendorService.class).getVendorDetail(purDocument.getVendorHeaderGeneratedIdentifier(), purDocument.getVendorDetailAssignedIdentifier());
+        /*
+        // make sure that the vendor is of 'PO' type
+        String allowedVendorType = SpringContext.getBean(KualiConfigurationService.class).getApplicationParameterValue(PurapRuleConstants.PURAP_ADMIN_GROUP, PurapRuleConstants.PURAP_VENDOR_TYPE_ALLOWED_ON_REQ_AND_PO);
+        if (ObjectUtils.isNotNull(vendorDetail) && !vendorDetail.getVendorHeader().getVendorTypeCode().equals(allowedVendorType)) {       
+            valid &= false;
+            errorMap.putError(VendorPropertyConstants.VENDOR_NAME, PurapKeyConstants.ERROR_INVALID_VENDOR_TYPE);
+        }
+        */
+            
+        // make sure that the vendor is active
         if (ObjectUtils.isNotNull(vendorDetail) && !vendorDetail.isActiveIndicator()) {       
             valid &= false;
             errorMap.putError(VendorPropertyConstants.VENDOR_NAME, PurapKeyConstants.ERROR_INACTIVE_VENDOR);

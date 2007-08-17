@@ -37,7 +37,9 @@ public class PurapKeyConstants {
     public static final String ERROR_POSTAL_CODE_INVALID = "errors.postalCode.invalid";
     public static final String ERROR_FAX_NUMBER_INVALID = "errors.faxNumber.invalid";
     public static final String ERROR_FAX_NUMBER_PO_TRANSMISSION_TYPE = "error.faxNumber.PoTransmissionType";
-    public static final String ERROR_INACTIVE_VENDOR = "error.inactive.vendor";    
+    public static final String ERROR_INVALID_VENDOR_TYPE = "error.vendorType.invalid";    
+    public static final String ERROR_INACTIVE_VENDOR = "error.inactive.vendor";   
+    public static final String ERROR_NONEXIST_VENDOR = "error.nonexist.vendor"; 
     public static final String REQ_TOTAL_GREATER_THAN_PO_TOTAL_LIMIT = "error.purchaseOrderTotalLimit";
     public static final String PO_TOTAL_GREATER_THAN_PO_TOTAL_LIMIT = "warning.purchaseOrderTotalLimit";
     public static final String INVALID_CONTRACT_MANAGER_CODE = "error.invalidContractManagerCode";
@@ -62,7 +64,6 @@ public class PurapKeyConstants {
     public static final String PURCHASE_ORDER_MESSAGE_REMOVE_HOLD = "purchaseOrder.route.message.remove.hold.text";
     public static final String PURCHASE_ORDER_MESSAGE_REOPEN_DOCUMENT="purchaseOrder.route.message.reopen.text";
     public static final String PURCHASE_ORDER_MESSAGE_AMEND_DOCUMENT="purchaseOrder.route.message.amend.text";
-    public static final String PURCHASE_ORDER_QUESTION_MANUAL_STATUS_CHANGE = "purchaseOrder.question.manual.status.change";
     public static final String ERROR_USER_NONPURCHASING="errors.user.nonPurchasing";
     public static final String ERROR_PURCHASE_ORDER_PDF = "error.purchaseOrder.pdf";
     public static final String ERROR_PURCHASE_ORDER_TRANSMIT_PRIOR_TRANSMISSION = "error.transmit.purchaseOrder.priorTransmission";

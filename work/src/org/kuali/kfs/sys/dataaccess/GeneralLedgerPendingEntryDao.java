@@ -84,11 +84,6 @@ public interface GeneralLedgerPendingEntryDao {
     public Collection findPendingEntries(Map fieldValues, boolean isApproved);
 
     /**
-     * Delete pending entries for documents which have been either cancelled or disapproved.
-     */
-    public void deleteEntriesForCancelledOrDisapprovedDocuments();
-
-    /**
      * 
      * @param documentHeaderId
      * @param transactionLedgerEntrySequenceNumber

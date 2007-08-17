@@ -529,12 +529,6 @@
 			<ref bean="laborNightlyOutService" />
 		</property>
 	</bean>
-	
-	<bean id="clearLaborPendingEntriesForCancelledOrDisapprovedDocumentStep" class="org.kuali.module.labor.batch.ClearLaborPendingEntriesForCancelledOrDisapprovedDocumentStep" parent="step">
-		<property name="laborLedgerPendingEntryService">
-			<ref bean="laborLedgerPendingEntryService" />
-		</property>
-	</bean>
 
     <bean id="payrollAccrualService" class="org.kuali.module.labor.service.impl.PayrollAccrualServiceImpl">
         <property name="originEntryGroupService">

@@ -55,11 +55,6 @@ public interface LaborLedgerPendingEntryService {
     public boolean hasPendingLaborLedgerEntry(String emplid, String payrollEndDateFiscalPeriodCode, String accountNumber, String objectCode);
 
     /**
-     * This method clears cancelled/disapproved entries to clear pending labor entries
-     */
-    public void deleteEntriesForCancelledOrDisapprovedDocuments();
-
-    /**
      * This method generates labor ledger pending entries.
      * 
      * @param document

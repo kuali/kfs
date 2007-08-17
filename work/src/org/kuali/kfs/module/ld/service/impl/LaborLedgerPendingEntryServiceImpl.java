@@ -89,15 +89,6 @@ public class LaborLedgerPendingEntryServiceImpl implements LaborLedgerPendingEnt
         return false;
         
     }
-    
-    
-
-    /**
-     * @see org.kuali.module.labor.service.LaborLedgerPendingEntryService#deleteEntriesForCancelledOrDisapprovedDocuments()
-     */
-    public void deleteEntriesForCancelledOrDisapprovedDocuments() {
-        laborLedgerPendingEntryDao.deleteEntriesForCancelledOrDisapprovedDocuments();
-    }
 
     /**
      * Invokes generateEntries method on the salary expense transfer document.

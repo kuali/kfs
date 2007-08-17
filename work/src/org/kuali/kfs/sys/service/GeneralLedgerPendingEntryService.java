@@ -101,11 +101,6 @@ public interface GeneralLedgerPendingEntryService {
     public KualiDecimal getBudgetSummary(Integer universityFiscalYear, String chartOfAccountsCode, String accountNumber, String sufficientFundsObjectCode, boolean isYearEnd);
 
     /**
-     * Delete pending entries that have been either cancelled or disapproved.
-     */
-    public void deleteEntriesForCancelledOrDisapprovedDocuments();
-
-    /**
      * @param transactionEntrySequenceId
      * @param documentHeaderId
      */

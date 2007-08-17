@@ -49,7 +49,6 @@
 		</property>
 		<property name="jobNames">
 			<list>
-				<value>clearPendingEntriesForCancelledOrDisapprovedDocumentsJob</value>
 				<value>enterpriseFeedJob</value>
 				<value>collectorJob</value>
 				<value>nightlyOutJob</value>
@@ -1104,21 +1103,7 @@
 
 	<bean id="glCorrectionCriteriaDao" parent="platformAwareDao" class="org.kuali.module.gl.dao.ojb.CorrectionCriteriaDaoOjb" />
 
-	<bean id="testDateTimeService" class="org.kuali.core.service.impl.ConfigurableDateTimeServiceImpl">
-    </bean>
-    
-	<bean id="clearPendingEntriesForCancelledOrDisapprovedDocumentsJob" parent="scheduledJobDescriptor">
-		<property name="steps">
-			<list>
-				<ref bean="clearPendingEntriesForCancelledOrDisapprovedDocumentsStep" />
-			</list>
-		</property>
-		<property name="dependencies">
-			<map>
-				<entry key="procurementCardDocumentJob" value="softDependency" />
-			</map>
-		</property>
-	</bean>
+	<bean id="testDateTimeService" class="org.kuali.core.service.impl.ConfigurableDateTimeServiceImpl" />
 
 	<bean id="collectorJob" parent="scheduledJobDescriptor">
 		<property name="steps">
@@ -1133,11 +1118,6 @@
 			<list>
 				<ref bean="nightlyOutStep" />
 			</list>
-		</property>
-		<property name="dependencies">
-			<map>
-				<entry key="clearPendingEntriesForCancelledOrDisapprovedDocumentsJob" value="softDependency" />
-			</map>
 		</property>
 	</bean>
 	
@@ -1274,12 +1254,6 @@
 			<list>
 				<ref bean="organizationReversionOpeningStep" />
 			</list>
-		</property>
-	</bean>
-
-	<bean id="clearPendingEntriesForCancelledOrDisapprovedDocumentsStep" class="org.kuali.module.gl.batch.ClearPendingEntriesForCancelledOrDisapprovedDocumentsStep" parent="step">
-		<property name="generalLedgerPendingEntryService">
-			<ref bean="generalLedgerPendingEntryService" />
 		</property>
 	</bean>
 

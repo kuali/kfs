@@ -173,12 +173,6 @@ public class GeneralLedgerPendingEntryServiceImpl implements GeneralLedgerPendin
         return generalLedgerPendingEntryDao.getByPrimaryId(documentHeaderId, transactionEntrySequenceId);
     }
 
-    public void deleteEntriesForCancelledOrDisapprovedDocuments() {
-        LOG.debug("deleteEntriesForCancelledOrDisapprovedDocuments() started");
-
-        generalLedgerPendingEntryDao.deleteEntriesForCancelledOrDisapprovedDocuments();
-    }
-
     public void fillInFiscalPeriodYear(GeneralLedgerPendingEntry glpe) {
         LOG.debug("fillInFiscalPeriodYear() started");
 

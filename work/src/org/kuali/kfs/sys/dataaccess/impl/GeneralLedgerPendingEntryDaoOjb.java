@@ -190,31 +190,6 @@ public class GeneralLedgerPendingEntryDaoOjb extends PlatformAwareDaoBaseOjb imp
     /*
      * (non-Javadoc)
      * 
-     * @see org.kuali.dao.GeneralLedgerPendingEntryDao#deleteEntriesForCancelledOrDisapprovedDocuments()
-     */
-    public void deleteEntriesForCancelledOrDisapprovedDocuments() {
-        LOG.debug("deleteEntriesForCancelledOrDisapprovedDocuments() started");
-
-        Criteria subCriteria = new Criteria();
-        Criteria criteria = new Criteria();
-
-        List codes = new ArrayList();
-        codes.add(KFSConstants.DocumentStatusCodes.DISAPPROVED);
-        codes.add(KFSConstants.DocumentStatusCodes.CANCELLED);
-
-        subCriteria.addIn(KFSPropertyConstants.FINANCIAL_DOCUMENT_STATUS_CODE, codes);
-        ReportQueryByCriteria subQuery = QueryFactory.newReportQuery(DocumentHeader.class, subCriteria);
-
-        subQuery.setAttributes(new String[] { KFSPropertyConstants.DOCUMENT_NUMBER });
-
-        criteria.addIn(KFSPropertyConstants.DOCUMENT_NUMBER, subQuery);
-
-        getPersistenceBrokerTemplate().deleteByQuery(QueryFactory.newQuery(this.getEntryClass(), criteria));
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
      * @see org.kuali.dao.GeneralLedgerPendingEntryDao#getByPrimaryId(java.lang.Long, java.lang.Long)
      */
     public GeneralLedgerPendingEntry getByPrimaryId(String documentHeaderId, Integer transactionLedgerEntrySequenceNumber) {

@@ -187,7 +187,7 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase {
         }//endfor items
 
         this.setSourceAccountingLines(SpringContext.getBean(PurapAccountingService.class).generateSummaryWithNoZeroTotals(this.getItems()));
-    }//end customPrepareForSave()
+    }//end customPrepareForSave(KualiDocumentEvent)
     
     @Override
     public void prepareForSave(KualiDocumentEvent event) {

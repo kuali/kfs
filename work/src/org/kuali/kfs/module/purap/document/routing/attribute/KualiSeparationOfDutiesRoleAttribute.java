@@ -25,6 +25,7 @@ import java.util.Set;
 
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.purap.PurapParameterConstants;
 import org.kuali.module.purap.PurapWorkflowConstants;
@@ -88,6 +89,7 @@ public class KualiSeparationOfDutiesRoleAttribute extends UnqualifiedRoleAttribu
      * @return a ResolvedQualifiedRole
      */
     @Override
+    // TODO delyea - edit for REPORT functionality
     public ResolvedQualifiedRole resolveRole(RouteContext routeContext, String roleName) throws EdenUserNotFoundException {
         DocumentRouteHeaderValue document = routeContext.getDocument();
         Set documentReviewers = new HashSet();
@@ -107,7 +109,8 @@ public class KualiSeparationOfDutiesRoleAttribute extends UnqualifiedRoleAttribu
         KualiConfigurationService configService = SpringContext.getBean(KualiConfigurationService.class);
         KualiDecimal maxAllowedAmount = new KualiDecimal(configService.getApplicationParameterValue(PurapParameterConstants.PURAP_ADMIN_GROUP,PurapWorkflowConstants.RequisitionDocument.SEPARATION_OF_DUTIES_DOLLAR_AMOUNT));
         // if app param amount is greater than or equal to documentTotalAmount... no need for separation of duties
-        if (maxAllowedAmount.compareTo(KualiWorkflowUtils.getFinancialDocumentTotalAmount(routeContext)) >= 0) {
+        KualiDecimal totalAmount = KualiWorkflowUtils.getFinancialDocumentTotalAmount(routeContext);
+        if ( ObjectUtils.isNotNull(maxAllowedAmount) && ObjectUtils.isNotNull(totalAmount) && (maxAllowedAmount.compareTo(totalAmount) >= 0)) {
             return null;
         }
         String workgroupName = configService.getApplicationParameterValue(PurapParameterConstants.PURAP_ADMIN_GROUP,PurapWorkflowConstants.RequisitionDocument.SEPARATION_OF_DUTIES_WORKGROUP_NAME);

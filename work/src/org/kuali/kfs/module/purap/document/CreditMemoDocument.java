@@ -184,7 +184,6 @@ public class CreditMemoDocument extends AccountsPayableDocumentBase {
             // DOCUMENT PROCESSED
             if (this.getDocumentHeader().getWorkflowDocument().stateIsProcessed()) {
                 SpringContext.getBean(PurapService.class).updateStatusAndStatusHistory(this, PurapConstants.CreditMemoStatuses.COMPLETE);
-                populateDocumentForRouting();
                 SpringContext.getBean(CreditMemoService.class).saveDocumentWithoutValidation(this);
                 return;
             }

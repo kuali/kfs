@@ -33,9 +33,8 @@ public class PurchaseOrderAmendmentDocument extends PurchaseOrderDocument {
 
     @Override
     public void prepareForSave(KualiDocumentEvent event) {
-        LOG.info("prepareForSave() do not create gl entries");
+        LOG.info("prepareForSave(KualiDocumentEvent) do not create gl entries");
         //TODO For now, do nothing because amendment should not perform the same save prep as PO
     }
-    
-    
+
 }

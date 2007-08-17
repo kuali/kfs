@@ -43,7 +43,7 @@ public class PurchaseOrderVoidDocument extends PurchaseOrderDocument {
     }
 
     public void customPrepareForSave(KualiDocumentEvent event) {
-        LOG.info("customPrepareForSave() enter method for PO Close doc #" + getDocumentNumber());
+        LOG.info("customPrepareForSave(KualiDocumentEvent) enter method for PO Close doc #" + getDocumentNumber());
 
         // Set outstanding encumbered quantity/amount on items
         for (Iterator items = this.getItems().iterator(); items.hasNext();) {
@@ -100,6 +100,6 @@ public class PurchaseOrderVoidDocument extends PurchaseOrderDocument {
           
         setSourceAccountingLines(SpringContext.getBean(PurapAccountingService.class).generateSummaryWithNoZeroTotalsUsingAlternateAmount(getItemsActiveOnly()));
 
-    }//end customPrepareForSave()
+    }//end customPrepareForSave(KualiDocumentEvent)
 
 }

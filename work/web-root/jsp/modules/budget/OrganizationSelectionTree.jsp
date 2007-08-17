@@ -103,8 +103,70 @@
                 readOnly="true"/>&nbsp;
             </td>
 	    </tr>
+
+        <c:if test="${!empty KualiForm.previousBranchOrgs}">
+
+        <%-- previous branches header --%>
 	    <tr>
-            <%--pullup selection header --%>
+            <th class="grid" colspan="1" rowspan="1">&nbsp;</th>
+		    <th class="grid" align="left" colspan="5"><br>Previous Branches</th>
+	    </tr>
+
+        <%-- previous branches --%>
+        <c:forEach items="${KualiForm.previousBranchOrgs}" var="item" varStatus="status" >
+	    <tr>
+            <td class="grid" valign="center" rowspan="1" colspan="1">
+            <div align="center">
+               	<html:hidden write="false" property="previousBranchOrgs[${status.index}].reportsToChartOfAccountsCode" />
+               	<html:hidden write="false" property="previousBranchOrgs[${status.index}].reportsToOrganizationCode" />
+                <html:image property="methodToCall.navigateUp.line${status.index}.anchorpreviousBranchOrgsAnchor${status.index}" src="${ConfigProperties.externalizable.images.url}purap-up.gif" title="Return Previous" alt="Return Previous" styleClass="tinybutton" />
+            </div>
+            </td>
+            <td class="grid" valign="center" rowspan="1" colspan="1">
+            <kul:htmlControlAttribute
+                property="previousBranchOrgs[${status.index}].chartOfAccountsCode"
+                attributeEntry="${pullupOrgAttributes.chartOfAccountsCode}"
+                readOnly="true"
+                readOnlyBody="true">
+                <kul:inquiry
+                    boClassName="org.kuali.module.chart.bo.Chart"
+                    keyValues="chartOfAccountsCode=${item.chartOfAccountsCode}"
+                    render="${!empty KualiForm.previousBranchOrgs[0].chartOfAccountsCode}">
+                	<html:hidden write="true" property="previousBranchOrgs[${status.index}].chartOfAccountsCode" />
+                </kul:inquiry>&nbsp;
+            </kul:htmlControlAttribute>
+            </td>
+            <td class="grid" valign="center" rowspan="1" colspan="1">
+            <kul:htmlControlAttribute
+                property="previousBranchOrgs[${status.index}].organizationCode"
+                attributeEntry="${pullupOrgAttributes.organizationCode}"
+                readOnly="true"
+                readOnlyBody="true">
+                <kul:inquiry
+                    boClassName="org.kuali.module.chart.bo.Org"
+                    keyValues="chartOfAccountsCode=${item.chartOfAccountsCode}&amp;organizationCode=${item.organizationCode}"
+                    render="${!empty KualiForm.previousBranchOrgs[0].organizationCode}">
+                	<html:hidden write="true" property="previousBranchOrgs[${status.index}].organizationCode" />
+                </kul:inquiry>&nbsp;
+	      	</kul:htmlControlAttribute>
+            </td>
+            <td class="grid" valign="center" rowspan="1" colspan="2">
+            <kul:htmlControlAttribute
+                property="previousBranchOrgs[${status.index}].organization.organizationName"
+                attributeEntry="${organizationAttributes.organizationName}"
+                readOnly="true"/>&nbsp;
+            </td>
+            <td class="grid" valign="center" rowspan="1" colspan="1">&nbsp;</td>
+	    </tr>
+
+        </c:forEach>
+        </c:if>
+
+
+        <c:if test="${!empty KualiForm.selectionSubTreeOrgs}">
+
+        <%--pullup selection header --%>
+	    <tr>
             <th class="grid" colspan="1" rowspan="1">&nbsp;</th>
 		    <th class="grid" align="left" colspan="4"><br>Organization Selection Sub-Tree</th>
 		    <th class="grid" align="center" colspan="1"><br>Action</th>
@@ -129,6 +191,8 @@
 	    <tr>
             <td class="grid" valign="center" rowspan="1" colspan="1">
                 <span class="nowrap">&nbsp;
+               	<html:hidden write="false" property="selectionSubTreeOrgs[${status.index}].reportsToChartOfAccountsCode" />
+               	<html:hidden write="false" property="selectionSubTreeOrgs[${status.index}].reportsToOrganizationCode" />
                 </span>
             </td>
             <td class="grid" valign="center" rowspan="1" colspan="1">
@@ -167,12 +231,13 @@
             </td>
             <td class="grid" valign="center" rowspan="1" colspan="1">
             <div align="center">
-                <html:image property="methodToCall.drillDown.line${status.index}.anchorselectionSubTreeOrgsAnchor${status.index}" src="${ConfigProperties.externalizable.images.url}purap-down.gif" title="Drill Down" alt="Drill Down" styleClass="tinybutton" />
+                <html:image property="methodToCall.navigateDown.line${status.index}.anchorselectionSubTreeOrgsAnchor${status.index}" src="${ConfigProperties.externalizable.images.url}purap-down.gif" title="Drill Down" alt="Drill Down" styleClass="tinybutton" />
             </div>
             </td>
 	    </tr>
 
         </c:forEach>
+        </c:if>
 
     </table>
 

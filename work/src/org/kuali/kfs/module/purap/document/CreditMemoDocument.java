@@ -160,13 +160,16 @@ public class CreditMemoDocument extends AccountsPayableDocumentBase {
     }
 
     /**
+     * 
      * Performs extended price calculation and sets on item if extended price is empty.
      */
     public void updateExtendedPriceOnItems() {
+    //TODO: ckirschenman - this method is the same as PaymentRequest, move up
         for (CreditMemoItem item : (List<CreditMemoItem>) getItems()) {
             item.refreshReferenceObject(PurapPropertyConstants.ITEM_TYPE);
 
-            if (ObjectUtils.isNull(item.getExtendedPrice())) {
+            if ((ObjectUtils.isNull(item.getExtendedPrice())||(KualiDecimal.ZERO.compareTo(item.getExtendedPrice())==0)) &&
+                    item.getItemType().isQuantityBasedGeneralLedgerIndicator()) {
                 KualiDecimal newExtendedPrice = item.calculateExtendedPrice();
                 item.setExtendedPrice(newExtendedPrice);
             }

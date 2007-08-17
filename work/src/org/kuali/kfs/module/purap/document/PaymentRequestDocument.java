@@ -96,7 +96,7 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
     // NOT PERSISTED IN DB
     private String recurringPaymentTypeCode;
     private String vendorShippingTitleCode;
-    private String purchaseOrderEndDate;
+    private Date purchaseOrderEndDate;
     
     // BELOW USED BY ROUTING
     private Integer requisitionIdentifier;
@@ -613,7 +613,8 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
      * Gets the purchaseOrderEndDate attribute. 
      * @return Returns the purchaseOrderEndDate.
      */
-    public String getPurchaseOrderEndDate() {
+
+    public Date getPurchaseOrderEndDate() {
         return purchaseOrderEndDate;
     }
 
@@ -621,7 +622,7 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
      * Sets the purchaseOrderEndDate attribute value.
      * @param purchaseOrderEndDate The purchaseOrderEndDate to set.
      */
-    public void setPurchaseOrderEndDate(String purchaseOrderEndDate) {
+    public void setPurchaseOrderEndDate(Date purchaseOrderEndDate) {
         this.purchaseOrderEndDate = purchaseOrderEndDate;
     }
 

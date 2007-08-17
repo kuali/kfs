@@ -86,7 +86,7 @@
                    <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.purchaseOrderEndDate}" /></div>
                 </th>
                 <td align=left valign=middle class="datacell">
-                   &nbsp;<!-- kul:htmlControlAttribute  attributeEntry="${documentAttributes.purchaseOrderEndDate}" property="document.purchaseOrderDocument.purchaseOrderEndDate" readOnly="true" / -->
+                   <kul:htmlControlAttribute  attributeEntry="${documentAttributes.purchaseOrderEndDate}" property="document.purchaseOrderDocument.purchaseOrderEndDate" readOnly="true" />
                </td>
                 <th align=right valign=middle class="bord-l-b">
                    <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.recurringPaymentTypeCode}" /></div>

@@ -40,6 +40,9 @@
                     <defaultValueFinderClass>org.kuali.kfs.lookup.valuefinder.FiscalYearFinder</defaultValueFinderClass>
                 </lookupField>
                 <lookupField attributeName="emplid" required="true"/>
+                <lookupField attributeName="dummyBusinessObject.pendingEntryOption">
+                    <defaultValueFinderClass>org.kuali.module.gl.web.optionfinder.GLPendingEntryOptionFinder</defaultValueFinderClass>
+                </lookupField>
             </lookupFields>
 
             <resultFields>				
@@ -116,6 +119,11 @@
 	        <attributeReference name="csfDeleteCode" sourceClassName="org.kuali.module.budget.bo.CalculatedSalaryFoundationTracker" sourceAttributeName="csfDeleteCode"/>	
 	        <attributeReference name="csfTimePercent" sourceClassName="org.kuali.module.budget.bo.CalculatedSalaryFoundationTracker" sourceAttributeName="csfTimePercent"/>
 	        <attributeReference name="csfFundingStatusCode" sourceClassName="org.kuali.module.budget.bo.CalculatedSalaryFoundationTracker" sourceAttributeName="csfFundingStatusCode"/>
+	        
+	        <!-- 
+	        	<attributeReference name="dummyBusinessObject.consolidationOption" sourceClassName="org.kuali.module.gl.bo.TransientBalanceInquiryAttributes" sourceAttributeName="consolidationOption"/>
+	        -->
+            <attributeReference name="dummyBusinessObject.pendingEntryOption" sourceClassName="org.kuali.module.gl.bo.TransientBalanceInquiryAttributes" sourceAttributeName="pendingEntryOption" />
 		</attributes>
     </businessObject>
 </dictionaryEntry>

@@ -24,7 +24,9 @@ import org.kuali.core.bo.BusinessObject;
 import org.kuali.core.lookup.AbstractLookupableHelperServiceImpl;
 import org.kuali.core.lookup.CollectionIncomplete;
 import org.kuali.core.util.BeanPropertyComparator;
+import org.kuali.core.web.ui.Row;
 import org.kuali.kfs.KFSConstants;
+import org.kuali.module.labor.service.LaborInquiryOptionsService;
 import org.kuali.module.labor.service.LaborLedgerBalanceService;
 import org.kuali.module.labor.web.inquirable.EmployeeFundingInquirableImpl;
 import org.springframework.transaction.annotation.Transactional;
@@ -37,7 +39,9 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class EmployeeFundingLookupableHelperServiceImpl extends AbstractLookupableHelperServiceImpl {
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(EmployeeFundingLookupableHelperServiceImpl.class);
+    
     private LaborLedgerBalanceService laborLedgerBalanceService;
+    private LaborInquiryOptionsService laborInquiryOptionsService;
 
     /**
      * @see org.kuali.core.lookup.Lookupable#getInquiryUrl(org.kuali.core.bo.BusinessObject, java.lang.String)
@@ -54,9 +58,19 @@ public class EmployeeFundingLookupableHelperServiceImpl extends AbstractLookupab
     public List getSearchResults(Map fieldValues) {
         setBackLocation((String) fieldValues.get(KFSConstants.BACK_LOCATION));
         setDocFormKey((String) fieldValues.get(KFSConstants.DOC_FORM_KEY));
+        
+        // get the pending entry option. This method must be prior to the get search results
+        String pendingEntryOption = laborInquiryOptionsService.getSelectedPendingEntryOption(fieldValues);
 
-        Collection searchResultsCollection = laborLedgerBalanceService.findEmployeeFundingWithCSFTracker(fieldValues);
+        // test if the consolidation option is selected or not
+        boolean isConsolidated = false;
 
+        Collection searchResultsCollection = laborLedgerBalanceService.findEmployeeFundingWithCSFTracker(fieldValues, isConsolidated);
+
+        // update search results according to the selected pending entry option
+        // TODO: after including pending entries, the current and encumbrance amounts should be updated
+        //laborInquiryOptionsService.updateByPendingLedgerEntry(searchResultsCollection, fieldValues, pendingEntryOption, isConsolidated);
+        
         // get the actual size of all qualified search results
         Long actualSize = new Long(searchResultsCollection.size());
 
@@ -89,5 +103,13 @@ public class EmployeeFundingLookupableHelperServiceImpl extends AbstractLookupab
      */
     public void setLaborLedgerBalanceService(LaborLedgerBalanceService laborLedgerBalanceService) {
         this.laborLedgerBalanceService = laborLedgerBalanceService;
+    }
+
+    /**
+     * Sets the laborInquiryOptionsService attribute value.
+     * @param laborInquiryOptionsService The laborInquiryOptionsService to set.
+     */
+    public void setLaborInquiryOptionsService(LaborInquiryOptionsService laborInquiryOptionsService) {
+        this.laborInquiryOptionsService = laborInquiryOptionsService;
     }
 }

@@ -529,7 +529,7 @@
 			<ref bean="laborNightlyOutService" />
 		</property>
 	</bean>
-
+	
     <bean id="payrollAccrualService" class="org.kuali.module.labor.service.impl.PayrollAccrualServiceImpl">
         <property name="originEntryGroupService">
             <ref bean="glOriginEntryGroupService" />
@@ -713,6 +713,9 @@
 		<property name="laborLedgerBalanceService">
 			<ref bean="laborLedgerBalanceService" />
 		</property>	
+		<property name="laborInquiryOptionsService">
+			<ref bean="laborInquiryOptionsService" />
+		</property>		
 	</bean>
 
 	<bean id="segmentedLookupResultsService" class="org.kuali.module.labor.service.impl.SegmentedLookupResultsServiceImpl">

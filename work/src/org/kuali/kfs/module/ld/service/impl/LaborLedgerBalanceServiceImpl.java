@@ -33,7 +33,6 @@ import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.gl.bo.Transaction;
 import org.kuali.module.gl.util.OJBUtility;
 import org.kuali.module.labor.LaborConstants;
-import org.kuali.module.labor.bo.AccountStatusBaseFunds;
 import org.kuali.module.labor.bo.EmployeeFunding;
 import org.kuali.module.labor.bo.LedgerBalance;
 import org.kuali.module.labor.dao.LaborLedgerBalanceDao;
@@ -127,7 +126,7 @@ public class LaborLedgerBalanceServiceImpl implements LaborLedgerBalanceService 
     /**
      * @see org.kuali.module.labor.service.LaborLedgerBalanceService#findEmployeeFunding(java.util.Map)
      */
-    public List<EmployeeFunding> findEmployeeFunding(Map fieldValues) {
+    public List<EmployeeFunding> findEmployeeFunding(Map fieldValues, boolean isConsolidated) {
         List<EmployeeFunding> currentFundsCollection = laborLedgerBalanceDao.findCurrentEmployeeFunds(fieldValues);
         List<EmployeeFunding> encumbranceFundsCollection = laborLedgerBalanceDao.findEncumbranceEmployeeFunds(fieldValues);
         
@@ -156,9 +155,9 @@ public class LaborLedgerBalanceServiceImpl implements LaborLedgerBalanceService 
     /**
      * @see org.kuali.module.labor.service.LaborLedgerBalanceService#findEmployeeFundingWithCSFTracker(java.util.Map)
      */
-    public List<EmployeeFunding> findEmployeeFundingWithCSFTracker(Map fieldValues) {
-        List<EmployeeFunding> currentFundsCollection = this.findEmployeeFunding(fieldValues);
-        List<EmployeeFunding> CSFTrackersCollection = laborCalculatedSalaryFoundationTrackerService.findCSFTrackersAsEmployeeFunding(fieldValues, false);
+    public List<EmployeeFunding> findEmployeeFundingWithCSFTracker(Map fieldValues, boolean isConsolidated) {
+        List<EmployeeFunding> currentFundsCollection = this.findEmployeeFunding(fieldValues, isConsolidated);
+        List<EmployeeFunding> CSFTrackersCollection = laborCalculatedSalaryFoundationTrackerService.findCSFTrackersAsEmployeeFunding(fieldValues, isConsolidated);
 
         for (EmployeeFunding employeeFunding : currentFundsCollection) {
             if (CSFTrackersCollection.contains(employeeFunding)) {

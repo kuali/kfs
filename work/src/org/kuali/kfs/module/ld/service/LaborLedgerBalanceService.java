@@ -82,7 +82,7 @@ public interface LaborLedgerBalanceService {
      * @param fieldValues the given field values
      * @return the funding by employee
      */
-    public List<EmployeeFunding> findEmployeeFunding(Map fieldValues);
+    public List<EmployeeFunding> findEmployeeFunding(Map fieldValues, boolean isConsolidated);
     
     /**
      * find the employee funding with the corresponding CSF trakers
@@ -90,5 +90,5 @@ public interface LaborLedgerBalanceService {
      * @param fieldValues the given field values
      * @return the employee funding with the corresponding CSF trakers
      */
-    public List<EmployeeFunding> findEmployeeFundingWithCSFTracker(Map fieldValues);
+    public List<EmployeeFunding> findEmployeeFundingWithCSFTracker(Map fieldValues, boolean isConsolidated);
 }

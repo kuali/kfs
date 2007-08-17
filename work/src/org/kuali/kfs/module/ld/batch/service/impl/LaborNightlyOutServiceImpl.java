@@ -40,6 +40,8 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Transactional
 public class LaborNightlyOutServiceImpl implements LaborNightlyOutService {
+    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(LaborNightlyOutServiceImpl.class);
+    
     private LaborLedgerPendingEntryService laborLedgerPendingEntryService;
     private OriginEntryGroupService originEntryGroupService;
     private LaborReportService laborReportService;
@@ -67,12 +69,13 @@ public class LaborNightlyOutServiceImpl implements LaborNightlyOutService {
             LaborLedgerPendingEntry pendingEntry = pendingEntries.next();
 
             // copy the pending entry to origin entry table
-            saveAsOriginEntry(pendingEntry, group);
-
-            // update the pending entry to indicate it has been copied
-            pendingEntry.setFinancialDocumentApprovedCode(KFSConstants.PENDING_ENTRY_APPROVED_STATUS_CODE.PROCESSED);
-            pendingEntry.setTransactionDate(runDate);
-            businessObjectService.save(pendingEntry);
+            boolean isSaved = saveAsOriginEntry(pendingEntry, group);
+            if(isSaved){
+                // update the pending entry to indicate it has been copied
+                pendingEntry.setFinancialDocumentApprovedCode(KFSConstants.PENDING_ENTRY_APPROVED_STATUS_CODE.PROCESSED);
+                pendingEntry.setTransactionDate(runDate);
+                businessObjectService.save(pendingEntry);
+            }
         }
 
         Collection<OriginEntryGroup> groupList = new ArrayList<OriginEntryGroup>();
@@ -83,14 +86,21 @@ public class LaborNightlyOutServiceImpl implements LaborNightlyOutService {
     /*
      * save pending ledger entry as origin entry
      */
-    private void saveAsOriginEntry(LaborLedgerPendingEntry pendingEntry, OriginEntryGroup group) {
-        LaborOriginEntry originEntry = new LaborOriginEntry();
-        ObjectUtil.buildObject(originEntry, pendingEntry);
+    private boolean saveAsOriginEntry(LaborLedgerPendingEntry pendingEntry, OriginEntryGroup group) {
+        try {
+            LaborOriginEntry originEntry = new LaborOriginEntry();
+            ObjectUtil.buildObject(originEntry, pendingEntry);
 
-        originEntry.setTransactionPostingDate(group.getDate());
-        originEntry.setEntryGroupId(group.getId());
+            originEntry.setTransactionPostingDate(group.getDate());
+            originEntry.setEntryGroupId(group.getId());
 
-        businessObjectService.save(originEntry);
+            businessObjectService.save(originEntry);
+        }
+        catch (Exception e) {
+            LOG.debug("Fail to copy the pending entry as origin entry" + e);
+            return false;
+        }
+        return true;
     }
 
     /**

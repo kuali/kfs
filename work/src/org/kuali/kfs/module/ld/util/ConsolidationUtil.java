@@ -54,9 +54,9 @@ public class ConsolidationUtil {
     public static Collection<String> buildAttributeCollection(Collection<String> extendedFields) {
         Collection<String> attributeList = buildGroupByCollection();
 
-        attributeList.add(sum(LaborPropertyConstants.ACCOUNTING_LINE_ANNUAL_BALANCE_AMOUNT));
-        attributeList.add(sum(LaborPropertyConstants.FINANCIAL_BEGINNING_BALANCE_AMOUNT));
-        attributeList.add(sum(LaborPropertyConstants.CONTRACTS_GRANTS_BEGINNING_BALANCE_AMOUNT));
+        attributeList.add(sum(KFSPropertyConstants.ACCOUNT_LINE_ANNUAL_BALANCE_AMOUNT));
+        attributeList.add(sum(KFSPropertyConstants.FINANCIAL_BEGINNING_BALANCE_LINE_AMOUNT));
+        attributeList.add(sum(KFSPropertyConstants.CONTRACTS_GRANTS_BEGINNING_BALANCE_AMOUNT));
         
         // add the entended elements into the list
         attributeList.addAll(extendedFields);

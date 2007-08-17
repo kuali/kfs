@@ -199,6 +199,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
         try {
             PurchaseOrderDocument poDocument = createPurchaseOrder(reqDocument);
             // added line below for JIRA KULOWF-294 - Purchase Order search results are not displaying the total amount on some "in process" purchase orders
+            // TODO delyea - RICE CHANGE - below needs to call document service save method passing in no Validate Save Event
             poDocument.prepareForSave();
             documentService.updateDocument(poDocument);
             documentService.prepareWorkflowDocument(poDocument);
@@ -608,22 +609,19 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 
     public void completePurchaseOrder(PurchaseOrderDocument po) {
         LOG.debug("completePurchaseOrder() started");
-
-        UniversalUser user = GlobalVariables.getUserSession().getUniversalUser();
-
-        if (!PurchaseOrderStatuses.OPEN.equals(po.getStatusCode())) {
-            String statusCode = PurchaseOrderStatuses.OPEN;
-            LOG.info("completePurchaseOrder() Setting po document id " + po.getDocumentNumber() + " status from '" + po.getStatusCode() + "' to '" + statusCode + "'" );
+        String pendingTransmissionStatusCode = PurchaseOrderStatuses.STATUSES_BY_TRANSMISSION_TYPE.get(po.getPurchaseOrderTransmissionMethodCode());
+        // if the status of the PO is already OPEN or is one of the pending transmission statuses... do not change the status to OPEN
+        if ( (!StringUtils.equals(PurchaseOrderStatuses.OPEN,po.getStatusCode())) && (!PurchaseOrderStatuses.STATUSES_BY_TRANSMISSION_TYPE.values().contains(po.getStatusCode())) ) {
+            LOG.info("completePurchaseOrder() Setting po document id " + po.getDocumentNumber() + " status from '" + po.getStatusCode() + "' to '" + PurchaseOrderStatuses.OPEN + "'" );
             purapService.updateStatusAndStatusHistory(po, PurchaseOrderStatuses.OPEN);
             po.setPurchaseOrderInitialOpenDate(dateTimeService.getCurrentSqlDate());
         }
         this.saveDocumentWithoutValidation(po);
-        
     }
     
     public void setupDocumentForPendingFirstTransmission(PurchaseOrderDocument po, boolean hasActionRequestForDocumentTransmission) {
         if (POTransmissionMethods.PRINT.equals(po.getPurchaseOrderTransmissionMethodCode())) {
-            String newStatusCode = PurchaseOrderStatuses.STATUSES_BY_TRANSMISSION_TYPE.get(po.getPurchaseOrderTransmissionMethod());
+            String newStatusCode = PurchaseOrderStatuses.STATUSES_BY_TRANSMISSION_TYPE.get(po.getPurchaseOrderTransmissionMethodCode());
             LOG.debug("setupDocumentForPendingFirstTransmission() Purchase Order Transmission Type is '" + po.getPurchaseOrderTransmissionMethodCode() + "' setting status to '" + newStatusCode + "'");
             po.setPurchaseOrderCurrentIndicator(true);
             po.setPendingActionIndicator(true);

@@ -352,11 +352,11 @@ public class PurapConstants extends JstlConstants {
         public static String ESTIMATE = "EST";
     }
 
-    public static class POTransmissionMethods {
-        public static String FAX = "FAX";
-        public static String PRINT = "PRIN";
-        public static String NOPRINT = "NOPR";
-        public static String ELECTRONIC = "ELEC";
+    public static final class POTransmissionMethods {
+        public static final String FAX = "FAX";
+        public static final String PRINT = "PRIN";
+        public static final String NOPRINT = "NOPR";
+        public static final String ELECTRONIC = "ELEC";
     }
 
     public static String REQ_B2B_ALLOW_COPY_DAYS = "5";
@@ -454,7 +454,6 @@ public class PurapConstants extends JstlConstants {
         }
         
     }
-
 
     public static class ItemTypeCodes {
         // ITEM TYPES

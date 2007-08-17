@@ -89,7 +89,7 @@ public class PurApSourceDocumentRouteUserRoleAttribute extends UnqualifiedRoleAt
             assertDocumentNotNull(sourceDocument);
             // return the user who routed the source document
             DataDictionaryService dataDictionaryService = SpringContext.getBean(DataDictionaryService.class);
-            String label = "User Who Routed " + sourceDocument.getPurApSourceDocumentLabelIfPossible() + " " + sourceDocument.getPurapDocumentIdentifier();
+            String label = "User Who Routed " + document.getPurApSourceDocumentLabelIfPossible() + " " + sourceDocument.getPurapDocumentIdentifier();
             return new ResolvedQualifiedRole(label, Arrays.asList(new Id[] {new AuthenticationUserId(sourceDocument.getDocumentHeader().getWorkflowDocument().getRoutedByUserNetworkId())}));
         }
         catch (WorkflowException e) {

@@ -323,17 +323,20 @@ public class PaymentRequestItem extends AccountsPayableItemBase {
      */
     @Override
     public Class getAccountingLineClass() {
-        // TODO Auto-generated method stub
         return PaymentRequestAccount.class;
     }
-    
+
+    /* TODO Chris/delyea - Should this be leveraging the isConsideredEntered() method for items instead of the paymentRequestItems.tag file using the isNonZero() method
+     *                     problem with the isNonZero() method would be user enters a QTY but no unit price and saves the PREQ... total might be zero but item must show
+     */
     public boolean isDisplayOnPreq() {
         PurchaseOrderItem poi = getPurchaseOrderItem();
         if(ObjectUtils.isNull(poi)) {
             LOG.debug("poi was null");
             return false;
         }
-        
+
+        // TODO - should this below be saying "if the po item is not active... skip it?  it is not right now
         if(poi.isItemActiveIndicator()) {
             LOG.debug("poi was not active: "+poi.toString());
         }

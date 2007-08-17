@@ -131,16 +131,20 @@ public class ObjectCodeRule extends MaintenanceDocumentRuleBase {
         String reportsToObjectCode = objectCode.getReportsToFinancialObjectCode();
         String nextYearObjectCode = objectCode.getNextYearFinancialObjectCode();
         
-        // We must calculate a reportsToChartCode here to duplicate the logic
-        // that takes place in the preRule.
-        // The reason is that when we do a SAVE, the pre-rules are not
-        // run and we will get bogus error messages.
-        // So, we are simulating here what the pre-rule will do.
-        calculatedReportsToChartCode = (String) reportsTo.get(chartCode);
-
-        if (!verifyReportsToChartCode(year, chartCode, objectCode.getFinancialObjectCode(), calculatedReportsToChartCode, reportsToObjectCode)) {
-            this.putFieldError("reportsToFinancialObjectCode", KFSKeyConstants.ERROR_DOCUMENT_REPORTS_TO_OBJCODE_ILLEGAL, reportsToObjectCode);
-            result = false;
+        //only validate if chartCode is NOT null ( chartCode should be provided to get determine reportsToChartCode )
+        if( chartCode != null ){
+            
+            // We must calculate a reportsToChartCode here to duplicate the logic
+            // that takes place in the preRule.
+            // The reason is that when we do a SAVE, the pre-rules are not
+            // run and we will get bogus error messages.
+            // So, we are simulating here what the pre-rule will do.
+            calculatedReportsToChartCode = (String) reportsTo.get(chartCode);
+                        
+            if (!verifyReportsToChartCode(year, chartCode, objectCode.getFinancialObjectCode(), calculatedReportsToChartCode, reportsToObjectCode)) {
+                this.putFieldError("reportsToFinancialObjectCode", KFSKeyConstants.ERROR_DOCUMENT_REPORTS_TO_OBJCODE_ILLEGAL, new String[]{reportsToObjectCode, calculatedReportsToChartCode} );
+                result = false;
+            }
         }
 
         String budgetAggregationCode = objectCode.getFinancialBudgetAggregationCd();

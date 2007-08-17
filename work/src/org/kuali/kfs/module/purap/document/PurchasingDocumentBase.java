@@ -155,6 +155,11 @@ public abstract class PurchasingDocumentBase extends PurchasingAccountsPayableDo
     
         this.setVendorDetail(vendorDetail);
         this.setVendorName(vendorDetail.getVendorName());
+        
+        this.setVendorShippingTitleCode(vendorDetail.getVendorShippingTitleCode());
+        this.setVendorPaymentTermsCode(vendorDetail.getVendorPaymentTermsCode());
+        this.setVendorShippingPaymentTermsCode(vendorDetail.getVendorShippingPaymentTermsCode());
+ 
     }
     
     /**

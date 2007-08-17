@@ -41,6 +41,7 @@ public class OrganizationSelectionTreeForm extends KualiForm {
     
     private BudgetConstructionOrganizationReports pointOfViewOrg;
     private List <BudgetConstructionPullup> selectionSubTreeOrgs; 
+    private List <BudgetConstructionPullup> previousBranchOrgs; 
     private boolean hideDetails = false;
     private String operatingModeTitle;
 
@@ -59,6 +60,8 @@ public class OrganizationSelectionTreeForm extends KualiForm {
         super();
         this.setPointOfViewOrg(new BudgetConstructionOrganizationReports());
         this.setSelectionSubTreeOrgs(new TypedArrayList(BudgetConstructionPullup.class));
+        this.setPreviousBranchOrgs(new TypedArrayList(BudgetConstructionPullup.class));
+        
     }
 
     /**
@@ -78,6 +81,17 @@ public class OrganizationSelectionTreeForm extends KualiForm {
             BudgetConstructionPullup selectionOrg = (BudgetConstructionPullup) selectionOrgs.next();
             final List REFRESH_FIELDS = Collections.unmodifiableList(Arrays.asList(new String[] { "organization" }));
             SpringContext.getBean(PersistenceService.class).retrieveReferenceObjects(selectionOrg, REFRESH_FIELDS);
+        }
+        
+    }
+
+    public void populatePreviousBranchOrgs(){
+        
+        Iterator previousBranchOrgs = getPreviousBranchOrgs().iterator();
+        while (previousBranchOrgs.hasNext()){
+            BudgetConstructionPullup previousBranchOrg = (BudgetConstructionPullup) previousBranchOrgs.next();
+            final List REFRESH_FIELDS = Collections.unmodifiableList(Arrays.asList(new String[] { "organization" }));
+            SpringContext.getBean(PersistenceService.class).retrieveReferenceObjects(previousBranchOrg, REFRESH_FIELDS);
         }
         
     }
@@ -224,6 +238,22 @@ public class OrganizationSelectionTreeForm extends KualiForm {
      */
     public void setSelectionSubTreeOrgs(List<BudgetConstructionPullup> selectionSubTree) {
         this.selectionSubTreeOrgs = selectionSubTree;
+    }
+
+    /**
+     * Gets the previousBranchOrgs attribute. 
+     * @return Returns the previousBranchOrgs.
+     */
+    public List<BudgetConstructionPullup> getPreviousBranchOrgs() {
+        return previousBranchOrgs;
+    }
+
+    /**
+     * Sets the previousBranchOrgs attribute value.
+     * @param previousBranchOrgs The previousBranchOrgs to set.
+     */
+    public void setPreviousBranchOrgs(List<BudgetConstructionPullup> previousBranchOrgs) {
+        this.previousBranchOrgs = previousBranchOrgs;
     }
 
 

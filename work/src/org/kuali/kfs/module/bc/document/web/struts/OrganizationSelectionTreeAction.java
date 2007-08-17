@@ -29,6 +29,7 @@ import org.kuali.core.exceptions.AuthorizationException;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.UniversalUserService;
 import org.kuali.core.util.GlobalVariables;
+import org.kuali.core.util.TypedArrayList;
 import org.kuali.core.util.UrlFactory;
 import org.kuali.core.web.struts.action.KualiAction;
 import org.kuali.kfs.KFSConstants;
@@ -158,22 +159,73 @@ public class OrganizationSelectionTreeAction extends KualiAction {
                 organizationSelectionTreeForm.setPointOfViewOrg((BudgetConstructionOrganizationReports) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(BudgetConstructionOrganizationReports.class, map));
 
                 // build a new selection subtree
-                String personUserIdentifier = GlobalVariables.getUserSession().getUniversalUser().getPersonUniversalIdentifier();
-                SpringContext.getBean(BudgetOrganizationTreeService.class).buildPullup(personUserIdentifier, flds[0], flds[1]);
+                String personUniversalIdentifier = GlobalVariables.getUserSession().getUniversalUser().getPersonUniversalIdentifier();
+                SpringContext.getBean(BudgetOrganizationTreeService.class).buildPullup(personUniversalIdentifier, flds[0], flds[1]);
 
                 // initialize the selection tool to the root
-                map.put("personUniversalIdentifier", personUserIdentifier);
+                map.put("personUniversalIdentifier", personUniversalIdentifier);
                 organizationSelectionTreeForm.setSelectionSubTreeOrgs((List<BudgetConstructionPullup>) SpringContext.getBean(BusinessObjectService.class).findMatching(BudgetConstructionPullup.class, map));
                 organizationSelectionTreeForm.populateSelectionSubTreeOrgs();
+                organizationSelectionTreeForm.setPreviousBranchOrgs(new TypedArrayList(BudgetConstructionPullup.class));
             }
         } else {
             organizationSelectionTreeForm.setPointOfViewOrg(new BudgetConstructionOrganizationReports());
+            organizationSelectionTreeForm.setSelectionSubTreeOrgs(new TypedArrayList(BudgetConstructionPullup.class));
+            organizationSelectionTreeForm.setPreviousBranchOrgs(new TypedArrayList(BudgetConstructionPullup.class));
         }
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
     
-    public ActionForward drillDown (ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+    public ActionForward navigateDown (ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        
+        OrganizationSelectionTreeForm organizationSelectionTreeForm = (OrganizationSelectionTreeForm) form;
+        
+        //TODO add not a leaf test and put up a info message without drilling
+        //TODO add call to reset pullflags for the current level orgs to zero
+        
+        // push parent org onto the branch stack
+        organizationSelectionTreeForm.getPreviousBranchOrgs().add(organizationSelectionTreeForm.getSelectionSubTreeOrgs().get(this.getSelectedLine(request)));
+
+        // get the children
+        HashMap map = new HashMap();
+        String chartOfAccountsCode  = organizationSelectionTreeForm.getSelectionSubTreeOrgs().get(this.getSelectedLine(request)).getChartOfAccountsCode();
+        String organizationCode = organizationSelectionTreeForm.getSelectionSubTreeOrgs().get(this.getSelectedLine(request)).getOrganizationCode();
+        String personUniversalIdentifier = GlobalVariables.getUserSession().getUniversalUser().getPersonUniversalIdentifier();
+        organizationSelectionTreeForm.setSelectionSubTreeOrgs((List<BudgetConstructionPullup>) SpringContext.getBean(BudgetOrganizationTreeService.class).getPullupChildOrgs(personUniversalIdentifier, chartOfAccountsCode, organizationCode));
+        organizationSelectionTreeForm.populateSelectionSubTreeOrgs();
+        
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
+    }
+
+    public ActionForward navigateUp (ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        
+        OrganizationSelectionTreeForm organizationSelectionTreeForm = (OrganizationSelectionTreeForm) form;
+        
+        // pop the parent org off the branch stack
+        String personUniversalIdentifier = GlobalVariables.getUserSession().getUniversalUser().getPersonUniversalIdentifier();
+        int popIdx = this.getSelectedLine(request);
+        BudgetConstructionPullup previousBranchOrg = organizationSelectionTreeForm.getPreviousBranchOrgs().remove(popIdx);
+        if (popIdx == 0){
+            organizationSelectionTreeForm.setPreviousBranchOrgs(new TypedArrayList(BudgetConstructionPullup.class));
+
+            // reinitialize the selection tool to the root
+            HashMap map = new HashMap();
+            map.put("chartOfAccountsCode", previousBranchOrg.getChartOfAccountsCode());
+            map.put("organizationCode", previousBranchOrg.getOrganizationCode());
+            map.put("personUniversalIdentifier", personUniversalIdentifier);
+            organizationSelectionTreeForm.setSelectionSubTreeOrgs((List<BudgetConstructionPullup>) SpringContext.getBean(BusinessObjectService.class).findMatching(BudgetConstructionPullup.class, map));
+            organizationSelectionTreeForm.populateSelectionSubTreeOrgs();
+            
+        } else {
+            organizationSelectionTreeForm.setPreviousBranchOrgs(organizationSelectionTreeForm.getPreviousBranchOrgs().subList(0,popIdx));
+
+            // get the parent and parent siblings
+            String chartOfAccountsCode  = previousBranchOrg.getReportsToChartOfAccountsCode();
+            String organizationCode = previousBranchOrg.getReportsToOrganizationCode();
+            organizationSelectionTreeForm.setSelectionSubTreeOrgs((List<BudgetConstructionPullup>) SpringContext.getBean(BudgetOrganizationTreeService.class).getPullupChildOrgs(personUniversalIdentifier, chartOfAccountsCode, organizationCode));
+            organizationSelectionTreeForm.populateSelectionSubTreeOrgs();
+        }
         
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }

@@ -223,11 +223,12 @@ public class LaborCorrectionAction extends CorrectionAction{
                     try {
                         
                         // Check for short lines - Skip the record
-                        if (currentLine.length() < LaborConstants.LLCP_MAX_LENGTH) {
+                        // KULLAB-379: LLCP should accept file upload rows even if the record length is not right padded to the full length
+                        /*if (currentLine.length() < LaborConstants.LLCP_MAX_LENGTH) {
                             GlobalVariables.getErrorMap().putError("systemAndEditMethod", KFSKeyConstants.Labor.LLCP_UPLOAD_FILE_INVALID_RECORD_SIZE_ERROR);                            
                             errorsLoading = true;
                             break;
-                        }                        
+                        }*/                      
                         LaborOriginEntry entryFromFile = new LaborOriginEntry();
                         entryFromFile.setFromTextFile(currentLine, lineNumber);
                         entryFromFile.setEntryGroupId(newOriginEntryGroup.getId());

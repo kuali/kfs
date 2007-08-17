@@ -20,6 +20,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.LinkedHashMap;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.core.bo.DocumentType;
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.util.GlobalVariables;
@@ -42,7 +43,6 @@ import org.kuali.module.chart.bo.SubObjCd;
 import org.kuali.module.chart.bo.codes.BalanceTyp;
 import org.kuali.module.gl.GLConstants;
 import org.kuali.module.gl.exception.LoadException;
-import org.springframework.util.StringUtils;
 
 public class OriginEntry extends PersistableBusinessObjectBase implements Transaction {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(OriginEntry.class);
@@ -241,8 +241,8 @@ public class OriginEntry extends PersistableBusinessObjectBase implements Transa
     }
 
     protected String getValue(String line, int s, int e) {
-        String v = line.substring(s, e);
-        return StringUtils.trimTrailingWhitespace(v);
+        //String v = line.substring(s, e);
+        return StringUtils.substring(line, s, e).trim();
     }
     
     /**
@@ -824,7 +824,7 @@ public class OriginEntry extends PersistableBusinessObjectBase implements Transa
 
     public void setFieldValue(String fieldName,String fieldValue) {
         if ( "universityFiscalYear".equals(fieldName) ) {
-            if ( StringUtils.hasText(fieldValue) ) {
+            if ( StringUtils.isNotBlank(fieldValue) ) {
                 setUniversityFiscalYear(Integer.parseInt(fieldValue));
             } else {
                 setUniversityFiscalYear(null);
@@ -852,7 +852,7 @@ public class OriginEntry extends PersistableBusinessObjectBase implements Transa
         } else if ( KFSPropertyConstants.DOCUMENT_NUMBER.equals(fieldName) ) {
             setDocumentNumber(fieldValue);
         } else if ( "transactionLedgerEntrySequenceNumber".equals(fieldName) ) {
-            if ( StringUtils.hasText(fieldValue) ) {
+            if ( StringUtils.isNotBlank(fieldValue) ) {
                 setTransactionLedgerEntrySequenceNumber(Integer.parseInt(fieldValue));
             } else {
                 setTransactionLedgerEntrySequenceNumber(null);
@@ -860,7 +860,7 @@ public class OriginEntry extends PersistableBusinessObjectBase implements Transa
         } else if ( "transactionLedgerEntryDescription".equals(fieldName) ) {
             setTransactionLedgerEntryDescription(fieldValue);
         } else if ( "transactionLedgerEntryAmount".equals(fieldName) ) {
-            if ( StringUtils.hasText(fieldValue) ) {
+            if ( StringUtils.isNotBlank(fieldValue) ) {
                 setTransactionLedgerEntryAmount(new KualiDecimal(fieldValue));
             } else {
                 clearTransactionLedgerEntryAmount();
@@ -868,7 +868,7 @@ public class OriginEntry extends PersistableBusinessObjectBase implements Transa
         } else if ( "transactionDebitCreditCode".equals(fieldName) ) {
             setTransactionDebitCreditCode(fieldValue);
         } else if ( "transactionDate".equals(fieldName) ) {
-            if ( StringUtils.hasText(fieldValue) ) {
+            if ( StringUtils.isNotBlank(fieldValue) ) {
                 try {
                     SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
                     setTransactionDate(new java.sql.Date( (df.parse(fieldValue)).getTime() ) );
@@ -891,7 +891,7 @@ public class OriginEntry extends PersistableBusinessObjectBase implements Transa
         } else if ( "referenceFinancialDocumentNumber".equals(fieldName) ) {
             setReferenceFinancialDocumentNumber(fieldValue);
         } else if ( "financialDocumentReversalDate".equals(fieldName) ) {
-            if ( StringUtils.hasText(fieldValue) ) {
+            if ( StringUtils.isNotBlank(fieldValue) ) {
                 try {
                     SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
                     setFinancialDocumentReversalDate(new java.sql.Date( (df.parse(fieldValue)).getTime() ) );

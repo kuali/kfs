@@ -76,12 +76,12 @@ public class PaymentRequestDocumentAuthorizer extends AccountingDocumentAuthoriz
             List currentRouteLevels = getCurrentRouteLevels(workflowDocument);
             editMode = AuthorizationConstants.EditMode.FULL_ENTRY;
 
-            if (currentRouteLevels.contains(NodeDetailEnum.ACCOUNT_REVIEW)) {
+            if (currentRouteLevels.contains(NodeDetailEnum.ACCOUNT_REVIEW.getName())) {
                 editModeMap.remove(AuthorizationConstants.EditMode.FULL_ENTRY);
                 //expense_entry was already added in super
                 //add amount edit mode
                 editMode = PurapAuthorizationConstants.PaymentRequestEditMode.ALLOW_ACCOUNT_AMOUNT_ENTRY;
-            } else if (currentRouteLevels.contains(NodeDetailEnum.ACCOUNTS_PAYABLE_REVIEW)){
+            } else if (currentRouteLevels.contains(NodeDetailEnum.ACCOUNTS_PAYABLE_REVIEW.getName())){
                 //is in ap review remove the view only that was added by super
                 editModeMap.remove(AuthorizationConstants.EditMode.VIEW_ONLY);
             }

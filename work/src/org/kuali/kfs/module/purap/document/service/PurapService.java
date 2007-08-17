@@ -94,7 +94,7 @@ public interface PurapService {
      * @param routeNodeName
      * @return
      */
-    public boolean isDocumentStoppingAtRouteLevel(PurchasingAccountsPayableDocument document, NodeDetails givenNodeDetail);
+    public boolean willDocumentStopAtGivenFutureRouteNode(PurchasingAccountsPayableDocument document, NodeDetails givenNodeDetail);
 
     /**
      * This method returns a list of fiscal years that can be selected from on the document (built for Requisition and Purchase Order).  Typically

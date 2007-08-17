@@ -301,7 +301,7 @@ public class PurapServiceImpl implements PurapService {
         return purchaseOrderTotalLimit;
     }
 
-    public boolean isDocumentStoppingAtRouteLevel(PurchasingAccountsPayableDocument document, NodeDetails givenNodeDetail) {
+    public boolean willDocumentStopAtGivenFutureRouteNode(PurchasingAccountsPayableDocument document, NodeDetails givenNodeDetail) {
         if (givenNodeDetail == null) {
             throw new InvalidParameterException("Given Node Detail object was null");
         }
@@ -311,8 +311,10 @@ public class PurapServiceImpl implements PurapService {
             if (nodeNames.length == 1) {
                 activeNode = nodeNames[0];
             }
-            if (isGivenNodeEqualToOrAfterCurrentNode(givenNodeDetail.getNodeDetailByName(activeNode), givenNodeDetail)) {
+            if (isGivenNodeAfterCurrentNode(givenNodeDetail.getNodeDetailByName(activeNode), givenNodeDetail)) {
                 ReportCriteriaVO reportCriteriaVO = new ReportCriteriaVO(document.getDocumentHeader().getWorkflowDocument().getDocumentType());
+                // TODO delyea - RICE UPDATE - uncomment below once RICE is updated
+//                document.populateDocumentForRouteReport();
                 reportCriteriaVO.setXmlContent(document.serializeDocumentToXml());
                 reportCriteriaVO.setTargetNodeName(givenNodeDetail.getName());
                 boolean value = SpringContext.getBean(KualiWorkflowInfo.class).documentWillHaveAtLeastOneActionRequest(
@@ -328,16 +330,16 @@ public class PurapServiceImpl implements PurapService {
         }
     }
     
-    private boolean isGivenNodeEqualToOrAfterCurrentNode(NodeDetails currentNodeDetail, NodeDetails givenNodeDetail) {
+    private boolean isGivenNodeAfterCurrentNode(NodeDetails currentNodeDetail, NodeDetails givenNodeDetail) {
         if (ObjectUtils.isNull(givenNodeDetail)) {
             // given node does not exist
             return false;
         }
         if (ObjectUtils.isNull(currentNodeDetail)) {
-            // current node does not exist
+            // current node does not exist... assume we are pre-route
             return true;
         }
-        return givenNodeDetail.getOrdinal() >= currentNodeDetail.getOrdinal();
+        return givenNodeDetail.getOrdinal() > currentNodeDetail.getOrdinal();
     }
     
     private boolean allowEncumberNextFiscalYear() {

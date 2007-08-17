@@ -320,7 +320,10 @@ public class PurchasingAccountsPayableDocumentRuleBase extends AccountingDocumen
     public boolean processAccountValidation(List<PurApAccountingLine> purAccounts, String itemLineNumber) {
         boolean valid = true;
         valid = valid & verifyHasAccounts(purAccounts,itemLineNumber);
-        valid = valid & verifyAccountPercent(purAccounts,itemLineNumber);
+        // if we don't have any accounts... not need to run any further validation as it will all fail
+        if (valid) {
+            valid = valid & verifyAccountPercent(purAccounts,itemLineNumber);
+        }
         //We can't invoke the verifyUniqueAccountingStrings in here because otherwise it would be invoking it more than once, if we're also
         //calling it upon Save.
         return valid;

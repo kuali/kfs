@@ -547,7 +547,7 @@ public class DisbursementVoucherNonEmployeeTravel extends PersistableBusinessObj
      * 
      */
     public KualiDecimal getDisbVchrPersonalCarAmount() {
-        return disbVchrPersonalCarAmount;
+        return dvPersonalCarMileageAmount == null ? null : disbVchrPersonalCarAmount;
     }
 
 
@@ -673,7 +673,7 @@ public class DisbursementVoucherNonEmployeeTravel extends PersistableBusinessObj
      * 
      */
     public KualiDecimal getDisbVchrMileageCalculatedAmt() {
-        return disbVchrMileageCalculatedAmt;
+        return dvPersonalCarMileageAmount == null ? null : disbVchrMileageCalculatedAmt;
     }
 
 

@@ -2703,7 +2703,7 @@
 		<foreignkey field-ref="accountNumber" />
 		<foreignkey field-ref="subAccountNumber"/>
 	</reference-descriptor>
-    <reference-descriptor name="subObjectCode" class-ref="org.kuali.module.chart.bo.SubObjCd" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+    <reference-descriptor name="financialSubObject" class-ref="org.kuali.module.chart.bo.SubObjCd" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
         <foreignkey field-ref="universityFiscalYear" />
         <foreignkey field-ref="chartOfAccountsCode" />
         <foreignkey field-ref="accountNumber"/>

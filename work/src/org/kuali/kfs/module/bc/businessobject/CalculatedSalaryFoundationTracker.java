@@ -67,7 +67,7 @@ public class CalculatedSalaryFoundationTracker extends PersistableBusinessObject
     private Chart chartOfAccounts;
     private Account account;
     private SubAccount subAccount;
-    private SubObjCd subObjectCode;
+    private SubObjCd financialSubObject;
     private transient Options universityFiscal;
     private final int PERCENTAGE_SCALE = 2;
 
@@ -514,21 +514,6 @@ public class CalculatedSalaryFoundationTracker extends PersistableBusinessObject
         this.subAccount = subAccount;
     }
 
-    /**
-     * @return Returns the subObjectCode.
-     */
-    public SubObjCd getSubObjectCode() {
-        return subObjectCode;
-    }
-
-    /**
-     * @param subObjectCode The subObjectCode to set.
-     * @deprecated
-     */
-    public void setSubObjectCode(SubObjCd subObjectCode) {
-        this.subObjectCode = subObjectCode;
-    }
-
 
     /**
      * Gets the universityFiscal attribute.
@@ -585,5 +570,22 @@ public class CalculatedSalaryFoundationTracker extends PersistableBusinessObject
 
     public void setPersonName(String personName) {
         this.personName = personName;
+    }
+
+    /**
+     * Gets the financialSubObject attribute. 
+     * @return Returns the financialSubObject.
+     */
+    public SubObjCd getFinancialSubObject() {
+        return financialSubObject;
+    }
+
+    /**
+     * Sets the financialSubObject attribute value.
+     * @param financialSubObject The financialSubObject to set.
+     * @deprecated
+     */
+    public void setFinancialSubObject(SubObjCd financialSubObject) {
+        this.financialSubObject = financialSubObject;
     }
 }

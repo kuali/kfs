@@ -15,6 +15,8 @@
  */
 package org.kuali.module.budget.service;
 
+import java.util.List;
+
 /**
  * This interface defines methods that manipulate objects used by the Organization Selection screens.
  * 
@@ -40,4 +42,14 @@ public interface BudgetOrganizationTreeService {
      * @param personUserIdentifier
      */
     public void cleanPullup(String personUserIdentifier);
+
+    /**
+     * This method returns a list of child organizations for the passed in organization and user
+     * 
+     * @param personUniversalIdentifier
+     * @param chartOfAccountsCode
+     * @param organizationCode
+     * @return
+     */
+    public List getPullupChildOrgs(String personUniversalIdentifier, String chartOfAccountsCode, String organizationCode);
 }

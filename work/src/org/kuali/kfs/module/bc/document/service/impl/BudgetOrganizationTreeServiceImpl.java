@@ -18,6 +18,7 @@ package org.kuali.module.budget.service.impl;
 import java.util.Iterator;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.module.budget.bo.BudgetConstructionOrganizationReports;
@@ -92,6 +93,24 @@ public class BudgetOrganizationTreeServiceImpl implements BudgetOrganizationTree
 
         budgetConstructionDao.deleteBudgetConstructionPullupByUserId(personUserIdentifier);
 
+    }
+
+    /**
+     * @see org.kuali.module.budget.service.BudgetOrganizationTreeService#getPullupChildOrgs(java.lang.String, java.lang.String, java.lang.String)
+     */
+    public List getPullupChildOrgs(String personUniversalIdentifier, String chartOfAccountsCode, String organizationCode) {
+
+        if (StringUtils.isBlank(personUniversalIdentifier)) {
+            throw new IllegalArgumentException("String parameter personUniversalIdentifier was null or blank.");
+        }
+        if (StringUtils.isBlank(chartOfAccountsCode)) {
+            throw new IllegalArgumentException("String parameter chartOfAccountsCode was null or blank.");
+        }
+        if (StringUtils.isBlank(organizationCode)) {
+            throw new IllegalArgumentException("String parameter organizationCode was null or blank.");
+        }
+
+        return budgetConstructionDao.getBudgetConstructionPullupChildOrgs(personUniversalIdentifier, chartOfAccountsCode, organizationCode);
     }
 
     /**

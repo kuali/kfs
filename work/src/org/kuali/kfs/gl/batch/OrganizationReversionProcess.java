@@ -315,7 +315,7 @@ public class OrganizationReversionProcess {
         }
 
         entry.setDocumentNumber(DEFAULT_DOCUMENT_NUMBER_PREFIX + entry.getAccountNumber());
-        entry.setTransactionLedgerEntryDescription(KFSKeyConstants.OrganizationReversionProcess.CASH_REVERTED_TO + organizationReversion.getCashReversionAccountNumber());
+        entry.setTransactionLedgerEntryDescription(kualiConfigurationService.getPropertyString(KFSKeyConstants.OrganizationReversionProcess.CASH_REVERTED_TO) + organizationReversion.getCashReversionAccountNumber());
         entry.setTransactionLedgerEntryAmount(unitOfWork.getTotalCash());
         if (unitOfWork.getTotalCash().compareTo(KualiDecimal.ZERO) > 0) {
             entry.setTransactionDebitCreditCode(KFSConstants.GL_CREDIT_CODE);

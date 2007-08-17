@@ -183,13 +183,10 @@ public class CreditMemoDocument extends AccountsPayableDocumentBase {
         try {
             // DOCUMENT PROCESSED
             if (this.getDocumentHeader().getWorkflowDocument().stateIsProcessed()) {
-                // TODO delyea - what goes here?
-//                if (!PaymentRequestStatuses.AUTO_APPROVED.equals(getStatusCode())) {
-//                    SpringContext.getBean(PurapService.class).updateStatusAndStatusHistory(this, PurapConstants.PaymentRequestStatuses.DEPARTMENT_APPROVED);
-//                    populateDocumentForRouting();
-//                    SpringContext.getBean(PaymentRequestService.class).saveDocumentWithoutValidation(this);
-//                    return;
-//                }
+                SpringContext.getBean(PurapService.class).updateStatusAndStatusHistory(this, PurapConstants.CreditMemoStatuses.COMPLETE);
+                populateDocumentForRouting();
+                SpringContext.getBean(CreditMemoService.class).saveDocumentWithoutValidation(this);
+                return;
             }
             // DOCUMENT DISAPPROVED
             else if (this.getDocumentHeader().getWorkflowDocument().stateIsDisapproved()) {

@@ -82,7 +82,8 @@ public class CreditMemoDocumentRule extends AccountsPayableDocumentRuleBase impl
 
         valid = processDocumentOverviewValidation(cmDocument);
         valid &= processItemValidation(cmDocument);
-        valid = valid && validateTotalMatchesVendorAmount(cmDocument);
+//FIXME: this should be warning only (i.e. question framework) remove this code when that's working
+        //        valid = valid && validateTotalMatchesVendorAmount(cmDocument);
         valid &= validateTotalOverZero(cmDocument);
 
         return valid;
@@ -649,6 +650,15 @@ public class CreditMemoDocumentRule extends AccountsPayableDocumentRuleBase impl
         //CMs do not wait for document final approval to post GL entries to the real table; here we are forcing them to be APPROVED
         explicitEntry.setFinancialDocumentApprovedCode(KFSConstants.DocumentStatusCodes.APPROVED);
 
+    }
+
+    /**
+     * @see org.kuali.kfs.rules.AccountingDocumentRuleBase#checkAccountingLineAccountAccessibility(org.kuali.kfs.document.AccountingDocument, org.kuali.kfs.bo.AccountingLine, org.kuali.kfs.rules.AccountingDocumentRuleBase.AccountingLineAction)
+     */
+    @Override
+    protected boolean checkAccountingLineAccountAccessibility(AccountingDocument financialDocument, AccountingLine accountingLine, AccountingLineAction action) {
+        // always return true because CM does not have a FO type of level
+        return true;
     }
 
 }

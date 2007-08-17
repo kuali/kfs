@@ -709,6 +709,7 @@ public class PurapConstants extends JstlConstants {
         public static String CANCELLED_PRIOR_TO_AP_APPROVAL = "VOID";
         public static String CANCELLED_POST_AP_APPROVE = "CANC";
         public static String COMPLETE = "CMPT";
+        //FIXME: delyea/ckirschenman shouldn't the following two be removed?!
         public static String AWAITING_ACCOUNTS_PAYABLE_REVIEW = "APAD";   // Waiting for Accounts Payable approval
         public static String AWAITING_FISCAL_REVIEW = "AFOA";   // Waiting for Fiscal Officer approval
         

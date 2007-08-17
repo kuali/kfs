@@ -71,9 +71,6 @@
 			    <html:hidden property="document.item[${ctr}].itemType.quantityBasedGeneralLedgerIndicator" />
  			    <html:hidden property="document.item[${ctr}].itemType.itemTypeAboveTheLineIndicator" />
  			    
-				<c:if test="${updateExtended}">
-					<html:hidden property="document.item[${ctr}].extendedPrice" />
-				</c:if>
 				
 			    <div align="right">
 			        <kul:htmlControlAttribute attributeEntry="${itemAttributes.itemTypeCode}" property="document.item[${ctr}].itemType.itemTypeDescription" readOnly="${true}" />:&nbsp;

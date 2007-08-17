@@ -78,41 +78,20 @@ public class SpringContext {
             }
         }
     }
-    
-    @SuppressWarnings("unchecked")
-    private static <T> T getBean(Class<T> type, String name) {
-        verifyProperInitialization();
-        try {
-            return (T) applicationContext.getBean(name);
-        }
-        catch (NoSuchBeanDefinitionException nsbde) {
-            LOG.info("Could not find bean named " + name + " - checking KNS context");
-            try {
-                return KNSServiceLocator.getBean(type, name);
-            }
-            catch (Exception e) {
-                LOG.error(e);
-                throw new NoSuchBeanDefinitionException(name, new StringBuffer("No bean of this type and name in the in KFS or KNS application contexts: ").append(type.getName()).append(", ").append(name).toString());
-            }
-        }
+
+    public static Lookupable getLookupable(String beanName) {
+        return getBean(Lookupable.class, beanName);
     }
-        
-    @SuppressWarnings("unchecked")
-    public static <T> Map<String,T> getBeansOfType(Class<T> type) {
-        verifyProperInitialization();
-        Map<String,T> beansOfType = KNSServiceLocator.getBeansOfType(type);
-        beansOfType.putAll(new HashMap(applicationContext.getBeansOfType(type)));
-        return beansOfType;
+
+    public static LookupableHelperService getLookupableHelperService(String beanName) {
+        return getBean(LookupableHelperService.class, beanName);
     }
-    
-    protected static List<MethodCacheInterceptor> getMethodCacheInterceptors() {
-        List<MethodCacheInterceptor> methodCacheInterceptors = new ArrayList();
-        methodCacheInterceptors.add(getBean(MethodCacheInterceptor.class));
-        methodCacheInterceptors.add(KNSServiceLocator.getBean(MethodCacheInterceptor.class));
-        return methodCacheInterceptors;
+
+    public static WorkflowLookupable getWorkflowLookupable(String beanName) {
+        return getBean(WorkflowLookupable.class, beanName);
     }
-    
-    public static Map getKfsBatchComponents() {
+
+    public static Map getBatchComponents() {
         return getBean(Map.class, "kfsBatchComponents");
     }
 
@@ -135,19 +114,7 @@ public class SpringContext {
     public static BatchInputFileSetType getBatchInputFileSetType(String beanName) {
         return getBean(BatchInputFileSetType.class, beanName);
     }
-    
-    public static Lookupable getLookupable(String beanName) {
-        return getBean(Lookupable.class, beanName);
-    }
-
-    public static LookupableHelperService getLookupableHelperService(String beanName) {
-        return getBean(LookupableHelperService.class, beanName);
-    }
-    
-    public static WorkflowLookupable getWorkflowLookupable(String beanName) {
-        return getBean(WorkflowLookupable.class, beanName);
-    }
-    
+            
     public static PostTransaction getPostTransaction(String beanName) {
         return getBean(PostTransaction.class, beanName);
     }
@@ -163,7 +130,40 @@ public class SpringContext {
     public static OrganizationReversionCategoryLogic getOrganizationReversionCategoryLogic(String beanName) {
         return getBean(OrganizationReversionCategoryLogic.class, beanName);
     }
+            
+    @SuppressWarnings("unchecked")
+    public static <T> Map<String,T> getBeansOfType(Class<T> type) {
+        verifyProperInitialization();
+        Map<String,T> beansOfType = KNSServiceLocator.getBeansOfType(type);
+        beansOfType.putAll(new HashMap(applicationContext.getBeansOfType(type)));
+        return beansOfType;
+    }
     
+    @SuppressWarnings("unchecked")
+    private static <T> T getBean(Class<T> type, String name) {
+        verifyProperInitialization();
+        try {
+            return (T) applicationContext.getBean(name);
+        }
+        catch (NoSuchBeanDefinitionException nsbde) {
+            LOG.info("Could not find bean named " + name + " - checking KNS context");
+            try {
+                return KNSServiceLocator.getBean(type, name);
+            }
+            catch (Exception e) {
+                LOG.error(e);
+                throw new NoSuchBeanDefinitionException(name, new StringBuffer("No bean of this type and name in the in KFS or KNS application contexts: ").append(type.getName()).append(", ").append(name).toString());
+            }
+        }
+    }
+    
+    protected static List<MethodCacheInterceptor> getMethodCacheInterceptors() {
+        List<MethodCacheInterceptor> methodCacheInterceptors = new ArrayList();
+        methodCacheInterceptors.add(getBean(MethodCacheInterceptor.class));
+        methodCacheInterceptors.add(KNSServiceLocator.getBean(MethodCacheInterceptor.class));
+        return methodCacheInterceptors;
+    }
+        
     protected static Object getBean(String beanName) {
         return getBean(Object.class, beanName);
     }

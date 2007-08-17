@@ -29,6 +29,7 @@ import org.kuali.module.purap.document.PaymentRequestDocument;
 import org.kuali.module.purap.document.PurchaseOrderDocument;
 import org.kuali.module.purap.exceptions.PurError;
 import org.kuali.module.purap.service.PurapService;
+import org.kuali.module.purap.util.PurApItemUtils;
 import org.kuali.module.purap.util.PurApObjectUtils;
 
 
@@ -325,5 +326,41 @@ public class PaymentRequestItem extends AccountsPayableItemBase {
         // TODO Auto-generated method stub
         return PaymentRequestAccount.class;
     }
-
+    
+    public boolean isDisplayOnPreq() {
+        PurchaseOrderItem poi = getPurchaseOrderItem();
+        if(ObjectUtils.isNull(poi)) {
+            LOG.debug("poi was null");
+            return false;
+        }
+        
+        if(poi.isItemActiveIndicator()) {
+            LOG.debug("poi was not active: "+poi.toString());
+        }
+        
+        ItemType poiType = poi.getItemType();
+        
+        if(poiType.isQuantityBasedGeneralLedgerIndicator()) {
+            if(poi.getItemQuantity().isGreaterThan(poi.getItemInvoicedTotalQuantity())) {
+                return true;
+            } else {
+                if(ObjectUtils.isNotNull(this.getItemQuantity()) &&
+                   this.getItemQuantity().isGreaterThan(KualiDecimal.ZERO)) {
+                   return true; 
+                }
+            }
+            
+            return false;
+        } else { //not quantity based
+            if(poi.getItemOutstandingEncumberedAmount().isGreaterThan(KualiDecimal.ZERO)) {
+                return true;
+            } else {
+                if(PurApItemUtils.isNonZeroExtended(this)) {
+                    return true;
+                }
+                return false;
+            }
+            
+        }
+    }
 }

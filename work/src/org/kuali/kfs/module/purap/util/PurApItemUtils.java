@@ -18,6 +18,7 @@ package org.kuali.module.purap.util;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.module.purap.bo.PurchaseOrderItem;
 import org.kuali.module.purap.bo.PurchasingApItem;
@@ -41,6 +42,10 @@ public class PurApItemUtils {
             active = poi.isItemActiveIndicator();
         }
         return active;
+    }
+    
+    public static boolean isNonZeroExtended(PurchasingApItem item) {
+        return(ObjectUtils.isNotNull(item) && ObjectUtils.isNotNull(item.getExtendedPrice()) && !item.getExtendedPrice().isZero());
     }
     
     /**

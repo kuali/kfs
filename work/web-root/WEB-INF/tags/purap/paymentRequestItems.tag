@@ -50,8 +50,8 @@
 </c:if>
 
 <logic:iterate indexId="ctr" name="KualiForm" property="document.items" id="itemLine">
-
-	<c:if test="${itemLine.itemType.itemTypeAboveTheLineIndicator == true}">
+	
+	<c:if test="${(itemLine.itemType.itemTypeAboveTheLineIndicator == true) and (itemLine.displayOnPreq==true) and (fullEntryMode or itemLine.nonZeroAmount)}">
 		<c:set var="currentTabIndex" value="${KualiForm.currentTabIndex}" scope="request" />
 		<c:set var="topLevelTabIndex" value="${KualiForm.currentTabIndex}" scope="request" />
         <c:set var="tabKey" value="Item-${itemLine.itemDescription}"/>

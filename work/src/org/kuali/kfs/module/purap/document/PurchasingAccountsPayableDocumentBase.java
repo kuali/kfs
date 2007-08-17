@@ -936,4 +936,16 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
 
         return lineMap;
     }
+
+    /**
+     * @see org.kuali.kfs.document.AccountingDocumentBase#buildListOfDeletionAwareLists()
+     */
+    @Override
+    public List buildListOfDeletionAwareLists() {
+        List managedLists = super.buildListOfDeletionAwareLists();
+
+        managedLists.add(this.getItems());
+
+        return managedLists;
+    }
 }

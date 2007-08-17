@@ -59,11 +59,11 @@ import org.kuali.module.purap.document.AccountsPayableDocument;
 import org.kuali.module.purap.document.PaymentRequestDocument;
 import org.kuali.module.purap.document.PurchaseOrderDocument;
 import org.kuali.module.purap.document.PurchasingAccountsPayableDocument;
-import org.kuali.module.purap.exceptions.PurError;
 import org.kuali.module.purap.rule.CalculateAccountsPayableRule;
 import org.kuali.module.purap.rule.ContinueAccountsPayableRule;
 import org.kuali.module.purap.service.PaymentRequestService;
 import org.kuali.module.purap.service.PurapGeneralLedgerService;
+import org.kuali.module.purap.service.PurapService;
 import org.kuali.module.purap.service.PurchaseOrderService;
 
 public class PaymentRequestDocumentRule extends AccountsPayableDocumentRuleBase implements ContinueAccountsPayableRule, CalculateAccountsPayableRule {
@@ -95,7 +95,10 @@ public class PaymentRequestDocumentRule extends AccountsPayableDocumentRuleBase 
     public boolean processValidation(PurchasingAccountsPayableDocument purapDocument) {
         boolean valid = super.processValidation(purapDocument);
         valid &= processInvoiceValidation((PaymentRequestDocument)purapDocument);
-        valid &= processPurchaseOrderIDValidation((PaymentRequestDocument)purapDocument);
+        //TODO: this check is also in item checks below, we should consolidate these non full entry checks
+        if(!SpringContext.getBean(PurapService.class, "purapService").isFullDocumentEntryCompleted(purapDocument)) {
+            valid &= processPurchaseOrderIDValidation((PaymentRequestDocument)purapDocument);
+        }
         valid &= processPaymentRequestDateValidationForContinue((PaymentRequestDocument)purapDocument);
         valid &= validatePaymentRequestDates((PaymentRequestDocument)purapDocument);
         return valid;
@@ -369,10 +372,14 @@ public class PaymentRequestDocumentRule extends AccountsPayableDocumentRuleBase 
     
     public boolean validateItem(PaymentRequestDocument paymentRequestDocument, PaymentRequestItem item, String identifierString) {
         boolean valid = true;
-        if (item.getItemTypeCode().equals(PurapConstants.ItemTypeCodes.ITEM_TYPE_ITEM_CODE)) { 
-            valid &= validateItemTypeItems(item, identifierString); 
-        } 
-        valid &= validateItemWithoutAccounts(item, identifierString);
+        //only run item validations if before full entry
+        if(!SpringContext.getBean(PurapService.class, "purapService").isFullDocumentEntryCompleted(paymentRequestDocument)) {
+            if (item.getItemTypeCode().equals(PurapConstants.ItemTypeCodes.ITEM_TYPE_ITEM_CODE)) { 
+                valid &= validateItemTypeItems(item, identifierString); 
+            } 
+            valid &= validateItemWithoutAccounts(item, identifierString);
+        }
+        //always run account validations
         valid &= validateItemAccounts(paymentRequestDocument, item, identifierString);
         return valid;
     }
@@ -481,7 +488,7 @@ public class PaymentRequestDocumentRule extends AccountsPayableDocumentRuleBase 
         valid &= validatePaymentRequestReview(paymentRequest);
         return valid;
     }
-
+    //FIXME: ckirschenman refactor this also commenting out errors thrown (also I believe this shouldn't be called after AP_REVIEW confirm and add check)
     boolean validatePaymentRequestReview(PaymentRequestDocument paymentRequest) {
         boolean valid = true;
         paymentRequest.fixPreqItemReference();
@@ -530,17 +537,17 @@ public class PaymentRequestDocumentRule extends AccountsPayableDocumentRuleBase 
                           ( item.getPoOutstandingQuantity() == null || item.getPoOutstandingQuantity().isZero()))))) {
                 // ERROR because we have extended price and no open encumberance on the PO item
                 // this error should have been caught at an earlier level
-                if (item.getItemType().isQuantityBasedGeneralLedgerIndicator()) {
+                if (!item.getItemType().isQuantityBasedGeneralLedgerIndicator()) {
                     String error = "Payment Request " + paymentRequest.getPurapDocumentIdentifier() + ", " + identifier + " has extended price '" + item.getExtendedPrice() + "' but outstanding encumbered amount " + item.getPoOutstandingAmount();
                     LOG.error("validatePaymentRequestReview() " + error);
                     //TODO: I think here we should just display error instead of throwing PurError
-                    throw new PurError(error);
+//                    throw new PurError(error);
                 }
                 else {
-                    String error = "Payment Request " + paymentRequest.getPurapDocumentIdentifier() + ", " + identifier + " has extended price '" + item.getExtendedPrice() + "' but outstanding encumbered quantity " + item.getPoOutstandingQuantity();
+                    String error = "Payment Request " + paymentRequest.getPurapDocumentIdentifier() + ", " + identifier + " has quantity '" + item.getItemQuantity() + "' but outstanding encumbered quantity " + item.getPoOutstandingQuantity();
                     LOG.error("validatePaymentRequestReview() " + error);
                     //TODO: I think here we should just display error instead of throwing PurError
-                    throw new PurError(error);
+//                    throw new PurError(error);
                 }
             }
             else {

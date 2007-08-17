@@ -16,6 +16,7 @@
 package org.kuali.module.budget.dao;
 
 import java.util.Collection;
+import java.util.List;
 
 import org.kuali.module.budget.bo.BudgetConstructionFundingLock;
 import org.kuali.module.budget.bo.BudgetConstructionHeader;
@@ -112,5 +113,16 @@ public interface BudgetConstructionDao {
      * @param personUserIdentifier
      */
     public void deleteBudgetConstructionPullupByUserId (String personUserIdentifier);
+    
+    /**
+     * This returns a list of BudgetConstructionPullup objects (organizations) that are children
+     * to the passed in organization for the user
+     * 
+     * @param personUniversalIdentifier
+     * @param chartOfAccountsCode
+     * @param organizationCode
+     * @return
+     */
+    public List getBudgetConstructionPullupChildOrgs (String personUniversalIdentifier, String chartOfAccountsCode, String organizationCode);
 
 }

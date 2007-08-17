@@ -15,11 +15,15 @@
  */
 package org.kuali.module.budget.dao.ojb;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Iterator;
+import java.util.List;
 
 import org.apache.ojb.broker.PersistenceBroker;
 import org.apache.ojb.broker.query.Criteria;
+import org.apache.ojb.broker.query.QueryByCriteria;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
 import org.kuali.core.dao.ojb.PlatformAwareDaoBaseOjb;
@@ -200,6 +204,34 @@ public class BudgetConstructionDaoOjb extends PlatformAwareDaoBaseOjb implements
         criteria.addEqualTo("personUniversalIdentifier", personUserIdentifier);
         getPersistenceBrokerTemplate().deleteByQuery(QueryFactory.newQuery(BudgetConstructionPullup.class, criteria));
         
+    }
+
+    /**
+     * @see org.kuali.module.budget.dao.BudgetConstructionDao#getBcPullupChildOrgs(java.lang.String, java.lang.String, java.lang.String)
+     */
+    public List getBudgetConstructionPullupChildOrgs(String personUniversalIdentifier, String chartOfAccountsCode, String organizationCode) {
+        List orgs = new ArrayList();
+
+        Criteria cycleCheckCriteria = new Criteria();
+        cycleCheckCriteria.addEqualToField("chartOfAccountsCode", "reportsToChartOfAccountsCode");
+        cycleCheckCriteria.addEqualToField("organizationCode", "reportsToOrganizationCode");
+        cycleCheckCriteria.setEmbraced(true);
+        cycleCheckCriteria.setNegative(true);
+
+        Criteria criteria = new Criteria();
+        criteria.addEqualTo("reportsToChartOfAccountsCode", chartOfAccountsCode);
+        criteria.addEqualTo("reportsToOrganizationCode", organizationCode);
+        criteria.addAndCriteria(cycleCheckCriteria);
+        
+        QueryByCriteria query = QueryFactory.newQuery(BudgetConstructionPullup.class, criteria);
+        query.addOrderByAscending("organization.organizationName");
+
+        orgs = (List) getPersistenceBrokerTemplate().getCollectionByQuery(query);
+
+        if (orgs.isEmpty() || orgs.size() == 0) {
+            return Collections.EMPTY_LIST;
+        }
+        return orgs;
     }
 
 }

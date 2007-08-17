@@ -533,7 +533,7 @@ public ActionForward close(ActionMapping mapping, ActionForm form, HttpServletRe
         BudgetConstructionForm budgetConstructionForm = (BudgetConstructionForm) form;
         
         // Do specific refresh stuff here based on refreshCaller parameter
-        // typical refresh callers would be monthlyBudget or salarySetting or kualiLookupable
+        // typical refresh callers would be monthlyBudget or salarySetting or lookupable
         // need to look at optmistic locking problems since we will be storing the values in the form before hand
         // this locking problem may workout if we store first then put the form in session
         String refreshCaller = request.getParameter(KFSConstants.REFRESH_CALLER);

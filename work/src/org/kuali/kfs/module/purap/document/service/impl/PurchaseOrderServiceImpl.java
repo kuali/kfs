@@ -601,9 +601,8 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
         String docType;
         docType = (String) PurapConstants.PURCHASE_ORDER_DOC_TYPE_MAP.get(docTypeId);
         if (StringUtils.isNotEmpty(docType)) {
-            popp = (PurchaseOrderPostProcessorService) SpringContext.getBean(PurchaseOrderPostProcessorServiceBase.class, docType);
+            popp = (PurchaseOrderPostProcessorService) SpringContext.getBeansOfType(PurchaseOrderPostProcessorServiceBase.class).get(docType);
         }
-
         return popp;
     }
 
@@ -617,6 +616,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
             po.setPurchaseOrderInitialOpenDate(dateTimeService.getCurrentSqlDate());
         }
         this.saveDocumentWithoutValidation(po);
+        
     }
     
     public void setupDocumentForPendingFirstTransmission(PurchaseOrderDocument po, boolean hasActionRequestForDocumentTransmission) {
@@ -677,7 +677,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
             if (StringUtils.equals(oldestDocumentNumber, po.getDocumentNumber())) {
                 //manually set bo notes - this is mainly done for performance reasons (preferably we could call
                 //retrieve doc notes in PersistableBusinessObjectBase but that is private)
-                po.setBoNotes(SpringContext.getBean(NoteService.class, "noteService").getByRemoteObjectId(po.getObjectId()));
+                po.setBoNotes(SpringContext.getBean(NoteService.class).getByRemoteObjectId(po.getObjectId()));
                 LOG.debug("exiting getOldestPO(PurchaseOrderDocument)");
                 return po;
             }

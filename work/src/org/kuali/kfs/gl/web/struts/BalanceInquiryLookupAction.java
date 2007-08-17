@@ -112,9 +112,9 @@ public class BalanceInquiryLookupAction extends KualiMultipleValueLookupAction {
      */
     public ActionForward search(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         BalanceInquiryLookupForm lookupForm = (BalanceInquiryLookupForm) form;
-        Lookupable kualiLookupable = lookupForm.getLookupable();
+        Lookupable lookupable = lookupForm.getLookupable();
 
-        if (kualiLookupable == null) {
+        if (lookupable == null) {
             LOG.error("Lookupable is null.");
             throw new RuntimeException("Lookupable is null.");
         }
@@ -125,15 +125,15 @@ public class BalanceInquiryLookupAction extends KualiMultipleValueLookupAction {
         Long totalSize; 
         boolean bounded = true;
 
-        kualiLookupable.validateSearchParameters(lookupForm.getFields());
+        lookupable.validateSearchParameters(lookupForm.getFields());
 
         displayList = performMultipleValueLookup(lookupForm, resultTable, getMaxRowsPerPage(lookupForm), bounded);
         incompleteDisplayList = (CollectionIncomplete) displayList;
         totalSize = incompleteDisplayList.getActualSizeIfTruncated();
 
-        if (kualiLookupable.isSearchUsingOnlyPrimaryKeyValues()) {
+        if (lookupable.isSearchUsingOnlyPrimaryKeyValues()) {
             lookupForm.setSearchUsingOnlyPrimaryKeyValues(true);
-            lookupForm.setPrimaryKeyFieldLabels(kualiLookupable.getPrimaryKeyFieldLabels());
+            lookupForm.setPrimaryKeyFieldLabels(lookupable.getPrimaryKeyFieldLabels());
         }
         else {
             lookupForm.setSearchUsingOnlyPrimaryKeyValues(false);
@@ -142,7 +142,7 @@ public class BalanceInquiryLookupAction extends KualiMultipleValueLookupAction {
         
 
         // TODO: use inheritance instead of this if statement
-        if (kualiLookupable.getLookupableHelperService() instanceof AccountBalanceByConsolidationLookupableHelperServiceImpl) {
+        if (lookupable.getLookupableHelperService() instanceof AccountBalanceByConsolidationLookupableHelperServiceImpl) {
             Object[] resultTableAsArray = resultTable.toArray();
             Collection totalsTable = new ArrayList();
             
@@ -326,7 +326,7 @@ public class BalanceInquiryLookupAction extends KualiMultipleValueLookupAction {
         String lookupResultsSequenceNumber = String.valueOf(sequenceAccessorService.getNextAvailableSequenceNumber(KFSConstants.LOOKUP_RESULTS_SEQUENCE));
         multipleValueLookupForm.setLookupResultsSequenceNumber(lookupResultsSequenceNumber);
         try {
-            LookupResultsService lookupResultsService = SpringContext.getBean(LookupResultsService.class, "lookupResultsService");
+            LookupResultsService lookupResultsService = SpringContext.getBean(LookupResultsService.class);
             lookupResultsService.persistResultsTable(lookupResultsSequenceNumber, resultTable,
                     GlobalVariables.getUserSession().getUniversalUser().getPersonUniversalIdentifier());
         }

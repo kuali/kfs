@@ -53,8 +53,8 @@ public class BudgetDocumentRuleTest extends KualiTestBase {
 
     public void testValidPeriods() throws Exception {
         BudgetPeriod period1 = new BudgetPeriod();
-        period1.setBudgetPeriodBeginDate(SpringContext.getBean(DateTimeService.class, "dateTimeService").convertToSqlDate("2006-01-01"));
-        period1.setBudgetPeriodEndDate(SpringContext.getBean(DateTimeService.class, "dateTimeService").convertToSqlDate("2006-12-31"));
+        period1.setBudgetPeriodBeginDate(SpringContext.getBean(DateTimeService.class).convertToSqlDate("2006-01-01"));
+        period1.setBudgetPeriodEndDate(SpringContext.getBean(DateTimeService.class).convertToSqlDate("2006-12-31"));
 
         budgetDocumentRule.isPeriodValid(period1, "period 1", new Integer(1));
 
@@ -62,8 +62,8 @@ public class BudgetDocumentRuleTest extends KualiTestBase {
         assertTrue(errorMap.isEmpty());
 
         BudgetPeriod period2 = new BudgetPeriod();
-        period2.setBudgetPeriodBeginDate(SpringContext.getBean(DateTimeService.class, "dateTimeService").convertToSqlDate("2006-07-01"));
-        period2.setBudgetPeriodEndDate(SpringContext.getBean(DateTimeService.class, "dateTimeService").convertToSqlDate("2007-06-30"));
+        period2.setBudgetPeriodBeginDate(SpringContext.getBean(DateTimeService.class).convertToSqlDate("2006-07-01"));
+        period2.setBudgetPeriodEndDate(SpringContext.getBean(DateTimeService.class).convertToSqlDate("2007-06-30"));
 
         budgetDocumentRule.isPeriodValid(period2, "period 2", new Integer(1));
 
@@ -73,8 +73,8 @@ public class BudgetDocumentRuleTest extends KualiTestBase {
 
     public void testValidPeriodLeapYear() throws Exception {
         BudgetPeriod period1 = new BudgetPeriod();
-        period1.setBudgetPeriodBeginDate(SpringContext.getBean(DateTimeService.class, "dateTimeService").convertToSqlDate("2008-01-01"));
-        period1.setBudgetPeriodEndDate(SpringContext.getBean(DateTimeService.class, "dateTimeService").convertToSqlDate("2008-12-31"));
+        period1.setBudgetPeriodBeginDate(SpringContext.getBean(DateTimeService.class).convertToSqlDate("2008-01-01"));
+        period1.setBudgetPeriodEndDate(SpringContext.getBean(DateTimeService.class).convertToSqlDate("2008-12-31"));
 
         budgetDocumentRule.isPeriodValid(period1, "period 1", new Integer(1));
 
@@ -82,8 +82,8 @@ public class BudgetDocumentRuleTest extends KualiTestBase {
         assertTrue(errorMap.isEmpty());
 
         BudgetPeriod period2 = new BudgetPeriod();
-        period2.setBudgetPeriodBeginDate(SpringContext.getBean(DateTimeService.class, "dateTimeService").convertToSqlDate("2008-02-28"));
-        period2.setBudgetPeriodEndDate(SpringContext.getBean(DateTimeService.class, "dateTimeService").convertToSqlDate("2009-02-27"));
+        period2.setBudgetPeriodBeginDate(SpringContext.getBean(DateTimeService.class).convertToSqlDate("2008-02-28"));
+        period2.setBudgetPeriodEndDate(SpringContext.getBean(DateTimeService.class).convertToSqlDate("2009-02-27"));
 
         budgetDocumentRule.isPeriodValid(period2, "period 2", new Integer(1));
 
@@ -91,8 +91,8 @@ public class BudgetDocumentRuleTest extends KualiTestBase {
         assertTrue(errorMap.isEmpty());
 
         BudgetPeriod period3 = new BudgetPeriod();
-        period3.setBudgetPeriodBeginDate(SpringContext.getBean(DateTimeService.class, "dateTimeService").convertToSqlDate("2007-03-31"));
-        period3.setBudgetPeriodEndDate(SpringContext.getBean(DateTimeService.class, "dateTimeService").convertToSqlDate("2008-02-29"));
+        period3.setBudgetPeriodBeginDate(SpringContext.getBean(DateTimeService.class).convertToSqlDate("2007-03-31"));
+        period3.setBudgetPeriodEndDate(SpringContext.getBean(DateTimeService.class).convertToSqlDate("2008-02-29"));
 
         budgetDocumentRule.isPeriodValid(period3, "period 3", new Integer(1));
 
@@ -102,8 +102,8 @@ public class BudgetDocumentRuleTest extends KualiTestBase {
 
     public void testInvalidPeriodStartAfterEnd() throws Exception {
         BudgetPeriod period1 = new BudgetPeriod();
-        period1.setBudgetPeriodBeginDate(SpringContext.getBean(DateTimeService.class, "dateTimeService").convertToSqlDate("2009-01-01"));
-        period1.setBudgetPeriodEndDate(SpringContext.getBean(DateTimeService.class, "dateTimeService").convertToSqlDate("2008-12-31"));
+        period1.setBudgetPeriodBeginDate(SpringContext.getBean(DateTimeService.class).convertToSqlDate("2009-01-01"));
+        period1.setBudgetPeriodEndDate(SpringContext.getBean(DateTimeService.class).convertToSqlDate("2008-12-31"));
 
         budgetDocumentRule.isPeriodValid(period1, "period 1", new Integer(1));
 
@@ -113,8 +113,8 @@ public class BudgetDocumentRuleTest extends KualiTestBase {
 
     public void testInvalidPeriodLength() throws Exception {
         BudgetPeriod period1 = new BudgetPeriod();
-        period1.setBudgetPeriodBeginDate(SpringContext.getBean(DateTimeService.class, "dateTimeService").convertToSqlDate("2007-01-01"));
-        period1.setBudgetPeriodEndDate(SpringContext.getBean(DateTimeService.class, "dateTimeService").convertToSqlDate("2008-12-31"));
+        period1.setBudgetPeriodBeginDate(SpringContext.getBean(DateTimeService.class).convertToSqlDate("2007-01-01"));
+        period1.setBudgetPeriodEndDate(SpringContext.getBean(DateTimeService.class).convertToSqlDate("2008-12-31"));
 
         budgetDocumentRule.isPeriodValid(period1, "period 1", new Integer(1));
 
@@ -126,24 +126,24 @@ public class BudgetDocumentRuleTest extends KualiTestBase {
         List periodList = new ArrayList();
 
         BudgetPeriod period1 = new BudgetPeriod();
-        period1.setBudgetPeriodBeginDate(SpringContext.getBean(DateTimeService.class, "dateTimeService").convertToSqlDate("2008-01-01"));
-        period1.setBudgetPeriodEndDate(SpringContext.getBean(DateTimeService.class, "dateTimeService").convertToSqlDate("2008-12-31"));
+        period1.setBudgetPeriodBeginDate(SpringContext.getBean(DateTimeService.class).convertToSqlDate("2008-01-01"));
+        period1.setBudgetPeriodEndDate(SpringContext.getBean(DateTimeService.class).convertToSqlDate("2008-12-31"));
 
         BudgetPeriod period2 = new BudgetPeriod();
-        period2.setBudgetPeriodBeginDate(SpringContext.getBean(DateTimeService.class, "dateTimeService").convertToSqlDate("2009-01-01"));
-        period2.setBudgetPeriodEndDate(SpringContext.getBean(DateTimeService.class, "dateTimeService").convertToSqlDate("2009-12-31"));
+        period2.setBudgetPeriodBeginDate(SpringContext.getBean(DateTimeService.class).convertToSqlDate("2009-01-01"));
+        period2.setBudgetPeriodEndDate(SpringContext.getBean(DateTimeService.class).convertToSqlDate("2009-12-31"));
 
         BudgetPeriod period3 = new BudgetPeriod();
-        period3.setBudgetPeriodBeginDate(SpringContext.getBean(DateTimeService.class, "dateTimeService").convertToSqlDate("2010-01-01"));
-        period3.setBudgetPeriodEndDate(SpringContext.getBean(DateTimeService.class, "dateTimeService").convertToSqlDate("2010-12-31"));
+        period3.setBudgetPeriodBeginDate(SpringContext.getBean(DateTimeService.class).convertToSqlDate("2010-01-01"));
+        period3.setBudgetPeriodEndDate(SpringContext.getBean(DateTimeService.class).convertToSqlDate("2010-12-31"));
 
         BudgetPeriod period4 = new BudgetPeriod();
-        period4.setBudgetPeriodBeginDate(SpringContext.getBean(DateTimeService.class, "dateTimeService").convertToSqlDate("2011-01-01"));
-        period4.setBudgetPeriodEndDate(SpringContext.getBean(DateTimeService.class, "dateTimeService").convertToSqlDate("2011-12-31"));
+        period4.setBudgetPeriodBeginDate(SpringContext.getBean(DateTimeService.class).convertToSqlDate("2011-01-01"));
+        period4.setBudgetPeriodEndDate(SpringContext.getBean(DateTimeService.class).convertToSqlDate("2011-12-31"));
 
         BudgetPeriod period5 = new BudgetPeriod();
-        period5.setBudgetPeriodBeginDate(SpringContext.getBean(DateTimeService.class, "dateTimeService").convertToSqlDate("2012-01-01"));
-        period5.setBudgetPeriodEndDate(SpringContext.getBean(DateTimeService.class, "dateTimeService").convertToSqlDate("2012-11-26"));
+        period5.setBudgetPeriodBeginDate(SpringContext.getBean(DateTimeService.class).convertToSqlDate("2012-01-01"));
+        period5.setBudgetPeriodEndDate(SpringContext.getBean(DateTimeService.class).convertToSqlDate("2012-11-26"));
 
         periodList.add(period1);
         periodList.add(period2);
@@ -162,28 +162,28 @@ public class BudgetDocumentRuleTest extends KualiTestBase {
 
         BudgetPeriod period1 = new BudgetPeriod();
         period1.setBudgetPeriodSequenceNumber(new Integer(1));
-        period1.setBudgetPeriodBeginDate(SpringContext.getBean(DateTimeService.class, "dateTimeService").convertToSqlDate("2008-01-01"));
-        period1.setBudgetPeriodEndDate(SpringContext.getBean(DateTimeService.class, "dateTimeService").convertToSqlDate("2008-12-31"));
+        period1.setBudgetPeriodBeginDate(SpringContext.getBean(DateTimeService.class).convertToSqlDate("2008-01-01"));
+        period1.setBudgetPeriodEndDate(SpringContext.getBean(DateTimeService.class).convertToSqlDate("2008-12-31"));
 
         BudgetPeriod period2 = new BudgetPeriod();
         period2.setBudgetPeriodSequenceNumber(new Integer(2));
-        period2.setBudgetPeriodBeginDate(SpringContext.getBean(DateTimeService.class, "dateTimeService").convertToSqlDate("2009-01-02"));
-        period2.setBudgetPeriodEndDate(SpringContext.getBean(DateTimeService.class, "dateTimeService").convertToSqlDate("2010-01-01"));
+        period2.setBudgetPeriodBeginDate(SpringContext.getBean(DateTimeService.class).convertToSqlDate("2009-01-02"));
+        period2.setBudgetPeriodEndDate(SpringContext.getBean(DateTimeService.class).convertToSqlDate("2010-01-01"));
 
         BudgetPeriod period3 = new BudgetPeriod();
         period3.setBudgetPeriodSequenceNumber(new Integer(3));
-        period3.setBudgetPeriodBeginDate(SpringContext.getBean(DateTimeService.class, "dateTimeService").convertToSqlDate("2010-02-06"));
-        period3.setBudgetPeriodEndDate(SpringContext.getBean(DateTimeService.class, "dateTimeService").convertToSqlDate("2010-12-31"));
+        period3.setBudgetPeriodBeginDate(SpringContext.getBean(DateTimeService.class).convertToSqlDate("2010-02-06"));
+        period3.setBudgetPeriodEndDate(SpringContext.getBean(DateTimeService.class).convertToSqlDate("2010-12-31"));
 
         BudgetPeriod period4 = new BudgetPeriod();
         period4.setBudgetPeriodSequenceNumber(new Integer(4));
-        period4.setBudgetPeriodBeginDate(SpringContext.getBean(DateTimeService.class, "dateTimeService").convertToSqlDate("2010-12-01"));
-        period4.setBudgetPeriodEndDate(SpringContext.getBean(DateTimeService.class, "dateTimeService").convertToSqlDate("2011-11-30"));
+        period4.setBudgetPeriodBeginDate(SpringContext.getBean(DateTimeService.class).convertToSqlDate("2010-12-01"));
+        period4.setBudgetPeriodEndDate(SpringContext.getBean(DateTimeService.class).convertToSqlDate("2011-11-30"));
 
         BudgetPeriod period5 = new BudgetPeriod();
         period5.setBudgetPeriodSequenceNumber(new Integer(5));
-        period5.setBudgetPeriodBeginDate(SpringContext.getBean(DateTimeService.class, "dateTimeService").convertToSqlDate("2012-01-01"));
-        period5.setBudgetPeriodEndDate(SpringContext.getBean(DateTimeService.class, "dateTimeService").convertToSqlDate("2012-11-26"));
+        period5.setBudgetPeriodBeginDate(SpringContext.getBean(DateTimeService.class).convertToSqlDate("2012-01-01"));
+        period5.setBudgetPeriodEndDate(SpringContext.getBean(DateTimeService.class).convertToSqlDate("2012-11-26"));
 
         periodList.add(period1);
         periodList.add(period2);

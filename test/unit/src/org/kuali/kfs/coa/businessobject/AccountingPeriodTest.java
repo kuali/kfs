@@ -41,7 +41,7 @@ public class AccountingPeriodTest extends KualiTestBase {
     @Override
     protected void setUp() throws Exception {
         super.setUp();
-        univFiscPerdEndDate = new java.sql.Date(SpringContext.getBean(DateTimeService.class, "dateTimeService").getCurrentDate().getTime());
+        univFiscPerdEndDate = new java.sql.Date(SpringContext.getBean(DateTimeService.class).getCurrentDate().getTime());
         ap = new AccountingPeriod();
         ap.setBudgetRolloverIndicator(BUDGET_ROLLOVER_IND);
         ap.setObjectId(GUID);

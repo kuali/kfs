@@ -183,7 +183,7 @@ public class RoutingFormDocument extends ResearchDocumentBase {
 	}
 
     public void initialize() {
-        this.setRoutingFormCreateDate(SpringContext.getBean(DateTimeService.class, "dateTimeService").getCurrentSqlDate());
+        this.setRoutingFormCreateDate(SpringContext.getBean(DateTimeService.class).getCurrentSqlDate());
         
         SpringContext.getBean(RoutingFormMainPageService.class).setupMainPageMaintainables(this);
     }
@@ -1846,7 +1846,7 @@ public class RoutingFormDocument extends ResearchDocumentBase {
         DocumentInitiator initiator = new DocumentInitiator();
         String initiatorNetworkId = documentHeader.getWorkflowDocument().getInitiatorNetworkId();
         try {
-            UniversalUser initiatorUser = SpringContext.getBean(UniversalUserService.class, "universalUserService").getUniversalUser(new AuthenticationUserId(initiatorNetworkId));
+            UniversalUser initiatorUser = SpringContext.getBean(UniversalUserService.class).getUniversalUser(new AuthenticationUserId(initiatorNetworkId));
             initiator.setUniversalUser(initiatorUser);
         }
         catch (UserNotFoundException e) {

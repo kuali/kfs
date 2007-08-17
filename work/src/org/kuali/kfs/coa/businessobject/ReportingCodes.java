@@ -157,7 +157,7 @@ public class ReportingCodes extends PersistableBusinessObjectBase {
     }
 
     public UniversalUser getUniversalUser() {
-        universalUser = SpringContext.getBean(UniversalUserService.class, "universalUserService").updateUniversalUserIfNecessary(financialReportingCodeMgrId, universalUser);
+        universalUser = SpringContext.getBean(UniversalUserService.class).updateUniversalUserIfNecessary(financialReportingCodeMgrId, universalUser);
         return universalUser;
     }
 

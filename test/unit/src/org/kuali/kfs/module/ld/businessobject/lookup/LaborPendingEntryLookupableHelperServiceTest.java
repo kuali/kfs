@@ -66,10 +66,10 @@ public class LaborPendingEntryLookupableHelperServiceTest extends KualiTestBase 
 
         messageFileName = "test/src/org/kuali/module/labor/web/testdata/message.properties";
         propertiesFileName = "test/src/org/kuali/module/labor/web/testdata/laborLedgerPendingEntry.properties";
-        date = SpringContext.getBean(DateTimeService.class, "dateTimeService").getCurrentDate();
+        date = SpringContext.getBean(DateTimeService.class).getCurrentDate();
         pendingEntry = new LaborLedgerPendingEntry();
         testDataGenerator = new TestDataGenerator(propertiesFileName, messageFileName);
-        lookupableHelperServiceImpl = SpringContext.getBean(LaborPendingEntryLookupableHelperServiceImpl.class, "laborPendingEntryLookupableHelperService");
+        lookupableHelperServiceImpl = (LaborPendingEntryLookupableHelperServiceImpl)SpringContext.getLookupableHelperService("laborPendingEntryLookupableHelperService");
         setPendingEntryService(SpringContext.getBean(LaborLedgerPendingEntryService.class));
     }
 

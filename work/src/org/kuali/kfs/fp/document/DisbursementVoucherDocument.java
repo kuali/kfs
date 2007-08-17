@@ -891,7 +891,7 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
         setCampusCode(((ChartUser)currentUser.getModuleUser( ChartUser.MODULE_ID )).getOrganization().getOrganizationPhysicalCampusCode());
 
         // due date
-        Calendar calendar = SpringContext.getBean(DateTimeService.class, "dateTimeService").getCurrentCalendar();
+        Calendar calendar = SpringContext.getBean(DateTimeService.class).getCurrentCalendar();
         calendar.add(Calendar.DAY_OF_MONTH, 1);
         setDisbursementVoucherDueDate(new Date(calendar.getTimeInMillis()));
 

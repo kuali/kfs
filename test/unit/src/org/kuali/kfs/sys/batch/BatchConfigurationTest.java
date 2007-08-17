@@ -16,12 +16,11 @@
 package org.kuali.kfs.batch;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
-import java.util.Map;
 
 import org.kuali.core.KualiModule;
 import org.kuali.core.service.KualiModuleService;
-import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.context.KualiTestBase;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.test.ConfigureContext;
@@ -34,9 +33,9 @@ import org.springframework.beans.factory.NoSuchBeanDefinitionException;
 public class BatchConfigurationTest extends KualiTestBase {
     private List<KualiModule> modules;
     private List<String> kfsJobNames;
-    private List<JobDescriptor> jobDescriptors;
+    private Collection<JobDescriptor> jobDescriptors;
     private List<String> kfsTriggerNames;
-    private List<TriggerDescriptor> triggerDescriptors;
+    private Collection<TriggerDescriptor> triggerDescriptors;
 
     /**
      * @see junit.framework.TestCase#setUp()
@@ -45,10 +44,10 @@ public class BatchConfigurationTest extends KualiTestBase {
     protected void setUp() throws Exception {
         super.setUp();
         modules = SpringContext.getBean(KualiModuleService.class).getInstalledModules();
-        kfsJobNames = (List<String>)SpringContext.getBean(Map.class, KFSConstants.KFS_BATCH_COMPONENTS_BEAN_NAME).get(JobDescriptor.class.getName());
-        jobDescriptors = SpringContext.getBeansOfType(JobDescriptor.class);
-        kfsTriggerNames = (List<String>)SpringContext.getBean(Map.class, KFSConstants.KFS_BATCH_COMPONENTS_BEAN_NAME).get(TriggerDescriptor.class.getName());
-        triggerDescriptors = SpringContext.getBeansOfType(TriggerDescriptor.class);
+        kfsJobNames = (List<String>)SpringContext.getKfsBatchComponents().get(JobDescriptor.class.getName());
+        jobDescriptors = SpringContext.getBeansOfType(JobDescriptor.class).values();
+        kfsTriggerNames = (List<String>)SpringContext.getKfsBatchComponents().get(TriggerDescriptor.class.getName());
+        triggerDescriptors = SpringContext.getBeansOfType(TriggerDescriptor.class).values();
     }
 
     /**
@@ -59,7 +58,7 @@ public class BatchConfigurationTest extends KualiTestBase {
         StringBuffer errorMessage = new StringBuffer("The following registered job names do not correspond to JobDescriptor beans:");
         for (String jobName : kfsJobNames) {
             try {
-                SpringContext.getBean(JobDescriptor.class, jobName);
+                SpringContext.getJobDescriptor(jobName);
             }
             catch (NoSuchBeanDefinitionException e) {
                 nonExistentJobNames.add(jobName);
@@ -69,7 +68,7 @@ public class BatchConfigurationTest extends KualiTestBase {
         for (KualiModule module : modules) {
             for (String jobName : module.getJobNames()) {
                 try {
-                    SpringContext.getBean(JobDescriptor.class, jobName);
+                    SpringContext.getJobDescriptor(jobName);
                 }
                 catch (NoSuchBeanDefinitionException e) {
                     nonExistentJobNames.add(jobName);
@@ -88,7 +87,7 @@ public class BatchConfigurationTest extends KualiTestBase {
         StringBuffer errorMessage = new StringBuffer("The following registered trigger names do not correspond to TriggerDescriptor beans:");
         for (String triggerName : kfsTriggerNames) {
             try {
-                SpringContext.getBean(TriggerDescriptor.class, triggerName);
+                SpringContext.getTriggerDescriptor(triggerName);
             }
             catch (NoSuchBeanDefinitionException e) {
                 nonExistentTriggerNames.add(triggerName);
@@ -98,7 +97,7 @@ public class BatchConfigurationTest extends KualiTestBase {
         for (KualiModule module : modules) {
             for (String triggerName : module.getTriggerNames()) {
                 try {
-                    SpringContext.getBean(TriggerDescriptor.class, triggerName);
+                    SpringContext.getTriggerDescriptor(triggerName);
                 }
                 catch (NoSuchBeanDefinitionException e) {
                     nonExistentTriggerNames.add(triggerName);
@@ -115,7 +114,7 @@ public class BatchConfigurationTest extends KualiTestBase {
     public final void testJobsRegistered() throws Exception {
         List<String> unregisteredJobNames = new ArrayList();
         StringBuffer errorMessage = new StringBuffer("The following JobDescriptor beans are not registered with KFS as a whole or any module:");
-        for (JobDescriptor jobDescriptor : SpringContext.getBeansOfType(JobDescriptor.class)) {
+        for (JobDescriptor jobDescriptor : SpringContext.getBeansOfType(JobDescriptor.class).values()) {
             boolean isRegistered = kfsJobNames.contains(jobDescriptor.getJobDetail().getName());
             if (!isRegistered) {
                 for (KualiModule module : modules) {
@@ -139,7 +138,7 @@ public class BatchConfigurationTest extends KualiTestBase {
     public final void testTriggersRegistered() throws Exception {
         List<String> unregisteredTriggerNames = new ArrayList();
         StringBuffer errorMessage = new StringBuffer("The following TriggerDescriptor beans are not registered with KFS as a whole or any module:");
-        for (TriggerDescriptor triggerDescriptor : SpringContext.getBeansOfType(TriggerDescriptor.class)) {
+        for (TriggerDescriptor triggerDescriptor : SpringContext.getBeansOfType(TriggerDescriptor.class).values()) {
             boolean isRegistered = kfsTriggerNames.contains(triggerDescriptor.getTrigger().getName());
             if (!isRegistered) {
                 for (KualiModule module : modules) {
@@ -163,10 +162,10 @@ public class BatchConfigurationTest extends KualiTestBase {
     public final void testDependenciesExist() throws Exception {
         List<String> nonExistentDependencies = new ArrayList();
         StringBuffer errorMessage = new StringBuffer("The following dependencies do not refer to JobDescriptor beans:");
-        for (JobDescriptor jobDescriptor : SpringContext.getBeansOfType(JobDescriptor.class)) {
+        for (JobDescriptor jobDescriptor : SpringContext.getBeansOfType(JobDescriptor.class).values()) {
             for (String dependencyJobName : jobDescriptor.getDependencies().keySet()) {
                 try {
-                    SpringContext.getBean(JobDescriptor.class, dependencyJobName);
+                    SpringContext.getJobDescriptor(dependencyJobName);
                 }
                 catch(NoSuchBeanDefinitionException e) {
                     nonExistentDependencies.add(dependencyJobName);

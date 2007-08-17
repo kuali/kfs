@@ -389,7 +389,7 @@ public class PriorYearAccount extends PersistableBusinessObjectBase implements A
             return false;
         }
 
-        return this.isExpired(SpringContext.getBean(DateTimeService.class, "dateTimeService").getCurrentCalendar());
+        return this.isExpired(SpringContext.getBean(DateTimeService.class).getCurrentCalendar());
     }
 
     /**
@@ -1083,7 +1083,7 @@ public class PriorYearAccount extends PersistableBusinessObjectBase implements A
     }
 
     public UniversalUser getAccountFiscalOfficerUser() {
-        accountFiscalOfficerUser = SpringContext.getBean(UniversalUserService.class, "universalUserService").updateUniversalUserIfNecessary(accountFiscalOfficerSystemIdentifier, accountFiscalOfficerUser);
+        accountFiscalOfficerUser = SpringContext.getBean(UniversalUserService.class).updateUniversalUserIfNecessary(accountFiscalOfficerSystemIdentifier, accountFiscalOfficerUser);
         return accountFiscalOfficerUser;
     }
 
@@ -1097,7 +1097,7 @@ public class PriorYearAccount extends PersistableBusinessObjectBase implements A
     }
 
     public UniversalUser getAccountManagerUser() {
-        accountManagerUser = SpringContext.getBean(UniversalUserService.class, "universalUserService").updateUniversalUserIfNecessary(accountManagerSystemIdentifier, accountManagerUser);
+        accountManagerUser = SpringContext.getBean(UniversalUserService.class).updateUniversalUserIfNecessary(accountManagerSystemIdentifier, accountManagerUser);
         return accountManagerUser;
     }
 
@@ -1111,7 +1111,7 @@ public class PriorYearAccount extends PersistableBusinessObjectBase implements A
 
 
     public UniversalUser getAccountSupervisoryUser() {
-        accountSupervisoryUser = SpringContext.getBean(UniversalUserService.class, "universalUserService").updateUniversalUserIfNecessary(accountsSupervisorySystemsIdentifier, accountSupervisoryUser);
+        accountSupervisoryUser = SpringContext.getBean(UniversalUserService.class).updateUniversalUserIfNecessary(accountsSupervisorySystemsIdentifier, accountSupervisoryUser);
         return accountSupervisoryUser;
     }
 

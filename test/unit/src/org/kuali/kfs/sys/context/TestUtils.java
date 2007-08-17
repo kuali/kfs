@@ -19,6 +19,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.Method;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
@@ -186,22 +187,21 @@ public class TestUtils {
     }
     
     public static boolean methodIsCached(Method method, Object[] arguments) {
-        List<MethodCacheInterceptor> methodCacheInterceptors = SpringContext.getBeansOfType(MethodCacheInterceptor.class);
-        String cacheKey = methodCacheInterceptors.get(0).buildCacheKey(method.toString(), arguments);
-        return methodCacheInterceptors.get(0).containsCacheKey(cacheKey) || methodCacheInterceptors.get(1).containsCacheKey(cacheKey);
+        for (MethodCacheInterceptor methodCacheInterceptor : SpringContext.getMethodCacheInterceptors()) {
+            if (methodCacheInterceptor.containsCacheKey(methodCacheInterceptor.buildCacheKey(method.toString(), arguments))) {
+                return true;
+            }
+        }
+        return false;
     }
     
     public static void removeCachedMethod(Method method, Object[] arguments) {
-        List<MethodCacheInterceptor> methodCacheInterceptors = SpringContext.getBeansOfType(MethodCacheInterceptor.class);
-        String cacheKey = methodCacheInterceptors.get(0).buildCacheKey(method.toString(), arguments);
-        if (methodCacheInterceptors.get(0).containsCacheKey(cacheKey)) {
-            methodCacheInterceptors.get(0).removeCacheKey(cacheKey);
-        }
-        if (methodCacheInterceptors.get(1).containsCacheKey(cacheKey)) {
-            methodCacheInterceptors.get(1).removeCacheKey(cacheKey);
+        for (MethodCacheInterceptor methodCacheInterceptor : SpringContext.getMethodCacheInterceptors()) {
+            if (methodCacheInterceptor.containsCacheKey(methodCacheInterceptor.buildCacheKey(method.toString(), arguments))) {
+                methodCacheInterceptor.removeCacheKey(methodCacheInterceptor.buildCacheKey(method.toString(), arguments));
+            }
         }
     }
-
 
     private static String buildIndent(int level) {
         int indentSize = level * 4;

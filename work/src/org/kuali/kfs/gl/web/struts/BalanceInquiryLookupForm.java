@@ -65,7 +65,7 @@ public class BalanceInquiryLookupForm extends MultipleValueLookupForm {
         super.populate(request);
 
         if (Entry.class.getName().equals(getBusinessObjectClassName())) {
-            localPendingEntryLookupable = SpringContext.getBean(Lookupable.class, GLConstants.LookupableBeanKeys.PENDING_ENTRY);
+            localPendingEntryLookupable = SpringContext.getLookupable(GLConstants.LookupableBeanKeys.PENDING_ENTRY);
             }
         
         if (localPendingEntryLookupable != null) {

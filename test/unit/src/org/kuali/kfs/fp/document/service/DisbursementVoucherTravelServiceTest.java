@@ -131,7 +131,7 @@ public class DisbursementVoucherTravelServiceTest extends KualiTestBase {
      * @throws Exception
      */
     public void testCalculateMileageAmount() throws Exception {
-        Timestamp effectiveDate = SpringContext.getBean(DateTimeService.class, "dateTimeService").getCurrentTimestamp();
+        Timestamp effectiveDate = SpringContext.getBean(DateTimeService.class).getCurrentTimestamp();
 
         runMileageAmountTest(new Integer(0), new KualiDecimal(0), effectiveDate);
         runMileageAmountTest(new Integer(1), new KualiDecimal(.38), effectiveDate);

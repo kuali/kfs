@@ -365,7 +365,7 @@ public abstract class AccountingDocumentBase extends GeneralLedgerPostingDocumen
         // 2. retrieve current accountingLines from given document
         // 3. compare, creating add/delete/update events as needed
         // 4. apply rules as appropriate returned events
-        List persistedSourceLines = SpringContext.getBean(AccountingLineService.class, "accountingLineService").getByDocumentHeaderId(getSourceAccountingLineClass(), getDocumentNumber());
+        List persistedSourceLines = SpringContext.getBean(AccountingLineService.class).getByDocumentHeaderId(getSourceAccountingLineClass(), getDocumentNumber());
         List currentSourceLines = getSourceAccountingLines();
 
         List sourceEvents = generateEvents(persistedSourceLines, currentSourceLines, KFSConstants.DOCUMENT_PROPERTY_NAME + "." + KFSConstants.EXISTING_SOURCE_ACCT_LINE_PROPERTY_NAME, this);
@@ -374,7 +374,7 @@ public abstract class AccountingDocumentBase extends GeneralLedgerPostingDocumen
             events.add(sourceEvent);
         }
 
-        List persistedTargetLines = SpringContext.getBean(AccountingLineService.class, "accountingLineService").getByDocumentHeaderId(getTargetAccountingLineClass(), getDocumentNumber());
+        List persistedTargetLines = SpringContext.getBean(AccountingLineService.class).getByDocumentHeaderId(getTargetAccountingLineClass(), getDocumentNumber());
         List currentTargetLines = getTargetAccountingLines();
 
         List targetEvents = generateEvents(persistedTargetLines, currentTargetLines, KFSConstants.DOCUMENT_PROPERTY_NAME + "." + KFSConstants.EXISTING_TARGET_ACCT_LINE_PROPERTY_NAME, this);

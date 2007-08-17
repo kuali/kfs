@@ -269,7 +269,7 @@ public class Delegate extends PersistableBusinessObjectBase {
     }
 
     public UniversalUser getAccountDelegate() {
-        accountDelegate = SpringContext.getBean(UniversalUserService.class, "universalUserService").updateUniversalUserIfNecessary(accountDelegateSystemId, accountDelegate);
+        accountDelegate = SpringContext.getBean(UniversalUserService.class).updateUniversalUserIfNecessary(accountDelegateSystemId, accountDelegate);
         return accountDelegate;
     }
 

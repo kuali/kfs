@@ -86,7 +86,7 @@ public class KualiXmlAttributeImplTest extends KualiTestBase {
         if ( (StringUtils.isNotBlank(ruleAttributeXml)) && (StringUtils.isNotBlank(searchAttributeXml)) ) {
             return;
         }
-        DataSource mySource = SpringContext.getBean(DataSource.class, "dataSource");
+        DataSource mySource = SpringContext.getBean(DataSource.class);
         ruleAttributeXml = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<data >\n<ruleAttributes>\n";
         searchAttributeXml = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<data >\n<ruleAttributes>\n";
         Connection dbCon = null;

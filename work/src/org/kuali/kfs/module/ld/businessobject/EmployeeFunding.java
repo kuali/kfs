@@ -62,7 +62,7 @@ public class EmployeeFunding extends LedgerBalance {
         UniversalUser universalUser = null;
 
         try {
-            universalUser = SpringContext.getBean(UniversalUserService.class, "universalUserService").getUniversalUser(empl);
+            universalUser = SpringContext.getBean(UniversalUserService.class).getUniversalUser(empl);
         }
         catch (UserNotFoundException e) {
             return LaborConstants.BalanceInquiries.UnknownPersonName;

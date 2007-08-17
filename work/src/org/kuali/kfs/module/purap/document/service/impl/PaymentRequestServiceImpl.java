@@ -584,7 +584,7 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
 
         HashMap<String, String> list = new HashMap<String, String>();
         Integer POID = document.getPurchaseOrderIdentifier();
-        java.util.Date currentDate = SpringContext.getBean(DateTimeService.class, "dateTimeService").getCurrentDate();
+        java.util.Date currentDate = SpringContext.getBean(DateTimeService.class).getCurrentDate();
         
         //TODO: Why not rely on ojb here?  You should have a po already from the mapping Actually it looks like the mapping isn't correct.  I'll fix this later
         PurchaseOrderDocument po = SpringContext.getBean(PurchaseOrderService.class).getCurrentPurchaseOrder(document.getPurchaseOrderIdentifier());
@@ -609,7 +609,7 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
                 // 2.  if the account is expired and the current date is <= 30 days from the expiration date, do nothing 
                 // 3.  if the account is expired and the current date is > 30 days from the expiration date, get the continuation account and add it to the list
                 //TODO: check to see if there is a constant defiend for this number of days (30) in the system and use it instead of 30. If not we need to define a new one 
-            } else if (account.isExpired() & SpringContext.getBean(DateTimeService.class, "dateTimeService").dateDiff(account.getAccountExpirationDate(), SpringContext.getBean(DateTimeService.class, "dateTimeService").getCurrentDate(), true) > 30) {
+            } else if (account.isExpired() & SpringContext.getBean(DateTimeService.class).dateDiff(account.getAccountExpirationDate(), SpringContext.getBean(DateTimeService.class).getCurrentDate(), true) > 30) {
                 Account continuationAccount = account.getContinuationAccount();
                 //TODO: Do we need to check for not being null and what to do??  Yes see above
                 list.put(account.getAccountNumber(), continuationAccount.getAccountNumber());

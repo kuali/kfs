@@ -230,7 +230,7 @@ public class Chart extends PersistableBusinessObjectBase implements Summarizable
     }
 
     public UniversalUser getFinCoaManagerUniversal() {
-        finCoaManagerUniversal = SpringContext.getBean(UniversalUserService.class, "universalUserService").updateUniversalUserIfNecessary(finCoaManagerUniversalId, finCoaManagerUniversal);
+        finCoaManagerUniversal = SpringContext.getBean(UniversalUserService.class).updateUniversalUserIfNecessary(finCoaManagerUniversalId, finCoaManagerUniversal);
         return finCoaManagerUniversal;
     }
 

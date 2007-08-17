@@ -99,7 +99,7 @@ public class CorrectionAction extends KualiDocumentActionBase implements KualiTa
         if (originEntryGroupService == null) {
             CorrectionAction.originEntryGroupService = SpringContext.getBean(OriginEntryGroupService.class);
             CorrectionAction.originEntryService = SpringContext.getBean(OriginEntryService.class);
-            CorrectionAction.dateTimeService = SpringContext.getBean(DateTimeService.class, "dateTimeService");
+            CorrectionAction.dateTimeService = SpringContext.getBean(DateTimeService.class);
             CorrectionAction.kualiConfigurationService = SpringContext.getBean(KualiConfigurationService.class);
         }
 

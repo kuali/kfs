@@ -202,7 +202,7 @@ public class AccountingPeriod extends PersistableBusinessObjectBase {
      * @return the actual month (1 - 12) that this period represents
      */
     public int getMonth() {
-        DateTimeService dateTimeService = SpringContext.getBean(DateTimeService.class, "dateTimeService");
+        DateTimeService dateTimeService = SpringContext.getBean(DateTimeService.class);
         Calendar cal = dateTimeService.getCalendar(new Date(this.universityFiscalPeriodEndDate.getTime()));
         return cal.get(Calendar.MONTH) + 1;
     }

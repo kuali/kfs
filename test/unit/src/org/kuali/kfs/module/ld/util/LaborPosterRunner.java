@@ -36,7 +36,7 @@ public class LaborPosterRunner extends KualiTestBase {
         long start = System.currentTimeMillis();
         System.out.println("Labor Poster is running ...");
         System.out.printf("Starting Time = %d (ms)\n", start);
-        SpringContext.getBean(JobDescriptor.class, "laborBatchJob").getSteps().get(2).execute("laborBatchJob");
+        SpringContext.getJobDescriptor("laborBatchJob").getSteps().get(2).execute("laborBatchJob");
         long elapsedTime = System.currentTimeMillis() - start;
         System.out.printf("Execution Time = %d (ms)\n", elapsedTime);
         System.out.println("Labor Poster stopped");

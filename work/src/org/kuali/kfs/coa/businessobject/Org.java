@@ -326,7 +326,7 @@ public class Org extends PersistableBusinessObjectBase implements Inactivateable
     }
 
     public UniversalUser getOrganizationManagerUniversal() {
-        organizationManagerUniversal = SpringContext.getBean(UniversalUserService.class, "universalUserService").updateUniversalUserIfNecessary(organizationManagerUniversalId, organizationManagerUniversal);
+        organizationManagerUniversal = SpringContext.getBean(UniversalUserService.class).updateUniversalUserIfNecessary(organizationManagerUniversalId, organizationManagerUniversal);
         return organizationManagerUniversal;
     }
 

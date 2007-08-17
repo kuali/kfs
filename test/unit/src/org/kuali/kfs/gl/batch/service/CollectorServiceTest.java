@@ -164,7 +164,7 @@ public class CollectorServiceTest extends KualiTestBase {
         UnitTestSqlDao unitTestSqlDao = SpringContext.getBean(UnitTestSqlDao.class);
         unitTestSqlDao.sqlCommand("delete from GL_ID_BILL_T");
         
-        OriginEntryGroup group = SpringContext.getBean(OriginEntryGroupService.class).createGroup(SpringContext.getBean(DateTimeService.class, "dateTimeService").getCurrentSqlDate(), 
+        OriginEntryGroup group = SpringContext.getBean(OriginEntryGroupService.class).createGroup(SpringContext.getBean(DateTimeService.class).getCurrentSqlDate(), 
                 OriginEntrySource.COLLECTOR, true, false, true);
         collectorHelperService.loadCollectorFile(fileName, group, new CollectorReportData(), new ArrayList<CollectorScrubberStatus>());
         

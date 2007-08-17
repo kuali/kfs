@@ -59,7 +59,7 @@ public class LaborCorrectionDocument extends CorrectionDocument implements Amoun
                 // this code is performed asynchronously
                 
                 // First, save the origin entries to the origin entry table
-                DateTimeService dateTimeService = SpringContext.getBean(DateTimeService.class, "dateTimeService");
+                DateTimeService dateTimeService = SpringContext.getBean(DateTimeService.class);
                 LaborOriginEntryService laborOriginEntryService = SpringContext.getBean(LaborOriginEntryService.class);
                 LaborCorrectionDocumentService laborCorrectionDocumentService = SpringContext.getBean(LaborCorrectionDocumentService.class);
                 

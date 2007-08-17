@@ -553,7 +553,7 @@ public class PurchaseOrderAction extends PurchasingActionBase {
         PurchaseOrderDocument po = (PurchaseOrderDocument) kualiDocumentFormBase.getDocument();
         PurchaseOrderVendorQuote vendorQuote = (PurchaseOrderVendorQuote)po.getPurchaseOrderVendorQuotes().get(getSelectedLine(request));
         if (PurapConstants.QuoteTransmitTypes.PRINT.equals(vendorQuote.getPurchaseOrderQuoteTransmitTypeCode())) {
-            Date currentSqlDate = SpringContext.getBean(DateTimeService.class, "dateTimeService").getCurrentSqlDate();
+            Date currentSqlDate = SpringContext.getBean(DateTimeService.class).getCurrentSqlDate();
             vendorQuote.setPurchaseOrderQuoteTransmitDate(currentSqlDate);
             vendorQuote.setTransmitPrintDisplayed(true);
             if (po.getPurchaseOrderFirstTransmissionDate() == null) {
@@ -824,7 +824,7 @@ public class PurchaseOrderAction extends PurchasingActionBase {
             return mapping.findForward(KFSConstants.MAPPING_BASIC);
         }
         document.setStatusCode(PurapConstants.PurchaseOrderStatuses.QUOTE);
-        Date currentSqlDate = SpringContext.getBean(DateTimeService.class, "dateTimeService").getCurrentSqlDate();
+        Date currentSqlDate = SpringContext.getBean(DateTimeService.class).getCurrentSqlDate();
         document.setPurchaseOrderInitialOpenDate(currentSqlDate);
         Date expDate = new Date(currentSqlDate.getTime() + (10 * 24 * 60 * 60 * 1000)); //add 10 days - TODO: need to move this into a DB setting
         document.setPurchaseOrderQuoteDueDate(expDate);
@@ -872,7 +872,7 @@ public class PurchaseOrderAction extends PurchasingActionBase {
         String message = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(PurapKeyConstants.PURCHASE_ORDER_QUESTION_CONFIRM_AWARD);
         message = StringUtils.replace(message, "{0}", poQuote.getVendorName());
         if (poQuote.getPurchaseOrderQuoteAwardDate() == null) {
-            message = StringUtils.replace(message, "{1}", SpringContext.getBean(DateTimeService.class, "dateTimeService").getCurrentSqlDate().toString());
+            message = StringUtils.replace(message, "{1}", SpringContext.getBean(DateTimeService.class).getCurrentSqlDate().toString());
         }
         else {
             message = StringUtils.replace(message, "{1}", poQuote.getPurchaseOrderQuoteAwardDate().toString());
@@ -890,7 +890,7 @@ public class PurchaseOrderAction extends PurchasingActionBase {
             Object buttonClicked = request.getParameter(KFSConstants.QUESTION_CLICKED_BUTTON);
             if ((PODocumentsStrings.CONFIRM_AWARD_QUESTION.equals(question)) && ConfirmationQuestion.YES.equals(buttonClicked)) {
                 // set awarded date
-                poQuote.setPurchaseOrderQuoteAwardDate(SpringContext.getBean(DateTimeService.class, "dateTimeService").getCurrentSqlDate());
+                poQuote.setPurchaseOrderQuoteAwardDate(SpringContext.getBean(DateTimeService.class).getCurrentSqlDate());
 
                 // PO vendor information updated with awarded vendor
                 document.setVendorName(poQuote.getVendorName());

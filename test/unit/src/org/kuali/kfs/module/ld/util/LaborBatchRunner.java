@@ -19,7 +19,7 @@ public class LaborBatchRunner extends KualiTestBase {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(LaborBatchRunner.class);
 
     public void testRunBatch() {
-        JobDescriptor laborBatchJob = SpringContext.getBean(JobDescriptor.class, "laborBatchJob");
+        JobDescriptor laborBatchJob = SpringContext.getJobDescriptor("laborBatchJob");
         for (Step step : laborBatchJob.getSteps()) {
             runStep(step);
         }

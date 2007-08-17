@@ -747,7 +747,7 @@ public class DisbursementVoucherNonEmployeeTravel extends PersistableBusinessObj
      * @return
      */
     public String getPerDiemStartDateTime() {
-        return SpringContext.getBean(DateTimeService.class, "dateTimeService").toDateTimeString(dvPerdiemStartDttmStamp);
+        return SpringContext.getBean(DateTimeService.class).toDateTimeString(dvPerdiemStartDttmStamp);
     }
 
     /**
@@ -757,7 +757,7 @@ public class DisbursementVoucherNonEmployeeTravel extends PersistableBusinessObj
      */
     public void setPerDiemStartDateTime(String perDiemStartDateTime) {
         try {
-            this.dvPerdiemStartDttmStamp = SpringContext.getBean(DateTimeService.class, "dateTimeService").convertToSqlTimestamp(perDiemStartDateTime);
+            this.dvPerdiemStartDttmStamp = SpringContext.getBean(DateTimeService.class).convertToSqlTimestamp(perDiemStartDateTime);
         }
         catch (ParseException e) {
             this.dvPerdiemStartDttmStamp = null;
@@ -770,7 +770,7 @@ public class DisbursementVoucherNonEmployeeTravel extends PersistableBusinessObj
      * @return String
      */
     public String getPerDiemEndDateTime() {
-        return SpringContext.getBean(DateTimeService.class, "dateTimeService").toDateTimeString(dvPerdiemEndDttmStamp);
+        return SpringContext.getBean(DateTimeService.class).toDateTimeString(dvPerdiemEndDttmStamp);
     }
 
     /**
@@ -780,7 +780,7 @@ public class DisbursementVoucherNonEmployeeTravel extends PersistableBusinessObj
      */
     public void setPerDiemEndDateTime(String perDiemEndDateTime) {
         try {
-            this.dvPerdiemEndDttmStamp = SpringContext.getBean(DateTimeService.class, "dateTimeService").convertToSqlTimestamp(perDiemEndDateTime);
+            this.dvPerdiemEndDttmStamp = SpringContext.getBean(DateTimeService.class).convertToSqlTimestamp(perDiemEndDateTime);
         }
         catch (ParseException e) {
             this.dvPerdiemEndDttmStamp = null;

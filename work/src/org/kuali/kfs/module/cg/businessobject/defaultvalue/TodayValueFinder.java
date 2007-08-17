@@ -31,7 +31,7 @@ public class TodayValueFinder implements ValueFinder {
      * @see org.kuali.core.lookup.valueFinder.ValueFinder#getValue()
      */
     public String getValue() {
-        DateTimeService dts = SpringContext.getBean(DateTimeService.class, "dateTimeService");
+        DateTimeService dts = SpringContext.getBean(DateTimeService.class);
         DateFormatter df = new DateFormatter();
         return df.format(dts.getCurrentSqlDateMidnight()).toString();
     }

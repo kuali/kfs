@@ -117,7 +117,7 @@
 		<property name="cronExpression" value="00 00 23 ? * *" />
 	</bean>
 	
-	<bean id="batchJobStatusLookupableHelperService" class="org.kuali.kfs.lookup.BatchJobStatusLookupableHelperServiceImpl" singleton="false" parent="kualiLookupableHelperService">
+	<bean id="batchJobStatusLookupableHelperService" class="org.kuali.kfs.lookup.BatchJobStatusLookupableHelperServiceImpl" singleton="false" parent="lookupableHelperService">
     	<property name="schedulerService" ref="schedulerService" />
     	<property name="configService" ref="kualiConfigurationService" />
     </bean>
@@ -286,7 +286,7 @@
 		</property>
 	</bean>
 
-	<bean id="moduleLookupableHelperService" class="org.kuali.kfs.lookup.ModuleLookupableHelperServiceImpl" singleton="false" parent="kualiLookupableHelperService" >
+	<bean id="moduleLookupableHelperService" class="org.kuali.kfs.lookup.ModuleLookupableHelperServiceImpl" singleton="false" parent="lookupableHelperService" >
 		<property name="configService" ref="kualiConfigurationService" />
 	</bean>
 

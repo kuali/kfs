@@ -67,8 +67,8 @@ public class BatchInputFileTypeTest extends KualiTestBase {
      */
     public final void testCheckAuthorization_pcdo() throws Exception {
         Object parsedContents = new ArrayList();
-        UniversalUser createUser = SpringContext.getBean(UniversalUserService.class, "universalUserService").getUniversalUserByAuthenticationUserId(Data4.USER_ID2);
-        UniversalUser nonCreateUser = SpringContext.getBean(UniversalUserService.class, "universalUserService").getUniversalUserByAuthenticationUserId(Data4.USER_ID1);
+        UniversalUser createUser = SpringContext.getBean(UniversalUserService.class).getUniversalUserByAuthenticationUserId(Data4.USER_ID2);
+        UniversalUser nonCreateUser = SpringContext.getBean(UniversalUserService.class).getUniversalUserByAuthenticationUserId(Data4.USER_ID1);
         
         String saveFileName = pcdoBatchInputFileType.getFileName(createUser, parsedContents, "testFile.xml");
         File batchFile = new File(saveFileName);
@@ -82,8 +82,8 @@ public class BatchInputFileTypeTest extends KualiTestBase {
      */
     public final void testCheckAuthorization_collector() throws Exception {
         Object parsedContents = new CollectorBatch();
-        UniversalUser createUser = SpringContext.getBean(UniversalUserService.class, "universalUserService").getUniversalUserByAuthenticationUserId(Data4.USER_ID2);
-        UniversalUser nonCreateUser = SpringContext.getBean(UniversalUserService.class, "universalUserService").getUniversalUserByAuthenticationUserId(Data4.USER_ID1);
+        UniversalUser createUser = SpringContext.getBean(UniversalUserService.class).getUniversalUserByAuthenticationUserId(Data4.USER_ID2);
+        UniversalUser nonCreateUser = SpringContext.getBean(UniversalUserService.class).getUniversalUserByAuthenticationUserId(Data4.USER_ID1);
 
         String saveFileName = collectorBatchInputFileType.getFileName(createUser, parsedContents, "testFile.xml");
         File batchFile = new File(saveFileName);

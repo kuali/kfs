@@ -159,7 +159,7 @@ public class Close extends TransactionalDocumentBase {
      * @return the {@link UniversalUser} for the personUser
      */
     public UniversalUser getPersonUser() {
-        personUser = SpringContext.getBean(UniversalUserService.class, "universalUserService").updateUniversalUserIfNecessary(personUserIdentifier, personUser);
+        personUser = SpringContext.getBean(UniversalUserService.class).updateUniversalUserIfNecessary(personUserIdentifier, personUser);
         return personUser;
     }
 

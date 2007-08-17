@@ -386,7 +386,7 @@ public class LedgerBalanceLookupableHelperServiceImpl extends AbstractLookupable
      * This method performs the lookup and returns a collection of lookup items
      * 
      * @param lookupForm
-     * @param kualiLookupable
+     * @param lookupable
      * @param resultTable
      * @param bounded
      * @return

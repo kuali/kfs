@@ -269,7 +269,7 @@ public class CollectorBatch implements Serializable {
         for(OriginEntry entry: this.originEntries) {
             entry.setGroup(originEntryGroup);
             if (entry.getFinancialDocumentReversalDate() == null) {
-                entry.setFinancialDocumentReversalDate(SpringContext.getBean(DateTimeService.class, "dateTimeService").getCurrentSqlDate());
+                entry.setFinancialDocumentReversalDate(SpringContext.getBean(DateTimeService.class).getCurrentSqlDate());
             }
             // don't need to worry about previous origin entries existing in the DB because there'll never be a
             // duplicate record because a sequence # is a key
@@ -326,7 +326,7 @@ public class CollectorBatch implements Serializable {
         OriginEntryGroup group = new OriginEntryGroup();
         
         group.setSourceCode(OriginEntrySource.COLLECTOR);
-        group.setDate(new java.sql.Date(SpringContext.getBean(DateTimeService.class, "dateTimeService").getCurrentDate().getTime()));
+        group.setDate(new java.sql.Date(SpringContext.getBean(DateTimeService.class).getCurrentDate().getTime()));
         group.setProcess(new Boolean(true));
         group.setScrub(new Boolean(true));
         group.setValid(new Boolean(true));
@@ -381,7 +381,7 @@ public class CollectorBatch implements Serializable {
 //        idBilling.setUniversityFiscalPeriodCode(String.valueOf(RandomUtils.nextInt(2)));
 //        idBilling.setCreateSequence(String.valueOf(RandomUtils.nextInt(2)));
 //        idBilling.setInterDepartmentalBillingSequenceNumber(String.valueOf(RandomUtils.nextInt(2)));
-        idDetail.setCreateDate(new Date(SpringContext.getBean(DateTimeService.class, "dateTimeService").getCurrentDate().getTime()));
+        idDetail.setCreateDate(new Date(SpringContext.getBean(DateTimeService.class).getCurrentDate().getTime()));
     }
 
     /**

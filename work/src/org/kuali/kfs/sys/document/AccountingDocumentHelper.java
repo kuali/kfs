@@ -141,7 +141,7 @@ public class AccountingDocumentHelper<KfsDocument extends GeneralLedgerPostingDo
      * @return AccountingLineService;
      */
     protected AccountingLineService getAccountingLineService() {
-        return SpringContext.getBean(AccountingLineService.class, "accountingLineService");
+        return SpringContext.getBean(AccountingLineService.class);
     }
     
     public List generateSaveEvents() {

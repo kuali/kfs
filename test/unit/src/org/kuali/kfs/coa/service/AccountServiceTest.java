@@ -68,10 +68,10 @@ public class AccountServiceTest extends KualiTestBase {
     // TODO this test uses hardcoded tests...how do we move to fixtures
     public void testAccountResponsibility() {
         try {
-            UniversalUser rorenfro = SpringContext.getBean(UniversalUserService.class, "universalUserService").getUniversalUserByAuthenticationUserId("rorenfro");
-            UniversalUser jaraujo = SpringContext.getBean(UniversalUserService.class, "universalUserService").getUniversalUserByAuthenticationUserId("jaraujo");
-            UniversalUser rmunroe = SpringContext.getBean(UniversalUserService.class, "universalUserService").getUniversalUserByAuthenticationUserId("rmunroe");
-            UniversalUser kcopley = SpringContext.getBean(UniversalUserService.class, "universalUserService").getUniversalUserByAuthenticationUserId("kcopley");
+            UniversalUser rorenfro = SpringContext.getBean(UniversalUserService.class).getUniversalUserByAuthenticationUserId("rorenfro");
+            UniversalUser jaraujo = SpringContext.getBean(UniversalUserService.class).getUniversalUserByAuthenticationUserId("jaraujo");
+            UniversalUser rmunroe = SpringContext.getBean(UniversalUserService.class).getUniversalUserByAuthenticationUserId("rmunroe");
+            UniversalUser kcopley = SpringContext.getBean(UniversalUserService.class).getUniversalUserByAuthenticationUserId("kcopley");
             
             Account bl1031400 = SpringContext.getBean(AccountService.class).getByPrimaryId("BL", "1031400");
             Account ba9021104 = SpringContext.getBean(AccountService.class).getByPrimaryId("BA", "9021104");

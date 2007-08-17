@@ -146,7 +146,7 @@ public class IncumbentSalarySettingAction extends KualiAction {
 
         IncumbentSalarySettingForm incumbentSalarySettingForm = (IncumbentSalarySettingForm) form;
         // Do specific refresh stuff here based on refreshCaller parameter
-        // typical refresh callers would be kualiLookupable or reasoncode??
+        // typical refresh callers would be lookupable or reasoncode??
         // need to look at optmistic locking problems since we will be storing the values in the form before hand
         // this locking problem may workout if we store first then put the form in session
         String refreshCaller = request.getParameter(KFSConstants.REFRESH_CALLER);

@@ -63,15 +63,15 @@ public class OriginEntryTestBase extends KualiTestBase {
 
         LOG.debug("setUp() starting");
 
-        dateTimeService = SpringContext.getBean(ConfigurableDateService.class, "testDateTimeService");
+        dateTimeService = SpringContext.getBean(ConfigurableDateService.class);
         date = dateTimeService.getCurrentDate();
         
         // Other objects needed for the tests
         persistenceService = SpringContext.getBean(PersistenceService.class);
         unitTestSqlDao = SpringContext.getBean(UnitTestSqlDao.class);
-        originEntryService = SpringContext.getBean(OriginEntryService.class, "glOriginEntryService");
-        originEntryDao = SpringContext.getBean(OriginEntryDao.class, "glOriginEntryDao");
-        originEntryGroupService = SpringContext.getBean(OriginEntryGroupService.class, "glOriginEntryGroupService");
+        originEntryService = SpringContext.getBean(OriginEntryService.class);
+        originEntryDao = SpringContext.getBean(OriginEntryDao.class);
+        originEntryGroupService = SpringContext.getBean(OriginEntryGroupService.class);
         kualiConfigurationService = SpringContext.getBean(KualiConfigurationService.class);
 
         // Set all enhancements to off

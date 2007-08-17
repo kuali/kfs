@@ -1153,7 +1153,7 @@ public class Award extends PersistableBusinessObjectBase implements AlternateOrg
                 int i = 0;
                 for(String userName : users) {
                     try {
-                        UniversalUser user = SpringContext.getBean(UniversalUserService.class, "universalUserService").getUniversalUserByAuthenticationUserId(userName);
+                        UniversalUser user = SpringContext.getBean(UniversalUserService.class).getUniversalUserByAuthenticationUserId(userName);
                         names.append(user.getPersonName());
                     } catch(UserNotFoundException unfe) {
                         names.append("No User Name Found ("+userName+")");

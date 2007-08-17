@@ -236,7 +236,7 @@ public class OrganizationRoutingModelRule extends MaintenanceDocumentRuleBase {
         
         // refresh account delegate
         try {
-            delegateModel.setAccountDelegate(SpringContext.getBean(UniversalUserService.class, "universalUserService").getUniversalUser(delegateModel.getAccountDelegateUniversalId()));
+            delegateModel.setAccountDelegate(SpringContext.getBean(UniversalUserService.class).getUniversalUser(delegateModel.getAccountDelegateUniversalId()));
         }
         catch (UserNotFoundException e) {
             if (LOG.isDebugEnabled()) {

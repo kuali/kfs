@@ -79,15 +79,15 @@ public class LaborReportServiceTest extends KualiTestBase {
         deliminator = properties.getProperty("deliminator");
 
         laborOriginEntryService = SpringContext.getBean(LaborOriginEntryService.class);
-        originEntryGroupService = SpringContext.getBean(OriginEntryGroupService.class, "glOriginEntryGroupService");
+        originEntryGroupService = SpringContext.getBean(OriginEntryGroupService.class);
         businessObjectService = SpringContext.getBean(BusinessObjectService.class);
         persistenceService = SpringContext.getBean(PersistenceService.class);
 
         laborReportService = SpringContext.getBean(LaborReportService.class);
-        laborPosterTransactionValidator = SpringContext.getBean(VerifyTransaction.class, "laborPosterTransactionValidator");
+        laborPosterTransactionValidator = SpringContext.getVerifyTransaction("laborPosterTransactionValidator");
         reportsDirectory = ReportRegistry.getReportsDirectory();
 
-        today = (SpringContext.getBean(DateTimeService.class, "dateTimeService")).getCurrentSqlDate();
+        today = (SpringContext.getBean(DateTimeService.class)).getCurrentSqlDate();
         group1 = originEntryGroupService.createGroup(today, LABOR_MAIN_POSTER_VALID, true, true, false);
         group2 = originEntryGroupService.createGroup(today, LABOR_MAIN_POSTER_VALID, true, true, false);
         invalidGroup = originEntryGroupService.createGroup(today, LABOR_MAIN_POSTER_ERROR, false, true, false);

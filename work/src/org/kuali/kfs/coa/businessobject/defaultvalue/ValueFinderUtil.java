@@ -38,7 +38,7 @@ public class ValueFinderUtil {
     public static ChartUser getCurrentChartUser() {
         UniversalUser currentUser = ValueFinderUtil.getCurrentUniversalUser();
         if (currentUser != null) {
-            Map<String, KualiModuleUser> moduleUsers = SpringContext.getBean(UniversalUserService.class, "universalUserService").getModuleUsers(currentUser);
+            Map<String, KualiModuleUser> moduleUsers = SpringContext.getBean(UniversalUserService.class).getModuleUsers(currentUser);
             return (ChartUser)moduleUsers.get(ChartUser.MODULE_ID);
         } else {
             return null;

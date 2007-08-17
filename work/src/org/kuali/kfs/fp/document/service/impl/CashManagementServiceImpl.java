@@ -757,7 +757,7 @@ public class CashManagementServiceImpl implements CashManagementService {
                     }
                     itemInProc.setCurrentPayment(new KualiDecimal(0));
                     if (itemInProc.getItemRemainingAmount().equals(KualiDecimal.ZERO)) {
-                        itemInProc.setItemClosedDate(new java.sql.Date(SpringContext.getBean(DateTimeService.class, "dateTimeService").getCurrentDate().getTime()));
+                        itemInProc.setItemClosedDate(new java.sql.Date(SpringContext.getBean(DateTimeService.class).getCurrentDate().getTime()));
                     }
                     businessObjectService.save(itemInProc);
                 }

@@ -68,7 +68,7 @@
 	<alias name="webAuthenticationService" alias="enWebAuthenticationService" />
 	<alias name="encryptionService" alias="enEncryptionService" />
 
-	<bean id="transactionManager" class="org.springframework.transaction.jta.JtaTransactionManager" lazy-init="true">
+	<bean id="platformTransactionManager" class="org.springframework.transaction.jta.JtaTransactionManager" lazy-init="true">
 		<property name="userTransaction">
 			<ref local="jotm" />
 		</property>
@@ -79,7 +79,7 @@
 
 	<bean class="org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator" />
 
-	<bean id="transactionAdvisor" class="org.springframework.transaction.interceptor.TransactionAttributeSourceAdvisor">
+	<bean id="advisor" class="org.springframework.transaction.interceptor.TransactionAttributeSourceAdvisor">
 		<property name="classFilter" ref="transactionAdvisorClassFilter" />
 		<property name="transactionInterceptor" ref="transactionInterceptor" />
 	</bean>
@@ -89,7 +89,7 @@
 	</bean>
 
 	<bean id="transactionInterceptor" class="org.springframework.transaction.interceptor.TransactionInterceptor">
-		<property name="transactionManager" ref="transactionManager" />
+		<property name="transactionManager" ref="platformTransactionManager" />
 		<property name="transactionAttributeSource" ref="transactionAttributeSource" />
 	</bean>
 
@@ -145,11 +145,11 @@
 		<property name="dataSource" ref="dataSource" />
 	</bean>
 
-	<bean id="dbPlatformDao" factory-bean="dbPlatformDaoFactory" factory-method="getPlatformDao" />
+	<bean id="kualiDBPlatformDao" factory-bean="dbPlatformDaoFactory" factory-method="getPlatformDao" />
 	
 	<bean id="platformAwareDao" abstract="true" class="org.kuali.core.dao.ojb.PlatformAwareDaoBaseOjb">
 		<property name="jcdAlias" value="knsDataSource" />
-		<property name="dbPlatform" ref="dbPlatformDao" />
+		<property name="dbPlatform" ref="kualiDBPlatformDao" />
 	</bean>
 
 	<bean id="platformAwareDaoJdbc" class="org.kuali.core.dao.jdbc.PlatformAwareDaoBaseJdbc" abstract="true">
@@ -227,7 +227,7 @@
 		</property>
 	</bean>
 
-	<bean id="kualiLookupableHelperService" class="org.kuali.core.lookup.KualiLookupableHelperServiceImpl" singleton="false">
+	<bean id="lookupableHelperService" class="org.kuali.core.lookup.KualiLookupableHelperServiceImpl" singleton="false">
 		<property name="persistenceStructureService">
 			<ref bean="persistenceStructureService" />
 		</property>

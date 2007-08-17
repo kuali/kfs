@@ -907,7 +907,7 @@ public class VendorDetail extends PersistableBusinessObjectBase implements Vendo
     }
 
     public UniversalUser getVendorRestrictedPerson() {
-        vendorRestrictedPerson = SpringContext.getBean(UniversalUserService.class, "universalUserService").updateUniversalUserIfNecessary(vendorRestrictedPersonIdentifier, vendorRestrictedPerson);
+        vendorRestrictedPerson = SpringContext.getBean(UniversalUserService.class).updateUniversalUserIfNecessary(vendorRestrictedPersonIdentifier, vendorRestrictedPerson);
         return vendorRestrictedPerson;
     }
 

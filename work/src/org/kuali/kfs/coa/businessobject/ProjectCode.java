@@ -63,7 +63,7 @@ public class ProjectCode extends KualiCodeBase {
     }
 
     public UniversalUser getProjectManagerUniversal() {
-        projectManagerUniversal = SpringContext.getBean(UniversalUserService.class, "universalUserService").updateUniversalUserIfNecessary(projectManagerUniversalId, projectManagerUniversal);
+        projectManagerUniversal = SpringContext.getBean(UniversalUserService.class).updateUniversalUserIfNecessary(projectManagerUniversalId, projectManagerUniversal);
         return projectManagerUniversal;
     }
 

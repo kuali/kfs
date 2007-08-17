@@ -150,12 +150,12 @@ public class AppointmentType extends PersistableBusinessObjectBase {
 
     public void beforeInsert(PersistenceBroker persistenceBroker) {
         super.beforeInsert(persistenceBroker);
-        this.lastUpdate = SpringContext.getBean(DateTimeService.class, "dateTimeService").getCurrentTimestamp();
+        this.lastUpdate = SpringContext.getBean(DateTimeService.class).getCurrentTimestamp();
     }
 
     public void beforeUpdate(PersistenceBroker persistenceBroker) {
         super.beforeUpdate(persistenceBroker);
-        this.lastUpdate = SpringContext.getBean(DateTimeService.class, "dateTimeService").getCurrentTimestamp();
+        this.lastUpdate = SpringContext.getBean(DateTimeService.class).getCurrentTimestamp();
     }
 
 

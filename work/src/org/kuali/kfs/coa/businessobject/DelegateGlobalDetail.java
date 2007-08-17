@@ -206,7 +206,7 @@ public class DelegateGlobalDetail extends GlobalBusinessObjectDetailBase {
     }
 
     public UniversalUser getAccountDelegate() {
-        accountDelegate = SpringContext.getBean(UniversalUserService.class, "universalUserService").updateUniversalUserIfNecessary(accountDelegateUniversalId, accountDelegate);
+        accountDelegate = SpringContext.getBean(UniversalUserService.class).updateUniversalUserIfNecessary(accountDelegateUniversalId, accountDelegate);
         return accountDelegate;
     }
 

@@ -186,7 +186,7 @@ public abstract class KualiTestBase extends TestCase implements KualiTestConstan
     }
 
     private PlatformTransactionManager getTransactionManager() {
-        return SpringContext.getBean(PlatformTransactionManager.class, "transactionManager");
+        return SpringContext.getBean(PlatformTransactionManager.class);
     }
 
     private Method getMethod(String methodName) {

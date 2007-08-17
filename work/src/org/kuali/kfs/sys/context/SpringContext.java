@@ -18,14 +18,28 @@ package org.kuali.kfs.context;
 import java.lang.management.ManagementFactory;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
 
 import org.apache.log4j.Logger;
+import org.kuali.core.lookup.Lookupable;
+import org.kuali.core.lookup.LookupableHelperService;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.MemoryMonitor;
+import org.kuali.core.util.cache.MethodCacheInterceptor;
+import org.kuali.kfs.batch.BatchInputFileSetType;
+import org.kuali.kfs.batch.BatchInputFileType;
+import org.kuali.kfs.batch.JobDescriptor;
+import org.kuali.kfs.batch.Step;
+import org.kuali.kfs.batch.TriggerDescriptor;
 import org.kuali.kfs.service.SchedulerService;
+import org.kuali.module.chart.bo.OrganizationReversionCategory;
+import org.kuali.module.gl.batch.poster.PostTransaction;
+import org.kuali.module.gl.batch.poster.VerifyTransaction;
+import org.kuali.module.gl.service.OrganizationReversionCategoryLogic;
 import org.kuali.rice.KNSServiceLocator;
 import org.quartz.Scheduler;
 import org.quartz.SchedulerException;
@@ -34,6 +48,7 @@ import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import uk.ltd.getahead.dwr.create.SpringCreator;
+import edu.iu.uis.eden.plugin.attributes.WorkflowLookupable;
 
 public class SpringContext {
     private static final Logger LOG = Logger.getLogger(SpringContext.class);
@@ -46,11 +61,11 @@ public class SpringContext {
     public static <T> T getBean(Class<T> type) {
         verifyProperInitialization();
         try {
-            List<T> beansOfType = getBeansOfType(type);
+            Collection<T> beansOfType = getBeansOfType(type).values();
             if (beansOfType.size() > 1) {
-                throw new IllegalArgumentException("The getBean(Class<T> type) method of SpringContext expects a type for which there is only one matching bean in the application context: " + type.getName());
+                return getBean(type, type.getSimpleName().substring(0, 1).toLowerCase() + type.getSimpleName().substring(1));
             }
-            return beansOfType.get(0);
+            return beansOfType.iterator().next();
         }
         catch (NoSuchBeanDefinitionException nsbde) {
             LOG.info("Could not find bean of type " + type.getName() + " - checking KNS context");
@@ -63,9 +78,9 @@ public class SpringContext {
             }
         }
     }
-
+    
     @SuppressWarnings("unchecked")
-    public static <T> T getBean(Class<T> type, String name) {
+    private static <T> T getBean(Class<T> type, String name) {
         verifyProperInitialization();
         try {
             return (T) applicationContext.getBean(name);
@@ -81,15 +96,78 @@ public class SpringContext {
             }
         }
     }
-
+        
     @SuppressWarnings("unchecked")
-    public static <T> List<T> getBeansOfType(Class<T> type) {
+    public static <T> Map<String,T> getBeansOfType(Class<T> type) {
         verifyProperInitialization();
-        List<T> beansOfType = new ArrayList<T>(applicationContext.getBeansOfType(type).values());
-        beansOfType.addAll(KNSServiceLocator.getBeansOfType(type));
+        Map<String,T> beansOfType = KNSServiceLocator.getBeansOfType(type);
+        beansOfType.putAll(new HashMap(applicationContext.getBeansOfType(type)));
         return beansOfType;
     }
+    
+    protected static List<MethodCacheInterceptor> getMethodCacheInterceptors() {
+        List<MethodCacheInterceptor> methodCacheInterceptors = new ArrayList();
+        methodCacheInterceptors.add(getBean(MethodCacheInterceptor.class));
+        methodCacheInterceptors.add(KNSServiceLocator.getBean(MethodCacheInterceptor.class));
+        return methodCacheInterceptors;
+    }
+    
+    public static Map getKfsBatchComponents() {
+        return getBean(Map.class, "kfsBatchComponents");
+    }
 
+    public static Step getStep(String beanName) {
+        return getBean(Step.class, beanName);
+    }
+
+    public static JobDescriptor getJobDescriptor(String beanName) {
+        return getBean(JobDescriptor.class, beanName);
+    }
+
+    public static TriggerDescriptor getTriggerDescriptor(String beanName) {
+        return getBean(TriggerDescriptor.class, beanName);
+    }
+    
+    public static BatchInputFileType getBatchInputFileType(String beanName) {
+        return getBean(BatchInputFileType.class, beanName);
+    }
+    
+    public static BatchInputFileSetType getBatchInputFileSetType(String beanName) {
+        return getBean(BatchInputFileSetType.class, beanName);
+    }
+    
+    public static Lookupable getLookupable(String beanName) {
+        return getBean(Lookupable.class, beanName);
+    }
+
+    public static LookupableHelperService getLookupableHelperService(String beanName) {
+        return getBean(LookupableHelperService.class, beanName);
+    }
+    
+    public static WorkflowLookupable getWorkflowLookupable(String beanName) {
+        return getBean(WorkflowLookupable.class, beanName);
+    }
+    
+    public static PostTransaction getPostTransaction(String beanName) {
+        return getBean(PostTransaction.class, beanName);
+    }
+    
+    public static VerifyTransaction getVerifyTransaction(String beanName) {
+        return getBean(VerifyTransaction.class, beanName);        
+    }
+    
+    public static OrganizationReversionCategory getOrganizationReversionCategory(String beanName) {
+        return getBean(OrganizationReversionCategory.class, beanName);
+    }
+    
+    public static OrganizationReversionCategoryLogic getOrganizationReversionCategoryLogic(String beanName) {
+        return getBean(OrganizationReversionCategoryLogic.class, beanName);
+    }
+    
+    protected static Object getBean(String beanName) {
+        return getBean(Object.class, beanName);
+    }
+    
     protected static String[] getBeanNames() {
         verifyProperInitialization();
         return applicationContext.getBeanDefinitionNames();

@@ -38,7 +38,7 @@ public class PurchaseOrderContractLanguage extends PersistableBusinessObjectBase
 	 * Default constructor.
 	 */
 	public PurchaseOrderContractLanguage() {
-        this.setContractLanguageCreateDate(SpringContext.getBean(DateTimeService.class, "dateTimeService").getCurrentSqlDate());
+        this.setContractLanguageCreateDate(SpringContext.getBean(DateTimeService.class).getCurrentSqlDate());
 	}
 
 	/**

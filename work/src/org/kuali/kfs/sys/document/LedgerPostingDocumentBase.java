@@ -55,7 +55,7 @@ public class LedgerPostingDocumentBase extends TransactionalDocumentBase impleme
      * @return AccountingPeriod
      */
     private void createInitialAccountingPeriod() {
-        Date date = SpringContext.getBean(DateTimeService.class, "dateTimeService").getCurrentSqlDate();
+        Date date = SpringContext.getBean(DateTimeService.class).getCurrentSqlDate();
         AccountingPeriod accountingPeriod = SpringContext.getBean(AccountingPeriodService.class).getByDate(date);
 
         setAccountingPeriod(accountingPeriod);

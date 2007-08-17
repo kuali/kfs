@@ -83,7 +83,7 @@ public class AuxiliaryVoucherForm extends VoucherForm {
      * Handles special case display rules for displaying Reversal Date at UI layer
      */
     public void populateReversalDateForRendering() {
-        java.sql.Date today = SpringContext.getBean(DateTimeService.class, "dateTimeService").getCurrentSqlDateMidnight();
+        java.sql.Date today = SpringContext.getBean(DateTimeService.class).getCurrentSqlDateMidnight();
 
         if (getAuxiliaryVoucherDocument().getTypeCode().equals(ACCRUAL_DOC_TYPE) && (getAuxiliaryVoucherDocument().getReversalDate() == null || getAuxiliaryVoucherDocument().getReversalDate().before(today))) {
             getAuxiliaryVoucherDocument().setReversalDate(today);

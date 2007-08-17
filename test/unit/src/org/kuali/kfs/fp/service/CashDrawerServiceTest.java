@@ -364,7 +364,7 @@ public class CashDrawerServiceTest extends KualiTestBase {
 
 
     public final void testLifeCycle() {
-        final String RANDOM_WORKGROUP_NAME = "testWorkgroup-" + SpringContext.getBean(DateTimeService.class, "dateTimeService").getCurrentDate().getTime();
+        final String RANDOM_WORKGROUP_NAME = "testWorkgroup-" + SpringContext.getBean(DateTimeService.class).getCurrentDate().getTime();
 
         boolean deleteSucceeded = false;
 

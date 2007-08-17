@@ -191,7 +191,7 @@ public class CorrectionDocument extends TransactionalDocumentBase implements Amo
                 // this code is performed asynchronously
                 
                 // First, save the origin entries to the origin entry table
-                DateTimeService dateTimeService = SpringContext.getBean(DateTimeService.class, "dateTimeService");
+                DateTimeService dateTimeService = SpringContext.getBean(DateTimeService.class);
                 OriginEntryService originEntryService = SpringContext.getBean(OriginEntryService.class);
                 CorrectionDocumentService correctionDocumentService = SpringContext.getBean(CorrectionDocumentService.class);
                 

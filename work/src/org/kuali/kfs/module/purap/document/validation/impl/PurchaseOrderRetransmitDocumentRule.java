@@ -77,7 +77,7 @@ public class PurchaseOrderRetransmitDocumentRule extends TransactionalDocumentRu
             */
             // Check that the user is in purchasing workgroup.
             String initiatorNetworkId = document.getDocumentHeader().getWorkflowDocument().getInitiatorNetworkId();
-            UniversalUserService uus = SpringContext.getBean(UniversalUserService.class, "universalUserService");
+            UniversalUserService uus = SpringContext.getBean(UniversalUserService.class);
             UniversalUser user = null;
             try {
                 user = uus.getUniversalUserByAuthenticationUserId(initiatorNetworkId);

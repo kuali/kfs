@@ -25,7 +25,7 @@ public class PurchaseOrderContractLanguageMaintainableImpl extends KualiMaintain
     @Override
     public void processAfterCopy() {
         PurchaseOrderContractLanguage pocl = (PurchaseOrderContractLanguage)super.getBusinessObject();
-        pocl.setContractLanguageCreateDate(SpringContext.getBean(DateTimeService.class, "dateTimeService").getCurrentSqlDate());
+        pocl.setContractLanguageCreateDate(SpringContext.getBean(DateTimeService.class).getCurrentSqlDate());
     }
 
 }

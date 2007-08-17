@@ -79,7 +79,7 @@ public abstract class PurApDocumentSearchGenerator extends StandardDocumentSearc
         String uuid = workflowUser.getUuId().getUuId();
         try {
             String searchSpecialAccess = getSpecialAccessSearchUserWorkgroupName();
-            UniversalUser currentUser = SpringContext.getBean(UniversalUserService.class, "universalUserService").getUniversalUser(new UuId(uuid));
+            UniversalUser currentUser = SpringContext.getBean(UniversalUserService.class).getUniversalUser(new UuId(uuid));
             return currentUser.isMember(searchSpecialAccess);
         }
         catch (UserNotFoundException e) {

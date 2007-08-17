@@ -86,17 +86,17 @@ public class SchedulerServiceImpl implements SchedulerService {
         catch (SchedulerException e) {
             throw new RuntimeException("SchedulerServiceImpl encountered an exception when trying to register the global job listener", e);
         }
-        for (String jobName : (List<String>)SpringContext.getBean(Map.class, KFSConstants.KFS_BATCH_COMPONENTS_BEAN_NAME).get(JobDescriptor.class.getName())) {
+        for (String jobName : (List<String>)SpringContext.getKfsBatchComponents().get(JobDescriptor.class.getName())) {
             try {
-                loadJob(SpringContext.getBean(JobDescriptor.class, jobName));
+                loadJob(SpringContext.getJobDescriptor(jobName));
             }
             catch (NoSuchBeanDefinitionException ex) {
                 LOG.error("unable to find job bean definition for job: " + ex.getBeanName(), ex);
             }
         }
-            for (String triggerName : (List<String>)SpringContext.getBean(Map.class, KFSConstants.KFS_BATCH_COMPONENTS_BEAN_NAME).get(TriggerDescriptor.class.getName())) {
+            for (String triggerName : (List<String>)SpringContext.getKfsBatchComponents().get(TriggerDescriptor.class.getName())) {
                 try {
-                    addTrigger(SpringContext.getBean(TriggerDescriptor.class, triggerName).getTrigger());
+                    addTrigger(SpringContext.getTriggerDescriptor(triggerName).getTrigger());
                 }
                 catch (NoSuchBeanDefinitionException ex) {
                     LOG.error("unable to find trigger definition: " + ex.getBeanName(), ex);
@@ -106,7 +106,7 @@ public class SchedulerServiceImpl implements SchedulerService {
             LOG.info("Loading scheduled jobs for: " + module.getModuleId());
             for (String jobName : module.getJobNames()) {
                 try {
-                    loadJob(SpringContext.getBean(JobDescriptor.class, jobName));
+                    loadJob(SpringContext.getJobDescriptor(jobName));
                 }
                 catch (NoSuchBeanDefinitionException ex) {
                     LOG.error("unable to find job bean definition for job: " + ex.getBeanName(), ex);
@@ -114,7 +114,7 @@ public class SchedulerServiceImpl implements SchedulerService {
             }
             for (String triggerName : module.getTriggerNames()) {
                 try {
-                    addTrigger(SpringContext.getBean(TriggerDescriptor.class, triggerName).getTrigger());
+                    addTrigger(SpringContext.getTriggerDescriptor(triggerName).getTrigger());
                 }
                 catch (NoSuchBeanDefinitionException ex) {
                     LOG.error("unable to find trigger definition: " + ex.getBeanName(), ex);
@@ -138,7 +138,7 @@ public class SchedulerServiceImpl implements SchedulerService {
     public void initializeJob(String jobName, Job job) {
         job.setSchedulerService(this);
         job.setConfigurationService(configurationService);
-        job.setSteps(SpringContext.getBean(JobDescriptor.class, jobName).getSteps());
+        job.setSteps(SpringContext.getJobDescriptor(jobName).getSteps());
     }
 
     /**
@@ -440,7 +440,7 @@ public class SchedulerServiceImpl implements SchedulerService {
     }
 
     private Map<String, String> getJobDependencies(String jobName) {
-        return SpringContext.getBean(JobDescriptor.class, jobName).getDependencies();
+        return SpringContext.getJobDescriptor(jobName).getDependencies();
     }
 
     private boolean isPending(JobDetail jobDetail) {
@@ -547,7 +547,7 @@ public class SchedulerServiceImpl implements SchedulerService {
             for (String jobGroup : scheduler.getJobGroupNames()) {
                 for (String jobName : scheduler.getJobNames(jobGroup)) {
                     try {
-                        JobDescriptor jobDescriptor = SpringContext.getBean(JobDescriptor.class, jobName);
+                        JobDescriptor jobDescriptor = SpringContext.getJobDescriptor(jobName);
                         JobDetail jobDetail = scheduler.getJobDetail(jobName, jobGroup);
                         jobs.add(new BatchJobStatus(jobDescriptor, jobDetail));
                     }
@@ -578,7 +578,7 @@ public class SchedulerServiceImpl implements SchedulerService {
         try {
             for (String jobName : scheduler.getJobNames(groupName)) {
                 try {
-                    JobDescriptor jobDescriptor = SpringContext.getBean(JobDescriptor.class, jobName);
+                    JobDescriptor jobDescriptor = SpringContext.getJobDescriptor(jobName);
                     JobDetail jobDetail = scheduler.getJobDetail(jobName, groupName);
                     jobs.add(new BatchJobStatus(jobDescriptor, jobDetail));
                 }

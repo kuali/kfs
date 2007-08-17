@@ -107,7 +107,7 @@ public class RoutingFormPersonnel extends PersistableBusinessObjectBase {
      */
     public void populateWithUserServiceFields() {
         // retrieve services and refresh UniversalUser objects (it's empty after returning from a kul:lookup)
-        UniversalUserService universalUserService = SpringContext.getBean(UniversalUserService.class, "universalUserService");
+        UniversalUserService universalUserService = SpringContext.getBean(UniversalUserService.class);
         ChartUserService chartUserService = SpringContext.getBean(ChartUserService.class);
         UniversalUser user = universalUserService.updateUniversalUserIfNecessary(this.getPersonUniversalIdentifier(), this.getUser());
         

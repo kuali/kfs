@@ -72,7 +72,7 @@ public class ResearchDocumentAuthorizer extends DocumentAuthorizerBase {
         // check ad-hoc workgroup permissions
         List<AdhocWorkgroup> adhocWorkgroups = permissionsService.getAllAdHocWorkgroups(researchDocument.getDocumentNumber());
         WorkflowInfo info2 = new WorkflowInfo();
-        List<KualiGroup> personGroups = SpringContext.getBean(UniversalUserService.class, "universalUserService").getUsersGroups(u);
+        List<KualiGroup> personGroups = SpringContext.getBean(UniversalUserService.class).getUsersGroups(u);
         
         for (AdhocWorkgroup adhocWorkgroup: adhocWorkgroups) {
             WorkgroupVO workgroup;

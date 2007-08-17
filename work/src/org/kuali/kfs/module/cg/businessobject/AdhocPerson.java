@@ -93,7 +93,7 @@ public class AdhocPerson extends AbstractAdhoc {
         if ( user == null || user.getPersonUserIdentifier() == null ) {
             user = null;
             try {
-                user = SpringContext.getBean(UniversalUserService.class, "universalUserService").getUniversalUser( getPersonUniversalIdentifier() );
+                user = SpringContext.getBean(UniversalUserService.class).getUniversalUser( getPersonUniversalIdentifier() );
             } catch (UserNotFoundException ex) {
                 // do nothing, leave user as null
             }
@@ -122,7 +122,7 @@ public class AdhocPerson extends AbstractAdhoc {
         if ( user == null || user.getPersonName() == null  ) {
             user = null;
             try {
-                user = SpringContext.getBean(UniversalUserService.class, "universalUserService").getUniversalUser( getPersonUniversalIdentifier() );
+                user = SpringContext.getBean(UniversalUserService.class).getUniversalUser( getPersonUniversalIdentifier() );
             } catch ( UserNotFoundException ex ) {
                 // do nothing, leave UU as null
             }

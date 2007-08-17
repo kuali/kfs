@@ -191,7 +191,7 @@ public class RequisitionServiceImpl implements RequisitionService {
             if ((!PurapConstants.RequisitionSources.B2B.equals(requisitionSource)) && (requisition.getVendorContractGeneratedIdentifier() == null)) {
                 UniversalUser initiator = null;
                 try {
-                    initiator = SpringContext.getBean(UniversalUserService.class, "universalUserService").getUniversalUser(new AuthenticationUserId(requisition.getDocumentHeader().getWorkflowDocument().getInitiatorNetworkId()));
+                    initiator = SpringContext.getBean(UniversalUserService.class).getUniversalUser(new AuthenticationUserId(requisition.getDocumentHeader().getWorkflowDocument().getInitiatorNetworkId()));
                 }
                 catch (UserNotFoundException e) {
                     throw new RuntimeException("Document Initiator not found " + e.getMessage());

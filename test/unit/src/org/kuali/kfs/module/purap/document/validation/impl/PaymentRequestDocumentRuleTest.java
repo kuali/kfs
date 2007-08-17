@@ -84,7 +84,7 @@ public class PaymentRequestDocumentRuleTest extends PurapRuleTestBase {
      * Tests of processPaymentRequestDateValidationForContinue
      */
     private Date getDateFromOffsetFromToday(int offsetDays){
-        Calendar calendar = SpringContext.getBean(DateTimeService.class, "dateTimeService").getCurrentCalendar();
+        Calendar calendar = SpringContext.getBean(DateTimeService.class).getCurrentCalendar();
         calendar.add(Calendar.DATE,offsetDays);
         return new Date(calendar.getTimeInMillis());
     }
@@ -105,7 +105,7 @@ public class PaymentRequestDocumentRuleTest extends PurapRuleTestBase {
     
     public void testProcessPaymentRequestDateValidationForContinue_Today() {
         preq = PaymentRequestInvoiceTabFixture.WITH_POID_WITH_DATE_WITH_NUMBER_WITH_AMOUNT.populate( preq );
-        Date today = SpringContext.getBean(DateTimeService.class, "dateTimeService").getCurrentSqlDate();
+        Date today = SpringContext.getBean(DateTimeService.class).getCurrentSqlDate();
         preq.setInvoiceDate(today);
         assertTrue(rule.processPaymentRequestDateValidationForContinue(preq));
     }

@@ -77,12 +77,12 @@ public class SpringAOPUsageTest extends KualiTestBase {
         }
         assertNotNull(exception);
         assertEquals("The @Transactional annotation should be specified at the class level and overriden at the method level, if need be.", exception.getMessage());
-        Advisor transactionAdvisor = SpringContext.getBean(Advisor.class, "transactionAdvisor");
+        Advisor transactionAdvisor = SpringContext.getBean(Advisor.class);
         // should be transaction applicable because the class has the annotation
         assertTrue(AopUtils.canApply(transactionAdvisor, DocumentServiceImpl.class));
         // should not be transaction applicable since there's no annotation in the class hierarchy
         assertFalse(AopUtils.canApply(transactionAdvisor, PersistenceStructureServiceImpl.class));
-        TransactionAttributeSource transactionAttributeSource = SpringContext.getBean(TransactionAttributeSource.class, "transactionAttributeSource");
+        TransactionAttributeSource transactionAttributeSource = SpringContext.getBean(TransactionAttributeSource.class);
         // should be transactionalized because the class that defines it has the transactional annotation
         TransactionAttribute documentServiceSaveDocumentAttribute = transactionAttributeSource.getTransactionAttribute(DocumentService.class.getMethod("saveDocument", new Class[] { Document.class }), DocumentServiceImpl.class);
         assertNotNull(documentServiceSaveDocumentAttribute);

@@ -51,7 +51,7 @@ public class TransactionalAnnotationTest extends KualiTestBase {
         for (String beanName : beanNames) {
             Object bean = null;
             try {
-                bean = SpringContext.getBean(Object.class, beanName);
+                bean = SpringContext.getBean(beanName);
             }
             catch (Exception e) {
                 LOG.warn("Caught exception while trying to obtain service: " + beanName);

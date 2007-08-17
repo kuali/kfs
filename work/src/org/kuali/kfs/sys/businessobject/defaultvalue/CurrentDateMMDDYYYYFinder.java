@@ -28,7 +28,7 @@ public class CurrentDateMMDDYYYYFinder implements ValueFinder {
 
     public String getValue() {
         // get the current date from the service
-        Date date = SpringContext.getBean(DateTimeService.class, "dateTimeService").getCurrentDate();
+        Date date = SpringContext.getBean(DateTimeService.class).getCurrentDate();
 
         // remove the time component
         date = DateUtils.truncate(date, Calendar.DAY_OF_MONTH);

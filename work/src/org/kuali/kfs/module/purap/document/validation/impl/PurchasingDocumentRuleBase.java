@@ -309,7 +309,7 @@ public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumen
      */
     private boolean checkBeginDateBeforeEndDate(PurchasingDocument purDocument) {
         boolean valid = true;
-        DateTimeService dateTimeService = SpringContext.getBean(DateTimeService.class, "dateTimeService");
+        DateTimeService dateTimeService = SpringContext.getBean(DateTimeService.class);
 
         Date beginDate = purDocument.getPurchaseOrderBeginDate();
         Date endDate = purDocument.getPurchaseOrderEndDate();

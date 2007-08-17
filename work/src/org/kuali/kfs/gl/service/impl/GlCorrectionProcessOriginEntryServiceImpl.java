@@ -55,7 +55,7 @@ public class GlCorrectionProcessOriginEntryServiceImpl implements GlCorrectionPr
             lookupResults.setLookupResultsSequenceNumber(glcpSearchResuiltsSequenceNumber);
             lookupResults.setLookupUniversalUserId(GlobalVariables.getUserSession().getUniversalUser().getPersonUniversalIdentifier());
         }
-        lookupResults.setLookupDate(SpringContext.getBean(DateTimeService.class, "dateTimeService").getCurrentTimestamp());
+        lookupResults.setLookupDate(SpringContext.getBean(DateTimeService.class).getCurrentTimestamp());
         lookupResults.setSerializedLookupResults(serializedOriginEntries);
         businessObjectService.save(lookupResults);
     }

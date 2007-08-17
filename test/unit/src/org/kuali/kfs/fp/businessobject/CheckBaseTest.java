@@ -47,7 +47,7 @@ public class CheckBaseTest extends KualiTestBase {
     @Override
     protected void setUp() throws Exception {
         super.setUp();
-        date = new Date(SpringContext.getBean(DateTimeService.class, "dateTimeService").getCurrentDate().getTime());
+        date = new Date(SpringContext.getBean(DateTimeService.class).getCurrentDate().getTime());
         crchk = new CheckBase();
         crchk.setAmount(AMOUNT);
         crchk.setCheckDate(date);

@@ -74,7 +74,7 @@ public class VendorMaintainableImpl extends KualiMaintainableImpl {
             }
     
             try {
-                UniversalUser initUser = SpringContext.getBean(UniversalUserService.class, "universalUserService").getUniversalUser(new AuthenticationUserId(document.getDocumentHeader().getWorkflowDocument().getInitiatorNetworkId()));
+                UniversalUser initUser = SpringContext.getBean(UniversalUserService.class).getUniversalUser(new AuthenticationUserId(document.getDocumentHeader().getWorkflowDocument().getInitiatorNetworkId()));
                 documentTitle += initUser.getCampusCode();
             }
             catch (UserNotFoundException e) {

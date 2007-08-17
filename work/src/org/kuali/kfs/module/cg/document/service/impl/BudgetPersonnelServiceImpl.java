@@ -222,14 +222,14 @@ public class BudgetPersonnelServiceImpl implements BudgetPersonnelService {
             }
 
 
-            BigDecimal dailySalaryForAppointmentTypeDuration = fullSalaryForAppointmentTypeDuration.divide(new BigDecimal(SpringContext.getBean(DateTimeService.class, "dateTimeService").dateDiff(dailySalaryStartDate, dailySalaryEndDate, true)));
+            BigDecimal dailySalaryForAppointmentTypeDuration = fullSalaryForAppointmentTypeDuration.divide(new BigDecimal(SpringContext.getBean(DateTimeService.class).dateDiff(dailySalaryStartDate, dailySalaryEndDate, true)));
 
             // Step 2 - find out the number of days in the period
             Date workStartDate = (period.getBudgetPeriodBeginDate().before(evalStartDate) ? evalStartDate : period.getBudgetPeriodBeginDate());
             Date workEndDate = (period.getBudgetPeriodEndDate().after(evalEndDate) ? evalEndDate : period.getBudgetPeriodEndDate());
 
             //method can return a negative - this may occur in cases when we are modifying the dates to calcualte based on.  For example, summer appointments in periods that 
-            int dateDiff = SpringContext.getBean(DateTimeService.class, "dateTimeService").dateDiff(workStartDate, workEndDate, true);
+            int dateDiff = SpringContext.getBean(DateTimeService.class).dateDiff(workStartDate, workEndDate, true);
             int daysInPeriod = dateDiff > 0 ? dateDiff : 0;
 
             // Step 3 - multiply the number of days in the period (Step 2) by the daily salary (Step 1)

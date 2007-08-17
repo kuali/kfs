@@ -325,7 +325,7 @@ public class BudgetAction extends ResearchDocumentActionBase {
 
         BudgetForm budgetForm = (BudgetForm) form;
         
-        budgetForm.setInitiator(SpringContext.getBean(UniversalUserService.class, "universalUserService").getUniversalUser(
+        budgetForm.setInitiator(SpringContext.getBean(UniversalUserService.class).getUniversalUser(
                 new AuthenticationUserId(budgetForm.getDocument().getDocumentHeader().getWorkflowDocument().getInitiatorNetworkId())));
         
         budgetForm.getBudgetDocument().populateDocumentForRouting();

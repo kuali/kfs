@@ -47,7 +47,7 @@ public class AccountTest extends KualiTestBase {
     private Timestamp getTimestamp(String timestampString) {
         Timestamp timestamp;
         try {
-            timestamp = SpringContext.getBean(DateTimeService.class, "dateTimeService").convertToSqlTimestamp(timestampString);
+            timestamp = SpringContext.getBean(DateTimeService.class).convertToSqlTimestamp(timestampString);
         }
         catch (ParseException e) {
             assertNull("Timestamp String was not parseable", e);
@@ -67,7 +67,7 @@ public class AccountTest extends KualiTestBase {
         account.setAccountExpirationDate(expirationDate);
 
         // test against isExpired, and get the result
-        boolean actualResult = account.isExpired(SpringContext.getBean(DateTimeService.class, "dateTimeService").getCalendar(testDate));
+        boolean actualResult = account.isExpired(SpringContext.getBean(DateTimeService.class).getCalendar(testDate));
 
         // compare the result to what was expected
         assertEquals(expectedResult, actualResult);

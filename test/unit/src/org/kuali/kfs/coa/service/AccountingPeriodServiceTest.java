@@ -39,7 +39,7 @@ public class AccountingPeriodServiceTest extends KualiTestBase {
     protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AccountingPeriodServiceTest.class);
 
     public void testPersistence() {
-        Date date = SpringContext.getBean(DateTimeService.class, "dateTimeService").getCurrentSqlDate();
+        Date date = SpringContext.getBean(DateTimeService.class).getCurrentSqlDate();
         AccountingPeriod period = SpringContext.getBean(AccountingPeriodService.class).getByDate(date);
         assertNotNull(period);
 

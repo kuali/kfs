@@ -1012,7 +1012,7 @@ public abstract class AccountingDocumentRuleBase extends GeneralLedgerPostingDoc
         explicitEntry.setFinancialDocumentTypeCode(SpringContext.getBean(DocumentTypeService.class).getDocumentTypeCodeByClass(accountingDocument.getClass()));
         explicitEntry.setVersionNumber(new Long(1));
         explicitEntry.setTransactionLedgerEntrySequenceNumber(new Integer(sequenceHelper.getSequenceCounter()));
-        Timestamp transactionTimestamp = new Timestamp(SpringContext.getBean(DateTimeService.class, "dateTimeService").getCurrentDate().getTime());
+        Timestamp transactionTimestamp = new Timestamp(SpringContext.getBean(DateTimeService.class).getCurrentDate().getTime());
         explicitEntry.setTransactionDate(new java.sql.Date(transactionTimestamp.getTime()));
         explicitEntry.setTransactionEntryProcessedTs(new java.sql.Date(transactionTimestamp.getTime()));
         explicitEntry.setAccountNumber(accountingLine.getAccountNumber());

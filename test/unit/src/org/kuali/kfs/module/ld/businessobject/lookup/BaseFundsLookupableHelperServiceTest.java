@@ -65,7 +65,7 @@ public class BaseFundsLookupableHelperServiceTest extends KualiTestBase {
 
         businessObjectService = SpringContext.getBean(BusinessObjectService.class);
 
-        lookupableHelperService = SpringContext.getBean(LookupableHelperService.class, LaborConstants.BASE_FUNDS_LOOKUP_HELPER_SRVICE_NAME);
+        lookupableHelperService = SpringContext.getLookupableHelperService(LaborConstants.BASE_FUNDS_LOOKUP_HELPER_SRVICE_NAME);
         lookupableHelperService.setBusinessObjectClass(AccountStatusBaseFunds.class);
 
         // Clear up the database so that any existing data cannot affact your test result

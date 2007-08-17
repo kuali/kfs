@@ -24,7 +24,6 @@ import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
 import org.kuali.kfs.context.SpringContext;
-import org.kuali.module.gl.GLSpringBeansRegistry;
 import org.kuali.module.gl.bo.Balance;
 import org.kuali.module.gl.service.BalanceService;
 import org.kuali.module.gl.util.BusinessObjectFieldConverter;
@@ -46,7 +45,7 @@ public class BalanceLookupableHelperServiceTest extends AbstractGLLookupableHelp
         super.setUp();
 
         setBalanceService(SpringContext.getBean(BalanceService.class));
-        lookupableHelperServiceImpl = SpringContext.getBean(BalanceLookupableHelperServiceImpl.class, GLSpringBeansRegistry.glBalanceLookupableHelperService);
+        lookupableHelperServiceImpl = (AbstractGLLookupableHelperServiceImpl)SpringContext.getLookupableHelperService("glBalanceLookupableHelperService");
         lookupableHelperServiceImpl.setBusinessObjectClass(Balance.class);
     }
 

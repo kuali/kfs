@@ -44,7 +44,7 @@ public abstract class AbstractGLLookupableHelperServiceTestBase extends KualiTes
     protected void setUp() throws Exception {
         super.setUp();
 
-        date = SpringContext.getBean(DateTimeService.class, "dateTimeService").getCurrentDate();
+        date = SpringContext.getBean(DateTimeService.class).getCurrentDate();
         pendingEntry = new GeneralLedgerPendingEntry();
         testDataGenerator = new TestDataGenerator();
 

@@ -118,7 +118,7 @@ public class EntryLookupableHelperServiceImpl extends AbstractGLLookupableHelper
         UniversityDate today = SpringContext.getBean(UniversityDateService.class).getCurrentUniversityDate();
         String currentFiscalPeriodCode = today.getUniversityFiscalAccountingPeriod();
         Integer currentFiscalYear = today.getUniversityFiscalYear();
-        Date postDate = SpringContext.getBean(DateTimeService.class, "dateTimeService").getCurrentSqlDate();
+        Date postDate = SpringContext.getBean(DateTimeService.class).getCurrentSqlDate();
 
         while (pendingEntryIterator.hasNext()) {
             GeneralLedgerPendingEntry pendingEntry = (GeneralLedgerPendingEntry) pendingEntryIterator.next();

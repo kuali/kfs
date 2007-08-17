@@ -74,7 +74,7 @@ public class BatchStepRunner {
         	LOG.warn( "error checking application parameter", ex );
         }
         LOG.debug("runStep() Retrieving step " + stepName);
-        Step step = SpringContext.getBean(Step.class, stepName);
+        Step step = SpringContext.getStep(stepName);
         String stepRunIndicatorParameter = stepName + "_FLAG";
         boolean skipStep = false;
         try {

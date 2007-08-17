@@ -533,7 +533,7 @@ public class CashManagementForm extends KualiDocumentFormBase {
             
             isDepositsFinal = cmDoc.hasFinalDeposit();
             
-            timeRefreshed = SpringContext.getBean(DateTimeService.class, "dateTimeService").getCurrentTimestamp();
+            timeRefreshed = SpringContext.getBean(DateTimeService.class).getCurrentTimestamp();
         }
 
         private KualiDecimal calculateDepositedCashieringChecksTotal(CashManagementDocument cmDoc) {

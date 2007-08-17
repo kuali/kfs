@@ -91,7 +91,7 @@ public class DisbursementVoucherDocumentTest extends KualiTestBase {
 
         dvParameter.setDisbVchrContactPersonName(GlobalVariables.getUserSession().getUniversalUser().getPersonName());
         // set to tomorrow
-        Calendar calendar = SpringContext.getBean(DateTimeService.class, "dateTimeService").getCurrentCalendar();
+        Calendar calendar = SpringContext.getBean(DateTimeService.class).getCurrentCalendar();
         calendar.add(Calendar.DAY_OF_MONTH, 1);
         calendar.clear(Calendar.MILLISECOND);
         calendar.clear(Calendar.SECOND);

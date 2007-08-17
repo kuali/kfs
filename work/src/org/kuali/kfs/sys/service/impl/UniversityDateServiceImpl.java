@@ -34,7 +34,7 @@ public class UniversityDateServiceImpl implements UniversityDateService {
     
     public UniversityDate getCurrentUniversityDate() {
         LOG.debug("getCurrentUniversityDate() started");
-        java.util.Date now = SpringContext.getBean(DateTimeService.class, "dateTimeService").getCurrentDate();
+        java.util.Date now = SpringContext.getBean(DateTimeService.class).getCurrentDate();
 
         return universityDateDao.getByPrimaryKey(DateUtils.clearTimeFields(now));
     }
@@ -44,7 +44,7 @@ public class UniversityDateServiceImpl implements UniversityDateService {
      */
     public Integer getCurrentFiscalYear() {
         Timer t0 = new Timer("getCurrentFiscalYear");
-        java.util.Date now = SpringContext.getBean(DateTimeService.class, "dateTimeService").getCurrentDate();
+        java.util.Date now = SpringContext.getBean(DateTimeService.class).getCurrentDate();
 
         Integer result = getFiscalYear(DateUtils.clearTimeFields(now));
         t0.log();

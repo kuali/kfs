@@ -40,7 +40,7 @@ public class ProposalCloseRule extends MaintenanceDocumentRuleBase {
         }
         Close close = (Close) document.getDocumentBusinessObject();
         Date userDate = close.getUserInitiatedCloseDate();
-        Date today = SpringContext.getBean(DateTimeService.class, "dateTimeService").getCurrentSqlDateMidnight();
+        Date today = SpringContext.getBean(DateTimeService.class).getCurrentSqlDateMidnight();
         isOk = today.getTime() <= userDate.getTime();
         if(!isOk) {
             putFieldError("userInitiatedCloseDate", KFSKeyConstants.ContractsAndGrants.USER_INITIATED_DATE_TOO_EARLY, userDate.toString());

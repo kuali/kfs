@@ -407,7 +407,7 @@ public class RoutingFormServiceImpl implements RoutingFormService {
             proposal.getProposalResearchRisks().add(newProposalResearchRisk);
         }
         
-        proposal.setProposalSubmissionDate(SpringContext.getBean(DateTimeService.class, "dateTimeService").getCurrentSqlDate());
+        proposal.setProposalSubmissionDate(SpringContext.getBean(DateTimeService.class).getCurrentSqlDate());
         
         return proposal;
     }

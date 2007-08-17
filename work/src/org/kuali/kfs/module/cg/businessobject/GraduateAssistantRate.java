@@ -233,11 +233,11 @@ public class GraduateAssistantRate extends PersistableBusinessObjectBase {
     
     public void beforeInsert(PersistenceBroker persistenceBroker) {
         super.beforeInsert(persistenceBroker);
-        this.lastUpdateTimestamp = SpringContext.getBean(DateTimeService.class, "dateTimeService").getCurrentTimestamp();
+        this.lastUpdateTimestamp = SpringContext.getBean(DateTimeService.class).getCurrentTimestamp();
     }
 
     public void beforeUpdate(PersistenceBroker persistenceBroker) {
         super.beforeUpdate(persistenceBroker);
-        this.lastUpdateTimestamp = SpringContext.getBean(DateTimeService.class, "dateTimeService").getCurrentTimestamp();
+        this.lastUpdateTimestamp = SpringContext.getBean(DateTimeService.class).getCurrentTimestamp();
     }
 }

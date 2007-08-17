@@ -48,7 +48,7 @@ public class ProjectDirector extends PersistableBusinessObjectBase implements In
     public UniversalUser getUniversalUser() {
         // If personUserIdentifier is not set, then fall back to personUniversalIdentifier.
         if (personUserIdentifier == null) {
-            universalUser = SpringContext.getBean(UniversalUserService.class, "universalUserService").updateUniversalUserIfNecessary(personUniversalIdentifier, universalUser);
+            universalUser = SpringContext.getBean(UniversalUserService.class).updateUniversalUserIfNecessary(personUniversalIdentifier, universalUser);
         }
         return universalUser;
     }
@@ -162,7 +162,7 @@ public class ProjectDirector extends PersistableBusinessObjectBase implements In
         this.personUserIdentifier = personUserIdentifier;
         if (universalUser == null || !personUserIdentifier.equals(universalUser.getPersonUserIdentifier())) {
             try {
-                universalUser = SpringContext.getBean(UniversalUserService.class, "universalUserService").getUniversalUserByAuthenticationUserId( personUserIdentifier );
+                universalUser = SpringContext.getBean(UniversalUserService.class).getUniversalUserByAuthenticationUserId( personUserIdentifier );
             } catch ( UserNotFoundException ex ) {
                 universalUser = null;
             }

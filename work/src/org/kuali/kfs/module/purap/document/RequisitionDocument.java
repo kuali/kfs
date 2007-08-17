@@ -154,7 +154,7 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
     public boolean getAllowsCopy() {
         boolean allowsCopy = super.getAllowsCopy();
         if (this.getRequisitionSourceCode().equals(PurapConstants.RequisitionSources.B2B)) {
-            DateTimeService dateTimeService = SpringContext.getBean(DateTimeService.class, "dateTimeService");            
+            DateTimeService dateTimeService = SpringContext.getBean(DateTimeService.class);            
             Calendar c = Calendar.getInstance();
             DocumentHeader dh = this.getDocumentHeader();
             KualiWorkflowDocument wd = dh.getWorkflowDocument();
@@ -204,7 +204,7 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
         boolean activeVendor = true;
         boolean activeContract = true;
 
-        Date today = SpringContext.getBean(DateTimeService.class, "dateTimeService").getCurrentDate();
+        Date today = SpringContext.getBean(DateTimeService.class).getCurrentDate();
 
         VendorContract vendorContract = new VendorContract();
         vendorContract.setVendorContractGeneratedIdentifier(this.getVendorContractGeneratedIdentifier());

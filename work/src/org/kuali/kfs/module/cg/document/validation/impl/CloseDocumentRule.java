@@ -38,7 +38,7 @@ public class CloseDocumentRule extends TransactionalDocumentRuleBase {
         }
         Close closeDocument = (Close) document;
         Date userDate = closeDocument.getUserInitiatedCloseDate();
-        Date today = SpringContext.getBean(DateTimeService.class, "dateTimeService").getCurrentSqlDateMidnight();
+        Date today = SpringContext.getBean(DateTimeService.class).getCurrentSqlDateMidnight();
         isOk = null != userDate && today.getTime() <= userDate.getTime();
         if(!isOk) {
             GlobalVariables.getErrorMap().putError(

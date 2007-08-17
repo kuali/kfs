@@ -632,7 +632,7 @@ public class RoutingFormXml {
         Element approverElement = xmlDoc.createElement("APPROVER");
         
         UniversalUser kualiUser;
-        UniversalUserService universalUserService = SpringContext.getBean(UniversalUserService.class, "universalUserService");
+        UniversalUserService universalUserService = SpringContext.getBean(UniversalUserService.class);
         ChartUserService chartUserService = SpringContext.getBean(ChartUserService.class);
         try {
             kualiUser =  universalUserService.getUniversalUser(workflowUser.getUuId());

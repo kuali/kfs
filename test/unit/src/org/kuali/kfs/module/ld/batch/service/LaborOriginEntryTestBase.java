@@ -62,7 +62,7 @@ public class LaborOriginEntryTestBase extends KualiTestBase {
 
         LOG.debug("setUp() starting");
 
-        dateTimeService = SpringContext.getBean(ConfigurableDateService.class, "testDateTimeService");
+        dateTimeService = SpringContext.getBean(ConfigurableDateService.class);
         date = dateTimeService.getCurrentDate();
 
         // Other objects needed for the tests
@@ -70,10 +70,10 @@ public class LaborOriginEntryTestBase extends KualiTestBase {
         unitTestSqlDao = SpringContext.getBean(UnitTestSqlDao.class);
         laborOriginEntryService = SpringContext.getBean(LaborOriginEntryService.class);
 
-        originEntryDao = SpringContext.getBean(OriginEntryDao.class, "glOriginEntryDao");
+        originEntryDao = SpringContext.getBean(OriginEntryDao.class);
         laborOriginEntryDao = SpringContext.getBean(LaborOriginEntryDao.class);
 
-        originEntryGroupService = SpringContext.getBean(OriginEntryGroupService.class, "glOriginEntryGroupService");
+        originEntryGroupService = SpringContext.getBean(OriginEntryGroupService.class);
         kualiConfigurationService = SpringContext.getBean(KualiConfigurationService.class);
 
         // Set all enhancements to off

@@ -151,7 +151,7 @@ public class CreditMemoDocument extends AccountsPayableDocumentBase {
     public boolean getPurchaseOrderNotes() {
         boolean hasNotes = false;
 
-        ArrayList poNotes = SpringContext.getBean(NoteService.class, "noteService").getByRemoteObjectId((this.getPurchaseOrderIdentifier()).toString());
+        ArrayList poNotes = SpringContext.getBean(NoteService.class).getByRemoteObjectId((this.getPurchaseOrderIdentifier()).toString());
         if (poNotes.size() > 0) {
             hasNotes = true;
         }
@@ -225,7 +225,7 @@ public class CreditMemoDocument extends AccountsPayableDocumentBase {
      */
     public boolean processNodeChange(String newNodeName, String oldNodeName) {
         if (NodeDetailEnum.ACCOUNTS_PAYABLE_REVIEW.equals(oldNodeName)) {
-            setAccountsPayableApprovalDate(SpringContext.getBean(DateTimeService.class, "dateTimeService").getCurrentSqlDate());
+            setAccountsPayableApprovalDate(SpringContext.getBean(DateTimeService.class).getCurrentSqlDate());
             SpringContext.getBean(PurapGeneralLedgerService.class).generateEntriesCreditMemo(this, PurapConstants.CREATE_CREDIT_MEMO);
         }
         return true;

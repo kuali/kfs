@@ -384,7 +384,7 @@ public abstract class AccountsPayableDocumentBase extends PurchasingAccountsPaya
     //Helper methods
     public UniversalUser getLastActionPerformedByUser(){
         try {
-            UniversalUser user = SpringContext.getBean(UniversalUserService.class, "universalUserService").getUniversalUser(getLastActionPerformedByUniversalUserId());
+            UniversalUser user = SpringContext.getBean(UniversalUserService.class).getUniversalUser(getLastActionPerformedByUniversalUserId());
             return user;
         }
         catch (UserNotFoundException unfe) {

@@ -271,7 +271,7 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
      */
     protected void addStatusHistoryNote(StatusHistory statusHistory, Note note) {
         if (ObjectUtils.isNotNull(null)) {
-            NoteService noteService = SpringContext.getBean(NoteService.class, "noteService");
+            NoteService noteService = SpringContext.getBean(NoteService.class);
             try {
                 note = noteService.createNote(note, statusHistory);
                 noteService.save(note);
@@ -819,7 +819,7 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
                 persistedSourceLines.addAll(purApAccountingService.getAccountsFromItem(item));
             }
         }
-//        List persistedSourceLines = SpringContext.getBean(AccountingLineService.class, "accountingLineService").getByDocumentHeaderId(accountingLineClass, getDocumentNumber());
+//        List persistedSourceLines = SpringContext.getBean(AccountingLineService.class).getByDocumentHeaderId(accountingLineClass, getDocumentNumber());
             
         List sourceEvents = generateEvents(persistedSourceLines, currentSourceLines, KFSConstants.DOCUMENT_PROPERTY_NAME + "." + KFSConstants.EXISTING_SOURCE_ACCT_LINE_PROPERTY_NAME, this);
         for (Iterator i = sourceEvents.iterator(); i.hasNext();) {
@@ -827,7 +827,7 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
             events.add(sourceEvent);
         }
 
-//        List persistedTargetLines = SpringContext.getBean(AccountingLineService.class, "accountingLineService").getByDocumentHeaderId(getTargetAccountingLineClass(), getDocumentNumber());
+//        List persistedTargetLines = SpringContext.getBean(AccountingLineService.class).getByDocumentHeaderId(getTargetAccountingLineClass(), getDocumentNumber());
 //        List currentTargetLines = getTargetAccountingLines();
 //
 //        List targetEvents = generateEvents(persistedTargetLines, currentTargetLines, KFSConstants.DOCUMENT_PROPERTY_NAME + "." + KFSConstants.EXISTING_TARGET_ACCT_LINE_PROPERTY_NAME, this);

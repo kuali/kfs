@@ -96,7 +96,7 @@ public class PaymentRequestDocumentRule extends AccountsPayableDocumentRuleBase 
         boolean valid = super.processValidation(purapDocument);
         valid &= processInvoiceValidation((PaymentRequestDocument)purapDocument);
         //TODO: this check is also in item checks below, we should consolidate these non full entry checks
-        if(!SpringContext.getBean(PurapService.class, "purapService").isFullDocumentEntryCompleted(purapDocument)) {
+        if(!SpringContext.getBean(PurapService.class).isFullDocumentEntryCompleted(purapDocument)) {
             valid &= processPurchaseOrderIDValidation((PaymentRequestDocument)purapDocument);
         }
         valid &= processPaymentRequestDateValidationForContinue((PaymentRequestDocument)purapDocument);
@@ -373,7 +373,7 @@ public class PaymentRequestDocumentRule extends AccountsPayableDocumentRuleBase 
     public boolean validateItem(PaymentRequestDocument paymentRequestDocument, PaymentRequestItem item, String identifierString) {
         boolean valid = true;
         //only run item validations if before full entry
-        if(!SpringContext.getBean(PurapService.class, "purapService").isFullDocumentEntryCompleted(paymentRequestDocument)) {
+        if(!SpringContext.getBean(PurapService.class).isFullDocumentEntryCompleted(paymentRequestDocument)) {
             if (item.getItemTypeCode().equals(PurapConstants.ItemTypeCodes.ITEM_TYPE_ITEM_CODE)) { 
                 valid &= validateItemTypeItems(item, identifierString); 
             } 
@@ -571,14 +571,14 @@ public class PaymentRequestDocumentRule extends AccountsPayableDocumentRuleBase 
     private boolean isDateInPast(Date compareDate) {
         boolean valid = true;
         if (compareDate != null) {
-            Calendar c = SpringContext.getBean(DateTimeService.class, "dateTimeService").getCurrentCalendar();
+            Calendar c = SpringContext.getBean(DateTimeService.class).getCurrentCalendar();
             c.set(Calendar.HOUR, 12);
             c.set(Calendar.MINUTE, 0);
             c.set(Calendar.SECOND, 0);
             c.set(Calendar.MILLISECOND, 0);
             c.set(Calendar.AM_PM, Calendar.AM);
             Timestamp timeNow = new Timestamp(c.getTime().getTime());
-            Calendar c2 = SpringContext.getBean(DateTimeService.class, "dateTimeService").getCalendar(compareDate);
+            Calendar c2 = SpringContext.getBean(DateTimeService.class).getCalendar(compareDate);
             c2.set(Calendar.HOUR, 11);
             c2.set(Calendar.MINUTE, 59);
             c2.set(Calendar.SECOND, 59);
@@ -595,7 +595,7 @@ public class PaymentRequestDocumentRule extends AccountsPayableDocumentRuleBase 
     public boolean isPayDateOver60Days(PaymentRequestDocument paymentRequest) {
         if (paymentRequest.getPaymentRequestPayDate() != null) {
             // Calendar c is a holder for today's date + 60 days
-            Calendar c = SpringContext.getBean(DateTimeService.class, "dateTimeService").getCurrentCalendar();
+            Calendar c = SpringContext.getBean(DateTimeService.class).getCurrentCalendar();
             c.set(Calendar.HOUR, 12);
             c.set(Calendar.MINUTE, 0);
             c.set(Calendar.SECOND, 0);
@@ -604,7 +604,7 @@ public class PaymentRequestDocumentRule extends AccountsPayableDocumentRuleBase 
             c.add(Calendar.DATE, 60);
             Timestamp testTime = new Timestamp(c.getTime().getTime());
             // Calendar c2 is a holder for the paymentRequestPayDate
-            Calendar c2 = SpringContext.getBean(DateTimeService.class, "dateTimeService").getCalendar(paymentRequest.getPaymentRequestPayDate());
+            Calendar c2 = SpringContext.getBean(DateTimeService.class).getCalendar(paymentRequest.getPaymentRequestPayDate());
             c2.set(Calendar.HOUR, 11);
             c2.set(Calendar.MINUTE, 59);
             c2.set(Calendar.SECOND, 59);

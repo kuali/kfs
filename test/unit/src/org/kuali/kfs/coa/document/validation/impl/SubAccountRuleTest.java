@@ -92,7 +92,7 @@ public class SubAccountRuleTest extends ChartRuleTestBase {
     private UniversalUser createKualiUser(String userid) {
         UniversalUser user = new UniversalUser();
         try {
-            user = SpringContext.getBean(UniversalUserService.class, "universalUserService").getUniversalUser(new AuthenticationUserId(userid));
+            user = SpringContext.getBean(UniversalUserService.class).getUniversalUser(new AuthenticationUserId(userid));
         }
         catch (Exception e) {
             e.printStackTrace();

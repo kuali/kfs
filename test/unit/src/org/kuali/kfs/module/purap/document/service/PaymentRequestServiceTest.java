@@ -89,7 +89,7 @@ public class PaymentRequestServiceTest extends KualiTestBase {
         purchaseOrderDocument.refreshNonUpdateableReferences();
         
         PaymentRequestDocument paymentRequestDocument = (PaymentRequestDocument) documentService.getNewDocument(PaymentRequestDocument.class);
-        Date today = SpringContext.getBean(DateTimeService.class, "dateTimeService").getCurrentSqlDate();
+        Date today = SpringContext.getBean(DateTimeService.class).getCurrentSqlDate();
         //paymentRequestDocument.initiateDocument();
         paymentRequestDocument.setInvoiceDate(today);
         paymentRequestDocument.setStatusCode(PurapConstants.PaymentRequestStatuses.AWAITING_ACCOUNTS_PAYABLE_REVIEW);//IN_PROCESS);

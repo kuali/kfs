@@ -317,7 +317,7 @@
 	    </property>
 	</bean>
 	
-	<bean id="nonResidentAlienTaxPercentLookupableHelperService" class="org.kuali.module.financial.lookup.KualiNonResidentAlienTaxPercentLookupableHelperServiceImpl" singleton="false" parent="kualiLookupableHelperService" />
+	<bean id="nonResidentAlienTaxPercentLookupableHelperService" class="org.kuali.module.financial.lookup.KualiNonResidentAlienTaxPercentLookupableHelperServiceImpl" singleton="false" parent="lookupableHelperService" />
 	
 	<bean id="nonResidentAlienTaxPercentLookupable" class="org.kuali.core.lookup.KualiLookupableImpl" singleton="false">
 		<property name="lookupableHelperService">

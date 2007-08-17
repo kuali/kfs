@@ -344,7 +344,7 @@
 
 	<bean id="OrgReviewLookupable" class="org.kuali.workflow.attribute.OrgReviewLookupableImpl" singleton="false" />
 
-	<bean id="accountLookupableHelperService" class="org.kuali.module.chart.lookup.KualiAccountLookupableHelperServiceImpl" singleton="false" parent="kualiLookupableHelperService" />
+	<bean id="accountLookupableHelperService" class="org.kuali.module.chart.lookup.KualiAccountLookupableHelperServiceImpl" singleton="false" parent="lookupableHelperService" />
 
 	<bean id="accountLookupable" class="org.kuali.core.lookup.KualiLookupableImpl" singleton="false">
 		<property name="lookupableHelperService">
@@ -352,7 +352,7 @@
 		</property>
 	</bean>
 
-	<bean id="organizationRoutingModelLookupableHelperService" class="org.kuali.module.chart.lookup.OrganizationRoutingModelNameLookupableHelperServiceImpl" singleton="false" parent="kualiLookupableHelperService" />
+	<bean id="organizationRoutingModelLookupableHelperService" class="org.kuali.module.chart.lookup.OrganizationRoutingModelNameLookupableHelperServiceImpl" singleton="false" parent="lookupableHelperService" />
 
 	<bean id="organizationRoutingModelLookupable" class="org.kuali.core.lookup.KualiLookupableImpl" singleton="false">
 		<property name="lookupableHelperService">
@@ -360,7 +360,7 @@
 		</property>
 	</bean>
 	
-	<bean id="indirectCostRecoveryExclusionByTypeLookupableHelperService" class="org.kuali.module.chart.lookup.IndirectCostRecoveryExclusionByTypeLookupableHelperServiceImpl" singleton="false" parent="kualiLookupableHelperService" />
+	<bean id="indirectCostRecoveryExclusionByTypeLookupableHelperService" class="org.kuali.module.chart.lookup.IndirectCostRecoveryExclusionByTypeLookupableHelperServiceImpl" singleton="false" parent="lookupableHelperService" />
 
 	<bean id="indirectCostRecoveryExclusionByTypeLookupable" class="org.kuali.core.lookup.KualiLookupableImpl" singleton="false">
 		<property name="lookupableHelperService">

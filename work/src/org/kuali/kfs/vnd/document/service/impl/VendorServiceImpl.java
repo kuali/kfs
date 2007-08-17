@@ -293,7 +293,7 @@ public class VendorServiceImpl implements VendorService {
             String ssnTaxId = vendorToUse.getVendorHeader().getVendorTaxNumber();
             if (StringUtils.isNotBlank(ssnTaxId)) {
                 try {
-                    UniversalUser user = SpringContext.getBean(UniversalUserService.class, "universalUserService").getUniversalUser(new PersonTaxId(ssnTaxId));
+                    UniversalUser user = SpringContext.getBean(UniversalUserService.class).getUniversalUser(new PersonTaxId(ssnTaxId));
                     return (user.isFaculty() || user.isStaff() || user.isAffiliate()) && !SpringContext.getBean(KualiConfigurationService.class).getApplicationParameterRule(KFSConstants.ADMIN_GROUP, KFSConstants.ALLOWED_EMPLOYEE_STATUS_RULE).failsRule(user.getEmployeeStatusCode());
                 }
                 catch (UserNotFoundException e) {

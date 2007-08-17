@@ -43,7 +43,7 @@ public class KualiDelegateMaintainableImpl extends KualiMaintainableImpl {
     private void setStartDateDefault() {
         if (this.businessObject != null && this.businessObject instanceof Delegate) {
             Delegate delegate = (Delegate)this.businessObject;
-            delegate.setAccountDelegateStartDate(SpringContext.getBean(DateTimeService.class, "dateTimeService").getCurrentTimestamp());
+            delegate.setAccountDelegateStartDate(SpringContext.getBean(DateTimeService.class).getCurrentTimestamp());
         }
     }
 }

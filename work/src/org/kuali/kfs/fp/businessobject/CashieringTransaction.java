@@ -62,7 +62,7 @@ public class CashieringTransaction extends TransientBusinessObjectBase {
         super();
         this.workgroupName = workgroupName;
         this.referenceFinancialDocumentNumber = referenceFinancialDocumentNumber;
-        this.transactionStarted = SpringContext.getBean(DateTimeService.class, "dateTimeService").getCurrentDate();
+        this.transactionStarted = SpringContext.getBean(DateTimeService.class).getCurrentDate();
         
         moneyInCoin = new CoinDetail();
         moneyInCurrency = new CurrencyDetail();

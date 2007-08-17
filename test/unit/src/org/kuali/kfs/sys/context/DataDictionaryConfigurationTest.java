@@ -68,7 +68,7 @@ public class DataDictionaryConfigurationTest extends KualiTestBase {
         for (String componentClassName : componentNamesByClassName.keySet()) {
             componentNamesByModule.get(getComponentModuleId(componentClassName)).addAll(componentNamesByClassName.get(componentClassName));
         }
-        for (JobDescriptor jobDescriptor : SpringContext.getBeansOfType(JobDescriptor.class)) {
+        for (JobDescriptor jobDescriptor : SpringContext.getBeansOfType(JobDescriptor.class).values()) {
             componentNamesByModule.get(getComponentModuleId(jobDescriptor.getSteps().get(0).getClass().getName())).add(getNiceJobName(jobDescriptor));
         }
         StringBuffer output = new StringBuffer("Components By Module:");

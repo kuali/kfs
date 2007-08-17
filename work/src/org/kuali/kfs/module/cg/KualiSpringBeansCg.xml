@@ -107,7 +107,7 @@
     	</property>
 	</bean>
 
-	<bean id="proposalLookupableHelperService" class="org.kuali.module.cg.lookup.ProposalLookupableHelperServiceImpl" singleton="false" parent="kualiLookupableHelperService" />
+	<bean id="proposalLookupableHelperService" class="org.kuali.module.cg.lookup.ProposalLookupableHelperServiceImpl" singleton="false" parent="lookupableHelperService" />
 
 	<bean id="proposalLookupable" class="org.kuali.core.lookup.KualiLookupableImpl" singleton="false">
 		<property name="lookupableHelperService">
@@ -115,7 +115,7 @@
 		</property>
 	</bean>
 
-    <bean id="awardLookupableHelperService" class="org.kuali.module.cg.lookup.AwardLookupableHelperServiceImpl" singleton="false" parent="kualiLookupableHelperService" />
+    <bean id="awardLookupableHelperService" class="org.kuali.module.cg.lookup.AwardLookupableHelperServiceImpl" singleton="false" parent="lookupableHelperService" />
 
     <bean id="awardLookupable" class="org.kuali.core.lookup.KualiLookupableImpl" singleton="false">
         <property name="lookupableHelperService">

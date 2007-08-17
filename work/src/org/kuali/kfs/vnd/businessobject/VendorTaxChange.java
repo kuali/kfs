@@ -175,7 +175,7 @@ public class VendorTaxChange extends PersistableBusinessObjectBase {
 	}
 
 	public UniversalUser getVendorTaxChangePerson() {
-        vendorTaxChangePerson = SpringContext.getBean(UniversalUserService.class, "universalUserService").updateUniversalUserIfNecessary(vendorTaxChangePersonIdentifier, vendorTaxChangePerson);
+        vendorTaxChangePerson = SpringContext.getBean(UniversalUserService.class).updateUniversalUserIfNecessary(vendorTaxChangePersonIdentifier, vendorTaxChangePerson);
         return vendorTaxChangePerson;
     }
 

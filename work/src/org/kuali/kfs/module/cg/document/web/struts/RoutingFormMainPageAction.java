@@ -191,7 +191,7 @@ public class RoutingFormMainPageAction extends RoutingFormAction {
             String lookupResultsSequenceNumber = routingForm.getLookupResultsSequenceNumber();
             if (StringUtils.isNotBlank(lookupResultsSequenceNumber)) {
                 Class lookupResultsBOClass = Class.forName(routingForm.getLookupResultsBOClassName());
-                Collection<PersistableBusinessObject> rawValues = SpringContext.getBean(LookupResultsService.class, "lookupResultsService").retrieveSelectedResultBOs(lookupResultsSequenceNumber, lookupResultsBOClass, GlobalVariables.getUserSession().getUniversalUser().getPersonUniversalIdentifier());
+                Collection<PersistableBusinessObject> rawValues = SpringContext.getBean(LookupResultsService.class).retrieveSelectedResultBOs(lookupResultsSequenceNumber, lookupResultsBOClass, GlobalVariables.getUserSession().getUniversalUser().getPersonUniversalIdentifier());
                 
                 if(lookupResultsBOClass.isAssignableFrom(Keyword.class)) {
                     for(Iterator iter = rawValues.iterator(); iter.hasNext(); ) {

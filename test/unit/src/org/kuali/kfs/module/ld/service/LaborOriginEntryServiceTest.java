@@ -66,10 +66,10 @@ public class LaborOriginEntryServiceTest extends KualiTestBase {
         deliminator = properties.getProperty("deliminator");
 
         laborOriginEntryService = SpringContext.getBean(LaborOriginEntryService.class);
-        originEntryGroupService = SpringContext.getBean(OriginEntryGroupService.class, "glOriginEntryGroupService");
+        originEntryGroupService = SpringContext.getBean(OriginEntryGroupService.class);
         businessObjectService = SpringContext.getBean(BusinessObjectService.class);
 
-        Date today = (SpringContext.getBean(DateTimeService.class, "dateTimeService")).getCurrentSqlDate();
+        Date today = (SpringContext.getBean(DateTimeService.class)).getCurrentSqlDate();
         group1 = originEntryGroupService.createGroup(today, LABOR_MAIN_POSTER_VALID, false, false, false);
         group2 = originEntryGroupService.createGroup(today, LABOR_MAIN_POSTER_VALID, false, false, false);
 

@@ -30,6 +30,6 @@ public class PurchaseOrderQuoteLanguageMaintainableImpl extends KualiMaintainabl
     private void intializePoQuoteLangauge(){        
         //set create date
         PurchaseOrderQuoteLanguage poql = (PurchaseOrderQuoteLanguage)super.getBusinessObject();
-        poql.setPurchaseOrderQuoteLanguageCreateDate(SpringContext.getBean(DateTimeService.class, "dateTimeService").getCurrentSqlDate());        
+        poql.setPurchaseOrderQuoteLanguageCreateDate(SpringContext.getBean(DateTimeService.class).getCurrentSqlDate());        
     }
 }

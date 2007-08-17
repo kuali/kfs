@@ -68,7 +68,7 @@ public class VendorPreRules extends MaintenancePreRulesBase {
 
     protected DateTimeService getDateTimeService() {
         if( ObjectUtils.isNull( this.dateTimeService ) ) {
-            this.dateTimeService = SpringContext.getBean(DateTimeService.class, "dateTimeService");
+            this.dateTimeService = SpringContext.getBean(DateTimeService.class);
         }
         return this.dateTimeService;
     }

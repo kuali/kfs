@@ -331,7 +331,7 @@ public class BudgetConstructionFundingLock extends PersistableBusinessObjectBase
      * @return Returns the appointmentFundingLockUser. 
      */
     public UniversalUser getAppointmentFundingLockUser() {
-        appointmentFundingLockUser = SpringContext.getBean(UniversalUserService.class, "universalUserService").updateUniversalUserIfNecessary(appointmentFundingLockUserId, appointmentFundingLockUser);
+        appointmentFundingLockUser = SpringContext.getBean(UniversalUserService.class).updateUniversalUserIfNecessary(appointmentFundingLockUserId, appointmentFundingLockUser);
         return appointmentFundingLockUser;
     }
 

@@ -75,7 +75,7 @@ public class VoucherForm extends KualiAccountingDocumentFormBase {
      * 
      */
     private void populateDefaultSelectedAccountingPeriod() {
-        Date date = SpringContext.getBean(DateTimeService.class, "dateTimeService").getCurrentSqlDate();
+        Date date = SpringContext.getBean(DateTimeService.class).getCurrentSqlDate();
         AccountingPeriod accountingPeriod = SpringContext.getBean(AccountingPeriodService.class).getByDate(date);
 
         StringBuffer sb = new StringBuffer();

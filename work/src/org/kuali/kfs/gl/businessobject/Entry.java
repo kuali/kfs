@@ -131,7 +131,7 @@ public class Entry extends PersistableBusinessObjectBase implements Transaction 
             setTransactionPostingDate(new Date(postDate.getTime()));
         }
 
-        Timestamp now = SpringContext.getBean(DateTimeService.class, "dateTimeService").getCurrentTimestamp();
+        Timestamp now = SpringContext.getBean(DateTimeService.class).getCurrentTimestamp();
         setTransactionDateTimeStamp(now);
     }
 

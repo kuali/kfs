@@ -55,6 +55,6 @@ public enum UserNameFixture {
     }
 
     public UniversalUser getUniversalUser() throws UserNotFoundException {
-        return SpringContext.getBean(UniversalUserService.class, "universalUserService").getUniversalUser(getAuthenticationUserId());
+        return SpringContext.getBean(UniversalUserService.class).getUniversalUser(getAuthenticationUserId());
     }
 }

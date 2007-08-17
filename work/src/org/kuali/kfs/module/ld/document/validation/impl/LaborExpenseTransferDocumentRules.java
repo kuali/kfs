@@ -1189,7 +1189,7 @@ public class LaborExpenseTransferDocumentRules extends AccountingDocumentRuleBas
         originalEntry.setTransactionLedgerEntrySequenceNumber(getNextSequenceNumber(sequenceHelper));
         originalEntry.setTransactionLedgerEntryAmount(getGeneralLedgerPendingEntryAmountForAccountingLine(accountingLine));
         originalEntry.setTransactionDebitCreditCode(accountingLine.isSourceAccountingLine() ? KFSConstants.GL_CREDIT_CODE : KFSConstants.GL_DEBIT_CODE);
-        Timestamp transactionTimestamp = new Timestamp(SpringContext.getBean(DateTimeService.class, "dateTimeService").getCurrentDate().getTime());
+        Timestamp transactionTimestamp = new Timestamp(SpringContext.getBean(DateTimeService.class).getCurrentDate().getTime());
         originalEntry.setTransactionDate(new java.sql.Date(transactionTimestamp.getTime()));
         originalEntry.setProjectCode(getEntryValue(accountingLine.getProjectCode(), LABOR_LEDGER_PENDING_ENTRY_CODE.BLANK_PROJECT_STRING));
         originalEntry.setOrganizationReferenceId(accountingLine.getOrganizationReferenceId());
@@ -1264,7 +1264,7 @@ public class LaborExpenseTransferDocumentRules extends AccountingDocumentRuleBas
         a21Entry.setTransactionLedgerEntrySequenceNumber(getNextSequenceNumber(sequenceHelper));
         a21Entry.setTransactionLedgerEntryAmount(getGeneralLedgerPendingEntryAmountForAccountingLine(accountingLine));
         a21Entry.setTransactionDebitCreditCode(accountingLine.isSourceAccountingLine() ? KFSConstants.GL_DEBIT_CODE : KFSConstants.GL_CREDIT_CODE);
-        Timestamp transactionTimestamp = new Timestamp(SpringContext.getBean(DateTimeService.class, "dateTimeService").getCurrentDate().getTime());
+        Timestamp transactionTimestamp = new Timestamp(SpringContext.getBean(DateTimeService.class).getCurrentDate().getTime());
         a21Entry.setTransactionDate(new java.sql.Date(transactionTimestamp.getTime()));
         a21Entry.setProjectCode(getEntryValue(accountingLine.getProjectCode(), LABOR_LEDGER_PENDING_ENTRY_CODE.BLANK_PROJECT_STRING));
         a21Entry.setOrganizationReferenceId(accountingLine.getOrganizationReferenceId());
@@ -1344,7 +1344,7 @@ public class LaborExpenseTransferDocumentRules extends AccountingDocumentRuleBas
             a21RevEntry.setTransactionDebitCreditCode(accountingLine.isSourceAccountingLine() ? KFSConstants.GL_CREDIT_CODE : KFSConstants.GL_DEBIT_CODE);
         }
 
-        Timestamp transactionTimestamp = new Timestamp(SpringContext.getBean(DateTimeService.class, "dateTimeService").getCurrentDate().getTime());
+        Timestamp transactionTimestamp = new Timestamp(SpringContext.getBean(DateTimeService.class).getCurrentDate().getTime());
         a21RevEntry.setTransactionDate(new java.sql.Date(transactionTimestamp.getTime()));
         a21RevEntry.setProjectCode(getEntryValue(accountingLine.getProjectCode(), LABOR_LEDGER_PENDING_ENTRY_CODE.BLANK_PROJECT_STRING));
         a21RevEntry.setOrganizationReferenceId(accountingLine.getOrganizationReferenceId());
@@ -1426,7 +1426,7 @@ public class LaborExpenseTransferDocumentRules extends AccountingDocumentRuleBas
         benefitEntry.setFinancialBalanceTypeCode(BALANCE_TYPE_ACTUAL);
         benefitEntry.setTransactionLedgerEntrySequenceNumber(getNextSequenceNumber(sequenceHelper));
         benefitEntry.setTransactionDebitCreditCode(accountingLine.isSourceAccountingLine() ? KFSConstants.GL_CREDIT_CODE : KFSConstants.GL_DEBIT_CODE);
-        Timestamp transactionTimestamp = new Timestamp(SpringContext.getBean(DateTimeService.class, "dateTimeService").getCurrentDate().getTime());
+        Timestamp transactionTimestamp = new Timestamp(SpringContext.getBean(DateTimeService.class).getCurrentDate().getTime());
         benefitEntry.setTransactionDate(new java.sql.Date(transactionTimestamp.getTime()));
         benefitEntry.setProjectCode(getEntryValue(accountingLine.getProjectCode(), LABOR_LEDGER_PENDING_ENTRY_CODE.BLANK_PROJECT_STRING));
         benefitEntry.setOrganizationReferenceId(accountingLine.getOrganizationReferenceId());
@@ -1508,7 +1508,7 @@ public class LaborExpenseTransferDocumentRules extends AccountingDocumentRuleBas
         benefitA21Entry.setFinancialBalanceTypeCode(BALANCE_TYPE_A21);
         benefitA21Entry.setTransactionLedgerEntrySequenceNumber(getNextSequenceNumber(sequenceHelper));
         benefitA21Entry.setTransactionDebitCreditCode(accountingLine.isSourceAccountingLine() ? KFSConstants.GL_DEBIT_CODE : KFSConstants.GL_CREDIT_CODE);
-        Timestamp transactionTimestamp = new Timestamp(SpringContext.getBean(DateTimeService.class, "dateTimeService").getCurrentDate().getTime());
+        Timestamp transactionTimestamp = new Timestamp(SpringContext.getBean(DateTimeService.class).getCurrentDate().getTime());
         benefitA21Entry.setTransactionDate(new java.sql.Date(transactionTimestamp.getTime()));
         benefitA21Entry.setProjectCode(getEntryValue(accountingLine.getProjectCode(), LABOR_LEDGER_PENDING_ENTRY_CODE.BLANK_PROJECT_STRING));
         benefitA21Entry.setOrganizationReferenceId(accountingLine.getOrganizationReferenceId());
@@ -1592,7 +1592,7 @@ public class LaborExpenseTransferDocumentRules extends AccountingDocumentRuleBas
         benefitA21RevEntry.setFinancialBalanceTypeCode(BALANCE_TYPE_A21);
         benefitA21RevEntry.setTransactionLedgerEntrySequenceNumber(getNextSequenceNumber(sequenceHelper));
         benefitA21RevEntry.setTransactionDebitCreditCode(accountingLine.isSourceAccountingLine() ? KFSConstants.GL_DEBIT_CODE : KFSConstants.GL_CREDIT_CODE);
-        Timestamp transactionTimestamp = new Timestamp(SpringContext.getBean(DateTimeService.class, "dateTimeService").getCurrentDate().getTime());
+        Timestamp transactionTimestamp = new Timestamp(SpringContext.getBean(DateTimeService.class).getCurrentDate().getTime());
         benefitA21RevEntry.setTransactionDate(new java.sql.Date(transactionTimestamp.getTime()));
         benefitA21RevEntry.setProjectCode(getEntryValue(accountingLine.getProjectCode(), LABOR_LEDGER_PENDING_ENTRY_CODE.BLANK_PROJECT_STRING));
         benefitA21RevEntry.setOrganizationReferenceId(accountingLine.getOrganizationReferenceId());
@@ -1687,7 +1687,7 @@ public class LaborExpenseTransferDocumentRules extends AccountingDocumentRuleBas
         }
         benefitClearingEntry.setTransactionDebitCreditCode(debitCreditCode);
 
-        Timestamp transactionTimestamp = new Timestamp(SpringContext.getBean(DateTimeService.class, "dateTimeService").getCurrentDate().getTime());
+        Timestamp transactionTimestamp = new Timestamp(SpringContext.getBean(DateTimeService.class).getCurrentDate().getTime());
         benefitClearingEntry.setTransactionDate(new java.sql.Date(transactionTimestamp.getTime()));
         benefitClearingEntry.setProjectCode(LABOR_LEDGER_PENDING_ENTRY_CODE.BLANK_PROJECT_STRING);
         benefitClearingEntry.setOrganizationReferenceId(null);

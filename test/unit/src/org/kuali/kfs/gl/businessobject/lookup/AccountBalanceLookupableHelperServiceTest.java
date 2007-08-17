@@ -21,7 +21,6 @@ import java.util.Map;
 
 import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.context.SpringContext;
-import org.kuali.module.gl.GLSpringBeansRegistry;
 import org.kuali.module.gl.bo.AccountBalance;
 import org.kuali.module.gl.bo.AccountBalanceByConsolidation;
 import org.kuali.module.gl.service.AccountBalanceService;
@@ -42,7 +41,7 @@ public class AccountBalanceLookupableHelperServiceTest extends AbstractGLLookupa
         super.setUp();
 
         setAccountBalanceService(SpringContext.getBean(AccountBalanceService.class));
-        lookupableHelperServiceImpl = SpringContext.getBean(AccountBalanceLookupableHelperServiceImpl.class, GLSpringBeansRegistry.glAccountBalanceLookupableHelperService);
+        lookupableHelperServiceImpl = (AbstractGLLookupableHelperServiceImpl)SpringContext.getLookupableHelperService("glAccountBalanceLookupableHelperService");
         lookupableHelperServiceImpl.setBusinessObjectClass(AccountBalanceByConsolidation.class);
     }
 

@@ -559,7 +559,7 @@ public class CalculatedSalaryFoundationTracker extends PersistableBusinessObject
         UniversalUser universalUser = null;
 
         try {
-            universalUser = SpringContext.getBean(UniversalUserService.class, "universalUserService").getUniversalUser(empl);
+            universalUser = SpringContext.getBean(UniversalUserService.class).getUniversalUser(empl);
         }
         catch (UserNotFoundException e) {
             return LaborConstants.BalanceInquiries.UnknownPersonName;

@@ -69,7 +69,7 @@ public class PurchaseOrderQuotePdfTest extends KualiTestBase {
         po.setDeliveryStateCode("CA");
         po.setDeliveryCampusCode("BL");
         poqv = new PurchaseOrderVendorQuote();
-        po.setPurchaseOrderQuoteDueDate(SpringContext.getBean(DateTimeService.class, "dateTimeService").getCurrentSqlDate());
+        po.setPurchaseOrderQuoteDueDate(SpringContext.getBean(DateTimeService.class).getCurrentSqlDate());
         poqv.setPurchaseOrder(po);
         poqv.setPurchaseOrderVendorQuoteIdentifier(1000);
         poqv.setVendorName("Dusty's Cellar");

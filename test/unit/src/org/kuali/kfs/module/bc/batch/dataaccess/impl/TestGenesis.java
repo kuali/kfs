@@ -52,7 +52,7 @@ public class TestGenesis extends KualiTestBase {
      dateMakerTestService = 
           SpringContext.getBean(DateMakerService.class);
       dateTimeService =
-          SpringContext.getBean(DateTimeService.class, "dateTimeService");
+          SpringContext.getBean(DateTimeService.class);
   //
       GlobalVariables.clear();
       try

@@ -101,9 +101,9 @@ public class BalanceInquiryAction extends KualiAction {
     public ActionForward search(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         BalanceInquiryForm lookupForm = (BalanceInquiryForm) form;
 
-        Lookupable kualiLookupable = lookupForm.getLookupable();
+        Lookupable lookupable = lookupForm.getLookupable();
 
-        if (kualiLookupable == null) {
+        if (lookupable == null) {
             LOG.error("Lookupable is null.");
             throw new RuntimeException("Lookupable is null.");
         }
@@ -111,10 +111,10 @@ public class BalanceInquiryAction extends KualiAction {
         Collection displayList = new ArrayList();
         List<ResultRow> resultTable = new ArrayList<ResultRow>();
 
-        kualiLookupable.validateSearchParameters(lookupForm.getFields());
+        lookupable.validateSearchParameters(lookupForm.getFields());
 
         try {
-            displayList = kualiLookupable.performLookup(lookupForm, resultTable, true);
+            displayList = lookupable.performLookup(lookupForm, resultTable, true);
 
             Object[] resultTableAsArray = resultTable.toArray();
 
@@ -124,7 +124,7 @@ public class BalanceInquiryAction extends KualiAction {
             request.setAttribute(KFSConstants.REQUEST_SEARCH_RESULTS_SIZE, totalSize);
 
             // TODO: use inheritance instead of this if statement
-            if (kualiLookupable.getLookupableHelperService() instanceof AccountBalanceByConsolidationLookupableHelperServiceImpl) {
+            if (lookupable.getLookupableHelperService() instanceof AccountBalanceByConsolidationLookupableHelperServiceImpl) {
 
 
                 Collection totalsTable = new ArrayList();
@@ -192,8 +192,8 @@ public class BalanceInquiryAction extends KualiAction {
     @Override
     public ActionForward refresh(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         LookupForm lookupForm = (LookupForm) form;
-        Lookupable kualiLookupable = lookupForm.getLookupable();
-        if (kualiLookupable == null) {
+        Lookupable lookupable = lookupForm.getLookupable();
+        if (lookupable == null) {
             LOG.error("Lookupable is null.");
             throw new RuntimeException("Lookupable is null.");
         }
@@ -201,7 +201,7 @@ public class BalanceInquiryAction extends KualiAction {
         Map fieldValues = new HashMap();
         Map values = lookupForm.getFields();
 
-        for (Iterator iter = kualiLookupable.getRows().iterator(); iter.hasNext();) {
+        for (Iterator iter = lookupable.getRows().iterator(); iter.hasNext();) {
             Row row = (Row) iter.next();
 
             for (Iterator iterator = row.getFields().iterator(); iterator.hasNext();) {
@@ -221,8 +221,8 @@ public class BalanceInquiryAction extends KualiAction {
         fieldValues.put(KFSConstants.DOC_FORM_KEY, lookupForm.getFormKey());
         fieldValues.put(KFSConstants.BACK_LOCATION, lookupForm.getBackLocation());
 
-        if (kualiLookupable.checkForAdditionalFields(fieldValues)) {
-            for (Iterator iter = kualiLookupable.getRows().iterator(); iter.hasNext();) {
+        if (lookupable.checkForAdditionalFields(fieldValues)) {
+            for (Iterator iter = lookupable.getRows().iterator(); iter.hasNext();) {
                 Row row = (Row) iter.next();
                 for (Iterator iterator = row.getFields().iterator(); iterator.hasNext();) {
                     Field field = (Field) iterator.next();
@@ -258,13 +258,13 @@ public class BalanceInquiryAction extends KualiAction {
      */
     public ActionForward clearValues(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         LookupForm lookupForm = (LookupForm) form;
-        Lookupable kualiLookupable = lookupForm.getLookupable();
-        if (kualiLookupable == null) {
+        Lookupable lookupable = lookupForm.getLookupable();
+        if (lookupable == null) {
             LOG.error("Lookupable is null.");
             throw new RuntimeException("Lookupable is null.");
         }
 
-        for (Iterator iter = kualiLookupable.getRows().iterator(); iter.hasNext();) {
+        for (Iterator iter = lookupable.getRows().iterator(); iter.hasNext();) {
             Row row = (Row) iter.next();
             for (Iterator iterator = row.getFields().iterator(); iterator.hasNext();) {
                 Field field = (Field) iterator.next();

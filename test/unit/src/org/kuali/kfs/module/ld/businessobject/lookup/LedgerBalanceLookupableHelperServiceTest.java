@@ -53,7 +53,7 @@ public class LedgerBalanceLookupableHelperServiceTest extends KualiTestBase {
 
         businessObjectService = SpringContext.getBean(BusinessObjectService.class);
 
-        lookupableHelperService = SpringContext.getBean(LookupableHelperService.class, "laborLedgerBalanceLookupableHelperService");
+        lookupableHelperService = SpringContext.getLookupableHelperService("laborLedgerBalanceLookupableHelperService");
         lookupableHelperService.setBusinessObjectClass(LedgerBalance.class);
 
         // Clear up the database so that any existing data cannot affact your test result

@@ -78,7 +78,7 @@ public class ObjectCode extends PersistableBusinessObjectBase implements Summari
      */
     public ObjectCode() {
         // initialize the object fiscal year to the current fiscal year
-        // universityFiscalYear = SpringContext.getBean(DateTimeService.class, "dateTimeService").getCurrentFiscalYear();
+        // universityFiscalYear = SpringContext.getBean(DateTimeService.class).getCurrentFiscalYear();
 
         // construct the referenced objects for the calling of the referencing object
         this.financialObjectLevel = new ObjLevel();

@@ -61,7 +61,7 @@ public class KualiAccountMaintainableImpl extends KualiMaintainableImpl {
     public void processAfterCopy() {
         Account account = (Account) this.getBusinessObject();
         account.setAccountCreateDate(null); // account's pre-rules will fill this field in
-        account.setAccountEffectiveDate(SpringContext.getBean(DateTimeService.class, "dateTimeService").getCurrentTimestamp());
+        account.setAccountEffectiveDate(SpringContext.getBean(DateTimeService.class).getCurrentTimestamp());
         account.setAccountClosedIndicator(false);
         super.processAfterCopy();
     }

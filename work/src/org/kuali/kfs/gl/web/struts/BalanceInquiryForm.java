@@ -78,12 +78,12 @@ public class BalanceInquiryForm extends LookupForm {
                 // call data dictionary service to get lookup impl for bo class
                 String lookupImplID = SpringContext.getBean(BusinessObjectDictionaryService.class).getLookupableID(Class.forName(localBusinessObjectClassName));
                 if (lookupImplID == null) {
-                    lookupImplID = "kualiLookupable";
+                    lookupImplID = "lookupable";
                 }
 
                 setLookupableImplServiceName(lookupImplID);
             }
-            setLookupable(SpringContext.getBean(Lookupable.class, getLookupableImplServiceName()));
+            setLookupable(SpringContext.getLookupable(getLookupableImplServiceName()));
             
             if (getLookupable() == null) {
                 LOG.error("Lookup impl not found for lookup impl name " + getLookupableImplServiceName());
@@ -92,7 +92,7 @@ public class BalanceInquiryForm extends LookupForm {
 
             // (laran) I put this here to allow the Exception to be thrown if the localLookupable is null.
             if (Entry.class.getName().equals(getBusinessObjectClassName())) {
-                setPendingEntryLookupable(SpringContext.getBean(Lookupable.class, GLConstants.LookupableBeanKeys.PENDING_ENTRY));
+                setPendingEntryLookupable(SpringContext.getLookupable(GLConstants.LookupableBeanKeys.PENDING_ENTRY));
             }
 
             if (request.getParameter(KFSConstants.LOOKUPABLE_IMPL_ATTRIBUTE_NAME) != null) {
@@ -297,7 +297,7 @@ public class BalanceInquiryForm extends LookupForm {
 
 
     /**
-     * @return Returns the kualiLookupable.
+     * @return Returns the lookupable.
      */
     public Lookupable getLookupable() {
         return lookupable;
@@ -305,7 +305,7 @@ public class BalanceInquiryForm extends LookupForm {
 
 
     /**
-     * @param lookupable The kualiLookupable to set.
+     * @param lookupable The lookupable to set.
      */
     public void setLookupable(Lookupable lookupable) {
         this.lookupable = lookupable;

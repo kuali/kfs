@@ -39,7 +39,7 @@ public class SufficientFundsServiceTest extends KualiTestBase {
 
         sufficientFundsService = SpringContext.getBean(SufficientFundsService.class);
         unitTestSqlDao = SpringContext.getBean(UnitTestSqlDao.class);
-        dateTimeService = SpringContext.getBean(DateTimeService.class, "dateTimeService");
+        dateTimeService = SpringContext.getBean(DateTimeService.class);
     }
 
     private void prepareSufficientFundsData(String accountNumber, String sfType, String sfObjCd, Integer budgetAmt, Integer actualAmt, Integer encAmt, boolean createPles) {

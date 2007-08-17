@@ -75,9 +75,9 @@ public abstract class BaseAction extends Action {
         // For some reason, these don't always get set when they are in the constructor.  We'll get them here
         // the first time they are needed.
         if ( userService == null ) {
-            setUniversalUserService( SpringContext.getBean(UniversalUserService.class,"universalUserService") );
+            setUniversalUserService( SpringContext.getBean(UniversalUserService.class) );
             setKualiConfigurationService( SpringContext.getBean(KualiConfigurationService.class) );
-            setWebAuthenticationService( SpringContext.getBean(WebAuthenticationService.class,"webAuthenticationService") );
+            setWebAuthenticationService( SpringContext.getBean(WebAuthenticationService.class) );
             setSecurityService( SpringContext.getBean(PdpSecurityService.class) );
         }
 

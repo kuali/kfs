@@ -49,7 +49,7 @@ public class PurchaseOrderAmendmentDocumentRule extends PurchaseOrderDocumentRul
         boolean valid = super.processValidation(purapDocument);
         // Check that the user is in purchasing workgroup.
         String initiatorNetworkId = purapDocument.getDocumentHeader().getWorkflowDocument().getInitiatorNetworkId();
-        UniversalUserService uus = SpringContext.getBean(UniversalUserService.class, "universalUserService");
+        UniversalUserService uus = SpringContext.getBean(UniversalUserService.class);
         UniversalUser user = null;
         try {
             user = uus.getUniversalUserByAuthenticationUserId(initiatorNetworkId);

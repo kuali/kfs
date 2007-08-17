@@ -56,7 +56,7 @@ public class CloseServiceTest extends KualiTestBase {
     protected void setUp() throws Exception {
         super.setUp();
         dateFormat = DateFormat.getDateInstance();
-        today = SpringContext.getBean(DateTimeService.class, "dateTimeService").getCurrentSqlDateMidnight();
+        today = SpringContext.getBean(DateTimeService.class).getCurrentSqlDateMidnight();
     }
 
     public void testClose_awardEntryDateLessThanCloseOnOrBeforeDate() throws Exception {

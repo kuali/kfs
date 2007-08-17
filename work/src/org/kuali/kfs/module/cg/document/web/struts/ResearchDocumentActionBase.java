@@ -133,7 +133,7 @@ public abstract class ResearchDocumentActionBase extends KualiDocumentActionBase
         
         if (rulePassed) {
             AdhocPerson newAdHocPermission = researchForm.getNewAdHocPerson();
-            UniversalUser user = SpringContext.getBean(UniversalUserService.class, "universalUserService").getUniversalUser(new AuthenticationUserId(adHocRoutePerson.getId()));
+            UniversalUser user = SpringContext.getBean(UniversalUserService.class).getUniversalUser(new AuthenticationUserId(adHocRoutePerson.getId()));
             newAdHocPermission.setPersonUniversalIdentifier(user.getPersonUniversalIdentifier());
             user.setPersonUserIdentifier(StringUtils.upperCase(user.getPersonUserIdentifier()));
             if (adHocRoutePerson.getActionRequested() == null || StringUtils.isBlank(adHocRoutePerson.getActionRequested())) {
@@ -143,8 +143,8 @@ public abstract class ResearchDocumentActionBase extends KualiDocumentActionBase
                 newAdHocPermission.setAdhocTypeCode(KraConstants.AD_HOC_APPROVER);
             }
             newAdHocPermission.setUser(user);
-            newAdHocPermission.setPersonAddedTimestamp(SpringContext.getBean(DateTimeService.class, "dateTimeService").getCurrentTimestamp());
-            newAdHocPermission.setAddedByPerson(SpringContext.getBean(WebAuthenticationService.class, "webAuthenticationService").getNetworkId(request));
+            newAdHocPermission.setPersonAddedTimestamp(SpringContext.getBean(DateTimeService.class).getCurrentTimestamp());
+            newAdHocPermission.setAddedByPerson(SpringContext.getBean(WebAuthenticationService.class).getNetworkId(request));
             researchDocument.getAdhocPersons().add(newAdHocPermission);
             researchForm.setNewAdHocPerson(new AdhocPerson());
             researchForm.setNewAdHocRoutePerson(new AdHocRoutePerson());
@@ -179,8 +179,8 @@ public abstract class ResearchDocumentActionBase extends KualiDocumentActionBase
                 newAdHocWorkgroup.setAdhocTypeCode(KraConstants.AD_HOC_APPROVER);
             }
             newAdHocWorkgroup.setPermissionCode(researchForm.getNewAdHocWorkgroupPermissionCode());
-            newAdHocWorkgroup.setPersonAddedTimestamp(SpringContext.getBean(DateTimeService.class, "dateTimeService").getCurrentTimestamp());
-            newAdHocWorkgroup.setAddedByPerson(SpringContext.getBean(WebAuthenticationService.class, "webAuthenticationService").getNetworkId(request));
+            newAdHocWorkgroup.setPersonAddedTimestamp(SpringContext.getBean(DateTimeService.class).getCurrentTimestamp());
+            newAdHocWorkgroup.setAddedByPerson(SpringContext.getBean(WebAuthenticationService.class).getNetworkId(request));
             researchDocument.getAdhocWorkgroups().add(newAdHocWorkgroup);
             researchForm.setNewAdHocRouteWorkgroup(new AdHocRouteWorkgroup());
         }
@@ -252,8 +252,8 @@ public abstract class ResearchDocumentActionBase extends KualiDocumentActionBase
             } else {
                 newAdHocOrg.setAdhocTypeCode(KraConstants.AD_HOC_APPROVER);
             }
-            newAdHocOrg.setPersonAddedTimestamp(SpringContext.getBean(DateTimeService.class, "dateTimeService").getCurrentTimestamp());
-            newAdHocOrg.setAddedByPerson(SpringContext.getBean(WebAuthenticationService.class, "webAuthenticationService").getNetworkId(request));
+            newAdHocOrg.setPersonAddedTimestamp(SpringContext.getBean(DateTimeService.class).getCurrentTimestamp());
+            newAdHocOrg.setAddedByPerson(SpringContext.getBean(WebAuthenticationService.class).getNetworkId(request));
             researchDocument.getAdhocOrgs().add(newAdHocOrg);
             researchForm.setNewAdHocOrg(new AdhocOrg());
         }

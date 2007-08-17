@@ -133,7 +133,7 @@ public class AccountDaoOjb extends PlatformAwareDaoBaseOjb implements AccountDao
         docTypeOrCriteria.addOrCriteria(docTypeAllCriteria);
         criteria.addAndCriteria(docTypeOrCriteria);
         criteria.addEqualTo("accountDelegateActiveIndicator", "Y");
-        criteria.addLessOrEqualThan("accountDelegateStartDate", SpringContext.getBean(DateTimeService.class, "dateTimeService").getCurrentTimestamp());
+        criteria.addLessOrEqualThan("accountDelegateStartDate", SpringContext.getBean(DateTimeService.class).getCurrentTimestamp());
         criteria.addEqualTo("accountsDelegatePrmrtIndicator", accountsDelegatePrmrtIndicator);
         if (totalDollarAmount != null) {
             Criteria totalDollarAmountInRangeCriteria = new Criteria();

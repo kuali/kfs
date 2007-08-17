@@ -135,13 +135,13 @@
 			<ref bean="laborOriginEntryDao" />
 		</property>
 		<property name="originEntryGroupService">
-			<ref bean="glOriginEntryGroupService" />
+			<ref bean="originEntryGroupService" />
 		</property>
 		<property name="dateTimeService">
 			<ref bean="dateTimeService" />
 		</property>
 		<property name="originEntryDao">
-			<ref bean="glOriginEntryDao" />
+			<ref bean="originEntryDao" />
 		</property>
 	</bean>
 
@@ -340,7 +340,7 @@
             <ref bean="laborLedgerPendingEntryService" />
         </property>
         <property name="originEntryGroupService">
-            <ref bean="glOriginEntryGroupService" />
+            <ref bean="originEntryGroupService" />
         </property>               
         <property name="laborReportService">
             <ref bean="laborReportService" />
@@ -380,7 +380,7 @@
 			<ref bean="universityDateDao" />
 		</property>
 		<property name="originEntryGroupService">
-			<ref bean="glOriginEntryGroupService" />
+			<ref bean="originEntryGroupService" />
 		</property>
 		<property name="persistenceService">
 			<ref bean="persistenceService" />
@@ -395,7 +395,7 @@
 	
     <bean id="laborScrubberValidator" class="org.kuali.module.labor.service.impl.ScrubberValidatorImpl">
         <property name="scrubberValidator">
-            <ref bean="glScrubberValidator" />
+            <ref bean="scrubberValidator" />
         </property>
         <property name="kualiConfigurationService">
 			<ref bean="kualiConfigurationService" />
@@ -413,7 +413,7 @@
             <ref bean="laborOriginEntryService" />
         </property>
         <property name="originEntryGroupService">
-            <ref bean="glOriginEntryGroupService" />
+            <ref bean="originEntryGroupService" />
         </property>
 
         <property name="dateTimeService">
@@ -446,7 +446,7 @@
             <ref bean="laborOriginEntryService" />
         </property>
         <property name="originEntryGroupService">
-            <ref bean="glOriginEntryGroupService" />
+            <ref bean="originEntryGroupService" />
         </property>
     </bean>
 
@@ -475,7 +475,7 @@
             <ref bean="laborLedgerBalanceService" />
         </property>
         <property name="originEntryGroupService">
-            <ref bean="glOriginEntryGroupService" />
+            <ref bean="originEntryGroupService" />
         </property>
 
         <property name="accountService">
@@ -502,7 +502,7 @@
          
 	<bean id="createLaborBackupGroupStep" class="org.kuali.module.labor.batch.CreateLaborBackupGroupStep" parent="step">
 		<property name="originEntryGroupService">
-            <ref bean="glOriginEntryGroupService" />
+            <ref bean="originEntryGroupService" />
         </property>
 	</bean>         
            
@@ -532,7 +532,7 @@
 	
     <bean id="payrollAccrualService" class="org.kuali.module.labor.service.impl.PayrollAccrualServiceImpl">
         <property name="originEntryGroupService">
-            <ref bean="glOriginEntryGroupService" />
+            <ref bean="originEntryGroupService" />
         </property>
         <property name="laborLedgerEntryService">
             <ref bean="laborLedgerEntryService" />
@@ -746,7 +746,7 @@
 			<ref bean="laborOriginEntryService" />
 		</property>
 			<property name="originEntryGroupService">
-			<ref bean="glOriginEntryGroupService" />
+			<ref bean="originEntryGroupService" />
 		</property>
 		<property name="llcpDirectoryName" value="${staging.directory}/GLCP"/>
 	</bean>

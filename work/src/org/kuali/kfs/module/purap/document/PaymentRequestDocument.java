@@ -894,7 +894,7 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
             return false;
         }
         if (NodeDetailEnum.ACCOUNTS_PAYABLE_REVIEW.getName().equals(oldNodeName)) {
-            setAccountsPayableApprovalDate(SpringContext.getBean(DateTimeService.class, "dateTimeService").getCurrentSqlDate());
+            setAccountsPayableApprovalDate(SpringContext.getBean(DateTimeService.class).getCurrentSqlDate());
             SpringContext.getBean(PurapGeneralLedgerService.class).generateEntriesCreatePreq(this);
         }
         return true;
@@ -1047,7 +1047,7 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
     public String getAccountsPayableRequestCancelPersonName(){
         String personName = null;
         try {
-            UniversalUser user = SpringContext.getBean(UniversalUserService.class, "universalUserService").getUniversalUser(getAccountsPayableRequestCancelIdentifier());
+            UniversalUser user = SpringContext.getBean(UniversalUserService.class).getUniversalUser(getAccountsPayableRequestCancelIdentifier());
             personName = user.getPersonName();
         }
         catch (UserNotFoundException unfe) {

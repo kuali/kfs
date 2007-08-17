@@ -65,7 +65,7 @@ public class LaborYearEndBalanceForwardServiceTest extends KualiTestBase {
         deliminator = properties.getProperty("deliminator");
         fiscalYear = Integer.valueOf(properties.getProperty("oldFiscalYear"));
 
-        originEntryGroupService = SpringContext.getBean(OriginEntryGroupService.class, "glOriginEntryGroupService");
+        originEntryGroupService = SpringContext.getBean(OriginEntryGroupService.class);
         businessObjectService = SpringContext.getBean(BusinessObjectService.class);
         laborYearEndBalanceForwardService = SpringContext.getBean(LaborYearEndBalanceForwardService.class);
         persistenceService = SpringContext.getBean(PersistenceService.class);

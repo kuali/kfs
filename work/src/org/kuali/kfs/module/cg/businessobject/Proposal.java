@@ -818,7 +818,7 @@ public class Proposal extends PersistableBusinessObjectBase implements Alternate
 	 * @return the id of the lookup person
 	 */
 	public String getLookupPersonUniversalIdentifier() {
-		lookupUniversalUser = SpringContext.getBean(UniversalUserService.class, "universalUserService").updateUniversalUserIfNecessary(lookupPersonUniversalIdentifier, lookupUniversalUser);
+		lookupUniversalUser = SpringContext.getBean(UniversalUserService.class).updateUniversalUserIfNecessary(lookupPersonUniversalIdentifier, lookupUniversalUser);
 		return lookupPersonUniversalIdentifier;
 	}
 

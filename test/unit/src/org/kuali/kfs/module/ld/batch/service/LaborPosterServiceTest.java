@@ -75,7 +75,7 @@ public class LaborPosterServiceTest extends KualiTestBase {
         deliminator = properties.getProperty("deliminator");
 
         laborOriginEntryService = SpringContext.getBean(LaborOriginEntryService.class);
-        originEntryGroupService = SpringContext.getBean(OriginEntryGroupService.class, "glOriginEntryGroupService");
+        originEntryGroupService = SpringContext.getBean(OriginEntryGroupService.class);
         businessObjectService = SpringContext.getBean(BusinessObjectService.class);
         laborPosterService = SpringContext.getBean(LaborPosterService.class);
         persistenceService = SpringContext.getBean(PersistenceService.class);
@@ -85,7 +85,7 @@ public class LaborPosterServiceTest extends KualiTestBase {
         originEntryGroupService.deleteOlderGroups(0);
         businessObjectService.deleteMatching(OriginEntryGroup.class, groupFieldValues);
 
-        Date today = (SpringContext.getBean(DateTimeService.class, "dateTimeService")).getCurrentSqlDate();
+        Date today = (SpringContext.getBean(DateTimeService.class)).getCurrentSqlDate();
         groupToPost = originEntryGroupService.createGroup(today, LABOR_SCRUBBER_VALID, true, true, false);
 
         LaborOriginEntry cleanup = new LaborOriginEntry();

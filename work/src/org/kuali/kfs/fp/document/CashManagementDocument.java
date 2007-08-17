@@ -352,7 +352,7 @@ public class CashManagementDocument extends AccountingDocumentBase {
      */
     public void resetCurrentTransaction() {
         if (this.currentTransaction != null) {
-            this.currentTransaction.setTransactionEnded(SpringContext.getBean(DateTimeService.class, "dateTimeService").getCurrentDate());
+            this.currentTransaction.setTransactionEnded(SpringContext.getBean(DateTimeService.class).getCurrentDate());
         }
         currentTransaction = new CashieringTransaction(workgroupName, referenceFinancialDocumentNumber);
         if (this.getWorkgroupName() != null) {

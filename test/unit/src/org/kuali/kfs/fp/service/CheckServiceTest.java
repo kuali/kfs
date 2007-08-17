@@ -51,7 +51,7 @@ public class CheckServiceTest extends KualiTestBase {
         check = new CheckBase();
         check.setDocumentNumber(documentNumber);
         check.setAmount(new KualiDecimal("314.15"));
-        check.setCheckDate(SpringContext.getBean(DateTimeService.class, "dateTimeService").getCurrentSqlDate());
+        check.setCheckDate(SpringContext.getBean(DateTimeService.class).getCurrentSqlDate());
         check.setCheckNumber("2112");
         check.setDescription("test check");
         check.setFinancialDocumentDepositLineNumber(new Integer(2001));

@@ -85,7 +85,7 @@ abstract class AbstractRelatedView extends PersistableBusinessObjectBase {
     public List<Note> getNotes() {
         if (notes == null) {
             notes = new TypedArrayList(Note.class);
-            List<Note> tmpNotes = SpringContext.getBean(NoteService.class, "noteService").getByRemoteObjectId(this.getObjectId());
+            List<Note> tmpNotes = SpringContext.getBean(NoteService.class).getByRemoteObjectId(this.getObjectId());
             for (Note note : tmpNotes) {
                 notes.add(note);
             }

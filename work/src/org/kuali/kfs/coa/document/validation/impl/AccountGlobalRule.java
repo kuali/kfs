@@ -124,8 +124,10 @@ public class AccountGlobalRule extends GlobalDocumentRuleBase {
         
         // check if there are any accounts
         if ( details.size() == 0 ) {
-            putFieldError( KFSConstants.MAINTENANCE_ADD_PREFIX + "accountNumber", 
+            
+            putFieldError( KFSConstants.MAINTENANCE_ADD_PREFIX + "accountGlobalDetails.accountNumber", 
                     KFSKeyConstants.ERROR_DOCUMENT_GLOBAL_ACCOUNT_NO_ACCOUNTS);
+            
             success = false;
         } else {
             // check each account

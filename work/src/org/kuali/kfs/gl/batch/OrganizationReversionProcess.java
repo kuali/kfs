@@ -473,6 +473,8 @@ public class OrganizationReversionProcess {
                     // TODO Error! Line 3224
                 }
 
+                ObjectCode objectCode = entry.getFinancialObject();
+                entry.setFinancialObjectTypeCode(objectCode.getFinancialObjectTypeCode());
                 entry.setUniversityFiscalPeriodCode(KFSConstants.MONTH1);
                 entry.setDocumentNumber(DEFAULT_DOCUMENT_NUMBER_PREFIX + unitOfWork.accountNumber);
                 entry.setTransactionLedgerEntryDescription(kualiConfigurationService.getPropertyString(KFSKeyConstants.OrganizationReversionProcess.FUND_CARRIED) + paramUniversityFiscalYear);
@@ -494,6 +496,8 @@ public class OrganizationReversionProcess {
                 entry.setAccountNumber(unitOfWork.accountNumber);
                 entry.setSubAccountNumber(unitOfWork.subAccountNumber);
 
+                objectCode = entry.getFinancialObject();
+                entry.setFinancialObjectTypeCode(objectCode.getFinancialObjectTypeCode());
                 entry.setFinancialObjectCode(commonObject);
                 entry.setFinancialSubObjectCode(KFSConstants.getDashFinancialSubObjectCode());
                 entry.setFinancialBalanceTypeCode(KFSConstants.BALANCE_TYPE_CURRENT_BUDGET);
@@ -558,7 +562,6 @@ public class OrganizationReversionProcess {
         entry.setTransactionLedgerEntryAmount(unitOfWork.getTotalCarryForward());
         entry.setTransactionDate(paramTransactionDate);
         entry.setProjectCode(KFSConstants.getDashProjectCode());
-        entry.setObjectType(objectCode.getFinancialObjectType());
         // 2995 MOVE TRN-LDGR-ENTR-AMT TO WS-AMT-W-PERIOD
         // 2996 WS-AMT-N.
         // 2997 MOVE WS-AMT-X TO TRN-AMT-RED-X.

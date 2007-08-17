@@ -86,7 +86,7 @@ public class SchedulerServiceImpl implements SchedulerService {
         catch (SchedulerException e) {
             throw new RuntimeException("SchedulerServiceImpl encountered an exception when trying to register the global job listener", e);
         }
-        for (String jobName : (List<String>)SpringContext.getKfsBatchComponents().get(JobDescriptor.class.getName())) {
+        for (String jobName : (List<String>)SpringContext.getBatchComponents().get(JobDescriptor.class.getName())) {
             try {
                 loadJob(SpringContext.getJobDescriptor(jobName));
             }
@@ -94,7 +94,7 @@ public class SchedulerServiceImpl implements SchedulerService {
                 LOG.error("unable to find job bean definition for job: " + ex.getBeanName(), ex);
             }
         }
-            for (String triggerName : (List<String>)SpringContext.getKfsBatchComponents().get(TriggerDescriptor.class.getName())) {
+            for (String triggerName : (List<String>)SpringContext.getBatchComponents().get(TriggerDescriptor.class.getName())) {
                 try {
                     addTrigger(SpringContext.getTriggerDescriptor(triggerName).getTrigger());
                 }

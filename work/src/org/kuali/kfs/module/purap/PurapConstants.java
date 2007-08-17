@@ -455,6 +455,7 @@ public class PurapConstants extends JstlConstants {
         
     }
 
+
     public static class ItemTypeCodes {
         // ITEM TYPES
         public static String ITEM_TYPE_ITEM_CODE = "ITEM";
@@ -543,7 +544,10 @@ public class PurapConstants extends JstlConstants {
         public static String CONFIRM_CANCEL_QUESTION = "POCancelQuote";
         public static String CONFIRM_CANCEL_RETURN = "cancelQuote";
 
-        public static String SINGLE_CONFIRMATION_QUESTION = "singleConfirmationQuestion";       
+        public static String SINGLE_CONFIRMATION_QUESTION = "singleConfirmationQuestion";
+        
+        public static String MANUAL_STATUS_CHANGE_QUESTION = "manualStatusChangeQuestion";
+        public static String MANUAL_STATUS_CHANGE_NOTE_PREFIX = "Note entered while manually changing status :";
     }
     
     public static String PO_OVERRIDE_NOT_TO_EXCEED_QUESTION = "OverrideNotToExceed";
@@ -555,7 +559,7 @@ public class PurapConstants extends JstlConstants {
 
     // Weird PaymentTermsType is due on either the 10th or 25th with no discount
     public static String PMT_TERMS_TYP_NO_DISCOUNT_CD = "00N2T";
-    
+
     public static class PaymentRequestIndicatorText {
         public static String HOLD = "HOLD";
         public static String REQUEST_CANCEL = "REQUEST CANCEL";
@@ -820,8 +824,9 @@ public class PurapConstants extends JstlConstants {
         map.put(PAYMENT_REQUEST_DOCUMENT_DOC_TYPE, "Kuali.PURAP.PaymentRequestDocument");
         map.put(CREDIT_MEMO_DOCUMENT_DOC_TYPE, "Kuali.PURAP.CreditMemoDocument");
         return map;
-    }
-    public final static HashMap<String,String> ITEM_TYPE_SYSTEM_PARAMETERS_SECURITY_MAP =
+	}
+	    
+	public final static HashMap<String,String> ITEM_TYPE_SYSTEM_PARAMETERS_SECURITY_MAP =
                         itemTypes();
 
 }

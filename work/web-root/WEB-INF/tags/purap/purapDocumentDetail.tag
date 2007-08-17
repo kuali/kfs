@@ -115,19 +115,6 @@
 	                attributeEntry="${documentAttributes.statusChange}" 
 	                readOnly="${not fullEntryMode}" />
 	        </td>
-			<th align=right valign=middle class="bord-l-b" rowspan="2">
-	            <div align="right">
-	            	<kul:htmlAttributeLabel attributeEntry="${documentAttributes.statusChangeNote}" />
-	            </div>
-	        </th>
-	        <td align=left valign=middle class="datacell" rowspan="2">
-	        	<kul:htmlControlAttribute 
-	                property="document.statusChangeNote" 
-	                attributeEntry="${documentAttributes.statusChangeNote}" 
-	                readOnly="${not fullEntryMode}" />
-	        </td>	         		
-		</tr>
-		<tr>
 			<th align=right valign=middle class="bord-l-b">
 	            <div align="right">
 	            	<kul:htmlAttributeLabel attributeEntry="${documentAttributes.requisitionSource}" />
@@ -138,7 +125,7 @@
 	                property="document.requisitionSource.requisitionSourceDescription" 
 	                attributeEntry="${documentAttributes.requisitionSource}" 
 	                readOnly="true" />
-	        </td>
+	        </td>	         		
 		</tr>
 	</table>
 </c:if>

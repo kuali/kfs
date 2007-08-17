@@ -40,7 +40,9 @@ import org.kuali.core.service.DocumentAuthorizationService;
 import org.kuali.core.service.DocumentService;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.GlobalVariables;
+import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.web.struts.form.KualiDocumentFormBase;
+import org.kuali.core.workflow.service.KualiWorkflowDocument;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.purap.PurapAuthorizationConstants;
@@ -57,6 +59,7 @@ import org.kuali.module.purap.bo.PurchaseOrderVendorQuote;
 import org.kuali.module.purap.bo.PurchaseOrderVendorStipulation;
 import org.kuali.module.purap.document.PurchaseOrderDocument;
 import org.kuali.module.purap.question.SingleConfirmationQuestion;
+import org.kuali.module.purap.service.PurapService;
 import org.kuali.module.purap.service.PurchaseOrderService;
 import org.kuali.module.purap.web.struts.form.PurchaseOrderForm;
 import org.kuali.module.purap.web.struts.form.PurchasingFormBase;
@@ -180,7 +183,7 @@ public class PurchaseOrderAction extends PurchasingActionBase {
 
             document.getPurchaseOrderVendorQuotes().add(newPOVendorQuote);
         }
-
+        
         String newStipulation = request.getParameter(RicePropertyConstants.DOCUMENT + "." + PurapPropertyConstants.VENDOR_STIPULATION_DESCRIPTION);
         if (StringUtils.isNotEmpty(newStipulation)) {
             poForm.getNewPurchaseOrderVendorStipulationLine().setVendorStipulationDescription(newStipulation);
@@ -208,19 +211,25 @@ public class PurchaseOrderAction extends PurchasingActionBase {
     }
     
     /**
-     * This method...
+     * This method is for use with a specific set of methods of this class that create new PO-derived document types in response to user
+     * actions, including closePo, reopenPo, paymentHoldPo, removeHoldP, amendPo, and voidPo.  It employs the question framework to ask
+     * the user for a reponse before creating and routing the new document.  The response should consist of a note detailing a reason,
+     * and either yes or no.  This method can be better understood if it is noted that it will be gone through twice (via the question
+     * framework); when each question is originally asked, and again when the yes/no response is processed, for confirmation.
      * 
-     * @param mapping
-     * @param form
-     * @param request
-     * @param response
-     * @param questionType
-     * @param confirmType
-     * @param noteTextIntro
-     * @param messageType
-     * @param notePrefixType
-     * @param mappingType
-     * @return
+     * @param mapping           These are boiler-plate.
+     * @param form              "
+     * @param request           "
+     * @param response          "
+     * 
+     * @param questionType      A string identifying the type of question being asked.
+     * @param confirmType       A string identifying which type of question is being confirmed.
+     * @param documentType      A string, the type of document to create
+     * @param notePrefix        A string to appear before the note in the BO Notes tab     
+     * @param messageType       A string to appear on the PO once the question framework is done, describing the action taken   
+     * @param operation         A string, the verb to insert in the original question describing the action to be taken
+     * 
+     * @return An ActionForward
      * @throws Exception
      */
     private ActionForward askQuestionsAndRoute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response, String questionType, String confirmType, String documentType, String notePrefix, String messageType, String operation) throws Exception {
@@ -801,7 +810,7 @@ public class PurchaseOrderAction extends PurchasingActionBase {
         ActionMessages messages = new ActionMessages();
         checkForPOWarnings(po, messages);
         saveMessages(request, messages);
-        
+      
         return forward;
     }
    
@@ -977,11 +986,105 @@ public class PurchaseOrderAction extends PurchasingActionBase {
 
         return returnToSender(mapping, kualiDocumentFormBase);
     }
+    
+    @Override
+    public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        PurchaseOrderForm poForm = (PurchaseOrderForm)form;
+        PurchaseOrderDocument po = poForm.getPurchaseOrderDocument();
+        
+        if(StringUtils.isNotBlank(po.getStatusCode()) &&
+           StringUtils.isNotBlank(po.getStatusChange()) &&
+           (!StringUtils.equals(po.getStatusCode(), po.getStatusChange()))) {
+            
+            KualiWorkflowDocument workflowDocument = po.getDocumentHeader().getWorkflowDocument();
+            if (ObjectUtils.isNull(workflowDocument) || workflowDocument.stateIsInitiated() || workflowDocument.stateIsSaved()) {
+                return this.askSaveQuestions(mapping, form, request, response,PODocumentsStrings.MANUAL_STATUS_CHANGE_QUESTION);
+            }
+        }
+        
+        return super.save(mapping, form, request, response);
+    }
+    
+    private ActionForward askSaveQuestions(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response, String questionType) {
+        KualiDocumentFormBase kualiDocumentFormBase = (KualiDocumentFormBase) form;
+        PurchaseOrderDocument po = (PurchaseOrderDocument) kualiDocumentFormBase.getDocument();
+        Object question = request.getParameter(KFSConstants.QUESTION_INST_ATTRIBUTE_NAME);
+        String reason = request.getParameter(KFSConstants.QUESTION_REASON_ATTRIBUTE_NAME);
+        KualiConfigurationService kualiConfiguration = SpringContext.getBean(KualiConfigurationService.class);
+        ActionForward forward = mapping.findForward(KFSConstants.MAPPING_BASIC);
+        String notePrefix = "";
+        
+        if (StringUtils.equals(questionType,PODocumentsStrings.MANUAL_STATUS_CHANGE_QUESTION) && ObjectUtils.isNull(question)) {
+            String message = kualiConfiguration.getPropertyString(PurapKeyConstants.PURCHASE_ORDER_QUESTION_MANUAL_STATUS_CHANGE);           
+            try {
+                return this.performQuestionWithInput(mapping, form, request, response, questionType, message, KFSConstants.CONFIRMATION_QUESTION, questionType, "");
+            }
+            catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+        }
+        else {
+            Object buttonClicked = request.getParameter(KFSConstants.QUESTION_CLICKED_BUTTON);
+            if (question.equals(questionType) && buttonClicked.equals(ConfirmationQuestion.NO)) {
+                // If 'No' is the button clicked, just reload the doc
+                return forward;
+            }
+            
+            // Build out full message.
+            if (StringUtils.equals(questionType,PODocumentsStrings.MANUAL_STATUS_CHANGE_QUESTION)) {
+                notePrefix = PODocumentsStrings.MANUAL_STATUS_CHANGE_NOTE_PREFIX;
+            }
+            String noteText = notePrefix + KFSConstants.BLANK_SPACE + reason;
+            int noteTextLength = noteText.length();
+    
+            // Get note text max length from DD.
+            int noteTextMaxLength = SpringContext.getBean(DataDictionaryService.class).getAttributeMaxLength(Note.class, KFSConstants.NOTE_TEXT_PROPERTY_NAME).intValue();
+    
+            if (StringUtils.isBlank(reason) || (noteTextLength > noteTextMaxLength)) {
+                // Figure out exact number of characters that the user can enter.
+                int reasonLimit = noteTextMaxLength - noteTextLength;
+    
+                if (reason == null) {
+                    // Prevent a NPE by setting the reason to a blank string.
+                    reason = "";
+                }
+                
+                try {
+                    if (StringUtils.equals(questionType,PODocumentsStrings.MANUAL_STATUS_CHANGE_QUESTION)) {
+                        return this.performQuestionWithInputAgainBecauseOfErrors(mapping, form, request, response, questionType, kualiConfiguration.getPropertyString(PurapKeyConstants.PURCHASE_ORDER_QUESTION_MANUAL_STATUS_CHANGE), KFSConstants.CONFIRMATION_QUESTION, questionType, "", reason, PurapKeyConstants.ERROR_PURCHASE_ORDER_REASON_REQUIRED, KFSConstants.QUESTION_REASON_ATTRIBUTE_NAME, new Integer(reasonLimit).toString());
+                    }
+                }
+                catch (Exception e) {
+                    throw new RuntimeException(e);
+                }
+            }
+            else if (StringUtils.equals(questionType,PODocumentsStrings.MANUAL_STATUS_CHANGE_QUESTION)) {
+                executeManualStatusChange(po); 
+            }
+            Note newNote = new Note();
+            newNote.setNoteText(noteText);
+            newNote.setNoteTypeCode(KFSConstants.NoteTypeEnum.BUSINESS_OBJECT_NOTE_TYPE.getCode());
+            kualiDocumentFormBase.setNewNote(newNote);
+            try {
+                insertBONote(mapping, kualiDocumentFormBase, request, response);
+            }
+            catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+        }
+        return forward;
+    }
+    
+    private void executeManualStatusChange(PurchaseOrderDocument po) {
+        SpringContext.getBean(PurapService.class).updateStatusAndStatusHistory(po, po.getStatusChange());
+        po.refreshNonUpdateableReferences(); 
+    }
 
     @Override
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         PurchaseOrderForm poForm = (PurchaseOrderForm)form;
         PurchaseOrderDocument po = poForm.getPurchaseOrderDocument();
+                
         //We have to do this because otherwise the purchaseOrder object of each of the purchase order items
         //will be null and we need to retrieve some information from the purchaseOrder, so they can't be
         //null. This is related to KULPURAP-825

@@ -25,6 +25,7 @@ import org.kuali.core.bo.PersistableBusinessObject;
 import org.kuali.core.service.DateTimeService;
 import org.kuali.kfs.context.KualiTestBase;
 import org.kuali.kfs.context.SpringContext;
+import org.kuali.kfs.lookup.LookupableSpringContext;
 import org.kuali.module.gl.web.TestDataGenerator;
 import org.kuali.module.labor.bo.LaborLedgerPendingEntry;
 import org.kuali.module.labor.service.LaborLedgerPendingEntryService;
@@ -69,7 +70,7 @@ public class LaborPendingEntryLookupableHelperServiceTest extends KualiTestBase 
         date = SpringContext.getBean(DateTimeService.class).getCurrentDate();
         pendingEntry = new LaborLedgerPendingEntry();
         testDataGenerator = new TestDataGenerator(propertiesFileName, messageFileName);
-        lookupableHelperServiceImpl = (LaborPendingEntryLookupableHelperServiceImpl)SpringContext.getLookupableHelperService("laborPendingEntryLookupableHelperService");
+        lookupableHelperServiceImpl = (LaborPendingEntryLookupableHelperServiceImpl)LookupableSpringContext.getLookupableHelperService("laborPendingEntryLookupableHelperService");
         setPendingEntryService(SpringContext.getBean(LaborLedgerPendingEntryService.class));
     }
 

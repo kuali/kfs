@@ -58,6 +58,23 @@ public class SpringContext {
     private static final String MEMORY_MONITOR_THRESHOLD_KEY = "memory.monitor.threshold";
     private static ConfigurableApplicationContext applicationContext;
 
+    /**
+     * Use this method to retrieve a spring bean when one of the following is the case. Pass in the type of the service interface,
+     * NOT the service implementation.
+     * 1. there is only one bean of the specified type in our spring context
+     * 2. there is only one bean of the specified type in our spring context, but you want the one whose bean id is the same as 
+     * type.getSimpleName() with the exception of the first letter being lower case in the former and upper case in the latter,
+     * 
+     * For example, there are two beans of type DateTimeService in our context – dateTimeService and testDateTimeService.  To
+     * retrieve the former, you should specific DateTimeService.class as the type.  To retrieve the latter, you should specify
+     * ConfigurableDateService.class as the type.
+     * 
+     * Unless you are writing a unit test and need to down cast to an implementation, you do not need to cast the result of this method.
+     * 
+     * @param <T>
+     * @param type
+     * @return an object that has been defined as a bean in our spring context and is of the specified type
+     */
     public static <T> T getBean(Class<T> type) {
         verifyProperInitialization();
         try {
@@ -79,66 +96,22 @@ public class SpringContext {
         }
     }
 
-    public static Lookupable getLookupable(String beanName) {
-        return getBean(Lookupable.class, beanName);
-    }
-
-    public static LookupableHelperService getLookupableHelperService(String beanName) {
-        return getBean(LookupableHelperService.class, beanName);
-    }
-
-    public static WorkflowLookupable getWorkflowLookupable(String beanName) {
-        return getBean(WorkflowLookupable.class, beanName);
-    }
-
-    public static Map getBatchComponents() {
-        return getBean(Map.class, "kfsBatchComponents");
-    }
-
-    public static Step getStep(String beanName) {
-        return getBean(Step.class, beanName);
-    }
-
-    public static JobDescriptor getJobDescriptor(String beanName) {
-        return getBean(JobDescriptor.class, beanName);
-    }
-
-    public static TriggerDescriptor getTriggerDescriptor(String beanName) {
-        return getBean(TriggerDescriptor.class, beanName);
-    }
-    
-    public static BatchInputFileType getBatchInputFileType(String beanName) {
-        return getBean(BatchInputFileType.class, beanName);
-    }
-    
-    public static BatchInputFileSetType getBatchInputFileSetType(String beanName) {
-        return getBean(BatchInputFileSetType.class, beanName);
-    }
-            
-    public static PostTransaction getPostTransaction(String beanName) {
-        return getBean(PostTransaction.class, beanName);
-    }
-    
-    public static VerifyTransaction getVerifyTransaction(String beanName) {
-        return getBean(VerifyTransaction.class, beanName);        
-    }
-    
-    public static OrganizationReversionCategory getOrganizationReversionCategory(String beanName) {
-        return getBean(OrganizationReversionCategory.class, beanName);
-    }
-    
-    public static OrganizationReversionCategoryLogic getOrganizationReversionCategoryLogic(String beanName) {
-        return getBean(OrganizationReversionCategoryLogic.class, beanName);
-    }
-            
+    /**
+     * Use this method to retrieve all beans of a give type in our spring context.  Pass in the type of the service interface,
+     * NOT the service implementation.
+     * 
+     * @param <T>
+     * @param type
+     * @return a map of the spring bean ids / beans that are of the specified type
+     */
     @SuppressWarnings("unchecked")
-    public static <T> Map<String,T> getBeansOfType(Class<T> type) {
+    public static <T> Map<String, T> getBeansOfType(Class<T> type) {
         verifyProperInitialization();
-        Map<String,T> beansOfType = KNSServiceLocator.getBeansOfType(type);
+        Map<String, T> beansOfType = KNSServiceLocator.getBeansOfType(type);
         beansOfType.putAll(new HashMap(applicationContext.getBeansOfType(type)));
         return beansOfType;
     }
-    
+
     @SuppressWarnings("unchecked")
     private static <T> T getBean(Class<T> type, String name) {
         verifyProperInitialization();
@@ -156,18 +129,18 @@ public class SpringContext {
             }
         }
     }
-    
+
     protected static List<MethodCacheInterceptor> getMethodCacheInterceptors() {
         List<MethodCacheInterceptor> methodCacheInterceptors = new ArrayList();
         methodCacheInterceptors.add(getBean(MethodCacheInterceptor.class));
         methodCacheInterceptors.add(KNSServiceLocator.getBean(MethodCacheInterceptor.class));
         return methodCacheInterceptors;
     }
-        
+
     protected static Object getBean(String beanName) {
         return getBean(Object.class, beanName);
     }
-    
+
     protected static String[] getBeanNames() {
         verifyProperInitialization();
         return applicationContext.getBeanDefinitionNames();

@@ -23,6 +23,7 @@ import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.ErrorMap;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.kfs.KFSConstants;
+import org.kuali.kfs.batch.BatchSpringContext;
 import org.kuali.kfs.batch.Step;
 
 public class BatchStepRunner {
@@ -74,7 +75,7 @@ public class BatchStepRunner {
         	LOG.warn( "error checking application parameter", ex );
         }
         LOG.debug("runStep() Retrieving step " + stepName);
-        Step step = SpringContext.getStep(stepName);
+        Step step = BatchSpringContext.getStep(stepName);
         String stepRunIndicatorParameter = stepName + "_FLAG";
         boolean skipStep = false;
         try {

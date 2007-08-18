@@ -44,9 +44,9 @@ public class BatchConfigurationTest extends KualiTestBase {
     protected void setUp() throws Exception {
         super.setUp();
         modules = SpringContext.getBean(KualiModuleService.class).getInstalledModules();
-        kfsJobNames = (List<String>)SpringContext.getBatchComponents().get(JobDescriptor.class.getName());
+        kfsJobNames = (List<String>) BatchSpringContext.getBatchComponents().get(JobDescriptor.class.getName());
         jobDescriptors = SpringContext.getBeansOfType(JobDescriptor.class).values();
-        kfsTriggerNames = (List<String>)SpringContext.getBatchComponents().get(TriggerDescriptor.class.getName());
+        kfsTriggerNames = (List<String>) BatchSpringContext.getBatchComponents().get(TriggerDescriptor.class.getName());
         triggerDescriptors = SpringContext.getBeansOfType(TriggerDescriptor.class).values();
     }
 
@@ -58,7 +58,7 @@ public class BatchConfigurationTest extends KualiTestBase {
         StringBuffer errorMessage = new StringBuffer("The following registered job names do not correspond to JobDescriptor beans:");
         for (String jobName : kfsJobNames) {
             try {
-                SpringContext.getJobDescriptor(jobName);
+                BatchSpringContext.getJobDescriptor(jobName);
             }
             catch (NoSuchBeanDefinitionException e) {
                 nonExistentJobNames.add(jobName);
@@ -68,7 +68,7 @@ public class BatchConfigurationTest extends KualiTestBase {
         for (KualiModule module : modules) {
             for (String jobName : module.getJobNames()) {
                 try {
-                    SpringContext.getJobDescriptor(jobName);
+                    BatchSpringContext.getJobDescriptor(jobName);
                 }
                 catch (NoSuchBeanDefinitionException e) {
                     nonExistentJobNames.add(jobName);
@@ -87,7 +87,7 @@ public class BatchConfigurationTest extends KualiTestBase {
         StringBuffer errorMessage = new StringBuffer("The following registered trigger names do not correspond to TriggerDescriptor beans:");
         for (String triggerName : kfsTriggerNames) {
             try {
-                SpringContext.getTriggerDescriptor(triggerName);
+                BatchSpringContext.getTriggerDescriptor(triggerName);
             }
             catch (NoSuchBeanDefinitionException e) {
                 nonExistentTriggerNames.add(triggerName);
@@ -97,7 +97,7 @@ public class BatchConfigurationTest extends KualiTestBase {
         for (KualiModule module : modules) {
             for (String triggerName : module.getTriggerNames()) {
                 try {
-                    SpringContext.getTriggerDescriptor(triggerName);
+                    BatchSpringContext.getTriggerDescriptor(triggerName);
                 }
                 catch (NoSuchBeanDefinitionException e) {
                     nonExistentTriggerNames.add(triggerName);
@@ -165,9 +165,9 @@ public class BatchConfigurationTest extends KualiTestBase {
         for (JobDescriptor jobDescriptor : SpringContext.getBeansOfType(JobDescriptor.class).values()) {
             for (String dependencyJobName : jobDescriptor.getDependencies().keySet()) {
                 try {
-                    SpringContext.getJobDescriptor(dependencyJobName);
+                    BatchSpringContext.getJobDescriptor(dependencyJobName);
                 }
-                catch(NoSuchBeanDefinitionException e) {
+                catch (NoSuchBeanDefinitionException e) {
                     nonExistentDependencies.add(dependencyJobName);
                     errorMessage.append("\n\t").append(jobDescriptor.getJobDetail().getFullName()).append("depends on: ").append(dependencyJobName);
                 }

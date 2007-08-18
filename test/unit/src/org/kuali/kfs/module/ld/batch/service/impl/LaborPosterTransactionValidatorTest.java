@@ -61,7 +61,7 @@ public class LaborPosterTransactionValidatorTest extends KualiTestBase {
         fieldNames = properties.getProperty("fieldNames");
         deliminator = properties.getProperty("deliminator");
 
-        laborPosterTransactionValidator = SpringContext.getVerifyTransaction("laborPosterTransactionValidator");
+        laborPosterTransactionValidator = SpringContext.getBeansOfType(VerifyTransaction.class).get("laborPosterTransactionValidator");
         laborOriginEntryService = SpringContext.getBean(LaborOriginEntryService.class);
         originEntryGroupService = SpringContext.getBean(OriginEntryGroupService.class);
         businessObjectService = SpringContext.getBean(BusinessObjectService.class);

@@ -15,7 +15,7 @@
  */
 package org.kuali.module.labor.util;
 
-import org.kuali.kfs.batch.JobDescriptor;
+import org.kuali.kfs.batch.BatchSpringContext;
 import org.kuali.kfs.context.KualiTestBase;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.labor.service.LaborPosterService;
@@ -36,7 +36,7 @@ public class LaborPosterRunner extends KualiTestBase {
         long start = System.currentTimeMillis();
         System.out.println("Labor Poster is running ...");
         System.out.printf("Starting Time = %d (ms)\n", start);
-        SpringContext.getJobDescriptor("laborBatchJob").getSteps().get(2).execute("laborBatchJob");
+        BatchSpringContext.getJobDescriptor("laborBatchJob").getSteps().get(2).execute("laborBatchJob");
         long elapsedTime = System.currentTimeMillis() - start;
         System.out.printf("Execution Time = %d (ms)\n", elapsedTime);
         System.out.println("Labor Poster stopped");

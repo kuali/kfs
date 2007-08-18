@@ -67,7 +67,7 @@ public class LaborLedgerBalancePosterTest extends KualiTestBase {
         deliminator = properties.getProperty("deliminator");
         keyFieldList = Arrays.asList(StringUtils.split(fieldNames, deliminator));
         
-        laborLedgerBalancePoster = SpringContext.getPostTransaction("laborLedgerBalancePoster");
+        laborLedgerBalancePoster = SpringContext.getBeansOfType(PostTransaction.class).get("laborLedgerBalancePoster");
         businessObjectService = SpringContext.getBean(BusinessObjectService.class);
         originEntryGroupService = SpringContext.getBean(OriginEntryGroupService.class);
         DateTimeService dateTimeService = SpringContext.getBean(DateTimeService.class);

@@ -7,10 +7,10 @@
  */
 package org.kuali.module.labor.util;
 
+import org.kuali.kfs.batch.BatchSpringContext;
 import org.kuali.kfs.batch.JobDescriptor;
 import org.kuali.kfs.batch.Step;
 import org.kuali.kfs.context.KualiTestBase;
-import org.kuali.kfs.context.SpringContext;
 import org.kuali.test.ConfigureContext;
 import org.kuali.test.fixtures.UserNameFixture;
 
@@ -19,7 +19,7 @@ public class LaborBatchRunner extends KualiTestBase {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(LaborBatchRunner.class);
 
     public void testRunBatch() {
-        JobDescriptor laborBatchJob = SpringContext.getJobDescriptor("laborBatchJob");
+        JobDescriptor laborBatchJob = BatchSpringContext.getJobDescriptor("laborBatchJob");
         for (Step step : laborBatchJob.getSteps()) {
             runStep(step);
         }

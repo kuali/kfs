@@ -84,7 +84,7 @@ public class LaborReportServiceTest extends KualiTestBase {
         persistenceService = SpringContext.getBean(PersistenceService.class);
 
         laborReportService = SpringContext.getBean(LaborReportService.class);
-        laborPosterTransactionValidator = SpringContext.getVerifyTransaction("laborPosterTransactionValidator");
+        laborPosterTransactionValidator = SpringContext.getBeansOfType(VerifyTransaction.class).get("laborPosterTransactionValidator");
         reportsDirectory = ReportRegistry.getReportsDirectory();
 
         today = (SpringContext.getBean(DateTimeService.class)).getCurrentSqlDate();

@@ -44,6 +44,7 @@ import org.kuali.core.web.ui.KeyLabelPair;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSKeyConstants;
 import org.kuali.kfs.batch.BatchInputFileSetType;
+import org.kuali.kfs.batch.BatchSpringContext;
 import org.kuali.kfs.bo.BatchUpload;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.exceptions.FileStorageException;
@@ -220,7 +221,7 @@ public class KualiBatchInputFileSetAction extends KualiAction {
      * Retrieves a BatchInputFileType implementation from Spring based on the given name.
      */
     private BatchInputFileSetType retrieveBatchInputFileSetTypeImpl(String batchInputTypeName) {
-        BatchInputFileSetType batchInputType = SpringContext.getBatchInputFileSetType(batchInputTypeName);
+        BatchInputFileSetType batchInputType = BatchSpringContext.getBatchInputFileSetType(batchInputTypeName);
         if (batchInputType == null) {
             LOG.error("Batch input type implementation not found for id " + batchInputTypeName);
             throw new RuntimeException(("Batch input type implementation not found for id " + batchInputTypeName));

@@ -20,7 +20,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.kuali.core.lookup.Lookupable;
 import org.kuali.core.web.struts.form.MultipleValueLookupForm;
 import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
-import org.kuali.kfs.context.SpringContext;
+import org.kuali.kfs.lookup.LookupableSpringContext;
 import org.kuali.module.gl.GLConstants;
 import org.kuali.module.gl.bo.Entry;
 
@@ -65,7 +65,7 @@ public class BalanceInquiryLookupForm extends MultipleValueLookupForm {
         super.populate(request);
 
         if (Entry.class.getName().equals(getBusinessObjectClassName())) {
-            localPendingEntryLookupable = SpringContext.getLookupable(GLConstants.LookupableBeanKeys.PENDING_ENTRY);
+            localPendingEntryLookupable = LookupableSpringContext.getLookupable(GLConstants.LookupableBeanKeys.PENDING_ENTRY);
             }
         
         if (localPendingEntryLookupable != null) {

@@ -29,6 +29,7 @@ import org.kuali.core.service.PersistenceService;
 import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.context.KualiTestBase;
 import org.kuali.kfs.context.SpringContext;
+import org.kuali.kfs.lookup.LookupableSpringContext;
 import org.kuali.module.budget.bo.CalculatedSalaryFoundationTracker;
 import org.kuali.module.gl.web.TestDataGenerator;
 import org.kuali.module.labor.LaborConstants;
@@ -65,7 +66,7 @@ public class BaseFundsLookupableHelperServiceTest extends KualiTestBase {
 
         businessObjectService = SpringContext.getBean(BusinessObjectService.class);
 
-        lookupableHelperService = SpringContext.getLookupableHelperService(LaborConstants.BASE_FUNDS_LOOKUP_HELPER_SRVICE_NAME);
+        lookupableHelperService = LookupableSpringContext.getLookupableHelperService(LaborConstants.BASE_FUNDS_LOOKUP_HELPER_SRVICE_NAME);
         lookupableHelperService.setBusinessObjectClass(AccountStatusBaseFunds.class);
 
         // Clear up the database so that any existing data cannot affact your test result

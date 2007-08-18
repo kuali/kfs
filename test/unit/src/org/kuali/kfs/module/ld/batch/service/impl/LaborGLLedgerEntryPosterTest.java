@@ -69,7 +69,7 @@ public class LaborGLLedgerEntryPosterTest extends KualiTestBase {
         deliminator = properties.getProperty("deliminator");
         keyFieldList = Arrays.asList(StringUtils.split(fieldNames, deliminator));
 
-        laborGLLedgerEntryPoster = SpringContext.getPostTransaction("laborGLLedgerEntryPoster");
+        laborGLLedgerEntryPoster = SpringContext.getBeansOfType(PostTransaction.class).get("laborGLLedgerEntryPoster");
         businessObjectService = SpringContext.getBean(BusinessObjectService.class);
         originEntryGroupService = SpringContext.getBean(OriginEntryGroupService.class);
         laborGeneralLedgerEntryService = SpringContext.getBean(LaborGeneralLedgerEntryService.class);

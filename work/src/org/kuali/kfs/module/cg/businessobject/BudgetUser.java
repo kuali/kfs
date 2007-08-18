@@ -18,6 +18,7 @@ package org.kuali.module.kra.budget.bo;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.StringTokenizer;
 
 import org.apache.ojb.broker.PersistenceBroker;
 import org.apache.ojb.broker.PersistenceBrokerException;
@@ -401,9 +402,11 @@ public class BudgetUser extends PersistableBusinessObjectBase implements Compara
             else {
                 this.baseSalary = new KualiDecimal(0);
             }
+
+            StringTokenizer chartOrg = new StringTokenizer(this.user.getPrimaryDepartmentCode(), "-");
             
-            this.fiscalCampusCode = this.user.getCampusCode();
-            this.primaryDepartmentCode = this.user.getPrimaryDepartmentCode();
+            this.fiscalCampusCode = chartOrg.nextToken();
+            this.primaryDepartmentCode = chartOrg.hasMoreElements() ? chartOrg.nextToken() : this.fiscalCampusCode;
         }
         else {
             this.baseSalary = new KualiDecimal(0);

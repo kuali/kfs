@@ -147,16 +147,6 @@ public class BudgetPersonnelAction extends BudgetAction {
                 i.remove();
             }
         }
-        
-//        String[] deleteIndexes = budgetForm.getDeleteValues();
-//        if (deleteIndexes != null && deleteIndexes.length > 0) {
-//            for (int i = deleteIndexes.length - 1; i > -1; i--) {
-//                if (deleteIndexes[i] != null) {
-//                    personnel.remove(Integer.parseInt(deleteIndexes[i]));
-//                }
-//            }
-//        }
-//        budgetForm.setDeleteValues(new String[personnel.size()]);
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }

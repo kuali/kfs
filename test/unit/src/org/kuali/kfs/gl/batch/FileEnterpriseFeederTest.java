@@ -298,6 +298,16 @@ public class FileEnterpriseFeederTest extends OriginEntryTestBase {
         return directoryPrefix + TEST_FILE_PREFIX + convertIntToString(fileSetId) + FileEnterpriseFeederServiceImpl.DONE_FILE_SUFFIX;
     }
     
+    /**
+     * This method asserts that there doesn't exist any done files in the enterprise feeder directory that do not begin with DONE_FILE_PREFIX
+     * (see constants definition in this class).  If there are files that begin w/ that prefix in the directory, they are deleted.  After checking/
+     * deleting done files, it will then create a done files listed in the fileSets parameter.
+     * 
+     * @param fileSets A list of Integers, representing the done files that will be created. (see class description) to see how these integers map
+     * into file names.
+     * 
+     * @throws IOException
+     */
     protected void assertNoExtraDoneFilesExistAndCreateDoneFilesForSets(List<Integer> fileSets) throws IOException {
         FileFilter fileFilter = new SuffixFileFilter(FileEnterpriseFeederServiceImpl.DONE_FILE_SUFFIX);
         File directory = new File(((FileEnterpriseFeederServiceImpl)SpringContext.getBean(FileEnterpriseFeederServiceImpl.class)).getDirectoryName());
@@ -305,7 +315,14 @@ public class FileEnterpriseFeederTest extends OriginEntryTestBase {
         
         StringBuilder sb = new StringBuilder();
         for (File file : doneFiles) {
-            sb.append( file.getName() + ";" );
+            if (file.getName().startsWith(TEST_FILE_PREFIX)) {
+                // this is a test done file, just delete it
+                file.delete();
+            }
+            else {
+                // maybe someone put in files in the staging directory that shouldn't be there
+                sb.append( file.getName() + ";" );
+            }
         }
         
         assertTrue("Done files exist in the directory ( " + sb.toString() + " ), which will cause this step to produce unexpected results when testing." + 

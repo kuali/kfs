@@ -17,6 +17,11 @@
 package org.kuali.module.purap.document;
 
 import org.kuali.core.rule.event.KualiDocumentEvent;
+import org.kuali.kfs.context.SpringContext;
+import org.kuali.module.purap.PurapConstants;
+import org.kuali.module.purap.PurapWorkflowConstants.NodeDetails;
+import org.kuali.module.purap.service.PurapService;
+import org.kuali.module.purap.service.PurchaseOrderService;
 
 /**
  * Purchase Order Document
@@ -34,4 +39,36 @@ public class PurchaseOrderPaymentHoldDocument extends PurchaseOrderDocument {
     public void customPrepareForSave(KualiDocumentEvent event) {
         //do not set the accounts in sourceAccountingLines; this document should not create GL entries
     }
+
+
+    
+    @Override
+    public void handleRouteStatusChange() {
+        super.handleRouteStatusChange();
+
+        // DOCUMENT PROCESSED
+        if (getDocumentHeader().getWorkflowDocument().stateIsProcessed()) {
+            SpringContext.getBean(PurchaseOrderService.class).setCurrentAndPendingIndicatorsForApprovedPODocuments(this);
+            //set purap status and status history and status history note
+            //TODO: Once we have a note available here, add the note to the next line.
+            SpringContext.getBean(PurapService.class).updateStatusAndStatusHistory(this, PurapConstants.PurchaseOrderStatuses.PAYMENT_HOLD );
+            SpringContext.getBean(PurchaseOrderService.class).saveDocumentWithoutValidation(this);
+        }
+        // DOCUMENT DISAPPROVED
+        else if (getDocumentHeader().getWorkflowDocument().stateIsDisapproved()) {
+            SpringContext.getBean(PurchaseOrderService.class).setCurrentAndPendingIndicatorsForDisapprovedPODocuments(this);
+            SpringContext.getBean(PurchaseOrderService.class).saveDocumentWithoutValidation(this);
+        }
+        // DOCUMENT CANCELED
+        else if (getDocumentHeader().getWorkflowDocument().stateIsCanceled()) {
+            // TODO code
+        }        
+    }
+
+    @Override
+    public NodeDetails getNodeDetailEnum(String newNodeName) {
+        // no statuses to set means no node details
+        return null;
+    }
+
 }

@@ -38,6 +38,7 @@ import org.kuali.module.purap.document.PaymentRequestDocument;
 import org.kuali.module.purap.document.PurchaseOrderDocument;
 import org.kuali.module.purap.service.PaymentRequestService;
 import org.kuali.module.purap.service.PurapGeneralLedgerService;
+import org.kuali.module.purap.service.PurchaseOrderService;
 
 public class PurchaseOrderCloseDocumentRule extends PurchasingDocumentRuleBase {
 
@@ -72,9 +73,11 @@ public class PurchaseOrderCloseDocumentRule extends PurchasingDocumentRuleBase {
             throw new ValidationException("Purchase Order Close document was null on validation.");
         }
         else {
+            PurchaseOrderDocument currentPO = SpringContext.getBean(PurchaseOrderService.class).getCurrentPurchaseOrder(document.getPurapDocumentIdentifier());
+            
             // TODO: Get this from Business Rules.
             // The PO must be in OPEN status.
-            if (!StringUtils.equalsIgnoreCase(document.getStatusCode(), PurchaseOrderStatuses.OPEN)) {
+            if (!StringUtils.equalsIgnoreCase(currentPO.getStatusCode(), PurchaseOrderStatuses.OPEN)) {
                 valid = false;
                 GlobalVariables.getErrorMap().putError(PurapPropertyConstants.STATUS_CODE, PurapKeyConstants.ERROR_PURCHASE_ORDER_STATUS_NOT_REQUIRED_STATUS, PurchaseOrderStatuses.OPEN );
             }

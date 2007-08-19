@@ -21,8 +21,10 @@ import static org.kuali.core.util.KualiDecimal.ZERO;
 import java.math.BigDecimal;
 import java.sql.Date;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.bo.Note;
@@ -34,11 +36,18 @@ import org.kuali.core.service.DateTimeService;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.util.TypedArrayList;
+import org.kuali.core.workflow.service.KualiWorkflowDocument;
+import org.kuali.core.workflow.service.KualiWorkflowInfo;
+import org.kuali.core.workflow.service.WorkflowDocumentService;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.purap.PurapConstants;
+import org.kuali.module.purap.PurapPropertyConstants;
+import org.kuali.module.purap.PurapWorkflowConstants;
 import org.kuali.module.purap.PurapConstants.CreditMemoStatuses;
 import org.kuali.module.purap.PurapConstants.RequisitionSources;
 import org.kuali.module.purap.PurapConstants.VendorChoice;
+import org.kuali.module.purap.PurapWorkflowConstants.NodeDetails;
+import org.kuali.module.purap.PurapWorkflowConstants.PurchaseOrderDocument.NodeDetailEnum;
 import org.kuali.module.purap.bo.CreditMemoView;
 import org.kuali.module.purap.bo.ItemType;
 import org.kuali.module.purap.bo.PaymentRequestView;
@@ -53,7 +62,7 @@ import org.kuali.module.purap.bo.PurchasingApItem;
 import org.kuali.module.purap.bo.RecurringPaymentFrequency;
 import org.kuali.module.purap.bo.RequisitionItem;
 import org.kuali.module.purap.service.PurapAccountingService;
-import org.kuali.module.purap.service.PurchaseOrderPostProcessorService;
+import org.kuali.module.purap.service.PurapService;
 import org.kuali.module.purap.service.PurchaseOrderService;
 import org.kuali.module.purap.service.RequisitionService;
 import org.kuali.module.vendor.VendorConstants;
@@ -62,8 +71,12 @@ import org.kuali.module.vendor.bo.ShippingPaymentTerms;
 import org.kuali.module.vendor.bo.ShippingTitle;
 import org.kuali.module.vendor.bo.VendorDetail;
 
+import edu.iu.uis.eden.EdenConstants;
 import edu.iu.uis.eden.clientapp.vo.ActionTakenEventVO;
 import edu.iu.uis.eden.clientapp.vo.DocumentRouteLevelChangeVO;
+import edu.iu.uis.eden.clientapp.vo.NetworkIdVO;
+import edu.iu.uis.eden.clientapp.vo.ReportCriteriaVO;
+import edu.iu.uis.eden.exception.WorkflowException;
 
 /**
  * Purchase Order Document
@@ -307,12 +320,57 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase {
         LOG.debug("handleRouteStatusChange() started");
         super.handleRouteStatusChange();
 
-        // additional processing
-        PurchaseOrderPostProcessorService popp = getPurchaseOrderPostProcessorService();
-        // null if defined as empty string in map
-        if (popp != null) {
-            popp.handleRouteStatusChange(this);
+        //child classes need to call super, but we don't want to inherit the post-processing done by this PO class
+        //FIXME there is probably a better way to do this (hjs)
+        if ( PurchaseOrderDocument.class.getName().equals(this.getClass().getName()) ) {
+            
+            KualiWorkflowDocument workflowDocument = getDocumentHeader().getWorkflowDocument();
+            try {
+                // DOCUMENT PROCESSED
+                if (workflowDocument.stateIsProcessed()) {
+                    SpringContext.getBean(PurchaseOrderService.class).setCurrentAndPendingIndicatorsForApprovedPODocuments(this);
+                    SpringContext.getBean(PurchaseOrderService.class).completePurchaseOrder(this);
+                }
+                // DOCUMENT DISAPPROVED
+                else if (workflowDocument.stateIsDisapproved()) {
+                    SpringContext.getBean(PurchaseOrderService.class).setCurrentAndPendingIndicatorsForDisapprovedPODocuments(this);
+                    // app specific route FYI to requisition initiator
+                    Map primaryKeys = new HashMap();
+                    primaryKeys.put(PurapPropertyConstants.PURAP_DOC_ID, getRequisitionIdentifier());
+                    RequisitionDocument req = (RequisitionDocument) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(RequisitionDocument.class, primaryKeys);
+                    workflowDocument.appSpecificRouteDocumentToUser(EdenConstants.ACTION_REQUEST_FYI_REQ, NodeDetailEnum.ADHOC_REVIEW.getName(), 0, 
+                            "Notification of Order Disapproval for Requisition " + req.getPurapDocumentIdentifier(), new NetworkIdVO(req.getDocumentHeader().getWorkflowDocument().getRoutedByUserNetworkId()), 
+                            "Requisition Routed By User", true);
+                    String nodeName = SpringContext.getBean(WorkflowDocumentService.class).getCurrentRouteLevelName(getDocumentHeader().getWorkflowDocument());
+                    NodeDetails currentNode = NodeDetailEnum.getNodeDetailEnumByName(nodeName);
+                    if (ObjectUtils.isNotNull(currentNode)) {
+                        if (StringUtils.isNotBlank(currentNode.getDisapprovedStatusCode())) {
+                            if ( (PurapConstants.PurchaseOrderStatuses.OPEN.equals(currentNode.getDisapprovedStatusCode())) && 
+                                    (!PurapConstants.PurchaseOrderStatuses.OPEN.equals(getStatusCode())) &&
+                                    (ObjectUtils.isNull(getPurchaseOrderInitialOpenDate())) ) {
+                                setPurchaseOrderInitialOpenDate(SpringContext.getBean(DateTimeService.class).getCurrentSqlDate());
+                            }
+                            SpringContext.getBean(PurapService.class).updateStatusAndStatusHistory(this, currentNode.getDisapprovedStatusCode());
+                            populateDocumentForRouting();
+                            SpringContext.getBean(PurchaseOrderService.class).saveDocumentWithoutValidation(this);
+                            return;
+                        }
+                    }
+                    // TODO PURAP/delyea - what to do in a disapproval where no status to set exists?
+                    logAndThrowRuntimeException("No status found to set for document being disapproved in node '" + nodeName + "'");
+                }
+                // DOCUMENT CANCELED
+                else if (workflowDocument.stateIsCanceled()) {
+                    SpringContext.getBean(PurapService.class).updateStatusAndStatusHistory(this, PurapConstants.PurchaseOrderStatuses.CANCELLED);
+                    populateDocumentForRouting();
+                    SpringContext.getBean(PurchaseOrderService.class).saveDocumentWithoutValidation(this);
+                }
+            }
+            catch (WorkflowException e) {
+                logAndThrowRuntimeException("Error saving routing data while saving document with id " + getDocumentNumber(), e);
+            }
         }
+        
     }
 
     /**
@@ -323,12 +381,46 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase {
         LOG.debug("handleRouteLevelChange() started");
         super.handleRouteLevelChange(levelChangeEvent);
 
-        // additional processing
-        PurchaseOrderPostProcessorService popp = getPurchaseOrderPostProcessorService();
-        // null if defined as empty string in map
-        if (popp != null) {
-            popp.handleRouteLevelChange(levelChangeEvent, this);
+        LOG.debug("handleRouteLevelChange() started");
+        String newNodeName = levelChangeEvent.getNewNodeName();
+        if (StringUtils.isNotBlank(newNodeName)) {
+            ReportCriteriaVO reportCriteriaVO = new ReportCriteriaVO(Long.valueOf(getDocumentNumber()));
+            reportCriteriaVO.setTargetNodeName(newNodeName);
+            try {
+                NodeDetails newNodeDetails = getNodeDetailEnum(newNodeName);
+                if (ObjectUtils.isNotNull(newNodeDetails)) {
+                    if (PurapWorkflowConstants.PurchaseOrderDocument.NodeDetailEnum.DOCUMENT_TRANSMISSION.equals(newNodeDetails)) {
+                        // in the document transmission node... we do special processing to set the status and update the PO
+                        boolean willHaveRequest = SpringContext.getBean(KualiWorkflowInfo.class).documentWillHaveAtLeastOneActionRequest(reportCriteriaVO, null);
+                        SpringContext.getBean(PurchaseOrderService.class).setupDocumentForPendingFirstTransmission(this, willHaveRequest);
+                        SpringContext.getBean(PurchaseOrderService.class).saveDocumentWithoutValidation(this);
+                    } else {
+                        String newStatusCode = newNodeDetails.getAwaitingStatusCode();
+                        if (StringUtils.isNotBlank(newStatusCode)) {
+                            if (SpringContext.getBean(KualiWorkflowInfo.class).documentWillHaveAtLeastOneActionRequest(
+                                    reportCriteriaVO, new String[]{EdenConstants.ACTION_REQUEST_APPROVE_REQ,EdenConstants.ACTION_REQUEST_COMPLETE_REQ})) {
+                                // if an approve or complete request will be created then we need to set the status as awaiting for the new node
+                                if ( (PurapConstants.PurchaseOrderStatuses.OPEN.equals(newStatusCode)) && 
+                                     (!PurapConstants.PurchaseOrderStatuses.OPEN.equals(getStatusCode())) &&
+                                     (ObjectUtils.isNull(getPurchaseOrderInitialOpenDate())) ) {
+                                    setPurchaseOrderInitialOpenDate(SpringContext.getBean(DateTimeService.class).getCurrentSqlDate());
+                                }
+                                SpringContext.getBean(PurapService.class).updateStatusAndStatusHistory(this, newStatusCode);
+                                SpringContext.getBean(PurchaseOrderService.class).saveDocumentWithoutValidation(this);
+                            }
+                        }
+                    }
+                }
+            }
+            catch (WorkflowException e) {
+                String errorMsg = "Workflow Error found checking actions requests on document with id " + getDocumentNumber() + ". *** WILL NOT UPDATE PURAP STATUS ***";
+                LOG.warn(errorMsg, e);
+            }
         }
+    }
+
+    public NodeDetails getNodeDetailEnum(String newNodeName) {
+        return NodeDetailEnum.getNodeDetailEnumByName(newNodeName);
     }
 
     /**
@@ -338,17 +430,8 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase {
     public void doActionTaken(ActionTakenEventVO event) {
         super.doActionTaken(event);
         // additional processing
-        PurchaseOrderPostProcessorService popp = getPurchaseOrderPostProcessorService();
-        // null if defined as empty string in map
-        if (popp != null) {
-            popp.doActionTaken(event, this);
-        }
     }
     
-    private PurchaseOrderPostProcessorService getPurchaseOrderPostProcessorService() {
-        return SpringContext.getBean(PurchaseOrderService.class).convertDocTypeToService(getDocumentHeader().getWorkflowDocument().getDocumentType());
-    }
-
     public List getItemsActiveOnly() {
         List returnList = new ArrayList();
         for (Iterator iter = getItems().iterator(); iter.hasNext();) {

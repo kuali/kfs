@@ -25,7 +25,6 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.RiceConstants;
 import org.kuali.core.UserSession;
 import org.kuali.core.bo.Note;
-import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.exceptions.UserNotFoundException;
 import org.kuali.core.exceptions.ValidationException;
 import org.kuali.core.rule.event.KualiDocumentEvent;
@@ -61,7 +60,6 @@ import org.kuali.module.purap.document.PurchasingDocumentBase;
 import org.kuali.module.purap.document.RequisitionDocument;
 import org.kuali.module.purap.service.PrintService;
 import org.kuali.module.purap.service.PurapService;
-import org.kuali.module.purap.service.PurchaseOrderPostProcessorService;
 import org.kuali.module.purap.service.PurchaseOrderService;
 import org.kuali.module.purap.service.RequisitionService;
 import org.kuali.module.purap.util.PurApObjectUtils;
@@ -591,19 +589,6 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
         else {
             return nodeNames[0];
         }
-    }
-
-    /**
-     * @see org.kuali.module.purap.service.PurchaseOrderService#convertDocTypeToService()
-     */
-    public PurchaseOrderPostProcessorService convertDocTypeToService(String docTypeId) {
-        PurchaseOrderPostProcessorService popp = null;
-        String docType;
-        docType = (String) PurapConstants.PURCHASE_ORDER_DOC_TYPE_MAP.get(docTypeId);
-        if (StringUtils.isNotEmpty(docType)) {
-            popp = (PurchaseOrderPostProcessorService) SpringContext.getBeansOfType(PurchaseOrderPostProcessorServiceBase.class).get(docType);
-        }
-        return popp;
     }
 
     public void completePurchaseOrder(PurchaseOrderDocument po) {

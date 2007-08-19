@@ -63,6 +63,7 @@ import org.kuali.module.purap.document.CreditMemoDocument;
 import org.kuali.module.purap.document.PaymentRequestDocument;
 import org.kuali.module.purap.document.PurchaseOrderDocument;
 import org.kuali.module.purap.document.PurchasingAccountsPayableDocument;
+import org.kuali.module.purap.service.PaymentRequestService;
 import org.kuali.module.purap.service.PurapAccountingService;
 import org.kuali.module.purap.service.PurapGeneralLedgerService;
 import org.kuali.module.purap.service.PurchaseOrderService;
@@ -77,6 +78,7 @@ public class PurapGeneralLedgerServiceImpl implements PurapGeneralLedgerService 
     private GeneralLedgerPendingEntryService generalLedgerPendingEntryService;
     private KualiConfigurationService kualiConfigurationService;
     private KualiRuleService kualiRuleService;
+    private PaymentRequestService paymentRequestService;
     private PurapAccountingService purapAccountingService;
     private UniversityDateService universityDateService;
 
@@ -269,6 +271,12 @@ public class PurapGeneralLedgerServiceImpl implements PurapGeneralLedgerService 
 //        paymentChange.setLastUpdateUserId(preq.getLastUpdateUserId());
 //set PC in doc to be used in GL creation
         
+            /*
+             * Can't let generalLedgerPendingEntryService just create all the entries because we need the sequenceHelper to carry over
+             * from the encumbrances to the actuals and also because we need to tell the PaymentRequestDocumentRule customize entry
+             * method how to customize differently based on if creating an encumbrance or actual.
+             */
+            
             generalLedgerPendingEntryService.delete(preq.getDocumentNumber());
             
             boolean success = true;
@@ -325,8 +333,165 @@ public class PurapGeneralLedgerServiceImpl implements PurapGeneralLedgerService 
         }
     }
 
+    /**
+     * This is called in the Fiscal Officer route level of PREQ. It will adjust the accounts on the PREQ if the Fiscal Officer
+     * changes them. It shouldn't generate any G/L entries if they don't change anything. It should only generate entries to move
+     * the money from the old account(s) to the new account(s). 
+     * 
+     * !!IMPORTANT!! Note that this must be called before the preq is stored to the database, since this needs to know the old and new values
+     * 
+     * @param preq Preq check for G/L entries
+     */
     public void generateEntriesModifyPreq(PaymentRequestDocument preq) {
+        LOG.debug("generateEntriesModifyPreq(preq) started");
+        // oldPreq represents the same PREQ as preq, but the old values (prior to the modifications)
+        // preq represents the new values for this PREQ
+        PaymentRequestDocument oldPreq = paymentRequestService.getPaymentRequestById(preq.getPurapDocumentIdentifier());
+        this.generateEntriesModifyPreq(preq, oldPreq, false);
+    }
 
+    /**
+     * This is called in the Tax route level of PREQ. It will adjust the accounts on the PREQ if the Tax approver
+     * changes them. It shouldn't generate any G/L entries if they don't change anything. It should only generate entries to move
+     * the money from the old account(s) to the new account(s). 
+     * 
+     * !!IMPORTANT!! Note that this must be called before the preq is stored to the database, since this needs to know the old and new values
+     * 
+     * @param preq Preq check for G/L entries
+     */
+    public void generateEntriesTaxApprovePreq(PaymentRequestDocument preq) {
+        LOG.debug("generateEntriesTaxApprovePreq() started");
+        // oldPreq represents the same PREQ as preq, but the old values (prior to the modifications)
+        // preq represents the new values for this PREQ
+//        PaymentRequestDocument oldPreq = paymentRequestService.getPaymentRequestById(preq.getPurapDocumentIdentifier());
+//        this.generateEntriesModifyPreq(preq, oldPreq, true);
+        throw new IllegalArgumentException("This method is not implemented");
+    }
+
+    private void generateEntriesModifyPreq(PaymentRequestDocument newPREQ, PaymentRequestDocument oldPREQ, boolean oldPreqExcludeTaxItems) {
+        LOG.debug("generateEntriesModifyPreq() started");
+
+//TODO PHASE 2B - ADD TAX EDITING
+//        Collection taxItems = GeneralUtilities.covertArrayToCollection(EpicConstants.ITEM_TYPES_TAX_ITEMS);
+
+        Map actualsPositive = new HashMap();
+        List<SourceAccountingLine> newAccountingLines = purapAccountingService.generateSummaryWithNoZeroTotals(newPREQ.getItems());
+        for (SourceAccountingLine newAccount : newAccountingLines) {
+            actualsPositive.put(newAccount, newAccount.getAmount());
+        }
+
+        Map actualsNegative = new HashMap();
+        List<SourceAccountingLine> oldAccountingLines = purapAccountingService.generateSummaryWithNoZeroTotals(oldPREQ.getItems());
+
+//      TODO PHASE 2B - ADD TAX EDITING
+//        if (oldPreqExcludeTaxItems) {
+//            oldAccountingLines = oldPREQ.getDisplayAccounts(taxItems, PaymentRequest.LIST_ITEMS_EXCLUDED);
+//        }
+        for (SourceAccountingLine newAccount : newAccountingLines) {
+            actualsNegative.put(newAccount, newAccount.getAmount());
+        }
+
+        // Add the positive entries and subtract the negative entries
+        Map glEntries = new HashMap();
+
+        // Combine the two maps (copy all the positive entries)
+        LOG.debug("generateEntriesModifyPreq() Combine positive/negative entries");
+        glEntries.putAll(actualsPositive);
+
+        for (Iterator iter = actualsNegative.keySet().iterator(); iter.hasNext();) {
+            SourceAccountingLine key = (SourceAccountingLine) iter.next();
+
+            KualiDecimal amt;
+            if (glEntries.containsKey(key)) {
+                amt = (KualiDecimal) glEntries.get(key);
+                amt = amt.subtract((KualiDecimal) actualsNegative.get(key));
+            }
+            else {
+                amt = ZERO;
+                amt = amt.subtract((KualiDecimal) actualsNegative.get(key));
+            }
+            glEntries.put(key, amt);
+        }
+
+//        Timestamp now = new Timestamp((new Date()).getTime());
+//        PaymentChange paymentChange = new PaymentChange();
+//        paymentChange.setPaymentRequest(newPREQ);
+//        paymentChange.setCreditMemo(null);
+//        paymentChange.setLastUpdateTimestamp(now);
+//        paymentChange.setLastUpdateUserId(newPREQ.getLastUpdateUserId());
+
+        List<SourceAccountingLine> accounts = new ArrayList();
+        for (Iterator iter = glEntries.keySet().iterator(); iter.hasNext();) {
+            SourceAccountingLine account = (SourceAccountingLine) iter.next();
+            KualiDecimal amount = (KualiDecimal) glEntries.get(account);
+            if (amount.doubleValue() != 0) {
+                account.setAmount(amount);
+                accounts.add(account);
+
+//TODO code payment change; should this go here?                
+//                // Create Payment Change Account
+//
+//                // Get each item
+//                LOG.debug("generateEntriesModifyPreq() Calculate amount for cams table");
+//                //FIXME was using getDisplayItems...is this ok?
+//                for (Iterator iterator = newPREQ.getItems().iterator(); iterator.hasNext();) {
+//                    PaymentRequestItem item = (PaymentRequestItem) iterator.next();
+//                    KualiDecimal amount = ZERO;
+//
+//                    // Positive amount
+//                    //FIXME was using getDisplayAccounts...is this ok?
+//                    for (Iterator ai = item.getSourceAccountingLines().iterator(); ai.hasNext();) {
+//                        SourceAccountingLine account = (SourceAccountingLine) ai.next();
+//                        //FIXME i don't think this equals won't work for this
+//                        if (acctString.equals(account)) {
+//                            amount = amount.add(account.getAmount());
+//                        }
+//                    }
+//
+//                    // Negative amount
+//                    //FIXME was using getDisplayItems...is this ok?
+//                    List oldPreqItems = oldPREQ.getItems();
+////                  TODO PHASE 2B - ADD TAX EDITING
+////                    if (oldPreqExcludeTaxItems) {
+////                        oldPreqDisplayItems = oldPREQ.getDisplayItems(taxItems, PaymentRequest.LIST_ITEMS_EXCLUDED);
+////                    }
+//                    for (Iterator ni = oldPreqItems.iterator(); ni.hasNext();) {
+//                        PaymentRequestItem nitem = (PaymentRequestItem) ni.next();
+//                        if (nitem.equals(item)) {
+//                            //FIXME was using getDisplayAccounts...is this ok?
+//                            for (Iterator nai = nitem.getSourceAccountingLines().iterator(); nai.hasNext();) {
+//                                SourceAccountingLine account = (SourceAccountingLine) nai.next();
+//                                //FIXME i don't think this equals won't work for this
+//                                if (acctString.equals(account)) {
+//                                    amount = amount.subtract(account.getAmount());
+//                                }
+//                            }
+//                            break;
+//                        }
+//                    }
+//
+////                    if (amount.compareTo(zero) != 0) {
+////                        PaymentChangeAccount pca = new PaymentChangeAccount();
+////                        pca.setPaymentChange(paymentChange);
+////                        pca.setGlPendingTransaction(tran);
+////                        pca.setItemLineNumber(item.getItemLineNumber());
+////                        pca.setLastUpdateTimestamp(now);
+////                        pca.setLastUpdateUserId(newPREQ.getLastUpdateUserId());
+////                        pca.setAmount(amount);
+////                        paymentChange.addAccount(pca);
+////                    }
+//                }
+            }
+        }
+        
+        // now the actuals & liabilities
+        LOG.debug("generateEntriesModifyPreq() Generate GL entries");
+        newPREQ.setSourceAccountingLines(accounts);
+        generalLedgerPendingEntryService.generateGeneralLedgerPendingEntries(newPREQ);
+        saveGLEntriesAndPurapGLEntries(newPREQ.getGeneralLedgerPendingEntries());
+        
+        LOG.debug("generateEntriesModifyPreq() save paymentChange");
+//TOOD        paymentChangeDao.save(paymentChange);
     }
 
     public void generateEntriesCreditMemo(CreditMemoDocument cm, boolean isCancel) {
@@ -415,6 +580,14 @@ public class PurapGeneralLedgerServiceImpl implements PurapGeneralLedgerService 
         //TODO save PaymentChange now that it has its accounts
 
         LOG.debug("generateEntriesCreditMemo() ended");
+    }
+
+    /**
+     * This isn't necessary for this release
+     */
+    public void generateEntriesModifyCm(CreditMemoDocument cm) {
+      LOG.debug("generateEntriesModifyCm() started");
+      throw new IllegalArgumentException("This method is not implemented");
     }
 
     public void generateEntriesApproveAmendPo(PurchaseOrderDocument po) {
@@ -552,11 +725,14 @@ public class PurapGeneralLedgerServiceImpl implements PurapGeneralLedgerService 
                 /*
                  * This is a specialized case where PREQ item being processed must adjust the PO item's outstanding encumbered
                  * quantity. This kind of scenario is mostly seen on warranty type items. The following must be true to do this:
-                 * PREQ item Extended Price must be ZERO PREQ item invoice quantity must be not empty and not ZERO PO item is
-                 * quantity based PO item unit cost is ZERO
+                 * 
+                 * PREQ item Extended Price must be ZERO 
+                 * PREQ item invoice quantity must be not empty and not ZERO 
+                 * PO item is quantity based 
+                 * PO item unit cost is ZERO
                  */
                 LOG.debug("relieveEncumbrance() " + logItmNbr + " No GL encumbrances required because extended price is ZERO");
-                if ((poItem.getItemQuantity() != null) && ((ZERO.compareTo(poItem.getItemUnitPrice())) == 0)) {
+                if ((poItem.getItemQuantity() != null) && ((BigDecimal.ZERO.compareTo(poItem.getItemUnitPrice())) == 0)) {
                     // po has order quantity and unit price is ZERO... reduce outstanding encumbered quantity
                     LOG.debug("relieveEncumbrance() " + logItmNbr + " Calculate po oustanding encumbrance");
 
@@ -972,5 +1148,9 @@ public class PurapGeneralLedgerServiceImpl implements PurapGeneralLedgerService 
     
     public void setUniversityDateService(UniversityDateService universityDateService) {
         this.universityDateService = universityDateService;
+    }
+
+    public void setPaymentRequestService(PaymentRequestService paymentRequestService) {
+        this.paymentRequestService = paymentRequestService;
     }
 }

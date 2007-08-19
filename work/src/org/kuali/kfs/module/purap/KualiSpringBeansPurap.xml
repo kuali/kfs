@@ -163,6 +163,9 @@
         <property name="kualiRuleService">
             <ref bean="kualiRuleService" />
         </property>
+        <property name="paymentRequestService">
+            <ref bean="paymentRequestService"/>
+        </property>
         <property name="purapAccountingService">
             <ref bean="purapAccountingService" />
         </property> 
@@ -327,41 +330,6 @@
         </property>
 	</bean>
 
-	<!-- parent class, this is so we can override attributes if we add any later -->
-	<bean id="purchaseOrderPostProcessServiceBase" class="org.kuali.module.purap.service.impl.PurchaseOrderPostProcessorServiceBase" abstract="true">
-        <property name="purchaseOrderService">
-            <ref bean="purchaseOrderService" />
-        </property>	
-        <property name="purapGeneralLedgerService">
-            <ref bean="purapGeneralLedgerService" />
-        </property> 
-        <property name="purapService">
-            <ref bean="purapService" />
-        </property>	
-        <property name="dateTimeService">
-            <ref bean="dateTimeService" />
-        </property>	
-	</bean>
-	
-    <bean id="purchaseOrderPostProcessorService" class="org.kuali.module.purap.service.impl.PurchaseOrderPostProcessorServiceImpl" parent="purchaseOrderPostProcessServiceBase">
-    </bean>
-	<bean id="purchaseOrderPostProcessorCloseService" class="org.kuali.module.purap.service.impl.PurchaseOrderPostProcessorCloseServiceImpl" parent="purchaseOrderPostProcessServiceBase">
-	</bean>
-	<bean id="purchaseOrderPostProcessorReopenService" class="org.kuali.module.purap.service.impl.PurchaseOrderPostProcessorReopenServiceImpl" parent="purchaseOrderPostProcessServiceBase">
-	</bean>
-	<bean id="purchaseOrderPostProcessorRetransmitService" class="org.kuali.module.purap.service.impl.PurchaseOrderPostProcessorRetransmitServiceImpl" parent="purchaseOrderPostProcessServiceBase">
-	</bean>
-	<bean id="purchaseOrderPostProcessorRemoveHoldService" class="org.kuali.module.purap.service.impl.PurchaseOrderPostProcessorRemoveHoldServiceImpl" parent="purchaseOrderPostProcessServiceBase">
-	</bean>	
-	<bean id="purchaseOrderPostProcessorPaymentHoldService" class="org.kuali.module.purap.service.impl.PurchaseOrderPostProcessorPaymentHoldServiceImpl" parent="purchaseOrderPostProcessServiceBase">
-	</bean>
-	<bean id="purchaseOrderPostProcessorVoidService" class="org.kuali.module.purap.service.impl.PurchaseOrderPostProcessorVoidServiceImpl" parent="purchaseOrderPostProcessServiceBase">
-	</bean>		
-  	<bean id="purchaseOrderPostProcessorPrintService" class="org.kuali.module.purap.service.impl.PurchaseOrderPostProcessorPrintServiceImpl" parent="purchaseOrderPostProcessServiceBase">
-	</bean>
-	<bean id="purchaseOrderPostProcessorAmendmentService" class="org.kuali.module.purap.service.impl.PurchaseOrderPostProcessorAmendmentServiceImpl" parent="purchaseOrderPostProcessServiceBase">
-	</bean>  
-	
 	<bean id="negativePaymentRequestApprovalLimitService" 
 		class="org.kuali.module.purap.service.impl.NegativePaymentRequestApprovalLimitServiceImpl">
 		<property name="negativePaymentRequestApprovalLimitDao">

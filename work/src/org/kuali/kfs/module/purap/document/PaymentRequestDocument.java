@@ -38,6 +38,7 @@ import org.kuali.core.workflow.service.WorkflowDocumentService;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.PurapParameterConstants;
+import org.kuali.module.purap.PurapWorkflowConstants;
 import org.kuali.module.purap.PurapConstants.PaymentRequestStatuses;
 import org.kuali.module.purap.PurapWorkflowConstants.NodeDetails;
 import org.kuali.module.purap.PurapWorkflowConstants.PaymentRequestDocument.NodeDetailEnum;
@@ -124,6 +125,7 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
         return true;
     }
 
+
     /**
      * Gets the requisitionIdentifier attribute. 
      * @return Returns the requisitionIdentifier.
@@ -139,7 +141,7 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
     public void setRequisitionIdentifier(Integer requisitionIdentifier) {
         this.requisitionIdentifier = requisitionIdentifier;
     }
-    
+
     /**
      * @see org.kuali.module.purap.document.AccountsPayableDocumentBase#populateDocumentForRouting()
      */
@@ -875,9 +877,14 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
         super.doActionTaken(event);
         KualiWorkflowDocument workflowDocument = getDocumentHeader().getWorkflowDocument();
         try {
+            String currentNode = workflowDocument.getNodeNames()[0];
+
             // everything in the below list requires correcting entries to be written to the GL
-            if (NodeDetailEnum.getNodesRequiringCorrectingGeneralLedgerEntries().contains(workflowDocument.getNodeNames()[0])) {
-                // TODO code me
+            if (NodeDetailEnum.getNodesRequiringCorrectingGeneralLedgerEntries().contains(currentNode)) {
+                if (NodeDetailEnum.ACCOUNT_REVIEW.getName().equals(currentNode)) {
+                    //FIXME this is not working right now becuase the document has already been saved before reaching this point...that is a problem :(
+//                    SpringContext.getBean(PurapGeneralLedgerService.class).generateEntriesModifyPreq(this);
+                }
             }
         }
         catch (WorkflowException e) {
@@ -1197,4 +1204,4 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
         return PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_CLOSE_DOCUMENT;
     }
 
-}
+    }

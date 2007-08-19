@@ -17,6 +17,11 @@
 package org.kuali.module.purap.document;
 
 import org.kuali.core.rule.event.KualiDocumentEvent;
+import org.kuali.kfs.context.SpringContext;
+import org.kuali.module.purap.PurapConstants;
+import org.kuali.module.purap.PurapWorkflowConstants.NodeDetails;
+import org.kuali.module.purap.service.PurapService;
+import org.kuali.module.purap.service.PurchaseOrderService;
 
 /**
  * Purchase Order Amendment Document
@@ -35,6 +40,42 @@ public class PurchaseOrderAmendmentDocument extends PurchaseOrderDocument {
     public void prepareForSave(KualiDocumentEvent event) {
         LOG.info("prepareForSave(KualiDocumentEvent) do not create gl entries");
         //TODO For now, do nothing because amendment should not perform the same save prep as PO
+    }
+
+    @Override
+    public void handleRouteStatusChange() {
+        super.handleRouteStatusChange();
+        
+        // DOCUMENT PROCESSED
+        if (getDocumentHeader().getWorkflowDocument().stateIsProcessed()) {
+            //FIXME not creating gl entries yet...not quite working yet
+            //getPurapGeneralLedgerService().generateEntriesApproveAmendPo(po);
+            
+            SpringContext.getBean(PurchaseOrderService.class).setCurrentAndPendingIndicatorsForApprovedPODocuments(this);
+
+            //set purap status and status history and status history note
+            SpringContext.getBean(PurapService.class).updateStatusAndStatusHistory(this, PurapConstants.PurchaseOrderStatuses.OPEN );
+
+            SpringContext.getBean(PurchaseOrderService.class).saveDocumentWithoutValidation(this);
+        }
+        // DOCUMENT DISAPPROVED
+        else if (getDocumentHeader().getWorkflowDocument().stateIsDisapproved()) {
+            SpringContext.getBean(PurchaseOrderService.class).setCurrentAndPendingIndicatorsForDisapprovedPODocuments(this);
+            SpringContext.getBean(PurchaseOrderService.class).saveDocumentWithoutValidation(this);
+        }
+        // DOCUMENT CANCELED
+        else if (getDocumentHeader().getWorkflowDocument().stateIsCanceled()) {
+            // TODO delyea - is this the correct status.... does it affect counts/reporting?
+            SpringContext.getBean(PurapService.class).updateStatusAndStatusHistory(this, PurapConstants.PurchaseOrderStatuses.CANCELLED);
+            SpringContext.getBean(PurchaseOrderService.class).cancelAmendment(this);
+            SpringContext.getBean(PurchaseOrderService.class).saveDocumentWithoutValidation(this);
+        }
+    }
+
+    @Override
+    public NodeDetails getNodeDetailEnum(String newNodeName) {
+        // no statuses to set means no node details
+        return null;
     }
 
 }

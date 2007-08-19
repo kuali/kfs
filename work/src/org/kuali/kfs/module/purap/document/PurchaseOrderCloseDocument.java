@@ -25,9 +25,13 @@ import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.purap.PurapConstants;
+import org.kuali.module.purap.PurapConstants.PurchaseOrderStatuses;
+import org.kuali.module.purap.PurapWorkflowConstants.NodeDetails;
 import org.kuali.module.purap.bo.PurchaseOrderAccount;
 import org.kuali.module.purap.bo.PurchaseOrderItem;
 import org.kuali.module.purap.service.PurapAccountingService;
+import org.kuali.module.purap.service.PurapService;
+import org.kuali.module.purap.service.PurchaseOrderService;
 
 /**
  * Purchase Order Document
@@ -102,4 +106,34 @@ public class PurchaseOrderCloseDocument extends PurchaseOrderDocument {
 
     }//end customPrepareForSave(KualiDocumentEvent)
     
+    @Override
+    public void handleRouteStatusChange() {
+        super.handleRouteStatusChange();
+        
+        // DOCUMENT PROCESSED
+        if (getDocumentHeader().getWorkflowDocument().stateIsProcessed()) {
+            SpringContext.getBean(PurchaseOrderService.class).setCurrentAndPendingIndicatorsForApprovedPODocuments(this);
+
+            //set purap status, status history and note
+            SpringContext.getBean(PurapService.class).updateStatusAndStatusHistory(this, PurchaseOrderStatuses.CLOSED );
+            SpringContext.getBean(PurchaseOrderService.class).saveDocumentWithoutValidation(this);
+        }
+        // DOCUMENT DISAPPROVED
+        else if (getDocumentHeader().getWorkflowDocument().stateIsDisapproved()) {
+            SpringContext.getBean(PurchaseOrderService.class).setCurrentAndPendingIndicatorsForDisapprovedPODocuments(this);
+            SpringContext.getBean(PurchaseOrderService.class).saveDocumentWithoutValidation(this);
+        }
+        // DOCUMENT CANCELLED
+        else if (getDocumentHeader().getWorkflowDocument().stateIsCanceled()) {
+            // TODO code
+        }
+
+    }
+
+    @Override
+    public NodeDetails getNodeDetailEnum(String newNodeName) {
+        // no statuses to set means no node details
+        return null;
+    }
+
 }

@@ -76,6 +76,7 @@ public class PurapKeyConstants {
     public static final String WARNING_PURCHASE_ORDER_ALL_NOTES="warning.purchaseOrder.allNotes";
     public static final String ERROR_PURCHASE_ORDER_CANNOT_AMEND="error.purchaseOrder.cannot.amend";
     public static final String PURCHASE_ORDER_QUESTION_CONFIRM_AWARD = "purchaseOrder.route.message.confirm.award.text";
+    public static final String PURCHASE_ORDER_QUESTION_CONFIRM_AWARD_ROW = "purchaseOrder.route.message.confirm.award.row.text";
     public static final String PURCHASE_ORDER_QUESTION_CONFIRM_CANCEL_QUOTE = "purchaseOrder.route.message.confirm.cancel.quote.text";
     public static final String PURCHASE_ORDER_QUESTION_OVERRIDE_NOT_TO_EXCEED = "purchaseOrder.question.notToExceed.override";
     public static final String PURCHASE_ORDER_CANCEL_QUOTE_NOTE_TEXT = "purchaseOrder.route.message.cancel.note.text";

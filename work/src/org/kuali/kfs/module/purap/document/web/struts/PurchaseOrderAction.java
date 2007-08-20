@@ -863,15 +863,15 @@ public class PurchaseOrderAction extends PurchasingActionBase {
     public ActionForward completeQuote(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         PurchaseOrderForm poForm = (PurchaseOrderForm) form;
         PurchaseOrderDocument document = (PurchaseOrderDocument) poForm.getDocument();
-        PurchaseOrderVendorQuote poQuote = new PurchaseOrderVendorQuote();
+        PurchaseOrderVendorQuote awardedQuote = new PurchaseOrderVendorQuote();
         // verify quote status fields
         if (poForm.getAwardedVendorNumber() == null) {
             GlobalVariables.getErrorMap().putError(PurapPropertyConstants.VENDOR_QUOTES, PurapKeyConstants.ERROR_PURCHASE_ORDER_QUOTE_NO_VENDOR_AWARDED);
             return mapping.findForward(KFSConstants.MAPPING_BASIC);
         }
         else {
-            poQuote = document.getPurchaseOrderVendorQuote(poForm.getAwardedVendorNumber().intValue());
-            if (poQuote.getPurchaseOrderQuoteStatusCode() == null) {
+            awardedQuote = document.getPurchaseOrderVendorQuote(poForm.getAwardedVendorNumber().intValue());
+            if (awardedQuote.getPurchaseOrderQuoteStatusCode() == null) {
                 GlobalVariables.getErrorMap().putError(PurapPropertyConstants.VENDOR_QUOTES, PurapKeyConstants.ERROR_PURCHASE_ORDER_QUOTE_NOT_TRANSMITTED);
                 return mapping.findForward(KFSConstants.MAPPING_BASIC);
             }
@@ -879,15 +879,38 @@ public class PurchaseOrderAction extends PurchasingActionBase {
         
         // use question framework to make sure they REALLY want to complete the quote...
         String message = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(PurapKeyConstants.PURCHASE_ORDER_QUESTION_CONFIRM_AWARD);
-        message = StringUtils.replace(message, "{0}", poQuote.getVendorName());
-        if (poQuote.getPurchaseOrderQuoteAwardDate() == null) {
-            message = StringUtils.replace(message, "{1}", SpringContext.getBean(DateTimeService.class).getCurrentSqlDate().toString());
+        String vendorRow = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(PurapKeyConstants.PURCHASE_ORDER_QUESTION_CONFIRM_AWARD_ROW);
+        
+        String tempRows = "";
+        for (PurchaseOrderVendorQuote poQuote : document.getPurchaseOrderVendorQuotes()) {
+            String tempRow = vendorRow;
+            tempRow = StringUtils.replace(tempRow, "{0}", poQuote.getVendorName());
+            if (poQuote.getPurchaseOrderQuoteAwardDate() == null) {
+                if (awardedQuote.getVendorNumber().equals(poQuote.getVendorNumber())) {
+                    tempRow = StringUtils.replace(tempRow, "{1}", SpringContext.getBean(DateTimeService.class).getCurrentSqlDate().toString());
+                }
+                else {
+                    tempRow = StringUtils.replace(tempRow, "{1}", "");
+                }
+            }
+            else {
+                tempRow = StringUtils.replace(tempRow, "{1}", poQuote.getPurchaseOrderQuoteAwardDate().toString());
+            }
+            if (poQuote.getPurchaseOrderQuoteStatusCode() != null) {
+                tempRow = StringUtils.replace(tempRow, "{2}", poQuote.getPurchaseOrderQuoteStatusCode());
+            }
+            else {
+                tempRow = StringUtils.replace(tempRow, "{2}", "N/A");
+            }
+            if (poQuote.getPurchaseOrderQuoteRankNumber() != null) {
+                tempRow = StringUtils.replace(tempRow, "{3}", poQuote.getPurchaseOrderQuoteRankNumber());
+            }
+            else {
+                tempRow = StringUtils.replace(tempRow, "{3}", "N/A");
+            }
+            tempRows += tempRow;
         }
-        else {
-            message = StringUtils.replace(message, "{1}", poQuote.getPurchaseOrderQuoteAwardDate().toString());
-        }
-        message = StringUtils.replace(message, "{2}", poQuote.getPurchaseOrderQuoteStatusCode());
-        message = StringUtils.replace(message, "{3}", poQuote.getPurchaseOrderQuoteRankNumber());
+        message = StringUtils.replace(message, "{0}", tempRows);
 
         Object question = request.getParameter(KFSConstants.QUESTION_INST_ATTRIBUTE_NAME);
 
@@ -899,25 +922,26 @@ public class PurchaseOrderAction extends PurchasingActionBase {
             Object buttonClicked = request.getParameter(KFSConstants.QUESTION_CLICKED_BUTTON);
             if ((PODocumentsStrings.CONFIRM_AWARD_QUESTION.equals(question)) && ConfirmationQuestion.YES.equals(buttonClicked)) {
                 // set awarded date
-                poQuote.setPurchaseOrderQuoteAwardDate(SpringContext.getBean(DateTimeService.class).getCurrentSqlDate());
+                awardedQuote.setPurchaseOrderQuoteAwardDate(SpringContext.getBean(DateTimeService.class).getCurrentSqlDate());
 
                 // PO vendor information updated with awarded vendor
-                document.setVendorName(poQuote.getVendorName());
-                document.setVendorNumber(poQuote.getVendorNumber());
-                document.setVendorHeaderGeneratedIdentifier(poQuote.getVendorHeaderGeneratedIdentifier());
-                document.setVendorDetailAssignedIdentifier(poQuote.getVendorDetailAssignedIdentifier());
+                document.setVendorName(awardedQuote.getVendorName());
+                document.setVendorNumber(awardedQuote.getVendorNumber());
+                document.setVendorHeaderGeneratedIdentifier(awardedQuote.getVendorHeaderGeneratedIdentifier());
+                document.setVendorDetailAssignedIdentifier(awardedQuote.getVendorDetailAssignedIdentifier());
 //                document.setVendorDetail(poQuote.getVendorDetail());
-                document.setVendorLine1Address(poQuote.getVendorLine1Address());
-                document.setVendorLine2Address(poQuote.getVendorLine2Address());
-                document.setVendorCityName(poQuote.getVendorCityName());
-                document.setVendorStateCode(poQuote.getVendorStateCode());
-                document.setVendorCountryCode(poQuote.getVendorCountryCode());
-                document.setVendorPhoneNumber(poQuote.getVendorPhoneNumber());
-                document.setVendorFaxNumber(poQuote.getVendorFaxNumber());
+                document.setVendorLine1Address(awardedQuote.getVendorLine1Address());
+                document.setVendorLine2Address(awardedQuote.getVendorLine2Address());
+                document.setVendorCityName(awardedQuote.getVendorCityName());
+                document.setVendorStateCode(awardedQuote.getVendorStateCode());
+                document.setVendorCountryCode(awardedQuote.getVendorCountryCode());
+                document.setVendorPhoneNumber(awardedQuote.getVendorPhoneNumber());
+                document.setVendorFaxNumber(awardedQuote.getVendorFaxNumber());
 
                 document.setStatusCode(PurapConstants.PurchaseOrderStatuses.IN_PROCESS);
             }
         }
+
         SpringContext.getBean(DocumentService.class).saveDocumentWithoutRunningValidation(document);
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }

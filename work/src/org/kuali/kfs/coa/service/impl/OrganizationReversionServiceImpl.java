@@ -65,17 +65,16 @@ public class OrganizationReversionServiceImpl implements OrganizationReversionSe
 
             String categoryCode = orc.getOrganizationReversionCategoryCode();
 
-            try {
-                SpringContext.getBeansOfType(OrganizationReversionCategory.class).get("gl" + categoryCode + "OrganizationReversionCategory");
-                // We have a custom implementation
-                categories.put(categoryCode, SpringContext.getBeansOfType(OrganizationReversionCategoryLogic.class).get("gl" + categoryCode + "OrganizationReversionCategory"));
-            }
-            catch (NoSuchBeanDefinitionException e) {
-                // We'll get the generic implementation
+            Map<String, OrganizationReversionCategoryLogic> beanMap = SpringContext.getBeansOfType(OrganizationReversionCategoryLogic.class);
+            if (beanMap.containsKey("gl" + categoryCode + "OrganizationReversionCategory")) {
+                LOG.info("Found Organization Reversion Category Logic for gl"+categoryCode+"OrganizationReversionCategory");
+                categories.put(categoryCode, beanMap.get("gl" + categoryCode + "OrganizationReversionCategory"));
+            } else {
+                LOG.info("No Organization Reversion Category Logic for gl" + categoryCode + "OrganizationReversionCategory; using generic");
                 GenericOrganizationReversionCategory cat = SpringContext.getBean(GenericOrganizationReversionCategory.class);
                 cat.setCategoryCode(categoryCode);
                 cat.setCategoryName(orc.getOrganizationReversionCategoryName());
-                categories.put(categoryCode, (OrganizationReversionCategoryLogic) cat);                
+                categories.put(categoryCode, (OrganizationReversionCategoryLogic) cat);
             }
         }
         return categories;

@@ -32,4 +32,13 @@ public interface BudgetConstructionOrganizationReportsDao {
      */
     public List getActiveChildOrgs(String chartOfAccountsCode, String organizationCode);
     
+    /**
+     * This method returns whether or not an organization is a leaf in the reports to tree
+     * 
+     * @param chartOfAccountsCode
+     * @param organizationCode
+     * @return
+     */
+    public boolean isLeafOrg(String chartOfAccountsCode, String organizationCode);
+    
 }

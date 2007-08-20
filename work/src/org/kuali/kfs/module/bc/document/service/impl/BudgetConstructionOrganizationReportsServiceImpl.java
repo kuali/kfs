@@ -69,5 +69,19 @@ public class BudgetConstructionOrganizationReportsServiceImpl implements BudgetC
     public void setBudgetConstructionOrganizationReportsDao(BudgetConstructionOrganizationReportsDao budgetConstructionOrganizationReportsDao) {
         this.budgetConstructionOrganizationReportsDao = budgetConstructionOrganizationReportsDao;
     }
+    /**
+     * @see org.kuali.module.budget.service.BudgetConstructionOrganizationReportsService#isLeafOrg(java.lang.String, java.lang.String)
+     */
+    public boolean isLeafOrg(String chartOfAccountsCode, String organizationCode) {
+
+        if (StringUtils.isBlank(chartOfAccountsCode)) {
+            throw new IllegalArgumentException("String parameter chartOfAccountsCode was null or blank.");
+        }
+        if (StringUtils.isBlank(organizationCode)) {
+            throw new IllegalArgumentException("String parameter organizationCode was null or blank.");
+        }
+        
+        return budgetConstructionOrganizationReportsDao.isLeafOrg(chartOfAccountsCode, organizationCode);
+    }
 
 }

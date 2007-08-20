@@ -44,4 +44,13 @@ public interface BudgetConstructionOrganizationReportsService {
      * @return
      */
     public List getActiveChildOrgs(String chartOfAccountsCode, String organizationCode);
+
+    /**
+     * This method returns if an org is a leaf
+     * 
+     * @param chartOfAccountsCode
+     * @param organizationCode
+     * @return
+     */
+    public boolean isLeafOrg(String chartOfAccountsCode, String organizationCode);
 }

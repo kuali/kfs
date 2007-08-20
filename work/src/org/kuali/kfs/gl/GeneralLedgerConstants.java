@@ -210,7 +210,7 @@ public class GLConstants {
         static final public String OFFSET_OBJECT_CODE_FOR_EXTERNAL_ENCUMBRANCE = "OFFSET_OBJECT_CODE_FOR_EXTERNAL_ENCUMBRANCE";
     }
     
-    // Some static method calls below that could be done in static variables instead but isn't safe to do during class loading w/SpringServiceLocator.
+    // Some static method calls below that could be done in static variables instead but isn't safe to do during class loading w/SpringContext.
     private static String SPACE_UNIVERSITY_FISCAL_PERIOD_CODE = null;
     public static String getSpaceUniversityFiscalPeriodCode() {
         if (SPACE_UNIVERSITY_FISCAL_PERIOD_CODE == null) {

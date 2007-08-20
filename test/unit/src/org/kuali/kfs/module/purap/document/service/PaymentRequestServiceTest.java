@@ -110,7 +110,7 @@ public class PaymentRequestServiceTest extends KualiTestBase {
 //        paymentRequestDocument.getDocumentHeader().setFinancialDocumentDescription("test description");
         
 //        PurchaseOrderDocument purchaseOrderDocument = 
-//            (PurchaseOrderDocument)SpringServiceLocator.SpringContext.getBean(DocumentService.class).getNewDocument(PurchaseOrderDocument.class);
+//            SpringContext.getBean(DocumentService.class).getNewDocument(PurchaseOrderDocument.class);
 //        purchaseOrderDocument.getDocumentHeader().setFinancialDocumentDescription("test");
 //        documentService.saveDocument(purchaseOrderDocument);
 //        

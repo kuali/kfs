@@ -64,7 +64,7 @@ public class GenesisTest {
         ex.printStackTrace();      
      };
   //    this supposedly configures spring/ojb
-  //   SpringServiceLocator.initializeDDGeneratorApplicationContext();
+  //   SpringContext.initializeDDGeneratorApplicationContext();
   //   configService = 
   //          SpringContext.getBean(KualiConfigurationService.class);
   //  (07/06/07) try using the new look-up bean

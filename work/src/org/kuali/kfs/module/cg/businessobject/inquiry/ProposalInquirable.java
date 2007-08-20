@@ -77,8 +77,8 @@ public class ProposalInquirable extends KualiInquirableImpl {
 
     /**
      * A non-static way to initialize the static attributes. Doing it statically
-     * would cause problems with the {@link SpringServiceLocator}. So doing it 
-     * non-statically helps by allowing the {@link SpringServiceLocator} time to load.
+     * would cause problems with the {@link SpringContext}. So doing it 
+     * non-statically helps by allowing the {@link SpringContext} time to load.
      */
     private void initStatics() {
         if ( configService == null ) {

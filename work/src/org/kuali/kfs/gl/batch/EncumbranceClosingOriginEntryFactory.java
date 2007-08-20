@@ -67,7 +67,7 @@ public class EncumbranceClosingOriginEntryFactory {
         description += "FR-" + encumbrance.getChartOfAccountsCode() + encumbrance.getAccountNumber();
         entry.setTransactionLedgerEntryDescription(description);
 
-        // SpringServiceLocator is used because this method is static.
+        // SpringContext is used because this method is static.
         A21SubAccountService a21SubAccountService = SpringContext.getBean(A21SubAccountService.class);
         A21SubAccount a21SubAccount = a21SubAccountService.getByPrimaryKey(encumbrance.getChartOfAccountsCode(), encumbrance.getAccountNumber(), encumbrance.getSubAccountNumber());
 
@@ -117,7 +117,7 @@ public class EncumbranceClosingOriginEntryFactory {
         offset.setTransactionLedgerEntryDescription(GENERATED_TRANSACTION_LEDGER_ENTRY_DESCRIPTION);
 
         // Lookup the offset definition for the explicit entry we just created.
-        // SpringServiceLocator is used because this method is static.
+        // SpringContext is used because this method is static.
         OffsetDefinitionService offsetDefinitionService = SpringContext.getBean(OffsetDefinitionService.class);
         OffsetDefinition offsetDefinition = offsetDefinitionService.getByPrimaryId(entry.getUniversityFiscalYear(), entry.getChartOfAccountsCode(), entry.getFinancialDocumentTypeCode(), entry.getFinancialBalanceTypeCode());
 
@@ -136,7 +136,7 @@ public class EncumbranceClosingOriginEntryFactory {
         }
 
         // Validate the object code for the explicit entry.
-        // SpringServiceLocator is used because this method is static.
+        // SpringContext is used because this method is static.
         ObjectCodeService objectCodeService = SpringContext.getBean(ObjectCodeService.class);
         ObjectCode objectCode = objectCodeService.getByPrimaryId(entry.getUniversityFiscalYear(), entry.getChartOfAccountsCode(), entry.getFinancialObjectCode());
 
@@ -205,7 +205,7 @@ public class EncumbranceClosingOriginEntryFactory {
         entry.setAccountNumber(encumbrance.getAccountNumber());
         entry.setSubAccountNumber(encumbrance.getSubAccountNumber());
 
-        // SpringServiceLocator is used because this method is static.
+        // SpringContext is used because this method is static.
         ObjectCodeService objectCodeService = SpringContext.getBean(ObjectCodeService.class);
         ObjectCode objectCode = objectCodeService.getByPrimaryId(encumbrance.getUniversityFiscalYear(), encumbrance.getChartOfAccountsCode(), encumbrance.getObjectCode());
 
@@ -233,7 +233,7 @@ public class EncumbranceClosingOriginEntryFactory {
 
         }
 
-        // SpringServiceLocator is used because this method is static.
+        // SpringContext is used because this method is static.
         SubObjectCodeService subObjectCodeService = SpringContext.getBean(SubObjectCodeService.class);
         SubObjCd subObjectCode = subObjectCodeService.getByPrimaryId(encumbrance.getUniversityFiscalYear(), encumbrance.getChartOfAccountsCode(), encumbrance.getAccountNumber(), encumbrance.getObjectCode(), encumbrance.getSubObjectCode());
 

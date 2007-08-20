@@ -39,7 +39,7 @@ public class MaintenancePreRulesBase extends PreRulesContinuationBase {
         // This approach is being used to make it simpler to convert the Rule classes
         // to spring-managed with these services injected by Spring at some later date.
         // When this happens, just remove these calls to the setters with
-        // SpringServiceLocator, and configure the bean defs for spring.
+        // SpringContext, and configure the bean defs for spring.
         setAccountService(SpringContext.getBean(AccountService.class));
         setConfigService(SpringContext.getBean(KualiConfigurationService.class));
         setDocumentAuthorizationService(SpringContext.getBean(DocumentAuthorizationService.class));

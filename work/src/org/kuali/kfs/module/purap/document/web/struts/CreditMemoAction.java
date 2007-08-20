@@ -226,7 +226,7 @@ public class CreditMemoAction extends AccountsPayableActionBase {
             SpringContext.getBean(CreditMemoService.class).calculateCreditMemo(creditMemoDocument);
             super.route(mapping, form, request, response);
 
-//            SpringServiceLocator.getCreditMemoService().route(creditMemoDocument, cmForm.getAnnotation(), combineAdHocRecipients(cmForm));
+//            SpringContext.getBean(CreditMemoService.class).route(creditMemoDocument, cmForm.getAnnotation(), combineAdHocRecipients(cmForm));
         }
         catch (ValidationException e) {
             // check for needed override

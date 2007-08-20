@@ -1028,7 +1028,7 @@ public class KFSConstants {
     
     public static final String BATCH_STEP_RUNNER_JOB_NAME = "stepRunByBatchStepRunner";
     
-    // Some static method calls below that could be done in static variables instead but isn't safe to do during class loading w/SpringServiceLocator.
+    // Some static method calls below that could be done in static variables instead but isn't safe to do during class loading w/SpringContext.
     private static String DASH_FINANCIAL_SUB_OBJECT_CODE = null;
     public static String getDashFinancialSubObjectCode() {
         if (DASH_FINANCIAL_SUB_OBJECT_CODE == null) {

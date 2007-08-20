@@ -231,7 +231,9 @@
             </td>
             <td class="grid" valign="center" rowspan="1" colspan="1">
             <div align="center">
+            <c:if test="${!item.leaf}">
                 <html:image property="methodToCall.navigateDown.line${status.index}.anchorselectionSubTreeOrgsAnchor${status.index}" src="${ConfigProperties.externalizable.images.url}purap-down.gif" title="Drill Down" alt="Drill Down" styleClass="tinybutton" />
+            </c:if>&nbsp;
             </div>
             </td>
 	    </tr>

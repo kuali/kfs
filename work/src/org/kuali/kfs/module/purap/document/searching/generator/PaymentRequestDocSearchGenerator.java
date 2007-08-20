@@ -66,10 +66,10 @@ public class PaymentRequestDocSearchGenerator extends PurApDocumentSearchGenerat
     @Override
     public List<String> getSpecificSearchCriteriaFormFieldNames() {
         List<String> fieldNames = new ArrayList<String>();
-        fieldNames.add("paymentRequestDocumentPaymentRequestId");
-        fieldNames.add("paymentRequestDocumentPurchaseOrderId");
-        fieldNames.add("paymentRequestDocumentRequisitionId");
-        fieldNames.add("paymentRequestDocumentInvoiceNumber");
+        fieldNames.add("paymentRequestPaymentRequestId");
+        fieldNames.add("paymentRequestPurchaseOrderId");
+        fieldNames.add("paymentRequestRequisitionId");
+        fieldNames.add("paymentRequestInvoiceNumber");
         fieldNames.add("purapDocumentChartOfAccountsCode");
         fieldNames.add("purapDocumentOrganizationCode");
         return fieldNames;

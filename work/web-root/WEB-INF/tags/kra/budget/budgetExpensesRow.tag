@@ -21,7 +21,7 @@
 <%@ attribute name="institutionCostShare" required="false" %>
 <%@ attribute name="thirdPartyCostShare" required="false" %>
 
-<c:set var="tabKey" value="${kfunc:generateTabKey(tabTitle)}"/>
+<c:set var="tabKey" value="${KualiForm.currentTabIndex}"/>
 <c:set var="currentTabIndex" value="${KualiForm.currentTabIndex}"/>
 <c:set var="incrementerDummy" value="${kfunc:incrementTabIndex(KualiForm, currentTabIndex)}" />
 

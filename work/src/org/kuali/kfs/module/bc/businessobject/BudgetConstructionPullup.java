@@ -19,6 +19,8 @@ package org.kuali.module.budget.bo;
 import java.util.LinkedHashMap;
 
 import org.kuali.core.bo.PersistableBusinessObjectBase;
+import org.kuali.kfs.context.SpringContext;
+import org.kuali.module.budget.service.BudgetConstructionOrganizationReportsService;
 import org.kuali.module.chart.bo.Chart;
 import org.kuali.module.chart.bo.Org;
 
@@ -33,6 +35,8 @@ public class BudgetConstructionPullup extends PersistableBusinessObjectBase {
 	private String reportsToOrganizationCode;
 	private Integer pullFlag;
 	private String personUniversalIdentifier;
+    
+    public boolean isLeaf;
 
     private Chart chartOfAccounts;
 	private Org organization;
@@ -165,6 +169,14 @@ public class BudgetConstructionPullup extends PersistableBusinessObjectBase {
      */
     public void setPersonUniversalIdentifier(String personUniversalIdentifier) {
         this.personUniversalIdentifier = personUniversalIdentifier;
+    }
+
+    /**
+     * Gets the isLeaf attribute. 
+     * @return Returns the isLeaf.
+     */
+    public boolean isLeaf() {
+        return SpringContext.getBean(BudgetConstructionOrganizationReportsService.class).isLeafOrg(this.chartOfAccountsCode, this.organizationCode);
     }
 
     /**

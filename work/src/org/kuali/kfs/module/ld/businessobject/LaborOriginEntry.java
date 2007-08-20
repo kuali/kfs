@@ -16,6 +16,7 @@
 
 package org.kuali.module.labor.bo;
 
+import java.math.BigDecimal;
 import java.sql.Date;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -46,7 +47,7 @@ public class LaborOriginEntry extends OriginEntry implements LaborTransaction {
     private String positionNumber;
     private Date transactionPostingDate;
     private Date payPeriodEndDate;
-    private KualiDecimal transactionTotalHours;
+    private BigDecimal transactionTotalHours;
     private Integer payrollEndDateFiscalYear;
     private String payrollEndDateFiscalPeriodCode;
     private String financialDocumentApprovedCode;
@@ -204,7 +205,7 @@ public class LaborOriginEntry extends OriginEntry implements LaborTransaction {
      * 
      * @return Returns the transactionTotalHours
      */
-    public KualiDecimal getTransactionTotalHours() {
+    public BigDecimal getTransactionTotalHours() {
         return transactionTotalHours;
     }
 
@@ -213,7 +214,7 @@ public class LaborOriginEntry extends OriginEntry implements LaborTransaction {
      * 
      * @param transactionTotalHours The transactionTotalHours to set.
      */
-    public void setTransactionTotalHours(KualiDecimal transactionTotalHours) {
+    public void setTransactionTotalHours(BigDecimal transactionTotalHours) {
         this.transactionTotalHours = transactionTotalHours;
     }
 
@@ -911,11 +912,11 @@ public class LaborOriginEntry extends OriginEntry implements LaborTransaction {
         }
 
         if (getValue(line, 213, 222).equals("")) {
-            setTransactionTotalHours(new KualiDecimal(0));
+            setTransactionTotalHours(new BigDecimal(0));
         }
         else {
             try {
-                setTransactionTotalHours(new KualiDecimal(getValue(line, 213, 222)));
+                setTransactionTotalHours(new BigDecimal(getValue(line, 213, 222)));
 
             }
             catch (NumberFormatException e) {
@@ -1264,7 +1265,7 @@ public class LaborOriginEntry extends OriginEntry implements LaborTransaction {
         }
         else if ("transactionTotalHours".equals(fieldName)) {
             if (StringUtils.isNotBlank(fieldValue)) {
-                setTransactionTotalHours(new KualiDecimal(fieldValue));
+                setTransactionTotalHours(new BigDecimal(fieldValue));
             }
             else {
                 clearTransactionTotalHours();

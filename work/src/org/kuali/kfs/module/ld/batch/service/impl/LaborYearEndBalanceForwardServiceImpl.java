@@ -229,7 +229,7 @@ public class LaborYearEndBalanceForwardServiceImpl implements LaborYearEndBalanc
             originEntry.setTransactionDebitCreditCode(TransactionTemplate.getDebitCreditCode(transactionAmount, false));
 
             originEntry.setTransactionLedgerEntrySequenceNumber(1);
-            originEntry.setTransactionTotalHours(KualiDecimal.ZERO);
+            originEntry.setTransactionTotalHours(BigDecimal.ZERO);
             originEntry.setTransactionDate(postingDate);
 
             businessObjectService.save(originEntry);

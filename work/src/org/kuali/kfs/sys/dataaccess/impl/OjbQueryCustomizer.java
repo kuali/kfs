@@ -51,12 +51,12 @@ public class OjbQueryCustomizer extends QueryCustomizerDefaultImpl {
         // now, do what we wanted to do to start with if we could've just gotten m_attributeList easily
         Criteria criteria = arg3.getCriteria();
         for (String key : m_attributeList.keySet()) {
-            //if beginning with "this." is too hacky, or more flexibility is needed, another query customizer class can be made,
+            //if beginning with "parent." is too hacky, or more flexibility is needed, another query customizer class can be made,
             // and this method can be renamed to take a parameter to specify which we want to do
-            // (and the customizeQuery method here made to call the new method with the parameter)
+            // (and the customizeQuery method here made to call the new method with the parameter).
             // However, making another class would mean you couldn't intermix constants and field values,
-            // unless OJB lets you have multiple query-customizers per collection-descriptor (not sure, need to check)
-            if (this.getAttribute(key).startsWith("this.")) {
+            // since OJB won't use have multiple query-customizers per collection-descriptor.
+            if (this.getAttribute(key).startsWith("parent.")) {
                 criteria.addEqualTo(key, ObjectUtils.getPropertyValue(arg0, this.getAttribute(key).substring(5)));
             } else {
                 criteria.addEqualTo(key, this.getAttribute(key));

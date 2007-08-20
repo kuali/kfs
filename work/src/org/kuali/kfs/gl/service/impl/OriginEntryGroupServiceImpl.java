@@ -27,6 +27,7 @@ import java.util.Map;
 
 import org.kuali.core.service.DateTimeService;
 import org.kuali.core.util.Guid;
+import org.kuali.core.web.ui.KeyLabelPair;
 import org.kuali.module.gl.bo.OriginEntry;
 import org.kuali.module.gl.bo.OriginEntryGroup;
 import org.kuali.module.gl.bo.OriginEntrySource;
@@ -168,20 +169,24 @@ public class OriginEntryGroupServiceImpl implements OriginEntryGroupService {
 
         for (Iterator<OriginEntryGroup> iter = groups.iterator(); iter.hasNext();) {
             OriginEntryGroup group = iter.next();
-            Iterator entry_iter = laborOriginEntryDao.getEntriesByGroup(group, 0);
-            
-            while (entry_iter.hasNext()) {
-                LaborOriginEntry entry = (LaborOriginEntry) entry_iter.next();
+            //Get only LaborOriginEntryGroup
+            if (group.getSourceCode().startsWith("L")){
+                Iterator entry_iter = laborOriginEntryDao.getEntriesByGroup(group);
                 
-                entry.setEntryId(null);
-                entry.setObjectId(new Guid().toString());
-                entry.setGroup(backupGroup);
-                laborOriginEntryDao.saveOriginEntry(entry);
-            }
+                while (entry_iter.hasNext()) {
+                    LaborOriginEntry entry = (LaborOriginEntry) entry_iter.next();
+                    
+                    entry.setEntryId(null);
+                    entry.setObjectId(new Guid().toString());
+                    entry.setGroup(backupGroup);
+                    laborOriginEntryDao.saveOriginEntry(entry);
+                }
+            
 
-            group.setProcess(false);
-            group.setScrub(false);
-            originEntryGroupDao.save(group);
+                group.setProcess(false);
+                group.setScrub(false);
+                originEntryGroupDao.save(group);
+            }
         }
     }
 

@@ -24,6 +24,7 @@ import org.apache.ojb.broker.metadata.CollectionDescriptor;
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.Query;
 import org.apache.ojb.broker.query.QueryByCriteria;
+import org.kuali.core.util.ObjectUtils;
 
 public class OjbQueryCustomizer extends QueryCustomizerDefaultImpl {
     // used to AND in additional criteria on a collection
@@ -53,8 +54,10 @@ public class OjbQueryCustomizer extends QueryCustomizerDefaultImpl {
             //if beginning with "this." is too hacky, or more flexibility is needed, another query customizer class can be made,
             // and this method can be renamed to take a parameter to specify which we want to do
             // (and the customizeQuery method here made to call the new method with the parameter)
+            // However, making another class would mean you couldn't intermix constants and field values,
+            // unless OJB lets you have multiple query-customizers per collection-descriptor (not sure, need to check)
             if (this.getAttribute(key).startsWith("this.")) {
-                criteria.addEqualToField(key, Criteria.PARENT_QUERY_PREFIX + this.getAttribute(key).substring(5));
+                criteria.addEqualTo(key, ObjectUtils.getPropertyValue(arg0, this.getAttribute(key).substring(5)));
             } else {
                 criteria.addEqualTo(key, this.getAttribute(key));
             }

@@ -71,6 +71,8 @@ import edu.iu.uis.eden.exception.WorkflowException;
  */
 public class RoutingFormXml {
     
+    private static final String TO_BE_NAMED = "To Be Named";
+    
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(RoutingFormXml.class);
     
     /**
@@ -187,14 +189,19 @@ public class RoutingFormXml {
         
         Element projectDirectorElement = xmlDoc.createElement("PROJECT_DIRECTOR");
         if (projectDirector != null) {
-            projectDirectorElement.setAttribute("FIRST_NAME", ObjectUtils.toString(projectDirector.getUser().getPersonFirstName()));
-            projectDirectorElement.setAttribute("LAST_NAME", ObjectUtils.toString(projectDirector.getUser().getPersonLastName()));
-            projectDirectorElement.setAttribute("PERCENT_CREDIT", ObjectUtils.toString(projectDirector.getPersonCreditPercent()));
-            
-            Element homeOrgElement = xmlDoc.createElement("HOME_ORG");
-            homeOrgElement.setAttribute("HOME_CHART", ObjectUtils.toString(projectDirector.getUser().getCampusCode()));
-            homeOrgElement.setAttribute("HOME_ORG", ObjectUtils.toString(projectDirector.getUser().getPrimaryDepartmentCode()));
-            projectDirectorElement.appendChild(homeOrgElement);
+            if(projectDirector.isPersonToBeNamedIndicator()) {
+                projectDirectorElement.setAttribute("FIRST_NAME", TO_BE_NAMED);
+                projectDirectorElement.setAttribute("PERCENT_CREDIT", ObjectUtils.toString(projectDirector.getPersonCreditPercent()));
+            } else {
+                projectDirectorElement.setAttribute("FIRST_NAME", ObjectUtils.toString(projectDirector.getUser().getPersonFirstName()));
+                projectDirectorElement.setAttribute("LAST_NAME", ObjectUtils.toString(projectDirector.getUser().getPersonLastName()));
+                projectDirectorElement.setAttribute("PERCENT_CREDIT", ObjectUtils.toString(projectDirector.getPersonCreditPercent()));
+                
+                Element homeOrgElement = xmlDoc.createElement("HOME_ORG");
+                homeOrgElement.setAttribute("HOME_CHART", ObjectUtils.toString(projectDirector.getUser().getCampusCode()));
+                homeOrgElement.setAttribute("HOME_ORG", ObjectUtils.toString(projectDirector.getUser().getPrimaryDepartmentCode()));
+                projectDirectorElement.appendChild(homeOrgElement);
+            }
             
             Element pdCampusAddressElement = xmlDoc.createElement("PD_CAMPUS_ADDRESS");
             pdCampusAddressElement.appendChild(xmlDoc.createTextNode(ObjectUtils.toString(projectDirector.getPersonLine1Address())));
@@ -221,8 +228,13 @@ public class RoutingFormXml {
             if(PERSON_ROLE_CODE_COPD.equals(person.getPersonRoleCode())) {
                 Element coPdElement = xmlDoc.createElement("CO-PROJECT_DIRECTOR");
                 
-                coPdElement.setAttribute("FIRST_NAME", ObjectUtils.toString(person.getUser().getPersonFirstName()));
-                coPdElement.setAttribute("LAST_NAME", ObjectUtils.toString(person.getUser().getPersonLastName()));
+                if(person.isPersonToBeNamedIndicator()) {
+                    coPdElement.setAttribute("FIRST_NAME", TO_BE_NAMED);
+                } else {
+                    coPdElement.setAttribute("FIRST_NAME", ObjectUtils.toString(person.getUser().getPersonFirstName()));
+                    coPdElement.setAttribute("LAST_NAME", ObjectUtils.toString(person.getUser().getPersonLastName()));
+                }
+                
                 coPdElement.setAttribute("CHART", ObjectUtils.toString(person.getChartOfAccountsCode()));
                 coPdElement.setAttribute("ORG", ObjectUtils.toString(person.getOrganizationCode()));
                 coPdElement.setAttribute("PERCENT_CREDIT", ObjectUtils.toString(person.getPersonCreditPercent()));
@@ -236,8 +248,12 @@ public class RoutingFormXml {
         
         Element contactPersonElement = xmlDoc.createElement("CONTACT_PERSON");
         if(contactPerson != null) {
-            contactPersonElement.setAttribute("FIRST_NAME", ObjectUtils.toString(contactPerson.getUser().getPersonFirstName()));
-            contactPersonElement.setAttribute("LAST_NAME", ObjectUtils.toString(contactPerson.getUser().getPersonLastName()));
+            if(contactPerson.isPersonToBeNamedIndicator()) {
+                contactPersonElement.setAttribute("FIRST_NAME", TO_BE_NAMED);
+            } else {
+                contactPersonElement.setAttribute("FIRST_NAME", ObjectUtils.toString(contactPerson.getUser().getPersonFirstName()));
+                contactPersonElement.setAttribute("LAST_NAME", ObjectUtils.toString(contactPerson.getUser().getPersonLastName()));
+            }
             contactPersonElement.setAttribute("EMAIL", ObjectUtils.toString(contactPerson.getPersonEmailAddress()));
             contactPersonElement.setAttribute("PHONE_NUMBER", ObjectUtils.toString(contactPerson.getPersonPhoneNumber()));
             contactPersonElement.setAttribute("FAX_NUMBER", ObjectUtils.toString(contactPerson.getPersonFaxNumber()));
@@ -533,7 +549,12 @@ public class RoutingFormXml {
             
             for(RoutingFormPersonnel routingFormPerson : routingFormDocument.getRoutingFormPersonnel()) {
                 Element percentCreditDescription = xmlDoc.createElement("PERCENT_CREDIT");
-                percentCreditDescription.setAttribute("NAME", ObjectUtils.toString(routingFormPerson.getUser().getPersonName()));
+                
+                if(routingFormPerson.isPersonToBeNamedIndicator()) {
+                    percentCreditDescription.setAttribute("NAME", TO_BE_NAMED);
+                } else {
+                    percentCreditDescription.setAttribute("NAME", ObjectUtils.toString(routingFormPerson.getUser().getPersonName()));
+                }
                 percentCreditDescription.setAttribute("ROLE", ObjectUtils.toString(routingFormPerson.getPersonRoleText()));
                 percentCreditDescription.setAttribute("CHART", ObjectUtils.toString(routingFormPerson.getChartOfAccountsCode()));
                 percentCreditDescription.setAttribute("ORG", ObjectUtils.toString(routingFormPerson.getOrganizationCode()));

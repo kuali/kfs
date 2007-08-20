@@ -50,13 +50,15 @@ public class OjbQueryCustomizer extends QueryCustomizerDefaultImpl {
         // now, do what we wanted to do to start with if we could've just gotten m_attributeList easily
         Criteria criteria = arg3.getCriteria();
         for (String key : m_attributeList.keySet()) {
-            criteria.addEqualTo(key, this.getAttribute(key));
+            //if beginning with "this." is too hacky, or more flexibility is needed, another query customizer class can be made,
+            // and this method can be renamed to take a parameter to specify which we want to do
+            // (and the customizeQuery method here made to call the new method with the parameter)
+            if (this.getAttribute(key).startsWith("this.")) {
+                criteria.addEqualToField(key, Criteria.PARENT_QUERY_PREFIX + this.getAttribute(key).substring(5));
+            } else {
+                criteria.addEqualTo(key, this.getAttribute(key));
+            }
         }
-        // below line is how this was originally coded
-        // if there is any problem with the reflection stuff above or with the for loop (i.e. efficiency problem or exceptions being thrown),
-        // just comment out or remove everything above the Criteria declaration, plus the for loop, and re-add the below line
-        // (assuming no other fields have taken advantage of this yet)
-        // criteria.addEqualTo("financialDocumentLineTypeCode", this.getAttribute("financialDocumentLineTypeCode"));
         arg3.setCriteria(criteria);
         return arg3;
     }

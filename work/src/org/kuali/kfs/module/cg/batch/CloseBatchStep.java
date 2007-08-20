@@ -42,6 +42,7 @@ public class CloseBatchStep extends AbstractStep {
 
     private static Logger LOG = org.apache.log4j.Logger.getLogger(CloseBatchStep.class);
     private static String MAIL_RECIPIENTS_GROUP_NAME = "KUALI_CGCFDA";
+    private static String STATUS_SUBJECT = "Close Batch Step: ";
     
     private CloseService closeService;
     private MailService mailService;
@@ -62,25 +63,20 @@ public class CloseBatchStep extends AbstractStep {
             // TODO this message should come from some config file.
             StringBuilder builder = new StringBuilder();
             
-            boolean failed = false;
-            
             try {
                 closeService.close();
+                message.setSubject(STATUS_SUBJECT + "SUCCEEDED");
+                builder.append("The Close batch script ran successfully.\n");
             } catch(Exception e) {
+                message.setSubject(STATUS_SUBJECT + "FAILED");
                 builder.append("An Exception was encountered when running the close job.\n");
                 builder.append("The exception message is: ").append(e.getMessage()).append("\n");
                 builder.append("The message from the exception cause is: ").append(e.getCause().getMessage()).append("\n");
                 builder.append("Please see the log for more details.\n");
 
                 LOG.error("The following exception was encountered during the close batch process.", e);
-                
-                failed = true;
             }
             
-            if(!failed) {
-                builder.append("The Close batch script ran successfully.\n");
-            }
-
             KualiGroup workgroup = kualiGroupService.getByGroupName(MAIL_RECIPIENTS_GROUP_NAME);
             List<String> memberNetworkIds = workgroup.getGroupUsers();
             for(String id : memberNetworkIds) {
@@ -98,6 +94,7 @@ public class CloseBatchStep extends AbstractStep {
             }
             
             message.setMessage(builder.toString());
+            message.setFromAddress(mailService.getBatchMailingList());
             mailService.sendMessage(message);
 
         } catch(GroupNotFoundException gnfe) {

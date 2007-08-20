@@ -230,6 +230,12 @@
 		</property>
 	</bean>
 
+	<bean id="dvToPdpExtractStep" class="org.kuali.module.financial.batch.DvToPdpExtractStep" parent="step">
+		<property name="disbursementVoucherExtractService">
+			<ref bean="disbursementVoucherExtractService" />
+		</property>
+	</bean>
+
 	<bean id="pcdoLoadStep" class="org.kuali.module.financial.batch.pcard.PcdoLoadStep" parent="step">
 		<property name="procurementCardLoadTransactionsService">
 			<ref bean="procurementCardLoadTransactionsService" />
@@ -257,6 +263,33 @@
 	<bean id="autoApproveDocumentsStep" class="org.kuali.module.financial.batch.pcard.AutoApproveDocumentsStep" parent="step">
 		<property name="procurementCardCreateDocumentService">
 			<ref bean="procurementCardCreateDocumentService" />
+		</property>
+	</bean>
+
+	<bean id="disbursementVoucherExtractService" class="org.kuali.module.financial.service.impl.DisbursementVoucherExtractServiceImpl">
+		<property name="kualiConfigurationService">
+			<ref bean="kualiConfigurationService"/>
+		</property>
+		<property name="disbursementVoucherDao">
+			<ref bean="disbursementVoucherDao"/>
+		</property>
+		<property name="dateTimeService">
+			<ref bean="dateTimeService"/>
+		</property>
+		<property name="universalUserService">
+			<ref bean="universalUserService"/>
+		</property>
+		<property name="customerProfileService">
+			<ref bean="pdpCustomerProfileService"/>
+		</property>
+		<property name="paymentFileService">
+			<ref bean="pdpPaymentFileService"/>
+		</property>
+		<property name="paymentGroupService">
+			<ref bean="pdpPaymentGroupService"/>
+		</property>
+		<property name="referenceService">
+			<ref bean="pdpReferenceService"/>
 		</property>
 	</bean>
 
@@ -316,20 +349,22 @@
 	       <ref bean="dateTimeService"/>
 	    </property>
 	</bean>
-	
+
 	<bean id="nonResidentAlienTaxPercentLookupableHelperService" class="org.kuali.module.financial.lookup.KualiNonResidentAlienTaxPercentLookupableHelperServiceImpl" singleton="false" parent="lookupableHelperService" />
-	
+
 	<bean id="nonResidentAlienTaxPercentLookupable" class="org.kuali.core.lookup.KualiLookupableImpl" singleton="false">
 		<property name="lookupableHelperService">
 			<ref bean="nonResidentAlienTaxPercentLookupableHelperService" />
 		</property>
 	</bean>
-	
+
 	<bean id="cashieringTransactionRule" class="org.kuali.module.financial.rules.CashieringTransactionRule">
 		<property name="cashDrawerService">
 			<ref bean="cashDrawerService" />
 		</property>
 	</bean>
-	
+
 	<bean id="cashManagementDao" class="org.kuali.module.financial.dao.ojb.CashManagementDaoOjb" parent="platformAwareDao" />
+
+	<bean id="disbursementVoucherDao" class="org.kuali.module.financial.dao.ojb.DisbursementVoucherDaoOjb" parent="platformAwareDao" />
 </beans>

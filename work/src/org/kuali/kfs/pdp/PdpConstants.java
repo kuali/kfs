@@ -15,11 +15,22 @@
  */
 package org.kuali.module.pdp;
 
+
 public class PdpConstants {
     public static final String PDP_APPLICATION = "PDP";
 
     public static class PayeeTypeCodes {
         public static String VENDOR = "V";
+    }
+
+    // TODO Probably should become a table
+    public static class PayeeIdTypeCodes {
+        public static String PAYEE_ID = "P";
+        public static String SSN = "S";
+        public static String EMPLOYEE_ID = "E";
+        public static String FEIN = "F";
+        public static String VENDOR_ID = "V";
+        public static String OTHER = "X";
     }
 
     public static class Groups {

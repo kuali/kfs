@@ -19,6 +19,7 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kfs.context.SpringContext;
+import org.kuali.module.pdp.PdpConstants;
 import org.kuali.module.pdp.action.BaseAction;
 import org.kuali.module.pdp.bo.PaymentDetail;
 import org.kuali.module.pdp.bo.PaymentGroup;
@@ -42,14 +43,14 @@ public class PaymentDetailAction extends BaseAction {
         setPaymentGroupService( SpringContext.getBean(PaymentGroupService.class) );
         setPaymentDetailService( SpringContext.getBean(PaymentDetailService.class) );
 
-        // TODO Fix this
+        // TODO This should probably be a table
         payees = new HashMap();
-        payees.put("P","Payee ID");
-        payees.put("S","SSN");
-        payees.put("E","Employee ID");
-        payees.put("F","FEIN");
-        payees.put("V","Vendor ID");
-        payees.put("X","Other");
+        payees.put(PdpConstants.PayeeIdTypeCodes.PAYEE_ID,"Payee ID");
+        payees.put(PdpConstants.PayeeIdTypeCodes.SSN,"SSN");
+        payees.put(PdpConstants.PayeeIdTypeCodes.EMPLOYEE_ID,"Employee ID");
+        payees.put(PdpConstants.PayeeIdTypeCodes.FEIN,"FEIN");
+        payees.put(PdpConstants.PayeeIdTypeCodes.VENDOR_ID,"Vendor ID");
+        payees.put(PdpConstants.PayeeIdTypeCodes.OTHER,"Other");
     }
 
     protected boolean isAuthorized(ActionMapping mapping, ActionForm form, HttpServletRequest request,HttpServletResponse response) {

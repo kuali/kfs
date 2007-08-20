@@ -834,7 +834,6 @@ public class PurchaseOrderAction extends PurchasingActionBase {
         }
         document.setStatusCode(PurapConstants.PurchaseOrderStatuses.QUOTE);
         Date currentSqlDate = SpringContext.getBean(DateTimeService.class).getCurrentSqlDate();
-        document.setPurchaseOrderInitialOpenDate(currentSqlDate);
         Date expDate = new Date(currentSqlDate.getTime() + (10 * 24 * 60 * 60 * 1000)); //add 10 days - TODO: need to move this into a DB setting
         document.setPurchaseOrderQuoteDueDate(expDate);
         document.getPurchaseOrderVendorQuotes().clear();

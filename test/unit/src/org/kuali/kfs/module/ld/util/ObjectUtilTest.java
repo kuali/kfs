@@ -191,6 +191,25 @@ public class ObjectUtilTest extends TestCase {
         assertEquals(new Integer(10000), address.getZip());        
     }
     
+    public void testConvertLineToBusinessObjectBasedOnFieldLength_WithWhiteSpace() throws Exception{
+        int[] fieldLength = {8, 6, 7, 7};
+        String line = "Street  City  State  10000  ";
+        
+        List<String> propertyList = new ArrayList<String>();
+        propertyList.add("street");
+        propertyList.add("city");
+        propertyList.add("state");
+        propertyList.add("zip");
+        
+        SimpleAddress address = new SimpleAddress();
+        ObjectUtil.convertLineToBusinessObject(address, line, fieldLength, propertyList);
+        
+        assertEquals("Street", address.getStreet());
+        assertEquals("City", address.getCity());
+        assertEquals("State", address.getState());
+        assertEquals(new Integer(10000), address.getZip());        
+    }
+    
     public void testSplit() throws Exception{
         String delim = ";";
         String line = "" + delim + "" +delim + "" + delim + "" + delim;

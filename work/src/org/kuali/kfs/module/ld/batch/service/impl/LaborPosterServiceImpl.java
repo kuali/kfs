@@ -100,6 +100,8 @@ public class LaborPosterServiceImpl implements LaborPosterService {
         List<Summary> reportSummary = this.buildReportSummaryForLaborLedgerPosting();
 
         Collection<OriginEntryGroup> postingGroups = originEntryGroupService.getGroupsToPost(LABOR_SCRUBBER_VALID);
+        laborReportService.generateInputSummaryReport(postingGroups, ReportRegistry.LABOR_POSTER_INPUT, reportsDirectory, runDate);
+        
         int numberOfOriginEntry = laborOriginEntryService.getCountOfEntriesInGroups(postingGroups);
         int numberOfSelectedOriginEntry = 0;
 
@@ -121,7 +123,6 @@ public class LaborPosterServiceImpl implements LaborPosterService {
         Summary.updateReportSummary(reportSummary, ORIGN_ENTRY, KFSConstants.OperationType.REPORT_ERROR, errorMap.size(), 0);
 
         laborReportService.generateStatisticsReport(reportSummary, errorMap, ReportRegistry.LABOR_POSTER_STATISTICS, reportsDirectory, runDate);
-        laborReportService.generateInputSummaryReport(postingGroups, ReportRegistry.LABOR_POSTER_INPUT, reportsDirectory, runDate);
         laborReportService.generateOutputSummaryReport(validGroup, ReportRegistry.LABOR_POSTER_OUTPUT, reportsDirectory, runDate);
         laborReportService.generateErrorTransactionListing(invalidGroup, ReportRegistry.LABOR_POSTER_ERROR, reportsDirectory, runDate);
     }
@@ -162,7 +163,7 @@ public class LaborPosterServiceImpl implements LaborPosterService {
             Summary.updateReportSummary(reportSummary, laborLedgerBalancePoster.getDestinationName(), operationOnLedgerBalance, STEP, 0);
         }
         catch (Exception e) {
-            LOG.error("Cannot post the input transaction." + e);
+            LOG.error("Cannot post the input transaction: " + originEntry + "\n" + e);
             return false;
         }
         return true;

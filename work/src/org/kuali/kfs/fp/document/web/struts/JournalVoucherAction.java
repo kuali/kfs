@@ -115,7 +115,9 @@ public class JournalVoucherAction extends VoucherAction {
     public ActionForward route(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         // process the question but we need to make sure there are lines and then check to see if it's not balanced
         VoucherDocument vDoc = ((VoucherForm) form).getVoucherDocument();
-        if (vDoc.getSourceAccountingLines().size() > 0 && ((AmountTotaling) vDoc).getTotalDollarAmount().compareTo(KFSConstants.ZERO) != 0) {
+        
+        KualiDecimal balance = vDoc.getCreditTotal().subtract(vDoc.getDebitTotal());
+        if (vDoc.getSourceAccountingLines().size() > 0 && balance.compareTo(KFSConstants.ZERO) != 0) {
             // it's not in "balance"
             ActionForward returnForward = processRouteOutOfBalanceDocumentConfirmationQuestion(mapping, form, request, response);
 

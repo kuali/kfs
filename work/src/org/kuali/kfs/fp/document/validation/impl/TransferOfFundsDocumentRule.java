@@ -230,4 +230,24 @@ public class TransferOfFundsDocumentRule extends AccountingDocumentRuleBase impl
 
         return true;
     }
+    
+    /**
+     * Overrides the parent to make sure that the chosen object code's object code is Income/Expense
+     * 
+     * @param accountingLine
+     * @return True if the object code's is income or expense, otherwise false.
+     * 
+     * @see org.kuali.core.rule.AccountingLineRule#isObjectSubTypeAllowed(org.kuali.core.bo.AccountingLine)
+     */   
+    @Override
+    public boolean isObjectCodeAllowed(AccountingLine accountingLine) {
+        boolean isObjectCodeAllowed = super.isObjectCodeAllowed(accountingLine);
+        
+        if (!isIncome(accountingLine) && !isExpense(accountingLine)) {
+            GlobalVariables.getErrorMap().putError("financialObjectCode", KFSKeyConstants.ERROR_DOCUMENT_TOF_INVALID_OBJECT_TYPE_CODES, new String[] { accountingLine.getObjectCode().getFinancialObjectTypeCode(), accountingLine.getFinancialObjectCode() });
+            isObjectCodeAllowed = false;
+        }        
+        
+        return isObjectCodeAllowed;
+    }     
 }

@@ -126,6 +126,7 @@ public class KFSKeyConstants {
     public static final String ERROR_DOCUMENT_TOF_OBJECT_SUB_TYPE_IS_NULL = "error.document.transferOfFunds.objectSubTypeCodeIsNull";
     public static final String ERROR_DOCUMENT_TOF_MANDATORY_TRANSFERS_DO_NOT_BALANCE = "error.document.transferOfFunds.mandatoryTransfersDoNotBalance";
     public static final String ERROR_DOCUMENT_TOF_NON_MANDATORY_TRANSFERS_DO_NOT_BALANCE = "error.document.transferOfFunds.nonMandatoryTransfersDoNotBalance";
+    public static final String ERROR_DOCUMENT_TOF_INVALID_OBJECT_TYPE_CODES = "error.document.transferOfFunds.invalidObjectTypeCodes";
     public static final String ERROR_DOCUMENT_IB_CAPITAL_OBJECT_IN_INCOME_SECTION = "error.document.internalBilling.capitalObjectInIncomeSection";
     public static final String ERROR_DOCUMENT_INCORRECT_REVERSAL_DATE = "error.document.incorrectReversalDate";
     public static final String ERROR_DOCUMENT_NO_OFFSET_DEFINITION = "error.document.noOffsetDefinition";

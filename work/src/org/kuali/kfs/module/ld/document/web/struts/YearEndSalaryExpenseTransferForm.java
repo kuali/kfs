@@ -15,10 +15,19 @@
  */
 package org.kuali.module.labor.web.struts.form;
 
+import org.kuali.module.labor.document.YearEndSalaryExpenseTransferDocument;
+
+/**
+ * Class representing the Year End Salary Expense Transfer Document Form.
+ */
 public class YearEndSalaryExpenseTransferForm extends SalaryExpenseTransferForm {
 
+    /**
+     * Class constructor that invokes <code>SalaryExpenseTransferForm</code> constructor, constructs a new 
+     * <code>YearEndSalaryExpenseTransferDocument</code> instance, and sets up the document. 
+     */
     public YearEndSalaryExpenseTransferForm() {
         super();
+        setDocument(new YearEndSalaryExpenseTransferDocument());
     }
-
 }

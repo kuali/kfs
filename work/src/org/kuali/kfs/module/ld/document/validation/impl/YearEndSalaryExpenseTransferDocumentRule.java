@@ -15,10 +15,30 @@
  */
 package org.kuali.module.labor.rules;
 
+import org.kuali.kfs.bo.AccountingLine;
+import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
+import org.kuali.kfs.document.AccountingDocument;
+import org.kuali.module.financial.document.YearEndDocumentUtil;
+
+/**
+ * Class representing the Year End Salary Expense Transfer Document Rule.
+ */
 public class YearEndSalaryExpenseTransferDocumentRule extends SalaryExpenseTransferDocumentRule {
     
+    /**
+     * Class constructor that invokes <code>SalaryExpenseTransferDocumentRule</code> constructor.
+     */
     public YearEndSalaryExpenseTransferDocumentRule() {
         super();
     }
 
+    /**
+     * Override method
+     * @see org.kuali.kfs.rules.AccountingDocumentRuleBase#customizeExplicitGeneralLedgerPendingEntry(org.kuali.kfs.document.AccountingDocument, org.kuali.kfs.bo.AccountingLine, org.kuali.kfs.bo.GeneralLedgerPendingEntry)
+     */
+    @Override
+    protected void customizeExplicitGeneralLedgerPendingEntry(AccountingDocument accountingDocument, AccountingLine accountingLine, GeneralLedgerPendingEntry explicitEntry) {
+        super.customizeExplicitGeneralLedgerPendingEntry(accountingDocument, accountingLine, explicitEntry);
+        YearEndDocumentUtil.customizeExplicitGeneralLedgerPendingEntry(accountingDocument, accountingLine, explicitEntry); 
+    }
 }

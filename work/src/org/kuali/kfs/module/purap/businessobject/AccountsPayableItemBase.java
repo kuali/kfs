@@ -65,7 +65,8 @@ public abstract class AccountsPayableItemBase extends PurApItemBase implements A
     public boolean isConsideredEntered(boolean allowsZero) {
         if (getItemType().isItemTypeAboveTheLineIndicator()) {
             if ( (getItemType().isQuantityBasedGeneralLedgerIndicator())) {
-                if ( (ObjectUtils.isNull(getItemQuantity())) && (ObjectUtils.isNull(getItemUnitPrice())) && (ObjectUtils.isNull(getExtendedPrice())) ) {
+                if ( (ObjectUtils.isNull(getItemQuantity())) && 
+                     (ObjectUtils.isNull(getExtendedPrice()) || (allowsZero && getExtendedPrice().isZero())) ) {
                     return false;
                 }
             }

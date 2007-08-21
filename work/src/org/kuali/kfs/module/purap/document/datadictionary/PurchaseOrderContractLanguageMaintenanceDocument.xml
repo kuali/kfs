@@ -53,7 +53,9 @@
                     <maintainableField name="purchaseOrderContractLanguageIdentifier"/>
                 	<maintainableField name="campusCode" required="true"/>
                 	<maintainableField name="purchaseOrderContractLanguageDescription" required="true"/>
-                    <maintainableField name="contractLanguageCreateDate" readOnly="true"/>
+                    <maintainableField name="contractLanguageCreateDate" readOnly="true">
+                    	<defaultValueFinderClass>org.kuali.kfs.lookup.valuefinder.CurrentDateMMDDYYYYFinder</defaultValueFinderClass>
+					</maintainableField>
                     <maintainableField name="active" />
                 </maintainableItems>
             </maintainableSection>

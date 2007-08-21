@@ -157,7 +157,7 @@ public class LaborScrubberProcess {
      * 
      * @param group
      */
-    public void scrubGroupReportOnly(OriginEntryGroup group,String documentNumber) {
+    public void scrubGroupReportOnly(OriginEntryGroup group, String documentNumber) {
         LOG.debug("scrubGroupReportOnly() started");
 
         scrubEntries(group,documentNumber);
@@ -319,6 +319,7 @@ public class LaborScrubberProcess {
         Iterator entries = laborOriginEntryService.getEntriesByGroup(originEntryGroup);
         while (entries.hasNext()) {
             LaborOriginEntry unscrubbedEntry = (LaborOriginEntry) entries.next();
+            unscrubbedEntry.refresh();
             scrubberReport.incrementUnscrubbedRecordsRead();
 
             transactionErrors = new ArrayList<Message>();

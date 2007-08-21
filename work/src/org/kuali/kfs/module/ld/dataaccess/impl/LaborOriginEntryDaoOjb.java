@@ -39,19 +39,6 @@ public class LaborOriginEntryDaoOjb extends OriginEntryDaoOjb implements LaborOr
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(LaborOriginEntryDaoOjb.class);
 
     /**
-     * @see org.kuali.module.labor.dao.LaborOriginEntryDao#getEntriesByGroup(org.kuali.module.gl.bo.OriginEntryGroup)
-     */
-    public Iterator<LaborOriginEntry> getEntriesByGroup(OriginEntryGroup group) {
-        LOG.debug("getEntriesByGroup() started");
-        
-        Criteria criteria = new Criteria();
-        criteria.addEqualTo(KFSPropertyConstants.ENTRY_GROUP_ID, group.getId());
-        
-        QueryByCriteria query = QueryFactory.newQuery(this.getEntryClass(), criteria);
-        return getPersistenceBrokerTemplate().getIteratorByQuery(query);
-    }
-
-    /**
      * @see org.kuali.module.labor.dao.LaborOriginEntryDao#getEntriesByGroups(java.util.Collection)
      */
     public Iterator<LaborOriginEntry> getEntriesByGroups(Collection<OriginEntryGroup> groups) {

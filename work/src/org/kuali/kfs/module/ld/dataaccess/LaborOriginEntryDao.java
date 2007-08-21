@@ -26,14 +26,7 @@ import org.kuali.module.labor.bo.LaborOriginEntry;
 
 public interface LaborOriginEntryDao extends OriginEntryDao{
 
-    /**
-     * Get origin entries that belong to the given group
-     * @param group the given origin entry group
-     * @return origin entries that belong to the given group
-     */
-    Iterator<LaborOriginEntry> getEntriesByGroup(OriginEntryGroup group);
-
-    /**
+        /**
      * Get origin entries that belong to the given groups
      * @param groups the given origin entry groups
      * @return origin entries that belong to the given groups
@@ -59,4 +52,6 @@ public interface LaborOriginEntryDao extends OriginEntryDao{
     Iterator<LaborOriginEntry> getLaborEntriesByGroup(OriginEntryGroup oeg, int sort);
     
     Collection getMatchingEntriesByCollection(Map searchCriteria); 
+    
+    
 }

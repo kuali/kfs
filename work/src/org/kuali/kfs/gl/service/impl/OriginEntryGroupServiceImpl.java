@@ -171,7 +171,7 @@ public class OriginEntryGroupServiceImpl implements OriginEntryGroupService {
             OriginEntryGroup group = iter.next();
             //Get only LaborOriginEntryGroup
             if (group.getSourceCode().startsWith("L")){
-                Iterator entry_iter = laborOriginEntryDao.getEntriesByGroup(group);
+                Iterator entry_iter = laborOriginEntryDao.getLaborEntriesByGroup(group, 0);
                 
                 while (entry_iter.hasNext()) {
                     LaborOriginEntry entry = (LaborOriginEntry) entry_iter.next();

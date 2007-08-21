@@ -357,7 +357,7 @@ public class LaborOriginEntryServiceImpl implements LaborOriginEntryService {
      * @see org.kuali.module.labor.service.LaborOriginEntryService#getEntriesByGroup(org.kuali.module.gl.bo.OriginEntryGroup)
      */
     public Iterator<LaborOriginEntry> getEntriesByGroup(OriginEntryGroup group) {
-        return laborOriginEntryDao.getEntriesByGroup(group);
+        return laborOriginEntryDao.getLaborEntriesByGroup(group, LaborOriginEntryDao.SORT_DOCUMENT);
     }
 
     /**

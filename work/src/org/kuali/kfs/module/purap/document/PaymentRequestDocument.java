@@ -725,10 +725,10 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
         }
         this.setPaymentRequestPayDate(SpringContext.getBean(PaymentRequestService.class).calculatePayDate(this.getInvoiceDate(), this.getVendorPaymentTerms()));
         for (PurchaseOrderItem poi : (List<PurchaseOrderItem>)po.getItems()) {
-            //TODO: still needs to be tested but this should work now
-            if(poi.isItemActiveIndicator()) {
+            //TODO: add this back if we end up building the list of items at every load (see KULPURAP-1393)
+//            if(poi.isItemActiveIndicator()) {
                 this.getItems().add(new PaymentRequestItem(poi,this));                
-            }
+//            }
         }
         //add missing below the line
         SpringContext.getBean(PurapService.class).addBelowLineItems(this);
@@ -1089,10 +1089,11 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
     }
 
     /**
-     * TODO: ckirschenman - get rid of this method!!
+     * TODO: ckirschenman - get rid of this method!!  We do the save now so it shouldn't be necessary
      * This method is a workaround for some problems we've found because the payment request is not saved
      * before dealing with related objects.  This could be removed if we either saved after continue or
      * had a reference to the actual po in the preqitems (instead of always going through the document.
+     * @deprecated
      */
     public void fixPreqItemReference() {
         for (PaymentRequestItem item : (List<PaymentRequestItem>)this.getItems()) {

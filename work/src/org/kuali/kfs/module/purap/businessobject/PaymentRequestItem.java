@@ -336,9 +336,10 @@ public class PaymentRequestItem extends AccountsPayableItemBase {
             return false;
         }
 
-        // TODO - should this below be saying "if the po item is not active... skip it?  it is not right now
-        if(poi.isItemActiveIndicator()) {
+        //if the po item is not active... skip it
+        if(!poi.isItemActiveIndicator()) {
             LOG.debug("poi was not active: "+poi.toString());
+            return false;
         }
         
         ItemType poiType = poi.getItemType();

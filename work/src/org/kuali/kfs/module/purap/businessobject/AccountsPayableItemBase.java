@@ -23,12 +23,46 @@ import org.kuali.module.purap.util.PurApItemUtils;
 public abstract class AccountsPayableItemBase extends PurApItemBase implements AccountsPayableItem {
     private KualiDecimal extendedPrice;
     
+    /**
+     * NOTE: this may not be needed
+     * @deprecated
+     * @see org.kuali.module.purap.bo.PurchasingApItem#isConsideredEmpty()
+     */
     public boolean isConsideredEmpty() {
         // TODO delyea/Chris - IMPLEMENT ME
         return false;
     }
     
+    /**
+     * @see org.kuali.module.purap.bo.PurchasingApItem#isConsideredEntered()
+     */
     public boolean isConsideredEntered() {
+        // TODO Auto-generated method stub
+        return isConsideredEnteredWithoutZero();
+    }
+    
+    public boolean isEligibleDisplay() {
+        return isConsideredEnteredWithZero();
+    }
+    
+    private boolean isConsideredEnteredWithZero() {
+        return isConsideredEntered(true);
+    }
+    
+    private boolean isConsideredEnteredWithoutZero() {
+        return isConsideredEntered(false);
+    }
+
+    /**
+     * This method is used to determine whether an item has been entered
+     * that is we are satisfied there's enough info to continue processing 
+     * that particular item it is currently used by the rules class to 
+     * determine when it's necessary to run rules on items (so that lines
+     * processors don't touch won't be validated) and to determine when to
+     * show items (in combination with the full entry mode)
+     * 
+     */
+    public boolean isConsideredEntered(boolean allowsZero) {
         if (getItemType().isItemTypeAboveTheLineIndicator()) {
             if ( (getItemType().isQuantityBasedGeneralLedgerIndicator())) {
                 if ( (ObjectUtils.isNull(getItemQuantity())) && (ObjectUtils.isNull(getItemUnitPrice())) && (ObjectUtils.isNull(getExtendedPrice())) ) {
@@ -36,7 +70,7 @@ public abstract class AccountsPayableItemBase extends PurApItemBase implements A
                 }
             }
             else {
-                if ( (ObjectUtils.isNull(getItemUnitPrice())) && (ObjectUtils.isNull(getExtendedPrice())) ) {
+                if ( ObjectUtils.isNull(getExtendedPrice()) || (allowsZero && getExtendedPrice().isZero()) ) {
                     return false;
                 }
             }

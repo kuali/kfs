@@ -530,7 +530,7 @@ public class TransferOfFundsDocumentRuleTest extends KualiTestBase {
 
     private List<SourceAccountingLine> getValidObjectSubTypeSourceLines() throws Exception {
         List<SourceAccountingLine> retval = new ArrayList<SourceAccountingLine>();
-        retval.add(LINE11.createSourceAccountingLine());
+        retval.add(getValidObjectCodeSourceLine());
         return retval;
     }
 
@@ -572,7 +572,13 @@ public class TransferOfFundsDocumentRuleTest extends KualiTestBase {
     }
 
     private SourceAccountingLine getValidObjectCodeSourceLine() throws Exception {
-        return LINE11.createSourceAccountingLine();
+        
+        SourceAccountingLine line = LINE11.createSourceAccountingLine();
+        
+        //make sure that financial object type code is IN
+        line.getObjectCode().setFinancialObjectTypeCode("IN");
+        line.setObjectTypeCode("IN");
+        return line;
     }
 
     private TransferOfFundsDocument createDocumentWithInvalidObjectSubType() throws Exception {

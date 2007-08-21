@@ -3070,6 +3070,7 @@
     <field-descriptor name="extractedDate" column="CRDT_MEMO_EXTRT_DT" jdbc-type="DATE"/>
     <field-descriptor name="accountsPayablePurchasingDocumentLinkIdentifier" column="AP_PUR_DOC_LNK_ID" jdbc-type="INTEGER"/>
     <field-descriptor name="lastActionPerformedByUniversalUserId" column="AP_HLD_ID" jdbc-type="VARCHAR"/>
+    <field-descriptor name="continuationAccountIndicator" column="CONT_ACCT_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
     <reference-descriptor name="documentHeader" class-ref="org.kuali.core.bo.DocumentHeader" auto-retrieve="true" auto-update="object" auto-delete="object">
         <foreignkey field-ref="documentNumber" />
     </reference-descriptor>

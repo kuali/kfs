@@ -60,7 +60,8 @@ public class CreditMemoDocument extends AccountsPayableDocumentBase {
     private Timestamp creditMemoPaidTimestamp;
     private String itemMiscellaneousCreditDescription;
     private Date purchaseOrderEndDate;
-
+    private boolean continuationAccountIndicator;
+   
     private PaymentRequestDocument paymentRequestDocument;
 
     private boolean unmatchedOverride; // not persisted
@@ -443,6 +444,22 @@ public class CreditMemoDocument extends AccountsPayableDocumentBase {
      */
     public void setCreditMemoPaidTimestamp(Timestamp creditMemoPaidTimestamp) {
         this.creditMemoPaidTimestamp = creditMemoPaidTimestamp;
+    }
+
+    /**
+     * Gets the continuationAccountIndicator attribute. 
+     * @return Returns the continuationAccountIndicator.
+     */
+    public boolean isContinuationAccountIndicator() {
+        return continuationAccountIndicator;
+    }
+
+    /**
+     * Sets the continuationAccountIndicator attribute value.
+     * @param continuationAccountIndicator The continuationAccountIndicator to set.
+     */
+    public void setContinuationAccountIndicator(boolean continuationAccountIndicator) {
+        this.continuationAccountIndicator = continuationAccountIndicator;
     }
 
     public PaymentRequestDocument getPaymentRequestDocument() {

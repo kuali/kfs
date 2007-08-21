@@ -194,9 +194,6 @@ public class LaborExpenseTransferDocumentRules extends AccountingDocumentRuleBas
             }
         }
         
-        // We must not have any pending labor ledger entries with same emplId, periodCode, accountNumber, objectCode
-        isValid = validatePendingExpenseTransfer(expenseTransferDocument.getEmplid(), sourceLines);
-
         return isValid;
     }
 
@@ -2084,31 +2081,7 @@ public class LaborExpenseTransferDocumentRules extends AccountingDocumentRuleBas
 
     }
 
-    /**
-     * Verify that the selected employee does not have other pending salary transfers that have not been processed.
-     * 
-     * @param Employee ID, sourceLines
-     * @return true if the employee does not have any pending salary transfers.
-     */
-    public boolean validatePendingExpenseTransfer(String emplid, List sourceLines) {
-
-        // We must not have any pending labor ledger entries
-
-        for (Object oj : sourceLines) {
-            ExpenseTransferAccountingLine etal = (ExpenseTransferAccountingLine) oj;
-            String payPeriod = etal.getPayrollEndDateFiscalPeriodCode();
-            String accountNumber = etal.getAccountNumber();
-            String objectCode = etal.getObjectCode().getCode();
-
-            if (SpringContext.getBean(LaborLedgerPendingEntryService.class).hasPendingLaborLedgerEntry(emplid, payPeriod, accountNumber, objectCode)) {
-                reportError(KFSConstants.EMPLOYEE_LOOKUP_ERRORS, KFSKeyConstants.Labor.PENDING_SALARY_TRANSFER_ERROR, emplid, payPeriod, accountNumber, objectCode);
-                return false;
-            }
-
-        }
-
-        return true;
-    }
+    
 
     /**
      * determine whether the expired accounts in the target accounting lines can be used.

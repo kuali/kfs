@@ -15,9 +15,13 @@
  */
 package org.kuali.module.labor.dao.ojb;
 
+import java.util.Collection;
 import java.util.Iterator;
 import java.util.Map;
 
+import org.apache.ojb.broker.query.Criteria;
+import org.apache.ojb.broker.query.QueryByCriteria;
+import org.apache.ojb.broker.query.QueryFactory;
 import org.kuali.kfs.dao.ojb.GeneralLedgerPendingEntryDaoOjb;
 import org.kuali.module.labor.bo.LaborLedgerPendingEntry;
 import org.kuali.module.labor.dao.LaborLedgerPendingEntryDao;
@@ -38,5 +42,25 @@ public class LaborLedgerPendingEntryDaoOjb extends GeneralLedgerPendingEntryDaoO
      */
     public Iterator<LaborLedgerPendingEntry> findPendingLedgerEntriesForLedgerBalance(Map fieldValues, boolean isApproved) {
         return this.findPendingLedgerEntriesForBalance(fieldValues, isApproved);
+    }
+    
+    
+    
+    public Collection<LaborLedgerPendingEntry> hasPendingLaborLedgerEntry(Map fieldValues, Object businessObject){
+        LOG.debug("hasPendingLaborLedgerEntry() started");
+
+        Criteria criteria = new Criteria();
+        for (Iterator iter = fieldValues.keySet().iterator(); iter.hasNext();) {
+            String element = (String) iter.next();
+            if (element.equals("documentNumber")) {
+                criteria.addNotEqualTo(element, fieldValues.get(element));
+            } else {
+                criteria.addEqualTo(element, fieldValues.get(element));
+            }
+        }
+
+        QueryByCriteria qbc = QueryFactory.newQuery(getEntryClass(), criteria);
+        
+        return getPersistenceBrokerTemplate().getCollectionByQuery(qbc);
     }
 }

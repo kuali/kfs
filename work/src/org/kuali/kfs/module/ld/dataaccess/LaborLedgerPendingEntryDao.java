@@ -15,6 +15,7 @@
  */
 package org.kuali.module.labor.dao;
 
+import java.util.Collection;
 import java.util.Iterator;
 import java.util.Map;
 
@@ -35,4 +36,12 @@ public interface LaborLedgerPendingEntryDao extends GeneralLedgerPendingEntryDao
      */
     public Iterator<LaborLedgerPendingEntry> findPendingLedgerEntriesForLedgerBalance(Map fieldValues, boolean isApproved);
 
+    /**
+     * This method retrieves all pending ledger entries with the given search criteria
+     * 
+     * @param fieldValues the input fields and values
+     * @param businessObject 
+     * @return all pending ledger entries that may belong to pendingentry table
+     */
+    public Collection<LaborLedgerPendingEntry> hasPendingLaborLedgerEntry(Map fieldValues, Object businessObject);
 }

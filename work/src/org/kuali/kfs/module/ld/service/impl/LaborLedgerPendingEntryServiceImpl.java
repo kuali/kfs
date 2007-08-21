@@ -70,15 +70,17 @@ public class LaborLedgerPendingEntryServiceImpl implements LaborLedgerPendingEnt
         return false;
     }
     
-    public boolean hasPendingLaborLedgerEntry(String emplid, String payrollEndDateFiscalPeriodCode, String accountNumber, String objectCode) {
+    public boolean hasPendingLaborLedgerEntry(String documentNumber, String emplid, String payrollEndDateFiscalPeriodCode, String accountNumber, String objectCode) {
         
         Map fieldValues = new HashMap();
+        fieldValues.put("documentNumber", documentNumber);
         fieldValues.put("emplid", emplid);
         fieldValues.put("payrollEndDateFiscalPeriodCode", payrollEndDateFiscalPeriodCode);
         fieldValues.put("accountNumber", accountNumber);
         fieldValues.put("FIN_OBJECT_CD", objectCode);
         
-        Collection<LaborLedgerPendingEntry> pendingEntries = businessObjectService.findMatching(LaborLedgerPendingEntry.class, fieldValues);
+        
+        Collection<LaborLedgerPendingEntry> pendingEntries = laborLedgerPendingEntryDao.hasPendingLaborLedgerEntry(fieldValues, LaborLedgerPendingEntry.class);
 
         // When the financial Document Approved Code equals 'X' it means the pending labor ledger transaction has been processed
         for (LaborLedgerPendingEntry pendingLedgerEntry : pendingEntries) {

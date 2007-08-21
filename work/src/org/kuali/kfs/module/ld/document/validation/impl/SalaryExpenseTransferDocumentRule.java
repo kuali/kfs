@@ -23,6 +23,7 @@ import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSKeyConstants;
 import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.bo.AccountingLine;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.document.AccountingDocument;
 import org.kuali.module.labor.LaborConstants;
 import org.kuali.module.labor.bo.ExpenseTransferAccountingLine;
@@ -32,6 +33,7 @@ import org.kuali.module.labor.document.LaborExpenseTransferDocumentBase;
 import org.kuali.module.labor.document.LaborLedgerPostingDocument;
 import org.kuali.module.labor.document.SalaryExpenseTransferDocument;
 import org.kuali.module.labor.rule.GenerateLaborLedgerBenefitClearingPendingEntriesRule;
+import org.kuali.module.labor.service.LaborLedgerPendingEntryService;
 
 
 /**
@@ -82,7 +84,19 @@ public class SalaryExpenseTransferDocumentRule extends LaborExpenseTransferDocum
 
         return isValid;
     }
+    
+    
 
+    @Override
+    protected boolean processCustomRouteDocumentBusinessRules(Document document) {
+        boolean isValid = super.processCustomRouteDocumentBusinessRules(document);
+        SalaryExpenseTransferDocument salaryExpenseTransferDocument = (SalaryExpenseTransferDocument) document;
+        List sourceLines = salaryExpenseTransferDocument.getSourceAccountingLines();
+        //We must not have any pending labor ledger entries with same emplId, periodCode, accountNumber, objectCode
+        isValid = validatePendingExpenseTransfer(salaryExpenseTransferDocument, sourceLines);
+        
+        return isValid;
+    }
     /**
      * Determine whether the object code of given accounting line is a salary labor object code
      * 
@@ -125,6 +139,35 @@ public class SalaryExpenseTransferDocumentRule extends LaborExpenseTransferDocum
                 return false;
             }
         }
+        return true;
+    }
+    
+    /**
+     * Verify that the selected employee does not have other pending salary transfers that have not been processed.
+     * 
+     * @param Employee ID, sourceLines
+     * @return true if the employee does not have any pending salary transfers.
+     */
+    private boolean validatePendingExpenseTransfer(LaborExpenseTransferDocumentBase etdb, List sourceLines) {
+
+        // We must not have any pending labor ledger entries
+
+        for (Object oj : sourceLines) {
+            ExpenseTransferAccountingLine etal = (ExpenseTransferAccountingLine) oj;
+            String emplid = etdb.getEmplid();
+            String documentNumber = etdb.getDocumentNumber();
+            String payPeriod = etal.getPayrollEndDateFiscalPeriodCode();
+            String accountNumber = etal.getAccountNumber();
+            String objectCode = etal.getObjectCode().getCode();
+            
+
+            if (SpringContext.getBean(LaborLedgerPendingEntryService.class).hasPendingLaborLedgerEntry(documentNumber, emplid, payPeriod, accountNumber, objectCode)) {
+                reportError(KFSConstants.EMPLOYEE_LOOKUP_ERRORS, KFSKeyConstants.Labor.PENDING_SALARY_TRANSFER_ERROR, emplid, payPeriod, accountNumber, objectCode);
+                return false;
+            }
+
+        }
+
         return true;
     }
 }

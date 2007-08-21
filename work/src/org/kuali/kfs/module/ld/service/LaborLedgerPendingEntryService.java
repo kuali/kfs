@@ -52,7 +52,7 @@ public interface LaborLedgerPendingEntryService {
      * @param emplid, payrollEndDateFiscalPeriodCode, accountNumber
      * @return
      */
-    public boolean hasPendingLaborLedgerEntry(String emplid, String payrollEndDateFiscalPeriodCode, String accountNumber, String objectCode);
+    public boolean hasPendingLaborLedgerEntry(String documentNumber, String emplid, String payrollEndDateFiscalPeriodCode, String accountNumber, String objectCode);
 
     /**
      * This method generates labor ledger pending entries.

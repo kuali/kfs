@@ -623,8 +623,8 @@
 								sourceAttributeName="hrmsIuCampusRoom" />
 								
       <attributeReference name="organizationExtension.hrmsPersonnelApproverUniversalId"
-				        sourceClassName="org.kuali.core.bo.AttributeReferenceDummy"
-				        sourceAttributeName="genericSystemId">
+                          sourceClassName="org.kuali.core.bo.user.UniversalUser"
+                          sourceAttributeName="personUniversalIdentifier">
         <label>Personnel Approver UserID</label>
         <shortLabel>Personnel Approver UserID</shortLabel>
         <required>false</required>
@@ -664,8 +664,8 @@
 		</attributeReference>
 
       <attributeReference name="organizationExtension.fiscalApproverUniversalId"
-				        sourceClassName="org.kuali.core.bo.AttributeReferenceDummy"
-				        sourceAttributeName="genericSystemId">
+                          sourceClassName="org.kuali.core.bo.user.UniversalUser"
+                          sourceAttributeName="personUniversalIdentifier">
         <label>Fiscal Approver UserID</label>
         <shortLabel>Fiscal Approver UserID</shortLabel>
         <required>false</required>
@@ -773,6 +773,18 @@
 				<supportAttribute sourceName="organizationManagerUniversal.personUserIdentifier" targetName="personUserIdentifier" identifier="true" />
 				<supportAttribute sourceName="organizationManagerUniversal.personName" targetName="personName" />
             </relationship>
+
+            <relationship objectAttributeName="organizationExtension.hrmsPersonnelApproverUniversal" >
+                <primitiveAttribute sourceName="organizationExtension.hrmsPersonnelApproverUniversalId" targetName="personUniversalIdentifier" />
+                <supportAttribute sourceName="organizationExtension.hrmsPersonnelApproverUniversal.personUserIdentifier" targetName="personUserIdentifier" identifier="true" />
+                <supportAttribute sourceName="organizationExtension.hrmsPersonnelApproverUniversal.personName" targetName="personName" />
+            </relationship>
+
+            <relationship objectAttributeName="organizationExtension.fiscalApproverUniversal" >
+                <primitiveAttribute sourceName="organizationExtension.fiscalApproverUniversalId" targetName="personUniversalIdentifier" />
+                <supportAttribute sourceName="organizationExtension.fiscalApproverUniversal.personUserIdentifier" targetName="personUserIdentifier" identifier="true" />
+                <supportAttribute sourceName="organizationExtension.fiscalApproverUniversal.personName" targetName="personName" />
+            </relationship> 
         </relationships>
 
 		<objectLabel>Organization Code</objectLabel>

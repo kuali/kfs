@@ -1860,12 +1860,6 @@
 	<field-descriptor name="hrmsIuOccupationalUnitAllowedFlag" column="IU_OCC_UN_ALLOW_FL" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
     <field-descriptor name="fiscalApproverUniversalId" column="ORG_FSCL_APRVR_UID" jdbc-type="VARCHAR" />
     <field-descriptor name="hrmsLastUpdateDate" column="LAST_UPDATE_DATE" jdbc-type="TIMESTAMP" />
-    <reference-descriptor name="hrmsPersonnelApproverUniversal" class-ref="org.kuali.core.bo.user.UniversalUser" proxy="true" auto-retrieve="true" auto-update="none" auto-delete="none">
-    	<foreignkey field-ref="hrmsPersonnelApproverUniversalId" />
-    </reference-descriptor>
-    <reference-descriptor name="fiscalApproverUniversal" class-ref="org.kuali.core.bo.user.UniversalUser" proxy="true" auto-retrieve="true" auto-update="none" auto-delete="none">
-    	<foreignkey field-ref="fiscalApproverUniversalId" />
-    </reference-descriptor>
     <reference-descriptor name="chartOfAccounts" class-ref="org.kuali.module.chart.bo.Chart" proxy="true" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="chartOfAccountsCode" />
     </reference-descriptor>

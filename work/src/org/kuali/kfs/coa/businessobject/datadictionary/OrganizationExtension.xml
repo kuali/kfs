@@ -125,8 +125,8 @@
 			</attribute>
 			
       <attributeReference name="hrmsPersonnelApproverUniversalId"
-				        sourceClassName="org.kuali.core.bo.AttributeReferenceDummy"
-				        sourceAttributeName="genericSystemId">
+                         sourceClassName="org.kuali.core.bo.user.UniversalUser"
+                         sourceAttributeName="personUniversalIdentifier">
         <label>Personnel Approver UserID</label>
         <shortLabel>Personnel Approver UserID</shortLabel>
         <required>true</required>
@@ -166,8 +166,8 @@
 		</attributeReference>
 
       <attributeReference name="fiscalApproverUniversalId"
-				        sourceClassName="org.kuali.core.bo.AttributeReferenceDummy"
-				        sourceAttributeName="genericSystemId">
+                          sourceClassName="org.kuali.core.bo.user.UniversalUser"
+                          sourceAttributeName="personUniversalIdentifier">
         <label>Fiscal Approver UserID</label>
         <shortLabel>Fiscal Approver UserID</shortLabel>
         <required>true</required>

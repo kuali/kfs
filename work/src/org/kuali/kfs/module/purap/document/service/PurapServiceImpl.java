@@ -106,7 +106,7 @@ public class PurapServiceImpl implements PurapService {
             return success;
         }
 
-        success &= this.updateStatusHistory(document, statusToSet, statusHistoryNote);
+        success = this.updateStatusHistory(document, statusToSet, statusHistoryNote);
         success = this.updateStatus(document, statusToSet);
 
         LOG.debug("updateStatusAndStatusHistory(): leaving method.");

@@ -108,7 +108,6 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase {
     private Integer newQuoteVendorDetailAssignedIdentifier;
     private String alternateVendorName;
     private String statusChange;
-    private String statusChangeNote;
     private boolean purchaseOrderCurrentIndicator = false;
     private boolean pendingActionIndicator = false;
     private Date purchaseOrderFirstTransmissionDate;
@@ -697,15 +696,6 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase {
     public void setStatusChange(String statusChange) {
         this.statusChange = statusChange;
     }
-
-    public String getStatusChangeNote() {
-        return statusChangeNote;
-    }
-
-    public void setStatusChangeNote(String statusChangeNote) {
-        this.statusChangeNote = statusChangeNote;
-    }
-
     
     public String getPurchaseOrderRetransmissionMethodCode() {
         return purchaseOrderRetransmissionMethodCode;

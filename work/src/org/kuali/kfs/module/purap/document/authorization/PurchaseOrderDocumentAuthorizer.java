@@ -19,9 +19,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.core.authorization.AuthorizationConstants;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.document.Document;
+import org.kuali.core.document.authorization.DocumentActionFlags;
 import org.kuali.core.exceptions.GroupNotFoundException;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.service.KualiGroupService;
@@ -109,5 +111,18 @@ public class PurchaseOrderDocumentAuthorizer extends AccountingDocumentAuthorize
         }
 
         return editModeMap;
+    }
+    
+    @Override
+    public DocumentActionFlags getDocumentActionFlags(Document document, UniversalUser user) {
+        DocumentActionFlags flags = super.getDocumentActionFlags(document, user);
+        PurchaseOrderDocument po = (PurchaseOrderDocument)document;
+        String statusCode = po.getStatusCode();
+        
+        if ((StringUtils.equals(statusCode,PurchaseOrderStatuses.WAITING_FOR_DEPARTMENT)) ||
+            (StringUtils.equals(statusCode,PurchaseOrderStatuses.WAITING_FOR_VENDOR))){
+            flags.setCanRoute(false);
+        }       
+        return flags;
     }
 }

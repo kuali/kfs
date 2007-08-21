@@ -58,7 +58,9 @@ import org.kuali.module.purap.bo.PurchaseOrderQuoteListVendor;
 import org.kuali.module.purap.bo.PurchaseOrderVendorQuote;
 import org.kuali.module.purap.bo.PurchaseOrderVendorStipulation;
 import org.kuali.module.purap.document.PurchaseOrderDocument;
+import org.kuali.module.purap.document.PurchasingAccountsPayableDocument;
 import org.kuali.module.purap.question.SingleConfirmationQuestion;
+import org.kuali.module.purap.service.CreditMemoService;
 import org.kuali.module.purap.service.PurapService;
 import org.kuali.module.purap.service.PurchaseOrderService;
 import org.kuali.module.purap.web.struts.form.PurchaseOrderForm;
@@ -70,12 +72,14 @@ import org.kuali.module.vendor.bo.VendorDetail;
 import org.kuali.module.vendor.bo.VendorPhoneNumber;
 import org.kuali.module.vendor.service.VendorService;
 
+import edu.iu.uis.eden.exception.WorkflowException;
+
 /**
  * This class handles specific Actions requests for the Requisition.
  */
 public class PurchaseOrderAction extends PurchasingActionBase {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PurchaseOrderAction.class);
-
+    
     /**
      * @see org.kuali.core.web.struts.action.KualiAction#refresh(org.apache.struts.action.ActionMapping,
      *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
@@ -884,13 +888,13 @@ public class PurchaseOrderAction extends PurchasingActionBase {
         for (PurchaseOrderVendorQuote poQuote : document.getPurchaseOrderVendorQuotes()) {
             String tempRow = vendorRow;
             tempRow = StringUtils.replace(tempRow, "{0}", poQuote.getVendorName());
-            if (poQuote.getPurchaseOrderQuoteAwardDate() == null) {
+        if (poQuote.getPurchaseOrderQuoteAwardDate() == null) {
                 if (awardedQuote.getVendorNumber().equals(poQuote.getVendorNumber())) {
                     tempRow = StringUtils.replace(tempRow, "{1}", SpringContext.getBean(DateTimeService.class).getCurrentSqlDate().toString());
-                }
-                else {
+        }
+        else {
                     tempRow = StringUtils.replace(tempRow, "{1}", "");
-                }
+        }
             }
             else {
                 tempRow = StringUtils.replace(tempRow, "{1}", poQuote.getPurchaseOrderQuoteAwardDate().toString());
@@ -940,7 +944,6 @@ public class PurchaseOrderAction extends PurchasingActionBase {
                 document.setStatusCode(PurapConstants.PurchaseOrderStatuses.IN_PROCESS);
             }
         }
-
         SpringContext.getBean(DocumentService.class).saveDocumentWithoutRunningValidation(document);
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
@@ -1082,7 +1085,13 @@ public class PurchaseOrderAction extends PurchasingActionBase {
                 }
             }
             else if (StringUtils.equals(questionType,PODocumentsStrings.MANUAL_STATUS_CHANGE_QUESTION)) {
-                executeManualStatusChange(po); 
+                executeManualStatusChange(po);
+                try {
+                    forward = super.save(mapping, form, request, response);
+                }
+                catch (Exception e) {
+                    throw new RuntimeException(e);
+                }
             }
             Note newNote = new Note();
             newNote.setNoteText(noteText);
@@ -1099,8 +1108,12 @@ public class PurchaseOrderAction extends PurchasingActionBase {
     }
     
     private void executeManualStatusChange(PurchaseOrderDocument po) {
-        SpringContext.getBean(PurapService.class).updateStatusAndStatusHistory(po, po.getStatusChange());
-        po.refreshNonUpdateableReferences(); 
+        if (SpringContext.getBean(PurapService.class).updateStatusAndStatusHistory(po, po.getStatusChange())) {
+            po.refreshNonUpdateableReferences();
+        }
+        else {
+            throw new RuntimeException("Failed to set new status or status history.");
+        }
     }
 
     @Override

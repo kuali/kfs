@@ -394,23 +394,8 @@
             	</control>
             	
             	<summary>statusChange</summary>
-            	<description>This is the destination status for the PO which is picked at one point in routing, 
-            		and is not persisted in the database as a separate field.</description>
-            </attribute>
-            
-            <attribute name="statusChangeNote">
-            	<label>Status Change Note</label>
-            	<shortLabel>Status Change Note</shortLabel>
-            	
-            	<maxLength>255</maxLength>
-            	<validationPattern><anyCharacter allowWhitespace="true"/></validationPattern>
-            	
-            	<control>
-            		<textarea rows="5" cols="80"/>
-            	</control>
-            	
-            	<summary>statusChangeNote</summary>
-            	<description>statusChangeNote description ...</description>
+            	<description>This is the destination status for the PO's manual status change.
+            		This is not persisted in the database as a separate field.</description>
             </attribute>
 
         </attributes>

@@ -94,13 +94,15 @@ public class PaymentRequestDocumentRule extends AccountsPayableDocumentRuleBase 
     @Override
     public boolean processValidation(PurchasingAccountsPayableDocument purapDocument) {
         boolean valid = super.processValidation(purapDocument);
-        valid &= processInvoiceValidation((PaymentRequestDocument)purapDocument);
+        PaymentRequestDocument preqDocument = (PaymentRequestDocument)purapDocument;
+        valid &= processInvoiceValidation(preqDocument);
         //TODO: this check is also in item checks below, we should consolidate these non full entry checks
         if(!SpringContext.getBean(PurapService.class).isFullDocumentEntryCompleted(purapDocument)) {
-            valid &= processPurchaseOrderIDValidation((PaymentRequestDocument)purapDocument);
+            valid &= processPurchaseOrderIDValidation(preqDocument);
         }
-        valid &= processPaymentRequestDateValidationForContinue((PaymentRequestDocument)purapDocument);
-        valid &= validatePaymentRequestDates((PaymentRequestDocument)purapDocument);
+        valid &= processPaymentRequestDateValidationForContinue(preqDocument);
+        valid &= processVendorValidation(preqDocument);
+        valid &= validatePaymentRequestDates(preqDocument);
         return valid;
     }
 
@@ -168,7 +170,6 @@ public class PaymentRequestDocumentRule extends AccountsPayableDocumentRuleBase 
         boolean valid = true;
         GlobalVariables.getErrorMap().clearErrorPath();
         GlobalVariables.getErrorMap().addToErrorPath(RicePropertyConstants.DOCUMENT);
-        DataDictionaryService dataDictionaryService = SpringContext.getBean(DataDictionaryService.class);
         if (ObjectUtils.isNull(preqDocument.getPurchaseOrderIdentifier())) {
             GlobalVariables.getErrorMap().putError(PurapPropertyConstants.PURCHASE_ORDER_IDENTIFIER, KFSKeyConstants.ERROR_REQUIRED, PREQDocumentsStrings.PURCHASE_ORDER_ID);
             valid &= false;
@@ -186,6 +187,24 @@ public class PaymentRequestDocumentRule extends AccountsPayableDocumentRuleBase 
             valid &= false;
         }
         GlobalVariables.getErrorMap().clearErrorPath();
+        return valid;
+    }
+    
+    public boolean processVendorValidation(PaymentRequestDocument preqDocument) {
+        boolean valid = true;
+        GlobalVariables.getErrorMap().clearErrorPath();
+        GlobalVariables.getErrorMap().addToErrorPath(RicePropertyConstants.DOCUMENT);
+        if (StringUtils.equals(preqDocument.getVendorCountryCode(), KFSConstants.COUNTRY_CODE_UNITED_STATES)) {
+            if (StringUtils.isBlank(preqDocument.getVendorStateCode())) {
+                GlobalVariables.getErrorMap().putError(PurapPropertyConstants.VENDOR_STATE_CODE, KFSKeyConstants.ERROR_REQUIRED_FOR_US, PREQDocumentsStrings.VENDOR_STATE);
+                valid &= false;
+            }
+            if (StringUtils.isBlank(preqDocument.getVendorPostalCode())) {
+                GlobalVariables.getErrorMap().putError(PurapPropertyConstants.VENDOR_POSTAL_CODE, KFSKeyConstants.ERROR_REQUIRED_FOR_US, PREQDocumentsStrings.VENDOR_POSTAL_CODE);
+                valid &= false;
+            }
+            
+        }
         return valid;
     }
     

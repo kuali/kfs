@@ -631,9 +631,8 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
     /**
      * @see org.kuali.module.purap.document.PurchasingAccountsPayableDocument#addToStatusHistories(java.lang.String, java.lang.String)
      */
-    public void addToStatusHistories( String oldStatus, String newStatus, Note statusHistoryNote ) {
+    public void addToStatusHistories( String oldStatus, String newStatus ) {
         PaymentRequestStatusHistory prsh = new PaymentRequestStatusHistory( oldStatus, newStatus );
-        this.addStatusHistoryNote( prsh, statusHistoryNote );
         this.getStatusHistories().add( prsh );
     }
     

@@ -30,16 +30,10 @@ import org.kuali.module.purap.document.PurchasingAccountsPayableDocument;
 public interface PurapService {
 
     public boolean updateStatusAndStatusHistory( PurchasingAccountsPayableDocument document, String statusToSet);
-    
-    public boolean updateStatusAndStatusHistory( PurchasingAccountsPayableDocument document, 
-            String statusToSet, Note statusHistoryNote );
-    
+        
     public boolean updateStatus( PurchasingAccountsPayableDocument document, String statusToSet);
     
-    public boolean updateStatusHistory( PurchasingAccountsPayableDocument document, String statusToSet);
-    
-    public boolean updateStatusHistory( PurchasingAccountsPayableDocument document,
-            String statusToSet, Note statusHistoryNote );
+    public boolean updateStatusHistory(PurchasingAccountsPayableDocument document, String statusToSet);
     
     public List getRelatedViews(Class clazz, Integer accountsPayablePurchasingDocumentLinkIdentifier);
 

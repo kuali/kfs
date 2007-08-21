@@ -263,25 +263,6 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
         return m;
     }
 
-    /**
-     * This method is used to add a note to a Status History.
-     * 
-     * @param statusHistory
-     * @param statusHistoryNote
-     */
-    protected void addStatusHistoryNote(StatusHistory statusHistory, Note note) {
-        if (ObjectUtils.isNotNull(null)) {
-            NoteService noteService = SpringContext.getBean(NoteService.class);
-            try {
-                note = noteService.createNote(note, statusHistory);
-                noteService.save(note);
-            }
-            catch (Exception e) {
-                logAndThrowRuntimeException("Unable to create or save status history note " + e.getMessage(), e);
-            }
-        }
-    }
-
     public String getVendorNumber() {
         if (StringUtils.isNotEmpty(vendorNumber)){
             return vendorNumber;

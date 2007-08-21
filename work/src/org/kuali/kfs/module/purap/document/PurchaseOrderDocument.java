@@ -716,10 +716,9 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase {
     /**
      * @see org.kuali.module.purap.document.PurchasingAccountsPayableDocument#addToStatusHistories(java.lang.String, java.lang.String)
      */
-    public void addToStatusHistories( String oldStatus, String newStatus, Note statusHistoryNote ) {
+    public void addToStatusHistories( String oldStatus, String newStatus ) {
         PurchaseOrderStatusHistory posh = new PurchaseOrderStatusHistory( oldStatus, newStatus );
-        this.addStatusHistoryNote( posh, statusHistoryNote );
-        posh.setDocumentHeaderIdentifier(this.documentNumber);
+        posh.setDocumentHeaderIdentifier(this.documentHeader.getDocumentNumber());
         this.getStatusHistories().add( posh );
     }
 

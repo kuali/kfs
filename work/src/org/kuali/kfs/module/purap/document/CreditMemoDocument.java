@@ -61,7 +61,7 @@ public class CreditMemoDocument extends AccountsPayableDocumentBase {
     private String itemMiscellaneousCreditDescription;
     private Date purchaseOrderEndDate;
     private boolean continuationAccountIndicator;
-   
+
     private PaymentRequestDocument paymentRequestDocument;
 
     private boolean unmatchedOverride; // not persisted
@@ -250,9 +250,8 @@ public class CreditMemoDocument extends AccountsPayableDocumentBase {
      * @see org.kuali.module.purap.document.PurchasingAccountsPayableDocument#addToStatusHistories(java.lang.String,
      *      java.lang.String)
      */
-    public void addToStatusHistories(String oldStatus, String newStatus, Note statusHistoryNote) {
+    public void addToStatusHistories(String oldStatus, String newStatus) {
         CreditMemoStatusHistory cmsh = new CreditMemoStatusHistory(oldStatus, newStatus);
-        addStatusHistoryNote(cmsh, statusHistoryNote);
         getStatusHistories().add(cmsh);
     }
 

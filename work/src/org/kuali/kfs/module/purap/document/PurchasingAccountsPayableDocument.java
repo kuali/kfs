@@ -55,7 +55,7 @@ public interface PurchasingAccountsPayableDocument extends AccountingDocument {
      * @param newStatus             A code for the new status in String form
      * @param statusHistoryNote     An optional BO Note for the StatusHistory (can be null)
      */
-    public void addToStatusHistories(String oldStatus, String newStatus, Note statusHistoryNote);
+    public void addToStatusHistories(String oldStatus, String newStatus);
 
     public void setStatusHistories(List statusHistories);
 

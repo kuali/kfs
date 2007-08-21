@@ -48,7 +48,7 @@
 
 <%--	<kul:hiddenDocumentFields /> --%>
 
-	<kul:errors errorTitle="Errors found in Search Criteria:" />
+	<kul:errors keyMatch="budgetConstructionHeader" errorTitle="Errors found in Search Criteria:" />
 	<kul:messages/>
 
     <table align="center" cellpadding="0" cellspacing="0" class="datatable-100">

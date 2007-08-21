@@ -124,7 +124,7 @@ public class BudgetConstructionSelectionAction extends KualiAction {
         BudgetConstructionHeader tHeader = (BudgetConstructionHeader) SpringContext.getBean(BudgetDocumentService.class).getByCandidateKey(chartOfAccountsCode, accountNumber, subAccountNumber, universityFiscalYear);
         if (tHeader == null){
             //error ERROR_EXISTENCE
-            GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_MESSAGES,KFSKeyConstants.ERROR_EXISTENCE, "BC Document");
+          GlobalVariables.getErrorMap().putError("budgetConstructionHeader",KFSKeyConstants.ERROR_EXISTENCE, "BC Document");
             return mapping.findForward(KFSConstants.MAPPING_BASIC);
         } else {
             // TODO abyrne changed this to reference config property, but not sure where this is being used

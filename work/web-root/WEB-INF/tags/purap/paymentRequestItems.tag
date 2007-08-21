@@ -63,7 +63,19 @@
 		</c:if>
 		<c:set var="currentTabIndex" value="${KualiForm.currentTabIndex}" scope="request" />
 		<c:set var="topLevelTabIndex" value="${KualiForm.currentTabIndex}" scope="request" />
-        <c:set var="tabKey" value="Item-${itemLine.itemDescription}"/>
+        
+        <c:choose>
+            <c:when test="${itemLine.objectId == null}">
+                <c:set var="newObjectId" value="<%= (new org.kuali.core.util.Guid()).toString()%>" />
+                <c:set var="tabKey" value="Item-${newObjectId}" />
+                <html:hidden property="document.item[${ctr}].objectId" value="${newObjectId}" />
+            </c:when>
+            <c:when test="${itemLine.objectId != null}">
+                <c:set var="tabKey" value="Item-${itemLine.objectId}" />
+                <html:hidden property="document.item[${ctr}].objectId" /> 
+            </c:when>
+        </c:choose>
+    
         <!--  hit form method to increment tab index -->
         <c:set var="dummyIncrementer" value="${kfunc:incrementTabIndex(KualiForm, tabKey)}" />
 

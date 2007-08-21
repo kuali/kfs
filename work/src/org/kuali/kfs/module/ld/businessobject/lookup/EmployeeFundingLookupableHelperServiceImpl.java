@@ -69,7 +69,7 @@ public class EmployeeFundingLookupableHelperServiceImpl extends AbstractLookupab
 
         // update search results according to the selected pending entry option
         // TODO: after including pending entries, the current and encumbrance amounts should be updated
-        //laborInquiryOptionsService.updateByPendingLedgerEntry(searchResultsCollection, fieldValues, pendingEntryOption, isConsolidated);
+        laborInquiryOptionsService.updateByPendingLedgerEntry(searchResultsCollection, fieldValues, pendingEntryOption, isConsolidated);
         
         // get the actual size of all qualified search results
         Long actualSize = new Long(searchResultsCollection.size());

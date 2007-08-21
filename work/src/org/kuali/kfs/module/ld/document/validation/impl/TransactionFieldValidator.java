@@ -26,7 +26,7 @@ import org.kuali.module.labor.bo.LaborTransaction;
 import org.kuali.module.labor.util.MessageBuilder;
 
 /**
- * This class provides a set of utilities that can be used to validate a transaction in the filed level.
+ * This class provides a set of utilities that can be used to validate a transaction in the field level.
  */
 public class TransactionFieldValidator {
 

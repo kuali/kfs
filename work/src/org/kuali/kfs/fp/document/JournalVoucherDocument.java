@@ -198,9 +198,11 @@ public class JournalVoucherDocument extends AccountingDocumentBase implements Vo
     }
 
     /**
-     * This method determines the "total" for the JV document. If the selected balance type is an offset generation, then the total
-     * is calculated by subtracting the debit accounting lines from the credit accounting lines. Otherwise, the total is just the
-     * sum of all accounting line amounts.
+     * This method determines the "total" for the JV document. 
+     * If the selected balance type is an offset generation, then the method returns the total debits amount when it is greater than the 
+     * total credit amount. otherwise, it returns total credit amount. 
+     * 
+     * When selected balance type is not an offset generation, the method returns the sum of all accounting line debit amounts.
      * 
      * @return KualiDecimal the total of the JV document.
      */

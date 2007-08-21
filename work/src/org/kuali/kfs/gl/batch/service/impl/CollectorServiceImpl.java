@@ -69,6 +69,7 @@ public class CollectorServiceImpl implements CollectorService {
             for(String inputFileName: fileNamesToLoad) {
                 boolean processSuccess = false;
                 try {
+                    LOG.info("Collecting file: " + inputFileName);
                     processSuccess = collectorHelperService.loadCollectorFile(inputFileName, group, collectorReportData, collectorScrubberStatuses);
                 }
                 catch (RuntimeException e) {

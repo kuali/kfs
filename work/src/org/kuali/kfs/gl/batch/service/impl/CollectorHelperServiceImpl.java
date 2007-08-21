@@ -358,12 +358,11 @@ public class CollectorHelperServiceImpl implements CollectorHelperService {
         // build a Set of keys from the gl entries to compare with
         Set glEntryKeys = new HashSet();
         for (OriginEntry entry : batch.getOriginEntries()) {
-            glEntryKeys.add(generateOriginEntryDetailKey(entry, ", "));
+            glEntryKeys.add(generateOriginEntryMatchingKey(entry, ", "));
         }
 
-        //TODO: match on doc #, doc type, orig code also
         for (CollectorDetail collectorDetail : batch.getCollectorDetails()) {
-            String collectorDetailKey = generateCollectorDetailKey(collectorDetail, ", ");
+            String collectorDetailKey = generateCollectorDetailMatchingKey(collectorDetail, ", ");
             if (!glEntryKeys.contains(collectorDetailKey)) {
                 LOG.error("found detail key without a matching gl entry key " + collectorDetailKey);
                 errorMap.putError(KFSConstants.GLOBAL_ERRORS, KFSKeyConstants.Collector.NONMATCHING_DETAIL_KEY, collectorDetailKey);
@@ -375,13 +374,13 @@ public class CollectorHelperServiceImpl implements CollectorHelperService {
         return detailKeysFound;
     }
 
-    private String generateOriginEntryDetailKey(OriginEntry entry, String delimiter) {
+    private String generateOriginEntryMatchingKey(OriginEntry entry, String delimiter) {
         return StringUtils.join(new String[] { entry.getUniversityFiscalYear().toString(), entry.getUniversityFiscalPeriodCode(), entry.getChartOfAccountsCode(), entry.getAccountNumber(),
                 entry.getSubAccountNumber(), entry.getFinancialObjectCode(), entry.getFinancialSubObjectCode(), entry.getFinancialBalanceTypeCode(),
                 entry.getFinancialObjectTypeCode(), entry.getDocumentNumber(), entry.getFinancialDocumentTypeCode(), entry.getFinancialSystemOriginationCode() }, delimiter);
     }
 
-    private String generateCollectorDetailKey(CollectorDetail collectorDetail, String delimiter) {
+    private String generateCollectorDetailMatchingKey(CollectorDetail collectorDetail, String delimiter) {
         return StringUtils.join(new String[] { collectorDetail.getUniversityFiscalYear().toString(), collectorDetail.getUniversityFiscalPeriodCode(),collectorDetail.getChartOfAccountsCode(),
                 collectorDetail.getAccountNumber(), collectorDetail.getSubAccountNumber(), collectorDetail.getFinancialObjectCode(), collectorDetail.getFinancialSubObjectCode(),
                 collectorDetail.getFinancialBalanceTypeCode(), collectorDetail.getFinancialObjectTypeCode(), collectorDetail.getDocumentNumber(), collectorDetail.getFinancialDocumentTypeCode(),

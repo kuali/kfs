@@ -22,7 +22,7 @@
 		<transmissionDate>2005-10-05</transmissionDate>
 		<batchSequenceNumber>0</batchSequenceNumber>
 		<personUserId>kul</personUserId>
-		<workgroupName>liangw@indiana.edu</workgroupName>
+		<workgroupName>wliang@uci.edu</workgroupName>
 		<campusCode>BL</campusCode>
 		<phoneNumber>123-456-7890</phoneNumber>
 		<mailingAddress>1500 Berkeley</mailingAddress>
@@ -32,13 +32,13 @@
 		<universityFiscalYear>2006</universityFiscalYear>
 		<chartOfAccountsCode>BL</chartOfAccountsCode>
 		<accountNumber>1031400</accountNumber>
-		<subAccountNumber>CS001</subAccountNumber>
+		<subAccountNumber>ADV</subAccountNumber>
 		<objectCode>3000</objectCode>
 		<subObjectCode>WAC</subObjectCode>
 		<balanceTypeCode>AC</balanceTypeCode>
 		<objectTypeCode>EX</objectTypeCode>
 		<universityFiscalAccountingPeriod>06</universityFiscalAccountingPeriod>
-		<documentTypeCode>REQ</documentTypeCode>
+		<documentTypeCode>DV</documentTypeCode>
 		<originationCode>01</originationCode>
 		<documentNumber>1000000</documentNumber>
 		<transactionEntrySequenceId>1</transactionEntrySequenceId>
@@ -49,7 +49,7 @@
 		<organizationDocumentNumber>ODN</organizationDocumentNumber>
 		<projectCode>BAT</projectCode>
 		<organizationReferenceId>ORI</organizationReferenceId>
-		<referenceDocumentTypeCode>REQ</referenceDocumentTypeCode>
+		<referenceDocumentTypeCode>DV</referenceDocumentTypeCode>
 		<referenceOriginationCode>01</referenceOriginationCode>
 		<referenceDocumentNumber>1234</referenceDocumentNumber>
 		<documentReversalDate>2005-10-31</documentReversalDate>
@@ -61,12 +61,12 @@
 		<createSequence>2006</createSequence>
 		<chartOfAccountsCode>BL</chartOfAccountsCode>
 		<accountNumber>1031400</accountNumber>
-		<subAccountNumber>CS001</subAccountNumber>
+		<subAccountNumber>ADV</subAccountNumber>
 		<objectCode>3000</objectCode>
 		<subObjectCode>WAC</subObjectCode>
 		<collectorDetailSequenceNumber>47</collectorDetailSequenceNumber>
 		<originationCode>01</originationCode>
-		<documentTypeCode>REQ</documentTypeCode>
+		<documentTypeCode>DV</documentTypeCode>
 		<documentNumber>1000000</documentNumber>
 		<amount>1000000</amount>
 		<detailText>Line 1b</detailText>

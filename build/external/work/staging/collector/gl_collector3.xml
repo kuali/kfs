@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ Copyright 2005-2006 The Kuali Foundation.
+ 
+ Licensed under the Educational Community License, Version 1.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+ 
+ http://www.opensource.org/licenses/ecl1.php
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+<batch xmlns="http://www.kuali.org/modules/gl/collector" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.kuali.org/modules/gl/collector @application-url@/xml/GLCollector.xsd">
+        <header>
+            <chartOfAccountsCode>BA</chartOfAccountsCode>
+            <organizationCode>PARK</organizationCode>
+            <transmissionDate>2007-07-03</transmissionDate>
+            <batchSequenceNumber>1</batchSequenceNumber>
+            <personUserId>sgeorge</personUserId>
+            <workgroupName>wliang@uci.edu</workgroupName>
+            <campusCode>BL</campusCode>
+            <departmentName>Parking Operations</departmentName>
+            <mailingAddress>400 E 7th Street</mailingAddress>
+            <phoneNumber>812-855-6107</phoneNumber>
+        </header>
+        <glEntry>
+            <universityFiscalYear>2007</universityFiscalYear>
+            <chartOfAccountsCode>BL</chartOfAccountsCode>
+            <accountNumber>1031400</accountNumber>
+            <subAccountNumber>ADV</subAccountNumber>
+            <objectCode>5000</objectCode>
+            <subObjectCode>---</subObjectCode>
+            <balanceTypeCode>AC</balanceTypeCode>
+            <objectTypeCode>EX</objectTypeCode>
+            <universityFiscalAccountingPeriod>11</universityFiscalAccountingPeriod>
+            <documentTypeCode>DV</documentTypeCode>
+            <originationCode>EU</originationCode>
+            <documentNumber>1000000</documentNumber>
+            <transactionEntrySequenceId>1</transactionEntrySequenceId>
+            <transactionLedgerEntryDescription>Test Description</transactionLedgerEntryDescription>
+            <transactionLedgerEntryAmount>100.00</transactionLedgerEntryAmount>
+            <debitOrCreditCode>D</debitOrCreditCode>
+            <transactionDate>2007-07-02</transactionDate>
+            <organizationDocumentNumber>TEST</organizationDocumentNumber>
+            <organizationReferenceId>TEST</organizationReferenceId>
+            <referenceDocumentTypeCode>DV</referenceDocumentTypeCode>
+            <referenceOriginationCode>01</referenceOriginationCode>
+            <referenceDocumentNumber>1234</referenceDocumentNumber>
+            <documentReversalDate>2007-06-30</documentReversalDate>
+        </glEntry>
+        <detail>
+            <universityFiscalYear>2007</universityFiscalYear>
+            <chartOfAccountsCode>BL</chartOfAccountsCode>
+            <accountNumber>1031400</accountNumber>
+            <subAccountNumber>ADV</subAccountNumber>
+            <objectCode>5000</objectCode>
+            <createDate>2007-07-01</createDate>
+            <subObjectCode>---</subObjectCode>
+            <balanceTypeCode>AC</balanceTypeCode>
+            <objectTypeCode>EX</objectTypeCode>
+            <universityFiscalAccountingPeriod>11</universityFiscalAccountingPeriod>    
+            <collectorDetailSequenceNumber>47</collectorDetailSequenceNumber>
+            <createSequence>2006</createSequence>
+            <documentTypeCode>DV</documentTypeCode>
+            <originationCode>EU</originationCode>
+            <documentNumber>1000000</documentNumber>
+            <amount>100.00</amount>
+            <detailText>Detail Test Description 1</detailText>
+        </detail>
+        <glEntry>
+            <universityFiscalYear>2007</universityFiscalYear>
+            <chartOfAccountsCode>BL</chartOfAccountsCode>
+            <accountNumber>1031400</accountNumber>
+            <subAccountNumber>-----</subAccountNumber>
+            <objectCode>4700</objectCode>
+            <subObjectCode>---</subObjectCode>
+            <balanceTypeCode>AC</balanceTypeCode>
+            <objectTypeCode>EX</objectTypeCode>
+            <universityFiscalAccountingPeriod>11</universityFiscalAccountingPeriod>
+            <documentTypeCode>DV</documentTypeCode>
+            <originationCode>EU</originationCode>
+            <documentNumber>1000001</documentNumber>
+            <transactionEntrySequenceId>1</transactionEntrySequenceId>
+            <transactionLedgerEntryDescription>Test Description</transactionLedgerEntryDescription>
+            <transactionLedgerEntryAmount>200.00</transactionLedgerEntryAmount>
+            <debitOrCreditCode>D</debitOrCreditCode>
+            <transactionDate>2007-07-02</transactionDate>
+            <organizationDocumentNumber>TEST</organizationDocumentNumber>
+            <organizationReferenceId>TEST</organizationReferenceId>
+            <referenceDocumentTypeCode>DV</referenceDocumentTypeCode>
+            <referenceOriginationCode>01</referenceOriginationCode>
+            <referenceDocumentNumber>1235</referenceDocumentNumber>
+            <documentReversalDate>2007-06-30</documentReversalDate>
+        </glEntry>
+        <detail>
+            <universityFiscalYear>2007</universityFiscalYear>
+            <chartOfAccountsCode>BL</chartOfAccountsCode>
+            <accountNumber>1031400</accountNumber>
+            <subAccountNumber>-----</subAccountNumber>
+            <objectCode>4700</objectCode>
+            <subObjectCode>---</subObjectCode>
+            <balanceTypeCode>AC</balanceTypeCode>
+            <objectTypeCode>EX</objectTypeCode>
+            <createDate>2007-07-01</createDate>
+            <universityFiscalAccountingPeriod>11</universityFiscalAccountingPeriod>
+            <collectorDetailSequenceNumber>47</collectorDetailSequenceNumber>
+            <createSequence>2006</createSequence>
+            <documentTypeCode>DV</documentTypeCode>
+            <originationCode>EU</originationCode>
+            <documentNumber>1000001</documentNumber>
+            <amount>200.00</amount>
+            <detailText>Detail Test Description 2</detailText>
+        </detail>
+        <glEntry>
+            <universityFiscalYear>2007</universityFiscalYear>
+            <chartOfAccountsCode>BA</chartOfAccountsCode>
+            <accountNumber>6044900</accountNumber>
+            <subAccountNumber>-----</subAccountNumber>
+            <objectCode>1800</objectCode>
+            <subObjectCode>---</subObjectCode>
+            <balanceTypeCode>AC</balanceTypeCode>
+            <objectTypeCode>IN</objectTypeCode>
+            <universityFiscalAccountingPeriod>11</universityFiscalAccountingPeriod>
+            <documentTypeCode>DV</documentTypeCode>
+            <originationCode>EU</originationCode>
+            <documentNumber>1000002</documentNumber>
+            <transactionEntrySequenceId>1</transactionEntrySequenceId>
+            <transactionLedgerEntryDescription>Test Description</transactionLedgerEntryDescription>
+            <transactionLedgerEntryAmount>300.00</transactionLedgerEntryAmount>
+            <debitOrCreditCode>C</debitOrCreditCode>
+            <transactionDate>2007-07-02</transactionDate>
+            <organizationDocumentNumber>TEST</organizationDocumentNumber>
+            <organizationReferenceId>TEST</organizationReferenceId>
+            <referenceDocumentTypeCode>DV</referenceDocumentTypeCode>
+            <referenceOriginationCode>01</referenceOriginationCode>
+            <referenceDocumentNumber>1236</referenceDocumentNumber>
+            <documentReversalDate>2007-06-30</documentReversalDate>
+        </glEntry>
+        <detail>
+            <universityFiscalYear>2007</universityFiscalYear>
+            <chartOfAccountsCode>BA</chartOfAccountsCode>
+            <accountNumber>6044900</accountNumber>
+            <subAccountNumber>-----</subAccountNumber>
+            <objectCode>1800</objectCode>
+            <subObjectCode>---</subObjectCode>
+            <balanceTypeCode>AC</balanceTypeCode>
+            <objectTypeCode>IN</objectTypeCode>
+            <universityFiscalAccountingPeriod>11</universityFiscalAccountingPeriod>            
+            <collectorDetailSequenceNumber>47</collectorDetailSequenceNumber>
+            <createSequence>2006</createSequence>
+            <createDate>2007-07-01</createDate>
+            <documentTypeCode>DV</documentTypeCode>
+            <originationCode>EU</originationCode>
+            <documentNumber>1000002</documentNumber>
+            <amount>300.00</amount>
+            <detailText>Detail Test Description 3</detailText>
+        </detail>
+        <glEntry>
+            <universityFiscalYear>2007</universityFiscalYear>
+            <chartOfAccountsCode>BA</chartOfAccountsCode>
+            <accountNumber>9999999</accountNumber>
+            <subAccountNumber>-----</subAccountNumber>
+            <objectCode>1800</objectCode>
+            <subObjectCode>---</subObjectCode>
+            <balanceTypeCode>AC</balanceTypeCode>
+            <objectTypeCode>IN</objectTypeCode>
+            <universityFiscalAccountingPeriod>11</universityFiscalAccountingPeriod>
+            <documentTypeCode>DV</documentTypeCode>
+            <originationCode>EU</originationCode>
+            <documentNumber>1000003</documentNumber>
+            <transactionEntrySequenceId>1</transactionEntrySequenceId>
+            <transactionLedgerEntryDescription>Test Description</transactionLedgerEntryDescription>
+            <transactionLedgerEntryAmount>0.00</transactionLedgerEntryAmount>
+            <debitOrCreditCode>C</debitOrCreditCode>
+            <transactionDate>2007-07-02</transactionDate>
+            <organizationDocumentNumber>TEST</organizationDocumentNumber>
+            <organizationReferenceId>TEST</organizationReferenceId>
+            <referenceDocumentTypeCode>DV</referenceDocumentTypeCode>
+            <referenceOriginationCode>01</referenceOriginationCode>
+            <referenceDocumentNumber>1236</referenceDocumentNumber>
+            <documentReversalDate>2007-06-30</documentReversalDate>
+        </glEntry>
+        <trailer>
+            <totalRecords>7</totalRecords>
+            <totalAmount>600.00</totalAmount>
+        </trailer>
+</batch>

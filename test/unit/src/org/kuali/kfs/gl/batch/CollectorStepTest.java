@@ -48,6 +48,8 @@ public class CollectorStepTest extends KualiTestBase {
     @Override
     protected void setUp() throws Exception {
         super.setUp();
+        
+        // warren: this is just testing code to list out the contents of the staging directory 
         File directory = new File("/opt/kuali/unt/staging/");
         if (directory.exists() && directory.isDirectory()) {
             File[] files = directory.listFiles();
@@ -62,21 +64,47 @@ public class CollectorStepTest extends KualiTestBase {
             }
         }
         
-        String doneFileName = SpringContext.getBean(CollectorInputFileType.class).getDirectoryPath() + "/gl_collector1.done";
+        String doneFileName = generateDoneFileName();
+        
         File doneFile = new File(doneFileName);
         if (!doneFile.exists()) {
             doneFile.createNewFile();
         }
     }
+    
+    /**
+     * Deletes the file created in setUp()
+     */
+    protected void deleteDoneFile() {
+        File doneFile = new File(generateDoneFileName());
+        if (doneFile.exists()) {
+            doneFile.delete();
+        }
+    }
+    
+    protected boolean isDoneFileExists() {
+        File doneFile = new File(generateDoneFileName());
+        return doneFile.exists();
+    }
+    
+    protected String generateDoneFileName() {
+        return SpringContext.getBean(CollectorInputFileType.class).getDirectoryPath() + "/gl_collector1.done";
+    }
+    
     /**
      * Tests the whole step completes successfully.
      */
     @RelatesTo(RelatesTo.JiraIssue.KULUT29)
     public void testAll() throws Exception {
-        CollectorStep collectorStep = SpringContext.getBean(CollectorStep.class);
-        boolean goodExit = collectorStep.execute(getClass().getName());
-        
-        assertTrue("collector step did not exit with pass", goodExit);
+        try {
+            CollectorStep collectorStep = SpringContext.getBean(CollectorStep.class);
+            boolean goodExit = collectorStep.execute(getClass().getName());
+            
+            assertTrue("collector step did not exit with pass", goodExit);
+            assertFalse("done file was not removed", isDoneFileExists());
+        }
+        finally {
+            deleteDoneFile();
+        }
     }
-    
 }

@@ -64,11 +64,11 @@ import org.kuali.module.gl.service.OriginEntryService;
 import org.kuali.module.gl.util.CorrectionDocumentUtils;
 import org.kuali.module.gl.web.struts.action.CorrectionAction;
 import org.kuali.module.gl.web.struts.form.CorrectionForm;
-import org.kuali.module.labor.LaborConstants;
 import org.kuali.module.labor.bo.LaborOriginEntry;
 import org.kuali.module.labor.document.LaborCorrectionDocument;
 import org.kuali.module.labor.service.LaborCorrectionDocumentService;
 import org.kuali.module.labor.service.LaborOriginEntryService;
+import org.kuali.module.labor.web.optionfinder.CorrectionLaborGroupEntriesFinder;
 import org.kuali.module.labor.web.optionfinder.LaborOriginEntryFieldFinder;
 import org.kuali.module.labor.web.struts.form.LaborCorrectionForm;
 
@@ -884,5 +884,68 @@ public class LaborCorrectionAction extends CorrectionAction{
             GlobalVariables.getErrorMap().putError(SYSTEM_AND_EDIT_METHOD_ERROR_KEY, KFSKeyConstants.ERROR_GL_ERROR_CORRECTION_PERSISTED_ORIGIN_ENTRIES_MISSING);
         }
         return present;
+    }
+    
+    /**
+     * Called when selecting the system and method. If this button is pressed, the document should be reset as if it is the first
+     * time it was pressed.
+     */
+    public ActionForward selectSystemEditMethod(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        LOG.debug("selectSystemEditMethod() started");
+
+        CorrectionForm laborCorrectionForm = (LaborCorrectionForm) form;
+        CorrectionDocument document = laborCorrectionForm.getCorrectionDocument();
+
+        if (checkMainDropdown(laborCorrectionForm)) {
+            // Clear out any entries that were already loaded
+            document.setCorrectionInputFileName(null);
+            document.setCorrectionInputGroupId(null);
+            document.setCorrectionOutputFileName(null);
+            document.setCorrectionOutputGroupId(null);
+            document.setCorrectionCreditTotalAmount(null);
+            document.setCorrectionDebitTotalAmount(null);
+            document.setCorrectionRowCount(null);
+            document.getCorrectionChangeGroup().clear();
+            
+            laborCorrectionForm.setDataLoadedFlag(false);
+            laborCorrectionForm.setDeleteFileFlag(false);
+            laborCorrectionForm.setEditableFlag(false);
+            laborCorrectionForm.setManualEditFlag(false);
+            laborCorrectionForm.setShowOutputFlag(false);
+            laborCorrectionForm.setAllEntries(new ArrayList<OriginEntry>());
+            laborCorrectionForm.setRestrictedFunctionalityMode(false);
+            laborCorrectionForm.setProcessInBatch(true);
+            
+            if (CorrectionDocumentService.SYSTEM_DATABASE.equals(laborCorrectionForm.getChooseSystem())) {
+                // if users choose database, then get the list of origin entry groups and set the default
+
+                // I shouldn't have to do this query twice, but with the current architecture, I can't find anyway not to do it.
+                CorrectionLaborGroupEntriesFinder f = new CorrectionLaborGroupEntriesFinder();
+                List values = f.getKeyValues();
+                if (values.size() > 0) {
+                    OriginEntryGroup g = CorrectionAction.originEntryGroupService.getNewestScrubberErrorGroup();
+                    if (g != null) {
+                        document.setCorrectionInputGroupId(g.getId());
+                    }
+                    else {
+                        KeyLabelPair klp = (KeyLabelPair) values.get(0);
+                        document.setCorrectionInputGroupId(Integer.parseInt((String) klp.getKey()));
+                    }
+                }
+                else {
+                    GlobalVariables.getErrorMap().putError(SYSTEM_AND_EDIT_METHOD_ERROR_KEY, KFSKeyConstants.ERROR_NO_ORIGIN_ENTRY_GROUPS);
+                    laborCorrectionForm.setChooseSystem("");
+                }
+            }
+        }
+        else {
+            laborCorrectionForm.setEditMethod("");
+            laborCorrectionForm.setChooseSystem("");
+        }
+        laborCorrectionForm.setPreviousChooseSystem(laborCorrectionForm.getChooseSystem());
+        laborCorrectionForm.setPreviousEditMethod(laborCorrectionForm.getEditMethod());
+        laborCorrectionForm.setPreviousInputGroupId(null);
+        
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 }

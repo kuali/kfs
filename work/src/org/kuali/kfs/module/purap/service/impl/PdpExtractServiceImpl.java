@@ -76,6 +76,10 @@ public class PdpExtractServiceImpl implements PdpExtractService {
     private PaymentDetailService paymentDetailService;
     private CreditMemoService creditMemoService;
 
+    // This should only be set to true when testing this system.  Setting this to true will run the code but
+    // won't set the extracted date on the credit memos or payment requests
+    boolean testMode = false;
+
     public void extractPayments() {
         LOG.debug("extractPayments() started");
 
@@ -147,6 +151,8 @@ public class PdpExtractServiceImpl implements PdpExtractService {
             if ( paymentRequestAmount.compareTo(creditMemoAmount) > 0 ) {
                 PaymentGroup pg = buildPaymentGroup(prds,cmds,batch);
                 paymentGroupService.save(pg);
+                t.count++;
+                t.totalAmount = t.totalAmount.add(pg.getNetPaymentAmount());
 
                 for (Iterator iter = cmds.iterator(); iter.hasNext();) {
                     CreditMemoDocument element = (CreditMemoDocument)iter.next();
@@ -207,7 +213,6 @@ public class PdpExtractServiceImpl implements PdpExtractService {
 
         Iterator<PaymentRequestDocument> prIter = paymentRequestService.getPaymentRequestsToExtractSpecialPayments(campusCode);
         while ( prIter.hasNext() ) {
-            LOG.debug("extractPaymentsForChart() here we are");
             PaymentRequestDocument prd = prIter.next();
 
             PaymentGroup pg = processSinglePaymentRequestDocument(prd, batch, puser, processRunDate);
@@ -220,13 +225,17 @@ public class PdpExtractServiceImpl implements PdpExtractService {
     }
 
     private void updateCreditMemo(CreditMemoDocument cmd,PdpUser puser,Date processRunDate) {
-        cmd.setExtractedDate(new java.sql.Date(processRunDate.getTime()));
-        businessObjectService.save(cmd);
+        if ( ! testMode ) {
+            cmd.setExtractedDate(new java.sql.Date(processRunDate.getTime()));
+            businessObjectService.save(cmd);
+        }
     }
 
     private void updatePaymentRequest(PaymentRequestDocument prd,PdpUser puser,Date processRunDate) {
-        prd.setExtractedDate(new java.sql.Date(processRunDate.getTime()));
-        businessObjectService.save(prd);
+        if ( ! testMode ) {
+            prd.setExtractedDate(new java.sql.Date(processRunDate.getTime()));
+            businessObjectService.save(prd);
+        }
     }
 
     private PaymentGroup buildPaymentGroup(List<PaymentRequestDocument> prds,List<CreditMemoDocument> cmds,Batch batch) {
@@ -260,11 +269,13 @@ public class PdpExtractServiceImpl implements PdpExtractService {
         if ( cmd.getPurapDocumentIdentifier() != null ) {
             pd.setPurchaseOrderNbr(cmd.getPurapDocumentIdentifier().toString());
         }
-        if ( cmd.getPurchaseOrderDocument().getRequisitionIdentifier() != null ) {
-            pd.setRequisitionNbr(cmd.getPurchaseOrderDocument().getRequisitionIdentifier().toString());
-        }
-        if ( cmd.getPurchaseOrderDocument().getDocumentHeader().getOrganizationDocumentNumber() != null ) {
-            pd.setOrganizationDocNbr(cmd.getPurchaseOrderDocument().getDocumentHeader().getOrganizationDocumentNumber());
+        if ( cmd.getPurchaseOrderDocument() != null ) {
+            if ( cmd.getPurchaseOrderDocument().getRequisitionIdentifier() != null ) {
+                pd.setRequisitionNbr(cmd.getPurchaseOrderDocument().getRequisitionIdentifier().toString());
+            }
+            if ( cmd.getPurchaseOrderDocument().getDocumentHeader().getOrganizationDocumentNumber() != null ) {
+                pd.setOrganizationDocNbr(cmd.getPurchaseOrderDocument().getDocumentHeader().getOrganizationDocumentNumber());
+            }
         }
         pd.setFinancialDocumentTypeCode("CM");
         pd.setInvoiceDate(new Timestamp(cmd.getCreditMemoDate().getTime()));
@@ -283,16 +294,16 @@ public class PdpExtractServiceImpl implements PdpExtractService {
                 itemAmount = item.getExtendedPrice().bigDecimalValue();
             }
             if ( PurapConstants.ItemTypeCodes.ITEM_TYPE_PMT_TERMS_DISCOUNT_CODE.equals(item.getItemTypeCode()) ) {
-                discountAmount = discountAmount.add(itemAmount);
+                discountAmount = discountAmount.subtract(itemAmount);
             } else if ( PurapConstants.ItemTypeCodes.ITEM_TYPE_SHIP_AND_HAND_CODE.equals(item.getItemTypeCode()) ) {
-                shippingAmount = shippingAmount.add(itemAmount);
+                shippingAmount = shippingAmount.subtract(itemAmount);
             } else if ( PurapConstants.ItemTypeCodes.ITEM_TYPE_MIN_ORDER_CODE.equals(item.getItemTypeCode()) ) {
-                debitAmount = debitAmount.add(itemAmount);
+                debitAmount = debitAmount.subtract(itemAmount);
             } else if ( PurapConstants.ItemTypeCodes.ITEM_TYPE_MISC_CODE.equals(item.getItemTypeCode()) ) {
                 if ( itemAmount.compareTo(new BigDecimal("0")) < 0 ) {
-                    creditAmount = creditAmount.add(itemAmount);
+                    creditAmount = creditAmount.subtract(itemAmount);
                 } else {
-                    debitAmount = debitAmount.add(itemAmount);
+                    debitAmount = debitAmount.subtract(itemAmount);
                 }
             }
         }

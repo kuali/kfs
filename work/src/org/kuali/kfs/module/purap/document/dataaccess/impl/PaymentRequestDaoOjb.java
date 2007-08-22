@@ -125,7 +125,7 @@ public class PaymentRequestDaoOjb extends PlatformAwareDaoBaseOjb implements Pay
         criteria.addLessOrEqualThan("paymentRequestPayDate", dateTimeService.getCurrentSqlDateMidnight());
 
         if ( paymentRequestIdentifier != null ) {
-            criteria.addEqualTo("paymentRequestIdentifier",paymentRequestIdentifier);
+            criteria.addEqualTo("purapDocumentIdentifier",paymentRequestIdentifier);
         }
         if ( purchaseOrderIdentifier != null ) {
             criteria.addEqualTo("purchaseOrderIdentifier",purchaseOrderIdentifier);

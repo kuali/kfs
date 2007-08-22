@@ -57,6 +57,11 @@ public class PurchasingAccountsPayableActionBase extends KualiAccountingDocument
         SpringContext.getBean(PurapAccountingService.class).updateAccountAmounts(document);
         document.refreshAccountSummary();
         
+        //FIXME: temporary workaround see KULPURAP-1397
+        for (org.kuali.core.bo.Note note : (java.util.List<org.kuali.core.bo.Note>)document.getBoNotes()) {
+            note.refreshReferenceObject("attachment");
+        }
+        
         updateBaseline(document,(PurchasingAccountsPayableFormBase)kualiDocumentFormBase);
     }
 

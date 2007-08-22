@@ -261,12 +261,20 @@ public class PaymentRequestDocumentRule extends AccountsPayableDocumentRuleBase 
         boolean zeroDollar = true;
         GlobalVariables.getErrorMap().clearErrorPath();
         GlobalVariables.getErrorMap().addToErrorPath(RicePropertyConstants.DOCUMENT);
-        for (Iterator itemIter = document.getItems().iterator(); itemIter.hasNext();) {
-            PurchaseOrderItem poi = (PurchaseOrderItem) itemIter.next();
-            KualiDecimal encumberedQuantity = poi.getItemOutstandingEncumberedQuantity() == null ? zero : poi.getItemOutstandingEncumberedQuantity();
-            if (encumberedQuantity.compareTo(zero) == 1) {
-                zeroDollar = false;
-                break;
+        for (PurchaseOrderItem poi : (List<PurchaseOrderItem>)document.getItems()) {
+            if (poi.getItemType().isItemTypeAboveTheLineIndicator() && poi.getItemType().isQuantityBasedGeneralLedgerIndicator()) {                  
+                KualiDecimal encumberedQuantity = poi.getItemOutstandingEncumberedQuantity() == null ? zero : poi.getItemOutstandingEncumberedQuantity();
+                if (encumberedQuantity.compareTo(zero) == 1) {
+                    zeroDollar = false;
+                    break;
+                }
+            }
+            else if (!poi.getItemType().isQuantityBasedGeneralLedgerIndicator() || !poi.getItemType().isItemTypeAboveTheLineIndicator()) {
+                KualiDecimal encumberedAmount = poi.getItemOutstandingEncumberedAmount() == null ? zero : poi.getItemOutstandingEncumberedAmount();
+                if (encumberedAmount.compareTo(zero) == 1) {
+                    zeroDollar = false;
+                    break;
+                }
             }
         }
         if (zeroDollar) {

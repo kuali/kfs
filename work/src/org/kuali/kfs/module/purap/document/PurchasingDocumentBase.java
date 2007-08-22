@@ -1553,13 +1553,14 @@ public abstract class PurchasingDocumentBase extends PurchasingAccountsPayableDo
         this.contractManager = contractManager;
     }
 
-
-    @Override
-    public List buildListOfDeletionAwareLists() {
-        List managedLists = super.buildListOfDeletionAwareLists();
-        managedLists.add(getItems());
-        return managedLists;
-    }
+//TODO: Chris, do we need this ? Wouldn't the superclass (PurchasingAccountsPayableDocumentBase) already add the items to the managedLists ?
+//I thought this may be redundant. The debugger is showing 2 of the Items Lists every time I save a PO and stepped through the OjbCollectionHelper.
+//    @Override
+//    public List buildListOfDeletionAwareLists() {
+//        List managedLists = super.buildListOfDeletionAwareLists();
+//        managedLists.add(getItems());
+//        return managedLists;
+//    }
 
 
     public String getVendorPaymentTermsCode() {

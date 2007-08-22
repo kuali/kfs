@@ -116,16 +116,4 @@ public class PurchaseOrderAccount extends PurApAccountingLineBase {
         this.purchaseOrderItem = purchaseOrderItem;
     }
 
-    /**
-     * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
-     */
-    protected LinkedHashMap toStringMapper() {
-        LinkedHashMap m = new LinkedHashMap();
-        m.put("documentNumber", getDocumentNumber());
-        if (this.getAccountIdentifier() != null) {
-            m.put("accountIdentifier", this.getAccountIdentifier().toString());
-        }
-        return m;
-    }
-
 }

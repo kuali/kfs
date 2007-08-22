@@ -67,21 +67,5 @@ public class RequisitionAccount extends PurApAccountingLineBase {
 	public void setRequisitionItem(RequisitionItem requisitionItem) {
 		this.requisitionItem = requisitionItem;
 	}
-    
-    /**
-	 * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
-	 */
-	protected LinkedHashMap toStringMapper() {
-	    LinkedHashMap m = new LinkedHashMap();	    
-        
-        m.put("chartOfAccountsCode", this.getChartOfAccountsCode());
-        m.put("accountNumber", this.getAccountNumber());
-        m.put("subAccountNumber", this.getSubAccountNumber());
-        m.put("financialObjectCode", this.getFinancialObjectCode());
-        m.put("financialSubObjectCode", this.getFinancialSubObjectCode());
-        m.put("projectCode", this.getProjectCode());
-        m.put("organizationReferenceId", this.getOrganizationReferenceId());
-	    return m;
-    }
 
 }

@@ -64,7 +64,7 @@ public class PurchaseOrderForm extends PurchasingFormBase {
     public PurchaseOrderForm() {
         super();
         setDocument(new PurchaseOrderDocument());
-        this.setNewPurchasingItemLine(setupNewPurchasingItemLine());
+
         setNewPurchaseOrderVendorStipulationLine(new PurchaseOrderVendorStipulation());
         setNewPurchaseOrderVendorQuote(new PurchaseOrderVendorQuote());
         this.accountingLineEditingMode = new HashMap();

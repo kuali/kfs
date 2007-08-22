@@ -20,12 +20,10 @@ import java.math.BigDecimal;
 import java.util.LinkedHashMap;
 import java.util.List;
 
-import org.apache.commons.lang.StringUtils;
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.util.TypedArrayList;
-import org.kuali.kfs.KFSConstants;
 import org.kuali.module.purap.PurapConstants;
 
 /**
@@ -73,7 +71,8 @@ public abstract class PurApItemBase extends PersistableBusinessObjectBase implem
 	}
 	
     public String getItemIdentifierString() {
-        String identifierString = (getItemType().isItemTypeAboveTheLineIndicator() ? "Item " + getItemLineNumber().toString() : getItemType().getItemTypeDescription()); 
+        String itemLineNumberString = (getItemLineNumber() != null ? getItemLineNumber().toString() : "");
+        String identifierString = (getItemType().isItemTypeAboveTheLineIndicator() ? "Item " + itemLineNumberString : getItemType().getItemTypeDescription()); 
         return identifierString;
     }
     

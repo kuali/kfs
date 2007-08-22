@@ -42,7 +42,6 @@ import org.kuali.module.purap.bo.PurApAccountingLine;
 import org.kuali.module.purap.bo.PurchasingApItem;
 import org.kuali.module.purap.document.PurchasingAccountsPayableDocument;
 import org.kuali.module.purap.rule.AddPurchasingAccountsPayableItemRule;
-import org.kuali.module.purap.util.PurApItemUtils;
 
 import edu.iu.uis.eden.exception.WorkflowException;
 
@@ -79,6 +78,16 @@ public class PurchasingAccountsPayableDocumentRuleBase extends AccountingDocumen
         
         return isValid;
     }
+    
+    @Override
+    public boolean processDeleteAccountingLineBusinessRules(AccountingDocument financialDocument, AccountingLine accountingLine, boolean lineWasAlreadyDeletedFromDocument) {
+        //I think PURAP's accounting line is a bit different than other documents. The source accounting line is per item, not per document.
+        //Besides, we already have other item validations that determined whether the items contain at least one account wherever applicable.
+        //So this will be redundant if we do another validation, therefore we'll return true here so that it would not give the error about
+        //can't delete the last remaining accessible account anymore.
+        return true;
+    }
+
     
     /**
      * This method calls each tab specific validation.  Tabs included on all PURAP docs are:
@@ -156,6 +165,7 @@ public class PurchasingAccountsPayableDocumentRuleBase extends AccountingDocumen
             item.refreshNonUpdateableReferences();
             
             //do the DD validation first, I wonder if the original one from DocumentRuleBase is broken ? 
+            GlobalVariables.getErrorMap().addToErrorPath(PurapConstants.ITEM_TAB_ERROR_PROPERTY);
             getDictionaryValidationService().validateBusinessObject(item);
             
             if (item.isConsideredEntered()) {
@@ -326,6 +336,7 @@ public class PurchasingAccountsPayableDocumentRuleBase extends AccountingDocumen
         }
         //We can't invoke the verifyUniqueAccountingStrings in here because otherwise it would be invoking it more than once, if we're also
         //calling it upon Save.
+        valid &= verifyUniqueAccountingStrings(purAccounts, PurapConstants.ITEM_TAB_ERROR_PROPERTY, itemLineNumber);
         return valid;
     }
 
@@ -424,14 +435,14 @@ public class PurchasingAccountsPayableDocumentRuleBase extends AccountingDocumen
      * @param itemLineNumber
      * @return
      */
-    protected boolean verifyUniqueAccountingStrings(List<PurApAccountingLine> purAccounts, String errorPropertyName, String itemIdentifier) {
+    protected boolean verifyUniqueAccountingStrings(List<PurApAccountingLine> purAccounts, String errorPropertyName, String itemLineNumber) {
         Set existingAccounts = new HashSet();
         for (PurApAccountingLine acct : purAccounts) {
             if (!existingAccounts.contains(acct.toString())) {
                 existingAccounts.add(acct.toString());
             }
             else {
-                GlobalVariables.getErrorMap().putError(errorPropertyName, PurapKeyConstants.ERROR_ITEM_ACCOUNTING_NOT_UNIQUE, itemIdentifier);
+                GlobalVariables.getErrorMap().putError(PurapConstants.ITEM_TAB_ERROR_PROPERTY, PurapKeyConstants.ERROR_ITEM_ACCOUNTING_NOT_UNIQUE, itemLineNumber);
                 return false;
             }
         }

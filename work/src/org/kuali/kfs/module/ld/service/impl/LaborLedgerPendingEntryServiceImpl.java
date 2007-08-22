@@ -23,9 +23,11 @@ import java.util.Map;
 
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.KualiRuleService;
+import org.kuali.core.service.LookupService;
 import org.kuali.core.util.GeneralLedgerPendingEntrySequenceHelper;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.bo.AccountingLine;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.labor.bo.LaborLedgerPendingEntry;
 import org.kuali.module.labor.dao.LaborLedgerPendingEntryDao;
@@ -61,8 +63,9 @@ public class LaborLedgerPendingEntryServiceImpl implements LaborLedgerPendingEnt
      * @see org.kuali.module.labor.service.LaborLedgerPendingEntryService#hasPendingLaborLedgerEntry(java.util.Map)
      */
     public boolean hasPendingLaborLedgerEntry(Map fieldValues) {
-        Collection<LaborLedgerPendingEntry> pendingEntries = businessObjectService.findMatching(LaborLedgerPendingEntry.class, fieldValues);
-
+        LOG.info("hasPendingLaborLedgerEntry(Map fieldValues) started");
+        Collection<LaborLedgerPendingEntry> pendingEntries = SpringContext.getBean(LookupService.class).findCollectionBySearch(LaborLedgerPendingEntry.class, fieldValues);
+        
         // When the financial Document Approved Code equals 'X' it means the pending labor ledger transaction has been processed
         for (LaborLedgerPendingEntry pendingLedgerEntry : pendingEntries) {
             String approvedCode = pendingLedgerEntry.getFinancialDocumentApprovedCode();

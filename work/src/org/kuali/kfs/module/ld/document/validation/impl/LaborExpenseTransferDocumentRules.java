@@ -1841,7 +1841,7 @@ public class LaborExpenseTransferDocumentRules extends AccountingDocumentRuleBas
             String accountNumber = sourceAccountingLine.getAccountNumber();
             String objectCode = sourceAccountingLine.getFinancialObjectCode();
             String emplid = sourceAccountingLine.getEmplid();
-            String documentNumber = sourceAccountingLine.getDocumentNumber();
+            String documentNumber = accountingDocument.getDocumentNumber();
 
             fieldValues.put(KFSPropertyConstants.PAYROLL_END_DATE_FISCAL_PERIOD_CODE, payPeriodCode);
             fieldValues.put(KFSPropertyConstants.ACCOUNT_NUMBER, accountNumber);

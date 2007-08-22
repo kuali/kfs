@@ -21,11 +21,13 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import org.kuali.RiceConstants;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.KualiRuleService;
 import org.kuali.core.service.LookupService;
 import org.kuali.core.util.GeneralLedgerPendingEntrySequenceHelper;
 import org.kuali.kfs.KFSConstants;
+import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.bo.AccountingLine;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.chart.bo.Account;
@@ -64,16 +66,12 @@ public class LaborLedgerPendingEntryServiceImpl implements LaborLedgerPendingEnt
      */
     public boolean hasPendingLaborLedgerEntry(Map fieldValues) {
         LOG.info("hasPendingLaborLedgerEntry(Map fieldValues) started");
+        
+        fieldValues.put(KFSPropertyConstants.FINANCIAL_DOCUMENT_APPROVED_CODE, RiceConstants.NOT_LOGICAL_OPERATOR + KFSConstants.PENDING_ENTRY_APPROVED_STATUS_CODE.PROCESSED);
         Collection<LaborLedgerPendingEntry> pendingEntries = SpringContext.getBean(LookupService.class).findCollectionBySearch(LaborLedgerPendingEntry.class, fieldValues);
         
-        // When the financial Document Approved Code equals 'X' it means the pending labor ledger transaction has been processed
-        for (LaborLedgerPendingEntry pendingLedgerEntry : pendingEntries) {
-            String approvedCode = pendingLedgerEntry.getFinancialDocumentApprovedCode();
-            if (!KFSConstants.PENDING_ENTRY_APPROVED_STATUS_CODE.PROCESSED.equals(approvedCode)) {
-                return true;
-            }
-        }
-        return false;
+        int numOfPendingEntries = pendingEntries == null ? 0 : pendingEntries.size();        
+        return numOfPendingEntries>0;
     }
 
     /**

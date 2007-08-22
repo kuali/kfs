@@ -25,9 +25,9 @@ import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.KualiRuleService;
 import org.kuali.core.util.GeneralLedgerPendingEntrySequenceHelper;
 import org.kuali.core.util.TransactionalServiceUtils;
+import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.bo.AccountingLine;
 import org.kuali.module.chart.bo.Account;
-import org.kuali.module.chart.bo.ObjectCode;
 import org.kuali.module.labor.bo.LaborLedgerPendingEntry;
 import org.kuali.module.labor.dao.LaborLedgerPendingEntryDao;
 import org.kuali.module.labor.document.LaborLedgerPostingDocument;
@@ -47,6 +47,9 @@ public class LaborLedgerPendingEntryServiceImpl implements LaborLedgerPendingEnt
     private KualiRuleService kualiRuleService;
     private BusinessObjectService businessObjectService;
 
+    /**
+     * @see org.kuali.module.labor.service.LaborLedgerPendingEntryService#hasPendingLaborLedgerEntry(org.kuali.module.chart.bo.Account)
+     */
     public boolean hasPendingLaborLedgerEntry(Account account) {
         Map fieldValues = new HashMap();
         fieldValues.put("chartOfAccountsCode", account.getChartOfAccountsCode());
@@ -55,41 +58,20 @@ public class LaborLedgerPendingEntryServiceImpl implements LaborLedgerPendingEnt
         return businessObjectService.countMatching(LaborLedgerPendingEntry.class, fieldValues) > 0;
     }
 
-    public boolean hasPendingLaborLedgerEntry(String emplid) {
-
-        Map fieldValues = new HashMap();
-        fieldValues.put("emplid", emplid);
+    /**
+     * @see org.kuali.module.labor.service.LaborLedgerPendingEntryService#hasPendingLaborLedgerEntry(java.util.Map)
+     */
+    public boolean hasPendingLaborLedgerEntry(Map fieldValues) {
         Collection<LaborLedgerPendingEntry> pendingEntries = businessObjectService.findMatching(LaborLedgerPendingEntry.class, fieldValues);
 
         // When the financial Document Approved Code equals 'X' it means the pending labor ledger transaction has been processed
         for (LaborLedgerPendingEntry pendingLedgerEntry : pendingEntries) {
-            if ((pendingLedgerEntry.getFinancialDocumentApprovedCode() == null) || (!pendingLedgerEntry.getFinancialDocumentApprovedCode().trim().equals("X"))) {
+            String approvedCode = pendingLedgerEntry.getFinancialDocumentApprovedCode();
+            if (!KFSConstants.PENDING_ENTRY_APPROVED_STATUS_CODE.PROCESSED.equals(approvedCode)) {
                 return true;
             }
         }
         return false;
-    }
-    
-    public boolean hasPendingLaborLedgerEntry(String documentNumber, String emplid, String payrollEndDateFiscalPeriodCode, String accountNumber, String objectCode) {
-        
-        Map fieldValues = new HashMap();
-        fieldValues.put("documentNumber", documentNumber);
-        fieldValues.put("emplid", emplid);
-        fieldValues.put("payrollEndDateFiscalPeriodCode", payrollEndDateFiscalPeriodCode);
-        fieldValues.put("accountNumber", accountNumber);
-        fieldValues.put("FIN_OBJECT_CD", objectCode);
-        
-        
-        Collection<LaborLedgerPendingEntry> pendingEntries = laborLedgerPendingEntryDao.hasPendingLaborLedgerEntry(fieldValues, LaborLedgerPendingEntry.class);
-
-        // When the financial Document Approved Code equals 'X' it means the pending labor ledger transaction has been processed
-        for (LaborLedgerPendingEntry pendingLedgerEntry : pendingEntries) {
-            if ((pendingLedgerEntry.getFinancialDocumentApprovedCode() == null) || (!pendingLedgerEntry.getFinancialDocumentApprovedCode().trim().equals("X"))) {
-                return true;
-            }
-        }
-        return false;
-        
     }
 
     /**
@@ -120,7 +102,7 @@ public class LaborLedgerPendingEntryServiceImpl implements LaborLedgerPendingEnt
         }
 
         List<AccountingLine> targetAccountingLines = getTargetLines(document);
-        if (targetAccountingLines != null) {           
+        if (targetAccountingLines != null) {
             for (AccountingLine line : targetAccountingLines) {
                 success &= processLaborLedgerPendingEntryForAccountingLine(document, sequenceHelper, line);
             }
@@ -128,10 +110,10 @@ public class LaborLedgerPendingEntryServiceImpl implements LaborLedgerPendingEnt
 
         // compare source and target accounting lines, and generate benefit clearing liens as needed
         success &= processGenerateLaborLedgerBenefitClearingEntries(document, sequenceHelper);
-        
+
         return success;
     }
-    
+
     private List<AccountingLine> getSourceLines(LaborLedgerPostingDocument document) {
         return (List<AccountingLine>) document.getSourceAccountingLines();
     }
@@ -163,8 +145,9 @@ public class LaborLedgerPendingEntryServiceImpl implements LaborLedgerPendingEnt
         boolean success = true;
 
         // abyrne commented out the lines below to fix the build
-        //GenerateLaborLedgerBenefitClearingPendingEntriesEvent event = new GenerateLaborLedgerBenefitClearingPendingEntriesEvent(document, sequenceHelper);
-        //success &= kualiRuleService.applyRules(event);
+        // GenerateLaborLedgerBenefitClearingPendingEntriesEvent event = new
+        // GenerateLaborLedgerBenefitClearingPendingEntriesEvent(document, sequenceHelper);
+        // success &= kualiRuleService.applyRules(event);
         return success;
     }
 
@@ -209,7 +192,7 @@ public class LaborLedgerPendingEntryServiceImpl implements LaborLedgerPendingEnt
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
     }
-    
+
     /**
      * @see org.kuali.module.gl.service.GeneralLedgerPendingEntryService#findPendingLedgerEntriesForAccountBalance(java.util.Map,
      *      boolean, boolean)

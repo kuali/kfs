@@ -33,6 +33,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.RiceConstants;
 import org.kuali.core.document.Document;
 import org.kuali.core.exceptions.ReferentialIntegrityException;
 import org.kuali.core.service.BusinessObjectService;
@@ -140,6 +141,9 @@ public class LaborExpenseTransferDocumentRules extends AccountingDocumentRuleBas
         // check to ensure totals of accounting lines in source and target sections match by pay FY + pay period
         isValid = isValid & isAccountingLineTotalsMatchByPayFYAndPayPeriod(sourceLines, targetLines);
 
+        // check whether the accounts in source/target accounting lines are valid
+        isValid = isValid && isValidAccount(expenseTransferDocument);
+
         // target accouting lines must have the same amounts as source accounting lines for each object code
         if (isValid) {
             boolean isValidAmountTransferredByObjectCode = isValidAmountTransferredByObjectCode(expenseTransferDocument);
@@ -183,7 +187,7 @@ public class LaborExpenseTransferDocumentRules extends AccountingDocumentRuleBas
                 return false;
             }
         }
-        
+
         // only allow a transfer of benefit dollars up to the amount that already exist in labor ledger detail for a given pay
         // period
         if (isValid) {
@@ -193,8 +197,40 @@ public class LaborExpenseTransferDocumentRules extends AccountingDocumentRuleBas
                 isValid = false;
             }
         }
-        
+
+        // must not have any pending labor ledger entries with same emplId, periodCode, accountNumber, objectCode
+        if (isValid) {
+            boolean hashasPendingLedgerEntry = this.hasPendingLedgerEntry(expenseTransferDocument);
+            isValid = hashasPendingLedgerEntry ? false : true;
+        }
         return isValid;
+    }
+
+    /**
+     * Determine whether the accounts in source/target accounting lines are valid
+     * 
+     * @param accountingDocument the given accounting document
+     * @return true if the accounts in source/target accounting lines are valid; otherwise, false
+     */
+    private boolean isValidAccount(AccountingDocument accountingDocument) {
+        LaborExpenseTransferDocumentBase expenseTransferDocument = (LaborExpenseTransferDocumentBase) accountingDocument;
+
+        for (Object sourceAccountingLine : expenseTransferDocument.getSourceAccountingLines()) {
+            AccountingLine line = (AccountingLine) sourceAccountingLine;
+            if (line.getAccount() == null) {
+                reportError(KFSPropertyConstants.SOURCE_ACCOUNTING_LINES, KFSKeyConstants.ERROR_DOCUMENT_GLOBAL_ACCOUNT_INVALID_ACCOUNT, new String[] { line.getChartOfAccountsCode(), line.getAccountNumber() });
+                return false;
+            }
+        }
+
+        for (Object targetAccountingLine : expenseTransferDocument.getTargetAccountingLines()) {
+            AccountingLine line = (AccountingLine) targetAccountingLine;
+            if (line.getAccount() == null) {
+                reportError(KFSPropertyConstants.TARGET_ACCOUNTING_LINES, KFSKeyConstants.ERROR_DOCUMENT_GLOBAL_ACCOUNT_INVALID_ACCOUNT, new String[] { line.getChartOfAccountsCode(), line.getAccountNumber() });
+                return false;
+            }
+        }
+        return true;
     }
 
     /**
@@ -509,16 +545,16 @@ public class LaborExpenseTransferDocumentRules extends AccountingDocumentRuleBas
         if (periodCode == null) {
             return KualiDecimal.ZERO;
         }
-        
+
         fieldValues.put(KFSPropertyConstants.FINANCIAL_BALANCE_TYPE_CODE, KFSConstants.BALANCE_TYPE_ACTUAL);
         KualiDecimal actualBalanceAmount = this.getBalanceAmountOfGivenPeriod(fieldValues, periodCode);
-        
+
         fieldValues.put(KFSPropertyConstants.FINANCIAL_BALANCE_TYPE_CODE, KFSConstants.BALANCE_TYPE_A21);
         KualiDecimal effortBalanceAmount = this.getBalanceAmountOfGivenPeriod(fieldValues, periodCode);
 
         return actualBalanceAmount.add(effortBalanceAmount);
     }
-    
+
     // get the balance amount for the given period
     private KualiDecimal getBalanceAmountOfGivenPeriod(Map<String, Object> fieldValues, String periodCode) {
         KualiDecimal balanceAmount = KualiDecimal.ZERO;
@@ -1065,13 +1101,16 @@ public class LaborExpenseTransferDocumentRules extends AccountingDocumentRuleBas
     private String getLaborLedgerPendingEntryBenefitChart(AccountingLine accountingLine) {
         String chart = null;
 
+        if (accountingLine.getAccount() == null) {
+            return null;
+        }
+
         if (accountingLine.getAccount().isAccountsFringesBnftIndicator()) {
             chart = accountingLine.getChartOfAccountsCode();
         }
         else {
             chart = accountingLine.getAccount().getReportsToChartOfAccountsCode();
         }
-
         return chart;
     }
 
@@ -1083,6 +1122,9 @@ public class LaborExpenseTransferDocumentRules extends AccountingDocumentRuleBas
      */
     private String getLaborLedgerPendingEntryBenefitAccount(AccountingLine accountingLine) {
         String accountNumber = null;
+        if (accountingLine.getAccount() == null) {
+            return null;
+        }
 
         if (accountingLine.getAccount().isAccountsFringesBnftIndicator()) {
             accountNumber = accountingLine.getAccountNumber();
@@ -1090,7 +1132,6 @@ public class LaborExpenseTransferDocumentRules extends AccountingDocumentRuleBas
         else {
             accountNumber = accountingLine.getAccount().getReportsToAccountNumber();
         }
-
         return accountNumber;
     }
 
@@ -1781,6 +1822,128 @@ public class LaborExpenseTransferDocumentRules extends AccountingDocumentRuleBas
         return false;
     }
 
+
+    /**
+     * determine if there is any pending entry for the source accounting lines of the given document
+     * 
+     * @param accountingDocument the given accounting document
+     * @return true if there is a pending entry for the source accounting lines of the given document; otherwise, false
+     */
+    public boolean hasPendingLedgerEntry(AccountingDocument accountingDocument) {
+        LOG.info("started hasPendingLedgerEntry(accountingDocument)");
+        
+        LaborExpenseTransferDocumentBase expenseTransferDocument = (LaborExpenseTransferDocumentBase) accountingDocument;
+        List<ExpenseTransferAccountingLine> sourceAccountingLines = expenseTransferDocument.getSourceAccountingLines();
+
+        Map<String, String> fieldValues = new HashMap<String, String>();
+        for (ExpenseTransferAccountingLine sourceAccountingLine : sourceAccountingLines) {
+            String payPeriodCode = sourceAccountingLine.getPayrollEndDateFiscalPeriodCode();
+            String accountNumber = sourceAccountingLine.getAccountNumber();
+            String objectCode = sourceAccountingLine.getFinancialObjectCode();
+            String emplid = sourceAccountingLine.getEmplid();
+            String documentNumber = sourceAccountingLine.getDocumentNumber();
+
+            fieldValues.put(KFSPropertyConstants.PAYROLL_END_DATE_FISCAL_PERIOD_CODE, payPeriodCode);
+            fieldValues.put(KFSPropertyConstants.ACCOUNT_NUMBER, accountNumber);
+            fieldValues.put(KFSPropertyConstants.FINANCIAL_OBJECT_CODE, objectCode);
+            fieldValues.put(KFSPropertyConstants.EMPLID, emplid);
+            fieldValues.put(KFSPropertyConstants.DOCUMENT_NUMBER, RiceConstants.NOT_LOGICAL_OPERATOR + documentNumber);
+
+            if (SpringContext.getBean(LaborLedgerPendingEntryService.class).hasPendingLaborLedgerEntry(fieldValues)) {
+                reportError(KFSConstants.EMPLOYEE_LOOKUP_ERRORS, KFSKeyConstants.Labor.PENDING_SALARY_TRANSFER_ERROR, emplid, payPeriodCode, accountNumber, objectCode);
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * determine whether the expired accounts in the target accounting lines can be used.
+     * 
+     * @param accountingDocument the given accounting document
+     * @return true if the expired accounts in the target accounting lines can be used; otherwise, false
+     */
+    protected boolean canExpiredAccountBeUsed(AccountingDocument accountingDocument) {
+        LOG.info("started canExpiredAccountBeUsed(accountingDocument)");
+        List<AccountingLine> accountingLines = accountingDocument.getTargetAccountingLines();
+
+        for (AccountingLine accountingLine : accountingLines) {
+            boolean canExpiredAccountBeUsed = this.canExpiredAccountBeUsed(accountingLine);
+
+            if (!canExpiredAccountBeUsed) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /**
+     * determine whether the expired account in the target accounting line can be used.
+     * 
+     * @param accountingDocument the given accounting line
+     * @return true if the expired account in the target accounting line can be used; otherwise, false
+     */
+    protected boolean canExpiredAccountBeUsed(AccountingLine accountingLine) {
+        LOG.debug("started canExpiredAccountBeUsed(accountingLine)");
+
+        Account account = accountingLine.getAccount();
+        if (account != null && account.isExpired()) {
+            String overrideCode = accountingLine.getOverrideCode();
+            boolean canExpiredAccountUsed = EXPIRED_ACCOUNT.equals(overrideCode);
+            canExpiredAccountUsed = canExpiredAccountUsed || EXPIRED_ACCOUNT_AND_NON_FRINGE_ACCOUNT_USED.equals(overrideCode);
+
+            if (!canExpiredAccountUsed) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /**
+     * build the field-value maps throught the given accouting line
+     * 
+     * @param accountingLine the given accounting line
+     * @return the field-value maps built from the given accouting line
+     */
+    protected Map<String, Object> buildFieldValueMap(ExpenseTransferAccountingLine accountingLine) {
+        Map<String, Object> fieldValues = new HashMap<String, Object>();
+
+        fieldValues.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, accountingLine.getPostingYear());
+        fieldValues.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, accountingLine.getChartOfAccountsCode());
+        fieldValues.put(KFSPropertyConstants.ACCOUNT_NUMBER, accountingLine.getAccountNumber());
+
+        String subAccountNumber = accountingLine.getSubAccountNumber();
+        subAccountNumber = StringUtils.isBlank(subAccountNumber) ? KFSConstants.getDashSubAccountNumber() : subAccountNumber;
+        fieldValues.put(KFSPropertyConstants.SUB_ACCOUNT_NUMBER, subAccountNumber);
+
+        fieldValues.put(KFSPropertyConstants.FINANCIAL_BALANCE_TYPE_CODE, accountingLine.getBalanceTypeCode());
+        fieldValues.put(KFSPropertyConstants.FINANCIAL_OBJECT_CODE, accountingLine.getFinancialObjectCode());
+
+        Options options = SpringContext.getBean(OptionsService.class).getOptions(accountingLine.getPostingYear());
+        fieldValues.put(KFSPropertyConstants.FINANCIAL_OBJECT_TYPE_CODE, options.getFinObjTypeExpenditureexpCd());
+
+        String subObjectCode = accountingLine.getFinancialSubObjectCode();
+        subObjectCode = StringUtils.isBlank(subObjectCode) ? KFSConstants.getDashFinancialSubObjectCode() : subObjectCode;
+        fieldValues.put(KFSPropertyConstants.FINANCIAL_SUB_OBJECT_CODE, subObjectCode);
+
+        fieldValues.put(KFSPropertyConstants.EMPLID, accountingLine.getEmplid());
+        fieldValues.put(KFSPropertyConstants.POSITION_NUMBER, accountingLine.getPositionNumber());
+
+        return fieldValues;
+    }
+
+    /**
+     * This method is used to verify if the select labor object code is active.
+     * 
+     * @param accountingDocument
+     * @return
+     */
+    protected boolean isActiveLaborObjectCode(AccountingDocument accountingDocument) {
+        LOG.debug("started -- isActiveLaborObjectCode");
+        LOG.debug("finished -- isActiveLaborObjectCode");
+        return true;
+    }
+
     /**
      * util class that contains common algorithms for determining debit amounts
      */
@@ -1972,29 +2135,8 @@ public class LaborExpenseTransferDocumentRules extends AccountingDocumentRuleBas
         }
 
         /**
-         * <ol>
-         * <li>accounting line section (source/target) and object type is included in determining if a line is debit or credit.
-         * <li> negative line amounts are <b>Only</b> allowed during error correction
-         * </ol>
-         * the following are credits (return false)
-         * <ol>
-         * <li> <code>isSourceLine && (isExpense || isAsset) && (lineAmount > 0)</code>
-         * <li> <code>isTargetLine && (isIncome || isLiability) && (lineAmount > 0)</code>
-         * <li> <code>isErrorCorrection && isSourceLine && (isIncome || isLiability) && (lineAmount < 0)</code>
-         * <li> <code>isErrorCorrection && isTargetLine && (isExpense || isAsset) && (lineAmount < 0)</code>
-         * </ol>
-         * the following are debits (return true)
-         * <ol>
-         * <li> <code>isSourceLine && (isIncome || isLiability) && (lineAmount > 0)</code>
-         * <li> <code>isTargetLine && (isExpense || isAsset) && (lineAmount > 0)</code>
-         * <li> <code>isErrorCorrection && (isExpense || isAsset) && (lineAmount < 0)</code>
-         * <li> <code>isErrorCorrection && (isIncome || isLiability) && (lineAmount < 0)</code>
-         * </ol>
-         * the following are invalid ( throws an <code>IllegalStateException</code>)
-         * <ol>
-         * <li> <code>!isErrorCorrection && !(lineAmount > 0)</code>
-         * <li> <code>isErrorCorrection && !(lineAmount < 0)</code>
-         * </ol>
+         * accounting line section (source/target) and object type is included in determining if a line is debit or credit. negative
+         * line amounts are <b>Only</b> allowed during error correction
          * 
          * @param rule
          * @param accountingDocument
@@ -2078,96 +2220,5 @@ public class LaborExpenseTransferDocumentRules extends AccountingDocumentRuleBas
 
             return isErrorCorrection;
         }
-
     }
-
-    
-
-    /**
-     * determine whether the expired accounts in the target accounting lines can be used.
-     * 
-     * @param accountingDocument the given accounting document
-     * @return true if the expired accounts in the target accounting lines can be used; otherwise, false
-     */
-    protected boolean canExpiredAccountBeUsed(AccountingDocument accountingDocument) {
-        LOG.info("started canExpiredAccountBeUsed(accountingDocument)");
-        List<AccountingLine> accountingLines = accountingDocument.getTargetAccountingLines();
-
-        for (AccountingLine accountingLine : accountingLines) {
-            boolean canExpiredAccountBeUsed = this.canExpiredAccountBeUsed(accountingLine);
-
-            if (!canExpiredAccountBeUsed) {
-                return false;
-            }
-        }
-        return true;
-    }
-
-    /**
-     * determine whether the expired account in the target accounting line can be used.
-     * 
-     * @param accountingDocument the given accounting line
-     * @return true if the expired account in the target accounting line can be used; otherwise, false
-     */
-    protected boolean canExpiredAccountBeUsed(AccountingLine accountingLine) {
-        LOG.debug("started canExpiredAccountBeUsed(accountingLine)");
-
-        Account account = accountingLine.getAccount();
-        if (account != null && account.isExpired()) {
-            String overrideCode = accountingLine.getOverrideCode();
-            boolean canExpiredAccountUsed = EXPIRED_ACCOUNT.equals(overrideCode);
-            canExpiredAccountUsed = canExpiredAccountUsed || EXPIRED_ACCOUNT_AND_NON_FRINGE_ACCOUNT_USED.equals(overrideCode);
-
-            if (!canExpiredAccountUsed) {
-                return false;
-            }
-        }
-        return true;
-    }
-
-    /**
-     * build the field-value maps throught the given accouting line
-     * 
-     * @param accountingLine the given accounting line
-     * @return the field-value maps built from the given accouting line
-     */
-    protected Map<String, Object> buildFieldValueMap(ExpenseTransferAccountingLine accountingLine) {
-        Map<String, Object> fieldValues = new HashMap<String, Object>();
-
-        fieldValues.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, accountingLine.getPostingYear());
-        fieldValues.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, accountingLine.getChartOfAccountsCode());
-        fieldValues.put(KFSPropertyConstants.ACCOUNT_NUMBER, accountingLine.getAccountNumber());
-
-        String subAccountNumber = accountingLine.getSubAccountNumber();
-        subAccountNumber = StringUtils.isBlank(subAccountNumber) ? KFSConstants.getDashSubAccountNumber() : subAccountNumber;
-        fieldValues.put(KFSPropertyConstants.SUB_ACCOUNT_NUMBER, subAccountNumber);
-
-        fieldValues.put(KFSPropertyConstants.FINANCIAL_BALANCE_TYPE_CODE, accountingLine.getBalanceTypeCode());
-        fieldValues.put(KFSPropertyConstants.FINANCIAL_OBJECT_CODE, accountingLine.getFinancialObjectCode());
-
-        Options options = SpringContext.getBean(OptionsService.class).getOptions(accountingLine.getPostingYear());
-        fieldValues.put(KFSPropertyConstants.FINANCIAL_OBJECT_TYPE_CODE, options.getFinObjTypeExpenditureexpCd());
-
-        String subObjectCode = accountingLine.getFinancialSubObjectCode();
-        subObjectCode = StringUtils.isBlank(subObjectCode) ? KFSConstants.getDashFinancialSubObjectCode() : subObjectCode;
-        fieldValues.put(KFSPropertyConstants.FINANCIAL_SUB_OBJECT_CODE, subObjectCode);
-
-        fieldValues.put(KFSPropertyConstants.EMPLID, accountingLine.getEmplid());
-        fieldValues.put(KFSPropertyConstants.POSITION_NUMBER, accountingLine.getPositionNumber());
-
-        return fieldValues;
-    }
-    
-    /**
-     * 
-     * This method is used to verify if the select labor object code is active.
-     * @param accountingDocument
-     * @return
-     */
-    protected boolean isActiveLaborObjectCode(AccountingDocument accountingDocument) {
-        LOG.debug("started -- isActiveLaborObjectCode");
-        LOG.debug("finished -- isActiveLaborObjectCode");
-        return true;
-    }
-  
 }

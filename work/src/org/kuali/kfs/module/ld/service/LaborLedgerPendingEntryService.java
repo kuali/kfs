@@ -20,7 +20,6 @@ import java.util.Iterator;
 import java.util.Map;
 
 import org.kuali.module.chart.bo.Account;
-import org.kuali.module.chart.bo.ObjectCode;
 import org.kuali.module.labor.bo.LaborLedgerPendingEntry;
 import org.kuali.module.labor.document.LaborLedgerPostingDocument;
 
@@ -35,24 +34,15 @@ public interface LaborLedgerPendingEntryService {
      * @param account
      * @return
      */
-
     public boolean hasPendingLaborLedgerEntry(Account account);
 
     /**
-     * This method checks that the given employee has any labor ledger entries?
+     * determine if there is any pending entry that has not been processed for the given criteria
      * 
-     * @param emplid
-     * @return
+     * @param fieldValues the given search criteria
+     * @return true if there is one or more pending entries that have not been processed for the given criteria; otherwise, false
      */
-    public boolean hasPendingLaborLedgerEntry(String emplid);
-    
-    /**
-     * This method checks that the given employee, payrollEndDateFiscalPeriodCode, and accountNumber has any labor ledger entries?
-     * 
-     * @param emplid, payrollEndDateFiscalPeriodCode, accountNumber
-     * @return
-     */
-    public boolean hasPendingLaborLedgerEntry(String documentNumber, String emplid, String payrollEndDateFiscalPeriodCode, String accountNumber, String objectCode);
+    public boolean hasPendingLaborLedgerEntry(Map fieldValues);
 
     /**
      * This method generates labor ledger pending entries.
@@ -75,7 +65,7 @@ public interface LaborLedgerPendingEntryService {
      * @param approvedCode
      */
     public void deleteByFinancialDocumentApprovedCode(String financialDocumentApprovedCode);
-    
+
     /**
      * This method checks for pending ledger entries that match the current balance inquiry
      * 
@@ -91,9 +81,10 @@ public interface LaborLedgerPendingEntryService {
      * @param isApproved Retrieve approved or unapproved entries?
      */
     public Collection findPendingEntries(Map fieldValues, boolean isApproved);
-    
+
     /**
-     * delete pending entries with the given document header id 
+     * delete pending entries with the given document header id
+     * 
      * @param documentHeaderId
      */
     public void delete(String documentHeaderId);

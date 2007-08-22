@@ -25,21 +25,29 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.core.authorization.AuthorizationType;
 import org.kuali.core.exceptions.AuthorizationException;
+import org.kuali.core.exceptions.ModuleAuthorizationException;
 import org.kuali.core.service.BusinessObjectService;
+import org.kuali.core.service.KualiModuleService;
 import org.kuali.core.service.UniversalUserService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.TypedArrayList;
 import org.kuali.core.util.UrlFactory;
 import org.kuali.core.web.struts.action.KualiAction;
+import org.kuali.core.web.struts.form.KualiDocumentFormBase;
+import org.kuali.core.web.struts.form.KualiForm;
 import org.kuali.kfs.KFSConstants;
+import org.kuali.kfs.KFSKeyConstants;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.budget.BCConstants;
 import org.kuali.module.budget.BCConstants.OrgSelOpMode;
 import org.kuali.module.budget.bo.BudgetConstructionOrganizationReports;
 import org.kuali.module.budget.bo.BudgetConstructionPullup;
 import org.kuali.module.budget.service.BudgetOrganizationTreeService;
+import org.kuali.module.budget.service.PermissionService;
 import org.kuali.module.budget.web.struts.form.OrganizationSelectionTreeForm;
+import org.kuali.module.chart.bo.Org;
 
 /**
  * This class...
@@ -65,8 +73,24 @@ public class OrganizationSelectionTreeAction extends KualiAction {
      */
     @Override
     protected void checkAuthorization(ActionForm form, String methodToCall) throws AuthorizationException {
-        // TODO Auto-generated method stub
-        super.checkAuthorization(form, methodToCall);
+
+        AuthorizationType adHocAuthorizationType = new AuthorizationType.AdHocRequest(this.getClass(), methodToCall);
+        if ( !SpringContext.getBean(KualiModuleService.class).isAuthorized( GlobalVariables.getUserSession().getUniversalUser(), adHocAuthorizationType ) ) {
+            LOG.error("User not authorized to use this action: " + this.getClass().getName() );
+            throw new ModuleAuthorizationException( GlobalVariables.getUserSession().getUniversalUser().getPersonUserIdentifier(), adHocAuthorizationType, getKualiModuleService().getResponsibleModule(((KualiForm)form).getClass()) );
+        }
+
+        PermissionService permissionService = SpringContext.getBean(PermissionService.class);
+        try {
+            List<Org> pointOfViewOrgs = permissionService.getOrgReview(GlobalVariables.getUserSession().getNetworkId());
+            if (pointOfViewOrgs.isEmpty()){
+                GlobalVariables.getErrorMap().putError("pointOfViewOrg","error.budget.userNotOrgApprover");
+            }
+            
+        }
+        catch (Exception e){
+            throw new AuthorizationException(GlobalVariables.getUserSession().getUniversalUser().getPersonUserIdentifier(), this.getClass().getName(), "Can't determine organization approver status.");
+        }
     }
 
     /**

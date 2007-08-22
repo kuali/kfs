@@ -23,7 +23,7 @@
 		<property name="moduleUserService" ref="budgetUserService" />
 		<property name="initializeDataDictionary" value="true" />
 		<property name="moduleAuthorizer">
-			<bean class="org.kuali.kfs.authorization.KfsModuleAuthorizerBase">
+			<bean class="org.kuali.module.budget.authorization.BudgetModuleAuthorizer">
 				<property name="packagePrefixes">
 					<list>
 						<value>org.kuali.module.budget.</value>

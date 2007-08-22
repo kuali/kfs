@@ -28,7 +28,7 @@
         <authorizations>
             <authorization action="initiate">
                 <workgroups>
-                    <workgroup>kualiUniversalGroup</workgroup>
+                    <workgroup>PURAP_PUR_ADMIN</workgroup>
                 </workgroups>
             </authorization>
         </authorizations>

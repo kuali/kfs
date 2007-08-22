@@ -37,6 +37,7 @@ import org.kuali.core.util.UrlFactory;
 import org.kuali.core.web.struts.action.KualiAction;
 import org.kuali.core.web.struts.form.KualiDocumentFormBase;
 import org.kuali.core.web.struts.form.KualiForm;
+import org.kuali.core.web.ui.KeyLabelPair;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSKeyConstants;
 import org.kuali.kfs.context.SpringContext;
@@ -110,25 +111,6 @@ public class OrganizationSelectionTreeAction extends KualiAction {
         
         OrganizationSelectionTreeForm orgSelTreeForm = (OrganizationSelectionTreeForm) form;
 
-        OrgSelOpMode opMode = OrgSelOpMode.valueOf(orgSelTreeForm.getOperatingMode());  
-        switch (opMode){
-            case SALSET:
-                orgSelTreeForm.setOperatingModeTitle("Budget Salary Setting Organization Selection");
-                break;
-            case REPORTS:
-                orgSelTreeForm.setOperatingModeTitle("BC Reports Organization Selection");
-                break;
-            case PULLUP:
-                orgSelTreeForm.setOperatingModeTitle("BC Pull Up Organization Selection");
-                break;
-            case PUSHDOWN:
-                orgSelTreeForm.setOperatingModeTitle("BC Push Down Organization Selection");
-                break;
-            default:
-                // default to ACCOUNT operating mode
-                orgSelTreeForm.setOperatingModeTitle("Budgeted Account List Search Organization Selection");
-                break;
-        }
         
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }

@@ -28,6 +28,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.kuali.core.service.PersistenceService;
 import org.kuali.core.util.TypedArrayList;
 import org.kuali.core.web.struts.form.KualiForm;
+import org.kuali.core.web.ui.KeyLabelPair;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.budget.BCConstants.OrgSelOpMode;
 import org.kuali.module.budget.bo.BudgetConstructionOrganizationReports;
@@ -47,6 +48,7 @@ public class OrganizationSelectionTreeForm extends KualiForm {
 
     private String currentPointOfViewKeyCode;
     private String previousPointOfViewKeyCode;
+    private List pullFlagKeyLabels;
 
     //passed parms
     private String returnAnchor;
@@ -61,6 +63,7 @@ public class OrganizationSelectionTreeForm extends KualiForm {
         this.setPointOfViewOrg(new BudgetConstructionOrganizationReports());
         this.setSelectionSubTreeOrgs(new TypedArrayList(BudgetConstructionPullup.class));
         this.setPreviousBranchOrgs(new TypedArrayList(BudgetConstructionPullup.class));
+        this.setPullFlagKeyLabels(new TypedArrayList(KeyLabelPair.class));
         
     }
 
@@ -71,6 +74,42 @@ public class OrganizationSelectionTreeForm extends KualiForm {
     public void populate(HttpServletRequest request) {
         // TODO Auto-generated method stub
         super.populate(request);
+
+        OrgSelOpMode opMode = OrgSelOpMode.valueOf(getOperatingMode());  
+        switch (opMode){
+            case SALSET:
+                setOperatingModeTitle("Budget Salary Setting Organization Selection");
+                getPullFlagKeyLabels().add(new KeyLabelPair(new Integer(0), "No"));
+                getPullFlagKeyLabels().add(new KeyLabelPair(new Integer(1), "Yes"));
+                break;
+            case REPORTS:
+                setOperatingModeTitle("BC Reports Organization Selection");
+                getPullFlagKeyLabels().add(new KeyLabelPair(new Integer(0), "No"));
+                getPullFlagKeyLabels().add(new KeyLabelPair(new Integer(1), "Yes"));
+                break;
+            case PULLUP:
+                setOperatingModeTitle("BC Pull Up Organization Selection");
+                getPullFlagKeyLabels().add(new KeyLabelPair(new Integer(0), "Not Sel"));
+                getPullFlagKeyLabels().add(new KeyLabelPair(new Integer(1), "Org"));
+                getPullFlagKeyLabels().add(new KeyLabelPair(new Integer(2), "Sub Org"));
+                getPullFlagKeyLabels().add(new KeyLabelPair(new Integer(3), "Both"));
+                break;
+            case PUSHDOWN:
+                setOperatingModeTitle("BC Push Down Organization Selection");
+                getPullFlagKeyLabels().add(new KeyLabelPair(new Integer(0), "Not Sel"));
+                getPullFlagKeyLabels().add(new KeyLabelPair(new Integer(1), "Org Lev"));
+                getPullFlagKeyLabels().add(new KeyLabelPair(new Integer(2), "Mgr Lev"));
+                getPullFlagKeyLabels().add(new KeyLabelPair(new Integer(3), "Org&Mgr Lev"));
+                getPullFlagKeyLabels().add(new KeyLabelPair(new Integer(4), "Lev One"));
+                getPullFlagKeyLabels().add(new KeyLabelPair(new Integer(5), "Lev Zero"));
+                break;
+            default:
+                // default to ACCOUNT operating mode
+                setOperatingModeTitle("Budgeted Account List Search Organization Selection");
+                getPullFlagKeyLabels().add(new KeyLabelPair(new Integer(0), "No"));
+                getPullFlagKeyLabels().add(new KeyLabelPair(new Integer(1), "Yes"));
+                break;
+        }
 
     }
 
@@ -254,6 +293,22 @@ public class OrganizationSelectionTreeForm extends KualiForm {
      */
     public void setPreviousBranchOrgs(List<BudgetConstructionPullup> previousBranchOrgs) {
         this.previousBranchOrgs = previousBranchOrgs;
+    }
+
+    /**
+     * Gets the pullFlagKeyLabels attribute. 
+     * @return Returns the pullFlagKeyLabels.
+     */
+    public List getPullFlagKeyLabels() {
+        return pullFlagKeyLabels;
+    }
+
+    /**
+     * Sets the pullFlagKeyLabels attribute value.
+     * @param pullFlagKeyLabels The pullFlagKeyLabels to set.
+     */
+    public void setPullFlagKeyLabels(List pullFlagKeyLabels) {
+        this.pullFlagKeyLabels = pullFlagKeyLabels;
     }
 
 

@@ -164,42 +164,54 @@ public class PosterServiceImpl implements PosterService {
         }
 
         int ecount = 0;
-        if ((mode == PosterService.MODE_ENTRIES) || (mode == PosterService.MODE_ICR)) {
-            LOG.debug("postEntries() Processing groups");
-            for (Iterator iter = groups.iterator(); iter.hasNext();) {
-                OriginEntryGroup group = (OriginEntryGroup) iter.next();
-
-                Iterator entries = originEntryService.getEntriesByGroup(group);
-                while (entries.hasNext()) {
-                    Transaction tran = (Transaction) entries.next();
-
-                    postTransaction(tran, mode, reportSummary, reportError, invalidGroup, validGroup, runUniversityDate);
-                    LOG.info("postEntries() Posted Entry " + (++ecount));
+        try {
+            if ((mode == PosterService.MODE_ENTRIES) || (mode == PosterService.MODE_ICR)) {
+                LOG.debug("postEntries() Processing groups");
+                for (Iterator iter = groups.iterator(); iter.hasNext();) {
+                    OriginEntryGroup group = (OriginEntryGroup) iter.next();
+    
+                    Iterator entries = originEntryService.getEntriesByGroup(group);
+                    while (entries.hasNext()) {
+                        Transaction tran = (Transaction) entries.next();
+    
+                        postTransaction(tran, mode, reportSummary, reportError, invalidGroup, validGroup, runUniversityDate);
+                        
+                        if (++ecount % 1000 == 0) {
+                            LOG.info("postEntries() Posted Entry " + ecount);
+                        }
+                    }
+    
+                    // Mark this group so we don't process it again next time the poster runs
+                    group.setProcess(Boolean.FALSE);
+                    originEntryGroupService.save(group);
                 }
-
-                // Mark this group so we don't process it again next time the poster runs
-                group.setProcess(Boolean.FALSE);
-                originEntryGroupService.save(group);
             }
-        }
-        else {
-            LOG.debug("postEntries() Processing reversal transactions");
-            
-            final String GL_REVERSAL_T = MetadataManager.getInstance().getGlobalRepository().getDescriptorFor(Reversal.class).getFullTableName();
-            
-            while (reversalTransactions.hasNext()) {
-                Transaction tran = (Transaction) reversalTransactions.next();
-                addReporting(reportSummary, GL_REVERSAL_T, GLConstants.SELECT_CODE);
-
-                postTransaction(tran, mode, reportSummary, reportError, invalidGroup, validGroup, runUniversityDate);
-
-                LOG.info("postEntries() Posted Entry " + (++ecount));
+            else {
+                LOG.debug("postEntries() Processing reversal transactions");
+                
+                final String GL_REVERSAL_T = MetadataManager.getInstance().getGlobalRepository().getDescriptorFor(Reversal.class).getFullTableName();
+                
+                while (reversalTransactions.hasNext()) {
+                    Transaction tran = (Transaction) reversalTransactions.next();
+                    addReporting(reportSummary, GL_REVERSAL_T, GLConstants.SELECT_CODE);
+    
+                    postTransaction(tran, mode, reportSummary, reportError, invalidGroup, validGroup, runUniversityDate);
+                    
+                    if (++ecount % 1000 == 0) {
+                        LOG.info("postEntries() Posted Entry " + ecount);
+                    }
+                }
+    
+                // Report Reversal poster valid transactions
+                reportService.generatePosterReversalTransactionsListing(runDate, validGroup);
             }
-
-            // Report Reversal poster valid transactions
-            reportService.generatePosterReversalTransactionsListing(runDate, validGroup);
+        } catch (RuntimeException e) {
+            LOG.info("postEntries() failed posting Entry " + ecount);
+            throw e;
         }
 
+        LOG.info("postEntries() done, total count = " + ecount);
+        
         // Generate the reports
         reportService.generatePosterStatisticsReport(runDate, reportSummary, transactionPosters, reportError, mode);
         reportService.generatePosterErrorTransactionListing(runDate, invalidGroup, mode);

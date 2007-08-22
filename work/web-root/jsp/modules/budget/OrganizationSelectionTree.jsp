@@ -31,7 +31,7 @@
 	<html-el:hidden name="KualiForm" property="returnFormKey" />
 	<html-el:hidden name="KualiForm" property="operatingMode" />
 	
-    <kul:errors errorTitle="Errors found in Organization Selection:" />
+    <kul:errors keyMatch="pointOfViewOrg" errorTitle="Errors found in Organization Selection:" />
     <kul:messages/>
 
     <table align="center" cellpadding="0" cellspacing="0" class="datatable-100">

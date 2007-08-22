@@ -26,6 +26,7 @@ import org.apache.ojb.broker.query.ReportQueryByCriteria;
 import org.kuali.core.dao.ojb.PlatformAwareDaoBaseOjb;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSPropertyConstants;
+import org.kuali.kfs.util.KFSUtils;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.Org;
 import org.kuali.module.chart.dao.OrganizationDao;
@@ -143,7 +144,7 @@ public class OrganizationDaoOjb extends PlatformAwareDaoBaseOjb implements Organ
            getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(rptQuery); 
        if (Results.hasNext())
        {
-           Object[] returnList = (Object[]) Results.next();
+           Object[] returnList = (Object[]) KFSUtils.retrieveFirstAndExhaustIterator(Results);
            returnValues[0] = (String) returnList[0];
            returnValues[1] = (String) returnList[1];
        }

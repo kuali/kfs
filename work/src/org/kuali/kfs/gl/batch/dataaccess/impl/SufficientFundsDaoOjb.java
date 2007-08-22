@@ -27,6 +27,7 @@ import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
+import org.kuali.kfs.util.KFSUtils;
 import org.kuali.module.gl.bo.SufficientFundBalances;
 import org.kuali.module.gl.dao.SufficientFundsDao;
 
@@ -353,11 +354,7 @@ public class SufficientFundsDaoOjb extends PlatformAwareDaoBaseOjb implements Su
     private KualiDecimal executeReportQuery(ReportQueryByCriteria reportQuery) {
         Iterator iterator = getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(reportQuery);
         if (iterator.hasNext()) {
-            KualiDecimal returnResult = (KualiDecimal) ((Object[]) iterator.next())[0];
-            // finish up the iterator so that the underlying database cursor is closed
-            while (iterator.hasNext()) {
-                iterator.next();
-            }
+            KualiDecimal returnResult = (KualiDecimal) ((Object[]) KFSUtils.retrieveFirstAndExhaustIterator(iterator))[0];
             return returnResult;
         }
         else {

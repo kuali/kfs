@@ -47,6 +47,7 @@ import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.KFSConstants.BudgetConstructionConstants;
 import org.kuali.kfs.KFSConstants.ParameterValues;
 import org.kuali.kfs.context.SpringContext;
+import org.kuali.kfs.util.KFSUtils;
 import org.kuali.module.budget.bo.BudgetConstructionAccountOrganizationHierarchy;
 import org.kuali.module.budget.bo.BudgetConstructionAccountReports;
 import org.kuali.module.budget.bo.BudgetConstructionCalculatedSalaryFoundationTracker;
@@ -226,17 +227,6 @@ public class GenesisDaoOjb extends PlatformAwareDaoBaseOjb
     // sensibilities, the offended are free to change the copy of the code they are
     // using.
     //***********************************************************
-    private void closeDBResources(Iterator resultSet)
-    {
-        // even if an iterator from an OJB query has only one row, it is necessary
-        // to do the final hasNext on the Iterator, or DB resources will remain open
-        while (resultSet.hasNext())
-        {
-            // there should be at most one row
-            resultSet.next();
-        }
-    }
-    
     private Integer hashCapacity(Integer hashSize)
     {
         // this corresponds to a little more than the default load factor of .75
@@ -255,9 +245,9 @@ public class GenesisDaoOjb extends PlatformAwareDaoBaseOjb
             new ReportQueryByCriteria(classID, selectList, criteriaID);
         Iterator resultRows = 
             getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(queryID);
-        while (resultRows.hasNext())
+        if (resultRows.hasNext())
         {
-            return(hashCapacity(((BigDecimal)((Object[]) resultRows.next())[0]).intValue()));
+            return(hashCapacity(((BigDecimal)((Object[]) KFSUtils.retrieveFirstAndExhaustIterator(resultRows))[0]).intValue()));
         }
         return (new Integer(1));
     }
@@ -272,9 +262,9 @@ public class GenesisDaoOjb extends PlatformAwareDaoBaseOjb
             new ReportQueryByCriteria(classID, selectList, criteriaID);
         Iterator resultRows = 
             getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(queryID);
-        while (resultRows.hasNext())
+        if (resultRows.hasNext())
         {
-            return(hashCapacity(((BigDecimal)((Object[]) resultRows.next())[0]).intValue()));
+            return(hashCapacity(((BigDecimal)((Object[]) KFSUtils.retrieveFirstAndExhaustIterator(resultRows))[0]).intValue()));
         }
         return (new Integer(1));
     }
@@ -2285,7 +2275,7 @@ public class GenesisDaoOjb extends PlatformAwareDaoBaseOjb
                        problemChart,problemObject,BaseYear));
               continue;
           }
-          ObjectCode baseYearObject = (ObjectCode) Results.next();
+          ObjectCode baseYearObject = (ObjectCode) KFSUtils.retrieveFirstAndExhaustIterator(Results);
           baseYearObject.setUniversityFiscalYear(RequestYear);
           baseYearObject.setActive(false);
           getPersistenceBrokerTemplate().store(baseYearObject);
@@ -2923,7 +2913,7 @@ public class GenesisDaoOjb extends PlatformAwareDaoBaseOjb
            getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(queryID);
        if (ovrdIter.hasNext())
        {
-           BigDecimal resultValue = (BigDecimal) ((Object[]) ovrdIter.next())[0];
+           BigDecimal resultValue = (BigDecimal) ((Object[]) KFSUtils.retrieveFirstAndExhaustIterator(ovrdIter))[0];
            acctCount = acctCount +
                        (Integer) resultValue.intValue();  
        }
@@ -2934,7 +2924,7 @@ public class GenesisDaoOjb extends PlatformAwareDaoBaseOjb
            getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(queryCSF);
        if (csfIter.hasNext())
        {
-           BigDecimal resultValue = (BigDecimal) ((Object[]) csfIter.next())[0];
+           BigDecimal resultValue = (BigDecimal) ((Object[]) KFSUtils.retrieveFirstAndExhaustIterator(csfIter))[0];
            acctCount = acctCount +
                        (Integer) resultValue.intValue();  
        }
@@ -4054,7 +4044,7 @@ public class GenesisDaoOjb extends PlatformAwareDaoBaseOjb
       getPersistenceBrokerTemplate().store(bcaf);
       CSFBCAFRowsMarkedDeleted = CSFBCAFRowsMarkedDeleted+1;
       // we also need to exhaust the iterator, so OJB will close the cursor (Oracle)
-      closeDBResources(resultSet);
+      KFSUtils.exhaustIterator(resultSet);
     }
 
 //     this is an inner class which will store the data we need to perform the rounding,
@@ -4418,7 +4408,7 @@ public class GenesisDaoOjb extends PlatformAwareDaoBaseOjb
             getPersistenceBrokerTemplate().getIteratorByQuery(queryID);
         if (itr.hasNext())
         {
-           newDoc = itr.next();  
+           newDoc = KFSUtils.retrieveFirstAndExhaustIterator(itr);  
         }
         return newDoc;
     }

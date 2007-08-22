@@ -53,6 +53,7 @@ import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.KFSConstants.BudgetConstructionConstants;
 import org.kuali.kfs.bo.Options;
+import org.kuali.kfs.util.KFSUtils;
 
 
 
@@ -550,7 +551,7 @@ implements FiscalYearInitiatorDao {
         if (resultRow.hasNext())
         {
             currentFiscalYear = (Integer) ((BigDecimal)
-                        ((Object[]) resultRow.next())[0]).intValue();
+                        ((Object[]) KFSUtils.retrieveFirstAndExhaustIterator(resultRow))[0]).intValue();
         }
         //TODO:
         LOG.debug(String.format("\nreturned from fiscalYearFromToday: %d",

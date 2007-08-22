@@ -29,6 +29,7 @@ import org.springframework.dao.DataAccessException;
 import org.kuali.core.dao.ojb.PlatformAwareDaoBaseOjb;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSPropertyConstants;
+import org.kuali.kfs.util.KFSUtils;
 import org.kuali.module.financial.bo.CashieringItemInProcess;
 import org.kuali.module.financial.bo.Check;
 import org.kuali.module.financial.bo.CheckBase;
@@ -255,7 +256,7 @@ public class CashManagementDaoOjb extends PlatformAwareDaoBaseOjb implements Cas
             cmChecksQuery.addOrderByDescending("sequenceId");
             Iterator allChecksIter = getPersistenceBrokerTemplate().getIteratorByQuery(cmChecksQuery);
             if (allChecksIter.hasNext()) {
-                return new Integer((((Check)allChecksIter.next()).getSequenceId()).intValue() + 1);
+                return new Integer((((Check)KFSUtils.retrieveFirstAndExhaustIterator(allChecksIter)).getSequenceId()).intValue() + 1);
             } else {
                 return new Integer(1);
             }

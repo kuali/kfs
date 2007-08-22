@@ -22,6 +22,7 @@ import org.apache.ojb.broker.query.QueryByCriteria;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.kuali.core.dao.ojb.PlatformAwareDaoBaseOjb;
 import org.kuali.kfs.KFSConstants;
+import org.kuali.kfs.util.KFSUtils;
 import org.kuali.module.cg.bo.Close;
 import org.kuali.module.cg.dao.CloseDao;
 import org.springmodules.orm.ojb.PersistenceBrokerTemplate;
@@ -43,7 +44,7 @@ public class CloseDaoOjb extends PlatformAwareDaoBaseOjb implements CloseDao {
         Iterator i = template.getIteratorByQuery(query);
         if(null != i) {
             if(i.hasNext()) {
-                Close close = (Close) i.next();
+                Close close = (Close) KFSUtils.retrieveFirstAndExhaustIterator(i);
                 if(null == close.getAwardClosedCount()) {
                     close.setAwardClosedCount(0L);
                 }

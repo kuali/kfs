@@ -38,6 +38,7 @@ import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.dao.GeneralLedgerPendingEntryDao;
+import org.kuali.kfs.util.KFSUtils;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.financial.service.UniversityDateService;
 import org.kuali.module.gl.bo.Balance;
@@ -96,7 +97,7 @@ public class GeneralLedgerPendingEntryDaoOjb extends PlatformAwareDaoBaseOjb imp
         KualiDecimal rv = null;
         Iterator iterator = getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(reportQuery);
         if (iterator.hasNext()) {
-            rv = (KualiDecimal) ((Object[]) iterator.next())[0];
+            rv = (KualiDecimal) ((Object[]) KFSUtils.retrieveFirstAndExhaustIterator(iterator))[0];
         }
         return (rv == null) ? KualiDecimal.ZERO : rv;
     }
@@ -182,7 +183,7 @@ public class GeneralLedgerPendingEntryDaoOjb extends PlatformAwareDaoBaseOjb imp
         KualiDecimal rv = null;
         Iterator iterator = getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(reportQuery);
         if (iterator.hasNext()) {
-            rv = (KualiDecimal) ((Object[]) iterator.next())[0];
+            rv = (KualiDecimal) ((Object[]) KFSUtils.retrieveFirstAndExhaustIterator(iterator))[0];
         }
         return (rv == null) ? KualiDecimal.ZERO : rv;
     }
@@ -270,7 +271,7 @@ public class GeneralLedgerPendingEntryDaoOjb extends PlatformAwareDaoBaseOjb imp
         query.setAttributes(new String[] { "count(*)" });
         Iterator i = getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(query);
         if (i.hasNext()) {
-            Object[] values = (Object[]) i.next();
+            Object[] values = (Object[]) KFSUtils.retrieveFirstAndExhaustIterator(i);
             if (values[0] instanceof BigDecimal) {
                 return ((BigDecimal)values[0]).intValue();
             } else {

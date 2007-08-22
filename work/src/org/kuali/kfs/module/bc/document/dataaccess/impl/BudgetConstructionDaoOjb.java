@@ -27,6 +27,7 @@ import org.apache.ojb.broker.query.QueryByCriteria;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
 import org.kuali.core.dao.ojb.PlatformAwareDaoBaseOjb;
+import org.kuali.kfs.util.KFSUtils;
 import org.kuali.module.budget.bo.BudgetConstructionFundingLock;
 import org.kuali.module.budget.bo.BudgetConstructionHeader;
 import org.kuali.module.budget.bo.BudgetConstructionPosition;
@@ -160,7 +161,7 @@ public class BudgetConstructionDaoOjb extends PlatformAwareDaoBaseOjb implements
         Iterator<Object[]> iter = pb.getReportQueryIteratorByQuery(q);
 
         if (iter.hasNext()){
-            Object[] objs = (Object[]) iter.next();
+            Object[] objs = (Object[]) KFSUtils.retrieveFirstAndExhaustIterator(iter);
             if (objs[0] != null){
                 positionNumber = (String) objs[0];
             }

@@ -190,6 +190,12 @@
 		<property name="maintenanceDocumentDictionaryService">
 			<ref bean="maintenanceDocumentDictionaryService" />
 		</property>
+		<property name="workflowUserCapabilities">
+			<bean class="edu.iu.uis.eden.user.UserCapabilities">
+				<property name="lookupSupported" value="true" />
+				<property name="reportSupported" value="true" />
+			</bean>
+		</property>
 	</bean>
 
 	<bean id="kualiModuleUserServiceBase" class="org.kuali.core.service.impl.KualiModuleUserServiceBaseImpl" abstract="true">

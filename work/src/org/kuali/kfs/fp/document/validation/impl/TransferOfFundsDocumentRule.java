@@ -244,7 +244,7 @@ public class TransferOfFundsDocumentRule extends AccountingDocumentRuleBase impl
         boolean isObjectCodeAllowed = super.isObjectCodeAllowed(accountingLine);
         
         if (!isIncome(accountingLine) && !isExpense(accountingLine)) {
-            GlobalVariables.getErrorMap().putError("financialObjectCode", KFSKeyConstants.ERROR_DOCUMENT_TOF_INVALID_OBJECT_TYPE_CODES, new String[] { accountingLine.getObjectCode().getFinancialObjectTypeCode(), accountingLine.getFinancialObjectCode() });
+            GlobalVariables.getErrorMap().putError("financialObjectCode", KFSKeyConstants.ERROR_DOCUMENT_TOF_INVALID_OBJECT_TYPE_CODES, new String[] { accountingLine.getObjectCode().getFinancialObjectTypeCode(), accountingLine.getObjectCode().getFinancialObjectSubTypeCode() });
             isObjectCodeAllowed = false;
         }        
         

@@ -164,7 +164,7 @@ public class PaymentRequestItem extends AccountsPayableItemBase {
 
     public KualiDecimal getPurchaseOrderItemPaidAmount() {
         PurchaseOrderItem poi = this.getPurchaseOrderItem();
-        if((poi==null)||(poi.isItemActiveIndicator())){
+        if((poi==null)||!(poi.isItemActiveIndicator())){
             return KualiDecimal.ZERO;
         }
         return poi.getItemInvoicedTotalAmount();
@@ -175,7 +175,7 @@ public class PaymentRequestItem extends AccountsPayableItemBase {
         //get po item
         PurchaseOrderItem poi = getPurchaseOrderItem();
         //check that it is active else return zero
-        if(poi==null || poi.isItemActiveIndicator()) {
+        if(poi==null || !poi.isItemActiveIndicator()) {
             return KualiDecimal.ZERO;
         }
         //setup outstanding amount and get totalEncumberance from poi.getExtendedCost()
@@ -184,7 +184,7 @@ public class PaymentRequestItem extends AccountsPayableItemBase {
         
         ItemType iT = poi.getItemType();
         //if service add the po outstanding amount to outstandingamount 
-        if(StringUtils.equals(iT.getItemTypeCode(),PurapConstants.ItemTypeCodes.ITEM_TYPE_SERVICE_CODE)) {
+        if(!iT.isQuantityBasedGeneralLedgerIndicator()) {
             outstandingAmount.add(poi.getItemOutstandingEncumberedAmount());
         } else {
             //else add outstanding quantity * unitprice

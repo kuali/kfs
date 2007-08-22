@@ -34,6 +34,8 @@ import org.kuali.module.purap.PurapPropertyConstants;
 import org.kuali.module.purap.PurapConstants.PaymentRequestStatuses;
 import org.kuali.module.purap.PurapConstants.PurapDocTypeCodes;
 import org.kuali.module.purap.PurapConstants.PurchaseOrderStatuses;
+import org.kuali.module.purap.PurapConstants.PODocumentsStrings;
+import org.kuali.module.purap.PurapConstants.PREQDocumentsStrings;
 import org.kuali.module.purap.document.PaymentRequestDocument;
 import org.kuali.module.purap.document.PurchaseOrderDocument;
 import org.kuali.module.purap.service.PaymentRequestService;
@@ -96,14 +98,14 @@ public class PurchaseOrderCloseDocumentRule extends PurchasingDocumentRuleBase {
         if (ObjectUtils.isNotNull(pReqs)) {
             if (pReqs.size() == 0) {
                 valid = false;
-                GlobalVariables.getErrorMap().putError(PurapPropertyConstants.PURAP_DOC_ID, PurapKeyConstants.ERROR_PURCHASE_ORDER_CLOSE_NO_PREQ, PurchaseOrderStatuses.OPEN);
+                GlobalVariables.getErrorMap().putError(PurapPropertyConstants.PURAP_DOC_ID, PurapKeyConstants.ERROR_PURCHASE_ORDER_CLOSE_NO_PREQ, PODocumentsStrings.OPEN_STATUS);
             }
             else {
                 // None of the PREQs against this PO may be in 'In Process' status.
                 for (PaymentRequestDocument pReq : pReqs) {
                     if (StringUtils.equalsIgnoreCase(pReq.getStatusCode(), PaymentRequestStatuses.IN_PROCESS)) {
                         valid = false;
-                        GlobalVariables.getErrorMap().putError(PurapPropertyConstants.PURAP_DOC_ID, PurapKeyConstants.ERROR_PURCHASE_ORDER_CLOSE_PREQ_IN_PROCESS, PaymentRequestStatuses.IN_PROCESS);
+                        GlobalVariables.getErrorMap().putError(PurapPropertyConstants.PURAP_DOC_ID, PurapKeyConstants.ERROR_PURCHASE_ORDER_CLOSE_PREQ_IN_PROCESS, PREQDocumentsStrings.IN_PROCESS);
                     }
                 }
             }

@@ -65,6 +65,7 @@ public class PurapKeyConstants {
     public static final String PURCHASE_ORDER_MESSAGE_REOPEN_DOCUMENT="purchaseOrder.route.message.reopen.text";
     public static final String PURCHASE_ORDER_MESSAGE_AMEND_DOCUMENT="purchaseOrder.route.message.amend.text";
     public static final String PURCHASE_ORDER_QUESTION_MANUAL_STATUS_CHANGE = "purchaseOrder.question.manual.status.change";
+    public static final String PURCHASE_ORDER_MANUAL_STATUS_CHANGE_NOTE_PREFIX = "purchaseOrder.manual.status.change.note.prefix";
     public static final String ERROR_USER_NONPURCHASING="errors.user.nonPurchasing";
     public static final String ERROR_PURCHASE_ORDER_PDF = "error.purchaseOrder.pdf";
     public static final String ERROR_PURCHASE_ORDER_TRANSMIT_PRIOR_TRANSMISSION = "error.transmit.purchaseOrder.priorTransmission";

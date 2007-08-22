@@ -289,7 +289,7 @@ public class PurchaseOrderAction extends PurchasingActionBase {
                 }
             }
         }
-        boolean success;
+        boolean success = true; 
         if (po.isPendingActionIndicator()) {
             success = false;
         }
@@ -300,26 +300,27 @@ public class PurchaseOrderAction extends PurchasingActionBase {
             else {
                 po = SpringContext.getBean(PurchaseOrderService.class).createAndRoutePotentialChangeDocument(kualiDocumentFormBase.getDocument().getDocumentNumber(), documentType, kualiDocumentFormBase.getAnnotation(), combineAdHocRecipients(kualiDocumentFormBase));
             }
-//            po = SpringContext.getBean(PurchaseOrderService.class).updateFlagsAndRoute(kualiDocumentFormBase.getDocument().getDocumentNumber(), documentType, kualiDocumentFormBase.getAnnotation(), combineAdHocRecipients(kualiDocumentFormBase));
-            kualiDocumentFormBase.setDocument(po);
+            //newPo = SpringContext.getBean(PurchaseOrderService.class).updateFlagsAndRoute(kualiDocumentFormBase.getDocument().getDocumentNumber(), documentType, kualiDocumentFormBase.getAnnotation(), combineAdHocRecipients(kualiDocumentFormBase));
+            if (!GlobalVariables.getErrorMap().isEmpty()) {
+                success = false;
+            }
+            else {
+                kualiDocumentFormBase.setDocument(po);
+            }
         }
 
-        Note newNote = new Note();
-        if (documentType.equals(PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_AMENDMENT_DOCUMENT)) {
-            noteText = noteText + " (Previous Document Id is " + kualiDocumentFormBase.getDocId() + ")";
+        if (success) {
+            Note newNote = new Note();
+            if (documentType.equals(PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_AMENDMENT_DOCUMENT)) {
+                noteText = noteText + " (Previous Document Id is " + kualiDocumentFormBase.getDocId() + ")";
+            }
+            newNote.setNoteText(noteText);
+            newNote.setNoteTypeCode(KFSConstants.NoteTypeEnum.BUSINESS_OBJECT_NOTE_TYPE.getCode());
+            kualiDocumentFormBase.setNewNote(newNote);
+            insertBONote(mapping, kualiDocumentFormBase, request, response);
+            GlobalVariables.getMessageList().add(messageType);
         }
-        newNote.setNoteText(noteText);
-        newNote.setNoteTypeCode(KFSConstants.NoteTypeEnum.BUSINESS_OBJECT_NOTE_TYPE.getCode());
-        kualiDocumentFormBase.setNewNote(newNote);
-        insertBONote(mapping, kualiDocumentFormBase, request, response);
-
-        GlobalVariables.getMessageList().add(messageType);
-        if (documentType.equals(PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_AMENDMENT_DOCUMENT)) {
-            return mapping.findForward(KFSConstants.MAPPING_BASIC);
-        }
-        else {
-            return this.performQuestionWithoutInput(mapping, form, request, response, confirmType, kualiConfiguration.getPropertyString(messageType), PODocumentsStrings.SINGLE_CONFIRMATION_QUESTION, questionType, "");
-        }
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
     public ActionForward closePo(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -1058,7 +1059,11 @@ public class PurchaseOrderAction extends PurchasingActionBase {
             
             // Build out full message.
             if (StringUtils.equals(questionType,PODocumentsStrings.MANUAL_STATUS_CHANGE_QUESTION)) {
-                notePrefix = PODocumentsStrings.MANUAL_STATUS_CHANGE_NOTE_PREFIX;
+                String key = kualiConfiguration.getPropertyString(PurapKeyConstants.PURCHASE_ORDER_MANUAL_STATUS_CHANGE_NOTE_PREFIX);
+                String oldStatus = po.getStatusCode();
+                String newStatus = po.getStatusChange();
+                key = StringUtils.replace(key, "{0}", oldStatus);
+                notePrefix = StringUtils.replace(key, "{1}", newStatus);
             }
             String noteText = notePrefix + KFSConstants.BLANK_SPACE + reason;
             int noteTextLength = noteText.length();

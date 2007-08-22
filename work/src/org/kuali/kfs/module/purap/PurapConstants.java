@@ -547,7 +547,7 @@ public class PurapConstants extends JstlConstants {
         public static String SINGLE_CONFIRMATION_QUESTION = "singleConfirmationQuestion";
         
         public static String MANUAL_STATUS_CHANGE_QUESTION = "manualStatusChangeQuestion";
-        public static String MANUAL_STATUS_CHANGE_NOTE_PREFIX = "Note entered while manually changing status :";
+        public static String OPEN_STATUS = "Open";
     }
     
     public static String PO_OVERRIDE_NOT_TO_EXCEED_QUESTION = "OverrideNotToExceed";
@@ -679,6 +679,7 @@ public class PurapConstants extends JstlConstants {
         public static String PURCHASE_ORDER_ID = "Purchase Order Identifier";
         public static String INVOICE_DATE = "Invoice Date";
         public static String INVOICE_NUMBER = "Invoice Number";
+        public static String IN_PROCESS = "In Process";
         public static String VENDOR_INVOICE_AMOUNT = "Vendor Invoice Amount";
         public static String VENDOR_STATE = "State";
         public static String VENDOR_POSTAL_CODE = "Postal Code";

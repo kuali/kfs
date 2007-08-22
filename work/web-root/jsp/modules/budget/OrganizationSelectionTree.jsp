@@ -50,12 +50,7 @@
 	    </tr>
 	    <tr>
             <%-- point of view data line --%>
-            <%-- first cell in row above spans two rows
-                             <span class="nowrap">
-                </span>
-            <div align="right">
-            </div>
-            --%>
+            <%-- first cell in row above spans two rows --%>
             <td class="grid" valign="center" rowspan="1" colspan="1">
             <div align="right">
                 <html:hidden property="previousPointOfViewKeyCode" value="${KualiForm.currentPointOfViewKeyCode}" />
@@ -190,10 +185,13 @@
 
 	    <tr>
             <td class="grid" valign="center" rowspan="1" colspan="1">
-                <span class="nowrap">&nbsp;
+            <div align="right">
                	<html:hidden write="false" property="selectionSubTreeOrgs[${status.index}].reportsToChartOfAccountsCode" />
                	<html:hidden write="false" property="selectionSubTreeOrgs[${status.index}].reportsToOrganizationCode" />
-                </span>
+                <html:select property="selectionSubTreeOrgs[${status.index}].pullFlag">
+                    <html:optionsCollection property="pullFlagKeyLabels" label="label" value="key" />
+                </html:select>
+            </div>
             </td>
             <td class="grid" valign="center" rowspan="1" colspan="1">
             <kul:htmlControlAttribute

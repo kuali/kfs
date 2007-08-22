@@ -20,7 +20,9 @@
   function paymentMethodMessages(selectedMethod) {
     if (selectedMethod == 'W') {
 		alert('<bean:message key="message.dv.feewarning"/>');
+<%-- KULFDBCK-892
 		alert('<bean:message key="message.dv.wirescreen"/>');
+--%>
     }
 		  
     if (selectedMethod == 'F') {

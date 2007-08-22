@@ -30,7 +30,8 @@ import org.kuali.module.gl.service.EncumbranceService;
 import org.kuali.module.gl.util.BusinessObjectFieldConverter;
 import org.kuali.module.gl.util.OJBUtility;
 import org.kuali.module.gl.web.inquirable.EncumbranceInquirableImpl;
-
+import org.springframework.transaction.annotation.Transactional;
+@Transactional
 public class EncumbranceLookupableHelperServiceImpl extends AbstractGLLookupableHelperServiceImpl {
 
     private EncumbranceCalculator postEncumbrance;

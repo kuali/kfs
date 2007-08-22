@@ -42,7 +42,7 @@ public class AccountBalanceLookupableHelperServiceTest extends AbstractGLLookupa
         super.setUp();
 
         setAccountBalanceService(SpringContext.getBean(AccountBalanceService.class));
-        lookupableHelperServiceImpl = (AbstractGLLookupableHelperServiceImpl)LookupableSpringContext.getLookupableHelperService("glAccountBalanceLookupableHelperService");
+        lookupableHelperServiceImpl = LookupableSpringContext.getLookupableHelperService("glAccountBalanceLookupableHelperService");
         lookupableHelperServiceImpl.setBusinessObjectClass(AccountBalanceByConsolidation.class);
     }
 

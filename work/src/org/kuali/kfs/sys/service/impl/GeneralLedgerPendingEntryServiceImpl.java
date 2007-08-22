@@ -26,7 +26,6 @@ import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.service.KualiRuleService;
 import org.kuali.core.util.GeneralLedgerPendingEntrySequenceHelper;
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.core.util.TransactionalServiceUtils;
 import org.kuali.kfs.bo.AccountingLine;
 import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
 import org.kuali.kfs.bo.Options;
@@ -275,7 +274,7 @@ public class GeneralLedgerPendingEntryServiceImpl implements GeneralLedgerPendin
     public Iterator findApprovedPendingLedgerEntries() {
         LOG.debug("findApprovedPendingLedgerEntries() started");
 
-        return TransactionalServiceUtils.copyToExternallyUsuableIterator(generalLedgerPendingEntryDao.findApprovedPendingLedgerEntries());
+        return generalLedgerPendingEntryDao.findApprovedPendingLedgerEntries();
     }
 
     /**
@@ -285,7 +284,7 @@ public class GeneralLedgerPendingEntryServiceImpl implements GeneralLedgerPendin
     public Iterator findPendingLedgerEntries(Encumbrance encumbrance, boolean isApproved) {
         LOG.debug("findPendingLedgerEntries() started");
 
-        return TransactionalServiceUtils.copyToExternallyUsuableIterator(generalLedgerPendingEntryDao.findPendingLedgerEntries(encumbrance, isApproved));
+        return generalLedgerPendingEntryDao.findPendingLedgerEntries(encumbrance, isApproved);
     }
 
     /**
@@ -303,7 +302,7 @@ public class GeneralLedgerPendingEntryServiceImpl implements GeneralLedgerPendin
     public Iterator findPendingLedgerEntries(Balance balance, boolean isApproved, boolean isConsolidated) {
         LOG.debug("findPendingLedgerEntries() started");
 
-        return TransactionalServiceUtils.copyToExternallyUsuableIterator(generalLedgerPendingEntryDao.findPendingLedgerEntries(balance, isApproved, isConsolidated));
+        return generalLedgerPendingEntryDao.findPendingLedgerEntries(balance, isApproved, isConsolidated);
     }
 
     /**
@@ -312,7 +311,7 @@ public class GeneralLedgerPendingEntryServiceImpl implements GeneralLedgerPendin
     public Iterator findPendingLedgerEntriesForEntry(Map fieldValues, boolean isApproved) {
         LOG.debug("findPendingLedgerEntriesForEntry() started");
 
-        return TransactionalServiceUtils.copyToExternallyUsuableIterator(generalLedgerPendingEntryDao.findPendingLedgerEntriesForEntry(fieldValues, isApproved));
+        return generalLedgerPendingEntryDao.findPendingLedgerEntriesForEntry(fieldValues, isApproved);
     }
 
     /**
@@ -321,7 +320,7 @@ public class GeneralLedgerPendingEntryServiceImpl implements GeneralLedgerPendin
     public Iterator findPendingLedgerEntriesForEncumbrance(Map fieldValues, boolean isApproved) {
         LOG.debug("findPendingLedgerEntriesForEncumbrance() started");
 
-        return TransactionalServiceUtils.copyToExternallyUsuableIterator(generalLedgerPendingEntryDao.findPendingLedgerEntriesForEncumbrance(fieldValues, isApproved));
+        return generalLedgerPendingEntryDao.findPendingLedgerEntriesForEncumbrance(fieldValues, isApproved);
     }
 
     /**
@@ -331,7 +330,7 @@ public class GeneralLedgerPendingEntryServiceImpl implements GeneralLedgerPendin
     public Iterator findPendingLedgerEntriesForCashBalance(Map fieldValues, boolean isApproved) {
         LOG.debug("findPendingLedgerEntriesForCashBalance() started");
 
-        return TransactionalServiceUtils.copyToExternallyUsuableIterator(generalLedgerPendingEntryDao.findPendingLedgerEntriesForCashBalance(fieldValues, isApproved));
+        return generalLedgerPendingEntryDao.findPendingLedgerEntriesForCashBalance(fieldValues, isApproved);
     }
 
     /**
@@ -340,7 +339,7 @@ public class GeneralLedgerPendingEntryServiceImpl implements GeneralLedgerPendin
     public Iterator findPendingLedgerEntriesForBalance(Map fieldValues, boolean isApproved) {
         LOG.debug("findPendingLedgerEntriesForBalance() started");
 
-        return TransactionalServiceUtils.copyToExternallyUsuableIterator(generalLedgerPendingEntryDao.findPendingLedgerEntriesForBalance(fieldValues, isApproved));
+        return generalLedgerPendingEntryDao.findPendingLedgerEntriesForBalance(fieldValues, isApproved);
     }
 
     /**
@@ -350,7 +349,7 @@ public class GeneralLedgerPendingEntryServiceImpl implements GeneralLedgerPendin
     public Iterator findPendingLedgerEntriesForAccountBalance(Map fieldValues, boolean isApproved) {
         LOG.debug("findPendingLedgerEntriesForAccountBalance() started");
 
-        return TransactionalServiceUtils.copyToExternallyUsuableIterator(generalLedgerPendingEntryDao.findPendingLedgerEntriesForAccountBalance(fieldValues, isApproved));
+        return generalLedgerPendingEntryDao.findPendingLedgerEntriesForAccountBalance(fieldValues, isApproved);
     }
 
     /**
@@ -360,7 +359,7 @@ public class GeneralLedgerPendingEntryServiceImpl implements GeneralLedgerPendin
     public Iterator findPendingLedgerEntrySummaryForAccountBalance(Map fieldValues, boolean isApproved) {
         LOG.debug("findPendingLedgerEntrySummaryForAccountBalance() started");
 
-        return TransactionalServiceUtils.copyToExternallyUsuableIterator(generalLedgerPendingEntryDao.findPendingLedgerEntrySummaryForAccountBalance(fieldValues, isApproved));
+        return generalLedgerPendingEntryDao.findPendingLedgerEntrySummaryForAccountBalance(fieldValues, isApproved);
     }
 
     public Collection findPendingEntries(Map fieldValues, boolean isApproved) {

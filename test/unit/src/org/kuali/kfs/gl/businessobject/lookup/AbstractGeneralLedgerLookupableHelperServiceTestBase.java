@@ -22,6 +22,7 @@ import java.util.Map;
 
 import org.apache.commons.beanutils.PropertyUtils;
 import org.kuali.core.bo.PersistableBusinessObjectBase;
+import org.kuali.core.lookup.LookupableHelperService;
 import org.kuali.core.service.DateTimeService;
 import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
 import org.kuali.kfs.context.KualiTestBase;
@@ -37,7 +38,7 @@ public abstract class AbstractGLLookupableHelperServiceTestBase extends KualiTes
     protected Date date;
     protected GeneralLedgerPendingEntry pendingEntry;
     protected TestDataGenerator testDataGenerator;
-    protected AbstractGLLookupableHelperServiceImpl lookupableHelperServiceImpl;
+    protected LookupableHelperService lookupableHelperServiceImpl;
     protected GeneralLedgerPendingEntryService pendingEntryService;
 
     @Override

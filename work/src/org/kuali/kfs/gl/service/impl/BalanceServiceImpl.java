@@ -25,7 +25,6 @@ import java.util.Map;
 
 import org.apache.commons.collections.IteratorUtils;
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.core.util.TransactionalServiceUtils;
 import org.kuali.kfs.bo.Options;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.service.OptionsService;
@@ -105,7 +104,7 @@ public class BalanceServiceImpl implements BalanceService {
      */
     public Iterator<Balance> findBalancesForFiscalYear(Integer fiscalYear) {
 
-        return (Iterator<Balance>) TransactionalServiceUtils.copyToExternallyUsuableIterator(balanceDao.findBalancesForFiscalYear(fiscalYear));
+        return (Iterator<Balance>) balanceDao.findBalancesForFiscalYear(fiscalYear);
     }
 
     /**
@@ -291,7 +290,7 @@ public class BalanceServiceImpl implements BalanceService {
     public Iterator findCashBalance(Map fieldValues, boolean isConsolidated) {
         LOG.debug("findCashBalance() started");
         
-        return TransactionalServiceUtils.copyToExternallyUsuableIterator(balanceDao.findCashBalance(fieldValues, isConsolidated));
+        return balanceDao.findCashBalance(fieldValues, isConsolidated);
     }
 
     /**
@@ -318,7 +317,7 @@ public class BalanceServiceImpl implements BalanceService {
      */
     public Iterator findBalance(Map fieldValues, boolean isConsolidated) {
         LOG.debug("findBalance() started");
-        return TransactionalServiceUtils.copyToExternallyUsuableIterator(balanceDao.findBalance(fieldValues, isConsolidated));
+        return balanceDao.findBalance(fieldValues, isConsolidated);
     }
 
     /**

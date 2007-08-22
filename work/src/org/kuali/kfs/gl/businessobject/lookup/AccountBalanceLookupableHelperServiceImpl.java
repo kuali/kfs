@@ -24,7 +24,6 @@ import java.util.Map;
 import org.apache.commons.lang.ArrayUtils;
 import org.kuali.core.bo.BusinessObject;
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.core.web.ui.Row;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
 import org.kuali.kfs.bo.Options;
@@ -39,7 +38,8 @@ import org.kuali.module.gl.util.BusinessObjectFieldConverter;
 import org.kuali.module.gl.util.OJBUtility;
 import org.kuali.module.gl.web.Constant;
 import org.kuali.module.gl.web.inquirable.AccountBalanceInquirableImpl;
-
+import org.springframework.transaction.annotation.Transactional;
+@Transactional
 public class AccountBalanceLookupableHelperServiceImpl extends AbstractGLLookupableHelperServiceImpl {
     
     private AccountBalanceCalculator postAccountBalance;

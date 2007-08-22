@@ -46,7 +46,7 @@ public class EntryLookupableHelperServiceTest extends AbstractGLLookupableHelper
         super.setUp();
 
         entryDao = SpringContext.getBean(EntryDao.class);
-        lookupableHelperServiceImpl = (AbstractGLLookupableHelperServiceImpl)LookupableSpringContext.getLookupableHelperService("glEntryLookupableHelperService");
+        lookupableHelperServiceImpl = LookupableSpringContext.getLookupableHelperService("glEntryLookupableHelperService");
         lookupableHelperServiceImpl.setBusinessObjectClass(Entry.class);
     }
 

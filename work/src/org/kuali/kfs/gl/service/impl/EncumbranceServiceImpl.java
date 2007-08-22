@@ -18,7 +18,6 @@ package org.kuali.module.gl.service.impl;
 import java.util.Iterator;
 import java.util.Map;
 
-import org.kuali.core.util.TransactionalServiceUtils;
 import org.kuali.module.gl.bo.Encumbrance;
 import org.kuali.module.gl.dao.EncumbranceDao;
 import org.kuali.module.gl.service.EncumbranceService;
@@ -52,7 +51,7 @@ public class EncumbranceServiceImpl implements EncumbranceService {
      * @see org.kuali.module.gl.service.EncumbranceService#getAllEncumbrances()
      */
     public Iterator getAllEncumbrances() {
-        return TransactionalServiceUtils.copyToExternallyUsuableIterator(encumbranceDao.getAllEncumbrances());
+        return encumbranceDao.getAllEncumbrances();
     }
 
     /**
@@ -68,14 +67,14 @@ public class EncumbranceServiceImpl implements EncumbranceService {
      * @see org.kuali.module.gl.service.EncumbranceService#getSummarizedEncumbrances(java.lang.String, boolean)
      */
     public Iterator getSummarizedEncumbrances(String documentTypeCode, boolean included) {
-        return TransactionalServiceUtils.copyToExternallyUsuableIterator(encumbranceDao.getSummarizedEncumbrances(documentTypeCode, included));
+        return encumbranceDao.getSummarizedEncumbrances(documentTypeCode, included);
     }
 
     /**
      * @see org.kuali.module.gl.service.EncumbranceService#findOpenEncumbrance(java.util.Map)
      */
     public Iterator findOpenEncumbrance(Map fieldValues) {
-        return TransactionalServiceUtils.copyToExternallyUsuableIterator(encumbranceDao.findOpenEncumbrance(fieldValues));
+        return encumbranceDao.findOpenEncumbrance(fieldValues);
     }
 
     /**

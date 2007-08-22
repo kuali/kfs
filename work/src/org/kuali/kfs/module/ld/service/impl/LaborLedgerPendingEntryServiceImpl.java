@@ -24,7 +24,6 @@ import java.util.Map;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.KualiRuleService;
 import org.kuali.core.util.GeneralLedgerPendingEntrySequenceHelper;
-import org.kuali.core.util.TransactionalServiceUtils;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.bo.AccountingLine;
 import org.kuali.module.chart.bo.Account;
@@ -199,6 +198,6 @@ public class LaborLedgerPendingEntryServiceImpl implements LaborLedgerPendingEnt
      */
     public Iterator findPendingLedgerEntriesForLedgerBalance(Map fieldValues, boolean isApproved) {
         LOG.debug("findPendingLedgerEntriesForAccountBalance() started");
-        return TransactionalServiceUtils.copyToExternallyUsuableIterator(laborLedgerPendingEntryDao.findPendingLedgerEntriesForLedgerBalance(fieldValues, isApproved));
+        return laborLedgerPendingEntryDao.findPendingLedgerEntriesForLedgerBalance(fieldValues, isApproved);
     }
 }

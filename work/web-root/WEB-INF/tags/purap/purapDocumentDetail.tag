@@ -110,10 +110,23 @@
 	            </div>
 	        </th>
 	        <td align=left valign=middle class="datacell">
+	        	&nbsp;<input type=radio property="document.statusChange" value="INPR" selected="true"/>&nbsp;NONE&nbsp;
+	        	<input type=radio property="document.statusChange" value="WDPT"/>&nbsp;Department&nbsp;
+	        	<input type=radio property="document.statusChange" value="WVEN"/>&nbsp;Vendor&nbsp;
+	            <c:if test="${document.statusCode == 'WDPT'}">
+	        		&nbsp;<input type=radio property="document.statusChange" value="INPR"/>&nbsp;NONE&nbsp;
+	        		<input type=radio property="document.statusChange" value="WDPT" selected="true"/>&nbsp;Department&nbsp;
+	        		<input type=radio property="document.statusChange" value="WVEN"/>&nbsp;Vendor&nbsp;
+	        	</c:if>
+	            <c:if test="${document.statusCode == 'WVEN'}">
+	        		&nbsp;<input type=radio property="document.statusChange" value="INPR"/>&nbsp;NONE&nbsp;
+	        		<input type=radio property="document.statusChange" value="WDPT"/>&nbsp;Department&nbsp;
+	        		<input type=radio property="document.statusChange" value="WVEN" selected="true"/>&nbsp;Vendor&nbsp;
+	        	</c:if>	        	
 	        	<kul:htmlControlAttribute 
 	                property="document.statusChange" 
 	                attributeEntry="${documentAttributes.statusChange}" 
-	                readOnly="${not fullEntryMode}" />
+	                readOnly="${not fullEntryMode}"/>
 	        </td>
 			<th align=right valign=middle class="bord-l-b">
 	            <div align="right">

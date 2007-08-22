@@ -583,31 +583,42 @@ public class PurapConstants extends JstlConstants {
         //Note it doesn't make much sense to compare auto_approved and dept_approved but this is 
         //easier than two enums plus this should primarily be used for user enterred areas
         public enum STATUS_ORDER{
-            INITIATE,
-            IN_PROCESS,
-            CANCELLED_IN_PROCESS,
-            CANCELLED_PRIOR_TO_AP_APPROVAL,
-            CANCELLED_POST_AP_APPROVE,
-            AWAITING_ACCOUNTS_PAYABLE_REVIEW,
-            AWAITING_SUB_ACCT_MGR_REVIEW,
-            AWAITING_FISCAL_REVIEW,
-            AWAITING_ORG_REVIEW,
-            AWAITING_TAX_REVIEW,
-            DEPARTMENT_APPROVED,
-            AUTO_APPROVED
+            INITIATE (PurapConstants.PaymentRequestStatuses.INITIATE,true),
+            IN_PROCESS (PurapConstants.PaymentRequestStatuses.IN_PROCESS,true),
+            CANCELLED_IN_PROCESS (PurapConstants.PaymentRequestStatuses.CANCELLED_IN_PROCESS,false),
+            CANCELLED_PRIOR_TO_AP_APPROVAL (PurapConstants.PaymentRequestStatuses.CANCELLED_PRIOR_TO_AP_APPROVAL,false),
+            CANCELLED_POST_AP_APPROVE (PurapConstants.PaymentRequestStatuses.CANCELLED_POST_AP_APPROVE,false),
+            AWAITING_ACCOUNTS_PAYABLE_REVIEW (PurapConstants.PaymentRequestStatuses.AWAITING_ACCOUNTS_PAYABLE_REVIEW,false),
+            AWAITING_SUB_ACCT_MGR_REVIEW (PurapConstants.PaymentRequestStatuses.AWAITING_SUB_ACCT_MGR_REVIEW,false),
+            AWAITING_FISCAL_REVIEW (PurapConstants.PaymentRequestStatuses.AWAITING_FISCAL_REVIEW,false),
+            AWAITING_ORG_REVIEW (PurapConstants.PaymentRequestStatuses.AWAITING_ORG_REVIEW,false),
+            AWAITING_TAX_REVIEW (PurapConstants.PaymentRequestStatuses.AWAITING_TAX_REVIEW,false),
+            DEPARTMENT_APPROVED (PurapConstants.PaymentRequestStatuses.DEPARTMENT_APPROVED,false),
+            AUTO_APPROVED (PurapConstants.PaymentRequestStatuses.AUTO_APPROVED,false),
+            ;
+            
+            private String statusCode = new String();
+            private boolean fullEntryAllowed = false;
+            
+            STATUS_ORDER(String statusCode,boolean fullEntry) {
+                this.statusCode = statusCode;
+                this.fullEntryAllowed = fullEntry;
+            }
+            
+            public static STATUS_ORDER getByStatusCode(String statusCode)
+            {
+                for (STATUS_ORDER status : STATUS_ORDER.values()) {
+                    if(StringUtils.equals(status.statusCode,statusCode)) {
+                        return status;
+                    }
+                }
+                return null;
+            }
+            public static boolean isFullDocumentEntryCompleted(String status) {
+                return !getByStatusCode(status).fullEntryAllowed;
+            }
         }
 
-        public static String LAST_FULL_ENTRY_STATUS = AWAITING_ACCOUNTS_PAYABLE_REVIEW;
-
-        //TODO: remove this and use above enum and status
-        public static String[] FULL_ENTRY_STATUSES = {
-            INITIATE,
-            IN_PROCESS,
-            CANCELLED_IN_PROCESS,
-            CANCELLED_PRIOR_TO_AP_APPROVAL,
-            CANCELLED_POST_AP_APPROVE,
-            AWAITING_ACCOUNTS_PAYABLE_REVIEW
-        };
         
         public static String[] PREQ_STATUSES_FOR_AUTO_APPROVE = {
             AWAITING_SUB_ACCT_MGR_REVIEW,

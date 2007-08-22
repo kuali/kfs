@@ -350,8 +350,7 @@ public class PurapServiceImpl implements PurapService {
         //for now just return true if not in one of the first few states
         boolean value = false;
         if(purapDocument instanceof PaymentRequestDocument) {
-            //TODO: Chris - use the ordered enum in purapconstants
-            value = !(ArrayUtils.contains(PurapConstants.PaymentRequestStatuses.FULL_ENTRY_STATUSES,purapDocument.getStatusCode()));
+            value = PurapConstants.PaymentRequestStatuses.STATUS_ORDER.isFullDocumentEntryCompleted(purapDocument.getStatusCode());
         }
         return value;
     }

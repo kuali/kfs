@@ -35,6 +35,7 @@ import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.PurapRuleConstants;
 import org.kuali.module.purap.PurapWorkflowConstants.PaymentRequestDocument.NodeDetailEnum;
 import org.kuali.module.purap.document.PaymentRequestDocument;
+import org.kuali.module.purap.service.PurapService;
 
 /**
  * Document Authorizer for the PREQ document.
@@ -74,16 +75,17 @@ public class PaymentRequestDocumentAuthorizer extends AccountingDocumentAuthoriz
             }
         } else if (workflowDocument.stateIsEnroute() && workflowDocument.isApprovalRequested()) {
             List currentRouteLevels = getCurrentRouteLevels(workflowDocument);
-            editMode = AuthorizationConstants.EditMode.FULL_ENTRY;
+            //only allow full entry if status allows it
+            if(!SpringContext.getBean(PurapService.class).isFullDocumentEntryCompleted((PaymentRequestDocument)document)) {
+                editMode = AuthorizationConstants.EditMode.FULL_ENTRY;
+            }
+            
 
             if (currentRouteLevels.contains(NodeDetailEnum.ACCOUNT_REVIEW.getName())) {
                 editModeMap.remove(AuthorizationConstants.EditMode.FULL_ENTRY);
                 //expense_entry was already added in super
                 //add amount edit mode
                 editMode = PurapAuthorizationConstants.PaymentRequestEditMode.ALLOW_ACCOUNT_AMOUNT_ENTRY;
-            } else if (currentRouteLevels.contains(NodeDetailEnum.ACCOUNTS_PAYABLE_REVIEW.getName())){
-                //is in ap review remove the view only that was added by super
-                editModeMap.remove(AuthorizationConstants.EditMode.VIEW_ONLY);
             }
         } 
 

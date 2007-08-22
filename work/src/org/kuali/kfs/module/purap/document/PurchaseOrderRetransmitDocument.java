@@ -65,10 +65,4 @@ public class PurchaseOrderRetransmitDocument extends PurchaseOrderDocument {
 
     }
 
-    @Override
-    public NodeDetails getNodeDetailEnum(String newNodeName) {
-        // no statuses to set means no node details
-        return null;
-    }
-
 }

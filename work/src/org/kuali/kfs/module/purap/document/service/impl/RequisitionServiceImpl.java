@@ -32,6 +32,7 @@ import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.context.SpringContext;
+import org.kuali.kfs.rule.event.DocumentSystemSaveEvent;
 import org.kuali.module.chart.service.ObjectCodeService;
 import org.kuali.module.financial.service.UniversityDateService;
 import org.kuali.module.purap.PurapConstants;
@@ -63,21 +64,16 @@ public class RequisitionServiceImpl implements RequisitionService {
     private VendorService vendorService;
     private KualiConfigurationService kualiConfigurationService;
 
-    public void saveDocumentWithoutValidation(RequisitionDocument requisitionDocument) {
+    public void saveDocumentWithoutValidation(RequisitionDocument document) {
         try {
-//            documentService.validateAndPersistDocument(requisitionDocument, new SaveOnlyDocumentEvent(requisitionDocument));
-            documentService.saveDocumentWithoutRunningValidation(requisitionDocument);
+            documentService.saveDocument(document, DocumentSystemSaveEvent.class);
+//          documentService.saveDocumentWithoutRunningValidation(document);
         }
         catch (WorkflowException we) {
-            String errorMsg = "Error saving document # " + requisitionDocument.getDocumentHeader().getDocumentNumber() + " " + we.getMessage(); 
+            String errorMsg = "Error saving document # " + document.getDocumentHeader().getDocumentNumber() + " " + we.getMessage(); 
             LOG.error(errorMsg, we);
             throw new RuntimeException(errorMsg, we);
         }
-//        catch (ValidationException ve) {
-//            String errorMsg = "Error saving document # " + requisitionDocument.getDocumentHeader().getDocumentNumber() + " " + ve.getMessage(); 
-//            LOG.error(errorMsg, ve);
-//            throw new RuntimeException(errorMsg, ve);
-//        }
     }
     
     public RequisitionDocument getRequisitionById(Integer id) {

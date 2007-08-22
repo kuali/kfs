@@ -46,6 +46,7 @@ import org.kuali.module.chart.bo.SubFundGroup;
 import org.kuali.module.chart.service.AccountService;
 import org.kuali.module.chart.service.ObjectCodeService;
 import org.kuali.module.purap.PurapConstants;
+import org.kuali.module.purap.PurapParameterConstants;
 import org.kuali.module.purap.PurapWorkflowConstants;
 import org.kuali.workflow.KualiWorkflowUtils;
 import org.w3c.dom.Node;
@@ -160,7 +161,7 @@ public class KualiPurchaseOrderContractAndGrantsAttribute implements WorkflowAtt
         }
         ruleSubFundGroupCode = LookupUtils.forceUppercase(SubFundGroup.class, KFSPropertyConstants.SUB_FUND_GROUP_CODE, ruleSubFundGroupCode);
         Set<AccountContainer> accountContainers = populateFromDocContent(docContent);
-        Map<String,KualiParameterRule> parameterRulesByChart = SpringContext.getBean(KualiConfigurationService.class).getRulesByGroup(PurapWorkflowConstants.PurchaseOrderDocument.CG_RESTRICTED_OBJECT_CODE_RULE_GROUP_NAME);
+        Map<String,KualiParameterRule> parameterRulesByChart = SpringContext.getBean(KualiConfigurationService.class).getRulesByGroup(PurapParameterConstants.WorkflowParameters.PurchaseOrderDocument.CG_RESTRICTED_OBJECT_CODE_RULE_GROUP_NAME);
         for (AccountContainer accountContainer : accountContainers) {
             // check to see if account is a C&G account
             if (accountContainer.account.isForContractsAndGrants()) {

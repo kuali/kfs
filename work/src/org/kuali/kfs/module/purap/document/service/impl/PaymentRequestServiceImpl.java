@@ -46,6 +46,7 @@ import org.kuali.core.workflow.service.WorkflowDocumentService;
 import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.bo.SourceAccountingLine;
 import org.kuali.kfs.context.SpringContext;
+import org.kuali.kfs.rule.event.DocumentSystemSaveEvent;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.PurapKeyConstants;
@@ -520,7 +521,8 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
      */
     public void saveDocumentWithoutValidation(PaymentRequestDocument document) {
         try {
-            documentService.saveDocumentWithoutRunningValidation(document);
+            documentService.saveDocument(document, DocumentSystemSaveEvent.class);
+//          documentService.saveDocumentWithoutRunningValidation(document);
             document.refreshNonUpdateableReferences();
         }
         catch (WorkflowException we) {
@@ -530,23 +532,6 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
         }
     }
 
-//    public void save(PaymentRequestDocument paymentRequestDocument) {
-//
-//        // Integer poId = paymentRequestDocument.getPurchaseOrderIdentifier();
-//        // PurchaseOrderDocument purchaseOrderDocument = SpringContext.getBean(PurchaseOrderService.class).getCurrentPurchaseOrder(paymentRequestDocument.getPurchaseOrderIdentifier());
-//        // paymentRequestDocument.populatePaymentRequestFormPurchaseOrder(purchaseOrderDocument);
-//
-//        paymentRequestDao.save(paymentRequestDocument);
-//    }
-//
-//    /**
-//     * @see org.kuali.module.purap.service.PaymentRequestService#saveWithWorkflowDocumentUpdate(org.kuali.module.purap.document.PaymentRequestDocument)
-//     */
-//    public void saveWithWorkflowDocumentUpdate(PaymentRequestDocument paymentRequestDocument) throws WorkflowException {
-//        paymentRequestDocument.getDocumentHeader().getWorkflowDocument().saveRoutingData();
-//        this.save(paymentRequestDocument);
-//    }
-    
     /**
      * Retreives a list of Pay Reqs with the given PO Id, invoice amount, and invoice date.
      * 
@@ -920,7 +905,7 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
     public boolean canHoldPaymentRequest(PaymentRequestDocument document, UniversalUser user){
         boolean canHold = false;
         
-        String accountsPayableGroup = SpringContext.getBean(KualiConfigurationService.class).getApplicationParameterValue(PurapParameterConstants.PURAP_ADMIN_GROUP, PurapConstants.Workgroups.WORKGROUP_ACCOUNTS_PAYABLE);
+        String accountsPayableGroup = SpringContext.getBean(KualiConfigurationService.class).getApplicationParameterValue(PurapParameterConstants.PURAP_ADMIN_GROUP, PurapParameterConstants.Workgroups.WORKGROUP_ACCOUNTS_PAYABLE);
         
         /* The user is an approver of the document,
          * The user is a member of the Accounts Payable group
@@ -945,7 +930,7 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
     public boolean canRemoveHoldPaymentRequest(PaymentRequestDocument document, UniversalUser user){
         boolean canRemoveHold = false;
         
-        String accountsPayableSupervisorGroup = SpringContext.getBean(KualiConfigurationService.class).getApplicationParameterValue(PurapParameterConstants.PURAP_ADMIN_GROUP, PurapConstants.Workgroups.WORKGROUP_ACCOUNTS_PAYABLE_SUPERVISOR);
+        String accountsPayableSupervisorGroup = SpringContext.getBean(KualiConfigurationService.class).getApplicationParameterValue(PurapParameterConstants.PURAP_ADMIN_GROUP, PurapParameterConstants.Workgroups.WORKGROUP_ACCOUNTS_PAYABLE_SUPERVISOR);
         
         /* The user is the person who put the preq on hold
          * The user is a member of the AP Supervisor group
@@ -1048,7 +1033,7 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
      * @see org.kuali.module.purap.service.PaymentRequestService#canHoldPaymentRequest(org.kuali.module.purap.document.PaymentRequestDocument, org.kuali.core.bo.user.UniversalUser)
      */
     public boolean canUserRequestCancelOnPaymentRequest(PaymentRequestDocument document, UniversalUser user){
-        String accountsPayableGroup = SpringContext.getBean(KualiConfigurationService.class).getApplicationParameterValue(PurapParameterConstants.PURAP_ADMIN_GROUP, PurapConstants.Workgroups.WORKGROUP_ACCOUNTS_PAYABLE);
+        String accountsPayableGroup = SpringContext.getBean(KualiConfigurationService.class).getApplicationParameterValue(PurapParameterConstants.PURAP_ADMIN_GROUP, PurapParameterConstants.Workgroups.WORKGROUP_ACCOUNTS_PAYABLE);
         
         /* The user is an approver of the document,
          * The user is a member of the Accounts Payable group
@@ -1069,7 +1054,7 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
      * @see org.kuali.module.purap.service.PaymentRequestService#canRemoveHoldPaymentRequest(org.kuali.module.purap.document.PaymentRequestDocument, org.kuali.core.bo.user.UniversalUser)
      */
     public boolean canUserRemoveRequestCancelOnPaymentRequest(PaymentRequestDocument document, UniversalUser user){
-        String accountsPayableSupervisorGroup = SpringContext.getBean(KualiConfigurationService.class).getApplicationParameterValue(PurapParameterConstants.PURAP_ADMIN_GROUP, PurapConstants.Workgroups.WORKGROUP_ACCOUNTS_PAYABLE_SUPERVISOR);
+        String accountsPayableSupervisorGroup = SpringContext.getBean(KualiConfigurationService.class).getApplicationParameterValue(PurapParameterConstants.PURAP_ADMIN_GROUP, PurapParameterConstants.Workgroups.WORKGROUP_ACCOUNTS_PAYABLE_SUPERVISOR);
         
         /* The user is the person who requested a cancel on the preq
          * The user is a member of the AP Supervisor group

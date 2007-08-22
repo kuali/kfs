@@ -31,7 +31,7 @@ import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.purap.PurapAuthorizationConstants;
 import org.kuali.module.purap.PurapConstants;
-import org.kuali.module.purap.PurapRuleConstants;
+import org.kuali.module.purap.PurapParameterConstants;
 import org.kuali.module.purap.bo.PurchaseOrderAccount;
 import org.kuali.module.purap.bo.PurchaseOrderItem;
 import org.kuali.module.purap.bo.PurchaseOrderVendorQuote;
@@ -166,7 +166,7 @@ public class PurchaseOrderForm extends PurchasingFormBase {
         
         boolean isActionRequested = (!workflowDocument.stateIsException()) && (workflowDocument.isCompletionRequested() || workflowDocument.isApprovalRequested() || workflowDocument.isAcknowledgeRequested() || workflowDocument.isFYIRequested());
 
-        String authorizedWorkgroup = SpringContext.getBean(KualiConfigurationService.class).getApplicationParameterValue(PurapRuleConstants.PURAP_ADMIN_GROUP, PurapRuleConstants.PURAP_DOCUMENT_PO_ACTIONS);
+        String authorizedWorkgroup = SpringContext.getBean(KualiConfigurationService.class).getApplicationParameterValue(PurapParameterConstants.PURAP_ADMIN_GROUP, PurapParameterConstants.Workgroups.PURAP_DOCUMENT_PO_ACTIONS);
         boolean isUserAuthorized = false;
         try {
             isUserAuthorized = SpringContext.getBean(KualiGroupService.class).getByGroupName(authorizedWorkgroup).hasMember(GlobalVariables.getUserSession().getUniversalUser());
@@ -174,7 +174,6 @@ public class PurchaseOrderForm extends PurchasingFormBase {
         catch (GroupNotFoundException e) {
             throw new RuntimeException("Workgroup " + authorizedWorkgroup + " not found",e);
         }
-        
         
         if (isUserAuthorized &&(purchaseOrder.isPurchaseOrderCurrentIndicator() && purchaseOrder.getStatusCode().equals(PurapConstants.PurchaseOrderStatuses.OPEN)) || 
              (documentType.equals(PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_RETRANSMIT_DOCUMENT) &&

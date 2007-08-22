@@ -107,7 +107,7 @@ public class KualiInternalPurchasingRoleAttribute extends UnqualifiedRoleAttribu
     @Override
     public ResolvedQualifiedRole resolveRole(RouteContext routeContext, String roleName) throws EdenUserNotFoundException {
         // assume isMatch above has done it's job
-        String workgroupName = SpringContext.getBean(KualiConfigurationService.class).getApplicationParameterValue(PurapParameterConstants.PURAP_ADMIN_GROUP, PurapWorkflowConstants.PurchaseOrderDocument.INTERNAL_PURCHASING_WORKGROUP_NAME);
+        String workgroupName = SpringContext.getBean(KualiConfigurationService.class).getApplicationParameterValue(PurapParameterConstants.PURAP_ADMIN_GROUP, PurapParameterConstants.WorkflowParameters.PurchaseOrderDocument.INTERNAL_PURCHASING_WORKGROUP_NAME);
         return new ResolvedQualifiedRole(INTERNAL_PURCHASING_ROLE_LABEL, Arrays.asList(new Id[] { new GroupNameId(workgroupName) }));
     }
 }

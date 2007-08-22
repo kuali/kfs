@@ -150,6 +150,7 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase {
     public void customPrepareForSave(KualiDocumentEvent event) {
         if (ObjectUtils.isNull(getPurapDocumentIdentifier())) {
             //need to save to generate PO id to save in GL entries
+            // TODO hstaplet/delyea - is this needed?  Entries are generated prior to this being called and this throws optimistic lock exception now?
             SpringContext.getBean(BusinessObjectService.class).save(this);
         }
 
@@ -386,7 +387,7 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase {
             ReportCriteriaVO reportCriteriaVO = new ReportCriteriaVO(Long.valueOf(getDocumentNumber()));
             reportCriteriaVO.setTargetNodeName(newNodeName);
             try {
-                NodeDetails newNodeDetails = getNodeDetailEnum(newNodeName);
+                NodeDetails newNodeDetails = NodeDetailEnum.getNodeDetailEnumByName(newNodeName);
                 if (ObjectUtils.isNotNull(newNodeDetails)) {
                     if (PurapWorkflowConstants.PurchaseOrderDocument.NodeDetailEnum.DOCUMENT_TRANSMISSION.equals(newNodeDetails)) {
                         // in the document transmission node... we do special processing to set the status and update the PO
@@ -416,10 +417,6 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase {
                 LOG.warn(errorMsg, e);
             }
         }
-    }
-
-    public NodeDetails getNodeDetailEnum(String newNodeName) {
-        return NodeDetailEnum.getNodeDetailEnumByName(newNodeName);
     }
 
     /**

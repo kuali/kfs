@@ -74,7 +74,7 @@ public class PaymentRequestDocumentActionAuthorizer {
         //user indicators
         this.approver = preq.getDocumentHeader().getWorkflowDocument().isApprovalRequested();
         
-        String apGroup = SpringContext.getBean(KualiConfigurationService.class).getApplicationParameterValue(PurapParameterConstants.PURAP_ADMIN_GROUP, PurapConstants.Workgroups.WORKGROUP_ACCOUNTS_PAYABLE);        
+        String apGroup = SpringContext.getBean(KualiConfigurationService.class).getApplicationParameterValue(PurapParameterConstants.PURAP_ADMIN_GROUP, PurapParameterConstants.Workgroups.WORKGROUP_ACCOUNTS_PAYABLE);        
         if( user.isMember(apGroup) ){
             this.apUser = true;
         }

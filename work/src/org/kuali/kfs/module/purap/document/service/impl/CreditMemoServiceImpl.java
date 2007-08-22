@@ -36,6 +36,7 @@ import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.bo.SourceAccountingLine;
 import org.kuali.kfs.context.SpringContext;
+import org.kuali.kfs.rule.event.DocumentSystemSaveEvent;
 import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.PurapKeyConstants;
 import org.kuali.module.purap.PurapParameterConstants;
@@ -102,18 +103,6 @@ public class CreditMemoServiceImpl implements CreditMemoService {
             if (ObjectUtils.isNotNull(sourceDocument)) {
                 vendorNumber = sourceDocument.getVendorNumber();
             }
-//            if (StringUtils.equals(cmDocument.getCreditMemoType(), CREDIT_MEMO_TYPES.TYPE_PREQ)) {
-//                PaymentRequestDocument paymentRequestDocument = paymentRequestService.getPaymentRequestById(cmDocument.getPaymentRequestIdentifier());
-//                if (paymentRequestDocument != null) {
-//                    vendorNumber = paymentRequestDocument.getVendorNumber();
-//                }
-//            }
-//            else {
-//                PurchaseOrderDocument purchaseOrderDocument = purchaseOrderService.getCurrentPurchaseOrder(cmDocument.getPurchaseOrderIdentifier());
-//                if (purchaseOrderDocument != null) {
-//                    vendorNumber = purchaseOrderDocument.getVendorNumber();
-//                }
-//            }
         }
 
         if (StringUtils.isNotEmpty(vendorNumber)) {
@@ -227,13 +216,14 @@ public class CreditMemoServiceImpl implements CreditMemoService {
     /**
      * @see org.kuali.module.purap.service.CreditMemoService#saveDocumentWithoutValidation(org.kuali.module.purap.document.CreditMemoDocument)
      */
-    public void saveDocumentWithoutValidation(CreditMemoDocument creditMemoDocument) {
+    public void saveDocumentWithoutValidation(CreditMemoDocument document) {
         try {
-            documentService.saveDocumentWithoutRunningValidation(creditMemoDocument);
-            creditMemoDocument.refreshNonUpdateableReferences();
+            documentService.saveDocument(document, DocumentSystemSaveEvent.class);
+//          documentService.saveDocumentWithoutRunningValidation(document);
+            document.refreshNonUpdateableReferences();
         }
         catch (WorkflowException we) {
-            String errorMsg = "Error saving document # " + creditMemoDocument.getDocumentHeader().getDocumentNumber() + " " + we.getMessage(); 
+            String errorMsg = "Error saving document # " + document.getDocumentHeader().getDocumentNumber() + " " + we.getMessage(); 
             LOG.error(errorMsg, we);
             throw new RuntimeException(errorMsg, we);
         }
@@ -285,7 +275,7 @@ public class CreditMemoServiceImpl implements CreditMemoService {
     public boolean canHoldCreditMemo(CreditMemoDocument cmDocument, UniversalUser user) {
         boolean canHold = false;
 
-        String accountsPayableGroup = SpringContext.getBean(KualiConfigurationService.class).getApplicationParameterValue(PurapParameterConstants.PURAP_ADMIN_GROUP, PurapConstants.Workgroups.WORKGROUP_ACCOUNTS_PAYABLE);
+        String accountsPayableGroup = SpringContext.getBean(KualiConfigurationService.class).getApplicationParameterValue(PurapParameterConstants.PURAP_ADMIN_GROUP, PurapParameterConstants.Workgroups.WORKGROUP_ACCOUNTS_PAYABLE);
         if ( (!cmDocument.isHoldIndicator()) && user.isMember(accountsPayableGroup) && ObjectUtils.isNull(cmDocument.getExtractedDate()) && 
              (!PurapConstants.CreditMemoStatuses.STATUSES_DISALLOWING_HOLD.contains(cmDocument.getStatusCode())) ) {
             canHold = true;
@@ -324,7 +314,7 @@ public class CreditMemoServiceImpl implements CreditMemoService {
     public boolean canRemoveHoldCreditMemo(CreditMemoDocument cmDocument, UniversalUser user) {
         boolean canRemoveHold = false;
 
-        String accountsPayableSupervisorGroup = SpringContext.getBean(KualiConfigurationService.class).getApplicationParameterValue(PurapParameterConstants.PURAP_ADMIN_GROUP, PurapConstants.Workgroups.WORKGROUP_ACCOUNTS_PAYABLE_SUPERVISOR);
+        String accountsPayableSupervisorGroup = SpringContext.getBean(KualiConfigurationService.class).getApplicationParameterValue(PurapParameterConstants.PURAP_ADMIN_GROUP, PurapParameterConstants.Workgroups.WORKGROUP_ACCOUNTS_PAYABLE_SUPERVISOR);
         if (cmDocument.isHoldIndicator() && (user.getPersonUniversalIdentifier().equals(cmDocument.getLastActionPerformedByUniversalUserId()) || user.isMember(accountsPayableSupervisorGroup))) {
             canRemoveHold = true;
         }
@@ -364,7 +354,7 @@ public class CreditMemoServiceImpl implements CreditMemoService {
     public boolean canCancelCreditMemo(CreditMemoDocument cmDocument, UniversalUser user) {
         boolean canCancel = false;
 
-        String accountsPayableGroup = SpringContext.getBean(KualiConfigurationService.class).getApplicationParameterValue(PurapParameterConstants.PURAP_ADMIN_GROUP, PurapConstants.Workgroups.WORKGROUP_ACCOUNTS_PAYABLE);
+        String accountsPayableGroup = SpringContext.getBean(KualiConfigurationService.class).getApplicationParameterValue(PurapParameterConstants.PURAP_ADMIN_GROUP, PurapParameterConstants.Workgroups.WORKGROUP_ACCOUNTS_PAYABLE);
         if ( (!CreditMemoStatuses.CANCELLED_STATUSES.contains(cmDocument.getStatusCode())) && cmDocument.getExtractedDate() == null && !cmDocument.isHoldIndicator() && user.isMember(accountsPayableGroup)) {
             canCancel = true;
         }

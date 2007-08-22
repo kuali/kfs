@@ -32,6 +32,7 @@ import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.document.authorization.AccountingDocumentAuthorizerBase;
 import org.kuali.module.purap.PurapAuthorizationConstants;
 import org.kuali.module.purap.PurapConstants;
+import org.kuali.module.purap.PurapParameterConstants;
 import org.kuali.module.purap.PurapRuleConstants;
 import org.kuali.module.purap.document.CreditMemoDocument;
 import org.kuali.module.purap.service.CreditMemoService;
@@ -47,10 +48,7 @@ public class CreditMemoDocumentAuthorizer extends AccountingDocumentAuthorizerBa
      */
     @Override
     public boolean hasInitiateAuthorization(Document document, UniversalUser user) {
-        // String authorizedWorkgroup =
-        // SpringContext.getBean(KualiConfigurationService.class).getApplicationParameterValue(PurapRuleConstants.PURAP_ADMIN_GROUP,
-        // PurapRuleConstants.PURAP_DOCUMENT_PREQ_ACTIONS);
-        String authorizedWorkgroup = SpringContext.getBean(KualiConfigurationService.class).getApplicationParameterValue(PurapRuleConstants.PURAP_ADMIN_GROUP, PurapRuleConstants.PURAP_DOCUMENT_PO_ACTIONS);
+        String authorizedWorkgroup = SpringContext.getBean(KualiConfigurationService.class).getApplicationParameterValue(PurapParameterConstants.PURAP_ADMIN_GROUP, PurapParameterConstants.Workgroups.WORKGROUP_ACCOUNTS_PAYABLE);
         try {
             return SpringContext.getBean(KualiGroupService.class).getByGroupName(authorizedWorkgroup).hasMember(user);
         }

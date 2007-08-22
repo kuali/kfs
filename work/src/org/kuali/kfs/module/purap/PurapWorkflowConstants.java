@@ -44,12 +44,6 @@ public class PurapWorkflowConstants {
     }
     
     public static class RequisitionDocument {
-        // Config parameter names
-        public static final String SEPARATION_OF_DUTIES_DOLLAR_AMOUNT = PurapConstants.PURAP_PARAM_PREFIX + PurapConstants.STANDARD_SEPARATOR + "SEPARATION_OF_DUTIES_DOLLAR_AMOUNT";
-
-        // Workgroups
-        public static final String SEPARATION_OF_DUTIES_WORKGROUP_NAME = PurapConstants.PURAP_PARAM_PREFIX + PurapConstants.STANDARD_SEPARATOR + "WORKGROUP.SEPARATION_OF_DUTIES";
-
         public enum NodeDetailEnum implements NodeDetails {
             ADHOC_REVIEW (DOC_ADHOC_NODE_NAME, null, null),
             CONTENT_REVIEW("Content Review", PurapConstants.RequisitionStatuses.AWAIT_CONTENT_REVIEW, PurapConstants.RequisitionStatuses.DAPRVD_CONTENT),
@@ -107,12 +101,6 @@ public class PurapWorkflowConstants {
     }
 
     public static class PurchaseOrderDocument {
-        // Config parameter names
-        public static final String CG_RESTRICTED_OBJECT_CODE_RULE_GROUP_NAME = "PurAp.CG_Restricted_Object_Codes";
-        
-        // Workgroups
-        public static final String INTERNAL_PURCHASING_WORKGROUP_NAME = PurapConstants.PURAP_PARAM_PREFIX + PurapConstants.STANDARD_SEPARATOR + "INTERNAL_PURCHASING_REVIEWERS";
-
         public enum NodeDetailEnum implements NodeDetails {
             ADHOC_REVIEW (DOC_ADHOC_NODE_NAME, null, null),
             INTERNAL_PURCHASING_REVIEW ("Internal Purchasing Review", PurapConstants.PurchaseOrderStatuses.AWAIT_PURCHASING_REVIEW, PurapConstants.PurchaseOrderStatuses.DAPRVD_PURCHASING),

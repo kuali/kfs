@@ -35,7 +35,6 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.bo.DocumentHeader;
-import org.kuali.core.rule.event.SaveOnlyDocumentEvent;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DataDictionaryService;
 import org.kuali.core.service.DateTimeService;
@@ -48,6 +47,7 @@ import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.workflow.service.WorkflowDocumentService;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSPropertyConstants;
+import org.kuali.kfs.rule.event.DocumentSystemSaveEvent;
 import org.kuali.kfs.rules.AccountingLineRuleUtil;
 import org.kuali.module.financial.bo.ProcurementCardHolder;
 import org.kuali.module.financial.bo.ProcurementCardSourceAccountingLine;
@@ -94,7 +94,8 @@ public class ProcurementCardCreateDocumentServiceImpl implements ProcurementCard
         for (Iterator iter = documents.iterator(); iter.hasNext();) {
             ProcurementCardDocument pcardDocument = (ProcurementCardDocument) iter.next();
             try {
-                documentService.saveDocumentWithoutRunningValidation(pcardDocument);
+                documentService.saveDocument(pcardDocument, DocumentSystemSaveEvent.class);
+//                documentService.saveDocumentWithoutRunningValidation(pcardDocument);
             }
             catch (Exception e) {
                 LOG.error("Error persisting document # " + pcardDocument.getDocumentHeader().getDocumentNumber() + " " + e.getMessage());

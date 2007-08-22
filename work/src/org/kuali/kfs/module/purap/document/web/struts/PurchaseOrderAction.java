@@ -407,7 +407,7 @@ public class PurchaseOrderAction extends PurchasingActionBase {
      */
     public ActionForward printPo(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         String poDocId = request.getParameter("docId");
-        PurchaseOrderDocument po = (PurchaseOrderDocument) SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(poDocId);
+        PurchaseOrderDocument po = SpringContext.getBean(PurchaseOrderService.class).getPurchaseOrderByDocumentNumber(poDocId);
         ByteArrayOutputStream baosPDF = new ByteArrayOutputStream();
         try {
             StringBuffer sbFilename = new StringBuffer();
@@ -842,7 +842,7 @@ public class PurchaseOrderAction extends PurchasingActionBase {
         Date expDate = new Date(currentSqlDate.getTime() + (10 * 24 * 60 * 60 * 1000)); //add 10 days - TODO: need to move this into a DB setting
         document.setPurchaseOrderQuoteDueDate(expDate);
         document.getPurchaseOrderVendorQuotes().clear();
-        SpringContext.getBean(DocumentService.class).saveDocumentWithoutRunningValidation(document);
+        SpringContext.getBean(PurchaseOrderService.class).saveDocumentWithoutValidation(document);
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
@@ -945,7 +945,7 @@ public class PurchaseOrderAction extends PurchasingActionBase {
                 document.setStatusCode(PurapConstants.PurchaseOrderStatuses.IN_PROCESS);
             }
         }
-        SpringContext.getBean(DocumentService.class).saveDocumentWithoutRunningValidation(document);
+        SpringContext.getBean(PurchaseOrderService.class).saveDocumentWithoutValidation(document);
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 

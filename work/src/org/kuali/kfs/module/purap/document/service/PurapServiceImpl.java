@@ -34,6 +34,7 @@ import org.kuali.core.service.PersistenceService;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.workflow.service.KualiWorkflowInfo;
+import org.kuali.core.workflow.service.WorkflowDocumentService;
 import org.kuali.kfs.bo.SourceAccountingLine;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.financial.service.UniversityDateService;
@@ -100,7 +101,6 @@ public class PurapServiceImpl implements PurapService {
         else {
             return false;
         }
-
     }
 
     /**
@@ -279,14 +279,27 @@ public class PurapServiceImpl implements PurapService {
                 activeNode = nodeNames[0];
             }
             if (isGivenNodeAfterCurrentNode(givenNodeDetail.getNodeDetailByName(activeNode), givenNodeDetail)) {
-                ReportCriteriaVO reportCriteriaVO = new ReportCriteriaVO(document.getDocumentHeader().getWorkflowDocument().getDocumentType());
-                // TODO delyea - RICE UPDATE - uncomment below once RICE is updated
-//                document.populateDocumentForRouteReport();
-                reportCriteriaVO.setXmlContent(document.serializeDocumentToXml());
-                reportCriteriaVO.setTargetNodeName(givenNodeDetail.getName());
-                boolean value = SpringContext.getBean(KualiWorkflowInfo.class).documentWillHaveAtLeastOneActionRequest(
-                        reportCriteriaVO, new String[]{EdenConstants.ACTION_REQUEST_APPROVE_REQ,EdenConstants.ACTION_REQUEST_COMPLETE_REQ});
-                 return value;
+                if (document.getDocumentHeader().getWorkflowDocument().stateIsInitiated()) {
+                    // document is only initiated so we need to pass xml for workflow to simulate route properly
+                    ReportCriteriaVO reportCriteriaVO = new ReportCriteriaVO(document.getDocumentHeader().getWorkflowDocument().getDocumentType());
+                    reportCriteriaVO.setXmlContent(document.getXmlForRouteReport());
+                    reportCriteriaVO.setTargetNodeName(givenNodeDetail.getName());
+                    boolean value = SpringContext.getBean(KualiWorkflowInfo.class).documentWillHaveAtLeastOneActionRequest(
+                            reportCriteriaVO, new String[]{EdenConstants.ACTION_REQUEST_APPROVE_REQ,EdenConstants.ACTION_REQUEST_COMPLETE_REQ});
+                     return value;
+                }
+                else {
+                    /* Document has had at least one workflow action taken so we need to pass the doc id so the simulation will use the existing
+                     * actions taken and action requests in determining if rules will fire or not.  We also need to call a save routing data so that
+                     * the xml Workflow uses represents what is currently on the document
+                     */ 
+                    ReportCriteriaVO reportCriteriaVO = new ReportCriteriaVO(Long.valueOf(document.getDocumentNumber()));
+                    reportCriteriaVO.setXmlContent(document.getXmlForRouteReport());
+                    reportCriteriaVO.setTargetNodeName(givenNodeDetail.getName());
+                    boolean value = SpringContext.getBean(KualiWorkflowInfo.class).documentWillHaveAtLeastOneActionRequest(
+                            reportCriteriaVO, new String[]{EdenConstants.ACTION_REQUEST_APPROVE_REQ,EdenConstants.ACTION_REQUEST_COMPLETE_REQ});
+                     return value;
+                }
             }
             return false;
         }

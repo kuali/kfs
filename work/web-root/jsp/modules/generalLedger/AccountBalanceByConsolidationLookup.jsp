@@ -88,12 +88,13 @@
 					return with no value </a>
 				</c:if>
 			</logic-el:present></div>
-
+			
+			<c:if test="${!empty reqSearchResultsSize }">
 			<c:set var="offset" value="0" />
 			<display:table class="datatable-100" 
 				cellspacing="0" cellpadding="0" name="${reqSearchResults}" id="row"
 				export="true" pagesize="100" offset="${offset}"
-				requestURI="glAccountBalanceByConsolidationLookup.do?methodToCall=viewResults&reqSearchResultsActualSize=${reqSearchResultsActualSize}&searchResultKey=${searchResultKey}">
+				requestURI="glAccountBalanceByConsolidationLookup.do?methodToCall=viewResults&searchResultKey=${searchResultKey}">
 				<c:forEach items="${row.columns}" var="column" varStatus="status">
 					<display:column class="${(column.formatter.implementationClass == 'org.kuali.core.web.format.CurrencyFormatter') ? 'numbercell' : 'inofocell'}" 
 						title="${column.columnTitle}" comparator="${column.comparator}" sortable="${('dummyBusinessObject.linkButtonOption' ne column.propertyName) && column.sortable}">
@@ -182,6 +183,7 @@
                 </table>
 				</div>
 			</c:if></td>
+			</c:if>
 			<td width="1%"><img src="${ConfigProperties.kr.externalizable.images.url}pixel_clear.gif" alt="" height="20"
 				width="20"></td>
 		</tr>

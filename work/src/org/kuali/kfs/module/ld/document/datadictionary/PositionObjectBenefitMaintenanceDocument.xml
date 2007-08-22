@@ -32,13 +32,13 @@
             </authorization>
         </authorizations>
 
-		<documentTypeName>KualiPositionObjectBenefitMaintenanceDocument</documentTypeName>
+		<documentTypeName>KualiLaborObjectCodeBenefitMaintenanceDocument</documentTypeName>
 		<documentTypeCode>LOBN</documentTypeCode>
 
-		<label>Position Object Benefit Maintenance Document</label>
-		<shortLabel>Pos Obj Benefit Maint Doc</shortLabel>
+		<label>Object Code Benefits Maintenance Document</label>
+		<shortLabel>Object Code Benefit Maint Doc</shortLabel>
 		
-		<summary>Position Object Benefit Maintenance Document</summary>
+		<summary>Labor Object Code Benefits Maintenance Document</summary>
 		<description>Document used to create or update Position Object Benefit objects</description>
         <help securityGroupName="Kuali.Other.Help" parameterName="OTHER_HELP_LABOR_OBJECT_BENEFIT" />
 

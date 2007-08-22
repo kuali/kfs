@@ -44,6 +44,7 @@ import org.kuali.core.workflow.service.KualiWorkflowDocument;
 import org.kuali.core.workflow.service.WorkflowDocumentService;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.context.SpringContext;
+import org.kuali.kfs.rule.event.DocumentSystemSaveEvent;
 import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.PurapKeyConstants;
 import org.kuali.module.purap.PurapConstants.POTransmissionMethods;
@@ -134,12 +135,13 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
         this.requisitionService = requisitionService;
     }
 
-    public void saveDocumentWithoutValidation(PurchaseOrderDocument purchaseOrderDocument) {
+    public void saveDocumentWithoutValidation(PurchaseOrderDocument document) {
         try {
-            documentService.saveDocumentWithoutRunningValidation(purchaseOrderDocument);
+            documentService.saveDocument(document, DocumentSystemSaveEvent.class);
+//            documentService.saveDocumentWithoutRunningValidation(document);
         }
         catch (WorkflowException we) {
-            String errorMsg = "Error saving document # " + purchaseOrderDocument.getDocumentHeader().getDocumentNumber() + " " + we.getMessage(); 
+            String errorMsg = "Error saving document # " + document.getDocumentHeader().getDocumentNumber() + " " + we.getMessage(); 
             LOG.error(errorMsg, we);
             throw new RuntimeException(errorMsg, we);
         }
@@ -165,7 +167,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
             reqDocument.setPurchaseOrderAutomaticIndicator(Boolean.TRUE);
             reqDocument.setContractManagerCode(PurapConstants.APO_CONTRACT_MANAGER);
             // create PO and populate with default data
-            PurchaseOrderDocument poDocument = createPurchaseOrderDocument(reqDocument);
+            PurchaseOrderDocument poDocument = generatePurchaseOrderFromRequisition(reqDocument);
             poDocument.setDefaultValuesForAPO();
             documentService.routeDocument(poDocument, null, null);
             
@@ -195,13 +197,14 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
      */
     public PurchaseOrderDocument createPurchaseOrderDocument(RequisitionDocument reqDocument) {
         try {
-            PurchaseOrderDocument poDocument = createPurchaseOrder(reqDocument);
+            PurchaseOrderDocument poDocument = generatePurchaseOrderFromRequisition(reqDocument);
             // added line below for JIRA KULOWF-294 - Purchase Order search results are not displaying the total amount on some "in process" purchase orders
             // TODO delyea - RICE CHANGE - below needs to call document service save method passing in no Validate Save Event
-            poDocument.prepareForSave();
-            documentService.updateDocument(poDocument);
-            documentService.prepareWorkflowDocument(poDocument);
-            workflowDocumentService.save(poDocument.getDocumentHeader().getWorkflowDocument(), "", null);
+//            poDocument.prepareForSave();
+//            documentService.updateDocument(poDocument);
+//            documentService.prepareWorkflowDocument(poDocument);
+//            workflowDocumentService.save(poDocument.getDocumentHeader().getWorkflowDocument(), "", null);
+            saveDocumentWithoutValidation(poDocument);
             return poDocument;
         }
         catch (WorkflowException e) {
@@ -210,7 +213,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
         }
     }
     
-    private PurchaseOrderDocument createPurchaseOrder(RequisitionDocument reqDocument) throws WorkflowException {
+    private PurchaseOrderDocument generatePurchaseOrderFromRequisition(RequisitionDocument reqDocument) throws WorkflowException {
         // create PO and populate with default data
         PurchaseOrderDocument poDocument = null;
 //        try {
@@ -601,7 +604,6 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
             po.setPurchaseOrderInitialOpenDate(dateTimeService.getCurrentSqlDate());
         }
         this.saveDocumentWithoutValidation(po);
-        
     }
     
     public void setupDocumentForPendingFirstTransmission(PurchaseOrderDocument po, boolean hasActionRequestForDocumentTransmission) {

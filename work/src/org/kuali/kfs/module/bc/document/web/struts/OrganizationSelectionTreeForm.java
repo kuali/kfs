@@ -46,6 +46,7 @@ public class OrganizationSelectionTreeForm extends KualiForm {
     private List <BudgetConstructionPullup> previousBranchOrgs; 
     private boolean hideDetails = false;
     private String operatingModeTitle;
+    private String operatingModePullFlagLabel;
 
     private String currentPointOfViewKeyCode;
     private String previousPointOfViewKeyCode;
@@ -80,16 +81,19 @@ public class OrganizationSelectionTreeForm extends KualiForm {
         switch (opMode){
             case SALSET:
                 setOperatingModeTitle("Budget Salary Setting Organization Selection");
+                setOperatingModePullFlagLabel("Selected");
                 getPullFlagKeyLabels().add(new KeyLabelPair(OrgSelControlOption.NO.getKey(), OrgSelControlOption.NO.getLabel()));
                 getPullFlagKeyLabels().add(new KeyLabelPair(OrgSelControlOption.YES.getKey(), OrgSelControlOption.YES.getLabel()));
                 break;
             case REPORTS:
                 setOperatingModeTitle("BC Reports Organization Selection");
+                setOperatingModePullFlagLabel("Selected");
                 getPullFlagKeyLabels().add(new KeyLabelPair(OrgSelControlOption.NO.getKey(), OrgSelControlOption.NO.getLabel()));
                 getPullFlagKeyLabels().add(new KeyLabelPair(OrgSelControlOption.YES.getKey(), OrgSelControlOption.YES.getLabel()));
                 break;
             case PULLUP:
                 setOperatingModeTitle("BC Pull Up Organization Selection");
+                setOperatingModePullFlagLabel("Pull Up Type");
                 getPullFlagKeyLabels().add(new KeyLabelPair(OrgSelControlOption.NOTSEL.getKey(), OrgSelControlOption.NOTSEL.getLabel()));
                 getPullFlagKeyLabels().add(new KeyLabelPair(OrgSelControlOption.ORG.getKey(), OrgSelControlOption.ORG.getLabel()));
                 getPullFlagKeyLabels().add(new KeyLabelPair(OrgSelControlOption.SUBORG.getKey(), OrgSelControlOption.SUBORG.getLabel()));
@@ -97,6 +101,7 @@ public class OrganizationSelectionTreeForm extends KualiForm {
                 break;
             case PUSHDOWN:
                 setOperatingModeTitle("BC Push Down Organization Selection");
+                setOperatingModePullFlagLabel("Push Down Type");
                 getPullFlagKeyLabels().add(new KeyLabelPair(OrgSelControlOption.NOTSEL.getKey(), OrgSelControlOption.NOTSEL.getLabel()));
                 getPullFlagKeyLabels().add(new KeyLabelPair(OrgSelControlOption.ORGLEV.getKey(), OrgSelControlOption.ORGLEV.getLabel()));
                 getPullFlagKeyLabels().add(new KeyLabelPair(OrgSelControlOption.MGRLEV.getKey(), OrgSelControlOption.MGRLEV.getLabel()));
@@ -107,6 +112,7 @@ public class OrganizationSelectionTreeForm extends KualiForm {
             default:
                 // default to ACCOUNT operating mode
                 setOperatingModeTitle("Budgeted Account List Search Organization Selection");
+            setOperatingModePullFlagLabel("Selected");
                 getPullFlagKeyLabels().add(new KeyLabelPair(OrgSelControlOption.NO.getKey(), OrgSelControlOption.NO.getLabel()));
                 getPullFlagKeyLabels().add(new KeyLabelPair(OrgSelControlOption.YES.getKey(), OrgSelControlOption.YES.getLabel()));
                 break;
@@ -310,6 +316,22 @@ public class OrganizationSelectionTreeForm extends KualiForm {
      */
     public void setPullFlagKeyLabels(List pullFlagKeyLabels) {
         this.pullFlagKeyLabels = pullFlagKeyLabels;
+    }
+
+    /**
+     * Gets the operatingModePullFlagLabel attribute. 
+     * @return Returns the operatingModePullFlagLabel.
+     */
+    public String getOperatingModePullFlagLabel() {
+        return operatingModePullFlagLabel;
+    }
+
+    /**
+     * Sets the operatingModePullFlagLabel attribute value.
+     * @param operatingModePullFlagLabel The operatingModePullFlagLabel to set.
+     */
+    public void setOperatingModePullFlagLabel(String operatingModePullFlagLabel) {
+        this.operatingModePullFlagLabel = operatingModePullFlagLabel;
     }
 
 

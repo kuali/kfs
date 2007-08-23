@@ -15,6 +15,8 @@
  */
 package org.kuali.module.purap.bo;
 
+import java.math.BigDecimal;
+
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
@@ -38,7 +40,7 @@ public abstract class AccountsPayableItemBase extends PurApItemBase implements A
      */
     public boolean isConsideredEntered() {
         // TODO Auto-generated method stub
-        return isConsideredEnteredWithoutZero();
+        return isConsideredEnteredWithZero();
     }
     
     public boolean isEligibleDisplay() {
@@ -77,7 +79,7 @@ public abstract class AccountsPayableItemBase extends PurApItemBase implements A
             }
         }
         else {
-            if ( (ObjectUtils.isNull(getItemUnitPrice())) && (StringUtils.isBlank(getItemDescription())) ) {
+            if ( (ObjectUtils.isNull(getItemUnitPrice()) || (allowsZero && this.getItemUnitPrice().compareTo(new BigDecimal(0)) == 0)) && (StringUtils.isBlank(getItemDescription())) ) {
                 return false;
             }
         }

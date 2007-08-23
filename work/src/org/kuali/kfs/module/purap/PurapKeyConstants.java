@@ -38,6 +38,7 @@ public class PurapKeyConstants {
     public static final String ERROR_FAX_NUMBER_INVALID = "errors.faxNumber.invalid";
     public static final String ERROR_FAX_NUMBER_PO_TRANSMISSION_TYPE = "error.faxNumber.PoTransmissionType";
     public static final String ERROR_INVALID_VENDOR_TYPE = "error.vendorType.invalid";    
+    public static final String ERROR_DEBARRED_VENDOR = "error.debarred.vendor";   
     public static final String ERROR_INACTIVE_VENDOR = "error.inactive.vendor";   
     public static final String ERROR_NONEXIST_VENDOR = "error.nonexist.vendor"; 
     public static final String REQ_TOTAL_GREATER_THAN_PO_TOTAL_LIMIT = "error.purchaseOrderTotalLimit";
@@ -161,7 +162,7 @@ public class PurapKeyConstants {
     public static final String ERROR_ITEM_ACCOUNTING_ROUNDING="errors.item.accounting.rounding";
     public static final String ERROR_ITEM_ACCOUNTING_DOLLAR_TOTAL="errors.item.accounting.dollar.total";
     public static final String ERROR_ITEM_BELOW_THE_LINE_NO_UNIT_COST="errors.item.belowTheLine.noUnitCost";
-    
+
     //Credit Memo
     public static final String ERROR_CREDIT_MEMO_REQUIRED_FIELDS = "errors.creditMemo.required.fields";
     public static final String ERROR_CREDIT_MEMO_PURCHASE_ORDER_INVALID = "errors.creditMemo.purchaseOrder.invalid";

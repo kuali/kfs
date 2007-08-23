@@ -38,7 +38,9 @@
                         <kul:htmlControlAttribute 
                             attributeEntry="${stipulationAttributes.vendorStipulationDescription}" 
                             property="newPurchaseOrderVendorStipulationLine.vendorStipulationDescription" />
-                        <kul:lookup boClassName="org.kuali.module.purap.bo.VendorStipulation" fieldConversions="vendorStipulationDescription:document.vendorStipulationDescription" /></div>
+                        <kul:lookup boClassName="org.kuali.module.purap.bo.VendorStipulation" 
+                        	readOnlyFields="active" lookupParameters="'Y': active"
+                        	fieldConversions="vendorStipulationDescription:document.vendorStipulationDescription" /></div>
                     </td>
                     <td class="infoline">
                 		<div align="center"><html:image property="methodToCall.addStipulation" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-add1.gif" alt="Insert a Stipulation" title="Add a Stipulation" styleClass="tinybutton"/></div>

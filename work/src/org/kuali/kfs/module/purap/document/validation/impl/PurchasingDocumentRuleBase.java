@@ -45,6 +45,7 @@ import org.kuali.module.purap.document.PurchasingAccountsPayableDocument;
 import org.kuali.module.purap.document.PurchasingDocument;
 import org.kuali.module.vendor.VendorPropertyConstants;
 import org.kuali.module.vendor.bo.VendorDetail;
+import org.kuali.module.vendor.bo.VendorHeader;
 import org.kuali.module.vendor.service.VendorService;
 
 public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumentRuleBase {
@@ -84,7 +85,7 @@ public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumen
                 //If the item is below the line, no accounts can be entered on below the line items
                 //that have no unit cost (KULPURAP-1234)
                 valid &= validateBelowTheLineItemNoUnitCost(item, identifierString);
-            }
+        }
         }
         valid &= validateTotalCost((PurchasingDocument)purapDocument);
         valid &= validateContainsAtLeastOneItem((PurchasingDocument)purapDocument);
@@ -289,20 +290,29 @@ public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumen
         }                
                 
         VendorDetail vendorDetail = SpringContext.getBean(VendorService.class).getVendorDetail(purDocument.getVendorHeaderGeneratedIdentifier(), purDocument.getVendorDetailAssignedIdentifier());
+        if ( ObjectUtils.isNull(vendorDetail) ) 
+            return valid;
+        VendorHeader vendorHeader = vendorDetail.getVendorHeader();
+        
+        // make sure that the vendor is not debarred
+        if (vendorHeader.getVendorDebarredIndicator()) {       
+            valid &= false;
+            errorMap.putError(VendorPropertyConstants.VENDOR_NAME, PurapKeyConstants.ERROR_DEBARRED_VENDOR);
+        }
         
         // make sure that the vendor is of 'PO' type
         String allowedVendorType = SpringContext.getBean(KualiConfigurationService.class).getApplicationParameterValue(PurapRuleConstants.PURAP_ADMIN_GROUP, PurapRuleConstants.PURAP_VENDOR_TYPE_ALLOWED_ON_REQ_AND_PO);
-        if (ObjectUtils.isNotNull(vendorDetail) && !vendorDetail.getVendorHeader().getVendorTypeCode().equals(allowedVendorType)) {       
+        if (!vendorHeader.getVendorTypeCode().equals(allowedVendorType)) {       
             valid &= false;
             errorMap.putError(VendorPropertyConstants.VENDOR_NAME, PurapKeyConstants.ERROR_INVALID_VENDOR_TYPE);
         }
-        
-            
+                    
         // make sure that the vendor is active
-        if (ObjectUtils.isNotNull(vendorDetail) && !vendorDetail.isActiveIndicator()) {       
+        if (!vendorDetail.isActiveIndicator()) {       
             valid &= false;
             errorMap.putError(VendorPropertyConstants.VENDOR_NAME, PurapKeyConstants.ERROR_INACTIVE_VENDOR);
         }
+        
         return valid;
     }
 

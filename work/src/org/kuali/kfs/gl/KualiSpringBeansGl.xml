@@ -1457,7 +1457,7 @@
 			<ref bean="glCorrectionDocumentDao" />
 		</property>
 		<property name="correctionDocumentService">
-			<ref bean="glCorrectionDocumentService"/>
+			<ref bean="correctionDocumentService"/>
 		</property>
 	</bean>
 	

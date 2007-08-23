@@ -1075,7 +1075,7 @@
 
 	<bean id="glSufficientFundsDao" parent="platformAwareDao" class="org.kuali.module.gl.dao.ojb.SufficientFundsDaoOjb" />
 
-	<bean id="glCorrectionDocumentService" class="org.kuali.module.gl.service.impl.CorrectionDocumentServiceImpl">
+	<bean id="correctionDocumentService" class="org.kuali.module.gl.service.impl.CorrectionDocumentServiceImpl">
 		<property name="correctionChangeGroupDao">
 			<ref bean="glCorrectionChangeGroupDao" />
 		</property>

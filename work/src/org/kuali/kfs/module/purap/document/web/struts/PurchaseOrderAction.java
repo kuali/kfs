@@ -236,9 +236,9 @@ public class PurchaseOrderAction extends PurchasingActionBase {
      * @return An ActionForward
      * @throws Exception
      */
-    private ActionForward askQuestionsAndRoute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response, String questionType, String confirmType, String documentType, String notePrefix, String messageType, String operation) throws Exception {
+    private ActionForward askQuestionsAndPerformDocumentAction(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response, String questionType, String confirmType, String documentType, String notePrefix, String messageType, String operation) throws Exception {
 
-        LOG.debug("AskQuestionsAndRoute started.");
+        LOG.debug("askQuestionsAndPerformDocumentAction started.");
         KualiDocumentFormBase kualiDocumentFormBase = (KualiDocumentFormBase) form;
         PurchaseOrderDocument po = (PurchaseOrderDocument) kualiDocumentFormBase.getDocument();
         Object question = request.getParameter(KFSConstants.QUESTION_INST_ATTRIBUTE_NAME);
@@ -326,19 +326,19 @@ public class PurchaseOrderAction extends PurchasingActionBase {
     public ActionForward closePo(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         LOG.debug("ClosePO started.");
         String operation = "Close ";
-        return askQuestionsAndRoute(mapping, form, request, response, PODocumentsStrings.CLOSE_QUESTION, PODocumentsStrings.CLOSE_CONFIRM, PurchaseOrderDocTypes.PURCHASE_ORDER_CLOSE_DOCUMENT, PODocumentsStrings.CLOSE_NOTE_PREFIX, PurapKeyConstants.PURCHASE_ORDER_MESSAGE_CLOSE_DOCUMENT, operation);
+        return askQuestionsAndPerformDocumentAction(mapping, form, request, response, PODocumentsStrings.CLOSE_QUESTION, PODocumentsStrings.CLOSE_CONFIRM, PurchaseOrderDocTypes.PURCHASE_ORDER_CLOSE_DOCUMENT, PODocumentsStrings.CLOSE_NOTE_PREFIX, PurapKeyConstants.PURCHASE_ORDER_MESSAGE_CLOSE_DOCUMENT, operation);
     }
 
     public ActionForward paymentHoldPo(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         LOG.debug("PaymentHoldPO started.");
         String operation = "Hold Payment ";
-        return askQuestionsAndRoute(mapping, form, request, response, PODocumentsStrings.PAYMENT_HOLD_QUESTION, PODocumentsStrings.PAYMENT_HOLD_CONFIRM, PurchaseOrderDocTypes.PURCHASE_ORDER_PAYMENT_HOLD_DOCUMENT, PODocumentsStrings.PAYMENT_HOLD_NOTE_PREFIX, PurapKeyConstants.PURCHASE_ORDER_MESSAGE_PAYMENT_HOLD, operation);
+        return askQuestionsAndPerformDocumentAction(mapping, form, request, response, PODocumentsStrings.PAYMENT_HOLD_QUESTION, PODocumentsStrings.PAYMENT_HOLD_CONFIRM, PurchaseOrderDocTypes.PURCHASE_ORDER_PAYMENT_HOLD_DOCUMENT, PODocumentsStrings.PAYMENT_HOLD_NOTE_PREFIX, PurapKeyConstants.PURCHASE_ORDER_MESSAGE_PAYMENT_HOLD, operation);
     }
 
     public ActionForward removeHoldPo(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         LOG.debug("RemoveHoldPO started.");
         String operation = "Remove Payment Hold ";
-        ActionForward forward = askQuestionsAndRoute(mapping, form, request, response, PODocumentsStrings.REMOVE_HOLD_QUESTION, PODocumentsStrings.REMOVE_HOLD_CONFIRM, PurchaseOrderDocTypes.PURCHASE_ORDER_REMOVE_HOLD_DOCUMENT, PODocumentsStrings.REMOVE_HOLD_NOTE_PREFIX, PurapKeyConstants.PURCHASE_ORDER_MESSAGE_REMOVE_HOLD, operation);
+        ActionForward forward = askQuestionsAndPerformDocumentAction(mapping, form, request, response, PODocumentsStrings.REMOVE_HOLD_QUESTION, PODocumentsStrings.REMOVE_HOLD_CONFIRM, PurchaseOrderDocTypes.PURCHASE_ORDER_REMOVE_HOLD_DOCUMENT, PODocumentsStrings.REMOVE_HOLD_NOTE_PREFIX, PurapKeyConstants.PURCHASE_ORDER_MESSAGE_REMOVE_HOLD, operation);
 
         // Also need to send an FYI to the AP workgroup.
         // KualiDocumentFormBase kualiDocumentFormBase = (KualiDocumentFormBase) form;
@@ -368,7 +368,7 @@ public class PurchaseOrderAction extends PurchasingActionBase {
     public ActionForward reopenPo(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         LOG.debug("Reopen PO started");
         String operation = "Reopen ";
-        return askQuestionsAndRoute(mapping, form, request, response, PODocumentsStrings.REOPEN_PO_QUESTION, PODocumentsStrings.CONFIRM_REOPEN_QUESTION, PurchaseOrderDocTypes.PURCHASE_ORDER_REOPEN_DOCUMENT, PODocumentsStrings.REOPEN_NOTE_PREFIX, PurapKeyConstants.PURCHASE_ORDER_MESSAGE_REOPEN_DOCUMENT, operation);
+        return askQuestionsAndPerformDocumentAction(mapping, form, request, response, PODocumentsStrings.REOPEN_PO_QUESTION, PODocumentsStrings.CONFIRM_REOPEN_QUESTION, PurchaseOrderDocTypes.PURCHASE_ORDER_REOPEN_DOCUMENT, PODocumentsStrings.REOPEN_NOTE_PREFIX, PurapKeyConstants.PURCHASE_ORDER_MESSAGE_REOPEN_DOCUMENT, operation);
     }
 
     /**
@@ -384,13 +384,13 @@ public class PurchaseOrderAction extends PurchasingActionBase {
     public ActionForward amendPo(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         LOG.debug("Amend PO started");
         String operation = "Amend ";
-        return askQuestionsAndRoute(mapping, form, request, response, PODocumentsStrings.AMENDMENT_PO_QUESTION, PODocumentsStrings.CONFIRM_AMENDMENT_QUESTION, PurchaseOrderDocTypes.PURCHASE_ORDER_AMENDMENT_DOCUMENT, PODocumentsStrings.AMENDMENT_NOTE_PREFIX, PurapKeyConstants.PURCHASE_ORDER_MESSAGE_AMEND_DOCUMENT, operation);
+        return askQuestionsAndPerformDocumentAction(mapping, form, request, response, PODocumentsStrings.AMENDMENT_PO_QUESTION, PODocumentsStrings.CONFIRM_AMENDMENT_QUESTION, PurchaseOrderDocTypes.PURCHASE_ORDER_AMENDMENT_DOCUMENT, PODocumentsStrings.AMENDMENT_NOTE_PREFIX, PurapKeyConstants.PURCHASE_ORDER_MESSAGE_AMEND_DOCUMENT, operation);
     }
 
     public ActionForward voidPo(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         LOG.debug("Void PO started");
         String operation = "Void ";
-        return askQuestionsAndRoute(mapping, form, request, response, PODocumentsStrings.VOID_QUESTION, PODocumentsStrings.VOID_CONFIRM, PurchaseOrderDocTypes.PURCHASE_ORDER_VOID_DOCUMENT, PODocumentsStrings.VOID_NOTE_PREFIX, PurapKeyConstants.PURCHASE_ORDER_MESSAGE_VOID_DOCUMENT, operation);
+        return askQuestionsAndPerformDocumentAction(mapping, form, request, response, PODocumentsStrings.VOID_QUESTION, PODocumentsStrings.VOID_CONFIRM, PurchaseOrderDocTypes.PURCHASE_ORDER_VOID_DOCUMENT, PODocumentsStrings.VOID_NOTE_PREFIX, PurapKeyConstants.PURCHASE_ORDER_MESSAGE_VOID_DOCUMENT, operation);
     }
 
     /**
@@ -562,20 +562,17 @@ public class PurchaseOrderAction extends PurchasingActionBase {
         return null;
     }
 
+    /*  TODO PURAP - should this method be transmitting the PO or just setting up the dates?
+     *             - should this method be saving the entire PO or just the vendorQuote object (if in fact nothing on the PO is edited)
+     */
     public ActionForward transmitPurchaseOrderQuote(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         KualiDocumentFormBase kualiDocumentFormBase = (KualiDocumentFormBase) form;
         PurchaseOrderDocument po = (PurchaseOrderDocument) kualiDocumentFormBase.getDocument();
         PurchaseOrderVendorQuote vendorQuote = (PurchaseOrderVendorQuote)po.getPurchaseOrderVendorQuotes().get(getSelectedLine(request));
         if (PurapConstants.QuoteTransmitTypes.PRINT.equals(vendorQuote.getPurchaseOrderQuoteTransmitTypeCode())) {
-            Date currentSqlDate = SpringContext.getBean(DateTimeService.class).getCurrentSqlDate();
-            vendorQuote.setPurchaseOrderQuoteTransmitDate(currentSqlDate);
+            vendorQuote.setPurchaseOrderQuoteTransmitDate(SpringContext.getBean(DateTimeService.class).getCurrentSqlDate());
             vendorQuote.setTransmitPrintDisplayed(true);
-            if (po.getPurchaseOrderFirstTransmissionDate() == null) {
-            	po.setPurchaseOrderFirstTransmissionDate(currentSqlDate);
-            }
-            po.setPurchaseOrderLastTransmitDate(currentSqlDate);
-            po.setPurchaseOrderCurrentIndicator(true);
-            SpringContext.getBean(PurchaseOrderService.class).saveDocumentWithoutValidation(po);
+            SpringContext.getBean(PurchaseOrderService.class).saveDocumentNoValidation(po);
         }
         else {
             GlobalVariables.getErrorMap().putError(PurapPropertyConstants.VENDOR_QUOTES, PurapKeyConstants.ERROR_PURCHASE_ORDER_QUOTE_TRANSMIT_TYPE_NOT_SELECTED);
@@ -652,25 +649,29 @@ public class PurchaseOrderAction extends PurchasingActionBase {
         boolean success;
         if (po.isPendingActionIndicator()) {
             success = false;
-            // TODO delyea - should the property be the purchase order identifier when there is no purchase order identifier on this document (it's the purap identifier)
+            // TODO delyea - should the property be the purchase order identifier when there is no purchase order identifier on this
+            // document (it's the purap identifier)
             GlobalVariables.getErrorMap().putError(PurapPropertyConstants.PURCHASE_ORDER_IDENTIFIER, PurapKeyConstants.ERROR_PURCHASE_ORDER_IS_PENDING);
         }
         else {
             po = SpringContext.getBean(PurchaseOrderService.class).createAndRoutePotentialChangeDocument(kualiDocumentFormBase.getDocument().getDocumentNumber(), PurchaseOrderDocTypes.PURCHASE_ORDER_RETRANSMIT_DOCUMENT, kualiDocumentFormBase.getAnnotation(), combineAdHocRecipients(kualiDocumentFormBase));
-//            po = SpringContext.getBean(PurchaseOrderService.class).updateFlagsAndRoute(kualiDocumentFormBase.getDocument().getDocumentNumber(), PurchaseOrderDocTypes.PURCHASE_ORDER_RETRANSMIT_DOCUMENT, kualiDocumentFormBase.getAnnotation(), combineAdHocRecipients(kualiDocumentFormBase));
+            // po =
+            // SpringContext.getBean(PurchaseOrderService.class).updateFlagsAndRoute(kualiDocumentFormBase.getDocument().getDocumentNumber(),
+            // PurchaseOrderDocTypes.PURCHASE_ORDER_RETRANSMIT_DOCUMENT, kualiDocumentFormBase.getAnnotation(),
+            // combineAdHocRecipients(kualiDocumentFormBase));
         }
 
         kualiDocumentFormBase.setDocument(po);
-        //we only need to set the editing mode to displayRetransmitTab if it's not yet 
-        //in the editingMode.
+        // we only need to set the editing mode to displayRetransmitTab if it's not yet
+        // in the editingMode.
         if (!kualiDocumentFormBase.getEditingMode().containsKey(PurapAuthorizationConstants.PurchaseOrderEditMode.DISPLAY_RETRANSMIT_TAB)) {
             DocumentAuthorizer documentAuthorizer = SpringContext.getBean(DocumentAuthorizationService.class).getDocumentAuthorizer(po);
             kualiDocumentFormBase.populateAuthorizationFields(documentAuthorizer);
         }
-            ((PurchaseOrderForm) kualiDocumentFormBase).addButtons();
-            return mapping.findForward(KFSConstants.MAPPING_BASIC);
+        ((PurchaseOrderForm) kualiDocumentFormBase).addButtons();
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
 
-        }
+    }
 
     public ActionForward printingRetransmitPo(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         KualiDocumentFormBase kualiDocumentFormBase = (KualiDocumentFormBase) form;
@@ -819,15 +820,7 @@ public class PurchaseOrderAction extends PurchasingActionBase {
         return forward;
     }
    
-    /**
-     * Delete a stipulation from the document.
-     * 
-     * @param mapping
-     * @param form
-     * @param request
-     * @param response
-     * @return ActionForward
-     * @throws Exception
+    /*  TODO PURAP/delyea - should the following be a custom save event instead of the current business logic in the action method?
      */
     public ActionForward initiateQuote(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         PurchaseOrderForm poForm = (PurchaseOrderForm) form;
@@ -842,7 +835,7 @@ public class PurchaseOrderAction extends PurchasingActionBase {
         Date expDate = new Date(currentSqlDate.getTime() + (10 * 24 * 60 * 60 * 1000)); //add 10 days - TODO: need to move this into a DB setting
         document.setPurchaseOrderQuoteDueDate(expDate);
         document.getPurchaseOrderVendorQuotes().clear();
-        SpringContext.getBean(PurchaseOrderService.class).saveDocumentWithoutValidation(document);
+        SpringContext.getBean(PurchaseOrderService.class).saveDocumentNoValidation(document);
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
@@ -864,6 +857,8 @@ public class PurchaseOrderAction extends PurchasingActionBase {
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
+    /*  TODO PURAP/delyea - should the following be a custom save event instead of the current business logic in the action method?
+     */
     public ActionForward completeQuote(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         PurchaseOrderForm poForm = (PurchaseOrderForm) form;
         PurchaseOrderDocument document = (PurchaseOrderDocument) poForm.getDocument();
@@ -945,10 +940,12 @@ public class PurchaseOrderAction extends PurchasingActionBase {
                 document.setStatusCode(PurapConstants.PurchaseOrderStatuses.IN_PROCESS);
             }
         }
-        SpringContext.getBean(PurchaseOrderService.class).saveDocumentWithoutValidation(document);
+        SpringContext.getBean(PurchaseOrderService.class).saveDocumentNoValidation(document);
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
+    /*  TODO PURAP/delyea - should the following be a custom save event instead of the current business logic in the action method?
+     */
     public ActionForward cancelQuote(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         PurchaseOrderForm poForm = (PurchaseOrderForm) form;
         PurchaseOrderDocument document = (PurchaseOrderDocument) poForm.getDocument();
@@ -975,6 +972,11 @@ public class PurchaseOrderAction extends PurchasingActionBase {
                 if (StringUtils.isEmpty(reason)) {
                     return performQuestionWithInputAgainBecauseOfErrors(mapping, form, request, response, PODocumentsStrings.CONFIRM_CANCEL_QUESTION, message, KFSConstants.CONFIRMATION_QUESTION,  PODocumentsStrings.CONFIRM_CANCEL_RETURN, "", "", PurapKeyConstants.ERROR_PURCHASE_ORDER_REASON_REQUIRED, KFSConstants.QUESTION_REASON_ATTRIBUTE_NAME, "250");
                 }
+                /*   TODO PURAP - should this code below have a save at the end?
+                 *                Isn't that why we're asking the confirming question because this code below will cancel the quote 
+                 *                and save the PO... otherwise why do we need a confirming question since they would have to save 
+                 *                after canceling anyway?
+                 */
                 document.getPurchaseOrderVendorQuotes().clear();
                 Note cancelNote = new Note();
                 cancelNote.setAuthorUniversalIdentifier(GlobalVariables.getUserSession().getUniversalUser().getPersonUniversalIdentifier());

@@ -21,14 +21,12 @@ import static org.kuali.core.util.KualiDecimal.ZERO;
 import java.math.BigDecimal;
 import java.sql.Date;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.bo.Note;
 import org.kuali.core.bo.PersistableBusinessObject;
+import org.kuali.core.document.Document;
 import org.kuali.core.rule.event.KualiDocumentEvent;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DataDictionaryService;
@@ -41,7 +39,6 @@ import org.kuali.core.workflow.service.KualiWorkflowInfo;
 import org.kuali.core.workflow.service.WorkflowDocumentService;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.purap.PurapConstants;
-import org.kuali.module.purap.PurapPropertyConstants;
 import org.kuali.module.purap.PurapWorkflowConstants;
 import org.kuali.module.purap.PurapConstants.CreditMemoStatuses;
 import org.kuali.module.purap.PurapConstants.RequisitionSources;
@@ -335,9 +332,10 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase {
                 else if (workflowDocument.stateIsDisapproved()) {
                     SpringContext.getBean(PurchaseOrderService.class).setCurrentAndPendingIndicatorsForDisapprovedPODocuments(this);
                     // app specific route FYI to requisition initiator
-                    Map primaryKeys = new HashMap();
-                    primaryKeys.put(PurapPropertyConstants.PURAP_DOC_ID, getRequisitionIdentifier());
-                    RequisitionDocument req = (RequisitionDocument) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(RequisitionDocument.class, primaryKeys);
+                    RequisitionDocument req = getPurApSourceDocumentIfPossible();
+//                    Map primaryKeys = new HashMap();
+//                    primaryKeys.put(PurapPropertyConstants.PURAP_DOC_ID, getRequisitionIdentifier());
+//                    RequisitionDocument req = (RequisitionDocument) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(RequisitionDocument.class, primaryKeys);
                     workflowDocument.appSpecificRouteDocumentToUser(EdenConstants.ACTION_REQUEST_FYI_REQ, NodeDetailEnum.ADHOC_REVIEW.getName(), 0, 
                             "Notification of Order Disapproval for Requisition " + req.getPurapDocumentIdentifier(), new NetworkIdVO(req.getDocumentHeader().getWorkflowDocument().getRoutedByUserNetworkId()), 
                             "Requisition Routed By User", true);
@@ -352,7 +350,7 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase {
                             }
                             SpringContext.getBean(PurapService.class).updateStatusAndStatusHistory(this, currentNode.getDisapprovedStatusCode());
                             populateDocumentForRouting();
-                            SpringContext.getBean(PurchaseOrderService.class).saveDocumentWithoutValidation(this);
+                            SpringContext.getBean(PurchaseOrderService.class).saveDocumentNoValidation(this);
                             return;
                         }
                     }
@@ -363,7 +361,7 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase {
                 else if (workflowDocument.stateIsCanceled()) {
                     SpringContext.getBean(PurapService.class).updateStatusAndStatusHistory(this, PurapConstants.PurchaseOrderStatuses.CANCELLED);
                     populateDocumentForRouting();
-                    SpringContext.getBean(PurchaseOrderService.class).saveDocumentWithoutValidation(this);
+                    SpringContext.getBean(PurchaseOrderService.class).saveDocumentNoValidation(this);
                 }
             }
             catch (WorkflowException e) {
@@ -392,8 +390,9 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase {
                     if (PurapWorkflowConstants.PurchaseOrderDocument.NodeDetailEnum.DOCUMENT_TRANSMISSION.equals(newNodeDetails)) {
                         // in the document transmission node... we do special processing to set the status and update the PO
                         boolean willHaveRequest = SpringContext.getBean(KualiWorkflowInfo.class).documentWillHaveAtLeastOneActionRequest(reportCriteriaVO, null);
-                        SpringContext.getBean(PurchaseOrderService.class).setupDocumentForPendingFirstTransmission(this, willHaveRequest);
-                        SpringContext.getBean(PurchaseOrderService.class).saveDocumentWithoutValidation(this);
+                        PurchaseOrderService poService = SpringContext.getBean(PurchaseOrderService.class);
+                        poService.setupDocumentForPendingFirstTransmission(this, willHaveRequest);
+                        poService.saveDocumentNoValidation(this);
                     } else {
                         String newStatusCode = newNodeDetails.getAwaitingStatusCode();
                         if (StringUtils.isNotBlank(newStatusCode)) {
@@ -406,7 +405,7 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase {
                                     setPurchaseOrderInitialOpenDate(SpringContext.getBean(DateTimeService.class).getCurrentSqlDate());
                                 }
                                 SpringContext.getBean(PurapService.class).updateStatusAndStatusHistory(this, newStatusCode);
-                                SpringContext.getBean(PurchaseOrderService.class).saveDocumentWithoutValidation(this);
+                                SpringContext.getBean(PurchaseOrderService.class).saveDocumentNoValidation(this);
                             }
                         }
                     }

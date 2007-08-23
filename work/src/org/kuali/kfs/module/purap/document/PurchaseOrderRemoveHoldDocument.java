@@ -50,12 +50,12 @@ public class PurchaseOrderRemoveHoldDocument extends PurchaseOrderDocument {
             //set purap status and status history and status history note
             //TODO: Once we have a note available here, add the note to the next line.
             SpringContext.getBean(PurapService.class).updateStatusAndStatusHistory(this, PurapConstants.PurchaseOrderStatuses.OPEN );
-            SpringContext.getBean(PurchaseOrderService.class).saveDocumentWithoutValidation(this);
+            SpringContext.getBean(PurchaseOrderService.class).saveDocumentNoValidation(this);
         }
         // DOCUMENT DISAPPROVED
         else if (getDocumentHeader().getWorkflowDocument().stateIsDisapproved()) {
             SpringContext.getBean(PurchaseOrderService.class).setCurrentAndPendingIndicatorsForDisapprovedPODocuments(this);
-            SpringContext.getBean(PurchaseOrderService.class).saveDocumentWithoutValidation(this);
+            SpringContext.getBean(PurchaseOrderService.class).saveDocumentNoValidation(this);
         }
         // DOCUMENT CANCELED
         else if (getDocumentHeader().getWorkflowDocument().stateIsCanceled()) {

@@ -20,18 +20,12 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.kuali.core.bo.BusinessObject;
-import org.kuali.core.document.DocumentBase;
-import org.kuali.core.document.TransactionalDocumentBase;
+import org.kuali.core.document.Document;
 import org.kuali.core.util.ObjectUtils;
-import org.kuali.kfs.document.AccountingDocumentBase;
-import org.kuali.kfs.document.GeneralLedgerPostingDocumentBase;
-import org.kuali.kfs.document.LedgerPostingDocumentBase;
 import org.kuali.module.purap.PurapConstants;
-import org.kuali.module.purap.document.PurchaseOrderDocument;
-import org.kuali.module.purap.document.PurchasingAccountsPayableDocumentBase;
-import org.kuali.module.purap.document.PurchasingDocumentBase;
 
 public class PurApObjectUtils {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PurApObjectUtils.class);
@@ -44,6 +38,26 @@ public class PurApObjectUtils {
      * @param src the class to copy from
      * @param target the class to copy to
      */
+//    public static void populateFromBaseClass(Class base,BusinessObject src,BusinessObject target,Map supplementalUncopyable) {
+//        List<String> fieldNames = new ArrayList<String>();
+//        Field[] fields = base.getDeclaredFields();
+//        for (Field field : fields) {
+//            fieldNames.add(field.getName());
+//        }
+//        for (String fieldName : fieldNames) {
+//            if(!PurapConstants.KNOWN_UNCOPYABLE_FIELDS.containsKey(fieldName) && !supplementalUncopyable.containsKey(fieldName)) { 
+//                try {
+//                    ObjectUtils.setObjectProperty(target, fieldName, ObjectUtils.getPropertyValue(src, fieldName));
+//                }
+//                catch (Exception e) {
+//                    //purposefully skip for now 
+//                    //(I wish objectUtils getPropertyValue threw named errors instead of runtime) so I could
+//                    //selectively skip
+//                    LOG.debug("couldn't set field '"+fieldName+"' due to exception with class name '"+e.getClass().getName()+"'");
+//                }
+//            }
+//        }
+//    }
     public static void populateFromBaseClass(Class base,BusinessObject src,BusinessObject target,Map supplementalUncopyable) {
         List<String> fieldNames = new ArrayList<String>();
         Field[] fields = base.getDeclaredFields();
@@ -51,17 +65,31 @@ public class PurApObjectUtils {
             fieldNames.add(field.getName());
         }
         for (String fieldName : fieldNames) {
-            if(!PurapConstants.KNOWN_UNCOPYABLE_FIELDS.containsKey(fieldName) && !supplementalUncopyable.containsKey(fieldName)) { 
-                try {
-                    ObjectUtils.setObjectProperty(target, fieldName, ObjectUtils.getPropertyValue(src, fieldName));
-                }
-                catch (Exception e) {
-                    //purposefully skip for now 
-                    //(I wish objectUtils getPropertyValue threw named errors instead of runtime) so I could
-                    //selectively skip
-                    LOG.debug("couldn't set field "+fieldName);
-                }
+            if ( (isProcessableField(base, fieldName, PurapConstants.KNOWN_UNCOPYABLE_FIELDS)) && (isProcessableField(base, fieldName, supplementalUncopyable)) ) {
+                attemptCopyOfFieldName(base.getName(), fieldName, src, target);
             }
+        }
+    }
+    
+    private static boolean isProcessableField(Class baseClass, String fieldName, Map excludedFieldNames) {
+        if (excludedFieldNames.containsKey(fieldName)) {
+            Class potentialClassName = (Class) excludedFieldNames.get(fieldName);
+            if ( (ObjectUtils.isNull(potentialClassName)) || (potentialClassName.equals(baseClass)) ) {
+                return false;
+            }
+        }
+        return true;
+    }
+    
+    private static void attemptCopyOfFieldName(String baseClassName, String fieldName, BusinessObject sourceObject, BusinessObject targetObject) {
+        try {
+            ObjectUtils.setObjectProperty(targetObject, fieldName, ObjectUtils.getPropertyValue(sourceObject, fieldName));
+        }
+        catch (Exception e) {
+            //purposefully skip for now 
+            //(I wish objectUtils getPropertyValue threw named errors instead of runtime) so I could
+            //selectively skip
+            LOG.debug("couldn't set field '"+fieldName+"' using base class '"+baseClassName+"' due to exception with class name '"+e.getClass().getName()+"'");
         }
     }
     
@@ -82,7 +110,22 @@ public class PurApObjectUtils {
      * @param po
      * @param newPO
      */
-    public static void populateFromBaseWithSuper(PurchaseOrderDocument po, PurchaseOrderDocument newPO) {
+    public static void populateFromBaseWithSuper(Document po, Document newPO, Map supplementalUncopyableFieldNames, Set<Class> classesToExclude) {
+        List<Class> classesToCopy = new ArrayList<Class>();
+        Class sourceObjectClass = po.getClass();
+        classesToCopy.add(sourceObjectClass);
+        while (sourceObjectClass.getSuperclass() != null) {
+            sourceObjectClass = sourceObjectClass.getSuperclass();
+            if (!classesToExclude.contains(sourceObjectClass)) {
+                classesToCopy.add(sourceObjectClass);
+            }
+        }
+        for (int i = (classesToCopy.size() - 1); i > 0; i--) {
+            Class temp = classesToCopy.get(i);
+            populateFromBaseClass(temp, po, newPO, supplementalUncopyableFieldNames);
+        }
+    }
+//    public static void populateFromBaseWithSuper(PurchaseOrderDocument po, PurchaseOrderDocument newPO) {
 //        List<Class> classesToCopy = new ArrayList<Class>();
 //        Class sourceObjectClass = po.getClass();
 //        classesToCopy.add(sourceObjectClass);
@@ -94,16 +137,15 @@ public class PurApObjectUtils {
 //            Class temp = classesToCopy.get(i);
 //            populateFromBaseClass(temp, po, newPO);
 //        }
-        //FIXME this doesn't seem quite right (hstaplet)
-//        PurApObjectUtils.populateFromBaseClass(DocumentBase.class, po, newPO);
-        newPO.getDocumentHeader().setFinancialDocumentDescription(po.getDocumentHeader().getFinancialDocumentDescription());
-        newPO.getDocumentHeader().setOrganizationDocumentNumber(po.getDocumentHeader().getOrganizationDocumentNumber());
-        PurApObjectUtils.populateFromBaseClass(TransactionalDocumentBase.class, po, newPO);
-        PurApObjectUtils.populateFromBaseClass(LedgerPostingDocumentBase.class, po, newPO);
-        PurApObjectUtils.populateFromBaseClass(GeneralLedgerPostingDocumentBase.class, po, newPO);
-        PurApObjectUtils.populateFromBaseClass(AccountingDocumentBase.class, po, newPO);
-        PurApObjectUtils.populateFromBaseClass(PurchasingAccountsPayableDocumentBase.class, po, newPO);
-        PurApObjectUtils.populateFromBaseClass(PurchasingDocumentBase.class, po, newPO);
-        PurApObjectUtils.populateFromBaseClass(PurchaseOrderDocument.class, po, newPO);
-    }
+////        PurApObjectUtils.populateFromBaseClass(DocumentBase.class, po, newPO);
+//        newPO.getDocumentHeader().setFinancialDocumentDescription(po.getDocumentHeader().getFinancialDocumentDescription());
+//        newPO.getDocumentHeader().setOrganizationDocumentNumber(po.getDocumentHeader().getOrganizationDocumentNumber());
+//        PurApObjectUtils.populateFromBaseClass(TransactionalDocumentBase.class, po, newPO);
+//        PurApObjectUtils.populateFromBaseClass(LedgerPostingDocumentBase.class, po, newPO);
+//        PurApObjectUtils.populateFromBaseClass(GeneralLedgerPostingDocumentBase.class, po, newPO);
+//        PurApObjectUtils.populateFromBaseClass(AccountingDocumentBase.class, po, newPO);
+//        PurApObjectUtils.populateFromBaseClass(PurchasingAccountsPayableDocumentBase.class, po, newPO);
+//        PurApObjectUtils.populateFromBaseClass(PurchasingDocumentBase.class, po, newPO);
+//        PurApObjectUtils.populateFromBaseClass(PurchaseOrderDocument.class, po, newPO);
+//    }
 }

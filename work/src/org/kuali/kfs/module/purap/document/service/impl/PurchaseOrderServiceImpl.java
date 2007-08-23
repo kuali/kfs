@@ -19,23 +19,25 @@ import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.RiceConstants;
 import org.kuali.core.UserSession;
 import org.kuali.core.bo.Note;
+import org.kuali.core.document.DocumentBase;
 import org.kuali.core.exceptions.UserNotFoundException;
 import org.kuali.core.exceptions.ValidationException;
 import org.kuali.core.rule.event.KualiDocumentEvent;
-import org.kuali.core.rule.event.RouteDocumentEvent;
-import org.kuali.core.rule.event.SaveDocumentEvent;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DateTimeService;
 import org.kuali.core.service.DocumentService;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.service.KualiRuleService;
 import org.kuali.core.service.NoteService;
+import org.kuali.core.util.ErrorMap;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
@@ -134,14 +136,36 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
     public void setRequisitionService(RequisitionService requisitionService) {
         this.requisitionService = requisitionService;
     }
-
-    public void saveDocumentWithoutValidation(PurchaseOrderDocument document) {
+    
+    public void saveDocumentNoValidation(PurchaseOrderDocument document) {
         try {
             documentService.saveDocument(document, DocumentSystemSaveEvent.class);
-//            documentService.saveDocumentWithoutRunningValidation(document);
         }
         catch (WorkflowException we) {
-            String errorMsg = "Error saving document # " + document.getDocumentHeader().getDocumentNumber() + " " + we.getMessage(); 
+            String errorMsg = "Workflow Error saving document # " + document.getDocumentHeader().getDocumentNumber() + " " + we.getMessage(); 
+            LOG.error(errorMsg, we);
+            throw new RuntimeException(errorMsg, we);
+        }
+    }
+
+    // TODO delyea - investigate need for this method... in most places if error map has an entry then validation exception is thrown correctly?
+    private void saveDocumentNoValidationUsingClearErrorMap(PurchaseOrderDocument document) {
+        ErrorMap errorHolder = GlobalVariables.getErrorMap();
+        GlobalVariables.setErrorMap(new ErrorMap());
+        try {
+            saveDocumentNoValidation(document);
+        }
+        finally {
+            GlobalVariables.setErrorMap(errorHolder);
+        }
+    }
+
+    private void saveDocumentStandardSave(PurchaseOrderDocument document) {
+        try {
+            documentService.saveDocument(document);
+        }
+        catch (WorkflowException we) {
+            String errorMsg = "Workflow Error saving document # " + document.getDocumentHeader().getDocumentNumber() + " " + we.getMessage(); 
             LOG.error(errorMsg, we);
             throw new RuntimeException(errorMsg, we);
         }
@@ -198,13 +222,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
     public PurchaseOrderDocument createPurchaseOrderDocument(RequisitionDocument reqDocument) {
         try {
             PurchaseOrderDocument poDocument = generatePurchaseOrderFromRequisition(reqDocument);
-            // added line below for JIRA KULOWF-294 - Purchase Order search results are not displaying the total amount on some "in process" purchase orders
-            // TODO delyea - RICE CHANGE - below needs to call document service save method passing in no Validate Save Event
-//            poDocument.prepareForSave();
-//            documentService.updateDocument(poDocument);
-//            documentService.prepareWorkflowDocument(poDocument);
-//            workflowDocumentService.save(poDocument.getDocumentHeader().getWorkflowDocument(), "", null);
-            saveDocumentWithoutValidation(poDocument);
+            saveDocumentNoValidation(poDocument);
             return poDocument;
         }
         catch (WorkflowException e) {
@@ -297,6 +315,14 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
         }
     }
     
+    /* TODO delyea/PURAP - Below method may be incorrect
+     * 
+     * This method appears to try to print the quote request list which may or may not return errors.  If no errors are returned the PO
+     * is saved.  The PO doesn't appear to be edited in the PrintService and should not be.  If any editing of the PO is occurring that
+     * should be happening here in the PO Service leaving the PrintService to simply generate PDFs and potential errors if needed.  If
+     * in fact PO is not edited when this method is called the save should be removed completely
+     * 
+     */
     public boolean printPurchaseOrderQuoteRequestsListPDF(PurchaseOrderDocument po, ByteArrayOutputStream baosPDF) {
         String environment = kualiConfigurationService.getPropertyString(KFSConstants.ENVIRONMENT_KEY);
         Collection<String> generatePDFErrors = printService.generatePurchaseOrderQuoteRequestsListPdf(po, baosPDF);
@@ -308,8 +334,8 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
             return false;
         }
         else {
-            // TODO QUOTE - update PurchaseOrderVendorQuote here
-            saveDocumentWithoutValidation(po);
+            // TODO QUOTE - update PurchaseOrderVendorQuote here (delyea - does printing the quote request list update anything on the doc... if not no save needed here)
+            saveDocumentStandardSave(po);
             return true;
         }
     }
@@ -327,7 +353,8 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
         }
         else {
             // TODO QUOTE - update PurchaseOrderVendorQuote here
-            saveDocumentWithoutValidation(po);
+            // TODO PURAP/delyea - if standard save causes errors here examine potential for saving individual updated PurchaseOrderVendorQuote
+            saveDocumentStandardSave(po);
             return true;
         }
     }
@@ -469,7 +496,9 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
      */
     private PurchaseOrderDocument createPurchaseOrderDocumentFromSourceDocument(PurchaseOrderDocument sourceDocument, String docType) throws WorkflowException {
         if (ObjectUtils.isNull(sourceDocument)) {
-            return null;
+            String errorMsg = "Attempting to create new PO of type '" + docType + "' from source PO doc that is null";
+            LOG.error(errorMsg);
+            throw new RuntimeException(errorMsg);
         }
         //TODO: Chris - RESEARCH: does this have any effect?  I think it may be lost before the po is brought up again.
         sourceDocument.setSummaryAccountsWithItems(new HashMap());
@@ -479,7 +508,19 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
         PurchaseOrderDocument newPurchaseOrderChangeDocument = (PurchaseOrderDocument)documentService.getNewDocument(docType);
         //TODO: Chris - RESEARCH: does this have any effect?  I think it may be lost before the po is brought up again.
         newPurchaseOrderChangeDocument.refreshAccountSummary();
-        PurApObjectUtils.populateFromBaseWithSuper(sourceDocument, newPurchaseOrderChangeDocument);
+        
+//        PurApObjectUtils.populateFromBaseWithSuper(sourceDocument, newPurchaseOrderChangeDocument);
+        Set classesToExclude = new HashSet();
+        Class sourceObjectClass = DocumentBase.class;
+        classesToExclude.add(sourceObjectClass);
+        while (sourceObjectClass.getSuperclass() != null) {
+            sourceObjectClass = sourceObjectClass.getSuperclass();
+            classesToExclude.add(sourceObjectClass);
+        }
+        PurApObjectUtils.populateFromBaseWithSuper(sourceDocument, newPurchaseOrderChangeDocument, new HashMap(), classesToExclude);
+        newPurchaseOrderChangeDocument.getDocumentHeader().setFinancialDocumentDescription(sourceDocument.getDocumentHeader().getFinancialDocumentDescription());
+        newPurchaseOrderChangeDocument.getDocumentHeader().setOrganizationDocumentNumber(sourceDocument.getDocumentHeader().getOrganizationDocumentNumber());
+
         newPurchaseOrderChangeDocument.refreshNonUpdateableReferences();
         newPurchaseOrderChangeDocument.setPurchaseOrderCurrentIndicator(false);
         newPurchaseOrderChangeDocument.setPendingActionIndicator(false);
@@ -518,27 +559,30 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
         PurchaseOrderDocument currentDocument = SpringContext.getBean(PurchaseOrderService.class).getPurchaseOrderByDocumentNumber(documentNumber);
         try {
             PurchaseOrderDocument newDocument = createPurchaseOrderDocumentFromSourceDocument(currentDocument, docType);
-            boolean valid = validateAndSetUpCurrentAndNewDocuments(new SaveDocumentEvent(newDocument), newDocumentStatusCode, currentDocument, newDocument);
-            if (valid) {
-                /*
-                 *  TODO PURAP/delyea -  BELOW SECTION HAVE TRY/CATCH BLOCK REMOVED (LEAVING CODE INSIDE THE TRY) AFTER RICE IS UPDATED
-                 * 
-                 */
+            if (ObjectUtils.isNotNull(newDocument)) {
+                // set status if needed
+                if (StringUtils.isNotBlank(newDocumentStatusCode)) {
+                    newDocument.setStatusCode(newDocumentStatusCode);
+                }
                 try {
-                    saveDocumentWithoutValidation(currentDocument);
+                    documentService.saveDocument(newDocument);
                 }
+                // if we catch a ValidationException it means the new PO doc found errors
                 catch (ValidationException ve) {
-                    LOG.error("Caught Validation Exception trying to save old PO... calling save in BO Service", ve);
-                    businessObjectService.save(currentDocument);
+                    // TODO PURAP/delyea - old system used to just return the current document
+//                    return currentDocument;
+                    throw ve;
                 }
-                /*
-                 *  TODO PURAP/delyea -  ABOVE SECTION HAVE TRY/CATCH BLOCK REMOVED (LEAVING CODE INSIDE THE TRY) AFTER RICE IS UPDATED
-                 * 
-                 */
-                documentService.saveDocument(newDocument);
+                // if no validation exception was thrown then rules have passed and we are ok to edit the current PO
+                currentDocument.setPendingActionIndicator(true);
+                saveDocumentNoValidationUsingClearErrorMap(currentDocument);
                 return newDocument;
             }
-            return currentDocument;
+            else {
+                String errorMsg = "Attempting to create new PO of type '" + docType + "' from source PO doc id " + documentNumber + " returned null for new document";
+                LOG.error(errorMsg);
+                throw new RuntimeException(errorMsg);
+            }
         }
         catch (WorkflowException we) {
             String errorMsg = "Workflow Exception caught trying to create and save PO document of type '" + docType + "' using source document with doc id '" + documentNumber + "'";
@@ -551,27 +595,26 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
         PurchaseOrderDocument currentDocument = SpringContext.getBean(PurchaseOrderService.class).getPurchaseOrderByDocumentNumber(documentNumber);
         try {
             PurchaseOrderDocument newDocument = createPurchaseOrderDocumentFromSourceDocument(currentDocument, docType);
-            boolean valid = validateAndSetUpCurrentAndNewDocuments(new RouteDocumentEvent(newDocument), null, currentDocument, newDocument);
-            if (valid) {
-                /*
-                 *  TODO PURAP/delyea -  BELOW SECTION HAVE TRY/CATCH BLOCK REMOVED (LEAVING CODE INSIDE THE TRY) AFTER RICE IS UPDATED
-                 * 
-                 */
+            if (ObjectUtils.isNotNull(newDocument)) {
                 try {
-                    saveDocumentWithoutValidation(currentDocument);
+                    documentService.routeDocument(newDocument, annotation, adhocRoutingRecipients);
                 }
+                // if we catch a ValidationException it means the new PO doc found errors
                 catch (ValidationException ve) {
-                    LOG.error("Caught Validation Exception trying to save old PO... calling save in BO Service", ve);
-                    documentService.updateDocument(currentDocument);
+                    // TODO PURAP/delyea - old system used to just return the current document
+//                    return currentDocument;
+                    throw ve;
                 }
-                /*
-                 *  TODO PURAP/delyea -  ABOVE SECTION HAVE TRY/CATCH BLOCK REMOVED (LEAVING CODE INSIDE THE TRY) AFTER RICE IS UPDATED
-                 * 
-                 */
-                documentService.routeDocument(newDocument, annotation, adhocRoutingRecipients);
+                // if no validation exception was thrown then rules have passed and we are ok to edit the current PO
+                currentDocument.setPendingActionIndicator(true);
+                saveDocumentNoValidationUsingClearErrorMap(currentDocument);
                 return newDocument;
             }
-            return currentDocument;
+            else {
+                String errorMsg = "Attempting to create new PO of type '" + docType + "' from source PO doc id " + documentNumber + " returned null for new document";
+                LOG.error(errorMsg);
+                throw new RuntimeException(errorMsg);
+            }
         }
         catch (WorkflowException we) {
             String errorMsg = "Workflow Exception caught trying to create and route PO document of type '" + docType + "' using source document with doc id '" + documentNumber + "'";
@@ -603,7 +646,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
             purapService.updateStatusAndStatusHistory(po, PurchaseOrderStatuses.OPEN);
             po.setPurchaseOrderInitialOpenDate(dateTimeService.getCurrentSqlDate());
         }
-        this.saveDocumentWithoutValidation(po);
+        this.saveDocumentNoValidation(po);
     }
     
     public void setupDocumentForPendingFirstTransmission(PurchaseOrderDocument po, boolean hasActionRequestForDocumentTransmission) {
@@ -689,7 +732,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
         // First, we set the indicators for the oldPO to : Current = N and Pending = N
         oldPO.setPurchaseOrderCurrentIndicator(false);
         oldPO.setPendingActionIndicator(false);
-        saveDocumentWithoutValidation(oldPO);
+        saveDocumentNoValidationUsingClearErrorMap(oldPO);
         // Now, we set the "new PO" indicators so that Current = Y and Pending = N
         newPO.setPurchaseOrderCurrentIndicator(true);
         newPO.setPendingActionIndicator(false);
@@ -704,7 +747,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
         PurchaseOrderDocument oldPO = getCurrentPurchaseOrder(newPO.getPurapDocumentIdentifier());
         // Set the Pending indicator for the oldPO to N
         oldPO.setPendingActionIndicator(false);
-        saveDocumentWithoutValidation(oldPO);
+        saveDocumentNoValidationUsingClearErrorMap(oldPO);
     }
 
     public ArrayList<PurchaseOrderQuoteStatus> getPurchaseOrderQuoteStatusCodes() {

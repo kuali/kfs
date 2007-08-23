@@ -30,7 +30,9 @@ import org.kuali.module.purap.document.RequisitionDocument;
 
 public interface PurchaseOrderService {
 
-    public void saveDocumentWithoutValidation(PurchaseOrderDocument purchaseOrderDocument);
+//    public void saveDocumentStandardSave(PurchaseOrderDocument document);
+    public void saveDocumentNoValidation(PurchaseOrderDocument document);
+//    public void saveDocumentNoValidationUsingClearErrorMap(PurchaseOrderDocument document);
 
     public PurchaseOrderDocument createAutomaticPurchaseOrderDocument(RequisitionDocument reqDocument);
 

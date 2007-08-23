@@ -29,6 +29,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.enums.EnumUtils;
 import org.kuali.RiceConstants;
 import org.kuali.core.JstlConstants;
+import org.kuali.core.document.DocumentBase;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.workflow.KualiWorkflowUtils;
@@ -540,10 +541,10 @@ public class PurapConstants extends JstlConstants {
         
     }
     
-    private static HashMap<String,String> uncopyableFields() {
-        HashMap<String,String> fields = new HashMap<String,String>();
-        fields.put(KFSConstants.VERSION_NUMBER, "");
-        fields.put("LOG", "");
+    private static HashMap<String,Class> uncopyableFields() {
+        HashMap<String,Class> fields = new HashMap<String,Class>();
+        fields.put(KFSConstants.VERSION_NUMBER, null);
+        fields.put("LOG", null);
         return fields;
     }
     /*
@@ -551,12 +552,12 @@ public class PurapConstants extends JstlConstants {
      * This should only contain fields that are known throughout objects not
      * item/doc specific ones
      */
-    public final static HashMap<String,String> KNOWN_UNCOPYABLE_FIELDS = uncopyableFields();
+    public final static HashMap<String,Class> KNOWN_UNCOPYABLE_FIELDS = uncopyableFields();
     
-    private static HashMap<String,String> uncopyableItemFields() {
-        HashMap<String,String> fields = new HashMap<String,String>();
-        fields.put(PurapPropertyConstants.ITEM_IDENTIFIER, "");
-        fields.put(PurapPropertyConstants.ACCOUNTS, "");
+    private static HashMap<String,Class> uncopyableItemFields() {
+        HashMap<String,Class> fields = new HashMap<String,Class>();
+        fields.put(PurapPropertyConstants.ITEM_IDENTIFIER, null);
+        fields.put(PurapPropertyConstants.ACCOUNTS, null);
         return fields;
     }
     /*
@@ -564,18 +565,18 @@ public class PurapConstants extends JstlConstants {
      * This should only contain fields that are known throughout objects not
      * item/doc specific ones
      */
-    public final static HashMap<String,String> ITEM_UNCOPYABLE_FIELDS = uncopyableItemFields();
+    public final static HashMap<String,Class> ITEM_UNCOPYABLE_FIELDS = uncopyableItemFields();
 
-    private static HashMap<String,String> uncopyablePREQItemFields() {
-        HashMap<String,String> fields = new HashMap<String,String>(ITEM_UNCOPYABLE_FIELDS);
-        fields.put(PurapPropertyConstants.QUANTITY, "");
-        fields.put(PurapPropertyConstants.EXTENDED_PRICE,"");
+    private static HashMap<String,Class> uncopyablePREQItemFields() {
+        HashMap<String,Class> fields = new HashMap<String,Class>(ITEM_UNCOPYABLE_FIELDS);
+        fields.put(PurapPropertyConstants.QUANTITY, null);
+        fields.put(PurapPropertyConstants.EXTENDED_PRICE,null);
         return fields;
     }
     /*
      * fields that shouldn't be copied on PREQ item
      */
-    public final static HashMap<String,String> PREQ_ITEM_UNCOPYABLE_FIELDS = uncopyablePREQItemFields();
+    public final static HashMap<String,Class> PREQ_ITEM_UNCOPYABLE_FIELDS = uncopyablePREQItemFields();
     
     public final static String PURAP_ORIGIN_CODE = "EP";
 

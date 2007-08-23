@@ -85,7 +85,7 @@ public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumen
                 //If the item is below the line, no accounts can be entered on below the line items
                 //that have no unit cost (KULPURAP-1234)
                 valid &= validateBelowTheLineItemNoUnitCost(item, identifierString);
-        }
+            }
         }
         valid &= validateTotalCost((PurchasingDocument)purapDocument);
         valid &= validateContainsAtLeastOneItem((PurchasingDocument)purapDocument);
@@ -306,13 +306,12 @@ public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumen
             valid &= false;
             errorMap.putError(VendorPropertyConstants.VENDOR_NAME, PurapKeyConstants.ERROR_INVALID_VENDOR_TYPE);
         }
-                    
+
         // make sure that the vendor is active
         if (!vendorDetail.isActiveIndicator()) {       
             valid &= false;
             errorMap.putError(VendorPropertyConstants.VENDOR_NAME, PurapKeyConstants.ERROR_INACTIVE_VENDOR);
         }
-        
         return valid;
     }
 

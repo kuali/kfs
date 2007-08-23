@@ -115,12 +115,12 @@ public class PurchaseOrderVoidDocument extends PurchaseOrderDocument {
             
             //set purap status and status history and status history note
             SpringContext.getBean(PurapService.class).updateStatusAndStatusHistory(this, PurapConstants.PurchaseOrderStatuses.VOID );
-            SpringContext.getBean(PurchaseOrderService.class).saveDocumentWithoutValidation(this);
+            SpringContext.getBean(PurchaseOrderService.class).saveDocumentNoValidation(this);
         }
         // DOCUMENT DISAPPROVED
         else if (getDocumentHeader().getWorkflowDocument().stateIsDisapproved()) {
             SpringContext.getBean(PurchaseOrderService.class).setCurrentAndPendingIndicatorsForDisapprovedPODocuments(this);
-            SpringContext.getBean(PurchaseOrderService.class).saveDocumentWithoutValidation(this);
+            SpringContext.getBean(PurchaseOrderService.class).saveDocumentNoValidation(this);
         }
         // DOCUMENT CANCELED
         else if (getDocumentHeader().getWorkflowDocument().stateIsCanceled()) {

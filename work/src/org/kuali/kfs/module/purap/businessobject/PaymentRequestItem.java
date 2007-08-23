@@ -75,10 +75,12 @@ public class PaymentRequestItem extends AccountsPayableItemBase {
         }
         this.setSourceAccountingLines(accounts);
         this.refreshNonUpdateableReferences();
-        //clear amount on below the line
+        //clear amount and desc on below the line - we probably don't need that null 
+        //itemType check but it's there just in case remove if it causes problems
         if(ObjectUtils.isNotNull(this.getItemType())&&
            !this.getItemType().isItemTypeAboveTheLineIndicator()) {
             this.setItemUnitPrice(BigDecimal.ZERO);
+            this.setItemDescription("");
         }
         //copy custom
         this.purchaseOrderItemUnitPrice = poi.getItemUnitPrice();

@@ -86,8 +86,8 @@ public class SpringAOPUsageTest extends KualiTestBase {
         // should be transactionalized because the class that defines it has the transactional annotation
         TransactionAttribute documentServiceSaveDocumentAttribute = transactionAttributeSource.getTransactionAttribute(DocumentService.class.getMethod("saveDocument", new Class[] { Document.class }), DocumentServiceImpl.class);
         assertNotNull(documentServiceSaveDocumentAttribute);
-        TransactionAttribute documentServiceValidateAndPersistDocumentAttribute = transactionAttributeSource.getTransactionAttribute(DocumentService.class.getMethod("validateAndPersistDocument", new Class[] { Document.class, KualiDocumentEvent.class }), DocumentServiceImpl.class);
-        assertNotNull(documentServiceValidateAndPersistDocumentAttribute);
-        assertTrue(TransactionDefinition.PROPAGATION_REQUIRED == documentServiceValidateAndPersistDocumentAttribute.getPropagationBehavior());
+        TransactionAttribute documentServiceSaveDocumentWithEventAttribute = transactionAttributeSource.getTransactionAttribute(DocumentService.class.getMethod("saveDocument", new Class[] { Document.class, Class.class }), DocumentServiceImpl.class);
+        assertNotNull(documentServiceSaveDocumentWithEventAttribute);
+        assertTrue(TransactionDefinition.PROPAGATION_REQUIRED == documentServiceSaveDocumentWithEventAttribute.getPropagationBehavior());
     }
 }

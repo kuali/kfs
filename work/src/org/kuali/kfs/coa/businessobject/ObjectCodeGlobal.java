@@ -64,8 +64,6 @@ public class ObjectCodeGlobal extends PersistableBusinessObjectBase implements G
 
     private DocumentHeader financialDocument;
     private ObjectCode financialObject;
-    private ObjectCode historicalFinancialObject;
-    private ObjectCode nextYearFinancialObject;
     private ObjectCode reportsToFinancialObject;
     private Options universityFiscal;
     private Chart chartOfAccounts;
@@ -485,46 +483,6 @@ public class ObjectCodeGlobal extends PersistableBusinessObjectBase implements G
      */
     public void setFinancialObject(ObjectCode financialObject) {
         this.financialObject = financialObject;
-    }
-
-    /**
-     * Gets the historicalFinancialObject attribute.
-     * 
-     * @return Returns the historicalFinancialObject
-     * 
-     */
-    public ObjectCode getHistoricalFinancialObject() {
-        return historicalFinancialObject;
-    }
-
-    /**
-     * Sets the historicalFinancialObject attribute.
-     * 
-     * @param historicalFinancialObject The historicalFinancialObject to set.
-     * @deprecated
-     */
-    public void setHistoricalFinancialObject(ObjectCode historicalFinancialObject) {
-        this.historicalFinancialObject = historicalFinancialObject;
-    }
-
-    /**
-     * Gets the nextYearFinancialObject attribute.
-     * 
-     * @return Returns the nextYearFinancialObject
-     * 
-     */
-    public ObjectCode getNextYearFinancialObject() {
-        return nextYearFinancialObject;
-    }
-
-    /**
-     * Sets the nextYearFinancialObject attribute.
-     * 
-     * @param nextYearFinancialObject The nextYearFinancialObject to set.
-     * @deprecated
-     */
-    public void setNextYearFinancialObject(ObjectCode nextYearFinancialObject) {
-        this.nextYearFinancialObject = nextYearFinancialObject;
     }
 
     /**

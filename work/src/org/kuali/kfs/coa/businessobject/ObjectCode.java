@@ -64,14 +64,12 @@ public class ObjectCode extends PersistableBusinessObjectBase implements Summari
     private transient MandatoryTransferEliminationCode finObjMandatoryTrnfrelim;
     private transient FederalFundedCode financialFederalFunded;
     private transient Options universityFiscal;
-    private transient ObjectCode nextYearFinancialObject;
     private transient ObjLevel financialObjectLevel;
     private transient Chart chartOfAccounts;
     private transient Chart reportsToChartOfAccounts;
     private transient ObjectCode reportsToFinancialObject;
     private transient ObjectType financialObjectType;
     private transient ObjSubTyp financialObjectSubType;
-    private transient ObjectCode objectCode;
 
     /**
      * Default no-arg constructor.
@@ -284,26 +282,6 @@ public class ObjectCode extends PersistableBusinessObjectBase implements Summari
      */
     public void setUniversityFiscal(Options universityFiscal) {
         this.universityFiscal = universityFiscal;
-    }
-
-    /**
-     * Gets the nextYearFinancialObject attribute.
-     * 
-     * @return Returns the nextYearFinancialObject
-     * 
-     */
-    public ObjectCode getNextYearFinancialObject() {
-        return nextYearFinancialObject;
-    }
-
-    /**
-     * Sets the nextYearFinancialObject attribute.
-     * 
-     * @param nextYearFinancialObject The nextYearFinancialObject to set.
-     * @deprecated
-     */
-    public void setNextYearFinancialObject(ObjectCode nextYearFinancialObject) {
-        this.nextYearFinancialObject = nextYearFinancialObject;
     }
 
     /**
@@ -570,21 +548,6 @@ public class ObjectCode extends PersistableBusinessObjectBase implements Summari
      */
     public void setFinObjMandatoryTrnfrelimCd(String finObjMandatoryTrnfrelimCd) {
         this.finObjMandatoryTrnfrelimCd = finObjMandatoryTrnfrelimCd;
-    }
-
-    /**
-     * @return Returns the objectCode.
-     */
-    public ObjectCode getObjectCode() {
-        return objectCode;
-    }
-
-    /**
-     * @param objectCode The objectCode to set.
-     * @deprecated
-     */
-    public void setObjectCode(ObjectCode objectCode) {
-        this.objectCode = objectCode;
     }
 
     public BudgetAggregationCode getFinancialBudgetAggregation() {

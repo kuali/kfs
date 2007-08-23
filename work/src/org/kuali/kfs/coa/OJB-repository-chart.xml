@@ -420,11 +420,6 @@
     <field-descriptor name="nextYearFinancialObjectCode" column="NXT_YR_FIN_OBJ_CD" jdbc-type="VARCHAR" />
     <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
     <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
-    <reference-descriptor name="objectCode" class-ref="org.kuali.module.chart.bo.ObjectCode" auto-retrieve="true" auto-update="none" auto-delete="none">
-        <foreignkey field-ref="universityFiscalYear" />
-        <foreignkey field-ref="chartOfAccountsCode" />
-        <foreignkey field-ref="historicalFinancialObjectCode" />
-    </reference-descriptor>
     <reference-descriptor name="financialBudgetAggregation" class-ref="org.kuali.module.chart.bo.codes.BudgetAggregationCode" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
         <foreignkey field-ref="financialBudgetAggregationCd" />
     </reference-descriptor>
@@ -433,11 +428,6 @@
     </reference-descriptor>
     <reference-descriptor name="financialFederalFunded" class-ref="org.kuali.module.chart.bo.codes.FederalFundedCode" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
         <foreignkey field-ref="financialFederalFundedCode" />
-    </reference-descriptor>
-    <reference-descriptor name="nextYearFinancialObject" class-ref="org.kuali.module.chart.bo.ObjectCode" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
-        <foreignkey field-ref="universityFiscalYear" />
-        <foreignkey field-ref="chartOfAccountsCode" />
-        <foreignkey field-ref="nextYearFinancialObjectCode" />
     </reference-descriptor>
     <reference-descriptor name="financialObjectLevel" class-ref="org.kuali.module.chart.bo.ObjLevel" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
         <foreignkey field-ref="chartOfAccountsCode" />
@@ -494,11 +484,6 @@
         <foreignkey field-ref="financialFederalFundedCode" />
     </reference-descriptor>
 
-    <reference-descriptor name="nextYearFinancialObject" class-ref="org.kuali.module.chart.bo.ObjectCode" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
-        <foreignkey field-ref="universityFiscalYear" />
-        <foreignkey field-ref="chartOfAccountsCode" />
-        <foreignkey field-ref="nextYearFinancialObjectCode" />
-    </reference-descriptor>
     <reference-descriptor name="financialObjectLevel" class-ref="org.kuali.module.chart.bo.ObjLevel" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
         <foreignkey field-ref="chartOfAccountsCode" />
         <foreignkey field-ref="financialObjectLevelCode" />
@@ -1587,16 +1572,6 @@
 		<foreignkey field-ref="universityFiscalYear" />
 		<foreignkey field-ref="chartOfAccountsCode" />
 		<foreignkey field-ref="financialObjectCode" />
-	</reference-descriptor>
-	<reference-descriptor name="historicalFinancialObject" class-ref="org.kuali.module.chart.bo.ObjectCode" auto-retrieve="true" auto-update="none" auto-delete="none">
-		<foreignkey field-ref="universityFiscalYear" />
-		<foreignkey field-ref="chartOfAccountsCode" />
-		<foreignkey field-ref="historicalFinancialObjectCode" />
-	</reference-descriptor>
-	<reference-descriptor name="nextYearFinancialObject" class-ref="org.kuali.module.chart.bo.ObjectCode" auto-retrieve="true" auto-update="none" auto-delete="none">
-		<foreignkey field-ref="universityFiscalYear" />
-		<foreignkey field-ref="chartOfAccountsCode" />
-		<foreignkey field-ref="nextYearFinancialObjectCode" />
 	</reference-descriptor>
 	<reference-descriptor name="reportsToFinancialObject" class-ref="org.kuali.module.chart.bo.ObjectCode" auto-retrieve="true" auto-update="none" auto-delete="none">
 		<foreignkey field-ref="universityFiscalYear" />

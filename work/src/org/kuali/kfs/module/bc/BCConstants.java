@@ -29,6 +29,22 @@ public class BCConstants extends JstlConstants {
     public enum OrgSelOpMode {
       PULLUP, PUSHDOWN, REPORTS, SALSET, ACCOUNT
     }
+    
+    /**
+     * This class represents Select control options mapping explicit Integer values
+     * to an enum value. The explicit values can then be used in a database stored procedure
+     * call in the event procedure calls are used instead of calls to a java method.
+     */
+    public enum OrgSelControlOption {
+        NO(0,"No"), YES(1,"Yes"), 
+        NOTSEL(0,"Not Sel"), ORG(1,"Org"), SUBORG(2,"Sub Org"), BOTH(3,"Both"),
+        ORGLEV(1,"Org Lev"), MGRLEV(2,"Mgr Lev"), ORGMGRLEV(3,"Org&Mgr Lev"), LEVONE(4,"Lev One"), LEVZERO(5,"Lev Zero");
+        private String label;
+        private Integer key;
+        private OrgSelControlOption(Integer key, String label){ this.key = key; this.label = label; }
+        public String getLabel() {return label; }
+        public Integer getKey() {return key; }
+    }
 
     public static final String BC_DOCUMENT_REFRESH_CALLER="BudgetConstruction";
     public static final String BC_DOCUMENT_ACTION="budgetBudgetConstruction.do";

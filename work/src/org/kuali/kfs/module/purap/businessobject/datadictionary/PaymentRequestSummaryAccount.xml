@@ -1,0 +1,259 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE dictionaryEntry PUBLIC
+    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
+    "../dataDictionary-1_0.dtd">
+<dictionaryEntry>
+    <businessObject businessObjectClass="org.kuali.module.purap.bo.PaymentRequestSummaryAccount">
+ 
+        <inquiry>
+            <title>Payment Request Summary Account Inquiry</title>
+             
+            <inquirySections>
+                <inquirySection title="Header Text">
+                    <inquiryFields>
+                        <field attributeName="accountIdentifier" />
+                        <field attributeName="accountLinePercent" />
+                        <field attributeName="accountNumber" />
+                        <field attributeName="amount" />
+                        <field attributeName="chartOfAccountsCode" />
+                        <field attributeName="disencumberedAmount" />
+                        <field attributeName="financialObjectCode" />
+                        <field attributeName="financialSubObjectCode" />
+                        <field attributeName="organizationReferenceId" />
+                        <field attributeName="projectCode" />
+                        <field attributeName="purapDocumentIdentifier" />
+                        <field attributeName="subAccountNumber" />
+                    </inquiryFields>
+                </inquirySection>
+            </inquirySections>  
+        </inquiry>
+
+        <lookup>
+            <title>Payment Request Summary Account Lookup</title>
+
+            <instructions>Lookup an Payment Request Summary Account</instructions>
+
+            <defaultSort sortAscending="true">
+                <sortAttributes>
+                    <sortAttribute attributeName="accountIdentifier" />
+                </sortAttributes>
+            </defaultSort>
+
+            <lookupFields>
+                <lookupField attributeName="accountIdentifier" required="false" />
+                <lookupField attributeName="accountLinePercent" required="false" />
+                <lookupField attributeName="accountNumber" required="false" />
+                <lookupField attributeName="amount" required="false" />
+                <lookupField attributeName="chartOfAccountsCode" required="false" />
+                <lookupField attributeName="disencumberedAmount" required="false" />
+                <lookupField attributeName="financialObjectCode" required="false" />
+                <lookupField attributeName="financialSubObjectCode" required="false" />
+                <lookupField attributeName="organizationReferenceId" required="false" />
+                <lookupField attributeName="projectCode" required="false" />
+                <lookupField attributeName="purapDocumentIdentifier" required="false" />
+                <lookupField attributeName="subAccountNumber" required="false" />
+            </lookupFields>
+
+            <resultFields>
+                <field attributeName="accountIdentifier" />
+                <field attributeName="accountLinePercent" />
+                <field attributeName="accountNumber" />
+                <field attributeName="amount" />
+                <field attributeName="chartOfAccountsCode" />
+                <field attributeName="disencumberedAmount" />
+                <field attributeName="financialObjectCode" />
+                <field attributeName="financialSubObjectCode" />
+                <field attributeName="organizationReferenceId" />
+                <field attributeName="projectCode" />
+                <field attributeName="purapDocumentIdentifier" />
+                <field attributeName="subAccountNumber" />
+            </resultFields>
+        </lookup>
+
+        <attributes>
+
+            <attribute name="accountIdentifier" forceUppercase="true">
+                <label>Account Identifier</label>
+                <shortLabel>Identifier</shortLabel>
+
+                <maxLength>10</maxLength>
+                <validationPattern><numeric /></validationPattern>
+
+                <control>
+                    <text size="12" />
+                </control>
+
+                <summary>accountIdentifier</summary>
+                <description>accountIdentifier description...</description>
+			</attribute>
+
+            <attribute name="accountLinePercent" forceUppercase="true">
+                <label>Account Line Percent</label>
+                <shortLabel>Percent</shortLabel>
+
+                <maxLength>35</maxLength>
+                <validationPattern><floatingPoint /></validationPattern>
+
+                <control>
+                    <text size="37" />
+                </control>
+
+                <summary>accountLinePercent</summary>
+                <description>accountLinePercent description...</description>
+			</attribute>
+
+            <attribute name="accountNumber" forceUppercase="true">
+                <label>Account Number</label>
+                <shortLabel>Number</shortLabel>
+
+                <maxLength>7</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="9" />
+                </control>
+
+                <summary>accountNumber</summary>
+                <description>accountNumber description...</description>
+			</attribute>
+
+            <attribute name="amount" forceUppercase="true">
+                <label>Amount</label>
+                <shortLabel>Amount</shortLabel>
+
+                <maxLength>19</maxLength>
+                <validationPattern><floatingPoint /></validationPattern>
+
+                <control>
+                    <text size="21" />
+                </control>
+
+                <summary>amount</summary>
+                <description>amount description...</description>
+			</attribute>
+
+            <attribute name="chartOfAccountsCode" forceUppercase="true">
+                <label>Chart Of Accounts Code</label>
+                <shortLabel>Code</shortLabel>
+
+                <maxLength>2</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="4" />
+                </control>
+
+                <summary>chartOfAccountsCode</summary>
+                <description>chartOfAccountsCode description...</description>
+			</attribute>
+
+            <attribute name="disencumberedAmount" forceUppercase="true">
+                <label>Disencumbered Amount</label>
+                <shortLabel>Amount</shortLabel>
+
+                <maxLength>19</maxLength>
+                <validationPattern><floatingPoint /></validationPattern>
+
+                <control>
+                    <text size="21" />
+                </control>
+
+                <summary>disencumberedAmount</summary>
+                <description>disencumberedAmount description...</description>
+			</attribute>
+
+            <attribute name="financialObjectCode" forceUppercase="true">
+                <label>Financial Object Code</label>
+                <shortLabel>Code</shortLabel>
+
+                <maxLength>4</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="6" />
+                </control>
+
+                <summary>financialObjectCode</summary>
+                <description>financialObjectCode description...</description>
+			</attribute>
+
+            <attribute name="financialSubObjectCode" forceUppercase="true">
+                <label>Financial Sub Object Code</label>
+                <shortLabel>Code</shortLabel>
+
+                <maxLength>3</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="5" />
+                </control>
+
+                <summary>financialSubObjectCode</summary>
+                <description>financialSubObjectCode description...</description>
+			</attribute>
+
+            <attribute name="organizationReferenceId" forceUppercase="true">
+                <label>Organization Reference Id</label>
+                <shortLabel>Id</shortLabel>
+
+                <maxLength>8</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="10" />
+                </control>
+
+                <summary>organizationReferenceId</summary>
+                <description>organizationReferenceId description...</description>
+			</attribute>
+
+            <attribute name="projectCode" forceUppercase="true">
+                <label>Project Code</label>
+                <shortLabel>Code</shortLabel>
+
+                <maxLength>10</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="12" />
+                </control>
+
+                <summary>projectCode</summary>
+                <description>projectCode description...</description>
+			</attribute>
+
+            <attribute name="purapDocumentIdentifier" forceUppercase="true">
+                <label>Purap Document Identifier</label>
+                <shortLabel>Identifier</shortLabel>
+
+                <maxLength>9</maxLength>
+                <validationPattern><numeric /></validationPattern>
+
+                <control>
+                    <text size="11" />
+                </control>
+
+                <summary>purapDocumentIdentifier</summary>
+                <description>purapDocumentIdentifier description...</description>
+			</attribute>
+
+            <attribute name="subAccountNumber" forceUppercase="true">
+                <label>Sub Account Number</label>
+                <shortLabel>Number</shortLabel>
+
+                <maxLength>5</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="7" />
+                </control>
+
+                <summary>subAccountNumber</summary>
+                <description>subAccountNumber description...</description>
+			</attribute>
+
+            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
+
+        </attributes>
+    </businessObject>
+</dictionaryEntry>

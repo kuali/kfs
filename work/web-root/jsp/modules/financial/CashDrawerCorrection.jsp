@@ -24,7 +24,7 @@
         <div class="h2-container">
           <h2>Cash Drawer for ${KualiForm.cashDrawer.workgroupName}</h2>
         </div>
-        <cm:cashDrawerCurrencyCoin cashDrawerProperty="cashDrawer" readOnly="false" />
+        <cm:cashDrawerCurrencyCoin cashDrawerProperty="cashDrawer" readOnly="false" showCashDrawerSummary="false" />
       </div>
     </kul:tabTop>
     

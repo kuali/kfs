@@ -17,6 +17,11 @@
 
 <%@ attribute name="cashDrawerProperty" required="true" %>
 <%@ attribute name="readOnly" required="false" %>
+<%@ attribute name="showCashDrawerSummary" required="false" %>
+
+<c:if test="${empty showCashDrawerSummary}">
+  <c:set var="showCashDrawerSummary" value="false" />
+</c:if>
 
 <c:set var="cashDrawerAttributes" value="${DataDictionary.CashDrawer.attributes}" />
 <c:set var="cashDrawer" value="${cashDrawerProperty}" />
@@ -172,7 +177,7 @@
         </tr>
         
         <%-- cash drawer summary information --%>
-        <c:if test="${KualiForm.document.rawCashDrawerStatus != Constants.CashDrawerConstants.STATUS_CLOSED && KualiForm.cashDrawerSummary.cashDrawerTotal != null}">
+        <c:if test="${showCashDrawerSummary}">
         <c:choose>
           <c:when test="${KualiForm.cashDrawerSummary.depositsFinal}">
             <tr>

@@ -67,11 +67,16 @@ public class LaborLedgerPendingEntryServiceImpl implements LaborLedgerPendingEnt
     public boolean hasPendingLaborLedgerEntry(Map fieldValues) {
         LOG.info("hasPendingLaborLedgerEntry(Map fieldValues) started");
         
-        fieldValues.put(KFSPropertyConstants.FINANCIAL_DOCUMENT_APPROVED_CODE, RiceConstants.NOT_LOGICAL_OPERATOR + KFSConstants.PENDING_ENTRY_APPROVED_STATUS_CODE.PROCESSED);
         Collection<LaborLedgerPendingEntry> pendingEntries = SpringContext.getBean(LookupService.class).findCollectionBySearch(LaborLedgerPendingEntry.class, fieldValues);
         
-        int numOfPendingEntries = pendingEntries == null ? 0 : pendingEntries.size();        
-        return numOfPendingEntries>0;
+        // exclude the pending labor ledger transaction has been processed
+        for (LaborLedgerPendingEntry pendingLedgerEntry : pendingEntries) {
+            String approvedCode = pendingLedgerEntry.getFinancialDocumentApprovedCode();
+            if (!KFSConstants.PENDING_ENTRY_APPROVED_STATUS_CODE.PROCESSED.equals(approvedCode)) {
+                return true;
+            }
+        }        
+        return false;
     }
 
     /**

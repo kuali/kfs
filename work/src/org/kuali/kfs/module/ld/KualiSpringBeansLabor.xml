@@ -56,6 +56,8 @@
 		<property name="jobNames">
 			<list>
 				<value>laborBatchJob</value>
+				<value>payrollAccrualJob</value>
+				<value>yearEndBalanceForwardJob</value>
 			</list>
 		</property>
 	</bean>
@@ -584,6 +586,22 @@
 				<ref bean="createLaborBackupGroupStep"/>
 				<ref bean="laborScrubberStep"/>
 				<ref bean="laborPosterStep"/>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="payrollAccrualJob" parent="scheduledJobDescriptor">
+		<property name="steps">
+			<list>
+				<ref bean="payrollAccrualStep"/>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="yearEndBalanceForwardJob" parent="scheduledJobDescriptor">
+		<property name="steps">
+			<list>
+				<ref bean="laborYearEndBalanceForwardStep"/>
 			</list>
 		</property>
 	</bean>

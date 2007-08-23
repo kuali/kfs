@@ -324,7 +324,7 @@ public class KualiAccountingDocumentActionBase extends KualiTransactionalDocumen
     private void handleUpdate(AccountingDocument transDoc, String errorPathPrefix, AccountingLine formLine, AccountingLine baseLine) {
         if ((baseLine != null) && !formLine.isLike(baseLine)) {
             // reluctantly refresh BOs for clearOverridesThatBecameUnneeded()
-            formLine.refresh();
+            formLine.refreshNonUpdateableReferences();
             clearOverridesThatBecameUnneeded(formLine);
             // the rule itself is responsible for adding error messages to the global ErrorMap
             SpringContext.getBean(KualiRuleService.class).applyRules(new UpdateAccountingLineEvent(errorPathPrefix, transDoc, baseLine, formLine));
@@ -1126,10 +1126,11 @@ public class KualiAccountingDocumentActionBase extends KualiTransactionalDocumen
      * @param baseLine
      */
     private void handleSalesTaxRequired(AccountingDocument transDoc, AccountingLine formLine, boolean source, boolean newLine, int index) {
-        if(isSalesTaxRequired(transDoc, formLine)) {
+        boolean salesTaxRequired = isSalesTaxRequired(transDoc, formLine);
+        if(salesTaxRequired) {
             formLine.setSalesTaxRequired(true);
             populateSalesTax(formLine);
-        } else if(hasSalesTaxBeenEntered(formLine, source, newLine, index)) {
+        } else if(!salesTaxRequired && hasSalesTaxBeenEntered(formLine, source, newLine, index)) {
             //remove it if it has been added but is no longer required
             removeSalesTax(formLine);
         }

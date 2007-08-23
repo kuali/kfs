@@ -63,7 +63,7 @@
 			accountingLineAttributes="${accountingLineAttributes}" 
 			overrideTitle="Additional Charges" 
 			showAmount="${showAmount}"
-			updateExtended="${true}" />
+			showInvoiced="${true}" />
 
 		<!-- BEGIN TOTAL SECTION -->
 		<tr>

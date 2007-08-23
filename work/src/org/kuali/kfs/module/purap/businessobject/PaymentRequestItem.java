@@ -20,7 +20,6 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.commons.lang.StringUtils;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.context.SpringContext;
@@ -76,6 +75,11 @@ public class PaymentRequestItem extends AccountsPayableItemBase {
         }
         this.setSourceAccountingLines(accounts);
         this.refreshNonUpdateableReferences();
+        //clear amount on below the line
+        if(ObjectUtils.isNotNull(this.getItemType())&&
+           !this.getItemType().isItemTypeAboveTheLineIndicator()) {
+            this.setItemUnitPrice(BigDecimal.ZERO);
+        }
         //copy custom
         this.purchaseOrderItemUnitPrice = poi.getItemUnitPrice();
         this.purchaseOrderCommodityCode = poi.getPurchaseOrderCommodityCd();
@@ -135,6 +139,15 @@ public class PaymentRequestItem extends AccountsPayableItemBase {
         }    
       }
 
+    /** 
+     * This method is here due to a setter requirement by the htmlControlAttribute
+     * @param amount
+     */
+    public void setPoOutstandingAmount(KualiDecimal amount){
+        //do nothing
+    }
+
+    
     public KualiDecimal getPoOutstandingQuantity() {
         PurchaseOrderItem poi = getPurchaseOrderItem();
         if ( poi == null ) {

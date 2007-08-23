@@ -133,7 +133,7 @@
 
 			<attributeReference name="purchaseOrderItemUnitPrice" sourceClassName="org.kuali.module.purap.bo.PurApAttributeReferenceDummy" sourceAttributeName="genericItemUnitPrice">
 				<label>Purchase Order Item Unit Price</label>
-				<shortLabel>Unit Price</shortLabel>
+				<shortLabel>PO Unit/Ext Price</shortLabel>
 				<summary>purchaseOrderItemUnitPrice</summary>
 				<description>purchaseOrderItemUnitPrice description...</description>
 			</attributeReference>
@@ -157,6 +157,13 @@
 				<shortLabel>Open Qty</shortLabel>
 				<summary>itemOpenQuantity</summary>
 				<description>itemOpenQuantity description...</description>
+			</attributeReference>
+			
+			<attributeReference name="poOutstandingAmount" sourceClassName="org.kuali.module.purap.bo.PurApAttributeReferenceDummy" sourceAttributeName="genericItemAmount">
+				<label>Item Open Amount</label>
+				<shortLabel>Open Amount</shortLabel>
+				<summary>itemOpenAmount</summary>
+				<description>itemOpenAmount description...</description>
 			</attributeReference>
 
 			<attributeReference name="itemQuantity" sourceClassName="org.kuali.module.purap.bo.PurApAttributeReferenceDummy" sourceAttributeName="genericItemQuantity">

@@ -25,7 +25,7 @@
 <%@ attribute name="showAmount" required="false"
     type="java.lang.Boolean"
     description="show the amount if true else percent" %>
-<%@ attribute name="updateExtended" required="false"
+<%@ attribute name="showInvoiced" required="false"
     type="java.lang.Boolean"
     description="post the unitPrice into the extendedPrice field" %>
 
@@ -40,8 +40,21 @@
 	<td colspan="11" class="subhead"><span class="subhead-left"><c:out value="${overrideTitle}" /></span></td>
 </tr>
 <tr>
-	<kul:htmlAttributeHeaderCell colspan="5"
+	<c:set var="typeColSpan" value="5" />
+	<c:if test="${showInvoiced}">
+		<c:set var="typeColSpan" value="3" />
+	</c:if>
+	
+	<kul:htmlAttributeHeaderCell colspan="${typeColSpan}"
 		attributeEntry="${itemAttributes.itemTypeCode}" />
+	
+	<c:if test="${showInvoiced}">
+		<kul:htmlAttributeHeaderCell colspan="1"
+			attributeEntry="${itemAttributes.purchaseOrderItemUnitPrice}" />
+		<kul:htmlAttributeHeaderCell colspan="1"
+			attributeEntry="${itemAttributes.itemOutstandingInvoiceAmount}" />
+	</c:if>
+	
 	<kul:htmlAttributeHeaderCell colspan="2"
 		attributeEntry="${itemAttributes.extendedPrice}" />
 	<kul:htmlAttributeHeaderCell colspan="3"
@@ -60,7 +73,7 @@
 				readOnly="${true}" /> <!-- TODO need the show/hide? --></td>
 		</tr>
 		<tr>
-			<td class="infoline" colspan="5">
+			<td class="infoline" colspan="${typeColSpan}">
 			    <html:hidden property="document.item[${ctr}].itemIdentifier" /> 
 			    <html:hidden property="document.item[${ctr}].purapDocumentIdentifier" />
 			    <html:hidden property="document.item[${ctr}].versionNumber" /> 
@@ -76,6 +89,20 @@
 			        <kul:htmlControlAttribute attributeEntry="${itemAttributes.itemTypeCode}" property="document.item[${ctr}].itemType.itemTypeDescription" readOnly="${true}" />:&nbsp;
 			    </div>
 			</td>
+			<c:if test="${showInvoiced}">
+				<td class="infoline" colspan="1">
+			    	<kul:htmlControlAttribute
+				    	attributeEntry="${itemAttributes.purchaseOrderItemUnitPrice}"
+				    	property="document.item[${ctr}].purchaseOrderItemUnitPrice"
+				    	readOnly="true" />
+		    	</td>
+		    	<td class="infoline" colspan="1">
+			    	<kul:htmlControlAttribute
+				    	attributeEntry="${itemAttributes.poOutstandingAmount}"
+				    	property="document.item[${ctr}].poOutstandingAmount"
+				    	readOnly="true" />	
+				</td>			
+			</c:if>
 			<td class="infoline" colspan="2">
 			<div align="right"><kul:htmlControlAttribute
 				attributeEntry="${itemAttributes.itemUnitPrice}"

@@ -57,13 +57,13 @@
 			<td colspan=2 class="datacell">&nbsp;</td>
 		</tr>
 		<!-- END TOTAL SECTION -->
-
+		<c:set var="showInvoiced" value="${empty isCreditMemo or !isCreditMemo}" />
 		<purap:miscitems 
 			itemAttributes="${itemAttributes}" 
 			accountingLineAttributes="${accountingLineAttributes}" 
 			overrideTitle="Additional Charges" 
 			showAmount="${showAmount}"
-			showInvoiced="${true}" />
+			showInvoiced="${showInvoiced}" />
 
 		<!-- BEGIN TOTAL SECTION -->
 		<tr>

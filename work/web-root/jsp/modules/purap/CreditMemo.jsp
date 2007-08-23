@@ -66,7 +66,9 @@
             itemAttributes="${DataDictionary.CreditMemoItem.attributes}"
     	    documentAttributes="${DataDictionary.SourceAccountingLine.attributes}" / -->  
     	    	
-        <purap:relatedDocuments documentAttributes="${DataDictionary.RelatedDocuments.attributes}" />
+		<purap:relatedDocuments documentAttributes="${DataDictionary.RelatedDocuments.attributes}"/>
+           	
+	    <purap:paymentHistory documentAttributes="${DataDictionary.RelatedDocuments.attributes}" />
         
         <kul:panelFooter />
 	</c:if>

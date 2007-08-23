@@ -92,7 +92,8 @@ public class CreditMemoCreateServiceImpl implements CreditMemoCreateService {
         cmDocument.setVendorStateCode(paymentRequestDocument.getVendorStateCode());
         cmDocument.setVendorPostalCode(paymentRequestDocument.getVendorPostalCode());
         cmDocument.setVendorCountryCode(paymentRequestDocument.getVendorCountryCode());
-        
+        cmDocument.setAccountsPayablePurchasingDocumentLinkIdentifier(paymentRequestDocument.getAccountsPayablePurchasingDocumentLinkIdentifier());
+
         //prep the item lines (also collect warnings for later display) this is only done on paymentRequest
         convertMoneyToPercent(paymentRequestDocument);
         populateItemLinesFromPreq(cmDocument);
@@ -135,7 +136,6 @@ public class CreditMemoCreateServiceImpl implements CreditMemoCreateService {
         cmDocument.setVendorCustomerNumber(purchaseOrderDocument.getVendorCustomerNumber());
         cmDocument.setVendorName(purchaseOrderDocument.getVendorName());
         cmDocument.setAccountsPayablePurchasingDocumentLinkIdentifier(purchaseOrderDocument.getAccountsPayablePurchasingDocumentLinkIdentifier());
-
 
         // populate cm vendor address with the default remit address type for the vendor if found
         String userCampus = GlobalVariables.getUserSession().getUniversalUser().getCampusCode();

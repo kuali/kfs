@@ -79,7 +79,8 @@ public class PaymentRequestItem extends AccountsPayableItemBase {
         //itemType check but it's there just in case remove if it causes problems
         if(ObjectUtils.isNotNull(this.getItemType())&&
            !this.getItemType().isItemTypeAboveTheLineIndicator()) {
-            this.setItemUnitPrice(BigDecimal.ZERO);
+            //setting unit price to be null to be more consistent with other below the line
+            this.setItemUnitPrice(null);
             this.setItemDescription("");
         }
         //copy custom

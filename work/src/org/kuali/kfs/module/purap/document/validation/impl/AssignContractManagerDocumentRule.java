@@ -93,7 +93,7 @@ public class AssignContractManagerDocumentRule extends TransactionalDocumentRule
                 fieldValues.put(PurapPropertyConstants.CONTRACT_MANAGER_CODE, detail.getContractManagerCode());
                 if ( SpringContext.getBean(BusinessObjectService.class).countMatching(ContractManager.class, fieldValues) != 1 ) {
                     GlobalVariables.getErrorMap().putError(PurapConstants.ASSIGN_CONTRACT_MANAGER_TAB_ERRORS,
-                            PurapKeyConstants.INVALID_CONTRACT_MANAGER_CODE);
+                            PurapKeyConstants.INVALID_CONTRACT_MANAGER_CODE,detail.getContractManagerCode().toString() );
                     isValid = false;
                 }
             }

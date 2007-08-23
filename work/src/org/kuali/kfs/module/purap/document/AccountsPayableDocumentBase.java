@@ -92,10 +92,12 @@ public abstract class AccountsPayableDocumentBase extends PurchasingAccountsPaya
     }
     
     private boolean documentHasNoImagesAttached() {
-        List boNotes = this.getDocumentHeader().getBoNotes();
+        List boNotes = this.getDocumentBusinessObject().getBoNotes();
         if (ObjectUtils.isNotNull(boNotes)) {
             for (Object obj : boNotes) {
                 Note note = (Note) obj;
+                //may need to refresh this attachment because of a bug - see see KULPURAP-1397
+                note.refreshReferenceObject("attachment");
                 if (ObjectUtils.isNotNull(note.getAttachment())) {
                     return false;
                 }

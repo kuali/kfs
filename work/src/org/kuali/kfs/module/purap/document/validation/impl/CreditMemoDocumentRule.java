@@ -76,7 +76,7 @@ public class CreditMemoDocumentRule extends AccountsPayableDocumentRuleBase impl
      */
     @Override
     public boolean processValidation(PurchasingAccountsPayableDocument purapDocument) {
-        boolean valid = true;
+        boolean valid = super.processValidation(purapDocument);
 
         CreditMemoDocument cmDocument = (CreditMemoDocument) purapDocument;
 

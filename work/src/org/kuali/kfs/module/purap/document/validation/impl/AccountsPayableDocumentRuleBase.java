@@ -15,14 +15,17 @@
  */
 package org.kuali.module.purap.rules;
 
-import org.apache.commons.lang.StringUtils;
+import org.kuali.RiceConstants;
+import org.kuali.RicePropertyConstants;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.PurapKeyConstants;
 import org.kuali.module.purap.PurapConstants.ItemFields;
+import org.kuali.module.purap.PurapWorkflowConstants.PaymentRequestDocument.NodeDetailEnum;
 import org.kuali.module.purap.bo.PaymentRequestItem;
 import org.kuali.module.purap.bo.PurchasingApItem;
+import org.kuali.module.purap.document.AccountsPayableDocument;
 import org.kuali.module.purap.document.PurchasingAccountsPayableDocument;
 
 public class AccountsPayableDocumentRuleBase extends PurchasingAccountsPayableDocumentRuleBase {
@@ -30,7 +33,24 @@ public class AccountsPayableDocumentRuleBase extends PurchasingAccountsPayableDo
     @Override
     public boolean processValidation(PurchasingAccountsPayableDocument purapDocument) {
         boolean valid = super.processValidation(purapDocument);
-        // TODO: Add more validations in here
+        
+        valid &= processApprovalAtAccountsPayableReviewAllowed((AccountsPayableDocument)purapDocument);
+        
+        return valid;
+    }
+
+    private boolean processApprovalAtAccountsPayableReviewAllowed(AccountsPayableDocument apDocument) {
+        boolean valid = true;
+        GlobalVariables.getErrorMap().clearErrorPath();
+        GlobalVariables.getErrorMap().addToErrorPath(RicePropertyConstants.DOCUMENT);
+        
+        if (apDocument.isDocumentStoppedInRouteNode(NodeDetailEnum.ACCOUNTS_PAYABLE_REVIEW)) {
+            if(!apDocument.approvalAtAccountsPayableReviewAllowed()) {
+                valid &= false;
+                GlobalVariables.getErrorMap().putError(RiceConstants.GLOBAL_ERRORS, PurapKeyConstants.ERROR_AP_REQUIRES_ATTACHMENT);
+            }
+        }
+        GlobalVariables.getErrorMap().clearErrorPath();
         return valid;
     }
 
@@ -62,5 +82,5 @@ public class AccountsPayableDocumentRuleBase extends PurchasingAccountsPayableDo
             GlobalVariables.getErrorMap().putError(PurapConstants.ITEM_TAB_ERROR_PROPERTY, PurapKeyConstants.ERROR_ITEM_AMOUNT_BELOW_ZERO, ItemFields.INVOICE_EXTENDED_PRICE, identifierString);
         }
         return valid;
-    }
+    }    
 }

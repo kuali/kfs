@@ -22,6 +22,7 @@ import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.bo.Country;
 import org.kuali.kfs.bo.SourceAccountingLine;
 import org.kuali.kfs.document.AccountingDocument;
+import org.kuali.module.purap.PurapWorkflowConstants.NodeDetails;
 import org.kuali.module.purap.bo.CreditMemoView;
 import org.kuali.module.purap.bo.PaymentRequestView;
 import org.kuali.module.purap.bo.PurchaseOrderView;
@@ -131,5 +132,7 @@ public interface PurchasingAccountsPayableDocument extends AccountingDocument {
     public PurchasingAccountsPayableDocument getPurApSourceDocumentIfPossible();
     
     public String getPurApSourceDocumentLabelIfPossible();
+    
+    public boolean isDocumentStoppedInRouteNode(NodeDetails nodeDetails);
     
 }

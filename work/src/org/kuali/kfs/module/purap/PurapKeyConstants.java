@@ -89,6 +89,7 @@ public class PurapKeyConstants {
     // Accounts Payable
     public static final String ERROR_SAVE_REQUIRES_CALCULATE="errors.save.calculationRequired";
     public static final String ERROR_APPROVE_REQUIRES_CALCULATE="errors.save.calculationRequired";
+    public static final String ERROR_AP_REQUIRES_ATTACHMENT="errors.ap.attachmentRequired";
     
     //Payment Request
     public static final String ERROR_PURCHASE_ORDER_NOT_EXIST="error.invoice.purchaseOrder.notExist";

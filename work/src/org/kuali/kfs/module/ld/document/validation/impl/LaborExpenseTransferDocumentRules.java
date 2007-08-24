@@ -1375,6 +1375,14 @@ public class LaborExpenseTransferDocumentRules extends AccountingDocumentRuleBas
         a21RevEntry.setTransactionLedgerEntryAmount(getGeneralLedgerPendingEntryAmountForAccountingLine(accountingLine));
 
         // Jira KULLAB-224
+        Map fieldValues = new HashMap();
+        fieldValues.put("universityFiscalYear", a21RevEntry.getUniversityFiscalYear());
+        fieldValues.put("chartOfAccountsCode", a21RevEntry.getChartOfAccountsCode());
+        fieldValues.put("financialObjectCode", a21RevEntry.getFinancialObjectCode());
+        ObjectCode objectCode = (ObjectCode) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(ObjectCode.class, fieldValues);
+        if (objectCode != null) {
+            a21RevEntry.setFinancialObject(objectCode);
+        }
         if (a21RevEntry.getFinancialObject() != null && a21RevEntry.getFinancialObject().getFinancialObjectSubTypeCode() != null && a21RevEntry.getFinancialObject().getFinancialObjectSubTypeCode().equals("FR")) {
             a21RevEntry.setTransactionDebitCreditCode(accountingLine.isSourceAccountingLine() ? KFSConstants.GL_DEBIT_CODE : KFSConstants.GL_CREDIT_CODE);
         }

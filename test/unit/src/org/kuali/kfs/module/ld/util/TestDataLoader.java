@@ -30,6 +30,7 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DateTimeService;
 import org.kuali.core.service.PersistenceService;
+import org.kuali.kfs.KFSConstants;
 import org.kuali.module.gl.bo.OriginEntry;
 import org.kuali.module.gl.bo.OriginEntryGroup;
 import org.kuali.module.gl.service.OriginEntryGroupService;
@@ -80,9 +81,6 @@ public class TestDataLoader {
 
     public int loadTransactionIntoOriginEntryTable(OriginEntryGroup group) {
         int numberOfInputData = Integer.valueOf(properties.getProperty("numOfData"));
-
-        Date today = LaborSpringContext.getBean(DateTimeService.class).getCurrentSqlDate();
-        group.setDate(today);
         businessObjectService.save(group);
 
         int[] fieldLength = this.getFieldLength(fieldLengthList);
@@ -103,6 +101,7 @@ public class TestDataLoader {
             ObjectUtil.populateBusinessObject(inputData, properties, propertyKey, fieldLength, keyFieldList);
 
             if (businessObjectService.countMatching(LaborLedgerPendingEntry.class, inputData.getPrimaryKeyMap()) <= 0) {
+                inputData.setFinancialDocumentApprovedCode(KFSConstants.PENDING_ENTRY_APPROVED_STATUS_CODE.APPROVED);
                 businessObjectService.save(inputData);
                 count++;
             }
@@ -137,13 +136,15 @@ public class TestDataLoader {
 
     public static void main(String[] args) {
         TestDataLoader testDataLoader = new TestDataLoader();
+        Date groupCreationDate = new Date(0);
         
         if(ArrayUtils.contains(args, "poster")){
             OriginEntryGroup group = new OriginEntryGroup();
             group.setSourceCode(LABOR_SCRUBBER_VALID);
             group.setValid(true);
             group.setScrub(false);
-            group.setProcess(true); 
+            group.setProcess(true);
+            group.setDate(groupCreationDate);
             int numOfData = testDataLoader.loadTransactionIntoOriginEntryTable(group);
             System.out.println("Number of Origin Entries for Poster = " + numOfData);
         }
@@ -154,6 +155,7 @@ public class TestDataLoader {
             group.setValid(true);
             group.setScrub(true);
             group.setProcess(true);
+            group.setDate(groupCreationDate);
             int numOfData = testDataLoader.loadTransactionIntoOriginEntryTable(group);
             System.out.println("Number of Origin Entries for Scrubber = " + numOfData);
         }

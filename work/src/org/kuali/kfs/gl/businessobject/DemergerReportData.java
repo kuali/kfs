@@ -125,4 +125,12 @@ public class DemergerReportData {
     public void setErrorTransactionWritten(int x) {
         this.errorTransactionsSaved = x;
     }
+
+    /**
+     * Sets the validTransactionsSaved attribute value.
+     * @param validTransactionsSaved The validTransactionsSaved to set.
+     */
+    public void setValidTransactionsSaved(int validTransactionsSaved) {
+        this.validTransactionsSaved = validTransactionsSaved;
+    }
 }

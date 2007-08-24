@@ -82,7 +82,7 @@ public class LaborCorrectionDocument extends CorrectionDocument implements Amoun
     
                 String reportsDirectory = ReportRegistry.getReportsDirectory();
                 
-                reportService.correctionOnlineReport(this, reportsDirectory, today);
+                reportService.generateCorrectionOnlineReport(this, reportsDirectory, today);
     
                 // Run the scrubber on this group to generate a bunch of reports. The scrubber won't save anything when running it
                 // this way.

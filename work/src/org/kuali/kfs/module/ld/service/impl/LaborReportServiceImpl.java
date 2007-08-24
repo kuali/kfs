@@ -40,7 +40,7 @@ import org.kuali.module.gl.util.Summary;
 import org.kuali.module.gl.util.TransactionListingReport;
 import org.kuali.module.gl.util.TransactionReport;
 import org.kuali.module.labor.document.LaborCorrectionDocument;
-import org.kuali.module.labor.report.CorrectionOnlineReport;
+import org.kuali.module.labor.report.LaborCorrectionOnlineReport;
 import org.kuali.module.labor.report.TransactionSummaryReport;
 import org.kuali.module.labor.service.LaborOriginEntryService;
 import org.kuali.module.labor.service.LaborReportService;
@@ -266,13 +266,14 @@ public class LaborReportServiceImpl implements LaborReportService {
         rept.generateReport(ti, runDate, "Error Listing - Transactions Remove From the Scrubber", "labor_scrubber_errors", reportsDirectory);
     }
 
+
     /**
-     * @see org.kuali.module.labor.service.LaborReportService#correctionOnlineReport(org.kuali.module.labor.document.LaborCorrectionDocument,
+     * @see org.kuali.module.labor.service.LaborReportService#generateCorrectionOnlineReport(org.kuali.module.labor.document.LaborCorrectionDocument,
      *      java.lang.String, java.util.Date)
      */
-    public void correctionOnlineReport(LaborCorrectionDocument cDocument, String reportsDirectory, Date runDate) {
+    public void generateCorrectionOnlineReport(LaborCorrectionDocument cDocument, String reportsDirectory, Date runDate) {
         LOG.debug("correctionOnlineReport() started");
-        CorrectionOnlineReport correctionOnlineReport = new CorrectionOnlineReport();
+        LaborCorrectionOnlineReport correctionOnlineReport = new LaborCorrectionOnlineReport();
         correctionOnlineReport.generateReport(cDocument, reportsDirectory, runDate);
     }
 

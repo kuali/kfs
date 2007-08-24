@@ -106,7 +106,7 @@ public interface LaborReportService {
     public void generateOutputSummaryReport(OriginEntryGroup group, ReportRegistry reportInfo, String reportsDirectory, Date runDate);
     
     //LLCP reports
-    public void correctionOnlineReport(LaborCorrectionDocument cDocument, String reportsDirectory, Date runDate);
+    public void generateCorrectionOnlineReport(LaborCorrectionDocument cDocument, String reportsDirectory, Date runDate);
 
     
     //Scrubber reports

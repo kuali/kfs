@@ -34,15 +34,13 @@ import org.kuali.module.purap.service.CreditMemoService;
  * ActionForm for the Credit Memo Document. Stores document values to and from the JSP.
  */
 public class CreditMemoForm extends AccountsPayableFormBase {
-    boolean showTotalOverride;
-
+   
     /**
      * Constructs a PurchaseOrderForm instance and sets up the appropriately casted document.
      */
     public CreditMemoForm() {
         super();
         setDocument(new CreditMemoDocument());
-        showTotalOverride = false;
     }
 
     /**
@@ -106,24 +104,6 @@ public class CreditMemoForm extends AccountsPayableFormBase {
         }
 
         return extraButtons;
-    }
-
-    /**
-     * Gets the showTotalOverride attribute.
-     * 
-     * @return Returns the showTotalOverride.
-     */
-    public boolean isShowTotalOverride() {
-        return showTotalOverride;
-    }
-
-    /**
-     * Sets the showTotalOverride attribute value.
-     * 
-     * @param showTotalOverride The showTotalOverride to set.
-     */
-    public void setShowTotalOverride(boolean showTotalOverride) {
-        this.showTotalOverride = showTotalOverride;
     }
 
 }

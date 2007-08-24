@@ -29,7 +29,8 @@
     <html:hidden property="document.accountsPayableProcessorIdentifier" />
     <html:hidden property="document.processingCampusCode" />
     <html:hidden property="calculated" />
-    
+	<html:hidden property="document.unmatchedOverride" />
+	    
     <c:if test="${displayInitTab}" > 
     	<purap:creditMemoInit documentAttributes="${DataDictionary.CreditMemoDocument.attributes}" /> 
     	

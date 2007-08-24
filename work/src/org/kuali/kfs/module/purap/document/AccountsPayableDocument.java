@@ -18,6 +18,7 @@ package org.kuali.module.purap.document;
 import java.sql.Date;
 
 import org.kuali.core.bo.Campus;
+import org.kuali.core.util.KualiDecimal;
 
 
 
@@ -74,4 +75,13 @@ public interface AccountsPayableDocument extends PurchasingAccountsPayableDocume
     public boolean requiresAccountsPayableReviewRouting();
     
     public boolean approvalAtAccountsPayableReviewAllowed();
+
+    public boolean isUnmatchedOverride();
+        
+    public void setUnmatchedOverride(boolean unmatchedOverride);
+            
+    public KualiDecimal getGrandTotal();
+    
+    public KualiDecimal getInitialAmount();
+
 }

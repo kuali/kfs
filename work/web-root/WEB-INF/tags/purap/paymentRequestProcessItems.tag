@@ -103,26 +103,6 @@
 			</td>
 		</tr>
 		<!-- END TOTAL SECTION -->
-		
-        <c:if test="${isCreditMemo}" >
-          <c:if test="${KualiForm.showTotalOverride}" >
-		    <tr>
-			   <td align=right width='75%' colspan="5" scope="row" class="datacell">
-			      <div align="right">
-			        <bean:message key="message.creditMemo.totalOverride" />:&nbsp;
-			      </div>
-			  </td>
-			  <td valign=middle class="datacell" colspan="2">
-			      <div align="left"><html:checkbox property="document.unmatchedOverride" value="Y"/></div>
-		  	  </td>
-			  <td colspan=2 class="datacell">&nbsp;</td>
-		  </tr>
-		  </c:if>
-          <c:if test="${!KualiForm.showTotalOverride}" >
-               <html:hidden property="document.unmatchedOverride" />
-          </c:if>
-        </c:if>
-
 	</table>
 
 	</div>

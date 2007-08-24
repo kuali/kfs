@@ -22,8 +22,8 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.RiceKeyConstants;
 import org.kuali.core.bo.Note;
-import org.kuali.core.exceptions.ValidationException;
 import org.kuali.core.question.ConfirmationQuestion;
 import org.kuali.core.service.DocumentService;
 import org.kuali.core.service.KualiRuleService;
@@ -31,7 +31,6 @@ import org.kuali.core.service.NoteService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.web.struts.form.KualiDocumentFormBase;
 import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.KFSKeyConstants;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.PurapKeyConstants;
@@ -140,9 +139,6 @@ public class CreditMemoAction extends AccountsPayableActionBase {
 //        boolean valid = SpringContext.getBean(KualiRuleService.class).applyRules(new PreCalculateAccountsPayableEvent(cmDocument));
 
 //        if (valid) {
-            // update extended price on item lines
-            cmDocument.updateExtendedPriceOnItems();
-
             // call service method to finish up calculation
             SpringContext.getBean(CreditMemoService.class).calculateCreditMemo(cmDocument);
 
@@ -202,45 +198,26 @@ public class CreditMemoAction extends AccountsPayableActionBase {
         
         return askQuestionWithInput(mapping, form, request, response, CMDocumentsStrings.CANCEL_CM_QUESTION, CMDocumentsStrings.CANCEL_NOTE_PREFIX, operation, PurapKeyConstants.CREDIT_MEMO_QUESTION_CANCEL_DOCUMENT, callback);
     }
-
+    
     /**
-     * Checks that calculation has been performed, calls cm service to run rules and approve document, and checks for needed
-     * unmatched override if needed.
-     * 
-     * @see org.kuali.module.purap.web.struts.action.AccountsPayableActionBase#approve(org.apache.struts.action.ActionMapping,
-     *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     * This method routes the document, and reopens a PO if the route was successful.
+     *  
+     * @see org.kuali.core.web.struts.action.KualiDocumentActionBase#route(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
     @Override
     public ActionForward route(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         CreditMemoForm cmForm = (CreditMemoForm) form;
         CreditMemoDocument creditMemoDocument = (CreditMemoDocument) cmForm.getDocument();
-
-        if (!cmForm.isCalculated()) {
-            GlobalVariables.getErrorMap().putError(KFSConstants.DOCUMENT_ERRORS, PurapKeyConstants.ERROR_APPROVE_REQUIRES_CALCULATE);
-            return mapping.findForward(KFSConstants.MAPPING_BASIC);
-        }
-
-        // route and catch validation errors to check for unmatched total error
-        try {
-            creditMemoDocument.updateExtendedPriceOnItems();
-            SpringContext.getBean(CreditMemoService.class).calculateCreditMemo(creditMemoDocument);
-            super.route(mapping, form, request, response);
-
-//            SpringContext.getBean(CreditMemoService.class).route(creditMemoDocument, cmForm.getAnnotation(), combineAdHocRecipients(cmForm));
-        }
-        catch (ValidationException e) {
-            // check for needed override
-            if (GlobalVariables.getErrorMap().containsMessageKey(PurapKeyConstants.ERROR_CREDIT_MEMO_INVOICE_AMOUNT_NONMATCH)) {
-                cmForm.setShowTotalOverride(true);
-            }
-            throw new ValidationException(e.getMessage(), e);
-        }
         
-        // add route success message
-        GlobalVariables.getMessageList().add(KFSKeyConstants.MESSAGE_ROUTE_SUCCESSFUL);
-        cmForm.setAnnotation("");
+        //route
+        ActionForward forward = super.route(mapping, form, request, response);
 
-        return mapping.findForward(KFSConstants.MAPPING_BASIC);
+        //reopen PO if route successful
+        if( GlobalVariables.getMessageList().contains(RiceKeyConstants.MESSAGE_ROUTE_SUCCESSFUL) ){
+            SpringContext.getBean(CreditMemoService.class).reopenClosedPO(creditMemoDocument);
+        }
+
+        return forward;
     }
 
 }

@@ -46,6 +46,7 @@
     <!-- html:hidden property="document.paymentRequestInitiated" /-->
 	<html:hidden property="document.processingCampusCode" />
 	<html:hidden property="calculated" />
+	<html:hidden property="document.unmatchedOverride" />
 	    
     <!-- TODO move this to where? -->
     <!-- html:hidden property="document.requisitionIdentifier" / -->

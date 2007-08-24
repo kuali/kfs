@@ -153,6 +153,9 @@ public class CreditMemoServiceImpl implements CreditMemoService {
      * @see org.kuali.module.purap.service.CreditMemoService#calculateCreditMemo(org.kuali.module.purap.document.CreditMemoDocument)
      */
     public void calculateCreditMemo(CreditMemoDocument cmDocument) {
+        
+        cmDocument.updateExtendedPriceOnItems();
+        
         for (CreditMemoItem item : (List<CreditMemoItem>) cmDocument.getItems()) {
             // update unit price for service items
             if (item.getItemType().isItemTypeAboveTheLineIndicator() && !item.getItemType().isQuantityBasedGeneralLedgerIndicator()) {
@@ -237,14 +240,23 @@ public class CreditMemoServiceImpl implements CreditMemoService {
      */
     // TODO delyea/Chris - clean this up to user proper post processing and Kuali methods
     public void route(CreditMemoDocument cmDocument, String annotation, List adHocRecipients) throws WorkflowException {
-        // recalculate
-        cmDocument.updateExtendedPriceOnItems();
+        // recalculate        
         calculateCreditMemo(cmDocument);
 
         // TODO: call method to update accounting line amounts
 
         // run rules and route, throws exception if errors were found
         documentService.routeDocument(cmDocument, annotation, adHocRecipients);
+
+        reopenClosedPO(cmDocument);
+    }
+
+    /** 
+     * This method reopens PO if closed
+     * 
+     * @param cmDocument
+     */
+    public void reopenClosedPO(CreditMemoDocument cmDocument){
 
         // TODO CHRIS/DELYEA - THIS SHOULD HAPPEN WITH GL AND PERCENT CONVERT AT 'Leaving AP Review Level'
         // reopen PO if closed
@@ -264,8 +276,9 @@ public class CreditMemoServiceImpl implements CreditMemoService {
                 // TODO: call reopen purchasing order service method when avaliable
              }
         }
-    }
 
+    }
+    
     /**
      * Must be an AP user, cm not already on hold, extracted date is null, and cm status approved or complete
      * 

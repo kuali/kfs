@@ -38,11 +38,14 @@ import org.kuali.module.purap.bo.PurchasingApItem;
 import org.kuali.module.purap.document.AccountsPayableDocument;
 import org.kuali.module.purap.document.AccountsPayableDocumentBase;
 import org.kuali.module.purap.document.PurchasingDocument;
+import org.kuali.module.purap.service.AccountsPayableService;
 import org.kuali.module.purap.util.PurQuestionCallback;
 import org.kuali.module.purap.web.struts.form.AccountsPayableFormBase;
 import org.kuali.module.purap.web.struts.form.PurchasingFormBase;
 import org.kuali.module.vendor.VendorConstants;
 import org.kuali.module.vendor.bo.VendorAddress;
+
+import edu.iu.uis.eden.exception.WorkflowException;
 
 /**
  * This class handles specific Actions requests for the AP.
@@ -139,12 +142,20 @@ public class AccountsPayableActionBase extends PurchasingAccountsPayableActionBa
 
     @Override
     public ActionForward route(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        
         AccountsPayableFormBase apForm = (AccountsPayableFormBase) form;
-        if (apForm.isCalculated()) {
-            return super.route(mapping, form, request, response);
+        
+        //if form is not yet calculated, return and prompt user to calculate
+        if (!apForm.isCalculated()) {
+            GlobalVariables.getErrorMap().putError(KFSConstants.DOCUMENT_ERRORS, PurapKeyConstants.ERROR_APPROVE_REQUIRES_CALCULATE);
+            return mapping.findForward(KFSConstants.MAPPING_BASIC);            
         }
-        GlobalVariables.getErrorMap().putError(KFSConstants.DOCUMENT_ERRORS, PurapKeyConstants.ERROR_APPROVE_REQUIRES_CALCULATE);
-        return mapping.findForward(KFSConstants.MAPPING_BASIC);
+                
+        //recalculate
+        customCalculate( (AccountsPayableDocument)apForm.getDocument() );
+
+        //route
+        return super.route(mapping, form, request, response);               
     }
 
     @Override

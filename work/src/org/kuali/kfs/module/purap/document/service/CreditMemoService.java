@@ -135,4 +135,5 @@ public interface CreditMemoService {
 
     public void cancelExtractedCreditMemo(CreditMemoDocument cmDocument, String note);
 
+    public void reopenClosedPO(CreditMemoDocument cmDocument);
 }

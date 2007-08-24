@@ -64,14 +64,11 @@ public class CreditMemoDocument extends AccountsPayableDocumentBase {
 
     private PaymentRequestDocument paymentRequestDocument;
 
-    private boolean unmatchedOverride; // not persisted
-
     /**
      * Default constructor.
      */
     public CreditMemoDocument() {
-        super();
-        unmatchedOverride = false;
+        super();        
     }
 
     public boolean isSourceDocumentPaymentRequest() {
@@ -528,24 +525,6 @@ public class CreditMemoDocument extends AccountsPayableDocumentBase {
     public void setPurchaseOrderEndDate(Date purchaseOrderEndDate) {
         this.purchaseOrderEndDate = purchaseOrderEndDate;
     }
-
-    /**
-     * Gets the unmatchedOverride attribute.
-     * 
-     * @return Returns the unmatchedOverride.
-     */
-    public boolean isUnmatchedOverride() {
-        return unmatchedOverride;
-    }
-
-    /**
-     * Sets the unmatchedOverride attribute value.
-     * 
-     * @param unmatchedOverride The unmatchedOverride to set.
-     */
-    public void setUnmatchedOverride(boolean unmatchedOverride) {
-        this.unmatchedOverride = unmatchedOverride;
-    }
     
     /**
      * USED FOR ROUTING ONLY
@@ -569,4 +548,11 @@ public class CreditMemoDocument extends AccountsPayableDocumentBase {
         return PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_REOPEN_DOCUMENT;
     }
 
+    /**
+     * 
+     * @see org.kuali.module.purap.document.AccountsPayableDocumentBase#getInitialAmount()
+     */
+    public KualiDecimal getInitialAmount(){
+        return this.getCreditMemoAmount();
+    }
 }

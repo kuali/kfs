@@ -18,27 +18,24 @@ package org.kuali.module.purap.rules;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.struts.action.ActionForm;
-import org.kuali.core.rule.PreRulesCheck;
+import org.kuali.core.document.Document;
 import org.kuali.core.rule.event.PreRulesCheckEvent;
 
 /**
  * Performs prompts and other pre business rule checks for the Payment Request Docuemnt.
  */
-public class PaymentRequestDocumentPreRules implements PreRulesCheck {
-    protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PaymentRequestDocumentPreRules.class);
+public class PaymentRequestDocumentPreRules extends AccountsPayableDocumentPreRulesBase {
 
     public PaymentRequestDocumentPreRules() {
         super();
     }
 
-    /**
-     * @see org.kuali.core.rule.PreRulesCheck#processPreRuleChecks(org.apache.struts.action.ActionForm,
-     *      javax.servlet.http.HttpServletRequest, org.kuali.core.rule.event.PreRulesCheckEvent)
-     */
-    public boolean processPreRuleChecks(ActionForm form, HttpServletRequest request, PreRulesCheckEvent event) {
-        LOG.info("Entering processPreRuleChecks");
-        boolean valid = true;
-
-        return valid;
+    @Override
+    public boolean doRules(Document document) {
+        return super.doRules(document);
+    }
+    
+    public String getDocumentName(){
+        return "Payment Request";
     }
 }

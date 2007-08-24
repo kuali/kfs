@@ -19,6 +19,7 @@ package org.kuali.module.purap.document;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
@@ -116,7 +117,6 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
         super();
     }
 
-
     /**
      * @see org.kuali.core.bo.PersistableBusinessObjectBase#isBoNotesSupport()
      */
@@ -124,7 +124,6 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
     public boolean isBoNotesSupport() {
         return true;
     }
-
 
     /**
      * Gets the requisitionIdentifier attribute. 
@@ -141,7 +140,7 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
     public void setRequisitionIdentifier(Integer requisitionIdentifier) {
         this.requisitionIdentifier = requisitionIdentifier;
     }
-
+    
     /**
      * @see org.kuali.module.purap.document.AccountsPayableDocumentBase#populateDocumentForRouting()
      */
@@ -736,7 +735,6 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
         this.refreshNonUpdateableReferences();
     }
     
-   
     /**
      * @see org.kuali.core.document.DocumentBase#getDocumentTitle()
      */
@@ -883,8 +881,8 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
                 if (NodeDetailEnum.ACCOUNT_REVIEW.getName().equals(currentNode)) {
                     //FIXME this is not working right now becuase the document has already been saved before reaching this point...that is a problem :(
 //                    SpringContext.getBean(PurapGeneralLedgerService.class).generateEntriesModifyPreq(this);
-                }
             }
+        }
         }
         catch (WorkflowException e) {
             logAndThrowRuntimeException("Error saving routing data while saving document with id " + getDocumentNumber(), e);
@@ -1204,4 +1202,11 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
         return PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_CLOSE_DOCUMENT;
     }
 
+    /**
+     * 
+     * @see org.kuali.module.purap.document.AccountsPayableDocumentBase#getInitialAmount()
+     */
+    public KualiDecimal getInitialAmount(){
+        return this.getVendorInvoiceAmount();
     }
+}

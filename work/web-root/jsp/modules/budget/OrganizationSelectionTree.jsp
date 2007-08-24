@@ -237,6 +237,36 @@
 	    </tr>
 
         </c:forEach>
+
+        <c:choose>
+            <c:when test="${KualiForm.operatingMode == BCConstants.OrgSelOpMode.SALSET}">
+            <tr>
+                <td class="grid" valign="center" rowspan="1" colspan="6">
+                <div align="left">
+                    <html:image property="methodToCall.selectAll" src="${ConfigProperties.externalizable.images.url}tinybutton-select.gif" title="Select All" alt="Select All" styleClass="tinybutton" />
+                    <html:image property="methodToCall.clearAll" src="${ConfigProperties.externalizable.images.url}tinybutton-clearlines.gif" title="Clear All" alt="Clear All" styleClass="tinybutton" />
+                </div>
+                </td>
+            </tr>
+            <tr>
+                <th class="grid" align="left" colspan="6"><br>List Operation</th>
+            </tr>
+            <tr>
+                <td class="grid" valign="center" rowspan="1" colspan="6">
+                <div align="center">
+                    <br>
+                    <html:image property="methodToCall.performPositionPick" src="${ConfigProperties.externalizable.images.url}tinybutton-posnsalset.gif" title="Position Pick" alt="Position Pick" styleClass="tinybutton" />
+                    <html:image property="methodToCall.performIncumbentPick" src="${ConfigProperties.externalizable.images.url}tinybutton-incmbntsalset.gif" title="Incumbent Pick" alt="Incumbent Pick" styleClass="tinybutton" />
+                    <br>&nbsp;
+                </div>
+                </td>
+            </tr>
+            </c:when>
+            <c:otherwise>
+                <td class="grid" valign="center" rowspan="1" colspan="6">&nbsp;</td>
+            </c:otherwise>
+        </c:choose>
+
         </c:if>
 
     </table>

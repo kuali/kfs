@@ -848,10 +848,12 @@ public class LaborScrubberProcess {
             }
 
             // put the transactions into an error group
-            for (LaborOriginEntry transaction : transactions) {
-                demergerReport.incrementErrorTransactionsSaved();
-                transaction.setGroup(errorGroup);
-                laborOriginEntryService.save(transaction);
+            if(transactions != null){
+                for (LaborOriginEntry transaction : transactions) {
+                    demergerReport.incrementErrorTransactionsSaved();
+                    transaction.setGroup(errorGroup);
+                    laborOriginEntryService.save(transaction);
+                }
             }
         }
 

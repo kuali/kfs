@@ -30,6 +30,7 @@ public enum ReportRegistry {
     LABOR_POSTER_OUTPUT("labor_poster_output", "Poster Output Summary"),
     LABOR_POSTER_OUTPUT_BY_SINGLE_GROUP("labor_poster_output_single_group", "Poster Output Summary"),
     LABOR_POSTER_GL_SUMMARY("labor_poster_gl_summary", "Poster Labor General Ledger Summary"),
+    LABOR_POSTER_GL_SUMMARY_INPUT("labor_poster_gl_summary_ledger", "GL Summary Input Transactions"),
     
     LABOR_YEAR_END_OUTPUT("labor_year_end_output", "Year-End Output Summary"),
     LABOR_YEAR_END_STATISTICS("labor_year_end_main", "Ledger Report"),

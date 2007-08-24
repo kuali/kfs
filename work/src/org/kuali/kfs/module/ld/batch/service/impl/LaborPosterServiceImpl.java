@@ -240,6 +240,8 @@ public class LaborPosterServiceImpl implements LaborPosterService {
         Map<Transaction, List<Message>> errorMap = new HashMap<Transaction, List<Message>>();
 
         Collection<LaborOriginEntry> entries = laborOriginEntryService.getConsolidatedEntryCollectionByGroup(validGroup);
+        laborReportService.generateInputSummaryReport(validGroup, ReportRegistry.LABOR_POSTER_GL_SUMMARY_INPUT, reportsDirectory, runDate);
+        
         int numberOfOriginEntry = entries.size();
         int numberOfSelectedOriginEntry = 0;
 

@@ -248,7 +248,7 @@ public class PurchaseOrderAction extends PurchasingActionBase {
         KualiConfigurationService kualiConfiguration = SpringContext.getBean(KualiConfigurationService.class);
 
         // Start in logic for confirming the close.
-        if (question == null) {
+        if (ObjectUtils.isNull(question)) {
             String key = kualiConfiguration.getPropertyString(PurapKeyConstants.PURCHASE_ORDER_QUESTION_DOCUMENT);
             String message = StringUtils.replace(key, "{0}", operation);
 
@@ -281,7 +281,7 @@ public class PurchaseOrderAction extends PurchasingActionBase {
                     // Figure out exact number of characters that the user can enter.
                     int reasonLimit = noteTextMaxLength - noteTextLength;
 
-                    if (reason == null) {
+                    if (ObjectUtils.isNull(reason)) {
                         // Prevent a NPE by setting the reason to a blank string.
                         reason = "";
                     }
@@ -320,7 +320,17 @@ public class PurchaseOrderAction extends PurchasingActionBase {
             insertBONote(mapping, kualiDocumentFormBase, request, response);
             GlobalVariables.getMessageList().add(messageType);
         }
-        return mapping.findForward(KFSConstants.MAPPING_BASIC);
+        if (documentType.equals(PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_AMENDMENT_DOCUMENT)) {
+            return mapping.findForward(KFSConstants.MAPPING_BASIC);
+        }
+        else {
+            if (GlobalVariables.getErrorMap().isEmpty()) {
+                return this.performQuestionWithoutInput(mapping, form, request, response, confirmType, kualiConfiguration.getPropertyString(messageType), PODocumentsStrings.SINGLE_CONFIRMATION_QUESTION, questionType, "");
+            }
+            else {
+                return mapping.findForward(KFSConstants.MAPPING_BASIC);
+            }
+        }
     }
 
     public ActionForward closePo(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -1077,7 +1087,7 @@ public class PurchaseOrderAction extends PurchasingActionBase {
                 // Figure out exact number of characters that the user can enter.
                 int reasonLimit = noteTextMaxLength - noteTextLength;
     
-                if (reason == null) {
+                if (ObjectUtils.isNull(reason)) {
                     // Prevent a NPE by setting the reason to a blank string.
                     reason = "";
                 }

@@ -772,152 +772,39 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
     public void setAccountsForRouting(List<SourceAccountingLine> accountsForRouting) {
         this.accountsForRouting = accountsForRouting;
     }
-    
+
     /**
-     * @see org.kuali.kfs.document.AccountingDocumentBase#generateSaveEvents()
+     * @see org.kuali.kfs.document.AccountingDocumentBase#getPersistedSourceAccountingLinesForComparison()
+     * TODO: Chris - cache this for performance
      */
     @Override
-    public List generateSaveEvents() {
-        //TODO - this is just a copy of the above method with some changes
-        
-        List events = new ArrayList();
-
-        // foreach (source, target)
-        // 1. retrieve persisted accountingLines for document
-        // 2. retrieve current accountingLines from given document
-        // 3. compare, creating add/delete/update events as needed
-        // 4. apply rules as appropriate returned events
-        
-        
+    protected List getPersistedSourceAccountingLinesForComparison() {
         PurapAccountingService purApAccountingService = SpringContext.getBean(PurapAccountingService.class);
-        List currentSourceLines = new ArrayList();
         List persistedSourceLines = new ArrayList();
 
         for (PurchasingApItem item : (List<PurchasingApItem>)this.getItems()) {
-            currentSourceLines.addAll(item.getSourceAccountingLines());
             //only check items that already have been persisted since last save
             if(ObjectUtils.isNotNull(item.getItemIdentifier())) {
                 persistedSourceLines.addAll(purApAccountingService.getAccountsFromItem(item));
             }
         }
-//        List persistedSourceLines = SpringContext.getBean(AccountingLineService.class).getByDocumentHeaderId(accountingLineClass, getDocumentNumber());
-            
-        List sourceEvents = generateEvents(persistedSourceLines, currentSourceLines, KFSConstants.DOCUMENT_PROPERTY_NAME + "." + KFSConstants.EXISTING_SOURCE_ACCT_LINE_PROPERTY_NAME, this);
-        for (Iterator i = sourceEvents.iterator(); i.hasNext();) {
-            AccountingLineEvent sourceEvent = (AccountingLineEvent) i.next();
-            events.add(sourceEvent);
-        }
-
-//        List persistedTargetLines = SpringContext.getBean(AccountingLineService.class).getByDocumentHeaderId(getTargetAccountingLineClass(), getDocumentNumber());
-//        List currentTargetLines = getTargetAccountingLines();
-//
-//        List targetEvents = generateEvents(persistedTargetLines, currentTargetLines, KFSConstants.DOCUMENT_PROPERTY_NAME + "." + KFSConstants.EXISTING_TARGET_ACCT_LINE_PROPERTY_NAME, this);
-//        for (Iterator i = targetEvents.iterator(); i.hasNext();) {
-//            AccountingLineEvent targetEvent = (AccountingLineEvent) i.next();
-//            events.add(targetEvent);
-//        }
-
-        return events;
+        return persistedSourceLines;
     }
-    
-    //TODO: Chris - the following two methods (generateEvents, buildAccountingLineMap) should be removed when I get permission to make
-    //generateEvents from super protected.
-    
+
     /**
-     * Generates a List of instances of AccountingLineEvent subclasses, one for each accountingLine in the union of the
-     * persistedLines and currentLines lists. Events in the list will be grouped in order by event-type (review, update, add,
-     * delete).
-     * 
-     * @param persistedLines
-     * @param currentLines
-     * @param errorPathPrefix
-     * @param document
-     * @return List of AccountingLineEvent subclass instances
+     * @see org.kuali.kfs.document.AccountingDocumentBase#getSourceAccountingLinesForComparison()
+     * TODO: Chris - cache this for performance
      */
-    private List generateEvents(List persistedLines, List currentLines, String errorPathPrefix, TransactionalDocument document) {
-        List addEvents = new ArrayList();
-        List updateEvents = new ArrayList();
-        List reviewEvents = new ArrayList();
-        List deleteEvents = new ArrayList();
+    @Override
+    protected List getSourceAccountingLinesForComparison() {
+        PurapAccountingService purApAccountingService = SpringContext.getBean(PurapAccountingService.class);
+        List currentSourceLines = new ArrayList();
 
-        //
-        // generate events
-        Map persistedLineMap = buildAccountingLineMap(persistedLines);
-
-        // (iterate through current lines to detect additions and updates, removing affected lines from persistedLineMap as we go
-        // so deletions can be detected by looking at whatever remains in persistedLineMap)
-        int index = 0;
-        for (Iterator i = currentLines.iterator(); i.hasNext(); index++) {
-            String indexedErrorPathPrefix = errorPathPrefix + "[" + index + "]";
-            AccountingLine currentLine = (AccountingLine) i.next();
-            Integer key = currentLine.getSequenceNumber();
-
-            AccountingLine persistedLine = (AccountingLine) persistedLineMap.get(key);
-            // if line is both current and persisted...
-            if (persistedLine != null) {
-                // ...check for updates
-                if (!currentLine.isLike(persistedLine)) {
-                    UpdateAccountingLineEvent updateEvent = new UpdateAccountingLineEvent(indexedErrorPathPrefix, document, persistedLine, currentLine);
-                    updateEvents.add(updateEvent);
-                }
-                else {
-                    ReviewAccountingLineEvent reviewEvent = new ReviewAccountingLineEvent(indexedErrorPathPrefix, document, currentLine);
-                    reviewEvents.add(reviewEvent);
-                }
-
-                persistedLineMap.remove(key);
-            }
-            else {
-                // it must be a new addition
-                AddAccountingLineEvent addEvent = new AddAccountingLineEvent(indexedErrorPathPrefix, document, currentLine);
-                addEvents.add(addEvent);
-            }
+        for (PurchasingApItem item : (List<PurchasingApItem>)this.getItems()) {
+            currentSourceLines.addAll(item.getSourceAccountingLines());
         }
-
-        // detect deletions
-        for (Iterator i = persistedLineMap.entrySet().iterator(); i.hasNext();) {
-            // the deleted line is not displayed on the page, so associate the error with the whole group
-            String groupErrorPathPrefix = errorPathPrefix + KFSConstants.ACCOUNTING_LINE_GROUP_SUFFIX;
-            Map.Entry e = (Map.Entry) i.next();
-            AccountingLine persistedLine = (AccountingLine) e.getValue();
-            DeleteAccountingLineEvent deleteEvent = new DeleteAccountingLineEvent(groupErrorPathPrefix, document, persistedLine, true);
-            deleteEvents.add(deleteEvent);
-        }
-
-
-        //
-        // merge the lists
-        List lineEvents = new ArrayList();
-        lineEvents.addAll(reviewEvents);
-        lineEvents.addAll(updateEvents);
-        lineEvents.addAll(addEvents);
-        lineEvents.addAll(deleteEvents);
-
-        return lineEvents;
+        return currentSourceLines;
     }
-    
-    /**
-     * @param accountingLines
-     * @return Map containing accountingLines from the given List, indexed by their sequenceNumber
-     */
-    private Map buildAccountingLineMap(List accountingLines) {
-        Map lineMap = new HashMap();
-
-        for (Iterator i = accountingLines.iterator(); i.hasNext();) {
-            AccountingLine accountingLine = (AccountingLine) i.next();
-            Integer sequenceNumber = accountingLine.getSequenceNumber();
-
-            Object oldLine = lineMap.put(sequenceNumber, accountingLine);
-
-            // verify that sequence numbers are unique...
-            if (oldLine != null) {
-                throw new IllegalStateException("sequence number collision detected for sequence number " + sequenceNumber);
-            }
-        }
-
-        return lineMap;
-    }
-
     /**
      * @see org.kuali.kfs.document.AccountingDocumentBase#buildListOfDeletionAwareLists()
      */

@@ -365,8 +365,8 @@ public abstract class AccountingDocumentBase extends GeneralLedgerPostingDocumen
         // 2. retrieve current accountingLines from given document
         // 3. compare, creating add/delete/update events as needed
         // 4. apply rules as appropriate returned events
-        List persistedSourceLines = SpringContext.getBean(AccountingLineService.class).getByDocumentHeaderId(getSourceAccountingLineClass(), getDocumentNumber());
-        List currentSourceLines = getSourceAccountingLines();
+        List persistedSourceLines = getPersistedSourceAccountingLinesForComparison();
+        List currentSourceLines = getSourceAccountingLinesForComparison();
 
         List sourceEvents = generateEvents(persistedSourceLines, currentSourceLines, KFSConstants.DOCUMENT_PROPERTY_NAME + "." + KFSConstants.EXISTING_SOURCE_ACCT_LINE_PROPERTY_NAME, this);
         for (Iterator i = sourceEvents.iterator(); i.hasNext();) {
@@ -374,8 +374,8 @@ public abstract class AccountingDocumentBase extends GeneralLedgerPostingDocumen
             events.add(sourceEvent);
         }
 
-        List persistedTargetLines = SpringContext.getBean(AccountingLineService.class).getByDocumentHeaderId(getTargetAccountingLineClass(), getDocumentNumber());
-        List currentTargetLines = getTargetAccountingLines();
+        List persistedTargetLines = getPersistedTargetAccountingLinesForComparison();
+        List currentTargetLines = getTargetAccountingLinesForComparison();
 
         List targetEvents = generateEvents(persistedTargetLines, currentTargetLines, KFSConstants.DOCUMENT_PROPERTY_NAME + "." + KFSConstants.EXISTING_TARGET_ACCT_LINE_PROPERTY_NAME, this);
         for (Iterator i = targetEvents.iterator(); i.hasNext();) {
@@ -384,6 +384,38 @@ public abstract class AccountingDocumentBase extends GeneralLedgerPostingDocumen
         }
 
         return events;
+    }
+
+    /**
+     * This method gets the Target Accounting Lines that will be used in comparisons
+     * @return
+     */
+    protected List getTargetAccountingLinesForComparison() {
+        return getTargetAccountingLines();
+    }
+
+    /**
+     * This method gets the Persisted Target Accounting Lines that will be used in comparisons
+     * @return
+     */
+    protected List getPersistedTargetAccountingLinesForComparison() {
+        return SpringContext.getBean(AccountingLineService.class).getByDocumentHeaderId(getTargetAccountingLineClass(), getDocumentNumber());
+    }
+
+    /**
+     * This method gets the Source Accounting Lines that will be used in comparisons
+     * @return
+     */
+    protected List getSourceAccountingLinesForComparison() {
+        return getSourceAccountingLines();
+    }
+
+    /**
+     * This method gets the Persisted Source Accounting Lines that will be used in comparisons
+     * @return
+     */
+    protected List getPersistedSourceAccountingLinesForComparison() {
+        return SpringContext.getBean(AccountingLineService.class).getByDocumentHeaderId(getSourceAccountingLineClass(), getDocumentNumber());
     }
     
     /**

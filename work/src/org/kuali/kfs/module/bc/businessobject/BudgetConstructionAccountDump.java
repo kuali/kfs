@@ -32,7 +32,7 @@ public class BudgetConstructionAccountDump extends PersistableBusinessObjectBase
 	private String chartOfAccountsCode;
 	private String accountNumber;
 	private String subAccountNumber;
-	private Long personUniversalIdentifier;
+	private String personUniversalIdentifier;
 
     private Account account;
 	private Chart chartOfAccounts;
@@ -130,27 +130,22 @@ public class BudgetConstructionAccountDump extends PersistableBusinessObjectBase
 
 
 	/**
-	 * Gets the personUniversalIdentifier attribute.
-	 * 
-	 * @return Returns the personUniversalIdentifier
-	 * 
-	 */
-	public Long getPersonUniversalIdentifier() { 
-		return personUniversalIdentifier;
-	}
+     * Gets the personUniversalIdentifier attribute. 
+     * @return Returns the personUniversalIdentifier.
+     */
+    public String getPersonUniversalIdentifier() {
+        return personUniversalIdentifier;
+    }
 
-	/**
-	 * Sets the personUniversalIdentifier attribute.
-	 * 
-	 * @param personUniversalIdentifier The personUniversalIdentifier to set.
-	 * 
-	 */
-	public void setPersonUniversalIdentifier(Long personUniversalIdentifier) {
-		this.personUniversalIdentifier = personUniversalIdentifier;
-	}
+    /**
+     * Sets the personUniversalIdentifier attribute value.
+     * @param personUniversalIdentifier The personUniversalIdentifier to set.
+     */
+    public void setPersonUniversalIdentifier(String personUniversalIdentifier) {
+        this.personUniversalIdentifier = personUniversalIdentifier;
+    }
 
-
-	/**
+    /**
 	 * Gets the account attribute.
 	 * 
 	 * @return Returns the account
@@ -212,9 +207,7 @@ public class BudgetConstructionAccountDump extends PersistableBusinessObjectBase
      */
     protected LinkedHashMap toStringMapper() {
         LinkedHashMap m = new LinkedHashMap();      
-        if (this.personUniversalIdentifier != null) {
-            m.put("personUniversalIdentifier", this.personUniversalIdentifier.toString());
-        }
+        m.put("personUniversalIdentifier", this.personUniversalIdentifier);
         if (this.universityFiscalYear != null) {
             m.put("universityFiscalYear", this.universityFiscalYear.toString());
         }

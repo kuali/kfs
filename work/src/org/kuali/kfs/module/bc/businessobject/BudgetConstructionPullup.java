@@ -264,9 +264,7 @@ public class BudgetConstructionPullup extends PersistableBusinessObjectBase {
 	 */
 	protected LinkedHashMap toStringMapper() {
 	    LinkedHashMap m = new LinkedHashMap();	    
-        if (this.personUniversalIdentifier != null) {
-            m.put("personUniversalIdentifier", this.personUniversalIdentifier.toString());
-        }
+        m.put("personUniversalIdentifier", this.personUniversalIdentifier);
         m.put("chartOfAccountsCode", this.chartOfAccountsCode);
         m.put("organizationCode", this.organizationCode);
 	    return m;

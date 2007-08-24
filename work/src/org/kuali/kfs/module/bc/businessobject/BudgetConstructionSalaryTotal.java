@@ -37,7 +37,7 @@ public class BudgetConstructionSalaryTotal extends PersistableBusinessObjectBase
 	private BigDecimal appointmentRequestedFteQuantity;
 	private KualiInteger initialRequestedAmount;
 	private BigDecimal initialRequestedFteQuantity;
-	private Long personUniversalIdentifier;
+	private String personUniversalIdentifier;
 
     private Chart organizationChartOfAccounts;
 	private Org organization;
@@ -182,27 +182,22 @@ public class BudgetConstructionSalaryTotal extends PersistableBusinessObjectBase
 
 
 	/**
-	 * Gets the personUniversalIdentifier attribute.
-	 * 
-	 * @return Returns the personUniversalIdentifier
-	 * 
-	 */
-	public Long getPersonUniversalIdentifier() { 
-		return personUniversalIdentifier;
-	}
+     * Gets the personUniversalIdentifier attribute. 
+     * @return Returns the personUniversalIdentifier.
+     */
+    public String getPersonUniversalIdentifier() {
+        return personUniversalIdentifier;
+    }
 
-	/**
-	 * Sets the personUniversalIdentifier attribute.
-	 * 
-	 * @param personUniversalIdentifier The personUniversalIdentifier to set.
-	 * 
-	 */
-	public void setPersonUniversalIdentifier(Long personUniversalIdentifier) {
-		this.personUniversalIdentifier = personUniversalIdentifier;
-	}
+    /**
+     * Sets the personUniversalIdentifier attribute value.
+     * @param personUniversalIdentifier The personUniversalIdentifier to set.
+     */
+    public void setPersonUniversalIdentifier(String personUniversalIdentifier) {
+        this.personUniversalIdentifier = personUniversalIdentifier;
+    }
 
-
-	/**
+    /**
 	 * Gets the organizationChartOfAccounts attribute.
 	 * 
 	 * @return Returns the organizationChartOfAccounts
@@ -247,9 +242,7 @@ public class BudgetConstructionSalaryTotal extends PersistableBusinessObjectBase
 	 */
 	protected LinkedHashMap toStringMapper() {
 	    LinkedHashMap m = new LinkedHashMap();	    
-        if (this.personUniversalIdentifier != null) {
-            m.put("personUniversalIdentifier", this.personUniversalIdentifier.toString());
-        }
+        m.put("personUniversalIdentifier", this.personUniversalIdentifier);
         m.put("organizationChartOfAccountsCode", this.organizationChartOfAccountsCode);
         m.put("organizationCode", this.organizationCode);
 	    return m;

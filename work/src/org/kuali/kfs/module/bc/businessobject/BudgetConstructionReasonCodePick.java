@@ -27,7 +27,7 @@ public class BudgetConstructionReasonCodePick extends PersistableBusinessObjectB
 
 	private String appointmentFundingReasonCode;
 	private Integer selectFlag;
-	private Long personUniversalIdentifier;
+	private String personUniversalIdentifier;
 
     BudgetConstructionAppointmentFundingReasonCode appointmentFundingReason;
     
@@ -80,25 +80,21 @@ public class BudgetConstructionReasonCodePick extends PersistableBusinessObjectB
 	}
 
 
-	/**
-	 * Gets the personUniversalIdentifier attribute.
-	 * 
-	 * @return Returns the personUniversalIdentifier
-	 * 
-	 */
-	public Long getPersonUniversalIdentifier() { 
-		return personUniversalIdentifier;
-	}
+    /**
+     * Gets the personUniversalIdentifier attribute. 
+     * @return Returns the personUniversalIdentifier.
+     */
+    public String getPersonUniversalIdentifier() {
+        return personUniversalIdentifier;
+    }
 
-	/**
-	 * Sets the personUniversalIdentifier attribute.
-	 * 
-	 * @param personUniversalIdentifier The personUniversalIdentifier to set.
-	 * 
-	 */
-	public void setPersonUniversalIdentifier(Long personUniversalIdentifier) {
-		this.personUniversalIdentifier = personUniversalIdentifier;
-	}
+    /**
+     * Sets the personUniversalIdentifier attribute value.
+     * @param personUniversalIdentifier The personUniversalIdentifier to set.
+     */
+    public void setPersonUniversalIdentifier(String personUniversalIdentifier) {
+        this.personUniversalIdentifier = personUniversalIdentifier;
+    }
 
     /**
      * Gets the appointmentFundingReason attribute. 
@@ -122,9 +118,7 @@ public class BudgetConstructionReasonCodePick extends PersistableBusinessObjectB
      */
     protected LinkedHashMap toStringMapper() {
         LinkedHashMap m = new LinkedHashMap();      
-        if (this.personUniversalIdentifier != null) {
-            m.put("personUniversalIdentifier", this.personUniversalIdentifier.toString());
-        }
+        m.put("personUniversalIdentifier", this.personUniversalIdentifier);
         m.put("appointmentFundingReasonCode", this.appointmentFundingReasonCode);
         return m;
     }

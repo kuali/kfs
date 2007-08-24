@@ -52,15 +52,6 @@
 <logic:iterate indexId="ctr" name="KualiForm" property="document.items" id="itemLine">
 	
 	<c:if test="${itemLine.itemType.itemTypeAboveTheLineIndicator == true}">
-		<c:if test="${(itemLine.displayOnPreq==false) or ((not fullEntryMode) and itemLine.eligibleDisplay==false)}">
-			<c:set var="hideItem" value="${true}"/>
-			<!--  Hide Item = ${hideItem} and fullEntryMode = ${fullEntryMode} and itemLine.eligibleDisplay = ${itemLine.eligibleDisplay} and displayOnPreq = ${itemLine.displayOnPreq} -->
-		</c:if>
-		<%-- TODO: I'm temporarily overriding this --%>
-		<c:set var="hideItem" value="${false}"/>
-		<c:if test="${hideItem}">
-			<tbody style="display: none;" id="hideItem"/>
-		</c:if>
 		<c:set var="currentTabIndex" value="${KualiForm.currentTabIndex}" scope="request" />
 		<c:set var="topLevelTabIndex" value="${KualiForm.currentTabIndex}" scope="request" />
         
@@ -189,9 +180,6 @@
 			overrideTitle="Item Accounting Lines"/>
 	
 		<c:if test="${isOpen != 'true' && isOpen != 'TRUE'}">
-			</tbody>
-		</c:if>
-		<c:if test="${hideItem}">
 			</tbody>
 		</c:if>
 	</c:if>

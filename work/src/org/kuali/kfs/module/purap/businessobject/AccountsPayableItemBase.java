@@ -57,11 +57,12 @@ public abstract class AccountsPayableItemBase extends PurApItemBase implements A
     /**
      * This method is used to determine whether an item has been entered
      * that is we are satisfied there's enough info to continue processing 
-     * that particular item it is currently used by the rules class to 
+     * that particular item. It is currently used by the rules class to 
      * determine when it's necessary to run rules on items (so that lines
      * processors don't touch won't be validated) and to determine when to
      * show items (in combination with the full entry mode)
-     * 
+     * @param allowsZero if this is true zero will be considered the same as null
+     * @return true if the item is considered entered false otherwise
      */
     public boolean isConsideredEntered(boolean allowsZero) {
         if (getItemType().isItemTypeAboveTheLineIndicator()) {

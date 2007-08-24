@@ -39,7 +39,6 @@ public abstract class AccountsPayableItemBase extends PurApItemBase implements A
      * @see org.kuali.module.purap.bo.PurchasingApItem#isConsideredEntered()
      */
     public boolean isConsideredEntered() {
-        // TODO Auto-generated method stub
         return isConsideredEnteredWithZero();
     }
     

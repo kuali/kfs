@@ -15,6 +15,8 @@
  */
 package org.kuali.module.purap.web.struts.form;
 
+import java.math.BigDecimal;
+
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.web.ui.KeyLabelPair;
 import org.kuali.module.purap.bo.PurchasingApItem;
@@ -86,5 +88,15 @@ public class RequisitionForm extends PurchasingFormBase {
     @Override
     public RequisitionAccount setupNewPurchasingAccountingLine() {
         return new RequisitionAccount();
+    }
+    
+    /**
+     * @see org.kuali.module.purap.web.struts.form.PurchasingFormBase#setupNewAccountDistributionAccountingLine()
+     */
+    @Override
+    public RequisitionAccount setupNewAccountDistributionAccountingLine() {
+        RequisitionAccount account = setupNewPurchasingAccountingLine();
+        account.setAccountLinePercent(new BigDecimal(100));
+        return account;
     }
 }

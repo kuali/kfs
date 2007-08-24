@@ -47,7 +47,7 @@ public class PurchasingFormBase extends PurchasingAccountsPayableFormBase {
         
         this.accountDistributionnextSourceLineNumber = new Integer(1);
         setAccountDistributionsourceAccountingLines(new ArrayList());
-        this.setAccountDistributionnewSourceLine(setupNewPurchasingAccountingLine());
+        this.setAccountDistributionnewSourceLine(setupNewAccountDistributionAccountingLine());
     }
     /**
      * Gets the newPurchasingItemLine attribute. 
@@ -85,6 +85,15 @@ public class PurchasingFormBase extends PurchasingAccountsPayableFormBase {
      * @return
      */
     public PurApAccountingLineBase setupNewPurchasingAccountingLine() {
+        return null;
+    }
+    
+    /**
+     * 
+     * This method should be overriden 
+     * @return
+     */
+    public PurApAccountingLineBase setupNewAccountDistributionAccountingLine() {
         return null;
     }
     
@@ -129,7 +138,7 @@ public class PurchasingFormBase extends PurchasingAccountsPayableFormBase {
 
     public PurApAccountingLine getAccountDistributionsourceAccountingLine(int index) {
         while (accountDistributionsourceAccountingLines.size() <= index) {
-            accountDistributionsourceAccountingLines.add(setupNewPurchasingAccountingLine());
+            accountDistributionsourceAccountingLines.add(setupNewAccountDistributionAccountingLine());
         }
         return accountDistributionsourceAccountingLines.get(index);
     }
@@ -145,7 +154,7 @@ public class PurchasingFormBase extends PurchasingAccountsPayableFormBase {
         line.setSequenceNumber(this.getAccountDistributionnextSourceLineNumber());
         this.accountDistributionsourceAccountingLines.add(line);
         this.accountDistributionnextSourceLineNumber = new Integer(this.getAccountDistributionnextSourceLineNumber().intValue() + 1);
-        this.setAccountDistributionnewSourceLine(setupNewPurchasingAccountingLine());
+        this.setAccountDistributionnewSourceLine(setupNewAccountDistributionAccountingLine());
     }
 //    /**
 //     * @see org.kuali.kfs.web.struts.form.KualiAccountingDocumentFormBase#getBaselineSourceAccountingLines()

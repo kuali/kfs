@@ -15,6 +15,7 @@
  */
 package org.kuali.module.purap.web.struts.form;
 
+import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -125,6 +126,16 @@ public class PurchaseOrderForm extends PurchasingFormBase {
         return new PurchaseOrderAccount();
     }
 
+    /**
+     * @see org.kuali.module.purap.web.struts.form.PurchasingFormBase#setupNewPurchasingAccountingLine()
+     */
+    @Override
+    public PurchaseOrderAccount setupNewAccountDistributionAccountingLine() {
+        PurchaseOrderAccount account = setupNewPurchasingAccountingLine();
+        account.setAccountLinePercent(new BigDecimal(100));
+        return account;
+    }
+    
     public PurchaseOrderVendorStipulation getAndResetNewPurchaseOrderVendorStipulationLine() {
         PurchaseOrderVendorStipulation aPurchaseOrderVendorStipulationLine = getNewPurchaseOrderVendorStipulationLine();
         setNewPurchaseOrderVendorStipulationLine(new PurchaseOrderVendorStipulation());

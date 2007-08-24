@@ -120,7 +120,7 @@ public class PurApObjectUtils {
                 classesToCopy.add(sourceObjectClass);
             }
         }
-        for (int i = (classesToCopy.size() - 1); i > 0; i--) {
+        for (int i = (classesToCopy.size() - 1); i >= 0; i--) {
             Class temp = classesToCopy.get(i);
             populateFromBaseClass(temp, po, newPO, supplementalUncopyableFieldNames);
         }

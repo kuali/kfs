@@ -81,7 +81,7 @@ public class PurchasingActionBase extends PurchasingAccountsPayableActionBase {
             document.templateVendorDetail(refreshVendorDetail);
         }
 
-        if (StringUtils.equals(refreshCaller, KFSConstants.KUALI_LOOKUPABLE_IMPL)) {
+        if (StringUtils.equals(refreshCaller, KFSConstants.KUALI_LOOKUPABLE_IMPL) || StringUtils.equals(refreshCaller, VendorConstants.VENDOR_CONTRACT_LOOKUPABLE_IMPL)) {
 
             if (StringUtils.isNotEmpty(request.getParameter(RicePropertyConstants.DOCUMENT + "." + PurapPropertyConstants.VENDOR_CONTRACT_ID))) {
                 Integer vendorContractGeneratedId = document.getVendorContractGeneratedIdentifier();

@@ -89,6 +89,8 @@ public class VendorServiceImpl implements VendorService {
         // See if there is a contractOrg for this contract.
         VendorContractOrganization contractOrg = null;
         VendorContract contract = null;
+        
+        // found the special case of APO limit in the contract orgs table, return the value found
         if (ObjectUtils.isNotNull(contractId) && ObjectUtils.isNotNull(chart) && ObjectUtils.isNotNull(org)) {
             VendorContractOrganization exampleContractOrg = new VendorContractOrganization();
             exampleContractOrg.setVendorContractGeneratedIdentifier(contractId);
@@ -96,22 +98,25 @@ public class VendorServiceImpl implements VendorService {
             exampleContractOrg.setOrganizationCode(org);
             Map orgKeys = SpringContext.getBean(PersistenceService.class).getPrimaryKeyFieldValues(exampleContractOrg);
             contractOrg = (VendorContractOrganization) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(VendorContractOrganization.class, orgKeys);
+            if (ObjectUtils.isNotNull(contractOrg)) {
+                if (!contractOrg.isVendorContractExcludeIndicator()) { // It's not excluded.
+                    return contractOrg.getVendorContractPurchaseOrderLimitAmount();
+                }
+            }            
         }
-        else if (ObjectUtils.isNotNull(contractId)) {
+
+        // didn't search the table or not found in the table and contract exists, return the default APO limit in contract
+        if ( ObjectUtils.isNull(contractOrg) && ObjectUtils.isNotNull(contractId)) {
             VendorContract exampleContract = new VendorContract();
             exampleContract.setVendorContractGeneratedIdentifier(contractId);
             Map contractKeys = SpringContext.getBean(PersistenceService.class).getPrimaryKeyFieldValues(exampleContract);
             contract = (VendorContract) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(VendorContract.class, contractKeys);
-        }
-        
-        if (ObjectUtils.isNotNull(contractOrg)) {
-            if (!contractOrg.isVendorContractExcludeIndicator()) { // It's not excluded.
-                return contractOrg.getVendorContractPurchaseOrderLimitAmount();
-            }
-        }
-        else if (ObjectUtils.isNotNull(contract)) {
+        }        
+        if (ObjectUtils.isNotNull(contract)) {
             return contract.getOrganizationAutomaticPurchaseOrderLimit();
         }
+        
+        // otherwise
         return null;
       }
 

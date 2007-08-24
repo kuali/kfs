@@ -39,6 +39,7 @@ public class VendorConstants {
     public static final String VENDOR_HEADER_ATTR = "vendorHeader";
     public static final String VENDOR_LOOKUPABLE_IMPL = "vendorLookupable";
     public static final String VENDOR_ADDRESS_LOOKUPABLE_IMPL = "vendorAddressLookupable";
+    public static final String VENDOR_CONTRACT_LOOKUPABLE_IMPL = "vendorContractLookupable";
     
     //Vendor Tax Types
     public static final String TAX_TYPE_FEIN = "FEIN";

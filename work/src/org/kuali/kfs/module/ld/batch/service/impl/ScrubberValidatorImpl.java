@@ -96,6 +96,11 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
             errors.add(err);
         }
         
+        err = validateEmplId(laborOriginEntry, laborScrubbedEntry, universityRunDate);
+        if (err != null) {
+            errors.add(err);
+        }
+        
         return errors;
     }
     
@@ -457,6 +462,13 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
         
     }
     
-    
+    private Message validateEmplId(LaborOriginEntry laborOriginEntry, LaborOriginEntry laborWorkingEntry, UniversityDate universityRunDate) {
+        LOG.debug("validateEmplId() started");
+        if (laborOriginEntry.getEmplid() == null || StringUtils.trimWhitespace(laborOriginEntry.getEmplid()).equals("")) {
+            return new Message(kualiConfigurationService.getPropertyString(KFSKeyConstants.ERROR_EMPLID_NOT_BE_NULL), Message.TYPE_FATAL);
+        }
+        
+        return null;
+    }
     
 }

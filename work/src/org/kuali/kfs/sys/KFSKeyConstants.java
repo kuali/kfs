@@ -598,6 +598,8 @@ public class KFSKeyConstants {
     public static final String ERROR_DOCUMENT_NUMBER_NOT_BE_NULL = "error.gl.NullDocumentNumber";
     public static final String ERROR_SEQUENCE_NUMBER_NOT_BE_NULL = "error.gl.NullSequenceNumber";
     public static final String ERROR_NO_ORIGIN_ENTRY_GROUPS = "error.gl.NoOriginEntryGroups";
+    public static final String ERROR_EMPLID_NOT_BE_NULL = "error.labor.NullEmplId";
+    
 
     public static final String MSG_DEDIT_CREDIT_CODE_MUST_BE = "message.gl.DebitCreditCodeMustBe";
     public static final String MSG_FOR_BALANCE_TYPE = "message.gl.ForBalanceType";

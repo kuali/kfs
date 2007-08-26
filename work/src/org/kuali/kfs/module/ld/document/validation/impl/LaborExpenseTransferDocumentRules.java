@@ -33,7 +33,6 @@ import java.util.Map;
 import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.RiceConstants;
 import org.kuali.core.document.Document;
 import org.kuali.core.exceptions.ReferentialIntegrityException;
 import org.kuali.core.service.BusinessObjectService;
@@ -72,7 +71,6 @@ import org.kuali.module.labor.document.LaborLedgerPostingDocument;
 import org.kuali.module.labor.rule.GenerateLaborLedgerPendingEntriesRule;
 import org.kuali.module.labor.service.LaborBenefitsCalculationService;
 import org.kuali.module.labor.service.LaborBenefitsTypeService;
-import org.kuali.module.labor.service.LaborLedgerPendingEntryService;
 import org.kuali.module.labor.service.LaborPositionObjectBenefitService;
 import org.kuali.module.labor.util.ObjectUtil;
 
@@ -89,11 +87,26 @@ public class LaborExpenseTransferDocumentRules extends AccountingDocumentRuleBas
     }
 
     /**
+     * @see org.kuali.kfs.rules.AccountingDocumentRuleBase#processCustomUpdateAccountingLineBusinessRules(org.kuali.kfs.document.AccountingDocument,
+     *      org.kuali.kfs.bo.AccountingLine, org.kuali.kfs.bo.AccountingLine)
+     */
+    @Override
+    protected boolean processCustomUpdateAccountingLineBusinessRules(AccountingDocument accountingDocument, AccountingLine originalAccountingLine, AccountingLine updatedAccountingLine) {
+        return processCustomAddAccountingLineBusinessRules(accountingDocument, updatedAccountingLine);
+    }
+
+    /**
      * @see org.kuali.kfs.rules.AccountingDocumentRuleBase#processCustomAddAccountingLineBusinessRules(org.kuali.kfs.document.AccountingDocument,
      *      org.kuali.kfs.bo.AccountingLine)
      */
     @Override
     protected boolean processCustomAddAccountingLineBusinessRules(AccountingDocument accountingDocument, AccountingLine accountingLine) {
+        boolean isValid = super.processCustomAddAccountingLineBusinessRules(accountingDocument, accountingLine);
+
+        if (!isValid) {
+            return false;
+        }
+
         // validate the accounting year
         if (!isValidPayFiscalYear(accountingLine)) {
             reportError(KFSPropertyConstants.PAYROLL_END_DATE_FISCAL_YEAR, KFSKeyConstants.Labor.INVALID_PAY_YEAR);
@@ -140,9 +153,6 @@ public class LaborExpenseTransferDocumentRules extends AccountingDocumentRuleBas
 
         // check to ensure totals of accounting lines in source and target sections match by pay FY + pay period
         isValid = isValid & isAccountingLineTotalsMatchByPayFYAndPayPeriod(sourceLines, targetLines);
-
-        // check whether the accounts in source/target accounting lines are valid
-        isValid = isValid && isValidAccount(expenseTransferDocument);
 
         // target accouting lines must have the same amounts as source accounting lines for each object code
         if (isValid) {
@@ -198,11 +208,6 @@ public class LaborExpenseTransferDocumentRules extends AccountingDocumentRuleBas
             }
         }
 
-        // must not have any pending labor ledger entries with same emplId, periodCode, accountNumber, objectCode
-        if (isValid) {
-            boolean hashasPendingLedgerEntry = this.hasPendingLedgerEntry(expenseTransferDocument);
-            isValid = hashasPendingLedgerEntry ? false : true;
-        }
         return isValid;
     }
 
@@ -1827,41 +1832,6 @@ public class LaborExpenseTransferDocumentRules extends AccountingDocumentRuleBas
      * @param accountingLine
      */
     public boolean isCredit(AccountingLine accountingLine, AccountingDocument accountingDocument) {
-        return false;
-    }
-
-
-    /**
-     * determine if there is any pending entry for the source accounting lines of the given document
-     * 
-     * @param accountingDocument the given accounting document
-     * @return true if there is a pending entry for the source accounting lines of the given document; otherwise, false
-     */
-    public boolean hasPendingLedgerEntry(AccountingDocument accountingDocument) {
-        LOG.info("started hasPendingLedgerEntry(accountingDocument)");
-        
-        LaborExpenseTransferDocumentBase expenseTransferDocument = (LaborExpenseTransferDocumentBase) accountingDocument;
-        List<ExpenseTransferAccountingLine> sourceAccountingLines = expenseTransferDocument.getSourceAccountingLines();
-
-        Map<String, String> fieldValues = new HashMap<String, String>();
-        for (ExpenseTransferAccountingLine sourceAccountingLine : sourceAccountingLines) {
-            String payPeriodCode = sourceAccountingLine.getPayrollEndDateFiscalPeriodCode();
-            String accountNumber = sourceAccountingLine.getAccountNumber();
-            String objectCode = sourceAccountingLine.getFinancialObjectCode();
-            String emplid = sourceAccountingLine.getEmplid();
-            String documentNumber = accountingDocument.getDocumentNumber();
-
-            fieldValues.put(KFSPropertyConstants.PAYROLL_END_DATE_FISCAL_PERIOD_CODE, payPeriodCode);
-            fieldValues.put(KFSPropertyConstants.ACCOUNT_NUMBER, accountNumber);
-            fieldValues.put(KFSPropertyConstants.FINANCIAL_OBJECT_CODE, objectCode);
-            fieldValues.put(KFSPropertyConstants.EMPLID, emplid);
-            fieldValues.put(KFSPropertyConstants.DOCUMENT_NUMBER, RiceConstants.NOT_LOGICAL_OPERATOR + documentNumber);
-
-            if (SpringContext.getBean(LaborLedgerPendingEntryService.class).hasPendingLaborLedgerEntry(fieldValues)) {
-                reportError(KFSConstants.EMPLOYEE_LOOKUP_ERRORS, KFSKeyConstants.Labor.PENDING_SALARY_TRANSFER_ERROR, emplid, payPeriodCode, accountNumber, objectCode);
-                return true;
-            }
-        }
         return false;
     }
 

@@ -15,9 +15,12 @@
  */
 package org.kuali.module.labor.rules;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.RiceConstants;
 import org.kuali.core.document.Document;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSKeyConstants;
@@ -47,6 +50,7 @@ public class SalaryExpenseTransferDocumentRule extends LaborExpenseTransferDocum
     public SalaryExpenseTransferDocumentRule() {
         super();
     }
+
     /**
      * @see org.kuali.core.rules.SaveDocumentRule#processCustomSaveDocumentBusinessRules(Document)
      */
@@ -84,7 +88,24 @@ public class SalaryExpenseTransferDocumentRule extends LaborExpenseTransferDocum
 
         return isValid;
     }
-    
+
+    /**
+     * @see org.kuali.module.labor.rules.LaborExpenseTransferDocumentRules#processCustomRouteDocumentBusinessRules(org.kuali.core.document.Document)
+     */
+    @Override
+    protected boolean processCustomRouteDocumentBusinessRules(Document document) {
+        boolean isValid = super.processCustomRouteDocumentBusinessRules(document);
+
+        SalaryExpenseTransferDocument expenseTransferDocument = (SalaryExpenseTransferDocument) document;
+
+        // must not have any pending labor ledger entries with same emplId, periodCode, accountNumber, objectCode
+        if (isValid) {
+            isValid = !hasPendingLedgerEntry(expenseTransferDocument);
+        }
+
+        return isValid;
+    }
+
     /**
      * Determine whether the object code of given accounting line is a salary labor object code
      * 
@@ -128,5 +149,39 @@ public class SalaryExpenseTransferDocumentRule extends LaborExpenseTransferDocum
             }
         }
         return true;
+    }
+
+    /**
+     * determine if there is any pending entry for the source accounting lines of the given document
+     * 
+     * @param accountingDocument the given accounting document
+     * @return true if there is a pending entry for the source accounting lines of the given document; otherwise, false
+     */
+    public boolean hasPendingLedgerEntry(AccountingDocument accountingDocument) {
+        LOG.info("started hasPendingLedgerEntry(accountingDocument)");
+        
+        LaborExpenseTransferDocumentBase expenseTransferDocument = (LaborExpenseTransferDocumentBase) accountingDocument;
+        List<ExpenseTransferAccountingLine> sourceAccountingLines = expenseTransferDocument.getSourceAccountingLines();
+
+        Map<String, String> fieldValues = new HashMap<String, String>();
+        for (ExpenseTransferAccountingLine sourceAccountingLine : sourceAccountingLines) {
+            String payPeriodCode = sourceAccountingLine.getPayrollEndDateFiscalPeriodCode();
+            String accountNumber = sourceAccountingLine.getAccountNumber();
+            String objectCode = sourceAccountingLine.getFinancialObjectCode();
+            String emplid = sourceAccountingLine.getEmplid();
+            String documentNumber = accountingDocument.getDocumentNumber();
+
+            fieldValues.put(KFSPropertyConstants.PAYROLL_END_DATE_FISCAL_PERIOD_CODE, payPeriodCode);
+            fieldValues.put(KFSPropertyConstants.ACCOUNT_NUMBER, accountNumber);
+            fieldValues.put(KFSPropertyConstants.FINANCIAL_OBJECT_CODE, objectCode);
+            fieldValues.put(KFSPropertyConstants.EMPLID, emplid);
+            fieldValues.put(KFSPropertyConstants.DOCUMENT_NUMBER, RiceConstants.NOT_LOGICAL_OPERATOR + documentNumber);
+
+            if (SpringContext.getBean(LaborLedgerPendingEntryService.class).hasPendingLaborLedgerEntry(fieldValues)) {
+                reportError(KFSConstants.EMPLOYEE_LOOKUP_ERRORS, KFSKeyConstants.Labor.PENDING_SALARY_TRANSFER_ERROR, emplid, payPeriodCode, accountNumber, objectCode);
+                return true;
+            }
+        }
+        return false;
     }
 }

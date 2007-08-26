@@ -15,15 +15,10 @@
  */
 package org.kuali.module.labor.document;
 
-import java.util.List;
-
 import org.kuali.core.document.AmountTotaling;
 import org.kuali.core.document.Copyable;
 import org.kuali.core.document.Correctable;
 import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.bo.AccountingLine;
-import org.kuali.kfs.document.AccountingDocumentHelper;
-import org.kuali.module.labor.document.LaborLedgerPostingDocumentBase;
 import org.kuali.module.labor.bo.ExpenseTransferSourceAccountingLine;
 import org.kuali.module.labor.bo.ExpenseTransferTargetAccountingLine;
 
@@ -34,35 +29,14 @@ public abstract class LaborExpenseTransferDocumentBase extends LaborLedgerPostin
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(LaborExpenseTransferDocumentBase.class);
 
     private String emplid;
-    
-    private AccountingDocumentHelper helper;
 
     /**
-     * Constructor 
+     * Constructor
      */
     public LaborExpenseTransferDocumentBase() {
         super();
-        setAccountingDocumentHelper(new LaborExpenseTransferDocumentHelper<LaborExpenseTransferDocument>(this));
     }
-    
-    /**
-     * Assign the <code>{@link AccountingDocumentHelper}</code>
-     * 
-     * @param helper
-     */ 
-    public void setAccountingDocumentHelper(AccountingDocumentHelper helper) {
-        this.helper = helper;
-    }
-    
-    /**
-     * Retrieve the <code>{@link AccountingDocumentHelper}</code>
-     *
-     * @return AccountingDocumentHelper
-     */
-    public AccountingDocumentHelper getAccountingDocumentHelper() {
-        return helper;
-    }
-    
+
     /**
      * @see org.kuali.module.labor.document.LaborExpenseTransferDocument#getEmplid()
      */
@@ -94,7 +68,7 @@ public abstract class LaborExpenseTransferDocumentBase extends LaborLedgerPostin
     public String getTargetAccountingLinesSectionTitle() {
         return KFSConstants.TO;
     }
-        
+
     /**
      * @see org.kuali.kfs.document.AccountingDocumentBase#getSourceAccountingLineClass()
      */
@@ -109,10 +83,4 @@ public abstract class LaborExpenseTransferDocumentBase extends LaborLedgerPostin
         return ExpenseTransferTargetAccountingLine.class;
     }
 
-
-    @Override
-    public List generateSaveEvents() {
-        return getAccountingDocumentHelper().generateSaveEvents();
-    }
 }
-

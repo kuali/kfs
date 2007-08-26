@@ -23,7 +23,7 @@
         <documentClass>org.kuali.module.labor.document.BenefitExpenseTransferDocument</documentClass>
 		<businessRulesClass>org.kuali.module.labor.rules.BenefitExpenseTransferDocumentRule</businessRulesClass>
 		
-        <documentAuthorizerClass>org.kuali.module.labor.document.LaborDocumentAuthorizer</documentAuthorizerClass>
+        <documentAuthorizerClass>org.kuali.module.labor.document.authorization.LaborDocumentAuthorizer</documentAuthorizerClass>
         <authorizations>
             <authorization action="initiate">
                 <workgroups>

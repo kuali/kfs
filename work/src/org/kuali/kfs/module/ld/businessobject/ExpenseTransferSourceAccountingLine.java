@@ -25,8 +25,6 @@ import org.kuali.kfs.bo.SourceAccountingLine;
 /**
  * Special case <code>{@link SourceAccountingLine}</code> type for
  * <code>{@link org.kuali.module.labor.document.ExpenseTransferDocument}</code>
- * 
- * 
  */
 public class ExpenseTransferSourceAccountingLine extends SourceAccountingLine 
     implements ExpenseTransferAccountingLine, Comparable<ExpenseTransferSourceAccountingLine>{

@@ -25,7 +25,7 @@ import org.kuali.module.chart.bo.Chart;
 import org.kuali.module.chart.bo.ObjectCode;
 
 /**
- * 
+ * Labor Object Code Business Object.
  */
 public class LaborObject extends PersistableBusinessObjectBase implements Inactivateable {
 

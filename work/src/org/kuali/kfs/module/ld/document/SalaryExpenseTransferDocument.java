@@ -18,12 +18,12 @@ package org.kuali.module.labor.document;
 /**
  * Class representing the Salary Expense Transfer Document.
  */
-public class SalaryExpenseTransferDocument extends LaborExpenseTransferDocumentBase{
+public class SalaryExpenseTransferDocument extends LaborExpenseTransferDocumentBase {
+    
     /**
-     * Initializes the array lists and some basic info.
+     * Default Constructor.
      */
     public SalaryExpenseTransferDocument() {
         super();
     }
 }
-

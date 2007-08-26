@@ -21,7 +21,7 @@
 <dictionaryEntry>
     <transactionalDocument>
         <documentClass>org.kuali.module.labor.document.LaborCorrectionDocument</documentClass>
-        <documentAuthorizerClass>org.kuali.module.labor.document.LaborCorrectionDocumentAuthorizer</documentAuthorizerClass>
+        <documentAuthorizerClass>org.kuali.module.labor.document.authorization.LaborCorrectionDocumentAuthorizer</documentAuthorizerClass>
 
         <authorizations>
             <authorization action="initiate">

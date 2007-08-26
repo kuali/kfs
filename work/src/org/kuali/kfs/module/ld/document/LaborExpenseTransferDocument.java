@@ -21,19 +21,19 @@ import org.kuali.module.labor.bo.ExpenseTransferTargetAccountingLine;
 /**
  * Interface for Expense Transfer Documents
  */
-public interface LaborExpenseTransferDocument extends LaborLedgerPostingDocument{ 
+public interface LaborExpenseTransferDocument extends LaborLedgerPostingDocument {
+    
     /**
      * Retrieve the document emplid
-     *
+     * 
      * @return String
      */
     public String getEmplid();
-    
+
     /**
      * Assign the document emplid
-     *
+     * 
      * @param emplid
      */
     public void setEmplid(String emplid);
 }
-

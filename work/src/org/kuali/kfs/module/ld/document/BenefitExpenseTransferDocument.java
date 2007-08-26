@@ -18,10 +18,10 @@ package org.kuali.module.labor.document;
 /**
  * The class that represents the Benefit Expense Transfer Document.
  */
-public class BenefitExpenseTransferDocument extends LaborExpenseTransferDocumentBase{
+public class BenefitExpenseTransferDocument extends LaborExpenseTransferDocumentBase {
 
     /**
-     * Initializes the array lists and some basic info.
+     * Default Constructor.
      */
     public BenefitExpenseTransferDocument() {
         super();

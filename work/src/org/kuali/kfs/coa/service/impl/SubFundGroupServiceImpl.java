@@ -17,6 +17,7 @@ package org.kuali.module.chart.service.impl;
 
 import org.kuali.core.service.DataDictionaryService;
 import org.kuali.core.service.KualiConfigurationService;
+import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.module.chart.bo.FundGroup;
 import org.kuali.module.chart.bo.SubFundGroup;
@@ -34,7 +35,9 @@ public class SubFundGroupServiceImpl implements SubFundGroupService {
      * @see org.kuali.module.chart.service.SubFundGroupService#isForContractsAndGrants(org.kuali.module.chart.bo.SubFundGroup)
      */
     public boolean isForContractsAndGrants(SubFundGroup subFundGroup) {
-        if (fundGroupDenotesContractsAndGrants()) {
+        if (ObjectUtils.isNull(subFundGroup)) {
+            return false;
+        }else if (fundGroupDenotesContractsAndGrants()) {
             return getContractsAndGrantsDenotingValue().equals(subFundGroup.getFundGroupCode());
         }
         else {

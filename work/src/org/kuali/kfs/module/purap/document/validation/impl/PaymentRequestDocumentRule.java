@@ -250,8 +250,6 @@ public class PaymentRequestDocumentRule extends AccountsPayableDocumentRuleBase 
         else {            
             // Verify that there exists at least 1 item left to be invoiced
             valid &= encumberedItemExistsForInvoicing(purchaseOrderDocument);
-            //FIXME: This valid = true;  is causing the clear button do not work properly in case of this error. Remvoing it will stop preq generation 
-            valid = true;
         }
         GlobalVariables.getErrorMap().clearErrorPath();
         return valid;
@@ -281,7 +279,7 @@ public class PaymentRequestDocumentRule extends AccountsPayableDocumentRuleBase 
             GlobalVariables.getErrorMap().putError(PurapPropertyConstants.PURCHASE_ORDER_IDENTIFIER, PurapKeyConstants.ERROR_NO_ITEMS_TO_INVOICE);
         }
         GlobalVariables.getErrorMap().clearErrorPath();
-        return zeroDollar;
+        return !zeroDollar;
     }
     
     boolean processPaymentRequestDateValidationForContinue(PaymentRequestDocument document){       

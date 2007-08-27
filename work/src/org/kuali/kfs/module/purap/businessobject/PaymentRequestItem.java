@@ -18,6 +18,7 @@ package org.kuali.module.purap.bo;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import org.kuali.core.util.KualiDecimal;
@@ -27,6 +28,8 @@ import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.document.PaymentRequestDocument;
 import org.kuali.module.purap.document.PurchaseOrderDocument;
 import org.kuali.module.purap.exceptions.PurError;
+import org.kuali.module.purap.util.ExpiredOrClosedAccountEntry;
+import org.kuali.module.purap.service.AccountsPayableService;
 import org.kuali.module.purap.service.PurapService;
 import org.kuali.module.purap.util.PurApItemUtils;
 import org.kuali.module.purap.util.PurApObjectUtils;
@@ -83,6 +86,47 @@ public class PaymentRequestItem extends AccountsPayableItemBase {
             this.setItemUnitPrice(null);
             this.setItemDescription("");
         }
+        //copy custom
+        this.purchaseOrderItemUnitPrice = poi.getItemUnitPrice();
+        this.purchaseOrderCommodityCode = poi.getPurchaseOrderCommodityCd();
+        //set doc fields
+        this.setPurapDocumentIdentifier(preq.getPurapDocumentIdentifier());
+        this.paymentRequest = preq;
+    }
+
+    /**
+     * This method constructs a new payment request item, but also merges expired accounts.
+     *  
+     * @param poi
+     * @param preq
+     * @param expiredOrClosedAccountList
+     */
+    public PaymentRequestItem(PurchaseOrderItem poi,PaymentRequestDocument preq, HashMap<String, ExpiredOrClosedAccountEntry> expiredOrClosedAccountList) {
+        //TODO: Merge this method with the other constructor. cleanup
+        
+        //copy base attributes w/ extra array of fields not to be copied
+        PurApObjectUtils.populateFromBaseClass(PurApItemBase.class, poi, this, PurapConstants.PREQ_ITEM_UNCOPYABLE_FIELDS);
+        
+        //set up accounts
+        List accounts = new ArrayList();
+        for (PurApAccountingLine account : poi.getSourceAccountingLines()) {
+            PurchaseOrderAccount poa = (PurchaseOrderAccount)account;
+            
+            //check if this account is expired/closed and replace as needed
+            SpringContext.getBean(AccountsPayableService.class).processExpiredOrClosedAccount(poa, expiredOrClosedAccountList);
+            
+            accounts.add(new PaymentRequestAccount(this,poa));
+        }
+        this.setSourceAccountingLines(accounts);
+        this.refreshNonUpdateableReferences();
+        //clear amount and desc on below the line - we probably don't need that null 
+        //itemType check but it's there just in case remove if it causes problems
+        if(ObjectUtils.isNotNull(this.getItemType())&&
+           !this.getItemType().isItemTypeAboveTheLineIndicator()) {
+            //setting unit price to be null to be more consistent with other below the line
+            this.setItemUnitPrice(null);
+            this.setItemDescription("");
+        }        
         //copy custom
         this.purchaseOrderItemUnitPrice = poi.getItemUnitPrice();
         this.purchaseOrderCommodityCode = poi.getPurchaseOrderCommodityCd();

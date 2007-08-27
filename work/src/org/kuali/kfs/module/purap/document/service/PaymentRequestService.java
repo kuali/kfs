@@ -24,6 +24,7 @@ import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.module.purap.document.CreditMemoDocument;
 import org.kuali.module.purap.document.PaymentRequestDocument;
+import org.kuali.module.purap.util.ExpiredOrClosedAccount;
 import org.kuali.module.vendor.bo.PaymentTermType;
 
 import edu.iu.uis.eden.clientapp.vo.DocumentRouteLevelChangeVO;
@@ -44,13 +45,9 @@ public interface PaymentRequestService {
     public boolean isInvoiceDateAfterToday(Date invoiceDate);
     
     public HashMap<String, String> paymentRequestDuplicateMessages(PaymentRequestDocument document);
-    
-    public HashMap<String, String> expiredOrClosedAccountsList(PaymentRequestDocument document);
-    
+        
     public Date calculatePayDate(Date invoiceDate,PaymentTermType terms);
-    
-    public void addContinuationAccountsNote(PaymentRequestDocument document, HashMap<String, String> accounts);
-    
+        
     public void addHoldOnPaymentRequest(PaymentRequestDocument document, String note) throws Exception;
     
     public boolean isPaymentRequestHoldable(PaymentRequestDocument document);

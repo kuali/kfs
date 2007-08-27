@@ -339,6 +339,9 @@ public class PurapConstants extends JstlConstants {
     // Weird PaymentTermsType is due on either the 10th or 25th with no discount
     public static String PMT_TERMS_TYP_NO_DISCOUNT_CD = "00N2T";
 
+    public static String PURAP_AP_SHOW_CONTINUATION_ACCOUNT_WARNING_FISCAL_OFFICERS = "PURAP.AP_SHOW_CONTINUATION_ACCOUNT_WARNING_FISCAL_OFFICERS";
+    public static String PURAP_AP_SHOW_CONTINUATION_ACCOUNT_WARNING_AP_USERS = "PURAP.AP_SHOW_CONTINUATION_ACCOUNT_WARNING_AP_USERS";
+
     public static class PaymentRequestIndicatorText {
         public static String HOLD = "HOLD";
         public static String REQUEST_CANCEL = "REQUEST CANCEL";

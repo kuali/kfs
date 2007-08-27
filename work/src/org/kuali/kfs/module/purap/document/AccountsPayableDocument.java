@@ -84,4 +84,8 @@ public interface AccountsPayableDocument extends PurchasingAccountsPayableDocume
     
     public KualiDecimal getInitialAmount();
 
+    public boolean isContinuationAccountIndicator();
+
+    public void setContinuationAccountIndicator(boolean continuationAccountIndicator);
+
 }

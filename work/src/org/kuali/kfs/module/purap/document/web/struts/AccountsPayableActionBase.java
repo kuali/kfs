@@ -79,6 +79,20 @@ public class AccountsPayableActionBase extends PurchasingAccountsPayableActionBa
     }
 
     /**
+     * This method checks the continuation account indicator and generates warnings if
+     * continuation accounts were used to replace original accounts on the document.
+     * 
+     * @see org.kuali.core.web.struts.action.KualiDocumentActionBase#loadDocument(org.kuali.core.web.struts.form.KualiDocumentFormBase)
+     */
+    @Override
+    protected void loadDocument(KualiDocumentFormBase kualiDocumentFormBase) throws WorkflowException {
+        super.loadDocument(kualiDocumentFormBase);
+        AccountsPayableDocument document = (AccountsPayableDocument) kualiDocumentFormBase.getDocument();
+        
+        SpringContext.getBean(AccountsPayableService.class).generateExpiredOrClosedAccountWarning(document);
+    }
+
+    /**
      * Add a new item to the document.
      * 
      * @param mapping

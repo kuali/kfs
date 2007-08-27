@@ -17,10 +17,14 @@
 package org.kuali.module.purap.bo;
 
 import java.math.BigDecimal;
+import java.util.HashMap;
 import java.util.Iterator;
 
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.purap.document.CreditMemoDocument;
+import org.kuali.module.purap.service.AccountsPayableService;
+import org.kuali.module.purap.util.ExpiredOrClosedAccountEntry;
 
 /**
  * Item line Business Object for Credit Memo Document.
@@ -32,8 +36,7 @@ public class CreditMemoItem extends AccountsPayableItemBase {
     private KualiDecimal preqInvoicedTotalQuantity;
     private BigDecimal preqUnitPrice;
     private KualiDecimal preqExtendedPrice;
-
-
+    
     /**
      * Default constructor.
      */
@@ -73,6 +76,43 @@ public class CreditMemoItem extends AccountsPayableItemBase {
     }
 
     /**
+     * Constructs a CreditMemoItem.java from an existing PurchaseOrderItem.
+     */
+    public CreditMemoItem(CreditMemoDocument cmDocument, PurchaseOrderItem poItem, HashMap<String, ExpiredOrClosedAccountEntry> expiredOrClosedAccountList) {
+        //TODO: Merge this method with the other constructor. cleanup
+        super();
+
+        setPurapDocumentIdentifier(cmDocument.getPurapDocumentIdentifier());
+        setItemLineNumber(poItem.getItemLineNumber());
+        setPoInvoicedTotalQuantity(poItem.getItemInvoicedTotalQuantity());
+        setPoUnitPrice(poItem.getItemUnitPrice());
+        setPoExtendedPrice(poItem.getItemInvoicedTotalAmount());
+        setItemTypeCode(poItem.getItemTypeCode());
+        setItemUnitPrice(poItem.getItemUnitPrice());
+        setItemCatalogNumber(poItem.getItemCatalogNumber());
+        setItemDescription(poItem.getItemDescription());
+
+        if (getPoInvoicedTotalQuantity() == null) {
+            setPoInvoicedTotalQuantity(KualiDecimal.ZERO);
+        }
+        if (getPoUnitPrice() == null) {
+            setPoUnitPrice(BigDecimal.ZERO);
+        }
+        if (getPoExtendedPrice() == null) {
+            setPoExtendedPrice(KualiDecimal.ZERO);
+        }
+
+        for (Iterator iter = poItem.getSourceAccountingLines().iterator(); iter.hasNext();) {
+            PurchaseOrderAccount account = (PurchaseOrderAccount) iter.next();
+
+            //check if this account is expired/closed and replace as needed
+            SpringContext.getBean(AccountsPayableService.class).processExpiredOrClosedAccount(account, expiredOrClosedAccountList);
+
+            getSourceAccountingLines().add(new CreditMemoAccount(account));
+        }
+    }
+    
+    /**
      * Constructs a CreditMemoItem.java from an existing PaymentRequestItem
      */
     public CreditMemoItem(CreditMemoDocument cmDocument, PaymentRequestItem preqItem, PurchaseOrderItem poItem) {
@@ -109,6 +149,51 @@ public class CreditMemoItem extends AccountsPayableItemBase {
 
         for (Iterator iter = preqItem.getSourceAccountingLines().iterator(); iter.hasNext();) {
             PaymentRequestAccount account = (PaymentRequestAccount) iter.next();
+            getSourceAccountingLines().add(new CreditMemoAccount(account));
+        }
+    }
+
+    /**
+     * Constructs a CreditMemoItem.java from an existing PaymentRequestItem
+     */
+    public CreditMemoItem(CreditMemoDocument cmDocument, PaymentRequestItem preqItem, PurchaseOrderItem poItem, HashMap<String, ExpiredOrClosedAccountEntry> expiredOrClosedAccountList) {
+        super();
+
+        setPurapDocumentIdentifier(cmDocument.getPurapDocumentIdentifier());
+        setItemLineNumber(preqItem.getItemLineNumber());
+
+        // take invoiced quantities from the lower of the preq and po if different
+        if (poItem.getItemInvoicedTotalQuantity() != null && preqItem.getItemQuantity() != null && poItem.getItemInvoicedTotalQuantity().isLessThan(preqItem.getItemQuantity())) {
+            setPreqInvoicedTotalQuantity(poItem.getItemInvoicedTotalQuantity());
+            setPreqExtendedPrice(poItem.getItemInvoicedTotalAmount());
+        }
+        else {
+            setPreqInvoicedTotalQuantity(preqItem.getItemQuantity());
+            setPreqExtendedPrice(preqItem.getExtendedPrice());
+        }
+
+        setPreqUnitPrice(preqItem.getItemUnitPrice());
+        setItemTypeCode(preqItem.getItemTypeCode());
+        setItemUnitPrice(preqItem.getItemUnitPrice());
+        setItemCatalogNumber(preqItem.getItemCatalogNumber());
+        setItemDescription(preqItem.getItemDescription());
+
+        if (getPreqInvoicedTotalQuantity() == null) {
+            setPreqInvoicedTotalQuantity(KualiDecimal.ZERO);
+        }
+        if (getPreqUnitPrice() == null) {
+            setPreqUnitPrice(BigDecimal.ZERO);
+        }
+        if (getPreqExtendedPrice() == null) {
+            setPreqExtendedPrice(KualiDecimal.ZERO);
+        }
+
+        for (Iterator iter = preqItem.getSourceAccountingLines().iterator(); iter.hasNext();) {
+            PaymentRequestAccount account = (PaymentRequestAccount) iter.next();
+
+            //check if this account is expired/closed and replace as needed
+            SpringContext.getBean(AccountsPayableService.class).processExpiredOrClosedAccount(account, expiredOrClosedAccountList);
+            
             getSourceAccountingLines().add(new CreditMemoAccount(account));
         }
     }

@@ -63,12 +63,14 @@ import org.kuali.module.purap.document.CreditMemoDocument;
 import org.kuali.module.purap.document.PaymentRequestDocument;
 import org.kuali.module.purap.document.PurchaseOrderDocument;
 import org.kuali.module.purap.exceptions.PurError;
+import org.kuali.module.purap.service.AccountsPayableService;
 import org.kuali.module.purap.service.NegativePaymentRequestApprovalLimitService;
 import org.kuali.module.purap.service.PaymentRequestService;
 import org.kuali.module.purap.service.PurapAccountingService;
 import org.kuali.module.purap.service.PurapGeneralLedgerService;
 import org.kuali.module.purap.service.PurapService;
 import org.kuali.module.purap.service.PurchaseOrderService;
+import org.kuali.module.purap.util.ExpiredOrClosedAccountEntry;
 import org.kuali.module.purap.util.PurApItemUtils;
 import org.kuali.module.vendor.bo.PaymentTermType;
 import org.kuali.module.vendor.service.VendorService;
@@ -565,46 +567,6 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
         return ((invoiceDateTime.compareTo(nowTime)) > 0);
     }
     
-    public HashMap<String, String> expiredOrClosedAccountsList(PaymentRequestDocument document) {
-
-        HashMap<String, String> list = new HashMap<String, String>();
-        Integer POID = document.getPurchaseOrderIdentifier();
-        java.util.Date currentDate = SpringContext.getBean(DateTimeService.class).getCurrentDate();
-        
-        //TODO: Why not rely on ojb here?  You should have a po already from the mapping Actually it looks like the mapping isn't correct.  I'll fix this later
-        PurchaseOrderDocument po = SpringContext.getBean(PurchaseOrderService.class).getCurrentPurchaseOrder(document.getPurchaseOrderIdentifier());
-        
-        //TODO: check for po not be null
-        //TODO: also, this method should not call po.getSourceAccountingLines; that method is not reliable for PURAP docs. (hjs)
-        List accountNumberList = new ArrayList();
-        for (Iterator i = po.getSourceAccountingLines().iterator(); i.hasNext();) {
-            SourceAccountingLine poAccountingLine = (SourceAccountingLine) i.next();
-            Account account = (Account) poAccountingLine.getAccount();
-
-            if (account.isAccountClosedIndicator()) {
-                
-                // 1.  if the account is closed, get the continuation account and it to the list 
-                Account continuationAccount = account.getContinuationAccount();
-                if (continuationAccount == null) {
-                    //TODO: what to do here? - This should be an error presented to the user
-                }
-                else {
-                    list.put(account.getAccountNumber(), continuationAccount.getAccountNumber());
-                }
-                // 2.  if the account is expired and the current date is <= 30 days from the expiration date, do nothing 
-                // 3.  if the account is expired and the current date is > 30 days from the expiration date, get the continuation account and add it to the list
-                //TODO: check to see if there is a constant defiend for this number of days (30) in the system and use it instead of 30. If not we need to define a new one 
-            } else if (account.isExpired() & SpringContext.getBean(DateTimeService.class).dateDiff(account.getAccountExpirationDate(), SpringContext.getBean(DateTimeService.class).getCurrentDate(), true) > 30) {
-                Account continuationAccount = account.getContinuationAccount();
-                //TODO: Do we need to check for not being null and what to do??  Yes see above
-                list.put(account.getAccountNumber(), continuationAccount.getAccountNumber());
-            }
-           //TODO: I need a stub in here somewhere here to actually do the update on the preq account list
-           //maybe pass in the account and the continuation
-        }
-        return list;
-    }
-
     /*
      * Calculate based on the terms and calculate a date 10 days from today.  Pick the
      * one that is the farthest out.  We always calculate the discount date, if there is one.
@@ -804,27 +766,7 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
             }
         }
     }
-    
-    
-    
-    public void addContinuationAccountsNote(PaymentRequestDocument document, HashMap<String, String> accounts) {
-        Note note = new Note();
-        String noteText;
-        StringBuffer sb = new StringBuffer("");
-
-        // List the entries using entrySet()
-        Set entries = accounts.entrySet();
-        Iterator it = entries.iterator();
-        while (it.hasNext()) {
-            Map.Entry entry = (Map.Entry) it.next();
-            
-            sb.append(" Account " + entry.getKey() + " has replaces with account " + entry.getValue() + " ; ");
-            
-        }
-        note.setNoteText(sb.toString());
-        document.addNote(note);
-    }
-
+              
     /**
      * This method marks a payment request on hold.
      * 
@@ -1190,20 +1132,21 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
 
         PurchaseOrderDocument purchaseOrderDocument = SpringContext.getBean(PurchaseOrderService.class).getCurrentPurchaseOrder(paymentRequestDocument.getPurchaseOrderIdentifier());
 
-        paymentRequestDocument.populatePaymentRequestFromPurchaseOrder(purchaseOrderDocument);
+        //make a call to search for expired/closed accounts
+        HashMap<String, ExpiredOrClosedAccountEntry> expiredOrClosedAccountList = SpringContext.getBean(AccountsPayableService.class).getExpiredOrClosedAccountList( paymentRequestDocument );
+
+        paymentRequestDocument.populatePaymentRequestFromPurchaseOrder(purchaseOrderDocument, expiredOrClosedAccountList);
 
         paymentRequestDocument.getDocumentHeader().setFinancialDocumentDescription( createPreqDocumentDescription(paymentRequestDocument.getPurchaseOrderIdentifier(), paymentRequestDocument.getVendorName() ) );
         
-        //If the list of closed/expired accounts is not empty add a warning and add a note for the close / epired accounts which get replaced
+        //write a note for expired/closed accounts if any exist and add a message stating there were expired/closed accounts at the top of the document
+        SpringContext.getBean(AccountsPayableService.class).generateExpiredOrClosedAccountNote(paymentRequestDocument, expiredOrClosedAccountList);
         
-        //HashMap<String, String> expiredOrClosedAccounts = paymentRequestService.expiredOrClosedAccountsList(paymentRequestDocument);
-        //TODO: Chris finish above method for now just set to empty
-        HashMap<String, String> expiredOrClosedAccounts = new HashMap<String,String>();
-        
-        if (!expiredOrClosedAccounts.isEmpty()){
-            GlobalVariables.getMessageList().add(PurapKeyConstants.MESSAGE_CLOSED_OR_EXPIRED_ACCOUNTS_REPLACED);
-            addContinuationAccountsNote(paymentRequestDocument, expiredOrClosedAccounts);
+        //set indicator so a message is displayed for accounts that were replaced due to expired/closed status
+        if(!expiredOrClosedAccountList.isEmpty()){
+            paymentRequestDocument.setContinuationAccountIndicator(true);
         }
+        
         //add discount item
         calculateDiscount(paymentRequestDocument);
         //distribute accounts (i.e. proration)
@@ -1228,7 +1171,7 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
             return descr.toString().substring(0, noteTextMaxLength);
         }
     }
-    
+
     /**
      * 
      * @see org.kuali.module.purap.service.PaymentRequestService#populateAndSavePaymentRequest(org.kuali.module.purap.document.PaymentRequestDocument)

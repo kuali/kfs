@@ -18,6 +18,7 @@ package org.kuali.module.purap.service.impl;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
@@ -35,6 +36,8 @@ import org.kuali.module.purap.document.PaymentRequestDocument;
 import org.kuali.module.purap.document.PurchaseOrderDocument;
 import org.kuali.module.purap.service.CreditMemoCreateService;
 import org.kuali.module.purap.service.CreditMemoService;
+import org.kuali.module.purap.util.ExpiredOrClosedAccountEntry;
+import org.kuali.module.purap.service.AccountsPayableService;
 import org.kuali.module.purap.service.PaymentRequestService;
 import org.kuali.module.purap.service.PurapService;
 import org.kuali.module.purap.service.PurchaseOrderService;
@@ -57,17 +60,30 @@ public class CreditMemoCreateServiceImpl implements CreditMemoCreateService {
      * @see org.kuali.module.purap.service.CreditMemoCreateService#populateDocumentAfterInit(org.kuali.module.purap.document.CreditMemoDocument)
      */
     public void populateDocumentAfterInit(CreditMemoDocument cmDocument) {
+
+        //make a call to search for expired/closed accounts
+        HashMap<String, ExpiredOrClosedAccountEntry> expiredOrClosedAccountList = SpringContext.getBean(AccountsPayableService.class).getExpiredOrClosedAccountList( cmDocument );
+
         if (cmDocument.isSourceDocumentPaymentRequest()) {
-            populateDocumentFromPreq(cmDocument);
+            populateDocumentFromPreq(cmDocument, expiredOrClosedAccountList);
         }
         else if (cmDocument.isSourceDocumentPurchaseOrder()) {
-            populateDocumentFromPO(cmDocument);
+            populateDocumentFromPO(cmDocument, expiredOrClosedAccountList);
         }
         else {
             populateDocumentFromVendor(cmDocument);
         }
 
         populateDocumentDescription(cmDocument);
+        
+        //write a note for expired/closed accounts if any exist and add a message stating there were expired/closed accounts at the top of the document
+        SpringContext.getBean(AccountsPayableService.class).generateExpiredOrClosedAccountNote(cmDocument, expiredOrClosedAccountList);
+        
+        //set indicator so a message is displayed for accounts that were replaced due to expired/closed status
+        if(!expiredOrClosedAccountList.isEmpty()){
+            cmDocument.setContinuationAccountIndicator(true);
+        }
+
     }
 
     /**
@@ -75,7 +91,7 @@ public class CreditMemoCreateServiceImpl implements CreditMemoCreateService {
      * 
      * @param cmDocument - Credit Memo Document to Populate
      */
-    protected void populateDocumentFromPreq(CreditMemoDocument cmDocument) {
+    protected void populateDocumentFromPreq(CreditMemoDocument cmDocument, HashMap<String, ExpiredOrClosedAccountEntry> expiredOrClosedAccountList) {
         PaymentRequestDocument paymentRequestDocument = SpringContext.getBean(PaymentRequestService.class).getPaymentRequestById(cmDocument.getPaymentRequestIdentifier());
         cmDocument.setPaymentRequestDocument(paymentRequestDocument);
         cmDocument.setPurchaseOrderDocument(paymentRequestDocument.getPurchaseOrderDocument());
@@ -96,7 +112,7 @@ public class CreditMemoCreateServiceImpl implements CreditMemoCreateService {
 
         //prep the item lines (also collect warnings for later display) this is only done on paymentRequest
         convertMoneyToPercent(paymentRequestDocument);
-        populateItemLinesFromPreq(cmDocument);
+        populateItemLinesFromPreq(cmDocument, expiredOrClosedAccountList);
     }
 
     /**
@@ -104,7 +120,7 @@ public class CreditMemoCreateServiceImpl implements CreditMemoCreateService {
      * 
      * @param cmDocument - Credit Memo Document to Populate
      */
-    protected void populateItemLinesFromPreq(CreditMemoDocument cmDocument) {
+    protected void populateItemLinesFromPreq(CreditMemoDocument cmDocument, HashMap<String, ExpiredOrClosedAccountEntry> expiredOrClosedAccountList) {
         PaymentRequestDocument preqDocument = cmDocument.getPaymentRequestDocument();
 
         List<PurchaseOrderItem> invoicedItems = creditMemoService.getPOInvoicedItems(cmDocument.getPurchaseOrderDocument());
@@ -113,7 +129,7 @@ public class CreditMemoCreateServiceImpl implements CreditMemoCreateService {
 
             if (preqItemToTemplate != null && preqItemToTemplate.getItemType().isItemTypeAboveTheLineIndicator()) {
                 if (preqItemToTemplate.getItemQuantity() != null || preqItemToTemplate.getExtendedPrice().isNonZero()) {
-                    cmDocument.getItems().add(new CreditMemoItem(cmDocument, preqItemToTemplate, poItem));
+                    cmDocument.getItems().add(new CreditMemoItem(cmDocument, preqItemToTemplate, poItem, expiredOrClosedAccountList));
                 }
             }
         }
@@ -127,7 +143,7 @@ public class CreditMemoCreateServiceImpl implements CreditMemoCreateService {
      * 
      * @param cmDocument - Credit Memo Document to Populate
      */
-    protected void populateDocumentFromPO(CreditMemoDocument cmDocument) {
+    protected void populateDocumentFromPO(CreditMemoDocument cmDocument, HashMap<String, ExpiredOrClosedAccountEntry> expiredOrClosedAccountList) {
         PurchaseOrderDocument purchaseOrderDocument = (SpringContext.getBean(PurchaseOrderService.class).getCurrentPurchaseOrder(cmDocument.getPurchaseOrderIdentifier()));
         cmDocument.setPurchaseOrderDocument(purchaseOrderDocument);
 
@@ -155,7 +171,7 @@ public class CreditMemoCreateServiceImpl implements CreditMemoCreateService {
             cmDocument.setVendorCountryCode(purchaseOrderDocument.getVendorCountryCode());
         }
         
-        populateItemLinesFromPO(cmDocument);
+        populateItemLinesFromPO(cmDocument, expiredOrClosedAccountList);
     }
 
     /**
@@ -163,10 +179,10 @@ public class CreditMemoCreateServiceImpl implements CreditMemoCreateService {
      * 
      * @param cmDocument - Credit Memo Document to Populate
      */
-    protected void populateItemLinesFromPO(CreditMemoDocument cmDocument) {
+    protected void populateItemLinesFromPO(CreditMemoDocument cmDocument, HashMap<String, ExpiredOrClosedAccountEntry> expiredOrClosedAccountList) {
         List<PurchaseOrderItem> invoicedItems = creditMemoService.getPOInvoicedItems(cmDocument.getPurchaseOrderDocument());
         for (PurchaseOrderItem poItem : invoicedItems) {
-            cmDocument.getItems().add(new CreditMemoItem(cmDocument, poItem));
+            cmDocument.getItems().add(new CreditMemoItem(cmDocument, poItem, expiredOrClosedAccountList));
         }
 
         // add below the line items

@@ -63,6 +63,7 @@ public abstract class AccountsPayableDocumentBase extends PurchasingAccountsPaya
     private String noteLine1Text;
     private String noteLine2Text;
     private String noteLine3Text;   
+    private boolean continuationAccountIndicator;
     
     private boolean unmatchedOverride; // not persisted
     
@@ -433,6 +434,22 @@ public abstract class AccountsPayableDocumentBase extends PurchasingAccountsPaya
      * 
      * @return
      */
-    public abstract KualiDecimal getInitialAmount();
-    
+    public abstract KualiDecimal getInitialAmount();    
+
+    /**
+     * Gets the continuationAccountIndicator attribute. 
+     * @return Returns the continuationAccountIndicator.
+     */
+    public boolean isContinuationAccountIndicator() {
+        return continuationAccountIndicator;
+    }
+
+    /**
+     * Sets the continuationAccountIndicator attribute value.
+     * @param continuationAccountIndicator The continuationAccountIndicator to set.
+     */
+    public void setContinuationAccountIndicator(boolean continuationAccountIndicator) {
+        this.continuationAccountIndicator = continuationAccountIndicator;
+    }
+
 }

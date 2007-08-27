@@ -152,9 +152,10 @@
             	<shortLabel>Not. Val</shortLabel>
             	
             	<maxLength>1</maxLength>
+            	<required>false</required>
             	
             	<control>
-            		<text size="3" />
+                    <select valuesFinderClass="org.kuali.module.kra.lookup.keyvalues.ResearchRiskTypeNotificationValuesFinder" />
             	</control>
             	
             	<summary>Research Risk Type Notification Value</summary>

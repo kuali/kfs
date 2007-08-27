@@ -215,7 +215,11 @@ public class KFSKeyConstants {
     public static final String ERROR_DOCUMENT_ACCMAINT_ACCT_GF_BUDGET_RECORD_LVL_MIXED = "error.document.accountMaintenance.acctGeneralFundCannotHaveBudgetRecLvlMixed";
     public static final String ERROR_DOCUMENT_ACCMAINT_INVALID_SUBFUNDGROUP = "error.document.accountMaintenance.invalidSubFundGroup";
     public static final String ERROR_DOCUMENT_ACCMAINT_CAMS_SUBFUNDGROUP_WITH_MISSING_CAMPUS_CD_FOR_BLDG = "error.document.accountMaintenance.camsSubFundGroupWithMissingCampusCode";
+    public static final String ERROR_DOCUMENT_ACCMAINT_NONCAMS_SUBFUNDGROUP_WITH_CAMPUS_CD_FOR_BLDG = "error.document.accountMaintenance.nonCamsSubFundGroupWithCampusCode";
+    public static final String ERROR_DOCUMENT_ACCMAINT_BLANK_SUBFUNDGROUP_WITH_CAMPUS_CD_FOR_BLDG = "error.document.accountMaintenance.blankSubFundGroupWithCampusCode";
     public static final String ERROR_DOCUMENT_ACCMAINT_CAMS_SUBFUNDGROUP_WITH_MISSING_BUILDING_CD = "error.document.accountMaintenance.camsSubFundGroupWithMissingBuildingCode";
+    public static final String ERROR_DOCUMENT_ACCMAINT_NONCAMS_SUBFUNDGROUP_WITH_BUILDING_CD = "error.document.accountMaintenance.nonCamsSubFundGroupWithBuildingCode";
+    public static final String ERROR_DOCUMENT_ACCMAINT_BLANK_SUBFUNDGROUP_WITH_BUILDING_CD = "error.document.accountMaintenance.blankSubFundGroupWithBuildingCode";    
     public static final String ERROR_DOCUMENT_ACCMAINT_INVALID_FRINGE_BENEFIT_ACCOUNT = "error.document.accountMaintenance.invalidFringeBenefitAccount";
     public static final String ERROR_DOCUMENT_ACCMAINT_INVALID_CONTINUATION_ACCOUNT = "error.document.accountMaintenance.invalidContinuationAccount";
     public static final String ERROR_DOCUMENT_ACCMAINT_INVALID_ENDOWMENT_ACCOUNT = "error.document.accountMaintenance.invalidEndowmentAccount";

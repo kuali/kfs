@@ -974,62 +974,95 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
         LOG.info("checkSubFundGroup called");
 
         boolean success = true;
+        
+        String subFundGroupCode = newAccount.getSubFundGroupCode();
+        String campusCode = newAccount.getAccountDescription().getCampusCode();
+        String buildingCode = newAccount.getAccountDescription().getBuildingCode();
 
-        // if we dont have a valid subFundGroupCode and subFundGroup object, we cannot proceed
-        if (StringUtils.isBlank(newAccount.getSubFundGroupCode()) || ObjectUtils.isNull(newAccount.getSubFundGroup())) {
-            return success;
-        }
-
-        // PFCMD (Plant Fund, Construction and Major Remodeling) SubFundCode checks
-
-        // Attempt to get the right SubFundGroup code to check the following logic with. If the value isn't available, go ahead
-        // and die, as this indicates a misconfigured app, and important business rules wont be implemented without it.
-        String capitalSubFundGroup = "";
-        capitalSubFundGroup = getConfigService().getApplicationParameterValue(KFSConstants.ChartApcParms.GROUP_CHART_MAINT_EDOCS, ACCT_CAPITAL_SUBFUNDGROUP);
-
-        if (capitalSubFundGroup.equalsIgnoreCase(newAccount.getSubFundGroupCode().trim())) {
-
-            String campusCode = newAccount.getAccountDescription().getCampusCode();
-            String buildingCode = newAccount.getAccountDescription().getBuildingCode();
-
-            // if sub_fund_grp_cd is 'PFCMR' then campus_cd must be entered
-            if (StringUtils.isBlank(campusCode)) {
-                putFieldError("accountDescription.campusCode", KFSKeyConstants.ERROR_DOCUMENT_ACCMAINT_CAMS_SUBFUNDGROUP_WITH_MISSING_CAMPUS_CD_FOR_BLDG);
-                success &= false;
-            }
-
-            // if sub_fund_grp_cd is 'PFCMR' then bldg_cd must be entered
-            if (StringUtils.isBlank(buildingCode)) {
-                putFieldError("accountDescription.campusCode", KFSKeyConstants.ERROR_DOCUMENT_ACCMAINT_CAMS_SUBFUNDGROUP_WITH_MISSING_BUILDING_CD);
-                success &= false;
-            }
-
-            // the building object (campusCode & buildingCode) must exist in the DB
-            if (!StringUtils.isBlank(campusCode) && !StringUtils.isBlank(buildingCode)) {
-                                
-                //make sure that primary key fields are upper case
-                DataDictionaryService dds = SpringContext.getBean(DataDictionaryService.class);
-                Boolean buildingCodeForceUppercase = dds.getAttributeForceUppercase(AccountDescription.class, KFSPropertyConstants.BUILDING_CODE );
-                if (StringUtils.isNotBlank(buildingCode) && buildingCodeForceUppercase != null && buildingCodeForceUppercase.booleanValue() == true ) {
-                    buildingCode = buildingCode.toUpperCase();
-                }
+        //check if sub fund group code is blank
+        if (StringUtils.isBlank(subFundGroupCode)) {
+            
+            // check if campus code and building code are NOT blank
+            if( !StringUtils.isBlank(campusCode) || !StringUtils.isBlank(buildingCode)){
                 
-                Boolean campusCodeForceUppercase = dds.getAttributeForceUppercase(AccountDescription.class, KFSPropertyConstants.CAMPUS_CODE );
-                if (StringUtils.isNotBlank(campusCode) && campusCodeForceUppercase != null && campusCodeForceUppercase.booleanValue() == true ) {
-                    campusCode = campusCode.toUpperCase();
-                }   
-                
-                Map pkMap = new HashMap();
-                pkMap.put("campusCode", campusCode);
-                pkMap.put("buildingCode", buildingCode);                
-
-                Building building = (Building) getBoService().findByPrimaryKey(Building.class, pkMap);
-                if (building == null) {
-                    putFieldError("accountDescription.campusCode", KFSKeyConstants.ERROR_EXISTENCE, campusCode);
-                    putFieldError("accountDescription.buildingCode", KFSKeyConstants.ERROR_EXISTENCE, buildingCode);
+                // if sub_fund_grp_cd is blank, campus code should NOT be entered
+                if (!StringUtils.isBlank(campusCode)) {
+                    putFieldError("accountDescription.campusCode", KFSKeyConstants.ERROR_DOCUMENT_ACCMAINT_BLANK_SUBFUNDGROUP_WITH_CAMPUS_CD_FOR_BLDG, subFundGroupCode );
                     success &= false;
                 }
+
+                // if sub_fund_grp_cd is blank, then bldg_cd should NOT be entered
+                if (!StringUtils.isBlank(buildingCode)) {
+                    putFieldError("accountDescription.buildingCode", KFSKeyConstants.ERROR_DOCUMENT_ACCMAINT_BLANK_SUBFUNDGROUP_WITH_BUILDING_CD, subFundGroupCode);
+                    success &= false;
+                }                   
+                
+            } else {
+                
+                //if all sub fund group, campus code, building code are all blank return true
+                return success;
             }
+            
+        } else if( !StringUtils.isBlank(subFundGroupCode) && !ObjectUtils.isNull(newAccount.getSubFundGroup()) ){
+            
+            // Attempt to get the right SubFundGroup code to check the following logic with. If the value isn't available, go ahead
+            // and die, as this indicates a misconfigured app, and important business rules wont be implemented without it.
+            String capitalSubFundGroup = getConfigService().getApplicationParameterValue(KFSConstants.ChartApcParms.GROUP_CHART_MAINT_EDOCS, ACCT_CAPITAL_SUBFUNDGROUP);
+
+            if (capitalSubFundGroup.equalsIgnoreCase(subFundGroupCode.trim())) {
+
+                // if sub_fund_grp_cd is 'PFCMR' then campus_cd must be entered
+                if (StringUtils.isBlank(campusCode)) {
+                    putFieldError("accountDescription.campusCode", KFSKeyConstants.ERROR_DOCUMENT_ACCMAINT_CAMS_SUBFUNDGROUP_WITH_MISSING_CAMPUS_CD_FOR_BLDG);
+                    success &= false;
+                }
+
+                // if sub_fund_grp_cd is 'PFCMR' then bldg_cd must be entered
+                if (StringUtils.isBlank(buildingCode)) {
+                    putFieldError("accountDescription.buildingCode", KFSKeyConstants.ERROR_DOCUMENT_ACCMAINT_CAMS_SUBFUNDGROUP_WITH_MISSING_BUILDING_CD);
+                    success &= false;
+                }
+
+                // the building object (campusCode & buildingCode) must exist in the DB
+                if (!StringUtils.isBlank(campusCode) && !StringUtils.isBlank(buildingCode)) {
+                                    
+                    //make sure that primary key fields are upper case
+                    DataDictionaryService dds = SpringContext.getBean(DataDictionaryService.class);
+                    Boolean buildingCodeForceUppercase = dds.getAttributeForceUppercase(AccountDescription.class, KFSPropertyConstants.BUILDING_CODE );
+                    if (StringUtils.isNotBlank(buildingCode) && buildingCodeForceUppercase != null && buildingCodeForceUppercase.booleanValue() == true ) {
+                        buildingCode = buildingCode.toUpperCase();
+                    }
+                    
+                    Boolean campusCodeForceUppercase = dds.getAttributeForceUppercase(AccountDescription.class, KFSPropertyConstants.CAMPUS_CODE );
+                    if (StringUtils.isNotBlank(campusCode) && campusCodeForceUppercase != null && campusCodeForceUppercase.booleanValue() == true ) {
+                        campusCode = campusCode.toUpperCase();
+                    }   
+                    
+                    Map pkMap = new HashMap();
+                    pkMap.put("campusCode", campusCode);
+                    pkMap.put("buildingCode", buildingCode);                
+
+                    Building building = (Building) getBoService().findByPrimaryKey(Building.class, pkMap);
+                    if (building == null) {
+                        putFieldError("accountDescription.campusCode", KFSKeyConstants.ERROR_EXISTENCE, campusCode);
+                        putFieldError("accountDescription.buildingCode", KFSKeyConstants.ERROR_EXISTENCE, buildingCode);
+                        success &= false;
+                    }
+                }
+            } else {
+                
+                // if sub_fund_grp_cd is NOT 'PFCMR', campus code should NOT be entered
+                if (!StringUtils.isBlank(campusCode)) {
+                    putFieldError("accountDescription.campusCode", KFSKeyConstants.ERROR_DOCUMENT_ACCMAINT_NONCAMS_SUBFUNDGROUP_WITH_CAMPUS_CD_FOR_BLDG, subFundGroupCode );
+                    success &= false;
+                }
+
+                // if sub_fund_grp_cd is NOT 'PFCMR' then bldg_cd should NOT be entered
+                if (!StringUtils.isBlank(buildingCode)) {
+                    putFieldError("accountDescription.buildingCode", KFSKeyConstants.ERROR_DOCUMENT_ACCMAINT_NONCAMS_SUBFUNDGROUP_WITH_BUILDING_CD, subFundGroupCode);
+                    success &= false;
+                }   
+            }            
         }
 
         return success;

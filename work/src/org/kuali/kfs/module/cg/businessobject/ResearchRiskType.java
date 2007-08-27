@@ -28,6 +28,14 @@ import edu.iu.uis.eden.workgroup.Workgroup;
  */
 public class ResearchRiskType extends PersistableBusinessObjectBase {
 
+    /**
+     * Constant values for research risk type notification values
+     */
+    public static final String YES = "Y";
+    public static final String NO = "N";
+    public static final String ALL = "A";
+    public static final String NEVER = "X";
+    
 	private String researchRiskTypeCode;
 	private boolean dataObjectMaintenanceCodeActiveIndicator;
 	private String researchRiskTypeDescription;

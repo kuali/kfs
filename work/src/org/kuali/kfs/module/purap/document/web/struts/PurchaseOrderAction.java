@@ -1072,10 +1072,10 @@ public class PurchaseOrderAction extends PurchasingActionBase {
             // Build out full message.
             if (StringUtils.equals(questionType,PODocumentsStrings.MANUAL_STATUS_CHANGE_QUESTION)) {
                 String key = kualiConfiguration.getPropertyString(PurapKeyConstants.PURCHASE_ORDER_MANUAL_STATUS_CHANGE_NOTE_PREFIX);
-                String oldStatus = po.getStatusCode();
-                String newStatus = po.getStatusChange();
-                key = StringUtils.replace(key, "{0}", oldStatus);
-                notePrefix = StringUtils.replace(key, "{1}", newStatus);
+                String oldStatus = PurchaseOrderStatuses.MANUALLY_CHANGEABLE_STATUSES.get(po.getStatusCode());
+                String newStatus = PurchaseOrderStatuses.MANUALLY_CHANGEABLE_STATUSES.get(po.getStatusChange());
+                key = StringUtils.replace(key, "{0}", (StringUtils.isBlank(oldStatus) ? " " : oldStatus));
+                notePrefix = StringUtils.replace(key, "{1}", (StringUtils.isBlank(newStatus) ? " " : newStatus));
             }
             String noteText = notePrefix + KFSConstants.BLANK_SPACE + reason;
             int noteTextLength = noteText.length();
@@ -1125,11 +1125,12 @@ public class PurchaseOrderAction extends PurchasingActionBase {
     }
     
     private void executeManualStatusChange(PurchaseOrderDocument po) {
-        if (SpringContext.getBean(PurapService.class).updateStatusAndStatusHistory(po, po.getStatusChange())) {
-            po.refreshNonUpdateableReferences();
+        po.refreshNonUpdateableReferences();
+        try {           
+            SpringContext.getBean(PurapService.class).updateStatusAndStatusHistory(po, po.getStatusChange());
         }
-        else {
-            throw new RuntimeException("Failed to set new status or status history.");
+        catch (Exception e) {
+            throw new RuntimeException(e);
         }
     }
 

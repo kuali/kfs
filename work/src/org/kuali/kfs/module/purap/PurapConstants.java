@@ -198,6 +198,7 @@ public class PurapConstants extends JstlConstants {
         
         public static Set<String> INCOMPLETE_STATUSES = new HashSet<String>();
         public static Set<String> CONTRACT_MANAGER_CHANGEABLE_STATUSES = new HashSet<String>();
+        public static Map<String,String> MANUALLY_CHANGEABLE_STATUSES = new HashMap<String, String>();
         public static Map<String,String> STATUSES_BY_TRANSMISSION_TYPE = new HashMap<String,String>();
         static {
             INCOMPLETE_STATUSES.add(AWAIT_TAX_REVIEW);
@@ -218,6 +219,10 @@ public class PurapConstants extends JstlConstants {
             CONTRACT_MANAGER_CHANGEABLE_STATUSES.add(IN_PROCESS);
             CONTRACT_MANAGER_CHANGEABLE_STATUSES.add(WAITING_FOR_VENDOR);
             CONTRACT_MANAGER_CHANGEABLE_STATUSES.add(WAITING_FOR_DEPARTMENT);
+            
+            MANUALLY_CHANGEABLE_STATUSES.put(IN_PROCESS,"In Process");
+            MANUALLY_CHANGEABLE_STATUSES.put(WAITING_FOR_VENDOR,"Waiting for Vendor");
+            MANUALLY_CHANGEABLE_STATUSES.put(WAITING_FOR_DEPARTMENT,"Waiting for Department");
             
             STATUSES_BY_TRANSMISSION_TYPE.put(PurapConstants.POTransmissionMethods.PRINT, PENDING_PRINT);
             STATUSES_BY_TRANSMISSION_TYPE.put(PurapConstants.POTransmissionMethods.ELECTRONIC, PENDING_CXML);

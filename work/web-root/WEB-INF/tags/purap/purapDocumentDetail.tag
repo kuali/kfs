@@ -110,23 +110,32 @@
 	            </div>
 	        </th>
 	        <td align=left valign=middle class="datacell">
-	        	&nbsp;<input type=radio property="document.statusChange" value="INPR" selected="true"/>&nbsp;NONE&nbsp;
-	        	<input type=radio property="document.statusChange" value="WDPT"/>&nbsp;Department&nbsp;
-	        	<input type=radio property="document.statusChange" value="WVEN"/>&nbsp;Vendor&nbsp;
-	            <c:if test="${document.statusCode == 'WDPT'}">
-	        		&nbsp;<input type=radio property="document.statusChange" value="INPR"/>&nbsp;NONE&nbsp;
-	        		<input type=radio property="document.statusChange" value="WDPT" selected="true"/>&nbsp;Department&nbsp;
-	        		<input type=radio property="document.statusChange" value="WVEN"/>&nbsp;Vendor&nbsp;
-	        	</c:if>
-	            <c:if test="${document.statusCode == 'WVEN'}">
-	        		&nbsp;<input type=radio property="document.statusChange" value="INPR"/>&nbsp;NONE&nbsp;
-	        		<input type=radio property="document.statusChange" value="WDPT"/>&nbsp;Department&nbsp;
-	        		<input type=radio property="document.statusChange" value="WVEN" selected="true"/>&nbsp;Vendor&nbsp;
-	        	</c:if>	        	
-	        	<kul:htmlControlAttribute 
-	                property="document.statusChange" 
-	                attributeEntry="${documentAttributes.statusChange}" 
-	                readOnly="${not fullEntryMode}"/>
+	        	<c:if test="${fullEntryMode}">
+	        		<c:choose>
+	        			<c:when test="${KualiForm.document.statusCode == 'INPR'}">
+			        		&nbsp;<input type=radio name="document.statusChange" value="INPR" checked/>&nbsp;NONE&nbsp;
+			        	</c:when>
+			        	<c:otherwise>
+			        		&nbsp;<input type=radio name="document.statusChange" value="INPR"/>&nbsp;NONE&nbsp;
+			        	</c:otherwise>
+			        </c:choose>
+			        <c:choose>
+			        	<c:when test="${KualiForm.document.statusCode == 'WDPT'}">
+			        		<input type=radio name="document.statusChange" value="WDPT" checked/>&nbsp;Department&nbsp;
+			        	</c:when>
+			        	<c:otherwise>
+			        		<input type=radio name="document.statusChange" value="WDPT" />&nbsp;Department&nbsp;
+			        	</c:otherwise>
+			        </c:choose>
+			        <c:choose>
+			        	<c:when test="${KualiForm.document.statusCode == 'WVEN'}">
+			        		<input type=radio name="document.statusChange" value="WVEN" checked/>&nbsp;Vendor&nbsp;
+			        	</c:when>
+			        	<c:otherwise>
+			        		<input type=radio name="document.statusChange" value="WVEN" />&nbsp;Vendor&nbsp;
+			        	</c:otherwise>
+			        </c:choose>
+		        </c:if>	        	
 	        </td>
 			<th align=right valign=middle class="bord-l-b">
 	            <div align="right">

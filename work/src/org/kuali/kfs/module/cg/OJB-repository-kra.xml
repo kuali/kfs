@@ -314,9 +314,6 @@
     <field-descriptor name="personProjectDirectorIndicator" column="PRSN_PRJDR_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion" />
     <field-descriptor name="personHourlyNumber" column="PRSN_HRLY_NBR" jdbc-type="INTEGER" />
     <field-descriptor name="budgetSalaryFiscalYear" column="BDGT_SLRY_FISCAL_YR" jdbc-type="INTEGER" />
-    <reference-descriptor name="user" class-ref="org.kuali.core.bo.user.UniversalUser" auto-retrieve="true" auto-update="none" auto-delete="none">
-        <foreignkey field-ref="personUniversalIdentifier" />
-    </reference-descriptor>
     <collection-descriptor name="userAppointmentTasks" proxy="true" element-class-ref="org.kuali.module.kra.budget.bo.UserAppointmentTask" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
         <inverse-foreignkey field-ref="documentNumber" />
         <inverse-foreignkey field-ref="budgetUserSequenceNumber" />
@@ -333,9 +330,6 @@
     <field-descriptor name="permissionCode" column="PRSN_PRMSN_CD" jdbc-type="VARCHAR" />
     <field-descriptor name="addedByPerson" column="PRSN_ADD_BY_UNVL_ID" jdbc-type="VARCHAR" />
     <field-descriptor name="personAddedTimestamp" column="PRSN_ADD_TS" jdbc-type="TIMESTAMP" />
-    <reference-descriptor name="user" class-ref="org.kuali.core.bo.user.UniversalUser" auto-retrieve="true" auto-update="none" auto-delete="none">
-        <foreignkey field-ref="personUniversalIdentifier" />
-    </reference-descriptor>
 </class-descriptor>
 
 <class-descriptor class="org.kuali.module.kra.bo.AdhocOrg" table="ER_ADHOC_ORG_T">
@@ -1099,9 +1093,6 @@
     </reference-descriptor>
     <reference-descriptor name="personRole" class-ref="org.kuali.module.kra.routingform.bo.PersonRole" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="personRoleCode" />
-    </reference-descriptor>
-    <reference-descriptor name="user" class-ref="org.kuali.core.bo.user.UniversalUser" auto-retrieve="true" auto-update="none" auto-delete="none">
-        <foreignkey field-ref="personUniversalIdentifier" />
     </reference-descriptor>
 </class-descriptor>
 

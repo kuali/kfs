@@ -706,13 +706,14 @@ public class RoutingFormPersonnel extends PersistableBusinessObjectBase {
      * @return Returns the user.
      */
     public UniversalUser getUser() {
+        user = SpringContext.getBean(UniversalUserService.class).updateUniversalUserIfNecessary(personUniversalIdentifier, user);
         return user;
     }
 
     /**
      * Sets the user attribute value.
      * @param user The user to set.
-     * @deprecated
+     * @deprecated Should not be set.  User should be retrieved by SpringContext each time.  See getUser() above.
      */
     public void setUser(UniversalUser user) {
         this.user = user;

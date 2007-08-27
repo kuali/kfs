@@ -25,6 +25,7 @@ import org.apache.ojb.broker.PersistenceBrokerException;
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.service.KualiModuleService;
+import org.kuali.core.service.UniversalUserService;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.context.SpringContext;
@@ -256,6 +257,7 @@ public class BudgetUser extends PersistableBusinessObjectBase implements Compara
      * @return Returns the user.
      */
     public UniversalUser getUser() {
+        user = SpringContext.getBean(UniversalUserService.class).updateUniversalUserIfNecessary(personUniversalIdentifier, user);
         return user;
     }
 
@@ -264,7 +266,7 @@ public class BudgetUser extends PersistableBusinessObjectBase implements Compara
      * Sets the user attribute value.
      * 
      * @param user The user to set.
-     * @deprecated
+     * @deprecated - Should not be set, should be retrieved by SpringContext each time.  See getUser() above.
      */
     public void setUser(UniversalUser user) {
         this.user = user;

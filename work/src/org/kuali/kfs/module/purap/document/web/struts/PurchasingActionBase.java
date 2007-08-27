@@ -56,6 +56,11 @@ import org.kuali.module.vendor.service.VendorService;
 public class PurchasingActionBase extends PurchasingAccountsPayableActionBase {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PurchasingActionBase.class);
 
+    /**
+     * 
+     * @see org.kuali.kfs.web.struts.action.KualiAccountingDocumentActionBase#refresh(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     */
+    @Override
     public ActionForward refresh(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         PurchasingFormBase baseForm = (PurchasingFormBase) form;
         PurchasingDocument document = (PurchasingDocument) baseForm.getDocument();
@@ -68,8 +73,8 @@ public class PurchasingActionBase extends PurchasingAccountsPayableActionBase {
         document.setRequestorPersonPhoneNumber(phoneNumberService.formatNumberIfPossible(document.getRequestorPersonPhoneNumber()));
         document.setDeliveryToPhoneNumber(phoneNumberService.formatNumberIfPossible(document.getDeliveryToPhoneNumber()));
 
+        //Refreshing the fields after returning from a vendor lookup in the vendor tab
         if (StringUtils.equals(refreshCaller, VendorConstants.VENDOR_LOOKUPABLE_IMPL) && document.getVendorDetailAssignedIdentifier() != null && document.getVendorHeaderGeneratedIdentifier() != null) {
-
             document.setVendorContractGeneratedIdentifier(null);
             document.setVendorContractName(null);
             Integer vendorDetailAssignedId = document.getVendorDetailAssignedIdentifier();
@@ -81,14 +86,20 @@ public class PurchasingActionBase extends PurchasingAccountsPayableActionBase {
             document.templateVendorDetail(refreshVendorDetail);
         }
 
-        if (StringUtils.equals(refreshCaller, KFSConstants.KUALI_LOOKUPABLE_IMPL) || StringUtils.equals(refreshCaller, VendorConstants.VENDOR_CONTRACT_LOOKUPABLE_IMPL)) {
-
+        //Refreshing the fields after returning from a contract lookup in the vendor tab
+        if (StringUtils.equals(refreshCaller, VendorConstants.VENDOR_CONTRACT_LOOKUPABLE_IMPL)) {
             if (StringUtils.isNotEmpty(request.getParameter(RicePropertyConstants.DOCUMENT + "." + PurapPropertyConstants.VENDOR_CONTRACT_ID))) {
                 Integer vendorContractGeneratedId = document.getVendorContractGeneratedIdentifier();
                 VendorContract refreshVendorContract = new VendorContract();
                 refreshVendorContract.setVendorContractGeneratedIdentifier(vendorContractGeneratedId);
                 refreshVendorContract = (VendorContract) businessObjectService.retrieve(refreshVendorContract);
-                document.templateVendorContract(refreshVendorContract);
+                document.templateVendorContract(refreshVendorContract);        
+                //Need to reset the vendor header and detail id of the document from the refreshVendorContract as well
+                //so that we can continue to do the other lookups (address, customer number) using the correct vendor ids.
+                document.setVendorHeaderGeneratedIdentifier(refreshVendorContract.getVendorHeaderGeneratedIdentifier());
+                document.setVendorDetailAssignedIdentifier(refreshVendorContract.getVendorDetailAssignedIdentifier());
+                //Need to clear out the Customer Number (see comments on KULPURAP-832).
+                document.setVendorCustomerNumber(null);                
                 VendorDetail refreshVendorDetail = new VendorDetail();
                 refreshVendorDetail.setVendorDetailAssignedIdentifier(refreshVendorContract.getVendorDetailAssignedIdentifier());
                 refreshVendorDetail.setVendorHeaderGeneratedIdentifier(refreshVendorContract.getVendorHeaderGeneratedIdentifier());
@@ -99,6 +110,10 @@ public class PurchasingActionBase extends PurchasingAccountsPayableActionBase {
                 populateDefaultAddress(refreshVendorDetail, document);
 
             }
+        }
+        
+        //Refreshing the fields after returning from an address lookup in the vendor tab
+        if (StringUtils.equals(refreshCaller, VendorConstants.VENDOR_ADDRESS_LOOKUPABLE_IMPL)) {
             if (StringUtils.isNotEmpty(request.getParameter(RicePropertyConstants.DOCUMENT + "." + PurapPropertyConstants.VENDOR_ADDRESS_ID))) {
                 Integer vendorAddressGeneratedId = document.getVendorAddressGeneratedIdentifier();
                 VendorAddress refreshVendorAddress = new VendorAddress();

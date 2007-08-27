@@ -170,6 +170,7 @@ public class Award extends PersistableBusinessObjectBase implements AlternateOrg
                 awardOrg.setChartOfAccountsCode(pOrg.getChartOfAccountsCode());
                 awardOrg.setOrganizationCode(pOrg.getOrganizationCode());
                 awardOrg.setAwardPrimaryOrganizationIndicator(pOrg.isProposalPrimaryOrganizationIndicator());
+                awardOrg.setActive(pOrg.isActive());
                 getAwardOrganizations().add(awardOrg);
             }
 
@@ -184,6 +185,7 @@ public class Award extends PersistableBusinessObjectBase implements AlternateOrg
                 awardSubcontractor.setSubcontractorAmount(pSubcontractor.getProposalSubcontractorAmount());
                 awardSubcontractor.setAwardSubcontractorDescription(pSubcontractor.getProposalSubcontractorDescription());
                 awardSubcontractor.setSubcontractorNumber(pSubcontractor.getSubcontractorNumber());
+                awardSubcontractor.setActive(pSubcontractor.isActive());
                 getAwardSubcontractors().add(awardSubcontractor);
             }
             
@@ -197,6 +199,7 @@ public class Award extends PersistableBusinessObjectBase implements AlternateOrg
                 awardDirector.setAwardPrimaryProjectDirectorIndicator(pDirector.isProposalPrimaryProjectDirectorIndicator());
                 awardDirector.setAwardProjectDirectorProjectTitle(pDirector.getProposalProjectDirectorProjectTitle());
                 awardDirector.setPersonUniversalIdentifier(pDirector.getPersonUniversalIdentifier());
+                awardDirector.setActive(pDirector.isActive());
                 getAwardProjectDirectors().add(awardDirector);
             }
         }

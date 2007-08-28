@@ -188,6 +188,8 @@
             <div align="right">
                	<html:hidden write="false" property="selectionSubTreeOrgs[${status.index}].reportsToChartOfAccountsCode" />
                	<html:hidden write="false" property="selectionSubTreeOrgs[${status.index}].reportsToOrganizationCode" />
+               	<html:hidden write="false" property="selectionSubTreeOrgs[${status.index}].versionNumber" />
+               	<html:hidden write="false" property="selectionSubTreeOrgs[${status.index}].personUniversalIdentifier" />
                 <html:select property="selectionSubTreeOrgs[${status.index}].pullFlag">
                     <html:optionsCollection property="pullFlagKeyLabels" label="label" value="key" />
                 </html:select>
@@ -241,15 +243,18 @@
         <c:choose>
             <c:when test="${KualiForm.operatingMode == BCConstants.OrgSelOpMode.SALSET}">
             <tr>
-                <td class="grid" valign="center" rowspan="1" colspan="6">
-                <div align="left">
+                <td class="grid" valign="center" rowspan="1" colspan="1">
+                <div align="center">
                     <html:image property="methodToCall.selectAll" src="${ConfigProperties.externalizable.images.url}tinybutton-select.gif" title="Select All" alt="Select All" styleClass="tinybutton" />
                     <html:image property="methodToCall.clearAll" src="${ConfigProperties.externalizable.images.url}tinybutton-clearlines.gif" title="Clear All" alt="Clear All" styleClass="tinybutton" />
                 </div>
                 </td>
+                <td class="grid" valign="center" rowspan="1" colspan="5">&nbsp;</td>
             </tr>
             <tr>
-                <th class="grid" align="left" colspan="6"><br>List Operation</th>
+                <th class="grid" align="left" colspan="6">
+                <kul:errors keyMatch="selectionSubTreeOrgs" errorTitle="Errors found in Organization Selection Control:" />
+                <br>List Operation</th>
             </tr>
             <tr>
                 <td class="grid" valign="center" rowspan="1" colspan="6">

@@ -25,6 +25,17 @@ import org.kuali.core.bo.PersistableBusinessObjectBase;
  */
 public class ControlAttributeType extends PersistableBusinessObjectBase {
 
+    /**
+     * Constants defining possible type codes and their associated descriptions
+     */
+    public static final String TYPE_CODE_A = "A";
+    public static final String TYPE_CODE_S = "S";
+    public static final String TYPE_CODE_D = "D";    
+    public static final String TYPE_CODE_A_DESC = "All Columns";
+    public static final String TYPE_CODE_S_DESC = "Some Columns";
+    public static final String TYPE_CODE_D_DESC = "Description Textarea";
+    
+    
 	private String controlAttributeTypeCode;
     private String controlAttributeTypeDescription;
 	private boolean dataObjectMaintenanceCodeActiveIndicator;
@@ -93,7 +104,6 @@ public class ControlAttributeType extends PersistableBusinessObjectBase {
 		this.dataObjectMaintenanceCodeActiveIndicator = dataObjectMaintenanceCodeActiveIndicator;
 	}
 
-
 	/**
 	 * Gets the requiredIndicator attribute.
 	 * 
@@ -113,7 +123,6 @@ public class ControlAttributeType extends PersistableBusinessObjectBase {
 	public void setRequiredIndicator(boolean requiredIndicator) {
 		this.requiredIndicator = requiredIndicator;
 	}
-
 
 	/**
 	 * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()

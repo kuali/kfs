@@ -191,6 +191,12 @@
 		</property>
 	</bean>
 
+	<bean id="researchDocumentControlAttributeTypeService" class="org.kuali.module.kra.service.impl.ResearchDocumentControlAttributeTypeServiceImpl">
+		<property name="businessObjectService">
+			<ref bean="businessObjectService" />
+		</property>
+	</bean>
+
 	<bean id="routingFormResearchRiskService" class="org.kuali.module.kra.routingform.service.impl.RoutingFormResearchRiskServiceImpl">
 		<property name="businessObjectService">
 			<ref bean="businessObjectService" />

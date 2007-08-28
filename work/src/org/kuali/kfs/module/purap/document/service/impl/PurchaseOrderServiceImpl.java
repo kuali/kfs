@@ -441,7 +441,13 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 //                    po.getDocumentHeader().getWorkflowDocument().superUserActionRequestApproveAction(actionRequest.getActionRequestId(), annotation);
                 }
             }
-            if (po.getDocumentHeader().getWorkflowDocument().isFYIRequested()) {
+            if (po.getDocumentHeader().getWorkflowDocument().isApprovalRequested()) {
+                SpringContext.getBean(DocumentService.class).approveDocument(po, null, new ArrayList());
+            }
+            else if (po.getDocumentHeader().getWorkflowDocument().isAcknowledgeRequested()) {
+                SpringContext.getBean(DocumentService.class).acknowledgeDocument(po, null, new ArrayList());
+            }
+            else if (po.getDocumentHeader().getWorkflowDocument().isFYIRequested()) {
                 SpringContext.getBean(DocumentService.class).clearDocumentFyi(po, new ArrayList());
             }
         }

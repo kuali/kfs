@@ -705,7 +705,7 @@
     </collection-descriptor>
 </class-descriptor>
 
-<class-descriptor class="org.kuali.module.labor.document.YearEndSalaryExpenseTransferDocument" table="LD_EXP_TRNFR_DOC_T">
+<class-descriptor class="org.kuali.module.labor.document.YearEndBenefitExpenseTransferDocument" table="LD_EXP_TRNFR_DOC_T">
    <!--  common transactional document base attributes -->
 	<field-descriptor name="documentNumber" column="FDOC_NBR" jdbc-type="VARCHAR" primarykey="true" index="true"/>
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>

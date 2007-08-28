@@ -20,17 +20,19 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.KualiRuleService;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.financial.bo.Check;
 import org.kuali.module.financial.document.CashReceiptDocument;
 import org.kuali.module.financial.rules.CashReceiptDocumentRule;
 import org.kuali.module.financial.service.CashReceiptCoverSheetService;
-import org.kuali.module.financial.service.CashReceiptService;
 
 import com.lowagie.text.Document;
 import com.lowagie.text.DocumentException;
@@ -49,8 +51,7 @@ import com.lowagie.text.pdf.PdfWriter;
 public class CashReceiptCoverSheetServiceImpl implements CashReceiptCoverSheetService {
     private static Log LOG = LogFactory.getLog(CashReceiptCoverSheetService.class);
 
-    public static final String CR_COVERSHEET_TEMPLATE_RELATIVE_DIR = "static/help/templates/financial";
-    public static final String CR_COVERSHEET_TEMPLATE_NM = "CashReceiptCoverSheetTemplate.pdf";
+    public static final String CR_COVERSHEET_TEMPLATE_NM = "NetHelp/CashReceiptCoverSheetTemplate.pdf";
 
     private static final float LEFT_MARGIN = 45;
     private static final float TOP_MARGIN = 45;
@@ -157,8 +158,6 @@ public class CashReceiptCoverSheetServiceImpl implements CashReceiptCoverSheetSe
             PdfStamper stamper = new PdfStamper(new PdfReader(searchPath + File.separator + templateName), returnStream);
             AcroFields populatedCoverSheet = stamper.getAcroFields();
             
-            SpringContext.getBean(CashReceiptService.class).addCashDetailsToCashDrawer(document);
-
             populatedCoverSheet.setField(DOCUMENT_NUMBER_FIELD, document.getDocumentNumber());
             populatedCoverSheet.setField(INITIATOR_FIELD, document.getDocumentHeader().getWorkflowDocument().getInitiatorNetworkId());
             populatedCoverSheet.setField(CREATED_DATE_FIELD, document.getDocumentHeader().getWorkflowDocument().getCreateDate().toString());

@@ -55,8 +55,7 @@ import com.lowagie.text.pdf.PdfStamper;
 public class DisbursementVoucherCoverSheetServiceImpl implements DisbursementVoucherCoverSheetService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(DisbursementVoucherCoverSheetServiceImpl.class);
 
-    public static final String DV_COVERSHEET_TEMPLATE_RELATIVE_DIR = "static/help/templates/financial";
-    public static final String DV_COVERSHEET_TEMPLATE_NM = "disbursementVoucherCoverSheetTemplate.pdf";
+    public static final String DV_COVERSHEET_TEMPLATE_NM = "NetHelp/disbursementVoucherCoverSheetTemplate.pdf";
 
     public static String DV_COVER_SHEET_TEMPLATE_LINES_PARM_NM = "DV_COVER_SHEET_TEMPLATE_LINES";
     public static String DV_COVER_SHEET_TEMPLATE_RLINES_PARM_NM = "DV_COVER_SHEET_TEMPLATE_RLINES";

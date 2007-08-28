@@ -153,7 +153,7 @@ public class DisbursementVoucherAction extends KualiAccountingDocumentActionBase
      */
     public ActionForward printDisbursementVoucherCoverSheet(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         // get directory of tempate
-        String directory = getServlet().getServletConfig().getServletContext().getRealPath(DisbursementVoucherCoverSheetServiceImpl.DV_COVERSHEET_TEMPLATE_RELATIVE_DIR);
+        String directory = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(KFSConstants.EXTERNALIZABLE_HELP_URL_KEY);
 
         DisbursementVoucherDocument document = (DisbursementVoucherDocument) SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(request.getParameter(KFSPropertyConstants.DOCUMENT_NUMBER));
 

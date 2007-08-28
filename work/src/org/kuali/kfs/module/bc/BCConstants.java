@@ -18,6 +18,9 @@ package org.kuali.module.budget;
 import org.kuali.core.JstlConstants;
 
 public class BCConstants extends JstlConstants {
+    
+    public static final String DISABLE_SALARY_SETTING_FLAG = "DISABLE_SALARY_SETTING_FLAG";
+    public static final String DISABLE_BENEFITS_CALCULATION_FLAG = "DISABLE_BENEFITS_CALCULATION_FLAG";
 
     public static final String BC_SELECTION_ACTION="budgetBudgetConstructionSelection.do";
     public static final String BC_SELECTION_REFRESH_METHOD="refresh";

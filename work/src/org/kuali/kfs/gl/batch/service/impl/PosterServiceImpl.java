@@ -65,7 +65,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class PosterServiceImpl implements PosterService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PosterServiceImpl.class);
 
-    public static final KualiDecimal warningMaxDifference = new KualiDecimal("0.05");
+    public static final KualiDecimal WARNING_MAX_DIFFERENCE = new KualiDecimal("0.03");
     public static final String DATE_FORMAT_STRING = "yyyyMMdd";
 
     private List transactionPosters;
@@ -359,45 +359,36 @@ public class PosterServiceImpl implements PosterService {
             reportExpendTranRetrieved++;
 
             KualiDecimal transactionAmount = et.getAccountObjectDirectCostAmount();
-            KualiDecimal distributionPercent = KualiDecimal.ZERO;
             KualiDecimal distributionAmount = KualiDecimal.ZERO;
-            KualiDecimal distributedAmount = KualiDecimal.ZERO;
 
             Collection automatedEntries = icrAutomatedEntryDao.getEntriesBySeries(et.getUniversityFiscalYear(), et.getAccount().getFinancialIcrSeriesIdentifier(), et.getBalanceTypeCode());
             int automatedEntriesCount = automatedEntries.size();
 
             if (automatedEntriesCount > 0) {
-                int count = 0;
                 for (Iterator icrIter = automatedEntries.iterator(); icrIter.hasNext();) {
                     IcrAutomatedEntry icrEntry = (IcrAutomatedEntry) icrIter.next();
-                    count++;
-
                     KualiDecimal generatedTransactionAmount = null;
 
-                    if (icrEntry.getAwardIndrCostRcvyEntryNbr().intValue() == 1) {
-                        // Line 1 must have the total percentage of the transaction to distribute
-                        distributionPercent = icrEntry.getAwardIndrCostRcvyRatePct();
-                        distributionAmount = getPercentage(transactionAmount, distributionPercent.bigDecimalValue());
-
+                    if (!icrIter.hasNext()) {
                         generatedTransactionAmount = distributionAmount;
-                    }
-                    else {
-                        if (automatedEntriesCount != count) {
-                            generatedTransactionAmount = getPercentage(transactionAmount, icrEntry.getAwardIndrCostRcvyRatePct().bigDecimalValue());
-                            distributedAmount = distributedAmount.add(generatedTransactionAmount);
-                        }
-                        else {
-                            // Distribute the remaining amount on the last one
-                            generatedTransactionAmount = distributionAmount.subtract(distributedAmount);
-                        }
-
-                        // if (difference.compareTo(KualiDecimal.ZERO) != 0) {
-                        // if (difference.abs().compareTo(warningMaxDifference) >= 0) {
-                        // // TODO Rounding warning
-                        // }
-                        // distributedAmount.add(difference);
-                        // }
-
+                        
+                        // Log differences that are over WARNING_MAX_DIFFERENCE
+//                        if(getPercentage(transactionAmount, icrEntry.getAwardIndrCostRcvyRatePct().bigDecimalValue()).compareTo(distributionAmount) >= WARNING_MAX_DIFFERENCE) {
+//                            List warnings = new ArrayList();
+//                            warnings.add("ADJUSTMENT GREATER THAN .03");
+//                            reportErrors.put(originEntry, warnings);
+//                        }
+                    } else if (icrEntry.getTransactionDebitIndicator().equals(KFSConstants.GL_DEBIT_CODE)) {
+                        generatedTransactionAmount = getPercentage(transactionAmount, icrEntry.getAwardIndrCostRcvyRatePct().bigDecimalValue());
+                        distributionAmount = distributionAmount.add(generatedTransactionAmount);
+                    } else if (icrEntry.getTransactionDebitIndicator().equals(KFSConstants.GL_CREDIT_CODE)) {
+                        generatedTransactionAmount = getPercentage(transactionAmount, icrEntry.getAwardIndrCostRcvyRatePct().bigDecimalValue());
+                        distributionAmount = distributionAmount.subtract(generatedTransactionAmount);
+                    } else {
+                        // Log if D / C code not found
+//                        List warnings = new ArrayList();
+//                        warnings.add("DEBIT OR CREDIT CODE NOT FOUND");
+//                        reportErrors.put(originEntry, warnings);
                     }
 
                     generateTransactions(et, icrEntry, generatedTransactionAmount, runDate, group, reportErrors);
@@ -557,7 +548,7 @@ public class PosterServiceImpl implements PosterService {
     private static BigDecimal BDONEHUNDRED = new BigDecimal("100");
 
     private KualiDecimal getPercentage(KualiDecimal amount, BigDecimal percent) {
-        BigDecimal result = amount.bigDecimalValue().multiply(percent).divide(BDONEHUNDRED, 2, BigDecimal.ROUND_DOWN);
+        BigDecimal result = amount.bigDecimalValue().multiply(percent).divide(BDONEHUNDRED, 4, BigDecimal.ROUND_DOWN);
         return new KualiDecimal(result);
     }
 

@@ -21,10 +21,12 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang.ArrayUtils;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.service.PersistenceService;
+import org.kuali.core.service.PersistenceStructureService;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSKeyConstants;
@@ -57,6 +59,7 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
     private UniversityDateDao universityDateDao;
     private AccountService accountService;
     private OriginationCodeService originationCodeService;
+    private PersistenceStructureService persistenceStructureService;
 
     public static final String DATE_FORMAT_STRING = "yyyy-MM-dd";
 
@@ -231,11 +234,44 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
         }
 
         if (errors.size() == 0) {
-            persistenceService.retrieveNonKeyFields(originEntry);
-            persistenceService.retrieveNonKeyFields(scrubbedEntry);
+            refreshOriginEntryReferences(originEntry);
+            refreshOriginEntryReferences(scrubbedEntry);
         }
 
         return errors;
+    }
+    
+    protected void refreshOriginEntryReferences(OriginEntry originEntry) {
+        Map<String, Class> referenceClasses = persistenceStructureService.listReferenceObjectFields(originEntry.getClass());
+        for (String reference : referenceClasses.keySet()) {
+            if (KFSPropertyConstants.PROJECT.equals(reference)) {
+                if (KFSConstants.getDashProjectCode().equals(originEntry.getProjectCode())) {
+                    originEntry.setProject(null);
+                }
+                else {
+                    persistenceService.retrieveReferenceObject(originEntry, reference);
+                }
+            }
+            else if (KFSPropertyConstants.FINANCIAL_SUB_OBJECT.equals(reference)) {
+                if (KFSConstants.getDashFinancialSubObjectCode().equals(originEntry.getFinancialSubObjectCode())) {
+                    originEntry.setFinancialSubObject(null);
+                }
+                else {
+                    persistenceService.retrieveReferenceObject(originEntry, reference);
+                }                
+            }
+            else if (KFSPropertyConstants.SUB_ACCOUNT.equals(reference)) {
+                if (KFSConstants.getDashSubAccountNumber().equals(originEntry.getSubAccountNumber())) {
+                    originEntry.setSubAccount(null);
+                }
+                else {
+                    persistenceService.retrieveReferenceObject(originEntry, reference);
+                }                
+            }
+            else {
+                persistenceService.retrieveReferenceObject(originEntry, reference);
+            }
+        }
     }
 
     /**
@@ -915,5 +951,9 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
 
     public void setOriginationCodeService(OriginationCodeService ocs) {
         originationCodeService = ocs;
+    }
+
+    public void setPersistenceStructureService(PersistenceStructureService persistenceStructureService) {
+        this.persistenceStructureService = persistenceStructureService;
     }
 }

@@ -31,6 +31,8 @@ import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.budget.BCConstants;
 import org.kuali.module.budget.bo.PendingBudgetConstructionGeneralLedger;
 import org.kuali.module.budget.document.BudgetConstructionDocument;
+import org.kuali.module.budget.service.BenefitsCalculationService;
+import org.kuali.module.budget.service.SalarySettingService;
 
 
 
@@ -372,6 +374,22 @@ public String getReturnFormKey() {
  */
 public void setReturnFormKey(String returnFormKey) {
     this.returnFormKey = returnFormKey;
+}
+
+/**
+ * Gets the benefitsCalculationDisabled attribute. 
+ * @return Returns the benefitsCalculationDisabled.
+ */
+public boolean isBenefitsCalculationDisabled() {
+    return SpringContext.getBean(BenefitsCalculationService.class).getBenefitsCalculationDisabled();
+}
+
+/**
+ * Gets the salarySettingDisabled attribute. 
+ * @return Returns the salarySettingDisabled.
+ */
+public boolean isSalarySettingDisabled() {
+    return SpringContext.getBean(SalarySettingService.class).getSalarySettingDisabled();
 }
 
    

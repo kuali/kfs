@@ -25,6 +25,7 @@ import org.kuali.core.service.PersistenceService;
 import org.kuali.core.web.struts.form.KualiForm;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.budget.bo.BudgetConstructionHeader;
+import org.kuali.module.budget.service.SalarySettingService;
 
 
 /**
@@ -35,7 +36,7 @@ public class BudgetConstructionSelectionForm extends KualiForm {
 
     private BudgetConstructionHeader budgetConstructionHeader;
     private boolean hideDetails = false;
-
+    
     //holds the BC fiscal year that is currently active 
     private Integer universityFiscalYear;
 
@@ -103,6 +104,14 @@ public class BudgetConstructionSelectionForm extends KualiForm {
      */
     public void setHideDetails(boolean hideDetails) {
         this.hideDetails = hideDetails;
+    }
+
+    /**
+     * Gets the salarySettingDisabled attribute. 
+     * @return Returns the salarySettingDisabled.
+     */
+    public boolean isSalarySettingDisabled() {
+        return SpringContext.getBean(SalarySettingService.class).getSalarySettingDisabled();
     }
 
 }

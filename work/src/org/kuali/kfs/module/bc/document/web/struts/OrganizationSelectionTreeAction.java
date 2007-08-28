@@ -16,6 +16,7 @@
 package org.kuali.module.budget.web.struts.action;
 
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Properties;
 
@@ -42,6 +43,7 @@ import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSKeyConstants;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.budget.BCConstants;
+import org.kuali.module.budget.BCConstants.OrgSelControlOption;
 import org.kuali.module.budget.BCConstants.OrgSelOpMode;
 import org.kuali.module.budget.bo.BudgetConstructionOrganizationReports;
 import org.kuali.module.budget.bo.BudgetConstructionPullup;
@@ -233,6 +235,53 @@ public class OrganizationSelectionTreeAction extends KualiAction {
             organizationSelectionTreeForm.populateSelectionSubTreeOrgs();
         }
         
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
+    }
+
+    public ActionForward selectAll (ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        
+        OrganizationSelectionTreeForm organizationSelectionTreeForm = (OrganizationSelectionTreeForm) form;
+        List <BudgetConstructionPullup> selOrgs = organizationSelectionTreeForm.getSelectionSubTreeOrgs();
+        for (int i = 0; i < selOrgs.size(); i++) {
+            selOrgs.get(i).setPullFlag(OrgSelControlOption.YES.getKey());
+        }
+        
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
+    }
+
+    public ActionForward clearAll (ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        
+        OrganizationSelectionTreeForm organizationSelectionTreeForm = (OrganizationSelectionTreeForm) form;
+        List <BudgetConstructionPullup> selOrgs = organizationSelectionTreeForm.getSelectionSubTreeOrgs();
+        for (int i = 0; i < selOrgs.size(); i++) {
+            selOrgs.get(i).setPullFlag(OrgSelControlOption.NO.getKey());
+        }
+        
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
+    }
+
+    public ActionForward performPositionPick (ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        
+
+        OrganizationSelectionTreeForm organizationSelectionTreeForm = (OrganizationSelectionTreeForm) form;
+        BusinessObjectService boService = (BusinessObjectService) SpringContext.getBean(BusinessObjectService.class);
+        
+        // check to see if at least one pullflag is set and store the pullflag settings for selected set of orgs
+        // then call the position pick list tool, otherwise complain to the user
+        boolean fndSel = false;
+        Iterator selOrgsIter = organizationSelectionTreeForm.getSelectionSubTreeOrgs().iterator();
+        while (!fndSel && selOrgsIter.hasNext()){
+            BudgetConstructionPullup selOrg = (BudgetConstructionPullup) selOrgsIter.next();
+            if (selOrg.getPullFlag() > 0){
+                fndSel = true;
+                boService.save(organizationSelectionTreeForm.getSelectionSubTreeOrgs());
+            }
+            
+        }
+        if (!fndSel){
+            GlobalVariables.getErrorMap().putError("selectionSubTreeOrgs","error.budget.orgNotSelected");
+        }
+
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 }

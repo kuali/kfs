@@ -57,6 +57,7 @@ import org.kuali.module.purap.PurapConstants.VendorChoice;
 import org.kuali.module.purap.bo.PurchaseOrderItem;
 import org.kuali.module.purap.bo.PurchaseOrderQuoteStatus;
 import org.kuali.module.purap.bo.PurchaseOrderVendorQuote;
+import org.kuali.module.purap.bo.PurchasingApItem;
 import org.kuali.module.purap.dao.PurchaseOrderDao;
 import org.kuali.module.purap.document.PurchaseOrderDocument;
 import org.kuali.module.purap.document.PurchasingDocumentBase;
@@ -524,6 +525,15 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
         newPurchaseOrderChangeDocument.refreshNonUpdateableReferences();
         newPurchaseOrderChangeDocument.setPurchaseOrderCurrentIndicator(false);
         newPurchaseOrderChangeDocument.setPendingActionIndicator(false);
+        
+        //Need to find a way to make the ManageableArrayList to expand and populating the items and
+        //accounts, otherwise it will complain about the account on item 1 is missing. 
+        for (PurchasingApItem item : (List<PurchasingApItem>)newPurchaseOrderChangeDocument.getItems()) {
+            item.getSourceAccountingLines().iterator();
+            //we only need to do this once to apply to all items, so we can break out of the loop now
+            break;
+        }
+        
         return newPurchaseOrderChangeDocument;
     }
     
@@ -564,6 +574,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
                 if (StringUtils.isNotBlank(newDocumentStatusCode)) {
                     newDocument.setStatusCode(newDocumentStatusCode);
                 }
+                
                 try {
                     documentService.saveDocument(newDocument);
                 }
@@ -576,6 +587,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
                 // if no validation exception was thrown then rules have passed and we are ok to edit the current PO
                 currentDocument.setPendingActionIndicator(true);
                 saveDocumentNoValidationUsingClearErrorMap(currentDocument);
+                
                 return newDocument;
             }
             else {

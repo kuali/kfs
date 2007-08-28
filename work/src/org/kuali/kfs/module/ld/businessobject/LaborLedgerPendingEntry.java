@@ -43,7 +43,7 @@ import org.kuali.module.gl.bo.UniversityDate;
 /**
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  */
-public class LaborLedgerPendingEntry extends GeneralLedgerPendingEntry {
+public class LaborLedgerPendingEntry extends GeneralLedgerPendingEntry implements LaborTransaction{
 
     private String financialSystemOriginationCode;
     private String documentNumber;
@@ -78,7 +78,7 @@ public class LaborLedgerPendingEntry extends GeneralLedgerPendingEntry {
 	private String payrollEndDateFiscalPeriodCode;
 	private String financialDocumentApprovedCode;
 	private String transactionEntryOffsetCode;
-	private Timestamp transactionEntryProcessedTimestamp;
+	private Date transactionEntryProcessedTimestamp;
 	private String emplid;
 	private Integer employeeRecord;
 	private String earnCode;
@@ -817,7 +817,7 @@ public class LaborLedgerPendingEntry extends GeneralLedgerPendingEntry {
 	 * @return Returns the transactionEntryProcessedTimestamp
 	 * 
 	 */
-	public Timestamp getTransactionEntryProcessedTimestamp() { 
+	public Date getTransactionEntryProcessedTimestamp() { 
 		return transactionEntryProcessedTimestamp;
 	}
 
@@ -827,7 +827,7 @@ public class LaborLedgerPendingEntry extends GeneralLedgerPendingEntry {
 	 * @param transactionEntryProcessedTimestamp The transactionEntryProcessedTimestamp to set.
 	 * 
 	 */
-	public void setTransactionEntryProcessedTimestamp(Timestamp transactionEntryProcessedTimestamp) {
+	public void setTransactionEntryProcessedTimestamp(Date transactionEntryProcessedTimestamp) {
 		this.transactionEntryProcessedTimestamp = transactionEntryProcessedTimestamp;
 	}
 

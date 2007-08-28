@@ -30,10 +30,11 @@ import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.TransactionalServiceUtils;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.context.SpringContext;
-import org.kuali.module.gl.bo.Transaction;
 import org.kuali.module.gl.util.OJBUtility;
 import org.kuali.module.labor.LaborConstants;
 import org.kuali.module.labor.bo.EmployeeFunding;
+import org.kuali.module.labor.bo.LaborBalanceSummary;
+import org.kuali.module.labor.bo.LaborTransaction;
 import org.kuali.module.labor.bo.LedgerBalance;
 import org.kuali.module.labor.dao.LaborLedgerBalanceDao;
 import org.kuali.module.labor.service.LaborCalculatedSalaryFoundationTrackerService;
@@ -83,9 +84,9 @@ public class LaborLedgerBalanceServiceImpl implements LaborLedgerBalanceService 
 
     /**
      * @see org.kuali.module.labor.service.LaborLedgerBalanceService#findLedgerBalance(java.util.Collection,
-     *      org.kuali.module.gl.bo.Transaction)
+     *      org.kuali.module.labor.bo.LaborTransaction)
      */
-    public LedgerBalance findLedgerBalance(Collection<LedgerBalance> ledgerBalanceCollection, Transaction transaction) {
+    public LedgerBalance findLedgerBalance(Collection<LedgerBalance> ledgerBalanceCollection, LaborTransaction transaction) {
         for (LedgerBalance ledgerBalance : ledgerBalanceCollection) {
             boolean found = ObjectUtil.compareObject(ledgerBalance, transaction, ledgerBalance.getPrimaryKeyList());
             if (found) {
@@ -96,10 +97,10 @@ public class LaborLedgerBalanceServiceImpl implements LaborLedgerBalanceService 
     }
 
     /**
-     * @see org.kuali.module.labor.service.LaborLedgerBalanceService#updateBalance(org.kuali.module.labor.bo.LedgerBalance,
-     *      org.kuali.module.gl.bo.Transaction)
+     * @see org.kuali.module.labor.service.LaborLedgerBalanceService#updateLedgerBalance(org.kuali.module.labor.bo.LedgerBalance,
+     *      org.kuali.module.labor.bo.LaborTransaction)
      */
-    public void updateLedgerBalance(LedgerBalance ledgerBalance, Transaction transaction) {
+    public void updateLedgerBalance(LedgerBalance ledgerBalance, LaborTransaction transaction) {
         String debitCreditCode = transaction.getTransactionDebitCreditCode();
         KualiDecimal amount = transaction.getTransactionLedgerEntryAmount();
         amount = debitCreditCode.equals(KFSConstants.GL_CREDIT_CODE) ? amount.negated() : amount;
@@ -109,9 +110,9 @@ public class LaborLedgerBalanceServiceImpl implements LaborLedgerBalanceService 
 
     /**
      * @see org.kuali.module.labor.service.LaborLedgerBalanceService#addLedgerBalance(java.util.Collection,
-     *      org.kuali.module.gl.bo.Transaction)
+     *      org.kuali.module.labor.bo.LaborTransaction)
      */
-    public boolean addLedgerBalance(Collection<LedgerBalance> ledgerBalanceCollection, Transaction transaction) {
+    public boolean addLedgerBalance(Collection<LedgerBalance> ledgerBalanceCollection, LaborTransaction transaction) {
         LedgerBalance ledgerBalance = this.findLedgerBalance(ledgerBalanceCollection, transaction);
 
         if (ledgerBalance == null) {
@@ -129,7 +130,7 @@ public class LaborLedgerBalanceServiceImpl implements LaborLedgerBalanceService 
     public List<EmployeeFunding> findEmployeeFunding(Map fieldValues, boolean isConsolidated) {
         List<EmployeeFunding> currentFundsCollection = laborLedgerBalanceDao.findCurrentEmployeeFunds(fieldValues);
         List<EmployeeFunding> encumbranceFundsCollection = laborLedgerBalanceDao.findEncumbranceEmployeeFunds(fieldValues);
-        
+
         // merge encumberance with the current funds
         for (EmployeeFunding encumbranceFunding : encumbranceFundsCollection) {
             KualiDecimal encumbrance = encumbranceFunding.getAccountLineAnnualBalanceAmount().add(encumbranceFunding.getContractsGrantsBeginningBalanceAmount());
@@ -163,15 +164,22 @@ public class LaborLedgerBalanceServiceImpl implements LaborLedgerBalanceService 
             if (CSFTrackersCollection.contains(employeeFunding)) {
                 int index = CSFTrackersCollection.indexOf(employeeFunding);
                 EmployeeFunding CSFTracker = CSFTrackersCollection.get(index);
-                
-                // TODO: make sure if there are multiple csf trackers for a single employee funding 
+
+                // TODO: make sure if there are multiple csf trackers for a single employee funding
                 employeeFunding.setCsfDeleteCode(CSFTracker.getCsfDeleteCode());
                 employeeFunding.setCsfTimePercent(CSFTracker.getCsfTimePercent());
                 employeeFunding.setCsfFundingStatusCode(CSFTracker.getCsfFundingStatusCode());
                 employeeFunding.setCsfAmount(CSFTracker.getCsfAmount());
             }
-        }               
+        }
         return currentFundsCollection;
+    }
+
+    /**
+     * @see org.kuali.module.labor.service.LaborLedgerBalanceService#findBalanceSummary(java.lang.Integer, java.util.Collection)
+     */
+    public List<LaborBalanceSummary> findBalanceSummary(Integer fiscalYear, Collection<String> balanceTypes) {
+        return laborLedgerBalanceDao.findBalanceSummary(fiscalYear, balanceTypes);
     }
 
     // get the person name through employee id
@@ -199,6 +207,7 @@ public class LaborLedgerBalanceServiceImpl implements LaborLedgerBalanceService 
 
     /**
      * Sets the laborCalculatedSalaryFoundationTrackerService attribute value.
+     * 
      * @param laborCalculatedSalaryFoundationTrackerService The laborCalculatedSalaryFoundationTrackerService to set.
      */
     public void setLaborCalculatedSalaryFoundationTrackerService(LaborCalculatedSalaryFoundationTrackerService laborCalculatedSalaryFoundationTrackerService) {

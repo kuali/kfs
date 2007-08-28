@@ -20,7 +20,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.module.gl.bo.Transaction;
+import org.kuali.module.labor.bo.LaborBalanceSummary;
+import org.kuali.module.labor.bo.LaborTransaction;
 import org.kuali.module.labor.bo.EmployeeFunding;
 import org.kuali.module.labor.bo.LedgerBalance;
 
@@ -57,7 +58,7 @@ public interface LaborLedgerBalanceService {
      * @param transaction the given transaction information
      * @return a matching ledger balance from the given ledger balance
      */
-    public LedgerBalance findLedgerBalance(Collection<LedgerBalance> ledgerBalanceCollection, Transaction transaction);
+    public LedgerBalance findLedgerBalance(Collection<LedgerBalance> ledgerBalanceCollection, LaborTransaction transaction);
 
     /**
      * convert the given transaction information into a ledger balance and add it into the given ledger balance collection with
@@ -66,7 +67,7 @@ public interface LaborLedgerBalanceService {
      * @param transaction the given transaction information
      * @return true if the ledger balance has been added; otherwise, false;
      */
-    public boolean addLedgerBalance(Collection<LedgerBalance> ledgerBalanceCollection, Transaction transaction);
+    public boolean addLedgerBalance(Collection<LedgerBalance> ledgerBalanceCollection, LaborTransaction transaction);
 
     /**
      * update the given ledger balance with the given transaction information
@@ -74,7 +75,7 @@ public interface LaborLedgerBalanceService {
      * @param ledgerBalance the given ledger balance
      * @param transaction the given transaction information
      */
-    public void updateLedgerBalance(LedgerBalance ledgerBalance, Transaction transaction);
+    public void updateLedgerBalance(LedgerBalance ledgerBalance, LaborTransaction transaction);
 
     /**
      * find the funding by employee
@@ -91,4 +92,12 @@ public interface LaborLedgerBalanceService {
      * @return the employee funding with the corresponding CSF trakers
      */
     public List<EmployeeFunding> findEmployeeFundingWithCSFTracker(Map fieldValues, boolean isConsolidated);
+    
+    /**
+     * find the summary of the ledger balances for the given fiscal year and balance types
+     * @param fiscalYear the given fiscal year
+     * @param balanceTypes the given balance type codes
+     * @return the ledger balances for the given fiscal year and balance types
+     */
+    public List<LaborBalanceSummary> findBalanceSummary(Integer fiscalYear, Collection<String> balanceTypes);
 }

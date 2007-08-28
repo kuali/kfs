@@ -189,4 +189,14 @@ public class ConsolidationUtil {
         balance1.setMonth12Amount(balance1.getMonth12Amount().add(balance2.getMonth12Amount()));
         balance1.setMonth13Amount(balance1.getMonth13Amount().add(balance2.getMonth13Amount()));
     }
+    
+    /**
+     * wrap the attribute name based on the given flag: isAttributeNameNeeded
+     * @param attributeName the given attribute name
+     * @param isAttributeNameNeeded the flag that indicates if the attribute name needs to be wrapped with consolidation 
+     * @return the attribute name as it is if isAttributeNameNeeded is true; otherwise, the attribute name wrapped with consolidation string
+     */
+    public static String wrapAttributeName(String attributeName, boolean isAttributeNameNeeded){
+        return isAttributeNameNeeded ? attributeName : ConsolidationUtil.sum(attributeName);
+    }
 }

@@ -15,11 +15,13 @@
  */
 package org.kuali.module.labor.dao;
 
+import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
 import org.kuali.module.labor.bo.EmployeeFunding;
+import org.kuali.module.labor.bo.LaborBalanceSummary;
 import org.kuali.module.labor.bo.LedgerBalance;
 
 public interface LaborLedgerBalanceDao {
@@ -75,4 +77,12 @@ public interface LaborLedgerBalanceDao {
      * @return the encumbrance funds according to the given field values
      */
     public List<EmployeeFunding> findEncumbranceEmployeeFunds(Map fieldValues);
+
+    /**
+     * find the summary of the ledger balances for the given fiscal year and balance types
+     * @param fiscalYear the given fiscal year
+     * @param balanceTypes the given balance type codes
+     * @return the ledger balances for the given fiscal year and balance types
+     */
+    public List<LaborBalanceSummary> findBalanceSummary(Integer fiscalYear, Collection<String> balanceTypes);
 }

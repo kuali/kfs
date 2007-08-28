@@ -15,6 +15,8 @@
  */
 package org.kuali.module.labor.service;
 
+import java.sql.Date;
+
 /**
  * The interface gives clients entry point to consume poster services. It is designed for a batch process only. 
  */
@@ -23,4 +25,16 @@ public interface LaborPosterService {
      * Post the eligible entries into Ledger tables
      */
     public void postMainEntries();
+    
+    /**
+     * Generate the summary reports for the actual, budget and encumbrance balances
+     */
+    public void generateBalanceSummaryReports();
+    
+    /**
+     * generate a set of balance summary reports for actual, budget and encumbrance balances
+     * 
+     * @param runDate the data when the report generation starts
+     */
+    public void generateBalanceSummaryReports(Date runDate);
 }

@@ -52,6 +52,7 @@ import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.module.gl.util.OJBUtility;
 import org.kuali.module.labor.LaborConstants;
 import org.kuali.module.labor.bo.EmployeeFunding;
+import org.kuali.module.labor.bo.LaborBalanceSummary;
 import org.kuali.module.labor.bo.LedgerBalance;
 import org.kuali.module.labor.dao.LaborLedgerBalanceDao;
 import org.kuali.module.labor.util.ConsolidationUtil;
@@ -230,6 +231,24 @@ public class LaborLedgerBalanceDaoOjb extends PlatformAwareDaoBaseOjb implements
         return currentFundsCollection;
     }
 
+    /**
+     * @see org.kuali.module.labor.dao.LaborLedgerBalanceDao#findBalanceSummary(java.lang.Integer, java.util.Collection)
+     */
+    public List<LaborBalanceSummary> findBalanceSummary(Integer fiscalYear, Collection<String> balanceTypes) {
+        LOG.debug("Start findBalanceSummary()");
+
+        Criteria criteria = new Criteria();
+        criteria.addEqualTo(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, fiscalYear);
+        criteria.addIn(KFSPropertyConstants.FINANCIAL_BALANCE_TYPE_CODE, balanceTypes);
+
+        Iterator<Object[]> queryResults = this.findBalanceSummaryRawData(criteria);
+        List<LaborBalanceSummary> balanceSummaryCollection = new ArrayList<LaborBalanceSummary>();
+        while (queryResults != null && queryResults.hasNext()) {
+            balanceSummaryCollection.add(this.marshalFundsAsLaborBalanceSummary(queryResults.next()));
+        }
+        return balanceSummaryCollection;
+    }
+
     // get the current funds according to the given criteria
     private Iterator<Object[]> findCurrentFundsRawData(Map fieldValues) {
         Criteria criteria = OJBUtility.buildCriteriaFromMap(fieldValues, new LedgerBalance());
@@ -262,8 +281,24 @@ public class LaborLedgerBalanceDaoOjb extends PlatformAwareDaoBaseOjb implements
         List<String> getAttributeList = getAttributeListForFundingInquiry(false);
         String[] attributes = (String[]) getAttributeList.toArray(new String[getAttributeList.size()]);
         query.setAttributes(attributes);
-        
-        OJBUtility.limitResultSize(query);        
+
+        OJBUtility.limitResultSize(query);
+        return getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(query);
+    }
+
+    // get the balance summary based on the given criteria
+    private Iterator<Object[]> findBalanceSummaryRawData(Criteria criteria) {
+        ReportQueryByCriteria query = QueryFactory.newReportQuery(LedgerBalance.class, criteria);
+
+        List<String> groupByList = this.getGroupByListForBalanceSummary();
+        String[] groupBy = (String[]) groupByList.toArray(new String[groupByList.size()]);
+        query.addGroupBy(groupBy);
+
+        List<String> getAttributeList = this.getAttributeListForBalanceSummary(false);
+        String[] attributes = (String[]) getAttributeList.toArray(new String[getAttributeList.size()]);
+        query.setAttributes(attributes);
+
+        query.addOrderByAscending(groupByList.get(0));
         return getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(query);
     }
 
@@ -285,6 +320,11 @@ public class LaborLedgerBalanceDaoOjb extends PlatformAwareDaoBaseOjb implements
         return employeeFunding;
     }
 
+    // marshal into AccountStatusBaseFunds from the query result
+    private LaborBalanceSummary marshalFundsAsLaborBalanceSummary(Object[] queryResult) {
+        return new LaborBalanceSummary(queryResult);
+    }
+
     // define the attribute list that can be used to group the search results
     private List<String> getGroupByListForFundingInquiry() {
         List<String> groupByList = new ArrayList<String>();
@@ -302,17 +342,38 @@ public class LaborLedgerBalanceDaoOjb extends PlatformAwareDaoBaseOjb implements
     // define the return attribute list for funding query
     private List<String> getAttributeListForFundingInquiry(boolean isAttributeNameNeeded) {
         List<String> attributeList = getGroupByListForFundingInquiry();
+        attributeList.add(ConsolidationUtil.wrapAttributeName(KFSPropertyConstants.ACCOUNTING_LINE_ANNUAL_BALANCE_AMOUNT, isAttributeNameNeeded));
+        attributeList.add(ConsolidationUtil.wrapAttributeName(KFSPropertyConstants.FINANCIAL_BEGINNING_BALANCE_LINE_AMOUNT, isAttributeNameNeeded));
+        attributeList.add(ConsolidationUtil.wrapAttributeName(KFSPropertyConstants.CONTRACTS_GRANTS_BEGINNING_BALANCE_AMOUNT, isAttributeNameNeeded));
+        return attributeList;
+    }
 
-        if (!isAttributeNameNeeded) {
-            attributeList.add(ConsolidationUtil.sum(KFSPropertyConstants.ACCOUNTING_LINE_ANNUAL_BALANCE_AMOUNT));
-            attributeList.add(ConsolidationUtil.sum(KFSPropertyConstants.FINANCIAL_BEGINNING_BALANCE_LINE_AMOUNT));
-            attributeList.add(ConsolidationUtil.sum(KFSPropertyConstants.CONTRACTS_GRANTS_BEGINNING_BALANCE_AMOUNT));
-        }
-        else {
-            attributeList.add(KFSPropertyConstants.ACCOUNTING_LINE_ANNUAL_BALANCE_AMOUNT);
-            attributeList.add(KFSPropertyConstants.FINANCIAL_BEGINNING_BALANCE_LINE_AMOUNT);
-            attributeList.add(KFSPropertyConstants.CONTRACTS_GRANTS_BEGINNING_BALANCE_AMOUNT);
-        }
+    // define the attribute list that can be used to group the search results
+    private List<String> getGroupByListForBalanceSummary() {
+        List<String> groupByList = new ArrayList<String>();
+        groupByList.add("account.subFundGroup.fundGroupCode");
+        return groupByList;
+    }
+
+    // define the return attribute list for balance summary
+    private List<String> getAttributeListForBalanceSummary(boolean isAttributeNameNeeded) {
+        List<String> attributeList = getGroupByListForBalanceSummary();
+        attributeList.add(ConsolidationUtil.wrapAttributeName(KFSPropertyConstants.ACCOUNTING_LINE_ANNUAL_BALANCE_AMOUNT, isAttributeNameNeeded));
+        attributeList.add(ConsolidationUtil.wrapAttributeName(KFSPropertyConstants.FINANCIAL_BEGINNING_BALANCE_LINE_AMOUNT, isAttributeNameNeeded));
+        attributeList.add(ConsolidationUtil.wrapAttributeName(KFSPropertyConstants.CONTRACTS_GRANTS_BEGINNING_BALANCE_AMOUNT, isAttributeNameNeeded));
+        attributeList.add(ConsolidationUtil.wrapAttributeName(KFSPropertyConstants.MONTH1_AMOUNT, isAttributeNameNeeded));
+        attributeList.add(ConsolidationUtil.wrapAttributeName(KFSPropertyConstants.MONTH2_AMOUNT, isAttributeNameNeeded));
+        attributeList.add(ConsolidationUtil.wrapAttributeName(KFSPropertyConstants.MONTH3_AMOUNT, isAttributeNameNeeded));
+        attributeList.add(ConsolidationUtil.wrapAttributeName(KFSPropertyConstants.MONTH4_AMOUNT, isAttributeNameNeeded));
+        attributeList.add(ConsolidationUtil.wrapAttributeName(KFSPropertyConstants.MONTH5_AMOUNT, isAttributeNameNeeded));
+        attributeList.add(ConsolidationUtil.wrapAttributeName(KFSPropertyConstants.MONTH6_AMOUNT, isAttributeNameNeeded));
+        attributeList.add(ConsolidationUtil.wrapAttributeName(KFSPropertyConstants.MONTH7_AMOUNT, isAttributeNameNeeded));
+        attributeList.add(ConsolidationUtil.wrapAttributeName(KFSPropertyConstants.MONTH8_AMOUNT, isAttributeNameNeeded));
+        attributeList.add(ConsolidationUtil.wrapAttributeName(KFSPropertyConstants.MONTH9_AMOUNT, isAttributeNameNeeded));
+        attributeList.add(ConsolidationUtil.wrapAttributeName(KFSPropertyConstants.MONTH10_AMOUNT, isAttributeNameNeeded));
+        attributeList.add(ConsolidationUtil.wrapAttributeName(KFSPropertyConstants.MONTH11_AMOUNT, isAttributeNameNeeded));
+        attributeList.add(ConsolidationUtil.wrapAttributeName(KFSPropertyConstants.MONTH12_AMOUNT, isAttributeNameNeeded));
+        attributeList.add(ConsolidationUtil.wrapAttributeName(KFSPropertyConstants.MONTH13_AMOUNT, isAttributeNameNeeded));
         return attributeList;
     }
 

@@ -20,9 +20,9 @@ import java.util.Properties;
 
 import org.kuali.kfs.context.KualiTestBase;
 import org.kuali.kfs.context.SpringContext;
-import org.kuali.module.gl.bo.Transaction;
 import org.kuali.module.gl.web.TestDataGenerator;
 import org.kuali.module.labor.bo.LaborOriginEntry;
+import org.kuali.module.labor.bo.LaborTransaction;
 import org.kuali.module.labor.bo.LedgerBalance;
 import org.kuali.module.labor.util.TestDataPreparator;
 import org.kuali.test.ConfigureContext;
@@ -48,77 +48,77 @@ public class LaborLedgerBalanceServiceTest extends KualiTestBase {
         laborLedgerBalanceService = SpringContext.getBean(LaborLedgerBalanceService.class);
     }
 
-    public void testFindLedgerBalance_Found() throws Exception{
+    public void testFindLedgerBalance_Found() throws Exception {
         String testTarget = "findLedgerBalance.";
         int numberOfLedgerBalance = Integer.valueOf(properties.getProperty(testTarget + "numOfLedgerBalance"));
         int numberOfTransaction = Integer.valueOf(properties.getProperty(testTarget + "numOfTransaction"));
 
-        List ledgerBalanceList = TestDataPreparator.buildTestDataList(LedgerBalance.class, properties, testTarget + "ledgerBalance", numberOfLedgerBalance);        
-        List transactionList = TestDataPreparator.buildTestDataList(LaborOriginEntry.class, properties, testTarget + "transaction", transactionFieldNames, deliminator, numberOfTransaction);        
-        for (Object transaction : transactionList) {
-            assertNotNull(laborLedgerBalanceService.findLedgerBalance(ledgerBalanceList, (Transaction)transaction));
+        List ledgerBalanceList = TestDataPreparator.buildTestDataList(LedgerBalance.class, properties, testTarget + "ledgerBalance", numberOfLedgerBalance);
+        List<LaborTransaction> transactionList = TestDataPreparator.buildTestDataList(LaborOriginEntry.class, properties, testTarget + "transaction", transactionFieldNames, deliminator, numberOfTransaction);
+        for (LaborTransaction transaction : transactionList) {
+            assertNotNull(laborLedgerBalanceService.findLedgerBalance(ledgerBalanceList, transaction));
         }
     }
-    
-    public void testFindLedgerBalance_NotFound() throws Exception{
+
+    public void testFindLedgerBalance_NotFound() throws Exception {
         String testTarget = "findLedgerBalance.";
         int numberOfLedgerBalance = Integer.valueOf(properties.getProperty(testTarget + "numOfLedgerBalance"));
         int numberOfTransaction = Integer.valueOf(properties.getProperty(testTarget + "numOfNotFoundTransaction"));
 
-        List ledgerBalanceList = TestDataPreparator.buildTestDataList(LedgerBalance.class, properties, testTarget + "ledgerBalance", numberOfLedgerBalance);        
-        List transactionList = TestDataPreparator.buildTestDataList(LaborOriginEntry.class, properties, testTarget + "notFoundTransaction", transactionFieldNames, deliminator, numberOfTransaction);        
-        for (Object transaction : transactionList) {
-            assertNull(laborLedgerBalanceService.findLedgerBalance(ledgerBalanceList, (Transaction)transaction));
+        List ledgerBalanceList = TestDataPreparator.buildTestDataList(LedgerBalance.class, properties, testTarget + "ledgerBalance", numberOfLedgerBalance);
+        List<LaborTransaction> transactionList = TestDataPreparator.buildTestDataList(LaborOriginEntry.class, properties, testTarget + "notFoundTransaction", transactionFieldNames, deliminator, numberOfTransaction);
+        for (LaborTransaction transaction : transactionList) {
+            assertNull(laborLedgerBalanceService.findLedgerBalance(ledgerBalanceList, transaction));
         }
     }
-    
-    public void testAddLedgerBalance_New() throws Exception{
+
+    public void testAddLedgerBalance_New() throws Exception {
         String testTarget = "addLedgerBalance.";
         int numberOfLedgerBalance = Integer.valueOf(properties.getProperty(testTarget + "numOfLedgerBalance"));
         int numberOfTransaction = Integer.valueOf(properties.getProperty(testTarget + "numOfNewTransaction"));
 
-        List ledgerBalanceList = TestDataPreparator.buildTestDataList(LedgerBalance.class, properties, testTarget + "ledgerBalance", numberOfLedgerBalance);        
-        List transactionList = TestDataPreparator.buildTestDataList(LaborOriginEntry.class, properties, testTarget + "newTransaction", transactionFieldNames, deliminator, numberOfTransaction);
-        for(Object transaction : transactionList){
-            laborLedgerBalanceService.addLedgerBalance(ledgerBalanceList, (Transaction)transaction);
+        List ledgerBalanceList = TestDataPreparator.buildTestDataList(LedgerBalance.class, properties, testTarget + "ledgerBalance", numberOfLedgerBalance);
+        List<LaborTransaction> transactionList = TestDataPreparator.buildTestDataList(LaborOriginEntry.class, properties, testTarget + "newTransaction", transactionFieldNames, deliminator, numberOfTransaction);
+        for (LaborTransaction transaction : transactionList) {
+            laborLedgerBalanceService.addLedgerBalance(ledgerBalanceList, transaction);
         }
-        
+
         int expectedNumberOfBalances = numberOfLedgerBalance + numberOfTransaction;
         assertEquals(expectedNumberOfBalances, ledgerBalanceList.size());
     }
-   
-    public void testAddLedgerBalance_Existing() throws Exception{
+
+    public void testAddLedgerBalance_Existing() throws Exception {
         String testTarget = "addLedgerBalance.";
         int numberOfLedgerBalance = Integer.valueOf(properties.getProperty(testTarget + "numOfLedgerBalance"));
         int numberOfTransaction = Integer.valueOf(properties.getProperty(testTarget + "numOfExistingTransaction"));
 
-        List ledgerBalanceList = TestDataPreparator.buildTestDataList(LedgerBalance.class, properties, testTarget + "ledgerBalance", numberOfLedgerBalance);        
-        List transactionList = TestDataPreparator.buildTestDataList(LaborOriginEntry.class, properties, testTarget + "existingTransaction", transactionFieldNames, deliminator, numberOfTransaction);
-        for(Object transaction : transactionList){
-            laborLedgerBalanceService.addLedgerBalance(ledgerBalanceList, (Transaction)transaction);
+        List ledgerBalanceList = TestDataPreparator.buildTestDataList(LedgerBalance.class, properties, testTarget + "ledgerBalance", numberOfLedgerBalance);
+        List<LaborTransaction> transactionList = TestDataPreparator.buildTestDataList(LaborOriginEntry.class, properties, testTarget + "existingTransaction", transactionFieldNames, deliminator, numberOfTransaction);
+        for (LaborTransaction transaction : transactionList) {
+            laborLedgerBalanceService.addLedgerBalance(ledgerBalanceList, transaction);
         }
-        
+
         int expectedNumberOfBalances = numberOfLedgerBalance;
         assertEquals(expectedNumberOfBalances, ledgerBalanceList.size());
     }
-    
-    public void testUpdateLedgerBalance() throws Exception{
+
+    public void testUpdateLedgerBalance() throws Exception {
         String testTarget = "updateLedgerBalance.";
         int numberOfLedgerBalance = Integer.valueOf(properties.getProperty(testTarget + "numOfLedgerBalance"));
         int numberOfTransaction = Integer.valueOf(properties.getProperty(testTarget + "numOfTransaction"));
         int numberOfExpected = Integer.valueOf(properties.getProperty(testTarget + "numOfExpected"));
 
-        List ledgerBalanceList = TestDataPreparator.buildTestDataList(LedgerBalance.class, properties, testTarget + "ledgerBalance", numberOfLedgerBalance);        
-        List transactionList = TestDataPreparator.buildTestDataList(LaborOriginEntry.class, properties, testTarget + "transaction", transactionFieldNames, deliminator, numberOfTransaction);
-        for(Object transaction : transactionList){
-            LedgerBalance ledgerBalance = laborLedgerBalanceService.findLedgerBalance(ledgerBalanceList, (Transaction)transaction);
-            if(ledgerBalance != null){
-                laborLedgerBalanceService.updateLedgerBalance(ledgerBalance, (Transaction)transaction);
+        List ledgerBalanceList = TestDataPreparator.buildTestDataList(LedgerBalance.class, properties, testTarget + "ledgerBalance", numberOfLedgerBalance);
+        List<LaborTransaction> transactionList = TestDataPreparator.buildTestDataList(LaborOriginEntry.class, properties, testTarget + "transaction", transactionFieldNames, deliminator, numberOfTransaction);
+        for (LaborTransaction transaction : transactionList) {
+            LedgerBalance ledgerBalance = laborLedgerBalanceService.findLedgerBalance(ledgerBalanceList, transaction);
+            if (ledgerBalance != null) {
+                laborLedgerBalanceService.updateLedgerBalance(ledgerBalance, transaction);
             }
         }
-        
+
         List<LaborOriginEntry> expectedList = TestDataPreparator.buildTestDataList(LaborOriginEntry.class, properties, testTarget + "expected", transactionFieldNames, deliminator, numberOfExpected);
-        for(LaborOriginEntry expected : expectedList){
+        for (LaborOriginEntry expected : expectedList) {
             LedgerBalance ledgerBalance = laborLedgerBalanceService.findLedgerBalance(ledgerBalanceList, expected);
             assertNotNull(ledgerBalance);
             ledgerBalance.getMonth1Amount().equals(expected.getTransactionLedgerEntryAmount());

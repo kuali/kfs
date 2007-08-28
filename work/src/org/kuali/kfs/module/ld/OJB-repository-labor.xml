@@ -1262,7 +1262,7 @@
 	<field-descriptor name="payrollEndDateFiscalPeriodCode" column="PYRL_DT_FSCLPRD_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="financialDocumentApprovedCode" column="FDOC_APPROVED_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="transactionEntryOffsetCode" column="TRN_ENTR_OFST_CD" jdbc-type="VARCHAR"/>
-	<field-descriptor name="transactionEntryProcessedTimestamp" column="TRNENTR_PROCESS_TM" jdbc-type="TIMESTAMP"/>
+	<field-descriptor name="transactionEntryProcessedTimestamp" column="TRNENTR_PROCESS_TM" jdbc-type="DATE"/>
 	<field-descriptor name="emplid" column="EMPLID" jdbc-type="VARCHAR"/>
 	<field-descriptor name="employeeRecord" column="EMPL_RCD" jdbc-type="INTEGER"/>
 	<field-descriptor name="earnCode" column="ERNCD" jdbc-type="VARCHAR"/>

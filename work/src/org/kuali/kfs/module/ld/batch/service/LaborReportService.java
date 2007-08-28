@@ -20,6 +20,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+import org.kuali.kfs.bo.Options;
 import org.kuali.module.gl.bo.OriginEntryGroup;
 import org.kuali.module.gl.bo.Transaction;
 import org.kuali.module.gl.service.impl.scrubber.DemergerReportData;
@@ -104,6 +105,28 @@ public interface LaborReportService {
      * @param runDate the datetime of the repor generation
      */
     public void generateOutputSummaryReport(OriginEntryGroup group, ReportRegistry reportInfo, String reportsDirectory, Date runDate);
+    
+    /**
+     * Generate the balance summary report with the given information in the monthly level
+     * 
+     * @param fiscalYear the given fiscal year
+     * @param balanceTypes the given balance type codes
+     * @param reportInfo the primary elements of a report, such as report title and report file name
+     * @param reportsDirectory the directory in file system that is used to contain reports
+     * @param runDate the datetime of the repor generation
+     */
+    public void generateMonthlyBalanceSummaryReport(Integer fiscalYear, List<String> balanceTypes, ReportRegistry reportInfo, String reportsDirectory, Date runDate);
+    
+    /**
+     * Generate the balance summary report with the given information in a simple format
+     * 
+     * @param fiscalYear the given fiscal year
+     * @param balanceTypes the given balance type codes
+     * @param reportInfo the primary elements of a report, such as report title and report file name
+     * @param reportsDirectory the directory in file system that is used to contain reports
+     * @param runDate the datetime of the repor generation
+     */
+    public void generateBalanceSummaryReport(Integer fiscalYear, List<String> balanceTypes, ReportRegistry reportInfo, String reportsDirectory, Date runDate);
     
     //LLCP reports
     public void generateCorrectionOnlineReport(LaborCorrectionDocument cDocument, String reportsDirectory, Date runDate);

@@ -18,30 +18,20 @@ package org.kuali.module.labor.batch;
 import org.kuali.kfs.batch.AbstractStep;
 import org.kuali.module.labor.service.LaborPosterService;
 
-/**
- * This class defines the batch step for labor poster
- */
-public class LaborPosterStep extends AbstractStep {
-    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(LaborPosterStep.class);
+public class LaborBalanceSummaryStep extends AbstractStep {
+    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(LaborBalanceSummaryStep.class);
     private LaborPosterService laborPosterService;
 
     /**
-     * @see org.kuali.kfs.batch.Step#execute()
+     * @see org.kuali.kfs.batch.Step#execute(java.lang.String)
      */
-    public boolean execute(String jobName) {
-        try {
-            laborPosterService.postMainEntries();
-        }
-        catch (Exception e) {
-            LOG.fatal(e);
-            return false;
-        }
+    public boolean execute(String jobName) throws InterruptedException {
+        laborPosterService.generateBalanceSummaryReports();
         return true;
     }
 
     /**
      * Sets the laborPosterService attribute value.
-     * 
      * @param laborPosterService The laborPosterService to set.
      */
     public void setLaborPosterService(LaborPosterService laborPosterService) {

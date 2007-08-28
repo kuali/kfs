@@ -25,12 +25,14 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import org.kuali.module.gl.bo.GlSummary;
 import org.kuali.module.gl.bo.OriginEntryGroup;
 import org.kuali.module.gl.bo.Transaction;
 import org.kuali.module.gl.service.OriginEntryGroupService;
-import org.kuali.module.gl.service.impl.ReportServiceImpl;
 import org.kuali.module.gl.service.impl.scrubber.DemergerReportData;
 import org.kuali.module.gl.service.impl.scrubber.ScrubberReportData;
+import org.kuali.module.gl.util.BalanceEncumbranceReport;
+import org.kuali.module.gl.util.BalanceReport;
 import org.kuali.module.gl.util.LedgerEntryHolder;
 import org.kuali.module.gl.util.LedgerReport;
 import org.kuali.module.gl.util.Message;
@@ -39,9 +41,11 @@ import org.kuali.module.gl.util.PosterOutputSummaryReport;
 import org.kuali.module.gl.util.Summary;
 import org.kuali.module.gl.util.TransactionListingReport;
 import org.kuali.module.gl.util.TransactionReport;
+import org.kuali.module.labor.bo.LaborBalanceSummary;
 import org.kuali.module.labor.document.LaborCorrectionDocument;
 import org.kuali.module.labor.report.LaborCorrectionOnlineReport;
 import org.kuali.module.labor.report.TransactionSummaryReport;
+import org.kuali.module.labor.service.LaborLedgerBalanceService;
 import org.kuali.module.labor.service.LaborOriginEntryService;
 import org.kuali.module.labor.service.LaborReportService;
 import org.kuali.module.labor.util.ReportRegistry;
@@ -52,16 +56,19 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Transactional
 public class LaborReportServiceImpl implements LaborReportService {
-    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ReportServiceImpl.class);
+    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(LaborReportServiceImpl.class);
 
     private LaborOriginEntryService laborOriginEntryService;
     private OriginEntryGroupService originEntryGroupService;
+    private LaborLedgerBalanceService laborLedgerBalanceService;
 
     /**
      * @see org.kuali.module.labor.service.LaborReportService#generateInputSummaryReport(java.util.Collection,
      *      org.kuali.module.labor.util.ReportRegistry, java.lang.String, java.util.Date)
      */
     public void generateInputSummaryReport(Collection<OriginEntryGroup> groups, ReportRegistry reportInfo, String reportsDirectory, Date runDate) {
+        LOG.info("generateInputSummaryReport() started");
+        
         LedgerEntryHolder ledgerEntries;
         ledgerEntries = groups.size() > 0 ? laborOriginEntryService.getSummariedEntriesByGroups(groups) : new LedgerEntryHolder();
 
@@ -74,6 +81,8 @@ public class LaborReportServiceImpl implements LaborReportService {
      *      org.kuali.module.labor.util.ReportRegistry, java.lang.String, java.util.Date)
      */
     public void generateInputSummaryReport(OriginEntryGroup group, ReportRegistry reportInfo, String reportsDirectory, Date runDate) {
+        LOG.info("generateInputSummaryReport() started");
+        
         List<OriginEntryGroup> groups = new ArrayList<OriginEntryGroup>();
         groups.add(group);
 
@@ -85,6 +94,8 @@ public class LaborReportServiceImpl implements LaborReportService {
      *      org.kuali.module.labor.util.ReportRegistry, java.lang.String, java.util.Date)
      */
     public void generateErrorTransactionListing(OriginEntryGroup group, ReportRegistry reportInfo, String reportsDirectory, Date runDate) {
+        LOG.info("generateErrorTransactionListing() started");
+        
         Iterator entries = laborOriginEntryService.getEntriesByGroup(group);
         TransactionListingReport transactionListingReport = new TransactionListingReport();
         transactionListingReport.generateReport(entries, runDate, reportInfo.reportTitle(), reportInfo.reportFilename(), reportsDirectory);
@@ -95,6 +106,8 @@ public class LaborReportServiceImpl implements LaborReportService {
      *      org.kuali.module.labor.util.ReportRegistry, java.lang.String, java.util.Date)
      */
     public void generateStatisticsReport(List<Summary> reportSummary, Map<Transaction, List<Message>> errors, ReportRegistry reportInfo, String reportsDirectory, Date runDate) {
+        LOG.info("generateStatisticsReport() started");
+        
         TransactionReport transactionReport = new TransactionReport();
         transactionReport.generateReport(errors, reportSummary, runDate, reportInfo.reportTitle(), reportInfo.reportFilename(), reportsDirectory);
     }
@@ -104,6 +117,8 @@ public class LaborReportServiceImpl implements LaborReportService {
      *      org.kuali.module.labor.util.ReportRegistry, java.lang.String, java.util.Date)
      */
     public void generateStatisticsReport(List<String> reportSummary, ReportRegistry reportInfo, String reportsDirectory, Date runDate) {
+        LOG.info("generateStatisticsReport() started");
+        
         TransactionSummaryReport transactionSummaryReport = new TransactionSummaryReport();
         transactionSummaryReport.generateReport(reportSummary, runDate, reportInfo.reportTitle(), reportInfo.reportFilename(), reportsDirectory);
     }
@@ -113,6 +128,8 @@ public class LaborReportServiceImpl implements LaborReportService {
      *      org.kuali.module.labor.util.ReportRegistry, java.lang.String, java.util.Date)
      */
     public void generateOutputSummaryReport(Collection<OriginEntryGroup> groups, ReportRegistry reportInfo, String reportsDirectory, Date runDate) {
+        LOG.info("generateOutputSummaryReport() started");
+        
         PosterOutputSummaryReport posterOutputSummaryReport = new PosterOutputSummaryReport();
         Map<String, PosterOutputSummaryEntry> posterOutputSummary = laborOriginEntryService.getPosterOutputSummaryByGroups(groups);
         posterOutputSummaryReport.generateReport(posterOutputSummary, runDate, reportInfo.reportTitle(), reportInfo.reportFilename(), reportsDirectory);
@@ -123,9 +140,41 @@ public class LaborReportServiceImpl implements LaborReportService {
      *      org.kuali.module.labor.util.ReportRegistry, java.lang.String, java.util.Date)
      */
     public void generateOutputSummaryReport(OriginEntryGroup group, ReportRegistry reportInfo, String reportsDirectory, Date runDate) {
+        LOG.info("generateOutputSummaryReport() started");
+        
         List<OriginEntryGroup> groups = new ArrayList<OriginEntryGroup>();
         groups.add(group);
         this.generateOutputSummaryReport(groups, reportInfo, reportsDirectory, runDate);
+    }
+
+    /**
+     * @see org.kuali.module.labor.service.LaborReportService#generateMonthlyBalanceSummaryReport(java.lang.Integer, java.util.List,
+     *      org.kuali.module.labor.util.ReportRegistry, java.lang.String, java.util.Date)
+     */
+    public void generateMonthlyBalanceSummaryReport(Integer fiscalYear, List<String> balanceTypes, ReportRegistry reportInfo, String reportsDirectory, Date runDate) {
+        LOG.info("generateMonthlyBalanceSummaryReport() started");
+        
+        List<LaborBalanceSummary> balanceSummary = laborLedgerBalanceService.findBalanceSummary(fiscalYear, balanceTypes);
+        List<GlSummary> summary = new ArrayList<GlSummary>(balanceSummary);
+        
+        BalanceReport report = new BalanceReport();
+        String filePrefix = reportInfo.reportFilename() + "_" + fiscalYear;
+        report.generateReport(runDate, summary, fiscalYear.toString(), balanceTypes, filePrefix, reportsDirectory);
+    }
+
+    /**
+     * @see org.kuali.module.labor.service.LaborReportService#generateBalanceSummaryReport(java.lang.Integer, java.util.List,
+     *      org.kuali.module.labor.util.ReportRegistry, java.lang.String, java.util.Date)
+     */
+    public void generateBalanceSummaryReport(Integer fiscalYear, List<String> balanceTypes, ReportRegistry reportInfo, String reportsDirectory, Date runDate) {
+        LOG.info("generateBalanceSummaryReport() started");
+        
+        List<LaborBalanceSummary> balanceSummary = laborLedgerBalanceService.findBalanceSummary(fiscalYear, balanceTypes);
+        List<GlSummary> summary = new ArrayList<GlSummary>(balanceSummary);
+
+        BalanceEncumbranceReport report = new BalanceEncumbranceReport();
+        String filePrefix = reportInfo.reportFilename() + "_" + fiscalYear;
+        report.generateReport(runDate, summary, fiscalYear.toString(), balanceTypes, filePrefix, reportsDirectory);
     }
 
     /**
@@ -329,5 +378,14 @@ public class LaborReportServiceImpl implements LaborReportService {
         reportSummary.add(new Summary(4, "DEMERGER VALID TRANSACTIONS SAVED", new Integer(demergerReport.getValidTransactionsSaved())));
 
         return reportSummary;
+    }
+
+    /**
+     * Sets the laborLedgerBalanceService attribute value.
+     * 
+     * @param laborLedgerBalanceService The laborLedgerBalanceService to set.
+     */
+    public void setLaborLedgerBalanceService(LaborLedgerBalanceService laborLedgerBalanceService) {
+        this.laborLedgerBalanceService = laborLedgerBalanceService;
     }
 }

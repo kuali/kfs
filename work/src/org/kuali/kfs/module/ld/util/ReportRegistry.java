@@ -32,6 +32,10 @@ public enum ReportRegistry {
     LABOR_POSTER_GL_SUMMARY("labor_poster_gl_summary", "Poster Labor General Ledger Summary"),
     LABOR_POSTER_GL_SUMMARY_INPUT("labor_poster_gl_summary_ledger", "GL Summary Input Transactions"),
     
+    LABOR_ACTUAL_BALANCE_SUMMARY("labor_summary_act", "Labor Actual Balance Summary"),
+    LABOR_BUDGET_BALANCE_SUMMARY("labor_summary_bud", "Labor Budget Balance Summary"),
+    LABOR_ENCUMBRANCE_SUMMARY("labor_summary_enc", "Labor Encumbrance Summary"),
+    
     LABOR_YEAR_END_OUTPUT("labor_year_end_output", "Year-End Output Summary"),
     LABOR_YEAR_END_STATISTICS("labor_year_end_main", "Ledger Report"),
     

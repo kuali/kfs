@@ -26,16 +26,8 @@ public abstract class AccountsPayableItemBase extends PurApItemBase implements A
     private KualiDecimal extendedPrice;
     
     /**
-     * NOTE: this may not be needed
-     * @deprecated
-     * @see org.kuali.module.purap.bo.PurchasingApItem#isConsideredEmpty()
-     */
-    public boolean isConsideredEmpty() {
-        // TODO delyea/Chris - IMPLEMENT ME
-        return false;
-    }
-    
-    /**
+     * Method defaults to {@link #isConsideredEnteredWithZero()}
+     * 
      * @see org.kuali.module.purap.bo.PurchasingApItem#isConsideredEntered()
      */
     public boolean isConsideredEntered() {
@@ -46,11 +38,11 @@ public abstract class AccountsPayableItemBase extends PurApItemBase implements A
         return isConsideredEnteredWithZero();
     }
     
-    private boolean isConsideredEnteredWithZero() {
+    public boolean isConsideredEnteredWithZero() {
         return isConsideredEntered(true);
     }
     
-    private boolean isConsideredEnteredWithoutZero() {
+    public boolean isConsideredEnteredWithoutZero() {
         return isConsideredEntered(false);
     }
 
@@ -64,7 +56,7 @@ public abstract class AccountsPayableItemBase extends PurApItemBase implements A
      * @param allowsZero if this is true zero will be considered the same as null
      * @return true if the item is considered entered false otherwise
      */
-    public boolean isConsideredEntered(boolean allowsZero) {
+    private boolean isConsideredEntered(boolean allowsZero) {
         if (getItemType().isItemTypeAboveTheLineIndicator()) {
             if ( (getItemType().isQuantityBasedGeneralLedgerIndicator())) {
                 if ( (ObjectUtils.isNull(getItemQuantity())) && 

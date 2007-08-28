@@ -34,13 +34,9 @@ public interface PurchaseOrderService {
     public void saveDocumentNoValidation(PurchaseOrderDocument document);
 //    public void saveDocumentNoValidationUsingClearErrorMap(PurchaseOrderDocument document);
 
-    public PurchaseOrderDocument createAutomaticPurchaseOrderDocument(RequisitionDocument reqDocument);
+    public void createAutomaticPurchaseOrderDocument(RequisitionDocument reqDocument);
 
     public PurchaseOrderDocument createPurchaseOrderDocument(RequisitionDocument reqDocument);
-
-    // public boolean routePurchaseOrderAmendmentDocument(KualiDocumentFormBase kualiDocumentFormBase, String annotation, List adhocRoutingRecipients);
-
-    // public PurchaseOrderDocument updateFlagsAndRoute(String documentNumber, String docType, String annotation, List adhocRoutingRecipients);
 
     public PurchaseOrderDocument createAndSavePotentialChangeDocument(String documentNumber, String docType, String newDocumentStatusCode);
 
@@ -52,9 +48,9 @@ public interface PurchaseOrderService {
 
     public boolean printPurchaseOrderQuotePDF(PurchaseOrderDocument po, PurchaseOrderVendorQuote povq, ByteArrayOutputStream baosPDF);
 
-    public boolean printPurchaseOrderPDF(PurchaseOrderDocument po, String docType, String annotation, List adhocRoutingRecipients, ByteArrayOutputStream baosPDF);
+    public void performPurchaseOrderFirstTransmitViaPrinting(String documentNumber, ByteArrayOutputStream baosPDF);
 
-    public boolean retransmitPurchaseOrderPDF(PurchaseOrderDocument po, String docType, String annotation, List adhocRoutingRecipients, ByteArrayOutputStream baosPDF);
+    public boolean retransmitPurchaseOrderPDF(PurchaseOrderDocument po, ByteArrayOutputStream baosPDF);
 
     public void completePurchaseOrder(PurchaseOrderDocument po);
 

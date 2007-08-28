@@ -35,6 +35,8 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class PrintServiceImpl implements PrintService {
     private static Log LOG = LogFactory.getLog(PrintServiceImpl.class);
+    private static final boolean TRANSMISSION_IS_RETRANSMIT = true;
+    private static final boolean TRANSMISSION_IS_NOT_RETRANSMIT = !TRANSMISSION_IS_RETRANSMIT;
     private ImageDao imageDao;
     //private PurchaseOrderVendorStipulationsService purchaseOrderVendorStipulationsService;
     //private VendorService vendorService;
@@ -433,7 +435,7 @@ public class PrintServiceImpl implements PrintService {
      * @param byteArrayOutputStream      ByteArrayOutputStream that the action is using
      * @return Collection of ServiceError objects
      */
-    public Collection generatePurchaseOrderPdf(PurchaseOrderDocument po, ByteArrayOutputStream byteArrayOutputStream, 
+    private Collection generatePurchaseOrderPdf(PurchaseOrderDocument po, ByteArrayOutputStream byteArrayOutputStream, 
         boolean isRetransmit, String environment) {
         LOG.debug("generatePurchaseOrderPdf() started");
         po.refreshNonUpdateableReferences();
@@ -458,13 +460,27 @@ public class PrintServiceImpl implements PrintService {
     }
     
     /**
+     * @see org.kuali.module.purap.service.PrintService#generatePurchaseOrderPdf(org.kuali.module.purap.document.PurchaseOrderDocument, java.io.ByteArrayOutputStream, java.lang.String)
+     */
+    public Collection generatePurchaseOrderPdf(PurchaseOrderDocument po, ByteArrayOutputStream byteArrayOutputStream, String environment) {
+        return generatePurchaseOrderPdf(po, byteArrayOutputStream, TRANSMISSION_IS_NOT_RETRANSMIT, environment);
+    }
+
+    /**
+     * @see org.kuali.module.purap.service.PrintService#generatePurchaseOrderPdfForRetransmission(org.kuali.module.purap.document.PurchaseOrderDocument, java.io.ByteArrayOutputStream, java.lang.String)
+     */
+    public Collection generatePurchaseOrderPdfForRetransmission(PurchaseOrderDocument po, ByteArrayOutputStream byteArrayOutputStream, String environment) {
+        return generatePurchaseOrderPdf(po, byteArrayOutputStream, TRANSMISSION_IS_RETRANSMIT, environment);
+    }
+
+    /**
      * Create the Purchase Order Pdf document and save it
      * so that it can be faxed in a later process.
      * 
      * @param po        PurchaseOrderDocument that holds the Quote
      * @return Collection of ServiceError objects
      */
-    public Collection savePurchaseOrderPdf(PurchaseOrderDocument po, boolean isRetransmit, String environment) {
+    private Collection savePurchaseOrderPdf(PurchaseOrderDocument po, boolean isRetransmit, String environment) {
         LOG.debug("savePurchaseOrderPdf() started");
         po.refreshNonUpdateableReferences();
         PurchaseOrderPdf poPdf = new PurchaseOrderPdf();
@@ -496,8 +512,20 @@ public class PrintServiceImpl implements PrintService {
 
         LOG.debug("savePurchaseOrderPdf() ended");
         return errors;
+    }
 
+    /**
+     * @see org.kuali.module.purap.service.PrintService#savePurchaseOrderPdf(org.kuali.module.purap.document.PurchaseOrderDocument, java.lang.String)
+     */
+    public Collection savePurchaseOrderPdf(PurchaseOrderDocument po, String environment) {
+        return savePurchaseOrderPdf(po, TRANSMISSION_IS_NOT_RETRANSMIT, environment);
     }
     
+    /**
+     * @see org.kuali.module.purap.service.PrintService#savePurchaseOrderPdfForRetransmission(org.kuali.module.purap.document.PurchaseOrderDocument, java.lang.String)
+     */
+    public Collection savePurchaseOrderPdfForRetransmission(PurchaseOrderDocument po, String environment) {
+        return savePurchaseOrderPdf(po, TRANSMISSION_IS_RETRANSMIT, environment);
+    }
 
 }

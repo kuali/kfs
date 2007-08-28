@@ -20,12 +20,17 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.core.bo.Note;
+import org.kuali.core.exceptions.UserNotFoundException;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.bo.SourceAccountingLine;
 import org.kuali.module.purap.PurapWorkflowConstants.NodeDetails;
 import org.kuali.module.purap.bo.ItemType;
 import org.kuali.module.purap.bo.PurchasingApItem;
 import org.kuali.module.purap.document.PurchasingAccountsPayableDocument;
+
+import edu.iu.uis.eden.clientapp.WorkflowDocument;
+import edu.iu.uis.eden.clientapp.vo.ReportCriteriaVO;
+import edu.iu.uis.eden.exception.WorkflowException;
 
 public interface PurapService {
 
@@ -112,5 +117,9 @@ public interface PurapService {
      * This method performs all the actions on an update document
      * @param purapDocument
      */
-    public  void performLogicForFullEntryCompleted(PurchasingAccountsPayableDocument purapDocument);
+    public void performLogicForFullEntryCompleted(PurchasingAccountsPayableDocument purapDocument);
+    
+    public Object performLogicWithFakedUserSession(String requiredUniversalUserPersonUserId, LogicToRunAsFakeUser logicToRun, Object... objects) throws UserNotFoundException, WorkflowException, Exception;
+    
+    public abstract interface LogicToRunAsFakeUser { public abstract Object runLogic(Object[] objects) throws Exception; }
 }

@@ -46,6 +46,5 @@ public class PaymentRequestDocumentSearchResultProcessor extends PurApDocumentSe
         addSearchableAttributeColumnsBasedOnFields(columns, getSearchCriteria(), searchableAttributeFieldNames);
         return columns;
     }
-    
-    // TODO delyea - link the po number to the po document??
+
 }

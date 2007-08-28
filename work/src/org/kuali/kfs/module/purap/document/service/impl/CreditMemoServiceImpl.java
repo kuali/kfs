@@ -276,9 +276,8 @@ public class CreditMemoServiceImpl implements CreditMemoService {
                 // TODO: call reopen purchasing order service method when avaliable
              }
         }
-
     }
-    
+
     /**
      * Must be an AP user, cm not already on hold, extracted date is null, and cm status approved or complete
      * 
@@ -386,7 +385,7 @@ public class CreditMemoServiceImpl implements CreditMemoService {
         // retrieve and save with canceled status, clear gl entries
         CreditMemoDocument cmDoc = getCreditMemoDocumentById(cmDocument.getPurapDocumentIdentifier());
         if (!PurapConstants.CreditMemoStatuses.STATUSES_NOT_REQUIRING_ENTRY_REVERSAL.contains(cmDoc.getStatusCode())) {
-            purapGeneralLedgerService.generateEntriesCreditMemo(cmDoc, PurapConstants.CANCEL_CREDIT_MEMO);
+            purapGeneralLedgerService.generateEntriesCancelCreditMemo(cmDocument);
         }
         
         // update the status on the document

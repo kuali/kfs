@@ -205,6 +205,7 @@ public class PaymentRequestDocumentRule extends AccountsPayableDocumentRuleBase 
             }
             
         }
+        GlobalVariables.getErrorMap().clearErrorPath();
         return valid;
     }
     

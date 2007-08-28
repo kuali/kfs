@@ -494,7 +494,15 @@ public class PurapGeneralLedgerServiceImpl implements PurapGeneralLedgerService 
 //TOOD        paymentChangeDao.save(paymentChange);
     }
 
-    public void generateEntriesCreditMemo(CreditMemoDocument cm, boolean isCancel) {
+    public void generateEntriesCreateCreditMemo(CreditMemoDocument cm) {
+        generateEntriesCreditMemo(cm, CREATE_CREDIT_MEMO);
+    }
+    
+    public void generateEntriesCancelCreditMemo(CreditMemoDocument cm) {
+        generateEntriesCreditMemo(cm, CANCEL_CREDIT_MEMO);
+    }
+    
+    private void generateEntriesCreditMemo(CreditMemoDocument cm, boolean isCancel) {
         LOG.debug("generateEntriesCreditMemo() started");
 
         // TODO code PaymentChange

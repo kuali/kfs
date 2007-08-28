@@ -45,16 +45,14 @@ public class PurapParameterConstants {
 
         // PURCHASE ORDER DOCUMENT
         public static final String WORKGROUP_PURCHASING = PURAP_PARAM_PREFIX + STANDARD_SEPARATOR + "WORKGROUP.PURCHASING";
-        // TODO delyea - add below to include KULUSER and KUALI_PURAP_PURCHASING
         public static final String PURAP_DOCUMENT_PO_INITIATE_ACTION = PURAP_PARAM_PREFIX + STANDARD_SEPARATOR + "DOCUMENT.PO.INITIATE.ACTION";
         public static final String PURAP_DOCUMENT_PO_ACTIONS = PURAP_PARAM_PREFIX + STANDARD_SEPARATOR + "DOCUMENT.PO.ACTIONS";
-//        public static final String PURAP_DOCUMENT_PO_INITIATE_ACTION = PURAP_DOCUMENT_PO_ACTIONS;
-        // TODO PURAP - Below parameter not being used??
+        // TODO PURAP: Below parameter not being used??
 //      public static final String WORKGROUP_TAXNBR_ACCESSIBLE = PURAP_PARAM_PREFIX + STANDARD_SEPARATOR + "WORKGROUP.TAXNBR_ACCESSIBLE";
 
         // ACCOUNTS PAYABLE DOCUMENT
         public static final String WORKGROUP_ACCOUNTS_PAYABLE = PURAP_PARAM_PREFIX + STANDARD_SEPARATOR + "WORKGROUP.ACCOUNTS_PAYABLE";
-        //TODO: need an accounts payable supervisor group
+        //TODO PURAP: need an accounts payable supervisor group
         public static final String WORKGROUP_ACCOUNTS_PAYABLE_SUPERVISOR = WORKGROUP_ACCOUNTS_PAYABLE;
     }
     

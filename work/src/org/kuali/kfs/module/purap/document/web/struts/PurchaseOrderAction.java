@@ -17,7 +17,9 @@ package org.kuali.module.purap.web.struts.action;
 
 import java.io.ByteArrayOutputStream;
 import java.sql.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
@@ -415,31 +417,25 @@ public class PurchaseOrderAction extends PurchasingActionBase {
      * @return
      * @throws Exception
      */
-    public ActionForward printPo(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+    public ActionForward firstTransmitPrintPo(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         String poDocId = request.getParameter("docId");
-        PurchaseOrderDocument po = SpringContext.getBean(PurchaseOrderService.class).getPurchaseOrderByDocumentNumber(poDocId);
         ByteArrayOutputStream baosPDF = new ByteArrayOutputStream();
         try {
-            StringBuffer sbFilename = new StringBuffer();
-            sbFilename.append("PURAP_PO_");
-            sbFilename.append(po.getPurapDocumentIdentifier());
-            sbFilename.append("_");
-            sbFilename.append(System.currentTimeMillis());
-            sbFilename.append(".pdf");
+            // will throw validation exception if errors occur
+            SpringContext.getBean(PurchaseOrderService.class).performPurchaseOrderFirstTransmitViaPrinting(poDocId, baosPDF);
 
-            boolean success = SpringContext.getBean(PurchaseOrderService.class).printPurchaseOrderPDF(po, PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_PRINT_DOCUMENT, null, null, baosPDF);
-
-            if (!success) {
-                if (baosPDF != null) {
-                    baosPDF.reset();
-                }
-                return mapping.findForward(KFSConstants.MAPPING_PORTAL);
-            }
             response.setHeader("Cache-Control", "max-age=30");
             response.setContentType("application/pdf");
             StringBuffer sbContentDispValue = new StringBuffer();
             //sbContentDispValue.append("inline");
             sbContentDispValue.append("attachment");
+
+            StringBuffer sbFilename = new StringBuffer();
+            sbFilename.append("PURAP_PO_");
+            sbFilename.append(poDocId);
+            sbFilename.append("_");
+            sbFilename.append(System.currentTimeMillis());
+            sbFilename.append(".pdf");
             sbContentDispValue.append("; filename=");
             sbContentDispValue.append(sbFilename);
 
@@ -659,8 +655,7 @@ public class PurchaseOrderAction extends PurchasingActionBase {
         boolean success;
         if (po.isPendingActionIndicator()) {
             success = false;
-            // TODO delyea - should the property be the purchase order identifier when there is no purchase order identifier on this
-            // document (it's the purap identifier)
+            // TODO PURAP - below should be using a propertyName value to show error at a document level.... not field specific
             GlobalVariables.getErrorMap().putError(PurapPropertyConstants.PURCHASE_ORDER_IDENTIFIER, PurapKeyConstants.ERROR_PURCHASE_ORDER_IS_PENDING);
         }
         else {
@@ -701,7 +696,7 @@ public class PurchaseOrderAction extends PurchasingActionBase {
                 sbFilename.append(System.currentTimeMillis());
                 sbFilename.append(".pdf");
 
-                boolean success = SpringContext.getBean(PurchaseOrderService.class).retransmitPurchaseOrderPDF(po, PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_PRINT_DOCUMENT, kualiDocumentFormBase.getAnnotation(), combineAdHocRecipients(kualiDocumentFormBase), baosPDF);
+                boolean success = SpringContext.getBean(PurchaseOrderService.class).retransmitPurchaseOrderPDF(po, baosPDF);
 
                 if (!success) {
                     if (baosPDF != null) {
@@ -1071,9 +1066,17 @@ public class PurchaseOrderAction extends PurchasingActionBase {
             
             // Build out full message.
             if (StringUtils.equals(questionType,PODocumentsStrings.MANUAL_STATUS_CHANGE_QUESTION)) {
+                /* THIS MAP MOVED BY DELYEA FROM PurapConstants TO HERE
+                 * TODO PURAP - The map below is hard coding values that need to be coming from the database instead
+                 */
+                Map<String,String> manuallyChangeableStatuses = new HashMap<String, String>();
+                manuallyChangeableStatuses.put(PurchaseOrderStatuses.IN_PROCESS,"In Process");
+                manuallyChangeableStatuses.put(PurchaseOrderStatuses.WAITING_FOR_VENDOR,"Waiting for Vendor");
+                manuallyChangeableStatuses.put(PurchaseOrderStatuses.WAITING_FOR_DEPARTMENT,"Waiting for Department");
+
                 String key = kualiConfiguration.getPropertyString(PurapKeyConstants.PURCHASE_ORDER_MANUAL_STATUS_CHANGE_NOTE_PREFIX);
-                String oldStatus = PurchaseOrderStatuses.MANUALLY_CHANGEABLE_STATUSES.get(po.getStatusCode());
-                String newStatus = PurchaseOrderStatuses.MANUALLY_CHANGEABLE_STATUSES.get(po.getStatusChange());
+                String oldStatus = manuallyChangeableStatuses.get(po.getStatusCode());
+                String newStatus = manuallyChangeableStatuses.get(po.getStatusChange());
                 key = StringUtils.replace(key, "{0}", (StringUtils.isBlank(oldStatus) ? " " : oldStatus));
                 notePrefix = StringUtils.replace(key, "{1}", (StringUtils.isBlank(newStatus) ? " " : newStatus));
             }

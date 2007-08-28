@@ -265,7 +265,6 @@ public class PaymentRequestAction extends AccountsPayableActionBase {
      */
     @Override
     public ActionForward cancel(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        UserSession originalUserSession = GlobalVariables.getUserSession();
         PaymentRequestForm preqForm = (PaymentRequestForm) form;
         PaymentRequestDocument document = (PaymentRequestDocument) preqForm.getDocument();
         if (document.getDocumentHeader().hasWorkflowDocument()) {
@@ -273,8 +272,10 @@ public class PaymentRequestAction extends AccountsPayableActionBase {
                 // TODO delyea - call custom cancel in the service
             }
             else if (document.getDocumentHeader().getWorkflowDocument().stateIsEnroute()) {
-                // need to run a disapprove to cancel the document
+                // one way or another we will have to fake the user session so get the current one
+                UserSession originalUserSession = GlobalVariables.getUserSession();
                 if (document.isPaymentRequestedCancelIndicator()) {
+                    // need to run a disapprove to cancel the document
                     UniversalUser user = document.getLastActionPerformedByUser();
                     if (ObjectUtils.isNull(user)) {
                         // throw error
@@ -282,22 +283,30 @@ public class PaymentRequestAction extends AccountsPayableActionBase {
                         LOG.error("cancel() " + errorMsg);
                         throw new RuntimeException(errorMsg);
                     }
-                    UserSession newUserSession = new UserSession(user.getPersonUserIdentifier());
-                    // should objects from existing user session be copied over
-                    GlobalVariables.setUserSession(newUserSession);
-                    PaymentRequestForm newPreqForm = (PaymentRequestForm)ObjectUtils.deepCopy(preqForm);
-                    newPreqForm.setDocument(SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(document.getDocumentNumber()));
-                    ActionForward actionForward = super.disapprove(mapping, newPreqForm, request, response);
-                    GlobalVariables.setUserSession(originalUserSession);
+                    ActionForward actionForward = mapping.findForward(KFSConstants.MAPPING_BASIC);
+                    try {
+                        // need to run the disapprove as the user who requested the document be canceled
+                        GlobalVariables.setUserSession(new UserSession(user.getPersonUserIdentifier()));
+                        PaymentRequestForm newPreqForm = (PaymentRequestForm)ObjectUtils.deepCopy(preqForm);
+                        newPreqForm.setDocument(SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(document.getDocumentNumber()));
+                        actionForward = super.disapprove(mapping, newPreqForm, request, response);
+                    }
+                    finally {
+                        GlobalVariables.setUserSession(originalUserSession);
+                    }
                     return actionForward;
                 }
                 else {
-                    UserSession newUserSession = new UserSession(PurapConstants.SYSTEM_AP_USER);
-                    // should objects from existing user session be copied over
-                    GlobalVariables.setUserSession(newUserSession);
-                    SpringContext.getBean(DocumentService.class).superUserCancelDocument(SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(document.getDocumentNumber()), "Document Cancelled by user " + originalUserSession.getUniversalUser().getPersonName() + " (" + originalUserSession.getUniversalUser().getPersonUserIdentifier() + ")");
-                    GlobalVariables.setUserSession(originalUserSession);
-                    return mapping.findForward(KFSConstants.MAPPING_BASIC);
+                    ActionForward actionForward = mapping.findForward(KFSConstants.MAPPING_BASIC);
+                    try {
+                        // need to run a super user cancel since person canceling may not have an action requested on the document
+                        GlobalVariables.setUserSession(new UserSession(PurapConstants.SYSTEM_AP_USER));
+                        SpringContext.getBean(DocumentService.class).superUserCancelDocument(SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(document.getDocumentNumber()), "Document Cancelled by user " + originalUserSession.getUniversalUser().getPersonName() + " (" + originalUserSession.getUniversalUser().getPersonUserIdentifier() + ")");
+                    }
+                    finally {
+                        GlobalVariables.setUserSession(originalUserSession);
+                    }
+                    return actionForward;
                 }
             }
         }

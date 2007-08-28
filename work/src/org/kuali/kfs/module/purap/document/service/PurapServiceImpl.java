@@ -24,17 +24,17 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.bo.Note;
+import org.kuali.core.UserSession;
+import org.kuali.core.exceptions.UserNotFoundException;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DateTimeService;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.service.PersistenceService;
+import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.workflow.service.KualiWorkflowInfo;
-import org.kuali.core.workflow.service.WorkflowDocumentService;
 import org.kuali.kfs.bo.SourceAccountingLine;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.financial.service.UniversityDateService;
@@ -50,10 +50,12 @@ import org.kuali.module.purap.document.PaymentRequestDocument;
 import org.kuali.module.purap.document.PurchasingAccountsPayableDocument;
 import org.kuali.module.purap.document.RequisitionDocument;
 import org.kuali.module.purap.service.PurapAccountingService;
+import org.kuali.module.purap.service.PurapGeneralLedgerService;
 import org.kuali.module.purap.service.PurapService;
 import org.kuali.module.vendor.service.VendorService;
 
 import edu.iu.uis.eden.EdenConstants;
+import edu.iu.uis.eden.clientapp.vo.NetworkIdVO;
 import edu.iu.uis.eden.clientapp.vo.ReportCriteriaVO;
 import edu.iu.uis.eden.exception.WorkflowException;
 
@@ -283,6 +285,7 @@ public class PurapServiceImpl implements PurapService {
                     // document is only initiated so we need to pass xml for workflow to simulate route properly
                     ReportCriteriaVO reportCriteriaVO = new ReportCriteriaVO(document.getDocumentHeader().getWorkflowDocument().getDocumentType());
                     reportCriteriaVO.setXmlContent(document.getXmlForRouteReport());
+                    reportCriteriaVO.setRoutingUser(new NetworkIdVO(GlobalVariables.getUserSession().getUniversalUser().getPersonUserIdentifier()));
                     reportCriteriaVO.setTargetNodeName(givenNodeDetail.getName());
                     boolean value = SpringContext.getBean(KualiWorkflowInfo.class).documentWillHaveAtLeastOneActionRequest(
                             reportCriteriaVO, new String[]{EdenConstants.ACTION_REQUEST_APPROVE_REQ,EdenConstants.ACTION_REQUEST_COMPLETE_REQ});
@@ -371,15 +374,44 @@ public class PurapServiceImpl implements PurapService {
     public void performLogicForFullEntryCompleted(PurchasingAccountsPayableDocument purapDocument) {
         //TODO: move logic from various parts of the app to here
         if (purapDocument instanceof RequisitionDocument) {
-            
+            /* not sure if this can be used or not?  The fact that the REQ is editable by anyone while it's In Process
+             * but only Content Approvers can edit the doc in Content Level does that leave this method as holding too many
+             * if-else cases?
+             */
         }
+        // below code preferable to run in post processing
         else if (purapDocument instanceof PaymentRequestDocument) {
-            
+            // change PREQ accounts from percents to dollars
+            // TODO Chris - put code here for document to change percents into dollars and any related functions
+            // do GL entries for PREQ creation
+            SpringContext.getBean(PurapGeneralLedgerService.class).generateEntriesCreatePreq((PaymentRequestDocument)purapDocument);
+            // route potential 'Close PO Document' if checkbox was checked
         }
+        // below code preferable to run in post processing
         else if (purapDocument instanceof CreditMemoDocument) {
-                
+            // change CM accounts from percents to dollars
+            // TODO Chris - put code here for document to change percents into dollars and any related functions
+            // do GL entries for CM creation
+            SpringContext.getBean(PurapGeneralLedgerService.class).generateEntriesCreateCreditMemo((CreditMemoDocument)purapDocument);
+            // route potential 'Re-Open PO Document' if PO criteria meets requirements from EPIC business rules
         }
         throw new RuntimeException("Attempted to perform full entry logic for unhandled document type '" + purapDocument.getClass().getName() + "'");
     }
-
+    
+    public Object performLogicWithFakedUserSession(String requiredUniversalUserPersonUserId, LogicToRunAsFakeUser logicToRun, Object... objects) throws UserNotFoundException, WorkflowException, Exception {
+        if (StringUtils.isBlank(requiredUniversalUserPersonUserId)) {
+            throw new RuntimeException("Attempted to perform logic with a fake user session with a blank user person id: '" + requiredUniversalUserPersonUserId + "'");
+        }
+        if (ObjectUtils.isNull(logicToRun)) {
+            throw new RuntimeException("Attempted to perform logic with a fake user session with no logic to run");
+        }
+        UserSession actualUserSession = GlobalVariables.getUserSession();
+        try {
+            GlobalVariables.setUserSession(new UserSession(requiredUniversalUserPersonUserId));
+            return logicToRun.runLogic(objects);
+        }
+        finally {
+            GlobalVariables.setUserSession(actualUserSession);
+        }
+    }
 }

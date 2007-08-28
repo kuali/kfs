@@ -40,10 +40,6 @@ public abstract class PurchasingItemBase extends PurApItemBase implements Purcha
         return true;
     }
     
-    public boolean isConsideredEmpty() {
-        return isEmpty();
-    }
-
     public boolean isEmpty() {
         return ! ( StringUtils.isNotEmpty(getItemUnitOfMeasureCode()) ||
                    StringUtils.isNotEmpty(getItemCatalogNumber()) ||

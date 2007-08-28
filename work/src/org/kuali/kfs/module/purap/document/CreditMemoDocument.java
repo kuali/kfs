@@ -221,9 +221,11 @@ public class CreditMemoDocument extends AccountsPayableDocumentBase {
      * @see org.kuali.module.purap.document.AccountsPayableDocumentBase#preProcessNodeChange(java.lang.String, java.lang.String)
      */
     public boolean processNodeChange(String newNodeName, String oldNodeName) {
-        if (NodeDetailEnum.ACCOUNTS_PAYABLE_REVIEW.equals(oldNodeName)) {
+        if (NodeDetailEnum.ADHOC_REVIEW.getName().equals(oldNodeName)) {
+            SpringContext.getBean(PurapService.class).performLogicForFullEntryCompleted(this);
+        }
+        else if (NodeDetailEnum.ACCOUNTS_PAYABLE_REVIEW.getName().equals(oldNodeName)) {
             setAccountsPayableApprovalDate(SpringContext.getBean(DateTimeService.class).getCurrentSqlDate());
-            SpringContext.getBean(PurapGeneralLedgerService.class).generateEntriesCreditMemo(this, PurapConstants.CREATE_CREDIT_MEMO);
         }
         return true;
     }

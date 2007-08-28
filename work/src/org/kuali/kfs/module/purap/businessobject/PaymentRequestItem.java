@@ -386,7 +386,7 @@ public class PaymentRequestItem extends AccountsPayableItemBase {
         return PaymentRequestAccount.class;
     }
 
-    /* TODO Chris/delyea - Should this be leveraging the isConsideredEntered() method for items instead of the paymentRequestItems.tag file using the isNonZero() method
+    /* TODO Chris - Should this be leveraging the isConsideredEntered() method for items instead of the paymentRequestItems.tag file using the isNonZero() method
      *                     problem with the isNonZero() method would be user enters a QTY but no unit price and saves the PREQ... total might be zero but item must show
      */
     public boolean isDisplayOnPreq() {

@@ -265,7 +265,9 @@ public class CreditMemoDocumentRule extends AccountsPayableDocumentRuleBase impl
         for (int i = 0; i < itemList.size(); i++) {
             CreditMemoItem item = (CreditMemoItem) itemList.get(i);
             item.refreshReferenceObject(PurapPropertyConstants.ITEM_TYPE);
-            //TODO: Chris - this is a temporary fix to just run these validations on above the line long term we need to look into using parent validation more
+            /*  TODO: Chris - this is a temporary fix to just run these validations on above the line long term we need to look into using parent validation more
+             *                if super call is not used handle below the line items in an else below
+             */
             if(item.getItemType().isItemTypeAboveTheLineIndicator()) {
                 String errorKeyPrefix = KFSPropertyConstants.DOCUMENT + "." + PurapPropertyConstants.ITEM + "[" + Integer.toString(i) + "].";
 

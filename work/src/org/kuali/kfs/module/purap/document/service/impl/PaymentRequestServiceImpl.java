@@ -315,11 +315,13 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
     
     /**
      * This method determines whether or not a payment request document can be
-     * automatically approved. 
+     * automatically approved.
+     * 
+     *  FYI - If fiscal reviewers are allowed to save account changes without the full account validation running then this
+     *        method must call full account validation to make sure auto approver is not blanket approving an invalid document
+     *        according the the accounts on the items
      */
     private boolean isEligibleForAutoApproval(PaymentRequestDocument document, KualiDecimal defaultMinimumLimit) {
-        // TODO PURAP/delyea/ckirschenman - do 'approve' validation here in case fiscal office has edited?
-
         // This minimum will be set to the minimum limit derived from all
         // accounting lines on the document. If no limit is determined, the 
         // default will be used.

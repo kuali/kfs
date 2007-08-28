@@ -396,7 +396,6 @@ public class KualiSubAccountAttribute implements WorkflowAttribute, MassRuleAttr
         if ( StringUtils.isNotBlank(chart) && StringUtils.isNotBlank(subAccount) && (StringUtils.isNotBlank(account) || StringUtils.isNotBlank(org)) ) {
             List subAccounts = getSubAccounts(chart,account,org,subAccount);
             if ( (subAccounts == null) || (subAccounts.isEmpty()) ) {
-                // TODO delyea - labels here
                 throw new RuntimeException("Sub Account declared on the document cannot be found in the system, routing cannot continue.");
             }
             //  possibly duplicate add, but this is safe in a HashSet

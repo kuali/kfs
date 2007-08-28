@@ -49,7 +49,6 @@ import org.kuali.module.purap.bo.PurApAccountingLine;
 import org.kuali.module.purap.bo.PurchaseOrderItem;
 import org.kuali.module.purap.bo.RecurringPaymentType;
 import org.kuali.module.purap.service.PaymentRequestService;
-import org.kuali.module.purap.service.PurapGeneralLedgerService;
 import org.kuali.module.purap.service.PurapService;
 import org.kuali.module.purap.service.PurchaseOrderService;
 import org.kuali.module.purap.util.ExpiredOrClosedAccountEntry;
@@ -834,8 +833,7 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
             PaymentRequestItem itemToUse = null;
             for (Iterator iter = getItems().iterator(); iter.hasNext();) {
                 PaymentRequestItem item = (PaymentRequestItem) iter.next();
-                // TODO delyea/ckirschenman - how to identify an item that has been 'entered'
-                if ( (item.getSourceAccountingLines() != null) && (!item.getSourceAccountingLines().isEmpty()) ) {
+                if ( (item.isConsideredEntered()) && ( (item.getSourceAccountingLines() != null) && (!item.getSourceAccountingLines().isEmpty()) ) ) {
                     // accounting lines are not empty so pick the first account
                     PurApAccountingLine accountLine = item.getSourceAccountingLine(0);
                     accountLine.refreshNonUpdateableReferences();
@@ -930,8 +928,8 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
                 if (NodeDetailEnum.ACCOUNT_REVIEW.getName().equals(currentNode)) {
                     //FIXME this is not working right now becuase the document has already been saved before reaching this point...that is a problem :(
 //                    SpringContext.getBean(PurapGeneralLedgerService.class).generateEntriesModifyPreq(this);
+                }
             }
-        }
         }
         catch (WorkflowException e) {
             logAndThrowRuntimeException("Error saving routing data while saving document with id " + getDocumentNumber(), e);
@@ -946,9 +944,11 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
             // do nothing for an auto approval
             return false;
         }
-        if (NodeDetailEnum.ACCOUNTS_PAYABLE_REVIEW.getName().equals(oldNodeName)) {
+        if (NodeDetailEnum.ADHOC_REVIEW.getName().equals(oldNodeName)) {
+            SpringContext.getBean(PurapService.class).performLogicForFullEntryCompleted(this);
+        }
+        else if (NodeDetailEnum.ACCOUNTS_PAYABLE_REVIEW.getName().equals(oldNodeName)) {
             setAccountsPayableApprovalDate(SpringContext.getBean(DateTimeService.class).getCurrentSqlDate());
-            SpringContext.getBean(PurapGeneralLedgerService.class).generateEntriesCreatePreq(this);
         }
         return true;
     }

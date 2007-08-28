@@ -45,21 +45,38 @@ public interface PrintService {
      */
     public Collection savePurchaseOrderQuotePdf(PurchaseOrderDocument po, PurchaseOrderVendorQuote povq, String environment);
     /**
-     * Create the Purchase Order Pdf document and send it back
+     * Create the Purchase Order Pdf document for non-retransmission and send it back
      * to the Action so that it can be dealt with.
      * 
      * @param po                         PurchaseOrderDocument that holds the Quote
      * @param byteArrayOutputStream      ByteArrayOutputStream that the action is using
      * @return Collection of ServiceError objects
      */
-    public Collection generatePurchaseOrderPdf(PurchaseOrderDocument po, ByteArrayOutputStream byteArrayOutputStream, 
-        boolean isRetransmit, String environment);
+    public Collection generatePurchaseOrderPdf(PurchaseOrderDocument po, ByteArrayOutputStream byteArrayOutputStream, String environment);
     /**
-     * Create the Purchase Order Pdf document and save it
+     * Create the Purchase Order Pdf document for retransmission and send it back
+     * to the Action so that it can be dealt with.
+     * 
+     * @param po                         PurchaseOrderDocument that holds the Quote
+     * @param byteArrayOutputStream      ByteArrayOutputStream that the action is using
+     * @return Collection of ServiceError objects
+     */
+    public Collection generatePurchaseOrderPdfForRetransmission(PurchaseOrderDocument po, ByteArrayOutputStream byteArrayOutputStream, String environment);
+    /**
+     * Create the Purchase Order Pdf document for non-retransmition and save it
      * so that it can be faxed in a later process.
      * 
      * @param po        PurchaseOrderDocument that holds the Quote
      * @return Collection of ServiceError objects
      */
-    public Collection savePurchaseOrderPdf(PurchaseOrderDocument po, boolean isRetransmit, String environment);
+    public Collection savePurchaseOrderPdf(PurchaseOrderDocument po, String environment);
+    
+    /**
+     * Create the Purchase Order Pdf document for retransmission and save it
+     * so that it can be faxed in a later process.
+     * 
+     * @param po        PurchaseOrderDocument that holds the Quote
+     * @return Collection of ServiceError objects
+     */
+    public Collection savePurchaseOrderPdfForRetransmission(PurchaseOrderDocument po, String environment);
 } 

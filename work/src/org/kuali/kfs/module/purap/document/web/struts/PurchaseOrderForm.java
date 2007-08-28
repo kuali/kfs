@@ -175,7 +175,6 @@ public class PurchaseOrderForm extends PurchasingFormBase {
         PurchaseOrderDocument purchaseOrder = (PurchaseOrderDocument) this.getDocument();
         KualiWorkflowDocument workflowDocument = purchaseOrder.getDocumentHeader().getWorkflowDocument();
         
-        boolean isActionRequested = (!workflowDocument.stateIsException()) && (workflowDocument.isCompletionRequested() || workflowDocument.isApprovalRequested() || workflowDocument.isAcknowledgeRequested() || workflowDocument.isFYIRequested());
 
         String authorizedWorkgroup = SpringContext.getBean(KualiConfigurationService.class).getApplicationParameterValue(PurapParameterConstants.PURAP_ADMIN_GROUP, PurapParameterConstants.Workgroups.PURAP_DOCUMENT_PO_ACTIONS);
         boolean isUserAuthorized = false;
@@ -212,10 +211,11 @@ public class PurchaseOrderForm extends PurchasingFormBase {
         // show the PO Print button if the status is Pending Print and the user is either authorized or an action is requested of them
         // for the document transmission route node
         // TODO delyea - adjust isActionRequested to be specific to Pending Transmission Node Name once RICE changes are in
+        boolean isActionRequested = (!workflowDocument.stateIsException()) && (workflowDocument.isCompletionRequested() || workflowDocument.isApprovalRequested() || workflowDocument.isAcknowledgeRequested() || workflowDocument.isFYIRequested());
         if ( PurapConstants.PurchaseOrderStatuses.PENDING_PRINT.equals(purchaseOrder.getStatusCode()) &&
                 (isUserAuthorized ||  isActionRequested) ) {
             ExtraButton printButton = new ExtraButton();
-            printButton.setExtraButtonProperty("methodToCall.printPo");
+            printButton.setExtraButtonProperty("methodToCall.firstTransmitPrintPo");
             printButton.setExtraButtonSource("${" + KFSConstants.EXTERNALIZABLE_IMAGES_URL_KEY + "}buttonsmall_print.gif");
             printButton.setExtraButtonAltText("Print");
             this.getExtraButtons().add(printButton);

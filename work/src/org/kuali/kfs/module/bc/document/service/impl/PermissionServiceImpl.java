@@ -58,7 +58,7 @@ import edu.iu.uis.eden.clientapp.vo.RuleVO;
 public class PermissionServiceImpl implements PermissionService {
     private static Logger LOG = org.apache.log4j.Logger.getLogger(PermissionServiceImpl.class);
     
-    OrganizationService organizationService; 
+    private OrganizationService organizationService; 
     
     private static final String ORG_REVIEW_RULE_CHART_CODE_NAME = "fin_coa_cd";
     private static final String ORG_REVIEW_RULE_ORG_CODE_NAME = "org_cd";

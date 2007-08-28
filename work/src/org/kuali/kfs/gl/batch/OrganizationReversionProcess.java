@@ -300,8 +300,7 @@ public class OrganizationReversionProcess {
         int entriesWritten = 0;
         OriginEntry entry = getEntry();
         entry.refreshReferenceObject("option");
-        LOG.info("writing cash; unit of work = "+unitOfWork);
-        LOG.info("writing cash; organization reversion = "+organizationReversion);
+
         entry.setChartOfAccountsCode(unitOfWork.chartOfAccountsCode);
         entry.setAccountNumber(unitOfWork.accountNumber);
         entry.setSubAccountNumber(unitOfWork.subAccountNumber);
@@ -325,6 +324,7 @@ public class OrganizationReversionProcess {
             entry.setTransactionDebitCreditCode(KFSConstants.GL_DEBIT_CODE);
             entry.setTransactionLedgerEntryAmount(unitOfWork.getTotalCash().negated());
         }
+        entry.setFinancialObjectTypeCode(entry.getFinancialObject().getFinancialObjectTypeCode());
 
         // 3468 MOVE TRN-LDGR-ENTR-AMT TO WS-AMT-W-PERIOD
         // 3469 WS-AMT-N.
@@ -359,6 +359,7 @@ public class OrganizationReversionProcess {
         else {
             entry.setTransactionDebitCreditCode(KFSConstants.GL_CREDIT_CODE);
         }
+        entry.setFinancialObjectTypeCode(entry.getFinancialObject().getFinancialObjectTypeCode());
 
         // 3570 MOVE TRN-LDGR-ENTR-AMT TO WS-AMT-W-PERIOD
         // 3571 WS-AMT-N.
@@ -393,7 +394,8 @@ public class OrganizationReversionProcess {
             entry.setTransactionDebitCreditCode(KFSConstants.GL_CREDIT_CODE);
             entry.setTransactionLedgerEntryAmount(unitOfWork.getTotalCash().negated());
         }
-
+        entry.setFinancialObjectTypeCode(entry.getFinancialObject().getFinancialObjectTypeCode());
+        
         // 3668 MOVE TRN-LDGR-ENTR-AMT TO WS-AMT-W-PERIOD
         // 3669 WS-AMT-N.
         // 3670 MOVE WS-AMT-X TO TRN-AMT-RED-X.
@@ -428,6 +430,7 @@ public class OrganizationReversionProcess {
             entry.setTransactionDebitCreditCode(KFSConstants.GL_DEBIT_CODE);
             entry.setTransactionLedgerEntryAmount(unitOfWork.getTotalCash().negated());
         }
+        entry.setFinancialObjectTypeCode(entry.getFinancialObject().getFinancialObjectTypeCode());
 
         // 3768 MOVE TRN-LDGR-ENTR-AMT TO WS-AMT-W-PERIOD
         // 3769 WS-AMT-N.

@@ -228,7 +228,16 @@ public abstract class PurApItemBase extends PersistableBusinessObjectBase implem
 	 * @return Returns the itemUnitPrice
 	 * 
 	 */
-	public BigDecimal getItemUnitPrice() { 
+	public BigDecimal getItemUnitPrice() {
+        //KULPURAP-1096 Setting scale on retrieval of unit price
+        if(itemUnitPrice!=null) {
+            if(itemUnitPrice.scale()<PurapConstants.DOLLAR_AMOUNT_MIN_SCALE) {
+                itemUnitPrice = itemUnitPrice.setScale(PurapConstants.DOLLAR_AMOUNT_MIN_SCALE, KualiDecimal.ROUND_BEHAVIOR);
+            } else if(itemUnitPrice.scale()>PurapConstants.DOLLAR_AMOUNT_MIN_SCALE && itemUnitPrice.scale() < PurapConstants.UNIT_PRICE_MAX_SCALE) {
+                itemUnitPrice = itemUnitPrice.setScale(PurapConstants.UNIT_PRICE_MAX_SCALE, KualiDecimal.ROUND_BEHAVIOR);
+            }
+        }
+
         return itemUnitPrice;
 	}
 
@@ -242,7 +251,7 @@ public abstract class PurApItemBase extends PersistableBusinessObjectBase implem
 		if(itemUnitPrice!=null) {
             if(itemUnitPrice.scale()<PurapConstants.DOLLAR_AMOUNT_MIN_SCALE) {
                 itemUnitPrice = itemUnitPrice.setScale(PurapConstants.DOLLAR_AMOUNT_MIN_SCALE, KualiDecimal.ROUND_BEHAVIOR);
-            } else if(itemUnitPrice.scale()>PurapConstants.DOLLAR_AMOUNT_MIN_SCALE) {
+            } else if(itemUnitPrice.scale()>PurapConstants.DOLLAR_AMOUNT_MIN_SCALE && itemUnitPrice.scale() < PurapConstants.UNIT_PRICE_MAX_SCALE) {
                 itemUnitPrice = itemUnitPrice.setScale(PurapConstants.UNIT_PRICE_MAX_SCALE, KualiDecimal.ROUND_BEHAVIOR);
             }
         }

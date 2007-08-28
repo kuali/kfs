@@ -96,7 +96,7 @@
                 <validationPattern><anyCharacter /></validationPattern>
 
                 <control>
-                    <text size="3" />
+                    <select valuesFinderClass="org.kuali.module.kra.lookup.keyvalues.ResearchControlAttributeTypeCodeValuesFinder" />
                 </control>
 
                 <summary>controlAttributeTypeCode</summary>

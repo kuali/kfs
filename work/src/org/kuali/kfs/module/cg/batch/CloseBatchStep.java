@@ -93,9 +93,12 @@ public class CloseBatchStep extends AbstractStep {
                 }
             }
             
-            message.setMessage(builder.toString());
-            message.setFromAddress(mailService.getBatchMailingList());
-            mailService.sendMessage(message);
+            // Don't send it if no recipients were specified.
+            if(0 != memberNetworkIds.size()) {
+                message.setMessage(builder.toString());
+                message.setFromAddress(mailService.getBatchMailingList());
+                mailService.sendMessage(message);
+            }
 
         } catch(GroupNotFoundException gnfe) {
             LOG.fatal("Couldn't find workgroup to send notification to.", gnfe);

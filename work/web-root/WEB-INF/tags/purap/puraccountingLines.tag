@@ -116,7 +116,7 @@
 		src="dwr/interface/DocumentTypeService.js"></script>
 	<script language="JavaScript" type="text/javascript"
 		src="scripts/kfs/objectInfo.js"></script>
-	<c:set var="accountingLineScriptsLoaded" value="true" scope="page" />
+	<c:set var="accountingLineScriptsLoaded" value="true" scope="request" />
 </c:if>
 
 <c:forEach items="${editableAccounts}" var="account">

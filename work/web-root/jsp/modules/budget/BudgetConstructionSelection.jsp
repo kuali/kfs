@@ -20,7 +20,7 @@
 	<script type='text/javascript' src="dwr/interface/AccountService.js"></script>
 	<script type='text/javascript' src="dwr/interface/SubAccountService.js"></script>
 	<script language="JavaScript" type="text/javascript" src="scripts/kfs/objectInfo.js"></script>
-	<c:set var="accountingLineScriptsLoaded" value="true" scope="page" />
+	<c:set var="accountingLineScriptsLoaded" value="true" scope="request" />
 </c:if>
 
 <c:set var="bcHeaderAttributes" value="${DataDictionary.BudgetConstructionHeader.attributes}" />

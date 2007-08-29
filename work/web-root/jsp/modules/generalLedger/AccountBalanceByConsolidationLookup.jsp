@@ -94,7 +94,7 @@
 			<display:table class="datatable-100" 
 				cellspacing="0" cellpadding="0" name="${reqSearchResults}" id="row"
 				export="true" pagesize="100" offset="${offset}"
-				requestURI="glAccountBalanceByConsolidationLookup.do?methodToCall=viewResults&searchResultKey=${searchResultKey}">
+				requestURI="glAccountBalanceByConsolidationLookup.do?methodToCall=viewResults&reqSearchResultsSize=${reqSearchResultsSize}&searchResultKey=${searchResultKey}">
 				<c:forEach items="${row.columns}" var="column" varStatus="status">
 					<display:column class="${(column.formatter.implementationClass == 'org.kuali.core.web.format.CurrencyFormatter') ? 'numbercell' : 'inofocell'}" 
 						title="${column.columnTitle}" comparator="${column.comparator}" sortable="${('dummyBusinessObject.linkButtonOption' ne column.propertyName) && column.sortable}">

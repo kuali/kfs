@@ -97,7 +97,7 @@
 	      		<display:table class="datatable-100" cellspacing="0"
 				cellpadding="0" name="${reqSearchResults}" id="row" export="true"
 				pagesize="100" defaultsort="1"
-				requestURI="glModifiedInquiry.do?methodToCall=viewResults&searchResultKey=${searchResultKey}">
+				requestURI="glModifiedInquiry.do?methodToCall=viewResults&reqSearchResultsSize=${reqSearchResultsSize}&searchResultKey=${searchResultKey}">
 
 				<c:forEach items="${row.columns}" var="column">
 

@@ -522,9 +522,15 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
             workingEntry.setUniversityFiscalYear(universityRunDate.getUniversityFiscalYear());
 
             // Retrieve these objects because the fiscal year is the primary key for them
-            persistenceService.retrieveReferenceObject(originEntry, KFSPropertyConstants.FINANCIAL_SUB_OBJECT);
-            persistenceService.retrieveReferenceObject(originEntry, KFSPropertyConstants.FINANCIAL_OBJECT);
-            persistenceService.retrieveReferenceObject(originEntry, KFSPropertyConstants.ACCOUNTING_PERIOD);
+            if (StringUtils.hasText(originEntry.getFinancialSubObjectCode()) && !KFSConstants.getDashFinancialSubObjectCode().equals(originEntry.getFinancialSubObjectCode())) {
+                persistenceService.retrieveReferenceObject(originEntry, KFSPropertyConstants.FINANCIAL_SUB_OBJECT);
+            }
+            if (StringUtils.hasText(originEntry.getFinancialObjectCode())) {
+                persistenceService.retrieveReferenceObject(originEntry, KFSPropertyConstants.FINANCIAL_OBJECT);
+            }
+            if (StringUtils.hasText(originEntry.getUniversityFiscalPeriodCode())) {
+                persistenceService.retrieveReferenceObject(originEntry, KFSPropertyConstants.ACCOUNTING_PERIOD);
+            }
             persistenceService.retrieveReferenceObject(originEntry, KFSPropertyConstants.OPTION);
         }
         else {
@@ -532,13 +538,13 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
             if (originEntry.getOption() == null) {
                 persistenceService.retrieveReferenceObject(originEntry, KFSPropertyConstants.OPTION);
             }
-            if (originEntry.getFinancialSubObject() == null) {
+            if (originEntry.getFinancialSubObject() == null && StringUtils.hasText(originEntry.getFinancialSubObjectCode()) && !KFSConstants.getDashFinancialSubObjectCode().equals(originEntry.getFinancialSubObjectCode())) {
                 persistenceService.retrieveReferenceObject(originEntry, KFSPropertyConstants.FINANCIAL_SUB_OBJECT);
             }
-            if (originEntry.getFinancialObject() == null) {
+            if (originEntry.getFinancialObject() == null && StringUtils.hasText(originEntry.getFinancialObjectCode())) {
                 persistenceService.retrieveReferenceObject(originEntry, KFSPropertyConstants.FINANCIAL_OBJECT);
             }
-            if (originEntry.getAccountingPeriod() == null) {
+            if (originEntry.getAccountingPeriod() == null && StringUtils.hasText(originEntry.getUniversityFiscalPeriodCode())) {
                 persistenceService.retrieveReferenceObject(originEntry, KFSPropertyConstants.ACCOUNTING_PERIOD);
             }
             workingEntry.setOption(originEntry.getOption());
@@ -788,9 +794,15 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
                 workingEntry.setUniversityFiscalYear(universityRunDate.getUniversityFiscalYear());
     
                 // Retrieve these objects because the fiscal year is the primary key for them
-                persistenceService.retrieveReferenceObject(originEntry, "financialSubObject");
-                persistenceService.retrieveReferenceObject(originEntry, "financialObject");
-                persistenceService.retrieveReferenceObject(originEntry, "accountingPeriod");
+                if (StringUtils.hasText(originEntry.getFinancialSubObjectCode()) && !KFSConstants.getDashFinancialSubObjectCode().equals(originEntry.getFinancialSubObjectCode())) {
+                    persistenceService.retrieveReferenceObject(originEntry, "financialSubObject");
+                }
+                if (StringUtils.hasText(originEntry.getFinancialObjectCode())) {
+                    persistenceService.retrieveReferenceObject(originEntry, "financialObject");
+                }
+                if (StringUtils.hasText(originEntry.getUniversityFiscalPeriodCode())) {
+                    persistenceService.retrieveReferenceObject(originEntry, "accountingPeriod");
+                }
                 persistenceService.retrieveReferenceObject(originEntry, "option");
             }
             else {

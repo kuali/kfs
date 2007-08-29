@@ -15,12 +15,17 @@
  */
 package org.kuali.module.budget.service.impl;
 
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.core.service.BusinessObjectService;
+import org.kuali.kfs.KFSConstants;
+import org.kuali.kfs.KFSPropertyConstants;
+import org.kuali.module.budget.BCConstants.OrgSelControlOption;
 import org.kuali.module.budget.bo.BudgetConstructionOrganizationReports;
 import org.kuali.module.budget.bo.BudgetConstructionPullup;
 import org.kuali.module.budget.dao.BudgetConstructionDao;
@@ -111,6 +116,24 @@ public class BudgetOrganizationTreeServiceImpl implements BudgetOrganizationTree
         }
 
         return budgetConstructionDao.getBudgetConstructionPullupChildOrgs(personUniversalIdentifier, chartOfAccountsCode, organizationCode);
+    }
+
+    /**
+     * @see org.kuali.module.budget.service.BudgetOrganizationTreeService#resetPullFlag(java.lang.String)
+     */
+    public void resetPullFlag(String personUniversalIdentifier) {
+
+        if (StringUtils.isBlank(personUniversalIdentifier)) {
+            throw new IllegalArgumentException("String parameter personUniversalIdentifier was null or blank.");
+        }
+        List<BudgetConstructionPullup> results = budgetConstructionDao.getBudgetConstructionPullupFlagSetByUserId(personUniversalIdentifier);
+        if (!results.isEmpty()){
+            for (BudgetConstructionPullup selOrg: results){
+                selOrg.setPullFlag(OrgSelControlOption.NO.getKey());
+            }
+            businessObjectService.save(results);
+        }
+        
     }
 
     /**

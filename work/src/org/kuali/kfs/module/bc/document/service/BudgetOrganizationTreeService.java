@@ -52,4 +52,10 @@ public interface BudgetOrganizationTreeService {
      * @return
      */
     public List getPullupChildOrgs(String personUniversalIdentifier, String chartOfAccountsCode, String organizationCode);
+    
+    /**
+     * This method resets the pullflag for the BudgetConstructionPullup set of records owned by the user
+     * @param personUniversalIdentifier
+     */
+    public void resetPullFlag(String personUniversalIdentifier);
 }

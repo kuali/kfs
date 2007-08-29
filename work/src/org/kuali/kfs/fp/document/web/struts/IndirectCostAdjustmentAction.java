@@ -18,10 +18,10 @@ package org.kuali.module.financial.web.struts.action;
 import java.util.List;
 
 import org.kuali.kfs.bo.AccountingLine;
-import org.kuali.kfs.document.AccountingDocument;
 import org.kuali.kfs.web.struts.action.KualiAccountingDocumentActionBase;
 import org.kuali.kfs.web.struts.form.KualiAccountingDocumentFormBase;
 import org.kuali.kfs.web.ui.AccountingLineDecorator;
+import org.kuali.module.financial.document.IndirectCostAdjustmentDocument;
 
 /**
  * This class handles Actions for <ocde>IndirectCostAdjustmentDocument</code>s
@@ -40,12 +40,28 @@ public class IndirectCostAdjustmentAction extends KualiAccountingDocumentActionB
             decorator.setRevertible(false);
             
             // add it to the baseline, to prevent generation of spurious update events
-            AccountingDocument tDoc = (AccountingDocument) financialDocumentForm.getDocument();
+            IndirectCostAdjustmentDocument tDoc = (IndirectCostAdjustmentDocument) financialDocumentForm.getDocument();
             List targetLines = tDoc.getTargetAccountingLines();
             financialDocumentForm.getBaselineTargetAccountingLines().add(targetLines.get(targetLines.size() - 1));
 
             // add the decorator
             financialDocumentForm.getTargetLineDecorators().add(decorator);
+            
+            //  update the doc total
+            //financialDocumentForm.getDocument().getDocumentHeader().setFinancialDocumentTotalAmount(tDoc.getTotalDollarAmount());
+            financialDocumentForm.getDocument().getDocumentHeader().setFinancialDocumentTotalAmount(tDoc.getSourceTotal());
         }
     }
+   
+    @Override
+    protected void deleteAccountingLine(boolean isSource, KualiAccountingDocumentFormBase financialDocumentForm, int deleteIndex) {
+        super.deleteAccountingLine(isSource, financialDocumentForm, deleteIndex);
+        
+        // Update the doc total
+        if (isSource) {
+            IndirectCostAdjustmentDocument tDoc = (IndirectCostAdjustmentDocument) financialDocumentForm.getDocument();
+            financialDocumentForm.getDocument().getDocumentHeader().setFinancialDocumentTotalAmount(tDoc.getSourceTotal());
+        }
+    }
+ 
 }

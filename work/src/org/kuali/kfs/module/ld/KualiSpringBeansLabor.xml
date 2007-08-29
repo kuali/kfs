@@ -513,6 +513,12 @@
 			<ref bean="laborNightlyOutService" />
 		</property>
 	</bean>  
+	
+	<bean id="clearLaborPendingStep" class="org.kuali.module.labor.batch.ClearLaborPendingStep" parent="step">
+		<property name="laborNightlyOutService">
+			<ref bean="laborNightlyOutService" />
+		</property>
+	</bean>  
          
 	<bean id="createLaborBackupGroupStep" class="org.kuali.module.labor.batch.CreateLaborBackupGroupStep" parent="step">
 		<property name="originEntryGroupService">
@@ -595,6 +601,7 @@
 		<property name="steps">
 			<list>
 				<ref bean="laborNightlyOutStep"/>
+				<ref bean="clearLaborPendingStep"/>
 				<ref bean="createLaborBackupGroupStep"/>
 				<ref bean="laborScrubberStep"/>
 				<ref bean="laborPosterStep"/>

@@ -28,6 +28,7 @@ import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.service.PersistenceService;
 import org.kuali.core.service.PersistenceStructureService;
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSKeyConstants;
 import org.kuali.kfs.KFSPropertyConstants;
@@ -451,7 +452,7 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
         if (StringUtils.hasText(originEntry.getSubAccountNumber())) {
             // sub account IS specified
             if (!KFSConstants.getDashSubAccountNumber().equals(originEntry.getSubAccountNumber())) {
-                if (originEntry.getSubAccount() == null) {
+                if (ObjectUtils.isNull(originEntry.getSubAccount())) {
                     // sub account is not valid
                     return new Message(kualiConfigurationService.getPropertyString(KFSKeyConstants.ERROR_SUB_ACCOUNT_NOT_FOUND) + "(" + originEntry.getChartOfAccountsCode() + "-" + originEntry.getAccountNumber() + "-" + originEntry.getSubAccountNumber() + ")", Message.TYPE_FATAL);
                 }
@@ -494,7 +495,7 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
         LOG.debug("validateProjectCode() started");
 
         if (StringUtils.hasText(originEntry.getProjectCode()) && !KFSConstants.getDashProjectCode().equals(originEntry.getProjectCode())) {
-            if (originEntry.getProject() == null) {
+            if (ObjectUtils.isNull(originEntry.getProject())) {
                 return new Message(kualiConfigurationService.getPropertyString(KFSKeyConstants.ERROR_PROJECT_CODE_NOT_FOUND) + " (" + originEntry.getProjectCode() + ")", Message.TYPE_FATAL);
             }
             else {
@@ -703,7 +704,7 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
         }
 
         if (!KFSConstants.getDashFinancialSubObjectCode().equals(originEntry.getFinancialSubObjectCode())) {
-            if (originEntry.getFinancialSubObject() != null) {
+            if (ObjectUtils.isNotNull(originEntry.getFinancialSubObject())) {
                 // Exists
                 if (!originEntry.getFinancialSubObject().isFinancialSubObjectActiveIndicator()) {
                     // if NOT active, set it to dashes

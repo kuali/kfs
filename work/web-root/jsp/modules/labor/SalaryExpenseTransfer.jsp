@@ -99,7 +99,7 @@
       <c:set var="actionInfixVar" value="" scope="request"/>
       <c:set var="accountingLineIndexVar" value="" scope="request"/>
 	<fin:accountingLines editingMode="${KualiForm.editingMode}"
-		editableAccounts="${KualiForm.editableAccounts}" inherit="false" extraHiddenFields=",objectTypeCode,emplid,positionNumber,balanceTypeCode,payrollTotalHours"
+		editableAccounts="${KualiForm.editableAccounts}" inherit="false" extraHiddenFields=",objectTypeCode,emplid,balanceTypeCode"
 		optionalFields="positionNumber,payrollEndDateFiscalYear,payrollEndDateFiscalPeriodCode,payrollTotalHours">
 
       <jsp:attribute name="groupsOverride">

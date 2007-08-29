@@ -328,6 +328,7 @@ public class ExpenseTransferDocumentActionBase extends LaborDocumentActionBase {
         target.setPayrollEndDateFiscalPeriodCode(source.getPayrollEndDateFiscalPeriodCode());
         target.setObjectTypeCode(source.getObjectTypeCode());
         target.setOverrideCode(source.getOverrideCode());
+        target.setPayrollTotalHours(source.getPayrollTotalHours());
     }
 
     /**

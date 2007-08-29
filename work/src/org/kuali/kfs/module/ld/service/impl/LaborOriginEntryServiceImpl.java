@@ -305,7 +305,7 @@ public class LaborOriginEntryServiceImpl implements LaborOriginEntryService {
             return ledgerEntryHolder;
         }
 
-        Iterator entrySummaryIterator = originEntryDao.getSummaryByGroupId(groupIdList);
+        Iterator entrySummaryIterator = laborOriginEntryDao.getSummaryByGroupId(groupIdList);
         while (entrySummaryIterator.hasNext()) {
             Object[] entrySummary = (Object[]) entrySummaryIterator.next();
             LedgerEntry ledgerEntry = LedgerEntry.buildLedgerEntry(entrySummary);

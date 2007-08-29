@@ -230,5 +230,39 @@ public class LaborOriginEntryDaoOjb extends OriginEntryDaoOjb implements LaborOr
         getPersistenceBrokerTemplate().store(entry);
     }
     
-  
+    /**
+     * @see org.kuali.module.labor.dao.LaborOriginEntryDao#getSummaryByGroupId(java.util.List)
+     */
+    public Iterator getSummaryByGroupId(Collection groupIdList) {
+        LOG.debug("getSummaryByGroupId() started");
+        
+        if(groupIdList == null || groupIdList.size()<=0) {
+            return null;
+        }
+
+        Collection ids = new ArrayList();
+        for (Iterator iter = groupIdList.iterator(); iter.hasNext();) {
+            OriginEntryGroup element = (OriginEntryGroup) iter.next();
+            ids.add(element.getId());
+        }
+
+        Criteria criteria = new Criteria();
+        criteria.addIn(KFSPropertyConstants.ENTRY_GROUP_ID, ids);
+
+        ReportQueryByCriteria query = QueryFactory.newReportQuery(getEntryClass(), criteria);
+
+        String attributeList[] = { KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, KFSPropertyConstants.UNIVERSITY_FISCAL_PERIOD_CODE, KFSPropertyConstants.FINANCIAL_BALANCE_TYPE_CODE, KFSPropertyConstants.FINANCIAL_SYSTEM_ORIGINATION_CODE, KFSPropertyConstants.TRANSACTION_DEBIT_CREDIT_CODE, "sum(" + KFSPropertyConstants.TRANSACTION_LEDGER_ENTRY_AMOUNT + ")", "count(*)" };
+
+        String groupList[] = { KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, KFSPropertyConstants.UNIVERSITY_FISCAL_PERIOD_CODE, KFSPropertyConstants.FINANCIAL_BALANCE_TYPE_CODE, KFSPropertyConstants.FINANCIAL_SYSTEM_ORIGINATION_CODE, KFSPropertyConstants.TRANSACTION_DEBIT_CREDIT_CODE };
+
+        query.setAttributes(attributeList);
+        query.addGroupBy(groupList);
+
+        // add the sorting criteria
+        for (int i = 0; i < groupList.length; i++) {
+            query.addOrderByAscending(groupList[i]);
+        }
+
+        return getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(query);
+    }
 }

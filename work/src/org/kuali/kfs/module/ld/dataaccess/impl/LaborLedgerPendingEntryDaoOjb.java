@@ -28,7 +28,8 @@ import org.kuali.module.labor.dao.LaborLedgerPendingEntryDao;
 
 public class LaborLedgerPendingEntryDaoOjb extends GeneralLedgerPendingEntryDaoOjb implements LaborLedgerPendingEntryDao {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(LaborLedgerPendingEntryDaoOjb.class);
-
+    private final static String FINANCIAL_DOCUMENT_APPROVED_CODE = "financialDocumentApprovedCode";
+    
     /**
      * @see org.kuali.kfs.dao.ojb.GeneralLedgerPendingEntryDaoOjb#getEntryClass()
      */
@@ -62,5 +63,16 @@ public class LaborLedgerPendingEntryDaoOjb extends GeneralLedgerPendingEntryDaoO
         QueryByCriteria qbc = QueryFactory.newQuery(getEntryClass(), criteria);
         
         return getPersistenceBrokerTemplate().getCollectionByQuery(qbc);
+    }
+    
+    public void deleteByFinancialDocumentApprovedCode(String financialDocumentApprovedCode) {
+        LOG.debug("deleteByFinancialDocumentApprovedCode() started");
+
+        Criteria criteria = new Criteria();
+        criteria.addEqualTo(FINANCIAL_DOCUMENT_APPROVED_CODE, financialDocumentApprovedCode);
+
+        QueryByCriteria qbc = QueryFactory.newQuery(this.getEntryClass(), criteria);
+        getPersistenceBrokerTemplate().deleteByQuery(qbc);
+        getPersistenceBrokerTemplate().clearCache();
     }
 }

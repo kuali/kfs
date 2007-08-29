@@ -19,12 +19,15 @@ import java.math.BigDecimal;
 import java.sql.Date;
 
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.module.chart.bo.ObjectCode;
 import org.kuali.module.purap.bo.PurchaseOrderAccount;
 import org.kuali.module.purap.bo.PurchaseOrderItem;
+import org.kuali.module.purap.bo.RequisitionAccount;
+import org.kuali.module.purap.bo.RequisitionItem;
 import org.kuali.module.purap.document.PurchaseOrderDocument;
 import org.kuali.module.purap.document.RequisitionDocument;
 
-class PurapTestConstants {
+public class PurapTestConstants {
        
     static final Integer FY_2007 = new Integer("2007");
         
@@ -51,12 +54,17 @@ class PurapTestConstants {
     }
     
     static class ItemsAccounts {
+        static RequisitionItem REQ_ITEM = new RequisitionItem();
         static PurchaseOrderItem PO_ITEM = new PurchaseOrderItem();
         static final String ITEM_DESC = "Test item description";
         static final String ITEM_UOM = "EACH";
-        static PurchaseOrderAccount PO_ACCOUNT =  new PurchaseOrderAccount();
-        static final String ACCOUNT_NUMBER = "9999999";
+        static PurchaseOrderAccount PO_ACCOUNT = new PurchaseOrderAccount();
+        static RequisitionAccount REQ_ACCOUNT = new RequisitionAccount();
+        static final String CHART_CODE = "BL";
+        static final String OBJECT_CODE = "5000";
+        static final String ACCOUNT_NUMBER = "1031400";
         static final BigDecimal UNIT_PRICE = new KualiDecimal(32).bigDecimalValue();
+        static final BigDecimal PERCENTAGE = new KualiDecimal(100).bigDecimalValue();
     }
     
     @SuppressWarnings("deprecation")

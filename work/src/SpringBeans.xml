@@ -426,4 +426,8 @@
 	<bean id="mailSender" class="org.kuali.rice.kns.config.GlobalResourceLoaderServiceFactoryBean">
 		<property name="serviceName" value="mailSender" />
 	</bean>
+
+	<bean id="workflowInfoService" class="org.kuali.rice.kns.config.GlobalResourceLoaderServiceFactoryBean">
+		<property name="serviceName" value="workflowInfoService" />
+	</bean>
 </beans>

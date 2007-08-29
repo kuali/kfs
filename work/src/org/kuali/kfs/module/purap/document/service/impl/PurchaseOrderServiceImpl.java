@@ -64,6 +64,7 @@ import org.kuali.module.purap.document.PurchaseOrderDocument;
 import org.kuali.module.purap.document.PurchasingDocumentBase;
 import org.kuali.module.purap.document.RequisitionDocument;
 import org.kuali.module.purap.service.PrintService;
+import org.kuali.module.purap.service.PurApWorkflowIntegrationService;
 import org.kuali.module.purap.service.PurapService;
 import org.kuali.module.purap.service.PurchaseOrderService;
 import org.kuali.module.purap.service.RequisitionService;
@@ -413,14 +414,19 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
             addStringErrorMessagesToErrorMap(PurapKeyConstants.ERROR_PURCHASE_ORDER_PDF, generatePDFErrors);
             throw new ValidationException("printing purchase order for first transmission failed");
         }
-        if (!po.isPurchaseOrderHadFirstTransmission()) {
-            Date currentDate = dateTimeService.getCurrentSqlDate();
-            po.setPurchaseOrderFirstTransmissionDate(currentDate);
-            po.setPurchaseOrderLastTransmitDate(currentDate);
-//            purapService.updateStatusAndStatusHistory(po, PurchaseOrderStatuses.OPEN);
-//            saveDocumentNoValidation(po);
+        if (ObjectUtils.isNotNull(po.getPurchaseOrderFirstTransmissionDate())) {
+            // should not call this method for first transmission if document has already been transmitted
+            String errorMsg = "Method to perform first transmit was called on document (doc id " + documentNumber + ") with already filled in 'first transmit date'";
+            LOG.error(errorMsg);
+            throw new RuntimeException(errorMsg);
         }
-        takeWorkflowActionsForDocumentTransmission(po, null);
+        Date currentDate = dateTimeService.getCurrentSqlDate();
+        po.setPurchaseOrderFirstTransmissionDate(currentDate);
+        po.setPurchaseOrderLastTransmitDate(currentDate);
+        po.setOverrideWorkflowButtons(Boolean.FALSE);
+        SpringContext.getBean(PurApWorkflowIntegrationService.class).takeAllActionsForGivenCriteria(po, null, GlobalVariables.getUserSession().getUniversalUser(), null);
+//        takeWorkflowActionsForDocumentTransmission(po, null);
+        po.setOverrideWorkflowButtons(Boolean.TRUE);
         attemptSetupOfInitialOpenOfDocument(po);
     }
     
@@ -466,10 +472,9 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
     /**
      * @see org.kuali.module.purap.service.PurchaseOrderService#retransmitPurchaseOrderPDF(org.kuali.module.purap.document.PurchaseOrderDocument, java.io.ByteArrayOutputStream)
      */
-    public boolean retransmitPurchaseOrderPDF(PurchaseOrderDocument po, ByteArrayOutputStream baosPDF) {
+    public void retransmitPurchaseOrderPDF(PurchaseOrderDocument po, ByteArrayOutputStream baosPDF) {
 
         String environment = kualiConfigurationService.getPropertyString(KFSConstants.ENVIRONMENT_KEY);
-        boolean result = true;
         List<PurchaseOrderItem> items = po.getItems();
         List<PurchaseOrderItem> retransmitItems = new ArrayList<PurchaseOrderItem>();
         for (PurchaseOrderItem item : items) {
@@ -483,16 +488,10 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 
         if (generatePDFErrors.size() > 0) {
             addStringErrorMessagesToErrorMap(PurapKeyConstants.ERROR_PURCHASE_ORDER_PDF, generatePDFErrors);
-            result = false;
+            throw new ValidationException("found errors while trying to print po with doc id " + po.getDocumentNumber());
         }
-        // below logic moved to post processor PurchaseOrderPostProcessorRetransmitService.handleRouteStatusChange()
-//        if (result) {
-//            Date currentSqlDate = dateTimeService.getCurrentSqlDate();
-//            po.setPurchaseOrderLastTransmitDate(currentSqlDate);
-//            po.setPurchaseOrderCurrentIndicator(true);
-//            saveDocumentWithoutValidation(po);
-//        }
-        return result;
+        po.setPurchaseOrderLastTransmitDate(dateTimeService.getCurrentSqlDate());
+        saveDocumentNoValidation(po);
     }
 
     /**
@@ -738,12 +737,11 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
     
     private boolean attemptSetupOfInitialOpenOfDocument(PurchaseOrderDocument po) {
         LOG.debug("attemptSetupOfInitialOpenOfDocument() started using document with doc id " + po.getDocumentNumber());
-        boolean isInitialOpen = false;
+        boolean documentWasSaved = false;
         if (!PurchaseOrderStatuses.OPEN.equals(po.getStatusCode())) {
             if (ObjectUtils.isNull(po.getPurchaseOrderInitialOpenDate())) {
                 LOG.debug("attemptSetupOfInitialOpenOfDocument() setting initial open date on document");
                 po.setPurchaseOrderInitialOpenDate(dateTimeService.getCurrentSqlDate());
-                isInitialOpen = true;
             }
             else {
                 throw new RuntimeException("Document does not have status code '" + PurchaseOrderStatuses.OPEN + "' on it but value of initial open date is " + po.getPurchaseOrderInitialOpenDate());
@@ -751,11 +749,12 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
             LOG.debug("attemptSetupOfInitialOpenOfDocument() Set up document to use status code '" + PurchaseOrderStatuses.OPEN + "'");
             purapService.updateStatusAndStatusHistory(po, PurchaseOrderStatuses.OPEN);
             saveDocumentNoValidation(po);
+            documentWasSaved = true;
         }
         else {
             LOG.debug("attemptSetupOfInitialOpenOfDocument() Found document already in '" + PurchaseOrderStatuses.OPEN + "' status... will not change or update");
         }
-        return isInitialOpen;
+        return documentWasSaved;
     }
 
     public PurchaseOrderDocument getCurrentPurchaseOrder(Integer id) {

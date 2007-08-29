@@ -50,7 +50,7 @@ public interface PurchaseOrderService {
 
     public void performPurchaseOrderFirstTransmitViaPrinting(String documentNumber, ByteArrayOutputStream baosPDF);
 
-    public boolean retransmitPurchaseOrderPDF(PurchaseOrderDocument po, ByteArrayOutputStream baosPDF);
+    public void retransmitPurchaseOrderPDF(PurchaseOrderDocument po, ByteArrayOutputStream baosPDF);
 
     public void completePurchaseOrder(PurchaseOrderDocument po);
 

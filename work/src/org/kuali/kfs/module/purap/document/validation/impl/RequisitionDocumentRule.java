@@ -38,7 +38,7 @@ import org.kuali.module.purap.PurapWorkflowConstants.RequisitionDocument.NodeDet
 import org.kuali.module.purap.document.PurchasingAccountsPayableDocument;
 import org.kuali.module.purap.document.PurchasingDocument;
 import org.kuali.module.purap.document.RequisitionDocument;
-import org.kuali.module.purap.service.PurapService;
+import org.kuali.module.purap.service.PurApWorkflowIntegrationService;
 
 public class RequisitionDocumentRule extends PurchasingDocumentRuleBase {
 
@@ -58,7 +58,7 @@ public class RequisitionDocumentRule extends PurchasingDocumentRuleBase {
     public boolean requiresAccountValidationOnAllEnteredItems(PurchasingAccountsPayableDocument document) {
         //For Requisitions only, if the requisition status is in process,
         //then we don't need account validation.
-        if (SpringContext.getBean(PurapService.class).willDocumentStopAtGivenFutureRouteNode(document, NodeDetailEnum.CONTENT_REVIEW)) {
+        if (SpringContext.getBean(PurApWorkflowIntegrationService.class).willDocumentStopAtGivenFutureRouteNode(document, NodeDetailEnum.CONTENT_REVIEW)) {
             return false;
         }
         return super.requiresAccountValidationOnAllEnteredItems(document);

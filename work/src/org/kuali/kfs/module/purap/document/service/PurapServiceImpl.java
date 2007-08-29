@@ -15,7 +15,6 @@
  */
 package org.kuali.module.purap.service.impl;
 
-import java.security.InvalidParameterException;
 import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -34,13 +33,11 @@ import org.kuali.core.service.PersistenceService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
-import org.kuali.core.workflow.service.KualiWorkflowInfo;
 import org.kuali.kfs.bo.SourceAccountingLine;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.financial.service.UniversityDateService;
 import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.PurapRuleConstants;
-import org.kuali.module.purap.PurapWorkflowConstants.NodeDetails;
 import org.kuali.module.purap.bo.ItemType;
 import org.kuali.module.purap.bo.OrganizationParameter;
 import org.kuali.module.purap.bo.PurchaseOrderView;
@@ -54,9 +51,6 @@ import org.kuali.module.purap.service.PurapGeneralLedgerService;
 import org.kuali.module.purap.service.PurapService;
 import org.kuali.module.vendor.service.VendorService;
 
-import edu.iu.uis.eden.EdenConstants;
-import edu.iu.uis.eden.clientapp.vo.NetworkIdVO;
-import edu.iu.uis.eden.clientapp.vo.ReportCriteriaVO;
 import edu.iu.uis.eden.exception.WorkflowException;
 
 public class PurapServiceImpl implements PurapService {
@@ -270,61 +264,6 @@ public class PurapServiceImpl implements PurapService {
         return purchaseOrderTotalLimit;
     }
 
-    public boolean willDocumentStopAtGivenFutureRouteNode(PurchasingAccountsPayableDocument document, NodeDetails givenNodeDetail) {
-        if (givenNodeDetail == null) {
-            throw new InvalidParameterException("Given Node Detail object was null");
-        }
-        try {
-            String activeNode = null;
-            String[] nodeNames = document.getDocumentHeader().getWorkflowDocument().getNodeNames();
-            if (nodeNames.length == 1) {
-                activeNode = nodeNames[0];
-            }
-            if (isGivenNodeAfterCurrentNode(givenNodeDetail.getNodeDetailByName(activeNode), givenNodeDetail)) {
-                if (document.getDocumentHeader().getWorkflowDocument().stateIsInitiated()) {
-                    // document is only initiated so we need to pass xml for workflow to simulate route properly
-                    ReportCriteriaVO reportCriteriaVO = new ReportCriteriaVO(document.getDocumentHeader().getWorkflowDocument().getDocumentType());
-                    reportCriteriaVO.setXmlContent(document.getXmlForRouteReport());
-                    reportCriteriaVO.setRoutingUser(new NetworkIdVO(GlobalVariables.getUserSession().getUniversalUser().getPersonUserIdentifier()));
-                    reportCriteriaVO.setTargetNodeName(givenNodeDetail.getName());
-                    boolean value = SpringContext.getBean(KualiWorkflowInfo.class).documentWillHaveAtLeastOneActionRequest(
-                            reportCriteriaVO, new String[]{EdenConstants.ACTION_REQUEST_APPROVE_REQ,EdenConstants.ACTION_REQUEST_COMPLETE_REQ});
-                     return value;
-                }
-                else {
-                    /* Document has had at least one workflow action taken so we need to pass the doc id so the simulation will use the existing
-                     * actions taken and action requests in determining if rules will fire or not.  We also need to call a save routing data so that
-                     * the xml Workflow uses represents what is currently on the document
-                     */ 
-                    ReportCriteriaVO reportCriteriaVO = new ReportCriteriaVO(Long.valueOf(document.getDocumentNumber()));
-                    reportCriteriaVO.setXmlContent(document.getXmlForRouteReport());
-                    reportCriteriaVO.setTargetNodeName(givenNodeDetail.getName());
-                    boolean value = SpringContext.getBean(KualiWorkflowInfo.class).documentWillHaveAtLeastOneActionRequest(
-                            reportCriteriaVO, new String[]{EdenConstants.ACTION_REQUEST_APPROVE_REQ,EdenConstants.ACTION_REQUEST_COMPLETE_REQ});
-                     return value;
-                }
-            }
-            return false;
-        }
-        catch (WorkflowException e) {
-            String errorMessage = "Error trying to test document id '" + document.getDocumentNumber() + "' for action requests at node name '" + givenNodeDetail.getName() + "'";
-            LOG.error("isDocumentStoppingAtRouteLevel() " + errorMessage,e);
-            throw new RuntimeException(errorMessage,e);
-        }
-    }
-    
-    private boolean isGivenNodeAfterCurrentNode(NodeDetails currentNodeDetail, NodeDetails givenNodeDetail) {
-        if (ObjectUtils.isNull(givenNodeDetail)) {
-            // given node does not exist
-            return false;
-        }
-        if (ObjectUtils.isNull(currentNodeDetail)) {
-            // current node does not exist... assume we are pre-route
-            return true;
-        }
-        return givenNodeDetail.getOrdinal() > currentNodeDetail.getOrdinal();
-    }
-    
     private boolean allowEncumberNextFiscalYear() {
         LOG.debug("allowEncumberNextFiscalYear() started");
 

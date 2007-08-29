@@ -96,6 +96,7 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
     // NOT PERSISTED IN DB
     private String vendorNumber;
     private Integer vendorAddressGeneratedIdentifier;
+    private Boolean overrideWorkflowButtons = null;
 
     // COMMON ELEMENTS
     protected List statusHistories;
@@ -277,6 +278,22 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
     }
 
     // GETTERS AND SETTERS
+    /**
+     * Gets the overrideWorkflowButtons attribute. 
+     * @return Returns the overrideWorkflowButtons.
+     */
+    public Boolean getOverrideWorkflowButtons() {
+        return overrideWorkflowButtons;
+    }
+
+    /**
+     * Sets the overrideWorkflowButtons attribute value.
+     * @param overrideWorkflowButtons The overrideWorkflowButtons to set.
+     */
+    public void setOverrideWorkflowButtons(Boolean overrideWorkflowButtons) {
+        this.overrideWorkflowButtons = overrideWorkflowButtons;
+    }
+
     /**
      * Gets the vendorHeaderGeneratedIdentifier attribute.
      * 

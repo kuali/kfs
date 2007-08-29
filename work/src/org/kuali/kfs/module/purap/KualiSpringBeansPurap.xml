@@ -147,6 +147,12 @@
         </property>
 	</bean>
 	
+	<bean id="purapWorkflowIntegrationService" class="org.kuali.module.purap.service.impl.PurApWorkflowIntegrationServiceImpl">
+        <property name="kualiWorkflowInfo">
+            <ref bean="workflowInfoService" />
+        </property>
+	</bean>
+	
     <bean id="purapGeneralLedgerService" class="org.kuali.module.purap.service.impl.PurapGeneralLedgerServiceImpl">
         <property name="businessObjectService">
             <ref bean="businessObjectService" />

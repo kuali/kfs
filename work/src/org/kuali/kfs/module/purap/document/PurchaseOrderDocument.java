@@ -136,6 +136,18 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase {
     }
 
     /**
+     * @see org.kuali.module.purap.document.PurchasingAccountsPayableDocumentBase#getOverrideWorkflowButtons()
+     */
+    @Override
+    public Boolean getOverrideWorkflowButtons() {
+        if (ObjectUtils.isNull(super.getOverrideWorkflowButtons())) {
+            // should only be null on the first call... never after
+            setOverrideWorkflowButtons(Boolean.TRUE);
+        }
+        return super.getOverrideWorkflowButtons();
+    }
+
+    /**
      * @see org.kuali.core.bo.PersistableBusinessObjectBase#isBoNotesSupport()
      */
     @Override
@@ -739,13 +751,6 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase {
         this.purchaseOrderCurrentIndicator = purchaseOrderCurrentIndicator;
     }
     
-    /**
-     * @return a value of true if the PO document has had it's first transmission
-     */
-    public boolean isPurchaseOrderHadFirstTransmission() {
-        return ObjectUtils.isNotNull(getPurchaseOrderFirstTransmissionDate());
-    }
-
     /**
      * Gets the purchaseOrderFirstTransmissionDate attribute. 
      * @return Returns the purchaseOrderFirstTransmissionDate.

@@ -27,16 +27,18 @@ import org.kuali.core.document.authorization.DocumentActionFlags;
 import org.kuali.core.exceptions.GroupNotFoundException;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.service.KualiGroupService;
+import org.kuali.core.util.GlobalVariables;
+import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.workflow.service.KualiWorkflowDocument;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.document.authorization.AccountingDocumentAuthorizerBase;
 import org.kuali.module.purap.PurapAuthorizationConstants;
-import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.PurapParameterConstants;
-import org.kuali.module.purap.PurapRuleConstants;
 import org.kuali.module.purap.PurapWorkflowConstants;
 import org.kuali.module.purap.PurapConstants.PurchaseOrderStatuses;
+import org.kuali.module.purap.PurapWorkflowConstants.PurchaseOrderDocument.NodeDetailEnum;
 import org.kuali.module.purap.document.PurchaseOrderDocument;
+import org.kuali.module.purap.service.PurApWorkflowIntegrationService;
 
 /**
  * Document Authorizer for the PO document.
@@ -124,7 +126,25 @@ public class PurchaseOrderDocumentAuthorizer extends AccountingDocumentAuthorize
         if ((StringUtils.equals(statusCode,PurchaseOrderStatuses.WAITING_FOR_DEPARTMENT)) ||
             (StringUtils.equals(statusCode,PurchaseOrderStatuses.WAITING_FOR_VENDOR))){
             flags.setCanRoute(false);
-        }       
+        }
+        else if (PurchaseOrderStatuses.STATUSES_BY_TRANSMISSION_TYPE.values().contains(statusCode)) {
+            if (SpringContext.getBean(PurApWorkflowIntegrationService.class).isActionRequestedOfUserAtNodeName(po.getDocumentNumber(), NodeDetailEnum.DOCUMENT_TRANSMISSION.getName(), GlobalVariables.getUserSession().getUniversalUser())) {
+                /* code below for overriding workflow buttons has to do with hiding the workflow buttons but still allowing the 
+                 * actions... this is needed because document service calls this method (getDocumentActionFlags) before it will
+                 * allow a workflow action to be performed
+                 */
+                if ( ObjectUtils.isNotNull(po.getOverrideWorkflowButtons()) && (po.getOverrideWorkflowButtons()) ) {
+                    /* if document is in pending transmission status and current user has document transmission action request
+                     * then assume that the transmit button/action whatever it might be will take associated workflow action
+                     * for user automatically
+                     */
+                    flags.setCanApprove(false);
+                    flags.setCanDisapprove(false);
+                    flags.setCanAcknowledge(false);
+                    flags.setCanFYI(false);
+                }
+            }
+        }
         return flags;
     }
 }

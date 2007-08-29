@@ -19,17 +19,13 @@ import java.sql.Date;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.core.bo.Note;
 import org.kuali.core.exceptions.UserNotFoundException;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.bo.SourceAccountingLine;
-import org.kuali.module.purap.PurapWorkflowConstants.NodeDetails;
 import org.kuali.module.purap.bo.ItemType;
 import org.kuali.module.purap.bo.PurchasingApItem;
 import org.kuali.module.purap.document.PurchasingAccountsPayableDocument;
 
-import edu.iu.uis.eden.clientapp.WorkflowDocument;
-import edu.iu.uis.eden.clientapp.vo.ReportCriteriaVO;
 import edu.iu.uis.eden.exception.WorkflowException;
 
 public interface PurapService {
@@ -84,16 +80,6 @@ public interface PurapService {
      * @return a KualiDecimal if a valid limit amount is found or null if one is not found
      */
     public KualiDecimal getApoLimit(Integer vendorContractGeneratedIdentifier, String chart, String org);
-
-    
-    /**
-     * TODO delyea - documentation
-     * @param document
-     * @param nodeDetail
-     * @param routeNodeName
-     * @return
-     */
-    public boolean willDocumentStopAtGivenFutureRouteNode(PurchasingAccountsPayableDocument document, NodeDetails givenNodeDetail);
 
     /**
      * This method returns a list of fiscal years that can be selected from on the document (built for Requisition and Purchase Order).  Typically

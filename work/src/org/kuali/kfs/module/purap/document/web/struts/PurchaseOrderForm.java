@@ -27,18 +27,19 @@ import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.web.ui.ExtraButton;
 import org.kuali.core.web.ui.KeyLabelPair;
-import org.kuali.core.workflow.service.KualiWorkflowDocument;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.purap.PurapAuthorizationConstants;
 import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.PurapParameterConstants;
+import org.kuali.module.purap.PurapWorkflowConstants.PurchaseOrderDocument.NodeDetailEnum;
 import org.kuali.module.purap.bo.PurchaseOrderAccount;
 import org.kuali.module.purap.bo.PurchaseOrderItem;
 import org.kuali.module.purap.bo.PurchaseOrderVendorQuote;
 import org.kuali.module.purap.bo.PurchaseOrderVendorStipulation;
 import org.kuali.module.purap.bo.PurchasingApItem;
 import org.kuali.module.purap.document.PurchaseOrderDocument;
+import org.kuali.module.purap.service.PurApWorkflowIntegrationService;
 
 /**
  * This class is the form class for the PurchaseOrder document.
@@ -173,8 +174,6 @@ public class PurchaseOrderForm extends PurchasingFormBase {
 
         String documentType = this.getDocument().getDocumentHeader().getWorkflowDocument().getDocumentType();
         PurchaseOrderDocument purchaseOrder = (PurchaseOrderDocument) this.getDocument();
-        KualiWorkflowDocument workflowDocument = purchaseOrder.getDocumentHeader().getWorkflowDocument();
-        
 
         String authorizedWorkgroup = SpringContext.getBean(KualiConfigurationService.class).getApplicationParameterValue(PurapParameterConstants.PURAP_ADMIN_GROUP, PurapParameterConstants.Workgroups.PURAP_DOCUMENT_PO_ACTIONS);
         boolean isUserAuthorized = false;
@@ -210,10 +209,9 @@ public class PurchaseOrderForm extends PurchasingFormBase {
         
         // show the PO Print button if the status is Pending Print and the user is either authorized or an action is requested of them
         // for the document transmission route node
-        // TODO delyea - adjust isActionRequested to be specific to Pending Transmission Node Name once RICE changes are in
-        boolean isActionRequested = (!workflowDocument.stateIsException()) && (workflowDocument.isCompletionRequested() || workflowDocument.isApprovalRequested() || workflowDocument.isAcknowledgeRequested() || workflowDocument.isFYIRequested());
+        boolean isDocumentTransmissionActionRequested = SpringContext.getBean(PurApWorkflowIntegrationService.class).isActionRequestedOfUserAtNodeName(purchaseOrder.getDocumentNumber(), NodeDetailEnum.DOCUMENT_TRANSMISSION.getName(), GlobalVariables.getUserSession().getUniversalUser());
         if ( PurapConstants.PurchaseOrderStatuses.PENDING_PRINT.equals(purchaseOrder.getStatusCode()) &&
-                (isUserAuthorized ||  isActionRequested) ) {
+                (isUserAuthorized ||  isDocumentTransmissionActionRequested) ) {
             ExtraButton printButton = new ExtraButton();
             printButton.setExtraButtonProperty("methodToCall.firstTransmitPrintPo");
             printButton.setExtraButtonSource("${" + KFSConstants.EXTERNALIZABLE_IMAGES_URL_KEY + "}buttonsmall_print.gif");
@@ -222,7 +220,7 @@ public class PurchaseOrderForm extends PurchasingFormBase {
         }
         // show the payment hold button
         if ( PurapConstants.PurchaseOrderStatuses.STATUSES_BY_TRANSMISSION_TYPE.values().contains(purchaseOrder.getStatusCode()) &&
-                (isUserAuthorized ||  isActionRequested) ) {
+                (isUserAuthorized ||  isDocumentTransmissionActionRequested) ) {
             ExtraButton paymentHoldButton = new ExtraButton();
             paymentHoldButton.setExtraButtonProperty("methodToCall.paymentHoldPo");
             paymentHoldButton.setExtraButtonSource("${" + KFSConstants.EXTERNALIZABLE_IMAGES_URL_KEY + "}buttonsmall_paymenthold.gif");

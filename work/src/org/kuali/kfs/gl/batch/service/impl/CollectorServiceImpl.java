@@ -79,6 +79,7 @@ public class CollectorServiceImpl implements CollectorService {
                     processedFiles.add(inputFileName);
                 }
             }
+            updateCollectorReportDataWithExecutionStatistics(collectorReportData, collectorScrubberStatuses);
         }
         finally {
             collectorScrubberService.removeTempGroups(collectorScrubberStatuses);
@@ -86,7 +87,6 @@ public class CollectorServiceImpl implements CollectorService {
             originEntryGroupService.save(group);
             removeDoneFiles(processedFiles);
         }
-        updateCollectorReportDataWithExecutionStatistics(collectorReportData, collectorScrubberStatuses);
         return collectorReportData;
     }
 

@@ -395,7 +395,9 @@ public class PurapServiceImpl implements PurapService {
             SpringContext.getBean(PurapGeneralLedgerService.class).generateEntriesCreateCreditMemo((CreditMemoDocument)purapDocument);
             // route potential 'Re-Open PO Document' if PO criteria meets requirements from EPIC business rules
         }
-        throw new RuntimeException("Attempted to perform full entry logic for unhandled document type '" + purapDocument.getClass().getName() + "'");
+        else {
+            throw new RuntimeException("Attempted to perform full entry logic for unhandled document type '" + purapDocument.getClass().getName() + "'");
+        }
     }
     
     public Object performLogicWithFakedUserSession(String requiredUniversalUserPersonUserId, LogicToRunAsFakeUser logicToRun, Object... objects) throws UserNotFoundException, WorkflowException, Exception {

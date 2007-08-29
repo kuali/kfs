@@ -74,7 +74,7 @@ public class OrganizationSelectionTreeForm extends KualiForm {
      */
     @Override
     public void populate(HttpServletRequest request) {
-        // TODO Auto-generated method stub
+
         super.populate(request);
 
         OrgSelOpMode opMode = OrgSelOpMode.valueOf(getOperatingMode());  

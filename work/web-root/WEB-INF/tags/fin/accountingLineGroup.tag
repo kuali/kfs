@@ -363,8 +363,8 @@ It's followed by 0 or more rows for the accounting lines that have already been 
     <c:choose>
         <c:when test="${debitCreditAmount}" >
             <%-- from JournalVoucherForm --%>
-            <td class="total-line" style="border-left: 0px;"><strong>Debit Total: $${KualiForm.currencyFormattedDebitTotal}</strong></td>
-            <td class="total-line" style="border-left: 0px;"><strong>Credit Total: $${KualiForm.currencyFormattedCreditTotal}</strong></td>
+            <td class="total-line" style="border-left: 0px;"><strong>Debit Total: ${KualiForm.currencyFormattedDebitTotal}</strong></td>
+            <td class="total-line" style="border-left: 0px;"><strong>Credit Total: ${KualiForm.currencyFormattedCreditTotal}</strong></td>
         </c:when>
         <c:when test="${hideTotalLine}" >
             <c:if test="${isSource}">
@@ -380,10 +380,10 @@ It's followed by 0 or more rows for the accounting lines that have already been 
             <c:choose>
                 <c:when test="${useCurrencyFormattedTotal}" >
                     <%-- from JournalVoucherForm --%>
-                    <td class="total-line" style="border-left: 0px;"><strong>Total: $${KualiForm.currencyFormattedTotal}</strong></td>
+                    <td class="total-line" style="border-left: 0px;"><strong>Total: ${KualiForm.currencyFormattedTotal}</strong></td>
                 </c:when>
                 <c:otherwise>
-                <td class="total-line" style="border-left: 0px;"><strong>Total: $${KualiForm[totalName]}</strong></td>
+                <td class="total-line" style="border-left: 0px;"><strong>Total: ${KualiForm[totalName]}</strong></td>
                 </c:otherwise>
             </c:choose>
         </c:otherwise>

@@ -124,7 +124,7 @@
         </logic:iterate>
 		<tr>
 	 		<td class="total-line" colspan="6">&nbsp;</td>
-	  		<td class="total-line" ><strong>Total: $${KualiForm.document.currencyFormattedTotalAdvanceDepositAmount}</strong><html:hidden write="false" property="document.totalAdvanceDepositAmount" /></td>
+	  		<td class="total-line" ><strong>Total: ${KualiForm.document.currencyFormattedTotalAdvanceDepositAmount}</strong><html:hidden write="false" property="document.totalAdvanceDepositAmount" /></td>
             <c:if test="${not readOnly}">
                 <td class="total-line">&nbsp;</td>
             </c:if>

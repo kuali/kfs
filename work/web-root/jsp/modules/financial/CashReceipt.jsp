@@ -67,7 +67,7 @@
 						useShortLabel="false" /></div>
 					</th>
 					<c:if test="${readOnly}">
-						<td>$${KualiForm.document.currencyFormattedTotalCheckAmount} <html:hidden
+						<td>${KualiForm.document.currencyFormattedTotalCheckAmount} <html:hidden
 							write="false" property="document.totalCheckAmount" /> <html:hidden
 							write="false" property="checkEntryMode" /></td>
 					</c:if>
@@ -75,7 +75,7 @@
 						<td><c:if test="${!checkDetailMode}">
 							<kul:htmlControlAttribute property="document.totalCheckAmount"
 								attributeEntry="${cashReceiptAttributes.totalCheckAmount}" />
-						</c:if> <c:if test="${checkDetailMode}"> $${KualiForm.document.currencyFormattedTotalCheckAmount} 
+						</c:if> <c:if test="${checkDetailMode}"> ${KualiForm.document.currencyFormattedTotalCheckAmount} 
 	        		<html:hidden write="false"
 								property="document.totalCheckAmount" />
 						</c:if>
@@ -97,7 +97,7 @@
 						attributeEntry="${cashReceiptAttributes.totalCashAmount}"
 						useShortLabel="false" /></strong></div>
 					</th>
-					<td width="35%" align="left" valign="middle">$${KualiForm.document.currencyFormattedTotalCashAmount}</td>
+					<td width="35%" align="left" valign="middle">${KualiForm.document.currencyFormattedTotalCashAmount}</td>
 				</tr>
 				<tr>
 					<th>
@@ -105,7 +105,7 @@
 						attributeEntry="${cashReceiptAttributes.totalCoinAmount}"
 						useShortLabel="false" /></strong></div>
 					</th>
-					<td width="35%" align="left" valign="middle">$${KualiForm.document.currencyFormattedTotalCoinAmount}</td>
+					<td width="35%" align="left" valign="middle">${KualiForm.document.currencyFormattedTotalCoinAmount}</td>
 				</tr>
 				<tr>
 					<th>
@@ -113,7 +113,7 @@
 						attributeEntry="${cashReceiptAttributes.sumTotalAmount}"
 						useShortLabel="false" skipHelpUrl="true" /></strong></div>
 					</th>
-					<td width="35%" align="left" valign="middle">$${KualiForm.document.currencyFormattedSumTotalAmount}&nbsp;&nbsp;&nbsp;
+					<td width="35%" align="left" valign="middle">${KualiForm.document.currencyFormattedSumTotalAmount}&nbsp;&nbsp;&nbsp;
 					<c:if test="${!readOnly}">
 						<html:image src="${ConfigProperties.externalizable.images.url}tinybutton-recalculate.gif"
 							styleClass="tinybutton" alt="recalculate total" title="recalculate total" />

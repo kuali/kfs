@@ -52,7 +52,7 @@
                 <c:if test="${!empty totalAmount}">
                     <tr>
                         <td class="total-line" colspan="4">&nbsp;</td>
-                        <td class="total-line"><strong>Total: $${totalAmount}</strong></td>
+                        <td class="total-line"><strong>Total: ${totalAmount}</strong></td>
                         <c:if test="${!readOnly}">
                             <td class="total-line">&nbsp;</td>
                         </c:if>

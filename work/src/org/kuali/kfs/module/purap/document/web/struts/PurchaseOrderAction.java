@@ -261,8 +261,7 @@ public class PurchaseOrderAction extends PurchasingActionBase {
             Object buttonClicked = request.getParameter(KFSConstants.QUESTION_CLICKED_BUTTON);
             if (question.equals(questionType) && buttonClicked.equals(ConfirmationQuestion.NO)) {
                 // If 'No' is the button clicked, just reload the doc
-                ((PurchaseOrderForm) kualiDocumentFormBase).addButtons();
-                return mapping.findForward(KFSConstants.MAPPING_BASIC);
+                return returnToPreviousPage(mapping, kualiDocumentFormBase);
             }
             else if (question.equals(confirmType) && buttonClicked.equals(SingleConfirmationQuestion.OK)) {
                 // This is the case when the user clicks on "OK" in the end.
@@ -324,16 +323,14 @@ public class PurchaseOrderAction extends PurchasingActionBase {
             GlobalVariables.getMessageList().add(messageType);
         }
         if (documentType.equals(PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_AMENDMENT_DOCUMENT)) {
-            ((PurchaseOrderForm) kualiDocumentFormBase).addButtons();
-            return mapping.findForward(KFSConstants.MAPPING_BASIC);
+            return returnToPreviousPage(mapping, kualiDocumentFormBase);
         }
         else {
             if (GlobalVariables.getErrorMap().isEmpty()) {
                 return this.performQuestionWithoutInput(mapping, form, request, response, confirmType, kualiConfiguration.getPropertyString(messageType), PODocumentsStrings.SINGLE_CONFIRMATION_QUESTION, questionType, "");
             }
             else {
-                ((PurchaseOrderForm) kualiDocumentFormBase).addButtons();
-                return mapping.findForward(KFSConstants.MAPPING_BASIC);
+                return returnToPreviousPage(mapping, kualiDocumentFormBase);
             }
         }
     }
@@ -406,6 +403,18 @@ public class PurchaseOrderAction extends PurchasingActionBase {
         LOG.debug("Void PO started");
         String operation = "Void ";
         return askQuestionsAndPerformDocumentAction(mapping, form, request, response, PODocumentsStrings.VOID_QUESTION, PODocumentsStrings.VOID_CONFIRM, PurchaseOrderDocTypes.PURCHASE_ORDER_VOID_DOCUMENT, PODocumentsStrings.VOID_NOTE_PREFIX, PurapKeyConstants.PURCHASE_ORDER_MESSAGE_VOID_DOCUMENT, operation);
+    }
+    
+    /**
+     * This is a utility method used to prepare to and to return to a previous page, making sure that the buttons will be restored in the
+     * process.
+     * 
+     * @param kualiDocumentFormBase     The Form, considered as a KualiDocumentFormBase, as it typically is here.
+     * @return  An actionForward mapping back to the original page.
+     */
+    protected ActionForward returnToPreviousPage(ActionMapping mapping, KualiDocumentFormBase kualiDocumentFormBase) {
+        ((PurchaseOrderForm) kualiDocumentFormBase).addButtons();
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
     /**

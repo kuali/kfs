@@ -261,6 +261,7 @@ public class PurchaseOrderAction extends PurchasingActionBase {
             Object buttonClicked = request.getParameter(KFSConstants.QUESTION_CLICKED_BUTTON);
             if (question.equals(questionType) && buttonClicked.equals(ConfirmationQuestion.NO)) {
                 // If 'No' is the button clicked, just reload the doc
+                ((PurchaseOrderForm) kualiDocumentFormBase).addButtons();
                 return mapping.findForward(KFSConstants.MAPPING_BASIC);
             }
             else if (question.equals(confirmType) && buttonClicked.equals(SingleConfirmationQuestion.OK)) {
@@ -323,6 +324,7 @@ public class PurchaseOrderAction extends PurchasingActionBase {
             GlobalVariables.getMessageList().add(messageType);
         }
         if (documentType.equals(PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_AMENDMENT_DOCUMENT)) {
+            ((PurchaseOrderForm) kualiDocumentFormBase).addButtons();
             return mapping.findForward(KFSConstants.MAPPING_BASIC);
         }
         else {
@@ -330,6 +332,7 @@ public class PurchaseOrderAction extends PurchasingActionBase {
                 return this.performQuestionWithoutInput(mapping, form, request, response, confirmType, kualiConfiguration.getPropertyString(messageType), PODocumentsStrings.SINGLE_CONFIRMATION_QUESTION, questionType, "");
             }
             else {
+                ((PurchaseOrderForm) kualiDocumentFormBase).addButtons();
                 return mapping.findForward(KFSConstants.MAPPING_BASIC);
             }
         }
@@ -1041,7 +1044,7 @@ public class PurchaseOrderAction extends PurchasingActionBase {
     
     private ActionForward askSaveQuestions(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response, String questionType) {
         KualiDocumentFormBase kualiDocumentFormBase = (KualiDocumentFormBase) form;
-        PurchaseOrderDocument po = (PurchaseOrderDocument) kualiDocumentFormBase.getDocument();
+        PurchaseOrderDocument po = (PurchaseOrderDocument)kualiDocumentFormBase.getDocument();
         Object question = request.getParameter(KFSConstants.QUESTION_INST_ATTRIBUTE_NAME);
         String reason = request.getParameter(KFSConstants.QUESTION_REASON_ATTRIBUTE_NAME);
         KualiConfigurationService kualiConfiguration = SpringContext.getBean(KualiConfigurationService.class);
@@ -1061,6 +1064,7 @@ public class PurchaseOrderAction extends PurchasingActionBase {
             Object buttonClicked = request.getParameter(KFSConstants.QUESTION_CLICKED_BUTTON);
             if (question.equals(questionType) && buttonClicked.equals(ConfirmationQuestion.NO)) {
                 // If 'No' is the button clicked, just reload the doc
+                ((PurchaseOrderForm)kualiDocumentFormBase).addButtons();
                 return forward;
             }
             
@@ -1124,6 +1128,7 @@ public class PurchaseOrderAction extends PurchasingActionBase {
                 throw new RuntimeException(e);
             }
         }
+        ((PurchaseOrderForm)kualiDocumentFormBase).addButtons();
         return forward;
     }
     

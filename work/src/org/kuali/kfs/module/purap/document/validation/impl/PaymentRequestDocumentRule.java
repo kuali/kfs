@@ -261,6 +261,7 @@ public class PaymentRequestDocumentRule extends AccountsPayableDocumentRuleBase 
         GlobalVariables.getErrorMap().clearErrorPath();
         GlobalVariables.getErrorMap().addToErrorPath(RicePropertyConstants.DOCUMENT);
         for (PurchaseOrderItem poi : (List<PurchaseOrderItem>)document.getItems()) {
+            // Quantity-based items
             if (poi.getItemType().isItemTypeAboveTheLineIndicator() && poi.getItemType().isQuantityBasedGeneralLedgerIndicator()) {                  
                 KualiDecimal encumberedQuantity = poi.getItemOutstandingEncumberedQuantity() == null ? zero : poi.getItemOutstandingEncumberedQuantity();
                 if (encumberedQuantity.compareTo(zero) == 1) {
@@ -268,6 +269,7 @@ public class PaymentRequestDocumentRule extends AccountsPayableDocumentRuleBase 
                     break;
                 }
             }
+            // Service Items or Below-the-line Items
             else if (!poi.getItemType().isQuantityBasedGeneralLedgerIndicator() || !poi.getItemType().isItemTypeAboveTheLineIndicator()) {
                 KualiDecimal encumberedAmount = poi.getItemOutstandingEncumberedAmount() == null ? zero : poi.getItemOutstandingEncumberedAmount();
                 if (encumberedAmount.compareTo(zero) == 1) {

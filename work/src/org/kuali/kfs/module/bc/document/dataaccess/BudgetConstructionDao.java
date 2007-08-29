@@ -115,6 +115,15 @@ public interface BudgetConstructionDao {
     public void deleteBudgetConstructionPullupByUserId (String personUserIdentifier);
     
     /**
+     * This method returns a list of BudgetConstructionPullup objects (organizations) ownded by 
+     * the user that have the pullflag set
+     * 
+     * @param personUserIdentifier
+     * @return
+     */
+    public List getBudgetConstructionPullupFlagSetByUserId (String personUserIdentifier);
+
+    /**
      * This returns a list of BudgetConstructionPullup objects (organizations) that are children
      * to the passed in organization for the user
      * 

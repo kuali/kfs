@@ -27,7 +27,9 @@ import org.apache.ojb.broker.query.QueryByCriteria;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
 import org.kuali.core.dao.ojb.PlatformAwareDaoBaseOjb;
+import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.util.KFSUtils;
+import org.kuali.module.budget.BCConstants.OrgSelControlOption;
 import org.kuali.module.budget.bo.BudgetConstructionFundingLock;
 import org.kuali.module.budget.bo.BudgetConstructionHeader;
 import org.kuali.module.budget.bo.BudgetConstructionPosition;
@@ -208,6 +210,22 @@ public class BudgetConstructionDaoOjb extends PlatformAwareDaoBaseOjb implements
     }
 
     /**
+     * @see org.kuali.module.budget.dao.BudgetConstructionDao#getBudgetConstructionPullupFlagSetByUserId(java.lang.String)
+     */
+    public List getBudgetConstructionPullupFlagSetByUserId(String personUserIdentifier) {
+        List orgs = new ArrayList();
+
+        Criteria criteria = new Criteria();
+        criteria.addEqualTo(KFSPropertyConstants.KUALI_USER_PERSON_UNIVERSAL_IDENTIFIER, personUserIdentifier);
+        criteria.addGreaterThan("pullFlag", OrgSelControlOption.NO.getKey());
+        orgs = (List) getPersistenceBrokerTemplate().getCollectionByQuery(QueryFactory.newQuery(BudgetConstructionPullup.class, criteria));
+        if (orgs.isEmpty() || orgs.size() == 0) {
+            return Collections.EMPTY_LIST;
+        }
+        return orgs;
+    }
+
+    /**
      * @see org.kuali.module.budget.dao.BudgetConstructionDao#getBcPullupChildOrgs(java.lang.String, java.lang.String, java.lang.String)
      */
     public List getBudgetConstructionPullupChildOrgs(String personUniversalIdentifier, String chartOfAccountsCode, String organizationCode) {
@@ -222,6 +240,7 @@ public class BudgetConstructionDaoOjb extends PlatformAwareDaoBaseOjb implements
         Criteria criteria = new Criteria();
         criteria.addEqualTo("reportsToChartOfAccountsCode", chartOfAccountsCode);
         criteria.addEqualTo("reportsToOrganizationCode", organizationCode);
+        criteria.addEqualTo("personUniversalIdentifier", personUniversalIdentifier);
         criteria.addAndCriteria(cycleCheckCriteria);
         
         QueryByCriteria query = QueryFactory.newQuery(BudgetConstructionPullup.class, criteria);

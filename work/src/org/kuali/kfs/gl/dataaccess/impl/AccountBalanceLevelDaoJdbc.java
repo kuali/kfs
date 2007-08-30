@@ -48,75 +48,75 @@ public class AccountBalanceLevelDaoJdbc extends AccountBalanceDaoJdbcBase implem
         List<Map<String,Object>> data = null;
         
         try {
-        // Delete any data for this session if it exists already (unlikely, but you never know)
-        clearTempTable( "fp_bal_by_level_mt", "SESID", sessionId );
-        clearTempTable( "fp_interim1_level_mt", "SESID", sessionId );
-
-        // Add in all the data we need
-        getSimpleJdbcTemplate().update( "INSERT INTO fp_interim1_level_mt (UNIV_FISCAL_YR, FIN_COA_CD, ACCOUNT_NBR, SUB_ACCT_NBR, FIN_OBJECT_CD, FIN_SUB_OBJ_CD, " +
-        		" CURR_BDLN_BAL_AMT, " + "ACLN_ACTLS_BAL_AMT, ACLN_ENCUM_BAL_AMT, TIMESTAMP, FIN_REPORT_SORT_CD, " +
-				" FIN_OBJ_LEVEL_CD, SESID) " +
-				" SELECT A.UNIV_FISCAL_YR, A.FIN_COA_CD, A.ACCOUNT_NBR, A.SUB_ACCT_NBR,A.FIN_OBJECT_CD, " +
-				" A.FIN_SUB_OBJ_CD,A.CURR_BDLN_BAL_AMT, A.ACLN_ACTLS_BAL_AMT, A.ACLN_ENCUM_BAL_AMT, " +
-				" A.TIMESTAMP, fin_report_sort_cd, l.fin_obj_level_cd, ? " +
-				" FROM gl_acct_balances_t a, ca_object_code_t o, ca_obj_level_t l " +
-				" WHERE a.univ_fiscal_yr = ? AND a.fin_coa_cd = ? AND a.account_nbr = ?" +
-				" AND a.univ_fiscal_yr = o.univ_fiscal_yr AND a.fin_coa_cd = o.fin_coa_cd " +
-				" AND a.fin_object_cd = o.fin_object_cd AND o.fin_coa_cd = l.fin_coa_cd AND o.fin_obj_level_cd = l.fin_obj_level_cd" +
-				" AND l.fin_cons_obj_cd = ? AND o.univ_fiscal_yr = ? AND o.fin_coa_cd = ? ",
-        		sessionId, universityFiscalYear, chartOfAccountsCode, accountNumber, financialConsolidationObjectCode, universityFiscalYear, chartOfAccountsCode );
-
-        // Summarize pending entries into fp_interim1_level_mt if necessary
-        if ((pendingEntriesCode == AccountBalanceService.PENDING_ALL) || (pendingEntriesCode == AccountBalanceService.PENDING_APPROVED)) {
-            if (getMatchingPendingEntriesByLevel(options, universityFiscalYear, chartOfAccountsCode, accountNumber, financialConsolidationObjectCode, isCostShareExcluded, pendingEntriesCode, sessionId)) {
-                summarizePendingEntriesByLevel(options, sessionId);
+            // Delete any data for this session if it exists already (unlikely, but you never know)
+            clearTempTable( "fp_bal_by_level_mt", "SESID", sessionId );
+            clearTempTable( "fp_interim1_level_mt", "SESID", sessionId );
+    
+            // Add in all the data we need
+            getSimpleJdbcTemplate().update( "INSERT INTO fp_interim1_level_mt (UNIV_FISCAL_YR, FIN_COA_CD, ACCOUNT_NBR, SUB_ACCT_NBR, FIN_OBJECT_CD, FIN_SUB_OBJ_CD, " +
+            		" CURR_BDLN_BAL_AMT, " + "ACLN_ACTLS_BAL_AMT, ACLN_ENCUM_BAL_AMT, TIMESTAMP, FIN_REPORT_SORT_CD, " +
+    				" FIN_OBJ_LEVEL_CD, SESID) " +
+    				" SELECT A.UNIV_FISCAL_YR, A.FIN_COA_CD, A.ACCOUNT_NBR, A.SUB_ACCT_NBR,A.FIN_OBJECT_CD, " +
+    				" A.FIN_SUB_OBJ_CD,A.CURR_BDLN_BAL_AMT, A.ACLN_ACTLS_BAL_AMT, A.ACLN_ENCUM_BAL_AMT, " +
+    				" A.TIMESTAMP, fin_report_sort_cd, l.fin_obj_level_cd, ? " +
+    				" FROM gl_acct_balances_t a, ca_object_code_t o, ca_obj_level_t l " +
+    				" WHERE a.univ_fiscal_yr = ? AND a.fin_coa_cd = ? AND a.account_nbr = ?" +
+    				" AND a.univ_fiscal_yr = o.univ_fiscal_yr AND a.fin_coa_cd = o.fin_coa_cd " +
+    				" AND a.fin_object_cd = o.fin_object_cd AND o.fin_coa_cd = l.fin_coa_cd AND o.fin_obj_level_cd = l.fin_obj_level_cd" +
+    				" AND l.fin_cons_obj_cd = ? AND o.univ_fiscal_yr = ? AND o.fin_coa_cd = ? ",
+            		sessionId, universityFiscalYear, chartOfAccountsCode, accountNumber, financialConsolidationObjectCode, universityFiscalYear, chartOfAccountsCode );
+    
+            // Summarize pending entries into fp_interim1_level_mt if necessary
+            if ((pendingEntriesCode == AccountBalanceService.PENDING_ALL) || (pendingEntriesCode == AccountBalanceService.PENDING_APPROVED)) {
+                if (getMatchingPendingEntriesByLevel(options, universityFiscalYear, chartOfAccountsCode, accountNumber, financialConsolidationObjectCode, isCostShareExcluded, pendingEntriesCode, sessionId)) {
+                    summarizePendingEntriesByLevel(options, sessionId);
+                }
             }
-        }
-
-        // Delete what we don't need
-        if (isCostShareExcluded) {
-			purgeCostShareEntries( "fp_interim1_level_mt", "sesid", sessionId );
-        }
-
-        // Summarize
-        if (isConsolidated) {
-        	getSimpleJdbcTemplate().update( 
-					"INSERT INTO fp_bal_by_level_mt (SUB_ACCT_NBR, FIN_OBJ_LEVEL_CD, FIN_REPORT_SORT_CD, CURR_BDLN_BAL_AMT, ACLN_ACTLS_BAL_AMT, ACLN_ENCUM_BAL_AMT, "
-					+ "TYP_FIN_REPORT_SORT_CD, SESID) SELECT '*ALL*', fin_obj_level_cd,fin_report_sort_cd, SUM(curr_bdln_bal_amt), "
-					+ "SUM(acln_actls_bal_amt), SUM(acln_encum_bal_amt),?, ?"
-					+ " FROM fp_interim1_level_mt "
-					+ " WHERE fp_interim1_level_mt.SESID = ? "
-					+ " GROUP BY fin_report_sort_cd, fin_obj_level_cd",
-					financialReportingSortCode,
-					sessionId,
-					sessionId					
-					);
-        }
-        else {
-        	getSimpleJdbcTemplate().update( 
-        			"INSERT INTO fp_bal_by_level_mt (SUB_ACCT_NBR, FIN_OBJ_LEVEL_CD, FIN_REPORT_SORT_CD, CURR_BDLN_BAL_AMT, ACLN_ACTLS_BAL_AMT, ACLN_ENCUM_BAL_AMT, "
-					+ "TYP_FIN_REPORT_SORT_CD, SESID) SELECT  sub_acct_nbr, fin_obj_level_cd, fin_report_sort_cd, SUM(curr_bdln_bal_amt), "
-					+ "SUM(acln_actls_bal_amt), SUM(acln_encum_bal_amt), ?, ? "
-					+ " FROM fp_interim1_level_mt "
-					+ " WHERE fp_interim1_level_mt.SESID = ? "
-					+ " GROUP BY sub_acct_nbr, fin_report_sort_cd, fin_obj_level_cd",
-					financialReportingSortCode,
-                    sessionId,
-                    sessionId
-					);
-        }
-
-        // Here's the data
-        data = getSimpleJdbcTemplate().queryForList( 
-        		"select SUB_ACCT_NBR, FIN_OBJ_LEVEL_CD, FIN_REPORT_SORT_CD, CURR_BDLN_BAL_AMT, ACLN_ACTLS_BAL_AMT, ACLN_ENCUM_BAL_AMT, TYP_FIN_REPORT_SORT_CD "
-				+ "from FP_BAL_BY_LEVEL_MT where SESID = ? ",
-                sessionId );
+    
+            // Delete what we don't need
+            if (isCostShareExcluded) {
+    			purgeCostShareEntries( "fp_interim1_level_mt", "sesid", sessionId );
+            }
+    
+            // Summarize
+            if (isConsolidated) {
+            	getSimpleJdbcTemplate().update( 
+    					"INSERT INTO fp_bal_by_level_mt (SUB_ACCT_NBR, FIN_OBJ_LEVEL_CD, FIN_REPORT_SORT_CD, CURR_BDLN_BAL_AMT, ACLN_ACTLS_BAL_AMT, ACLN_ENCUM_BAL_AMT, "
+    					+ "TYP_FIN_REPORT_SORT_CD, SESID) SELECT '*ALL*', fin_obj_level_cd,fin_report_sort_cd, SUM(curr_bdln_bal_amt), "
+    					+ "SUM(acln_actls_bal_amt), SUM(acln_encum_bal_amt),?, ?"
+    					+ " FROM fp_interim1_level_mt "
+    					+ " WHERE fp_interim1_level_mt.SESID = ? "
+    					+ " GROUP BY fin_report_sort_cd, fin_obj_level_cd",
+    					financialReportingSortCode,
+    					sessionId,
+    					sessionId					
+    					);
+            }
+            else {
+            	getSimpleJdbcTemplate().update( 
+            			"INSERT INTO fp_bal_by_level_mt (SUB_ACCT_NBR, FIN_OBJ_LEVEL_CD, FIN_REPORT_SORT_CD, CURR_BDLN_BAL_AMT, ACLN_ACTLS_BAL_AMT, ACLN_ENCUM_BAL_AMT, "
+    					+ "TYP_FIN_REPORT_SORT_CD, SESID) SELECT  sub_acct_nbr, fin_obj_level_cd, fin_report_sort_cd, SUM(curr_bdln_bal_amt), "
+    					+ "SUM(acln_actls_bal_amt), SUM(acln_encum_bal_amt), ?, ? "
+    					+ " FROM fp_interim1_level_mt "
+    					+ " WHERE fp_interim1_level_mt.SESID = ? "
+    					+ " GROUP BY sub_acct_nbr, fin_report_sort_cd, fin_obj_level_cd",
+    					financialReportingSortCode,
+                        sessionId,
+                        sessionId
+    					);
+            }
+    
+            // Here's the data
+            data = getSimpleJdbcTemplate().queryForList( 
+            		"select SUB_ACCT_NBR, FIN_OBJ_LEVEL_CD, FIN_REPORT_SORT_CD, CURR_BDLN_BAL_AMT, ACLN_ACTLS_BAL_AMT, ACLN_ENCUM_BAL_AMT, TYP_FIN_REPORT_SORT_CD "
+    				+ "from FP_BAL_BY_LEVEL_MT where SESID = ? ",
+                    sessionId );
         }
         finally {
-        // Clean up everything
-        clearTempTable( "fp_bal_by_level_mt", "SESID", sessionId );
-        clearTempTable( "fp_interim1_level_mt", "SESID", sessionId );
-        clearTempTable( "gl_pending_entry_mt", "SESID", sessionId );
+            // Clean up everything
+            clearTempTable( "fp_bal_by_level_mt", "SESID", sessionId );
+            clearTempTable( "fp_interim1_level_mt", "SESID", sessionId );
+            clearTempTable( "gl_pending_entry_mt", "SESID", sessionId );
         }
         return data;
     }

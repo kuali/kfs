@@ -150,7 +150,7 @@ public class SalaryExpenseTransferForm extends ExpenseTransferDocumentFormBase {
         }
         return getSalaryExpenseTransferDocument().getEmplid();
     }
-    
+
     /**
      * @see org.kuali.core.web.struts.form.KualiTransactionalDocumentFormBase#getForcedReadOnlyFields()
      */
@@ -161,6 +161,11 @@ public class SalaryExpenseTransferForm extends ExpenseTransferDocumentFormBase {
         map.remove(KFSPropertyConstants.ACCOUNT_NUMBER);
         map.remove(KFSPropertyConstants.SUB_ACCOUNT_NUMBER);
         map.remove(KFSPropertyConstants.FINANCIAL_OBJECT_CODE);
+        map.remove(KFSPropertyConstants.FINANCIAL_SUB_OBJECT_CODE);
+        map.remove(KFSPropertyConstants.PROJECT_CODE);
+        map.remove(KFSPropertyConstants.ORGANIZATION_REFERENCE_ID);
+        map.remove(KFSPropertyConstants.AMOUNT);
+        
         return map;
     }
     
@@ -174,6 +179,6 @@ public class SalaryExpenseTransferForm extends ExpenseTransferDocumentFormBase {
             ExpenseTransferAccountingLine sourceAccountingLine = sourceAccoutingLines.get(0);
             this.setUniversityFiscalYear(sourceAccountingLine.getPostingYear());
             this.setEmplid(sourceAccountingLine.getEmplid());
-        }
+}
     }
 }

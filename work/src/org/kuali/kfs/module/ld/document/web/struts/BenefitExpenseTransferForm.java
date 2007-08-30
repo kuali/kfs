@@ -103,7 +103,7 @@ public class BenefitExpenseTransferForm extends ExpenseTransferDocumentFormBase 
     public void setChartOfAccountsCode(String chartOfAccountsCode) {
         this.chartOfAccountsCode = chartOfAccountsCode;
     }
-    
+
     /**
      * @see org.kuali.core.web.struts.form.KualiTransactionalDocumentFormBase#getForcedReadOnlyFields()
      */
@@ -113,7 +113,11 @@ public class BenefitExpenseTransferForm extends ExpenseTransferDocumentFormBase 
         map.remove(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE);
         map.remove(KFSPropertyConstants.ACCOUNT_NUMBER);
         map.remove(KFSPropertyConstants.SUB_ACCOUNT_NUMBER);
+        map.remove(KFSPropertyConstants.FINANCIAL_SUB_OBJECT_CODE);
+        map.remove(KFSPropertyConstants.PROJECT_CODE);
+        map.remove(KFSPropertyConstants.ORGANIZATION_REFERENCE_ID);
         map.remove(KFSPropertyConstants.AMOUNT);
+        
         return map;
     }
 
@@ -129,6 +133,6 @@ public class BenefitExpenseTransferForm extends ExpenseTransferDocumentFormBase 
             this.setChartOfAccountsCode(sourceAccountingLine.getChartOfAccountsCode());
             this.setAccountNumber(sourceAccountingLine.getAccountNumber());
             this.setSubAccountNumber(sourceAccountingLine.getSubAccountNumber());
-        }
+}
     }
 }

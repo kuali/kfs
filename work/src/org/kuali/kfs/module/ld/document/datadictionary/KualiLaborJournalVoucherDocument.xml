@@ -23,7 +23,7 @@
         <documentClass>org.kuali.module.labor.document.LaborJournalVoucherDocument</documentClass>
         <businessRulesClass>org.kuali.module.labor.rules.LaborJournalVoucherDocumentRule</businessRulesClass>
 
-        <documentAuthorizerClass>org.kuali.module.labor.document.authorization.LaborJournalVoucherDocumentAuthorizer</documentAuthorizerClass>
+        <documentAuthorizerClass>org.kuali.module.financial.document.authorization.JournalVoucherDocumentAuthorizer</documentAuthorizerClass>
         <authorizations>
             <authorization action="initiate">
                 <workgroups>

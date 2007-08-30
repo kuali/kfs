@@ -52,25 +52,25 @@ public class AccountBalanceDaoJdbcBase extends PlatformAwareDaoBaseJdbc {
 		return sb.toString();
 	}
 	
-	protected void purgeCostShareEntries( String tableName, String idColumn ) {
+	protected void purgeCostShareEntries( String tableName, String sessionIdColumn, String sessionId ) {
 		getSimpleJdbcTemplate().update( 
-				"DELETE FROM " + tableName + " i WHERE " + idColumn + " = ? " +
+				"DELETE FROM " + tableName + " i WHERE " + sessionIdColumn + " = ? " +
 				" AND EXISTS (SELECT 1 FROM ca_a21_sub_acct_t a " +
 				" WHERE a.fin_coa_cd = i.fin_coa_cd AND a.account_nbr = i.account_nbr AND a.sub_acct_nbr = i.sub_acct_nbr " +
 				" AND a.sub_acct_typ_cd = 'CS')", 
-				Thread.currentThread().getId() );		
+				sessionId );		
 	}
 	
-	protected boolean hasEntriesInPendingTable() {
-		return getSimpleJdbcTemplate().queryForInt( "select count(*) as COUNT from gl_pending_entry_mt WHERE person_unvl_id = ?", Thread.currentThread().getId()) != 0;
+	protected boolean hasEntriesInPendingTable(String sessionId) {
+		return getSimpleJdbcTemplate().queryForInt( "select count(*) as COUNT from gl_pending_entry_mt WHERE sesid = ?", sessionId) != 0;
 	}
 	
-	protected void fixPendingEntryDisplay( Integer universityFiscalYear ) {
-		getSimpleJdbcTemplate().update("update GL_PENDING_ENTRY_MT set univ_fiscal_yr = ? where PERSON_UNVL_ID = ?", universityFiscalYear, Thread.currentThread().getId() );
+	protected void fixPendingEntryDisplay( Integer universityFiscalYear, String sessionId ) {
+		getSimpleJdbcTemplate().update("update GL_PENDING_ENTRY_MT set univ_fiscal_yr = ? where SESID = ?", universityFiscalYear, sessionId );
 		getSimpleJdbcTemplate().update("update gl_pending_entry_mt set SUB_ACCT_NBR = '-----' where (SUB_ACCT_NBR is null or SUB_ACCT_NBR = '     ')");		
 	}
-	
-	protected void clearTempTable( String tableName, String idColumn ) {
-        getSimpleJdbcTemplate().update( "DELETE from " + tableName + " WHERE " + idColumn + " = ?", Thread.currentThread().getId() );        		
-	}
+    
+    protected void clearTempTable( String tableName, String sessionIdColumn, String sessionId ) {
+        getSimpleJdbcTemplate().update( "DELETE from " + tableName + " WHERE " + sessionIdColumn + " = ?", sessionId );               
+    }
 }

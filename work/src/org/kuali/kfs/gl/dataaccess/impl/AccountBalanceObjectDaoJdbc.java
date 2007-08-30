@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import org.kuali.core.util.Guid;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.bo.Options;
 import org.kuali.kfs.context.SpringContext;
@@ -46,10 +47,12 @@ public class AccountBalanceObjectDaoJdbc extends AccountBalanceDaoJdbcBase imple
         LOG.debug("findAccountBalanceByObject() started");
 
         Options options = optionsService.getOptions(universityFiscalYear);
-
+        List<Map<String,Object>> data = null;
+        String sessionId = new Guid().toString();
+        try {
         // Delete any data for this session if it exists already
-        clearTempTable( "fp_bal_by_obj_t", "PERSON_UNVL_ID" );
-        clearTempTable( "fp_interim1_obj_mt", "SESID" );
+        clearTempTable( "fp_bal_by_obj_mt", "SESID", sessionId );
+        clearTempTable( "fp_interim1_obj_mt", "SESID", sessionId );
 
         // Add in all the data we need
         getSimpleJdbcTemplate().update( 
@@ -62,59 +65,60 @@ public class AccountBalanceObjectDaoJdbc extends AccountBalanceDaoJdbcBase imple
 						+ " AND a.account_nbr = ?"
 						+ " AND a.univ_fiscal_yr = o.univ_fiscal_yr AND a.fin_coa_cd = o.fin_coa_cd AND a.fin_object_cd = o.fin_object_cd "
 						+ "AND o.fin_obj_level_cd = ?",
-						Thread.currentThread().getId(), universityFiscalYear, chartOfAccountsCode, accountNumber, financialObjectLevelCode );
+                        sessionId, universityFiscalYear, chartOfAccountsCode, accountNumber, financialObjectLevelCode );
 
         // Summarize pending entries into fp_interim1_level_mt if necessary
         if ((pendingEntriesCode == AccountBalanceService.PENDING_ALL) || (pendingEntriesCode == AccountBalanceService.PENDING_APPROVED)) {
-            if (getMatchingPendingEntriesByObject(options, universityFiscalYear, chartOfAccountsCode, accountNumber, financialObjectLevelCode, isCostShareExcluded, pendingEntriesCode)) {
-                summarizePendingEntriesByObject(options);
+            if (getMatchingPendingEntriesByObject(options, universityFiscalYear, chartOfAccountsCode, accountNumber, financialObjectLevelCode, isCostShareExcluded, pendingEntriesCode, sessionId)) {
+                summarizePendingEntriesByObject(options, sessionId);
             }
         }
 
         // Delete what we don't need
         if (isCostShareExcluded) {
-			purgeCostShareEntries( "fp_interim1_obj_mt", "sesid" );
+			purgeCostShareEntries( "fp_interim1_obj_mt", "sesid", sessionId );
         }
 
         // Summarize
         if (isConsolidated) {
         	getSimpleJdbcTemplate().update( 
-    				"INSERT INTO fp_bal_by_obj_t (SUB_ACCT_NBR, FIN_OBJECT_CD, CURR_BDLN_BAL_AMT, ACLN_ACTLS_BAL_AMT, ACLN_ENCUM_BAL_AMT, FIN_REPORT_SORT_CD, "
-					+ "PERSON_UNVL_ID) SELECT  '*ALL*',fin_object_cd, SUM(curr_bdln_bal_amt),SUM(acln_actls_bal_amt), SUM(acln_encum_bal_amt),"
+    				"INSERT INTO fp_bal_by_obj_mt (SUB_ACCT_NBR, FIN_OBJECT_CD, CURR_BDLN_BAL_AMT, ACLN_ACTLS_BAL_AMT, ACLN_ENCUM_BAL_AMT, FIN_REPORT_SORT_CD, "
+					+ "SESID) SELECT  '*ALL*',fin_object_cd, SUM(curr_bdln_bal_amt),SUM(acln_actls_bal_amt), SUM(acln_encum_bal_amt),"
 					+ "'B', ? "
 					+ " FROM fp_interim1_obj_mt WHERE fp_interim1_obj_mt.SESID  = ?"
 					+ " GROUP BY fin_object_cd",
-					Thread.currentThread().getId(),
-					Thread.currentThread().getId()					
+					sessionId,
+                    sessionId
 			);
         }
         else {
         	getSimpleJdbcTemplate().update(
-    				"INSERT INTO fp_bal_by_obj_t (SUB_ACCT_NBR, FIN_OBJECT_CD, CURR_BDLN_BAL_AMT, ACLN_ACTLS_BAL_AMT, ACLN_ENCUM_BAL_AMT, FIN_REPORT_SORT_CD, "
-					+ " PERSON_UNVL_ID) SELECT  sub_acct_nbr, fin_object_cd, SUM(curr_bdln_bal_amt), SUM(acln_actls_bal_amt),SUM(acln_encum_bal_amt), "
+    				"INSERT INTO fp_bal_by_obj_mt (SUB_ACCT_NBR, FIN_OBJECT_CD, CURR_BDLN_BAL_AMT, ACLN_ACTLS_BAL_AMT, ACLN_ENCUM_BAL_AMT, FIN_REPORT_SORT_CD, "
+					+ "SESID) SELECT  sub_acct_nbr, fin_object_cd, SUM(curr_bdln_bal_amt), SUM(acln_actls_bal_amt),SUM(acln_encum_bal_amt), "
 					+ " 'B', ? "
 					+ " FROM fp_interim1_obj_mt WHERE fp_interim1_obj_mt.SESID = ? "
 					+ " GROUP BY sub_acct_nbr, fin_object_cd",
-					Thread.currentThread().getId(),
-					Thread.currentThread().getId()					
+                    sessionId,
+                    sessionId
 			);
         }
 
         // Here's the data
-        List<Map<String,Object>> data = getSimpleJdbcTemplate().queryForList(
-        		"select SUB_ACCT_NBR, FIN_OBJECT_CD, CURR_BDLN_BAL_AMT, ACLN_ACTLS_BAL_AMT, ACLN_ENCUM_BAL_AMT, FIN_REPORT_SORT_CD from fp_bal_by_obj_t "
-				+ " where PERSON_UNVL_ID = ? "
-				+ " order by fin_object_cd", Thread.currentThread().getId() );
-
+        data = getSimpleJdbcTemplate().queryForList(
+        		"select SUB_ACCT_NBR, FIN_OBJECT_CD, CURR_BDLN_BAL_AMT, ACLN_ACTLS_BAL_AMT, ACLN_ENCUM_BAL_AMT, FIN_REPORT_SORT_CD from fp_bal_by_obj_mt "
+				+ " where SESID = ? "
+				+ " order by fin_object_cd", sessionId );
+        }
+        finally {
         // Clean up everything
-        clearTempTable( "fp_bal_by_obj_t", "PERSON_UNVL_ID" );
-        clearTempTable( "fp_interim1_obj_mt", "SESID" );
-        clearTempTable( "gl_pending_entry_mt", "PERSON_UNVL_ID" );
-
+        clearTempTable( "fp_bal_by_obj_mt", "SESID", sessionId );
+        clearTempTable( "fp_interim1_obj_mt", "SESID", sessionId );
+        clearTempTable( "gl_pending_entry_mt", "SESID", sessionId );
+        }
         return data;
     }
 
-    private void summarizePendingEntriesByObject(Options options) {
+    private void summarizePendingEntriesByObject(Options options, String sessionId) {
         LOG.debug("summarizePendingEntriesByObject() started");
 
         try {
@@ -139,10 +143,10 @@ public class AccountBalanceObjectDaoJdbc extends AccountBalanceDaoJdbcBase imple
             SqlRowSet pendingEntryRowSet = getJdbcTemplate().queryForRowSet( 
             		"SELECT b.FIN_OFFST_GNRTN_CD,t.FIN_OBJTYP_DBCR_CD,e.* " +
 					"FROM gl_pending_entry_mt e,CA_OBJ_TYPE_T t,CA_BALANCE_TYPE_T b "
-					+ "WHERE e.PERSON_UNVL_ID = ?"
+					+ "WHERE e.SESID = ?"
 					+ " AND e.FIN_OBJ_TYP_CD = t.FIN_OBJ_TYP_CD AND e.fin_balance_typ_cd = b.fin_balance_typ_cd "
 					+ "ORDER BY e.univ_fiscal_yr,e.account_nbr,e.sub_acct_nbr,e.fin_object_cd,e.fin_sub_obj_cd,e.fin_obj_typ_cd",
-        			new Object[] { Thread.currentThread().getId() } );
+        			new Object[] { sessionId } );
 
 
             int updateCount = 0;
@@ -152,7 +156,7 @@ public class AccountBalanceObjectDaoJdbc extends AccountBalanceDaoJdbcBase imple
 				Map<String,Object> balance = null;
 				try {
 					balance = getSimpleJdbcTemplate().queryForMap( balanceStatementSql, 
-							Thread.currentThread().getId(), 
+                            sessionId, 
 							pendingEntryRowSet.getInt( GLConstants.ColumnNames.UNIVERSITY_FISCAL_YEAR ),
 							pendingEntryRowSet.getString( GLConstants.ColumnNames.CHART_OF_ACCOUNTS_CODE ),
 							pendingEntryRowSet.getString( GLConstants.ColumnNames.ACCOUNT_NUMBER ),
@@ -205,7 +209,7 @@ public class AccountBalanceObjectDaoJdbc extends AccountBalanceDaoJdbcBase imple
 							budget,
 							actual,
 							encumb,
-							Thread.currentThread().getId(),
+                            sessionId,
 							pendingEntryRowSet.getInt( GLConstants.ColumnNames.UNIVERSITY_FISCAL_YEAR ),
 							pendingEntryRowSet.getString( GLConstants.ColumnNames.CHART_OF_ACCOUNTS_CODE ),
 							pendingEntryRowSet.getString( GLConstants.ColumnNames.ACCOUNT_NUMBER ),
@@ -251,7 +255,7 @@ public class AccountBalanceObjectDaoJdbc extends AccountBalanceDaoJdbcBase imple
 							budget,
 							actual,
 							encumb,
-							Thread.currentThread().getId()
+                            sessionId
 					);
                 }
             }
@@ -274,7 +278,7 @@ public class AccountBalanceObjectDaoJdbc extends AccountBalanceDaoJdbcBase imple
      * @param pendingEntriesCode
      * @return
      */
-    private boolean getMatchingPendingEntriesByObject(Options options, Integer universityFiscalYear, String chartOfAccountsCode, String accountNumber, String financialObjectLevelCode, boolean isCostShareExcluded, int pendingEntriesCode) {
+    private boolean getMatchingPendingEntriesByObject(Options options, Integer universityFiscalYear, String chartOfAccountsCode, String accountNumber, String financialObjectLevelCode, boolean isCostShareExcluded, int pendingEntriesCode, String sessionId) {
         LOG.debug("getMatchingPendingEntriesByObject() started");
 
         // If they have specified this year, we will get all the pending entries where the year is equal or the year is null
@@ -285,11 +289,11 @@ public class AccountBalanceObjectDaoJdbc extends AccountBalanceDaoJdbcBase imple
 
         UniversityDate today = SpringContext.getBean(UniversityDateService.class).getCurrentUniversityDate();
 
-        clearTempTable( "gl_pending_entry_mt", "PERSON_UNVL_ID" );
+        clearTempTable( "gl_pending_entry_mt", "SESID", sessionId );
 
 		List<Object> params = new ArrayList<Object>( 20 ); 
 
-        String insertSql = "insert into GL_PENDING_ENTRY_MT (PERSON_UNVL_ID, FS_ORIGIN_CD, FDOC_NBR, TRN_ENTR_SEQ_NBR, " +
+        String insertSql = "insert into GL_PENDING_ENTRY_MT (SESID, FS_ORIGIN_CD, FDOC_NBR, TRN_ENTR_SEQ_NBR, " +
         		"FIN_COA_CD, ACCOUNT_NBR, SUB_ACCT_NBR, FIN_OBJECT_CD, FIN_SUB_OBJ_CD, FIN_BALANCE_TYP_CD," +
         		"FIN_OBJ_TYP_CD, UNIV_FISCAL_YR, UNIV_FISCAL_PRD_CD, TRN_LDGR_ENTR_DESC, TRN_LDGR_ENTR_AMT, TRN_DEBIT_CRDT_CD," +
         		"TRANSACTION_DT, FDOC_TYP_CD, ORG_DOC_NBR, PROJECT_CD, ORG_REFERENCE_ID, FDOC_REF_TYP_CD, FS_REF_ORIGIN_CD,FDOC_REF_NBR, " +
@@ -305,7 +309,7 @@ public class AccountBalanceObjectDaoJdbc extends AccountBalanceDaoJdbcBase imple
 				+ " p.FIN_COA_CD = ?"
 				+ " and p.account_nbr = ?"
 				+ " and o.univ_fiscal_yr = ?";
-		params.add( Thread.currentThread().getId() );
+		params.add( sessionId );
 		params.add( financialObjectLevelCode );
 		params.add( chartOfAccountsCode );
 		params.add( accountNumber );
@@ -331,14 +335,14 @@ public class AccountBalanceObjectDaoJdbc extends AccountBalanceDaoJdbcBase imple
 		getSimpleJdbcTemplate().update( insertSql + selectSql, params.toArray() );
 
         if (isCostShareExcluded) {
-            purgeCostShareEntries( "gl_pending_entry_mt", "person_unvl_id" );
+            purgeCostShareEntries( "gl_pending_entry_mt", "sesid", sessionId );
         }
 
-        if ( !hasEntriesInPendingTable() ) {
+        if ( !hasEntriesInPendingTable(sessionId) ) {
             return false;
         }
 
-        fixPendingEntryDisplay(options.getUniversityFiscalYear());
+        fixPendingEntryDisplay(options.getUniversityFiscalYear(), sessionId);
 
         return true;
     }

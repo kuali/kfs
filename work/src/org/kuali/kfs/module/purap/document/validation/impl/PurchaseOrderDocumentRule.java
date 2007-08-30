@@ -75,7 +75,7 @@ public class PurchaseOrderDocumentRule extends PurchasingDocumentRuleBase {
      */
     public boolean processAdditionalValidation(PurchasingDocument purDocument) {
         boolean valid = true;
-        //valid = validateTotalDollarAmountIsLessThanPurchaseOrderTotalLimit(purDocument);
+        valid &= validateTotalDollarAmountIsLessThanPurchaseOrderTotalLimit(purDocument);
         return valid;
     }
 
@@ -266,9 +266,9 @@ public class PurchaseOrderDocumentRule extends PurchasingDocumentRuleBase {
      */
     public boolean validateTotalDollarAmountIsLessThanPurchaseOrderTotalLimit(PurchasingDocument purDocument) {
         boolean valid = true;
-        if (ObjectUtils.isNotNull(purDocument.getPurchaseOrderTotalLimit()) && ObjectUtils.isNotNull(((AmountTotaling) purDocument).getTotalDollarAmount())) {
-            KualiDecimal totalAmount = ((AmountTotaling) purDocument).getTotalDollarAmount();
-            if (((AmountTotaling) purDocument).getTotalDollarAmount().isGreaterThan(purDocument.getPurchaseOrderTotalLimit())) {
+        KualiDecimal totalAmount = ((AmountTotaling) purDocument).getTotalDollarAmount();
+        if (ObjectUtils.isNotNull(purDocument.getPurchaseOrderTotalLimit()) && ObjectUtils.isNotNull(totalAmount)) {           
+            if (totalAmount.isGreaterThan(purDocument.getPurchaseOrderTotalLimit())) {
                 valid &= false;
                 GlobalVariables.getMessageList().add(PurapKeyConstants.PO_TOTAL_GREATER_THAN_PO_TOTAL_LIMIT);
             }

@@ -151,10 +151,17 @@ public class PaymentRequestDocumentRule extends AccountsPayableDocumentRuleBase 
         GlobalVariables.getErrorMap().clearErrorPath();
         GlobalVariables.getErrorMap().addToErrorPath(RicePropertyConstants.DOCUMENT);
         PaymentRequestDocument paymentRequestDocument = (PaymentRequestDocument)apDocument;
+        // Give warnings if the sum of the totals on items doesn't match vendor invoice amount.
         validateTotals(paymentRequestDocument);
-        if (isPayDateInThePast(paymentRequestDocument.getPaymentRequestPayDate())) {
+        // The Grand Total Amount must be greate than zero.
+        if (paymentRequestDocument.getGrandTotal().compareTo(KualiDecimal.ZERO) <= 0) {            
+            GlobalVariables.getErrorMap().putError(PurapPropertyConstants.GRAND_TOTAL,PurapKeyConstants.ERROR_PAYMENT_REQUEST_GRAND_TOTAL_NOT_POSITIVE);
             valid &= false;
+        }
+        // The Payment Request Pay Date must not be in the past.
+        if (isPayDateInThePast(paymentRequestDocument.getPaymentRequestPayDate())) {           
             GlobalVariables.getErrorMap().putError(PurapPropertyConstants.PAYMENT_REQUEST_PAY_DATE, PurapKeyConstants.ERROR_INVALID_PAY_DATE);
+            valid &= false;
         }
         GlobalVariables.getErrorMap().clearErrorPath();
         return valid;
@@ -365,10 +372,10 @@ public class PaymentRequestDocumentRule extends AccountsPayableDocumentRuleBase 
             PaymentRequestItem item = (PaymentRequestItem)purApItem;
             if (item.getItemQuantity()!= null) {
                 if(item.calculateExtendedPrice().compareTo(item.getExtendedPrice())!=0) {
-                GlobalVariables.getErrorMap().putError(PurapConstants.ITEM_TAB_ERROR_PROPERTY, PurapKeyConstants.ERROR_PAYMENT_REQUEST_ITEM_TOTAL_NOT_EQUAL, item.getItemIdentifierString());
+                    GlobalVariables.getErrorMap().putError(PurapConstants.ITEM_TAB_ERROR_PROPERTY, PurapKeyConstants.ERROR_PAYMENT_REQUEST_ITEM_TOTAL_NOT_EQUAL, item.getItemIdentifierString());
+                }
             }
         }
-    }
     }
     
     /**

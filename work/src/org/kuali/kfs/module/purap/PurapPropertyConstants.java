@@ -91,6 +91,7 @@ public class PurapPropertyConstants {
     public static final String VENDOR_INVOICE_AMOUNT = "vendorInvoiceAmount";
 //    public static final String PAYMENT_REQUEST_PAY_DATE = "document.paymentRequestPayDate";
     public static final String PAYMENT_REQUEST_PAY_DATE = "paymentRequestPayDate";
+    public static final String GRAND_TOTAL = "grandTotal";
 
     // CREDIT MEMO DOCUMENT
     public static final String PAYMENT_REQUEST_ID = "paymentRequestIdentifier";

@@ -105,6 +105,7 @@ public class PurapKeyConstants {
     public static final String ERROR_CANCEL_EXTRACTED="errors.cancel.extracted";
     public static final String ERROR_PAYMENT_REQUEST_NOT_IN_PROCESS = "error.paymentRequest.not.inProcess";
     public static final String ERROR_PAYMENT_REQUEST_ITEM_TOTAL_NOT_EQUAL = "error.paymentRequest.item.TotalInvoice.notEqual";
+    public static final String ERROR_PAYMENT_REQUEST_GRAND_TOTAL_NOT_POSITIVE = "error.paymentRequest.grandTotal.not.positive";
    
     public static final String MESSAGE_DUPLICATE_INVOICE_DATE_AMOUNT="message.duplicate.invoice.date.amount";
     public static final String MESSAGE_DUPLICATE_INVOICE_DATE_AMOUNT_CANCELLEDORVOIDED="message.duplicate.invoice.date.amount.cancelledOrVoided";

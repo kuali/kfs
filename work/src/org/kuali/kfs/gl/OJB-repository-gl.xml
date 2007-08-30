@@ -778,58 +778,6 @@
     </reference-descriptor>
 </class-descriptor>
 
-<class-descriptor class="org.kuali.module.gl.bo.PendingEntryMove" table="GL_PENDING_ENTRY_MT">
-    <field-descriptor name="personUniversalIdentifier" column="PERSON_UNVL_ID" jdbc-type="VARCHAR" primarykey="true" index="true" />
-    <field-descriptor name="financialSystemOriginationCode" column="FS_ORIGIN_CD" jdbc-type="VARCHAR" primarykey="true" index="true" />
-    <field-descriptor name="documentNumber" column="FDOC_NBR" jdbc-type="VARCHAR" primarykey="true" index="true" />
-    <field-descriptor name="transactionLedgerEntrySequenceNumber" column="TRN_ENTR_SEQ_NBR" jdbc-type="INTEGER" primarykey="true" index="true" />
-    <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
-    <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
-    <field-descriptor name="chartOfAccountsCode" column="FIN_COA_CD" jdbc-type="VARCHAR" />
-    <field-descriptor name="accountNumber" column="ACCOUNT_NBR" jdbc-type="VARCHAR" />
-    <field-descriptor name="subAccountNumber" column="SUB_ACCT_NBR" jdbc-type="VARCHAR" />
-    <field-descriptor name="financialObjectCode" column="FIN_OBJECT_CD" jdbc-type="VARCHAR" />
-    <field-descriptor name="financialSubObjectCode" column="FIN_SUB_OBJ_CD" jdbc-type="VARCHAR" />
-    <field-descriptor name="financialBalanceTypeCode" column="FIN_BALANCE_TYP_CD" jdbc-type="VARCHAR" />
-    <field-descriptor name="financialObjectTypeCode" column="FIN_OBJ_TYP_CD" jdbc-type="VARCHAR" />
-    <field-descriptor name="universityFiscalYear" column="UNIV_FISCAL_YR" jdbc-type="INTEGER" />
-    <field-descriptor name="universityFiscalPeriodCode" column="UNIV_FISCAL_PRD_CD" jdbc-type="VARCHAR" />
-    <field-descriptor name="transactionLedgerEntryDescription" column="TRN_LDGR_ENTR_DESC" jdbc-type="VARCHAR" />
-    <field-descriptor name="transactionLedgerEntryAmount" column="TRN_LDGR_ENTR_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion" />
-    <field-descriptor name="transactionDebitCreditCode" column="TRN_DEBIT_CRDT_CD" jdbc-type="VARCHAR" />
-    <field-descriptor name="transactionDate" column="TRANSACTION_DT" jdbc-type="DATE" />
-    <field-descriptor name="financialDocumentTypeCode" column="FDOC_TYP_CD" jdbc-type="VARCHAR" />
-    <field-descriptor name="organizationDocumentNumber" column="ORG_DOC_NBR" jdbc-type="VARCHAR" />
-    <field-descriptor name="projectCode" column="PROJECT_CD" jdbc-type="VARCHAR" />
-    <field-descriptor name="organizationReferenceId" column="ORG_REFERENCE_ID" jdbc-type="VARCHAR" />
-    <field-descriptor name="referenceFinancialDocumentTypeCode" column="FDOC_REF_TYP_CD" jdbc-type="VARCHAR" />
-    <field-descriptor name="referenceFinancialSystemOriginationCode" column="FS_REF_ORIGIN_CD" jdbc-type="VARCHAR" />
-    <field-descriptor name="referenceFinancialDocumentNumber" column="FDOC_REF_NBR" jdbc-type="VARCHAR" />
-    <field-descriptor name="financialDocumentReversalDate" column="FDOC_REVERSAL_DT" jdbc-type="DATE" />
-    <field-descriptor name="transactionEncumbranceUpdateCode" column="TRN_ENCUM_UPDT_CD" jdbc-type="VARCHAR" />
-    <field-descriptor name="financialDocumentApprovedCode" column="FDOC_APPROVED_CD" jdbc-type="VARCHAR" />
-    <field-descriptor name="accountSufficientFundsFinancialObjectCode" column="ACCT_SF_FINOBJ_CD" jdbc-type="VARCHAR" />
-    <field-descriptor name="transactionEntryOffsetCode" column="TRN_ENTR_OFST_CD" jdbc-type="VARCHAR" />
-    <field-descriptor name="transactionEntryProcessedTimestamp" column="TRNENTR_PROCESS_TM" jdbc-type="TIMESTAMP" />
-    <reference-descriptor name="accountSufficientFundsFinancialObject" class-ref="org.kuali.module.chart.bo.ObjectCode" auto-retrieve="true" auto-update="none" auto-delete="none">
-        <foreignkey field-ref="universityFiscalYear" />
-        <foreignkey field-ref="chartOfAccountsCode" />
-        <foreignkey field-ref="accountSufficientFundsFinancialObjectCode" />
-    </reference-descriptor>
-    <reference-descriptor name="account" class-ref="org.kuali.module.chart.bo.Account" auto-retrieve="true" auto-update="none" auto-delete="none">
-        <foreignkey field-ref="chartOfAccountsCode" />
-        <foreignkey field-ref="accountNumber" />
-    </reference-descriptor>
-    <reference-descriptor name="financialObject" class-ref="org.kuali.module.chart.bo.ObjectCode" auto-retrieve="true" auto-update="none" auto-delete="none">
-        <foreignkey field-ref="universityFiscalYear" />
-        <foreignkey field-ref="chartOfAccountsCode" />
-        <foreignkey field-ref="financialObjectCode" />
-    </reference-descriptor>
-    <reference-descriptor name="chartOfAccounts" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="none" auto-delete="none">
-        <foreignkey field-ref="chartOfAccountsCode" />
-    </reference-descriptor>
-</class-descriptor>
-
 <class-descriptor class="org.kuali.module.gl.bo.PendingBalancesMove" table="GL_PENDING_BALANCES_MT">
     <field-descriptor name="personUniversalIdentifier" column="PERSON_UNVL_ID" jdbc-type="VARCHAR" primarykey="true" index="true" />
     <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
@@ -840,60 +788,6 @@
     <field-descriptor name="pendingBudget" column="PEND_BUDGET" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion" />
     <field-descriptor name="pendingActual" column="PEND_ACTUAL" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion" />
     <field-descriptor name="pendingEncumbrance" column="PEND_ENCUM" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion" />
-</class-descriptor>
-
-<class-descriptor class="org.kuali.module.gl.bo.Interim1LevelMove" table="FP_INTERIM1_LEVEL_MT">
-	<field-descriptor name="sessionIdentifier" column="SESID" jdbc-type="DECIMAL" primarykey="true" index="true"/>
-	<field-descriptor name="universityFiscalYear" column="UNIV_FISCAL_YR" jdbc-type="INTEGER" primarykey="true" index="true"/>
-	<field-descriptor name="chartOfAccountsCode" column="FIN_COA_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
-	<field-descriptor name="accountNumber" column="ACCOUNT_NBR" jdbc-type="VARCHAR" primarykey="true" index="true"/>
-	<field-descriptor name="subAccountNumber" column="SUB_ACCT_NBR" jdbc-type="VARCHAR" primarykey="true" index="true"/>
-	<field-descriptor name="financialObjectCode" column="FIN_OBJECT_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
-	<field-descriptor name="financialSubObjectCode" column="FIN_SUB_OBJ_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
-	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
-	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
-	<field-descriptor name="currentBudgetLineBalanceAmount" column="CURR_BDLN_BAL_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
-	<field-descriptor name="accountLineActualsBalanceAmount" column="ACLN_ACTLS_BAL_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
-	<field-descriptor name="accountLineEncumbranceBalanceAmount" column="ACLN_ENCUM_BAL_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
-	<field-descriptor name="transactionDateTimeStamp" column="TIMESTAMP" jdbc-type="DATE"/>
-	<field-descriptor name="financialReportingSortCode" column="FIN_REPORT_SORT_CD" jdbc-type="VARCHAR"/>
-	<field-descriptor name="financialObjectLevelCode" column="FIN_OBJ_LEVEL_CD" jdbc-type="VARCHAR"/>
-</class-descriptor>
-
-<class-descriptor class="org.kuali.module.gl.bo.Interim1ObjectMove" table="FP_INTERIM1_OBJ_MT">
-	<field-descriptor name="sessionIdentifier" column="SESID" jdbc-type="DECIMAL" primarykey="true" index="true"/>
-	<field-descriptor name="universityFiscalYear" column="UNIV_FISCAL_YR" jdbc-type="INTEGER" primarykey="true" index="true"/>
-	<field-descriptor name="chartOfAccountsCode" column="FIN_COA_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
-	<field-descriptor name="accountNumber" column="ACCOUNT_NBR" jdbc-type="VARCHAR" primarykey="true" index="true"/>
-	<field-descriptor name="subAccountNumber" column="SUB_ACCT_NBR" jdbc-type="VARCHAR" primarykey="true" index="true"/>
-	<field-descriptor name="financialObjectCode" column="FIN_OBJECT_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
-	<field-descriptor name="financialSubObjectCode" column="FIN_SUB_OBJ_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
-	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
-	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
-	<field-descriptor name="currentBudgetLineBalanceAmount" column="CURR_BDLN_BAL_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
-	<field-descriptor name="accountLineActualsBalanceAmount" column="ACLN_ACTLS_BAL_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
-	<field-descriptor name="accountLineEncumbranceBalanceAmount" column="ACLN_ENCUM_BAL_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
-	<field-descriptor name="transactionDateTimeStamp" column="TIMESTAMP" jdbc-type="DATE"/>
-</class-descriptor>
-
-<class-descriptor class="org.kuali.module.gl.bo.Interim2ConsolidationMove" table="FP_INTERIM2_CONS_MT">
-	<field-descriptor name="sessionIdentifier" column="SESID" jdbc-type="DECIMAL" primarykey="true" index="true"/>
-	<field-descriptor name="universityFiscalYear" column="UNIV_FISCAL_YR" jdbc-type="INTEGER" primarykey="true" index="true"/>
-	<field-descriptor name="chartOfAccountsCode" column="FIN_COA_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
-	<field-descriptor name="accountNumber" column="ACCOUNT_NBR" jdbc-type="VARCHAR" primarykey="true" index="true"/>
-	<field-descriptor name="subAccountNumber" column="SUB_ACCT_NBR" jdbc-type="VARCHAR" primarykey="true" index="true"/>
-	<field-descriptor name="financialObjectCode" column="FIN_OBJECT_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
-	<field-descriptor name="financialSubObjectCode" column="FIN_SUB_OBJ_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
-	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
-	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
-	<field-descriptor name="currentBudgetLineBalanceAmount" column="CURR_BDLN_BAL_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
-	<field-descriptor name="accountLineActualsBalanceAmount" column="ACLN_ACTLS_BAL_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
-	<field-descriptor name="accountLineEncumbranceBalanceAmount" column="ACLN_ENCUM_BAL_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
-	<field-descriptor name="transactionDateTimeStamp" column="TIMESTAMP" jdbc-type="DATE"/>
-	<field-descriptor name="financialReportingSortCode" column="FIN_REPORT_SORT_CD" jdbc-type="VARCHAR"/>
-	<field-descriptor name="financialObjectTypeCode" column="FIN_OBJ_TYP_CD" jdbc-type="VARCHAR"/>
-	<field-descriptor name="consolidationFinancialReportingSortCode" column="CONS_FIN_REPORT_SORT_CD" jdbc-type="VARCHAR"/>
-	<field-descriptor name="financialConsolidationObjectCode" column="FIN_CONS_OBJ_CD" jdbc-type="VARCHAR"/>
 </class-descriptor>
 
 <class-descriptor class="org.kuali.module.gl.bo.CollectorHeader" table="FS_CLCTR_HDR_T">

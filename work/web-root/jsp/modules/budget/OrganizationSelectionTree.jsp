@@ -60,7 +60,9 @@
                      onchange="refreshPointOfView(this.form)"
                      readOnly="false"
                      styleClass="grid" />
+                <noscript>     
                 <html:image property="methodToCall.performBuildPointOfView" src="${ConfigProperties.kr.externalizable.images.url}buttonsmall_refresh.gif" alt="refresh" title="refresh" styleClass="tinybutton"/>
+                </noscript>     
             </div>
             </td>
             <td class="grid" valign="center" rowspan="1" colspan="1">
@@ -167,20 +169,7 @@
 		    <th class="grid" align="center" colspan="1"><br>Action</th>
 	    </tr>
 
-        <%--pullup selection data lines 
-            <kul:htmlControlAttribute
-                property="KualiForm.selectionSubTreeOrgs.(${status.index}).chartOfAccountsCode"
-                attributeEntry="${pullupOrgAttributes.chartOfAccountsCode}"
-                readOnly="true"
-                readOnlyBody="true">
-                <kul:inquiry
-                    boClassName="org.kuali.module.chart.bo.Chart"
-                    keyValues="chartOfAccountsCode="KualiForm.selectionSubTreeOrgs.(0).chartOfAccountsCode}"
-                    render="${!empty KualiForm.selectionSubTreeOrgs.(0).chartOfAccountsCode}">
-                	<html:hidden write="true" property="selectionSubTreeOrgs.(${status.index}).chartOfAccountsCode" />
-                </kul:inquiry>&nbsp;
-            </kul:htmlControlAttribute>
-        --%>
+        <%-- pullup selection data lines --%>
         <c:forEach items="${KualiForm.selectionSubTreeOrgs}" var="item" varStatus="status" >
 
 	    <tr>
@@ -240,36 +229,33 @@
 
         </c:forEach>
 
+        <%-- TODO make this choose a tag passing in operating mode --%>
+        <tr>
+
         <c:choose>
 
-            <%-- TODO make these a tag --%>
             <c:when test="${KualiForm.operatingMode == BCConstants.OrgSelOpMode.SALSET || KualiForm.operatingMode == BCConstants.OrgSelOpMode.REPORTS || KualiForm.operatingMode == BCConstants.OrgSelOpMode.ACCOUNT}">
-            <tr>
-                <td class="grid" valign="center" rowspan="1" colspan="1">
+            <td class="grid" valign="center" rowspan="1" colspan="1">
                 <div align="center">
                     <html:image property="methodToCall.selectAll" src="${ConfigProperties.externalizable.images.url}tinybutton-select.gif" title="Select All" alt="Select All" styleClass="tinybutton" />
                     <html:image property="methodToCall.clearAll" src="${ConfigProperties.externalizable.images.url}tinybutton-clearlines.gif" title="Clear All" alt="Clear All" styleClass="tinybutton" />
                 </div>
-                </td>
-                <td class="grid" valign="center" rowspan="1" colspan="5">&nbsp;</td>
-            </tr>
+            </td>
             </c:when>
+
             <c:when test="${KualiForm.operatingMode == BCConstants.OrgSelOpMode.PULLUP}">
-            <tr>
-                <td class="grid" valign="center" rowspan="1" colspan="1">
+            <td class="grid" valign="center" rowspan="1" colspan="1">
                 <div align="center">
                     <html:image property="methodToCall.selectPullOrgAll" src="${ConfigProperties.externalizable.images.url}tinybutton-select.gif" title="Select Org All" alt="Select Org All" styleClass="tinybutton" />
                     <html:image property="methodToCall.selectPullSubOrgAll" src="${ConfigProperties.externalizable.images.url}tinybutton-select.gif" title="Select SubOrg All" alt="Select Sub Org All" styleClass="tinybutton" />
                     <html:image property="methodToCall.selectPullBothAll" src="${ConfigProperties.externalizable.images.url}tinybutton-select.gif" title="Select Both All" alt="Select Both All" styleClass="tinybutton" />
                     <html:image property="methodToCall.clearAll" src="${ConfigProperties.externalizable.images.url}tinybutton-clearlines.gif" title="Clear All" alt="Clear All" styleClass="tinybutton" />
                 </div>
-                </td>
-                <td class="grid" valign="center" rowspan="1" colspan="5">&nbsp;</td>
-            </tr>
+            </td>
             </c:when>
+
             <c:when test="${KualiForm.operatingMode == BCConstants.OrgSelOpMode.PUSHDOWN}">
-            <tr>
-                <td class="grid" valign="center" rowspan="1" colspan="1">
+            <td class="grid" valign="center" rowspan="1" colspan="1">
                 <div align="center">
                     <html:image property="methodToCall.selectPushOrgLevAll" src="${ConfigProperties.externalizable.images.url}tinybutton-select.gif" title="Select Org Lev All" alt="Select Org Lev All" styleClass="tinybutton" />
                     <html:image property="methodToCall.selectPushMgrLevAll" src="${ConfigProperties.externalizable.images.url}tinybutton-select.gif" title="Select Mgr Lev All" alt="Select Mgr Lev All" styleClass="tinybutton" />
@@ -278,26 +264,34 @@
                     <html:image property="methodToCall.selectPushLevZeroAll" src="${ConfigProperties.externalizable.images.url}tinybutton-select.gif" title="Select Lev Zero All" alt="Select Lev Zero All" styleClass="tinybutton" />
                     <html:image property="methodToCall.clearAll" src="${ConfigProperties.externalizable.images.url}tinybutton-clearlines.gif" title="Clear All" alt="Clear All" styleClass="tinybutton" />
                 </div>
-                </td>
-                <td class="grid" valign="center" rowspan="1" colspan="5">&nbsp;</td>
-            </tr>
+            </td>
             </c:when>
-            <c:otherwise>
-                <td class="grid" valign="center" rowspan="1" colspan="6">&nbsp;</td>
-            </c:otherwise>
 
+            <c:otherwise>
+            <td class="grid" valign="center" rowspan="1" colspan="1">&nbsp;</td>
+            </c:otherwise>
         </c:choose>
 
+        <td class="grid" valign="center" rowspan="1" colspan="5">
+            <kul:errors keyMatch="selectionSubTreeOrgs" errorTitle="Errors found in Organization Selection Control:" />&nbsp;
+        </td>
+
+        </tr>
+
+
+        <%-- TODO make this along with choose code below a tag passing in operating mode --%>
         <%-- display this regardless of mode --%>
         <tr>
             <th class="grid" align="left" colspan="6">
-            <kul:errors keyMatch="selectionSubTreeOrgs" errorTitle="Errors found in Organization Selection Control:" />
-            <br>Selection Operation</th>
+            <br>Selection Operation
+            <br><br>
+            </th>
         </tr>
 
         <c:choose>
 
             <c:when test="${KualiForm.operatingMode == BCConstants.OrgSelOpMode.SALSET}">
+
             <tr>
                 <td class="grid" valign="center" rowspan="1" colspan="6">
                 <div align="center">
@@ -308,31 +302,114 @@
                 </div>
                 </td>
             </tr>
+
             </c:when>
             <c:when test="${KualiForm.operatingMode == BCConstants.OrgSelOpMode.REPORTS}">
+
             <tr>
-                <td class="grid" valign="center" rowspan="1" colspan="6">
-                <div align="center">
-                    <br>
-                    <html:image property="methodToCall.performReport" src="${ConfigProperties.externalizable.images.url}tinybutton-view.gif" title="Acct Sum" alt="Acct Sum" styleClass="tinybutton" />
-                    <html:image property="methodToCall.performReport" src="${ConfigProperties.externalizable.images.url}tinybutton-view.gif" title="SFund Sum" alt="SFund Sum" styleClass="tinybutton" />
-                    <html:image property="methodToCall.performReport" src="${ConfigProperties.externalizable.images.url}tinybutton-view.gif" title="Level Sum" alt="Level Sum" styleClass="tinybutton" />
-                    <html:image property="methodToCall.performReport" src="${ConfigProperties.externalizable.images.url}tinybutton-view.gif" title="Object Sum" alt="Object Sum" styleClass="tinybutton" />
-                    <br>
-                    <html:image property="methodToCall.performReport" src="${ConfigProperties.externalizable.images.url}tinybutton-view.gif" title="Account Object Detail" alt="Account Object Detail" styleClass="tinybutton" />
-                    <html:image property="methodToCall.performReport" src="${ConfigProperties.externalizable.images.url}tinybutton-view.gif" title="Account Funding Detail" alt="Account Funding Detail" styleClass="tinybutton" />
-                    <html:image property="methodToCall.performReport" src="${ConfigProperties.externalizable.images.url}tinybutton-view.gif" title="Position Funding" alt="Position Funding" styleClass="tinybutton" />
-                    <html:image property="methodToCall.performReport" src="${ConfigProperties.externalizable.images.url}tinybutton-view.gif" title="Monthy Object Sum" alt="Monthly Object Sum" styleClass="tinybutton" />
-                    <br>
-                    <html:image property="methodToCall.performReport" src="${ConfigProperties.externalizable.images.url}tinybutton-view.gif" title="Salary List" alt="Salary List" styleClass="tinybutton" />
-                    <html:image property="methodToCall.performReport" src="${ConfigProperties.externalizable.images.url}tinybutton-view.gif" title="Salary Statistics" alt="Salary Statistics" styleClass="tinybutton" />
-                    <html:image property="methodToCall.performReport" src="${ConfigProperties.externalizable.images.url}tinybutton-view.gif" title="Salary Exceptions" alt="Salary Exceptions" styleClass="tinybutton" />
-                    <html:image property="methodToCall.performReport" src="${ConfigProperties.externalizable.images.url}tinybutton-view.gif" title="Salary Exceptions Statistics" alt="Salary Exceptions Statistics" styleClass="tinybutton" />
-                    <br>
-                    <html:image property="methodToCall.performReport" src="${ConfigProperties.externalizable.images.url}tinybutton-view.gif" title="List 2PLG" alt="List 2PLG" styleClass="tinybutton" />
-                    <html:image property="methodToCall.performReport" src="${ConfigProperties.externalizable.images.url}tinybutton-view.gif" title="Payroll Synchronization Problems" alt="Payroll Synchronization Problems" styleClass="tinybutton" />
-                    <br>&nbsp;
-                </div>
+                <td class="grid" valign="center" rowspan="1" colspan="6" style="border: none; padding: 0px;">
+                    <table align="center" cellpadding="0" cellspacing="0" class="datatable-100" style="border: none;">
+                    <%--reports and dump header --%>
+                    <tr>
+                        <th class="grid" align="center" colspan="4"><br>Reports</th>
+                        <th class="grid" align="center" colspan="1"><br>Export</th>
+                    </tr>
+                    <tr>
+                        <td class="grid" valign="center" rowspan="1" colspan="1">
+                        <div align="center">
+                            <html:image property="methodToCall.performReport" src="${ConfigProperties.externalizable.images.url}tinybutton-view.gif" title="Acct Sum" alt="Acct Sum" styleClass="tinybutton" />
+                        </div>
+                        </td>
+                        <td class="grid"  valign="center" rowspan="1" colspan="1">
+                        <div align="center">
+                            <html:image property="methodToCall.performReport" src="${ConfigProperties.externalizable.images.url}tinybutton-view.gif" title="SFund Sum" alt="SFund Sum" styleClass="tinybutton" />
+                        </div>
+                        </td>
+                        <td class="grid"  valign="center" rowspan="1" colspan="1">
+                        <div align="center">
+                            <html:image property="methodToCall.performReport" src="${ConfigProperties.externalizable.images.url}tinybutton-view.gif" title="Level Sum" alt="Level Sum" styleClass="tinybutton" />
+                        </div>
+                        </td>
+                        <td class="grid"  valign="center" rowspan="1" colspan="1">
+                        <div align="center">
+                            <html:image property="methodToCall.performReport" src="${ConfigProperties.externalizable.images.url}tinybutton-view.gif" title="Object Sum" alt="Object Sum" styleClass="tinybutton" />
+                        </div>
+                        </td>
+                        <td class="grid"  valign="center" rowspan="1" colspan="1">
+                        <div align="center">
+                            <html:image property="methodToCall.performReport" src="${ConfigProperties.externalizable.images.url}tinybutton-view.gif" title="Account Dump" alt="Account Dump" styleClass="tinybutton" />
+                        </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="grid" valign="center" rowspan="1" colspan="1">
+                        <div align="center">
+                            <html:image property="methodToCall.performReport" src="${ConfigProperties.externalizable.images.url}tinybutton-view.gif" title="Account Object Detail" alt="Account Object Detail" styleClass="tinybutton" />
+                        </div>
+                        </td>
+                        <td class="grid"  valign="center" rowspan="1" colspan="1">
+                        <div align="center">
+                            <html:image property="methodToCall.performReport" src="${ConfigProperties.externalizable.images.url}tinybutton-view.gif" title="Account Funding Detail" alt="Account Funding Detail" styleClass="tinybutton" />
+                        </div>
+                        </td>
+                        <td class="grid"  valign="center" rowspan="1" colspan="1">
+                        <div align="center">
+                            <html:image property="methodToCall.performReport" src="${ConfigProperties.externalizable.images.url}tinybutton-view.gif" title="Position Funding" alt="Position Funding" styleClass="tinybutton" />
+                        </div>
+                        </td>
+                        <td class="grid"  valign="center" rowspan="1" colspan="1">
+                        <div align="center">
+                            <html:image property="methodToCall.performReport" src="${ConfigProperties.externalizable.images.url}tinybutton-view.gif" title="Monthy Object Sum" alt="Monthly Object Sum" styleClass="tinybutton" />
+                        </div>
+                        </td>
+                        <td class="grid"  valign="center" rowspan="1" colspan="1">
+                        <div align="center">
+                            <html:image property="methodToCall.performReport" src="${ConfigProperties.externalizable.images.url}tinybutton-view.gif" title="Funding Dump" alt="Funding Dump" styleClass="tinybutton" />
+                        </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="grid" valign="center" rowspan="1" colspan="1">
+                        <div align="center">
+                            <html:image property="methodToCall.performReport" src="${ConfigProperties.externalizable.images.url}tinybutton-view.gif" title="Salary List" alt="Salary List" styleClass="tinybutton" />
+                        </div>
+                        </td>
+                        <td class="grid"  valign="center" rowspan="1" colspan="1">
+                        <div align="center">
+                            <html:image property="methodToCall.performReport" src="${ConfigProperties.externalizable.images.url}tinybutton-view.gif" title="Salary Statistics" alt="Salary Statistics" styleClass="tinybutton" />
+                        </div>
+                        </td>
+                        <td class="grid"  valign="center" rowspan="1" colspan="1">
+                        <div align="center">
+                            <html:image property="methodToCall.performReport" src="${ConfigProperties.externalizable.images.url}tinybutton-view.gif" title="Salary Exceptions" alt="Salary Exceptions" styleClass="tinybutton" />
+                        </div>
+                        </td>
+                        <td class="grid"  valign="center" rowspan="1" colspan="1">
+                        <div align="center">
+                            <html:image property="methodToCall.performReport" src="${ConfigProperties.externalizable.images.url}tinybutton-view.gif" title="Salary Exceptions Statistics" alt="Salary Exceptions Statistics" styleClass="tinybutton" />
+                        </div>
+                        </td>
+                        <td class="grid"  valign="center" rowspan="1" colspan="1">
+                        <div align="center">
+                            <html:image property="methodToCall.performReport" src="${ConfigProperties.externalizable.images.url}tinybutton-view.gif" title="Monthly Dump" alt="Monthly Dump" styleClass="tinybutton" />
+                        </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="grid" valign="center" rowspan="1" colspan="1">
+                        <div align="center">
+                            <html:image property="methodToCall.performReport" src="${ConfigProperties.externalizable.images.url}tinybutton-view.gif" title="List 2PLG" alt="List 2PLG" styleClass="tinybutton" />
+                        </div>
+                        </td>
+                        <td class="grid"  valign="center" rowspan="1" colspan="1">
+                        <div align="center">
+                            <html:image property="methodToCall.performReport" src="${ConfigProperties.externalizable.images.url}tinybutton-view.gif" title="Payroll Synchronization Problems" alt="Payroll Synchronization Problems" styleClass="tinybutton" />
+                        </div>
+                        </td>
+                        <td class="grid"  valign="center" rowspan="1" colspan="3">&nbsp;
+                        </td>
+                    </tr>
+                    </table>
                 </td>
             </tr>
             </c:when>

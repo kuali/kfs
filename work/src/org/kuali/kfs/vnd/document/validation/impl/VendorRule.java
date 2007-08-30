@@ -18,6 +18,7 @@ package org.kuali.module.vendor.rules;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -39,6 +40,7 @@ import org.kuali.core.maintenance.Maintainable;
 import org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase;
 import org.kuali.core.rule.KualiParameterRule;
 import org.kuali.core.service.BusinessObjectService;
+import org.kuali.core.service.DateTimeService;
 import org.kuali.core.service.DocumentService;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.service.PersistenceService;
@@ -53,6 +55,9 @@ import org.kuali.kfs.bo.Country;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.chart.bo.Chart;
 import org.kuali.module.chart.bo.Org;
+import org.kuali.module.purap.PurapKeyConstants;
+import org.kuali.module.purap.PurapPropertyConstants;
+import org.kuali.module.purap.document.PurchasingDocument;
 import org.kuali.module.vendor.VendorConstants;
 import org.kuali.module.vendor.VendorKeyConstants;
 import org.kuali.module.vendor.VendorPropertyConstants;
@@ -377,6 +382,8 @@ public class VendorRule extends MaintenanceDocumentRuleBase implements VendorRul
         valid &= validateVendorNames(vendorDetail);
         valid &= validateMinimumOrderAmount(vendorDetail);
         valid &= validateOwnershipCategory(vendorDetail);
+        valid &= validateVendorWithholdingTaxDates(vendorDetail);
+      //  valid &= validateVendorW8BenOrW9ReceivedIndicator(vendorDetail);
         return valid;
     }
 
@@ -1180,5 +1187,27 @@ public class VendorRule extends MaintenanceDocumentRuleBase implements VendorRul
 
         return success;
     }
+    
+    /**
+     * This method is the implementation of the rule that if a document has a federal witholding tax begin date and end date, the begin
+     * date should come before the end date. 
+     * 
+     * @param vdDocument
+     * @return
+     */
+    private boolean validateVendorWithholdingTaxDates(VendorDetail vdDocument) {
+        boolean valid = true;
+        DateTimeService dateTimeService = SpringContext.getBean(DateTimeService.class);
 
+        Date beginDate = vdDocument.getVendorHeader().getVendorFederalWithholdingTaxBeginningDate();
+        Date endDate = vdDocument.getVendorHeader().getVendorFederalWithholdingTaxEndDate();
+        if (ObjectUtils.isNotNull(beginDate) && ObjectUtils.isNotNull(endDate)) {
+            if (dateTimeService.dateDiff( beginDate, endDate, false ) <= 0 ) {
+               putFieldError(VendorPropertyConstants.VENDOR_FEDERAL_WITHOLDING_TAX_BEGINNING_DATE, VendorKeyConstants.ERROR_VENDOR_TAX_BEGIN_DATE_AFTER_END);
+               valid &= false;
+            }
+        }
+        return valid;
+
+    }
 }

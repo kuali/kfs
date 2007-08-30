@@ -279,7 +279,7 @@ public class PdpExtractServiceImpl implements PdpExtractService {
         }
         pd.setFinancialDocumentTypeCode("CM");
         pd.setInvoiceDate(new Timestamp(cmd.getCreditMemoDate().getTime()));
-        pd.setOrigInvoiceAmount(cmd.getCreditMemoAmount().bigDecimalValue());
+        pd.setOrigInvoiceAmount(cmd.getCreditMemoAmount().bigDecimalValue().negate());
 
         pd.setNetPaymentAmount(cmd.getDocumentHeader().getFinancialDocumentTotalAmount().bigDecimalValue());
 

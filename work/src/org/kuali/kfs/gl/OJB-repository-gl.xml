@@ -71,7 +71,7 @@
         <foreignkey field-ref="subAccountNumber" />
     </reference-descriptor>
 
-    <reference-descriptor name="a21SubAccount" class-ref="org.kuali.module.chart.bo.A21SubAccount" auto-retrieve="true" auto-update="none" auto-delete="none">
+    <reference-descriptor name="a21SubAccount" class-ref="org.kuali.module.chart.bo.A21SubAccount" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
         <foreignkey field-ref="chartOfAccountsCode" />
         <foreignkey field-ref="accountNumber" />
         <foreignkey field-ref="subAccountNumber" />

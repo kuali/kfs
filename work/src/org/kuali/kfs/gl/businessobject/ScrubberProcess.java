@@ -621,7 +621,9 @@ public class ScrubberProcess {
     
                     // The sub account type code will only exist if there is a valid sub account
                     String subAccountTypeCode = GLConstants.getSpaceSubAccountTypeCode();
-                    if (scrubbedEntry.getA21SubAccount() != null) {
+                    // major assumption: the a21 subaccount is proxied, so we don't want to query the database if the subacct
+                    // number is dashes
+                    if (!KFSConstants.getDashSubAccountNumber().equals(scrubbedEntry.getSubAccountNumber()) && ObjectUtils.isNotNull(scrubbedEntry.getA21SubAccount())) {
                         subAccountTypeCode = scrubbedEntry.getA21SubAccount().getSubAccountTypeCode();
 
                     }

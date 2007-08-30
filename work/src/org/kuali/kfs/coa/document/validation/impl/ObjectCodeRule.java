@@ -15,6 +15,8 @@
  */
 package org.kuali.module.chart.rules;
 
+import java.util.Collection;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
@@ -30,6 +32,7 @@ import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.chart.bo.ObjLevel;
 import org.kuali.module.chart.bo.ObjectCode;
 import org.kuali.module.chart.bo.ObjectCons;
+import org.kuali.module.chart.bo.codes.BudgetAggregationCode;
 import org.kuali.module.chart.service.ChartService;
 import org.kuali.module.chart.service.ObjectCodeService;
 import org.kuali.module.chart.service.ObjectConsService;
@@ -57,7 +60,6 @@ public class ObjectCodeRule extends MaintenanceDocumentRuleBase {
     private static ChartService chartService;
     private Map reportsTo;
     private static Set illegalValues;
-    private static Set validBudgetAggregationCodes;
     private static Set validFederalFundedCodes;
 
     public ObjectCodeRule() {
@@ -66,7 +68,6 @@ public class ObjectCodeRule extends MaintenanceDocumentRuleBase {
 	        configService = SpringContext.getBean(KualiConfigurationService.class);
 	
 	        illegalValues = retrieveParameterSet(OBJECT_CODE_ILLEGAL_VALUES);
-	        validBudgetAggregationCodes = retrieveParameterSet(OBJECT_CODE_VALID_BUDGET_AGGREGATION_CODES);
 	        validFederalFundedCodes = retrieveParameterSet(OBJECT_CODE_VALID_FEDERAL_FUNDED_CODES);
 	
 	        objectLevelService = SpringContext.getBean(ObjectLevelService.class);
@@ -319,12 +320,20 @@ public class ObjectCodeRule extends MaintenanceDocumentRuleBase {
      * @return
      */
     protected boolean isLegalBudgetAggregationCode(String budgetAggregationCode) {
-        boolean result = permitted(validBudgetAggregationCodes, budgetAggregationCode);
-        return result;
+        
+        // find all the matching records
+        Map whereMap = new HashMap();
+        whereMap.put("code", budgetAggregationCode);
+        
+        Collection budgetAggregationCodes = getBoService().findMatching(BudgetAggregationCode.class, whereMap);
+
+        // if there is at least one result, then entered budget aggregation code is legal
+        return budgetAggregationCodes.size() > 0;
     }
 
 
     protected boolean isLegalFederalFundedCode(String federalFundedCode) {
+                
         boolean result = permitted(validFederalFundedCodes, federalFundedCode);
         return result;
     }

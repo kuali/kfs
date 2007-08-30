@@ -19,6 +19,8 @@ import java.util.Map;
 
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSPropertyConstants;
+import org.kuali.kfs.context.SpringContext;
+import org.kuali.kfs.service.OptionsService;
 
 /**
  * This class is the base action form for all expense transfer documents.
@@ -39,12 +41,15 @@ public abstract class ExpenseTransferDocumentFormBase extends LaborDocumentFormB
      * The name of the collection looked up (by a multiple value lookup)
      */
     private String lookedUpCollectionName;
+    
+    private Integer universityFiscalYear;
 
     /**
      * This constructor sets up empty instances for the dependent objects...
      */
     public ExpenseTransferDocumentFormBase() {
         super();
+        setUniversityFiscalYear(SpringContext.getBean(OptionsService.class).getCurrentYearOptions().getUniversityFiscalYear());
     }
 
     /**
@@ -96,20 +101,29 @@ public abstract class ExpenseTransferDocumentFormBase extends LaborDocumentFormB
     public void setLookedUpCollectionName(String lookedUpCollectionName) {
         this.lookedUpCollectionName = lookedUpCollectionName;
     }
+    
+    /**
+     * Gets the universityFiscalYear attribute.
+     * 
+     * @return Returns the universityFiscalYear.
+     */
+    public Integer getUniversityFiscalYear() {
+        return universityFiscalYear;
+    }
 
     /**
-     * Get the universityFiscalYear attribute.
+     * Sets the universityFiscalYear attribute value.
      * 
-     * @return the universityFiscalYear
+     * @param universityFiscalYear The universityFiscalYear to set.
      */
-    public abstract Integer getUniversityFiscalYear();
-
+    public void setUniversityFiscalYear(Integer universityFiscalYear) {
+        this.universityFiscalYear = universityFiscalYear;
+    }
+    
     /**
-     * Set the universityFiscalYear attribute
-     * 
-     * @param universityFiscalYear the universityFiscalYear to set
+     * populate the search fields with the last search criteria
      */
-    public abstract void setUniversityFiscalYear(Integer universityFiscalYear);
+    public abstract void populateSearchFields();
 
     /**
      * @see org.kuali.core.web.struts.form.KualiTransactionalDocumentFormBase#getForcedReadOnlyFields()

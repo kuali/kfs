@@ -41,6 +41,7 @@ import org.kuali.core.service.PersistenceService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.UrlFactory;
+import org.kuali.core.web.struts.form.KualiDocumentFormBase;
 import org.kuali.core.web.struts.form.KualiForm;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSPropertyConstants;
@@ -53,7 +54,10 @@ import org.kuali.module.labor.bo.ExpenseTransferAccountingLine;
 import org.kuali.module.labor.bo.LedgerBalance;
 import org.kuali.module.labor.document.LaborExpenseTransferDocumentBase;
 import org.kuali.module.labor.service.SegmentedLookupResultsService;
+import org.kuali.module.labor.web.struts.form.BenefitExpenseTransferForm;
 import org.kuali.module.labor.web.struts.form.ExpenseTransferDocumentFormBase;
+
+import edu.iu.uis.eden.exception.WorkflowException;
 
 /**
  * This class handles UI actions for all shared methods of expense transfer documents.
@@ -227,6 +231,18 @@ public class ExpenseTransferDocumentActionBase extends LaborDocumentActionBase {
         }
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
+    }
+    
+    /**
+     * overload the method in order to have balance importing section be populated with the last search critera
+     * 
+     * @see org.kuali.kfs.web.struts.action.KualiAccountingDocumentActionBase#loadDocument(org.kuali.core.web.struts.form.KualiDocumentFormBase)
+     */
+    @Override
+    protected void loadDocument(KualiDocumentFormBase kualiDocumentFormBase) throws WorkflowException {
+        super.loadDocument(kualiDocumentFormBase);
+        ExpenseTransferDocumentFormBase expenseTransferDocumentForm = (ExpenseTransferDocumentFormBase)kualiDocumentFormBase;
+        expenseTransferDocumentForm.populateSearchFields();
     }
 
     /**

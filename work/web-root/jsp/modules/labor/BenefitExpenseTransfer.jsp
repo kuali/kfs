@@ -20,7 +20,7 @@
 	value="${DataDictionary.LedgerBalanceForBenefitExpenseTransfer.attributes}" />
 
 <c:set var="readOnly"
-	value="${!empty KualiForm.editingMode['viewOnly']}" />
+	value="${empty KualiForm.editingMode['fullEntry']}" />
 	
 <c:if test="${fn:length(KualiForm.document.sourceAccountingLines)>0 || readOnly}">
 	<c:set var="disabled" value="true"/>
@@ -34,12 +34,14 @@
 	<kul:hiddenDocumentFields />
 	<kul:documentOverview editingMode="${KualiForm.editingMode}" />
 	
+	<c:if test="${!readOnly}">
 	<kul:tab tabTitle="Ledger Balance Importing" defaultOpen="true"
 		tabErrorKey="${Constants.EMPLOYEE_LOOKUP_ERRORS}">
 		<div class="tab-container" align=center>
 		<div class="h2-container">
 		<h2>Ledger Balance Importing</h2>
 		</div>
+	
 		<table cellpadding="0" cellspacing="0" class="datatable"
 			summary="Ledger Balance Importing">
 
@@ -126,6 +128,7 @@
 		</table>
 		</div>
 	</kul:tab>
+	</c:if>
 
 	<c:set var="copyMethod" value="" scope="request" />
 	<c:set var="actionInfixVar" value="" scope="request" />

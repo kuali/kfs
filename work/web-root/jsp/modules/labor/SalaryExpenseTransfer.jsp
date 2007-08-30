@@ -20,7 +20,7 @@
 	value="${DataDictionary.LedgerBalanceForBenefitExpenseTransfer.attributes}" />
 	
 <c:set var="readOnly"
-	value="${!empty KualiForm.editingMode['viewOnly']}" />
+	value="${empty KualiForm.editingMode['fullEntry']}" />
 	
 <c:if test="${fn:length(KualiForm.document.sourceAccountingLines)>0 || readOnly}">
 	<c:set var="disabled" value="true"/>

@@ -16,6 +16,7 @@
 package org.kuali.module.labor.web.struts.form;
 
 import java.sql.Date;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -25,8 +26,11 @@ import org.apache.commons.logging.LogFactory;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.exceptions.UserNotFoundException;
 import org.kuali.kfs.KFSPropertyConstants;
+import org.kuali.kfs.bo.SourceAccountingLine;
 import org.kuali.kfs.context.SpringContext;
+import org.kuali.kfs.service.OptionsService;
 import org.kuali.module.chart.service.AccountingPeriodService;
+import org.kuali.module.labor.bo.ExpenseTransferAccountingLine;
 import org.kuali.module.labor.bo.LaborUser;
 import org.kuali.module.labor.bo.LedgerBalance;
 import org.kuali.module.labor.document.SalaryExpenseTransferDocument;
@@ -43,18 +47,17 @@ public class SalaryExpenseTransferForm extends ExpenseTransferDocumentFormBase {
 
     private LaborUser user;
     private String balanceTypeCode;
-    private Integer fiscalYear;
+    private String emplid;
 
     /**
      * Constructs a SalaryExpenseTransferForm instance and sets up the appropriately casted document.
      */
     public SalaryExpenseTransferForm() {
         super();
-        setUser(new LaborUser(new UniversalUser()));
         setDocument(new SalaryExpenseTransferDocument());
         setFinancialBalanceTypeCode("AC");
         setLookupResultsBOClassName(LedgerBalance.class.getName());
-        setUniversityFiscalYear(SpringContext.getBean(AccountingPeriodService.class).getByDate(new Date(System.currentTimeMillis())).getUniversityFiscalYear());
+        setUser(new LaborUser(new UniversalUser()));
     }
 
     /**
@@ -116,7 +119,7 @@ public class SalaryExpenseTransferForm extends ExpenseTransferDocumentFormBase {
      * @param emplid
      * @throws UserNotFoundException because a lookup at the database discovers user data from the personPayrollIdentifier
      */
-    public void setEmplid(String id) throws UserNotFoundException {
+    public void setEmplid(String id){
         getSalaryExpenseTransferDocument().setEmplid(id);
 
         if (id != null) {
@@ -147,22 +150,6 @@ public class SalaryExpenseTransferForm extends ExpenseTransferDocumentFormBase {
         }
         return getSalaryExpenseTransferDocument().getEmplid();
     }
-
-    /**
-     * @see org.kuali.module.labor.web.struts.form.ExpenseTransferDocumentFormBase#getUniversityFiscalYear()
-     */
-    @Override
-    public Integer getUniversityFiscalYear() {
-        return fiscalYear;
-    }
-
-    /**
-     * @see org.kuali.module.labor.web.struts.form.ExpenseTransferDocumentFormBase#setUniversityFiscalYear(java.lang.Integer)
-     */
-    @Override
-    public void setUniversityFiscalYear(Integer year) {
-        fiscalYear = year;
-    }
     
     /**
      * @see org.kuali.core.web.struts.form.KualiTransactionalDocumentFormBase#getForcedReadOnlyFields()
@@ -175,5 +162,18 @@ public class SalaryExpenseTransferForm extends ExpenseTransferDocumentFormBase {
         map.remove(KFSPropertyConstants.SUB_ACCOUNT_NUMBER);
         map.remove(KFSPropertyConstants.FINANCIAL_OBJECT_CODE);
         return map;
+    }
+    
+    /**
+     * @see org.kuali.module.labor.web.struts.form.ExpenseTransferDocumentFormBase#populateSearchFields()
+     */
+    @Override
+    public void populateSearchFields() {        
+        List<ExpenseTransferAccountingLine> sourceAccoutingLines = this.getSalaryExpenseTransferDocument().getSourceAccountingLines();
+        if(sourceAccoutingLines != null  && !sourceAccoutingLines.isEmpty()){
+            ExpenseTransferAccountingLine sourceAccountingLine = sourceAccoutingLines.get(0);
+            this.setUniversityFiscalYear(sourceAccountingLine.getPostingYear());
+            this.setEmplid(sourceAccountingLine.getEmplid());
+        }
     }
 }

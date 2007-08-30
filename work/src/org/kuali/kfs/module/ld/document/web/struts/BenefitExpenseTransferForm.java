@@ -15,18 +15,22 @@
  */
 package org.kuali.module.labor.web.struts.form;
 
+import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.kuali.kfs.KFSPropertyConstants;
+import org.kuali.kfs.bo.SourceAccountingLine;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.service.OptionsService;
+import org.kuali.module.labor.bo.ExpenseTransferAccountingLine;
 import org.kuali.module.labor.document.BenefitExpenseTransferDocument;
 
 /**
  * This class is the form class for the Benefit Expense Transfer document.
  */
 public class BenefitExpenseTransferForm extends ExpenseTransferDocumentFormBase {
-    private Integer universityFiscalYear;
     private String chartOfAccountsCode;
     private String accountNumber;
     private String subAccountNumber;
@@ -37,7 +41,6 @@ public class BenefitExpenseTransferForm extends ExpenseTransferDocumentFormBase 
     public BenefitExpenseTransferForm() {
         super();
         setDocument(new BenefitExpenseTransferDocument());
-        setUniversityFiscalYear(SpringContext.getBean(OptionsService.class).getCurrentYearOptions().getUniversityFiscalYear());
     }
 
     /**
@@ -100,26 +103,6 @@ public class BenefitExpenseTransferForm extends ExpenseTransferDocumentFormBase 
     public void setChartOfAccountsCode(String chartOfAccountsCode) {
         this.chartOfAccountsCode = chartOfAccountsCode;
     }
-
-    /**
-     * Gets the universityFiscalYear attribute.
-     * 
-     * @return Returns the universityFiscalYear.
-     */
-    @Override
-    public Integer getUniversityFiscalYear() {
-        return universityFiscalYear;
-    }
-
-    /**
-     * Sets the universityFiscalYear attribute value.
-     * 
-     * @param universityFiscalYear The universityFiscalYear to set.
-     */
-    @Override
-    public void setUniversityFiscalYear(Integer universityFiscalYear) {
-        this.universityFiscalYear = universityFiscalYear;
-    }
     
     /**
      * @see org.kuali.core.web.struts.form.KualiTransactionalDocumentFormBase#getForcedReadOnlyFields()
@@ -132,5 +115,20 @@ public class BenefitExpenseTransferForm extends ExpenseTransferDocumentFormBase 
         map.remove(KFSPropertyConstants.SUB_ACCOUNT_NUMBER);
         map.remove(KFSPropertyConstants.AMOUNT);
         return map;
+    }
+
+    /**
+     * @see org.kuali.module.labor.web.struts.form.ExpenseTransferDocumentFormBase#populateSearchFields()
+     */
+    @Override
+    public void populateSearchFields() {        
+        List<SourceAccountingLine> sourceAccoutingLines = this.getBenefitExpenseTransferDocument().getSourceAccountingLines();
+        if(sourceAccoutingLines != null  && !sourceAccoutingLines.isEmpty()){
+            SourceAccountingLine sourceAccountingLine = sourceAccoutingLines.get(0);
+            this.setUniversityFiscalYear(sourceAccountingLine.getPostingYear());
+            this.setChartOfAccountsCode(sourceAccountingLine.getChartOfAccountsCode());
+            this.setAccountNumber(sourceAccountingLine.getAccountNumber());
+            this.setSubAccountNumber(sourceAccountingLine.getSubAccountNumber());
+        }
     }
 }

@@ -501,6 +501,39 @@ public class PurapConstants extends JstlConstants {
         public static String COMPLETE = "CMPT";
         public static String AWAITING_ACCOUNTS_PAYABLE_REVIEW = "APAD";   // Waiting for Accounts Payable approval
         public static String AWAITING_FISCAL_REVIEW = "AFOA";   // Waiting for Fiscal Officer approval
+        //TODO: Chris - these methods are the same as in PaymentRequestStatus.STATUS_ORDER combine
+        public enum STATUS_ORDER{
+            INITIATE (PurapConstants.CreditMemoStatuses.INITIATE,true),
+            IN_PROCESS (PurapConstants.CreditMemoStatuses.IN_PROCESS,true),
+            CANCELLED_IN_PROCESS (PurapConstants.CreditMemoStatuses.CANCELLED_IN_PROCESS,false),
+            CANCELLED_PRIOR_TO_AP_APPROVAL (PurapConstants.CreditMemoStatuses.CANCELLED_PRIOR_TO_AP_APPROVAL,false),
+            CANCELLED_POST_AP_APPROVE (PurapConstants.CreditMemoStatuses.CANCELLED_POST_AP_APPROVE,false),
+            AWAITING_ACCOUNTS_PAYABLE_REVIEW (PurapConstants.CreditMemoStatuses.AWAITING_ACCOUNTS_PAYABLE_REVIEW,false),
+            AWAITING_FISCAL_REVIEW (PurapConstants.CreditMemoStatuses.AWAITING_FISCAL_REVIEW,false),
+            COMPLETE (PurapConstants.CreditMemoStatuses.COMPLETE,false),
+            ;
+            
+            private String statusCode = new String();
+            private boolean fullEntryAllowed = false;
+            
+            STATUS_ORDER(String statusCode,boolean fullEntry) {
+                this.statusCode = statusCode;
+                this.fullEntryAllowed = fullEntry;
+            }
+            
+            public static STATUS_ORDER getByStatusCode(String statusCode)
+            {
+                for (STATUS_ORDER status : STATUS_ORDER.values()) {
+                    if(StringUtils.equals(status.statusCode,statusCode)) {
+                        return status;
+                    }
+                }
+                return null;
+            }
+            public static boolean isFullDocumentEntryCompleted(String status) {
+                return !getByStatusCode(status).fullEntryAllowed;
+            }
+        }
         
         public static String[] STATUSES_ALLOWED_FOR_EXTRACTION = {
             COMPLETE

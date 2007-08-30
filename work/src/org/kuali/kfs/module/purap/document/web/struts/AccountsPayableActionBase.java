@@ -37,8 +37,10 @@ import org.kuali.module.purap.PurapPropertyConstants;
 import org.kuali.module.purap.bo.PurchasingApItem;
 import org.kuali.module.purap.document.AccountsPayableDocument;
 import org.kuali.module.purap.document.AccountsPayableDocumentBase;
+import org.kuali.module.purap.document.PurchasingAccountsPayableDocument;
 import org.kuali.module.purap.document.PurchasingDocument;
 import org.kuali.module.purap.service.AccountsPayableService;
+import org.kuali.module.purap.service.PurapService;
 import org.kuali.module.purap.util.PurQuestionCallback;
 import org.kuali.module.purap.web.struts.form.AccountsPayableFormBase;
 import org.kuali.module.purap.web.struts.form.PurchasingFormBase;
@@ -153,6 +155,22 @@ public class AccountsPayableActionBase extends PurchasingAccountsPayableActionBa
     protected void customCalculate(AccountsPayableDocument apDoc) {
         // do nothing by default
     }
+    
+    /**
+     * 
+     * This method checks if calculation is required.  Currently it is required when it has not already been calculated and full document entry
+     * status has not already passed.
+     * 
+     * @param apForm
+     * @param purapDocument
+     * @return true if calculation is required, false otherwise
+     */
+    protected boolean requiresCaculate(AccountsPayableFormBase apForm) {
+        boolean requiresCalculate = true;
+        PurchasingAccountsPayableDocument purapDocument = (PurchasingAccountsPayableDocument)apForm.getDocument();
+        requiresCalculate = !apForm.isCalculated() && !SpringContext.getBean(PurapService.class).isFullDocumentEntryCompleted(purapDocument);
+        return requiresCalculate;
+    }
 
     @Override
     public ActionForward route(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -160,7 +178,7 @@ public class AccountsPayableActionBase extends PurchasingAccountsPayableActionBa
         AccountsPayableFormBase apForm = (AccountsPayableFormBase) form;
         
         //if form is not yet calculated, return and prompt user to calculate
-        if (!apForm.isCalculated()) {
+        if (requiresCaculate(apForm)) {
             GlobalVariables.getErrorMap().putError(KFSConstants.DOCUMENT_ERRORS, PurapKeyConstants.ERROR_APPROVE_REQUIRES_CALCULATE);
             return mapping.findForward(KFSConstants.MAPPING_BASIC);            
         }
@@ -175,7 +193,7 @@ public class AccountsPayableActionBase extends PurchasingAccountsPayableActionBa
     @Override
     public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         AccountsPayableFormBase apForm = (AccountsPayableFormBase) form;
-        if (apForm.isCalculated()) {
+        if (!requiresCaculate(apForm)) {
             return super.save(mapping, form, request, response);
         }
         GlobalVariables.getErrorMap().putError(KFSConstants.DOCUMENT_ERRORS, PurapKeyConstants.ERROR_SAVE_REQUIRES_CALCULATE);

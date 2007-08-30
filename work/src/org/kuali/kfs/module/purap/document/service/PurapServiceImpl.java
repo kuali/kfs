@@ -306,6 +306,8 @@ public class PurapServiceImpl implements PurapService {
         boolean value = false;
         if(purapDocument instanceof PaymentRequestDocument) {
             value = PurapConstants.PaymentRequestStatuses.STATUS_ORDER.isFullDocumentEntryCompleted(purapDocument.getStatusCode());
+        } else if(purapDocument instanceof CreditMemoDocument) {
+            value = PurapConstants.CreditMemoStatuses.STATUS_ORDER.isFullDocumentEntryCompleted(purapDocument.getStatusCode());
         }
         return value;
     }

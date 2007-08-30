@@ -16,10 +16,10 @@
 
 package org.kuali.module.chart.bo;
 
+import java.math.BigDecimal;
 import java.util.LinkedHashMap;
 
 import org.kuali.core.bo.PersistableBusinessObjectBase;
-import org.kuali.core.util.KualiPercent;
 import org.kuali.kfs.bo.Options;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.chart.bo.codes.BalanceTyp;
@@ -43,7 +43,7 @@ public class IcrAutomatedEntry extends PersistableBusinessObjectBase {
     private String balanceTypeCode;
     private Integer awardIndrCostRcvyEntryNbr;
     private String transactionDebitIndicator;
-    private KualiPercent awardIndrCostRcvyRatePct;
+    private BigDecimal awardIndrCostRcvyRatePct;
     private String chartOfAccountsCode;
     private String accountNumber;
     private String subAccountNumber;
@@ -89,12 +89,12 @@ public class IcrAutomatedEntry extends PersistableBusinessObjectBase {
     }
 
 
-    public KualiPercent getAwardIndrCostRcvyRatePct() {
+    public BigDecimal getAwardIndrCostRcvyRatePct() {
         return awardIndrCostRcvyRatePct;
     }
 
 
-    public void setAwardIndrCostRcvyRatePct(KualiPercent awardIndrCostRcvyRatePct) {
+    public void setAwardIndrCostRcvyRatePct(BigDecimal awardIndrCostRcvyRatePct) {
         this.awardIndrCostRcvyRatePct = awardIndrCostRcvyRatePct;
     }
 

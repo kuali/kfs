@@ -379,10 +379,10 @@ public class PosterServiceImpl implements PosterService {
 //                            reportErrors.put(originEntry, warnings);
 //                        }
                     } else if (icrEntry.getTransactionDebitIndicator().equals(KFSConstants.GL_DEBIT_CODE)) {
-                        generatedTransactionAmount = getPercentage(transactionAmount, icrEntry.getAwardIndrCostRcvyRatePct().bigDecimalValue());
+                        generatedTransactionAmount = getPercentage(transactionAmount, icrEntry.getAwardIndrCostRcvyRatePct());
                         distributionAmount = distributionAmount.add(generatedTransactionAmount);
                     } else if (icrEntry.getTransactionDebitIndicator().equals(KFSConstants.GL_CREDIT_CODE)) {
-                        generatedTransactionAmount = getPercentage(transactionAmount, icrEntry.getAwardIndrCostRcvyRatePct().bigDecimalValue());
+                        generatedTransactionAmount = getPercentage(transactionAmount, icrEntry.getAwardIndrCostRcvyRatePct());
                         distributionAmount = distributionAmount.subtract(generatedTransactionAmount);
                     } else {
                         // Log if D / C code not found
@@ -548,7 +548,7 @@ public class PosterServiceImpl implements PosterService {
     private static BigDecimal BDONEHUNDRED = new BigDecimal("100");
 
     private KualiDecimal getPercentage(KualiDecimal amount, BigDecimal percent) {
-        BigDecimal result = amount.bigDecimalValue().multiply(percent).divide(BDONEHUNDRED, 4, BigDecimal.ROUND_DOWN);
+        BigDecimal result = amount.bigDecimalValue().multiply(percent).divide(BDONEHUNDRED, 2, BigDecimal.ROUND_DOWN);
         return new KualiDecimal(result);
     }
 

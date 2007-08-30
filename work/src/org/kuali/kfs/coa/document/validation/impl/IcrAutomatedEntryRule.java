@@ -15,6 +15,7 @@
  */
 package org.kuali.module.chart.rules;
 
+import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -23,7 +24,6 @@ import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase;
 import org.kuali.core.service.DataDictionaryService;
 import org.kuali.core.util.GlobalVariables;
-import org.kuali.core.util.KualiPercent;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSKeyConstants;
 import org.kuali.kfs.context.SpringContext;
@@ -74,7 +74,7 @@ public class IcrAutomatedEntryRule extends MaintenanceDocumentRuleBase {
         String financialSubObjectCode = newIcrAutomatedEntry.getFinancialSubObjectCode();
         String offsetBalanceSheetObjectCodeNumber = newIcrAutomatedEntry.getOffsetBalanceSheetObjectCodeNumber();
         String transactionDebitIndicator = newIcrAutomatedEntry.getTransactionDebitIndicator();
-        KualiPercent awardIndrCostRcvyRatePct = newIcrAutomatedEntry.getAwardIndrCostRcvyRatePct();
+        BigDecimal awardIndrCostRcvyRatePct = newIcrAutomatedEntry.getAwardIndrCostRcvyRatePct();
 
         
         success &= checkCorrectWildcards(newIcrAutomatedEntry);
@@ -192,6 +192,9 @@ public class IcrAutomatedEntryRule extends MaintenanceDocumentRuleBase {
         if (awardIndrCostRcvyRatePct != null) {
             if (awardIndrCostRcvyRatePct.doubleValue() < 0.00) {
                 putFieldError("awardIndrCostRcvyRatePct", KFSKeyConstants.ERROR_INVALIDNEGATIVEAMOUNT, "ICR Percent");
+                success = false;
+            } else if (awardIndrCostRcvyRatePct.scale() > 3) {
+                putFieldError("awardIndrCostRcvyRatePct", KFSKeyConstants.ERROR_INVALID_FORMAT, new String[] {"ICR Percent", awardIndrCostRcvyRatePct.toString()});
                 success = false;
             }
         }

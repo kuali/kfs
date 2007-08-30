@@ -112,8 +112,23 @@ public class PostExpenditureTransaction implements IcrTransaction, PostTransacti
                     return false;
                 }
 
-                // If the type is excluded, don't post
-                IndirectCostRecoveryExclusionType excType = indirectCostRecoveryExclusionTypeDao.getByPrimaryKey(account.getAcctIndirectCostRcvyTypeCd(), objectCode.getChartOfAccountsCode(), objectCode.getFinancialObjectCode());
+                // If the type is excluded, don't post. First step finds the top level object code...
+                ObjectCode currentObjectCode = objectCode;
+                boolean foundIt = false;
+                while (!foundIt) {
+                    if (currentObjectCode.getChartOfAccountsCode().equals(currentObjectCode.getReportsToChartOfAccountsCode()) &&
+                            currentObjectCode.getFinancialObjectCode().equals(currentObjectCode.getReportsToFinancialObjectCode())) {
+                        foundIt = true;
+                    } else {
+                        if (currentObjectCode.getReportsToFinancialObject() == null) {
+                            foundIt = true;
+                        } else {
+                            currentObjectCode = currentObjectCode.getReportsToFinancialObject();
+                        }
+                    }
+                }
+                // second step checks if the top level object code is to be excluded...
+                IndirectCostRecoveryExclusionType excType = indirectCostRecoveryExclusionTypeDao.getByPrimaryKey(account.getAcctIndirectCostRcvyTypeCd(), currentObjectCode.getChartOfAccountsCode(), currentObjectCode.getFinancialObjectCode());
                 if (excType != null) {
                     // No need to post this
                     LOG.debug("isIcrTransaction() ICR Excluded type - not posted");

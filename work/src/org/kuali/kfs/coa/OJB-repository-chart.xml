@@ -880,7 +880,7 @@
     <field-descriptor name="financialSubObjectCode" column="FIN_SUB_OBJ_CD" jdbc-type="VARCHAR" />
     <field-descriptor name="offsetBalanceSheetObjectCodeNumber" column="OFST_BALSHT_OBJ_CD" jdbc-type="VARCHAR" />
     <field-descriptor name="transactionDebitIndicator" column="TRN_DEBIT_CRDT_CD" jdbc-type="VARCHAR" />
-    <field-descriptor name="awardIndrCostRcvyRatePct" column="AWRD_ICR_RATE_PCT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiPercentFieldConversion" />
+    <field-descriptor name="awardIndrCostRcvyRatePct" column="AWRD_ICR_RATE_PCT" jdbc-type="DECIMAL"/>
     <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
     <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
     <reference-descriptor name="universityFiscal" class-ref="org.kuali.kfs.bo.Options" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">

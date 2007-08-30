@@ -1378,23 +1378,7 @@ public class LaborExpenseTransferDocumentRules extends AccountingDocumentRuleBas
         a21RevEntry.setFinancialBalanceTypeCode(BALANCE_TYPE_A21);
         a21RevEntry.setTransactionLedgerEntrySequenceNumber(getNextSequenceNumber(sequenceHelper));
         a21RevEntry.setTransactionLedgerEntryAmount(getGeneralLedgerPendingEntryAmountForAccountingLine(accountingLine));
-
-        // Jira KULLAB-224
-        Map fieldValues = new HashMap();
-        fieldValues.put("universityFiscalYear", a21RevEntry.getUniversityFiscalYear());
-        fieldValues.put("chartOfAccountsCode", a21RevEntry.getChartOfAccountsCode());
-        fieldValues.put("financialObjectCode", a21RevEntry.getFinancialObjectCode());
-        ObjectCode objectCode = (ObjectCode) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(ObjectCode.class, fieldValues);
-        if (objectCode != null) {
-            a21RevEntry.setFinancialObject(objectCode);
-        }
-        if (a21RevEntry.getFinancialObject() != null && a21RevEntry.getFinancialObject().getFinancialObjectSubTypeCode() != null && a21RevEntry.getFinancialObject().getFinancialObjectSubTypeCode().equals("FR")) {
-            a21RevEntry.setTransactionDebitCreditCode(accountingLine.isSourceAccountingLine() ? KFSConstants.GL_DEBIT_CODE : KFSConstants.GL_CREDIT_CODE);
-        }
-        else {
-            a21RevEntry.setTransactionDebitCreditCode(accountingLine.isSourceAccountingLine() ? KFSConstants.GL_CREDIT_CODE : KFSConstants.GL_DEBIT_CODE);
-        }
-
+        a21RevEntry.setTransactionDebitCreditCode(accountingLine.isSourceAccountingLine() ? KFSConstants.GL_CREDIT_CODE : KFSConstants.GL_DEBIT_CODE);
         Timestamp transactionTimestamp = new Timestamp(SpringContext.getBean(DateTimeService.class).getCurrentDate().getTime());
         a21RevEntry.setTransactionDate(new java.sql.Date(transactionTimestamp.getTime()));
         a21RevEntry.setProjectCode(getEntryValue(accountingLine.getProjectCode(), LABOR_LEDGER_PENDING_ENTRY_CODE.BLANK_PROJECT_STRING));
@@ -1642,7 +1626,7 @@ public class LaborExpenseTransferDocumentRules extends AccountingDocumentRuleBas
         benefitA21RevEntry.setFinancialSubObjectCode(LABOR_LEDGER_PENDING_ENTRY_CODE.BLANK_SUB_OBJECT_CODE);
         benefitA21RevEntry.setFinancialBalanceTypeCode(BALANCE_TYPE_A21);
         benefitA21RevEntry.setTransactionLedgerEntrySequenceNumber(getNextSequenceNumber(sequenceHelper));
-        benefitA21RevEntry.setTransactionDebitCreditCode(accountingLine.isSourceAccountingLine() ? KFSConstants.GL_DEBIT_CODE : KFSConstants.GL_CREDIT_CODE);
+        benefitA21RevEntry.setTransactionDebitCreditCode(accountingLine.isSourceAccountingLine() ? KFSConstants.GL_CREDIT_CODE : KFSConstants.GL_DEBIT_CODE);
         Timestamp transactionTimestamp = new Timestamp(SpringContext.getBean(DateTimeService.class).getCurrentDate().getTime());
         benefitA21RevEntry.setTransactionDate(new java.sql.Date(transactionTimestamp.getTime()));
         benefitA21RevEntry.setProjectCode(getEntryValue(accountingLine.getProjectCode(), LABOR_LEDGER_PENDING_ENTRY_CODE.BLANK_PROJECT_STRING));

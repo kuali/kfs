@@ -31,6 +31,7 @@ import java.util.Map;
 
 import org.kuali.core.service.DateTimeService;
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.core.util.spring.Logged;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.module.gl.GLConstants;
@@ -213,11 +214,7 @@ public class OriginEntryServiceImpl implements OriginEntryService {
         return originEntryDao.getMatchingEntries(criteria);
     }
 
-    /**
-     * 
-     * @see org.kuali.module.gl.service.OriginEntryService#createEntry(org.kuali.module.gl.bo.Transaction,
-     *      org.kuali.module.gl.bo.OriginEntryGroup)
-     */
+    @Logged
     public void createEntry(Transaction transaction, OriginEntryGroup originEntryGroup) {
         LOG.debug("createEntry() started");
 

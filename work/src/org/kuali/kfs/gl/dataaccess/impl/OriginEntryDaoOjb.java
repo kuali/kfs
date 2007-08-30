@@ -28,6 +28,7 @@ import org.apache.ojb.broker.query.QueryFactory;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
 import org.kuali.core.dao.ojb.PlatformAwareDaoBaseOjb;
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.core.util.spring.Logged;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.util.KFSUtils;
@@ -323,6 +324,7 @@ public class OriginEntryDaoOjb extends PlatformAwareDaoBaseOjb implements Origin
     /**
      * @param entry the entry to save.
      */
+    @Logged
     public void saveOriginEntry(OriginEntry entry) {
         LOG.debug("saveOriginEntry() started");
 

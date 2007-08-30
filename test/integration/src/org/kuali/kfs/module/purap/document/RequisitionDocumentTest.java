@@ -91,20 +91,20 @@ public class RequisitionDocumentTest extends KualiTestBase {
         AccountingDocumentTestUtils.testConvertIntoErrorCorrection(buildDocument(), getExpectedPrePeCount(), SpringContext.getBean(DocumentService.class), SpringContext.getBean(TransactionalDocumentDictionaryService.class));
     }
 
-//    @ConfigureContext(session = KHUNTLEY, shouldCommitTransactions=true)
-//    public final void testRouteDocument() throws Exception {
-//        AccountingDocumentTestUtils.testRouteDocument(buildDocument(), SpringContext.getBean(DocumentService.class));
-//    }
+    @ConfigureContext(session = KHUNTLEY, shouldCommitTransactions=true)
+    public final void testRouteDocument() throws Exception {
+        AccountingDocumentTestUtils.testRouteDocument(buildDocument(), SpringContext.getBean(DocumentService.class));
+    }
 
     @ConfigureContext(session = KHUNTLEY, shouldCommitTransactions=true)
     public final void testSaveDocument() throws Exception {
         AccountingDocumentTestUtils.testSaveDocument(buildDocument(), SpringContext.getBean(DocumentService.class));
     }
 
-//    @ConfigureContext(session = KHUNTLEY, shouldCommitTransactions=true)
-//    public final void testConvertIntoCopy() throws Exception {
-//        AccountingDocumentTestUtils.testConvertIntoCopy(buildDocument(), SpringContext.getBean(DocumentService.class), getExpectedPrePeCount());
-//    }
+    @ConfigureContext(session = KHUNTLEY, shouldCommitTransactions=true)
+    public final void testConvertIntoCopy() throws Exception {
+        AccountingDocumentTestUtils.testConvertIntoCopy(buildDocument(), SpringContext.getBean(DocumentService.class), getExpectedPrePeCount());
+    }
 
 
     // test util methods

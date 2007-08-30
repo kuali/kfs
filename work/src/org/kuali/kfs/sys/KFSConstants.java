@@ -694,10 +694,7 @@ public class KFSConstants {
         public static final String USER_INVALID_EMPLOYEE_STATUSES = "KualiUser.InvalidEmployeeStatus";
         
         public static final String UNIVERSAL_USER_EDIT_WORKGROUP = "UniversalUser.EditWorkgroup";
-        public static final String WORKFLOW_EXCEPTION_WORKGROUP = "Workflow.Exception.Workgroup";
         public static final String SUPERVISOR_WORKGROUP = "Kuali.Supervisor.Workgroup";
-        
-        public static final String WORKFLOW_ROUTING_REPORT_ACCESS_WORKGROUP = "Kuali.Document.RoutingReport.Workgroup";
     }
     
     public static class ChartApcParms {

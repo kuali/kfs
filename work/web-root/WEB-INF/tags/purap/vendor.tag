@@ -244,7 +244,8 @@
                     <th align=right valign=middle class="bord-l-b">&nbsp;</th>
                     <td align=left valign=middle class="datacell">&nbsp;</td>
                 </c:if>    	                
-            </tr> 
+            </tr>
+
 
             <c:if test="${displayRequisitionFields or displayPurchaseOrderFields}">
                 <tr>
@@ -326,7 +327,20 @@
                     <td align=left valign=middle class="datacell">&nbsp;</td>
                 </tr> 
             </c:if>
-
+			<c:if test="${displayPaymentRequestFields or displayCreditMemoFields}">
+				<tr>
+            
+                    <th align=right valign=middle class="bord-l-b">
+	                    <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.extractedDate}" /></div>
+	                </th>
+                    <td align=left valign=middle class="datacell">
+                        <kul:htmlControlAttribute attributeEntry="${documentAttributes.extractedDate}" property="document.extractedDate" readOnly="${true}" />
+                    </td>
+                    <th align=right valign=middle class="bord-l-b">&nbsp;</th>
+                    <td align=left valign=middle class="datacell">&nbsp;</td>
+                
+            	</tr>
+			</c:if>
         </table>
 
         <c:if test="${displayRequisitionFields}">

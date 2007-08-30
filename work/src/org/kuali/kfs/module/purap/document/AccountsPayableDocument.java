@@ -87,5 +87,7 @@ public interface AccountsPayableDocument extends PurchasingAccountsPayableDocume
     public boolean isContinuationAccountIndicator();
 
     public void setContinuationAccountIndicator(boolean continuationAccountIndicator);
+    
+    public boolean isExtracted();
 
 }

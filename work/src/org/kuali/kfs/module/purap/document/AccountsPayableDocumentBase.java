@@ -451,5 +451,8 @@ public abstract class AccountsPayableDocumentBase extends PurchasingAccountsPaya
     public void setContinuationAccountIndicator(boolean continuationAccountIndicator) {
         this.continuationAccountIndicator = continuationAccountIndicator;
     }
-
+    
+    public boolean isExtracted() {
+        return (this.getExtractedDate()==null)?false:true;
+    }
 }

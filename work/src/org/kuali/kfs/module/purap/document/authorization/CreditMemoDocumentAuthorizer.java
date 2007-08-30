@@ -35,7 +35,9 @@ import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.PurapParameterConstants;
 import org.kuali.module.purap.PurapRuleConstants;
 import org.kuali.module.purap.document.CreditMemoDocument;
+import org.kuali.module.purap.document.PaymentRequestDocument;
 import org.kuali.module.purap.service.CreditMemoService;
+import org.kuali.module.purap.service.PurapService;
 
 /**
  * Document Authorizer for the credit memo document.
@@ -73,7 +75,9 @@ public class CreditMemoDocumentAuthorizer extends AccountingDocumentAuthorizerBa
             }
         }
         else if (workflowDocument.stateIsEnroute() && workflowDocument.isApprovalRequested()) {
-            editMode = AuthorizationConstants.EditMode.FULL_ENTRY;
+            if(!SpringContext.getBean(PurapService.class).isFullDocumentEntryCompleted((CreditMemoDocument)document)) {
+                editMode = AuthorizationConstants.EditMode.FULL_ENTRY;
+            }        
         }
         editModeMap.put(editMode, "TRUE");
 
@@ -89,6 +93,13 @@ public class CreditMemoDocumentAuthorizer extends AccountingDocumentAuthorizerBa
             editModeMap.put(PurapAuthorizationConstants.CreditMemoEditMode.LOCK_VENDOR_ENTRY, "TRUE");
         }
 
+        //TODO: can we have an AP doc authorizer and move some of this similar logic up.  Also when we get
+        //AccountsPayableDocumentActionAuthorizer call the isExtracted method there.
+        String apGroup = SpringContext.getBean(KualiConfigurationService.class).getApplicationParameterValue(PurapParameterConstants.PURAP_ADMIN_GROUP, PurapParameterConstants.Workgroups.WORKGROUP_ACCOUNTS_PAYABLE);        
+        if (user.isMember(apGroup) && (creditMemoDocument.getExtractedDate()==null)) {
+            editModeMap.put(PurapAuthorizationConstants.PaymentRequestEditMode.EDIT_PRE_EXTRACT, "TRUE");
+        }
+        
         return editModeMap;
     }
 

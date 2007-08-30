@@ -31,6 +31,7 @@ import org.kuali.kfs.document.AccountingDocument;
 import org.kuali.module.labor.LaborConstants;
 import org.kuali.module.labor.bo.ExpenseTransferAccountingLine;
 import org.kuali.module.labor.bo.ExpenseTransferSourceAccountingLine;
+import org.kuali.module.labor.bo.ExpenseTransferTargetAccountingLine;
 import org.kuali.module.labor.bo.LaborObject;
 import org.kuali.module.labor.document.LaborExpenseTransferDocumentBase;
 import org.kuali.module.labor.document.LaborLedgerPostingDocument;
@@ -63,6 +64,17 @@ public class SalaryExpenseTransferDocumentRule extends LaborExpenseTransferDocum
             reportError(KFSConstants.EMPLOYEE_LOOKUP_ERRORS, KFSKeyConstants.Labor.MISSING_EMPLOYEE_ID, emplid);
             return false;
         }
+
+        AccountingDocument accountingDocument = (AccountingDocument)document;
+        // ensure the employee ids in the source accounting lines are same
+        //if (!hasSameEmployee(accountingDocument)) {
+        if (!hasAccountingLinesSameEmployee(accountingDocument)) {            
+            //reportError(KFSPropertyConstants.SOURCE_ACCOUNTING_LINES, KFSKeyConstants.Labor.ERROR_EMPLOYEE_ID_NOT_SAME);
+            return false;
+        }
+        
+        
+        
         return true;
     }
 
@@ -81,11 +93,11 @@ public class SalaryExpenseTransferDocumentRule extends LaborExpenseTransferDocum
         }
 
         // ensure the employee ids in the source accounting lines are same
-        if (!hasSameEmployee(accountingDocument)) {
-            reportError(KFSPropertyConstants.SOURCE_ACCOUNTING_LINES, KFSKeyConstants.Labor.ERROR_EMPLOYEE_ID_NOT_SAME);
+        //if (!hasSameEmployee(accountingDocument)) {
+       /* if (!hasAccountingLinesSameEmployee(accountingDocument)) {            
+            //reportError(KFSPropertyConstants.SOURCE_ACCOUNTING_LINES, KFSKeyConstants.Labor.ERROR_EMPLOYEE_ID_NOT_SAME);
             return false;
-        }
-
+        }*/
         return isValid;
     }
 
@@ -129,13 +141,15 @@ public class SalaryExpenseTransferDocumentRule extends LaborExpenseTransferDocum
      * 
      * @param accountingDocument the given accouting document
      * @return true if the employees in the source accouting lines are same; otherwise, false
-     */
+     *
     private boolean hasSameEmployee(AccountingDocument accountingDocument) {
         LOG.debug("started hasSameEmployee");
 
         LaborExpenseTransferDocumentBase expenseTransferDocument = (LaborExpenseTransferDocumentBase) accountingDocument;
         List<ExpenseTransferSourceAccountingLine> sourceAccountingLines = expenseTransferDocument.getSourceAccountingLines();
 
+      //  expenseTransferDocument.getEmplid()
+        
         String cachedEmplid = null;
         for (ExpenseTransferSourceAccountingLine sourceAccountingLine : sourceAccountingLines) {
             String emplid = sourceAccountingLine.getEmplid();
@@ -149,7 +163,52 @@ public class SalaryExpenseTransferDocumentRule extends LaborExpenseTransferDocum
             }
         }
         return true;
+    }*/
+    
+    private boolean hasAccountingLinesSameEmployee(AccountingDocument accountingDocument) {
+        LOG.debug("stared hasDocumentsSameEmployee");
+
+        LaborExpenseTransferDocumentBase expenseTransferDocument = (LaborExpenseTransferDocumentBase) accountingDocument;
+        List<ExpenseTransferSourceAccountingLine> sourceAccountingLines = expenseTransferDocument.getSourceAccountingLines();
+        List<ExpenseTransferTargetAccountingLine> targetAccountingLines = expenseTransferDocument.getTargetAccountingLines();
+
+        boolean sourceAccountingLinesValidationResult=true;
+        boolean targetAccountingLinesValidationResult=true;
+        
+        String employeeID           = expenseTransferDocument.getEmplid();
+        String accountingLineEmplID = null;
+
+        //Source Lines
+        for (ExpenseTransferSourceAccountingLine sourceAccountingLine : sourceAccountingLines) {
+            accountingLineEmplID = sourceAccountingLine.getEmplid();
+            if (accountingLineEmplID == null) {
+                sourceAccountingLinesValidationResult=false;
+            } else if (!employeeID.equals(accountingLineEmplID)) {
+                sourceAccountingLinesValidationResult=false;
+            }
+        }
+
+        // Target lines
+        for (ExpenseTransferTargetAccountingLine targetAccountingLine : targetAccountingLines) {
+            accountingLineEmplID = targetAccountingLine.getEmplid();
+            if (accountingLineEmplID == null) {
+                targetAccountingLinesValidationResult=false;
+            } else if (!employeeID.equals(accountingLineEmplID)) {
+                targetAccountingLinesValidationResult=false;
+            }
+        }    
+        
+        if (!sourceAccountingLinesValidationResult) {
+            reportError(KFSPropertyConstants.SOURCE_ACCOUNTING_LINES, KFSKeyConstants.Labor.ERROR_EMPLOYEE_ID_NOT_SAME);
+        }
+        
+        if (!targetAccountingLinesValidationResult){
+            reportError(KFSPropertyConstants.TARGET_ACCOUNTING_LINES, KFSKeyConstants.Labor.ERROR_EMPLOYEE_ID_NOT_SAME_IN_TARGET);
+        }
+        return (sourceAccountingLinesValidationResult && targetAccountingLinesValidationResult);
     }
+    
+    
 
     /**
      * determine if there is any pending entry for the source accounting lines of the given document

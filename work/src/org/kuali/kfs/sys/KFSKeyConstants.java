@@ -938,6 +938,9 @@ public class KFSKeyConstants {
         public static final String ERROR_LABOR_ERROR_CORRECTION_PERSISTED_ORIGIN_ENTRIES_MISSING = "error.labor.correction.persisted.origin.entries.missing";
         public static final String ERROR_ACCOUNT_NOT_SAME = "error.labor.accountNotSame";
         public static final String ERROR_EMPLOYEE_ID_NOT_SAME = "error.labor.employeeIdNotSame";
+        
+        public static final String ERROR_EMPLOYEE_ID_NOT_SAME_IN_TARGET ="error.labor.employeeIdNotSameInTarget";
+        
         public static final String LLCP_UPLOAD_FILE_INVALID_RECORD_SIZE_ERROR = "error.labor.llcpInvalidRecordSize";        
     }
 

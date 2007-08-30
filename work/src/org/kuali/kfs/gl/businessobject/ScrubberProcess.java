@@ -37,7 +37,6 @@ import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.service.PersistenceService;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
-import org.kuali.core.util.spring.Logged;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSKeyConstants;
 import org.kuali.kfs.KFSPropertyConstants;
@@ -250,10 +249,8 @@ public class ScrubberProcess {
      * Scrub all entries that need it in origin entry. Put valid scrubbed entries in a scrubber valid group, put errors in a
      * scrubber error group, and transactions with an expired account in the scrubber expired account group.
      */
-    @Logged
     public void scrubEntries(OriginEntryGroup group,String documentNumber) {
         LOG.debug("scrubEntries() started");
-        long scrubEntriesStarted = System.currentTimeMillis();
 
         // We are in report only mode if we pass a group to this method.
         // if not, we are in batch mode and we scrub the backup group
@@ -292,7 +289,6 @@ public class ScrubberProcess {
             }
         }
 
-        long getGroupsToScrubStart = System.currentTimeMillis();
         // get the origin entry groups to be processed by Scrubber
         Collection<OriginEntryGroup> groupsToScrub = null;
         if (reportOnlyMode || collectorMode) {
@@ -302,7 +298,7 @@ public class ScrubberProcess {
         else {
             groupsToScrub = originEntryGroupService.getBackupGroups(runDate);
         }
-        LOG.debug("scrubEntries() number of groups to scrub: " + groupsToScrub.size()+"; retrieval took "+(System.currentTimeMillis()-getGroupsToScrubStart)+" ns");
+        LOG.debug("scrubEntries() number of groups to scrub: " + groupsToScrub.size());
 
         // generate the reports based on the origin entries to be processed by scrubber
         if (reportOnlyMode) {
@@ -372,7 +368,6 @@ public class ScrubberProcess {
      * @param errorGroup
      * @param validGroup
      */
-    @Logged
     private void performDemerger(OriginEntryGroup errorGroup, OriginEntryGroup validGroup) {
         LOG.debug("performDemerger() started");
 
@@ -541,7 +536,6 @@ public class ScrubberProcess {
      * 
      * @param originEntryGroup Group to process
      */
-    @Logged
     private void processGroup(OriginEntryGroup originEntryGroup) {
 
         OriginEntry lastEntry = null;
@@ -549,7 +543,6 @@ public class ScrubberProcess {
         unitOfWork = new UnitOfWorkInfo();
 
         LOG.info("Starting Scrubber Process process group...");
-        long scrubGroupStart = System.currentTimeMillis();
         Iterator entries = originEntryService.getEntriesByGroup(originEntryGroup);
         while (entries.hasNext()) {
             OriginEntry unscrubbedEntry = (OriginEntry) entries.next();
@@ -567,7 +560,6 @@ public class ScrubberProcess {
             boolean saveValidTransaction = false;
 
             // Build a scrubbed entry
-            long buildScrubbedEntryStart = System.currentTimeMillis();
             OriginEntry scrubbedEntry = new OriginEntry();
             scrubbedEntry.setDocumentNumber(unscrubbedEntry.getDocumentNumber());
             scrubbedEntry.setOrganizationDocumentNumber(unscrubbedEntry.getOrganizationDocumentNumber());
@@ -579,7 +571,6 @@ public class ScrubberProcess {
             scrubbedEntry.setTransactionLedgerEntryDescription(unscrubbedEntry.getTransactionLedgerEntryDescription());
             scrubbedEntry.setTransactionLedgerEntryAmount(unscrubbedEntry.getTransactionLedgerEntryAmount());
             scrubbedEntry.setTransactionDebitCreditCode(unscrubbedEntry.getTransactionDebitCreditCode());
-            LOG.info("build scrubbed entry took "+(System.currentTimeMillis() - buildScrubbedEntryStart)+" ns");
 
             //For Labor Scrubber
             boolean validateAccountIndicator = true;
@@ -638,7 +629,6 @@ public class ScrubberProcess {
 
                     }
 
-                    long scrubRulesStart = System.currentTimeMillis();
                     KualiParameterRule costShareObjectTypeCodes = getRule(GLConstants.GlScrubberGroupRules.COST_SHARE_OBJ_TYPE_CODES);
                     KualiParameterRule costShareEncBalanceTypeCodes = getRule(GLConstants.GlScrubberGroupRules.COST_SHARE_ENC_BAL_TYP_CODES);
                     KualiParameterRule costShareEncFiscalPeriodCodes = getRule(GLConstants.GlScrubberGroupRules.COST_SHARE_ENC_FISCAL_PERIOD_CODES);
@@ -727,8 +717,6 @@ public class ScrubberProcess {
     
                     lastEntry = scrubbedEntry;
                     
-                    long scrubRulesStop = System.currentTimeMillis();
-                    LOG.info("Time to run scrubber rules: "+(scrubRulesStop - scrubRulesStart)+" ns");
                 }
                 
             }

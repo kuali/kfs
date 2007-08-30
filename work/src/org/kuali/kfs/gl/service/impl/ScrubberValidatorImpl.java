@@ -29,7 +29,6 @@ import org.kuali.core.service.PersistenceService;
 import org.kuali.core.service.PersistenceStructureService;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
-import org.kuali.core.util.spring.Logged;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSKeyConstants;
 import org.kuali.kfs.KFSPropertyConstants;
@@ -72,7 +71,6 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
 
     private static int count = 0;
 
-    @Logged
     public void validateForInquiry(GeneralLedgerPendingEntry entry) {
         LOG.debug("validateForInquiry() started");
 
@@ -101,7 +99,6 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
         }
     }
 
-    @Logged
     public List<Message> validateTransaction(OriginEntry originEntry, OriginEntry scrubbedEntry, UniversityDate universityRunDate, boolean validateAccountIndicator) {
         LOG.debug("validateTransaction() started");
 

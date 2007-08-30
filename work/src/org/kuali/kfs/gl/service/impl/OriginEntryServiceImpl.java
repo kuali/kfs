@@ -31,7 +31,6 @@ import java.util.Map;
 
 import org.kuali.core.service.DateTimeService;
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.core.util.spring.Logged;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.module.gl.GLConstants;
@@ -146,7 +145,6 @@ public class OriginEntryServiceImpl implements OriginEntryService {
      * 
      * @see org.kuali.module.gl.service.OriginEntryService#getDocumentsByGroup(org.kuali.module.gl.bo.OriginEntryGroup)
      */
-    @Logged
     public Collection<OriginEntry> getDocumentsByGroup(OriginEntryGroup oeg) {
         LOG.debug("getDocumentsByGroup() started");
 
@@ -168,7 +166,6 @@ public class OriginEntryServiceImpl implements OriginEntryService {
      * 
      * @see org.kuali.module.gl.service.OriginEntryService#getEntriesByGroup(org.kuali.module.gl.bo.OriginEntryGroup)
      */
-    @Logged
     public Iterator<OriginEntry> getEntriesByGroup(OriginEntryGroup originEntryGroup) {
         LOG.debug("getEntriesByGroup() started");
 
@@ -204,7 +201,6 @@ public class OriginEntryServiceImpl implements OriginEntryService {
      * @see org.kuali.module.gl.service.OriginEntryService#getEntriesByDocument(org.kuali.module.gl.bo.OriginEntryGroup,
      *      java.lang.String, java.lang.String, java.lang.String)
      */
-    @Logged
     public Iterator<OriginEntry> getEntriesByDocument(OriginEntryGroup originEntryGroup, String documentNumber, String documentTypeCode, String originCode) {
         LOG.debug("getEntriesByGroup() started");
 
@@ -217,7 +213,6 @@ public class OriginEntryServiceImpl implements OriginEntryService {
         return originEntryDao.getMatchingEntries(criteria);
     }
 
-    @Logged
     public void createEntry(Transaction transaction, OriginEntryGroup originEntryGroup) {
         LOG.debug("createEntry() started");
 
@@ -231,7 +226,6 @@ public class OriginEntryServiceImpl implements OriginEntryService {
      * 
      * @see org.kuali.module.gl.service.OriginEntryService#save(org.kuali.module.gl.bo.OriginEntry)
      */
-    @Logged
     public void save(OriginEntry entry) {
         LOG.debug("save() started");
 
@@ -412,7 +406,6 @@ public class OriginEntryServiceImpl implements OriginEntryService {
     /**
      * @see org.kuali.module.gl.service.OriginEntryService#getMatchingEntriesByList(java.util.Map)
      */
-    @Logged
     public List<OriginEntry> getEntriesByGroupId(Integer groupId) {
         if (groupId == null) {
             throw new IllegalArgumentException("Group ID is null");

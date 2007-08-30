@@ -19,7 +19,6 @@ import org.kuali.core.service.DateTimeService;
 import org.kuali.core.service.DocumentTypeService;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.service.PersistenceService;
-import org.kuali.core.util.spring.Logged;
 import org.kuali.module.chart.service.ObjectCodeService;
 import org.kuali.module.chart.service.OffsetDefinitionService;
 import org.kuali.module.financial.service.FlexibleOffsetAccountService;
@@ -58,7 +57,6 @@ public class ScrubberServiceImpl implements ScrubberService {
      * 
      * @see org.kuali.module.gl.service.ScrubberService#scrubGroupReportOnly(org.kuali.module.gl.bo.OriginEntryGroup)
      */
-    @Logged
     public void scrubGroupReportOnly(OriginEntryGroup group,String documentNumber) {
         LOG.debug("scrubGroupReportOnly() started");
 
@@ -73,7 +71,6 @@ public class ScrubberServiceImpl implements ScrubberService {
      * 
      * @see org.kuali.module.gl.service.ScrubberService#scrubEntries()
      */
-    @Logged
     public void scrubEntries() {
         LOG.debug("scrubEntries() started");
 
@@ -84,7 +81,6 @@ public class ScrubberServiceImpl implements ScrubberService {
         sp.scrubEntries();
     }
     
-    @Logged
     public ScrubberStatus scrubCollectorBatch(CollectorBatch batch, CollectorReportData collectorReportData, OriginEntryService overrideOriginEntryService, OriginEntryGroupService overrideOriginEntryGroupService) {
         if (overrideOriginEntryService == null && overrideOriginEntryGroupService == null) {
             throw new NullPointerException("for scrubCollectorBatch, the OriginEntryService and OriginEntryGroupService services must be specified in the parameters");

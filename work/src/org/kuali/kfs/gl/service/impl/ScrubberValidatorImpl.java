@@ -523,19 +523,20 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
             workingEntry.setUniversityFiscalYear(universityRunDate.getUniversityFiscalYear());
 
             // Retrieve these objects because the fiscal year is the primary key for them
-            if (StringUtils.hasText(originEntry.getFinancialSubObjectCode()) && !KFSConstants.getDashFinancialSubObjectCode().equals(originEntry.getFinancialSubObjectCode())) {
-                persistenceService.retrieveReferenceObject(originEntry, KFSPropertyConstants.FINANCIAL_SUB_OBJECT);
-            }
-            if (StringUtils.hasText(originEntry.getFinancialObjectCode())) {
-                persistenceService.retrieveReferenceObject(originEntry, KFSPropertyConstants.FINANCIAL_OBJECT);
-            }
-            if (StringUtils.hasText(originEntry.getUniversityFiscalPeriodCode())) {
-                persistenceService.retrieveReferenceObject(originEntry, KFSPropertyConstants.ACCOUNTING_PERIOD);
-            }
+            persistenceService.retrieveReferenceObject(originEntry, KFSPropertyConstants.FINANCIAL_SUB_OBJECT);
+            persistenceService.retrieveReferenceObject(originEntry, KFSPropertyConstants.FINANCIAL_OBJECT);
+            persistenceService.retrieveReferenceObject(originEntry, KFSPropertyConstants.ACCOUNTING_PERIOD);
             persistenceService.retrieveReferenceObject(originEntry, KFSPropertyConstants.OPTION);
         }
         else {
             workingEntry.setUniversityFiscalYear(originEntry.getUniversityFiscalYear());
+
+            persistenceService.retrieveReferenceObject(workingEntry, KFSPropertyConstants.OPTION);
+            
+            // TODO: warren: determine whether the following refresh statements are really required because the year attrib
+            // didn't change, which is part of the FK
+
+            // for the ojb implementation, these objcts are proxied anyways so it doesn't matter whether we retrieve the references or not because db calls aren't made
             if (originEntry.getOption() == null) {
                 persistenceService.retrieveReferenceObject(originEntry, KFSPropertyConstants.OPTION);
             }
@@ -548,10 +549,9 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
             if (originEntry.getAccountingPeriod() == null && StringUtils.hasText(originEntry.getUniversityFiscalPeriodCode())) {
                 persistenceService.retrieveReferenceObject(originEntry, KFSPropertyConstants.ACCOUNTING_PERIOD);
             }
-            workingEntry.setOption(originEntry.getOption());
         }
 
-        if (originEntry.getOption() == null) {
+        if (ObjectUtils.isNull(originEntry.getOption())) {
             return new Message(kualiConfigurationService.getPropertyString(KFSKeyConstants.ERROR_UNIV_FISCAL_YR_NOT_FOUND) + " (" + originEntry.getUniversityFiscalYear() + ")", Message.TYPE_FATAL);
         }
         return null;
@@ -685,10 +685,10 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
         }
         else {
             workingEntry.setFinancialObjectTypeCode(originEntry.getFinancialObjectTypeCode());
-            workingEntry.setObjectType(originEntry.getObjectType());
+            persistenceService.retrieveReferenceObject(workingEntry, KFSPropertyConstants.OBJECT_TYPE);
         }
 
-        if (workingEntry.getObjectType() == null) {
+        if (ObjectUtils.isNull(workingEntry.getObjectType())) {
             return new Message(kualiConfigurationService.getPropertyString(KFSKeyConstants.ERROR_OBJECT_TYPE_NOT_FOUND) + " (" + originEntry.getFinancialObjectTypeCode() + ")", Message.TYPE_FATAL);
         }
         return null;
@@ -813,7 +813,7 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
             }
         }
         else {
-            if (originEntry.getAccountingPeriod() == null) {
+            if (ObjectUtils.isNull(originEntry.getAccountingPeriod())) {
                 return new Message(kualiConfigurationService.getPropertyString(KFSKeyConstants.ERROR_ACCOUNTING_PERIOD_NOT_FOUND) + " (" + originEntry.getUniversityFiscalPeriodCode() + ")", Message.TYPE_FATAL);
             }
             else if (KFSConstants.ACCOUNTING_PERIOD_STATUS_CLOSED.equals(originEntry.getAccountingPeriod().getUniversityFiscalPeriodStatusCode())) {
@@ -871,7 +871,7 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
             }
         }
 
-        if ((workingEntry.getBalanceType() == null) || (workingEntry.getObjectType() == null)) {
+        if ((workingEntry.getBalanceType() == null) || (ObjectUtils.isNull(workingEntry.getObjectType()))) {
             // We are unable to check this because the balance type or object type is invalid.
             // It would be nice if we could still validate the entry, but we can't.
             return null;

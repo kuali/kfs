@@ -350,7 +350,14 @@
 
         </attributes>
 
-        
+        <relationships>
+            <relationship objectAttributeName="user" >
+                <primitiveAttribute sourceName="personUniversalIdentifier" targetName="personUniversalIdentifier" />
+				<supportAttribute sourceName="user.personUserIdentifier" targetName="personUserIdentifier" identifier="true" />
+				<supportAttribute sourceName="user.personName" targetName="personName" />
+            </relationship>
+		</relationships>
+
         <objectLabel>Budget User/Personnel</objectLabel>
     </businessObject>
 

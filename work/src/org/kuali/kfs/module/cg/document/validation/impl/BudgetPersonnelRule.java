@@ -276,7 +276,7 @@ public class BudgetPersonnelRule {
 
             GlobalVariables.getErrorMap().addToErrorPath("budget.personFromList[" + personnelListIndex + "]");
 
-            budgetUser.refreshReferenceObject("user");
+//            budgetUser.refreshReferenceObject("user");
             // salary justification required for changes to personnel salary
             if (budgetUser.getUser() != null && budgetUser.getUser().getPersonBaseSalaryAmount() != null && budgetUser.getBaseSalary() != null && !budgetUser.getBaseSalary().equals(budgetUser.getUser().getPersonBaseSalaryAmount()) && StringUtils.isEmpty(budgetUser.getPersonSalaryJustificationText())) {
                 GlobalVariables.getErrorMap().putError("personSalaryJustificationText", KraKeyConstants.ERROR_PERSONNEL_SALARY_CHANGE_JUSTIFICATION_REQUIRED, new String[] {});

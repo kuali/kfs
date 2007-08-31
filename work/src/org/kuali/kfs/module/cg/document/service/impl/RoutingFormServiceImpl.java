@@ -147,7 +147,9 @@ public class RoutingFormServiceImpl implements RoutingFormService {
         
         // Making this call to refresh the document's attributes
         // NOTE: Attempted to call routingFormDocument.refresh() at the end of htis method, but it did not resolve the problem being seen
-        routingFormDocument.getRoutingFormAgency().setAgency(SpringContext.getBean(AgencyService.class).getByPrimaryId(budget.getBudgetAgencyNumber()));
+//        routingFormDocument.getRoutingFormAgency().setAgency(SpringContext.getBean(AgencyService.class).getByPrimaryId(budget.getBudgetAgencyNumber()));
+        routingFormDocument.getRoutingFormAgency().refreshReferenceObject("agency");
+
         
         //Project Director
         for (Iterator i = routingFormDocument.getRoutingFormPersonnel().iterator(); i.hasNext(); ) {
@@ -273,7 +275,6 @@ public class RoutingFormServiceImpl implements RoutingFormService {
             }
         }
         
-        routingFormDocument.refresh();
 
     }
     

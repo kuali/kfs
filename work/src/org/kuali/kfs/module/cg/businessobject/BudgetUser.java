@@ -397,8 +397,8 @@ public class BudgetUser extends PersistableBusinessObjectBase implements Compara
      */
     public void synchronizeUserObject() {
         if (this.getPersonUniversalIdentifier() != null) {
-            this.refreshReferenceObject("user");
-            if (this.user.getPersonBaseSalaryAmount() != null) {
+            this.getUser();
+            if (this.getUser().getPersonBaseSalaryAmount() != null) {
                 this.baseSalary = this.user.getPersonBaseSalaryAmount();
             }
             else {

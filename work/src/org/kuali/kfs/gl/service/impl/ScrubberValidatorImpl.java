@@ -100,7 +100,6 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
         }
     }
 
-    @Logged
     public List<Message> validateTransaction(OriginEntry originEntry, OriginEntry scrubbedEntry, UniversityDate universityRunDate, boolean validateAccountIndicator) {
         LOG.debug("validateTransaction() started");
 

@@ -220,6 +220,9 @@ public class OriginEntryServiceImpl implements OriginEntryService {
         e.setGroup(originEntryGroup);
 
         originEntryDao.saveOriginEntry(e);
+        
+        // add 1 to the rows in the origin entry group, so we can unit test against that
+        originEntryGroup.setRows(originEntryGroup.getRows().intValue() + 1);
     }
 
     /**

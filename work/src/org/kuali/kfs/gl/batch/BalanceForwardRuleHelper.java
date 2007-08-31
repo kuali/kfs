@@ -301,7 +301,7 @@ public class BalanceForwardRuleHelper {
             // 1023 005500 'IN' OR 'CH')
             // 1024 005510**** THE ABOVE LINE HAD 'CH' ADDED 7/18/95 ARE
 
-            PriorYearAccount priorYearAccount = null; // This is used below in the write routine.
+            PriorYearAccount priorYearAccount = priorYearAccountService.getByPrimaryKey(balance.getChartOfAccountsCode(), balance.getAccountNumber());
 
             // "EE", "ES", "EX", "IC", "TE", "TI", "IN", "CH"
             String[] priorYearAccountObjectTypes = new String[8];
@@ -331,10 +331,6 @@ public class BalanceForwardRuleHelper {
                 // 1036 005630 FROM CA_PRIOR_YR_ACCT_T
                 // 1037 005640 WHERE FIN_COA_CD = RTRIM(:CAPYACTT-FIN-COA-CD)
                 // 1038 005650 AND ACCOUNT_NBR = RTRIM(:CAPYACTT-ACCOUNT-NBR)
-                // 1039 005660 END-EXEC
-
-                priorYearAccount = priorYearAccountService.getByPrimaryKey(balance.getChartOfAccountsCode(), balance.getAccountNumber());
-
                 // 1040 005670 IF CAPYACTT-SFGC-I < ZERO
                 // 1041 005680 MOVE SPACE TO CAPYACTT-SUB-FUND-GRP-CD
                 // 1042 005690 END-IF

@@ -261,8 +261,7 @@ It's followed by 0 or more rows for the accounting lines that have already been 
         </c:otherwise>
     </c:choose>
 
-    <%-- TODO: fix for now accountPrefix does not support baseline --%>
-    <c:if test="${empty accountPrefix}">
+    <c:if test="${empty newAccountPrefix}"> 
 		<c:set var="baselineLine" value="${baselineSourceOrTarget}AccountingLine[${ctr}]" />
 	</c:if>
 
@@ -298,14 +297,8 @@ It's followed by 0 or more rows for the accounting lines that have already been 
         customActions="${customActions}"
         />
 
-    <c:if test="${displayMonthlyAmounts}">
-        <fin:budgetAdjustmentMonthlyAmountLines 
-            isSource="${isSource}" 
-            accountingLine="document.${sourceOrTarget}AccountingLine[${ctr}]"
-            baselineAccountingLine="${baselineSourceOrTarget}AccountingLine[${ctr}]"/>
-    </c:if>
-
 </logic:iterate>
+
 <tr>
     <td class="total-line" colspan="${columnCountUntilAmount}">&nbsp;</td>
     <c:choose>

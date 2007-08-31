@@ -45,8 +45,10 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.core.exceptions.InfrastructureException;
 import org.kuali.core.service.BusinessObjectDictionaryService;
 import org.kuali.core.service.DataDictionaryService;
+import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.web.format.FormatException;
+import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.document.AccountingDocument;
@@ -58,7 +60,7 @@ import org.kuali.kfs.exceptions.AccountingLineParserException;
 public class AccountingLineParserBase implements AccountingLineParser {
     protected static final String[] DEFAULT_FORMAT = { CHART_OF_ACCOUNTS_CODE, ACCOUNT_NUMBER, SUB_ACCOUNT_NUMBER, FINANCIAL_OBJECT_CODE, FINANCIAL_SUB_OBJECT_CODE, PROJECT_CODE, ORGANIZATION_REFERENCE_ID, AMOUNT };
     private String fileName;
-    private int lineNo = 0;
+    private Integer lineNo = 0;
 
     /**
      * @see org.kuali.core.bo.AccountingLineParser#getSourceAccountingLineFormat()
@@ -132,7 +134,7 @@ public class AccountingLineParserBase implements AccountingLineParser {
         AccountingLine accountingLine;
 
         try {
-            accountingLine = (AccountingLine) accountingLineClass.newInstance();
+            accountingLine = (AccountingLine) accountingLineClass.newInstance(); 
             // perform custom line population
             if (SourceAccountingLine.class.isAssignableFrom(accountingLineClass)) {
                 performCustomSourceAccountingLinePopulation(attributeValueMap, (SourceAccountingLine) accountingLine, accountingLineAsString);
@@ -158,7 +160,10 @@ public class AccountingLineParserBase implements AccountingLineParser {
                 }
                 catch (FormatException e) {
                     String[] errorParameters = { entry.getValue().toString(), retrieveAttributeLabel(accountingLine.getClass(), entry.getKey()), accountingLineAsString };
+                    //KULLAB-408
+                    GlobalVariables.getErrorMap().putError(KFSConstants.ACCOUNTING_LINE_ERRORS, ERROR_INVALID_PROPERTY_VALUE, entry.getValue().toString(), entry.getKey(), accountingLineAsString + "  : Line Number " + lineNo.toString());
                     throw new AccountingLineParserException("invalid '" + entry.getKey() + "=" + entry.getValue() + "for " + accountingLineAsString, ERROR_INVALID_PROPERTY_VALUE, errorParameters);
+                    
                 }
             }
         }
@@ -264,15 +269,20 @@ public class AccountingLineParserBase implements AccountingLineParser {
             while ((accountingLineAsString = br.readLine()) != null) {
                 lineNo++;
                 AccountingLine accountingLine = null;
-                if (isSource) {
-                    accountingLine = parseSourceAccountingLine(transactionalDocument, accountingLineAsString);
-                }
-                else {
-                    accountingLine = parseTargetAccountingLine(transactionalDocument, accountingLineAsString);
-                }
+                
+                try {
+                    if (isSource) {
+                        accountingLine = parseSourceAccountingLine(transactionalDocument, accountingLineAsString);
+                    }
+                    else {
+                        accountingLine = parseTargetAccountingLine(transactionalDocument, accountingLineAsString);
+                    }
 
-                validateImportedAccountingLine(accountingLine, accountingLineAsString);
-                importedAccountingLines.add(accountingLine);
+                    validateImportedAccountingLine(accountingLine, accountingLineAsString);
+                    importedAccountingLines.add(accountingLine);
+                } catch (AccountingLineParserException e){
+                    
+                }
             }
         }
         catch (IOException e) {

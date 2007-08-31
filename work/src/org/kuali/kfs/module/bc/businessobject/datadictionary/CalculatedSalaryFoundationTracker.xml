@@ -78,10 +78,10 @@
                 <field attributeName="chartOfAccountsCode" />
                 <field attributeName="accountNumber" />
                 <field attributeName="subAccountNumber" />
-                <field attributeName="personName" />
                 <field attributeName="financialObjectCode" />
                 <field attributeName="financialSubObjectCode" />
                 <field attributeName="positionNumber" />
+                <field attributeName="personName" />				
                 <field attributeName="csfAmount" />
                 <field attributeName="csfFundingStatusCode" />
                 <field attributeName="csfDeleteCode" />

@@ -139,6 +139,9 @@
                 <th align=right valign=middle><kul:htmlAttributeLabel attributeEntry="${routingFormAttributes.routingFormAnnouncementNumber}" skipHelpUrl="true" useShortLabel="true" /></th>
 
                 <td colspan="4" align=left valign=middle >
+                	<c:if test="${budgetLinked and empty KualiForm.document.routingFormAnnouncementNumber}">
+                		(The linked budget does not contain a routing form announcement number.)
+                	</c:if>
                 	<kul:htmlControlAttribute property="document.routingFormAnnouncementNumber" attributeEntry="${routingFormAttributes.routingFormAnnouncementNumber}" readOnly="${viewOnly or budgetLinked}"/>
                 </td>
               </tr>

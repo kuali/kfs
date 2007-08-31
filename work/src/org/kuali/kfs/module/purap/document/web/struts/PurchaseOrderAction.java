@@ -312,6 +312,9 @@ public class PurchaseOrderAction extends PurchasingActionBase {
                 
                 // assume at this point document was created properly and 'po' variable is new PurchaseOrderDocument created
                 kualiDocumentFormBase.setDocument(po);
+                kualiDocumentFormBase.setDocId(po.getDocumentNumber());
+                kualiDocumentFormBase.setDocTypeName(po.getDocumentHeader().getWorkflowDocument().getDocumentType());
+
                 Note newNote = new Note();
                 if (documentType.equals(PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_AMENDMENT_DOCUMENT)) {
                     noteText = noteText + " (Previous Document Id is " + kualiDocumentFormBase.getDocId() + ")";
@@ -324,7 +327,7 @@ public class PurchaseOrderAction extends PurchasingActionBase {
             }
             if (ObjectUtils.isNotNull(returnActionForward)) {
                 // TODO delyea - should this be a privatized method?
-                ((PurchaseOrderForm) kualiDocumentFormBase).addButtons();
+                addExtraButtons(kualiDocumentFormBase);
                 return returnActionForward;
             }
             else {
@@ -332,7 +335,7 @@ public class PurchaseOrderAction extends PurchasingActionBase {
             }
         }
         catch (ValidationException ve) {
-            ((PurchaseOrderForm) kualiDocumentFormBase).addButtons();
+            addExtraButtons(kualiDocumentFormBase);
             throw ve;
         }
     }
@@ -415,8 +418,12 @@ public class PurchaseOrderAction extends PurchasingActionBase {
      * @return  An actionForward mapping back to the original page.
      */
     protected ActionForward returnToPreviousPage(ActionMapping mapping, KualiDocumentFormBase kualiDocumentFormBase) {
-        ((PurchaseOrderForm) kualiDocumentFormBase).addButtons();
+        addExtraButtons(kualiDocumentFormBase);
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
+    }
+    
+    private void addExtraButtons(KualiDocumentFormBase kualiDocumentFormBase) {
+        ((PurchaseOrderForm) kualiDocumentFormBase).addButtons();
     }
 
     /**
@@ -618,8 +625,7 @@ public class PurchaseOrderAction extends PurchasingActionBase {
         for (PurchaseOrderItem item : items) {
             item.setItemSelectedForRetransmitIndicator(true);
         }
-        ((PurchaseOrderForm) kualiDocumentFormBase).addButtons();
-        return mapping.findForward(KFSConstants.MAPPING_BASIC);
+        return returnToPreviousPage(mapping, kualiDocumentFormBase);
     }
 
     /**
@@ -640,8 +646,7 @@ public class PurchaseOrderAction extends PurchasingActionBase {
         for (PurchaseOrderItem item : items) {
             item.setItemSelectedForRetransmitIndicator(false);
         }
-        ((PurchaseOrderForm) kualiDocumentFormBase).addButtons();
-        return mapping.findForward(KFSConstants.MAPPING_BASIC);
+        return returnToPreviousPage(mapping, kualiDocumentFormBase);
     }
 
     /**
@@ -687,9 +692,7 @@ public class PurchaseOrderAction extends PurchasingActionBase {
             DocumentAuthorizer documentAuthorizer = SpringContext.getBean(DocumentAuthorizationService.class).getDocumentAuthorizer(po);
             kualiDocumentFormBase.populateAuthorizationFields(documentAuthorizer);
         }
-        ((PurchaseOrderForm) kualiDocumentFormBase).addButtons();
-        return mapping.findForward(KFSConstants.MAPPING_BASIC);
-
+        return returnToPreviousPage(mapping, kualiDocumentFormBase);
     }
 
     public ActionForward printingRetransmitPo(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -828,9 +831,9 @@ public class PurchaseOrderAction extends PurchasingActionBase {
     @Override
     public ActionForward docHandler(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ActionForward forward = super.docHandler(mapping, form, request, response);
-        PurchaseOrderForm poForm = (PurchaseOrderForm) form;
-        poForm.addButtons();
-        PurchaseOrderDocument po = (PurchaseOrderDocument)poForm.getDocument();
+        KualiDocumentFormBase kualiDocumentFormBase = (KualiDocumentFormBase) form;
+        addExtraButtons(kualiDocumentFormBase);
+        PurchaseOrderDocument po = (PurchaseOrderDocument)kualiDocumentFormBase.getDocument();
         ActionMessages messages = new ActionMessages();
         checkForPOWarnings(po, messages);
         saveMessages(request, messages);
@@ -1074,7 +1077,7 @@ public class PurchaseOrderAction extends PurchasingActionBase {
             Object buttonClicked = request.getParameter(KFSConstants.QUESTION_CLICKED_BUTTON);
             if (question.equals(questionType) && buttonClicked.equals(ConfirmationQuestion.NO)) {
                 // If 'No' is the button clicked, just reload the doc
-                ((PurchaseOrderForm)kualiDocumentFormBase).addButtons();
+                addExtraButtons(kualiDocumentFormBase);
                 return forward;
             }
             
@@ -1138,7 +1141,7 @@ public class PurchaseOrderAction extends PurchasingActionBase {
                 throw new RuntimeException(e);
             }
         }
-        ((PurchaseOrderForm)kualiDocumentFormBase).addButtons();
+        addExtraButtons(kualiDocumentFormBase);
         return forward;
     }
     

@@ -29,6 +29,7 @@ import org.kuali.core.service.PersistenceService;
 import org.kuali.core.service.PersistenceStructureService;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
+import org.kuali.core.util.spring.Logged;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSKeyConstants;
 import org.kuali.kfs.KFSPropertyConstants;
@@ -99,6 +100,7 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
         }
     }
 
+    @Logged
     public List<Message> validateTransaction(OriginEntry originEntry, OriginEntry scrubbedEntry, UniversityDate universityRunDate, boolean validateAccountIndicator) {
         LOG.debug("validateTransaction() started");
 
@@ -235,8 +237,11 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
         }
 
         if (errors.size() == 0) {
+            // warren: logging
+            long start = System.currentTimeMillis();
             refreshOriginEntryReferences(originEntry);
             refreshOriginEntryReferences(scrubbedEntry);
+            LOG.fatal("line refreshing time: " + (System.currentTimeMillis() - start));
         }
 
         return errors;
@@ -536,7 +541,7 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
             // TODO: warren: determine whether the following refresh statements are really required because the year attrib
             // didn't change, which is part of the FK
 
-            // for the ojb implementation, these objcts are proxied anyways so it doesn't matter whether we retrieve the references or not because db calls aren't made
+            /*// for the ojb implementation, these objcts are proxied anyways so it doesn't matter whether we retrieve the references or not because db calls aren't made
             if (originEntry.getOption() == null) {
                 persistenceService.retrieveReferenceObject(originEntry, KFSPropertyConstants.OPTION);
             }
@@ -548,7 +553,7 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
             }
             if (originEntry.getAccountingPeriod() == null && StringUtils.hasText(originEntry.getUniversityFiscalPeriodCode())) {
                 persistenceService.retrieveReferenceObject(originEntry, KFSPropertyConstants.ACCOUNTING_PERIOD);
-            }
+            }*/
         }
 
         if (ObjectUtils.isNull(originEntry.getOption())) {
@@ -662,7 +667,8 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
         workingEntry.setFinancialObjectCode(originEntry.getFinancialObjectCode());
         persistenceService.retrieveReferenceObject(workingEntry, "financialObject");
 
-        if (workingEntry.getFinancialObject() == null) {
+        // the fiscal year can be blank in originEntry, but we're assuming that the year attribute is populated by the validate year method
+        if (ObjectUtils.isNull(workingEntry.getFinancialObject())) {
             return new Message(kualiConfigurationService.getPropertyString(KFSKeyConstants.ERROR_OBJECT_CODE_NOT_FOUND) + " (" + originEntry.getUniversityFiscalYear() + "-" + originEntry.getChartOfAccountsCode() + "-" + originEntry.getFinancialObjectCode() + ")", Message.TYPE_FATAL);
         }
 

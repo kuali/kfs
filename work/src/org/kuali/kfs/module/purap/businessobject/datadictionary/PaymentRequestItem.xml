@@ -146,8 +146,8 @@
 			</attributeReference>
 
 			<attributeReference name="itemOutstandingInvoiceAmount" sourceClassName="org.kuali.module.purap.bo.PurApAttributeReferenceDummy" sourceAttributeName="genericItemAmount">
-				<label>Item Outstanding Invoice Amount</label>
-				<shortLabel>Outstanding Invoice Amount</shortLabel>
+				<label>Item Outstanding Encumbered Amount</label>
+				<shortLabel>Outstanding Encumbered Amount</shortLabel>
 				<summary>itemOutstandingInvoiceAmount</summary>
 				<description>itemOutstandingInvoiceAmount description...</description>
 			</attributeReference>

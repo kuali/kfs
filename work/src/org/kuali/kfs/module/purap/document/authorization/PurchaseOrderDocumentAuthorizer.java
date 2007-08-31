@@ -79,6 +79,14 @@ public class PurchaseOrderDocumentAuthorizer extends AccountingDocumentAuthorize
         String editMode = AuthorizationConstants.EditMode.VIEW_ONLY;
 
         KualiWorkflowDocument workflowDocument = d.getDocumentHeader().getWorkflowDocument();
+ 
+        PurchaseOrderDocument poDocument = (PurchaseOrderDocument)d;
+        if (workflowDocument.stateIsInitiated() || workflowDocument.stateIsSaved() || workflowDocument.stateIsEnroute()) {
+            if (ObjectUtils.isNotNull(poDocument.getVendorHeaderGeneratedIdentifier())) {
+                editModeMap.put(PurapAuthorizationConstants.PurchaseOrderEditMode.LOCK_VENDOR_ENTRY, "TRUE");
+            }
+        }
+        
         if (workflowDocument.stateIsInitiated() || workflowDocument.stateIsSaved()) {
             if (hasInitiateAuthorization(d, user)) {
                 editMode = AuthorizationConstants.EditMode.FULL_ENTRY;
@@ -126,7 +134,7 @@ public class PurchaseOrderDocumentAuthorizer extends AccountingDocumentAuthorize
         if ((StringUtils.equals(statusCode,PurchaseOrderStatuses.WAITING_FOR_DEPARTMENT)) ||
             (StringUtils.equals(statusCode,PurchaseOrderStatuses.WAITING_FOR_VENDOR))){
             flags.setCanRoute(false);
-        }
+        }       
         else if (PurchaseOrderStatuses.STATUSES_BY_TRANSMISSION_TYPE.values().contains(statusCode)) {
             if (SpringContext.getBean(PurApWorkflowIntegrationService.class).isActionRequestedOfUserAtNodeName(po.getDocumentNumber(), NodeDetailEnum.DOCUMENT_TRANSMISSION.getName(), GlobalVariables.getUserSession().getUniversalUser())) {
                 /* code below for overriding workflow buttons has to do with hiding the workflow buttons but still allowing the 

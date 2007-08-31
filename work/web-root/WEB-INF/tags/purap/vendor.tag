@@ -244,8 +244,7 @@
                     <th align=right valign=middle class="bord-l-b">&nbsp;</th>
                     <td align=left valign=middle class="datacell">&nbsp;</td>
                 </c:if>    	                
-            </tr>
-
+            </tr> 
 
             <c:if test="${displayRequisitionFields or displayPurchaseOrderFields}">
                 <tr>
@@ -329,7 +328,7 @@
             </c:if>
 			<c:if test="${displayPaymentRequestFields or displayCreditMemoFields}">
 				<tr>
-            
+
                     <th align=right valign=middle class="bord-l-b">
 	                    <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.extractedDate}" /></div>
 	                </th>

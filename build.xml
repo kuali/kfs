@@ -201,8 +201,11 @@
 		<zip destfile="skel.zip" basedir="${external.work.directory}" />
 	</target>
 
-	<target name="make-batch" depends="clean,dist-local,make-source">
-		<property file="${appserver.home}/brte-script-build.properties" />
+	<target name="init-batch-properties">
+		<property file="${user.home}/build.properties" />
+	</target>
+
+	<target name="make-batch" depends="init-batch-properties,clean,dist-local,make-source">
 		<copy todir="${batch.script.distribution.directory}" overwrite="true">
 			<fileset dir="${batch.script.directory}" />
 			<filterset>

@@ -598,6 +598,9 @@ public class ScrubberProcess {
                 
                 if (collectorMode) {
                     // only populate this map in collector mode because it's only needed for the collector
+                    
+                    // the collector scrubber uses this map to apply the same changes made on an origin entry during scrubbing to 
+                    // the collector detail record
                     unscrubbedToUnscrubbedEntries.put(unscrubbedEntry, scrubbedEntry);
                     
                     // for the collector, we don't need further processing, since we're going to rescrub all of the origin entries anyways during the nightly process

@@ -205,16 +205,7 @@
 		<property file="${user.home}/build.properties" />
 	</target>
 
-	<target name="make-batch" depends="init-batch-properties,clean,dist-local,make-source">
-		<copy todir="${batch.script.distribution.directory}" overwrite="true">
-			<fileset dir="${batch.script.directory}" />
-			<filterset>
-				<filter token="batch-script-prefix" value="${batch.script.prefix}" />
-				<filter token="batch-command-prefix" value="${batch.command.prefix}" />
-				<filter token="batch-script-suffix" value="${batch.script.suffix}" />
-			</filterset>
-		</copy>
-	</target>
+	<target name="make-batch" depends="init-batch-properties,clean,dist-local,make-source" />
 
 	<!-- please be careful if you muck with these settings - you can seriously hose the continuous integration process -->
 	<target name="test">

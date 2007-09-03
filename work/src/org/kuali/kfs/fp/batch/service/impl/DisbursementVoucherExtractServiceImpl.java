@@ -25,12 +25,14 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.core.bo.FinancialSystemParameter;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.exceptions.UserNotFoundException;
 import org.kuali.core.service.DateTimeService;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.service.UniversalUserService;
+import org.kuali.kfs.bo.SourceAccountingLine;
 import org.kuali.module.financial.bo.DisbursementVoucherPayeeDetail;
 import org.kuali.module.financial.bo.Payee;
 import org.kuali.module.financial.dao.DisbursementVoucherDao;
@@ -40,8 +42,10 @@ import org.kuali.module.financial.service.DisbursementVoucherExtractService;
 import org.kuali.module.pdp.PdpConstants;
 import org.kuali.module.pdp.bo.Batch;
 import org.kuali.module.pdp.bo.CustomerProfile;
+import org.kuali.module.pdp.bo.PaymentAccountDetail;
 import org.kuali.module.pdp.bo.PaymentDetail;
 import org.kuali.module.pdp.bo.PaymentGroup;
+import org.kuali.module.pdp.bo.PaymentNoteText;
 import org.kuali.module.pdp.bo.PaymentStatus;
 import org.kuali.module.pdp.bo.PdpUser;
 import org.kuali.module.pdp.service.CustomerProfileService;
@@ -98,7 +102,7 @@ public class DisbursementVoucherExtractServiceImpl implements DisbursementVouche
 
         Collection<DisbursementVoucherDocument> dvd = getListByDocumentStatusCodeCampus("A", campusCode);
         for (DisbursementVoucherDocument document : dvd) {
-            addPayment(document,batch);
+            addPayment(document,batch,processRunDate);
             count++;
             totalAmount = totalAmount.add(document.getDisbVchrCheckTotalAmount().bigDecimalValue());
         }
@@ -108,12 +112,12 @@ public class DisbursementVoucherExtractServiceImpl implements DisbursementVouche
         paymentFileService.saveBatch(batch);
     }
 
-    private void addPayment(DisbursementVoucherDocument document,Batch batch) {
+    private void addPayment(DisbursementVoucherDocument document,Batch batch,Date processRunDate) {
         PaymentGroup pg = buildPaymentGroup(document,batch);
-//        PaymentDetail pd = buildPaymentDetail(document,batch);
+        PaymentDetail pd = buildPaymentDetail(document,batch,processRunDate);
 
-//        pd.setPaymentGroup(pg);
-//        pg.addPaymentDetails(pd);
+        pd.setPaymentGroup(pg);
+        pg.addPaymentDetails(pd);
         paymentGroupService.save(pg);
     }
 
@@ -187,9 +191,11 @@ public class DisbursementVoucherExtractServiceImpl implements DisbursementVouche
 
         pg.setPaymentDate(batch.getFileProcessTimestamp());
 
-
-        // pg.setProcessImmediate();
+        // It doesn't look like the DV has a way to do immediates
+        pg.setProcessImmediate(Boolean.FALSE);
         pg.setPymtAttachment(document.isDisbVchrAttachmentCode());
+        pg.setPymtSpecialHandling(document.isDisbVchrSpecialHandlingCode());
+        pg.setNraPayment(pd.isDisbVchrAlienPaymentCode());
 
         PaymentStatus open = (PaymentStatus)referenceService.getCode("PaymentStatus", PdpConstants.PaymentStatusCodes.OPEN);
         pg.setPaymentStatus(open);
@@ -197,8 +203,145 @@ public class DisbursementVoucherExtractServiceImpl implements DisbursementVouche
         return pg;
     }
 
-    private PaymentDetail buildPaymentDetail(DisbursementVoucherDocument document,Batch batch) {
+    private PaymentDetail buildPaymentDetail(DisbursementVoucherDocument document,Batch batch,Date processRunDate) {
         PaymentDetail pd = new PaymentDetail();
+        if ( StringUtils.isNotEmpty(document.getDocumentHeader().getOrganizationDocumentNumber()) ) {
+            pd.setOrganizationDocNbr(document.getDocumentHeader().getOrganizationDocumentNumber());
+        }
+        pd.setCustPaymentDocNbr(document.getDocumentNumber());
+        pd.setInvoiceDate(new Timestamp(processRunDate.getTime()));
+        pd.setOrigInvoiceAmount(document.getDisbVchrCheckTotalAmount().bigDecimalValue());
+        pd.setInvTotDiscountAmount(new BigDecimal("0"));
+        pd.setInvTotOtherCreditAmount(new BigDecimal("0"));
+        pd.setInvTotOtherDebitAmount(new BigDecimal("0"));
+        pd.setInvTotShipAmount(new BigDecimal("0"));
+        pd.setNetPaymentAmount(document.getDisbVchrCheckTotalAmount().bigDecimalValue());
+
+        // Handle accounts
+        for (Iterator iter = document.getSourceAccountingLines().iterator(); iter.hasNext();) {
+            SourceAccountingLine sal = (SourceAccountingLine)iter.next();
+            Object o = iter.next();
+
+            PaymentAccountDetail pad = new PaymentAccountDetail();
+            pad.setFinChartCode(sal.getChartOfAccountsCode());
+            pad.setAccountNbr(sal.getAccountNumber());
+            if ( StringUtils.isNotEmpty(sal.getSubAccountNumber()) ) {
+                pad.setSubAccountNbr(sal.getSubAccountNumber());
+            } else {
+                pad.setSubAccountNbr("-----");
+            }
+            pad.setFinObjectCode(sal.getFinancialObjectCode());
+            if ( StringUtils.isNotEmpty(sal.getFinancialSubObjectCode()) ) {
+                pad.setFinSubObjectCode(sal.getFinancialSubObjectCode());
+            } else {
+                pad.setFinSubObjectCode("---");
+            }
+            if ( StringUtils.isNotEmpty(sal.getOrganizationReferenceId()) ) {
+                pad.setOrgReferenceId(sal.getOrganizationReferenceId());
+            }
+            if ( StringUtils.isNotEmpty(sal.getProjectCode()) ) {
+                pad.setProjectCode(sal.getProjectCode());
+            } else {
+                pad.setProjectCode("----------");
+            }
+            pad.setAccountNetAmount(sal.getAmount().bigDecimalValue());
+            pd.addAccountDetail(pad);
+        }
+
+        // Handle notes
+        DisbursementVoucherPayeeDetail dvpd = document.getDvPayeeDetail();
+
+        int line = 0;
+        PaymentNoteText pnt = new PaymentNoteText();
+        pnt.setCustomerNoteLineNbr(line++);
+        pnt.setCustomerNoteText("Info: " + document.getDisbVchrContactPersonName() + " " + document.getDisbVchrContactPhoneNumber());
+        pd.addNote(pnt);
+
+        String dvRemitPersonName = null;
+        String dvRemitLine1Address = null;
+        String dvRemitLine2Address = null;
+        String dvRemitCity = null;
+        String dvRemitState = null;
+        String dvRemitZip = null;
+        
+        if ( dvpd.isPayee() ) {
+            Payee payee = disbursementVoucherDao.getPayee(dvpd.getDisbVchrPayeeIdNumber());
+            dvRemitPersonName = payee.getPayeePersonName();
+            dvRemitLine1Address = payee.getPayeeLine1Addr();
+            dvRemitLine2Address = payee.getPayeeLine2Addr();
+            dvRemitCity = payee.getPayeeCityName();
+            dvRemitState = payee.getPayeeStateCode();
+            dvRemitZip = payee.getPayeeZipCode();
+        }
+
+        if ( StringUtils.isNotEmpty(dvRemitPersonName) ) {
+            pnt = new PaymentNoteText();
+            pnt.setCustomerNoteLineNbr(line++);
+            pnt.setCustomerNoteText("Send Check To: " + dvRemitPersonName);
+            pd.addNote(pnt);
+        }
+        if ( StringUtils.isNotEmpty(dvRemitLine1Address) ) {
+            pnt = new PaymentNoteText();
+            pnt.setCustomerNoteLineNbr(line++);
+            pnt.setCustomerNoteText(dvRemitLine1Address);
+            pd.addNote(pnt);
+        }
+        if ( StringUtils.isNotEmpty(dvRemitLine2Address) ) {
+            pnt = new PaymentNoteText();
+            pnt.setCustomerNoteLineNbr(line++);
+            pnt.setCustomerNoteText(dvRemitLine2Address);
+            pd.addNote(pnt);
+        }
+        if ( StringUtils.isNotEmpty(dvRemitCity) ) {
+            pnt = new PaymentNoteText();
+            pnt.setCustomerNoteLineNbr(line++);
+            pnt.setCustomerNoteText(dvRemitCity + ", " + dvRemitState + " " + dvRemitZip);
+            pd.addNote(pnt);
+        }
+        if ( document.isDisbVchrAttachmentCode() ) {
+            pnt = new PaymentNoteText();
+            pnt.setCustomerNoteLineNbr(line++);
+            pnt.setCustomerNoteText("Attachment Included");
+            pd.addNote(pnt);
+        }
+//        if($notes{'dv_pmt_reas_cd'} eq "N" ||
+//           $notes{'dv_pmt_reas_cd'} eq "X") {  # travel
+//            push(@note_data,
+//                 "Reimbursement associated with $notes{'dv_srvc_prfrm_desc'}");
+//            $notes{'dv_diem_calc_amt'}=sprintf("%.2f",$notes{'dv_diem_calc_amt'});
+//            push(@note_data,
+//                 "The total per diem amount for your daily expenses is \$$notes{'dv_diem_calc_amt'}");
+//            $notes{'dv_prsnl_car_amt'}=sprintf("%.2f",$notes{'dv_prsnl_car_amt'});
+//            if($notes{'dv_prsnl_car_amt'} != 0) {
+//                push(@note_data,"The total dollar amount for your vehicle mileage is \$$notes{'dv_prsnl_car_amt'}");
+//                @trvl=&CallStoredProc("fp_dv_get_trvl_pr '$fs_origin_cd', '$fdoc_nbr'");
+//                foreach $row (@trvl) {
+//                    $row->[2]=sprintf("%.2f",$row->[2]);
+//                    push(@note_data,"$row->[1]; \$$row->[2]") unless($row->[1] eq "");
+//                }
+//            }
+//        } elsif($notes{'dv_pmt_reas_cd'} eq "P") { # prepaid travel
+//            push(@note_data,"Payment is for the following individuals/charges:");
+//            @conf=&CallStoredProc("fp_dv_get_conf_pr '$fs_origin_cd', '$fdoc_nbr'");
+//            foreach $row (@conf) {
+//                $row->[2]=sprintf("%.2f",$row->[2]);
+//                push(@note_data,"$row->[1]; \$$row->[2]");
+//            }
+//        }
+//        if(scalar(@note_data) > 19) {
+//            @note_data=@note_data[0..18];
+//        }
+//
+//        @note_data=&BreakText(scalar(@note_data)+1,$notes{'dv_chk_stub_txt'},@note_data);
+//        $note_repeats=scalar(@note_data);
+//        if(scalar(@note_data) > 24) {
+//            # we have a check stub text overflow condition
+//            $detail[12]="A";
+//            $note_repeats=24;
+//        }
+//        @note_data=@note_data[0..23]; # get first 24 elements.
+//
+//        write_notes ();
         return pd;
     }
 

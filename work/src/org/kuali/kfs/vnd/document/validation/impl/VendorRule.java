@@ -383,7 +383,7 @@ public class VendorRule extends MaintenanceDocumentRuleBase implements VendorRul
         valid &= validateMinimumOrderAmount(vendorDetail);
         valid &= validateOwnershipCategory(vendorDetail);
         valid &= validateVendorWithholdingTaxDates(vendorDetail);
-      //  valid &= validateVendorW8BenOrW9ReceivedIndicator(vendorDetail);
+        valid &= validateVendorW8BenOrW9ReceivedIndicator(vendorDetail);
         return valid;
     }
 
@@ -1206,6 +1206,23 @@ public class VendorRule extends MaintenanceDocumentRuleBase implements VendorRul
                putFieldError(VendorPropertyConstants.VENDOR_FEDERAL_WITHOLDING_TAX_BEGINNING_DATE, VendorKeyConstants.ERROR_VENDOR_TAX_BEGIN_DATE_AFTER_END);
                valid &= false;
             }
+        }
+        return valid;
+
+    }
+    
+    /**
+     * This method is the implementation of the rule that both w9 received and w-8ben  cannot be set to yes
+     * 
+     * @param vdDocument
+     * @return
+     */
+    private boolean validateVendorW8BenOrW9ReceivedIndicator(VendorDetail vdDocument) {
+        boolean valid = true;
+
+        if (ObjectUtils.isNotNull(vdDocument.getVendorHeader().getVendorW9ReceivedIndicator()) && ObjectUtils.isNotNull(vdDocument.getVendorHeader().getVendorW8BenReceivedIndicator()) && vdDocument.getVendorHeader().getVendorW9ReceivedIndicator() && vdDocument.getVendorHeader().getVendorW8BenReceivedIndicator()) {
+            putFieldError(VendorPropertyConstants.VENDOR_W9_RECEIVED_INDICATOR, VendorKeyConstants.ERROR_VENDOR_W9_AND_W8_RECEIVED_INDICATOR_BOTH_TRUE);
+            valid &= false;
         }
         return valid;
 

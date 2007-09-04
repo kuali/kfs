@@ -82,9 +82,6 @@ public class IcrAutomatedEntryRule extends MaintenanceDocumentRuleBase {
         if (success) {
             // because of check above, we know that:
             // if any of these are wildcards: chart, account, or subaccount, then they are all wildcards (except for subaccount, which may be 3 dashes i.e. KFSConstants.getDashSubAccountNumber()())
-            // if any of these are wildcards: chart, object, or subobject, then they are all wildcards (except for subobject, which may be 5 dashes i.e. KFSConstants.getDashFinancialSubObjectCode())
-            
-            // a consequence of this rule is that all 6 of these fields must have wildcards if any of the fields have a wildcard, unless the field is allowed to have dashes
             
             Class icrClazz = newIcrAutomatedEntry.getClass();
             
@@ -143,10 +140,12 @@ public class IcrAutomatedEntryRule extends MaintenanceDocumentRuleBase {
     
                 }
                 else {
-                    // there should be no wildcards if the code gets in there, so we should not have to worry about removing wildcards from pkMap
+                    // COA code could be a wildcard so, we have to check if its a wildcard or not before we add it to the map.
                     Map pkMap = new HashMap();
                     pkMap.put(KFSConstants.UNIVERSITY_FISCAL_YEAR_PROPERTY_NAME, universityFiscalYear);
-                    pkMap.put(KFSConstants.CHART_OF_ACCOUNTS_CODE_PROPERTY_NAME, chartOfAccountsCode);
+                    if( !isWildcard(chartOfAccountsCode) ){
+                        pkMap.put(KFSConstants.CHART_OF_ACCOUNTS_CODE_PROPERTY_NAME, chartOfAccountsCode);
+                    }
                     pkMap.put(KFSConstants.FINANCIAL_OBJECT_CODE_PROPERTY_NAME, financialObjectCode);
                     success &= checkExistenceFromTable(ObjectCode.class, pkMap, KFSConstants.FINANCIAL_OBJECT_CODE_PROPERTY_NAME,
                             SpringContext.getBean(DataDictionaryService.class).getAttributeLabel(icrClazz, KFSConstants.FINANCIAL_OBJECT_CODE_PROPERTY_NAME));
@@ -160,11 +159,15 @@ public class IcrAutomatedEntryRule extends MaintenanceDocumentRuleBase {
     
                 }
                 else {
-                    // there should be no wildcards if the code gets in there, so we should not have to worry about removing wildcards from pkMap
+                    // COA code and account number could be wildcards so, we have to check if its a wildcard or not before we add it to the map.
                     Map pkMap = new HashMap();
                     pkMap.put(KFSConstants.UNIVERSITY_FISCAL_YEAR_PROPERTY_NAME, universityFiscalYear);
-                    pkMap.put(KFSConstants.CHART_OF_ACCOUNTS_CODE_PROPERTY_NAME, chartOfAccountsCode);
-                    pkMap.put(KFSConstants.ACCOUNT_NUMBER_PROPERTY_NAME, accountNumber);
+                    if( !isWildcard(chartOfAccountsCode) ){
+                        pkMap.put(KFSConstants.CHART_OF_ACCOUNTS_CODE_PROPERTY_NAME, chartOfAccountsCode);
+                    }
+                    if( !isWildcard(accountNumber) ){
+                        pkMap.put(KFSConstants.ACCOUNT_NUMBER_PROPERTY_NAME, accountNumber);
+                    }
                     pkMap.put(KFSConstants.FINANCIAL_OBJECT_CODE_PROPERTY_NAME, financialObjectCode);
                     pkMap.put(KFSConstants.FINANCIAL_SUB_OBJECT_CODE_PROPERTY_NAME, financialSubObjectCode);
                     success = checkExistenceFromTable(SubObjCd.class, pkMap, KFSConstants.FINANCIAL_SUB_OBJECT_CODE_PROPERTY_NAME,
@@ -242,18 +245,14 @@ public class IcrAutomatedEntryRule extends MaintenanceDocumentRuleBase {
         boolean success = true;
         
         // first check that each of the above fields has an appropriate wildcard/field value
-        // @ should be valid for chart, account, sub account, object code, and sub object code.
-        // # should be valid for chart, account, sub account, and object code. Sub object code is not needed here. 
+        // @ should be valid for chart, account, sub account.
+        // # should be valid for chart, account, sub account. 
         
         // TODO: make these into app parameters?
         success &= isValidWildcard(newIcrAutomatedEntry, KFSConstants.CHART_OF_ACCOUNTS_CODE_PROPERTY_NAME, chartOfAccountsCode, "@", "#");
         success &= isValidWildcard(newIcrAutomatedEntry, KFSConstants.ACCOUNT_NUMBER_PROPERTY_NAME, accountNumber, "@", "#");
         if (!StringUtils.containsOnly(subAccountNumber, "-")) {
             success &= isValidWildcard(newIcrAutomatedEntry, KFSConstants.SUB_ACCOUNT_NUMBER_PROPERTY_NAME, subAccountNumber, "@", "#");
-        }
-        success &= isValidWildcard(newIcrAutomatedEntry, KFSConstants.FINANCIAL_OBJECT_CODE_PROPERTY_NAME, financialObjectCode, "@", "#");
-        if (!StringUtils.containsOnly(financialSubObjectCode, "-")) {
-            success &= isValidWildcard(newIcrAutomatedEntry, KFSConstants.FINANCIAL_SUB_OBJECT_CODE_PROPERTY_NAME, financialSubObjectCode, "@");
         }
         
         if (!success) {
@@ -262,7 +261,6 @@ public class IcrAutomatedEntryRule extends MaintenanceDocumentRuleBase {
         }
         
         success &= checkWildcardsForChartAccountSubAccount(newIcrAutomatedEntry);
-        success &= checkWildcardsForChartObjectSubObject(newIcrAutomatedEntry);
         
         return success;
         

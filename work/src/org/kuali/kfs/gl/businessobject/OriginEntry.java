@@ -25,6 +25,7 @@ import org.kuali.core.bo.DocumentType;
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.kfs.util.Uncacheable;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSKeyConstants;
 import org.kuali.kfs.KFSPropertyConstants;
@@ -44,6 +45,7 @@ import org.kuali.module.chart.bo.codes.BalanceTyp;
 import org.kuali.module.gl.GLConstants;
 import org.kuali.module.gl.exception.LoadException;
 
+@Uncacheable
 public class OriginEntry extends PersistableBusinessObjectBase implements Transaction {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(OriginEntry.class);
 

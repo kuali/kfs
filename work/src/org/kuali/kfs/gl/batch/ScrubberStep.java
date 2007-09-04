@@ -26,10 +26,10 @@ public class ScrubberStep extends AbstractStep {
 
     public boolean execute(String jobName) {
         // use the LRU object cache
-        for (Object descriptorAsObject: MetadataManager.getInstance().connectionRepository().getAllDescriptor()) {
+        /*for (Object descriptorAsObject: MetadataManager.getInstance().connectionRepository().getAllDescriptor()) {
             JdbcConnectionDescriptor connDesc = (JdbcConnectionDescriptor)descriptorAsObject;
             connDesc.getObjectCacheDescriptor().setObjectCache(KfsOjbCache.class);
-        }
+        }*/
         scrubberService.scrubEntries();
         return true;
     }

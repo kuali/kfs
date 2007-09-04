@@ -146,8 +146,8 @@
 			</attributeReference>
 
 			<attributeReference name="itemOutstandingInvoiceAmount" sourceClassName="org.kuali.module.purap.bo.PurApAttributeReferenceDummy" sourceAttributeName="genericItemAmount">
-				<label>Item Outstanding Encumbered Amount</label>
-				<shortLabel>Outstanding Encumbered Amount</shortLabel>
+				<label>Item Outstanding Invoice Amount</label>
+				<shortLabel>Outstanding Invoice Amount</shortLabel>
 				<summary>itemOutstandingInvoiceAmount</summary>
 				<description>itemOutstandingInvoiceAmount description...</description>
 			</attributeReference>
@@ -160,8 +160,8 @@
 			</attributeReference>
 			
 			<attributeReference name="poOutstandingAmount" sourceClassName="org.kuali.module.purap.bo.PurApAttributeReferenceDummy" sourceAttributeName="genericItemAmount">
-				<label>Item Open Amount</label>
-				<shortLabel>Open Amount</shortLabel>
+				<label>Item Outstanding Encumbered Amount</label>
+				<shortLabel>Outstanding Encumbered Amount</shortLabel>
 				<summary>itemOpenAmount</summary>
 				<description>itemOpenAmount description...</description>
 			</attributeReference>

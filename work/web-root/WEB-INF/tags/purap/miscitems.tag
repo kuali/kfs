@@ -52,7 +52,7 @@
 		<kul:htmlAttributeHeaderCell colspan="1"
 			attributeEntry="${itemAttributes.purchaseOrderItemUnitPrice}" />
 		<kul:htmlAttributeHeaderCell colspan="1"
-			attributeEntry="${itemAttributes.itemOutstandingInvoiceAmount}" />
+			attributeEntry="${itemAttributes.poOutstandingAmount}" />
 	</c:if>
 	
 	<kul:htmlAttributeHeaderCell colspan="2"

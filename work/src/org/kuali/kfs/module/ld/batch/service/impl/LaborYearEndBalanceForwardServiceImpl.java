@@ -52,10 +52,10 @@ import org.kuali.module.labor.bo.LedgerBalance;
 import org.kuali.module.labor.service.LaborLedgerBalanceService;
 import org.kuali.module.labor.service.LaborReportService;
 import org.kuali.module.labor.service.LaborYearEndBalanceForwardService;
+import org.kuali.module.labor.util.DebitCreditUtil;
 import org.kuali.module.labor.util.MessageBuilder;
 import org.kuali.module.labor.util.ObjectUtil;
 import org.kuali.module.labor.util.ReportRegistry;
-import org.kuali.module.labor.util.TransactionTemplate;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -226,7 +226,7 @@ public class LaborYearEndBalanceForwardServiceImpl implements LaborYearEndBalanc
             transactionAmount = transactionAmount.add(balance.getContractsGrantsBeginningBalanceAmount());
 
             originEntry.setTransactionLedgerEntryAmount(transactionAmount.abs());
-            originEntry.setTransactionDebitCreditCode(TransactionTemplate.getDebitCreditCode(transactionAmount, false));
+            originEntry.setTransactionDebitCreditCode(DebitCreditUtil.getDebitCreditCode(transactionAmount, false));
 
             originEntry.setTransactionLedgerEntrySequenceNumber(1);
             originEntry.setTransactionTotalHours(BigDecimal.ZERO);

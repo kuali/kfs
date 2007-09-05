@@ -20,7 +20,6 @@ import java.util.List;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.document.Document;
 import org.kuali.core.util.GeneralLedgerPendingEntrySequenceHelper;
-import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.KFSKeyConstants;
 import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.bo.AccountingLine;
@@ -34,6 +33,7 @@ import org.kuali.module.labor.bo.LaborObject;
 import org.kuali.module.labor.document.BenefitExpenseTransferDocument;
 import org.kuali.module.labor.document.LaborExpenseTransferDocumentBase;
 import org.kuali.module.labor.document.LaborLedgerPostingDocument;
+import org.kuali.module.labor.util.LaborPendingEntryGenerator;
 
 /**
  * Business rule(s) applicable to Benefit Expense Transfer documents.
@@ -79,8 +79,6 @@ public class BenefitExpenseTransferDocumentRule extends LaborExpenseTransferDocu
         boolean isValid = super.processCustomRouteDocumentBusinessRules(document);
 
         BenefitExpenseTransferDocument benefitExpenseTransferDocument = (BenefitExpenseTransferDocument) document;
-        List sourceLines = benefitExpenseTransferDocument.getSourceAccountingLines();
-        List targetLines = benefitExpenseTransferDocument.getTargetAccountingLines();
 
         // ensure the accounts in source accounting lines are same
         if (!hasSameAccount(benefitExpenseTransferDocument)) {
@@ -96,26 +94,14 @@ public class BenefitExpenseTransferDocumentRule extends LaborExpenseTransferDocu
      *      org.kuali.module.labor.bo.ExpenseTransferAccountingLine, org.kuali.core.util.GeneralLedgerPendingEntrySequenceHelper)
      */
     @Override
-    public boolean processGenerateLaborLedgerPendingEntries(LaborLedgerPostingDocument accountingDocument, ExpenseTransferAccountingLine accountingLine, GeneralLedgerPendingEntrySequenceHelper sequenceHelper) {
-        LOG.info("started processGenerateLaborLedgerPendingEntries");
+    public boolean processGenerateLaborLedgerPendingEntries(LaborLedgerPostingDocument document, AccountingLine accountingLine, GeneralLedgerPendingEntrySequenceHelper sequenceHelper) {
+        LOG.info("started processGenerateLaborLedgerPendingEntries()");
+        
+        ExpenseTransferAccountingLine expenseTransferAccountingLine = (ExpenseTransferAccountingLine) accountingLine;
+        List<LaborLedgerPendingEntry> expensePendingEntries = LaborPendingEntryGenerator.generateExpesnePendingEntries(document, expenseTransferAccountingLine, sequenceHelper);
+        document.getLaborLedgerPendingEntries().addAll(expensePendingEntries);
 
-        // setup default values, so they don't have to be set multiple times
-        LaborLedgerPendingEntry defaultEntry = new LaborLedgerPendingEntry();
-        populateDefaultLaborLedgerPendingEntry(accountingDocument, accountingLine, defaultEntry);
-
-        // Generate original entry
-        LaborLedgerPendingEntry originalEntry = (LaborLedgerPendingEntry) ObjectUtils.deepCopy(defaultEntry);
-        boolean success = processOriginalLaborLedgerPendingEntry(accountingDocument, sequenceHelper, accountingLine, originalEntry);
-
-        // Generate A21 entry
-        LaborLedgerPendingEntry a21Entry = (LaborLedgerPendingEntry) ObjectUtils.deepCopy(defaultEntry);
-        success &= processA21LaborLedgerPendingEntry(accountingDocument, sequenceHelper, accountingLine, a21Entry);
-
-        // Generate A21 reversal entry
-        LaborLedgerPendingEntry a21RevEntry = (LaborLedgerPendingEntry) ObjectUtils.deepCopy(defaultEntry);
-        success &= processA21RevLaborLedgerPendingEntry(accountingDocument, sequenceHelper, accountingLine, a21RevEntry);
-
-        return success;
+        return true;
     }
 
     /**

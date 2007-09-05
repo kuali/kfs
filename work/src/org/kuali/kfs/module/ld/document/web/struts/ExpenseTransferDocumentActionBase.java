@@ -210,7 +210,7 @@ public class ExpenseTransferDocumentActionBase extends LaborDocumentActionBase {
                                 } else {
                                     buildAccountingLineFromLedgerBalance((LedgerBalance) bo, line, lineAmount, periodCode);
 
-                                    SpringContext.getBean(KualiRuleService.class).applyRules(new AddAccountingLineEvent(KFSConstants.NEW_SOURCE_ACCT_LINE_PROPERTY_NAME, financialDocument, line));
+                                    //SpringContext.getBean(KualiRuleService.class).applyRules(new AddAccountingLineEvent(KFSConstants.NEW_SOURCE_ACCT_LINE_PROPERTY_NAME, financialDocument, line));
                                     SpringContext.getBean(PersistenceService.class).retrieveNonKeyFields(line);
                                        
                                     insertAccountingLine(true, expenseTransferDocumentForm, line);

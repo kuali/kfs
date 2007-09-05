@@ -83,9 +83,11 @@
 					</kul:inquiry>
 				</td>
 				<td class="datacell center">
-					<kul:inquiry boClassName="org.kuali.core.bo.Options" keyValues="universityFiscalPeriodCode=${laborLedgerPendingEntry.universityFiscalPeriodCode}" render="true">
+					<kul:inquiry boClassName="org.kuali.module.chart.bo.AccountingPeriod" keyValues="universityFiscalYear=${laborLedgerPendingEntry.universityFiscalYear}&universityFiscalPeriodCode=${laborLedgerPendingEntry.universityFiscalPeriodCode}" render="true">
 						<html:hidden property="document.laborLedgerPendingEntry[${ctr}].universityFiscalPeriodCode" write="true"/>
 					</kul:inquiry>
+					
+
 <%--
 					<kul:inquiry boClassName="org.kuali.core.bo.DocumentType" keyValues="financialDocumentTypeCode=${laborLedgerPendingEntry.financialDocumentTypeCode}" render="true">
 						<html:hidden property="document.laborLedgerPendingEntry[${ctr}].financialDocumentTypeCode" write="true"/>

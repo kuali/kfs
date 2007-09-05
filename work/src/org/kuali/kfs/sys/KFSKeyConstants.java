@@ -856,7 +856,7 @@ public class KFSKeyConstants {
         public static final String ERROR_DOCUMENT_ICR_INVALID_WILDCARD = "error.document.IndirectCostRecovery.invalidWildcard";
         public static final String ERROR_DOCUMENT_ICR_WILDCARDS_MUST_MATCH = "error.document.IndirectCostRecovery.wildcardsMustMatch";
         public static final String ERROR_DOCUMENT_ICR_INVALID_DASH_STRING = "error.document.IndirectCostRecovery.invalidDashString";
-        public static final String ERROR_DOCUMENT_ICR_SUB_OBJECT_MUST_NOT_BE_WILDCARD = "error.document.IndirectCostRecovery.subObjectMustNotBeWildcard";
+        public static final String ERROR_DOCUMENT_ICR_FIELD_MUST_NOT_BE_WILDCARD = "error.document.IndirectCostRecovery.fieldMustNotBeWildcard";
     }
 
     public static final class AccountingLineParser {

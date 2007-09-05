@@ -79,6 +79,8 @@ public class IcrAutomatedEntryRule extends MaintenanceDocumentRuleBase {
         
         success &= checkCorrectWildcards(newIcrAutomatedEntry);
         
+        
+        
         if (success) {
             // because of check above, we know that:
             // if any of these are wildcards: chart, account, or subaccount, then they are all wildcards (except for subaccount, which may be 3 dashes i.e. KFSConstants.getDashSubAccountNumber()())
@@ -254,6 +256,19 @@ public class IcrAutomatedEntryRule extends MaintenanceDocumentRuleBase {
         if (!StringUtils.containsOnly(subAccountNumber, "-")) {
             success &= isValidWildcard(newIcrAutomatedEntry, KFSConstants.SUB_ACCOUNT_NUMBER_PROPERTY_NAME, subAccountNumber, "@", "#");
         }
+        
+        // second, check that object code and sub object code do not have wildcards
+        if( isWildcard(financialObjectCode) ){
+            putFieldError(KFSConstants.FINANCIAL_OBJECT_CODE_PROPERTY_NAME, KFSKeyConstants.IndirectCostRecovery.ERROR_DOCUMENT_ICR_FIELD_MUST_NOT_BE_WILDCARD,
+                    new String[] {SpringContext.getBean(DataDictionaryService.class).getAttributeLabel(newIcrAutomatedEntry.getClass(), KFSConstants.FINANCIAL_OBJECT_CODE_PROPERTY_NAME)});
+            success &= false;
+        }
+        
+        if( isWildcard(financialSubObjectCode) ){
+            putFieldError(KFSConstants.FINANCIAL_SUB_OBJECT_CODE_PROPERTY_NAME, KFSKeyConstants.IndirectCostRecovery.ERROR_DOCUMENT_ICR_FIELD_MUST_NOT_BE_WILDCARD,
+                    new String[] {SpringContext.getBean(DataDictionaryService.class).getAttributeLabel(newIcrAutomatedEntry.getClass(), KFSConstants.FINANCIAL_SUB_OBJECT_CODE_PROPERTY_NAME)});          
+            success &= false;
+        }        
         
         if (!success) {
             // invalid wildcards, don't bother validating the rest

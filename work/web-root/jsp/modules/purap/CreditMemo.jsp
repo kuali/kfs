@@ -53,7 +53,7 @@
 		<purap:vendor documentAttributes="${DataDictionary.CreditMemoDocument.attributes}" displayPurchaseOrderFields="false" displayCreditMemoFields="true"/>
 	
 		<purap:creditMemoInfo documentAttributes="${DataDictionary.CreditMemoDocument.attributes}" />        
-	   
+
 	  	<purap:paymentRequestProcessItems 
 			documentAttributes="${DataDictionary.CreditMemoDocument.attributes}"
 			itemAttributes="${DataDictionary.CreditMemoItem.attributes}"
@@ -65,6 +65,8 @@
 	
 	    <kul:routeLog />
 	
+	    <gl:generalLedgerPendingEntries />
+
     <!-- TEMPORARILY DISABLING ACCOUNT SUMMARY FUNCTIONALITY -->
 	    <!--  purap:accountsummary
             itemAttributes="${DataDictionary.CreditMemoItem.attributes}"
@@ -74,6 +76,14 @@
            	
 	    <purap:paymentHistory documentAttributes="${DataDictionary.RelatedDocuments.attributes}" />
         
+
+	    <purap:statushistory 
+	        documentAttributes="${DataDictionary.CreditMemoStatusHistory.attributes}">
+	          <html:messages id="warnings" property="statusHistoryWarning" message="true">
+	            &nbsp;&nbsp;&nbsp;<bean:write name="warnings"/><br><br>
+	          </html:messages>       
+	    </purap:statushistory>
+	
         <kul:panelFooter />
 	</c:if>
 	

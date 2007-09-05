@@ -912,7 +912,7 @@ public class LaborOriginEntry extends OriginEntry implements LaborTransaction {
         }
 
         if (getValue(line, 213, 222).equals("")) {
-            setTransactionTotalHours(new BigDecimal(0));
+            
         }
         else {
             try {
@@ -927,7 +927,7 @@ public class LaborOriginEntry extends OriginEntry implements LaborTransaction {
         }
 
         if (getValue(line, 222, 226).equals("")) {
-            setPayrollEndDateFiscalYear(new Integer(0));
+            
         }
         else {
             try {
@@ -945,7 +945,7 @@ public class LaborOriginEntry extends OriginEntry implements LaborTransaction {
         setEmplid(getValue(line, 228, 239));
 
         if (getValue(line, 239, 242).equals("")) {
-            setEmployeeRecord(new Integer(0));
+            
         }
         else {
             try {

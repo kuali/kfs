@@ -222,10 +222,10 @@
 	<bean id="procurementCardDocumentJob" parent="scheduledJobDescriptor">
 		<property name="steps">
 			<list>
-				<ref bean="pcdoLoadStep" />
-				<ref bean="createDocumentsStep" />
-				<ref bean="routeDocumentsStep" />
-				<ref bean="autoApproveDocumentsStep" />
+				<ref bean="procurementCardLoadStep" />
+				<ref bean="procurementCardCreateDocumentsStep" />
+				<ref bean="procurementCardRouteDocumentsStep" />
+				<ref bean="procurementCardAutoApproveDocumentsStep" />
 			</list>
 		</property>
 	</bean>
@@ -236,7 +236,7 @@
 		</property>
 	</bean>
 
-	<bean id="pcdoLoadStep" class="org.kuali.module.financial.batch.pcard.PcdoLoadStep" parent="step">
+	<bean id="procurementCardLoadStep" class="org.kuali.module.financial.batch.pcard.PcdoLoadStep" parent="step">
 		<property name="procurementCardLoadTransactionsService">
 			<ref bean="procurementCardLoadTransactionsService" />
 		</property>
@@ -248,19 +248,19 @@
 		</property>
 	</bean>
 
-	<bean id="createDocumentsStep" class="org.kuali.module.financial.batch.pcard.CreateDocumentsStep" parent="step">
+	<bean id="procurementCardCreateDocumentsStep" class="org.kuali.module.financial.batch.pcard.CreateDocumentsStep" parent="step">
 		<property name="procurementCardCreateDocumentService">
 			<ref bean="procurementCardCreateDocumentService" />
 		</property>
 	</bean>
 
-	<bean id="routeDocumentsStep" class="org.kuali.module.financial.batch.pcard.RouteDocumentsStep" parent="step">
+	<bean id="procurementCardRouteDocumentsStep" class="org.kuali.module.financial.batch.pcard.RouteDocumentsStep" parent="step">
 		<property name="procurementCardCreateDocumentService">
 			<ref bean="procurementCardCreateDocumentService" />
 		</property>
 	</bean>
 
-	<bean id="autoApproveDocumentsStep" class="org.kuali.module.financial.batch.pcard.AutoApproveDocumentsStep" parent="step">
+	<bean id="procurementCardAutoApproveDocumentsStep" class="org.kuali.module.financial.batch.pcard.AutoApproveDocumentsStep" parent="step">
 		<property name="procurementCardCreateDocumentService">
 			<ref bean="procurementCardCreateDocumentService" />
 		</property>

@@ -362,13 +362,13 @@
 	
 	<!--  Batch Jobs -->
 	
-    <bean id="autoApprovePaymentRequestsBatchStep" class="org.kuali.module.purap.batch.AutoApprovePaymentRequestsStep" parent="step">
+    <bean id="autoApprovePaymentRequestsStep" class="org.kuali.module.purap.batch.AutoApprovePaymentRequestsStep" parent="step">
         <property name="paymentRequestService">
             <ref bean="paymentRequestService" />
         </property>
     </bean>
 
-	<bean id="extractPdpBatchStep" class="org.kuali.module.purap.batch.ExtractPdpStep" parent="step">
+	<bean id="extractPdpStep" class="org.kuali.module.purap.batch.ExtractPdpStep" parent="step">
 		<property name="pdpExtractService">
 			<ref bean="pdpExtractService"/>
 		</property>
@@ -377,7 +377,7 @@
     <bean id="autoApprovePaymentRequestsJob" parent="scheduledJobDescriptor">
 		<property name="steps">
 			<list>
-				<ref bean="autoApprovePaymentRequestsBatchStep" />
+				<ref bean="autoApprovePaymentRequestsStep" />
 			</list>
 		</property>
 	</bean>

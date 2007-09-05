@@ -1145,10 +1145,10 @@
 			<list>
 				<ref bean="posterEntriesStep" />
 				<ref bean="posterReversalStep" />
-				<ref bean="posterIcrGenerationStep" />
-				<ref bean="posterIcrEntriesStep" />
-				<ref bean="icrEncumbranceGenerationStep" />
-				<ref bean="icrEncumbranceReversalStep" />
+				<ref bean="posterIndirectCostRecoveryGenerationStep" />
+				<ref bean="posterIndirectCostRecoveryEntriesStep" />
+				<ref bean="indirectCostRecoveryEncumbranceGenerationStep" />
+				<ref bean="indirectCostRecoveryEncumbranceReversalStep" />
 			</list>
 		</property>
 		<property name="dependencies">
@@ -1332,7 +1332,7 @@
 		</property>
 	</bean>
 
-	<bean id="posterIcrEntriesStep" class="org.kuali.module.gl.batch.PosterIcrEntriesStep" parent="step">
+	<bean id="posterIndirectCostRecoveryEntriesStep" class="org.kuali.module.gl.batch.PosterIcrEntriesStep" parent="step">
 		<property name="posterService">
 			<ref bean="glPosterService" />
 		</property>
@@ -1344,7 +1344,7 @@
 		</property>
 	</bean>
 
-	<bean id="posterIcrGenerationStep" class="org.kuali.module.gl.batch.PosterIcrGenerationStep" parent="step">
+	<bean id="posterIndirectCostRecoveryGenerationStep" class="org.kuali.module.gl.batch.PosterIcrGenerationStep" parent="step">
 		<property name="posterService">
 			<ref bean="glPosterService" />
 		</property>
@@ -1398,13 +1398,13 @@
 		</property>
 	</bean>
 
-	<bean id="icrEncumbranceGenerationStep" class="org.kuali.module.gl.batch.IcrEncumbranceGenerationStep" parent="step">
+	<bean id="indirectCostRecoveryEncumbranceGenerationStep" class="org.kuali.module.gl.batch.IcrEncumbranceGenerationStep" parent="step">
 		<property name="icrEncumbranceService">
 			<ref bean="glIcrEncumbranceService" />
 		</property>
 	</bean>
 
-	<bean id="icrEncumbranceReversalStep" class="org.kuali.module.gl.batch.IcrEncumbranceReversalStep" parent="step">
+	<bean id="indirectCostRecoveryEncumbranceReversalStep" class="org.kuali.module.gl.batch.IcrEncumbranceReversalStep" parent="step">
 		<property name="icrEncumbranceReversalService">
 			<ref bean="glIcrEncumbranceReversalService" />
 		</property>

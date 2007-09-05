@@ -52,15 +52,11 @@ public class ObjectCodeRule extends MaintenanceDocumentRuleBase {
     private static ObjectConsService  objectConsService;
 
     private final static String OBJECT_CODE_ILLEGAL_VALUES = "ObjectCodeIllegalValues";
-    private final static String OBJECT_CODE_VALID_BUDGET_AGGREGATION_CODES = "ObjectCodeValidBudgetAggregationCodes";
-    private final static String OBJECT_CODE_VALID_FEDERAL_FUNDED_CODES = "ObjectCodeValidFederalFundedCodes";
-
 
     private static KualiConfigurationService configService;
     private static ChartService chartService;
     private Map reportsTo;
     private static Set illegalValues;
-    private static Set validFederalFundedCodes;
 
     public ObjectCodeRule() {
 
@@ -68,7 +64,6 @@ public class ObjectCodeRule extends MaintenanceDocumentRuleBase {
 	        configService = SpringContext.getBean(KualiConfigurationService.class);
 	
 	        illegalValues = retrieveParameterSet(OBJECT_CODE_ILLEGAL_VALUES);
-	        validFederalFundedCodes = retrieveParameterSet(OBJECT_CODE_VALID_FEDERAL_FUNDED_CODES);
 	
 	        objectLevelService = SpringContext.getBean(ObjectLevelService.class);
 	        objectCodeService = SpringContext.getBean(ObjectCodeService.class);
@@ -329,13 +324,6 @@ public class ObjectCodeRule extends MaintenanceDocumentRuleBase {
 
         // if there is at least one result, then entered budget aggregation code is legal
         return budgetAggregationCodes.size() > 0;
-    }
-
-
-    protected boolean isLegalFederalFundedCode(String federalFundedCode) {
-                
-        boolean result = permitted(validFederalFundedCodes, federalFundedCode);
-        return result;
     }
 
     protected boolean verifyObjectCode(Integer year, String chart, String objectCode) {

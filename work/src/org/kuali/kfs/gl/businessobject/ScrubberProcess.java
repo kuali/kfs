@@ -726,7 +726,7 @@ public class ScrubberProcess {
                     lastEntry = scrubbedEntry;
                     
                 }
-                LOG.fatal("non-fatal processing time: " + (System.currentTimeMillis() - start2));
+                //LOG.fatal("non-fatal processing time: " + (System.currentTimeMillis() - start2));
                 
             }
             else {
@@ -751,8 +751,8 @@ public class ScrubberProcess {
                 createOutputEntry(errorEntry, errorGroup);
                 scrubberReport.incrementErrorRecordWritten();
             }
-            LOG.fatal("save line processing time: " + (System.currentTimeMillis() - start3));
-            LOG.fatal("line processing time: " + (System.currentTimeMillis() - start1));
+            //LOG.fatal("save line processing time: " + (System.currentTimeMillis() - start3));
+            //LOG.fatal("line processing time: " + (System.currentTimeMillis() - start1));
         }
 
         if (!collectorMode) {

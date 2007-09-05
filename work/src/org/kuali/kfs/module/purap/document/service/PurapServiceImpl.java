@@ -179,7 +179,6 @@ public class PurapServiceImpl implements PurapService {
                     }
                     PurchasingApItem newItem = (PurchasingApItem)itemClass.newInstance();                    
                     newItem.setItemTypeCode(itemTypes[i]);
-                    newItem.refreshNonUpdateableReferences();
                     existingItems.add(lastFound, newItem);
                     existingItemTypes.add(itemTypes[i]);
                 }

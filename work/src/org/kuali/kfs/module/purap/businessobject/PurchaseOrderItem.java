@@ -23,6 +23,7 @@ import java.util.List;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.module.purap.PurapConstants;
+import org.kuali.module.purap.PurapPropertyConstants;
 import org.kuali.module.purap.document.PurchaseOrderDocument;
 
 /**
@@ -74,10 +75,6 @@ public class PurchaseOrderItem extends PurchasingItemBase {
         this.setCapitalAssetTransactionTypeCode(ri.getCapitalAssetTransactionTypeCode());
         this.setItemTypeCode(ri.getItemTypeCode());
         
-        //to get around a null pointer error in ItemTypeCode
-        //TODO: remove this after the new base copy is implemented here
-        this.refreshNonUpdateableReferences();
-
         /* TODO: Uncomment these when we're ready with item capital asset in Kuali
         if (ri.getItemCapitalAssetNumbers() != null) {
             List assets = new ArrayList();
@@ -239,6 +236,9 @@ public class PurchaseOrderItem extends PurchasingItemBase {
      * @return Returns the purchaseOrder.
      */
     public PurchaseOrderDocument getPurchaseOrder() {
+        if (ObjectUtils.isNull(purchaseOrder)) {
+            refreshReferenceObject(PurapPropertyConstants.PURCHASE_ORDER);
+        }
         return purchaseOrder;
     }
 

@@ -81,9 +81,6 @@ public class RequisitionServiceImpl implements RequisitionService {
         if (ObjectUtils.isNotNull(documentNumber)) {
             try {
                 RequisitionDocument doc = (RequisitionDocument)documentService.getByDocumentHeaderId(documentNumber);
-                if (ObjectUtils.isNotNull(doc)) {
-                    doc.refreshNonUpdateableReferences();
-                }
                 return doc;
             }
             catch (WorkflowException e) {

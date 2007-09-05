@@ -223,7 +223,7 @@ public class CreditMemoServiceImpl implements CreditMemoService {
         try {
             documentService.saveDocument(document, DocumentSystemSaveEvent.class);
 //          documentService.saveDocumentWithoutRunningValidation(document);
-            document.refreshNonUpdateableReferences();
+
         }
         catch (WorkflowException we) {
             String errorMsg = "Error saving document # " + document.getDocumentHeader().getDocumentNumber() + " " + we.getMessage(); 

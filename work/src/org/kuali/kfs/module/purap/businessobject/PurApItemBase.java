@@ -25,6 +25,7 @@ import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.util.TypedArrayList;
 import org.kuali.module.purap.PurapConstants;
+import org.kuali.module.purap.PurapPropertyConstants;
 
 /**
  * 
@@ -63,8 +64,8 @@ public abstract class PurApItemBase extends PersistableBusinessObjectBase implem
 	 */
 	public PurApItemBase() {
 	    //TODO: Chris - default itemType (should probably get this from spring or KFSConstants file)
-//        itemTypeCode = "ITEM";
-//        this.refreshNonUpdateableReferences();
+	    //        itemTypeCode = "ITEM";
+
         sourceAccountingLines = new TypedArrayList(getAccountingLineClass());
         baselineSourceAccountingLines = new TypedArrayList(getAccountingLineClass());
         resetAccount();
@@ -388,6 +389,9 @@ public abstract class PurApItemBase extends PersistableBusinessObjectBase implem
 	 * 
 	 */
 	public ItemType getItemType() { 
+        if (ObjectUtils.isNull(itemType)) {
+            refreshReferenceObject(PurapPropertyConstants.ITEM_TYPE);
+        }
 		return itemType;
 	}
 

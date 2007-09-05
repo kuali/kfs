@@ -25,6 +25,7 @@ import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.purap.PurapConstants;
+import org.kuali.module.purap.PurapPropertyConstants;
 import org.kuali.module.purap.document.PaymentRequestDocument;
 import org.kuali.module.purap.document.PurchaseOrderDocument;
 import org.kuali.module.purap.exceptions.PurError;
@@ -77,7 +78,7 @@ public class PaymentRequestItem extends AccountsPayableItemBase {
             accounts.add(new PaymentRequestAccount(this,poa));
         }
         this.setSourceAccountingLines(accounts);
-        this.refreshNonUpdateableReferences();
+
         //clear amount and desc on below the line - we probably don't need that null 
         //itemType check but it's there just in case remove if it causes problems
         if(ObjectUtils.isNotNull(this.getItemType())&&
@@ -118,7 +119,7 @@ public class PaymentRequestItem extends AccountsPayableItemBase {
             accounts.add(new PaymentRequestAccount(this,poa));
         }
         this.setSourceAccountingLines(accounts);
-        this.refreshNonUpdateableReferences();
+
         //clear amount and desc on below the line - we probably don't need that null 
         //itemType check but it's there just in case remove if it causes problems
         if(ObjectUtils.isNotNull(this.getItemType())&&
@@ -139,7 +140,7 @@ public class PaymentRequestItem extends AccountsPayableItemBase {
         //TODO: look into, this is total hackery but works for now, revisit during QA 
         if(ObjectUtils.isNotNull(this.getPurapDocumentIdentifier())) {
             if(ObjectUtils.isNull(this.getPaymentRequest())) {
-                this.refreshReferenceObject("paymentRequest");
+                this.refreshReferenceObject(PurapPropertyConstants.PAYMENT_REQUEST);
             }
         }
         //ideally we should do this a different way - maybe move it all into the service or save this info somehow (make sure and update though)

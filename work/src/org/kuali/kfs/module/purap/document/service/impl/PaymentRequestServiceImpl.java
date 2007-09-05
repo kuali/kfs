@@ -490,9 +490,6 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
         if (ObjectUtils.isNotNull(documentNumber)) {
             try {
                 PaymentRequestDocument doc = (PaymentRequestDocument)documentService.getByDocumentHeaderId(documentNumber);
-                if (ObjectUtils.isNotNull(doc)) {
-                    doc.refreshNonUpdateableReferences();
-                }
                 return doc;
             }
             catch (WorkflowException e) {
@@ -527,7 +524,8 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
         try {
             documentService.saveDocument(document, DocumentSystemSaveEvent.class);
 //          documentService.saveDocumentWithoutRunningValidation(document);
-            document.refreshNonUpdateableReferences();
+            //TODO f2f: shouldn't need this (needs tested)
+//            document.refreshNonUpdateableReferences();
         }
         catch (WorkflowException we) {
             String errorMsg = "Error saving document # " + document.getDocumentHeader().getDocumentNumber() + " " + we.getMessage(); 
@@ -635,8 +633,6 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
     
     public void calculatePaymentRequest(PaymentRequestDocument paymentRequest,boolean updateDiscount) {
         LOG.debug("calculatePaymentRequest() started");
-        //refresh the payment and shipping terms
-        paymentRequest.refreshNonUpdateableReferences();
         
         if(ObjectUtils.isNull(paymentRequest.getPaymentRequestPayDate())) {
             //TODO: do some in depth tests on this

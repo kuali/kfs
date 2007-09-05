@@ -390,7 +390,6 @@ public class PaymentRequestDocumentRule extends AccountsPayableDocumentRuleBase 
     public boolean processItemValidation(PurchasingAccountsPayableDocument purapDocument) {
         boolean valid = true;
         PaymentRequestDocument paymentRequestDocument = (PaymentRequestDocument)purapDocument;
-        paymentRequestDocument.fixPreqItemReference();
         for (PurchasingApItem item : purapDocument.getItems() ) { 
             PaymentRequestItem preqItem = (PaymentRequestItem)item;
             valid &= validateEachItem(paymentRequestDocument, preqItem);
@@ -526,7 +525,7 @@ public class PaymentRequestDocumentRule extends AccountsPayableDocumentRuleBase 
     //FIXME: ckirschenman refactor this also commenting out errors thrown (also I believe this shouldn't be called after AP_REVIEW confirm and add check)
     boolean validatePaymentRequestReview(PaymentRequestDocument paymentRequest) {
         boolean valid = true;
-        paymentRequest.fixPreqItemReference();
+  
         //TODO: uncomment or replace this with a service invocation when Chris/Dan finished
         //the calculate method.
         //this.calculatePaymentRequest(paymentRequest, false);

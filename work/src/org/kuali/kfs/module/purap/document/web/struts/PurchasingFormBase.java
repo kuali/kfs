@@ -43,7 +43,6 @@ public class PurchasingFormBase extends PurchasingAccountsPayableFormBase {
         super();
         this.setNewPurchasingItemLine(setupNewPurchasingItemLine());
         newPurchasingItemLine.setItemTypeCode("ITEM");
-        newPurchasingItemLine.refreshNonUpdateableReferences();
         
         this.accountDistributionnextSourceLineNumber = new Integer(1);
         setAccountDistributionsourceAccountingLines(new ArrayList());

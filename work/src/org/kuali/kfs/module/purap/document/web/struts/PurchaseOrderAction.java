@@ -79,6 +79,7 @@ import org.kuali.module.vendor.service.VendorService;
 public class PurchaseOrderAction extends PurchasingActionBase {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PurchaseOrderAction.class);
     
+    //TODO f2f: need a jira for removing the refresh for quotes (3 calls to that method in this class)
     /**
      * @see org.kuali.core.web.struts.action.KualiAction#refresh(org.apache.struts.action.ActionMapping,
      *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
@@ -1146,7 +1147,6 @@ public class PurchaseOrderAction extends PurchasingActionBase {
     }
     
     private void executeManualStatusChange(PurchaseOrderDocument po) {
-        po.refreshNonUpdateableReferences();
         try {           
             SpringContext.getBean(PurapService.class).updateStatusAndStatusHistory(po, po.getStatusChange());
         }
@@ -1155,19 +1155,4 @@ public class PurchaseOrderAction extends PurchasingActionBase {
         }
     }
 
-    @Override
-    public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        PurchaseOrderForm poForm = (PurchaseOrderForm)form;
-        PurchaseOrderDocument po = poForm.getPurchaseOrderDocument();
-                
-        //We have to do this because otherwise the purchaseOrder object of each of the purchase order items
-        //will be null and we need to retrieve some information from the purchaseOrder, so they can't be
-        //null. This is related to KULPURAP-825
-        for (PurchaseOrderItem item : (List<PurchaseOrderItem>)po.getItems()) {
-            item.refreshNonUpdateableReferences();
-        }
-        ActionForward result = super.execute(mapping, form, request, response);
-        return result;
-    }
-    
 }

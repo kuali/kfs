@@ -479,7 +479,6 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
         List<PurchaseOrderItem> retransmitItems = new ArrayList<PurchaseOrderItem>();
         for (PurchaseOrderItem item : items) {
             if (item.isItemSelectedForRetransmitIndicator()) {
-                item.refreshNonUpdateableReferences();
                 retransmitItems.add(item);
             }
         }
@@ -597,10 +596,10 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
         newPurchaseOrderChangeDocument.getDocumentHeader().setFinancialDocumentDescription(sourceDocument.getDocumentHeader().getFinancialDocumentDescription());
         newPurchaseOrderChangeDocument.getDocumentHeader().setOrganizationDocumentNumber(sourceDocument.getDocumentHeader().getOrganizationDocumentNumber());
 
-        newPurchaseOrderChangeDocument.refreshNonUpdateableReferences();
         newPurchaseOrderChangeDocument.setPurchaseOrderCurrentIndicator(false);
         newPurchaseOrderChangeDocument.setPendingActionIndicator(false);
         
+        //TODO f2f: what is this doing?
         //Need to find a way to make the ManageableArrayList to expand and populating the items and
         //accounts, otherwise it will complain about the account on item 1 is missing. 
         for (PurchasingApItem item : (List<PurchasingApItem>)newPurchaseOrderChangeDocument.getItems()) {
@@ -609,6 +608,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
             break;
         }
         
+        newPurchaseOrderChangeDocument.refreshNonUpdateableReferences();
         return newPurchaseOrderChangeDocument;
     }
     
@@ -765,9 +765,6 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
         if (ObjectUtils.isNotNull(documentNumber)) {
             try {
                 PurchaseOrderDocument doc = (PurchaseOrderDocument)documentService.getByDocumentHeaderId(documentNumber);
-                if (ObjectUtils.isNotNull(doc)) {
-                    doc.refreshNonUpdateableReferences();
-                }
                 return doc;
             }
             catch (WorkflowException e) {

@@ -38,6 +38,7 @@ import org.kuali.core.workflow.service.WorkflowDocumentService;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.PurapParameterConstants;
+import org.kuali.module.purap.PurapPropertyConstants;
 import org.kuali.module.purap.PurapConstants.PaymentRequestStatuses;
 import org.kuali.module.purap.PurapWorkflowConstants.NodeDetails;
 import org.kuali.module.purap.PurapWorkflowConstants.PaymentRequestDocument.NodeDetailEnum;
@@ -53,6 +54,7 @@ import org.kuali.module.purap.service.PurapService;
 import org.kuali.module.purap.service.PurchaseOrderService;
 import org.kuali.module.purap.util.ExpiredOrClosedAccountEntry;
 import org.kuali.module.vendor.VendorConstants;
+import org.kuali.module.vendor.VendorPropertyConstants;
 import org.kuali.module.vendor.bo.PaymentTermType;
 import org.kuali.module.vendor.bo.PurchaseOrderCostSource;
 import org.kuali.module.vendor.bo.ShippingPaymentTerms;
@@ -252,6 +254,9 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
      * 
      */
     public PaymentTermType getVendorPaymentTerms() {
+        if (ObjectUtils.isNull(vendorPaymentTerms)) {
+            refreshReferenceObject(VendorPropertyConstants.VENDOR_PAYMENT_TERMS);
+        }
         return vendorPaymentTerms;
     }
     /**
@@ -271,6 +276,9 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
      * 
      */
     public String getVendorShippingPaymentTermsCode() { 
+        if (ObjectUtils.isNull(vendorPaymentTerms)) {
+            refreshReferenceObject(VendorPropertyConstants.VENDOR_SHIPPING_PAYMENT_TERMS);
+        }
         return vendorShippingPaymentTermsCode;
     }
 
@@ -579,6 +587,7 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
     }
 
     public String getVendorShippingTitleCode() {
+        //TODO f2f: this should be printing the decription instead of the code; do we need the reference object?
         if (ObjectUtils.isNotNull(this.getPurchaseOrderDocument())) {
             return this.getPurchaseOrderDocument().getVendorShippingTitleCode();
         }
@@ -1134,36 +1143,6 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
         //do nothing
     }
 
-    /**
-     * TODO: ckirschenman - get rid of this method!!  We do the save now so it shouldn't be necessary
-     * This method is a workaround for some problems we've found because the payment request is not saved
-     * before dealing with related objects.  This could be removed if we either saved after continue or
-     * had a reference to the actual po in the preqitems (instead of always going through the document.
-     * @deprecated
-     */
-    public void fixPreqItemReference() {
-        for (PaymentRequestItem item : (List<PaymentRequestItem>)this.getItems()) {
-            if(ObjectUtils.isNull(item.getPaymentRequest())){
-                if(ObjectUtils.isNull(getPurapDocumentIdentifier())){
-                    //even though this isn't saved we still need this back reference
-                    item.setPaymentRequest(this);
-                } else {
-                    if(ObjectUtils.isNull(item.getPurapDocumentIdentifier())) {
-                        //this shouldn't be needed but just in case fix the doc #'s
-                        item.setPurapDocumentIdentifier(this.getPurapDocumentIdentifier());
-                    }
-                    item.refreshNonUpdateableReferences();
-                    
-                }
-                
-            } else {
-                //do nothing and break for performance reasons, also assume if one is set all are
-                //if you notice problems with missing open qty on certain lines, check this code
-                break;
-            }
-        }
-    }
-        
     /**
      * A helper method for determining the route levels for a given document.
      * 

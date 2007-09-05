@@ -136,7 +136,6 @@ public abstract class AccountsPayableDocumentBase extends PurchasingAccountsPaya
         }
 
         //copied from super because we can't call super for AP docs
-        refreshNonUpdateableReferences();
         SpringContext.getBean(PurapAccountingService.class).updateAccountAmounts(this);
 
         //DO NOT CALL SUPER HERE!!  Cannot call super because it will mess up the GL entry creation process (hjs)

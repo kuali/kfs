@@ -88,8 +88,6 @@ public class CreditMemoAction extends AccountsPayableActionBase {
             SpringContext.getBean(CreditMemoService.class).saveDocumentWithoutValidation(creditMemoDocument);
         }
 
-        creditMemoDocument.refreshNonUpdateableReferences();
-
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 

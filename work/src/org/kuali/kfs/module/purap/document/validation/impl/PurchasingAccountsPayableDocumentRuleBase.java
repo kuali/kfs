@@ -161,14 +161,13 @@ public class PurchasingAccountsPayableDocumentRuleBase extends AccountingDocumen
 
         boolean requiresAccountValidationOnAllEnteredItems = requiresAccountValidationOnAllEnteredItems(purapDocument);
         for (PurchasingApItem item : purapDocument.getItems()) {
-            //only do this check for below the line items
-            item.refreshNonUpdateableReferences();
             
             //do the DD validation first, I wonder if the original one from DocumentRuleBase is broken ? 
             GlobalVariables.getErrorMap().addToErrorPath(PurapConstants.ITEM_TAB_ERROR_PROPERTY);
             getDictionaryValidationService().validateBusinessObject(item);
             
             if (item.isConsideredEntered()) {
+                //only do this check for below the line items
                 if (!item.getItemType().isItemTypeAboveTheLineIndicator()) {
                     if (ObjectUtils.isNotNull(item.getItemUnitPrice()) &&(new KualiDecimal(item.getItemUnitPrice())).isZero()) {
                         if (allowsZeroRule.getRuleActiveIndicator() &&
@@ -214,71 +213,7 @@ public class PurchasingAccountsPayableDocumentRuleBase extends AccountingDocumen
         }
         return valid;
     }
-    
-    /**
-     * This method performs any validation for the Item tab when the user clicks on Save button.
-     * 
-     * @param purapDocument
-     * @return boolean true if it passes the validation and false otherwise.
-     */
-    public boolean processItemValidationForSave(PurchasingAccountsPayableDocument purapDocument) {
-        boolean valid = true;
-        // Fetch the business rules that are common to the below the line items on all purap documents
-        String documentTypeClassName = purapDocument.getClass().getName();
-        String[] documentTypeArray = StringUtils.split(documentTypeClassName, ".");
-        String documentType = documentTypeArray[documentTypeArray.length - 1];
-        //If it's a credit memo, we'll have to append the source of the credit memo
-        //whether it's created from a Vendor, a PO or a PREQ.
-        if (documentType.equals("CreditMemoDocument")) {
-           
-        }
-        String securityGroup = (String)PurapConstants.ITEM_TYPE_SYSTEM_PARAMETERS_SECURITY_MAP.get(documentType);
-        KualiParameterRule allowsZeroRule = SpringContext.getBean(KualiConfigurationService.class).getApplicationParameterRule(securityGroup, PurapConstants.ITEM_ALLOWS_ZERO);
-        KualiParameterRule allowsPositiveRule = SpringContext.getBean(KualiConfigurationService.class).getApplicationParameterRule(securityGroup, PurapConstants.ITEM_ALLOWS_POSITIVE);
-        KualiParameterRule allowsNegativeRule = SpringContext.getBean(KualiConfigurationService.class).getApplicationParameterRule(securityGroup, PurapConstants.ITEM_ALLOWS_NEGATIVE);
-        KualiParameterRule requiresDescriptionRule = SpringContext.getBean(KualiConfigurationService.class).getApplicationParameterRule(securityGroup, PurapConstants.ITEM_REQUIRES_USER_ENTERED_DESCRIPTION);
 
-        for (PurchasingApItem item : purapDocument.getItems()) {
-            //only do this check for below the line items
-            item.refreshNonUpdateableReferences();
-            if (!item.getItemType().isItemTypeAboveTheLineIndicator()) {
-                if (ObjectUtils.isNotNull(item.getItemUnitPrice()) &&(new KualiDecimal(item.getItemUnitPrice())).isZero()) {
-                    if (allowsZeroRule.getRuleActiveIndicator() &&
-                        !allowsZeroRule.getParameterValueSet().contains(item.getItemTypeCode())) {
-                        valid = false;
-                        GlobalVariables.getErrorMap().putError(PurapConstants.ITEM_TAB_ERROR_PROPERTY, PurapKeyConstants.ERROR_ITEM_BELOW_THE_LINE, item.getItemType().getItemTypeDescription(), "zero");
-                    }
-                }
-                else if (ObjectUtils.isNotNull(item.getItemUnitPrice()) && (new KualiDecimal(item.getItemUnitPrice())).isPositive()) {
-                    if (allowsPositiveRule.getRuleActiveIndicator() &&
-                        !allowsPositiveRule.getParameterValueSet().contains(item.getItemTypeCode())) {
-                        valid = false;
-                        GlobalVariables.getErrorMap().putError(PurapConstants.ITEM_TAB_ERROR_PROPERTY, PurapKeyConstants.ERROR_ITEM_BELOW_THE_LINE, item.getItemType().getItemTypeDescription(), "positive");
-                    }
-                }
-                else if (ObjectUtils.isNotNull(item.getItemUnitPrice()) && (new KualiDecimal(item.getItemUnitPrice())).isNegative()) {
-                    if (allowsNegativeRule.getRuleActiveIndicator() &&
-                        !allowsNegativeRule.getParameterValueSet().contains(item.getItemTypeCode())) {
-                        valid = false;
-                        GlobalVariables.getErrorMap().putError(PurapConstants.ITEM_TAB_ERROR_PROPERTY, PurapKeyConstants.ERROR_ITEM_BELOW_THE_LINE, item.getItemType().getItemTypeDescription(), "negative");
-                    }
-                }
-                if (ObjectUtils.isNotNull(item.getItemUnitPrice()) && (new KualiDecimal(item.getItemUnitPrice())).isNonZero() && StringUtils.isEmpty(item.getItemDescription())) {
-                    if (requiresDescriptionRule.getRuleActiveIndicator() &&
-                        requiresDescriptionRule.getParameterValueSet().contains(item.getItemTypeCode())) {
-                        valid = false;
-                        GlobalVariables.getErrorMap().putError(PurapConstants.ITEM_TAB_ERROR_PROPERTY, PurapKeyConstants.ERROR_ITEM_BELOW_THE_LINE, "The item description of " + item.getItemType().getItemTypeDescription(), "empty");
-                    }
-                }
-            }
-            valid &= verifyUniqueAccountingStrings(item.getSourceAccountingLines(), PurapConstants.ITEM_TAB_ERROR_PROPERTY, item.getItemIdentifierString());
-            for (PurApAccountingLine account : item.getSourceAccountingLines()) {
-                valid &= verifyAccountingStringsBetween0And100Percent(account, PurapConstants.ITEM_TAB_ERROR_PROPERTY, item.getItemIdentifierString());
-            }
-        }
-        return valid;
-    }
-    
     public boolean processAddItemBusinessRules(AccountingDocument financialDocument, PurchasingApItem item) {
         return getDictionaryValidationService().isBusinessObjectValid(item, KFSPropertyConstants.NEW_ITEM);
     }

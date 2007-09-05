@@ -59,6 +59,10 @@ public class VendorPropertyConstants {
     public static final String VENDOR_FOREIGN_INDICATOR = "vendorHeader.vendorForeignIndicator";
     public static final String VENDOR_INACTIVE_REASON = "vendorInactiveReasonCode";
     
+    public static final String VENDOR_PAYMENT_TERMS = "vendorPaymentTerms";
+    public static final String VENDOR_SHIPPING_TITLE = "vendorShippingTitle";
+    public static final String VENDOR_SHIPPING_PAYMENT_TERMS = "vendorShippingPaymentTerms";
+
     public static final String VENDOR_TAX_TYPE_CODE_WITHOUT_HEADER = "vendorTaxTypeCode";
     public static final String VENDOR_MIN_ORDER_AMOUNT = "vendorMinimumOrderAmount";
     public static final String VENDOR_DETAIL_ASSIGNED_ID = "vendorDetailAssignedIdentifier";

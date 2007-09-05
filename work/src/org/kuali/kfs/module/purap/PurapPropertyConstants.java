@@ -42,6 +42,8 @@ public class PurapPropertyConstants {
     
     // PURCHASING AND ACCOUNTS PAYABLE DOCUMENT BASE
     public static final String PURAP_DOC_ID = "purapDocumentIdentifier";
+    public static final String OLD_STATUS = "oldStatus";
+    public static final String NEW_STATUS = "newStatus";
     public static final String STATUS_CODE = "statusCode";
     public static final String STATUS = "status";
     public static final String VENDOR_NUMBER = "vendorNumber";
@@ -65,6 +67,7 @@ public class PurapPropertyConstants {
     public static final String CONTRACT_MANAGER_CODE = "contractManagerCode";
 //   public static final String VENDOR_CONTRACT_ID = "document.vendorContractGeneratedIdentifier";
     public static final String VENDOR_CONTRACT_ID = "vendorContractGeneratedIdentifier";
+    public static final String PURCHASE_ORDER = "purchaseOrder";
     
     // AP DOCUMENT BASE
 //    public static final String PURCHASE_ORDER_IDENTIFIER = "document.purchaseOrderIdentifier";
@@ -92,6 +95,7 @@ public class PurapPropertyConstants {
 //    public static final String PAYMENT_REQUEST_PAY_DATE = "document.paymentRequestPayDate";
     public static final String PAYMENT_REQUEST_PAY_DATE = "paymentRequestPayDate";
     public static final String GRAND_TOTAL = "grandTotal";
+    public static final String PAYMENT_REQUEST = "paymentRequest";
 
     // CREDIT MEMO DOCUMENT
     public static final String PAYMENT_REQUEST_ID = "paymentRequestIdentifier";

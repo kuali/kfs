@@ -131,7 +131,6 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
 
     @Override
     public void prepareForSave(KualiDocumentEvent event) {
-        refreshNonUpdateableReferences();
         SpringContext.getBean(PurapAccountingService.class).updateAccountAmounts(this);
         super.prepareForSave(event);
     }
@@ -435,7 +434,6 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
         for (int i = start; i < items.size(); i++) {
             PurchasingApItem item = (PurchasingApItem) items.get(i);
             // only set the item line number for above the line items
-            item.refreshNonUpdateableReferences();
             if (item.getItemType().isItemTypeAboveTheLineIndicator()) {
                 item.setItemLineNumber(new Integer(i + 1));
             }
@@ -473,7 +471,6 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
     public int getItemLinePosition() {
         int belowTheLineCount = 0;
         for (PurchasingApItem item : items) {
-            item.refreshNonUpdateableReferences();
             if (!item.getItemType().isItemTypeAboveTheLineIndicator()) {
                 belowTheLineCount++;
             }

@@ -103,7 +103,6 @@ public class PaymentRequestAction extends AccountsPayableActionBase {
             SpringContext.getBean(PaymentRequestService.class).populateAndSavePaymentRequest(paymentRequestDocument);
         }
 
-        paymentRequestDocument.refreshNonUpdateableReferences();
         //force calculation
         preqForm.setCalculated(false);
 
@@ -143,30 +142,6 @@ public class PaymentRequestAction extends AccountsPayableActionBase {
         }
 
         return forward;
-    }
-
-
-    /**
-     * The execute method is being overriden to reevaluate on each call 
-     * which extra buttons to display.
-     * 
-     * @see org.apache.struts.action.Action#execute(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
-     */
-    @Override
-    public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-
-        ActionForward action = super.execute(mapping, form, request, response);
-
-        //generate the extra buttons
-        PaymentRequestForm preqForm = (PaymentRequestForm) form;
-        PaymentRequestDocument preq = preqForm.getPaymentRequestDocument();
-
-        //We have to do this because otherwise the paymentrequest on the item is null
-        //once we get the constraints removed to allow saving on continue
-        //see KULPURAP-825 for some related comments
-        preq.fixPreqItemReference();
-
-        return action;
     }
 
     /**

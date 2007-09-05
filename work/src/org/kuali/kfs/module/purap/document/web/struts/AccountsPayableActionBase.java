@@ -65,6 +65,7 @@ public class AccountsPayableActionBase extends PurchasingAccountsPayableActionBa
         AccountsPayableFormBase baseForm = (AccountsPayableFormBase) form;
         AccountsPayableDocumentBase document = (AccountsPayableDocumentBase) baseForm.getDocument();
 
+        //TODO f2f: couldn't this be moved up to purap action base becuase pur documents do the same thing!!!!
         if (StringUtils.equals(baseForm.getRefreshCaller(), VendorConstants.VENDOR_ADDRESS_LOOKUPABLE_IMPL)) {
             if (StringUtils.isNotBlank(request.getParameter(RicePropertyConstants.DOCUMENT + "." + PurapPropertyConstants.VENDOR_ADDRESS_ID))) {
                 Integer vendorAddressGeneratedId = document.getVendorAddressGeneratedIdentifier();
@@ -74,8 +75,6 @@ public class AccountsPayableActionBase extends PurchasingAccountsPayableActionBa
                 document.templateVendorAddress(refreshVendorAddress);
             }
         }
-
-        document.refreshNonUpdateableReferences();
 
         return super.refresh(mapping, form, request, response);
     }

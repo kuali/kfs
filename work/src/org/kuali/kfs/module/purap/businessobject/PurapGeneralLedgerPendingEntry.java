@@ -955,23 +955,23 @@ public class PurapGeneralLedgerPendingEntry extends PersistableBusinessObjectBas
     }
 
     public boolean isSubAccountNumberBlank() {
-        return subAccountNumber == null || GENERAL_LEDGER_PENDING_ENTRY_CODE.BLANK_SUB_ACCOUNT_NUMBER.equals(subAccountNumber);
+        return subAccountNumber == null || GENERAL_LEDGER_PENDING_ENTRY_CODE.getBlankSubAccountNumber().equals(subAccountNumber);
     }
 
     public boolean isFinancialObjectCodeBlank() {
-        return financialObjectCode == null || GENERAL_LEDGER_PENDING_ENTRY_CODE.BLANK_OBJECT_CODE.equals(financialObjectCode);
+        return financialObjectCode == null || GENERAL_LEDGER_PENDING_ENTRY_CODE.getBlankFinancialObjectCode().equals(financialObjectCode);
     }
 
     public boolean isFinancialSubObjectCodeBlank() {
-        return financialSubObjectCode == null || GENERAL_LEDGER_PENDING_ENTRY_CODE.BLANK_SUB_OBJECT_CODE.equals(financialSubObjectCode);
+        return financialSubObjectCode == null || GENERAL_LEDGER_PENDING_ENTRY_CODE.getBlankFinancialSubObjectCode().equals(financialSubObjectCode);
     }
 
     public boolean isProjectCodeBlank() {
-        return projectCode == null || GENERAL_LEDGER_PENDING_ENTRY_CODE.BLANK_PROJECT_STRING.equals(projectCode);
+        return projectCode == null || GENERAL_LEDGER_PENDING_ENTRY_CODE.getBlankProjectCode().equals(projectCode);
     }
 
     public boolean isFinancialObjectTypeCodeBlank() {
-        return financialObjectTypeCode == null || GENERAL_LEDGER_PENDING_ENTRY_CODE.BLANK_OBJECT_TYPE_CODE.equals(financialObjectTypeCode);
+        return financialObjectTypeCode == null || GENERAL_LEDGER_PENDING_ENTRY_CODE.getBlankFinancialObjectType().equals(financialObjectTypeCode);
     }
 
 

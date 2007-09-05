@@ -15,9 +15,6 @@
  */
 package org.kuali.kfs.rules;
 
-import static org.kuali.kfs.rules.AccountingDocumentRuleBaseConstants.GENERAL_LEDGER_PENDING_ENTRY_CODE.BLANK_OBJECT_CODE;
-import static org.kuali.kfs.rules.AccountingDocumentRuleBaseConstants.GENERAL_LEDGER_PENDING_ENTRY_CODE.BLANK_OBJECT_TYPE_CODE;
-
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.core.exceptions.ReferentialIntegrityException;
@@ -30,6 +27,7 @@ import org.kuali.kfs.KFSKeyConstants;
 import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
 import org.kuali.kfs.context.SpringContext;
+import org.kuali.kfs.rules.AccountingDocumentRuleBaseConstants;
 import org.kuali.module.chart.bo.ObjectCode;
 import org.kuali.module.chart.bo.OffsetDefinition;
 import org.kuali.module.chart.service.OffsetDefinitionService;
@@ -79,9 +77,9 @@ public class GeneralLedgerPostingDocumentRuleBase extends LedgerPostingDocumentR
 
         String offsetObjectCode = getOffsetFinancialObjectCode(offsetDefinition);
         offsetEntry.setFinancialObjectCode(offsetObjectCode);
-        if (offsetObjectCode.equals(BLANK_OBJECT_CODE)) {
+        if (offsetObjectCode.equals(AccountingDocumentRuleBaseConstants.GENERAL_LEDGER_PENDING_ENTRY_CODE.getBlankFinancialObjectCode())) {
             // no BO, so punt
-            offsetEntry.setAcctSufficientFundsFinObjCd(BLANK_OBJECT_CODE);
+            offsetEntry.setAcctSufficientFundsFinObjCd(AccountingDocumentRuleBaseConstants.GENERAL_LEDGER_PENDING_ENTRY_CODE.getBlankFinancialObjectCode());
         }
         else {
             // Need current ObjectCode and Account BOs to get sufficient funds code. (Entries originally have no BOs.)
@@ -146,13 +144,13 @@ public class GeneralLedgerPostingDocumentRuleBase extends LedgerPostingDocumentR
         LOG.debug("getOffsetFinancialObjectCode(OffsetDefinition) - start");
 
         if (null != offsetDefinition) {
-            String returnString = getEntryValue(offsetDefinition.getFinancialObjectCode(), BLANK_OBJECT_CODE);
+            String returnString = getEntryValue(offsetDefinition.getFinancialObjectCode(), AccountingDocumentRuleBaseConstants.GENERAL_LEDGER_PENDING_ENTRY_CODE.getBlankFinancialObjectCode());
             LOG.debug("getOffsetFinancialObjectCode(OffsetDefinition) - end");
             return returnString;
         }
         else {
             LOG.debug("getOffsetFinancialObjectCode(OffsetDefinition) - end");
-            return BLANK_OBJECT_CODE;
+            return AccountingDocumentRuleBaseConstants.GENERAL_LEDGER_PENDING_ENTRY_CODE.getBlankFinancialObjectCode();
         }
 
     }
@@ -167,13 +165,13 @@ public class GeneralLedgerPostingDocumentRuleBase extends LedgerPostingDocumentR
         LOG.debug("getOffsetFinancialObjectTypeCode(OffsetDefinition) - start");
 
         if (null != offsetDefinition && null != offsetDefinition.getFinancialObject()) {
-            String returnString = getEntryValue(offsetDefinition.getFinancialObject().getFinancialObjectTypeCode(), BLANK_OBJECT_TYPE_CODE);
+            String returnString = getEntryValue(offsetDefinition.getFinancialObject().getFinancialObjectTypeCode(), AccountingDocumentRuleBaseConstants.GENERAL_LEDGER_PENDING_ENTRY_CODE.getBlankFinancialObjectType());
             LOG.debug("getOffsetFinancialObjectTypeCode(OffsetDefinition) - end");
             return returnString;
         }
         else {
             LOG.debug("getOffsetFinancialObjectTypeCode(OffsetDefinition) - end");
-            return BLANK_OBJECT_TYPE_CODE;
+            return AccountingDocumentRuleBaseConstants.GENERAL_LEDGER_PENDING_ENTRY_CODE.getBlankFinancialObjectType();
         }
 
     }

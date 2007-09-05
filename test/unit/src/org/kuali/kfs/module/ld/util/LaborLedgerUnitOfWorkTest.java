@@ -15,15 +15,19 @@
  */
 package org.kuali.module.labor.util;
 
+import static org.kuali.test.fixtures.UserNameFixture.KHUNTLEY;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.module.gl.web.TestDataGenerator;
 import org.kuali.module.labor.bo.LaborOriginEntry;
+import org.kuali.test.ConfigureContext;
 
 import junit.framework.TestCase;
 
+@ConfigureContext(session = KHUNTLEY)
 public class LaborLedgerUnitOfWorkTest extends TestCase {
 
     private TestDataGenerator testDataGenerator;

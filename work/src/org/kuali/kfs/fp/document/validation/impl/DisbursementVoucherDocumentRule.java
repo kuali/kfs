@@ -374,7 +374,7 @@ public class DisbursementVoucherDocumentRule extends AccountingDocumentRuleBase 
         GeneralLedgerPendingEntry explicitEntry = (GeneralLedgerPendingEntry) ObjectUtils.deepCopy(dvDocument.getGeneralLedgerPendingEntry(0));
         explicitEntry.setTransactionLedgerEntrySequenceNumber(new Integer(sequenceHelper.getSequenceCounter()));
         explicitEntry.setFinancialObjectCode(wireCharge.getExpenseFinancialObjectCode());
-        explicitEntry.setFinancialSubObjectCode(GENERAL_LEDGER_PENDING_ENTRY_CODE.BLANK_SUB_OBJECT_CODE);
+        explicitEntry.setFinancialSubObjectCode(GENERAL_LEDGER_PENDING_ENTRY_CODE.getBlankFinancialSubObjectCode());
         explicitEntry.setFinancialObjectTypeCode(SpringContext.getBean(OptionsService.class).getCurrentYearOptions().getFinObjTypeExpenditureexpCd());
         explicitEntry.setTransactionDebitCreditCode(GL_DEBIT_CODE);
 
@@ -432,9 +432,9 @@ public class DisbursementVoucherDocumentRule extends AccountingDocumentRuleBase 
         explicitEntry.setFinancialObjectTypeCode(objectCode.getFinancialObjectTypeCode());
         explicitEntry.setTransactionDebitCreditCode(GL_CREDIT_CODE);
 
-        explicitEntry.setFinancialSubObjectCode(GENERAL_LEDGER_PENDING_ENTRY_CODE.BLANK_SUB_OBJECT_CODE);
-        explicitEntry.setSubAccountNumber(GENERAL_LEDGER_PENDING_ENTRY_CODE.BLANK_SUB_ACCOUNT_NUMBER);
-        explicitEntry.setProjectCode(GENERAL_LEDGER_PENDING_ENTRY_CODE.BLANK_PROJECT_STRING);
+        explicitEntry.setFinancialSubObjectCode(GENERAL_LEDGER_PENDING_ENTRY_CODE.getBlankFinancialSubObjectCode());
+        explicitEntry.setSubAccountNumber(GENERAL_LEDGER_PENDING_ENTRY_CODE.getBlankSubAccountNumber());
+        explicitEntry.setProjectCode(GENERAL_LEDGER_PENDING_ENTRY_CODE.getBlankProjectCode());
 
         explicitEntry.setTransactionLedgerEntryDescription("Automatic credit for wire transfer fee");
 

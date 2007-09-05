@@ -1035,12 +1035,12 @@ public abstract class AccountingDocumentRuleBase extends GeneralLedgerPostingDoc
         explicitEntry.setFinancialObjectTypeCode(accountingLine.getObjectCode().getFinancialObjectTypeCode());
         explicitEntry.setOrganizationDocumentNumber(accountingDocument.getDocumentHeader().getOrganizationDocumentNumber());
         explicitEntry.setOrganizationReferenceId(accountingLine.getOrganizationReferenceId());
-        explicitEntry.setProjectCode(getEntryValue(accountingLine.getProjectCode(), GENERAL_LEDGER_PENDING_ENTRY_CODE.BLANK_PROJECT_STRING));
+        explicitEntry.setProjectCode(getEntryValue(accountingLine.getProjectCode(), GENERAL_LEDGER_PENDING_ENTRY_CODE.getBlankProjectCode()));
         explicitEntry.setReferenceFinancialDocumentNumber(getEntryValue(accountingLine.getReferenceNumber(), BLANK_SPACE));
         explicitEntry.setReferenceFinancialDocumentTypeCode(getEntryValue(accountingLine.getReferenceTypeCode(), BLANK_SPACE));
         explicitEntry.setReferenceFinancialSystemOriginationCode(getEntryValue(accountingLine.getReferenceOriginCode(), BLANK_SPACE));
-        explicitEntry.setSubAccountNumber(getEntryValue(accountingLine.getSubAccountNumber(), GENERAL_LEDGER_PENDING_ENTRY_CODE.BLANK_SUB_ACCOUNT_NUMBER));
-        explicitEntry.setFinancialSubObjectCode(getEntryValue(accountingLine.getFinancialSubObjectCode(), GENERAL_LEDGER_PENDING_ENTRY_CODE.BLANK_SUB_OBJECT_CODE));
+        explicitEntry.setSubAccountNumber(getEntryValue(accountingLine.getSubAccountNumber(), GENERAL_LEDGER_PENDING_ENTRY_CODE.getBlankSubAccountNumber()));
+        explicitEntry.setFinancialSubObjectCode(getEntryValue(accountingLine.getFinancialSubObjectCode(), GENERAL_LEDGER_PENDING_ENTRY_CODE.getBlankFinancialSubObjectCode()));
         explicitEntry.setTransactionEntryOffsetIndicator(false);
         explicitEntry.setTransactionLedgerEntryAmount(getGeneralLedgerPendingEntryAmountForAccountingLine(accountingLine));
         explicitEntry.setTransactionLedgerEntryDescription(getEntryValue(accountingLine.getFinancialDocumentLineDescription(), accountingDocument.getDocumentHeader().getFinancialDocumentDescription()));

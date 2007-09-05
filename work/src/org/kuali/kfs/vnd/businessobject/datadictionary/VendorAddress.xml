@@ -179,7 +179,7 @@
 			<attributeReference name="newCollectionRecord" 
                                 sourceClassName="org.kuali.core.bo.AttributeReferenceDummy"
                                 sourceAttributeName="newCollectionRecord" />
-
+			
             <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
 			<attributeReference name="vendorLine1Address" sourceClassName="org.kuali.module.vendor.bo.VendorAttributeReferenceDummy" sourceAttributeName="line1Address" >
                 <required>true</required>

@@ -150,6 +150,9 @@
                            <maintainableField name="vendorDefaultAddressGeneratedIdentifier"  readOnly="true" />
                            <maintainableField name="newCollectionRecord" />
                            <maintainableField name="versionNumber" />
+	                       <maintainableField name="active">
+	                       	   <defaultValue>true</defaultValue>
+	                       </maintainableField>                           
                            <summaryFields>
            		       		   <summaryField name="vendorCampusCode" />
            		       	   </summaryFields>
@@ -196,6 +199,9 @@
                            <maintainableField name="versionNumber" />
                            <maintainableField name="vendorContactGeneratedIdentifier"  readOnly="true" />
                            <maintainableField name="vendorContactPhoneGeneratedIdentifier"  readOnly="true" />
+	                       <maintainableField name="active">
+	                       	   <defaultValue>true</defaultValue>
+	                       </maintainableField>
                         <summaryFields>
            		       		<summaryField name="vendorPhoneTypeCode" />
                             <summaryField name="vendorPhoneNumber" />
@@ -338,6 +344,9 @@
                            <maintainableField name="vendorContractGeneratedIdentifier"  readOnly="true" />
                            <maintainableField name="newCollectionRecord" />
 						   <maintainableField name="versionNumber" />
+	                       <maintainableField name="active">
+	                       	   <defaultValue>true</defaultValue>
+	                       </maintainableField>
                            <summaryFields>
                                <summaryField name="chartOfAccountsCode" />
                                <summaryField name="organizationCode" />

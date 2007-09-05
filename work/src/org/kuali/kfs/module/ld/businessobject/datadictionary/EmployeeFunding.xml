@@ -125,5 +125,12 @@
 	        -->
             <attributeReference name="dummyBusinessObject.pendingEntryOption" sourceClassName="org.kuali.module.gl.bo.TransientBalanceInquiryAttributes" sourceAttributeName="pendingEntryOption" />
 		</attributes>
+		
+		<relationships>
+            <relationship objectAttributeName="ledgerPerson" >
+                <primitiveAttribute sourceName="ledgerPerson.personUniversalIdentifier" targetName="personUniversalIdentifier" />
+				<supportAttribute sourceName="emplid" targetName="personPayrollIdentifier" identifier="true" />
+	        </relationship>
+        </relationships>
     </businessObject>
 </dictionaryEntry>

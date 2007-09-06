@@ -78,15 +78,7 @@ public class CreditMemoAction extends AccountsPayableActionBase {
         }
 
         // perform validation of init tab
-        boolean isValid = SpringContext.getBean(KualiRuleService.class).applyRules(new ContinueAccountsPayableEvent(creditMemoDocument));
-        if (!isValid) {
-            creditMemoDocument.setStatusCode(PurapConstants.CreditMemoStatuses.INITIATE);
-        }
-        else {
-            creditMemoDocument.setStatusCode(PurapConstants.CreditMemoStatuses.IN_PROCESS);
-            SpringContext.getBean(CreditMemoCreateService.class).populateDocumentAfterInit(creditMemoDocument);
-            SpringContext.getBean(CreditMemoService.class).saveDocumentWithoutValidation(creditMemoDocument);
-        }
+        SpringContext.getBean(CreditMemoService.class).populateAndSaveCreditMemo(creditMemoDocument);
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }

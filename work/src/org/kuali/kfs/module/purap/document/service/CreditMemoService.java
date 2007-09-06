@@ -67,7 +67,14 @@ public interface CreditMemoService {
      * @param creditMemoDocument - credit memo document to save
      */
     public void saveDocumentWithoutValidation(CreditMemoDocument creditMemoDocument);
-    
+
+    /**
+     * Persists the credit memo with business rule checks.
+     * 
+     * @param creditMemoDocument - credit memo document to save
+     */
+    public void populateAndSaveCreditMemo(CreditMemoDocument creditMemoDocument);
+
     /**
      * Performs checks for approve and any necessary modifications of the document.
      * 

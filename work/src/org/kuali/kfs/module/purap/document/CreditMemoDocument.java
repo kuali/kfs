@@ -24,6 +24,7 @@ import java.util.List;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.bo.Note;
 import org.kuali.core.bo.user.UniversalUser;
+import org.kuali.core.rule.event.KualiDocumentEvent;
 import org.kuali.core.service.DataDictionaryService;
 import org.kuali.core.service.DateTimeService;
 import org.kuali.core.service.NoteService;
@@ -40,6 +41,8 @@ import org.kuali.module.purap.PurapWorkflowConstants.NodeDetails;
 import org.kuali.module.purap.PurapWorkflowConstants.CreditMemoDocument.NodeDetailEnum;
 import org.kuali.module.purap.bo.CreditMemoItem;
 import org.kuali.module.purap.bo.CreditMemoStatusHistory;
+import org.kuali.module.purap.rule.event.ContinueAccountsPayableEvent;
+import org.kuali.module.purap.service.CreditMemoCreateService;
 import org.kuali.module.purap.service.CreditMemoService;
 import org.kuali.module.purap.service.PaymentRequestService;
 import org.kuali.module.purap.service.PurapGeneralLedgerService;
@@ -540,4 +543,16 @@ public class CreditMemoDocument extends AccountsPayableDocumentBase {
     public KualiDecimal getInitialAmount(){
         return this.getCreditMemoAmount();
     }
+
+    @Override
+    public void prepareForSave(KualiDocumentEvent event) {
+        
+        //first populate, then call super
+        if(event instanceof ContinueAccountsPayableEvent){
+            SpringContext.getBean(CreditMemoCreateService.class).populateDocumentAfterInit(this);
+        }
+        
+        super.prepareForSave(event);
+    }
+        
 }

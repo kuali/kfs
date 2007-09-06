@@ -96,13 +96,8 @@ public class PaymentRequestAction extends AccountsPayableActionBase {
 
         // If we are here either there was no duplicate or there was a duplicate and the user hits continue, in either case we need
         // to validate the business rules
-        /// paymentRequestDocument.getDocumentHeader().setFinancialDocumentDescription("dummy data to pass the business rule");
-        boolean rulePassed = SpringContext.getBean(KualiRuleService.class).applyRules(new ContinueAccountsPayableEvent(paymentRequestDocument));
-
-        if (rulePassed) {
-            SpringContext.getBean(PaymentRequestService.class).populateAndSavePaymentRequest(paymentRequestDocument);
-        }
-
+        SpringContext.getBean(PaymentRequestService.class).populateAndSavePaymentRequest(paymentRequestDocument);
+        
         //force calculation
         preqForm.setCalculated(false);
 
@@ -143,6 +138,7 @@ public class PaymentRequestAction extends AccountsPayableActionBase {
 
         return forward;
     }
+
 
     /**
      * This action puts a payment on hold, prompting for a reason before hand.

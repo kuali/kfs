@@ -63,6 +63,7 @@ import org.kuali.module.purap.document.CreditMemoDocument;
 import org.kuali.module.purap.document.PaymentRequestDocument;
 import org.kuali.module.purap.document.PurchaseOrderDocument;
 import org.kuali.module.purap.exceptions.PurError;
+import org.kuali.module.purap.rule.event.ContinueAccountsPayableEvent;
 import org.kuali.module.purap.service.AccountsPayableService;
 import org.kuali.module.purap.service.NegativePaymentRequestApprovalLimitService;
 import org.kuali.module.purap.service.PaymentRequestService;
@@ -1179,9 +1180,16 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
      * @see org.kuali.module.purap.service.PaymentRequestService#populateAndSavePaymentRequest(org.kuali.module.purap.document.PaymentRequestDocument)
      */
     public void populateAndSavePaymentRequest(PaymentRequestDocument preq) throws WorkflowException {
-        preq.setStatusCode(PurapConstants.PaymentRequestStatuses.IN_PROCESS);
-        SpringContext.getBean(PaymentRequestService.class).populatePaymentRequest(preq);
-        documentService.saveDocument(preq);
+        try {
+            preq.setStatusCode(PurapConstants.PaymentRequestStatuses.IN_PROCESS);            
+            documentService.saveDocument(preq, ContinueAccountsPayableEvent.class);
+        }
+        catch (WorkflowException we) {
+            preq.setStatusCode(PurapConstants.CreditMemoStatuses.INITIATE);
+            String errorMsg = "Error saving document # " + preq.getDocumentHeader().getDocumentNumber() + " " + we.getMessage(); 
+            LOG.error(errorMsg, we);
+            throw new RuntimeException(errorMsg, we);
+        }        
     }
     
     /*

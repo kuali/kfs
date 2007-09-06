@@ -26,6 +26,8 @@ import java.util.List;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.exceptions.UserNotFoundException;
+import org.kuali.core.rule.event.KualiDocumentEvent;
+import org.kuali.core.rule.event.RouteDocumentEvent;
 import org.kuali.core.service.DataDictionaryService;
 import org.kuali.core.service.DateTimeService;
 import org.kuali.core.service.KualiConfigurationService;
@@ -49,6 +51,7 @@ import org.kuali.module.purap.bo.PaymentRequestView;
 import org.kuali.module.purap.bo.PurApAccountingLine;
 import org.kuali.module.purap.bo.PurchaseOrderItem;
 import org.kuali.module.purap.bo.RecurringPaymentType;
+import org.kuali.module.purap.rule.event.ContinueAccountsPayableEvent;
 import org.kuali.module.purap.service.PaymentRequestService;
 import org.kuali.module.purap.service.PurapService;
 import org.kuali.module.purap.service.PurchaseOrderService;
@@ -1237,4 +1240,16 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
     public KualiDecimal getInitialAmount(){
         return this.getVendorInvoiceAmount();
     }
+    
+    @Override
+    public void prepareForSave(KualiDocumentEvent event) {
+        
+        //first populate, then call super
+        if(event instanceof ContinueAccountsPayableEvent){
+            SpringContext.getBean(PaymentRequestService.class).populatePaymentRequest(this);
+        }
+        
+        super.prepareForSave(event);
+    }
+    
 }

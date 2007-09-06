@@ -53,6 +53,8 @@ import org.kuali.module.purap.document.CreditMemoDocument;
 import org.kuali.module.purap.document.PaymentRequestDocument;
 import org.kuali.module.purap.document.PurchaseOrderDocument;
 import org.kuali.module.purap.document.PurchasingAccountsPayableDocument;
+import org.kuali.module.purap.rule.event.ContinueAccountsPayableEvent;
+import org.kuali.module.purap.service.CreditMemoCreateService;
 import org.kuali.module.purap.service.CreditMemoService;
 import org.kuali.module.purap.service.PaymentRequestService;
 import org.kuali.module.purap.service.PurapAccountingService;
@@ -217,6 +219,8 @@ public class CreditMemoServiceImpl implements CreditMemoService {
     }
 
     /**
+     * Not used
+     * 
      * @see org.kuali.module.purap.service.CreditMemoService#saveDocumentWithoutValidation(org.kuali.module.purap.document.CreditMemoDocument)
      */
     public void saveDocumentWithoutValidation(CreditMemoDocument document) {
@@ -226,6 +230,23 @@ public class CreditMemoServiceImpl implements CreditMemoService {
 
         }
         catch (WorkflowException we) {
+            String errorMsg = "Error saving document # " + document.getDocumentHeader().getDocumentNumber() + " " + we.getMessage(); 
+            LOG.error(errorMsg, we);
+            throw new RuntimeException(errorMsg, we);
+        }
+    }
+
+    /**
+     * @see org.kuali.module.purap.service.CreditMemoService#saveDocument(org.kuali.module.purap.document.CreditMemoDocument)
+     */
+    public void populateAndSaveCreditMemo(CreditMemoDocument document) {
+        try {
+            document.setStatusCode(PurapConstants.CreditMemoStatuses.IN_PROCESS);            
+            documentService.saveDocument(document, ContinueAccountsPayableEvent.class);
+        }
+        catch (WorkflowException we) {
+            //set the status back to initiate
+            document.setStatusCode(PurapConstants.CreditMemoStatuses.INITIATE);
             String errorMsg = "Error saving document # " + document.getDocumentHeader().getDocumentNumber() + " " + we.getMessage(); 
             LOG.error(errorMsg, we);
             throw new RuntimeException(errorMsg, we);

@@ -656,8 +656,9 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
         
         distributeAccounting(paymentRequest);
         
+        //TODO: Chris - review but this shouldn't be necessary since it's happening in 
         //update the amounts on the accounts
-        SpringContext.getBean(PurapAccountingService.class).updateAccountAmounts(paymentRequest);
+//        SpringContext.getBean(PurapAccountingService.class).updateAccountAmounts(paymentRequest);
     }
     
     
@@ -711,6 +712,9 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
      * @param paymentRequestDocument
      */
     private void distributeAccounting(PaymentRequestDocument paymentRequestDocument) {
+        //update the account amounts before doing any distribution
+        SpringContext.getBean(PurapAccountingService.class).updateAccountAmounts(paymentRequestDocument);
+        
         for (PaymentRequestItem item : (List<PaymentRequestItem>)paymentRequestDocument.getItems()) {
             KualiDecimal totalAmount = KualiDecimal.ZERO;
             List<PurApAccountingLine> distributedAccounts = null;
@@ -730,7 +734,6 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
 
                     totalAmount = paymentRequestDocument.getGrandTotal();
                     
-                    SpringContext.getBean(PurapAccountingService.class).updateAccountAmounts(paymentRequestDocument);
                     summaryAccounts = SpringContext.getBean(PurapAccountingService.class).generateSummary(paymentRequestDocument.getItems());
                     
                     distributedAccounts = SpringContext.getBean(PurapAccountingService.class).generateAccountDistributionForProration(summaryAccounts, totalAmount, PurapConstants.PRORATION_SCALE,PaymentRequestAccount.class);
@@ -761,6 +764,9 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
                 }
             }
         }
+        //FIXME Chris - this could probably be (this could probably be avoided if we updated amounts in proration
+        //update again now that distribute is finished. 
+        SpringContext.getBean(PurapAccountingService.class).updateAccountAmounts(paymentRequestDocument);
     }
               
     /**

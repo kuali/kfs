@@ -300,8 +300,8 @@ public class PaymentRequestAction extends AccountsPayableActionBase {
         SpringContext.getBean(KualiRuleService.class).applyRules(new CalculateAccountsPayableEvent(preqDoc));
 
         SpringContext.getBean(PaymentRequestService.class).calculatePaymentRequest(preqDoc, true);
-        // TODO Chris - an updateAccountAmounts is done at the end of the above method... need it here?
-        SpringContext.getBean(PurapAccountingService.class).updateAccountAmounts(apDoc);
+        // TODO Chris - an updateAccountAmounts is done at the end of the above method... need it here? (I don't think so)
+//        SpringContext.getBean(PurapAccountingService.class).updateAccountAmounts(apDoc);
     }
 
 

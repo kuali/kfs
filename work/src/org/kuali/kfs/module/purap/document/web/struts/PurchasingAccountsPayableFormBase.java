@@ -20,11 +20,13 @@ import java.util.List;
 
 import org.apache.commons.collections.ListUtils;
 import org.kuali.core.util.ObjectUtils;
+import org.kuali.core.util.TypedArrayList;
 import org.kuali.kfs.bo.AccountingLine;
 import org.kuali.kfs.web.struts.form.KualiAccountingDocumentFormBase;
 import org.kuali.module.purap.bo.PurApAccountingLine;
 import org.kuali.module.purap.bo.PurchasingApItem;
 import org.kuali.module.purap.document.PurchasingAccountsPayableDocument;
+import org.kuali.module.purap.util.AccountSummaryAccount;
 
 /**
  * 
@@ -32,6 +34,22 @@ import org.kuali.module.purap.document.PurchasingAccountsPayableDocument;
  */
 public class PurchasingAccountsPayableFormBase extends KualiAccountingDocumentFormBase {
 
+    private List<AccountSummaryAccount> accountSummaryAccounts;
+    
+    
+
+    public PurchasingAccountsPayableFormBase() {
+        super();
+        accountSummaryAccounts = new TypedArrayList(AccountSummaryAccount.class);
+    }
+
+    /**
+     * this method updates the accountSummaryAccounts that are contained in the form
+     * currently we are only calling this on load and when refreshAccountSummary is called.
+     */
+    public void refreshAccountSummmary() {
+        
+    }
 
     /**
      * @see org.kuali.kfs.web.struts.form.KualiAccountingDocumentFormBase#getBaselineSourceAccountingLines()

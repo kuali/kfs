@@ -53,11 +53,11 @@ public class PurchasingAccountsPayableActionBase extends KualiAccountingDocument
     @Override
     protected void loadDocument(KualiDocumentFormBase kualiDocumentFormBase) throws WorkflowException {
         super.loadDocument(kualiDocumentFormBase);
-        PurchasingAccountsPayableDocument document = (PurchasingAccountsPayableDocument) kualiDocumentFormBase.getDocument();
+        PurchasingAccountsPayableFormBase purapForm = (PurchasingAccountsPayableFormBase) kualiDocumentFormBase;
+        PurchasingAccountsPayableDocument document = (PurchasingAccountsPayableDocument)purapForm.getDocument();
         SpringContext.getBean(PurapAccountingService.class).updateAccountAmounts(document);
         
-        //TODO f2f: need to replace this with new method
-        //document.refreshAccountSummary();
+        purapForm.refreshAccountSummmary();
         
         //FIXME: temporary workaround see KULPURAP-1397
         for (org.kuali.core.bo.Note note : (java.util.List<org.kuali.core.bo.Note>)document.getBoNotes()) {
@@ -89,11 +89,11 @@ public class PurchasingAccountsPayableActionBase extends KualiAccountingDocument
     }
 
     public ActionForward refreshAccountSummary(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        KualiAccountingDocumentFormBase baseForm = (KualiAccountingDocumentFormBase) form;
-        PurchasingAccountsPayableDocument document = (PurchasingAccountsPayableDocument) baseForm.getDocument();
+        PurchasingAccountsPayableFormBase purapForm = (PurchasingAccountsPayableFormBase) form;        
+        PurchasingAccountsPayableDocument document = (PurchasingAccountsPayableDocument) purapForm.getDocument();
         SpringContext.getBean(PurapAccountingService.class).updateAccountAmounts(document);
         //TODO f2f: need to replace this with new method
-        //document.refreshAccountSummary();
+        purapForm.refreshAccountSummmary();
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 

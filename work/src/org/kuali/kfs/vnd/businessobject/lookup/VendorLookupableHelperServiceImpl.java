@@ -216,7 +216,10 @@ public class VendorLookupableHelperServiceImpl extends AbstractLookupableHelperS
         validateVendorName(fieldValues);
         validateTaxNumber(fieldValues);
         validateNumberOfSearchCriteria(fieldValues);
+        /* This validation is removed, as of requested by Jira 1456. 
+         * So now users aren't required to choose vendor name or state when vendor type is selected.
         validateTypeNameState(fieldValues);
+        */
         validateStatusName(fieldValues);
         validateStateType(fieldValues);
         

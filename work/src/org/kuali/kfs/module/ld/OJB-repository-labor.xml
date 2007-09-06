@@ -370,18 +370,6 @@
     <reference-descriptor name="documentHeader" class-ref="org.kuali.core.bo.DocumentHeader" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="documentNumber" />
     </reference-descriptor>
-    <reference-descriptor name="ledgerBalance" class-ref="org.kuali.module.labor.bo.LedgerBalance" auto-retrieve="true" auto-update="none" auto-delete="none">
-		<foreignkey field-ref="universityFiscalYear" />
-		<foreignkey field-ref="chartOfAccountsCode" />
-		<foreignkey field-ref="accountNumber" />
-		<foreignkey field-ref="subAccountNumber" />
-		<foreignkey field-ref="financialObjectCode" />
-		<foreignkey field-ref="financialSubObjectCode" />
-		<foreignkey field-ref="financialBalanceTypeCode" />
-		<foreignkey field-ref="financialObjectTypeCode" />
-		<foreignkey field-ref="positionNumber" />
-		<foreignkey field-ref="emplid" />
-    </reference-descriptor>
     <reference-descriptor name="laborObject" class-ref="org.kuali.module.labor.bo.LaborObject" auto-retrieve="true" auto-update="none" auto-delete="none">
 		<foreignkey field-ref="universityFiscalYear" />
 		<foreignkey field-ref="chartOfAccountsCode" />

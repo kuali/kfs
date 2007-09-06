@@ -111,7 +111,8 @@ public class LaborLedgerPendingEntry extends GeneralLedgerPendingEntry implement
     private AccountingPeriod payrollEndDateFiscalPeriod;
     private Options option;
     private UniversityDate reversalDate;
-    private OriginationCode financialSystemOrigination;    
+    private OriginationCode financialSystemOrigination;
+    private PositionData positionData;
     
     @Deprecated
     private DocumentHeader financialDocument;
@@ -1493,5 +1494,21 @@ public class LaborLedgerPendingEntry extends GeneralLedgerPendingEntry implement
      */
     public void setDocumentHeader(DocumentHeader documentHeader) {
         this.documentHeader = documentHeader;
+    }
+
+    /**
+     * Gets the positionData attribute. 
+     * @return Returns the positionData.
+     */
+    public PositionData getPositionData() {
+        return positionData;
+    }
+
+    /**
+     * Sets the positionData attribute value.
+     * @param positionData The positionData to set.
+     */
+    public void setPositionData(PositionData positionData) {
+        this.positionData = positionData;
     }
 }

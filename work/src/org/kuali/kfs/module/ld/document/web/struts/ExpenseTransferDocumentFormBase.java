@@ -19,8 +19,11 @@ import java.util.Map;
 
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSPropertyConstants;
+import org.kuali.kfs.bo.SourceAccountingLine;
+import org.kuali.kfs.bo.TargetAccountingLine;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.service.OptionsService;
+import org.kuali.module.labor.bo.LaborAccountingLineOverride;
 
 /**
  * This class is the base action form for all expense transfer documents.
@@ -41,7 +44,7 @@ public abstract class ExpenseTransferDocumentFormBase extends LaborDocumentFormB
      * The name of the collection looked up (by a multiple value lookup)
      */
     private String lookedUpCollectionName;
-    
+
     private Integer universityFiscalYear;
 
     /**
@@ -101,7 +104,7 @@ public abstract class ExpenseTransferDocumentFormBase extends LaborDocumentFormB
     public void setLookedUpCollectionName(String lookedUpCollectionName) {
         this.lookedUpCollectionName = lookedUpCollectionName;
     }
-    
+
     /**
      * Gets the universityFiscalYear attribute.
      * 
@@ -119,7 +122,7 @@ public abstract class ExpenseTransferDocumentFormBase extends LaborDocumentFormB
     public void setUniversityFiscalYear(Integer universityFiscalYear) {
         this.universityFiscalYear = universityFiscalYear;
     }
-    
+
     /**
      * populate the search fields with the last search criteria
      */
@@ -168,5 +171,25 @@ public abstract class ExpenseTransferDocumentFormBase extends LaborDocumentFormB
         map.remove(KFSPropertyConstants.ORGANIZATION_REFERENCE_ID);
         map.remove(KFSPropertyConstants.POSITION_NUMBER);
         return map;
+    }
+
+    /**
+     * deal with the labor-specific override code to the given source accounting line
+     * @see org.kuali.kfs.web.struts.form.KualiAccountingDocumentFormBase#populateSourceAccountingLine(org.kuali.kfs.bo.SourceAccountingLine)
+     */
+    @Override
+    public void populateSourceAccountingLine(SourceAccountingLine sourceLine) {
+        super.populateSourceAccountingLine(sourceLine);
+        LaborAccountingLineOverride.populateFromInput(sourceLine);
+    }
+
+    /**
+     * deal with the labor-specific override code to the given target accounting line
+     * @see org.kuali.kfs.web.struts.form.KualiAccountingDocumentFormBase#populateTargetAccountingLine(org.kuali.kfs.bo.TargetAccountingLine)
+     */
+    @Override
+    public void populateTargetAccountingLine(TargetAccountingLine targetLine) {
+        super.populateTargetAccountingLine(targetLine);
+        LaborAccountingLineOverride.populateFromInput(targetLine);
     }
 }

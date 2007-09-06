@@ -21,6 +21,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
@@ -45,12 +46,14 @@ import org.kuali.core.web.struts.form.KualiDocumentFormBase;
 import org.kuali.core.web.struts.form.KualiForm;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSPropertyConstants;
+import org.kuali.kfs.bo.AccountingLine;
 import org.kuali.kfs.bo.AccountingLineOverride;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.rule.event.AddAccountingLineEvent;
 import org.kuali.module.gl.GLConstants;
 import org.kuali.module.labor.LaborConstants;
 import org.kuali.module.labor.bo.ExpenseTransferAccountingLine;
+import org.kuali.module.labor.bo.LaborAccountingLineOverride;
 import org.kuali.module.labor.bo.LedgerBalance;
 import org.kuali.module.labor.document.LaborExpenseTransferDocumentBase;
 import org.kuali.module.labor.service.SegmentedLookupResultsService;
@@ -200,19 +203,22 @@ public class ExpenseTransferDocumentActionBase extends LaborDocumentActionBase {
                             String periodCode = LaborConstants.periodCodeMapping.get(selectedPeriodName);
                             ExpenseTransferAccountingLine line = (ExpenseTransferAccountingLine) expenseTransferDocumentForm.getFinancialDocument().getSourceAccountingLineClass().newInstance();
                             LaborExpenseTransferDocumentBase financialDocument = (LaborExpenseTransferDocumentBase) expenseTransferDocumentForm.getDocument();
-                        
+
                             try {
                                 KualiDecimal lineAmount = (new KualiDecimal(selectedPeriodAmount)).divide(new KualiDecimal(100));
-                                
-                                //Notice that user tried to import an accounting line which has Zero amount
-                                if (KFSConstants.ZERO.compareTo(lineAmount) == 0) { 
+
+                                // Notice that user tried to import an accounting line which has Zero amount
+                                if (KFSConstants.ZERO.compareTo(lineAmount) == 0) {
                                     GlobalVariables.getErrorMap().putError(KFSPropertyConstants.SOURCE_ACCOUNTING_LINES, ERROR_ZERO_AMOUNT, "an accounting line");
-                                } else {
+                                }
+                                else {
                                     buildAccountingLineFromLedgerBalance((LedgerBalance) bo, line, lineAmount, periodCode);
 
-                                    //SpringContext.getBean(KualiRuleService.class).applyRules(new AddAccountingLineEvent(KFSConstants.NEW_SOURCE_ACCT_LINE_PROPERTY_NAME, financialDocument, line));
+                                    // SpringContext.getBean(KualiRuleService.class).applyRules(new
+                                    // AddAccountingLineEvent(KFSConstants.NEW_SOURCE_ACCT_LINE_PROPERTY_NAME, financialDocument,
+                                    // line));
                                     SpringContext.getBean(PersistenceService.class).retrieveNonKeyFields(line);
-                                       
+
                                     insertAccountingLine(true, expenseTransferDocumentForm, line);
                                     updateAccountOverrideCode(line);
                                     processAccountingLineOverrides(line);
@@ -232,7 +238,7 @@ public class ExpenseTransferDocumentActionBase extends LaborDocumentActionBase {
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
-    
+
     /**
      * overload the method in order to have balance importing section be populated with the last search critera
      * 
@@ -241,7 +247,7 @@ public class ExpenseTransferDocumentActionBase extends LaborDocumentActionBase {
     @Override
     protected void loadDocument(KualiDocumentFormBase kualiDocumentFormBase) throws WorkflowException {
         super.loadDocument(kualiDocumentFormBase);
-        ExpenseTransferDocumentFormBase expenseTransferDocumentForm = (ExpenseTransferDocumentFormBase)kualiDocumentFormBase;
+        ExpenseTransferDocumentFormBase expenseTransferDocumentForm = (ExpenseTransferDocumentFormBase) kualiDocumentFormBase;
         expenseTransferDocumentForm.populateSearchFields();
     }
 
@@ -377,8 +383,36 @@ public class ExpenseTransferDocumentActionBase extends LaborDocumentActionBase {
         line.setPayrollEndDateFiscalPeriodCode(periodCode);
     }
 
-    private void updateAccountOverrideCode(ExpenseTransferAccountingLine line){        
-        AccountingLineOverride override = AccountingLineOverride.determineNeededOverrides(line);
+    /**
+     * @see org.kuali.kfs.web.struts.action.KualiAccountingDocumentActionBase#processAccountingLineOverrides(java.util.List)
+     */
+    @Override
+    protected void processAccountingLineOverrides(List accountingLines) {
+        if (!accountingLines.isEmpty()) {
+            SpringContext.getBean(PersistenceService.class).retrieveReferenceObjects(accountingLines, AccountingLineOverride.REFRESH_FIELDS);
+
+            for (Iterator i = accountingLines.iterator(); i.hasNext();) {
+                AccountingLine line = (AccountingLine) i.next();
+                LaborAccountingLineOverride.processForOutput(line);
+            }
+        }
+    }
+    
+    /**
+     * @see org.kuali.kfs.web.struts.action.KualiAccountingDocumentActionBase#clearOverridesThatBecameUnneeded(org.kuali.kfs.bo.AccountingLine)
+     */
+    @Override
+    protected void clearOverridesThatBecameUnneeded(AccountingLine formLine) {
+        AccountingLineOverride currentlyNeeded = LaborAccountingLineOverride.determineNeededOverrides(formLine);
+        AccountingLineOverride currentOverride = AccountingLineOverride.valueOf(formLine.getOverrideCode());
+        if (!currentOverride.isValidMask(currentlyNeeded)) {
+            // todo: handle unsupported combinations of overrides (not a problem until we allow certain multiple overrides)
+        }
+        formLine.setOverrideCode(currentOverride.mask(currentlyNeeded).getCode());
+    }
+
+    private void updateAccountOverrideCode(ExpenseTransferAccountingLine line) {
+        AccountingLineOverride override = LaborAccountingLineOverride.determineNeededOverrides(line);
         line.setOverrideCode(override.getCode());
     }
 

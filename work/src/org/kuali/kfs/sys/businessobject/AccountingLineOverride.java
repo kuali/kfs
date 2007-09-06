@@ -264,9 +264,6 @@ public class AccountingLineOverride {
         if (line.isObjectBudgetOverride()) {
             overrideInputComponents.add(COMPONENT.NON_BUDGETED_OBJECT);
         }
-        if (line.getNonFringeAccountOverride()) {
-            overrideInputComponents.add(COMPONENT.NON_FRINGE_ACCOUNT_USED);
-        }
         if (!isValidComponentSet(overrideInputComponents)) {
             // todo: error for invalid override checkbox combinations, for which there is no override code
         }
@@ -287,8 +284,6 @@ public class AccountingLineOverride {
         line.setAccountExpiredOverrideNeeded(needed.hasComponent(COMPONENT.EXPIRED_ACCOUNT));
         line.setObjectBudgetOverride(fromCurrentCode.hasComponent(COMPONENT.NON_BUDGETED_OBJECT));
         line.setObjectBudgetOverrideNeeded(needed.hasComponent(COMPONENT.NON_BUDGETED_OBJECT));
-        line.setNonFringeAccountOverride(fromCurrentCode.hasComponent(COMPONENT.NON_FRINGE_ACCOUNT_USED));
-        line.setNonFringeAccountOverrideNeeded(needed.hasComponent(COMPONENT.NON_FRINGE_ACCOUNT_USED));
     }
 
     /**
@@ -306,9 +301,6 @@ public class AccountingLineOverride {
             neededOverrideComponents.add(COMPONENT.NON_BUDGETED_OBJECT);
         }
 
-        if (needsNonFringAccountOverride(line.getAccount())) {
-            neededOverrideComponents.add(COMPONENT.NON_FRINGE_ACCOUNT_USED);
-        }
         if (!isValidComponentSet(neededOverrideComponents)) {
             // todo: error for invalid override checkbox combinations, for which there is no override code
         }

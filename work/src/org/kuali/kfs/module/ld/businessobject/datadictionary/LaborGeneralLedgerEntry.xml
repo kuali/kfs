@@ -54,6 +54,7 @@
         </inquiry>
 
         <lookup>
+        	<lookupableID>laborPendingEntryLookupable</lookupableID>	
             <title>Labor General Ledger Entry Lookup</title>
 
             <instructions>Look up a Labor General Ledger Entry</instructions>

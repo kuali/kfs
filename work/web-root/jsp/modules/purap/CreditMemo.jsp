@@ -24,7 +24,7 @@
     <c:set var="displayInitTab" value="${KualiForm.editingMode['displayInitTab']}" scope="request" />
     
     <!-- setting the variable to force the Posting Year in doucment overview tag to be read only -->
-    <c:set var="aPDocument" value="true" scope="request" /> 
+    <c:set var="fiscalYearReadOnly" value="true" scope="request" /> 
 
     <kul:hiddenDocumentFields excludePostingYear="true" />
 	
@@ -48,7 +48,7 @@
 		  <h3>This Credit Memo has been Held by <c:out value="${KualiForm.document.lastActionPerformedByPersonName}"/></h3>		
 	    </c:if>
 	    
-		<kul:documentOverview editingMode="${KualiForm.editingMode}" includePostingYear="true" postingYearAttributes="${DataDictionary.CreditMemoDocument.attributes}" />
+		<purap:documentOverview editingMode="${KualiForm.editingMode}" includePostingYear="true" postingYearAttributes="${DataDictionary.CreditMemoDocument.attributes}" />
 	        
 		<purap:vendor documentAttributes="${DataDictionary.CreditMemoDocument.attributes}" displayPurchaseOrderFields="false" displayCreditMemoFields="true"/>
 	

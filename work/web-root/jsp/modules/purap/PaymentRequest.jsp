@@ -27,7 +27,7 @@
     <c:set var="displayInitTab" value="${KualiForm.editingMode['displayInitTab']}" scope="request" />
     
     <!-- setting the variable to force the Posting Year in doucment overview tag to be read only -->
-    <c:set var="aPDocument" value="true" scope="request" />
+    <c:set var="fiscalYearReadOnly" value="true" scope="request" />
     
 
     <kul:hiddenDocumentFields excludePostingYear="true" />
@@ -64,7 +64,7 @@
 	</c:if>
 	
 	<c:if test="${not KualiForm.editingMode['displayInitTab']}" >
-	    <kul:documentOverview editingMode="${KualiForm.editingMode}"
+	    <purap:documentOverview editingMode="${KualiForm.editingMode}"
 	        includePostingYear="true"
 	        postingYearAttributes="${DataDictionary.PaymentRequestDocument.attributes}" />
 	</c:if>

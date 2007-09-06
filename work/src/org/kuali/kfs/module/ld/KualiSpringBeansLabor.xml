@@ -109,9 +109,6 @@
 		<property name="laborLedgerPendingEntryService">
 			<ref bean="laborLedgerPendingEntryService" />
 		</property>
-		<property name="kualiConfigurationService">
-			<ref bean="kualiConfigurationService" />
-		</property>
     </bean>
 	
     <bean id="laborGeneralLedgerEntryService" class="org.kuali.module.labor.service.impl.LaborGeneralLedgerEntryServiceImpl">

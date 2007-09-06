@@ -22,6 +22,8 @@ import java.util.Map;
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryByCriteria;
 import org.apache.ojb.broker.query.QueryFactory;
+import org.kuali.core.lookup.LookupUtils;
+import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
 import org.kuali.kfs.dao.ojb.GeneralLedgerPendingEntryDaoOjb;
 import org.kuali.module.labor.bo.LaborLedgerPendingEntry;
 import org.kuali.module.labor.dao.LaborLedgerPendingEntryDao;

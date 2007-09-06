@@ -68,7 +68,7 @@
 	    <gl:generalLedgerPendingEntries />
 
     <!-- TEMPORARILY DISABLING ACCOUNT SUMMARY FUNCTIONALITY -->
-	    <!--  purap:accountsummary
+	    <!--  purap:summaryaccounts
             itemAttributes="${DataDictionary.CreditMemoItem.attributes}"
     	    documentAttributes="${DataDictionary.SourceAccountingLine.attributes}" / -->  
     	    	

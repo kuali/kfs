@@ -96,7 +96,7 @@
         documentAttributes="${DataDictionary.PurchaseOrderDocument.attributes}" />
         
     <!-- TEMPORARILY DISABLING ACCOUNT SUMMARY FUNCTIONALITY -->
-    <!-- purap:accountsummary
+    <!-- purap:summaryaccounts
         itemAttributes="${DataDictionary.PurchaseOrderItem.attributes}"
     	documentAttributes="${DataDictionary.SourceAccountingLine.attributes}" / -->  
 	

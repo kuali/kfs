@@ -50,8 +50,6 @@ public interface PurapService {
      */
     public PurchasingApItem getBelowTheLineByType(PurchasingAccountsPayableDocument document, ItemType iT);
     
-    public Map<SourceAccountingLine, List<PurchasingApItem>> generateSummaryWithItems(List<PurchasingApItem> items);
-    
     /**
      * We are obliged not to simply use a dateDiff and compare the result to 365, because we have
      * to worry about leap years.

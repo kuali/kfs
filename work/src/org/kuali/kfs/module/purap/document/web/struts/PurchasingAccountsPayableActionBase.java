@@ -92,7 +92,6 @@ public class PurchasingAccountsPayableActionBase extends KualiAccountingDocument
         PurchasingAccountsPayableFormBase purapForm = (PurchasingAccountsPayableFormBase) form;        
         PurchasingAccountsPayableDocument document = (PurchasingAccountsPayableDocument) purapForm.getDocument();
         SpringContext.getBean(PurapAccountingService.class).updateAccountAmounts(document);
-        //TODO f2f: need to replace this with new method
         purapForm.refreshAccountSummmary();
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }

@@ -139,9 +139,6 @@
 		<property name="kualiConfigurationService">
 			<ref bean="kualiConfigurationService" />
 		</property>
-		<property name="purapAccountingService">
-			<ref bean="purapAccountingService" />
-		</property>	
         <property name="universityDateService">
             <ref bean="universityDateService" />
         </property>

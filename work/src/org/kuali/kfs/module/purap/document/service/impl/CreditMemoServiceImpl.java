@@ -26,6 +26,7 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.bo.Note;
 import org.kuali.core.bo.user.UniversalUser;
+import org.kuali.core.exceptions.ValidationException;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DateTimeService;
 import org.kuali.core.service.DocumentService;
@@ -244,6 +245,9 @@ public class CreditMemoServiceImpl implements CreditMemoService {
             document.setStatusCode(PurapConstants.CreditMemoStatuses.IN_PROCESS);            
             documentService.saveDocument(document, ContinueAccountsPayableEvent.class);
         }
+        catch(ValidationException ve){
+            document.setStatusCode(PurapConstants.CreditMemoStatuses.INITIATE);
+        }        
         catch (WorkflowException we) {
             //set the status back to initiate
             document.setStatusCode(PurapConstants.CreditMemoStatuses.INITIATE);

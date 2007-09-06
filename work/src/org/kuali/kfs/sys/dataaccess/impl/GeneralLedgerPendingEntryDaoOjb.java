@@ -495,8 +495,18 @@ public class GeneralLedgerPendingEntryDaoOjb extends PlatformAwareDaoBaseOjb imp
         // add criteria for the approved pending entries
         if (isOnlyApproved) {
             criteria.addIn("documentHeader.financialDocumentStatusCode", this.buildApprovalCodeList());
+            criteria.addNotEqualTo(KFSPropertyConstants.FINANCIAL_DOCUMENT_APPROVED_CODE, KFSConstants.PENDING_ENTRY_APPROVED_STATUS_CODE.PROCESSED);
         }
-        criteria.addNotEqualTo("financialDocumentApprovedCode", KFSConstants.PENDING_ENTRY_APPROVED_STATUS_CODE.PROCESSED);
+        else{
+            Criteria subCriteria1 = new Criteria();
+            subCriteria1.addNotEqualTo(KFSPropertyConstants.FINANCIAL_DOCUMENT_APPROVED_CODE, KFSConstants.PENDING_ENTRY_APPROVED_STATUS_CODE.PROCESSED);
+            
+            Criteria subCriteria2 = new Criteria();
+            subCriteria2.addIsNull(KFSPropertyConstants.FINANCIAL_DOCUMENT_APPROVED_CODE);
+            
+            subCriteria1.addOrCriteria(subCriteria2);
+            criteria.addAndCriteria(subCriteria1);
+        }
     }
 
     /**
@@ -601,7 +611,15 @@ public class GeneralLedgerPendingEntryDaoOjb extends PlatformAwareDaoBaseOjb imp
     public Collection findPendingEntries(Map fieldValues, boolean isApproved) {
         LOG.debug("findPendingEntries(Map, boolean) started");
 
-        Criteria criteria = buildCriteriaFromMap(fieldValues, new GeneralLedgerPendingEntry());
+        Object entryObject = null;
+        try{
+            entryObject = getEntryClass().newInstance();
+        }
+        catch(Exception e){
+            LOG.debug("Wrong object type" + e);
+        }
+        
+        Criteria criteria = buildCriteriaFromMap(fieldValues, entryObject);
 
         // add the status codes into the criteria
         this.addStatusCode(criteria, isApproved);

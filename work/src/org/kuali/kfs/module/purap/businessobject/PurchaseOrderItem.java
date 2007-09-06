@@ -320,12 +320,12 @@ public class PurchaseOrderItem extends PurchasingItemBase {
             //don't allow newly added item to be inactivatable.
             return false;
 }
-        else if (versionNumber!= null && isAmendmentStatus() && itemActiveIndicator && !purchaseOrder.getContainsUnpaidPaymentRequestsOrCreditMemos()) {
+        else if (versionNumber!= null && isAmendmentStatus() && itemActiveIndicator && !getPurchaseOrder().getContainsUnpaidPaymentRequestsOrCreditMemos()) {
             return true;
         }
         return false;
     }
     private boolean isAmendmentStatus() {
-        return purchaseOrder.getStatusCode().equals(PurapConstants.PurchaseOrderStatuses.AMENDMENT);
+        return getPurchaseOrder().getStatusCode().equals(PurapConstants.PurchaseOrderStatuses.AMENDMENT);
     }
 }

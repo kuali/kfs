@@ -240,7 +240,7 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
             long start = System.currentTimeMillis();
             refreshOriginEntryReferences(originEntry);
             refreshOriginEntryReferences(scrubbedEntry);
-            //LOG.fatal("line refreshing time: " + (System.currentTimeMillis() - start));
+            LOG.fatal("line refreshing time: " + (System.currentTimeMillis() - start));
         }
 
         return errors;

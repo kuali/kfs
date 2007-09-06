@@ -32,6 +32,7 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.core.bo.DocumentHeader;
 import org.kuali.core.bo.Note;
 import org.kuali.core.bo.user.UniversalUser;
+import org.kuali.core.exceptions.ValidationException;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DataDictionaryService;
 import org.kuali.core.service.DateTimeService;
@@ -1184,8 +1185,11 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
             preq.setStatusCode(PurapConstants.PaymentRequestStatuses.IN_PROCESS);            
             documentService.saveDocument(preq, ContinueAccountsPayableEvent.class);
         }
+        catch(ValidationException ve){
+            preq.setStatusCode(PurapConstants.PaymentRequestStatuses.INITIATE);
+        }
         catch (WorkflowException we) {
-            preq.setStatusCode(PurapConstants.CreditMemoStatuses.INITIATE);
+            preq.setStatusCode(PurapConstants.PaymentRequestStatuses.INITIATE);
             String errorMsg = "Error saving document # " + preq.getDocumentHeader().getDocumentNumber() + " " + we.getMessage(); 
             LOG.error(errorMsg, we);
             throw new RuntimeException(errorMsg, we);

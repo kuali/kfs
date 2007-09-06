@@ -25,6 +25,7 @@ import org.kuali.module.purap.bo.PurApAccountingLine;
 import org.kuali.module.purap.bo.PurchasingApItem;
 import org.kuali.module.purap.dao.ojb.PurApAccountingDaoOjb;
 import org.kuali.module.purap.document.PurchasingAccountsPayableDocument;
+import org.kuali.module.purap.util.SummaryAccount;
 
 /**
  * This class is used to generate Account Summaries for PURAP Module account lists as well as
@@ -48,7 +49,8 @@ public interface PurapAccountingService {
     public List<PurApAccountingLine> generateAccountDistributionForProrationWithZeroTotal(List<PurApAccountingLine> accounts, Integer percentScale);
 
     public List<SourceAccountingLine> generateSummary(List<PurchasingApItem> items);
-    public Map<SourceAccountingLine, List<PurchasingApItem>> generateSummaryWithItems(List<PurchasingApItem> items);
+//    public Map<SourceAccountingLine, List<PurchasingApItem>> generateSummaryWithItems(List<PurchasingApItem> items);
+    public List<SummaryAccount> generateSummaryAccounts(List<PurchasingApItem> items);
     
     public List<SourceAccountingLine> generateSummaryWithNoZeroTotals(List<PurchasingApItem> items);
     public List<SourceAccountingLine> generateSummaryWithNoZeroTotalsUsingAlternateAmount(List<PurchasingApItem> items);

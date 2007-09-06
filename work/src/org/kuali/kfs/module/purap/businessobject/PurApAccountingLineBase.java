@@ -74,7 +74,7 @@ public abstract class PurApAccountingLineBase extends SourceAccountingLine imple
     }
 
     // TODO PURAP - need more fields for comparison or not? - look at org.kuali.kfs.bo.AccountingLineBase#getValuesMap()
-    public boolean accountStringsAreEqual(PurApAccountingLine accountingLine) {
+    public boolean accountStringsAreEqual(SourceAccountingLine accountingLine) {
         if (accountingLine == null) { return false;}
         return new EqualsBuilder()
           .append(getChartOfAccountsCode(), accountingLine.getChartOfAccountsCode())
@@ -88,6 +88,11 @@ public abstract class PurApAccountingLineBase extends SourceAccountingLine imple
 //          .append(getReferenceNumber(),accountingLine.getReferenceNumber())
 //          .append(getReferenceTypeCode(),accountingLine.getReferenceTypeCode())
           .isEquals();
+    }
+    
+    public boolean accountStringsAreEqual(PurApAccountingLine accountingLine) {
+        return accountStringsAreEqual((SourceAccountingLine)accountingLine);
+        
     }
 
     // TODO PURAP - this method needs to copy any account field we need to display 

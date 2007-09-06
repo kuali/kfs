@@ -18,12 +18,12 @@ package org.kuali.module.purap.util;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.module.purap.bo.PurApAccountingLine;
+import org.kuali.kfs.bo.SourceAccountingLine;
 import org.kuali.module.purap.bo.PurchasingApItem;
 
 public class SummaryAccount {
 
-    private PurApAccountingLine account;
+    private SourceAccountingLine account;
     private List<PurchasingApItem> items;
    
     public SummaryAccount() {
@@ -35,7 +35,7 @@ public class SummaryAccount {
      * Gets the account attribute. 
      * @return Returns the account.
      */
-    public PurApAccountingLine getAccount() {
+    public SourceAccountingLine getAccount() {
         return account;
     }
 
@@ -43,7 +43,7 @@ public class SummaryAccount {
      * Sets the account attribute value.
      * @param account The account to set.
      */
-    public void setAccount(PurApAccountingLine account) {
+    public void setAccount(SourceAccountingLine account) {
         this.account = account;
     }
 

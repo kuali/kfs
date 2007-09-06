@@ -181,10 +181,6 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
         // Need to clear this identifier before copy so that related documents appear to be none
         this.setAccountsPayablePurchasingDocumentLinkIdentifier(null);
         
-        this.setSummaryAccountsWithItems(new HashMap());
-        this.setSummaryAccountsWithItemsKey(new ArrayList());
-        this.setSummaryAccountsWithItemsValue(new ArrayList());
-                     
         super.toCopy();
 
         ChartUser currentUser = (ChartUser)GlobalVariables.getUserSession().getUniversalUser().getModuleUser( ChartUser.MODULE_ID );

@@ -575,14 +575,8 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
             LOG.error(errorMsg);
             throw new RuntimeException(errorMsg);
         }
-        //TODO: Chris - RESEARCH: does this have any effect?  I think it may be lost before the po is brought up again.
-        sourceDocument.setSummaryAccountsWithItems(new HashMap());
-        sourceDocument.setSummaryAccountsWithItemsKey(new ArrayList());
-        sourceDocument.setSummaryAccountsWithItemsValue(new ArrayList());
 
         PurchaseOrderDocument newPurchaseOrderChangeDocument = (PurchaseOrderDocument)documentService.getNewDocument(docType);
-        //TODO: Chris - RESEARCH: does this have any effect?  I think it may be lost before the po is brought up again.
-        newPurchaseOrderChangeDocument.refreshAccountSummary();
         
 //        PurApObjectUtils.populateFromBaseWithSuper(sourceDocument, newPurchaseOrderChangeDocument);
         Set classesToExclude = new HashSet();

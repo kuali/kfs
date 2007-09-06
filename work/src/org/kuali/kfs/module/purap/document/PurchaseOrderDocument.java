@@ -446,7 +446,7 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase {
             if (item.isItemActiveIndicator()) {
                 for (Iterator iterator = item.getSourceAccountingLines().iterator(); iterator.hasNext();) {
                     PurchaseOrderAccount account = (PurchaseOrderAccount) iterator.next();
-                    account.setAlternateAmount(account.getItemAccountOutstandingEncumbranceAmount());
+                    account.setAlternateAmountForGLEntryCreation(account.getItemAccountOutstandingEncumbranceAmount());
                 }
                 returnList.add(item);
             }

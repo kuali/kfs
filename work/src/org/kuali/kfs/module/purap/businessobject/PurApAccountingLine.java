@@ -44,8 +44,8 @@ public interface PurApAccountingLine extends AccountingLine {
 
     public abstract SourceAccountingLine generateSourceAccountingLine();
 
-    public KualiDecimal getAlternateAmount();
+    public KualiDecimal getAlternateAmountForGLEntryCreation();
 
-    public void setAlternateAmount(KualiDecimal alternateAmount);
+    public void setAlternateAmountForGLEntryCreation(KualiDecimal alternateAmountForGLEntryCreation);
     
 }

@@ -615,7 +615,7 @@ public class PurapGeneralLedgerServiceImpl implements PurapGeneralLedgerService 
                 for (Iterator iter = item.getSourceAccountingLines().iterator(); iter.hasNext();) {
                     PurchaseOrderAccount account = (PurchaseOrderAccount) iter.next();
                     account.setItemAccountOutstandingEncumbranceAmount(ZERO);
-                    account.setAlternateAmount(ZERO);
+                    account.setAlternateAmountForGLEntryCreation(ZERO);
                 }
             }
             else {
@@ -644,7 +644,7 @@ public class PurapGeneralLedgerServiceImpl implements PurapGeneralLedgerService 
                     BigDecimal percent = new BigDecimal(account.getAccountLinePercent().toString());
                     percent = percent.divide(new BigDecimal("100"), 3, BigDecimal.ROUND_HALF_UP);
                     account.setItemAccountOutstandingEncumbranceAmount(item.getItemOutstandingEncumberedAmount().multiply(new KualiDecimal(percent)));
-                    account.setAlternateAmount(account.getItemAccountOutstandingEncumbranceAmount());
+                    account.setAlternateAmountForGLEntryCreation(account.getItemAccountOutstandingEncumbranceAmount());
                 }
             }
         }

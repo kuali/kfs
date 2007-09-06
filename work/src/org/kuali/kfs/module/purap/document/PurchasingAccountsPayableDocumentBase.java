@@ -109,9 +109,6 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
     private transient List<PaymentRequestView> paymentHistoryPaymentRequestViews;
     private transient List<CreditMemoView> relatedCreditMemoViews;
     private transient List<CreditMemoView> paymentHistoryCreditMemoViews;
-    private transient Map<SourceAccountingLine, List<PurchasingApItem>> summaryAccountsWithItems;
-    private transient List<SourceAccountingLine> summaryAccountsWithItemsKey;
-    private transient List<List<PurchasingApItem>> summaryAccountsWithItemsValue;
     
     private List<SourceAccountingLine> accountsForRouting;  //don't use me for anything else!!
 
@@ -147,11 +144,6 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
         return false;
     }
     
-    public void refreshAccountSummary() {
-        //setSummaryAccounts(SpringContext.getBean(PurapService.class).generateSummary(getItems()));
-//        this.setSummaryAccountsWithItems(SpringContext.getBean(PurapService.class).generateSummaryWithItems(getItems()));
-    }
-
     /**
      * @see org.kuali.core.document.DocumentBase#populateDocumentForRouting()
      */
@@ -162,9 +154,11 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
          */
         refreshNonUpdateableReferences();
         SpringContext.getBean(PurapAccountingService.class).updateAccountAmounts(this);
-        refreshAccountSummary();
         
-        //this is only temporary until we find out what's going on with refreshAccountSummary() (hjs)
+        //TODO f2f: why would we need to do this here?  we do not need this for routing
+        //refreshAccountSummary();
+        
+        //TODO this is only temporary until we find out what's going on with refreshAccountSummary() (hjs)
         setAccountsForRouting(SpringContext.getBean(PurapAccountingService.class).generateSummary(getItems()));
         
         super.populateDocumentForRouting();
@@ -711,60 +705,6 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
             this.belowTheLineTypes = SpringContext.getBean(PurapService.class).getBelowTheLineForDocument(this);
         }
         return belowTheLineTypes;
-    }
-
-    /**
-     * @see org.kuali.kfs.document.AccountingDocumentBase#getSourceAccountingLineClass()
-     */
-
-    public Map<SourceAccountingLine, List<PurchasingApItem>> getSummaryAccountsWithItems() {
-        return summaryAccountsWithItems;
-    }
-
-    public void setSummaryAccountsWithItems(Map<SourceAccountingLine, List<PurchasingApItem>> summaryAccountsWithItems) {
-        this.summaryAccountsWithItems = summaryAccountsWithItems;
-        getSummaryAccountsWithItemsKey();
-        getSummaryAccountsWithItemsValue();
-    }
-
-    public List<SourceAccountingLine> getSummaryAccountsWithItemsKey() {
-        if (this.summaryAccountsWithItemsKey == null || summaryAccountsWithItemsKey.size() == 0) {
-            summaryAccountsWithItemsKey = new ArrayList();
-            for (Iterator keyIter = summaryAccountsWithItems.keySet().iterator(); keyIter.hasNext();) {
-                summaryAccountsWithItemsKey.add((SourceAccountingLine)keyIter.next());
-            }
-        }
-        return summaryAccountsWithItemsKey;
-    }
-
-    public void setSummaryAccountsWithItemsKey(List<SourceAccountingLine> summaryAccountsWithItemsKey) {
-        this.summaryAccountsWithItemsKey = summaryAccountsWithItemsKey;
-    }
-
-    public List<List<PurchasingApItem>> getSummaryAccountsWithItemsValue() {
-        if (this.summaryAccountsWithItemsValue == null) {
-            summaryAccountsWithItemsValue = new ArrayList();
-            for (Iterator iter = summaryAccountsWithItems.values().iterator(); iter.hasNext();) {
-                summaryAccountsWithItemsValue.add((List<PurchasingApItem>)iter.next());
-            }
-        }
-        return summaryAccountsWithItemsValue;
-    }
-
-    public List<PurchasingApItem> getSummaryAccountsWithItemsValue(int index) {
-        if (this.summaryAccountsWithItemsValue == null) {
-            summaryAccountsWithItemsValue = getSummaryAccountsWithItemsValue();
-        }
-        if (summaryAccountsWithItemsValue.size() > index-1) {
-            return summaryAccountsWithItemsValue.get(index);
-        }
-        else {
-            return null;
-        }
-    }
-    
-    public void setSummaryAccountsWithItemsValue(List<List<PurchasingApItem>> summaryAccountsWithItemsValue) {
-        this.summaryAccountsWithItemsValue = summaryAccountsWithItemsValue;
     }
 
     public Country getVendorCountry() {

@@ -55,7 +55,9 @@ public class PurchasingAccountsPayableActionBase extends KualiAccountingDocument
         super.loadDocument(kualiDocumentFormBase);
         PurchasingAccountsPayableDocument document = (PurchasingAccountsPayableDocument) kualiDocumentFormBase.getDocument();
         SpringContext.getBean(PurapAccountingService.class).updateAccountAmounts(document);
-        document.refreshAccountSummary();
+        
+        //TODO f2f: need to replace this with new method
+        //document.refreshAccountSummary();
         
         //FIXME: temporary workaround see KULPURAP-1397
         for (org.kuali.core.bo.Note note : (java.util.List<org.kuali.core.bo.Note>)document.getBoNotes()) {
@@ -90,7 +92,8 @@ public class PurchasingAccountsPayableActionBase extends KualiAccountingDocument
         KualiAccountingDocumentFormBase baseForm = (KualiAccountingDocumentFormBase) form;
         PurchasingAccountsPayableDocument document = (PurchasingAccountsPayableDocument) baseForm.getDocument();
         SpringContext.getBean(PurapAccountingService.class).updateAccountAmounts(document);
-        document.refreshAccountSummary();
+        //TODO f2f: need to replace this with new method
+        //document.refreshAccountSummary();
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 

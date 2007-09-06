@@ -658,8 +658,6 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
         
         //update the amounts on the accounts
         SpringContext.getBean(PurapAccountingService.class).updateAccountAmounts(paymentRequest);
-        //refresh account summary
-        paymentRequest.refreshAccountSummary();
     }
     
     

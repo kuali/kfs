@@ -80,7 +80,7 @@ public class PurchaseOrderCloseDocument extends PurchaseOrderDocument {
                     if (!acct.isEmpty()) {
                         KualiDecimal acctAmount = itemAmount.multiply(new KualiDecimal(acct.getAccountLinePercent().toString())).divide(PurapConstants.HUNDRED);
                         accountTotal = accountTotal.add(acctAmount);
-                        acct.setAlternateAmount(acctAmount);
+                        acct.setAlternateAmountForGLEntryCreation(acctAmount);
                         lastAccount = acct;
                     }
                 }
@@ -90,12 +90,12 @@ public class PurchaseOrderCloseDocument extends PurchaseOrderDocument {
                     KualiDecimal difference = itemAmount.subtract(accountTotal);
                     LOG.debug("poCloseReopen() difference: " + logItmNbr + " " + difference);
 
-                    KualiDecimal amount = lastAccount.getAlternateAmount();
+                    KualiDecimal amount = lastAccount.getAlternateAmountForGLEntryCreation();
                     if (ObjectUtils.isNotNull(amount)) {
-                        lastAccount.setAlternateAmount(amount.add(difference));
+                        lastAccount.setAlternateAmountForGLEntryCreation(amount.add(difference));
                     }
                     else {
-                        lastAccount.setAlternateAmount(difference);
+                        lastAccount.setAlternateAmountForGLEntryCreation(difference);
                     }
                 }
 

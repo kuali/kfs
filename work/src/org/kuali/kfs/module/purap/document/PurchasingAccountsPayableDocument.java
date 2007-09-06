@@ -122,11 +122,6 @@ public interface PurchasingAccountsPayableDocument extends AccountingDocument {
      */
     public String[] getBelowTheLineTypes();
 
-    /**
-     * Sets up the summaryAccounts attribute value.
-     */
-    public void refreshAccountSummary();
-  
     public PurchasingAccountsPayableDocument getPurApSourceDocumentIfPossible();
     
     public String getPurApSourceDocumentLabelIfPossible();

@@ -371,8 +371,8 @@ public class PurapAccountingServiceImpl implements PurapAccountingService {
                         PurApAccountingLine alreadyAddedAccount = (PurApAccountingLine) iter.next();
                         if (alreadyAddedAccount.accountStringsAreEqual(account)) {
                             if (useAlternateAmount) {
-                                alreadyAddedAccount.setAlternateAmount(alreadyAddedAccount.getAlternateAmount().add(account.getAlternateAmount()));
-                                account.setAlternateAmount(alreadyAddedAccount.getAlternateAmount());
+                                alreadyAddedAccount.setAlternateAmountForGLEntryCreation(alreadyAddedAccount.getAlternateAmountForGLEntryCreation().add(account.getAlternateAmountForGLEntryCreation()));
+                                account.setAlternateAmountForGLEntryCreation(alreadyAddedAccount.getAlternateAmountForGLEntryCreation());
                             } 
                             else {
                                 alreadyAddedAccount.setAmount(alreadyAddedAccount.getAmount().add(account.getAmount()));
@@ -393,7 +393,7 @@ public class PurapAccountingServiceImpl implements PurapAccountingService {
                             throw new RuntimeException(errorMessage);
                         }
                         if (useAlternateAmount) {
-                            sourceLine.setAmount(accountToAdd.getAlternateAmount());
+                            sourceLine.setAmount(accountToAdd.getAlternateAmountForGLEntryCreation());
                         }
                         List<PurchasingApItem> itemList = new ArrayList();
                         itemList.add(currentItem);        
@@ -432,7 +432,7 @@ public class PurapAccountingServiceImpl implements PurapAccountingService {
                         PurApAccountingLine alreadyAddedAccount = (PurApAccountingLine) iter.next();
                         if (alreadyAddedAccount.accountStringsAreEqual(account)) {
                             if (useAlternateAmount) {
-                                alreadyAddedAccount.setAlternateAmount(alreadyAddedAccount.getAlternateAmount().add(account.getAlternateAmount()));
+                                alreadyAddedAccount.setAlternateAmountForGLEntryCreation(alreadyAddedAccount.getAlternateAmountForGLEntryCreation().add(account.getAlternateAmountForGLEntryCreation()));
                             } 
                             else {
                                 alreadyAddedAccount.setAmount(alreadyAddedAccount.getAmount().add(account.getAmount()));
@@ -460,7 +460,7 @@ public class PurapAccountingServiceImpl implements PurapAccountingService {
             }
             SourceAccountingLine sourceLine = accountToAlter.generateSourceAccountingLine();
             if (useAlternateAmount) {
-                sourceLine.setAmount(accountToAlter.getAlternateAmount());
+                sourceLine.setAmount(accountToAlter.getAlternateAmountForGLEntryCreation());
             }
             sourceAccounts.add(sourceLine);
         }

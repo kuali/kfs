@@ -56,11 +56,11 @@ public class PurchaseOrderAccount extends PurApAccountingLineBase {
         this.setSubAccountNumber(ra.getSubAccountNumber());
     }
 
-    public KualiDecimal getAlternateAmount() {
-        if (ObjectUtils.isNull(super.getAlternateAmount())) {
+    public KualiDecimal getAlternateAmountForGLEntryCreation() {
+        if (ObjectUtils.isNull(super.getAlternateAmountForGLEntryCreation())) {
             return getItemAccountOutstandingEncumbranceAmount();
         }
-        return super.getAlternateAmount();
+        return super.getAlternateAmountForGLEntryCreation();
     }
 
     /**

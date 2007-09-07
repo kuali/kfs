@@ -108,7 +108,8 @@ public interface BatchInputFileService {
     public boolean isUserAuthorizedForBatchType(BatchInputFileType batchInputFileType, UniversalUser user);
 
     /**
-     * Returns a list of batch type file names (including path) that the given user has permissions to manage.
+     * Returns a list of batch type file names (without path) that the given user has permissions to manage.
+     * Path is intentionally excluded to prevent security problems arising from giving users access to the full path.
      * 
      * @param user - user for checking permissions
      * @return List<String> - List of filenames

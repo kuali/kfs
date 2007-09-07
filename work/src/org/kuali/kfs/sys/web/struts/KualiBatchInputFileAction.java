@@ -235,13 +235,11 @@ public class KualiBatchInputFileAction extends KualiAction {
         }
         
         List<String> userFilePathNames = SpringContext.getBean(BatchInputFileService.class).listBatchTypeFilesForUser(batchInputFileType, user);
-        List<String> userFileNames = KFSUtils.getFileNameFromPath(userFilePathNames);
 
         userFiles.add(new KeyLabelPair("", ""));
         for (int i = 0; i < userFilePathNames.size(); i++) {
-            String filePathName = userFilePathNames.get(i);
-            String fileName = userFileNames.get(i);
-            userFiles.add(new KeyLabelPair(filePathName, fileName));
+            String fileName = userFilePathNames.get(i);
+            userFiles.add(new KeyLabelPair(fileName, fileName));
         }
 
         form.setUserFiles(userFiles);

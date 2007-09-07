@@ -18,6 +18,7 @@ package org.kuali.module.budget.dao.ojb;
 import java.lang.reflect.InvocationTargetException;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.sql.Date;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -69,6 +70,7 @@ import org.kuali.module.financial.bo.FiscalYearFunctionControl;
 import org.kuali.module.financial.bo.FunctionControlCode;
 import org.kuali.module.gl.GLConstants.ColumnNames;
 import org.kuali.module.gl.bo.Balance;
+import org.kuali.module.gl.bo.UniversityDate;
 import org.kuali.module.labor.bo.LaborObject;
 
 import edu.iu.uis.eden.EdenConstants;
@@ -283,6 +285,42 @@ public class GenesisDaoOjb extends PlatformAwareDaoBaseOjb
             new ReportQueryByCriteria(classID, selectList, criteriaID, true);
         return (getPersistenceBrokerTemplate().getCount(queryID));
     }
+
+  /*
+   * ********************************************************************************
+   *   This routine returns the fiscal year as of the run date.
+   *   Normally, genesis runs in the current fiscal year to build budget construction
+   *   for the coming fiscal year.
+   */   
+    public Integer fiscalYearFromToday()
+    {
+        //  we look up the fiscal year for today's date, and return it
+        //  we return 0 if nothing is found
+        Integer currentFiscalYear = new Integer(0);
+        Date lookUpDate =
+            dateTimeService.getCurrentSqlDateMidnight();
+        Criteria criteriaID = new Criteria();
+        criteriaID.addEqualTo(KFSPropertyConstants.UNIVERSITY_DATE,
+                              lookUpDate);
+        String[] attrb = {KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR};
+        ReportQueryByCriteria queryID =
+            new ReportQueryByCriteria(UniversityDate.class, attrb, criteriaID);
+        Iterator resultRow =
+        getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(queryID);
+        // there will only be one row.
+        // Oracle will not close the cursor, however, until the iterator has been exhausted
+        if (resultRow.hasNext())
+        {
+            currentFiscalYear = (Integer) ((BigDecimal)
+                        ((Object[]) KFSUtils.retrieveFirstAndExhaustIterator(resultRow))[0]).intValue();
+        }
+        //TODO:
+        LOG.debug(String.format("\nreturned from fiscalYearFromToday: %d",
+                currentFiscalYear));
+        //TODO:
+        return currentFiscalYear;
+    }
+    
     
     /*
      * ******************************************************************************  

@@ -196,6 +196,11 @@ public class GenesisServiceImpl implements GenesisService {
     {
         genesisDao.clearDBForGenesis(BaseYear); 
     }
+    // use today's date to return the base fiscal year
+    public Integer genesisFiscalYearFromToday()
+    {
+        return genesisDao.fiscalYearFromToday();
+    }
     // this step updates the budget from the payroll (CSF) and the GL once
     // genesis has run.
     public void bCUpdateStep(Integer BaseYear)

@@ -33,8 +33,8 @@ public interface GenesisService {
 
     // this step clears out the database for genesis
     public void clearDBForGenesis(Integer BaseYear);   
-    
-    
+    // use today's date to return the base fiscal year
+    public Integer genesisFiscalYearFromToday();
     // this step runs genesis
     public void genesisStep(Integer BaseYear);
     

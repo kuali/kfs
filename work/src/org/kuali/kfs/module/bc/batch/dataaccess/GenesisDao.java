@@ -31,6 +31,10 @@ public interface GenesisDao {
    public Map<String,String> getBudgetConstructionControlFlags 
                              (Integer universityFiscalYear);
    /*
+    *   fetch the fiscal year corresponding to today's date
+    */
+   public Integer fiscalYearFromToday();
+   /*
     *  check the value of a specific budget construction control flag
     *  (on = true, off = false)
     */

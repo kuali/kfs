@@ -58,9 +58,9 @@
         displayRequisitionFields="true" />
         
     <!-- TEMPORARILY DISABLING ACCOUNT SUMMARY FUNCTIONALITY -->
-    <!-- purap:summaryaccounts
+    <purap:summaryaccounts
         itemAttributes="${DataDictionary.RequisitionItem.attributes}"
-    	documentAttributes="${DataDictionary.SourceAccountingLine.attributes}" / -->
+    	documentAttributes="${DataDictionary.SourceAccountingLine.attributes}" />
 
     <purap:relatedDocuments
             documentAttributes="${DataDictionary.RelatedDocuments.attributes}" />

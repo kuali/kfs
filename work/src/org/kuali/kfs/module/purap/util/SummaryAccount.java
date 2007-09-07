@@ -63,7 +63,4 @@ public class SummaryAccount {
         this.items = items;
     }
     
-    
-    
-    
 }

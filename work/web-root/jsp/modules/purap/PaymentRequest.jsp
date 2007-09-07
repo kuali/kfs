@@ -97,10 +97,9 @@
 
         <gl:generalLedgerPendingEntries />
 
-    <!-- TEMPORARILY DISABLING ACCOUNT SUMMARY FUNCTIONALITY -->
-	    <!--  purap:summaryaccounts
+	    <purap:summaryaccounts
             itemAttributes="${DataDictionary.PaymentRequestItem.attributes}"
-    	    documentAttributes="${DataDictionary.SourceAccountingLine.attributes}" / -->  
+    	    documentAttributes="${DataDictionary.SourceAccountingLine.attributes}" />  
 	
 		<purap:relatedDocuments documentAttributes="${DataDictionary.RelatedDocuments.attributes}"/>
            	

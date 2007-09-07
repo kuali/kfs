@@ -98,13 +98,13 @@
 					</tr>
 					
                     <tr>
-                        <td colspan="10" height=30 >
-                            <div align="center"><br>
+                        <td colspan="10" height=30 style="padding: 20px;">
+                            <div align="center">
                             <table width="75%" border="0" cellpadding="0" cellspacing="0" class="datatable">
                                 <tr>
-                                    <td colspan="4" class="tab-subhead" style="border-right: none;">
-                                        Items of Account Summary ${ctr+1} 
-                                    </td>
+                                    <th colspan="4" style="padding: 0px; border-right: none; border-top: 1px solid #999999;">
+                                        <div align="left">Items of Account Summary ${ctr+1} </div>
+                                    </th>
                                 </tr>
             
                                 <tr>
@@ -132,7 +132,7 @@
                                     </logic:iterate>
                                 </tr>
                             </table>
-                            </div><br>
+                            </div>
                         </td>
                     </tr>
 

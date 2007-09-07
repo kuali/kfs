@@ -95,10 +95,9 @@
     <purap:additional
         documentAttributes="${DataDictionary.PurchaseOrderDocument.attributes}" />
         
-    <!-- TEMPORARILY DISABLING ACCOUNT SUMMARY FUNCTIONALITY -->
-    <!-- purap:summaryaccounts
+    <purap:summaryaccounts
         itemAttributes="${DataDictionary.PurchaseOrderItem.attributes}"
-    	documentAttributes="${DataDictionary.SourceAccountingLine.attributes}" / -->  
+    	documentAttributes="${DataDictionary.SourceAccountingLine.attributes}" />  
 	
 	<c:if test="${KualiForm.document.statusCode eq 'INPR'}">
 	    <purap:quotes

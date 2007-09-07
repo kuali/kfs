@@ -35,7 +35,6 @@
 						<field attributeName="itemCapitalAssetNoteText" />
 						<field attributeName="itemCatalogNumber" />
 						<field attributeName="itemDescription" />
-						<field attributeName="itemInvoicedQuantity" />
 						<field attributeName="itemLineNumber" />
 						<field attributeName="itemTypeCode" />
 						<field attributeName="itemUnitOfMeasureCode" />
@@ -69,7 +68,6 @@
 				<lookupField attributeName="itemCapitalAssetNoteText" required="false" />
 				<lookupField attributeName="itemCatalogNumber" required="false" />
 				<lookupField attributeName="itemDescription" required="false" />
-				<lookupField attributeName="itemInvoicedQuantity" required="false" />
 				<lookupField attributeName="itemLineNumber" required="false" />
 				<lookupField attributeName="itemTypeCode" required="false" />
 				<lookupField attributeName="itemUnitOfMeasureCode" required="false" />
@@ -89,7 +87,6 @@
 				<field attributeName="itemCapitalAssetNoteText" />
 				<field attributeName="itemCatalogNumber" />
 				<field attributeName="itemDescription" />
-				<field attributeName="itemInvoicedQuantity" />
 				<field attributeName="itemLineNumber" />
 				<field attributeName="itemTypeCode" />
 				<field attributeName="itemUnitOfMeasureCode" />
@@ -106,13 +103,6 @@
 		<attributes>
 
 			&purApItemBaseAttributes;
-
-			<attributeReference name="itemInvoicedQuantity" sourceClassName="org.kuali.module.purap.bo.PurApAttributeReferenceDummy" sourceAttributeName="genericItemQuantity">
-				<label>Item Invoiced Quantity</label>
-				<shortLabel>Qty Invoiced</shortLabel>
-				<summary>itemInvoicedQuantity</summary>
-				<description>itemInvoicedQuantity description...</description>
-			</attributeReference>
 
 			<attribute name="purchaseOrderCommodityCode" forceUppercase="true">
 				<label>Purchase Order Commodity Code</label>

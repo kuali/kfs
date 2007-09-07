@@ -1162,6 +1162,11 @@
 				<ref bean="encumbranceForwardStep" />
 			</list>
 		</property>
+		<property name="dependencies">
+			<map>
+				<entry key="posterJob" value="hardDependency" />
+			</map>
+		</property>
 	</bean>
 	
 	<bean id="balanceForwardJob" parent="scheduledJobDescriptor">
@@ -1169,6 +1174,11 @@
 			<list>
 				<ref bean="balanceForwardStep" />
 			</list>
+		</property>
+		<property name="dependencies">
+			<map>
+				<entry key="posterJob" value="hardDependency" />
+			</map>
 		</property>
 	</bean>
 	
@@ -1178,6 +1188,11 @@
 				<ref bean="nominalActivityClosingStep" />
 			</list>
 		</property>
+		<property name="dependencies">
+			<map>
+				<entry key="posterJob" value="hardDependency" />
+			</map>
+		</property>
 	</bean>
 	
 	<bean id="organizationReversionClosingJob" parent="scheduledJobDescriptor">
@@ -1186,6 +1201,11 @@
 				<ref bean="organizationReversionClosingStep" />
 			</list>
 		</property>
+		<property name="dependencies">
+			<map>
+				<entry key="posterJob" value="hardDependency" />
+			</map>
+		</property>
 	</bean>
 		
 	<bean id="organizationReversionOpeningJob" parent="unscheduledJobDescriptor">
@@ -1193,6 +1213,11 @@
 			<list>
 				<ref bean="organizationReversionOpeningStep" />
 			</list>
+		</property>
+		<property name="dependencies">
+			<map>
+				<entry key="posterJob" value="hardDependency" />
+			</map>
 		</property>
 	</bean>
 

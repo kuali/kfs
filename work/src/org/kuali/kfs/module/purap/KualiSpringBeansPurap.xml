@@ -271,9 +271,6 @@
          <property name="purchaseOrderService">
             <ref bean="purchaseOrderService" />
         </property>	
-         <property name="dateTimeService">
-            <ref bean="dateTimeService" />
-        </property>	
     </bean>
     
 	<bean id="creditMemoCreateService" class="org.kuali.module.purap.service.impl.CreditMemoCreateServiceImpl">

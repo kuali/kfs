@@ -188,7 +188,7 @@ public class CreditMemoCreateServiceImpl implements CreditMemoCreateService {
         // add below the line items
         SpringContext.getBean(PurapService.class).addBelowLineItems(cmDocument);
         
-        // TODO: account distribution?
+        // TODO (KULPURAP-1571: ckirschenman) account distribution?
     }
 
     /**

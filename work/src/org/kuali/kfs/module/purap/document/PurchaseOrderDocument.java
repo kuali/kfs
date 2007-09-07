@@ -104,7 +104,6 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase {
     private Integer newQuoteVendorHeaderGeneratedIdentifier;
     private Integer newQuoteVendorDetailAssignedIdentifier;
     private String alternateVendorName;
-    private String statusChange;
     private boolean purchaseOrderCurrentIndicator = false;
     private boolean pendingActionIndicator = false;
     private Date purchaseOrderFirstTransmissionDate;
@@ -114,6 +113,7 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase {
     private List<PurchaseOrderVendorQuote> purchaseOrderVendorQuotes;
 
     // NOT PERSISTED IN DB
+    private String statusChange;
     private String alternateVendorNumber;
     private String purchaseOrderRetransmissionMethodCode;
     private String retransmitHeader;

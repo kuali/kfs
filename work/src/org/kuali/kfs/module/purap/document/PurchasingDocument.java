@@ -1217,4 +1217,15 @@ public interface PurchasingDocument extends PurchasingAccountsPayableDocument {
      */
     public void templateVendorContract(VendorContract vendorContract);
  
+    public String getVendorPaymentTermsCode();
+
+    public void setVendorPaymentTermsCode(String vendorPaymentTermsCode);
+
+    public String getVendorShippingPaymentTermsCode();
+
+    public void setVendorShippingPaymentTermsCode(String vendorShippingPaymentTermsCode);
+
+    public String getVendorShippingTitleCode();
+
+    public void setVendorShippingTitleCode(String vendorShippingTitleCode);
 }

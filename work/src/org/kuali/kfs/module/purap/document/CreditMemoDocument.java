@@ -164,7 +164,7 @@ public class CreditMemoDocument extends AccountsPayableDocumentBase {
      * Performs extended price calculation and sets on item if extended price is empty.
      */
     public void updateExtendedPriceOnItems() {
-    //TODO: ckirschenman - this method is the same as PaymentRequest, move up
+    //TODO (KULPURAP-1572: ckirschenman) - this method is the same as PaymentRequest, move up
         for (CreditMemoItem item : (List<CreditMemoItem>) getItems()) {
             item.refreshReferenceObject(PurapPropertyConstants.ITEM_TYPE);
 
@@ -206,7 +206,7 @@ public class CreditMemoDocument extends AccountsPayableDocumentBase {
                         return;
                     }
                 }
-                // TODO PURAP/delyea - what to do in a disapproval where no status to set exists?
+                // TODO (KULPURAP-1579: ckirshenman/hjs) delyea - what to do in a disapproval where no status to set exists?
                 logAndThrowRuntimeException("No status found to set for document being disapproved in node '" + nodeName + "'");
             }
             // DOCUMENT CANCELED

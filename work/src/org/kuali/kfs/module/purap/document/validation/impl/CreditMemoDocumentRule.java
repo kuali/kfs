@@ -82,8 +82,6 @@ public class CreditMemoDocumentRule extends AccountsPayableDocumentRuleBase impl
 
         valid = processDocumentOverviewValidation(cmDocument);
         valid &= processItemValidation(cmDocument);
-//FIXME: this should be warning only (i.e. question framework) remove this code when that's working
-        //        valid = valid && validateTotalMatchesVendorAmount(cmDocument);
         valid &= validateTotalOverZero(cmDocument);
 
         return valid;
@@ -265,7 +263,7 @@ public class CreditMemoDocumentRule extends AccountsPayableDocumentRuleBase impl
         for (int i = 0; i < itemList.size(); i++) {
             CreditMemoItem item = (CreditMemoItem) itemList.get(i);
             item.refreshReferenceObject(PurapPropertyConstants.ITEM_TYPE);
-            /*  TODO: Chris - this is a temporary fix to just run these validations on above the line long term we need to look into using parent validation more
+            /*  TODO (KULPURAP-1574: ckirschenman) this is a temporary fix to just run these validations on above the line long term we need to look into using parent validation more
              *                if super call is not used handle below the line items in an else below
              */
             if(item.getItemType().isItemTypeAboveTheLineIndicator()) {

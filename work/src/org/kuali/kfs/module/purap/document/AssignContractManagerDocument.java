@@ -64,7 +64,7 @@ public class AssignContractManagerDocument extends TransactionalDocumentBase {
     private String requisitionCreateDate;
     private String firstItemDescription;
     private String firstObjectCode;
-    // TODO: remove following field from here, OJB, and database after workflow API to retrieve this is implemented
+    // TODO (KULPURAP-1570: hjs) remove following field from here, OJB, and database after workflow API to retrieve this is implemented
     private Date documentFinalDate;
 
     private List notes;
@@ -131,7 +131,6 @@ public class AssignContractManagerDocument extends TransactionalDocumentBase {
                     else {
                         //only send FYI to initiator if code that was already set doesn't match code this doc was trying to set
                         if (req.getContractManagerCode().compareTo(detail.getContractManagerCode()) != 0) {
-                            // TODO: can we route back to initiator
                             isSuccess = false;
                             failedReqs.append(req.getPurapDocumentIdentifier() + ", ");
                         }
@@ -156,7 +155,7 @@ public class AssignContractManagerDocument extends TransactionalDocumentBase {
                             new NetworkIdVO(workflowDoc.getInitiatorNetworkId()), "Initiator", true);
                 }
                 catch (WorkflowException e) {
-                    // TODO do something
+                    //do nothing; document should have processed successfully and problem is with sending FYI
                 }
             }
         }

@@ -93,8 +93,6 @@ public class CreditMemoDocumentAuthorizer extends AccountingDocumentAuthorizerBa
             editModeMap.put(PurapAuthorizationConstants.CreditMemoEditMode.LOCK_VENDOR_ENTRY, "TRUE");
         }
 
-        //TODO: can we have an AP doc authorizer and move some of this similar logic up.  Also when we get
-        //AccountsPayableDocumentActionAuthorizer call the isExtracted method there.
         String apGroup = SpringContext.getBean(KualiConfigurationService.class).getApplicationParameterValue(PurapParameterConstants.PURAP_ADMIN_GROUP, PurapParameterConstants.Workgroups.WORKGROUP_ACCOUNTS_PAYABLE);        
         if (user.isMember(apGroup) && (creditMemoDocument.getExtractedDate()==null)) {
             editModeMap.put(PurapAuthorizationConstants.PaymentRequestEditMode.EDIT_PRE_EXTRACT, "TRUE");

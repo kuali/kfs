@@ -28,7 +28,6 @@ import org.kuali.core.bo.Note;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.exceptions.ValidationException;
 import org.kuali.core.service.BusinessObjectService;
-import org.kuali.core.service.DateTimeService;
 import org.kuali.core.service.DocumentService;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.service.NoteService;
@@ -55,7 +54,6 @@ import org.kuali.module.purap.document.PaymentRequestDocument;
 import org.kuali.module.purap.document.PurchaseOrderDocument;
 import org.kuali.module.purap.document.PurchasingAccountsPayableDocument;
 import org.kuali.module.purap.rule.event.ContinueAccountsPayableEvent;
-import org.kuali.module.purap.service.CreditMemoCreateService;
 import org.kuali.module.purap.service.CreditMemoService;
 import org.kuali.module.purap.service.PaymentRequestService;
 import org.kuali.module.purap.service.PurapAccountingService;
@@ -83,7 +81,6 @@ public class CreditMemoServiceImpl implements CreditMemoService {
     private PurapGeneralLedgerService purapGeneralLedgerService;
     private PaymentRequestService paymentRequestService;
     private PurchaseOrderService purchaseOrderService;
-    private DateTimeService dateTimeService;
 
     /**
      * @see org.kuali.module.purap.service.CreditMemoService#getCreditMemosToExtract(java.lang.String)
@@ -174,7 +171,7 @@ public class CreditMemoServiceImpl implements CreditMemoService {
         }
 
         //proration
-      //TODO: ckirschenman - move this to the accounts payable service and call, since it is essentially the easiest case from that
+      //TODO (KULPURAP-1575: ckirschenman) move this to the accounts payable service and call, since it is essentially the easiest case from that
         if(cmDocument.isSourceVendor()) {
             //no proration on vendor
             return;
@@ -257,25 +254,6 @@ public class CreditMemoServiceImpl implements CreditMemoService {
         }
     }
 
-    /**
-     * Recalculates the credit memo, calls document service to run rules and route the document.
-     * Also reopens PO if closed.
-     * 
-     * @see org.kuali.module.purap.service.CreditMemoService#approve(org.kuali.module.purap.document.CreditMemoDocument)
-     */
-    // TODO delyea/Chris - clean this up to user proper post processing and Kuali methods
-    public void route(CreditMemoDocument cmDocument, String annotation, List adHocRecipients) throws WorkflowException {
-        // recalculate        
-        calculateCreditMemo(cmDocument);
-
-        // TODO: call method to update accounting line amounts
-
-        // run rules and route, throws exception if errors were found
-        documentService.routeDocument(cmDocument, annotation, adHocRecipients);
-
-        reopenClosedPO(cmDocument);
-    }
-
     /** 
      * This method reopens PO if closed
      * 
@@ -283,7 +261,7 @@ public class CreditMemoServiceImpl implements CreditMemoService {
      */
     public void reopenClosedPO(CreditMemoDocument cmDocument){
 
-        // TODO CHRIS/DELYEA - THIS SHOULD HAPPEN WITH GL AND PERCENT CONVERT AT 'Leaving AP Review Level'
+        // TODO (KULPURAP-1576: dlemus) CHRIS/DELYEA - THIS SHOULD HAPPEN WITH GL AND PERCENT CONVERT AT 'route document'
         // reopen PO if closed
         Integer purchaseOrderDocumentId = cmDocument.getPurchaseOrderIdentifier();
         if (cmDocument.isSourceDocumentPaymentRequest() && 
@@ -298,7 +276,7 @@ public class CreditMemoServiceImpl implements CreditMemoService {
             if (ObjectUtils.isNotNull(purchaseOrderDocument) &&
                 (!purchaseOrderDocument.isPendingActionIndicator()) &&
                 PurapConstants.PurchaseOrderStatuses.CLOSED.equals(purchaseOrderDocument.getStatusCode())) {
-                // TODO: call reopen purchasing order service method when avaliable
+                // TODO (KULPURAP-1576: dlemus) call reopen purchasing order service method when avaliable
              }
         }
     }
@@ -425,7 +403,7 @@ public class CreditMemoServiceImpl implements CreditMemoService {
                 return;
             }
         }
-        // TODO PURAP/delyea - what to do in a cancel where no status to set exists?
+        // TODO (KULPURAP-1579: ckirshenman/hjs) delyea - what to do in a cancel where no status to set exists?
         LOG.warn("No status found to set for document being disapproved in node '" + currentNodeName + "'");
     }
 
@@ -434,18 +412,16 @@ public class CreditMemoServiceImpl implements CreditMemoService {
      *      java.lang.String)
      */
     public void cancelExtractedCreditMemo(CreditMemoDocument cmDocument, String note) {
-        // TODO Auto-generated method stub
+        // TODO (KULPURAP-1444: ckirshenman) Auto-generated method stub
 
     }
-
 
     /**
      * @see org.kuali.module.purap.service.CreditMemoService#resetExtractedCreditMemo(org.kuali.module.purap.document.CreditMemoDocument,
      *      java.lang.String)
      */
     public void resetExtractedCreditMemo(CreditMemoDocument cmDocument, String note) {
-        // TODO Auto-generated method stub
-
+        // TODO (KULPURAP-1444: ckirshenman) Auto-generated method stub
     }
 
     /**
@@ -509,15 +485,6 @@ public class CreditMemoServiceImpl implements CreditMemoService {
      */
     public void setPurapGeneralLedgerService(PurapGeneralLedgerService purapGeneralLedgerService) {
         this.purapGeneralLedgerService = purapGeneralLedgerService;
-    }
-
-    /**
-     * Sets the dateTimeService attribute value.
-     * 
-     * @param dateTimeService The dateTimeService to set.
-     */
-    public void setDateTimeService(DateTimeService dateTimeService) {
-        this.dateTimeService = dateTimeService;
     }
 
     /**

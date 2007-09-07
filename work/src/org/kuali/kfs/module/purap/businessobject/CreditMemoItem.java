@@ -79,7 +79,7 @@ public class CreditMemoItem extends AccountsPayableItemBase {
      * Constructs a CreditMemoItem.java from an existing PurchaseOrderItem.
      */
     public CreditMemoItem(CreditMemoDocument cmDocument, PurchaseOrderItem poItem, HashMap<String, ExpiredOrClosedAccountEntry> expiredOrClosedAccountList) {
-        //TODO: Merge this method with the other constructor. cleanup
+        //TODO (KULPURAP-1575) Merge this method with the other constructor. cleanup
         super();
 
         setPurapDocumentIdentifier(cmDocument.getPurapDocumentIdentifier());

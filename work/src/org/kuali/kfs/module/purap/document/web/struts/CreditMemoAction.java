@@ -125,7 +125,7 @@ public class CreditMemoAction extends AccountsPayableActionBase {
         CreditMemoDocument cmDocument = (CreditMemoDocument) apDoc;
 
         // check rules before doing calculation
-//TODO: ckirschenman - the way this rule is currently implemented interferes with proration.  Either make the rules it calls simpler or remove this
+//TODO (KULPURAP-1346: dlemus) ckirschenman - the way this rule is currently implemented interferes with proration.  Either make the rules it calls simpler or remove this
 //        boolean valid = SpringContext.getBean(KualiRuleService.class).applyRules(new PreCalculateAccountsPayableEvent(cmDocument));
 
 //        if (valid) {
@@ -187,27 +187,6 @@ public class CreditMemoAction extends AccountsPayableActionBase {
         };
         
         return askQuestionWithInput(mapping, form, request, response, CMDocumentsStrings.CANCEL_CM_QUESTION, CMDocumentsStrings.CANCEL_NOTE_PREFIX, operation, PurapKeyConstants.CREDIT_MEMO_QUESTION_CANCEL_DOCUMENT, callback);
-    }
-    
-    /**
-     * This method routes the document, and reopens a PO if the route was successful.
-     *  
-     * @see org.kuali.core.web.struts.action.KualiDocumentActionBase#route(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
-     */
-    @Override
-    public ActionForward route(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        CreditMemoForm cmForm = (CreditMemoForm) form;
-        CreditMemoDocument creditMemoDocument = (CreditMemoDocument) cmForm.getDocument();
-        
-        //route
-        ActionForward forward = super.route(mapping, form, request, response);
-
-        //reopen PO if route successful
-        if( GlobalVariables.getMessageList().contains(RiceKeyConstants.MESSAGE_ROUTE_SUCCESSFUL) ){
-            SpringContext.getBean(CreditMemoService.class).reopenClosedPO(creditMemoDocument);
-        }
-
-        return forward;
     }
 
 }

@@ -65,7 +65,7 @@ public class AccountsPayableActionBase extends PurchasingAccountsPayableActionBa
         AccountsPayableFormBase baseForm = (AccountsPayableFormBase) form;
         AccountsPayableDocumentBase document = (AccountsPayableDocumentBase) baseForm.getDocument();
 
-        //TODO f2f: couldn't this be moved up to purap action base becuase pur documents do the same thing!!!!
+        //TODO (KULPURAP-1573) couldn't this be moved up to purap action base becuase pur documents do the same thing!!!! (then we do not need this method)
         if (StringUtils.equals(baseForm.getRefreshCaller(), VendorConstants.VENDOR_ADDRESS_LOOKUPABLE_IMPL)) {
             if (StringUtils.isNotBlank(request.getParameter(RicePropertyConstants.DOCUMENT + "." + PurapPropertyConstants.VENDOR_ADDRESS_ID))) {
                 Integer vendorAddressGeneratedId = document.getVendorAddressGeneratedIdentifier();
@@ -91,44 +91,6 @@ public class AccountsPayableActionBase extends PurchasingAccountsPayableActionBa
         AccountsPayableDocument document = (AccountsPayableDocument) kualiDocumentFormBase.getDocument();
         
         SpringContext.getBean(AccountsPayableService.class).generateExpiredOrClosedAccountWarning(document);
-    }
-
-    /**
-     * Add a new item to the document.
-     * 
-     * @param mapping
-     * @param form
-     * @param request
-     * @param response
-     * @return ActionForward
-     * @throws Exception
-     */
-    public ActionForward addItem(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        PurchasingFormBase purchasingForm = (PurchasingFormBase) form;
-        // TODO: should call add line event/rules here
-        PurchasingApItem item = purchasingForm.getAndResetNewPurchasingItemLine();
-        PurchasingDocument purDocument = (PurchasingDocument) purchasingForm.getDocument();
-        purDocument.addItem(item);
-        return mapping.findForward(KFSConstants.MAPPING_BASIC);
-    }
-
-    /**
-     * Delete an item from the document.
-     * 
-     * @param mapping
-     * @param form
-     * @param request
-     * @param response
-     * @return ActionForward
-     * @throws Exception
-     */
-    public ActionForward deleteItem(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        PurchasingFormBase purchasingForm = (PurchasingFormBase) form;
-        // TODO: should call delete line event/rules here
-
-        PurchasingDocument purDocument = (PurchasingDocument) purchasingForm.getDocument();
-        purDocument.deleteItem(getSelectedLine(request));
-        return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
     /**

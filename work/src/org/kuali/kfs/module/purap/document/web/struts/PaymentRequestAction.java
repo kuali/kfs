@@ -240,7 +240,7 @@ public class PaymentRequestAction extends AccountsPayableActionBase {
         PaymentRequestDocument document = (PaymentRequestDocument) preqForm.getDocument();
         if (document.getDocumentHeader().hasWorkflowDocument()) {
             if ((document.getDocumentHeader().getWorkflowDocument().stateIsProcessed()) || (document.getDocumentHeader().getWorkflowDocument().stateIsFinal())) {
-                // TODO delyea - call custom cancel in the service
+                // TODO (KULPURAP-1579: ckirschenman)delyea - call custom cancel in the service
             }
             else if (document.getDocumentHeader().getWorkflowDocument().stateIsEnroute()) {
                 // one way or another we will have to fake the user session so get the current one
@@ -292,29 +292,10 @@ public class PaymentRequestAction extends AccountsPayableActionBase {
         PaymentRequestDocument preqDoc = (PaymentRequestDocument) apDoc;
         //set amounts on any empty
         preqDoc.updateExtendedPriceOnItems();
+
         //notice we're ignoring whether the boolean, because these are just warnings they shouldn't halt anything
         SpringContext.getBean(KualiRuleService.class).applyRules(new CalculateAccountsPayableEvent(preqDoc));
-
         SpringContext.getBean(PaymentRequestService.class).calculatePaymentRequest(preqDoc, true);
-        // TODO Chris - an updateAccountAmounts is done at the end of the above method... need it here? (I don't think so)
-//        SpringContext.getBean(PurapAccountingService.class).updateAccountAmounts(apDoc);
     }
 
-
-    /**
-     * @see org.kuali.core.web.struts.action.KualiDocumentActionBase#save(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
-     */
-    /*
-     @Override
-     public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-     // TODO Auto-generated method stub
-     LOG.debug("save() method");
-
-     PaymentRequestForm preqForm = (PaymentRequestForm) form;
-     PaymentRequestDocument document = (PaymentRequestDocument) preqForm.getDocument();
-     
-     SpringContext.getBean(PaymentRequestService.class).save(document);
-     return super.save(mapping, form, request, response);
-     }
-     */
 }

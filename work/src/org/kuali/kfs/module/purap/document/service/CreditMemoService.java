@@ -76,16 +76,6 @@ public interface CreditMemoService {
     public void populateAndSaveCreditMemo(CreditMemoDocument creditMemoDocument);
 
     /**
-     * Performs checks for approve and any necessary modifications of the document.
-     * 
-     * @param cmDocument - document that is being approved
-     * @param annotation - routing note
-     * @param adHocRecipients - list of additional people to route to
-     * @throws WorkflowException
-     */
-    public void route(CreditMemoDocument cmDocument, String annotation, List adHocRecipients) throws WorkflowException;
-
-    /**
      * Performs the credit memo item extended price calculation.
      * 
      * @param cmDocument - credit memo document to calculate

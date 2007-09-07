@@ -16,8 +16,6 @@
 
 package org.kuali.module.purap.bo;
 
-import java.util.LinkedHashMap;
-
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.bo.AccountingLineBase;
 import org.kuali.module.purap.util.PurApObjectUtils;
@@ -26,9 +24,8 @@ import org.kuali.module.purap.util.PurApObjectUtils;
  * 
  */
 public class PaymentRequestAccount extends PurApAccountingLineBase {
-    //FIXME: remove this field, it is superseeded by amount on parent
-	private KualiDecimal itemAccountTotalAmount = KualiDecimal.ZERO;
-	private KualiDecimal disencumberedAmount = KualiDecimal.ZERO;
+
+    private KualiDecimal disencumberedAmount = KualiDecimal.ZERO;
 
     private PaymentRequestItem paymentRequestItem;
     
@@ -43,9 +40,9 @@ public class PaymentRequestAccount extends PurApAccountingLineBase {
      * Default constructor.
      */
     public PaymentRequestAccount(PaymentRequestItem item, PurchaseOrderAccount poa) {
-//      copy base attributes
+        // copy base attributes
         PurApObjectUtils.populateFromBaseClass(AccountingLineBase.class, poa, this);
-        //copy percent
+        // copy percent
         this.setAccountLinePercent(poa.getAccountLinePercent());
         setItemIdentifier(item.getItemIdentifier());
         setPaymentRequestItem(item);
@@ -69,24 +66,6 @@ public class PaymentRequestAccount extends PurApAccountingLineBase {
     }
 
     /**
-     * Gets the itemAccountTotalAmount attribute. 
-     * @return Returns the itemAccountTotalAmount.
-     * @deprecated
-     */
-    public KualiDecimal getItemAccountTotalAmount() {
-        return itemAccountTotalAmount;
-    }
-
-    /**
-     * Sets the itemAccountTotalAmount attribute value.
-     * @param itemAccountTotalAmount The itemAccountTotalAmount to set.
-     * @deprecated
-     */
-    public void setItemAccountTotalAmount(KualiDecimal itemAccountTotalAmount) {
-        this.itemAccountTotalAmount = itemAccountTotalAmount;
-    }
-
-    /**
      * Gets the paymentRequestItem attribute. 
      * @return Returns the paymentRequestItem.
      */
@@ -102,15 +81,4 @@ public class PaymentRequestAccount extends PurApAccountingLineBase {
         this.paymentRequestItem = paymentRequestItem;
     }
 
-//    /**
-//	 * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
-//	 */
-//	@Override
-//    protected LinkedHashMap toStringMapper() {
-//	    LinkedHashMap m = new LinkedHashMap();	    
-//        if (this.getAccountIdentifier() != null) {
-//            m.put("paymentRequestAccountIdentifier", this.getAccountIdentifier().toString());
-//        }
-//	    return m;
-//    }
 }

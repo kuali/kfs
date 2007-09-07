@@ -2933,7 +2933,7 @@
     <field-descriptor name="organizationDocumentNumber" column="ORG_DOC_NBR" jdbc-type="VARCHAR" index="true" />
     <field-descriptor name="financialDocumentInErrorNumber" column="FDOC_IN_ERR_NBR" jdbc-type="VARCHAR" />
     <field-descriptor name="financialDocumentTemplateNumber" column="FDOC_TMPL_NBR" jdbc-type="VARCHAR" />
-    <!-- TODO: remove following field from here, BO, and database after workflow API to retrieve this is implemented -->
+    <!-- TODO (KULPURAP-1570: hjs) remove following field from here, BO, and database after workflow API to retrieve this is implemented -->
     <field-descriptor name="documentFinalDate" column="TEMP_DOC_FNL_DT" jdbc-type="DATE" />
 <!--
     <collection-descriptor name="notes" element-class-ref="org.kuali.core.bo.DocumentNote" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">

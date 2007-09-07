@@ -16,13 +16,11 @@
 
 package org.kuali.module.purap.bo;
 
-import org.kuali.core.util.KualiDecimal;
 
 /**
  * Accounting line Business Object for a credit memo item line.
  */
 public class CreditMemoAccount extends PurApAccountingLineBase {
-    private KualiDecimal itemAccountTotalAmount;
 
     private CreditMemoItem creditMemoItem;
 
@@ -46,25 +44,6 @@ public class CreditMemoAccount extends PurApAccountingLineBase {
         setAmount(accountingLine.getAmount());
         setAccountLinePercent(accountingLine.getAccountLinePercent());
     }
-
-    /**
-     * Gets the itemAccountTotalAmount attribute.
-     * 
-     * @return Returns the itemAccountTotalAmount
-     */
-    public KualiDecimal getItemAccountTotalAmount() {
-        return itemAccountTotalAmount;
-    }
-
-    /**
-     * Sets the itemAccountTotalAmount attribute.
-     * 
-     * @param itemAccountTotalAmount The itemAccountTotalAmount to set.
-     */
-    public void setItemAccountTotalAmount(KualiDecimal itemAccountTotalAmount) {
-        this.itemAccountTotalAmount = itemAccountTotalAmount;
-    }
-
 
     /**
      * Gets the creditMemoItem attribute.

@@ -29,13 +29,6 @@
 			
 			&purApAccountingLineBaseAttributes;
 
-			<attributeReference name="itemAccountTotalAmount" sourceClassName="org.kuali.module.purap.bo.PurApAttributeReferenceDummy" sourceAttributeName="genericItemAmount">
-				<label>Item Account Total Amount</label>
-				<shortLabel>Amount</shortLabel>
-				<summary>itemAccountTotalAmount</summary>
-				<description>itemAccountTotalAmountdescription...</description>
-			</attributeReference>
-
 		</attributes>
 	</businessObject>
 </dictionaryEntry>

@@ -90,6 +90,9 @@ public class PurchasingActionBase extends PurchasingAccountsPayableActionBase {
             // populate default address based on selected vendor
             VendorAddress defaultAddress = SpringContext.getBean(VendorService.class).getVendorDefaultAddress(refreshVendorDetail.getVendorAddresses(), refreshVendorDetail.getVendorHeader().getVendorType().getAddressType().getVendorAddressTypeCode(), "");
             document.templateVendorAddress(defaultAddress);
+            
+            // populate default cost source 
+            document.setPurchaseOrderCostSourceCode( PurapConstants.POCostSources.ESTIMATE );
         }
 
         //Refreshing the fields after returning from a contract lookup in the vendor tab
@@ -119,6 +122,15 @@ public class PurchasingActionBase extends PurchasingAccountsPayableActionBase {
                 // populate default address from selected vendor
                 VendorAddress defaultAddress = SpringContext.getBean(VendorService.class).getVendorDefaultAddress(refreshVendorDetail.getVendorAddresses(), refreshVendorDetail.getVendorHeader().getVendorType().getAddressType().getVendorAddressTypeCode(), "");
                 document.templateVendorAddress(defaultAddress);
+                
+                // populate cost source from the selected contract
+                if (refreshVendorContract != null) {
+                    String costSourceCode = refreshVendorContract.getPurchaseOrderCostSourceCode();
+                    if (StringUtils.isNotBlank(costSourceCode)) {
+                        document.setPurchaseOrderCostSourceCode(costSourceCode);
+                        // document.setPurchaseOrderCostSource(refreshVendorContract.getPurchaseOrderCostSource());
+                    }
+                }
             }
         }
         

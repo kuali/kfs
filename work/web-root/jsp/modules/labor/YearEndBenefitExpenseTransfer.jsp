@@ -23,8 +23,12 @@
 	value="${!empty KualiForm.editingMode['viewOnly']}" />
 	
 <c:if test="${fn:length(KualiForm.document.sourceAccountingLines)>0 || readOnly}">
-	<c:set var="disabled" value="true"/>
-</c:if>	
+	<c:set var="disabledSourceLines" value="true"/>
+</c:if>
+
+<c:if test="${fn:length(KualiForm.document.targetAccountingLines)>0 || readOnly}">
+	<c:set var="disabledTargetLines" value="true"/>
+</c:if>
 
 <kul:documentPage showDocumentInfo="true"
 	documentTypeName="KualiYearEndBenefitExpenseTransferDocument"
@@ -155,18 +159,18 @@
 					forcedReadOnlyFields="${KualiForm.forcedReadOnlySourceFields}"
 					accountingLineAttributes="${accountingLineAttributesMap}">
 					<jsp:attribute name="importRowOverride">
-					
 					<%-- When data exists show the copy or delete buttons --%>
-		            <c:if test="${disabled}">
-						<html:image property="methodToCall.copyAllAccountingLines"
-							src="${ConfigProperties.externalizable.images.url}tinybutton-copyall.gif"
-							title="Copy all Source Accounting Lines"
-							alt="Copy all Source Lines" styleClass="tinybutton" />
-						<html:image property="methodToCall.deleteAllAccountingLines"
+		            <c:if test="${disabledSourceLines}">
+		                <html:image property="methodToCall.copyAllAccountingLines" 
+		                	src="${ConfigProperties.externalizable.images.url}tinybutton-copyall.gif" 
+		                	title="Copy all Source Accounting Lines" 
+		                	alt="Copy all Source Lines" styleClass="tinybutton"/>
+		   			    <html:image property="methodToCall.deleteAllSourceAccountingLines"
 							src="${ConfigProperties.externalizable.images.url}tinybutton-deleteall.gif"
 							title="Delete all Source Accounting Lines"
 							alt="Delete all Source Lines" styleClass="tinybutton" />
-					</c:if>							
+					 </c:if>
+							
 							
                     </jsp:attribute>
 					<jsp:attribute name="customActions">
@@ -195,8 +199,15 @@
 					displayMonthlyAmounts="${displayMonthlyAmountsBoolean}"
 					forcedReadOnlyFields="${KualiForm.forcedReadOnlyTargetFields}"
 					accountingLineAttributes="${accountingLineAttributesMap}">
-					<jsp:attribute name="importRowOverride">
-					</jsp:attribute>
+		            <jsp:attribute name="importRowOverride">
+		            <%-- When data exists show the delete button --%>
+		            <c:if test="${disabledTargetLines}">
+		   			    <html:image property="methodToCall.deleteAllTargetAccountingLines"
+							src="${ConfigProperties.externalizable.images.url}tinybutton-deleteall.gif"
+							title="Delete all Target Accounting Lines"
+							alt="Delete all Target Lines" styleClass="tinybutton" />
+					 </c:if>            
+		            </jsp:attribute>
 				</ld:importedAccountingLineGroup>
 			</table>
 		</jsp:attribute>

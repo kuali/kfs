@@ -57,7 +57,6 @@ import org.kuali.module.labor.bo.LaborAccountingLineOverride;
 import org.kuali.module.labor.bo.LedgerBalance;
 import org.kuali.module.labor.document.LaborExpenseTransferDocumentBase;
 import org.kuali.module.labor.service.SegmentedLookupResultsService;
-import org.kuali.module.labor.web.struts.form.BenefitExpenseTransferForm;
 import org.kuali.module.labor.web.struts.form.ExpenseTransferDocumentFormBase;
 
 import edu.iu.uis.eden.exception.WorkflowException;
@@ -275,7 +274,14 @@ public class ExpenseTransferDocumentActionBase extends LaborDocumentActionBase {
     }
 
     /**
-     * delete all accounting lines
+     * Delete all accounting lines
+     * 
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return mapping
+     * @throws Exception
      */
     public ActionForward deleteAllAccountingLines(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ExpenseTransferDocumentFormBase financialDocumentForm = (ExpenseTransferDocumentFormBase) form;
@@ -293,6 +299,47 @@ public class ExpenseTransferDocumentActionBase extends LaborDocumentActionBase {
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
+    /**
+     * Delete all source accounting lines
+     * 
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return ActionMapping
+     * @throws Exception
+     */
+    public ActionForward deleteAllSourceAccountingLines(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        ExpenseTransferDocumentFormBase financialDocumentForm = (ExpenseTransferDocumentFormBase) form;
+        boolean success = false;
+        List sourceAccountingLines = financialDocumentForm.getFinancialDocument().getSourceAccountingLines();
+        if (sourceAccountingLines != null) {
+            success = sourceAccountingLines.removeAll(sourceAccountingLines);
+        }
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
+    }
+
+    /**
+     * Delete all target accounting lines
+     * 
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return ActionMapping
+     * @throws Exception
+     */
+    public ActionForward deleteAllTargetAccountingLines(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        ExpenseTransferDocumentFormBase financialDocumentForm = (ExpenseTransferDocumentFormBase) form;
+        boolean success = false;
+        List targetAccountingLines = financialDocumentForm.getFinancialDocument().getTargetAccountingLines();
+        if (targetAccountingLines != null) {
+            success = targetAccountingLines.removeAll(targetAccountingLines);
+        }
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
+    }     
+    
+    
     /**
      * @see org.kuali.core.web.struts.action.KualiDocumentActionBase#copyAccountingLine(ActionMapping, ActionForm,
      *      HttpServletRequest, HttpServletResponse)

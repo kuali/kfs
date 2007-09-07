@@ -23,9 +23,13 @@
 	value="${!empty KualiForm.editingMode['viewOnly']}" />
 	
 <c:if test="${fn:length(KualiForm.document.sourceAccountingLines)>0 || readOnly}">
-	<c:set var="disabled" value="true"/>
+	<c:set var="disabledSourceLines" value="true"/>
 </c:if>
-		
+
+<c:if test="${fn:length(KualiForm.document.targetAccountingLines)>0 || readOnly}">
+	<c:set var="disabledTargetLines" value="true"/>
+</c:if>
+
 <kul:documentPage showDocumentInfo="true"
     documentTypeName="KualiYearEndSalaryExpenseTransferDocument"
     htmlFormAction="laborYearEndSalaryExpenseTransfer" renderMultipart="true"
@@ -41,8 +45,7 @@
 		<div class="h2-container">
 		<h2>Ledger Balance Importing</h2>
 		</div>
-		<table cellpadding="0" cellspacing="0" class="datatable"
-			summary="Ledger Balance Importing">
+		<table cellpadding="0" cellspacing="0" class="datatable" summary="Ledger Balance Importing">
 
 			<tr>
 				<kul:htmlAttributeHeaderCell
@@ -65,8 +68,7 @@
                <kul:htmlAttributeHeaderCell
                    attributeEntry="${DataDictionary.UniversalUser.attributes.personPayrollIdentifier}"
                    horizontal="true"
-                   forceRequired="true"
-                   />
+                   forceRequired="true"/>
                <td>
                      <ld:employee userIdFieldName="emplid" 
                                  userNameFieldName="user.personName" 
@@ -107,6 +109,7 @@
         <fin:subheadingWithDetailToggleRow
             columnCount="${columnCount}"
              subheading="Accounting Lines"/>
+             
         <ld:importedAccountingLineGroup
             isSource="true"
             columnCountUntilAmount="${columnCountUntilAmount}"
@@ -125,16 +128,17 @@
             forcedReadOnlyFields="${KualiForm.forcedReadOnlySourceFields}"
             accountingLineAttributes="${accountingLineAttributesMap}">
             <jsp:attribute name="importRowOverride">
-            
             <%-- When data exists show the copy or delete buttons --%>
-            <c:if test="${disabled}">
-                <html:image property="methodToCall.copyAllAccountingLines" src="${ConfigProperties.externalizable.images.url}tinybutton-copyall.gif" title="Copy all Source Accounting Lines" alt="Copy all Source Lines" styleClass="tinybutton"/>
-   			        <html:image property="methodToCall.deleteAllAccountingLines"
-					    src="${ConfigProperties.externalizable.images.url}tinybutton-deleteall.gif"
-						title="Delete all Source Accounting Lines"
-						alt="Delete all Source Lines" styleClass="tinybutton" />
+            <c:if test="${disabledSourceLines}">
+                <html:image property="methodToCall.copyAllAccountingLines" 
+                	src="${ConfigProperties.externalizable.images.url}tinybutton-copyall.gif" 
+                	title="Copy all Source Accounting Lines" 
+                	alt="Copy all Source Lines" styleClass="tinybutton"/>
+   			    <html:image property="methodToCall.deleteAllSourceAccountingLines"
+					src="${ConfigProperties.externalizable.images.url}tinybutton-deleteall.gif"
+					title="Delete all Source Accounting Lines"
+					alt="Delete all Source Lines" styleClass="tinybutton" />
 			 </c:if>
-						
             </jsp:attribute>
             <jsp:attribute name="customActions">
                 <c:set var="copyMethod" value="copyAccountingLine.line${accountingLineIndexVar}" scope="request" />
@@ -160,8 +164,16 @@
             displayMonthlyAmounts="${displayMonthlyAmountsBoolean}"
             accountingLineAttributes="${accountingLineAttributesMap}">
             <jsp:attribute name="importRowOverride">
+            <%-- When data exists show the delete button --%>
+            <c:if test="${disabledTargetLines}">
+   			    <html:image property="methodToCall.deleteAllTargetAccountingLines"
+					src="${ConfigProperties.externalizable.images.url}tinybutton-deleteall.gif"
+					title="Delete all Target Accounting Lines"
+					alt="Delete all Target Lines" styleClass="tinybutton" />
+			 </c:if>            
             </jsp:attribute>
          </ld:importedAccountingLineGroup>
+         
       </table>
       </jsp:attribute>
     </fin:accountingLines>

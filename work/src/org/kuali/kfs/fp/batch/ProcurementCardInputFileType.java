@@ -84,7 +84,7 @@ public class ProcurementCardInputFileType extends BatchInputFileTypeBase {
      * @see org.kuali.kfs.batch.BatchInputFileType#validate(java.lang.Object)
      */
     public boolean validate(Object parsedFileContents) {
-        return false;
+        return true;
     }
 
     /**

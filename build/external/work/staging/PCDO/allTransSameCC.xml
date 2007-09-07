@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Copyright 2005-2006 The Kuali Foundation.
+	
+	Licensed under the Educational Community License, Version 1.0 (the "License");
+	you may not use this file except in compliance with the License.
+	You may obtain a copy of the License at
+	
+	http://www.opensource.org/licenses/ecl1.php
+	
+	Unless required by applicable law or agreed to in writing, software
+	distributed under the License is distributed on an "AS IS" BASIS,
+	WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+	See the License for the specific language governing permissions and
+	limitations under the License.
+-->
+<transactions
+	xmlns="http://www.kuali.org/modules/financial/procurementCard"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<transaction>
+		<transactionCreditCardNumber>4444876757777111</transactionCreditCardNumber>
+		<financialDocumentTotalAmount>1.46</financialDocumentTotalAmount>
+		<transactionDebitCreditCode>D</transactionDebitCreditCode>
+		<chartOfAccountsCode>BL</chartOfAccountsCode>
+		<accountNumber>4631654</accountNumber>
+		<financialObjectCode>4190</financialObjectCode>
+		<transactionCycleStartDate>2006-01-03</transactionCycleStartDate>
+		<transactionCycleEndDate>2006-01-03</transactionCycleEndDate>
+		<cardHolderName>IUPUI JAGS BOOKSTORES</cardHolderName>
+		<transactionDate>2006-01-02</transactionDate>
+		<transactionReferenceNumber>432866002000132935937</transactionReferenceNumber>
+		<transactionMerchantCategoryCode>5192</transactionMerchantCategoryCode>
+		<transactionPostingDate>2006-01-02</transactionPostingDate>
+		<vendorName>AMZ*AMAZON PAYMENTS</vendorName>
+	</transaction>
+	<transaction>
+		<transactionCreditCardNumber>4444876757777111</transactionCreditCardNumber>
+		<financialDocumentTotalAmount>-659</financialDocumentTotalAmount>
+		<transactionDebitCreditCode>C</transactionDebitCreditCode>
+		<chartOfAccountsCode>BL</chartOfAccountsCode>
+		<accountNumber>4631654</accountNumber>
+		<financialObjectCode>4190</financialObjectCode>
+		<transactionCycleStartDate>2006-01-03</transactionCycleStartDate>
+		<transactionCycleEndDate>2006-01-03</transactionCycleEndDate>
+		<cardHolderName>ANNETTE M CARASCO</cardHolderName>
+		<transactionDate>2005-12-14</transactionDate>
+		<transactionReferenceNumber>85450785349118</transactionReferenceNumber>
+		<transactionMerchantCategoryCode>2741</transactionMerchantCategoryCode>
+		<transactionPostingDate>2005-12-14</transactionPostingDate>
+		<vendorName>SAGE PUBLICATIONS INC</vendorName>
+	</transaction>
+	<transaction>
+		<transactionCreditCardNumber>4444876757777111</transactionCreditCardNumber>
+		<financialDocumentTotalAmount>305</financialDocumentTotalAmount>
+		<transactionDebitCreditCode>D</transactionDebitCreditCode>
+		<chartOfAccountsCode>BL</chartOfAccountsCode>
+		<accountNumber>4631654</accountNumber>
+		<financialObjectCode>4190</financialObjectCode>
+		<transactionCycleStartDate>2006-01-03</transactionCycleStartDate>
+		<transactionCycleEndDate>2006-01-03</transactionCycleEndDate>
+		<cardHolderName>PAT FOX</cardHolderName>
+		<transactionDate>2006-01-02</transactionDate>
+		<transactionReferenceNumber>457026002286188800023</transactionReferenceNumber>
+		<transactionMerchantCategoryCode>5968</transactionMerchantCategoryCode>
+		<transactionPostingDate>2006-01-02</transactionPostingDate>
+		<vendorName>NCIDQ</vendorName>
+	</transaction>
+</transactions>

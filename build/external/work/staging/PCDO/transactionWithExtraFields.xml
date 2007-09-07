@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Copyright 2005-2006 The Kuali Foundation.
+	
+	Licensed under the Educational Community License, Version 1.0 (the "License");
+	you may not use this file except in compliance with the License.
+	You may obtain a copy of the License at
+	
+	http://www.opensource.org/licenses/ecl1.php
+	
+	Unless required by applicable law or agreed to in writing, software
+	distributed under the License is distributed on an "AS IS" BASIS,
+	WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+	See the License for the specific language governing permissions and
+	limitations under the License.
+-->
+<transactions
+	xmlns="http://www.kuali.org/modules/financial/procurementCard"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+	<transaction>
+		<transactionCreditCardNumber>999911112222333</transactionCreditCardNumber>
+		<financialDocumentTotalAmount>11.55</financialDocumentTotalAmount>
+		<transactionDebitCreditCode>D</transactionDebitCreditCode>
+		<chartOfAccountsCode>BL</chartOfAccountsCode>
+		<accountNumber>4631654</accountNumber>
+		<financialObjectCode>4190</financialObjectCode>
+		<transactionCycleStartDate>2006-02-20</transactionCycleStartDate>
+		<transactionCycleEndDate>2006-02-20</transactionCycleEndDate>
+		<cardHolderName>Molecular Structure Center</cardHolderName>
+		<transactionDate>2006-02-17</transactionDate>
+		<transactionReferenceNumber>554173460487304813890</transactionReferenceNumber>
+		<transactionMerchantCategoryCode>7622</transactionMerchantCategoryCode>
+		<transactionPostingDate>2006-02-17</transactionPostingDate>
+		<vendorName>STANSIFER RADIO CO</vendorName>
+	</transaction>
+
+	<transaction>
+		<transactionCreditCardNumber>999911112222333</transactionCreditCardNumber>
+		<financialDocumentTotalAmount>30.27</financialDocumentTotalAmount>
+		<transactionDebitCreditCode>D</transactionDebitCreditCode>
+		<chartOfAccountsCode>BL</chartOfAccountsCode>
+		<accountNumber>4631654</accountNumber>
+		<subAccountNumber>ADV</subAccountNumber>
+		<financialObjectCode>4190</financialObjectCode>
+        <!-- <financialSubObjectCode>Need a value here</financialSubObjectCode> -->
+        <projectCode>BOB</projectCode>
+		<transactionCycleStartDate>2006-03-02</transactionCycleStartDate>
+		<transactionCycleEndDate>2006-03-02</transactionCycleEndDate>
+		<cardHolderName>BARBARA TRUESDELL</cardHolderName>
+		<transactionDate>2006-03-01</transactionDate>
+		<transactionReferenceNumber>55417346061640610702687</transactionReferenceNumber>
+		<transactionMerchantCategoryCode>5192</transactionMerchantCategoryCode>
+		<transactionPostingDate>2006-03-01</transactionPostingDate>
+		<vendorName>IMU BOOKSTORE</vendorName>
+		<vendorLine1Address>IU Memorial Union</vendorLine1Address>
+        <vendorLine2Address>Mezz Level</vendorLine2Address>
+        <vendorCityName>Bloomington</vendorCityName>
+        <vendorStateCode>IN</vendorStateCode>
+        <vendorZipCode>47408</vendorZipCode>
+        <vendorOrderNumber>12345</vendorOrderNumber>
+        <visaVendorIdentifier>Don't know</visaVendorIdentifier>
+        <cardHolderAlternateName>Big Red</cardHolderAlternateName>
+        <cardHolderLine1Address>Somewhere</cardHolderLine1Address>
+        <cardHolderLine2Address>Some building</cardHolderLine2Address>
+        <cardHolderCityName>Bloom</cardHolderCityName>
+        <cardHolderStateCode>IN</cardHolderStateCode>
+        <cardHolderZipCode>47401</cardHolderZipCode>
+        <cardHolderWorkPhoneNumber>8125555555</cardHolderWorkPhoneNumber>
+        <cardLimit>100</cardLimit>
+        <cardCycleAmountLimit>100</cardCycleAmountLimit>
+        <cardCycleVolumeLimit>100</cardCycleVolumeLimit>
+        <cardStatusCode>A</cardStatusCode>
+        <cardNoteText>Hi</cardNoteText>
+	</transaction>
+</transactions>

@@ -608,11 +608,11 @@ public abstract class PurApItemBase extends PersistableBusinessObjectBase implem
         return true;
     }
     
-    public KualiDecimal getExtendedPriceForAccountSummary() {
+    public KualiDecimal getEstimatedEncumberanceAmount() {
         return estimatedEncumberanceAmount;
 }
-    public void setExtendedPriceForAccountSummary(KualiDecimal extendedPriceForAccountSummary) {
-        this.estimatedEncumberanceAmount = extendedPriceForAccountSummary;
+    public void setEstimatedEncumberanceAmount(KualiDecimal estimatedEncumberanceAmount) {
+        this.estimatedEncumberanceAmount = estimatedEncumberanceAmount;
     }
     
 }

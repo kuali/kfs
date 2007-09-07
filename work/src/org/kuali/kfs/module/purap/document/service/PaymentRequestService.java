@@ -39,7 +39,6 @@ public interface PaymentRequestService {
     
     public List getPaymentRequestsByPOIdInvoiceAmountInvoiceDate(Integer poId, KualiDecimal invoiceAmount, Date invoiceDate);
     
-    // TODO: Implement me.
     public List getPaymentRequestsByVendorNumberInvoiceNumber(Integer vendorHeaderGeneratedIdentifier, Integer vendorDetailAssignedIdentifier, String invoiceNumber);
     
     public boolean isInvoiceDateAfterToday(Date invoiceDate);

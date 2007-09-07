@@ -49,7 +49,6 @@ public abstract class PurApItemBase extends PersistableBusinessObjectBase implem
     private KualiDecimal extendedPriceForAccountSummary;
     
     private List<PurApAccountingLine> sourceAccountingLines;
-    //TODO: add transient back if that doesn't cause  a problem
     private transient List<PurApAccountingLine> baselineSourceAccountingLines;
     private transient PurApAccountingLine newSourceLine;
     
@@ -63,9 +62,7 @@ public abstract class PurApItemBase extends PersistableBusinessObjectBase implem
 	 * Default constructor.
 	 */
 	public PurApItemBase() {
-	    //TODO: Chris - default itemType (should probably get this from spring or KFSConstants file)
-	    //        itemTypeCode = "ITEM";
-
+        itemTypeCode = PurapConstants.ItemTypeCodes.ITEM_TYPE_ITEM_CODE;
         sourceAccountingLines = new TypedArrayList(getAccountingLineClass());
         baselineSourceAccountingLines = new TypedArrayList(getAccountingLineClass());
         resetAccount();

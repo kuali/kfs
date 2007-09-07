@@ -31,17 +31,14 @@ import org.kuali.core.bo.DocumentHeader;
 import org.kuali.core.bo.Note;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.exceptions.ValidationException;
-import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DataDictionaryService;
 import org.kuali.core.service.DateTimeService;
 import org.kuali.core.service.DocumentService;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.service.NoteService;
-import org.kuali.core.service.UniversalUserService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
-import org.kuali.core.workflow.service.WorkflowDocumentService;
 import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.bo.SourceAccountingLine;
 import org.kuali.kfs.context.SpringContext;
@@ -65,17 +62,14 @@ import org.kuali.module.purap.service.AccountsPayableService;
 import org.kuali.module.purap.service.NegativePaymentRequestApprovalLimitService;
 import org.kuali.module.purap.service.PaymentRequestService;
 import org.kuali.module.purap.service.PurapAccountingService;
-import org.kuali.module.purap.service.PurapGeneralLedgerService;
 import org.kuali.module.purap.service.PurapService;
 import org.kuali.module.purap.service.PurchaseOrderService;
 import org.kuali.module.purap.util.ExpiredOrClosedAccountEntry;
 import org.kuali.module.purap.util.PurApItemUtils;
 import org.kuali.module.vendor.bo.PaymentTermType;
-import org.kuali.module.vendor.service.VendorService;
 import org.springframework.transaction.annotation.Transactional;
 
 import edu.iu.uis.eden.exception.WorkflowException;
-
 
 
 /**
@@ -85,64 +79,22 @@ import edu.iu.uis.eden.exception.WorkflowException;
 public class PaymentRequestServiceImpl implements PaymentRequestService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PaymentRequestServiceImpl.class);
 
-    private BusinessObjectService businessObjectService;
     private DateTimeService dateTimeService;
     private DocumentService documentService;
     private NoteService noteService;
-    private PurapGeneralLedgerService purapGeneralLedgerService;
     private PurapService purapService;
     private PaymentRequestDao paymentRequestDao;
-    private WorkflowDocumentService workflowDocumentService;
-    private VendorService vendorService;
     private PurchaseOrderService purchaseOrderService;
-    private UniversalUserService universalUserService;
     private KualiConfigurationService kualiConfigurationService;
     private NegativePaymentRequestApprovalLimitService negativePaymentRequestApprovalLimitService;
     private PurapAccountingService purapAccountingService;
-
-    /*
-     private static BigDecimal zero = new BigDecimal(0);
-
-     private PurchaseOrderService purchaseOrderService;
-     private ChartOfAccountsService chartOfAccountsService;
-     private RoutingService routingService;
-     private ReferenceService referenceService;
-     private DocumentHeaderDao documentHeaderDao;
-     private MailService mailService;
-     private EnvironmentService environmentService;
-     private OnbaseService onbaseService;
-     
-     private ApplicationSettingService applicationSettingService;
-     private UserService userService;
-     private NegativePaymentRequestApprovalLimitService negativePaymentRequestApprovalLimitService;
-     private VendorService vendorService;
-     private FiscalAccountingService fiscalAccountingService;
-     
-     private AutoApproveExclusionService autoApproveExclusionService;
-     private EmailService emailService;
-     */
-    public void setBusinessObjectService(BusinessObjectService boService) {
-        this.businessObjectService = boService;
-    }
 
     public void setDateTimeService(DateTimeService dateTimeService) {
         this.dateTimeService = dateTimeService;
     }
 
-    /**
-     * Sets the kualiConfigurationService attribute value.
-     * @param kualiConfigurationService The kualiConfigurationService to set.
-     */
     public void setKualiConfigurationService(KualiConfigurationService kualiConfigurationService) {
         this.kualiConfigurationService = kualiConfigurationService;
-    }
-
-    /**
-     * Sets the universalUserService attribute value.
-     * @param universalUserService The universalUserService to set.
-     */
-    public void setUniversalUserService(UniversalUserService universalUserService) {
-        this.universalUserService = universalUserService;
     }
 
     public void setDocumentService(DocumentService documentService) {
@@ -153,30 +105,12 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
         this.noteService = noteService;
     }
 
-    public void setPurapGeneralLedgerService(PurapGeneralLedgerService purapGeneralLedgerService) {
-        this.purapGeneralLedgerService = purapGeneralLedgerService;
-    }
-
     public void setPurapService(PurapService purapService) {
         this.purapService = purapService;
     }
 
     public void setPaymentRequestDao(PaymentRequestDao paymentRequestDao) {
         this.paymentRequestDao = paymentRequestDao;
-    }
-
-    public void setWorkflowDocumentService(WorkflowDocumentService workflowDocumentService) {
-        this.workflowDocumentService = workflowDocumentService;
-    }
-
-    public void setVendorService(VendorService vendorService) {
-        this.vendorService = vendorService;
-    }
-
-    /* Start Paste */
-
-    public void setUserService(UniversalUserService us) {
-        universalUserService = us;
     }
 
     public void setPurchaseOrderService(PurchaseOrderService purchaseOrderService) {
@@ -190,54 +124,6 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
     public void setPurapAccountingService(PurapAccountingService purapAccountingService) {
         this.purapAccountingService = purapAccountingService;
     }
-
-    /*
-     public void setAutoApproveExclusionService(AutoApproveExclusionService aaeService) {
-     autoApproveExclusionService = aaeService;
-     }
-     
-     
-     public void setNegativePaymentRequestApprovalLimitService(NegativePaymentRequestApprovalLimitService ns) {
-     this.negativePaymentRequestApprovalLimitService = ns;
-     }
-     
-     public void setApplicationSettingService(ApplicationSettingService ass) {
-     this.applicationSettingService = ass;
-     }
-     public void setOnbaseService(OnbaseService onbaseService) {
-     this.onbaseService = onbaseService;
-     }
-     
-     public void setChartOfAccountsService(ChartOfAccountsService coaService) {
-     this.chartOfAccountsService = coaService;
-     }
-     public void setRoutingService(RoutingService routingService) {
-     this.routingService = routingService;
-     }
-     public void setReferenceService(ReferenceService referenceService) {
-     this.referenceService = referenceService;
-     }
-     
-     public void setDocumentHeaderDao(DocumentHeaderDao documentHeaderDao) {
-     this.documentHeaderDao = documentHeaderDao;
-     }
-     public void setEnvironmentService(EnvironmentService environmentService) {
-     this.environmentService = environmentService;
-     }
-     public void setMailService(MailService mailService) {
-     this.mailService = mailService;
-     }
-     
-     public void setFiscalAccountingService(FiscalAccountingService fiscalAccountingService) {
-     this.fiscalAccountingService = fiscalAccountingService;
-     }
-     public void setEmailService(EmailService emailService) {
-     this.emailService = emailService;
-     }
-     
-     */
-
-    /* End Paste */
 
 
     /**
@@ -521,9 +407,6 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
     public void saveDocumentWithoutValidation(PaymentRequestDocument document) {
         try {
             documentService.saveDocument(document, DocumentSystemSaveEvent.class);
-//          documentService.saveDocumentWithoutRunningValidation(document);
-            //TODO f2f: shouldn't need this (needs tested)
-//            document.refreshNonUpdateableReferences();
         }
         catch (WorkflowException we) {
             String errorMsg = "Error saving document # " + document.getDocumentHeader().getDocumentNumber() + " " + we.getMessage(); 
@@ -571,7 +454,7 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
      */
     public Date calculatePayDate(Date invoiceDate,PaymentTermType terms) {
       LOG.debug("calculatePayDate() started");
-      //TODO: this method is mainly a direct copy from epic.  It could be made a lot better by using the DateUtils and checking if those constants should be app params
+      //TODO (KULPURAP-1575: ctk) this method is mainly a direct copy from epic.  It could be made a lot better by using the DateUtils and checking if those constants should be app params
       Calendar invoiceDateCalendar = Calendar.getInstance();
       invoiceDateCalendar.setTime(invoiceDate);
       invoiceDateCalendar.set(Calendar.HOUR, 12);
@@ -633,7 +516,6 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
         LOG.debug("calculatePaymentRequest() started");
         
         if(ObjectUtils.isNull(paymentRequest.getPaymentRequestPayDate())) {
-            //TODO: do some in depth tests on this
             paymentRequest.setPaymentRequestPayDate(calculatePayDate(paymentRequest.getInvoiceDate(),paymentRequest.getVendorPaymentTerms()));
         }
         
@@ -653,10 +535,6 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
         }
         
         distributeAccounting(paymentRequest);
-        
-        //TODO: Chris - review but this shouldn't be necessary since it's happening in 
-        //update the amounts on the accounts
-//        SpringContext.getBean(PurapAccountingService.class).updateAccountAmounts(paymentRequest);
     }
     
     
@@ -762,7 +640,6 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
                 }
             }
         }
-        //FIXME Chris - this could probably be (this could probably be avoided if we updated amounts in proration
         //update again now that distribute is finished. 
         SpringContext.getBean(PurapAccountingService.class).updateAccountAmounts(paymentRequestDocument);
     }
@@ -1023,7 +900,7 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
             return;
         }
 
-        //FIXME hjs - add call to new method once added
+        //FIXME (KULPURAP-1580: hjs) add call to new method once added
         //        generalLedgerService.generateEntriesCancelPreq(paymentRequest);
         try {
             Note cancelNote = documentService.createNoteFromDocument(paymentRequest,note);
@@ -1095,8 +972,6 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
     }
 
     private String createPreqDocumentDescription(Integer purchaseOrderIdentifier, String vendorName){
-        //KULPURAP-683 - set description to a specific value
-        //TODO: can we abstract this any better so the values aren't hardcoded
         StringBuffer descr = new StringBuffer("");
         descr.append("PO: ");
         descr.append(purchaseOrderIdentifier);
@@ -1131,209 +1006,5 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
             throw new RuntimeException(errorMsg, we);
         }        
     }
-    
-    /*
-     public PaymentRequestInitializationValidationErrors verifyPreqInitialization(
-     Integer purchaseOrderId, String invoiceNumber, BigDecimal invoiceAmount, Timestamp invoiceDate,
-     List expiredAccounts, List closedAccounts, User u) {
-     SERVICELOG.debug("verifyPreqInitialization() started");
-     LOG.debug("verifyPreqInitialization started");
-     List messages = new ArrayList();
-     List expirAcctList = new ArrayList();
-     List closeAcctList = new ArrayList();
-     
-    /**
-     * Creates a PaymentRequestDocument from given RequisitionDocument
-     * 
-     * @param reqDocument - RequisitionDocument that the PO is being created from
-     * @return PaymentRequestDocument
-     */
-
-    /* 
-     
-     public PaymentRequestDocument createPaymentRequestDocument(RequisitionDocument reqDocument) {
-     PaymentRequestDocument poDocument = null;
-
-     // get new document from doc service
-     try {
-     poDocument = (PaymentRequestDocument) documentService.getNewDocument(PaymentRequestDocTypes.PURCHASE_ORDER_DOCUMENT);
-     poDocument.populatePaymentRequestFromRequisition(reqDocument);
-     poDocument.setPaymentRequestCurrentIndicator(true);
-     // TODO set other default info
-     // TODO set initiator of document as contract manager (is that right?)
-
-     documentService.updateDocument(poDocument);
-     documentService.prepareWorkflowDocument(poDocument);
-     workflowDocumentService.save(poDocument.getDocumentHeader().getWorkflowDocument(), "", null);
-
-     }
-     catch (WorkflowException e) {
-     LOG.error("Error creating PO document: " + e.getMessage());
-     throw new RuntimeException("Error creating PO document: " + e.getMessage());
-     }
-     catch (Exception e) {
-     LOG.error("Error persisting document # " + poDocument.getDocumentHeader().getDocumentNumber() + " " + e.getMessage());
-     throw new RuntimeException("Error persisting document # " + poDocument.getDocumentHeader().getDocumentNumber() + " " + e.getMessage());
-     }
-     return poDocument;
-     }
-     */
-
-  /**
-   * Retrieve a list of PREQs that aren't approved, check to see if they match specific
-   * requirements, then auto-approve them if possible.
-   *
-   */
-    /*
-  public void autoApprovePaymentRequests() {
-    LOG.debug("autoApprovePaymentRequests() started");
-    
-    // Get all the payment requests that have the status for Auto Approve
-    String[] statuses = EpicConstants.PREQ_STATUSES_FOR_AUTO_APPROVE;
-    
-    // get ap supervisor user
-    User apSupervisor = this.getAccountsPayableSupervisorUser();
-
-    // Get the user that will approve them
-    Collection requests = paymentRequestDao.getByStatuses(statuses);
-
-    // default auto approve limit is $5,000
-    String defaultLimit = applicationSettingService.getString("AP_AUTO_APPROVE_MAX_AMOUNT");
-
-    for (Iterator ri = requests.iterator(); ri.hasNext();) {
-      PaymentRequest preq = (PaymentRequest)ri.next();
-      boolean autoApproveExcluded = false;
-      LOG.info("autoApprovePaymentRequests() Attempting Auto Approve for PREQ " + preq.getId());
-      
-      // Only process preq's that aren't held
-      if ( preq.getPaymentHoldIndicator().booleanValue() ) {
-        LOG.info("autoApprovePaymentRequests() PREQ " + preq.getId() + " is held... will not auto approve");
-        continue;
-      }
-      
-      // Only process preq's that aren't requested for cancel
-      if ( preq.getPaymentRequestCancelIndicator().booleanValue() ) {
-        LOG.info("autoApprovePaymentRequests() PREQ " + preq.getId() + " is requested for cancel... will not auto approve");
-        continue;
-      }
-
-      // Only process preq's that have a pay date of now or before
-      Date now = new Date();
-      if ( preq.getPaymentRequestPayDate().getTime() > now.getTime() ) {
-        // Don't process it.  It isn't ready to be paid yet
-        Calendar c = Calendar.getInstance();
-        c.setTime(new Date(preq.getPaymentRequestPayDate().getTime()));
-        LOG.info("autoApprovePaymentRequests() PREQ " + preq.getId() + " has pay date " + 
-            (c.get(Calendar.MONTH) + 1) + "-" + c.get(Calendar.DATE) + "-" + c.get(Calendar.YEAR) + "... will not auto approve");
-        // we add one above because January's value is 0, February is 1, and so on
-        continue;
-      }
-
-      // Only process preq's whose vendor is not an exclusion from auto approve in ownership type table
-      VendorHeader vh = vendorService.getVendorHeader(preq.getVendorHeaderGeneratedId());
-      if ( (vh != null) && (vh.getOwnershipType() != null) &&
-           (vh.getOwnershipType().getExcludeFromAutoApprove() != null) &&
-           (vh.getOwnershipType().getExcludeFromAutoApprove().booleanValue()) ) {
-        LOG.info("autoApprovePaymentRequests() PREQ " + preq.getId() + " has vendor auto approve exclusion set to true in ownership type table... will not auto approve");
-        continue;
-      }
-      
-      if (routingService.willDocumentRouteToTaxAsEmployee(preq.getDocumentHeader().getId(),apSupervisor)) {
-        LOG.info("autoApprovePaymentRequests() PREQ " + preq.getId() + " is scheduled to route as Employee to Tax Area... will not auto approve");
-        continue;
-      }
-      
-      // Orders below the autoApproveAmount will be auto approved
-      BigDecimal autoApproveAmount = null;
-      
-      // Find the lowest auto approve amount in all the accounts
-      String chart = null;
-      String accountNumber = null;
-      for (Iterator iter = preq.getDisplayAccounts().iterator(); iter.hasNext();) {
-        DisplayAccount acct = (DisplayAccount)iter.next();
-
-        // Only proces the preq whose chart and account number
-        // are not in the maintenance table for Auto Approve Exclusion
-        chart = acct.getFinancialChartOfAccountsCode();
-        accountNumber = acct.getAccountNumber();
-
-        if ( (acct.getAmount() != null) && (BigDecimal.ZERO.compareTo(acct.getAmount()) < 0) ) {
-          AutoApproveExclusion aae = autoApproveExclusionService.getByChartAndAcct(chart, accountNumber);
-          // as long as there's at least one account whose chart/acct is in the maint.
-          // table, we should break from this inner for-loop and continue with the 
-          // next preq.
-          if (aae != null && aae.getActive().booleanValue()) {
-            autoApproveExcluded = true;
-            break;
-          }
-        }
-            
-        BigDecimal limit = null;
-
-        // Check chart
-        limit = negativePaymentRequestApprovalLimitService.chartApprovalLimit(acct.getFinancialChartOfAccountsCode());
-        if ( (limit != null) && (limit.compareTo(autoApproveAmount) < 0) ) {
-          autoApproveAmount = limit;
-        }
-
-        // Check account
-        limit = negativePaymentRequestApprovalLimitService.accountApprovalLimit(acct.getFinancialChartOfAccountsCode(),acct.getAccountNumber());
-        if ( (limit != null) && (limit.compareTo(autoApproveAmount) < 0) ) {
-          autoApproveAmount = limit;
-        }
-
-        // Check account's org
-        Account account = chartOfAccountsService.getAccount(acct.getFinancialChartOfAccountsCode(),acct.getAccountNumber());
-        if ( account == null ) {
-          // if account is non-existant then check to see if any dollars are assigned
-          if ( (acct.getAmount() == null) || (BigDecimal.ZERO.compareTo(acct.getAmount()) == 0) ) {
-            LOG.info("autoApprovePaymentRequests() PREQ " + preq.getId() + " has invalid account " + acct.getFinancialChartOfAccountsCode() + "/" 
-                + acct.getAccountNumber() + " but will skip because account has no money assigned to it");
-            continue;
-          } else {
-            LOG.error("autoApprovePaymentRequests() Invalid account on preq " + acct.getFinancialChartOfAccountsCode() + "/" + acct.getAccountNumber());
-            throw new IllegalArgumentException("Invalid account on preq " + acct.getFinancialChartOfAccountsCode() + "/" + acct.getAccountNumber());
-          }
-        }
-        limit = negativePaymentRequestApprovalLimitService.organizationApprovalLimit(acct.getFinancialChartOfAccountsCode(),account.getOrganizationCode());
-        if ( (limit != null) && (limit.compareTo(autoApproveAmount) < 0) ) {
-          autoApproveAmount = limit;
-        }
-      }
-      
-      // if the chart and acct nbr of this preq is in the maintenance table to be
-      // excluded from auto approve, then don't do the autoApprovePaymentRequest
-      if (autoApproveExcluded) {
-        LOG.info("autoApprovePaymentRequests() PREQ " + preq.getId() + " is excluded based on Auto Approve Exclusion settings for Chart-Account combo" +
-                chart + "-" + accountNumber + "... will not auto approve");
-        continue;
-      }
-      
-      if ( (FormValidation.isStringEmpty(defaultLimit)) && (autoApproveAmount == null) ) {
-        LOG.error("autoApprovePaymentRequests() Unable to get AP Auto Approve Max Amount and none set for PREQ " + preq.getId());
-        throw new InternalError("Unable to get AP Auto Approve Max Amount");
-      }
-      BigDecimal testAutoApproveAmount = new BigDecimal(defaultLimit);
-      if ( autoApproveAmount != null ) {
-        testAutoApproveAmount = autoApproveAmount;
-      }
-      if ( preq.getTotalCost().compareTo(testAutoApproveAmount) < 0 ) {
-        String env = environmentService.getEnvironment();
-        if (EnvironmentService.PRODUCTION_ENVIRONMENT.equals(env)) {
-          LOG.debug("autoApprovePaymentRequests() auto approving PREQ with ID " + preq.getId() + " and status " + preq.getStatus().getCode());
-          routingService.autoApprovePaymentRequest(preq,apSupervisor);
-        } else {
-          LOG.debug("autoApprovePaymentRequests() if not final approved... auto approving PREQ with ID " + preq.getId() + " and status " + preq.getStatus().getCode());
-          routingService.autoApprovePaymentRequestSkipPrevious(preq,apSupervisor);
-        }
-      } else {
-        LOG.info("autoApprovePaymentRequests() PREQ " + preq.getId() + " has total cost " + preq.getTotalCost().doubleValue() + 
-            " and is not less than the auto approve max limit of " + testAutoApproveAmount.doubleValue() + "... will not auto approve");
-      }
-    }
-  }
-
-     */
-    
     
 }

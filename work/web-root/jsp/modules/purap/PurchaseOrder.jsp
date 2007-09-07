@@ -100,10 +100,12 @@
         itemAttributes="${DataDictionary.PurchaseOrderItem.attributes}"
     	documentAttributes="${DataDictionary.SourceAccountingLine.attributes}" / -->  
 	
-    <purap:quotes
-        documentAttributes="${DataDictionary.PurchaseOrderDocument.attributes}"
-        vendorQuoteAttributes="${DataDictionary.PurchaseOrderVendorQuote.attributes}"
-        isPurchaseOrderAwarded="${KualiForm.document.purchaseOrderAwarded}" />
+	<c:if test="${KualiForm.document.statusCode eq 'INPR'}">
+	    <purap:quotes
+	        documentAttributes="${DataDictionary.PurchaseOrderDocument.attributes}"
+	        vendorQuoteAttributes="${DataDictionary.PurchaseOrderVendorQuote.attributes}"
+	        isPurchaseOrderAwarded="${KualiForm.document.purchaseOrderAwarded}" />
+	</c:if>
 
     <purap:relatedDocuments
             documentAttributes="${DataDictionary.RelatedDocuments.attributes}" />

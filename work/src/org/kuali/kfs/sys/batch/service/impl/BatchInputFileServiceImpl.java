@@ -254,6 +254,13 @@ public class BatchInputFileServiceImpl implements BatchInputFileService {
         File fileToDelete = retrieveFileToDownloadOrDelete(batchInputFileType, user, deleteFileName);
         if (fileToDelete != null) {
             fileToDelete.delete();
+
+            // check for associated .done file and remove as well
+            String doneFileName = StringUtils.substringBeforeLast(fileToDelete.getPath(), ".") + ".done";
+            File doneFile = new File(doneFileName);
+            if (doneFile.exists()) {
+                doneFile.delete();
+            }
         }
         else {
             LOG.error("unable to delete file " + deleteFileName + " because it doesn not exist.");

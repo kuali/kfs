@@ -590,7 +590,7 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
     }
 
     public String getVendorShippingTitleCode() {
-        //TODO f2f: this should be printing the decription instead of the code; do we need the reference object?
+        //TODO (KULPURAP-1575) f2f: this should be printing the decription instead of the code; do we need the reference object?
         if (ObjectUtils.isNotNull(this.getPurchaseOrderDocument())) {
             return this.getPurchaseOrderDocument().getVendorShippingTitleCode();
         }
@@ -661,7 +661,7 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
     }
   
     /**
-     * TODO: this should be cleaned up
+     * TODO (KULPURAP-436: ctk) this should be cleaned up
      * This method populates a preq from po
      * @param po
      */
@@ -715,7 +715,7 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
         }
         this.setPaymentRequestPayDate(SpringContext.getBean(PaymentRequestService.class).calculatePayDate(this.getInvoiceDate(), this.getVendorPaymentTerms()));
         for (PurchaseOrderItem poi : (List<PurchaseOrderItem>)po.getItems()) {
-            //TODO: add this back if we end up building the list of items at every load (see KULPURAP-1393)
+            //TODO (KULPURAP-1393: ctk) add this back if we end up building the list of items at every load
 //            if(poi.isItemActiveIndicator()) {
                 this.getItems().add(new PaymentRequestItem(poi,this));                
 //            }
@@ -728,7 +728,7 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
     }
 
     /**
-     * TODO: this should be cleaned up.. it is also a replica of the method above except it performs account replacement
+     * TODO (KULPURAP-1575) this should be cleaned up.. it is also a replica of the method above except it performs account replacement
      * This method populates a preq from po
      * @param po
      */
@@ -782,7 +782,7 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
         }
         this.setPaymentRequestPayDate(SpringContext.getBean(PaymentRequestService.class).calculatePayDate(this.getInvoiceDate(), this.getVendorPaymentTerms()));
         for (PurchaseOrderItem poi : (List<PurchaseOrderItem>)po.getItems()) {
-            //TODO: add this back if we end up building the list of items at every load (see KULPURAP-1393)
+            //TODO (KULPURAP-1393: ctk) add this back if we end up building the list of items at every load
 //            if(poi.isItemActiveIndicator()) {
                 this.getItems().add(new PaymentRequestItem(poi,this, expiredOrClosedAccountList));                
 //              }
@@ -904,7 +904,7 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
                         return;
                     }
                 }
-                // TODO PURAP/delyea - what to do in a disapproval where no status to set exists?
+                // TODO (KULPURAP-1579: ctk) delyea - what to do in a disapproval where no status to set exists?
                 logAndThrowRuntimeException("No status found to set for document being disapproved in node '" + nodeName + "'");
             }
             // DOCUMENT CANCELED
@@ -919,7 +919,7 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
                         return;
                     }
                 }
-                // TODO PURAP/delyea - what to do in a cancel where no status to set exists?
+                // TODO (KULPURAP-1579: ctk) delyea - what to do in a cancel where no status to set exists?
                 LOG.warn("No status found to set for document being disapproved in node '" + currentNodeName + "'");
             }
         }
@@ -938,7 +938,7 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
             // everything in the below list requires correcting entries to be written to the GL
             if (NodeDetailEnum.getNodesRequiringCorrectingGeneralLedgerEntries().contains(currentNode)) {
                 if (NodeDetailEnum.ACCOUNT_REVIEW.getName().equals(currentNode)) {
-                    //FIXME this is not working right now becuase the document has already been saved before reaching this point...that is a problem :(
+                    //FIXME (KULPURAP-1580: hjs) this is not working right now becuase the document has already been saved before reaching this point...that is a problem :(
 //                    SpringContext.getBean(PurapGeneralLedgerService.class).generateEntriesModifyPreq(this);
                 }
             }

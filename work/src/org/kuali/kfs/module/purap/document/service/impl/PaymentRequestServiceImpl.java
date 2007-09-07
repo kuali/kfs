@@ -24,8 +24,6 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
@@ -48,7 +46,6 @@ import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.bo.SourceAccountingLine;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.rule.event.DocumentSystemSaveEvent;
-import org.kuali.module.chart.bo.Account;
 import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.PurapKeyConstants;
 import org.kuali.module.purap.PurapParameterConstants;
@@ -63,7 +60,6 @@ import org.kuali.module.purap.dao.PaymentRequestDao;
 import org.kuali.module.purap.document.CreditMemoDocument;
 import org.kuali.module.purap.document.PaymentRequestDocument;
 import org.kuali.module.purap.document.PurchaseOrderDocument;
-import org.kuali.module.purap.exceptions.PurError;
 import org.kuali.module.purap.rule.event.ContinueAccountsPayableEvent;
 import org.kuali.module.purap.service.AccountsPayableService;
 import org.kuali.module.purap.service.NegativePaymentRequestApprovalLimitService;
@@ -1013,66 +1009,6 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
         return false;
     }
 
-    //FIXME: delete from PaymentRequestService(Impl), it is now in CreditMemoCreateService
-    public Collection convertMoneyToPercent(PaymentRequestDocument pr) {
-        LOG.debug("convertMoneyToPercent() started");
-        Collection errors = new ArrayList();
-        int itemNbr = 0;
-
-        for (Iterator iter = pr.getItems().iterator(); iter.hasNext();) {
-            PaymentRequestItem item = (PaymentRequestItem) iter.next();
-
-            itemNbr++;
-            String identifier = item.getItemIdentifierString();
-
-            if (item.getExtendedPrice().isNonZero()) {
-                // Collections.sort((List)item.getAccounts());
-
-                KualiDecimal accountTotal = KualiDecimal.ZERO;
-                // haven't decided if I'm going to round
-                /* PaymentRequestAccount lastAccount = null; */
-                int accountIdentifier = 0;
-                for (Iterator iterator = item.getSourceAccountingLines().iterator(); iterator.hasNext();) {
-                    accountIdentifier++;
-                    PaymentRequestAccount account = (PaymentRequestAccount) iterator.next();
-                    KualiDecimal accountAmount = account.getAmount();
-                    BigDecimal tmpPercent = BigDecimal.ZERO;
-                    KualiDecimal extendedPrice = item.getExtendedPrice();
-                    tmpPercent = accountAmount.bigDecimalValue().divide(extendedPrice.bigDecimalValue(),PurapConstants.PRORATION_SCALE.intValue(), KualiDecimal.ROUND_BEHAVIOR);
-                    // test that the above amount is correct, if so just check that the total of all these matches the item total
-
-                    KualiDecimal calcAmount = new KualiDecimal(tmpPercent.multiply(extendedPrice.bigDecimalValue()));
-                    if (calcAmount.compareTo(accountAmount) != 0) {
-                        // rounding error
-                        LOG.debug("convertMoneyToPercent() Rounding error on " + account);
-                        String param1 = identifier + "." + accountIdentifier;
-                        String param2 = calcAmount.bigDecimalValue().subtract(accountAmount.bigDecimalValue()).toString();
-                        GlobalVariables.getErrorMap().putError(item.getItemIdentifierString(), PurapKeyConstants.ERROR_ITEM_ACCOUNTING_ROUNDING, param1, param2);
-                        PurError se = new PurError("Rounding Error");
-                        errors.add(se);
-                        // fix
-                        account.setAmount(calcAmount);
-                    }
-
-                    // update percent
-                    LOG.debug("convertMoneyToPercent() updating percent to " + tmpPercent);
-                    account.setAccountLinePercent(tmpPercent.multiply(new BigDecimal(100)));
-
-                    // check total based on adjusted amount
-                    accountTotal = accountTotal.add(calcAmount);
-
-                }
-                if (!accountTotal.equals(item.getExtendedPrice())) {
-                    GlobalVariables.getErrorMap().putError(item.getItemIdentifierString(), PurapKeyConstants.ERROR_ITEM_ACCOUNTING_DOLLAR_TOTAL, identifier, accountTotal.toString(), item.getExtendedPrice().toString());
-                    PurError se = new PurError("Invalid Totals");
-                    errors.add(se);
-                }
-
-            }
-        }
-        return errors;
-    }
-    
     /**
      * Cancel a PREQ that has already been extracted if allowed.
      * 

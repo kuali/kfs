@@ -62,7 +62,6 @@ public class PaymentRequestDocumentAuthorizer extends AccountingDocumentAuthoriz
         Map editModeMap = super.getEditMode(document, user, sourceAccountingLines, targetAccountingLines);
         PaymentRequestDocument preq = (PaymentRequestDocument) document;
 
-        //TODO: Chris - This class should be renamed since it's not just for actions
         PaymentRequestDocumentActionAuthorizer preqDocAuth  = new PaymentRequestDocumentActionAuthorizer(preq,user); 
         
         String editMode = AuthorizationConstants.EditMode.VIEW_ONLY;

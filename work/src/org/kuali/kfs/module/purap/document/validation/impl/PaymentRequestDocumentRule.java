@@ -32,7 +32,6 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.RicePropertyConstants;
 import org.kuali.core.document.Document;
 import org.kuali.core.rule.KualiParameterRule;
-import org.kuali.core.service.DataDictionaryService;
 import org.kuali.core.service.DateTimeService;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.GlobalVariables;
@@ -96,7 +95,7 @@ public class PaymentRequestDocumentRule extends AccountsPayableDocumentRuleBase 
         boolean valid = super.processValidation(purapDocument);
         PaymentRequestDocument preqDocument = (PaymentRequestDocument)purapDocument;
         valid &= processInvoiceValidation(preqDocument);
-        //TODO: this check is also in item checks below, we should consolidate these non full entry checks
+        //TODO (KULPURAP-1575) this check is also in item checks below, we should consolidate these non full entry checks
         if(!SpringContext.getBean(PurapService.class).isFullDocumentEntryCompleted(purapDocument)) {
             valid &= processPurchaseOrderIDValidation(preqDocument);
         }
@@ -110,33 +109,11 @@ public class PaymentRequestDocumentRule extends AccountsPayableDocumentRuleBase 
     protected boolean processCustomRouteDocumentBusinessRules(Document document) {
         boolean isValid = true;
         PaymentRequestDocument paymentRequestDocument = (PaymentRequestDocument) document;
-        
-        //not needed, this is done on calculate if we need to warn them outside of calculate that has to be done elsewhere
-        //validateTotals((PaymentRequestDocument)purapDocument);
         isValid &= validateRouteFiscal(paymentRequestDocument);
         isValid &= processValidation(paymentRequestDocument);
         return isValid; 
     }
-      
-// TODO: Chris - we can probably uncomment this if desired after KULPURAP-1182 however this may not be needed
-//    @Override
-//    protected boolean processCustomSaveDocumentBusinessRules(Document document) {
-//        boolean isValid = true;
-//        PaymentRequestDocument paymentRequestDocument = (PaymentRequestDocument) document;
-//        //not needed, this is done on calculate.if we need to warn them outside of calculate that has to be done elsewhere
-//        //        validateTotals(paymentRequestDocument);
-//        //Had to do it this way because the processItemValidation in the superclass contains
-//        //some validations that won't be needed for save (e.g. the total must be 100%), so
-//        //that I couldn't call the super.processItemValidation within the processItemValidation
-//        //in this class.
-//        
-//        //TODO: Chris - remove the if + contents if we can do it as a result of KULPURAP-1182
-//        
-//        isValid &= processItemValidationForSave(paymentRequestDocument);
-//        isValid &= processItemValidation(paymentRequestDocument);
-//        return isValid;
-//    }
-        
+
     public boolean processContinueAccountsPayableBusinessRules(AccountsPayableDocument apDocument) {
         boolean valid = true;
         PaymentRequestDocument paymentRequestDocument = (PaymentRequestDocument)apDocument;
@@ -216,7 +193,8 @@ public class PaymentRequestDocumentRule extends AccountsPayableDocumentRuleBase 
         return valid;
     }
     
-    boolean processPurchaseOrderIDValidation(PaymentRequestDocument document) {
+    //TODO (KULPURAP-1575) clean up this method; are the comments really necessary?
+    protected boolean processPurchaseOrderIDValidation(PaymentRequestDocument document) {
         boolean valid = true;
         GlobalVariables.getErrorMap().clearErrorPath();
         GlobalVariables.getErrorMap().addToErrorPath(RicePropertyConstants.DOCUMENT);
@@ -292,7 +270,7 @@ public class PaymentRequestDocumentRule extends AccountsPayableDocumentRuleBase 
         return !zeroDollar;
     }
     
-    boolean processPaymentRequestDateValidationForContinue(PaymentRequestDocument document){       
+    protected boolean processPaymentRequestDateValidationForContinue(PaymentRequestDocument document){       
         boolean valid = true;
         GlobalVariables.getErrorMap().clearErrorPath();
         GlobalVariables.getErrorMap().addToErrorPath(RicePropertyConstants.DOCUMENT);
@@ -306,7 +284,7 @@ public class PaymentRequestDocumentRule extends AccountsPayableDocumentRuleBase 
         return valid;
     }
     
-    boolean validatePaymentRequestDates(PaymentRequestDocument document) {
+    protected boolean validatePaymentRequestDates(PaymentRequestDocument document) {
         boolean valid = true;
         GlobalVariables.getErrorMap().clearErrorPath();
         GlobalVariables.getErrorMap().addToErrorPath(RicePropertyConstants.DOCUMENT);
@@ -434,22 +412,18 @@ public class PaymentRequestDocumentRule extends AccountsPayableDocumentRuleBase 
             }
         }
         if (ObjectUtils.isNotNull(item.getExtendedPrice())&&item.getExtendedPrice().isPositive() && ObjectUtils.isNotNull(item.getPoOutstandingQuantity()) && item.getPoOutstandingQuantity().isPositive()) {
-
             // here we must require the user to enter some value for quantity if they want a credit amount associated
             if (ObjectUtils.isNull(item.getItemQuantity()) || item.getItemQuantity().isZero()) {
-                // here we have a user not entering a quantity with an extended amount but the PO has a quantity... require user to
-                // enter a quantity
+                // here we have a user not entering a quantity with an extended amount but the PO has a quantity...require user to enter a quantity
                 valid = false;
                 GlobalVariables.getErrorMap().putError(PurapConstants.ITEM_TAB_ERROR_PROPERTY, PurapKeyConstants.ERROR_ITEM_QUANTITY_REQUIRED, ItemFields.INVOICE_QUANTITY, identifierString, ItemFields.OPEN_QUANTITY);
             }
         }
 
-        // TODO: Is the following comment right ? It was copied directly from EPIC, but doesn't look right (service items ???).
-        // check that service items (no quantity on PO item) are not trying to pay on a zero encumbrance amount (check only prior to
-        // ap approval)
+        // check that non-quantity based items are not trying to pay on a zero encumbrance amount (check only prior to ap approval)
         if ( (ObjectUtils.isNull(item.getPaymentRequest().getPurapDocumentIdentifier())) || 
              (PurapConstants.PaymentRequestStatuses.IN_PROCESS.equals(item.getPaymentRequest().getStatusCode())) ) {
-            if ( (ObjectUtils.isNull(item.getPoOutstandingQuantity()) || item.getPoOutstandingQuantity().isZero()) && 
+            if ( (!item.getItemType().isQuantityBasedGeneralLedgerIndicator()) && 
                  ((item.getExtendedPrice() != null) && item.getExtendedPrice().isNonZero()) ) {
                 if (item.getPoOutstandingAmount() == null || item.getPoOutstandingAmount().isZero()) {
                     valid = false;
@@ -514,24 +488,20 @@ public class PaymentRequestDocumentRule extends AccountsPayableDocumentRuleBase 
     public boolean validateRouteFiscal(PurchasingAccountsPayableDocument purapDocument) {
         boolean valid = true;
         PaymentRequestDocument paymentRequest = (PaymentRequestDocument)purapDocument;
-        //TODO: Double check that this rule is correct. During fiscal officer review, the status code is AFOA
-        /*if (!StringUtils.equals(paymentRequest.getStatusCode(),PurapConstants.PaymentRequestStatuses.IN_PROCESS)) {
-            GlobalVariables.getErrorMap().putError(PurapPropertyConstants.PURAP_DOC_ID, PurapKeyConstants.ERROR_PAYMENT_REQUEST_NOT_IN_PROCESS);
-            valid &= false;
-        }*/
         valid &= validatePaymentRequestReview(paymentRequest);
         return valid;
     }
-    //FIXME: ckirschenman refactor this also commenting out errors thrown (also I believe this shouldn't be called after AP_REVIEW confirm and add check)
-    boolean validatePaymentRequestReview(PaymentRequestDocument paymentRequest) {
+
+    //FIXME (KULPURAP-1582: ckirschenman) refactor this also commenting out errors thrown (also I believe this shouldn't be called after AP_REVIEW confirm and add check)
+   protected boolean validatePaymentRequestReview(PaymentRequestDocument paymentRequest) {
         boolean valid = true;
   
-        //TODO: uncomment or replace this with a service invocation when Chris/Dan finished
+        //TODO (KULPURAP-1582: ckirschenman) uncomment or replace this with a service invocation when Chris/Dan finished
         //the calculate method.
         //this.calculatePaymentRequest(paymentRequest, false);
 
         // if FY > current FY, warn user that payment will happen in current year
-        //TODO: Is this really how we should get the "fiscal year" ?
+        //TODO (KULPURAP-1582: ckirschenman) Is this really how we should get the "fiscal year" ?
         UniversityDateService universityDateService = SpringContext.getBean(UniversityDateService.class);
         Integer fiscalYear = universityDateService.getCurrentFiscalYear();
         Date closingDate = universityDateService.getLastDateOfFiscalYear(fiscalYear);
@@ -574,13 +544,13 @@ public class PaymentRequestDocumentRule extends AccountsPayableDocumentRuleBase 
                 if (!item.getItemType().isQuantityBasedGeneralLedgerIndicator()) {
                     String error = "Payment Request " + paymentRequest.getPurapDocumentIdentifier() + ", " + identifier + " has extended price '" + item.getExtendedPrice() + "' but outstanding encumbered amount " + item.getPoOutstandingAmount();
                     LOG.error("validatePaymentRequestReview() " + error);
-                    //TODO: I think here we should just display error instead of throwing PurError
+                    //TODO (KULPURAP-1582: ckirschenman) I think here we should just display error instead of throwing PurError
 //                    throw new PurError(error);
                 }
                 else {
                     String error = "Payment Request " + paymentRequest.getPurapDocumentIdentifier() + ", " + identifier + " has quantity '" + item.getItemQuantity() + "' but outstanding encumbered quantity " + item.getPoOutstandingQuantity();
                     LOG.error("validatePaymentRequestReview() " + error);
-                    //TODO: I think here we should just display error instead of throwing PurError
+                    //TODO (KULPURAP-1582: ckirschenman) I think here we should just display error instead of throwing PurError
 //                    throw new PurError(error);
                 }
             }

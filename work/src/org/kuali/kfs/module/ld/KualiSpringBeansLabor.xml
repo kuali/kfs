@@ -175,9 +175,6 @@
 		<property name="businessObjectMetaDataService">
 			<ref bean="businessObjectMetaDataService" />
 		</property>
-		<!--property name="dictionaryValidationService">
-			<ref bean="dictionaryValidationService" />
-			</property-->
 		<property name="dataDictionaryService">
 			<ref bean="dataDictionaryService" />
 		</property>
@@ -450,6 +447,9 @@
         <property name="originEntryGroupService">
             <ref bean="originEntryGroupService" />
         </property>
+        <property name="originEntryService">
+            <ref bean="originEntryService" />
+        </property>
         <property name="laborLedgerBalanceService">
 			<ref bean="laborLedgerBalanceService" />
 		</property>	
@@ -516,6 +516,18 @@
 			<ref bean="laborNightlyOutService" />
 		</property>
 	</bean>  
+		
+	<bean id="laborClearGLEntryStep" class="org.kuali.module.labor.batch.ClearLaborGLEntryStep" parent="step">
+		<property name="laborNightlyOutService">
+			<ref bean="laborNightlyOutService" />
+		</property>
+	</bean> 
+		
+	<bean id="laborFeedStep" class="org.kuali.module.labor.batch.LaborFeedStep" parent="step">
+		<property name="laborNightlyOutService">
+			<ref bean="laborNightlyOutService" />
+		</property>
+	</bean> 
          
 	<bean id="createLaborBackupGroupStep" class="org.kuali.module.labor.batch.CreateLaborBackupGroupStep" parent="step">
 		<property name="originEntryGroupService">
@@ -603,6 +615,8 @@
 				<ref bean="laborScrubberStep"/>
 				<ref bean="laborPosterStep"/>
 				<ref bean="laborBalanceSummaryStep"/>
+				<ref bean="laborFeedStep" />
+				<ref bean="laborClearGLEntryStep"/>		
 			</list>
 		</property>
 	</bean>

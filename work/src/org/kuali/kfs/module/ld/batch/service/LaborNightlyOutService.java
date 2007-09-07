@@ -17,7 +17,7 @@ package org.kuali.module.labor.service;
 
 public interface LaborNightlyOutService {
     /**
-     * Delete all the records that were copied for processing.
+     * Delete all the pending entries that were copied for processing.
      */
     public void deleteCopiedPendingLedgerEntries();
 
@@ -25,4 +25,14 @@ public interface LaborNightlyOutService {
      * This method copies the approved pending ledger entries to orign entry table
      */
     public void copyApprovedPendingLedgerEntries();
+    
+    /**
+     * Delete all the labor general ledger entries that were copied for processing.
+     */
+    public void deleteCopiedLaborGenerealLedgerEntries();
+
+    /**
+     * This method copies the labor general ledger entries to GL
+     */
+    public void copyLaborGenerealLedgerEntries();    
 }

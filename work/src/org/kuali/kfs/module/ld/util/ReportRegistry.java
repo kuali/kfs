@@ -41,6 +41,7 @@ public enum ReportRegistry {
     
     LABOR_PENDING_ENTRY_REPORT("labor_pending_entry_report", "Pending Ledger Entry Report"),
     LABOR_PENDING_ENTRY_SUMMARY("labor_pending_entry_summary", "Pending Ledger Entry Summary"),
+    LABOR_FEED_ENTRY_SUMMARY("labor_feed_entry_summary", "Labor Feed GL Entry Summary"),
     
     PAYROLL_ACCRUAL_REPORT("payroll_accrual_report", "Payroll Accrual Entry Report"),
     PAYROLL_ACCRUAL_STATISTICS("payroll_accrual_summary", "Payroll Accrual Summary Report");

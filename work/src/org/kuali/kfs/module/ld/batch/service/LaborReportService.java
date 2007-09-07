@@ -127,6 +127,16 @@ public interface LaborReportService {
      * @param runDate the datetime of the repor generation
      */
     public void generateBalanceSummaryReport(Integer fiscalYear, List<String> balanceTypes, ReportRegistry reportInfo, String reportsDirectory, Date runDate);
+
+    /**
+     * Generate feed summary report with the given information
+     * 
+     * @param group the given origin entry group into which the entries have copied to GL
+     * @param reportInfo the primary elements of a report, such as report title and report file name
+     * @param reportsDirectory the directory in file system that is used to contain reports
+     * @param runDate the datetime of the repor generation
+     */
+    public void generateFeedSummaryReport(OriginEntryGroup group, ReportRegistry reportInfo, String reportsDirectory, Date runDate);    
     
     //LLCP reports
     public void generateCorrectionOnlineReport(LaborCorrectionDocument cDocument, String reportsDirectory, Date runDate);
@@ -147,5 +157,5 @@ public interface LaborReportService {
     
     public void generateScrubberTransactionsOnline(OriginEntryGroup validGroup, String documentNumber, String reportsDirectory, Date runDate);
     
-    public void generateScrubberRemovedTransactions(OriginEntryGroup errorGroup, String reportsDirectory, Date runDate);    
+    public void generateScrubberRemovedTransactions(OriginEntryGroup errorGroup, String reportsDirectory, Date runDate);
 }

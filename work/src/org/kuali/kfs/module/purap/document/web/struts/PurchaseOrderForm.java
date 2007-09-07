@@ -37,7 +37,7 @@ import org.kuali.module.purap.bo.PurchaseOrderAccount;
 import org.kuali.module.purap.bo.PurchaseOrderItem;
 import org.kuali.module.purap.bo.PurchaseOrderVendorQuote;
 import org.kuali.module.purap.bo.PurchaseOrderVendorStipulation;
-import org.kuali.module.purap.bo.PurchasingApItem;
+import org.kuali.module.purap.bo.PurApItem;
 import org.kuali.module.purap.document.PurchaseOrderDocument;
 import org.kuali.module.purap.service.PurApWorkflowIntegrationService;
 
@@ -115,7 +115,7 @@ public class PurchaseOrderForm extends PurchasingFormBase {
      * @see org.kuali.module.purap.web.struts.form.PurchasingFormBase#setupNewPurchasingItemLine()
      */
     @Override
-    public PurchasingApItem setupNewPurchasingItemLine() {
+    public PurApItem setupNewPurchasingItemLine() {
         return new PurchaseOrderItem();
     }
 

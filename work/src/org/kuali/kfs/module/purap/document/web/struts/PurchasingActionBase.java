@@ -37,7 +37,7 @@ import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.PurapKeyConstants;
 import org.kuali.module.purap.PurapPropertyConstants;
 import org.kuali.module.purap.bo.PurApAccountingLine;
-import org.kuali.module.purap.bo.PurchasingApItem;
+import org.kuali.module.purap.bo.PurApItem;
 import org.kuali.module.purap.document.PurchasingAccountsPayableDocument;
 import org.kuali.module.purap.document.PurchasingDocument;
 import org.kuali.module.purap.rule.event.AddPurchasingAccountsPayableItemEvent;
@@ -187,7 +187,7 @@ public class PurchasingActionBase extends PurchasingAccountsPayableActionBase {
     public ActionForward addItem(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         PurchasingFormBase purchasingForm = (PurchasingFormBase) form;
         // TODO: should call add line event/rules here
-        PurchasingApItem item = purchasingForm.getAndResetNewPurchasingItemLine();
+        PurApItem item = purchasingForm.getAndResetNewPurchasingItemLine();
         PurchasingDocument purDocument = (PurchasingDocument) purchasingForm.getDocument();
         boolean rulePassed = SpringContext.getBean(KualiRuleService.class).applyRules(new AddPurchasingAccountsPayableItemEvent("item", purDocument, item));
         // AddAccountingLineEvent(KFSConstants.NEW_TARGET_ACCT_LINES_PROPERTY_NAME + "[" + Integer.toString(itemIndex) + "]",
@@ -273,7 +273,7 @@ public class PurchasingActionBase extends PurchasingAccountsPayableActionBase {
             return this.performQuestionWithoutInput(mapping, form, request, response, PurapConstants.REMOVE_ACCOUNTS_QUESTION, questionText, KFSConstants.CONFIRMATION_QUESTION, KFSConstants.ROUTE_METHOD, "0");
         }
         else if (ConfirmationQuestion.YES.equals(buttonClicked)) {
-            for (PurchasingApItem item : ((PurchasingAccountsPayableDocument) purchasingForm.getDocument()).getItems()) {
+            for (PurApItem item : ((PurchasingAccountsPayableDocument) purchasingForm.getDocument()).getItems()) {
                 item.getSourceAccountingLines().clear();
             }
 
@@ -287,7 +287,7 @@ public class PurchasingActionBase extends PurchasingAccountsPayableActionBase {
 
         if (((PurchasingAccountsPayableDocument) purchasingForm.getDocument()).getItems().size() > 0) {
             if (purchasingForm.getAccountDistributionsourceAccountingLines().size() > 0) {
-                for (PurchasingApItem item : ((PurchasingAccountsPayableDocument) purchasingForm.getDocument()).getItems()) {
+                for (PurApItem item : ((PurchasingAccountsPayableDocument) purchasingForm.getDocument()).getItems()) {
                     BigDecimal zero = new BigDecimal(0);
                     if (item.getSourceAccountingLines().size() == 0 && item.getItemUnitPrice() != null && zero.compareTo(item.getItemUnitPrice()) < 0) {
                         item.getSourceAccountingLines().addAll(purchasingForm.getAccountDistributionsourceAccountingLines());
@@ -327,7 +327,7 @@ public class PurchasingActionBase extends PurchasingAccountsPayableActionBase {
 
         // index of item selected
         int itemIndex = getSelectedLine(request);
-        PurchasingApItem item = null;
+        PurApItem item = null;
 
         if (itemIndex == -2) {
             PurApAccountingLine line = purchasingForm.getAccountDistributionnewSourceLine();
@@ -353,7 +353,7 @@ public class PurchasingActionBase extends PurchasingAccountsPayableActionBase {
             purchasingForm.getAccountDistributionsourceAccountingLines().remove(accountIndex);
         }
         else {
-            PurchasingApItem item = (PurchasingApItem) ((PurchasingAccountsPayableDocument) purchasingForm.getDocument()).getItem((itemIndex));
+            PurApItem item = (PurApItem) ((PurchasingAccountsPayableDocument) purchasingForm.getDocument()).getItem((itemIndex));
             item.getSourceAccountingLines().remove(accountIndex);
         }
         return mapping.findForward(KFSConstants.MAPPING_BASIC);

@@ -24,7 +24,7 @@ import org.kuali.module.purap.PurapWorkflowConstants.NodeDetails;
 import org.kuali.module.purap.bo.CreditMemoView;
 import org.kuali.module.purap.bo.PaymentRequestView;
 import org.kuali.module.purap.bo.PurchaseOrderView;
-import org.kuali.module.purap.bo.PurchasingApItem;
+import org.kuali.module.purap.bo.PurApItem;
 import org.kuali.module.purap.bo.RequisitionView;
 import org.kuali.module.purap.bo.Status;
 import org.kuali.module.vendor.bo.VendorAddress;
@@ -62,9 +62,9 @@ public interface PurchasingAccountsPayableDocument extends AccountingDocument {
     public List<CreditMemoView> getRelatedCreditMemoViews();
     public List<PaymentRequestView> getRelatedPaymentRequestViews();
     public List<PurchaseOrderView> getRelatedPurchaseOrderViews();
-    public List<PurchasingApItem> getItems();
+    public List<PurApItem> getItems();
     
-    public void addItem(PurchasingApItem item);
+    public void addItem(PurApItem item);
     
     public void setItems(List items);
     
@@ -74,7 +74,7 @@ public interface PurchasingAccountsPayableDocument extends AccountingDocument {
     
     public int getItemLinePosition();
     
-    public PurchasingApItem getItem(int pos);
+    public PurApItem getItem(int pos);
     
     public KualiDecimal getTotalDollarAmount();
     

@@ -17,10 +17,10 @@ package org.kuali.module.purap.dao;
 
 import java.util.List;
 
-import org.kuali.module.purap.bo.PurchasingApItem;
+import org.kuali.module.purap.bo.PurApItem;
 
 public interface PurApAccountingDao {
 
-    public List getAccountingLinesForItem(PurchasingApItem item);
+    public List getAccountingLinesForItem(PurApItem item);
     
 }

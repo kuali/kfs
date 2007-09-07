@@ -36,7 +36,7 @@ import org.kuali.module.purap.PurapParameterConstants;
 import org.kuali.module.purap.PurapPropertyConstants;
 import org.kuali.module.purap.PurapConstants.PurapDocTypeCodes;
 import org.kuali.module.purap.bo.PurchaseOrderItem;
-import org.kuali.module.purap.bo.PurchasingApItem;
+import org.kuali.module.purap.bo.PurApItem;
 import org.kuali.module.purap.document.PurchaseOrderDocument;
 import org.kuali.module.purap.document.PurchasingAccountsPayableDocument;
 import org.kuali.module.purap.service.PurapGeneralLedgerService;
@@ -67,8 +67,8 @@ public class PurchaseOrderAmendmentDocumentRule extends PurchaseOrderDocumentRul
     }
     
     private boolean validateContainsAtLeastOneActiveItem(PurchasingAccountsPayableDocument purapDocument) {
-        List<PurchasingApItem> items = purapDocument.getItems();
-        for (PurchasingApItem item : items) {
+        List<PurApItem> items = purapDocument.getItems();
+        for (PurApItem item : items) {
             if (((PurchaseOrderItem)item).isItemActiveIndicator() && (!((PurchaseOrderItem)item).isEmpty() && item.getItemType().isItemTypeAboveTheLineIndicator())) {
                 return true;
             }

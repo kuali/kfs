@@ -26,7 +26,7 @@ import org.kuali.module.chart.bo.Org;
 import org.kuali.module.purap.bo.DeliveryRequiredDateReason;
 import org.kuali.module.purap.bo.FundingSource;
 import org.kuali.module.purap.bo.PurchaseOrderTransmissionMethod;
-import org.kuali.module.purap.bo.PurchasingApItem;
+import org.kuali.module.purap.bo.PurApItem;
 import org.kuali.module.purap.bo.RecurringPaymentType;
 import org.kuali.module.purap.bo.RequisitionSource;
 import org.kuali.module.vendor.bo.PurchaseOrderCostSource;
@@ -1193,12 +1193,12 @@ public interface PurchasingDocument extends PurchasingAccountsPayableDocument {
      */
     public void setNonInstitutionFundChartOfAccounts(Chart nonInstitutionFundChartOfAccounts);
     
-    public List<PurchasingApItem> getItems();
-    public void setItems(List<PurchasingApItem> items);
-    public void addItem(PurchasingApItem item);
+    public List<PurApItem> getItems();
+    public void setItems(List<PurApItem> items);
+    public void addItem(PurApItem item);
     public void deleteItem(int lineNum);
     public KualiDecimal getTotalDollarAmount(); 
-    public PurchasingApItem getItem(int pos);
+    public PurApItem getItem(int pos);
     
     public void setVendorContractName(String vendorContractName);
     public boolean isDeliveryBuildingOther();

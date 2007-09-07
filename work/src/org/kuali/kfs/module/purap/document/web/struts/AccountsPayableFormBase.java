@@ -16,14 +16,14 @@
 package org.kuali.module.purap.web.struts.form;
 
 import org.kuali.core.web.ui.ExtraButton;
-import org.kuali.module.purap.bo.PurchasingApItem;
+import org.kuali.module.purap.bo.PurApItem;
 
 /**
  * This class is the form class for the Purchasing documents.
  */
 public class AccountsPayableFormBase extends PurchasingAccountsPayableFormBase {
     
-    private PurchasingApItem newPurchasingItemLine;
+    private PurApItem newPurchasingItemLine;
     private Boolean notOtherDeliveryBuilding;
     private boolean calculated;
     
@@ -39,19 +39,19 @@ public class AccountsPayableFormBase extends PurchasingAccountsPayableFormBase {
      * Gets the newPurchasingItemLine attribute. 
      * @return Returns the newPurchasingItemLine.
      */
-    public PurchasingApItem getNewPurchasingItemLine() {
+    public PurApItem getNewPurchasingItemLine() {
         return newPurchasingItemLine;
     }
     /**
      * Sets the newPurchasingItemLine attribute value.
      * @param newPurchasingItemLine The newPurchasingItemLine to set.
      */
-    public void setNewPurchasingItemLine(PurchasingApItem newPurchasingItemLine) {
+    public void setNewPurchasingItemLine(PurApItem newPurchasingItemLine) {
         this.newPurchasingItemLine = newPurchasingItemLine;
     }
     
-    public PurchasingApItem getAndResetNewPurchasingItemLine() {
-        PurchasingApItem aPurchasingItemLine = getNewPurchasingItemLine();
+    public PurApItem getAndResetNewPurchasingItemLine() {
+        PurApItem aPurchasingItemLine = getNewPurchasingItemLine();
         setNewPurchasingItemLine(setupNewPurchasingItemLine());
         return aPurchasingItemLine;
     }
@@ -61,7 +61,7 @@ public class AccountsPayableFormBase extends PurchasingAccountsPayableFormBase {
      * This method should be overriden (or see accountingLines for an alternate way of doing this with newInstance)
      * @return
      */
-    public PurchasingApItem setupNewPurchasingItemLine() {
+    public PurApItem setupNewPurchasingItemLine() {
         return null;
     }
     public Boolean getNotOtherDeliveryBuilding() {

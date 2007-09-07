@@ -37,7 +37,7 @@ import org.kuali.kfs.web.struts.form.KualiAccountingDocumentFormBase;
 import org.kuali.kfs.web.ui.AccountingLineDecorator;
 import org.kuali.module.purap.PurapPropertyConstants;
 import org.kuali.module.purap.bo.PurApAccountingLine;
-import org.kuali.module.purap.bo.PurchasingApItem;
+import org.kuali.module.purap.bo.PurApItem;
 import org.kuali.module.purap.document.PurchasingAccountsPayableDocument;
 import org.kuali.module.purap.service.PurapAccountingService;
 import org.kuali.module.purap.web.struts.form.PurchasingAccountsPayableFormBase;
@@ -76,7 +76,7 @@ public class PurchasingAccountsPayableActionBase extends KualiAccountingDocument
 
         //clear out the old lines first
         form.getBaselineSourceAccountingLines().clear();
-        for (PurchasingApItem item : document.getItems()) {
+        for (PurApItem item : document.getItems()) {
             //clear out the old lines first
             item.getBaselineSourceAccountingLines().clear();
             
@@ -107,14 +107,14 @@ public class PurchasingAccountsPayableActionBase extends KualiAccountingDocument
 
         // index of item selected
         int itemIndex = getSelectedLine(request);
-        PurchasingApItem item = null;
+        PurApItem item = null;
 
         /*
          * if custom processing of an accounting line is not done then insert a line generically.
          */
         if (processCustomInsertAccountingLine(purapForm, request) == false) {
 
-            item = (PurchasingApItem) ((PurchasingAccountsPayableDocument) purapForm.getDocument()).getItem((itemIndex));
+            item = (PurApItem) ((PurchasingAccountsPayableDocument) purapForm.getDocument()).getItem((itemIndex));
             PurApAccountingLine line = (PurApAccountingLine)ObjectUtils.deepCopy(item.getNewSourceLine());
 
             String errorPrefix = KFSPropertyConstants.DOCUMENT + "." + PurapPropertyConstants.ITEM + "[" + Integer.toString(itemIndex) + "]." + KFSConstants.NEW_SOURCE_ACCT_LINE_PROPERTY_NAME;
@@ -133,7 +133,7 @@ public class PurchasingAccountsPayableActionBase extends KualiAccountingDocument
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
-    protected void insertAccountingLine(PurchasingAccountsPayableFormBase financialDocumentForm, PurchasingApItem item, PurApAccountingLine line) {
+    protected void insertAccountingLine(PurchasingAccountsPayableFormBase financialDocumentForm, PurApItem item, PurApAccountingLine line) {
         PurchasingAccountsPayableDocument preq = (PurchasingAccountsPayableDocument)financialDocumentForm.getDocument();
         // this decorator stuff should be moved out in parent class so we don't need to copy it here
         // create and init a decorator
@@ -166,7 +166,7 @@ public class PurchasingAccountsPayableActionBase extends KualiAccountingDocument
     }
 
 
-    protected void insertAccountingLine(KualiAccountingDocumentFormBase financialDocumentForm, PurchasingApItem item, PurApAccountingLine line) {
+    protected void insertAccountingLine(KualiAccountingDocumentFormBase financialDocumentForm, PurApItem item, PurApAccountingLine line) {
         // this decorator stuff should be moved out in parent class so we don't need to copy it here
         // create and init a decorator
         AccountingLineDecorator decorator = new AccountingLineDecorator();
@@ -195,7 +195,7 @@ public class PurchasingAccountsPayableActionBase extends KualiAccountingDocument
         int itemIndex = Integer.parseInt(indexes[0]);
         int accountIndex = Integer.parseInt(indexes[1]);
 
-        PurchasingApItem item = (PurchasingApItem) ((PurchasingAccountsPayableDocument) purapForm.getDocument()).getItem((itemIndex));
+        PurApItem item = (PurApItem) ((PurchasingAccountsPayableDocument) purapForm.getDocument()).getItem((itemIndex));
         item.getSourceAccountingLines().remove(accountIndex);
         
         //add it to the baseline, to prevent generation of spurious update events
@@ -224,7 +224,7 @@ public class PurchasingAccountsPayableActionBase extends KualiAccountingDocument
             line = (SourceAccountingLine) ObjectUtils.deepCopy(purchasingForm.getAccountDistributionsourceAccountingLines().get(accountIndex));
         }
         else {
-            PurchasingApItem item = (PurchasingApItem) ((PurchasingAccountsPayableDocument) purchasingForm.getDocument()).getItem((itemIndex));
+            PurApItem item = (PurApItem) ((PurchasingAccountsPayableDocument) purchasingForm.getDocument()).getItem((itemIndex));
             line = (SourceAccountingLine) ObjectUtils.deepCopy(item.getSourceAccountingLines().get(accountIndex));
         }
         return line;

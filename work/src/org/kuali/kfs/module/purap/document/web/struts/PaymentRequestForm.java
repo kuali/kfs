@@ -30,7 +30,7 @@ import org.kuali.module.purap.PurapAuthorizationConstants;
 import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.bo.PurchaseOrderItem;
 import org.kuali.module.purap.bo.PurchaseOrderVendorStipulation;
-import org.kuali.module.purap.bo.PurchasingApItem;
+import org.kuali.module.purap.bo.PurApItem;
 import org.kuali.module.purap.document.PaymentRequestDocument;
 import org.kuali.module.purap.document.authorization.PaymentRequestDocumentActionAuthorizer;
 
@@ -90,7 +90,7 @@ public class PaymentRequestForm extends AccountsPayableFormBase {
      * @see org.kuali.module.purap.web.struts.form.PurchasingFormBase#setupNewPurchasingItemLine()
      */
     @Override
-    public PurchasingApItem setupNewPurchasingItemLine() {
+    public PurApItem setupNewPurchasingItemLine() {
         return new PurchaseOrderItem();
     }
 

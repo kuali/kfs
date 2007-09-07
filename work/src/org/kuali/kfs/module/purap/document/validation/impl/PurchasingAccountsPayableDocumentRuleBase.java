@@ -39,7 +39,7 @@ import org.kuali.kfs.rules.AccountingDocumentRuleBase;
 import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.PurapKeyConstants;
 import org.kuali.module.purap.bo.PurApAccountingLine;
-import org.kuali.module.purap.bo.PurchasingApItem;
+import org.kuali.module.purap.bo.PurApItem;
 import org.kuali.module.purap.document.PurchasingAccountsPayableDocument;
 import org.kuali.module.purap.rule.AddPurchasingAccountsPayableItemRule;
 
@@ -160,7 +160,7 @@ public class PurchasingAccountsPayableDocumentRuleBase extends AccountingDocumen
         KualiParameterRule requiresDescriptionRule = SpringContext.getBean(KualiConfigurationService.class).getApplicationParameterRule(securityGroup, PurapConstants.ITEM_REQUIRES_USER_ENTERED_DESCRIPTION);
 
         boolean requiresAccountValidationOnAllEnteredItems = requiresAccountValidationOnAllEnteredItems(purapDocument);
-        for (PurchasingApItem item : purapDocument.getItems()) {
+        for (PurApItem item : purapDocument.getItems()) {
             
             //do the DD validation first, I wonder if the original one from DocumentRuleBase is broken ? 
             GlobalVariables.getErrorMap().addToErrorPath(PurapConstants.ITEM_TAB_ERROR_PROPERTY);
@@ -214,7 +214,7 @@ public class PurchasingAccountsPayableDocumentRuleBase extends AccountingDocumen
         return valid;
     }
 
-    public boolean processAddItemBusinessRules(AccountingDocument financialDocument, PurchasingApItem item) {
+    public boolean processAddItemBusinessRules(AccountingDocument financialDocument, PurApItem item) {
         return getDictionaryValidationService().isBusinessObjectValid(item, KFSPropertyConstants.NEW_ITEM);
     }
 

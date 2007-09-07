@@ -45,7 +45,7 @@ import org.kuali.module.purap.bo.CreditMemoAccount;
 import org.kuali.module.purap.bo.CreditMemoItem;
 import org.kuali.module.purap.bo.PurApAccountingLine;
 import org.kuali.module.purap.bo.PurchaseOrderItem;
-import org.kuali.module.purap.bo.PurchasingApItem;
+import org.kuali.module.purap.bo.PurApItem;
 import org.kuali.module.purap.document.AccountsPayableDocument;
 import org.kuali.module.purap.document.CreditMemoDocument;
 import org.kuali.module.purap.document.PaymentRequestDocument;
@@ -500,7 +500,7 @@ public class CreditMemoDocumentRule extends AccountsPayableDocumentRuleBase impl
      * 
      * @param itemList - list of items to check
      */
-    private void flagLineItemTotals(List<PurchasingApItem> itemList) {
+    private void flagLineItemTotals(List<PurApItem> itemList) {
         for (int i = 0; i < itemList.size(); i++) {
             CreditMemoItem item = (CreditMemoItem) itemList.get(i);
             if (item.getItemQuantity() != null && item.calculateExtendedPrice().compareTo(item.getExtendedPrice()) != 0) {

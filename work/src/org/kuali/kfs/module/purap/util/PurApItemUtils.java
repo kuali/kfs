@@ -21,7 +21,7 @@ import java.util.List;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.module.purap.bo.PurchaseOrderItem;
-import org.kuali.module.purap.bo.PurchasingApItem;
+import org.kuali.module.purap.bo.PurApItem;
 
 /**
  * This class contains item utilities
@@ -35,7 +35,7 @@ public class PurApItemUtils {
      * @param item
      * @return
      */
-    public static boolean checkItemActive(PurchasingApItem item) {
+    public static boolean checkItemActive(PurApItem item) {
         boolean active = true;
         if(item instanceof PurchaseOrderItem) {
             PurchaseOrderItem poi = (PurchaseOrderItem)item;
@@ -44,7 +44,7 @@ public class PurApItemUtils {
         return active;
     }
     
-    public static boolean isNonZeroExtended(PurchasingApItem item) {
+    public static boolean isNonZeroExtended(PurApItem item) {
         return(ObjectUtils.isNotNull(item) && ObjectUtils.isNotNull(item.getExtendedPrice()) && !item.getExtendedPrice().isZero());
     }
     
@@ -54,11 +54,11 @@ public class PurApItemUtils {
      * @param items
      * @return
      */
-    public static List<PurchasingApItem> getAboveTheLineOnly(List<PurchasingApItem>items) {
-        List<PurchasingApItem> returnItems = new ArrayList<PurchasingApItem>();
-        for (PurchasingApItem item : items) {
+    public static List<PurApItem> getAboveTheLineOnly(List<PurApItem>items) {
+        List<PurApItem> returnItems = new ArrayList<PurApItem>();
+        for (PurApItem item : items) {
             if(item.getItemType().isItemTypeAboveTheLineIndicator()) {
-                returnItems.add((PurchasingApItem)ObjectUtils.deepCopy(item));
+                returnItems.add((PurApItem)ObjectUtils.deepCopy(item));
             }
         }
         return returnItems;

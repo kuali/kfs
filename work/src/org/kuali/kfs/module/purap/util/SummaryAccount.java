@@ -19,16 +19,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.kfs.bo.SourceAccountingLine;
-import org.kuali.module.purap.bo.PurchasingApItem;
+import org.kuali.module.purap.bo.PurApItem;
 
 public class SummaryAccount {
 
     private SourceAccountingLine account;
-    private List<PurchasingApItem> items;
+    private List<PurApItem> items;
    
     public SummaryAccount() {
         super();
-        items = new ArrayList<PurchasingApItem>();
+        items = new ArrayList<PurApItem>();
     }
 
     /**
@@ -51,7 +51,7 @@ public class SummaryAccount {
      * Gets the items attribute. 
      * @return Returns the items.
      */
-    public List<PurchasingApItem> getItems() {
+    public List<PurApItem> getItems() {
         return items;
     }
 
@@ -59,7 +59,7 @@ public class SummaryAccount {
      * Sets the items attribute value.
      * @param items The items to set.
      */
-    public void setItems(List<PurchasingApItem> items) {
+    public void setItems(List<PurApItem> items) {
         this.items = items;
     }
     

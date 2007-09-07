@@ -23,7 +23,7 @@ import org.kuali.core.exceptions.UserNotFoundException;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.bo.SourceAccountingLine;
 import org.kuali.module.purap.bo.ItemType;
-import org.kuali.module.purap.bo.PurchasingApItem;
+import org.kuali.module.purap.bo.PurApItem;
 import org.kuali.module.purap.document.PurchasingAccountsPayableDocument;
 
 import edu.iu.uis.eden.exception.WorkflowException;
@@ -48,7 +48,7 @@ public interface PurapService {
      * @param iT the itemType
      * @return below the line item by item type 
      */
-    public PurchasingApItem getBelowTheLineByType(PurchasingAccountsPayableDocument document, ItemType iT);
+    public PurApItem getBelowTheLineByType(PurchasingAccountsPayableDocument document, ItemType iT);
     
     /**
      * We are obliged not to simply use a dateDiff and compare the result to 365, because we have

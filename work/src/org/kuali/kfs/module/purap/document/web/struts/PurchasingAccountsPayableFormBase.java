@@ -24,7 +24,7 @@ import org.kuali.kfs.bo.AccountingLine;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.web.struts.form.KualiAccountingDocumentFormBase;
 import org.kuali.module.purap.bo.PurApAccountingLine;
-import org.kuali.module.purap.bo.PurchasingApItem;
+import org.kuali.module.purap.bo.PurApItem;
 import org.kuali.module.purap.document.PurchasingAccountsPayableDocument;
 import org.kuali.module.purap.service.PurapAccountingService;
 import org.kuali.module.purap.util.SummaryAccount;
@@ -60,7 +60,7 @@ public class PurchasingAccountsPayableFormBase extends KualiAccountingDocumentFo
         List<AccountingLine> accounts = super.getBaselineSourceAccountingLines();
         if(ObjectUtils.isNull(accounts)|| accounts.isEmpty()) {
             accounts = new ArrayList<AccountingLine>();
-            for (PurchasingApItem item : ((PurchasingAccountsPayableDocument)getDocument()).getItems()) {
+            for (PurApItem item : ((PurchasingAccountsPayableDocument)getDocument()).getItems()) {
                 List<PurApAccountingLine> lines = item.getBaselineSourceAccountingLines();
                 for (PurApAccountingLine line : lines) {
                     accounts.add(line);

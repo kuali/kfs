@@ -19,7 +19,7 @@ import java.math.BigDecimal;
 
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.web.ui.KeyLabelPair;
-import org.kuali.module.purap.bo.PurchasingApItem;
+import org.kuali.module.purap.bo.PurApItem;
 import org.kuali.module.purap.bo.RequisitionAccount;
 import org.kuali.module.purap.bo.RequisitionItem;
 import org.kuali.module.purap.document.RequisitionDocument;
@@ -77,7 +77,7 @@ public class RequisitionForm extends PurchasingFormBase {
      * @see org.kuali.module.purap.web.struts.form.PurchasingFormBase#setupNewPurchasingItemLine()
      */
     @Override
-    public PurchasingApItem setupNewPurchasingItemLine() {
+    public PurApItem setupNewPurchasingItemLine() {
         RequisitionItem ri = new RequisitionItem();
         return ri;
     }

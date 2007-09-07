@@ -39,7 +39,7 @@ import org.kuali.module.purap.PurapPropertyConstants;
 import org.kuali.module.purap.PurapRuleConstants;
 import org.kuali.module.purap.PurapConstants.ItemFields;
 import org.kuali.module.purap.PurapConstants.ItemTypeCodes;
-import org.kuali.module.purap.bo.PurchasingApItem;
+import org.kuali.module.purap.bo.PurApItem;
 import org.kuali.module.purap.bo.PurchasingItemBase;
 import org.kuali.module.purap.document.PurchasingAccountsPayableDocument;
 import org.kuali.module.purap.document.PurchasingDocument;
@@ -72,8 +72,8 @@ public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumen
     @Override
     public boolean processItemValidation(PurchasingAccountsPayableDocument purapDocument) {
         boolean valid = super.processItemValidation(purapDocument);
-        List<PurchasingApItem> itemList = purapDocument.getItems();
-        for (PurchasingApItem item : itemList) {
+        List<PurApItem> itemList = purapDocument.getItems();
+        for (PurApItem item : itemList) {
             String identifierString = (item.getItemType().isItemTypeAboveTheLineIndicator() ?  "Item " + item.getItemLineNumber().toString() : item.getItemType().getItemTypeDescription());
             valid &= validateItemUnitPrice(item);
             valid &= validateUnitOfMeasure(item, identifierString);
@@ -92,7 +92,7 @@ public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumen
         return valid;
     }
 
-    private boolean validateBelowTheLineItemNoUnitCost(PurchasingApItem item, String identifierString) {
+    private boolean validateBelowTheLineItemNoUnitCost(PurApItem item, String identifierString) {
         if (ObjectUtils.isNull(item.getItemUnitPrice()) && 
             ObjectUtils.isNotNull(item.getSourceAccountingLines()) &&
             !item.getSourceAccountingLines().isEmpty()) {
@@ -112,7 +112,7 @@ public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumen
      */
     private boolean validateContainsAtLeastOneItem(PurchasingDocument purDocument) {
         boolean valid = false;
-        for (PurchasingApItem item : purDocument.getItems()) {
+        for (PurApItem item : purDocument.getItems()) {
             if (!((PurchasingItemBase)item).isEmpty() && item.getItemType().isItemTypeAboveTheLineIndicator()) {
                 return true;
             }
@@ -132,7 +132,7 @@ public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumen
      * @param purDocument
      * @return
      */
-    private boolean validateItemUnitPrice(PurchasingApItem item) {
+    private boolean validateItemUnitPrice(PurApItem item) {
         boolean valid = true;
         if (item.getItemType().isItemTypeAboveTheLineIndicator()) {
             if (ObjectUtils.isNull(item.getItemUnitPrice())) {
@@ -159,7 +159,7 @@ public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumen
         return valid;
     }
 
-    public boolean processAddItemBusinessRules(AccountingDocument financialDocument, PurchasingApItem item) {
+    public boolean processAddItemBusinessRules(AccountingDocument financialDocument, PurApItem item) {
         boolean valid = super.processAddItemBusinessRules(financialDocument, item);
         valid &= validateItemUnitPrice(item);
         return valid;
@@ -188,7 +188,7 @@ public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumen
      * @param item
      * @return
      */
-    private boolean validateUnitOfMeasure(PurchasingApItem item, String identifierString) {
+    private boolean validateUnitOfMeasure(PurApItem item, String identifierString) {
         boolean valid = true;
         PurchasingItemBase purItem = (PurchasingItemBase) item;
         // Validations for item type "ITEM"
@@ -207,7 +207,7 @@ public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumen
      * @param item
      * @return
      */
-    private boolean validateItemQuantity(PurchasingApItem item, String identifierString) {
+    private boolean validateItemQuantity(PurApItem item, String identifierString) {
         boolean valid =  true;
         PurchasingItemBase purItem = (PurchasingItemBase)item;
         if ( purItem.getItemTypeCode().equals(ItemTypeCodes.ITEM_TYPE_ITEM_CODE) &&

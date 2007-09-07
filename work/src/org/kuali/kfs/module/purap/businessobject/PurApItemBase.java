@@ -30,7 +30,7 @@ import org.kuali.module.purap.PurapPropertyConstants;
 /**
  * 
  */
-public abstract class PurApItemBase extends PersistableBusinessObjectBase implements PurchasingApItem {
+public abstract class PurApItemBase extends PersistableBusinessObjectBase implements PurApItem {
 
 	private Integer itemIdentifier;
 	private Integer itemLineNumber;
@@ -46,7 +46,7 @@ public abstract class PurApItemBase extends PersistableBusinessObjectBase implem
 	private String externalOrganizationB2bProductTypeName;
 	private boolean itemAssignedToTradeInIndicator;
     private KualiDecimal extendedPrice; //not currently in DB
-    private KualiDecimal extendedPriceForAccountSummary;
+    private KualiDecimal estimatedEncumberanceAmount;
     
     private List<PurApAccountingLine> sourceAccountingLines;
     private transient List<PurApAccountingLine> baselineSourceAccountingLines;
@@ -609,10 +609,10 @@ public abstract class PurApItemBase extends PersistableBusinessObjectBase implem
     }
     
     public KualiDecimal getExtendedPriceForAccountSummary() {
-        return extendedPriceForAccountSummary;
+        return estimatedEncumberanceAmount;
 }
     public void setExtendedPriceForAccountSummary(KualiDecimal extendedPriceForAccountSummary) {
-        this.extendedPriceForAccountSummary = extendedPriceForAccountSummary;
+        this.estimatedEncumberanceAmount = extendedPriceForAccountSummary;
     }
     
 }

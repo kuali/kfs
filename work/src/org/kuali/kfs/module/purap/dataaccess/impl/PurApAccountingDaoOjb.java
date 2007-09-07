@@ -25,12 +25,12 @@ import org.apache.ojb.broker.query.QueryFactory;
 import org.kuali.core.dao.ojb.PlatformAwareDaoBaseOjb;
 import org.kuali.module.purap.bo.PurchaseOrderAccount;
 import org.kuali.module.purap.bo.PurchaseOrderItem;
-import org.kuali.module.purap.bo.PurchasingApItem;
+import org.kuali.module.purap.bo.PurApItem;
 import org.kuali.module.purap.dao.PurApAccountingDao;
 
 public class PurApAccountingDaoOjb extends PlatformAwareDaoBaseOjb implements PurApAccountingDao {
 
-    public List getAccountingLinesForItem(PurchasingApItem item) {
+    public List getAccountingLinesForItem(PurApItem item) {
         String itemIdentifier = Integer.toString(item.getItemIdentifier());
         Class clazz = item.getAccountingLineClass();
         Criteria criteria = new Criteria();

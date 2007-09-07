@@ -21,7 +21,7 @@ import org.kuali.core.document.Document;
 import org.kuali.core.rule.event.KualiDocumentEventBase;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.module.financial.bo.Check;
-import org.kuali.module.purap.bo.PurchasingApItem;
+import org.kuali.module.purap.bo.PurApItem;
 
 /**
  * ItemEvents.
@@ -32,7 +32,7 @@ public abstract class PurchasingAccountsPayableItemEventBase extends KualiDocume
     private static final Logger LOG = Logger.getLogger(PurchasingAccountsPayableItemEventBase.class);
 
 
-    private final PurchasingApItem item;
+    private final PurApItem item;
 
     /**
      * Initializes fields common to all subclasses
@@ -42,12 +42,12 @@ public abstract class PurchasingAccountsPayableItemEventBase extends KualiDocume
      * @param document
      * @param check
      */
-    public PurchasingAccountsPayableItemEventBase(String description, String errorPathPrefix, Document document, PurchasingApItem item) {
+    public PurchasingAccountsPayableItemEventBase(String description, String errorPathPrefix, Document document, PurApItem item) {
         super(description, errorPathPrefix, document);
 
         // by doing a deep copy, we are ensuring that the business rule class can't update
         // the original object by reference
-        this.item = (PurchasingApItem) ObjectUtils.deepCopy(item);
+        this.item = (PurApItem) ObjectUtils.deepCopy(item);
 
         logEvent();
     }
@@ -56,7 +56,7 @@ public abstract class PurchasingAccountsPayableItemEventBase extends KualiDocume
     /**
      * @see org.kuali.core.rule.event.CheckEvent#getCheck()
      */
-    public PurchasingApItem getItem() {
+    public PurApItem getItem() {
         return item;
     }
 

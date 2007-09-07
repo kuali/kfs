@@ -21,7 +21,7 @@ import org.kuali.core.rule.BusinessRule;
 import org.kuali.kfs.document.AccountingDocument;
 import org.kuali.module.financial.bo.Check;
 import org.kuali.module.financial.rule.AddCheckRule;
-import org.kuali.module.purap.bo.PurchasingApItem;
+import org.kuali.module.purap.bo.PurApItem;
 import org.kuali.module.purap.rule.AddPurchasingAccountsPayableItemRule;
 
 /**
@@ -36,7 +36,7 @@ public final class AddPurchasingAccountsPayableItemEvent extends PurchasingAccou
      * @param document
      * @param accountingLine
      */
-    public AddPurchasingAccountsPayableItemEvent(String errorPathPrefix, Document document, PurchasingApItem item) {
+    public AddPurchasingAccountsPayableItemEvent(String errorPathPrefix, Document document, PurApItem item) {
         super("adding item to document " + getDocumentId(document), errorPathPrefix, document, item);
     }
 

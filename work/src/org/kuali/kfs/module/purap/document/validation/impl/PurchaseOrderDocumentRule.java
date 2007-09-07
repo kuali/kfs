@@ -42,7 +42,7 @@ import org.kuali.module.purap.PurapConstants.PurapDocTypeCodes;
 import org.kuali.module.purap.PurapWorkflowConstants.PurchaseOrderDocument.NodeDetailEnum;
 import org.kuali.module.purap.bo.PurchaseOrderItem;
 import org.kuali.module.purap.bo.PurchaseOrderVendorStipulation;
-import org.kuali.module.purap.bo.PurchasingApItem;
+import org.kuali.module.purap.bo.PurApItem;
 import org.kuali.module.purap.document.PurchaseOrderDocument;
 import org.kuali.module.purap.document.PurchasingAccountsPayableDocument;
 import org.kuali.module.purap.document.PurchasingDocument;
@@ -85,7 +85,7 @@ public class PurchaseOrderDocumentRule extends PurchasingDocumentRuleBase {
     @Override
     public boolean processItemValidation(PurchasingAccountsPayableDocument purapDocument) {
         boolean valid = super.processItemValidation(purapDocument);
-        for (PurchasingApItem item : purapDocument.getItems()) {
+        for (PurApItem item : purapDocument.getItems()) {
             String identifierString = (item.getItemType().isItemTypeAboveTheLineIndicator() ? "Item " + item.getItemLineNumber().toString() : item.getItemType().getItemTypeDescription());
             valid &= validateEmptyItemWithAccounts((PurchaseOrderItem) item, identifierString);
             valid &= validateItemUnitOfMeasure((PurchaseOrderItem) item, identifierString);
@@ -160,7 +160,7 @@ public class PurchaseOrderDocumentRule extends PurchasingDocumentRuleBase {
         boolean discountExists = false;
         boolean tradeInExists = false;
 
-        for (PurchasingApItem item : purDocument.getItems()) {
+        for (PurApItem item : purDocument.getItems()) {
             if (item.getItemTypeCode().equals(ItemTypeCodes.ITEM_TYPE_ORDER_DISCOUNT_CODE)) {
                 discountExists = true;
                 if (tradeInExists) {

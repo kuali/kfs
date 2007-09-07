@@ -40,7 +40,7 @@ import org.kuali.module.purap.PurapRuleConstants;
 import org.kuali.module.purap.bo.ItemType;
 import org.kuali.module.purap.bo.OrganizationParameter;
 import org.kuali.module.purap.bo.PurchaseOrderView;
-import org.kuali.module.purap.bo.PurchasingApItem;
+import org.kuali.module.purap.bo.PurApItem;
 import org.kuali.module.purap.document.CreditMemoDocument;
 import org.kuali.module.purap.document.PaymentRequestDocument;
 import org.kuali.module.purap.document.PurchasingAccountsPayableDocument;
@@ -151,10 +151,10 @@ public class PurapServiceImpl implements PurapService {
     public void addBelowLineItems(PurchasingAccountsPayableDocument document) {
         String[] itemTypes = getBelowTheLineForDocument(document);
         
-        List<PurchasingApItem> existingItems = document.getItems();
+        List<PurApItem> existingItems = document.getItems();
 
         List<String> existingItemTypes = new ArrayList();
-        for (PurchasingApItem existingItem : existingItems) {
+        for (PurApItem existingItem : existingItems) {
             existingItemTypes.add(existingItem.getItemTypeCode());
         }
         
@@ -170,7 +170,7 @@ public class PurapServiceImpl implements PurapService {
                     else {
                         lastFound = existingItemTypes.size();
                     }
-                    PurchasingApItem newItem = (PurchasingApItem)itemClass.newInstance();                    
+                    PurApItem newItem = (PurApItem)itemClass.newInstance();                    
                     newItem.setItemTypeCode(itemTypes[i]);
                     existingItems.add(lastFound, newItem);
                     existingItemTypes.add(itemTypes[i]);
@@ -206,9 +206,9 @@ public class PurapServiceImpl implements PurapService {
      * 
      * @see org.kuali.module.purap.service.PurapService#getBelowTheLineByType(org.kuali.module.purap.document.PurchasingAccountsPayableDocument, org.kuali.module.purap.bo.ItemType)
      */
-    public PurchasingApItem getBelowTheLineByType(PurchasingAccountsPayableDocument document, ItemType iT) {
-        PurchasingApItem belowTheLineItem = null;
-        for (PurchasingApItem item : (List<PurchasingApItem>)document.getItems()) {
+    public PurApItem getBelowTheLineByType(PurchasingAccountsPayableDocument document, ItemType iT) {
+        PurApItem belowTheLineItem = null;
+        for (PurApItem item : (List<PurApItem>)document.getItems()) {
             if(!item.getItemType().isItemTypeAboveTheLineIndicator()) {
                 if(StringUtils.equals(iT.getItemTypeCode(), item.getItemType().getItemTypeCode())) {
                     belowTheLineItem = item;

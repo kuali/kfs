@@ -18,7 +18,7 @@ package org.kuali.module.purap.rule;
 import org.kuali.core.document.TransactionalDocument;
 import org.kuali.kfs.document.AccountingDocument;
 import org.kuali.module.financial.bo.Check;
-import org.kuali.module.purap.bo.PurchasingApItem;
+import org.kuali.module.purap.bo.PurApItem;
 
 /**
  * Defines a rule which gets invoked immediately before a check line is added to a document.
@@ -29,5 +29,5 @@ public interface AddPurchasingAccountsPayableItemRule<F extends AccountingDocume
      * @param financialDocument
      * @return true if the business rules pass
      */
-    public boolean processAddItemBusinessRules(F financialDocument, PurchasingApItem item);
+    public boolean processAddItemBusinessRules(F financialDocument, PurApItem item);
 }

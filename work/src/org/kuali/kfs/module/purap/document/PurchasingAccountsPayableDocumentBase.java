@@ -53,7 +53,7 @@ import org.kuali.module.purap.bo.CreditMemoView;
 import org.kuali.module.purap.bo.ItemType;
 import org.kuali.module.purap.bo.PaymentRequestView;
 import org.kuali.module.purap.bo.PurchaseOrderView;
-import org.kuali.module.purap.bo.PurchasingApItem;
+import org.kuali.module.purap.bo.PurApItem;
 import org.kuali.module.purap.bo.RequisitionView;
 import org.kuali.module.purap.bo.Status;
 import org.kuali.module.purap.bo.StatusHistory;
@@ -102,7 +102,7 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
     protected List statusHistories;
 
     // COLLECTIONS
-    private List<PurchasingApItem> items;
+    private List<PurApItem> items;
     private transient List<RequisitionView> relatedRequisitionViews;
     private transient List<PurchaseOrderView> relatedPurchaseOrderViews;
     private transient List<PaymentRequestView> relatedPaymentRequestViews;
@@ -220,7 +220,7 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
         }
 
         KualiDecimal total = new KualiDecimal(BigDecimal.ZERO);
-        for (PurchasingApItem item : (List<PurchasingApItem>)getItems()) {
+        for (PurApItem item : (List<PurApItem>)getItems()) {
             item.refreshReferenceObject(PurapPropertyConstants.ITEM_TYPE);
             ItemType it = item.getItemType();
             if((includeBelowTheLine || it.isItemTypeAboveTheLineIndicator()) && 
@@ -408,7 +408,7 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
      * renumberItems(itemLinePosition); }
      */
 
-    public void addItem(PurchasingApItem item) {
+    public void addItem(PurApItem item) {
         int itemLinePosition = getItemLinePosition();
         if (ObjectUtils.isNotNull(item.getItemLineNumber()) && (item.getItemLineNumber() > 0) && (item.getItemLineNumber() <= itemLinePosition)) {
             itemLinePosition = item.getItemLineNumber().intValue() - 1;
@@ -426,7 +426,7 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
 
     public void renumberItems(int start) {
         for (int i = start; i < items.size(); i++) {
-            PurchasingApItem item = (PurchasingApItem) items.get(i);
+            PurApItem item = (PurApItem) items.get(i);
             // only set the item line number for above the line items
             if (item.getItemType().isItemTypeAboveTheLineIndicator()) {
                 item.setItemLineNumber(new Integer(i + 1));
@@ -444,8 +444,8 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
            (positionTo>=getItemLinePosition())) {
             return;
         }
-        PurchasingApItem item1 = this.getItem(positionFrom);
-        PurchasingApItem item2 = this.getItem(positionTo);
+        PurApItem item1 = this.getItem(positionFrom);
+        PurApItem item2 = this.getItem(positionTo);
         Integer oldFirstPos = item1.getItemLineNumber();
         //swap line numbers
         item1.setItemLineNumber(item2.getItemLineNumber());
@@ -464,7 +464,7 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
      */
     public int getItemLinePosition() {
         int belowTheLineCount = 0;
-        for (PurchasingApItem item : items) {
+        for (PurApItem item : items) {
             if (!item.getItemType().isItemTypeAboveTheLineIndicator()) {
                 belowTheLineCount++;
             }
@@ -472,7 +472,7 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
         return items.size() - belowTheLineCount;
     }
 
-    public PurchasingApItem getItem(int pos) {
+    public PurApItem getItem(int pos) {
         // TODO: we probably don't need this because of the TypedArrayList
         while (getItems().size() <= pos) {
 
@@ -489,7 +489,7 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
                 logAndThrowRuntimeException("Can't instantiate Purchasing Item from base", e);
             }
         }
-        return (PurchasingApItem) items.get(pos);
+        return (PurApItem) items.get(pos);
     }
     
     /**
@@ -499,9 +499,9 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
      * @param lineNumber - line number to match on
      * @return PurchasingApItem - if a match was found, or null
      */
-    public PurchasingApItem getItemByLineNumber(int lineNumber) {
+    public PurApItem getItemByLineNumber(int lineNumber) {
         for (Iterator iter = items.iterator(); iter.hasNext();) {
-            PurchasingApItem item = (PurchasingApItem) iter.next();
+            PurApItem item = (PurApItem) iter.next();
 
             if (item.getItemLineNumber().intValue() == lineNumber) {
                 return item;
@@ -736,7 +736,7 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
         PurapAccountingService purApAccountingService = SpringContext.getBean(PurapAccountingService.class);
         List persistedSourceLines = new ArrayList();
 
-        for (PurchasingApItem item : (List<PurchasingApItem>)this.getItems()) {
+        for (PurApItem item : (List<PurApItem>)this.getItems()) {
             //only check items that already have been persisted since last save
             if(ObjectUtils.isNotNull(item.getItemIdentifier())) {
                 persistedSourceLines.addAll(purApAccountingService.getAccountsFromItem(item));
@@ -754,7 +754,7 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
         PurapAccountingService purApAccountingService = SpringContext.getBean(PurapAccountingService.class);
         List currentSourceLines = new ArrayList();
 
-        for (PurchasingApItem item : (List<PurchasingApItem>)this.getItems()) {
+        for (PurApItem item : (List<PurApItem>)this.getItems()) {
             currentSourceLines.addAll(item.getSourceAccountingLines());
         }
         return currentSourceLines;

@@ -53,7 +53,7 @@ import org.kuali.module.purap.PurapConstants.PurapDocTypeCodes;
 import org.kuali.module.purap.bo.PaymentRequestItem;
 import org.kuali.module.purap.bo.PurApAccountingLine;
 import org.kuali.module.purap.bo.PurchaseOrderItem;
-import org.kuali.module.purap.bo.PurchasingApItem;
+import org.kuali.module.purap.bo.PurApItem;
 import org.kuali.module.purap.document.AccountsPayableDocument;
 import org.kuali.module.purap.document.PaymentRequestDocument;
 import org.kuali.module.purap.document.PurchaseOrderDocument;
@@ -326,9 +326,9 @@ public class PaymentRequestDocumentRule extends AccountsPayableDocumentRuleBase 
         flagLineItemTotals(document.getItems());
     }
     
-    private KualiDecimal getTotalExcludingItemTypes(List<PurchasingApItem> itemList, Set excludedItemTypes) {
+    private KualiDecimal getTotalExcludingItemTypes(List<PurApItem> itemList, Set excludedItemTypes) {
         KualiDecimal total = zero;
-        for (PurchasingApItem item : itemList) {
+        for (PurApItem item : itemList) {
             if (item.getExtendedPrice() != null && item.getExtendedPrice().isNonZero()) {
                 boolean skipThisItem = false;
                 if (excludedItemTypes.contains(item.getItemTypeCode())) {
@@ -345,8 +345,8 @@ public class PaymentRequestDocumentRule extends AccountsPayableDocumentRuleBase 
         return total;
     }
     
-    private void flagLineItemTotals(List<PurchasingApItem> itemList) {
-        for (PurchasingApItem purApItem : itemList) {
+    private void flagLineItemTotals(List<PurApItem> itemList) {
+        for (PurApItem purApItem : itemList) {
             PaymentRequestItem item = (PaymentRequestItem)purApItem;
             if (item.getItemQuantity()!= null) {
                 if(item.calculateExtendedPrice().compareTo(item.getExtendedPrice())!=0) {
@@ -368,7 +368,7 @@ public class PaymentRequestDocumentRule extends AccountsPayableDocumentRuleBase 
     public boolean processItemValidation(PurchasingAccountsPayableDocument purapDocument) {
         boolean valid = true;
         PaymentRequestDocument paymentRequestDocument = (PaymentRequestDocument)purapDocument;
-        for (PurchasingApItem item : purapDocument.getItems() ) { 
+        for (PurApItem item : purapDocument.getItems() ) { 
             PaymentRequestItem preqItem = (PaymentRequestItem)item;
             valid &= validateEachItem(paymentRequestDocument, preqItem);
         }

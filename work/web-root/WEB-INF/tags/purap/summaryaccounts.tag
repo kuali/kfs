@@ -30,9 +30,6 @@
 			</logic:empty>
 			<logic:notEmpty name="KualiForm" property="summaryAccounts">
 				<logic:iterate id="summaryAccount" name="KualiForm" property="summaryAccounts" indexId="ctr">		
-		            <tr>
-			            <th height=30 colspan="10">&nbsp;</th>
-		            </tr>
 				    <tr>
 					    <td colspan="10" class="tab-subhead" style="border-right: none;">
 					        Account Summary ${ctr+1} 
@@ -101,37 +98,41 @@
 					</tr>
 					
                     <tr>
-                        <td colspan="10" class="tab-subhead" style="border-right: none;">
-                            <tr>
-                                <td colspan="8" class="tab-subhead" style="border-right: none;">
-                                    Items of Account Summary ${ctr+1} 
-                                </td>
-                            </tr>
-        
-                            <tr>
-                                <kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemLineNumber}" />
-                                <kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemTypeCode}" />
-                                <kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemQuantity}" />
-                                <kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemUnitOfMeasureCode}" />
-                                <kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemCatalogNumber}" />
-                                <kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemDescription}" />
-                                <kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemUnitPrice}" />
-                                <kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.extendedPrice}" />
-                            </tr>   
-                            <tr>                
-                                <logic:iterate id="itemValue" name="KualiForm" property="summaryAccounts[${ctr}].items" indexId="ctrItem">
-                                    <tr>
-                                        <td class="datacell center"><c:out value="${itemValue.itemLineNumber}"/>&nbsp;</td>
-                                        <td class="datacell center"><c:out value="${itemValue.itemTypeCode}"/>&nbsp;</td>
-                                        <td class="datacell center"><c:out value="${itemValue.itemQuantity}"/>&nbsp;</td>
-                                        <td class="datacell center"><c:out value="${itemValue.itemUnitOfMeasureCode}"/>&nbsp;</td>
-                                        <td class="datacell center"><c:out value="${itemValue.itemCatalogNumber}"/>&nbsp;</td>
-                                        <td class="datacell center"><c:out value="${itemValue.itemDescription}"/>&nbsp;</td>
-                                        <td class="datacell center"><c:out value="${itemValue.itemUnitPrice}"/>&nbsp;</td>
-                                        <td class="datacell center"><c:out value="${itemValue.extendedPriceForAccountSummary}"/>&nbsp;</td>
-                                    </tr>
-                                </logic:iterate>
-                            </tr>
+                        <td colspan="10" height=30 >
+                            <div align="center"><br>
+                            <table width="75%" border="0" cellpadding="0" cellspacing="0" class="datatable">
+                                <tr>
+                                    <td colspan="4" class="tab-subhead" style="border-right: none;">
+                                        Items of Account Summary ${ctr+1} 
+                                    </td>
+                                </tr>
+            
+                                <tr>
+                                    <kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemLineNumber}" />
+                                    <kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemTypeCode}" />
+                                    <kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemDescription}" />
+                                    <kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.estimatedEncumberanceAmount}" />
+                                </tr>   
+                                <tr>                
+                                    <logic:iterate id="itemValue" name="KualiForm" property="summaryAccounts[${ctr}].items" indexId="ctrItem">
+                                        <tr>
+                                            <td class="datacell center">
+                                                <kul:htmlControlAttribute attributeEntry="${itemAttributes.itemLineNumber}" property="summaryAccount[${ctr}].item[${ctrItem}].itemLineNumber" readOnly="true" />&nbsp;
+                                            </td>
+                                            <td class="datacell center">
+                                                <kul:htmlControlAttribute attributeEntry="${itemAttributes.itemTypeCode}" property="summaryAccounts[${ctr}].items[${ctrItem}].itemTypeCode" readOnly="true" />&nbsp;
+                                            </td>
+                                            <td class="datacell center">
+                                                <kul:htmlControlAttribute attributeEntry="${itemAttributes.itemDescription}" property="summaryAccounts[${ctr}].items[${ctrItem}].itemDescription" readOnly="true" />&nbsp;
+                                            </td>
+                                            <td class="datacell center">
+                                                <kul:htmlControlAttribute attributeEntry="${itemAttributes.estimatedEncumberanceAmount}" property="summaryAccounts[${ctr}].items[${ctrItem}].estimatedEncumberanceAmount" readOnly="true" />&nbsp;
+                                            </td>
+                                        </tr>
+                                    </logic:iterate>
+                                </tr>
+                            </table>
+                            </div><br>
                         </td>
                     </tr>
 

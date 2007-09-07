@@ -90,9 +90,6 @@ public class PurchasingActionBase extends PurchasingAccountsPayableActionBase {
             // populate default address based on selected vendor
             VendorAddress defaultAddress = SpringContext.getBean(VendorService.class).getVendorDefaultAddress(refreshVendorDetail.getVendorAddresses(), refreshVendorDetail.getVendorHeader().getVendorType().getAddressType().getVendorAddressTypeCode(), "");
             document.templateVendorAddress(defaultAddress);
-            
-            // populate default cost source 
-            document.setPurchaseOrderCostSourceCode( PurapConstants.POCostSources.ESTIMATE );
         }
 
         //Refreshing the fields after returning from a contract lookup in the vendor tab

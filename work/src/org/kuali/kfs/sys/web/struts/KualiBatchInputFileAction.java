@@ -239,6 +239,7 @@ public class KualiBatchInputFileAction extends KualiAction {
         userFiles.add(new KeyLabelPair("", ""));
         for (int i = 0; i < userFilePathNames.size(); i++) {
             String fileName = userFilePathNames.get(i);
+            // do NOT expose the full path name to the browser
             userFiles.add(new KeyLabelPair(fileName, fileName));
         }
 

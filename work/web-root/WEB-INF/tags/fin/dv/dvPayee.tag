@@ -21,19 +21,76 @@
     <div class="h2-container">
                 <h2>Payee Information</h2>
               </div>
-    
+    <script language="JavaScript" src="dwr/interface/DisbursementVoucherPayeeDetailService.js" type="text/javascript"></script>
+    <script language="JavaScript" type="text/javascript">
+
+    	var dwrReply = getDwrReply();
+    	function getDwrReply() {
+    		return { callback:function(data) {
+    			if(data) {
+	    			// disbVchrPayeeIdNumber, disbVchrPayeePersonName, disbVchrPayeeLine1Addr, disbVchrPayeeLine2Addr, disbVchrPayeeCityName, disbVchrPayeeStateCode, disbVchrPayeeZipCode, disbVchrPayeeCountryCode
+	    			document.getElementById('document.dvPayeeDetail.disbVchrPayeePersonName').value=data.disbVchrPayeePersonName
+	    			document.getElementById('document.dvPayeeDetail.disbVchrPayeeLine1Addr').value=data.disbVchrPayeeLine1Addr
+	    			document.getElementById('document.dvPayeeDetail.disbVchrPayeeLine2Addr').value=data.disbVchrPayeeLine2Addr
+	    			document.getElementById('document.dvPayeeDetail.disbVchrPayeeCityName').value=data.disbVchrPayeeCityName
+	    			document.getElementById('document.dvPayeeDetail.disbVchrPayeeStateCode').value=data.disbVchrPayeeStateCode
+	    			document.getElementById('document.dvPayeeDetail.disbVchrPayeeZipCode').value=data.disbVchrPayeeZipCode
+	    			var ddown = document.getElementsByName('document.dvPayeeDetail.disbVchrPayeeCountryCode')[0];
+	    			if(ddown) {
+		    			for (var i=0; i<ddown.options.length; i++) {
+		    				if (ddown.options[i].value == data.disbVchrPayeeCountryCode) {
+		    					ddown.options[i].selected=true
+		    				}
+		    			}
+	    			}
+    			}
+    		},
+    		errorHandler:function(errorMessage) {
+    			alert(errorMessage)
+    		}};
+    	}
+
+    	function addLoadEvent(func) {
+    		var oldonload = window.onload;
+    		if(typeof window.onload != 'function') {
+    			window.onload = func;
+    		} else {
+    			window.onload = function() {
+    				if(oldonload) {
+    					oldonload();
+    				}
+    				func();
+    			}
+    		}
+   		}
+   		
+   		function fillInDv() {
+   			
+   			var dvpn = document.getElementById('document.dvPayeeDetail.disbVchrPayeeIdNumber');
+	    	dwrReply = getDwrReply();
+   			if(dvpn) {
+				dvpn = dvpn.value
+				if(dvpn != '') {
+					DisbursementVoucherPayeeDetailService.getByPayeeIdNumber(dvpn, dwrReply);
+				}
+   			}
+   		}
+   		
+   		addLoadEvent(fillInDv);
+   		
+    </script>
 	<table cellpadding=0 class="datatable" summary="Payee Section">
-           
-            
             <tr>
               <th align=right valign=middle class="bord-l-b"><div align="right"><kul:htmlAttributeLabel attributeEntry="${payeeAttributes.disbVchrPayeeIdNumber}"/></div></th>
               <td align=left valign=middle class="datacell">
-                <kul:htmlControlAttribute attributeEntry="${payeeAttributes.disbVchrPayeeIdNumber}" property="document.dvPayeeDetail.disbVchrPayeeIdNumber" readOnly="true" />
+                <kul:htmlControlAttribute attributeEntry="${payeeAttributes.disbVchrPayeeIdNumber}" property="document.dvPayeeDetail.disbVchrPayeeIdNumber" onblur="fillInDv()" />
                 <c:if test="${fullEntryMode}">
                   <kul:lookup boClassName="org.kuali.module.financial.bo.Payee" fieldConversions="payeeIdNumber:document.dvPayeeDetail.disbVchrPayeeIdNumber"/>
                 </c:if>
+                <!-- 
                 <kul:htmlControlAttribute attributeEntry="${payeeAttributes.disbursementVoucherPayeeTypeCode}" property="document.dvPayeeDetail.disbursementVoucherPayeeTypeCode" extraReadOnlyProperty="document.dvPayeeDetail.disbursementVoucherPayeeTypeName" readOnly="${!fullEntryMode}"/>
-              </td>              
+				 -->
+              </td>
               <th align=right valign=middle class="bord-l-b"><div align="right"><kul:htmlAttributeLabel attributeEntry="${payeeAttributes.disbVchrPayeeCityName}"/>
                   <c:if test="${fullEntryMode}">
                       <br> *required for US

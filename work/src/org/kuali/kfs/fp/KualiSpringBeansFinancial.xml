@@ -61,6 +61,12 @@
 		</property>
 	</bean>
 
+	<bean id="disbursementVoucherPayeeDetailService" class="org.kuali.module.financial.service.impl.DisbursementVoucherPayeeDetailServiceImpl">
+		<property name="businessObjectService">
+			<ref bean="businessObjectService" />
+		</property>
+	</bean>
+
 	<bean id="financialUserService" class="org.kuali.module.financial.service.impl.FinancialUserServiceImpl" parent="kualiModuleUserServiceBase">
 		<property name="propertyList">
 			<list>

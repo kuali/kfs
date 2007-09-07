@@ -230,7 +230,7 @@
 		</property>
 	</bean>
 
-	<bean id="dvToPdpExtractStep" class="org.kuali.module.financial.batch.DvToPdpExtractStep" parent="step">
+	<bean id="disbursementVoucherPreDisbursementExtractStep" class="org.kuali.module.financial.batch.DvToPdpExtractStep" parent="step">
 		<property name="disbursementVoucherExtractService">
 			<ref bean="disbursementVoucherExtractService" />
 		</property>

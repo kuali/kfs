@@ -717,68 +717,6 @@
 		</property>
 	</bean>
 
-	<bean id="glIcrEncumbranceService" class="org.kuali.module.gl.service.impl.IndirectCostRecoveryEncumbranceServiceImpl">
-		<property name="originEntryService">
-			<ref bean="originEntryService" />
-		</property>
-		<property name="originEntryGroupService">
-			<ref bean="originEntryGroupService" />
-		</property>
-		<property name="icrAutomatedEntryDao">
-			<ref bean="icrAutomatedEntryDao" />
-		</property>
-		<property name="objectCodeService">
-			<ref bean="objectCodeService" />
-		</property>
-		<property name="offsetDefinitionService">
-			<ref bean="offsetDefinitionService" />
-		</property>
-
-		<property name="encumbranceService">
-			<ref bean="glEncumbranceService" />
-		</property>
-		<property name="kualiConfigurationService">
-			<ref bean="kualiConfigurationService" />
-		</property>
-		<property name="optionsDao">
-			<ref bean="optionsDao" />
-		</property>
-		<property name="reportService">
-			<ref bean="reportService" />
-		</property>
-		<property name="icrTransaction">
-			<ref bean="glIcrTransaction" />
-		</property>
-
-		<property name="accountService">
-			<ref bean="accountService" />
-		</property>
-		<property name="chartService">
-			<ref bean="chartService" />
-		</property>
-		<property name="balanceTypeService">
-			<ref bean="balanceTypService" />
-		</property>
-	</bean>
-
-	<bean id="glIcrEncumbranceReversalService" class="org.kuali.module.gl.service.impl.IndirectCostEncumbranceReversalServiceImpl">
-		<property name="originEntryService">
-			<ref bean="originEntryService" />
-		</property>
-		<property name="originEntryGroupService">
-			<ref bean="originEntryGroupService" />
-		</property>
-		<property name="objectCodeService">
-			<ref bean="objectCodeService" />
-		</property>
-		<property name="encumbranceService">
-			<ref bean="glEncumbranceService" />
-		</property>
-		<property name="kualiConfigurationService">
-			<ref bean="kualiConfigurationService" />
-		</property>
-	</bean>
-
 	<bean id="glEntryService" class="org.kuali.module.gl.service.impl.EntryServiceImpl">
 		<property name="entryDao">
 			<ref bean="glEntryDao" />
@@ -1147,8 +1085,6 @@
 				<ref bean="posterReversalStep" />
 				<ref bean="posterIndirectCostRecoveryGenerationStep" />
 				<ref bean="posterIndirectCostRecoveryEntriesStep" />
-				<ref bean="indirectCostRecoveryEncumbranceGenerationStep" />
-				<ref bean="indirectCostRecoveryEncumbranceReversalStep" />
 			</list>
 		</property>
 		<property name="dependencies">
@@ -1395,18 +1331,6 @@
 	<bean id="nominalActivityClosingStep" class="org.kuali.module.gl.batch.NominalActivityClosingStep" parent="step">
 		<property name="yearEndService">
 			<ref bean="glYearEndService" />
-		</property>
-	</bean>
-
-	<bean id="indirectCostRecoveryEncumbranceGenerationStep" class="org.kuali.module.gl.batch.IcrEncumbranceGenerationStep" parent="step">
-		<property name="icrEncumbranceService">
-			<ref bean="glIcrEncumbranceService" />
-		</property>
-	</bean>
-
-	<bean id="indirectCostRecoveryEncumbranceReversalStep" class="org.kuali.module.gl.batch.IcrEncumbranceReversalStep" parent="step">
-		<property name="icrEncumbranceReversalService">
-			<ref bean="glIcrEncumbranceReversalService" />
 		</property>
 	</bean>
 	

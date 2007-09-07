@@ -365,7 +365,7 @@
         </property>
     </bean>
 
-	<bean id="extractPdpStep" class="org.kuali.module.purap.batch.ExtractPdpStep" parent="step">
+	<bean id="purchasingPreDisbursementExtractStep" class="org.kuali.module.purap.batch.ExtractPdpStep" parent="step">
 		<property name="pdpExtractService">
 			<ref bean="pdpExtractService"/>
 		</property>

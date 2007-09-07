@@ -286,6 +286,15 @@ public class BatchInputFileServiceImpl implements BatchInputFileService {
         return fileToDownload;
     }
 
+    /**
+     * This method will attempt to find the File object representing the file to delete.  USE extreme caution when
+     * overridding this method, as a badly implemented method may cause a security vulnerability.
+     * 
+     * @param batchInputFileType
+     * @param user
+     * @param fileName
+     * @return
+     */
     protected File retrieveFileToDownloadOrDelete(BatchInputFileType batchInputFileType, UniversalUser user, String fileName) {
         List<File> userFileList = listBatchTypeFilesForUserAsFiles(batchInputFileType, user);
         File theFile = null;

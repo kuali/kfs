@@ -49,7 +49,8 @@ public class PurchasingAccountsPayableFormBase extends KualiAccountingDocumentFo
      * currently we are only calling this on load and when refreshAccountSummary is called.
      */
     public void refreshAccountSummmary() {
-        //summaryAccounts.addAll(SpringContext.getBean(PurapAccountingService.class).generateSummaryAccounts(((PurchasingAccountsPayableDocument)this.getDocument()).getItems()));
+        summaryAccounts = new TypedArrayList(SummaryAccount.class);
+//        summaryAccounts.addAll(SpringContext.getBean(PurapAccountingService.class).generateSummaryAccounts(((PurchasingAccountsPayableDocument)this.getDocument()).getItems()));
     }
 
     /**

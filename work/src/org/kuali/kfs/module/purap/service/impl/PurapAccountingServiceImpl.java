@@ -31,6 +31,7 @@ import org.kuali.kfs.bo.SourceAccountingLine;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.purap.bo.PurApAccountingLine;
 import org.kuali.module.purap.bo.PurApItem;
+import org.kuali.module.purap.bo.PurchasingItem;
 import org.kuali.module.purap.dao.PurApAccountingDao;
 import org.kuali.module.purap.document.PaymentRequestDocument;
 import org.kuali.module.purap.document.PurchasingAccountsPayableDocument;
@@ -275,7 +276,9 @@ public class PurapAccountingServiceImpl implements PurapAccountingService {
                 List<PurApAccountingLine> itemAccounts = item.getSourceAccountingLines();
                 for (PurApAccountingLine purApAccountingLine : itemAccounts) {
                     if(purApAccountingLine.accountStringsAreEqual(summaryAccount.getAccount())) {
-                        summaryAccount.getItems().add(item);
+                        PurApItem newItem = (PurApItem)ObjectUtils.deepCopy(item);
+                        newItem.setEstimatedEncumberanceAmount(new KualiDecimal(purApAccountingLine.getAccountLinePercent().divide(new BigDecimal("100")).multiply(item.getExtendedPrice().bigDecimalValue())));
+                        summaryAccount.getItems().add(newItem);
                         break;
                     }
                 }

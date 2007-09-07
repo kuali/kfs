@@ -117,7 +117,7 @@
                                     <logic:iterate id="itemValue" name="KualiForm" property="summaryAccounts[${ctr}].items" indexId="ctrItem">
                                         <tr>
                                             <td class="datacell center">
-                                                <kul:htmlControlAttribute attributeEntry="${itemAttributes.itemLineNumber}" property="summaryAccount[${ctr}].item[${ctrItem}].itemLineNumber" readOnly="true" />&nbsp;
+                                                <kul:htmlControlAttribute attributeEntry="${itemAttributes.itemLineNumber}" property="summaryAccounts[${ctr}].items[${ctrItem}].itemLineNumber" readOnly="true" />&nbsp;
                                             </td>
                                             <td class="datacell center">
                                                 <kul:htmlControlAttribute attributeEntry="${itemAttributes.itemTypeCode}" property="summaryAccounts[${ctr}].items[${ctrItem}].itemTypeCode" readOnly="true" />&nbsp;

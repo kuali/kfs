@@ -126,7 +126,7 @@ public class OriginEntryGroupDaoOjb extends PlatformAwareDaoBaseOjb implements O
         LOG.debug("getGroupsToBackup() started");
 
         Criteria criteria = new Criteria();
-        // criteria.addLessOrEqualThan(DATE, groupDate);
+        criteria.addLessOrEqualThan(DATE, groupDate);
         criteria.addEqualTo(SOURCE_CODE, OriginEntrySource.BACKUP);
         criteria.addEqualTo(SCRUB, Boolean.TRUE);
         criteria.addEqualTo(PROCESS, Boolean.TRUE);

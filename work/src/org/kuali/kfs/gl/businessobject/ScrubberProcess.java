@@ -328,6 +328,7 @@ public class ScrubberProcess {
             }
         }
 
+        long startAfterGroups = System.currentTimeMillis();
         // generate the scrubber status summary report
         if (reportOnlyMode) {
             reportService.generateOnlineScrubberStatisticsReport( group.getId(), runDate, scrubberReport, scrubberReportErrors,documentNumber);
@@ -338,12 +339,15 @@ public class ScrubberProcess {
         else {
             reportService.generateBatchScrubberStatisticsReport(runDate, scrubberReport, scrubberReportErrors);
         }
+        LOG.fatal("After report1 " + (System.currentTimeMillis() - startAfterGroups));
 
         // run the demerger if during regular nightly processing and collector processing
         if (!reportOnlyMode) {
             performDemerger(errorGroup, validGroup);
         }
 
+        LOG.fatal("After demerger " + (System.currentTimeMillis() - startAfterGroups));
+        
         // Run the reports
         if ( reportOnlyMode ) {
             // Run transaction list
@@ -358,6 +362,7 @@ public class ScrubberProcess {
 
             reportService.generateScrubberRemovedTransactions(runDate, errorGroup);
         }
+        LOG.fatal("After report2 " + (System.currentTimeMillis() - startAfterGroups));
     }
 
     /**

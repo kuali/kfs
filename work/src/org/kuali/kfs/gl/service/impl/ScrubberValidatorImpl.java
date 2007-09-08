@@ -236,8 +236,10 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
         }
 
         if (errors.size() == 0) {
+            long start = System.currentTimeMillis();
             // refreshOriginEntryReferences(originEntry);
             refreshOriginEntryReferences(scrubbedEntry);
+            LOG.fatal("line refreshing time: " + (System.currentTimeMillis() - start));
         }
 
         return errors;

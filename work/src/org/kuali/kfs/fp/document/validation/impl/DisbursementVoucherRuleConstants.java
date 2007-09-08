@@ -63,6 +63,11 @@ public interface DisbursementVoucherRuleConstants {
     public static String SUB_FUND_OBJECT_SUB_TYPE_GROUP_NM = "DVSubFundObjectSubTypeRestrictions";
     public static String NRA_TAX_PARM_GROUP_NM = "DVNRATaxParameters";
 
+    public static class DocumentStatusCodes {
+        public static String APPROVED = "A";
+        public static String EXTRACTED = "E";
+    }
+
     public static class PaymentReasonCodes {
         public static String PRIZE = "A";
         public static String OUT_OF_POCKET = "B";

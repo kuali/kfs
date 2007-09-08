@@ -72,6 +72,10 @@ public class DisbursementVoucherExtractServiceImpl implements DisbursementVouche
     private PaymentGroupService paymentGroupService;
     private ReferenceService referenceService;
 
+    // This should only be set to true when testing this system.  Setting this to true will run the code but
+    // won't set the doc status to extracted
+    boolean testMode = false;
+
     public boolean extractPayments() {
         LOG.debug("extractPayments() started");
 
@@ -105,7 +109,7 @@ public class DisbursementVoucherExtractServiceImpl implements DisbursementVouche
         Integer count = 0;
         BigDecimal totalAmount = new BigDecimal("0");
 
-        Collection<DisbursementVoucherDocument> dvd = getListByDocumentStatusCodeCampus("A", campusCode);
+        Collection<DisbursementVoucherDocument> dvd = getListByDocumentStatusCodeCampus(DisbursementVoucherRuleConstants.DocumentStatusCodes.APPROVED, campusCode);
         for (DisbursementVoucherDocument document : dvd) {
             addPayment(document,batch,processRunDate);
             count++;
@@ -126,6 +130,11 @@ public class DisbursementVoucherExtractServiceImpl implements DisbursementVouche
         pd.setPaymentGroup(pg);
         pg.addPaymentDetails(pd);
         paymentGroupService.save(pg);
+
+        if ( ! testMode ) {
+            document.getDocumentHeader().setFinancialDocumentStatusCode(DisbursementVoucherRuleConstants.DocumentStatusCodes.EXTRACTED);
+            disbursementVoucherDao.save(document);
+        }
     }
 
     private PaymentGroup buildPaymentGroup(DisbursementVoucherDocument document,Batch batch) {

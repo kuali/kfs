@@ -18,8 +18,18 @@ package org.kuali.module.financial.dao;
 import java.util.Collection;
 
 import org.kuali.module.financial.bo.Payee;
+import org.kuali.module.financial.document.DisbursementVoucherDocument;
 
 public interface DisbursementVoucherDao {
+
+    /**
+     * Returns a document by its document number
+     * 
+     * @param fdocNbr
+     * @return document
+     */
+    public DisbursementVoucherDocument getDocument(String fdocNbr);
+
     /**
      * Returns a list of disbursement voucher documents with a specific doc header status
      * 

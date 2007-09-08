@@ -32,8 +32,13 @@ import org.kuali.core.exceptions.UserNotFoundException;
 import org.kuali.core.service.DateTimeService;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.service.UniversalUserService;
+import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.bo.SourceAccountingLine;
+import org.kuali.module.financial.bo.DisbursementVoucherNonEmployeeExpense;
+import org.kuali.module.financial.bo.DisbursementVoucherNonEmployeeTravel;
 import org.kuali.module.financial.bo.DisbursementVoucherPayeeDetail;
+import org.kuali.module.financial.bo.DisbursementVoucherPreConferenceDetail;
+import org.kuali.module.financial.bo.DisbursementVoucherPreConferenceRegistrant;
 import org.kuali.module.financial.bo.Payee;
 import org.kuali.module.financial.dao.DisbursementVoucherDao;
 import org.kuali.module.financial.document.DisbursementVoucherDocument;
@@ -113,6 +118,8 @@ public class DisbursementVoucherExtractServiceImpl implements DisbursementVouche
     }
 
     private void addPayment(DisbursementVoucherDocument document,Batch batch,Date processRunDate) {
+        LOG.debug("addPayment() started");
+
         PaymentGroup pg = buildPaymentGroup(document,batch);
         PaymentDetail pd = buildPaymentDetail(document,batch,processRunDate);
 
@@ -122,6 +129,8 @@ public class DisbursementVoucherExtractServiceImpl implements DisbursementVouche
     }
 
     private PaymentGroup buildPaymentGroup(DisbursementVoucherDocument document,Batch batch) {
+        LOG.debug("buildPaymentGroup() started");
+
         PaymentGroup pg = new PaymentGroup();
         pg.setBatch(batch);
         pg.setCombineGroups(Boolean.TRUE);
@@ -204,6 +213,8 @@ public class DisbursementVoucherExtractServiceImpl implements DisbursementVouche
     }
 
     private PaymentDetail buildPaymentDetail(DisbursementVoucherDocument document,Batch batch,Date processRunDate) {
+        LOG.debug("buildPaymentDetail() started");
+
         PaymentDetail pd = new PaymentDetail();
         if ( StringUtils.isNotEmpty(document.getDocumentHeader().getOrganizationDocumentNumber()) ) {
             pd.setOrganizationDocNbr(document.getDocumentHeader().getOrganizationDocumentNumber());
@@ -218,9 +229,11 @@ public class DisbursementVoucherExtractServiceImpl implements DisbursementVouche
         pd.setNetPaymentAmount(document.getDisbVchrCheckTotalAmount().bigDecimalValue());
 
         // Handle accounts
+        if ( document.getSourceAccountingLines().size() == 0 ) {
+            LOG.error("buildPaymentDetail() XXXXXXXXXXXXXXXXXXXXXXXXX No lines: " + document.getDocumentNumber());
+        }
         for (Iterator iter = document.getSourceAccountingLines().iterator(); iter.hasNext();) {
             SourceAccountingLine sal = (SourceAccountingLine)iter.next();
-            Object o = iter.next();
 
             PaymentAccountDetail pad = new PaymentAccountDetail();
             pad.setFinChartCode(sal.getChartOfAccountsCode());
@@ -304,44 +317,69 @@ public class DisbursementVoucherExtractServiceImpl implements DisbursementVouche
             pnt.setCustomerNoteText("Attachment Included");
             pd.addNote(pnt);
         }
-//        if($notes{'dv_pmt_reas_cd'} eq "N" ||
-//           $notes{'dv_pmt_reas_cd'} eq "X") {  # travel
-//            push(@note_data,
-//                 "Reimbursement associated with $notes{'dv_srvc_prfrm_desc'}");
-//            $notes{'dv_diem_calc_amt'}=sprintf("%.2f",$notes{'dv_diem_calc_amt'});
-//            push(@note_data,
-//                 "The total per diem amount for your daily expenses is \$$notes{'dv_diem_calc_amt'}");
-//            $notes{'dv_prsnl_car_amt'}=sprintf("%.2f",$notes{'dv_prsnl_car_amt'});
-//            if($notes{'dv_prsnl_car_amt'} != 0) {
-//                push(@note_data,"The total dollar amount for your vehicle mileage is \$$notes{'dv_prsnl_car_amt'}");
-//                @trvl=&CallStoredProc("fp_dv_get_trvl_pr '$fs_origin_cd', '$fdoc_nbr'");
-//                foreach $row (@trvl) {
-//                    $row->[2]=sprintf("%.2f",$row->[2]);
-//                    push(@note_data,"$row->[1]; \$$row->[2]") unless($row->[1] eq "");
-//                }
-//            }
-//        } elsif($notes{'dv_pmt_reas_cd'} eq "P") { # prepaid travel
-//            push(@note_data,"Payment is for the following individuals/charges:");
-//            @conf=&CallStoredProc("fp_dv_get_conf_pr '$fs_origin_cd', '$fdoc_nbr'");
-//            foreach $row (@conf) {
-//                $row->[2]=sprintf("%.2f",$row->[2]);
-//                push(@note_data,"$row->[1]; \$$row->[2]");
-//            }
-//        }
-//        if(scalar(@note_data) > 19) {
-//            @note_data=@note_data[0..18];
-//        }
-//
-//        @note_data=&BreakText(scalar(@note_data)+1,$notes{'dv_chk_stub_txt'},@note_data);
-//        $note_repeats=scalar(@note_data);
-//        if(scalar(@note_data) > 24) {
-//            # we have a check stub text overflow condition
-//            $detail[12]="A";
-//            $note_repeats=24;
-//        }
-//        @note_data=@note_data[0..23]; # get first 24 elements.
-//
-//        write_notes ();
+
+        String paymentReasonCode = dvpd.getDisbVchrPaymentReasonCode();
+        if ( DisbursementVoucherRuleConstants.PaymentReasonCodes.TRAVEL_NONEMPLOYEE.equals(paymentReasonCode) || DisbursementVoucherRuleConstants.PaymentReasonCodes.TRAVEL_HONORARIUM.equals(paymentReasonCode) ) {
+            DisbursementVoucherNonEmployeeTravel dvnet = document.getDvNonEmployeeTravel();
+            pnt = new PaymentNoteText();
+            pnt.setCustomerNoteLineNbr(line++);
+            pnt.setCustomerNoteText("Reimbursement associated with " + dvnet.getDisbVchrServicePerformedDesc());
+            pd.addNote(pnt);
+
+            pnt = new PaymentNoteText();
+            pnt.setCustomerNoteLineNbr(line++);
+            pnt.setCustomerNoteText("The total per diem amount for your daily expenses is " + dvnet.getDisbVchrPerdiemCalculatedAmt());
+            pd.addNote(pnt);
+
+            if ( dvnet.getDisbVchrPersonalCarAmount().compareTo(KualiDecimal.ZERO) != 0 ) {
+                pnt = new PaymentNoteText();
+                pnt.setCustomerNoteLineNbr(line++);
+                pnt.setCustomerNoteText("The total dollar amount for your vehicle mileage is " + dvnet.getDisbVchrPersonalCarAmount());
+                pd.addNote(pnt);
+
+                for (Iterator iter = dvnet.getDvNonEmployeeExpenses().iterator(); iter.hasNext();) {
+                    DisbursementVoucherNonEmployeeExpense exp = (DisbursementVoucherNonEmployeeExpense)iter.next();
+
+                    if ( line < 19 ) {
+                        pnt = new PaymentNoteText();
+                        pnt.setCustomerNoteLineNbr(line++);
+                        pnt.setCustomerNoteText(exp.getDisbVchrExpenseCompanyName() + " " + exp.getDisbVchrExpenseAmount());
+                        pd.addNote(pnt);
+                    }
+               }
+            }
+        } else if ( DisbursementVoucherRuleConstants.PaymentReasonCodes.TRAVEL_PREPAID.equals(paymentReasonCode) ) {
+            pnt = new PaymentNoteText();
+            pnt.setCustomerNoteLineNbr(line++);
+            pnt.setCustomerNoteText("Payment is for the following indviuals/charges:");
+            pd.addNote(pnt);
+
+            DisbursementVoucherPreConferenceDetail dvpcd = document.getDvPreConferenceDetail();
+
+            for (Iterator iter = dvpcd.getDvPreConferenceRegistrants().iterator(); iter.hasNext();) {
+                DisbursementVoucherPreConferenceRegistrant dvpcr = (DisbursementVoucherPreConferenceRegistrant)iter.next();
+                
+                if ( line < 19 ) {
+                    pnt = new PaymentNoteText();
+                    pnt.setCustomerNoteLineNbr(line++);
+                    pnt.setCustomerNoteText(dvpcr.getDvConferenceRegistrantName() + " " + dvpcr.getDisbVchrExpenseAmount());
+                    pd.addNote(pnt);
+                }
+            }
+        }
+
+        String text = document.getDisbVchrCheckStubText();
+        if ( text.length() > 0 ) {
+            String[] lines = text.split("\\n");
+            for (int i = 0; i < lines.length; i++) {
+                if ( line < 24 ) {
+                    pnt = new PaymentNoteText();
+                    pnt.setCustomerNoteLineNbr(line++);
+                    pnt.setCustomerNoteText(lines[i]);
+                    pd.addNote(pnt);
+                }
+            }
+        }
         return pd;
     }
 

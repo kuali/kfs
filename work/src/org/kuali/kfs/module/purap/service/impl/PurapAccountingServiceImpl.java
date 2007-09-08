@@ -17,11 +17,9 @@ package org.kuali.module.purap.service.impl;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 import org.kuali.core.util.KualiDecimal;
@@ -31,7 +29,7 @@ import org.kuali.kfs.bo.SourceAccountingLine;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.purap.bo.PurApAccountingLine;
 import org.kuali.module.purap.bo.PurApItem;
-import org.kuali.module.purap.bo.PurchasingItem;
+import org.kuali.module.purap.bo.PurApSummaryItem;
 import org.kuali.module.purap.dao.PurApAccountingDao;
 import org.kuali.module.purap.document.PaymentRequestDocument;
 import org.kuali.module.purap.document.PurchasingAccountsPayableDocument;
@@ -276,9 +274,10 @@ public class PurapAccountingServiceImpl implements PurapAccountingService {
                 List<PurApAccountingLine> itemAccounts = item.getSourceAccountingLines();
                 for (PurApAccountingLine purApAccountingLine : itemAccounts) {
                     if(purApAccountingLine.accountStringsAreEqual(summaryAccount.getAccount())) {
-                        PurApItem newItem = (PurApItem)ObjectUtils.deepCopy(item);
-                        newItem.setEstimatedEncumberanceAmount(new KualiDecimal(purApAccountingLine.getAccountLinePercent().divide(new BigDecimal("100")).multiply(item.getExtendedPrice().bigDecimalValue())));
-                        summaryAccount.getItems().add(newItem);
+                        PurApSummaryItem summaryItem = item.getSummaryItem();
+                        //TODO: ctk do we need to make this amount based for PREQ's past full entry?
+                        summaryItem.setEstimatedEncumberanceAmount(new KualiDecimal(purApAccountingLine.getAccountLinePercent().divide(new BigDecimal("100")).multiply(item.getExtendedPrice().bigDecimalValue())));
+                        summaryAccount.getItems().add(summaryItem);
                         break;
                     }
                 }

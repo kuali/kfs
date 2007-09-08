@@ -17,6 +17,7 @@
 package org.kuali.module.purap.bo;
 
 import java.math.BigDecimal;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 
@@ -26,6 +27,7 @@ import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.util.TypedArrayList;
 import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.PurapPropertyConstants;
+import org.kuali.module.purap.util.PurApObjectUtils;
 
 /**
  * 
@@ -46,7 +48,7 @@ public abstract class PurApItemBase extends PersistableBusinessObjectBase implem
 	private String externalOrganizationB2bProductTypeName;
 	private boolean itemAssignedToTradeInIndicator;
     private KualiDecimal extendedPrice; //not currently in DB
-    private KualiDecimal estimatedEncumberanceAmount;
+
     
     private List<PurApAccountingLine> sourceAccountingLines;
     private transient List<PurApAccountingLine> baselineSourceAccountingLines;
@@ -608,11 +610,10 @@ public abstract class PurApItemBase extends PersistableBusinessObjectBase implem
         return true;
     }
     
-    public KualiDecimal getEstimatedEncumberanceAmount() {
-        return estimatedEncumberanceAmount;
-}
-    public void setEstimatedEncumberanceAmount(KualiDecimal estimatedEncumberanceAmount) {
-        this.estimatedEncumberanceAmount = estimatedEncumberanceAmount;
+    public PurApSummaryItem getSummaryItem() {
+        PurApSummaryItem summaryItem = new PurApSummaryItem();
+        PurApObjectUtils.populateFromBaseClass(PurApItemBase.class, this, summaryItem, new HashMap());
+        return summaryItem;
     }
-    
+       
 }

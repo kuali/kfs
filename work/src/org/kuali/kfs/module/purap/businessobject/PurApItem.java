@@ -324,10 +324,13 @@ public interface PurApItem extends PersistableBusinessObject, PersistenceBrokerA
  
     public String getItemIdentifierString();
     
-    public KualiDecimal getEstimatedEncumberanceAmount();
-
-    public void setEstimatedEncumberanceAmount(KualiDecimal estimatedEncumberanceAmount);
-    
     public abstract boolean isConsideredEntered();
+    /**
+     * 
+     * This method gets the summaryItem
+     * @param item
+     * @return summaryItem
+     */
+    public PurApSummaryItem getSummaryItem();
 
 }
